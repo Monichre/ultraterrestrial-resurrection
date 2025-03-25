@@ -1,0 +1,54 @@
+.graph-paper-bg {
+  height: 100vh;
+  width: 100vw;
+  background-image: url(https://www.transparenttextures.com/patterns/graphy.png);
+  position: absolute;
+  opacity: 30%;
+
+  z-index: -5;
+}
+
+.cursor.small {
+  height: 10px;
+  width: 10px;
+  background-color: #79ffe1;
+  border-radius: 10px;
+  filter: drop-shadow(0 0 5px #79ffe1) drop-shadow(0 0 20px #79ffe1);
+  position: fixed;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  transition: height 0.2s, width 0.2s;
+  z-index: 100;
+}
+
+.cursor.big {
+  height: 50px;
+  width: 50px;
+  border: 3px solid #79ffe1;
+  border-radius: 100px;
+  filter: drop-shadow(0 0 5px #79ffe1) drop-shadow(0 0 20px #79ffe1);
+  position: fixed;
+  pointer-events: none;
+  transform: translate(calc(-50%), -50%);
+  transition: height 0.5s, width 0.5s, filter 0.5s;
+  z-index: 99;
+}
+
+.hover__big {
+  height: 100px;
+  width: 100px;
+  filter: drop-shadow(0 0 5px #79ffe1) drop-shadow(0 0 20px #79ffe1) drop-shadow(0 0 40px #79ffe1);
+  transition: height 0.5s, width 0.5s, filter 0.5s;
+}
+
+.hover__small {
+  height: 8px;
+  width: 8px;
+  transition: height 0.2s, width 0.2s;
+}
+
+.click {
+  height: 45px;
+  width: 45px;
+  transition: height 0.2s, width 0.2s;
+}

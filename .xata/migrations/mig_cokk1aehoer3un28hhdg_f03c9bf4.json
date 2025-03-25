@@ -1,0 +1,16 @@
+{
+  "id": "mig_cokk1aehoer3un28hhdg",
+  "parentID": "mig_coeum2pi8ag8nohmf510",
+  "checksum": "1:f03c9bf47670ebc4d3b7b7d7607edd3f36aab06b9c7fded3688cc2b0330a8933",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "calendar_date",
+          "type": "datetime"
+        },
+        "table": "events"
+      }
+    }
+  ]
+}

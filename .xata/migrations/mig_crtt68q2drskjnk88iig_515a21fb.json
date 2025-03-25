@@ -1,0 +1,17 @@
+{
+  "id": "mig_crtt68q2drskjnk88iig",
+  "parentID": "mig_crtt5ua2drskjnk88igg",
+  "checksum": "1:515a21fb276e0e92919fe9c10535d9ebcaffe472e72561bbd3071bd3a9cf3bd8",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "graph",
+          "type": "json",
+          "defaultValue": "{}"
+        },
+        "table": "mindmaps"
+      }
+    }
+  ]
+}

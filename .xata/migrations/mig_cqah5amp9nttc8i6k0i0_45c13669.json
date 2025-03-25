@@ -1,0 +1,12 @@
+{
+  "id": "mig_cqah5amp9nttc8i6k0i0",
+  "parentID": "mig_cqaakpep9nttc8i6jtcg",
+  "checksum": "1:45c13669ef7c799aa4d939e17e7e9b43ad64d9e8e87b89b14a9cb8d7c6dbbea5",
+  "operations": [
+    {
+      "addTable": {
+        "table": "user-theories-sightings"
+      }
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "id": "mig_cqahge97994ud4f9sam0",
+  "parentID": "mig_cqahgbh7994ud4f9sal0",
+  "checksum": "1:17997d3eb506493fd49325dbe33569c946d0930a34ecb4e0eb07394362429fb2",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "note",
+          "type": "text"
+        },
+        "table": "user-saved-organizations"
+      }
+    }
+  ]
+}

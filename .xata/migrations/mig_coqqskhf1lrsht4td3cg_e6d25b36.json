@@ -1,0 +1,19 @@
+{
+  "id": "mig_coqqskhf1lrsht4td3cg",
+  "parentID": "mig_coomkvu15cqh5q3m87ig",
+  "checksum": "1:e6d25b3640d3e7c5e235002a3e17e5e7c3c708eb9f59d498fbb80dd07e619fc5",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "photo",
+          "type": "file",
+          "file": {
+            "defaultPublicAccess": true
+          }
+        },
+        "table": "topics"
+      }
+    }
+  ]
+}

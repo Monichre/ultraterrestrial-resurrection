@@ -1,0 +1,14 @@
+{
+  "id": "mig_csnilk8g9g9pf6lqvqg0",
+  "parentID": "mig_csnil00g9g9pf6lqvqf0",
+  "checksum": "1:9c19d63f035e060b8b4b9a516c0af69a0ac09df9bb987e78ab4ed468dbeaade8",
+  "operations": [
+    {
+      "renameColumn": {
+        "newName": "media",
+        "oldName": "Media",
+        "table": "testimonies"
+      }
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "mig_cqf27u38kqllttmo8gpg",
+  "parentID": "mig_cqe65lj8kqllttmo859g",
+  "checksum": "1:1d5e65a95c88485493b7439c6b9ae900243f43e4c669edcba1bdfb0636466d98",
+  "operations": [
+    {
+      "addTable": {
+        "table": "artifacts"
+      }
+    }
+  ]
+}

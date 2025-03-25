@@ -1,0 +1,16 @@
+{
+  "id": "mig_ct8dnenq6ugj6kq3rnd0",
+  "parentID": "mig_ct2qh5tc21vap51ejeog",
+  "checksum": "1:d44cd094c958305cb8aad813205023b84492200d42b364bfaa81526ac38d0e7f",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "metadata",
+          "type": "json"
+        },
+        "table": "documents"
+      }
+    }
+  ]
+}

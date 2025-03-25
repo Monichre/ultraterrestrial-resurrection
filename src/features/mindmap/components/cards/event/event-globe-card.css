@@ -1,0 +1,25 @@
+.event-globe-card .small-caps {
+  font-variant-caps: all-small-caps;
+}
+
+.event-globe-card p {}
+
+.event-globe-card h3 {
+
+  font-family: 'Monument Grotesk mono';
+
+}
+
+.event-globe-card .date {
+  color: #27F1FF;
+}
+
+.event-globe-card .location {}
+
+.event-globe-card .location,
+.event-globe-card .date {
+  color: grey;
+  font-family: var(--font-monument);
+  /* font-family: var(--font-monumentMono) !important; */
+  /* font-variant-caps: all-small-caps; */
+}

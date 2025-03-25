@@ -1,0 +1,19 @@
+{
+  "id": "mig_csnil00g9g9pf6lqvqf0",
+  "parentID": "mig_csnij90g9g9pf6lqvqc0",
+  "checksum": "1:84c15396205fc1aa4d1924591af7d9a664c94bf324462b96e1367a4dfcf01db9",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "Media",
+          "type": "file[]",
+          "file[]": {
+            "defaultPublicAccess": true
+          }
+        },
+        "table": "testimonies"
+      }
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "id": "mig_cp2bpdpgdh6sdp66c720",
+  "parentID": "mig_cp2boqjbsilsg4nrbkog",
+  "checksum": "1:a647349ee094eb424fab74daf6ca4b41075dd2ef7aba23d73f310cb94d023d0a",
+  "operations": [
+    {
+      "addTable": {
+        "table": "event-topic-subject-matter-experts"
+      }
+    },
+    {
+      "addColumn": {
+        "column": {
+          "name": "event",
+          "type": "link",
+          "link": {
+            "table": "events"
+          }
+        },
+        "table": "event-topic-subject-matter-experts"
+      }
+    },
+    {
+      "addColumn": {
+        "column": {
+          "name": "topic",
+          "type": "link",
+          "link": {
+            "table": "topics"
+          }
+        },
+        "table": "event-topic-subject-matter-experts"
+      }
+    },
+    {
+      "addColumn": {
+        "column": {
+          "name": "subject-matter-expert",
+          "type": "link",
+          "link": {
+            "table": "personnel"
+          }
+        },
+        "table": "event-topic-subject-matter-experts"
+      }
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "id": "mig_cqpe6n94e9vrbavqfg70",
+  "parentID": "mig_cqpe30be8v2lbbr3i9m0",
+  "checksum": "1:f6b50e91d7cb8bc8942b7b0f69db79de74a1ca4447f6a1c9a594da07f3945f95",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "note-title",
+          "type": "string"
+        },
+        "table": "user-saved-key-figure"
+      }
+    }
+  ]
+}

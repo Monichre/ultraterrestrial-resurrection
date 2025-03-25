@@ -1,0 +1,16 @@
+{
+  "id": "mig_coeu3d9i8ag8nohmf4eg",
+  "parentID": "mig_coeu3a46btciiaoq7ir0",
+  "checksum": "1:58d8112a6838aebb9181c21e9102e89beccf31c26cbfcc64d4edcafed4c4a158",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "popularity",
+          "type": "int"
+        },
+        "table": "personnel"
+      }
+    }
+  ]
+}

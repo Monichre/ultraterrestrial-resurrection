@@ -1,0 +1,13 @@
+{
+  "id": "mig_cobe1okphnk6ug6d7qag",
+  "parentID": "mig_cobe1khj860bgmlk73n0",
+  "checksum": "1:4e6b1cb29ff149904853f7990efe5d6b969cd6f6de08f64993aacb892661cff5",
+  "operations": [
+    {
+      "renameTable": {
+        "newName": "claim",
+        "oldName": "testimony"
+      }
+    }
+  ]
+}

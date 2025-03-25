@@ -1,0 +1,19 @@
+{
+  "id": "mig_coc62j9j2avn6sp8mdu0",
+  "parentID": "mig_coc62eckfs53u2g2co2g",
+  "checksum": "1:c50caa5bb2c49961ef3bf77afdcd2e42ef32eb6d26a2a71605dd6ab115446bcd",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "event",
+          "type": "link",
+          "link": {
+            "table": "events"
+          }
+        },
+        "table": "event-topic-subject-matter-experts"
+      }
+    }
+  ]
+}

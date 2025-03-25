@@ -1,0 +1,12 @@
+{
+  "id": "mig_cobe1khj860bgmlk73n0",
+  "parentID": "mig_cobdophj860bgmlk73eg",
+  "checksum": "1:b373143b8801257acdba3fc5652be4dbb534e614ce68764f73565fec5efeaa8f",
+  "operations": [
+    {
+      "addTable": {
+        "table": "testimony"
+      }
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "id": "mig_cosjfoofh5nptqm120ag",
+  "parentID": "mig_cor7n53jhp5tqv7hhml0",
+  "checksum": "1:622debb9652d856ec0fe3059d0dcb52a5c9a3bc4cfceb8dbbb5dabe6f134e0e3",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "date",
+          "type": "datetime"
+        },
+        "table": "testimonies"
+      }
+    }
+  ]
+}

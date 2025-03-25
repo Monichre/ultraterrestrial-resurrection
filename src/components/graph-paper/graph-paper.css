@@ -1,0 +1,139 @@
+.graph-paper {
+  background: #181818;
+  font-family: 'Montserrat';
+  overflow: hidden;
+}
+
+main.graph-paper {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  min-height: 100%;
+  width: 100%;
+}
+
+canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.plate {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 1rem 0;
+  text-align: center;
+  color: white;
+  letter-spacing: 4px;
+  font-size: 0.6em;
+  line-height: 2.5;
+}
+
+a {
+  text-underline: none;
+  -webkit-appearance: none;
+}
+
+.social {
+  padding-top: 1rem;
+}
+.social svg {
+  height: 1.25rem;
+  margin: 0 0.5rem;
+  fill: rgba(255, 255, 255, 0.3);
+  transition: all 0.2s ease;
+}
+.social svg:hover {
+  fill: white;
+}
+.social a {
+  vertical-align: middle;
+  display: inline-block;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.7s ease 0.15s;
+}
+.social__twitter {
+  transform: translateX(-10px);
+}
+.social__codepen {
+  transform: translateX(10px);
+}
+.social.active {
+  opacity: 1;
+}
+.social.active a {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.mouse {
+  position: absolute;
+  top: 0;
+  left: 0;
+  text-align: center;
+  padding: 1rem 0;
+  z-index: 2;
+  color: rgba(255, 255, 255, 0.3);
+  width: 100%;
+  letter-spacing: 6px;
+  font-size: 0.45em;
+  line-height: 2.5;
+  text-transform: uppercase;
+  transition: all 0.5s ease;
+  opacity: 0;
+  transform: translateY(-15px);
+}
+.mouse.active {
+  transform: none;
+  opacity: 1;
+}
+
+.text-animation {
+  opacity: 0;
+}
+.text-animation.active {
+  opacity: 1;
+}
+.text-animation .letter {
+  opacity: 0;
+  transition:
+    color 0.5s ease,
+    opacity 0.3s ease;
+  transform-origin: bottom;
+  color: white;
+}
+.text-animation .letter.active {
+  color: rgba(255, 255, 255, 0.3);
+  opacity: 1;
+  transform: none;
+  -webkit-animation: color 5s ease infinite 3s;
+  animation: color 5s ease infinite 3s;
+}
+
+@-webkit-keyframes color {
+  0% {
+    color: white;
+  }
+  20% {
+    color: rgba(255, 255, 255, 0.3);
+  }
+  100% {
+    color: rgba(255, 255, 255, 0.3);
+  }
+}
+
+@keyframes color {
+  0% {
+    color: white;
+  }
+  20% {
+    color: rgba(255, 255, 255, 0.3);
+  }
+  100% {
+    color: rgba(255, 255, 255, 0.3);
+  }
+}

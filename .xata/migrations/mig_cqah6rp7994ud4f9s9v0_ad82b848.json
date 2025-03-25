@@ -1,0 +1,19 @@
+{
+  "id": "mig_cqah6rp7994ud4f9s9v0",
+  "parentID": "mig_cqah6omp9nttc8i6k0mg",
+  "checksum": "1:ad82b848be4014e1925bd43a107b3a8e7ee9259311310b081fca07c48284240e",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "theory",
+          "type": "link",
+          "link": {
+            "table": "user-theories"
+          }
+        },
+        "table": "user-theories-testimonies"
+      }
+    }
+  ]
+}

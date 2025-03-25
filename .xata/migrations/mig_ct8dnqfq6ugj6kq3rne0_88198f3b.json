@@ -1,0 +1,19 @@
+{
+  "id": "mig_ct8dnqfq6ugj6kq3rne0",
+  "parentID": "mig_ct8dnenq6ugj6kq3rnd0",
+  "checksum": "1:88198f3bacba02edc5caa5c998f1f8d09aee59783735b81c1464651608483db8",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "images",
+          "type": "file[]",
+          "file[]": {
+            "defaultPublicAccess": true
+          }
+        },
+        "table": "documents"
+      }
+    }
+  ]
+}

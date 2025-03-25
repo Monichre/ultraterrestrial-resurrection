@@ -1,0 +1,19 @@
+{
+  "id": "mig_cqf282v2b91h0qbgkecg",
+  "parentID": "mig_cqf27u38kqllttmo8gpg",
+  "checksum": "1:fe0b369a787845b38285f688680ef9f61f821d0b86a8b208ac22cabd5c541f1b",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "photos",
+          "type": "file[]",
+          "file[]": {
+            "defaultPublicAccess": true
+          }
+        },
+        "table": "artifacts"
+      }
+    }
+  ]
+}

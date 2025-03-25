@@ -1,0 +1,19 @@
+{
+  "id": "mig_cqaak4mp9nttc8i6jt80",
+  "parentID": "mig_cqaajsua437rsaqn4ffg",
+  "checksum": "1:285e88a4c256fba311dd5c97bd5b1684a6348050954c1e17d119c1c9e62521a5",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "document",
+          "type": "link",
+          "link": {
+            "table": "documents"
+          }
+        },
+        "table": "user-saved-documents"
+      }
+    }
+  ]
+}

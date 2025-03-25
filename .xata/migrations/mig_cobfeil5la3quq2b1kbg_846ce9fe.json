@@ -1,0 +1,16 @@
+{
+  "id": "mig_cobfeil5la3quq2b1kbg",
+  "parentID": "mig_cobfeakphnk6ug6d7qug",
+  "checksum": "1:846ce9fe45791a261c47cae144d045dd14195eb72f34c03dc0009101c482d38b",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "documentation",
+          "type": "file[]"
+        },
+        "table": "testimony"
+      }
+    }
+  ]
+}

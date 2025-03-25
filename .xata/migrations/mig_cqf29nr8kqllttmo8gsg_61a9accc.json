@@ -1,0 +1,16 @@
+{
+  "id": "mig_cqf29nr8kqllttmo8gsg",
+  "parentID": "mig_cqf28rj8kqllttmo8grg",
+  "checksum": "1:61a9accc342026962a570c7ad5eabfa6e5e757c1138834de58a15921736204be",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "metadata",
+          "type": "json"
+        },
+        "table": "artifacts"
+      }
+    }
+  ]
+}

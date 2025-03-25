@@ -1,0 +1,52 @@
+body, html {
+	 width: 100%;
+	 height: 100%;
+	 overflow: hidden;
+}
+ .dolly-container {
+	 position: fixed;
+	 top: 0;
+	 left: 0;
+	 width: 100%;
+	 height: 100%;
+	 transform-style: preserve-3d;
+	 overflow: hidden;
+}
+ .dolly-container .dolly-wrap {
+	 width: 100%;
+	 height: 100vh;
+	 transform-style: preserve-3d;
+	 will-change: transform;
+}
+ .dolly-container .dolly-layer {
+	 position: absolute;
+	 width: 100%;
+	 height: 100%;
+	 transform-style: preserve-3d;
+	 flex-direction: column;
+	 display: flex;
+	 overflow: visible;
+	 justify-content: center;
+	 align-items: center;
+}
+ .dolly-navigation {
+	 position: fixed;
+	 width: 100%;
+	 left: 0;
+	 top: 0;
+	 z-index: 99999;
+}
+ .dolly-navigation ul {
+	 width: 100%;
+	 height: 100%;
+	 display: flex;
+	 justify-content: center;
+	 align-items: center;
+}
+ .dolly-navigation ul li {
+	 display: inline-block;
+}
+ .dolly-navigation ul li .dolly-anchor {
+	 cursor: pointer;
+}
+ 

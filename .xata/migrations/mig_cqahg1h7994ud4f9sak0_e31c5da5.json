@@ -1,0 +1,19 @@
+{
+  "id": "mig_cqahg1h7994ud4f9sak0",
+  "parentID": "mig_cqahfkp7994ud4f9saj0",
+  "checksum": "1:e31c5da5e50aee7db73d4ec84b55f42fb5cb03e118e4e81e4ce88039541ed62e",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "diagrams",
+          "type": "file[]",
+          "file[]": {
+            "defaultPublicAccess": true
+          }
+        },
+        "table": "user-theories"
+      }
+    }
+  ]
+}

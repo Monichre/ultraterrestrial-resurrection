@@ -1,0 +1,19 @@
+{
+  "id": "mig_cobe25t5la3quq2b1jk0",
+  "parentID": "mig_cobe1ul5la3quq2b1jj0",
+  "checksum": "1:57de92b92f0cf350b45216a69fe0e2863277dba7b89ff5c5881955aa5a529f02",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "witness",
+          "type": "link",
+          "link": {
+            "table": "personnel"
+          }
+        },
+        "table": "testimony"
+      }
+    }
+  ]
+}

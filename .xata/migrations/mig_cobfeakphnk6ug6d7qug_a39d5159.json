@@ -1,0 +1,20 @@
+{
+  "id": "mig_cobfeakphnk6ug6d7qug",
+  "parentID": "mig_cobfe4t5la3quq2b1kag",
+  "checksum": "1:a39d51594251e7a276471afe7d574b46c5987dd25ac7fdccc996fcbc261613ef",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "event",
+          "type": "link",
+          "link": {
+            "table": "events"
+          },
+          "unique": true
+        },
+        "table": "testimony"
+      }
+    }
+  ]
+}

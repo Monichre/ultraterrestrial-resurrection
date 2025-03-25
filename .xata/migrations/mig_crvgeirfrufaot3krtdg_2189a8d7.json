@@ -1,0 +1,12 @@
+{
+  "id": "mig_crvgeirfrufaot3krtdg",
+  "parentID": "mig_crvgedbfrufaot3krtcg",
+  "checksum": "1:2189a8d7152867998747d0a53b7b89df11ef316ba5816c6c0823e930e01c201a",
+  "operations": [
+    {
+      "removeTable": {
+        "table": "artifacts"
+      }
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "id": "mig_cqahf0h7994ud4f9sag0",
+  "parentID": "mig_cqahen17994ud4f9saf0",
+  "checksum": "1:2dcebbc27f53c942e713c40ab151105d685eb543cc8fed78019b70888efffb89",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "theory",
+          "type": "link",
+          "link": {
+            "table": "user-theories"
+          }
+        },
+        "table": "user-saved-organizations"
+      }
+    }
+  ]
+}

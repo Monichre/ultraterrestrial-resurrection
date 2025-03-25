@@ -1,0 +1,19 @@
+{
+  "id": "mig_cqaakhep9nttc8i6jtag",
+  "parentID": "mig_cqaak86p9nttc8i6jt9g",
+  "checksum": "1:e8d0b5a10a64bded399d06bec2b328d7ca92234d913850c9f0d0b26b3a0f8fad",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "user",
+          "type": "link",
+          "link": {
+            "table": "users"
+          }
+        },
+        "table": "user-theories"
+      }
+    }
+  ]
+}

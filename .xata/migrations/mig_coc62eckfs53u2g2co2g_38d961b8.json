@@ -1,0 +1,12 @@
+{
+  "id": "mig_coc62eckfs53u2g2co2g",
+  "parentID": "mig_coc61mpj2avn6sp8mdt0",
+  "checksum": "1:38d961b81f4d6d55569a29adccb535079679c669e1c4e85d28fded343c800c9f",
+  "operations": [
+    {
+      "addTable": {
+        "table": "event-topic-subject-matter-experts"
+      }
+    }
+  ]
+}

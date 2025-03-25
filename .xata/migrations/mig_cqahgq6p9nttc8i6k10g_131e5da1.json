@@ -1,0 +1,16 @@
+{
+  "id": "mig_cqahgq6p9nttc8i6k10g",
+  "parentID": "mig_cqahgih7994ud4f9sao0",
+  "checksum": "1:131e5da1582a02a54b4d6eeacdaf83ed151d58a6539503cc2b3dea49f59f48e7",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "note",
+          "type": "text"
+        },
+        "table": "user-saved-sightings"
+      }
+    }
+  ]
+}

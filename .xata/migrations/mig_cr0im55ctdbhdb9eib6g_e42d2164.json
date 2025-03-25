@@ -1,0 +1,16 @@
+{
+  "id": "mig_cr0im55ctdbhdb9eib6g",
+  "parentID": "mig_cqvbuv4pe5n9ceee5rv0",
+  "checksum": "1:e42d2164b59dfb3674a6f8c03c8e1bf1fe00140526515ec7998e052b8126f518",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "authority",
+          "type": "int"
+        },
+        "table": "personnel"
+      }
+    }
+  ]
+}

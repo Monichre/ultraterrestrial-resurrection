@@ -1,0 +1,19 @@
+{
+  "id": "mig_coeulvhi8ag8nohmf500",
+  "parentID": "mig_coeulo9i8ag8nohmf4v0",
+  "checksum": "1:24155b6b44b493f6f3cf57438d3156ee9bae88064cd5d157685deedf2bbf80fe",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "embedding",
+          "type": "vector",
+          "vector": {
+            "dimension": 1536
+          }
+        },
+        "table": "documents"
+      }
+    }
+  ]
+}

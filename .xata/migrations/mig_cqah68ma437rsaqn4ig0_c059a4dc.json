@@ -1,0 +1,19 @@
+{
+  "id": "mig_cqah68ma437rsaqn4ig0",
+  "parentID": "mig_cqah62up9nttc8i6k0k0",
+  "checksum": "1:c059a4dc0de96cbca32ce9da6e2a683d0d6501fdd9ed8c73f19c66cb01f08b1c",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "theory",
+          "type": "link",
+          "link": {
+            "table": "user-theories"
+          }
+        },
+        "table": "user-theories-sightings"
+      }
+    }
+  ]
+}

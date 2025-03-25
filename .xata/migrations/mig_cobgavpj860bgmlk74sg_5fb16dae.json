@@ -1,0 +1,12 @@
+{
+  "id": "mig_cobgavpj860bgmlk74sg",
+  "parentID": "mig_cobg2i4phnk6ug6d7rj0",
+  "checksum": "1:5fb16daedacd0c172213cbcfd492ea152b04e8ff99f817668956548cbe9ed870",
+  "operations": [
+    {
+      "removeTable": {
+        "table": "Testimonies-Gridview1"
+      }
+    }
+  ]
+}

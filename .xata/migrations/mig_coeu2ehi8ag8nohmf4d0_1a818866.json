@@ -1,0 +1,16 @@
+{
+  "id": "mig_coeu2ehi8ag8nohmf4d0",
+  "parentID": "mig_coess6k6btciiaoq7hgg",
+  "checksum": "1:1a818866e238551d54c03d7ba7f6d28b9eb962f7ae8ac9c84f202aeb68a2142a",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "rank",
+          "type": "int"
+        },
+        "table": "personnel"
+      }
+    }
+  ]
+}

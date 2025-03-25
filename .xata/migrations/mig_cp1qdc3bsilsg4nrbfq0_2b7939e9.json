@@ -1,0 +1,17 @@
+{
+  "id": "mig_cp1qdc3bsilsg4nrbfq0",
+  "parentID": "mig_cp1qcoaiarusft7jv6mg",
+  "checksum": "1:2b7939e9f7e42a70979a763d543d88b98cca870a8ddc77ae4186d3e03af8028c",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "full_name",
+          "type": "string",
+          "unique": true
+        },
+        "table": "personnel"
+      }
+    }
+  ]
+}

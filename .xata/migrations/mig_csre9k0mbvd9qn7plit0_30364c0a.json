@@ -1,0 +1,16 @@
+{
+  "id": "mig_csre9k0mbvd9qn7plit0",
+  "parentID": "mig_csnilk8g9g9pf6lqvqg0",
+  "checksum": "1:30364c0a1d787708cf940aaada39661c9e62c68378e93619a17fa1e076f653cc",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "context",
+          "type": "text"
+        },
+        "table": "testimonies"
+      }
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "id": "mig_cqah6fep9nttc8i6k0l0",
+  "parentID": "mig_cqah68ma437rsaqn4ig0",
+  "checksum": "1:6f03570eabef22f9fdac3f8e148a759012bd38b96feb606fc699ab585ab66e1b",
+  "operations": [
+    {
+      "removeColumn": {
+        "column": "user",
+        "table": "user-theories-sightings"
+      }
+    }
+  ]
+}

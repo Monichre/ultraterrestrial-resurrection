@@ -1,0 +1,20 @@
+{
+  "id": "mig_cobdophj860bgmlk73eg",
+  "parentID": "mig_cobdobl5la3quq2b1jf0",
+  "checksum": "1:a3d5f56b40e267da53d1fe490fd34903ecc6be234891eb9b1c93f513ac39c331",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "topics",
+          "type": "link",
+          "link": {
+            "table": "topics"
+          },
+          "unique": true
+        },
+        "table": "events"
+      }
+    }
+  ]
+}

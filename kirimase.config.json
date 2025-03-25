@@ -1,0 +1,14 @@
+{
+  "hasSrc": true,
+  "packages": [
+    "clerk",
+    "shadcn-ui"
+  ],
+  "preferredPackageManager": "pnpm",
+  "t3": false,
+  "alias": "@",
+  "analytics": true,
+  "rootPath": "src/",
+  "auth": "clerk",
+  "componentLib": "shadcn-ui"
+}

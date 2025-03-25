@@ -1,0 +1,19 @@
+{
+  "id": "mig_cqaai4ma437rsaqn4f2g",
+  "parentID": "mig_cqaahq6a437rsaqn4f1g",
+  "checksum": "1:2312863d7de87bc1015341910ad7a33c8627f26763f0140bd0cce7877c8f2f26",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "user",
+          "type": "link",
+          "link": {
+            "table": "users"
+          }
+        },
+        "table": "user-saved-events"
+      }
+    }
+  ]
+}

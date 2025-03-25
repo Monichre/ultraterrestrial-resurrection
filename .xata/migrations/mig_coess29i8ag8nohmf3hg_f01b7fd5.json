@@ -1,0 +1,14 @@
+{
+  "id": "mig_coess29i8ag8nohmf3hg",
+  "parentID": "mig_cocs13mp7f5ih5v51udg",
+  "checksum": "1:f01b7fd50bf3d722403bc15ecf1f439b194e831d0649081b15851d89a6c8c2a5",
+  "operations": [
+    {
+      "renameColumn": {
+        "newName": "picture",
+        "oldName": "photo",
+        "table": "personnel"
+      }
+    }
+  ]
+}

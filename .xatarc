@@ -1,0 +1,6 @@
+{
+  "databaseURL": "https://UltraTerrestrial-kgubvq.us-east-1.xata.sh/db/ultraterrestrial",
+  "codegen": {
+    "output": "src/db/xata/xata.ts"
+  }
+}

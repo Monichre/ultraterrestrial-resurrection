@@ -1,0 +1,12 @@
+{
+  "id": "mig_cqaak86p9nttc8i6jt9g",
+  "parentID": "mig_cqaak4mp9nttc8i6jt80",
+  "checksum": "1:9dd8abd787faaaf304a447e57ce6975633bc4f7a110d009ca85b986f9de75aff",
+  "operations": [
+    {
+      "addTable": {
+        "table": "user-theories"
+      }
+    }
+  ]
+}

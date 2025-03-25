@@ -1,0 +1,13 @@
+{
+  "id": "mig_crvge87m9hr77jce1log",
+  "parentID": "mig_crvge43frufaot3krtbg",
+  "checksum": "1:2bb82c842022a135e64e4c1e08c8bcb23d2d4e88cf4463014565a90c0e96647b",
+  "operations": [
+    {
+      "removeColumn": {
+        "column": "author",
+        "table": "artifacts"
+      }
+    }
+  ]
+}

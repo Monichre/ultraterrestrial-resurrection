@@ -1,0 +1,129 @@
+{
+  "id": "mig_cobdkj55la3quq2b1je0",
+  "parentID": "mig_cobdkcl5la3quq2b1jcg",
+  "checksum": "1:5cdcbed9f560ea58824f9016b4e675f2ff608ab3ae377d859744546417c484f7",
+  "operations": [
+    {
+      "addTable": {
+        "table": "sightings"
+      }
+    },
+    {
+      "addColumn": {
+        "column": {
+          "name": "date",
+          "type": "datetime"
+        },
+        "table": "sightings"
+      }
+    },
+    {
+      "addColumn": {
+        "column": {
+          "name": "description",
+          "type": "string"
+        },
+        "table": "sightings"
+      }
+    },
+    {
+      "addColumn": {
+        "column": {
+          "name": "media_link",
+          "type": "string"
+        },
+        "table": "sightings"
+      }
+    },
+    {
+      "addColumn": {
+        "column": {
+          "name": "city",
+          "type": "string"
+        },
+        "table": "sightings"
+      }
+    },
+    {
+      "addColumn": {
+        "column": {
+          "name": "state",
+          "type": "string"
+        },
+        "table": "sightings"
+      }
+    },
+    {
+      "addColumn": {
+        "column": {
+          "name": "country",
+          "type": "string"
+        },
+        "table": "sightings"
+      }
+    },
+    {
+      "addColumn": {
+        "column": {
+          "name": "shape",
+          "type": "string"
+        },
+        "table": "sightings"
+      }
+    },
+    {
+      "addColumn": {
+        "column": {
+          "name": "duration_seconds",
+          "type": "string"
+        },
+        "table": "sightings"
+      }
+    },
+    {
+      "addColumn": {
+        "column": {
+          "name": "duration_hours_min",
+          "type": "string"
+        },
+        "table": "sightings"
+      }
+    },
+    {
+      "addColumn": {
+        "column": {
+          "name": "comments",
+          "type": "string"
+        },
+        "table": "sightings"
+      }
+    },
+    {
+      "addColumn": {
+        "column": {
+          "name": "date_posted",
+          "type": "datetime"
+        },
+        "table": "sightings"
+      }
+    },
+    {
+      "addColumn": {
+        "column": {
+          "name": "latitude",
+          "type": "float"
+        },
+        "table": "sightings"
+      }
+    },
+    {
+      "addColumn": {
+        "column": {
+          "name": "longitude",
+          "type": "float"
+        },
+        "table": "sightings"
+      }
+    }
+  ]
+}

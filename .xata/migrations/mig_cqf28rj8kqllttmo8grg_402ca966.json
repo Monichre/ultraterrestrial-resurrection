@@ -1,0 +1,19 @@
+{
+  "id": "mig_cqf28rj8kqllttmo8grg",
+  "parentID": "mig_cqf28bf2b91h0qbgkeeg",
+  "checksum": "1:402ca966fca5e13ca220957e6a81e474429ce2dbe1e78ac8aba53670d1df7197",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "author",
+          "type": "link",
+          "link": {
+            "table": "personnel"
+          }
+        },
+        "table": "artifacts"
+      }
+    }
+  ]
+}

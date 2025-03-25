@@ -1,0 +1,64 @@
+/* ./src/components/timeline/timeline.css */
+.timeline-nav {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 100;
+	padding: 1.5rem;
+	background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), transparent);
+}
+
+.timeline-nav__track {
+	display: flex;
+	gap: 1rem;
+	cursor: grab;
+	user-select: none;
+}
+
+.timeline-nav__track:active {
+	cursor: grabbing;
+}
+
+.timeline-nav__link {
+	@apply px-4 py-2 rounded-full bg-black/20 backdrop-blur-sm text-white/70 transition-colors;
+	white-space: nowrap;
+}
+
+.timeline-nav__link:hover,
+.timeline-nav__link.is-active {
+	@apply bg-white/20 text-white;
+}
+
+section {
+	@apply min-h-screen flex items-center justify-center;
+	background-color: hsl(calc(var(--i) * 40), 70%, 90%);
+}
+
+.container {
+	@apply max-w-7xl mx-auto px-4;
+}
+
+.section__heading {
+	@apply text-center mb-8;
+}
+
+.section__heading span {
+	@apply block;
+}
+
+.section__heading span:first-child {
+	@apply text-2xl text-black/60;
+}
+
+.section__heading span:last-child {
+	@apply text-6xl font-bold;
+}
+
+.section__image {
+	@apply max-w-2xl mx-auto rounded-lg overflow-hidden shadow-2xl;
+}
+
+.section__image img {
+	@apply w-full h-auto;
+}

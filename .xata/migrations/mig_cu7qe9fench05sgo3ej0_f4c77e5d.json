@@ -1,0 +1,13 @@
+{
+  "id": "mig_cu7qe9fench05sgo3ej0",
+  "parentID": "mig_ct8dnqfq6ugj6kq3rne0",
+  "checksum": "1:f4c77e5d2b737142b3b0c7bfb78972057593779dc50d31cf4f403d1506a0ae21",
+  "operations": [
+    {
+      "removeColumn": {
+        "column": "facebook",
+        "table": "personnel"
+      }
+    }
+  ]
+}

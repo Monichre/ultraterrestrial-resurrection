@@ -1,0 +1,13 @@
+{
+  "id": "mig_cu7qedmffi59jn8fr7sg",
+  "parentID": "mig_cu7qecfench05sgo3el0",
+  "checksum": "1:3e76356fb86f878d0930d99603f5e658c6a1fe640450c73bb1bf389ac1036d7d",
+  "operations": [
+    {
+      "removeColumn": {
+        "column": "instagram",
+        "table": "personnel"
+      }
+    }
+  ]
+}

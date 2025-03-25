@@ -1,0 +1,13 @@
+{
+  "id": "mig_cobivjpj860bgmlk762g",
+  "parentID": "mig_cobiqu9j860bgmlk760g",
+  "checksum": "1:091516933348f5bd25b79ddc2236a9553bb4933d748a2f82e9f0ca28e57b25dc",
+  "operations": [
+    {
+      "removeColumn": {
+        "column": "summary-copy",
+        "table": "topics"
+      }
+    }
+  ]
+}

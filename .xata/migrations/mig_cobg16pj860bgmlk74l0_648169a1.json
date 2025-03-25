@@ -1,0 +1,13 @@
+{
+  "id": "mig_cobg16pj860bgmlk74l0",
+  "parentID": "mig_cobg151j860bgmlk74k0",
+  "checksum": "1:648169a18d2b4251b01f99aa5243013560d4978e7783d6a646b63c023ce9d4bb",
+  "operations": [
+    {
+      "removeColumn": {
+        "column": "event",
+        "table": "event-subject-matter-experts"
+      }
+    }
+  ]
+}

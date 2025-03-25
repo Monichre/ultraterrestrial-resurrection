@@ -1,0 +1,16 @@
+{
+  "id": "mig_cqahgg97994ud4f9san0",
+  "parentID": "mig_cqahge97994ud4f9sam0",
+  "checksum": "1:0c062c849e1d60b2cab4edc75da3cfb45fb7991550a0be00d30d9c22f5f80636",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "note",
+          "type": "text"
+        },
+        "table": "user-saved-events"
+      }
+    }
+  ]
+}

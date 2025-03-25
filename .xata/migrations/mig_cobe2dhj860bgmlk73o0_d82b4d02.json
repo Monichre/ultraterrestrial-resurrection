@@ -1,0 +1,16 @@
+{
+  "id": "mig_cobe2dhj860bgmlk73o0",
+  "parentID": "mig_cobe2asphnk6ug6d7qbg",
+  "checksum": "1:d82b4d0206fe0789713c2bedf445100ebeb7e57900693184a94187e0c12c6123",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "date",
+          "type": "datetime"
+        },
+        "table": "testimony"
+      }
+    }
+  ]
+}

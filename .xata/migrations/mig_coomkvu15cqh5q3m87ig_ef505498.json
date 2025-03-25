@@ -1,0 +1,19 @@
+{
+  "id": "mig_coomkvu15cqh5q3m87ig",
+  "parentID": "mig_com4krrcq0nij8lu38eg",
+  "checksum": "1:ef505498382fad0b0d8aae2bd979b37d208b41cdbcb0ee75bb34f00031e53078",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "photo",
+          "type": "file[]",
+          "file[]": {
+            "defaultPublicAccess": true
+          }
+        },
+        "table": "events"
+      }
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "id": "mig_cqaaih6a437rsaqn4f60",
+  "parentID": "mig_cqaaieea437rsaqn4f50",
+  "checksum": "1:411fbe5231506ccf335115591abccc42c089e7536c189b1a6b67b613633d4293",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "user",
+          "type": "link",
+          "link": {
+            "table": "users"
+          }
+        },
+        "table": "user-saved-topics"
+      }
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "id": "mig_cqpe6sh4e9vrbavqfg90",
+  "parentID": "mig_cqpe6qh4e9vrbavqfg80",
+  "checksum": "1:212814a4394cf0253441b21646db369c3b1c966331600e9bd2471b5ddf7a9d70",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "note-title",
+          "type": "string"
+        },
+        "table": "user-saved-testimonies"
+      }
+    }
+  ]
+}

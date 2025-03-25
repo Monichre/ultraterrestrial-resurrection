@@ -1,0 +1,55 @@
+.entity-card h3,
+.entity-card .date {
+  /* font-family: 'Centima Sans'; */
+  font-family: var(--font-centima-sans);
+}
+
+.entity-card,
+.root-node {
+  background: #09090b;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='16' height='16' fill='none'%3e%3ccircle fill='rgb(255 255 255 / 0.2)' id='pattern-circle' cx='10' cy='10' r='1.6257413380501518'%3e%3c/circle%3e%3c/svg%3e");
+  background:
+    url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='16' height='16' fill='none'%3e%3ccircle fill='rgb(255 255 255 / 0.2)' id='pattern-circle' cx='10' cy='10' r='1.6257413380501518'%3e%3c/circle%3e%3c/svg%3e")
+      no-repeat center center / cover,
+    rgba(9 9 11 0.5);
+}
+.root-node {
+  background-color: #0a0a0a;
+  background-image: radial-gradient(
+      ellipse 80% 80% at 50% -20%,
+      rgba(120, 119, 198, 0.3),
+      rgba(255, 255, 255, 0)
+    ),
+    radial-gradient(#ffffff33 1px, #00091d 1px);
+  background-size:
+    100%,
+    20px 20px;
+  background-position:
+    center,
+    0 0;
+}
+
+.darkGradient {
+  background-color: #0a0a0a;
+  background-image: radial-gradient(
+    ellipse 80% 80% at 50% -20%,
+    rgba(120, 119, 198, 0.3),
+    rgba(255, 255, 255, 0)
+  );
+}
+
+.darkGradientDotGrid {
+  background-color: #0a0a0a;
+  background-image: radial-gradient(
+      ellipse 80% 80% at 50% -20%,
+      rgba(120, 119, 198, 0.3),
+      rgba(255, 255, 255, 0)
+    ),
+    radial-gradient(#ffffff33 1px, #00091d 1px);
+  background-size:
+    100%,
+    20px 20px;
+  background-position:
+    center,
+    0 0;
+}

@@ -1,0 +1,75 @@
+{
+  "id": "mig_cp1v78iiarusft7jv9cg",
+  "parentID": "mig_cp1qfh2iarusft7jv6pg",
+  "checksum": "1:0ef492039750a2008bc6ce63d4653821e06571e4cfb94320565be2588bb6104d",
+  "operations": [
+    {
+      "addTable": {
+        "table": "locations"
+      }
+    },
+    {
+      "addColumn": {
+        "column": {
+          "name": "name",
+          "type": "string"
+        },
+        "table": "locations"
+      }
+    },
+    {
+      "addColumn": {
+        "column": {
+          "name": "coordinates",
+          "type": "string"
+        },
+        "table": "locations"
+      }
+    },
+    {
+      "addColumn": {
+        "column": {
+          "name": "google-maps-location-id",
+          "type": "text"
+        },
+        "table": "locations"
+      }
+    },
+    {
+      "addColumn": {
+        "column": {
+          "name": "city",
+          "type": "string"
+        },
+        "table": "locations"
+      }
+    },
+    {
+      "addColumn": {
+        "column": {
+          "name": "state",
+          "type": "string"
+        },
+        "table": "locations"
+      }
+    },
+    {
+      "addColumn": {
+        "column": {
+          "name": "latitude",
+          "type": "float"
+        },
+        "table": "locations"
+      }
+    },
+    {
+      "addColumn": {
+        "column": {
+          "name": "longitude",
+          "type": "float"
+        },
+        "table": "locations"
+      }
+    }
+  ]
+}

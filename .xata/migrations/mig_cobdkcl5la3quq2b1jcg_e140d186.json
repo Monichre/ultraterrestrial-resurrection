@@ -1,0 +1,12 @@
+{
+  "id": "mig_cobdkcl5la3quq2b1jcg",
+  "parentID": "mig_cobdk0l5la3quq2b1jbg",
+  "checksum": "1:e140d186f422804f2a49f0d6398eac5e074aba0745aa9ce69970c6ef4583c982",
+  "operations": [
+    {
+      "removeTable": {
+        "table": "sightings"
+      }
+    }
+  ]
+}

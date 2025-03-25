@@ -1,0 +1,20 @@
+{
+  "id": "mig_cobdobl5la3quq2b1jf0",
+  "parentID": "mig_cobdkj55la3quq2b1je0",
+  "checksum": "1:f99246d59b2fd081cbf9b866923a754af27e0c049fda08fe44cd9eda59323489",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "personnel",
+          "type": "link",
+          "link": {
+            "table": "personnel"
+          },
+          "unique": true
+        },
+        "table": "events"
+      }
+    }
+  ]
+}

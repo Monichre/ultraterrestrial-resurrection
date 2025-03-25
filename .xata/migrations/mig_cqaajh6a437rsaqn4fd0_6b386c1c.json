@@ -1,0 +1,19 @@
+{
+  "id": "mig_cqaajh6a437rsaqn4fd0",
+  "parentID": "mig_cqaajbea437rsaqn4f9g",
+  "checksum": "1:6b386c1c6f39b327b70328642176dce53e26ddc7b46948b2ca8ebdb2b7ae9f4c",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "testimony",
+          "type": "link",
+          "link": {
+            "table": "testimonies"
+          }
+        },
+        "table": "user-saved-testimonies"
+      }
+    }
+  ]
+}

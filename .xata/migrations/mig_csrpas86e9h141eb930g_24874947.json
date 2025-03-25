@@ -1,0 +1,14 @@
+{
+  "id": "mig_csrpas86e9h141eb930g",
+  "parentID": "mig_csre9k0mbvd9qn7plit0",
+  "checksum": "1:248749477e3798040167008c0d21b00328736630623d5043161c17ec9b9c059f",
+  "operations": [
+    {
+      "renameColumn": {
+        "newName": "summary",
+        "oldName": "content",
+        "table": "documents"
+      }
+    }
+  ]
+}

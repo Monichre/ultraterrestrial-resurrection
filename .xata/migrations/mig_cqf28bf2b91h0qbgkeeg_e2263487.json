@@ -1,0 +1,16 @@
+{
+  "id": "mig_cqf28bf2b91h0qbgkeeg",
+  "parentID": "mig_cqf287f2b91h0qbgkedg",
+  "checksum": "1:e2263487358cc6b27273032bab996f0e34550b6c0d92964a1c4076175cb0ebbf",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "date",
+          "type": "datetime"
+        },
+        "table": "artifacts"
+      }
+    }
+  ]
+}

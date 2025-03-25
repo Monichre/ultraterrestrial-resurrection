@@ -1,0 +1,13 @@
+{
+  "id": "mig_cobiqu9j860bgmlk760g",
+  "parentID": "mig_cobiqtd5la3quq2b1mv0",
+  "checksum": "1:f5519a1eee582f8c865c7f6757535fd47ac1059fb7432d02322373f4aeec6790",
+  "operations": [
+    {
+      "removeColumn": {
+        "column": "xataversion",
+        "table": "topics-copy"
+      }
+    }
+  ]
+}

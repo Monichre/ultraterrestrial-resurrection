@@ -1,0 +1,9 @@
+{
+  "$schema": "https://hooks.scriptkavi.com/schema.json",
+  "codestyle": "react-hooks",
+  "tsx": true,
+  "aliases": {
+    "hooks": "@/hooks",
+    "utils": "@/utils"
+  }
+}

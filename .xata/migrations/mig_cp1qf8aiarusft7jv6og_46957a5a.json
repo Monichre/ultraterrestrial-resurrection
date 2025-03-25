@@ -1,0 +1,14 @@
+{
+  "id": "mig_cp1qf8aiarusft7jv6og",
+  "parentID": "mig_cp1qdc3bsilsg4nrbfq0",
+  "checksum": "1:46957a5af2d6d500887bca697486d1e0c1a70c71b716c1c5a57e2eabee6ec31c",
+  "operations": [
+    {
+      "renameColumn": {
+        "newName": "_name",
+        "oldName": "name",
+        "table": "personnel"
+      }
+    }
+  ]
+}

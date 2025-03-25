@@ -1,0 +1,12 @@
+{
+  "id": "mig_csnig3og9g9pf6lqvqb0",
+  "parentID": "mig_crvhsj7m9hr77jce1mbg",
+  "checksum": "1:e77fca2b1c531154467a45c1277a3cfdcc9e7a15bbe84bbb49fe9314bbd36689",
+  "operations": [
+    {
+      "addTable": {
+        "table": "case_files"
+      }
+    }
+  ]
+}

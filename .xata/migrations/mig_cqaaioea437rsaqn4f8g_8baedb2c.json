@@ -1,0 +1,12 @@
+{
+  "id": "mig_cqaaioea437rsaqn4f8g",
+  "parentID": "mig_cqaaikma437rsaqn4f70",
+  "checksum": "1:8baedb2cb35b4a3fda048126b5c8d396918cc0d6a47f9787fe445ada1f819f87",
+  "operations": [
+    {
+      "addTable": {
+        "table": "user-saved-personnel"
+      }
+    }
+  ]
+}

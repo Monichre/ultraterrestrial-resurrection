@@ -1,0 +1,17 @@
+{
+  "id": "mig_cq79sv28du9b68v884e0",
+  "parentID": "mig_cq79srnh946jnuv8cl3g",
+  "checksum": "1:f77c27c4419625c117f12f2ac069e4cb453b14e2aa913ac4fddbcca10c9cef9e",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "emailVerified",
+          "type": "bool",
+          "defaultValue": "false"
+        },
+        "table": "users"
+      }
+    }
+  ]
+}

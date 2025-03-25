@@ -1,0 +1,17 @@
+{
+  "id": "mig_cru2fhg6plqg2em45k4g",
+  "parentID": "mig_crtuiho6plqg2em456ig",
+  "checksum": "1:81f3a212d80be4acce640c82fe0a2ab1ea08b9c6fa157c44e2f604e3903d114a",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "metadata",
+          "type": "json",
+          "defaultValue": "{}"
+        },
+        "table": "events"
+      }
+    }
+  ]
+}

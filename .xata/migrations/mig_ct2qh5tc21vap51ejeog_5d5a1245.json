@@ -1,0 +1,13 @@
+{
+  "id": "mig_ct2qh5tc21vap51ejeog",
+  "parentID": "mig_csrpas86e9h141eb930g",
+  "checksum": "1:5d5a1245cc10b17eb7fe1a3ed45f956765f77281e3bf652181d789d675d5ec83",
+  "operations": [
+    {
+      "renameTable": {
+        "newName": "case-files",
+        "oldName": "case_files"
+      }
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "id": "mig_cqaair6p9nttc8i6jt3g",
+  "parentID": "mig_cqaaioea437rsaqn4f8g",
+  "checksum": "1:a33cde72e9dddd202cb56e98ffe513f77b6fae54829bb738c7bf01600fc414ab",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "user",
+          "type": "link",
+          "link": {
+            "table": "users"
+          }
+        },
+        "table": "user-saved-personnel"
+      }
+    }
+  ]
+}

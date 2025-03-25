@@ -1,0 +1,67 @@
+{
+  "id": "mig_crvghs3frufaot3krthg",
+  "parentID": "mig_crvgesikv9ogfdp0allg",
+  "checksum": "1:52016cadb4e45363f78fb2a6c9bdf0e78e222f22566f11a3a7e14a5ef2dbdc34",
+  "operations": [
+    {
+      "addTable": {
+        "table": "artifacts"
+      }
+    },
+    {
+      "addColumn": {
+        "column": {
+          "name": "name",
+          "type": "string",
+          "unique": true
+        },
+        "table": "artifacts"
+      }
+    },
+    {
+      "addColumn": {
+        "column": {
+          "name": "description",
+          "type": "text"
+        },
+        "table": "artifacts"
+      }
+    },
+    {
+      "addColumn": {
+        "column": {
+          "name": "photos",
+          "type": "multiple"
+        },
+        "table": "artifacts"
+      }
+    },
+    {
+      "addColumn": {
+        "column": {
+          "name": "date",
+          "type": "string"
+        },
+        "table": "artifacts"
+      }
+    },
+    {
+      "addColumn": {
+        "column": {
+          "name": "source",
+          "type": "text"
+        },
+        "table": "artifacts"
+      }
+    },
+    {
+      "addColumn": {
+        "column": {
+          "name": "origin",
+          "type": "text"
+        },
+        "table": "artifacts"
+      }
+    }
+  ]
+}

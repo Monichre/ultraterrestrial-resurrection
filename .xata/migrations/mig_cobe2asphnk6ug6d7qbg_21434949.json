@@ -1,0 +1,16 @@
+{
+  "id": "mig_cobe2asphnk6ug6d7qbg",
+  "parentID": "mig_cobe25t5la3quq2b1jk0",
+  "checksum": "1:21434949fed3c9c536a105a775b8b90b49da029ffef75fd1d2c8825c15e12e8a",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "claim",
+          "type": "text"
+        },
+        "table": "testimony"
+      }
+    }
+  ]
+}

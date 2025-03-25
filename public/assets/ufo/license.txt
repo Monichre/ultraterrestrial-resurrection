@@ -1,0 +1,11 @@
+Model Information:
+* title:	UFO
+* source:	https://sketchfab.com/3d-models/ufo-e9b2edd997284a2aaa0e2bbd2a6a4e85
+* author:	aung (https://sketchfab.com/aung)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "UFO" (https://sketchfab.com/3d-models/ufo-e9b2edd997284a2aaa0e2bbd2a6a4e85) by aung (https://sketchfab.com/aung) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

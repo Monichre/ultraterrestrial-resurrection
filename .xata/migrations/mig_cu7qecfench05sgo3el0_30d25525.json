@@ -1,0 +1,13 @@
+{
+  "id": "mig_cu7qecfench05sgo3el0",
+  "parentID": "mig_cu7qeanench05sgo3ek0",
+  "checksum": "1:30d25525acb402c94a99b37cb09aae0ea72118a805a8d2bfefa0b09c1c793a6f",
+  "operations": [
+    {
+      "removeColumn": {
+        "column": "website",
+        "table": "personnel"
+      }
+    }
+  ]
+}

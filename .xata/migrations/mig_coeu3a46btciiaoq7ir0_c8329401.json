@@ -1,0 +1,16 @@
+{
+  "id": "mig_coeu3a46btciiaoq7ir0",
+  "parentID": "mig_coeu2ehi8ag8nohmf4d0",
+  "checksum": "1:c8329401cac6c02679a3146afff3f898d9e39d84d8fb679f343a651d07811ee8",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "credibility",
+          "type": "int"
+        },
+        "table": "personnel"
+      }
+    }
+  ]
+}

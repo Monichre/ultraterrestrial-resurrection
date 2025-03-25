@@ -1,0 +1,19 @@
+{
+  "id": "mig_crtt6n404plob72u8drg",
+  "parentID": "mig_crtt6e404plob72u8dpg",
+  "checksum": "1:5dbb113160df40a72e176d46905c98a435852c11db1871067e2d11a719581eb7",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "user",
+          "type": "link",
+          "link": {
+            "table": "users"
+          }
+        },
+        "table": "mindmaps"
+      }
+    }
+  ]
+}

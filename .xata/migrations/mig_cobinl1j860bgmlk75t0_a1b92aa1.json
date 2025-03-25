@@ -1,0 +1,16 @@
+{
+  "id": "mig_cobinl1j860bgmlk75t0",
+  "parentID": "mig_cobinid5la3quq2b1mqg",
+  "checksum": "1:a1b92aa12ea626c6d90fae1dbea6a15e4a02576b07a2aeb1464010a49fed10dc",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "summary-copy",
+          "type": "string"
+        },
+        "table": "topics"
+      }
+    }
+  ]
+}

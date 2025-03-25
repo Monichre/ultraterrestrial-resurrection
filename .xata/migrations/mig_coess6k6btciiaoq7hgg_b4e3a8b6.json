@@ -1,0 +1,16 @@
+{
+  "id": "mig_coess6k6btciiaoq7hgg",
+  "parentID": "mig_coess29i8ag8nohmf3hg",
+  "checksum": "1:b4e3a8b6b4f0c679f95cefc4d5150a4d5debfe4e999e42cc3d7cdb20b60ff877",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "photo",
+          "type": "file[]"
+        },
+        "table": "personnel"
+      }
+    }
+  ]
+}
