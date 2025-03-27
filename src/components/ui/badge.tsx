@@ -14,7 +14,7 @@ const badgeVariants = cva(
         secondary:
           "border-transparent bg-gray-100 text-gray-900 [a&]:hover:bg-gray-100/90 dark:bg-gray-800 dark:text-gray-50 dark:[a&]:hover:bg-gray-800/90",
         destructive:
-          "border-transparent bg-red-500 text-white [a&]:hover:bg-red-500/90 focus-visible:ring-red-500/20 dark:focus-visible:ring-red-500/40 dark:bg-red-900 dark:[a&]:hover:bg-red-900/90 dark:focus-visible:ring-red-900/20 dark:dark:focus-visible:ring-red-900/40",
+          "border-transparent bg-red-500 text-white [a&]:hover:bg-red-500/90 focus-visible:ring-red-500/20 dark:focus-visible:ring-red-500/40 dark:bg-red-500/70 dark:bg-red-900 dark:[a&]:hover:bg-red-900/90 dark:focus-visible:ring-red-900/20 dark:dark:focus-visible:ring-red-900/40 dark:dark:bg-red-900/70",
         outline:
           "text-gray-950 [a&]:hover:bg-gray-100 [a&]:hover:text-gray-900 dark:text-gray-50 dark:[a&]:hover:bg-gray-800 dark:[a&]:hover:text-gray-50",
       },

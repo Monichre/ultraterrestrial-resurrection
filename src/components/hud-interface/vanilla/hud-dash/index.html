@@ -1,0 +1,1497 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>hud javascript</title>
+  
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Procedural UI</title>
+  <style>
+    /* Base styles */
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #000;
+      color: #fff;
+      font-family: monospace;
+      font-size: 12px;
+      overflow-x: hidden;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 8px;
+      padding: 16px;
+      min-height: 100vh;
+    }
+
+    /* Card styles */
+    .card {
+      background-color: #000;
+      border: 1px solid #333;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 4px 8px;
+      border-bottom: 1px solid #333;
+    }
+
+    .card-body {
+      padding: 8px;
+      position: relative;
+    }
+
+    /* Column layouts */
+    .left-column {
+      grid-column: span 3;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .center-column {
+      grid-column: span 3;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .right-column {
+      grid-column: span 6;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Text styles */
+    .title {
+      color: #fff;
+      margin: 0;
+    }
+
+    .subtitle {
+      color: #666;
+      margin: 0;
+    }
+
+    /* Shape panel styles */
+    .shapes-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .shape-box {
+      border: 1px solid #333;
+      height: 64px;
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .shape-label {
+      font-size: 10px;
+      margin-right: 8px;
+    }
+
+    /* Torus UI styles */
+    .torus-container {
+      display: flex;
+    }
+
+    .torus-viz {
+      flex: 1;
+      height: 150px;
+    }
+
+    .torus-controls {
+      width: 64px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .control-button {
+      background-color: #222;
+      text-align: center;
+      font-size: 10px;
+      padding: 4px;
+    }
+
+    .torus-info {
+      font-size: 10px;
+      margin-top: 8px;
+    }
+
+    .torus-bars {
+      display: flex;
+      gap: 4px;
+      margin-top: 8px;
+    }
+
+    .torus-bar {
+      height: 4px;
+      background-color: #fff;
+    }
+
+    .torus-colors {
+      display: flex;
+      gap: 4px;
+      margin-top: 8px;
+    }
+
+    .color-box {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Frequency panel styles */
+    .frequency-panel {
+      height: 600px;
+      position: relative;
+    }
+
+    .frequency-label {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      font-size: 10px;
+    }
+
+    .blend-label {
+      position: absolute;
+      bottom: 8px;
+      left: 8px;
+      font-size: 10px;
+    }
+
+    .speed-label {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      font-size: 10px;
+    }
+
+    /* Amplitude panel styles */
+    .amplitude-container {
+      display: flex;
+      height: 128px;
+    }
+
+    .amplitude-controls {
+      width: 64px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .amplitude-control {
+      width: 8px;
+      height: 32px;
+      background-color: #fff;
+    }
+
+    .amplitude-viz {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .curve-container {
+      height: 64px;
+      border-bottom: 1px solid #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .bars-container {
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .amplitude-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 100%;
+      padding: 0 16px;
+    }
+
+    .amplitude-bar {
+      height: 4px;
+      background-color: #fff;
+      transition: width 0.5s ease;
+    }
+
+    .amplitude-value {
+      font-size: 10px;
+      align-self: flex-end;
+      transform: rotate(90deg);
+      transform-origin: bottom left;
+      margin-left: 24px;
+    }
+
+    /* Dynamics panel styles */
+    .dynamics-panel {
+      position: relative;
+      height: 300px;
+    }
+
+    .dynamics-value {
+      position: absolute;
+      font-size: 10px;
+    }
+
+    .dynamics-value.top-left {
+      top: 8px;
+      left: 8px;
+    }
+
+    .dynamics-value.top-right {
+      top: 8px;
+      right: 8px;
+    }
+
+    .dynamics-value.bottom-left {
+      bottom: 8px;
+      left: 8px;
+    }
+
+    .dynamics-value.bottom-right {
+      bottom: 8px;
+      right: 8px;
+    }
+
+    .process-container {
+      position: absolute;
+      bottom: 64px;
+      left: 0;
+      right: 0;
+      text-align: center;
+    }
+
+    .process-label {
+      font-size: 10px;
+      margin-bottom: 4px;
+    }
+
+    .progress-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .progress-bracket {
+      font-size: 10px;
+      width: 32px;
+      text-align: center;
+    }
+
+    .progress-blocks {
+      display: flex;
+      gap: 1px;
+    }
+
+    .progress-block {
+      width: 16px;
+      height: 16px;
+      background-color: #333;
+      transition: background-color 0.3s ease;
+    }
+
+    .progress-block.active {
+      background-color: #fff;
+    }
+
+    .process-files {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 4px;
+      padding: 0 32px;
+      font-size: 10px;
+    }
+
+    /* Mesh panel styles */
+    .mesh-panel {
+      position: relative;
+      height: 100px;
+    }
+
+    .mesh-value {
+      position: absolute;
+      font-size: 10px;
+    }
+
+    .mesh-value.left {
+      top: 8px;
+      left: 32px;
+    }
+
+    .mesh-value.center {
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .mesh-value.right {
+      top: 8px;
+      right: 32px;
+    }
+
+    .mesh-value.far-right {
+      top: 8px;
+      right: 8px;
+    }
+
+    /* Tracking panel styles */
+    .tracking-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .tracking-panel {
+      position: relative;
+      height: 256px;
+    }
+
+    .tracking-label {
+      position: absolute;
+      font-size: 10px;
+    }
+
+    .tracking-label.simulation {
+      top: 8px;
+      left: 8px;
+    }
+
+    .tracking-label.solution {
+      top: 16px;
+      left: 8px;
+    }
+
+    .tracking-label.loss {
+      bottom: 8px;
+      left: 8px;
+    }
+
+    .dot-matrix {
+      position: absolute;
+      bottom: 64px;
+      left: 8px;
+      right: 8px;
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 4px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      background-color: #fff;
+      border-radius: 50%;
+      transition: opacity 0.2s ease;
+    }
+
+    .tracking-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .tracking-info-text {
+      margin-top: auto;
+      font-size: 10px;
+      color: #666;
+      line-height: 1.5;
+    }
+
+    /* Workflow label */
+    .workflow-label {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+    }
+
+    /* Canvas animations */
+    canvas {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* SVG animations */
+    .shape-svg {
+      width: 40px;
+      height: 30px;
+    }
+
+    .circle-svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* CSS Animations */
+    @keyframes pulse {
+      0% { transform: scale(0.95); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(0.95); }
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes blink {
+      0% { opacity: 0.3; }
+      50% { opacity: 1; }
+      100% { opacity: 0.3; }
+    }
+
+    @keyframes slide {
+      0% { transform: translateX(0); }
+      50% { transform: translateX(10px); }
+      100% { transform: translateX(0); }
+    }
+
+    @keyframes wave {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+      100% { transform: translateY(0); }
+    }
+
+    .pulse {
+      animation: pulse 2s infinite ease-in-out;
+    }
+
+    .rotate {
+      animation: rotate 10s infinite linear;
+    }
+
+    .blink {
+      animation: blink 1.5s infinite ease-in-out;
+    }
+
+    .slide {
+      animation: slide 3s infinite ease-in-out;
+    }
+
+    .wave {
+      animation: wave 2s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Left Column -->
+    <div class="left-column">
+      <div>
+        <h3 class="title">Random shapes</h3>
+        <h4 class="subtitle">Processing</h4>
+      </div>
+      
+      <div class="card">
+        <div class="card-header">
+          <span>Shapes</span>
+          <span>-□×</span>
+        </div>
+        <div class="card-body">
+          <div class="shapes-grid">
+            <div class="shape-box">
+              <span class="shape-label">22PM</span>
+              <svg class="shape-svg" id="shape1" viewBox="0 0 40 30">
+                <path d="M10 15 L20 15 L20 25" stroke="white" fill="none" stroke-width="1"></path>
+              </svg>
+            </div>
+            
+            <div class="shape-box">
+              <span class="shape-label">45PM</span>
+              <svg class="shape-svg" id="shape2" viewBox="0 0 40 30">
+                <path d="M10 20 L15 10 L20 15 L25 5 L30 20" stroke="white" fill="none" stroke-width="1"></path>
+              </svg>
+            </div>
+            
+            <div class="shape-box">
+              <svg class="circle-svg" id="shape3" viewBox="0 0 20 20">
+                <circle cx="10" cy="10" r="8" stroke="white" fill="none" stroke-width="1"></circle>
+              </svg>
+            </div>
+            
+            <div class="shape-box">
+              <span class="shape-label">83PM</span>
+              <svg class="shape-svg" id="shape4" viewBox="0 0 40 30">
+                <path d="M10 15 L20 25 L30 10" stroke="white" fill="none" stroke-width="1"></path>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-auto">
+        <h3 class="title">Procedural generation</h3>
+        <h4 class="subtitle">AE</h4>
+      </div>
+      
+      <div class="card">
+        <div class="card-header">
+          <span>TORUS UI V006</span>
+          <span>-□×</span>
+        </div>
+        <div class="card-body">
+          <div class="torus-container">
+            <div class="torus-viz">
+              <canvas id="torusCanvas"></canvas>
+            </div>
+            <div class="torus-controls">
+              <div class="control-button">HEIGHT</div>
+              <div class="control-button">WIDTH</div>
+              <div class="control-button">DEPTH</div>
+            </div>
+          </div>
+          <div class="torus-info">
+            <div id="torus-size">Size: 9405</div>
+            <div id="torus-x">X: 1042</div>
+            <div id="torus-y">Y: 5673</div>
+            <div id="torus-z">Z: 9473</div>
+          </div>
+          <div class="torus-bars">
+            <div class="torus-bar" style="width: 48px;"></div>
+            <div class="torus-bar" style="width: 32px;"></div>
+            <div class="torus-bar" style="width: 64px;"></div>
+          </div>
+          <div class="torus-colors">
+            <div class="color-box" style="background-color: #222;"></div>
+            <div class="color-box" style="background-color: #333;"></div>
+            <div class="color-box" style="background-color: #444;"></div>
+            <div class="color-box" style="background-color: #555;"></div>
+            <div class="color-box" style="background-color: #fff;"></div>
+            <div class="color-box" style="background-color: #444;"></div>
+            <div class="color-box" style="background-color: #333;"></div>
+          </div>
+          <div class="subtitle" style="margin-top: 8px;">Workflow</div>
+          <div class="subtitle">C4D</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Center Column -->
+    <div class="center-column">
+      <div class="card">
+        <div class="card-header">
+          <span>Procedural</span>
+          <span>-□×</span>
+        </div>
+        <div class="card-body frequency-panel">
+          <div class="frequency-label">FREQUENCY</div>
+          <canvas id="frequencyCanvas"></canvas>
+          <div class="blend-label">BLEND</div>
+          <div class="speed-label">SPEED</div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <div class="card-header">
+          <span>AMPLITUDE</span>
+          <span>-□×</span>
+        </div>
+        <div class="card-body">
+          <div class="amplitude-container">
+            <div class="amplitude-controls">
+              <div class="amplitude-control"></div>
+              <div class="amplitude-control"></div>
+              <div class="amplitude-control"></div>
+            </div>
+            <div class="amplitude-viz">
+              <div class="curve-container">
+                <canvas id="amplitudeCurveCanvas"></canvas>
+              </div>
+              <div class="bars-container">
+                <div class="amplitude-bars">
+                  <div class="amplitude-bar" id="amp-bar-1" style="width: 100%;"></div>
+                  <div class="amplitude-bar" id="amp-bar-2" style="width: 90%;"></div>
+                  <div class="amplitude-bar" id="amp-bar-3" style="width: 95%;"></div>
+                  <div class="amplitude-bar" id="amp-bar-4" style="width: 85%;"></div>
+                  <div class="amplitude-bar" id="amp-bar-5" style="width: 100%;"></div>
+                </div>
+              </div>
+            </div>
+            <div class="amplitude-value" id="amplitude-value">2578</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Right Column -->
+    <div class="right-column">
+      <div class="card">
+        <div class="card-header">
+          <span>Dynamics</span>
+          <span>-□×</span>
+        </div>
+        <div class="card-body dynamics-panel">
+          <canvas id="dynamicsCanvas"></canvas>
+          <div class="dynamics-value top-left" id="dynamics-tl">146642</div>
+          <div class="dynamics-value top-right" id="dynamics-tr">389751</div>
+          <div class="dynamics-value bottom-left" id="dynamics-bl">748271</div>
+          <div class="dynamics-value bottom-right" id="dynamics-br">898525</div>
+          
+          <div class="process-container">
+            <div class="process-label">Process of some importance</div>
+            <div class="progress-bar">
+              <div class="progress-bracket">[</div>
+              <div class="progress-blocks" id="progress-blocks">
+                <!-- Progress blocks will be added by JavaScript -->
+              </div>
+              <div class="progress-bracket">]</div>
+            </div>
+            <div class="process-files">
+              <div>math.py</div>
+              <div>render.py</div>
+              <div>fragment.glsl</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <div class="card-header">
+          <span>Mesh</span>
+          <span>-□×</span>
+        </div>
+        <div class="card-body mesh-panel">
+          <canvas id="meshCanvas"></canvas>
+          <div class="mesh-value left" id="mesh-left">533254</div>
+          <div class="mesh-value center" id="mesh-center">301</div>
+          <div class="mesh-value right" id="mesh-right">957452</div>
+          <div class="mesh-value far-right" id="mesh-far-right">5263</div>
+        </div>
+      </div>
+      
+      <div class="tracking-grid">
+        <div class="card">
+          <div class="card-header">
+            <span>Tracking</span>
+            <span>-□×</span>
+          </div>
+          <div class="card-body tracking-panel">
+            <div class="tracking-label simulation">SIMULATION 3</div>
+            <div class="tracking-label solution">SOLUTION</div>
+            <canvas id="trackingCanvas"></canvas>
+            <div class="tracking-label loss" id="tracking-loss">Loss: 6190</div>
+            <div class="dot-matrix" id="dot-matrix">
+              <!-- Dots will be added by JavaScript -->
+            </div>
+          </div>
+        </div>
+        
+        <div class="tracking-info">
+          <div>
+            <h3 class="title">Mouse tracking</h3>
+            <h4 class="subtitle">Python / AE</h4>
+          </div>
+          
+          <div class="mt-auto">
+            <h3 class="title">Workflow</h3>
+            <h4 class="subtitle">AE</h4>
+          </div>
+          
+          <div class="tracking-info-text">
+            Other workspaces are reflections<br>
+            on the workflow of digital artist<br>
+            in specialized applications
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="workflow-label">
+    <div class="title">Workflow</div>
+    <div class="subtitle">C4D</div>
+  </div>
+
+  <script>
+    // Initialize all animations
+    document.addEventListener('DOMContentLoaded', () => {
+      // Create progress blocks
+      const progressBlocks = document.getElementById('progress-blocks');
+      for (let i = 0; i < 20; i++) {
+        const block = document.createElement('div');
+        block.className = 'progress-block';
+        progressBlocks.appendChild(block);
+      }
+
+      // Create dot matrix
+      const dotMatrix = document.getElementById('dot-matrix');
+      for (let i = 0; i < 50; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'dot';
+        dot.style.opacity = Math.random() * 0.7 + 0.3;
+        dotMatrix.appendChild(dot);
+      }
+
+      // Initialize all canvas animations
+      initTorusAnimation();
+      initFrequencyAnimation();
+      initAmplitudeCurveAnimation();
+      initDynamicsAnimation();
+      initMeshAnimation();
+      initTrackingAnimation();
+
+      // Initialize SVG animations
+      initShapeAnimations();
+
+      // Start progress bar animation
+      startProgressAnimation();
+
+      // Start number counter animations
+      startCounterAnimations();
+
+      // Start amplitude bar animations
+      startAmplitudeBarAnimations();
+
+      // Start dot matrix animation
+      startDotMatrixAnimation();
+    });
+
+    // Shape 1 Animation - Dashed line with movement
+    function initShapeAnimations() {
+      // Shape 1 - Dashed line with movement
+      const shape1 = document.getElementById('shape1');
+      const path1 = shape1.querySelector('path');
+      path1.setAttribute('stroke-dasharray', '2,2');
+      
+      let dashOffset1 = 0;
+      setInterval(() => {
+        dashOffset1 = (dashOffset1 + 1) % 20;
+        path1.setAttribute('stroke-dashoffset', dashOffset1);
+      }, 100);
+
+      // Shape 2 - Wavy line
+      const shape2 = document.getElementById('shape2');
+      const path2 = shape2.querySelector('path');
+      
+      let wave2Time = 0;
+      setInterval(() => {
+        wave2Time += 0.1;
+        const y1 = 20 + Math.sin(wave2Time) * 3;
+        const y2 = 10 + Math.sin(wave2Time + 1) * 2;
+        const y3 = 15 + Math.sin(wave2Time + 2) * 2;
+        const y4 = 5 + Math.sin(wave2Time + 3) * 3;
+        const y5 = 20 + Math.sin(wave2Time + 4) * 2;
+        
+        path2.setAttribute('d', `M10 ${y1} L15 ${y2} L20 ${y3} L25 ${y4} L30 ${y5}`);
+      }, 50);
+
+      // Shape 3 - Pulsing circle
+      const shape3 = document.getElementById('shape3');
+      const circle = shape3.querySelector('circle');
+      
+      let pulse3Time = 0;
+      setInterval(() => {
+        pulse3Time += 0.1;
+        const radius = 7 + Math.sin(pulse3Time) * 2;
+        circle.setAttribute('r', radius);
+        
+        // Also animate stroke-dasharray
+        const circumference = 2 * Math.PI * radius;
+        circle.setAttribute('stroke-dasharray', `${circumference / 4},${circumference / 4}`);
+        circle.setAttribute('stroke-dashoffset', pulse3Time * 5);
+      }, 50);
+
+      // Shape 4 - Moving angular line
+      const shape4 = document.getElementById('shape4');
+      const path4 = shape4.querySelector('path');
+      
+      let angle4Time = 0;
+      setInterval(() => {
+        angle4Time += 0.1;
+        const y1 = 15 + Math.sin(angle4Time) * 2;
+        const y2 = 25 + Math.cos(angle4Time) * 2;
+        const y3 = 10 + Math.sin(angle4Time + 1) * 3;
+        
+        path4.setAttribute('d', `M10 ${y1} L20 ${y2} L30 ${y3}`);
+      }, 50);
+    }
+
+    // Torus Animation
+    function initTorusAnimation() {
+      const canvas = document.getElementById('torusCanvas');
+      const ctx = canvas.getContext('2d');
+      
+      // Set canvas dimensions
+      function resizeCanvas() {
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+      }
+      
+      resizeCanvas();
+      window.addEventListener('resize', resizeCanvas);
+      
+      let time = 0;
+      
+      function drawTorus() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const maxRadius = Math.min(centerX, centerY) - 10;
+        
+        // Draw concentric circles with individual animations
+        for (let i = 0; i < 8; i++) {
+          const baseRadius = maxRadius - (i * maxRadius / 8);
+          // Each circle has its own animation pattern
+          const radiusOffset = Math.sin(time * (0.05 + i * 0.01) + i * 0.5) * (maxRadius / 20);
+          const radius = baseRadius + radiusOffset;
+          
+          ctx.beginPath();
+          ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+          ctx.strokeStyle = 'white';
+          ctx.lineWidth = 1;
+          
+          // Different dash patterns for different circles
+          if (i % 3 === 0) {
+            // Solid line
+            ctx.setLineDash([]);
+          } else if (i % 3 === 1) {
+            // Dashed line
+            const dashLength = radius * Math.PI / (8 + i);
+            ctx.setLineDash([dashLength, dashLength]);
+            ctx.lineDashOffset = time * (i % 2 === 0 ? 1 : -1) * 2;
+          } else {
+            // Dotted line
+            ctx.setLineDash([2, 6]);
+            ctx.lineDashOffset = time * (i % 2 === 0 ? -1 : 1) * 3;
+          }
+          
+          ctx.stroke();
+        }
+        
+        // Update torus info with animated values
+        document.getElementById('torus-size').textContent = `Size: ${9405 + Math.floor(Math.sin(time * 0.1) * 50)}`;
+        document.getElementById('torus-x').textContent = `X: ${1042 + Math.floor(Math.sin(time * 0.2) * 10)}`;
+        document.getElementById('torus-y').textContent = `Y: ${5673 + Math.floor(Math.cos(time * 0.15) * 20)}`;
+        document.getElementById('torus-z').textContent = `Z: ${9473 + Math.floor(Math.sin(time * 0.12) * 15)}`;
+        
+        time += 0.05;
+        requestAnimationFrame(drawTorus);
+      }
+      
+      drawTorus();
+    }
+
+    // Frequency Animation
+    function initFrequencyAnimation() {
+      const canvas = document.getElementById('frequencyCanvas');
+      const ctx = canvas.getContext('2d');
+      
+      // Set canvas dimensions
+      function resizeCanvas() {
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+      }
+      
+      resizeCanvas();
+      window.addEventListener('resize', resizeCanvas);
+      
+      let time = 0;
+      
+      function drawFrequency() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Draw grid
+        ctx.strokeStyle = '#333';
+        ctx.lineWidth = 1;
+        
+        // Vertical grid lines
+        const gridSizeX = Math.floor(canvas.width / 20);
+        for (let i = 0; i <= gridSizeX; i++) {
+          const x = i * 20;
+          ctx.beginPath();
+          ctx.moveTo(x, 0);
+          ctx.lineTo(x, canvas.height);
+          ctx.stroke();
+        }
+        
+        // Horizontal grid lines
+        const gridSizeY = Math.floor(canvas.height / 20);
+        for (let i = 0; i <= gridSizeY; i++) {
+          const y = i * 20;
+          ctx.beginPath();
+          ctx.moveTo(0, y);
+          ctx.lineTo(canvas.width, y);
+          ctx.stroke();
+        }
+        
+        // Draw frequency curve with unique animation
+        ctx.beginPath();
+        
+        // Start at bottom left
+        ctx.moveTo(0, canvas.height);
+        
+        // Create a unique curve that changes over time
+        // This uses a combination of sine waves with different frequencies
+        const controlX = canvas.width * (0.5 + Math.sin(time * 0.03) * 0.1);
+        const controlY = canvas.height * (0.1 + Math.cos(time * 0.02) * 0.05);
+        const endX = canvas.width;
+        const endY = canvas.height * (0.8 + Math.sin(time * 0.04) * 0.1);
+        
+        // Create a bezier curve with animated control points
+        ctx.quadraticCurveTo(controlX, controlY, endX, endY);
+        
+        ctx.strokeStyle = 'white';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        
+        // Draw center point with pulsing effect
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const centerRadius = 4 + Math.sin(time * 0.1) * 2;
+        
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, centerRadius, 0, Math.PI * 2);
+        ctx.fillStyle = 'white';
+        ctx.fill();
+        
+        // Draw control point (square) that moves with the curve
+        const squareSize = 10;
+        ctx.fillStyle = 'white';
+        ctx.fillRect(endX - squareSize, endY - squareSize / 2, squareSize, squareSize);
+        
+        time += 0.05;
+        requestAnimationFrame(drawFrequency);
+      }
+      
+      drawFrequency();
+    }
+
+    // Amplitude Curve Animation
+    function initAmplitudeCurveAnimation() {
+      const canvas = document.getElementById('amplitudeCurveCanvas');
+      const ctx = canvas.getContext('2d');
+      
+      // Set canvas dimensions
+      function resizeCanvas() {
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+      }
+      
+      resizeCanvas();
+      window.addEventListener('resize', resizeCanvas);
+      
+      let time = 0;
+      
+      function drawAmplitudeCurve() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Draw a bezier curve that changes shape over time
+        ctx.beginPath();
+        
+        // Start point
+        const startX = 10;
+        const startY = canvas.height / 2;
+        
+        // End point
+        const endX = canvas.width - 10;
+        const endY = canvas.height / 2;
+        
+        // Control points that move in a circular pattern
+        const cp1x = canvas.width * (0.3 + Math.cos(time * 0.1) * 0.1);
+        const cp1y = canvas.height * (0.2 + Math.sin(time * 0.15) * 0.2);
+        const cp2x = canvas.width * (0.7 + Math.cos(time * 0.12) * 0.1);
+        const cp2y = canvas.height * (0.8 + Math.sin(time * 0.08) * 0.2);
+        
+        ctx.moveTo(startX, startY);
+        ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, endX, endY);
+        
+        ctx.strokeStyle = 'white';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+        
+        // Update amplitude value
+        const amplitudeValue = document.getElementById('amplitude-value');
+        amplitudeValue.textContent = (2578 + Math.floor(Math.sin(time) * 50)).toString();
+        
+        time += 0.05;
+        requestAnimationFrame(drawAmplitudeCurve);
+      }
+      
+      drawAmplitudeCurve();
+    }
+
+    // Dynamics Animation (3D Sphere)
+    function initDynamicsAnimation() {
+      const canvas = document.getElementById('dynamicsCanvas');
+      const ctx = canvas.getContext('2d');
+      
+      // Set canvas dimensions
+      function resizeCanvas() {
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+      }
+      
+      resizeCanvas();
+      window.addEventListener('resize', resizeCanvas);
+      
+      let time = 0;
+      
+      function drawDynamics() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const radius = Math.min(centerX, centerY) * 0.6;
+        
+        // Create a unique 3D wireframe sphere effect
+        // This uses a combination of ellipses at different angles
+        
+        // Save the current transformation matrix
+        ctx.save();
+        
+        // Translate to center and apply a slow rotation
+        ctx.translate(centerX, centerY);
+        ctx.rotate(time * 0.05);
+        
+        // Draw horizontal ellipses
+        for (let i = 0; i < 12; i++) {
+          const angle = (i / 11) * Math.PI;
+          const scaleY = Math.cos(angle);
+          const translateY = Math.sin(angle) * radius;
+          
+          // Each ellipse has its own unique animation
+          const scaleX = 1 + Math.sin(time * 0.03 + i * 0.2) * 0.1;
+          
+          ctx.beginPath();
+          ctx.ellipse(
+            0, 
+            translateY, 
+            radius * Math.abs(scaleX), 
+            radius * Math.abs(scaleY) * 0.2, 
+            time * 0.02 + i * 0.1, 
+            0, 
+            Math.PI * 2
+          );
+          ctx.strokeStyle = 'white';
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+        
+        // Draw vertical ellipses
+        for (let i = 0; i < 12; i++) {
+          const angle = (i / 12) * Math.PI;
+          const rotateY = angle;
+          
+          // Each ellipse has its own unique animation
+          const scaleX = 1 + Math.sin(time * 0.04 + i * 0.3) * 0.1;
+          
+          ctx.save();
+          ctx.rotate(rotateY);
+          ctx.beginPath();
+          ctx.ellipse(
+            0, 
+            0, 
+            radius * Math.abs(scaleX), 
+            radius, 
+            0, 
+            0, 
+            Math.PI * 2
+          );
+          ctx.strokeStyle = 'white';
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+          ctx.restore();
+        }
+        
+        // Add some random connecting lines for mesh effect
+        for (let i = 0; i < 30; i++) {
+          const angle1 = Math.random() * Math.PI * 2;
+          const angle2 = Math.random() * Math.PI * 2;
+          
+          const x1 = Math.cos(angle1 + time * 0.01) * radius * (0.7 + Math.sin(time * 0.05 + i) * 0.3);
+          const y1 = Math.sin(angle1 + time * 0.01) * radius * (0.7 + Math.sin(time * 0.05 + i) * 0.3);
+          
+          const x2 = Math.cos(angle2 + time * 0.01) * radius * (0.7 + Math.sin(time * 0.05 + i + 1) * 0.3);
+          const y2 = Math.sin(angle2 + time * 0.01) * radius * (0.7 + Math.sin(time * 0.05 + i + 1) * 0.3);
+          
+          ctx.beginPath();
+          ctx.moveTo(x1, y1);
+          ctx.lineTo(x2, y2);
+          ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+        
+        // Restore the transformation matrix
+        ctx.restore();
+        
+        // Draw corner squares
+        ctx.fillStyle = 'white';
+        ctx.fillRect(10, 10, 5, 5);
+        ctx.fillRect(canvas.width - 15, 10, 5, 5);
+        ctx.fillRect(10, canvas.height - 15, 5, 5);
+        ctx.fillRect(canvas.width - 15, canvas.height - 15, 5, 5);
+        
+        // Update dynamics values
+        document.getElementById('dynamics-tl').textContent = (146642 + Math.floor(time * 2)) % 1000000;
+        document.getElementById('dynamics-tr').textContent = (389751 - Math.floor(time)) % 1000000;
+        document.getElementById('dynamics-bl').textContent = (748271 + Math.floor(Math.sin(time * 0.1) * 50)) % 1000000;
+        document.getElementById('dynamics-br').textContent = (898525 - Math.floor(Math.cos(time * 0.1) * 75)) % 1000000;
+        
+        time += 0.05;
+        requestAnimationFrame(drawDynamics);
+      }
+      
+      drawDynamics();
+    }
+
+    // Mesh Animation
+    function initMeshAnimation() {
+      const canvas = document.getElementById('meshCanvas');
+      const ctx = canvas.getContext('2d');
+      
+      // Set canvas dimensions
+      function resizeCanvas() {
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+      }
+      
+      resizeCanvas();
+      window.addEventListener('resize', resizeCanvas);
+      
+      let time = 0;
+      
+      function drawMesh() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Draw border
+        ctx.strokeStyle = 'white';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(20, 20, canvas.width - 40, canvas.height - 40);
+        
+        // Draw grid mesh with unique wave deformation
+        const gridSizeX = 20;
+        const gridSizeY = 4;
+        const cellWidth = (canvas.width - 40) / gridSizeX;
+        const cellHeight = (canvas.height - 40) / gridSizeY;
+        
+        // Draw horizontal lines with wave deformation
+        for (let y = 0; y <= gridSizeY; y++) {
+          ctx.beginPath();
+          
+          for (let x = 0; x <= gridSizeX; x++) {
+            const xPos = 20 + x * cellWidth;
+            
+            // Create a unique wave pattern for each line
+            // This combines multiple sine waves with different frequencies
+            const waveX = (x / gridSizeX) * Math.PI;
+            const waveY = (y / gridSizeY) * Math.PI;
+            const waveTime = time * 0.05;
+            
+            const deformY = Math.sin(waveX + waveTime) * 
+                           Math.sin(waveY + waveTime * 0.7) * 
+                           cellHeight * 1.5;
+            
+            const yPos = 20 + y * cellHeight - deformY;
+            
+            if (x === 0) {
+              ctx.moveTo(xPos, yPos);
+            } else {
+              ctx.lineTo(xPos, yPos);
+            }
+          }
+          
+          ctx.strokeStyle = 'white';
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+        
+        // Draw vertical lines with the same wave deformation
+        for (let x = 0; x <= gridSizeX; x++) {
+          ctx.beginPath();
+          
+          for (let y = 0; y <= gridSizeY; y++) {
+            const xPos = 20 + x * cellWidth;
+            
+            // Use the same wave pattern for consistency
+            const waveX = (x / gridSizeX) * Math.PI;
+            const waveY = (y / gridSizeY) * Math.PI;
+            const waveTime = time * 0.05;
+            
+            const deformY = Math.sin(waveX + waveTime) * 
+                           Math.sin(waveY + waveTime * 0.7) * 
+                           cellHeight * 1.5;
+            
+            const yPos = 20 + y * cellHeight - deformY;
+            
+            if (y === 0) {
+              ctx.moveTo(xPos, yPos);
+            } else {
+              ctx.lineTo(xPos, yPos);
+            }
+          }
+          
+          ctx.strokeStyle = 'white';
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+        
+        // Draw small squares at the bottom
+        ctx.fillStyle = 'white';
+        const squareSize = 5;
+        const squareY = canvas.height - 10;
+        const squareSpacing = 20;
+        const startX = canvas.width / 2 - (squareSpacing * 2);
+        
+        for (let i = 0; i < 5; i++) {
+          ctx.fillRect(startX + (i * squareSpacing), squareY, squareSize, squareSize);
+        }
+        
+        // Update mesh values
+        document.getElementById('mesh-left').textContent = (533254 + Math.floor(Math.sin(time * 0.1) * 100)) % 1000000;
+        document.getElementById('mesh-center').textContent = (301 + Math.floor(time * 0.1) % 10);
+        document.getElementById('mesh-right').textContent = (957452 - Math.floor(Math.cos(time * 0.1) * 50)) % 1000000;
+        document.getElementById('mesh-far-right').textContent = (5263 - Math.floor(time * 0.2) % 20);
+        
+        time += 0.05;
+        requestAnimationFrame(drawMesh);
+      }
+      
+      drawMesh();
+    }
+
+    // Tracking Animation
+    function initTrackingAnimation() {
+      const canvas = document.getElementById('trackingCanvas');
+      const ctx = canvas.getContext('2d');
+      
+      // Set canvas dimensions
+      function resizeCanvas() {
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+      }
+      
+      resizeCanvas();
+      window.addEventListener('resize', resizeCanvas);
+      
+      let time = 0;
+      
+      // Base points for tracking
+      const basePoints = [
+        [50, 50],
+        [70, 40],
+        [90, 60],
+        [60, 80],
+        [40, 70]
+      ];
+      
+      function drawTracking() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Draw grid
+        ctx.strokeStyle = '#333';
+        ctx.lineWidth = 1;
+        
+        // Vertical grid lines
+        const gridSizeX = Math.floor(canvas.width / 20);
+        for (let i = 0; i <= gridSizeX; i++) {
+          const x = i * 20;
+          ctx.beginPath();
+          ctx.moveTo(x, 0);
+          ctx.lineTo(x, canvas.height);
+          ctx.stroke();
+        }
+        
+        // Horizontal grid lines
+        const gridSizeY = Math.floor(canvas.height / 20);
+        for (let i = 0; i <= gridSizeY; i++) {
+          const y = i * 20;
+          ctx.beginPath();
+          ctx.moveTo(0, y);
+          ctx.lineTo(canvas.width, y);
+          ctx.stroke();
+        }
+        
+        // Generate animated tracking points
+        // Each point moves in a unique pattern
+        const points = basePoints.map(([x, y], i) => {
+          // Create unique movement patterns for each point
+          const newX = x + Math.sin(time * 0.1 + i * 0.5) * 5;
+          const newY = y + Math.cos(time * 0.15 + i * 0.3) * 5;
+          return [newX, newY];
+        });
+        
+        // Draw lines between points
+        ctx.beginPath();
+        ctx.moveTo(points[0][0], points[0][1]);
+        
+        for (let i = 1; i < points.length; i++) {
+          ctx.lineTo(points[i][0], points[i][1]);
+        }
+        
+        // Close the shape
+        ctx.lineTo(points[0][0], points[0][1]);
+        
+        ctx.strokeStyle = 'white';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        
+        // Draw points
+        points.forEach(([x, y], i) => {
+          ctx.beginPath();
+          // Each point has a slightly different size
+          const radius = 3 + Math.sin(time * 0.2 + i) * 1;
+          ctx.arc(x, y, radius, 0, Math.PI * 2);
+          ctx.fillStyle = 'white';
+          ctx.fill();
+        });
+        
+        // Draw center crosshair with rotation
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        
+        ctx.save();
+        ctx.translate(centerX, centerY);
+        ctx.rotate(time * 0.1);
+        
+        // Circle
+        ctx.beginPath();
+        ctx.arc(0, 0, 10, 0, Math.PI * 2);
+        ctx.strokeStyle = 'white';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        
+        // Cross
+        ctx.beginPath();
+        ctx.moveTo(-15, 0);
+        ctx.lineTo(15, 0);
+        ctx.moveTo(0, -15);
+        ctx.lineTo(0, 15);
+        ctx.strokeStyle = 'white';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        
+        ctx.restore();
+        
+        // Draw bottom crosshair with opposite rotation
+        const bottomX = centerX;
+        const bottomY = centerY + 60;
+        
+        ctx.save();
+        ctx.translate(bottomX, bottomY);
+        ctx.rotate(-time * 0.15);
+        
+        // Circle
+        ctx.beginPath();
+        ctx.arc(0, 0, 10, 0, Math.PI * 2);
+        ctx.strokeStyle = 'white';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        
+        // Cross
+        ctx.beginPath();
+        ctx.moveTo(-15, 0);
+        ctx.lineTo(15, 0);
+        ctx.moveTo(0, -15);
+        ctx.lineTo(0, 15);
+        ctx.strokeStyle = 'white';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        
+        ctx.restore();
+        
+        // Update loss value
+        document.getElementById('tracking-loss').textContent = `Loss: ${6190 - Math.floor(Math.sin(time * 0.05) * 100)}`;
+        
+        time += 0.05;
+        requestAnimationFrame(drawTracking);
+      }
+      
+      drawTracking();
+    }
+
+    // Progress bar animation
+    function startProgressAnimation() {
+      const blocks = document.querySelectorAll('.progress-block');
+      let currentBlock = 0;
+      
+      setInterval(() => {
+        // Reset all blocks
+        blocks.forEach(block => block.classList.remove('active'));
+        
+        // Activate blocks up to current
+        for (let i = 0; i <= currentBlock; i++) {
+          blocks[i].classList.add('active');
+        }
+        
+        // Increment and loop
+        currentBlock = (currentBlock + 1) % blocks.length;
+      }, 300);
+    }
+
+    // Counter animations
+    function startCounterAnimations() {
+      // No implementation needed - counters are updated in their respective animation loops
+    }
+
+    // Amplitude bar animations
+    function startAmplitudeBarAnimations() {
+      const bars = [
+        document.getElementById('amp-bar-1'),
+        document.getElementById('amp-bar-2'),
+        document.getElementById('amp-bar-3'),
+        document.getElementById('amp-bar-4'),
+        document.getElementById('amp-bar-5')
+      ];
+      
+      let time = 0;
+      
+      setInterval(() => {
+        time += 0.1;
+        
+        bars.forEach((bar, i) => {
+          // Each bar has a unique animation pattern
+          const width = 90 + Math.sin(time + i * 0.5) * 10;
+          bar.style.width = `${width}%`;
+        });
+      }, 50);
+    }
+
+    // Dot matrix animation
+    function startDotMatrixAnimation() {
+      const dots = document.querySelectorAll('.dot');
+      let time = 0;
+      
+      setInterval(() => {
+        time += 0.1;
+        
+        dots.forEach((dot, i) => {
+          // Each dot has a unique pulsing pattern
+          const opacity = 0.3 + Math.sin(time + i * 0.2) * 0.7;
+          dot.style.opacity = Math.abs(opacity);
+        });
+      }, 50);
+    }
+  </script>
+</body>
+</html>
+<!-- partial -->
+  
+</body>
+</html>

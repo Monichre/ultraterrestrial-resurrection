@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:is(.dark *));
+
 @theme {
 	--background: 0 0% 100%;
 	--foreground: 224 71.4% 4.1%;
@@ -200,7 +202,6 @@
   --teal-indicator: #00d5ff;
   --teal-track: #00d5ff;
 }
- 
 
 @supports (color: color(display-p3 1 1 1)) {
   @media (color-gamut: p3) {
@@ -250,23 +251,22 @@
   font-style: normal;
   src: url('./fonts/futura/futura.ttf');
   font-weight: 400;
-  
+
 }
 @font-face {
   font-family: 'Futura';
   font-style: normal;
   font-weight: 500;
   src: url('./fonts/futura/futura medium bt.ttf');
-  
-}
 
+}
 
 @font-face {
   font-family: 'Futura';
   font-style: normal;
   font-weight: 700;
   src: url('./fonts/futura/futura-bold.ttf');
-  
+
 }
 
 @font-face {
@@ -274,7 +274,7 @@
   font-style: normal;
   font-weight: 300;
   src: url('./fonts/futura/Futura Light font.ttf');
-  
+
 }
 
 @font-face {
@@ -282,7 +282,7 @@
   font-style: normal;
   font-weight: 900;
   src: url('./fonts/futura/futura-black.ttf');
-  
+
 }
 
 @font-face {
@@ -290,26 +290,23 @@
   font-style: normal;
   font-weight: 900;
   src: url('./fonts/futura/futura-black.ttf');
-  
+
 }
-
-
 
 @font-face {
   font-family: 'Brandbe';
   font-style: normal;
   font-weight: 700;
   src: url('./fonts/Brandbe.otf');
-  
-}
 
+}
 
 @font-face {
   font-family: 'Eirene Sans';
   font-style: normal;
   font-weight: 400;
   src: url('./fonts/Eirene-Sans-Font-Family/EireneSans-Regular.otf');
-  
+
 }
 
 @font-face {
@@ -317,21 +314,21 @@
   font-style: normal;
   font-weight: bold;
   src: url('./fonts/centima/CentimaProSans-Bold.woff');
-  
+
 }
 @font-face {
   font-family: 'Centima Sans';
   font-style: normal;
   font-weight: 400;
   src: url('./fonts/centima/CentimaProSans.woff');
-  
+
 }
 @font-face {
   font-family: 'Centima';
   font-style: normal;
   font-weight: bold;
   src: url('./fonts/centima/Centima-Mono-W01-Bold.woff');
-  
+
 }
 
 @font-face {
@@ -339,14 +336,14 @@
   font-style: normal;
   font-weight: light;
   src: url('./fonts/stellar/PPStellar-Light.woff');
-  
+
 }
 @font-face {
   font-family: 'Stellar';
   font-style: normal;
   font-weight: bold;
   src: url('./fonts/stellar/PPStellar-Bold.woff');
-  
+
 }
 
 @font-face {
@@ -354,15 +351,14 @@
   font-style: normal;
   font-weight: 700;
   src: url('./fonts/Brandbe.otf');
-  
+
 }
 
 @font-face {
   font-family: 'Ailerons';
-  
-  
+
   src: url('./fonts/ailerons.woff2');
-  
+
 } */
 /* font-family: 'Bebas Neue', sans-serif;
 font-family: 'Nunito', sans-serif; */
@@ -405,12 +401,6 @@ font-family: 'Nunito', sans-serif; */
 	font-style: normal;
 	font-weight: 400;
 	src: url("./fonts/LukasSans.woff2") format("woff2");
-}
-
-.bg-grid {
-}
-
-.bg-grid-small {
 }
 
 .bg-dot {
@@ -543,7 +533,6 @@ Cool effect
  demo: https://github.com/Monichre/LineTextHoverAnimations/blob/main/css/base.css
  code: https://tympanus.net/Development/LineTextHoverAnimations/index.html
  "JetBrains Mono", monospace
-
 
 .root 
 --color-bg-effect: white;
@@ -838,7 +827,7 @@ a {
 .animated-path-1 {
   stroke-dasharray: 1px, 5px;
   stroke-dashoffset: 2px;
-  
+
 } */
 
 .bg-1 {
@@ -1639,7 +1628,6 @@ note .ai-response-markup h3,
   opacity: 1;
   visibility: visible;
 }
-
 
 /* Container */
 .hint,

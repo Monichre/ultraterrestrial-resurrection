@@ -1,0 +1,141 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "post-1",
+        "username": "skyWatcher42",
+        "date": "2023-05-15T14:30:00Z",
+        "timestamp": 1684159800000,
+        "content": "Just saw something incredible in the sky! Multiple bright lights moving in formation. #UFO #sighting",
+        "platform": "Twitter",
+        "mediaAttached": true,
+        "verified": false
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-118.3456, 34.0987]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "post-2",
+        "username": "truthSeeker99",
+        "date": "2023-06-22T21:15:00Z",
+        "timestamp": 1687469700000,
+        "content": "Triangular craft hovering silently over our neighborhood for about 10 minutes before disappearing suddenly. Multiple witnesses. #UFO #triangle",
+        "platform": "Reddit",
+        "mediaAttached": false,
+        "verified": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-86.1583, 39.7684]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "post-3",
+        "username": "astronomyFan",
+        "date": "2023-07-04T22:45:00Z",
+        "timestamp": 1688508300000,
+        "content": "At first I thought it was fireworks, but this object was too controlled in its movements. Bright orb that changed colors from red to blue. #mysterious #UAP",
+        "platform": "Facebook",
+        "mediaAttached": true,
+        "verified": false
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-77.0369, 38.9072]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "post-4",
+        "username": "desertExplorer",
+        "date": "2023-08-11T03:20:00Z",
+        "timestamp": 1691723400000,
+        "content": "Camping in the desert and witnessed a disc-shaped craft hover silently for several minutes before accelerating away at impossible speed. #UFO #desertsighting",
+        "platform": "Instagram",
+        "mediaAttached": true,
+        "verified": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-115.1398, 36.1699]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "post-5",
+        "username": "pilotsEye",
+        "date": "2023-09-03T13:10:00Z",
+        "timestamp": 1693746600000,
+        "content": "Commercial pilot here. Observed unidentified craft during flight at 35,000 feet. Object was metallic and moved against the wind. Not conventional aircraft. #pilot #UAP",
+        "platform": "Twitter",
+        "mediaAttached": false,
+        "verified": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-97.7431, 30.2672]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "post-6",
+        "username": "coastalWatcher",
+        "date": "2023-10-15T19:45:00Z",
+        "timestamp": 1697396700000,
+        "content": "Spotted a cylindrical object emerging from the ocean then shooting straight up into the sky. This was NOT a missile test. #UAPTF #transmedium",
+        "platform": "TikTok",
+        "mediaAttached": true,
+        "verified": false
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-118.4911, 34.0195]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "post-7",
+        "username": "midwestObserver",
+        "date": "2023-11-22T02:15:00Z",
+        "timestamp": 1700617500000,
+        "content": "Multiple crafts in formation, triangle shaped with lights at each corner. Silent and moving slowly over cornfields. At least 5 of us saw it. #UFO #midwestsighting",
+        "platform": "Reddit",
+        "mediaAttached": false,
+        "verified": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-93.6250, 41.5868]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "post-8",
+        "username": "nightSkyWatcher",
+        "date": "2023-12-13T21:30:00Z",
+        "timestamp": 1702501800000,
+        "content": "Bright orb divided into multiple smaller orbs then disappeared. Too controlled to be drones or lanterns. #UFO #orbs",
+        "platform": "Instagram",
+        "mediaAttached": true,
+        "verified": false
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-122.3321, 47.6062]
+      }
+    }
+  ]
+}

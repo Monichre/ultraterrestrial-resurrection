@@ -1,28 +1,28 @@
-import { Extension, NodeViewWrapper, NodeViewWrapperProps } from '@tiptap/react'
-import { useCallback, useMemo, useState } from 'react'
+import {type Extension, NodeViewWrapper, type NodeViewWrapperProps} from '@tiptap/react'
+import {useCallback, useMemo, useState} from 'react'
 import toast from 'react-hot-toast'
-import { v4 as uuid } from 'uuid'
-import { ImageOptions } from '@tiptap-pro/extension-ai'
+import {v4 as uuid} from 'uuid'
+import type {ImageOptions} from '@tiptap-pro/extension-ai'
 
 import * as Dropdown from '@radix-ui/react-dropdown-menu'
 
-import { Button } from '@/components/ui/Button'
-import { Loader } from '@/components/ui/Loader'
-import { Panel, PanelHeadline } from '@/components/ui/Panel'
-import { Textarea } from '@/components/ui/Textarea'
-import { Icon } from '@/components/ui/Icon'
-import { Surface } from '@/components/ui/Surface'
-import { DropdownButton } from '@/components/ui/Dropdown'
-import { Toolbar } from '@/components/ui/Toolbar'
+import {Button} from '@/components/ui/Button'
+import {Loader} from '@/components/ui/Loader'
+import {Panel, PanelHeadline} from '@/components/ui/Panel'
+import {Textarea} from '@/components/ui/Textarea'
+import {Icon} from '@/components/ui/Icon'
+import {Surface} from '@/components/ui/Surface'
+import {DropdownButton} from '@/components/ui/Dropdown'
+import {Toolbar} from '@/components/9-ui/toolbar'
 
 const imageStyles = [
-  { name: 'photorealistic', label: 'Photorealistic', value: 'photorealistic' },
-  { name: 'digital-art', label: 'Digital art', value: 'digital_art' },
-  { name: 'comic-book', label: 'Comic book', value: 'comic_book' },
-  { name: 'neon-punk', label: 'Neon punk', value: 'neon_punk' },
-  { name: 'isometric', label: 'Isometric', value: 'isometric' },
-  { name: 'line-art', label: 'Line art', value: 'line_art' },
-  { name: '3d-model', label: '3D model', value: '3d_model' },
+  {name: 'photorealistic', label: 'Photorealistic', value: 'photorealistic'},
+  {name: 'digital-art', label: 'Digital art', value: 'digital_art'},
+  {name: 'comic-book', label: 'Comic book', value: 'comic_book'},
+  {name: 'neon-punk', label: 'Neon punk', value: 'neon_punk'},
+  {name: 'isometric', label: 'Isometric', value: 'isometric'},
+  {name: 'line-art', label: 'Line art', value: 'line_art'},
+  {name: '3d-model', label: '3D model', value: '3d_model'},
 ]
 
 interface Data {
@@ -30,14 +30,16 @@ interface Data {
   imageStyle?: ImageOptions
 }
 
-export const AiImageView = ({ editor, node, getPos, deleteNode }: NodeViewWrapperProps) => {
-  const aiOptions = editor.extensionManager.extensions.find((ext: Extension) => ext.name === 'ai').options
+export const AiImageView = ({editor, node, getPos, deleteNode}: NodeViewWrapperProps) => {
+  const aiOptions = editor.extensionManager.extensions.find(
+    (ext: Extension) => ext.name === 'ai'
+  ).options
 
   const [data, setData] = useState<Data>({
     text: '',
     imageStyle: undefined,
   })
-  const currentImageStyle = imageStyles.find(t => t.value === data.imageStyle)
+  const currentImageStyle = imageStyles.find((t) => t.value === data.imageStyle)
   const [previewImage, setPreviewImage] = useState<string | undefined>(undefined)
   const [isFetching, setIsFetching] = useState(false)
   const textareaId = useMemo(() => uuid(), [])
@@ -57,7 +59,7 @@ export const AiImageView = ({ editor, node, getPos, deleteNode }: NodeViewWrappe
     }
 
     try {
-      const { baseUrl, appId, token } = aiOptions
+      const {baseUrl, appId, token} = aiOptions
       const response = await fetch(`${baseUrl}/image/prompt`, {
         method: 'POST',
         headers: {
@@ -81,7 +83,10 @@ export const AiImageView = ({ editor, node, getPos, deleteNode }: NodeViewWrappe
       setIsFetching(false)
     } catch (errPayload: any) {
       const errorMessage = errPayload?.response?.data?.error
-      const message = errorMessage !== 'An error occurred' ? `An error has occured: ${errorMessage}` : errorMessage
+      const message =
+        errorMessage !== 'An error occurred'
+          ? `An error has occured: ${errorMessage}`
+          : errorMessage
 
       setIsFetching(false)
       toast.error(message)
@@ -96,7 +101,7 @@ export const AiImageView = ({ editor, node, getPos, deleteNode }: NodeViewWrappe
     editor
       .chain()
       .insertContent(`<img src="${previewImage}" alt="" />`)
-      .deleteRange({ from: getPos(), to: getPos() })
+      .deleteRange({from: getPos(), to: getPos()})
       .focus()
       .run()
 
@@ -108,34 +113,42 @@ export const AiImageView = ({ editor, node, getPos, deleteNode }: NodeViewWrappe
   }, [deleteNode])
 
   const handleTextareaChange = useCallback(
-    (e: React.ChangeEvent<HTMLTextAreaElement>) => setData(prevData => ({ ...prevData, text: e.target.value })),
-    [],
+    (e: React.ChangeEvent<HTMLTextAreaElement>) =>
+      setData((prevData) => ({...prevData, text: e.target.value})),
+    []
   )
 
   const onUndoClick = useCallback(() => {
-    setData(prevData => ({ ...prevData, imageStyle: undefined }))
+    setData((prevData) => ({...prevData, imageStyle: undefined}))
     setPreviewImage(undefined)
   }, [])
 
-  const createItemClickHandler = useCallback((style: { name: string; label: string; value: string }) => {
-    return () => setData(prevData => ({ ...prevData, imageStyle: style.value as ImageOptions }))
-  }, [])
+  const createItemClickHandler = useCallback(
+    (style: {name: string; label: string; value: string}) => {
+      return () =>
+        setData((prevData) => ({
+          ...prevData,
+          imageStyle: style.value as ImageOptions,
+        }))
+    },
+    []
+  )
 
   return (
     <NodeViewWrapper data-drag-handle>
-      <Panel noShadow className="w-full">
-        <div className="flex flex-col p-1">
-          {isFetching && <Loader label="AI is now doing its job!" />}
+      <Panel noShadow className='w-full'>
+        <div className='flex flex-col p-1'>
+          {isFetching && <Loader label='AI is now doing its job!' />}
           {previewImage && (
             <>
               <PanelHeadline>Preview</PanelHeadline>
               <div
-                className="w-full mb-4 bg-white bg-center bg-no-repeat bg-contain border border-black rounded dark:border-neutral-700 aspect-square"
-                style={{ backgroundImage: `url(${previewImage})` }}
+                className='w-full mb-4 bg-white bg-center bg-no-repeat bg-contain border border-black rounded dark:border-neutral-700 aspect-square'
+                style={{backgroundImage: `url(${previewImage})`}}
               />
             </>
           )}
-          <div className="flex items-center justify-between gap-2 row">
+          <div className='flex items-center justify-between gap-2 row'>
             <PanelHeadline asChild>
               <label htmlFor={textareaId}>Prompt</label>
             </PanelHeadline>
@@ -146,36 +159,37 @@ export const AiImageView = ({ editor, node, getPos, deleteNode }: NodeViewWrappe
             onChange={handleTextareaChange}
             placeholder={`Describe the image that you want me to generate.`}
             required
-            className="mb-2"
+            className='mb-2'
           />
-          <div className="flex flex-row items-center justify-between gap-1">
-            <div className="flex justify-between w-auto gap-1">
+          <div className='flex flex-row items-center justify-between gap-1'>
+            <div className='flex justify-between w-auto gap-1'>
               <Dropdown.Root>
                 <Dropdown.Trigger asChild>
-                  <Button variant="tertiary">
-                    <Icon name="Image" />
+                  <Button variant='tertiary'>
+                    <Icon name='Image' />
                     {currentImageStyle?.label || 'Image style'}
-                    <Icon name="ChevronDown" />
+                    <Icon name='ChevronDown' />
                   </Button>
                 </Dropdown.Trigger>
                 <Dropdown.Portal>
-                  <Dropdown.Content side="bottom" align="start" asChild>
-                    <Surface className="p-2 min-w-[12rem]">
+                  <Dropdown.Content side='bottom' align='start' asChild>
+                    <Surface className='p-2 min-w-[12rem]'>
                       {!!data.imageStyle && (
                         <>
-                          <DropdownButton isActive={data.imageStyle === undefined} onClick={onUndoClick}>
-                            <Icon name="Undo2" />
+                          <DropdownButton
+                            isActive={data.imageStyle === undefined}
+                            onClick={onUndoClick}>
+                            <Icon name='Undo2' />
                             Reset
                           </DropdownButton>
                           <Toolbar.Divider horizontal />
                         </>
                       )}
-                      {imageStyles.map(style => (
+                      {imageStyles.map((style) => (
                         <DropdownButton
                           isActive={style.value === data.imageStyle}
                           key={style.value}
-                          onClick={createItemClickHandler(style)}
-                        >
+                          onClick={createItemClickHandler(style)}>
                           {style.label}
                         </DropdownButton>
                       ))}
@@ -184,25 +198,24 @@ export const AiImageView = ({ editor, node, getPos, deleteNode }: NodeViewWrappe
                 </Dropdown.Portal>
               </Dropdown.Root>
             </div>
-            <div className="flex flex-row items-center justify-between gap-1">
+            <div className='flex flex-row items-center justify-between gap-1'>
               {previewImage && (
                 <Button
-                  variant="ghost"
-                  className="text-red-500 hover:bg-red-500/10 hover:text-red-500"
-                  onClick={discard}
-                >
-                  <Icon name="Trash" />
+                  variant='ghost'
+                  className='text-red-500 hover:bg-red-500/10 hover:text-red-500'
+                  onClick={discard}>
+                  <Icon name='Trash' />
                   Discard
                 </Button>
               )}
               {previewImage && (
-                <Button variant="ghost" onClick={insert}>
-                  <Icon name="Check" />
+                <Button variant='ghost' onClick={insert}>
+                  <Icon name='Check' />
                   Insert
                 </Button>
               )}
-              <Button variant="primary" onClick={generateImage}>
-                {previewImage ? <Icon name="Repeat" /> : <Icon name="Sparkles" />}
+              <Button variant='primary' onClick={generateImage}>
+                {previewImage ? <Icon name='Repeat' /> : <Icon name='Sparkles' />}
                 {previewImage ? 'Regenerate' : 'Generate image'}
               </Button>
             </div>

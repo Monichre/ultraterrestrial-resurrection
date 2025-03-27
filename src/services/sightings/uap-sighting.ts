@@ -28,36 +28,73 @@ export type ValidatedUAPSighting = z.infer<typeof UAPSightingSchema>
 
 export const getSightingsGeoJSON = async () => {
 
-  const sightingsFilePath = path.join(
-    process.cwd(),
-    'public',
-    'sightings.geojson'
-  ) // Adjust path if needed
-  const sightingsFileContents = await fs.promises.readFile(
-    sightingsFilePath,
-    'utf8'
-  )
-  /* The code snippet you provided is attempting to read the contents of a file named
-  'ufo-posts-final.geojson' located in the 'public' directory within the current working directory
-  using Node.js file system module (fs) and path module. */
-  const ufoPostsFilePath = path.join(
-    process.cwd(),
-    'public',
-    'ufo-posts.geojson'
-  )
-  const ufoPostsFileContents = await fs.promises.readFile(
-    ufoPostsFilePath,
-    'utf8'
-  )
-  const militaryBasesFilePath = path.join(
-    process.cwd(),
-    'public',
-    'military-bases.geojson'
-  )
-  const militaryBasesFileContents = await fs.promises.readFile(
-    militaryBasesFilePath,
-    'utf8'
-  )
+  let sightingsFileContents, ufoPostsFileContents, militaryBasesFileContents;
+  
+  try {
+    // Try to load the real data files if they exist
+    const sightingsFilePath = path.join(
+      process.cwd(),
+      'public',
+      'sightings.geojson'
+    );
+    sightingsFileContents = await fs.promises.readFile(
+      sightingsFilePath,
+      'utf8'
+    );
+    
+    const ufoPostsFilePath = path.join(
+      process.cwd(),
+      'public',
+      'ufo-posts.geojson'
+    );
+    ufoPostsFileContents = await fs.promises.readFile(
+      ufoPostsFilePath,
+      'utf8'
+    );
+    
+    const militaryBasesFilePath = path.join(
+      process.cwd(),
+      'public',
+      'military-bases.geojson'
+    );
+    militaryBasesFileContents = await fs.promises.readFile(
+      militaryBasesFilePath,
+      'utf8'
+    );
+  } catch (error) {
+    // If real data files don't exist, use mock data
+    console.log("Using mock data files since real data files weren't found");
+    
+    const mockSightingsFilePath = path.join(
+      process.cwd(),
+      'public',
+      'mock-sightings.geojson'
+    );
+    sightingsFileContents = await fs.promises.readFile(
+      mockSightingsFilePath,
+      'utf8'
+    );
+    
+    const mockUfoPostsFilePath = path.join(
+      process.cwd(),
+      'public',
+      'mock-ufo-posts.geojson'
+    );
+    ufoPostsFileContents = await fs.promises.readFile(
+      mockUfoPostsFilePath,
+      'utf8'
+    );
+    
+    const mockMilitaryBasesFilePath = path.join(
+      process.cwd(),
+      'public',
+      'mock-military-bases.geojson'
+    );
+    militaryBasesFileContents = await fs.promises.readFile(
+      mockMilitaryBasesFilePath,
+      'utf8'
+    );
+  }
 
   // Parse the JSON content
   const sightings = JSON.parse( sightingsFileContents )

@@ -1,20 +1,18 @@
-import { BubbleMenu as BaseBubbleMenu } from '@tiptap/react'
-import { useCallback } from 'react'
-import { sticky } from 'tippy.js'
-import { v4 as uuid } from 'uuid'
+import {BubbleMenu as BaseBubbleMenu} from '@tiptap/react'
+import {useCallback} from 'react'
+import {sticky} from 'tippy.js'
+import {v4 as uuid} from 'uuid'
 
-import { MenuProps } from '@/components/menus/types'
-import { getRenderContainer } from '@/services/utils/getRenderContainer'
-import { Toolbar } from '@/components/ui/Toolbar'
-import { ColumnLayout } from '../Columns'
-import { Icon } from '@/components/ui/Icon'
+import type {MenuProps} from '@/components/menus/types'
+import {getRenderContainer} from '@/services/utils/getRenderContainer'
+import {Toolbar} from '@/components/9-ui/toolbar'
+import {ColumnLayout} from '../Columns'
+import {Icon} from '@/components/ui/Icon'
 
-export const ColumnsMenu = ({ editor, appendTo }: MenuProps) => {
+export const ColumnsMenu = ({editor, appendTo}: MenuProps) => {
   const getReferenceClientRect = useCallback(() => {
     const renderContainer = getRenderContainer(editor, 'columns')
-    const rect =
-      renderContainer?.getBoundingClientRect() ||
-      new DOMRect(-1000, -1000, 0, 0)
+    const rect = renderContainer?.getBoundingClientRect() || new DOMRect(-1000, -1000, 0, 0)
 
     return rect
   }, [editor])
@@ -45,22 +43,20 @@ export const ColumnsMenu = ({ editor, appendTo }: MenuProps) => {
       tippyOptions={{
         offset: [0, 8],
         popperOptions: {
-          modifiers: [{ name: 'flip', enabled: false }],
+          modifiers: [{name: 'flip', enabled: false}],
         },
         getReferenceClientRect,
         appendTo: () => appendTo?.current,
         plugins: [sticky],
         sticky: 'popper',
-      }}
-    >
+      }}>
       <Toolbar.Wrapper>
         <Toolbar.Button
           tooltip='Sidebar left'
           active={editor.isActive('columns', {
             layout: ColumnLayout.SidebarLeft,
           })}
-          onClick={onColumnLeft}
-        >
+          onClick={onColumnLeft}>
           <Icon name='PanelLeft' />
         </Toolbar.Button>
         <Toolbar.Button
@@ -68,8 +64,7 @@ export const ColumnsMenu = ({ editor, appendTo }: MenuProps) => {
           active={editor.isActive('columns', {
             layout: ColumnLayout.TwoColumn,
           })}
-          onClick={onColumnTwo}
-        >
+          onClick={onColumnTwo}>
           <Icon name='Columns' />
         </Toolbar.Button>
         <Toolbar.Button
@@ -77,8 +72,7 @@ export const ColumnsMenu = ({ editor, appendTo }: MenuProps) => {
           active={editor.isActive('columns', {
             layout: ColumnLayout.SidebarRight,
           })}
-          onClick={onColumnRight}
-        >
+          onClick={onColumnRight}>
           <Icon name='PanelRight' />
         </Toolbar.Button>
       </Toolbar.Wrapper>

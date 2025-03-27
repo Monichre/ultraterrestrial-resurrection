@@ -1,0 +1,25 @@
+{
+  "mcpServers": {
+    "mcp-installer": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "cursor-mcp-installer-free"
+      ],
+      "env": {}
+    },
+    "notion": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@smithery/cli@latest",
+        "run",
+        "notion-api-mcp",
+        "--key",
+        "2b2b93c9-23da-473a-b4f0-be3e1c0c8704"
+      ],
+      "env": {}
+    }
+  }
+}

@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>styled cards</title>
+  
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Holographic UI</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      background-color: #000;
+      color: rgba(255, 255, 255, 0.8);
+      font-family: monospace;
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+    }
+    
+    .container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      perspective: 1000px;
+      overflow: hidden;
+    }
+    
+    
+    
+    /* Dialog box */
+    .dialog {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background-color: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(4px);
+      border-radius: 2px;
+      padding: 6px 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 50;
+    }
+    
+    .dialog span {
+      color: white;
+      font-size: 14px;
+    }
+    
+    .dialog button {
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    
+    /* Grid lines */
+    .grid {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    
+    .horizontal-line {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 30%;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      transform: rotateX(60deg) translateZ(-100px);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    }
+    
+    .vertical-line {
+      position: absolute;
+      top: 30%;
+      bottom: 0;
+      left: 50%;
+      border-left: 1px solid rgba(255, 255, 255, 0.1);
+      transform: rotateX(60deg) translateZ(-100px);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    }
+    
+    /* Holographic elements container */
+    .holographic-container {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform-style: preserve-3d;
+      animation: float 10s ease-in-out infinite;
+    }
+    
+    /* FL-87 label */
+    .fl-label {
+      position: absolute;
+      top: 20%;
+      left: 40%;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 12px;
+      transform: translateZ(50px) rotateX(5deg) rotateY(-5deg);
+      text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    }
+    
+    /* Vertical dotted line */
+    .dotted-line {
+      position: absolute;
+      height: 60%;
+      width: 1px;
+      background-color: rgba(255, 255, 255, 0.2);
+      left: 50%;
+      top: 20%;
+      transform: translateZ(20px) rotateX(5deg) rotateY(-5deg);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    }
+    
+    .dotted-line::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1px;
+      height: 100%;
+      background-image: linear-gradient(to bottom, transparent 0%, transparent 50%, rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0.3) 100%);
+      background-size: 1px 10px;
+    }
+    
+    /* Main panel */
+    .main-panel {
+      position: absolute;
+      right: 30%;
+      top: 30%;
+      width: 180px;
+      height: 240px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 2px;
+      background-color: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(4px);
+      transform: translateZ(80px) rotateX(5deg) rotateY(-10deg);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .panel-header {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 8px;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 12px;
+    }
+    
+    .panel-content {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .circle {
+      position: relative;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .circle::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+    }
+    
+    .circle span {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 18px;
+    }
+    
+    .panel-footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 8px;
+    }
+    
+    .status-text {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 10px;
+    }
+    
+    /* Stacked panels */
+    .stacked-panel {
+      position: absolute;
+      left: 30%;
+      top: 35%;
+      width: 100px;
+      height: 140px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 2px;
+      background-color: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(4px);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+      transform-style: preserve-3d;
+    }
+    
+    .stacked-panel:nth-child(1) {
+      transform: translateZ(60px) translateX(0px) rotateX(5deg) rotateY(-5deg);
+      opacity: 1;
+    }
+    
+    .stacked-panel:nth-child(2) {
+      transform: translateZ(50px) translateX(-10px) rotateX(5deg) rotateY(-5deg);
+      opacity: 0.85;
+    }
+    
+    .stacked-panel:nth-child(3) {
+      transform: translateZ(40px) translateX(-20px) rotateX(5deg) rotateY(-5deg);
+      opacity: 0.7;
+    }
+    
+    .stacked-panel:nth-child(4) {
+      transform: translateZ(30px) translateX(-30px) rotateX(5deg) rotateY(-5deg);
+      opacity: 0.55;
+    }
+    
+    .stacked-panel:nth-child(5) {
+      transform: translateZ(20px) translateX(-40px) rotateX(5deg) rotateY(-5deg);
+      opacity: 0.4;
+    }
+    
+    .stacked-panel:nth-child(6) {
+      transform: translateZ(10px) translateX(-50px) rotateX(5deg) rotateY(-5deg);
+      opacity: 0.25;
+    }
+    
+    /* Bottom label */
+    .bottom-label {
+      position: absolute;
+      bottom: 25%;
+      right: 35%;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 12px;
+      padding: 4px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background-color: rgba(0, 0, 0, 0.5);
+      transform: translateZ(30px) rotateX(65deg) rotateY(-5deg);
+      text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+    }
+    
+    /* Ambient glow effects */
+    .ambient-glow {
+      position: absolute;
+      top: 33%;
+      left: 50%;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 70%);
+      pointer-events: none;
+    }
+    
+    /* Scan lines effect */
+    .scan-lines {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.2;
+      background-image: linear-gradient(transparent 50%, rgba(255, 255, 255, 0.05) 50%);
+      background-size: 100% 4px;
+    }
+    
+    /* Animation */
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0) rotateX(2deg) rotateY(-2deg);
+      }
+      50% {
+        transform: translateY(-10px) rotateX(4deg) rotateY(-4deg);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    
+    
+    <!-- Grid lines -->
+    <div class="grid">
+      <div class="horizontal-line"></div>
+      <div class="vertical-line"></div>
+    </div>
+    
+    <!-- Holographic elements -->
+    <div class="holographic-container">
+      <!-- FL-87 label -->
+      <div class="fl-label">FL-87</div>
+      
+      <!-- Vertical dotted line -->
+      <div class="dotted-line"></div>
+      
+      <!-- Main panel -->
+      <div class="main-panel">
+        <div class="panel-header">VMT-84/31</div>
+        <div class="panel-content">
+          <div class="circle">
+            <span>A4</span>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="status-text">READING</div>
+          <div class="status-text">STATUS</div>
+        </div>
+      </div>
+      
+      <!-- Stacked panels -->
+      <div class="stacked-panel"></div>
+      <div class="stacked-panel"></div>
+      <div class="stacked-panel"></div>
+      <div class="stacked-panel"></div>
+      <div class="stacked-panel"></div>
+      <div class="stacked-panel"></div>
+      
+      <!-- Bottom label -->
+      <div class="bottom-label">SAMPLE: 4/5</div>
+    </div>
+    
+    <!-- Ambient glow effects -->
+    <div class="ambient-glow"></div>
+    
+    <!-- Scan lines effect -->
+    <div class="scan-lines"></div>
+  </div>
+</body>
+</html>
+<!-- partial -->
+  
+</body>
+</html>

@@ -1,37 +1,79 @@
-# CLAUDE.md - Ultraterrestrial App Guidelines
+# CLAUDE.md - Project Guidelines
 
-## Build/Lint/Test Commands
+## Build and Development Commands
 
-- Dev server: `npm run dev` (Next.js development server)
-- Build: `npm run build`
-- Start: `npm run start` (production server)
-- Lint: `npm run lint`
-- Storybook: `npm run storybook` and `npm run build-storybook`
-- Create new component: `npm run new` (uses plop templates)
-- Tests: `npx vitest run` (all tests) or `npx vitest run [file-name]` (specific test)
-- Watch tests: `npx vitest watch`
-- UI component tests: `npx vitest run storybook` (Storybook integration)
+- `bun dev` or `npm run dev` - Start development server
+- `bun build` or `npm run build` - Build for production
+- `bun lint` or `npm run lint` - Run ESLint
+- `bun storybook` or `npm run storybook` - Launch Storybook
+- `bun new` or `npm run new` - Use plop to scaffold components
+- Testing: `bun vitest`, `bun vitest --browser`, `bun vitest --coverage`
 
 ## Code Style Guidelines
 
-- **Formatting**: Prettier with semicolons disabled, single quotes, 100 char line length
-- **Imports**: Group by external/internal/types, absolute paths with `@/` prefix
-- **TypeScript**: Strict typing, interfaces over types, avoid enums, use const maps, `satisfies` operator
-- **Components**: Favor React Server Components, minimize 'use client' directives, use Suspense
-- **Naming**: PascalCase for components/types, camelCase for variables/functions, prefix handlers with "handle"
-- **State**: Use React context for global state, `useActionState` for forms, URL state with nuqs
-- **Error Handling**: Implement error boundaries, provide meaningful error messages
-- **CSS**: Tailwind 4.0 for styling, custom components for reusable UI elements
-- **File Structure**: Feature-based with domain-driven design, lowercase with dashes for directories
-- **Performance**: Optimize for Web Vitals, favor RSC, minimize client-side state
-- **ESLint**: Next.js core-web-vitals rules, with some React display rules disabled
+- Use TypeScript for all code; prefer interfaces over types
+- Use functional components with React Server Components when possible
+- Minimize `use client`, `useEffect`, and `setState`
+- Follow Shadcn UI, Radix, and Tailwind for styling
+- Use named exports for components and lowercase with dashes for directories
+- Prefer early returns for better readability
+- Use descriptive variable names with auxiliary verbs (isLoading, hasError)
+- For event handlers, use "handle" prefix (handleClick, handleSubmit)
+- Implement accessibility features (aria-labels, keyboard navigation)
+- Optimize components with Suspense and dynamic loading
+- Follow mobile-first responsive design with Tailwind
+- Add the above to memory
 
-## Tech Stack
+## Project Documentation
 
-- NextJS 15 (App Router), TypeScript, React 19
-- Tailwind CSS with Animation, Shadcn UI, Radix UI
-- Framer Motion, GSAP for animations
-- 3D: Three.js / R3F (React Three Fiber)
-- Data Visualization: D3, deck.gl, react-globe.gl
-- AI: OpenAI, Anthropic, LangChain, Inngest for workflows
-- Testing: Vitest with Storybook test integration and Playwright
+- [README.md](./README.md) - Main project overview and introduction
+- [Feature Roadmap](./apps/app/docs/roadmap.md) - Planned features and development timeline
+- [ERD Diagram](./erd-diagram.mermaid) - Entity relationship diagram for the database
+
+## Claude Tasks
+
+## Claude Tasks
+
+### Research and Analysis
+
+- **Deep Research**: Comprehensive extraction and analysis of entities from external content
+  - See [Deep Research Extension Plan](docs/agent-notes/deep-research-extension-plan.md) for implementation details
+  - Focuses on extracting new information and entities from external sources
+  - Works with unstructured content that needs processing
+
+- **Analysis**: Relationship discovery between selected entities in the mind map
+  - Operates on internal data (nodes already in the mind map)
+  - Focuses on understanding relationships between selected elements
+  - Shows patterns, connections, and insights about the selected data
+
+### Agent Architecture
+
+The project implements a modular agentic architecture for orchestrating research and analysis tasks:
+
+- **Agent Coordinator**: Orchestrates specialized agents for different tasks
+- **Specialized Agents**: Content extraction, validation, relationship analysis
+- **Process Definitions**: Structured workflows for research and analysis
+
+For full implementation details, see the [Agentic Architecture Plan](docs/agent-notes/agentic-architecture-plan.md).
+
+## AI Agent Roles
+
+The project uses specialized AI agent roles to support different aspects of the platform:
+
+1. **Historical Timeline Analyst** - Organizes chronological UFO events and identifies patterns
+2. **Data Visualization Specialist** - Creates optimal visualizations for UFO/UAP data
+3. **Claims & Evidence Evaluator** - Assesses credibility of testimonies and evidence
+4. **Research Network Mapper** - Maps connections between people, events, and locations
+5. **Documentation Librarian** - Curates and organizes UFO-related documentation
+
+## Project Vision
+
+For a comprehensive overview of the project vision and features, see the [project pitch document](docs/pitch.md) which outlines:
+
+- Core data models (Events, Testimonies, Key Figures, Organizations, Topics, etc.)
+- Interactive visualization capabilities
+- Topic tracking and relationship mapping
+- User contribution and community features
+- Educational components and multimedia integration
+
+The platform aims to be the definitive resource for tracking the state of UFO/UAP disclosure as it unfolds.

@@ -1,66 +1,63 @@
-const fs = require('fs')
-const path = require('path')
-const componentTemplate = require('./templates/app/component/index')
-const pageTemplate = require('./templates/app/page/index')
-const featureTemplate = require('./templates/app/feature/index')
-const {apiTemplate, webhookTemplate} = require('./templates/app/api')
+const fs = require("node:fs");
+const path = require("node:path");
+const componentTemplate = require("./templates/component/index");
+const pageTemplate = require("./templates/page/index");
+const featureTemplate = require("./templates/feature/index");
+const { apiTemplate, webhookTemplate } = require("./templates/api");
 
-module.exports = function (plop) {
-  plop.load('plop-helper-list')
+function addWorkspacePrompt(templateConfig) {
+	// Clone the template configuration to avoid modifying the original
+	const enhancedTemplate = { ...templateConfig };
 
-  // Get list of workspaces by reading directories
-  const getWorkspaces = () => {
-    const workspaces = []
+	// Get available workspaces (if any)
+	let workspaces = [];
+	try {
+		const packageJsonPath = path.join(process.cwd(), "package.json");
+		if (fs.existsSync(packageJsonPath)) {
+			const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
+			if (packageJson.workspaces) {
+				// Handle both array and object formats for workspaces
+				workspaces = Array.isArray(packageJson.workspaces)
+					? packageJson.workspaces
+					: packageJson.workspaces.packages || [];
+			}
+		}
+	} catch (error) {
+		console.warn("Error reading workspaces:", error.message);
+	}
 
-    // Check packages directory
-    if (fs.existsSync('packages')) {
-      fs.readdirSync('packages').forEach((dir) => {
-        workspaces.push(`packages/${dir}`)
-      })
-    }
+	// Create the workspace prompt
+	const workspacePrompt = {
+		type: "list",
+		name: "workspace",
+		message: "Select the workspace:",
+		choices:
+			workspaces.length > 0
+				? workspaces.map((ws) => ({ name: ws, value: ws }))
+				: [{ name: "Root (No workspaces found)", value: "." }],
+		default: 0,
+	};
 
-    // Check apps directory
-    if (fs.existsSync('apps')) {
-      fs.readdirSync('apps').forEach((dir) => {
-        workspaces.push(`apps/${dir}`)
-      })
-    }
+	// Add the workspace prompt to the beginning of the prompts array
+	enhancedTemplate.prompts = [
+		workspacePrompt,
+		...(enhancedTemplate.prompts || []),
+	];
 
-    return workspaces
-  }
+	// Modify the actions to include workspace context if needed
+	if (enhancedTemplate.actions) {
+		// You could enhance the actions here to use the workspace value
+		// For now, we're just passing through the original actions
+	}
 
-  // Add workspace selection to each generator and pass destination directory
-  const addWorkspacePrompt = (generator) => {
-
-    console.log("🚀 ~ file: plopfile.js:35 ~ addWorkspacePrompt ~ generator:", generator)
-
-    if (generator.prompts) {
-      generator.prompts.unshift({
-        type: 'list',
-        name: 'workspace',
-        message: 'Which workspace would you like to generate in?',
-        choices: getWorkspaces(),
-      })
-
-      // Add destination directory to generator data
-      // const originalActions = generator.actions || []
-
-      // console.log(
-      //   '🚀 ~ file: plopfile.js:45 ~ addWorkspacePrompt ~ originalActions:',
-      //   originalActions
-      // )
-
-      // generator.actions = (data) => {
-      //   data.destinationPath = path.join(process.cwd(), data.workspace)
-      //   return originalActions
-      // }
-    }
-    return generator
-  }
-
-  plop.setGenerator('component', addWorkspacePrompt(componentTemplate))
-  plop.setGenerator('page', addWorkspacePrompt(pageTemplate))
-  plop.setGenerator('feature', addWorkspacePrompt(featureTemplate))
-  plop.setGenerator('api', addWorkspacePrompt(apiTemplate))
-  plop.setGenerator('webhook', addWorkspacePrompt(webhookTemplate))
+	return enhancedTemplate;
 }
+
+module.exports = (plop) => {
+	plop.load("plop-helper-list");
+	plop.setGenerator("component", addWorkspacePrompt(componentTemplate));
+	plop.setGenerator("page", addWorkspacePrompt(pageTemplate));
+	plop.setGenerator("feature", addWorkspacePrompt(featureTemplate));
+	plop.setGenerator("api", addWorkspacePrompt(apiTemplate));
+	plop.setGenerator("webhook", addWorkspacePrompt(webhookTemplate));
+};

@@ -1,4 +1,3 @@
-"use client";
 import {
 	ArtifactsIcon,
 	EventsIcon,
@@ -69,6 +68,14 @@ const COMMANDS = [
 			"Analyze the existing records on your mind map and generate new insights",
 		icon: () => <MagicWandIcon stroke={ICON_GREEN} />,
 		prefix: "/analyze",
+	},
+	{
+		id: "scrape",
+		label: "Scrape",
+		description:
+			"Extract data from a URL with entity recognition and analysis",
+		icon: () => <Brain stroke={ICON_GREEN} />,
+		prefix: "/scrape",
 	},
 ] as const;
 
@@ -374,9 +381,11 @@ export const MindMapBottomMenu = () => {
 	const [state, setState] = useState<{
 		selectedModel: string | null;
 		isModelMenuOpen: boolean;
+		deepResearchEnabled: boolean;
 	}>({
 		selectedModel: null,
 		isModelMenuOpen: false,
+		deepResearchEnabled: false,
 	});
 	const [searchResults, setSearchResults] = useState<any>(null);
 
@@ -438,6 +447,80 @@ export const MindMapBottomMenu = () => {
 					);
 					setSearchResults(xataSearchResults);
 				}
+
+				if (
+					activeCommand === "scrape" &&
+					inputValue &&
+					inputValue.trim() !== "/"
+				) {
+					// Check if inputValue is a valid URL (simple check for demonstration)
+					if (inputValue.startsWith("http://") || inputValue.startsWith("https://")) {
+						// Add a user message to indicate scraping is starting
+						append({ 
+							role: "user", 
+							content: `Scraping data from: ${inputValue}` 
+						});
+						
+						// Add an assistant message to show processing
+						append({
+							role: "assistant",
+							content: "Starting data extraction process. This may take a moment..."
+						});
+						
+						try {
+							// Call the scrape API
+							const response = await fetch('/api/disclosure/data-layer/scrape', {
+								method: 'POST',
+								headers: {
+									'Content-Type': 'application/json',
+								},
+								body: JSON.stringify({
+									url: inputValue,
+									depth: state.deepResearchEnabled ? "DEEP" : "MODERATE",  // Use deep research methodology if toggle is on
+									categories: ["EVENTS", "TESTIMONIES", "ORGANIZATIONS", "PERSONNEL"],
+									recursiveLinks: state.deepResearchEnabled,
+									linkDepth: state.deepResearchEnabled ? 2 : 1,
+									processResults: true
+								}),
+							});
+							
+							const data = await response.json();
+							
+							if (data.success) {
+								// Process the results
+								const summary = data.processedResults?.[0]?.summary || "No summary available";
+								const entityTypes = Object.keys(data.processedResults?.[0]?.entities || {});
+								const entitiesFound = entityTypes.map(type => {
+									const count = data.processedResults?.[0]?.entities?.[type]?.length || 0;
+									return `${type}: ${count}`;
+								}).join(", ");
+								
+								// Add the results to the chat
+								append({
+									role: "assistant",
+									content: `## Data Extraction Results\n\n${summary}\n\n### Entities Extracted\n\n${entitiesFound}\n\nWould you like me to add any of these entities to your mind map?`
+								});
+							} else {
+								append({
+									role: "assistant",
+									content: `Failed to extract data: ${data.message || "Unknown error"}`
+								});
+							}
+						} catch (error) {
+							append({
+								role: "assistant",
+								content: `An error occurred during data extraction: ${error instanceof Error ? error.message : "Unknown error"}`
+							});
+						}
+						
+						setInputValue("");
+					} else {
+						append({
+							role: "assistant",
+							content: "Please enter a valid URL starting with http:// or https://"
+						});
+					}
+				}
 			}
 
 			if (e.key === "Backspace" && (inputValue === "" || inputValue === " ")) {
@@ -448,7 +531,7 @@ export const MindMapBottomMenu = () => {
 				setIsOpen(true);
 			}
 		},
-		[activeCommand, inputValue, submitMessage, loadNodesFromTableQuery],
+		[activeCommand, inputValue, submitMessage, loadNodesFromTableQuery, append, state?.selectedModel],
 	);
 	const removeActiveCommand = () => {
 		setActiveCommand(null);
@@ -461,6 +544,7 @@ export const MindMapBottomMenu = () => {
 				// setInput( value )
 				handleInputChange(e);
 			}
+			// Deep research just uses the input value directly, no special handling needed
 		},
 		[activeCommand, handleInputChange],
 	);
@@ -481,7 +565,7 @@ export const MindMapBottomMenu = () => {
 		}
 	};
 
-	const isChatActive = activeCommand === "chat";
+	const isChatActive = activeCommand === "chat" || activeCommand === "scrape";
 
 	return (
 		<div className="flex justify-center w-full">
@@ -531,7 +615,9 @@ export const MindMapBottomMenu = () => {
 								</div>
 								<ToggleButton
 									icon={<Brain className="w-4 h-4" />}
-									label="Memory"
+									label="Deep Research"
+									onClick={() => updateState({ deepResearchEnabled: !state.deepResearchEnabled })}
+									useMemory={state.deepResearchEnabled}
 								/>
 							</div>
 
@@ -616,7 +702,7 @@ export const MindMapBottomMenu = () => {
 						setIsOpen={setIsOpen}
 						isOpen={isOpen}
 						loadModelData={handleLoadingModelData}
-						isChatActive={activeCommand === "chat"}
+						isChatActive={activeCommand === "chat" || activeCommand === "deepresearch"}
 						chatStatus={chatStatus}
 						messages={messages}
 					/>

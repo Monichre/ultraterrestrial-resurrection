@@ -1,0 +1,80 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "base-1",
+        "name": "Area 51",
+        "type": "Air Force",
+        "country": "USA",
+        "established": 1955,
+        "description": "Highly classified United States Air Force facility at Groom Lake, Nevada. Frequent location of alleged UFO activity."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-115.8113, 37.2431]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "base-2",
+        "name": "Wright-Patterson AFB",
+        "type": "Air Force",
+        "country": "USA",
+        "established": 1917,
+        "description": "Air Force base in Ohio. Rumored storage location of alien bodies from the Roswell incident."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-84.1037, 39.8206]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "base-3",
+        "name": "RAF Woodbridge",
+        "type": "Air Force",
+        "country": "UK",
+        "established": 1943,
+        "description": "Former Royal Air Force station in Suffolk, UK. Site of the famous Rendlesham Forest UFO incident in 1980."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [1.3898, 52.0937]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "base-4",
+        "name": "Kapustin Yar",
+        "type": "Research Facility",
+        "country": "Russia",
+        "established": 1946,
+        "description": "Russian space launch and missile test site. Subject of numerous UFO reports during the Cold War."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [45.7680, 48.5812]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "base-5",
+        "name": "Pine Gap",
+        "type": "Intelligence",
+        "country": "Australia",
+        "established": 1970,
+        "description": "Australian-American intelligence facility near Alice Springs. Frequent subject of UFO conspiracy theories."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [133.7373, -23.7987]
+      }
+    }
+  ]
+}

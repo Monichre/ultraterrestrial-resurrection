@@ -1,0 +1,195 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sighting-1",
+        "date": "1947-07-07T00:00:00.000Z",
+        "timestamp": 861307200000,
+        "city": "Roswell",
+        "state": "New Mexico",
+        "country": "USA",
+        "description": "The Roswell incident. Allegedly a crashed flying saucer recovered by the military.",
+        "shape": "Disc",
+        "duration": "N/A",
+        "sourceUrl": "https://example.com/roswell"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-104.5230, 33.3943]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sighting-2",
+        "date": "1980-12-26T00:00:00.000Z",
+        "timestamp": 346550400000,
+        "city": "Rendlesham Forest",
+        "state": "Suffolk",
+        "country": "UK",
+        "description": "The Rendlesham Forest incident. Series of reported sightings of unexplained lights near RAF Woodbridge.",
+        "shape": "Triangle",
+        "duration": "Multiple nights",
+        "sourceUrl": "https://example.com/rendlesham"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [1.4346, 52.0931]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sighting-3",
+        "date": "1997-03-13T00:00:00.000Z",
+        "timestamp": 858096000000,
+        "city": "Phoenix",
+        "state": "Arizona",
+        "country": "USA",
+        "description": "The Phoenix Lights. Mass sighting of lights in a V-shaped formation over Arizona.",
+        "shape": "V-formation",
+        "duration": "Several hours",
+        "sourceUrl": "https://example.com/phoenix"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-112.0740, 33.4484]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sighting-4",
+        "date": "2004-11-14T00:00:00.000Z",
+        "timestamp": 1100390400000,
+        "city": "Pacific Ocean",
+        "state": "Off San Diego",
+        "country": "USA",
+        "description": "USS Nimitz encounter. Navy pilots encountered a tic-tac shaped object performing impossible maneuvers.",
+        "shape": "Tic-tac",
+        "duration": "Multiple encounters",
+        "sourceUrl": "https://example.com/nimitz"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-117.5, 32.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sighting-5",
+        "date": "2015-01-21T00:00:00.000Z",
+        "timestamp": 1421798400000,
+        "city": "Atlantic Ocean",
+        "state": "East Coast",
+        "country": "USA",
+        "description": "Gimbal UAP. Navy pilots recorded a rotating object with unusual movements.",
+        "shape": "Disc",
+        "duration": "Unknown",
+        "sourceUrl": "https://example.com/gimbal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-75.0, 30.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sighting-6",
+        "date": "1957-11-02T00:00:00.000Z",
+        "timestamp": -383011200000,
+        "city": "Levelland",
+        "state": "Texas",
+        "country": "USA",
+        "description": "The Levelland UFO Case. Multiple witnesses reported seeing a glowing, egg-shaped object that caused their vehicles to stall.",
+        "shape": "Oval",
+        "duration": "Several hours",
+        "sourceUrl": "https://example.com/levelland"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-102.3776, 33.5873]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sighting-7",
+        "date": "1994-09-16T00:00:00.000Z",
+        "timestamp": 779587200000,
+        "city": "Ruwa",
+        "state": "Mashonaland East",
+        "country": "Zimbabwe",
+        "description": "Ariel School Incident. Over 60 schoolchildren witnessed a disc-shaped craft land and beings emerge from it.",
+        "shape": "Disc",
+        "duration": "30 minutes",
+        "sourceUrl": "https://example.com/ariel-school"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [31.2230, -17.7863]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sighting-8",
+        "date": "1976-09-19T00:00:00.000Z",
+        "timestamp": 211939200000,
+        "city": "Tehran",
+        "state": "Tehran Province",
+        "country": "Iran",
+        "description": "Tehran UFO Incident. Iranian Air Force jets attempted to intercept a UFO over Tehran. Electronic systems failed when they approached the object.",
+        "shape": "Diamond",
+        "duration": "Several hours",
+        "sourceUrl": "https://example.com/tehran"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [51.3890, 35.6892]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sighting-9",
+        "date": "1966-04-06T00:00:00.000Z",
+        "timestamp": -117504000000,
+        "city": "Westall",
+        "state": "Victoria",
+        "country": "Australia",
+        "description": "Westall UFO Encounter. Over 200 witnesses, mostly schoolchildren, observed a flying object descend into a field, lift off and fly away.",
+        "shape": "Disc",
+        "duration": "20 minutes",
+        "sourceUrl": "https://example.com/westall"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [145.1800, -37.9400]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "sighting-10",
+        "date": "1967-10-04T00:00:00.000Z",
+        "timestamp": -70329600000,
+        "city": "Shag Harbour",
+        "state": "Nova Scotia",
+        "country": "Canada",
+        "description": "Shag Harbour UFO Incident. Object crashed into Shag Harbour. Search and recovery operations found no debris.",
+        "shape": "Unknown",
+        "duration": "Unknown",
+        "sourceUrl": "https://example.com/shag-harbour"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-65.7237, 43.4950]
+      }
+    }
+  ]
+}

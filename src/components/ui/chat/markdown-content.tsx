@@ -279,13 +279,14 @@ interface MarkdownBlockProps {
 const MemoizedMarkdownBlock = memo(
 	({ content, className }: MarkdownBlockProps) => {
 		return (
-			<ReactMarkdown
-				remarkPlugins={[remarkGfm]}
-				components={components}
-				className={className}
-			>
-				{content}
-			</ReactMarkdown>
+			<div className={className}>
+				<ReactMarkdown
+					remarkPlugins={[remarkGfm]}
+					components={components}
+				>
+					{content}
+				</ReactMarkdown>
+			</div>
 		);
 	},
 	(prevProps, nextProps) => {

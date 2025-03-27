@@ -1,121 +1,117 @@
-"use client"
+'use client'
 
-import type { Model } from "@/components/ui/model-selector"
-import { GenerateTextNode } from "@/features/mindmap/workflows/generate-text-node"
-import { useWorkflow } from "@/hooks/flow/use-workflow"
-import type { NodeExecutionState } from "@/lib/flow/workflow-execution-engine"
-import type { NodeProps } from "@xyflow/react"
-import { useCallback } from "react"
-import { toast } from "sonner"
+import type {Model} from '@/features/ai/components/prompt-kit/ai-markdown-message/model-selector'
+import {GenerateTextNode} from '@/features/mindmap/workflows/generate-text-node'
+import {useWorkflow} from '@/hooks/flow/use-workflow'
+import type {NodeExecutionState} from '@/lib/flow/workflow-execution-engine'
+import type {NodeProps} from '@xyflow/react'
+import {useCallback} from 'react'
+import {toast} from 'sonner'
 
-export type GenerateTextNodeController = Omit<GenerateTextNode, "data"> & {
-	type: "generate-text"
-	data: Omit<GenerateTextNode["data"], "status"> & {
-		executionState?: NodeExecutionState
-	}
+export type GenerateTextNodeController = Omit<GenerateTextNode, 'data'> & {
+  type: 'generate-text'
+  data: Omit<GenerateTextNode['data'], 'status'> & {
+    executionState?: NodeExecutionState
+  }
 }
 
-export function GenerateTextNodeController( {
-	id,
-	data,
-	...props
-}: NodeProps<GenerateTextNodeController> ) {
-	const updateNode = useWorkflow( ( state ) => state.updateNode )
-	const addDynamicHandle = useWorkflow( ( state ) => state.addDynamicHandle )
-	const removeDynamicHandle = useWorkflow( ( state ) => state.removeDynamicHandle )
-	const deleteNode = useWorkflow( ( state ) => state.deleteNode )
+export function GenerateTextNodeController({
+  id,
+  data,
+  ...props
+}: NodeProps<GenerateTextNodeController>) {
+  const updateNode = useWorkflow((state) => state.updateNode)
+  const addDynamicHandle = useWorkflow((state) => state.addDynamicHandle)
+  const removeDynamicHandle = useWorkflow((state) => state.removeDynamicHandle)
+  const deleteNode = useWorkflow((state) => state.deleteNode)
 
-	const handleModelChange = useCallback(
-		( model: Model ) => {
-			updateNode( id, "generate-text", {
-				config: {
-					...data.config,
-					model,
-				},
-			} )
-		},
-		[id, data.config, updateNode],
-	)
+  const handleModelChange = useCallback(
+    (model: Model) => {
+      updateNode(id, 'generate-text', {
+        config: {
+          ...data.config,
+          model,
+        },
+      })
+    },
+    [id, data.config, updateNode]
+  )
 
-	const handleCreateTool = useCallback(
-		( name: string, description?: string ) => {
-			if ( !name ) {
-				toast.error( "Tool name cannot be empty" )
-				return false
-			}
+  const handleCreateTool = useCallback(
+    (name: string, description?: string) => {
+      if (!name) {
+        toast.error('Tool name cannot be empty')
+        return false
+      }
 
-			const existingTool = data.dynamicHandles.tools.find(
-				( tool ) => tool.name === name,
-			)
-			if ( existingTool ) {
-				toast.error( "Tool name already exists" )
-				return false
-			}
-			addDynamicHandle( id, "generate-text", "tools", {
-				name,
-				description,
-			} )
-			return true
-		},
-		[id, data.dynamicHandles.tools, addDynamicHandle],
-	)
+      const existingTool = data.dynamicHandles.tools.find((tool) => tool.name === name)
+      if (existingTool) {
+        toast.error('Tool name already exists')
+        return false
+      }
+      addDynamicHandle(id, 'generate-text', 'tools', {
+        name,
+        description,
+      })
+      return true
+    },
+    [id, data.dynamicHandles.tools, addDynamicHandle]
+  )
 
-	const handleRemoveTool = useCallback(
-		( handleId: string ) => {
-			removeDynamicHandle( id, "generate-text", "tools", handleId )
-		},
-		[id, removeDynamicHandle],
-	)
+  const handleRemoveTool = useCallback(
+    (handleId: string) => {
+      removeDynamicHandle(id, 'generate-text', 'tools', handleId)
+    },
+    [id, removeDynamicHandle]
+  )
 
-	const handleUpdateTool = useCallback(
-		( toolId: string, newName: string, newDescription?: string ) => {
-			if ( !newName ) {
-				toast.error( "Tool name cannot be empty" )
-				return false
-			}
+  const handleUpdateTool = useCallback(
+    (toolId: string, newName: string, newDescription?: string) => {
+      if (!newName) {
+        toast.error('Tool name cannot be empty')
+        return false
+      }
 
-			const existingTool = data.dynamicHandles.tools.find(
-				( tool ) => tool.name === newName && tool.id !== toolId,
-			)
-			if ( existingTool ) {
-				toast.error( "Tool name already exists" )
-				return false
-			}
+      const existingTool = data.dynamicHandles.tools.find(
+        (tool) => tool.name === newName && tool.id !== toolId
+      )
+      if (existingTool) {
+        toast.error('Tool name already exists')
+        return false
+      }
 
-			updateNode( id, "generate-text", {
-				dynamicHandles: {
-					...data.dynamicHandles,
-					tools: data.dynamicHandles.tools.map( ( tool ) =>
-						tool.id === toolId
-							? { ...tool, name: newName, description: newDescription }
-							: tool,
-					),
-				},
-			} )
-			return true
-		},
-		[id, data.dynamicHandles, updateNode],
-	)
+      updateNode(id, 'generate-text', {
+        dynamicHandles: {
+          ...data.dynamicHandles,
+          tools: data.dynamicHandles.tools.map((tool) =>
+            tool.id === toolId ? {...tool, name: newName, description: newDescription} : tool
+          ),
+        },
+      })
+      return true
+    },
+    [id, data.dynamicHandles, updateNode]
+  )
 
-	const handleDeleteNode = useCallback( () => {
-		deleteNode( id )
-	}, [id, deleteNode] )
+  const handleDeleteNode = useCallback(() => {
+    deleteNode(id)
+  }, [id, deleteNode])
 
-	return (
-		<GenerateTextNode
-			id={id}
-			data={{
-				status: data.executionState?.status,
-				config: data.config,
-				dynamicHandles: data.dynamicHandles,
-			}}
-			{...props}
-			disableModelSelector
-			onModelChange={handleModelChange}
-			onCreateTool={handleCreateTool}
-			onRemoveTool={handleRemoveTool}
-			onUpdateTool={handleUpdateTool}
-			onDeleteNode={handleDeleteNode}
-		/>
-	)
+  return (
+    <GenerateTextNode
+      id={id}
+      data={{
+        status: data.executionState?.status,
+        config: data.config,
+        dynamicHandles: data.dynamicHandles,
+      }}
+      {...props}
+      disableModelSelector
+      onModelChange={handleModelChange}
+      onCreateTool={handleCreateTool}
+      onRemoveTool={handleRemoveTool}
+      onUpdateTool={handleUpdateTool}
+      onDeleteNode={handleDeleteNode}
+    />
+  )
 }

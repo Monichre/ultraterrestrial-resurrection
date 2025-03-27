@@ -1,0 +1,9 @@
+---
+description: In app AI agents, deep research feature, ThreeJS sightings feature
+globs: 
+alwaysApply: false
+---
+
+[agentic-architecture-plan.md](mdc:docs/agent-notes/agentic-architecture-plan.md)
+[analysis-methodology.md](mdc:docs/agent-notes/analysis-methodology.md)
+[deep-research-extension-plan.md](mdc:docs/agent-notes/deep-research-extension-plan.md)

@@ -1,895 +1,1027 @@
 'use client'
 
-// // import React, { memo, useState, useEffect, useRef } from 'react'
+import {useCallback, useEffect, useMemo, useRef, useState} from 'react'
+import {GeoJsonLayer, HexagonLayer, HeatmapLayer, ScatterplotLayer} from 'deck.gl'
+import {MapboxOverlay} from '@deck.gl/mapbox'
+import ReactMapboxGl, {Layer, Feature, Popup, ZoomControl} from 'react-mapbox-gl'
+import 'mapbox-gl/dist/mapbox-gl.css'
+import {format} from 'date-fns'
+import {scaleLog} from 'd3-scale'
+import AnimatedArcGroupLayer from './animated-arc-group-layer'
+import {AnimatedArcLayer} from './animated-arc-layer'
+// Initialize MapGL with access token
+const MapGL = ReactMapboxGl({
+  accessToken: process.env.NEXT_PUBLIC_MAPBOX_PUBLIC_TOKEN || '',
+});
 
-// // import DeckGL, {
-// //   FirstPersonView,
-// //   FlyToInterpolator,
-// //   H3HexagonLayer,
-// //   MapView,
-// //   ScatterplotLayer,
-// // } from 'deck.gl'
-// // // import { MapboxLayer } from '@deck.gl/mapbox'
-
-// // import { useCallback } from 'react'
-// // import { useMemo } from 'react'
-// // import Map, { Layer, Popup, Source, useControl } from 'react-map-gl'
-// // import { scaleLog } from 'd3-scale'
-// // import { cellToLatLng } from 'h3-js'
-// // import { load } from '@loaders.gl/core'
-// // import 'mapbox-gl/dist/mapbox-gl.css'
-
-// // import type { FillLayer } from 'react-map-gl'
-
-// // import { ArcLayer, GeoJsonLayer, LineLayer } from '@deck.gl/layers'
-
-// // import { MapboxOverlay, type MapboxOverlayProps } from '@deck.gl/mapbox'
-// // const AIR_PORTS =
-// //   'https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_10m_airports.geojson'
-// // console.log('AIR_PORTS: ', AIR_PORTS)
-
-// // // function aggregateHexes(data: any) {
-// // //   if (!data) {
-// // //     return null
-// // //   }
-// // //   const result = {}
-// // //   for (const object of data) {
-// // //     if (!result[object.hex]) {
-// // //       result[object.hex] = { hex: object.hex, count: 0 }
-// // //     }
-// // //     result[object.hex].count += object.count
-// // //   }
-// // //   return Object.values(result)
-// // // }
-// // const INITIAL_VIEW_STATE = {
-// //   latitude: 51.47,
-// //   longitude: 0.45,
-// //   zoom: 4,
-// //   bearing: 0,
-// //   pitch: 30,
-// // }
-
-// // function getFirstLabelLayerId(style: { layers: any }) {
-// //   const layers = style.layers
-// //   // Find the index of the first symbol (i.e. label) layer in the map style
-// //   for (let i = 0; i < layers.length; i++) {
-// //     if (layers[i].type === 'symbol') {
-// //       return layers[i].id
-// //     }
-// //   }
-// //   return undefined
-// // }
-
-// // function DeckGLOverlay(props: MapboxOverlayProps) {
-// //   console.log('props: ', props)
-// //   const overlay = useControl(() => new MapboxOverlay(props))
-// //   overlay.setProps(props)
-// //   return null
-// // }
-
-// // export const SightingsGlobe: React.FC<any> = memo(
-// //   ({ sightings, militaryBases, ufoPosts }) => {
-// //     const defaultCenter: any = useMemo(
-// //       () => [-125.148032, 19.613688] as unknown as [number, number],
-// //       []
-// //     )
-
-// //     const [center, setCenter] = useState({
-// //       longitude: defaultCenter[0],
-// //       latitude: defaultCenter[1],
-// //     })
-// //     const pitch: any = [0]
-// //     const zoom: any = [2.48]
-// //     const [state, setState]: any = useState({ zoom, center, pitch })
-// //     // const [data, setData]: any = useState(sightings)
-// //     const [selected, setSelected]: any = useState(null)
-// //     const [hoverInfo, setHoverInfo] = useState(null)
-// //     const [selectedPOI, setSelectedPOI] = useState('8a283082aa17fff')
-// //     const [firstLabelLayerId, setFirstLabelLayerId] = useState()
-// //     const mapRef: any = useRef()
-
-// //     const onMapLoad = useCallback(() => {
-// //       setFirstLabelLayerId(getFirstLabelLayerId(mapRef.current.getStyle()))
-// //     }, [])
-
-// //     const selectedPOICentroid = useMemo(() => {
-// //       const [lat, lng] = cellToLatLng(selectedPOI)
-// //       return [lng, lat]
-// //     }, [selectedPOI])
-
-// //     const fetchCurrentUserLocation = useCallback(() => {
-// //       if ('geolocation' in navigator) {
-// //         navigator.geolocation.getCurrentPosition(
-// //           (position) => {
-// //             const userLocation: any = [
-// //               position.coords.longitude,
-// //               position.coords.latitude,
-// //             ]
-// //             console.log('userLocation: ', userLocation)
-// //             setCenter(userLocation) // Update map center with user's location
-// //           },
-// //           (error) => {
-// //             console.error('Error retrieving location:', error)
-// //             // Use default location if geolocation fails
-// //             // setCenter(defaultCenter)
-// //           }
-// //         )
-// //       } else {
-// //         console.error('Geolocation not supported by this browser.')
-// //         // Fallback to default center
-// //         setCenter(defaultCenter)
-// //       }
-// //     }, [defaultCenter])
-
-// //     useEffect(() => {
-// //       fetchCurrentUserLocation()
-// //     }, [fetchCurrentUserLocation])
-
-// //     useEffect(() => {
-// //       setState((prevState: any) => ({
-// //         ...prevState,
-// //         center,
-// //       }))
-// //     }, [center])
-
-// //     // const sightingsLayer = new GeoJsonLayer({
-// //     //   id: 'sightings',
-// //     //   data: sightings,
-// //     //   // Styles
-// //     //   filled: true,
-// //     //   pointRadiusMinPixels: 2,
-// //     //   pointRadiusScale: 2000,
-// //     //   // getPointRadius: (f) => 11 - f.properties.scalerank,
-// //     //   // getFillColor: [200, 0, 80, 180],
-// //     //   // Interactive props
-// //     //   pickable: true,
-// //     //   autoHighlight: true,
-// //     //   onClick: (info) => setSelected(info.object),
-// //     //   // Add hover functionality here
-// //     //   onHover: (info) => {
-// //     //     console.log('info: ', info)
-// //     //     if (info.object) {
-// //     //       setHoverInfo(info.object)
-// //     //     } else {
-// //     //       setHoverInfo(null)
-// //     //     }
-// //     //   },
-// //     // })
-// //     // const militaryLayer = new GeoJsonLayer({
-// //     //   id: 'military-bases',
-// //     //   data: militaryBases,
-// //     //   // Styles
-// //     //   filled: true,
-// //     //   pointRadiusMinPixels: 2,
-// //     //   pointRadiusScale: 2000,
-// //     //   getPointRadius: (f) => 11 - f.properties.scalerank,
-// //     //   getFillColor: [200, 0, 80, 180],
-// //     //   // Interactive props
-// //     //   pickable: true,
-// //     //   autoHighlight: true,
-// //     //   // beforeId: firstLabelLayerId,
-// //     //   // extruded: true,
-// //     //   onClick: (info) => {
-// //     //     console.log('info: ', info)
-// //     //     setSelected(info.object)
-// //     //   },
-// //     //   // Add hover functionality here
-// //     //   onHover: (info) => {
-// //     //     console.log('info: ', info)
-// //     //     if (info.object) {
-// //     //       setHoverInfo(info.object)
-// //     //     } else {
-// //     //       setHoverInfo(null)
-// //     //     }
-// //     //   },
-// //     // })
-// //     // const ufoPostsLayer: any = new GeoJsonLayer({
-// //     //   id: 'ufo-posts',
-// //     //   data: ufoPosts,
-// //     //   // Styles
-// //     //   filled: true,
-// //     //   pointRadiusMinPixels: 2,
-// //     //   pointRadiusScale: 2000,
-// //     //   getPointRadius: (f) => 11 - f.properties.scalerank,
-// //     //   getFillColor: [200, 0, 80, 180],
-// //     //   // Interactive props
-// //     //   pickable: true,
-// //     //   autoHighlight: true,
-// //     //   onClick: (info) => setSelected(info.object),
-// //     //   // beforeId: firstLabelLayerId,
-// //     //   // Add hover functionality here
-// //     //   onHover: (info) => {
-// //     //     console.log('info: ', info)
-// //     //     if (info.object) {
-// //     //       setHoverInfo(info.object)
-// //     //     } else {
-// //     //       setHoverInfo(null)
-// //     //     }
-// //     //   },
-// //     // })
-// //     // const hexes = useMemo(() => aggregateHexes(data), [data])
-// //     // const poiLayer = new H3HexagonLayer({
-// //     //   id: 'deckgl-pois',
-// //     //   data,
-// //     //   opacity: 0.4,
-// //     //   pickable: true,
-// //     //   autoHighlight: true,
-// //     //   onClick: ({ object }) => object && setSelectedPOI(object.hex),
-// //     //   getHexagon: (d) => d.hex,
-// //     //   getFillColor: (d) => colorScale(d.count),
-// //     //   extruded: false,
-// //     //   stroked: false,
-// //     //   beforeId: firstLabelLayerId,
-// //     // })
-// //     // Load sightings data (geoJSON format)
-// //     //styles/ellisliam/cld51oavf001e01o2eko08rd9
-// //     const layers = [
-// //       new GeoJsonLayer({
-// //         id: 'sightings',
-// //         data: sightings,
-// //         // Styles
-// //         filled: true,
-// //         pointRadiusMinPixels: 2,
-// //         pointRadiusScale: 2000,
-// //         // getPointRadius: (f) => 11 - f.properties.scalerank,
-// //         // getFillColor: [200, 0, 80, 180],
-// //         // Interactive props
-// //         pickable: true,
-// //         autoHighlight: true,
-// //         onClick: (info) => setSelected(info.object),
-// //         // Add hover functionality here
-// //         onHover: (info) => {
-// //           console.log('info: ', info)
-// //           if (info.object) {
-// //             setHoverInfo(info.object)
-// //           } else {
-// //             setHoverInfo(null)
-// //           }
-// //         },
-// //       }),
-// //       new GeoJsonLayer({
-// //         id: 'ufo-posts',
-// //         data: ufoPosts,
-// //         // Styles
-// //         filled: true,
-// //         pointRadiusMinPixels: 2,
-// //         pointRadiusScale: 2000,
-// //         getPointRadius: (f) => 11 - f.properties.scalerank,
-// //         getFillColor: [200, 0, 80, 180],
-// //         // Interactive props
-// //         pickable: true,
-// //         autoHighlight: true,
-// //         onClick: (info) => setSelected(info.object),
-// //         // beforeId: firstLabelLayerId,
-// //         // Add hover functionality here
-// //         onHover: (info) => {
-// //           console.log('info: ', info)
-// //           if (info.object) {
-// //             setHoverInfo(info.object)
-// //           } else {
-// //             setHoverInfo(null)
-// //           }
-// //         },
-// //       }),
-// //       new GeoJsonLayer({
-// //         id: 'military-bases',
-// //         data: militaryBases,
-// //         // Styles
-// //         filled: true,
-// //         pointRadiusMinPixels: 2,
-// //         pointRadiusScale: 2000,
-// //         getPointRadius: (f) => 11 - f.properties.scalerank,
-// //         getFillColor: [200, 0, 80, 180],
-// //         // Interactive props
-// //         pickable: true,
-// //         autoHighlight: true,
-// //         // beforeId: firstLabelLayerId,
-// //         // extruded: true,
-// //         onClick: (info) => {
-// //           console.log('info: ', info)
-// //           setSelected(info.object)
-// //         },
-// //         // Add hover functionality here
-// //         onHover: (info) => {
-// //           console.log('info: ', info)
-// //           if (info.object) {
-// //             setHoverInfo(info.object)
-// //           } else {
-// //             setHoverInfo(null)
-// //           }
-// //         },
-// //       }),
-// //       new GeoJsonLayer({
-// //         id: 'airports',
-// //         data: AIR_PORTS,
-// //         // Styles
-// //         filled: true,
-// //         pointRadiusMinPixels: 2,
-// //         pointRadiusScale: 2000,
-// //         getPointRadius: (f) => 11 - f.properties.scalerank,
-// //         getFillColor: [200, 0, 80, 180],
-// //         // Interactive props
-// //         pickable: true,
-// //         autoHighlight: true,
-// //         onClick: (info) => setSelected(info.object),
-// //         beforeId: 'sightings',
-// //       }),
-// //       new ArcLayer({
-// //         id: 'arcs',
-// //         data: AIR_PORTS,
-// //         dataTransform: (d) =>
-// //           d.features.filter((f) => f.properties.scalerank < 4),
-// //         // Styles
-// //         getSourcePosition: (f) => [-0.4531566, 51.4709959], // London
-// //         getTargetPosition: (f) => f.geometry.coordinates,
-// //         getSourceColor: [0, 128, 200],
-// //         getTargetColor: [200, 0, 80],
-// //         getWidth: 1,
-// //       }),
-
-// //       // ufoPostsLayer,
-// //       // heatmapLayer,
-// //       // poiLayer,
-// //       // new ArcLayer({
-// //       //   id: 'arcs',
-// //       //   data: AIR_PORTS,
-// //       //   dataTransform: (d) =>
-// //       //     d.features.filter((f) => f.properties.scalerank < 4),
-// //       //   // Styles
-// //       //   getSourcePosition: (f) => [-0.4531566, 51.4709959], // London
-// //       //   getTargetPosition: (f) => f.geometry.coordinates,
-// //       //   getSourceColor: [0, 128, 200],
-// //       //   getTargetColor: [200, 0, 80],
-// //       //   getWidth: 1,
-// //       // }),
-// //     ]
-
-// //     // useEffect(() => {
-// //     //   let currentTime = 0
-// //     //   const updateSightings = () => {
-// //     //     if (data && deckGlLayer) {
-// //     //       const points = data.features
-// //     //         .filter((feature: any) => {
-// //     //           const eventDate = new Date(feature.properties.date) // Assuming there's a date field
-// //     //           return eventDate.getTime() <= currentTime
-// //     //         })
-// //     //         .map((feature: any) => ({
-// //     //           position: feature.geometry.coordinates,
-// //     //           name: feature.properties.name,
-// //     //           color: [30, 144, 255],
-// //     //           size: 2000,
-// //     //         }))
-
-// //     //       const updatedScatterplotLayer = new ScatterplotLayer({
-// //     //         id: 'scatterplot-layer',
-// //     //         data: points,
-// //     //         getPosition: (d: any) => d.position,
-// //     //         getFillColor: (d: any) => d.color,
-// //     //         getRadius: (d: any) => d.size,
-// //     //         radiusMinPixels: 3,
-// //     //         pickable: true,
-// //     //         opacity: 0.8,
-// //     //       })
-
-// //     //       deckGlLayer.setProps({ layers: [updatedScatterplotLayer] })
-// //     //     }
-// //     //     // Update layer dynamically
-// //     //   }
-
-// //     //   const interval = setInterval(() => {
-// //     //     currentTime += 86400000 // Advance by one day
-// //     //     updateSightings()
-// //     //   }, 1000)
-
-// //     //   return () => clearInterval(interval)
-// //     // }, [data, deckGlLayer])
-
-// //     const sightingsTileSet = `ellisliam.7qe3u7ln`
-// //     const fullUFOSightingsDataSetId = `cld7oc5i404tf20mjn8ckiprd`
-// //     const ufoPostsDataSetId = `cld524b3c07tf28nva1hmk55t`
-// //     const militaryBasesDataSetId = `cled0ngt51fis2ajzrzvfkjz4`
-// //     const layerRef = useRef()
-// //     return (
-// //       <div className='h-[100vh] w-[100vw]'>
-// //         <Map
-// //           ref={mapRef}
-// //           antialias={true}
-// //           projection={{ name: 'globe' }}
-// //           onLoad={onMapLoad}
-// //           // mapStyle={`mapbox://styles/ellisliam/cld51oavf001e01o2eko08rd9`}
-// //           mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_PUBLIC_TOKEN}
-// //           initialViewState={{
-// //             longitude: -122.4,
-// //             latitude: 37.8,
-// //             zoom: 0,
-// //           }}
-// //           mapStyle={'mapbox://styles/ellisliam/cld51oavf001e01o2eko08rd9'}
-// //         >
-// //           <DeckGLOverlay layers={layers} interleaved={true} />
-// //           {/* <Source id='sightings' type='geojson' data={sightings}>
-// //             <Layer ref={layerRef} />
-// //           </Source> */}
-// //           .
-// //           {selected && (
-// //             <Popup
-// //               key={selected?.properties.name}
-// //               anchor='bottom'
-// //               style={{ zIndex: 10 }} /* position above deck.gl canvas */
-// //               longitude={
-// //                 selected?.geometry.type === 'Point'
-// //                   ? selected?.geometry?.coordinates[0]
-// //                   : selected.properties?.geo_point_2d?.lon
-// //               }
-// //               latitude={
-// //                 selected?.geometry.type === 'Point'
-// //                   ? selected?.geometry?.coordinates[1]
-// //                   : selected?.properties?.geo_point_2d?.lat
-// //               }
-// //             >
-// //               {selected?.properties.name} ({selected.properties.abbrev})
-// //             </Popup>
-// //           )}
-// //           {hoverInfo && (
-// //             <Popup
-// //               key={hoverInfo?.properties.name}
-// //               anchor='left'
-// //               longitude={
-// //                 hoverInfo?.geometry.type === 'Point'
-// //                   ? hoverInfo?.geometry?.coordinates[0]
-// //                   : hoverInfo.properties?.geo_point_2d?.lon
-// //               }
-// //               latitude={
-// //                 hoverInfo?.geometry.type === 'Point'
-// //                   ? hoverInfo?.geometry?.coordinates[1]
-// //                   : hoverInfo?.properties?.geo_point_2d?.lat
-// //               }
-// //               style={{
-// //                 zIndex: 10,
-// //                 width: '300px',
-// //               }}
-// //             >
-// //               <div className='absolute rounded-md bg-black z-50 shadow-xl px-4 py-2 top-0 left-0 w-[300px]'>
-// //                 <div className='absolute inset-x-10 z-30 w-[20%] -bottom-px bg-gradient-to-r from-transparent via-emerald-500 to-transparent h-px ' />
-// //                 <div className='absolute left-10 w-[40%] z-30 -bottom-px bg-gradient-to-r from-transparent via-sky-500 to-transparent h-px ' />
-
-// //                 <div className='font-bold text-white relative z-30'>
-// //                   <h3 className='font-bebasNeuePro text-left'>
-// //                     {hoverInfo?.properties.city}, {hoverInfo.properties.state}
-// //                   </h3>
-// //                 </div>
-// //                 <div className=''>
-// //                   <p className='text-white text-xs font-source'>
-// //                     {/* {format(hoverInfo?.properties.date, 'MMMM d, yyyy')} */}
-// //                   </p>
-// //                   <p className='text-white text-xs font-source lowercase'>
-// //                     {hoverInfo.properties.comments}
-// //                   </p>
-// //                 </div>
-// //               </div>
-// //             </Popup>
-// //           )}
-// //         </Map>
-// //       </div>
-// //     )
-// //   }
-// // )
-
-// // =====================================
-// // New
-// 'use client'
-
-// import { DataCard } from '@/components/ui/card/data-card/data-card'
-// import { MapboxOverlay, MapboxOverlayProps } from '@deck.gl/mapbox'
-// import { scaleLog } from 'd3-scale'
-// import { GeoJsonLayer } from 'deck.gl'
-// import 'mapbox-gl/dist/mapbox-gl.css'
-// import React, {
-//   FC,
-//   memo,
-//   useCallback,
-//   useEffect,
-//   useMemo,
-//   useRef,
-//   useState,
-// } from 'react'
-// import { Map, NavigationControl, Popup, useControl } from 'react-map-gl'
-
-// // Constants
-// const AIR_PORTS_URL =
-//   'https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_10m_airports.geojson'
-
-// // Type Definitions
-// interface SightingsGlobeProps {
-//   geoJSONSightings: GeoJSON.FeatureCollection
-//   realtimeSightings?: any
-// }
-
-// interface PopupInfo {
-//   longitude: number
-//   latitude: number
-//   content: React.ReactNode
-// }
-
-// // Helper Functions
-// const getFirstLabelLayerId = ( style: any ): string | undefined => {
-//   const layers = style.layers
-//   for ( let layer of layers ) {
-//     if ( layer.type === 'symbol' ) {
-//       return layer.id
-//     }
-//   }
-//   return undefined
-// }
-
-// // DeckGL Overlay Component
-// const DeckGLOverlay: FC<MapboxOverlayProps> = ( props ) => {
-//   useControl( () => new MapboxOverlay( props ), { position: 'top-right' } )
-//   return null
-// }
-
-// // Main Component
-// export const SightingsGlobe: FC<SightingsGlobeProps> = memo(
-//   ( { geoJSONSightings, realtimeSightings } ) => {
-//     const { sightings, militaryBases, ufoPosts }: any = geoJSONSightings
-//     // References
-//     console.log( "🚀 ~ file: sightings-globe.tsx:795 ~ sightings:", sightings )
-//     console.log( "🚀 ~ file: sightings-globe.tsx:795 ~ militaryBases:", militaryBases )
-//     console.log( "🚀 ~ file: sightings-globe.tsx:795 ~ ufoPosts:", ufoPosts )
-//     const mapRef = useRef<any>( null )
-//     // MapboxGlobe
-//     // State
-//     const [viewState, setViewState] = useState( {
-//       longitude: -125.148032,
-//       latitude: 19.613688,
-//       zoom: 2.48,
-//       bearing: 0,
-//       pitch: 0,
-//     } )
-//     const [selected, setSelected] = useState<any | null>( null )
-//     const [hoverInfo, setHoverInfo] = useState<PopupInfo | null>( null )
-//     const [selectedPOI, setSelectedPOI] = useState<string>( '8a283082aa17fff' )
-//     const [firstLabelLayerId, setFirstLabelLayerId] = useState<
-//       string | undefined
-//     >()
-
-//     // Color Scale
-//     const colorScale = useMemo(
-//       () =>
-//         scaleLog<number, number[]>()
-//           .domain( [10, 100, 1000, 10000] )
-//           .range( [
-//             [255, 255, 178],
-//             [254, 204, 92],
-//             [253, 141, 60],
-//             [227, 26, 28],
-//           ] ),
-//       []
-//     )
-
-//     // Handlers
-//     const onMapLoad = useCallback( () => {
-//       if ( mapRef.current ) {
-//         const layerId = getFirstLabelLayerId( mapRef.current.getStyle() )
-//         setFirstLabelLayerId( layerId )
-//       }
-//     }, [] )
-
-//     const fetchCurrentUserLocation = useCallback( () => {
-//       if ( 'geolocation' in navigator ) {
-//         navigator.geolocation.getCurrentPosition(
-//           ( position ) => {
-//             const userLocation: [number, number] = [
-//               position.coords.longitude,
-//               position.coords.latitude,
-//             ]
-//             setViewState( ( prev ) => ( {
-//               ...prev,
-//               longitude: userLocation[0],
-//               latitude: userLocation[1],
-//             } ) )
-//           },
-//           ( error ) => {
-//             console.error( 'Error retrieving location:', error )
-//             // Optionally handle fallback
-//           }
-//         )
-//       } else {
-//         console.error( 'Geolocation not supported by this browser.' )
-//         // Optionally handle fallback
-//       }
-//     }, [] )
-
-//     useEffect( () => {
-//       fetchCurrentUserLocation()
-//     }, [fetchCurrentUserLocation] )
-
-//     // Memoized Layers
-//     const layers = useMemo( () => {
-//       const baseGeoJsonLayerProps = {
-//         filled: true,
-//         pointRadiusMinPixels: 2,
-//         pointRadiusScale: 2000,
-//         pickable: true,
-//         autoHighlight: true,
-//         onClick: ( info: any ) => {
-//           if ( info.object ) {
-//             const coords =
-//               info.object.geometry.type === 'Point'
-//                 ? info.object.geometry.coordinates
-//                 : info.object.properties?.geo_point_2d
-//                   ? [
-//                     info.object.properties.geo_point_2d.lon,
-//                     info.object.properties.geo_point_2d.lat,
-//                   ]
-//                   : [0, 0]
-//             setSelected( {
-//               longitude: coords[0],
-//               latitude: coords[1],
-//               ...info.object.properties,
-//               content: (
-//                 <div className='font-bold'>
-//                   {Object.entries( info.object.properties ).map(
-//                     ( [key, value] ) => (
-//                       <p key={key}>{info.object.properties[key]}</p>
-//                     )
-//                   )}
-//                 </div>
-//               ),
-//             } )
-//           }
-//         },
-//         onHover: ( info: any ) => {
-//           console.log( 'info: ', info )
-//           if ( info.object ) {
-//             const coords =
-//               info.object.geometry.type === 'Point'
-//                 ? info.object.geometry.coordinates
-//                 : info.object.properties?.geo_point_2d
-//                   ? [
-//                     info.object.properties.geo_point_2d.lon,
-//                     info.object.properties.geo_point_2d.lat,
-//                   ]
-//                   : [0, 0]
-//             setHoverInfo( {
-//               longitude: coords[0],
-//               latitude: coords[1],
-//               ...info.object.properties,
-//               content: (
-//                 <div className='font-bold'>
-//                   {Object.entries( info.object.properties ).map( ( [key, value] ) =>
-//                     key === 'geo_point_2d' ? null : <p key={key}>{value}</p>
-//                   )}
-//                 </div>
-//               ),
-//             } )
-//           } else {
-//             setHoverInfo( null )
-//           }
-//         },
-//       }
-
-//       const sightingsLayer = new GeoJsonLayer( {
-//         id: 'sightings',
-//         data: sightings,
-//         ...baseGeoJsonLayerProps,
-//         // beforeId: firstLabelLayerId,
-//       } )
-//       const militaryLayer = new GeoJsonLayer( {
-//         id: 'military-bases',
-//         data: militaryBases,
-//         ...baseGeoJsonLayerProps,
-//       } )
-
-//       const ufoPostsLayer = new GeoJsonLayer( {
-//         id: 'ufo-posts',
-//         data: ufoPosts,
-//         ...baseGeoJsonLayerProps,
-//         getPointRadius: ( f: any ) => 11 - f.properties.scalerank,
-//         getFillColor: [200, 0, 80, 180],
-//         // beforeId: firstLabelLayerId,
-//       } )
-
-//       // const airportsLayer = new GeoJsonLayer( {
-//       //   id: 'airports',
-//       //   data: AIR_PORTS_URL,
-//       //   ...baseGeoJsonLayerProps,
-//       //   getPointRadius: ( f: any ) => 11 - f.properties.scalerank,
-//       //   getFillColor: [200, 0, 80, 180],
-//       //   beforeId: firstLabelLayerId,
-//       // } )
-
-//       // const arcsLayer = new ArcLayer({
-//       //   id: 'arcs',
-//       //   data: AIR_PORTS_URL,
-//       //   dataTransform: (d: any) =>
-//       //     d.features.filter((f: any) => f.properties.scalerank < 4),
-//       //   getSourcePosition: () => [-0.4531566, 51.4709959], // London
-//       //   getTargetPosition: (f: any) => f.geometry.coordinates,
-//       //   getSourceColor: [0, 128, 200],
-//       //   getTargetColor: [200, 0, 80],
-//       //   getWidth: 1,
-//       //   pickable: true,
-//       //   autoHighlight: true,
-//       // })
-
-//       return [
-//         sightingsLayer,
-//         ufoPostsLayer,
-//         militaryLayer,
-//         // airportsLayer,
-//         // arcsLayer,
-//       ]
-//     }, [sightings, militaryBases, ufoPosts, firstLabelLayerId] )
-//     console.log( 'selected: ', selected )
-//     return (
-//       <div className='h-screen w-screen'>
-//         <Map
-//           ref={mapRef}
-//           initialViewState={viewState}
-//           onMove={( evt ) => setViewState( evt.viewState )}
-//           mapStyle='mapbox://styles/ellisliam/cld51oavf001e01o2eko08rd9'
-//           mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_PUBLIC_TOKEN}
-//           onLoad={onMapLoad}
-//           projection={{ name: 'globe' }}
-//           style={{ width: '100%', height: '100%' }}
-//         >
-//           {/* DeckGL Layers Overlay */}
-//           <DeckGLOverlay layers={layers} interleaved />
-
-//           {/* Selected Feature Popup */}
-//           {selected && (
-//             <Popup
-//               anchor='left'
-//               longitude={selected.longitude}
-//               latitude={selected.latitude}
-//               // longitude={
-//               //   selected.geometry.type === 'Point'
-//               //     ? selected.geometry.coordinates[0]
-//               //     : selected.properties?.geo_point_2d?.lon || 0
-//               // }
-//               // latitude={
-//               //   selected.geometry.type === 'Point'
-//               //     ? selected.geometry.coordinates[1]
-//               //     : selected.properties?.geo_point_2d?.lat || 0
-//               // }
-//               onClose={() => setSelected( null )}
-//               style={{ zIndex: 10 }}
-//             >
-//               <div>{selected.content}</div>
-//             </Popup>
-//           )}
-
-//           {/* Hover Popup */}
-//           {hoverInfo && (
-//             <Popup
-//               anchor='left'
-//               longitude={hoverInfo.longitude}
-//               latitude={hoverInfo.latitude}
-//               onClose={() => setHoverInfo( null )}
-//               style={{
-//                 zIndex: 10,
-
-//                 maxWidth: '430px',
-//                 minWidth: '380px',
-//               }}
-//             >
-//               <div className='absolute top-0 left-0'>
-//                 <DataCard {...hoverInfo} />
-//               </div>
-//               {/* <div className='relative rounded-md bg-black shadow-xl px-4 py-2 w-full'>
-//                 <div className='absolute inset-x-10 z-30 w-1/5 -bottom-px bg-gradient-to-r from-transparent via-emerald-500 to-transparent h-px' />
-//                 <div className='absolute left-10 w-2/5 z-30 -bottom-px bg-gradient-to-r from-transparent via-sky-500 to-transparent h-px' />
-//                 <div className='font-bold text-white mb-1'>
-//                   {hoverInfo?.content}
-//                 </div>
-
-//               </div> */}
-//             </Popup>
-//           )}
-
-//           {/* Navigation Controls */}
-//           <NavigationControl position='top-left' />
-//         </Map>
-//       </div>
-//     )
-//   }
-// )
-
-import { MapboxOverlay } from '@deck.gl/mapbox'
-import { GeoJsonLayer } from 'deck.gl'
-import { FC, memo, useMemo, useRef, useState } from 'react'
-import Map, { NavigationControl, Popup } from 'react-map-gl'
-
-// Define your overlay component
-const DeckGLOverlay: FC<{ layers: any[] }> = ( { layers } ) => {
-  // The overlay integrates deck.gl layers with Mapbox
-  return <MapboxOverlay layers={layers} interleaved />
+interface DeckProps {
+  layers: any[]
+  [key: string]: any
 }
 
+// Define types for our props
 interface SightingsGlobeProps {
-  geoJSONSightings: GeoJSON.FeatureCollection
+  geoJSONSightings: {
+    sightings: GeoJSON.FeatureCollection
+    militaryBases?: GeoJSON.FeatureCollection
+    ufoPosts?: GeoJSON.FeatureCollection
+  }
 }
 
-export const SightingsGlobe: FC<SightingsGlobeProps> = memo( ( { geoJSONSightings } ) => {
+// Define types for selected feature and hover info
+interface FeatureInfo {
+  coordinates: [number, number]
+  properties: Record<string, any>
+}
 
-  console.log( "🚀 ~ constSightingsGlobe:FC<SightingsGlobeProps>=memo ~ geoJSONData:", geoJSONSightings )
+// Define feature type
+interface GeoJSONFeature {
+  geometry: {
+    coordinates: [number, number]
+    type: string
+  }
+  properties: {
+    date?: string | number
+    timestamp?: string | number
+    city?: string
+    location?: string
+    description?: string
+    comments?: string
+    sourceUrl?: string
+    [key: string]: any
+  }
+  type: string
+}
 
-  const { sightings, militaryBases, ufoPosts }: any = geoJSONSightings
-  const mapRef = useRef<any>( null )
-  const [viewState, setViewState] = useState( {
-    longitude: -125.148032,
-    latitude: 19.613688,
-    zoom: 2.48,
-    bearing: 0,
-    pitch: 0,
-  } )
-  const [selected, setSelected] = useState<any | null>( null )
+// Main component for the 3D Sightings Globe visualization
+export const SightingsGlobe = ({geoJSONSightings}: SightingsGlobeProps) => {
+  const {sightings, militaryBases, ufoPosts} = geoJSONSightings
+  const mapRef = useRef(null)
+  
+  // Map configuration
+  const [mapConfig, setMapConfig] = useState({
+    zoom: [3] as [number],
+    center: [-98.5795, 39.8283] as [number, number],
+    pitch: [45] as [number]
+  })
 
-  // Memoize the GeoJsonLayer
-  const layers = useMemo( () => {
-    return [
-      new GeoJsonLayer( {
-        id: 'sightings-layer',
-        data: sightings,
-        filled: true,
-        pointRadiusMinPixels: 2,
-        pointRadiusScale: 2000,
-        pickable: true,
-        autoHighlight: true,
-        // Handle feature clicks to show a popup
-        onClick: ( info ) => {
-          if ( info.object ) {
-            const coords = info.object.geometry.type === 'Point'
-              ? info.object.geometry.coordinates
-              : [0, 0]
-            setSelected( {
-              longitude: coords[0],
-              latitude: coords[1],
-              details: info.object.properties,
-            } )
+  // State for selected feature popup
+  const [popupInfo, setPopupInfo] = useState<FeatureInfo | null>(null)
+
+  // State for timeline control
+  const [timeRange, setTimeRange] = useState<[number, number]>([
+    new Date('1940-01-01').getTime(),
+    new Date().getTime(),
+  ])
+
+  // State for hover features
+  const [hoverInfo, setHoverInfo] = useState<(FeatureInfo & {x: number; y: number}) | null>(null)
+
+  // State for visualization options
+  const [visualizationMode, setVisualizationMode] = useState('heatmap') // 'heatmap', 'scatter', 'arcs', 'hexagon', 'native', 'tileset'
+  const [showMilitaryBases, setShowMilitaryBases] = useState(true)
+  const [showUFOPosts, setShowUFOPosts] = useState(true)
+  const [arcAnimationEnabled, setArcAnimationEnabled] = useState(true)
+  const [selectedTimelineEvent, setSelectedTimelineEvent] = useState(null)
+  const [mapLoaded, setMapLoaded] = useState(false)
+  const [useTileset, setUseTileset] = useState(false)
+
+  // Create a color scale for the heatmap
+  const colorScale = useMemo(
+    () =>
+      scaleLog()
+        .domain([1, 10, 100, 1000])
+        // @ts-ignore - d3 types mismatch
+        .range([
+          [65, 182, 196],
+          [127, 205, 187],
+          [199, 233, 180],
+          [255, 255, 204],
+        ]),
+    []
+  )
+
+  // Filter sightings based on time range
+  const filteredSightings = useMemo(() => {
+    if (!sightings) return null
+
+    // Clone the sightings to avoid mutating the original
+    const filtered = {
+      ...sightings,
+      features: sightings.features.filter((feature: GeoJSONFeature) => {
+        const date = new Date(feature.properties.date || feature.properties.timestamp || 0)
+        const timestamp = date.getTime()
+        return timestamp >= timeRange[0] && timestamp <= timeRange[1]
+      }),
+    }
+
+    return filtered
+  }, [sightings, timeRange])
+
+  // Handle time range change
+  const handleTimeRangeChange = (newRange: [number, number]) => {
+    setTimeRange(newRange)
+  }
+
+  // Function to fly to a specific location on the globe
+  const flyToLocation = useCallback(
+    (longitude: number, latitude: number, zoom = 5) => {
+      setMapConfig({
+        ...mapConfig,
+        center: [longitude, latitude] as [number, number],
+        zoom: [zoom] as [number]
+      });
+    },
+    [mapConfig]
+  )
+  
+  // Function to load Mapbox tileset for sightings
+  const loadMapboxTileset = useCallback(() => {
+    if (!mapRef.current || !mapLoaded) return;
+    
+    // @ts-ignore - Access map differently depending on react-map-gl version
+    const map = mapRef.current.getMap ? mapRef.current.getMap() : 
+               (mapRef.current._map ? mapRef.current._map : mapRef.current);
+    
+    // Remove previous sources/layers if they exist
+    if (map.getSource('sightings-tileset')) {
+      if (map.getLayer('sightings-points')) map.removeLayer('sightings-points');
+      map.removeSource('sightings-tileset');
+    }
+    
+    // Add the tileset source
+    map.addSource('sightings-tileset', {
+      type: 'vector',
+      url: 'mapbox://ellisliam.35z8vcnh'
+    });
+    
+    // Add a layer for the sightings points
+    map.addLayer({
+      id: 'sightings-points',
+      type: 'circle',
+      source: 'sightings-tileset',
+      'source-layer': 'sightings', // This should match your tileset source layer name
+      paint: {
+        'circle-radius': 6,
+        'circle-color': '#ff8c00',
+        'circle-opacity': 0.8,
+        'circle-stroke-width': 2,
+        'circle-stroke-color': 'rgba(255, 255, 255, 0.5)'
+      }
+    });
+    
+    // Add click handler for the points
+    map.on('click', 'sightings-points', (e) => {
+      if (e.features && e.features.length > 0) {
+        const feature = e.features[0];
+        setPopupInfo({
+          coordinates: feature.geometry.coordinates as [number, number],
+          properties: feature.properties
+        });
+      }
+    });
+    
+    // Change cursor on hover
+    map.on('mouseenter', 'sightings-points', () => {
+      map.getCanvas().style.cursor = 'pointer';
+    });
+    
+    map.on('mouseleave', 'sightings-points', () => {
+      map.getCanvas().style.cursor = '';
+    });
+  }, [mapRef.current, mapLoaded])
+
+  // Apply time filter to native Mapbox layer when time range changes
+  useEffect(() => {
+    if (!mapRef.current || !mapLoaded) return;
+    
+    // @ts-ignore - Access map differently depending on react-map-gl version
+    const map = mapRef.current.getMap ? mapRef.current.getMap() : 
+               (mapRef.current._map ? mapRef.current._map : mapRef.current);
+               
+    // Apply time filter for native visualization mode
+    if (visualizationMode === 'native' && map.getSource('sightings-source')) {
+      // Apply a filter to the layers based on the timeRange
+      const timeFilter = ['all',
+        ['>=', ['to-number', ['get', 'timestamp']], timeRange[0]],
+        ['<=', ['to-number', ['get', 'timestamp']], timeRange[1]]
+      ];
+      
+      map.setFilter('clusters', timeFilter);
+      map.setFilter('cluster-count', timeFilter);
+      map.setFilter('unclustered-point', timeFilter);
+    }
+    
+    // Apply time filter for tileset visualization mode
+    if (useTileset && map.getSource('sightings-tileset') && map.getLayer('sightings-points')) {
+      // Apply a filter to the tileset layer based on the timeRange
+      const timeFilter = ['all',
+        ['>=', ['to-number', ['get', 'timestamp']], timeRange[0]],
+        ['<=', ['to-number', ['get', 'timestamp']], timeRange[1]]
+      ];
+      
+      map.setFilter('sightings-points', timeFilter);
+    }
+  }, [timeRange, mapLoaded, visualizationMode, useTileset]);
+
+  // Add native Mapbox GL layer for sightings when using that mode
+  useEffect(() => {
+    if (!mapRef.current || !mapLoaded || visualizationMode !== 'native') return;
+    
+    // Clean up any tileset layers if they exist
+    if (useTileset) {
+      setUseTileset(false);
+      
+      // @ts-ignore - Access map differently depending on react-map-gl version
+      const map = mapRef.current.getMap ? mapRef.current.getMap() : 
+                (mapRef.current._map ? mapRef.current._map : mapRef.current);
+                
+      // Remove tileset layers if they exist
+      if (map.getSource('sightings-tileset')) {
+        if (map.getLayer('sightings-points')) map.removeLayer('sightings-points');
+        map.removeSource('sightings-tileset');
+      }
+    }
+    
+    // @ts-ignore - Access map differently depending on react-map-gl version
+    const map = mapRef.current.getMap ? mapRef.current.getMap() : 
+               (mapRef.current._map ? mapRef.current._map : mapRef.current);
+    
+    // Remove previous sources/layers if they exist
+    if (map.getSource('sightings-source')) {
+      if (map.getLayer('clusters')) map.removeLayer('clusters');
+      if (map.getLayer('cluster-count')) map.removeLayer('cluster-count');
+      if (map.getLayer('unclustered-point')) map.removeLayer('unclustered-point');
+      map.removeSource('sightings-source');
+    }
+    
+    // Add the sightings source with clustering enabled
+    map.addSource('sightings-source', {
+      type: 'geojson',
+      data: filteredSightings,
+      cluster: true,
+      clusterMaxZoom: 14,
+      clusterRadius: 50,
+      clusterProperties: {
+        // Calculate average date for clusters
+        avg_timestamp: ['+', ['get', 'timestamp']],
+        // Store counts by shape/type if available
+        disc_count: ['+', ['case', ['==', ['get', 'shape'], 'Disc'], 1, 0]],
+        triangle_count: ['+', ['case', ['==', ['get', 'shape'], 'Triangle'], 1, 0]],
+        sphere_count: ['+', ['case', ['==', ['get', 'shape'], 'Sphere'], 1, 0]],
+        other_count: ['+', ['case', 
+          ['!', ['any', 
+            ['==', ['get', 'shape'], 'Disc'], 
+            ['==', ['get', 'shape'], 'Triangle'], 
+            ['==', ['get', 'shape'], 'Sphere']
+          ]], 
+          1, 
+          0
+        ]]
+      }
+    });
+    
+    // Add a layer for the clusters
+    map.addLayer({
+      id: 'clusters',
+      type: 'circle',
+      source: 'sightings-source',
+      filter: ['has', 'point_count'],
+      paint: {
+        'circle-color': [
+          'step',
+          ['get', 'point_count'],
+          'rgba(65, 182, 196, 0.8)',
+          20, 'rgba(127, 205, 187, 0.8)',
+          100, 'rgba(199, 233, 180, 0.8)',
+          500, 'rgba(255, 255, 204, 0.8)'
+        ],
+        'circle-radius': [
+          'step',
+          ['get', 'point_count'],
+          20, 20, 30, 100, 40, 500, 50
+        ],
+        'circle-blur': 0.3,
+        'circle-opacity': 0.8
+      }
+    });
+    
+    // Add a layer for cluster counts
+    map.addLayer({
+      id: 'cluster-count',
+      type: 'symbol',
+      source: 'sightings-source',
+      filter: ['has', 'point_count'],
+      layout: {
+        'text-field': '{point_count_abbreviated}',
+        'text-size': 12
+      },
+      paint: {
+        'text-color': '#ffffff'
+      }
+    });
+    
+    // Add a layer for individual points
+    map.addLayer({
+      id: 'unclustered-point',
+      type: 'circle',
+      source: 'sightings-source',
+      filter: ['!', ['has', 'point_count']],
+      paint: {
+        'circle-color': 'rgba(255, 140, 0, 0.8)',
+        'circle-radius': 6,
+        'circle-stroke-width': 2,
+        'circle-stroke-color': 'rgba(255, 255, 255, 0.5)'
+      }
+    });
+    
+    // Handle clicks on clusters
+    map.on('click', 'clusters', (e) => {
+      const features = map.queryRenderedFeatures(e.point, { layers: ['clusters'] });
+      if (!features.length) return;
+      
+      const clusterId = features[0].properties.cluster_id;
+      const pointCount = features[0].properties.point_count;
+      const clusterProperties = features[0].properties;
+      
+      // If it's a small cluster, just zoom to it
+      if (pointCount < 20) {
+        map.getSource('sightings-source').getClusterExpansionZoom(
+          clusterId,
+          (err, zoom) => {
+            if (err) return;
+            
+            // Animate flyTo with some rotation for a more engaging effect
+            map.flyTo({
+              center: features[0].geometry.coordinates,
+              zoom: zoom,
+              bearing: Math.random() * 40 - 20, // Random slight rotation
+              pitch: 50,
+              duration: 2000,
+              essential: true
+            });
           }
+        );
+      } else {
+        // For larger clusters, show a popup with cluster info before zooming
+        const discCount = clusterProperties.disc_count || 0;
+        const triangleCount = clusterProperties.triangle_count || 0;
+        const sphereCount = clusterProperties.sphere_count || 0;
+        const otherCount = clusterProperties.other_count || 0;
+        
+        setPopupInfo({
+          coordinates: features[0].geometry.coordinates as [number, number],
+          properties: {
+            cluster: true,
+            pointCount: pointCount,
+            discCount, triangleCount, sphereCount, otherCount,
+            // Generate a description for the cluster
+            description: `Cluster of ${pointCount} sightings including ${discCount} disc-shaped, ${triangleCount} triangular, ${sphereCount} spherical, and ${otherCount} other shaped objects.`,
+            // Use the location name from the map
+            location: `Sightings Cluster`,
+            timestamp: clusterProperties.avg_timestamp / pointCount // Approximate average time
+          }
+        });
+        
+        // After 1.5 seconds, zoom in
+        setTimeout(() => {
+          map.getSource('sightings-source').getClusterExpansionZoom(
+            clusterId,
+            (err, zoom) => {
+              if (err) return;
+              
+              map.flyTo({
+                center: features[0].geometry.coordinates,
+                zoom: zoom,
+                bearing: Math.random() * 40 - 20,
+                pitch: 50,
+                duration: 2000
+              });
+            }
+          );
+        }, 1500);
+      }
+    });
+    
+    // Handle clicks on individual points
+    map.on('click', 'unclustered-point', (e) => {
+      if (e.features && e.features.length > 0) {
+        const feature = e.features[0];
+        setPopupInfo({
+          coordinates: feature.geometry.coordinates as [number, number],
+          properties: feature.properties
+        });
+      }
+    });
+    
+    // Change cursor on hover
+    map.on('mouseenter', 'clusters', () => {
+      map.getCanvas().style.cursor = 'pointer';
+    });
+    
+    map.on('mouseleave', 'clusters', () => {
+      map.getCanvas().style.cursor = '';
+    });
+    
+    map.on('mouseenter', 'unclustered-point', () => {
+      map.getCanvas().style.cursor = 'pointer';
+    });
+    
+    map.on('mouseleave', 'unclustered-point', () => {
+      map.getCanvas().style.cursor = '';
+    });
+    
+    // Cleanup function
+    return () => {
+      if (map.getLayer('clusters')) map.removeLayer('clusters');
+      if (map.getLayer('cluster-count')) map.removeLayer('cluster-count');
+      if (map.getLayer('unclustered-point')) map.removeLayer('unclustered-point');
+      if (map.getSource('sightings-source')) map.removeSource('sightings-source');
+    };
+  }, [mapRef.current, mapLoaded, filteredSightings, visualizationMode, useTileset]);
+  
+  // Handle tileset visualization mode
+  useEffect(() => {
+    if (!mapRef.current || !mapLoaded || visualizationMode !== 'tileset' || !useTileset) return;
+    
+    // Load the Mapbox tileset
+    loadMapboxTileset();
+    
+    // @ts-ignore - Access map differently depending on react-map-gl version
+    const map = mapRef.current.getMap ? mapRef.current.getMap() : 
+              (mapRef.current._map ? mapRef.current._map : mapRef.current);
+    
+    // Remove any native clustering layers if they exist
+    if (map.getSource('sightings-source')) {
+      if (map.getLayer('clusters')) map.removeLayer('clusters');
+      if (map.getLayer('cluster-count')) map.removeLayer('cluster-count');
+      if (map.getLayer('unclustered-point')) map.removeLayer('unclustered-point');
+      map.removeSource('sightings-source');
+    }
+    
+    // Cleanup function
+    return () => {
+      if (map.getSource('sightings-tileset')) {
+        if (map.getLayer('sightings-points')) map.removeLayer('sightings-points');
+        map.removeSource('sightings-tileset');
+      }
+    };
+  }, [mapRef.current, mapLoaded, visualizationMode, useTileset, loadMapboxTileset]);
+
+  // Handle map initialization when the component mounts
+  useEffect(() => {
+    if (!mapRef.current) return;
+    
+    // Store the map instance for later use
+    const map = mapRef.current;
+    
+    // Set the map to be loaded
+    setMapLoaded(true);
+    
+    // If using tileset mode, load the Mapbox tileset
+    if (useTileset) {
+      loadMapboxTileset();
+    }
+  }, [mapRef.current, useTileset, loadMapboxTileset]);
+
+  // Create the deck.gl layers for the visualization (non-native)
+  const buildVisualizationLayers = () => {
+    if (!filteredSightings || visualizationMode === 'native' || visualizationMode === 'tileset') return []
+
+    const layers = []
+
+    // Add heatmap layer for density visualization
+    if (visualizationMode === 'heatmap') {
+      layers.push(
+        new HeatmapLayer({
+          id: 'heatmap-layer',
+          data: filteredSightings.features,
+          getPosition: (d: GeoJSONFeature) => d.geometry.coordinates,
+          getWeight: (d: GeoJSONFeature) => 1,
+          radiusPixels: 40,
+          intensity: 1,
+          threshold: 0.05,
+          colorRange: [
+            [65, 182, 196, 25],
+            [127, 205, 187, 85],
+            [199, 233, 180, 127],
+            [237, 248, 177, 170],
+            [255, 255, 204, 255],
+          ],
+        })
+      )
+    }
+
+    // Add scatterplot layer for individual sightings
+    if (visualizationMode === 'scatter' || visualizationMode === 'both') {
+      layers.push(
+        new ScatterplotLayer({
+          id: 'sightings-scatter',
+          data: filteredSightings.features,
+          getPosition: (d: GeoJSONFeature) => d.geometry.coordinates,
+          getFillColor: [255, 140, 0, 180],
+          getRadius: (d: GeoJSONFeature) => 5000,
+          radiusScale: 1,
+          radiusMinPixels: 3,
+          radiusMaxPixels: 15,
+          pickable: true,
+          autoHighlight: true,
+          onClick: (info: any) => {
+            if (info.object) {
+              setSelectedFeature({
+                coordinates: info.object.geometry.coordinates,
+                properties: info.object.properties,
+              })
+            }
+          },
+          onHover: (info: any) => {
+            if (info.object) {
+              setHoverInfo({
+                x: info.x,
+                y: info.y,
+                coordinates: info.object.geometry.coordinates,
+                properties: info.object.properties,
+              })
+            } else {
+              setHoverInfo(null)
+            }
+          },
+        })
+      )
+    }
+
+    // Add arc layers to connect related sightings
+    if (visualizationMode === 'arcs' || visualizationMode === 'both') {
+      // Generate connections between sightings that happened within a week of each other
+      const connections = []
+      const features = filteredSightings.features.slice(0, 100) // Limit for performance
+
+      for (let i = 0; i < features.length; i++) {
+        const feature1 = features[i] as GeoJSONFeature
+        const date1 = new Date(feature1.properties?.date || feature1.properties?.timestamp || 0)
+
+        for (let j = i + 1; j < features.length; j++) {
+          const feature2 = features[j] as GeoJSONFeature
+          const date2 = new Date(feature2.properties?.date || feature2.properties?.timestamp || 0)
+
+          // Only connect if within 7 days
+          const timeDiff = Math.abs(date1.getTime() - date2.getTime())
+          if (timeDiff < 7 * 24 * 60 * 60 * 1000) {
+            connections.push({
+              source: feature1.geometry.coordinates,
+              target: feature2.geometry.coordinates,
+              sourceName: feature1.properties?.city || feature1.properties?.location,
+              targetName: feature2.properties?.city || feature2.properties?.location,
+              value: 1 + Math.random() * 2, // Randomize width slightly
+              id: `arc-${i}-${j}`,
+            })
+          }
+        }
+      }
+
+      // Use animated arc layer if animation is enabled
+      if (arcAnimationEnabled) {
+        layers.push(
+          new AnimatedArcGroupLayer({
+            id: 'animated-arc-group',
+            data: connections,
+            getSourceColor: [0, 190, 255, 200],
+            getTargetColor: [255, 100, 255, 200],
+            getWidth: (d: any) => d.value || 2,
+            getHeight: 1.5,
+            fadeIn: true,
+            fadeSpeed: 0.1,
+            pickable: true,
+            onClickArc: (info: any) => {
+              if (info.object) {
+                console.log('Arc clicked:', info.object)
+              }
+            },
+          })
+        )
+      } else {
+        // Use the standalone animated arc layer
+        layers.push(
+          AnimatedArcLayer({
+            id: 'animated-arcs',
+            data: connections,
+            getSourceColor: [0, 190, 255, 200],
+            getTargetColor: [255, 100, 255, 200],
+            getWidth: (d: any) => d.value || 2,
+            visible: true,
+            fadeIn: false,
+          })
+        )
+      }
+    }
+
+    // Add hexagon layer for clustering visualization
+    if (visualizationMode === 'hexagon') {
+      layers.push(
+        new HexagonLayer({
+          id: 'hexagon-layer',
+          data: filteredSightings.features,
+          getPosition: (d: GeoJSONFeature) => d.geometry.coordinates,
+          radius: 50000, // in meters
+          elevationScale: 100,
+          extruded: true,
+          coverage: 0.8,
+          colorRange: [
+            [65, 182, 196],
+            [127, 205, 187],
+            [199, 233, 180],
+            [237, 248, 177],
+            [255, 255, 204],
+            [255, 237, 160],
+          ],
+          upperPercentile: 90,
+          material: {
+            ambient: 0.64,
+            diffuse: 0.6,
+            shininess: 32,
+            specularColor: [51, 51, 51],
+          },
+          pickable: true,
+        })
+      )
+    }
+
+    // Add military bases if enabled
+    if (showMilitaryBases && militaryBases) {
+      layers.push(
+        new GeoJsonLayer({
+          id: 'military-bases',
+          data: militaryBases,
+          filled: true,
+          pointRadiusMinPixels: 3,
+          pointRadiusScale: 2000,
+          getFillColor: [0, 0, 128, 180],
+          pickable: true,
+          autoHighlight: true,
+          onClick: (info: any) => {
+            if (info.object) {
+              setSelectedFeature({
+                coordinates: info.object.geometry.coordinates,
+                properties: info.object.properties,
+              })
+            }
+          },
+        })
+      )
+    }
+
+    // Add UFO posts if enabled
+    if (showUFOPosts && ufoPosts) {
+      layers.push(
+        new GeoJsonLayer({
+          id: 'ufo-posts',
+          data: ufoPosts,
+          filled: true,
+          pointRadiusMinPixels: 3,
+          pointRadiusScale: 2000,
+          getFillColor: [128, 0, 128, 180],
+          pickable: true,
+          autoHighlight: true,
+          onClick: (info: any) => {
+            if (info.object) {
+              setSelectedFeature({
+                coordinates: info.object.geometry.coordinates,
+                properties: info.object.properties,
+              })
+            }
+          },
+        })
+      )
+    }
+
+    return layers
+  }
+
+  // Get current user's location
+  const getUserLocation = useCallback(() => {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setMapConfig({
+            ...mapConfig,
+            center: [position.coords.longitude, position.coords.latitude] as [number, number],
+            zoom: [6] as [number]
+          });
         },
-        onHover: ( info ) => {
-          // Optionally, update hover state or show a tooltip
-          console.log( 'Hovered feature:', info.object )
-        },
-      } ),
-    ]
-  }, [sightings] )
+        (error) => {
+          console.error('Error getting user location:', error)
+        }
+      )
+    }
+  }, [mapConfig])
+
+  // Convert timestamp to readable date
+  const formatDate = (timestamp: number | string | undefined) => {
+    if (!timestamp) return 'Unknown date'
+    const date = new Date(timestamp)
+    return format(date, 'MMMM d, yyyy')
+  }
 
   return (
-    <div style={{ width: '100vw', height: '100vh' }}>
-      <Map
+    <div className='h-screen w-screen relative'>
+      <MapGL
         ref={mapRef}
-        initialViewState={viewState}
-        onMove={( evt ) => setViewState( evt.viewState )}
-        mapStyle="mapbox://styles/your-mapbox-style"
-        mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_PUBLIC_TOKEN}
+        style="mapbox://styles/mapbox/dark-v11"
+        containerStyle={{ height: '100vh', width: '100vw' }}
+        {...mapConfig}
+        renderChildrenInPortal={true}
       >
-        {/* Render the deck.gl overlay */}
-        <DeckGLOverlay layers={layers} />
-
-        {/* Display a Popup for selected features */}
-        {selected && (
-          <Popup
-            longitude={selected.longitude}
-            latitude={selected.latitude}
-            anchor="left"
-            onClose={() => setSelected( null )}
+        {/* Navigation controls */}
+        <ZoomControl position="top-left" />
+        
+        {/* Add custom layers based on visualization mode - not needed for native clustering or tileset */}
+        {visualizationMode !== 'native' && visualizationMode !== 'tileset' && filteredSightings && (
+          <Layer
+            type="circle"
+            id="sightings-layer"
+            paint={{
+              'circle-radius': 6,
+              'circle-color': '#ff8c00',
+              'circle-opacity': 0.8,
+              'circle-stroke-width': 2,
+              'circle-stroke-color': 'rgba(255, 255, 255, 0.5)'
+            }}
           >
-            <div>
-              {Object.entries( selected.details ).map( ( [key, value] ) => (
-                <p key={key}>
-                  <strong>{key}:</strong> {value as string}
-                </p>
-              ) )}
+            {filteredSightings.features.map((feature: GeoJSONFeature, index: number) => (
+              <Feature 
+                key={`sighting-${index}`}
+                coordinates={feature.geometry.coordinates as [number, number]}
+                onClick={() => setPopupInfo({
+                  coordinates: feature.geometry.coordinates as [number, number],
+                  properties: feature.properties
+                })}
+              />
+            ))}
+          </Layer>
+        )}
+        
+        {/* Military bases layer */}
+        {showMilitaryBases && militaryBases && (
+          <Layer
+            type="circle"
+            id="military-bases-layer"
+            paint={{
+              'circle-radius': 8,
+              'circle-color': '#0000ff',
+              'circle-opacity': 0.7,
+              'circle-stroke-width': 1,
+              'circle-stroke-color': '#ffffff'
+            }}
+          >
+            {militaryBases.features.map((feature: GeoJSONFeature, index: number) => (
+              <Feature 
+                key={`base-${index}`}
+                coordinates={feature.geometry.coordinates as [number, number]}
+                onClick={() => setPopupInfo({
+                  coordinates: feature.geometry.coordinates as [number, number],
+                  properties: feature.properties
+                })}
+              />
+            ))}
+          </Layer>
+        )}
+        
+        {/* UFO posts layer */}
+        {showUFOPosts && ufoPosts && (
+          <Layer
+            type="circle"
+            id="ufo-posts-layer"
+            paint={{
+              'circle-radius': 5,
+              'circle-color': '#8000ff',
+              'circle-opacity': 0.7,
+              'circle-stroke-width': 1,
+              'circle-stroke-color': '#ffffff'
+            }}
+          >
+            {ufoPosts.features.map((feature: GeoJSONFeature, index: number) => (
+              <Feature 
+                key={`post-${index}`}
+                coordinates={feature.geometry.coordinates as [number, number]}
+                onClick={() => setPopupInfo({
+                  coordinates: feature.geometry.coordinates as [number, number],
+                  properties: feature.properties
+                })}
+              />
+            ))}
+          </Layer>
+        )}
+
+        {/* Popup for selected feature */}
+        {popupInfo && (
+          <Popup
+            coordinates={popupInfo.coordinates}
+            offset={[0, -15]}
+            onClick={() => setPopupInfo(null)}
+          >
+            <div className='p-2 max-w-md bg-black bg-opacity-80 text-white rounded-md border border-cyan-500/30'>
+              <h3 className='text-lg font-bold mb-1 text-cyan-400'>
+                {popupInfo.properties.city ||
+                  popupInfo.properties.location ||
+                  'Unknown location'}
+              </h3>
+              <p className='text-sm mb-2'>
+                {formatDate(
+                  popupInfo.properties.date || popupInfo.properties.timestamp
+                )}
+              </p>
+              <p className='text-sm'>
+                {popupInfo.properties.description ||
+                  popupInfo.properties.comments ||
+                  'No description available'}
+              </p>
+              {popupInfo.properties.sourceUrl && (
+                <a
+                  href={popupInfo.properties.sourceUrl}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='text-xs text-cyan-400 underline mt-2 inline-block'>
+                  Source
+                </a>
+              )}
             </div>
           </Popup>
         )}
+      </MapGL>
 
-        {/* Optional: Add Navigation Controls */}
-        <NavigationControl position="top-left" />
-      </Map>
+      {/* Controls panel for visualization options */}
+      <div className='absolute bottom-4 left-4 p-4 bg-black bg-opacity-70 text-white rounded-lg z-10 font-monumentMono'>
+        <h3 className='text-lg mb-3 font-bold text-cyan-400'>Visualization Options</h3>
+
+        <div className='mb-3'>
+          <label htmlFor='displayMode' className='block mb-1'>
+            Display Mode
+          </label>
+          <div id='displayMode' className='flex flex-wrap gap-2'>
+            <button
+              type='button'
+              onClick={() => setVisualizationMode('native')}
+              className={`px-3 py-1 rounded ${
+                visualizationMode === 'native' ? 'bg-cyan-500 text-black' : 'bg-gray-700'
+              }`}>
+              Mapbox Clusters
+            </button>
+            <button
+              type='button'
+              onClick={() => {
+                setVisualizationMode('tileset');
+                setUseTileset(true);
+                loadMapboxTileset();
+              }}
+              className={`px-3 py-1 rounded ${
+                visualizationMode === 'tileset' ? 'bg-cyan-500 text-black' : 'bg-gray-700'
+              }`}>
+              Mapbox Tileset
+            </button>
+            <button
+              type='button'
+              onClick={() => setVisualizationMode('heatmap')}
+              className={`px-3 py-1 rounded ${
+                visualizationMode === 'heatmap' ? 'bg-cyan-500 text-black' : 'bg-gray-700'
+              }`}>
+              Heatmap
+            </button>
+            <button
+              type='button'
+              onClick={() => setVisualizationMode('hexagon')}
+              className={`px-3 py-1 rounded ${
+                visualizationMode === 'hexagon' ? 'bg-cyan-500 text-black' : 'bg-gray-700'
+              }`}>
+              3D Clusters
+            </button>
+            <button
+              type='button'
+              onClick={() => setVisualizationMode('scatter')}
+              className={`px-3 py-1 rounded ${
+                visualizationMode === 'scatter' ? 'bg-cyan-500 text-black' : 'bg-gray-700'
+              }`}>
+              Points
+            </button>
+            <button
+              type='button'
+              onClick={() => setVisualizationMode('arcs')}
+              className={`px-3 py-1 rounded ${
+                visualizationMode === 'arcs' ? 'bg-cyan-500 text-black' : 'bg-gray-700'
+              }`}>
+              Connections
+            </button>
+            <button
+              type='button'
+              onClick={() => setVisualizationMode('both')}
+              className={`px-3 py-1 rounded ${
+                visualizationMode === 'both' ? 'bg-cyan-500 text-black' : 'bg-gray-700'
+              }`}>
+              Combined
+            </button>
+          </div>
+        </div>
+
+        <div className='mb-3'>
+          <label htmlFor='layersControl' className='block mb-1'>
+            Layers
+          </label>
+          <div id='layersControl' className='flex flex-wrap gap-2'>
+            <button
+              type='button'
+              onClick={() => setShowMilitaryBases(!showMilitaryBases)}
+              className={`px-3 py-1 rounded ${
+                showMilitaryBases ? 'bg-cyan-500 text-black' : 'bg-gray-700'
+              }`}>
+              Military Bases
+            </button>
+            <button
+              type='button'
+              onClick={() => setShowUFOPosts(!showUFOPosts)}
+              className={`px-3 py-1 rounded ${
+                showUFOPosts ? 'bg-cyan-500 text-black' : 'bg-gray-700'
+              }`}>
+              UFO Posts
+            </button>
+            <button
+              type='button'
+              onClick={() => setArcAnimationEnabled(!arcAnimationEnabled)}
+              className={`px-3 py-1 rounded ${
+                arcAnimationEnabled ? 'bg-cyan-500 text-black' : 'bg-gray-700'
+              }`}>
+              Arc Animation
+            </button>
+          </div>
+        </div>
+
+        <div className='mb-3'>
+          <label htmlFor='timeRange1' className='block mb-1'>
+            Time Period: {formatDate(timeRange[0])} - {formatDate(timeRange[1])}
+          </label>
+          <input
+            id='timeRange1'
+            type='range'
+            min={new Date('1940-01-01').getTime()}
+            max={new Date().getTime()}
+            value={timeRange[0]}
+            onChange={(e) => setTimeRange([Number.parseInt(e.target.value), timeRange[1]])}
+            className='w-full mb-2'
+          />
+          <input
+            id='timeRange2'
+            type='range'
+            min={new Date('1940-01-01').getTime()}
+            max={new Date().getTime()}
+            value={timeRange[1]}
+            onChange={(e) => setTimeRange([timeRange[0], Number.parseInt(e.target.value)])}
+            className='w-full'
+          />
+        </div>
+
+        <div className='flex flex-wrap gap-2'>
+          <button
+            type='button'
+            onClick={getUserLocation}
+            className='px-3 py-1 rounded bg-cyan-600 hover:bg-cyan-500 transition-colors'>
+            Go to My Location
+          </button>
+          
+          {/* Example locations for demo purposes */}
+          <button
+            type='button'
+            onClick={() => flyToLocation(-112.0740, 33.4484, 8)} // Phoenix Lights location
+            className='px-3 py-1 rounded bg-cyan-600 hover:bg-cyan-500 transition-colors'>
+            Phoenix Lights
+          </button>
+          <button
+            type='button'
+            onClick={() => flyToLocation(-104.5230, 33.3943, 8)} // Roswell location
+            className='px-3 py-1 rounded bg-cyan-600 hover:bg-cyan-500 transition-colors'>
+            Roswell
+          </button>
+          <button
+            type='button'
+            onClick={() => {
+              setVisualizationMode('native');
+              setMapConfig({
+                center: [-98.5795, 39.8283] as [number, number],
+                zoom: [3] as [number],
+                pitch: [45] as [number]
+              });
+            }}
+            className='px-3 py-1 rounded bg-cyan-600 hover:bg-cyan-500 transition-colors'>
+            Reset View
+          </button>
+        </div>
+      </div>
+
+      {/* Statistics panel */}
+      <div className='absolute top-4 right-4 p-4 bg-black bg-opacity-70 text-white rounded-lg z-10 font-monumentMono'>
+        <h3 className='text-lg mb-2 font-bold text-cyan-400'>Current View</h3>
+        <p className='text-sm'>Showing {filteredSightings?.features.length || 0} sightings</p>
+        <p className='text-sm'>
+          Time range: {formatDate(timeRange[0])} - {formatDate(timeRange[1])}
+        </p>
+      </div>
     </div>
   )
-} )
+}

@@ -1,0 +1,33 @@
+erDiagram
+    Personnel ||--o{ OrganizationMembers : has
+    Organizations ||--o{ OrganizationMembers : contains
+    Personnel ||--o{ Testimonies : provides
+    Events ||--o{ Testimonies : has
+    Testimonies ||--o{ Artifacts : contains
+    Personnel ||--o{ Documents : owns
+    Documents }o--|| Organizations : references
+    Personnel ||--o{ Theories : creates
+    Theories }o--|| Topics : about
+    
+    Events ||--o{ EventTopicExperts : has
+    Topics ||--o{ EventTopicExperts : provides
+    EventTopicExperts }o--|| Personnel : involves
+    
+    Events }o--|| Locations : occurs_at
+    
+    Sightings }o--|| Locations : occurs_at
+    Sightings }o--|| Personnel : "witnessed by"
+    
+    Topics ||--o{ TopicExperts : has
+    Personnel ||--o{ TopicExperts : is
+    
+    Topics ||--o{ TopicsTestimonies : has
+    TopicsTestimonies }o--|| Testimonies : references
+    
+    Artifacts }o--|| Locations : found_at
+    Artifacts ||--o{ Theories : supports
+    
+    CaseFiles }o--|| Events : documents
+    CaseFiles }o--|| Documents : contains
+    CaseFiles ||--o{ Testimonies : includes
+    CaseFiles }o--|| Personnel : "managed by"

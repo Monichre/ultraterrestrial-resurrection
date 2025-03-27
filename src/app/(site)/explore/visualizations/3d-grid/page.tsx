@@ -1,7 +1,7 @@
-import { ThreeDGrid } from '@/components/visualizations/3d-grid/3d-grid'
+import {ThreeDGrid} from '@/features/3d/visualizations/3d-grid/3d-grid'
 
-import { getXataClient } from '@/db/xata'
-import { Suspense } from 'react'
+import {getXataClient} from '@/db/xata'
+import {Suspense} from 'react'
 const xata = getXataClient()
 
 export default async function Index() {
@@ -26,7 +26,7 @@ export default async function Index() {
     ...personnel.toSerializable(),
   ]
 
-  console.log( 'data: ', data )
+  console.log('data: ', data)
 
   return (
     <Suspense fallback={null}>

@@ -1,5 +1,3 @@
-"use client";
-
 import { AddIcon, OracleIcon, SlashIcon } from "@/components/icons";
 import { MarkdownContent } from "@/components/ui/chat/markdown-content";
 import { cn } from "@/utils/cn";
@@ -174,11 +172,13 @@ export const OracleInput = ({
 										? chatStatus === "loading"
 											? "AI is thinking..."
 											: "Chat with AI..."
-										: activeCommand
-											? "Type your message..."
-											: isOpen
-												? "..."
-												: "Type / for commands..."
+										: activeCommand === "scrape"
+											? "Enter a URL to scrape (https://...)..."
+											: activeCommand
+												? "Type your message..."
+												: isOpen
+													? "..."
+													: "Type / for commands..."
 								}
 								className="bg-transparent text-zinc-200 text-sm focus:outline-none flex-1"
 							/>

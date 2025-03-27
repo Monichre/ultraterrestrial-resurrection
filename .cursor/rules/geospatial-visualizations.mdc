@@ -1,0 +1,96 @@
+---
+description: sightings visualizations, globe, 3d data animations
+globs: 
+alwaysApply: false
+---
+[sightings-globe.tsx](mdc:src/features/data-viz/sightings/sightings-globe.tsx)
+[sightings-visualization.tsx](mdc:src/components/uap-dashboard/sightings-visualization.tsx)
+[uap-sighting.ts](mdc:src/services/sightings/uap-sighting.ts)
+[threejs-globe.tsx](mdc:src/components/globes/threejs-globe.tsx)
+[mapbox-globe.tsx](mdc:src/components/globes/mapbox-globe.tsx)
+
+# The DeckGL React Component
+
+To use deck.gl with React, simply import the DeckGL React component and render it as a child of another component, passing in your list of deck.gl layers as a property.
+
+```
+import React from 'react';
+import DeckGL from '@deck.gl/react';
+import {MapViewState} from '@deck.gl/core';
+import {LineLayer} from '@deck.gl/layers';
+
+const INITIAL_VIEW_STATE: MapViewState = {
+  longitude: -122.41669,
+  latitude: 37.7853,
+  zoom: 13
+};
+
+type DataType = {
+  from: [longitude: number, latitude: number];
+  to: [longitude: number, latitude: number];
+};
+
+function App() {
+  const layers = [
+    new LineLayer<DataType>({
+      id: 'line-layer',
+      data: '/path/to/data.json',
+      getSourcePosition: (d: DataType) => d.from,
+      getTargetPosition: (d: DataType) => d.to,
+    })
+  ];
+
+  return <DeckGL
+      initialViewState={INITIAL_VIEW_STATE}
+      controller
+      layers={layers} />;
+}
+```
+
+Adding a Base Map
+The vis.gl community maintains two React libraries that seamlessly work with deck.gl.
+
+react-map-gl - a React wrapper for Mapbox GL JS and MapLibre GL JS. Several integration options are discussed in using with Mapbox.
+
+
+Using JSX Layers, Views, and Widgets
+It is possible to use JSX syntax to create deck.gl layers, views, and widgets as React children of the DeckGL React components, instead of providing them as ES6 class instances to the layers, views, or widgets prop, respectively. There are no performance advantages to this syntax but it can allow for a more consistent, React-like coding style.
+
+```
+import React from 'react';
+import DeckGL from '@deck.gl/react';
+import {MapViewState} from '@deck.gl/core';
+import {LineLayer} from '@deck.gl/layers';
+import {ZoomWidget} from '@deck.gl/react';
+import {Map} from 'react-map-gl';
+
+const INITIAL_VIEW_STATE: MapViewState = {
+  longitude: -122.41669,
+  latitude: 37.7853,
+  zoom: 13
+};
+
+function App() {
+  return (
+    <DeckGL
+      initialViewState={INITIAL_VIEW_STATE}
+      controller
+    >
+      <LineLayer
+        id="line-layer"
+        data="/path/to/data.json"
+        getSourcePosition={d => d.from}
+        getTargetPosition={d => d.to} />
+
+      <MapView id="map" width="50%" controller >
+        <Map mapStyle="mapbox://styles/mapbox/light-v9" />
+      </MapView>
+
+      <FirstPersonView width="50%" x="50%" fovy={50} />
+
+      <ZoomWidget/>
+    </DeckGL>
+  );
+}
+```
+
