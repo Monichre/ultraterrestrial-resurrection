@@ -1,96 +1,276 @@
 ---
-description: sightings visualizations, globe, 3d data animations
+description: 
 globs: 
 alwaysApply: false
 ---
-[sightings-globe.tsx](mdc:src/features/data-viz/sightings/sightings-globe.tsx)
-[sightings-visualization.tsx](mdc:src/components/uap-dashboard/sightings-visualization.tsx)
-[uap-sighting.ts](mdc:src/services/sightings/uap-sighting.ts)
-[threejs-globe.tsx](mdc:src/components/globes/threejs-globe.tsx)
-[mapbox-globe.tsx](mdc:src/components/globes/mapbox-globe.tsx)
-
-# The DeckGL React Component
-
-To use deck.gl with React, simply import the DeckGL React component and render it as a child of another component, passing in your list of deck.gl layers as a property.
-
+# TASK: Turn this code into a modular React component with ThreeJS, React Three Fiber and Drei.
+- You do not need to include the double click or full screen functionality. I only want the sphere
 ```
-import React from 'react';
-import DeckGL from '@deck.gl/react';
-import {MapViewState} from '@deck.gl/core';
-import {LineLayer} from '@deck.gl/layers';
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>three.js Interactive Particle System</title>
+    <style>
+      body { margin: 0; overflow:hidden; user-select:none; background:#000000 }
+      svg { display: none;}
+      canvas {display: block;}
+    </style>
+  </head>
+  <body>
+  </body>
+</html>
+```
+--
+```
+ohpscdn.skypack.dev/three@0.136.0/examples/jsm/controls/OrbitControls.js';
+import { EffectComposer } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/postprocessing/UnrealBloomPass.js';
 
-const INITIAL_VIEW_STATE: MapViewState = {
-  longitude: -122.41669,
-  latitude: 37.7853,
-  zoom: 13
-};
+let container;
+let camera, scene, renderer;
+let particles, particleSystem;
+let mouseX = 0, mouseY = 0;
+let windowHalfX = window.innerWidth / 2;
+let windowHalfY = window.innerHeight / 2;
+let particlePositions, particleVelocities;
+let controls, composer;
+let currentShape = 'sphere';
+let title3;
 
-type DataType = {
-  from: [longitude: number, latitude: number];
-  to: [longitude: number, latitude: number];
-};
+init();
+animate();
 
-function App() {
-  const layers = [
-    new LineLayer<DataType>({
-      id: 'line-layer',
-      data: '/path/to/data.json',
-      getSourcePosition: (d: DataType) => d.from,
-      getTargetPosition: (d: DataType) => d.to,
-    })
-  ];
+function init() {
+    container = document.createElement('div');
+    document.body.appendChild(container);
 
-  return <DeckGL
-      initialViewState={INITIAL_VIEW_STATE}
-      controller
-      layers={layers} />;
+    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 3000);
+    camera.position.z = 1000;
+
+    scene = new THREE.Scene();
+
+    const particlesCount = 6000;
+    const geometry = new THREE.BufferGeometry();
+    particlePositions = new Float32Array(particlesCount * 3);
+    particleVelocities = new Float32Array(particlesCount * 3);
+
+    createShape('sphere', particlesCount, 400);
+
+    geometry.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+const color = new THREE.Color('#adf0dd');
+    const material = new THREE.PointsMaterial({ color: color, size: 2 });
+
+    particleSystem = new THREE.Points(geometry, material);
+    scene.add(particleSystem);
+
+    renderer = new THREE.WebGLRenderer();
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    container.appendChild(renderer.domElement);
+
+    controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.25;
+    controls.screenSpacePanning = false;
+    controls.maxPolarAngle = Math.PI / 2;
+
+    const renderScene = new RenderPass(scene, camera);
+
+    const bloomPass = new UnrealBloomPass(
+        new THREE.Vector2(window.innerWidth, window.innerHeight),
+        1.5,
+        0.4,
+        0.85
+    );
+    bloomPass.threshold = 0;
+    bloomPass.strength = 1.5;
+    bloomPass.radius = 0;
+
+    composer = new EffectComposer(renderer);
+    composer.addPass(renderScene);
+    composer.addPass(bloomPass);
+
+    document.addEventListener('pointermove', onPointerMove, false);
+    document.addEventListener('dblclick', onDoubleClick, false);
+    window.addEventListener('resize', onWindowResize, false);
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const title1 = document.createElement('h3');
+        title1.classList.add('title', '_1');
+        title1.textContent = 'three.js Interactive Particle System';
+
+        const title2 = document.createElement('h3');
+        title2.classList.add('title', '_2');
+        title2.textContent = 'double click';
+
+        title3 = document.createElement('h3');
+        title3.classList.add('title', '_3');
+        title3.textContent = 'fullscreen on';
+
+        document.body.appendChild(title1);
+        document.body.appendChild(title2);
+        document.body.appendChild(title3);
+
+        const titles = document.querySelectorAll('.title');
+
+        titles.forEach(title => {
+            title.style.position = 'absolute';
+            title.style.fontFamily = 'arial';
+            title.style.color = '#fff';
+            title.style.fontSize = '.8rem';
+        });
+
+        title1.style.top = '20px';
+        title1.style.left = '30px';
+
+        title2.style.bottom = '20px';
+        title2.style.left = '30px';
+
+        title3.style.bottom = '20px';
+        title3.style.right = '30px';
+        title3.style.cursor = 'pointer';
+
+        title3.addEventListener('click', toggleFullscreen);
+    });
+}
+
+function createShape(shape, particlesCount, radius) {
+    for (let i = 0; i < particlesCount; i++) {
+        let x, y, z;
+        switch (shape) {
+            case 'sphere':
+                const theta = Math.random() * 2 * Math.PI;
+                const phi = Math.acos(2 * Math.random() - 1);
+                x = radius * Math.sin(phi) * Math.cos(theta);
+                y = radius * Math.sin(phi) * Math.sin(theta);
+                z = radius * Math.cos(phi);
+                break;
+            case 'mirror':
+                if (i < particlesCount / 5) {
+                    x = Math.random() * radius - radius / 2;
+                    y = Math.random() * radius - radius / 2;
+                    z = radius / 2;
+                } else {
+                    x = Math.random() * radius - radius / 2;
+                    y = Math.random() * radius - radius / 2;
+                    z = -radius / 2;
+                }
+                break;
+            case 'cube':
+                x = Math.random() * radius - radius / 2;
+                y = Math.random() * radius - radius / 2;
+                z = Math.random() * radius - radius / 2;
+                break;
+        }
+
+        particlePositions[i * 3] = x;
+        particlePositions[i * 3 + 1] = y;
+        particlePositions[i * 3 + 2] = z;
+
+        particleVelocities[i * 3] = (Math.random() - 0.5) * 2;
+        particleVelocities[i * 3 + 1] = (Math.random() - 0.5) * 2;
+        particleVelocities[i * 3 + 2] = (Math.random() - 0.5) * 2;
+    }
+}
+
+function onPointerMove(event) {
+    if (event.isPrimary === false) return;
+
+    mouseX = (event.clientX - windowHalfX) * 2;
+    mouseY = (event.clientY - windowHalfY) * 2;
+}
+
+function onDoubleClick() {
+    const shapes = ['sphere', 'mirror', 'cube'];
+    const currentShapeIndex = shapes.indexOf(currentShape);
+    const nextShape = shapes[(currentShapeIndex + 1) % shapes.length];
+    currentShape = nextShape;
+
+    createShape(currentShape, 6000, 400);
+
+    const color = new THREE.Color(Math.random(), Math.random(), Math.random());
+    particleSystem.material.color.set(color);
+}
+
+function onWindowResize() {
+    windowHalfX = window.innerWidth / 2;
+    windowHalfY = window.innerHeight / 2;
+
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    composer.setSize(window.innerWidth, window.innerHeight);
+}
+
+function animate() {
+    requestAnimationFrame(animate);
+    render();
+}
+
+function render() {
+    const positions = particleSystem.geometry.attributes.position.array;
+    for (let i = 0; i < positions.length; i += 3) {
+        // Move particles randomly
+        positions[i] += particleVelocities[i];
+        positions[i + 1] += particleVelocities[i + 1];
+        positions[i + 2] += particleVelocities[i + 2];
+
+        // Keep particles within shape bounds
+        let dist;
+        switch (currentShape) {
+            case 'sphere':
+                dist = Math.sqrt(
+                    positions[i] * positions[i] +
+                    positions[i + 1] * positions[i + 1] +
+                    positions[i + 2] * positions[i + 2]
+                );
+                if (dist > 400) {
+                    const factor = 400 / dist;
+                    positions[i] *= factor;
+                    positions[i + 1] *= factor;
+                    positions[i + 2] *= factor;
+                }
+                break;
+            case 'mirror':
+                const mirrorHeight = 400;
+                if (Math.abs(positions[i + 2]) > mirrorHeight / 2) {
+                    positions[i + 2] = Math.sign(positions[i + 2]) * mirrorHeight / 2;
+                }
+                break;
+            case 'cube':
+                if (Math.abs(positions[i]) > 200) positions[i] = Math.sign(positions[i]) * 200;
+                if (Math.abs(positions[i + 1]) > 200) positions[i + 1] = Math.sign(positions[i + 1]) * 200;
+                if (Math.abs(positions[i + 2]) > 200) positions[i + 2] = Math.sign(positions[i + 2]) * 200;
+                break;
+        }
+
+        // Mouse repulsion
+        const dx = (mouseX - positions[i]);
+        const dy = (-mouseY - positions[i + 1]);
+        const mouseDist = Math.sqrt(dx * dx + dy * dy);
+        const repulsionForce = Math.max(0, 300 - mouseDist) * 0.1;
+
+        if (mouseDist > 0) {
+            positions[i] -= (dx / mouseDist) * repulsionForce;
+            positions[i + 1] -= (dy / mouseDist) * repulsionForce;
+        }
+    }
+
+    particleSystem.geometry.attributes.position.needsUpdate = true;
+
+    controls.update();
+    composer.render();
+}
+
+function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+        title3.textContent = 'fullscreen off';
+    } else if (document.exitFullscreen) {
+        document.exitFullscreen();
+        title3.textContent = 'fullscreen on';
+    }
 }
 ```
-
-Adding a Base Map
-The vis.gl community maintains two React libraries that seamlessly work with deck.gl.
-
-react-map-gl - a React wrapper for Mapbox GL JS and MapLibre GL JS. Several integration options are discussed in using with Mapbox.
-
-
-Using JSX Layers, Views, and Widgets
-It is possible to use JSX syntax to create deck.gl layers, views, and widgets as React children of the DeckGL React components, instead of providing them as ES6 class instances to the layers, views, or widgets prop, respectively. There are no performance advantages to this syntax but it can allow for a more consistent, React-like coding style.
-
-```
-import React from 'react';
-import DeckGL from '@deck.gl/react';
-import {MapViewState} from '@deck.gl/core';
-import {LineLayer} from '@deck.gl/layers';
-import {ZoomWidget} from '@deck.gl/react';
-import {Map} from 'react-map-gl';
-
-const INITIAL_VIEW_STATE: MapViewState = {
-  longitude: -122.41669,
-  latitude: 37.7853,
-  zoom: 13
-};
-
-function App() {
-  return (
-    <DeckGL
-      initialViewState={INITIAL_VIEW_STATE}
-      controller
-    >
-      <LineLayer
-        id="line-layer"
-        data="/path/to/data.json"
-        getSourcePosition={d => d.from}
-        getTargetPosition={d => d.to} />
-
-      <MapView id="map" width="50%" controller >
-        <Map mapStyle="mapbox://styles/mapbox/light-v9" />
-      </MapView>
-
-      <FirstPersonView width="50%" x="50%" fovy={50} />
-
-      <ZoomWidget/>
-    </DeckGL>
-  );
-}
-```
-
