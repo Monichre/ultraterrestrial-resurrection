@@ -1,12 +1,15 @@
-import { Home } from "@/layouts/home";
+import {Home} from '@/layouts/home'
+import {Suspense} from 'react'
 
 export default async function Index() {
-	return (
-		<div className="h-[100vh] overflow-hidden">
-			<Home />
-			{/* </Suspense> */}
-		</div>
-	);
+  return (
+    <div className='h-[100vh] overflow-hidden'>
+      <Suspense>
+        <Home />
+        {/* </Suspense> */}
+      </Suspense>
+    </div>
+  )
 }
 
 // Behavior Patterns	Classifying observed behaviors
