@@ -1,123 +1,124 @@
 import React from 'react'
-import { Meta, StoryObj } from '@storybook/react'
-import { SightingsGlobe } from './sightings-globe'
-import { Suspense } from 'react'
+import type {Meta, StoryObj} from '@storybook/react'
+import {SightingsGlobe} from './sightings-globe'
+import {Suspense} from 'react'
 
 // Create mock GeoJSON data for the stories
 const createMockGeoJSON = () => {
   // Mock sightings data
   const sightings = {
     type: 'FeatureCollection',
-    features: Array.from({ length: 50 }, (_, i) => ({
+    features: Array.from({length: 50}, (_, i) => ({
       type: 'Feature',
       properties: {
         id: `sighting-${i}`,
-        date: new Date(1980 + Math.floor(i/2), i % 12, (i % 28) + 1).toISOString(),
-        timestamp: new Date(1980 + Math.floor(i/2), i % 12, (i % 28) + 1).getTime(),
+        date: new Date(1980 + Math.floor(i / 2), i % 12, (i % 28) + 1).toISOString(),
+        timestamp: new Date(1980 + Math.floor(i / 2), i % 12, (i % 28) + 1).getTime(),
         city: `City ${i}`,
         state: `State ${i % 50}`,
         country: `Country ${i % 10}`,
         description: `This is a mock sighting description ${i}. It was reported by multiple witnesses.`,
-        comments: `Witness reported seeing unusual lights in the sky that moved in patterns inconsistent with known aircraft. Sighting lasted approximately ${(i % 10) + 1} minutes.`,
+        comments: `Witness reported seeing unusual lights in the sky that moved in patterns inconsistent with known aircraft. Sighting lasted approximately ${
+          (i % 10) + 1
+        } minutes.`,
         shape: ['Disc', 'Triangle', 'Sphere', 'Cylinder', 'Oval', 'Cigar', 'Unknown'][i % 7],
         duration: `${(i % 60) + 1} minutes`,
-        sourceUrl: `https://example.com/sighting/${i}`
+        sourceUrl: `https://example.com/sighting/${i}`,
       },
       geometry: {
         type: 'Point',
         coordinates: [
-          -180 + (i * 7.2) % 360, // longitude spread around the world
-          (Math.sin(i) * 60) % 85  // latitude with some variation
-        ]
-      }
-    }))
+          -180 + ((i * 7.2) % 360), // longitude spread around the world
+          (Math.sin(i) * 60) % 85, // latitude with some variation
+        ],
+      },
+    })),
   }
 
   // Mock military bases data
   const militaryBases = {
     type: 'FeatureCollection',
-    features: Array.from({ length: 20 }, (_, i) => ({
+    features: Array.from({length: 20}, (_, i) => ({
       type: 'Feature',
       properties: {
         id: `base-${i}`,
         name: `Military Base ${i}`,
         type: ['Air Force', 'Navy', 'Army', 'Space Force', 'Research Facility'][i % 5],
         country: `Country ${i % 8}`,
-        established: 1950 + (i * 3),
-        description: `Military installation with reported UAP activity nearby.`
+        established: 1950 + i * 3,
+        description: `Military installation with reported UAP activity nearby.`,
       },
       geometry: {
         type: 'Point',
         coordinates: [
-          -160 + (i * 16) % 320, // longitude spread
-          (Math.cos(i) * 50) % 70  // latitude with variation
-        ]
-      }
-    }))
+          -160 + ((i * 16) % 320), // longitude spread
+          (Math.cos(i) * 50) % 70, // latitude with variation
+        ],
+      },
+    })),
   }
 
   // Mock UFO posts data (e.g. social media posts or reports)
   const ufoPosts = {
     type: 'FeatureCollection',
-    features: Array.from({ length: 30 }, (_, i) => ({
+    features: Array.from({length: 30}, (_, i) => ({
       type: 'Feature',
       properties: {
         id: `post-${i}`,
         username: `user${i * 7}`,
-        date: new Date(2010 + Math.floor(i/3), i % 12, (i % 28) + 1).toISOString(),
-        timestamp: new Date(2010 + Math.floor(i/3), i % 12, (i % 28) + 1).getTime(),
+        date: new Date(2010 + Math.floor(i / 3), i % 12, (i % 28) + 1).toISOString(),
+        timestamp: new Date(2010 + Math.floor(i / 3), i % 12, (i % 28) + 1).getTime(),
         content: `I just saw something strange in the sky! #UFO #sighting ${i}`,
         platform: ['Twitter', 'Facebook', 'Instagram', 'TikTok', 'Reddit'][i % 5],
         mediaAttached: i % 3 === 0,
-        verified: i % 5 === 0
+        verified: i % 5 === 0,
       },
       geometry: {
         type: 'Point',
         coordinates: [
-          -170 + (i * 11.3) % 340, // longitude spread
-          (Math.tan(i) * 30) % 75  // latitude with variation
-        ]
-      }
-    }))
+          -170 + ((i * 11.3) % 340), // longitude spread
+          (Math.tan(i) * 30) % 75, // latitude with variation
+        ],
+      },
+    })),
   }
 
-  return { sightings, militaryBases, ufoPosts }
+  return {sightings, militaryBases, ufoPosts}
 }
 
 // Mock component for replacing the Map in Storybook
 // This allows us to show the component without Mapbox token
-const MockMap = ({ children, ...props }) => {
+const MockMap = ({children, ...props}) => {
   return (
-    <div className="w-full h-screen bg-black relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-gray-900 to-black">
-        <div className="absolute inset-0 opacity-20">
+    <div className='w-full h-screen bg-black relative overflow-hidden'>
+      <div className='absolute inset-0 bg-gradient-to-b from-gray-900 to-black'>
+        <div className='absolute inset-0 opacity-20'>
           {/* Fake stars background */}
-          {Array.from({ length: 200 }).map((_, i) => (
-            <div 
+          {Array.from({length: 200}).map((_, i) => (
+            <div
               key={i}
-              className="absolute rounded-full bg-white"
+              className='absolute rounded-full bg-white'
               style={{
                 width: Math.random() * 2 + 'px',
                 height: Math.random() * 2 + 'px',
                 top: Math.random() * 100 + '%',
                 left: Math.random() * 100 + '%',
-                opacity: Math.random() * 0.8 + 0.2
+                opacity: Math.random() * 0.8 + 0.2,
               }}
             />
           ))}
         </div>
-        <div className="absolute inset-0 flex items-center justify-center text-white text-opacity-30">
-          <div className="text-3xl font-monumentMono">
-            3D Globe Visualization
-          </div>
+        <div className='absolute inset-0 flex items-center justify-center text-white text-opacity-30'>
+          <div className='text-3xl font-monumentMono'>3D Globe Visualization</div>
         </div>
       </div>
-      
+
       {/* Render the UI controls from the original component */}
-      {props.children?.filter(child => 
-        typeof child === 'object' && 
-        child?.type === 'div' &&
-        !child?.props?.children?.find?.(c => c?.type?.name === 'Map')
+      {props.children?.filter(
+        (child) =>
+          typeof child === 'object' &&
+          child?.type === 'div' &&
+          !child?.props?.children?.find?.((c) => c?.type?.name === 'Map')
       )}
     </div>
   )
@@ -128,9 +129,9 @@ const withMockMap = (Story) => {
   // Override the Map component in Storybook
   const OriginalMap = require('react-map-gl').default
   require('react-map-gl').default = MockMap
-  
+
   return (
-    <div className="h-screen w-screen bg-black">
+    <div className='h-screen w-screen bg-black'>
       <Story />
     </div>
   )
@@ -151,22 +152,27 @@ const meta = {
     // Add a note about Mapbox token requirement
     docs: {
       description: {
-        component: 'This component requires a Mapbox token to run properly outside of Storybook.'
+        component: 'This component requires a Mapbox token to run properly outside of Storybook.',
       },
     },
   },
   decorators: [
     withMockMap,
     (Story) => (
-      <Suspense fallback={<div className="w-full h-screen flex items-center justify-center text-white">Loading...</div>}>
+      <Suspense
+        fallback={
+          <div className='w-full h-screen flex items-center justify-center text-white'>
+            Loading...
+          </div>
+        }>
         <Story />
       </Suspense>
     ),
   ],
   argTypes: {
-    geoJSONSightings: { 
+    geoJSONSightings: {
       control: false,
-      description: 'GeoJSON data for sightings, military bases and UFO posts'
+      description: 'GeoJSON data for sightings, military bases and UFO posts',
     },
   },
 } satisfies Meta<typeof SightingsGlobe>
@@ -180,7 +186,15 @@ const mockData = createMockGeoJSON()
 // Default story with full dataset
 export const Default: Story = {
   args: {
-    geoJSONSightings: mockData
+    geoJSONSightings: mockData,
+  },
+}
+
+// Story using the external data file
+export const ExternalData: Story = {
+  args: {
+    geoJSONSightings: mockData, // Fallback data if external load fails
+    useExternalData: true
   },
 }
 
@@ -190,8 +204,8 @@ export const SightingsOnly: Story = {
     geoJSONSightings: {
       sightings: mockData.sightings,
       militaryBases: null,
-      ufoPosts: null
-    }
+      ufoPosts: null,
+    },
   },
 }
 
@@ -201,20 +215,20 @@ export const NorthAmericaRegion: Story = {
     geoJSONSightings: {
       sightings: {
         ...mockData.sightings,
-        features: mockData.sightings.features.filter(f => {
+        features: mockData.sightings.features.filter((f) => {
           const [lng, lat] = f.geometry.coordinates
           return lng > -170 && lng < -50 && lat > 15 && lat < 75
-        })
+        }),
       },
       militaryBases: {
         ...mockData.militaryBases,
-        features: mockData.militaryBases.features.filter(f => {
+        features: mockData.militaryBases.features.filter((f) => {
           const [lng, lat] = f.geometry.coordinates
           return lng > -170 && lng < -50 && lat > 15 && lat < 75
-        })
+        }),
       },
-      ufoPosts: null
-    }
+      ufoPosts: null,
+    },
   },
 }
 
@@ -227,7 +241,7 @@ export const DenseCluster: Story = {
         features: [
           ...mockData.sightings.features,
           // Add 100 sightings in a small area
-          ...Array.from({ length: 100 }, (_, i) => ({
+          ...Array.from({length: 100}, (_, i) => ({
             type: 'Feature',
             properties: {
               id: `cluster-${i}`,
@@ -236,21 +250,21 @@ export const DenseCluster: Story = {
               city: 'Cluster City',
               state: 'Cluster State',
               description: `Cluster sighting ${i}`,
-              comments: `Part of a major wave of sightings in this area`
+              comments: `Part of a major wave of sightings in this area`,
             },
             geometry: {
               type: 'Point',
               coordinates: [
-                -119 + (Math.random() * 8) - 4, // Centered around Area 51-ish
-                37 + (Math.random() * 6) - 3
-              ]
-            }
-          }))
-        ]
+                -119 + Math.random() * 8 - 4, // Centered around Area 51-ish
+                37 + Math.random() * 6 - 3,
+              ],
+            },
+          })),
+        ],
       },
       militaryBases: mockData.militaryBases,
-      ufoPosts: mockData.ufoPosts
-    }
+      ufoPosts: mockData.ufoPosts,
+    },
   },
 }
 
@@ -275,12 +289,12 @@ export const HistoricalTimeline: Story = {
               comments: 'Allegedly a crashed flying saucer recovered by the military',
               shape: 'Disc',
               duration: 'N/A',
-              sourceUrl: 'https://example.com/roswell'
+              sourceUrl: 'https://example.com/roswell',
             },
             geometry: {
               type: 'Point',
-              coordinates: [-104.5230, 33.3943]
-            }
+              coordinates: [-104.523, 33.3943],
+            },
           },
           {
             type: 'Feature',
@@ -295,12 +309,12 @@ export const HistoricalTimeline: Story = {
               comments: 'Series of reported sightings of unexplained lights near RAF Woodbridge',
               shape: 'Triangular',
               duration: 'Multiple nights',
-              sourceUrl: 'https://example.com/rendlesham'
+              sourceUrl: 'https://example.com/rendlesham',
             },
             geometry: {
               type: 'Point',
-              coordinates: [1.4346, 52.0931]
-            }
+              coordinates: [1.4346, 52.0931],
+            },
           },
           {
             type: 'Feature',
@@ -315,12 +329,12 @@ export const HistoricalTimeline: Story = {
               comments: 'Mass sighting of lights in a V-shaped formation',
               shape: 'V-formation',
               duration: 'Several hours',
-              sourceUrl: 'https://example.com/phoenix'
+              sourceUrl: 'https://example.com/phoenix',
             },
             geometry: {
               type: 'Point',
-              coordinates: [-112.0740, 33.4484]
-            }
+              coordinates: [-112.074, 33.4484],
+            },
           },
           {
             type: 'Feature',
@@ -332,15 +346,16 @@ export const HistoricalTimeline: Story = {
               state: 'Off San Diego',
               country: 'USA',
               description: 'USS Nimitz encounter',
-              comments: 'Navy pilots encountered a tic-tac shaped object performing impossible maneuvers',
+              comments:
+                'Navy pilots encountered a tic-tac shaped object performing impossible maneuvers',
               shape: 'Tic-tac',
               duration: 'Multiple encounters',
-              sourceUrl: 'https://example.com/nimitz'
+              sourceUrl: 'https://example.com/nimitz',
             },
             geometry: {
               type: 'Point',
-              coordinates: [-117.5, 32.0]
-            }
+              coordinates: [-117.5, 32.0],
+            },
           },
           {
             type: 'Feature',
@@ -355,18 +370,18 @@ export const HistoricalTimeline: Story = {
               comments: 'Navy pilots recorded a rotating object with unusual movements',
               shape: 'Rotating disc',
               duration: 'Unknown',
-              sourceUrl: 'https://example.com/gimbal'
+              sourceUrl: 'https://example.com/gimbal',
             },
             geometry: {
               type: 'Point',
-              coordinates: [-75.0, 30.0]
-            }
-          }
-        ]
+              coordinates: [-75.0, 30.0],
+            },
+          },
+        ],
       },
       militaryBases: mockData.militaryBases,
-      ufoPosts: mockData.ufoPosts
-    }
+      ufoPosts: mockData.ufoPosts,
+    },
   },
 }
 
@@ -376,16 +391,16 @@ export const NoData: Story = {
     geoJSONSightings: {
       sightings: {
         type: 'FeatureCollection',
-        features: []
+        features: [],
       },
       militaryBases: {
         type: 'FeatureCollection',
-        features: []
+        features: [],
       },
       ufoPosts: {
         type: 'FeatureCollection',
-        features: []
-      }
-    }
+        features: [],
+      },
+    },
   },
 }

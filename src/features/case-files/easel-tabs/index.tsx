@@ -1,1 +1,1 @@
-export * from './EaserlTabs';
+export * from './EaselTabs'
