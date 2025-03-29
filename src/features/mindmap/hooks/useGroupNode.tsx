@@ -54,7 +54,7 @@ export const useGroupNode = ( { node }: UseGroupNodeProps ): UseGroupNodeReturn 
 
 
   const [childrenHidden, setChildrenHidden] = useState( false )
-  let childRefs = node?.data?.children?.length ? node?.data?.children.map( ( child: any ) => useRef( child.id ) ) : []
+  const childRefs = node?.data?.children?.length ? node?.data?.children.map( ( child: any ) => useRef( child.id ) ) : []
 
   const hideChildDomNodes = useCallback( () => {
     const childNodes = document.querySelectorAll( `.${node?.data?.childrenClassName}` )

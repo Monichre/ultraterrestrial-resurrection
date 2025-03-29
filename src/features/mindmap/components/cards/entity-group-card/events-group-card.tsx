@@ -103,7 +103,7 @@ const Card = ( {
     let maxZIndex = -Infinity
 
     els.forEach( ( el ) => {
-      let zIndex = parseInt(
+      const zIndex = parseInt(
         window.getComputedStyle( el ).getPropertyValue( "z-index" )
       )
 

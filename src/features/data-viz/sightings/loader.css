@@ -1,0 +1,242 @@
+.loader {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: #000;
+}
+
+.counter {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: white;
+	font-size: 1vw;
+	font-family: "Carbon plus", monospace;
+	font-weight: bold;
+	z-index: 10000;
+	text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px
+		rgba(255, 255, 255, 0.5), 0 0 30px rgba(255, 255, 255, 0.3);
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+}
+
+.site-teaser span {
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 2rem 4rem;
+	color: var(--circle-outline);
+	font-size: 1rem;
+	font-family: "Carbon plus", monospace;
+	font-weight: lighter;
+}
+
+.circles {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	width: 400px;
+	height: 400px;
+	border-radius: 100%;
+	perspective: 1000px;
+	pointer-events: none;
+	z-index: 1;
+}
+
+.circle {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 100%;
+	height: 100%;
+	background: none;
+	border: 1px solid var(--circle-outline);
+	border-radius: 100%;
+	transform-style: preserve-3d;
+	animation: tunnel 2s infinite linear;
+}
+
+@keyframes tunnel {
+	0% {
+		transform: translate(-50%, -50%) translateZ(0) scale(0.2);
+		opacity: 0;
+	}
+	50% {
+		transform: translate(-50%, -50%) translateZ(300px) scale(0.7);
+		opacity: 1;
+	}
+	100% {
+		transform: translate(-50%, -50%) translateZ(600px) scale(1.5);
+		opacity: 0;
+	}
+}
+
+.circle:nth-child(2) {
+	animation-delay: 0.4s;
+}
+.circle:nth-child(3) {
+	animation-delay: 0.8s;
+}
+.circle:nth-child(4) {
+	animation-delay: 1.2s;
+}
+.circle:nth-child(5) {
+	animation-delay: 1.6s;
+}
+
+.circle-inner {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 400px;
+	height: 400px;
+}
+
+.circle-inner-rotator {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%) scale(0);
+	width: 162.5px;
+	height: 162.5px;
+	background: none;
+	border: 1px solid var(--circle-outline);
+	border-radius: 100%;
+}
+
+.container {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: #000;
+}
+
+.container h1 {
+	font-family: "Carbon plus", monospace;
+	font-weight: 400;
+	font-size: 7.5rem;
+	letter-spacing: -0.5rem;
+	color: #fff;
+}
+
+.container h1 span {
+	font-style: normal;
+}
+
+.dashed-circle {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	border: 1px solid var(--circle-outline);
+	border-radius: 100%;
+	transform-style: preserve-3d;
+	animation: dashRotate 8s infinite linear;
+	pointer-events: none;
+	z-index: 1;
+}
+
+/* Different sizes and dash patterns for each circle */
+.dashed-circle:nth-child(9) {
+	width: 250px;
+	height: 250px;
+	border-style: dashed;
+	border-width: 2px;
+	border-dash-array: 20;
+	animation-duration: 10s;
+}
+
+.dashed-circle:nth-child(10) {
+	width: 350px;
+	height: 350px;
+	border-style: dashed;
+	border-width: 2px;
+	border-dash-array: 40;
+	animation-duration: 15s;
+	animation-direction: reverse;
+}
+
+.dashed-circle:nth-child(11) {
+	width: 450px;
+	height: 450px;
+	border-style: dashed;
+	border-width: 2px;
+	border-dash-array: 60;
+	animation-duration: 20s;
+}
+
+@keyframes dashRotate {
+	0% {
+		transform: translate(-50%, -50%) rotate(0deg) scale(0.8);
+		border-spacing: 20px;
+	}
+	50% {
+		transform: translate(-50%, -50%) rotate(180deg) scale(1);
+		border-spacing: 40px;
+	}
+	100% {
+		transform: translate(-50%, -50%) rotate(360deg) scale(0.8);
+		border-spacing: 20px;
+	}
+}
+
+/* Alternative version with gaps using conic-gradient */
+.dashed-circle::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	border-radius: 50%;
+	background: conic-gradient(
+		from 0deg,
+		var(--circle-outline) 0deg 30deg,
+		transparent 30deg 60deg,
+		var(--circle-outline) 60deg 90deg,
+		transparent 90deg 120deg,
+		var(--circle-outline) 120deg 150deg,
+		transparent 150deg 180deg,
+		var(--circle-outline) 180deg 210deg,
+		transparent 210deg 240deg,
+		var(--circle-outline) 240deg 270deg,
+		transparent 270deg 300deg,
+		var(--circle-outline) 300deg 330deg,
+		transparent 330deg 360deg
+	);
+}
+
+.loading-number {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 3vw;
+	color: white;
+	z-index: 10000;
+}
+
+.loading-number::after {
+	content: "%";
+	font-size: 0.5em;
+	margin-left: 0.5rem;
+	opacity: 0.8;
+}

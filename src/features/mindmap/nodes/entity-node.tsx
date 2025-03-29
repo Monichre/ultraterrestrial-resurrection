@@ -1,4 +1,4 @@
-/* eslint-disable react/display-name */
+ 
 'use client'
 import {memo, useEffect, useState, useCallback, Suspense} from 'react'
 import {Handle, Position, useNodesData, useUpdateNodeInternals} from '@xyflow/react'

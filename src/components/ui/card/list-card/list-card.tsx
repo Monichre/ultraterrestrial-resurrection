@@ -42,7 +42,7 @@ function SortableListItem( {
   isExpanded,
   className,
 }: SortableListItemProps ) {
-  let [ref, bounds] = useMeasure()
+  const [ref, bounds] = useMeasure()
   const [isDragging, setIsDragging] = useState( false )
   const [isDraggable, setIsDraggable] = useState( true )
   const dragControls = useDragControls()

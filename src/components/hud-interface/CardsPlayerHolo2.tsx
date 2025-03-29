@@ -4,7 +4,6 @@ interface CardData {
   id: number
   image: string
   thumbnail: string
-  music: string
   artist: string
   genre: string
   duration: number
@@ -23,7 +22,6 @@ const defaultCardData: CardData[] = [
       'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1000&auto=format&fit=crop',
     thumbnail:
       'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=200&auto=format&fit=crop',
-    music: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
     artist: 'Cosmic Entity',
     genre: 'Ambient Space',
     duration: 120,
@@ -34,7 +32,6 @@ const defaultCardData: CardData[] = [
       'https://images.unsplash.com/photo-1614730321146-b6fa6a46bcb4?q=80&w=1000&auto=format&fit=crop',
     thumbnail:
       'https://images.unsplash.com/photo-1614730321146-b6fa6a46bcb4?q=80&w=200&auto=format&fit=crop',
-    music: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
     artist: 'Quantum Flux',
     genre: 'Electronic',
     duration: 180,
@@ -45,7 +42,6 @@ const defaultCardData: CardData[] = [
       'https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?q=80&w=1000&auto=format&fit=crop',
     thumbnail:
       'https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?q=80&w=200&auto=format&fit=crop',
-    music: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
     artist: 'Neural Sync',
     genre: 'Synthwave',
     duration: 210,
@@ -56,7 +52,6 @@ const defaultCardData: CardData[] = [
       'https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=1000&auto=format&fit=crop',
     thumbnail:
       'https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=200&auto=format&fit=crop',
-    music: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3',
     artist: 'Temporal Wave',
     genre: 'Chillstep',
     duration: 150,
@@ -67,7 +62,6 @@ const defaultCardData: CardData[] = [
       'https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=1000&auto=format&fit=crop',
     thumbnail:
       'https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=200&auto=format&fit=crop',
-    music: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3',
     artist: 'Cae Keys',
     genre: 'Hip Hop',
     duration: 240,
@@ -83,25 +77,19 @@ const CardsPlayerHolo2 = ({
   const [activeIndex, setActiveIndex] = useState(0)
   const [isAnimating, setIsAnimating] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
-  const [isMuted, setIsMuted] = useState(false)
-  const [currentVolume, setCurrentVolume] = useState(0.8)
   const [isDragging, setIsDragging] = useState(false)
   const [currentTimeDisplay, setCurrentTimeDisplay] = useState('0:00')
   const [progressPercent, setProgressPercent] = useState(0)
   const [visualizerActive, setVisualizerActive] = useState(true)
+  const [progressTimer, setProgressTimer] = useState<NodeJS.Timeout | null>(null)
 
   // Refs
-  const audioRef = useRef<HTMLAudioElement>(null)
   const cardsContainerRef = useRef<HTMLDivElement>(null)
   const cardRefs = useRef<(HTMLDivElement | null)[]>([])
   const timelineRef = useRef<HTMLDivElement>(null)
   const progressRef = useRef<HTMLDivElement>(null)
   const handleRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const audioContextRef = useRef<AudioContext | null>(null)
-  const analyserRef = useRef<AnalyserNode | null>(null)
-  const dataArrayRef = useRef<Uint8Array | null>(null)
-  const animationFrameRef = useRef<number | null>(null)
 
   // Format time in minutes:seconds
   const formatTime = (seconds: number) => {
@@ -110,38 +98,12 @@ const CardsPlayerHolo2 = ({
     return `${minutes}:${secs.toString().padStart(2, '0')}`
   }
 
-  // Set music track based on active card
-  const setMusicTrack = (index: number) => {
-    const wasPlaying = isPlaying
-
-    if (audioRef.current) {
-      // Update music source
-      audioRef.current.src = cardData[index].music
-
-      // If it was playing before, start playing the new track
-      if (wasPlaying) {
-        audioRef.current
-          .play()
-          .then(() => {
-            setIsPlaying(true)
-          })
-          .catch((err) => {
-            console.error('Error playing audio:', err)
-            setIsPlaying(false)
-          })
-      }
-    }
-  }
-
   // Update cards position
   const updateCards = (animate = true) => {
     if (isAnimating && animate) return
 
     if (animate) {
       setIsAnimating(true)
-
-      // Change music track for the newly active card
-      setMusicTrack(activeIndex)
     }
 
     const cards = cardRefs.current
@@ -154,7 +116,11 @@ const CardsPlayerHolo2 = ({
       // Calculate position based on distance from active card
       const distance = index - activeIndex
 
-      let translateY, translateZ, translateX, scale, opacity
+      let translateY = 0,
+        translateZ = 0,
+        translateX = 0,
+        scale = 1,
+        opacity = 1
 
       if (distance === 0) {
         // Active card
@@ -232,59 +198,36 @@ const CardsPlayerHolo2 = ({
     }
   }
 
-  // Toggle play/pause
+  // Toggle play/pause for simulation
   const togglePlay = () => {
-    if (!audioRef.current) return
-
     if (isPlaying) {
-      audioRef.current.pause()
+      // Stop progress simulation
+      if (progressTimer) {
+        clearInterval(progressTimer)
+        setProgressTimer(null)
+      }
       setIsPlaying(false)
     } else {
-      audioRef.current
-        .play()
-        .then(() => {
-          setIsPlaying(true)
-
-          // Initialize audio analyzer if not already done
-          if (!analyserRef.current && visualizerActive) {
-            initAudioAnalyser()
+      // Start progress simulation
+      const timer = setInterval(() => {
+        setProgressPercent((prev) => {
+          if (prev >= 100) {
+            // Auto-advance to next track when complete
+            navigateNext()
+            return 0
           }
+          return prev + 0.5
         })
-        .catch((err) => {
-          console.error('Error playing audio:', err)
-        })
+      }, 500)
+
+      setProgressTimer(timer)
+      setIsPlaying(true)
     }
   }
 
-  // Initialize audio analyser for visualizer
-  const initAudioAnalyser = () => {
-    if (!audioRef.current || !visualizerActive) return
-
-    // Create audio context if not already created
-    if (!audioContextRef.current) {
-      audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)()
-
-      // Create analyser node
-      analyserRef.current = audioContextRef.current.createAnalyser()
-      analyserRef.current.fftSize = 256
-
-      // Create data array for frequency data
-      const bufferLength = analyserRef.current.frequencyBinCount
-      dataArrayRef.current = new Uint8Array(bufferLength)
-
-      // Connect audio to analyser
-      const source = audioContextRef.current.createMediaElementSource(audioRef.current)
-      source.connect(analyserRef.current)
-      analyserRef.current.connect(audioContextRef.current.destination)
-    }
-
-    // Start visualizer animation
-    animateVisualizer()
-  }
-
-  // Animate audio visualizer
-  const animateVisualizer = () => {
-    if (!canvasRef.current || !analyserRef.current || !dataArrayRef.current) return
+  // Animate static visualizer
+  const animateStaticVisualizer = () => {
+    if (!canvasRef.current) return
 
     const canvas = canvasRef.current
     const ctx = canvas.getContext('2d')
@@ -297,99 +240,52 @@ const CardsPlayerHolo2 = ({
     // Clear canvas
     ctx.clearRect(0, 0, width, height)
 
-    // Get frequency data
-    analyserRef.current.getByteFrequencyData(dataArrayRef.current)
+    // Draw static visualizer bars
+    const barCount = 64
+    const barWidth = width / barCount - 1
 
-    // Draw visualizer bars
-    const barWidth = (width / dataArrayRef.current.length) * 2.5
-    let x = 0
+    for (let i = 0; i < barCount; i++) {
+      // Generate random height for static visualization
+      const randomHeight = Math.random() * height * 0.8
 
-    for (let i = 0; i < dataArrayRef.current.length; i++) {
-      const barHeight = dataArrayRef.current[i] / 2
-
-      // Create gradient color based on frequency
-      const hue = (i / dataArrayRef.current.length) * 360
+      // Create gradient color
+      const hue = (i / barCount) * 360
       ctx.fillStyle = `hsla(${hue}, 100%, 50%, 0.7)`
 
-      ctx.fillRect(x, height - barHeight, barWidth, barHeight)
-
-      x += barWidth + 1
+      // Draw bar
+      ctx.fillRect(i * (barWidth + 1), height - randomHeight, barWidth, randomHeight)
     }
-
-    // Schedule next frame
-    animationFrameRef.current = requestAnimationFrame(animateVisualizer)
   }
 
   // Toggle visualizer
   const toggleVisualizer = () => {
     setVisualizerActive(!visualizerActive)
-
-    if (!visualizerActive && isPlaying) {
-      // If turning on visualizer while playing, initialize it
-      initAudioAnalyser()
-    } else if (visualizerActive && animationFrameRef.current) {
-      // If turning off visualizer, cancel animation frame
-      cancelAnimationFrame(animationFrameRef.current)
-      animationFrameRef.current = null
-    }
-  }
-
-  // Toggle mute
-  const toggleMute = () => {
-    if (!audioRef.current) return
-
-    if (isMuted) {
-      audioRef.current.volume = currentVolume
-      setIsMuted(false)
-    } else {
-      audioRef.current.volume = 0
-      setIsMuted(true)
-    }
-  }
-
-  // Handle volume change
-  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newVolume = Number.parseFloat(e.target.value) / 100
-    setCurrentVolume(newVolume)
-
-    if (audioRef.current) {
-      audioRef.current.volume = newVolume
-
-      if (newVolume > 0 && isMuted) {
-        setIsMuted(false)
-      }
-    }
   }
 
   // Update progress display
   const updateProgress = () => {
-    if (!audioRef.current) return
-
-    const currentTime = audioRef.current.currentTime
-    const duration = audioRef.current.duration || cardData[activeIndex].duration
-    const percent = (currentTime / duration) * 100
+    const duration = cardData[activeIndex].duration
+    const currentTime = (progressPercent / 100) * duration
 
     setCurrentTimeDisplay(formatTime(currentTime))
-    setProgressPercent(percent)
 
     if (progressRef.current) {
-      progressRef.current.style.width = `${percent}%`
+      progressRef.current.style.width = `${progressPercent}%`
     }
 
     if (handleRef.current) {
-      handleRef.current.style.left = `${percent}%`
+      handleRef.current.style.left = `${progressPercent}%`
     }
   }
 
   // Seek track to specific point
   const seekTrack = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!timelineRef.current || !audioRef.current) return
+    if (!timelineRef.current) return
 
     const rect = timelineRef.current.getBoundingClientRect()
     const seekPos = (e.clientX - rect.left) / rect.width
-    const seekTime = seekPos * (audioRef.current.duration || cardData[activeIndex].duration)
 
-    audioRef.current.currentTime = seekTime
+    setProgressPercent(seekPos * 100)
     updateProgress()
   }
 
@@ -414,12 +310,11 @@ const CardsPlayerHolo2 = ({
   // Mouse events for timeline dragging
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      if (isDragging && timelineRef.current && audioRef.current) {
+      if (isDragging && timelineRef.current) {
         const rect = timelineRef.current.getBoundingClientRect()
         const seekPos = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width))
-        const seekTime = seekPos * (audioRef.current.duration || cardData[activeIndex].duration)
 
-        audioRef.current.currentTime = seekTime
+        setProgressPercent(seekPos * 100)
         updateProgress()
       }
     }
@@ -437,12 +332,19 @@ const CardsPlayerHolo2 = ({
       document.removeEventListener('mousemove', handleMouseMove)
       document.removeEventListener('mouseup', handleMouseUp)
     }
-  }, [isDragging, activeIndex, cardData])
+  }, [isDragging])
+
+  // Update progress display when progressPercent changes
+  useEffect(() => {
+    updateProgress()
+  }, [progressPercent])
 
   // Update cards when active index changes
   useEffect(() => {
+    // Reset progress when changing cards
+    setProgressPercent(0)
+    updateProgress()
     updateCards()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeIndex, variant])
 
   // Initialize component
@@ -450,19 +352,11 @@ const CardsPlayerHolo2 = ({
     // Initialize cards position
     updateCards(false)
 
-    // Set initial music track and volume
-    if (audioRef.current) {
-      audioRef.current.src = cardData[activeIndex].music
-      audioRef.current.volume = currentVolume
-
-      // Add timeupdate event listener for progress tracking
-      audioRef.current.addEventListener('timeupdate', updateProgress)
-    }
-
-    // Resize canvas to fit container
+    // Initialize static visualizer
     if (canvasRef.current) {
       canvasRef.current.width = canvasRef.current.offsetWidth
       canvasRef.current.height = canvasRef.current.offsetHeight
+      animateStaticVisualizer()
     }
 
     // Handle window resize
@@ -470,29 +364,29 @@ const CardsPlayerHolo2 = ({
       if (canvasRef.current) {
         canvasRef.current.width = canvasRef.current.offsetWidth
         canvasRef.current.height = canvasRef.current.offsetHeight
+        animateStaticVisualizer()
       }
     }
 
     window.addEventListener('resize', handleResize)
 
+    // Update visualizer periodically
+    const visualizerInterval = setInterval(() => {
+      if (visualizerActive) {
+        animateStaticVisualizer()
+      }
+    }, 1000)
+
     return () => {
       // Cleanup
-      if (audioRef.current) {
-        audioRef.current.removeEventListener('timeupdate', updateProgress)
-      }
-
       window.removeEventListener('resize', handleResize)
+      clearInterval(visualizerInterval)
 
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current)
-      }
-
-      if (audioContextRef.current) {
-        audioContextRef.current.close()
+      if (progressTimer) {
+        clearInterval(progressTimer)
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [visualizerActive])
 
   return (
     <div
@@ -606,18 +500,21 @@ const CardsPlayerHolo2 = ({
           <div className='flex-1 flex flex-col items-center justify-center px-[clamp(1rem,2vw,1.5rem)]'>
             <div className='flex items-center justify-center mb-2'>
               <button
+                type='button'
                 onClick={navigatePrev}
                 className='w-[clamp(2.5rem,5vh,3rem)] h-[clamp(2.5rem,5vh,3rem)] flex items-center justify-center bg-[rgba(0,0,0,0.5)] rounded-full border border-[rgba(255,255,255,0.2)] text-white text-xl opacity-80 hover:opacity-100 focus:outline-none transition-opacity'
                 aria-label='Previous track'>
                 ⏮
               </button>
               <button
+                type='button'
                 onClick={togglePlay}
                 className='w-[clamp(3rem,6vh,3.5rem)] h-[clamp(3rem,6vh,3.5rem)] flex items-center justify-center bg-[rgba(255,140,0,0.3)] rounded-full border border-[rgba(255,140,0,0.6)] text-[rgba(255,140,0,0.9)] text-2xl mx-4 hover:bg-[rgba(255,140,0,0.4)] focus:outline-none transition-colors'
                 aria-label={isPlaying ? 'Pause' : 'Play'}>
                 {isPlaying ? '⏸' : '▶'}
               </button>
               <button
+                type='button'
                 onClick={navigateNext}
                 className='w-[clamp(2.5rem,5vh,3rem)] h-[clamp(2.5rem,5vh,3rem)] flex items-center justify-center bg-[rgba(0,0,0,0.5)] rounded-full border border-[rgba(255,255,255,0.2)] text-white text-xl opacity-80 hover:opacity-100 focus:outline-none transition-opacity'
                 aria-label='Next track'>
@@ -636,6 +533,13 @@ const CardsPlayerHolo2 = ({
                 onMouseDown={handleDragStart}
                 onMouseMove={handleDrag}
                 onMouseUp={handleDragEnd}
+                onKeyDown={(e) => {
+                  if (e.key === 'ArrowLeft') {
+                    setProgressPercent((prev) => Math.max(0, prev - 5))
+                  } else if (e.key === 'ArrowRight') {
+                    setProgressPercent((prev) => Math.min(100, prev + 5))
+                  }
+                }}
                 role='slider'
                 aria-label='Playback progress'
                 aria-valuemin={0}
@@ -660,25 +564,9 @@ const CardsPlayerHolo2 = ({
           </div>
 
           <div className='flex flex-col items-end justify-center'>
-            <div className='flex items-center mb-2'>
-              <button
-                onClick={toggleMute}
-                className='w-8 h-8 flex items-center justify-center bg-transparent text-white text-lg opacity-80 hover:opacity-100 focus:outline-none transition-opacity'
-                aria-label={isMuted ? 'Unmute' : 'Mute'}>
-                {isMuted ? '🔇' : '🔊'}
-              </button>
-              <input
-                type='range'
-                min='0'
-                max='100'
-                value={isMuted ? 0 : currentVolume * 100}
-                onChange={handleVolumeChange}
-                className='w-24 h-2 bg-[rgba(255,255,255,0.2)] rounded-full appearance-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[rgba(255,140,0,0.9)] [&::-webkit-slider-thumb]:cursor-pointer'
-                aria-label='Volume'
-              />
-            </div>
             <div className='flex items-center gap-2'>
               <button
+                type='button'
                 onClick={toggleVisualizer}
                 className={`text-[0.7rem] px-2 py-1 border border-[rgba(255,255,255,0.2)] rounded-sm ${
                   visualizerActive
@@ -689,6 +577,7 @@ const CardsPlayerHolo2 = ({
                 VIZ
               </button>
               <button
+                type='button'
                 onClick={() => setActiveIndex(Math.floor(Math.random() * cardData.length))}
                 className='text-[0.7rem] px-2 py-1 border border-[rgba(255,255,255,0.2)] rounded-sm bg-[rgba(0,0,0,0.5)] text-[rgba(255,255,255,0.7)]'
                 aria-label='Random track'>
@@ -697,9 +586,6 @@ const CardsPlayerHolo2 = ({
             </div>
           </div>
         </div>
-
-        {/* Audio element */}
-        <audio ref={audioRef} preload='auto' />
 
         {/* Scan lines effect */}
         <div className='absolute inset-0 bg-[linear-gradient(transparent_50%,rgba(0,0,0,0.05)_50%)] bg-[size:100%_4px] pointer-events-none z-[20] opacity-30' />

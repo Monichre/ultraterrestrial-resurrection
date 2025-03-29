@@ -61,7 +61,7 @@ export default async function Index() {
 
   const removeEmptyKeys = ( obj: any ) => {
     const newObj: any = {}
-    for ( let key in obj ) {
+    for ( const key in obj ) {
       if ( obj[key] && obj[key].length ) {
         newObj[key] = obj[key]
       }

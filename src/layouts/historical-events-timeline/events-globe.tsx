@@ -18,7 +18,7 @@ export function EventsGlobe( { markers, activeLocation }: any ) {
     const markerColor: any = [1, 0, 0.7098]
     const glowColor: any = [0.0118, 0.0824, 0.1373]
 
-    let width = 0
+    const width = 0
     let currentPhi = 0
     let currentTheta = 0
     const doublePi = Math.PI * 2

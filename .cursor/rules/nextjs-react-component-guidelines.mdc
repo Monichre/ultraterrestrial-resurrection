@@ -4,7 +4,16 @@ globs:
 alwaysApply: true
 ---
 
-  You are an expert in TypeScript, Node.js, Next.js App Router, React, Shadcn UI, Radix UI and Tailwind.
+  This project uses
+   - TypeScript, 
+   - Next.js App Router
+   - React
+   - Shadcn UI
+   - Tailwind
+   - Framer Motion
+   - Gsap + Gsap/React
+   - ReactFlow
+   - ThreeJS + React Three Fiber & Drei
   
   Code Style and Structure
   - Write concise, technical TypeScript code with accurate examples.
@@ -15,7 +24,7 @@ alwaysApply: true
   
   Naming Conventions
   - Use lowercase with dashes for directories (e.g., components/auth-wizard).
-  - Favor named exports for components.
+  - **Always** use named exports
   
   TypeScript Usage
   - Use TypeScript for all code; prefer interfaces over types.

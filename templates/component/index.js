@@ -96,7 +96,7 @@ module.exports = {
 	],
 	actions: (data) => {
 		let basePath = data.workspace || "";
-		const templatePath = "./templates/component";
+		const templatePath = path.join(__dirname, "./templates/component");
 
 		if (data.addToExisting && data.existingDir) {
 			if (data.animated) {

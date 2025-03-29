@@ -68,7 +68,7 @@ export const extractUniqueYearsFromEvents = (events: any[]) => {
     const dateB = new Date(b.date)
     return dateB.getTime() - dateA.getTime()
   })
-  for (let event of events) {
+  for (const event of events) {
     // @ts-ignore
     const year: any = removeLeadingZero(event?.date?.split('-')[0])
 

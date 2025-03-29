@@ -11,16 +11,19 @@ const preview: Preview = {
       },
     },
   },
+
   decorators: [
     // 👇 Defining the decorator in the preview file applies it to all stories
     (Story, {parameters}) => {
       return (
-        <div className='w-full h-screen flex items-center justify-center'>
+        <div className='w-[100vw] h-[100vh] flex items-center justify-center'>
           <Story />
         </div>
       )
     },
   ],
+
+  tags: ['autodocs', 'autodocs'],
 }
 
 export default preview

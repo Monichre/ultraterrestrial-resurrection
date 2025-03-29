@@ -38,7 +38,7 @@ export function Globe( {
   const markerColor: any = [1, 0, 0.7098]
   const glowColor: any = [0.0118, 0.0824, 0.1373]
   useEffect( () => {
-    let phi = 0
+    const phi = 0
 
     const globe = createGlobe( canvasRef.current, {
       devicePixelRatio: 1.5,

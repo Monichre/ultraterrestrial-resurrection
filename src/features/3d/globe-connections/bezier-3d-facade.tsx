@@ -137,7 +137,7 @@ export class Bezier3DInstanceableFacade extends Instanceable3DFacade {
       this.setInstanceUniform('radius', (this._radius = radius))
     }
     dashArray = dashArray || noDash
-    let lastDashArray = this._dashArray || noDash
+    const lastDashArray = this._dashArray || noDash
     if (
       dashArray[0] !== lastDashArray[0] ||
       dashArray[1] !== lastDashArray[1] ||

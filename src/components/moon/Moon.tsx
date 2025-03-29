@@ -6,7 +6,7 @@ import { Bloom, EffectComposer, TiltShift2 } from "@react-three/postprocessing";
 import { Suspense, useRef } from "react";
 
 // @ts-ignore
-// eslint-disable-next-line
+ 
 
 import type * as THREE from "three";
 

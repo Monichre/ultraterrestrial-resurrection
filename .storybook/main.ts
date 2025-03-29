@@ -2,14 +2,20 @@ import type { StorybookConfig } from "@storybook/nextjs";
 
 const config: StorybookConfig = {
 	// ...
-	stories: ["../src/**/*.mdx", "../src/**/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
+	stories: [
+		"../src/components/**/*.stories.tsx",
+		"../src/features/**/*.stories.tsx",
+		"../src/features/**/**/*.stories.tsx",
+		"../src/layouts/**/*.stories.tsx",
+	],
 
 	addons: [
 		"@storybook/addon-essentials",
 		"@storybook/addon-onboarding",
 		"@chromatic-com/storybook",
-		"@storybook/experimental-addon-test",
-		"@storybook/addon-mdx-gfm",
+		"@geometricpanda/storybook-addon-badges",
+		"@storybook/addon-console",
+		"@storybook/addon-storysource",
 	],
 
 	// 👈 Add this
@@ -17,13 +23,7 @@ const config: StorybookConfig = {
 
 	staticDirs: ["../public"],
 
-	docs: {
-		autodocs: true,
-	},
-
-	typescript: {
-		reactDocgen: "react-docgen-typescript",
-	},
+	docs: {},
 };
 
 export default config;

@@ -28,7 +28,7 @@ export function AdminDashboardGlobe({
   const focusRef = useRef([0, 0])
 
   useEffect(() => {
-    let width = 0
+    const width = 0
     let currentPhi = 0
     let currentTheta = 0
     let phi = 0

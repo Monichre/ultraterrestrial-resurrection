@@ -1,0 +1,504 @@
+---
+description: When asked to  create the DNA component by converting this vanilla source code into a React Component
+globs: 
+alwaysApply: false
+---
+# Task: Convert HTML, CSS, JS below into a React Component using [code-guidelines.mdc](mdc:.cursor/rules/code-guidelines.mdc) and [nextjs-react-component-guidelines.mdc](mdc:.cursor/rules/nextjs-react-component-guidelines.mdc)
+
+**HTML**
+```
+<canvas></canvas>
+
+<div class="pages">
+  <section data-model='dna'>
+    <div class="__content">
+      <h2>DNA</h2>
+      <p>Desoxyribonukleinsäure, meist kurz als DNA bezeichnet, ist eine aus unterschiedlichen Desoxyribonukleotiden aufgebaute Nukleinsäure. Sie trägt die Erbinformation bei allen Lebewesen und vielen Viren (nicht RNA-Viren). Das langkettige Polynukleotid enthält in Abschnitten von Genen besondere Abfolgen seiner Nukleotide. Diese DNA-Abschnitte dienen als Matrizen für den Aufbau entsprechender Ribonukleinsäuren, wenn die genetische Information in RNA-Stränge umgeschrieben wird (siehe Transkription). Im Falle einer Boten-RNA (englisch messenger RNA, mRNA) stellt die Abfolge von Nukleinbasen darüber hinaus die Bauanleitung für ein Protein dar.</p>
+    </div>
+  </section>
+  <section data-model='none'>
+    <div class="__content">
+      <h2>Test</h2>
+    </div>
+  </section>
+  <section data-model='torus'>
+    <div class="__content">
+      <h2>Test</h2>
+    </div>
+  </section>
+</div>
+
+<script type="text/shader" id="vertexShader">
+  precision highp float;
+  
+  attribute vec3 position;
+  uniform float time;
+  
+  uniform mat4 u_matrix;
+  
+  void main() {
+    float x = position[0]+sin(time)*0.2;
+    float y = position[1]+cos(time)*0.2;
+    float z = position[2]+sin(time)*0.3;
+    gl_Position = u_matrix * vec4(position, 1.0);
+    gl_PointSize = 1.0;
+  }
+</script>
+
+<script type="text/shader" id="fragmentShader">
+  precision highp float;
+  
+  void main() {
+    gl_FragColor = vec4(0.6, 0.7, 1.0, 0.4);
+  }
+</script>
+```
+
+
+**CSS**
+```
+* {
+  box-sizing: border-box;
+}
+body {
+  padding: 0;
+  margin: 0;
+  background: #000;
+  font-family: sans-serif;
+  line-height: 1.5;
+}
+canvas {
+  background: #000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: -1;
+}
+
+.pages {
+  scroll-snap-type: y mandatory;
+}
+.pages section {
+  height: 100vh;
+  color: #fff;
+  scroll-snap-align: start;
+  padding: 60vh 0 0 0;
+}
+.pages section .__content {
+  background: rgba(0,0,0,0.6);
+  padding: 20px;
+}
+.pages section.active {
+  background: rgba(255,0,0,0.2);
+}
+@media (min-width: 768px) {
+  .pages section {
+    padding: 60vh 40px 40px 60vw;
+  }
+}
+```
+
+**JS**
+```
+var Stats=function(){var e=0,t=document.createElement("div");function l(e){return t.appendChild(e.dom),e}function n(l){for(var n=0;n<t.children.length;n++)t.children[n].style.display=n===l?"block":"none";e=l}t.style.cssText="position:fixed;top:0;left:0;cursor:pointer;opacity:0.9;z-index:10000",t.addEventListener("click",function(l){l.preventDefault(),n(++e%t.children.length)},!1);var a=(performance||Date).now(),i=a,o=0,r=l(new Stats.Panel("FPS","#0ff","#002")),f=l(new Stats.Panel("MS","#0f0","#020"));if(self.performance&&self.performance.memory)var c=l(new Stats.Panel("MB","#f08","#201"));return n(0),{REVISION:16,dom:t,addPanel:l,showPanel:n,begin:function(){a=(performance||Date).now()},end:function(){o++;var e=(performance||Date).now();if(f.update(e-a,200),e>i+1e3&&(r.update(1e3*o/(e-i),100),i=e,o=0,c)){var t=performance.memory;c.update(t.usedJSHeapSize/1048576,t.jsHeapSizeLimit/1048576)}return e},update:function(){a=this.end()},domElement:t,setMode:n}};Stats.Panel=function(e,t,l){var n=1/0,a=0,i=Math.round,o=i(window.devicePixelRatio||1),r=80*o,f=48*o,c=3*o,d=2*o,s=3*o,p=15*o,u=74*o,m=30*o,h=document.createElement("canvas");h.width=r,h.height=f,h.style.cssText="width:80px;height:48px";var S=h.getContext("2d");return S.font="bold "+9*o+"px Helvetica,Arial,sans-serif",S.textBaseline="top",S.fillStyle=l,S.fillRect(0,0,r,f),S.fillStyle=t,S.fillText(e,c,d),S.fillRect(s,p,u,m),S.fillStyle=l,S.globalAlpha=.9,S.fillRect(s,p,u,m),{dom:h,update:function(f,v){n=Math.min(n,f),a=Math.max(a,f),S.fillStyle=l,S.globalAlpha=1,S.fillRect(0,0,r,p),S.fillStyle=t,S.fillText(i(f)+" "+e+" ("+i(n)+"-"+i(a)+")",c,d),S.drawImage(h,s+o,p,u-o,m,s,p,u-o,m),S.fillRect(s+u-o,p,o,m),S.fillStyle=l,S.globalAlpha=.9,S.fillRect(s+u-o,p,o,i((1-f/v)*m))}}};
+
+
+var stats = new Stats();
+stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
+document.body.appendChild( stats.dom );
+
+var m4 = {
+
+  perspective: function(fieldOfViewInRadians, aspect, near, far) {
+    var f = Math.tan(Math.PI * 0.5 - 0.5 * fieldOfViewInRadians);
+    var rangeInv = 1.0 / (near - far);
+
+    return [
+      f / aspect, 0, 0, 0,
+      0, f, 0, 0,
+      0, 0, (near + far) * rangeInv, -1,
+      0, 0, near * far * rangeInv * 2, 0
+    ];
+  },
+
+  projection: function(width, height, depth) {
+    // Note: This matrix flips the Y axis so 0 is at the top.
+    return [
+       2 / width, 0, 0, 0,
+       0, -2 / height, 0, 0,
+       0, 0, 2 / depth, 0,
+      -1, 1, 0, 1,
+    ];
+  },
+
+  multiply: function(a, b) {
+    var a00 = a[0 * 4 + 0];
+    var a01 = a[0 * 4 + 1];
+    var a02 = a[0 * 4 + 2];
+    var a03 = a[0 * 4 + 3];
+    var a10 = a[1 * 4 + 0];
+    var a11 = a[1 * 4 + 1];
+    var a12 = a[1 * 4 + 2];
+    var a13 = a[1 * 4 + 3];
+    var a20 = a[2 * 4 + 0];
+    var a21 = a[2 * 4 + 1];
+    var a22 = a[2 * 4 + 2];
+    var a23 = a[2 * 4 + 3];
+    var a30 = a[3 * 4 + 0];
+    var a31 = a[3 * 4 + 1];
+    var a32 = a[3 * 4 + 2];
+    var a33 = a[3 * 4 + 3];
+    var b00 = b[0 * 4 + 0];
+    var b01 = b[0 * 4 + 1];
+    var b02 = b[0 * 4 + 2];
+    var b03 = b[0 * 4 + 3];
+    var b10 = b[1 * 4 + 0];
+    var b11 = b[1 * 4 + 1];
+    var b12 = b[1 * 4 + 2];
+    var b13 = b[1 * 4 + 3];
+    var b20 = b[2 * 4 + 0];
+    var b21 = b[2 * 4 + 1];
+    var b22 = b[2 * 4 + 2];
+    var b23 = b[2 * 4 + 3];
+    var b30 = b[3 * 4 + 0];
+    var b31 = b[3 * 4 + 1];
+    var b32 = b[3 * 4 + 2];
+    var b33 = b[3 * 4 + 3];
+    return [
+      b00 * a00 + b01 * a10 + b02 * a20 + b03 * a30,
+      b00 * a01 + b01 * a11 + b02 * a21 + b03 * a31,
+      b00 * a02 + b01 * a12 + b02 * a22 + b03 * a32,
+      b00 * a03 + b01 * a13 + b02 * a23 + b03 * a33,
+      b10 * a00 + b11 * a10 + b12 * a20 + b13 * a30,
+      b10 * a01 + b11 * a11 + b12 * a21 + b13 * a31,
+      b10 * a02 + b11 * a12 + b12 * a22 + b13 * a32,
+      b10 * a03 + b11 * a13 + b12 * a23 + b13 * a33,
+      b20 * a00 + b21 * a10 + b22 * a20 + b23 * a30,
+      b20 * a01 + b21 * a11 + b22 * a21 + b23 * a31,
+      b20 * a02 + b21 * a12 + b22 * a22 + b23 * a32,
+      b20 * a03 + b21 * a13 + b22 * a23 + b23 * a33,
+      b30 * a00 + b31 * a10 + b32 * a20 + b33 * a30,
+      b30 * a01 + b31 * a11 + b32 * a21 + b33 * a31,
+      b30 * a02 + b31 * a12 + b32 * a22 + b33 * a32,
+      b30 * a03 + b31 * a13 + b32 * a23 + b33 * a33,
+    ];
+  },
+
+  translation: function(tx, ty, tz) {
+    return [
+       1,  0,  0,  0,
+       0,  1,  0,  0,
+       0,  0,  1,  0,
+       tx, ty, tz, 1,
+    ];
+  },
+
+  xRotation: function(angleInRadians) {
+    var c = Math.cos(angleInRadians);
+    var s = Math.sin(angleInRadians);
+
+    return [
+      1, 0, 0, 0,
+      0, c, s, 0,
+      0, -s, c, 0,
+      0, 0, 0, 1,
+    ];
+  },
+
+  yRotation: function(angleInRadians) {
+    var c = Math.cos(angleInRadians);
+    var s = Math.sin(angleInRadians);
+
+    return [
+      c, 0, -s, 0,
+      0, 1, 0, 0,
+      s, 0, c, 0,
+      0, 0, 0, 1,
+    ];
+  },
+
+  zRotation: function(angleInRadians) {
+    var c = Math.cos(angleInRadians);
+    var s = Math.sin(angleInRadians);
+
+    return [
+       c, s, 0, 0,
+      -s, c, 0, 0,
+       0, 0, 1, 0,
+       0, 0, 0, 1,
+    ];
+  },
+
+  scaling: function(sx, sy, sz) {
+    return [
+      sx, 0,  0,  0,
+      0, sy,  0,  0,
+      0,  0, sz,  0,
+      0,  0,  0,  1,
+    ];
+  },
+
+  translate: function(m, tx, ty, tz) {
+    return m4.multiply(m, m4.translation(tx, ty, tz));
+  },
+
+  xRotate: function(m, angleInRadians) {
+    return m4.multiply(m, m4.xRotation(angleInRadians));
+  },
+
+  yRotate: function(m, angleInRadians) {
+    return m4.multiply(m, m4.yRotation(angleInRadians));
+  },
+
+  zRotate: function(m, angleInRadians) {
+    return m4.multiply(m, m4.zRotation(angleInRadians));
+  },
+
+  scale: function(m, sx, sy, sz) {
+    return m4.multiply(m, m4.scaling(sx, sy, sz));
+  },
+
+};
+
+
+const VERTICECOUNT = window.innerHeight * 50;
+const canvas = document.querySelector('canvas');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+const gl = canvas.getContext('webgl');
+gl.viewport(0, 0, canvas.width, canvas.height);
+
+const vertexShaderText = document.querySelector('#vertexShader').innerHTML;
+const fragmentShaderText = document.querySelector('#fragmentShader').innerHTML;
+
+gl.clearColor(0,0,0,1.0);
+gl.clearDepth(1.0);
+gl.clear(gl.COLOR_BUFFER_BIT);
+
+gl.enable(gl.BLEND);
+gl.disable(gl.DEPTH_TEST);
+gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
+
+const vertexShader = gl.createShader(gl.VERTEX_SHADER);
+const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+
+gl.shaderSource(vertexShader, vertexShaderText);
+gl.shaderSource(fragmentShader, fragmentShaderText);
+
+gl.compileShader(vertexShader);
+gl.compileShader(fragmentShader);
+
+const program = gl.createProgram();
+gl.attachShader(program, vertexShader);
+gl.attachShader(program, fragmentShader);
+gl.linkProgram(program);
+
+
+const verticesArr = [
+
+];
+const velocitiesArr = [
+
+];
+const vertexMass = [
+  
+];
+for(let j=0; j<VERTICECOUNT; j++) {
+  verticesArr.push(Math.random()*10-5);
+  verticesArr.push(Math.random()*10-5);
+  verticesArr.push(Math.random()*10-5);
+  velocitiesArr.push(0.0);
+  velocitiesArr.push(0.0);
+  velocitiesArr.push(0.0);
+  vertexMass.push(Math.pow(Math.random(),2)*0.05+0.05);
+}
+
+const computeTargetPositions = (model) => {
+  if(model === 'dna') {
+    for(let j=0; j<VERTICECOUNT; j++) {
+      const a = j%2; // split into left and right dna string
+      let f = j/VERTICECOUNT;
+      if(j%3===0) {
+        f = Math.round(f*30)/30;
+      }
+
+      const errorScale = 0.2;
+      const errorx = errorScale * Math.pow(Math.random()-0.5, 3);
+      const errory = errorScale * Math.pow(Math.random()-0.5, 3);
+      const errorz = errorScale * Math.pow(Math.random()-0.5, 3);
+
+      let x = (Math.sin(f*4*Math.PI+Math.PI*a))*0.3;
+      let z = (Math.cos(f*4*Math.PI+Math.PI*a))*0.3;
+      let y = (f-0.5)*4+errory;
+      if(j%3===0) {
+        const r = j%100/100;
+        x = x * r;
+        z = z * r;
+      }
+      targetPositions[j*3+0] = x + errorx;
+      targetPositions[j*3+1] = y + errory;
+      targetPositions[j*3+2] = z + errorz;
+    }
+  } else if(model === 'torus') {
+    for(let i=0; i<targetPositions.length; i+=3) {
+      const alpha = Math.random()*Math.PI*2;
+      const torusRadius = 1;
+      const torusStrengthRadius = 0.25;
+      const b = Math.random()*2*Math.PI;
+      const pointR = torusRadius + Math.cos(b) * torusStrengthRadius;
+      const pointY = Math.sin(b) * torusStrengthRadius;
+      const pointX = Math.sin(alpha) * pointR;
+      const pointZ = Math.cos(alpha) * pointR;
+      
+      const errorScale = 0.2;
+      const errorx = errorScale * Math.pow(Math.random()-0.5, 3);
+      const errory = errorScale * Math.pow(Math.random()-0.5, 3);
+      const errorz = errorScale * Math.pow(Math.random()-0.5, 3);
+      
+      targetPositions[i+0] = pointX + errorx;
+      targetPositions[i+1] = pointZ + errorz;
+      targetPositions[i+2] = pointY + errory;
+    }
+  } else {
+    for(let i=0; i<targetPositions.length; i+=3) {
+      targetPositions[i+0] = 5*(randn_bm()-0.5);
+      targetPositions[i+1] = 5*(randn_bm()-0.5);
+      targetPositions[i+2] = 5*(randn_bm()-0.5);
+    }
+  }
+}
+
+const vertices = new Float32Array(verticesArr);
+const velocities = new Float32Array(velocitiesArr);
+const targetPositions = new Float32Array(VERTICECOUNT*3);
+computeTargetPositions();
+
+const vertexBufferObject = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, vertexBufferObject);
+gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.DYNAMIC_DRAW);
+
+const positionAttribLocation = gl.getAttribLocation(program, 'position');
+gl.vertexAttribPointer(positionAttribLocation, 3, gl.FLOAT, gl.FALSE, 0, 0);
+
+const timeLocation = gl.getUniformLocation(program, "time");
+const matrixLocation = gl.getUniformLocation(program, "u_matrix");
+
+gl.enableVertexAttribArray(positionAttribLocation);
+
+
+
+const computeMatrix = () => {
+  // Compute the matrix
+  var aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
+  var zNear = 1;
+  var zFar = 200;
+  var matrix = m4.perspective(Math.PI/3, aspect, zNear, zFar);
+  matrix = m4.translate(matrix, -1, 0, -5);
+  //matrix = m4.xRotate(matrix, Math.PI/8);
+  //matrix = m4.yRotate(matrix, 0);
+  matrix = m4.zRotate(matrix, -Math.PI/8);
+  //matrix = m4.scale(matrix, 1, 1, 1);
+  
+  matrix = m4.xRotate(matrix, (window.scrollY / window.innerHeight / 8)-0.5);
+  
+  return matrix;
+}
+let matrix = computeMatrix();
+
+
+gl.useProgram(program);
+
+// Set the matrix.
+gl.uniformMatrix4fv(matrixLocation, false, matrix);
+
+
+
+let t = 0;
+const loop = function() {
+  stats.begin();
+  render();
+  stats.end();
+  requestAnimationFrame(loop);
+}
+
+
+const mediumDensity = 0.1; // 0 = vacuum, 1 = maximum drag
+const gravitationalForce = 1e-4;
+
+const rotatedLocations = new Float32Array(targetPositions.length);
+
+const render = function() {
+  t += 1;
+  const theta = t/200;
+  
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  gl.viewport(0, 0, canvas.width, canvas.height);
+  
+  // rotate the vertices around the y axis
+  for(let ii=0; ii<VERTICECOUNT*3; ii+=3) {
+    rotatedLocations[ii+0] = Math.cos(theta) * targetPositions[ii+0] - Math.sin(theta) * targetPositions[ii+2];
+    rotatedLocations[ii+1] = targetPositions[ii+1];
+    rotatedLocations[ii+2] = Math.sin(theta) * targetPositions[ii+0] + Math.cos(theta) * targetPositions[ii+2];
+  }
+
+  for(let i=0; i<VERTICECOUNT*3; i++) {
+    const vertexIndex = parseInt(i/3);
+    vertices[i] += velocities[i];
+    const momentum = velocities[i] * (1-mediumDensity);
+    const force = (rotatedLocations[i]-vertices[i]) * gravitationalForce + Math.random()*1e-5;
+    const mass = vertexMass[vertexIndex];
+    velocities[i] = momentum + (force / mass);
+  }
+  
+  let matrix = computeMatrix();
+  //matrix = m4.yRotate(matrix, t/200);
+  gl.uniformMatrix4fv(matrixLocation, false, matrix);
+  
+  
+  gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.DYNAMIC_DRAW);
+  
+  gl.clearColor(0,0,0,1.0);
+  gl.clear(gl.COLOR_BUFFER_BIT);
+  gl.useProgram(program);
+  gl.uniform1f(timeLocation, t);
+  gl.drawArrays(gl.POINT, 0, VERTICECOUNT);
+  gl.flush();
+}
+requestAnimationFrame(loop);
+
+
+function randn_bm() {
+  let u = 0, v = 0;
+  while(u === 0) u = Math.random(); //Converting [0,1) to (0,1)
+  while(v === 0) v = Math.random();
+  let num = Math.sqrt( -2.0 * Math.log( u ) ) * Math.cos( 2.0 * Math.PI * v );
+  num = num / 10.0 + 0.5; // Translate to 0 -> 1
+  if (num > 1 || num < 0) return randn_bm() // resample between 0 and 1
+  return num
+}
+
+(() => {
+  let options = {
+    rootMargin: '0px',
+    threshold: [0.8]
+  }
+
+  let callback = (entries) => {
+    entries.forEach((e) => {
+      if(e.intersectionRatio >= 0.8) {
+        computeTargetPositions(e.target.dataset.model);
+      }
+    });
+  }
+
+  let observer = new IntersectionObserver(callback, options);
+
+  const sections = document.querySelectorAll('.pages > section');
+  for(let x=0; x<sections.length; x++) {
+    observer.observe(sections[x]);
+  }
+})();
+```

@@ -162,7 +162,7 @@ export const ThreeDGraph = ( { models }: any ) => {
   const calculateGridPosition = ( parent, index, gridSize ) => {
     // Calculate the row and column of the current node
     const baseYDistance = 4
-    let newParentYPosition = parent[1] + -baseYDistance
+    const newParentYPosition = parent[1] + -baseYDistance
 
     const row = Math.floor( index / gridSize )
     const col = index % gridSize

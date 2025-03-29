@@ -208,7 +208,7 @@ export const checkRelevanceWithAI = traceable( async ( {
             console.log( 'citations: ', citations )
 
             let index = 0
-            for ( let annotation of annotations ) {
+            for ( const annotation of annotations ) {
               text.value = text.value.replace(
                 annotation.text,
                 '[' + index + ']'

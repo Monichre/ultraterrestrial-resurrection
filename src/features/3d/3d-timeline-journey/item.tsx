@@ -57,7 +57,7 @@ export const Item = ({
 
   // Set initial position
   const align = itemIndexTotal % 4
-  let pos = new Vector2()
+  const pos = new Vector2()
   if (align === 0) pos.set(-350, 350) // bottom left
   if (align === 1) pos.set(350, 350) // bottom right
   if (align === 2) pos.set(350, -350) // top right

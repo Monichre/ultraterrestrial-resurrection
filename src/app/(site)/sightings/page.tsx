@@ -1,33 +1,32 @@
-import Loading from '@/app/loading'
-import { SightingsGlobe } from '@/features/data-viz/sightings/sightings-globe'
-import { getSightingsGeoJSON } from '@/services/sightings/uap-sighting'
-import { Suspense } from 'react'
+import {SightingsClient} from '@/features/data-viz/sightings/sightings'
+import path from 'node:path'
+import fs from 'node:fs'
 
 export default async function Index() {
+  const sightingsFilePath = path.join(process.cwd(), 'public', 'sightings.geojson') // Adjust path if needed
 
-  // const { geoJSONSightings }: any = await getFullSightingsPayload()
-  const { sightings, militaryBases, ufoPosts }: any = await getSightingsGeoJSON()
+  console.log('🚀 ~ Index ~ sightingsFilePath:', sightingsFilePath)
 
-  // console.log( "🚀 ~ file: page.tsx:9 ~ Index ~ geoJSONSightings:", geoJSONSightings )
+  const sightingsFileContents = JSON.parse(await fs.promises.readFile(sightingsFilePath, 'utf8'))
 
+  console.log('🚀 ~ Index ~ sightingsFileContents:', sightingsFileContents)
 
-  // console.log( "🚀 ~ file: page.tsx:9 ~ Index ~ realtimeSightings:", realtimeSightings )
-
-
-  // const {
-  //   data: { sightings, militaryBases, ufoPosts },
-  // } = await sightingsPayload.json()
+  const ufoPostsFilePath = path.join(process.cwd(), 'public', 'ufo-posts.geojson')
+  const ufoPostsFileContents = JSON.parse(await fs.promises.readFile(ufoPostsFilePath, 'utf8'))
+  const militaryBasesFilePath = path.join(process.cwd(), 'public', 'military-bases.geojson')
+  const militaryBasesFileContents = JSON.parse(
+    await fs.promises.readFile(militaryBasesFilePath, 'utf8')
+  )
 
   return (
-    <div className="h-screen w-screen">
-
-      <Suspense fallback={<Loading />}>
-        {/* <MapboxGlobe sightings={geoJSONSightings?.sightings} /> */}
-        <SightingsGlobe
-          geoJSONSightings={{ sightings, militaryBases, ufoPosts }}
-        // realtimeSightings={realtimeSightings}
-        />
-      </Suspense>
+    <div className='h-screen w-screen'>
+      <SightingsClient
+        geoJSONSightings={{
+          sightings: sightingsFileContents,
+          ufoPosts: ufoPostsFileContents,
+          militaryBases: militaryBasesFileContents,
+        }}
+      />
     </div>
   )
 }

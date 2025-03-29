@@ -72,7 +72,7 @@ export const useTextAnimator = (textElementRef, options = {}) => {
     if (chars.length === 0) return
 
     chars.forEach((char, position) => {
-      let initialHTML = char.innerHTML
+      const initialHTML = char.innerHTML
 
       gsap.fromTo(
         char,

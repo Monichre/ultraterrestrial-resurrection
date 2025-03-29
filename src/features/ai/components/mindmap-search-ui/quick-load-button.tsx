@@ -160,7 +160,7 @@ export const QuickLoadButtonContainer: React.FC<
   )
 }
 
-let tabs = [
+const tabs = [
   { id: 0, label: 'Apple' },
   { id: 1, label: 'Spotify' },
 ]

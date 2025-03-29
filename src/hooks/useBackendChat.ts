@@ -173,7 +173,7 @@ export function useBackendChat({
     (
       e: React.FormEvent<HTMLFormElement>,
       { options, functions, function_call }: ChatRequestOptions = {},
-      metadata?: Object
+      metadata?: object
     ) => {
       e.preventDefault();
       if (!input) return;

@@ -4,7 +4,7 @@ import { memo, useCallback } from 'react'
 export type ColorButtonProps = {
   color?: string
   active?: boolean
-  onColorChange?: ( color: string ) => void // eslint-disable-line no-unused-vars
+  onColorChange?: ( color: string ) => void  
 }
 
 export const ColorButton = memo(

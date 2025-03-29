@@ -1,0 +1,1058 @@
+{
+   "type": "FeatureCollection",
+   "features": [
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -71.5793902557177,41.6850953372905 ]
+    },
+    "properties": {
+    "location":"Rhode Island, USA",
+    "date":"2023-01-22 12:01",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t50.2886-16/327156746_1642073522917951_553118801707741953_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=107&_nc_ohc=_ubJHSND-wIAX_ZgxIB&tn=UnlzwzktKyyC20oB&edm=AOQ1c0wBAAAA&ccb=7-5&oh=00_AfCj6VoNixdSP3Nj6OFRwxrujiZK-0SN-JsH4QlgxMZmsQ&oe=63CF0492&_nc_sid=8fd12b",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -72.939621,-41.471812 ]
+    },
+    "properties": {
+    "location":"Puerto Montt, Chile",
+    "date":"2023-01-21 20:03",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t50.2886-16/327128573_576564173932576_4825911372576034990_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=104&_nc_ohc=FYU-qU2H-pIAX8Ydu5c&edm=AOQ1c0wBAAAA&ccb=7-5&oh=00_AfCgM2TonM--1Qbsrgy_L0wbvv8ZdWfZbG2thg8zyjKG4Q&oe=63CF394D&_nc_sid=8fd12b",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -72.56228,-37.097868 ]
+    },
+    "properties": {
+    "location":"Yumbel, Región Del Biobío, Chile",
+    "date":"2023-01-21 19:58",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t50.2886-16/326751282_225422359913520_8065197886550838636_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=100&_nc_ohc=MFuh18yKuqQAX-CefKX&tn=UnlzwzktKyyC20oB&edm=AOQ1c0wBAAAA&ccb=7-5&oh=00_AfCWeaFi-5NcfMLcY9ftq4jXp9-xDPDM8ze0o7BAYxl3mA&oe=63CEDE10&_nc_sid=8fd12b",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -104.831154,39.784223 ]
+    },
+    "properties": {
+    "location":"Montbello Colorado",
+    "date":"2023-01-21 19:42",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t50.2886-16/326085417_188623117123794_7784288868304226498_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=106&_nc_ohc=_lHjCrcHVcIAX_Y2-Ah&tn=UnlzwzktKyyC20oB&edm=AOQ1c0wBAAAA&ccb=7-5&oh=00_AfCY3X5F-RtbT7aRkniOWAHA4P_Pfn8Ik1zgF1FIjhxGHg&oe=63CF3374&_nc_sid=8fd12b",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 21.4316495,41.9960924 ]
+    },
+    "properties": {
+    "location":"Skopje, Makedonia",
+    "date":"2023-01-21 19:33",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t66.30100-16/10000000_553890486787399_6125834898285543129_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=107&_nc_ohc=-vXb_izMEIUAX8H6HY8&tn=UnlzwzktKyyC20oB&edm=AOQ1c0wBAAAA&ccb=7-5&oh=00_AfAfHtyrhTifcHCvGDc9Ww1Bn7ImO91uPfUlW4DXdkf_jQ&oe=63CEDBB8&_nc_sid=8fd12b",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.488171,38.343637 ]
+    },
+    "properties": {
+    "location":"Alicante, Spain",
+    "date":"2023-01-21 13:57",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t50.2886-16/327020607_1559782214485101_8165294414361439374_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=109&_nc_ohc=IC_JP-reZWoAX-x-Drk&edm=AOQ1c0wBAAAA&ccb=7-5&oh=00_AfBwZ3mjmDMBRcQTJg4BjptPKhxHCMSSiz3pZkpRbtIV3A&oe=63CEC097&_nc_sid=8fd12b",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 106.817748,-6.215275 ]
+    },
+    "properties": {
+    "location":"European Union",
+    "date":"2023-01-20 22:36",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t50.2886-16/326804108_1886138095087225_6310986184290916284_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=101&_nc_ohc=boDWyUR86TQAX8KzvoR&edm=AOQ1c0wBAAAA&ccb=7-5&oh=00_AfCona9TKxLu_1hNgJGRFsfkkZdmLGrz6Rrk8-B6F9iLyw&oe=63CED11C&_nc_sid=8fd12b",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -2.990484,53.846147 ]
+    },
+    "properties": {
+    "location":"Poulton-le-Fylde",
+    "date":"2023-01-20 21:34",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t50.2886-16/10000000_3334073186866893_111972823273197931_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=109&_nc_ohc=w1Sv8inuLT4AX_dIbdH&tn=UnlzwzktKyyC20oB&edm=AOQ1c0wBAAAA&ccb=7-5&oh=00_AfA8nu9Q3T_LlrC0oiEhnP9HdG3WXJYLhLKRXlYW6JZ1SA&oe=63CF2904&_nc_sid=8fd12b",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 7.465279,51.514227 ]
+    },
+    "properties": {
+    "location":"Dortmund Germany",
+    "date":"2023-01-20 21:03",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t50.2886-16/326774625_159464223509466_3837146787504358617_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=106&_nc_ohc=jPmpHX4adxYAX91TF1J&edm=AOQ1c0wBAAAA&ccb=7-5&oh=00_AfC9fMoM5AK5YZd65wEH2DYnLvPQSftfZPWpisS5dbhjUg&oe=63CEFAF8&_nc_sid=8fd12b",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 7.465279,51.514227 ]
+    },
+    "properties": {
+    "location":"Dortmund Germany",
+    "date":"2023-01-20 20:27",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t50.2886-16/326878651_1605502059899741_8959526222772732798_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=105&_nc_ohc=N82zjeosOBwAX-LO3d1&edm=AOQ1c0wBAAAA&ccb=7-5&oh=00_AfAVXv15Ai8AIrx_9hiK3ErFBcvPw6f6Ck0oFhGSN30Y7A&oe=63CF09CF&_nc_sid=8fd12b",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 10.0183432948567,51.1334813439932 ]
+    },
+    "properties": {
+    "location":"Germany",
+    "date":"2023-01-19 10:15",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t50.2886-16/326308506_577712981036643_5078075815717382294_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=103&_nc_ohc=Ufs18tPJHWgAX_JdFTC&edm=APU89FABAAAA&ccb=7-5&oh=00_AfAb7CloDhTZ3WiRHRMzpFX6SIHo03NtMgxLG8Q6F04M0A&oe=63CEDC40&_nc_sid=86f79a",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -57.547178,-37.973192 ]
+    },
+    "properties": {
+    "location":"Derqui, Buenos Aires, Argentina",
+    "date":"2023-01-18 21:50",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t50.2886-16/326343366_5774676342615443_3645543057660480913_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=111&_nc_ohc=fjEl-KyNiV4AX8bqZGO&edm=APU89FABAAAA&ccb=7-5&oh=00_AfCsSv7nUI4huIh1xmxDO2ZtGhz77qnuJbqfLbYpwdRYhQ&oe=63CEDC2E&_nc_sid=86f79a",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -111.761717,34.86796 ]
+    },
+    "properties": {
+    "location":"Sedona, Arizona",
+    "date":"2023-01-18 21:43",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t50.2886-16/326399001_872493173998998_2657874807272284932_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=106&_nc_ohc=7FQUODIgX0EAX9PfP5j&edm=APU89FABAAAA&ccb=7-5&oh=00_AfBKI4YYfh4fpGILhNgsX49u4gdcQeJkM-9rz_TryY5SRg&oe=63CF3F84&_nc_sid=86f79a",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -106.0992417,28.6766815 ]
+    },
+    "properties": {
+    "location":"Parral, Chihuahua, Mexico",
+    "date":"2023-01-18 21:40",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t50.2886-16/319284623_1575398269645737_7579823696951903163_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=109&_nc_ohc=hJlNcozarooAX_qT5vt&edm=APU89FABAAAA&ccb=7-5&oh=00_AfB6Xvfz68-eTyn46STgx2QWvqd2xWbpI-T62AMTPep7Cg&oe=63CEDE6A&_nc_sid=86f79a",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -82.004176,28.926998 ]
+    },
+    "properties": {
+    "location":"The Villages, Florida",
+    "date":"2023-01-17 17:56",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t50.2886-16/326231421_1219822392302822_4535228501087472977_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=102&_nc_ohc=5MOgQHVgfroAX9E83Rt&edm=APU89FABAAAA&ccb=7-5&oh=00_AfAGuBlMLWhgahP8SM5wxp6ExyI4leJSw7J41L5Odw8iwA&oe=63CF0E2F&_nc_sid=86f79a",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -73.9866,40.7306 ]
+    },
+    "properties": {
+    "location":"New York City U.S.A.",
+    "date":"2023-01-17 15:50",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t66.30100-16/121513650_1926894404322851_8611130510590310523_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=111&_nc_ohc=CAf44wGEbVsAX_QyKAa&tn=UnlzwzktKyyC20oB&edm=APU89FABAAAA&ccb=7-5&oh=00_AfBnXA6HnEOvFGNtXQCzVsyuM81OTNDW6zwiZfH-ndKtig&oe=63CF0BD3&_nc_sid=86f79a",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -116.964662,32.501019 ]
+    },
+    "properties": {
+    "location":"Tijuana, Mexico",
+    "date":"2023-01-17 04:25",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t50.2886-16/324761386_903792694310196_1181620017552460449_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=100&_nc_ohc=7IYrddRAQc4AX9lN5Cw&edm=APU89FABAAAA&ccb=7-5&oh=00_AfBeu2Ta6mQd1akZT7B5dxqtkkONKqMf3btEHqEmh2Tb7Q&oe=63CED010&_nc_sid=86f79a",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -48.2653,-18.8652 ]
+    },
+    "properties": {
+    "location":"Minas Gerais MG",
+    "date":"2023-01-17 04:03",
+    "video":"",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -117.289765,34.108345 ]
+    },
+    "properties": {
+    "location":"San Bernardino, California",
+    "date":"2023-01-17 03:57",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t50.2886-16/325948148_487966273289945_9153518526272148313_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=105&_nc_ohc=bXKtvSV0-HAAX8Nw6tl&tn=UnlzwzktKyyC20oB&edm=APU89FABAAAA&ccb=7-5&oh=00_AfC4I133KfMmYQTLDZ_-_Dr9S1fcY_zUw3lwL7HwxPYBnQ&oe=63CF2B35&_nc_sid=86f79a",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -82.554016,35.60095 ]
+    },
+    "properties": {
+    "location":"Asheville, North Carolina",
+    "date":"2023-01-16 21:06",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t50.2886-16/325921816_919729822716607_119214809208260200_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=107&_nc_ohc=dl1XMtkH2EAAX-DxEDj&edm=APU89FABAAAA&ccb=7-5&oh=00_AfAL3i1Eu9lIZbySxAdKcZYLWiPLvSEwMsrNyzgh0Loefw&oe=63CEEBEF&_nc_sid=86f79a",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -109.172599073804,47.0725146587006 ]
+    },
+    "properties": {
+    "location":"Montana, USA",
+    "date":"2023-01-16 20:43",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t50.2886-16/325614500_189169853704087_1869593427887510042_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=107&_nc_ohc=Dix4JIESFHgAX87i70B&edm=APU89FABAAAA&ccb=7-5&oh=00_AfBSNBMrNHIzBP0RSk41sz9UOY1Nhvo9QPE2PXOQSD0XLA&oe=63CEF060&_nc_sid=86f79a",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -82.536356,28.463527 ]
+    },
+    "properties": {
+    "location":"Spring Hill, Florida",
+    "date":"2023-01-15 20:33",
+    "video":"",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -85.759407,38.254238 ]
+    },
+    "properties": {
+    "location":"Louisville, Kentucky",
+    "date":"2023-01-15 00:34",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t50.2886-16/324436193_1258835371364515_3579581233834347353_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=107&_nc_ohc=cFELnlZViWYAX8mniMg&edm=APU89FABAAAA&ccb=7-5&oh=00_AfAeFIxVnYYkb8Zn9y46Hr25-eUXyTQmIGtXwCYLKLQMWQ&oe=63CF0A9B&_nc_sid=86f79a",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.12764739999999997,51.507321899999994 ]
+    },
+    "properties": {
+    "location":"London UK",
+    "date":"2023-01-14 23:49",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t50.2886-16/325685532_1314621002661681_849678706540997650_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=109&_nc_ohc=ix-ObUTupTEAX9oSAMM&edm=APU89FABAAAA&ccb=7-5&oh=00_AfBz3E2JsWSK28tlTezfR2n-rKMxS7_bDsBv4tVA5MetKg&oe=63CF3400&_nc_sid=86f79a",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -2.990484,53.846147 ]
+    },
+    "properties": {
+    "location":"Poulton-le-Fylde",
+    "date":"2023-01-13 23:33",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t66.30100-16/320836823_872830784004544_7006733275075504181_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=104&_nc_ohc=6-OiZURM4X0AX_r_u4i&edm=APU89FABAAAA&ccb=7-5&oh=00_AfCMM7RGChsIT2vIIkd8tSzy4pR_KEfr3QNMsVvLKppIgw&oe=63CEB901&_nc_sid=86f79a",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -84.593011,35.442886 ]
+    },
+    "properties": {
+    "location":"Athens T.N.",
+    "date":"2023-01-12 23:29",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t50.2886-16/325477907_518593186767040_2502500865085144197_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=104&_nc_ohc=gnSgRRzYgMEAX-_Ukce&tn=UnlzwzktKyyC20oB&edm=APU89FABAAAA&ccb=7-5&oh=00_AfDY7Vtak4fQ6o2igmESzKw7c-I-ZefuBdUVuyDY6WmqaQ&oe=63CEE863&_nc_sid=86f79a",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -77.036543,38.895037 ]
+    },
+    "properties": {
+    "location":"Washington DC, USA",
+    "date":"2023-01-12 22:17",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t66.30100-16/120941800_564676685559633_6881145536350800882_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=109&_nc_ohc=yPy3pADENPAAX9WMJej&edm=APU89FABAAAA&ccb=7-5&oh=00_AfAWkGxXjzxp3C2mt_qCwcwox1Xl3xy7LakTqAy-3pITSQ&oe=63CF2893&_nc_sid=86f79a",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.782248,53.646665 ]
+    },
+    "properties": {
+    "location":"Huddersfield, UK",
+    "date":"2023-01-10 20:57",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t50.2886-16/324890970_495042632695887_8921042780353855180_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=103&_nc_ohc=HuBati_Jx4sAX_x5L6V&edm=APU89FABAAAA&ccb=7-5&oh=00_AfBpIZ3NIqpa8uQqEeDFqxlpYOcDkeswhdG11QtblIH-Sg&oe=63CF0FFF&_nc_sid=86f79a",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 17.109306,48.151699 ]
+    },
+    "properties": {
+    "location":"Bratislava, Slovakia",
+    "date":"2023-01-10 15:32",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t66.30100-16/318018658_3312885142304547_3936715543626667507_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=103&_nc_ohc=2XvmdngqaB8AX_JJRyQ&edm=APU89FABAAAA&ccb=7-5&oh=00_AfAUDO_42pmtNL9s_JUltXujMF91ZCdUaiNyK79EByDxlA&oe=63CED3FF&_nc_sid=86f79a",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -70.65045,-33.437776 ]
+    },
+    "properties": {
+    "location":"Santiago, Chile",
+    "date":"2023-01-07 19:40",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t66.30100-16/10000000_654088173156218_4634230552766497957_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=102&_nc_ohc=tSVAoV8FBAwAX_YMMga&edm=APU89FABAAAA&ccb=7-5&oh=00_AfBKV1Ur-4gDHX1Ho2siubr7y_dfW16HiS0fDv4m1r3Ldg&oe=63CED2E8&_nc_sid=86f79a",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.355187,53.431042 ]
+    },
+    "properties": {
+    "location":"Rotherham",
+    "date":"2023-01-07 17:11",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t66.30100-16/48750117_697114131867270_9046876371402371360_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=106&_nc_ohc=j_HZ4vL0_nEAX9UYscV&edm=APU89FABAAAA&ccb=7-5&oh=00_AfD75aQi-PLwLO0YUazWR8m7wYlB58Q-qL2ROV0qDGDTcA&oe=63CEF013&_nc_sid=86f79a",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 55.2688605,25.231088999999997 ]
+    },
+    "properties": {
+    "location":"IRANI",
+    "date":"2023-01-06 22:17",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t50.2886-16/324070749_728635098476278_2729934687921913453_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=110&_nc_ohc=8RNpZyRHN7cAX_iqfL-&edm=APU89FABAAAA&ccb=7-5&oh=00_AfANsvXWyEUPh3k3R_HDTe_DVqA8Akn8CZjmv_LOamZSRw&oe=63CECE69&_nc_sid=86f79a",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -78.2907462468837,41.0911397651497 ]
+    },
+    "properties": {
+    "location":"Pennsylvania, USA",
+    "date":"2023-01-06 14:09",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t50.2886-16/321516379_699648771761098_3458024834284331527_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=110&_nc_ohc=WJX5TtJX0FgAX9hXHdH&edm=APU89FABAAAA&ccb=7-5&oh=00_AfCcFfm7aIJ6CMoy2CDbbzUFOP1u62KPsdGimFZgpLW-oA&oe=63CF4BFD&_nc_sid=86f79a",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -98.8223185136653,31.8039734986915 ]
+    },
+    "properties": {
+    "location":"Texas,US",
+    "date":"2023-01-05 20:34",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t50.2886-16/323803105_1308898589931167_2902384453364628059_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=111&_nc_ohc=al5i0CJY_68AX9UYM9G&edm=APU89FABAAAA&ccb=7-5&oh=00_AfAhb-paXPaYZpyQq3a-CclOq3_18T4Q9rbPLBQXV3WJDw&oe=63CF40AB&_nc_sid=86f79a",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -73.9866,40.7306 ]
+    },
+    "properties": {
+    "location":"New York City U.S.A.",
+    "date":"2023-01-04 22:39",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t50.2886-16/324418991_483915827256760_1794672997989067226_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=104&_nc_ohc=MBCvWWShD2cAX-0EJ7T&edm=APU89FABAAAA&ccb=7-5&oh=00_AfDzH6aOUTwdYPitjDpkxuyhSOxMLu-aXFr1VuKiZNy_2w&oe=63CEC4AC&_nc_sid=86f79a",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -2.990484,53.846147 ]
+    },
+    "properties": {
+    "location":"Poulton-le-Fylde",
+    "date":"2023-01-03 19:47",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t66.30100-16/323943789_1213144129607738_5522856884641599489_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=102&_nc_ohc=_XA1Jgl2hycAX_b8cxu&edm=APU89FABAAAA&ccb=7-5&oh=00_AfBamW1RPRrF8lN_QHDhvS9cZIBwA3yezX4A8kGococCMg&oe=63CF4E5C&_nc_sid=86f79a",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -2.990484,53.846147 ]
+    },
+    "properties": {
+    "location":"Poulton-le-Fylde",
+    "date":"2023-01-02 19:40",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t66.30100-16/323775316_490030593273272_4009742496061044558_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=108&_nc_ohc=biMb-7mccaYAX9TN4lp&edm=APU89FABAAAA&ccb=7-5&oh=00_AfBI65n44fYhQ072LSH4KazcGUexO5AZ9SVPlfMucXBgmw&oe=63CEABFF&_nc_sid=86f79a",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -118.242766,34.053691 ]
+    },
+    "properties": {
+    "location":"Los Angeles, California",
+    "date":"2023-01-02 19:13",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t66.30100-16/49174126_1920530251615838_800379479056723003_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=102&_nc_ohc=2HO_e05VdV0AX8J8BBD&edm=APU89FABAAAA&ccb=7-5&oh=00_AfC1HozTnCt2ow8QiYA_g7m2_2sOBYgRwIv_2QypWXUsNA&oe=63CF0E5C&_nc_sid=86f79a",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -73.9866,40.7306 ]
+    },
+    "properties": {
+    "location":"New York City U.S.A.",
+    "date":"2023-01-02 18:49",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t66.30100-16/323735851_160520439667052_2706095831071113368_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=108&_nc_ohc=DuE1aavUbvkAX98Bzgb&edm=APU89FABAAAA&ccb=7-5&oh=00_AfDJi-qCaGmopehZx1gW8wILTLTGQ4sYNPQqcBbFEJAMbQ&oe=63CF2F8A&_nc_sid=86f79a",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -73.9866,40.7306 ]
+    },
+    "properties": {
+    "location":"New York City U.S.A.",
+    "date":"2023-01-02 18:39",
+    "video":"",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 116.3912757,39.906217 ]
+    },
+    "properties": {
+    "location":"Beijing, China",
+    "date":"2023-01-01 22:44",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t50.2886-16/323909458_5805722759519543_20918359189806498_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=111&_nc_ohc=n4M2pvcjuJgAX_KUuTK&tn=UnlzwzktKyyC20oB&edm=APU89FABAAAA&ccb=7-5&oh=00_AfBVQSuRRIe6OUj1EHdLJ2RRDvogeaxmLMAkNK2Qkx6DYg&oe=63CEDC5B&_nc_sid=86f79a",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -115.748361,37.641321 ]
+    },
+    "properties": {
+    "location":"Area 51, Groom Lake, Rachel, Nevada 89001",
+    "date":"2022-10-31 14:09",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t50.2886-16/313916226_447240560664925_5381775958983941557_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=101&_nc_ohc=JAivvChAjdoAX9LvzMg&edm=AOQ1c0wBAAAA&ccb=7-5&oh=00_AfBVSrDToALjWyoXbIw1dS0FKV2qO9AZN9yCcbImo9CF0g&oe=63CEFDFB&_nc_sid=8fd12b",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -118.452408,34.171797 ]
+    },
+    "properties": {
+    "location":"Volcano, California",
+    "date":"2022-08-24 12:28",
+    "video":"",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -121.3789085,38.453286500000004 ]
+    },
+    "properties": {
+    "location":"Calvine",
+    "date":"2022-08-13 06:03",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t50.2886-16/299454682_375504801380773_1764026842492733505_n.mp4?efg=eyJ2ZW5jb2RlX3RhZyI6InZ0c192b2RfdXJsZ2VuLjk2MC5jYXJvdXNlbF9pdGVtLmJhc2VsaW5lIiwicWVfZ3JvdXBzIjoiW1wiaWdfd2ViX2RlbGl2ZXJ5X3Z0c19vdGZcIl0ifQ&_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=101&_nc_ohc=RavWdIjgsPwAX9yuqY_&edm=AOQ1c0wBAAAA&vs=455007676506470_3623813284&_nc_vs=HBkcFQAYJEdOcFEyUkdsT1V3R2hWVUJBRUdJQ0NrUkZYc1lia1lMQUFBRhUAAsgBACgAGAAbAYgHdXNlX29pbAEwFQAAJsjr35aR2eo%2FFQIoAkMzLBdAIgAAAAAAABgSZGFzaF9iYXNlbGluZV8xX3YxEQB17gcA&ccb=7-5&oh=00_AfAtnWV9gW97kHyu2zQzpvCwJYxvYMCRGYyVVU54ZK8JPA&oe=63CEAF69&_nc_sid=8fd12b",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 5.61349061168593,51.9724664894952 ]
+    },
+    "properties": {
+    "location":"Netherlands",
+    "date":"2023-01-22 12:19",
+    "video":"",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -97.9222112121185,39.3812661305678 ]
+    },
+    "properties": {
+    "location":"United States",
+    "date":"2023-01-20 16:01",
+    "video":"",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -111.422127989113,34.2202611707236 ]
+    },
+    "properties": {
+    "location":"Arizona, USA",
+    "date":"2023-01-19 12:52",
+    "video":"",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -97.9222112121185,39.3812661305678 ]
+    },
+    "properties": {
+    "location":"United States",
+    "date":"2023-01-16 12:37",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t50.2886-16/324549410_559133646262710_8140245806977757137_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=106&_nc_ohc=WEt3-O49PfAAX-gNQIu&edm=AOQ1c0wBAAAA&ccb=7-5&oh=00_AfCFKAVLRMdqmb8NqVd5Z9KsMY2AA95VYqGDTItWCxRqsQ&oe=63CF4E66&_nc_sid=8fd12b",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 138.592229549504,36.3864928218528 ]
+    },
+    "properties": {
+    "location":"Japan",
+    "date":"2023-01-14 12:29",
+    "video":"",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -92.936633,17.988466 ]
+    },
+    "properties": {
+    "location":"Villahermosa, Tabasco",
+    "date":"2023-01-08 12:35",
+    "video":"",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 1.433488,52.083833 ]
+    },
+    "properties": {
+    "location":"Rendlesham Forest",
+    "date":"2023-01-05 13:05",
+    "video":"",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -122.2014,47.967306 ]
+    },
+    "properties": {
+    "location":"Everett, Washington",
+    "date":"2022-12-31 12:54",
+    "video":"",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -118.491227,34.01947 ]
+    },
+    "properties": {
+    "location":"Santa Monica, California",
+    "date":"2022-12-30 13:39",
+    "video":"",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -79.857547,40.173405 ]
+    },
+    "properties": {
+    "location":"Donora, Pennsylvania",
+    "date":"2022-12-29 12:53",
+    "video":"",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -118.242766,34.053691 ]
+    },
+    "properties": {
+    "location":"Los Angeles, California",
+    "date":"2022-12-28 13:15",
+    "video":"",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 120.98177916,14.58678841 ]
+    },
+    "properties": {
+    "location":"Philippines",
+    "date":"2022-12-21 12:10",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t66.30100-16/321162482_674914030764365_5998196671816049793_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=105&_nc_ohc=Qpui1k4-pDIAX-PqRbt&tn=UnlzwzktKyyC20oB&edm=APU89FABAAAA&ccb=7-5&oh=00_AfDo7tcN5PJTIWccriYIPvHWwGhPicEufBC_BqzvRKUgRg&oe=63CEAFC6&_nc_sid=86f79a",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0,-72.822042 ]
+    },
+    "properties": {
+    "location":"Antarctica",
+    "date":"2022-11-30 01:24",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t66.30100-16/10000000_887563919276166_912120044667700372_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=106&_nc_ohc=S8bLnobzThoAX-TkhiJ&edm=APU89FABAAAA&ccb=7-5&oh=00_AfDO0W3x4KRmi0lZBzLYRzBpJgiQeQnoMK1RZUanAwwrnA&oe=63CF0AE6&_nc_sid=86f79a",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -112.074142,33.448437 ]
+    },
+    "properties": {
+    "location":"Phoenix, Arizona",
+    "date":"2022-11-20 21:55",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t50.2886-16/316687961_688903882748256_4557915252261264186_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=100&_nc_ohc=_yjA4Mc_sC4AX8LSTY6&edm=APU89FABAAAA&ccb=7-5&oh=00_AfAGMVkh7frpKZUcMW4YnXuR760puQHcpiLKQ2_WyM6orQ&oe=63CEB2A8&_nc_sid=86f79a",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -114.06085,37.52918 ]
+    },
+    "properties": {
+    "location":"Mt Wilson Ranch",
+    "date":"2023-01-16 20:36",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t50.16885-16/325969917_487137740159851_4147720385819889068_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=107&_nc_ohc=Z0lW6_yOUAgAX9kr3YJ&edm=AOQ1c0wBAAAA&ccb=7-5&oh=00_AfDxSQYQCFHVh9_Q7v-SMt7w2BN6k_mQ9Bq6lyhJbdCKQg&oe=63CED9CA&_nc_sid=8fd12b",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -114.06085,37.52918 ]
+    },
+    "properties": {
+    "location":"Mt Wilson Ranch",
+    "date":"2023-01-07 20:12",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t50.16885-16/10000000_691700989314294_6902173383608953231_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=106&_nc_ohc=PYU_St3GpN4AX_dfFlK&edm=AOQ1c0wBAAAA&ccb=7-5&oh=00_AfA-eJuSHJZ6Dh3a76fI3wwwo9fyUIHzpyy1RubpHUEEyw&oe=63CF418F&_nc_sid=8fd12b",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -114.06085,37.52918 ]
+    },
+    "properties": {
+    "location":"Mt Wilson Ranch",
+    "date":"2022-12-31 08:21",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t50.16885-16/10000000_122523384036572_6835305481425104990_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=108&_nc_ohc=10nqVV-7l_AAX89PYlj&edm=AOQ1c0wBAAAA&ccb=7-5&oh=00_AfBsonfYmr9fPxoGMlDN6EHq95ri-YpSNQxEZ5ZpxCNt_Q&oe=63CECF08&_nc_sid=8fd12b",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -111.84125,33.306161 ]
+    },
+    "properties": {
+    "location":"Chandler, Arizona",
+    "date":"2022-12-15 11:15",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t50.16885-16/320307069_137952379085922_8860005024884078747_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=106&_nc_ohc=qC91yQvKn0kAX_AmDQc&edm=AOQ1c0wBAAAA&ccb=7-5&oh=00_AfCiGUyXdAmyng0Nwoph0C_JHmhBPcOKCcatcwgPAYyEuQ&oe=63CEC94F&_nc_sid=8fd12b",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -114.06085,37.52918 ]
+    },
+    "properties": {
+    "location":"Mt Wilson Ranch",
+    "date":"2022-11-26 11:53",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t50.16885-16/317413748_844874073302964_3021099253287735624_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=100&_nc_ohc=jyNwIfWbKT8AX_ul5f8&edm=APU89FABAAAA&ccb=7-5&oh=00_AfCzt83g7cMgXCiTosoWUpLpr1eYPR7fsX34AYvhcg4j-Q&oe=63CEDA24&_nc_sid=86f79a",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -114.06085,37.52918 ]
+    },
+    "properties": {
+    "location":"Mt Wilson Ranch",
+    "date":"2022-11-17 09:24",
+    "video":"",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -116.84503,34.261118 ]
+    },
+    "properties": {
+    "location":"Frog Ranch, Big Bear City",
+    "date":"2022-06-10 20:01",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t50.2886-16/286016054_153401103929867_7371679289664911378_n.mp4?efg=eyJ2ZW5jb2RlX3RhZyI6InZ0c192b2RfdXJsZ2VuLjcyMC5jbGlwcy5iYXNlbGluZSIsInFlX2dyb3VwcyI6IltcImlnX3dlYl9kZWxpdmVyeV92dHNfb3RmXCJdIn0&_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=111&_nc_ohc=lZugoeqBj6kAX8W9vas&edm=APU89FABAAAA&vs=992084571311758_3064698807&_nc_vs=HBksFQAYJEdEWkNEQkVMMGs1NmhJc0FBQks0bE5KQmQwMW1icV9FQUFBRhUAAsgBABUAGCRHRVFDR1JFNDFuT1JocjBFQUVZQkItdzVIT3dKYnFfRUFBQUYVAgLIAQAoABgAGwAVAAAmrMvuvOXd2T8VAigCQzMsF0A6gAAAAAAAGBJkYXNoX2Jhc2VsaW5lXzFfdjERAHX%2BBwA%3D&ccb=7-5&oh=00_AfCjV9LLpvftIMpb70tCJkNm1kAkfcXmQOckjk5lPfZbjg&oe=63CF3133&_nc_sid=86f79a",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -116.84503,34.261118 ]
+    },
+    "properties": {
+    "location":"Frog Ranch, Big Bear City",
+    "date":"2022-06-05 13:23",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t50.2886-16/286120977_682268576194539_507790292098194297_n.mp4?efg=eyJ2ZW5jb2RlX3RhZyI6InZ0c192b2RfdXJsZ2VuLjcyMC5jbGlwcy5iYXNlbGluZSIsInFlX2dyb3VwcyI6IltcImlnX3dlYl9kZWxpdmVyeV92dHNfb3RmXCJdIn0&_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=103&_nc_ohc=7PzNvP3SWbEAX-SqQJH&edm=APU89FABAAAA&vs=552003299803198_3434590526&_nc_vs=HBksFQAYJEdCSGNEUkhySHlBSWhXd0NBSG1iNTR5VUNBd0hicV9FQUFBRhUAAsgBABUAGCRHRUpsRVJGRGgwT3N2bk1CQU5Kc1dCOFlYNVVQYnFfRUFBQUYVAgLIAQAoABgAGwAVAAAmjJeioNnCgUEVAigCQzMsF0A6mZmZmZmaGBJkYXNoX2Jhc2VsaW5lXzFfdjERAHX%2BBwA%3D&ccb=7-5&oh=00_AfA31lw26JKP56-lgESRXhWPt_f7iOx0Aoi-aswJbpEJYQ&oe=63CF4213&_nc_sid=86f79a",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -116.84503,34.261118 ]
+    },
+    "properties": {
+    "location":"Frog Ranch, Big Bear City",
+    "date":"2022-05-23 19:02",
+    "video":"",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -116.84503,34.261118 ]
+    },
+    "properties": {
+    "location":"Frog Ranch, Big Bear City",
+    "date":"2022-05-19 23:02",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t50.2886-16/283141858_409119841065427_7077125340423844765_n.mp4?efg=eyJ2ZW5jb2RlX3RhZyI6InZ0c192b2RfdXJsZ2VuLjcyMC5mZWVkLmJhc2VsaW5lIiwicWVfZ3JvdXBzIjoiW1wiaWdfd2ViX2RlbGl2ZXJ5X3Z0c19vdGZcIl0ifQ&_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=107&_nc_ohc=4mhYMKy1KFAAX8vrLEF&tn=UnlzwzktKyyC20oB&edm=APU89FABAAAA&vs=601053767561492_323454290&_nc_vs=HBksFQAYJEdPSm00QkRUR2N5aUYzUUJBSjN6NERvQUFEZGlia1lMQUFBRhUAAsgBABUAGCRHTktBNGhDZXF1M2FNQ29FQUx1Q1BacE02VkJHYmtZTEFBQUYVAgLIAQAoABgAGwGIB3VzZV9vaWwBMBUAACaKyafO4K%2FxPxUCKAJDMywXQE4AAAAAAAAYEmRhc2hfYmFzZWxpbmVfMV92MREAdeoHAA%3D%3D&ccb=7-5&oh=00_AfBRcei8qIKNAB_fFkkU8wbjX6u0J6jZshoZCBdZYlPAZw&oe=63CF2176&_nc_sid=86f79a",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 29.043539,41.020556 ]
+    },
+    "properties": {
+    "location":"Turkey, Istanbul",
+    "date":"2023-01-21 15:31",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t66.30100-16/42331619_623134779821430_5954963042152329271_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=106&_nc_ohc=hROlbuqMl6cAX9J361H&edm=AOQ1c0wBAAAA&ccb=7-5&oh=00_AfACiLhNlG_kDf8rgSfMYdrb_11_mF6al5dGUt6naJwlIA&oe=63CF0A3A&_nc_sid=8fd12b",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 16.536756,43.495589 ]
+    },
+    "properties": {
+    "location":"Adriatic Sea",
+    "date":"2023-01-20 11:40",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t66.30100-16/323970230_881575196319122_6678070627872786881_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=102&_nc_ohc=vAOkW_QIfK0AX8Xlz-n&edm=AOQ1c0wBAAAA&ccb=7-5&oh=00_AfDtKDrrN7n8pk2j25b9-HkmPfYTw0YP_p93skfldNZwFw&oe=63CEDF79&_nc_sid=8fd12b",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -105.752831,36.495348 ]
+    },
+    "properties": {
+    "location":"Earth",
+    "date":"2023-01-14 07:03",
+    "video":"",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -70.229768,43.6474015 ]
+    },
+    "properties": {
+    "location":"Southern Maine",
+    "date":"2023-01-12 08:27",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t66.30100-16/319794230_700607048338650_4857188315585643872_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=106&_nc_ohc=puVGbXr9VHUAX9XgQPh&edm=APU89FABAAAA&ccb=7-5&oh=00_AfCTzN6NZIQaV_K1R2BofuuUDi9Txe_oAHQnYjt16HiuLQ&oe=63CEC513&_nc_sid=86f79a",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -105.752831,36.495348 ]
+    },
+    "properties": {
+    "location":"Earth",
+    "date":"2023-01-09 02:39",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t66.30100-16/320130036_591731076127932_9157643606055719236_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=100&_nc_ohc=xzgBVHpNQiUAX8ELV3L&edm=APU89FABAAAA&ccb=7-5&oh=00_AfD1kvaPnVFB9PCz2GvSljhukj_RomygWYa2jOaEROQheA&oe=63CEBC91&_nc_sid=86f79a",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -120.244538,55.764337 ]
+    },
+    "properties": {
+    "location":"Alaska Highway",
+    "date":"2023-01-09 01:55",
+    "video":"",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -105.752831,36.495348 ]
+    },
+    "properties": {
+    "location":"Earth",
+    "date":"2023-01-08 00:54",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t66.30100-16/120791790_494197816158550_2088312187074354708_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=110&_nc_ohc=YL40lbihwD0AX-Xx2KJ&edm=APU89FABAAAA&ccb=7-5&oh=00_AfBUmgLK1D9NSbF14YFaSZs2b5-2hKDf3qy5KKSZynRpiw&oe=63CF25C6&_nc_sid=86f79a",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -79.25139,42.886239 ]
+    },
+    "properties": {
+    "location":"Port Colborne, Ontario",
+    "date":"2023-01-08 00:40",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t50.2886-16/10000000_589392479682517_3545009275165121148_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=101&_nc_ohc=f2Bn-AZX85EAX9LgCIu&edm=APU89FABAAAA&ccb=7-5&oh=00_AfDDrxUDAil3b1cICZZyUNZKO0SnkMMozyVFp4cxWbDe4Q&oe=63CEAADE&_nc_sid=86f79a",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -105.752831,36.495348 ]
+    },
+    "properties": {
+    "location":"Earth",
+    "date":"2023-01-07 23:56",
+    "video":"",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -73.89554749999999,40.955072 ]
+    },
+    "properties": {
+    "location":"Hudson River",
+    "date":"2023-01-06 21:41",
+    "video":"",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -119.699375153073,37.0743595873945 ]
+    },
+    "properties": {
+    "location":"California",
+    "date":"2023-01-04 05:55",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t66.30100-16/121590341_568252414751142_4120860935206725766_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=106&_nc_ohc=iI5AJPVClx0AX95u7R7&tn=UnlzwzktKyyC20oB&edm=APU89FABAAAA&ccb=7-5&oh=00_AfDmsRigRdwjif9owirrB0SBhXEnzsG5Dx8MRCgymtvi8g&oe=63CEC43B&_nc_sid=86f79a",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -119.699375153073,37.0743595873945 ]
+    },
+    "properties": {
+    "location":"California",
+    "date":"2023-01-04 05:49",
+    "video":"https://scontent-yyz1-1.cdninstagram.com/v/t66.30100-16/323750346_684239726514044_7475746470923292350_n.mp4?_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=108&_nc_ohc=RZQfuuA8ODwAX-93xVx&edm=APU89FABAAAA&ccb=7-5&oh=00_AfCyZYh2pSN7LU_eOHupTq5U2Fg4Pqbsy271HZerk0uyKA&oe=63CEDE07&_nc_sid=86f79a",
+    "image":""
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -87.624421,41.875562 ]
+    },
+    "properties": {
+    "location":"Chicago",
+    "date":"2023-01-04 04:44",
+    "video":"",
+    "image":""
+    }
+  }
+]
+}

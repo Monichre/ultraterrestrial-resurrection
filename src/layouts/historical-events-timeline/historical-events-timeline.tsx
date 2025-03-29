@@ -30,7 +30,7 @@ export const HistoricalEventsTimeline = ({ events }: { events: JSONData<EventsRe
 
   const eventsByYear = useMemo(() => {
     const result: any = {}
-    for (let year of years) {
+    for (const year of years) {
       // @ts-ignore
       result[year] = events.filter((event) => event.date.includes(year))
     }

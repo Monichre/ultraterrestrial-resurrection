@@ -15,7 +15,7 @@ const AIR_PORTS =
   'https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_10m_airports.geojson'
 
 // Set your Mapbox token here or via environment variable
-const MAPBOX_TOKEN = process.env.MapboxAccessToken // eslint-disable-line
+const MAPBOX_TOKEN = process.env.MapboxAccessToken  
 
 const INITIAL_VIEW_STATE = {
   latitude: 51.47,
@@ -35,7 +35,7 @@ function DeckGLOverlay(props) {
 function Root() {
   const onClick = (info) => {
     if (info.object) {
-      // eslint-disable-next-line
+       
       alert(`${info.object.properties.name} (${info.object.properties.abbrev})`)
     }
   }

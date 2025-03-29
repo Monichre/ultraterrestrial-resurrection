@@ -1,0 +1,13 @@
+/* BottomSheet.css */
+
+.BottomSheet-view {
+	height: 500px;
+}
+
+.BottomSheet-content {
+	max-width: 700px;
+	height: auto;
+}
+
+.BottomSheet-bleedingBackground {
+}

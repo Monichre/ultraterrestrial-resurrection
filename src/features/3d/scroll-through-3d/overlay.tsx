@@ -130,7 +130,7 @@ export const Overlay = forwardRef(
     console.log( 'currentEvents: ', currentEvents )
 
     const handleScroll = ( e: any ) => {
-      let lastScrollTop = scroll.current
+      const lastScrollTop = scroll.current
 
       scroll.current =
         e.target.scrollTop / ( e.target.scrollHeight - window.innerHeight )

@@ -131,7 +131,7 @@ export function Nodes({ children }) {
 
   const lines = useMemo(() => {
     const childLines: any = []
-    for (let node of nodes) {
+    for (const node of nodes) {
       node.connectedTo
         .map((ref) => [node.position, ref.current.position])
         .forEach(([start, end]) =>

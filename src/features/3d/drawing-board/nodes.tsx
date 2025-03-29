@@ -71,7 +71,7 @@ export function Nodes( { children }: any ) {
   console.log( 'nodes: ', nodes )
   const lines = useMemo( () => {
     const lines: any[] = []
-    for ( let node of nodes ) {
+    for ( const node of nodes ) {
       node.connectedTo
         .map( ( ref: { current: { position: any } } ) => [
           node.position,
