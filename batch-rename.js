@@ -4,8 +4,15 @@ const fs = require('fs');
 const path = require('path');
 const { promisify } = require('util');
 const glob = require('glob');
-const globPromise = promisify(glob.glob);
-const chalk = require('chalk');
+
+// Console color codes
+const colors = {
+  red: (text) => `\x1b[31m${text}\x1b[0m`,
+  green: (text) => `\x1b[32m${text}\x1b[0m`,
+  yellow: (text) => `\x1b[33m${text}\x1b[0m`,
+  blue: (text) => `\x1b[34m${text}\x1b[0m`,
+  cyan: (text) => `\x1b[36m${text}\x1b[0m`
+};
 
 // Promisify fs methods
 const readFile = promisify(fs.readFile);
@@ -51,7 +58,7 @@ async function buildRenameMap(directoryPath, dryRun) {
   // Get all directories and files in the given path
   try {
     // First process directories (depth-first to avoid path conflicts)
-    const allPaths = await globPromise(`${directoryPath}/**/*`, { dot: true });
+    const allPaths = await glob.glob(`${directoryPath}/**/*`, { dot: true });
     
     // Sort paths by depth (deepest first) to avoid renaming conflicts
     const sortedPaths = allPaths.sort((a, b) => {
@@ -75,7 +82,7 @@ async function buildRenameMap(directoryPath, dryRun) {
           renameMap.set(itemPath, newPath);
           
           if (dryRun) {
-            console.log(chalk.yellow(`Would rename directory: ${itemPath} → ${newPath}`));
+            console.log(colors.yellow(`Would rename directory: ${itemPath} → ${newPath}`));
           }
         }
       } else if (stats.isFile()) {
@@ -89,7 +96,7 @@ async function buildRenameMap(directoryPath, dryRun) {
             renameMap.set(itemPath, newPath);
             
             if (dryRun) {
-              console.log(chalk.blue(`Would rename component: ${itemPath} → ${newPath}`));
+              console.log(colors.blue(`Would rename component: ${itemPath} → ${newPath}`));
             }
           }
         }
@@ -98,7 +105,7 @@ async function buildRenameMap(directoryPath, dryRun) {
     
     return renameMap;
   } catch (error) {
-    console.error(chalk.red(`Error building rename map: ${error.message}`));
+    console.error(colors.red(`Error building rename map: ${error.message}`));
     throw error;
   }
 }
@@ -107,7 +114,7 @@ async function buildRenameMap(directoryPath, dryRun) {
 async function updateImports(renameMap, rootDir, dryRun) {
   try {
     // Find all JS/TS files
-    const jsFiles = await globPromise(`${rootDir}/**/*.{js,jsx,ts,tsx}`, { dot: true });
+    const jsFiles = await glob.glob(`${rootDir}/**/*.{js,jsx,ts,tsx}`, { dot: true });
     const updatedFiles = new Set();
     
     for (const filePath of jsFiles) {
@@ -168,17 +175,17 @@ async function updateImports(renameMap, rootDir, dryRun) {
         updatedFiles.add(filePath);
         
         if (dryRun) {
-          console.log(chalk.green(`Would update imports in: ${filePath}`));
+          console.log(colors.green(`Would update imports in: ${filePath}`));
         } else {
           await writeFile(filePath, content, 'utf8');
-          console.log(chalk.green(`Updated imports in: ${filePath}`));
+          console.log(colors.green(`Updated imports in: ${filePath}`));
         }
       }
     }
     
     return updatedFiles.size;
   } catch (error) {
-    console.error(chalk.red(`Error updating imports: ${error.message}`));
+    console.error(colors.red(`Error updating imports: ${error.message}`));
     throw error;
   }
 }
@@ -186,7 +193,7 @@ async function updateImports(renameMap, rootDir, dryRun) {
 // Execute renames from map
 async function executeRenames(renameMap, dryRun) {
   if (dryRun) {
-    console.log(chalk.yellow(`Would rename ${renameMap.size} files/directories`));
+    console.log(colors.yellow(`Would rename ${renameMap.size} files/directories`));
     return;
   }
   
@@ -194,12 +201,12 @@ async function executeRenames(renameMap, dryRun) {
     // Perform the renames
     for (const [oldPath, newPath] of renameMap.entries()) {
       await rename(oldPath, newPath);
-      console.log(chalk.green(`Renamed: ${oldPath} → ${newPath}`));
+      console.log(colors.green(`Renamed: ${oldPath} → ${newPath}`));
     }
     
-    console.log(chalk.green(`Successfully renamed ${renameMap.size} files/directories`));
+    console.log(colors.green(`Successfully renamed ${renameMap.size} files/directories`));
   } catch (error) {
-    console.error(chalk.red(`Error renaming files/directories: ${error.message}`));
+    console.error(colors.red(`Error renaming files/directories: ${error.message}`));
     throw error;
   }
 }
@@ -217,7 +224,7 @@ async function main() {
   }
   
   if (args.length < 1) {
-    console.log(chalk.yellow('Usage: node batch-rename.js <directory-path> [--dry-run]'));
+    console.log(colors.yellow('Usage: node batch-rename.js <directory-path> [--dry-run]'));
     process.exit(1);
   }
   
@@ -227,22 +234,22 @@ async function main() {
     // Check if directory exists
     const dirStats = await stat(directoryPath);
     if (!dirStats.isDirectory()) {
-      console.error(chalk.red(`Error: ${directoryPath} is not a directory`));
+      console.error(colors.red(`Error: ${directoryPath} is not a directory`));
       process.exit(1);
     }
     
-    console.log(chalk.cyan(`Scanning directory: ${directoryPath}`));
-    console.log(chalk.cyan(`Mode: ${dryRun ? 'Dry run (no changes will be made)' : 'Live (changes will be applied)'}`));
+    console.log(colors.cyan(`Scanning directory: ${directoryPath}`));
+    console.log(colors.cyan(`Mode: ${dryRun ? 'Dry run (no changes will be made)' : 'Live (changes will be applied)'}`));
     
     // Build map of files/directories to rename
     const renameMap = await buildRenameMap(directoryPath, dryRun);
     
     if (renameMap.size === 0) {
-      console.log(chalk.green('All files and directories already follow the naming conventions!'));
+      console.log(colors.green('All files and directories already follow the naming conventions!'));
       process.exit(0);
     }
     
-    console.log(chalk.yellow(`Found ${renameMap.size} files/directories to rename`));
+    console.log(colors.yellow(`Found ${renameMap.size} files/directories to rename`));
     
     // Get project root (assuming it contains package.json)
     let rootDir = directoryPath;
@@ -254,21 +261,21 @@ async function main() {
     }
     
     // First update import statements
-    console.log(chalk.cyan('Updating import statements...'));
+    console.log(colors.cyan('Updating import statements...'));
     const updatedFilesCount = await updateImports(renameMap, rootDir, dryRun);
-    console.log(chalk.green(`${dryRun ? 'Would update' : 'Updated'} imports in ${updatedFilesCount} files`));
+    console.log(colors.green(`${dryRun ? 'Would update' : 'Updated'} imports in ${updatedFilesCount} files`));
     
     // Then execute renames
-    console.log(chalk.cyan('Renaming files and directories...'));
+    console.log(colors.cyan('Renaming files and directories...'));
     await executeRenames(renameMap, dryRun);
     
-    console.log(chalk.green('Operation completed successfully!'));
+    console.log(colors.green('Operation completed successfully!'));
     
     if (dryRun) {
-      console.log(chalk.yellow('\nThis was a dry run. Run without --dry-run to apply changes.'));
+      console.log(colors.yellow('\nThis was a dry run. Run without --dry-run to apply changes.'));
     }
   } catch (error) {
-    console.error(chalk.red(`Error: ${error.message}`));
+    console.error(colors.red(`Error: ${error.message}`));
     process.exit(1);
   }
 }
