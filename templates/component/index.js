@@ -124,7 +124,7 @@ module.exports = {
 			},
 			{
 				type: "add",
-				path: path.join(componentPath, "{{properCase name}}.tsx"),
+				path: path.join(componentPath, "{{PascalCase name}}.tsx"),
 				templateFile: path.join(templatePath, "component.hbs"),
 			},
 		];
@@ -132,7 +132,7 @@ module.exports = {
 		if (data.includeCss) {
 			actions.push({
 				type: "add",
-				path: path.join(componentPath, "{{properCase name}}.module.css"),
+				path: path.join(componentPath, "{{PascalCase name}}.module.css"),
 				templateFile: path.join(templatePath, "component.css.hbs"),
 			});
 		}
@@ -140,7 +140,7 @@ module.exports = {
 		if (data.includeStories) {
 			actions.push({
 				type: "add",
-				path: path.join(componentPath, "{{properCase name}}.stories.tsx"),
+				path: path.join(componentPath, "{{PascalCase name}}.stories.tsx"),
 				templateFile: path.join(templatePath, "component.stories.hbs"),
 			});
 		}

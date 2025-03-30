@@ -1,7 +1,7 @@
 'use client'
 import {useCallback, useRef, useState} from 'react'
 
-export const useTimeSeriesAnimation = (years: number[], speed = 1000) => {
+export const useTimeSeriesAnimation = (years: number[]) => {
   const initialYear = years?.length ? years[0] : 1940
   const [year, setYear] = useState(initialYear)
   const [month, setMonth] = useState(0)

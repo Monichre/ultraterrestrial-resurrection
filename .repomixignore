@@ -1,0 +1,12 @@
+/public/assets/audio/interstellar-stay.mp3
+/public/
+./src/features/3d/globe-connections/countries.geojson.json
+./src/components/globes/countries.json
+./public/sightings.geojson
+/node_modules/
+.next/
+.xata/
+.storybook/
+/templates/
+./src/components/icons/
+./src/components/animated/

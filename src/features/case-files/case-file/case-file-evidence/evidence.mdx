@@ -1,0 +1,138 @@
+import { Meta, Story, Canvas } from '@storybook/blocks'
+import * as EvidenceStories from './evidence.stories'
+
+<Meta title="Features/Case Files/Evidence/Documentation" />
+
+# Evidence System Components
+
+The evidence system consists of several interconnected components that work together to provide a comprehensive interface for managing and viewing case evidence.
+
+## Overview
+
+The evidence system includes:
+- Evidence Cards for displaying individual pieces of evidence
+- Evidence Browser for navigating the evidence database
+- Evidence Detail Sidebar for in-depth evidence examination
+
+## Components
+
+### Evidence Card
+
+The Evidence Card component displays key information about a piece of evidence including:
+- Classification level (top-secret, classified, confidential)
+- Credibility score
+- Source verification status
+- Timestamp
+- Description
+
+```tsx
+<EvidenceCard
+  caseNumber="X-37B"
+  classification="top-secret"
+  timestamp="2077-03-15T21:27:18"
+  title="Quantum Encryption Breach"
+  description="Unauthorized access detected in quantum mainframe sector 7."
+  credibilityScore={0.87}
+  sourceVerified={true}
+/>
+```
+
+### Evidence Browser
+
+The Evidence Browser provides a hierarchical view of evidence files organized into folders. Features include:
+- Searchable interface
+- Classified folder indicators
+- File metadata display
+- Interactive folder navigation
+
+### Evidence Detail Sidebar
+
+The Detail Sidebar shows comprehensive information about selected evidence:
+- Full metadata
+- Analysis graphs
+- Status indicators
+- Processing state
+
+## Usage Examples
+
+### Basic Evidence Card
+
+<Canvas of={EvidenceStories.SingleEvidenceCard} />
+
+### Multiple Classification Levels
+
+<Canvas of={EvidenceStories.EvidenceCardVariants} />
+
+### Complete Interface
+
+<Canvas of={EvidenceStories.FullInterface} />
+
+## Implementation Notes
+
+### Animations and Transitions
+- Uses Framer Motion for smooth animations
+- Implements staggered animations for folder contents
+- Provides visual feedback for user interactions
+
+### Styling
+- Consistent dark theme with sci-fi aesthetic
+- Uses backdrop blur for depth
+- Implements grid patterns and border effects
+- Responsive layout adaptations
+
+### State Management
+- Local state for folder open/close
+- Centralized evidence selection
+- Real-time verification status updates
+
+### Accessibility
+- Keyboard navigation support
+- Screen reader friendly structure
+- High contrast text and indicators
+
+## Best Practices
+
+1. **Classification Handling**
+   - Always display classification level prominently
+   - Use appropriate color coding for different levels
+   - Include visual indicators for classified content
+
+2. **Performance**
+   - Implement virtualization for large file lists
+   - Lazy load evidence details
+   - Cache frequently accessed metadata
+
+3. **User Experience**
+   - Provide immediate feedback for user actions
+   - Maintain consistent animation timings
+   - Include loading states for async operations
+
+4. **Security**
+   - Respect classification levels in UI
+   - Implement proper access controls
+   - Log all evidence access attempts
+
+## Component Integration
+
+The evidence system components are designed to work together seamlessly:
+
+```tsx
+<div className="grid grid-cols-[1fr_auto]">
+  <div>
+    <EvidenceBrowser />
+    <div className="grid grid-cols-2">
+      <EvidenceCard {...evidence1} />
+      <EvidenceCard {...evidence2} />
+    </div>
+  </div>
+  <EvidenceDetailSidebar evidence={selectedEvidence} />
+</div>
+```
+
+## Future Enhancements
+
+- Real-time collaboration features
+- Advanced search capabilities
+- Evidence relationship visualization
+- Timeline view integration
+- Enhanced analysis tools

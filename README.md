@@ -11,8 +11,6 @@ How it started ...
 
 ![Charlie Day](apps/app/docs/charlie-day.gif)
 
-and still how I feel. The state of disclosure is a moving
-
 Essentially I was thinking it might be cool to build a "state of disclosure" application that provided engaging visual displays and interactions across the following general areas:
 
 1. Major Historical UFO Event Chronology

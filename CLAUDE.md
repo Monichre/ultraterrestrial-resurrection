@@ -29,6 +29,7 @@
 - [README.md](./README.md) - Main project overview and introduction
 - [Feature Roadmap](./apps/app/docs/roadmap.md) - Planned features and development timeline
 - [ERD Diagram](./erd-diagram.mermaid) - Entity relationship diagram for the database
+- `repomix-output.md`
 
 ## Claude Tasks
 
@@ -78,3 +79,5 @@ For a comprehensive overview of the project vision and features, see the [projec
 
 The platform aims to be the definitive resource for tracking the state of UFO/UAP disclosure as it unfolds.
 clau
+
+**Project Summary:** *`./repomix-output.md`

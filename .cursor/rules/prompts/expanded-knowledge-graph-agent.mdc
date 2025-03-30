@@ -1,0 +1,484 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# UFO/UAP Knowledge Graph & Visualization System
+
+## System Overview
+
+This document outlines a unified AI agent system for processing, analyzing, visualizing, and storing UFO/UAP research data. The system creates a comprehensive pipeline that handles everything from entity extraction to interactive 3D visualizations.
+
+## Core Components
+
+### 1. Knowledge Graph Generator
+
+The foundation of the system is a robust knowledge graph infrastructure that processes structured entity data and transforms it into visual network maps.
+
+```javascript
+// Core knowledge graph generation pipeline
+function generateKnowledgeGraph(entities, relationships) {
+  // Generate nodes from extracted entities
+  const nodes = entities.map(entity => ({
+    id: entity.id,
+    type: entity.entityType,
+    data: { 
+      label: entity.name || entity.title,
+      ...entity 
+    },
+    position: calculateOptimalPosition(entity),
+    style: getStyleForEntityType(entity.entityType)
+  }));
+  
+  // Generate edges from extracted relationships
+  const edges = relationships.map(rel => ({
+    id: `edge-${generateUniqueId()}`,
+    source: rel.source,
+    target: rel.target,
+    type: rel.relationType,
+    data: { 
+      label: formatRelationshipLabel(rel.relationType),
+      ...rel.metadata
+    },
+    style: getStyleForRelationshipType(rel.relationType)
+  }));
+  
+  return { nodes, edges };
+}
+```
+
+### 2. Historical Timeline Analysis
+
+The system analyzes temporal patterns and historical context of UFO sightings and related events.
+
+```javascript
+// Historical timeline analysis functions
+function analyzeHistoricalPatterns(entities) {
+  // Extract all events and sightings with temporal data
+  const temporalEntities = entities.filter(e => 
+    (e.entityType === 'EVENT' || e.entityType === 'SIGHTING') && e.date
+  );
+  
+  // Sort by date for chronological analysis
+  const sortedEvents = temporalEntities.sort((a, b) => 
+    new Date(a.date) - new Date(b.date)
+  );
+  
+  // Identify temporal clusters and patterns
+  const clusters = identifyTemporalClusters(sortedEvents);
+  const frequencyPatterns = analyzeFrequencyPatterns(sortedEvents);
+  const correlations = findEventCorrelations(sortedEvents, entities);
+  
+  return {
+    timeline: sortedEvents,
+    clusters,
+    frequencyPatterns,
+    correlations,
+    significantPeriods: identifySignificantPeriods(clusters, frequencyPatterns)
+  };
+}
+
+function identifyTemporalClusters(sortedEvents) {
+  // Identify periods with unusually high activity
+  // Apply temporal clustering algorithms
+  // Return identified clusters with timespan and significance metrics
+}
+
+function findEventCorrelations(events, allEntities) {
+  // Cross-reference events with similar characteristics
+  // Look for matching witness accounts, locations, or descriptions
+  // Calculate correlation strength based on multiple factors
+  // Return correlated event pairs with confidence scores
+}
+```
+
+### 3. Geospatial Analysis & 3D Visualization
+
+The system transforms sighting data into interactive 3D visualizations with spatial and temporal elements.
+
+```javascript
+// 3D mapping and visualization
+function generate3DSpatialMapping(entities, relationships, timelineAnalysis) {
+  // Extract sightings and events with location data
+  const geoEntities = entities.filter(e => 
+    e.latitude && e.longitude
+  );
+  
+  // Map entities to 3D coordinate space
+  const mappedPoints = geoEntities.map(entity => ({
+    id: entity.id,
+    position: {
+      lat: entity.latitude,
+      lng: entity.longitude,
+      altitude: calculateAltitude(entity),
+      time: new Date(entity.date).getTime()
+    },
+    metadata: extractRelevantMetadata(entity),
+    visualProperties: determineVisualProperties(entity, timelineAnalysis)
+  }));
+  
+  // Generate connection paths based on relationships
+  const paths = generateConnectionPaths(mappedPoints, relationships);
+  
+  // Create temporal animation keyframes
+  const timeAnimation = generateTemporalAnimation(mappedPoints, timelineAnalysis);
+  
+  // Identify and visualize clusters
+  const spatialClusters = identifySpatialClusters(mappedPoints);
+  
+  return {
+    points: mappedPoints,
+    paths,
+    timeAnimation,
+    clusters: spatialClusters,
+    configuration: getVisualizationConfiguration()
+  };
+}
+
+function identifySpatialClusters(mappedPoints) {
+  // Apply geospatial clustering algorithms (DBSCAN, etc.)
+  // Calculate cluster centroids and boundaries
+  // Determine cluster significance and metadata
+  // Return cluster definitions
+}
+
+function generateTemporalAnimation(mappedPoints, timelineAnalysis) {
+  // Sort all points by timestamp
+  // Generate animation keyframes for temporal progression
+  // Include acceleration/deceleration at significant periods
+  // Return animation configuration
+}
+```
+
+## Database Schema
+
+The system maintains a synchronized PostgreSQL database with a comprehensive schema that supports all aspects of the analysis pipeline.
+
+```javascript
+// Core entity schemas
+const entitySchemas = {
+  // Primary entities
+  TOPIC: {
+    name: 'string',
+    title: 'string:unique',
+    summary: 'text',
+    photo: 'file[public]',
+    photos: 'file[](public)',
+    relationships: {
+      topic_experts: 'many-to-many → PERSONNEL',
+      topic_testimonies: 'many-to-many → TESTIMONY',
+      event_experts: 'many-to-many → EVENT/PERSONNEL',
+      user_saved: 'many-to-many → USER'
+    }
+  },
+  
+  PERSONNEL: {
+    name: 'string:unique',
+    bio: 'text',
+    role: 'string',
+    photo: 'file[]',
+    rank: 'integer',
+    credibility: 'integer',
+    popularity: 'integer',
+    authority: 'integer',
+    relationships: {
+      organization_member: 'many-to-many → ORGANIZATION',
+      event_expert: 'many-to-many → EVENT',
+      topic_expert: 'many-to-many → TOPIC',
+      testimony_witness: 'one-to-many → TESTIMONY',
+      document_author: 'one-to-many → DOCUMENT',
+      user_saved: 'many-to-many → USER'
+    }
+  },
+  
+  EVENT: {
+    title: 'string:unique',
+    name: 'text',
+    description: 'text',
+    summary: 'text',
+    date: 'datetime',
+    category: 'multiple',
+    photos: 'file[]',
+    metadata: 'json',
+    location: 'string',
+    latitude: 'float',
+    longitude: 'float',
+    relationships: {
+      subject_matter_experts: 'many-to-many → PERSONNEL',
+      testimonies: 'one-to-many → TESTIMONY',
+      topic_experts: 'many-to-many → TOPIC/PERSONNEL',
+      user_saved: 'many-to-many → USER'
+    }
+  },
+  
+  SIGHTING: {
+    date: 'datetime',
+    date_posted: 'datetime',
+    city: 'string',
+    state: 'string',
+    country: 'string',
+    latitude: 'float',
+    longitude: 'float',
+    description: 'string',
+    shape: 'string',
+    duration_seconds: 'string',
+    duration_hours_min: 'string',
+    comments: 'string',
+    media_link: 'string',
+    relationships: {
+      user_saved: 'many-to-many → USER'
+    }
+  },
+  
+  // Additional schema extensions for advanced analysis
+  TIMELINE_PATTERN: {
+    id: 'uuid',
+    name: 'string',
+    description: 'text',
+    confidence_score: 'float',
+    evidence_count: 'integer',
+    entities_involved: 'string[]',
+    time_span: {
+      start_date: 'datetime',
+      end_date: 'datetime'
+    }
+  },
+  
+  GEOSPATIAL_CLUSTER: {
+    id: 'uuid',
+    center_point: {
+      latitude: 'float',
+      longitude: 'float'
+    },
+    radius_km: 'float',
+    sighting_count: 'integer',
+    time_period: {
+      start_date: 'datetime',
+      end_date: 'datetime'
+    },
+    pattern_correlation: 'uuid[]' // Links to TIMELINE_PATTERN
+  }
+};
+```
+
+## Unified Data Processing Pipeline
+
+The complete system integrates all components into a seamless data processing pipeline:
+
+```javascript
+// Master processing pipeline
+async function processUFOData(rawData) {
+  // 1. Entity extraction and schema validation
+  const entities = extractAndValidateEntities(rawData);
+  
+  // 2. Relationship identification
+  const relationships = extractRelationships(entities);
+  
+  // 3. Historical timeline analysis
+  const timelineAnalysis = analyzeHistoricalPatterns(entities);
+  
+  // 4. Enhance entities with analytical insights
+  const enhancedEntities = enhanceEntitiesWithAnalysis(
+    entities, 
+    relationships,
+    timelineAnalysis
+  );
+  
+  // 5. Generate knowledge graph visualization
+  const knowledgeGraph = generateKnowledgeGraph(
+    enhancedEntities, 
+    relationships
+  );
+  
+  // 6. Generate 3D geospatial visualization
+  const spatialVisualization = generate3DSpatialMapping(
+    enhancedEntities, 
+    relationships,
+    timelineAnalysis
+  );
+  
+  // 7. Synchronize with database
+  await syncToDatabase(
+    enhancedEntities, 
+    relationships, 
+    timelineAnalysis
+  );
+  
+  // 8. Return complete analysis package
+  return {
+    entities: enhancedEntities,
+    relationships,
+    timelineAnalysis,
+    knowledgeGraph,
+    spatialVisualization,
+    metaAnalysis: generateMetaAnalysis(
+      enhancedEntities,
+      timelineAnalysis,
+      spatialVisualization
+    )
+  };
+}
+```
+
+## Visualization Techniques
+
+The system employs multiple visualization approaches to make complex UFO/UAP data accessible:
+
+### 2D Knowledge Graph (Xyflow)
+
+- **Node Types**: Visual differentiation of entity types (Personnel, Events, Organizations, etc.)
+- **Edge Types**: Different visual styles for relationship types
+- **Interactive Elements**: Zoom, pan, filter, and click interactions
+- **Temporal Controls**: Timeline slider to observe relationship evolution
+
+### 3D Geospatial Visualization
+
+- **Base Map**: Earth terrain with customizable overlays
+- **Sighting Markers**: 3D markers with height representing significance
+- **Temporal Animation**: Time progression showing sighting patterns
+- **Cluster Visualization**: Heat maps and boundary visualization for sighting clusters
+- **Connection Paths**: 3D arcs representing relationships between locations
+- **Interactive Controls**: Camera movement, time controls, filtering options
+
+## Entity Extraction and Analysis Rules
+
+The system applies sophisticated rules for extracting and analyzing entities:
+
+### Primary Entity Recognition
+
+1. **Personnel/Key Figures**:
+   - Match on unique name
+   - Consider role, rank, and authority attributes
+   - Track through relationships for context
+
+2. **Events**:
+   - Match on unique title
+   - Consider temporal and spatial attributes
+   - Link to associated testimonies and experts
+
+3. **Sightings**:
+   - Process based on location and timestamp
+   - Categorize by shape, duration, and witness count
+   - Assign credibility scores based on multiple factors
+
+### Pattern Recognition
+
+1. **Temporal Patterns**:
+   - Frequency analysis across different timeframes
+   - Periodicity identification
+   - Correlation with external events or celestial phenomena
+
+2. **Spatial Patterns**:
+   - Geographic clustering
+   - Path and trajectory analysis
+   - Correlation with military installations, population centers, etc.
+
+3. **Descriptive Patterns**:
+   - Common shapes or behaviors
+   - Witness reaction similarities
+   - Environmental conditions correlation
+
+## Data Flow Architecture
+
+The system implements a comprehensive data flow architecture:
+
+```
+Raw Data → Entity Extraction → Relationship Mapping → Analysis Pipeline
+    ↓              ↓                    ↓                    ↓
+Database ← Synchronization ← Analysis Results ← Visualization Generation
+    ↓
+User Interface (Knowledge Graph + 3D Visualization)
+```
+
+## Implementation Guidelines
+
+### Entity Processing
+
+```javascript
+// Process and normalize incoming entity data
+function processEntityData(rawEntityData) {
+  // Extract primary entities and their attributes
+  const extractedEntities = rawEntityData.map(raw => {
+    // Determine entity type
+    const entityType = determineEntityType(raw);
+    
+    // Extract and normalize attributes based on schema
+    const attributes = extractAttributes(raw, entityType);
+    
+    // Validate against schema requirements
+    validateEntityAttributes(attributes, entityType);
+    
+    return {
+      id: generateEntityId(entityType, attributes),
+      entityType,
+      ...attributes
+    };
+  });
+  
+  // Deduplicate entities
+  return deduplicateEntities(extractedEntities);
+}
+```
+
+### Visualization Configuration
+
+```javascript
+// Configure visualization based on data characteristics
+function configureVisualization(entities, relationships, analysisResults) {
+  // Determine optimal visualization approach based on data
+  const visualizationApproach = determineOptimalVisualization(
+    entities, 
+    relationships,
+    analysisResults
+  );
+  
+  // Configure node appearance and behavior
+  const nodeConfig = {
+    baseSize: calculateBaseNodeSize(entities),
+    sizeScaleFactor: determineSizeScaling(entities),
+    colorScheme: selectColorScheme(entities),
+    iconSet: selectIconSet(entities),
+    labelConfig: configureLabelDisplay(entities)
+  };
+  
+  // Configure edge appearance and behavior
+  const edgeConfig = {
+    baseThickness: calculateBaseEdgeThickness(relationships),
+    thicknessScaleFactor: determineThicknessScaling(relationships),
+    colorScheme: selectEdgeColorScheme(relationships),
+    arrowConfig: configureArrowDisplay(relationships),
+    labelConfig: configureEdgeLabelDisplay(relationships)
+  };
+  
+  // Configure interaction behaviors
+  const interactionConfig = {
+    zoomBehavior: configureZoomBehavior(),
+    clickBehavior: configureClickBehavior(),
+    hoverBehavior: configureHoverBehavior(),
+    filteringOptions: configureFilteringOptions(entities, relationships)
+  };
+  
+  return {
+    approach: visualizationApproach,
+    nodeConfig,
+    edgeConfig,
+    interactionConfig,
+    animationConfig: configureAnimations(analysisResults),
+    layoutConfig: configureLayout(entities, relationships)
+  };
+}
+```
+
+## System Integration Benefits
+
+The integrated approach provides several key advantages:
+
+1. **Data Consistency** - Single source of truth for all UFO/UAP data
+2. **Contextual Analysis** - Historical insights directly inform visualization approaches
+3. **Multi-dimensional Understanding** - Combined timeline and geospatial analysis
+4. **Interactive Exploration** - Seamless switching between different visualization modes
+5. **Scalable Architecture** - Ability to incorporate new data sources and analytical methods
+
+## Conclusion
+
+This unified system creates a comprehensive approach to UFO/UAP data analysis and visualization. By integrating knowledge graph technology with historical timeline analysis and 3D geospatial visualization, the system enables researchers to identify patterns and connections that might otherwise remain hidden. The synchronized database ensures data integrity while the flexible visualization capabilities make complex information accessible and engaging.

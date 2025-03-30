@@ -3,7 +3,7 @@ description: When asked to  create the DNA component by converting this vanilla 
 globs: 
 alwaysApply: false
 ---
-# Task: Convert HTML, CSS, JS below into a React Component using [code-guidelines.mdc](mdc:.cursor/rules/code-guidelines.mdc) and [nextjs-react-component-guidelines.mdc](mdc:.cursor/rules/nextjs-react-component-guidelines.mdc)
+# Task: Convert HTML, CSS, JS below into a React Component using @code-guidelines.mdc and @nextjs-react-component-guidelines.mdc
 
 **HTML**
 ```

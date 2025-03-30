@@ -1,1 +1,1 @@
-export * from './NotationsUi';
+export * from './NotationsUi'

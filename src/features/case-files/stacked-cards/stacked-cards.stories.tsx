@@ -31,13 +31,7 @@ const meta = {
   parameters: {
     layout: 'centered',
   },
-  decorators: [
-    (Story) => (
-      <div className='flex min-h-[500px] items-center justify-center bg-neutral-100 p-8'>
-        <Story />
-      </div>
-    ),
-  ],
+
   tags: ['autodocs'],
 } satisfies Meta<typeof StackedCards>
 

@@ -1,6 +1,10 @@
 import {SightingsClient} from '@/features/data-viz/sightings/sightings'
 import path from 'node:path'
 import fs from 'node:fs'
+import {SightingsLoader} from '@/features/data-viz/sightings/sightings-loader'
+import {Suspense} from 'react'
+import SightingsAnalytics from './sightings-analytics'
+import { analyzeSightingsData } from '@/services/sightings/actions/sightings'
 
 export default async function Index() {
   const sightingsFilePath = path.join(process.cwd(), 'public', 'sightings.geojson') // Adjust path if needed
@@ -18,15 +22,24 @@ export default async function Index() {
     await fs.promises.readFile(militaryBasesFilePath, 'utf8')
   )
 
+  // Extract features array from sightings GeoJSON
+  const sightingsData = sightingsFileContents.features?.map(feature => feature.properties) || []
+
   return (
-    <div className='h-screen w-screen'>
-      <SightingsClient
-        geoJSONSightings={{
-          sightings: sightingsFileContents,
-          ufoPosts: ufoPostsFileContents,
-          militaryBases: militaryBasesFileContents,
-        }}
-      />
-    </div>
+    <Suspense>
+      <div className='h-screen w-screen'>
+        <SightingsClient
+          geoJSONSightings={{
+            sightings: sightingsFileContents,
+            ufoPosts: ufoPostsFileContents,
+            militaryBases: militaryBasesFileContents,
+          }}
+        />
+        <SightingsAnalytics 
+          sightingsData={sightingsData}
+          analyzeSightingsData={analyzeSightingsData}
+        />
+      </div>
+    </Suspense>
   )
 }

@@ -795,6 +795,8 @@ export const MindMapProvider = ({children}: {children: React.ReactNode}) => {
         cursor, // Pass the cursor if available
       })
 
+      console.log('🚀 ~ result:', result)
+
       // Get the nodes and cursor from the result
       const {nodes, meta} = result
 
@@ -805,7 +807,7 @@ export const MindMapProvider = ({children}: {children: React.ReactNode}) => {
       console.log('🚀 ~ nodes:', nodes)
       return nodes
     },
-    [rootNodeState, updateChildNodeBatchIndex]
+    [rootNodeState, updateChildNodeBatchIndex, graph]
   )
 
   // Entity loading functions
