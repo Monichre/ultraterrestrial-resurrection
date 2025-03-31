@@ -1,7 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type {Meta, StoryObj} from '@storybook/react'
 
-import { AnimatedToolbar } from './animated-toolbar'
-
+import {AnimatedToolbar} from './animated-toolbar'
 
 const meta = {
   title: 'Components/Toolbars/Animated Toolbar v1',

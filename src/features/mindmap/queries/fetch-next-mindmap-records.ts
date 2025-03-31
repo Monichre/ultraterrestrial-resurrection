@@ -1,8 +1,12 @@
 "use server";
 
 import { xata } from "@/db/xata/client";
+
+console.log("🚀 ~ xata:", xata);
+
 import { convertDatabaseRecordToMindMapNode } from "@/features/mindmap/utils/conversions";
 import type { XataRecord } from "@xata.io/client";
+import { q } from "framer-motion/dist/types.d-B50aGbjN";
 
 // Type for the input parameters
 type FetchNextMindmapRecordsParams = {
@@ -42,48 +46,71 @@ export async function fetchNextMindmapRecords(
 	console.log("🚀 ~ table:", table);
 	console.log("🚀 ~ cursor:", cursor);
 
+	const xataTable = xata.db[table];
+
+	console.log("🚀 ~ xataTable:", xataTable);
+
 	try {
 		// Get the dynamic table from xata client
-		const xataTable = xata.db[table as keyof typeof xata.db];
 
 		if (!xataTable) {
 			throw new Error(`Table ${table} not found in Xata database`);
 		}
 
-		// Fetch records with pagination - choose one approach
-		let response;
+		// Offset-based pagination (for initial load or specific positions)
+		// Define the response type
+		type XataResponse = {
+			records: Array<{
+				id: string;
+				[key: string]: any;
+				xata: {
+					version: number;
+					createdAt: string;
+					updatedAt: string;
+				};
+			}>;
+			meta: {
+				page?: {
+					cursor: string;
+					more: boolean;
+				};
+			};
+		};
 
-		if (cursor) {
-			// Cursor-based pagination (preferred for large datasets)
-			response = await xataTable.getPaginated({
-				pagination: { size, cursor },
-			});
-		} else {
-			// Offset-based pagination (for initial load or specific positions)
-			response = await xataTable.getPaginated({
-				pagination: { size, offset },
-			});
-		}
+		const {
+			records,
+			meta: {
+				page: { more },
+			},
+		}: XataResponse = await xataTable.getPaginated({
+			pagination: { size: size },
+		});
+
+		console.log("🚀 ~ response:", records);
 
 		// Extract records and convert to serializable format
-		const records = response.records.map((record: XataRecord) =>
+		const serializableRecords = records.map((record) =>
 			record.toSerializable(),
 		);
 
 		// Convert to mind map nodes
-		const nodes = records.map((record: Record<string, unknown>) => ({
-			...convertDatabaseRecordToMindMapNode(record),
-			type: "entityNode",
-			data: {
-				...convertDatabaseRecordToMindMapNode(record).data,
-				type: table,
-			},
-		}));
+		const nodes = serializableRecords.map(
+			(record: Record<string, unknown>) => ({
+				...convertDatabaseRecordToMindMapNode(record),
+				type: "entityNode",
+				data: {
+					...convertDatabaseRecordToMindMapNode(record).data,
+					type: table,
+				},
+			}),
+		);
+
+		console.log("🚀 ~ nodes ~ nodes:", nodes);
 
 		return {
 			nodes,
 			meta: {
-				cursor: response.meta?.page?.cursor,
+				more,
 			},
 		};
 	} catch (error) {

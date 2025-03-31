@@ -1,9 +1,11 @@
-import { type ClassValue, clsx } from 'clsx'
-import { twMerge } from 'tailwind-merge'
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 
+// This utility function is used for merging Tailwind CSS classes
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+	return twMerge(clsx(inputs));
 }
 
-export const mergeStyles = (styleArray: any[]) =>
-  styleArray.map((style: any) => `${style}`).join(' ')
+// Simple utility for merging style strings
+export const mergeStyles = (styleArray: string[]) =>
+	styleArray.map((style: string) => `${style}`).join(" ");

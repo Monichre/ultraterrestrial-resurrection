@@ -1,5 +1,5 @@
 import type {Meta, StoryObj} from '@storybook/react'
-import {StackedCards} from '.'
+import {StackedCards} from './StackedCards'
 
 const DEMO_RECORDS = [
   {

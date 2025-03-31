@@ -3,8 +3,11 @@
 import React, {useRef} from 'react'
 import {type MotionValue, motion, useScroll, useTransform} from 'framer-motion'
 
-import {cn} from '@/utils'
 import {Card, CardContent} from '@/components/ui/card'
+// Simple className utility that doesn't rely on external imports
+function cn(...classes: (string | boolean | undefined | null)[]) {
+  return classes.filter(Boolean).join(' ')
+}
 
 interface Node {
   id: string

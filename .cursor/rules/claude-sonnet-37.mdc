@@ -9,17 +9,6 @@ globs: *,**/*
 alwaysApply: true
 ---
 
-# ---------------------------------------------------------------
-# DESCRIPTION:
-# this rule helps to better control sonnet-3.7 + cursor. (like doing to much, creating unnecessary new files e.g.).
-# especially the first two rules give the cursor agent already the most important instructions that worked for me.
-# 
-# ❗ ATTENTION:  
-# 1. this does not work so easily for large codebases
-# 2. remove everything from these rules that you do not need
-# 3. also remove this comments
-# ---------------------------------------------------------------
-
 
 # Instructions
 

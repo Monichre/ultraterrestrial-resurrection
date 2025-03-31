@@ -59,132 +59,265 @@ export const QuickActionsFloatingPanel = () => {
 
   const {
     addNextEntitiesToMindMap,
+    loadNodesFromTableQuery,
+    addConnectionNodesFromSearch,
+    addUserInputNode,
     addNodes,
-    retrieveEntitiesFromStore,
+    updateNodeData,
     addEdges,
     screenToFlowPosition,
-    getNodes,
-    setNodes,
+    retrieveEntitiesFromStore,
+
     setEdges,
+    setNodes,
+    getNodes,
+    addNode,
+
+    getNode,
   } = useMindMap()
+  const computeChildPositions = useCallback((parentNode: MindMapNode, numberOfChildren: number) => {
+    console.log('🚀 ~ computeChildPositions ~ parentNode:', parentNode)
+
+    // NOTE: We dont need to use the DOM position of the parent node as the chld nodes will be positioned relatively to the parent by default (bc of the parentId prop)
+
+    const parentRect = document
+      .querySelector(`[data-id="${parentNode.id}"]`)
+      ?.getBoundingClientRect()
+
+    console.log('🚀 ~ computeChildPositions ~ parentRect:', parentRect)
+
+    const parentWidth = parentRect?.width || 250
+    const parentHeight = parentRect?.height || 100
+
+    const entityWidth = 250 // Default width for each child node
+    const entitySpacing = 100 // Space between child nodes
+    const totalWidth = numberOfChildren * entityWidth + (numberOfChildren - 1) * entitySpacing
+
+    // Parent's center is its left position plus half its width
+    const parentCenterX = parentWidth / 2
+    // Start so that the children (as a group) are centered below the parent's center
+    const startX = 0 - totalWidth / 2
+
+    const verticalSpacing = 200 // Vertical offset from the bottom of the parent
+    const childY = parentHeight + verticalSpacing
+
+    return {startX, childY, entityWidth, entitySpacing}
+  }, [])
 
   //cc:loadingRecordsIntoMindMap[MindMapSideMenu]#1;handleLoadingRecord => addNextEntitiesToMindMap
-  const handleLoadingRecords = useCallback(
-    async (rootNodeSim: {data: {type: string}}) => {
-      const calculateCenterOfScreen = () => {
-        const centerX = window.innerWidth / 2
-        const centerY = window.innerHeight / 2
-        return {x: centerX, y: centerY}
-      }
+  // const handleLoadingRecords = useCallback(
+  //   async (rootNodeSim: {data: {type: string}}) => {
+  //     const calculateCenterOfScreen = () => {
+  //       const centerX = window.innerWidth / 2
+  //       const centerY = window.innerHeight / 2
+  //       return {x: centerX, y: centerY}
+  //     }
 
+  //     const center = screenToFlowPosition(calculateCenterOfScreen())
+
+  //     const {
+  //       data: {type},
+  //     } = rootNodeSim
+  //     const amount = type === 'events' ? '4' : '3'
+
+  //     const entities = await retrieveEntitiesFromStore(type as keyof DatabaseSchema)
+  //     const potentialUserNode: UserNode = {
+  //       id: getNextId(),
+  //       type: 'userInputNode',
+  //       position: {
+  //         ...center,
+  //       },
+  //       data: {
+  //         label: 'Your Query',
+  //         input: `Beginning your exploration by loading 3 ${type}. Fetching Data...`,
+  //         entities,
+  //         type: type,
+  //       },
+  //     }
+
+  //     const nodes = getNodes() // Replace with the appropriate method to retrieve nodes
+  //     const existingUserInputNodes = nodes
+  //       .filter(
+  //         (node: MindMapNode) => node.type === 'userInputNode' && node.id !== potentialUserNode.id
+  //       )
+  //       .sort((a: MindMapNode, b: MindMapNode) => {
+  //         // Assuming IDs are in the format 'userInputNode-<number>'
+  //         const aNum = Number.parseInt(a.id.split('-')[1], 10)
+  //         const bNum = Number.parseInt(b.id.split('-')[1], 10)
+  //         return aNum - bNum
+  //       })
+
+  //     // If there is at least one existing userInputNode, create an edge from the last one to the new one
+  //     let lastUserInputNode =
+  //       existingUserInputNodes.length > 0
+  //         ? existingUserInputNodes[existingUserInputNodes.length - 1]
+  //         : null
+  //     // Get width of last input node (assuming default width if not found)
+  //     const lastNodeWidth = lastUserInputNode
+  //       ? document.getElementById(lastUserInputNode.id)?.getBoundingClientRect().width || 200
+  //       : 200
+
+  //     // Calculate total width needed for entities with spacing
+  //     const entityWidth = 250 // Default entity node width
+  //     const entitySpacing = 50 // Space between entities
+  //     const totalEntitiesWidth =
+  //       (Array.isArray(entities) ? entities.length : 0) * entityWidth +
+  //       ((Array.isArray(entities) ? entities.length : 1) - 1) * entitySpacing
+
+  //     // Calculate starting X position to center entities under the last node
+  //     const startX = lastUserInputNode
+  //       ? lastUserInputNode.position.x - totalEntitiesWidth / 2 + lastNodeWidth / 2
+  //       : center.x - totalEntitiesWidth / 2
+
+  //     if (!lastUserInputNode) {
+  //       lastUserInputNode = potentialUserNode
+  //       addNodes(lastUserInputNode)
+  //     }
+
+  //     // let x = -( lastUserInputNode.position.x + 250 )
+  //     setNodes((nds: MindMapNode[]) => [
+  //       ...nds,
+  //       ...(Array.isArray(entities) ? entities : []).map(
+  //         (entity: MindMapNode) =>
+  //           ({
+  //             ...entity,
+  //             type: 'entityNode',
+  //             position: {
+  //               x: startX + 250,
+  //               y: 350,
+  //             },
+  //             parentId: lastUserInputNode?.id || null,
+  //           } as MindMapNode)
+  //       ),
+  //     ])
+
+  //     setEdges((edges: any) => [
+  //       ...edges,
+  //       ...(Array.isArray(entities) ? entities : []).map(
+  //         (entity: MindMapNode) =>
+  //           ({
+  //             id: `${lastUserInputNode?.id}-${entity.id}`,
+  //             source: lastUserInputNode?.id,
+  //             target: entity.id,
+  //             type: 'smoothstep',
+  //           } as any)
+  //       ),
+  //     ])
+  //     // Uncomment this to use the addNextEntitiesToMindMap function
+  //     // const result = await addNextEntitiesToMindMap(rootNodeSim);
+  //     // const { groupNode, groupNodeChildren } = result || { groupNode: null, groupNodeChildren: [] };
+
+  //     // if (groupNode && groupNodeChildren.length > 0) {
+  //     //   // Add code to handle the new nodes
+  //     // }
+  //   },
+  //   [
+  //     addEdges,
+  //     addNextEntitiesToMindMap,
+  //     addNodes,
+  //     screenToFlowPosition,
+  //     getNextId,
+  //     getNodes,
+  //     retrieveEntitiesFromStore,
+  //     setNodes,
+  //     setEdges,
+  //   ]
+  // )
+
+  const calculateCenterOfScreen = useCallback(() => {
+    return {x: window.innerWidth / 2, y: window.innerHeight / 2}
+  }, [])
+
+  const handleLoadingRecords = useCallback(
+    async ({data: {type}}: {data: {type: string}}) => {
+      console.log('🚀 ~ MindMapBottomMenu ~ type:', type)
+
+      const amount = 3
       const center = screenToFlowPosition(calculateCenterOfScreen())
 
-      const {
-        data: {type},
-      } = rootNodeSim
-      const amount = type === 'events' ? '4' : '3'
-
+      // Retrieve the entities for this type
       const entities = await retrieveEntitiesFromStore(type as keyof DatabaseSchema)
-      const potentialUserNode: UserNode = {
+
+      console.log('🚀 ~ MindMapBottomMenu ~ entities:', entities)
+
+      const potentialUserNode: any = {
         id: getNextId(),
+        // type: "userInputNode",
         type: 'userInputNode',
-        position: {
-          ...center,
-        },
+        position: {...center},
         data: {
           label: 'Your Query',
-          input: `Beginning your exploration by loading 3 ${type}. Fetching Data...`,
+          input: `Beginning your exploration by loading ${amount} ${type}. Fetching Data...`,
           entities,
           type: type,
         },
       }
 
-      const nodes = getNodes() // Replace with the appropriate method to retrieve nodes
-      const existingUserInputNodes = nodes
-        .filter(
-          (node: MindMapNode) => node.type === 'userInputNode' && node.id !== potentialUserNode.id
-        )
-        .sort((a: MindMapNode, b: MindMapNode) => {
-          // Assuming IDs are in the format 'userInputNode-<number>'
-          const aNum = Number.parseInt(a.id.split('-')[1], 10)
-          const bNum = Number.parseInt(b.id.split('-')[1], 10)
-          return aNum - bNum
-        })
+      const nodes = getNodes()
 
-      // If there is at least one existing userInputNode, create an edge from the last one to the new one
-      let lastUserInputNode =
+      console.log('🚀 ~ MindMapBottomMenu ~ nodes:', nodes)
+
+      const existingUserInputNodes = nodes?.length
+        ? nodes
+            .filter(
+              (node: any) => node.type === 'userInputNode' && node.id !== potentialUserNode.id
+            )
+            .sort((a: any, b: any) => {
+              const aNum = Number.parseInt(a.id.split('-')[1], 10)
+              const bNum = Number.parseInt(b.id.split('-')[1], 10)
+              return aNum - bNum
+            })
+        : []
+
+      // Use the last user input node as the parent (if it exists)
+      const parentNode =
         existingUserInputNodes.length > 0
           ? existingUserInputNodes[existingUserInputNodes.length - 1]
-          : null
-      // Get width of last input node (assuming default width if not found)
-      const lastNodeWidth = lastUserInputNode
-        ? document.getElementById(lastUserInputNode.id)?.getBoundingClientRect().width || 200
-        : 200
+          : potentialUserNode
 
-      // Calculate total width needed for entities with spacing
-      const entityWidth = 250 // Default entity node width
-      const entitySpacing = 50 // Space between entities
-      const totalEntitiesWidth =
-        (Array.isArray(entities) ? entities.length : 0) * entityWidth +
-        ((Array.isArray(entities) ? entities.length : 1) - 1) * entitySpacing
+      addNode(parentNode)
 
-      // Calculate starting X position to center entities under the last node
-      const startX = lastUserInputNode
-        ? lastUserInputNode.position.x - totalEntitiesWidth / 2 + lastNodeWidth / 2
-        : center.x - totalEntitiesWidth / 2
+      // Compute positions for child nodes so they are centered under the parent
+      const {startX, childY, entityWidth, entitySpacing} = computeChildPositions(
+        parentNode,
+        entities.length
+      )
 
-      if (!lastUserInputNode) {
-        lastUserInputNode = potentialUserNode
-        addNodes(lastUserInputNode)
-      }
+      // Map each entity to a new node with computed positions and a parentId
+      const childNodes = entities.map((entity: any, index: number) => ({
+        ...entity,
+        type: 'entityNode',
+        position: {
+          x: startX + index * (entityWidth + entitySpacing),
+          y: childY,
+        },
+        parentId: parentNode?.id,
+      }))
 
-      // let x = -( lastUserInputNode.position.x + 250 )
-      setNodes((nds: MindMapNode[]) => [
-        ...nds,
-        ...(Array.isArray(entities) ? entities : []).map(
-          (entity: MindMapNode) =>
-            ({
-              ...entity,
-              type: 'entityNode',
-              position: {
-                x: startX + 250,
-                y: 350,
-              },
-              parentId: lastUserInputNode?.id || null,
-            } as MindMapNode)
-        ),
-      ])
+      // Add the child nodes to the graph
+      addNodes(childNodes)
 
-      setEdges((edges: any) => [
-        ...edges,
-        ...(Array.isArray(entities) ? entities : []).map(
-          (entity: MindMapNode) =>
-            ({
-              id: `${lastUserInputNode?.id}-${entity.id}`,
-              source: lastUserInputNode?.id,
-              target: entity.id,
-              type: 'smoothstep',
-            } as any)
-        ),
-      ])
-      // Uncomment this to use the addNextEntitiesToMindMap function
-      // const result = await addNextEntitiesToMindMap(rootNodeSim);
-      // const { groupNode, groupNodeChildren } = result || { groupNode: null, groupNodeChildren: [] };
+      // Create edges that connect the parent node to each child node
+      const newEdges = entities.map((entity: any) => ({
+        id: `${parentNode?.id}-${entity.id}`,
+        source: parentNode?.id,
+        target: entity.id,
+        type: 'smoothstep',
+      }))
 
-      // if (groupNode && groupNodeChildren.length > 0) {
-      //   // Add code to handle the new nodes
-      // }
+      // Add the edges to the graph
+      addEdges(newEdges)
     },
     [
-      addEdges,
-      addNextEntitiesToMindMap,
-      addNodes,
+      calculateCenterOfScreen,
       screenToFlowPosition,
       getNextId,
+      addNode,
       getNodes,
       retrieveEntitiesFromStore,
-      setNodes,
-      setEdges,
+      addNodes,
+      addEdges,
+      computeChildPositions,
     ]
   )
 

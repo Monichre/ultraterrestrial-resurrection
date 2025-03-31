@@ -6,36 +6,39 @@ import { NER_EXTRACTION_PROMPT } from "@/services/ai/prompts/ner-extraction-prom
 import { AssistantResponse } from "ai";
 
 /*
-{
-  "name": "search_database",
-  "description": "Search a specified table in the Xata (Postgres) database using provided search terms.",
-  "strict": false,
-  "parameters": {
-    "type": "object",
-    "properties": {
-     
-      "search_terms": {
-        "type": "array",
-        "items": {
-          "type": "string"
-        },
-        "description": "List of search terms to use in the query."
-      },
-      "search_fields": {
-        "type": "array",
-        "items": {
-          "type": "string"
-        },
-        "description": "Fields to search within the table. If omitted, all text fields are searched."
-      },
-  
-     
-    },
-    "required": [
-    
-    ]
-  }
-}
+// Lower-level explicit approach:
+const threadId = input.threadId ?? (await openai.beta.threads.create({})).id;
+const createdMessage = await openai.beta.threads.messages.create(threadId, {
+  role: 'user',
+  content: input.message,
+});
+return AssistantResponse(
+  { threadId, messageId: createdMessage.id },
+  async ({ forwardStream, sendDataMessage }) => {
+    const runStream = openai.beta.threads.runs.stream(threadId, {
+      assistant_id: process.env.ASSISTANT_ID,
+    });
+    let runResult = await forwardStream(runStream);
+    while (runResult?.status === 'requires_action' &&
+           runResult.required_action?.type === 'submit_tool_outputs') {
+      const tool_outputs = runResult.required_action.submit_tool_outputs.tool_calls.map(
+        (toolCall) => {
+          const parameters = JSON.parse(toolCall.function.arguments);
+          // Hand off to another agent based on parameters
+          // (e.g., call your web search agent or another assistant)
+          // Then return the processed output
+        }
+      );
+      runResult = await forwardStream(
+        openai.beta.threads.runs.submitToolOutputsStream(
+          threadId,
+          runResult.id,
+          { tool_outputs },
+        ),
+      );
+    }
+  },
+);
 */
 
 export async function POST(req: Request) {
@@ -88,7 +91,7 @@ export async function POST(req: Request) {
 						},
 					],
 					additional_instructions: NER_EXTRACTION_PROMPT,
-					// tool_choice: { "type": "file_search" },
+					tool_choice: { type: "file_search" },
 					assistant_id:
 						DISCLOSURE_ASSISTANT_ID ??
 						(() => {

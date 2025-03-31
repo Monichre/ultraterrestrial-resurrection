@@ -2,6 +2,7 @@
   "name": "ultraterrestrial-resurrection",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -9,7 +10,11 @@
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "new": "plop"
+    "new": "plop",
+    "audit:components": "cross-env NODE_OPTIONS=\"--loader ts-node/esm\" ts-node --esm src/scripts/run-component-audit.ts",
+    "list": "node scripts/dev.js list",
+    "generate": "node scripts/dev.js generate",
+    "parse-prd": "node scripts/dev.js parse-prd"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^1.2.2",
@@ -215,7 +220,14 @@
     "vaul": "^1.1.2",
     "vaul-base": "^0.0.4",
     "zod": "^3.24.2",
-    "zustand": "^5.0.3"
+    "zustand": "^5.0.3",
+    "chalk": "^5.3.0",
+    "commander": "^11.1.0",
+    "figlet": "^1.7.0",
+    "boxen": "^7.1.1",
+    "gradient-string": "^2.0.2",
+    "cli-table3": "^0.6.3",
+    "ora": "^7.0.1"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^3.2.6",
@@ -243,7 +255,9 @@
     "storybook": "^8.6.11",
     "tailwindcss": "4.0.17",
     "typescript": "^5.8.2",
-    "vitest": "^3.0.9"
+    "vitest": "^3.0.9",
+    "cross-env": "^7.0.3",
+    "cursor-tools": "latest"
   },
   "eslintConfig": {
     "extends": [

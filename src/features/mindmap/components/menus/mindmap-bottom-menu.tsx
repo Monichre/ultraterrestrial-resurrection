@@ -23,7 +23,7 @@ import {LightningBoltIcon} from '@radix-ui/react-icons'
 
 import {TextShimmer} from '@/components/animated/text-effect'
 import {MagicWandIcon} from '@/components/icons'
-import {searchXataConnections} from '@/features/mindmap/actions'
+import {askAIAction, searchXataConnections} from '@/features/mindmap/actions'
 import {capitalize, cn} from '@/utils'
 import {Brain, FileSearch, Lightbulb, SearchIcon, XIcon} from 'lucide-react'
 
@@ -400,6 +400,7 @@ export const MindMapBottomMenu = () => {
     icon: entity.icon(),
     label: `Add ${entity.displayName}`,
     name: entity.displayName,
+    type: entity.type,
     description: entity.description,
     searchAction: async (searchTerm: string) => {
       await runSearch({type: entity.type, searchTerm})
@@ -472,7 +473,7 @@ export const MindMapBottomMenu = () => {
 
         if (activeCommand === 'search' && inputValue && inputValue.trim() !== '/') {
           // loadNodesFromTableQuery(inputValue);
-          const xataSearchResults = await searchXataConnections({
+          const xataSearchResults = await askAIAction({
             query: inputValue,
             table: state?.selectedModel || null,
           })
@@ -480,80 +481,65 @@ export const MindMapBottomMenu = () => {
           setSearchResults(xataSearchResults)
         }
 
-        if (activeCommand === 'scrape' && inputValue && inputValue.trim() !== '/') {
-          // Check if inputValue is a valid URL (simple check for demonstration)
-          if (inputValue.startsWith('http://') || inputValue.startsWith('https://')) {
-            // Add a user message to indicate scraping is starting
-            append({
-              role: 'user',
-              content: `Scraping data from: ${inputValue}`,
-            })
+        // if (activeCommand === 'scrape' && inputValue && inputValue.trim() !== '/') {
+        //   // Check if inputValue is a valid URL (simple check for demonstration)
+        //   if (inputValue.startsWith('http://') || inputValue.startsWith('https://')) {
+        //     // Add a user message to indicate scraping is starting
+        //     append({
+        //       role: 'user',
+        //       content: `Scrape data from: ${inputValue}`,
+        //     })
 
-            // Add an assistant message to show processing
-            append({
-              role: 'assistant',
-              content: 'Starting data extraction process. This may take a moment...',
-            })
-
-            try {
-              // Call the scrape API
-              const response = await fetch('/api/disclosure/data-layer/scrape', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                  url: inputValue,
-                  depth: state.deepResearchEnabled ? 'DEEP' : 'MODERATE', // Use deep research methodology if toggle is on
-                  categories: ['EVENTS', 'TESTIMONIES', 'ORGANIZATIONS', 'PERSONNEL'],
-                  recursiveLinks: state.deepResearchEnabled,
-                  linkDepth: state.deepResearchEnabled ? 2 : 1,
-                  processResults: true,
-                }),
-              })
-
-              const data = await response.json()
-
-              if (data.success) {
-                // Process the results
-                const summary = data.processedResults?.[0]?.summary || 'No summary available'
-                const entityTypes = Object.keys(data.processedResults?.[0]?.entities || {})
-                const entitiesFound = entityTypes
-                  .map((type) => {
-                    const count = data.processedResults?.[0]?.entities?.[type]?.length || 0
-                    return `${type}: ${count}`
-                  })
-                  .join(', ')
-
-                // Add the results to the chat
-                append({
-                  role: 'assistant',
-                  content: `## Data Extraction Results\n\n${summary}\n\n### Entities Extracted\n\n${entitiesFound}\n\nWould you like me to add any of these entities to your mind map?`,
-                })
-              } else {
-                append({
-                  role: 'assistant',
-                  content: `Failed to extract data: ${data.message || 'Unknown error'}`,
-                })
-              }
-            } catch (error) {
-              append({
-                role: 'assistant',
-                content: `An error occurred during data extraction: ${
-                  error instanceof Error ? error.message : 'Unknown error'
-                }`,
-              })
-            }
-
-            setInputValue('')
-          } else {
-            append({
-              role: 'assistant',
-              content: 'Please enter a valid URL starting with http:// or https://',
-            })
-          }
-        }
+        //     // Add an assistant message to show processing
+        //     append({
+        //       role: 'assistant',
+        //       content: 'Starting data extraction process. This may take a moment...',
+        //     })
       }
+      // try {
+      // Call the scrape API
+      // Scrape here
+
+      // if (data.success) {
+      // Process the results
+      // const summary = data.processedResults?.[0]?.summary || 'No summary available'
+      // const entityTypes = Object.keys(data.processedResults?.[0]?.entities || {})
+      // const entitiesFound = entityTypes
+      //   .map((type) => {
+      //     const count = data.processedResults?.[0]?.entities?.[type]?.length || 0
+      //     return `${type}: ${count}`
+      //   })
+      //   .join(', ')
+
+      // Add the results to the chat
+      // append({
+      //   role: 'assistant',
+      //   content: `## Data Extraction Results\n\n${summary}\n\n### Entities Extracted\n\n${entitiesFound}\n\nWould you like me to add any of these entities to your mind map?`,
+      // })
+      //   } else {
+      //     append({
+      //       role: 'assistant',
+      //       content: `Failed to extract data: ${data.message || 'Unknown error'}`,
+      //     })
+      //   }
+      // } catch (error) {
+      //   append({
+      //     role: 'assistant',
+      //     content: `An error occurred during data extraction: ${
+      //       error instanceof Error ? error.message : 'Unknown error'
+      //     }`,
+      //   })
+      // }
+
+      //   setInputValue('')
+      // } else {
+      //   append({
+      //     role: 'assistant',
+      //     content: 'Please enter a valid URL starting with http:// or https://',
+      //   })
+      // }
+      // }
+      // }
 
       if (e.key === 'Backspace' && (inputValue === '' || inputValue === ' ')) {
         setActiveCommand(null)

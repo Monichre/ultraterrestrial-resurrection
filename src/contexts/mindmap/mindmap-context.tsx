@@ -50,6 +50,7 @@ export type RootNodeKey =
   | 'organizations-root-node'
   | 'documents-root-node'
   | 'artifacts-root-node'
+  | 'case-files-root-node'
 
 // Type for positions
 type FlowPosition = {

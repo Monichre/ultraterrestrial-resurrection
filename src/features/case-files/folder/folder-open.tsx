@@ -1,4 +1,7 @@
-import {cn} from '@/lib/utils'
+// Simple className utility that doesn't rely on external imports
+function cn(...classes: (string | boolean | undefined | null)[]) {
+  return classes.filter(Boolean).join(' ')
+}
 
 export function Folder({className}: {className?: string}) {
   return (

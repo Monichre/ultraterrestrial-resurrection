@@ -1,0 +1,69 @@
+---
+description: ai assistants, tool calling, ai
+globs: 
+alwaysApply: false
+---
+# **Structuring Multi-Agent Research with Different Resources**
+
+When organizing three agents to research the same topic using different resources, the structure you choose significantly impacts efficiency and outcome quality. Here are effective approaches:
+
+## **Sequential Structure**
+
+`Agent 1 → Agent 2 → Agent 3 → Final Output`
+- **Benefits**: Each agent builds upon previous work, reducing redundancy
+- **Best when**: Resources have natural progression (e.g., broad to specialized)
+- **Example flow**: Agent 1 uses general databases for overview → Agent 2 uses specialized journals for depth → Agent 3 uses primary sources for verification
+
+## **Parallel Structure with Integration**
+
+`Agent 1 ─┐ Agent 2 ─┼─→ Integration Agent → Final Output Agent 3 ─┘`
+- **Benefits**: Faster execution, diverse perspectives simultaneously
+- **Best when**: Time-sensitive research with distinct resource types
+- **Challenge**: Requires effective synthesis mechanism
+
+## **Iterative Structure**
+
+`┌───────────────┐ │ │ Start → Agent 1 → Agent 2 → Agent 3 → Final Output ↑ ↑ ↑ └───────┴───────┘`
+- **Benefits**: Continuous refinement, handles complex topics
+- **Best when**: Research question evolves as findings emerge
+
+## **Key Implementation Considerations:**
+
+- Define clear handoff protocols between agents
+- Establish consistent documentation standards
+- Create feedback mechanisms to resolve contradictions
+- Determine stopping criteria for research completion
+
+What type of research are your agents conducting, and what resources does each one access?
+
+How do you define handoffs with openai and the vercel AI SDK?
+
+**Reasoned for a few seconds**
+
+# **Defining Handoffs with OpenAI and Vercel AI SDK**
+
+Handoffs between agents using OpenAI and the Vercel AI SDK require careful implementation to maintain context and ensure smooth transitions. Here's how to structure them effectively:
+
+## **Technical Implementation Options**
+
+### **1. Stream Management Approach**
+
+`// Agent handoff using Vercel AI SDK streams const { messages, append, reload, isLoading } = useChat({ api: "/api/chat", onResponse: (response) => { // Check for handoff signal in response if (responseContainsHandoffSignal(response)) { // Extract context for next agent const handoffContext = extractHandoffContext(response); // Trigger the next agent with context triggerNextAgent(handoffContext); } } });`
+
+### **2. Function Calling Method**
+
+`// Define in your API route const functions = [ { name: "handoff_to_agent_2", description: "Transfer research to the specialized data agent", parameters: { type: "object", properties: { summary: { type: "string", description: "Summary of findings so far" }, nextSteps: { type: "string", description: "Suggested next research directions" } }, required: ["summary"] } } ]; // In your API handler if (response.function_call?.name === "handoff_to_agent_2") { const handoffData = JSON.parse(response.function_call.arguments); // Route to next agent with handoff data }`
+
+### **3. Middleware-Based Handoffs**
+
+`// In your API route export async function POST(req) { const { messages } = await req.json(); // Determine current agent from message metadata or content const currentAgent = determineCurrentAgent(messages); // Route to appropriate OpenAI prompt based on agent const response = await routeToAgent(currentAgent, messages); // Check if response indicates a handoff is needed if (shouldHandoff(response)) { // Add handoff metadata to the response addHandoffMetadata(response, determineNextAgent(currentAgent)); } return Response.json(response); }`
+
+## **Key Handoff Design Patterns**
+
+1. **Context Preservation**: Include summaries of previous agent work to maintain continuity
+2. **Clear Signaling**: Use explicit tokens or structured formats to indicate handoff points
+
+   `[HANDOFF:AGENT_2] Summary: Initial research complete Key findings: X, Y, Z [/HANDOFF]`
+3. **State Management**: Store conversation state in a persistent layer accessible to all agents
+4. **Graceful Degradation**: Implement fallbacks when handoffs fail or context is lost
+5. **Explicit Role Definition**: Ensure each agent has clear instructions about its role in the research pipeline

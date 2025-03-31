@@ -30,29 +30,33 @@ function transformToGeoJSON( sightings: ValidatedUAPSighting[] ) {
   } as GeoJSON.FeatureCollection
 }
 
+import { getSightingsBatched } from '@/services/sightings/actions/sightings-time-chunk'
+
 async function getSightings() {
   try {
-    const response = await fetch( `${process.env.NEXT_PUBLIC_APP_URL}/api/internal/uap-sightings`, {
-      headers: {
-        'x-api-key': process.env.INTERNAL_API_KEY!
-      },
-      next: {
-        revalidate: 300 // Revalidate every 5 minutes
-      }
-    } )
-
-    if ( !response.ok ) {
-      throw new Error( 'Failed to fetch sightings' )
+    // Get current year and calculate a reasonable time range (last 30 years)
+    const currentYear = new Date().getFullYear()
+    const startYear = currentYear - 30
+    
+    // Create time ranges in 5-year chunks for optimal performance
+    const timeRanges = []
+    const chunkSize = 5 // Years per chunk
+    
+    for (let year = startYear; year <= currentYear; year += chunkSize) {
+      const endYear = Math.min(year + chunkSize - 1, currentYear)
+      timeRanges.push({ startYear: year, endYear })
     }
-
-    const data = await response.json()
-    const validatedSightings = data.sightings.map( ( sighting: unknown ) =>
-      UAPSightingSchema.parse( sighting )
-    )
-
-    return validatedSightings
-  } catch ( error ) {
-    console.error( 'Error fetching sightings:', error )
+    
+    // Use the server action to fetch data in batches
+    const { sightings, stats } = await getSightingsBatched(timeRanges, 50)
+    
+    // Log statistics for debugging
+    console.log(`Fetched ${sightings.length} sightings with stats:`, 
+      stats ? `${stats.total} total entries across ${timeRanges.length} time chunks` : 'No stats available')
+    
+    return sightings
+  } catch (error) {
+    console.error('Error fetching sightings:', error)
     return []
   }
 }

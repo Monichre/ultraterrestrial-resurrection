@@ -3,7 +3,10 @@
 import * as React from 'react'
 import * as TabsPrimitive from '@radix-ui/react-tabs'
 import {motion, AnimatePresence} from 'framer-motion'
-import {cn} from '@/utils'
+// Simple className utility that doesn't rely on external imports
+function cn(...classes: (string | boolean | undefined | null)[]) {
+  return classes.filter(Boolean).join(' ')
+}
 
 const EaselTabs = TabsPrimitive.Root
 

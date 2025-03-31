@@ -10,3 +10,11 @@
 /templates/
 ./src/components/icons/
 ./src/components/animated/
+./src/lib/
+/public/
+/docs/
+.cursor/
+./src/utils/
+./scripts/
+package.json
+*.css

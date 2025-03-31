@@ -2,7 +2,7 @@
 
 import {useState} from 'react'
 import {motion, AnimatePresence} from 'framer-motion'
-import {cn} from '@/utils'
+
 import {Button} from '@/components/ui/button'
 import {Input} from '@/components/ui/input'
 import {SunMoon, Sparkles, MousePointerClick} from 'lucide-react'
@@ -19,6 +19,10 @@ import {
   ChevronLeftIcon,
   ChevronDownIcon,
 } from '@radix-ui/react-icons'
+// Simple className utility that doesn't rely on external imports
+function cn(...classes: (string | boolean | undefined | null)[]) {
+  return classes.filter(Boolean).join(' ')
+}
 
 const iconClass = 'w-4 h-4 dark:text-[#adf0dd]'
 

@@ -111,7 +111,7 @@ export function Graph(props: any) {
 
   return (
     <div
-      className='relative h-[100vh] w-[100vw] bg-black bg-repeat pointer-events-none'
+      className='relative h-[100vh] w-[100vw] bg-black bg-repeat pointer-events-none z-0'
       style={{
         backgroundImage:
           "url('data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2220%22%20height=%2220%22%20viewBox=%220%200%2020%2020%22%3E%3Ccircle%20cx=%221%22%20cy=%221%22%20r=%221%22%20fill=%22%23ccc%22%20fill-opacity=%220.3%22/%3E%3C/svg%3E')",
@@ -127,6 +127,7 @@ export function Graph(props: any) {
         edges={edges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
+        zoomOnScroll
         onConnect={onConnect}
         onNodesDelete={onNodesDelete}
         // connectionLineComponent={FloatingConnectionLine}

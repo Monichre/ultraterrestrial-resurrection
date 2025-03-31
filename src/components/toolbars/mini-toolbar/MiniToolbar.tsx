@@ -1,13 +1,16 @@
 'use client'
 
-import { cn } from '@/utils'
-import { AnimatePresence, motion } from 'framer-motion'
+import {AnimatePresence, motion} from 'framer-motion'
 import Image from 'next/image'
-import { useState } from 'react'
+import {useState} from 'react'
+// Simple className utility that doesn't rely on external imports
+function cn(...classes: (string | boolean | undefined | null)[]) {
+  return classes.filter(Boolean).join(' ')
+}
 
 export const MiniToolbar = () => {
-  const [isOpen, setIsOpen] = useState( false )
-  const [showContent, setShowContent] = useState( false )
+  const [isOpen, setIsOpen] = useState(false)
+  const [showContent, setShowContent] = useState(false)
 
   const presence = {
     enter: {
@@ -55,11 +58,11 @@ export const MiniToolbar = () => {
   }
 
   const handleToggle = () => {
-    if ( isOpen ) {
-      setShowContent( false )
+    if (isOpen) {
+      setShowContent(false)
     } else {
-      setIsOpen( true )
-      setTimeout( () => setShowContent( true ), 50 )
+      setIsOpen(true)
+      setTimeout(() => setShowContent(true), 50)
     }
   }
 
@@ -73,16 +76,10 @@ export const MiniToolbar = () => {
           'bg-primary w-[500px] rounded-full h-16 px-4 cursor-pointer',
           isOpen && 'rounded-3xl'
         )}
-        animate={{ height: isOpen ? 240 : 64, width: isOpen ? 500 : 300 }}
-        transition={{ duration: 0.2 }}
-        onClick={handleToggle}
-      >
-        <div
-          className={cn(
-            'flex items-center justify-between relative h-16',
-            isOpen && 'pt-5'
-          )}
-        >
+        animate={{height: isOpen ? 240 : 64, width: isOpen ? 500 : 300}}
+        transition={{duration: 0.2}}
+        onClick={handleToggle}>
+        <div className={cn('flex items-center justify-between relative h-16', isOpen && 'pt-5')}>
           <p className='text-xl text-primary-foreground'>2(bkm)</p>
           <motion.div
             className='rounded-3xl overflow-hidden relative'
@@ -91,42 +88,36 @@ export const MiniToolbar = () => {
               width: isOpen ? 200 : 40,
               y: isOpen ? 75 : 0,
             }}
-            transition={{ duration: 0.2 }}
-          >
+            transition={{duration: 0.2}}>
             <Image
               src='/zenith.jpeg'
               alt='Bossadi Zenith: I build things that live on the internet'
               fill
-              className={cn(
-                'transition-all duration-150 grayscale',
-                isOpen && 'grayscale-0'
-              )}
+              className={cn('transition-all duration-150 grayscale', isOpen && 'grayscale-0')}
             />
             <div
               className={cn(
                 'absolute opacity-0 bg-black/50 top-0 left-0 flex items-center justify-center text-primary-foreground font-semibold text-2xl h-full w-full transition-all duration-150',
                 isOpen && 'hover:opacity-100'
-              )}
-            >
+              )}>
               Book a call
             </div>
           </motion.div>
         </div>
-        <AnimatePresence onExitComplete={() => setIsOpen( false )}>
+        <AnimatePresence onExitComplete={() => setIsOpen(false)}>
           {showContent && (
             <motion.ul
               initial='enter'
               animate='center'
               exit='exit'
               variants={presence}
-              transition={{ duration: 0.2 }}
-              className='text-primary-foreground mt-6'
-            >
-              {['Home', 'About', 'Contact'].map( ( item, index ) => (
+              transition={{duration: 0.2}}
+              className='text-primary-foreground mt-6'>
+              {['Home', 'About', 'Contact'].map((item, index) => (
                 <motion.li key={item + index} variants={itemVariants}>
                   {item}
                 </motion.li>
-              ) )}
+              ))}
             </motion.ul>
           )}
         </AnimatePresence>

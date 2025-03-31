@@ -4,7 +4,7 @@ import fs from 'node:fs'
 import {SightingsLoader} from '@/features/data-viz/sightings/sightings-loader'
 import {Suspense} from 'react'
 import SightingsAnalytics from './sightings-analytics'
-import { analyzeSightingsData } from '@/services/sightings/actions/sightings'
+import { analyzeSightingsData } from '@/services/sightings/actions/sightings-ai-analysis''
 
 export default async function Index() {
   const sightingsFilePath = path.join(process.cwd(), 'public', 'sightings.geojson') // Adjust path if needed

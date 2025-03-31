@@ -1,8 +1,9 @@
 'use client'
-import { useClickOutside } from '@/hooks/useClickOutside'
-import { motion, MotionConfig } from 'framer-motion'
-import { ArrowLeft, Search, User } from 'lucide-react'
-import React, { useRef, useState } from 'react'
+import {useClickOutside} from '@/hooks/useClickOutside'
+import {motion, MotionConfig} from 'framer-motion'
+import {ArrowLeft, Search, User} from 'lucide-react'
+import type React from 'react'
+import {useRef, useState} from 'react'
 import useMeasure from 'react-use-measure'
 
 const transition = {
@@ -11,7 +12,7 @@ const transition = {
   duration: 0.2,
 }
 
-function Button( {
+function Button({
   children,
   onClick,
   disabled,
@@ -21,28 +22,27 @@ function Button( {
   onClick?: () => void
   disabled?: boolean
   ariaLabel?: string
-} ) {
+}) {
   return (
     <button
       className='relative flex h-9 w-9 shrink-0 scale-100 select-none appearance-none items-center justify-center rounded-lg text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-800 focus-visible:ring-2 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50'
       type='button'
       onClick={onClick}
       disabled={disabled}
-      aria-label={ariaLabel}
-    >
+      aria-label={ariaLabel}>
       {children}
     </button>
   )
 }
 
 export function MotionDynamicToolbar() {
-  const [isOpen, setIsOpen] = useState( false )
-  const containerRef = useRef<HTMLDivElement>( null )
-  const [contentRef, { width, height }] = useMeasure()
+  const [isOpen, setIsOpen] = useState(false)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [contentRef, {width, height}] = useMeasure()
 
-  useClickOutside( containerRef, () => {
-    setIsOpen( false )
-  } )
+  useClickOutside(containerRef, () => {
+    setIsOpen(false)
+  })
 
   return (
     <MotionConfig transition={transition}>
@@ -53,24 +53,20 @@ export function MotionDynamicToolbar() {
               // @todo: here I want to remove the width
               width: isOpen ? '300px' : '98px',
             }}
-            initial={false}
-          >
+            initial={false}>
             <div ref={contentRef} className='overflow-hidden p-2'>
               {!isOpen ? (
                 <div className='flex space-x-2'>
                   <Button disabled ariaLabel='User profile'>
                     <User className='h-5 w-5' />
                   </Button>
-                  <Button
-                    onClick={() => setIsOpen( true )}
-                    ariaLabel='Search notes'
-                  >
+                  <Button onClick={() => setIsOpen(true)} ariaLabel='Search notes'>
                     <Search className='h-5 w-5' />
                   </Button>
                 </div>
               ) : (
                 <div className='flex space-x-2'>
-                  <Button onClick={() => setIsOpen( false )} ariaLabel='Back'>
+                  <Button onClick={() => setIsOpen(false)} ariaLabel='Back'>
                     <ArrowLeft className='h-5 w-5' />
                   </Button>
                   <div className='relative w-full'>

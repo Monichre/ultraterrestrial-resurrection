@@ -1,0 +1,31 @@
+{
+  "repo": {
+    "provider": "openrouter",
+    "model": "google/gemini-2.5-pro-exp-03-25:free"
+  },
+  "doc": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-3.7-sonnet",
+    "maxTokens": 4096
+  },
+  "web": {
+    "provider": "gemini",
+    "model": "gemini-2.5-pro-exp"
+  },
+  "plan": {
+    "fileProvider": "gemini",
+    "thinkingProvider": "perplexity",
+    "thinkingModel": "r1-1776"
+  },
+  "browser": {
+    "headless": false
+  },
+  "stagehand": {
+    "model": "claude-3-7-sonnet-latest",
+    "provider": "anthropic",
+    "timeout": 90000
+  },
+  "openai": {
+    "model": "o3-mini"
+  }
+}

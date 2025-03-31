@@ -1,11 +1,30 @@
 'use client'
 
-import React, { useEffect, useRef, useState } from 'react'
+import type React from 'react'
+import {useEffect, useRef, useState} from 'react'
 import useMeasure from 'react-use-measure'
-import { AnimatePresence, motion, MotionConfig } from 'framer-motion'
-import { cn } from '@/utils'
-import { useClickOutside } from '@/hooks/useClickOutside'
-import { Folder, MessageCircle, User, WalletCards } from 'lucide-react'
+import {AnimatePresence, motion, MotionConfig} from 'framer-motion'
+import {Folder, MessageCircle, User, WalletCards} from 'lucide-react'
+
+// Simple className utility that doesn't rely on external imports
+function cn(...classes: (string | boolean | undefined | null)[]) {
+  return classes.filter(Boolean).join(' ')
+}
+
+// Define the useClickOutside hook inline to avoid import issues
+function useClickOutside(ref: React.RefObject<HTMLElement | null>, callback: () => void) {
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        callback()
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [ref, callback])
+}
 
 const transition = {
   type: 'spring',
@@ -26,8 +45,7 @@ const ITEMS = [
         </div>
         <button
           className='relative h-8 w-full scale-100 select-none appearance-none items-center justify-center rounded-lg border border-zinc-950/10 px-2 text-sm text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-800 focus-visible:ring-2 active:scale-[0.98]'
-          type='button'
-        >
+          type='button'>
           Edit Profile
         </button>
       </div>
@@ -42,8 +60,7 @@ const ITEMS = [
         <div className='text-zinc-700'>You have 3 new messages.</div>
         <button
           className='relative h-8 w-full scale-100 select-none appearance-none items-center justify-center rounded-lg border border-zinc-950/10 px-2 text-sm text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-800 focus-visible:ring-2 active:scale-[0.98]'
-          type='button'
-        >
+          type='button'>
           View more
         </button>
       </div>
@@ -64,8 +81,7 @@ const ITEMS = [
         </div>
         <button
           className='relative h-8 w-full scale-100 select-none appearance-none items-center justify-center rounded-lg border border-zinc-950/10 px-2 text-sm text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-800 focus-visible:ring-2 active:scale-[0.98]'
-          type='button'
-        >
+          type='button'>
           Manage documents
         </button>
       </div>
@@ -83,8 +99,7 @@ const ITEMS = [
         </div>
         <button
           className='relative h-8 w-full scale-100 select-none appearance-none items-center justify-center rounded-lg border border-zinc-950/10 px-2 text-sm text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-800 focus-visible:ring-2 active:scale-[0.98]'
-          type='button'
-        >
+          type='button'>
           View Transactions
         </button>
       </div>
@@ -93,23 +108,24 @@ const ITEMS = [
 ]
 
 export default function ToolbarExpandable() {
-  const [active, setActive] = useState<number | null>( null )
-  const [contentRef, { height: heightContent }] = useMeasure()
-  const [menuRef, { width: widthContainer }] = useMeasure()
-  const ref = useRef<HTMLDivElement>( null )
-  const [isOpen, setIsOpen] = useState( false )
-  const [maxWidth, setMaxWidth] = useState( 0 )
+  const [active, setActive] = useState<number | null>(null)
+  const [contentRef, {height: heightContent}] = useMeasure()
+  const [menuRef, {width: widthContainer}] = useMeasure()
+  const ref = useRef<HTMLDivElement>(null)
+  const [isOpen, setIsOpen] = useState(false)
+  const [maxWidth, setMaxWidth] = useState(0)
 
-  useClickOutside( ref, () => {
-    setIsOpen( false )
-    setActive( null )
-  } )
+  // Use our inline useClickOutside hook
+  useClickOutside(ref, () => {
+    setIsOpen(false)
+    setActive(null)
+  })
 
-  useEffect( () => {
-    if ( !widthContainer || maxWidth > 0 ) return
+  useEffect(() => {
+    if (!widthContainer || maxWidth > 0) return
 
-    setMaxWidth( widthContainer )
-  }, [widthContainer, maxWidth] )
+    setMaxWidth(widthContainer)
+  }, [widthContainer, maxWidth])
 
   return (
     <MotionConfig transition={transition}>
@@ -120,42 +136,35 @@ export default function ToolbarExpandable() {
               {isOpen ? (
                 <motion.div
                   key='content'
-                  initial={{ height: 0 }}
-                  animate={{ height: heightContent || 0 }}
-                  exit={{ height: 0 }}
+                  initial={{height: 0}}
+                  animate={{height: heightContent || 0}}
+                  exit={{height: 0}}
                   style={{
                     width: maxWidth,
-                  }}
-                >
+                  }}>
                   <div ref={contentRef} className='p-2'>
-                    {ITEMS.map( ( item ) => {
+                    {ITEMS.map((item) => {
                       const isSelected = active === item.id
 
                       return (
                         <motion.div
                           key={item.id}
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: isSelected ? 1 : 0 }}
-                          exit={{ opacity: 0 }}
-                        >
-                          <div
-                            className={cn(
-                              'px-2 pt-2 text-sm',
-                              isSelected ? 'block' : 'hidden'
-                            )}
-                          >
+                          initial={{opacity: 0}}
+                          animate={{opacity: isSelected ? 1 : 0}}
+                          exit={{opacity: 0}}>
+                          <div className={cn('px-2 pt-2 text-sm', isSelected ? 'block' : 'hidden')}>
                             {item.content}
                           </div>
                         </motion.div>
                       )
-                    } )}
+                    })}
                   </div>
                 </motion.div>
               ) : null}
             </AnimatePresence>
           </div>
           <div className='flex space-x-2 p-2' ref={menuRef}>
-            {ITEMS.map( ( item ) => (
+            {ITEMS.map((item) => (
               <button
                 key={item.id}
                 aria-label={item.label}
@@ -165,19 +174,18 @@ export default function ToolbarExpandable() {
                 )}
                 type='button'
                 onClick={() => {
-                  if ( !isOpen ) setIsOpen( true )
-                  if ( active === item.id ) {
-                    setIsOpen( false )
-                    setActive( null )
+                  if (!isOpen) setIsOpen(true)
+                  if (active === item.id) {
+                    setIsOpen(false)
+                    setActive(null)
                     return
                   }
 
-                  setActive( item.id )
-                }}
-              >
+                  setActive(item.id)
+                }}>
                 {item.title}
               </button>
-            ) )}
+            ))}
           </div>
         </div>
       </div>

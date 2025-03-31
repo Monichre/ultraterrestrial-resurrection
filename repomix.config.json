@@ -20,6 +20,7 @@
   "ignore": {
     "useGitignore": true,
     "useDefaultPatterns": true,
+    "useRepoignore": true,
     "customPatterns": []
   },
   "security": {

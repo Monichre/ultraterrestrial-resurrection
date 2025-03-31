@@ -1,36 +1,35 @@
 'use client'
 import {
   AnimatePresence,
-  Transition,
-  Variant,
+  type Transition,
+  type Variant,
   motion,
-  MotionProps,
+  type MotionProps,
 } from 'framer-motion'
-import { cn } from '@/utils'
+// Simple className utility that doesn't rely on external imports
+function cn(...classes: (string | boolean | undefined | null)[]) {
+  return classes.filter(Boolean).join(' ')
+}
 
 type TransitionPanelProps = {
   children: React.ReactNode[]
   className?: string
   transition?: Transition
   activeIndex: number
-  variants?: { enter: Variant; center: Variant; exit: Variant }
+  variants?: {enter: Variant; center: Variant; exit: Variant}
 } & MotionProps
 
-export function TransitionPanel( {
+export function TransitionPanel({
   children,
   className,
   transition,
   variants,
   activeIndex,
   ...motionProps
-}: TransitionPanelProps ) {
+}: TransitionPanelProps) {
   return (
-    <div className={cn( 'relative', className )}>
-      <AnimatePresence
-        initial={false}
-        mode='popLayout'
-        custom={motionProps.custom}
-      >
+    <div className={cn('relative', className)}>
+      <AnimatePresence initial={false} mode='popLayout' custom={motionProps.custom}>
         <motion.div
           key={activeIndex}
           variants={variants}
@@ -38,8 +37,7 @@ export function TransitionPanel( {
           initial='enter'
           animate='center'
           exit='exit'
-          {...motionProps}
-        >
+          {...motionProps}>
           {children[activeIndex]}
         </motion.div>
       </AnimatePresence>

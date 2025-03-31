@@ -1986,7 +1986,7 @@ note .ai-response-markup h3,
 
 .react-flow,
 .react-flow__renderer {
-	cursor: none !important;
+	/* cursor: none !important; */
 }
 
 .core-node-container .grid-card {
@@ -1994,11 +1994,11 @@ note .ai-response-markup h3,
 }
 
 .react-flow__pane {
-	cursor: none !important;
+	/* cursor: none !important; */
 }
 
 .react-flow__pane.draggable {
-	cursor: none !important;
+	/* cursor: none !important; */
 }
 
 input,

@@ -1,38 +1,41 @@
 "use server";
 
-import { askXataWithAi, xata } from "@/db/xata";
+import { askXataWithAi, tables as xataTables, xata } from "@/db/xata";
+import type { z } from "zod";
+import { fireCrawl } from "@/lib/firecrawl";
 
-const tables = [
-	{ table: "topics" },
-	{ table: "personnel" },
-	{ table: "events" },
-	{ table: "organizations" },
-	{ table: "sightings" },
-	{ table: "event-subject-matter-experts" },
-	{ table: "topic-subject-matter-experts" },
-	{ table: "organization-members" },
-	{ table: "testimonies" },
-	{ table: "topics-testimonies" },
-	{ table: "documents" },
-	// { table: "locations" },
-	{ table: "event-topic-subject-matter-experts" },
-	// { table: "users" },
-	// { table: "user-saved-events" },
-	// { table: "user-saved-topics" },
-	// { table: "user-saved-key-figure" },
-	// { table: "user-saved-testimonies" },
-	// { table: "user-saved-documents" },
-	// { table: "user-theories" },
-	// { table: "user-saved-organizations" },
-	// { table: "user-saved-sightings" },
-	{ table: "tags" },
-	{ table: "theories" },
-	{ table: "mindmaps" },
-	{ table: "artifacts" },
-	{ table: "case-files" },
-];
+const tables = xataTables.map((table) => ({ table: table.name }));
 
-export const askAIAction = async ({ question, prompt, table }: any) => {
+// Types for our functions
+type AskParams = {
+	question: string;
+	prompt?: string;
+	table?: string;
+};
+
+type SearchParams = {
+	query: string;
+	id?: string | null;
+	table?: string | null;
+};
+
+type ExtractParams = {
+	prompt: string;
+	urls: string[];
+	schema?: z.ZodSchema;
+	enableWebSearch?: boolean;
+};
+
+type DeepResearchParams = {
+	query: string;
+	maxDepth?: number;
+	timeLimit?: number;
+	maxUrls?: number;
+	enableRealTimeUpdates?: boolean;
+};
+
+// Ask Database
+export const askAIAction = async ({ question, prompt, table }: AskParams) => {
 	try {
 		const dbResponse = await askXataWithAi({ question, table, prompt });
 		console.log("dbResponse: ", dbResponse);
@@ -52,56 +55,113 @@ export const askAIAction = async ({ question, prompt, table }: any) => {
 	}
 };
 
+// Ask Assistant
+export const askDatabase = async ({ question, prompt, table }: AskParams) => {
+	const response = await askXataWithAi({ question, table, prompt });
+	console.log("response: ", response);
+	return response;
+};
+
 // closeModelMenu;
 
 export const searchXataConnections = async ({
 	query,
 	id = null,
 	table = null,
-}: any) => {
-	// Generated with CL
-	// const {
-	// 	answer,
-	// 	records: recordIds,
-	// 	sessionId,
-	// } = await xata.db.personnel.ask(
-	// 	`Find all linked records to ${name} with xata id ${id}. Be sure to check joining tables and linked columns`,
-	// 	{
-	// 		headers: {
-	// 			Accept: "text/event-stream",
-	// 		},
-	// 	},
-	// );
-	// console.log(
-	// 	"🚀 ~ file: actions.ts:61 ~ searchAllConnections ~ sessionId:",
-	// 	sessionId,
-	// );
+}: SearchParams) => {
+	try {
+		const response = await xata.search.all(query, {
+			tables: table ? [{ table }] : tables,
+			fuzziness: 0,
+			prefix: "phrase",
+		});
 
-	// console.log(
-	// 	"🚀 ~ file: actions.ts:68 ~ searchAllConnections ~ recordIds:",
-	// 	recordIds,
-	// );
+		console.log("🚀 ~ searchXataConnections ~ response:", response);
 
-	// console.log(
-	// 	"🚀 ~ file: actions.ts:68 ~ searchAllConnections ~ answer:",
-	// 	answer,
-	// );
+		return {
+			success: true,
+			searchResults: response.records,
+		};
+	} catch (error) {
+		console.error("Error in searchXataConnections:", error);
+		return {
+			success: false,
+			error: error instanceof Error ? error.message : "Unknown error occurred",
+		};
+	}
+};
 
-	// console.log(record);
-	const response = await xata.search.all(query, {
-		tables: table ? [{ table: `${table}` }] : tables,
-		fuzziness: 0,
-		prefix: "phrase",
-	});
+// Extract function using Firecrawl SDK directly
+export const extract = async ({
+	prompt,
+	urls,
+	schema,
+	enableWebSearch = true,
+}: ExtractParams) => {
+	try {
+		// Use Firecrawl's extract method directly
+		const scrapeResult = await fireCrawl.extract(urls, {
+			prompt,
+			schema: schema ? schema : undefined,
+			enableWebSearch,
+		});
 
-	console.log("🚀 ~ searchXataConnections ~ response:", response);
+		if (!scrapeResult.success) {
+			throw new Error(
+				`Failed to extract data: ${scrapeResult.error || "Unknown error"}`,
+			);
+		}
 
-	return {
-		enrichedResponse: {
-			answer,
-			recordIds,
-			sessionId,
-		},
-		searchResults: records,
-	};
+		return {
+			success: true,
+			data: scrapeResult.data,
+		};
+	} catch (error) {
+		console.error("Error in extract function:", error);
+		return {
+			success: false,
+			error: error instanceof Error ? error.message : "Unknown error occurred",
+		};
+	}
+};
+
+// Deep research function using Firecrawl SDK directly
+export const deepResearch = async ({
+	query,
+	maxDepth = 3,
+	timeLimit = 180,
+	maxUrls = 10,
+	enableRealTimeUpdates = true,
+}: DeepResearchParams) => {
+	try {
+		// Configure deep research parameters
+		const params = {
+			maxDepth,
+			timeLimit,
+			maxUrls,
+		};
+
+		// Activity handler for real-time updates (optional)
+		const onActivity = enableRealTimeUpdates
+			? (activity: any) => {
+					console.log(`[${activity.type}] ${activity.message}`);
+				}
+			: undefined;
+
+		// Run deep research
+		const results = await fireCrawl.deepResearch(query, params, onActivity);
+
+		return {
+			success: true,
+			finalAnalysis: results.data.finalAnalysis,
+			sources: results.data.sources,
+			data: results.data,
+		};
+	} catch (error) {
+		console.error("Error in deepResearch function:", error);
+		return {
+			success: false,
+			error: error instanceof Error ? error.message : "Unknown error occurred",
+		};
+	}
 };
