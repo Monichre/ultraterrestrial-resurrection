@@ -59,6 +59,7 @@ const DEFAULT_WEIGHTS: WeightingFactors = {
 
 /**
  * Calculate ranking scores for all personnel and update the database.
+ * Uses Xata's aggregation methods for efficient calculations.
  * 
  * @param weights Optional custom weighting factors
  * @returns Execution log with statistics and status
@@ -79,16 +80,25 @@ export async function calculatePersonnelRanking(weights = DEFAULT_WEIGHTS): Prom
     const personnel = await xata.db.personnel.getAll();
     rankingLog.recordsProcessed = personnel.length;
     
-    // 2. Calculate raw scores for each person
-    const personnelWithScores = await Promise.all(
-      personnel.map(async (person) => {
-        const metrics = await gatherMetricsForPerson(person.id);
-        const score = calculateScore(metrics, weights);
-        return { person, score, metrics };
-      })
-    );
+    // 2. Pre-compute metrics for all personnel using aggregation queries
+    const metrics = await gatherAllMetrics();
     
-    // 3. Calculate statistics for normalization
+    // 3. Calculate scores for each person
+    const personnelWithScores = personnel.map(person => {
+      const personMetrics = metrics[person.id] || {
+        eventParticipation: 0,
+        topicExpertise: 0,
+        organizationalAuthority: 0,
+        documentedContributions: 0,
+        testimonies: 0,
+        quotes: 0
+      };
+      
+      const score = calculateScore(personMetrics, weights);
+      return { person, score };
+    });
+    
+    // 4. Calculate statistics for normalization
     let totalScore = 0;
     personnelWithScores.forEach(({ score }) => {
       rankingLog.maxScore = Math.max(rankingLog.maxScore, score);
@@ -97,10 +107,10 @@ export async function calculatePersonnelRanking(weights = DEFAULT_WEIGHTS): Prom
     });
     rankingLog.avgScore = totalScore / personnelWithScores.length;
     
-    // 4. Sort by score to calculate percentiles
+    // 5. Sort by score to calculate percentiles
     const sortedScores = personnelWithScores.sort((a, b) => b.score - a.score);
     
-    // 5. Update database with ranks and percentiles
+    // 6. Update database with ranks and percentiles
     await Promise.all(
       sortedScores.map(async ({ person, score }, index) => {
         const percentile = Math.floor(((sortedScores.length - index) / sortedScores.length) * 100);
@@ -112,12 +122,12 @@ export async function calculatePersonnelRanking(weights = DEFAULT_WEIGHTS): Prom
       })
     );
     
-    // 6. Complete execution log
+    // 7. Complete execution log
     rankingLog.status = "completed";
     rankingLog.endTime = new Date();
     rankingLog.executionTimeMs = rankingLog.endTime.getTime() - rankingLog.startTime.getTime();
     
-    // 7. Log execution metrics
+    // 8. Log execution metrics
     await logRankingExecution(rankingLog);
     
     return {
@@ -143,38 +153,171 @@ export async function calculatePersonnelRanking(weights = DEFAULT_WEIGHTS): Prom
 }
 
 /**
- * Gather all relevant metrics for a specific person by querying their connections
- * across various tables in the database.
+ * Gather metrics for all personnel by using Xata's aggregation functions
+ * This is significantly more efficient than querying each person individually
  * 
- * @param personId The person's unique ID
- * @returns RankingMetrics object with counts of all connections
+ * @returns Object mapping personnel IDs to their metrics
  */
-async function gatherMetricsForPerson(personId: string): Promise<RankingMetrics> {
-  // Run these queries in parallel for better performance
-  const [
-    eventExperts,
-    topicExperts,
-    orgMembers,
-    testimonies,
-    documents,
-    // Add quotes when that table is implemented
-  ] = await Promise.all([
-    xata.db["event-subject-matter-experts"].filter("subject-matter-expert.id", personId).getAll(),
-    xata.db["topic-subject-matter-experts"].filter("subject-matter-expert.id", personId).getAll(),
-    xata.db["organization-members"].filter("member.id", personId).getAll(),
-    xata.db.testimonies.filter("witness.id", personId).getAll(),
-    xata.db.documents.filter("author.id", personId).getAll(),
-    // xata.db.quotes.filter("person.id", personId).getAll(),
-  ]);
+async function gatherAllMetrics(): Promise<Record<string, RankingMetrics>> {
+  // Create a map to store metrics for each person
+  const metricsMap: Record<string, RankingMetrics> = {};
+
+  // 1. Get event expert counts using Xata aggregation
+  const eventExpertsAgg = await xata.db["event-subject-matter-experts"]
+    .aggregate({
+      eventCount: {
+        count: {
+          column: "event",
+        }
+      }
+    }, 
+    {
+      groupBy: ["subject-matter-expert.id"],
+    });
   
-  return {
-    eventParticipation: eventExperts.length,
-    topicExpertise: topicExperts.length,
-    organizationalAuthority: orgMembers.length,
-    documentedContributions: documents.length,
-    testimonies: testimonies.length,
-    quotes: 0, // Add when quotes table is implemented
-  };
+  // 2. Get topic expert counts
+  const topicExpertsAgg = await xata.db["topic-subject-matter-experts"]
+    .aggregate({
+      topicCount: {
+        count: {
+          column: "topic",
+        }
+      }
+    }, 
+    {
+      groupBy: ["subject-matter-expert.id"],
+    });
+  
+  // 3. Get organization membership counts
+  const orgMembersAgg = await xata.db["organization-members"]
+    .aggregate({
+      orgCount: {
+        count: {
+          column: "organization",
+        }
+      }
+    }, 
+    {
+      groupBy: ["member.id"],
+    });
+  
+  // 4. Get testimony counts
+  const testimoniesAgg = await xata.db.testimonies
+    .aggregate({
+      testimonyCount: {
+        count: {
+          column: "id",
+        }
+      }
+    }, 
+    {
+      groupBy: ["witness.id"],
+    });
+  
+  // 5. Get document creation counts
+  const documentsAgg = await xata.db.documents
+    .aggregate({
+      documentCount: {
+        count: {
+          column: "id",
+        }
+      }
+    }, 
+    {
+      groupBy: ["author.id"],
+    });
+  
+  // 6. Process event expert aggregation results
+  eventExpertsAgg.forEach(result => {
+    if (result["subject-matter-expert.id"]) {
+      const personId = result["subject-matter-expert.id"] as string;
+      if (!metricsMap[personId]) {
+        metricsMap[personId] = {
+          eventParticipation: 0,
+          topicExpertise: 0,
+          organizationalAuthority: 0,
+          documentedContributions: 0,
+          testimonies: 0,
+          quotes: 0
+        };
+      }
+      metricsMap[personId].eventParticipation = result.eventCount as number;
+    }
+  });
+  
+  // 7. Process topic expert aggregation results
+  topicExpertsAgg.forEach(result => {
+    if (result["subject-matter-expert.id"]) {
+      const personId = result["subject-matter-expert.id"] as string;
+      if (!metricsMap[personId]) {
+        metricsMap[personId] = {
+          eventParticipation: 0,
+          topicExpertise: 0,
+          organizationalAuthority: 0,
+          documentedContributions: 0,
+          testimonies: 0,
+          quotes: 0
+        };
+      }
+      metricsMap[personId].topicExpertise = result.topicCount as number;
+    }
+  });
+  
+  // 8. Process organization member aggregation results
+  orgMembersAgg.forEach(result => {
+    if (result["member.id"]) {
+      const personId = result["member.id"] as string;
+      if (!metricsMap[personId]) {
+        metricsMap[personId] = {
+          eventParticipation: 0,
+          topicExpertise: 0,
+          organizationalAuthority: 0,
+          documentedContributions: 0,
+          testimonies: 0,
+          quotes: 0
+        };
+      }
+      metricsMap[personId].organizationalAuthority = result.orgCount as number;
+    }
+  });
+  
+  // 9. Process testimony aggregation results
+  testimoniesAgg.forEach(result => {
+    if (result["witness.id"]) {
+      const personId = result["witness.id"] as string;
+      if (!metricsMap[personId]) {
+        metricsMap[personId] = {
+          eventParticipation: 0,
+          topicExpertise: 0,
+          organizationalAuthority: 0,
+          documentedContributions: 0,
+          testimonies: 0,
+          quotes: 0
+        };
+      }
+      metricsMap[personId].testimonies = result.testimonyCount as number;
+    }
+  });
+  
+  // 10. Process document aggregation results
+  documentsAgg.forEach(result => {
+    if (result["author.id"]) {
+      const personId = result["author.id"] as string;
+      if (!metricsMap[personId]) {
+        metricsMap[personId] = {
+          eventParticipation: 0,
+          topicExpertise: 0,
+          organizationalAuthority: 0,
+          documentedContributions: 0,
+          testimonies: 0,
+          quotes: 0
+        };
+      }
+      metricsMap[personId].documentedContributions = result.documentCount as number;
+    }
+  });
+  
+  return metricsMap;
 }
 
 /**

@@ -16,7 +16,12 @@ The system evaluates each key figure (personnel) by analyzing their connections 
    - Document creations
    - (Future) Quotes and references
 
-2. **Scoring Formula**:
+2. **Performance Optimization**:
+   - Uses Xata's aggregation methods for efficient data collection
+   - Single database query per relationship type instead of per-person queries
+   - Reduced database load and faster calculation times
+
+3. **Scoring Formula**:
    ```
    Rank Score = (
        (event_expert_count × EVENT_WEIGHT) +
@@ -28,7 +33,7 @@ The system evaluates each key figure (personnel) by analyzing their connections 
    )
    ```
 
-3. **Database Fields**:
+4. **Database Fields**:
    - `rank` - The raw numerical score
    - `authority` - Percentile rank (0-100) compared to other personnel
 
@@ -42,6 +47,7 @@ To check when rankings were last updated:
 
 1. Check the Vercel dashboard under "Deployments" → "Functions" → "Cron Jobs"
 2. Look for the `/api/cron/update-rankings` endpoint execution history
+3. Review the execution statistics in the function logs
 
 ## Manual Controls
 
@@ -85,6 +91,9 @@ curl -X POST https://your-domain.com/api/admin/trigger-ranking-update \
 For testing impact before applying changes to the database, use the test endpoint:
 
 ```bash
+# Get current rankings with statistics
+curl https://your-domain.com/api/admin/test-ranking-system
+
 # Preview calculation without saving to database (dry run)
 curl -X POST https://your-domain.com/api/admin/test-ranking-system \
   -H "Content-Type: application/json" \
@@ -99,12 +108,12 @@ curl -X POST https://your-domain.com/api/admin/test-ranking-system \
       "QUOTE_COUNT": 1.5
     }
   }'
-
-# Get current rankings for all personnel
-curl https://your-domain.com/api/admin/test-ranking-system
 ```
 
-The response will show expected changes to rankings without modifying the database.
+The response will show expected changes to rankings without modifying the database, including:
+- Current stats vs. projected stats
+- Ranking changes for each person
+- Performance metrics for the calculation
 
 ## Troubleshooting
 
@@ -119,6 +128,7 @@ Common errors:
 - Database connection timeout
 - Permission issues
 - Data integrity problems
+- Issues with aggregation operations (check Xata log for details)
 
 ## Future Enhancements
 
@@ -127,3 +137,4 @@ Planned improvements:
 - More sophisticated weighting algorithms
 - Additional connection types (quotes, mentions)
 - Historical tracking of ranking changes
+- Refined performance optimizations using Xata's advanced features

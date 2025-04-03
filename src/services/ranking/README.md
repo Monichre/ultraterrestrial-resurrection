@@ -10,6 +10,7 @@ The Personnel Ranking System automatically calculates and maintains ranking scor
 - **Multiple Data Sources**: Analyzes connections across events, topics, organizations, testimonies, and documents
 - **Normalized Scores**: Raw scores and percentile-based authority ranking
 - **Configurable Weights**: Can be adjusted to prioritize different types of connections
+- **Optimized Performance**: Uses Xata's aggregation methods for efficient data processing
 
 ## Technical Architecture
 
@@ -17,6 +18,7 @@ The Personnel Ranking System automatically calculates and maintains ranking scor
 
 1. **Ranking Service** (`personnel-ranking.service.ts`)
    - Calculates scores with configurable weights
+   - Uses Xata's aggregation methods for efficient data collection
    - Normalizes rankings and calculates percentiles
    - Updates personnel records in Xata database
 
@@ -30,12 +32,10 @@ The Personnel Ranking System automatically calculates and maintains ranking scor
 
 ### How It Works
 
-1. **Data Collection**: For each key figure, the system gathers:
-   - Event subject matter expert connections
-   - Topic expertise connections
-   - Organization memberships
-   - Testimonies authorship
-   - Document creation
+1. **Data Collection**: The system uses Xata's aggregation methods to efficiently collect connection data:
+   - `aggregate()` with `count` operator on join tables to count relationships
+   - `groupBy` to organize counts by personnel ID
+   - Single database query per relationship type instead of per-person queries
 
 2. **Score Calculation**: The core formula is:
    ```
@@ -52,6 +52,8 @@ The Personnel Ranking System automatically calculates and maintains ranking scor
 3. **Database Updates**: Stores two values for each personnel:
    - `rank`: Raw numerical score
    - `authority`: Percentile rank (0-100) compared to other personnel
+
+4. **Statistics**: Uses Xata's `summarize()` method for calculating aggregate statistics
 
 ## Usage Guide
 
@@ -111,11 +113,23 @@ curl -X POST https://your-domain.com/api/admin/test-ranking-system \
     }
   }'
 
-# Get current rankings
+# Get current rankings and statistics
 curl https://your-domain.com/api/admin/test-ranking-system
 ```
 
 ## Developer Notes
+
+### Performance Optimizations
+
+1. **Xata Aggregation Methods**
+   - `aggregate()` with `count` operator for efficient relationship counting
+   - `summarize()` for statistical calculations
+   - These methods run calculations in the database instead of in memory
+   - Significant reduction in database queries (from N per personnel to 5 total)
+
+2. **Helper Utilities**
+   - The `processAggregationResults()` function consolidates aggregation results efficiently
+   - Pagination is used in endpoints returning large datasets
 
 ### Future Enhancements
 
@@ -127,9 +141,9 @@ curl https://your-domain.com/api/admin/test-ranking-system
    - Add quotes/mentions when that table is implemented
    - Consider secondary connection influence (indirect references)
 
-3. **Performance Optimization**
-   - Implement incremental updates for large datasets
-   - Add caching for frequent queries
+3. **Further Performance Optimization**
+   - Consider using more complex aggregations for compound metrics
+   - Add automated indexing of frequently queried fields
 
 ### Security Considerations
 
