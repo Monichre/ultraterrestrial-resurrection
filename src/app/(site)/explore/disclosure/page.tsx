@@ -6,7 +6,7 @@ import {Loading} from '@/components/loaders/loading'
 import {
   type NetworkGraphPayload,
   getEntityNetworkGraphData,
-} from '@/features/mindmap/queries/get-entity-network-graph-data'
+} from '@/features/mindmap/actions/get-entity-network-graph-data'
 
 import {MindMapCursor} from '@/components/cursors'
 import {StateOfDisclosureProvider} from '@/contexts'
@@ -14,8 +14,6 @@ import {StateOfDisclosureProvider} from '@/contexts'
 
 export default async function Index() {
   const data: NetworkGraphPayload = await getEntityNetworkGraphData()
-
-  console.log('🚀 ~ Index ~ data:', data)
 
   return (
     // <AssistantRuntimeProvider runtime={runtime}>

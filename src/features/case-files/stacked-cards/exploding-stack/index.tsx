@@ -4,6 +4,7 @@ import {useState, useRef, useEffect} from 'react'
 
 import {gsap} from 'gsap'
 import {useGSAP} from '@gsap/react'
+import './stack.css'
 
 interface Card {
   id: string

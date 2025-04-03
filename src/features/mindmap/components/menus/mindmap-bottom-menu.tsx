@@ -8,7 +8,7 @@ import {
   TopicsIcon,
 } from '@/components/icons/entity-icons'
 import {useMindMap} from '@/contexts/mindmap/mindmap-context'
-import {initiateDatabaseTableQuery} from '@/features/mindmap/queries/search'
+import {initiateDatabaseTableQuery} from '@/features/mindmap/actions/search'
 import {DOMAIN_MODEL_COLORS, ICON_GREEN} from '@/utils/constants'
 import {useAssistant} from '@ai-sdk/react'
 import {useCallback, useEffect, useRef, useState} from 'react'
@@ -23,9 +23,15 @@ import {LightningBoltIcon} from '@radix-ui/react-icons'
 
 import {TextShimmer} from '@/components/animated/text-effect'
 import {MagicWandIcon} from '@/components/icons'
-import {askAIAction, searchXataConnections} from '@/features/mindmap/actions'
+import {searchXataConnections} from '@/features/mindmap/actions/actions'
+// import {useAILoading} from '@/features/mindmap/hooks/use-ai-loading'
 import {capitalize, cn} from '@/utils'
 import {Brain, FileSearch, Lightbulb, SearchIcon, XIcon} from 'lucide-react'
+import {
+  askAIAction,
+  xataToXYFlow,
+  type XataToXYFlowResponse,
+} from '@/features/mindmap/actions/xata-to-xyflow'
 
 // Define explicit types for our entities and nodes
 export interface MindMapNode {
@@ -247,89 +253,98 @@ export const MindMapBottomMenu = () => {
       const amount = 3
       const center = screenToFlowPosition(calculateCenterOfScreen())
 
-      // Retrieve the entities for this type
-      const entities = await retrieveEntitiesFromStore(type as keyof DatabaseSchema)
-
-      console.log('🚀 ~ MindMapBottomMenu ~ entities:', entities)
-
-      const potentialUserNode: any = {
+      // Create a user input node first
+      const potentialUserNode = {
         id: getNextId(),
-        // type: "userInputNode",
         type: 'userInputNode',
         position: {...center},
         data: {
           label: 'Your Query',
           input: `Beginning your exploration by loading ${amount} ${type}. Fetching Data...`,
-          entities,
+          question: `Give me the top ${amount} of interesting ${type} records and what is interesting about them and explain the connections between them, if any.`,
           type: type,
         },
       }
 
-      const nodes = getNodes()
+      // Add the user node to the graph
+      addNode(potentialUserNode)
 
-      console.log('🚀 ~ MindMapBottomMenu ~ nodes:', nodes)
+      try {
+        const existingNodes = getNodes()
 
-      const existingUserInputNodes = nodes?.length
-        ? nodes
-            .filter(
-              (node: any) => node.type === 'userInputNode' && node.id !== potentialUserNode.id
-            )
-            .sort((a: any, b: any) => {
-              const aNum = Number.parseInt(a.id.split('-')[1], 10)
-              const bNum = Number.parseInt(b.id.split('-')[1], 10)
-              return aNum - bNum
+        // Choose layout type based on content type
+        let layoutType: 'horizontal' | 'vertical' | 'radial' | 'grid' = 'horizontal'
+
+        // Customize layout based on entity type for optimal visualization
+        switch (type) {
+          case 'events':
+            layoutType = 'horizontal'
+            break
+          case 'personnel':
+          case 'organizations':
+            layoutType = 'radial'
+            break
+          case 'testimonies':
+            layoutType = 'vertical'
+            break
+          case 'documents':
+          case 'artifacts':
+            layoutType = 'grid'
+            break
+          default:
+            layoutType = 'horizontal'
+        }
+
+        const question = `Give me the top ${amount} of interesting ${type} records and what is interesting about them and explain the connections between them, if any.`
+
+        const flowData = await xataToXYFlow({
+          question,
+          table: type,
+          rules: `Find the most interesting ${type} records that have clear relationships between them`,
+          context: `The user is exploring records in the ${type} database `,
+          existingNodes: existingNodes,
+          sourceNode: potentialUserNode,
+          layoutType, // Pass the selected layout type
+        })
+
+        console.log('🚀 ~ handleLoadingRecords ~ flowData:', flowData)
+
+        addNodes(flowData.nodes)
+        addEdges(flowData.edges)
+
+        if (flowData && flowData?.xataResponse?.records?.length > 0) {
+          // Update the user input node with the AI analysis
+          if (flowData.xataResponse?.records) {
+            updateNodeData(potentialUserNode.id, {
+              entities: flowData.xataResponse?.records,
+              answer: flowData.xataResponse?.answer,
+              sessionId: flowData.xataResponse?.sessionId,
             })
-        : []
-
-      // Use the last user input node as the parent (if it exists)
-      const parentNode =
-        existingUserInputNodes.length > 0
-          ? existingUserInputNodes[existingUserInputNodes.length - 1]
-          : potentialUserNode
-
-      addNode(parentNode)
-
-      // Compute positions for child nodes so they are centered under the parent
-      const {startX, childY, entityWidth, entitySpacing} = computeChildPositions(
-        parentNode,
-        entities.length
-      )
-
-      // Map each entity to a new node with computed positions and a parentId
-      const childNodes = entities.map((entity: any, index: number) => ({
-        ...entity,
-        type: 'entityNode',
-        position: {
-          x: startX + index * (entityWidth + entitySpacing),
-          y: childY,
-        },
-        parentId: parentNode?.id,
-      }))
-
-      // Add the child nodes to the graph
-      addNodes(childNodes)
-
-      // Create edges that connect the parent node to each child node
-      const newEdges = entities.map((entity: any) => ({
-        id: `${parentNode?.id}-${entity.id}`,
-        source: parentNode?.id,
-        target: entity.id,
-        type: 'smoothstep',
-      }))
-
-      // Add the edges to the graph
-      addEdges(newEdges)
+          }
+        } else {
+          // Update user node to show no results
+          updateNodeData(potentialUserNode.id, {
+            input: `No ${type} data found or there was an error fetching the data.`,
+          })
+        }
+      } catch (error) {
+        console.error('Error loading data for mind map:', error)
+        // Update user node to show error
+        updateNodeData(potentialUserNode.id, {
+          input: `Error loading ${type} data: ${
+            error instanceof Error ? error.message : 'Unknown error'
+          }`,
+        })
+      }
     },
     [
       calculateCenterOfScreen,
       screenToFlowPosition,
       getNextId,
       addNode,
-      getNodes,
-      retrieveEntitiesFromStore,
       addNodes,
       addEdges,
-      computeChildPositions,
+      updateNodeData,
     ]
   )
 
@@ -471,11 +486,16 @@ export const MindMapBottomMenu = () => {
           setInputValue('')
         }
 
-        if (activeCommand === 'search' && inputValue && inputValue.trim() !== '/') {
+        if (
+          activeCommand === 'search' &&
+          inputValue &&
+          inputValue.trim() !== '/' &&
+          state?.selectedModel
+        ) {
           // loadNodesFromTableQuery(inputValue);
           const xataSearchResults = await askAIAction({
-            query: inputValue,
-            table: state?.selectedModel || null,
+            question: inputValue,
+            table: state?.selectedModel,
           })
           console.log('🚀 ~ handleKeyDown ~ xataSearchResults:', xataSearchResults)
           setSearchResults(xataSearchResults)

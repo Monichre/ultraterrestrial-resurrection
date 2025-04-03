@@ -2,7 +2,7 @@ import type {Meta, StoryObj} from '@storybook/react'
 import {ScrollThrough3D} from './ScrollThroughThreeD'
 
 const meta: Meta<typeof ScrollThrough3D> = {
-  title: 'Features | 3D | Events Journey',
+  title: 'Features/3D/Scroll Through Historical Events',
   component: ScrollThrough3D,
   parameters: {
     layout: 'fullscreen',

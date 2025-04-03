@@ -4,6 +4,7 @@ import { DISCLOSURE_ASSISTANT_ID } from "@/services/ai/openai/config";
 import { assistantEventHandler } from "@/services/ai/openai/stream-handler";
 import { NER_EXTRACTION_PROMPT } from "@/services/ai/prompts/ner-extraction-prompt";
 import { AssistantResponse } from "ai";
+import { xataToXYFlow } from "@/features/mindmap/actions/xata-to-xyflow";
 
 /*
 // Lower-level explicit approach:
@@ -89,6 +90,33 @@ export async function POST(req: Request) {
 								name: "searchDatabase",
 							},
 						},
+						{
+							type: "function",
+							function: {
+								name: "transformXYFlow",
+								description:
+									"Transform results into a graph visualization with XYFlow",
+								parameters: {
+									type: "object",
+									properties: {
+										question: {
+											type: "string",
+											description: "The question to ask the database",
+										},
+										table: {
+											type: "string",
+											description:
+												"The database table to query (e.g., events, topics, personnel, testimonies, organizations, artifacts)",
+										},
+										prompt: {
+											type: "string",
+											description: "Optional guidance for the AI search",
+										},
+									},
+									required: ["question", "table"],
+								},
+							},
+						},
 					],
 					additional_instructions: NER_EXTRACTION_PROMPT,
 					tool_choice: { type: "file_search" },
@@ -125,6 +153,33 @@ export async function POST(req: Request) {
 							console.log("🚀 ~ file: route.ts:87 ~ parameters:", parameters);
 
 							switch (toolCall.function.name) {
+								case "transformXYFlow":
+									// Call xataToXYFlow with the parameters
+									const { question, table, prompt } = parameters;
+									const flowData = await xataToXYFlow({
+										question,
+										table,
+										prompt,
+										context: input.message, // Pass the original user message as context
+									});
+
+									// Send a data message with visualization data
+									await sendDataMessage({
+										type: "xyflow_visualization",
+										description: "Graph visualization data",
+										data: flowData,
+									});
+
+									return {
+										tool_call_id: toolCall.id,
+										output: JSON.stringify({
+											success: true,
+											nodesCount: flowData.nodes.length,
+											edgesCount: flowData.edges.length,
+											context: flowData.context,
+										}),
+									};
+
 								case "searchDatabase":
 									// const {
 									// 	table,

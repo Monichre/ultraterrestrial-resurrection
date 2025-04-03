@@ -5,68 +5,6 @@ import { assistantEventHandler } from "@/services/ai/openai/stream-handler";
 import { NER_EXTRACTION_PROMPT } from "@/services/ai/prompts/ner-extraction-prompt";
 import { AssistantResponse } from "ai";
 
-/**
- * Transforms the Xata query result into a schema and data format ready for ReactFlow
- */
-async function transformForReactflow(xataResult: any) {
-	// Extract the related records from the Xata query result
-	const { relatedRecords } = xataResult;
-	const nodes = [];
-	const edges = [];
-
-	// Create a central node as the starting point for our graph
-	const centralNodeId = "central-node";
-	nodes.push({
-		id: centralNodeId,
-		type: "centralNode",
-		position: { x: 0, y: 0 },
-		data: { label: "Query Results" },
-	});
-
-	// Create nodes for each record type and connect them to the central node
-	let nodeXPosition = -300;
-
-	// Process each table's records
-	for (const [table, recordObj] of Object.entries(relatedRecords)) {
-		if (recordObj && (recordObj as any).record) {
-			// Type assertion to access record property
-			const typedRecordObj = recordObj as { answer: string; record: any };
-			const record = typedRecordObj.record;
-
-			if (!record) continue;
-
-			// Create a node for this record
-			const nodeId = `${table}-${record.id || Math.random().toString(36).substring(2, 9)}`;
-			nodes.push({
-				id: nodeId,
-				type: "recordNode",
-				position: { x: nodeXPosition, y: 150 },
-				data: {
-					label: `${table}: ${record.name || record.title || record.id}`,
-					table,
-					record,
-					answer: typedRecordObj.answer,
-				},
-			});
-
-			// Create an edge connecting to the central node
-			edges.push({
-				id: `edge-${nodeId}`,
-				source: centralNodeId,
-				target: nodeId,
-				type: "smoothstep",
-				animated: true,
-				label: table,
-			});
-
-			// Adjust position for next node
-			nodeXPosition += 300;
-		}
-	}
-
-	return { nodes, edges };
-}
-
 export async function POST(req: Request) {
 	console.log("🚀 ~ POST ~ req:", req);
 

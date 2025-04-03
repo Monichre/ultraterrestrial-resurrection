@@ -19,7 +19,7 @@ import {
 import {
   type MindMapNode,
   fetchNextMindmapRecords,
-} from '@/features/mindmap/queries/fetch-next-mindmap-records'
+} from '@/features/mindmap/actions/fetch-next-mindmap-records'
 import type {MindMapState} from '@/features/mindmap/store'
 import {useMindMapStore} from '@/features/mindmap/store'
 import {use3DGraph} from '@/hooks/use3dGraph'
@@ -41,6 +41,8 @@ import {
 import type React from 'react'
 import {createContext, useCallback, useContext, useEffect, useState} from 'react'
 import {useShallow} from 'zustand/react/shallow'
+import {xataToXYFlow} from '@/features/mindmap/actions/xata-to-xyflow'
+import {organizeNodeLayout, LayoutOptions} from '@/features/mindmap/layouts/organizeNodeLayout'
 
 export type RootNodeKey =
   | 'events-root-node'
@@ -823,68 +825,120 @@ export const MindMapProvider = ({children}: {children: React.ReactNode}) => {
       const amount = model === 'events' ? 4 : childNodeBatchSize
       const sourceModelIndex = `${model}-root-node` as RootNodeKey
 
-      // Get the next batch of nodes using the server action
-      const resultNodes = await retrieveEntitiesFromStore(model as keyof DatabaseSchema)
+      try {
+        // Instead of retrieveEntitiesFromStore, use xataToXYFlow
+        const question = `Show me ${amount} interesting ${model} records and explain the relationships between them.`
+        const flowData = await xataToXYFlow({
+          question,
+          table: model,
+          rules: `Find the most interesting ${model} records that have clear relationships between them`,
+          context: `The user is exploring the ${model} database and wants to see ${amount} records with interesting relationships.`,
+          existingNodes: reactFlowInstance.getNodes(),
+          sourceNode: source,
+        })
 
-      // If no nodes were returned, return early
-      if (!resultNodes || resultNodes.length === 0) {
-        console.log('No more records to load')
+        console.log('🚀 ~ addNextEntitiesToMindMap ~ flowData:', flowData)
+
+        // If no nodes were returned, return early
+        if (!flowData || flowData.nodes.length === 0) {
+          console.log('No records to load')
+          return null
+        }
+
+        // Use the existing resultNodes or the transformed nodes from xataToXYFlow
+        const resultNodes = flowData.nodes.filter((node) => node.id !== 'query-result-node')
+
+        if (resultNodes.length === 0) {
+          console.log('No valid entity nodes returned')
+          return null
+        }
+
+        const groupId = `${model}-group-${Date.now()}`
+
+        // Create the group layout
+        const {groupNode, groupNodeChildren}: any = isUserInputNode
+          ? renderUserInputResultsLayout({
+              groupId,
+              sourceNode: source,
+              results: resultNodes,
+            })
+          : createGroupNodeLayoutWithoutRootNode({
+              groupId,
+              childNodes: resultNodes,
+            })
+
+        // Add AI context to source node if it's a userInputNode
+        if (isUserInputNode && flowData.context) {
+          store.updateNodeData(source.id, {
+            input: flowData.context,
+          })
+        }
+
+        // Create edges connecting the group node to the source node
+        const edgeId = `${source.id}:${groupNode.id}`
+        const edge = {
+          id: edgeId,
+          source: source.id,
+          target: groupNode.id,
+          sourceHandle: `${source.id}:${groupNode.id}`,
+          targetHandle: `${groupNode.id}:${source.id}`,
+          data: {label: 'related'},
+          type: 'siblingEdge',
+        }
+
+        const sourceHandles = source.data?.handles || []
+
+        // Add the handle to the source node data
+        store.updateNodeData(source.id, {
+          handles: [...sourceHandles, edge.sourceHandle],
+        })
+
+        // Add children nodes to the graph
+        store.addNodes([groupNode, ...groupNodeChildren])
+        store.addEdges(edge)
+
+        // After adding all nodes and edges, apply layout automatically
+        setTimeout(() => {
+          if (reactFlowInstance) {
+            const currentNodes = reactFlowInstance.getNodes()
+            const currentEdges = reactFlowInstance.getEdges()
+
+            // Apply optimized layout to all nodes
+            const layoutedNodes = organizeNodeLayout(currentNodes as any[], currentEdges as any[], {
+              direction: 'horizontal',
+              parentChildSpacing: 100,
+              siblingSpacing: 50,
+              centerChildren: true,
+            })
+
+            // Update with the new positions
+            store.setNodes(layoutedNodes as any)
+
+            // Fit view to show all nodes
+            reactFlowInstance.fitView({padding: 0.2})
+          }
+        }, 100) // Short delay to ensure DOM is updated
+
+        // Return the created nodes
+        return {
+          groupNode,
+          groupNodeChildren,
+        }
+      } catch (error) {
+        console.error('Error in addNextEntitiesToMindMap:', error)
+        // Handle error
         return null
-      }
-
-      const groupId = `${model}-group-${Date.now()}`
-
-      // Create the group layout
-      const {groupNode, groupNodeChildren}: any = isUserInputNode
-        ? renderUserInputResultsLayout({
-            groupId,
-            sourceNode: source,
-            results: resultNodes,
-          })
-        : createGroupNodeLayoutWithoutRootNode({
-            groupId,
-            childNodes: resultNodes,
-          })
-
-      // Create edges connecting the group node to the source node
-      const edgeId = `${source.id}:${groupNode.id}`
-      const edge = {
-        id: edgeId,
-        source: source.id,
-        target: groupNode.id,
-        sourceHandle: `${source.id}:${groupNode.id}`,
-        targetHandle: `${groupNode.id}:${source.id}`,
-        data: {label: 'related'},
-        type: 'siblingEdge',
-      }
-
-      const sourceHandles = source.data?.handles || []
-
-      // Add the handle to the source node data
-      store.updateNodeData(source.id, {
-        handles: [...sourceHandles, edge.sourceHandle],
-      })
-
-      // Add children nodes to the graph
-      store.addNodes([groupNode, ...groupNodeChildren])
-      store.addEdges(edge)
-
-      // Return the created nodes for further processing
-      return {
-        groupNode,
-        groupNodeChildren,
       }
     },
     [
-      rootNodeState,
-      retrieveEntitiesFromStore,
+      childNodeBatchSize,
       createGroupNodeLayoutWithoutRootNode,
       renderUserInputResultsLayout,
-      childNodeBatchSize,
       store.addNodes,
       store.addEdges,
       store.updateNodeData,
-      graph,
+      xataToXYFlow,
+      reactFlowInstance,
     ]
   )
 
@@ -927,9 +981,32 @@ export const MindMapProvider = ({children}: {children: React.ReactNode}) => {
       store.addNodes(searchResultNodes)
       store.addEdges(searchResultEdges)
 
+      // Apply layout to improve positioning
+      setTimeout(() => {
+        if (reactFlowInstance) {
+          const currentNodes = reactFlowInstance.getNodes()
+          const currentEdges = reactFlowInstance.getEdges()
+
+          const layoutedNodes = organizeNodeLayout(currentNodes as any[], currentEdges as any[], {
+            direction: 'radial', // Radial works better for search results
+            centerChildren: false,
+          })
+
+          store.setNodes(layoutedNodes as any)
+          reactFlowInstance.fitView({padding: 0.2})
+        }
+      }, 100)
+
       return {searchResultNodes, searchResultEdges}
     },
-    [store.addNodes, store.addEdges, createSiblingEdge, graph, store.updateNodeData]
+    [
+      store.addNodes,
+      store.addEdges,
+      createSiblingEdge,
+      graph,
+      store.updateNodeData,
+      reactFlowInstance,
+    ]
   )
 
   // Entity management
@@ -996,6 +1073,34 @@ export const MindMapProvider = ({children}: {children: React.ReactNode}) => {
       }
     },
     [createGroupNodeLayoutWithoutRootNode, graph, store.addNodes]
+  )
+
+  // Layout function for organizing nodes
+  const organizeLayout = useCallback(
+    (options: LayoutOptions = {}) => {
+      if (!reactFlowInstance) return
+
+      const currentNodes = reactFlowInstance.getNodes()
+      const currentEdges = reactFlowInstance.getEdges()
+
+      // Apply our layout algorithm to position the nodes
+      const layoutedNodes = organizeNodeLayout(currentNodes as any[], currentEdges as any[], {
+        direction: 'horizontal',
+        parentChildSpacing: 100,
+        siblingSpacing: 50,
+        centerChildren: true,
+        ...options,
+      })
+
+      // Update the nodes with their new positions
+      store.setNodes(layoutedNodes as any)
+
+      // Fit the view to show all nodes
+      setTimeout(() => {
+        reactFlowInstance.fitView({padding: 0.2})
+      }, 100)
+    },
+    [reactFlowInstance, store.setNodes]
   )
 
   // Define the context value
@@ -1081,7 +1186,44 @@ export const MindMapProvider = ({children}: {children: React.ReactNode}) => {
     addMindmapChildNode,
 
     loadNodesFromTableQuery,
+
+    // Add our new organizeLayout function
+    organizeLayout,
   }
+
+  // Also enhance the onConnect callback to apply layout after new connections
+  // This makes the layout respond to new connections
+  useEffect(() => {
+    const oldOnConnect = store.onConnect
+
+    const enhancedOnConnect = (params: any) => {
+      // Call the original onConnect
+      oldOnConnect(params)
+
+      // After connection is made, apply layout
+      setTimeout(() => {
+        if (reactFlowInstance) {
+          const currentNodes = reactFlowInstance.getNodes()
+          const currentEdges = reactFlowInstance.getEdges()
+
+          const layoutedNodes = organizeNodeLayout(currentNodes as any[], currentEdges as any[], {
+            direction: 'horizontal',
+            centerChildren: true,
+          })
+
+          store.setNodes(layoutedNodes as any)
+        }
+      }, 150)
+    }
+
+    // Replace the onConnect handler
+    store.onConnect = enhancedOnConnect
+
+    // Cleanup
+    return () => {
+      store.onConnect = oldOnConnect
+    }
+  }, [store, reactFlowInstance])
 
   return (
     <MindMapContext.Provider value={contextValue}>

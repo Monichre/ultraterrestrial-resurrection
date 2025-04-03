@@ -29,9 +29,8 @@ const config = {
 	content: [
 		"./src/components/**/*.{ts,tsx}",
 		"./src/app/**/*.{ts,tsx}",
+		"./src/features/**/*.{ts,tsx}",
 		"./src/**/*.{ts,tsx}",
-		"./src/stories/*.{ts,tsx}",
-		"./src/stories/**/*.stories.{ts,tsx}",
 		...storyPaths,
 	],
 	prefix: "",
@@ -313,6 +312,7 @@ const config = {
 			);
 		},
 		require("tailwindcss-motion"),
+		require("@tailwindcss/typography"),
 	],
 } satisfies Config;
 

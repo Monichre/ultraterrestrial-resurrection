@@ -251,19 +251,19 @@ export const executeDatabaseTableQuery = async ( { keyword, table }: { keyword: 
   return { ...processResults( records ), totalCount }
 }
 
-export const askXataWithAi = async ( { question, prompt, table }: any ) => {
+export const askXataWithAi = async ( { question, rules, table }: any ) => {
   const result = await xata.db[table].ask( question, {
     headers: {
       Accept: 'text/event-stream',
     },
-    rules: prompt ? [prompt] : [],
+    rules: rules ? [rules] : [],
     searchType: 'keyword',
     search: {
       fuzziness: 0,
       prefix: 'phrase',
     }
   } )
-  const fetchRecords = async ( recordIds: string[] ) => await Promise.all( recordIds.map( async ( recordId ) => await xata.db[table].read( recordId ) ) )
+  const fetchRecords = async ( recordIds: string[] ) => await Promise.all( recordIds.map( async ( recordId ) => await xata.db[table].read( recordId ).then(res => res.toSerializable()) ) )
 
   if ( result?.answer ) {
 

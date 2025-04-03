@@ -1,22 +1,26 @@
 'use client'
 
-import type GeoJSON from 'geojson'
-
-import {SightingsLoader} from '@/components/loaders'
+import {SightingsLoader} from './sightings-loader'
 import {useState, useEffect, useCallback} from 'react'
-import HudUapInterface from '@/components/uap-dashboard/HudUapInterface'
+import {HudUapInterface} from '@/features/data-viz/sightings/uap-dashboard/HudUapInterface'
+import type {ValidatedUAPSighting} from '@/services/sightings/uap-sighting'
 
-type GeoJSONData = {
-  sightings: GeoJSON.FeatureCollection
-  militaryBases?: GeoJSON.FeatureCollection
-  ufoPosts?: GeoJSON.FeatureCollection
+interface StatsType {
+  totalSightings: number
+  byType?: Record<string, number>
+  byConfidence?: Record<string, number>
+  byYear?: Record<string, number>
+  [key: string]: number | Record<string, number> | undefined
 }
 
-export const SightingsClient = ({geoJSONSightings}: {geoJSONSightings: GeoJSONData}) => {
-  const [isLoading, setIsLoading] = useState(true)
-  const [geoJSONData, setGeoJSONData] = useState<GeoJSONData | null>(null)
+interface SightingsClientProps {
+  sightings: ValidatedUAPSighting[]
+  stats: StatsType
+}
 
-  console.log('🚀 ~ SightingsClient ~ geoJSONData:', geoJSONData)
+export const SightingsClient = ({sightings, stats}: SightingsClientProps) => {
+  const [isLoading, setIsLoading] = useState(true)
+  const [sightingsData, setSightingsData] = useState<ValidatedUAPSighting[] | null>(null)
 
   // Handle loader completion
   const handleLoadComplete = useCallback(() => {
@@ -24,18 +28,18 @@ export const SightingsClient = ({geoJSONSightings}: {geoJSONSightings: GeoJSONDa
   }, [])
 
   useEffect(() => {
-    if (geoJSONSightings) {
-      setGeoJSONData(geoJSONSightings)
+    if (sightings && sightings.length > 0) {
+      setSightingsData(sightings)
     }
-  }, [geoJSONSightings])
+  }, [sightings])
 
-  if (isLoading || !geoJSONData) {
+  if (isLoading || !sightingsData) {
     return <SightingsLoader onLoadComplete={handleLoadComplete} />
   }
 
   return (
     <>
-      <HudUapInterface sightings={geoJSONSightings.sightings} />
+      <HudUapInterface initialSightings={sightingsData} />
     </>
   )
 }

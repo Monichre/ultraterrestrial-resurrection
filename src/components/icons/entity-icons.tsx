@@ -1,14 +1,255 @@
 'use client'
 import {iconAnimationConfig} from '@/components/icons/icons'
+import type {cn} from '@/utils'
 import {EVENTS_GREEN, ICON_BLUE} from '@/utils/constants'
-import {motion} from 'framer-motion'
+import {motion, useAnimation, type Variants} from 'framer-motion'
 import {type LucideProps, Pyramid} from 'lucide-react'
+import {type HTMLAttributes, forwardRef, useRef, useImperativeHandle, useCallback} from 'react'
 
 const transition = {
   duration: 4,
   yoyo: Number.POSITIVE_INFINITY,
   ease: 'easeInOut',
 }
+
+export interface AttachFileIconHandle {
+  startAnimation: () => void
+  stopAnimation: () => void
+}
+
+interface AttachFileIconProps extends HTMLAttributes<HTMLDivElement> {
+  size?: number
+}
+
+const AttachFileIcon = forwardRef<AttachFileIconHandle, AttachFileIconProps>(
+  ({onMouseEnter, onMouseLeave, className, size = 28, ...props}, ref) => {
+    const controls = useAnimation()
+    const isControlledRef = useRef(false)
+
+    useImperativeHandle(ref, () => {
+      isControlledRef.current = true
+
+      return {
+        startAnimation: () => controls.start('animate'),
+        stopAnimation: () => controls.start('normal'),
+      }
+    })
+
+    const handleMouseEnter = useCallback(
+      (e: React.MouseEvent<HTMLDivElement>) => {
+        if (!isControlledRef.current) {
+          controls.start('animate')
+        } else {
+          onMouseEnter?.(e)
+        }
+      },
+      [controls, onMouseEnter]
+    )
+
+    const handleMouseLeave = useCallback(
+      (e: React.MouseEvent<HTMLDivElement>) => {
+        if (!isControlledRef.current) {
+          controls.start('normal')
+        } else {
+          onMouseLeave?.(e)
+        }
+      },
+      [controls, onMouseLeave]
+    )
+
+    return (
+      <div
+        className={cn(
+          `cursor-pointer select-none p-2 hover:bg-accent rounded-md transition-colors duration-200 flex items-center justify-center`,
+          className
+        )}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        {...props}>
+        <svg
+          xmlns='http://www.w3.org/2000/svg'
+          width={size}
+          height={size}
+          viewBox='0 0 24 24'
+          fill='none'
+          stroke='currentColor'
+          strokeWidth='2'
+          strokeLinecap='round'
+          strokeLinejoin='round'>
+          <motion.path
+            variants={pathVariants}
+            initial='normal'
+            animate={controls}
+            d='M6 7.90909V16C6 19.3137 8.68629 22 12 22V22C15.3137 22 18 19.3137 18 16V6C18 3.79086 16.2091 2 14 2V2C11.7909 2 10 3.79086 10 6V15.1818C10 16.2864 10.8954 17.1818 12 17.1818V17.1818C13.1046 17.1818 14 16.2864 14 15.1818V8'
+          />
+        </svg>
+      </div>
+    )
+  }
+)
+
+AttachFileIcon.displayName = 'AttachFileIcon'
+
+export {AttachFileIcon}
+
+export interface FingerprintIconHandle {
+  startAnimation: () => void
+  stopAnimation: () => void
+}
+
+interface FingerprintIconProps extends HTMLAttributes<HTMLDivElement> {
+  size?: number
+}
+
+const pathVariants: Variants = {
+  normal: {pathLength: 1, opacity: 1},
+  animate: {
+    opacity: [0, 0, 1, 1, 1],
+    pathLength: [0.1, 0.3, 0.5, 0.7, 0.9, 1],
+    transition: {
+      opacity: {duration: 0.5},
+      pathLength: {
+        duration: 2,
+      },
+    },
+  },
+}
+
+const FingerprintIcon = forwardRef<FingerprintIconHandle, FingerprintIconProps>(
+  ({onMouseEnter, onMouseLeave, className, size = 28, ...props}, ref) => {
+    const controls = useAnimation()
+    const isControlledRef = useRef(false)
+
+    useImperativeHandle(ref, () => {
+      isControlledRef.current = true
+
+      return {
+        startAnimation: () => controls.start('animate'),
+        stopAnimation: () => controls.start('normal'),
+      }
+    })
+
+    const handleMouseEnter = useCallback(
+      (e: React.MouseEvent<HTMLDivElement>) => {
+        if (!isControlledRef.current) {
+          controls.start('animate')
+        } else {
+          onMouseEnter?.(e)
+        }
+      },
+      [controls, onMouseEnter]
+    )
+
+    const handleMouseLeave = useCallback(
+      (e: React.MouseEvent<HTMLDivElement>) => {
+        if (!isControlledRef.current) {
+          controls.start('normal')
+        } else {
+          onMouseLeave?.(e)
+        }
+      },
+      [controls, onMouseLeave]
+    )
+
+    return (
+      <div
+        className={cn(
+          `cursor-pointer select-none p-2 hover:bg-accent rounded-md transition-colors duration-200 flex items-center justify-center`,
+          className
+        )}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        {...props}>
+        <svg
+          xmlns='http://www.w3.org/2000/svg'
+          width={size}
+          height={size}
+          viewBox='0 0 24 24'
+          fill='none'
+          stroke='currentColor'
+          strokeWidth='2'
+          strokeLinecap='round'
+          strokeLinejoin='round'>
+          <path
+            d='M12 10a2 2 0 0 0-2 2c0 1.02-.1 2.51-.26 4'
+            strokeOpacity={0.4}
+            strokeWidth='2'
+            fill='none'
+          />
+          <motion.path
+            d='M12 10a2 2 0 0 0-2 2c0 1.02-.1 2.51-.26 4'
+            variants={pathVariants}
+            animate={controls}
+          />
+
+          <path
+            d='M14 13.12c0 2.38 0 6.38-1 8.88'
+            strokeOpacity={0.4}
+            strokeWidth='2'
+            fill='none'
+          />
+          <motion.path
+            d='M14 13.12c0 2.38 0 6.38-1 8.88'
+            variants={pathVariants}
+            animate={controls}
+          />
+
+          <path
+            d='M17.29 21.02c.12-.6.43-2.3.5-3.02'
+            strokeOpacity={0.4}
+            strokeWidth='2'
+            fill='none'
+          />
+          <motion.path
+            d='M17.29 21.02c.12-.6.43-2.3.5-3.02'
+            variants={pathVariants}
+            animate={controls}
+          />
+
+          <path d='M2 12a10 10 0 0 1 18-6' strokeOpacity={0.4} strokeWidth='2' fill='none' />
+          <motion.path d='M2 12a10 10 0 0 1 18-6' variants={pathVariants} animate={controls} />
+
+          <path d='M2 16h.01' strokeOpacity={0.4} strokeWidth='2' fill='none' />
+          <motion.path d='M2 16h.01' variants={pathVariants} animate={controls} />
+
+          <path d='M21.8 16c.2-2 .131-5.354 0-6' strokeOpacity={0.4} strokeWidth='2' fill='none' />
+          <motion.path
+            d='M21.8 16c.2-2 .131-5.354 0-6'
+            variants={pathVariants}
+            animate={controls}
+          />
+
+          <path
+            d='M5 19.5C5.5 18 6 15 6 12a6 6 0 0 1 .34-2'
+            strokeOpacity={0.4}
+            strokeWidth='2'
+            fill='none'
+          />
+          <motion.path
+            d='M5 19.5C5.5 18 6 15 6 12a6 6 0 0 1 .34-2'
+            variants={pathVariants}
+            animate={controls}
+          />
+
+          <path d='M8.65 22c.21-.66.45-1.32.57-2' strokeOpacity={0.4} strokeWidth='2' fill='none' />
+          <motion.path
+            d='M8.65 22c.21-.66.45-1.32.57-2'
+            variants={pathVariants}
+            animate={controls}
+          />
+
+          <path d='M9 6.8a6 6 0 0 1 9 5.2v2' strokeOpacity={0.4} strokeWidth='2' fill='none' />
+          <motion.path d='M9 6.8a6 6 0 0 1 9 5.2v2' variants={pathVariants} animate={controls} />
+        </svg>
+      </div>
+    )
+  }
+)
+
+FingerprintIcon.displayName = 'FingerprintIcon'
+
+export {FingerprintIcon}
+
 export const QuoteIcon = ({stroke, onClick}: IconProps) => {
   const config = iconAnimationConfig({stroke: ICON_BLUE})
   return (
@@ -166,7 +407,13 @@ export const DocumentsIcon = (props: IconProps) => {
     </motion.svg>
   )
 }
-export const ArtifactsIcon = ({stroke = ICON_BLUE, fill, onClick}: IconProps) => {
+export const ArtifactsIcon = ({
+  stroke = ICON_BLUE,
+  fill,
+  className,
+  onClick,
+  ...props
+}: IconProps) => {
   const config = iconAnimationConfig({stroke: ICON_BLUE})
   return (
     <motion.svg
@@ -174,6 +421,9 @@ export const ArtifactsIcon = ({stroke = ICON_BLUE, fill, onClick}: IconProps) =>
       height='24'
       viewBox='0 0 24 24'
       fill='none'
+      onClick={onClick}
+      className={className}
+      {...props}
       xmlns='http://www.w3.org/2000/svg'>
       <motion.path
         initial={{pathLength: 0.001}}

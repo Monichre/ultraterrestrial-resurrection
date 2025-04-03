@@ -4,15 +4,17 @@ import {
   EntityNode,
   TestimonyNode,
 } from '@/features/mindmap/nodes'
-import { AnnotationNode } from '@/features/mindmap/nodes/AnnotationNode'
-import { DocumentNode } from '@/features/mindmap/nodes/document-node'
-import { GroupResultsNode } from '@/features/mindmap/nodes/group-results-node'
-import { PersonnelGroupNode } from '@/features/mindmap/nodes/personnel-group-node'
-import { PersonnelGroupNodeChild } from '@/features/mindmap/nodes/personnel-group-node-child'
-import { UserInputNode } from '@/features/mindmap/nodes/user-input-node/user-input-node'
+import {AnnotationNode} from '@/features/mindmap/nodes/AnnotationNode'
+import {DocumentNode} from '@/features/mindmap/nodes/document-node'
+import {GroupResultsNode} from '@/features/mindmap/nodes/group-results-node'
+
+import {PersonnelGroupNode} from '@/features/mindmap/nodes/personnel-group-node'
+import {PersonnelGroupNodeChild} from '@/features/mindmap/nodes/personnel-group-node-child'
+import {UserInputNode} from '@/features/mindmap/nodes/user-input-node/user-input-node'
+// import {AIAnnotationNode as AIAnnotationNodeComponent} from '@/features/mindmap/nodes/ai-annotation-node'
 
 export const nodeTypes: any = {
-  // Utilities Nodes 
+  // Utilities Nodes
   annotationNode: AnnotationNode,
   // Entity Nodes
   entityNode: EntityNode,
@@ -23,6 +25,8 @@ export const nodeTypes: any = {
   topicsNode: EntityNode,
   organizationsNode: EntityNode,
   documentNode: DocumentNode,
+  // AI Generated Nodes
+  // aiAnnotationNode: AIAnnotationNodeComponent,
   // Group Results Node
   groupResultsNode: GroupResultsNode,
   groupResultsNodeChildEvents: EntityGroupNodeChild,

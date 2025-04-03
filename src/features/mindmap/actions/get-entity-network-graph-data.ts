@@ -89,7 +89,7 @@ export const getEntityNetworkGraphData = async () => {
 			artifacts,
 		};
 
-		console.log("🚀 ~ getEntityNetworkGraphData ~ records:", records);
+		
 
 		const topicsNodes = records.topics.map((record: any) =>
 			formatGraphNode({ record, type: "topics" }),
@@ -173,11 +173,11 @@ export const getEntityNetworkGraphData = async () => {
 			},
 		};
 
-		console.log("🚀 ~ getEntityNetworkGraphData ~ payload:", payload);
+		
 
 		return payload;
 	} catch (error) {
-		console.error("Error in getEntityNetworkGraphData:", error);
+		
 		// Return a minimal valid payload
 		return {
 			records: {

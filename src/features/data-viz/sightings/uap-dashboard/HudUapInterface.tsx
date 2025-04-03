@@ -10,6 +10,11 @@ import {TechSection} from './tech-section'
 import {GraphPaperBackground} from './graph-paper-background/graph-paper-background'
 import {SpaceHud} from './space-hud/space-hud'
 import {Terminal} from './terminal/terminal'
+import {useSightingsData} from '@/hooks/use-sightings-data'
+import type {ValidatedUAPSighting} from '@/services/sightings/uap-sighting'
+import {FilterPanel} from './filter-panel'
+import {TimeRangeSelector} from './time-range-selector'
+import {SightingsStatsDisplay} from './sightings-stats-display'
 
 // Import GSAP for animations
 import Script from 'next/script'
@@ -56,14 +61,6 @@ const locations = [
   {name: 'SHANGHAI', lat: 31.2304, lon: 121.4737},
 ]
 
-'use client'
-
-import { useSightingsData } from '@/hooks/use-sightings-data'
-import { type ValidatedUAPSighting } from '@/services/sightings/uap-sighting'
-import { FilterPanel } from './filter-panel'
-import { TimeRangeSelector } from './time-range-selector'
-import { SightingsStatsDisplay } from './sightings-stats-display'
-
 // Set up interface props for optional initial data
 interface HudUapInterfaceProps {
   initialSightings?: ValidatedUAPSighting[]
@@ -77,43 +74,40 @@ export function HudUapInterface({
   initialLocations,
 }: HudUapInterfaceProps = {}) {
   // Use the hook to fetch and manage data
-  const {
-    sightings,
-    events,
-    stats,
-    isLoading,
-    timeRange,
-    filters,
-    updateTimeRange,
-    updateFilters
-  } = useSightingsData({
-    initialTimeRange: { startYear: new Date().getFullYear() - 10, endYear: new Date().getFullYear() },
-    chunkSize: 5
-  })
-  
+  const {sightings, events, stats, isLoading, timeRange, filters, updateTimeRange, updateFilters} =
+    useSightingsData({
+      initialTimeRange: {
+        startYear: new Date().getFullYear() - 10,
+        endYear: new Date().getFullYear(),
+      },
+      chunkSize: 5,
+    })
+
   // Use initialSightings as fallback if provided
   const displaySightings = sightings.length > 0 ? sightings : initialSightings || []
   const displayEvents = events.length > 0 ? events : initialEvents || []
-  
+
   // Locations data (either from hook's fetched data or initial props)
   const locationOptions = initialLocations || []
-  const [focusedLocation, setFocusedLocation] = useState<{lat: number; lon: number} | null>(null)
+  const [focusedLocation, setFocusedLocation] = useState<{
+    lat: number
+    lon: number
+  } | null>(null)
   const [globeType, setGlobeType] = useState<'default' | 'alternative' | 'codepen'>('default')
   const [graphPaperReady, setGraphPaperReady] = useState(false)
 
   const renderGlobe = () => {
     switch (globeType) {
       case 'default':
-        return <Globe focusedLocation={focusedLocation} />
+        return <Globe focusedLocation={focusedLocation} sightings={displaySightings} />
       case 'alternative':
         return <AlternativeGlobe />
       case 'codepen':
         return <CodepenGlobe focusedLocation={focusedLocation} locations={locations} />
       default:
-        return <Globe focusedLocation={focusedLocation} />
+        return <Globe focusedLocation={focusedLocation} sightings={displaySightings} />
     }
   }
-
   return (
     <>
       {/* GSAP Script for animations */}
@@ -143,28 +137,91 @@ export function HudUapInterface({
               </div>
             </div>
 
-            <TechSection title='SIGHTINGS CONTROL' className='flex-1'>
-              <div className='p2 relative flex flex-col h-full gap-2'>
-                {/* Time Range Selector Component */}
-                <TimeRangeSelector 
-                  timeRange={timeRange} 
-                  onChange={updateTimeRange} 
-                />
-                
-                {/* Filter Panel Component */}
-                <FilterPanel 
-                  filters={filters} 
-                  onChange={updateFilters} 
-                  className="flex-grow"
-                />
-                
-                {/* Sightings Statistics */}
-                <SightingsStatsDisplay 
-                  stats={stats} 
-                  isLoading={isLoading}
-                />
-                
-                {/* Terminal component for system messages */}
+            <TechSection title='SYSTEM CONTROL' className='flex-1'>
+              <div className='p2 relative flex flex-col h-full'>
+                <Card className='bg-black border-white/20 p-3 relative'>
+                  <div className='space-y-2'>
+                    <div className='text-xs font-medium text-white/80 font-monument-mono flex justify-between'>
+                      <span>SYSTEM METRICS</span>
+                      <span className='text-white/40'>533235</span>
+                    </div>
+                    <div className='space-y-1'>
+                      {[
+                        {label: 'GLOBAL TEMPERATURE', value: '23.5°C'},
+                        {label: 'ATMOSPHERIC CO₂', value: '417ppm'},
+                        {label: 'SEA LEVEL RISE', value: '+3.4mm/yr'},
+                      ].map((item, i) => (
+                        <div key={i} className='flex justify-between items-center'>
+                          <span className='text-white/60 text-xs font-monument-mono'>
+                            {item.label}
+                          </span>
+                          <Badge
+                            variant='outline'
+                            className='bg-black border-white/30 text-white text-xs font-monument-mono'>
+                            {item.value}
+                          </Badge>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </Card>
+
+                <Card className='bg-black border-white/20 p-3 relative'>
+                  <div className='space-y-2'>
+                    <div className='text-xs font-medium text-white/80 font-monument-mono flex justify-between'>
+                      <span>ACTIVE MONITORING</span>
+                      <span className='text-white/40'>387</span>
+                    </div>
+                    <div className='space-y-1'>
+                      {[
+                        {label: 'WEATHER STATIONS', value: '12,458', status: 'ACTIVE'},
+                        {label: 'SATELLITES', value: '45', status: 'ONLINE'},
+                        {label: 'OCEAN BUOYS', value: '3,241', status: 'SYNCING'},
+                      ].map((item, i) => (
+                        <div key={i} className='flex justify-between text-xs'>
+                          <span className='text-white/60 font-monument-mono'>{item.label}</span>
+                          <div className='flex items-center space-x-2'>
+                            <span className='text-white font-monument-mono'>{item.value}</span>
+                            <span className='text-xs text-white/50 font-monument-mono'>
+                              {item.status}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </Card>
+
+                <Card className='bg-black border-white/20 p-3 relative'>
+                  <div className='space-y-2'>
+                    <div className='text-xs font-medium text-white/80 font-monument-mono flex justify-between'>
+                      <span>ENVIRONMENTAL DATA</span>
+                      <span className='text-white/40'>9574835251</span>
+                    </div>
+                    <div className='space-y-2'>
+                      {[
+                        {label: 'AIR QUALITY', value: 75},
+                        {label: 'OCEAN HEALTH', value: 62},
+                        {label: 'FOREST COVER', value: 45},
+                      ].map((metric, i) => (
+                        <div key={i} className='space-y-1'>
+                          <div className='flex justify-between text-xs'>
+                            <span className='text-white/60 font-monument-mono'>{metric.label}</span>
+                            <span className='text-white font-monument-mono'>{metric.value}%</span>
+                          </div>
+                          <div className='h-1 bg-white/10'>
+                            <div
+                              className='h-full bg-white/60'
+                              style={{width: `${metric.value}%`}}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </Card>
+
+                {/* Terminal added to the sidebar with proper styling */}
                 <Card className='bg-black border-white/20 relative mt-auto'>
                   <div className='border-b border-white/20 p-1'>
                     <div className='text-xs font-medium text-white/80 font-monument-mono'>
@@ -228,22 +285,14 @@ export function HudUapInterface({
             {/* Lower Half - Globe */}
             <TechSection
               title='GLOBAL MONITORING SYSTEM'
-              subtitle={`SIGHTINGS: ${displaySightings.length} | UPLINK: ACTIVE`}>
+              subtitle={`SYNC RATE: 97.3% | UPLINK: ACTIVE`}>
               <div className='h-full bg-transparent'>{renderGlobe()}</div>
 
               {/* Status indicators */}
               <div className='absolute bottom-2 right-2 text-right text-xs'>
-                <div className='text-white/60 font-monument-mono'>
-                  {isLoading ? 'LOADING DATA...' : 'DATA LOADED'}
-                </div>
-                <div className='text-white/60 font-monument-mono'>
-                  TIME FILTER: {timeRange.startYear}-{timeRange.endYear}
-                </div>
-                <div className='text-white/60 font-monument-mono'>
-                  {filters.shape || filters.location || filters.isSignificantEvent 
-                    ? 'FILTERS ACTIVE' 
-                    : 'NO FILTERS'}
-                </div>
+                <div className='text-white/60 font-monument-mono'>GLOBAL SCAN COMPLETE</div>
+                <div className='text-white/60 font-monument-mono'>CONNECTION: SECURE</div>
+                <div className='text-white/60 font-monument-mono'>MONITORING: ACTIVE</div>
               </div>
             </TechSection>
 

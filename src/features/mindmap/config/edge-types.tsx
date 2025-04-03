@@ -1,14 +1,14 @@
-import { FloatingEdge } from '@/features/mindmap/edges/FloatingEdge'
-import { FlowEdge } from '@/features/mindmap/edges/FlowEdge'
-import { SequentialEdge } from '@/features/mindmap/edges/SequentialEdge'
-import { SiblingEdge } from '@/features/mindmap/edges/SiblingEdge'
-import { SmartStepEdge } from '@tisoap/react-flow-smart-edge'
+import {BaseEdge, BezierEdge, SmoothStepEdge, StraightEdge} from '@xyflow/react'
+import {AnimatedSvgEdge} from '@/features/mindmap/edges/animated-svg-edge'
+import {DataEdge} from '@/features/mindmap/edges/data-edge'
 
-export const edgeTypes: any = {
-  siblingEdge: SiblingEdge,
-  floating: FloatingEdge,
-  sequential: SequentialEdge,
-  smart: SmartStepEdge,
-  flowEdge: FlowEdge,
-  // rootEdge: RootEdge,
+export const edgeTypes = {
+  default: BezierEdge,
+  straight: StraightEdge,
+  smoothstep: SmoothStepEdge,
+  bezier: BezierEdge,
+  baseEdge: BaseEdge,
+  animatedSvgEdge: AnimatedSvgEdge,
+  dataEdge: DataEdge,
+  // aiAnimatedEdge: AIAnimatedEdge,
 }

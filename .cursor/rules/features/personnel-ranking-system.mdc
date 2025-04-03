@@ -1,0 +1,456 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Personnel Ranking System Implementation
+
+## Overview
+Implement a comprehensive ranking system for the personnel table in the Xata database that evaluates the significance and connectivity of key figures by analyzing their relationships with other entities across the database.
+
+## Background
+Based on the existing documentation:
+- Key figures should be ranked by their connectivity across the knowledge graph
+- Multiple connection types should be weighted differently
+- Ranks should be normalized and percentile-based
+- The system should run on a regular schedule
+
+## Requirements
+1. Calculate a comprehensive ranking score for each key figure based on:
+   - Topic expertise connections (from topic-subject-matter-experts)
+   - Event subject matter expertise (from event-subject-matter-experts)
+   - Organization memberships (from organization-members)
+   - Testimony authorship (from testimonies)
+   - Document creation (from documents)
+   - Cross-references in other records
+
+2. Update the `rank` and `authority` fields in the personnel table with:
+   - Raw scores in the `rank` field
+   - Percentile rankings in the `authority` field
+
+3. Run daily to keep rankings current with new data
+
+4. Provide monitoring and administrative controls
+
+## Implementation Plan
+
+### Architecture: Vercel Scheduled Function (Cron Job)
+
+I recommend using a Vercel Scheduled Function for the following reasons:
+- Integration with existing Next.js application
+- Simplicity (no additional infrastructure needed)
+- Built-in monitoring and logging
+- Reliable scheduling with automatic retries
+
+Implementation details:
+- Daily execution at 2:00 AM UTC
+- Updates all personnel records
+- Logs execution metrics
+
+### Core Components
+
+1. **Ranking Service Module**
+   - Path: `src/services/ranking/personnel-ranking.service.ts`
+   - Features:
+     - Calculate scores with configurable weights
+     - Normalize rankings and calculate percentiles
+     - Update personnel records in Xata
+   
+   ```typescript
+   import { xata } from "@/db/xata/client";
+   import type { PersonnelRecord } from "@/db/xata/xata";
+
+   interface RankingMetrics {
+     eventParticipation: number;
+     topicExpertise: number;
+     organizationalAuthority: number;
+     documentedContributions: number;
+     testimonies: number;
+     quotes: number;
+   }
+
+   interface WeightingFactors {
+     EVENT_PARTICIPATION: number;
+     TOPIC_EXPERTISE: number;
+     ORGANIZATIONAL_ROLE: number;
+     DOCUMENTED_EVIDENCE: number;
+     TESTIMONY_COUNT: number;
+     QUOTE_COUNT: number;
+   }
+
+   // Default weighting based on documentation
+   const DEFAULT_WEIGHTS: WeightingFactors = {
+     EVENT_PARTICIPATION: 1.0,
+     TOPIC_EXPERTISE: 1.0,
+     ORGANIZATIONAL_ROLE: 1.0,
+     DOCUMENTED_EVIDENCE: 1.0,
+     TESTIMONY_COUNT: 1.0,
+     QUOTE_COUNT: 1.5,
+   };
+
+   export async function calculatePersonnelRanking(weights = DEFAULT_WEIGHTS) {
+     const rankingLog = {
+       startTime: new Date(),
+       recordsProcessed: 0,
+       maxScore: 0,
+       minScore: Infinity,
+       avgScore: 0,
+       status: "processing",
+     };
+
+     try {
+       // 1. Get all personnel records
+       const personnel = await xata.db.personnel.getAll();
+       rankingLog.recordsProcessed = personnel.length;
+       
+       // 2. Calculate raw scores for each person
+       const personnelWithScores = await Promise.all(
+         personnel.map(async (person) => {
+           const metrics = await gatherMetricsForPerson(person.id);
+           const score = calculateScore(metrics, weights);
+           return { person, score, metrics };
+         })
+       );
+       
+       // 3. Find maximum score for normalization
+       let totalScore = 0;
+       personnelWithScores.forEach(({ score }) => {
+         rankingLog.maxScore = Math.max(rankingLog.maxScore, score);
+         rankingLog.minScore = Math.min(rankingLog.minScore, score);
+         totalScore += score;
+       });
+       rankingLog.avgScore = totalScore / personnelWithScores.length;
+       
+       // 4. Calculate percentiles and update database
+       const sortedScores = personnelWithScores.sort((a, b) => b.score - a.score);
+       
+       // 5. Update database
+       await Promise.all(
+         sortedScores.map(async ({ person, score, metrics }, index) => {
+           const percentile = Math.floor(((sortedScores.length - index) / sortedScores.length) * 100);
+           const normalizedRank = score / rankingLog.maxScore;
+           
+           return xata.db.personnel.update(person.id, {
+             rank: Math.round(score),
+             authority: percentile,
+             // Optional: store component scores if creating a detailed rankings table
+           });
+         })
+       );
+       
+       rankingLog.status = "completed";
+       
+       // 6. Log execution metrics
+       await logRankingExecution(rankingLog);
+       
+       return {
+         success: true,
+         ...rankingLog
+       };
+       
+     } catch (error) {
+       rankingLog.status = "failed";
+       console.error("Error calculating rankings:", error);
+       await logRankingExecution({
+         ...rankingLog,
+         error: error.message
+       });
+       
+       return {
+         success: false,
+         error: error.message
+       };
+     }
+   }
+
+   async function gatherMetricsForPerson(personId: string): Promise<RankingMetrics> {
+     // Run these queries in parallel for better performance
+     const [
+       eventExperts,
+       topicExperts,
+       orgMembers,
+       testimonies,
+       documents,
+       // Add quotes when that table is implemented
+     ] = await Promise.all([
+       xata.db["event-subject-matter-experts"].filter("subject-matter-expert.id", personId).getAll(),
+       xata.db["topic-subject-matter-experts"].filter("subject-matter-expert.id", personId).getAll(),
+       xata.db["organization-members"].filter("member.id", personId).getAll(),
+       xata.db.testimonies.filter("witness.id", personId).getAll(),
+       xata.db.documents.filter("author.id", personId).getAll(),
+       // xata.db.quotes.filter("person.id", personId).getAll(),
+     ]);
+     
+     return {
+       eventParticipation: eventExperts.length,
+       topicExpertise: topicExperts.length,
+       organizationalAuthority: orgMembers.length,
+       documentedContributions: documents.length,
+       testimonies: testimonies.length,
+       quotes: 0, // Add when quotes table is implemented
+     };
+   }
+
+   function calculateScore(metrics: RankingMetrics, weights: WeightingFactors): number {
+     return (
+       metrics.eventParticipation * weights.EVENT_PARTICIPATION +
+       metrics.topicExpertise * weights.TOPIC_EXPERTISE +
+       metrics.organizationalAuthority * weights.ORGANIZATIONAL_ROLE +
+       metrics.documentedContributions * weights.DOCUMENTED_EVIDENCE +
+       metrics.testimonies * weights.TESTIMONY_COUNT +
+       metrics.quotes * weights.QUOTE_COUNT
+     );
+   }
+
+   async function logRankingExecution(log: any) {
+     // If implementing a log table, store execution metrics here
+     console.log("Ranking calculation complete", log);
+   }
+   ```
+
+2. **Vercel Configuration**
+   - Add to `vercel.json` to set up the scheduled job:
+   
+   ```json
+   {
+     "crons": [
+       {
+         "path": "/api/cron/update-rankings",
+         "schedule": "0 2 * * *"
+       }
+     ]
+   }
+   ```
+
+3. **Scheduled API Route**
+   - Path: `src/app/api/cron/update-rankings/route.ts`
+   - Triggered by Vercel cron
+   - Execute ranking calculations
+   - Return success/failure status
+   
+   ```typescript
+   import { NextResponse } from "next/server";
+   import { calculatePersonnelRanking } from "@/services/ranking/personnel-ranking.service";
+
+   export const dynamic = "force-dynamic";
+   export const revalidate = 0;
+
+   export async function GET(request: Request) {
+     // Only run if called from authorized sources (Vercel cron or admin)
+     const authHeader = request.headers.get("Authorization");
+     
+     // Check for cron job secret if needed
+     // if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+     //   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+     // }
+     
+     try {
+       const result = await calculatePersonnelRanking();
+       
+       return NextResponse.json({
+         success: true,
+         message: "Personnel rankings updated successfully",
+         ...result
+       });
+     } catch (error) {
+       console.error("Error in ranking cron job:", error);
+       
+       return NextResponse.json(
+         { 
+           success: false, 
+           error: error.message 
+         },
+         { status: 500 }
+       );
+     }
+   }
+   ```
+
+4. **Manual Trigger Endpoint (Admin)**
+   - Path: `src/app/api/admin/trigger-ranking-update/route.ts`
+   - Allow admins to manually trigger updates
+   - Support custom weight parameters
+   
+   ```typescript
+   import { NextResponse } from "next/server";
+   import { calculatePersonnelRanking } from "@/services/ranking/personnel-ranking.service";
+   import { auth } from "@clerk/nextjs";
+
+   export async function POST(request: Request) {
+     // Get user from Clerk
+     const { userId } = auth();
+     
+     // Check if user is admin
+     if (!userId) {
+       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+     }
+     
+     // Get custom weights from request body if provided
+     const { weights } = await request.json();
+     
+     try {
+       const result = await calculatePersonnelRanking(weights);
+       
+       return NextResponse.json({
+         success: true,
+         message: "Personnel rankings updated successfully",
+         ...result
+       });
+     } catch (error) {
+       console.error("Error in manual ranking update:", error);
+       
+       return NextResponse.json(
+         { 
+           success: false, 
+           error: error.message 
+         },
+         { status: 500 }
+       );
+     }
+   }
+   ```
+
+5. **Admin UI Component** (Optional)
+   - Create a UI component to display ranking statistics and allow manual updates
+   - Show historical ranking changes
+   - Provide controls for adjusting weights
+
+### Ranking Formula
+
+The core ranking formula follows the design specified in the documentation:
+
+```
+Rank Score = (
+    (event_expert_count × EVENT_WEIGHT) +
+    (topic_expert_count × TOPIC_WEIGHT) +
+    (organization_member_count × ORG_WEIGHT) +
+    (testimony_count × TESTIMONY_WEIGHT) +
+    (document_count × DOCUMENT_WEIGHT) +
+    (quote_count × QUOTE_WEIGHT)
+)
+```
+
+Default weights as specified in documentation:
+- Direct connections (events, topics, organizations, testimonies): 1.0
+- Enhanced connections (quotes, primary event involvement): 1.5
+- Secondary connections (indirect references): 0.5
+
+### Monitoring and Logging
+
+For improved monitoring, we should create a rankings log table in Xata:
+
+```typescript
+// Add to xata schema
+{
+  name: "ranking-logs",
+  columns: [
+    { name: "execution_time", type: "datetime" },
+    { name: "records_processed", type: "int" },
+    { name: "max_score", type: "float" },
+    { name: "min_score", type: "float" },
+    { name: "avg_score", type: "float" },
+    { name: "status", type: "string" },
+    { name: "error", type: "text" },
+    { name: "execution_time_ms", type: "int" },
+    { name: "weights_used", type: "json" }
+  ],
+}
+```
+
+## Alternative Approaches Considered
+
+### 1. Cloudflare Worker with Scheduled Trigger
+
+Benefits:
+- Can run at higher frequencies
+- Separate from application code
+- Potentially lower latency
+
+Implementation example:
+```js
+// workers/ranking-worker.js
+export default {
+  async scheduled(event, env, ctx) {
+    // Fetch API credentials from env
+    const API_KEY = env.XATA_API_KEY;
+    const API_URL = env.XATA_API_URL;
+    
+    // Call the ranking process
+    await fetch(`${API_URL}/api/cron/update-rankings`, {
+      headers: {
+        Authorization: `Bearer ${API_KEY}`,
+      },
+    });
+  },
+};
+```
+
+### 2. Inngest Integration
+
+Benefits:
+- More complex workflow capabilities
+- Better error handling and retry mechanisms
+- Event-driven triggers possible
+
+Implementation example:
+```typescript
+// src/lib/inngest/functions.ts
+import { inngest } from "./inngest-server.client";
+
+export const updateRankingsFunction = inngest.createFunction(
+  { id: "update-personnel-rankings" },
+  { cron: "0 2 * * *" }, // Daily at 2 AM UTC
+  async ({ event, step }) => {
+    const result = await step.run("calculate-rankings", async () => {
+      // Import dynamically to avoid server/client issues
+      const { calculatePersonnelRanking } = await import("@/services/ranking/personnel-ranking.service");
+      return calculatePersonnelRanking();
+    });
+    
+    return { result };
+  }
+);
+```
+
+However, the Vercel Scheduled Function approach is recommended for simplicity and integration with the existing stack.
+
+## Timeline and Implementation Steps
+
+### Phase 1: Development (Week 1)
+- Create ranking service with core algorithm
+- Implement API endpoints
+- Set up unit tests
+- Document API interfaces
+
+### Phase 2: Testing & Refinement (Week 2)
+- Test with full dataset
+- Fine-tune weighting parameters
+- Implement monitoring tools
+- Create admin UI if needed
+
+### Phase 3: Deployment & Validation (Week 3)
+- Deploy cron job configuration
+- Validate results against expected outcomes
+- Document the implementation
+- Train team on monitoring and management
+
+## Future Enhancements
+
+1. **Advanced Scoring Mechanisms**
+   - Machine learning-based weight adjustment
+   - Temporal relevance factors (recent connections weighted higher)
+   - Confidence scores for connections
+
+2. **Analytics Features**
+   - Historical trend analysis
+   - Influence network visualization
+   - Ranking change alerts
+
+3. **Performance Optimizations**
+   - Incremental updates (only recalculate changed connections)
+   - Batch processing for large datasets
+   - Caching strategies for frequent queries
+
+## Conclusion
+
+The proposed Vercel Scheduled Function implementation offers the best balance of simplicity, maintainability, and effectiveness for the personnel ranking system. By following the design outlined in the existing documentation and leveraging the current tech stack, we can implement a robust solution with minimal overhead.

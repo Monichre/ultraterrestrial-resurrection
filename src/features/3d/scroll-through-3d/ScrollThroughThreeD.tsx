@@ -3,10 +3,14 @@
 import React, {useMemo, useRef, useEffect} from 'react'
 import {Canvas, useFrame, useThree} from '@react-three/fiber'
 import {OrbitControls, Text} from '@react-three/drei'
-import * as THREE from 'three'
-import {EffectComposer, UnrealBloom} from '@react-three/postprocessing'
+
 import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
+
+import * as THREE from 'three'
+import {EffectComposer} from 'three/examples/jsm/postprocessing/EffectComposer'
+import {RenderPass} from 'three/examples/jsm/postprocessing/RenderPass'
+import {UnrealBloomPass} from 'three/examples/jsm/postprocessing/UnrealBloomPass'
 
 gsap.registerPlugin(ScrollTrigger)
 

@@ -1,0 +1,112 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# AI Streaming Response + ReactFlow + Custom Nodes + Custom Edges
+## Updating the [mind-map.tsx](mdc:src/features/mindmap/mind-map.tsx) [graph.tsx](mdc:src/features/mindmap/graph.tsx)
+
+[add-feature-next.mdc](mdc:.cursor/rules/add-feature-next.mdc)
+[handoff-strats.mdc](mdc:.cursor/rules/features/handoff-strats.mdc)
+[ai-response-workflow.mdc](mdc:.cursor/rules/prompts/ai-response-workflow.mdc)
+[expanded-knowledge-graph-agent.mdc](mdc:.cursor/rules/prompts/expanded-knowledge-graph-agent.mdc)
+@https://github.com/restackio/examples-typescript/blob/main/agent-reactflow/apps/backend/src/agents/flow.ts
+
+Overview
+In order to build a multistep interface with ai/rsc, you will need a few things:
+
+A Server Action that calls and returns the result from the streamUI function
+Tool(s) (sub-tasks necessary to complete your overall task)
+React component(s) that should be rendered when the tool is called
+A page to render your chatbot
+The general flow that you will follow is:
+
+User sends a message (calls your Server Action with useActions, passing the message as an input)
+Message is appended to the AI State and then passed to the model alongside a number of tools
+Model can decide to call a tool, which will render the <SomeTool /> component
+Within that component, you can add interactivity by using useActions to call the model with your Server Action and useUIState to append the model's response (<SomeOtherTool />) to the UI State
+And so on...
+
+**Want to explore if using this method of streaming JSON is the perhaps *perfect* way to render responses from the XYFlow + Software Agent**
+
+Allows you to consume text streams that represent a JSON object and parse them into a complete object based on a schema. You can use it together with streamObject in the backend.
+
+```
+'use client';
+
+import { experimental_useObject as useObject } from '@ai-sdk/react';
+
+export default function Page() {
+  const { object, submit } = useObject({
+    api: '/api/use-object',
+    schema: z.object({ content: z.string() }),
+  });
+
+  return (
+    <div>
+      <button onClick={() => submit('example input')}>Generate</button>
+      {object?.content && <p>{object.content}</p>}
+    </div>
+  );
+}
+```
+
+**Corresponding serverside response**
+```
+import { openai } from '@ai-sdk/openai';
+import { streamObject } from 'ai';
+import { z } from 'zod';
+
+const { partialObjectStream } = streamObject({
+  model: openai('gpt-4-turbo'),
+  schema: z.object({
+    recipe: z.object({
+      name: z.string(),
+      ingredients: z.array(z.string()),
+      steps: z.array(z.string()),
+    }),
+  }),
+  prompt: 'Generate a lasagna recipe.',
+});
+
+for await (const partialObject of partialObjectStream) {
+  console.clear();
+  console.log(partialObject);
+}
+```
+
+For arrays, you specify the schema of the array items. You can use elementStream to get the stream of complete array elements.
+
+```
+import { openai } from '@ai-sdk/openai';
+import { streamObject } from 'ai';
+import { z } from 'zod';
+
+const { elementStream } = streamObject({
+  model: openai('gpt-4-turbo'),
+  output: 'array',
+  schema: z.object({
+    name: z.string(),
+    class: z
+      .string()
+      .describe('Character class, e.g. warrior, mage, or thief.'),
+    description: z.string(),
+  }),
+  prompt: 'Generate 3 hero descriptions for a fantasy role playing game.',
+});
+
+for await (const hero of elementStream) {
+  console.log(hero);
+}
+```
+
+## Client Side Handling and Rendering 
+https://sdk.vercel.ai/docs/ai-sdk-rsc/generative-ui-state
+
+Use connected Node data to keep AI context up to date and AI analysis streaming to the graph.
+
+- Annotation Node 
+- Database Schema Node could be decent for rendering multiple kinds of a thing that are related to just one thing
+`bun x shadcn@latest add https://ui.reactflow.dev/data-edge`
+
+

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {useMindMap} from '@/contexts/mindmap/mindmap-context'
 import {traceLogger} from '@/utils/trace-logger'
-import type {MindMapNode} from '@/features/mindmap/queries/fetch-next-mindmap-records'
+import type {MindMapNode} from '@/features/mindmap/actions/fetch-next-mindmap-records'
 import type {DatabaseSchema} from '@/db/types'
 import type {Node, Edge, XYPosition} from '@xyflow/react'
 

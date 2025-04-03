@@ -1,5 +1,6 @@
 'use client'
 import {Panel, ReactFlow} from '@xyflow/react'
+import {GitGraph} from 'lucide-react'
 
 import {edgeTypes} from '@/features/mindmap/config/edge-types'
 
@@ -17,90 +18,39 @@ import {useContextMenu} from '@/hooks/useContextMenu'
 import {CaseFilesAndEvidenceBoard} from '@/features/mindmap/components/status-ui/case-files-and-evidence-board'
 import {GraphStatusLog} from '@/features/mindmap/components/status-ui/graph-status-log'
 import {useMindMapStore} from '@/features/mindmap/store'
+import {useMindMap} from '@/contexts/mindmap/mindmap-context'
 
-import {useRef} from 'react'
+import {useRef, useEffect} from 'react'
 import {ThreadBoard} from '@/features/mindmap/components/status-ui/thread-board'
 
 export function Graph(props: any) {
-  // const { reactFlowInstance } = useMindMap();
-
+  // Get basic flow state from the store
   const {nodes, edges, setNodes, addEdge, onConnect, onNodesDelete, onNodesChange, onEdgesChange} =
     useMindMapStore()
-  // React Flow instance for viewport controls (e.g., fitView)
+
+  // Get layout function from the context
+  const {organizeLayout} = useMindMap()
 
   // Ref to keep track of the currently dragged node
   const draggingNode = useRef<any>(null)
 
-  // Create a persistent simulation instance
-  // const simulation = useMemo(() => {
-  // 	return (
-  // 		forceSimulation()
-  // 			.force("charge", forceManyBody().strength(-1000))
-  // 			.force("x", forceX().strength(0.05))
-  // 			.force("y", forceY().strength(0.05))
-  // 			// Note: The link force synchronizes node pairs based on edges.
-  // 			.force(
-  // 				"link",
-  // 				forceLink(edges).id((d: any) => d.id),
-  // 			)
-  // 			// Custom collision detection force for non-circular nodes.
-  // 			.force("collide", collide())
-  // 			// Lower alphaTarget for smooth convergence.
-  // 			.alphaTarget(0.05)
-  // 			.stop()
-  // 	);
-  // }, [edges]);
+  // Automatically apply layout when nodes change
+  useEffect(() => {
+    if (nodes.length > 0) {
+      // Apply layout with a small delay to ensure all node dimensions are available
+      const timeoutId = setTimeout(() => {
+        organizeLayout({
+          direction: 'horizontal',
+          centerChildren: true,
+          parentChildSpacing: 100,
+          nodeWidth: 200,
+          nodeHeight: 100,
+        })
+      }, 300)
 
-  // Tick function: runs on every simulation step.
-  // It updates node positions in the global state and adjusts the viewport.
-  // const tick = () => {
-  // 	// Update the nodes in the Zustand store with new positions.
-  // 	setNodes(
-  // 		simulation.nodes().map((node: any) => ({
-  // 			...node,
-  // 			position: { x: node.x, y: node.y },
-  // 		})),
-  // 	);
-  // 	// Adjust viewport to fit updated node positions.
-  // 	reactFlowInstance.fitView();
-  // };
-
-  // Initialize the simulation when nodes or edges update.
-  // useEffect(() => {
-  // 	simulation.nodes(nodes);
-  // 	// Update the link force with the latest edges.
-  // 	simulation.force(
-  // 		"link",
-  // 		forceLink(edges).id((d: any) => d.id),
-  // 	);
-  // 	// Set the tick listener.
-  // 	simulation.on("tick", tick);
-  // 	// Restart the simulation.
-  // 	simulation.alpha(1).restart();
-
-  // 	// Cleanup on unmount.
-  // 	return () => {
-  // 		simulation.stop();
-  // 	};
-  // }, [nodes, edges, simulation]);
-
-  // const animateLayoutTransition = (newNodes: any) => {
-  // 	// Freeze current positions
-  // 	nodes.forEach((node) => {
-  // 		node.fx = node.x;
-  // 		node.fy = node.y;
-  // 	});
-
-  // 	// Start transition animation
-  // 	simulation.current.alphaTarget(0.3).restart();
-
-  // 	// Schedule final layout update
-  // 	setTimeout(() => {
-  // 		simulation.current.nodes(newNodes);
-  // 		simulation.current.alphaTarget(0);
-  // 		setNodes(newNodes);
-  // 	}, 1000);
-  // };
+      return () => clearTimeout(timeoutId)
+    }
+  }, [nodes.length, organizeLayout])
 
   const edgeOptions = {
     animated: true,
@@ -111,7 +61,7 @@ export function Graph(props: any) {
 
   return (
     <div
-      className='relative h-[100vh] w-[100vw] bg-black bg-repeat pointer-events-none z-0'
+      className='relative h-[100vh] w-[100vw] bg-black bg-repeat z-0'
       style={{
         backgroundImage:
           "url('data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2220%22%20height=%2220%22%20viewBox=%220%200%2020%2020%22%3E%3Ccircle%20cx=%221%22%20cy=%221%22%20r=%221%22%20fill=%22%23ccc%22%20fill-opacity=%220.3%22/%3E%3C/svg%3E')",
@@ -127,11 +77,11 @@ export function Graph(props: any) {
         edges={edges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
-        zoomOnScroll
         onConnect={onConnect}
         onNodesDelete={onNodesDelete}
         // connectionLineComponent={FloatingConnectionLine}
         elevateNodesOnSelect={true}
+        fitView
         defaultViewport={{
           zoom: 0,
           x: 0,
@@ -148,9 +98,6 @@ export function Graph(props: any) {
           <ThreadBoard />
           <CaseFilesAndEvidenceBoard />
         </Panel>
-        {/* <Panel position='bottom-left'>
-          
-        </Panel> */}
 
         <MindMapAnimatedClickMenu
           isOpen={isOpen}

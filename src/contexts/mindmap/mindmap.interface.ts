@@ -1,8 +1,9 @@
 import type { AddConnectionNodesFromSearchParams } from "@/contexts/mindmap";
 import type { DatabaseSchema } from "@/db/xata";
-import type { MindMapNode } from "@/features/mindmap/queries/fetch-next-mindmap-records";
+import type { MindMapNode } from "@/features/mindmap/actions/fetch-next-mindmap-records";
 import type { MindMapState, useMindMapStore } from "@/features/mindmap/store";
 import type { Edge, Node, XYPosition, useReactFlow } from "@xyflow/react";
+import { LayoutOptions } from '@/features/mindmap/layouts/organizeNodeLayout';
 
 // Define context interface with utility functions and UI state
 export interface MindMapContextType extends MindMapState {
@@ -135,4 +136,7 @@ export interface MindMapContextType extends MindMapState {
 	}) => Promise<{
 		childNodes: { groupNode: Node; groupNodeChildren: Node[] };
 	}>;
+
+	// Add our new layout function
+	organizeLayout: (options?: LayoutOptions) => void;
 }

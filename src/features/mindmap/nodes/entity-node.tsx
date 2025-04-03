@@ -1,4 +1,3 @@
- 
 'use client'
 import {memo, useEffect, useState, useCallback, Suspense} from 'react'
 import {Handle, Position, useNodesData, useUpdateNodeInternals} from '@xyflow/react'
@@ -170,7 +169,7 @@ const EntityNode: FC<EntityNodeProps> = memo(function EntityNode(props): ReactEl
           <CoreNodeTop>
             <div className='flex justify-between w-content align-center items-center ml-auto' />
           </CoreNodeTop>
-          <CoreNodeContent className='min-h-[100xp] max-w-[300px]'>
+          <CoreNodeContent className='min-h-[100xp]'>
             {component}
 
             {handles?.length > 0 &&

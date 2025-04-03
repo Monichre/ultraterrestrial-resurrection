@@ -36,6 +36,7 @@ import {ArrowDown, FileSearch, Lightbulb, Plus} from 'lucide-react'
 import {useCallback, useEffect, useRef, useState} from 'react'
 import {ENTITY_TYPES, type MindMapNode} from './mindmap-bottom-menu'
 import type {DatabaseSchema} from '@/db/xata'
+import {xataToXYFlow} from '@/features/mindmap/actions/xata-to-xyflow'
 
 export interface UserNode extends MindMapNode {
   type: 'userInputNode'
@@ -104,209 +105,99 @@ export const QuickActionsFloatingPanel = () => {
     return {startX, childY, entityWidth, entitySpacing}
   }, [])
 
-  //cc:loadingRecordsIntoMindMap[MindMapSideMenu]#1;handleLoadingRecord => addNextEntitiesToMindMap
-  // const handleLoadingRecords = useCallback(
-  //   async (rootNodeSim: {data: {type: string}}) => {
-  //     const calculateCenterOfScreen = () => {
-  //       const centerX = window.innerWidth / 2
-  //       const centerY = window.innerHeight / 2
-  //       return {x: centerX, y: centerY}
-  //     }
-
-  //     const center = screenToFlowPosition(calculateCenterOfScreen())
-
-  //     const {
-  //       data: {type},
-  //     } = rootNodeSim
-  //     const amount = type === 'events' ? '4' : '3'
-
-  //     const entities = await retrieveEntitiesFromStore(type as keyof DatabaseSchema)
-  //     const potentialUserNode: UserNode = {
-  //       id: getNextId(),
-  //       type: 'userInputNode',
-  //       position: {
-  //         ...center,
-  //       },
-  //       data: {
-  //         label: 'Your Query',
-  //         input: `Beginning your exploration by loading 3 ${type}. Fetching Data...`,
-  //         entities,
-  //         type: type,
-  //       },
-  //     }
-
-  //     const nodes = getNodes() // Replace with the appropriate method to retrieve nodes
-  //     const existingUserInputNodes = nodes
-  //       .filter(
-  //         (node: MindMapNode) => node.type === 'userInputNode' && node.id !== potentialUserNode.id
-  //       )
-  //       .sort((a: MindMapNode, b: MindMapNode) => {
-  //         // Assuming IDs are in the format 'userInputNode-<number>'
-  //         const aNum = Number.parseInt(a.id.split('-')[1], 10)
-  //         const bNum = Number.parseInt(b.id.split('-')[1], 10)
-  //         return aNum - bNum
-  //       })
-
-  //     // If there is at least one existing userInputNode, create an edge from the last one to the new one
-  //     let lastUserInputNode =
-  //       existingUserInputNodes.length > 0
-  //         ? existingUserInputNodes[existingUserInputNodes.length - 1]
-  //         : null
-  //     // Get width of last input node (assuming default width if not found)
-  //     const lastNodeWidth = lastUserInputNode
-  //       ? document.getElementById(lastUserInputNode.id)?.getBoundingClientRect().width || 200
-  //       : 200
-
-  //     // Calculate total width needed for entities with spacing
-  //     const entityWidth = 250 // Default entity node width
-  //     const entitySpacing = 50 // Space between entities
-  //     const totalEntitiesWidth =
-  //       (Array.isArray(entities) ? entities.length : 0) * entityWidth +
-  //       ((Array.isArray(entities) ? entities.length : 1) - 1) * entitySpacing
-
-  //     // Calculate starting X position to center entities under the last node
-  //     const startX = lastUserInputNode
-  //       ? lastUserInputNode.position.x - totalEntitiesWidth / 2 + lastNodeWidth / 2
-  //       : center.x - totalEntitiesWidth / 2
-
-  //     if (!lastUserInputNode) {
-  //       lastUserInputNode = potentialUserNode
-  //       addNodes(lastUserInputNode)
-  //     }
-
-  //     // let x = -( lastUserInputNode.position.x + 250 )
-  //     setNodes((nds: MindMapNode[]) => [
-  //       ...nds,
-  //       ...(Array.isArray(entities) ? entities : []).map(
-  //         (entity: MindMapNode) =>
-  //           ({
-  //             ...entity,
-  //             type: 'entityNode',
-  //             position: {
-  //               x: startX + 250,
-  //               y: 350,
-  //             },
-  //             parentId: lastUserInputNode?.id || null,
-  //           } as MindMapNode)
-  //       ),
-  //     ])
-
-  //     setEdges((edges: any) => [
-  //       ...edges,
-  //       ...(Array.isArray(entities) ? entities : []).map(
-  //         (entity: MindMapNode) =>
-  //           ({
-  //             id: `${lastUserInputNode?.id}-${entity.id}`,
-  //             source: lastUserInputNode?.id,
-  //             target: entity.id,
-  //             type: 'smoothstep',
-  //           } as any)
-  //       ),
-  //     ])
-  //     // Uncomment this to use the addNextEntitiesToMindMap function
-  //     // const result = await addNextEntitiesToMindMap(rootNodeSim);
-  //     // const { groupNode, groupNodeChildren } = result || { groupNode: null, groupNodeChildren: [] };
-
-  //     // if (groupNode && groupNodeChildren.length > 0) {
-  //     //   // Add code to handle the new nodes
-  //     // }
-  //   },
-  //   [
-  //     addEdges,
-  //     addNextEntitiesToMindMap,
-  //     addNodes,
-  //     screenToFlowPosition,
-  //     getNextId,
-  //     getNodes,
-  //     retrieveEntitiesFromStore,
-  //     setNodes,
-  //     setEdges,
-  //   ]
-  // )
-
   const calculateCenterOfScreen = useCallback(() => {
     return {x: window.innerWidth / 2, y: window.innerHeight / 2}
   }, [])
 
   const handleLoadingRecords = useCallback(
     async ({data: {type}}: {data: {type: string}}) => {
-      console.log('🚀 ~ MindMapBottomMenu ~ type:', type)
+      console.log('🚀 ~ MindMapSideMenu ~ type:', type)
 
       const amount = 3
       const center = screenToFlowPosition(calculateCenterOfScreen())
 
-      // Retrieve the entities for this type
-      const entities = await retrieveEntitiesFromStore(type as keyof DatabaseSchema)
-
-      console.log('🚀 ~ MindMapBottomMenu ~ entities:', entities)
-
-      const potentialUserNode: any = {
+      // Create a user input node first
+      const potentialUserNode = {
         id: getNextId(),
-        // type: "userInputNode",
         type: 'userInputNode',
         position: {...center},
         data: {
           label: 'Your Query',
           input: `Beginning your exploration by loading ${amount} ${type}. Fetching Data...`,
-          entities,
           type: type,
         },
       }
 
-      const nodes = getNodes()
+      // Add the user node to the graph
+      addNode(potentialUserNode)
 
-      console.log('🚀 ~ MindMapBottomMenu ~ nodes:', nodes)
+      try {
+        // Instead of retrieveEntitiesFromStore, use xataToXYFlow
+        const question = `Show me ${amount} interesting ${type} records and explain the relationships between them.`
+        const flowData = await xataToXYFlow({
+          question,
+          table: type,
+          prompt: `Find the most interesting ${type} records that have clear relationships between them`,
+          context: `The user is exploring the ${type} database and wants to see ${amount} records with interesting relationships.`,
+        })
 
-      const existingUserInputNodes = nodes?.length
-        ? nodes
-            .filter(
-              (node: any) => node.type === 'userInputNode' && node.id !== potentialUserNode.id
-            )
-            .sort((a: any, b: any) => {
-              const aNum = Number.parseInt(a.id.split('-')[1], 10)
-              const bNum = Number.parseInt(b.id.split('-')[1], 10)
-              return aNum - bNum
+        console.log('🚀 ~ handleLoadingRecords ~ flowData:', flowData)
+
+        if (flowData && flowData.nodes.length > 0) {
+          // Update the user input node with the AI analysis
+          if (flowData.context) {
+            updateNodeData(potentialUserNode.id, {
+              input: flowData.context,
             })
-        : []
+          }
 
-      // Use the last user input node as the parent (if it exists)
-      const parentNode =
-        existingUserInputNodes.length > 0
-          ? existingUserInputNodes[existingUserInputNodes.length - 1]
-          : potentialUserNode
+          // Position nodes relative to the user input node
+          const adjustedNodes = flowData.nodes
+            .map((node) => {
+              if (node.id !== 'query-result-node') {
+                // Only adjust entity nodes, not the AI analysis node which we already have
+                return {
+                  ...node,
+                  position: {
+                    x: potentialUserNode.position.x + node.position.x,
+                    y: potentialUserNode.position.y + 10, // Fixed vertical distance
+                  },
+                  parentId: potentialUserNode.id, // Connect to our user node instead
+                }
+              }
+              return null
+            })
+            .filter(Boolean)
 
-      addNode(parentNode)
+          // Add the entity nodes
+          addNodes(adjustedNodes)
 
-      // Compute positions for child nodes so they are centered under the parent
-      const {startX, childY, entityWidth, entitySpacing} = computeChildPositions(
-        parentNode,
-        entities.length
-      )
+          // Create edges from the user node to each entity node
+          const newEdges = adjustedNodes.map((node) => ({
+            id: `${potentialUserNode.id}-${node.id}`,
+            source: potentialUserNode.id,
+            target: node.id,
+            type: 'smoothstep',
+            animated: true,
+          }))
 
-      // Map each entity to a new node with computed positions and a parentId
-      const childNodes = entities.map((entity: any, index: number) => ({
-        ...entity,
-        type: 'entityNode',
-        position: {
-          x: startX + index * (entityWidth + entitySpacing),
-          y: childY,
-        },
-        parentId: parentNode?.id,
-      }))
-
-      // Add the child nodes to the graph
-      addNodes(childNodes)
-
-      // Create edges that connect the parent node to each child node
-      const newEdges = entities.map((entity: any) => ({
-        id: `${parentNode?.id}-${entity.id}`,
-        source: parentNode?.id,
-        target: entity.id,
-        type: 'smoothstep',
-      }))
-
-      // Add the edges to the graph
-      addEdges(newEdges)
+          // Add the edges
+          addEdges(newEdges)
+        } else {
+          // Update user node to show no results
+          updateNodeData(potentialUserNode.id, {
+            input: `No ${type} data found or there was an error fetching the data.`,
+          })
+        }
+      } catch (error) {
+        console.error('Error loading data for mind map:', error)
+        // Update user node to show error
+        updateNodeData(potentialUserNode.id, {
+          input: `Error loading ${type} data: ${
+            error instanceof Error ? error.message : 'Unknown error'
+          }`,
+        })
+      }
     },
     [
       calculateCenterOfScreen,
@@ -314,10 +205,10 @@ export const QuickActionsFloatingPanel = () => {
       getNextId,
       addNode,
       getNodes,
-      retrieveEntitiesFromStore,
       addNodes,
       addEdges,
-      computeChildPositions,
+      updateNodeData,
+      xataToXYFlow,
     ]
   )
 
@@ -339,7 +230,10 @@ export const QuickActionsFloatingPanel = () => {
       <FloatingPanelTrigger
         title='Entity Menu'
         className='flex items-center space-x-4 px-4 py-2 dark:bg-black text-white rounded-md transition-colors text-center'
-        onClick={() => setIsOpen(true)}>
+        onClick={(e) => {
+          e.preventDefault()
+          setIsOpen(true)
+        }}>
         <Plus className='w-5 h-5 stroke-1' stroke={ICON_GREEN} />
       </FloatingPanelTrigger>
       <FloatingPanelContent className='w-56 bg-black' forceMount={isOpen}>
@@ -363,7 +257,12 @@ export const QuickActionsFloatingPanel = () => {
           </AnimatePresence>
         </FloatingPanelBody>
         <FloatingPanelFooter>
-          <FloatingPanelCloseButton onClick={() => setIsOpen(false)} />
+          <FloatingPanelCloseButton
+            onClick={(e) => {
+              e.preventDefault()
+              setIsOpen(false)
+            }}
+          />
         </FloatingPanelFooter>
       </FloatingPanelContent>
     </FloatingPanelRoot>
@@ -461,24 +360,6 @@ export function MindMapSideMenu() {
               : { translateY: '3px', rotate: '0deg', scaleX: 1 }
           }
         /> */}
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                variant='ghost'
-                style={pressed}
-                size='icon'
-                className='text-zinc-100 rounded-full hover:bg-gray-600 hover:text-zinc-100 m-2'
-                onClick={toggleConciseView}>
-                <LayersIcon className='h-5 w-5 stroke-1' />
-                <span className='sr-only'>Stack</span>
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Keep opened cards on drawing board</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
       </div>
 
       <div className='flex flex-col items-center '>

@@ -11,7 +11,6 @@ export const getAllEvents = async () => {
 			const events = await xata.db.events
 				.getAll()
 				.then((res) => res.toSerializable());
-			console.log("🚀 ~ getAllEvents ~ events:", events);
 			return events;
 		} catch (error) {
 			console.error("Error fetching events:", error);

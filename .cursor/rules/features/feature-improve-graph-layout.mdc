@@ -1,0 +1,507 @@
+---
+description: 
+globs: src/features/mindmap/nodes/*.tsx,graph.tsx
+alwaysApply: false
+---
+  
+
+## Layouting | Node Positions | Node Connections
+
+
+```markdown
+# useNodeConnections()
+
+Source: @GitHub
+
+The `useNodeConnections` hook returns an array of connections on a specific node, handle type ('source', 'target') or handle ID.
+
+## Usage
+
+```jsx
+import { useNodeConnections } from '@xyflow/react';
+
+export default function () {
+  const connections = useNodeConnections({
+    handleType: 'target',
+    handleId: 'my-handle',
+  });
+
+  return (
+    <div>There are currently {connections.length} incoming connections!</div>
+  );
+}
+```
+
+## Signature
+
+### Parameters
+
+| Name         | Type                   | Description                                                                          |
+| :----------- | :--------------------- | :----------------------------------------------------------------------------------- |
+| `id?`        | `string`               | ID of the node, filled in automatically if used inside custom node                  |
+| `handleType?`  | `"source" \| "target"` | What type of handle connections do you want to observer?                           |
+| `handleId?`  | `string`               | ID of the handle                                                                   |
+| `onConnect?` | `(connections: Connection[]) => void` |  |
+| `onDisconnect?`| `(connections: Connection[]) => void` |  |
+
+### Returns
+
+| Name | Type              | Description |
+| :--- | :---------------- | :---------- |
+|      | `NodeConnection[]` |             |
+```
+
+
+
+
+### getNodesBounds()
+
+Returns the bounding box that contains all the given nodes in an array. This can be useful when combined with `getViewportForBounds` to calculate the correct transform to fit the given nodes in a viewport.
+
+ℹ️ This function was previously called `getRectOfNodes`
+
+#### Import
+
+```javascript
+import { getNodesBounds } from '@xyflow/react';
+```
+
+#### Example
+
+```javascript
+const nodes = [
+  {
+    id: 'a',
+    position: { x: 0, y: 0 },
+    data: { label: 'a' },
+    width: 50,
+    height: 25,
+  },
+  {
+    id: 'b',
+    position: { x: 100, y: 100 },
+    data: { label: 'b' },
+    width: 50,
+    height: 25,
+  },
+];
+
+const bounds = getNodesBounds(nodes);
+```
+
+#### Signature
+
+```typescript
+getNodesBounds(nodes: Node[]): Rect
+```
+
+| Name  | Type    |
+| :---- | :------ |
+| nodes | `Node[]` |
+
+##### Returns
+
+`Rect`
+
+---
+
+The `Rect` type is not defined in the provided text.
+
+Okay, here's the scraped content from the provided React Flow documentation page, formatted as Markdown, with a focus on code samples and relevant details:
+
+```markdown
+## getSmoothStepPath() - React Flow Util
+
+The `getSmoothStepPath` util returns everything you need to render a stepped path between two nodes. The `borderRadius` property can be used to choose how rounded the corners of those steps are.
+
+### Import
+
+```javascript
+import { Position, getSmoothStepPath } from '@xyflow/react';
+```
+
+### Example
+
+```javascript
+const source = { x: 0, y: 20 };
+const target = { x: 150, y: 100 };
+
+const [path, labelX, labelY, offsetX, offsetY] = getSmoothStepPath({
+  sourceX: source.x,
+  sourceY: source.y,
+  sourcePosition: Position.Right,
+  targetX: target.x,
+  targetY: target.y,
+  targetPosition: Position.Left,
+});
+
+console.log(path); //=> "M0 20L20 20L 70,20Q 75,20 75,25L 75,95Q ..."
+console.log(labelX, labelY); //=> 75, 60
+console.log(offsetX, offsetY); //=> 75, 40
+```
+
+### Signature
+
+`getSmoothStepPath(params: SmoothStepPathParams): SmoothStepPathResult`
+
+#### Params
+
+| Name           | Type     | Default          | Description                                                                           |
+| -------------- | -------- | ---------------- | ------------------------------------------------------------------------------------- |
+| `sourceX`      | `number` |                  |                                                                                       |
+| `sourceY`      | `number` |                  |                                                                                       |
+| `sourcePosition` | `Position` | `Position.Bottom` |                                                                                       |
+| `targetX`      | `number` |                  |                                                                                       |
+| `targetY`      | `number` |                  |                                                                                       |
+| `targetPosition` | `Position` | `Position.Top`    |                                                                                       |
+| `borderRadius` | `number` | `5`              |                                                                                       |
+| `centerX`      | `number` |                  |                                                                                       |
+| `centerY`      | `number` |                  |                                                                                       |
+| `offset`       | `number` | `20`             |                                                                                       |
+
+#### Returns
+
+| Index | Type     | Description                                                                        |
+| ----- | -------- | ---------------------------------------------------------------------------------- |
+| `[0]` | `string` | The path to use in an SVG `<path>` element.                                        |
+| `[1]` | `number` | The x position you can use to render a label for this edge.                        |
+| `[2]` | `number` | The y position you can use to render a label for this edge.                        |
+| `[3]` | `number` | The absolute difference between the source x position and the x position of the middle of this path. |
+| `[4]` | `number` | The absolute difference between the source y position and the y position of the middle of this path. |
+
+### Notes
+
+*   This function returns a tuple (aka a fixed-size array) to make it easier to work with multiple edge paths at once.
+*   You can set the `borderRadius` property to `0` to get a step edge path.
+
+
+```markdown
+## getIncomers() - React Flow
+
+This util is used to tell you what nodes, if any, are connected to the given node as the source of an edge.
+
+### Signature
+
+```typescript
+getIncomers(node: Node, nodes: Node[], edges: Edge[]): Node[]
+```
+
+### Parameters
+
+| Name  | Type    | Description                                                                                                                                                                                             |
+| :---- | :------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| node  | `Node`  | The target node to find incomers for.                                                                                                                                                                |
+| nodes | `Node[]` | An array of all nodes in the React Flow graph.                                                                                                                                                       |
+| edges | `Edge[]` | An array of all edges in the React Flow graph.  An edge represents a connection between two nodes.  The function will use these edges to determine which nodes are connected to the input `node`. |
+
+### Returns
+
+`Node[]`: An array of `Node` objects that are incomers to the given node.
+
+### Example
+
+```javascript
+import { getIncomers } from '@xyflow/react';
+
+const nodes = [];
+const edges = [];
+
+const incomers = getIncomers(
+  { id: '1', position: { x: 0, y: 0 }, data: { label: 'node' } },
+  nodes,
+  edges,
+);
+```
+
+Okay, I have scraped the content from the provided React Flow documentation page for `getOutgoers()`. Here's the information, formatted as Markdown, prioritizing code samples and related details:
+
+```markdown
+## getOutgoers() - React Flow Utility
+
+This utility function identifies which nodes are connected to a given node as the *target* of an edge. In simpler terms, it finds the nodes that the given node "points to" via edges.
+
+**Import:**
+
+```javascript
+import { getOutgoers } from '@xyflow/react';
+```
+
+**Description:**
+
+The `getOutgoers` function takes a node, a list of nodes, and a list of edges as input. It returns an array of nodes that are connected to the input node as targets of edges.
+
+**Signature:**
+
+```typescript
+getOutgoers(node: Node, nodes: Node[], edges: Edge[]): Node[]
+```
+
+**Parameters:**
+
+| Name    | Type     | Description                                                                                                    |
+| :------ | :------- | :------------------------------------------------------------------------------------------------------------- |
+| `node`  | `Node`   | The node for which to find outgoing connections.                                                            |
+| `nodes` | `Node[]` | An array containing all nodes in the React Flow graph.                                                     |
+| `edges` | `Edge[]` | An array containing all edges in the React Flow graph.                                                     |
+
+**Return Value:**
+
+*   `Node[]`: An array of `Node` objects that are the targets (outgoers) of the given `node`.
+
+**Example:**
+
+```javascript
+const nodes = [
+  { id: '1', position: { x: 0, y: 0 }, data: { label: 'node 1' } },
+  { id: '2', position: { x: 100, y: 0 }, data: { label: 'node 2' } },
+  { id: '3', position: { x: 0, y: 100 }, data: { label: 'node 3' } },
+];
+const edges = [
+  { id: 'e1-2', source: '1', target: '2' },
+  { id: 'e1-3', source: '1', target: '3' },
+];
+
+const outgoers = getOutgoers(
+  { id: '1', position: { x: 0, y: 0 }, data: { label: 'node' } },
+  nodes,
+  edges,
+);
+
+console.log(outgoers);
+// Expected Output:
+// [
+//   { id: '2', position: { x: 100, y: 0 }, data: { label: 'node 2' } },
+//   { id: '3', position: { x: 0, y: 100 }, data: { label: 'node 3' } }
+// ]
+```
+
+**Important Considerations:**
+
+*   The function relies on the `id` property of nodes and the `source` and `target` properties of edges to determine connections.
+*   The `nodes` and `edges` arrays must accurately represent the graph structure for `getOutgoers` to return correct results.
+*   The order of nodes in the `outgoers` array is not guaranteed.
+
+```json
+// Example Node and Edge Objects (for reference)
+// Node
+{
+  "id": "node-1",
+  "position": { "x": 100, "y": 100 },
+  "data": { "label": "My Node" }
+}
+
+// Edge
+{
+  "id": "edge-1-2",
+  "source": "node-1",
+  "target": "node-2"
+}
+```
+
+
+
+
+```markdown
+## getConnectedEdges() - React Flow
+
+This utility filters an array of edges, keeping only those where either the source or target node is present in the given array of nodes.
+
+### Import
+
+```javascript
+import { getConnectedEdges } from '@xyflow/react';
+```
+
+### Example
+
+```javascript
+const nodes = [
+  { id: 'a', position: { x: 0, y: 0 } },
+  { id: 'b', position: { x: 100, y: 0 } },
+];
+const edges = [
+  { id: 'a->c', source: 'a', target: 'c' },
+  { id: 'c->d', source: 'c', target: 'd' },
+];
+
+const connectedEdges = getConnectedEdges(nodes, edges);
+// => [{ id: 'a->c', source: 'a', target: 'c' }]
+```
+
+### Signature
+
+```typescript
+getConnectedEdges(nodes: Node[], edges: Edge[]): Edge[]
+```
+
+### Parameters
+
+| Name    | Type     | Description                                                                                |
+| :------ | :------- | :----------------------------------------------------------------------------------------- |
+| `nodes` | `Node[]` | An array of nodes.                                                                        |
+| `edges` | `Edge[]` | An array of edges to filter. The function returns edges connected to the provided `nodes`. |
+
+### Returns
+
+`Edge[]`: An array of edges that are connected to at least one of the provided nodes.
+```
+
+
+Okay, here's the scraped content from the provided React Flow documentation page, formatted in Markdown, with a focus on code samples and JSON responses, and organized for clarity:
+
+### `getViewportForBounds()` - React Flow Util
+
+This utility function calculates the ideal viewport (pan and zoom) to fit a given bounding box within a specified area.  It's useful for pre-calculating the viewport or determining the correct view without directly manipulating the React Flow instance.
+
+**Source:** @Github
+
+**Import:**
+
+```javascript
+import { getViewportForBounds } from '@xyflow/react';
+```
+
+**Description:**
+
+`getViewportForBounds` calculates the `x`, `y`, and `zoom` values required to perfectly fit a rectangular area (defined by `bounds`) within a container of a given `width` and `height`, while respecting `minZoom`, `maxZoom`, and an optional `padding`.
+
+**Signature:**
+
+```typescript
+getViewportForBounds(
+  bounds: Rect,
+  width: number,
+  height: number,
+  minZoom: number,
+  maxZoom: number,
+  padding?: number
+): Viewport
+```
+
+| Param     | Type   | Default | Description                                                                 |
+| :---------- | :----- | :------ | :-------------------------------------------------------------------------- |
+| `bounds`  | `Rect` |         | The bounding box to fit, defined as `{ x: number, y: number, width: number, height: number }`. |
+| `width`   | `number` |         | The width of the container viewport.                                        |
+| `height`  | `number` |         | The height of the container viewport.                                       |
+| `minZoom` | `number` |         | The minimum allowed zoom level.                                             |
+| `maxZoom` | `number` |         | The maximum allowed zoom level.                                             |
+| `padding` | `number` | `0.1`   | Optional padding (as a ratio of the container size) around the bounds.      |
+
+**Returns:**
+
+| Name       | Type       | Description                                                                    |
+| :----------- | :--------- | :----------------------------------------------------------------------------- |
+| `viewport` | `Viewport` | An object containing the calculated `x`, `y`, and `zoom` values: `{ x: number, y: number, zoom: number }`. |
+
+**Example:**
+
+```javascript
+const { x, y, zoom } = getViewportForBounds(
+  {
+    x: 0,
+    y: 0,
+    width: 100,
+    height: 100,
+  },
+  1200,
+  800,
+  0.5,
+  2,
+);
+
+console.log({x, y, zoom})
+```
+
+**Return Value Example:**
+
+```json
+{
+  "x": -550,
+  "y": -250,
+  "zoom": 6
+}
+```
+
+**Notes:**
+
+*   `Rect` type is defined as:
+
+    ```typescript
+    type Rect = {
+      x: number;
+      y: number;
+      width: number;
+      height: number;
+    };
+    ```
+*   `Viewport` type is defined as:
+
+    ```typescript
+    type Viewport = {
+        x: number;
+        y: number;
+        zoom: number;
+    };
+    ```
+*   For more user-friendly APIs, consider using the `fitView` or `fitBounds` methods of the React Flow instance.
+*   This function was previously called `getTransformForBounds`.
+
+  
+  ```typescript
+  const updateNodeDimensions = useCallback((nodeId: string, width: number, height: number) => {
+    setNodeDimensions(prev => ({
+      ...prev,
+      [nodeId]: { width, height },
+    }))
+  }, [])
+
+  const organizeLayout = useCallback(() => {
+    if (!reactFlowInstance) return
+
+    const horizontalSpacing = 50
+    const verticalSpacing = 100
+
+    const rootNodes = nodes.filter(node => !edges.some(edge => edge.target === node.id))
+    const childrenMap = new Map<string, string[]>()
+
+    edges.forEach(edge => {
+      if (!childrenMap.has(edge.source)) {
+        childrenMap.set(edge.source, [])
+      }
+      childrenMap.get(edge.source)!.push(edge.target)
+    })
+
+    const positionNode = (nodeId: string, x: number, y: number, level: number): { width: number; height: number } => {
+      const node = nodes.find(n => n.id === nodeId)
+      if (!node) return { width: 0, height: 0 }
+
+      const nodeDim = nodeDimensions[nodeId] || { width: 200, height: 100 } // Default dimensions if not available
+      node.position = { x: x - nodeDim.width / 2, y }
+
+      const children = childrenMap.get(nodeId) || []
+      let totalChildrenWidth = 0
+      let maxChildHeight = 0
+
+      children.forEach((childId, index) => {
+        const childDim = positionNode(childId, x + totalChildrenWidth, y + nodeDim.height + verticalSpacing, level + 1)
+        totalChildrenWidth += childDim.width + (index < children.length - 1 ? horizontalSpacing : 0)
+        maxChildHeight = Math.max(maxChildHeight, childDim.height)
+      })
+
+      const totalWidth = Math.max(nodeDim.width, totalChildrenWidth)
+      const totalHeight = nodeDim.height + (maxChildHeight > 0 ? verticalSpacing + maxChildHeight : 0)
+
+      return { width: totalWidth, height: totalHeight }
+    }
+
+    let totalWidth = 0
+    rootNodes.forEach((rootNode, index) => {
+      const { width } = positionNode(rootNode.id, totalWidth, 0, 0)
+      totalWidth += width + (index < rootNodes.length - 1 ? horizontalSpacing : 0)
+    })
+
+    setNodes([...nodes])
+    reactFlowInstance.fitView({ padding: 0.2 })
+  }, [nodes, edges, nodeDimensions, reactFlowInstance, setNodes])
+
+  ```

@@ -3,7 +3,12 @@ import path from "node:path";
 const nextConfig = {
 	reactStrictMode: true,
 
-	transpilePackages: ["three", "@react-three/fiber", "@react-three/drei"],
+	transpilePackages: [
+		"three",
+		"@react-three/fiber",
+		"@react-three/drei",
+		"gsap",
+	],
 	crossOrigin: "anonymous",
 
 	typescript: {
@@ -43,6 +48,7 @@ const nextConfig = {
 	},
 	experimental: {
 		taint: true,
+		
 		optimizePackageImports: [
 			"three",
 			"@react-three/drei",

@@ -3,7 +3,7 @@ import {TextScramble} from '@/components/animated/text-effect/text-scramble/text
 import {animate, motion} from 'framer-motion'
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react'
 
-export const TimelineHorizontal = React.memo(({years, currentYearIndex: yearIndex = 0}: any) => {
+export const HorizontalTimeline = React.memo(({years, currentYearIndex: yearIndex = 0}: any) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(yearIndex)
   const [selected, setSelected] = useState<number | null>(null)
 
