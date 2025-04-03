@@ -14,17 +14,17 @@ export const nextTick = async (frames = 1) => {
 
 // utils/wait.js
 export const wait = async (seconds: number) => {
-	return new Promise((resolve: any) => {
+	return new Promise((resolve: unknown) => {
 		setTimeout(() => {
 			resolve();
 		}, seconds * 1000); // Convert seconds to milliseconds
 	});
 };
 
-export const firstOf = <T = any>(datas?: T[]) =>
+export const firstOf = <T = unknown>(datas?: T[]) =>
 	datas ? (datas.length < 1 ? undefined : datas[0]) : undefined;
 
-export const lastOf = <T = any>(datas?: T[]) =>
+export const lastOf = <T = unknown>(datas?: T[]) =>
 	datas ? (datas.length < 1 ? undefined : datas[datas.length - 1]) : undefined;
 
 export const randomInt = (min: number, max?: number) => {
@@ -35,7 +35,7 @@ export const randomInt = (min: number, max?: number) => {
 	return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
-export const pickOne = <T = any>(datas: T[]) =>
+export const pickOne = <T = unknown>(datas: T[]) =>
 	datas.length < 1 ? undefined : datas[randomInt(datas.length - 1)];
 
 export const range = (start: number, end?: number) => {
@@ -53,12 +53,12 @@ export function clamp(num: number, min: number, max: number): number {
 	return num < max ? (num > min ? num : min) : max;
 }
 
-export const toSet = <T = any>(datas: T[], byKey?: (e: T) => any) => {
+export const toSet = <T = unknown>(datas: T[], byKey?: (e: T) => unknown) => {
 	if (byKey) {
 		const keys: Record<string, boolean> = {};
 		const newDatas: T[] = [];
 		datas.forEach((e) => {
-			const key = jsonEncode({ key: byKey(e) }) as any;
+			const key = jsonEncode({ key: byKey(e) }) as unknown;
 			if (!keys[key]) {
 				newDatas.push(e);
 				keys[key] = true;
@@ -69,7 +69,7 @@ export const toSet = <T = any>(datas: T[], byKey?: (e: T) => any) => {
 	return Array.from(new Set(datas));
 };
 
-export function jsonEncode(obj: any, prettier = false) {
+export function jsonEncode(obj: unknown, prettier = false) {
 	try {
 		return prettier ? JSON.stringify(obj, undefined, 4) : JSON.stringify(obj);
 	} catch (error) {
@@ -86,11 +86,11 @@ export function jsonDecode(json: string | undefined) {
 	}
 }
 
-export function removeEmpty<T = any>(data: T): T {
+export function removeEmpty<T = unknown>(data: T): T {
 	if (Array.isArray(data)) {
-		return data.filter((e) => e != undefined) as any;
+		return data.filter((e) => e != undefined) as unknown;
 	}
-	const res = {} as any;
+	const res = {} as unknown;
 	for (const key in data) {
 		if (data[key] != undefined) {
 			res[key] = data[key];
@@ -105,7 +105,7 @@ export const deepClone = <T>(obj: T): T => {
 	}
 
 	if (Array.isArray(obj)) {
-		const copy: any[] = [];
+		const copy: unknown[] = [];
 		obj.forEach((item, index) => {
 			copy[index] = deepClone(item);
 		});
@@ -117,7 +117,7 @@ export const deepClone = <T>(obj: T): T => {
 
 	for (const key in obj) {
 		if (Object.prototype.hasOwnProperty.call(obj, key)) {
-			(copy as any)[key] = deepClone((obj as any)[key]);
+			(copy as unknown)[key] = deepClone((obj as unknown)[key]);
 		}
 	}
 
@@ -128,7 +128,7 @@ export function capitalize(str: string): string {
 	return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-export function flattenArray(arr: any[]): any[] {
+export function flattenArray(arr: unknown[]): unknown[] {
 	return arr.reduce((acc, val) => {
 		return Array.isArray(val) ? acc.concat(flattenArray(val)) : acc.concat(val);
 	}, []);
@@ -170,12 +170,12 @@ export function calculateRadius(itemCount: number) {
 }
 
 export const computeWordRefsWithPosition = (
-	positionsByRecordId: any,
-	items: any[],
+	positionsByRecordId: unknown,
+	items: unknown[],
 ) => {
 	const radius = calculateRadius(items.length);
 	console.log("radius: ", radius);
-	const positioned = items.map((item: any, idx: number) => {
+	const positioned = items.map((item: unknown, idx: number) => {
 		console.log("item: ", item);
 		const phi = Math.acos(-1 + (2 * idx) / items.length);
 		const theta = Math.sqrt(items.length * Math.PI) * phi;

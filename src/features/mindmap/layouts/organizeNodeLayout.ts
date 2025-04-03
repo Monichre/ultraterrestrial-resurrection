@@ -89,7 +89,7 @@ export function organizeNodeLayout(
       }, 0);
       
       // Calculate starting position to center the children under the parent
-      let startX = centerChildren ? -totalWidth / 2 + getNodeWidth(children[0]) / 2 : 0;
+      const startX = centerChildren ? -totalWidth / 2 + getNodeWidth(children[0]) / 2 : 0;
       
       // Position each child
       let currentX = startX;
@@ -117,7 +117,7 @@ export function organizeNodeLayout(
       }, 0);
       
       // Center children vertically if requested
-      let startY = centerChildren ? -totalHeight / 2 + getNodeHeight(children[0]) / 2 : 0;
+      const startY = centerChildren ? -totalHeight / 2 + getNodeHeight(children[0]) / 2 : 0;
       
       // Position each child
       let currentY = startY;

@@ -8,8 +8,9 @@ import {
   getEntityNetworkGraphData,
 } from '@/features/mindmap/actions/get-entity-network-graph-data'
 
-import {MindMapCursor} from '@/components/cursors'
+// import {MindMapCursor} from '@/components/cursors'
 import {StateOfDisclosureProvider} from '@/contexts'
+
 // import { useChatRuntime } from "@assistant-ui/react-ai-sdk"
 
 export default async function Index() {
@@ -17,12 +18,14 @@ export default async function Index() {
 
   return (
     // <AssistantRuntimeProvider runtime={runtime}>
+
     <Suspense fallback={<Loading />}>
       {/* <MindMapCursor type="gooey" /> */}
       <StateOfDisclosureProvider stateOfDisclosure={data}>
         <MindMap />
       </StateOfDisclosureProvider>
     </Suspense>
+
     // </AssistantRuntimeProvider>
   )
 }

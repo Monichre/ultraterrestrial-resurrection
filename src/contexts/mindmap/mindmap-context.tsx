@@ -404,6 +404,7 @@ export const MindMapProvider = ({children}: {children: React.ReactNode}) => {
     [store.addNodes, store.addEdges]
   )
 
+  // #1: FIRST STEP
   // Initialize graph from 3D graph data
   useEffect(() => {
     // Only set graph state if it's empty or null
@@ -951,7 +952,6 @@ export const MindMapProvider = ({children}: {children: React.ReactNode}) => {
       searchResults.forEach((result: any, i: any) => {
         const {type} = result
         const node = graph[type]?.nodes.find((node: {id: any}) => node?.id === result.id)
-        p
 
         if (node) {
           const degrees = i * (360 / 8)

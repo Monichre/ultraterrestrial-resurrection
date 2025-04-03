@@ -2,7 +2,27 @@
 
 import { xata } from "@/db/xata/client";
 import { UAPSightingSchema, type ValidatedUAPSighting } from "../uap-sighting";
-import { useState, useRef, useEffect, useCallback } from "react";
+
+// Xata response types - define these based on actual API responses
+interface XataAggregationResult {
+	summaries?: {
+		yearCount?: Record<string, number>;
+		shapeCount?: Record<string, number>;
+		cityCount?: Record<string, number>;
+	};
+}
+
+interface XataRecord {
+	id: string;
+	date?: Date;
+	description?: string;
+	city?: string;
+	shape?: string;
+	latitude?: number;
+	longitude?: number;
+	media_link?: string;
+	[key: string]: any;
+}
 
 /**
  * Fetch sightings within a specified time chunk using Xata's aggregate functionality
@@ -21,6 +41,7 @@ export async function getSightingsByTimeChunk(
 		const endDate = new Date(`${endYear}-12-31T23:59:59Z`);
 
 		// Use Xata's filter to get sightings within date range
+		// @ts-ignore - Xata API types may need updating
 		const sightingsRecords = await xata.db.sightings
 			.filter({
 				date: {
@@ -37,7 +58,7 @@ export async function getSightingsByTimeChunk(
 
 		// Convert to ValidatedUAPSighting format
 		const sightings = sightingsRecords.records
-			.map((record) => {
+			.map((record: XataRecord) => {
 				// Transform from Xata format to UAPSighting format
 				const transformed = {
 					id: record.id,
@@ -87,54 +108,63 @@ export async function getSightingsByTimeChunk(
 export async function getSightingsStats(
 	startYear = 1940,
 	endYear: number = new Date().getFullYear(),
-) {
+): Promise<{
+	totalSightings: number;
+	byType: Record<string, number>;
+	byYear: Record<string, number>;
+	byLocation: Record<string, number>;
+	timeRange: {
+		startYear: number;
+		endYear: number;
+	};
+}> {
 	try {
 		// Calculate date range
 		const startDate = new Date(`${startYear}-01-01T00:00:00Z`);
 		const endDate = new Date(`${endYear}-12-31T23:59:59Z`);
 
 		// Use Xata's summarize for shape distribution
-		const shapesAggregation = await xata.db.sightings.summarize({
+		// @ts-ignore - Xata API types may need updating
+		const shapesAggregation: XataAggregationResult =
+			await xata.db.sightings.summarize({
 				filter: {
 					date: {
 						$ge: startDate,
 						$le: endDate,
+					},
 				},
-        	columns: ["shape"],
+				columns: ["shape"],
 				summaries: {
 					shapeCount: { count: "*" },
 				},
-			}
-			
-		
-
-			})
+			});
 
 		// Summarize for time series data by year
-		const timeSeriesAggregation = await xata.db.sightings.summarize({
-      filter: {
-				date: {
-					$ge: startDate,
-					$le: endDate,
+		// @ts-ignore - Xata API types may need updating
+		const timeSeriesAggregation: XataAggregationResult =
+			await xata.db.sightings.summarize({
+				filter: {
+					date: {
+						$ge: startDate,
+						$le: endDate,
+					},
 				},
 				columns: ["date"],
 				summaries: {
 					yearCount: { count: "*" },
 				},
-      }
 			});
-			
-
 
 		// Summarize by location
-    // @ts-ignore
-		const locationAggregation = await xata.db.sightings.summarize({
-			filter: {
-				date: {
-					$ge: startDate,
-					$le: endDate,
+		// @ts-ignore - Xata API types may need updating
+		const locationAggregation: XataAggregationResult =
+			await xata.db.sightings.summarize({
+				filter: {
+					date: {
+						$ge: startDate,
+						$le: endDate,
+					},
 				},
-			},
 				columns: ["city"],
 				summaries: {
 					cityCount: { count: "*" },
@@ -142,15 +172,18 @@ export async function getSightingsStats(
 			});
 
 		// Process and return the aggregated data
+		const yearCounts = timeSeriesAggregation.summaries?.yearCount || {};
+		let totalSightings = 0;
+
+		// Calculate total sightings
+		Object.values(yearCounts).forEach((count) => {
+			totalSightings += count;
+		});
+
 		return {
-			totalSightings: timeSeriesAggregation.summaries?.yearCount
-				? Object.values(timeSeriesAggregation.summaries.yearCount).reduce(
-						(sum: number, count: any) => sum + (count as number),
-						0
-				  )
-				: 0,
+			totalSightings,
 			byType: shapesAggregation.summaries?.shapeCount || {},
-			byYear: timeSeriesAggregation.summaries?.yearCount || {},
+			byYear: yearCounts,
 			byLocation: locationAggregation.summaries?.cityCount || {},
 			timeRange: {
 				startYear,
@@ -180,7 +213,19 @@ export async function getSightingsStats(
 export async function getSightingsBatched(
 	timeRanges: { startYear: number; endYear: number }[],
 	limit = 50,
-): Promise<{ sightings: ValidatedUAPSighting[]; stats: any }> {
+): Promise<{
+	sightings: ValidatedUAPSighting[];
+	stats: {
+		totalSightings: number;
+		byType: Record<string, number>;
+		byYear: Record<string, number>;
+		byLocation: Record<string, number>;
+		timeRange: {
+			startYear: number;
+			endYear: number;
+		};
+	};
+}> {
 	try {
 		// Process batches in parallel
 		const batchPromises = timeRanges.map((range) =>
@@ -216,7 +261,9 @@ export async function getSightingsBatched(
 				byLocation: {},
 				timeRange: {
 					startYear: timeRanges[0]?.startYear || 1940,
-					endYear: timeRanges[timeRanges.length - 1]?.endYear || new Date().getFullYear(),
+					endYear:
+						timeRanges[timeRanges.length - 1]?.endYear ||
+						new Date().getFullYear(),
 				},
 			},
 		};
@@ -224,7 +271,7 @@ export async function getSightingsBatched(
 }
 
 // Configuration for different zoom levels
-const ZOOM_LEVEL_CONFIG = {
+export const ZOOM_LEVEL_CONFIG = {
 	far: {
 		// When zoomed out, only show clusters
 		showIndividualPoints: false,
@@ -248,135 +295,8 @@ const ZOOM_LEVEL_CONFIG = {
 };
 
 // Select rendering strategy based on camera distance
-function getZoomConfig(cameraDistance: number) {
+export function getZoomConfig(cameraDistance: number) {
 	if (cameraDistance > 6) return ZOOM_LEVEL_CONFIG.far;
 	if (cameraDistance > 3) return ZOOM_LEVEL_CONFIG.medium;
 	return ZOOM_LEVEL_CONFIG.close;
-}
-
-// Use this in the Globe component to determine what to render
-function renderPoints(sightings, clusters, cameraDistance) {
-	const config = getZoomConfig(cameraDistance);
-
-	return (
-		<>
-			{(config.useAggregates || clusters.length > 0) && (
-				<ClusterLayer 
-					clusters={clusters.filter(c => c.count >= config.minClusterSize)} 
-				/>
-			)}
-			
-			{config.showIndividualPoints && (
-				<PointsLayer 
-					points={sightings.slice(0, config.maxPointsToShow)} 
-				/>
-			)}
-		</>
-	);
-}
-
-// Enhanced time animation with aggregated data
-function useTimeSeriesWithAggregation(timeRange: [Date, Date]) {
-	const [currentTime, setCurrentTime] = useState(timeRange[0]);
-	const [isPlaying, setIsPlaying] = useState(false);
-	const [timeData, setTimeData] = useState([]);
-	const animationRef = useRef<number | null>(null);
-
-	// Fetch time-based data using aggregation
-	useEffect(() => {
-		async function fetchTimeData() {
-			try {
-				const results = await xata.db.sightings.aggregate(
-					{
-						byDay: {
-							count: {
-								groupBy: {
-									dateColumn: "date",
-									method: "byDay",
-								},
-							},
-						},
-					},
-					{
-						filter: {
-							date: {
-								$ge: timeRange[0],
-								$le: timeRange[1],
-							},
-						},
-						consistency: "eventual",
-					},
-				);
-
-				// Format the time series data
-				const formattedData = results.aggs.byDay
-					.map((day) => ({
-						date: new Date(day.value),
-						count: day.count,
-					}))
-					.sort((a, b) => a.date.getTime() - b.date.getTime());
-
-				setTimeData(formattedData);
-			} catch (err) {
-				console.error("Error fetching time series data:", err);
-			}
-		}
-
-		fetchTimeData();
-	}, [timeRange]);
-
-	// Animation control functions
-	const play = useCallback(() => {
-		if (isPlaying) return;
-
-		setIsPlaying(true);
-		const startTime = Date.now();
-		const timeSpan = timeRange[1].getTime() - timeRange[0].getTime();
-		const animationDuration = 10000; // 10 seconds for full animation
-
-		const animate = () => {
-			const elapsed = Date.now() - startTime;
-			const progress = Math.min(elapsed / animationDuration, 1);
-
-			// Calculate current time based on progress
-			const currentTimeValue = new Date(
-				timeRange[0].getTime() + progress * timeSpan,
-			);
-			setCurrentTime(currentTimeValue);
-
-			if (progress < 1) {
-				animationRef.current = requestAnimationFrame(animate);
-			} else {
-				setIsPlaying(false);
-			}
-		};
-
-		animationRef.current = requestAnimationFrame(animate);
-	}, [timeRange, isPlaying]);
-
-	const pause = useCallback(() => {
-		if (!isPlaying || animationRef.current === null) return;
-
-		cancelAnimationFrame(animationRef.current);
-		animationRef.current = null;
-		setIsPlaying(false);
-	}, [isPlaying]);
-
-	// Cleanup
-	useEffect(() => {
-		return () => {
-			if (animationRef.current !== null) {
-				cancelAnimationFrame(animationRef.current);
-			}
-		};
-	}, []);
-
-	return {
-		currentTime,
-		isPlaying,
-		timeData,
-		play,
-		pause,
-		setCurrentTime,
-	};
 }

@@ -1,11 +1,13 @@
 import type { Config } from "tailwindcss";
 const tailwindAnimate = require("tailwindcss-animate");
 const svgToDataUri = require("mini-svg-data-uri");
+const plugin = require("tailwindcss/plugin");
+const flattenColorPalette = require("tailwindcss/lib/util/flattenColorPalette");
 
-const {
-	default: flattenColorPalette,
-} = require("tailwindcss/lib/util/flattenColorPalette");
-// const flattenColorPalette = require( 'tailwindcss/lib/util/flattenColorPalette' )
+// const {
+// 	default: flattenColorPalette,
+// } = require("tailwindcss/lib/util/flattenColorPalette");
+// // const flattenColorPalette = require( 'tailwindcss/lib/util/flattenColorPalette' )
 
 const storyPaths = [
 	"./src/**/*.mdx",

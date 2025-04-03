@@ -1,0 +1,19 @@
+{
+  "id": "mig_cvmfsedfchh2dtob7d70",
+  "parentID": "mig_cvmfs6qglbhgau6ctq20",
+  "checksum": "1:1be90e42f67c8412fb039670534a652b0d2ef15b21aba9cd7ad75e433667a1c3",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "embedding",
+          "type": "vector",
+          "vector": {
+            "dimension": 1536
+          }
+        },
+        "table": "personnel"
+      }
+    }
+  ]
+}

@@ -162,7 +162,12 @@ export const UserInputNode = memo((props: NodeProps) => {
             <motion.div className='mb-[35px] w-full flex justify-center'>
               <Anchor className='' ref={anchorRef} />
             </motion.div>
-            <AnimatedBeam {...getBeamProps()} />
+            <AnimatedBeam
+              duration={3}
+              containerRef={containerRef}
+              fromRef={anchorRef}
+              toRef={nodeRef}
+            />
           </>
         )}
       </AnimatePresence>

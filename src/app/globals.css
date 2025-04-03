@@ -1,8 +1,9 @@
+@import "tailwindcss";
 
-@plugin '@tailwindcss/typography';
-@config ".././tailwind.config.ts";
+/* @plugin '@tailwindcss/typography'; */
+/* @config "../../tailwind.config.ts"; */
 
-@custom-variant dark (&:is(.dark *));
+/* @custom-variant dark (&:is(.dark *)); */
 
 @theme {
 	--background: 0 0% 100%;
@@ -81,7 +82,7 @@
 	}
 }
 
-.\!shadow-custom-md {
+.shadow-custom-md {
 	--tw-shadow:
 		0 0 0 1px rgba(51, 51, 51, 0.04), 0 1px 1px 0.5px rgba(51, 51, 51, 0.04), 0 3px 3px -1.5px rgba(
 			51,
@@ -579,7 +580,7 @@
 }
 
 @font-face {
-	font-family: "MONUMENT GROTESK Mono";
+	font-family: "Monument Grotesk Mono";
 	font-style: normal;
 	font-weight: 400;
 	src: url("./fonts/MonumentGroteskMono/ABCMonumentGroteskMono-Regular-Trial.woff2")

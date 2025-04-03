@@ -33,7 +33,7 @@ The Personnel Ranking System automatically calculates and maintains ranking scor
 ### How It Works
 
 1. **Data Collection**: The system uses Xata's aggregation methods to efficiently collect connection data:
-   - `aggregate()` with `count` operator on join tables to count relationships
+   - `aggregate()` with `count: "*"` to count all records matching a condition
    - `groupBy` to organize counts by personnel ID
    - Single database query per relationship type instead of per-person queries
 
@@ -53,7 +53,7 @@ The Personnel Ranking System automatically calculates and maintains ranking scor
    - `rank`: Raw numerical score
    - `authority`: Percentile rank (0-100) compared to other personnel
 
-4. **Statistics**: Uses Xata's `summarize()` method for calculating aggregate statistics
+4. **Statistics**: Uses Xata's `summarize()` method with operators like `average`, `count`, `max` and `min` for calculating aggregate statistics
 
 ## Usage Guide
 
@@ -122,8 +122,8 @@ curl https://your-domain.com/api/admin/test-ranking-system
 ### Performance Optimizations
 
 1. **Xata Aggregation Methods**
-   - `aggregate()` with `count` operator for efficient relationship counting
-   - `summarize()` for statistical calculations
+   - `aggregate()` with `count: "*"` for efficient relationship counting
+   - `summarize()` with `average`, `min`, `max` operators for statistical calculations
    - These methods run calculations in the database instead of in memory
    - Significant reduction in database queries (from N per personnel to 5 total)
 

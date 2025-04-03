@@ -113,7 +113,7 @@ async function transformForReactflow(
 	}
 
 	// Determine the best layout based on number of nodes and type
-	let direction = layoutType;
+	const direction = layoutType;
 	let spacing = 50;
 	
 	// For radial layouts with many nodes, increase the radius

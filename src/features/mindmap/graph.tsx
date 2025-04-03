@@ -22,11 +22,19 @@ import {useMindMap} from '@/contexts/mindmap/mindmap-context'
 
 import {useRef, useEffect} from 'react'
 import {ThreadBoard} from '@/features/mindmap/components/status-ui/thread-board'
-
+import {SessionNotes} from '@/features/mindmap/components/status-ui/session-notes'
+import {useOthers} from '@liveblocks/react'
 export function Graph(props: any) {
   // Get basic flow state from the store
   const {nodes, edges, setNodes, addEdge, onConnect, onNodesDelete, onNodesChange, onEdgesChange} =
     useMindMapStore()
+  const others = useOthers()
+
+  console.log('🚀 ~ Graph ~ others:', others)
+
+  const userCount = others.length
+
+  console.log('🚀 ~ Graph ~ userCount:', userCount)
 
   // Get layout function from the context
   const {organizeLayout} = useMindMap()
@@ -95,8 +103,9 @@ export function Graph(props: any) {
         </Panel>
 
         <Panel position='top-right'>
-          <ThreadBoard />
-          <CaseFilesAndEvidenceBoard />
+          {/* <ThreadBoard /> */}
+          {/* <CaseFilesAndEvidenceBoard /> */}
+          <SessionNotes />
         </Panel>
 
         <MindMapAnimatedClickMenu

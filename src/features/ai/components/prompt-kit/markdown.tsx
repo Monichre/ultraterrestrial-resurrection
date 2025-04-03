@@ -50,6 +50,15 @@ const INITIAL_COMPONENTS: Partial<Components> = {
   pre: function PreComponent({children}) {
     return <>{children}</>
   },
+  p: function ParagraphComponent({children}) {
+    return <div className='my-3 motion-preset-fade --font-monument'>{children}</div>
+  },
+  ol: function OrderedListComponent({children}) {
+    return <ol className='my-3 motion-preset-fade --font-monument'>{children}</ol>
+  },
+  ul: function UnorderedListComponent({children}) {
+    return <ul className='my-3 motion-preset-fade --font-monument'>{children}</ul>
+  },
 }
 
 const MemoizedMarkdownBlock = memo(

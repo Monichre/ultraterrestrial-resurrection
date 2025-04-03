@@ -180,6 +180,7 @@ export const MindMapBottomMenu = () => {
     submitMessage,
     handleInputChange,
     append,
+    isLoading,
   } = useAssistant({api: '/api/disclosure/chat'})
 
   const {
@@ -738,6 +739,7 @@ export const MindMapBottomMenu = () => {
             setInputValue={handleChange}
             handleKeyDown={handleKeyDown}
             setIsOpen={setIsOpen}
+            isLoading={isLoading}
             isOpen={isOpen}
             loadModelData={handleLoadingModelData}
             isChatActive={activeCommand === 'chat' || activeCommand === 'deepresearch'}

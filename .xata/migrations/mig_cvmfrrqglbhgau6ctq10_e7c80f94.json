@@ -1,0 +1,19 @@
+{
+  "id": "mig_cvmfrrqglbhgau6ctq10",
+  "parentID": "mig_cu7s5iu95kc34tmkn6u0",
+  "checksum": "1:e7c80f948adc8bfac09d6357dd1660c6bf77a08911738b81e6ddc15a2a085c6d",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "embedding",
+          "type": "vector",
+          "vector": {
+            "dimension": 1536
+          }
+        },
+        "table": "topics"
+      }
+    }
+  ]
+}

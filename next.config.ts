@@ -1,5 +1,3 @@
-import path from "node:path";
-
 const nextConfig = {
 	reactStrictMode: true,
 
@@ -48,7 +46,7 @@ const nextConfig = {
 	},
 	experimental: {
 		taint: true,
-		
+
 		optimizePackageImports: [
 			"three",
 			"@react-three/drei",

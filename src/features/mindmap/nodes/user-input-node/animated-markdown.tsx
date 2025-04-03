@@ -4,6 +4,7 @@ import {Markdown, type MarkdownProps} from '@/features/ai/components/prompt-kit/
 import {AnimatePresence, motion} from 'framer-motion'
 import {memo, useId, useMemo} from 'react'
 import {cn} from '@/utils'
+const MotionMarkdown = motion(Markdown)
 
 // Animation variants for the container
 const containerVariants = {
@@ -50,9 +51,9 @@ export interface AnimatedMarkdownProps extends MarkdownProps {
 const AnimatedMarkdownBlock = memo(
   ({content, className}: {content: string; className?: string}) => {
     return (
-      <motion.div variants={blockVariants} className={cn('my-3', className)}>
-        <Markdown>{content}</Markdown>
-      </motion.div>
+      <MotionMarkdown variants={blockVariants} className={cn('my-3', className)}>
+        {content}
+      </MotionMarkdown>
     )
   }
 )
@@ -99,7 +100,7 @@ export const AnimatedMarkdown = memo(
 
     return (
       <AnimatePresence mode='wait'>
-        <motion.div
+        {/* <motion.div
           key={children} // Remount on content change
           initial='hidden'
           animate='visible'
@@ -118,11 +119,11 @@ export const AnimatedMarkdown = memo(
             'prose-li:my-1 prose-hr:border-indigo-700',
             'prose-table:border-collapse prose-th:text-indigo-200 prose-td:p-2 prose-td:border-indigo-800',
             className
-          )}>
-          {blocks.map((block, index) => (
-            <AnimatedMarkdownBlock key={`${blockId}-block-${index}`} content={block} />
-          ))}
-        </motion.div>
+          )}> */}
+        {blocks.map((block, index) => (
+          <AnimatedMarkdownBlock key={`${blockId}-block-${index}`} content={block} />
+        ))}
+        {/* </motion.div> */}
       </AnimatePresence>
     )
   }

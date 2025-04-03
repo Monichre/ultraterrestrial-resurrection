@@ -90,7 +90,7 @@ export const SessionNotes = () => {
   return (
     <>
       {/* Tab trigger (always visible) */}
-      {!isOpen && (
+      {/* {!isOpen && (
         <motion.div
           className='fixed right-0 top-[130px] z-40 w-12 h-24 bg-black/40 backdrop-blur-sm border-l border-y border-[#adf0dd]/30 rounded-l-md flex items-center justify-center cursor-pointer shadow-lg'
           variants={tabVariants}
@@ -101,12 +101,23 @@ export const SessionNotes = () => {
           whileTap={{scale: 0.95}}>
           <FileText className='text-[#adf0dd] w-5 h-5' />
         </motion.div>
-      )}
+      )} */}
 
+      <motion.div
+        className='fixed right-0 top-[130px] z-40 w-12 h-24 bg-black/40 backdrop-blur-sm border-l border-y border-[#adf0dd]/30 rounded-l-md flex items-center justify-center cursor-pointer shadow-lg'
+        variants={tabVariants}
+        animate={isHovered ? 'hover' : 'initial'}
+        onHoverStart={() => setIsHovered(true)}
+        onHoverEnd={() => setIsHovered(false)}
+        onClick={() => setIsOpen(true)}
+        whileTap={{scale: 0.95}}>
+        <FileText className='text-[#adf0dd] w-5 h-5' />
+      </motion.div>
       {/* Main Drawer */}
       <Drawer.Root open={isOpen} onOpenChange={setIsOpen} direction='right' dismissible>
         <Drawer.Portal>
           <Drawer.Overlay className='fixed inset-0 bg-black/70' />
+
           <Drawer.Content className='bg-black/30 backdrop-blur-sm border border-[#adf0dd]/30 fixed inset-y-0 right-0 h-full w-[32rem] rounded-l-md shadow-[0_0_15px_rgba(173,240,221,0.15)]'>
             <div className='flex flex-col h-full p-4'>
               {/* Header */}

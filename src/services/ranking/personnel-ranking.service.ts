@@ -165,7 +165,7 @@ async function gatherAllMetrics(): Promise<Record<string, RankingMetrics>> {
   // 1. Get event expert counts using Xata aggregation
   const eventExpertsAgg = await xata.db["event-subject-matter-experts"]
     .aggregate({
-      eventCount: { count: "event" }
+      eventCount: { count: "*" }
     }, 
     {
       groupBy: ["subject-matter-expert.id"],
@@ -174,7 +174,7 @@ async function gatherAllMetrics(): Promise<Record<string, RankingMetrics>> {
   // 2. Get topic expert counts
   const topicExpertsAgg = await xata.db["topic-subject-matter-experts"]
     .aggregate({
-      topicCount: { count: "topic" }
+      topicCount: { count: "*" }
     }, 
     {
       groupBy: ["subject-matter-expert.id"],
@@ -183,7 +183,7 @@ async function gatherAllMetrics(): Promise<Record<string, RankingMetrics>> {
   // 3. Get organization membership counts
   const orgMembersAgg = await xata.db["organization-members"]
     .aggregate({
-      orgCount: { count: "organization" }
+      orgCount: { count: "*" }
     }, 
     {
       groupBy: ["member.id"],
@@ -192,7 +192,7 @@ async function gatherAllMetrics(): Promise<Record<string, RankingMetrics>> {
   // 4. Get testimony counts
   const testimoniesAgg = await xata.db.testimonies
     .aggregate({
-      testimonyCount: { count: "id" }
+      testimonyCount: { count: "*" }
     }, 
     {
       groupBy: ["witness.id"],
@@ -201,7 +201,7 @@ async function gatherAllMetrics(): Promise<Record<string, RankingMetrics>> {
   // 5. Get document creation counts
   const documentsAgg = await xata.db.documents
     .aggregate({
-      documentCount: { count: "id" }
+      documentCount: { count: "*" }
     }, 
     {
       groupBy: ["author.id"],
