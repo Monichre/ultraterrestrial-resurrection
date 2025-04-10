@@ -1,0 +1,68 @@
+{
+  "totalUrls": 12,
+  "successful": 12,
+  "failed": 0,
+  "totalReports": 1149,
+  "results": [
+    {
+      "reportId": "e202504",
+      "success": true,
+      "count": 49
+    },
+    {
+      "reportId": "e202503",
+      "success": true,
+      "count": 100
+    },
+    {
+      "reportId": "e202502",
+      "success": true,
+      "count": 100
+    },
+    {
+      "reportId": "e202501",
+      "success": true,
+      "count": 100
+    },
+    {
+      "reportId": "e202412",
+      "success": true,
+      "count": 100
+    },
+    {
+      "reportId": "e202411",
+      "success": true,
+      "count": 100
+    },
+    {
+      "reportId": "e202410",
+      "success": true,
+      "count": 100
+    },
+    {
+      "reportId": "e202409",
+      "success": true,
+      "count": 100
+    },
+    {
+      "reportId": "e202408",
+      "success": true,
+      "count": 100
+    },
+    {
+      "reportId": "e202407",
+      "success": true,
+      "count": 100
+    },
+    {
+      "reportId": "e202406",
+      "success": true,
+      "count": 100
+    },
+    {
+      "reportId": "e202405",
+      "success": true,
+      "count": 100
+    }
+  ]
+}

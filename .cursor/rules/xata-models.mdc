@@ -7,9 +7,9 @@ alwaysApply: false
 # Xata Documentation
 
 ## Search Capabilities
-- [Standard Search](https://xata.io/docs/sdk/search)
-- [Vector Search](https://xata.io/docs/sdk/vector-search)
-- [Summarize](https://xata.io/docs/sdk/summarize)
+- [Standard Search](mdc:https:/xata.io/docs/sdk/search)
+- [Vector Search](mdc:https:/xata.io/docs/sdk/vector-search)
+- [Summarize](mdc:https:/xata.io/docs/sdk/summarize)
 
 ## Asking Questions of Your Data with AI
 
