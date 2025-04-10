@@ -117,6 +117,11 @@ const tables = [
       { name: "date_posted", type: "datetime" },
       { name: "latitude", type: "float" },
       { name: "longitude", type: "float" },
+      {
+        name: "media",
+        type: "file[]",
+        "file[]": { defaultPublicAccess: true },
+      },
     ],
     revLinks: [{ column: "sighting", table: "user-saved-sightings" }],
   },

@@ -26,7 +26,7 @@ export const processResource = async (
 	options: ResourceProcessingOptions = {},
 ) => {
 	const {
-		useDeepResearch = false,
+		useDeepResearch = true, // Default to using deep research
 		researchDepth = ResearchDepth.MODERATE,
 		categories = [
 			ResearchCategory.EVENTS,
@@ -101,11 +101,34 @@ export const processResource = async (
 			""
 		: pageContent?.data?.markdown || "";
 
+	// Build processing prompt based on categories and depth
+	let processingPrompt = "Process this webpage data and summarize it accordingly";
+  
+	if (categories.length > 0) {
+		processingPrompt += ` focusing on ${categories.join(", ")}`;
+	}
+
+	// Adjust processing detail based on research depth
+	switch (researchDepth) {
+		case ResearchDepth.SURFACE:
+			processingPrompt += ". Provide a brief overview of key points.";
+			break;
+		case ResearchDepth.MODERATE:
+			processingPrompt += ". Extract main topics, entities, and key information.";
+			break;
+		case ResearchDepth.DEEP:
+			processingPrompt += ". Perform detailed analysis, extract all relevant entities, relationships, and contextual details.";
+			break;
+		case ResearchDepth.COMPREHENSIVE:
+			processingPrompt += ". Perform exhaustive analysis, extract all possible entities, relationships, chronology, and nuanced details.";
+			break;
+	}
+
 	// Process with Claude for summarization
 	const summary = await getClaudeSummary({
 		system: SUMMARIZE_PROMPT,
 		content: markdownContent,
-		prompt: "Process this page data and summarize it accordingly",
+		prompt: processingPrompt,
 	});
 
 	console.log(
@@ -131,10 +154,11 @@ export const processResource = async (
 		doesItExist,
 	);
 
-	// TODO: Add database record creation or updating logic
-	// This would involve parsing the structure of the data and mapping it to the database schema
+	// Generate a unique resource ID
+	const resourceId = `web-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
 
 	return {
+		resourceId,
 		url: resourceUrl,
 		summary,
 		embedding,

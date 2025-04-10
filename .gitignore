@@ -65,3 +65,4 @@ tasks.json
 tasks/ 
 
 docs/ufo-intelligence-docs/
+ai-convert --file /Users/liamellis/Desktop/ultraterrestrial-resurrection/docs/ufo-intelligence-docs/UFOsandIntelligence-2.pdf --output markdown >> /Users/liamellis/Desktop/ultraterrestrial-resurrection/docs/ufo-intelligence-docs/UFOsandIntelligence-2.md

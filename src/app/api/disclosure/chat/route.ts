@@ -11,30 +11,6 @@ import { streamObject } from "ai";
 import { z } from "zod";
 import { openai as openaiSdk } from "@ai-sdk/openai";
 
-// const composio_toolset = new OpenAIToolSet({
-// 	apiKey: "mfcv0l300os9b2bl03dm9",
-// });
-// const getCodeMap = async (records: any[]) => {
-
-// const tools = await composio_toolset.getTools({
-// 	actions: ["CODE_ANALYSIS_TOOL_CREATE_CODE_MAP"],
-// });
-
-// const instruction = "your task description here";
-
-// // Creating a chat completion request to the OpenAI model
-// const response = await open.chat.completions.create({
-// 	model: "gpt-4-turbo",
-// 	messages: [{ role: "user", content: instruction }],
-// 	tools: tools,
-// 	tool_choice: "auto",
-// });
-
-// const tool_response = await composio_toolset.handleToolCall(response);
-
-// console.log(tool_response);
-// 	}
-
 const transformForGraph = async (records: any[], prompt: string) => {
 	const { object } = await generateObject({
 		model: openaiSdk("gpt-4.5-preview"),
@@ -73,6 +49,13 @@ export async function POST(req: Request) {
 	const input: {
 		threadId: string | null;
 		message: string;
+		resourceContext?: {
+      resourceId?: string;
+      content?: string;
+      summary?: string;
+      sourceUrl?: string;
+      fileName?: string;
+    }
 	} = await req.json();
 
 	const threadId =
@@ -89,9 +72,28 @@ export async function POST(req: Request) {
 
 	console.log("🚀 ~ file: route.ts:24 ~ POST ~ threadId:", threadId);
 
+	// If resource context is provided, add it to the message
+  let messageContent = input.message;
+  
+  if (input.resourceContext) {
+    // Add resource context as system message first
+    await openai.beta.threads.messages.create(threadId, {
+      role: "user",
+      content: `[SYSTEM] I'm providing you with the following resource context. Please use this information to inform your responses:
+      
+Resource ID: ${input.resourceContext.resourceId || 'N/A'}
+Source: ${input.resourceContext.sourceUrl || input.resourceContext.fileName || 'Unknown'}
+Summary: ${input.resourceContext.summary || 'No summary available'}
+
+${input.resourceContext.content ? `Content: ${input.resourceContext.content}` : ''}
+
+When answering questions, incorporate this information and cite relevant details. If the question is unrelated to this context, you can still answer based on your general knowledge.`,
+    });
+  }
+
 	const createdMessage = await openai.beta.threads.messages.create(threadId, {
 		role: "user",
-		content: input.message,
+		content: messageContent,
 	});
 
 	return AssistantResponse(
@@ -161,7 +163,9 @@ export async function POST(req: Request) {
 							},
 						},
 					],
-					additional_instructions: NER_EXTRACTION_PROMPT,
+					additional_instructions: `${NER_EXTRACTION_PROMPT}
+					
+					If user has provided resource context, prioritize information from that source when responding to queries about it. Always cite the specific resource when referencing information from it.`,
 					// tool_choice: { type: "file_search" },
 					assistant_id:
 						DISCLOSURE_ASSISTANT_ID ??
