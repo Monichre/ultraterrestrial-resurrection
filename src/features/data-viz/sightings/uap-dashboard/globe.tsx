@@ -32,6 +32,23 @@ interface EarthProps {
   children?: React.ReactNode
 }
 
+// Helper function to check if coordinates are valid
+function hasValidCoordinates(sighting: ValidatedUAPSighting | undefined): boolean {
+  if (!sighting?.location?.coordinates) return false
+
+  const {lat, lng} = sighting.location.coordinates
+  return (
+    typeof lat === 'number' &&
+    typeof lng === 'number' &&
+    !isNaN(lat) &&
+    !isNaN(lng) &&
+    lat >= -90 &&
+    lat <= 90 &&
+    lng >= -180 &&
+    lng <= 180
+  )
+}
+
 function Earth({focusedLocation, sightings = [], children}: EarthProps) {
   const earthRef = useRef<THREE.Mesh>(null)
   const cloudsRef = useRef<THREE.Mesh>(null)
@@ -190,15 +207,39 @@ function Earth({focusedLocation, sightings = [], children}: EarthProps) {
       }
     >()
 
+    // Track stats for debugging
+    let totalSightings = 0
+    let sightingsWithCoordinates = 0
+    let sightingsWithoutCoordinates = 0
+
     // Use for...of instead of forEach
     for (const sighting of sightings) {
-      if (!sighting.location.coordinates) continue
+      totalSightings++
 
-      const cityKey =
-        sighting.location.city ||
-        `${sighting.location.coordinates.lat.toFixed(
-          2
-        )},${sighting.location.coordinates.lng.toFixed(2)}`
+      // Robust validation of coordinates
+      const hasValidCoordinates =
+        sighting?.location?.coordinates &&
+        typeof sighting.location.coordinates.lat === 'number' &&
+        typeof sighting.location.coordinates.lng === 'number' &&
+        !isNaN(sighting.location.coordinates.lat) &&
+        !isNaN(sighting.location.coordinates.lng)
+
+      if (!hasValidCoordinates) {
+        sightingsWithoutCoordinates++
+        continue
+      }
+
+      sightingsWithCoordinates++
+
+      // Safe access with null checks and defaults
+      const coordinates = sighting.location.coordinates
+      const lat = coordinates.lat
+      const lng = coordinates.lng
+
+      // Create a unique key for this location
+      const cityKey = sighting.location.city
+        ? sighting.location.city
+        : `${lat.toFixed(2)},${lng.toFixed(2)}`
 
       if (cityMap.has(cityKey)) {
         const existing = cityMap.get(cityKey)
@@ -208,12 +249,18 @@ function Earth({focusedLocation, sightings = [], children}: EarthProps) {
       } else {
         cityMap.set(cityKey, {
           count: 1,
-          lat: sighting.location.coordinates.lat,
-          lon: sighting.location.coordinates.lng,
+          lat: lat,
+          lon: lng,
           id: `cluster-${cityKey}`,
         })
       }
     }
+
+    // Log statistics for debugging
+    console.log(
+      `🌎 Globe clustering: ${sightingsWithCoordinates}/${totalSightings} sightings have valid coordinates`
+    )
+    console.log(`🌎 Created ${cityMap.size} clusters from sightings data`)
 
     return Array.from(cityMap.values())
       .filter((cluster) => cluster.count > 1)
@@ -307,29 +354,82 @@ function Earth({focusedLocation, sightings = [], children}: EarthProps) {
 export default function Globe({
   focusedLocation,
   sightings,
+  selectedYear,
 }: {
   focusedLocation: {lat: number; lon: number} | null
   sightings?: ValidatedUAPSighting[]
+  selectedYear?: number
 }) {
   const [hoveredSighting, setHoveredSighting] = useState<ValidatedUAPSighting | null>(null)
+  // Validate and filter sightings with coordinates for improved performance
+  const validSightings = React.useMemo(() => {
+    if (!sightings || sightings.length === 0) return []
+
+    const valid = sightings.filter(
+      (s) =>
+        s?.location?.coordinates?.lat != null &&
+        s?.location?.coordinates?.lng != null &&
+        !isNaN(s.location.coordinates.lat) &&
+        !isNaN(s.location.coordinates.lng)
+    )
+
+    console.log(`🌎 Globe: ${valid.length}/${sightings.length} sightings have valid coordinates`)
+    return valid
+  }, [sightings])
+
+  // Provide fallback content when there are no valid sightings
+  const renderFallbackMessage = !validSightings.length && sightings?.length > 0
 
   return (
-    <Canvas camera={{position: [0, 0, 6], fov: 45}} gl={{alpha: true}}>
-      <color attach='background' args={['#000000']} />
-      <ambientLight intensity={0.1} />
-      <directionalLight position={[5, 3, 5]} intensity={1.5} castShadow />
-      <Earth focusedLocation={focusedLocation} sightings={sightings} />
+    <div className="w-full h-full relative">
+      {selectedYear && (
+        <div className="absolute top-4 right-4 z-10 bg-black/70 border border-cyan-500/30 px-3 py-1 rounded-sm">
+          <div className="flex items-center gap-2">
+            <div className="h-1.5 w-1.5 rounded-full bg-cyan-500/80 animate-pulse" />
+            <span className="text-white/80 font-monument-mono text-xs">
+              YEAR: {selectedYear}
+            </span>
+          </div>
+        </div>
+      )}
+      
+      <Canvas
+        camera={{position: [0, 0, 6], fov: 45}}
+        gl={{alpha: true}}
+        onCreated={(state) => {
+          // Optimize rendering performance
+          state.gl.setPixelRatio(window.devicePixelRatio > 1 ? 2 : 1)
+        }}>
+        <color attach='background' args={['#000000']} />
+        <ambientLight intensity={0.1} />
+        <directionalLight position={[5, 3, 5]} intensity={1.5} castShadow />
+
+        <Earth focusedLocation={focusedLocation} sightings={validSightings} />
 
       {/* Optional: Add a tooltip for hovered sightings */}
       {hoveredSighting && (
         <Html position={[0, 0, 0]} style={{pointerEvents: 'none'}}>
           <div className='bg-black/80 text-white p-2 rounded-md text-xs'>
             <div className='font-bold'>{hoveredSighting.title || 'Sighting'}</div>
-            <div>{hoveredSighting.location.city || 'Unknown location'}</div>
+            <div>{hoveredSighting.location?.city || 'Unknown location'}</div>
             <div>{new Date(hoveredSighting.timestamp).toLocaleDateString()}</div>
           </div>
         </Html>
       )}
+
+      {/* Fallback message when we have sightings but none with valid coordinates */}
+      {renderFallbackMessage && (
+        <Html center position={[0, 0, 0]}>
+          <div className='bg-black/70 text-white p-4 rounded-md text-center max-w-md'>
+            <h3 className='text-lg font-bold mb-2'>No mappable sightings</h3>
+            <p>
+              There are {sightings.length} sightings in this time range, but none have valid
+              geographic coordinates.
+            </p>
+          </div>
+        </Html>
+      )}
     </Canvas>
+    </div>
   )
 }

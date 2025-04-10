@@ -33,9 +33,9 @@ import {getSightingsBatched} from '@/services/sightings/actions/sightings-time-c
 
 async function getSightings() {
   try {
-    // Get current year and calculate a reasonable time range (last 30 years)
+    // Get current year and use a broader range starting from 2010 to include all known records
     const currentYear = new Date().getFullYear()
-    const startYear = currentYear - 30
+    const startYear = 2010 // Changed from currentYear-30 to include 2014 records we know exist
 
     // Create time ranges in 5-year chunks for optimal performance
     const timeRanges = []
@@ -51,10 +51,8 @@ async function getSightings() {
 
     // Log statistics for debugging
     console.log(
-      `Fetched ${sightings.length} sightings with stats:`,
-      stats
-        ? `${stats.total} total entries across ${timeRanges.length} time chunks`
-        : 'No stats available'
+      `Fetched ${sightings.length} sightings across the years 2010-${currentYear}:`,
+      stats?.totalSightings ? `${stats.totalSightings} total in stats` : 'No stats available'
     )
 
     return sightings

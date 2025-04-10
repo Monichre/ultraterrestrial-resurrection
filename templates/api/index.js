@@ -1,7 +1,5 @@
-const apiTemplate = require('./route')
-const webhookTemplate = require('./webhook')
+import apiTemplateImport from "./route/index.js";
+import webhookTemplateImport from "./webhook/index.js";
 
-module.exports = {
-  apiTemplate,
-  webhookTemplate,
-}
+export const apiTemplate = apiTemplateImport;
+export const webhookTemplate = webhookTemplateImport;

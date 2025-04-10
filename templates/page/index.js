@@ -1,6 +1,10 @@
-const path = require("node:path");
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-module.exports = {
+// Get the directory name of the current module
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+export default {
 	description: "Page Generator",
 	prompts: [
 		{
@@ -21,7 +25,7 @@ module.exports = {
 			{
 				type: "add",
 				path: path.join(basePath, "src/app/{{dashCase name}}/page.tsx"),
-				templateFile: "./templates/page/page.hbs",
+				templateFile: path.join(__dirname, "page.hbs"),
 			},
 		];
 	},

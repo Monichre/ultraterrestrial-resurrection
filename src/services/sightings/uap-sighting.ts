@@ -1,6 +1,10 @@
 import fs from "node:fs";
 import path from "node:path";
 import { z } from "zod";
+
+// Add type definition for SightingProperty
+type SightingProperty = string;
+
 const properties: SightingProperty[] = [
 	"city",
 	"state",
@@ -15,6 +19,48 @@ const properties: SightingProperty[] = [
 	"image",
 	"date",
 ];
+// Helper function to validate coordinates
+export const isValidCoordinates = (coords: any): boolean => {
+  if (!coords || typeof coords !== 'object') return false;
+  
+  const { lat, lng } = coords;
+  return (
+    typeof lat === 'number' && 
+    typeof lng === 'number' && 
+    !isNaN(lat) && 
+    !isNaN(lng) &&
+    lat >= -90 && lat <= 90 && 
+    lng >= -180 && lng <= 180
+  );
+};
+
+// Helper function to get valid coordinates or null
+export const getValidCoordinates = (coords: any): { lat: number; lng: number } | null => {
+  if (!isValidCoordinates(coords)) return null;
+  return { lat: coords.lat, lng: coords.lng };
+};
+
+// Helper function to ensure valid coordinates (throws error if invalid)
+export const ensureValidCoordinates = (coords: any): { lat: number; lng: number } => {
+  const validCoords = getValidCoordinates(coords);
+  if (!validCoords) {
+    throw new Error('Invalid coordinates provided');
+  }
+  return validCoords;
+};
+
+// Define coordinates schema with validation
+const CoordinatesSchema = z.object({
+  lat: z.number()
+    .refine(val => !isNaN(val) && val >= -90 && val <= 90, {
+      message: "Latitude must be between -90 and 90 degrees"
+    }),
+  lng: z.number()
+    .refine(val => !isNaN(val) && val >= -180 && val <= 180, {
+      message: "Longitude must be between -180 and 180 degrees"
+    })
+}).optional();
+
 export const UAPSightingSchema = z.object({
 	id: z.string(),
 	source: z.enum(["twitter", "news", "rss"]),
@@ -22,13 +68,8 @@ export const UAPSightingSchema = z.object({
 	content: z.string(),
 	location: z.object({
 		city: z.string().optional(),
-		state: z.literal("NJ"),
-		coordinates: z
-			.object({
-				lat: z.number(),
-				lng: z.number(),
-			})
-			.optional(),
+		state: z.string().optional(), // Make state optional
+		coordinates: CoordinatesSchema,
 	}),
 	timestamp: z.date(),
 	mediaUrls: z.array(z.string()),
@@ -126,7 +167,31 @@ export const getSightingsGeoJSON = async () => {
 	return {
 		sightings,
 		militaryBases,
-
 		ufoPosts,
 	};
 };
+
+/**
+ * Safely extracts coordinates from a sighting object
+ * Returns null if coordinates are invalid or missing
+ */
+export function getSightingCoordinates(sighting: ValidatedUAPSighting | undefined | null): { lat: number; lng: number } | null {
+  if (!sighting || !sighting.location) return null;
+  return getValidCoordinates(sighting.location.coordinates);
+}
+
+/**
+ * Creates fallback coordinates when original coordinates are missing or invalid
+ * This is useful for visualization when exact coordinates aren't available
+ */
+export function createFallbackCoordinates(sighting: ValidatedUAPSighting | undefined | null): { lat: number; lng: number } | null {
+  // First try to use the sighting's actual coordinates
+  const coords = getSightingCoordinates(sighting);
+  if (coords) return coords;
+  
+  // If we have location information but no coordinates, we could potentially
+  // generate approximate coordinates based on city/state in the future
+  
+  // For now, return null when we don't have valid coordinates
+  return null;
+}

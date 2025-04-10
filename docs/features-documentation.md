@@ -7,11 +7,13 @@ Based on exploring the codebase and documentation, I've identified the main feat
 This feature provides a 3D visualization of UAP/UFO sightings on a globe.
 
 **Components:**
+
 - `components/globes/threejs-globe.tsx` - The 3D globe implementation using ThreeJS
 - `components/sightings/` - Contains components for displaying sighting information
 - `components/hud-interface/` - Heads-up display interface for the globe
 
 **Data Services:**
+
 - `services/sightings/actions/sightings-time-chunk.ts` - Server actions to fetch sighting data:
   - `getSightingsByTimeChunk()` - Fetches sightings within a date range
   - `getSightingsStats()` - Fetches aggregate statistics about sightings
@@ -25,11 +27,13 @@ This feature appears to be partially implemented with the globe visualization an
 A knowledge graph visualization tool for exploring connections between UAP/UFO topics, events, personnel, and other entities.
 
 **Components:**
+
 - `features/mindmap/graph.tsx` - Main graph visualization using XyFlow/ReactFlow
 - `features/mindmap/nodes/` - Custom node components for different entity types
 - `features/mindmap/actions/get-entity-network-graph-data.ts` - Server action to fetch graph data
 
 **Data Structure:**
+
 - The network graph connects multiple entity types:
   - Topics
   - Events
@@ -48,6 +52,7 @@ The application uses Xata as its database, which appears to be a PostgreSQL-base
 
 **Schema:**
 The database schema includes tables for:
+
 - sightings
 - personnel (experts/key figures)
 - events
@@ -70,6 +75,8 @@ Based on the roadmap and existing code, here are the recommended next steps:
    - Implement or refine the time slider for navigating sightings over time
    - Add clustering functionality for better performance with large datasets
    - Enhance the HUD interface with detailed information on selected sightings
+   - Display sightings data dispersed across the map grouped by decade rather than individual years
+   - Implement visualization controls to toggle between decade view and other time period views
 
 2. **Enhance the Mind Map Feature**:
    - Add search functionality for finding entities in the graph
@@ -92,4 +99,3 @@ Based on the roadmap and existing code, here are the recommended next steps:
    - Build notification system for updates
 
 The existing codebase provides a solid foundation for implementing these features, with well-structured components and data services already in place.
-

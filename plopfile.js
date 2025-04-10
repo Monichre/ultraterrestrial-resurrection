@@ -1,9 +1,9 @@
-const fs = require("node:fs");
-const path = require("node:path");
-const componentTemplate = require("./templates/component/index");
-const pageTemplate = require("./templates/page/index");
-const featureTemplate = require("./templates/feature/index");
-const { apiTemplate, webhookTemplate } = require("./templates/api");
+import fs from "node:fs";
+import path from "node:path";
+import componentTemplate from "./templates/component/index.js";
+import pageTemplate from "./templates/page/index.js";
+import featureTemplate from "./templates/feature/index.js";
+import { apiTemplate, webhookTemplate } from "./templates/api/index.js";
 
 function addWorkspacePrompt(templateConfig) {
 	// Clone the template configuration to avoid modifying the original
@@ -44,20 +44,14 @@ function addWorkspacePrompt(templateConfig) {
 		...(enhancedTemplate.prompts || []),
 	];
 
-	// Modify the actions to include workspace context if needed
-	if (enhancedTemplate.actions) {
-		// You could enhance the actions here to use the workspace value
-		// For now, we're just passing through the original actions
-	}
-
 	return enhancedTemplate;
 }
 
-module.exports = (plop) => {
-	plop.load("plop-helper-list");
+export default function (plop) {
+	// Register generators without any helper plugins
 	plop.setGenerator("component", addWorkspacePrompt(componentTemplate));
 	plop.setGenerator("page", addWorkspacePrompt(pageTemplate));
 	plop.setGenerator("feature", addWorkspacePrompt(featureTemplate));
 	plop.setGenerator("api", addWorkspacePrompt(apiTemplate));
 	plop.setGenerator("webhook", addWorkspacePrompt(webhookTemplate));
-};
+}

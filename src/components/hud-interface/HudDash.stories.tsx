@@ -21,7 +21,7 @@ export const Default: Story = {
 
 export const Responsive: Story = {
   args: {
-    className: 'max-w-screen-2xl mx-auto',
+    className: 'w-screen h-screen',
   },
 }
 

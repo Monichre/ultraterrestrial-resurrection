@@ -19,7 +19,7 @@ export const HistoricalEventsTimeline = ({events}: {events: JSONData<EventsRecor
   const locations = extractCoordinatesFromEvents(events, false)
 
   const [activeLocation, setActiveLocation] = useState(null)
-  const [viewMode, setViewMode] = useState<'worldmap' | 'globe' | 'sci-fi'>('globe')
+  const [viewMode, setViewMode] = useState<'worldmap' | 'globe' | 'sci-fi'>('worldmap')
 
   const updateActiveLocation = (location: any) => {
     if (location?.length) {

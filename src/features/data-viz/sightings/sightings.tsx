@@ -15,12 +15,20 @@ interface StatsType {
 
 interface SightingsClientProps {
   sightings: ValidatedUAPSighting[]
+  events: any[] // Using any for now, replace with proper type if available
   stats: StatsType
+  analysis?: any // The AI analysis result
 }
 
-export const SightingsClient = ({sightings, stats}: SightingsClientProps) => {
+export const SightingsClient = ({sightings, events, stats, analysis}: SightingsClientProps) => {
+  console.log('🚀 ~ SightingsClient ~ sightings:', sightings)
+  console.log('🚀 ~ SightingsClient ~ events:', events)
+  console.log('🚀 ~ SightingsClient ~ stats:', stats)
+  console.log('🚀 ~ SightingsClient ~ analysis:', analysis)
+
   const [isLoading, setIsLoading] = useState(true)
   const [sightingsData, setSightingsData] = useState<ValidatedUAPSighting[] | null>(null)
+  const [eventsData, setEventsData] = useState<any[] | null>(null)
 
   // Handle loader completion
   const handleLoadComplete = useCallback(() => {
@@ -28,18 +36,28 @@ export const SightingsClient = ({sightings, stats}: SightingsClientProps) => {
   }, [])
 
   useEffect(() => {
+    // Process sightings data
     if (sightings && sightings.length > 0) {
       setSightingsData(sightings)
     }
-  }, [sightings])
 
-  if (isLoading || !sightingsData) {
+    // Process events data
+    if (events && events.length > 0) {
+      setEventsData(events)
+    }
+  }, [sightings, events])
+
+  if (isLoading || (!sightingsData && !eventsData)) {
     return <SightingsLoader onLoadComplete={handleLoadComplete} />
   }
 
   return (
     <>
-      <HudUapInterface initialSightings={sightingsData} />
+      <HudUapInterface
+        initialSightings={sightingsData || []}
+        events={eventsData || []}
+        analysisResults={analysis}
+      />
     </>
   )
 }

@@ -1,7 +1,11 @@
-const fs = require("node:fs");
-const path = require("node:path");
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-module.exports = {
+// Get the directory name of the current module
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+export default {
 	description: "Component Generator",
 	prompts: [
 		{
@@ -96,7 +100,7 @@ module.exports = {
 	],
 	actions: (data) => {
 		let basePath = data.workspace || "";
-		const templatePath = path.join(__dirname, "./templates/component");
+		const templatePath = __dirname;
 
 		if (data.addToExisting && data.existingDir) {
 			if (data.animated) {

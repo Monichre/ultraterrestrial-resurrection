@@ -1,15 +1,18 @@
 'use client'
-import anime from 'animejs'
-import { geoMercator, geoPath, select } from 'd3'
+import * as anime from 'animejs'
+import {animate, createTimeline} from 'animejs'
+
+const timeline = createTimeline(parameters)
+import {geoMercator, geoPath, select} from 'd3'
 import Image from 'next/image'
-import { useEffect, useRef, useState } from 'react'
+import {useEffect, useRef, useState} from 'react'
 import globeLight from './globe-light.svg'
 import globe2 from './globe.svg'
-export const AltGlobe = ( { markers }: any ) => {
-  const ref: any = useRef( null )
-  const svgRef = useRef( null )
-  const [copied, setCopied] = useState( false )
-  const [darkMode, setDarkMode] = useState( false ) // State to manage dark mode
+export const AltGlobe = ({markers}: any) => {
+  const ref: any = useRef(null)
+  const svgRef = useRef(null)
+  const [copied, setCopied] = useState(false)
+  const [darkMode, setDarkMode] = useState(false) // State to manage dark mode
 
   // Need logic to transform coordinates into pixel values:
   // use resized dimensions
@@ -130,12 +133,12 @@ export const AltGlobe = ( { markers }: any ) => {
   ]
 
   const animate = () => {
-    const tl = anime.timeline( {
+    const tl = createTimeline({
       loop: false,
       autoplay: true,
-    } )
+    })
 
-    svgs.forEach( ( s ) => {
+    svgs.forEach((s) => {
       tl.add(
         {
           targets: `#functions-hero #${s.id} linearGradient`,
@@ -146,7 +149,7 @@ export const AltGlobe = ( { markers }: any ) => {
         },
         s.offset
       )
-    } )
+    })
 
     // const typed = new Typed(typerRef.current, {
     //   strings: ['npm install eldoraui'],
@@ -166,31 +169,31 @@ export const AltGlobe = ( { markers }: any ) => {
     // }
   }
 
-  useEffect( () => {
+  useEffect(() => {
     animate()
-    const svg = select( svgRef.current )
+    const svg = select(svgRef.current)
 
-    const { width, height } = ref?.current?.getBoundingClientRect()
+    const {width, height} = ref?.current?.getBoundingClientRect()
 
     // projects geo-coordinates on a 2D plane
     const projection = geoMercator()
       .fitSize(
         [width, height],
-        markers.map( ( marker ) => marker.location )
+        markers.map((marker) => marker.location)
       )
-      .precision( 100 )
-    console.log( 'projection: ', projection )
+      .precision(100)
+    console.log('projection: ', projection)
 
     // takes geojson data,
     // transforms that into the d attribute of a path element
-    const pathGenerator = geoPath().projection( projection )
-    console.log( 'pathGenerator: ', pathGenerator )
+    const pathGenerator = geoPath().projection(projection)
+    console.log('pathGenerator: ', pathGenerator)
     // .attr('d', (feature) => pathGenerator(feature))
-  }, [] )
+  }, [])
 
   // Function to toggle dark mode
   const toggleDarkMode = () => {
-    setDarkMode( !darkMode )
+    setDarkMode(!darkMode)
   }
   //   -left-2
   //   sm:-left-32
@@ -202,10 +205,9 @@ export const AltGlobe = ( { markers }: any ) => {
     <div
       ref={ref}
       id='functions-hero'
-      className='absolute inset-0 8 top-4 w-[150%] md:w-[150%] aspect-[978/678] sm:-top-2 right-0 lg:-top-10 lg:w-[130%] xl:w-[130%]'
-    >
+      className='absolute inset-0 8 top-4 w-[150%] md:w-[150%] aspect-[978/678] sm:-top-2 right-0 lg:-top-10 lg:w-[130%] xl:w-[130%]'>
       {/* Animated svgs in globe */}
-      {svgs.map( ( s ) => (
+      {svgs.map((s) => (
         <svg
           key={s.id}
           id={s.id}
@@ -220,8 +222,7 @@ export const AltGlobe = ( { markers }: any ) => {
             height: s.height,
             left: s.left,
             top: s.top,
-          }}
-        >
+          }}>
           <path stroke={`url(#lg-${s.id})`} strokeWidth='1.396' d={s.path} />
           <defs>
             <linearGradient
@@ -230,44 +231,30 @@ export const AltGlobe = ( { markers }: any ) => {
               x2={s.x2}
               y1={s.y1}
               y2={s.y2}
-              gradientUnits='userSpaceOnUse'
-            >
+              gradientUnits='userSpaceOnUse'>
               {/* Define colors for both light and dark modes */}
-              <stop
-                offset='0'
-                stopColor={darkMode ? '#99c4d9' : '#99c4d9'}
-                stopOpacity='0'
-              />
+              <stop offset='0' stopColor={darkMode ? '#99c4d9' : '#99c4d9'} stopOpacity='0' />
               {/* pink: `#E393E6`,
   green: `#79FFE1`,
   blue: `#27F1FF`, */}
-              <stop
-                offset='0.5'
-                stopColor={darkMode ? '#99c4d9' : '#99c4d9'}
-                stopOpacity='0.6'
-              />
-              <stop
-                offset='1'
-                stopColor={darkMode ? '#99c4d9' : '#99c4d9'}
-                stopOpacity='0'
-              />
+              <stop offset='0.5' stopColor={darkMode ? '#99c4d9' : '#99c4d9'} stopOpacity='0.6' />
+              <stop offset='1' stopColor={darkMode ? '#99c4d9' : '#99c4d9'} stopOpacity='0' />
             </linearGradient>
           </defs>
         </svg>
-      ) )}
+      ))}
 
       {/* Dots on globe */}
-      {dots.map( ( dot ) => (
+      {dots.map((dot) => (
         <div
           key={dot.id}
           id={dot.id}
-          style={{ left: dot.left, top: dot.top }}
-          className='absolute origin-center w-[2.5%] h-[3.6%] flex items-center justify-center opacity-0 transition-opacity animate-fade-in delay-75'
-        >
+          style={{left: dot.left, top: dot.top}}
+          className='absolute origin-center w-[2.5%] h-[3.6%] flex items-center justify-center opacity-0 transition-opacity animate-fade-in delay-75'>
           <span className='absolute inset-0 w-full h-full rounded-full bg-black dark:bg-white bg-opacity-20' />
           <span className='absolute w-4/5 h-4/5 rounded-full bg-black dark:bg-white bg-opacity-90' />
         </div>
-      ) )}
+      ))}
       {/* <div
         className='absolute left-[51.15%] top-[10%] w-px h-[20%] overflow-hidden'
         id='wtf'

@@ -1,8 +1,8 @@
-"use client"
+'use client'
 
-import { useEffect, useRef, useState } from "react"
-import { Card } from "@/components/ui/card"
-import { Scan, Target } from "lucide-react"
+import {useEffect, useRef, useState} from 'react'
+import {Card} from '@/components/ui/card'
+import {Scan, Target} from 'lucide-react'
 
 interface Particle {
   x: number
@@ -12,7 +12,7 @@ interface Particle {
   life: number
 }
 
-export default function Scanner() {
+export function Scanner() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [scanning, setScanning] = useState(true)
   const particlesRef = useRef<Particle[]>([])
@@ -36,7 +36,7 @@ export default function Scanner() {
   // Draw brain-like shape
   const drawBrain = (ctx: CanvasRenderingContext2D, centerX: number, centerY: number) => {
     ctx.save()
-    ctx.strokeStyle = "rgba(0, 255, 0.5)"
+    ctx.strokeStyle = 'rgba(0, 255, 0.5)'
     ctx.lineWidth = 0.5
 
     // Draw main brain shape
@@ -67,7 +67,7 @@ export default function Scanner() {
   // Animation loop
   const animate = () => {
     const canvas = canvasRef.current
-    const ctx = canvas?.getContext("2d")
+    const ctx = canvas?.getContext('2d')
     if (!canvas || !ctx) return
 
     ctx.clearRect(0, 0, canvas.width, canvas.height)
@@ -98,7 +98,9 @@ export default function Scanner() {
         particle.y = Math.random() * 300 - 150 + centerY
       }
 
-      const distance = Math.sqrt(Math.pow(particle.x - centerX, 2) + Math.pow(particle.y - centerY, 2))
+      const distance = Math.sqrt(
+        Math.pow(particle.x - centerX, 2) + Math.pow(particle.y - centerY, 2)
+      )
 
       if (distance < 100) {
         ctx.moveTo(particle.x, particle.y)
@@ -134,56 +136,54 @@ export default function Scanner() {
   }, []) // Removed dependencies to useEffect
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center">
+    <div className='min-h-screen bg-black flex items-center justify-center'>
       <div
-        className="relative w-full max-w-2xl aspect-video border border-gray-200 border-cyan-500/20 bg-grid-small-cyan/10 dark:border-gray-800"
+        className='relative w-full max-w-2xl aspect-video border border-gray-200 border-cyan-500/20 bg-grid-small-cyan/10 dark:border-gray-800'
         style={{
           backgroundImage: `
             linear-gradient(to right, rgb(0 255 255 / 0.1) 1px, transparent 1px),
             linear-gradient(to bottom, rgb(0 255 255 / 0.1) 1px, transparent 1px)
           `,
-          backgroundSize: "20px",
-        }}
-      >
+          backgroundSize: '20px',
+        }}>
         {/* Corner Decorations */}
-        <div className="absolute top-0 left-0 w-4 h-4 border-l-2 border-t-2 border-cyan-500"></div>
-        <div className="absolute top-0 right-0 w-4 h-4 border-r-2 border-t-2 border-cyan-500"></div>
-        <div className="absolute bottom-0 left-0 w-4 h-4 border-l-2 border-b-2 border-cyan-500"></div>
-        <div className="absolute bottom-0 right-0 w-4 h-4 border-r-2 border-b-2 border-cyan-500"></div>
+        <div className='absolute top-0 left-0 w-4 h-4 border-l-2 border-t-2 border-cyan-500'></div>
+        <div className='absolute top-0 right-0 w-4 h-4 border-r-2 border-t-2 border-cyan-500'></div>
+        <div className='absolute bottom-0 left-0 w-4 h-4 border-l-2 border-b-2 border-cyan-500'></div>
+        <div className='absolute bottom-0 right-0 w-4 h-4 border-r-2 border-b-2 border-cyan-500'></div>
 
         {/* Main Content */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <Card className="relative w-96 h-96 bg-transparent border-cyan-500/20 overflow-hidden">
+        <div className='absolute inset-0 flex items-center justify-center'>
+          <Card className='relative w-96 h-96 bg-transparent border-cyan-500/20 overflow-hidden'>
             {/* Targeting Frame */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="relative w-64 h-64">
-                <div className="absolute inset-0 border-2 border-cyan-500/50"></div>
-                <div className="absolute left-0 top-0 w-4 h-4 border-l-2 border-t-2 border-cyan-500"></div>
-                <div className="absolute right-0 top-0 w-4 h-4 border-r-2 border-t-2 border-cyan-500"></div>
-                <div className="absolute left-0 bottom-0 w-4 h-4 border-l-2 border-b-2 border-cyan-500"></div>
-                <div className="absolute right-0 bottom-0 w-4 h-4 border-r-2 border-b-2 border-cyan-500"></div>
+            <div className='absolute inset-0 flex items-center justify-center'>
+              <div className='relative w-64 h-64'>
+                <div className='absolute inset-0 border-2 border-cyan-500/50'></div>
+                <div className='absolute left-0 top-0 w-4 h-4 border-l-2 border-t-2 border-cyan-500'></div>
+                <div className='absolute right-0 top-0 w-4 h-4 border-r-2 border-t-2 border-cyan-500'></div>
+                <div className='absolute left-0 bottom-0 w-4 h-4 border-l-2 border-b-2 border-cyan-500'></div>
+                <div className='absolute right-0 bottom-0 w-4 h-4 border-r-2 border-b-2 border-cyan-500'></div>
               </div>
             </div>
 
             {/* Canvas for Brain Visualization */}
-            <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
+            <canvas ref={canvasRef} className='absolute inset-0 w-full h-full' />
 
             {/* Scanning Effect */}
             <div
-              className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-500/20 to-transparent animate-scan"
+              className='absolute inset-0 bg-gradient-to-b from-transparent via-cyan-500/20 to-transparent animate-scan'
               style={{
-                animation: "scan 2s linear infinite",
-              }}
-            ></div>
+                animation: 'scan 2s linear infinite',
+              }}></div>
 
             {/* HUD Elements */}
-            <div className="absolute top-4 left-1/2 -translate-x-1/2 flex items-center gap-2 text-cyan-500">
-              <Scan className="w-4 h-4 animate-pulse" />
-              <span className="text-xs font-mono">SCAN MODE</span>
+            <div className='absolute top-4 left-1/2 -translate-x-1/2 flex items-center gap-2 text-cyan-500'>
+              <Scan className='w-4 h-4 animate-pulse' />
+              <span className='text-xs font-mono'>SCAN MODE</span>
             </div>
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 text-cyan-500">
-              <Target className="w-4 h-4" />
-              <span className="text-xs font-mono">TRACKING TARGET</span>
+            <div className='absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 text-cyan-500'>
+              <Target className='w-4 h-4' />
+              <span className='text-xs font-mono'>TRACKING TARGET</span>
             </div>
           </Card>
         </div>
@@ -203,4 +203,3 @@ export default function Scanner() {
     </div>
   )
 }
-

@@ -23,12 +23,11 @@ import {useMindMap} from '@/contexts/mindmap/mindmap-context'
 import {useRef, useEffect} from 'react'
 import {ThreadBoard} from '@/features/mindmap/components/status-ui/thread-board'
 import {SessionNotes} from '@/features/mindmap/components/status-ui/session-notes'
-import {useOthers} from '@liveblocks/react'
+
 export function Graph(props: any) {
   // Get basic flow state from the store
   const {nodes, edges, setNodes, addEdge, onConnect, onNodesDelete, onNodesChange, onEdgesChange} =
     useMindMapStore()
-  const others = useOthers()
 
   console.log('🚀 ~ Graph ~ others:', others)
 

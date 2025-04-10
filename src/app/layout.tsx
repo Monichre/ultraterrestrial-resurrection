@@ -4,12 +4,11 @@
 import '@xyflow/react/dist/style.css'
 import './globals.css'
 
-import {ThemeProvider} from '@/contexts'
-
-import {ClerkProvider} from '@clerk/nextjs'
-
-import {FullSiteNav} from '@/components/navbar/full-site-nav'
-import {lukasSans, monumentGrotesk, monumentGroteskMono, neueHaasGrotesk} from './fonts'
+import { ThemeProvider } from '@/contexts/theme-provider'
+import { ClerkProvider } from '@clerk/nextjs'
+import { FullSiteNav } from '@/components/navbar/full-site-nav'
+import { lukasSans, monumentGrotesk, monumentGroteskMono, neueHaasGrotesk } from './fonts'
+import { CustomCursor } from '@/components/cursor-ui/CustomCursor'
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -28,7 +27,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
     <ClerkProvider>
       <html lang='en' suppressHydrationWarning className='dark'>
         <body
-          className={` ${neueHaasGrotesk.variable} ${monumentGrotesk.variable} ${monumentGroteskMono.variable} ${lukasSans.variable} dark`}>
+          className={`${neueHaasGrotesk.variable} ${monumentGrotesk.variable} ${monumentGroteskMono.variable} ${lukasSans.variable} dark`}>
           <ThemeProvider
             attribute='class'
             forcedTheme='dark'
@@ -40,7 +39,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
             {/* <DataLayer> */}
 
             <FullSiteNav />
-
+            <CustomCursor />
             <main className='min-h-[100vh] min-w-screen relative site dark'>{children}</main>
           </ThemeProvider>
         </body>

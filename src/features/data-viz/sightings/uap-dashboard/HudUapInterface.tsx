@@ -1,7 +1,7 @@
 'use client'
-
+import React from 'react'
 import dynamic from 'next/dynamic'
-import {useState} from 'react'
+import {useState, useEffect, useCallback} from 'react'
 import {Card} from '@/components/ui/card'
 import {Skeleton} from '@/components/ui/skeleton'
 import {Badge} from '@/components/ui/badge'
@@ -14,11 +14,25 @@ import {useSightingsData} from '@/hooks/use-sightings-data'
 import type {ValidatedUAPSighting} from '@/services/sightings/uap-sighting'
 import {FilterPanel} from './filter-panel'
 import {TimeRangeSelector} from './time-range-selector'
+import {YearSelectionMenu} from './year-selection-menu'
 import {SightingsStatsDisplay} from './sightings-stats-display'
+
+import type {SightingsAnalysisResult} from '@/services/sightings/actions/sightings-ai-analysis'
 
 // Import GSAP for animations
 import Script from 'next/script'
 
+const ThreeJSGlobe = dynamic(
+  () => import('@/components/globes/threejs-globe').then((mod) => mod.ThreeJsGlobe),
+  {
+    ssr: false,
+    loading: () => (
+      <div className='w-full h-full flex items-center justify-center'>
+        <Skeleton className='w-[400px] h-[400px] rounded-full bg-gray-800/30' />
+      </div>
+    ),
+  }
+)
 const Globe = dynamic(() => import('./globe'), {
   ssr: false,
   loading: () => (
@@ -63,29 +77,108 @@ const locations = [
 
 // Set up interface props for optional initial data
 interface HudUapInterfaceProps {
-  initialSightings?: ValidatedUAPSighting[]
-  initialEvents?: any
+  initialSightings: ValidatedUAPSighting[]
+  events?: any[] // Replace with proper event type when available
+  analysisResults?: SightingsAnalysisResult
   initialLocations?: any
 }
 
 export function HudUapInterface({
   initialSightings,
-  initialEvents,
+  events = [],
+  analysisResults,
   initialLocations,
 }: HudUapInterfaceProps = {}) {
-  // Use the hook to fetch and manage data
-  const {sightings, events, stats, isLoading, timeRange, filters, updateTimeRange, updateFilters} =
-    useSightingsData({
-      initialTimeRange: {
-        startYear: new Date().getFullYear() - 10,
-        endYear: new Date().getFullYear(),
-      },
-      chunkSize: 5,
-    })
+  const [selectedView, setSelectedView] = useState<'globe' | 'list' | 'analysis'>('globe')
+  const [filteredSightings, setFilteredSightings] =
+    useState<ValidatedUAPSighting[]>(initialSightings)
+  const [filteredEvents, setFilteredEvents] = useState<any[]>(events)
 
-  // Use initialSightings as fallback if provided
-  const displaySightings = sightings.length > 0 ? sightings : initialSightings || []
-  const displayEvents = events.length > 0 ? events : initialEvents || []
+  // Year selection state
+  const currentYear = new Date().getFullYear()
+  const MIN_YEAR = 1940
+  const [selectedYear, setSelectedYear] = useState<number>(currentYear)
+  const [availableYears, setAvailableYears] = useState<number[]>(
+    Array.from({length: currentYear - MIN_YEAR + 1}, (_, i) => currentYear - i)
+  )
+
+  // Combine sightings and events for visualization
+  const combinedData = React.useMemo(() => {
+    // Convert events to a compatible format for visualization
+    const formattedEvents = events.map((event) => ({
+      id: event.id,
+      type: 'event',
+      title: event.title || event.name || 'Unknown Event',
+      content: event.description || '',
+      location: {
+        city: event.location || '',
+        state: '',
+        coordinates:
+          event.latitude && event.longitude
+            ? {lat: event.latitude, lng: event.longitude}
+            : undefined,
+      },
+      timestamp: event.date || new Date(),
+      category: event.category
+        ? Array.isArray(event.category)
+          ? event.category
+          : [event.category]
+        : [],
+      confidence: 'high',
+      sourceUrl: '',
+      mediaUrls: [],
+    }))
+
+    return [...filteredSightings, ...formattedEvents]
+  }, [filteredSightings, events])
+
+  // Initialize filters and data
+  useEffect(() => {
+    setFilteredSightings(initialSightings)
+    setFilteredEvents(events)
+
+    // Extract years from initialSightings for the dropdown menu
+    if (initialSightings.length > 0) {
+      const years = new Set<number>()
+      initialSightings.forEach((sighting) => {
+        const year = new Date(sighting.timestamp).getFullYear()
+        if (year >= MIN_YEAR && year <= currentYear) {
+          years.add(year)
+        }
+      })
+
+      // If we have specific years from the data, use them
+      if (years.size > 0) {
+        setAvailableYears(Array.from(years).sort((a, b) => b - a)) // Descending order
+      }
+    }
+  }, [initialSightings, events, MIN_YEAR, currentYear])
+
+  // Function to filter data by selected year
+  const filterByYear = useCallback(
+    (year: number) => {
+      setSelectedYear(year)
+
+      const yearStart = new Date(`${year}-01-01T00:00:00.000Z`)
+      const yearEnd = new Date(`${year}-12-31T23:59:59.999Z`)
+
+      // Filter sightings
+      const filteredByYear = initialSightings.filter((sighting) => {
+        const date = new Date(sighting.timestamp)
+        return date >= yearStart && date <= yearEnd
+      })
+
+      // Filter events
+      const filteredEventsByYear = events.filter((event) => {
+        const date = new Date(event.date || event.timestamp)
+        return date >= yearStart && date <= yearEnd
+      })
+
+      setFilteredSightings(filteredByYear)
+      setFilteredEvents(filteredEventsByYear)
+    },
+    [initialSightings, events]
+  )
 
   // Locations data (either from hook's fetched data or initial props)
   const locationOptions = initialLocations || []
@@ -99,15 +192,155 @@ export function HudUapInterface({
   const renderGlobe = () => {
     switch (globeType) {
       case 'default':
-        return <Globe focusedLocation={focusedLocation} sightings={displaySightings} />
+        return (
+          <Globe
+            focusedLocation={focusedLocation}
+            sightings={filteredSightings}
+            selectedYear={selectedYear}
+          />
+        )
       case 'alternative':
         return <AlternativeGlobe />
       case 'codepen':
         return <CodepenGlobe focusedLocation={focusedLocation} locations={locations} />
       default:
-        return <Globe focusedLocation={focusedLocation} sightings={displaySightings} />
+        return (
+          <Globe
+            focusedLocation={focusedLocation}
+            sightings={filteredSightings}
+            selectedYear={selectedYear}
+          />
+        )
     }
   }
+
+  const renderContent = () => {
+    switch (selectedView) {
+      case 'globe':
+        return (
+          <div className='w-full h-full'>
+            <ThreeJSGlobe data={combinedData} showEventMarkers={true} />
+          </div>
+        )
+      case 'list':
+        return (
+          <div className='p-6 overflow-auto'>
+            <h2 className='text-2xl font-bold mb-4'>Data List View</h2>
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+              <div>
+                <h3 className='text-xl font-semibold mb-2'>
+                  Sightings ({filteredSightings.length})
+                </h3>
+                <div className='space-y-4'>
+                  {filteredSightings.slice(0, 10).map((sighting) => (
+                    <div key={sighting.id} className='p-4 bg-card rounded-md'>
+                      <h4 className='font-medium'>{sighting.title}</h4>
+                      <p className='text-sm text-muted-foreground'>
+                        {new Date(sighting.timestamp).toLocaleDateString()}
+                      </p>
+                      <p className='line-clamp-2 mt-1'>{sighting.content.substring(0, 100)}...</p>
+                    </div>
+                  ))}
+                  {filteredSightings.length > 10 && (
+                    <div className='text-center text-sm text-muted-foreground'>
+                      + {filteredSightings.length - 10} more sightings
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div>
+                <h3 className='text-xl font-semibold mb-2'>Events ({filteredEvents.length})</h3>
+                <div className='space-y-4'>
+                  {filteredEvents.slice(0, 10).map((event) => (
+                    <div key={event.id} className='p-4 bg-secondary/20 rounded-md'>
+                      <h4 className='font-medium'>{event.title || event.name}</h4>
+                      <p className='text-sm text-muted-foreground'>
+                        {new Date(event.date).toLocaleDateString()}
+                      </p>
+                      <p className='line-clamp-2 mt-1'>{event.description?.substring(0, 100)}...</p>
+                    </div>
+                  ))}
+                  {filteredEvents.length > 10 && (
+                    <div className='text-center text-sm text-muted-foreground'>
+                      + {filteredEvents.length - 10} more events
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        )
+      case 'analysis':
+        return (
+          <div className='p-6 overflow-auto'>
+            <h2 className='text-2xl font-bold mb-4'>AI Analysis</h2>
+            {analysisResults ? (
+              <div className='space-y-8'>
+                <div className='prose prose-invert'>
+                  <p>{analysisResults.text}</p>
+                </div>
+
+                {analysisResults.geographicClusters?.length > 0 && (
+                  <div>
+                    <h3 className='text-xl font-semibold mb-2'>Geographic Clusters</h3>
+                    <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+                      {analysisResults.geographicClusters.map((cluster, i) => (
+                        <div key={i} className='p-4 bg-card rounded-md'>
+                          <h4 className='font-medium'>{cluster.region}</h4>
+                          <p className='text-sm'>Sightings: {cluster.sightingCount}</p>
+                          <p className='text-sm mt-1'>{cluster.significance}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {analysisResults.temporalPatterns?.length > 0 && (
+                  <div>
+                    <h3 className='text-xl font-semibold mb-2'>Temporal Patterns</h3>
+                    <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+                      {analysisResults.temporalPatterns.map((pattern, i) => (
+                        <div key={i} className='p-4 bg-card rounded-md'>
+                          <h4 className='font-medium'>{pattern.pattern}</h4>
+                          <p className='text-sm'>Timeframe: {pattern.timeframe}</p>
+                          <p className='text-sm mt-1'>{pattern.description}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {analysisResults.anomalies?.length > 0 && (
+                  <div>
+                    <h3 className='text-xl font-semibold mb-2'>Notable Anomalies</h3>
+                    <div className='space-y-4'>
+                      {analysisResults.anomalies.map((anomaly, i) => (
+                        <div key={i} className='p-4 bg-card rounded-md'>
+                          <h4 className='font-medium'>{anomaly.description}</h4>
+                          {anomaly.location && (
+                            <p className='text-sm'>Location: {anomaly.location}</p>
+                          )}
+                          {anomaly.date && <p className='text-sm'>Date: {anomaly.date}</p>}
+                          <p className='text-sm mt-1'>Significance: {anomaly.significance}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className='text-center text-muted-foreground'>
+                Analysis not available. Enable AI analysis in environment variables.
+              </div>
+            )}
+          </div>
+        )
+      default:
+        return <div>Select a view</div>
+    }
+  }
+
   return (
     <>
       {/* GSAP Script for animations */}
@@ -287,6 +520,16 @@ export function HudUapInterface({
               title='GLOBAL MONITORING SYSTEM'
               subtitle={`SYNC RATE: 97.3% | UPLINK: ACTIVE`}>
               <div className='h-full bg-transparent'>{renderGlobe()}</div>
+
+              {/* Year Selection Menu - top left */}
+              <div className='absolute top-12 left-4 z-20 w-48'>
+                <YearSelectionMenu
+                  availableYears={availableYears}
+                  selectedYear={selectedYear}
+                  onChange={filterByYear}
+                  className='w-full'
+                />
+              </div>
 
               {/* Status indicators */}
               <div className='absolute bottom-2 right-2 text-right text-xs'>

@@ -1,18 +1,19 @@
 'use client'
 
-import { ExpandableChat } from "@/components/ui/chat/expandable-chat"
-import { useAssistant } from "ai/react"
-import { useState } from "react"
+import {ExpandableChat} from '@/components/ui/chat/expandable-chat'
+import {useAssistant} from '@ai-sdk/react'
+import {useState} from 'react'
 
 export const MindMapAiChat = () => {
-  const { status, messages, input, submitMessage, handleInputChange } = useAssistant( { api: '/api/disclosure/chat' } )
-  const [isOpen, setIsOpen] = useState( false )
+  const {status, messages, input, submitMessage, handleInputChange} = useAssistant({
+    api: '/api/disclosure/chat',
+  })
+  const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <div className="h-[600px] relative">
+    <div className='h-[600px] relative'>
       {/* {isOpen && <Button className="absolute bottom-0 right-0 bg-black text-white" onClick={() => setIsOpen( !isOpen )}><MessageCircleIcon className="h-5 w-5 stroke-1 text-white" /></Button>} */}
       <ExpandableChat />
-
 
       {/* <ChatMessageArea className="px-4 py-4 space-y-4">
         {messages.map( ( message ) => {
@@ -54,12 +55,8 @@ export const MindMapAiChat = () => {
           <ChatInputSubmit />
         </ChatInput>
       </div> */}
-
     </div>
-
   )
-
-
 
   // <AiAssistedSearch />
 }

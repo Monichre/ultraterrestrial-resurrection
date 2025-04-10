@@ -1,16 +1,18 @@
-import { getXataClient, type EventsRecord } from '@/db/xata'
-import { type JSONData } from '@xata.io/client'
-import { TimelineViews } from './timeline-views'
+import {getXataClient, type EventsRecord} from '@/db/xata'
+import type {JSONData} from '@xata.io/client'
+import {TimelineViews} from './timeline-views'
+import {GraphPaperBackground} from '@/components/backgrounds/graph-paper/graph-paper-bg'
+import {CustomCursor} from '@/components/cursor-ui/CustomCursor'
 
 const xata = getXataClient()
 
 export default async function TimelinePage() {
   const events: JSONData<EventsRecord>[] = await xata.db.events
-    .filter( {
-      category: { $includes: "historic" },
-    } )
-    .sort( 'date', 'desc' )
-    .select( [
+    .filter({
+      category: {$includes: 'historic'},
+    })
+    .sort('date', 'desc')
+    .select([
       'name',
       'description',
       'location',
@@ -25,9 +27,14 @@ export default async function TimelinePage() {
         columns: ['*'],
         as: 'experts',
       },
-    ] )
+    ])
     .getAll()
-    .then( ( data ) => data.toSerializable() )
+    .then((data) => data.toSerializable())
 
-  return <TimelineViews events={events} />
+  return (
+    <div className='h-screen w-screen'>
+      <CustomCursor />
+      <TimelineViews events={events} />
+    </div>
+  )
 }

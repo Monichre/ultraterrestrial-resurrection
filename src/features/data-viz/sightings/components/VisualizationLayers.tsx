@@ -121,30 +121,65 @@ export function ClusterPoint({
 }
 
 // Layer for rendering multiple sighting points
+// Added robust validation and error handling for missing coordinates
 export function PointsLayer({points, maxPoints = 200, onPointHover}: PointsLayerProps) {
+  // Pre-filter points with valid coordinates for better performance
+  const validPoints = points.filter(point => 
+    point?.location?.coordinates?.lat != null && 
+    point?.location?.coordinates?.lng != null &&
+    !isNaN(point.location.coordinates.lat) &&
+    !isNaN(point.location.coordinates.lng)
+  )
+
+  // Log statistics about valid vs. invalid points for debugging
+  if (points.length > 0) {
+    console.log(
+      `🗺️ PointsLayer: ${validPoints.length}/${points.length} points have valid coordinates`
+    )
+  }
+
   // Limit number of points to render for performance
-  const displayPoints = points.slice(0, maxPoints)
+  const displayPoints = validPoints.slice(0, maxPoints)
+
+  // Render nothing if we have no valid points
+  if (displayPoints.length === 0) {
+    console.log('⚠️ PointsLayer: No valid points to display')
+    return null
+  }
 
   return (
     <>
       {displayPoints.map((point) => {
-        if (!point.location.coordinates) return null
+        try {
+          // Validate coordinates one more time to be absolutely sure
+          if (
+            !point.location?.coordinates?.lat || 
+            !point.location?.coordinates?.lng ||
+            isNaN(point.location.coordinates.lat) ||
+            isNaN(point.location.coordinates.lng)
+          ) {
+            return null
+          }
 
-        // Convert lat/lon to 3D position
-        const position: [number, number, number] = [
-          ((point.location.coordinates.lng * Math.PI) / 180) * 2.01,
-          ((point.location.coordinates.lat * Math.PI) / 180) * 2.01,
-          0.03, // Slightly above globe surface
-        ]
+          // Convert lat/lon to 3D position
+          const position: [number, number, number] = [
+            ((point.location.coordinates.lng * Math.PI) / 180) * 2.01,
+            ((point.location.coordinates.lat * Math.PI) / 180) * 2.01,
+            0.03, // Slightly above globe surface
+          ]
 
-        return (
-          <SightingPoint
-            key={point.id}
-            sighting={point}
-            position={position}
-            onHover={onPointHover}
-          />
-        )
+          return (
+            <SightingPoint
+              key={point.id}
+              sighting={point}
+              position={position}
+              onHover={onPointHover}
+            />
+          )
+        } catch (error) {
+          console.error(`Error rendering point ${point.id}:`, error)
+          return null
+        }
       })}
     </>
   )

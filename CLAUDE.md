@@ -8,6 +8,7 @@
 - `bun storybook` or `npm run storybook` - Launch Storybook
 - `bun new` or `npm run new` - Use plop to scaffold components
 - Testing: `bun vitest`, `bun vitest --browser`, `bun vitest --coverage`
+- Use Bun - always
 
 ## Code Style Guidelines
 

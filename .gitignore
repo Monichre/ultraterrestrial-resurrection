@@ -63,3 +63,5 @@ node_modules/
 # Task files
 tasks.json
 tasks/ 
+
+docs/ufo-intelligence-docs/
