@@ -1,11 +1,15 @@
+# Ultraterrestrial Data Import CLI - Implementation Plan
 
-1. Overall Architecture & Directory Layout
+## Executive Summary
 
-Directory Structure
+This document outlines the implementation plan for creating a modular, interactive CLI tool to manage the data processing and import workflow for the Ultraterrestrial project. The tool will facilitate the movement of data through three distinct phases: Processing, Review, and Insertion, with each phase having its own commands and operations.
 
-Create a project structure that separates concerns:
+## 1. Overall Architecture & Directory Layout
 
-/cli-data-import/
+The CLI will follow a modular architecture with clear separation of concerns:
+
+```
+/cli/
 ├── bin/
 │   └── cli.js                   # Entry point for your CLI app
 ├── src/
@@ -21,38 +25,275 @@ Create a project structure that separates concerns:
 │   └── config.js                # Central config, such as bucket paths, API keys, etc.
 ├── package.json                 # Dependencies, scripts (commander, inquirer, ora, chalk, etc.)
 └── README.md
+```
 
-Pro tip: Maintain a modular folder structure so you can add new workflow steps (e.g., archiving, logging enhancements) without tangling the code.
+## 2. Implementation Plan
 
-⸻
+### Phase 1: Project Setup and Infrastructure (2 days)
 
-2. Define the Core Concepts
+#### Tasks
 
-Buckets
- • Processing Bucket: A folder (e.g., /data/processing) where new/unprocessed data files reside.
- • Insertion Bucket: A folder (e.g., /data/insertion) where files approved after review are moved. These files are “ready to roll” for insertion into Xata.
+1. **Initialize Project Structure**
+   - Create directory structure as outlined above
+   - Set up package.json with dependencies
+   - Configure TypeScript (tsconfig.json)
+   - Create initial README.md with usage instructions
 
-Metadata
+2. **Core Configuration Setup**
+   - Create config.js to manage:
+     - Bucket paths (processing, review, insertion)
+     - API keys and environment variables
+     - Default options and settings
+   - Implement environment variable loading
 
-Each file that lands in the insertion bucket should be accompanied by a metadata JSON (or embedded in a header comment inside the file) containing:
- • Data schema: For example, the JSON schema or CSV structure.
- • Record count: The number of records contained.
- • Target Xata table: Which table in Xata should receive the data.
- • Processing date/timestamp and other useful auditing info.
+3. **Basic CLI Structure**
+   - Set up Commander.js framework
+   - Create entry point (bin/cli.js)
+   - Implement basic command structure
+   - Set up help menus and documentation
 
-Workflow/Phases
+#### Key Dependencies to Install
 
- 1. Processing Phase:
- • List & Select Files: Use an interactive command (via inquirer) to show files in the processing bucket.
- • Transformation/Enhancement: Optionally run transformation scripts on the files.
- • Automatic/Manual Data Enhancements: Use the AI assistant to suggest improvements—like cleaning data or flagging quality issues.
- 2. Review Phase:
- • Preview the Transformed Data: Provide a review interface (displaying a sample preview).
- • Approval: Upon user confirmation, move files from processing to the insertion bucket.
- 3. Insertion Phase:
- • Metadata Display: Before insertion, show metadata (schema, record count, table name).
- • Insertion Workflow Options: Allow selection of a batch insertion (periodically insert in chunks) versus bulk insertion.
- • Robust Insertion: Integrate with the Xata API through your custom xataClient.js module, handling errors gracefully and ensuring compatibility with any table.
+```json
+{
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "commander": "^9.0.0",
+    "dotenv": "^16.0.0",
+    "glob": "^8.0.1",
+    "inquirer": "^8.2.0",
+    "ora": "^6.0.1",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.3"
+  }
+}
+```
+
+### Phase 2: File Management Implementation (3 days)
+
+#### Tasks
+
+1. **File Manager Module**
+   - Implement directory scanning functionality
+   - Create file moving operations
+   - Implement file reading/writing utilities
+   - Add error handling and validation
+
+2. **Metadata Module**
+   - Create schema for metadata
+   - Implement functions to read/write metadata
+   - Add validation for metadata integrity
+   - Create generators for standard metadata
+
+3. **Integration with Existing File Structure**
+   - Map CLI buckets to existing project directories
+   - Create utility functions for path resolution
+   - Support various data types (testimonies, events, etc.)
+
+#### Integration Points
+
+- Integrate with existing file structure in `scripts/data-import`
+- Leverage existing file naming conventions
+- Support various data types: testimonies, events, personnel, etc.
+
+### Phase 3: Processing Commands (3 days)
+
+#### Tasks
+
+1. **Implement Processing Commands**
+   - Create `process:list` command to show files in processing bucket
+   - Implement `process:transform` for file transformation
+   - Add `process:enhance` for AI-assisted enhancements
+
+2. **AI Assistant Integration**
+   - Create aiAssistant.js module
+   - Implement API connection to LLM
+   - Build prompt templates for data enhancement
+   - Add result processing and application
+
+3. **Transform Existing Scripts**
+   - Adapt existing process-testimonies.ts
+   - Support multiple data types
+   - Add interactive options
+
+#### Sample Implementation for process:list
+
+```javascript
+// src/commands/processing.js
+module.exports = (program) => {
+  program
+    .command('process:list')
+    .description('List all files in the processing bucket')
+    .action(async () => {
+      const files = await fileManager.listFiles('processing');
+      console.log(chalk.green('Files in Processing Bucket:'));
+      files.forEach((file) => console.log(`- ${file}`));
+    });
+  
+  // Additional commands...
+}
+```
+
+### Phase 4: Review Commands (2 days)
+
+#### Tasks
+
+1. **Implement Review Commands**
+   - Create `review:list` to display files ready for review
+   - Implement `review:preview` for data preview
+   - Add `review:approve` and `review:reject` commands
+
+2. **Interactive Preview Functionality**
+   - Build data sampling for preview
+   - Create formatted display of data
+   - Add options for viewing different aspects of data
+
+3. **Approval Workflow**
+   - Implement file movement with metadata
+   - Add validation before approval
+   - Create logging for audit trail
+
+#### Integration with Existing Validation
+
+Leverage existing data quality validation from import-testimonies-to-xata.ts:
+
+```javascript
+function validateDataQuality(data) {
+  // Adaptation of existing validation logic
+  // See import-testimonies-to-xata.ts for reference
+}
+```
+
+### Phase 5: Insertion Commands (3 days)
+
+#### Tasks
+
+1. **Implement Insertion Commands**
+   - Create `insert:list` to show files in insertion bucket
+   - Implement `insert:batch` for batch insertion
+   - Add `insert:bulk` for bulk insertion
+
+2. **Xata Client Integration**
+   - Create xataClient.js as a wrapper for the existing Xata client
+   - Add error handling and retry logic
+   - Implement progress tracking
+
+3. **Adapt Existing Import Logic**
+   - Integrate with existing import-testimonies-to-xata.ts
+   - Support multiple data types
+   - Add interactive confirmation
+
+#### Integration with Xata
+
+```javascript
+// src/lib/xataClient.js
+const { getXataClient } = require('../../src/db/xata/xata');
+
+async function insertRecords(tableName, records, options = {}) {
+  const xata = getXataClient();
+  
+  // Implementation that handles batching, errors, etc.
+}
+
+module.exports = {
+  insertRecords,
+  // Additional functions...
+};
+```
+
+### Phase 6: Testing and Documentation (2 days)
+
+#### Tasks
+
+1. **Comprehensive Testing**
+   - Create test cases for each command
+   - Test with various data types
+   - Test error handling and edge cases
+
+2. **Documentation**
+   - Update README.md with detailed usage instructions
+   - Add JSDoc comments to all functions
+   - Create example workflows
+
+3. **User Guide**
+   - Create step-by-step guides for common workflows
+   - Add troubleshooting section
+   - Include examples with real data
+
+## 3. Core Concepts & Functionality
+
+### Buckets
+
+- **Processing Bucket**: A folder (e.g., /data/processing) where new/unprocessed data files reside.
+- **Insertion Bucket**: A folder (e.g., /data/insertion) where files approved after review are moved. These files are "ready to roll" for insertion into Xata.
+
+### Metadata
+
+Each file that lands in the insertion bucket will be accompanied by a metadata JSON containing:
+
+- **Data schema**: For example, the JSON schema or CSV structure.
+- **Record count**: The number of records contained.
+- **Target Xata table**: Which table in Xata should receive the data.
+- **Processing date/timestamp**: When the file was processed.
+- **Quality score**: Based on validation rules (from existing code).
+- **Data type**: What kind of data (testimonies, events, etc.).
+
+### Workflow Phases
+
+1. **Processing Phase**:
+   - List & Select Files: Interactive command to show files in the processing bucket.
+   - Transformation: Run transformations on the selected files.
+   - AI Enhancement: Use the AI assistant to suggest improvements.
+
+2. **Review Phase**:
+   - Preview Transformed Data: Show sample data and metadata.
+   - Quality Assessment: Display validation results and quality score.
+   - Approval Process: Move approved files to the insertion bucket.
+
+3. **Insertion Phase**:
+   - Metadata Display: Show file metadata before insertion.
+   - Insertion Options: Choose batch or bulk insertion.
+   - Robust Insertion: Handle errors and ensure data integrity.
+
+## 4. Data Type Support
+
+The CLI will support multiple data types, leveraging existing processing logic:
+
+1. **Testimonies**:
+   - Parse testimony summaries from Markdown files
+   - Extract structured data (personnel, events, etc.)
+   - Connect to related database tables
+
+2. **Events**:
+   - Process event data from various sources
+   - Handle geocoding and location data
+   - Manage related metadata
+
+3. **Personnel**:
+   - Process biographical information
+   - Handle authority metrics and rankings
+   - Manage relationships to other entities
+
+4. **Organizations**:
+   - Process organization data
+   - Manage relationships to personnel and events
+
+5. **Extensibility**:
+   - Design for easy addition of new data types
+   - Create consistent interfaces across types
+
+## 5. Implementation Details
+
+### Command Structure
+
+The CLI will implement these specific commands:
+
+#### Processing Commands
+
+```
+process:list              List all files in the processing bucket
+process:transform <file>  Transform a file using predefined transformations
+process:enhance <file>    Apply AI-powered data enhancements
 
 AI Assistant Integration
 
@@ -80,7 +321,7 @@ const reviewCmd = require('../src/commands/review');
 const insertionCmd = require('../src/commands/insertion');
 
 program
-  .name('data-import-cli')
+  .name('data-processing-cli')
   .description('CLI tool for processing and inserting UFO data into Xata')
   .version('1.0.0');
 

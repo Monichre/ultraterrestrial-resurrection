@@ -5,6 +5,8 @@ alwaysApply: false
 ---
 Here’s a step‐by‐step design walkthrough for your CLI application. I’ll break it down into high-level components, modules, user flows, and integration points. Think of this as your blueprint for a digital assembly line that gets your UFO (data files) from raw sightings in the processing bucket, through a review and transformation phase, and finally into an orderly, metadata-annotated insertion into Xata. Buckle up—this is a detailed ride!
 
+**Related Files**
+[run-import.sh](mdc:scripts/data-import/run-import.sh)
 ⸻
 
 1. Overall Architecture & Directory Layout

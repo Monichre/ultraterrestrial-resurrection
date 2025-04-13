@@ -5,6 +5,11 @@ alwaysApply: false
 ---
 # Enhanced Data Enrichment System for CSV Files and Xata Schema
 
+[tavily.ts](mdc:src/services/ai/tools/tavily/tavily.ts)
+[firecrawl.ts](mdc:src/services/resource-scrape/firecrawl.ts)
+[resource-scrape.ts](mdc:src/services/resource-scrape/resource-scrape.ts)
+[process-resource.ts](mdc:src/services/knowledge-layer/process-resource.ts)
+
 
 ## Feature/Service Structure
 

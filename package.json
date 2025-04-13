@@ -16,6 +16,7 @@
     "list": "node scripts/dev.js list",
     "generate": "node scripts/dev.js generate",
     "parse-prd": "node scripts/dev.js parse-prd",
+    "import:data": "bash scripts/data-import/run-import.sh",
     "import:events": "bun run scripts/data-import/events/import-events-to-xata.ts",
     "import:sightings": "bun run scripts/data-import/import-sightings-to-xata.ts"
   },
