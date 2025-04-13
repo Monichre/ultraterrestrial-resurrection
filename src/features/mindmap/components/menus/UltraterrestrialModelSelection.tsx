@@ -109,7 +109,7 @@ export function UltraterrestrialModelSelection({
                   aria-label='Remove active command'>
                   <XIcon className='w-4 h-4 text-black/50 dark:text-white/50' />
                   <TextShimmer as='span' className='inline-block mr-2'>
-                    {activeCommand}
+                    {capitalize(activeCommand.toLowerCase())}
                   </TextShimmer>
                 </button>
               )}

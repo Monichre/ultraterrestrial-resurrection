@@ -84,3 +84,5 @@ clau
 **Project Summary:** *`./repomix-output.md`
 
 - You are in charge of completing the personnel ranking system feature. Docs can be found here: .cursor/rules/features/personnel-ranking-system.mdc
+
+- Remember everything we've discussed

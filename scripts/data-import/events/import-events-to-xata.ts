@@ -1,5 +1,5 @@
-// scripts/data-import/import-events-to-xata.ts
-import { getXataClient } from '../../src/db/xata/xata';
+// scripts/data-import/events/import-events-to-xata.ts
+import { getXataClient } from '../../../src/db/xata/xata';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -10,7 +10,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Load environment variables from .env file
-const rootDir = path.resolve(__dirname, '../..');
+const rootDir = path.resolve(__dirname, '../../..');
 const envPath = path.join(rootDir, '.env');
 dotenv.config({ path: envPath });
 console.log(`Loading .env from: ${envPath}`);
@@ -31,9 +31,36 @@ if (!process.env.XATA_API_KEY) {
   }
 }
 
-// Load the events from the JSON file
-const eventsFile = path.join(__dirname, './output/events.json');
-const events = JSON.parse(fs.readFileSync(eventsFile, 'utf8'));
+// Look for the events file in multiple possible locations
+const possiblePaths = [
+  path.join(__dirname, '../insertion/events/events.json'), // First check in the insertion directory
+  path.join(__dirname, '../output/events.json'),           // Then check in the output directory
+  path.join(rootDir, 'scripts/data-import/output/events.json') // Finally check in the project output dir
+];
+
+let eventsFilePath = '';
+let events = [];
+
+// Try each path until we find a valid file
+for (const filePath of possiblePaths) {
+  console.log(`Checking for events file at: ${filePath}`);
+  try {
+    if (fs.existsSync(filePath)) {
+      eventsFilePath = filePath;
+      events = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+      console.log(`Found events file at: ${eventsFilePath}`);
+      console.log(`Loaded ${events.length} events from file`);
+      break;
+    }
+  } catch (error) {
+    console.error(`Error reading events file at ${filePath}:`, error);
+  }
+}
+
+if (!eventsFilePath) {
+  console.error('No valid events file found in any of the expected locations.');
+  process.exit(1);
+}
 
 // TypeScript interface for the event data structure
 interface EventData {

@@ -12,13 +12,14 @@ interface CommandListItemProps {
 }
 
 export const CommandListItem = ({command, onSelect}: CommandListItemProps) => {
-  const handleSelect = () => {
-    onSelect(command.id)
-  }
-
   // Get display values with fallbacks
   const displayLabel = command.label || command.name || command.id
   const displayPrefix = command.prefix || `/${command.id}`
+
+  const handleSelect = () => {
+    // Pass the display label as the command ID for better UI display
+    onSelect(displayLabel)
+  }
 
   return (
     <Command.Item

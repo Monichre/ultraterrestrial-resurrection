@@ -530,95 +530,6 @@ export const MindMapBottomMenu = () => {
     setIsOpen(false)
   }
 
-  const handleKeyDown = useCallback(
-    async (e: React.KeyboardEvent) => {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault()
-
-        // Default behavior: If we have model selected and input but no specific command,
-        // treat as search
-        if (state.selectedModel && inputValue.trim() && !activeCommand) {
-          runSearch({
-            type: state.selectedModel,
-            searchTerm: inputValue,
-          })
-          setInputValue('')
-          return
-        }
-
-        // Handle specific commands
-        if (activeCommand === 'chat') {
-          append({role: 'user', content: inputValue})
-          setInputValue('')
-        } else if (
-          activeCommand === 'search' &&
-          inputValue &&
-          inputValue.trim() !== '/' &&
-          state?.selectedModel
-        ) {
-          const xataSearchResults = await askAIAction({
-            question: inputValue,
-            table: state?.selectedModel,
-          })
-          console.log('🚀 ~ handleKeyDown ~ xataSearchResults:', xataSearchResults)
-          setSearchResults(xataSearchResults)
-
-          // Also visualize the search in the graph
-          runSearch({
-            type: state.selectedModel,
-            searchTerm: inputValue,
-          })
-          setInputValue('')
-        }
-      }
-
-      if (e.key === 'Backspace' && (inputValue === '' || inputValue === ' ')) {
-        setActiveCommand(null)
-        setIsOpen(false)
-      }
-      if (e.key === '/') {
-        setIsOpen(true)
-      }
-    },
-    [
-      activeCommand,
-      inputValue,
-      append,
-      state?.selectedModel,
-      askAIAction,
-      setSearchResults,
-      runSearch,
-      setInputValue,
-    ]
-  )
-
-  const handleChange = useCallback(
-    (e: any) => {
-      // Handle both string values and event objects
-      if (typeof e === 'string') {
-        setInputValue(e)
-      } else if (e && e.target && e.target.value !== undefined) {
-        setInputValue(e.target.value)
-        if (activeCommand === 'chat') {
-          handleInputChange(e)
-        }
-      } else {
-        console.warn('Invalid input provided to handleChange')
-      }
-      // Deep research just uses the input value directly, no special handling needed
-    },
-    [activeCommand, handleInputChange]
-  )
-
-  const handleCommandSelect = (commandId: string) => {
-    const command = COMMANDS.find((cmd) => cmd.id === commandId)
-    if (command) {
-      setActiveCommand(commandId)
-      setInputValue('')
-      setIsOpen(false)
-    }
-  }
-
   // Higher-level delegation function to route actions based on active command
   const handleOracleAction = useCallback(() => {
     if (activeCommand === 'chat' || activeCommand === 'deepresearch') {
@@ -660,6 +571,178 @@ export const MindMapBottomMenu = () => {
     runSearch,
     addDataToMindMap,
   ])
+
+  const handleKeyDown = useCallback(
+    async (e: React.KeyboardEvent) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault()
+
+        // Only process if there's text in the input
+        if (inputValue.trim()) {
+          // Default behavior: If we have model selected and input but no specific command,
+          // treat as search
+          if (state.selectedModel && !activeCommand) {
+            runSearch({
+              type: state.selectedModel,
+              searchTerm: inputValue,
+            })
+            setInputValue('')
+            return
+          }
+
+          // Handle specific commands
+          switch (activeCommand?.toLowerCase()) {
+            case 'chat':
+            case 'deepresearch':
+              // For chat and deepresearch, send message to AI assistant
+              append({role: 'user', content: inputValue})
+              setInputValue('')
+              break
+
+            case 'search':
+              // For search, ensure we have a model selected
+              if (state?.selectedModel) {
+                const xataSearchResults = await askAIAction({
+                  question: inputValue,
+                  table: state.selectedModel,
+                })
+                setSearchResults(xataSearchResults)
+
+                // Also visualize the search in the graph
+                runSearch({
+                  type: state.selectedModel,
+                  searchTerm: inputValue,
+                })
+                setInputValue('')
+              } else {
+                console.warn('Search requires a model to be selected')
+              }
+              break
+
+            case 'scrape':
+              // Handle the scrape command - send URL to be scraped
+              if (inputValue.trim().startsWith('http')) {
+                append({
+                  role: 'user',
+                  content: `Please scrape and analyze the following URL: ${inputValue}`,
+                })
+                setInputValue('')
+              }
+              break
+
+            case 'analyze':
+              // Handle analyze command
+              append({
+                role: 'user',
+                content: `Please analyze the following: ${inputValue}`,
+              })
+              setInputValue('')
+              break
+
+            case 'add':
+            case 'connect':
+              // For other commands that require a model, ensure one is selected
+              if (state?.selectedModel) {
+                // Call the Oracle action handler which routes based on active command
+                handleOracleAction()
+              } else {
+                console.warn(`${activeCommand} requires selecting a model first`)
+              }
+              break
+
+            default:
+              // For any other active command, try the oracle action handler
+              if (activeCommand) {
+                handleOracleAction()
+              }
+              break
+          }
+        }
+      }
+
+      // Handle Backspace to clear command when empty
+      if (e.key === 'Backspace' && (inputValue === '' || inputValue === ' ')) {
+        setActiveCommand(null)
+        setIsOpen(false)
+      }
+
+      // Open command menu on / key
+      if (e.key === '/') {
+        setIsOpen(true)
+      }
+    },
+    [
+      activeCommand,
+      inputValue,
+      append,
+      state?.selectedModel,
+      askAIAction,
+      setSearchResults,
+      runSearch,
+      setInputValue,
+      handleOracleAction,
+    ]
+  )
+
+  const handleChange = useCallback(
+    (e: any) => {
+      // Handle both string values and event objects
+      if (typeof e === 'string') {
+        setInputValue(e)
+      } else if (e && e.target && e.target.value !== undefined) {
+        setInputValue(e.target.value)
+        if (activeCommand === 'chat') {
+          handleInputChange(e)
+        }
+      } else {
+        console.warn('Invalid input provided to handleChange')
+      }
+      // Deep research just uses the input value directly, no special handling needed
+    },
+    [activeCommand, handleInputChange]
+  )
+
+  const handleCommandSelect = (commandId: string) => {
+    // We might receive either the display name (like "Search") or the ID (like "search")
+    // First, try to find the command by direct ID match
+    let foundCommand = COMMANDS.find((cmd) => cmd.id === commandId || cmd.label === commandId)
+
+    // If not found by direct match, try case-insensitive comparison
+    if (!foundCommand) {
+      const normalizedId = commandId.toLowerCase()
+      foundCommand = COMMANDS.find(
+        (cmd) => cmd.id.toLowerCase() === normalizedId || cmd.label.toLowerCase() === normalizedId
+      )
+    }
+
+    // Check in DEFAULT_COMMAND_OPTIONS if not found in COMMANDS
+    let foundDefaultCommand
+    if (!foundCommand) {
+      foundDefaultCommand = DEFAULT_COMMAND_OPTIONS.find(
+        (opt) =>
+          opt.id.toLowerCase() === commandId.toLowerCase() ||
+          opt.name.toLowerCase() === commandId.toLowerCase()
+      )
+    }
+
+    if (foundCommand || foundDefaultCommand) {
+      // Set the active command using the display-friendly version
+      // This is what will appear in the UI tag
+      const displayCommand = foundCommand
+        ? foundCommand.label || foundCommand.id
+        : foundDefaultCommand?.name || foundDefaultCommand?.id || commandId
+
+      setActiveCommand(displayCommand)
+      setInputValue('')
+      setIsOpen(false)
+    } else {
+      // If we somehow received a command ID that doesn't match any command,
+      // just use it directly (fallback)
+      setActiveCommand(commandId)
+      setInputValue('')
+      setIsOpen(false)
+    }
+  }
 
   const handleLoadingModelData = () => {
     // Delegate to the handleOracleAction function

@@ -54,12 +54,17 @@ export const OracleCommandList = ({
 
   // Function to handle command selection
   const handleItemSelect = (command: CommandItem) => {
+    // Clear input when selecting a command
     if (setInputValue) {
       setInputValue('')
     }
 
-    // Call the parent handler
-    handleCommandSelect(command.id)
+    // Use the original ID format if possible for display purposes
+    // This ensures commands like "Search" retain their capitalization instead of "search"
+    const displayId = command.label || command.name || command.id
+
+    // Call the parent handler with the proper ID
+    handleCommandSelect(displayId)
   }
 
   // Determine if we should show the input-specific style

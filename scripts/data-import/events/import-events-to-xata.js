@@ -1,8 +1,49 @@
 
-import { getXataClient } from '../../src/db/xata/xata';
+import { getXataClient } from '../../../src/db/xata/xata';
 import { createRequire } from 'module';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// ES Module equivalent for __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const require = createRequire(import.meta.url);
-const events = require('./output/events.json');
+
+// Create functions to check if files exist
+const fileExists = (filePath) => {
+  try {
+    return fs.existsSync(filePath);
+  } catch (error) {
+    console.error(`Error checking file existence at ${filePath}:`, error);
+    return false;
+  }
+};
+
+// Look for the events file in multiple possible locations
+const rootDir = path.resolve(__dirname, '../../..');
+const possiblePaths = [
+  path.join(__dirname, '../insertion/events/events.json'),
+  path.join(__dirname, '../output/events.json'),
+  path.join(rootDir, 'scripts/data-import/output/events.json')
+];
+
+let eventsPath = '';
+for (const filePath of possiblePaths) {
+  console.log(`Checking for events file at: ${filePath}`);
+  if (fileExists(filePath)) {
+    eventsPath = filePath;
+    console.log(`Found events file at: ${eventsPath}`);
+    break;
+  }
+}
+
+if (!eventsPath) {
+  console.error('No valid events file found in any of the expected locations.');
+  process.exit(1);
+}
+
+const events = require(eventsPath);
 
 // More precise implementation of fuzzy matching for title comparison
 function fuzzyMatch(str1, str2, threshold = 0.8) {
