@@ -51,7 +51,7 @@ export const EXTERNAL_RESOURCES = [
 	"https://whatsupwithufos.com/",
 	"https://worldofthestrange.com/",
 	"https://xcorp.com/",
-
+	"https://majesticdocuments.com/",
 	"https://projects.iq.harvard.edu/galileo",
 	"https://www.cnes-geipan.fr/en",
 	"https://uap.guide/",

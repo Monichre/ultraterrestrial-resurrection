@@ -1,0 +1,1067 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Enhanced Data Enrichment System for CSV Files and Xata Schema
+
+
+## Feature/Service Structure
+
+Let's start by expanding our project structure to accommodate both CSV and Xata schema enrichment:
+
+```bash
+src/
+├── config.ts                  # Configuration settings
+├── types/
+│   ├── common.ts              # Shared type definitions
+│   ├── csv.ts                 # CSV-specific types
+│   └── xata.ts                # Xata schema types
+├── agents/
+│   ├── dataAgent.ts           # Handles data loading/saving
+│   ├── enrichAgent.ts         # Core enrichment logic
+│   └── xataAgent.ts           # Xata-specific operations
+├── enrichers/
+│   ├── baseEnricher.ts        # Abstract enrichment interface
+│   ├── csvEnricher.ts         # CSV-specific enrichment
+│   └── xataEnricher.ts        # Xata-specific enrichment
+├── utils/
+│   ├── queryGenerator.ts      # Search query generation
+│   └── dataExtractor.ts       # Data extraction from search results
+└── index.ts                   # Main application entry point
+```
+
+## Core Types
+
+Let's define our core types to handle both CSV and Xata data sources:
+
+```typescript
+// src/types/common.ts
+export interface EnrichmentConfig {
+  tavilyApiKey: string;
+  openaiApiKey: string;
+  maxColsPerPass: number;
+  maxPasses: number;
+  batchSize: number;
+  searchDepth: "basic" | "advanced";
+  maxResults: number;
+}
+
+export interface EnrichmentSource {
+  id: string;
+  type: 'csv' | 'xata';
+  path?: string; // For CSV files
+  tables?: string[]; // For Xata schema
+}
+
+export interface EnrichmentResult {
+  sourceId: string;
+  totalFields: number;
+  filledFields: number;
+  timeTaken: number;
+}
+
+export interface EnrichField {
+  name: string;
+  value: any;
+  required: boolean;
+}
+
+export interface EnrichRecord {
+  id: string;
+  tableName?: string;
+  fields: EnrichField[];
+}
+
+export interface EnrichData {
+  records: EnrichRecord[];
+  schema?: any;
+}
+```
+
+```typescript
+// src/types/xata.ts
+export interface XataColumnBase {
+  name: string;
+  type: string;
+}
+
+export interface XataScalarColumn extends XataColumnBase {
+  type: 'string' | 'text' | 'email' | 'int' | 'float' | 'datetime' | 'multiple' | 'json';
+  unique?: boolean;
+  defaultValue?: any;
+}
+
+export interface XataFileColumn extends XataColumnBase {
+  type: 'file';
+  file: {
+    defaultPublicAccess: boolean;
+  };
+}
+
+export interface XataFileArrayColumn extends XataColumnBase {
+  type: 'file[]';
+  'file[]': {
+    defaultPublicAccess: boolean;
+  };
+}
+
+export interface XataLinkColumn extends XataColumnBase {
+  type: 'link';
+  link: {
+    table: string;
+  };
+}
+
+export interface XataVectorColumn extends XataColumnBase {
+  type: 'vector';
+  vector: {
+    dimension: number;
+  };
+}
+
+export type XataColumn = 
+  | XataScalarColumn 
+  | XataFileColumn 
+  | XataFileArrayColumn 
+  | XataLinkColumn 
+  | XataVectorColumn;
+
+export interface XataRevLink {
+  column: string;
+  table: string;
+}
+
+export interface XataTable {
+  name: string;
+  columns: XataColumn[];
+  revLinks?: XataRevLink[];
+}
+
+export interface XataSchema {
+  tables: XataTable[];
+}
+```
+
+## Configuration
+
+```typescript
+// src/config.ts
+import { EnrichmentConfig } from './types/common';
+
+export const config: EnrichmentConfig = {
+  tavilyApiKey: process.env.TAVILY_API_KEY || '',
+  openaiApiKey: process.env.OPENAI_API_KEY || '',
+  maxColsPerPass: 3,
+  maxPasses: 5,
+  batchSize: 10,
+  searchDepth: "advanced",
+  maxResults: 5
+};
+
+export const ENRICHABLE_TYPES = [
+  'string', 'text', 'int', 'float', 'datetime'
+];
+
+export const XATA_ENRICHABLE_TABLES = [
+  'topics', 'personnel', 'events', 'organizations', 
+  'sightings', 'testimonies', 'documents', 'locations', 
+  'artifacts'
+];
+```
+
+## Abstract Enricher Interface
+
+```typescript
+// src/enrichers/baseEnricher.ts
+import { EnrichmentConfig, EnrichData, EnrichmentResult, EnrichField, EnrichRecord } from '../types/common';
+import { tavily } from '@tavily/core';
+import OpenAI from 'openai';
+
+export abstract class BaseEnricher {
+  protected tavily;
+  protected openai;
+  protected config: EnrichmentConfig;
+  
+  constructor(config: EnrichmentConfig) {
+    this.config = config;
+    this.tavily = tavily({ apiKey: config.tavilyApiKey });
+    this.openai = new OpenAI({ apiKey: config.openaiApiKey });
+  }
+
+  abstract loadData(source: any): Promise<EnrichData>;
+  abstract saveData(data: EnrichData, destination: any): Promise<void>;
+  
+  async generateSearchQuery(record: EnrichRecord, missingFields: EnrichField[]): Promise<string> {
+    // Get non-null fields from the record to use as context
+    const knownFields = record.fields
+      .filter(field => field.value !== null && field.value !== undefined && field.value !== '')
+      .map(field => `${field.name}: ${field.value}`)
+      .join(', ');
+
+    const missingFieldNames = missingFields.map(field => field.name).join(', ');
+
+    // Create a prompt for OpenAI to generate a search query
+    const prompt = `
+      I have a record${record.tableName ? ` from the "${record.tableName}" table` : ''} with the following information:
+      ${knownFields || 'No known information'}
+      
+      I need to find information to fill in the following missing fields:
+      ${missingFieldNames}
+      
+      Generate a search query that will help me find this information.
+      The search query should:
+      1. Include key identifying information from the known fields
+      2. Be specific enough to find the missing information
+      3. Focus on the most relevant known attributes
+      4. Be formatted for web search (not as a question)
+    `;
+
+    const completion = await this.openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [
+        { role: "system", content: "You are a helpful assistant that generates search queries to find missing information." },
+        { role: "user", content: prompt }
+      ],
+      temperature: 0.5,
+    });
+
+    return completion.choices[0].message.content || "";
+  }
+
+  async extractDataFromSearchResults(
+    searchResults: any[], 
+    record: EnrichRecord, 
+    missingFields: EnrichField[]
+  ): Promise<Record<string, any>> {
+    // Extract content from search results
+    const context = searchResults.map(result => result.content).join('\n\n');
+
+    // If no relevant context was found, return empty object
+    if (!context.trim()) {
+      return {};
+    }
+
+    // Create examples from existing data for the model to learn from
+    const examples = record.fields
+      .filter(field => field.value !== null && field.value !== undefined && field.value !== '')
+      .map(field => `${field.name}: ${field.value}`)
+      .join('\n');
+
+    const missingFieldNames = missingFields.map(field => field.name);
+
+    // Use OpenAI to extract relevant information from the search results
+    const extractPrompt = `
+      I have the following information about ${record.tableName ? `a "${record.tableName}" record` : 'an entity'}:
+      ${examples || 'No current information'}
+      
+      I need to fill in the following missing fields:
+      ${missingFieldNames.join(', ')}
+      
+      Here is the context from my search:
+      ${context}
+      
+      Based on this context, please provide values for the missing fields in JSON format like:
+      {
+        ${missingFieldNames.map(name => `"${name}": "value"`).join(',\n')}
+      }
+      
+      If you cannot find a value for a field, leave it as null.
+      Consider the appropriate data type for each field.
+    `;
+
+    const completion = await this.openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [
+        { 
+          role: "system", 
+          content: "You are a helpful assistant that extracts information from search results. You provide only the requested information in the specified format." 
+        },
+        { role: "user", content: extractPrompt }
+      ],
+      temperature: 0.3,
+    });
+
+    // Parse the extracted information
+    const extractedContent = completion.choices[0].message.content || "";
+    try {
+      // Extract JSON from the response
+      const jsonMatch = extractedContent.match(/```json\n([\s\S]*?)\n```/) || 
+                        extractedContent.match(/{[\s\S]*?}/);
+      
+      if (jsonMatch) {
+        return JSON.parse(jsonMatch[0]);
+      } else {
+        return JSON.parse(extractedContent);
+      }
+    } catch (error) {
+      console.error("Failed to parse extracted data:", error);
+      console.log("Raw extracted content:", extractedContent);
+      return {};
+    }
+  }
+
+  async fillRecordFields(record: EnrichRecord, missingFields: EnrichField[]): Promise<{
+    updatedRecord: EnrichRecord,
+    filledFields: string[]
+  }> {
+    try {
+      if (missingFields.length === 0) {
+        return { updatedRecord: record, filledFields: [] };
+      }
+
+      // Generate a search query based on the record data and missing fields
+      const searchQuery = await this.generateSearchQuery(record, missingFields);
+      
+      // Execute the search using Tavily
+      const searchResponse = await this.tavily.search(searchQuery, {
+        search_depth: this.config.searchDepth,
+        max_results: this.config.maxResults,
+      });
+
+      // Extract data from search results
+      const extractedData = await this.extractDataFromSearchResults(
+        searchResponse.results,
+        record,
+        missingFields
+      );
+
+      // Update the record with the extracted data
+      const updatedRecord = { ...record };
+      const filledFields: string[] = [];
+
+      for (const field of missingFields) {
+        if (extractedData[field.name] && extractedData[field.name] !== null) {
+          const fieldIndex = updatedRecord.fields.findIndex(f => f.name === field.name);
+          if (fieldIndex !== -1) {
+            updatedRecord.fields[fieldIndex].value = extractedData[field.name];
+            filledFields.push(field.name);
+          }
+        }
+      }
+
+      return { updatedRecord, filledFields };
+    } catch (error) {
+      console.error("Error filling record fields:", error);
+      return { updatedRecord: record, filledFields: [] };
+    }
+  }
+
+  async enrichData(data: EnrichData): Promise<EnrichmentResult> {
+    const startTime = Date.now();
+    let totalFields = 0;
+    let filledFields = 0;
+
+    console.log(`Starting data enrichment for ${data.records.length} records`);
+
+    for (let pass = 0; pass < this.config.maxPasses; pass++) {
+      console.log(`\nPass ${pass + 1}/${this.config.maxPasses}`);
+      let passFilledFields = 0;
+
+      // Process records in batches
+      for (let batchIndex = 0; batchIndex < data.records.length; batchIndex += this.config.batchSize) {
+        const batchEnd = Math.min(batchIndex + this.config.batchSize, data.records.length);
+        console.log(`Processing batch: records ${batchIndex + 1} to ${batchEnd}`);
+        
+        const batchPromises = [];
+        for (let recordIndex = batchIndex; recordIndex < batchEnd; recordIndex++) {
+          batchPromises.push(this.processRecord(data.records, recordIndex, pass));
+        }
+        
+        const batchResults = await Promise.all(batchPromises);
+        passFilledFields += batchResults.reduce((sum, result) => sum + result, 0);
+        
+        // Optional delay between batches
+        if (batchEnd < data.records.length) {
+          await new Promise(resolve => setTimeout(resolve, 1000));
+        }
+      }
+
+      filledFields += passFilledFields;
+      console.log(`Pass ${pass + 1} completed: Filled ${passFilledFields} fields`);
+
+      // If no fields were filled in this pass, we can stop early
+      if (passFilledFields === 0) {
+        console.log("No more fields filled, stopping early");
+        break;
+      }
+    }
+
+    // Count total fields (including those already filled)
+    totalFields = data.records.reduce((sum, record) => sum + record.fields.length, 0);
+
+    const endTime = Date.now();
+    return {
+      sourceId: data.records[0]?.tableName || "unknown",
+      totalFields,
+      filledFields,
+      timeTaken: (endTime - startTime) / 1000
+    };
+  }
+
+  private async processRecord(records: EnrichRecord[], recordIndex: number, pass: number): Promise<number> {
+    const record = records[recordIndex];
+    
+    // Find fields with missing values
+    const missingFields = record.fields.filter(field => 
+      (field.value === null || field.value === undefined || field.value === '') && 
+      !field.name.includes('photo') && 
+      !field.name.includes('image') && 
+      !field.name.includes('file')
+    );
+    
+    if (missingFields.length === 0) {
+      return 0;
+    }
+
+    // Process a subset of missing fields per pass
+    const fieldsToProcess = missingFields.slice(0, this.config.maxColsPerPass);
+    
+    console.log(`Record ${recordIndex + 1} (${record.tableName || 'unknown'}): Attempting to fill fields: ${fieldsToProcess.map(f => f.name).join(', ')}`);
+    
+    // Fill in the record
+    const { updatedRecord, filledFields } = await this.fillRecordFields(record, fieldsToProcess);
+    
+    // Update the original record
+    records[recordIndex] = updatedRecord;
+    
+    if (filledFields.length > 0) {
+      console.log(`Record ${recordIndex + 1}: Filled ${filledFields.length} fields: ${filledFields.join(', ')}`);
+    } else {
+      console.log(`Record ${recordIndex + 1}: No fields filled`);
+    }
+
+    return filledFields.length;
+  }
+}
+```
+
+## CSV Enricher Implementation
+
+```typescript
+// src/enrichers/csvEnricher.ts
+import * as fs from 'fs-extra';
+import * as path from 'path';
+import * as csv from 'csv-parser';
+import { createObjectCsvWriter } from 'csv-writer';
+import { BaseEnricher } from './baseEnricher';
+import { EnrichmentConfig, EnrichData, EnrichField, EnrichRecord } from '../types/common';
+
+export class CsvEnricher extends BaseEnricher {
+  constructor(config: EnrichmentConfig) {
+    super(config);
+  }
+
+  async loadData(filePath: string): Promise<EnrichData> {
+    const records: EnrichRecord[] = [];
+    const headers: string[] = [];
+    
+    // Create a promise to handle the async CSV parsing
+    return new Promise((resolve, reject) => {
+      fs.createReadStream(filePath)
+        .pipe(csv())
+        .on('headers', (headerList: string[]) => {
+          headers.push(...headerList);
+        })
+        .on('data', (row: any) => {
+          // Convert empty strings to null
+          const fields: EnrichField[] = [];
+          
+          for (const key of Object.keys(row)) {
+            fields.push({
+              name: key,
+              value: row[key] === '' ? null : row[key],
+              required: false // CSV doesn't specify required fields
+            });
+          }
+          
+          records.push({
+            id: `row-${records.length + 1}`,
+            fields
+          });
+        })
+        .on('end', () => {
+          resolve({ records });
+        })
+        .on('error', (error) => {
+          reject(error);
+        });
+    });
+  }
+
+  async saveData(data: EnrichData, outputPath: string): Promise<void> {
+    // Convert EnrichData back to flat objects for CSV
+    const flatRecords = data.records.map(record => {
+      const flatRecord: Record<string, any> = {};
+      record.fields.forEach(field => {
+        flatRecord[field.name] = field.value;
+      });
+      return flatRecord;
+    });
+
+    // Get all unique headers
+    const headers = Array.from(
+      new Set(
+        data.records.flatMap(record => 
+          record.fields.map(field => field.name)
+        )
+      )
+    );
+
+    const csvWriter = createObjectCsvWriter({
+      path: outputPath,
+      header: headers.map(header => ({ id: header, title: header }))
+    });
+
+    await csvWriter.writeRecords(flatRecords);
+    console.log(`Data saved to ${outputPath}`);
+  }
+}
+```
+
+## Xata Schema Enricher Implementation
+
+```typescript
+// src/enrichers/xataEnricher.ts
+import { BaseEnricher } from './baseEnricher';
+import { EnrichmentConfig, EnrichData, EnrichField, EnrichRecord } from '../types/common';
+import { XataSchema, XataTable, XataColumn } from '../types/xata';
+import { ENRICHABLE_TYPES, XATA_ENRICHABLE_TABLES } from '../config';
+import * as fs from 'fs-extra';
+
+export class XataEnricher extends BaseEnricher {
+  private schema: XataSchema;
+  
+  constructor(config: EnrichmentConfig) {
+    super(config);
+    this.schema = { tables: [] };
+  }
+
+  async loadSchema(schemaPath: string): Promise<XataSchema> {
+    try {
+      const schemaContent = await fs.readFile(schemaPath, 'utf-8');
+      this.schema = JSON.parse(schemaContent);
+      return this.schema;
+    } catch (error) {
+      console.error("Error loading Xata schema:", error);
+      throw error;
+    }
+  }
+
+  isEnrichableField(column: XataColumn): boolean {
+    return ENRICHABLE_TYPES.includes(column.type);
+  }
+
+  isEnrichableTable(tableName: string): boolean {
+    return XATA_ENRICHABLE_TABLES.includes(tableName);
+  }
+
+  /**
+   * Load mock data for Xata tables to demonstrate enrichment
+   * In a real application, this would fetch actual records from Xata
+   */
+  async loadData(options: { schema: XataSchema, mockDataSize?: number }): Promise<EnrichData> {
+    const { schema, mockDataSize = 3 } = options;
+    const records: EnrichRecord[] = [];
+    
+    // Process only enrichable tables
+    const enrichableTables = schema.tables.filter(table => 
+      this.isEnrichableTable(table.name)
+    );
+    
+    for (const table of enrichableTables) {
+      const enrichableColumns = table.columns.filter(column => 
+        this.isEnrichableField(column)
+      );
+      
+      // Create mock records for this table
+      for (let i = 0; i < mockDataSize; i++) {
+        const fields: EnrichField[] = [];
+        
+        // Add fields for each enrichable column
+        for (const column of enrichableColumns) {
+          // For demonstration, set half the fields to null to simulate missing data
+          const hasValue = Math.random() > 0.5;
+          
+          fields.push({
+            name: column.name,
+            value: hasValue ? this.generateMockValue(column) : null,
+            required: false // In production, this would come from Xata schema
+          });
+        }
+        
+        records.push({
+          id: `${table.name}-${i + 1}`,
+          tableName: table.name,
+          fields
+        });
+      }
+    }
+    
+    return { records, schema };
+  }
+
+  /**
+   * Generate mock values for demonstration
+   * In a real application, this would be real data from Xata
+   */
+  private generateMockValue(column: XataColumn): any {
+    switch (column.type) {
+      case 'string':
+        return `Sample ${column.name}`;
+      case 'text':
+        return `This is a sample ${column.name} with multiple sentences. It provides context for enrichment.`;
+      case 'int':
+        return Math.floor(Math.random() * 100);
+      case 'float':
+        return Math.random() * 100;
+      case 'datetime':
+        return new Date().toISOString();
+      default:
+        return null;
+    }
+  }
+
+  /**
+   * In a real application, this would update records in Xata
+   */
+  async saveData(data: EnrichData, options: { outputPath?: string }): Promise<void> {
+    const { outputPath } = options;
+    
+    if (outputPath) {
+      // Save as JSON for demonstration
+      await fs.writeFile(
+        outputPath,
+        JSON.stringify(data.records, null, 2),
+        'utf-8'
+      );
+      console.log(`Enriched Xata data saved to ${outputPath}`);
+    } else {
+      // In a real application, this would update Xata records
+      console.log('Enriched data ready for updating Xata records');
+      console.log(`Would update ${data.records.length} records across ${new Set(data.records.map(r => r.tableName)).size} tables`);
+    }
+  }
+}
+```
+
+## Main Application
+
+```typescript
+// src/index.ts
+import * as path from 'path';
+import { config } from './config';
+import { CsvEnricher } from './enrichers/csvEnricher';
+import { XataEnricher } from './enrichers/xataEnricher';
+
+async function enrichCsvData(inputPath: string, outputPath?: string) {
+  try {
+    const csvEnricher = new CsvEnricher(config);
+    
+    console.log(`Loading CSV data from ${inputPath}...`);
+    const data = await csvEnricher.loadData(inputPath);
+    
+    console.log(`Loaded ${data.records.length} records`);
+    
+    // Display dataset statistics
+    const totalFields = data.records.reduce((sum, record) => sum + record.fields.length, 0);
+    const emptyFields = data.records.reduce((sum, record) => {
+      return sum + record.fields.filter(field => 
+        field.value === null || field.value === undefined || field.value === ''
+      ).length;
+    }, 0);
+    
+    console.log(`\nDataset Statistics:`);
+    console.log(`Total fields: ${totalFields}`);
+    console.log(`Empty fields: ${emptyFields} (${(emptyFields / totalFields * 100).toFixed(2)}%)`);
+    
+    // Enrich data
+    console.log('\nEnriching CSV data...');
+    const enrichmentResult = await csvEnricher.enrichData(data);
+    
+    // Calculate post-enrichment statistics
+    const remainingEmptyFields = data.records.reduce((sum, record) => {
+      return sum + record.fields.filter(field => 
+        field.value === null || field.value === undefined || field.value === ''
+      ).length;
+    }, 0);
+    
+    console.log('\nEnrichment Results:');
+    console.log(`Empty fields remaining: ${remainingEmptyFields} (${(remainingEmptyFields / totalFields * 100).toFixed(2)}%)`);
+    console.log(`Fields filled: ${emptyFields - remainingEmptyFields}`);
+    console.log(`Time taken: ${enrichmentResult.timeTaken.toFixed(2)} seconds`);
+    
+    // Save enriched data
+    const effectiveOutputPath = outputPath || path.join(
+      path.dirname(inputPath),
+      `${path.basename(inputPath, '.csv')}_enriched.csv`
+    );
+    
+    console.log(`\nSaving enriched CSV data to ${effectiveOutputPath}...`);
+    await csvEnricher.saveData(data, effectiveOutputPath);
+    
+    console.log('\nCSV data enrichment completed successfully!');
+    return enrichmentResult;
+  } catch (error) {
+    console.error('Error in CSV data enrichment process:', error);
+    throw error;
+  }
+}
+
+async function enrichXataData(schemaPath: string, outputPath?: string) {
+  try {
+    const xataEnricher = new XataEnricher(config);
+    
+    console.log(`Loading Xata schema from ${schemaPath}...`);
+    const schema = await xataEnricher.loadSchema(schemaPath);
+    
+    console.log(`Loaded schema with ${schema.tables.length} tables`);
+    
+    // In a real application, this would fetch real data from Xata
+    // For demonstration, we're using mock data
+    console.log('\nLoading mock Xata data...');
+    const data = await xataEnricher.loadData({ schema, mockDataSize: 5 });
+    
+    console.log(`Loaded ${data.records.length} records across multiple tables`);
+    
+    // Display dataset statistics
+    const totalFields = data.records.reduce((sum, record) => sum + record.fields.length, 0);
+    const emptyFields = data.records.reduce((sum, record) => {
+      return sum + record.fields.filter(field => 
+        field.value === null || field.value === undefined || field.value === ''
+      ).length;
+    }, 0);
+    
+    console.log(`\nDataset Statistics:`);
+    console.log(`Total fields: ${totalFields}`);
+    console.log(`Empty fields: ${emptyFields} (${(emptyFields / totalFields * 100).toFixed(2)}%)`);
+    
+    // Enrich data
+    console.log('\nEnriching Xata data...');
+    const enrichmentResult = await xataEnricher.enrichData(data);
+    
+    // Calculate post-enrichment statistics
+    const remainingEmptyFields = data.records.reduce((sum, record) => {
+      return sum + record.fields.filter(field => 
+        field.value === null || field.value === undefined || field.value === ''
+      ).length;
+    }, 0);
+    
+    console.log('\nEnrichment Results:');
+    console.log(`Empty fields remaining: ${remainingEmptyFields} (${(remainingEmptyFields / totalFields * 100).toFixed(2)}%)`);
+    console.log(`Fields filled: ${emptyFields - remainingEmptyFields}`);
+    console.log(`Time taken: ${enrichmentResult.timeTaken.toFixed(2)} seconds`);
+    
+    // Save enriched data (in a real application, this would update Xata records)
+    const effectiveOutputPath = outputPath || path.join(
+      path.dirname(schemaPath),
+      `xata_enriched_data.json`
+    );
+    
+    console.log(`\nSaving enriched Xata data to ${effectiveOutputPath}...`);
+    await xataEnricher.saveData(data, { outputPath: effectiveOutputPath });
+    
+    console.log('\nXata data enrichment completed successfully!');
+    return enrichmentResult;
+  } catch (error) {
+    console.error('Error in Xata data enrichment process:', error);
+    throw error;
+  }
+}
+
+async function main() {
+  try {
+    // Check for command line arguments
+    const args = process.argv.slice(2);
+    if (args.length < 2) {
+      console.error('Usage: ts-node src/index.ts <type> <input_path> [output_path]');
+      console.error('  type: csv or xata');
+      console.error('  input_path: path to input CSV file or Xata schema file');
+      console.error('  output_path: (optional) path to save enriched data');
+      process.exit(1);
+    }
+
+    const type = args[0].toLowerCase();
+    const inputPath = args[1];
+    const outputPath = args[2];
+
+    console.log(`Data Enrichment Tool`);
+    console.log(`Type: ${type}`);
+    console.log(`Input: ${inputPath}`);
+    console.log(`Output: ${outputPath || 'default'}`);
+
+    if (type === 'csv') {
+      await enrichCsvData(inputPath, outputPath);
+    } else if (type === 'xata') {
+      await enrichXataData(inputPath, outputPath);
+    } else {
+      console.error(`Unsupported data type: ${type}`);
+      process.exit(1);
+    }
+  } catch (error) {
+    console.error('Error in data enrichment process:', error);
+    process.exit(1);
+  }
+}
+
+// Run the application
+if (require.main === module) {
+  main();
+}
+
+// Export for use in other modules
+export { enrichCsvData, enrichXataData };
+```
+
+## Table Processing Logic for Xata Schema
+
+Let's add some specific logic to handle different types of tables in the Xata schema, addressing table-specific enrichment strategies:
+
+```typescript
+// src/enrichers/tableStrategies.ts
+import { EnrichRecord, EnrichField } from '../types/common';
+
+// Define strategies for specific tables
+export const tableStrategies: Record<string, (record: EnrichRecord) => Promise<string>> = {
+  // Strategy for topics table
+  topics: async (record) => {
+    const title = record.fields.find(f => f.name === 'title')?.value;
+    const name = record.fields.find(f => f.name === 'name')?.value;
+    
+    if (title || name) {
+      return `detailed information about ${title || name} topic`;
+    }
+    return 'general information about this topic';
+  },
+
+  // Strategy for personnel table
+  personnel: async (record) => {
+    const name = record.fields.find(f => f.name === 'name')?.value;
+    const role = record.fields.find(f => f.name === 'role')?.value;
+    
+    if (name) {
+      return `${name} ${role ? `${role}` : ''} biography background professional experience`;
+    }
+    return 'personnel biographical information';
+  },
+
+  // Strategy for events table
+  events: async (record) => {
+    const title = record.fields.find(f => f.name === 'title')?.value;
+    const date = record.fields.find(f => f.name === 'date')?.value;
+    const location = record.fields.find(f => f.name === 'location')?.value;
+    
+    let query = title ? `${title}` : 'event';
+    if (date) query += ` ${date}`;
+    if (location) query += ` ${location}`;
+    return `${query} full details information`;
+  },
+
+  // Strategy for organizations table
+  organizations: async (record) => {
+    const name = record.fields.find(f => f.name === 'name')?.value;
+    const specialization = record.fields.find(f => f.name === 'specialization')?.value;
+    
+    if (name) {
+      return `${name} ${specialization ? `${specialization}` : ''} organization company information history background`;
+    }
+    return 'organization information profile';
+  },
+
+  // Strategy for sightings table
+  sightings: async (record) => {
+    const date = record.fields.find(f => f.name === 'date')?.value;
+    const city = record.fields.find(f => f.name === 'city')?.value;
+    const state = record.fields.find(f => f.name === 'state')?.value;
+    const shape = record.fields.find(f => f.name === 'shape')?.value;
+    
+    let query = 'UFO sighting';
+    if (date) query += ` ${date}`;
+    if (city && state) query += ` in ${city}, ${state}`;
+    else if (city) query += ` in ${city}`;
+    else if (state) query += ` in ${state}`;
+    if (shape) query += ` ${shape} shaped`;
+    
+    return query;
+  },
+
+  // Add strategies for other tables as needed
+  artifacts: async (record) => {
+    const name = record.fields.find(f => f.name === 'name')?.value;
+    const origin = record.fields.find(f => f.name === 'origin')?.value;
+    
+    if (name) {
+      return `${name} ${origin ? `from ${origin}` : ''} artifact historical information`;
+    }
+    return 'artifact historical information';
+  },
+};
+
+export function getTableStrategy(tableName: string) {
+  return tableStrategies[tableName] || null;
+}
+```
+
+Now let's update the `generateSearchQuery` method in the BaseEnricher to use these table-specific strategies when available:
+
+```typescript
+// Update in src/enrichers/baseEnricher.ts
+import { getTableStrategy } from './tableStrategies';
+
+// Inside BaseEnricher class
+async generateSearchQuery(record: EnrichRecord, missingFields: EnrichField[]): Promise<string> {
+  // Check if we have a specific strategy for this table
+  const tableStrategy = record.tableName ? getTableStrategy(record.tableName) : null;
+  
+  if (tableStrategy) {
+    // Use the table-specific strategy to generate the base query
+    const baseQuery = await tableStrategy(record);
+    
+    // Get non-null fields for context
+    const knownFields = record.fields
+      .filter(field => field.value !== null && field.value !== undefined && field.value !== '')
+      .map(field => `${field.name}: ${field.value}`)
+      .join(', ');
+
+    const missingFieldNames = missingFields.map(field => field.name).join(', ');
+
+    // Create a prompt for OpenAI to refine the base query
+    const prompt = `
+      I have a record from the "${record.tableName}" table with the following information:
+      ${knownFields || 'No known information'}
+      
+      I need to find information to fill in the following missing fields:
+      ${missingFieldNames}
+      
+      I have a base search query: "${baseQuery}"
+      
+      Refine this query to better target the missing fields. Focus on finding specific information for ${missingFieldNames}.
+      Return only the refined search query, no explanations.
+    `;
+
+    const completion = await this.openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [
+        { role: "system", content: "You are a search query optimization assistant. Refine search queries to find specific information." },
+        { role: "user", content: prompt }
+      ],
+      temperature: 0.3,
+    });
+
+    return completion.choices[0].message.content || baseQuery;
+  } else {
+    // Fall back to the generic approach if no table-specific strategy exists
+    const knownFields = record.fields
+      .filter(field => field.value !== null && field.value !== undefined && field.value !== '')
+      .map(field => `${field.name}: ${field.value}`)
+      .join(', ');
+
+    const missingFieldNames = missingFields.map(field => field.name).join(', ');
+
+    const prompt = `
+      I have a record${record.tableName ? ` from the "${record.tableName}" table` : ''} with the following information:
+      ${knownFields || 'No known information'}
+      
+      I need to find information to fill in the following missing fields:
+      ${missingFieldNames}
+      
+      Generate a search query that will help me find this information.
+      The search query should:
+      1. Include key identifying information from the known fields
+      2. Be specific enough to find the missing information
+      3. Focus on the most relevant known attributes
+      4. Be formatted for web search (not as a question)
+    `;
+
+    const completion = await this.openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [
+        { role: "system", content: "You are a helpful assistant that generates search queries to find missing information." },
+        { role: "user", content: prompt }
+      ],
+      temperature: 0.5,
+    });
+
+    return completion.choices[0].message.content || "";
+  }
+}
+```
+
+## Usage Examples
+
+Let's add an example of how to use this system:
+
+```typescript
+// Example usage for CSV enrichment
+import { enrichCsvData } from './src/index';
+
+async function runCsvExample() {
+  // Create a sample CSV file
+  const sampleCsvPath = './sample_data.csv';
+  const sampleCsvContent = [
+    'name,title,organization,location,date,description',
+    'John Doe,,Acme Corp,Seattle,,',
+    'Jane Smith,Director of Engineering,,,2023-05-15,',
+    ',,TechCorp,San Francisco,,AI conference'
+  ].join('\n');
+  
+  await fs.writeFile(sampleCsvPath, sampleCsvContent, 'utf-8');
+  
+  // Enrich the CSV data
+  await enrichCsvData(sampleCsvPath, './sample_data_enriched.csv');
+}
+
+// Example usage for Xata schema enrichment
+import { enrichXataData } from './src/index';
+
+async function runXataExample() {
+  // Assuming schema.json is in the current directory
+  await enrichXataData('./schema.json', './xata_enriched_data.json');
+}
+
+// Run both examples
+async function runExamples() {
+  try {
+    console.log('Running CSV enrichment example...');
+    await runCsvExample();
+    
+    console.log('\nRunning Xata schema enrichment example...');
+    await runXataExample();
+    
+    console.log('\nAll examples completed successfully!');
+  } catch (error) {
+    console.error('Error running examples:', error);
+  }
+}
+
+runExamples();
+```
+
+## Conclusion
+
+This implementation provides a flexible and extensible framework for data enrichment using Tavily AI, supporting both CSV files and the Xata schema. The solution:
+
+1. Abstracts the core enrichment logic in a base class that can be extended for different data sources
+2. Provides specialized strategies for different table types in the Xata schema
+3. Implements batch processing to handle large datasets efficiently
+4. Uses OpenAI for intelligent search query generation and data extraction
+5. Handles both structured CSV data and complex relational schema data
+
+The system automatically identifies fields that can be enriched, generates appropriate search queries based on the available data and specific table strategies, and fills in missing information using Tavily's search capabilities combined with OpenAI's extraction abilities.
+
+To use this system, simply run:
+
+```bash
+# For CSV enrichment
+npx ts-node src/index.ts csv ./your-data.csv ./output-enriched.csv
+
+# For Xata schema enrichment
+npx ts-node src/index.ts xata ./schema.json ./output-enriched.json
+```
+
+Further enhancements could include:
+- Direct integration with Xata's API for real data fetching and updating
+- More sophisticated field type detection and validation
+- Support for additional data sources like JSON or SQL databases
+- Implementation of a caching layer to reduce API calls
+- Development of a web interface for monitoring and controlling the enrichment process

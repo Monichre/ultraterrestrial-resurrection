@@ -1,4 +1,13 @@
-import { fireCrawl } from "@/lib/firecrawl";
+import {
+	fireCrawl,
+	scrapeUrl,
+	crawlUrl,
+	batchScrapeUrls,
+	deepResearch as fireDeepResearch,
+	type DeepResearchOptions as FireDeepResearchOptions,
+	ScrapeOptions,
+	CrawlOptions,
+} from "@/lib/firecrawl";
 import { EXTERNAL_RESOURCES } from "@/utils";
 
 // Resource categories for deep research
@@ -21,7 +30,7 @@ export enum ResearchCategory {
 	PHENOMENA = "phenomena",
 }
 
-type DeepResearchOptions = {
+export type DeepResearchOptions = {
 	depth: ResearchDepth;
 	categories: ResearchCategory[];
 	recursiveLinks?: boolean;
@@ -39,45 +48,13 @@ export const scrapeWithFireCrawl = async ({
 			"Extract all data related to Events, Topics, Key Figures, Sightings, Artifacts, Testimonies, and any other relevant information as it concerns UFO/UAP Phenomenon",
 	},
 }: { url: string; formats: string[]; extract: { prompt: string } }) => {
-	return await fireCrawl.scrapeUrl(url, {
+	return await scrapeUrl(url, {
 		formats,
 		extract: {
 			prompt: extract.prompt,
 		},
 	});
 };
-
-// Actually the below isnt done correctly: see https://docs.firecrawl.dev/features/alpha/deep-research
-
-/**
- import FirecrawlApp from 'firecrawl';
-
-// Initialize the client
-const firecrawl = new FirecrawlApp({ apiKey: 'your_api_key' });
-
-// Define research parameters
-const params = {
-  maxDepth: 5,  // Number of research iterations
-  timeLimit: 180,  // Time limit in seconds
-  maxUrls: 15  // Maximum URLs to analyze
-};
-
-// Start research with real-time updates
-const onActivity = (activity) => {
-  console.log(`[${activity.type}] ${activity.message}`);
-};
-
-// Run deep research
-const results = await firecrawl.deepResearch(
-  'What are the latest developments in quantum computing?',
-  params,
-  onActivity
-);
-
-// Access research findings
-console.log(`Final Analysis: ${results.data.finalAnalysis}`);
-console.log(`Sources: ${results.data.sources.length} references`);
-*/
 
 /**
  *
@@ -152,17 +129,17 @@ export const deepResearch = async (
 			try {
 				// Determine if we're using the new recursive crawl API
 				if (recursiveLinks) {
-					const crawlResponse = await fireCrawl.crawlUrl(url, {
+					const crawlResponse = await crawlUrl(url, {
 						limit: depthConfig[depth].limit,
 						maxDepth: linkDepth,
-						followExternalLinks: true,
+						allowExternalLinks: true,
 						scrapeOptions: {
 							formats: depthConfig[depth].formats,
 							extract: {
 								prompt: extractionPrompt,
-								model: extractionModel,
+								// model is not in our updated type, so we'll omit it
+								// model: extractionModel,
 							},
-							searchParams,
 						},
 					});
 
@@ -175,13 +152,13 @@ export const deepResearch = async (
 					};
 				} else {
 					// Use standard scrape for single-page analysis
-					const scrapeResponse = await fireCrawl.scrapeUrl(url, {
+					const scrapeResponse = await scrapeUrl(url, {
 						formats: depthConfig[depth].formats,
 						extract: {
 							prompt: extractionPrompt,
-							model: extractionModel,
+							// model is not in our updated type, so we'll omit it
+							// model: extractionModel,
 						},
-						searchParams,
 					});
 
 					return {
@@ -209,10 +186,43 @@ export const deepResearch = async (
 	return deepResearchResults.slice(0, maxResults);
 };
 
+/**
+ * Use FireCrawl's native deep research feature
+ * This is a simplified wrapper around FireCrawl's deep research API
+ */
+export const advancedDeepResearch = async (
+	query: string,
+	options: {
+		maxDepth?: number;
+		maxUrls?: number;
+		timeLimit?: number;
+	},
+) => {
+	try {
+		const deepResearchOptions: FireDeepResearchOptions = {
+			query,
+			maxDepth: options.maxDepth || 5,
+			maxUrls: options.maxUrls || 15,
+			timeLimit: options.timeLimit || 180,
+		};
+
+		// Define a callback for activity updates
+		const onActivity = (activity: any) => {
+			console.log(`[${activity.type}] ${activity.message}`);
+		};
+
+		// Execute deep research
+		return await fireDeepResearch(query, deepResearchOptions, onActivity);
+	} catch (error) {
+		console.error(`Advanced deep research failed for query: ${query}`, error);
+		throw error;
+	}
+};
+
 export const scrapeAllExternalDisclosureResources = async () => {
 	const fullResourceScrape = await Promise.all(
 		EXTERNAL_RESOURCES.map(async (resource) => {
-			const scrapeResponse = await fireCrawl.scrapeUrl(resource, {
+			const scrapeResponse = await scrapeUrl(resource, {
 				formats: ["markdown", "html"],
 			});
 			return {
@@ -228,7 +238,7 @@ export const scrapeAllExternalDisclosureResources = async () => {
 export const crawlAllExternalDisclosureResources = async () => {
 	const fullResourceCrawl = await Promise.all(
 		EXTERNAL_RESOURCES.map(async (resource) => {
-			const crawlResponse = await fireCrawl.crawlUrl(resource, {
+			const crawlResponse = await crawlUrl(resource, {
 				limit: 100,
 				scrapeOptions: {
 					formats: ["markdown", "html"],
@@ -242,4 +252,70 @@ export const crawlAllExternalDisclosureResources = async () => {
 	);
 	console.log("fullResourceCrawl: ", fullResourceCrawl);
 	return fullResourceCrawl;
+};
+
+/**
+ * Track changes to a specific resource URL over time
+ * @param url URL to monitor for changes
+ * @param lastCheckpoint Previous checkpoint ID to compare against
+ * @returns Changes detected since last check
+ */
+export const trackResourceChanges = async (
+	url: string,
+	lastCheckpoint?: string,
+) => {
+	try {
+		return await fireCrawl.trackChanges(url, {
+			lastCheckpoint,
+			comparisonType: "both",
+		});
+	} catch (error) {
+		console.error(`Failed to track changes for URL: ${url}`, error);
+		throw error;
+	}
+};
+
+/**
+ * Batch scrape a list of resource URLs
+ * @param urls List of URLs to scrape
+ * @param formats Output formats to request
+ * @returns Results from all scraped URLs
+ */
+export const batchScrapeResources = async (
+	urls: string[],
+	formats = ["markdown", "html"],
+) => {
+	try {
+		return await batchScrapeUrls(urls, {
+			formats,
+			options: {
+				onlyMainContent: true,
+			},
+		});
+	} catch (error) {
+		console.error(`Batch scrape failed for ${urls.length} URLs`, error);
+		throw error;
+	}
+};
+
+/**
+ * Extract structured data from multiple resource URLs using a custom prompt
+ * @param urls URLs to extract data from
+ * @param prompt Custom extraction prompt
+ * @returns Structured data extracted from pages
+ */
+export const extractStructuredData = async (
+	urls: string[],
+	prompt = "Extract all data related to UAP/UFO phenomena including sightings, testimonies, and evidence",
+) => {
+	try {
+		return await fireCrawl.extract(urls, {
+			prompt,
+			allowExternalLinks: false,
+			enableWebSearch: true,
+		});
+	} catch (error) {
+		console.error(`Data extraction failed for ${urls.length} URLs`, error);
+		throw error;
+	}
 };
