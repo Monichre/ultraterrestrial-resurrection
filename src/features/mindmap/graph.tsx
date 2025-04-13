@@ -29,12 +29,6 @@ export function Graph(props: any) {
   const {nodes, edges, setNodes, addEdge, onConnect, onNodesDelete, onNodesChange, onEdgesChange} =
     useMindMapStore()
 
-  console.log('🚀 ~ Graph ~ others:', others)
-
-  const userCount = others.length
-
-  console.log('🚀 ~ Graph ~ userCount:', userCount)
-
   // Get layout function from the context
   const {organizeLayout} = useMindMap()
 
@@ -95,7 +89,7 @@ export function Graph(props: any) {
           y: 0,
         }}
         style={{backgroundColor: 'transparent'}}>
-        <Panel position='top-left'>
+        <Panel position='center-left'>
           <div className='ml-2 mt-2'>
             <MindMapSideMenu />
           </div>

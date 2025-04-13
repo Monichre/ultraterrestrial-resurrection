@@ -1,0 +1,30 @@
+1. Fix checkForDuplicates function - Changed title filter to summary filter at line 534:
+
+Change: .filter({ title: testimony.title })
+To: .filter({ summary: testimony.summary || testimony.title })
+
+2. Fix search implementation - Changed .search().getMany() at line 575-576:
+
+Change: .search(titleFragment, { fuzziness: 1 }).getMany()
+To: .filter({ summary: { $contains: summaryFragment } }).getAll()
+
+3. Fix testimony record creation - Removed title field at lines 791-797:
+
+Change:
+const testimonyRecord = await xata.db.testimonies.create({
+  title: testimony.title,
+  summary: testimony.summary || testimony.title,
+  context: testimony.context || '',
+  claim: testimony.claims.join('
+'),
+  source: testimony.source || '',
+});
+
+To:
+const testimonyRecord = await xata.db.testimonies.create({
+  summary: testimony.summary || testimony.title,
+  context: testimony.context || '',
+  claim: testimony.claims.join('
+'),
+  source: testimony.source || testimony.youtubeUrl,
+});

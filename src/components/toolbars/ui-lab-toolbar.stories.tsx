@@ -4,6 +4,7 @@ import {UiLabToolbar} from './ui-lab-toolbar'
 
 const meta = {
   component: UiLabToolbar,
+  title: 'Components/Toolbars/UI Lab Toolbar',
 } satisfies Meta<typeof UiLabToolbar>
 
 export default meta

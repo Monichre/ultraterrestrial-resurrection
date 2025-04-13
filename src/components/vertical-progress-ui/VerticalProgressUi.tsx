@@ -30,6 +30,7 @@ export function VerticalProgressUi() {
         return (
           <button
             key={year}
+            type='button'
             className='relative inline-flex items-end justify-center py-1'
             onMouseEnter={() => handleMouseEnter(i)}
             onMouseLeave={handleMouseLeave}
@@ -37,10 +38,8 @@ export function VerticalProgressUi() {
             onTouchStart={() => handleMouseEnter(i)}
             onTouchEnd={handleMouseLeave}>
             <motion.div
-              key={i}
-              className={`h-1 w-10 rounded-[4px] ${
-                selected === i ? 'bg-yellow-400' : 'bg-primary'
-              }`}
+              key={`progress-${year}`}
+              className={`h-1 w-10 rounded-[4px] ${selected === i ? 'bg-[#adf0dd]' : 'bg-white'}`}
               animate={{
                 scale: calculateScale(i),
               }}
@@ -50,7 +49,7 @@ export function VerticalProgressUi() {
             {hoveredIndex === i ? (
               <motion.span
                 className={`absolute -top-0.5 left-12 text-[11px] ${
-                  isSelected ? 'text-yellow-400' : 'text-primary'
+                  isSelected ? 'text-[#adf0dd]' : 'text-white'
                 }`}
                 initial={{opacity: 0, filter: 'blur(4px)', scale: 0.4}}
                 animate={{opacity: 1, filter: 'blur(0px)', scale: 1}}

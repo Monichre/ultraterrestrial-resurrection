@@ -1,0 +1,212 @@
+#!/bin/bash
+
+# UFO Intelligence and Sightings Data Import Script
+# This script processes UFO intelligence markdown files and sightings data and imports them to Xata
+
+# Set the base directory
+BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_DIR="$(cd "$BASE_DIR/../.." && pwd)"
+
+# Create output directory if it doesn't exist
+mkdir -p "$BASE_DIR/output"
+mkdir -p "$PROJECT_DIR/output"
+
+# Display the main menu
+echo "=== UFO Data Import Tool ==="
+echo "Select an import option:"
+echo "1. Import UFO Intelligence/Events data"
+echo "2. Import UFO Sightings data"
+echo "3. Import both Events and Sightings data"
+echo "q. Quit"
+echo
+read -p "Enter your choice (1, 2, 3, or q): " choice
+
+case $choice in
+  1)
+    # Import events only
+    import_events=true
+    import_sightings=false
+    ;;
+  2)
+    # Import sightings only
+    import_events=false
+    import_sightings=true
+    ;;
+  3)
+    # Import both
+    import_events=true
+    import_sightings=true
+    ;;
+  q|Q)
+    echo "Exiting."
+    exit 0
+    ;;
+  *)
+    echo "Invalid option. Exiting."
+    exit 1
+    ;;
+esac
+
+# Function to import events data
+import_events() {
+  echo "=== UFO Intelligence Data Import ==="
+  echo "Processing markdown files from docs/ufo-intelligence-docs"
+
+  # Step 1: Process the markdown files
+  echo "Step 1: Processing markdown files and preparing data..."
+  
+  # Skip processing if events.json already exists
+  if [ -f "$BASE_DIR/output/events.json" ]; then
+    echo "JSON file events.json already exists. Skipping processing."
+  else
+    # Prompt for processing options
+    echo "Processing options:"
+    read -p "Process all files (a) or limit to N files (l)? (a/l): " files_choice
+    if [[ $files_choice == [lL] ]]; then
+      read -p "Enter number of files to process: " file_limit
+      process_args="--limit $file_limit"
+    else
+      process_args=""
+    fi
+    
+    read -p "Resume from checkpoint if available? (y/n): " resume_choice
+    if [[ $resume_choice == [yY] || $resume_choice == [yY][eE][sS] ]]; then
+      process_args="$process_args --resume"
+    fi
+    
+    read -p "Skip geocoding? (y/n): " geocode_choice
+    if [[ $geocode_choice == [yY] || $geocode_choice == [yY][eE][sS] ]]; then
+      process_args="$process_args --skip-geocoding"
+    fi
+    
+    read -p "Enter batch size for geocoding (default: 25): " batch_size
+    if [[ -n "$batch_size" && "$batch_size" =~ ^[0-9]+$ ]]; then
+      process_args="$process_args --batch-size $batch_size"
+    fi
+    
+    echo "Running with options: $process_args"
+    node "$BASE_DIR/prepare-ufo-events-enhanced.js" $process_args
+  fi
+
+  # Check if processing was successful
+  if [ $? -ne 0 ]; then
+      echo "Error: Failed to process markdown files."
+      return 1
+  fi
+
+  # Step 2: Review step
+  echo 
+  echo "Step 2: Data preparation complete."
+  echo "  - JSON data: $BASE_DIR/output/events.json"
+  echo "  - CSV data: $BASE_DIR/output/events.csv"
+  echo 
+  read -p "Would you like to review the events data before importing to Xata? (y/n): " confirm
+  if [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]]; then
+      # Show a sample of the data
+      echo
+      echo "Sample of prepared events data (first 3 events):"
+      head -n 30 "$BASE_DIR/output/events.json"
+      echo
+      read -p "Press Enter to continue with import or Ctrl+C to abort..."
+  fi
+
+  # Step 3: Import to Xata
+  echo
+  echo "Step 3: Importing events data to Xata database..."
+  
+  # Check if we should use TypeScript or JavaScript
+  if [ -f "$BASE_DIR/import-events-to-xata.ts" ]; then
+    # Use npm script to run TypeScript file
+    echo "Running TypeScript import script..."
+    cd "$PROJECT_DIR" && npm run import:events
+  else
+    # Fallback to JavaScript
+    echo "Running JavaScript import script..."
+    node "$BASE_DIR/import-events-to-xata.js"
+  fi
+
+  # Check if import was successful
+  if [ $? -ne 0 ]; then
+      echo "Error: Failed to import events data to Xata."
+      return 1
+  fi
+
+  echo
+  echo "=== Events import process complete ==="
+  echo "Check the logs above for details on imported, skipped, and failed entries."
+  echo
+  return 0
+}
+
+# Function to import sightings data
+import_sightings() {
+  echo "=== UFO Sightings Data Import ==="
+
+  # Check if sightings data exists
+  SIGHTINGS_FILE="$PROJECT_DIR/output/transformed-sightings.json"
+  if [ ! -f "$SIGHTINGS_FILE" ]; then
+      echo "Error: Sightings data file not found at $SIGHTINGS_FILE"
+      return 1
+  fi
+
+  # Step 1: Review step
+  echo 
+  echo "Step 1: Sightings data found."
+  echo "  - JSON data: $SIGHTINGS_FILE"
+  echo 
+  read -p "Would you like to review the sightings data before importing to Xata? (y/n): " confirm
+  if [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]]; then
+      # Show a sample of the data
+      echo
+      echo "Sample of sightings data (first 3 sightings):"
+      head -n 30 "$SIGHTINGS_FILE"
+      echo
+      read -p "Press Enter to continue with import or Ctrl+C to abort..."
+  fi
+
+  # Step 2: Import to Xata
+  echo
+  echo "Step 2: Importing sightings data to Xata database..."
+  
+  # Use npm script to run TypeScript import script
+  cd "$PROJECT_DIR" && npm run import:sightings
+
+  # Check if import was successful
+  if [ $? -ne 0 ]; then
+      echo "Error: Failed to import sightings data to Xata."
+      return 1
+  fi
+
+  echo
+  echo "=== Sightings import process complete ==="
+  echo "Check the logs above for details on imported, skipped, and failed entries."
+  echo
+  return 0
+}
+
+# Main script execution
+
+# Import events if selected
+if [ "$import_events" = true ]; then
+  import_events
+  events_result=$?
+else
+  events_result=0
+fi
+
+# Import sightings if selected
+if [ "$import_sightings" = true ]; then
+  import_sightings
+  sightings_result=$?
+else
+  sightings_result=0
+fi
+
+# Final status
+if [ $events_result -eq 0 ] && [ $sightings_result -eq 0 ]; then
+  echo "All requested import operations completed successfully."
+  exit 0
+else
+  echo "One or more import operations failed. Check the logs above for details."
+  exit 1
+fi

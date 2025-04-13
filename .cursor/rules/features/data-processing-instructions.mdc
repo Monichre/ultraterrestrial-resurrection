@@ -1,0 +1,68 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Synopsis
+
+Your task is to create a plan that extracts every "*[Summary.md](mdc:http:/Summary.md)" file in the docs/testimonies directory and organizes them into json files in a directort called processing that will be compatible with the /Users/liamellis/Desktop/ultraterrestrial-resurrection/scripts/data-import/run-import.sh script. Each file is a summary analysis of a youtube video and will likey contain data on for a number of potential database models in our Xata database. Id like you to create a plan and then implment that plan to extract the data from each markdown file into well formed schema that matches the corresponding database model schema and then pushes the file to the upstash queue to be processed in a workflow. The workflow which you will also be responsible for is to extract tge data from the newly entered item in the queue and first check if any of the datapoints from the file might exist in our of our Xata tables. Then essentially run a Create or Update function on the record and the corresponding table.
+
+## Plan/Instructions
+
+**Plan for Extracting and Inserting Testimony Data into Xata Database**
+1. **Testimony File Discovery**
+- Use glob patterns to search for all Markdown testimony summary files (e.g., 'Summary-md') in the 'docs/testimonies' directory and its
+- Leverage utilities from the existing codebase to list and iterate over files.
+subdirectories.
+2. **Parsing and Data Extraction**
+- For each testimony file,
+use existing parsing functions provided in 'import-testimonies-to-xata.ts*.
+- Extract structured data including:
+- **Personnel:** Names, roles, bios, authority metrics (rank, credibility)
+- **Events:** Titles, descriptions, dates, locations
+- **Organizations:** Names,
+descriptions,
+specializations
+- **Testimony Content:** Claims, highlights,
+sources (YouTube URLs)
+- Convert extracted text to structured JSON objects for further processing.
+3. **Data Validation and Quality Control**
+- Implement validations to check for required fields and data integrity.
+- Skip or flag testimonies that do not meet the minimum quality threshold (allow configuration via '--min-quality ‹score>').
+- Detect duplicate entries and provide configurable strategies (skip, update, force import) using command-line options ('-force', '--update', '--no-skip-duplicates').
+- Generate quality reports to summarize any issues encountered during extraction.
+4. **Database Operations**
+- Use the existing Xata client from 'src/db/xata/xata.ts' (with 'getXataClient') for interfacing with the database.
+- Map extracted entities to their respective tables:
+- Personnel → personnel table
+- Events → events table
+- Organizations → organizations table
+- Testimonies → testimonies table
+- Create or update records and record relationships using junction tables (e.g., topics-testimonies).
+- Implement idempotent operations and transaction management to ensure atomicity.
+
+5. **Relationship Handling**
+- After inserting/updating core entities, properly insert relationship links into the junction tables.
+- Ensure that foreign key relationships are respected and that duplicate relationships are managed correctly.
+6. **Error Handling and Logging**
+- Provide comprehensive error handling and logging mechanisms.
+- Use try-catch blocks to catch errors during parsing or database insertions.
+- Continue processing remaining testimonies even if one fails, and compile a detailed execution report.
+7. **Command-Line Options and Execution Flow**
+- Support options:
+--force /*-f*,
+-min-quality «score>', '-update /'-u*, and ' --no-skip-duplicates*.
+- Update the script's help and usage instructions accordingly.
+- Execute steps sequentially to first extract,
+then validate, and finally load data into Xata.
+o, and finity load date into xata
+- Generate a summary report of successes and failures.
+8. **Post-Processing and Reporting**
+- After completion, output a comprehensive report detailing:
+- Number of testimonies processed.
+- Quality issues or skipped testimonies.
+- Details of records inserted or updated.
+- Log detailed information for troubleshooting and verification.
+**Final Step:**
+- Integrate the above plan as part of the extended 'import-testimonies-to-xata.ts' script, thoroughly test the workflow with a subset of data, and
+then process the full dataset.

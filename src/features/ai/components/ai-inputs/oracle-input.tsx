@@ -3,18 +3,40 @@ import {MarkdownContent} from '@/components/ui/chat/markdown-content'
 import {cn} from '@/utils/cn'
 import {ICON_GREEN} from '@/utils/constants'
 import {Brain} from 'lucide-react'
-import {useCallback, useEffect, useRef} from 'react'
+import {useEffect, useRef} from 'react'
+
+// Add import for OracleCommandList
+import {OracleCommandList} from '@/features/mindmap/components/menus/oracle-command-menu/OracleCommandList'
 
 interface OracleInputProps {
-  containerRef: any
+  containerRef?: React.RefObject<HTMLDivElement>
   activeCommand: string | null
   inputValue: string
   setInputValue: (value: string) => void
-  handleKeyDown: (e: KeyboardEvent) => void
+  handleKeyDown: (e: React.KeyboardEvent) => void
   setIsOpen: (isOpen: boolean) => void
-  inputRef: any
+  inputRef?: React.RefObject<HTMLInputElement>
+  activeModel?: string | null
+  loadModelData: () => void
+  isChatActive?: boolean
+  chatStatus?: string
+  isLoading?: boolean
+  messages?: Array<{id: string; role: string; content: string}>
+  isOpen?: boolean
+  commandOptions?: Array<{id: string; name: string; description: string}>
 }
-export function ToggleButton({icon, label, isActive, onClick, useMemory}: any) {
+
+export function ToggleButton({
+  icon,
+  label,
+  onClick,
+  useMemory,
+}: {
+  icon?: React.ReactNode
+  label?: string
+  onClick: () => void
+  useMemory: boolean
+}) {
   return (
     <button type='button' onClick={onClick}>
       <div className='flex items-center text-sm cursor-pointer hover:shadow-sm hover:shadow-indigo-500/50 hover:ring-indigo-500/50 group/tab mb-1 relative flex w-fit items-center gap-3 rounded-xl  px-2 py-1 text-xs ring-1 ring-neutral-200 duration-200 bg-neutral-800 ring-neutral-700 bg-neutral-950 bg-gradient-to-b from-black/90'>
@@ -42,6 +64,15 @@ export function ToggleButton({icon, label, isActive, onClick, useMemory}: any) {
     </button>
   )
 }
+
+// Default command options
+export const DEFAULT_COMMAND_OPTIONS = [
+  {id: 'chat', name: 'Chat', description: 'Chat with the AI assistant'},
+  {id: 'search', name: 'Search', description: 'Search the database'},
+  {id: 'deepresearch', name: 'Deep Research', description: 'Conduct in-depth research'},
+  {id: 'scrape', name: 'Scrape', description: 'Scrape content from a URL'},
+]
+
 export const OracleInput = ({
   activeModel,
   activeCommand,
@@ -49,40 +80,76 @@ export const OracleInput = ({
   setInputValue,
   handleKeyDown,
   setIsOpen,
-  isOpen,
+  isOpen = false,
   loadModelData,
   isChatActive,
   chatStatus,
   isLoading,
   messages,
-}: any) => {
+  commandOptions = DEFAULT_COMMAND_OPTIONS,
+  inputRef: externalInputRef,
+}: OracleInputProps) => {
   const messagesContainerRef = useRef<HTMLDivElement>(null)
+  const internalInputRef = useRef<HTMLInputElement>(null)
+  const inputRef = externalInputRef || internalInputRef
 
+  // Simplified input handling - just toggle command menu visibility
   const handleInputFocus = () => {
-    setIsOpen(!!activeCommand)
+    if (inputValue.startsWith('/')) {
+      setIsOpen(true)
+    }
   }
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e)
+    const value = e.target.value
+    setInputValue(value)
+
+    // Toggle command visibility based on input
+    if (value.startsWith('/')) {
+      setIsOpen(true)
+    } else if (isOpen && !activeCommand) {
+      setIsOpen(false)
+    }
   }
-  const handleLoadingModelData = useCallback(() => {
-    loadModelData(activeModel)
-  }, [activeModel, loadModelData])
+
+  // Handle the '/' key specially
+  const handleLocalKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === '/' && inputValue === '') {
+      setIsOpen(true)
+    }
+    handleKeyDown(e)
+  }
 
   // Auto-scroll to the latest message whenever messages change
   useEffect(() => {
-    if (messagesContainerRef.current && messages?.length > 0) {
+    if (messagesContainerRef.current && messages && messages.length > 0) {
       messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight
     }
   }, [messages])
 
+  // Get the appropriate button aria-label
+  const getButtonAriaLabel = () => {
+    if (activeCommand === 'chat' || activeCommand === 'deepresearch') {
+      return 'Send message'
+    }
+    if (activeCommand === 'search') {
+      return 'Search database'
+    }
+    if (activeModel) {
+      return `Add ${activeModel} to mindmap`
+    }
+    return 'Oracle options'
+  }
+
   return (
     <>
       <div className='relative flex flex-col w-full'>
-        {isChatActive && messages?.length > 0 && (
+        {/* Chat Messages */}
+        {isChatActive && messages && messages.length > 0 && (
           <div
             ref={messagesContainerRef}
             className='max-h-[300px] overflow-y-auto mb-4 space-y-3 px-3'>
-            {messages.map((message: any) => (
+            {messages.map((message) => (
               <div
                 key={message.id}
                 className={cn(
@@ -110,7 +177,7 @@ export const OracleInput = ({
                     <>{message.content}</>
                   ) : (
                     <MarkdownContent
-                      id={message?.id}
+                      id={message.id}
                       content={message.content}
                       className='max-w-full'
                     />
@@ -122,19 +189,6 @@ export const OracleInput = ({
         )}
 
         <div className='relative flex items-center flex-wrap gap-2 px-3 h-auto min-h-[48px] z-50'>
-          {/* {activeCommand && (
-            <div className="flex items-center gap-2 text-sm bg-black/10 dark:bg-white/10 px-2 py-1 rounded-md">
-              <span className="flex items-center gap-1.5 flex-shrink-0">
-
-                <DotIcon className="w-4 h-4 text-black/50 dark:text-white/50" />
-                <span className="text-black/70 dark:text-white/70">
-
-                  {activeCommand}
-                </span>
-              </span>
-            </div>
-          )} */}
-
           {/* Input Container */}
           <div
             className='rounded-xl border border-transparent flex gap-2 items-center relative w-full p-2 px-2.5 duration-200 border border-white/30 border-neutral-700/30 text-neutral-500 bg-neutral-950 bg-gradient-to-b from-black/90'
@@ -145,35 +199,41 @@ export const OracleInput = ({
             {/* Input Section */}
             <div className='flex items-center gap-1 justify-start w-full'>
               <div className='w-6 h-6 rounded-full flex items-center justify-center'>
-                {isOpen && <SlashIcon className='h-6 w-6' fill={ICON_GREEN} />}
-
-                {/* {activeModel} */}
+                {inputValue?.startsWith('/') && <SlashIcon className='h-6 w-6' fill={ICON_GREEN} />}
               </div>
 
               <input
+                ref={inputRef}
                 type='text'
                 value={inputValue}
                 onChange={handleChange}
-                onKeyDown={handleKeyDown}
+                onKeyDown={handleLocalKeyDown}
+                onFocus={handleInputFocus}
                 placeholder={
                   isChatActive
                     ? chatStatus === 'loading'
                       ? 'AI is thinking...'
                       : 'Chat with AI...'
                     : activeCommand === 'scrape'
-                    ? 'Enter a URL to scrape (https://...)...'
-                    : activeCommand
-                    ? 'Type your message...'
-                    : isOpen
-                    ? '...'
-                    : 'Type / for commands...'
+                      ? 'Enter a URL to scrape (https://...)...'
+                      : activeCommand
+                        ? 'Type your message...'
+                        : 'Type / for commands...'
                 }
                 className='bg-transparent text-zinc-200 text-sm focus:outline-none flex-1'
               />
 
-              <div
+              <button
+                type='button'
                 className='w-6 h-6 rounded-full flex items-center justify-center ml-auto'
-                onClick={handleLoadingModelData}>
+                onClick={loadModelData}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    loadModelData()
+                  }
+                }}
+                aria-label={getButtonAriaLabel()}>
                 {activeModel ? (
                   <AddIcon className='h-6 w-6' fill={ICON_GREEN} />
                 ) : (
@@ -186,7 +246,7 @@ export const OracleInput = ({
                     fill={ICON_GREEN}
                   />
                 )}
-              </div>
+              </button>
             </div>
           </div>
         </div>

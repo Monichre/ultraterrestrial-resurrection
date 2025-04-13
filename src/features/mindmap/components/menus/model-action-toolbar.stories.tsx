@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/react'
-import { DynamicToolbar } from './model-action-toolbar'
+import type {Meta, StoryObj} from '@storybook/react'
+import {DynamicToolbar} from './model-action-toolbar'
 
 const meta = {
-  title: 'Features/Mindmap/Components/ModelActionToolbar',
+  title: 'Components/Toolbars/Model Action Toolbar',
   component: DynamicToolbar,
   parameters: {
     layout: 'centered',
@@ -18,7 +18,7 @@ const meta = {
   },
   decorators: [
     (Story) => (
-      <div className="p-8 flex items-center justify-center">
+      <div className='p-8 flex items-center justify-center'>
         <Story />
       </div>
     ),

@@ -7,6 +7,7 @@ const config: StorybookConfig = {
 		"../src/features/**/*.stories.tsx",
 		"../src/features/**/**/*.stories.tsx",
 		"../src/layouts/**/*.stories.tsx",
+		"../src/**/**/*.stories.tsx",
 	],
 
 	addons: [
@@ -16,6 +17,8 @@ const config: StorybookConfig = {
 		"@geometricpanda/storybook-addon-badges",
 		"@storybook/addon-console",
 		"@storybook/addon-storysource",
+		"@storybook/testing-library",
+		"@storybook/jest",
 	],
 
 	// 👈 Add this

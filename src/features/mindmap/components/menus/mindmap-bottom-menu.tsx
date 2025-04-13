@@ -18,7 +18,11 @@ import {Command} from 'cmdk'
 import {AnimatePresence, motion} from 'framer-motion'
 
 import {AddIcon, ThinTwinklyStar} from '@/components/icons'
-import {OracleInput, ToggleButton} from '@/features/ai/components/ai-inputs/oracle-input'
+import {
+  OracleInput,
+  ToggleButton,
+  DEFAULT_COMMAND_OPTIONS,
+} from '@/features/ai/components/ai-inputs/oracle-input'
 import {LightningBoltIcon} from '@radix-ui/react-icons'
 
 import {TextShimmer} from '@/components/animated/text-effect'
@@ -32,6 +36,8 @@ import {
   xataToXYFlow,
   type XataToXYFlowResponse,
 } from '@/features/mindmap/actions/xata-to-xyflow'
+import {OracleCommandList, CommandItem} from './oracle-command-menu/OracleCommandList'
+import {UltraterrestrialModelSelection, type ModelAction} from './UltraterrestrialModelSelection'
 
 // Define explicit types for our entities and nodes
 export interface MindMapNode {
@@ -247,12 +253,129 @@ export const MindMapBottomMenu = () => {
     return {startX, childY, entityWidth, entitySpacing}
   }, [])
 
+  // Check if a node with similar content already exists on the graph
+  const nodeExists = useCallback(
+    (id: string, type: string) => {
+      const existingNodes = getNodes()
+      return existingNodes.some(
+        (node) =>
+          // Check by ID
+          node.id === id ||
+          // Check by type and content similarity
+          (node.type === `${type}Node` && node.data?.id === id)
+      )
+    },
+    [getNodes]
+  )
+
+  // Enhanced search function with duplicate prevention
+  const runSearch = useCallback(
+    async ({type, searchTerm}: SearchParams) => {
+      if (!type || !searchTerm.trim()) return // Skip empty searches
+
+      // First check if we already have search results for this term
+      const existingNodes = getNodes()
+      const searchNodeExists = existingNodes.some(
+        (node) => node.type === 'userInputNode' && node.data?.input === searchTerm
+      )
+
+      if (searchNodeExists) {
+        console.log(`Search for "${searchTerm}" already exists on the graph`)
+        return // Skip duplicate searches
+      }
+
+      const userNode = {
+        id: uuidv4(),
+        type: 'userInputNode',
+        position: {x: 0, y: 0},
+        data: {label: 'Your Query', input: searchTerm},
+      }
+      addNodes(userNode)
+
+      const response = await initiateDatabaseTableQuery({
+        table: type,
+        keyword: searchTerm,
+      })
+
+      const {
+        suggestedSearchResult: {record},
+        relatedResults,
+        totalCount,
+      } = response
+      console.log('🚀 ~ runSearch ~ response:', response)
+      console.log('🚀 ~ runSearch ~ record:', record)
+      console.log('🚀 ~ runSearch ~ relatedResults:', relatedResults)
+      console.log('🚀 ~ runSearch ~ totalCount:', totalCount)
+
+      // Skip adding the result if the record doesn't exist or already on the graph
+      if (!record?.id || nodeExists(record.id, type)) {
+        updateNodeData(userNode.id, {
+          input: `No new results found for "${searchTerm}" in ${type}`,
+        })
+        return
+      }
+
+      // For a single child node, position it directly below the userNode
+      const userElem = document.getElementById(userNode.id)
+      const userRect = userElem ? userElem.getBoundingClientRect() : {width: 200, height: 100}
+      const userHeight = userRect.height || 100
+      const childY = userNode.position.y + userHeight + 100 // 100px vertical spacing
+
+      const childNode = {
+        id: record?.id,
+        type: `${type}Node`,
+        data: {
+          type,
+          ...record,
+        },
+        position: {
+          x: userNode.position.x, // For a single node, we align with the parent's x
+          y: childY,
+        },
+        parentId: userNode.id,
+      }
+      const edgeId = `${userNode.id}-${childNode.id}`
+      const sourceHandle = `handle:${edgeId}`
+
+      const edge = {
+        id: edgeId,
+        source: userNode.id,
+        target: childNode.id,
+        sourceHandle: sourceHandle,
+        animated: true,
+        type: 'sequential',
+        label: `You searched for ${searchTerm} within ${type}`,
+        style: {
+          stroke: DOMAIN_MODEL_COLORS[type],
+        },
+      }
+      updateNodeData(userNode.id, {handles: [sourceHandle]})
+
+      addNodes(childNode)
+      addEdges(edge)
+    },
+    [addNodes, addEdges, updateNodeData, getNodes, nodeExists]
+  )
+
+  // Modified data loading with duplicate prevention
   const handleLoadingRecords = useCallback(
     async ({data: {type}}: {data: {type: string}}) => {
       console.log('🚀 ~ MindMapBottomMenu ~ type:', type)
 
       const amount = 3
       const center = screenToFlowPosition(calculateCenterOfScreen())
+
+      // Check if we already have a similar query
+      const existingNodes = getNodes()
+      const query = `Give me the top ${amount} of interesting ${type} records`
+      const similarNodeExists = existingNodes.some(
+        (node) => node.type === 'userInputNode' && node.data?.question === query
+      )
+
+      if (similarNodeExists) {
+        console.log(`Similar ${type} exploration already exists on the graph`)
+        return // Skip duplicate data loading
+      }
 
       // Create a user input node first
       const potentialUserNode = {
@@ -262,7 +385,7 @@ export const MindMapBottomMenu = () => {
         data: {
           label: 'Your Query',
           input: `Beginning your exploration by loading ${amount} ${type}. Fetching Data...`,
-          question: `Give me the top ${amount} of interesting ${type} records and what is interesting about them and explain the connections between them, if any.`,
+          question: query,
           type: type,
         },
       }
@@ -271,8 +394,6 @@ export const MindMapBottomMenu = () => {
       addNode(potentialUserNode)
 
       try {
-        const existingNodes = getNodes()
-
         // Choose layout type based on content type
         let layoutType: 'horizontal' | 'vertical' | 'radial' | 'grid' = 'horizontal'
 
@@ -296,36 +417,47 @@ export const MindMapBottomMenu = () => {
             layoutType = 'horizontal'
         }
 
-        const question = `Give me the top ${amount} of interesting ${type} records and what is interesting about them and explain the connections between them, if any.`
-
         const flowData = await xataToXYFlow({
-          question,
+          question: query,
           table: type,
           rules: `Find the most interesting ${type} records that have clear relationships between them`,
-          context: `The user is exploring records in the ${type} database `,
-          existingNodes: existingNodes,
+          context: `The user is exploring records in the ${type} database`,
+          existingNodes,
           sourceNode: potentialUserNode,
           layoutType, // Pass the selected layout type
         })
 
-        console.log('🚀 ~ handleLoadingRecords ~ flowData:', flowData)
+        // Filter out any nodes that already exist in the graph
+        if (flowData.nodes && flowData.nodes.length > 0) {
+          const filteredNodes = flowData.nodes.filter((node) => !nodeExists(node.id, node.type))
 
-        addNodes(flowData.nodes)
-        addEdges(flowData.edges)
+          if (filteredNodes.length > 0) {
+            addNodes(filteredNodes)
+            addEdges(flowData.edges)
 
-        if (flowData && flowData?.xataResponse?.records?.length > 0) {
-          // Update the user input node with the AI analysis
-          if (flowData.xataResponse?.records) {
+            // Update the user input node with the AI analysis
+            if (flowData.xataResponse?.records) {
+              updateNodeData(potentialUserNode.id, {
+                entities: flowData.xataResponse.records,
+                answer: flowData.xataResponse.answer,
+                sessionId: flowData.xataResponse.sessionId,
+              })
+            }
+          } else {
+            // No new nodes to add
             updateNodeData(potentialUserNode.id, {
-              entities: flowData.xataResponse?.records,
-              answer: flowData.xataResponse?.answer,
-              sessionId: flowData.xataResponse?.sessionId,
+              input: `No new ${type} data found. All relevant records are already on the graph.`,
             })
           }
-        } else {
-          // Update user node to show no results
+        } else if (flowData.xataResponse?.records?.length === 0) {
+          // No data found
           updateNodeData(potentialUserNode.id, {
-            input: `No ${type} data found or there was an error fetching the data.`,
+            input: `No ${type} data found.`,
+          })
+        } else {
+          // Error occurred
+          updateNodeData(potentialUserNode.id, {
+            input: `Error loading ${type} data.`,
           })
         }
       } catch (error) {
@@ -339,80 +471,19 @@ export const MindMapBottomMenu = () => {
       }
     },
     [
-      calculateCenterOfScreen,
       screenToFlowPosition,
+      calculateCenterOfScreen,
       getNextId,
       addNode,
       addNodes,
       addEdges,
       updateNodeData,
+      getNodes,
+      nodeExists,
     ]
   )
 
-  const runSearch = useCallback(
-    async ({type, searchTerm}: SearchParams) => {
-      const userNode: any = {
-        id: uuidv4(),
-        type: 'userInputNode',
-        position: {x: 0, y: 0},
-        data: {label: 'Your Query', input: searchTerm},
-      }
-      addNodes(userNode)
-
-      const response: any = await initiateDatabaseTableQuery({
-        table: type,
-        keyword: searchTerm,
-      })
-
-      const {
-        suggestedSearchResult: {record},
-        relatedResults,
-        totalCount,
-      } = response
-
-      // For a single child node, position it directly below the userNode
-      const userElem = document.getElementById(userNode.id)
-      const userRect = userElem ? userElem.getBoundingClientRect() : {width: 200, height: 100}
-      const userHeight = userRect.height || 100
-      const childY = userNode.position.y + userHeight + 100 // 100px vertical spacing
-
-      const childNode: any = {
-        id: record?.id,
-        type: `${type}Node`,
-        data: {
-          type,
-          ...record,
-        },
-        position: {
-          x: userNode.position.x, // For a single node, we align with the parent's x
-          y: childY,
-        },
-        parentId: userNode.id,
-      }
-      const edgeId = `${userNode.id}-${childNode.id}`
-      const sourceHandle = `handle:${edgeId}`
-
-      const edge: any = {
-        id: edgeId,
-        source: userNode.id,
-        target: childNode.id,
-        sourceHandle: sourceHandle,
-        animated: true,
-        type: 'sequential',
-        label: `You searched for ${searchTerm} within ${type}`,
-        style: {
-          stroke: DOMAIN_MODEL_COLORS[type],
-        },
-      }
-      updateNodeData(userNode.id, {handles: [sourceHandle]})
-
-      addNodes(childNode)
-      addEdges(edge)
-    },
-    [addNodes, addEdges, updateNodeData]
-  )
-
-  const modelSearchActions = ENTITY_TYPES.map((entity) => ({
+  const modelSearchActions: ModelAction[] = ENTITY_TYPES.map((entity) => ({
     icon: entity.icon(),
     label: `Add ${entity.displayName}`,
     name: entity.displayName,
@@ -423,11 +494,14 @@ export const MindMapBottomMenu = () => {
     },
   }))
 
-  const addDataToMindMap = (model: string) => {
-    console.log('🚀 ~ addDataToMindMap ~ model:', model)
+  const addDataToMindMap = useCallback(
+    (model: string) => {
+      console.log('🚀 ~ addDataToMindMap ~ model:', model)
 
-    handleLoadingRecords({data: {type: model}})
-  }
+      handleLoadingRecords({data: {type: model}})
+    },
+    [handleLoadingRecords]
+  )
 
   const menuRef = useRef<HTMLDivElement>(null)
   const [isOpen, setIsOpen] = useState(false)
@@ -446,35 +520,14 @@ export const MindMapBottomMenu = () => {
   })
   const [searchResults, setSearchResults] = useState<any>(null)
 
-  const [filteredCommands, setFilteredCommands] = useState(COMMANDS)
-
-  useEffect(() => {
-    if (inputValue.startsWith('/')) {
-      const searchTerm = inputValue.slice(1).toLowerCase()
-      setFilteredCommands(
-        COMMANDS.filter(
-          (cmd) =>
-            cmd.prefix.toLowerCase().includes(searchTerm) ||
-            cmd.label.toLowerCase().includes(searchTerm)
-        )
-      )
-    } else {
-      setFilteredCommands(COMMANDS)
-    }
-  }, [inputValue])
-
   const updateState = useCallback(
     (updates: Partial<typeof state>) => setState((prev) => ({...prev, ...updates})),
     []
   )
 
-  const toggleModelMenu = () => {
-    updateState({isModelMenuOpen: !state.isModelMenuOpen})
-    // updateState( { isMenuOpen: true } )
-  }
-
-  const closeModelMenu = () => {
-    updateState({isModelMenuOpen: false})
+  const removeActiveCommand = () => {
+    setActiveCommand(null)
+    setIsOpen(false)
   }
 
   const handleKeyDown = useCallback(
@@ -482,85 +535,42 @@ export const MindMapBottomMenu = () => {
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault()
 
+        // Default behavior: If we have model selected and input but no specific command,
+        // treat as search
+        if (state.selectedModel && inputValue.trim() && !activeCommand) {
+          runSearch({
+            type: state.selectedModel,
+            searchTerm: inputValue,
+          })
+          setInputValue('')
+          return
+        }
+
+        // Handle specific commands
         if (activeCommand === 'chat') {
           append({role: 'user', content: inputValue})
           setInputValue('')
-        }
-
-        if (
+        } else if (
           activeCommand === 'search' &&
           inputValue &&
           inputValue.trim() !== '/' &&
           state?.selectedModel
         ) {
-          // loadNodesFromTableQuery(inputValue);
           const xataSearchResults = await askAIAction({
             question: inputValue,
             table: state?.selectedModel,
           })
           console.log('🚀 ~ handleKeyDown ~ xataSearchResults:', xataSearchResults)
           setSearchResults(xataSearchResults)
+
+          // Also visualize the search in the graph
+          runSearch({
+            type: state.selectedModel,
+            searchTerm: inputValue,
+          })
+          setInputValue('')
         }
-
-        // if (activeCommand === 'scrape' && inputValue && inputValue.trim() !== '/') {
-        //   // Check if inputValue is a valid URL (simple check for demonstration)
-        //   if (inputValue.startsWith('http://') || inputValue.startsWith('https://')) {
-        //     // Add a user message to indicate scraping is starting
-        //     append({
-        //       role: 'user',
-        //       content: `Scrape data from: ${inputValue}`,
-        //     })
-
-        //     // Add an assistant message to show processing
-        //     append({
-        //       role: 'assistant',
-        //       content: 'Starting data extraction process. This may take a moment...',
-        //     })
       }
-      // try {
-      // Call the scrape API
-      // Scrape here
-
-      // if (data.success) {
-      // Process the results
-      // const summary = data.processedResults?.[0]?.summary || 'No summary available'
-      // const entityTypes = Object.keys(data.processedResults?.[0]?.entities || {})
-      // const entitiesFound = entityTypes
-      //   .map((type) => {
-      //     const count = data.processedResults?.[0]?.entities?.[type]?.length || 0
-      //     return `${type}: ${count}`
-      //   })
-      //   .join(', ')
-
-      // Add the results to the chat
-      // append({
-      //   role: 'assistant',
-      //   content: `## Data Extraction Results\n\n${summary}\n\n### Entities Extracted\n\n${entitiesFound}\n\nWould you like me to add any of these entities to your mind map?`,
-      // })
-      //   } else {
-      //     append({
-      //       role: 'assistant',
-      //       content: `Failed to extract data: ${data.message || 'Unknown error'}`,
-      //     })
-      //   }
-      // } catch (error) {
-      //   append({
-      //     role: 'assistant',
-      //     content: `An error occurred during data extraction: ${
-      //       error instanceof Error ? error.message : 'Unknown error'
-      //     }`,
-      //   })
-      // }
-
-      //   setInputValue('')
-      // } else {
-      //   append({
-      //     role: 'assistant',
-      //     content: 'Please enter a valid URL starting with http:// or https://',
-      //   })
-      // }
-      // }
-      // }
 
       if (e.key === 'Backspace' && (inputValue === '' || inputValue === ' ')) {
         setActiveCommand(null)
@@ -573,22 +583,27 @@ export const MindMapBottomMenu = () => {
     [
       activeCommand,
       inputValue,
-      submitMessage,
-      loadNodesFromTableQuery,
       append,
       state?.selectedModel,
+      askAIAction,
+      setSearchResults,
+      runSearch,
+      setInputValue,
     ]
   )
-  const removeActiveCommand = () => {
-    setActiveCommand(null)
-    setIsOpen(false)
-  }
+
   const handleChange = useCallback(
     (e: any) => {
-      setInputValue(e.target.value)
-      if (activeCommand === 'chat') {
-        // setInput( value )
-        handleInputChange(e)
+      // Handle both string values and event objects
+      if (typeof e === 'string') {
+        setInputValue(e)
+      } else if (e && e.target && e.target.value !== undefined) {
+        setInputValue(e.target.value)
+        if (activeCommand === 'chat') {
+          handleInputChange(e)
+        }
+      } else {
+        console.warn('Invalid input provided to handleChange')
       }
       // Deep research just uses the input value directly, no special handling needed
     },
@@ -601,16 +616,54 @@ export const MindMapBottomMenu = () => {
       setActiveCommand(commandId)
       setInputValue('')
       setIsOpen(false)
-      closeModelMenu()
     }
   }
 
-  const handleLoadingModelData = () => {
-    if (state.selectedModel) {
-      console.log('🚀 ~ handleLoadingModelData ~ state.selectedModel:', state.selectedModel)
+  // Higher-level delegation function to route actions based on active command
+  const handleOracleAction = useCallback(() => {
+    if (activeCommand === 'chat' || activeCommand === 'deepresearch') {
+      // Handle chat submission
+      if (inputValue.trim()) {
+        append({role: 'user', content: inputValue})
+        setInputValue('')
+      }
+    } else if (activeCommand === 'search' || (inputValue.trim() && state.selectedModel)) {
+      // Default to search if there's input and model selected, even without explicit search command
+      if (inputValue.trim() && state?.selectedModel) {
+        // Run search action with the current model and input value
+        askAIAction({
+          question: inputValue,
+          table: state.selectedModel,
+        }).then((results) => {
+          setSearchResults(results)
+        })
 
+        // Also create a visual representation in the mindmap
+        runSearch({
+          type: state.selectedModel,
+          searchTerm: inputValue,
+        })
+
+        setInputValue('')
+      }
+    } else if (state.selectedModel) {
+      // Only if there's no input but a model is selected, add data to mindmap
       addDataToMindMap(state.selectedModel)
     }
+  }, [
+    activeCommand,
+    inputValue,
+    state.selectedModel,
+    append,
+    askAIAction,
+    setSearchResults,
+    runSearch,
+    addDataToMindMap,
+  ])
+
+  const handleLoadingModelData = () => {
+    // Delegate to the handleOracleAction function
+    handleOracleAction()
   }
 
   const isChatActive = activeCommand === 'chat' || activeCommand === 'scrape'
@@ -618,116 +671,15 @@ export const MindMapBottomMenu = () => {
   return (
     <div className='flex justify-center w-full'>
       <div className='p-4 flex flex-col w-[500px]'>
-        <div className='relative w-full h-auto overflow-hidden'>
-          {/* <div className="border-b border-black/10 dark:border-white/10"> */}
-          <div className='flex flex-col justify-between items-center px-2 py-4 text-sm text-zinc-600 dark:text-zinc-400'>
-            <div className='relative w-full z-50' ref={menuRef}>
-              <div className='flex w-full justify-between items-center content-center px-2'>
-                <div className='flex items-center gap-2'>
-                  <motion.button
-                    onClick={toggleModelMenu}
-                    className='flex justify-start items-center gap-1'>
-                    <div className='cursor-pointer hover:shadow-sm hover:shadow-indigo-500/50 flex hover:ring-indigo-500/50 relative w-fit gap-3\1 rounded-xl align-center items-center content-center px-2 py-1 text-xs ring-1 ring-neutral-200 duration-200 ring-neutral-700 bg-neutral-950 bg-gradient-to-b from-black/90'>
-                      {/* <AiStarIcon
-													className="w-3 h-3 mr-2"
-													stroke={ICON_GREEN}
-												/> */}
-                      <OracleIcon
-                        className={cn(
-                          'w-3 h-3 mr-2',
-                          chatStatus === 'in_progress' ? 'animate-spin' : ''
-                        )}
-                        fill={ICON_GREEN}
-                      />
-                      <TextShimmer as='span' className='inline-block mr-2'>
-                        Oracle {state?.selectedModel && `| ${capitalize(state?.selectedModel)}`}{' '}
-                      </TextShimmer>
-                    </div>
-                  </motion.button>
-
-                  {activeCommand && (
-                    <div
-                      className='cursor-pointer hover:shadow-sm hover:shadow-indigo-500/50 flex hover:ring-indigo-500/50 relative w-fit gap-3\1 rounded-xl align-center items-center content-center px-2 py-1 text-xs ring-1 ring-neutral-200 duration-200 ring-neutral-700 bg-neutral-950 bg-gradient-to-b from-black/90'
-                      onClick={removeActiveCommand}>
-                      <XIcon className='w-4 h-4 text-black/50 dark:text-white/50' />
-                      {/* <span className="text-black/70 dark:text-white/70"> */}
-                      <TextShimmer as='span' className='inline-block mr-2'>
-                        {activeCommand}
-                      </TextShimmer>
-                    </div>
-                  )}
-                </div>
-                <ToggleButton
-                  icon={<Brain className='w-4 h-4' />}
-                  label='Deep Research'
-                  onClick={() => updateState({deepResearchEnabled: !state.deepResearchEnabled})}
-                  useMemory={state.deepResearchEnabled}
-                />
-              </div>
-
-              <motion.div
-                ref={menuRef}
-                className='rounded-xl relative flex gap-2 items-center relative w-full duration-200 text-neutral-500 willChange gpu-transform text-neutral-500 bg-neutral-950 bg-gradient-to-b from-black/90'
-                initial={{
-                  height: 0,
-                }}
-                animate={{
-                  height: state.isModelMenuOpen ? 250 : '0',
-                }}
-                transition={{
-                  type: 'spring',
-                  stiffness: 500,
-                  damping: 30,
-                  // duration: 0.2,
-                  staggerChildren: 0.1,
-                  delayChildren: 0.2,
-                }}>
-                <AnimatePresence>
-                  {state.isModelMenuOpen && (
-                    <motion.div
-                      key='model-menu'
-                      // className="h-full w-full"
-                      // className="absolute top-0 left-0 mt-1 w-64 bg-white dark:bg-zinc-800 rounded-md shadow-lg py-1 z-50 border border-black/10 dark:border-white/10"
-                      className='pb-0 flex flex-col h-full items-end rounded-xl justify-evenly absolute w-full text-neutral-500 bg-neutral-950 bg-gradient-to-b from-black/90'
-                      initial={{opacity: 0, y: 20}}
-                      animate={{opacity: 1, y: 0}}
-                      // exit={{ opacity: 0, y: 20 }}
-                    >
-                      {modelSearchActions.map((model, index) => (
-                        <motion.div
-                          className='w-full shrink-0 px-2'
-                          key={model.name}
-                          initial={{opacity: 0, y: 20}}
-                          animate={{opacity: 1, y: 0}}
-                          // exit={{ opacity: 0, y: 20 }}
-                        >
-                          <button
-                            type='button'
-                            key={model.name}
-                            className='w-full px-3 py-1.5 text-left hover:bg-black/5 dark:hover:bg-white/5 flex items-center gap-2 text-sm transition-colors dark:text-white'
-                            onClick={() =>
-                              updateState({
-                                selectedModel: model.type,
-                                isModelMenuOpen: false,
-                              })
-                            }>
-                            <div className='flex items-center justify-start gap-2 flex-1'>
-                              {model.icon}
-                              <span className='capitalize'>{model.name}</span>
-                            </div>
-                            <span className='text-xs text-zinc-500 dark:text-zinc-400 capitalize'>
-                              {model.label}
-                            </span>
-                          </button>
-                        </motion.div>
-                      ))}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.div>
-            </div>
-          </div>
-        </div>
+        <UltraterrestrialModelSelection
+          state={state}
+          updateState={updateState}
+          menuRef={menuRef}
+          activeCommand={activeCommand}
+          removeActiveCommand={removeActiveCommand}
+          modelSearchActions={modelSearchActions}
+          chatStatus={chatStatus}
+        />
 
         <form
           onSubmit={submitMessage}
@@ -741,52 +693,45 @@ export const MindMapBottomMenu = () => {
             setIsOpen={setIsOpen}
             isLoading={isLoading}
             isOpen={isOpen}
-            loadModelData={handleLoadingModelData}
+            loadModelData={handleOracleAction}
             isChatActive={activeCommand === 'chat' || activeCommand === 'deepresearch'}
             chatStatus={chatStatus}
             messages={messages}
           />
         </form>
 
-        <AnimatePresence>
-          {isOpen && !activeCommand && (
-            <motion.div
-              initial={{opacity: 0, y: 8}}
-              animate={{opacity: 1, y: 0}}
-              exit={{opacity: 0, y: 8}}
-              transition={{duration: 0.15}}
-              className='absolute bottom-0 left-0 w-full h-auto z-40 flex justify-center items-center'>
-              <div className='rounded-lg shadow-lg w-[444px] h-[400px] mt-2 rounded-lg border border-neutral-700/30 text-neutral-500 bg-black bg-gradient-to-b from-black relative rounded-tl-lg rounded-tr-lg '>
-                <Command className='w-full'>
-                  <Command.List className=''>
-                    {filteredCommands.map((command, index) => (
-                      <Command.Item
-                        key={command.id}
-                        onSelect={() => {
-                          handleCommandSelect(command.id)
-                          // setInputValue( `${command.prefix} ` )
-                        }}
-                        className='px-3 py-2.5 flex items-center gap-3 text-sm hover:bg-white/10 cursor-pointer group'>
-                        {command.icon()}
-                        <div className='flex flex-col'>
-                          <span className='font-medium text-black/70 dark:text-white/70'>
-                            {command.label}
-                          </span>
-                          <span className='text-xs text-black/50 dark:text-white/50'>
-                            {command.description}
-                          </span>
-                        </div>
-                        <span className='ml-auto text-xs text-black/30 dark:text-white/30'>
-                          {command.prefix}
-                        </span>
-                      </Command.Item>
-                    ))}
-                  </Command.List>
-                </Command>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {/* Single source of truth for commands display */}
+        <OracleCommandList
+          isOpen={isOpen}
+          activeCommand={activeCommand}
+          commands={[
+            // Combine all commands from both sources
+            ...COMMANDS.map((cmd) => ({
+              id: cmd.id.toLowerCase(),
+              label: cmd.label,
+              name: cmd.label,
+              description: cmd.description,
+              icon: cmd.icon,
+              prefix: cmd.prefix,
+            })),
+            // Add any additional commands from DEFAULT_COMMAND_OPTIONS if needed
+            ...DEFAULT_COMMAND_OPTIONS.filter(
+              (opt) => !COMMANDS.some((cmd) => cmd.id.toLowerCase() === opt.id.toLowerCase())
+            ).map((opt) => ({
+              id: opt.id.toLowerCase(),
+              name: opt.name,
+              label: opt.name,
+              description: opt.description,
+              // Create a stub icon if not provided
+              icon: () => null,
+              prefix: `/${opt.id.toLowerCase()}`,
+            })),
+          ]}
+          handleCommandSelect={handleCommandSelect}
+          inputValue={inputValue}
+          setInputValue={setInputValue}
+          handleKeyDown={handleKeyDown}
+        />
       </div>
     </div>
   )

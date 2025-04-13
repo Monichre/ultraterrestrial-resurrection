@@ -1,0 +1,80 @@
+Title Generation Test Results
+=============================
+
+Sample Event Comparisons:
+
+Original: "UFO Event 743"
+New:      "743: Formation Sighting in Teltown, County"
+Year: 743
+Location: the air over Ireland, according to entries in the Annals of ...
+Description start: 743 (or 744 or 748) - Ships with men aboard are seen in the air over Ireland, according to entries i...
+
+
+Original: "UFO Event 812"
+New:      "812: Spherical Object in France"
+Year: 812
+Location: which he condemns pagan folk beliefs, such as the notion of ...
+Description start: 812 - Agobard, the archbishop of Lyon, France, writes De Grandine et Tonitruis ('On Hail and Thunder...
+
+
+Original: "UFO Event 1942, June - Col. James C. Marshall is selected to head the Manhattan Project. (Wikipedia, 'Manhattan Project')"
+New:      "Jun 1942: UFO Incident"
+Year: 1942, June - Col. James C. Marshall is selected to head the Manhattan Project. (Wikipedia, 'Manhattan Project')
+Location: None
+Description start: 1942, June - Col. James C. Marshall is selected to head the Manhattan Project. (Wikipedia, 'Manhatta...
+
+
+Original: "UFO Event 1945, March 19 - 1:00 p.m. The crew of the battleship USS New York is leaving port on Manus in the Admiralty Islands, preparing to rejoin Task Force 54 in preparation for the invasion of Okinawa. When the ship's radar detects a single incoming blip, officers issue a call to General Quarters. Crew members can see an object hovering high above the ship. Capt. Kemp C. Christian Sr. is watching it through binoculars, and it appears silver in color and smaller than a full moon. It remains still, matching the ship's course and speed. After 30 minutes, Kemp orders the ship's anti-aircraft guns to fire on the object, but it is out of range. After a few more seconds, the object climbs swiftly until it is out of sight and off the radar scope. (Stephen A. Pratt, [Letter], MUFON UFO Journal, no. 203 (March 1983): 16)"
+New:      "Mar 19, 1945: Document"
+Year: 1945, March 19 - 1:00 p.m. The crew of the battleship USS New York is leaving port on Manus in the Admiralty Islands, preparing to rejoin Task Force 54 in preparation for the invasion of Okinawa. When the ship's radar detects a single incoming blip, officers issue a call to General Quarters. Crew members can see an object hovering high above the ship. Capt. Kemp C. Christian Sr. is watching it through binoculars, and it appears silver in color and smaller than a full moon. It remains still, matching the ship's course and speed. After 30 minutes, Kemp orders the ship's anti-aircraft guns to fire on the object, but it is out of range. After a few more seconds, the object climbs swiftly until it is out of sight and off the radar scope. (Stephen A. Pratt, [Letter], MUFON UFO Journal, no. 203 (March 1983): 16)
+Location: the Admiralty Islands, preparing to rejoin Task Force...
+Description start: 1945, March 19 - 1:00 p.m. The crew of the battleship USS New York is leaving port on Manus in the A...
+
+
+Original: "UFO Event 1947, July 12 - The FBI conducts a shorter follow-up interview with Capt. Emil J. Smith. (ClearIntent, p. 153) 1947, July 12 - 2:30 p.m. Earl Page is flying a light plane from Las Vegas to Salt Lake City with his wife Beulah and son Ronald. Over Utah Lake, Utah, they see a formation of discs approach their plane from the  front and pass to the right. Page thinks they may be as close as 50 feet. He banks the plane sharply to pursue them, but they disappear in the distance. All three of the witnesses experience an overwhelming emotional reaction, as well as nausea. (Frank B. Salisbury, The Utah UFO Display, 2010 ed., pp. 2-3)"
+New:      "Jul 12, 1947: Formation Sighting"
+Year: 1947, July 12 - The FBI conducts a shorter follow-up interview with Capt. Emil J. Smith. (ClearIntent, p. 153) 1947, July 12 - 2:30 p.m. Earl Page is flying a light plane from Las Vegas to Salt Lake City with his wife Beulah and son Ronald. Over Utah Lake, Utah, they see a formation of discs approach their plane from the  front and pass to the right. Page thinks they may be as close as 50 feet. He banks the plane sharply to pursue them, but they disappear in the distance. All three of the witnesses experience an overwhelming emotional reaction, as well as nausea. (Frank B. Salisbury, The Utah UFO Display, 2010 ed., pp. 2-3)
+Location: None
+Description start: 1947, July 12 - The FBI conducts a shorter follow-up interview with Capt. Emil J. Smith. (ClearInten...
+
+
+Original: "UFO Event 1964, October - An engineer and three technicians at the Wallops Flight Facility on Wallops Island, Virginia, see a triangular-shaped object speed in from the north, make a 90° turn, and disappear in under a minute. They all agree that it moved faster than a jet. (Harold H. Deneault Jr., 'UFOs Return to Washington,' Fate 18, no. 7 (July 1965): 48-49)"
+New:      "Oct 1964: Triangular Craft"
+Year: 1964, October - An engineer and three technicians at the Wallops Flight Facility on Wallops Island, Virginia, see a triangular-shaped object speed in from the north, make a 90° turn, and disappear in under a minute. They all agree that it moved faster than a jet. (Harold H. Deneault Jr., 'UFOs Return to Washington,' Fate 18, no. 7 (July 1965): 48-49)
+Location: from the north, make a...
+Description start: 1964, October - An engineer and three technicians at the Wallops Flight Facility on Wallops Island, ...
+
+
+Original: "UFO Event 1990, June 5 - Robert Lazar is arrested in Las Vegas, Nevada, for aiding and abetting a prostitution ring. The charge is reduced to felony pandering, to which he pleads guilty on June 18. At sentencing on August 20, he is ordered to do 150 hours of community service, stay away from brothels, and undergo psychotherapy. (Warren Bates, 'Source in Channel 8's UFO Series Pleads Guilty to Pandering Charge,' Las Vegas (Nev.) Review-Journal, June 19, 1990, p. 8B, reprinted in Tom Mahood's Bluefire)"
+New:      "Jun 5, 1990: Document in Las Vegas, Nevada"
+Year: 1990, June 5 - Robert Lazar is arrested in Las Vegas, Nevada, for aiding and abetting a prostitution ring. The charge is reduced to felony pandering, to which he pleads guilty on June 18. At sentencing on August 20, he is ordered to do 150 hours of community service, stay away from brothels, and undergo psychotherapy. (Warren Bates, 'Source in Channel 8's UFO Series Pleads Guilty to Pandering Charge,' Las Vegas (Nev.) Review-Journal, June 19, 1990, p. 8B, reprinted in Tom Mahood's Bluefire)
+Location: Las Vegas, Nevada, for aiding and abetting a prostitution ri...
+Description start: 1990, June 5 - Robert Lazar is arrested in Las Vegas, Nevada, for aiding and abetting a prostitution...
+
+
+Original: "UFO Event 1990, June 10 - Reporter Craig Myers announces in the Pensacola (Fla.) News-Journal that a foam UFO model, seemingly a prototype for a fake UFO, has been found by new homeowners in the attic of the former residence of Gulf Breeze, Florida, UFO photographer Ed Walters. Myers writes a series of articles showing how Walters likely hoaxes some photos using a double-exposure technique. In late June, Tom Smith Jr., 22, a former Gulf Breeze resident, comes forward and claims that he has seen Walters fake some of the photos, the entire Walters family is in on the hoax, and they had tried to enlist his help unsuccessfully. Investigators apply a voice stress analysis (VSA) test to Smith's taped testimony, which he passes. A controlled VSA test has also been successfully applied to testimony by Ed Walters, in which he denies perpetrating a hoax. (Craig Myers, 'Gulf Breeze UFO Model Found,' Pensacola (Fla.) News Journal, June 10, 1990, pp. 1, 8; Craig Myers, 'I Saw UFO Photos Faked, Witness Says,' Pensacola (Fla.) News Journal, June 17, 1990, pp. 1, 4; UFO Newsclipping Service, no. 252 (July 1990): 1-6; Geoff Price, 'Lie Detection in UFO Controversies,' IUR 22, no. 3 (Fall 1997): 31; Kevin D. Randle, 'The Truth about Polygraphs,' IUR 22, no. 4 (Winter 1997-1998): 29-30; Craig R. Myers, 'The MUFON-ian Candidate: The Gulf Breeze UFO Case As Political Contest,' in Vicente-Juan Ballester Olmos and Richard Heiden, eds., The Reliability of UFO Witness Testimony, UPIAR, 2023, pp. 121-136)"
+New:      "Jun 10, 1990: Cigar-shaped Object in Zvarykino, Belgorod"
+Year: 1990, June 10 - Reporter Craig Myers announces in the Pensacola (Fla.) News-Journal that a foam UFO model, seemingly a prototype for a fake UFO, has been found by new homeowners in the attic of the former residence of Gulf Breeze, Florida, UFO photographer Ed Walters. Myers writes a series of articles showing how Walters likely hoaxes some photos using a double-exposure technique. In late June, Tom Smith Jr., 22, a former Gulf Breeze resident, comes forward and claims that he has seen Walters fake some of the photos, the entire Walters family is in on the hoax, and they had tried to enlist his help unsuccessfully. Investigators apply a voice stress analysis (VSA) test to Smith's taped testimony, which he passes. A controlled VSA test has also been successfully applied to testimony by Ed Walters, in which he denies perpetrating a hoax. (Craig Myers, 'Gulf Breeze UFO Model Found,' Pensacola (Fla.) News Journal, June 10, 1990, pp. 1, 8; Craig Myers, 'I Saw UFO Photos Faked, Witness Says,' Pensacola (Fla.) News Journal, June 17, 1990, pp. 1, 4; UFO Newsclipping Service, no. 252 (July 1990): 1-6; Geoff Price, 'Lie Detection in UFO Controversies,' IUR 22, no. 3 (Fall 1997): 31; Kevin D. Randle, 'The Truth about Polygraphs,' IUR 22, no. 4 (Winter 1997-1998): 29-30; Craig R. Myers, 'The MUFON-ian Candidate: The Gulf Breeze UFO Case As Political Contest,' in Vicente-Juan Ballester Olmos and Richard Heiden, eds., The Reliability of UFO Witness Testimony, UPIAR, 2023, pp. 121-136)
+Location: the attic of the former residence of Gulf Breeze, Florida, U...
+Description start: 1990, June 10 - Reporter Craig Myers announces in the Pensacola (Fla.) News-Journal that a foam UFO ...
+
+
+Title Statistics:
+================
+Total events: 5817
+Average title length: 39.74 characters
+Shortest title: 9 characters
+Longest title: 82 characters
+Events with location in title: 4709 (80.95%)
+
+Top 10 Phenomenon Types:
+- Document: 247 (4.25%)
+- UFO: 61 (1.05%)
+- Luminous Phenomenon: 58 (1.00%)
+- Military Sighting: 52 (0.89%)
+- UFO Incident: 45 (0.77%)
+- Formation Sighting: 41 (0.70%)
+- Spherical Object: 36 (0.62%)
+- Mysterious Object: 32 (0.55%)
+- Landing: 30 (0.52%)
+- Triangular Craft: 25 (0.43%)

@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type {Meta, StoryObj} from '@storybook/react'
 
-import { DynamicToolbar } from './DynamicToolbar'
+import {DynamicToolbar} from './DynamicToolbar'
 
 const meta = {
   component: DynamicToolbar,
-  title: "C"
+  title: 'Components/Toolbars/Dynamic Toolbar',
 } satisfies Meta<typeof DynamicToolbar>
 
 export default meta
