@@ -1,4 +1,4 @@
-import { BaseClientOptions, type XataRecord } from "@xata.io/client";
+export type { BaseClientOptions, XataRecord } from "@xata.io/client";
 
 declare module "@xata.io/client" {
 	interface SummarizeResultItem<T extends XataRecord, S, C extends string[]> {
