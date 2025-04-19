@@ -1,76 +1,239 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
-/node_modules
-/.pnp
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
-
-# testing
-/coverage
-
-# next.js
-/.next/
-/out/
-
-# production
-/build
-
-# misc
+# General
 .DS_Store
-*.pem
+*.log
+*.swp
+.env
+.env.*
+!.env.example
+.cache
+.history
+.tmp
+.temp
+thumbs.db
+*.bak
+*.zip
+*.tar.gz
 
-# debug
+# MCP
+.mcp.json
+
+# Node.js
+node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
-
-# env files (can opt-in for committing if needed)
-.env*
-
-# vercel
-.vercel
-
-# typescript
+.yarn-integrity
+.npm
+*.tgz
+tasks/
+# TypeScript
 *.tsbuildinfo
-next-env.d.ts
 
-*storybook.log
+# CLI
+/cli/dist/
+/cli/coverage/
+/cli/.nyc_output/
 
-# Added by Claude Task Master
-# Logs
-logs
-*.log
-dev-debug.log
-# Dependency directories
-node_modules/
-# Environment variables
-.env
-# Editor directories and files
-.idea
-.vscode
+# Application (Next.js)
+/application/.next/
+/application/out/
+/application/build/
+/application/coverage/
+/application/.vercel/
+/application/next-env.d.ts
+/application/.env
+/application/.env.*
+!application/.env.example
+/application/.turbo
+
+# Agent UI
+/agent-ui/front-end/node_modules/
+/agent-ui/front-end/dist/
+/agent-ui/front-end/build/
+/agent-ui/front-end/coverage/
+/agent-ui/front-end/.env
+/agent-ui/front-end/.env.*
+!agent-ui/front-end/.env.example
+
+/agent-ui/back-end/node_modules/
+/agent-ui/back-end/dist/
+/agent-ui/back-end/build/
+/agent-ui/back-end/coverage/
+/agent-ui/back-end/.env
+/agent-ui/back-end/.env.*
+!agent-ui/back-end/.env.example
+
+# Docs
+/docs/.vitepress/dist/
+/docs/.vitepress/cache/
+
+# Data directory
+/data/
+
+# IDE/Editor specific
+.idea/
+.vscode/
+*.code-workspace
+*.sublime-*
+.project
+.classpath
+.settings/
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
-*.sw?
-# OS specific
-# Task files
-tasks.json
-tasks/ 
+.cursor/
+.cursorignore
 
-docs/ufo-intelligence-docs/
-ai-convert --file /Users/liamellis/Desktop/ultraterrestrial-resurrection/docs/ufo-intelligence-docs/UFOsandIntelligence-2.pdf --output markdown >> /Users/liamellis/Desktop/ultraterrestrial-resurrection/docs/ufo-intelligence-docs/UFOsandIntelligence-2.md
-data/
-.cursor-tools.env
-.cursor-tools.env.local
-.cursor-tools.env.development.local
-.cursor-tools.env.test.local
-.cursor-tools.env.production.local
+# Testing
+/coverage/
+.nyc_output/
+.jest/
 
- scripts/data-import/processing/testimonies/
+# Specific to macOS
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+
+# Specific to Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Dependency files
+bun.lockb
+yarn.lock
+package-lock.json
+pnpm-lock.yaml
+
+# Build directories
+dist/
+build/
+out/
+.output/
+.nuxt/
+
+# Debug
+.debug/
+
+# Linters
+.eslintcache
+.stylelintcache
+
+# Local Netlify folder
+.netlify
+
+# Large files and binaries
+*.db
+*.sqlite
+*.sqlite3
+*.sql.gz
+*.dump
+*.dmp
+*.gz
+*.tar
+*.7z
+*.rar
+*.iso
+*.img
+*.dmg
+*.exe
+*.bin
+*.onnx
+*.pt
+*.pth
+*.h5
+*.hdf5
+*.pkl
+*.pickle
+*.joblib
+*.model
+*.weights
+*.mlmodel
+*.tfrecord
+
+# Media files
+*.mp4
+*.avi
+*.mov
+*.wmv
+*.flv
+*.webm
+*.psd
+*.ai
+*.pdf
+*.docx
+*.xlsx
+*.pptx
+*.mp3
+*.wav
+*.flac
+*.ogg
+*.aac
+
+# Large data files
+*.csv
+*.tsv
+*.parquet
+*.arrow
+*.feather
+*.avro
+*.json
+# Include package.json files
+!package.json
+!package-lock.json
+
+# Vector store files
+packages/knowledge-base/vector-store-files/
+packages/knowledge-base/vector_storage/
+
+# Binary files
+*.bin
+scene.bin
+
+# Generated documentation
+/docs/generated/
+/docs/api/
+/docs/build/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+*.ipynb
+
+# AI/ML experiment tracking
+/runs/
+/mlruns/
+/wandb/
+/lightning_logs/
+/ray_results/
+/checkpoints/
+
+# Large log and analytics files
+*.log.*
+logs/
+analytics/
+traces/
+metrics/
+*.heapsnapshot
+
+# Cache directories
+.cache/
+__pycache__/
+*.py[cod]
+*.so
+.sass-cache/
+.parcel-cache/
+
+# Virtual Environments
+.venv/
+venv/
+ENV/

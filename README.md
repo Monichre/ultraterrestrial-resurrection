@@ -3,13 +3,13 @@
 **Tracking the State of Disclosure**
 _Striving to document, explore and disseminate the past, present and future of the UFO topic and its bearing on humanity, the universe and our place within it._
 
-![Example Image](./preview.jpeg)
+![Example Image](./preview.jpeg){: height="400px" width="100%"}
 
 # Initial Idea
 
 How it started ...
 
-![Charlie Day](apps/app/docs/charlie-day.gif)
+![Charlie Day](./charlie-day.gif)
 
 Essentially I was thinking it might be cool to build a "state of disclosure" application that provided engaging visual displays and interactions across the following general areas:
 
@@ -78,18 +78,14 @@ Addressing the big questions is essential, and Ultraterrestrial presents an offi
 
 When it comes to the more mysterious aspects, Ultraterrestrial includes lists of suspected “black” bases and contractors involved in retrieving materials. Interactive maps provide detailed location data, while base profiles offer background information, theories, sightings, and photographic evidence. Contractor profiles document affiliations and evidence linking them to retrieved materials, complete with network mapping to show connections to various bases and events.
 
-But Ultraterrestrial doesn’t stop at just providing information—it’s built to engage and empower its users. With community features like user accounts, profiles, forums, and user-generated content, the platform fosters a sense of belonging and collaboration. Users can upload their own sightings, participate in collaborative investigations, and contribute to the growing tapestry of ultraterrestrial knowledge.
-
-Multimedia integration takes Ultraterrestrial to the next level, offering a rich video library with documentaries, interviews, and user-submitted footage. Exclusive podcasts and audio archives provide another layer of content, ensuring there’s always something new and engaging to explore.
-
-Education is a key component, with interactive learning modules, quizzes, and expert webinars that help users deepen their understanding of UFO phenomena. Data analytics and insights offer trend analysis and predictive modeling, giving users a sophisticated toolset to interpret the vast amounts of data available.
-
-Ultraterrestrial also emphasizes accessibility and inclusivity, supporting multiple languages and regional customization to reach a global audience. The platform is designed with accessibility in mind, featuring screen reader compatibility, keyboard navigation, and customizable UI options to ensure everyone can engage with the content comfortably.
-
-In summary, Ultraterrestrial is poised to become the leading platform in the UFO disclosure space, offering a rich, interactive, and comprehensive experience that not only informs but also engages and empowers its users. Whether you’re an avid enthusiast, a dedicated researcher, or just curious about the mysteries of the skies, Ultraterrestrial provides the tools and community to explore the fascinating world of ultraterrestrial phenomena.
+[ERD](packages/docs/erd-diagram.svg)
+[Feature Roadmap](./roadmap.md)
+[Pitch](./pitch.md)
 
 ## Tech Stack
 
+OpenAI
+AI.SDK
 NextJS
 Xata
 OpenAI
@@ -99,14 +95,6 @@ ThreeJS
 React Three Fiber
 Framer Motion
 
-[Feature Roadmap](./apps/app/docs/roadmap.md)
-
-<https://app.warp.dev/session/c1fd1a4a-77ea-48e2-82a7-407d08dd182a?pwd=a0c7ef1c-c9e7-499d-802e-4e3795c77b4c>
-
 ### Prompt Storage
 
 <https://us.cloud.langfuse.com/project/cm383h71b00ko9czugbg17ss6>
-
-## TO DO
-
-Add this <https://roadmap.hncore.website/>
