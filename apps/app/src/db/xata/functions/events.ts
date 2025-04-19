@@ -1,24 +1,83 @@
-import { xata } from "@/db/xata/client";
-import type { Events, EventsRecord } from "@/db/xata/xata";
-import type {
-	BaseApiFilter,
-	SearchOptions,
-	SearchPageConfig,
-} from "@xata.io/client";
+import type { xata } from "@/db/xata/client";
+import type { EventsRecord } from "@/db/xata/xata";
+import type { Events } from "@react-three/fiber";
+
+/**
+ * Error interface for standardized error responses
+ */
+interface EventsOperationError extends Error {
+	code: string;
+	operation: string;
+	details?: unknown;
+}
+
+/**
+ * Standard response interface for paginated data
+ */
+interface PaginatedResponse<T> {
+	records: T[];
+	pagination: {
+		page: number;
+		size: number;
+		total?: number;
+		hasNextPage: boolean;
+	};
+}
+
+/**
+ * Creates an error with standardized format for consistent error handling
+ * @param message Error message
+ * @param code Error code
+ * @param operation Operation that caused the error
+ * @param details Additional error details
+ * @returns Standardized error object
+ */
+function createEventError(
+	message: string,
+	code: string,
+	operation: string,
+	details?: unknown,
+): EventsOperationError {
+	const error = new Error(message) as EventsOperationError;
+	error.code = code;
+	error.operation = operation;
+	error.details = details;
+	return error;
+}
 
 /**
  * Create a new event record
  * @param data Event data to create
  * @returns The created event record
+ * @throws {EventsOperationError} If creation fails
  */
 export async function createEvent(
 	data: Omit<Events, "id" | "xata">,
 ): Promise<EventsRecord> {
 	try {
+		// Validate required fields
+		if (!data.title) {
+			throw createEventError(
+				"Event title is required",
+				"MISSING_REQUIRED_FIELD",
+				"createEvent",
+			);
+		}
+
 		return await xata.db.events.create(data);
 	} catch (error) {
 		console.error("Error creating event:", error);
-		throw error;
+
+		if ((error as EventsOperationError).code) {
+			throw error;
+		}
+
+		throw createEventError(
+			`Failed to create event: ${(error as Error).message}`,
+			"CREATE_FAILED",
+			"createEvent",
+			error,
+		);
 	}
 }
 
@@ -26,15 +85,46 @@ export async function createEvent(
  * Create multiple event records in bulk
  * @param data Array of event data to create
  * @returns Array of created event records
+ * @throws {EventsOperationError} If bulk creation fails
  */
 export async function createManyEvents(
 	data: Omit<Events, "id" | "xata">[],
 ): Promise<EventsRecord[]> {
 	try {
+		// Validate input
+		if (!Array.isArray(data) || data.length === 0) {
+			throw createEventError(
+				"Data must be a non-empty array",
+				"INVALID_INPUT",
+				"createManyEvents",
+			);
+		}
+
+		// Validate required fields for each item
+		for (const [index, item] of data.entries()) {
+			if (!item.title) {
+				throw createEventError(
+					`Event at index ${index} is missing a title`,
+					"MISSING_REQUIRED_FIELD",
+					"createManyEvents",
+				);
+			}
+		}
+
 		return await xata.db.events.create(data);
 	} catch (error) {
 		console.error("Error creating bulk events:", error);
-		throw error;
+
+		if ((error as EventsOperationError).code) {
+			throw error;
+		}
+
+		throw createEventError(
+			`Failed to create multiple events: ${(error as Error).message}`,
+			"BULK_CREATE_FAILED",
+			"createManyEvents",
+			error,
+		);
 	}
 }
 
@@ -43,13 +133,40 @@ export async function createManyEvents(
  * @param id The event record ID
  * @param columns Optional columns to select
  * @returns The event record or null if not found
+ * @throws {EventsOperationError} If retrieval fails
  */
-export async function getEventById(id: string): Promise<EventsRecord | null> {
+export async function getEventById(
+	id: string,
+	columns?: string[],
+): Promise<EventsRecord | null> {
 	try {
-		return await xata.db.events.read(id);
+		if (!id) {
+			throw createEventError(
+				"Event ID is required",
+				"MISSING_ID",
+				"getEventById",
+			);
+		}
+
+		const options: GetRecordOptions = {};
+		if (columns && columns.length > 0) {
+			options.columns = columns;
+		}
+
+		return await xata.db.events.read(id, options);
 	} catch (error) {
 		console.error(`Error getting event with ID ${id}:`, error);
-		throw error;
+
+		if ((error as EventsOperationError).code) {
+			throw error;
+		}
+
+		throw createEventError(
+			`Failed to get event with ID ${id}: ${(error as Error).message}`,
+			"GET_FAILED",
+			"getEventById",
+			error,
+		);
 	}
 }
 
@@ -57,21 +174,26 @@ export async function getEventById(id: string): Promise<EventsRecord | null> {
  * Get all event records with optional filtering, sorting, and pagination
  * @param options Optional query options
  * @returns Array of event records
+ * @throws {EventsOperationError} If query fails
  */
 export async function getAllEvents(options?: {
-	filter?: BaseApiFilter<EventsRecord>;
+	filter?: RecordFilterExpression<EventsRecord>;
 	sort?: Record<string, "asc" | "desc">;
 	pagination?: { size?: number; offset?: number };
 	columns?: string[];
+	consistency?: "strong" | "eventual";
 }): Promise<EventsRecord[]> {
 	try {
 		// Build the query using builder pattern
 		const queryOptions: {
-			filter?: BaseApiFilter<EventsRecord>;
+			filter?: RecordFilterExpression<EventsRecord>;
 			sort?: [string, "asc" | "desc"][];
 			columns?: string[];
 			pagination?: { size: number; offset: number };
-		} = {};
+			consistency?: "strong" | "eventual";
+		} = {
+			consistency: options?.consistency || "strong",
+		};
 
 		// Add filter if provided
 		if (options?.filter) {
@@ -103,7 +225,12 @@ export async function getAllEvents(options?: {
 		return result.records;
 	} catch (error) {
 		console.error("Error getting all events:", error);
-		throw error;
+		throw createEventError(
+			`Failed to get events: ${(error as Error).message}`,
+			"QUERY_FAILED",
+			"getAllEvents",
+			error,
+		);
 	}
 }
 
@@ -112,17 +239,36 @@ export async function getAllEvents(options?: {
  * @param page Page number (1-based)
  * @param size Number of records per page
  * @param filter Optional filter criteria
+ * @param columns Optional columns to select
  * @returns Paginated event records
+ * @throws {EventsOperationError} If pagination query fails
  */
 export async function getEventsWithPagination(
 	page = 1,
 	size = 20,
-	filter?: BaseApiFilter<EventsRecord>,
+	filter?: RecordFilterExpression<EventsRecord>,
 	columns?: string[],
-) {
+): Promise<PaginatedResponse<EventsRecord>> {
 	try {
+		// Validate input
+		if (page < 1) {
+			throw createEventError(
+				"Page number must be greater than 0",
+				"INVALID_PAGE",
+				"getEventsWithPagination",
+			);
+		}
+
+		if (size < 1 || size > 100) {
+			throw createEventError(
+				"Page size must be between 1 and 100",
+				"INVALID_SIZE",
+				"getEventsWithPagination",
+			);
+		}
+
 		const queryOptions: {
-			filter?: BaseApiFilter<EventsRecord>;
+			filter?: RecordFilterExpression<EventsRecord>;
 			columns?: string[];
 			pagination: { size: number; offset: number };
 		} = {
@@ -148,14 +294,24 @@ export async function getEventsWithPagination(
 				page,
 				size,
 				total: result.meta?.page?.more
-					? page * size + 1 // There are more records than we can determine exactly
+					? undefined // We can't determine the exact total when there are more records
 					: (page - 1) * size + result.records.length,
 				hasNextPage: result.meta?.page?.more || false,
 			},
 		};
 	} catch (error) {
 		console.error("Error getting paginated events:", error);
-		throw error;
+
+		if ((error as EventsOperationError).code) {
+			throw error;
+		}
+
+		throw createEventError(
+			`Failed to get paginated events: ${(error as Error).message}`,
+			"PAGINATION_FAILED",
+			"getEventsWithPagination",
+			error,
+		);
 	}
 }
 
@@ -164,6 +320,7 @@ export async function getEventsWithPagination(
  * @param query Search query
  * @param options Search options
  * @returns Matching event records
+ * @throws {EventsOperationError} If search fails
  */
 export async function searchEvents(
 	query: string,
@@ -171,10 +328,20 @@ export async function searchEvents(
 		fuzziness?: number;
 		prefix?: "phrase" | "disabled";
 		pagination?: { size?: number; offset?: number };
+		filter?: RecordFilterExpression<EventsRecord>;
 	},
 ): Promise<EventsRecord[]> {
 	try {
-		const searchOptions: SearchOptions<EventsRecord> = {
+		// Validate input
+		if (!query || query.trim() === "") {
+			throw createEventError(
+				"Search query is required",
+				"MISSING_QUERY",
+				"searchEvents",
+			);
+		}
+
+		const searchOptions = {
 			fuzziness: options?.fuzziness || 1,
 			prefix: options?.prefix || "phrase",
 			page: options?.pagination
@@ -183,13 +350,19 @@ export async function searchEvents(
 						offset: options.pagination.offset || 0,
 					}
 				: undefined,
+			filter: options?.filter,
 		};
 
 		const results = await xata.db.events.search(query, searchOptions);
 		return results.records;
 	} catch (error) {
 		console.error(`Error searching events with query "${query}":`, error);
-		throw error;
+		throw createEventError(
+			`Failed to search events: ${(error as Error).message}`,
+			"SEARCH_FAILED",
+			"searchEvents",
+			error,
+		);
 	}
 }
 
@@ -198,16 +371,50 @@ export async function searchEvents(
  * @param id The event record ID
  * @param data The data to update
  * @returns The updated event record
+ * @throws {EventsOperationError} If update fails
  */
 export async function updateEvent(
 	id: string,
 	data: Partial<Omit<Events, "id" | "xata">>,
 ): Promise<EventsRecord | null> {
 	try {
+		// Validate input
+		if (!id) {
+			throw createEventError(
+				"Event ID is required",
+				"MISSING_ID",
+				"updateEvent",
+			);
+		}
+
+		if (!data || Object.keys(data).length === 0) {
+			throw createEventError(
+				"Update data is required",
+				"MISSING_DATA",
+				"updateEvent",
+			);
+		}
+
+		// Verify the record exists before updating
+		const exists = await xata.db.events.read(id);
+		if (!exists) {
+			return null;
+		}
+
 		return await xata.db.events.update(id, data);
 	} catch (error) {
 		console.error(`Error updating event with ID ${id}:`, error);
-		throw error;
+
+		if ((error as EventsOperationError).code) {
+			throw error;
+		}
+
+		throw createEventError(
+			`Failed to update event with ID ${id}: ${(error as Error).message}`,
+			"UPDATE_FAILED",
+			"updateEvent",
+			error,
+		);
 	}
 }
 
@@ -216,14 +423,37 @@ export async function updateEvent(
  * @param filter Filter to select records to update
  * @param data Data to update on matching records
  * @returns Number of records updated
+ * @throws {EventsOperationError} If bulk update fails
  */
 export async function updateManyEvents(
-	filter: BaseApiFilter<EventsRecord>,
+	filter: RecordFilterExpression<EventsRecord>,
 	data: Partial<Omit<Events, "id" | "xata">>,
 ): Promise<{ numberOfRecordsUpdated: number }> {
 	try {
+		// Validate inputs
+		if (!filter || Object.keys(filter).length === 0) {
+			throw createEventError(
+				"Filter criteria is required",
+				"MISSING_FILTER",
+				"updateManyEvents",
+			);
+		}
+
+		if (!data || Object.keys(data).length === 0) {
+			throw createEventError(
+				"Update data is required",
+				"MISSING_DATA",
+				"updateManyEvents",
+			);
+		}
+
 		// First get the IDs of records matching the filter
 		const records = await xata.db.events.query({ filter });
+
+		if (records.records.length === 0) {
+			return { numberOfRecordsUpdated: 0 };
+		}
+
 		const updatePromises = records.records.map((record) =>
 			xata.db.events.update(record.id, data),
 		);
@@ -232,7 +462,17 @@ export async function updateManyEvents(
 		return { numberOfRecordsUpdated: updatedRecords.filter(Boolean).length };
 	} catch (error) {
 		console.error("Error updating multiple event records:", error);
-		throw error;
+
+		if ((error as EventsOperationError).code) {
+			throw error;
+		}
+
+		throw createEventError(
+			`Failed to update multiple events: ${(error as Error).message}`,
+			"BULK_UPDATE_FAILED",
+			"updateManyEvents",
+			error,
+		);
 	}
 }
 
@@ -240,14 +480,34 @@ export async function updateManyEvents(
  * Delete an event record
  * @param id The ID of the event record to delete
  * @returns True if the record was deleted, false if it didn't exist
+ * @throws {EventsOperationError} If deletion fails
  */
 export async function deleteEvent(id: string): Promise<boolean> {
 	try {
+		// Validate input
+		if (!id) {
+			throw createEventError(
+				"Event ID is required",
+				"MISSING_ID",
+				"deleteEvent",
+			);
+		}
+
 		const deletedRecord = await xata.db.events.delete(id);
 		return deletedRecord !== null;
 	} catch (error) {
 		console.error(`Error deleting event with ID ${id}:`, error);
-		throw error;
+
+		if ((error as EventsOperationError).code) {
+			throw error;
+		}
+
+		throw createEventError(
+			`Failed to delete event with ID ${id}: ${(error as Error).message}`,
+			"DELETE_FAILED",
+			"deleteEvent",
+			error,
+		);
 	}
 }
 
@@ -255,13 +515,27 @@ export async function deleteEvent(id: string): Promise<boolean> {
  * Delete multiple event records that match a filter
  * @param filter Filter to select records to delete
  * @returns Number of records deleted
+ * @throws {EventsOperationError} If bulk deletion fails
  */
 export async function deleteManyEvents(
-	filter: BaseApiFilter<EventsRecord>,
+	filter: RecordFilterExpression<EventsRecord>,
 ): Promise<{ numberOfRecordsDeleted: number }> {
 	try {
+		// Validate input
+		if (!filter || Object.keys(filter).length === 0) {
+			throw createEventError(
+				"Filter criteria is required",
+				"MISSING_FILTER",
+				"deleteManyEvents",
+			);
+		}
+
 		// First get the IDs of records matching the filter
 		const records = await xata.db.events.query({ filter });
+
+		if (records.records.length === 0) {
+			return { numberOfRecordsDeleted: 0 };
+		}
 
 		const deletePromises = records.records.map((record) =>
 			xata.db.events.delete(record.id),
@@ -271,7 +545,17 @@ export async function deleteManyEvents(
 		return { numberOfRecordsDeleted: deletedRecords.filter(Boolean).length };
 	} catch (error) {
 		console.error("Error deleting multiple event records:", error);
-		throw error;
+
+		if ((error as EventsOperationError).code) {
+			throw error;
+		}
+
+		throw createEventError(
+			`Failed to delete multiple events: ${(error as Error).message}`,
+			"BULK_DELETE_FAILED",
+			"deleteManyEvents",
+			error,
+		);
 	}
 }
 
@@ -280,6 +564,7 @@ export async function deleteManyEvents(
  * @param question The natural language question to ask
  * @param options Optional parameters for processing the question
  * @returns The processed event data answering the question
+ * @throws {EventsOperationError} If question processing fails
  */
 export async function askEvents(
 	question: string,
@@ -292,6 +577,15 @@ export async function askEvents(
 	relatedRecords: EventsRecord[];
 }> {
 	try {
+		// Validate input
+		if (!question || question.trim() === "") {
+			throw createEventError(
+				"Question text is required",
+				"MISSING_QUESTION",
+				"askEvents",
+			);
+		}
+
 		// Use Xata's search capabilities to find relevant events
 		const searchResults = await xata.db.events.search(question, {
 			fuzziness: 2,
@@ -306,7 +600,17 @@ export async function askEvents(
 		};
 	} catch (error) {
 		console.error(`Error asking about events: "${question}"`, error);
-		throw error;
+
+		if ((error as EventsOperationError).code) {
+			throw error;
+		}
+
+		throw createEventError(
+			`Failed to process question: ${(error as Error).message}`,
+			"QUESTION_PROCESSING_FAILED",
+			"askEvents",
+			error,
+		);
 	}
 }
 
@@ -316,6 +620,7 @@ export async function askEvents(
  * @param longitude Center longitude
  * @param radiusKm Radius in kilometers
  * @returns Events within the radius
+ * @throws {EventsOperationError} If location search fails
  */
 export async function getEventsByLocation(
 	latitude: number,
@@ -323,6 +628,31 @@ export async function getEventsByLocation(
 	radiusKm: number,
 ): Promise<EventsRecord[]> {
 	try {
+		// Validate inputs
+		if (isNaN(latitude) || latitude < -90 || latitude > 90) {
+			throw createEventError(
+				"Invalid latitude: must be between -90 and 90",
+				"INVALID_LATITUDE",
+				"getEventsByLocation",
+			);
+		}
+
+		if (isNaN(longitude) || longitude < -180 || longitude > 180) {
+			throw createEventError(
+				"Invalid longitude: must be between -180 and 180",
+				"INVALID_LONGITUDE",
+				"getEventsByLocation",
+			);
+		}
+
+		if (isNaN(radiusKm) || radiusKm <= 0) {
+			throw createEventError(
+				"Invalid radius: must be greater than 0",
+				"INVALID_RADIUS",
+				"getEventsByLocation",
+			);
+		}
+
 		// Calculate bounding box (approximate)
 		// 1 degree latitude ~ 111 km
 		// 1 degree longitude ~ 111 km * cos(latitude)
@@ -334,6 +664,7 @@ export async function getEventsByLocation(
 		const minLon = longitude - lonRange;
 		const maxLon = longitude + lonRange;
 
+		// Query for events within the bounding box
 		const result = await xata.db.events.query({
 			filter: {
 				$all: [
@@ -347,12 +678,15 @@ export async function getEventsByLocation(
 
 		// For more precise filtering, calculate actual distance
 		const eventsWithinRadius = result.records.filter((event) => {
-			if (event.latitude && event.longitude) {
+			const eventLat = event.getWithDefault<number>("latitude", null);
+			const eventLon = event.getWithDefault<number>("longitude", null);
+
+			if (eventLat !== null && eventLon !== null) {
 				const distance = calculateDistance(
 					latitude,
 					longitude,
-					event.latitude,
-					event.longitude,
+					eventLat,
+					eventLon,
 				);
 				return distance <= radiusKm;
 			}
@@ -362,7 +696,17 @@ export async function getEventsByLocation(
 		return eventsWithinRadius;
 	} catch (error) {
 		console.error("Error getting events by location:", error);
-		throw error;
+
+		if ((error as EventsOperationError).code) {
+			throw error;
+		}
+
+		throw createEventError(
+			`Failed to get events by location: ${(error as Error).message}`,
+			"LOCATION_SEARCH_FAILED",
+			"getEventsByLocation",
+			error,
+		);
 	}
 }
 
@@ -371,12 +715,38 @@ export async function getEventsByLocation(
  * @param startDate Start date of the range
  * @param endDate End date of the range
  * @returns Events within the date range
+ * @throws {EventsOperationError} If date range search fails
  */
 export async function getEventsByDateRange(
 	startDate: Date,
 	endDate: Date,
 ): Promise<EventsRecord[]> {
 	try {
+		// Validate inputs
+		if (!(startDate instanceof Date) || isNaN(startDate.getTime())) {
+			throw createEventError(
+				"Invalid start date",
+				"INVALID_START_DATE",
+				"getEventsByDateRange",
+			);
+		}
+
+		if (!(endDate instanceof Date) || isNaN(endDate.getTime())) {
+			throw createEventError(
+				"Invalid end date",
+				"INVALID_END_DATE",
+				"getEventsByDateRange",
+			);
+		}
+
+		if (startDate > endDate) {
+			throw createEventError(
+				"Start date must be before end date",
+				"INVALID_DATE_RANGE",
+				"getEventsByDateRange",
+			);
+		}
+
 		const result = await xata.db.events.query({
 			filter: {
 				date: {
@@ -390,7 +760,17 @@ export async function getEventsByDateRange(
 		return result.records;
 	} catch (error) {
 		console.error("Error getting events by date range:", error);
-		throw error;
+
+		if ((error as EventsOperationError).code) {
+			throw error;
+		}
+
+		throw createEventError(
+			`Failed to get events by date range: ${(error as Error).message}`,
+			"DATE_RANGE_SEARCH_FAILED",
+			"getEventsByDateRange",
+			error,
+		);
 	}
 }
 
@@ -398,9 +778,19 @@ export async function getEventsByDateRange(
  * Get upcoming events from today
  * @param limit Number of events to return
  * @returns Upcoming events
+ * @throws {EventsOperationError} If upcoming events search fails
  */
 export async function getUpcomingEvents(limit = 10): Promise<EventsRecord[]> {
 	try {
+		// Validate input
+		if (isNaN(limit) || limit <= 0 || limit > 100) {
+			throw createEventError(
+				"Invalid limit: must be between 1 and 100",
+				"INVALID_LIMIT",
+				"getUpcomingEvents",
+			);
+		}
+
 		const today = new Date();
 		today.setHours(0, 0, 0, 0);
 
@@ -415,7 +805,17 @@ export async function getUpcomingEvents(limit = 10): Promise<EventsRecord[]> {
 		return result.records;
 	} catch (error) {
 		console.error("Error getting upcoming events:", error);
-		throw error;
+
+		if ((error as EventsOperationError).code) {
+			throw error;
+		}
+
+		throw createEventError(
+			`Failed to get upcoming events: ${(error as Error).message}`,
+			"UPCOMING_EVENTS_FAILED",
+			"getUpcomingEvents",
+			error,
+		);
 	}
 }
 
@@ -424,32 +824,52 @@ export async function getUpcomingEvents(limit = 10): Promise<EventsRecord[]> {
  * @param category Category to filter by
  * @param searchTerm Optional search term to filter results
  * @returns Matching events
+ * @throws {EventsOperationError} If category search fails
  */
 export async function getEventsByCategory(
 	category: string,
 	searchTerm?: string,
 ): Promise<EventsRecord[]> {
 	try {
+		// Validate input
+		if (!category || category.trim() === "") {
+			throw createEventError(
+				"Category is required",
+				"MISSING_CATEGORY",
+				"getEventsByCategory",
+			);
+		}
+
 		if (searchTerm) {
 			// If search term provided, use search endpoint
 			const searchResults = await xata.db.events.search(searchTerm, {
 				filter: {
-					category: category,
+					category: { $is: category },
 				},
 			});
 			return searchResults.records;
-		} else {
-			// If no search term, use query endpoint
-			const queryResults = await xata.db.events.query({
-				filter: {
-					category: category,
-				},
-			});
-			return queryResults.records;
 		}
+
+		// If no search term, use query endpoint
+		const queryResults = await xata.db.events.query({
+			filter: {
+				category: { $is: category },
+			},
+		});
+		return queryResults.records;
 	} catch (error) {
 		console.error(`Error getting events by category "${category}":`, error);
-		throw error;
+
+		if ((error as EventsOperationError).code) {
+			throw error;
+		}
+
+		throw createEventError(
+			`Failed to get events by category: ${(error as Error).message}`,
+			"CATEGORY_SEARCH_FAILED",
+			"getEventsByCategory",
+			error,
+		);
 	}
 }
 
