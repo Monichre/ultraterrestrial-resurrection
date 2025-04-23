@@ -1,6 +1,6 @@
 'use client'
 
-import {useRef, useMemo, useEffect, useCallback, useState} from 'react'
+import React, {useRef, useMemo, useEffect, useCallback, useState} from 'react'
 import {Canvas, useThree, useFrame} from '@react-three/fiber'
 import {OrbitControls, Sphere, useTexture, Html} from '@react-three/drei'
 import type {OrbitControls as OrbitControlsType} from 'three-stdlib'
@@ -381,18 +381,16 @@ export default function Globe({
   const renderFallbackMessage = !validSightings.length && sightings?.length > 0
 
   return (
-    <div className="w-full h-full relative">
+    <div className='w-full h-full relative'>
       {selectedYear && (
-        <div className="absolute top-4 right-4 z-10 bg-black/70 border border-cyan-500/30 px-3 py-1 rounded-sm">
-          <div className="flex items-center gap-2">
-            <div className="h-1.5 w-1.5 rounded-full bg-cyan-500/80 animate-pulse" />
-            <span className="text-white/80 font-monument-mono text-xs">
-              YEAR: {selectedYear}
-            </span>
+        <div className='absolute top-4 right-4 z-10 bg-black/70 border border-cyan-500/30 px-3 py-1 rounded-sm'>
+          <div className='flex items-center gap-2'>
+            <div className='h-1.5 w-1.5 rounded-full bg-cyan-500/80 animate-pulse' />
+            <span className='text-white/80 font-monument-mono text-xs'>YEAR: {selectedYear}</span>
           </div>
         </div>
       )}
-      
+
       <Canvas
         camera={{position: [0, 0, 6], fov: 45}}
         gl={{alpha: true}}
@@ -406,30 +404,30 @@ export default function Globe({
 
         <Earth focusedLocation={focusedLocation} sightings={validSightings} />
 
-      {/* Optional: Add a tooltip for hovered sightings */}
-      {hoveredSighting && (
-        <Html position={[0, 0, 0]} style={{pointerEvents: 'none'}}>
-          <div className='bg-black/80 text-white p-2 rounded-md text-xs'>
-            <div className='font-bold'>{hoveredSighting.title || 'Sighting'}</div>
-            <div>{hoveredSighting.location?.city || 'Unknown location'}</div>
-            <div>{new Date(hoveredSighting.timestamp).toLocaleDateString()}</div>
-          </div>
-        </Html>
-      )}
+        {/* Optional: Add a tooltip for hovered sightings */}
+        {hoveredSighting && (
+          <Html position={[0, 0, 0]} style={{pointerEvents: 'none'}}>
+            <div className='bg-black/80 text-white p-2 rounded-md text-xs'>
+              <div className='font-bold'>{hoveredSighting.title || 'Sighting'}</div>
+              <div>{hoveredSighting.location?.city || 'Unknown location'}</div>
+              <div>{new Date(hoveredSighting.timestamp).toLocaleDateString()}</div>
+            </div>
+          </Html>
+        )}
 
-      {/* Fallback message when we have sightings but none with valid coordinates */}
-      {renderFallbackMessage && (
-        <Html center position={[0, 0, 0]}>
-          <div className='bg-black/70 text-white p-4 rounded-md text-center max-w-md'>
-            <h3 className='text-lg font-bold mb-2'>No mappable sightings</h3>
-            <p>
-              There are {sightings.length} sightings in this time range, but none have valid
-              geographic coordinates.
-            </p>
-          </div>
-        </Html>
-      )}
-    </Canvas>
+        {/* Fallback message when we have sightings but none with valid coordinates */}
+        {renderFallbackMessage && (
+          <Html center position={[0, 0, 0]}>
+            <div className='bg-black/70 text-white p-4 rounded-md text-center max-w-md'>
+              <h3 className='text-lg font-bold mb-2'>No mappable sightings</h3>
+              <p>
+                There are {sightings.length} sightings in this time range, but none have valid
+                geographic coordinates.
+              </p>
+            </div>
+          </Html>
+        )}
+      </Canvas>
     </div>
   )
 }

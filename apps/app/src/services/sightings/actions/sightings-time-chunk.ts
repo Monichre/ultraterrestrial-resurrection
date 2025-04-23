@@ -242,8 +242,8 @@ export async function getSightingsByTimeChunk(
 			const expandedResults = await xata.db.sightings.search("*", {
 				filter: {
 					$all: [
-						{ latitude: { $exists: true } },
-						{ longitude: { $exists: true } },
+						{ latitude: { $isNotNull: "" } },
+						{ longitude: { $isNotNull: "" } },
 						{ date: { $ge: startDate, $le: endDate } },
 					],
 				},
@@ -429,29 +429,32 @@ export async function getSightingsStats(
 			endDate.toISOString(),
 		);
 
-		// Use Xata search with aggregation to get statistics
-		const searchResults = await xata.db.sightings.aggregate({
-			totalCount: {
-				count: "*",
-			},
-			// Instead of dateHistogram, use a different approach
-			// byYear has been removed as we'll calculate it from search results
-			byShapes: {
-				topValues: {
-					column: "shape",
-					size: 20,
-				},
-			},
-			byLocations: {
-				topValues: {
-					column: "city",
-					size: 30,
-				},
-			},
+		// Use simple search with aggregation instead of the unsupported aggregate method
+		const searchResults = await xata.db.sightings.search("*", {
 			filter: {
 				date: {
 					$ge: startDate,
 					$le: endDate,
+				},
+			},
+			page: {
+				size: 0, // We don't need actual records, just aggregations
+			},
+			aggregations: {
+				totalCount: {
+					count: "*",
+				},
+				byShapes: {
+					topValues: {
+						column: "shape",
+						size: 20,
+					},
+				},
+				byLocations: {
+					topValues: {
+						column: "city",
+						size: 30,
+					},
 				},
 			},
 		});
@@ -921,8 +924,8 @@ export async function getSightingsBatched(
 				const mappableResults = await xata.db.sightings.search("*", {
 					filter: {
 						$all: [
-							{ latitude: { $exists: true } },
-							{ longitude: { $exists: true } },
+							{ latitude: { $isNotNull: "" } },
+							{ longitude: { $isNotNull: "" } },
 							{ date: { $ge: startDate, $le: endDate } },
 						],
 					},

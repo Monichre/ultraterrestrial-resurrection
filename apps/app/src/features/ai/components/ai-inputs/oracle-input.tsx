@@ -3,27 +3,36 @@ import {MarkdownContent} from '@/components/ui/chat/markdown-content'
 import {cn} from '@/utils/cn'
 import {ICON_GREEN} from '@/utils/constants'
 import {Brain} from 'lucide-react'
-import {useEffect, useRef} from 'react'
+import {useEffect, useRef, useState} from 'react'
+import {SendIcon} from 'lucide-react'
+import {AnimatePresence, motion} from 'framer-motion'
+import {Button} from '@/components/ui/button'
 
-// Add import for OracleCommandList
-import {OracleCommandList} from '@/features/mindmap/components/menus/oracle-command-menu/OracleCommandList'
+export interface OracleCommandType {
+  value: string
+  label: string
+  description?: string
+  category?: string
+  isComingSoon?: boolean
+}
 
 interface OracleInputProps {
   containerRef?: React.RefObject<HTMLDivElement>
   activeCommand: string | null
   inputValue: string
-  setInputValue: (value: string) => void
+  setInputValue: (value: string | React.ChangeEvent<HTMLInputElement>) => void
   handleKeyDown: (e: React.KeyboardEvent) => void
-  setIsOpen: (isOpen: boolean) => void
+  setCommandMenuOpen: (isOpen: boolean) => void
   inputRef?: React.RefObject<HTMLInputElement>
   activeModel?: string | null
   loadModelData: () => void
   isChatActive?: boolean
-  chatStatus?: string
+  chatStatus?: 'idle' | 'loading' | 'generating' | 'error' | 'in_progress' | 'awaiting_message'
   isLoading?: boolean
   messages?: Array<{id: string; role: string; content: string}>
-  isOpen?: boolean
-  commandOptions?: Array<{id: string; name: string; description: string}>
+  commandMenuOpen?: boolean
+  setActiveCommand: (command: string | null) => void
+  oracleCommandList?: OracleCommandType[]
 }
 
 export function ToggleButton({
@@ -39,7 +48,7 @@ export function ToggleButton({
 }) {
   return (
     <button type='button' onClick={onClick}>
-      <div className='flex items-center text-sm cursor-pointer hover:shadow-sm hover:shadow-indigo-500/50 hover:ring-indigo-500/50 group/tab mb-1 relative flex w-fit items-center gap-3 rounded-xl  px-2 py-1 text-xs ring-1 ring-neutral-200 duration-200 bg-neutral-800 ring-neutral-700 bg-neutral-950 bg-gradient-to-b from-black/90'>
+      <div className='flex items-center text-sm cursor-pointer hover:shadow-sm hover:shadow-indigo-500/50 hover:ring-indigo-500/50 hover:text-[#00d5ff] group/tab mb-1 relative flex w-fit items-center gap-3 rounded-xl  px-2 py-1 text-xs ring-1 ring-neutral-200 duration-200 bg-neutral-800 ring-neutral-700 bg-neutral-950 bg-gradient-to-b from-black/90'>
         <Brain
           stroke={ICON_GREEN}
           className={cn(
@@ -65,58 +74,81 @@ export function ToggleButton({
   )
 }
 
-// Default command options
-export const DEFAULT_COMMAND_OPTIONS = [
-  {id: 'chat', name: 'Chat', description: 'Chat with the AI assistant'},
-  {id: 'search', name: 'Search', description: 'Search the database'},
-  {id: 'deepresearch', name: 'Deep Research', description: 'Conduct in-depth research'},
-  {id: 'scrape', name: 'Scrape', description: 'Scrape content from a URL'},
-]
-
-export const OracleInput = ({
+export default function OracleInput({
   activeModel,
   activeCommand,
   inputValue,
   setInputValue,
   handleKeyDown,
-  setIsOpen,
-  isOpen = false,
+  setCommandMenuOpen,
+  commandMenuOpen = false,
   loadModelData,
   isChatActive,
   chatStatus,
   isLoading,
   messages,
-  commandOptions = DEFAULT_COMMAND_OPTIONS,
   inputRef: externalInputRef,
-}: OracleInputProps) => {
+  setActiveCommand,
+  oracleCommandList,
+}: OracleInputProps) {
+  console.log('🚀 ~ isChatActive:', isChatActive)
+
   const messagesContainerRef = useRef<HTMLDivElement>(null)
   const internalInputRef = useRef<HTMLInputElement>(null)
   const inputRef = externalInputRef || internalInputRef
+  const [value, setValue] = useState(inputValue || '')
+
+  // Update local value when inputValue prop changes
+  useEffect(() => {
+    setValue(inputValue || '')
+  }, [inputValue])
 
   // Simplified input handling - just toggle command menu visibility
   const handleInputFocus = () => {
-    if (inputValue.startsWith('/')) {
-      setIsOpen(true)
+    if (value.startsWith('/')) {
+      setCommandMenuOpen(true)
     }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    setInputValue(value)
+    const newValue = e.target.value
 
-    // Toggle command visibility based on input
-    if (value.startsWith('/')) {
-      setIsOpen(true)
-    } else if (isOpen && !activeCommand) {
-      setIsOpen(false)
-    }
+    console.log('🚀 ~ handleChange ~ newValue:', newValue)
+
+    setValue(newValue)
+    // Pass the event to maintain compatibility with parent component
+    setInputValue(e)
   }
 
   // Handle the '/' key specially
   const handleLocalKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === '/' && inputValue === '') {
-      setIsOpen(true)
+    if (e.key === 'Escape') {
+      e.preventDefault()
+      setActiveCommand(null)
+      setValue('')
+      return
     }
+
+    if (e.key === '/') {
+      if (value === '') {
+        e.preventDefault()
+        setCommandMenuOpen(true)
+      }
+    }
+
+    // Handle Enter key for form submission in chat mode
+    if (e.key === 'Enter' && !e.shiftKey && isChatActive && value.trim() !== '') {
+      e.preventDefault()
+      // Dispatch a submit event on the parent form
+      const form = e.currentTarget.closest('form')
+      if (form) {
+        const submitEvent = new Event('submit', {cancelable: true, bubbles: true})
+        form.dispatchEvent(submitEvent)
+      }
+      return
+    }
+
+    // Pass to parent handler for other cases
     handleKeyDown(e)
   }
 
@@ -140,6 +172,10 @@ export const OracleInput = ({
     }
     return 'Oracle options'
   }
+
+  // Determine if button should be disabled
+  const isButtonDisabled =
+    isChatActive && (chatStatus === 'generating' || chatStatus === 'in_progress')
 
   return (
     <>
@@ -199,7 +235,7 @@ export const OracleInput = ({
             {/* Input Section */}
             <div className='flex items-center gap-1 justify-start w-full'>
               <div className='w-6 h-6 rounded-full flex items-center justify-center'>
-                {inputValue?.startsWith('/') && <SlashIcon className='h-6 w-6' fill={ICON_GREEN} />}
+                {value?.startsWith('/') && <SlashIcon className='h-6 w-6' fill={ICON_GREEN} />}
               </div>
 
               <input
@@ -207,11 +243,12 @@ export const OracleInput = ({
                 type='text'
                 value={inputValue}
                 onChange={handleChange}
-                onKeyDown={handleLocalKeyDown}
+                onKeyDown={handleKeyDown}
                 onFocus={handleInputFocus}
+                // disabled={isButtonDisabled}
                 placeholder={
                   isChatActive
-                    ? chatStatus === 'loading'
+                    ? chatStatus === 'in_progress' || chatStatus === 'generating'
                       ? 'AI is thinking...'
                       : 'Chat with AI...'
                     : activeCommand === 'scrape'
@@ -220,19 +257,19 @@ export const OracleInput = ({
                         ? 'Type your message...'
                         : 'Type / for commands...'
                 }
-                className='bg-transparent text-zinc-200 text-sm focus:outline-none flex-1'
+                className={cn(
+                  'bg-transparent text-zinc-200 text-sm focus:outline-none flex-1',
+                  isButtonDisabled && 'opacity-60 cursor-not-allowed'
+                )}
               />
 
               <button
-                type='button'
-                className='w-6 h-6 rounded-full flex items-center justify-center ml-auto'
-                onClick={loadModelData}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault()
-                    loadModelData()
-                  }
-                }}
+                type='submit'
+                disabled={isButtonDisabled}
+                className={cn(
+                  'w-6 h-6 rounded-full flex items-center justify-center ml-auto',
+                  isButtonDisabled && 'opacity-60 cursor-not-allowed'
+                )}
                 aria-label={getButtonAriaLabel()}>
                 {activeModel ? (
                   <AddIcon className='h-6 w-6' fill={ICON_GREEN} />
@@ -240,7 +277,7 @@ export const OracleInput = ({
                   <OracleIcon
                     className={cn(
                       'h-6 w-6',
-                      (chatStatus === 'in_progress' || isLoading) &&
+                      isButtonDisabled &&
                         'animate-spin transition duration-700 animation-duration-3s'
                     )}
                     fill={ICON_GREEN}

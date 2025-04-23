@@ -14,7 +14,7 @@ export type CommandItem = {
 }
 
 interface OracleCommandListProps {
-  isOpen: boolean
+  commandMenuOpen: boolean
   activeCommand: string | null
   commands: ReadonlyArray<CommandItem> // Original full list of commands
   handleCommandSelect: (commandId: string) => void
@@ -24,7 +24,7 @@ interface OracleCommandListProps {
 }
 
 export const OracleCommandList = ({
-  isOpen,
+  commandMenuOpen,
   activeCommand,
   commands,
   handleCommandSelect,
@@ -63,6 +63,8 @@ export const OracleCommandList = ({
     // This ensures commands like "Search" retain their capitalization instead of "search"
     const displayId = command.label || command.name || command.id
 
+    console.log('🚀 ~ handleItemSelect ~ displayId:', displayId)
+
     // Call the parent handler with the proper ID
     handleCommandSelect(displayId)
   }
@@ -71,7 +73,7 @@ export const OracleCommandList = ({
   const useInputStyle = Boolean(inputValue && inputValue.startsWith('/'))
 
   // Skip rendering if not open or if a command is already active
-  if (!isOpen || activeCommand) {
+  if (!commandMenuOpen || activeCommand) {
     return null
   }
 
@@ -81,19 +83,15 @@ export const OracleCommandList = ({
       animate={{opacity: 1, y: 0}}
       exit={{opacity: 0, y: 8}}
       transition={{duration: 0.15}}
-      className={`absolute ${useInputStyle ? 'bottom-full mb-2' : 'bottom-0'} left-0 w-full h-auto z-40 flex justify-center items-center`}>
+      className={`absolute ${useInputStyle ? 'bottom-full mb-2' : 'bottom-0'} bottom-[120px] left-0 w-full h-auto z-40 flex justify-center items-center`}>
       <div
         className={`
           rounded-lg shadow-lg 
-          ${
-            useInputStyle
-              ? 'w-full max-h-[200px] overflow-y-auto bg-neutral-900'
-              : 'w-[444px] h-[400px] mt-2'
-          } 
+          ${useInputStyle ? 'w-full max-h-[200px] overflow-y-auto ' : 'w-[444px] h-[400px] mt-2'} 
           rounded-lg border border-neutral-700/30 text-neutral-500 
           bg-black bg-gradient-to-b from-black relative rounded-tl-lg rounded-tr-lg
         `}>
-        {useInputStyle ? (
+        {/* {useInputStyle ? (
           // Input-style dropdown (more compact)
           <div className='w-full'>
             {filteredCommands.map((command) => (
@@ -116,27 +114,27 @@ export const OracleCommandList = ({
               </div>
             ))}
           </div>
-        ) : (
-          // Original CommandList style (fuller interface)
-          <Command className='w-full'>
-            <Command.List className=''>
-              {filteredCommands.map((command) => (
-                <CommandListItem
-                  key={command.id}
-                  command={{
-                    id: command.id,
-                    label: command.label || command.name || command.id,
-                    description: command.description,
-                    // Fix the typing issue with icon
-                    icon: command.icon || (() => null),
-                    prefix: command.prefix || `/${command.id}`,
-                  }}
-                  onSelect={handleCommandSelect}
-                />
-              ))}
-            </Command.List>
-          </Command>
-        )}
+        ) : ( */}
+        {/* // Original CommandList style (fuller interface) */}
+        <Command className='w-full'>
+          <Command.List className=''>
+            {filteredCommands.map((command) => (
+              <CommandListItem
+                key={command.id}
+                command={{
+                  id: command.id,
+                  label: command.label || command.name || command.id,
+                  description: command.description,
+                  // Fix the typing issue with icon
+                  icon: command.icon || (() => null),
+                  prefix: command.prefix || `/${command.id}`,
+                }}
+                onSelect={handleCommandSelect}
+              />
+            ))}
+          </Command.List>
+        </Command>
+        {/* )} */}
       </div>
     </motion.div>
   )

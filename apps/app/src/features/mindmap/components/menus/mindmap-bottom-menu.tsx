@@ -10,7 +10,7 @@ import {
 import {useMindMap} from '@/contexts/mindmap/mindmap-context'
 import {initiateDatabaseTableQuery} from '@/features/mindmap/actions/search'
 import {DOMAIN_MODEL_COLORS, ICON_GREEN} from '@/utils/constants'
-import {useAssistant} from '@ai-sdk/react'
+import {type Message, useAssistant} from '@ai-sdk/react'
 import {useCallback, useEffect, useRef, useState} from 'react'
 import {v4 as uuidv4} from 'uuid'
 
@@ -18,19 +18,15 @@ import {Command} from 'cmdk'
 import {AnimatePresence, motion} from 'framer-motion'
 
 import {AddIcon, ThinTwinklyStar} from '@/components/icons'
-import {
-  OracleInput,
-  ToggleButton,
-  DEFAULT_COMMAND_OPTIONS,
-} from '@/features/ai/components/ai-inputs/oracle-input'
+import {ToggleButton} from '@/features/ai/components/ai-inputs/oracle-input'
 import {LightningBoltIcon} from '@radix-ui/react-icons'
-
+import OracleInput from '@/features/ai/components/ai-inputs/oracle-input'
 import {TextShimmer} from '@/components/animated/text-effect'
 import {MagicWandIcon} from '@/components/icons'
 import {searchXataConnections} from '@/features/mindmap/actions/actions'
 // import {useAILoading} from '@/features/mindmap/hooks/use-ai-loading'
 import {capitalize, cn} from '@/utils'
-import {Brain, FileSearch, Lightbulb, SearchIcon, XIcon} from 'lucide-react'
+import {AlertCircle, Brain, FileSearch, Lightbulb, SearchIcon, XIcon} from 'lucide-react'
 import {
   askAIAction,
   xataToXYFlow,
@@ -175,9 +171,51 @@ const COMMANDS = [
     icon: () => <Brain stroke={ICON_GREEN} />,
     prefix: '/scrape',
   },
+  {
+    id: 'deepresearch',
+    label: 'Deep Research',
+    description: 'Conduct in-depth research',
+    icon: () => <Brain stroke={ICON_GREEN} />,
+    prefix: '/deepresearch',
+  },
 ] as const
 
+// Define interface for ReactFlowNode to use in type casting
+interface ReactFlowNode {
+  id: string
+  type: string
+  position: {x: number; y: number}
+  data: Record<string, unknown>
+  parentId?: string
+  // Add any other properties that might be needed
+}
+
+// Helper to load chat messages from localStorage
+const loadMessagesFromLocalStorage = () => {
+  if (typeof window === 'undefined') return []
+
+  try {
+    const savedMessages = localStorage.getItem('chatMessages')
+    return savedMessages ? JSON.parse(savedMessages) : []
+  } catch (error) {
+    console.error('Error loading chat messages from localStorage:', error)
+    return []
+  }
+}
+
 export const MindMapBottomMenu = () => {
+  // Get session ID for the current user/session
+  const sessionId = useRef<string>(
+    typeof window !== 'undefined' ? localStorage.getItem('sessionId') || uuidv4() : uuidv4()
+  )
+
+  // Store session ID in localStorage if it's new
+  useEffect(() => {
+    if (typeof window !== 'undefined' && !localStorage.getItem('sessionId')) {
+      localStorage.setItem('sessionId', sessionId.current)
+    }
+  }, [])
+
   const {
     status: chatStatus,
     messages,
@@ -186,7 +224,28 @@ export const MindMapBottomMenu = () => {
     submitMessage,
     handleInputChange,
     append,
-  } = useAssistant({api: '/api/disclosure/chat'})
+    error,
+  } = useAssistant({
+    api: '/api/disclosure/chat',
+    headers: {
+      'x-session-id': sessionId.current,
+    },
+  })
+
+  // Save messages to localStorage when they change
+  useEffect(() => {
+    if (messages.length > 0 && typeof window !== 'undefined') {
+      localStorage.setItem('chatMessages', JSON.stringify(messages))
+    }
+  }, [messages])
+
+  // Handle assistant errors
+  useEffect(() => {
+    if (error) {
+      console.error('Assistant error:', error)
+      // Display error to user - could use a toast library here
+    }
+  }, [error])
 
   const {
     addNextEntitiesToMindMap,
@@ -358,6 +417,18 @@ export const MindMapBottomMenu = () => {
     [addNodes, addEdges, updateNodeData, getNodes, nodeExists]
   )
 
+  // Define proper types for nodes and responses
+  type MindMapNodeData = {
+    type: string
+    id: string
+    [key: string]: unknown
+  }
+
+  interface XataResponseRecord {
+    id: string
+    [key: string]: unknown
+  }
+
   // Modified data loading with duplicate prevention
   const handleLoadingRecords = useCallback(
     async ({data: {type}}: {data: {type: string}}) => {
@@ -418,12 +489,13 @@ export const MindMapBottomMenu = () => {
             layoutType = 'horizontal'
         }
 
+        // Use 'unknown' first before casting to the expected type
         const flowData = await xataToXYFlow({
           question: query,
           table: type,
           rules: `Find the most interesting ${type} records that have clear relationships between them`,
           context: `The user is exploring records in the ${type} database`,
-          existingNodes: existingNodes as any, // Type cast to bypass the strict type check
+          existingNodes: existingNodes as unknown as ReactFlowNode[],
           sourceNode: potentialUserNode,
           layoutType, // Pass the selected layout type
         })
@@ -505,7 +577,7 @@ export const MindMapBottomMenu = () => {
   )
 
   const menuRef = useRef<HTMLDivElement>(null)
-  const [isOpen, setIsOpen] = useState(false)
+  const [commandMenuOpen, setCommandMenuOpen] = useState(false)
   const [activeCommand, setActiveCommand] = useState<string | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -522,7 +594,7 @@ export const MindMapBottomMenu = () => {
 
   // Define a proper type for search results
   interface SearchResult {
-    records?: any[]
+    records?: XataResponseRecord[]
     answer?: string
     sessionId?: string
   }
@@ -536,7 +608,7 @@ export const MindMapBottomMenu = () => {
 
   const removeActiveCommand = () => {
     setActiveCommand(null)
-    setIsOpen(false)
+    setCommandMenuOpen(false)
   }
 
   // Higher-level delegation function to route actions based on active command
@@ -544,7 +616,12 @@ export const MindMapBottomMenu = () => {
     if (activeCommand === 'chat' || activeCommand === 'deepresearch') {
       // Handle chat submission
       if (inputValue.trim()) {
-        append({role: 'user', content: inputValue})
+        // Use submitMessage for proper form submission
+        const formData = new FormData()
+        formData.append('message', inputValue)
+        submitMessage({preventDefault: () => {}} as React.FormEvent<HTMLFormElement>)
+        // Clear input immediately after submission
+        setInput('')
         setInputValue('')
       }
     } else if (activeCommand === 'search' || (inputValue.trim() && state.selectedModel)) {
@@ -565,78 +642,94 @@ export const MindMapBottomMenu = () => {
         })
 
         setInputValue('')
+        setInput('')
       }
     } else if (state.selectedModel) {
       // Only if there's no input but a model is selected, add data to mindmap
       addDataToMindMap(state.selectedModel)
     }
-  }, [activeCommand, inputValue, state.selectedModel, append, runSearch, addDataToMindMap])
+  }, [
+    activeCommand,
+    inputValue,
+    state.selectedModel,
+    submitMessage,
+    setInput,
+    runSearch,
+    addDataToMindMap,
+  ])
 
+  // Define our expected search parameters interface
+  interface InitiateQueryParams {
+    table: string
+    keyword: string
+  }
+
+  // Define the expected results interface
+  interface QueryResults {
+    records: XataResponseRecord[]
+    searchTerm: string
+    type: string
+  }
+  console.log({activeCommand, inputValue})
+
+  // Modify the handleKeyDown function to dispatch a form submit event for chat
   const handleKeyDown = useCallback(
     async (e: React.KeyboardEvent) => {
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault()
 
-        // Only process if there's text in the input
-        if (inputValue.trim()) {
-          // Default behavior: If we have model selected and input but no specific command,
-          // treat as search
-          if (state.selectedModel && !activeCommand) {
-            runSearch({
-              type: state.selectedModel,
-              searchTerm: inputValue,
-            })
-            setInputValue('')
-            return
-          }
+        // If we have an active chat command and input, submit the message directly
+        if (
+          (activeCommand === 'chat' || activeCommand === 'deepresearch') &&
+          inputValue.trim() !== ''
+        ) {
+          console.log('🚀 ~ inputValue:', inputValue)
+          // Use the submitMessage function directly with a synthetic form event
+          setInput(inputValue)
+          append({role: 'user', content: inputValue})
+          // submitMessage(formEvent)
+          setInputValue('')
+          setInput('')
+          return
+        }
 
-          // Handle specific commands
-          switch (activeCommand?.toLowerCase()) {
-            case 'chat':
-            case 'deepresearch':
-              // For chat and deepresearch, send message to AI assistant
-              append({role: 'user', content: inputValue})
-              setInputValue('')
-              break
-
+        // For other commands, process normally
+        if (activeCommand && inputValue.trim() !== '') {
+          switch (activeCommand.toLowerCase()) {
             case 'search':
-              // For search, ensure we have a model selected
-              if (state?.selectedModel) {
-                const xataSearchResults = await askAIAction({
-                  question: inputValue,
-                  table: state.selectedModel,
-                })
-                setSearchResults(xataSearchResults)
+              // Special handling for search
+              if (inputValue.trim() && state.selectedModel) {
+                try {
+                  const results = await initiateDatabaseTableQuery({
+                    table: state.selectedModel,
+                    keyword: inputValue,
+                  } as InitiateQueryParams)
 
-                // Also visualize the search in the graph
-                runSearch({
-                  type: state.selectedModel,
-                  searchTerm: inputValue,
-                })
-                setInputValue('')
-              } else {
-                console.warn('Search requires a model to be selected')
+                  if (results) {
+                    // Ensure we pass the right structure to loadNodesFromTableQuery
+                    await loadNodesFromTableQuery({
+                      type: state.selectedModel || 'general',
+                      searchResults: Array.isArray(results) ? results : [],
+                      searchTerm: inputValue,
+                    })
+                    setInputValue('')
+                  }
+                } catch (error) {
+                  console.error('Error performing search:', error)
+                }
               }
               break
 
             case 'scrape':
               // Handle the scrape command - send URL to be scraped
               if (inputValue.trim().startsWith('http')) {
-                append({
-                  role: 'user',
-                  content: `Please scrape and analyze the following URL: ${inputValue}`,
-                })
-                setInputValue('')
+                submitMessage({preventDefault: () => {}} as React.FormEvent<HTMLFormElement>)
               }
               break
 
             case 'analyze':
               // Handle analyze command
-              append({
-                role: 'user',
-                content: `Please analyze the following: ${inputValue}`,
-              })
-              setInputValue('')
+              submitMessage({preventDefault: () => {}} as React.FormEvent<HTMLFormElement>)
               break
 
             case 'add':
@@ -657,45 +750,89 @@ export const MindMapBottomMenu = () => {
               }
               break
           }
+        } else if (state.selectedModel && inputValue.trim()) {
+          // Default behavior for when we have a model and input but no command
+          runSearch({
+            type: state.selectedModel,
+            searchTerm: inputValue,
+          })
+          setInputValue('')
         }
       }
 
       // Handle Backspace to clear command when empty
       if (e.key === 'Backspace' && (inputValue === '' || inputValue === ' ')) {
         setActiveCommand(null)
-        setIsOpen(false)
+        setCommandMenuOpen(false)
       }
 
       // Open command menu on / key
       if (e.key === '/') {
-        setIsOpen(true)
+        setCommandMenuOpen(true)
       }
     },
-    [activeCommand, inputValue, append, state?.selectedModel, runSearch, handleOracleAction]
+    [
+      inputValue,
+      state.selectedModel,
+      submitMessage,
+      activeCommand,
+      handleOracleAction,
+      loadNodesFromTableQuery,
+      runSearch,
+      setInput,
+      setInputValue,
+      append,
+    ]
   )
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement> | string) => {
       // Handle both string values and event objects
-      if (typeof e === 'string') {
-        setInputValue(e)
-      } else if (e && e.target && e.target.value !== undefined) {
-        setInputValue(e.target.value)
-        if (activeCommand === 'chat') {
-          handleInputChange(e)
-        }
-      } else {
-        console.warn('Invalid input provided to handleChange')
+      setInputValue(e.target.value)
+      if (activeCommand === 'chat' || activeCommand === 'deepresearch') {
+        setInput(e)
       }
-      // Deep research just uses the input value directly, no special handling needed
+      // if (typeof e === 'string') {
+
+      //   // Also update AI assistant input for chat commands
+      //   if (activeCommand === 'chat' || activeCommand === 'deepresearch') {
+      //     setInput(e)
+      //   }
+      // } else if (e && e.target && e.target.value !== undefined) {
+      //   const newValue = e.target.value
+      //   setInputValue(newValue)
+      //   // Also update AI assistant input for chat commands
+      //   if (activeCommand === 'chat' || activeCommand === 'deepresearch') {
+      //     setInput(newValue)
+      //   }
+      // } else {
+      //   console.warn('Invalid input provided to handleChange')
+      // }
     },
-    [activeCommand, handleInputChange]
+    [activeCommand, setInput]
   )
 
+  // Properly typed interface for command format
+  interface CommandFormat {
+    id: string
+    label: string
+    name?: string
+    description: string
+    icon: () => JSX.Element
+    prefix: string
+  }
+
   const handleCommandSelect = (commandId: string) => {
+    console.log('🚀 ~ handleCommandSelect ~ commandId:', commandId)
+
     // We might receive either the display name (like "Search") or the ID (like "search")
     // First, try to find the command by direct ID match
-    let foundCommand = COMMANDS.find((cmd) => cmd.id === commandId || cmd.label === commandId)
+    let foundCommand = COMMANDS.find(
+      (cmd) =>
+        cmd.id.includes(commandId.toLowerCase()) || cmd.label.includes(commandId.toLowerCase())
+    )
+
+    console.log('🚀 ~ handleCommandSelect ~ foundCommand:', foundCommand)
 
     // If not found by direct match, try case-insensitive comparison
     if (!foundCommand) {
@@ -705,29 +842,20 @@ export const MindMapBottomMenu = () => {
       )
     }
 
-    // Check in DEFAULT_COMMAND_OPTIONS if not found in COMMANDS
-    const foundDefaultCommand = DEFAULT_COMMAND_OPTIONS.find(
-      (opt) =>
-        opt.id.toLowerCase() === commandId.toLowerCase() ||
-        opt.name.toLowerCase() === commandId.toLowerCase()
-    )
-
-    if (foundCommand || foundDefaultCommand) {
+    if (foundCommand) {
       // Set the active command using the display-friendly version
       // This is what will appear in the UI tag
-      const displayCommand = foundCommand
-        ? foundCommand.label || foundCommand.id
-        : foundDefaultCommand?.name || foundDefaultCommand?.id || commandId
+      const displayCommand = foundCommand.label.toLowerCase()
 
       setActiveCommand(displayCommand)
       setInputValue('')
-      setIsOpen(false)
+      setCommandMenuOpen(false)
     } else {
       // If we somehow received a command ID that doesn't match any command,
       // just use it directly (fallback)
-      setActiveCommand(commandId)
+      setActiveCommand(commandId.toLowerCase())
       setInputValue('')
-      setIsOpen(false)
+      setCommandMenuOpen(false)
     }
   }
 
@@ -737,6 +865,7 @@ export const MindMapBottomMenu = () => {
   }
 
   const isChatActive = activeCommand === 'chat' || activeCommand === 'scrape'
+  const isReady = chatStatus === 'awaiting_message'
 
   // Prepare the commands for the OracleCommandList component
   const commandItems: CommandItem[] = [
@@ -753,6 +882,27 @@ export const MindMapBottomMenu = () => {
 
   const isAILoading = chatStatus === 'in_progress'
 
+  // Update the form submission handler to properly submit chat messages
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    // Only proceed if we have input
+    if (inputValue.trim() === '') return
+
+    if (activeCommand === 'chat' || activeCommand === 'deepresearch') {
+      console.log('🚀 ~ handleFormSubmit ~ activeCommand:', activeCommand)
+
+      // For chat commands, use submitMessage directly
+      submitMessage(e)
+      // Reset input fields after submission
+      setInputValue('')
+      setInput('')
+    } else {
+      // For other commands, use the oracle action handler
+      handleOracleAction()
+    }
+  }
+
   return (
     <div className='flex justify-center w-full'>
       <div className='p-4 flex flex-col w-[500px]'>
@@ -766,8 +916,24 @@ export const MindMapBottomMenu = () => {
           chatStatus={chatStatus}
         />
 
+        {/* Display error message if assistant encounters an error */}
+        {error && (
+          <div className='mb-2 p-2 bg-red-900/30 border border-red-500/50 rounded text-red-200 text-sm flex items-center'>
+            <AlertCircle size={16} className='mr-2' />
+            Error: {error.message || 'An error occurred with the AI assistant'}
+          </div>
+        )}
+
+        {/* Show loading indicator */}
+        {isAILoading && (
+          <div className='animate-pulse text-sm text-neutral-400 mb-2 flex items-center justify-center'>
+            <div className='h-1.5 w-1.5 rounded-full bg-cyan-500/80 mr-2' />
+            AI is thinking...
+          </div>
+        )}
+
         <form
-          onSubmit={submitMessage}
+          onSubmit={handleFormSubmit}
           className={isChatActive ? ' bg-neutral-950 bg-gradient-to-b from-black/90' : ''}>
           <OracleInput
             activeModel={state.selectedModel}
@@ -775,19 +941,19 @@ export const MindMapBottomMenu = () => {
             inputValue={inputValue}
             setInputValue={handleChange}
             handleKeyDown={handleKeyDown}
-            setIsOpen={setIsOpen}
-            isLoading={isAILoading}
-            isOpen={isOpen}
+            setCommandMenuOpen={setCommandMenuOpen}
+            commandMenuOpen={commandMenuOpen}
             loadModelData={handleOracleAction}
             isChatActive={activeCommand === 'chat' || activeCommand === 'deepresearch'}
             chatStatus={chatStatus}
             messages={messages}
+            setActiveCommand={setActiveCommand}
           />
         </form>
 
         {/* Command List with properly typed props */}
         <OracleCommandList
-          isOpen={isOpen}
+          commandMenuOpen={commandMenuOpen}
           activeCommand={activeCommand}
           commands={commandItems}
           handleCommandSelect={handleCommandSelect}
