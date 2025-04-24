@@ -1,39 +1,20 @@
-import {
-  ArtifactsIcon,
-  EventsIcon,
-  KeyFiguresIcon,
-  OracleIcon,
-  OrganizationsIcon,
-  TestimoniesIcon,
-  TopicsIcon,
-} from '@/components/icons/entity-icons'
 import {useMindMap} from '@/contexts/mindmap/mindmap-context'
 import {initiateDatabaseTableQuery} from '@/features/mindmap/actions/search'
 import {DOMAIN_MODEL_COLORS, ICON_GREEN} from '@/utils/constants'
-import {type Message, useAssistant} from '@ai-sdk/react'
+import {type Message as AISdkMessage, useAssistant} from '@ai-sdk/react'
 import {useCallback, useEffect, useRef, useState} from 'react'
 import {v4 as uuidv4} from 'uuid'
 
-import {Command} from 'cmdk'
-import {AnimatePresence, motion} from 'framer-motion'
-
-import {AddIcon, ThinTwinklyStar} from '@/components/icons'
-import {ToggleButton} from '@/features/ai/components/ai-inputs/oracle-input'
-import {LightningBoltIcon} from '@radix-ui/react-icons'
-import OracleInput from '@/features/ai/components/ai-inputs/oracle-input'
-import {TextShimmer} from '@/components/animated/text-effect'
-import {MagicWandIcon} from '@/components/icons'
-import {searchXataConnections} from '@/features/mindmap/actions/actions'
-// import {useAILoading} from '@/features/mindmap/hooks/use-ai-loading'
-import {capitalize, cn} from '@/utils'
+import OracleInput from '@/features/mindmap/components/menus/mindmap-bottom-menu/oracle-input'
 import {AlertCircle, Brain, FileSearch, Lightbulb, SearchIcon, XIcon} from 'lucide-react'
-import {
-  askAIAction,
-  xataToXYFlow,
-  type XataToXYFlowResponse,
-} from '@/features/mindmap/actions/xata-to-xyflow'
-import {OracleCommandList, type CommandItem} from './oracle-command-menu/OracleCommandList'
+import {askAIAction, xataToXYFlow} from '@/features/mindmap/actions/xata-to-xyflow'
+import {OracleCommandMenu, type CommandItem} from './oracle-command-menu/OracleCommandMenu'
 import {UltraterrestrialModelSelection, type ModelAction} from './UltraterrestrialModelSelection'
+import {ENTITY_TYPES} from '@/features/mindmap/components/menus/mindmap-bottom-menu/entity-types'
+import {COMMANDS} from '@/features/mindmap/components/menus/mindmap-bottom-menu/oracle-command-menu/commands'
+import {MindMapMessages, convertAiSdkMessage, type Message} from './MindMapMessages'
+import {SessionNotesProvider, useSessionNotes} from '@/contexts/mindmap/session-notes-context'
+import {SessionNotes} from '@/features/mindmap/components/status-ui/session-notes'
 
 // Define explicit types for our entities and nodes
 export interface MindMapNode {
@@ -44,141 +25,12 @@ export interface MindMapNode {
   parentId?: string
 }
 
-export interface EntityType {
-  type: string
-  label: string
-  displayName: string
-  icon: (props?: React.SVGProps<SVGSVGElement>) => JSX.Element
-  description: string
-}
-
 export interface SearchParams {
   type: string
   searchTerm: string
 }
 
 // Unified entity definitions for use across multiple components
-export const ENTITY_TYPES: EntityType[] = [
-  {
-    type: 'events',
-    label: 'Events',
-    displayName: 'Events',
-    icon: (props?: React.SVGProps<SVGSVGElement>) => <EventsIcon {...props} stroke={ICON_GREEN} />,
-    description: 'Add historical events to the mind map',
-  },
-  {
-    type: 'topics',
-    label: 'Topics',
-    displayName: 'Topics',
-    icon: (props?: React.SVGProps<SVGSVGElement>) => <TopicsIcon {...props} stroke={ICON_GREEN} />,
-    description: 'Add topics to the mind map',
-  },
-  {
-    type: 'personnel',
-    label: 'personnel',
-    displayName: 'Key Figures',
-    icon: (props?: React.SVGProps<SVGSVGElement>) => (
-      <KeyFiguresIcon {...props} stroke={ICON_GREEN} />
-    ),
-    description: 'Add key figures to the mind map',
-  },
-  {
-    type: 'testimonies',
-    label: 'testimonies',
-    displayName: 'Testimonies',
-    icon: (props?: React.SVGProps<SVGSVGElement>) => (
-      <TestimoniesIcon {...props} stroke={ICON_GREEN} />
-    ),
-    description: 'Add testimonies to the mind map',
-  },
-  {
-    type: 'organizations',
-    label: 'organizations',
-    displayName: 'Organizations',
-    icon: (props?: React.SVGProps<SVGSVGElement>) => (
-      <OrganizationsIcon {...props} stroke={ICON_GREEN} />
-    ),
-    description: 'Add organizations to the mind map',
-  },
-  {
-    type: 'documents',
-    label: 'documents',
-    displayName: 'Documents',
-    icon: (props?: React.SVGProps<SVGSVGElement>) => <FileSearch {...props} stroke={ICON_GREEN} />,
-    description: 'Add case files to the mind map',
-  },
-  {
-    type: 'case-files',
-    label: 'case-files',
-    displayName: 'Case Files',
-    icon: (props?: React.SVGProps<SVGSVGElement>) => <FileSearch {...props} stroke={ICON_GREEN} />,
-    description: 'Add case files to the mind map',
-  },
-
-  {
-    type: 'artifacts',
-    label: 'artifacts',
-    displayName: 'Artifacts',
-    icon: (props?: React.SVGProps<SVGSVGElement>) => (
-      <ArtifactsIcon {...props} stroke={ICON_GREEN} />
-    ),
-    description: 'Add historical artifacts to the mind map',
-  },
-]
-
-// Move COMMANDS outside component
-const COMMANDS = [
-  {
-    id: 'chat',
-    label: 'Chat',
-    description: 'Start a conversation with our Disclosure Agent',
-    icon: () => <LightningBoltIcon stroke={ICON_GREEN} />,
-    prefix: '/chat',
-  },
-  {
-    id: 'Search',
-    label: 'Search',
-    description:
-      'Search existing records across our database, curated and validated web resources and our own AI knowledge base',
-    icon: () => <SearchIcon stroke={ICON_GREEN} />,
-    prefix: '/search',
-  },
-  {
-    id: 'Add',
-    label: 'Add',
-    description: 'Add a new item to the mind map',
-    icon: () => <AddIcon stroke={ICON_GREEN} />,
-    prefix: '/add',
-  },
-  {
-    id: 'Connect',
-    label: 'Connect',
-    description: 'Connect to a database',
-    icon: () => <ThinTwinklyStar stroke={ICON_GREEN} />,
-    prefix: '/connect',
-  },
-  {
-    id: 'analyze',
-    label: 'Analyze',
-    description: 'Analyze the existing records on your mind map and generate new insights',
-    icon: () => <MagicWandIcon stroke={ICON_GREEN} />,
-    prefix: '/analyze',
-  },
-  {
-    id: 'scrape',
-    label: 'Scrape',
-    description: 'Extract data from a URL with entity recognition and analysis',
-    icon: () => <Brain stroke={ICON_GREEN} />,
-    prefix: '/scrape',
-  },
-  {
-    id: 'deepresearch',
-    label: 'Deep Research',
-    description: 'Conduct in-depth research',
-    icon: () => <Brain stroke={ICON_GREEN} />,
-    prefix: '/deepresearch',
-  },
-] as const
 
 // Define interface for ReactFlowNode to use in type casting
 interface ReactFlowNode {
@@ -201,6 +53,16 @@ const loadMessagesFromLocalStorage = () => {
     console.error('Error loading chat messages from localStorage:', error)
     return []
   }
+}
+
+// Create a message wrapper component that uses the SessionNotes context
+const MessagesWithNotesSaving = ({messages}: {messages: AISdkMessage[]}) => {
+  const {addNoteFromMessage} = useSessionNotes()
+
+  // Convert AI SDK messages to our internal format
+  const convertedMessages = messages.map((msg) => convertAiSdkMessage(msg))
+
+  return <MindMapMessages messages={convertedMessages} onSaveAsNote={addNoteFromMessage} />
 }
 
 export const MindMapBottomMenu = () => {
@@ -645,6 +507,8 @@ export const MindMapBottomMenu = () => {
         setInput('')
       }
     } else if (state.selectedModel) {
+      console.log('🚀 ~ handleOracleAction ~ selectedModel:', state.selectedModel)
+
       // Only if there's no input but a model is selected, add data to mindmap
       addDataToMindMap(state.selectedModel)
     }
@@ -680,7 +544,7 @@ export const MindMapBottomMenu = () => {
 
         // If we have an active chat command and input, submit the message directly
         if (
-          (activeCommand === 'chat' || activeCommand === 'deepresearch') &&
+          (activeCommand === 'chat' || activeCommand === 'deep research') &&
           inputValue.trim() !== ''
         ) {
           console.log('🚀 ~ inputValue:', inputValue)
@@ -732,17 +596,6 @@ export const MindMapBottomMenu = () => {
               submitMessage({preventDefault: () => {}} as React.FormEvent<HTMLFormElement>)
               break
 
-            case 'add':
-            case 'connect':
-              // For other commands that require a model, ensure one is selected
-              if (state?.selectedModel) {
-                // Call the Oracle action handler which routes based on active command
-                handleOracleAction()
-              } else {
-                console.warn(`${activeCommand} requires selecting a model first`)
-              }
-              break
-
             default:
               // For any other active command, try the oracle action handler
               if (activeCommand) {
@@ -788,28 +641,19 @@ export const MindMapBottomMenu = () => {
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement> | string) => {
       // Handle both string values and event objects
-      setInputValue(e.target.value)
-      if (activeCommand === 'chat' || activeCommand === 'deepresearch') {
-        setInput(e)
+      if (typeof e === 'string') {
+        setInputValue(e)
+        if (activeCommand === 'chat' || activeCommand === 'deep research') {
+          setInput(e)
+        }
+      } else {
+        setInputValue(e.target.value)
+        if (activeCommand === 'chat' || activeCommand === 'deep research') {
+          setInput(e.target.value)
+        }
       }
-      // if (typeof e === 'string') {
-
-      //   // Also update AI assistant input for chat commands
-      //   if (activeCommand === 'chat' || activeCommand === 'deepresearch') {
-      //     setInput(e)
-      //   }
-      // } else if (e && e.target && e.target.value !== undefined) {
-      //   const newValue = e.target.value
-      //   setInputValue(newValue)
-      //   // Also update AI assistant input for chat commands
-      //   if (activeCommand === 'chat' || activeCommand === 'deepresearch') {
-      //     setInput(newValue)
-      //   }
-      // } else {
-      //   console.warn('Invalid input provided to handleChange')
-      // }
     },
-    [activeCommand, setInput]
+    [activeCommand, setInput, setInputValue]
   )
 
   // Properly typed interface for command format
@@ -885,11 +729,14 @@ export const MindMapBottomMenu = () => {
   // Update the form submission handler to properly submit chat messages
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    if (state.selectedModel) {
+      addDataToMindMap(state.selectedModel)
+    }
 
     // Only proceed if we have input
-    if (inputValue.trim() === '') return
+    // if (inputValue.trim() === '') return
 
-    if (activeCommand === 'chat' || activeCommand === 'deepresearch') {
+    if (activeCommand === 'chat' || activeCommand === 'deep research') {
       console.log('🚀 ~ handleFormSubmit ~ activeCommand:', activeCommand)
 
       // For chat commands, use submitMessage directly
@@ -904,8 +751,8 @@ export const MindMapBottomMenu = () => {
   }
 
   return (
-    <div className='flex justify-center w-full'>
-      <div className='p-4 flex flex-col w-[500px]'>
+    <div className='fixed bottom-0 left-1/2 transform -translate-x-1/2 w-[500px]'>
+      <div className='p-0 flex flex-col w-full h-auto relative'>
         <UltraterrestrialModelSelection
           state={state}
           updateState={updateState}
@@ -915,52 +762,54 @@ export const MindMapBottomMenu = () => {
           modelSearchActions={modelSearchActions}
           chatStatus={chatStatus}
         />
-
-        {/* Display error message if assistant encounters an error */}
-        {error && (
-          <div className='mb-2 p-2 bg-red-900/30 border border-red-500/50 rounded text-red-200 text-sm flex items-center'>
-            <AlertCircle size={16} className='mr-2' />
-            Error: {error.message || 'An error occurred with the AI assistant'}
-          </div>
-        )}
-
-        {/* Show loading indicator */}
-        {isAILoading && (
-          <div className='animate-pulse text-sm text-neutral-400 mb-2 flex items-center justify-center'>
-            <div className='h-1.5 w-1.5 rounded-full bg-cyan-500/80 mr-2' />
-            AI is thinking...
-          </div>
-        )}
-
-        <form
-          onSubmit={handleFormSubmit}
-          className={isChatActive ? ' bg-neutral-950 bg-gradient-to-b from-black/90' : ''}>
-          <OracleInput
-            activeModel={state.selectedModel}
-            activeCommand={activeCommand}
-            inputValue={inputValue}
-            setInputValue={handleChange}
-            handleKeyDown={handleKeyDown}
-            setCommandMenuOpen={setCommandMenuOpen}
+        <div
+          className='p-0 flex flex-col w-full border border-neutral-700/30 text-neutral-500 
+            bg-black bg-gradient-to-b from-black relative rounded-xl'>
+          <OracleCommandMenu
             commandMenuOpen={commandMenuOpen}
-            loadModelData={handleOracleAction}
-            isChatActive={activeCommand === 'chat' || activeCommand === 'deepresearch'}
-            chatStatus={chatStatus}
-            messages={messages}
-            setActiveCommand={setActiveCommand}
+            activeCommand={activeCommand}
+            commands={commandItems}
+            handleCommandSelect={handleCommandSelect}
+            inputValue={inputValue}
+            setInputValue={setInputValue}
+            handleKeyDown={handleKeyDown}
           />
-        </form>
 
-        {/* Command List with properly typed props */}
-        <OracleCommandList
-          commandMenuOpen={commandMenuOpen}
-          activeCommand={activeCommand}
-          commands={commandItems}
-          handleCommandSelect={handleCommandSelect}
-          inputValue={inputValue}
-          setInputValue={setInputValue}
-          handleKeyDown={handleKeyDown}
-        />
+          {/* Display chat messages */}
+
+          <form onSubmit={handleFormSubmit} className={isChatActive ? 'w-full' : ''}>
+            <OracleInput
+              activeModel={state.selectedModel}
+              activeCommand={activeCommand}
+              inputValue={inputValue}
+              setInputValue={handleChange}
+              handleKeyDown={handleKeyDown}
+              setCommandMenuOpen={setCommandMenuOpen}
+              commandMenuOpen={commandMenuOpen}
+              loadModelData={handleOracleAction}
+              isChatActive={activeCommand === 'chat' || activeCommand === 'deepresearch'}
+              chatStatus={chatStatus}
+              messages={messages}
+              setActiveCommand={setActiveCommand}
+            />
+          </form>
+
+          {/* Display error message if assistant encounters an error */}
+          {error && (
+            <div className='mb-2 p-2 bg-red-900/30 border border-red-500/50 rounded text-red-200 text-sm flex items-center'>
+              <AlertCircle size={16} className='mr-2' />
+              Error: {error.message || 'An error occurred with the AI assistant'}
+            </div>
+          )}
+
+          {/* Show loading indicator */}
+          {isAILoading && (
+            <div className='animate-pulse text-sm text-neutral-400 mb-2 flex items-center justify-center'>
+              <div className='h-1.5 w-1.5 rounded-full bg-cyan-500/80 mr-2' />
+              AI is thinking...
+            </div>
+          )}
+        </div>
       </div>
     </div>
   )

@@ -1,5 +1,5 @@
 import {Command} from 'cmdk'
-import type {CommandItem} from './OracleCommandList'
+import type {CommandItem} from './OracleCommandMenu'
 
 interface CommandListItemProps {
   command: CommandItem & {

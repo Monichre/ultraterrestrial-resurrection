@@ -1,76 +1,83 @@
 'use client'
 
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import {Drawer} from 'vaul-base'
 import {motion} from 'framer-motion'
-import {FileText, BookOpen, PlusCircle, Star, Edit3, Tag, Clock} from 'lucide-react'
+import {
+  FileText,
+  BookOpen,
+  PlusCircle,
+  Star,
+  Edit3,
+  Tag,
+  Clock,
+  Save,
+  FileTextIcon,
+} from 'lucide-react'
 import {Button} from '@/components/ui/button'
+import {useToast} from '@/components/ui/use-toast'
+import type {Message} from '@/features/mindmap/components/menus/mindmap-bottom-menu/MindMapMessages'
+import {useSessionNotes} from '@/contexts/mindmap/session-notes-context'
+import {Switch} from '@/components/ui/switch'
+import {Label} from '@/components/ui/label'
 
-interface Note {
+export interface Note {
   id: string
   title: string
   content: string
   tags: string[]
   timestamp: string
   isPinned?: boolean
+  sourceMessageId?: string
+}
+
+// Types for Xata integration
+type SaveToXataOptions = {
+  title: string
+  content: string
+  tags: string[]
+  richText?: boolean
 }
 
 export const SessionNotes = () => {
-  const [isOpen, setIsOpen] = useState(false)
-  const [selectedNote, setSelectedNote] = useState<Note | null>(null)
-  const [isNestedOpen, setIsNestedOpen] = useState(false)
+  // Use the context instead of local state
+  const {
+    notes,
+    selectedNote,
+    isOpen,
+    isNestedOpen,
+    setIsOpen,
+    setIsNestedOpen,
+    setSelectedNote,
+    addNote,
+    saveToXata,
+    togglePin,
+  } = useSessionNotes()
+
   const [isHovered, setIsHovered] = useState(false)
+  const [useRichText, setUseRichText] = useState(false)
+  const {toast} = useToast()
 
-  // Mock notes data
-  const [notes, setNotes] = useState<Note[]>([
-    {
-      id: 'note-001',
-      title: 'Initial Analysis',
-      content:
-        'Subject displays unusual cognitive patterns when exposed to stimulus A-7. Further testing required to establish baseline reactions.',
-      tags: ['cognitive', 'baseline', 'test-group-a'],
-      timestamp: '2077-03-15T14:27:18',
-      isPinned: true,
-    },
-    {
-      id: 'note-002',
-      title: 'Temporal Anomaly Notes',
-      content:
-        'Time dilation effects observed during experiment #42. Objects within field exhibited 3.7% slower decay rates compared to control group.',
-      tags: ['temporal', 'experiment-42', 'anomaly'],
-      timestamp: '2077-03-14T09:42:03',
-    },
-    {
-      id: 'note-003',
-      title: "Dr. Chen's Observations",
-      content:
-        'The quantum entanglement between subjects A and B persisted even after physical separation of 2.5km. Results contradict standard decoherence models.',
-      tags: ['quantum', 'entanglement', 'subjects'],
-      timestamp: '2077-03-13T22:15:30',
-    },
-  ])
-
-  const handleNoteSelect = (note: Note) => {
-    setSelectedNote(note)
-    setIsNestedOpen(true)
-  }
-
-  const togglePin = (id: string) => {
-    setNotes(notes.map((note) => (note.id === id ? {...note, isPinned: !note.isPinned} : note)))
-  }
-
+  // Create a new note through the context
   const createNewNote = () => {
-    const newNote: Note = {
-      id: `note-${(notes.length + 1).toString().padStart(3, '0')}`,
+    const newNote = addNote({
       title: 'New Session Note',
       content: 'Enter your observations here...',
       tags: ['new', 'draft'],
-      timestamp: new Date().toISOString(),
-    }
+    })
 
-    setNotes([newNote, ...notes])
     setSelectedNote(newNote)
     setIsNestedOpen(true)
+  }
+
+  // Handle saving to Knowledge Base with rich text option
+  const handleSaveToKB = async (note: Note) => {
+    await saveToXata({
+      title: note.title,
+      content: note.content,
+      tags: note.tags,
+      richText: useRichText,
+    })
   }
 
   // Tab animation for hover effect
@@ -89,20 +96,6 @@ export const SessionNotes = () => {
 
   return (
     <>
-      {/* Tab trigger (always visible) */}
-      {/* {!isOpen && (
-        <motion.div
-          className='fixed right-0 top-[130px] z-40 w-12 h-24 bg-black/40 backdrop-blur-sm border-l border-y border-[#adf0dd]/30 rounded-l-md flex items-center justify-center cursor-pointer shadow-lg'
-          variants={tabVariants}
-          animate={isHovered ? 'hover' : 'initial'}
-          onHoverStart={() => setIsHovered(true)}
-          onHoverEnd={() => setIsHovered(false)}
-          onClick={() => setIsOpen(true)}
-          whileTap={{scale: 0.95}}>
-          <FileText className='text-[#adf0dd] w-5 h-5' />
-        </motion.div>
-      )} */}
-
       <motion.div
         className='fixed right-0 top-[130px] z-40 w-12 h-24 bg-black/40 backdrop-blur-sm border-l border-y border-[#adf0dd]/30 rounded-l-md flex items-center justify-center cursor-pointer shadow-lg'
         variants={tabVariants}
@@ -113,6 +106,7 @@ export const SessionNotes = () => {
         whileTap={{scale: 0.95}}>
         <FileText className='text-[#adf0dd] w-5 h-5' />
       </motion.div>
+
       {/* Main Drawer */}
       <Drawer.Root open={isOpen} onOpenChange={setIsOpen} direction='right' dismissible>
         <Drawer.Portal>
@@ -153,9 +147,9 @@ export const SessionNotes = () => {
                     className={`bg-black/50 border ${
                       note.isPinned ? 'border-[#adf0dd]/60' : 'border-[#adf0dd]/20'
                     } rounded-md p-3 cursor-pointer hover:bg-[#adf0dd]/5 transition-colors relative group w-full text-left`}
-                    onClick={() => handleNoteSelect(note)}
+                    onClick={() => setSelectedNote(note)}
                     onKeyDown={(e) => {
-                      if (e.key === 'Enter') handleNoteSelect(note)
+                      if (e.key === 'Enter') setSelectedNote(note)
                     }}>
                     <div className='flex justify-between items-start mb-1'>
                       <h3 className='text-[#adf0dd] font-mono text-sm'>{note.title}</h3>
@@ -289,13 +283,33 @@ export const SessionNotes = () => {
                         </p>
                       </div>
 
+                      {/* Rich Text Toggle */}
+                      <div className='flex items-center space-x-2 mt-4 mb-2'>
+                        <Switch
+                          id='rich-text-mode'
+                          checked={useRichText}
+                          onCheckedChange={setUseRichText}
+                          className='data-[state=checked]:bg-emerald-600'
+                        />
+                        <Label
+                          htmlFor='rich-text-mode'
+                          className='text-[#adf0dd]/80 font-mono text-xs flex items-center'>
+                          <FileTextIcon className='w-3.5 h-3.5 mr-1.5' />
+                          Save as Rich Text
+                        </Label>
+                      </div>
+
                       {/* Action Buttons */}
-                      <div className='flex space-x-2 mt-4'>
+                      <div className='flex space-x-2 mt-2'>
                         <Button className='bg-[#adf0dd]/10 hover:bg-[#adf0dd]/20 text-[#adf0dd] border border-[#adf0dd]/30 flex-1'>
+                          <Edit3 className='w-4 h-4 mr-2' />
                           Edit Note
                         </Button>
-                        <Button className='bg-black/50 hover:bg-[#adf0dd]/10 text-[#adf0dd] border border-[#adf0dd]/30 flex-1'>
-                          Share
+                        <Button
+                          className='bg-black/50 hover:bg-[#adf0dd]/10 text-[#adf0dd] border border-[#adf0dd]/30 flex-1'
+                          onClick={() => handleSaveToKB(selectedNote)}>
+                          <Save className='w-4 h-4 mr-2' />
+                          Save to KB
                         </Button>
                       </div>
                     </div>
@@ -308,4 +322,10 @@ export const SessionNotes = () => {
       </Drawer.Root>
     </>
   )
+}
+
+// Export the instance and its methods for external components to use
+export const sessionNotesInstance = {
+  addNoteFromMessage: null as ((message: Message) => Note) | null,
+  saveToXata: null as ((options: SaveToXataOptions) => Promise<boolean>) | null,
 }

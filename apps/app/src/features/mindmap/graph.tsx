@@ -7,7 +7,7 @@ import {edgeTypes} from '@/features/mindmap/config/edge-types'
 import {nodeTypes} from '@/features/mindmap/config/index.config'
 
 import {MindMapAnimatedClickMenu, MindMapSideMenu} from '@/features/mindmap/components/menus'
-import {MindMapBottomMenu} from '@/features/mindmap/components/menus/mindmap-bottom-menu'
+import {MindMapBottomMenu} from '@/features/mindmap/components/menus/mindmap-bottom-menu/mindmap-bottom-menu'
 
 import {useContextMenu} from '@/hooks/useContextMenu'
 // import { useElkLayout } from '@/features/mindmap/layouts/algorithms/elk-layout'

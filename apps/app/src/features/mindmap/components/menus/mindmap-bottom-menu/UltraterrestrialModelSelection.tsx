@@ -4,7 +4,7 @@ import {Brain, XIcon} from 'lucide-react'
 import {motion, AnimatePresence} from 'framer-motion'
 import {TextShimmer} from '@/components/animated/text-effect'
 import {OracleIcon} from '@/components/icons/entity-icons'
-import {ToggleButton} from '@/features/ai/components/ai-inputs/oracle-input'
+import {ToggleButton} from '@/features/mindmap/components/menus/mindmap-bottom-menu/oracle-input'
 import {cn, capitalize} from '@/utils'
 import {ICON_GREEN} from '@/utils/constants'
 import type {RefObject} from 'react'
@@ -73,9 +73,9 @@ export function UltraterrestrialModelSelection({
 
   return (
     <div className='relative w-full h-auto overflow-hidden'>
-      <div className='flex flex-col justify-between items-center px-2 py-4 text-sm text-zinc-600 dark:text-zinc-400'>
+      <div className='flex flex-col justify-between items-center  py-4 text-sm text-zinc-600 dark:text-zinc-400'>
         <div className='relative w-full z-50' ref={menuRef}>
-          <div className='flex w-full justify-between items-center content-center px-2'>
+          <div className='flex w-full justify-between items-center content-center'>
             <div className='flex items-center gap-2'>
               <motion.button
                 onClick={toggleModelMenu}

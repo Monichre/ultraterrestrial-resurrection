@@ -7,6 +7,7 @@ import {useEffect, useRef, useState} from 'react'
 import {SendIcon} from 'lucide-react'
 import {AnimatePresence, motion} from 'framer-motion'
 import {Button} from '@/components/ui/button'
+import {MindMapMessages} from '@/features/mindmap/components/menus/mindmap-bottom-menu/MindMapMessages'
 
 export interface OracleCommandType {
   value: string
@@ -14,6 +15,26 @@ export interface OracleCommandType {
   description?: string
   category?: string
   isComingSoon?: boolean
+}
+
+type MessagePartType = 'text' | 'reasoning' | 'source' | 'tool-invocation' | 'file'
+
+interface MessagePart {
+  type: MessagePartType
+  text?: string
+  reasoning?: string
+  source?: {url: string; title?: string}
+  toolInvocation?: {toolName: string; [key: string]: unknown}
+  mimeType?: string
+  data?: string
+  [key: string]: unknown
+}
+
+interface Message {
+  id: string
+  role: 'user' | 'assistant' | 'system'
+  content: string
+  parts?: MessagePart[]
 }
 
 interface OracleInputProps {
@@ -29,7 +50,7 @@ interface OracleInputProps {
   isChatActive?: boolean
   chatStatus?: 'idle' | 'loading' | 'generating' | 'error' | 'in_progress' | 'awaiting_message'
   isLoading?: boolean
-  messages?: Array<{id: string; role: string; content: string}>
+  messages?: Message[]
   commandMenuOpen?: boolean
   setActiveCommand: (command: string | null) => void
   oracleCommandList?: OracleCommandType[]
@@ -120,38 +141,6 @@ export default function OracleInput({
     setInputValue(e)
   }
 
-  // Handle the '/' key specially
-  const handleLocalKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Escape') {
-      e.preventDefault()
-      setActiveCommand(null)
-      setValue('')
-      return
-    }
-
-    if (e.key === '/') {
-      if (value === '') {
-        e.preventDefault()
-        setCommandMenuOpen(true)
-      }
-    }
-
-    // Handle Enter key for form submission in chat mode
-    if (e.key === 'Enter' && !e.shiftKey && isChatActive && value.trim() !== '') {
-      e.preventDefault()
-      // Dispatch a submit event on the parent form
-      const form = e.currentTarget.closest('form')
-      if (form) {
-        const submitEvent = new Event('submit', {cancelable: true, bubbles: true})
-        form.dispatchEvent(submitEvent)
-      }
-      return
-    }
-
-    // Pass to parent handler for other cases
-    handleKeyDown(e)
-  }
-
   // Auto-scroll to the latest message whenever messages change
   useEffect(() => {
     if (messagesContainerRef.current && messages && messages.length > 0) {
@@ -177,54 +166,140 @@ export default function OracleInput({
   const isButtonDisabled =
     isChatActive && (chatStatus === 'generating' || chatStatus === 'in_progress')
 
+  // Function to render message parts based on their type
+  const renderMessagePart = (part: MessagePart, index: number, messageId: string) => {
+    switch (part.type) {
+      case 'text':
+        return <p key={`${messageId}-part-${index}`}>{part.text}</p>
+
+      case 'source':
+        return (
+          <div
+            key={`${messageId}-part-${index}`}
+            className='source-part mt-2 p-2 border border-neutral-700 rounded-md bg-neutral-900'>
+            <p className='text-xs text-neutral-400'>Source:</p>
+            <a
+              href={part.source?.url}
+              target='_blank'
+              rel='noopener noreferrer'
+              className='text-cyan-400 underline text-sm'>
+              {part.source?.title || part.source?.url}
+            </a>
+          </div>
+        )
+
+      case 'reasoning':
+        return (
+          <div
+            key={`${messageId}-part-${index}`}
+            className='reasoning-part my-2 p-2 bg-neutral-800/50 rounded-md border-l-2 border-amber-500'>
+            <p className='text-xs text-amber-500 mb-1'>Reasoning:</p>
+            <MarkdownContent
+              id={`${messageId}-reasoning-${index}`}
+              content={part.reasoning || ''}
+              className='text-amber-100 text-xs italic'
+            />
+          </div>
+        )
+
+      case 'tool-invocation':
+        return (
+          <div
+            key={`${messageId}-part-${index}`}
+            className='tool-part my-2 p-2 bg-indigo-900/30 rounded-md border border-indigo-700/50'>
+            <p className='text-xs text-indigo-400 mb-1'>Tool: {part.toolInvocation?.toolName}</p>
+            <pre className='text-xs overflow-x-auto bg-black/30 p-2 rounded'>
+              {JSON.stringify(part.toolInvocation, null, 2)}
+            </pre>
+          </div>
+        )
+
+      case 'file':
+        if (part.mimeType?.startsWith('image/')) {
+          return (
+            <div key={`${messageId}-part-${index}`} className='file-part my-2'>
+              <p className='text-xs text-neutral-400 mb-1'>Image:</p>
+              <img
+                src={`data:${part.mimeType};base64,${part.data}`}
+                alt='Attached file'
+                className='max-w-full rounded-md border border-neutral-700'
+              />
+            </div>
+          )
+        }
+
+        return (
+          <div
+            key={`${messageId}-part-${index}`}
+            className='file-part my-2 p-2 bg-neutral-800 rounded-md'>
+            <p className='text-xs text-neutral-400'>File attachment (MIME type: {part.mimeType})</p>
+          </div>
+        )
+
+      default:
+        return null
+    }
+  }
+
+  // Function to normalize message parts type
+  const normalizeMessageParts = (message: Message): Message => {
+    if (!message.parts) return message
+
+    return {
+      ...message,
+      parts: message.parts.map((part) => {
+        // Ensure part.type is one of the valid MessagePartType values
+        let normalizedType: MessagePartType = 'text'
+
+        if (
+          part.type === 'text' ||
+          part.type === 'reasoning' ||
+          part.type === 'source' ||
+          part.type === 'tool-invocation' ||
+          part.type === 'file'
+        ) {
+          normalizedType = part.type
+        } else if (part.toolInvocation) {
+          normalizedType = 'tool-invocation'
+        } else if (part.source) {
+          normalizedType = 'source'
+        } else if (part.reasoning) {
+          normalizedType = 'reasoning'
+        } else if (part.mimeType) {
+          normalizedType = 'file'
+        }
+
+        return {
+          ...part,
+          type: normalizedType,
+        }
+      }),
+    }
+  }
+
   return (
     <>
       <div className='relative flex flex-col w-full'>
         {/* Chat Messages */}
         {isChatActive && messages && messages.length > 0 && (
-          <div
-            ref={messagesContainerRef}
-            className='max-h-[300px] overflow-y-auto mb-4 space-y-3 px-3'>
-            {messages.map((message) => (
-              <div
-                key={message.id}
-                className={cn(
-                  'flex items-start gap-2.5',
-                  message.role === 'user' ? 'flex-row-reverse' : 'flex-row'
-                )}>
-                <div
-                  className={cn(
-                    'w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0',
-                    message.role === 'user'
-                      ? 'bg-indigo-900/20 text-indigo-500'
-                      : 'bg-emerald-500/20 text-emerald-500'
-                  )}>
-                  {message.role === 'user' ? 'U' : 'AI'}
-                </div>
+          <MindMapMessages
+            messages={messages.map((msg) => {
+              const normalizedRole =
+                msg.role === 'user' || msg.role === 'assistant'
+                  ? msg.role
+                  : msg.role === 'system'
+                    ? 'assistant'
+                    : 'user'
 
-                <div
-                  className={cn(
-                    'px-4 py-2 rounded-2xl max-w-[85%] text-sm leading-relaxed',
-                    message.role === 'user'
-                      ? 'bg-indigo-500/20 text-indigo-100'
-                      : 'bg-neutral-800 text-neutral-100'
-                  )}>
-                  {message.role === 'user' ? (
-                    <>{message.content}</>
-                  ) : (
-                    <MarkdownContent
-                      id={message.id}
-                      content={message.content}
-                      className='max-w-full'
-                    />
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
+              return normalizeMessageParts({
+                ...msg,
+                role: normalizedRole,
+              })
+            })}
+          />
         )}
 
-        <div className='relative flex items-center flex-wrap gap-2 px-3 h-auto min-h-[48px] z-50'>
+        <div className='relative flex items-center flex-wrap gap-2  h-auto min-h-[48px] z-50'>
           {/* Input Container */}
           <div
             className='rounded-xl border border-transparent flex gap-2 items-center relative w-full p-2 px-2.5 duration-200 border border-white/30 border-neutral-700/30 text-neutral-500 bg-neutral-950 bg-gradient-to-b from-black/90'
@@ -265,7 +340,7 @@ export default function OracleInput({
 
               <button
                 type='submit'
-                disabled={isButtonDisabled}
+                // disabled={isButtonDisabled}
                 className={cn(
                   'w-6 h-6 rounded-full flex items-center justify-center ml-auto',
                   isButtonDisabled && 'opacity-60 cursor-not-allowed'

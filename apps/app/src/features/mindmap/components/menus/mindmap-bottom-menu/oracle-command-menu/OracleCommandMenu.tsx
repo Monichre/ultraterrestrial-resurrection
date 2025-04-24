@@ -13,7 +13,7 @@ export type CommandItem = {
   prefix?: string
 }
 
-interface OracleCommandListProps {
+interface OracleCommandMenuProps {
   commandMenuOpen: boolean
   activeCommand: string | null
   commands: ReadonlyArray<CommandItem> // Original full list of commands
@@ -23,7 +23,7 @@ interface OracleCommandListProps {
   handleKeyDown?: (e: React.KeyboardEvent) => void
 }
 
-export const OracleCommandList = ({
+export const OracleCommandMenu = ({
   commandMenuOpen,
   activeCommand,
   commands,
@@ -31,7 +31,7 @@ export const OracleCommandList = ({
   inputValue = '',
   setInputValue,
   handleKeyDown,
-}: OracleCommandListProps) => {
+}: OracleCommandMenuProps) => {
   // Internal state for filtered commands
   const [filteredCommands, setFilteredCommands] = useState<ReadonlyArray<CommandItem>>(commands)
 
@@ -83,14 +83,16 @@ export const OracleCommandList = ({
       animate={{opacity: 1, y: 0}}
       exit={{opacity: 0, y: 8}}
       transition={{duration: 0.15}}
-      className={`absolute ${useInputStyle ? 'bottom-full mb-2' : 'bottom-0'} bottom-[120px] left-0 w-full h-auto z-40 flex justify-center items-center`}>
+      className={`relative mb-2 w-full h-auto z-40 flex justify-center items-center rounded-lg`}>
       <div
-        className={`
-          rounded-lg shadow-lg 
-          ${useInputStyle ? 'w-full max-h-[200px] overflow-y-auto ' : 'w-[444px] h-[400px] mt-2'} 
-          rounded-lg border border-neutral-700/30 text-neutral-500 
-          bg-black bg-gradient-to-b from-black relative rounded-tl-lg rounded-tr-lg
-        `}>
+      // className={`
+      //   rounded-lg shadow-lg
+      //   ${useInputStyle ? 'w-full overflow-y-auto ' : 'w-[444px] h-[400px] mt-2'}
+      //   rounded-lg border border-neutral-700/30 text-neutral-500
+      //   bg-black bg-gradient-to-b from-black relative rounded-tl-lg rounded-tr-lg
+      // `
+      // }
+      >
         {/* {useInputStyle ? (
           // Input-style dropdown (more compact)
           <div className='w-full'>

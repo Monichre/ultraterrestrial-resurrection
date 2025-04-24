@@ -244,7 +244,7 @@ const tables = [
       { column: "user", table: "user-saved-key-figure" },
       { column: "user", table: "user-saved-testimonies" },
       { column: "user", table: "user-saved-documents" },
-      { column: "user", table: "user-theories" },
+      { column: "user", table: "user-notes" },
       { column: "user", table: "user-saved-organizations" },
       { column: "user", table: "user-saved-sightings" },
       { column: "user", table: "mindmaps" },
@@ -255,7 +255,7 @@ const tables = [
     columns: [
       { name: "user", type: "link", link: { table: "users" } },
       { name: "event", type: "link", link: { table: "events" } },
-      { name: "theory", type: "link", link: { table: "user-theories" } },
+      { name: "theory", type: "link", link: { table: "user-notes" } },
       { name: "note", type: "text" },
       { name: "note-title", type: "string" },
     ],
@@ -265,7 +265,7 @@ const tables = [
     columns: [
       { name: "user", type: "link", link: { table: "users" } },
       { name: "topic", type: "link", link: { table: "topics" } },
-      { name: "theory", type: "link", link: { table: "user-theories" } },
+      { name: "theory", type: "link", link: { table: "user-notes" } },
       { name: "note", type: "text" },
       { name: "note-title", type: "string" },
     ],
@@ -275,7 +275,7 @@ const tables = [
     columns: [
       { name: "user", type: "link", link: { table: "users" } },
       { name: "key-figure", type: "link", link: { table: "personnel" } },
-      { name: "theory", type: "link", link: { table: "user-theories" } },
+      { name: "theory", type: "link", link: { table: "user-notes" } },
       { name: "note", type: "text" },
       { name: "note-title", type: "string" },
     ],
@@ -285,7 +285,7 @@ const tables = [
     columns: [
       { name: "user", type: "link", link: { table: "users" } },
       { name: "testimony", type: "link", link: { table: "testimonies" } },
-      { name: "theory", type: "link", link: { table: "user-theories" } },
+      { name: "theory", type: "link", link: { table: "user-notes" } },
       { name: "note", type: "text" },
       { name: "note-title", type: "string" },
     ],
@@ -295,13 +295,13 @@ const tables = [
     columns: [
       { name: "user", type: "link", link: { table: "users" } },
       { name: "document", type: "link", link: { table: "documents" } },
-      { name: "theory", type: "link", link: { table: "user-theories" } },
+      { name: "theory", type: "link", link: { table: "user-notes" } },
       { name: "note", type: "text" },
       { name: "note-title", type: "string" },
     ],
   },
   {
-    name: "user-theories",
+    name: "user-notes",
     columns: [
       { name: "user", type: "link", link: { table: "users" } },
       { name: "name", type: "string" },
@@ -328,7 +328,7 @@ const tables = [
     columns: [
       { name: "user", type: "link", link: { table: "users" } },
       { name: "organization", type: "link", link: { table: "organizations" } },
-      { name: "theory", type: "link", link: { table: "user-theories" } },
+      { name: "theory", type: "link", link: { table: "user-notes" } },
       { name: "note", type: "text" },
       { name: "note-title", type: "string" },
     ],
@@ -338,7 +338,7 @@ const tables = [
     columns: [
       { name: "user", type: "link", link: { table: "users" } },
       { name: "sighting", type: "link", link: { table: "sightings" } },
-      { name: "theory", type: "link", link: { table: "user-theories" } },
+      { name: "theory", type: "link", link: { table: "user-notes" } },
       { name: "note", type: "text" },
       { name: "note-title", type: "string" },
     ],
@@ -455,8 +455,8 @@ export type UserSavedTestimoniesRecord = UserSavedTestimonies & XataRecord;
 export type UserSavedDocuments = InferredTypes["user-saved-documents"];
 export type UserSavedDocumentsRecord = UserSavedDocuments & XataRecord;
 
-export type UserTheories = InferredTypes["user-theories"];
-export type UserTheoriesRecord = UserTheories & XataRecord;
+export type UserNotes = InferredTypes["user-notes"];
+export type UserNotesRecord = UserNotes & XataRecord;
 
 export type UserSavedOrganizations = InferredTypes["user-saved-organizations"];
 export type UserSavedOrganizationsRecord = UserSavedOrganizations & XataRecord;
@@ -502,7 +502,7 @@ export type DatabaseSchema = {
   "user-saved-key-figure": UserSavedKeyFigureRecord;
   "user-saved-testimonies": UserSavedTestimoniesRecord;
   "user-saved-documents": UserSavedDocumentsRecord;
-  "user-theories": UserTheoriesRecord;
+  "user-notes": UserNotesRecord;
   "user-saved-organizations": UserSavedOrganizationsRecord;
   "user-saved-sightings": UserSavedSightingsRecord;
   tags: TagsRecord;
