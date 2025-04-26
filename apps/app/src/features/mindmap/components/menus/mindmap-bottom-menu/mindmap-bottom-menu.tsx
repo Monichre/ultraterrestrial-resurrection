@@ -94,6 +94,8 @@ export const MindMapBottomMenu = () => {
     },
   })
 
+  console.log('🚀 ~ MindMapBottomMenu ~ input:', input)
+
   // Save messages to localStorage when they change
   useEffect(() => {
     if (messages.length > 0 && typeof window !== 'undefined') {
@@ -557,60 +559,57 @@ export const MindMapBottomMenu = () => {
           return
         }
 
-        // For other commands, process normally
-        if (activeCommand && inputValue.trim() !== '') {
-          switch (activeCommand.toLowerCase()) {
-            case 'search':
-              // Special handling for search
-              if (inputValue.trim() && state.selectedModel) {
-                try {
-                  const results = await initiateDatabaseTableQuery({
-                    table: state.selectedModel,
-                    keyword: inputValue,
-                  } as InitiateQueryParams)
+        switch (activeCommand?.toLowerCase()) {
+          case 'search':
+            // Special handling for search
+            if (inputValue.trim() && state.selectedModel) {
+              try {
+                const results = await initiateDatabaseTableQuery({
+                  table: state.selectedModel,
+                  keyword: inputValue,
+                } as InitiateQueryParams)
 
-                  if (results) {
-                    // Ensure we pass the right structure to loadNodesFromTableQuery
-                    await loadNodesFromTableQuery({
-                      type: state.selectedModel || 'general',
-                      searchResults: Array.isArray(results) ? results : [],
-                      searchTerm: inputValue,
-                    })
-                    setInputValue('')
-                  }
-                } catch (error) {
-                  console.error('Error performing search:', error)
+                if (results) {
+                  // Ensure we pass the right structure to loadNodesFromTableQuery
+                  await loadNodesFromTableQuery({
+                    type: state.selectedModel || 'general',
+                    searchResults: Array.isArray(results) ? results : [],
+                    searchTerm: inputValue,
+                  })
+                  setInputValue('')
                 }
+              } catch (error) {
+                console.error('Error performing search:', error)
               }
-              break
+            }
+            break
 
-            case 'scrape':
-              // Handle the scrape command - send URL to be scraped
-              if (inputValue.trim().startsWith('http')) {
-                submitMessage({preventDefault: () => {}} as React.FormEvent<HTMLFormElement>)
-              }
-              break
-
-            case 'analyze':
-              // Handle analyze command
+          case 'scrape':
+            // Handle the scrape command - send URL to be scraped
+            if (inputValue.trim().startsWith('http')) {
               submitMessage({preventDefault: () => {}} as React.FormEvent<HTMLFormElement>)
-              break
+            }
+            break
 
-            default:
-              // For any other active command, try the oracle action handler
-              if (activeCommand) {
-                handleOracleAction()
-              }
-              break
-          }
-        } else if (state.selectedModel && inputValue.trim()) {
-          // Default behavior for when we have a model and input but no command
-          runSearch({
-            type: state.selectedModel,
-            searchTerm: inputValue,
-          })
-          setInputValue('')
+          case 'analyze':
+            // Handle analyze command
+            submitMessage({preventDefault: () => {}} as React.FormEvent<HTMLFormElement>)
+            break
+
+          default:
+            // For any other active command, try the oracle action handler
+            if (activeCommand) {
+              handleOracleAction()
+            }
+            break
         }
+      } else if (state.selectedModel && inputValue.trim()) {
+        // Default behavior for when we have a model and input but no command
+        runSearch({
+          type: state.selectedModel,
+          searchTerm: inputValue,
+        })
+        setInputValue('')
       }
 
       // Handle Backspace to clear command when empty
@@ -640,20 +639,16 @@ export const MindMapBottomMenu = () => {
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement> | string) => {
+      console.log('🚀 ~ MindMapBottomMenu ~ e:', e)
+
       // Handle both string values and event objects
-      if (typeof e === 'string') {
-        setInputValue(e)
-        if (activeCommand === 'chat' || activeCommand === 'deep research') {
-          setInput(e)
-        }
-      } else {
-        setInputValue(e.target.value)
-        if (activeCommand === 'chat' || activeCommand === 'deep research') {
-          setInput(e.target.value)
-        }
+      setInputValue(e.target.value)
+
+      if (activeCommand === 'chat' || activeCommand === 'deep research') {
+        setInput(e.target.value)
       }
     },
-    [activeCommand, setInput, setInputValue]
+    [activeCommand]
   )
 
   // Properly typed interface for command format
@@ -734,13 +729,15 @@ export const MindMapBottomMenu = () => {
     }
 
     // Only proceed if we have input
-    // if (inputValue.trim() === '') return
+    if (inputValue.trim() === '') return
 
     if (activeCommand === 'chat' || activeCommand === 'deep research') {
       console.log('🚀 ~ handleFormSubmit ~ activeCommand:', activeCommand)
 
+      setInput(inputValue)
+      append({role: 'user', content: inputValue})
       // For chat commands, use submitMessage directly
-      submitMessage(e)
+      // submitMessage(e)
       // Reset input fields after submission
       setInputValue('')
       setInput('')

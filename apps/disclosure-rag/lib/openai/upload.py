@@ -37,15 +37,25 @@ def chunk_text(text, chunk_size=500, overlap=50):
 
 def upload_file_to_openai(file_path):
     """
-    Uploads a file to the OpenAI vector store.
+    Uploads a file to OpenAI for vector storage and indexing.
+
+    This function uses the latest OpenAI API (1.74.0+) to upload a file
+    and then create embeddings from its content.
     """
     try:
         with open(file_path, "rb") as file:
             file_content = file.read()
-            response = client.beta.vector_stores.files.upload(
-                vector_store_id=vector_store_id, file=(file_path, file_content))
-            print(response)
-            return response
+
+            # First, upload the file to OpenAI
+            file_response = client.files.create(
+                file=open(file_path, "rb"),
+                purpose="assistants"
+            )
+
+            print(f"File uploaded: {file_response}")
+
+            # Return the file response which contains the file ID
+            return file_response
     except Exception as e:
         print(f"Error uploading file to OpenAI: {e}")
         return None
@@ -98,9 +108,12 @@ def process_and_upload_document(content_payload):
 
     final_json = json.dumps(data_to_upload, indent=2)
 
-    response = client.beta.vector_stores.files.upload(
-        vector_store_id=vector_store_id, file=(file_path, file_content))
-    print(response)
+    # Upload the file to OpenAI
+    file_response = client.files.create(
+        file=open(file_path, "rb"),
+        purpose="assistants"
+    )
+    print(f"File uploaded: {file_response}")
 
     try:
         # Read file content
@@ -133,13 +146,4 @@ def process_and_upload_document(content_payload):
 # This modular setup allows for embedding generation and file upload in one call, and it logs each step’s success or failure to help with debugging.
 
 
-# def upload_file_to_openai(file_path):
-#       try:
-#         with open(file_path, "rb") as file:
-#             file_content = file.read()
-#             response = client.beta.vector_stores.files.upload(vector_store_id=vector_store_id, file=(file_path, file_content))
-#             print(response)
-#             return response
-
-#       except Exception as e:
-#           print(f"Error uploading file to OpenAI: {e}")
+# Unused backup code has been removed

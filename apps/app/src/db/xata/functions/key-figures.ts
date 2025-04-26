@@ -1,11 +1,6 @@
-import { xata } from "../../xata/client";
-import type { Personnel, PersonnelRecord } from "../../xata/xata";
-import type {
-	TargetColumn,
-	PrefixExpression,
-	Filter,
-	SelectableColumn,
-} from "@xata.io/client";
+import { xata } from "@/db/xata/client";
+import type { Personnel, PersonnelRecord } from "@/db/xata/xata";
+import type { SelectableColumn } from "@xata.io/client";
 
 /**
  * Create a new key figure record

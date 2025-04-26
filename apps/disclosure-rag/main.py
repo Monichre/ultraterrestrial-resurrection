@@ -55,7 +55,7 @@ def main():
             if args.upload:
                 upload = upload_file_to_openai(file_path)
                 summary_upload = upload_file_to_openai(summary_path)
-                if data['metadata_path'] and os.path.exists(data['metadata_path']):
+                if 'metadata_path' in data and data['metadata_path'] and os.path.exists(data['metadata_path']):
                     # Load metadata from file and use the object
                     with open(data['metadata_path'], 'r', encoding='utf-8') as f:
                         metadata_obj = json.load(f)

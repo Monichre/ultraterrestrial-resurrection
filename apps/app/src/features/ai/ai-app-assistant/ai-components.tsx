@@ -22,8 +22,6 @@ function TransactionHistory({transactions}) {
   )
 }
 
-import {useAssistantInstructions} from '@assistant-ui/react'
-
 export function SmartTransactionHistory() {
   useAssistantInstructions(`
     You are a helpful banking assistant that:
