@@ -48,8 +48,6 @@ import { executeDatabaseTableQuery } from "@/db/xata/db/search-operations";
 // };
 
 export async function POST(req: Request) {
-	console.log("🚀 ~ file: route.ts:49 ~ POST ~ req:", req);
-
 	const input: {
 		threadId: string | null;
 		message: string;
@@ -61,7 +59,7 @@ export async function POST(req: Request) {
 			fileName?: string;
 		};
 	} = await req.json();
-
+	console.log("🚀 ~ file: route.ts:51 ~ POST ~ input:", input);
 	const threadId =
 		input.threadId ??
 		(
@@ -78,6 +76,8 @@ export async function POST(req: Request) {
 
 	// If resource context is provided, add it to the message
 	const messageContent = input.message;
+
+	console.log("🚀 ~ POST ~ messageContent:", messageContent);
 
 	if (input.resourceContext) {
 		// Add resource context as system message first
@@ -177,7 +177,7 @@ When answering questions, incorporate this information and cite relevant details
 					additional_instructions: `${NER_EXTRACTION_PROMPT}
 					
 					If user has provided resource context, prioritize information from that source when responding to queries about it. Always cite the specific resource when referencing information from it.`,
-					// tool_choice: { type: "file_search" },
+					tool_choice: "auto",
 					assistant_id:
 						DISCLOSURE_ASSISTANT_ID ??
 						(() => {
@@ -216,6 +216,9 @@ When answering questions, incorporate this information and cite relevant details
 							switch (toolCall.function.name) {
 								case "searchDatabase": {
 									const { query, response } = parameters;
+
+									console.log("🚀 ~ POST ~ response:", response);
+
 									// Use executeDatabaseTableQuery to search the database
 									const searchResults = await executeDatabaseTableQuery({
 										keyword: query,
@@ -235,9 +238,14 @@ When answering questions, incorporate this information and cite relevant details
 								}
 
 								case "transformXYFlow": {
+									console.log("transformXYFlow");
+									console.log("🚀 ~ POST ~ parameters:", parameters);
 									// Call xataToXYFlow with the parameters
 									const { records, query: searchQuery } = parameters;
-									const result = streamText({
+									console.log("🚀 ~ POST ~ searchQuery:", searchQuery);
+									console.log("🚀 ~ POST ~ records:", records);
+
+									const result = await streamText({
 										model: anthropic("claude-3-7-sonnet-20250219"),
 										messages: [
 											{
@@ -254,16 +262,26 @@ When answering questions, incorporate this information and cite relevant details
 											} satisfies AnthropicProviderOptions,
 										},
 									});
-
-									return result.toDataStreamResponse({
-										sendReasoning: true,
-									});
+									return {
+										tool_call_id: toolCall.id,
+										output: result.toDataStreamResponse({
+											sendReasoning: true,
+										}),
+									};
 								}
 
 								default:
-									throw new Error(
-										`Unknown tool call function: ${toolCall.function.name}`,
-									);
+									return {
+										tool_call_id: toolCall.id,
+										output: JSON.stringify({
+											success: false,
+											message: "No tool call function found",
+										}),
+									};
+
+								// throw new Error(
+								// 	`Unknown tool call function: ${toolCall.function.name}`,
+								// );
 							}
 						},
 					),
@@ -275,7 +293,7 @@ When answering questions, incorporate this information and cite relevant details
 						runResult.id,
 						{ tool_outputs },
 						// { signal: req.signal }
-						// tool_outputs[0].tool_call_id,
+						tool_outputs[0].tool_call_id,
 						// { tool_outputs },
 					),
 				);

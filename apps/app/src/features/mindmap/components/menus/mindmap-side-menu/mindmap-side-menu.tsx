@@ -100,7 +100,7 @@ export function MindMapSideMenu() {
     // <CultUIPopoverRoot>
 
     <div className='flex flex-col shadow items-center justify-between rounded-full p-1 border border-white/50 dark:border-neutral-700 text-neutral-500 bg-gradient-to-b from-card/70 rounded-[calc(var(--radius)-2px)]'>
-      <div className='flex flex-col items-center '>
+      <div className='flex flex-col items-center relative'>
         <QuickActionsFloatingPanel />
         {/* <Button
           variant='ghost'
@@ -120,25 +120,6 @@ export function MindMapSideMenu() {
           <ArrowDown className='stroke-1 h-5 w-5 block' stroke={ICON_GREEN} />
           <span className='sr-only'>Open menu</span>
         </Button>
-      </div>
-      <div className='flex flex-col items-center '>
-        <FloatingPanelRoot>
-          <FloatingPanelTrigger className='bg-black'>
-            {' '}
-            <Lightbulb stroke={ICON_GREEN} className='text-white stroke-1' size='18' />
-          </FloatingPanelTrigger>
-
-          <FloatingPanelContent className='bg-black text-white border border-indigo-500/20'>
-            <FloatingPanelForm onSubmit={handleSubmit}>
-              {/* <FloatingPanelLabel htmlFor="note-input">Add Note</FloatingPanelLabel> */}
-              <FloatingPanelTextarea id='note-input' />
-              <FloatingPanelFooter>
-                <FloatingPanelCloseButton />
-                <FloatingPanelSubmitButton />
-              </FloatingPanelFooter>
-            </FloatingPanelForm>
-          </FloatingPanelContent>
-        </FloatingPanelRoot>
       </div>
     </div>
   )
