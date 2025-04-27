@@ -1,5 +1,6 @@
 'use client'
 
+import {LovecraftQuote} from '@/layouts/home/LovecraftQuote'
 import {TitleAlt} from '@/layouts/home/TitleAlt'
 // import { Howl } from 'howler'
 import {AnimatePresence} from 'framer-motion'
@@ -82,12 +83,12 @@ export const Home: React.FC<HomeProps> = () => {
       <CanvasCursor />
       <div className='astronaut h-[100vh] w-full absolute top-0 left-0 flex flex-col justify-center align-middle relative overflow-hidden items-center z-40'>
         {/* @ts-ignore */}
-        <AnimatePresence>
-          {/* <div className='w-full'> */}
-          {/* <SiteTitle /> */}
-          <TitleAlt />
-          {/* <LovecraftQuote /> */}
-        </AnimatePresence>
+        {/* <AnimatePresence> */}
+        {/* <div className='w-full'> */}
+        {/* <SiteTitle /> */}
+        <TitleAlt />
+        {/* <LovecraftQuote /> */}
+        {/* </AnimatePresence> */}
         {/* </div> */}
       </div>
       <ShootingStars />

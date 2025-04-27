@@ -35,9 +35,9 @@ export interface ModelSelectionState {
  */
 export interface UltraterrestrialModelSelectionProps {
   /** Current component state */
-  state: ModelSelectionState
+
   /** Function to update state */
-  updateState: (updates: Partial<ModelSelectionState>) => void
+
   /** Reference to the menu container */
   menuRef: RefObject<HTMLDivElement>
   /** Currently active command */
@@ -48,6 +48,15 @@ export interface UltraterrestrialModelSelectionProps {
   modelSearchActions: ModelAction[]
   /** Chat status for animation effects */
   chatStatus: string
+  /** Whether the model menu is open */
+  modelMenuOpen: boolean
+  /** The currently selected model */
+  selectedModel: string | null
+  /** Whether deep research is enabled */
+  deepResearchEnabled: boolean
+  toggleModelMenu: () => void
+  toggleDeepResearch: () => void
+  updateSelectedModel: (model: string) => void
 }
 
 /**
@@ -55,22 +64,21 @@ export interface UltraterrestrialModelSelectionProps {
  * Shows the currently selected model and provides a dropdown menu to select different models.
  */
 export function UltraterrestrialModelSelection({
-  state,
-  updateState,
+  modelMenuOpen,
+  selectedModel,
+  deepResearchEnabled,
+  toggleModelMenu,
+  updateSelectedModel,
+  toggleDeepResearch,
   menuRef,
   activeCommand,
   removeActiveCommand,
   modelSearchActions,
   chatStatus,
 }: UltraterrestrialModelSelectionProps) {
-  const toggleModelMenu = () => {
-    updateState({isModelMenuOpen: !state.isModelMenuOpen})
+  const handleDeepResearch = () => {
+    toggleDeepResearch()
   }
-
-  const closeModelMenu = () => {
-    updateState({isModelMenuOpen: false})
-  }
-
   return (
     <div className='relative w-full h-auto overflow-hidden'>
       <div className='flex flex-col justify-between items-center  py-4 text-sm text-zinc-600 dark:text-zinc-400'>
@@ -89,8 +97,7 @@ export function UltraterrestrialModelSelection({
                     fill={ICON_GREEN}
                   />
                   <TextShimmer as='span' className='inline-block mr-2'>
-                    Oracle{' '}
-                    {state?.selectedModel && `| ${capitalize(state.selectedModel as string)}`}{' '}
+                    Oracle {selectedModel && `| ${capitalize(selectedModel as string)}`}{' '}
                   </TextShimmer>
                 </div>
               </motion.button>
@@ -117,65 +124,62 @@ export function UltraterrestrialModelSelection({
             <ToggleButton
               icon={<Brain className='w-4 h-4' />}
               label='Deep Research'
-              onClick={() => updateState({deepResearchEnabled: !state.deepResearchEnabled})}
-              useMemory={state.deepResearchEnabled}
+              onClick={handleDeepResearch}
+              useMemory={deepResearchEnabled}
             />
           </div>
-
-          <motion.div
-            ref={menuRef}
-            className='rounded-xl relative flex gap-2 items-center relative w-full duration-200 text-neutral-500 willChange gpu-transform text-neutral-500 bg-neutral-950 bg-gradient-to-b from-black/90'
-            initial={{
-              height: 0,
-            }}
-            animate={{
-              height: state.isModelMenuOpen ? 250 : '0',
-            }}
-            transition={{
-              type: 'spring',
-              stiffness: 500,
-              damping: 30,
-              staggerChildren: 0.1,
-              delayChildren: 0.2,
-            }}>
-            <AnimatePresence>
-              {state.isModelMenuOpen && (
-                <motion.div
-                  key='model-menu'
-                  className='pb-0 flex flex-col h-full items-end rounded-xl justify-evenly absolute w-full text-neutral-500 bg-neutral-950 bg-gradient-to-b from-black/90'
-                  initial={{opacity: 0, y: 20}}
-                  animate={{opacity: 1, y: 0}}>
-                  {modelSearchActions.map((model) => (
-                    <motion.div
-                      className='w-full shrink-0 px-2'
-                      key={model.name}
-                      initial={{opacity: 0, y: 20}}
-                      animate={{opacity: 1, y: 0}}>
-                      <button
-                        type='button'
-                        key={model.name}
-                        className='w-full px-3 py-1.5 text-left hover:bg-black/5 dark:hover:bg-white/5 flex items-center gap-2 text-sm transition-colors dark:text-white'
-                        onClick={() =>
-                          updateState({
-                            selectedModel: model.type,
-                            isModelMenuOpen: false,
-                          })
-                        }>
-                        <div className='flex items-center justify-start gap-2 flex-1'>
-                          {model.icon}
-                          <span className='capitalize'>{model.name}</span>
-                        </div>
-                        <span className='text-xs text-zinc-500 dark:text-zinc-400 capitalize'>
-                          {model.label}
-                        </span>
-                      </button>
-                    </motion.div>
-                  ))}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.div>
         </div>
+        <motion.div
+          ref={menuRef}
+          className='rounded-xl relative flex gap-2 items-center relative w-full duration-200 text-neutral-500 willChange gpu-transform text-neutral-500 bg-neutral-950 bg-gradient-to-b from-black/90'
+          initial={{
+            height: 0,
+          }}
+          animate={{
+            height: modelMenuOpen ? 250 : '0',
+          }}
+          transition={{
+            type: 'spring',
+            stiffness: 500,
+            damping: 30,
+            staggerChildren: 0.1,
+            delayChildren: 0.2,
+          }}>
+          <AnimatePresence>
+            {modelMenuOpen && (
+              <motion.div
+                key='model-menu'
+                className='pb-0 flex flex-col h-full items-end rounded-xl justify-evenly absolute w-full text-neutral-500 bg-neutral-950 bg-gradient-to-b from-black/90'
+                initial={{opacity: 0, y: 20}}
+                animate={{opacity: 1, y: 0}}>
+                {modelSearchActions.map((model) => (
+                  <motion.div
+                    className='w-full shrink-0 px-2'
+                    key={model.name}
+                    initial={{opacity: 0, y: 20}}
+                    animate={{opacity: 1, y: 0}}>
+                    <button
+                      type='button'
+                      key={model.name}
+                      className='w-full px-3 py-1.5 text-left hover:bg-black/5 dark:hover:bg-white/5 flex items-center gap-2 text-sm transition-colors dark:text-white'
+                      onClick={() => {
+                        updateSelectedModel(model.type)
+                        toggleModelMenu()
+                      }}>
+                      <div className='flex items-center justify-start gap-2 flex-1'>
+                        {model.icon}
+                        <span className='capitalize'>{model.name}</span>
+                      </div>
+                      <span className='text-xs text-zinc-500 dark:text-zinc-400 capitalize'>
+                        {model.label}
+                      </span>
+                    </button>
+                  </motion.div>
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
       </div>
     </div>
   )

@@ -17,7 +17,7 @@ import {Tabs, TabsContent, TabsList, TabsTrigger} from '@/components/ui/tabs'
 import {ScrollArea} from '@/components/ui/scroll-area'
 import {useAssistant} from '@ai-sdk/react'
 import {cn} from '@/utils'
-import type {ResearchDepth, ResearchCategory} from '@/services/resource-scrape/firecrawl'
+import type {ResearchDepth, ResearchCategory} from '@/lib/firecrawl/firecrawl'
 
 interface ChatMessage {
   id: string

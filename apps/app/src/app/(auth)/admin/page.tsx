@@ -1,7 +1,4 @@
-// import { getUserByAuthId } from '@/features/user/get-user-by-auth-id'
-import * as React from 'react'
-
-import { AdminDashboard } from '@/features/admin/AdminDashboard'
+import {AdminDashboard} from '@/features/admin/AdminDashboard'
 
 export default async function Index() {
   // Server Action

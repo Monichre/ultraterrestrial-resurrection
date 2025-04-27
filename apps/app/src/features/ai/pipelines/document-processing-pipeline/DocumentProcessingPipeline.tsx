@@ -2,9 +2,9 @@ import {Suspense} from 'react'
 
 import {Skeleton} from '@/components/ui/skeleton'
 import {DocumentSearch, DocumentsList} from '@/features/ai/pipelines'
-import {UploadZoneWrapper} from '@/features/ai/pipelines/document-processing-pipeline/upload-zone'
+import {UploadZoneWrapper} from '@/features/ai/pipelines/document-processing-pipeline/UploadZone'
 
-export default async function Page() {
+export function DocumentProcessingPipeline() {
   return (
     <div className='container max-w-5xl py-6 space-y-8'>
       <div className='flex flex-col items-start pt-6 pb-4 justify-start text-left'>

@@ -446,15 +446,24 @@ export const MindMapBottomMenu = () => {
   const inputRef = useRef<HTMLInputElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const [inputValue, setInputValue] = useState('')
-  const [state, setState] = useState<{
-    selectedModel: string | null
-    isModelMenuOpen: boolean
-    deepResearchEnabled: boolean
-  }>({
-    selectedModel: null,
-    isModelMenuOpen: false,
-    deepResearchEnabled: false,
-  })
+  const [modelMenuOpen, setModelMenuOpen] = useState(false)
+  const [selectedModel, setSelectedModel] = useState<string | null>(null)
+  const [deepResearchEnabled, setDeepResearchEnabled] = useState(false)
+
+  const toggleDeepResearch = () => {
+    setDeepResearchEnabled(!deepResearchEnabled)
+  }
+
+  const updateSelectedModel = (model: string) => {
+    setSelectedModel(model)
+  }
+
+  const closeModelMenu = () => {
+    setModelMenuOpen(false)
+  }
+  const toggleModelMenu = useCallback(() => {
+    setModelMenuOpen(!modelMenuOpen)
+  }, [modelMenuOpen])
 
   // Define a proper type for search results
   interface SearchResult {
@@ -464,11 +473,6 @@ export const MindMapBottomMenu = () => {
   }
 
   const [searchResults, setSearchResults] = useState<SearchResult | null>(null)
-
-  const updateState = useCallback(
-    (updates: Partial<typeof state>) => setState((prev) => ({...prev, ...updates})),
-    []
-  )
 
   const removeActiveCommand = () => {
     setActiveCommand(null)
@@ -488,36 +492,36 @@ export const MindMapBottomMenu = () => {
         setInput('')
         setInputValue('')
       }
-    } else if (activeCommand === 'search' || (inputValue.trim() && state.selectedModel)) {
+    } else if (activeCommand === 'search' || (inputValue.trim() && selectedModel)) {
       // Default to search if there's input and model selected, even without explicit search command
-      if (inputValue.trim() && state?.selectedModel) {
+      if (inputValue.trim() && selectedModel) {
         // Run search action with the current model and input value
         askAIAction({
           question: inputValue,
-          table: state.selectedModel,
+          table: selectedModel,
         }).then((results) => {
           setSearchResults(results)
         })
 
         // Also create a visual representation in the mindmap
         runSearch({
-          type: state.selectedModel,
+          type: selectedModel,
           searchTerm: inputValue,
         })
 
         setInputValue('')
         setInput('')
       }
-    } else if (state.selectedModel) {
-      console.log('🚀 ~ handleOracleAction ~ selectedModel:', state.selectedModel)
+    } else if (selectedModel) {
+      console.log('🚀 ~ handleOracleAction ~ selectedModel:', selectedModel)
 
       // Only if there's no input but a model is selected, add data to mindmap
-      addDataToMindMap(state.selectedModel)
+      addDataToMindMap(selectedModel)
     }
   }, [
     activeCommand,
     inputValue,
-    state.selectedModel,
+    selectedModel,
     submitMessage,
     setInput,
     runSearch,
@@ -546,13 +550,22 @@ export const MindMapBottomMenu = () => {
 
         // If we have an active chat command and input, submit the message directly
         if (
-          (activeCommand === 'chat' || activeCommand === 'deep research') &&
+          (activeCommand === 'chat' ||
+            activeCommand === 'deep research' ||
+            activeCommand === 'scrape') &&
           inputValue.trim() !== ''
         ) {
           console.log('🚀 ~ inputValue:', inputValue)
           // Use the submitMessage function directly with a synthetic form event
-          setInput(inputValue)
-          append({role: 'user', content: inputValue})
+          if (activeCommand === 'scrape') {
+            const content = `scrape this url:${inputValue}`
+            setInput(`${content}`)
+            append({role: 'user', content: content})
+          } else {
+            setInput(inputValue)
+            append({role: 'user', content: inputValue})
+          }
+
           // submitMessage(formEvent)
           setInputValue('')
           setInput('')
@@ -562,17 +575,17 @@ export const MindMapBottomMenu = () => {
         switch (activeCommand?.toLowerCase()) {
           case 'search':
             // Special handling for search
-            if (inputValue.trim() && state.selectedModel) {
+            if (inputValue.trim() && selectedModel) {
               try {
                 const results = await initiateDatabaseTableQuery({
-                  table: state.selectedModel,
+                  table: selectedModel,
                   keyword: inputValue,
                 } as InitiateQueryParams)
 
                 if (results) {
                   // Ensure we pass the right structure to loadNodesFromTableQuery
                   await loadNodesFromTableQuery({
-                    type: state.selectedModel || 'general',
+                    type: selectedModel || 'general',
                     searchResults: Array.isArray(results) ? results : [],
                     searchTerm: inputValue,
                   })
@@ -603,10 +616,10 @@ export const MindMapBottomMenu = () => {
             }
             break
         }
-      } else if (state.selectedModel && inputValue.trim()) {
+      } else if (selectedModel && inputValue.trim()) {
         // Default behavior for when we have a model and input but no command
         runSearch({
-          type: state.selectedModel,
+          type: selectedModel,
           searchTerm: inputValue,
         })
         setInputValue('')
@@ -625,7 +638,7 @@ export const MindMapBottomMenu = () => {
     },
     [
       inputValue,
-      state.selectedModel,
+      selectedModel,
       submitMessage,
       activeCommand,
       handleOracleAction,
@@ -724,8 +737,8 @@ export const MindMapBottomMenu = () => {
   // Update the form submission handler to properly submit chat messages
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (state.selectedModel) {
-      addDataToMindMap(state.selectedModel)
+    if (selectedModel) {
+      addDataToMindMap(selectedModel)
     }
 
     // Only proceed if we have input
@@ -751,8 +764,12 @@ export const MindMapBottomMenu = () => {
     <div className='fixed bottom-0 left-1/2 transform -translate-x-1/2 w-[500px]'>
       <div className='p-0 flex flex-col w-full h-auto relative'>
         <UltraterrestrialModelSelection
-          state={state}
-          updateState={updateState}
+          modelMenuOpen={modelMenuOpen}
+          selectedModel={selectedModel}
+          deepResearchEnabled={deepResearchEnabled}
+          toggleModelMenu={toggleModelMenu}
+          toggleDeepResearch={toggleDeepResearch}
+          updateSelectedModel={updateSelectedModel}
           menuRef={menuRef as React.RefObject<HTMLDivElement>}
           activeCommand={activeCommand}
           removeActiveCommand={removeActiveCommand}
@@ -776,7 +793,7 @@ export const MindMapBottomMenu = () => {
 
           <form onSubmit={handleFormSubmit} className={isChatActive ? 'w-full' : ''}>
             <OracleInput
-              activeModel={state.selectedModel}
+              activeModel={selectedModel}
               activeCommand={activeCommand}
               inputValue={inputValue}
               setInputValue={handleChange}

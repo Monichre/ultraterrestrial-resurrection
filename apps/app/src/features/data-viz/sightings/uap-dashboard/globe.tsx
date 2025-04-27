@@ -61,11 +61,18 @@ function Earth({focusedLocation, sightings = [], children}: EarthProps) {
   const {camera} = useThree()
 
   // Load Earth textures
-  const [earthMap, earthNormalMap, earthSpecularMap, earthCloudsMap] = useTexture([
-    '/assets/scenes/earth/textures/textures/Material_50_baseColor.jpeg',
-    '/assets/scenes/earth/textures/textures/Material_50_normal.jpeg',
-    '/assets/scenes/earth/textures/textures/Material_50_Roughness.jpeg',
-    '/assets/scenes/earth/textures/textures/Material_50_Metallic.jpeg',
+  const [
+    earthBaseColorMap,
+    earthNormalMap,
+    earthMetallicRoughnessMap,
+    earthEmissiveMap,
+    cloudsMap, // Add a separate clouds map, guessing Material_62_baseColor
+  ] = useTexture([
+    '/assets/scenes/earth/textures/Material_50_baseColor.jpeg',
+    '/assets/scenes/earth/textures/Material_50_normal.png',
+    '/assets/scenes/earth/textures/Material_50_metallicRoughness.png',
+    '/assets/scenes/earth/textures/Material_50_emissive.jpeg',
+    '/assets/scenes/earth/textures/Material_62_baseColor.png', // Using Material_62 for clouds
   ])
 
   // Create particles for the surrounding field
@@ -284,35 +291,27 @@ function Earth({focusedLocation, sightings = [], children}: EarthProps) {
 
   return (
     <>
-      <OrbitControls
-        ref={controlsRef}
-        enablePan={false}
-        minDistance={3}
-        maxDistance={8}
-        enableDamping
-        dampingFactor={0.05}
-        rotateSpeed={0.5}
-      />
+      <OrbitControls ref={controlsRef} enableZoom={true} enablePan={false} />
 
       {/* Earth */}
       <Sphere ref={earthRef} args={[2, 64, 64]}>
-        <meshPhongMaterial
-          map={earthMap}
+        {/* Use meshStandardMaterial for PBR */}
+        <meshStandardMaterial
+          map={earthBaseColorMap}
           normalMap={earthNormalMap}
-          specularMap={earthSpecularMap}
-          shininess={5}
-          specular={new Color(0xffffff)}
+          metalnessMap={earthMetallicRoughnessMap} // Use metalnessMap/roughnessMap with metallicRoughness texture
+          roughnessMap={earthMetallicRoughnessMap}
+          emissiveMap={earthEmissiveMap} // Add emissive map
+          emissive={new Color(0xffffff)} // Set emissive color if map is used
+          emissiveIntensity={1} // Adjust intensity as needed
+          metalness={0.4} // Adjust default metalness if needed
+          roughness={0.8} // Adjust default roughness if needed
         />
       </Sphere>
 
       {/* Clouds */}
       <Sphere ref={cloudsRef} args={[2.005, 64, 64]}>
-        <meshPhongMaterial
-          map={earthCloudsMap}
-          transparent={true}
-          opacity={0.4}
-          depthWrite={false}
-        />
+        <meshPhongMaterial map={cloudsMap} transparent={true} opacity={0.4} depthWrite={false} />
       </Sphere>
 
       {/* Atmosphere */}

@@ -80,7 +80,7 @@ export async function POST(req: Request) {
 					},
 				],
 				additional_instructions: `
-						${NER_EXTRACTION_PROMPT}
+						
 						
 						# Sequential Tool Execution Instructions
 						Always follow this exact sequence:
@@ -88,6 +88,8 @@ export async function POST(req: Request) {
 						2. Then use searchDatabase with entities extracted from the file_search results
 						
 						Do not skip either step, and make sure to extract entities from the first result.
+
+						${NER_EXTRACTION_PROMPT}
 					`,
 				assistant_id:
 					DISCLOSURE_ASSISTANT_ID ??

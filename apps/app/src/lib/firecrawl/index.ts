@@ -1,4 +1,7 @@
 import FirecrawlApp from "@mendable/firecrawl-js";
+import type { ZodType, ZodTypeDef } from "zod";
+import type { z } from "zod";
+import { zodToJsonSchema } from "zod-to-json-schema";
 
 // Initialize the FireCrawl client with API key
 export const fireCrawl = new FirecrawlApp({
@@ -6,9 +9,21 @@ export const fireCrawl = new FirecrawlApp({
 		process.env.FIRECRAWL_API_KEY || process.env.NEXT_PUBLIC_FIRECRAWL_API_KEY,
 });
 
-// Types for FireCrawl functions
+// Canonical types
+export type Format =
+	| "content"
+	| "html"
+	| "json"
+	| "markdown"
+	| "extract"
+	| "screenshot"
+	| "rawHtml"
+	| "links"
+	| "screenshot@fullPage"
+	| "changeTracking";
+
 export type ScrapeOptions = {
-	formats?: string[];
+	formats?: Format[];
 	waitFor?: number;
 	onlyMainContent?: boolean;
 	mobile?: boolean;
@@ -36,16 +51,20 @@ export type ScrapeOptions = {
 	}>;
 	extract?: {
 		prompt?: string;
-		schema?: Record<string, any>;
+		schema?: ZodType<any, ZodTypeDef, any>;
 		systemPrompt?: string;
 	};
 	excludeTags?: string[];
 	includeTags?: string[];
 	removeBase64Images?: boolean;
+	agent?: {
+		model: "FIRE-1";
+		prompt: string;
+	};
 };
 
 export type BatchScrapeOptions = {
-	formats?: string[];
+	formats?: Format[];
 	options?: {
 		excludeTags?: string[];
 		includeTags?: string[];
@@ -77,12 +96,16 @@ export type MapOptions = {
 };
 
 export type ExtractOptions = {
-	schema?: Record<string, any>;
+	schema?: ZodType<any, ZodTypeDef, any>;
 	prompt?: string;
 	systemPrompt?: string;
 	allowExternalLinks?: boolean;
 	includeSubdomains?: boolean;
 	enableWebSearch?: boolean;
+	agent?: {
+		model: "FIRE-1";
+		prompt: string;
+	};
 };
 
 export type DeepResearchOptions = {
@@ -92,25 +115,52 @@ export type DeepResearchOptions = {
 	query: string;
 };
 
-export type ChangeTrackingOptions = {
-	lastCheckpoint?: string;
-	comparisonType?: "content" | "visual" | "both";
-	ignoreCssPaths?: string[];
-	ignoreTextRegex?: string;
-	visualDiffOptions?: {
-		threshold?: number;
-		highlightColor?: string;
-	};
+/**
+ * Enhanced scrape function with optional FIRE-1 agent for advanced navigation.
+ * @param url URL to scrape
+ * @param options Scrape options
+ * @param agent Optional FIRE-1 agent config ({ model: 'FIRE-1', prompt: string })
+ * @returns Scraped content in requested formats
+ * @example
+ * await enhancedScrapeContent('https://example.com', { formats: ['html'] }, { model: 'FIRE-1', prompt: 'Click next until done.' })
+ */
+export const enhancedScrapeContent = async (
+	url: string,
+	options: ScrapeOptions = {},
+	agent?: { model: "FIRE-1"; prompt: string },
+) => {
+	if (agent) options.agent = agent;
+	return await fireCrawl.scrapeUrl(url, options);
 };
 
 /**
- * Scrape a single URL with customizable options
- * @param url URL to scrape
- * @param options Scrape options
- * @returns Scraped content in requested formats
+ * Enhanced extract function with optional FIRE-1 agent for advanced extraction.
+ * Accepts Zod or JSON schema.
+ * @param urls URLs to extract from
+ * @param schema Zod schema or JSON schema
+ * @param prompt Extraction prompt
+ * @param agent Optional FIRE-1 agent config ({ model: 'FIRE-1' })
+ * @returns Extracted structured data
+ * @example
+ * await enhancedExtractContent(['https://forum.com'], z.object({ ... }), 'Extract all comments', { model: 'FIRE-1' })
  */
-export const scrapeUrl = async (url: string, options: ScrapeOptions = {}) => {
-	return await fireCrawl.scrapeUrl(url, options);
+export const enhancedExtractContent = async (
+	urls: string[],
+	schema: object | z.ZodType<any, any, any>,
+	prompt: string,
+	agent?: { model: "FIRE-1" },
+) => {
+	let jsonSchema: object;
+	if (typeof (schema as any).safeParse === "function") {
+		jsonSchema = zodToJsonSchema(schema as z.ZodType<any, any, any>);
+	} else {
+		jsonSchema = schema;
+	}
+	return await fireCrawl.extract(urls, {
+		prompt,
+		schema: jsonSchema,
+		agent,
+	});
 };
 
 /**
@@ -194,6 +244,9 @@ export const mapUrl = async (url: string, options: MapOptions = {}) => {
  * Extract structured data from web pages using LLM
  * @param urls URLs to extract data from
  * @param options Extract options
+ * @param options.agent Optional FIRE-1 agent configuration for intelligent web navigation
+ * @param options.agent.model Set to "FIRE-1" to use the AI agent
+ * @param options.agent.prompt Detailed instructions for the agent to navigate and extract from the webpage
  * @returns Structured data extracted from pages
  */
 export const extract = async (urls: string[], options: ExtractOptions) => {
@@ -210,22 +263,9 @@ export const extract = async (urls: string[], options: ExtractOptions) => {
 export const deepResearch = async (
 	query: string,
 	options: DeepResearchOptions = {},
-	onActivity?: (activity: any) => void,
+	onActivity?: (activity: unknown) => void,
 ) => {
 	return await fireCrawl.deepResearch(query, options, onActivity);
-};
-
-/**
- * Track changes to a webpage over time
- * @param url URL to monitor
- * @param options Change tracking options
- * @returns Changes detected since last check
- */
-export const trackChanges = async (
-	url: string,
-	options: ChangeTrackingOptions = {},
-) => {
-	return await fireCrawl.trackChanges(url, options);
 };
 
 /**
@@ -234,11 +274,11 @@ export const trackChanges = async (
  * @param options Options for LLMs.txt generation
  * @returns Generated LLMs.txt content
  */
-export const generateLLMsTxt = async (
+export const generateLLMsText = async (
 	url: string,
 	options: { maxUrls?: number; showFullText?: boolean } = {},
 ) => {
-	return await fireCrawl.generateLLMsTxt(url, options);
+	return await fireCrawl.generateLLMsText(url, options);
 };
 
 /**

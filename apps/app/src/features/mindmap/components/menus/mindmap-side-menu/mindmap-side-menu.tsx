@@ -97,12 +97,11 @@ export function MindMapSideMenu() {
 
   return (
     // max-w-max m-auto
-    // <CultUIPopoverRoot>
-
-    <div className='flex flex-col shadow items-center justify-between rounded-full p-1 border border-white/50 dark:border-neutral-700 text-neutral-500 bg-gradient-to-b from-card/70 rounded-[calc(var(--radius)-2px)]'>
-      <div className='flex flex-col items-center relative'>
-        <QuickActionsFloatingPanel />
-        {/* <Button
+    <FloatingPanelRoot>
+      <div className='flex flex-col shadow items-center justify-between rounded-full p-1 border border-white/50 dark:border-neutral-700 text-neutral-500 bg-gradient-to-b from-card/70 rounded-[calc(var(--radius)-2px)]'>
+        <div className='flex flex-col items-center relative'>
+          <QuickActionsFloatingPanel />
+          {/* <Button
           variant='ghost'
           size='icon'
           className='text-zinc-100 rounded-full hover:bg-gray-600 hover:text-zinc-100 m-2'
@@ -112,15 +111,16 @@ export function MindMapSideMenu() {
           <span className='sr-only'>Open menu</span>
         </Button> */}
 
-        <Button
-          variant='ghost'
-          size='icon'
-          className='text-zinc-100 rounded-full hover:bg-gray-600 hover:text-zinc-100 m-2'
-          onClick={saveMindMap}>
-          <ArrowDown className='stroke-1 h-5 w-5 block' stroke={ICON_GREEN} />
-          <span className='sr-only'>Open menu</span>
-        </Button>
+          <Button
+            variant='ghost'
+            size='icon'
+            className='text-zinc-100 rounded-full hover:bg-gray-600 hover:text-zinc-100 m-2'
+            onClick={saveMindMap}>
+            <ArrowDown className='stroke-1 h-5 w-5 block' stroke={ICON_GREEN} />
+            <span className='sr-only'>Open menu</span>
+          </Button>
+        </div>
       </div>
-    </div>
+    </FloatingPanelRoot>
   )
 }

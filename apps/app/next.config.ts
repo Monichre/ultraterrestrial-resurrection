@@ -52,9 +52,6 @@ const nextConfig = {
 			"@react-three/drei",
 			"@react-three/fiber",
 		],
-		turbo: {
-			treeShaking: true,
-		},
 	},
 };
 

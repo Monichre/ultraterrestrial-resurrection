@@ -195,7 +195,7 @@ export const QuickActionsFloatingPanel = () => {
   }))
 
   return (
-    <FloatingPanelRoot>
+    <>
       <FloatingPanelTrigger
         title='Entity Menu'
         className='flex items-center space-x-4 px-4 py-2 dark:bg-black text-white rounded-md transition-colors text-center'
@@ -234,6 +234,6 @@ export const QuickActionsFloatingPanel = () => {
           />
         </FloatingPanelFooter>
       </FloatingPanelContent>
-    </FloatingPanelRoot>
+    </>
   )
 }

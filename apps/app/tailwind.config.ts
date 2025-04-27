@@ -49,6 +49,7 @@ const config = {
 				neueHaas: ["var(--font-neue-haas)"],
 				monument: ["var(--font-monument)"],
 				monumentMono: ["var(--font-monument-mono)"],
+				justAnotherHand: ["var(--font-just-another-hand)"],
 				lukasSans: ["var(--font-lukas-sans})"],
 			},
 			colors: {
