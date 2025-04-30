@@ -7,8 +7,9 @@
  */
 'use client'
 
-import {useState, useCallback} from 'react'
+import {useState, useCallback, useEffect} from 'react'
 import {toast} from 'sonner'
+import {useUnifiedPipeline} from '../unified/AIPipeline'
 
 import {AgentHeader} from './agent-header'
 import {ActionButtons, InputPanel} from './agent-input-panel'
@@ -29,6 +30,9 @@ const initialParams = {
 }
 
 export function AgentExecutionPipeline() {
+  // Get the unified pipeline context
+  const {addAgentData, setIsProcessing: setUnifiedIsProcessing} = useUnifiedPipeline()
+
   // State Management
   const [inputs, setInputs] = useState<Record<string, string>>({}) // Stores user input fields
   const [selectedExampleIndex, setSelectedExampleIndex] = useState(null) // Currently selected example index
@@ -41,6 +45,11 @@ export function AgentExecutionPipeline() {
   const [params, setParams] = useState(initialParams) // AI model parameters
   const [inputHistory, setInputHistory] = useState<Record<string, string[]>>({}) // History of previous inputs by agent type
   const [outputDrawerOpen, setOutputDrawerOpen] = useState(false) // Mobile output drawer state
+
+  // Sync loading state with unified pipeline
+  useEffect(() => {
+    setUnifiedIsProcessing(loading)
+  }, [loading, setUnifiedIsProcessing])
 
   // Responsive design hook for mobile detection
   const isMobile = useMediaQuery('(max-width: 768px)')
@@ -136,15 +145,50 @@ export function AgentExecutionPipeline() {
         setOutput(result)
         // Attempt to parse the output as JSON
         try {
-          setParsedOutput(JSON.parse(result))
+          const parsedResult = JSON.parse(result)
+          setParsedOutput(parsedResult)
+
+          // Add to the unified pipeline
+          const mainInputKey = Object.keys(inputs)[0]
+          const prompt = mainInputKey
+            ? `${mainInputKey}: ${inputs[mainInputKey]}`
+            : 'Agent execution'
+
+          addAgentData({
+            prompt,
+            result: parsedResult,
+          })
         } catch {
           setParsedOutput(null)
+
+          // Add to the unified pipeline anyway
+          const mainInputKey = Object.keys(inputs)[0]
+          const prompt = mainInputKey
+            ? `${mainInputKey}: ${inputs[mainInputKey]}`
+            : 'Agent execution'
+
+          addAgentData({
+            prompt,
+            result: {rawOutput: result},
+          })
         }
       } else {
         // Handle error responses
         setOutput(result?.error?.message || 'Unknown error')
         toast.error(result?.error?.message || 'Unknown error')
         setParsedOutput({error: true, message: result?.error?.message || 'Unknown error'})
+
+        // Add error to unified pipeline
+        const mainInputKey = Object.keys(inputs)[0]
+        const prompt = mainInputKey ? `${mainInputKey}: ${inputs[mainInputKey]}` : 'Agent execution'
+
+        addAgentData({
+          prompt,
+          result: {
+            error: true,
+            message: result?.error?.message || 'Unknown error',
+          },
+        })
       }
       // Add current input to agent-specific history
       setInputHistory((prev) => ({

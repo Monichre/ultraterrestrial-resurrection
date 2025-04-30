@@ -1,14 +1,14 @@
 'use client'
 
 import {useState, useEffect} from 'react'
-import {useDebounce} from 'use-debounce'
+
 import {Search, Loader2} from 'lucide-react'
 import {Input} from '@/components/ui/input'
 import {ScrollArea} from '@/components/ui/scroll-area'
 import {Badge} from '@/components/ui/badge'
 import {Card} from '@/components/ui/card'
-import {searchDocumentChunks} from '../lib/actions'
-import {Database} from '../lib/db/types'
+import {searchDocumentChunks} from '@/features/ai/actions/document-processing.actions'
+import {useDebounce} from 'react-use'
 
 type DocumentChunk = {
   id: string

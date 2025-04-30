@@ -12,7 +12,7 @@ import {RecordsTable} from '@/features/admin/ui/RecordsTable'
 import {SelectedRecordsList} from './ui/SelectedRecordsList'
 
 import {DotPattern} from '@/components/backgrounds'
-import {AdminDashboardGlobe} from '@/components/globes/cobe-globes'
+// import {AdminDashboardGlobe} from '@/components/globes/cobe-globes'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -21,13 +21,6 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
-import {
-  getAllEvents,
-  getAllOrganizations,
-  getAllTestimonies,
-  getAllTopics,
-} from '@/db/xata/db/models'
-import {getAllKeyFigures} from '@/db/xata/functions/key-figures'
 
 export const Logo = () => {
   return (
@@ -98,11 +91,11 @@ const makeLinks = (updateCurrentSection) => [
 ]
 export const AdminDashboard = (props: any) => {
   const [activeSection, setActiveSection]: any = useState('events')
-  const [events, setEvents]: any = useState(null)
-  const [topics, setTopics]: any = useState(null)
-  const [personnel, setPersonnel]: any = useState(null)
-  const [testimonies, setTestimonies]: any = useState(null)
-  const [organizations, setOrganizations]: any = useState(null)
+  const [events, setEvents]: any = useState(props.events)
+  const [topics, setTopics]: any = useState(props.topics)
+  const [personnel, setPersonnel]: any = useState(props.personnel)
+  const [testimonies, setTestimonies]: any = useState(props.testimonies)
+  const [organizations, setOrganizations]: any = useState(props.organizations)
   const [selectedRecords, setSelectedRecords]: any = useState([])
 
   const activeRecords =
@@ -132,30 +125,6 @@ export const AdminDashboard = (props: any) => {
     setSelectedRecords((selectedRecords: any) => [...selectedRecords, item])
   }, [])
 
-  useEffect(() => {
-    if (activeSection === 'events' && !events?.length) {
-      getAllEvents().then((res: any) => setEvents(res))
-    }
-    if (activeSection === 'personnel' && !personnel?.length) {
-      getAllKeyFigures().then((res: any) => setPersonnel(res))
-    }
-    if (activeSection === 'topics' && !topics?.length) {
-      getAllTopics().then((res: any) => setTopics(res))
-    }
-    if (activeSection === 'testimonies' && !testimonies?.length) {
-      getAllTestimonies().then((res: any) => setTestimonies(res))
-    }
-    if (activeSection === 'organizations' && !organizations?.length) {
-      getAllOrganizations().then((res: any) => setOrganizations(res))
-    }
-  }, [
-    activeSection,
-    events,
-    organizations?.length,
-    personnel?.length,
-    testimonies?.length,
-    topics?.length,
-  ])
   return (
     <div
       className={cn(
@@ -228,7 +197,7 @@ export const AdminDashboard = (props: any) => {
           <div className='w-full flex justify-between relative overflow-hidden z-20'>
             <SelectedRecordsList selectedRecords={selectedRecords} />
 
-            {activeSection === 'events' && selectedRecords && (
+            {/* {activeSection === 'events' && selectedRecords && (
               <div className='min-w-[400px] h-[400px] w-auto relative overflow-hidden'>
                 <AdminDashboardGlobe
                   markers={
@@ -241,7 +210,7 @@ export const AdminDashboard = (props: any) => {
                   }
                 />
               </div>
-            )}
+            )} */}
           </div>
           {activeSection && activeRecords && (
             <RecordsTable

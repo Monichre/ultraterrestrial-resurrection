@@ -1,10 +1,10 @@
 'use client'
-import React, { useEffect } from 'react'
+import React, {useEffect} from 'react'
 
 import Image from 'next/image'
-import { MoreHorizontal } from 'lucide-react'
-import { cn } from '@/utils/cn'
-import { Button } from '@/components/ui/button'
+import {MoreHorizontal} from 'lucide-react'
+import {cn} from '@/utils/cn'
+import {Button} from '@/components/ui/button'
 import {
   Card,
   CardContent,
@@ -20,16 +20,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
-import { TableConfig } from '@/features/admin/ui/columns'
-import { Badge } from '@/components/ui/badge'
+import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from '@/components/ui/table'
+
+import {Badge} from '@/components/ui/badge'
 import {
   type SortingState,
   type ColumnFiltersState,
@@ -42,35 +35,65 @@ import {
   flexRender,
   type ColumnDef,
 } from '@tanstack/react-table'
-import { AnimatedGridPatternBackground } from '@/components/backgrounds/animated-grid-pattern'
-import { Input } from '@/components/ui/input'
+import {AnimatedGridPatternBackground} from '@/components/backgrounds/animated-grid-pattern'
+import {Input} from '@/components/ui/input'
 
-export function RecordsTable( {
-  model,
-  records,
-  addItemToSelectedRecordsList,
-}: any ) {
-  console.log( 'model: ', model )
-  console.log( 'records: ', records )
-  console.log( 'TableConfig: ', TableConfig )
-  const columns = TableConfig[model].columns
-  console.log( 'columns: ', columns )
+export function RecordsTable({model, records, addItemToSelectedRecordsList}: any) {
+  console.log('model: ', model)
+  console.log('records: ', records)
 
-  const [sorting, setSorting] = React.useState<SortingState>( [] )
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  )
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>( {} )
-  const [rowSelection, setRowSelection] = React.useState( {} )
-
-  const handleRowClick = ( { id, original: item }: any ) => {
-    console.log( 'item: ', item )
-    addItemToSelectedRecordsList( { rowId: id, ...item } )
+  // Define table configuration based on model
+  const tableConfig = {
+    users: {
+      columns: [
+        {
+          accessorKey: 'name',
+          header: 'Name',
+        },
+        {
+          accessorKey: 'email',
+          header: 'Email',
+        },
+        {
+          accessorKey: 'role',
+          header: 'Role',
+        },
+      ],
+    },
+    products: {
+      columns: [
+        {
+          accessorKey: 'name',
+          header: 'Name',
+        },
+        {
+          accessorKey: 'price',
+          header: 'Price',
+        },
+        {
+          accessorKey: 'category',
+          header: 'Category',
+        },
+      ],
+    },
+    // Add other models as needed
   }
-  console.log( 'rowSelection: ', rowSelection )
 
-  const table = useReactTable( {
+  const columns = tableConfig[model]?.columns || []
+  console.log('columns: ', columns)
+
+  const [sorting, setSorting] = React.useState<SortingState>([])
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
+  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
+  const [rowSelection, setRowSelection] = React.useState({})
+
+  const handleRowClick = ({id, original: item}: any) => {
+    console.log('item: ', item)
+    addItemToSelectedRecordsList({rowId: id, ...item})
+  }
+  console.log('rowSelection: ', rowSelection)
+
+  const table = useReactTable({
     data: records,
     columns,
     onSortingChange: setSorting,
@@ -83,7 +106,7 @@ export function RecordsTable( {
     enableRowSelection: true,
     enableMultiRowSelection: true,
     onRowSelectionChange: setRowSelection,
-    getRowId: ( row: any ) => row?.uuid,
+    getRowId: (row: any) => row?.uuid,
 
     state: {
       sorting,
@@ -91,20 +114,20 @@ export function RecordsTable( {
       columnVisibility,
       rowSelection,
     },
-  } )
+  })
 
-  useEffect( () => {
-    console.log( 'rowSelection: ', rowSelection )
-    if ( Object.keys( rowSelection ).length > 0 ) {
+  useEffect(() => {
+    console.log('rowSelection: ', rowSelection)
+    if (Object.keys(rowSelection).length > 0) {
       const selected = table.getSelectedRowModel().rows
-      console.log( 'selected: ', selected )
-      const models = selected.map( ( { id, original }: any ) => ( {
+      console.log('selected: ', selected)
+      const models = selected.map(({id, original}: any) => ({
         rowId: id,
         ...original,
-      } ) )
-      models.forEach( ( model ) => addItemToSelectedRecordsList( model ) )
+      }))
+      models.forEach((model) => addItemToSelectedRecordsList(model))
     }
-  }, [addItemToSelectedRecordsList, rowSelection, table] )
+  }, [addItemToSelectedRecordsList, rowSelection, table])
 
   // bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-gray-700 via-gray-900 to-black
   // bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-indigo-300 via-lime-900 to-lime-100
@@ -139,47 +162,40 @@ export function RecordsTable( {
         <Table>
           <TableHeader>
             <TableRow>
-              {columns.map( ( column: any ) => (
+              {columns.map((column: any) => (
                 <TableHead
                   className='font-bebasNeuePro uppercase font-medium !tracking-[1px] !text-white'
-                  key={column.header}
-                >
+                  key={column.header}>
                   {column.header}
                 </TableHead>
-              ) )}
+              ))}
             </TableRow>
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map( ( row ) => (
+              table.getRowModel().rows.map((row) => (
                 <TableRow
                   className='hover:bg-gray-100 bg-[#000001]'
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}
-                // onClick={() => handleRowClick(row)}
+                  // onClick={() => handleRowClick(row)}
                 >
-                  {row.getVisibleCells().map( ( cell ) => {
-                    console.log( 'cell: ', cell )
+                  {row.getVisibleCells().map((cell) => {
+                    console.log('cell: ', cell)
                     const columnName = cell.column.id
                     const isDescription = columnName === 'description'
                     const className = isDescription ? 'w-content' : 'w-content'
                     return (
                       <TableCell key={cell.id} className={className}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </TableCell>
                     )
-                  } )}
+                  })}
                 </TableRow>
-              ) )
+              ))
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className='h-24 text-center w-min'
-                >
+                <TableCell colSpan={columns.length} className='h-24 text-center w-min'>
                   No results.
                 </TableCell>
               </TableRow>
@@ -193,16 +209,14 @@ export function RecordsTable( {
             variant='outline'
             size='sm'
             onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
+            disabled={!table.getCanPreviousPage()}>
             Previous
           </Button>
           <Button
             variant='outline'
             size='sm'
             onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
+            disabled={!table.getCanNextPage()}>
             Next
           </Button>
         </div>

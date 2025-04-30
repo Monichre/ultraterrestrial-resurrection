@@ -1,5 +1,5 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
-import type { Database } from "../db/types";
+
 import { openai } from "@ai-sdk/openai";
 import { embedMany } from "ai";
 import pMap from "p-map";

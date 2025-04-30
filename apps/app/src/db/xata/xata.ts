@@ -373,7 +373,7 @@ const tables = [
   },
   { name: "case-files", columns: [] },
   {
-    name: "key-personnel",
+    name: "key-figures",
     columns: [
       { name: "name", type: "text" },
       { name: "bio", type: "text" },
@@ -479,8 +479,8 @@ export type ArtifactsRecord = Artifacts & XataRecord;
 export type CaseFiles = InferredTypes["case-files"];
 export type CaseFilesRecord = CaseFiles & XataRecord;
 
-export type KeyPersonnel = InferredTypes["key-personnel"];
-export type KeyPersonnelRecord = KeyPersonnel & XataRecord;
+export type KeyFigures = InferredTypes["key-figures"];
+export type KeyFiguresRecord = KeyFigures & XataRecord;
 
 export type DatabaseSchema = {
   topics: TopicsRecord;
@@ -510,7 +510,7 @@ export type DatabaseSchema = {
   mindmaps: MindmapsRecord;
   artifacts: ArtifactsRecord;
   "case-files": CaseFilesRecord;
-  "key-personnel": KeyPersonnelRecord;
+  "key-figures": KeyFiguresRecord;
 };
 
 const DatabaseClient = buildClient();

@@ -11,7 +11,7 @@ from lib.web_content_processor import WebContentProcessor
 from lib.youtube import (generate_transcript,
                          parse_file_and_generate_transcript,
                          write_transcript_to_file)
-from processing.queue import add_processed_content_to_queue
+from lib.upstash.queue import add_processed_content_to_queue
 
 web_processor = WebContentProcessor()
 
@@ -47,7 +47,9 @@ def main():
             url = metadata['url']
 
         if content and summary:
+            # Write full content file
             file_path = write_transcript_to_file(title, markdown, url, None)
+            # Write summary file
             summary_path = write_transcript_to_file(
                 summary_title, summary, url, None)
             print(f"Content saved to: {file_path}")
@@ -59,9 +61,11 @@ def main():
                     # Load metadata from file and use the object
                     with open(data['metadata_path'], 'r', encoding='utf-8') as f:
                         metadata_obj = json.load(f)
-                    add_processed_content_to_queue(metadata_obj, summary_path)
+                    add_processed_content_to_queue(
+                        metadata_obj, summary_path, file_path)
                 else:
-                    add_processed_content_to_queue(metadata, summary_path)
+                    add_processed_content_to_queue(
+                        metadata, summary_path, file_path)
                 print(upload)
                 print(summary_upload)
                 return upload, summary_upload
@@ -87,7 +91,7 @@ def main():
                 with open(data['metadata_path'], 'r', encoding='utf-8') as f:
                     metadata_obj = json.load(f)
                 add_processed_content_to_queue(
-                    metadata_obj, data['summary_path'])
+                    metadata_obj, data['summary_path'], data['file_path'])
             return data
         return data
 
@@ -107,7 +111,7 @@ def main():
                 with open(data['metadata_path'], 'r', encoding='utf-8') as f:
                     metadata_obj = json.load(f)
                 add_processed_content_to_queue(
-                    metadata_obj, data['summary_path'])
+                    metadata_obj, data['summary_path'], data['file_path'])
             return data
 
         else:

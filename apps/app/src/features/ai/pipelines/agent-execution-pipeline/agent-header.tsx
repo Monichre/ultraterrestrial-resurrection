@@ -10,9 +10,9 @@ import {
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from '@/components/ui/select'
 
 import {Copy, Eraser, MoreVertical} from 'lucide-react'
-import type {AgentType} from '../lib/types'
-import {agentSelectorVariants} from '../lib/animations'
-import {useMediaQuery} from '../hooks/use-media-query'
+import {useMediaQuery} from 'usehooks-ts'
+import type {AgentType} from '@/features/ai/pipelines/types'
+import {agentSelectorVariants} from '@/utils/animations'
 
 interface AgentHeaderProps {
   selectedAgent: string
@@ -72,7 +72,7 @@ export function AgentHeader({
       ) : (
         <div className='flex items-center gap-1  rounded-full '>
           {agentTypes.map((agent) => (
-            <button
+            <motion.button
               key={agent.id}
               onClick={() => onAgentChange(agent.id)}
               className={`${
@@ -92,7 +92,7 @@ export function AgentHeader({
               )}
 
               {agent.name}
-            </button>
+            </motion.button>
           ))}
         </div>
       )}

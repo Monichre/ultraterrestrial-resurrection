@@ -1,7 +1,16 @@
+import {getAllOrganizations} from '@/db/xata/db/models'
+import {getAllEvents, getAllTestimonies, getAllTopics} from '@/db/xata/db/models'
+import {getAllKeyFigures} from '@/db/xata/functions/key-figures'
 import {AdminDashboard} from '@/features/admin/AdminDashboard'
 
 export default async function Index() {
   // Server Action
+
+  const events = await getAllEvents()
+  const keyFigures = await getAllKeyFigures()
+  const topics = await getAllTopics()
+  const testimonies = await getAllTestimonies()
+  const organizations = await getAllOrganizations()
 
   return (
     <div className='h-[100vh] overflow-hidden admin bg-black relative'>
@@ -23,7 +32,13 @@ export default async function Index() {
           id='div-4'
         />
       </div>
-      <AdminDashboard />
+      <AdminDashboard
+        events={events}
+        keyFigures={keyFigures}
+        topics={topics}
+        testimonies={testimonies}
+        organizations={organizations}
+      />
     </div>
   )
 }

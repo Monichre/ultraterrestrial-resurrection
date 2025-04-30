@@ -1,7 +1,6 @@
 import {
 	fireCrawl,
-	scrapeUrl,
-	crawlUrl,
+	enhancedScrapeContent,
 	batchScrapeUrls,
 	deepResearch as fireDeepResearch,
 	type DeepResearchOptions as FireDeepResearchOptions,
@@ -56,7 +55,7 @@ export const scrapeWithFireCrawl = async ({
 			"Extract all data related to Events, Topics, Key Figures, Sightings, Artifacts, Testimonies, and any other relevant information as it concerns UFO/UAP Phenomenon",
 	},
 }: { url: string; formats: Format[]; extract: { prompt: string } }) => {
-	return await scrapeUrl(url, {
+	return await enhancedScrapeContent(url, {
 		formats,
 		extract: {
 			prompt: extract.prompt,
@@ -158,7 +157,7 @@ export const deepResearch = async (
 					};
 				}
 				// Use standard scrape for single-page analysis
-				const scrapeResponse = await scrapeUrl(url, {
+				const scrapeResponse = await enhancedScrapeContent(url, {
 					formats: depthConfig[depth].formats,
 					extract: {
 						prompt: extractionPrompt,

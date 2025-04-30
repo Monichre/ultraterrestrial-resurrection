@@ -7,7 +7,7 @@
 
 // Main components
 
-export {AgentSandbox} from './AgentExecutionPipeline'
+export * from './AgentExecutionPipeline'
 
 // Agent UI components
 export {AgentHeader} from './agent-header'

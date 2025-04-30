@@ -284,7 +284,10 @@ const config = {
 				"dots-pattern": "radial-gradient(transparent 1px, white 1px)",
 				"dots-pattern-dark": "radial-gradient(transparent 1px, rgb(0 0 0) 1px)",
 			},
-		},
+			backgroundImageDots: {
+				"dots-pattern": "radial-gradient(transparent 1px, white 1px)",
+				"dots-pattern-dark": "radial-gradient(transparent 1px, rgb(0 0 0) 1px)",
+			},
 	},
 	plugins: [
 		tailwindAnimate,

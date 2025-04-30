@@ -1,124 +1,159 @@
 'use client'
 
-import {useState} from 'react'
-import {toast} from 'sonner'
-import {motion, AnimatePresence} from 'motion/react'
+import React, {useState} from 'react'
+import {useUnifiedPipeline} from '../unified/AIPipeline'
 
-import {Progress} from '@/components/ui/progress'
-import {WebExtraction} from '@/features/ai/pipelines/web-processing-pipeline/WebExtraction'
-import {LoadingSkeleton} from '@/features/ai/pipelines/web-processing-pipeline/LoadingSkeleton'
-import {ContentAnalysis} from '@/features/ai/pipelines/web-processing-pipeline/ContentAnalysis'
-import {WebResourceUrlInput} from '@/features/ai/pipelines/web-processing-pipeline/WebResourceUrlInput'
-import {scrapeWithFireCrawl} from '@/lib/firecrawl/firecrawl'
+export function WebProcessingPipeline() {
+  const {addWebData, setIsProcessing, isProcessing} = useUnifiedPipeline()
+  const [url, setUrl] = useState('')
+  const [searchQuery, setSearchQuery] = useState('')
+  const [analysisResults, setAnalysisResults] = useState<string>('')
+  const [searchOption, setSearchOption] = useState<'url' | 'search'>('url')
 
-interface Summary {
-  title: string
-  summary: string
-  keyPoints: string[]
-  siteName?: string
-}
+  const processWebContent = async () => {
+    if (searchOption === 'url' && !url) {
+      alert('Please enter a URL')
+      return
+    }
 
-// Helper to extract summary from Firecrawl result
-async function scrapeAndSummarizeWithFirecrawl(url: string): Promise<Summary> {
-  // Use a domain-specific prompt for extraction
-  const result = await scrapeWithFireCrawl({
-    url,
-    formats: ['markdown', 'extract'],
-    extract: {
-      prompt:
-        'Extract the page title, a concise summary, and 3-7 key points about the main content. If available, include the site name.',
-    },
-  })
+    if (searchOption === 'search' && !searchQuery) {
+      alert('Please enter a search query')
+      return
+    }
 
-  // Firecrawl returns a result object with extract/markdown fields
-  // Try to parse/extract the relevant fields
-  const extract = result.extract || {}
-  const markdown = result.markdown || ''
-
-  // Fallbacks for summary fields
-  return {
-    title: extract.title || extract.pageTitle || '',
-    summary: extract.summary || extract.content || markdown.slice(0, 500),
-    keyPoints: extract.keyPoints || extract.bullets || [],
-    siteName: extract.siteName || extract.domain || undefined,
-  }
-}
-
-export default function WebProcessingPipeline() {
-  const [isLoading, setIsLoading] = useState(false)
-  const [progress, setProgress] = useState(0)
-  const [summary, setSummary] = useState<Summary | null>(null)
-  const [currentUrl, setCurrentUrl] = useState('')
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    if (!currentUrl) return
+    setIsProcessing(true)
 
     try {
-      setIsLoading(true)
-      setProgress(0)
+      // Simulate web processing with a delay
+      // In a real implementation, this would call a web scraping/search service
+      await new Promise((resolve) => setTimeout(resolve, 2000))
 
-      // Simulate progress
-      const progressInterval = setInterval(() => {
-        setProgress((prev) => Math.min(prev + Math.random() * 20, 90))
-      }, 500)
+      // Sample analysis results
+      const analysis =
+        searchOption === 'url'
+          ? {
+              title: `Page Title for ${url}`,
+              summary: 'This is a sample summary of the web page content.',
+              mainTopics: ['Topic 1', 'Topic 2', 'Topic 3'],
+              entities: ['Entity 1', 'Entity 2', 'Entity 3'],
+              sentiment: Math.random() > 0.5 ? 'positive' : 'negative',
+            }
+          : {
+              searchResults: [
+                {title: 'Result 1', snippet: 'Snippet from result 1', url: 'https://example.com/1'},
+                {title: 'Result 2', snippet: 'Snippet from result 2', url: 'https://example.com/2'},
+                {title: 'Result 3', snippet: 'Snippet from result 3', url: 'https://example.com/3'},
+              ],
+              relatedQueries: ['Related query 1', 'Related query 2', 'Related query 3'],
+              topSources: ['Source 1', 'Source 2', 'Source 3'],
+            }
 
-      const loadingToast = toast.loading('Analyzing webpage with Firecrawl...')
-      const result = await scrapeAndSummarizeWithFirecrawl(currentUrl)
-      setSummary(result)
+      // Format analysis for display
+      const formattedAnalysis = JSON.stringify(analysis, null, 2)
+      setAnalysisResults(formattedAnalysis)
 
-      clearInterval(progressInterval)
-      setProgress(100)
-
-      toast.dismiss(loadingToast)
-      toast.success('Analysis complete!')
-    } catch (error) {
-      toast.error('Failed to analyze webpage', {
-        description: error instanceof Error ? error.message : 'An unexpected error occurred',
+      // Add web data to the unified pipeline (fix to match WebData interface)
+      addWebData({
+        url: searchOption === 'url' ? url : searchQuery,
+        title: searchOption === 'url' ? analysis.title : `Search results for: ${searchQuery}`,
+        content: searchOption === 'url' ? analysis.summary : JSON.stringify(analysis.searchResults),
+        summary:
+          searchOption === 'url'
+            ? analysis.summary
+            : `Found ${analysis.searchResults.length} results`,
+        keyPoints: searchOption === 'url' ? analysis.mainTopics : analysis.relatedQueries,
       })
+    } catch (error) {
+      console.error('Error processing web content:', error)
     } finally {
-      setIsLoading(false)
+      setIsProcessing(false)
     }
   }
 
   return (
-    <div className='container max-w-3xl py-10 space-y-8'>
-      <motion.div initial={{opacity: 0, y: -20}} animate={{opacity: 1, y: 0}} className='space-y-2'>
-        <h1 className='text-3xl font-bold tracking-tight'>Cheerio Scraper & AI Summarizer</h1>
-        <p className='text-muted-foreground'>
-          Enter a URL to generate an AI-powered summary with key takeaways
+    <div className='container max-w-5xl py-6 space-y-8'>
+      <div className='flex flex-col items-start pt-6 pb-4 justify-start text-left'>
+        <h1 className='text-2xl lg:text-3xl font-bold'>Web Processing Pipeline</h1>
+        <p className='text-muted-foreground text-pretty text-sm max-w-2xl'>
+          Analyze web content by URL or search query to extract insights and information.
         </p>
-      </motion.div>
+      </div>
 
-      <WebResourceUrlInput
-        url={currentUrl}
-        setUrl={setCurrentUrl}
-        onSubmit={handleSubmit}
-        isLoading={isLoading}
-      />
+      <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
+        <div className='space-y-4'>
+          <div className='flex space-x-4 mb-4'>
+            <button
+              onClick={() => setSearchOption('url')}
+              className={`px-4 py-2 rounded ${
+                searchOption === 'url'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200'
+              }`}>
+              URL Analysis
+            </button>
+            <button
+              onClick={() => setSearchOption('search')}
+              className={`px-4 py-2 rounded ${
+                searchOption === 'search'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200'
+              }`}>
+              Web Search
+            </button>
+          </div>
 
-      {isLoading && (
-        <motion.div initial={{opacity: 0}} animate={{opacity: 1}} className='w-full space-y-2'>
-          <Progress value={progress} className='h-2' />
-          <p className='text-sm text-muted-foreground text-center'>
-            Analyzing content... {Math.round(progress)}%
-          </p>
-        </motion.div>
-      )}
+          {searchOption === 'url' ? (
+            <div>
+              <label className='block text-sm font-medium mb-1'>Website URL</label>
+              <input
+                type='url'
+                value={url}
+                onChange={(e) => setUrl(e.target.value)}
+                placeholder='https://example.com'
+                className='w-full border rounded py-2 px-3 bg-transparent'
+              />
+            </div>
+          ) : (
+            <div>
+              <label className='block text-sm font-medium mb-1'>Search Query</label>
+              <input
+                type='text'
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder='Enter search query'
+                className='w-full border rounded py-2 px-3 bg-transparent'
+              />
+            </div>
+          )}
 
-      <AnimatePresence mode='wait'>
-        {isLoading && <LoadingSkeleton />}
+          <div>
+            <button
+              onClick={processWebContent}
+              disabled={isProcessing || (searchOption === 'url' ? !url : !searchQuery)}
+              className='px-4 py-2 bg-blue-600 text-white rounded disabled:opacity-50'>
+              {isProcessing
+                ? 'Processing...'
+                : searchOption === 'url'
+                  ? 'Analyze URL'
+                  : 'Search Web'}
+            </button>
+          </div>
+        </div>
 
-        {summary && !isLoading && (
-          <ContentAnalysis
-            title={summary.title}
-            summary={summary.summary}
-            keyPoints={summary.keyPoints}
-            siteName={summary.siteName}
-            url={currentUrl}
-          />
-        )}
-      </AnimatePresence>
+        <div className='bg-slate-50 dark:bg-slate-900/50 p-6 rounded-lg'>
+          <h3 className='text-lg font-medium mb-4'>Analysis Results</h3>
+          {analysisResults ? (
+            <pre className='text-sm whitespace-pre-wrap overflow-auto max-h-[400px] p-4 bg-slate-100 dark:bg-slate-800 rounded'>
+              {analysisResults}
+            </pre>
+          ) : (
+            <div className='text-muted-foreground text-sm py-8 text-center'>
+              {searchOption === 'url' ? 'Enter a URL to analyze' : 'Enter a search query'} to see
+              results
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   )
 }

@@ -1,3 +1,5 @@
+"use server";
+
 import { xata } from "@/db/xata/client";
 import type { Personnel, PersonnelRecord } from "@/db/xata/xata";
 import type { SelectableColumn } from "@xata.io/client";
@@ -57,50 +59,18 @@ export async function getKeyFigureById(
  * @param options Optional query options
  * @returns Array of key figure records
  */
-export async function getAllKeyFigures(options?: {
-	filter?: Filter<PersonnelRecord>;
-	sort?: Record<string, "asc" | "desc">;
-	pagination?: { size?: number; offset?: number };
-	columns?: SelectableColumn<PersonnelRecord>[];
-}): Promise<PersonnelRecord[]> {
+export async function getAllKeyFigures(
+	options?: PersonnelRecord,
+): Promise<PersonnelRecord[]> {
 	try {
-		const query = xata.db.personnel;
-
-		// Build the query using builder pattern
-		const queryOptions: {
-			filter?: Filter<PersonnelRecord>;
-			sort?: [string, "asc" | "desc"][];
-			columns?: SelectableColumn<PersonnelRecord>[];
-			pagination?: { size: number; offset: number };
-		} = {};
-
-		// Add filter if provided
-		if (options?.filter) {
-			queryOptions.filter = options.filter;
-		}
-
-		// Add sort if provided
-		if (options?.sort) {
-			queryOptions.sort = Object.entries(options.sort).map(
-				([column, direction]) => [column, direction],
-			);
-		}
-
-		// Add columns if provided
-		if (options?.columns) {
-			queryOptions.columns = options.columns;
-		}
-
-		// Add pagination if provided
-		if (options?.pagination) {
-			queryOptions.pagination = {
-				size: options.pagination.size || 50,
-				offset: options.pagination.offset || 0,
-			};
-		}
-
 		// Execute query with all options
-		const result = await xata.db.personnel.query(queryOptions);
+		const result = await xata.db.personnel
+			.select(["*"])
+			.getAll()
+			.then((res) => res.toSerializable());
+
+		console.log("🚀 ~ result:", result);
+
 		return result.records;
 	} catch (error) {
 		console.error("Error getting all key figures:", error);

@@ -1,5 +1,5 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
-import type { Database } from "../db/types";
+
 import { generateObject } from "ai";
 import { openai } from "@ai-sdk/openai";
 import { z } from "zod";
@@ -24,7 +24,7 @@ type AnalysisResult = z.infer<typeof analysisSchema>;
 const CONCURRENT_TASKS = 2; // Number of concurrent tasks (analysis and entity storage)
 
 export async function analyzeDocument(
-	supabase: SupabaseClient<Database>,
+	supabase: SupabaseClient<Record<string, unknown>>,
 	documentId: string,
 ) {
 	try {

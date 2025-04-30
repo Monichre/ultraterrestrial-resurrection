@@ -65,7 +65,15 @@ const MessagesWithNotesSaving = ({messages}: {messages: AISdkMessage[]}) => {
   return <MindMapMessages messages={convertedMessages} onSaveAsNote={addNoteFromMessage} />
 }
 
-export const MindMapBottomMenu = () => {
+export interface MindMapBottomMenuProps {
+  onCommandChange?: (command: string | null) => void
+  onModelChange?: (model: string | null) => void
+}
+
+export const MindMapBottomMenu = ({
+  onCommandChange,
+  onModelChange
+}: MindMapBottomMenuProps = {}) => {
   // Get session ID for the current user/session
   const sessionId = useRef<string>(
     typeof window !== 'undefined' ? localStorage.getItem('sessionId') || uuidv4() : uuidv4()
@@ -456,6 +464,10 @@ export const MindMapBottomMenu = () => {
 
   const updateSelectedModel = (model: string) => {
     setSelectedModel(model)
+    // Notify parent component about model change
+    if (onModelChange) {
+      onModelChange(model)
+    }
   }
 
   const closeModelMenu = () => {
@@ -477,6 +489,11 @@ export const MindMapBottomMenu = () => {
   const removeActiveCommand = () => {
     setActiveCommand(null)
     setCommandMenuOpen(false)
+    
+    // Notify parent component about command change
+    if (onCommandChange) {
+      onCommandChange(null)
+    }
   }
 
   // Higher-level delegation function to route actions based on active command
@@ -700,12 +717,25 @@ export const MindMapBottomMenu = () => {
       const displayCommand = foundCommand.label.toLowerCase()
 
       setActiveCommand(displayCommand)
+      
+      // Notify parent component about command change
+      if (onCommandChange) {
+        onCommandChange(displayCommand)
+      }
+      
       setInputValue('')
       setCommandMenuOpen(false)
     } else {
       // If we somehow received a command ID that doesn't match any command,
       // just use it directly (fallback)
-      setActiveCommand(commandId.toLowerCase())
+      const fallbackCommand = commandId.toLowerCase()
+      setActiveCommand(fallbackCommand)
+      
+      // Notify parent component about command change
+      if (onCommandChange) {
+        onCommandChange(fallbackCommand)
+      }
+      
       setInputValue('')
       setCommandMenuOpen(false)
     }
