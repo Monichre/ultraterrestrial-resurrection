@@ -1,0 +1,25 @@
+{
+  "name": "@db",
+  "version": "0.1.0",
+  "module": "index.ts",
+  "main": "index.ts",
+  "types": "index.ts",
+  "type": "module",
+  "exports": {
+    ".": "./index.ts",
+    "./registry": "./registry.ts",
+    "./xata": "./src/xata/index.ts",
+    "./xata/client": "./src/xata/client.ts",
+    "./xata/models": "./src/xata/models/index.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@xata.io/client": "^0.30.1",
+    "xata": "^0.2.0"
+  }
+}

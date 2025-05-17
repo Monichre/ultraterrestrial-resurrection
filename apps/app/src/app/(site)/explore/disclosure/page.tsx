@@ -7,6 +7,7 @@ import {
   type NetworkGraphPayload,
   getEntityNetworkGraphData,
 } from '@/features/mindmap/actions/get-entity-network-graph-data'
+import {InAppNavbar} from '@/components/navbar/navbar'
 
 // import {MindMapCursor} from '@/components/cursors'
 import {StateOfDisclosureProvider} from '@/contexts'
@@ -21,6 +22,7 @@ export default async function Index() {
 
     <Suspense fallback={<Loading />}>
       {/* <MindMapCursor type="gooey" /> */}
+      <InAppNavbar color='white' />
       <StateOfDisclosureProvider stateOfDisclosure={data}>
         <MindMap />
       </StateOfDisclosureProvider>

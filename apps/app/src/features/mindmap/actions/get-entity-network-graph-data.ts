@@ -13,7 +13,7 @@ import {
 	getAllTopics,
 	getAllTopicsExpertsConnections,
 	getAllTopicsTestimoniesConnections,
-} from "@/db/xata/db/models";
+} from "@db/xata/models";
 
 const formatGraphNode = ({ record, type }: any) => {
 	const { id, name, label, ...rest } = record;

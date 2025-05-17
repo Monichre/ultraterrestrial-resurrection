@@ -1,7 +1,10 @@
-import * as fs from "fs";
-import * as path from "path";
+import * as fs from "node:fs";
+import * as path from "node:path";
 import { getAvailableModels, getModelNames } from "./modelRegistry";
 import * as glob from "glob";
+import chalk from "chalk";
+import { getBucketPath } from "../config";
+import type { DataTypeConfig } from "../config";
 
 // Define bucket types
 export enum BucketType {
@@ -46,6 +49,17 @@ export interface FileInfo {
 	modifiedAt: Date;
 	isDirectory: boolean;
 	metadata?: FileMetadata;
+}
+
+/**
+ * Bucket stats for tracking files
+ */
+export interface BucketStats {
+	totalFiles: number;
+	totalSize: number; // In bytes
+	fileTypes: { [ext: string]: number };
+	newestFile?: string;
+	oldestFile?: string;
 }
 
 /**
@@ -340,4 +354,227 @@ export async function getBucketStatus(): Promise<
 	}
 
 	return result;
+}
+
+/**
+ * Initialize bucket directories for a specific data type
+ * @param dataType The data type to initialize buckets for
+ * @returns Object with created bucket paths
+ */
+export async function initializeBuckets(
+	dataType: keyof DataTypeConfig,
+): Promise<{ [key: string]: string }> {
+	const bucketTypes = ["processing", "review", "insertion", "logs"];
+	const createdBuckets: { [key: string]: string } = {};
+
+	try {
+		for (const bucketType of bucketTypes) {
+			const bucketPath = getBucketPath(
+				dataType,
+				bucketType as "processing" | "review" | "insertion" | "logs",
+			);
+
+			// Create the directory if it doesn't exist
+			if (!fs.existsSync(bucketPath)) {
+				fs.mkdirSync(bucketPath, { recursive: true });
+				console.log(chalk.green(`Created ${bucketType} bucket: ${bucketPath}`));
+			} else {
+				console.log(
+					chalk.blue(`Using existing ${bucketType} bucket: ${bucketPath}`),
+				);
+			}
+
+			createdBuckets[bucketType] = bucketPath;
+		}
+
+		return createdBuckets;
+	} catch (error) {
+		throw new Error(
+			`Failed to initialize buckets: ${(error as Error).message}`,
+		);
+	}
+}
+
+/**
+ * Move a file between buckets
+ * @param filename The name of the file to move
+ * @param dataType The data type
+ * @param sourceBucket Source bucket name
+ * @param destinationBucket Destination bucket name
+ * @returns The path to the moved file
+ */
+export async function moveFileBetweenBuckets(
+	filename: string,
+	dataType: keyof DataTypeConfig,
+	sourceBucket: "processing" | "review" | "insertion" | "logs",
+	destinationBucket: "processing" | "review" | "insertion" | "logs",
+): Promise<string> {
+	try {
+		const sourcePath = path.join(
+			getBucketPath(dataType, sourceBucket),
+			filename,
+		);
+		const destPath = path.join(
+			getBucketPath(dataType, destinationBucket),
+			filename,
+		);
+
+		// Check if source file exists
+		if (!fs.existsSync(sourcePath)) {
+			throw new Error(`Source file does not exist: ${sourcePath}`);
+		}
+
+		// Create destination directory if it doesn't exist
+		const destDir = path.dirname(destPath);
+		if (!fs.existsSync(destDir)) {
+			fs.mkdirSync(destDir, { recursive: true });
+		}
+
+		// Move the file
+		fs.renameSync(sourcePath, destPath);
+
+		return destPath;
+	} catch (error) {
+		throw new Error(
+			`Failed to move file between buckets: ${(error as Error).message}`,
+		);
+	}
+}
+
+/**
+ * Get stats for a specific bucket
+ * @param dataType The data type
+ * @param bucketType The bucket type
+ * @returns Bucket statistics
+ */
+export function getBucketStats(
+	dataType: keyof DataTypeConfig,
+	bucketType: "processing" | "review" | "insertion" | "logs",
+): BucketStats {
+	const bucketPath = getBucketPath(dataType, bucketType);
+	const stats: BucketStats = {
+		totalFiles: 0,
+		totalSize: 0,
+		fileTypes: {},
+		newestFile: undefined,
+		oldestFile: undefined,
+	};
+
+	if (!fs.existsSync(bucketPath)) {
+		return stats;
+	}
+
+	try {
+		// Get all files in the bucket
+		const files = fs
+			.readdirSync(bucketPath)
+			.filter(
+				(file) => !fs.statSync(path.join(bucketPath, file)).isDirectory(),
+			);
+
+		stats.totalFiles = files.length;
+
+		let newestTime = 0;
+		let oldestTime = Date.now();
+
+		// Process each file
+		for (const file of files) {
+			const filePath = path.join(bucketPath, file);
+			const fileStats = fs.statSync(filePath);
+
+			// Add file size
+			stats.totalSize += fileStats.size;
+
+			// Track file type
+			const ext = path.extname(file).toLowerCase();
+			stats.fileTypes[ext] = (stats.fileTypes[ext] || 0) + 1;
+
+			// Track newest and oldest files
+			const modTime = fileStats.mtimeMs;
+			if (modTime > newestTime) {
+				newestTime = modTime;
+				stats.newestFile = file;
+			}
+
+			if (modTime < oldestTime) {
+				oldestTime = modTime;
+				stats.oldestFile = file;
+			}
+		}
+
+		return stats;
+	} catch (error) {
+		throw new Error(`Failed to get bucket stats: ${(error as Error).message}`);
+	}
+}
+
+/**
+ * Clean old files from a bucket
+ * @param dataType The data type
+ * @param bucketType The bucket type
+ * @param olderThan Maximum age in milliseconds for files to keep
+ * @returns Number of files removed
+ */
+export function cleanBucket(
+	dataType: keyof DataTypeConfig,
+	bucketType: "processing" | "review" | "insertion" | "logs",
+	olderThan: number, // milliseconds
+): number {
+	const bucketPath = getBucketPath(dataType, bucketType);
+	let removedCount = 0;
+
+	if (!fs.existsSync(bucketPath)) {
+		return 0;
+	}
+
+	try {
+		const now = Date.now();
+		const files = fs
+			.readdirSync(bucketPath)
+			.filter(
+				(file) => !fs.statSync(path.join(bucketPath, file)).isDirectory(),
+			);
+
+		for (const file of files) {
+			const filePath = path.join(bucketPath, file);
+			const fileStats = fs.statSync(filePath);
+			const fileAge = now - fileStats.mtimeMs;
+
+			if (fileAge > olderThan) {
+				fs.unlinkSync(filePath);
+				removedCount++;
+			}
+		}
+
+		return removedCount;
+	} catch (error) {
+		throw new Error(`Failed to clean bucket: ${(error as Error).message}`);
+	}
+}
+
+/**
+ * List files in a bucket
+ * @param dataType The data type
+ * @param bucketType The bucket type
+ * @returns Array of filenames
+ */
+export function listBucketFiles(
+	dataType: keyof DataTypeConfig,
+	bucketType: "processing" | "review" | "insertion" | "logs",
+): string[] {
+	const bucketPath = getBucketPath(dataType, bucketType);
+
+	if (!fs.existsSync(bucketPath)) {
+		return [];
+	}
+
+	try {
+		return fs
+			.readdirSync(bucketPath)
+			.filter(
+				(file) => !fs.statSync(path.join(bucketPath, file)).isDirectory(),
+			);
+	} catch (error) {
+		throw new Error(`Failed to list bucket files: ${(error as Error).message}`);
+	}
 }

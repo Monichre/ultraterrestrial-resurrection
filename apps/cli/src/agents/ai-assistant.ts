@@ -1,40 +1,32 @@
+import * as fs from "fs";
 import axios from "axios";
 import chalk from "chalk";
 import { aiConfig } from "../config";
-import type { DataTypeConfig } from "../config";
-
-// Add missing enum definition
-export enum AnalysisType {
-	QUALITY = "quality",
-	ENTITY_EXTRACTION = "entity_extraction",
-	ENHANCEMENT = "enhancement",
-	SUMMARY = "summary",
-	SCHEMA_VALIDATION = "schema_validation",
-	GENERAL = "general",
-}
+import { DataTypeConfig } from "../config";
 
 /**
- * Analysis options
+ * AI Response interface for content enhancement
  */
-export interface AnalysisOptions {
-	maxTokens?: number;
-	temperature?: number;
-	model?: string;
-	retries?: number;
-}
-
-/**
- * Analysis result interface
- */
-export interface AnalysisResult {
-	suggestions: string[];
-	summary?: string;
-	rawResponse?: any;
-	quality?: {
-		score: number;
-		issues: string[];
-		recommendations: string[];
+export interface AIResponse {
+	enhanced: string;
+	metadata?: {
+		qualityScore?: number;
+		qualityIssues?: string[];
+		contentSummary?: string;
+		recordCount?: number;
+		schemaDescription?: any;
 	};
+}
+
+/**
+ * AI Analysis Results interface
+ */
+export interface AIAnalysisResult {
+	summary: string;
+	recommendations: string[];
+	score: number;
+	issues: string[];
+	metadata: Record<string, any>;
 }
 
 /**
@@ -75,296 +67,428 @@ class AIAssistant {
 	}
 
 	/**
-	 * Analyze content to get suggestions and improvements
-	 * @param content The content to analyze
-	 * @param dataType The type of data being analyzed
-	 * @param options Analysis options
-	 * @returns Analysis result
+	 * Enhance content with AI
+	 * @param content The raw content to enhance
+	 * @param dataType The type of data being processed
+	 * @param options Additional options
+	 * @returns Enhanced content and metadata
 	 */
-	async analyzeContent(
+	async enhanceContent(
 		content: string,
 		dataType: keyof DataTypeConfig,
-		options: AnalysisOptions = {},
-	): Promise<AnalysisResult> {
+		options: {
+			instructions?: string;
+			format?: "json" | "markdown" | "text";
+			extractMetadata?: boolean;
+		} = {},
+	): Promise<AIResponse> {
 		if (!this.apiKey) {
-			throw new AIAssistantError(
-				"AI API key is not set. Please set the OPENAI_API_KEY environment variable.",
-			);
+			throw new Error("AI API key is not set. Cannot enhance content.");
 		}
 
 		try {
-			const prompt = this.generatePrompt(
-				content,
+			// Default format is markdown
+			const format = options.format || "markdown";
+			const extractMetadata = options.extractMetadata !== false;
+
+			// Build the system prompt for the AI
+			const systemPrompt = this.buildSystemPrompt(
 				dataType,
-				AnalysisType.GENERAL,
+				format,
+				options.instructions,
 			);
 
-			// Setup API request parameters
-			const requestOptions = {
-				model: options.model || this.model,
-				messages: [
-					{
-						role: "system",
-						content:
-							"You are an expert data analyzer assisting with data processing and enhancement.",
+			// Make the API request to OpenAI
+			const response = await axios.post(
+				this.endpoint,
+				{
+					model: this.model,
+					messages: [
+						{ role: "system", content: systemPrompt },
+						{ role: "user", content },
+					],
+					max_tokens: this.maxTokens,
+					temperature: 0.2,
+				},
+				{
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${this.apiKey}`,
 					},
-					{ role: "user", content: prompt },
-				],
-				max_tokens: options.maxTokens || this.maxTokens,
-				temperature: options.temperature || 0.3,
-			};
+				},
+			);
 
-			const response = await this.makeRequest(
-				requestOptions,
-				options.retries || 2,
-			);
-			return this.parseResponse(response, AnalysisType.GENERAL);
+			// Extract the response content
+			const aiResponse = response.data.choices[0].message.content;
+
+			// Handle different response formats
+			if (format === "json") {
+				// Parse JSON response
+				try {
+					const parsedResponse = JSON.parse(aiResponse);
+					return {
+						enhanced:
+							parsedResponse.content || parsedResponse.enhanced || aiResponse,
+						metadata: extractMetadata
+							? {
+									qualityScore:
+										parsedResponse.qualityScore || parsedResponse.quality_score,
+									qualityIssues:
+										parsedResponse.qualityIssues ||
+										parsedResponse.quality_issues ||
+										[],
+									contentSummary:
+										parsedResponse.contentSummary ||
+										parsedResponse.content_summary,
+									recordCount:
+										parsedResponse.recordCount || parsedResponse.record_count,
+									schemaDescription:
+										parsedResponse.schemaDescription || parsedResponse.schema,
+								}
+							: undefined,
+					};
+				} catch (error) {
+					// If JSON parsing fails, return as text
+					console.warn(
+						chalk.yellow(
+							"Failed to parse AI response as JSON. Returning as text.",
+						),
+					);
+					return {
+						enhanced: aiResponse,
+						metadata: undefined,
+					};
+				}
+			} else {
+				// Return text or markdown response
+				return {
+					enhanced: aiResponse,
+					metadata: undefined,
+				};
+			}
 		} catch (error) {
-			throw new AIAssistantError(
-				`Failed to analyze content: ${(error as Error).message}`,
-				error as Error,
-			);
+			if (axios.isAxiosError(error)) {
+				throw new Error(
+					`AI enhancement failed: ${error.message} - ${JSON.stringify(error.response?.data)}`,
+				);
+			} else {
+				throw new Error(`AI enhancement failed: ${(error as Error).message}`);
+			}
 		}
 	}
 
 	/**
-	 * Generate a summary of content
-	 * @param content The content to summarize
-	 * @param dataType The type of data
-	 * @param options Analysis options
-	 * @returns A summary of the content
-	 */
-	async generateSummary(
-		content: string,
-		dataType: keyof DataTypeConfig,
-		options: AnalysisOptions = {},
-	): Promise<string> {
-		try {
-			const analysis = await this.analyzeContent(content, dataType, {
-				...options,
-				temperature: 0.2,
-			});
-
-			return analysis.summary || "";
-		} catch (error) {
-			throw new AIAssistantError(
-				`Failed to generate summary: ${(error as Error).message}`,
-				error as Error,
-			);
-		}
-	}
-
-	/**
-	 * Generate a prompt based on analysis type
+	 * Analyze a document with AI
 	 * @param content The content to analyze
-	 * @param dataType The type of data
-	 * @param analysisType The type of analysis to perform
-	 * @returns A prompt for the AI
+	 * @param dataType The type of data being processed
+	 * @param options Additional options
+	 * @returns Analysis results
 	 */
-	private generatePrompt(
+	async analyzeDocument(
 		content: string,
 		dataType: keyof DataTypeConfig,
-		analysisType: AnalysisType,
+		options: {
+			instructions?: string;
+		} = {},
+	): Promise<AIAnalysisResult> {
+		if (!this.apiKey) {
+			throw new Error("AI API key is not set. Cannot analyze document.");
+		}
+
+		try {
+			const prompt = `
+Please analyze this ${dataType} document and provide the following:
+1. A brief summary of the content
+2. A quality score (0-100)
+3. Any quality issues or potential problems
+4. Recommendations for improvement
+5. Metadata extraction (dates, locations, people, organizations, etc.)
+
+Return the analysis as a JSON object with these keys: 
+- summary
+- score
+- issues (array)
+- recommendations (array)
+- metadata (object with extracted info)
+
+${options.instructions || ""}
+
+Document content:
+${content}
+`;
+
+			// Make the API request to OpenAI
+			const response = await axios.post(
+				this.endpoint,
+				{
+					model: this.model,
+					messages: [
+						{
+							role: "system",
+							content:
+								"You are an expert data analyst and content enhancer for UFO and extraterrestrial research. Analyze the document and provide structured feedback.",
+						},
+						{ role: "user", content: prompt },
+					],
+					max_tokens: this.maxTokens,
+					temperature: 0.2,
+				},
+				{
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${this.apiKey}`,
+					},
+				},
+			);
+
+			// Extract the response content
+			const aiResponse = response.data.choices[0].message.content;
+
+			try {
+				// Parse the JSON response
+				const parsedResponse = JSON.parse(aiResponse);
+				return {
+					summary: parsedResponse.summary || "",
+					recommendations: parsedResponse.recommendations || [],
+					score: parsedResponse.score || 0,
+					issues: parsedResponse.issues || [],
+					metadata: parsedResponse.metadata || {},
+				};
+			} catch (error) {
+				throw new Error(
+					`Failed to parse AI analysis: ${(error as Error).message}`,
+				);
+			}
+		} catch (error) {
+			if (axios.isAxiosError(error)) {
+				throw new Error(
+					`AI analysis failed: ${error.message} - ${JSON.stringify(error.response?.data)}`,
+				);
+			} else {
+				throw new Error(`AI analysis failed: ${(error as Error).message}`);
+			}
+		}
+	}
+
+	/**
+	 * Validate data against a schema using AI
+	 * @param data The data to validate
+	 * @param schema The schema to validate against
+	 * @param options Additional options
+	 * @returns Validation results
+	 */
+	async validateData(
+		data: any,
+		schema: any,
+		options: {
+			strictMode?: boolean;
+			repairData?: boolean;
+		} = {},
+	): Promise<{
+		isValid: boolean;
+		validationErrors: string[];
+		validationWarnings: string[];
+		repairedData?: any;
+	}> {
+		if (!this.apiKey) {
+			throw new Error("AI API key is not set. Cannot validate data.");
+		}
+
+		try {
+			const strictMode = options.strictMode === true;
+			const repairData = options.repairData === true;
+
+			// Convert data and schema to strings if they're objects
+			const dataStr =
+				typeof data === "object" ? JSON.stringify(data, null, 2) : data;
+			const schemaStr =
+				typeof schema === "object" ? JSON.stringify(schema, null, 2) : schema;
+
+			const prompt = `
+Please validate the following data against the provided schema:
+
+SCHEMA:
+${schemaStr}
+
+DATA:
+${dataStr}
+
+Rules:
+- ${strictMode ? "Use strict validation (all fields must match exactly)" : "Use flexible validation (allow extra fields and minor type mismatches)"}
+- Return validation results as a JSON object
+
+${repairData ? "Also provide a repaired version of the data that conforms to the schema." : ""}
+
+Return a JSON object with these properties:
+- isValid: boolean
+- validationErrors: string[]
+- validationWarnings: string[]
+${repairData ? "- repairedData: object (fixed data that conforms to the schema)" : ""}
+`;
+
+			// Make the API request to OpenAI
+			const response = await axios.post(
+				this.endpoint,
+				{
+					model: this.model,
+					messages: [
+						{
+							role: "system",
+							content:
+								"You are a data validation expert with deep knowledge of JSON Schema. Validate the provided data against the schema and provide detailed feedback.",
+						},
+						{ role: "user", content: prompt },
+					],
+					max_tokens: this.maxTokens,
+					temperature: 0.1,
+				},
+				{
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${this.apiKey}`,
+					},
+				},
+			);
+
+			// Extract the response content
+			const aiResponse = response.data.choices[0].message.content;
+
+			try {
+				// Parse the JSON response
+				const parsedResponse = JSON.parse(aiResponse);
+				return {
+					isValid: parsedResponse.isValid || false,
+					validationErrors: parsedResponse.validationErrors || [],
+					validationWarnings: parsedResponse.validationWarnings || [],
+					repairedData: repairData ? parsedResponse.repairedData : undefined,
+				};
+			} catch (error) {
+				throw new Error(
+					`Failed to parse AI validation: ${(error as Error).message}`,
+				);
+			}
+		} catch (error) {
+			if (axios.isAxiosError(error)) {
+				throw new Error(
+					`AI validation failed: ${error.message} - ${JSON.stringify(error.response?.data)}`,
+				);
+			} else {
+				throw new Error(`AI validation failed: ${(error as Error).message}`);
+			}
+		}
+	}
+
+	/**
+	 * Build a system prompt for the AI based on data type and format
+	 * @param dataType The type of data being processed
+	 * @param format The desired output format
+	 * @param instructions Additional instructions
+	 * @returns A system prompt for the AI
+	 */
+	private buildSystemPrompt(
+		dataType: keyof DataTypeConfig,
+		format: "json" | "markdown" | "text",
+		instructions?: string,
 	): string {
-		// Base prompt for all analysis types
-		let prompt = `You are an expert data analyst specializing in UFO and paranormal research data. I need you to analyze the following ${dataType} data:\n\n${content}\n\n`;
+		// Base system prompt
+		let prompt = `You are an expert assistant for enhancing and structuring ${dataType} data related to UFO and extraterrestrial research.`;
 
-		// Add specific instructions based on analysis type
-		switch (analysisType) {
-			case AnalysisType.QUALITY:
-				prompt += `Please evaluate the quality of this data by examining completeness, accuracy, and consistency. 
-                  Provide a quality score from 0-100, list all issues found, and recommend improvements. 
-                  Format your response as a JSON object with the following structure:
-                  {
-                    "score": <number>,
-                    "issues": ["issue1", "issue2", ...],
-                    "recommendations": ["recommendation1", "recommendation2", ...]
-                  }`;
+		// Add data type specific instructions
+		switch (dataType) {
+			case "testimonies":
+				prompt += `
+For testimonies, focus on:
+- Structuring narratives clearly with proper formatting
+- Identifying key details (dates, locations, witnesses)
+- Preserving the original voice and perspective
+- Highlighting unusual or significant observations
+- Maintaining chronological flow`;
 				break;
 
-			case AnalysisType.ENTITY_EXTRACTION:
-				prompt += `Extract all entities from this content, including people, organizations, locations, events, and artifacts.
-                  For each entity, provide its type, name, and a confidence score (0-1).
-                  Format your response as a JSON array with the following structure:
-                  [
-                    {
-                      "type": "person|organization|location|event|artifact",
-                      "name": "<entity name>",
-                      "confidence": <number between 0-1>,
-                      "details": {<any additional information>}
-                    },
-                    ...
-                  ]`;
+			case "events":
+				prompt += `
+For events, focus on:
+- Ensuring clear chronology with precise dates and times
+- Structuring location data consistently
+- Identifying all involved witnesses and authorities
+- Extracting objective descriptions separate from interpretations
+- Categorizing the type of event`;
 				break;
 
-			case AnalysisType.ENHANCEMENT:
-				prompt += `Analyze this ${dataType} data and suggest enhancements to improve its quality, completeness, and consistency.
-                  If appropriate, provide an enhanced version of the content.
-                  Format your response as a JSON object with the following structure:
-                  {
-                    "suggestions": ["suggestion1", "suggestion2", ...],
-                    "enhancements": {
-                      <relevant enhancement fields based on data type>
-                    }
-                  }`;
+			case "personnel":
+				prompt += `
+For personnel records, focus on:
+- Maintaining consistent biographical information
+- Organizing career history chronologically
+- Highlighting relevant qualifications and expertise
+- Noting connections to significant events or testimonies
+- Preserving privacy by avoiding unnecessary personal details`;
 				break;
 
-			case AnalysisType.SUMMARY:
-				prompt += `Generate a concise summary of this ${dataType} data, highlighting key points and insights.
-                  Keep the summary to 3-5 sentences.
-                  Format your response as a plain text summary.`;
+			case "organizations":
+				prompt += `
+For organization records, focus on:
+- Clearly defining the organization's structure and purpose
+- Identifying key personnel and their roles
+- Documenting historical evolution and significant events
+- Noting connections to other organizations or government entities
+- Highlighting any special access or knowledge claims`;
 				break;
 
-			case AnalysisType.SCHEMA_VALIDATION:
-				prompt += `Validate whether this data conforms to the expected schema for ${dataType}.
-                  Identify any missing required fields or inconsistencies.
-                  Format your response as a JSON object with the following structure:
-                  {
-                    "isValid": <boolean>,
-                    "missingFields": ["field1", "field2", ...],
-                    "inconsistencies": ["inconsistency1", "inconsistency2", ...]
-                  }`;
+			case "artifacts":
+				prompt += `
+For artifact records, focus on:
+- Detailed physical descriptions with precise measurements
+- Chain of custody information
+- Scientific analysis results
+- Provenance and discovery context
+- Related witness testimonies or events`;
+				break;
+		}
+
+		// Add format-specific instructions
+		switch (format) {
+			case "json":
+				prompt += `
+Output Format: JSON
+- Return a JSON object with two main keys: "content" and "metadata"
+- The "content" field should contain the enhanced content in plain text
+- The "metadata" object should contain extracted information:
+  - qualityScore: number (0-100)
+  - qualityIssues: string[]
+  - contentSummary: string
+  - recordCount: number (typically 1 for individual records)
+  - schemaDescription: object (field names and types)`;
 				break;
 
-			case AnalysisType.GENERAL:
-			default:
-				prompt += `Provide general analysis and insights about this data.
-                  Suggest possible improvements or enhancements.
-                  Format your response as a JSON object with the following structure:
-                  {
-                    "suggestions": ["suggestion1", "suggestion2", ...],
-                    "insights": ["insight1", "insight2", ...]
-                  }`;
+			case "markdown":
+				prompt += `
+Output Format: Markdown
+- Use proper Markdown formatting (headings, lists, emphasis)
+- Include a YAML frontmatter section with metadata
+- Structure content logically with appropriate sections
+- Use tables where appropriate for structured data`;
+				break;
+
+			case "text":
+				prompt += `
+Output Format: Plain Text
+- Focus on readability and clear structure
+- Use consistent formatting for similar elements
+- Preserve original line breaks where semantically meaningful
+- Use simple ASCII formatting (dashes, asterisks) for emphasis`;
+				break;
+		}
+
+		// Add custom instructions if provided
+		if (instructions) {
+			prompt += `\n\nAdditional Instructions:\n${instructions}`;
 		}
 
 		return prompt;
-	}
-
-	/**
-	 * Make a request to the AI API
-	 * @param requestOptions Request options
-	 * @param retries Number of retries
-	 * @returns API response
-	 */
-	private async makeRequest(requestOptions: any, retries = 2): Promise<any> {
-		let lastError: Error | null = null;
-
-		for (let attempt = 0; attempt <= retries; attempt++) {
-			try {
-				// Add a delay for retries
-				if (attempt > 0) {
-					const delay = Math.pow(2, attempt) * 1000; // Exponential backoff
-					await new Promise((resolve) => setTimeout(resolve, delay));
-					console.log(chalk.yellow(`Retry attempt ${attempt}/${retries}...`));
-				}
-
-				const response = await axios.post(this.endpoint, requestOptions, {
-					headers: {
-						Authorization: `Bearer ${this.apiKey}`,
-						"Content-Type": "application/json",
-					},
-				});
-
-				return response.data;
-			} catch (error) {
-				lastError = error as Error;
-				console.error(
-					chalk.red(`API request failed: ${(error as Error).message}`),
-				);
-			}
-		}
-
-		throw new AIAssistantError(
-			`Failed after ${retries} retries: ${lastError?.message || "Unknown error"}`,
-			lastError || undefined,
-		);
-	}
-
-	/**
-	 * Parse the response from the AI API
-	 * @param response The API response
-	 * @param analysisType The type of analysis
-	 * @returns Parsed analysis result
-	 */
-	private parseResponse(
-		response: any,
-		analysisType: AnalysisType,
-	): AnalysisResult {
-		try {
-			const messageContent = response.choices?.[0]?.message?.content || "";
-			const analysis: AnalysisResult = {
-				suggestions: [],
-				rawResponse: response,
-			};
-
-			if (analysisType === AnalysisType.QUALITY) {
-				try {
-					// Try to extract JSON from response
-					const match = messageContent.match(/\{[\s\S]*\}/);
-					const jsonStr = match ? match[0] : "";
-					const qualityData = JSON.parse(jsonStr);
-
-					analysis.quality = {
-						score: qualityData.score || 0,
-						issues: qualityData.issues || [],
-						recommendations: qualityData.recommendations || [],
-					};
-				} catch (error) {
-					console.warn(chalk.yellow("Failed to parse quality data as JSON"));
-				}
-			} else if (analysisType === AnalysisType.SUMMARY) {
-				analysis.summary = messageContent.trim();
-			} else {
-				// For other types, try to parse suggestions
-				try {
-					// Try to extract JSON from response
-					const match = messageContent.match(/\{[\s\S]*\}/);
-					const jsonStr = match ? match[0] : "";
-					const data = JSON.parse(jsonStr);
-
-					analysis.suggestions = data.suggestions || [];
-
-					// Extract summary if available
-					if (messageContent.includes("SUMMARY:")) {
-						const summaryMatch = messageContent.match(
-							/SUMMARY:([\s\S]*?)(?:SUGGESTIONS:|$)/,
-						);
-						analysis.summary = summaryMatch ? summaryMatch[1].trim() : "";
-					}
-				} catch (error) {
-					console.warn(chalk.yellow("Failed to parse response as JSON"));
-
-					// Fallback: try to extract suggestions from text
-					const suggestionMatches = messageContent.match(/- (.*)/g);
-					if (suggestionMatches) {
-						analysis.suggestions = suggestionMatches.map((match) =>
-							match.substring(2).trim(),
-						);
-					}
-
-					// Fallback: try to extract summary
-					if (messageContent.includes("SUMMARY:")) {
-						const summaryMatch = messageContent.match(
-							/SUMMARY:([\s\S]*?)(?:SUGGESTIONS:|$)/,
-						);
-						analysis.summary = summaryMatch ? summaryMatch[1].trim() : "";
-					}
-				}
-			}
-
-			return analysis;
-		} catch (error) {
-			console.error(
-				chalk.red(`Error parsing response: ${(error as Error).message}`),
-			);
-			return {
-				suggestions: [],
-				summary: "",
-				rawResponse: response,
-			};
-		}
 	}
 }
 
 // Export a singleton instance
 export const aiAssistant = new AIAssistant();
+export default aiAssistant;

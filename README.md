@@ -98,3 +98,18 @@ Framer Motion
 ### Prompt Storage
 
 <https://us.cloud.langfuse.com/project/cm383h71b00ko9czugbg17ss6>
+
+
+
+# Application Development Resources
+
+## Research & Learning
+1. [AsyncFuncAI Rabbitholes](https://deepwiki.com/AsyncFuncAI/rabbitholes) - Deep dives into asynchronous function AI concepts
+2. [XYflow React Implementation](https://deepwiki.com/xyflow/xyflow/5-react-implementation) - Guide for implementing React with XYflow
+3. [Reactflow Auto Layout](https://deepwiki.com/idootop/reactflow-auto-layout) - Automatic layout solutions for Reactflow
+4. [AsyncFuncAI Rabbitholes](https://deepwiki.com/AsyncFuncAI/rabbitholes) - Deep dives into asynchronous function AI concepts
+5. [AFFiNE](https://deepwiki.com/toeverything/AFFiNE) - Knowledge base and collaboration platform
+6. [Deep Research Documentation](https://aie-feb-25.vercel.app/docs/deep-research) - Comprehensive research documentation and methodologies
+7. MyLensAI
+8. https://www.heuristi.ca/
+

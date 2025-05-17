@@ -14,6 +14,8 @@ import {
 	getModelBucketPath,
 } from "../lib/bucketManager";
 import { getModelNames } from "../lib/modelRegistry";
+import * as dbPrompt from '../agents/db-prompt';
+import { getXataClient } from '../lib/xata-client';
 
 /**
  * Register onboarding commands with Commander
@@ -253,6 +255,54 @@ export default function registerOnboardingCommands(program: Command): void {
 				console.error(chalk.red("Error processing files:"), error);
 			}
 		});
+
+	// Onboard command - Onboard a new data type or configure existing one
+	program
+		.command('onboard')
+		.description('Onboard a new data type or configure existing one')
+		.option(
+			'-t, --type <type>',
+			`Type of data to onboard (${Object.keys(supportedDataTypes).join(', ')})`,
+			'testimonies'
+		)
+		.option('-y, --yes', 'Skip confirmation prompts')
+		.option('-s, --schema <file>', 'Use a specific schema file')
+		.action(async (options: OnboardOptions) => {
+			try {
+				await onboardDataType(options);
+			} catch (error) {
+				console.error(chalk.red('Onboarding failed:'), error);
+				process.exit(1);
+			}
+		});
+	
+	program
+		.command('onboard:status')
+		.description('Check onboarding status of data types')
+		.action(async () => {
+			try {
+				await checkOnboardingStatus();
+			} catch (error) {
+				console.error(chalk.red('Status check failed:'), error);
+			}
+		});
+	
+	program
+		.command('onboard:schema')
+		.description('Generate database schema for a data type')
+		.option(
+			'-t, --type <type>',
+			`Type of data to generate schema for (${Object.keys(supportedDataTypes).join(', ')})`,
+			'testimonies'
+		)
+		.option('-o, --output <file>', 'Output file for schema')
+		.action(async (options) => {
+			try {
+				await generateSchema(options.type, options.output);
+			} catch (error) {
+				console.error(chalk.red('Schema generation failed:'), error);
+			}
+		});
 }
 
 /**
@@ -394,3 +444,72 @@ async function promptForBucketFiles(
 
 	return selectedFiles;
 }
+
+/**
+ * Onboard command options
+ */
+interface OnboardOptions {
+	type?: keyof DataTypeConfig;
+	yes?: boolean;
+	schema?: string;
+}
+
+/**
+ * Onboard a new data type
+ * @param options Onboard options
+ */
+async function onboardDataType(options: OnboardOptions): Promise<void> {
+	// Get data type
+	const dataType = options.type as keyof DataTypeConfig;
+	
+	console.log(chalk.blue(`===== Onboarding Data Type: ${dataType} =====`));
+	
+	// Initialize buckets
+	const spinner = ora(`Initializing buckets for ${dataType}...`).start();
+	
+	try {
+		const bucketPaths = await bucketManager.initializeBuckets(dataType);
+		spinner.succeed(`Initialized buckets for ${dataType}`);
+		
+		// Log the created paths
+		Object.entries(bucketPaths).forEach(([name, path]) => {
+			console.log(`- ${chalk.green(name)}: ${path}`);
+		});
+	} catch (error) {
+		spinner.fail(`Failed to initialize buckets: ${(error as Error).message}`);
+		return;
+	}
+	
+	// Check database connection
+	const dbSpinner = ora('Checking database connection...').start();
+	
+	try {
+		const xataClient = getXataClient();
+		dbSpinner.succeed('Database connection successful');
+	} catch (error) {
+		dbSpinner.fail(`Database connection failed: ${(error as Error).message}`);
+		console.log(chalk.yellow('You can still use the CLI for data processing, but database insertion will not work.'));
+		
+		// Prompt to continue
+		if (!options.yes) {
+			const { continueDespiteDbError } = await inquirer.prompt([
+				{
+					type: 'confirm',
+					name: 'continueDespiteDbError',
+					message: 'Do you want to continue with onboarding despite database connection issues?',
+					default: true
+				}
+			]);
+			
+			if (!continueDespiteDbError) {
+				console.log(chalk.yellow('Onboarding aborted.'));
+				return;
+			}
+		}
+	}
+	
+	// Generate or use provided schema
+	let schema: dbPrompt.SchemaTable[] = [];
+	
+	if (options.schema) {
+		// Load schema from file

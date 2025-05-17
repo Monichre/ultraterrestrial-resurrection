@@ -6,6 +6,7 @@ const nextConfig = {
 		"@react-three/fiber",
 		"@react-three/drei",
 		"gsap",
+		"@db",
 	],
 	crossOrigin: "anonymous",
 

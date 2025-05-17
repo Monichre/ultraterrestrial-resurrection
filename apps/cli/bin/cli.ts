@@ -7,6 +7,8 @@ import * as dotenv from "dotenv";
 import * as path from "path";
 import * as inquirer from "inquirer";
 import boxen from "boxen";
+import * as fs from "fs";
+import pkg from "../package.json";
 
 // Initialize environment variables
 dotenv.config({ path: path.join(__dirname, "../../.env") });
@@ -30,7 +32,7 @@ console.log(chalk.yellow("Data Processing & Xata Import Tool\n"));
 program
 	.name("ut-cli")
 	.description("CLI tool for processing and importing data into Xata database")
-	.version("1.0.0")
+	.version(pkg.version)
 	.helpOption("-h, --help", "Display help information");
 
 // Import command modules
@@ -42,6 +44,8 @@ try {
 		require("../src/commands/insertion").default;
 	const registerOnboardingCommands = require("../src/commands/onboard").default;
 	const registerImportCommands = require("../src/commands/import").default;
+	const registerFirecrawlCommands =
+		require("../src/commands/firecrawl").default;
 
 	// Register commands with the program
 	registerOnboardingCommands(program);
@@ -49,6 +53,7 @@ try {
 	registerReviewCommands(program);
 	registerInsertionCommands(program);
 	registerImportCommands(program);
+	registerFirecrawlCommands(program);
 
 	// If no arguments provided, show interactive menu
 	if (process.argv.length === 2) {
@@ -909,4 +914,84 @@ async function showImportMenu() {
 	} else {
 		await showInteractiveMenu();
 	}
+}
+
+// Add a help command
+program
+	.command("help")
+	.description("Display help information")
+	.action(() => {
+		program.outputHelp();
+	});
+
+// Add version command
+program
+	.command("version")
+	.description("Display version information")
+	.action(() => {
+		console.log(`Current Version: ${pkg.version}`);
+		console.log(`Node Version: ${process.version}`);
+	});
+
+// Add setup command
+program
+	.command("setup")
+	.description("Setup the CLI environment and install dependencies")
+	.action(async () => {
+		console.log(chalk.blue("Setting up Ultraterrestrial CLI environment..."));
+
+		// Check for required environment variables
+		const requiredEnvVars = ["OPENAI_API_KEY", "XATA_API_KEY"];
+		const missingVars = requiredEnvVars.filter(
+			(envVar) => !process.env[envVar],
+		);
+
+		if (missingVars.length > 0) {
+			console.log(chalk.yellow("Missing environment variables:"));
+			missingVars.forEach((envVar) => {
+				console.log(chalk.yellow(`- ${envVar}`));
+			});
+
+			console.log(
+				chalk.blue(
+					"\nCreate a .env file in the project root with the following:",
+				),
+			);
+			requiredEnvVars.forEach((envVar) => {
+				console.log(`${envVar}=your_${envVar.toLowerCase()}_here`);
+			});
+		} else {
+			console.log(chalk.green("✓ Environment variables found"));
+		}
+
+		// Check for required directories
+		console.log(chalk.blue("\nChecking for required directories..."));
+		const dataDir = path.join(__dirname, "../../scripts/data-import");
+
+		if (!fs.existsSync(dataDir)) {
+			console.log(chalk.yellow(`Creating data directory: ${dataDir}`));
+			fs.mkdirSync(dataDir, { recursive: true });
+		} else {
+			console.log(chalk.green(`✓ Data directory exists: ${dataDir}`));
+		}
+
+		console.log(chalk.green("\n✅ Setup complete!"));
+		console.log(chalk.blue("Run `ut --help` to see available commands"));
+	});
+
+// Handle unknown commands
+program.on("command:*", () => {
+	console.error(
+		chalk.red(`\nError: Invalid command: ${program.args.join(" ")}`),
+	);
+	console.log(`See --help for a list of available commands.`);
+	process.exit(1);
+});
+
+// Parse CLI arguments
+program.parse(process.argv);
+
+// Show help if no arguments provided
+if (process.argv.length === 2) {
+	program.outputHelp();
 }

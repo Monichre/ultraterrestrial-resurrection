@@ -11,7 +11,7 @@ import {GroupResultsNode} from '@/features/mindmap/nodes/group-results-node'
 import {PersonnelGroupNode} from '@/features/mindmap/nodes/personnel-group-node'
 import {PersonnelGroupNodeChild} from '@/features/mindmap/nodes/personnel-group-node-child'
 import {UserInputNode} from '@/features/mindmap/nodes/user-input-node/user-input-node'
-// import {AIAnnotationNode as AIAnnotationNodeComponent} from '@/features/mindmap/nodes/ai-annotation-node'
+import {AIAnnotationNode} from '@/features/mindmap/nodes/ai-annotation-node'
 
 export const nodeTypes: any = {
   // Utilities Nodes
@@ -26,7 +26,7 @@ export const nodeTypes: any = {
   organizationsNode: EntityNode,
   documentNode: DocumentNode,
   // AI Generated Nodes
-  // aiAnnotationNode: AIAnnotationNodeComponent,
+  aiAnnotationNode: AIAnnotationNode,
   // Group Results Node
   groupResultsNode: GroupResultsNode,
   groupResultsNodeChildEvents: EntityGroupNodeChild,

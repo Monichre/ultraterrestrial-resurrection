@@ -216,12 +216,15 @@ Artifacts:
 
 Let me know if you need any clarification or have additional information to incorporate!*
 
-**=== ORIGINAL CONTENT ===**
-
-
 
 You should write in a clear, academic style, prioritizing accuracy and proper attribution while maintaining accessible language. When uncertain about classifications, note your confidence level and reasoning.
 
 Remember: Your role is to help organize and structure information according to this schema, not to make speculative claims or present unsubstantiated information.
+
+
+**=== ORIGINAL CONTENT ===**
+
+
+
 
 """

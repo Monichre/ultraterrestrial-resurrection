@@ -1,0 +1,74 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Ticket Workflow and Development Process
+
+This rule documents the ticket system and development process for the QuickBooks Oracle project.
+
+## Ticket Structure
+
+All development is driven by tickets located in the `tickets/` directory with the following format:
+- **Naming Convention**: `XX-title.md` where `XX` is the sequence order (e.g., `16-UI-CopyToPurchaseOrderAction.md`)
+- **Status Indicators**: ✅ done · ⏳ pending · 🛑 blocked
+
+### Core Ticket Files
+
+- **@00-Overview.md**: 
+  - Top-level epic description and ticket list
+  - Shows dependencies between tickets
+  - Tracks overall progress
+
+- **@README.md**:
+  - Instructions for using the ticket system
+  - Development workflow guidelines
+
+- **@TODO.md**:
+  - Initial master ticket with comprehensive details
+  - Technical specifications and requirements
+
+## Development Workflow
+
+1. Read **@00-Overview.md** first to understand the feature scope
+2. Read **@TODO.md** for technical details and requirements
+3. Pick the lowest-numbered ticket with **pending** (⏳) status whose dependencies are met
+4. Complete the implementation following the guidelines in the ticket
+5. Mark the ticket as **done** (✅) in **@00-Overview.md**
+6. Create appropriate documentation in `docs/intuit/` when relevant
+
+## Implementation Guidelines
+
+### Core Principles
+
+- Follow functional programming and SOLID principles
+- Use descriptive names, avoid `any` type
+- Maintain ≥90% unit test coverage
+- Follow existing coding patterns
+
+### Key Technologies
+
+- UI stack: React 18 + Next.js (RSC where possible) + shadcn/tailwind
+- Testing: Jest/Bun for unit tests
+- Documentation: Markdown files (.md)
+- File naming: kebab-case for filenames
+
+### Required Documentation
+
+When creating new utilities or components, ensure proper documentation in matching `.md` files:
+- **Utility docs**: Follow the pattern in @MapEstimateToInvoice.md
+- **API docs**: Follow the pattern in @InvoiceServiceWrapper.md
+
+## Success Criteria
+
+Each ticket includes its own success criteria, but general requirements include:
+- Code passes ESLint/Biome validations
+- All unit tests pass
+- Documentation is complete
+- Implementation matches the requirements specified in the ticket
+
+## Dependencies Management
+
+- Check ticket dependencies in **@00-Overview.md** before starting
+- Mark tickets as blocked (🛑) if any dependencies are incomplete
+- For tickets with dependencies, verify that required functionality exists before implementation

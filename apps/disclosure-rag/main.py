@@ -7,7 +7,7 @@ from datetime import datetime
 import json
 
 from lib.openai.upload import upload_file_to_openai
-from lib.web_content_processor import WebContentProcessor
+from processing.web_content_processor import WebContentProcessor
 from lib.youtube import (generate_transcript,
                          parse_file_and_generate_transcript,
                          write_transcript_to_file)

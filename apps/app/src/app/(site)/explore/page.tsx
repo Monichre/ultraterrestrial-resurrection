@@ -4,6 +4,7 @@ import {
   getEntityNetworkGraphData,
 } from '@/features/mindmap/actions/get-entity-network-graph-data'
 import {Suspense} from 'react'
+import {InAppNavbar} from '@/components/navbar/navbar'
 
 export default async function Index() {
   const data: NetworkGraphPayload = await getEntityNetworkGraphData()
@@ -12,6 +13,7 @@ export default async function Index() {
 
   return (
     <Suspense fallback={null}>
+      <InAppNavbar color='white' />
       <EntityNetworkGraph3D {...data} />
     </Suspense>
   )

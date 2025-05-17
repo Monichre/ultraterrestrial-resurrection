@@ -6,6 +6,13 @@ import * as path from "path";
 import * as fs from "fs";
 import { exec } from "child_process";
 import { promisify } from "util";
+import { getBucketPath, DataTypeConfig, supportedDataTypes } from "../config";
+import * as fileManager from "../lib/file-manager";
+import * as bucketManager from "../lib/bucketManager";
+import * as metadata from "../lib/metadata";
+import * as validators from "../lib/validators";
+import { aiAssistant } from "../agents/ai-assistant";
+import { getXataClient } from "../lib/xata-client";
 
 const execAsync = promisify(exec);
 

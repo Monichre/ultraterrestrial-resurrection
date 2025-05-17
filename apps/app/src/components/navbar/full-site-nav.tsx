@@ -222,9 +222,12 @@ export function FullSiteNav({className}: {className?: string}) {
   const role = user?.publicMetadata?.role || 'guest'
   const isAdmin = role === 'admin'
   const page = pathname.split('/')[pathname.split('/').length - 1]
-  if (pathname === '/explore/disclosure' || pathname === '/admin') {
+
+  // Only hide the navigation on admin pages
+  if (pathname === '/admin') {
     return null
   }
+
   className = `${className} ${page}`
   return (
     <motion.div
@@ -246,6 +249,9 @@ export function FullSiteNav({className}: {className?: string}) {
         <Menu setActive={setActive}>
           <MenuItem setActive={setActive} active={active} item='Explore' key='Explore'>
             <div className='flex flex-col space-y-4'>
+              <HoveredLink className='' href='/explore'>
+                Explore Home
+              </HoveredLink>
               <HoveredLink className='' href='/explore/disclosure'>
                 The State of Disclosure
               </HoveredLink>

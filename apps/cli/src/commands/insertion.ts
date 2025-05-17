@@ -7,6 +7,10 @@ import type { DataTypeConfig } from "../config";
 import ora from "ora";
 import { Table } from "table";
 import { xataClient, insertRecords } from "../lib/xataClient";
+import * as fs from "fs";
+import * as path from "path";
+import * as bucketManager from "../lib/bucketManager";
+import { getXataClient } from "../lib/xata-client";
 
 /**
  * Register insertion commands with Commander
@@ -420,6 +424,77 @@ export default function registerInsertionCommands(program: Command): void {
 				console.error(chalk.red("Error inserting record:"), error.message);
 			}
 		});
+
+	// Insert command - Insert approved files into the database
+	program
+		.command("insert")
+		.description("Insert approved files into the database")
+		.option(
+			"-t, --type <type>",
+			`Type of data to insert (${Object.keys(supportedDataTypes).join(", ")})`,
+			"testimonies",
+		)
+		.option("-f, --file <file>", "Specific file to insert")
+		.option("-a, --all", "Insert all approved files in the insertion bucket")
+		.option(
+			"-d, --dry-run",
+			"Preview insertion without making database changes",
+		)
+		.option("-v, --verbose", "Show detailed insertion information")
+		.action(async (options: InsertionOptions) => {
+			try {
+				await insertFiles(options);
+			} catch (error) {
+				console.error(chalk.red("Insertion failed:"), error);
+				process.exit(1);
+			}
+		});
+
+	program
+		.command("insert:stats")
+		.description("Show statistics about the insertion bucket")
+		.option(
+			"-t, --type <type>",
+			`Type of data to show stats for (${Object.keys(supportedDataTypes).join(", ")})`,
+			"testimonies",
+		)
+		.action(async (options) => {
+			try {
+				const dataType = options.type as keyof DataTypeConfig;
+
+				// Show spinner
+				const spinner = ora(
+					`Gathering statistics for ${dataType} insertion bucket...`,
+				).start();
+
+				// Get stats
+				const stats = await bucketManager.getBucketStats(dataType, "insertion");
+
+				spinner.succeed(`Statistics for ${dataType} insertion bucket:`);
+
+				// Display stats
+				console.log(chalk.blue("\nInsertion Bucket Statistics:"));
+				console.log(`Total files: ${stats.totalFiles}`);
+				console.log(
+					`Total size: ${fileManager.formatFileSize(stats.totalSize)}`,
+				);
+
+				console.log("\nFile types:");
+				Object.entries(stats.fileTypes).forEach(([ext, count]) => {
+					console.log(`- ${ext}: ${count} files`);
+				});
+
+				if (stats.newestFile) {
+					console.log(`\nNewest file: ${stats.newestFile}`);
+				}
+
+				if (stats.oldestFile) {
+					console.log(`Oldest file: ${stats.oldestFile}`);
+				}
+			} catch (error) {
+				console.error(chalk.red("Error getting insertion stats:"), error);
+			}
+		});
 }
 
 /**
@@ -755,4 +830,479 @@ function formatFileSize(bytes: number): string {
 	}
 
 	return `${size.toFixed(2)} ${units[unitIndex]}`;
+}
+
+/**
+ * Insert files from the insertion bucket into the database
+ * @param options Insertion options
+ */
+async function insertFiles(options: InsertionOptions): Promise<void> {
+	// Get data type
+	const dataType = options.type;
+
+	console.log(chalk.blue("===== Database Insertion ====="));
+
+	// Show spinner
+	const spinner = ora(`Finding files to insert for ${dataType}...`).start();
+
+	// Determine files to insert
+	let filesToInsert: string[] = [];
+
+	if (options.file) {
+		// Single file
+		const filePath = path.join(
+			fileManager.getBucketPath(dataType, "insertion"),
+			options.file,
+		);
+
+		if (!fs.existsSync(filePath)) {
+			spinner.fail(`File not found: ${options.file}`);
+			return;
+		}
+
+		filesToInsert = [options.file];
+	} else if (options.all) {
+		// All files in insertion bucket
+		const files = await fileManager.listFiles(
+			fileManager.getBucketPath(dataType, "insertion"),
+		);
+		filesToInsert = files.filter((f) => !f.isDirectory).map((f) => f.name);
+	} else {
+		// Prompt for files to insert
+		const files = await fileManager.listFiles(
+			fileManager.getBucketPath(dataType, "insertion"),
+		);
+		const fileNames = files.filter((f) => !f.isDirectory).map((f) => f.name);
+
+		if (fileNames.length === 0) {
+			spinner.fail(`No files found in insertion bucket for ${dataType}`);
+			return;
+		}
+
+		// Prompt for file selection
+		spinner.stop();
+
+		const { selectedFiles } = await inquirer.prompt([
+			{
+				type: "checkbox",
+				name: "selectedFiles",
+				message: `Select files from insertion bucket to insert into the database:`,
+				choices: [
+					{ name: "Select All", value: "ALL" },
+					...fileNames.map((name) => ({ name, value: name })),
+				],
+			},
+		]);
+
+		if (selectedFiles.includes("ALL")) {
+			filesToInsert = fileNames;
+		} else {
+			filesToInsert = selectedFiles;
+		}
+
+		if (filesToInsert.length === 0) {
+			console.log(chalk.yellow("No files selected for insertion"));
+			return;
+		}
+
+		spinner.start(`Preparing to insert ${filesToInsert.length} files...`);
+	}
+
+	spinner.succeed(
+		`Found ${filesToInsert.length} files to insert for ${dataType}`,
+	);
+
+	if (filesToInsert.length === 0) {
+		console.log(
+			chalk.yellow(`No files found in insertion bucket for ${dataType}`),
+		);
+		return;
+	}
+
+	// Check if Xata is configured
+	try {
+		const xataClient = getXataClient();
+	} catch (error) {
+		console.error(chalk.red("Xata client not configured:"), error);
+		console.log(
+			chalk.yellow(
+				"Please configure the XATA_API_KEY environment variable and try again",
+			),
+		);
+		return;
+	}
+
+	// Confirm insertion
+	if (!options.dryRun) {
+		const { confirm } = await inquirer.prompt([
+			{
+				type: "confirm",
+				name: "confirm",
+				message: `Are you sure you want to insert ${filesToInsert.length} files into the ${dataType} database table?`,
+				default: false,
+			},
+		]);
+
+		if (!confirm) {
+			console.log(chalk.yellow("Insertion cancelled"));
+			return;
+		}
+	}
+
+	// Process each file
+	let inserted = 0;
+	let skipped = 0;
+	let failed = 0;
+
+	console.log(chalk.blue("\nInserting files:"));
+
+	for (const fileName of filesToInsert) {
+		const insertSpinner = ora(`Inserting ${fileName}...`).start();
+
+		try {
+			const filePath = path.join(
+				fileManager.getBucketPath(dataType, "insertion"),
+				fileName,
+			);
+
+			// Read file content
+			const content = fs.readFileSync(filePath, "utf-8");
+
+			// Read metadata
+			const metadataPath = readMetadata.getMetadataFilePath(filePath);
+			let fileMetadata: readMetadata.FileMetadata | null = null;
+
+			if (fs.existsSync(metadataPath)) {
+				fileMetadata = JSON.parse(fs.readFileSync(metadataPath, "utf-8"));
+			}
+
+			if (options.dryRun) {
+				// In dry-run mode, just show what would be inserted
+				insertSpinner.info(
+					`[DRY RUN] Would insert ${fileName} (${fileManager.formatFileSize(fs.statSync(filePath).size)})`,
+				);
+
+				if (options.verbose) {
+					console.log("\nFile metadata:");
+					console.log(JSON.stringify(fileMetadata, null, 2));
+					console.log("\nContent preview:");
+					console.log(
+						content.slice(0, 200) + (content.length > 200 ? "..." : ""),
+					);
+				}
+
+				skipped++;
+				continue;
+			}
+
+			// Actually insert the file
+			const result = await insertFileToDatabase(
+				dataType,
+				fileName,
+				content,
+				fileMetadata,
+			);
+
+			if (result.success) {
+				insertSpinner.succeed(
+					`Inserted ${fileName} (${result.recordsInserted} records)`,
+				);
+				inserted++;
+
+				// Update metadata with insertion info
+				if (fileMetadata) {
+					fileMetadata.insertedAt = new Date().toISOString();
+					fileMetadata.insertedRecords = result.recordsInserted;
+					fileMetadata.insertedIds = result.recordIds;
+					fileMetadata.status = "inserted";
+
+					fs.writeFileSync(metadataPath, JSON.stringify(fileMetadata, null, 2));
+				}
+
+				// Move file to a completed folder or archive
+				const archivePath = path.join(
+					fileManager.getBucketPath(dataType, "logs"),
+					"inserted",
+				);
+				fs.mkdirSync(archivePath, { recursive: true });
+
+				const archiveFileName = `${path.parse(fileName).name}-${Date.now()}${path.parse(fileName).ext}`;
+				const archiveFilePath = path.join(archivePath, archiveFileName);
+
+				fs.copyFileSync(filePath, archiveFilePath);
+
+				// Copy metadata file to archive
+				if (fs.existsSync(metadataPath)) {
+					fs.copyFileSync(
+						metadataPath,
+						path.join(archivePath, `${archiveFileName}.metadata.json`),
+					);
+				}
+
+				// Optionally remove the original after successful insertion
+				if (options.verbose) {
+					console.log(`Archived ${fileName} to ${archiveFilePath}`);
+				}
+			} else {
+				insertSpinner.fail(`Failed to insert ${fileName}: ${result.error}`);
+				failed++;
+			}
+		} catch (error) {
+			insertSpinner.fail(
+				`Error processing ${fileName}: ${(error as Error).message}`,
+			);
+			failed++;
+		}
+	}
+
+	// Print summary
+	console.log(chalk.blue("\n===== Insertion Summary ====="));
+	console.log(chalk.green(`Inserted: ${inserted}`));
+	console.log(chalk.yellow(`Skipped: ${skipped}`));
+	console.log(chalk.red(`Failed: ${failed}`));
+}
+
+/**
+ * Insert a file into the database
+ * @param dataType The type of data
+ * @param fileName The file name
+ * @param content The file content
+ * @param fileMetadata Optional metadata
+ * @returns Result of the insertion
+ */
+async function insertFileToDatabase(
+	dataType: keyof DataTypeConfig,
+	fileName: string,
+	content: string,
+	fileMetadata: readMetadata.FileMetadata | null,
+): Promise<{
+	success: boolean;
+	recordsInserted?: number;
+	recordIds?: string[];
+	error?: string;
+}> {
+	try {
+		const xata = getXataClient();
+
+		// Map dataType to Xata table
+		const table = mapDataTypeToTable(dataType);
+
+		// Parse content based on file type
+		const extension = path.extname(fileName).toLowerCase();
+		let records: Record<string, any>[] = [];
+
+		if (extension === ".json") {
+			records = parseJSONContent(content, dataType);
+		} else if (extension === ".csv") {
+			records = parseCSVContent(content, dataType);
+		} else if (extension === ".md" || extension === ".txt") {
+			records = parseTextContent(content, dataType, fileMetadata);
+		} else {
+			return {
+				success: false,
+				error: `Unsupported file type: ${extension}`,
+			};
+		}
+
+		if (records.length === 0) {
+			return {
+				success: false,
+				error: "No valid records found in file",
+			};
+		}
+
+		// Prepare records for insertion
+		const preparedRecords = records.map((record) => {
+			// Add metadata if needed
+			return {
+				...record,
+				source_file: fileName,
+				imported_at: new Date().toISOString(),
+				// Add any additional fields needed
+			};
+		});
+
+		// Insert records in batches
+		const batchSize = 50;
+		const recordIds: string[] = [];
+
+		for (let i = 0; i < preparedRecords.length; i += batchSize) {
+			const batch = preparedRecords.slice(i, i + batchSize);
+
+			// Insert batch into Xata
+			const result = await xata.db[table].createMany(batch);
+
+			// Collect record IDs
+			if (result.length > 0) {
+				recordIds.push(...result.map((r) => r.id));
+			}
+		}
+
+		return {
+			success: true,
+			recordsInserted: preparedRecords.length,
+			recordIds,
+		};
+	} catch (error) {
+		return {
+			success: false,
+			error: (error as Error).message,
+		};
+	}
+}
+
+/**
+ * Parse JSON content into records
+ * @param content The JSON content
+ * @param dataType The data type
+ * @returns Array of records
+ */
+function parseJSONContent(
+	content: string,
+	dataType: keyof DataTypeConfig,
+): Record<string, any>[] {
+	try {
+		const data = JSON.parse(content);
+
+		// If it's an array, return it
+		if (Array.isArray(data)) {
+			return data;
+		}
+
+		// If it's a single record, wrap it in an array
+		return [data];
+	} catch (error) {
+		throw new Error(`Failed to parse JSON: ${(error as Error).message}`);
+	}
+}
+
+/**
+ * Parse CSV content into records
+ * @param content The CSV content
+ * @param dataType The data type
+ * @returns Array of records
+ */
+function parseCSVContent(
+	content: string,
+	dataType: keyof DataTypeConfig,
+): Record<string, any>[] {
+	try {
+		// Simple CSV parsing (for a production app, use a CSV library)
+		const lines = content.split("\n").filter((line) => line.trim().length > 0);
+
+		if (lines.length < 2) {
+			throw new Error(
+				"CSV file must have a header row and at least one data row",
+			);
+		}
+
+		// Parse header
+		const headers = lines[0].split(",").map((h) => h.trim());
+
+		// Parse data rows
+		const records: Record<string, any>[] = [];
+
+		for (let i = 1; i < lines.length; i++) {
+			const values = lines[i].split(",").map((v) => v.trim());
+
+			// Skip if row doesn't match header length
+			if (values.length !== headers.length) {
+				continue;
+			}
+
+			const record: Record<string, any> = {};
+
+			// Map values to headers
+			headers.forEach((header, index) => {
+				record[header] = values[index];
+			});
+
+			records.push(record);
+		}
+
+		return records;
+	} catch (error) {
+		throw new Error(`Failed to parse CSV: ${(error as Error).message}`);
+	}
+}
+
+/**
+ * Parse text content into records
+ * @param content The text content
+ * @param dataType The data type
+ * @param fileMetadata Optional metadata
+ * @returns Array of records
+ */
+function parseTextContent(
+	content: string,
+	dataType: keyof DataTypeConfig,
+	fileMetadata: readMetadata.FileMetadata | null,
+): Record<string, any>[] {
+	// Very simple text parsing - for testimonies, create one record
+	// In a real app, this would be more sophisticated
+	const record: Record<string, any> = {
+		content,
+		title: fileMetadata?.fileName || "Unknown",
+	};
+
+	// Add metadata if available
+	if (fileMetadata) {
+		// Extract YAML/Markdown frontmatter if present
+		if (content.startsWith("---")) {
+			const frontmatterEnd = content.indexOf("---", 3);
+
+			if (frontmatterEnd > 0) {
+				const frontmatter = content.substring(3, frontmatterEnd).trim();
+				const lines = frontmatter.split("\n");
+
+				for (const line of lines) {
+					const [key, value] = line.split(":").map((part) => part.trim());
+
+					if (key && value) {
+						record[key] = value;
+					}
+				}
+
+				// Remove frontmatter from content
+				record.content = content.substring(frontmatterEnd + 3).trim();
+			}
+		}
+
+		// Add additional metadata
+		if (fileMetadata.contentSummary) {
+			record.summary = fileMetadata.contentSummary;
+		}
+
+		if (fileMetadata.tags) {
+			record.tags = fileMetadata.tags;
+		}
+
+		if (fileMetadata.location) {
+			record.location = fileMetadata.location;
+		}
+
+		if (fileMetadata.date) {
+			record.date = fileMetadata.date;
+		}
+	}
+
+	return [record];
+}
+
+/**
+ * Map data type to Xata table name
+ * @param dataType The data type
+ * @returns The table name
+ */
+function mapDataTypeToTable(dataType: keyof DataTypeConfig): string {
+	// Simple mapping from data type to table name
+	const mapping: Record<string, string> = {
+		testimonies: "testimonies",
+		events: "events",
+		personnel: "personnel",
+		organizations: "organizations",
+		artifacts: "artifacts",
+	};
+
+	return mapping[dataType] || dataType.toString();
 }

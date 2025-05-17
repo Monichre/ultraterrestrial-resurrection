@@ -74,3 +74,5 @@ data/
 .cursor-tools.env.production.local
 
  scripts/data-import/processing/testimonies/
+# clerk configuration (can include secrets)
+/.clerk/
