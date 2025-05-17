@@ -1,22 +1,39 @@
-"use server";
-
-import { convertDatabaseRecordToMindMapNode } from "./utils";
-
 import {
+	convertDatabaseRecordToMindMapNode,
+	formatGraphNode,
+	formatGraphEdge,
+} from "./utils";
+
+import { xata } from "./client";
+import {
+	getAllOrganizations,
+	getAllPersonnel,
 	getAllArtifacts,
 	getAllDocuments,
-	getAllEvents,
-	getAllEventsExpertsConnections,
-	getAllEventsTopicsExpertsConnections,
-	getAllOrganizations,
-	getAllOrganizationsMembers,
-	getAllPersonnel,
-	getAllTestimonies,
-	getAllTopics,
-	getAllTopicsExpertsConnections,
-	getAllTopicsTestimoniesConnections,
-} from "@db/xata";
-import { xata } from "./client";
+} from "./models";
+import { getAllEvents } from "./models/events";
+import { getAllEventTopicSmes as getAllTopicsExpertsConnections } from "./models/event-topic-subject-matter-experts";
+import { getAllEventSmes as getAllEventsExpertsConnections } from "./models/event-subject-matter-experts";
+import { getAllOrganizationMembers as getAllOrganizationsMembers } from "./models/organization-members";
+import { getAllEventTopicSmes as getAllEventsTopicsExpertsConnections } from "./models/event-topic-subject-matter-experts";
+import { getAllTopicTestimonies as getAllTopicsTestimoniesConnections } from "./models/topics-testimonies";
+import { getAllTestimonies } from "./models/testimonies";
+import { getAllTopics } from "./models/topics";
+import type {
+	EventTopicSubjectMatterExpertsRecord,
+	EventSubjectMatterExpertsRecord,
+	OrganizationMembersRecord,
+	TopicsTestimoniesRecord,
+	EventsRecord,
+	TopicsRecord,
+	TestimoniesRecord,
+	DatabaseSchema,
+	OrganizationsRecord,
+	PersonnelRecord,
+	DocumentsRecord,
+	ArtifactsRecord,
+} from "./xata";
+
 // Type for the input parameters
 type FetchNextMindmapRecordsParams = {
 	table: string;
@@ -39,8 +56,67 @@ export type FetchNextMindmapRecordsResult = {
 	nodes: MindMapNode[];
 	meta: {
 		cursor?: string;
+		more?: boolean;
 	};
 };
+
+// Define interfaces for the join tables data
+interface ConnectionResults<T> {
+	records: T[];
+	pagination: { hasNextPage: boolean; total?: number };
+}
+
+/**
+ * Join tables data structure
+ */
+export type JoinTablesData = {
+	topicsExpertsConnections: EventTopicSubjectMatterExpertsRecord[];
+	eventsExpertsConnections: EventSubjectMatterExpertsRecord[];
+	eventsTopicsExpertsConnections: EventTopicSubjectMatterExpertsRecord[];
+	topicsTestimoniesConnections: TopicsTestimoniesRecord[];
+	organizationsPersonnelConnections: OrganizationMembersRecord[];
+};
+
+/**
+ * Fetches all join tables data in parallel from Xata database
+ * @returns A promise that resolves to an object containing all join tables data
+ */
+export async function getAllJoinTables(): Promise<JoinTablesData> {
+	try {
+		const [
+			topicsExpertsConnectionsResult,
+			eventsExpertsConnectionsResult,
+			organizationsMembersResult,
+			eventsTopicsExpertsConnectionsResult,
+			topicsTestimoniesConnectionsResult,
+		] = await Promise.all([
+			getAllTopicsExpertsConnections(),
+			getAllEventsExpertsConnections(),
+			getAllOrganizationsMembers(),
+			getAllEventsTopicsExpertsConnections(),
+			getAllTopicsTestimoniesConnections(),
+		]);
+
+		return {
+			topicsExpertsConnections: topicsExpertsConnectionsResult.records,
+			eventsExpertsConnections: eventsExpertsConnectionsResult.records,
+			eventsTopicsExpertsConnections:
+				eventsTopicsExpertsConnectionsResult.records,
+			topicsTestimoniesConnections: topicsTestimoniesConnectionsResult.records,
+			organizationsPersonnelConnections: organizationsMembersResult.records,
+		};
+	} catch (error) {
+		console.error("Error fetching join tables:", error);
+		// Return empty arrays if there's an error
+		return {
+			topicsExpertsConnections: [],
+			eventsExpertsConnections: [],
+			eventsTopicsExpertsConnections: [],
+			topicsTestimoniesConnections: [],
+			organizationsPersonnelConnections: [],
+		};
+	}
+}
 
 /**
  * Server action to fetch paginated records from specified table and convert them to mindmap nodes
@@ -55,7 +131,8 @@ export async function fetchNextMindmapRecords(
 	console.log("🚀 ~ table:", table);
 	console.log("🚀 ~ cursor:", cursor);
 
-	const xataTable = xata.db[table];
+	// Type-safe way to access the table
+	const xataTable = xata.db[table as keyof DatabaseSchema];
 
 	console.log("🚀 ~ xataTable:", xataTable);
 
@@ -71,7 +148,7 @@ export async function fetchNextMindmapRecords(
 		type XataResponse = {
 			records: Array<{
 				id: string;
-				[key: string]: any;
+				[key: string]: unknown;
 				xata: {
 					version: number;
 					createdAt: string;
@@ -86,19 +163,12 @@ export async function fetchNextMindmapRecords(
 			};
 		};
 
-		const {
-			records,
-			meta: {
-				page: { more },
-			},
-		}: XataResponse = await xataTable.getPaginated({
+		const response: XataResponse = await xataTable.getPaginated({
 			pagination: { size: size },
 		});
 
-		console.log("🚀 ~ response:", records);
-
 		// Extract records and convert to serializable format
-		const serializableRecords = records.map((record) =>
+		const serializableRecords = response.records.map((record) =>
 			record.toSerializable(),
 		);
 
@@ -119,7 +189,8 @@ export async function fetchNextMindmapRecords(
 		return {
 			nodes,
 			meta: {
-				more,
+				cursor: response.meta.page?.cursor,
+				more: response.meta.page?.more,
 			},
 		};
 	} catch (error) {
@@ -128,50 +199,45 @@ export async function fetchNextMindmapRecords(
 	}
 }
 
-const formatGraphNode = ({ record, type }: any) => {
-	const { id, name, label, ...rest } = record;
-	const title = name || label;
+// GraphNode represents a node in the entity network graph
+export interface GraphNode {
+	id: string;
+	label: string;
+	data: {
+		name: string;
+		label: string;
+		type: string;
+		[key: string]: unknown;
+	};
+}
 
-	const node: any = {
-		id,
-		label: title,
-		data: {
-			...rest,
-			name: title,
-			label: title,
-			// color,
-			type,
-		},
-	};
-	return node;
-};
-const formatGraphEdge = ({ targetNode, sourceNode }: any) => {
-	const edge = {
-		source: sourceNode?.id,
-		target: targetNode?.id,
-		id: `${sourceNode.id}->${targetNode.id}`,
-	};
-	return edge;
-};
+// GraphEdge represents an edge in the entity network graph
+export interface GraphEdge {
+	source: string;
+	target: string;
+	id: string;
+}
 
 export type NetworkGraphPayload = {
 	records: {
-		topics: Record<string, any>[];
-		events: Record<string, any>[];
-		personnel: Record<string, any>[];
-		testimonies: Record<string, any>[];
-		organizations: Record<string, any>[];
+		topics: TopicsRecord[];
+		events: EventsRecord[];
+		personnel: PersonnelRecord[];
+		testimonies: TestimoniesRecord[];
+		organizations: OrganizationsRecord[];
+		documents: DocumentsRecord[];
+		artifacts: ArtifactsRecord[];
 	};
 	connections: {
-		topicsExpertsConnections: Record<string, any>[];
-		eventsExpertsConnections: Record<string, any>[];
-		eventsTopicsExpertsConnections: Record<string, any>[];
-		topicsTestimoniesConnections: Record<string, any>[];
-		organizationsPersonnelConnections: Record<string, any>[];
+		topicsExpertsConnections: ConnectionResults<EventTopicSubjectMatterExpertsRecord>;
+		eventsExpertsConnections: ConnectionResults<EventSubjectMatterExpertsRecord>;
+		eventsTopicsExpertsConnections: ConnectionResults<EventTopicSubjectMatterExpertsRecord>;
+		topicsTestimoniesConnections: ConnectionResults<TopicsTestimoniesRecord>;
+		organizationsPersonnelConnections: ConnectionResults<OrganizationMembersRecord>;
 	};
 	graphData: {
-		nodes: any[];
-		links: any[];
+		nodes: GraphNode[];
+		links: GraphEdge[];
 	};
 };
 
@@ -192,38 +258,38 @@ export const getEntityNetworkGraphData = async () => {
 		const artifacts = await getAllArtifacts();
 		const documents = await getAllDocuments();
 
-		const records: any = {
-			topics,
-			events,
-			personnel,
-			testimonies,
-			organizations,
-			documents,
-			artifacts,
+		const records = {
+			topics: topics.records,
+			events: events.records,
+			personnel: personnel.records,
+			testimonies: testimonies.records,
+			organizations: organizations.records,
+			documents: documents.records,
+			artifacts: artifacts.records,
 		};
 
-		const topicsNodes = records.topics.map((record: any) =>
+		const topicsNodes = records.topics.map((record) =>
 			formatGraphNode({ record, type: "topics" }),
 		);
-		const eventsNodes = records.events.map((record: any) =>
+		const eventsNodes = records.events.map((record) =>
 			formatGraphNode({ record, type: "events" }),
 		);
-		const personnelNodes = records.personnel.map((record: any) =>
+		const personnelNodes = records.personnel.map((record) =>
 			formatGraphNode({ record, type: "personnel" }),
 		);
-		const testimoniesNodes = records.testimonies.map((record: any) =>
+		const testimoniesNodes = records.testimonies.map((record) =>
 			formatGraphNode({ record, type: "testimonies" }),
 		);
 
-		const organizationsNodes = records.organizations.map((record: any) =>
+		const organizationsNodes = records.organizations.map((record) =>
 			formatGraphNode({ record, type: "organizations" }),
 		);
 
-		const documentsNodes = records.documents.map((record: any) =>
+		const documentsNodes = records.documents.map((record) =>
 			formatGraphNode({ record, type: "documents" }),
 		);
 
-		const artifactsNodes = records.artifacts.map((record: any) =>
+		const artifactsNodes = records.artifacts.map((record) =>
 			formatGraphNode({ record, type: "artifacts" }),
 		);
 
@@ -238,42 +304,50 @@ export const getEntityNetworkGraphData = async () => {
 		];
 
 		const connections = {
-			topicsExpertsConnections: topicsExpertsConnections,
-			eventsExpertsConnections: eventsExpertsConnections,
-			eventsTopicsExpertsConnections: eventsTopicsExpertsConnections,
-			topicsTestimoniesConnections: topicsTestimoniesConnections,
+			topicsExpertsConnections,
+			eventsExpertsConnections,
+			eventsTopicsExpertsConnections,
+			topicsTestimoniesConnections,
 			organizationsPersonnelConnections: organizationsMembers,
 		};
 
-		const links = [
-			...connections.eventsExpertsConnections,
-			...connections.topicsExpertsConnections,
-			...connections.eventsTopicsExpertsConnections,
-			...connections.topicsTestimoniesConnections,
-			...connections.organizationsPersonnelConnections,
-		]
+		// Collect all link records in a flattened format
+		const allLinkRecords = [
+			...connections.eventsExpertsConnections.records,
+			...connections.topicsExpertsConnections.records,
+			...connections.eventsTopicsExpertsConnections.records,
+			...connections.topicsTestimoniesConnections.records,
+			...connections.organizationsPersonnelConnections.records,
+		];
+
+		const links = allLinkRecords
 			.map(({ id, ...rest }) => {
-				const [sourceData, targetData] = Object.entries(rest);
+				const entries = Object.entries(rest);
+				if (entries.length < 2) return null;
 
-				const [sourceType, sourceNode]: any = sourceData;
+				const [sourceTypeStr, sourceNodeRaw] = entries[0];
+				const [targetTypeStr, targetNodeRaw] = entries[1];
 
-				const [targetType, targetNode]: any = targetData;
+				const sourceNode = sourceNodeRaw as unknown as { id: string };
+				const targetNode = targetNodeRaw as unknown as { id: string };
 
-				// Check if source and target nodes exist because occassionally a join record can exist in either table while missing the record referenced by the foreign key
-				const sourceNodeExists = sourceNode
+				// Check if source and target nodes exist because occasionally a join record can exist
+				// in either table while missing the record referenced by the foreign key
+				const sourceNodeExists = sourceNode?.id
 					? nodes.find((node) => node.id === sourceNode.id)
 					: null;
-				const targetNodeExists = targetNode
+				const targetNodeExists = targetNode?.id
 					? nodes.find((node) => node.id === targetNode.id)
 					: null;
 
 				if (sourceNodeExists && targetNodeExists) {
 					return formatGraphEdge({ id, sourceNode, targetNode });
 				}
+				return null;
 			})
-			.filter((link) => {
-				return link && link.source && link.target;
-			});
+			.filter(
+				(link): link is GraphEdge => !!link && !!link.source && !!link.target,
+			);
 
 		const payload: NetworkGraphPayload = {
 			records,
@@ -294,13 +368,30 @@ export const getEntityNetworkGraphData = async () => {
 				personnel: [],
 				testimonies: [],
 				organizations: [],
+				documents: [],
+				artifacts: [],
 			},
 			connections: {
-				topicsExpertsConnections: [],
-				eventsExpertsConnections: [],
-				eventsTopicsExpertsConnections: [],
-				topicsTestimoniesConnections: [],
-				organizationsPersonnelConnections: [],
+				topicsExpertsConnections: {
+					records: [],
+					pagination: { hasNextPage: false },
+				},
+				eventsExpertsConnections: {
+					records: [],
+					pagination: { hasNextPage: false },
+				},
+				eventsTopicsExpertsConnections: {
+					records: [],
+					pagination: { hasNextPage: false },
+				},
+				topicsTestimoniesConnections: {
+					records: [],
+					pagination: { hasNextPage: false },
+				},
+				organizationsPersonnelConnections: {
+					records: [],
+					pagination: { hasNextPage: false },
+				},
 			},
 			graphData: {
 				nodes: [],
