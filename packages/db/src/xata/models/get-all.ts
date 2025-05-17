@@ -1,4 +1,4 @@
-import { xata } from "@/db/xata/client";
+import { xata } from "../client";
 import type { XataRecord } from "@xata.io/client";
 
 type XataResponse = XataRecord[] | any[];

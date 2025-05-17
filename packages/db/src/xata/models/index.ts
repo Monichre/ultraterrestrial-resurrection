@@ -1,11 +1,6 @@
 // Export all models
 
 // Existing exports
-export * from "./events";
-export * from "./key-figures";
-export * from "./testimonies";
-export * from "./topics";
-export * from "./user-notes";
 
 // Previously added exports
 export * from "./personnel";
@@ -29,7 +24,6 @@ export * from "./tags";
 export * from "./theories";
 
 // Utility
-export * from "./get-all";
 
 // Export client
 export * from "../client";
