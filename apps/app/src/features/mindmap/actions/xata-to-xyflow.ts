@@ -1,6 +1,5 @@
 "use server";
-import { askXataWithAi } from "@db/xata";
-import { xata } from "@db/xata";
+import { xata } from "@db";
 import { organizeNodeLayout } from "../layouts/organizeNodeLayout";
 
 type AskParams = {

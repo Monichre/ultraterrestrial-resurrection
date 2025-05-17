@@ -6,14 +6,17 @@
  * providers like Supabase or Convex in the future.
  */
 
-import { xata } from "./src/xata/client";
-import * as XataModels from "./src/xata/models";
+import * as XATA from "./src/xata";
+const { xata, ...rest } = XATA;
 
 /**
  * The provider registry containing all available database connections
  */
 export const PROVIDERS = {
-	xata,
+	xata: {
+		client: xata,
+		...rest,
+	},
 	// Future additions:
 	// supabase: supabaseClient,
 	// convex: convexClient,
@@ -30,11 +33,5 @@ export type ProviderRegistry = typeof PROVIDERS;
 export type ProviderKey = keyof ProviderRegistry;
 
 /**
- * Export all Xata models for convenience
- */
-export { XataModels };
-
-/**
  * Re-export the xata client for direct access
  */
-export { xata };

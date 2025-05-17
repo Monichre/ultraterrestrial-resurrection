@@ -1,1 +1,1 @@
-export * from "./xata/xata";
+export * from "./xata";

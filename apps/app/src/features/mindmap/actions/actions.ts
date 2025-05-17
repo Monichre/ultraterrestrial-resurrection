@@ -1,6 +1,6 @@
 "use server";
 
-import { askXataWithAi, tables as xataTables, xata } from "@db/xata";
+import { askXataWithAi, tables as xataTables, xata } from "@db";
 import type { z } from "zod";
 import { fireCrawl } from "@/lib/firecrawl";
 
