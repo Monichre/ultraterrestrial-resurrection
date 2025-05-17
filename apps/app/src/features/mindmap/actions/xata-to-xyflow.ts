@@ -74,7 +74,7 @@ async function transformForReactflow(
 	sourceNode: ReactFlowNode,
 	existingNodes: ReactFlowNode[],
 	originalType: string,
-	layoutType: 'horizontal' | 'vertical' | 'radial' | 'grid' = 'horizontal'
+	layoutType: "horizontal" | "vertical" | "radial" | "grid" = "horizontal",
 ): Promise<XataToXYFlowResult> {
 	// Extract the related records from the Xata query result
 	const { answer, records } = xataResult;
@@ -114,16 +114,16 @@ async function transformForReactflow(
 	// Determine the best layout based on number of nodes and type
 	const direction = layoutType;
 	let spacing = 50;
-	
+
 	// For radial layouts with many nodes, increase the radius
 	// by adjusting parentChildSpacing
 	let parentChildSpacing = 100;
-	if (direction === 'radial' && nodes.length > 5) {
+	if (direction === "radial" && nodes.length > 5) {
 		parentChildSpacing = 120 + nodes.length * 5; // Scale with node count
 	}
-	
+
 	// For grid layouts, adjust spacing based on node count
-	if (direction === 'grid') {
+	if (direction === "grid") {
 		spacing = 30;
 	}
 
@@ -158,7 +158,7 @@ export type XataToXYFlowParams = {
 	existingNodes: ReactFlowNode[];
 	sourceNode: ReactFlowNode;
 	sessionId?: string;
-	layoutType?: 'horizontal' | 'vertical' | 'radial' | 'grid';
+	layoutType?: "horizontal" | "vertical" | "radial" | "grid";
 };
 
 export type XataToXYFlowResponse = {
@@ -186,23 +186,23 @@ export const xataToXYFlow = async ({
 	existingNodes,
 	sourceNode,
 	sessionId,
-	layoutType = 'horizontal',
+	layoutType = "horizontal",
 }: XataToXYFlowParams): Promise<XataToXYFlowResponse> => {
 	console.log("🚀 ~ xataToXYFlow ~ question:", question);
-	const response = await askXataWithAi({ question, table, rules })
-	console.log("🚀 ~ xataToXYFlow ~ response:", response)
-	
+	const response = await askXataWithAi({ question, table, rules });
+	console.log("🚀 ~ xataToXYFlow ~ response:", response);
+
 	// Pass the layoutType to transformForReactflow
 	const { nodes, edges } = await transformForReactflow(
-		response, 
-		sourceNode, 
-		existingNodes, 
+		response,
+		sourceNode,
+		existingNodes,
 		table,
-		layoutType
-	)
+		layoutType,
+	);
 
-	console.log("🚀 ~ edges:", edges)
-	console.log("🚀 ~ nodes:", nodes)
+	console.log("🚀 ~ edges:", edges);
+	console.log("🚀 ~ nodes:", nodes);
 
 	// To use with EventSource, we need to provide a callback system
 	const streamingUrl = sessionId
@@ -218,7 +218,6 @@ export const xataToXYFlow = async ({
 			records: response.records,
 			sessionId: response.sessionId,
 		},
-	
 	};
 };
 

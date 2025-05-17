@@ -86,4 +86,24 @@ export async function enhanceLayoutWithAI({
 			error: error instanceof Error ? error.message : "Unknown error",
 		};
 	}
-} 
+}
+
+export const askAIAction = async ({ question, rules, table }: AskParams) => {
+	try {
+		const dbResponse = await askXataWithAi({ question, table, rules });
+		console.log("dbResponse: ", dbResponse);
+		const plainData = JSON.parse(JSON.stringify(dbResponse));
+		console.log("plainData: ", plainData);
+		// const assistantResponse = await askDisclosureAgentToFindRelatedRecords( { subject: question, type: table } )
+		// !TODO: figure out how to process the response
+		const response = {
+			...plainData,
+			// assistantResponse
+		};
+		console.log("response: ", response);
+		return response;
+	} catch (error) {
+		console.error("Error in askAIAction:", error);
+		throw error;
+	}
+};
