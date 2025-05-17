@@ -13,7 +13,7 @@ export type OrganizationMemberUpdateInput = Partial<OrganizationMemberInput> & {
 export async function getOrganizationMemberById(
 	id: string,
 ): Promise<OrganizationMembersRecord | null> {
-	return await xata.db.organization_members.read(id);
+	return await xata.db["organization-members"].read(id);
 }
 
 export async function getAllOrganizationMembers(options?: {
@@ -27,7 +27,7 @@ export async function getAllOrganizationMembers(options?: {
 }> {
 	const { filter, sort, page = 1, size = 50 } = options || {};
 
-	let query = xata.db.organization_members.filter(filter || {});
+	let query = xata.db["organization-members"].filter(filter || {});
 
 	if (sort?.length) {
 		for (const { column, direction } of sort) {
@@ -51,7 +51,7 @@ export async function getAllOrganizationMembers(options?: {
 export async function getOrganizationMembersByOrganizationId(
 	organizationId: string,
 ): Promise<OrganizationMembersRecord[]> {
-	return await xata.db.organization_members
+	return await xata.db["organization-members"]
 		.filter({ "organization.id": organizationId })
 		.getAll();
 }
@@ -59,7 +59,7 @@ export async function getOrganizationMembersByOrganizationId(
 export async function getOrganizationMembersByMemberId(
 	memberId: string,
 ): Promise<OrganizationMembersRecord[]> {
-	return await xata.db.organization_members
+	return await xata.db["organization-members"]
 		.filter({ "member.id": memberId })
 		.getAll();
 }
@@ -67,16 +67,16 @@ export async function getOrganizationMembersByMemberId(
 export async function createOrganizationMember(
 	data: OrganizationMemberInput,
 ): Promise<OrganizationMembersRecord> {
-	return await xata.db.organization_members.create(data);
+	return await xata.db["organization-members"].create(data);
 }
 
 export async function updateOrganizationMember({
 	id,
 	...data
 }: OrganizationMemberUpdateInput): Promise<OrganizationMembersRecord | null> {
-	return await xata.db.organization_members.update(id, data);
+	return await xata.db["organization-members"].update(id, data);
 }
 
 export async function deleteOrganizationMember(id: string): Promise<void> {
-	await xata.db.organization_members.delete(id);
+	await xata.db["organization-members"].delete(id);
 }

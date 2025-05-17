@@ -23,14 +23,14 @@ export async function getSummaryFileById(
 	id: string,
 ): Promise<SummaryFilesRecord | null> {
 	const xata = getXataClient();
-	return await xata.db.summary_files.read(id);
+	return await xata.db["summary-files"].read(id);
 }
 
 export async function getSummaryFileByDocumentId(
 	documentId: string,
 ): Promise<SummaryFilesRecord | null> {
 	const xata = getXataClient();
-	const files = await xata.db.summary_files
+	const files = await xata.db["summary-files"]
 		.filter({
 			"document.id": documentId,
 		})
@@ -51,7 +51,7 @@ export async function getAllSummaryFiles(options?: {
 	const xata = getXataClient();
 	const { filter, sort, page = 1, size = 50 } = options || {};
 
-	let query = xata.db.summary_files.filter(filter || {});
+	let query = xata.db["summary-files"].filter(filter || {});
 
 	if (sort?.length) {
 		for (const { column, direction } of sort) {
@@ -84,7 +84,7 @@ export async function getSummaryFilesWithDocuments(options?: {
 	const xata = getXataClient();
 	const { filter, sort, page = 1, size = 50 } = options || {};
 
-	let query = xata.db.summary_files
+	let query = xata.db["summary-files"]
 		.filter(filter || {})
 		.select(["*", "document.*"]);
 
@@ -111,7 +111,7 @@ export async function createSummaryFile(
 	data: SummaryFileInput,
 ): Promise<SummaryFilesRecord> {
 	const xata = getXataClient();
-	return await xata.db.summary_files.create(data);
+	return await xata.db["summary-files"].create(data);
 }
 
 export async function updateSummaryFile({

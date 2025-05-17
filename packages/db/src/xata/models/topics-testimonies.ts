@@ -13,7 +13,7 @@ export type TopicTestimonyUpdateInput = Partial<TopicTestimonyInput> & {
 export async function getTopicTestimonyById(
 	id: string,
 ): Promise<TopicsTestimoniesRecord | null> {
-	return await xata.db.topics_testimonies.read(id);
+	return await xata.db["topics-testimonies"].read(id);
 }
 
 export async function getAllTopicTestimonies(options?: {
@@ -27,7 +27,7 @@ export async function getAllTopicTestimonies(options?: {
 }> {
 	const { filter, sort, page = 1, size = 50 } = options || {};
 
-	let query = xata.db.topics_testimonies.filter(filter || {});
+	let query = xata.db["topics-testimonies"].filter(filter || {});
 
 	if (sort?.length) {
 		for (const { column, direction } of sort) {
@@ -51,7 +51,7 @@ export async function getAllTopicTestimonies(options?: {
 export async function getTopicTestimoniesByTopicId(
 	topicId: string,
 ): Promise<TopicsTestimoniesRecord[]> {
-	return await xata.db.topics_testimonies
+	return await xata.db["topics-testimonies"]
 		.filter({ "topic.id": topicId })
 		.getAll();
 }
@@ -59,7 +59,7 @@ export async function getTopicTestimoniesByTopicId(
 export async function getTopicTestimoniesByTestimonyId(
 	testimonyId: string,
 ): Promise<TopicsTestimoniesRecord[]> {
-	return await xata.db.topics_testimonies
+	return await xata.db["topics-testimonies"]
 		.filter({ "testimony.id": testimonyId })
 		.getAll();
 }
@@ -67,16 +67,16 @@ export async function getTopicTestimoniesByTestimonyId(
 export async function createTopicTestimony(
 	data: TopicTestimonyInput,
 ): Promise<TopicsTestimoniesRecord> {
-	return await xata.db.topics_testimonies.create(data);
+	return await xata.db["topics-testimonies"].create(data);
 }
 
 export async function updateTopicTestimony({
 	id,
 	...data
 }: TopicTestimonyUpdateInput): Promise<TopicsTestimoniesRecord | null> {
-	return await xata.db.topics_testimonies.update(id, data);
+	return await xata.db["topics-testimonies"].update(id, data);
 }
 
 export async function deleteTopicTestimony(id: string): Promise<void> {
-	await xata.db.topics_testimonies.delete(id);
+	await xata.db["topics-testimonies"].delete(id);
 }
