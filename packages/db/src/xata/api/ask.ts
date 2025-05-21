@@ -1,5 +1,5 @@
 import type { AskOptions } from "@xata.io/client";
-import { getXataClient, type XataClient } from "./xata";
+import { getXataClient, type XataClient } from "../xata";
 
 const xata = getXataClient();
 

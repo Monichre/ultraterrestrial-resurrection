@@ -8,10 +8,10 @@
 export * from "./registry";
 
 // Export Xata functionality
-export * from "./src/xata/xata";
+// export * from "./src/xata";
 
 // Export src/index.ts
-export * from "./src";
+// export * from "./src";
 
 // Re-export the provider registry
 export { PROVIDERS } from "./registry";

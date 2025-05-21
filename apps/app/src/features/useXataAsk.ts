@@ -7,7 +7,7 @@ import {
 	AskOptions,
 	AskResponse,
 	AskStreamChunk,
-} from "../../../../packages/db/src/xata/ask";
+} from "@db/src/xata/api/ask";
 
 interface UseXataAskProps {
 	table: string;

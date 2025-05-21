@@ -4,7 +4,7 @@ import {
 	askFollowUp,
 	askStream,
 	AskStreamChunk,
-} from "../../../../packages/db/src/xata/ask";
+} from "@db/src/xata/api/ask";
 
 /**
  * Example 1: Simple question about data
