@@ -1,0 +1,27 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Project Overview
+
+This repository contains the Ultraterrestrial Resurrection project, a Next.js application focused on UFO sightings, historical events, and data visualization.
+
+## Project Structure
+
+- [package.json](mdc:package.json) - Main package configuration
+- [apps/app/](mdc:apps/app) - Main Next.js application
+- [apps/agent-ui/](mdc:apps/agent-ui) - Agent UI application
+- [apps/cli/](mdc:apps/cli) - CLI tools
+- [apps/disclosure-rag/](mdc:apps/disclosure-rag) - Disclosure RAG system
+- [packages/](mdc:packages) - Shared packages and libraries
+
+## Key Directories
+
+- `apps/app/src/app` - Next.js app router pages
+- `apps/app/src/components` - Core components, compositions and visual elements of the application
+- `apps/app/src/components/ui` - UI components
+- `apps/app/src/features` - Feature modules
+- `apps/app/src/services` - Backend services
+- `apps/app/src/lib` - Third party installations, packages and libraries (OpenAI, Anthropic, etc.)
+- `packages/knowledge-base` - Knowledge base resources
