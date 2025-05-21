@@ -1,0 +1,17 @@
+pre_task:
+  - name: cm_scope
+    cmd: node
+      "/Users/liamellis/.nvm/versions/node/v23.9.0/lib/node_modules/checkmateai/scripts/cursor-task-wrapper.js"
+      pre_task "checkmate affected"
+    env:
+      CM_LIST: $OUTPUT
+post_task:
+  - name: cm_verify
+    cmd: node
+      "/Users/liamellis/.nvm/versions/node/v23.9.0/lib/node_modules/checkmateai/scripts/cursor-task-wrapper.js"
+      post_task "checkmate run --target \"$CM_LIST\""
+post_push:
+  - name: cm_regress
+    cmd: node
+      "/Users/liamellis/.nvm/versions/node/v23.9.0/lib/node_modules/checkmateai/scripts/cursor-task-wrapper.js"
+      post_push "checkmate run"
