@@ -10,7 +10,7 @@ import {
 	type ExtractOptions,
 } from "@/lib/firecrawl";
 import { EXTERNAL_RESOURCES } from "@/utils";
-import { NER_RESEARCH_PROMPT } from "@/services/ai/prompts/research.prompt";
+import { NER_RESEARCH_PROMPT } from "@/services/ai/prompts/ner-response-structure.prompt";
 import { z, ZodType, ZodTypeDef } from "zod";
 // import { askClaude } from "@/lib/anthropic/claude"; // To be implemented
 

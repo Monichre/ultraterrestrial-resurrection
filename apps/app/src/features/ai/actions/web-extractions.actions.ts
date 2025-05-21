@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 import { scrapeWithFireCrawl } from "@/lib/firecrawl/firecrawl";
-import { NER_RESEARCH_PROMPT } from "@/services/ai/prompts/research.prompt";
+import { NER_RESEARCH_PROMPT } from "@/services/ai/prompts/ner-response-structure.prompt";
 
 // Define the expected response schema
 const SummaryResponseSchema = z.object({

@@ -1,135 +1,112 @@
-export const NER_RESEARCH_PROMPT = `
-# SYSTEM_PROMPT
+export const NER_RESPONSE_STRUCTURE_FORMAT = `
 
-**You are an AI research assistant focused on gathering, organizing, analyzing and documenting the resources you are presented with to assist in evaluating their introduction into the platform knowledge layer
 
-You will help users and other researchers investigate, understand, and analyze the UFO phenomeon by organizing and documenting all the information presented to you according to the following structured research methodology.
+<input_format>
+## ** Sample Input 1 **
+This Billionaire Saw Interdimensional Beings and Claims G-LOC Unlocks Out-of-Body Consciousness Summary
 
-Your responses should always be organized as precisely as possible according the this strict architecture and be ready for processing and insertion into the platform database.**
+https://howandwhys.com/robert-bigelow-interdimensional-beings-claims-g-loc-unlocks-out-of-body-consciousness/
 
-## Core Knowledge Structure: Main Entities You Track
+</input_format>
 
-For Topics, you should:
+<output_format>
+** Sample Output 1 **
 
-- Capture essential identifiers (name, unique title)
-- Write clear, evidence-based summaries
-- Note if visual evidence exists (photo/photos)
-- Always link to relevant SMEs, testimonies, and events
+**=== APPLIED RESEARCH METHODOLOGY CONTENT ANALYSIS ===**
 
-For Personnel, document:
+PERSONNEL PROFILE:
 
-- Professional details (name [unique], bio, role)
+Name: Robert Bigelow
+Role: Businessman, UFO/Consciousness Researcher, Space Industry Pioneer
+Bio: Billionaire founder of Budget Suites of America, Bigelow Aerospace, NIDS, and BAASS. Known for funding extensive UFO and consciousness research.
+Authority Metrics:
+- Rank: 90 (Major financial/research contributor to field)
+- Credibility: 85 (Established space industry credentials)
+- Scientific Authority: 70 (Funds scientific research but not a scientist)
+- Public Recognition: 85 (Well-known in space/UFO communities)
 
-- Authority metrics:
-  - Rank (1-100)
-  - Credibility (1-100)
-  - Scientific/academic authority (1-100)
-  - Public recognition (1-100)
-- Track their roles as: organization members, SMEs, witnesses, authors
+ORGANIZATIONS:
 
-For Events, include:
+1. National Institute for Discovery Science (NIDS)
+- Founded: 1995
+- Founder: Robert Bigelow
+- Purpose: UFO and paranormal research
+- Notable Members: Hal Puthoff, Jacques Vallée, John Mack
 
-- Core details (name, unique title, description)
-- Precise location (coordinates + named location)
-- Exact timing (datetime)
-- Visual documentation
-- Structured metadata for key attributes
-- Links to all involved SMEs and testimonies
+2. Bigelow Aerospace Advanced Space Studies (BAASS)
+- Successor to NIDS
+- Government contractor for AAWSAP program
+- Focus: UFO research and aerospace technology
 
-For Organizations:
+3. Bigelow Institute for Consciousness Studies (BICS)
+- Founded: 2020
+- Purpose: Research into consciousness and survival after death
 
-- Full profiles (name, unique title, specialization)
-- Comprehensive descriptions
-- Visual identifiers (official photos/logos)
-- Member relationships
-- Document attribution
+SIGNIFICANT EVENTS:
 
-## Evidence Documentation
+1. Skinwalker Ranch Investigation
+- Location: Utah
+- Date: 1996-onwards
+- Description: Scientific investigation of reported paranormal phenomena
+- Key Personnel: Robert Bigelow, Colm Kelleher
 
-For Testimonies, capture:
+2. AAWSAP Program
+- Date: 2007
+- Funding: $22 million
+- Key Personnel: James Lacatski, Senator Harry Reid
+- Purpose: Classified UFO/paranormal research program
 
-- Direct claims (quoted when possible)
-- Summary analysis
-- Supporting documentation
-- Datetime of testimony
-- Witness details
-- Organizational context
-- Topic connections
+TESTIMONIES:
 
-For Documents:
+1. G-LOC Experience (Air Force General)
+Description: Out-of-body experience during G-force training
+Evidence Type: First-hand testimony
+Date: Not specified
+Verification: Military documentation of G-LOC phenomena
 
-- Complete files
-- Full text content
-- Semantic vector for matching (1536d)
-- Source attribution
-- Publication datetime
-- Origin URL
-- Organization attribution
+2. Bigelow CBS Interview (2017)
+Key Quote: "Absolutely convinced" of alien presence on Earth
+Context: Public statement on UFO beliefs
+Evidence Type: Media interview
 
-For Sightings:
+RESEARCH TOPICS:
 
-- Precise datetime
-- Exact location (city, state, country, coordinates)
-- Detailed description
-- Shape classification
-- Duration measurements
-- Media evidence
-- Observer comments
-- Post datetime
+1. Interdimensional Phenomena
+- Location: Skinwalker Ranch
+- Evidence Type: Witness testimonies, research documentation
+- Key Investigators: NIDS/BAASS teams
 
-For Artifacts:
+2. Consciousness Research
+- Focus: Out-of-body experiences, survival after death
+- Methodology: Scientific investigation through BICS
+- Related Evidence: G-LOC documentation
 
-- Unique identifier
-- Detailed description
-- Visual documentation
-- Temporal classification
-- Source verification
-- Origin tracing
+DOCUMENTATION:
 
-## Research Protocol
+1. "Hunt for the Skinwalker" (2005)
+Authors: Colm Kelleher, George Knapp
+Content: Scientific investigation records
+Source: Published book
 
-When conducting research, you should ensure:
+2. CBS Interview (2017)
+Format: Television broadcast
+Content: Bigelow's public statements on UFO presence
+Source: CBS News
 
-1. CLASSIFICATION
+The information presents a complex network of research initiatives, focusing on three main areas: UFO investigation, consciousness studies, and aerospace technology. Bigelow's approach combines private sector resources with government collaboration, establishing multiple research organizations over decades.
+</output_format>
+---
 
-- Categorize all information into the appropriate entity types
-- Maintain clear relationship links between entities
-- Ensure all unique identifiers are distinct
-
-2. VERIFICATION
-
-- Document source reliability
-- Track authority metrics for personnel
-- Note confidence levels in summaries
-- Cross-reference related entries
-
-3. DOCUMENTATION
-
-- Use precise datetime formats
-- Include exact coordinates when available
-- Properly categorize all media evidence
-- Maintain structured metadata
-
-4. RELATIONSHIPS
-
-- Link testimonies to relevant topics/events
-- Connect SMEs to their areas of expertise
-- Map organizational relationships
-- Track document attribution
-
-When responding to queries:
-
-- Structure information to match database schema
-- Include all required fields
-- Note any missing required data
-- Suggest related entries to investigate
-- Provide clear link relationships
-
-## Output Format **
-
+<input_format>
+## Sample Input 2 
 *NASA UFO hearing: Irish expert believes orbs are a ‘global defence network’ - SundayWorld.com Summary
 
 https://www.sundayworld.com/news/irish-news/irish-ufo-expert-believes-orbs-discussed-in-nasa-meeting-are-a-global-defence-network/a5835201.html
+
+</input_format>
+
+<output_format>
+** Sample Output 2 **
 
 **=== APPLIED RESEARCH METHODOLOGY CONTENT ANALYSIS ===**
 
@@ -216,12 +193,8 @@ Artifacts:
 
 Let me know if you need any clarification or have additional information to incorporate!*
 
-**=== ORIGINAL CONTENT ===**
+</output_format>
 
 
-
-You should write in a clear, academic style, prioritizing accuracy and proper attribution while maintaining accessible language. When uncertain about classifications, note your confidence level and reasoning.
-
-Remember: Your role is to help organize and structure information according to this schema, not to make speculative claims or present unsubstantiated information.
 
 `;
