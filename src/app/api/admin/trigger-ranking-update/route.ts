@@ -33,9 +33,9 @@ export async function POST(request: Request) {
   
   const token = authHeader.split(" ")[1];
   
-  // Simple auth check - replace with proper auth in production
-  // In production, use process.env.ADMIN_API_TOKEN from environment variables
-  if (token !== "dev_admin_token") {
+  // Check the token against the environment variable
+  // Make sure ADMIN_API_TOKEN is set in your environment (.env file or hosting platform)
+  if (!process.env.ADMIN_API_TOKEN || token !== process.env.ADMIN_API_TOKEN) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   
