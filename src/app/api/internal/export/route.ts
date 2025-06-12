@@ -56,12 +56,17 @@ export async function POST() {
 
     // 2. Export from Xata using xata_tools
     console.log( "Exporting data from Xata..." )
+    // Use environment variable for the API key instead of hardcoding it
+    if (!process.env.XATA_API_KEY) {
+      throw new Error("XATA_API_KEY environment variable is not set");
+    }
+    
     const exportCommand = `python3 xreplay.py \
       --from_workspace UltraTerrestrial-kgubvq \
       --from_database ultraterrestrial \
       --from_branch main \
       --from_region us-east-1 \
-      --from_XATA_API_KEY xau_LKJxzxjzXasEUXxjmhCBACdTCvi5Ed2v1 \
+      --from_XATA_API_KEY ${process.env.XATA_API_KEY} \
       --output file \
       --output_path ${exportDir} \
       --output_format csv`
