@@ -1,10 +1,12 @@
 "use server";
 
-import { askXataWithAi, tables as xataTables, xata } from "@db";
+
 import type { z } from "zod";
 import { fireCrawl } from "@/lib/firecrawl";
+import { xata } from "@db/xata/client";
+import { askXataWithAi } from "@db/xata/api"
 
-const tables = xataTables.map((table) => ({ table: table.name }));
+
 
 // Types for our functions
 type AskParams = {

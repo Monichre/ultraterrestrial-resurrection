@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { getXataClient } from "../../../../packages/db/src/xata/xata";
+import { getXataClient } from "@db/xata/xata";
 import {
 	ask,
 	askFollowUp,
@@ -7,7 +7,7 @@ import {
 	AskOptions,
 	AskResponse,
 	AskStreamChunk,
-} from "@db/src/xata/api/ask";
+} from "@db/xata/api/ask";
 
 interface UseXataAskProps {
 	table: string;

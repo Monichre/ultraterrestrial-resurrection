@@ -2,6 +2,7 @@
 
 import {LovecraftQuote} from '@/layouts/home/LovecraftQuote'
 import {TitleAlt} from '@/layouts/home/TitleAlt'
+import {CosmicNav} from '@/components/navbar/cosmic-nav'
 // import { Howl } from 'howler'
 import {AnimatePresence} from 'framer-motion'
 import dynamic from 'next/dynamic'
@@ -68,12 +69,15 @@ export const Home: React.FC<HomeProps> = () => {
 
   return (
     <div className='h-[100vh] w-[100vw] relative overflow-hidden'>
+      {/* Cosmic Navigation */}
+      <CosmicNav />
+
       <div className='absolute top-0 left-0 h-[100vh] w-[100vw] z-1'>
         <Moon />
         {/* <DoubleHelixScene /> */}
       </div>
       <div className='absolute top-0 left-0 right-0 bottom-0  h-full w-full !z-1 flex flex-col justify-center items-center'>
-        <Earth />
+        <Earth activeLocation={null} />
       </div>
       {/* 
       <Profiler id="Earth" onRender={onRenderCallback}>

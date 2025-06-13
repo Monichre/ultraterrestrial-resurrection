@@ -10,7 +10,7 @@ This rule documents the ticket system and development process for the QuickBooks
 ## Ticket Structure
 
 All development is driven by tickets located in the `tickets/` directory with the following format:
-- **Naming Convention**: `XX-title.md` where `XX` is the sequence order (e.g., `16-UI-CopyToPurchaseOrderAction.md`)
+- **Naming Convention**: `XX-title.md` where `XX` is the sequence order (e.g., `01-Fixing-Firecrawl-Extraction-Implementation.md`)
 - **Status Indicators**: ✅ done · ⏳ pending · 🛑 blocked
 
 ### Core Ticket Files

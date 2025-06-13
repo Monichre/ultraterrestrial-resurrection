@@ -1,0 +1,162 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "disclosure-rag"
+version = "0.1.0"
+description = "Disclosure RAG (Retrieval-Augmented Generation) system for UFO/UAP research and analysis"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [
+    {name = "Liam Ellis", email = "liam@example.com"},
+]
+keywords = ["rag", "ufo", "uap", "disclosure", "research", "ai"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+dependencies = [
+    # Core dependencies
+    "python-dotenv>=1.0.0",
+    "openai>=1.3.0",
+    "anthropic>=0.8.0",
+    "phidata>=1.7.0",
+    "streamlit>=1.28.0",
+    "pandas>=2.0.0",
+    "numpy>=1.24.0",
+    "tenacity>=8.2.0",
+    "agno>=0.1.0",
+    
+    # Web processing
+    "requests>=2.31.0",
+    "beautifulsoup4>=4.12.0",
+    "html2text>=2020.1.16",
+    "markdownify>=0.11.6",
+    
+    # Data processing
+    "PyPDF2>=3.0.0",
+    "langchain>=0.0.325",
+    "langchain-community",
+    "langchain-core",
+    "langchain-groq",
+    "langchain-ollama",
+    "faiss-cpu>=1.7.4",
+    "tiktoken>=0.5.0",
+    
+    # Database
+    "upstash-redis>=1.0.0",
+    "upstash-vector>=0.1.1",
+    "xata>=0.10.0",
+    
+    # YouTube processing
+    "pytube>=15.0.0",
+    "youtube-transcript-api>=0.6.1",
+    "yt-dlp",
+    
+    # CLI and utilities
+    "rich",
+    "prompt-toolkit",
+    "composio-langchain",
+    "groq",
+    
+    # Note: Charm CLI tools (gum, huh, glow, glamour, bubbletea, lipgloss) 
+    # are Go binaries and should be installed separately via:
+    # - brew install gum huh glow glamour (on macOS)
+    # - go install github.com/charmbracelet/gum@latest (etc.)
+    
+    # Optional dependencies
+    "matplotlib>=3.7.0",
+    "seaborn>=0.12.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "pytest-asyncio>=0.21.0",
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "flake8>=6.0.0",
+    "mypy>=1.0.0",
+    "pre-commit>=3.0.0",
+]
+
+[project.scripts]
+disclosure-rag = "main:main"
+disclosure-chat = "disclosure_chat:main"
+agno-chat = "agno_disclosure_chat:main"
+agno-chat-files = "agno_disclosure_chat_with_files:main"
+disclosure-cli = "cli:main"
+
+[project.urls]
+Homepage = "https://github.com/liamellis/ultraterrestrial-resurrection"
+Repository = "https://github.com/liamellis/ultraterrestrial-resurrection"
+Issues = "https://github.com/liamellis/ultraterrestrial-resurrection/issues"
+
+[tool.setuptools]
+packages = ["agents", "docs", "lib", "processing", "research", "utils"]
+include-package-data = true
+
+[tool.setuptools.package-data]
+"*" = ["*.md", "*.txt", "*.json", "*.yaml", "*.yml"]
+
+[tool.black]
+line-length = 88
+target-version = ['py39', 'py310', 'py311', 'py312']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+line_length = 88
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+check_untyped_defs = false
+disallow_untyped_decorators = false
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q --strict-markers"
+testpaths = [
+    "tests",
+]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"

@@ -223,8 +223,8 @@ export function FullSiteNav({className}: {className?: string}) {
   const isAdmin = role === 'admin'
   const page = pathname.split('/')[pathname.split('/').length - 1]
 
-  // Only hide the navigation on admin pages
-  if (pathname === '/admin') {
+  // Hide the navigation on admin pages and home page (home uses CosmicNav instead)
+  if (pathname === '/admin' || pathname === '/') {
     return null
   }
 

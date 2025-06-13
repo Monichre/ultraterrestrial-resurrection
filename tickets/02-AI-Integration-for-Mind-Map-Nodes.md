@@ -1,6 +1,6 @@
 # AI Integration for Mind Map Nodes
 
-**Status**: completed
+**Status**: pending
 
 ## Description
 

@@ -4,7 +4,7 @@ from datetime import datetime
 from typing import Any, Dict
 
 import requests
-from analysis.content_analysis import ContentAnalysisEngine
+from processing.content_analysis import ContentAnalysisEngine
 from bs4 import BeautifulSoup
 from bs4.element import Tag
 from markdownify import markdownify as md

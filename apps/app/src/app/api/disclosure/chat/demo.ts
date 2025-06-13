@@ -2,24 +2,7 @@ import { transformForReactflow } from "@/services/ai/workflows/transform-for-rea
 import { AssistantResponse, type DataMessage } from "ai";
 import OpenAI from "openai";
 
-// Mock imports (replace with your actual imports)
-const askXataWithAi = async ({
-	table,
-	question,
-}: { table: string; question: string }) => {
-	console.log(`Querying ${table} with question: ${question}`);
-	// Mock implementation that simulates querying Xata
-	return {
-		answer: `This is a mock answer for ${question} about ${table}`,
-		records: [
-			{
-				id: `mock-${table}-id`,
-				name: `Mock ${table} Record`,
-				data: "Sample data",
-			},
-		],
-	};
-};
+
 
 // OpenAI client initialization
 const openai = new OpenAI({
