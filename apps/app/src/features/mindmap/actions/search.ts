@@ -1,4 +1,4 @@
-import type { SearchResult } from '@/app/api/disclosure/data-layer/search/table/route'
+
 import axios from 'axios'
 
 export const initiateDatabaseWideConnectionSearch = async ( { id, type }: any ) => {

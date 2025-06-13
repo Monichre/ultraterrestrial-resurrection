@@ -6,7 +6,7 @@
  * providers like Supabase or Convex in the future.
  */
 
-import * as XATA from "./src";
+import * as XATA from "./xata";
 const { xata, ...rest } = XATA;
 
 /**

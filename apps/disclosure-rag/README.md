@@ -7,6 +7,11 @@ This is the Disclosure RAG (Retrieval-Augmented Generation) system, a specialize
 - **Research Agent Framework**: Specialized AI agents for different research tasks
 - **Content Analysis**: Tools for analyzing UFO/UAP-related documents
 - **Knowledge Graph**: Entity extraction and relationship mapping
+- **Enhanced CLI Interface**: Beautiful terminal interface using Charm CLI tools
+  - Interactive prompts with `gum`
+  - Form-based input with `huh`
+  - Markdown rendering with `glow` and `glamour`
+  - Styled terminal output with `bubbletea` and `lipgloss`
 - **Chat Interfaces**: Multiple interfaces for interacting with the Disclosure Assistant
   - Local chat with knowledge base access
   - Agno Playground integration
@@ -36,22 +41,36 @@ The following components have been migrated from the disclosure-rag-recovered sy
 
 ## Usage
 
+### Enhanced CLI Interface
+
+The new interactive CLI provides a beautiful terminal experience:
+
+```bash
+# Interactive CLI with Charm tools
+python cli.py
+# or
+disclosure-cli
+
+# Try the demo first
+python charm_demo.py
+```
+
 ### Chat Interfaces
 
 Three chat interfaces are available:
 
 1. **Local Knowledge Base Chat**:
-   ```
+   ```bash
    python disclosure_chat.py
    ```
 
 2. **Agno Chat**:
-   ```
+   ```bash
    python agno_disclosure_chat.py
    ```
 
 3. **Agno Chat with File Upload**:
-   ```
+   ```bash
    python agno_disclosure_chat_with_files.py
    ```
 
@@ -77,7 +96,34 @@ See the `docs/` directory for detailed documentation:
 
 ## Requirements
 
-See `requirements.txt` for a complete list of dependencies.
+### Python Dependencies
+See `requirements.txt` for a complete list of Python dependencies.
+
+### Charm CLI Tools
+The enhanced CLI interface requires Charm CLI tools:
+
+- **gum**: Interactive prompts and inputs
+- **huh**: Terminal forms and surveys  
+- **glow**: Terminal markdown renderer
+- **glamour**: Go library for rendering markdown
+
+**Installation:**
+```bash
+# macOS (Homebrew)
+brew install gum huh glow glamour
+
+# Linux (various package managers)
+# Ubuntu/Debian
+sudo apt install gum huh glow glamour
+
+# Or install via Go
+go install github.com/charmbracelet/gum@latest
+go install github.com/charmbracelet/huh@latest
+go install github.com/charmbracelet/glow@latest
+go install github.com/charmbracelet/glamour@latest
+```
+
+**Note:** The CLI will work without Charm tools but with reduced functionality.
 
 ## Configuration
 

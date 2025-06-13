@@ -1,7 +1,8 @@
 "use server";
-import { xata } from "@db";
-import { organizeNodeLayout } from "../layouts/organizeNodeLayout";
 
+import { askXataWithAi } from "@db/xata/api"
+import { organizeNodeLayout } from "../layouts/organizeNodeLayout";
+import { xata } from "@db/xata/client";
 type AskParams = {
 	question: string;
 	rules?: string;

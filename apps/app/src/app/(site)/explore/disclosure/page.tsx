@@ -17,6 +17,8 @@ import {StateOfDisclosureProvider} from '@/contexts'
 export default async function Index() {
   const data: NetworkGraphPayload = await getEntityNetworkGraphData()
 
+  console.log('🚀 ~ Index ~ data:', data)
+
   return (
     // <AssistantRuntimeProvider runtime={runtime}>
 

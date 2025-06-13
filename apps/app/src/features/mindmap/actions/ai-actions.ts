@@ -2,6 +2,7 @@
 
 import OpenAI from "openai";
 import { revalidatePath } from "next/cache";
+import { askXataWithAi } from "@db/xata/api"
 
 // Initialize OpenAI client
 const openai = new OpenAI({

@@ -2,7 +2,7 @@
 
 import type {MindMapContextType} from '@/contexts/mindmap/mindmap.interface'
 import {useStateOfDisclosure} from '@/contexts/state-of-disclosure-provider'
-import type {DatabaseSchema} from '@/db/xata'
+
 import {
   BASE_ENTITY_NODE_HEIGHT,
   BASE_ENTITY_NODE_WIDTH,
@@ -16,10 +16,7 @@ import {
   ROOT_NODE_WIDTH,
   entityGroupNodeBaseConfig,
 } from '@/features/mindmap/config/index.config'
-import {
-  type MindMapNode,
-  fetchNextMindmapRecords,
-} from '@/features/mindmap/actions/fetch-next-mindmap-records'
+
 import type {MindMapState} from '@/features/mindmap/store'
 import {useMindMapStore} from '@/features/mindmap/store'
 import {use3DGraph} from '@/hooks/use3dGraph'
@@ -32,7 +29,6 @@ import {
   useConnection,
   useEdges,
   useHandleConnections,
-  useNodeConnections,
   useNodes,
   useNodesData,
   useReactFlow,
@@ -43,6 +39,9 @@ import {createContext, useCallback, useContext, useEffect, useState} from 'react
 import {useShallow} from 'zustand/react/shallow'
 import {xataToXYFlow} from '@/features/mindmap/actions/xata-to-xyflow'
 import {organizeNodeLayout, LayoutOptions} from '@/features/mindmap/layouts/organizeNodeLayout'
+// Removed direct Xata import to avoid browser API key exposure
+import type {DatabaseSchema} from '@db/xata'
+import type {MindMapNode} from '@/features/mindmap/actions/get-entity-network-graph-data'
 
 export type RootNodeKey =
   | 'events-root-node'
@@ -131,6 +130,7 @@ export const MindMapProvider = ({children}: {children: React.ReactNode}) => {
     'organizations-root-node': {lastIndex: 0},
     'documents-root-node': {lastIndex: 0},
     'artifacts-root-node': {lastIndex: 0},
+    'case-files-root-node': {lastIndex: 0},
   })
 
   // Access state of disclosure
@@ -313,9 +313,8 @@ export const MindMapProvider = ({children}: {children: React.ReactNode}) => {
 
   // Mind map persistence
   const saveMindMap = useCallback(async () => {
-    if (mindMapInstance) {
-      const json = mindMapInstance.toObject()
-      localStorage.setItem(flowKey, JSON.stringify(json))
+    if (mindMapInstance && typeof mindMapInstance === 'object') {
+      localStorage.setItem(flowKey, JSON.stringify(mindMapInstance))
     }
   }, [mindMapInstance])
 
@@ -411,14 +410,16 @@ export const MindMapProvider = ({children}: {children: React.ReactNode}) => {
     if (!graph || Object.keys(graph).length === 0) {
       const formattedGraphNodesObject: any = {}
       for (const key in graph3d) {
-        const graphModel = graph3d[key]
-        const tempNodes = graphModel.nodes.map(createRootNodeChild)
-        const tempLinks = [].concat(
-          ...Object.keys(graphModel.links).map((key) => {
-            const links = graphModel.links[key].connectedTo
-            return [...links]
-          })
-        )
+        const graphModel = graph3d[key] as any
+        const tempNodes = graphModel?.nodes ? graphModel.nodes.map(createRootNodeChild) : []
+        const tempLinks = graphModel?.links
+          ? [].concat(
+              ...Object.keys(graphModel.links).map((key) => {
+                const links = graphModel.links[key].connectedTo
+                return [...links]
+              })
+            )
+          : []
 
         formattedGraphNodesObject[key] = {
           nodes: tempNodes,
@@ -606,7 +607,7 @@ export const MindMapProvider = ({children}: {children: React.ReactNode}) => {
         const positionedNode = {
           id,
           type: `${type}Node`,
-          label: rest?.label || rest?.name,
+          label: (rest as any)?.label || (rest as any)?.name,
           data: {
             ...rest,
             type,
@@ -777,7 +778,7 @@ export const MindMapProvider = ({children}: {children: React.ReactNode}) => {
     async (model: keyof DatabaseSchema): Promise<MindMapNode[]> => {
       console.log('🚀 ~ model:', model)
 
-      const sourceModelIndex = `${model}-root-node` as RootNodeKey
+      const sourceModelIndex = `${String(model)}-root-node` as RootNodeKey
 
       const sourceModelNodesState = rootNodeState[sourceModelIndex]
       console.log('🚀 ~ sourceModelNodesState:', sourceModelNodesState)
@@ -787,17 +788,23 @@ export const MindMapProvider = ({children}: {children: React.ReactNode}) => {
       console.log('🚀 ~ cursor:', cursor)
 
       // Static Node slice for testing
-      const nextNodes = graph[model]?.nodes.slice(lastIndex, lastIndex + childNodeBatchSize)
+      const nextNodes = graph[String(model)]?.nodes.slice(lastIndex, lastIndex + childNodeBatchSize)
 
       console.log('🚀 ~ nextNodes:', nextNodes)
 
-      // Call the server action and await the response
-      const result = await fetchNextMindmapRecords({
-        table: model,
-        size: childNodeBatchSize,
-        offset: lastIndex,
-        cursor, // Pass the cursor if available
+      // Call the API route instead of direct Xata client
+      const params = new URLSearchParams({
+        table: String(model),
+        size: String(childNodeBatchSize),
+        offset: String(lastIndex),
+        ...(cursor && { cursor })
       })
+      
+      const response = await fetch(`/api/mindmap/records?${params}`)
+      if (!response.ok) {
+        throw new Error('Failed to fetch mindmap records')
+      }
+      const result = await response.json()
 
       console.log('🚀 ~ result:', result)
 
@@ -834,8 +841,8 @@ export const MindMapProvider = ({children}: {children: React.ReactNode}) => {
           table: model,
           rules: `Find the most interesting ${model} records that have clear relationships between them`,
           context: `The user is exploring the ${model} database and wants to see ${amount} records with interesting relationships.`,
-          existingNodes: reactFlowInstance.getNodes(),
-          sourceNode: source,
+          existingNodes: reactFlowInstance.getNodes() as any[],
+          sourceNode: source as any,
         })
 
         console.log('🚀 ~ addNextEntitiesToMindMap ~ flowData:', flowData)
@@ -869,9 +876,9 @@ export const MindMapProvider = ({children}: {children: React.ReactNode}) => {
             })
 
         // Add AI context to source node if it's a userInputNode
-        if (isUserInputNode && flowData.context) {
+        if (isUserInputNode && flowData.xataResponse) {
           store.updateNodeData(source.id, {
-            input: flowData.context,
+            input: flowData.xataResponse.answer,
           })
         }
 
@@ -1136,7 +1143,7 @@ export const MindMapProvider = ({children}: {children: React.ReactNode}) => {
     addLocationsToVisualize,
     toggleKeepLoaded,
     setMindMapInstance,
-    useNodeConnections,
+    // React Flow hooks for connections
     useConnection,
     useHandleConnections,
     useEdges,

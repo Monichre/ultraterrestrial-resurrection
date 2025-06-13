@@ -1,0 +1,6 @@
+[console_scripts]
+agno-chat = agno_disclosure_chat:main
+agno-chat-files = agno_disclosure_chat_with_files:main
+disclosure-chat = disclosure_chat:main
+disclosure-cli = cli:main
+disclosure-rag = main:main

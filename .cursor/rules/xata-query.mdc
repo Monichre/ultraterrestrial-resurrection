@@ -1,0 +1,337 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+The getFirst() method returns the first record matching the query, in ascending order of the id string field. In case there are no matching records it returns null. Alternatively, the getFirstOrThrow() method can be used to throw a "No results found." console error in case there are no results to return.
+
+The TypeScript SDK provides three methods for querying multiple records:
+
+getPaginated(): returns a page of records in the query results. Note that the response type is different from getMany() and getAll().
+const page = await xata.db.Posts.getPaginated({
+  pagination: { size: 100, offset: 0 }
+});
+const firstPageRecords = page.records; // Items 1...100
+const hasNextPage = page.hasNextPage();
+const nextPage = await page.nextPage();
+const nextPageRecords = nextPage.records; // Items 101...200
+const hasAnotherNextPage = page.hasNextPage();
+// Request different page size for this next call for items 101...110
+const anotherPageWithDifferentSize = await page.nextPage(10);
+const differentSizedPage = anotherPageWithDifferentSize.records;
+getAll(): returns all the records in the query results. Warning: this is dangerous on large tables (more than 10,000 records), as it will potentially load a lot of data into memory and create a lot of requests to the server.
+getMany(): returns the requested number of records for the query in a single response. The default is 20 records, but you can change it by modifying the pagination size.
+const page = await xata.db.Posts.getMany({
+  pagination: { size: 100 }
+});
+Both the getAll() and getMany() will produce multiple requests to the server if the query should return more than the maximum page size, combining all results in a single response. It's important to be aware of this because it can cause multiple round-trips to the server, which can affect the latency. The getPaginated() call always performs a single request, therefore it performs a single round-trip.
+
+Unless there's a specific reason to prefer another method, getMany() is generally recommended for its balance of usability and performant defaults, and it is the method used in the provided examples.
+
+#
+Getting a record by ID
+You can retrieve a record with a given ID using a request like this:
+
+TypeScript
+Python
+Go
+SQL
+JSON
+const user = await xata.db.Users.read('myid');
+#
+Columns Selection
+By default, the Query API returns all columns of the queried table. For link columns, only the ID column of the linked records is included in the response. You can use column selection to both reduce the number of columns returned, and to include columns from linked tables.
+
+For example, if you are only interested in the name and the city of the user, you can make a request like this:
+
+TypeScript
+Python
+Go
+SQL
+JSON
+const users = await xata.db.Users.select(['name', 'city']).getMany();
+A sample response will look like this:
+
+{
+  "city": "New York",
+  "id": "myid",
+  "name": "Keanu Reeves",
+  "xata": {
+    "version": 1,
+    "createdAt": "2023-05-15T08:21:31.96526+01:00",
+    "updatedAt": "2023-05-15T21:58:54.072595+01:00"
+  }
+}
+It's worth noting that the special columns id, xata.version, xata.createdAt and xata.updatedAt are always returned, even if they are not explicitly requested.
+
+#
+Selecting Columns from the Linked Tables
+The same syntax can be used to select columns from a linked table, therefore adding new columns to the response. For example, to query all the columns of the teams table and also add all the columns of the owner user, you can use:
+
+TypeScript
+Python
+Go
+SQL
+JSON
+const teams = await xata.db.Teams.select(['*', 'owner.*']).getMany();
+You can do this transitively as well, for example:
+
+TypeScript
+Python
+Go
+SQL
+JSON
+const posts = await xata.db.Posts.select([
+  "title",
+  "author.*",
+  "author.team.*",
+]).getMany();
+In this example, the author is a link column from Posts to Users and team is a link column from Users to Teams.
+
+By default, when retrieving a record by its ID, only the ID column of linked records is included in the response. However, you have the option to request the linked columns to be expanded. In the following examples, the code is using the .read() method to retrieve a record with the ID myid from the Posts table. The code specifies it wants the author column to be expanded and to retrieve more information from the author linked record.
+
+TypeScript
+Python
+Go
+SQL
+JSON
+const user = await xata.db.Posts.read('myid', ['author.*']);
+#
+Many to Many relationships
+#
+Multiple relationship records per table
+To create many-to-many relationships in database tables, create multiple entries in a single table, with each entry representing a relation between two distinct entities.
+
+For example, having tables authors and posts where a post can have multiple authors and vise versa, each record in posts can represent a relationship with an author. Multiple records in the posts table can associate a post with different authors.
+
+To query posts along with their author details, you can use the link column type in the Typescript SDK, or in SQL, use a common column value between the two tables to perform a JOIN.
+
+The SQL endpoint can be used to perform JOIN statements, in order to access data from related tables.
+
+Using the Kysely integration the Typescript SDK supports typed SQL JOIN statements.
+
+Kysely
+TypeScript
+SQL
+const db = new Kysely<Model<DatabaseSchema>>({
+  dialect: new XataDialect({ xata })
+});
+const records = await db
+  .selectFrom('posts')
+  .innerJoin('authors', 'author', 'authors.id')
+  .select(['name', 'title'])
+  .execute();
+Example output:
+With this schema design, keep in mind that there will be multiple records in the posts table for the same post, in order to associate it with multiple authors.
+
+In case you prefer to keep just a single record per post in the posts table, you can use the junction table approach.
+
+#
+Junction tables
+You can manage many-to-many relationships between multiple tables by using an additional junction table, in which each record represents a relationship between records in other tables.
+
+The SQL endpoint can be used to perform JOIN statements, in order to query the junction table while accessing data from the related tables.
+
+Furthermore, via the Kysely integration the Typescript SDK supports typed SQL JOIN statements.
+
+An example, having two tables authors and posts and their junction table authors_posts in which each record defines a relationship of an author and a post. Authors have a name column, and posts have a title column.
+
+You can query for authors.name and posts.title via the junction table, retrieving all the details about each author-post relationship from the joined tables:
+
+Kysely
+TypeScript
+SQL
+const db = new Kysely<Model<DatabaseSchema>>({
+  dialect: new XataDialect({ xata })
+});
+const records = await db
+  .selectFrom('posts_authors')
+  .innerJoin('posts', 'posts_authors.post', 'posts.id')
+  .innerJoin('authors', 'posts_authors.author', 'authors.id')
+  .select(['name', 'title'])
+  .execute();
+In the many-to-many relationship, multiple authors can be associated with the same title, and one author can be associated with multiple titles. Example output:
+
+Kysely
+TypeScript
+SQL
+// Using the Kysely query builder
+[
+  { "name": "Alexis", "title": "Scientific article" },
+  { "name": "Joan", "title": "Scientific article" },
+  { "name": "Alexis", "title": "Sports article" }
+]
+To remove a relationship, delete the record representing the relationship in the junction table.
+
+When using SQL JOIN, you're not limited to joining using only the id column. You can use any column or criteria as a common factor to join tables.
+
+#
+Filtering Records
+This section contains a few examples of how to use filtering. To find all supported operators and examples for them, see the Filtering section of the API Guide.
+
+To filter the results, use the filter function/parameter. For example:
+
+TypeScript
+Python
+SQL
+JSON
+const users = await xata.db.Users.filter({ email: 'keanu@example.com' }).getMany();
+Will return only the records with the given email address.
+
+You can also refer to a linked column in filters, for example:
+
+TypeScript
+Python
+SQL
+JSON
+const users = await xata.db.Users.filter({ 'team.name': 'Matrix' }).getMany();
+Note that in the above, name is a column in the Teams table, and you can refer to it even when querying the Users table.
+
+To give a more complex filtering example, consider the following:
+
+TypeScript
+Python
+SQL
+JSON
+const users = await xata.db.Users.filter({
+  zipcode: { $gt: 100 },
+  $any: [{ name: { $contains: 'Keanu' } }, { name: { $contains: 'Carrie' } }]
+}).getMany();
+Translating the above filter in English: filter all users with a zipcode greater than 100, and the full name contains either "Keanu" or "Carrie".
+
+The example above demonstrates several operators:
+
+$gt: which can be applied to number columns, and means "greater than".
+$contains: which can be applied to text columns, and does a substring match.
+$any: which can be used to create OR conditions. The record matches if any of the conditions enclosed are true.
+To see the rest of the operators available, check out the Filtering guide.
+
+#
+Sorting the Results
+To sort the results, use the sort function/parameter. For example:
+
+TypeScript
+Python
+SQL
+JSON
+const users = await xata.db.Users.sort('name', 'asc').getMany();
+To sort descending, use desc instead of asc:
+
+TypeScript
+Python
+SQL
+JSON
+const users = await xata.db.Users.sort('name', 'desc').getMany();
+It is also possible to have secondary sort criteria. For example:
+
+TypeScript
+Python
+SQL
+JSON
+const users = await xata.db.Users.sort('city', 'desc').sort('name', 'asc').getMany();
+To sort results in random order, use random instead of desc or asc:
+
+TypeScript
+Python
+SQL
+JSON
+const users = await xata.db.Users.sort('*', 'random').getMany();
+Note that random sorting does not apply to a specific column, hence the special column name "*".
+
+Sorting on nested json fields is not available with the Xata API. As a workaround, this is possible with SQL.
+
+You can sort nested JSON fields in SQL by using the -> operator and enclosing the JSON key in quotes.
+
+TypeScript
+Python
+SQL
+const { users } = await xata.sql<UsersRecord>`SELECT * FROM \"Users\" ORDER BY properties->'address' DESC LIMIT 20`;
+#
+Paginating results
+This section doesn't apply to the TypeScript SDK, because it is offering a higher-level abstraction over the pagination mechanism. See the query functions section. Only REST API examples are provided in this section.
+
+Xata offers two types of pagination:
+
+cursor-based, using after and before parameters. It is optimal for building next / prev navigation patterns.
+offset-based, using offset and limit parameters. It is optimal for building 1..2..10...19..20 navigation patterns.
+#
+Cursor-based Pagination
+The depth of cursor-based pagination is unrestricted. When running a query, you can specify a particular page size.
+
+For example:
+
+TypeScript
+Python
+JSON
+const page = await xata.db.Users.getPaginated({
+  pagination: { size: 2 }
+});
+Returns only the first two records:
+
+{
+  "records": [
+    {
+      "id": "rec_c8hnbch26un1nl0rthkg",
+      "email": "keanu@example.com",
+      "name": "Keanu Reeves",
+      "street": "123 Main St",
+      "zipcode": 12345,
+      "city": "New York",
+      "team": {
+        "id": "rec_c8hng2h26un90p8sr7k0"
+      },
+      "xata": {
+        "version": 2,
+        "createdAt": "2023-05-15T08:21:31.96526+01:00",
+        "updatedAt": "2023-05-15T21:58:54.072595+01:00"
+      }
+    },
+    {
+      "id": "rec_c8hnnh126unff00ifhhg",
+      "email": "laurence@example.com",
+      "name": "Laurence Fishburne",
+      "street": null,
+      "zipcode": null,
+      "city": null,
+      "team": {
+        "id": "rec_c8hng2h26un90p8sr7k0"
+      },
+      "xata": {
+        "version": 0,
+        "createdAt": "2023-05-15T08:21:31.96526+01:00",
+        "updatedAt": "2023-05-15T21:58:54.072595+01:00"
+      }
+    }
+  ],
+  "meta": {
+    "page": {
+      "cursor": "VMoxDsIwDAXQnWP8OUPSASFfAnZUoZDWtSEEyTFT1bujion9PdKK_",
+      "more": true
+    }
+  }
+}
+In this case, notice that the meta.page objects contains "more": true. This is an indication that there are more records available. The "cursor" key is a pointer to the current page. To retrieve the next page of results, you can make a request like this:
+
+TypeScript
+Python
+JSON
+const page1 = await xata.db.Users.getPaginated({
+  pagination: { size: 2 }
+});
+const page2 = await page1.nextPage();
+You can continue like this until "more" is returned as false.
+
+#
+Offset-based Pagination
+Offset-based pagination lets you request specific pages of data using the offset parameter (offset), relative to a specified page size (size). While this offers flexibility, it requires knowing the total record count, which can affect performance. As a safeguard, Xata limits offset-based pagination to 50,000 total records to ensure timely responses.
+
+An example of offset based pagination:
+
+TypeScript
+Python
+SQL
+JSON
+const page = await xata.db.Users.getPaginated({
+  pagination: { size: 10, offset: 10 }
+});
+You can find more information about pagination in the API reference. When trying to make a decision between cursor and pagination styles, it's recommended to start with offset-based pagination since it provides more flexibility. If a table becomes very large and you need to page through it all, switch to the cursor-based method.

@@ -9,9 +9,9 @@ from concurrent.futures import ThreadPoolExecutor
 import requests
 import streamlit as st
 import yt_dlp
-from analysis.content_analysis import ContentAnalysisEngine
+from processing.content_analysis import ContentAnalysisEngine
 from dotenv import load_dotenv
-from lib.web_content_processor import WebContentProcessor
+from processing.web_content_processor import WebContentProcessor
 
 # Load environment variables
 load_dotenv()
