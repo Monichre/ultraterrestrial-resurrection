@@ -92,12 +92,26 @@ export const askXata = async (
 export const askXataWithAi = async ({
 	table,
 	question,
+	rules,
+	searchType,
+	search,
+	sessionId,
 }: {
 	table: string;
 	question: string;
+	rules?: string[];
+	searchType?: string;
+	search?: any;
+	sessionId?: string;
 }) => {
 	try {
-		const result = await xata.db[table].ask(question);
+		const askOptions: any = {};
+		if (rules) askOptions.rules = rules;
+		if (searchType) askOptions.searchType = searchType;
+		if (search) askOptions.search = search;
+		if (sessionId) askOptions.sessionId = sessionId;
+
+		const result = await xata.db[table].ask(question, askOptions);
 		return result;
 	} catch (error) {
 		console.error("Error asking Xata with AI:", error);
