@@ -1,6 +1,6 @@
 "use server";
 
-import { getEntityNetworkGraphData as _getEntityNetworkGraphData } from "@db/xata";
+import { getEntityNetworkGraphData as _getEntityNetworkGraphData } from "@db/xata/api";
 
 export async function getEntityNetworkGraphData(...args: Parameters<typeof _getEntityNetworkGraphData>) {
   const data = await _getEntityNetworkGraphData(...args);

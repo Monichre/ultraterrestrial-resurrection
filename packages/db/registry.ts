@@ -6,8 +6,8 @@
  * providers like Supabase or Convex in the future.
  */
 
+import { xata } from "./xata/client";
 import * as XATA from "./xata";
-const { xata, ...rest } = XATA;
 
 /**
  * The provider registry containing all available database connections
@@ -15,7 +15,7 @@ const { xata, ...rest } = XATA;
 export const PROVIDERS = {
 	xata: {
 		client: xata,
-		...rest,
+		...XATA,
 	},
 	// Future additions:
 	// supabase: supabaseClient,
