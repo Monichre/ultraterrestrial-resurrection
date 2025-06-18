@@ -7,7 +7,6 @@
  */
 
 import { xata } from "./xata/client";
-import * as XATA from "./xata";
 
 /**
  * The provider registry containing all available database connections
@@ -15,7 +14,6 @@ import * as XATA from "./xata";
 export const PROVIDERS = {
 	xata: {
 		client: xata,
-		...XATA,
 	},
 	// Future additions:
 	// supabase: supabaseClient,

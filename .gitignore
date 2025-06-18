@@ -246,3 +246,17 @@ ENV/
 checkmate/
 .checkmate
 .checkmate-telemetry/
+
+# Added by Task Master AI
+# Logs
+logs
+dev-debug.log
+# Dependency directories
+# Environment variables
+# Editor directories and files
+.idea
+.vscode
+*.sw?
+# OS specific
+# Task files
+tasks.json

@@ -335,3 +335,6 @@ const page = await xata.db.Users.getPaginated({
   pagination: { size: 10, offset: 10 }
 });
 You can find more information about pagination in the API reference. When trying to make a decision between cursor and pagination styles, it's recommended to start with offset-based pagination since it provides more flexibility. If a table becomes very large and you need to page through it all, switch to the cursor-based method.
+
+ This got me thinking about having you assist me in what it might look like to build a topic tracker or kind of   │
+│   a semantic frequency graph.

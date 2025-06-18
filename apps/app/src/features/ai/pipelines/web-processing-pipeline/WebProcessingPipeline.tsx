@@ -157,3 +157,5 @@ export function WebProcessingPipeline() {
     </div>
   )
 }
+
+export default WebProcessingPipeline;

@@ -14,6 +14,7 @@ import { forwardRef, useCallback, useEffect, useState } from 'react'
 import { ConnectionList } from '@/features/mindmap/components/connection-list'
 import { useEntity } from '@/hooks'
 import { truncate } from '@/utils/functions'
+import { useResearch } from '@/contexts/research/research-context'
 import type { ImageProps } from '@/utils/image.utils'
 import { format } from 'date-fns'
 import 'react-magic-motion/card.css'
@@ -64,6 +65,7 @@ export const MindMapEntityCard: React.FC<MindMapEntityCardProps> = ( {
   id,
   ...rest
 } ) => {
+  const { selectCard } = useResearch();
   const {
     handleHoverLeave,
     entity,
@@ -96,10 +98,20 @@ export const MindMapEntityCard: React.FC<MindMapEntityCardProps> = ( {
   const date = format( unformattedDate, 'MMM dd, yyyy' )
 
   const [expand, setExpand] = useState( false )
-  const toggle = useCallback( () => {
+  const toggle = useCallback( async () => {
     // findConnections(node)
     setExpand( !expand )
-  }, [expand] )
+    
+    // Also select this card for research interface
+    if (!expand) {
+      await selectCard({
+        id,
+        data,
+        type: 'entityNode',
+        position: { x: 0, y: 0 } // Position will be updated by the hook
+      })
+    }
+  }, [expand, selectCard, id, data] )
 
   const animation = {
     hide: { opacity: 0 },

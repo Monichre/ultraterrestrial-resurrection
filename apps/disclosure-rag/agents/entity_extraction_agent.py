@@ -3,15 +3,66 @@ import logging
 import os
 from typing import Any, Dict
 
-# Import the ContentAnalysisEngine and NER prompt.
-from agentic_rag.disclosure_data_ingestion.content_analysis import \
-    ContentAnalysisEngine
-from agentic_rag.research.ner_prompt import ner_prompt
-# Import the xata search function from xata_search.py.
-from agentic_rag.xata_search import search_record_for_analysis
-
+# Configure logging first
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
+
+# Import the ContentAnalysisEngine and NER prompt from local modules.
+from processing.content_analysis import ContentAnalysisEngine
+from research.named_entity_recognition_prompt import ner_prompt
+
+# Import the xata search function from local xata_search.py (optional).
+try:
+    from lib.xata_search import search_record_for_analysis
+    XATA_AVAILABLE = True
+except (ImportError, EnvironmentError) as e:
+    logger.warning(f"XATA search not available: {e}")
+    XATA_AVAILABLE = False
+    def search_record_for_analysis(*args, **kwargs):
+        return {"error": "XATA search not configured"}
+
+class EntityExtractionAgent:
+    """
+    Agent for extracting structured entities from text using NER and content analysis.
+    """
+    
+    def __init__(self):
+        """Initialize the entity extraction agent."""
+        try:
+            self.content_engine = ContentAnalysisEngine()
+            self.content_engine_available = True
+            logger.info("EntityExtractionAgent initialized with ContentAnalysisEngine")
+        except Exception as e:
+            logger.warning(f"ContentAnalysisEngine not available: {e}")
+            self.content_engine = None
+            self.content_engine_available = False
+            logger.info("EntityExtractionAgent initialized without ContentAnalysisEngine")
+    
+    def extract_entities(self, text: str) -> Dict[str, Any]:
+        """
+        Extract structured entities from the given text.
+        
+        Args:
+            text: The text to analyze for entities
+            
+        Returns:
+            Dictionary containing extracted entities organized by type
+        """
+        return get_structured_entities(text)
+    
+    def search_entities(self, structured_payload: Dict[str, Any], table_mapping: Dict[str, str]) -> Dict[str, Any]:
+        """
+        Search for entities using the provided payload.
+        
+        Args:
+            structured_payload: The entity data to search with
+            table_mapping: Mapping of entity types to database tables
+            
+        Returns:
+            Search results
+        """
+        return search_entities_with_payload(structured_payload, table_mapping)
+
 
 def get_structured_entities(analysis_text: str) -> Dict[str, Any]:
     """
