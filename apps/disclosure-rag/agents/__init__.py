@@ -4,17 +4,19 @@ from .disclosure_assistant import DisclosureAssistant, analyze_disclosure_conten
 
 
 # Import factory functions for each specialized agent
-from agents.orchestration.specialized.historical_timeline_agent import create_historical_timeline_agent
-from agents.orchestration.specialized.claims_evidence_agent import create_claims_evidence_agent
-from agents.orchestration.specialized.geospatial_agent import create_geospatial_agent
-from agents.orchestration.specialized.network_agent import create_network_agent
-from agents.orchestration.specialized.documentation_agent import create_documentation_agent
-from agents.orchestration.specialized.dataviz_agent import create_dataviz_agent
-from agents.orchestration.specialized.theory_agent import create_theory_agent
-from agents.orchestration.specialized.organization_agent import create_organization_agent
-from agents.orchestration.specialized.testimony_agent import create_testimony_agent
-from agents.orchestration.specialized.user_engagement_agent import create_user_engagement_agent
-from agents.orchestration.specialized.api_integration_agent import create_api_integration_agent
+try:
+    from .historical_timeline_agent import make_historical_timeline_agent as create_historical_timeline_agent
+    from .claims_evidence_agent import create_claims_evidence_agent
+    from .geospatial_agent import create_geospatial_agent
+    from .network_agent import create_network_agent
+    from .documentation_agent import create_documentation_agent
+    from .dataviz_agent import create_dataviz_agent
+    from .theory_agent import create_theory_agent
+    from .organization_agent import create_organization_agent
+    from .testimony_agent import create_testimony_agent
+    from .api_integration_agent import create_api_integration_agent
+except ImportError as e:
+    print(f"Warning: Could not import some agent factories: {e}")
 
 # Import KnowledgeGraphAssistant separately to avoid circular imports
 try:
@@ -41,19 +43,24 @@ allowing for dynamic agent creation based on agent type.
 
 
 # Agent registry mapping agent types to factory functions
-AGENT_FACTORIES = {
-    "historical": create_historical_timeline_agent,
-    "claims_evidence": create_claims_evidence_agent,
-    "geospatial": create_geospatial_agent,
-    "network": create_network_agent,
-    "documentation": create_documentation_agent,
-    "dataviz": create_dataviz_agent,
-    "theory": create_theory_agent,
-    "organization": create_organization_agent,
-    "testimony": create_testimony_agent,
-    "user_engagement": create_user_engagement_agent,
-    "api_integration": create_api_integration_agent
-}
+AGENT_FACTORIES = {}
+
+# Safely register agent factories
+try:
+    AGENT_FACTORIES.update({
+        "historical": create_historical_timeline_agent,
+        "claims_evidence": create_claims_evidence_agent,
+        "geospatial": create_geospatial_agent,
+        "network": create_network_agent,
+        "documentation": create_documentation_agent,
+        "dataviz": create_dataviz_agent,
+        "theory": create_theory_agent,
+        "organization": create_organization_agent,
+        "testimony": create_testimony_agent,
+        "api_integration": create_api_integration_agent
+    })
+except NameError as e:
+    print(f"Warning: Some agent factories not available: {e}")
 
 
 def get_agent_factory(agent_type):

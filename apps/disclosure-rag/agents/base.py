@@ -1,7 +1,8 @@
 # agents/base.py
 import os
 from agno import Agent, PromptTemplate
-from agno.models import OpenAIChat, AnthropicChat
+from agno.models import OpenAIChat
+from agno.models.anthropic import Claude as AnthropicChat
 from agno.storage.sqlite import SqliteStorage
 from agno.tools.duckduckgo import DuckDuckGoTools
 from agno.tools.web import WebBrowserTools

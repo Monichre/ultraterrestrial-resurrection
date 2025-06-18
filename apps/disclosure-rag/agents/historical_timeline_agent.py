@@ -4,7 +4,7 @@ Extracted from the inline definition in research_crew.py.
 """
 
 from agno.agent import Agent
-from agno.models.anthropic import AnthropicChat
+from agno.models.anthropic import Claude as AnthropicChat
 from agno.storage.sqlite import SqliteStorage
 from utils.tools import get_tools_for_agent
 

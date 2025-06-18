@@ -1,6 +1,5 @@
 from typing import Optional, Dict, Any
-from disclosure_rag.agents.disclosure_assistant import DisclosureAssistant
-from disclosure_rag.utils.logger import logger
+import logging
 import time
 import json
 from rich.console import Console
@@ -8,6 +7,7 @@ import os
 from openai import OpenAI
 
 console = Console()
+logger = logging.getLogger(__name__)
 
 class DisclosureAssistant:
     """
@@ -145,6 +145,55 @@ class DisclosureAssistant:
             
             # Execute run
             run = self.client.beta.threads.runs.create(**run_params)
+            
+            # Wait for completion with polling
+            while True:
+                run = self.client.beta.threads.runs.retrieve(thread_id=thread.id, run_id=run.id)
+                
+                if run.status == "completed":
+                    break
+                elif run.status == "requires_action":
+                    self._handle_tool_calls(thread.id, run.id, run)
+                elif run.status in ["failed", "cancelled", "expired"]:
+                    raise Exception(f"Run failed with status: {run.status}")
+                
+                time.sleep(1)
+                
+                # Check timeout
+                if time.time() - start_time > timeout:
+                    raise TimeoutError(f"Analysis timed out after {timeout} seconds")
+            
+            # Get the response
+            messages = self.client.beta.threads.messages.list(thread_id=thread.id)
+            
+            # Extract assistant's response
+            assistant_messages = [msg for msg in messages.data if msg.role == "assistant"]
+            if not assistant_messages:
+                raise Exception("No response from assistant")
+            
+            # Get the latest message content
+            latest_message = assistant_messages[0]
+            response_text = ""
+            for content in latest_message.content:
+                if content.type == "text":
+                    response_text += content.text.value
+            
+            analysis_time = time.time() - start_time
+            logger.info(f"Analysis completed in {analysis_time:.2f} seconds")
+            
+            return {
+                "status": "success",
+                "response": response_text,
+                "analysis_time": analysis_time,
+                "thread_id": thread.id
+            }
+            
+        except Exception as e:
+            logger.error(f"Error in disclosure assistant analysis: {e}")
+            return {
+                "status": "error", 
+                "error": str(e)
+            }
 
     def _handle_tool_calls(self, thread_id: str, run_id: str, run: Any) -> None:
         """
@@ -433,18 +482,4 @@ def analyze_disclosure_content(content: str,
     except Exception as e:
         logger.error(f"Error in analyze_disclosure_content: {e}")
         return f"Error analyzing content: {str(e)}"
-      # For detailed control:
-assistant = DisclosureAssistant(vector_store_id="your-vector-store-id")
-result = assistant.cross_reference_analysis(
-    original_analysis="Your existing analysis text...",
-    custom_instructions="Focus on historical connections and testimonial corroboration"
-)
-enhanced_analysis = result["enhanced_analysis"]
-# See what points were researched
-extracted_points = result["extracted_points"]
-
-# Or simple one-line usage:
-enhanced_analysis = cross_reference_disclosure_analysis(
-    original_analysis="Your existing analysis text..."
-)
 

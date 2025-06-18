@@ -55,27 +55,18 @@
 //   theory?: any
 //   user?: any
 // }
-// export const saveEventForUser = async ( {
-//   userNote,
-//   event,
-//   theory,
-//   user,
-// }: {
-//   userNote: { content: string; title: string }
-//   event: any
-//   theory: any
-//   user: any
-// } ) => {
-
-
-//   const record = await xata.db[`user-saved-events`].create( {
-//     user,
-//     event,
-//     theory,
-//     note: userNote?.content,
-//     'note-title': userNote?.title,
-//   } )
-
-//   console.log( 'user-saved-events', record )
-//   return record
-// }
+export const saveEventForUser = async ( {
+  userNote,
+  event,
+  theory,
+  user,
+}: {
+  userNote: { content: string; title: string }
+  event: any
+  theory: any
+  user: any
+} ) => {
+  // TODO: Implement when database is ready
+  console.log('saveEventForUser called with:', { userNote, event, theory, user })
+  return Promise.resolve({ id: 'mock-id', success: true })
+}

@@ -7,10 +7,10 @@ analyzing witness credibility, and evaluating documentation authenticity.
 
 import logging
 from agno.agent import Agent
-from agno.models.anthropic import AnthropicChat
+from agno.models.anthropic import Claude as AnthropicChat
 from agno.storage.sqlite import SqliteStorage
 from utils.tools import get_tools_for_agent
-from agents.orchestration.specialized.prompts import AGENT_PROMPTS
+from agents.prompts import AGENT_PROMPTS
 
 # Configure logging
 logging.basicConfig(level=logging.INFO,

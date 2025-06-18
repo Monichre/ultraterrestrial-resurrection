@@ -1,0 +1,36 @@
+---
+description: AI development, feature enhancement or service integrations
+globs: 
+alwaysApply: false
+---
+# AI Integration
+
+The project integrates several AI capabilities through various services and libraries.
+
+## AI Service Integrations
+
+- `anthropic` - Anthropic Claude API integration
+- `openai` - OpenAI API integration
+- `mem0` - Memory and knowledge storage
+- `tavily` - Tavily search_files integration
+
+## AI Feature Structure
+
+- `apps/app/src/features/ai/actions` - AI action functions
+- `apps/app/src/features/ai/components` - AI UI components
+- `apps/app/src/features/ai/knowledge` - Knowledge integration
+- `apps/app/src/features/ai/pipelines` - AI processing pipelines
+
+## Key AI Intregrations
+
+- [apps/app/src/lib/anthropic](mdc:ultraterrestrial-resurrection/apps/app/src/lib/anthropic) - Anthropic client
+- [apps/app/src/lib/openai](mdc:ultraterrestrial-resurrection/apps/app/src/lib/openai) - OpenAI client
+- [apps/app/src/lib/mem0](mdc:ultraterrestrial-resurrection/apps/app/src/lib/mem0) - Mem0 client
+- [apps/app/src/features/ai](mdc:ultraterrestrial-resurrection/apps/app/src/features/ai) - AI features
+
+## AI Usage Patterns
+
+- Use server actions for AI processing
+- Implement client-side streaming for real-time responses
+- Follow established error handling and rate limiting
+- Structure prompts consistently using template literals

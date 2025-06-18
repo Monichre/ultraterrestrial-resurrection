@@ -10,7 +10,7 @@ from agno.agent import Agent
 from agno.models.openai import OpenAIChat
 from agno.storage.sqlite import SqliteStorage
 from utils.tools import get_tools_for_agent
-from agents.orchestration.specialized.prompts import AGENT_PROMPTS
+from agents.prompts import AGENT_PROMPTS
 from .base import create_agent, GPT4_TURBO
 
 # Configure logging

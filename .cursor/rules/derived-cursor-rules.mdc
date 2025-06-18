@@ -1,14 +1,8 @@
 ---
 description: AI rules derived by SpecStory from the project AI interaction history
 globs: *
-alwaysApply: false
 ---
 
----
-description: AI rules derived by SpecStory from the project AI interaction history
-globs: *
-alwaysApply: false
----
 ## PROJECT DOCUMENTATION & CONTEXT SYSTEM
 
 All project documentation, including coding standards, workflow guidelines, and API specifications, will be stored in Markdown (.md) files. These files should be concise and easily understandable. File naming should follow the convention `XX-title.md` where `XX` is the sequence order (e.g., `01-UFO-Visualization.md`).
@@ -19,7 +13,7 @@ All project documentation, including coding standards, workflow guidelines, and 
 
 ### Ticket Tracking
 
-Tickets will be managed using Markdown files in the `tickets` directory. Each ticket will follow a consistent template outlining its goal, acceptance criteria, implementation notes, out-of-scope items, and test strategy. The status of each ticket will be indicated using the following keys: ✅ done, ⏳ pending, 🛑 blocked. The `tickets/README.md` file will contain an overview of the ticket system and naming conventions. The AI assistant should review `README.md` before starting work on a ticket. New utility functions should have accompanying test files created in a `__tests__` subdirectory within the relevant module directory.  A new `DisclosureRagRecovered_Migration.md` file will document the migration of code from `disclosure-rag-recovered` to `disclosure-rag`.  This will include a detailed specification of each ticket, including title, description, acceptance criteria, implementation notes, references, effort estimation, and testing guidelines.  All tickets related to the migration of the `disclosure-rag-recovered` package should be created in the `tickets` directory, following the guidelines specified in `ticket-workflow.mdc`.  The following files were identified for migration from `disclosure-rag-recovered` to `disclosure-rag`: `disclosure_chat.py`, `agno_disclosure_chat.py`, `agno_disclosure_chat_with_files.py`, `main.sh`, `README_AGNO_CHAT.md`, `README_DISCLOSURE_CHAT.md`, and `research/ner_summary_to_xata_table_prompt.py.bak`.  These migration tasks should be documented as separate tickets within the `tickets` directory, following the template specified in `ticket-workflow.mdc`.  All migration planning, specifications, and pseudocode should be tracked in the `tickets/` directory.  All migration tickets should be created in the `tickets/` directory and follow the `ticket-workflow.mdc` guidelines.
+Tickets will be managed using Markdown files in the `tickets` directory. Each ticket will follow a consistent template outlining its goal, acceptance criteria, implementation notes, out-of-scope items, and test strategy. The status of each ticket will be indicated using the following keys: ✅ done, ⏳ pending, 🛑 blocked. The `tickets/README.md` file will contain an overview of the ticket system and naming conventions. The AI assistant should review `README.md` before starting work on a ticket. New utility functions should have accompanying test files created in a `__tests__` subdirectory within the relevant module directory.  A new `DisclosureRagRecovered_Migration.md` file will document the migration of code from `disclosure-rag-recovered` to `disclosure-rag`.  This will include a detailed specification of each ticket, including title, description, acceptance criteria, implementation notes, references, effort estimation, and testing guidelines.  All tickets related to the migration of the `disclosure-rag-recovered` package should be created in the `tickets` directory, following the guidelines specified in `ticket-workflow.mdc`.  The following files were identified for migration from `disclosure-rag-recovered` to `disclosure-rag`: `disclosure_chat.py`, `agno_disclosure_chat.py`, `agno_disclosure_chat_with_files.py`, `main.sh`, `README_AGNO_CHAT.md`, `README_DISCLOSURE_CHAT.md`, and `research/ner_summary_to_xata_table_prompt.py.bak`.  These migration tasks should be documented as separate tickets within the `tickets` directory, following the template specified in `ticket-workflow.mdc`.  All migration planning, specifications, and pseudocode should be tracked in the `tickets/` directory.  All migration tickets should be created in the `tickets/` directory and follow the `ticket-workflow.mdc` guidelines.  All tickets related to the migration should be created in the `tickets` directory.  The `.md` files detailing the pseudocode and migration specification should also be added to the tickets directory. All migration tickets should be created in the `tickets/` directory and follow the `ticket-workflow.mdc` guidelines.
 
 
 ## TECH STACK
@@ -79,6 +73,10 @@ The application integrates with various AI and data services including OpenAI, A
 
 The knowledge base should be properly indexed and referenced in AI features.
 
+### Xata Integration Rules
+
+*   **Immediate Priority**: Support for Non Postgres Wire Enabled Xata database instances is the top priority.
+*   The system should maintain support for both Postgres Wire enabled and Non Postgres Wire Enabled Xata database instances.
 
 ## UI DEVELOPMENT GUIDELINES
 
@@ -86,4 +84,72 @@ UI development should adhere to the established component patterns in the `compo
 
 ## PYTHON PACKAGE INTEGRATION
 
-The project includes a Python package (`disclosure-rag`).  A separate, recovered version (`disclosure-rag-recovered`) exists.  All files and functionality present in `disclosure-rag-recovered` but missing from `disclosure-rag` must be integrated into the main project.  This includes files within the `research`, `processing`, `lib`, and `agents` directories, as well as any additional Python libraries or modules identified during the comparison.  This integration should be tracked as a new feature with appropriate documentation and testing.  The following files and functionalities from `disclosure-rag-recovered` need to be integrated into `disclosure-rag`: `disclosure_chat.py`, `agno_disclosure_chat.py`, `agno_disclosure_chat_with_files.py`, `main.sh`, `README_AGNO_CHAT.md`, `README_DISCLOSURE_CHAT.md`, and `research/ner_summary_to_xata_table_prompt.py.bak`.  A new feature will track this migration, documented in `DisclosureRagRecovered_Migration.md`. All tickets for this migration will be created and managed within the `tickets` directory, following the guidelines in `ticket-workflow.mdc`.  All tickets related to the migration should be created in the `tickets` directory.  The `.md` files detailing the pseudocode and migration specification should also be added to the tickets directory. All migration tickets should be created in the `tickets/` directory and follow the `ticket-workflow.mdc` guidelines.
+The project includes a Python package (`disclosure-rag`).  A separate, recovered version (`disclosure-rag-recovered`) exists.  All files and functionality present in `disclosure-rag-recovered` but missing from `disclosure-rag` must be integrated into the main project.  This includes files within the `research`, `processing`, `lib`, and `agents` directories, as well as any additional Python libraries or modules identified during the comparison.  This integration should be tracked as a new feature with appropriate documentation and testing.  The following files and functionalities from `disclosure-rag-recovered` need to be integrated into `disclosure-rag`: `disclosure_chat.py`, `agno_disclosure_chat.py`, `agno_disclosure_chat_with_files.py`, `main.sh`, `README_AGNO_CHAT.md`, `README_DISCLOSURE_CHAT.md`, and `research/ner_summary_to_xata_table_prompt.py.bak`.  A new feature will track this migration, documented in `DisclosureRagRecovered_Migration.md`. All tickets for this migration will be created and managed within the `tickets` directory, following the guidelines in `ticket-workflow.mdc`.  All tickets related to the migration should be created in the `tickets` directory, following the guidelines in `ticket-workflow.mdc`.  All tickets related to the migration should be created in the `tickets` directory.  The `.md` files detailing the pseudocode and migration specification should also be added to the tickets directory. All migration tickets should be created in the `tickets/` directory and follow the `ticket-workflow.mdc` guidelines.
+
+## DEVELOPMENT ENVIRONMENT SETUP
+
+The development environment should be set up as follows:
+
+### 1. **Prerequisites**
+```bash
+# Install Node Version Manager
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+
+# Use the correct Node version
+nvm use
+
+# Install pnpm if you don't have it
+npm install -g pnpm@^10
+```
+
+### 2. **Install Dependencies**
+```bash
+cd /Users/liamellis/Desktop/ultraterrestrial-database-agent/apps/dbagent
+pnpm install
+```
+
+### 3. **Start Database**
+```bash
+# Start PostgreSQL via Docker
+docker compose up postgres
+```
+
+### 4. **Environment Setup**
+```bash
+# Copy and edit environment file
+cp .env.example .env.local
+# Edit with your LLM credentials (OpenAI, Anthropic, etc.)
+vim .env.local
+```
+
+### 5. **Initialize Database**
+```bash
+pnpm run db:migrate
+```
+
+### 6. **Run the Application**
+```bash
+# Start the main app
+pnpm run dev
+```
+
+### 7. **Start Scheduler (Optional)**
+In a separate terminal:
+```bash
+# Only needed if you want scheduled tasks
+pnpm run dev-scheduler
+```
+
+### 🐳 **Alternative: Docker Compose (Easier)**
+
+If you prefer Docker:
+
+```bash
+# Copy environment file
+cp .env.example .env.local
+# Edit with your credentials
+vim .env.local
+
+# Run everything with Docker
+docker compose up
+```

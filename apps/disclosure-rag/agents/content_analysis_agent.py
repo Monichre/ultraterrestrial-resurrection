@@ -5,7 +5,7 @@ from typing import Dict, Any, Optional, List, Union
 import time
 
 from agno.agent import Agent
-from agno.models.anthropic import AnthropicChat
+from agno.models.anthropic import Claude as AnthropicChat
 from agno.models.openai import OpenAIChat
 from agno.storage.sqlite import SqliteStorage
 from openai import OpenAI
