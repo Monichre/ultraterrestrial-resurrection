@@ -223,7 +223,7 @@ export type SearchParams = {
 // Ask API Types
 export type AskParams = {
   question: string;
-  rules?: string;
+  rules?: string | string[];
   table?: string;
 };
 

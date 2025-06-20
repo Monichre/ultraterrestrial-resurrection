@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 """
-Main entry point for the Disclosure RAG system
-Handles processing of URLs, files, and various content types
+Enhanced main.py with Upstash Search integration
+Your existing daily workflow + automatic Search sync for frontend
+Date: June 20, 2025
+
+Usage (same as before):
+  python main_enhanced.py "https://youtube.com/watch?v=..."
+  python main_enhanced.py "https://some-article.com"
+  python main_enhanced.py /path/to/document.pdf --upload
 """
 
 import argparse
@@ -25,7 +31,15 @@ logger = logging.getLogger(__name__)
 # Add project to path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-# Import project modules
+# Import enhanced integration
+from lib.enhanced_main_integration import (
+    enhanced_integration,
+    process_youtube_url_enhanced,
+    process_web_url_enhanced,
+    add_to_knowledge_base
+)
+
+# Import existing modules (fallback if enhanced fails)
 from lib.openai.upload import upload_file_to_openai
 from processing.web_content_processor import WebContentProcessor
 from lib.youtube import (
@@ -43,61 +57,89 @@ kb_crud = KnowledgeBaseCRUD()
 local_rag = LocalRAG()
 rag_integration = LocalRAGIntegration(kb_crud, local_rag)
 
+def is_youtube_url(url: str) -> bool:
+    """Check if URL is a YouTube video"""
+    return any(domain in url.lower() for domain in ['youtube.com', 'youtu.be'])
 
 def process_url(url: str, upload: bool = False, add_to_kb: bool = True) -> Optional[Dict[str, Any]]:
-    """Process a URL (web page or YouTube video)"""
+    """Process a URL (web page or YouTube video) with enhanced integration"""
     logger.info(f"Processing URL: {url}")
     
-    # Check if it's a YouTube URL
-    if "youtube.com" in url or "youtu.be" in url:
-        return process_youtube_url(url, upload, add_to_kb)
-    else:
-        return process_web_url(url, upload, add_to_kb)
+    try:
+        if is_youtube_url(url):
+            # Use enhanced YouTube processing
+            result = process_youtube_url_enhanced(url, upload)
+            return result
+        else:
+            # Use enhanced web processing
+            result = process_web_url_enhanced(url, upload)
+            return result
+            
+    except Exception as e:
+        logger.error(f"Enhanced processing failed, falling back to original: {e}")
+        
+        # Fallback to original processing if enhanced fails
+        if is_youtube_url(url):
+            return process_youtube_url_original(url, upload, add_to_kb)
+        else:
+            return process_web_url_original(url, upload, add_to_kb)
 
-
-def process_youtube_url(url: str, upload: bool = False, add_to_kb: bool = True) -> Optional[Dict[str, Any]]:
-    """Process a YouTube video URL"""
-    logger.info(f"Processing YouTube video: {url}")
+def process_youtube_url_original(url: str, upload: bool = False, add_to_kb: bool = True) -> Optional[Dict[str, Any]]:
+    """Original YouTube processing (fallback)"""
+    logger.info(f"Processing YouTube URL (original): {url}")
     
     try:
-        data = generate_transcript(url)
-        
-        if not data:
+        # Generate transcript
+        transcript_data = generate_transcript(url)
+        if not transcript_data:
             logger.error("Failed to generate transcript")
             return None
         
-        # Handle file uploads
+        # Write transcript files
+        file_paths = write_transcript_to_file(transcript_data)
+        if not file_paths:
+            logger.error("Failed to write transcript files")
+            return None
+        
+        # Create data structure
+        data = {
+            'content': transcript_data.get('transcript', ''),
+            'title': transcript_data.get('title', 'YouTube Video'),
+            'source': url,
+            'metadata': {
+                'video_id': transcript_data.get('video_id', ''),
+                'channel': transcript_data.get('channel', ''),
+                'duration': transcript_data.get('duration', ''),
+                'upload_date': transcript_data.get('upload_date', ''),
+                'url': url,
+                'type': 'youtube_transcript'
+            },
+            'file_paths': file_paths
+        }
+        
+        # Upload to OpenAI if requested
         if upload:
-            upload_results = []
+            upload_results = {}
+            for file_type, file_path in file_paths.items():
+                if os.path.exists(file_path):
+                    result = upload_file_to_openai(file_path)
+                    upload_results[file_type] = result
             
-            if data.get('file_path') and os.path.exists(data['file_path']):
-                result = upload_file_to_openai(data['file_path'])
-                upload_results.append(result)
-                logger.info(f"Uploaded transcript: {result}")
+            # Add to queue with metadata file if available
+            summary_path = file_paths.get('summary', file_paths.get('transcript'))
+            metadata_path = file_paths.get('metadata')
             
-            if data.get('summary_path') and os.path.exists(data['summary_path']):
-                result = upload_file_to_openai(data['summary_path'])
-                upload_results.append(result)
-                logger.info(f"Uploaded summary: {result}")
-            
-            if data.get('metadata_path') and os.path.exists(data['metadata_path']):
-                result = upload_file_to_openai(data['metadata_path'])
-                upload_results.append(result)
-                logger.info(f"Uploaded metadata: {result}")
-                
-                # Add to processing queue
-                with open(data['metadata_path'], 'r', encoding='utf-8') as f:
+            if metadata_path and os.path.exists(metadata_path):
+                with open(metadata_path, 'r', encoding='utf-8') as f:
                     metadata_obj = json.load(f)
-                add_processed_content_to_queue(
-                    metadata_obj, 
-                    data.get('summary_path'), 
-                    data.get('file_path')
-                )
+                add_processed_content_to_queue(metadata_obj, summary_path, file_paths.get('transcript'))
+            else:
+                add_processed_content_to_queue(data['metadata'], summary_path, file_paths.get('transcript'))
             
             data['upload_results'] = upload_results
         
         # Add to knowledge base
-        if add_to_kb and data.get('file_path'):
+        if add_to_kb:
             add_to_knowledge_base(data, 'transcript')
         
         return data
@@ -106,54 +148,48 @@ def process_youtube_url(url: str, upload: bool = False, add_to_kb: bool = True) 
         logger.error(f"Error processing YouTube URL: {e}")
         return None
 
-
-def process_web_url(url: str, upload: bool = False, add_to_kb: bool = True) -> Optional[Dict[str, Any]]:
-    """Process a web page URL"""
-    logger.info(f"Scraping web content from: {url}")
+def process_web_url_original(url: str, upload: bool = False, add_to_kb: bool = True) -> Optional[Dict[str, Any]]:
+    """Original web processing (fallback)"""
+    logger.info(f"Processing web URL (original): {url}")
     
     try:
-        data = web_processor.process_url(url)
-        
-        if not data:
-            logger.error("Failed to scrape content")
+        # Process web content
+        result = web_processor.process_url(url)
+        if not result:
+            logger.error("Failed to process web content")
             return None
         
-        content = data.get('content')
-        metadata = data.get('metadata', {})
-        markdown = data.get('markdown', '')
-        summary = data.get('summary', '')
-        title = metadata.get('title', 'Untitled')
+        # Create data structure
+        data = {
+            'content': result.get('content', ''),
+            'title': result.get('title', 'Web Article'),
+            'source': url,
+            'metadata': {
+                'url': url,
+                'title': result.get('title', ''),
+                'author': result.get('author', ''),
+                'publish_date': result.get('publish_date', ''),
+                'type': 'web_article'
+            }
+        }
         
-        # Write files
-        file_path = write_transcript_to_file(title, markdown, url, None)
-        summary_path = write_transcript_to_file(f"{title} Summary", summary, url, None)
-        
-        data['file_path'] = file_path
-        data['summary_path'] = summary_path
-        
-        logger.info(f"Content saved to: {file_path}")
-        
-        # Handle uploads
-        if upload:
-            upload_results = []
+        # Upload and add to queue if requested
+        if upload and 'file_path' in result:
+            upload_result = upload_file_to_openai(result['file_path'])
             
-            result = upload_file_to_openai(file_path)
-            upload_results.append(result)
-            logger.info(f"Uploaded content: {result}")
+            # Add to queue
+            metadata_path = result.get('metadata_path')
+            summary_path = result.get('summary_path')
+            file_path = result.get('file_path')
             
-            result = upload_file_to_openai(summary_path)
-            upload_results.append(result)
-            logger.info(f"Uploaded summary: {result}")
-            
-            # Add to processing queue
-            if data.get('metadata_path') and os.path.exists(data['metadata_path']):
-                with open(data['metadata_path'], 'r', encoding='utf-8') as f:
+            if metadata_path and os.path.exists(metadata_path):
+                with open(metadata_path, 'r', encoding='utf-8') as f:
                     metadata_obj = json.load(f)
                 add_processed_content_to_queue(metadata_obj, summary_path, file_path)
             else:
-                add_processed_content_to_queue(metadata, summary_path, file_path)
+                add_processed_content_to_queue(data['metadata'], summary_path, file_path)
             
-            data['upload_results'] = upload_results
+            data['upload_results'] = upload_result
         
         # Add to knowledge base
         if add_to_kb:
@@ -164,7 +200,6 @@ def process_web_url(url: str, upload: bool = False, add_to_kb: bool = True) -> O
     except Exception as e:
         logger.error(f"Error processing web URL: {e}")
         return None
-
 
 def process_file(file_path: str, upload: bool = False, add_to_kb: bool = True) -> Optional[Dict[str, Any]]:
     """Process a local file"""
@@ -197,19 +232,21 @@ def process_file(file_path: str, upload: bool = False, add_to_kb: bool = True) -
                 'title': title,
                 'source': file_path,
                 'type': 'file',
-                'processed_at': datetime.now().isoformat()
+                'file_type': Path(file_path).suffix
             }
         }
         
-        # Handle upload
+        # Upload if requested
         if upload:
-            result = upload_file_to_openai(file_path)
-            data['upload_result'] = result
-            logger.info(f"Uploaded file: {result}")
+            upload_result = upload_file_to_openai(file_path)
+            data['upload_results'] = upload_result
+            
+            # Add to queue
+            add_processed_content_to_queue(data['metadata'], file_path, file_path)
         
         # Add to knowledge base
         if add_to_kb:
-            doc_type = 'research' if 'research' in file_path.lower() else 'case_file'
+            doc_type = 'research' if file_path.endswith('.pdf') else 'article'
             add_to_knowledge_base(data, doc_type)
         
         return data
@@ -218,184 +255,56 @@ def process_file(file_path: str, upload: bool = False, add_to_kb: bool = True) -
         logger.error(f"Error processing file: {e}")
         return None
 
-
-def process_file_with_urls(file_path: str, upload: bool = False, add_to_kb: bool = True) -> Optional[Dict[str, Any]]:
-    """Process a file containing URLs (one per line)"""
-    logger.info(f"Processing URL file: {file_path}")
-    
-    if not os.path.exists(file_path):
-        logger.error(f"File not found: {file_path}")
-        return None
-    
-    try:
-        with open(file_path, 'r', encoding='utf-8') as f:
-            urls = [line.strip() for line in f if line.strip()]
-        
-        results = []
-        for url in urls:
-            logger.info(f"Processing URL from file: {url}")
-            result = process_url(url, upload, add_to_kb)
-            if result:
-                results.append(result)
-        
-        return {
-            'source_file': file_path,
-            'total_urls': len(urls),
-            'processed': len(results),
-            'results': results
-        }
-        
-    except Exception as e:
-        logger.error(f"Error processing URL file: {e}")
-        return None
-
-
-def add_to_knowledge_base(data: Dict[str, Any], doc_type: str):
-    """Add processed content to the knowledge base"""
-    try:
-        # Extract content
-        content = data.get('content', '')
-        if not content and data.get('file_path'):
-            with open(data['file_path'], 'r', encoding='utf-8') as f:
-                content = f.read()
-        
-        if not content:
-            logger.warning("No content to add to knowledge base")
-            return
-        
-        # Extract metadata
-        metadata = data.get('metadata', {})
-        title = metadata.get('title', data.get('title', 'Untitled'))
-        source = metadata.get('url', metadata.get('source', data.get('source', 'Unknown')))
-        
-        # Create document in knowledge base
-        doc = kb_crud.create_document(
-            title=title,
-            content=content,
-            source=source,
-            doc_type=doc_type,
-            metadata=metadata,
-            tags=extract_tags(content, title)
-        )
-        
-        # Sync to local RAG
-        rag_integration.sync_document(doc.id)
-        
-        logger.info(f"Added to knowledge base: {doc.id} - {title}")
-        
-    except Exception as e:
-        logger.error(f"Error adding to knowledge base: {e}")
-
-
-def extract_tags(content: str, title: str) -> list:
-    """Extract relevant tags from content"""
-    tags = []
-    
-    # Common UFO/UAP related keywords
-    keywords = [
-        'ufo', 'uap', 'alien', 'extraterrestrial', 'disclosure',
-        'pentagon', 'military', 'pilot', 'sighting', 'encounter',
-        'craft', 'object', 'phenomenon', 'classified', 'witness',
-        'testimony', 'congress', 'hearing', 'report', 'document'
-    ]
-    
-    # Check title and content for keywords
-    combined_text = f"{title} {content}".lower()
-    
-    for keyword in keywords:
-        if keyword in combined_text:
-            tags.append(keyword)
-    
-    return list(set(tags))[:10]  # Limit to 10 tags
-
-
 def main():
-    parser = argparse.ArgumentParser(
-        description="Disclosure RAG - Process and manage UFO/UAP research content",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
-Examples:
-  # Process a web article
-  python main.py --url https://example.com/ufo-article
-  
-  # Process a YouTube video with upload
-  python main.py --url https://youtube.com/watch?v=... --upload
-  
-  # Process a local file
-  python main.py --file /path/to/document.md
-  
-  # Process multiple URLs from a file
-  python main.py --url-file urls.txt --upload
-  
-  # Launch the Knowledge Base UI
-  python main.py --ui
-  
-  # Sync all documents to local RAG
-  python main.py --sync-rag
-        """
-    )
-    
-    # Input options
-    input_group = parser.add_mutually_exclusive_group()
-    input_group.add_argument('--url', help="URL of webpage or YouTube video to process")
-    input_group.add_argument('--file', help="Path to local file to process")
-    input_group.add_argument('--url-file', help="Path to file containing URLs (one per line)")
-    
-    # Processing options
-    parser.add_argument('--upload', action='store_true', 
-                       help="Upload processed content to OpenAI")
-    parser.add_argument('--no-kb', action='store_true',
-                       help="Don't add to knowledge base")
-    
-    # UI and management options
-    parser.add_argument('--ui', action='store_true',
-                       help="Launch the Knowledge Base UI")
-    parser.add_argument('--sync-rag', action='store_true',
-                       help="Sync all knowledge base documents to local RAG")
-    
-    # Legacy compatibility
-    parser.add_argument('--scrape', action='store_true',
-                       help="(Legacy) Force scraping mode for URL")
-    parser.add_argument('--pdf', action='store_true',
-                       help="(Legacy) Process as PDF")
+    """Main function with enhanced integration"""
+    parser = argparse.ArgumentParser(description="Enhanced Disclosure RAG Content Processor")
+    parser.add_argument("input", help="URL or file path to process")
+    parser.add_argument("--upload", action="store_true", help="Upload to OpenAI vector store")
+    parser.add_argument("--no-kb", action="store_true", help="Skip adding to knowledge base")
+    parser.add_argument("--status", action="store_true", help="Show integration status")
     
     args = parser.parse_args()
     
-    # Handle UI launch
-    if args.ui:
-        logger.info("Launching Knowledge Base UI...")
-        os.system("streamlit run knowledge_base_ui.py")
+    if args.status:
+        status = enhanced_integration.get_integration_status()
+        print(f"\n🔧 Integration Status:")
+        print(f"   Local KB: {'✅' if status['local_kb'] else '❌'}")
+        print(f"   Search Sync: {'✅' if status['search_sync'] else '❌'}")
+        print(f"   Search URL: {'✅' if status['search_url'] else '❌'}")
+        print(f"   Search Token: {'✅' if status['search_token'] else '❌'}")
+        
+        if not status['search_sync']:
+            print(f"\n💡 To enable Search sync, set environment variables:")
+            print(f"   export UPSTASH_SEARCH_URL=your_url")
+            print(f"   export UPSTASH_SEARCH_TOKEN=your_token")
         return
     
-    # Handle RAG sync
-    if args.sync_rag:
-        logger.info("Syncing knowledge base to local RAG...")
-        rag_integration.sync_all_documents()
-        stats = local_rag.get_stats()
-        logger.info(f"RAG stats: {stats}")
-        return
-    
-    # Process inputs
+    # Process input
+    input_path = args.input.strip()
     add_to_kb = not args.no_kb
     
-    if args.url:
-        result = process_url(args.url, args.upload, add_to_kb)
-        if result:
-            print(json.dumps(result, indent=2, default=str))
-    
-    elif args.file:
-        result = process_file(args.file, args.upload, add_to_kb)
-        if result:
-            print(json.dumps(result, indent=2, default=str))
-    
-    elif args.url_file:
-        result = process_file_with_urls(args.url_file, args.upload, add_to_kb)
-        if result:
-            print(json.dumps(result, indent=2, default=str))
-    
+    # Determine input type and process
+    if input_path.startswith(('http://', 'https://')):
+        result = process_url(input_path, args.upload, add_to_kb)
     else:
-        parser.print_help()
-
+        result = process_file(input_path, args.upload, add_to_kb)
+    
+    if result:
+        print(f"\n✅ Processing complete!")
+        print(f"   Title: {result.get('title', 'Unknown')}")
+        print(f"   Source: {result.get('source', 'Unknown')}")
+        
+        if 'doc_id' in result:
+            print(f"   Document ID: {result['doc_id']}")
+        
+        if args.upload and 'upload_results' in result:
+            print(f"   OpenAI Upload: ✅")
+        
+        if 'queue_result' in result:
+            print(f"   QStash Queue: ✅")
+    else:
+        print(f"\n❌ Processing failed!")
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()

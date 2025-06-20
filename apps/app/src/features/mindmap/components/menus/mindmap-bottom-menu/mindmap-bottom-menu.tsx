@@ -15,6 +15,8 @@ import {COMMANDS} from '@/features/mindmap/components/menus/mindmap-bottom-menu/
 import {MindMapMessages, convertAiSdkMessage, type Message} from './MindMapMessages'
 import {SessionNotesProvider, useSessionNotes} from '@/contexts/mindmap/session-notes-context'
 import {SessionNotes} from '@/features/mindmap/components/status-ui/session-notes'
+import {getGraphContext, isRecordRelated, generateContextualSearchRules} from '@/features/mindmap/utils/contextual-intelligence'
+import {createEnhancedUserInputNode, createEnhancedEntityNode, getNodeType} from '@/features/mindmap/utils/node-enhancement-utils'
 
 // Define explicit types for our entities and nodes
 export interface MindMapNode {
@@ -72,7 +74,7 @@ export interface MindMapBottomMenuProps {
 
 export const MindMapBottomMenu = ({
   onCommandChange,
-  onModelChange
+  onModelChange,
 }: MindMapBottomMenuProps = {}) => {
   // Get session ID for the current user/session
   const sessionId = useRef<string>(
@@ -198,7 +200,7 @@ export const MindMapBottomMenu = ({
     [getNodes]
   )
 
-  // Enhanced search function with duplicate prevention
+  // Enhanced search function with duplicate prevention and contextual filtering
   const runSearch = useCallback(
     async ({type, searchTerm}: SearchParams) => {
       if (!type || !searchTerm.trim()) return // Skip empty searches
@@ -213,12 +215,20 @@ export const MindMapBottomMenu = ({
         console.log(`Search for "${searchTerm}" already exists on the graph`)
         return // Skip duplicate searches
       }
+      
+      // Get graph context for intelligent filtering
+      const graphContext = getGraphContext(existingNodes)
 
       const userNode = {
         id: uuidv4(),
         type: 'userInputNode',
         position: {x: 0, y: 0},
-        data: {label: 'Your Query', input: searchTerm},
+        data: {
+          label: graphContext ? 'Contextual Search' : 'Your Query', 
+          input: searchTerm,
+          isContextual: !!graphContext,
+          contextInfo: graphContext ? `Building on ${graphContext.connectedEntityTypes.size} connected entity types` : undefined
+        },
       }
       addNodes(userNode)
 
@@ -238,52 +248,72 @@ export const MindMapBottomMenu = ({
         console.log('🚀 ~ runSearch ~ relatedResults:', relatedResults)
         console.log('🚀 ~ runSearch ~ totalCount:', totalCount)
 
-        // Skip adding the result if the record doesn't exist or already on the graph
-        if (!record?.id || nodeExists(record.id, type)) {
+        // Collect all valid results (main record + related results)
+        const allResults = []
+        if (record?.id && !nodeExists(record.id, type)) {
+          allResults.push(record)
+        }
+        if (relatedResults && Array.isArray(relatedResults)) {
+          const validRelated = relatedResults.filter(
+            (result) => result?.id && !nodeExists(result.id, type)
+          )
+          allResults.push(...validRelated)
+        }
+
+        if (allResults.length === 0) {
           updateNodeData(userNode.id, {
             input: `No new results found for "${searchTerm}" in ${type}`,
           })
           return
         }
 
-        // For a single child node, position it directly below the userNode
-        const userElem = document.getElementById(userNode.id)
-        const userRect = userElem ? userElem.getBoundingClientRect() : {width: 200, height: 100}
-        const userHeight = userRect.height || 100
-        const childY = userNode.position.y + userHeight + 100 // 100px vertical spacing
+        // Create entity nodes positioned around the user node
+        const radius = 250
+        const angleStep = (2 * Math.PI) / allResults.length
 
-        const childNode = {
-          id: record?.id,
-          type: `${type}Node`,
-          data: {
-            type,
-            ...record,
-          },
-          position: {
-            x: userNode.position.x, // For a single node, we align with the parent's x
-            y: childY,
-          },
-          parentId: userNode.id,
-        }
-        const edgeId = `${userNode.id}-${childNode.id}`
-        const sourceHandle = `handle:${edgeId}`
+        const entityNodes = allResults.map((result, index) => {
+          const angle = index * angleStep
+          const x = userNode.position.x + radius * Math.cos(angle)
+          const y = userNode.position.y + radius * Math.sin(angle)
 
-        const edge = {
-          id: edgeId,
-          source: userNode.id,
-          target: childNode.id,
-          sourceHandle: sourceHandle,
-          animated: true,
-          type: 'sequential',
-          label: `You searched for ${searchTerm} within ${type}`,
-          style: {
-            stroke: DOMAIN_MODEL_COLORS[type],
-          },
-        }
-        updateNodeData(userNode.id, {handles: [sourceHandle]})
+          return {
+            id: result.id,
+            type: `${type}Node`,
+            data: {
+              type,
+              ...result,
+            },
+            position: {x, y},
+          }
+        })
 
-        addNodes(childNode)
-        addEdges(edge)
+        // Create edges connecting user node to entity nodes
+        const entityEdges = entityNodes.map((entityNode) => {
+          const edgeId = `${userNode.id}-${entityNode.id}`
+          return {
+            id: edgeId,
+            source: userNode.id,
+            target: entityNode.id,
+            sourceHandle: `handle:${edgeId}`,
+            animated: true,
+            type: 'sequential',
+            label: `Search result for ${searchTerm}`,
+            style: {
+              stroke: DOMAIN_MODEL_COLORS[type] || '#fff',
+            },
+          }
+        })
+
+        // Update user node with handles and summary
+        const sourceHandles = entityEdges.map((edge) => edge.sourceHandle)
+        updateNodeData(userNode.id, {
+          handles: sourceHandles,
+          input: `Found ${allResults.length} results for "${searchTerm}" in ${type}`,
+        })
+
+        // Add entity nodes and edges to the graph
+        addNodes(entityNodes)
+        addEdges(entityEdges)
       }
     },
     [addNodes, addEdges, updateNodeData, getNodes, nodeExists]
@@ -311,14 +341,40 @@ export const MindMapBottomMenu = ({
 
       // Check if we already have a similar query
       const existingNodes = getNodes()
-      const query = `Give me the top ${amount} of interesting ${type} records`
-      const similarNodeExists = existingNodes.some(
-        (node) => node.type === 'userInputNode' && node.data?.question === query
-      )
-
-      if (similarNodeExists) {
-        console.log(`Similar ${type} exploration already exists on the graph`)
-        return // Skip duplicate data loading
+      
+      // Get graph context for intelligent filtering
+      const graphContext = getGraphContext(existingNodes)
+      
+      // Adjust query based on context
+      let query: string
+      let contextualRules: string = ''
+      
+      if (graphContext) {
+        // We have existing context - use contextual filtering
+        contextualRules = generateContextualSearchRules(graphContext)
+        query = `Find ${amount} ${type} records that are related to the existing graph context. ${contextualRules}`
+        
+        // Check if similar contextual query exists
+        const similarNodeExists = existingNodes.some(
+          (node) => node.type === 'userInputNode' && 
+                   node.data?.question?.includes('related to the existing graph context')
+        )
+        
+        if (similarNodeExists) {
+          console.log(`Similar contextual ${type} exploration already exists`)
+          return
+        }
+      } else {
+        // First record - open exploration
+        query = `Give me the top ${amount} of interesting ${type} records`
+        const similarNodeExists = existingNodes.some(
+          (node) => node.type === 'userInputNode' && node.data?.question === query
+        )
+        
+        if (similarNodeExists) {
+          console.log(`Similar ${type} exploration already exists on the graph`)
+          return
+        }
       }
 
       // Create a user input node first
@@ -327,10 +383,16 @@ export const MindMapBottomMenu = ({
         type: 'userInputNode',
         position: {...center},
         data: {
-          label: 'Your Query',
-          input: `Beginning your exploration by loading ${amount} ${type}. Fetching Data...`,
+          label: graphContext ? 'Contextual Exploration' : 'Your Query',
+          input: graphContext 
+            ? `Finding ${amount} related ${type} to expand your knowledge graph. Fetching Data...`
+            : `Beginning your exploration by loading ${amount} ${type}. Fetching Data...`,
           question: query,
           type: type,
+          isContextual: !!graphContext,
+          contextInfo: graphContext 
+            ? `Building on ${graphContext.connectedEntityTypes.size} entity types, ${graphContext.keyPersonnel.length} key figures`
+            : 'Open exploration - any interesting records'
         },
       }
 
@@ -365,28 +427,88 @@ export const MindMapBottomMenu = ({
         const flowData = await xataToXYFlow({
           question: query,
           table: type,
-          rules: `Find the most interesting ${type} records that have clear relationships between them`,
-          context: `The user is exploring records in the ${type} database`,
+          rules: graphContext 
+            ? contextualRules 
+            : `Find the most interesting ${type} records that have clear relationships between them`,
+          context: graphContext
+            ? `The user is building a connected graph starting from ${graphContext.seedRecord?.data?.title || graphContext.seedRecord?.data?.name || 'their initial exploration'}. Focus on records that relate to or extend the existing narrative.`
+            : `The user is exploring records in the ${type} database`,
           existingNodes: existingNodes as unknown as ReactFlowNode[],
           sourceNode: potentialUserNode,
           layoutType, // Pass the selected layout type
         })
 
-        // Filter out any nodes that already exist in the graph
+        // Filter out any nodes that already exist in the graph and exclude the query result node
         if (flowData.nodes && flowData.nodes.length > 0) {
-          const filteredNodes = flowData.nodes.filter((node) => !nodeExists(node.id, node.type))
+          const entityNodes = flowData.nodes.filter(
+            (node) =>
+              node.id !== 'query-result-node' && // Exclude query result node
+              node.id !== potentialUserNode.id && // Exclude the user input node
+              !nodeExists(node.id, node.type) // Exclude already existing nodes
+          )
 
-          if (filteredNodes.length > 0) {
-            addNodes(filteredNodes)
-            addEdges(flowData.edges)
+          if (entityNodes.length > 0) {
+            // Create proper entity nodes with correct positioning
+            const radius = 300
+            const angleStep = (2 * Math.PI) / entityNodes.length
 
-            // Update the user input node with the AI analysis
-            if (flowData.xataResponse?.records) {
-              updateNodeData(potentialUserNode.id, {
-                entities: flowData.xataResponse.records,
-                answer: flowData.xataResponse.answer,
-                sessionId: flowData.xataResponse.sessionId,
-              })
+            const positionedEntityNodes = entityNodes.map((node, index) => {
+              const angle = index * angleStep
+              const x = potentialUserNode.position.x + radius * Math.cos(angle)
+              const y = potentialUserNode.position.y + radius * Math.sin(angle)
+
+              return {
+                ...node,
+                type: `${type}Node`, // Ensure correct node type for entity nodes
+                position: {x, y},
+                data: {
+                  ...node.data,
+                  type: type, // Ensure type is set for entity rendering
+                },
+              }
+            })
+
+            // Create edges connecting user input node to entity nodes
+            const entityEdges = positionedEntityNodes.map((entityNode) => {
+              const edgeId = `${potentialUserNode.id}-${entityNode.id}`
+              return {
+                id: edgeId,
+                source: potentialUserNode.id,
+                target: entityNode.id,
+                sourceHandle: `handle:${edgeId}`,
+                animated: true,
+                type: 'sequential',
+                label: `${type} result`,
+                style: {
+                  stroke: DOMAIN_MODEL_COLORS[type] || '#fff',
+                },
+              }
+            })
+
+            // Update user input node with handles for the edges
+            const sourceHandles = entityEdges.map((edge) => edge.sourceHandle)
+            updateNodeData(potentialUserNode.id, {
+              handles: sourceHandles,
+              input: `Found ${entityNodes.length} ${type} records`,
+              answer:
+                flowData.xataResponse?.answer ||
+                `Successfully loaded ${entityNodes.length} ${type} records`,
+            })
+
+            // Add the entity nodes and edges to the graph
+            addNodes(positionedEntityNodes)
+            addEdges(entityEdges)
+
+            // Also add any additional edges from flowData if they connect our nodes
+            if (flowData.edges && flowData.edges.length > 0) {
+              const relevantEdges = flowData.edges.filter((edge) =>
+                positionedEntityNodes.some(
+                  (node) => node.id === edge.source || node.id === edge.target
+                )
+              )
+              if (relevantEdges.length > 0) {
+                addEdges(relevantEdges)
+              }
             }
           } else {
             // No new nodes to add
@@ -489,7 +611,7 @@ export const MindMapBottomMenu = ({
   const removeActiveCommand = () => {
     setActiveCommand(null)
     setCommandMenuOpen(false)
-    
+
     // Notify parent component about command change
     if (onCommandChange) {
       onCommandChange(null)
@@ -717,12 +839,12 @@ export const MindMapBottomMenu = ({
       const displayCommand = foundCommand.label.toLowerCase()
 
       setActiveCommand(displayCommand)
-      
+
       // Notify parent component about command change
       if (onCommandChange) {
         onCommandChange(displayCommand)
       }
-      
+
       setInputValue('')
       setCommandMenuOpen(false)
     } else {
@@ -730,12 +852,12 @@ export const MindMapBottomMenu = ({
       // just use it directly (fallback)
       const fallbackCommand = commandId.toLowerCase()
       setActiveCommand(fallbackCommand)
-      
+
       // Notify parent component about command change
       if (onCommandChange) {
         onCommandChange(fallbackCommand)
       }
-      
+
       setInputValue('')
       setCommandMenuOpen(false)
     }

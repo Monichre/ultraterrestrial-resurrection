@@ -154,7 +154,7 @@ type AskXataResponse = {
 export type XataToXYFlowParams = {
 	question: string;
 	table: string;
-	rules: string;
+	rules: string | string[]; // Allow both string and string array
 	context: string;
 	existingNodes: ReactFlowNode[];
 	sourceNode: ReactFlowNode;
@@ -190,7 +190,16 @@ export const xataToXYFlow = async ({
 	layoutType = "horizontal",
 }: XataToXYFlowParams): Promise<XataToXYFlowResponse> => {
 	console.log("🚀 ~ xataToXYFlow ~ question:", question);
-	const response = await askXataWithAi({ question, table, rules });
+	
+	// Convert rules to array if it's a string
+	const rulesArray = Array.isArray(rules) ? rules : [rules];
+	
+	const response = await askXataWithAi({ 
+		question, 
+		table, 
+		rules: rulesArray,
+		sessionId 
+	});
 	console.log("🚀 ~ xataToXYFlow ~ response:", response);
 
 	// Pass the layoutType to transformForReactflow
@@ -231,9 +240,12 @@ export async function initiateStreamingQuery({
 }: {
 	question: string;
 	table: string;
-	rules?: string;
+	rules?: string | string[]; // Allow both string and string array
 }) {
 	try {
+		// Convert rules to array if it's a string
+		const rulesArray = rules ? (Array.isArray(rules) ? rules : [rules]) : [];
+		
 		// Make a request to our API route
 		const response = await fetch(
 			`${process.env.NEXT_PUBLIC_APP_URL || ""}/api/sse/xata/ask`,
@@ -245,7 +257,7 @@ export async function initiateStreamingQuery({
 				body: JSON.stringify({
 					question,
 					table,
-					rules: rules ? [rules] : [],
+					rules: rulesArray,
 				}),
 			},
 		);

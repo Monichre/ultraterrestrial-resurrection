@@ -797,9 +797,9 @@ export const MindMapProvider = ({children}: {children: React.ReactNode}) => {
         table: String(model),
         size: String(childNodeBatchSize),
         offset: String(lastIndex),
-        ...(cursor && { cursor })
+        ...(cursor && {cursor}),
       })
-      
+
       const response = await fetch(`/api/mindmap/records?${params}`)
       if (!response.ok) {
         throw new Error('Failed to fetch mindmap records')
@@ -821,7 +821,84 @@ export const MindMapProvider = ({children}: {children: React.ReactNode}) => {
     [rootNodeState, updateChildNodeBatchIndex, graph]
   )
 
-  // Entity loading functions
+  // Layout function for organizing nodes
+  const organizeLayout = useCallback(
+    (options: LayoutOptions = {}) => {
+      if (!reactFlowInstance) return
+
+      const currentNodes = reactFlowInstance.getNodes()
+      const currentEdges = reactFlowInstance.getEdges()
+
+      // Apply our enhanced layout algorithm to position the nodes
+      const layoutedNodes = organizeNodeLayout(currentNodes as any[], currentEdges as any[], {
+        direction: 'horizontal',
+        parentChildSpacing: 120,
+        siblingSpacing: 60,
+        centerChildren: true,
+        preserveExistingLayout: options.preserveExistingLayout || false,
+        focusOnNewNodes: options.focusOnNewNodes || false,
+        ...options,
+      })
+
+      // Update the nodes with their new positions
+      store.setNodes(layoutedNodes as any)
+
+      // Use a more reliable viewport adjustment
+      return new Promise((resolve) => {
+        // First, ensure the DOM is updated with new node positions
+        const timeoutId = setTimeout(() => {
+          try {
+            // Get the bounds of all nodes to calculate the best fit
+            const allNodes = reactFlowInstance.getNodes()
+            if (allNodes.length > 0) {
+              const bounds = reactFlowInstance.getNodesBounds(allNodes)
+
+              // Calculate appropriate zoom level and center position
+              const viewport = reactFlowInstance.getViewport()
+              const container = document.querySelector('.react-flow')
+
+              if (container) {
+                const containerBounds = container.getBoundingClientRect()
+                const padding = 50
+
+                // Calculate zoom to fit all nodes with padding
+                const zoomX = (containerBounds.width - padding * 2) / bounds.width
+                const zoomY = (containerBounds.height - padding * 2) / bounds.height
+                const zoom = Math.min(zoomX, zoomY, 1.2) // Max zoom of 1.2
+
+                // Center the view on the bounds
+                const centerX = bounds.x + bounds.width / 2
+                const centerY = bounds.y + bounds.height / 2
+
+                const x = containerBounds.width / 2 - centerX * zoom
+                const y = containerBounds.height / 2 - centerY * zoom
+
+                reactFlowInstance.setViewport({x, y, zoom}, {duration: 800})
+              } else {
+                // Fallback to simple fitView
+                reactFlowInstance.fitView({padding: 0.1, duration: 800})
+              }
+            }
+            resolve(true)
+          } catch (error) {
+            console.warn('Error adjusting viewport:', error)
+            // Fallback to simple fitView
+            reactFlowInstance.fitView({padding: 0.1, duration: 800})
+            resolve(true)
+          }
+        }, 150) // Increased delay to ensure DOM update
+
+        // Safety cleanup
+        setTimeout(() => {
+          clearTimeout(timeoutId)
+          resolve(false)
+        }, 2000)
+      })
+    },
+    [reactFlowInstance, store.setNodes]
+  )
+
+  // Enhanced entity loading with better layout handling
   const addNextEntitiesToMindMap = useCallback(
     async (source: any) => {
       const {
@@ -905,27 +982,14 @@ export const MindMapProvider = ({children}: {children: React.ReactNode}) => {
         store.addNodes([groupNode, ...groupNodeChildren])
         store.addEdges(edge)
 
-        // After adding all nodes and edges, apply layout automatically
-        setTimeout(() => {
-          if (reactFlowInstance) {
-            const currentNodes = reactFlowInstance.getNodes()
-            const currentEdges = reactFlowInstance.getEdges()
-
-            // Apply optimized layout to all nodes
-            const layoutedNodes = organizeNodeLayout(currentNodes as any[], currentEdges as any[], {
-              direction: 'horizontal',
-              parentChildSpacing: 100,
-              siblingSpacing: 50,
-              centerChildren: true,
-            })
-
-            // Update with the new positions
-            store.setNodes(layoutedNodes as any)
-
-            // Fit view to show all nodes
-            reactFlowInstance.fitView({padding: 0.2})
-          }
-        }, 100) // Short delay to ensure DOM is updated
+        // Apply improved layout with better timing and options
+        await organizeLayout({
+          preserveExistingLayout: true, // Only position new nodes
+          focusOnNewNodes: true,
+          direction: 'horizontal',
+          parentChildSpacing: 120,
+          siblingSpacing: 60,
+        })
 
         // Return the created nodes
         return {
@@ -934,7 +998,7 @@ export const MindMapProvider = ({children}: {children: React.ReactNode}) => {
         }
       } catch (error) {
         console.error('Error in addNextEntitiesToMindMap:', error)
-        // Handle error
+        // Handle error gracefully
         return null
       }
     },
@@ -947,12 +1011,13 @@ export const MindMapProvider = ({children}: {children: React.ReactNode}) => {
       store.updateNodeData,
       xataToXYFlow,
       reactFlowInstance,
+      organizeLayout, // Use our enhanced organizeLayout
     ]
   )
 
-  // Layout functions
+  // Enhanced search results layout with better positioning
   const createSearchResultsLayout = useCallback(
-    ({sourceNode, searchResults}: any) => {
+    async ({sourceNode, searchResults}: any) => {
       const searchResultNodes: any = []
       const searchResultEdges: any = []
 
@@ -961,10 +1026,12 @@ export const MindMapProvider = ({children}: {children: React.ReactNode}) => {
         const node = graph[type]?.nodes.find((node: {id: any}) => node?.id === result.id)
 
         if (node) {
-          const degrees = i * (360 / 8)
+          // Improved positioning for search results
+          const degrees = i * (360 / searchResults.length)
           const radians = degrees * (Math.PI / 180)
-          const x = 250 * Math.cos(radians) + sourceNode.position.x
-          const y = 250 * Math.sin(radians) + sourceNode.position.y
+          const radius = 250 + searchResults.length * 10 // Dynamic radius based on result count
+          const x = radius * Math.cos(radians) + sourceNode.position.x
+          const y = radius * Math.sin(radians) + sourceNode.position.y
 
           const searchResultNode = {
             ...node,
@@ -988,21 +1055,14 @@ export const MindMapProvider = ({children}: {children: React.ReactNode}) => {
       store.addNodes(searchResultNodes)
       store.addEdges(searchResultEdges)
 
-      // Apply layout to improve positioning
-      setTimeout(() => {
-        if (reactFlowInstance) {
-          const currentNodes = reactFlowInstance.getNodes()
-          const currentEdges = reactFlowInstance.getEdges()
-
-          const layoutedNodes = organizeNodeLayout(currentNodes as any[], currentEdges as any[], {
-            direction: 'radial', // Radial works better for search results
-            centerChildren: false,
-          })
-
-          store.setNodes(layoutedNodes as any)
-          reactFlowInstance.fitView({padding: 0.2})
-        }
-      }, 100)
+      // Apply layout specifically optimized for search results
+      await organizeLayout({
+        preserveExistingLayout: true,
+        direction: 'radial',
+        centerChildren: false,
+        parentChildSpacing: 200,
+        siblingSpacing: 50,
+      })
 
       return {searchResultNodes, searchResultEdges}
     },
@@ -1012,7 +1072,7 @@ export const MindMapProvider = ({children}: {children: React.ReactNode}) => {
       createSiblingEdge,
       graph,
       store.updateNodeData,
-      reactFlowInstance,
+      organizeLayout, // Use enhanced layout
     ]
   )
 
@@ -1080,34 +1140,6 @@ export const MindMapProvider = ({children}: {children: React.ReactNode}) => {
       }
     },
     [createGroupNodeLayoutWithoutRootNode, graph, store.addNodes]
-  )
-
-  // Layout function for organizing nodes
-  const organizeLayout = useCallback(
-    (options: LayoutOptions = {}) => {
-      if (!reactFlowInstance) return
-
-      const currentNodes = reactFlowInstance.getNodes()
-      const currentEdges = reactFlowInstance.getEdges()
-
-      // Apply our layout algorithm to position the nodes
-      const layoutedNodes = organizeNodeLayout(currentNodes as any[], currentEdges as any[], {
-        direction: 'horizontal',
-        parentChildSpacing: 100,
-        siblingSpacing: 50,
-        centerChildren: true,
-        ...options,
-      })
-
-      // Update the nodes with their new positions
-      store.setNodes(layoutedNodes as any)
-
-      // Fit the view to show all nodes
-      setTimeout(() => {
-        reactFlowInstance.fitView({padding: 0.2})
-      }, 100)
-    },
-    [reactFlowInstance, store.setNodes]
   )
 
   // Define the context value

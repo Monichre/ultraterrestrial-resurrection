@@ -15,7 +15,6 @@ All project documentation, including coding standards, workflow guidelines, and 
 
 Tickets will be managed using Markdown files in the `tickets` directory. Each ticket will follow a consistent template outlining its goal, acceptance criteria, implementation notes, out-of-scope items, and test strategy. The status of each ticket will be indicated using the following keys: ✅ done, ⏳ pending, 🛑 blocked. The `tickets/README.md` file will contain an overview of the ticket system and naming conventions. The AI assistant should review `README.md` before starting work on a ticket. New utility functions should have accompanying test files created in a `__tests__` subdirectory within the relevant module directory.  A new `DisclosureRagRecovered_Migration.md` file will document the migration of code from `disclosure-rag-recovered` to `disclosure-rag`.  This will include a detailed specification of each ticket, including title, description, acceptance criteria, implementation notes, references, effort estimation, and testing guidelines.  All tickets related to the migration of the `disclosure-rag-recovered` package should be created in the `tickets` directory, following the guidelines specified in `ticket-workflow.mdc`.  The following files were identified for migration from `disclosure-rag-recovered` to `disclosure-rag`: `disclosure_chat.py`, `agno_disclosure_chat.py`, `agno_disclosure_chat_with_files.py`, `main.sh`, `README_AGNO_CHAT.md`, `README_DISCLOSURE_CHAT.md`, and `research/ner_summary_to_xata_table_prompt.py.bak`.  These migration tasks should be documented as separate tickets within the `tickets` directory, following the template specified in `ticket-workflow.mdc`.  All migration planning, specifications, and pseudocode should be tracked in the `tickets/` directory.  All migration tickets should be created in the `tickets/` directory and follow the `ticket-workflow.mdc` guidelines.  All tickets related to the migration should be created in the `tickets` directory.  The `.md` files detailing the pseudocode and migration specification should also be added to the tickets directory. All migration tickets should be created in the `tickets/` directory and follow the `ticket-workflow.mdc` guidelines.
 
-
 ## TECH STACK
 
 This project utilizes Next.js, React, and TypeScript for frontend development. The backend utilizes a combination of serverless functions and AI services. Specific libraries include Three.js, react-three-fiber, GSAP for animations, Tailwind CSS for styling, shadcn UI components, and various AI integration libraries (OpenAI, Anthropic, Mem0). The project also utilizes knowledge base tools for data retrieval and processing, as well as 3D visualization libraries for UFO and space-related visualizations.  Python libraries used in the `disclosure-rag` package include: `zstandard`, `zipp`, `yt_dlp`, `youtube_transcript_api`, `yarl`, `yaml`, `wrapt`, `websockets`, `websocket_client`, `wcwidth`, `wcmatch`, `watchfiles`, `uvloop`, `uvicorn`, `uv`, `urllib3`, `uncertainties`, `tzdata`, `typing_inspect`, `typing_extensions`, `types_requests`, `typer`, `traitlets`, `tqdm`, `tornado`, `tomli_w`, `tomli`, `toml`, `tokenizers`, `tiktoken_ext`, `tiktoken`, `tenacity`, `tabulate`, `sympy`, `streamlit_react_flow`, `streamlit_molstar`, `streamlit_file_browser`, `streamlit_embeded`, `streamlit_antd`, `streamlit_ace`, `streamlit`, `starlette`, `stack_data`, `sqlalchemy`, `spglib`, `soupsieve`, `sniffio`, `smmap`, `six`, `shellingham`, `sentry_sdk`.
@@ -34,7 +33,6 @@ This project utilizes Next.js, React, and TypeScript for frontend development. T
 * Follow functional programming patterns rather than class-based implementations.
 * Use PascalCase for component files and lowercase with dashes for directories.
 
-
 ## WORKFLOW & RELEASE RULES
 
 The development workflow follows a feature-based system. Features are organized in the `features` directory with clear separation of concerns. Pull requests are required for all code changes, and code reviews are mandatory before merging. All changes must be documented. New features should be documented with clear acceptance criteria and implementation details. The AI assistant should review relevant README files before starting work on a feature. 
@@ -47,11 +45,11 @@ The development workflow follows a feature-based system. Features are organized 
 * Only create API routes when external services need webhook endpoints or when third-party integrations require REST API access.
 * Internal application logic should leverage Server Actions for better performance, reduced bundle size, and improved security.
 
-
 ## DEBUGGING
 
 When debugging, utilize the browser's developer tools extensively. Leverage logging statements and breakpoints effectively. For complex issues, consider using a debugger. Address type mismatches between data passed to components and component expectations. Carefully review API responses and component data structures to ensure compatibility. When encountering issues with 3D visualizations, check both the component logic and the asset loading. Pay close attention to Next.js App Router component contexts ("use client" directive) to avoid errors related to React hook usage in server components.
 
+* When encountering "type mismatch" errors with Xata, particularly "type [string] is not valid for field [rules]", ensure that the data being passed to the Xata API matches the expected schema defined in the `.mdc` files. Verify the types of all parameters, especially when using the `ask` function. The `rules` parameter in `xataToXYFlow` and `initiateStreamingQuery` can accept either a string or an array of strings. If a string is provided, it will be converted to an array internally.
 
 ## API INTEGRATION RULES
 
@@ -77,10 +75,18 @@ The knowledge base should be properly indexed and referenced in AI features.
 
 *   **Immediate Priority**: Support for Non Postgres Wire Enabled Xata database instances is the top priority.
 *   The system should maintain support for both Postgres Wire enabled and Non Postgres Wire Enabled Xata database instances.
+* When encountering "type mismatch" errors with Xata, particularly "type [string] is not valid for field [rules]", the `rules` parameter in `xataToXYFlow` and `initiateStreamingQuery` can accept either a string or an array of strings. If a string is provided, it will be converted to an array internally.
 
 ## UI DEVELOPMENT GUIDELINES
 
 UI development should adhere to the established component patterns in the `components` directory. The project uses a combination of Tailwind CSS and custom components for styling. All UI elements must be accessible and follow consistent design patterns. The application features various animated and interactive components, particularly for timelines, 3D visualizations, and data exploration. New components should follow the established directory structure and naming conventions. Use the appropriate component categories (animated, backgrounds, ui, etc.) when adding new components.
+
+### Mind Map Node Creation Rule
+
+*   When a new node is added, the return content should not solely populate `@user-input-node.tsx`. Instead, the system must append three additional `@entity-node.tsx` components to `@mind-map.tsx`. If this is not happening, the logic in `@mindmap-context.tsx` should be reviewed.
+*   Specifically, the `handleLoadingRecords` function in `mindmap-bottom-menu.tsx` should create separate `entity-node` components for each entity, positioned appropriately around the `user-input-node`, and connect them with edges, instead of updating the `user-input-node` with the entity data. The `runSearch` function in `mindmap-bottom-menu.tsx` should also follow this pattern, creating multiple entity nodes for all results instead of just a single child node.
+*   Entity nodes should be draggable independently from the user-input-node. The `parentId` attribute should not be used to lock entity nodes to move with the parent user-input-node. The goal is to create a network/graph structure where the User-input-node shows the query, Entity-nodes are separate, interactive components, and Edges connect them logically.
+*   Entity nodes in the mind map should be freely movable across the entire canvas. The relationship between the User-input-node and Entity-nodes is conceptual (via edges) not spatial (within bounds), therefore the `extent: "parent"` property should not be used.
 
 ## PYTHON PACKAGE INTEGRATION
 
@@ -118,6 +124,8 @@ docker compose up postgres
 ```bash
 # Copy and edit environment file
 cp .env.example .env.local
+# Edit with your LLM credentials (OpenAI, Anthropic, etc.)
+vim .env.local
 # Edit with your LLM credentials (OpenAI, Anthropic, etc.)
 vim .env.local
 ```
