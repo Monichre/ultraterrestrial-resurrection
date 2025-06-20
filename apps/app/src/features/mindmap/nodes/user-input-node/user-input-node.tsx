@@ -26,15 +26,13 @@ import {AddNote} from '@/components/note/AddNote'
 import {useMindMap} from '@/contexts/mindmap'
 import {Markdown} from '@/features/ai/components/prompt-kit/markdown'
 import {useTextStream} from '@/features/ai/components/prompt-kit/response-stream'
-import {WorldMap} from '@/features/data-viz/components/world-map/world-map'
 import {AskAI, AskAIStreaming} from '@/features/mindmap/components/ask-ai'
 import {useGroupNode} from '@/features/mindmap/hooks/useGroupNode'
 import {useAskXata} from '@/features/mindmap/hooks/useAskXata'
 import {Anchor} from '@/features/mindmap/nodes/user-input-node/anchor'
 import {useEntity} from '@/hooks'
-import type {Events} from '@/db/xata'
 import {AnimatePresence, motion} from 'framer-motion'
-import {Loader2, RefreshCw, Bug, List, MonitorCheck} from 'lucide-react'
+import {Loader2, RefreshCw, Bug, MonitorCheck} from 'lucide-react'
 import {useSSE} from '@/hooks/useSSE'
 import {AnimatedMarkdown} from '@/features/mindmap/nodes/user-input-node/animated-markdown'
 
@@ -53,7 +51,7 @@ interface AskQuestionParams {
   type: string
 }
 
-// Define proper data structure for the node
+// Enhanced data structure for the node with better typing
 interface NodeData {
   input?: string
   type?: string
@@ -63,33 +61,10 @@ interface NodeData {
   streamingAnswer?: string
   question?: string
   error?: string
-  [key: string]: any // Allow for additional properties
+  hasContent?: boolean
+  lastUpdated?: number
+  [key: string]: any
 }
-
-interface WorldMapDot {
-  start: {lat: number; lng: number; label?: string}
-  end: {lat: number; lng: number; label?: string}
-}
-
-const EventRecordsContent = memo(({data}: {data: {entities: Events[]}}) => {
-  const {entities} = data
-
-  const dots: WorldMapDot[] =
-    entities && entities.length > 0
-      ? entities.map((entity: Events) => ({
-          start: {lat: entity.latitude || 0, lng: entity.longitude || 0},
-          end: {lat: entity.latitude || 0, lng: entity.longitude || 0},
-        }))
-      : []
-
-  return (
-    <div className='w-full h-auto'>
-      <WorldMap dots={dots} />
-    </div>
-  )
-})
-
-EventRecordsContent.displayName = 'EventRecordsContent'
 
 export const UserInputNode = memo((props: NodeProps) => {
   console.log('🚀 ~ UserInputNode ~ props:', props)
@@ -97,6 +72,9 @@ export const UserInputNode = memo((props: NodeProps) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const anchorRef = useRef<HTMLDivElement>(null)
   const nodeRef = useRef<HTMLDivElement>(null)
+  const updateNodeInternals = useUpdateNodeInternals()
+  const [nodeHeight, setNodeHeight] = useState<number>(0)
+  const [isContentReady, setIsContentReady] = useState(false)
 
   // Create a transformed node with required properties for useGroupNode
   const nodeForGroup = {
@@ -107,14 +85,14 @@ export const UserInputNode = memo((props: NodeProps) => {
   }
 
   const {handles, node} = useGroupNode({node: nodeForGroup})
-  const {updateNodeData} = useMindMap()
+  const {updateNodeData, organizeLayout} = useMindMap()
 
   const nodeId = props.id
-  // We're not using the returned data from this hook directly
   const nodeData = useNodesData(nodeId)
 
-  // Simple state for UI interactions
+  // Enhanced state management
   const [showAskAI, setShowAskAI] = useState(false)
+  const [contentState, setContentState] = useState<'loading' | 'ready' | 'error'>('loading')
 
   const {saveNote, updateNote, userNote, findConnections} = useEntity({
     card: props,
@@ -122,32 +100,129 @@ export const UserInputNode = memo((props: NodeProps) => {
 
   const [showAnchor, setShowAnchor] = useState(false)
 
+  // Type assertion for data with better defaults
+  const data = (props.data as NodeData) || {}
+
+  // Enhanced helper functions
+  const hasAnswer = useCallback(() => {
+    return Boolean(data.answer && data.answer.trim().length > 0)
+  }, [data.answer])
+
+  const isLoading = useCallback(() => {
+    return Boolean(data.isLoading) || (!hasAnswer() && !data.error)
+  }, [data.isLoading, hasAnswer, data.error])
+
+  // Enhanced content state management
   useEffect(() => {
-    wait(0.5).then(() => setShowAnchor(true))
+    if (data.error) {
+      setContentState('error')
+    } else if (hasAnswer()) {
+      setContentState('ready')
+      setIsContentReady(true)
+    } else {
+      setContentState('loading')
+    }
+  }, [data.error, hasAnswer])
+
+  // Enhanced anchor animation with content readiness
+  useEffect(() => {
+    wait(0.3).then(() => setShowAnchor(true))
   }, [])
 
-  // Handle the beams with proper typing for AnimatedBeam props
-  const getBeamProps = () => {
-    return {
-      duration: 3,
-      className: 'w-full',
-      // Use non-null assertion to satisfy the type requirement
-      containerRef: containerRef as React.RefObject<HTMLElement>,
-      fromRef: anchorRef as React.RefObject<HTMLElement>,
-      toRef: nodeRef as React.RefObject<HTMLElement>,
+  // Update node dimensions when content changes
+  useEffect(() => {
+    if (nodeRef.current && isContentReady) {
+      const updateDimensions = () => {
+        if (nodeRef.current) {
+          const rect = nodeRef.current.getBoundingClientRect()
+          const newHeight = rect.height
+
+          if (newHeight !== nodeHeight && newHeight > 0) {
+            setNodeHeight(newHeight)
+            // Update node internals to recalculate handles and connections
+            updateNodeInternals(nodeId)
+
+            // Trigger a layout update with a small delay to ensure DOM is updated
+            setTimeout(() => {
+              if (organizeLayout) {
+                organizeLayout({
+                  preserveExistingLayout: true,
+                  focusOnNewNodes: false,
+                })
+              }
+            }, 100)
+          }
+        }
+      }
+
+      // Use ResizeObserver for more accurate dimension tracking
+      const resizeObserver = new ResizeObserver(updateDimensions)
+      resizeObserver.observe(nodeRef.current)
+
+      // Initial measurement
+      updateDimensions()
+
+      return () => resizeObserver.disconnect()
     }
-  }
+  }, [isContentReady, nodeHeight, updateNodeInternals, nodeId, organizeLayout])
 
-  // Type assertion for data to ensure properties exist
-  const data = props.data as NodeData
+  // Render different content states
+  const renderContent = () => {
+    if (contentState === 'error') {
+      return (
+        <motion.div
+          initial={{opacity: 0}}
+          animate={{opacity: 1}}
+          className='flex items-center justify-center py-4 text-red-400'>
+          <Bug className='h-5 w-5 mr-2' />
+          <span>Error loading content</span>
+        </motion.div>
+      )
+    }
 
-  // Helper function to check if node has valid entities
-  const hasValidEntities = () => {
+    if (contentState === 'loading') {
+      return (
+        <motion.div
+          initial={{opacity: 0}}
+          animate={{opacity: 1}}
+          className='flex items-center justify-center py-4'>
+          <Loader2 className='h-6 w-6 animate-spin text-indigo-400 mr-2' />
+          <span className='text-indigo-200'>AI is thinking...</span>
+        </motion.div>
+      )
+    }
+
     return (
-      node?.data &&
-      'entities' in node.data &&
-      Array.isArray(node.data.entities) &&
-      node.data.entities.length > 0
+      <motion.div
+        initial={{opacity: 0, y: 10}}
+        animate={{opacity: 1, y: 0}}
+        transition={{duration: 0.3}}
+        className='py-2'>
+        {data.input && (
+          <motion.div
+            initial={{opacity: 0}}
+            animate={{opacity: 1}}
+            transition={{delay: 0.1}}
+            className='py-2 text-indigo-200 text-sm font-light mb-3 p-2 bg-indigo-900/20 rounded'>
+            <span className='text-xs uppercase tracking-wider text-indigo-400 block mb-1'>
+              Query
+            </span>
+            <p>{data.input}</p>
+          </motion.div>
+        )}
+
+        {hasAnswer() && (
+          <motion.div initial={{opacity: 0}} animate={{opacity: 1}} transition={{delay: 0.2}}>
+            <AnimatedMarkdown
+              className='text-indigo-200 text-sm font-light'
+              delay={0.2}
+              staggerDelay={0.08}
+              animateExit={true}>
+              {data.answer}
+            </AnimatedMarkdown>
+          </motion.div>
+        )}
+      </motion.div>
     )
   }
 
@@ -155,11 +230,18 @@ export const UserInputNode = memo((props: NodeProps) => {
     <motion.div
       ref={containerRef}
       id={props.id}
-      className='relative flex flex-col items-center align-center justify-center w-full motion-opacity-in-0'>
+      className='relative flex flex-col items-center align-center justify-center w-full'
+      initial={{opacity: 0, scale: 0.95}}
+      animate={{opacity: 1, scale: 1}}
+      transition={{duration: 0.3}}>
       <AnimatePresence>
         {showAnchor && (
           <>
-            <motion.div className='mb-[35px] w-full flex justify-center'>
+            <motion.div
+              initial={{opacity: 0, y: -10}}
+              animate={{opacity: 1, y: 0}}
+              exit={{opacity: 0, y: -10}}
+              className='mb-[35px] w-full flex justify-center'>
               <Anchor className='' ref={anchorRef} />
             </motion.div>
             <AnimatedBeam
@@ -172,82 +254,49 @@ export const UserInputNode = memo((props: NodeProps) => {
         )}
       </AnimatePresence>
 
-      <CoreNodeContainer
-        className='motion-opacity-in-0'
-        // @ts-ignore - CoreNodeContainer expects a different ref type, but this works at runtime
-        ref={nodeRef}>
+      <CoreNodeContainer className='motion-opacity-in-0 min-w-[300px] max-w-[500px]' ref={nodeRef}>
         <CoreNodeTop>
-          <div className='flex justify-between w-content align-center items-center ml-auto'>
-            {/* UI actions removed for clarity */}
+          <div className='flex justify-between w-full align-center items-center'>
+            <span className='text-xs uppercase tracking-wider text-indigo-400 flex items-center'>
+              <MonitorCheck className='h-3 w-3 mr-1' />
+              AI Response
+            </span>
+            <div className='flex items-center gap-2'>
+              {contentState === 'ready' && (
+                <motion.div
+                  initial={{opacity: 0, scale: 0}}
+                  animate={{opacity: 1, scale: 1}}
+                  className='h-2 w-2 bg-green-400 rounded-full'
+                />
+              )}
+            </div>
           </div>
         </CoreNodeTop>
-        <CoreNodeContent className='min-h-[100px] w-full'>
-          <AnimatePresence>
-            <motion.div className='py-2 max-h-[600px] h-auto'>
-              {data?.input && (
-                <div className='py-2 text-indigo-200 text-sm font-light'>
-                  <p>{data.input}</p>
-                </div>
-              )}
 
-              {data?.answer ? (
-                <AnimatedMarkdown
-                  className='text-indigo-200 text-sm font-light'
-                  delay={0.2}
-                  staggerDelay={0.08}
-                  animateExit={true}>
-                  {data.answer}
-                </AnimatedMarkdown>
-              ) : (
-                <div className='flex items-center justify-center py-4'>
-                  <Loader2 className='h-6 w-6 animate-spin text-indigo-400 mr-2' />
-                  <span className='text-indigo-200'>AI is thinking...</span>
-                </div>
-              )}
-
-              {hasValidEntities() && (
-                <div className='entities-list mt-4 border-t border-indigo-700 pt-2'>
-                  <h4 className='text-xs uppercase tracking-wider text-indigo-400 mb-2'>
-                    Related Records
-                  </h4>
-                  <div className='grid grid-cols-2 gap-2'>
-                    {(node.data.entities as EntityData[]).map((entity: EntityData, i: number) => (
-                      <div
-                        key={entity.id || i.toString()}
-                        className='entity-item text-xs p-1 bg-indigo-900/30 rounded'>
-                        {entity.data?.name || 'Unnamed Entity'}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </motion.div>
-          </AnimatePresence>
+        <CoreNodeContent className='min-h-[120px] max-h-[400px] overflow-y-auto w-full'>
+          <AnimatePresence mode='wait'>{renderContent()}</AnimatePresence>
         </CoreNodeContent>
+
         <CoreNodeBottom>
           <div className='flex items-center gap-1 rounded-full py-1 pl-2 pr-2.5 bg-neutral-800 text-neutral-400'>
             <div className='size-5'>
               <span
-                className='relative flex shrink-0 overflow-hidden rounded-full aspect-square h-full animate-overlayShow cursor-pointer border-2 shadow duration-200 pointer-events-none'
+                className='relative flex shrink-0 overflow-hidden rounded-full aspect-square h-full animate-overlayShow cursor-pointer border-2 shadow duration-200'
                 data-state='closed'
                 style={{
-                  borderColor: 'rgba(255, 255, 255, 0.5)',
+                  borderColor:
+                    contentState === 'ready'
+                      ? 'rgba(34, 197, 94, 0.5)'
+                      : 'rgba(255, 255, 255, 0.5)',
                   transform: 'translateX(0px)',
                 }}>
                 <AiStarIcon
-                  stroke={'#fff'}
+                  stroke={contentState === 'ready' ? '#22c55e' : '#fff'}
                   className='w-4 h-4 stroke-1'
                   onClick={() => setShowAskAI(!showAskAI)}
                 />
               </span>
-              {!data?.answer && (
-                <div className='flex items-center justify-center py-4'>
-                  <Loader2 className='h-6 w-6 animate-spin text-indigo-400 mr-2' />
-                  <span className='text-indigo-200'>AI is thinking...</span>
-                </div>
-              )}
             </div>
-            <span className='text-neutral-400' />
           </div>
           <span className='flex items-center gap-1'>
             <AddNote saveNote={saveNote} popover={false} />

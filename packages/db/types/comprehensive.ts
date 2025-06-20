@@ -193,7 +193,7 @@ export interface XataApiService {
   
   // XY Flow Integration
   xataToXYFlow: (params: XataToXYFlowParams) => Promise<XataToXYFlowResponse>;
-  initiateStreamingQuery: (params: { question: string; table: string; rules?: string }) => Promise<{ success: boolean; streamUrl?: string; error?: string }>;
+  initiateStreamingQuery: (params: { question: string; table: string; rules?: string | string[] }) => Promise<{ success: boolean; streamUrl?: string; error?: string }>;
   transformStreamResponse: (streamingText: string, records: Record<string, unknown>[], sessionId: string, sourceNode: ReactFlowNode, existingNodes: ReactFlowNode[], table: string) => Promise<XataToXYFlowResponse>;
 }
 
@@ -360,7 +360,7 @@ export interface ReactFlowEdge {
 export interface XataToXYFlowParams {
   question: string;
   table: string;
-  rules: string;
+  rules: string | string[];
   context: string;
   existingNodes: ReactFlowNode[];
   sourceNode: ReactFlowNode;
