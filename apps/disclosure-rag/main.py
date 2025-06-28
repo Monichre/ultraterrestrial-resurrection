@@ -31,16 +31,16 @@ logger = logging.getLogger(__name__)
 # Add project to path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-# Import enhanced integration
-from lib.enhanced_main_integration import (
-    enhanced_integration,
+# Import knowledge base service
+from lib.knowledge_base_service import (
+    kb_service,
     process_youtube_url_enhanced,
     process_web_url_enhanced,
     add_to_knowledge_base
 )
 
 # Import existing modules (fallback if enhanced fails)
-from lib.openai.upload import upload_file_to_openai
+from lib.openai_client.upload import upload_file_to_openai
 from processing.web_content_processor import WebContentProcessor
 from lib.youtube import (
     generate_transcript,
@@ -257,16 +257,22 @@ def process_file(file_path: str, upload: bool = False, add_to_kb: bool = True) -
 
 def main():
     """Main function with enhanced integration"""
+    # Import display for cool terminal output
+    from lib.terminal_display import display
+    
     parser = argparse.ArgumentParser(description="Enhanced Disclosure RAG Content Processor")
-    parser.add_argument("input", help="URL or file path to process")
+    parser.add_argument("input", nargs="?", help="URL or file path to process")
     parser.add_argument("--upload", action="store_true", help="Upload to OpenAI vector store")
     parser.add_argument("--no-kb", action="store_true", help="Skip adding to knowledge base")
     parser.add_argument("--status", action="store_true", help="Show integration status")
     
     args = parser.parse_args()
     
+    # Show cool header
+    display.print_header()
+    
     if args.status:
-        status = enhanced_integration.get_integration_status()
+        status = kb_service.get_integration_status()
         print(f"\n🔧 Integration Status:")
         print(f"   Local KB: {'✅' if status['local_kb'] else '❌'}")
         print(f"   Search Sync: {'✅' if status['search_sync'] else '❌'}")
@@ -279,14 +285,23 @@ def main():
             print(f"   export UPSTASH_SEARCH_TOKEN=your_token")
         return
     
+    # Check if input is required but not provided
+    if not args.input:
+        print(f"\n❌ Error: Input URL or file path is required when not using --status")
+        parser.print_help()
+        sys.exit(1)
+    
     # Process input
     input_path = args.input.strip()
     add_to_kb = not args.no_kb
     
-    # Determine input type and process
+    # Show URL/file detection
     if input_path.startswith(('http://', 'https://')):
+        url_type = "youtube" if is_youtube_url(input_path) else "web"
+        display.print_url_detected(input_path, url_type)
         result = process_url(input_path, args.upload, add_to_kb)
     else:
+        display.print_url_detected(input_path, "file")
         result = process_file(input_path, args.upload, add_to_kb)
     
     if result:
