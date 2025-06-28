@@ -26,40 +26,41 @@ classifiers = [
 
 dependencies = [
     # Core dependencies
-    "python-dotenv>=1.0.0",
-    "openai>=1.3.0",
-    "anthropic>=0.8.0",
-    "phidata>=1.7.0",
-    "streamlit>=1.28.0",
-    "pandas>=2.0.0",
-    "numpy>=1.24.0",
-    "tenacity>=8.2.0",
-    "agno>=0.1.0",
+    "python-dotenv",
+    "openai",
+    "anthropic",
+    "phidata",
+    "streamlit",
+    "pandas",
+    "numpy",
+    "tenacity",
+    "agno",
     
     # Web processing
-    "requests>=2.31.0",
-    "beautifulsoup4>=4.12.0",
-    "html2text>=2020.1.16",
-    "markdownify>=0.11.6",
+    "requests",
+    "beautifulsoup4",
+    "html2text",
+    "markdownify",
     
     # Data processing
-    "PyPDF2>=3.0.0",
-    "langchain>=0.0.325",
+    "PyPDF2",
+    "langchain",
     "langchain-community",
     "langchain-core",
     "langchain-groq",
     "langchain-ollama",
-    "faiss-cpu>=1.7.4",
-    "tiktoken>=0.5.0",
+    "faiss-cpu",
+    "tiktoken",
     
     # Database
-    "upstash-redis>=1.0.0",
-    "upstash-vector>=0.1.1",
-    "xata>=0.10.0",
+    "upstash-redis",
+    "upstash-vector",
+    "qstash",
+    "xata",
     
     # YouTube processing
-    "pytube>=15.0.0",
-    "youtube-transcript-api>=0.6.1",
+    "pytube",
+    "youtube-transcript-api",
     "yt-dlp",
     
     # CLI and utilities
@@ -74,20 +75,20 @@ dependencies = [
     # - go install github.com/charmbracelet/gum@latest (etc.)
     
     # Optional dependencies
-    "matplotlib>=3.7.0",
-    "seaborn>=0.12.0",
+    "matplotlib",
+    "seaborn",
 ]
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=7.0.0",
-    "pytest-cov>=4.0.0",
-    "pytest-asyncio>=0.21.0",
-    "black>=23.0.0",
-    "isort>=5.12.0",
-    "flake8>=6.0.0",
-    "mypy>=1.0.0",
-    "pre-commit>=3.0.0",
+    "pytest",
+    "pytest-cov",
+    "pytest-asyncio",
+    "black",
+    "isort",
+    "flake8",
+    "mypy",
+    "pre-commit",
 ]
 
 [project.scripts]
