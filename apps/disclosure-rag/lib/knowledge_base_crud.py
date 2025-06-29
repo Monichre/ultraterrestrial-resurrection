@@ -39,8 +39,10 @@ class KnowledgeBaseCRUD:
     """Enhanced CRUD operations for the knowledge base"""
     
     def __init__(self, kb_path: Optional[str] = None):
+        # Use the packages/knowledge-base workspace, not a local knowledge-base directory
         self.kb_path = Path(kb_path or os.path.join(
-            os.path.dirname(os.path.dirname(__file__)), "knowledge-base"
+            os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))), 
+            "packages", "knowledge-base"
         ))
         self.metadata_path = self.kb_path / "metadata"
         self.case_files_path = self.kb_path / "case_files"
@@ -77,7 +79,9 @@ class KnowledgeBaseCRUD:
         return hashlib.md5(content.encode()).hexdigest()[:12]
     
     def _get_doc_path(self, doc_type: str, doc_id: str, filename: str) -> Path:
-        """Get the file path for a document"""
+        """Get the file path for a document with date-based organization"""
+        from datetime import datetime
+        
         base_paths = {
             "case_file": self.case_files_path,
             "transcript": self.transcripts_path,
@@ -85,7 +89,10 @@ class KnowledgeBaseCRUD:
             "research": self.research_path
         }
         base_path = base_paths.get(doc_type, self.kb_path)
-        return base_path / doc_id / filename
+        
+        # Use date-based organization: YYYY-MM-DD/doc_id/
+        date_folder = datetime.now().strftime("%Y-%m-%d")
+        return base_path / date_folder / doc_id / filename
     
     # CREATE
     def create_document(self, 
@@ -126,11 +133,13 @@ class KnowledgeBaseCRUD:
         with open(meta_file, 'w', encoding='utf-8') as f:
             json.dump(doc.to_dict(), f, indent=2)
         
-        # Update index
+        # Update index with date-based path
+        date_folder = datetime.now().strftime("%Y-%m-%d")
         self.index["documents"][doc_id] = {
             "title": title,
             "doc_type": doc_type,
             "path": str(doc_dir),
+            "date_folder": date_folder,
             "created_at": now,
             "updated_at": now,
             "tags": tags or []

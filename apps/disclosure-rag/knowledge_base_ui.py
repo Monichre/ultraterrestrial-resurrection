@@ -90,7 +90,8 @@ if st.session_state.current_page == "Browse":
     with col1:
         doc_type_filter = st.selectbox(
             "Filter by Type",
-            ["All"] + ["case_file", "transcript", "article", "research"]
+            ["All"] + ["case_file", "transcript", "article", "research"],
+            key="doc_type_filter"
         )
     
     with col2:

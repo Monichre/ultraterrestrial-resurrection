@@ -27,7 +27,7 @@
 
 ## Project Documentation
 
-- [README.md](./README.md) - Main project overview and introduction
+- [README.md](../../README.md) - Main project overview and introduction
 - [Feature Roadmap](./apps/app/docs/roadmap.md) - Planned features and development timeline
 - [ERD Diagram](./erd-diagram.mermaid) - Entity relationship diagram for the database
 - `repomix-output.md`

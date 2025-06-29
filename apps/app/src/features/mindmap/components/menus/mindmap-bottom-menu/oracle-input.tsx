@@ -316,7 +316,7 @@ export default function OracleInput({
               <input
                 ref={inputRef}
                 type='text'
-                value={inputValue}
+                value={value}
                 onChange={handleChange}
                 onKeyDown={handleKeyDown}
                 onFocus={handleInputFocus}

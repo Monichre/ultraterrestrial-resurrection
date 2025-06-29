@@ -21,14 +21,14 @@ export const ENHANCED_NODES_CONFIG = {
  */
 export const ENHANCED_NODE_TYPE_MAPPING = {
   // Entity nodes
-  entityNode: 'enhancedEntityNode',
-  eventsNode: 'enhancedEntityNode',
-  personnelNode: 'enhancedEntityNode', 
-  topicsNode: 'enhancedEntityNode',
-  organizationsNode: 'enhancedEntityNode',
+  entityNode: 'enhancedEntityNodePOC',
+  eventsNode: 'enhancedEntityNodePOC',
+  personnelNode: 'enhancedEntityNodePOC', 
+  topicsNode: 'enhancedEntityNodePOC',
+  organizationsNode: 'enhancedEntityNodePOC',
   
-  // User input
-  userInputNode: 'enhancedUserInputNode',
+  // User input - keep as original for now since POC wraps the original
+  userInputNode: 'userInputNode',
   
   // Keep these as legacy for now
   testimoniesNode: 'testimoniesNode',

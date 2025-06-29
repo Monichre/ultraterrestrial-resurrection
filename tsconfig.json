@@ -26,7 +26,8 @@
 
     // Paths
     "paths": {
-      "@db/*": ["./packages/db/src/*"]
+      "@db/*": ["./packages/db/*"],
+      "@db/xata/*": ["./packages/db/xata/*"]
     }
   }
 }

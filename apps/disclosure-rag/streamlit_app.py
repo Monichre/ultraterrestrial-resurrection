@@ -27,6 +27,7 @@ try:
     from disclosure_chat import DisclosureBotChat
     from agents.entity_extraction_agent import EntityExtractionAgent
     from processing.web_content_processor import WebContentProcessor
+    from components.data_sources_navigator import render_data_sources_navigator
 except ImportError as e:
     st.error(f"Import error: {e}")
     st.stop()
@@ -486,7 +487,7 @@ def main():
     
     # Main content area
     if st.session_state.processed_documents:
-        tab1, tab2, tab3, tab4 = st.tabs(["📊 Dashboard", "🗺️ Geographic Analysis", "💬 Chat", "📁 Documents"])
+        tab1, tab2, tab3, tab4, tab5 = st.tabs(["📊 Dashboard", "🗺️ Geographic Analysis", "💬 Chat", "📁 Documents", "🗂️ Data Sources"])
         
         with tab1:
             # Get latest document entities
@@ -522,29 +523,43 @@ def main():
                     # Content preview
                     st.write("**Content Preview:**")
                     st.write(doc['content'][:300] + "..." if len(doc['content']) > 300 else doc['content'])
+        
+        with tab5:
+            # Data Sources Navigator
+            render_data_sources_navigator()
     
     else:
-        # Welcome screen
-        st.info("""
-        👋 **Welcome to the Disclosure RAG Interactive Dashboard!**
+        # Welcome screen with data sources navigator
+        welcome_tab, data_sources_tab = st.tabs(["👋 Welcome", "🗂️ Data Sources"])
         
-        This interface combines:
-        - 🔍 **Real-time NER processing** with Anthropic Claude
-        - 📊 **Interactive visualizations** of extracted entities  
-        - 💬 **Chat interface** with the Disclosure Bot
-        - 🌐 **Web content processing** for UFO/UAP research
+        with welcome_tab:
+            st.info("""
+            👋 **Welcome to the Disclosure RAG Interactive Dashboard!**
+            
+            This interface combines:
+            - 🔍 **Real-time NER processing** with Anthropic Claude
+            - 📊 **Interactive visualizations** of extracted entities  
+            - 💬 **Chat interface** with the Disclosure Bot
+            - 🌐 **Web content processing** for UFO/UAP research
+            - 🗂️ **Knowledge base navigation** with 61K+ UFO/UAP records
+            
+            **Get started by:**
+            1. Using the sidebar to input text, upload a file, or process a URL
+            2. Watch as entities are extracted and visualized in real-time
+            3. Chat with the Disclosure Bot about your findings
+            4. Explore the comprehensive knowledge base with case files and transcripts
+            
+            **Perfect for analyzing:**
+            - UFO/UAP testimonies and reports
+            - Government disclosure documents
+            - Research papers and case studies
+            - News articles and interviews
+            - Historical transcript archives
+            """)
         
-        **Get started by:**
-        1. Using the sidebar to input text, upload a file, or process a URL
-        2. Watch as entities are extracted and visualized in real-time
-        3. Chat with the Disclosure Bot about your findings
-        
-        **Perfect for analyzing:**
-        - UFO/UAP testimonies and reports
-        - Government disclosure documents
-        - Research papers and case studies
-        - News articles and interviews
-        """)
+        with data_sources_tab:
+            # Data Sources Navigator (always available)
+            render_data_sources_navigator()
 
 if __name__ == "__main__":
     main()

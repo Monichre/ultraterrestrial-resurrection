@@ -15,6 +15,7 @@ import { HardBreak } from '@tiptap/extension-hard-break'
 import { History } from '@tiptap/extension-history'
 import { Placeholder } from '@tiptap/extension-placeholder'
 import { ResearchMentionSuggestion } from './research-mention-suggestion'
+import { ragHandler } from '@/lib/rag/rag-llm-handler'
 
 interface ResearchRecord {
   id: string
@@ -75,7 +76,7 @@ export const ResearchExtensionKit = ({
     },
   }),
   
-  // Custom extension for research-specific functionality
+  // Custom extension for research-specific functionality with RAG integration
   Extension.create({
     name: 'researchFeatures',
     
@@ -121,6 +122,64 @@ export const ResearchExtensionKit = ({
               'data-id': record.id,
             },
           })
+        },
+        
+        // RAG-powered AI commands
+        ragGenerate: (prompt: string) => ({ commands, view }) => {
+          // Get current selection or cursor position for context
+          const { selection } = view.state
+          const contextBefore = view.state.doc.textBetween(Math.max(0, selection.from - 100), selection.from)
+          const contextAfter = view.state.doc.textBetween(selection.to, Math.min(view.state.doc.content.size, selection.to + 100))
+          
+          ragHandler.generateText(prompt, {
+            context: { before: contextBefore, after: contextAfter }
+          }).then(text => {
+            if (text) {
+              commands.insertContent(text)
+            }
+          }).catch(error => {
+            console.error('RAG generation failed:', error)
+          })
+          
+          return true
+        },
+        
+        ragSummarize: () => ({ commands, view }) => {
+          const { selection } = view.state
+          const selectedText = view.state.doc.textBetween(selection.from, selection.to)
+          
+          if (!selectedText) {
+            return false
+          }
+          
+          ragHandler.generateText(`Summarize this text: ${selectedText}`).then(summary => {
+            if (summary) {
+              commands.insertContent(`\n\n**Summary:** ${summary}\n\n`)
+            }
+          }).catch(error => {
+            console.error('RAG summarization failed:', error)
+          })
+          
+          return true
+        },
+        
+        ragFactCheck: () => ({ commands, view }) => {
+          const { selection } = view.state
+          const selectedText = view.state.doc.textBetween(selection.from, selection.to)
+          
+          if (!selectedText) {
+            return false
+          }
+          
+          ragHandler.factCheck(selectedText).then(result => {
+            const status = result.verified ? '✅ Verified' : '❌ Unverified'
+            const sources = result.sources.length > 0 ? `\n**Sources:** ${result.sources.join(', ')}` : ''
+            commands.insertContent(`\n\n**Fact Check:** ${status}\n**Explanation:** ${result.explanation}${sources}\n\n`)
+          }).catch(error => {
+            console.error('RAG fact check failed:', error)
+          })
+          
+          return true
         },
       }
     },

@@ -12,8 +12,8 @@ from pathlib import Path
 from datetime import datetime
 from typing import List, Dict, Any, Optional
 import logging
-from knowledge_base_crud import KnowledgeBaseCRUD, Document
-from upstash.queue import add_processed_content_to_queue  # Existing workflow
+from .knowledge_base_crud import KnowledgeBaseCRUD, Document
+from .upstash.queue import add_processed_content_to_queue  # Existing workflow
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

@@ -12,15 +12,36 @@ logger = logging.getLogger(__name__)
 
 # Setup: Retrieve Xata credentials from environment variables.
 XATA_API_KEY = os.environ.get("XATA_API_KEY")
-XATA_DATABASE = os.environ.get("XATA_DATABASE")
+XATA_DATABASE_URL = os.environ.get("XATA_DATABASE_URL")
+XATA_BRANCH = os.environ.get("XATA_BRANCH", "main")
 
-if not XATA_API_KEY or not XATA_DATABASE:
-    logger.error("Missing XATA_API_KEY or XATA_DATABASE environment variable.")
+if not XATA_API_KEY or not XATA_DATABASE_URL:
+    logger.error("Missing XATA_API_KEY or XATA_DATABASE_URL environment variable.")
     raise EnvironmentError("XATA API credentials must be set.")
 
-# Initialize the Xata client.
-# Adjust the initialization below if your SDK version requires different parameters.
-xata_client = XataClient(api_key=XATA_API_KEY, database=XATA_DATABASE)
+# Extract database and branch info from URL
+# URL format: https://workspace-id.region.xata.sh/db/database_name
+try:
+    from urllib.parse import urlparse
+    parsed_url = urlparse(XATA_DATABASE_URL)
+    path_parts = parsed_url.path.strip('/').split('/')
+    if len(path_parts) >= 2 and path_parts[0] == 'db':
+        DATABASE_NAME = path_parts[1]
+    else:
+        DATABASE_NAME = "ultraterrestrial"  # fallback
+    DB_BRANCH_NAME = f"{DATABASE_NAME}:{XATA_BRANCH}"
+except Exception as e:
+    logger.warning(f"Could not parse database URL: {e}")
+    DATABASE_NAME = "ultraterrestrial"
+    DB_BRANCH_NAME = f"{DATABASE_NAME}:{XATA_BRANCH}"
+
+# Initialize the Xata client
+try:
+    xata_client = XataClient(api_key=XATA_API_KEY)
+    logger.info(f"Xata client initialized for database: {DB_BRANCH_NAME}")
+except Exception as e:
+    logger.error(f"Failed to initialize Xata client: {e}")
+    raise EnvironmentError("Could not initialize Xata client")
 
 def search_record_for_analysis(
     analysis_text: str,
@@ -47,21 +68,31 @@ def search_record_for_analysis(
     logger.info(f"Searching for records in '{table_name}' with {search_field} matching: {query_fragment}")
     
     try:
-        # The SDK might expose a `records.search` method.
-        # Adjust the call as needed based on SDK documentation.
-        response = xata_client.records.search(
-            table=table_name,
-            query={
-                "query": f"{search_field}:*{query_fragment}*"
-            }
+        # Use the correct Xata Python SDK search method
+        # The search_table method expects a query object, not a string
+        search_query = {
+            "query": query_fragment,
+            "target": [search_field] if search_field else ["*"]
+        }
+        
+        response = xata_client.data().search_table(
+            table_name,
+            search_query
         )
         logger.debug(f"Search response: {response}")
 
-        # Assume the response contains a list of records in the key "records".
-        records = response.get("records", [])
-        if records:
-            logger.info(f"Found {len(records)} record(s).")
-            return records[0]  # return the first matched record
+        # The response should contain a list of records
+        if hasattr(response, 'records') and response.records:
+            logger.info(f"Found {len(response.records)} record(s).")
+            return response.records[0].to_dict()  # return the first matched record
+        elif isinstance(response, dict) and "records" in response:
+            records = response["records"]
+            if records:
+                logger.info(f"Found {len(records)} record(s).")
+                return records[0]
+            else:
+                logger.info("No matching records found.")
+                return None
         else:
             logger.info("No matching records found.")
             return None

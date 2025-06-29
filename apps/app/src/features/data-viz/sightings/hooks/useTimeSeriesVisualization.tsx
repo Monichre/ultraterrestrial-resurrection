@@ -1,7 +1,7 @@
 'use client'
 
 import {useState, useRef, useEffect, useCallback} from 'react'
-import {xata} from '@/db/xata/client'
+import {xata} from '@db/xata/client'
 
 // Configuration for different zoom levels
 export const ZOOM_LEVEL_CONFIG = {
