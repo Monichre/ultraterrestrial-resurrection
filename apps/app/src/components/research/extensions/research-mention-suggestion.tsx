@@ -1,6 +1,7 @@
 import { ReactRenderer } from '@tiptap/react'
 import tippy from 'tippy.js'
 import { forwardRef, useEffect, useImperativeHandle, useState } from 'react'
+import { ragHandler } from '@/lib/rag/rag-llm-handler'
 
 interface MentionItem {
   id: string
@@ -106,6 +107,7 @@ const MentionList = forwardRef<any, MentionListProps>(({ items, command }, ref) 
                   ${item.type === 'user-notes' ? 'bg-lime-900/50 text-lime-300' : ''}
                   ${item.type === 'mindmaps' ? 'bg-gray-900/50 text-gray-300' : ''}
                   ${item.type === 'summary-files' ? 'bg-amber-900/50 text-amber-300' : ''}
+                  ${item.type?.startsWith('rag-') ? 'bg-teal-900/50 text-teal-300 border border-teal-500/30' : ''}
                 `}>
                   {item.type}
                 </span>
@@ -133,7 +135,7 @@ export const ResearchMentionSuggestion = ({
   mentionSuggestion, 
   contextualRecords 
 }: ResearchMentionSuggestionProps) => ({
-  items: ({ query }: { query: string }) => {
+  items: async ({ query }: { query: string }) => {
     // Get suggestions from the provided function
     const suggestions = mentionSuggestion(query)
     
@@ -150,8 +152,22 @@ export const ResearchMentionSuggestion = ({
         description: record.description
       }))
     
+    // Add RAG-powered search results
+    let ragSuggestions: MentionItem[] = []
+    try {
+      const ragResults = await ragHandler.searchDocuments(query)
+      ragSuggestions = ragResults.map(result => ({
+        id: `rag-${result.id}`,
+        label: result.title,
+        type: `rag-${result.type}`,
+        description: result.summary
+      }))
+    } catch (error) {
+      console.error('RAG search failed:', error)
+    }
+    
     // Combine and deduplicate
-    const allSuggestions = [...suggestions, ...contextualSuggestions]
+    const allSuggestions = [...suggestions, ...contextualSuggestions, ...ragSuggestions]
     const uniqueSuggestions = allSuggestions.filter((item, index, self) => 
       index === self.findIndex(t => t.id === item.id)
     )

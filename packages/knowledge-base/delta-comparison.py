@@ -5,6 +5,7 @@ Uses working vector store query from disclosure-rag
 Date: December 20, 2024
 """
 
+from lib.openai_client.vector_store_query import list_vector_store_files
 import os
 import sys
 import json
@@ -16,19 +17,18 @@ import pandas as pd
 disclosure_rag_path = Path(__file__).parent.parent / "apps" / "disclosure-rag"
 sys.path.append(str(disclosure_rag_path))
 
-from lib.openai.vector_store_query import list_vector_store_files
 
 def scan_local_knowledge_base():
     """Scan packages/knowledge-base for all files"""
     kb_path = Path(__file__).parent
-    
+
     local_files = {
         "pdfs": [],
         "transcripts": [],
         "markdown": [],
         "other": []
     }
-    
+
     # Scan PDFs in case_files
     for pdf in kb_path.glob("case_files/*.pdf"):
         local_files["pdfs"].append({
@@ -37,20 +37,20 @@ def scan_local_knowledge_base():
             "size": pdf.stat().st_size,
             "modified": pdf.stat().st_mtime
         })
-    
+
     # Scan transcripts (all nested .txt files)
     for txt in kb_path.glob("transcripts/**/*.txt"):
         # Skip summary files
         if "Summary" in txt.name:
             continue
-            
+
         local_files["transcripts"].append({
             "name": txt.name,
             "path": str(txt.relative_to(kb_path)),
             "size": txt.stat().st_size,
             "modified": txt.stat().st_mtime
         })
-    
+
     # Scan markdown files
     for md in kb_path.glob("**/*.md"):
         if "node_modules" not in str(md):
@@ -60,17 +60,18 @@ def scan_local_knowledge_base():
                 "size": md.stat().st_size,
                 "modified": md.stat().st_mtime
             })
-    
+
     return local_files
+
 
 def query_openai_vector_store():
     """Query OpenAI vector store using existing working code"""
     vector_store_id = "vs_meWOEnUiUxtQWf0W6NBsNpCG"
-    
+
     try:
         print("🔍 Querying OpenAI vector store...")
         df = list_vector_store_files(vector_store_id, download_contents=False)
-        
+
         if df is not None:
             return {
                 "status": "success",
@@ -80,24 +81,25 @@ def query_openai_vector_store():
             }
         else:
             return {"status": "error", "message": "Failed to retrieve files"}
-            
+
     except Exception as e:
         return {"status": "error", "message": str(e)}
 
+
 def compare_sources(local_files, openai_data):
     """Compare local files with OpenAI vector store"""
-    
+
     # Flatten local files for comparison
     all_local = []
     for category, files in local_files.items():
         all_local.extend([f["name"] for f in files])
-    
+
     local_set = set(all_local)
-    
+
     if openai_data["status"] == "success":
         openai_files = [f["filename"] for f in openai_data["files"]]
         openai_set = set(openai_files)
-        
+
         comparison = {
             "local_only": sorted(list(local_set - openai_set)),
             "openai_only": sorted(list(openai_set - local_set)),
@@ -116,14 +118,15 @@ def compare_sources(local_files, openai_data):
             "overlap_count": 0,
             "openai_error": openai_data["message"]
         }
-    
+
     return comparison
+
 
 def generate_report(local_files, openai_data, comparison):
     """Generate comprehensive delta report"""
-    
+
     timestamp = datetime.now().isoformat()
-    
+
     report = {
         "analysis_date": timestamp,
         "summary": {
@@ -144,21 +147,26 @@ def generate_report(local_files, openai_data, comparison):
         },
         "recommendations": []
     }
-    
+
     # Generate recommendations
     if openai_data["status"] == "error":
-        report["recommendations"].append("❌ Fix OpenAI API access to complete comparison")
-        report["recommendations"].append(f"   Error: {openai_data.get('message', 'Unknown error')}")
+        report["recommendations"].append(
+            "❌ Fix OpenAI API access to complete comparison")
+        report["recommendations"].append(
+            f"   Error: {openai_data.get('message', 'Unknown error')}")
     else:
         if comparison["overlap_count"] > 0:
-            report["recommendations"].append(f"✅ {comparison['overlap_count']} files already synced")
-        
+            report["recommendations"].append(
+                f"✅ {comparison['overlap_count']} files already synced")
+
         if len(comparison["local_only"]) > 0:
-            report["recommendations"].append(f"📤 {len(comparison['local_only'])} local files need uploading to OpenAI")
-            
+            report["recommendations"].append(
+                f"📤 {len(comparison['local_only'])} local files need uploading to OpenAI")
+
         if len(comparison["openai_only"]) > 0:
-            report["recommendations"].append(f"📥 {len(comparison['openai_only'])} OpenAI files not in local")
-    
+            report["recommendations"].append(
+                f"📥 {len(comparison['openai_only'])} OpenAI files not in local")
+
     # Sync strategy recommendations
     report["recommendations"].extend([
         "",
@@ -173,76 +181,79 @@ def generate_report(local_files, openai_data, comparison):
         "3. Verify sync in Streamlit UI:",
         "   ./launch_dashboard.sh"
     ])
-    
+
     return report
+
 
 def main():
     print("🛸 Knowledge Base Delta Comparison")
     print(f"📅 Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print("=" * 60)
-    
+
     # Scan local files
     print("📁 Scanning local knowledge base...")
     local_files = scan_local_knowledge_base()
-    
+
     total_local = sum(len(files) for files in local_files.values())
     print(f"Local files found:")
     print(f"  📄 PDFs: {len(local_files['pdfs'])}")
     print(f"  📝 Transcripts: {len(local_files['transcripts'])}")
     print(f"  📖 Markdown: {len(local_files['markdown'])}")
     print(f"  📊 Total: {total_local}")
-    
+
     print("\n" + "=" * 60)
-    
+
     # Query OpenAI vector store
     openai_data = query_openai_vector_store()
-    
+
     if openai_data["status"] == "success":
         print(f"☁️  OpenAI Vector Store: {openai_data['file_count']} files")
         print(f"   Total size: {openai_data['total_bytes']:,} bytes")
     else:
         print(f"❌ OpenAI Error: {openai_data['message']}")
-    
+
     print("\n" + "=" * 60)
-    
+
     # Compare sources
     print("🔄 Comparing sources...")
     comparison = compare_sources(local_files, openai_data)
-    
+
     print(f"Comparison results:")
     print(f"  📊 Local files: {comparison['local_count']}")
     print(f"  ☁️  OpenAI files: {comparison['openai_count']}")
     print(f"  ✅ In both: {comparison['overlap_count']}")
     print(f"  📤 Only local: {len(comparison['local_only'])}")
     print(f"  📥 Only OpenAI: {len(comparison['openai_only'])}")
-    
+
     # Show sample differences
     if comparison['local_only']:
         print(f"\n📤 Sample files only in local (showing first 10):")
         for file in comparison['local_only'][:10]:
             print(f"   - {file}")
-    
+
     if comparison['openai_only']:
         print(f"\n📥 Sample files only in OpenAI (showing first 10):")
         for file in comparison['openai_only'][:10]:
             print(f"   - {file}")
-    
+
     print("\n" + "=" * 60)
-    
+
     # Generate and save report
     report = generate_report(local_files, openai_data, comparison)
-    
-    report_path = Path(__file__).parent / f"delta-report-{datetime.now().strftime('%Y%m%d-%H%M%S')}.json"
+
+    report_path = Path(__file__).parent / \
+        f"delta-report-{datetime.now().strftime('%Y%m%d-%H%M%S')}.json"
     with open(report_path, 'w') as f:
         json.dump(report, f, indent=2, default=str)
-    
+
     print("💡 Recommendations:")
     for rec in report["recommendations"]:
         print(f"   {rec}")
-    
+
     print(f"\n📊 Full report saved to: {report_path}")
-    
+
     return report
+
 
 if __name__ == "__main__":
     main()

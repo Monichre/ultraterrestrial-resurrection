@@ -13,16 +13,14 @@ import {PersonnelGroupNodeChild} from '@/features/mindmap/nodes/personnel-group-
 import {UserInputNode} from '@/features/mindmap/nodes/user-input-node/user-input-node'
 import {AIAnnotationNode} from '@/features/mindmap/nodes/ai-annotation-node'
 
-// Enhanced UI components
-import {EnhancedEntityNode} from '@/features/mindmap/nodes/enhanced-entity-node'
-import {EnhancedUserInputNode} from '@/features/mindmap/nodes/enhanced-user-input-node'
+// Enhanced UI components (POC)
+import {EnhancedEntityNodePOC} from '@/features/mindmap/nodes/enhanced-node-poc'
 
 export const nodeTypes: any = {
   // Utilities Nodes
   annotationNode: AnnotationNode,
-  // Enhanced Entity Nodes (new beautiful UI)
-  enhancedEntityNode: EnhancedEntityNode,
-  enhancedUserInputNode: EnhancedUserInputNode,
+  // Enhanced Entity Nodes (POC)
+  enhancedEntityNodePOC: EnhancedEntityNodePOC,
   // Legacy Entity Nodes (keeping for compatibility)
   entityNode: EntityNode,
   eventsNode: EntityNode,

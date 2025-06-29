@@ -1,0 +1,23 @@
+#!/usr/bin/env python3
+import sys
+sys.path.append('/Users/liamellis/Desktop/ultraterrestrial-resurrection/apps/disclosure-rag')
+
+from agents.entity_extraction_agent import EntityExtractionAgent
+
+# Read the summary file
+with open('/Users/liamellis/Desktop/ultraterrestrial-resurrection/packages/knowledge-base/transcripts/2025-06-28/-JBwH6yHEDo/rendleshamForestUfoSightingEyewitnessColonelCharlesHaltSummary.txt', 'r') as f:
+    content = f.read()
+
+# Test entity extraction
+agent = EntityExtractionAgent()
+entities = agent.extract_entities(content)
+
+print("Extracted Entities:")
+print("==================")
+for entity_type, entity_list in entities.items():
+    if entity_list:
+        print(f"\n{entity_type.upper()}:")
+        for entity in entity_list:
+            print(f"  - {entity}")
+
+print(f"\nTotal entities extracted: {sum(len(e) for e in entities.values())}")

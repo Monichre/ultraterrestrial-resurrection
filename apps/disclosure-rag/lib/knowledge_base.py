@@ -29,10 +29,16 @@ class KnowledgeBase:
     
     def __init__(self, kb_path=None):
         """Initialize the knowledge base with paths to knowledge sources."""
-        # Define paths to knowledge sources
-        self.kb_path = kb_path or os.path.join(os.path.dirname(os.path.dirname(__file__)), "knowledge-base")
-        self.case_files_path = os.path.join(self.kb_path, "case_files")
-        self.transcripts_path = os.path.join(self.kb_path, "transcripts")
+        # Define paths to knowledge sources - point to packages/knowledge-base
+        if kb_path is None:
+            # Navigate to the packages/knowledge-base directory
+            current_dir = Path(__file__).parent.parent.parent.parent  # Go up from apps/disclosure-rag/lib/
+            self.kb_path = current_dir / "packages" / "knowledge-base"
+        else:
+            self.kb_path = Path(kb_path)
+            
+        self.case_files_path = self.kb_path / "case_files"
+        self.transcripts_path = self.kb_path / "transcripts"
         self.vector_store = None
         
         # Initialize the knowledge base

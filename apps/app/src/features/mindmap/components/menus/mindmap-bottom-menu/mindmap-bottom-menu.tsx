@@ -15,8 +15,16 @@ import {COMMANDS} from '@/features/mindmap/components/menus/mindmap-bottom-menu/
 import {MindMapMessages, convertAiSdkMessage, type Message} from './MindMapMessages'
 import {SessionNotesProvider, useSessionNotes} from '@/contexts/mindmap/session-notes-context'
 import {SessionNotes} from '@/features/mindmap/components/status-ui/session-notes'
-import {getGraphContext, isRecordRelated, generateContextualSearchRules} from '@/features/mindmap/utils/contextual-intelligence'
-import {createEnhancedUserInputNode, createEnhancedEntityNode, getNodeType} from '@/features/mindmap/utils/node-enhancement-utils'
+import {
+  getGraphContext,
+  isRecordRelated,
+  generateContextualSearchRules,
+} from '@/features/mindmap/utils/contextual-intelligence'
+import {
+  createEnhancedUserInputNode,
+  createEnhancedEntityNode,
+  getNodeType,
+} from '@/features/mindmap/utils/node-enhancement-utils'
 
 // Define explicit types for our entities and nodes
 export interface MindMapNode {
@@ -105,6 +113,11 @@ export const MindMapBottomMenu = ({
   })
 
   console.log('🚀 ~ MindMapBottomMenu ~ input:', input)
+
+  // Keep inputValue in sync with useAssistant input, but avoid infinite loops
+  useEffect(() => {
+    setInputValue(input)
+  }, [input])
 
   // Save messages to localStorage when they change
   useEffect(() => {
@@ -215,21 +228,18 @@ export const MindMapBottomMenu = ({
         console.log(`Search for "${searchTerm}" already exists on the graph`)
         return // Skip duplicate searches
       }
-      
+
       // Get graph context for intelligent filtering
       const graphContext = getGraphContext(existingNodes)
 
-      const userNode = {
-        id: uuidv4(),
-        type: 'userInputNode',
-        position: {x: 0, y: 0},
-        data: {
-          label: graphContext ? 'Contextual Search' : 'Your Query', 
-          input: searchTerm,
-          isContextual: !!graphContext,
-          contextInfo: graphContext ? `Building on ${graphContext.connectedEntityTypes.size} connected entity types` : undefined
-        },
-      }
+      // Create enhanced user input node with contextual awareness
+      const userNode = createEnhancedUserInputNode(
+        uuidv4(),
+        searchTerm,
+        {x: 0, y: 0},
+        existingNodes,
+        type
+      )
       addNodes(userNode)
 
       const response = await initiateDatabaseTableQuery({
@@ -276,14 +286,20 @@ export const MindMapBottomMenu = ({
           const x = userNode.position.x + radius * Math.cos(angle)
           const y = userNode.position.y + radius * Math.sin(angle)
 
-          return {
-            id: result.id,
-            type: `${type}Node`,
-            data: {
+          // Create enhanced entity node while preserving calculated position
+          const enhancedNode = createEnhancedEntityNode(
+            result.id,
+            {
               type,
               ...result,
             },
-            position: {x, y},
+            {x, y}, // Use the calculated position from the radius layout
+            existingNodes
+          )
+
+          return {
+            ...enhancedNode,
+            position: {x, y}, // Ensure the calculated position is preserved
           }
         })
 
@@ -294,9 +310,8 @@ export const MindMapBottomMenu = ({
             id: edgeId,
             source: userNode.id,
             target: entityNode.id,
-            sourceHandle: `handle:${edgeId}`,
             animated: true,
-            type: 'sequential',
+            type: 'smoothstep', // Use a valid edge type
             label: `Search result for ${searchTerm}`,
             style: {
               stroke: DOMAIN_MODEL_COLORS[type] || '#fff',
@@ -304,10 +319,8 @@ export const MindMapBottomMenu = ({
           }
         })
 
-        // Update user node with handles and summary
-        const sourceHandles = entityEdges.map((edge) => edge.sourceHandle)
+        // Update user node with summary
         updateNodeData(userNode.id, {
-          handles: sourceHandles,
           input: `Found ${allResults.length} results for "${searchTerm}" in ${type}`,
         })
 
@@ -341,25 +354,26 @@ export const MindMapBottomMenu = ({
 
       // Check if we already have a similar query
       const existingNodes = getNodes()
-      
+
       // Get graph context for intelligent filtering
       const graphContext = getGraphContext(existingNodes)
-      
+
       // Adjust query based on context
       let query: string
       let contextualRules: string = ''
-      
+
       if (graphContext) {
         // We have existing context - use contextual filtering
         contextualRules = generateContextualSearchRules(graphContext)
         query = `Find ${amount} ${type} records that are related to the existing graph context. ${contextualRules}`
-        
+
         // Check if similar contextual query exists
         const similarNodeExists = existingNodes.some(
-          (node) => node.type === 'userInputNode' && 
-                   node.data?.question?.includes('related to the existing graph context')
+          (node) =>
+            node.type === 'userInputNode' &&
+            node.data?.question?.includes('related to the existing graph context')
         )
-        
+
         if (similarNodeExists) {
           console.log(`Similar contextual ${type} exploration already exists`)
           return
@@ -370,31 +384,23 @@ export const MindMapBottomMenu = ({
         const similarNodeExists = existingNodes.some(
           (node) => node.type === 'userInputNode' && node.data?.question === query
         )
-        
+
         if (similarNodeExists) {
           console.log(`Similar ${type} exploration already exists on the graph`)
           return
         }
       }
 
-      // Create a user input node first
-      const potentialUserNode = {
-        id: getNextId(),
-        type: 'userInputNode',
-        position: {...center},
-        data: {
-          label: graphContext ? 'Contextual Exploration' : 'Your Query',
-          input: graphContext 
-            ? `Finding ${amount} related ${type} to expand your knowledge graph. Fetching Data...`
-            : `Beginning your exploration by loading ${amount} ${type}. Fetching Data...`,
-          question: query,
-          type: type,
-          isContextual: !!graphContext,
-          contextInfo: graphContext 
-            ? `Building on ${graphContext.connectedEntityTypes.size} entity types, ${graphContext.keyPersonnel.length} key figures`
-            : 'Open exploration - any interesting records'
-        },
-      }
+      // Create enhanced user input node with contextual awareness
+      const potentialUserNode = createEnhancedUserInputNode(
+        getNextId(),
+        graphContext
+          ? `Finding ${amount} related ${type} to expand your knowledge graph`
+          : `Beginning your exploration by loading ${amount} ${type}`,
+        {...center},
+        existingNodes,
+        type
+      )
 
       // Add the user node to the graph
       addNode(potentialUserNode)
@@ -427,8 +433,8 @@ export const MindMapBottomMenu = ({
         const flowData = await xataToXYFlow({
           question: query,
           table: type,
-          rules: graphContext 
-            ? contextualRules 
+          rules: graphContext
+            ? contextualRules
             : `Find the most interesting ${type} records that have clear relationships between them`,
           context: graphContext
             ? `The user is building a connected graph starting from ${graphContext.seedRecord?.data?.title || graphContext.seedRecord?.data?.name || 'their initial exploration'}. Focus on records that relate to or extend the existing narrative.`
@@ -438,6 +444,9 @@ export const MindMapBottomMenu = ({
           layoutType, // Pass the selected layout type
         })
 
+        console.log('🚀 ~ handleLoadingRecords ~ flowData:', flowData)
+        console.log('🚀 ~ handleLoadingRecords ~ flowData.nodes:', flowData.nodes)
+
         // Filter out any nodes that already exist in the graph and exclude the query result node
         if (flowData.nodes && flowData.nodes.length > 0) {
           const entityNodes = flowData.nodes.filter(
@@ -446,6 +455,9 @@ export const MindMapBottomMenu = ({
               node.id !== potentialUserNode.id && // Exclude the user input node
               !nodeExists(node.id, node.type) // Exclude already existing nodes
           )
+
+          console.log('🚀 ~ handleLoadingRecords ~ entityNodes after filtering:', entityNodes)
+          console.log('🚀 ~ handleLoadingRecords ~ entityNodes.length:', entityNodes.length)
 
           if (entityNodes.length > 0) {
             // Create proper entity nodes with correct positioning
@@ -459,7 +471,7 @@ export const MindMapBottomMenu = ({
 
               return {
                 ...node,
-                type: `${type}Node`, // Ensure correct node type for entity nodes
+                type: 'enhancedEntityNodePOC', // Use enhanced node type like search results
                 position: {x, y},
                 data: {
                   ...node.data,
@@ -475,9 +487,8 @@ export const MindMapBottomMenu = ({
                 id: edgeId,
                 source: potentialUserNode.id,
                 target: entityNode.id,
-                sourceHandle: `handle:${edgeId}`,
                 animated: true,
-                type: 'sequential',
+                type: 'smoothstep', // Use a valid edge type
                 label: `${type} result`,
                 style: {
                   stroke: DOMAIN_MODEL_COLORS[type] || '#fff',
@@ -485,10 +496,8 @@ export const MindMapBottomMenu = ({
               }
             })
 
-            // Update user input node with handles for the edges
-            const sourceHandles = entityEdges.map((edge) => edge.sourceHandle)
+            // Update user input node with summary
             updateNodeData(potentialUserNode.id, {
-              handles: sourceHandles,
               input: `Found ${entityNodes.length} ${type} records`,
               answer:
                 flowData.xataResponse?.answer ||
@@ -684,45 +693,60 @@ export const MindMapBottomMenu = ({
   // Modify the handleKeyDown function to dispatch a form submit event for chat
   const handleKeyDown = useCallback(
     async (e: React.KeyboardEvent) => {
+      console.log('🚀 ~ handleKeyDown ~ key:', e.key)
+      console.log('🚀 ~ handleKeyDown ~ activeCommand:', activeCommand)
+      console.log('🚀 ~ handleKeyDown ~ inputValue:', inputValue)
+
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault()
 
-        // If we have an active chat command and input, submit the message directly
+        // Prevent submission if chat is loading
+        if (chatStatus === 'in_progress' || chatStatus === 'generating') {
+          console.log('Chat is currently processing, skipping submission')
+          return
+        }
+
+        // If we have an active chat command and input, handle it
         if (
           (activeCommand === 'chat' ||
             activeCommand === 'deep research' ||
             activeCommand === 'scrape') &&
           inputValue.trim() !== ''
         ) {
-          console.log('🚀 ~ inputValue:', inputValue)
-          // Use the submitMessage function directly with a synthetic form event
+          console.log('Submitting chat message via Enter key')
+
+          // Handle scrape command with URL prefix
           if (activeCommand === 'scrape') {
-            const content = `scrape this url:${inputValue}`
-            setInput(`${content}`)
+            const content = `scrape this url: ${inputValue}`
+            setInput(content)
             append({role: 'user', content: content})
           } else {
+            // Handle regular chat commands
             setInput(inputValue)
             append({role: 'user', content: inputValue})
           }
 
-          // submitMessage(formEvent)
+          // Submit to assistant
+          submitMessage({preventDefault: () => {}} as React.FormEvent<HTMLFormElement>)
+
+          // Clear inputs
           setInputValue('')
           setInput('')
           return
         }
 
+        // Handle specific non-chat commands
         switch (activeCommand?.toLowerCase()) {
           case 'search':
-            // Special handling for search
             if (inputValue.trim() && selectedModel) {
               try {
+                console.log('Performing search via Enter key')
                 const results = await initiateDatabaseTableQuery({
                   table: selectedModel,
                   keyword: inputValue,
                 } as InitiateQueryParams)
 
                 if (results) {
-                  // Ensure we pass the right structure to loadNodesFromTableQuery
                   await loadNodesFromTableQuery({
                     type: selectedModel || 'general',
                     searchResults: Array.isArray(results) ? results : [],
@@ -736,35 +760,17 @@ export const MindMapBottomMenu = ({
             }
             break
 
-          case 'scrape':
-            // Handle the scrape command - send URL to be scraped
-            if (inputValue.trim().startsWith('http')) {
-              submitMessage({preventDefault: () => {}} as React.FormEvent<HTMLFormElement>)
-            }
-            break
-
-          case 'analyze':
-            // Handle analyze command
-            submitMessage({preventDefault: () => {}} as React.FormEvent<HTMLFormElement>)
-            break
-
           default:
-            // For any other active command, try the oracle action handler
-            if (activeCommand) {
+            // For any other active command or no command, try the oracle action handler
+            if (inputValue.trim()) {
+              console.log('Using oracle action handler')
               handleOracleAction()
             }
             break
         }
-      } else if (selectedModel && inputValue.trim()) {
-        // Default behavior for when we have a model and input but no command
-        runSearch({
-          type: selectedModel,
-          searchTerm: inputValue,
-        })
-        setInputValue('')
       }
 
-      // Handle Backspace to clear command when empty
+      // Handle Backspace to clear command when input is empty
       if (e.key === 'Backspace' && (inputValue === '' || inputValue === ' ')) {
         setActiveCommand(null)
         setCommandMenuOpen(false)
@@ -782,25 +788,29 @@ export const MindMapBottomMenu = ({
       activeCommand,
       handleOracleAction,
       loadNodesFromTableQuery,
-      runSearch,
       setInput,
       setInputValue,
       append,
+      chatStatus,
     ]
   )
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement> | string) => {
-      console.log('🚀 ~ MindMapBottomMenu ~ e:', e)
+      const value = typeof e === 'string' ? e : e.target.value
 
-      // Handle both string values and event objects
-      setInputValue(e.target.value)
+      console.log('🚀 ~ handleChange ~ value:', value)
+      console.log('🚀 ~ handleChange ~ activeCommand:', activeCommand)
 
+      // Always update the local input value
+      setInputValue(value)
+
+      // For chat commands, also update the useAssistant input
       if (activeCommand === 'chat' || activeCommand === 'deep research') {
-        setInput(e.target.value)
+        setInput(value)
       }
     },
-    [activeCommand]
+    [activeCommand, setInput]
   )
 
   // Properly typed interface for command format
@@ -889,21 +899,43 @@ export const MindMapBottomMenu = ({
   // Update the form submission handler to properly submit chat messages
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (selectedModel) {
+
+    console.log('🚀 ~ handleFormSubmit ~ activeCommand:', activeCommand)
+    console.log('🚀 ~ handleFormSubmit ~ inputValue:', inputValue)
+    console.log('🚀 ~ handleFormSubmit ~ chatStatus:', chatStatus)
+
+    // Prevent submission if chat is loading
+    if (chatStatus === 'in_progress' || chatStatus === 'generating') {
+      console.log('Chat is currently processing, skipping submission')
+      return
+    }
+
+    // Handle model selection without input (Add to Mindmap)
+    if (selectedModel && inputValue.trim() === '') {
       addDataToMindMap(selectedModel)
+      return
     }
 
     // Only proceed if we have input
     if (inputValue.trim() === '') return
 
+    // Handle chat commands
     if (activeCommand === 'chat' || activeCommand === 'deep research') {
-      console.log('🚀 ~ handleFormSubmit ~ activeCommand:', activeCommand)
+      console.log('Submitting chat message via form')
 
+      // Set the message content for useAssistant
       setInput(inputValue)
-      append({role: 'user', content: inputValue})
-      // For chat commands, use submitMessage directly
-      // submitMessage(e)
-      // Reset input fields after submission
+
+      // Append user message to conversation
+      append({
+        role: 'user',
+        content: inputValue,
+      })
+
+      // Submit the message to the AI endpoint
+      submitMessage(e)
+
+      // Clear input fields after submission
       setInputValue('')
       setInput('')
     } else {
@@ -948,6 +980,7 @@ export const MindMapBottomMenu = ({
               activeModel={selectedModel}
               activeCommand={activeCommand}
               inputValue={inputValue}
+              // activeCommand === 'chat' || activeCommand === 'deep research' ? input :
               setInputValue={handleChange}
               handleKeyDown={handleKeyDown}
               setCommandMenuOpen={setCommandMenuOpen}

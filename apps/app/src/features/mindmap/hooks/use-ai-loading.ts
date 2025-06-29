@@ -90,7 +90,7 @@ export function useAILoading({
 					// Position nodes using AI suggestions
 					const childNodes = entities.map((entity: Entity) => ({
 						...entity,
-						type: "entityNode",
+						type: "enhancedEntityNodePOC",
 						position: enhancedLayout.positions?.[entity.id] || {
 							// Fallback positioning logic
 							x: Math.random() * 800 - 400 + getCenter().x,
@@ -160,7 +160,7 @@ export function useAILoading({
 					// Position child nodes using standard layout
 					const childNodes = entities.map((entity: Entity, index: number) => ({
 						...entity,
-						type: "entityNode",
+						type: "enhancedEntityNodePOC",
 						position: {
 							x: startX + index * (entityWidth + entitySpacing),
 							y: childY,
@@ -197,7 +197,7 @@ export function useAILoading({
 				// Standard node positioning
 				const childNodes = entities.map((entity: Entity, index: number) => ({
 					...entity,
-					type: "entityNode",
+					type: "enhancedEntityNodePOC",
 					position: {
 						x: startX + index * (entityWidth + entitySpacing),
 						y: childY,

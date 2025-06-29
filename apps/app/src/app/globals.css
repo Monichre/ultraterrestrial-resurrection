@@ -2198,3 +2198,21 @@ body {
 	--color-sidebar-border: var(--sidebar-border);
 	--color-sidebar-ring: var(--sidebar-ring);
 }
+
+/* Cosmic Landing Custom Styles */
+.bg-gradient-radial {
+  background: radial-gradient(circle, var(--tw-gradient-stops));
+}
+
+@keyframes animate-wave {
+  0%, 100% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-wave {
+  animation: animate-wave 6s ease-in-out infinite;
+}

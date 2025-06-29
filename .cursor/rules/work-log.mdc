@@ -1,0 +1,32 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+Always include the human readable date in the name of your work log or status file.
+work log and status files use all caps and underscores.
+
+Try to follow this structure
+
+# Work Log - {Title} Ex: Disclosure RAG System Analysis & Documentation
+
+## 📋 Session Overview
+
+{Notes}
+
+---
+
+## 🛠️ Work Completed
+
+{Work Completed}
+
+
+### Meta Data
+
+/* Example */
+**Date/Time: June 25, 2025 - 18:55:00**  
+**Session Type: Comprehensive System Review & Documentation**  
+**Duration: Extended Analysis Session**  
+**Status: ✅ COMPLETED**
+## 📋 Session Overview
+## 🛠️ Work Completed

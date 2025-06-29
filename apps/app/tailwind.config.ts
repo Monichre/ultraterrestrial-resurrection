@@ -1,8 +1,8 @@
-import type { Config } from "tailwindcss";
-const tailwindAnimate = require("tailwindcss-animate");
-const svgToDataUri = require("mini-svg-data-uri");
-const plugin = require("tailwindcss/plugin");
-const flattenColorPalette = require("tailwindcss/lib/util/flattenColorPalette");
+import type { Config } from "tailwindcss"
+const tailwindAnimate = require( "tailwindcss-animate" )
+const svgToDataUri = require( "mini-svg-data-uri" )
+const plugin = require( "tailwindcss/plugin" )
+const flattenColorPalette = require( "tailwindcss/lib/util/flattenColorPalette" )
 
 // const {
 // 	default: flattenColorPalette,
@@ -13,17 +13,17 @@ const storyPaths = [
 	"./src/**/*.mdx",
 	"./src/**/*.stories.@(js|jsx|mjs|ts|tsx)",
 	"./src/**/**/*.stories.@(js|jsx|mjs|ts|tsx)",
-];
+]
 
-function addVariablesForColors({ addBase, theme }: any) {
-	const allColors = flattenColorPalette(theme("colors"));
+function addVariablesForColors( { addBase, theme }: any ) {
+	const allColors = flattenColorPalette( theme( "colors" ) )
 	const newVars = Object.fromEntries(
-		Object.entries(allColors).map(([key, val]) => [`--${key}`, val]),
-	);
+		Object.entries( allColors ).map( ( [key, val] ) => [`--${key}`, val] ),
+	)
 
-	addBase({
+	addBase( {
 		":root": newVars,
-	});
+	} )
 }
 
 const config = {
@@ -51,6 +51,10 @@ const config = {
 				monumentMono: ["var(--font-monument-mono)"],
 				justAnotherHand: ["var(--font-just-another-hand)"],
 				lukasSans: ["var(--font-lukas-sans})"],
+				spaceMono: ["var(--font-space-mono)"],
+				martianMono: ["var(--font-martian-mono)"],
+				justAnotherHand: ["var(--font-just-another-hand)"],
+				robotoMono: ["var(--font-roboto-mono)"],
 			},
 			colors: {
 				border: "hsl(var(--border))",
@@ -288,38 +292,38 @@ const config = {
 				"dots-pattern": "radial-gradient(transparent 1px, white 1px)",
 				"dots-pattern-dark": "radial-gradient(transparent 1px, rgb(0 0 0) 1px)",
 			},
-	},
-	plugins: [
-		tailwindAnimate,
-		addVariablesForColors,
-		({ matchUtilities, theme }: any) => {
-			matchUtilities(
-				{
-					"bg-grid": (value: any) => ({
-						backgroundImage: `url("${svgToDataUri(
-							`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="${value}"><path d="M0 .5H31.5V32"/></svg>`,
-						)}")`,
-					}),
-					"bg-grid-small": (value: any) => ({
-						backgroundImage: `url("${svgToDataUri(
-							`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="8" height="8" fill="none" stroke="${value}"><path d="M0 .5H31.5V32"/></svg>`,
-						)}")`,
-					}),
-					"bg-dot": (value: any) => ({
-						backgroundImage: `url("${svgToDataUri(
-							`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="16" height="16" fill="none"><circle fill="${value}" id="pattern-circle" cx="10" cy="10" r="1.6257413380501518"></circle></svg>`,
-						)}")`,
-					}),
-				},
-				{
-					values: flattenColorPalette(theme("backgroundColor")),
-					type: "color",
-				},
-			);
 		},
-		require("tailwindcss-motion"),
-		require("@tailwindcss/typography"),
-	],
-} satisfies Config;
+		plugins: [
+			tailwindAnimate,
+			addVariablesForColors,
+			( { matchUtilities, theme }: any ) => {
+				matchUtilities(
+					{
+						"bg-grid": ( value: any ) => ( {
+							backgroundImage: `url("${svgToDataUri(
+								`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="${value}"><path d="M0 .5H31.5V32"/></svg>`,
+							)}")`,
+						} ),
+						"bg-grid-small": ( value: any ) => ( {
+							backgroundImage: `url("${svgToDataUri(
+								`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="8" height="8" fill="none" stroke="${value}"><path d="M0 .5H31.5V32"/></svg>`,
+							)}")`,
+						} ),
+						"bg-dot": ( value: any ) => ( {
+							backgroundImage: `url("${svgToDataUri(
+								`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="16" height="16" fill="none"><circle fill="${value}" id="pattern-circle" cx="10" cy="10" r="1.6257413380501518"></circle></svg>`,
+							)}")`,
+						} ),
+					},
+					{
+						values: flattenColorPalette( theme( "backgroundColor" ) ),
+						type: "color",
+					},
+				)
+			},
+			require( "tailwindcss-motion" ),
+			require( "@tailwindcss/typography" ),
+		],
+	} satisfies Config
 
-export default config;
+	export default config

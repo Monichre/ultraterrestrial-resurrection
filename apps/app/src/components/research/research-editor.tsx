@@ -71,8 +71,35 @@ function EditorToolbar() {
           List
         </button>
         <div className="h-4 w-px bg-green-400/30" />
+        
+        {/* RAG AI Commands */}
+        <button
+          onClick={() => {
+            const prompt = window.prompt('Enter a prompt for AI generation:')
+            if (prompt) {
+              editor.chain().focus().ragGenerate(prompt).run()
+            }
+          }}
+          className="px-2 py-1 rounded text-xs hover:bg-blue-400/10 text-blue-400 border border-blue-400/30"
+        >
+          🤖 Generate
+        </button>
+        <button
+          onClick={() => editor.chain().focus().ragSummarize().run()}
+          className="px-2 py-1 rounded text-xs hover:bg-blue-400/10 text-blue-400 border border-blue-400/30"
+        >
+          📝 Summarize
+        </button>
+        <button
+          onClick={() => editor.chain().focus().ragFactCheck().run()}
+          className="px-2 py-1 rounded text-xs hover:bg-blue-400/10 text-blue-400 border border-blue-400/30"
+        >
+          ✅ Fact Check
+        </button>
+        
+        <div className="h-4 w-px bg-green-400/30" />
         <span className="text-xs text-green-400/70">
-          Type @ to mention records
+          Type @ to mention records • RAG-powered AI
         </span>
       </div>
     </div>
