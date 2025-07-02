@@ -24,7 +24,6 @@ alwaysApply: true
 
 - **Monorepo**: Top-level contains multiple apps and packages
   - `apps/app/` – Main Next.js app (App Router, all user-facing features)
-  - `apps/cli/` – CLI tools and scripts
   - `apps/disclosure-rag/` – RAG (Retrieval-Augmented Generation) system
   - `packages/` – Shared libraries, DB, docs, knowledge base
 - **App Structure**: Follows Next.js App Router conventions

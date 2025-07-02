@@ -1,9 +1,39 @@
-## Project Development
+# Agent Guidelines for Ultraterrestrial Resurrection
+
+## Build/Test Commands
+
+- **Dev**: `bun run dev:app` (main app), `cd apps/app && bun run dev` (direct)
+- **Build**: `bun run build:app` or `cd apps/app && bun run build`
+- **Lint**: `cd apps/app && bun run lint` (ESLint + Next.js)
+- **Test**: `cd apps/app && bun run test` (single test file)
+- **Storybook**: `bun run storybook` or `cd apps/app && bun run storybook`
+
+## Code Style Guidelines
+
+- **Naming**: Directories `kebab-case`, Components `PascalCase`, hooks `camelCase` with `use` prefix, utils `kebab-case` named exports
+- **Imports**: Use `@/` for src paths, `@db/` for database, absolute imports preferred
+- **Components**: Default exports, functional components, Server Components by default, mark Client Components with `"use client"`
+- **Types**: TypeScript strict mode disabled, use interfaces for props, prefer type inference
+- **Error Handling**: Try/catch for async functions, user-friendly error messages, proper loading states
+- **Styling**: Tailwind CSS only, component-specific styles in component files, use `cn()` utility for conditional classes
+
+## Architecture Patterns
+
+- **Monorepo**: `apps/app/` (main), `apps/disclosure-rag/` (RAG), `packages/` (shared)
+- **Features**: Self-contained in `src/features/<feature>/` with `components/`, `hooks/`, `utils/`, `store/`, `actions/`
+- **Services**: External integrations in `src/services/` (AI, processing, knowledge, sightings)
+- **State**: Zustand for global state, React context for feature state, keep state local when possible
+- **Data Fetching**: Server Components for SSR, SWR/React Query for client-side, Xata/Supabase via service layer
+
+## Key Rules from .cursor/rules/
+
+- Use App Router conventions, Server Actions for mutations, proper caching strategies
+- Follow SOLID principles, composition over inheritance, dependency injection patterns
+- Never expose secrets to client, sanitize user input, implement proper auth/authorization
+- Co-locate test files with components, use Jest/React Testing Library
 
 - Remember we use python3
 - ALWAYS INCLUDE THE EXACT DATA AND TIME IN ANY DOCUMENTATION!
-
-## Documentation Guidelines
 
 - Always write a summary of your work, features worked on, files touched, components effected and next steps
 - Always update this doc when you finish any incremental task or code or feature
@@ -61,14 +91,6 @@
 - **User Transparency**: Clear indication of result sources
 - **Cost Efficiency**: Option to process documents locally with CocoIndex
 - **Scalability**: Load distribution across multiple systems
-
-#### Next Steps
-
-1. **Environment Setup**: Create clean Python environment for CocoIndex testing
-2. **Integration Testing**: Start disclosure-rag server and test endpoints
-3. **Frontend Testing**: Verify TipTap RAG commands work with new system
-4. **Performance Tuning**: Optimize search weights and result merging
-5. **Documentation**: Update API documentation with new endpoints
 
 #### Technical Notes
 

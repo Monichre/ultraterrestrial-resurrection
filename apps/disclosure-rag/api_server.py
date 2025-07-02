@@ -22,6 +22,14 @@ except ImportError:
     print("Warning: KnowledgeBaseCRUD not available")
     KnowledgeBaseCRUD = None
 
+# Import dual RAG adapter
+try:
+    from lib.adapters.dual_rag_adapter import dual_rag_adapter, get_adapter_status
+    DUAL_RAG_AVAILABLE = True
+except ImportError:
+    print("Warning: DualRAGAdapter not available")
+    DUAL_RAG_AVAILABLE = False
+
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -124,6 +132,22 @@ class SearchResults(BaseModel):
     total_results: int
     documents: List[DocumentSummary]
     facets: Dict[str, Dict[str, int]]
+
+class RAGSearchResult(BaseModel):
+    id: str
+    score: float
+    system: str
+    badge: str
+    text: str
+    source: str
+    metadata: Dict[str, Any]
+
+class RAGSearchResponse(BaseModel):
+    query: str
+    results: List[RAGSearchResult]
+    total_results: int
+    systems_used: List[str]
+    timestamp: str
 
 # API Routes
 
@@ -464,6 +488,103 @@ def _extract_transcript_topic(filename: str) -> str:
         return 'Luis Elizondo'
     else:
         return 'General Discussion'
+
+# Dual RAG Endpoints
+@app.post("/rag/search", response_model=RAGSearchResponse)
+async def rag_search(
+    query: str = Query(..., description="Search query"),
+    top_k: int = Query(8, ge=1, le=50, description="Number of results to return"),
+    filter_type: Optional[str] = Query(None, description="Filter by document type"),
+    include_metadata: bool = Query(True, description="Include result metadata")
+):
+    """Search using dual RAG system (Upstash + CocoIndex)"""
+    if not DUAL_RAG_AVAILABLE:
+        raise HTTPException(status_code=503, detail="Dual RAG adapter not available")
+    
+    try:
+        # Search using dual adapter
+        results = await dual_rag_adapter.search(
+            query=query,
+            top_k=top_k,
+            include_metadata=include_metadata,
+            filter_type=filter_type
+        )
+        
+        # Convert to response format
+        rag_results = [
+            RAGSearchResult(
+                id=r["id"],
+                score=r["score"],
+                system=r["system"],
+                badge=r["badge"],
+                text=r["text"],
+                source=r["source"],
+                metadata=r["metadata"]
+            )
+            for r in results
+        ]
+        
+        # Determine which systems were used
+        systems_used = list(set(r["system"] for r in results))
+        
+        return RAGSearchResponse(
+            query=query,
+            results=rag_results,
+            total_results=len(rag_results),
+            systems_used=systems_used,
+            timestamp=datetime.now().isoformat()
+        )
+        
+    except Exception as e:
+        logger.error(f"RAG search error: {e}")
+        raise HTTPException(status_code=500, detail=f"Search failed: {str(e)}")
+
+@app.get("/rag/status")
+async def rag_status():
+    """Get status of dual RAG systems"""
+    if not DUAL_RAG_AVAILABLE:
+        return {
+            "dual_rag_available": False,
+            "error": "DualRAGAdapter not imported"
+        }
+    
+    try:
+        status = get_adapter_status()
+        status["dual_rag_available"] = True
+        return status
+    except Exception as e:
+        logger.error(f"Status check error: {e}")
+        return {
+            "dual_rag_available": False,
+            "error": str(e)
+        }
+
+@app.post("/rag/index")
+async def rag_index_document(
+    content: str,
+    metadata: Dict[str, Any],
+    use_system: str = Query("both", regex="^(upstash|cocoindex|both)$")
+):
+    """Index a document in one or both RAG systems"""
+    if not DUAL_RAG_AVAILABLE:
+        raise HTTPException(status_code=503, detail="Dual RAG adapter not available")
+    
+    try:
+        result = await dual_rag_adapter.index_document(
+            content=content,
+            metadata=metadata,
+            use_system=use_system
+        )
+        
+        return {
+            "success": True,
+            "system": use_system,
+            "result": result
+        }
+        
+    except Exception as e:
+        logger.error(f"Index error: {e}")
+        raise HTTPException(status_code=500, detail=f"Indexing failed: {str(e)}")
 
 # WebSocket endpoint for real-time updates (optional)
 @app.websocket("/ws")

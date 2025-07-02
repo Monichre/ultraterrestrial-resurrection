@@ -18,6 +18,9 @@ interface RAGSearchResult {
   summary: string
   score: number
   type: string
+  system?: string
+  badge?: string
+  source?: string
 }
 
 export class RAGLLMHandler {
@@ -124,31 +127,67 @@ export class RAGLLMHandler {
     
     const baseUrl = this.getBaseUrl()
     
-    // Use the existing search endpoint from the disclosure-rag API
+    // Try the new dual RAG endpoint first
+    try {
+      const ragResponse = await fetch(`${baseUrl}/rag/search`, {
+        method: 'POST',
+        headers: this.getHeaders(),
+        body: JSON.stringify({
+          query,
+          top_k: 5,
+          filter_type: filters?.type,
+          include_metadata: true
+        })
+      })
+
+      if (ragResponse.ok) {
+        const ragData = await ragResponse.json()
+        
+        if (ragData.results && Array.isArray(ragData.results)) {
+          return ragData.results.map((item: any) => ({
+            id: item.id,
+            title: item.source || 'Document',
+            summary: item.text.substring(0, 200) + '...',
+            score: item.score,
+            type: item.metadata?.type || 'document',
+            system: item.system,
+            badge: item.badge,
+            source: item.source
+          }))
+        }
+      }
+    } catch (error) {
+      console.warn('Dual RAG search failed, falling back to legacy search:', error)
+    }
+    
+    // Fallback to legacy search endpoint
     const response = await fetch(`${baseUrl}/search?` + new URLSearchParams({
-      query,
+      q: query,
       limit: '5',
-      ...(filters?.type && { type: filters.type })
+      ...(filters?.type && { doc_type: filters.type })
     }), {
       method: 'GET',
       headers: this.getHeaders()
     })
 
     if (!response.ok) {
-      console.error('RAG search failed:', response.statusText)
+      console.error('Legacy search failed:', response.statusText)
       return []
     }
 
     const data = await response.json()
     
-    // Transform the response to match our expected format
-    if (data.results && Array.isArray(data.results)) {
-      return data.results.map((item: any) => ({
-        id: item.id || item._id,
-        title: item.title || item.name,
-        summary: item.summary || item.description || '',
-        score: item.score || item._score || 0,
-        type: item.type || item.category || 'document'
+    // Transform the legacy response
+    if (data.documents && Array.isArray(data.documents)) {
+      return data.documents.map((item: any) => ({
+        id: item.id,
+        title: item.title,
+        summary: item.title, // Legacy doesn't have summary
+        score: 1.0, // Legacy doesn't have score
+        type: item.doc_type || 'document',
+        system: 'legacy',
+        badge: '📄 Legacy',
+        source: item.path || 'Unknown'
       }))
     }
     
@@ -164,11 +203,18 @@ export class RAGLLMHandler {
     
     const baseUrl = this.getBaseUrl()
     
-    // This would need to be implemented in the disclosure-rag API
-    const response = await fetch(`${baseUrl}/api/rag/index`, {
+    // Use the new dual RAG index endpoint
+    const response = await fetch(`${baseUrl}/rag/index`, {
       method: 'POST',
       headers: this.getHeaders(),
-      body: JSON.stringify(document)
+      body: JSON.stringify({
+        content: document.content,
+        metadata: {
+          ...document.metadata,
+          document_id: document.id
+        },
+        use_system: 'both' // Index in both systems
+      })
     })
 
     if (!response.ok) {

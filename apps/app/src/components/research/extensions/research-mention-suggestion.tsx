@@ -8,6 +8,9 @@ interface MentionItem {
   label: string
   type: string
   description?: string
+  badge?: string
+  source?: string
+  system?: string
 }
 
 interface ResearchRecord {
@@ -90,7 +93,12 @@ const MentionList = forwardRef<any, MentionListProps>(({ items, command }, ref) 
                   </div>
                 )}
               </div>
-              <div className="ml-2">
+              <div className="ml-2 flex items-center space-x-1">
+                {item.badge && (
+                  <span className="px-2 py-1 rounded text-xs font-medium bg-teal-900/50 text-teal-300 border border-teal-500/30">
+                    {item.badge}
+                  </span>
+                )}
                 <span className={`
                   px-2 py-1 rounded text-xs font-medium
                   ${item.type === 'events' ? 'bg-blue-900/50 text-blue-300' : ''}
@@ -160,7 +168,10 @@ export const ResearchMentionSuggestion = ({
         id: `rag-${result.id}`,
         label: result.title,
         type: `rag-${result.type}`,
-        description: result.summary
+        description: result.summary,
+        badge: result.badge,
+        source: result.source,
+        system: result.system
       }))
     } catch (error) {
       console.error('RAG search failed:', error)

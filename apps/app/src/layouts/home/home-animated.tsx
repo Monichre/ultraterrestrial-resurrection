@@ -42,7 +42,7 @@ export type HomeProps = {}
 
 export const Home: React.FC<HomeProps> = () => {
   // Initialize the GSAP animation
-  const { pauseAnimation, resumeAnimation, restartAnimation, skipToEnd, isReady } = useUltraterrestrialAnimation()
+  const { pauseAnimation, resumeAnimation, restartAnimation, skipToEnd } = useUltraterrestrialAnimation()
   
   // Optional: Add keyboard shortcuts for testing
   useEffect(() => {
@@ -70,12 +70,6 @@ export const Home: React.FC<HomeProps> = () => {
     window.addEventListener('keydown', handleKeyPress)
     return () => window.removeEventListener('keydown', handleKeyPress)
   }, [pauseAnimation, resumeAnimation, restartAnimation, skipToEnd])
-
-  // Debug logging
-  useEffect(() => {
-    console.log('Home component mounted')
-    console.log('Animation ready:', isReady)
-  }, [isReady])
 
   // console.log( "🚀 ~ file: home.tsx:46 ~ moonInView:", moonInView )
 

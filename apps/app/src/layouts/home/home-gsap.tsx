@@ -1,6 +1,6 @@
 'use client'
 
-import {TitleAltGSAP} from '@/layouts/home/TitleAltGSAP'
+import {TitleAlt} from '@/layouts/home/TitleAlt'
 import {CosmicNav} from '@/components/navbar/cosmic-nav'
 import dynamic from 'next/dynamic'
 import {useHomeAnimations} from './useHomeAnimations'
