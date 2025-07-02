@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Dual RAG Adapter - Integrates Upstash (cloud) and CocoIndex (local) for maximum flexibility
-Date: June 29, 2025
+Triple RAG Adapter - Integrates Upstash (cloud), local_rag.py (FAISS), and CocoIndex (local) for maximum flexibility
+Date: June 29, 2025 - Updated July 2, 2025
 """
 
 from typing import List, Dict, Any, Optional
@@ -15,21 +15,29 @@ import httpx
 # Import Upstash
 from upstash_vector import Index
 
+# Import local RAG system
+try:
+    from ..local_rag import LocalRAG
+    LOCAL_RAG_AVAILABLE = True
+except ImportError:
+    LOCAL_RAG_AVAILABLE = False
+    logging.warning("local_rag.py not available")
+
 # Import CocoIndex (will be available after pip install cocoindex)
 try:
     import cocoindex
     COCOINDEX_AVAILABLE = True
 except ImportError:
     COCOINDEX_AVAILABLE = False
-    logging.warning("CocoIndex not installed. Running with Upstash only.")
+    logging.warning("CocoIndex not installed")
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-class DualRAGAdapter:
-    """Adapter that searches both Upstash and CocoIndex in parallel"""
+class TripleRAGAdapter:
+    """Adapter that searches Upstash (cloud), local_rag.py (FAISS), and CocoIndex in parallel"""
     
     def __init__(self):
         # Upstash configuration
@@ -41,6 +49,10 @@ class DualRAGAdapter:
         # Initialize Upstash
         self.upstash = Index(url=self.upstash_url, token=self.upstash_token)
         
+        # Local RAG configuration (FAISS-based)
+        self.local_rag_enabled = os.getenv("LOCAL_RAG_ENABLED", "true").lower() == "true"
+        self._local_rag = None
+        
         # CocoIndex configuration
         self.coco_enabled = os.getenv("COCOINDEX_ENABLED", "false").lower() == "true"
         self._coco_flow = None
@@ -48,10 +60,27 @@ class DualRAGAdapter:
         
         # Performance settings
         self.parallel_search = os.getenv("PARALLEL_SEARCH", "true").lower() == "true"
-        self.upstash_weight = float(os.getenv("UPSTASH_WEIGHT", "0.5"))
-        self.coco_weight = float(os.getenv("COCO_WEIGHT", "0.5"))
+        self.upstash_weight = float(os.getenv("UPSTASH_WEIGHT", "0.4"))
+        self.local_rag_weight = float(os.getenv("LOCAL_RAG_WEIGHT", "0.4")) 
+        self.coco_weight = float(os.getenv("COCO_WEIGHT", "0.2"))
         
-        logger.info(f"DualRAGAdapter initialized - Upstash: ✓, CocoIndex: {'✓' if self.coco_enabled else '✗'}")
+        logger.info(f"TripleRAGAdapter initialized - Upstash: ✓, LocalRAG: {'✓' if self.local_rag_enabled else '✗'}, CocoIndex: {'✓' if self.coco_enabled else '✗'}")
+    
+    @property
+    def local_rag(self):
+        """Lazy load LocalRAG (FAISS-based)"""
+        if self._local_rag is None and self.local_rag_enabled and LOCAL_RAG_AVAILABLE:
+            try:
+                # Initialize LocalRAG with existing index
+                self._local_rag = LocalRAG(
+                    model_name="all-MiniLM-L6-v2",
+                    index_path="./rag_index"
+                )
+                logger.info(f"LocalRAG initialized with {len(self._local_rag.documents)} documents")
+            except Exception as e:
+                logger.error(f"Failed to initialize LocalRAG: {e}")
+                self.local_rag_enabled = False
+        return self._local_rag
     
     @property
     def coco_flow(self):
@@ -87,7 +116,7 @@ class DualRAGAdapter:
                     include_metadata: bool = True,
                     filter_type: Optional[str] = None) -> List[Dict[str, Any]]:
         """
-        Search both Upstash and CocoIndex in parallel
+        Search all three systems: Upstash, LocalRAG, and CocoIndex in parallel
         
         Args:
             query: Search query text
@@ -96,40 +125,63 @@ class DualRAGAdapter:
             filter_type: Optional filter by document type
             
         Returns:
-            Merged and ranked results from both systems
+            Merged and ranked results from all systems
         """
         logger.info(f"Searching for: '{query}' (top_k={top_k})")
         
-        if self.parallel_search and self.coco_enabled:
+        # Prepare search tasks
+        tasks = []
+        task_names = []
+        
+        # Always search Upstash
+        tasks.append(self._search_upstash(query, top_k, include_metadata, filter_type))
+        task_names.append("upstash")
+        
+        # Search LocalRAG if enabled
+        if self.local_rag_enabled and LOCAL_RAG_AVAILABLE:
+            tasks.append(self._search_local_rag(query, top_k, include_metadata, filter_type))
+            task_names.append("local_rag")
+        
+        # Search CocoIndex if enabled
+        if self.coco_enabled and COCOINDEX_AVAILABLE:
+            tasks.append(self._search_cocoindex(query, top_k, include_metadata, filter_type))
+            task_names.append("cocoindex")
+        
+        if self.parallel_search and len(tasks) > 1:
             # Run searches in parallel
-            tasks = [
-                self._search_upstash(query, top_k, include_metadata, filter_type),
-                self._search_cocoindex(query, top_k, include_metadata, filter_type)
-            ]
-            
             results = await asyncio.gather(*tasks, return_exceptions=True)
-            
-            # Handle results
-            upstash_results = results[0] if not isinstance(results[0], Exception) else []
-            coco_results = results[1] if len(results) > 1 and not isinstance(results[1], Exception) else []
-            
-            if isinstance(results[0], Exception):
-                logger.error(f"Upstash search error: {results[0]}")
-            if len(results) > 1 and isinstance(results[1], Exception):
-                logger.error(f"CocoIndex search error: {results[1]}")
         else:
-            # Sequential search or Upstash only
-            upstash_results = await self._search_upstash(query, top_k, include_metadata, filter_type)
-            coco_results = []
-            
-            if self.coco_enabled and not self.parallel_search:
-                coco_results = await self._search_cocoindex(query, top_k, include_metadata, filter_type)
+            # Sequential search
+            results = []
+            for task in tasks:
+                try:
+                    result = await task
+                    results.append(result)
+                except Exception as e:
+                    results.append(e)
+        
+        # Parse results
+        upstash_results = []
+        local_rag_results = []
+        coco_results = []
+        
+        for i, (result, name) in enumerate(zip(results, task_names)):
+            if isinstance(result, Exception):
+                logger.error(f"{name} search error: {result}")
+            else:
+                if name == "upstash":
+                    upstash_results = result
+                elif name == "local_rag":
+                    local_rag_results = result
+                elif name == "cocoindex":
+                    coco_results = result
         
         # Merge and rank results
-        merged_results = self._merge_results(upstash_results, coco_results, top_k)
+        merged_results = self._merge_all_results(upstash_results, local_rag_results, coco_results, top_k)
         
         logger.info(f"Search complete - Upstash: {len(upstash_results)}, "
-                   f"CocoIndex: {len(coco_results)}, Merged: {len(merged_results)}")
+                   f"LocalRAG: {len(local_rag_results)}, CocoIndex: {len(coco_results)}, "
+                   f"Merged: {len(merged_results)}")
         
         return merged_results
     
@@ -169,6 +221,44 @@ class DualRAGAdapter:
             
         except Exception as e:
             logger.error(f"Upstash search error: {e}")
+            return []
+    
+    async def _search_local_rag(self, query: str, top_k: int,
+                               include_metadata: bool = True,
+                               filter_type: Optional[str] = None) -> List[Dict[str, Any]]:
+        """Search LocalRAG (FAISS-based) system"""
+        if not self.local_rag_enabled or not LOCAL_RAG_AVAILABLE or not self.local_rag:
+            return []
+        
+        try:
+            # Use the existing local RAG search
+            results = self.local_rag.search(query, top_k=top_k)
+            
+            # Format results to match our standard format
+            formatted_results = []
+            for result in results:
+                formatted_result = {
+                    "id": result['id'],
+                    "score": result['score'],
+                    "system": "local_rag",
+                    "badge": "🏠 FAISS",
+                    "text": result['content'][:500] if result['content'] else "",
+                    "metadata": result['metadata'] if include_metadata else {},
+                    "source": result['metadata'].get('title', result['metadata'].get('source', 'Local Document'))
+                }
+                
+                # Apply filter if needed
+                if filter_type:
+                    doc_type = result['metadata'].get('doc_type', '')
+                    if filter_type.lower() not in doc_type.lower():
+                        continue
+                
+                formatted_results.append(formatted_result)
+            
+            return formatted_results
+            
+        except Exception as e:
+            logger.error(f"LocalRAG search error: {e}")
             return []
     
     async def _search_cocoindex(self, query: str, top_k: int,
@@ -232,19 +322,23 @@ class DualRAGAdapter:
             logger.error(f"CocoIndex search error: {e}")
             return []
     
-    def _merge_results(self, upstash_results: List[Dict], 
-                      coco_results: List[Dict], 
-                      top_k: int) -> List[Dict[str, Any]]:
-        """Merge and deduplicate results from both systems"""
+    def _merge_all_results(self, upstash_results: List[Dict], 
+                          local_rag_results: List[Dict],
+                          coco_results: List[Dict], 
+                          top_k: int) -> List[Dict[str, Any]]:
+        """Merge and deduplicate results from all three systems"""
         # Apply weights to scores
         for result in upstash_results:
             result["weighted_score"] = result["score"] * self.upstash_weight
+            
+        for result in local_rag_results:
+            result["weighted_score"] = result["score"] * self.local_rag_weight
             
         for result in coco_results:
             result["weighted_score"] = result["score"] * self.coco_weight
         
         # Combine all results
-        all_results = upstash_results + coco_results
+        all_results = upstash_results + local_rag_results + coco_results
         
         # Sort by weighted score
         all_results.sort(key=lambda x: x.get("weighted_score", 0), reverse=True)
@@ -266,6 +360,12 @@ class DualRAGAdapter:
                     break
         
         return unique_results
+    
+    def _merge_results(self, upstash_results: List[Dict], 
+                      coco_results: List[Dict], 
+                      top_k: int) -> List[Dict[str, Any]]:
+        """Legacy method for backward compatibility"""
+        return self._merge_all_results(upstash_results, [], coco_results, top_k)
     
     async def index_document(self, content: str, metadata: Dict[str, Any],
                            use_system: str = "both") -> Dict[str, Any]:
@@ -320,13 +420,19 @@ class DualRAGAdapter:
         return results
     
     def get_status(self) -> Dict[str, Any]:
-        """Get status of both systems"""
+        """Get status of all three systems"""
         status = {
             "timestamp": datetime.now().isoformat(),
             "upstash": {
                 "enabled": True,
                 "url": self.upstash_url,
                 "connected": False
+            },
+            "local_rag": {
+                "enabled": self.local_rag_enabled,
+                "available": LOCAL_RAG_AVAILABLE,
+                "loaded": self._local_rag is not None,
+                "documents": len(self._local_rag.documents) if self._local_rag else 0
             },
             "cocoindex": {
                 "enabled": self.coco_enabled,
@@ -336,6 +442,7 @@ class DualRAGAdapter:
             "settings": {
                 "parallel_search": self.parallel_search,
                 "upstash_weight": self.upstash_weight,
+                "local_rag_weight": self.local_rag_weight,
                 "coco_weight": self.coco_weight
             }
         }
@@ -353,20 +460,23 @@ class DualRAGAdapter:
 
 
 # Create singleton instance
-dual_rag_adapter = DualRAGAdapter()
+triple_rag_adapter = TripleRAGAdapter()
+
+# Backward compatibility
+dual_rag_adapter = triple_rag_adapter
 
 
 # Convenience functions for backward compatibility
 async def search(query: str, **kwargs) -> List[Dict[str, Any]]:
-    """Search using the dual RAG adapter"""
-    return await dual_rag_adapter.search(query, **kwargs)
+    """Search using the triple RAG adapter"""
+    return await triple_rag_adapter.search(query, **kwargs)
 
 
 async def index_document(content: str, metadata: Dict[str, Any], **kwargs) -> Dict[str, Any]:
-    """Index a document using the dual RAG adapter"""
-    return await dual_rag_adapter.index_document(content, metadata, **kwargs)
+    """Index a document using the triple RAG adapter"""
+    return await triple_rag_adapter.index_document(content, metadata, **kwargs)
 
 
 def get_adapter_status() -> Dict[str, Any]:
-    """Get status of the dual RAG adapter"""
-    return dual_rag_adapter.get_status()
+    """Get status of the triple RAG adapter"""
+    return triple_rag_adapter.get_status()
