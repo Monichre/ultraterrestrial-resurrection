@@ -1,12 +1,13 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import { gsap } from 'gsap'
 import { CustomEase } from 'gsap/CustomEase'
+import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
 
 // Register GSAP plugins
 if (typeof window !== 'undefined') {
-  gsap.registerPlugin(CustomEase)
+  gsap.registerPlugin(CustomEase, MotionPathPlugin)
 }
 
 export const useUltraterrestrialAnimation = () => {
@@ -22,7 +23,15 @@ export const useUltraterrestrialAnimation = () => {
       const astronaut = document.querySelector('.astronaut')
       const cosmicNav = document.querySelector('.cosmic-nav')
       
+      console.log('🔍 Checking elements:', {
+        earthCanvas: !!earthCanvas,
+        moonCanvas: !!moonCanvas,
+        astronaut: !!astronaut,
+        cosmicNav: !!cosmicNav
+      })
+      
       if (earthCanvas && moonCanvas && astronaut && cosmicNav) {
+        console.log('✅ All elements found, starting animation')
         clearInterval(checkElements)
         setIsReady(true)
       }
@@ -43,21 +52,20 @@ export const useUltraterrestrialAnimation = () => {
     // Set initial states first - IMPORTANT: Don't hide Earth's parent container
     gsap.set("#moon-canvas", { 
       opacity: 0,
-      scale: 0.01,
-      filter: "blur(50px)"
+      scale: 0.3,
+      filter: "blur(50px)",
+      // Position moon behind us (upper left, as if behind our left shoulder)
+      x: "-50vw",
+      y: "-50vh", 
+      transformOrigin: "center center",
+      visibility: "hidden"  // Keep hidden until Earth appears
     })
     
     // Target the Earth canvas more specifically and ensure z-index doesn't hide it
     gsap.set("#earth-canvas", { 
       opacity: 0,
-      scale: 0.01,
-      filter: "blur(50px)",
-      transformOrigin: "center center"
+      visibility: "visible"
     })
-    
-    // Make sure the parent containers are visible
-    gsap.set("#earth-canvas", { visibility: "visible" })
-    gsap.set("#moon-canvas", { visibility: "visible" })
     
     gsap.set(".cosmic-nav", { 
       opacity: 0
@@ -209,36 +217,36 @@ export const useUltraterrestrialAnimation = () => {
       ease: "power1.out"
     }, 4.3)
     
-    // Phase 5: Reveal Earth with proper timing and make sure it stays visible
+    // Phase 5: Reveal Earth - SIMPLIFIED
     .to("#earth-canvas", {
       opacity: 1,
-      scale: 1,
-      filter: "blur(0px)",
-      duration: 2.5,
+      duration: 2,
       ease: "power2.out",
       onStart: () => {
-        console.log("🌍 Earth animation starting")
+        console.log("🌍 Earth SIMPLE animation starting")
       },
       onComplete: () => {
-        console.log("🌍 Earth animation complete")
-        // Force Earth to be visible
-        const earthEl = document.querySelector('#earth-canvas') as HTMLElement
-        if (earthEl) {
-          earthEl.style.opacity = '1'
-          earthEl.style.transform = 'scale(1)'
-          earthEl.style.filter = 'none'
-        }
+        console.log("🌍 Earth SIMPLE animation complete")
       }
     }, 4.5)
     
-    // Moon comes in slightly after
+    // Moon comes in AFTER Earth - from behind over left shoulder
+    .set("#moon-canvas", { visibility: "visible" }, 7)  // Make visible only after Earth
     .to("#moon-canvas", {
       opacity: 1,
-      scale: 1,
+      x: "25vw",   // Arc over to upper right 
+      y: "-15vh",  // Above and to the right of Earth
+      scale: 0.6,  // Smaller than Earth
       filter: "blur(0px)",
-      duration: 2,
-      ease: "power2.out"
-    }, 5)
+      duration: 3,
+      ease: "power2.inOut",
+      onStart: () => {
+        console.log("🌙 Moon orbital animation starting - coming from behind left shoulder")
+      },
+      onComplete: () => {
+        console.log("🌙 Moon reached final orbital position")
+      }
+    }, 7.2)  // Start well after Earth is established
     
     // Phase 6: UI elements (6-8s)
     .to(".cosmic-nav", {
@@ -275,29 +283,29 @@ export const useUltraterrestrialAnimation = () => {
   }, [isReady])
   
   // Control methods
-  const pauseAnimation = () => {
+  const pauseAnimation = useCallback(() => {
     if (animationRef.current) {
       animationRef.current.pause()
     }
-  }
+  }, [])
   
-  const resumeAnimation = () => {
+  const resumeAnimation = useCallback(() => {
     if (animationRef.current) {
       animationRef.current.resume()
     }
-  }
+  }, [])
   
-  const restartAnimation = () => {
+  const restartAnimation = useCallback(() => {
     if (animationRef.current) {
       animationRef.current.restart()
     }
-  }
+  }, [])
   
-  const skipToEnd = () => {
+  const skipToEnd = useCallback(() => {
     if (animationRef.current) {
       animationRef.current.progress(1)
     }
-  }
+  }, [])
   
   return {
     pauseAnimation,

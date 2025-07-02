@@ -58,10 +58,28 @@ class DualRAGAdapter:
         """Lazy load CocoIndex flow"""
         if self._coco_flow is None and self.coco_enabled and COCOINDEX_AVAILABLE:
             try:
-                self._coco_flow = cocoindex.load_flow(self.coco_flow_name)
-                logger.info(f"CocoIndex flow '{self.coco_flow_name}' loaded successfully")
+                # Set database URL for CocoIndex
+                db_url = os.getenv("COCOINDEX_DATABASE_URL", "postgresql://cocoindex:cocoindex@localhost:5432/cocoindex")
+                os.environ["COCOINDEX_DATABASE_URL"] = db_url
+                
+                # Initialize CocoIndex
+                cocoindex.init()
+                
+                # Import our UFO research flow
+                from setup_cocoindex_flow import ufo_research_flow, text_to_embedding
+                
+                # Store references to the flow functions
+                self._coco_flow = {
+                    'flow_def': ufo_research_flow,
+                    'text_to_embedding': text_to_embedding,
+                    'table_name': 'ufo_research_embeddings'
+                }
+                
+                logger.info(f"CocoIndex UFOResearch flow initialized successfully")
+                logger.info(f"Database URL: {db_url}")
+                
             except Exception as e:
-                logger.error(f"Failed to load CocoIndex flow: {e}")
+                logger.error(f"Failed to initialize CocoIndex flow: {e}")
                 self.coco_enabled = False
         return self._coco_flow
     
@@ -161,33 +179,54 @@ class DualRAGAdapter:
             return []
         
         try:
-            # Search using CocoIndex
-            coco_results = await asyncio.to_thread(
-                self.coco_flow.search,
-                query,
-                k=top_k
-            )
+            # Import required libraries
+            from psycopg_pool import ConnectionPool
+            from pgvector.psycopg import register_vector
+            import cocoindex.utils
             
-            # Format results
+            # Get database connection info
+            db_url = os.getenv("COCOINDEX_DATABASE_URL", "postgresql://cocoindex:cocoindex@localhost:5432/cocoindex")
+            
+            # Get table name and embedding function
+            flow_data = self.coco_flow
+            table_name = flow_data['table_name']
+            text_to_embedding = flow_data['text_to_embedding']
+            
+            # Get query embedding
+            query_vector = text_to_embedding.eval(query)
+            
+            # Search using direct database connection
             results = []
-            for item in coco_results:
-                result = {
-                    "id": getattr(item, 'id', f"coco_{len(results)}"),
-                    "score": getattr(item, 'score', 0.0),
-                    "system": "cocoindex",
-                    "badge": "💾 Local",
-                    "text": getattr(item, 'content', '')[:500],
-                    "metadata": getattr(item, 'metadata', {}),
-                    "source": getattr(item, 'metadata', {}).get('source_file', 'Local Document')
-                }
-                
-                # Apply filter if needed
-                if filter_type and result["metadata"].get("type") != filter_type:
-                    continue
-                    
-                results.append(result)
+            with ConnectionPool(db_url, min_size=1, max_size=3) as pool:
+                with pool.connection() as conn:
+                    register_vector(conn)
+                    with conn.cursor() as cur:
+                        cur.execute(f"""
+                            SELECT filename, text, embedding <=> %s AS distance
+                            FROM {table_name} ORDER BY distance LIMIT %s
+                        """, (query_vector, top_k))
+                        
+                        for i, row in enumerate(cur.fetchall()):
+                            filename, text, distance = row
+                            score = 1.0 - distance  # Convert distance to similarity score
+                            
+                            result = {
+                                "id": f"coco_{i}",
+                                "score": float(score),
+                                "system": "cocoindex",
+                                "badge": "💾 Local",
+                                "text": text[:500] if text else "",
+                                "metadata": {"filename": filename},
+                                "source": filename or "Local Document"
+                            }
+                            
+                            # Apply filter if needed
+                            if filter_type and not filename.endswith(f".{filter_type}"):
+                                continue
+                                
+                            results.append(result)
             
-            return results[:top_k]  # Ensure we don't exceed top_k
+            return results
             
         except Exception as e:
             logger.error(f"CocoIndex search error: {e}")

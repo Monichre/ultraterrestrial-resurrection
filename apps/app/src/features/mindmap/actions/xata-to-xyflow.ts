@@ -3,6 +3,7 @@
 import { askXataWithAi } from "@db/xata/api"
 import { organizeNodeLayout } from "../layouts/organizeNodeLayout"
 import { xata } from "@db/xata/client"
+import type { Node, Edge } from '@xyflow/react'
 type AskParams = {
 	question: string
 	rules?: string
@@ -65,16 +66,36 @@ export const askAIAction = async ( { question, rules, table }: AskParams ) => {
 	}
 }
 
-// Types for the React Flow data structure
-export type ReactFlowNode = {
+// Types for the React Flow data structure - fully compatible with @xyflow/react
+export type ReactFlowNode = Node & {
 	id: string
 	type: string
 	position: { x: number; y: number }
 	data: Record<string, any>
 	parentId?: string
+	// React Flow compatible properties
+	width?: number
+	height?: number
+	selected?: boolean
+	dragging?: boolean
+	resizing?: boolean
+	focusable?: boolean
+	deletable?: boolean
+	connectable?: boolean
+	selectable?: boolean
+	hidden?: boolean
+	zIndex?: number
+	extent?: 'parent' | [[number, number], [number, number]]
+	expandParent?: boolean
+	positionAbsolute?: { x: number; y: number }
+	style?: React.CSSProperties
+	className?: string
+	sourcePosition?: 'top' | 'right' | 'bottom' | 'left'
+	targetPosition?: 'top' | 'right' | 'bottom' | 'left'
+	dragHandle?: string
 }
 
-export type ReactFlowEdge = {
+export type ReactFlowEdge = Edge & {
 	id: string
 	source: string
 	target: string
@@ -82,6 +103,25 @@ export type ReactFlowEdge = {
 	animated?: boolean
 	label?: string
 	style?: Record<string, any>
+	// React Flow compatible properties
+	sourceHandle?: string | null
+	targetHandle?: string | null
+	selected?: boolean
+	hidden?: boolean
+	deletable?: boolean
+	focusable?: boolean
+	updatable?: boolean
+	markerStart?: string
+	markerEnd?: string
+	pathOptions?: any
+	interactionWidth?: number
+	zIndex?: number
+	className?: string
+	labelStyle?: React.CSSProperties
+	labelShowBg?: boolean
+	labelBgStyle?: React.CSSProperties
+	labelBgPadding?: [number, number]
+	labelBgBorderRadius?: number
 }
 
 export type XataToXYFlowResult = {
@@ -241,6 +281,23 @@ export type XataToXYFlowParams = {
 	sourceNode: ReactFlowNode
 	sessionId?: string
 	layoutType?: "horizontal" | "vertical" | "radial" | "grid"
+	// Enhanced historical filtering options
+	historicalFilter?: {
+		mode: 'chronological' | 'contextual' | 'free-form'
+		dateRange?: {
+			startYear?: number
+			endYear?: number
+		}
+		significance?: 'historically_important' | 'all' | 'disclosure_related'
+		progression?: 'forward' | 'backward' | 'context-based'
+	}
+	// Tour context for guided exploration
+	tourContext?: {
+		tourId: string
+		waypointId: string
+		tourMode: 'guided' | 'free-form'
+		narrativeContext: string
+	}
 }
 
 export type XataToXYFlowResponse = {
@@ -269,6 +326,8 @@ export const xataToXYFlow = async ( {
 	sourceNode,
 	sessionId,
 	layoutType = "horizontal",
+	historicalFilter,
+	tourContext,
 }: XataToXYFlowParams ): Promise<XataToXYFlowResponse> => {
 	try {
 		// Input validation
@@ -302,6 +361,18 @@ export const xataToXYFlow = async ( {
 		if ( validRules.length === 0 ) {
 			console.warn( 'xataToXYFlow: No valid rules provided, using default' )
 			validRules.push( `Find relevant ${table} records` )
+		}
+
+		// Enhance rules with historical filtering if provided
+		if ( historicalFilter ) {
+			const historicalRules = generateHistoricalFilterRules( historicalFilter, table )
+			validRules.push( ...historicalRules )
+		}
+
+		// Add tour context rules if in guided mode
+		if ( tourContext && tourContext.tourMode === 'guided' ) {
+			validRules.push( `Following guided tour waypoint: ${tourContext.waypointId}` )
+			validRules.push( `Tour narrative context: ${tourContext.narrativeContext}` )
 		}
 
 		const response = await askXataWithAi( {
@@ -439,6 +510,80 @@ export async function transformStreamResponse(
 			isStreaming: false,
 		},
 	}
+}
+
+/**
+ * Generate historical filter rules for database queries
+ * Follows React Flow best practices for node creation and relationships
+ */
+function generateHistoricalFilterRules(
+	historicalFilter: {
+		mode: 'chronological' | 'contextual' | 'free-form'
+		dateRange?: {
+			startYear?: number
+			endYear?: number
+		}
+		significance?: 'historically_important' | 'all' | 'disclosure_related'
+		progression?: 'forward' | 'backward' | 'context-based'
+	},
+	table: string
+): string[] {
+	const rules: string[] = []
+
+	// Date range filtering
+	if (historicalFilter.dateRange) {
+		const { startYear, endYear } = historicalFilter.dateRange
+		if (startYear && endYear) {
+			rules.push(`Filter records by date range from ${startYear} to ${endYear}`)
+		} else if (startYear) {
+			rules.push(`Focus on records from ${startYear} onwards`)
+		} else if (endYear) {
+			rules.push(`Focus on records up to ${endYear}`)
+		}
+	}
+
+	// Significance filtering - React Flow optimal node creation
+	if (historicalFilter.significance === 'historically_important') {
+		rules.push('Prioritize historically significant events that shaped UFO/UAP disclosure')
+		rules.push('Include watershed moments that will create impactful node clusters')
+		rules.push('Focus on events that have clear chronological connections for edge creation')
+	} else if (historicalFilter.significance === 'disclosure_related') {
+		rules.push('Focus specifically on disclosure-related events for coherent graph structure')
+		rules.push('Include government transparency initiatives with clear relationship chains')
+		rules.push('Prioritize records that enhance node connectivity and narrative flow')
+	}
+
+	// Chronological progression - optimized for React Flow layouts
+	if (historicalFilter.progression === 'forward') {
+		rules.push('Emphasize chronological progression for temporal edge creation')
+		rules.push('Connect events that led to subsequent developments for clear flow direction')
+		rules.push('Structure results for horizontal or timeline-based React Flow layouts')
+	} else if (historicalFilter.progression === 'backward') {
+		rules.push('Trace historical antecedents for reverse chronological edge connections')
+		rules.push('Show causal relationships moving backward through time')
+		rules.push('Optimize for radial layouts showing historical convergence')
+	}
+
+	// Mode-specific rules - React Flow layout optimization
+	switch (historicalFilter.mode) {
+		case 'chronological':
+			rules.push('Maintain strict chronological ordering for linear React Flow layouts')
+			rules.push('Group events by periods for clustered node arrangements')
+			rules.push('Ensure clear temporal edge directions for optimal visual flow')
+			break
+		case 'contextual':
+			rules.push('Balance chronological accuracy with thematic node groupings')
+			rules.push('Create contextual clusters while maintaining temporal edge accuracy')
+			rules.push('Optimize for mixed radial and hierarchical React Flow layouts')
+			break
+		case 'free-form':
+			rules.push('Allow flexible exploration optimized for dynamic React Flow interactions')
+			rules.push('Maintain loose chronological awareness without strict positioning')
+			rules.push('Support organic node positioning based on user interaction patterns')
+			break
+	}
+
+	return rules
 }
 
 // export const summarizeRecordConnections = async ({

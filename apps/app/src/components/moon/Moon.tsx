@@ -44,7 +44,7 @@ export const MoonScene = () => {
 export const Moon = () => {
 	return (
 		<div
-			className="h-[60vh] w-[60vw] absolute top-1/4 left-1/4 -translate-x-1/4 -translate-y-1/4"
+			className="h-[60vh] w-[60vw] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
 			id="moon-canvas"
 		>
 			<Canvas gl={{ antialias: false }}>

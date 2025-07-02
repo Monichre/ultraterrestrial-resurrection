@@ -15,6 +15,33 @@ export interface GraphContext {
     longitude: number
     radius: number // in kilometers
   }
+  // Enhanced tour context
+  tourContext?: {
+    tourId: string
+    currentWaypointId: string
+    waypointIndex: number
+    tourMode: 'guided' | 'free-form'
+    historicalProgression: {
+      currentEra: string
+      nextSuggestedPeriod: string
+      chronologicalDirection: 'forward' | 'backward' | 'context-based'
+    }
+    narrativeContext: string
+  }
+  // Historical progression tracking
+  historicalProgression?: {
+    currentPeriod: {
+      startYear: number
+      endYear: number
+      era: string
+    }
+    significantEvents: string[]
+    nextChronologicalStep: {
+      direction: 'forward' | 'backward'
+      suggestedYear: number
+      rationale: string
+    }
+  }
 }
 
 /**
@@ -124,6 +151,9 @@ export function getGraphContext( nodes: Node[] ): GraphContext | null {
         radius: Math.max( 500, maxDistance * 2 ) // At least 500km, or twice the max distance
       }
     }
+
+    // Add historical progression analysis
+    context.historicalProgression = determineHistoricalProgression( context )
 
     return context
   } catch ( error ) {
@@ -508,6 +538,145 @@ function toRad( deg: number ): number {
 }
 
 /**
+ * Enhanced historical progression for guided tours
+ */
+export function determineHistoricalProgression( context: GraphContext ): GraphContext['historicalProgression'] {
+  try {
+    if ( !context.timelineBounds.earliest && !context.timelineBounds.latest ) {
+      return undefined
+    }
+
+    const currentYear = new Date().getFullYear()
+    const earliest = context.timelineBounds.earliest?.getFullYear() || currentYear
+    const latest = context.timelineBounds.latest?.getFullYear() || currentYear
+
+    // Determine the current historical period
+    let era = 'Modern Era'
+    let nextSuggestedYear = currentYear
+    let direction: 'forward' | 'backward' = 'forward'
+    let rationale = 'Continue chronological exploration'
+
+    // Historical period classification for UFO/UAP events
+    if ( earliest >= 1945 && latest <= 1950 ) {
+      era = 'Post-War UFO Genesis (1945-1950)'
+      nextSuggestedYear = 1952
+      rationale = 'Transition to systematic government investigation with Project Blue Book'
+    } else if ( earliest >= 1950 && latest <= 1970 ) {
+      era = 'Government Investigation Era (1950-1970)'
+      nextSuggestedYear = 1975
+      rationale = 'Move to post-Blue Book era with civilian research groups'
+    } else if ( earliest >= 1970 && latest <= 1990 ) {
+      era = 'Civilian Research Era (1970-1990)'
+      nextSuggestedYear = 1995
+      rationale = 'Enter modern disclosure movement and internet age'
+    } else if ( earliest >= 1990 && latest <= 2010 ) {
+      era = 'Modern Research Era (1990-2010)'
+      nextSuggestedYear = 2017
+      rationale = 'Move to current disclosure era with Pentagon UAP videos'
+    } else if ( earliest >= 2010 ) {
+      era = 'Disclosure Era (2010-Present)'
+      nextSuggestedYear = currentYear
+      rationale = 'Continue exploring current disclosure developments'
+    }
+
+    // Identify significant events in the current period
+    const significantEvents = getSignificantEventsForPeriod( era )
+
+    return {
+      currentPeriod: {
+        startYear: earliest,
+        endYear: latest,
+        era
+      },
+      significantEvents,
+      nextChronologicalStep: {
+        direction,
+        suggestedYear: nextSuggestedYear,
+        rationale
+      }
+    }
+  } catch ( error ) {
+    console.error( 'determineHistoricalProgression: Error determining progression:', error )
+    return undefined
+  }
+}
+
+/**
+ * Get significant events for a historical period
+ */
+function getSignificantEventsForPeriod( era: string ): string[] {
+  const eventMap: Record<string, string[]> = {
+    'Post-War UFO Genesis (1945-1950)': [
+      'Roswell Incident (1947)',
+      'Kenneth Arnold Sighting (1947)',
+      'Project Sign establishment (1948)',
+      'Project Grudge (1949)'
+    ],
+    'Government Investigation Era (1950-1970)': [
+      'Project Blue Book (1952-1969)',
+      'Robertson Panel (1953)',
+      'Washington D.C. UFO incident (1952)',
+      'Condon Committee (1966-1968)'
+    ],
+    'Civilian Research Era (1970-1990)': [
+      'MUFON founding (1969)',
+      'CUFOS establishment by Hynek (1973)',
+      'Phoenix Lights precursor events',
+      'Abduction research era'
+    ],
+    'Modern Research Era (1990-2010)': [
+      'Phoenix Lights (1997)',
+      'French COMETA Report (1999)',
+      'British MoD UAP desk',
+      'Leslie Kean investigations'
+    ],
+    'Disclosure Era (2010-Present)': [
+      'Pentagon UAP videos release (2017)',
+      'UAPTF establishment (2020)',
+      'Congressional UAP hearings (2022)',
+      'AARO formation (2022)'
+    ]
+  }
+
+  return eventMap[era] || []
+}
+
+/**
+ * Generate tour-aware search rules
+ */
+export function generateTourAwareSearchRules( context: GraphContext ): string {
+  const baseRules = generateContextualSearchRules( context )
+  
+  if ( !context.tourContext ) {
+    return baseRules
+  }
+
+  const tourRules: string[] = []
+
+  // Add tour-specific context
+  if ( context.tourContext.tourMode === 'guided' ) {
+    tourRules.push( `Following guided tour: ${context.tourContext.tourId}` )
+    tourRules.push( `Current waypoint context: ${context.tourContext.narrativeContext}` )
+    
+    // Add chronological progression rules
+    if ( context.tourContext.historicalProgression.chronologicalDirection === 'forward' ) {
+      tourRules.push( `Focus on events that chronologically follow the current period, leading toward ${context.tourContext.historicalProgression.nextSuggestedPeriod}` )
+    } else if ( context.tourContext.historicalProgression.chronologicalDirection === 'backward' ) {
+      tourRules.push( `Explore events that preceded the current period, showing historical context and antecedents` )
+    }
+  } else {
+    // Free-form exploration with historical awareness
+    tourRules.push( 'Free-form exploration with intelligent historical context preservation' )
+    
+    if ( context.historicalProgression ) {
+      tourRules.push( `Suggest chronological progression: ${context.historicalProgression.nextChronologicalStep.rationale}` )
+    }
+  }
+
+  return [baseRules, tourRules.join( '. ' )].filter( Boolean ).join( '. ') + '.'
+}
+
+/**
  * Generates contextual search rules based on current graph
  */
 export function generateContextualSearchRules( context: GraphContext ): string {
@@ -518,7 +687,7 @@ export function generateContextualSearchRules( context: GraphContext ): string {
 
     const rules: string[] = []
 
-    // Add temporal constraints
+    // Add temporal constraints with historical progression awareness
     if ( context.timelineBounds.earliest && context.timelineBounds.latest ) {
       const earliestYear = context.timelineBounds.earliest.getFullYear()
       const latestYear = context.timelineBounds.latest.getFullYear()
@@ -527,6 +696,11 @@ export function generateContextualSearchRules( context: GraphContext ): string {
         rules.push( `Focus on events from ${earliestYear}` )
       } else {
         rules.push( `Focus on events between ${earliestYear} and ${latestYear}` )
+      }
+
+      // Add historical progression suggestions
+      if ( context.historicalProgression ) {
+        rules.push( `Consider chronological progression toward ${context.historicalProgression.nextChronologicalStep.suggestedYear}` )
       }
     }
 
@@ -551,7 +725,7 @@ export function generateContextualSearchRules( context: GraphContext ): string {
       rules.push( `Consider geographic proximity to existing records within ${Math.round( context.locationContext.radius )}km` )
     }
 
-    // Add guided tour context for specific exploration paths
+    // Enhanced guided tour context for specific exploration paths
     const seedData = context.seedRecord?.data
     if ( seedData ) {
       const title = seedData.title?.toString() || ''
@@ -561,10 +735,16 @@ export function generateContextualSearchRules( context: GraphContext ): string {
       if ( combinedText.includes( 'roswell' ) ) {
         rules.push( 'Follow the chronological disclosure narrative starting from Roswell 1947' )
         rules.push( 'Include key witnesses, military personnel, and government agencies involved' )
+        rules.push( 'Suggest progression to Project Sign/Grudge era (1948-1952)' )
       } else if ( combinedText.includes( 'phoenix lights' ) ) {
         rules.push( 'Focus on mass sighting events and witness testimonies' )
+        rules.push( 'Include related civilian research organizations and investigators' )
       } else if ( combinedText.includes( 'blue book' ) || combinedText.includes( 'grudge' ) || combinedText.includes( 'sign' ) ) {
         rules.push( 'Include military and government investigation projects' )
+        rules.push( 'Show evolution from early projects to modern UAP programs' )
+      } else if ( combinedText.includes( 'pentagon' ) || combinedText.includes( 'uap' ) || combinedText.includes( '2017' ) ) {
+        rules.push( 'Focus on modern disclosure era events and personnel' )
+        rules.push( 'Include AATIP, UAPTF, AARO, and congressional involvement' )
       }
     }
 

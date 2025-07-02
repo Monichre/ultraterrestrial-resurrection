@@ -112,12 +112,12 @@ export const Home: React.FC<HomeProps> = () => {
         <CosmicNav />
       </div>
 
-      <div className='absolute top-0 left-0 h-[100vh] w-[100vw] z-1'>
+      <div className='absolute top-0 left-0 right-0 bottom-0  h-full w-full z-20 flex flex-col justify-center items-center'>
+        <Earth activeLocation={null} />
+      </div>
+      <div className='absolute top-0 left-0 h-[100vh] w-[100vw] z-10'>
         <Moon />
         {/* <DoubleHelixScene /> */}
-      </div>
-      <div className='absolute top-0 left-0 right-0 bottom-0  h-full w-full !z-1 flex flex-col justify-center items-center'>
-        <Earth activeLocation={null} />
       </div>
       {/* 
       <Profiler id="Earth" onRender={onRenderCallback}>

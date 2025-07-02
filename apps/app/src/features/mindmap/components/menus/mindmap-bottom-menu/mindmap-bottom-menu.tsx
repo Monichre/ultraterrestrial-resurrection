@@ -19,12 +19,29 @@ import {
   getGraphContext,
   isRecordRelated,
   generateContextualSearchRules,
+  generateTourAwareSearchRules,
+  determineHistoricalProgression,
+  type GraphContext,
 } from '@/features/mindmap/utils/contextual-intelligence'
 import {
   createEnhancedUserInputNode,
   createEnhancedEntityNode,
   getNodeType,
 } from '@/features/mindmap/utils/node-enhancement-utils'
+import {
+  historicalQueryAgent,
+  queueChronologicalProgression,
+  queueContextualExpansion,
+  type HistoricalQueryTask,
+} from '@/features/mindmap/agents/historical-query-agent'
+import {
+  tourStateAgent,
+  startGuidedTour,
+  startFreeFormExploration,
+  switchToFreeForm,
+  progressTour,
+  type TourSession,
+} from '@/features/mindmap/agents/tour-state-agent'
 
 // Define explicit types for our entities and nodes
 export interface MindMapNode {
@@ -344,206 +361,79 @@ export const MindMapBottomMenu = ({
     [key: string]: unknown
   }
 
-  // Modified data loading with duplicate prevention
+  // Enhanced agent-based data loading with React Flow optimization
   const handleLoadingRecords = useCallback(
     async ({data: {type}}: {data: {type: string}}) => {
       console.log('🚀 ~ MindMapBottomMenu ~ type:', type)
 
       const amount = 3
       const center = screenToFlowPosition(calculateCenterOfScreen())
-
-      // Check if we already have a similar query
       const existingNodes = getNodes()
-
-      // Get graph context for intelligent filtering
       const graphContext = getGraphContext(existingNodes)
 
-      // Adjust query based on context
-      let query: string
-      let contextualRules: string = ''
-
-      if (graphContext) {
-        // We have existing context - use contextual filtering
-        contextualRules = generateContextualSearchRules(graphContext)
-        query = `Find ${amount} ${type} records that are related to the existing graph context. ${contextualRules}`
-
-        // Check if similar contextual query exists
-        const similarNodeExists = existingNodes.some(
-          (node) =>
-            node.type === 'userInputNode' &&
-            node.data?.question?.includes('related to the existing graph context')
-        )
-
-        if (similarNodeExists) {
-          console.log(`Similar contextual ${type} exploration already exists`)
-          return
-        }
-      } else {
-        // First record - open exploration
-        query = `Give me the top ${amount} of interesting ${type} records`
-        const similarNodeExists = existingNodes.some(
-          (node) => node.type === 'userInputNode' && node.data?.question === query
-        )
-
-        if (similarNodeExists) {
-          console.log(`Similar ${type} exploration already exists on the graph`)
-          return
-        }
-      }
-
-      // Create enhanced user input node with contextual awareness
+      // Create user input node first
       const potentialUserNode = createEnhancedUserInputNode(
         getNextId(),
-        graphContext
-          ? `Finding ${amount} related ${type} to expand your knowledge graph`
-          : `Beginning your exploration by loading ${amount} ${type}`,
+        tourMode === 'guided' 
+          ? `Guided tour: Finding ${amount} ${type} records`
+          : graphContext
+            ? `Finding ${amount} related ${type} to expand your knowledge graph`
+            : `Beginning your exploration by loading ${amount} ${type}`,
         {...center},
         existingNodes,
         type
       )
 
-      // Add the user node to the graph
       addNode(potentialUserNode)
+      setBackgroundProcessing(true)
 
       try {
-        // Choose layout type based on content type
-        let layoutType: 'horizontal' | 'vertical' | 'radial' | 'grid' = 'horizontal'
+        let taskId: string
 
-        // Customize layout based on entity type for optimal visualization
-        switch (type) {
-          case 'events':
-            layoutType = 'horizontal'
-            break
-          case 'personnel':
-          case 'organizations':
-            layoutType = 'radial'
-            break
-          case 'testimonies':
-            layoutType = 'vertical'
-            break
-          case 'documents':
-          case 'artifacts':
-            layoutType = 'grid'
-            break
-          default:
-            layoutType = 'horizontal'
+        if (tourMode === 'guided' && activeTourSession) {
+          // Use tour progression for guided mode
+          const session = tourStateAgent.getSession(activeTourSession)
+          if (session && session.state.graphContext) {
+            taskId = await queueChronologicalProgression(session.state.graphContext, type, amount)
+          } else {
+            // Fallback to contextual expansion
+            taskId = await queueContextualExpansion(graphContext || createMinimalGraphContext(), type, amount)
+          }
+        } else if (graphContext && graphContext.historicalProgression) {
+          // Use chronological progression for free-form with historical context
+          taskId = await queueChronologicalProgression(graphContext, type, amount)
+        } else {
+          // Use contextual expansion for other cases
+          taskId = await queueContextualExpansion(graphContext || createMinimalGraphContext(), type, amount)
         }
 
-        // Use 'unknown' first before casting to the expected type
-        const flowData = await xataToXYFlow({
-          question: query,
-          table: type,
-          rules: graphContext
-            ? contextualRules
-            : `Find the most interesting ${type} records that have clear relationships between them`,
-          context: graphContext
-            ? `The user is building a connected graph starting from ${graphContext.seedRecord?.data?.title || graphContext.seedRecord?.data?.name || 'their initial exploration'}. Focus on records that relate to or extend the existing narrative.`
-            : `The user is exploring records in the ${type} database`,
-          existingNodes: existingNodes as unknown as ReactFlowNode[],
-          sourceNode: potentialUserNode,
-          layoutType, // Pass the selected layout type
-        })
-
-        console.log('🚀 ~ handleLoadingRecords ~ flowData:', flowData)
-        console.log('🚀 ~ handleLoadingRecords ~ flowData.nodes:', flowData.nodes)
-
-        // Filter out any nodes that already exist in the graph and exclude the query result node
-        if (flowData.nodes && flowData.nodes.length > 0) {
-          const entityNodes = flowData.nodes.filter(
-            (node) =>
-              node.id !== 'query-result-node' && // Exclude query result node
-              node.id !== potentialUserNode.id && // Exclude the user input node
-              !nodeExists(node.id, node.type) // Exclude already existing nodes
-          )
-
-          console.log('🚀 ~ handleLoadingRecords ~ entityNodes after filtering:', entityNodes)
-          console.log('🚀 ~ handleLoadingRecords ~ entityNodes.length:', entityNodes.length)
-
-          if (entityNodes.length > 0) {
-            // Create proper entity nodes with correct positioning
-            const radius = 300
-            const angleStep = (2 * Math.PI) / entityNodes.length
-
-            const positionedEntityNodes = entityNodes.map((node, index) => {
-              const angle = index * angleStep
-              const x = potentialUserNode.position.x + radius * Math.cos(angle)
-              const y = potentialUserNode.position.y + radius * Math.sin(angle)
-
-              return {
-                ...node,
-                type: 'enhancedEntityNodePOC', // Use enhanced node type like search results
-                position: {x, y},
-                data: {
-                  ...node.data,
-                  type: type, // Ensure type is set for entity rendering
-                },
-              }
-            })
-
-            // Create edges connecting user input node to entity nodes
-            const entityEdges = positionedEntityNodes.map((entityNode) => {
-              const edgeId = `${potentialUserNode.id}-${entityNode.id}`
-              return {
-                id: edgeId,
-                source: potentialUserNode.id,
-                target: entityNode.id,
-                animated: true,
-                type: 'smoothstep', // Use a valid edge type
-                label: `${type} result`,
-                style: {
-                  stroke: DOMAIN_MODEL_COLORS[type] || '#fff',
-                },
-              }
-            })
-
-            // Update user input node with summary
+        // Register callback for task completion
+        historicalQueryAgent.onTaskComplete(taskId, (result) => {
+          if (result.status === 'completed' && result.result) {
+            // Integrate results with React Flow
+            integrateAgentResults(potentialUserNode, result.result, type)
+          } else if (result.status === 'failed') {
             updateNodeData(potentialUserNode.id, {
-              input: `Found ${entityNodes.length} ${type} records`,
-              answer:
-                flowData.xataResponse?.answer ||
-                `Successfully loaded ${entityNodes.length} ${type} records`,
-            })
-
-            // Add the entity nodes and edges to the graph
-            addNodes(positionedEntityNodes)
-            addEdges(entityEdges)
-
-            // Also add any additional edges from flowData if they connect our nodes
-            if (flowData.edges && flowData.edges.length > 0) {
-              const relevantEdges = flowData.edges.filter((edge) =>
-                positionedEntityNodes.some(
-                  (node) => node.id === edge.source || node.id === edge.target
-                )
-              )
-              if (relevantEdges.length > 0) {
-                addEdges(relevantEdges)
-              }
-            }
-          } else {
-            // No new nodes to add
-            updateNodeData(potentialUserNode.id, {
-              input: `No new ${type} data found. All relevant records are already on the graph.`,
+              input: `Failed to load ${type} data: Background processing error`,
             })
           }
-        } else if (flowData.xataResponse?.records?.length === 0) {
-          // No data found
-          updateNodeData(potentialUserNode.id, {
-            input: `No ${type} data found.`,
-          })
-        } else {
-          // Error occurred
-          updateNodeData(potentialUserNode.id, {
-            input: `Error loading ${type} data.`,
-          })
-        }
-      } catch (error) {
-        console.error('Error loading data for mind map:', error)
-        // Update user node to show error
-        updateNodeData(potentialUserNode.id, {
-          input: `Error loading ${type} data: ${
-            error instanceof Error ? error.message : 'Unknown error'
-          }`,
+          setBackgroundProcessing(false)
         })
+
+        // Update task queue state
+        setAgentTaskQueue(prev => ({
+          ...prev,
+          [taskId]: { ...result, id: taskId } as HistoricalQueryTask
+        }))
+
+        console.log(`[MindMap Menu] Queued background task ${taskId} for ${type} records`)
+
+      } catch (error) {
+        console.error('Error queuing agent task:', error)
+        updateNodeData(potentialUserNode.id, {
+          input: `Error loading ${type} data: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        })
+        setBackgroundProcessing(false)
       }
     },
     [
@@ -551,13 +441,160 @@ export const MindMapBottomMenu = ({
       calculateCenterOfScreen,
       getNextId,
       addNode,
-      addNodes,
-      addEdges,
       updateNodeData,
       getNodes,
-      nodeExists,
+      tourMode,
+      activeTourSession,
     ]
   )
+
+  // Helper function to integrate agent results with React Flow
+  const integrateAgentResults = useCallback((
+    userNode: any, 
+    result: { nodes: ReactFlowNode[]; edges: ReactFlowEdge[]; analysis: string; suggestions: string[] },
+    type: string
+  ) => {
+    if (result.nodes.length > 0) {
+      // Filter out existing nodes
+      const newNodes = result.nodes.filter(node => !nodeExists(node.id, node.type))
+      
+      if (newNodes.length > 0) {
+        // Position nodes around the user input node with React Flow optimization
+        const radius = 300
+        const angleStep = (2 * Math.PI) / newNodes.length
+
+        const positionedNodes = newNodes.map((node, index) => {
+          const angle = index * angleStep
+          const x = userNode.position.x + radius * Math.cos(angle)
+          const y = userNode.position.y + radius * Math.sin(angle)
+
+          return {
+            ...node,
+            position: { x, y },
+            // Ensure React Flow compatibility
+            connectable: true,
+            selectable: true,
+            deletable: true,
+            focusable: true,
+            draggable: true,
+            className: `agent-generated-node ${tourMode || 'free-form'}`,
+            style: {
+              border: tourMode === 'guided' ? '2px solid #3b82f6' : '2px solid #10b981',
+              borderRadius: '8px'
+            }
+          }
+        })
+
+        // Create edges with React Flow standards
+        const newEdges = result.edges.map(edge => ({
+          ...edge,
+          // Ensure React Flow compatibility
+          selectable: true,
+          deletable: true,
+          focusable: true,
+          updatable: true,
+          markerEnd: 'arrow',
+          className: `agent-generated-edge ${tourMode || 'free-form'}`,
+          style: {
+            ...edge.style,
+            strokeWidth: 2,
+            stroke: tourMode === 'guided' ? '#3b82f6' : '#10b981'
+          }
+        }))
+
+        // Update user node with analysis
+        updateNodeData(userNode.id, {
+          input: `Found ${newNodes.length} ${type} records`,
+          answer: result.analysis,
+          suggestions: result.suggestions
+        })
+
+        // Add to graph
+        addNodes(positionedNodes)
+        addEdges(newEdges)
+
+        console.log(`[MindMap Menu] Integrated ${newNodes.length} nodes and ${newEdges.length} edges from agent`)
+      } else {
+        updateNodeData(userNode.id, {
+          input: `No new ${type} data found. All relevant records are already on the graph.`,
+        })
+      }
+    } else {
+      updateNodeData(userNode.id, {
+        input: `No ${type} data found in current context.`,
+      })
+    }
+  }, [addNodes, addEdges, updateNodeData, nodeExists, tourMode])
+
+  // Helper function to create minimal graph context
+  const createMinimalGraphContext = useCallback((): GraphContext => ({
+    seedRecord: null,
+    connectedEntityTypes: new Set(),
+    timelineBounds: {},
+    relatedTopics: [],
+    keyPersonnel: [],
+    organizations: []
+  }), [])
+
+  // Tour control functions
+  const startTour = useCallback(async (tourId: string = 'roswell-disclosure', mode: 'guided' | 'free-form' = 'guided') => {
+    try {
+      const graphContext = getGraphContext(getNodes())
+      
+      let sessionId: string
+      if (mode === 'guided') {
+        sessionId = await startGuidedTour(tourId, graphContext)
+      } else {
+        sessionId = await startFreeFormExploration(tourId, graphContext)
+      }
+
+      setActiveTourSession(sessionId)
+      setTourMode(mode)
+
+      // Register for session updates
+      tourStateAgent.onSessionUpdate(sessionId, (session) => {
+        // Integrate tour state with React Flow
+        if (session.state.nodes.length > 0) {
+          addNodes(session.state.nodes)
+        }
+        if (session.state.edges.length > 0) {
+          addEdges(session.state.edges)
+        }
+      })
+
+      console.log(`[MindMap Menu] Started ${mode} tour ${tourId} with session ${sessionId}`)
+      
+    } catch (error) {
+      console.error('Failed to start tour:', error)
+    }
+  }, [getNodes, addNodes, addEdges])
+
+  const toggleTourMode = useCallback(async () => {
+    if (!activeTourSession) {
+      // Start a new guided tour
+      await startTour('roswell-disclosure', 'guided')
+    } else if (tourMode === 'guided') {
+      // Switch to free-form
+      await switchToFreeForm(activeTourSession)
+      setTourMode('free-form')
+    } else {
+      // End tour session
+      tourStateAgent.endSession(activeTourSession)
+      setActiveTourSession(null)
+      setTourMode(null)
+    }
+  }, [activeTourSession, tourMode, startTour])
+
+  const progressTourStep = useCallback(async () => {
+    if (activeTourSession && tourMode === 'guided') {
+      try {
+        await progressTour(activeTourSession)
+        console.log('[MindMap Menu] Progressed tour to next waypoint')
+      } catch (error) {
+        console.error('Failed to progress tour:', error)
+      }
+    }
+  }, [activeTourSession, tourMode])
 
   const modelSearchActions: ModelAction[] = ENTITY_TYPES.map((entity) => ({
     icon: entity.icon(),
@@ -588,6 +625,12 @@ export const MindMapBottomMenu = ({
   const [modelMenuOpen, setModelMenuOpen] = useState(false)
   const [selectedModel, setSelectedModel] = useState<string | null>(null)
   const [deepResearchEnabled, setDeepResearchEnabled] = useState(false)
+  
+  // Tour and agent state management
+  const [activeTourSession, setActiveTourSession] = useState<string | null>(null)
+  const [tourMode, setTourMode] = useState<'guided' | 'free-form' | null>(null)
+  const [agentTaskQueue, setAgentTaskQueue] = useState<{ [key: string]: HistoricalQueryTask }>({})
+  const [backgroundProcessing, setBackgroundProcessing] = useState(false)
 
   const toggleDeepResearch = () => {
     setDeepResearchEnabled(!deepResearchEnabled)
