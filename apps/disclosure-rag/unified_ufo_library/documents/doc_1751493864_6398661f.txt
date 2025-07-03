@@ -1,0 +1,43 @@
+{
+  "timestamp": "/Users/liamellis/Desktop/ultraterrestrial-resurrection/packages/knowledge-base",
+  "local_files": {
+    "pdfs": 31,
+    "transcripts": 407,
+    "markdown": 10,
+    "total": 448,
+    "pdf_list": [
+      "ufo9.pdf",
+      "July-26th-UAP-Congressional-HEaring.pdf",
+      "UltraterrestrialModels.pdf",
+      "UAP Activity Pattern Study 1945-1975 Military and Public Activities.pdf",
+      "sgp.fas.org-CIAs Role in the Study of UFOs 1947-90.pdf",
+      "Crop Circles- \u201cSigns\u201d From Above or Human Artifacts?.pdf",
+      "CIA-RDP96-00788R001800230001-8 (1).pdf",
+      "CIA-RDP96-00789R002200070001-0.pdf",
+      "Mars Exploration 1984.pdf",
+      "Written-Testimony-Shellenberger.pdf"
+    ],
+    "transcript_list": [
+      "ufoPhysicsDisclosureUnderTrumpFtMatthewPines.txt",
+      "shellenbergerPentagonSUapProgramImmaculateConstellationRevealedRealityCheck.txt",
+      "repBurchettBelievingUfosAreInTheBibleIsNotAntiChristianRealityCheck.txt",
+      "craftRetrievalPhotosDisproveAaroUapReportPentagonPapersLawyerRealityCheck.txt",
+      "researcherSaysUapsAndNukesAreConnectedRealityCheckWithRossCoulthart.txt",
+      "konaBlueSkinwalkerRanchAndTheCurseOfOakIslandRealityCheck.txt",
+      "seniorUsMilitaryOfficerZeroDoubtOfAlienLifeOnEarthRealityCheck.txt",
+      "citizenScientistsDetectDozensOfUapsInUsAirspaceRealityCheckWithRossCoulthart.txt",
+      "videoMysteriousDronesSwarmMilitaryBasesNewJerseySkiesRealityCheck.txt",
+      "newVideoUapsSwarmUSMilitaryBaseHowWillCongressRespondRealityCheck.txt"
+    ]
+  },
+  "openai_info": {
+    "status": "error",
+    "error": "'Beta' object has no attribute 'vector_stores'",
+    "suggestion": "Check OPENAI_API_KEY or vector store ID"
+  },
+  "suggestions": [
+    "\u274c Cannot access OpenAI vector store",
+    "   Error: 'Beta' object has no attribute 'vector_stores'",
+    "   Fix: Check OPENAI_API_KEY or vector store ID"
+  ]
+}

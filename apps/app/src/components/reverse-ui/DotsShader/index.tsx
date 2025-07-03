@@ -13,7 +13,7 @@ function createShader(
   type: number,
   source: string
 ) {
-  let shader = gl.createShader(type);
+  const shader = gl.createShader(type);
   if (!shader) {
     return console.error('Failed to create shader');
   }
@@ -34,8 +34,8 @@ function createShader(
 }
 
 function createBuffer(gl: WebGL2RenderingContext, arr: any) {
-  let buffer = gl.createBuffer();
-  let bufferType =
+  const buffer = gl.createBuffer();
+  const bufferType =
     arr instanceof Uint16Array || arr instanceof Uint32Array
       ? gl.ELEMENT_ARRAY_BUFFER
       : gl.ARRAY_BUFFER;
@@ -107,7 +107,7 @@ const DotsShader = (props: DotsShaderProps) => {
     );
 
   const uniforms = useMemo(() => {
-    let e =
+    const e =
       colors.length === 2
         ? [colors[0], colors[0], colors[0], colors[1], colors[1], colors[1]]
         : colors.length === 3
@@ -195,7 +195,7 @@ const DotsShader = (props: DotsShaderProps) => {
     const positions = new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]);
     const positionsBuffer = createBuffer(gl, positions);
 
-    let coordinatesAttrLocation = gl.getAttribLocation(
+    const coordinatesAttrLocation = gl.getAttribLocation(
       glProgram,
       'coordinates'
     );
@@ -207,7 +207,7 @@ const DotsShader = (props: DotsShaderProps) => {
     const timeAttrLocation = gl.getUniformLocation(glProgram, 'u_time');
     const scrollAttrLocation = gl.getUniformLocation(glProgram, 'u_scroll');
 
-    for (let key in uniforms) {
+    for (const key in uniforms) {
       const uniformLocation = gl.getUniformLocation(glProgram, key);
       //@ts-ignore
       const uniform = uniforms[key];
@@ -248,7 +248,7 @@ const DotsShader = (props: DotsShaderProps) => {
         return;
       }
 
-      let secondsPassed = e / 1e3;
+      const secondsPassed = e / 1e3;
 
       if (lastSecondPassed === null) {
         lastSecondPassed = secondsPassed;

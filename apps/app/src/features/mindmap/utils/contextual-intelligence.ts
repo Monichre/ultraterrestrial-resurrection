@@ -553,7 +553,7 @@ export function determineHistoricalProgression( context: GraphContext ): GraphCo
     // Determine the current historical period
     let era = 'Modern Era'
     let nextSuggestedYear = currentYear
-    let direction: 'forward' | 'backward' = 'forward'
+    const direction: 'forward' | 'backward' = 'forward'
     let rationale = 'Continue chronological exploration'
 
     // Historical period classification for UFO/UAP events

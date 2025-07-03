@@ -59,7 +59,7 @@ export function chunkContent(content: string, chunkSize = 1000, overlap = 200): 
 export function htmlToMarkdown(html: string): string {
   // Simple HTML to markdown conversion
   // In a production implementation, use a library like turndown
-  let markdown = html
+  const markdown = html
     .replace(/<h1[^>]*>(.*?)<\/h1>/gi, '# $1\n\n')
     .replace(/<h2[^>]*>(.*?)<\/h2>/gi, '## $1\n\n')
     .replace(/<h3[^>]*>(.*?)<\/h3>/gi, '### $1\n\n')

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Triple RAG Adapter - Integrates Upstash (cloud), local_rag.py (FAISS), and CocoIndex (local) for maximum flexibility
+Quad RAG Adapter - Integrates Upstash (cloud), local_rag.py (FAISS), CocoIndex (local), and LocalVectorLibrary for maximum flexibility
 Date: June 29, 2025 - Updated July 2, 2025
 """
 
@@ -17,11 +17,19 @@ from upstash_vector import Index
 
 # Import local RAG system
 try:
-    from ..local_rag import LocalRAG
+    import sys
+    import os
+    # Add lib directory to path for local_rag import
+    lib_path = os.path.join(os.path.dirname(os.path.dirname(__file__)))
+    if lib_path not in sys.path:
+        sys.path.insert(0, lib_path)
+    
+    from local_rag import LocalRAG
     LOCAL_RAG_AVAILABLE = True
-except ImportError:
+    logging.info("LocalRAG module loaded successfully")
+except ImportError as e:
     LOCAL_RAG_AVAILABLE = False
-    logging.warning("local_rag.py not available")
+    logging.warning(f"local_rag.py not available: {e}")
 
 # Import CocoIndex (will be available after pip install cocoindex)
 try:
@@ -31,13 +39,22 @@ except ImportError:
     COCOINDEX_AVAILABLE = False
     logging.warning("CocoIndex not installed")
 
+# Import LocalVectorLibrary
+try:
+    from storage.local_vector_library import LocalVectorLibrary
+    LOCAL_VECTOR_LIBRARY_AVAILABLE = True
+    logging.info("LocalVectorLibrary module loaded successfully")
+except ImportError as e:
+    LOCAL_VECTOR_LIBRARY_AVAILABLE = False
+    logging.warning(f"LocalVectorLibrary not available: {e}")
+
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-class TripleRAGAdapter:
-    """Adapter that searches Upstash (cloud), local_rag.py (FAISS), and CocoIndex in parallel"""
+class QuadRAGAdapter:
+    """Adapter that searches Upstash (cloud), local_rag.py (FAISS), CocoIndex (local), and LocalVectorLibrary in parallel"""
     
     def __init__(self):
         # Upstash configuration
@@ -58,13 +75,19 @@ class TripleRAGAdapter:
         self._coco_flow = None
         self.coco_flow_name = os.getenv("COCOINDEX_FLOW_NAME", "UFOResearch")
         
-        # Performance settings
-        self.parallel_search = os.getenv("PARALLEL_SEARCH", "true").lower() == "true"
-        self.upstash_weight = float(os.getenv("UPSTASH_WEIGHT", "0.4"))
-        self.local_rag_weight = float(os.getenv("LOCAL_RAG_WEIGHT", "0.4")) 
-        self.coco_weight = float(os.getenv("COCO_WEIGHT", "0.2"))
+        # LocalVectorLibrary configuration
+        self.local_library_enabled = os.getenv("LOCAL_VECTOR_LIBRARY_ENABLED", "true").lower() == "true"
+        self._local_library = None
+        self.local_library_path = os.getenv("LOCAL_VECTOR_LIBRARY_PATH", "./unified_ufo_library")
         
-        logger.info(f"TripleRAGAdapter initialized - Upstash: ✓, LocalRAG: {'✓' if self.local_rag_enabled else '✗'}, CocoIndex: {'✓' if self.coco_enabled else '✗'}")
+        # Performance settings (updated for 4 backends)
+        self.parallel_search = os.getenv("PARALLEL_SEARCH", "true").lower() == "true"
+        self.upstash_weight = float(os.getenv("UPSTASH_WEIGHT", "0.3"))
+        self.local_rag_weight = float(os.getenv("LOCAL_RAG_WEIGHT", "0.3")) 
+        self.coco_weight = float(os.getenv("COCO_WEIGHT", "0.2"))
+        self.local_library_weight = float(os.getenv("LOCAL_LIBRARY_WEIGHT", "0.2"))
+        
+        logger.info(f"QuadRAGAdapter initialized - Upstash: ✓, LocalRAG: {'✓' if self.local_rag_enabled else '✗'}, CocoIndex: {'✓' if self.coco_enabled else '✗'}, LocalVectorLibrary: {'✓' if self.local_library_enabled else '✗'}")
     
     @property
     def local_rag(self):
@@ -112,11 +135,25 @@ class TripleRAGAdapter:
                 self.coco_enabled = False
         return self._coco_flow
     
+    @property
+    def local_library(self):
+        """Lazy load LocalVectorLibrary"""
+        if self._local_library is None and self.local_library_enabled and LOCAL_VECTOR_LIBRARY_AVAILABLE:
+            try:
+                self._local_library = LocalVectorLibrary(self.local_library_path)
+                # Get stats to verify it's working
+                stats = self._local_library.get_library_stats()
+                logger.info(f"LocalVectorLibrary initialized with {stats['total_documents']} documents")
+            except Exception as e:
+                logger.error(f"Failed to initialize LocalVectorLibrary: {e}")
+                self.local_library_enabled = False
+        return self._local_library
+    
     async def search(self, query: str, top_k: int = 8, 
                     include_metadata: bool = True,
                     filter_type: Optional[str] = None) -> List[Dict[str, Any]]:
         """
-        Search all three systems: Upstash, LocalRAG, and CocoIndex in parallel
+        Search all four systems: Upstash, LocalRAG, CocoIndex, and LocalVectorLibrary in parallel
         
         Args:
             query: Search query text
@@ -147,6 +184,11 @@ class TripleRAGAdapter:
             tasks.append(self._search_cocoindex(query, top_k, include_metadata, filter_type))
             task_names.append("cocoindex")
         
+        # Search LocalVectorLibrary if enabled
+        if self.local_library_enabled and LOCAL_VECTOR_LIBRARY_AVAILABLE:
+            tasks.append(self._search_local_library(query, top_k, include_metadata, filter_type))
+            task_names.append("local_library")
+        
         if self.parallel_search and len(tasks) > 1:
             # Run searches in parallel
             results = await asyncio.gather(*tasks, return_exceptions=True)
@@ -164,6 +206,7 @@ class TripleRAGAdapter:
         upstash_results = []
         local_rag_results = []
         coco_results = []
+        local_library_results = []
         
         for i, (result, name) in enumerate(zip(results, task_names)):
             if isinstance(result, Exception):
@@ -175,13 +218,15 @@ class TripleRAGAdapter:
                     local_rag_results = result
                 elif name == "cocoindex":
                     coco_results = result
+                elif name == "local_library":
+                    local_library_results = result
         
         # Merge and rank results
-        merged_results = self._merge_all_results(upstash_results, local_rag_results, coco_results, top_k)
+        merged_results = self._merge_all_results(upstash_results, local_rag_results, coco_results, local_library_results, top_k)
         
         logger.info(f"Search complete - Upstash: {len(upstash_results)}, "
                    f"LocalRAG: {len(local_rag_results)}, CocoIndex: {len(coco_results)}, "
-                   f"Merged: {len(merged_results)}")
+                   f"LocalLibrary: {len(local_library_results)}, Merged: {len(merged_results)}")
         
         return merged_results
     
@@ -322,11 +367,54 @@ class TripleRAGAdapter:
             logger.error(f"CocoIndex search error: {e}")
             return []
     
+    async def _search_local_library(self, query: str, top_k: int,
+                                   include_metadata: bool = True,
+                                   filter_type: Optional[str] = None) -> List[Dict[str, Any]]:
+        """Search LocalVectorLibrary"""
+        if not self.local_library_enabled or not LOCAL_VECTOR_LIBRARY_AVAILABLE or not self.local_library:
+            return []
+        
+        try:
+            # Build filters if needed
+            filters = {}
+            if filter_type:
+                filters["content_type"] = filter_type
+            
+            # Use the LocalVectorLibrary search
+            documents = self.local_library.search_documents(query, limit=top_k, filters=filters if filters else None)
+            
+            # Format results to match our standard format
+            formatted_results = []
+            for i, doc in enumerate(documents):
+                result = {
+                    "id": doc.doc_id,
+                    "score": doc.confidence_score,
+                    "system": "local_library",
+                    "badge": "🏠 Library",
+                    "text": doc.summary if doc.summary else doc.content[:500],
+                    "metadata": {
+                        "title": doc.title,
+                        "content_type": doc.content_type,
+                        "word_count": doc.word_count,
+                        "tags": doc.tags,
+                        "entities": doc.entities
+                    },
+                    "source": doc.source_url or doc.title
+                }
+                formatted_results.append(result)
+            
+            return formatted_results
+            
+        except Exception as e:
+            logger.error(f"LocalVectorLibrary search error: {e}")
+            return []
+    
     def _merge_all_results(self, upstash_results: List[Dict], 
                           local_rag_results: List[Dict],
                           coco_results: List[Dict], 
+                          local_library_results: List[Dict],
                           top_k: int) -> List[Dict[str, Any]]:
-        """Merge and deduplicate results from all three systems"""
+        """Merge and deduplicate results from all four systems"""
         # Apply weights to scores
         for result in upstash_results:
             result["weighted_score"] = result["score"] * self.upstash_weight
@@ -336,9 +424,12 @@ class TripleRAGAdapter:
             
         for result in coco_results:
             result["weighted_score"] = result["score"] * self.coco_weight
+            
+        for result in local_library_results:
+            result["weighted_score"] = result["score"] * self.local_library_weight
         
         # Combine all results
-        all_results = upstash_results + local_rag_results + coco_results
+        all_results = upstash_results + local_rag_results + coco_results + local_library_results
         
         # Sort by weighted score
         all_results.sort(key=lambda x: x.get("weighted_score", 0), reverse=True)
@@ -432,7 +523,7 @@ class TripleRAGAdapter:
                 "enabled": self.local_rag_enabled,
                 "available": LOCAL_RAG_AVAILABLE,
                 "loaded": self._local_rag is not None,
-                "documents": len(self._local_rag.documents) if self._local_rag else 0
+                "documents": len(self.local_rag.documents) if self.local_rag else 0
             },
             "cocoindex": {
                 "enabled": self.coco_enabled,
@@ -460,23 +551,24 @@ class TripleRAGAdapter:
 
 
 # Create singleton instance
-triple_rag_adapter = TripleRAGAdapter()
+quad_rag_adapter = QuadRAGAdapter()
 
 # Backward compatibility
-dual_rag_adapter = triple_rag_adapter
+triple_rag_adapter = quad_rag_adapter
+dual_rag_adapter = quad_rag_adapter
 
 
 # Convenience functions for backward compatibility
 async def search(query: str, **kwargs) -> List[Dict[str, Any]]:
-    """Search using the triple RAG adapter"""
-    return await triple_rag_adapter.search(query, **kwargs)
+    """Search using the quad RAG adapter"""
+    return await quad_rag_adapter.search(query, **kwargs)
 
 
 async def index_document(content: str, metadata: Dict[str, Any], **kwargs) -> Dict[str, Any]:
-    """Index a document using the triple RAG adapter"""
-    return await triple_rag_adapter.index_document(content, metadata, **kwargs)
+    """Index a document using the quad RAG adapter"""
+    return await quad_rag_adapter.index_document(content, metadata, **kwargs)
 
 
 def get_adapter_status() -> Dict[str, Any]:
-    """Get status of the triple RAG adapter"""
-    return triple_rag_adapter.get_status()
+    """Get status of the quad RAG adapter"""
+    return quad_rag_adapter.get_status()

@@ -83,3 +83,26 @@
 [@TODO.md](TODO.md)  
 [@nified _status_report.md](nified%20_status_report.md)  
 [@WORK_LOG_2025-06-29.md](WORK_LOG_2025-06-29.md)
+
+## Work Log Command
+
+When you receive the command "/worklog", automatically:
+
+1. ANALYZE your recent work to determine:
+   - Primary focus area (frontend-ui, backend-api, database, testing, docs, deployment, research, bugfix, feature, refactor, integration, security)
+   - Files you modified/created/deleted
+   - Time spent (estimate if needed)
+   - Key accomplishments
+
+2. GENERATE session ID using format: [focus-area]-[YYYYMMDD]-[HHMMSS]
+
+3. AUTO-POPULATE the header with:
+   - Current date/time
+   - Generated session ID
+   - Detected focus area
+   - Your agent identifier
+   - Current branch/context
+
+4. WRITE comprehensive work log following the template structure
+
+5. ENSURE all sections are filled with specific, actionable information

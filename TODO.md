@@ -1,9 +1,20 @@
 # TODO List - Ultraterrestrial Resurrection Project
 
 **Generated:** June 25, 2025  
-**Updated:** Prioritized for Research Canvas & Guided Historical Tour Development  
+**Updated:** July 2, 2025 - Updated with comprehensive RAG system analysis  
 **Source:** Analysis of recent markdown files from apps/docs/, apps/app/, and apps/disclosure-rag/  
 **Focus:** @apps/app/ research canvas, guided historical tours, and contextual intelligence
+
+## **🔍 RAG System Architecture Overview (Updated July 2, 2025)**
+
+**FIVE RAG/Vector Storage Systems Available:**
+1. **Triple RAG Adapter** - Upstash (40%) + LocalRAG FAISS (40%) + CocoIndex PostgreSQL (20%) - *Currently Active*
+2. **LocalVectorLibrary** - Complete local document ownership with SQLite + Chroma/FAISS - *Available*
+3. **HybridVectorManager** - Multi-backend (OpenAI, Chroma, Pinecone, FAISS) with local storage - *Available*
+4. **PostgreSQL + pgvector** - Advanced analytics with 1536-dim vectors, HNSW indexes - *Schema ready*
+5. **PGVector Library** - Document clustering and entity analysis - *Available*
+
+**Note:** CocoIndex has been **enabled** in the environment (COCOINDEX_ENABLED=true)
 
 ---
 
@@ -11,128 +22,155 @@
 
 ### **Research Canvas & Guided Historical Tour Development**
 
+#### **Smart Tour Integration (ACTIVE - July 2, 2025)**
+**Reference:** `@apps/app/SMART_TOUR_INTEGRATION_PLAN.md` - Comprehensive AI integration plan
+**Current Status:** Planning Complete - Ready for Phase 1 Implementation
+**Integration Score:** 65% (Target: 100% AI connectivity)
+
+1. **Phase 1: Smart Node Integration** (1-2 days) - Make all tour waypoints use `enhancedEntityNodePOC`
+2. **Phase 2: Spatial Intelligence Integration** (2-3 days) - Connect tours with `useSpatialGrouping`
+3. **Phase 3: Intelligent Layout System** (2-3 days) - AI-driven narrative positioning
+4. **Phase 4: Full Smart Integration** (3-4 days) - Complete AI connectivity across all components
+
 #### **Conceptual Framework & Design**
-1. **Design guided historical tour architecture** - Create narrative flow system from Roswell 1947 → Present
-2. **Enhance contextual intelligence system** - Build on existing `contextual-intelligence.ts` implementation
-3. **Research canvas workflow design** - Complete thought work for spatial research workflows
-4. **Historical narrative templates** - Create pre-defined disclosure tour paths and progression logic
+5. **Design guided historical tour architecture** - Create narrative flow system from Roswell 1947 → Present
+6. **Enhance contextual intelligence system** - Build on existing `contextual-intelligence.ts` implementation
+7. **Research canvas workflow design** - Complete thought work for spatial research workflows
+8. **Historical narrative templates** - Create pre-defined disclosure tour paths and progression logic
 
 #### **Core Research Canvas Implementation** 
-5. **Enhance existing research canvas components** in `@apps/app/src/components/research/`
+9. **Enhance existing research canvas components** in `@apps/app/src/components/research/`
    - `pinned-cards-canvas.tsx` - Spatial research workspace
    - `research-interface.tsx` - Complete research workflow
    - `evidence-browser.tsx` - Entity selection and filtering
-6. **Improve research session automation** - Build on spatial grouping for automatic session creation
-7. **Enhanced research editor integration** - Connect TipTap editor with contextual intelligence
+10. **Improve research session automation** - Build on spatial grouping for automatic session creation
+11. **Enhanced research editor integration** - Connect TipTap editor with contextual intelligence
 
 #### **Mindmap Contextual Intelligence Enhancement**
-8. **Expand contextual-intelligence.ts** in `@apps/app/src/features/mindmap/utils/`
+12. **Expand contextual-intelligence.ts** in `@apps/app/src/features/mindmap/utils/`
    - Enhanced relationship detection algorithms
    - Guided tour progression logic
    - Research session context preservation
-9. **Enhance mindmap-bottom-menu contextual features** - Improve user experience for guided exploration
-10. **Smart node positioning for narrative flow** - Position nodes to support storytelling progression
+13. **Enhance mindmap-bottom-menu contextual features** - Improve user experience for guided exploration
+14. **Smart node positioning for narrative flow** - Position nodes to support storytelling progression
 
 #### **Research Session & Context Management**
-11. **Enhance session-notes-context.tsx** in `@apps/app/src/contexts/mindmap/`
-12. **Create guided tour state management** - New context for tour progression and narrative state
-13. **Research session persistence** - Save and restore guided tour progress
-14. **Multi-session workflow support** - Connect multiple research sessions into larger investigations
+15. **Enhance session-notes-context.tsx** in `@apps/app/src/contexts/mindmap/`
+16. **Create guided tour state management** - New context for tour progression and narrative state
+17. **Research session persistence** - Save and restore guided tour progress
+18. **Multi-session workflow support** - Connect multiple research sessions into larger investigations
 
 ---
 
 ## **🔧 Secondary Technical Tasks (High Priority)**
 
 ### **Mindmap & Node System (Supporting Research Canvas)**
-15. **Verify database queries are returning records properly** (from Enhanced Node POC Status)
-16. **Test full flow from user input → database query → entity node creation → edge connections** 
-17. **Debug why `xataToXYFlow` might not be returning records when clicking entity types**
-18. **Enhance visual design of nodes for research narratives** - Support guided tour aesthetics
-19. **Implement responsive design for different screen sizes**
+19. **Verify database queries are returning records properly** (from Enhanced Node POC Status)
+20. **Test full flow from user input → database query → entity node creation → edge connections** 
+21. **Debug why `xataToXYFlow` might not be returning records when clicking entity types**
+22. **Enhance visual design of nodes for research narratives** - Support guided tour aesthetics
+23. **Implement responsive design for different screen sizes**
 
 ### **Database Synchronization (Supporting Research Data)** 
-20. **Export data from Xata using existing backup.sh script** (from IMMEDIATE_SYNC_STEPS.md)
-21. **Create PostgreSQL import script using existing TypeScript database connector**
-22. **Generate embeddings for PostgreSQL using adapted update-vectors.ts script**
-23. **Sync to Upstash Vector using existing patterns**
-24. **Create OpenAI Vector Store using documented approach**
-25. **Run master sync script to synchronize all databases**
-26. **Set up environment variables for full sync (DATABASE_URL, OPENAI_API_KEY, etc.)**
+24. **Export data from Xata using existing backup.sh script** (from IMMEDIATE_SYNC_STEPS.md)
+25. **Create PostgreSQL import script using existing TypeScript database connector**
+26. **Generate embeddings for PostgreSQL using adapted update-vectors.ts script**
+27. **Sync to Upstash Vector using existing patterns**
+28. **Create OpenAI Vector Store using documented approach**
+29. **Run master sync script to synchronize all databases**
+30. **Set up environment variables for full sync (DATABASE_URL, OPENAI_API_KEY, etc.)**
 
-### **Disclosure RAG System (Supporting Research Context)**
-27. **Complete Agent Orchestration: Finish research crew implementation** (from Status Report)
-28. **Fix Missing Chat Files: Locate or recreate missing Agno chat implementations**
-29. **Database Sync Deployment: Implement documented synchronization plans**
-30. **Enhanced Error Handling: Add more robust error recovery**
-31. **Set up Upstash Search credentials to enable cloud sync**
+### **Disclosure RAG System (Supporting Research Context) - UPDATED**
+31. **Complete Agent Orchestration: Finish research crew implementation** (from Status Report)
+32. **Fix Missing Chat Files: Locate or recreate missing Agno chat implementations**
+33. **Test Triple RAG System: CocoIndex now enabled - verify parallel search functionality**
+34. **Local Library Consolidation: Use LocalVectorLibrary to consolidate scattered documents**
+35. **Hybrid Vector Migration: Migrate from OpenAI vector stores using HybridVectorManager**
+36. **Enhanced Error Handling: Add more robust error recovery across all RAG systems**
+37. **Set up Upstash Search credentials to enable cloud sync**
 
 ## **🚀 Medium-Term Development Goals (Medium Priority)**
 
-### **RAG-TipTap Integration**
-18. **Create FastAPI wrapper for RAG system** (Phase 1, Week 1-2)
-19. **Set up API Gateway with authentication**
-20. **Implement secure credential storage for TipTap**
-21. **Develop RAG TipTap extension** (Phase 2, Week 3-4)
-22. **Implement suggestion plugin and citation node type**
-23. **Integrate with Research Editor and enhance AI menu**
+### **RAG-TipTap Integration - ENHANCED**
+38. **Test existing RAG-TipTap integration** - Verify Generate, Summarize, Fact Check commands work
+39. **Add LocalVectorLibrary backend to TipTap** - Enable local document search in research editor
+40. **Implement RAG backend switching** - Allow users to choose between cloud/local RAG systems
+41. **Enhanced citation system** - Show which RAG backend provided each result (☁️ Cloud, 💾 Local)
+42. **Multi-RAG result merging** - Combine results from multiple RAG systems in TipTap
+43. **Performance optimization** - Cache RAG results for faster TipTap responses
 
 ### **Spatial Intelligence System**
-24. **Complete Research Session Automation** (Phase 3 from Spatial Intelligence Status)
-25. **Implement advanced interaction patterns (click+hold, tethering, gestures)**
-26. **Add AI context awareness for spatial relationships**
+44. **Complete Research Session Automation** (Phase 3 from Spatial Intelligence Status)
+45. **Implement advanced interaction patterns (click+hold, tethering, gestures)**
+46. **Add AI context awareness for spatial relationships**
 
 ### **Performance & Quality**
-27. **API Rate Limiting: Implement intelligent rate limiting for external APIs**
-28. **Test Suite Expansion: Comprehensive unit and integration tests**
-29. **Performance Optimization: Database query optimization and caching**
-30. **Formal load testing for high-volume usage scenarios**
+47. **API Rate Limiting: Implement intelligent rate limiting for external APIs**
+48. **Test Suite Expansion: Comprehensive unit and integration tests**
+49. **Performance Optimization: Database query optimization and caching**
+50. **Formal load testing for high-volume usage scenarios**
 
-## **📚 Documentation & Validation Tasks**
+## **📚 Documentation & Validation Tasks - UPDATED**
 
-31. **Documentation Enhancement: User guides and API documentation**
-32. **Test complete workflow with real YouTube videos** (Disclosure RAG)
-33. **Frontend testing with document browsing**
-34. **Run consistency checks across all databases**
-35. **Create sync monitoring dashboard**
-36. **Bulk sync existing content to Upstash Search (optional)**
+51. **Document RAG System Architecture** - Create comprehensive guide for all 5 RAG systems
+52. **Test Triple RAG workflow** - Verify Upstash + LocalRAG + CocoIndex parallel search
+53. **LocalVectorLibrary setup guide** - Document consolidation process for scattered libraries
+54. **Frontend testing with multiple RAG backends** - Test TipTap with all available systems
+55. **Run consistency checks across all databases** - Verify data sync between systems
+56. **Create RAG performance monitoring dashboard** - Track search quality across backends
+57. **Test complete workflow with real documents** - End-to-end validation
 
 ## **🔮 Future Strategic Initiatives (Low Priority)**
 
 ### **Advanced Features**
-37. **Multi-user Support: User authentication and personalized knowledge bases**
-38. **Advanced Analytics: Trend analysis and predictive modeling** 
-39. **Mobile Interface: Responsive design for mobile devices**
-40. **Integration Ecosystem: Plugins for external research tools**
-41. **AI-native TipTap editor integration**
-42. **Multi-user collaboration features**
-43. **3D visualization and advanced analytics**
+58. **Multi-user Support: User authentication and personalized knowledge bases**
+59. **Advanced Analytics: Trend analysis and predictive modeling** 
+60. **Mobile Interface: Responsive design for mobile devices**
+61. **Integration Ecosystem: Plugins for external research tools**
+62. **AI-native TipTap editor integration**
+63. **Multi-user collaboration features**
+64. **3D visualization and advanced analytics**
+65. **RAG System Auto-Switching** - Intelligent backend selection based on query type
+66. **Cross-RAG Entity Linking** - Connect entities across different vector stores
 
 ### **Security & Compliance**
-44. **Security audit for production readiness**
-45. **External data integration (government databases, FOIA)**
-46. **Mobile companion app for field research**
+67. **Security audit for production readiness**
+68. **External data integration (government databases, FOIA)**
+69. **Mobile companion app for field research**
+70. **Local data privacy audit** - Ensure LocalVectorLibrary meets privacy requirements
+71. **RAG system security review** - Audit all vector storage implementations
 
-## **⚠️ Known Issues to Address**
+## **⚠️ Known Issues to Address - UPDATED**
 
-47. **Fix upload display bug that shows failed when uploads succeeded** (fixed but validate)
-48. **Resolve Charm Tools dependency for enhanced CLI experience**
-49. **Optimize memory usage for large document processing**
-50. **Implement automatic retry mechanisms for failed operations**
+72. **Fix upload display bug that shows failed when uploads succeeded** (fixed but validate)
+73. **Resolve Charm Tools dependency for enhanced CLI experience**
+74. **Optimize memory usage for large document processing**
+75. **Implement automatic retry mechanisms for failed operations**
+76. **Fix database credential exposure** - Move credentials from .env to .env.local
+77. **Test CocoIndex PostgreSQL connection** - Verify local database setup works
+78. **Resolve RAG system dependencies** - Ensure all required packages installed
 
-## **🔄 Weekly/Monthly Maintenance**
+## **🔄 Weekly/Monthly Maintenance - UPDATED**
 
-51. **Regular Updates: API dependency updates monthly**
-52. **Database Maintenance: PostgreSQL optimization quarterly**
-53. **Log Rotation: Automated log management**
-54. **API Key Rotation: Security best practice compliance**
+79. **Regular Updates: API dependency updates monthly**
+80. **Database Maintenance: PostgreSQL optimization quarterly**
+81. **Log Rotation: Automated log management**
+82. **API Key Rotation: Security best practice compliance**
+83. **RAG System Health Checks: Monitor all vector stores monthly**
+84. **Local Library Cleanup: Archive old documents and optimize indexes**
+85. **Vector Index Optimization: Rebuild FAISS/Chroma indexes for performance**
 
 ---
 
-## **Priority Breakdown**
-- **High Priority:** 17 items (Tasks 1-17)
-- **Medium Priority:** 20 items (Tasks 18-36) 
-- **Low Priority:** 11 items (Tasks 37-46)
-- **Maintenance:** 6 items (Tasks 47-54)
+## **Priority Breakdown - UPDATED**
+- **High Priority:** 37 items (Tasks 1-37)
+- **Medium Priority:** 13 items (Tasks 38-50) 
+- **Documentation/Validation:** 7 items (Tasks 51-57)
+- **Low Priority:** 14 items (Tasks 58-71)
+- **Known Issues:** 7 items (Tasks 72-78)
+- **Maintenance:** 7 items (Tasks 79-85)
+
+**Total:** 85 tasks (was 81)
 
 ## **Quick Reference - Key Files Mentioned**
 
@@ -142,13 +180,24 @@
 - `apps/disclosure-rag/scripts/generate-pgvector-embeddings.ts` - Generate embeddings
 - `apps/disclosure-rag/scripts/sync-all-databases.ts` - Master sync script
 
+### **RAG System Files - NEW**
+- `apps/disclosure-rag/lib/adapters/dual_rag_adapter.py` - Triple RAG implementation
+- `apps/disclosure-rag/lib/storage/local_vector_library.py` - Local document ownership
+- `apps/disclosure-rag/lib/storage/hybrid_vector_manager.py` - Multi-backend vector storage
+- `apps/disclosure-rag/setup_local_library.sh` - Local library setup script
+
 ### **Core Implementation Files**
 - `apps/app/src/features/mindmap/nodes/enhanced-node-poc.tsx` - Enhanced node POC
 - `apps/app/src/features/mindmap/actions/xata-to-xyflow.ts` - Database query flow
 - `apps/disclosure-rag/lib/enhanced_main_integration.py` - RAG integration
 - `apps/disclosure-rag/lib/terminal_display.py` - Terminal UI system
 
-### **Environment Configuration**
+### **Smart Tour Integration Files - NEW**
+- `apps/app/SMART_TOUR_INTEGRATION_PLAN.md` - Comprehensive smart tour implementation plan
+- `apps/app/src/features/mindmap/tours/` - Tour system components requiring smart enhancement
+- `apps/app/src/features/mindmap/utils/contextual-intelligence.ts` - AI system integration point
+
+### **Environment Configuration - UPDATED**
 ```bash
 # Required for database sync
 DATABASE_URL=postgresql://user:pass@localhost:5432/ultraterrestrial
@@ -157,26 +206,42 @@ UPSTASH_VECTOR_URL=https://xxxxx.upstash.io
 UPSTASH_VECTOR_TOKEN=xxxxx
 UPSTASH_SEARCH_URL=your_upstash_search_url
 UPSTASH_SEARCH_TOKEN=your_upstash_search_token
+
+# Triple RAG Configuration - NOW ACTIVE
+LOCAL_RAG_ENABLED=true
+COCOINDEX_ENABLED=true
+COCOINDEX_DATABASE_URL=postgresql://cocoindex:cocoindex@localhost:5432/cocoindex
+UPSTASH_WEIGHT=0.4
+LOCAL_RAG_WEIGHT=0.4
+COCO_WEIGHT=0.2
 ```
 
-## **🎯 Immediate Next Actions (Research Canvas Focus)**
+## **🎯 Immediate Next Actions (Research Canvas & Smart Tour Focus)**
 
-### **Week 1-2: Research Canvas Conceptual Development**
-1. **Analyze existing research canvas components** - Review current implementation and identify enhancement opportunities
-2. **Design guided historical tour architecture** - Create narrative flow system from Roswell 1947 → Present
-3. **Enhance contextual intelligence system** - Build on existing `contextual-intelligence.ts` implementation
-4. **Create research session automation framework** - Design automatic session creation from spatial grouping
+### **Week 1: Smart Tour Integration Implementation (TOP PRIORITY)**
+**Reference:** `@apps/app/SMART_TOUR_INTEGRATION_PLAN.md`
+1. **Phase 1: Smart Node Integration** (1-2 days) - Make all tour waypoints use `enhancedEntityNodePOC`
+2. **Phase 2: Spatial Intelligence Integration** (2-3 days) - Connect tours with `useSpatialGrouping`
+3. **Phase 3: Intelligent Layout System** (2-3 days) - AI-driven narrative positioning
+
+### **Week 2: Research Canvas Conceptual Development**
+4. **Analyze existing research canvas components** - Review current implementation and identify enhancement opportunities
+5. **Design guided historical tour architecture** - Create narrative flow system from Roswell 1947 → Present
+6. **Enhance contextual intelligence system** - Build on existing `contextual-intelligence.ts` implementation
+7. **Create research session automation framework** - Design automatic session creation from spatial grouping
 
 ### **Week 3-4: Core Implementation** 
-5. **Enhance research canvas components** - Improve `pinned-cards-canvas.tsx`, `research-interface.tsx`, `evidence-browser.tsx`
-6. **Implement guided tour state management** - New context for tour progression and narrative state
-7. **Expand mindmap contextual intelligence** - Enhanced relationship detection and tour progression logic
-8. **Create historical narrative templates** - Pre-defined disclosure tour paths
+8. **Enhance research canvas components** - Improve `pinned-cards-canvas.tsx`, `research-interface.tsx`, `evidence-browser.tsx`
+9. **Implement guided tour state management** - New context for tour progression and narrative state
+10. **Expand mindmap contextual intelligence** - Enhanced relationship detection and tour progression logic
+11. **Create historical narrative templates** - Pre-defined disclosure tour paths
 
-### **Supporting Technical Tasks (As Needed)**
-9. **Verify mindmap node creation flow** - Debug entity node generation issues (if blocking research canvas)
-10. **Start database synchronization** - Run Xata export and PostgreSQL import (if needed for research data)
-11. **Set up missing environment variables** - Enable full system integration (if blocking research features)
+### **Supporting Technical Tasks (As Needed) - UPDATED**
+12. **Verify mindmap node creation flow** - Debug entity node generation issues (if blocking research canvas)
+13. **Test Triple RAG System** - Verify CocoIndex integration now that it's enabled
+14. **Start database synchronization** - Run Xata export and PostgreSQL import (if needed for research data)
+15. **Consolidate local libraries** - Use LocalVectorLibrary to organize scattered documents
+16. **Set up missing environment variables** - Enable full system integration (if blocking research features)
 
 ---
 

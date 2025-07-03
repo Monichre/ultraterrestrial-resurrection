@@ -19,7 +19,6 @@ import zipfile
 # Local vector storage options
 try:
     import chromadb
-    from chromadb.config import Settings
     HAS_CHROMA = True
 except ImportError:
     HAS_CHROMA = False
@@ -140,12 +139,9 @@ class LocalVectorLibrary:
     def _init_vector_store(self):
         """Initialize local vector storage"""
         if HAS_CHROMA:
-            # Use Chroma for local vector storage
-            settings = Settings(
-                chroma_db_impl="duckdb+parquet",
-                persist_directory=str(self.vectors_dir / "chroma")
-            )
-            client = chromadb.Client(settings)
+            # Use Chroma for local vector storage (updated for new architecture)
+            persist_path = str(self.vectors_dir / "chroma")
+            client = chromadb.PersistentClient(path=persist_path)
             collection = client.get_or_create_collection(
                 name="documents",
                 metadata={"hnsw:space": "cosine"}

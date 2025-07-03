@@ -356,7 +356,7 @@ export const useTour = (config: Partial<TourConfig> = {}) => {
     // Determine historical progression
     const currentYear = new Date().getFullYear()
     let nextSuggestedPeriod = 'Modern Era'
-    let chronologicalDirection: 'forward' | 'backward' | 'context-based' = 'forward'
+    const chronologicalDirection: 'forward' | 'backward' | 'context-based' = 'forward'
     
     // Analyze current waypoint to suggest progression
     if (waypoint.contextRules?.temporalWindow) {

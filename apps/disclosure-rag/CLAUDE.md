@@ -76,3 +76,6 @@
 - System gracefully falls back to Upstash-only mode when CocoIndex unavailable
 - All RAG toolbar commands (Generate, Summarize, Fact Check) ready for testing
 - New @ mention system shows enhanced search results with source badges
+
+**IMPORTANT**
+Review [@../../TODO.md](../../TODO.md)

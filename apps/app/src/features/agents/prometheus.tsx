@@ -258,7 +258,7 @@ export function Prometheus() {
 
     try {
       // Prepare file attachments content if any
-      let attachmentContents = []
+      const attachmentContents = []
       for (const attachment of attachments) {
         if (attachment.status === 'success') {
           try {

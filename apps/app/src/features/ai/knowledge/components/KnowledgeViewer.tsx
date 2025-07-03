@@ -229,7 +229,7 @@ export function KnowledgeViewer({
   // In a real implementation, you would use a proper markdown library
   function markdownToHtml(markdown: string): string {
     // This is a very simplistic markdown converter for demonstration
-    let html = markdown
+    const html = markdown
       .replace(/^# (.*$)/gm, '<h1>$1</h1>')
       .replace(/^## (.*$)/gm, '<h2>$1</h2>')
       .replace(/^### (.*$)/gm, '<h3>$1</h3>')

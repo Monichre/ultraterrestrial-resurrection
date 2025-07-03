@@ -3,20 +3,24 @@ Adapters for different RAG backends
 """
 
 from .dual_rag_adapter import (
-    TripleRAGAdapter,
-    triple_rag_adapter,
-    dual_rag_adapter,  # Backward compatibility
+    QuadRAGAdapter,
+    quad_rag_adapter,
+    triple_rag_adapter,  # Backward compatibility
+    dual_rag_adapter,    # Backward compatibility
     search,
     index_document,
     get_adapter_status
 )
 
 # Backward compatibility
-DualRAGAdapter = TripleRAGAdapter
+TripleRAGAdapter = QuadRAGAdapter
+DualRAGAdapter = QuadRAGAdapter
 
 __all__ = [
-    'TripleRAGAdapter',
-    'DualRAGAdapter',  # Backward compatibility
+    'QuadRAGAdapter',
+    'TripleRAGAdapter',  # Backward compatibility
+    'DualRAGAdapter',    # Backward compatibility
+    'quad_rag_adapter',
     'triple_rag_adapter',
     'dual_rag_adapter',
     'search',
