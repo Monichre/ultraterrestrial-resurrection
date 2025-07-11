@@ -8,8 +8,15 @@ import subprocess
 import json
 import sys
 import os
+import asyncio
 from typing import Dict, List, Optional, Any
 from pathlib import Path
+
+# Import bulk ingestion functionality
+try:
+    from scripts.bulk_folder_ingestion import BulkFolderIngestion
+except ImportError:
+    BulkFolderIngestion = None
 
 class CharmCLI:
     """Wrapper for Charm CLI tools integration."""
@@ -148,6 +155,7 @@ Welcome to the enhanced disclosure research environment!
         """Display main menu and get user choice."""
         options = [
             "🔍 Search Knowledge Base",
+            "📁 Bulk Document Ingestion", 
             "💬 Start Research Chat", 
             "📊 Entity Analysis",
             "🗺️  Geospatial Analysis",
@@ -378,6 +386,199 @@ Would you like me to elaborate on any specific aspect?"""
         
         self.charm.glow_render(analysis_md)
     
+    def bulk_ingestion_interface(self):
+        """Bulk document ingestion interface."""
+        print("\n📁 Bulk Document Ingestion")
+        
+        if BulkFolderIngestion is None:
+            print("❌ Bulk ingestion module not available. Please ensure the system is properly set up.")
+            return
+        
+        # Get source folder
+        folder_path = self.charm.gum_input(
+            "Enter folder path to ingest",
+            placeholder="/path/to/documents or data/raw/greer-document-library"
+        )
+        
+        if not folder_path or not os.path.exists(folder_path):
+            print("❌ Invalid folder path")
+            return
+        
+        folder_path = Path(folder_path)
+        
+        # Count files to process
+        supported_extensions = {'.pdf', '.txt', '.docx', '.md', '.rtf'}
+        files_to_process = []
+        for ext in supported_extensions:
+            files_to_process.extend(list(folder_path.glob(f"*{ext}")))
+            files_to_process.extend(list(folder_path.glob(f"**/*{ext}")))
+        
+        if not files_to_process:
+            print("❌ No supported documents found in the specified folder")
+            return
+        
+        # Show preview
+        preview_md = f"""
+## 📁 Bulk Ingestion Preview
+
+**Source Folder:** `{folder_path}`
+**Documents Found:** {len(files_to_process)}
+
+**File Types:**
+"""
+        for ext in supported_extensions:
+            count = len([f for f in files_to_process if f.suffix.lower() == ext])
+            if count > 0:
+                preview_md += f"- {ext.upper()}: {count} files\n"
+        
+        preview_md += "\n**First 5 files:**\n"
+        for i, file_path in enumerate(files_to_process[:5]):
+            preview_md += f"{i+1}. {file_path.name}\n"
+        
+        if len(files_to_process) > 5:
+            preview_md += f"... and {len(files_to_process) - 5} more\n"
+        
+        self.charm.glow_render(preview_md)
+        
+        # Confirm processing
+        if not self.charm.gum_confirm(f"Process {len(files_to_process)} documents?"):
+            return
+        
+        # Processing options
+        options = [
+            "Process all files sequentially",
+            "Process in batches of 10", 
+            "Process in batches of 5",
+            "Process only PDFs",
+            "Cancel"
+        ]
+        
+        option = self.charm.gum_choose("Choose processing option:", options)
+        
+        if option == "Cancel":
+            return
+        
+        # Determine batch size
+        batch_size = None
+        if "batches of 10" in option:
+            batch_size = 10
+        elif "batches of 5" in option:
+            batch_size = 5
+        elif "only PDFs" in option:
+            files_to_process = [f for f in files_to_process if f.suffix.lower() == '.pdf']
+            if not files_to_process:
+                print("❌ No PDF files found")
+                return
+        
+        # Start processing
+        self._process_bulk_ingestion(folder_path, files_to_process, batch_size)
+    
+    def _process_bulk_ingestion(self, folder_path: Path, files_to_process: List[Path], batch_size: Optional[int]):
+        """Process bulk ingestion with progress feedback."""
+        try:
+            # Initialize ingestion system
+            print("🔧 Initializing Triple RAG ingestion system...")
+            ingestion = BulkFolderIngestion()
+            
+            # Process files
+            total_files = len(files_to_process)
+            processed = 0
+            failed = 0
+            
+            if batch_size:
+                # Process in batches
+                for i in range(0, total_files, batch_size):
+                    batch = files_to_process[i:i+batch_size]
+                    batch_num = (i // batch_size) + 1
+                    total_batches = (total_files + batch_size - 1) // batch_size
+                    
+                    print(f"\n📦 Processing batch {batch_num}/{total_batches} ({len(batch)} files)")
+                    
+                    for file_path in batch:
+                        success = self._process_single_file(ingestion, file_path)
+                        if success:
+                            processed += 1
+                            print(f"✅ {file_path.name}")
+                        else:
+                            failed += 1
+                            print(f"❌ {file_path.name}")
+                    
+                    # Show batch completion
+                    print(f"📊 Batch {batch_num} complete: {len(batch)} files processed")
+                    
+                    # Pause between batches
+                    if i + batch_size < total_files:
+                        if not self.charm.gum_confirm("Continue to next batch?", default=True):
+                            break
+            else:
+                # Process all files sequentially
+                print(f"\n🔄 Processing {total_files} files...")
+                
+                for i, file_path in enumerate(files_to_process, 1):
+                    print(f"\n[{i}/{total_files}] Processing: {file_path.name}")
+                    
+                    success = self._process_single_file(ingestion, file_path)
+                    if success:
+                        processed += 1
+                        print(f"✅ Completed: {file_path.name}")
+                    else:
+                        failed += 1
+                        print(f"❌ Failed: {file_path.name}")
+            
+            # Final summary
+            summary_md = f"""
+## 📊 Bulk Ingestion Complete
+
+**Total Files:** {total_files}
+**Successfully Processed:** {processed}
+**Failed:** {failed}
+**Success Rate:** {(processed/total_files)*100:.1f}%
+
+The documents have been indexed in the Triple RAG system:
+- ☁️  **Upstash Vector** - Cloud vector search
+- 💾 **LocalRAG FAISS** - Local vector storage  
+- 🗄️  **PostgreSQL pgvector** - Advanced analytics
+
+Your documents are now searchable via:
+- Web interface (streamlit_app.py)
+- Knowledge base UI (knowledge_base_ui.py)
+- RAG queries and chat interfaces
+"""
+            
+            self.charm.glow_render(summary_md)
+            
+        except Exception as e:
+            print(f"❌ Bulk ingestion failed: {e}")
+    
+    def _process_single_file(self, ingestion: BulkFolderIngestion, file_path: Path) -> bool:
+        """Process a single file through the ingestion pipeline."""
+        try:
+            # Run the async processing
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            
+            try:
+                # Create document file object
+                from scripts.bulk_folder_ingestion import DocumentFile
+                doc_file = DocumentFile(
+                    path=file_path,
+                    name=file_path.name,
+                    size=file_path.stat().st_size,
+                    extension=file_path.suffix.lower(),
+                    mime_type="application/pdf" if file_path.suffix.lower() == '.pdf' else "text/plain"
+                )
+                
+                # Process document
+                result = loop.run_until_complete(ingestion.process_single_document(doc_file))
+                return result.get('success', False)
+                
+            finally:
+                loop.close()
+                
+        except Exception as e:
+            print(f"Error processing {file_path.name}: {e}")
+            return False
+    
     def run(self):
         """Main CLI loop."""
         try:
@@ -388,6 +589,8 @@ Would you like me to elaborate on any specific aspect?"""
                 
                 if choice == "Search":
                     self.search_interface()
+                elif choice == "Bulk":
+                    self.bulk_ingestion_interface()
                 elif choice == "Start":
                     self.chat_interface()  
                 elif choice == "Entity":

@@ -9,7 +9,7 @@ import {
 } from '@/components/cult-ui'
 import {useMindMap} from '@/contexts'
 import type {MindMapNode} from '@/features/mindmap/actions/fetch-next-mindmap-records'
-import {xataToXYFlow} from '@/features/mindmap/actions/xata-to-xyflow'
+import {loadEntityRecords} from '@/features/mindmap/actions/load-entity-records'
 import {ENTITY_TYPES} from '@/features/mindmap/components/menus/mindmap-bottom-menu/entity-types'
 import {ICON_GREEN} from '@/utils'
 import {AnimatePresence, motion} from 'framer-motion'
@@ -101,27 +101,29 @@ export const QuickActionsFloatingPanel = () => {
       addNode(potentialUserNode)
 
       try {
-        // Instead of retrieveEntitiesFromStore, use xataToXYFlow
-        const question = `Show me ${amount} interesting ${type} records and explain the relationships between them.`
-        const flowData = await xataToXYFlow({
-          question,
-          table: type,
-          prompt: `Find the most interesting ${type} records that have clear relationships between them`,
-          context: `The user is exploring the ${type} database and wants to see ${amount} records with interesting relationships.`,
+        // Use server action to load entity records
+        const result = await loadEntityRecords({
+          type,
+          amount,
+          sourceNode: {
+            id: potentialUserNode.id,
+            position: potentialUserNode.position,
+          },
+          existingNodes: getNodes() as any[],
         })
 
-        console.log('🚀 ~ handleLoadingRecords ~ flowData:', flowData)
+        console.log('🚀 ~ handleLoadingRecords ~ result:', result)
 
-        if (flowData && flowData.nodes.length > 0) {
+        if (result.success && result.nodes.length > 0) {
           // Update the user input node with the AI analysis
-          if (flowData.context) {
+          if (result.context) {
             updateNodeData(potentialUserNode.id, {
-              input: flowData.context,
+              input: result.context,
             })
           }
 
           // Position nodes relative to the user input node
-          const adjustedNodes = flowData.nodes
+          const adjustedNodes = result.nodes
             .map((node) => {
               if (node.id !== 'query-result-node') {
                 // Only adjust entity nodes, not the AI analysis node which we already have
@@ -153,9 +155,9 @@ export const QuickActionsFloatingPanel = () => {
           // Add the edges
           addEdges(newEdges)
         } else {
-          // Update user node to show no results
+          // Update user node to show no results or error
           updateNodeData(potentialUserNode.id, {
-            input: `No ${type} data found or there was an error fetching the data.`,
+            input: result.error || `No ${type} data found or there was an error fetching the data.`,
           })
         }
       } catch (error) {
@@ -177,7 +179,6 @@ export const QuickActionsFloatingPanel = () => {
       addNodes,
       addEdges,
       updateNodeData,
-      xataToXYFlow,
     ]
   )
 

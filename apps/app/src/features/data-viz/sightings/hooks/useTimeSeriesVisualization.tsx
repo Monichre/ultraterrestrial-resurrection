@@ -1,7 +1,11 @@
 'use client'
 
 import {useState, useRef, useEffect, useCallback} from 'react'
-import {xata} from '@db/xata/client'
+import {
+  fetchTimeSeriesData,
+  fetchPaginatedSightings,
+  type TimeDataPoint,
+} from '@/features/data-viz/sightings/actions/fetch-time-series-data'
 
 // Configuration for different zoom levels
 export const ZOOM_LEVEL_CONFIG = {
@@ -32,11 +36,6 @@ export function getZoomConfig(cameraDistance: number) {
   return ZOOM_LEVEL_CONFIG.close
 }
 
-export interface TimeDataPoint {
-  date: Date
-  count: number
-}
-
 type TimeRange = [Date, Date]
 
 // Enhanced time animation with time series data
@@ -55,34 +54,13 @@ export function useTimeSeriesAnimation(timeRange: TimeRange) {
       setError(null)
 
       try {
-        const results = await xata.db.sightings.summarize({
-          filter: {
-            date: {
-              $ge: timeRange[0],
-              $le: timeRange[1],
-            },
-          },
-          columns: ['date'],
-          summaries: {
-            count: {count: '*'},
-          },
-        })
+        const result = await fetchTimeSeriesData({timeRange})
 
-        // Process the summarized data
-        if (results.summaries?.count) {
-          const dateMap = results.summaries.count as Record<string, number>
-
-          // Format the time series data
-          const formattedData = Object.entries(dateMap)
-            .map(([dateStr, count]) => ({
-              date: new Date(dateStr),
-              count,
-            }))
-            .sort((a, b) => a.date.getTime() - b.date.getTime())
-
-          setTimeData(formattedData)
+        if (result.success) {
+          setTimeData(result.data)
         } else {
           setTimeData([])
+          setError(new Error(result.error || 'Failed to fetch time series data'))
         }
       } catch (err) {
         console.error('Error fetching time series data:', err)
@@ -173,29 +151,18 @@ export function usePaginatedSightings(timeRange: TimeRange) {
 
     setIsLoading(true)
     try {
-      // Use Xata's recommended cursor pattern for robustness
-      const response = await xata.db.sightings
-        .filter({
-          date: {
-            $ge: timeRange[0],
-            $le: timeRange[1],
-          },
-        })
-        .sort('date', 'asc')
-        .getPaginated({
-          pagination: {
-            size: 100,
-            // Only include cursor for subsequent pages
-            ...(cursor ? {after: cursor} : {}),
-          },
-        })
+      const result = await fetchPaginatedSightings({timeRange, cursor})
 
-      // Store cursor for next page
-      setCursor(response.meta?.page?.cursor || null)
-      setHasMore(response.meta?.page?.more || false)
+      if (result.success) {
+        // Store cursor for next page
+        setCursor(result.cursor)
+        setHasMore(result.hasMore)
 
-      // Add new sightings to existing array
-      setSightings((prev) => [...prev, ...response.records])
+        // Add new sightings to existing array
+        setSightings((prev) => [...prev, ...result.records])
+      } else {
+        setError(new Error(result.error || 'Failed to fetch paginated sightings'))
+      }
     } catch (err) {
       console.error('Error fetching paginated sightings:', err)
       setError(err instanceof Error ? err : new Error(String(err)))

@@ -1,5 +1,3 @@
-"use server"
-
 import { askXataWithAi } from "@db/xata/api"
 import { 
   getGraphContext, 

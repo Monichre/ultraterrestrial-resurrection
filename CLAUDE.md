@@ -2,6 +2,7 @@
 
 - Remember we use python3
 - ALWAYS INCLUDE THE EXACT DATA AND TIME IN ANY DOCUMENTATION!
+- use .venv
 
 ## Documentation Guidelines
 
@@ -106,3 +107,8 @@ When you receive the command "/worklog", automatically:
 4. WRITE comprehensive work log following the template structure
 
 5. ENSURE all sections are filled with specific, actionable information
+[byterover-mcp]
+
+# important 
+always use byterover-retrive-knowledge tool to get the related context before any tasks 
+always use byterover-store-knowledge to store all the critical informations after sucessful tasks

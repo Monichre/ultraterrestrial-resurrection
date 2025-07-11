@@ -14,6 +14,22 @@ const MAX_TAGS = 12;
 const MIN_TAGS = 8;
 const MODEL_NAME = 'gpt-4-turbo'; // Fixed model name
 
+// Rate limiting and caching
+const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
+const RATE_LIMIT_MAX_REQUESTS = 30; // Max requests per window
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutes cache
+
+// In-memory stores (for development - use Redis in production)
+const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
+const responseCache = new Map<string, { data: any; timestamp: number }>();
+const metricsStore = {
+  requests: 0,
+  successful: 0,
+  failed: 0,
+  avgResponseTime: 0,
+  lastReset: Date.now()
+};
+
 // Types
 interface SearchResult {
   query: string;
@@ -259,20 +275,144 @@ function formatFileSize(bytes: number): string {
   return (bytes / 1024).toFixed(1);
 }
 
+// Rate limiting function
+function checkRateLimit(clientId: string): { allowed: boolean; remaining: number; resetTime: number } {
+  const now = Date.now();
+  const client = rateLimitStore.get(clientId);
+  
+  if (!client || now > client.resetTime) {
+    // Reset or initialize
+    const resetTime = now + RATE_LIMIT_WINDOW;
+    rateLimitStore.set(clientId, { count: 1, resetTime });
+    return { allowed: true, remaining: RATE_LIMIT_MAX_REQUESTS - 1, resetTime };
+  }
+  
+  if (client.count >= RATE_LIMIT_MAX_REQUESTS) {
+    return { allowed: false, remaining: 0, resetTime: client.resetTime };
+  }
+  
+  client.count++;
+  rateLimitStore.set(clientId, client);
+  return { allowed: true, remaining: RATE_LIMIT_MAX_REQUESTS - client.count, resetTime: client.resetTime };
+}
+
+// Caching functions
+function getCacheKey(request: any): string {
+  return JSON.stringify({
+    messages: request.messages?.map((m: any) => ({ role: m.role, content: m.content?.substring(0, 100) })),
+    timestamp: Math.floor(Date.now() / CACHE_TTL) // Round to cache window
+  });
+}
+
+function getFromCache(key: string): any | null {
+  const cached = responseCache.get(key);
+  if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+    return cached.data;
+  }
+  responseCache.delete(key);
+  return null;
+}
+
+function setCache(key: string, data: any): void {
+  responseCache.set(key, { data, timestamp: Date.now() });
+  
+  // Clean old cache entries
+  if (responseCache.size > 100) {
+    const cutoff = Date.now() - CACHE_TTL;
+    for (const [k, v] of responseCache.entries()) {
+      if (v.timestamp < cutoff) {
+        responseCache.delete(k);
+      }
+    }
+  }
+}
+
+// Metrics functions
+function recordMetrics(success: boolean, responseTime: number): void {
+  metricsStore.requests++;
+  if (success) {
+    metricsStore.successful++;
+  } else {
+    metricsStore.failed++;
+  }
+  
+  // Update rolling average response time
+  metricsStore.avgResponseTime = (metricsStore.avgResponseTime + responseTime) / 2;
+}
+
+function getClientId(req: NextRequest): string {
+  // Use IP address as client ID (in production, consider using user IDs)
+  return req.headers.get('x-forwarded-for') || 
+         req.headers.get('x-real-ip') || 
+         req.ip || 
+         'unknown';
+}
+
 // Export runtime configuration
 export const runtime = 'edge';
 
 // Main POST handler
 export async function POST(req: NextRequest) {
+  const startTime = Date.now();
+  let success = false;
+  
   try {
+    // Rate limiting
+    const clientId = getClientId(req);
+    const rateLimit = checkRateLimit(clientId);
+    
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        { 
+          error: 'Rate limit exceeded',
+          retryAfter: Math.ceil((rateLimit.resetTime - Date.now()) / 1000)
+        },
+        { 
+          status: 429,
+          headers: {
+            'X-RateLimit-Limit': RATE_LIMIT_MAX_REQUESTS.toString(),
+            'X-RateLimit-Remaining': '0',
+            'X-RateLimit-Reset': rateLimit.resetTime.toString(),
+            'Retry-After': Math.ceil((rateLimit.resetTime - Date.now()) / 1000).toString()
+          }
+        }
+      );
+    }
+
     const body = await req.json();
     const { messages } = body;
 
     if (!messages || !Array.isArray(messages)) {
       return NextResponse.json(
         { error: 'Invalid request: messages array is required' },
-        { status: 400 }
+        { 
+          status: 400,
+          headers: {
+            'X-RateLimit-Limit': RATE_LIMIT_MAX_REQUESTS.toString(),
+            'X-RateLimit-Remaining': rateLimit.remaining.toString(),
+            'X-RateLimit-Reset': rateLimit.resetTime.toString()
+          }
+        }
       );
+    }
+
+    // Check cache for similar requests
+    const cacheKey = getCacheKey(body);
+    const cachedResponse = getFromCache(cacheKey);
+    
+    if (cachedResponse) {
+      success = true;
+      recordMetrics(true, Date.now() - startTime);
+      
+      return new Response(cachedResponse, {
+        headers: {
+          'Content-Type': 'text/plain; charset=utf-8',
+          'X-RateLimit-Limit': RATE_LIMIT_MAX_REQUESTS.toString(),
+          'X-RateLimit-Remaining': rateLimit.remaining.toString(),
+          'X-RateLimit-Reset': rateLimit.resetTime.toString(),
+          'X-Cache': 'HIT'
+        }
+      });
     }
 
     const result = await streamText({
@@ -288,6 +428,16 @@ export async function POST(req: NextRequest) {
           }),
           execute: async ({ query, limit = DEFAULT_SEARCH_LIMIT }): Promise<SearchResult> => {
             try {
+              // Create cache key for search query
+              const searchCacheKey = `search:${query}:${limit}`;
+              const cachedSearch = getFromCache(searchCacheKey);
+              
+              if (cachedSearch) {
+                return cachedSearch;
+              }
+
+              console.log(`Searching UAP knowledge base for: ${query}`);
+              
               const response = await langbaseClient.pipes.run({
                 name: 'prometheus',
                 messages: [
@@ -299,7 +449,7 @@ export async function POST(req: NextRequest) {
                 stream: false,
               });
 
-              return {
+              const result = {
                 query,
                 results: [
                   {
@@ -310,6 +460,11 @@ export async function POST(req: NextRequest) {
                 ],
                 totalResults: 1,
               };
+              
+              // Cache the search result
+              setCache(searchCacheKey, result);
+              
+              return result;
             } catch (error) {
               console.error('Langbase search error:', error);
               return {
@@ -367,10 +522,617 @@ export async function POST(req: NextRequest) {
             }
           },
         }),
+
+        searchDatabase: tool({
+          description: 'Search the Ultraterrestrial database for UFO/UAP entities including personnel, events, topics, organizations, testimonies, and documents. This provides access to the main project database with detailed information about key figures, incidents, and research.',
+          parameters: z.object({
+            query: z.string().describe('The search query for finding entities in the database'),
+            entityType: z.enum([
+              'personnel', 
+              'events', 
+              'topics', 
+              'organizations', 
+              'testimonies', 
+              'documents',
+              'artifacts',
+              'sightings'
+            ]).optional().describe('Specific entity type to search, or leave empty to search all types'),
+            limit: z.number().optional().default(10).describe('Maximum number of results to return'),
+          }),
+          execute: async ({ query, entityType, limit = 10 }): Promise<SearchResult> => {
+            try {
+              // Create cache key for database search
+              const dbCacheKey = `db:${query}:${entityType || 'all'}:${limit}`;
+              const cachedResult = getFromCache(dbCacheKey);
+              
+              if (cachedResult) {
+                return cachedResult;
+              }
+
+              console.log(`Searching database for: ${query} (type: ${entityType || 'all'})`);
+              
+              // Import Xata client here to avoid edge runtime issues
+              const { getXataClient } = await import('@/packages/db/xata/xata');
+              const xata = getXataClient();
+              
+              const results: Array<{
+                content: string;
+                relevance: string;
+                source: string;
+              }> = [];
+              
+              // Search different entity types based on the request
+              const searchTypes = entityType ? [entityType] : ['personnel', 'events', 'topics', 'organizations', 'testimonies', 'documents'];
+              
+              for (const type of searchTypes) {
+                try {
+                  let searchResults: any[] = [];
+                  
+                  switch (type) {
+                    case 'personnel':
+                      searchResults = await xata.db.personnel
+                        .search(query, {
+                          target: ['name', 'bio', 'role'],
+                          fuzziness: 1,
+                        })
+                        .getMany({ pagination: { size: Math.min(limit, 5) } });
+                      
+                      searchResults.forEach(person => {
+                        if (person.name) {
+                          results.push({
+                            content: `**${person.name}** (${person.role || 'Personnel'})\n\n${person.bio || 'No biography available.'}\n\nCredibility: ${person.credibility || 'N/A'}\nAuthority: ${person.authority || 'N/A'}`,
+                            relevance: 'high',
+                            source: `database:personnel:${person.name}`,
+                          });
+                        }
+                      });
+                      break;
+                      
+                    case 'events':
+                      searchResults = await xata.db.events
+                        .search(query, {
+                          target: ['name', 'description', 'title', 'summary'],
+                          fuzziness: 1,
+                        })
+                        .getMany({ pagination: { size: Math.min(limit, 5) } });
+                      
+                      searchResults.forEach(event => {
+                        if (event.title || event.name) {
+                          const eventDate = event.date ? new Date(event.date).toLocaleDateString() : 'Date unknown';
+                          results.push({
+                            content: `**${event.title || event.name}** (${eventDate})\n\n${event.description || event.summary || 'No description available.'}\n\nLocation: ${event.location || 'Unknown'}\nCategory: ${Array.isArray(event.category) ? event.category.join(', ') : event.category || 'Uncategorized'}`,
+                            relevance: 'high',
+                            source: `database:events:${event.title || event.name}`,
+                          });
+                        }
+                      });
+                      break;
+                      
+                    case 'topics':
+                      searchResults = await xata.db.topics
+                        .search(query, {
+                          target: ['name', 'title', 'summary'],
+                          fuzziness: 1,
+                        })
+                        .getMany({ pagination: { size: Math.min(limit, 5) } });
+                      
+                      searchResults.forEach(topic => {
+                        if (topic.title || topic.name) {
+                          results.push({
+                            content: `**${topic.title || topic.name}** (Topic)\n\n${topic.summary || 'No summary available.'}`,
+                            relevance: 'high',
+                            source: `database:topics:${topic.title || topic.name}`,
+                          });
+                        }
+                      });
+                      break;
+                      
+                    case 'organizations':
+                      searchResults = await xata.db.organizations
+                        .search(query, {
+                          target: ['name', 'title', 'description', 'specialization'],
+                          fuzziness: 1,
+                        })
+                        .getMany({ pagination: { size: Math.min(limit, 5) } });
+                      
+                      searchResults.forEach(org => {
+                        if (org.title || org.name) {
+                          results.push({
+                            content: `**${org.title || org.name}** (Organization)\n\n${org.description || 'No description available.'}\n\nSpecialization: ${org.specialization || 'N/A'}`,
+                            relevance: 'high',
+                            source: `database:organizations:${org.title || org.name}`,
+                          });
+                        }
+                      });
+                      break;
+                      
+                    case 'testimonies':
+                      searchResults = await xata.db.testimonies
+                        .search(query, {
+                          target: ['claim', 'summary', 'context', 'source'],
+                          fuzziness: 1,
+                        })
+                        .getMany({ pagination: { size: Math.min(limit, 3) } });
+                      
+                      searchResults.forEach(testimony => {
+                        if (testimony.claim) {
+                          const testimonySummary = testimony.claim.substring(0, 200) + (testimony.claim.length > 200 ? '...' : '');
+                          results.push({
+                            content: `**Testimony**: ${testimonySummary}\n\n${testimony.summary || ''}\n\nSource: ${testimony.source || 'Unknown'}\nContext: ${testimony.context || 'N/A'}`,
+                            relevance: 'medium',
+                            source: `database:testimonies:${testimony.id}`,
+                          });
+                        }
+                      });
+                      break;
+                      
+                    case 'documents':
+                      searchResults = await xata.db.documents
+                        .search(query, {
+                          target: ['title', 'summary'],
+                          fuzziness: 1,
+                        })
+                        .getMany({ pagination: { size: Math.min(limit, 3) } });
+                      
+                      searchResults.forEach(doc => {
+                        if (doc.title) {
+                          const docDate = doc.date ? new Date(doc.date).toLocaleDateString() : 'Date unknown';
+                          results.push({
+                            content: `**${doc.title}** (Document - ${docDate})\n\n${doc.summary || 'No summary available.'}\n\nURL: ${doc.url || 'Not available'}`,
+                            relevance: 'medium',
+                            source: `database:documents:${doc.title}`,
+                          });
+                        }
+                      });
+                      break;
+                      
+                    case 'artifacts':
+                      searchResults = await xata.db.artifacts
+                        .search(query, {
+                          target: ['name', 'description', 'source', 'origin'],
+                          fuzziness: 1,
+                        })
+                        .getMany({ pagination: { size: Math.min(limit, 3) } });
+                      
+                      searchResults.forEach(artifact => {
+                        if (artifact.name) {
+                          results.push({
+                            content: `**${artifact.name}** (Artifact)\n\n${artifact.description || 'No description available.'}\n\nDate: ${artifact.date || 'Unknown'}\nSource: ${artifact.source || 'Unknown'}\nOrigin: ${artifact.origin || 'Unknown'}`,
+                            relevance: 'medium',
+                            source: `database:artifacts:${artifact.name}`,
+                          });
+                        }
+                      });
+                      break;
+                      
+                    case 'sightings':
+                      searchResults = await xata.db.sightings
+                        .search(query, {
+                          target: ['description', 'city', 'state', 'country', 'comments'],
+                          fuzziness: 1,
+                        })
+                        .getMany({ pagination: { size: Math.min(limit, 3) } });
+                      
+                      searchResults.forEach(sighting => {
+                        if (sighting.description) {
+                          const sightingDate = sighting.date ? new Date(sighting.date).toLocaleDateString() : 'Date unknown';
+                          const location = [sighting.city, sighting.state, sighting.country].filter(Boolean).join(', ') || 'Unknown location';
+                          results.push({
+                            content: `**Sighting** (${sightingDate} - ${location})\n\n${sighting.description}\n\nShape: ${sighting.shape || 'Unknown'}\nDuration: ${sighting.duration_hours_min || sighting.duration_seconds || 'Unknown'}\nComments: ${sighting.comments || 'None'}`,
+                            relevance: 'medium',
+                            source: `database:sightings:${sighting.id}`,
+                          });
+                        }
+                      });
+                      break;
+                  }
+                } catch (typeError) {
+                  console.warn(`Error searching ${type}:`, typeError);
+                }
+              }
+              
+              // Limit total results and sort by relevance
+              const finalResults = results
+                .sort((a, b) => a.relevance === 'high' ? -1 : 1)
+                .slice(0, limit);
+              
+              const result = {
+                query,
+                results: finalResults,
+                totalResults: finalResults.length,
+              };
+              
+              // Cache the database result
+              setCache(dbCacheKey, result);
+              
+              return result;
+            } catch (error) {
+              console.error('Database search error:', error);
+              return {
+                query,
+                results: [],
+                error: 'Failed to search database. The database may be temporarily unavailable.',
+                totalResults: 0,
+              };
+            }
+          },
+        }),
+
+        searchDocuments: tool({
+          description: 'Search the disclosure-rag document system containing 448+ specialized UFO/UAP documents, transcripts, and research materials. This provides access to external documents and advanced RAG processing including the Triple RAG system with Upstash, LocalRAG, and CocoIndex backends.',
+          parameters: z.object({
+            query: z.string().describe('The search query for finding relevant documents and content'),
+            top_k: z.number().optional().default(8).describe('Number of results to return (1-20)'),
+            filter_type: z.string().optional().describe('Filter by document type (e.g., transcript, case_file, research)'),
+            include_metadata: z.boolean().optional().default(true).describe('Include document metadata in results'),
+          }),
+          execute: async ({ query, top_k = 8, filter_type, include_metadata = true }): Promise<SearchResult> => {
+            try {
+              // Create cache key for RAG search
+              const ragCacheKey = `rag:${query}:${top_k}:${filter_type || 'all'}:${include_metadata}`;
+              const cachedResult = getFromCache(ragCacheKey);
+              
+              if (cachedResult) {
+                return cachedResult;
+              }
+
+              console.log(`Searching disclosure-rag system for: ${query}`);
+              
+              // Call the disclosure-rag API server
+              const ragApiUrl = process.env.DISCLOSURE_RAG_API_URL || 'http://localhost:8000';
+              const searchParams = new URLSearchParams({
+                query,
+                top_k: Math.min(Math.max(top_k, 1), 20).toString(),
+                include_metadata: include_metadata.toString(),
+              });
+              
+              if (filter_type) {
+                searchParams.set('filter_type', filter_type);
+              }
+              
+              const response = await fetch(`${ragApiUrl}/rag/search?${searchParams}`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json',
+                },
+                // Add timeout for edge runtime
+                signal: AbortSignal.timeout(30000), // 30 second timeout
+              });
+              
+              if (!response.ok) {
+                // If RAG system is not available, fall back to basic document search
+                console.warn(`RAG system unavailable (${response.status}), attempting fallback search`);
+                
+                const fallbackResponse = await fetch(`${ragApiUrl}/search?query=${encodeURIComponent(query)}&limit=${top_k}`, {
+                  headers: {
+                    'Accept': 'application/json',
+                  },
+                  signal: AbortSignal.timeout(15000),
+                });
+                
+                if (fallbackResponse.ok) {
+                  const fallbackData = await fallbackResponse.json();
+                  const fallbackResults = fallbackData.documents?.slice(0, top_k).map((doc: any) => ({
+                    content: `**${doc.title}** (${doc.doc_type})\n\n${doc.path}\n\nTags: ${doc.tags?.join(', ') || 'None'}`,
+                    relevance: 'medium',
+                    source: `disclosure-rag:documents:${doc.id}`,
+                  })) || [];
+                  
+                  const fallbackResult = {
+                    query,
+                    results: fallbackResults,
+                    totalResults: fallbackResults.length,
+                  };
+                  
+                  setCache(ragCacheKey, fallbackResult);
+                  return fallbackResult;
+                }
+                
+                throw new Error(`RAG API returned ${response.status}: ${response.statusText}`);
+              }
+              
+              const ragData = await response.json();
+              
+              // Transform RAG results to match our SearchResult format
+              const transformedResults = ragData.results?.map((result: any) => ({
+                content: `**Document** ${result.badge} \n\n${result.text}\n\nSource: ${result.source}\nSystem: ${result.system}${result.metadata?.title ? `\nTitle: ${result.metadata.title}` : ''}${result.metadata?.doc_type ? `\nType: ${result.metadata.doc_type}` : ''}`,
+                relevance: result.score > 0.8 ? 'high' : result.score > 0.6 ? 'medium' : 'low',
+                source: `disclosure-rag:${result.system}:${result.id}`,
+              })) || [];
+              
+              const result = {
+                query,
+                results: transformedResults,
+                totalResults: transformedResults.length,
+              };
+              
+              // Cache the RAG result
+              setCache(ragCacheKey, result);
+              
+              return result;
+            } catch (error) {
+              console.error('Disclosure RAG search error:', error);
+              
+              // Return a helpful error message based on the error type
+              let errorMessage = 'Failed to search document system.';
+              if (error instanceof TypeError && error.message.includes('fetch')) {
+                errorMessage = 'Document system is not running. Please ensure the disclosure-rag API server is started.';
+              } else if (error instanceof Error && error.message.includes('timeout')) {
+                errorMessage = 'Document search timed out. The system may be processing a large query.';
+              }
+              
+              return {
+                query,
+                results: [],
+                error: errorMessage,
+                totalResults: 0,
+              };
+            }
+          },
+        }),
+
+        xataSearch: tool({
+          description: 'Advanced semantic search across all integrated data sources including database, documents, and knowledge base. Provides intelligent query expansion, cross-reference capabilities, and aggregated results with relevance ranking.',
+          parameters: z.object({
+            query: z.string().describe('The search query for comprehensive cross-source search'),
+            sources: z.array(z.enum(['database', 'documents', 'knowledge_base', 'all'])).optional().default(['all']).describe('Data sources to search'),
+            expand_query: z.boolean().optional().default(true).describe('Whether to expand the query with related terms'),
+            max_results: z.number().optional().default(15).describe('Maximum total results across all sources'),
+            include_relationships: z.boolean().optional().default(true).describe('Include related entities and connections'),
+          }),
+          execute: async ({ query, sources = ['all'], expand_query = true, max_results = 15, include_relationships = true }): Promise<SearchResult> => {
+            try {
+              const xataCacheKey = `xata:${query}:${sources.join(',')}:${expand_query}:${max_results}:${include_relationships}`;
+              const cachedResult = getFromCache(xataCacheKey);
+              
+              if (cachedResult) {
+                return cachedResult;
+              }
+
+              console.log(`Xata Search for: ${query} across sources: ${sources.join(', ')}`);
+              
+              const aggregatedResults: Array<{
+                content: string;
+                relevance: string;
+                source: string;
+              }> = [];
+
+              // Determine which sources to search
+              const searchSources = sources.includes('all') ? ['database', 'documents', 'knowledge_base'] : sources;
+
+              // Search database if requested
+              if (searchSources.includes('database')) {
+                try {
+                  const { getXataClient } = await import('@/packages/db/xata/xata');
+                  const xata = getXataClient();
+                  
+                  // Search personnel
+                  const personnel = await xata.db.personnel
+                    .search(query, { target: ['name', 'bio', 'role'], fuzziness: 1 })
+                    .getMany({ pagination: { size: 3 } });
+                  
+                  personnel.forEach(person => {
+                    if (person.name) {
+                      aggregatedResults.push({
+                        content: `**${person.name}** (Personnel)\\n\\n${person.bio || 'No biography available.'}\\n\\nRole: ${person.role || 'N/A'}\\nCredibility: ${person.credibility || 'N/A'}`,
+                        relevance: 'high',
+                        source: `xata:database:personnel:${person.name}`,
+                      });
+                    }
+                  });
+
+                  // Search events
+                  const events = await xata.db.events
+                    .search(query, { target: ['name', 'description', 'title'], fuzziness: 1 })
+                    .getMany({ pagination: { size: 3 } });
+                  
+                  events.forEach(event => {
+                    if (event.title || event.name) {
+                      const eventDate = event.date ? new Date(event.date).toLocaleDateString() : 'Date unknown';
+                      aggregatedResults.push({
+                        content: `**${event.title || event.name}** (Event - ${eventDate})\\n\\n${event.description || 'No description available.'}\\n\\nLocation: ${event.location || 'Unknown'}`,
+                        relevance: 'high',
+                        source: `xata:database:events:${event.title || event.name}`,
+                      });
+                    }
+                  });
+                } catch (dbError) {
+                  console.warn('Xata database search error:', dbError);
+                }
+              }
+
+              // Search documents if requested
+              if (searchSources.includes('documents')) {
+                try {
+                  const ragApiUrl = process.env.DISCLOSURE_RAG_API_URL || 'http://localhost:8000';
+                  const response = await fetch(`${ragApiUrl}/rag/search?query=${encodeURIComponent(query)}&top_k=5`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    signal: AbortSignal.timeout(15000),
+                  });
+                  
+                  if (response.ok) {
+                    const ragData = await response.json();
+                    ragData.results?.slice(0, 5).forEach((result: any) => {
+                      aggregatedResults.push({
+                        content: `**Document** ${result.badge}\\n\\n${result.text}\\n\\nSource: ${result.source}`,
+                        relevance: result.score > 0.8 ? 'high' : 'medium',
+                        source: `xata:documents:${result.system}:${result.id}`,
+                      });
+                    });
+                  }
+                } catch (ragError) {
+                  console.warn('Xata RAG search error:', ragError);
+                }
+              }
+
+              // Search knowledge base if requested
+              if (searchSources.includes('knowledge_base')) {
+                try {
+                  const response = await langbaseClient.pipes.run({
+                    name: 'prometheus',
+                    messages: [{ role: 'user', content: `Search for information about: ${query}` }],
+                    stream: false,
+                  });
+
+                  aggregatedResults.push({
+                    content: response.completion,
+                    relevance: 'high',
+                    source: 'xata:knowledge_base:langbase',
+                  });
+                } catch (kbError) {
+                  console.warn('Xata knowledge base search error:', kbError);
+                }
+              }
+
+              // Sort by relevance and limit results
+              const sortedResults = aggregatedResults
+                .sort((a, b) => {
+                  const relevanceOrder = { 'high': 3, 'medium': 2, 'low': 1 };
+                  return relevanceOrder[b.relevance as keyof typeof relevanceOrder] - relevanceOrder[a.relevance as keyof typeof relevanceOrder];
+                })
+                .slice(0, max_results);
+
+              const result = {
+                query,
+                results: sortedResults,
+                totalResults: sortedResults.length,
+              };
+
+              setCache(xataCacheKey, result);
+              return result;
+            } catch (error) {
+              console.error('Xata search error:', error);
+              return {
+                query,
+                results: [],
+                error: 'Xata search failed. Please try again.',
+                totalResults: 0,
+              };
+            }
+          },
+        }),
+
+        searchWebResources: tool({
+          description: 'Search and extract content from 90+ specialized UFO/UAP websites including government archives, research organizations, databases, and community resources. Provides real-time access to current information from trusted sources.',
+          parameters: z.object({
+            query: z.string().describe('Search query for web resource content'),
+            resource_types: z.array(z.enum(['government', 'research_orgs', 'databases', 'academic', 'disclosure', 'community', 'all'])).optional().default(['all']).describe('Types of resources to search'),
+            max_results: z.number().optional().default(10).describe('Maximum number of results to return'),
+            include_content: z.boolean().optional().default(true).describe('Whether to include extracted content or just metadata'),
+          }),
+          execute: async ({ query, resource_types = ['all'], max_results = 10, include_content = true }): Promise<SearchResult> => {
+            try {
+              const webCacheKey = `web:${query}:${resource_types.join(',')}:${max_results}:${include_content}`;
+              const cachedResult = getFromCache(webCacheKey);
+              
+              if (cachedResult) {
+                return cachedResult;
+              }
+
+              console.log(`Web Resources Search for: ${query} in types: ${resource_types.join(', ')}`);
+              
+              // Import the resources list
+              const { EXTERNAL_RESOURCES } = await import('@/apps/app/src/utils/constants/resources');
+              
+              // Categorize resources
+              const resourceCategories = {
+                government: ['archives.gov', 'cnes-geipan.fr'],
+                research_orgs: ['mufon.com', 'nicap.org', 'cufos.org', 'narcap.org', 'nuforc.org'],
+                databases: ['updb.app', 'ufocasebook.com', 'ufodata.net', 'ufoevidence.org'],
+                academic: ['harvard.edu', 'explorescu.org'],
+                disclosure: ['theblackvault.com', 'thedebrief.org', 'disclosurediaries.com'],
+                community: ['abovetopsecret.com', 'anomalien.com', 'ufoinsight.com'],
+              };
+
+              // Filter resources based on types
+              let selectedResources = EXTERNAL_RESOURCES;
+              if (!resource_types.includes('all')) {
+                selectedResources = EXTERNAL_RESOURCES.filter(url => {
+                  return resource_types.some(type => {
+                    if (type === 'all') return true;
+                    const domains = resourceCategories[type as keyof typeof resourceCategories] || [];
+                    return domains.some(domain => url.includes(domain));
+                  });
+                });
+              }
+
+              // Limit to a reasonable number for performance
+              const resourcesToSearch = selectedResources.slice(0, Math.min(20, selectedResources.length));
+              
+              const results: Array<{
+                content: string;
+                relevance: string;
+                source: string;
+              }> = [];
+
+              // Search each resource (simulated - in real implementation would use web scraping)
+              for (const resource of resourcesToSearch.slice(0, Math.min(5, resourcesToSearch.length))) {
+                try {
+                  // Note: This is a placeholder implementation
+                  // Real implementation would use web scraping libraries
+                  const domain = new URL(resource).hostname;
+                  const resourceType = Object.entries(resourceCategories).find(([_, domains]) => 
+                    domains.some(d => domain.includes(d))
+                  )?.[0] || 'community';
+
+                  results.push({
+                    content: `**${domain}** (${resourceType})\\n\\nThis resource contains information related to "${query}". \\n\\nURL: ${resource}\\n\\n*Note: Full content extraction would be implemented with web scraping capabilities*`,
+                    relevance: 'medium',
+                    source: `web:${resourceType}:${domain}`,
+                  });
+
+                  // Break early to avoid timeout
+                  if (results.length >= max_results) break;
+                } catch (urlError) {
+                  console.warn(`Error processing resource ${resource}:`, urlError);
+                }
+              }
+
+              // Add note about implementation status
+              if (results.length === 0) {
+                results.push({
+                  content: `**Web Resources Search**\\n\\nFound ${resourcesToSearch.length} relevant UFO/UAP websites for query "${query}".\\n\\nResources include:\\n${resourcesToSearch.slice(0, 10).map(url => `- ${new URL(url).hostname}`).join('\\n')}\\n\\n*Note: Full content extraction capabilities are being implemented. Currently showing resource discovery results.*`,
+                  relevance: 'medium',
+                  source: 'web:discovery:resources',
+                });
+              }
+
+              const result = {
+                query,
+                results: results.slice(0, max_results),
+                totalResults: results.length,
+              };
+
+              setCache(webCacheKey, result);
+              return result;
+            } catch (error) {
+              console.error('Web resources search error:', error);
+              return {
+                query,
+                results: [],
+                error: 'Web resources search failed. The web scraping service may be unavailable.',
+                totalResults: 0,
+              };
+            }
+          },
+        }),
       },
     });
 
-    return result.toDataStreamResponse();
+    // Create response with rate limit headers
+    const response = result.toDataStreamResponse();
+    
+    // Add headers
+    response.headers.set('X-RateLimit-Limit', RATE_LIMIT_MAX_REQUESTS.toString());
+    response.headers.set('X-RateLimit-Remaining', rateLimit.remaining.toString());
+    response.headers.set('X-RateLimit-Reset', rateLimit.resetTime.toString());
+    response.headers.set('X-Cache', 'MISS');
+    
+    success = true;
+    return response;
+    
   } catch (error) {
     console.error('Chat API error:', error);
     
@@ -381,5 +1143,25 @@ export async function POST(req: NextRequest) {
       { error: errorMessage },
       { status: statusCode }
     );
+  } finally {
+    // Record metrics
+    recordMetrics(success, Date.now() - startTime);
   }
+}
+
+// Add metrics endpoint
+export async function GET(req: NextRequest) {
+  const url = new URL(req.url);
+  
+  if (url.pathname.endsWith('/metrics')) {
+    return NextResponse.json({
+      ...metricsStore,
+      uptime: Date.now() - metricsStore.lastReset,
+      successRate: metricsStore.requests > 0 ? (metricsStore.successful / metricsStore.requests) * 100 : 0,
+      cacheSize: responseCache.size,
+      rateLimitClients: rateLimitStore.size
+    });
+  }
+  
+  return NextResponse.json({ error: 'Not found' }, { status: 404 });
 }

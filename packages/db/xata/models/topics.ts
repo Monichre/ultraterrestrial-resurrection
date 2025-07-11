@@ -1,11 +1,11 @@
-import { xata } from "../client";
-import type { TopicsRecord, Topics } from "../xata";
+import { xata } from "../client"
+import type { TopicsRecord, Topics } from "../xata"
 
 // Define error interface for consistent error handling
 interface TopicsOperationError extends Error {
-	code: string;
-	operation: string;
-	details?: unknown;
+	code: string
+	operation: string
+	details?: unknown
 }
 
 // Error creation helper function
@@ -15,22 +15,22 @@ function createTopicError(
 	operation: string,
 	details?: unknown,
 ): TopicsOperationError {
-	const error = new Error(message) as TopicsOperationError;
-	error.code = code;
-	error.operation = operation;
-	error.details = details;
-	return error;
+	const error = new Error( message ) as TopicsOperationError
+	error.code = code
+	error.operation = operation
+	error.details = details
+	return error
 }
 
 // Types for pagination response
 interface PaginatedTopicsResponse {
-	records: TopicsRecord[];
+	records: TopicsRecord[]
 	pagination: {
-		page: number;
-		size: number;
-		total?: number;
-		hasNextPage: boolean;
-	};
+		page: number
+		size: number
+		total?: number
+		hasNextPage: boolean
+	}
 }
 
 // #region CREATE OPERATIONS
@@ -45,30 +45,30 @@ export async function createTopic(
 ): Promise<TopicsRecord> {
 	try {
 		// Validate required fields
-		if (!data.title) {
+		if ( !data.title ) {
 			throw createTopicError(
 				"Topic title is required",
 				"MISSING_REQUIRED_FIELD",
 				"createTopic",
-			);
+			)
 		}
 
-		return await xata.db.topics.create(data);
-	} catch (error) {
-		console.error("Error creating topic:", error);
+		return await xata.db.topics.create( data )
+	} catch ( error ) {
+		console.error( "Error creating topic:", error )
 
 		// Re-throw typed errors
-		if ((error as TopicsOperationError).code) {
-			throw error;
+		if ( ( error as TopicsOperationError ).code ) {
+			throw error
 		}
 
 		// Create and throw standardized error
 		throw createTopicError(
-			`Failed to create topic: ${(error as Error).message}`,
+			`Failed to create topic: ${( error as Error ).message}`,
 			"CREATE_FAILED",
 			"createTopic",
 			error,
-		);
+		)
 	}
 }
 
@@ -82,36 +82,37 @@ export async function createManyTopics(
 ): Promise<TopicsRecord[]> {
 	try {
 		// Validate input
-		if (!Array.isArray(data) || data.length === 0) {
+		if ( !Array.isArray( data ) || data.length === 0 ) {
 			throw createTopicError(
 				"Data must be a non-empty array",
 				"INVALID_INPUT",
 				"createManyTopics",
-			);
+			)
 		}
 
 		// Validate each record
-		for (const [index, item] of data.entries()) {
-			if (!item.title) {
+		for ( let index = 0; index < data.length; index++ ) {
+			const item = data[index]
+			if ( !item.title ) {
 				throw createTopicError(
 					`Topic at index ${index} is missing required title field`,
 					"MISSING_REQUIRED_FIELD",
 					"createManyTopics",
-				);
+				)
 			}
 		}
 
-		return await xata.db.topics.create(data);
-	} catch (error) {
-		console.error("Error creating bulk topics:", error);
+		return await xata.db.topics.create( data )
+	} catch ( error ) {
+		console.error( "Error creating bulk topics:", error )
 
 		// Create and throw standardized error
 		throw createTopicError(
-			`Failed to create multiple topics: ${(error as Error).message}`,
+			`Failed to create multiple topics: ${( error as Error ).message}`,
 			"BULK_CREATE_FAILED",
 			"createManyTopics",
 			error,
-		);
+		)
 	}
 }
 
@@ -130,29 +131,29 @@ export async function getTopicById(
 	columns?: string[],
 ): Promise<TopicsRecord | null> {
 	try {
-		if (!id) {
+		if ( !id ) {
 			throw createTopicError(
 				"Topic ID is required",
 				"MISSING_ID",
 				"getTopicById",
-			);
+			)
 		}
 
-		if (columns && columns.length > 0) {
+		if ( columns && columns.length > 0 ) {
 			// Use filter + getFirst for column selection to avoid TypeScript issues
-			return await xata.db.topics.select(columns as any).filter({ id }).getFirst();
+			return await xata.db.topics.select( columns as any ).filter( { id } ).getFirst()
 		}
 
-		return await xata.db.topics.read(id);
-	} catch (error) {
-		console.error(`Error getting topic with ID ${id}:`, error);
+		return await xata.db.topics.read( id )
+	} catch ( error ) {
+		console.error( `Error getting topic with ID ${id}:`, error )
 
 		throw createTopicError(
-			`Failed to get topic with ID ${id}: ${(error as Error).message}`,
+			`Failed to get topic with ID ${id}: ${( error as Error ).message}`,
 			"GET_FAILED",
 			"getTopicById",
 			error,
-		);
+		)
 	}
 }
 
@@ -167,31 +168,31 @@ export async function getTopicByTitle(
 	columns?: string[],
 ): Promise<TopicsRecord | null> {
 	try {
-		if (!title) {
+		if ( !title ) {
 			throw createTopicError(
 				"Topic title is required",
 				"MISSING_TITLE",
 				"getTopicByTitle",
-			);
+			)
 		}
 
-		let query = xata.db.topics.filter({ title });
-		
-		if (columns && columns.length > 0) {
-			query = query.select(columns as any);
+		let query = xata.db.topics.filter( { title } )
+
+		if ( columns && columns.length > 0 ) {
+			query = query.select( columns as any )
 		}
 
-		const result = await query.getFirst();
-		return result || null;
-	} catch (error) {
-		console.error(`Error getting topic with title "${title}":`, error);
+		const result = await query.getFirst()
+		return result || null
+	} catch ( error ) {
+		console.error( `Error getting topic with title "${title}":`, error )
 
 		throw createTopicError(
-			`Failed to get topic with title "${title}": ${(error as Error).message}`,
+			`Failed to get topic with title "${title}": ${( error as Error ).message}`,
 			"GET_BY_TITLE_FAILED",
 			"getTopicByTitle",
 			error,
-		);
+		)
 	}
 }
 
@@ -200,45 +201,45 @@ export async function getTopicByTitle(
  * @param options Optional configuration for filtering, sorting, and pagination
  * @returns Array of topic records
  */
-export async function getAllTopics(options?: {
-	filter?: Record<string, any>;
-	sort?: { column: string; direction: "asc" | "desc" }[];
-	page?: number;
-	size?: number;
-	columns?: string[];
-}): Promise<TopicsRecord[]> {
+export async function getAllTopics( options?: {
+	filter?: Record<string, any>
+	sort?: { column: string; direction: "asc" | "desc" }[]
+	page?: number
+	size?: number
+	columns?: string[]
+} ): Promise<TopicsRecord[]> {
 	try {
-		const { filter, sort, page, size, columns } = options || {};
+		const { filter, sort, page, size, columns } = options || {}
 
-		let query = xata.db.topics.filter(filter || {});
+		let query = xata.db.topics.filter( filter || {} )
 
-		if (columns && columns.length > 0) {
-			query = query.select(columns as any);
+		if ( columns && columns.length > 0 ) {
+			query = query.select( columns as any )
 		}
 
-		if (sort?.length) {
-			for (const { column, direction } of sort) {
-				query = query.sort(column as any, direction);
+		if ( sort?.length ) {
+			for ( const { column, direction } of sort ) {
+				query = query.sort( column as any, direction )
 			}
 		}
 
-		if (page && size) {
-			const result = await query.getPaginated({
-				pagination: { size, offset: (page - 1) * size },
-			});
-			return result.records as TopicsRecord[];
+		if ( page && size ) {
+			const result = await query.getPaginated( {
+				pagination: { size, offset: ( page - 1 ) * size },
+			} )
+			return result.records as TopicsRecord[]
 		}
 
-		return await query.getMany() as TopicsRecord[];
-	} catch (error) {
-		console.error("Error getting all topics:", error);
+		return await query.getMany() as TopicsRecord[]
+	} catch ( error ) {
+		console.error( "Error getting all topics:", error )
 
 		throw createTopicError(
-			`Failed to get topics: ${(error as Error).message}`,
+			`Failed to get topics: ${( error as Error ).message}`,
 			"QUERY_FAILED",
 			"getAllTopics",
 			error,
-		);
+		)
 	}
 }
 
@@ -258,31 +259,31 @@ export async function getTopicsWithPagination(
 ): Promise<PaginatedTopicsResponse> {
 	try {
 		// Validate input
-		if (page < 1) {
+		if ( page < 1 ) {
 			throw createTopicError(
 				"Page number must be greater than 0",
 				"INVALID_PAGE",
 				"getTopicsWithPagination",
-			);
+			)
 		}
 
-		if (size < 1 || size > 100) {
+		if ( size < 1 || size > 100 ) {
 			throw createTopicError(
 				"Page size must be between 1 and 100",
 				"INVALID_SIZE",
 				"getTopicsWithPagination",
-			);
+			)
 		}
 
-		let query = xata.db.topics.filter(filter || {});
+		let query = xata.db.topics.filter( filter || {} )
 
-		if (columns && columns.length > 0) {
-			query = query.select(columns as any);
+		if ( columns && columns.length > 0 ) {
+			query = query.select( columns as any )
 		}
 
-		const result = await query.getPaginated({
-			pagination: { size, offset: (page - 1) * size },
-		});
+		const result = await query.getPaginated( {
+			pagination: { size, offset: ( page - 1 ) * size },
+		} )
 
 		return {
 			records: result.records as TopicsRecord[],
@@ -292,16 +293,16 @@ export async function getTopicsWithPagination(
 				total: undefined, // Xata doesn't provide total in current SDK version
 				hasNextPage: typeof result.hasNextPage === 'function' ? result.hasNextPage() : !!result.hasNextPage,
 			},
-		};
-	} catch (error) {
-		console.error("Error getting paginated topics:", error);
+		}
+	} catch ( error ) {
+		console.error( "Error getting paginated topics:", error )
 
 		throw createTopicError(
-			`Failed to get paginated topics: ${(error as Error).message}`,
+			`Failed to get paginated topics: ${( error as Error ).message}`,
 			"PAGINATION_FAILED",
 			"getTopicsWithPagination",
 			error,
-		);
+		)
 	}
 }
 
@@ -314,20 +315,20 @@ export async function getTopicsWithPagination(
 export async function searchTopics(
 	searchQuery: string,
 	options?: {
-		fuzziness?: number;
-		prefix?: "phrase" | "disabled";
-		pagination?: { size?: number; offset?: number };
-		filter?: Record<string, any>;
+		fuzziness?: number
+		prefix?: "phrase" | "disabled"
+		pagination?: { size?: number; offset?: number }
+		filter?: Record<string, any>
 	},
 ): Promise<TopicsRecord[]> {
 	try {
 		// Validate input
-		if (!searchQuery || searchQuery.trim() === "") {
+		if ( !searchQuery || searchQuery.trim() === "" ) {
 			throw createTopicError(
 				"Search query is required",
 				"MISSING_QUERY",
 				"searchTopics",
-			);
+			)
 		}
 
 		const searchOptions = {
@@ -335,24 +336,24 @@ export async function searchTopics(
 			prefix: options?.prefix || "phrase",
 			page: options?.pagination
 				? {
-						size: options.pagination.size || 20,
-						offset: options.pagination.offset || 0,
-					}
+					size: options.pagination.size || 20,
+					offset: options.pagination.offset || 0,
+				}
 				: undefined,
 			filter: options?.filter,
-		};
+		}
 
-		const results = await xata.db.topics.search(searchQuery, searchOptions);
-		return results.records as TopicsRecord[];
-	} catch (error) {
-		console.error(`Error searching topics with query "${searchQuery}":`, error);
+		const results = await xata.db.topics.search( searchQuery, searchOptions )
+		return results.records as TopicsRecord[]
+	} catch ( error ) {
+		console.error( `Error searching topics with query "${searchQuery}":`, error )
 
 		throw createTopicError(
-			`Failed to search topics: ${(error as Error).message}`,
+			`Failed to search topics: ${( error as Error ).message}`,
 			"SEARCH_FAILED",
 			"searchTopics",
 			error,
-		);
+		)
 	}
 }
 
@@ -365,41 +366,41 @@ export async function searchTopics(
 export async function semanticSearchTopics(
 	embedding: number[],
 	options?: {
-		maxResults?: number;
-		filter?: Record<string, any>;
+		maxResults?: number
+		filter?: Record<string, any>
 	},
 ): Promise<TopicsRecord[]> {
 	try {
 		// Validate input
-		if (!embedding || !Array.isArray(embedding) || embedding.length !== 1536) {
+		if ( !embedding || !Array.isArray( embedding ) || embedding.length !== 1536 ) {
 			throw createTopicError(
 				"Valid embedding vector with 1536 dimensions is required",
 				"INVALID_EMBEDDING",
 				"semanticSearchTopics",
-			);
+			)
 		}
 
 		const searchOptions = {
 			maxResults: options?.maxResults || 10,
 			filter: options?.filter,
-		};
+		}
 
 		const results = await xata.db.topics.vectorSearch(
 			"embedding",
 			embedding,
 			searchOptions,
-		);
+		)
 
-		return results.records as TopicsRecord[];
-	} catch (error) {
-		console.error("Error in semantic search of topics:", error);
+		return results.records as TopicsRecord[]
+	} catch ( error ) {
+		console.error( "Error in semantic search of topics:", error )
 
 		throw createTopicError(
-			`Failed in semantic search: ${(error as Error).message}`,
+			`Failed in semantic search: ${( error as Error ).message}`,
 			"VECTOR_SEARCH_FAILED",
 			"semanticSearchTopics",
 			error,
-		);
+		)
 	}
 }
 
@@ -412,51 +413,51 @@ export async function getTopicsByTestimony(
 	testimonyId: string,
 ): Promise<TopicsRecord[]> {
 	try {
-		if (!testimonyId) {
+		if ( !testimonyId ) {
 			throw createTopicError(
 				"Testimony ID is required",
 				"MISSING_TESTIMONY_ID",
 				"getTopicsByTestimony",
-			);
+			)
 		}
 
 		// Query the relationship table to get the topics
 		const relationships = await xata.db["topics-testimonies"]
-			.filter({ "testimony.id": testimonyId })
-			.getAll();
+			.filter( { "testimony.id": testimonyId } )
+			.getAll()
 
-		if (relationships.length === 0) {
-			return [];
+		if ( relationships.length === 0 ) {
+			return []
 		}
 
 		// Extract topic IDs
 		const topicIds = relationships
-			.filter((rel) => rel.topic?.id)
-			.map((rel) => rel.topic?.id as string);
+			.filter( ( rel ) => rel.topic?.id )
+			.map( ( rel ) => rel.topic?.id as string )
 
-		if (topicIds.length === 0) {
-			return [];
+		if ( topicIds.length === 0 ) {
+			return []
 		}
 
 		// Get all topics by these IDs
 		const topics = await xata.db.topics
-			.filter({
+			.filter( {
 				id: {
 					$any: topicIds,
 				},
-			})
-			.getAll();
+			} )
+			.getAll()
 
-		return topics as TopicsRecord[];
-	} catch (error) {
-		console.error(`Error getting topics for testimony ${testimonyId}:`, error);
+		return topics as TopicsRecord[]
+	} catch ( error ) {
+		console.error( `Error getting topics for testimony ${testimonyId}:`, error )
 
 		throw createTopicError(
-			`Failed to get topics for testimony: ${(error as Error).message}`,
+			`Failed to get topics for testimony: ${( error as Error ).message}`,
 			"QUERY_FAILED",
 			"getTopicsByTestimony",
 			error,
-		);
+		)
 	}
 }
 
@@ -476,38 +477,38 @@ export async function updateTopic(
 ): Promise<TopicsRecord | null> {
 	try {
 		// Validate input
-		if (!id) {
+		if ( !id ) {
 			throw createTopicError(
 				"Topic ID is required",
 				"MISSING_ID",
 				"updateTopic",
-			);
+			)
 		}
 
-		if (!data || Object.keys(data).length === 0) {
+		if ( !data || Object.keys( data ).length === 0 ) {
 			throw createTopicError(
 				"Update data is required",
 				"MISSING_DATA",
 				"updateTopic",
-			);
+			)
 		}
 
 		// Verify the topic exists before updating
-		const exists = await xata.db.topics.read(id);
-		if (!exists) {
-			return null;
+		const exists = await xata.db.topics.read( id )
+		if ( !exists ) {
+			return null
 		}
 
-		return await xata.db.topics.update(id, data);
-	} catch (error) {
-		console.error(`Error updating topic with ID ${id}:`, error);
+		return await xata.db.topics.update( id, data )
+	} catch ( error ) {
+		console.error( `Error updating topic with ID ${id}:`, error )
 
 		throw createTopicError(
-			`Failed to update topic with ID ${id}: ${(error as Error).message}`,
+			`Failed to update topic with ID ${id}: ${( error as Error ).message}`,
 			"UPDATE_FAILED",
 			"updateTopic",
 			error,
-		);
+		)
 	}
 }
 
@@ -523,44 +524,44 @@ export async function updateManyTopics(
 ): Promise<{ numberOfRecordsUpdated: number }> {
 	try {
 		// Validate inputs
-		if (!filter || Object.keys(filter).length === 0) {
+		if ( !filter || Object.keys( filter ).length === 0 ) {
 			throw createTopicError(
 				"Filter criteria is required",
 				"MISSING_FILTER",
 				"updateManyTopics",
-			);
+			)
 		}
 
-		if (!data || Object.keys(data).length === 0) {
+		if ( !data || Object.keys( data ).length === 0 ) {
 			throw createTopicError(
 				"Update data is required",
 				"MISSING_DATA",
 				"updateManyTopics",
-			);
+			)
 		}
 
 		// Get topics matching the filter
-		const topics = await xata.db.topics.filter(filter).getMany() as TopicsRecord[];
+		const topics = await xata.db.topics.filter( filter ).getMany() as TopicsRecord[]
 
-		if (topics.length === 0) {
-			return { numberOfRecordsUpdated: 0 };
+		if ( topics.length === 0 ) {
+			return { numberOfRecordsUpdated: 0 }
 		}
 
-		const updatePromises = topics.map((topic: TopicsRecord) =>
-			xata.db.topics.update(topic.id, data),
-		);
+		const updatePromises = topics.map( ( topic: TopicsRecord ) =>
+			xata.db.topics.update( topic.id, data ),
+		)
 
-		const updatedTopics = await Promise.all(updatePromises);
-		return { numberOfRecordsUpdated: updatedTopics.filter(Boolean).length };
-	} catch (error) {
-		console.error("Error updating multiple topics:", error);
+		const updatedTopics = await Promise.all( updatePromises )
+		return { numberOfRecordsUpdated: updatedTopics.filter( Boolean ).length }
+	} catch ( error ) {
+		console.error( "Error updating multiple topics:", error )
 
 		throw createTopicError(
-			`Failed to update multiple topics: ${(error as Error).message}`,
+			`Failed to update multiple topics: ${( error as Error ).message}`,
 			"BULK_UPDATE_FAILED",
 			"updateManyTopics",
 			error,
-		);
+		)
 	}
 }
 
@@ -573,28 +574,28 @@ export async function updateManyTopics(
  * @param id The topic ID
  * @returns True if deleted, false if not found
  */
-export async function deleteTopic(id: string): Promise<boolean> {
+export async function deleteTopic( id: string ): Promise<boolean> {
 	try {
 		// Validate input
-		if (!id) {
+		if ( !id ) {
 			throw createTopicError(
 				"Topic ID is required",
 				"MISSING_ID",
 				"deleteTopic",
-			);
+			)
 		}
 
-		const deletedTopic = await xata.db.topics.delete(id);
-		return deletedTopic !== null;
-	} catch (error) {
-		console.error(`Error deleting topic with ID ${id}:`, error);
+		const deletedTopic = await xata.db.topics.delete( id )
+		return deletedTopic !== null
+	} catch ( error ) {
+		console.error( `Error deleting topic with ID ${id}:`, error )
 
 		throw createTopicError(
-			`Failed to delete topic with ID ${id}: ${(error as Error).message}`,
+			`Failed to delete topic with ID ${id}: ${( error as Error ).message}`,
 			"DELETE_FAILED",
 			"deleteTopic",
 			error,
-		);
+		)
 	}
 }
 
@@ -608,36 +609,36 @@ export async function deleteManyTopics(
 ): Promise<{ numberOfRecordsDeleted: number }> {
 	try {
 		// Validate input
-		if (!filter || Object.keys(filter).length === 0) {
+		if ( !filter || Object.keys( filter ).length === 0 ) {
 			throw createTopicError(
 				"Filter criteria is required",
 				"MISSING_FILTER",
 				"deleteManyTopics",
-			);
+			)
 		}
 
 		// Get topics matching the filter
-		const topics = await xata.db.topics.filter(filter).getMany() as TopicsRecord[];
+		const topics = await xata.db.topics.filter( filter ).getMany() as TopicsRecord[]
 
-		if (topics.length === 0) {
-			return { numberOfRecordsDeleted: 0 };
+		if ( topics.length === 0 ) {
+			return { numberOfRecordsDeleted: 0 }
 		}
 
-		const deletePromises = topics.map((topic: TopicsRecord) =>
-			xata.db.topics.delete(topic.id),
-		);
+		const deletePromises = topics.map( ( topic: TopicsRecord ) =>
+			xata.db.topics.delete( topic.id ),
+		)
 
-		const deletedTopics = await Promise.all(deletePromises);
-		return { numberOfRecordsDeleted: deletedTopics.filter(Boolean).length };
-	} catch (error) {
-		console.error("Error deleting multiple topics:", error);
+		const deletedTopics = await Promise.all( deletePromises )
+		return { numberOfRecordsDeleted: deletedTopics.filter( Boolean ).length }
+	} catch ( error ) {
+		console.error( "Error deleting multiple topics:", error )
 
 		throw createTopicError(
-			`Failed to delete multiple topics: ${(error as Error).message}`,
+			`Failed to delete multiple topics: ${( error as Error ).message}`,
 			"BULK_DELETE_FAILED",
 			"deleteManyTopics",
 			error,
-		);
+		)
 	}
 }
 

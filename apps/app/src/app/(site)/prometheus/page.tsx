@@ -1,28 +1,14 @@
 'use client'
-import {Inter, IBM_Plex_Mono} from 'next/font/google'
-import {Prometheus} from '@/features/agents/prometheus'
-import {Toaster} from 'sonner'
-import {useState, useEffect} from 'react'
-import * as THREE from 'three'
-import CirclesShader from '@/components/CirclesShader'
+import { Prometheus } from '@/features/agents/prometheus'
+import { PrometheusPage } from '@packages/ai/prometheus/lib'
 
 // Import the CSS for styling
-import './prometheus.css'
+import '@packages/ai/prometheus/styles/prometheus.css'
 
-const inter = Inter({
-  subsets: ['latin'],
-  weight: ['300', '400', '500'],
-  variable: '--font-inter',
-})
-
-const ibmPlexMono = IBM_Plex_Mono({
-  weight: ['400'],
-  subsets: ['latin'],
-  variable: '--font-secondary',
-})
-
-export default function Home() {
+export default function PrometheusPage() {
   const [mounted, setMounted] = useState(false)
+  const [shaderMaterial, setShaderMaterial] = useState<THREE.ShaderMaterial | null>(null)
+  const {theme} = useTheme()
 
   useEffect(() => {
     // Scene setup
@@ -52,13 +38,14 @@ export default function Home() {
     }
 `
 
-    // Fragment Shader with proximity-based lighting adjustment on the objects
+    // Fragment Shader with proximity-based lighting adjustment and theme awareness
     const fragmentShader = `
     uniform float iTime;
     uniform vec2 iResolution;
     uniform vec2 mouse;
     uniform float grainStrength; // Uniform for controlling grain strength
     uniform float grainIntensity; // Uniform for controlling grain intensity
+    uniform float themeMode; // 1.0 for dark, 0.0 for light
     varying vec2 vUv;
 
     // 2D Random
@@ -133,8 +120,11 @@ export default function Home() {
         // Apply static grain effect
         grayscale += grain(vUv);
 
-        // Set the output color as black and white with static grain
-        fragColor = vec4(vec3(grayscale), 1.0);
+        // Theme-aware output: invert for light mode
+        float finalColor = mix(1.0 - grayscale, grayscale, themeMode);
+        
+        // Set the output color as theme-aware black and white with static grain
+        fragColor = vec4(vec3(finalColor), 1.0);
     }
 
     void main() {
@@ -142,7 +132,8 @@ export default function Home() {
     }
 `
 
-    // Material that applies the shader effect
+    // Material that applies the shader effect with theme awareness
+    const isDark = theme === 'dark'
     const material = new THREE.ShaderMaterial({
       uniforms: {
         iTime: {value: 0},
@@ -150,8 +141,9 @@ export default function Home() {
           value: new THREE.Vector2(window.innerWidth, window.innerHeight),
         },
         mouse: {value: new THREE.Vector2(0, 0)},
-        grainStrength: {value: 0.05}, // Initial grain strength
-        grainIntensity: {value: 50.0}, // Initial grain intensity
+        grainStrength: {value: isDark ? 0.05 : 0.02}, // Adjust grain for theme
+        grainIntensity: {value: isDark ? 50.0 : 30.0}, // Adjust intensity for theme
+        themeMode: {value: isDark ? 1.0 : 0.0}, // Theme uniform for shader
       },
       vertexShader: vertexShader,
       fragmentShader: fragmentShader,
@@ -160,6 +152,9 @@ export default function Home() {
     // Create a plane covering the entire canvas and apply the shader material
     const plane = new THREE.Mesh(planeGeometry, material)
     scene.add(plane)
+    
+    // Store material reference for theme updates
+    setShaderMaterial(material)
 
     // Camera position
     camera.position.z = 1
@@ -198,27 +193,62 @@ export default function Home() {
     return () => {
       window.removeEventListener('resize', () => {})
       window.removeEventListener('mousemove', () => {})
-      document.body.removeChild(renderer.domElement)
+      if (renderer.domElement.parentNode) {
+        document.body.removeChild(renderer.domElement)
+      }
       renderer.dispose()
     }
   }, [])
 
+  // Update shader when theme changes
+  useEffect(() => {
+    if (shaderMaterial?.uniforms) {
+      const isDark = theme === 'dark'
+      shaderMaterial.uniforms.grainStrength.value = isDark ? 0.05 : 0.02
+      shaderMaterial.uniforms.grainIntensity.value = isDark ? 50.0 : 30.0
+      shaderMaterial.uniforms.themeMode.value = isDark ? 1.0 : 0.0
+    }
+  }, [theme, shaderMaterial])
+
   return (
-    <main className={`${inter.variable} ${ibmPlexMono.variable} main`}>
+    <main className='prometheus-page main min-h-screen relative'>
       {/* The Three.js visualization needs to be the first element to ensure it's behind everything else */}
 
-      {/* <CirclesShader /> */}
+      {/* Breadcrumb Navigation */}
+      <div className='absolute top-20 left-10 z-20'>
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link href='/explore' className='text-white/70 hover:text-white transition-colors'>
+                  Explore
+                </Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage className='text-white font-monumentMono tracking-wide'>
+                Prometheus AI Agent
+              </BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      </div>
 
       {/* Text wrapper with Agent in the center */}
-      <div className='text-wrapper'>
-        <h2 className='small-text'>I once brought you Fire</h2>
+      <div className='text-wrapper relative z-10'>
+        <h2 className='small-text font-monumentMono tracking-wider text-sm opacity-70'>
+          I once brought you Fire
+        </h2>
 
         {/* Agent component in the center instead of the text */}
-        <div className='flex-1 flex items-center justify-center w-[33vw]'>
+        <div className='flex-1 flex items-center justify-center w-[33vw] max-w-4xl mx-auto'>
           <Prometheus />
         </div>
 
-        <h2 className='small-text'>Now I bring you Disclosure</h2>
+        <h2 className='small-text font-monumentMono tracking-wider text-sm opacity-70'>
+          Now I bring you Disclosure
+        </h2>
       </div>
 
       <Toaster position='top-right' />

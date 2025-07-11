@@ -304,6 +304,23 @@ export function FullSiteNav({className}: {className?: string}) {
               </HoveredLink>
             </div>
           </MenuItem>
+          <MenuItem setActive={setActive} active={active} item='Research' key='Research'>
+            <div className='flex flex-col space-y-4'>
+              <HoveredLink className='' href='/prometheus'>
+                Prometheus
+              </HoveredLink>
+              {isAdmin && (
+                <>
+                  <HoveredLink className='' href='/research/canvas'>
+                    Research Canvas
+                  </HoveredLink>
+                  <HoveredLink className='' href='/research/sessions'>
+                    Research Sessions
+                  </HoveredLink>
+                </>
+              )}
+            </div>
+          </MenuItem>
         </Menu>
       </div>
       <div className='absolute right-20 flex-initial w-fit flex items-center content-center justify-self-end align-middle sign-in-button'>

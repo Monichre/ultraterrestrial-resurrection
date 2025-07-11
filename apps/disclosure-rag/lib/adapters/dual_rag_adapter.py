@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Quad RAG Adapter - Integrates Upstash (cloud), local_rag.py (FAISS), CocoIndex (local), and LocalVectorLibrary for maximum flexibility
-Date: June 29, 2025 - Updated July 2, 2025
+Triple RAG Adapter - Integrates Upstash (cloud), LocalRAG (FAISS), and CocoIndex (PostgreSQL pgvector) for maximum flexibility
+Date: June 29, 2025 - Updated January 9, 2025
 """
 
 from typing import List, Dict, Any, Optional
@@ -31,30 +31,24 @@ except ImportError as e:
     LOCAL_RAG_AVAILABLE = False
     logging.warning(f"local_rag.py not available: {e}")
 
-# Import CocoIndex (will be available after pip install cocoindex)
+# Import CocoIndex for PostgreSQL pgvector support
 try:
     import cocoindex
+    from cocoindex.functions import SentenceTransformerEmbed
+    import numpy as np
     COCOINDEX_AVAILABLE = True
+    logging.info("CocoIndex service available")
 except ImportError:
     COCOINDEX_AVAILABLE = False
-    logging.warning("CocoIndex not installed")
-
-# Import LocalVectorLibrary
-try:
-    from storage.local_vector_library import LocalVectorLibrary
-    LOCAL_VECTOR_LIBRARY_AVAILABLE = True
-    logging.info("LocalVectorLibrary module loaded successfully")
-except ImportError as e:
-    LOCAL_VECTOR_LIBRARY_AVAILABLE = False
-    logging.warning(f"LocalVectorLibrary not available: {e}")
+    logging.warning("CocoIndex not available")
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-class QuadRAGAdapter:
-    """Adapter that searches Upstash (cloud), local_rag.py (FAISS), CocoIndex (local), and LocalVectorLibrary in parallel"""
+class TripleRAGAdapter:
+    """Adapter that searches Upstash (cloud), LocalRAG (FAISS), and CocoIndex (PostgreSQL pgvector) in parallel"""
     
     def __init__(self):
         # Upstash configuration
@@ -70,24 +64,18 @@ class QuadRAGAdapter:
         self.local_rag_enabled = os.getenv("LOCAL_RAG_ENABLED", "true").lower() == "true"
         self._local_rag = None
         
-        # CocoIndex configuration
-        self.coco_enabled = os.getenv("COCOINDEX_ENABLED", "false").lower() == "true"
-        self._coco_flow = None
-        self.coco_flow_name = os.getenv("COCOINDEX_FLOW_NAME", "UFOResearch")
+        # CocoIndex configuration (PostgreSQL pgvector backend)
+        self.cocoindex_enabled = os.getenv("COCOINDEX_ENABLED", "true").lower() == "true"
+        self._cocoindex_client = None
+        self.database_url = os.getenv("DATABASE_URL", "postgresql://liamellis@localhost:5432/ultraterrestrial")
         
-        # LocalVectorLibrary configuration
-        self.local_library_enabled = os.getenv("LOCAL_VECTOR_LIBRARY_ENABLED", "true").lower() == "true"
-        self._local_library = None
-        self.local_library_path = os.getenv("LOCAL_VECTOR_LIBRARY_PATH", "./unified_ufo_library")
-        
-        # Performance settings (updated for 4 backends)
+        # Performance settings (updated for 3 backends)
         self.parallel_search = os.getenv("PARALLEL_SEARCH", "true").lower() == "true"
-        self.upstash_weight = float(os.getenv("UPSTASH_WEIGHT", "0.3"))
+        self.upstash_weight = float(os.getenv("UPSTASH_WEIGHT", "0.4"))
         self.local_rag_weight = float(os.getenv("LOCAL_RAG_WEIGHT", "0.3")) 
-        self.coco_weight = float(os.getenv("COCO_WEIGHT", "0.2"))
-        self.local_library_weight = float(os.getenv("LOCAL_LIBRARY_WEIGHT", "0.2"))
+        self.cocoindex_weight = float(os.getenv("COCOINDEX_WEIGHT", "0.3"))
         
-        logger.info(f"QuadRAGAdapter initialized - Upstash: ✓, LocalRAG: {'✓' if self.local_rag_enabled else '✗'}, CocoIndex: {'✓' if self.coco_enabled else '✗'}, LocalVectorLibrary: {'✓' if self.local_library_enabled else '✗'}")
+        logger.info(f"TripleRAGAdapter initialized - Upstash: ✓, LocalRAG: {'✓' if self.local_rag_enabled else '✗'}, CocoIndex: {'✓' if self.cocoindex_enabled else '✗'}")
     
     @property
     def local_rag(self):
@@ -106,54 +94,48 @@ class QuadRAGAdapter:
         return self._local_rag
     
     @property
-    def coco_flow(self):
-        """Lazy load CocoIndex flow"""
-        if self._coco_flow is None and self.coco_enabled and COCOINDEX_AVAILABLE:
+    def cocoindex_client(self):
+        """Lazy load CocoIndex client"""
+        if self._cocoindex_client is None and self.cocoindex_enabled and COCOINDEX_AVAILABLE:
             try:
-                # Set database URL for CocoIndex
-                db_url = os.getenv("COCOINDEX_DATABASE_URL", "postgresql://cocoindex:cocoindex@localhost:5432/cocoindex")
-                os.environ["COCOINDEX_DATABASE_URL"] = db_url
+                # Initialize CocoIndex client with PostgreSQL backend
+                self._cocoindex_client = cocoindex.Client(
+                    database_url=self.database_url,
+                    schema="public"
+                )
                 
-                # Initialize CocoIndex
-                cocoindex.init()
+                # Define text embedding transformation
+                @cocoindex.transform_flow()
+                def text_to_embedding(text):
+                    return text.transform(
+                        SentenceTransformerEmbed(
+                            model="sentence-transformers/all-MiniLM-L6-v2"
+                        )
+                    )
                 
-                # Import our UFO research flow
-                from setup_cocoindex_flow import ufo_research_flow, text_to_embedding
+                # Define document embedding flow
+                @cocoindex.flow_def(name="DocumentEmbedding")
+                def document_embedding_flow(flow_builder, data_scope):
+                    doc_embeddings = data_scope.add_collector()
+                    
+                    # This will be populated by our indexing operations
+                    return doc_embeddings
                 
-                # Store references to the flow functions
-                self._coco_flow = {
-                    'flow_def': ufo_research_flow,
-                    'text_to_embedding': text_to_embedding,
-                    'table_name': 'ufo_research_embeddings'
-                }
+                # Store the transformation function for later use
+                self._text_to_embedding = text_to_embedding
                 
-                logger.info(f"CocoIndex UFOResearch flow initialized successfully")
-                logger.info(f"Database URL: {db_url}")
-                
+                logger.info("CocoIndex client initialized successfully")
             except Exception as e:
-                logger.error(f"Failed to initialize CocoIndex flow: {e}")
-                self.coco_enabled = False
-        return self._coco_flow
+                logger.error(f"Failed to initialize CocoIndex: {e}")
+                self.cocoindex_enabled = False
+        return self._cocoindex_client
     
-    @property
-    def local_library(self):
-        """Lazy load LocalVectorLibrary"""
-        if self._local_library is None and self.local_library_enabled and LOCAL_VECTOR_LIBRARY_AVAILABLE:
-            try:
-                self._local_library = LocalVectorLibrary(self.local_library_path)
-                # Get stats to verify it's working
-                stats = self._local_library.get_library_stats()
-                logger.info(f"LocalVectorLibrary initialized with {stats['total_documents']} documents")
-            except Exception as e:
-                logger.error(f"Failed to initialize LocalVectorLibrary: {e}")
-                self.local_library_enabled = False
-        return self._local_library
     
     async def search(self, query: str, top_k: int = 8, 
                     include_metadata: bool = True,
                     filter_type: Optional[str] = None) -> List[Dict[str, Any]]:
         """
-        Search all four systems: Upstash, LocalRAG, CocoIndex, and LocalVectorLibrary in parallel
+        Search three systems: Upstash, LocalRAG, and PostgreSQL pgvector in parallel
         
         Args:
             query: Search query text
@@ -180,14 +162,9 @@ class QuadRAGAdapter:
             task_names.append("local_rag")
         
         # Search CocoIndex if enabled
-        if self.coco_enabled and COCOINDEX_AVAILABLE:
+        if self.cocoindex_enabled and COCOINDEX_AVAILABLE:
             tasks.append(self._search_cocoindex(query, top_k, include_metadata, filter_type))
             task_names.append("cocoindex")
-        
-        # Search LocalVectorLibrary if enabled
-        if self.local_library_enabled and LOCAL_VECTOR_LIBRARY_AVAILABLE:
-            tasks.append(self._search_local_library(query, top_k, include_metadata, filter_type))
-            task_names.append("local_library")
         
         if self.parallel_search and len(tasks) > 1:
             # Run searches in parallel
@@ -205,8 +182,7 @@ class QuadRAGAdapter:
         # Parse results
         upstash_results = []
         local_rag_results = []
-        coco_results = []
-        local_library_results = []
+        cocoindex_results = []
         
         for i, (result, name) in enumerate(zip(results, task_names)):
             if isinstance(result, Exception):
@@ -217,16 +193,14 @@ class QuadRAGAdapter:
                 elif name == "local_rag":
                     local_rag_results = result
                 elif name == "cocoindex":
-                    coco_results = result
-                elif name == "local_library":
-                    local_library_results = result
+                    cocoindex_results = result
         
         # Merge and rank results
-        merged_results = self._merge_all_results(upstash_results, local_rag_results, coco_results, local_library_results, top_k)
+        merged_results = self._merge_triple_results(upstash_results, local_rag_results, cocoindex_results, top_k)
         
         logger.info(f"Search complete - Upstash: {len(upstash_results)}, "
-                   f"LocalRAG: {len(local_rag_results)}, CocoIndex: {len(coco_results)}, "
-                   f"LocalLibrary: {len(local_library_results)}, Merged: {len(merged_results)}")
+                   f"LocalRAG: {len(local_rag_results)}, CocoIndex: {len(cocoindex_results)}, "
+                   f"Merged: {len(merged_results)}")
         
         return merged_results
     
@@ -309,57 +283,36 @@ class QuadRAGAdapter:
     async def _search_cocoindex(self, query: str, top_k: int,
                                include_metadata: bool = True,
                                filter_type: Optional[str] = None) -> List[Dict[str, Any]]:
-        """Search CocoIndex local database"""
-        if not self.coco_enabled or not COCOINDEX_AVAILABLE or not self.coco_flow:
+        """Search CocoIndex (PostgreSQL pgvector backend)"""
+        if not self.cocoindex_enabled or not COCOINDEX_AVAILABLE or not self.cocoindex_client:
             return []
         
         try:
-            # Import required libraries
-            from psycopg_pool import ConnectionPool
-            from pgvector.psycopg import register_vector
-            import cocoindex.utils
+            # Generate embedding for the query using CocoIndex's embedding function
+            query_embedding = self._text_to_embedding(query)
             
-            # Get database connection info
-            db_url = os.getenv("COCOINDEX_DATABASE_URL", "postgresql://cocoindex:cocoindex@localhost:5432/cocoindex")
+            # Search using CocoIndex semantic search
+            search_results = self.cocoindex_client.search(
+                query_embedding=query_embedding,
+                top_k=top_k,
+                collection_name="document_embeddings",
+                include_metadata=include_metadata,
+                filter_metadata={"doc_type": filter_type} if filter_type else None
+            )
             
-            # Get table name and embedding function
-            flow_data = self.coco_flow
-            table_name = flow_data['table_name']
-            text_to_embedding = flow_data['text_to_embedding']
-            
-            # Get query embedding
-            query_vector = text_to_embedding.eval(query)
-            
-            # Search using direct database connection
+            # Format results to match our standard format
             results = []
-            with ConnectionPool(db_url, min_size=1, max_size=3) as pool:
-                with pool.connection() as conn:
-                    register_vector(conn)
-                    with conn.cursor() as cur:
-                        cur.execute(f"""
-                            SELECT filename, text, embedding <=> %s AS distance
-                            FROM {table_name} ORDER BY distance LIMIT %s
-                        """, (query_vector, top_k))
-                        
-                        for i, row in enumerate(cur.fetchall()):
-                            filename, text, distance = row
-                            score = 1.0 - distance  # Convert distance to similarity score
-                            
-                            result = {
-                                "id": f"coco_{i}",
-                                "score": float(score),
-                                "system": "cocoindex",
-                                "badge": "💾 Local",
-                                "text": text[:500] if text else "",
-                                "metadata": {"filename": filename},
-                                "source": filename or "Local Document"
-                            }
-                            
-                            # Apply filter if needed
-                            if filter_type and not filename.endswith(f".{filter_type}"):
-                                continue
-                                
-                            results.append(result)
+            for i, result in enumerate(search_results):
+                formatted_result = {
+                    "id": result.get("doc_id", f"cocoindex_{i}"),
+                    "score": float(result.get("similarity_score", 0.0)),
+                    "system": "cocoindex",
+                    "badge": "🗄️ CocoIndex",
+                    "text": result.get("content", "")[:500] if result.get("content") else "",
+                    "metadata": result.get("metadata", {}),
+                    "source": result.get("metadata", {}).get("source", "CocoIndex Document")
+                }
+                results.append(formatted_result)
             
             return results
             
@@ -367,54 +320,12 @@ class QuadRAGAdapter:
             logger.error(f"CocoIndex search error: {e}")
             return []
     
-    async def _search_local_library(self, query: str, top_k: int,
-                                   include_metadata: bool = True,
-                                   filter_type: Optional[str] = None) -> List[Dict[str, Any]]:
-        """Search LocalVectorLibrary"""
-        if not self.local_library_enabled or not LOCAL_VECTOR_LIBRARY_AVAILABLE or not self.local_library:
-            return []
-        
-        try:
-            # Build filters if needed
-            filters = {}
-            if filter_type:
-                filters["content_type"] = filter_type
-            
-            # Use the LocalVectorLibrary search
-            documents = self.local_library.search_documents(query, limit=top_k, filters=filters if filters else None)
-            
-            # Format results to match our standard format
-            formatted_results = []
-            for i, doc in enumerate(documents):
-                result = {
-                    "id": doc.doc_id,
-                    "score": doc.confidence_score,
-                    "system": "local_library",
-                    "badge": "🏠 Library",
-                    "text": doc.summary if doc.summary else doc.content[:500],
-                    "metadata": {
-                        "title": doc.title,
-                        "content_type": doc.content_type,
-                        "word_count": doc.word_count,
-                        "tags": doc.tags,
-                        "entities": doc.entities
-                    },
-                    "source": doc.source_url or doc.title
-                }
-                formatted_results.append(result)
-            
-            return formatted_results
-            
-        except Exception as e:
-            logger.error(f"LocalVectorLibrary search error: {e}")
-            return []
     
-    def _merge_all_results(self, upstash_results: List[Dict], 
-                          local_rag_results: List[Dict],
-                          coco_results: List[Dict], 
-                          local_library_results: List[Dict],
-                          top_k: int) -> List[Dict[str, Any]]:
-        """Merge and deduplicate results from all four systems"""
+    def _merge_triple_results(self, upstash_results: List[Dict], 
+                             local_rag_results: List[Dict],
+                             cocoindex_results: List[Dict], 
+                             top_k: int) -> List[Dict[str, Any]]:
+        """Merge and deduplicate results from all three systems"""
         # Apply weights to scores
         for result in upstash_results:
             result["weighted_score"] = result["score"] * self.upstash_weight
@@ -422,14 +333,11 @@ class QuadRAGAdapter:
         for result in local_rag_results:
             result["weighted_score"] = result["score"] * self.local_rag_weight
             
-        for result in coco_results:
-            result["weighted_score"] = result["score"] * self.coco_weight
-            
-        for result in local_library_results:
-            result["weighted_score"] = result["score"] * self.local_library_weight
+        for result in cocoindex_results:
+            result["weighted_score"] = result["score"] * self.cocoindex_weight
         
         # Combine all results
-        all_results = upstash_results + local_rag_results + coco_results + local_library_results
+        all_results = upstash_results + local_rag_results + cocoindex_results
         
         # Sort by weighted score
         all_results.sort(key=lambda x: x.get("weighted_score", 0), reverse=True)
@@ -453,27 +361,27 @@ class QuadRAGAdapter:
         return unique_results
     
     def _merge_results(self, upstash_results: List[Dict], 
-                      coco_results: List[Dict], 
+                      local_rag_results: List[Dict], 
                       top_k: int) -> List[Dict[str, Any]]:
         """Legacy method for backward compatibility"""
-        return self._merge_all_results(upstash_results, [], coco_results, top_k)
+        return self._merge_triple_results(upstash_results, local_rag_results, [], top_k)
     
     async def index_document(self, content: str, metadata: Dict[str, Any],
-                           use_system: str = "both") -> Dict[str, Any]:
+                           use_system: str = "all") -> Dict[str, Any]:
         """
-        Index a document in one or both systems
+        Index a document in one or all systems
         
         Args:
             content: Document content to index
             metadata: Document metadata
-            use_system: "upstash", "cocoindex", or "both"
+            use_system: "upstash", "local_rag", "cocoindex", or "all"
             
         Returns:
             Result of indexing operation
         """
         results = {"timestamp": datetime.now().isoformat()}
         
-        if use_system in ["upstash", "both"]:
+        if use_system in ["upstash", "all"]:
             try:
                 # Index in Upstash
                 vector_id = f"doc_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
@@ -495,13 +403,57 @@ class QuadRAGAdapter:
                     "error": str(e)
                 }
         
-        if use_system in ["cocoindex", "both"] and self.coco_enabled:
+        if use_system in ["local_rag", "all"] and self.local_rag_enabled:
             try:
-                # Index in CocoIndex (would need to implement based on CocoIndex API)
-                results["cocoindex"] = {
-                    "success": True,
-                    "message": "CocoIndex indexing not yet implemented"
+                # Index in LocalRAG
+                if self.local_rag:
+                    self.local_rag.add_document(content, metadata)
+                    results["local_rag"] = {
+                        "success": True,
+                        "message": "Document added to LocalRAG FAISS index"
+                    }
+                else:
+                    results["local_rag"] = {
+                        "success": False,
+                        "error": "LocalRAG not initialized"
+                    }
+            except Exception as e:
+                results["local_rag"] = {
+                    "success": False,
+                    "error": str(e)
                 }
+        
+        if use_system in ["cocoindex", "all"] and self.cocoindex_enabled:
+            try:
+                # Index in CocoIndex
+                if self.cocoindex_client:
+                    # Use CocoIndex flow to process and index the document
+                    doc_id = metadata.get("id", f"doc_{datetime.now().strftime('%Y%m%d_%H%M%S')}")
+                    
+                    # Create a data source for the document
+                    document_data = {
+                        "doc_id": doc_id,
+                        "content": content,
+                        "metadata": metadata
+                    }
+                    
+                    # Process through CocoIndex embedding flow
+                    embedding_result = self.cocoindex_client.process_document(
+                        document_data,
+                        embedding_model="sentence-transformers/all-MiniLM-L6-v2",
+                        collection_name="document_embeddings"
+                    )
+                    
+                    results["cocoindex"] = {
+                        "success": True,
+                        "message": "Document added to CocoIndex with embedding",
+                        "doc_id": doc_id
+                    }
+                else:
+                    results["cocoindex"] = {
+                        "success": False,
+                        "error": "CocoIndex not initialized"
+                    }
             except Exception as e:
                 results["cocoindex"] = {
                     "success": False,
@@ -526,15 +478,16 @@ class QuadRAGAdapter:
                 "documents": len(self.local_rag.documents) if self.local_rag else 0
             },
             "cocoindex": {
-                "enabled": self.coco_enabled,
+                "enabled": self.cocoindex_enabled,
                 "available": COCOINDEX_AVAILABLE,
-                "flow_loaded": self._coco_flow is not None
+                "connected": self._cocoindex_client is not None,
+                "database_url": self.database_url
             },
             "settings": {
                 "parallel_search": self.parallel_search,
                 "upstash_weight": self.upstash_weight,
                 "local_rag_weight": self.local_rag_weight,
-                "coco_weight": self.coco_weight
+                "cocoindex_weight": self.cocoindex_weight
             }
         }
         
@@ -547,28 +500,40 @@ class QuadRAGAdapter:
         except Exception as e:
             status["upstash"]["error"] = str(e)
         
+        # Test CocoIndex connection
+        if self.cocoindex_enabled and COCOINDEX_AVAILABLE:
+            try:
+                client = self.cocoindex_client
+                if client:
+                    # Test CocoIndex connection by checking collection info
+                    collection_info = client.get_collection_info("document_embeddings")
+                    status["cocoindex"]["document_count"] = collection_info.get("document_count", 0)
+                    status["cocoindex"]["connected"] = True
+            except Exception as e:
+                status["cocoindex"]["error"] = str(e)
+        
         return status
 
 
 # Create singleton instance
-quad_rag_adapter = QuadRAGAdapter()
+triple_rag_adapter = TripleRAGAdapter()
 
 # Backward compatibility
-triple_rag_adapter = quad_rag_adapter
-dual_rag_adapter = quad_rag_adapter
+dual_rag_adapter = triple_rag_adapter
+quad_rag_adapter = triple_rag_adapter
 
 
 # Convenience functions for backward compatibility
 async def search(query: str, **kwargs) -> List[Dict[str, Any]]:
-    """Search using the quad RAG adapter"""
-    return await quad_rag_adapter.search(query, **kwargs)
+    """Search using the triple RAG adapter"""
+    return await triple_rag_adapter.search(query, **kwargs)
 
 
 async def index_document(content: str, metadata: Dict[str, Any], **kwargs) -> Dict[str, Any]:
-    """Index a document using the quad RAG adapter"""
-    return await quad_rag_adapter.index_document(content, metadata, **kwargs)
+    """Index a document using the triple RAG adapter"""
+    return await triple_rag_adapter.index_document(content, metadata, **kwargs)
 
 
 def get_adapter_status() -> Dict[str, Any]:
-    """Get status of the quad RAG adapter"""
-    return quad_rag_adapter.get_status()
+    """Get status of the triple RAG adapter"""
+    return triple_rag_adapter.get_status()

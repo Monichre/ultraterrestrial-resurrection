@@ -12,11 +12,13 @@ This analysis provides a comprehensive understanding of the entity extraction wo
 ### 1. Main Entry Point: `main.py`
 
 The process begins when a user runs:
+
 ```bash
 python main.py "https://youtube.com/watch?v=..."
 ```
 
 **Key Functions:**
+
 - `process_url()` - Routes to YouTube or web processing
 - `process_youtube_url_enhanced()` via `knowledge_base_service.py`
 - Falls back to `process_youtube_url_original()` if enhanced fails
@@ -26,6 +28,7 @@ python main.py "https://youtube.com/watch?v=..."
 **Triggered by**: YouTube URL input to main.py
 
 **Process Flow:**
+
 ```
 generate_transcript(url) →
 ├── get_video_info_and_transcript(url) 
@@ -48,14 +51,19 @@ generate_transcript(url) →
 **Key Method**: `add_youtube_to_knowledge_base(data, file_paths)`
 
 **Process Flow:**
+
 ```
 add_youtube_to_knowledge_base() →
 ├── Index files in local knowledge base
+├── Sync to local postgresql + pgvector + cocoindex db instance ultraterrestrial
+├── Sync to OpenAI
+├── Sync to Upstash Vector (if configured)
 ├── Sync to Upstash Search (if configured)
 └── **ENTITY PROCESSING TRIGGER** → interactive_entity_processor.py
 ```
 
 **Entity Processing Trigger (Lines 178-217):**
+
 ```python
 # NEW: Interactive Entity Processing AFTER saving to knowledge base
 summary_file = file_paths.get('summary_path') or file_paths.get('summary_file')
@@ -77,6 +85,7 @@ if summary_file and os.path.exists(summary_file):
 **Main Entry Point**: `process_summary_file_interactive(summary_file_path, video_id, interactive=False)`
 
 **Process Flow:**
+
 ```
 process_summary_file_interactive() →
 ├── Read summary file content
@@ -96,6 +105,7 @@ process_summary_file_interactive() →
 **Main Class**: `EntityExtractionAgent`
 
 **Process Flow:**
+
 ```
 EntityExtractionAgent.extract_entities(text) →
 ├── Creates async event loop (for backward compatibility)
@@ -110,6 +120,7 @@ EntityExtractionAgent.extract_entities(text) →
 ```
 
 **AI Models Used:**
+
 - **OpenAI**: Uses function calling with structured schema
 - **Anthropic**: Uses JSON-formatted prompts with schema validation
 - **Default Models**: gpt-4o-mini, claude-3-haiku-20240307
@@ -121,6 +132,7 @@ EntityExtractionAgent.extract_entities(text) →
 **Key Function**: `search_record_for_analysis(analysis_text, table_name, search_field)`
 
 **Process Flow:**
+
 ```
 search_record_for_analysis() →
 ├── Takes first 50 characters as query fragment
@@ -130,6 +142,7 @@ search_record_for_analysis() →
 ```
 
 **Table Mappings:**
+
 - `personnel` → personnel table
 - `organizations` → organizations table  
 - `topics` → topics table
@@ -138,13 +151,13 @@ search_record_for_analysis() →
 
 ## DuckDuckGo Usage Analysis
 
-### Where DuckDuckGo is Referenced:
+### Where DuckDuckGo is Referenced
 
 1. **`utils/tools.py`** (Line 7): `from agno.tools.duckduckgo import DuckDuckGoTools`
    - **Purpose**: General tool initialization for agents
    - **Usage**: Available to agents but NOT used in entity extraction workflow
 
-2. **`research/workflow.py`** (Line 11): `from phi.tools.duckduckgo import DuckDuckGo` 
+2. **`research/workflow.py`** (Line 11): `from phi.tools.duckduckgo import DuckDuckGo`
    - **Purpose**: Web research in unified research system
    - **Usage**: Separate research workflow, NOT part of entity extraction
 
@@ -155,6 +168,7 @@ search_record_for_analysis() →
 ### **Critical Finding**: DuckDuckGo is NOT used in the entity extraction workflow
 
 The entity extraction process works entirely with:
+
 1. **AI-generated summaries** (from ContentAnalysisEngine)
 2. **OpenAI/Anthropic API calls** (for entity extraction)
 3. **Xata database searches** (for entity matching)
@@ -163,19 +177,23 @@ DuckDuckGo tools are available for web research tasks but are completely separat
 
 ## Summary vs Entity Extraction Distinction
 
-### Summary File Creation:
+### Summary File Creation
+
 ```
 YouTube Transcript → ContentAnalysisEngine.analyze_content() → AI Summary File
 ```
+
 - **Purpose**: Create structured analysis of video content
 - **AI Model**: OpenAI GPT or Anthropic Claude
 - **Output**: Text file with sections like "Topics Covered:", "Personnel Mentioned:"
 - **Location**: `{date}/{video_id}/{title}Summary.txt`
 
-### Entity Extraction:
+### Entity Extraction
+
 ```
 AI Summary File → EntityExtractionAgent.extract_entities() → Structured Entities → Xata Search
 ```
+
 - **Purpose**: Extract structured entities from the summary text
 - **AI Model**: OpenAI GPT (function calling) or Anthropic Claude (JSON)
 - **Output**: JSON with categorized entities + confidence scores + Xata matches
@@ -198,13 +216,15 @@ AI Summary File → EntityExtractionAgent.extract_entities() → Structured Enti
 
 ## Key Configuration Points
 
-### Environment Variables:
+### Environment Variables
+
 - `OPENAI_API_KEY` - Required for AI entity extraction
 - `ANTHROPIC_API_KEY` - Alternative AI provider
 - `XATA_API_KEY` + `XATA_DATABASE_URL` - Required for entity search
 - `UPSTASH_SEARCH_URL` + `UPSTASH_SEARCH_TOKEN` - Optional search sync
 
-### Critical Dependencies:
+### Critical Dependencies
+
 - **YouTube Processing**: yt-dlp, ContentAnalysisEngine
 - **Entity Extraction**: OpenAI/Anthropic APIs, structured prompts
 - **Database Search**: Xata Python SDK, database connectivity
@@ -212,19 +232,22 @@ AI Summary File → EntityExtractionAgent.extract_entities() → Structured Enti
 
 ## Troubleshooting Guide
 
-### Entity Extraction Not Running:
+### Entity Extraction Not Running
+
 1. Check if summary file exists at expected path
 2. Verify AI API keys (OpenAI/Anthropic) are configured
 3. Ensure EntityExtractionAgent can initialize
 4. Check logs for entity processing errors
 
-### No Xata Matches Found:
+### No Xata Matches Found
+
 1. Verify XATA_API_KEY and XATA_DATABASE_URL
 2. Check if target tables exist (personnel, organizations, etc.)
 3. Verify search field mapping (usually 'name')
 4. Check if database contains relevant records
 
-### Missing Entity Results:
+### Missing Entity Results
+
 1. Check entity_processing_results.json file creation
 2. Verify write permissions to video folder
 3. Look for processing errors in logs

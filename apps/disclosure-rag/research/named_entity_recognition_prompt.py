@@ -8,7 +8,7 @@ Your task is to process data from a variety of sources according to the followin
 
 ### PERSON
 
-- Labels: PERSONNEL, KEY_FIGURE, WITNESS, EXPERT, AUTHOR
+- Labels: PERSONNEL, KEY FIGURE, WITNESS, EXPERT, AUTHOR
 - Attributes:
   - role: string
   - credibility: numeric(1-10)

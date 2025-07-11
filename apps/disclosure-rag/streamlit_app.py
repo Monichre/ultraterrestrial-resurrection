@@ -28,6 +28,7 @@ try:
     from agents.entity_extraction_agent import EntityExtractionAgent
     from processing.web_content_processor import WebContentProcessor
     from components.data_sources_navigator import render_data_sources_navigator
+    from scripts.bulk_folder_ingestion import BulkFolderIngestion, DocumentFile
 except ImportError as e:
     st.error(f"Import error: {e}")
     st.stop()
@@ -120,6 +121,117 @@ def process_document(content: str, title: str = "Document") -> Dict[str, Any]:
         except Exception as e:
             st.error(f"Error processing document: {e}")
             return None
+
+def process_bulk_folder_import(folder_path: str, file_types: List[str], batch_size: Optional[int] = None) -> bool:
+    """Process bulk folder import using the BulkFolderIngestion system."""
+    try:
+        import asyncio
+        
+        # Initialize ingestion system
+        st.write("🔧 Initializing Triple RAG ingestion system...")
+        ingestion = BulkFolderIngestion()
+        
+        # Find files to process
+        folder_path_obj = Path(folder_path)
+        files_to_process = []
+        
+        for file_type in file_types:
+            files_to_process.extend(list(folder_path_obj.glob(f"*{file_type}")))
+            files_to_process.extend(list(folder_path_obj.glob(f"**/*{file_type}")))
+        
+        if not files_to_process:
+            st.error("No files found to process")
+            return False
+        
+        # Remove duplicates and sort
+        files_to_process = sorted(list(set(files_to_process)))
+        total_files = len(files_to_process)
+        
+        st.write(f"📁 Found {total_files} files to process")
+        
+        # Create progress containers
+        progress_bar = st.progress(0)
+        status_text = st.empty()
+        results_container = st.container()
+        
+        # Process files
+        processed = 0
+        failed = 0
+        
+        async def process_files():
+            nonlocal processed, failed
+            
+            for i, file_path in enumerate(files_to_process):
+                # Update progress
+                progress = (i + 1) / total_files
+                progress_bar.progress(progress)
+                status_text.text(f"Processing [{i+1}/{total_files}]: {file_path.name}")
+                
+                try:
+                    # Create document file object
+                    doc_file = DocumentFile(
+                        path=file_path,
+                        name=file_path.name,
+                        size=file_path.stat().st_size,
+                        extension=file_path.suffix.lower(),
+                        mime_type="application/pdf" if file_path.suffix.lower() == '.pdf' else "text/plain"
+                    )
+                    
+                    # Process document
+                    result = await ingestion.process_single_document(doc_file)
+                    
+                    if result.get('success', False):
+                        processed += 1
+                        with results_container:
+                            st.success(f"✅ {file_path.name}")
+                    else:
+                        failed += 1
+                        with results_container:
+                            st.error(f"❌ {file_path.name}: {result.get('error', 'Unknown error')}")
+                
+                except Exception as e:
+                    failed += 1
+                    with results_container:
+                        st.error(f"❌ {file_path.name}: {str(e)}")
+                
+                # Batch pause
+                if batch_size and (i + 1) % batch_size == 0 and i + 1 < total_files:
+                    st.info(f"Completed batch of {batch_size} files. Continuing...")
+        
+        # Run async processing
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        
+        try:
+            loop.run_until_complete(process_files())
+        finally:
+            loop.close()
+        
+        # Final summary
+        progress_bar.progress(1.0)
+        status_text.text("Processing complete!")
+        
+        success_rate = (processed / total_files) * 100 if total_files > 0 else 0
+        
+        st.markdown(f"""
+        ### 📊 Bulk Import Summary
+        
+        - **Total Files:** {total_files}
+        - **Successfully Processed:** {processed}
+        - **Failed:** {failed}
+        - **Success Rate:** {success_rate:.1f}%
+        
+        The documents have been indexed in the Triple RAG system:
+        - ☁️ **Upstash Vector** - Cloud vector search
+        - 💾 **LocalRAG FAISS** - Local vector storage  
+        - 🗄️ **PostgreSQL pgvector** - Advanced analytics
+        """)
+        
+        return processed > 0
+        
+    except Exception as e:
+        st.error(f"Bulk import failed: {str(e)}")
+        return False
 
 def create_real_time_dashboard(entities: Dict[str, Any]):
     """Create interactive dashboard with real-time updates"""
@@ -421,7 +533,7 @@ def main():
     
     # Document input options
     st.sidebar.subheader("📄 Document Input")
-    input_method = st.sidebar.radio("Choose input method:", ["Text Input", "File Upload", "URL Processing"])
+    input_method = st.sidebar.radio("Choose input method:", ["Text Input", "File Upload", "Bulk Folder Import", "URL Processing"])
     
     if input_method == "Text Input":
         content = st.sidebar.text_area(
@@ -460,6 +572,65 @@ def main():
                     st.experimental_rerun()
             except Exception as e:
                 st.error(f"File processing error: {e}")
+    
+    elif input_method == "Bulk Folder Import":
+        st.sidebar.markdown("### 📁 Bulk Folder Import")
+        st.sidebar.info("Import entire folders of PDF, TXT, DOCX, MD, RTF files through Triple RAG system")
+        
+        folder_path = st.sidebar.text_input(
+            "Folder path:",
+            placeholder="e.g., data/raw/greer-document-library",
+            help="Enter the path to a folder containing documents to import"
+        )
+        
+        # Processing options
+        batch_size = st.sidebar.selectbox(
+            "Processing batch size:",
+            [None, 5, 10, 20],
+            format_func=lambda x: "All at once" if x is None else f"Batches of {x}"
+        )
+        
+        file_types = st.sidebar.multiselect(
+            "File types to include:",
+            [".pdf", ".txt", ".docx", ".md", ".rtf"],
+            default=[".pdf", ".txt", ".md"]
+        )
+        
+        if folder_path and st.sidebar.button("🔍 Preview Folder", type="secondary"):
+            if os.path.exists(folder_path):
+                folder_path_obj = Path(folder_path)
+                
+                # Count files
+                files_found = []
+                for file_type in file_types:
+                    files_found.extend(list(folder_path_obj.glob(f"*{file_type}")))
+                    files_found.extend(list(folder_path_obj.glob(f"**/*{file_type}")))
+                
+                if files_found:
+                    st.sidebar.success(f"Found {len(files_found)} documents")
+                    
+                    # Show file type breakdown
+                    type_counts = {}
+                    for f in files_found:
+                        ext = f.suffix.lower()
+                        type_counts[ext] = type_counts.get(ext, 0) + 1
+                    
+                    for ext, count in type_counts.items():
+                        st.sidebar.write(f"• {ext.upper()}: {count} files")
+                else:
+                    st.sidebar.warning("No supported files found")
+            else:
+                st.sidebar.error("Folder path does not exist")
+        
+        if folder_path and st.sidebar.button("📥 Start Bulk Import", type="primary"):
+            if os.path.exists(folder_path):
+                with st.spinner("Starting bulk import..."):
+                    success = process_bulk_folder_import(folder_path, file_types, batch_size)
+                if success:
+                    st.success("✅ Bulk import completed successfully!")
+                    st.experimental_rerun()
+            else:
+                st.error("❌ Invalid folder path")
     
     elif input_method == "URL Processing":
         url = st.sidebar.text_input("Enter URL:", placeholder="https://...")

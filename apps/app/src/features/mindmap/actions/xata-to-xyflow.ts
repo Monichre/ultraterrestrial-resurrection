@@ -144,8 +144,19 @@ async function transformForReactflow(
 	originalType: string,
 	layoutType: "horizontal" | "vertical" | "radial" | "grid" = "horizontal",
 ): Promise<XataToXYFlowResult> {
+	const transformStartTime = performance.now()
+	
 	try {
-		// Validate inputs
+		console.log( '🔄 transformForReactflow: Starting data transformation' )
+		console.log( '📋 Transform parameters:', { 
+			hasXataResult: !!xataResult,
+			sourceNodeId: sourceNode?.id, 
+			existingNodesCount: existingNodes?.length || 0,
+			originalType,
+			layoutType 
+		} )
+		
+		// Enhanced input validation
 		if ( !xataResult ) {
 			throw new Error( 'transformForReactflow: Invalid xataResult parameter' )
 		}
@@ -159,109 +170,257 @@ async function transformForReactflow(
 			existingNodes = []
 		}
 
+		// Validate xataResult structure
+		if ( typeof xataResult.answer !== 'string' ) {
+			console.warn( 'transformForReactflow: Missing or invalid answer field' )
+		}
+
+		if ( typeof xataResult.sessionId !== 'string' ) {
+			console.warn( 'transformForReactflow: Missing or invalid sessionId field' )
+		}
+
 		// Extract the related records from the Xata query result
 		const { answer, records } = xataResult
 
+		console.log( '📊 Data extraction analysis:', {
+			hasAnswer: !!answer,
+			answerLength: answer?.length || 0,
+			hasRecords: Array.isArray( records ),
+			recordCount: records?.length || 0
+		} )
+
 		if ( !Array.isArray( records ) ) {
 			console.warn( 'transformForReactflow: Records is not an array, using empty array' )
-			return { nodes: [], edges: [], answer }
+			return { 
+				nodes: [], 
+				edges: [], 
+				answer: answer || 'No answer provided',
+				sessionId: xataResult.sessionId
+			}
+		}
+
+		if ( records.length === 0 ) {
+			console.log( '📭 transformForReactflow: No records to process, returning empty result' )
+			return { 
+				nodes: [], 
+				edges: [], 
+				answer: answer || 'No records found',
+				sessionId: xataResult.sessionId
+			}
 		}
 
 		const nodes: ReactFlowNode[] = []
 		const edges: ReactFlowEdge[] = []
+		const processingErrors: string[] = []
 
 		// Create a central node as the starting point for our graph
 		const centralNodeId = sourceNode.id
 
-		// Create nodes for each record with parentId set to the source node
-		for ( const record of records ) {
-			if ( !record || !record.id ) {
-				console.warn( 'transformForReactflow: Skipping invalid record:', record )
-				continue
-			}
+		console.log( `🔄 Processing ${records.length} records for node/edge creation` )
 
+		// Create nodes for each record with parentId set to the source node
+		for ( let i = 0; i < records.length; i++ ) {
+			const record = records[i]
+			
 			try {
+				console.log( `📝 Processing record ${i + 1}/${records.length}: ${record?.id || 'unknown'}` )
+				
+				if ( !record || !record.id ) {
+					const warning = `Record ${i} is invalid or missing ID`
+					console.warn( `⚠️ transformForReactflow: ${warning}:`, record )
+					processingErrors.push( warning )
+					continue
+				}
+
+				// Validate record structure
+				if ( typeof record.id !== 'string' || record.id.trim().length === 0 ) {
+					const warning = `Record ${i} has invalid ID: ${record.id}`
+					console.warn( `⚠️ transformForReactflow: ${warning}` )
+					processingErrors.push( warning )
+					continue
+				}
+
+				// Create enhanced node data with metadata
+				const nodeData = {
+					...record,
+					type: originalType,
+					// Add transformation metadata for debugging
+					_transformMeta: {
+						sourceIndex: i,
+						transformedAt: new Date().toISOString(),
+						sourceTable: originalType,
+						transformationId: `${centralNodeId}-${Date.now()}-${i}`
+					}
+				}
+
 				// Create a node for this record
 				const nodeId = record.id
-				nodes.push( {
+				const newNode: ReactFlowNode = {
 					id: nodeId,
 					type: "enhancedEntityNodePOC",
 					position: { x: 0, y: 0 }, // Initial position will be set by layout
-					data: {
-						...record,
-						type: originalType,
-					},
+					data: nodeData,
 					parentId: centralNodeId,
-				} )
+				}
+
+				nodes.push( newNode )
 
 				// Create an edge connecting to the central node
-				edges.push( {
-					id: `edge-${centralNodeId}-${nodeId}`,
+				const edgeId = `edge-${centralNodeId}-${nodeId}`
+				const newEdge: ReactFlowEdge = {
+					id: edgeId,
 					source: centralNodeId,
 					target: nodeId,
 					type: "smoothstep",
 					animated: true,
-				} )
+				}
+
+				edges.push( newEdge )
+				
+				console.log( `✅ Created node and edge for record: ${nodeId}` )
 			} catch ( error ) {
-				console.error( `transformForReactflow: Error processing record ${record.id}:`, error )
+				const errorMsg = `Error processing record ${record?.id || i}: ${error instanceof Error ? error.message : 'Unknown error'}`
+				console.error( `❌ transformForReactflow: ${errorMsg}` )
+				processingErrors.push( errorMsg )
 				// Continue processing other records
 			}
 		}
 
+		console.log( `📈 Node/Edge creation summary:` )
+		console.log( `  - Records processed: ${records.length}` )
+		console.log( `  - Nodes created: ${nodes.length}` )
+		console.log( `  - Edges created: ${edges.length}` )
+		console.log( `  - Processing errors: ${processingErrors.length}` )
+		
+		if ( processingErrors.length > 0 ) {
+			console.warn( `⚠️ Processing errors encountered:`, processingErrors )
+		}
+
+		// Enhanced layout algorithm section with comprehensive error handling
+		const layoutStartTime = performance.now()
+		
 		// Validate layout parameters
 		const validLayoutTypes = ["horizontal", "vertical", "radial", "grid"]
 		if ( !validLayoutTypes.includes( layoutType ) ) {
-			console.warn( `transformForReactflow: Invalid layoutType ${layoutType}, using horizontal` )
+			console.warn( `transformForReactflow: Invalid layoutType '${layoutType}', using 'horizontal'` )
 			layoutType = "horizontal"
+		}
+
+		if ( nodes.length === 0 ) {
+			console.log( '📭 transformForReactflow: No nodes to layout, skipping layout algorithm' )
+			return {
+				nodes: [],
+				edges: [],
+				answer: answer || 'No records found',
+				sessionId: xataResult.sessionId
+			}
 		}
 
 		// Determine the best layout based on number of nodes and type
 		const direction = layoutType
 		let spacing = 50
-
-		// For radial layouts with many nodes, increase the radius
-		// by adjusting parentChildSpacing
 		let parentChildSpacing = 100
+
+		// Adaptive layout parameters based on node count and type
+		console.log( `🎨 Calculating layout parameters for ${nodes.length} nodes with '${direction}' layout` )
+		
 		if ( direction === "radial" && nodes.length > 5 ) {
 			parentChildSpacing = 120 + nodes.length * 5 // Scale with node count
+			console.log( `📐 Radial layout: Adjusted parentChildSpacing to ${parentChildSpacing} for ${nodes.length} nodes` )
 		}
 
-		// For grid layouts, adjust spacing based on node count
 		if ( direction === "grid" ) {
 			spacing = 30
+			console.log( `📐 Grid layout: Using spacing of ${spacing}` )
 		}
 
-		try {
-			// Apply our layout algorithm to position the nodes
-			const layoutedNodes = organizeNodeLayout( nodes, edges, {
-				direction,
-				parentChildSpacing,
-				siblingSpacing: spacing,
-				nodeWidth: 200,
-				nodeHeight: 100,
-				centerChildren: true,
-			} )
+		// Validate layout configuration
+		const layoutConfig = {
+			direction,
+			parentChildSpacing,
+			siblingSpacing: spacing,
+			nodeWidth: 200,
+			nodeHeight: 100,
+			centerChildren: true,
+		}
 
-			return {
-				nodes: layoutedNodes,
-				edges,
-				answer,
+		console.log( '🎨 Layout configuration:', layoutConfig )
+
+		let layoutedNodes: ReactFlowNode[]
+		
+		try {
+			console.log( `🚀 Applying ${direction} layout algorithm...` )
+			
+			// Apply our layout algorithm to position the nodes
+			layoutedNodes = organizeNodeLayout( nodes, edges, layoutConfig )
+			
+			const layoutDuration = performance.now() - layoutStartTime
+			console.log( `✅ Layout algorithm completed successfully in ${layoutDuration.toFixed(2)}ms` )
+			
+			// Validate layout results
+			const invalidPositions = layoutedNodes.filter( node => 
+				!node.position || 
+				typeof node.position.x !== 'number' || 
+				typeof node.position.y !== 'number' ||
+				isNaN( node.position.x ) ||
+				isNaN( node.position.y )
+			)
+			
+			if ( invalidPositions.length > 0 ) {
+				console.warn( `⚠️ Layout produced ${invalidPositions.length} nodes with invalid positions` )
+				// Fix invalid positions
+				invalidPositions.forEach( ( node, index ) => {
+					node.position = { x: index * 220, y: 0 }
+					console.log( `🔧 Fixed position for node ${node.id}: (${node.position.x}, ${node.position.y})` )
+				} )
 			}
+
 		} catch ( layoutError ) {
-			console.error( 'transformForReactflow: Layout algorithm failed:', layoutError )
-			// Return nodes with default positions if layout fails
-			return {
-				nodes: nodes.map( ( node, index ) => ( {
+			const layoutDuration = performance.now() - layoutStartTime
+			const errorMsg = `Layout algorithm failed after ${layoutDuration.toFixed(2)}ms: ${layoutError instanceof Error ? layoutError.message : 'Unknown error'}`
+			console.error( `❌ transformForReactflow: ${errorMsg}` )
+			
+			// Apply fallback positioning
+			console.log( '🔄 Applying fallback linear positioning...' )
+			layoutedNodes = nodes.map( ( node, index ) => {
+				const fallbackPosition = { x: index * 220, y: 0 }
+				console.log( `🔧 Fallback position for ${node.id}: (${fallbackPosition.x}, ${fallbackPosition.y})` )
+				
+				return {
 					...node,
-					position: { x: index * 220, y: 0 } // Simple fallback positioning
-				} ) ),
-				edges,
-				answer,
-			}
+					position: fallbackPosition
+				}
+			} )
+			
+			console.log( `✅ Fallback positioning applied to ${layoutedNodes.length} nodes` )
+		}
+
+		const transformDuration = performance.now() - transformStartTime
+		console.log( `🎯 transformForReactflow completed successfully in ${transformDuration.toFixed(2)}ms` )
+		console.log( `📊 Final transformation results:` )
+		console.log( `  - Nodes: ${layoutedNodes.length}` )
+		console.log( `  - Edges: ${edges.length}` )
+		console.log( `  - Processing errors: ${processingErrors.length}` )
+		console.log( `  - Layout type: ${direction}` )
+
+		return {
+			nodes: layoutedNodes,
+			edges,
+			answer: answer || 'Transformation completed',
+			sessionId: xataResult.sessionId
 		}
 	} catch ( error ) {
-		console.error( 'transformForReactflow: Transformation failed:', error )
-		throw new Error( `Data transformation failed: ${error instanceof Error ? error.message : 'Unknown error'}` )
+		const transformDuration = performance.now() - transformStartTime
+		const errorMsg = `Data transformation failed after ${transformDuration.toFixed(2)}ms: ${error instanceof Error ? error.message : 'Unknown error'}`
+		console.error( `❌ transformForReactflow: ${errorMsg}` )
+		console.error( `📊 Error context:`, {
+			sourceNodeId: sourceNode?.id,
+			originalType,
+			layoutType,
+			hasXataResult: !!xataResult,
+			recordCount: xataResult?.records?.length || 0
+		} )
+		throw new Error( errorMsg )
 	}
 }
 
@@ -329,14 +488,24 @@ export const xataToXYFlow = async ( {
 	historicalFilter,
 	tourContext,
 }: XataToXYFlowParams ): Promise<XataToXYFlowResponse> => {
+	const startTime = performance.now()
+	
 	try {
-		// Input validation
+		console.log( "🚀 xataToXYFlow: Starting enhanced flow with comprehensive logging" )
+		console.log( "📋 Parameters:", { question, table, sourceNodeId: sourceNode?.id, layoutType } )
+		
+		// Enhanced input validation
 		if ( !question || typeof question !== 'string' || question.trim().length === 0 ) {
 			throw new Error( 'xataToXYFlow: Invalid or empty question parameter' )
 		}
 
 		if ( !table || typeof table !== 'string' ) {
 			throw new Error( 'xataToXYFlow: Invalid table parameter' )
+		}
+
+		// Validate table exists in Xata client
+		if ( !xata.db[table] ) {
+			throw new Error( `xataToXYFlow: Table '${table}' does not exist in database` )
 		}
 
 		if ( !sourceNode || !sourceNode.id ) {
@@ -349,6 +518,7 @@ export const xataToXYFlow = async ( {
 		}
 
 		console.log( "🚀 ~ xataToXYFlow ~ question:", question )
+		console.log( "📊 ~ xataToXYFlow ~ existingNodes count:", existingNodes.length )
 
 		// Convert rules to array if it's a string
 		const rulesArray = Array.isArray( rules ) ? rules : [rules]
@@ -375,22 +545,64 @@ export const xataToXYFlow = async ( {
 			validRules.push( `Tour narrative context: ${tourContext.narrativeContext}` )
 		}
 
-		const response = await askXataWithAi( {
-			question,
-			table,
-			rules: validRules,
-			sessionId
-		} )
+		console.log( "🤖 Calling askXataWithAi with:", { question, table, rulesCount: validRules.length, sessionId } )
+		
+		let response
+		try {
+			response = await askXataWithAi( {
+				question,
+				table,
+				rules: validRules,
+				sessionId
+			} )
+		} catch ( aiError ) {
+			console.error( "❌ askXataWithAi failed:", aiError )
+			throw new Error( `AI query failed: ${aiError instanceof Error ? aiError.message : 'Unknown error'}` )
+		}
 
 		if ( !response ) {
 			throw new Error( 'xataToXYFlow: No response from askXataWithAi' )
 		}
 
+		console.log( "✅ askXataWithAi response received" )
+		console.log( "📊 Response analysis:", {
+			hasAnswer: !!response.answer,
+			answerLength: response.answer?.length || 0,
+			hasRecords: Array.isArray( response.records ),
+			recordCount: response.records?.length || 0,
+			hasSessionId: !!response.sessionId
+		} )
 		console.log( "🚀 ~ xataToXYFlow ~ response:", response )
+
+		// Fix: Convert record IDs to full record objects before transformation
+		console.log( "🔄 Converting record IDs to full record objects..." )
+		let fullRecords: any[] = []
+		
+		try {
+			fullRecords = response.records && response.records.length > 0 
+				? await fetchRecords( response.records, table )
+				: []
+		} catch ( fetchError ) {
+			console.error( "❌ Failed to fetch full records:", fetchError )
+			// Continue with empty records rather than failing completely
+			fullRecords = []
+		}
+		
+		console.log( "📊 Record conversion results:", {
+			originalRecordIds: response.records?.length || 0,
+			fullRecordsRetrieved: fullRecords?.length || 0,
+			sampleRecord: fullRecords?.[0] ? Object.keys( fullRecords[0] ) : []
+		} )
+
+		// Create enhanced response with full record objects
+		const enhancedResponse = {
+			...response,
+			records: fullRecords
+		}
 
 		// Pass the layoutType to transformForReactflow
 		const { nodes, edges, answer } = await transformForReactflow(
-			response,
+			enhancedResponse,
 			sourceNode,
 			existingNodes,
 			table,

@@ -7,7 +7,7 @@ import {v4 as uuidv4} from 'uuid'
 
 import OracleInput from '@/features/mindmap/components/menus/mindmap-bottom-menu/oracle-input'
 import {AlertCircle, Brain, FileSearch, Lightbulb, SearchIcon, XIcon} from 'lucide-react'
-import {askAIAction, xataToXYFlow} from '@/features/mindmap/actions/xata-to-xyflow'
+import {askAIAction} from '@/features/mindmap/actions/xata-to-xyflow'
 import {OracleCommandMenu, type CommandItem} from './oracle-command-menu/OracleCommandMenu'
 import {UltraterrestrialModelSelection, type ModelAction} from './UltraterrestrialModelSelection'
 import {ENTITY_TYPES} from '@/features/mindmap/components/menus/mindmap-bottom-menu/entity-types'
@@ -36,12 +36,14 @@ import {
 } from '@/features/mindmap/agents/historical-query-agent'
 import {
   tourStateAgent,
+  type TourSession,
+} from '@/features/mindmap/agents/tour-state-agent'
+import {
   startGuidedTour,
   startFreeFormExploration,
   switchToFreeForm,
   progressTour,
-  type TourSession,
-} from '@/features/mindmap/agents/tour-state-agent'
+} from '@/features/mindmap/agents/tour-state-actions'
 
 // Define explicit types for our entities and nodes
 export interface MindMapNode {
@@ -374,7 +376,7 @@ export const MindMapBottomMenu = ({
       // Create user input node first
       const potentialUserNode = createEnhancedUserInputNode(
         getNextId(),
-        tourMode === 'guided' 
+        tourMode === 'guided'
           ? `Guided tour: Finding ${amount} ${type} records`
           : graphContext
             ? `Finding ${amount} related ${type} to expand your knowledge graph`
@@ -397,14 +399,22 @@ export const MindMapBottomMenu = ({
             taskId = await queueChronologicalProgression(session.state.graphContext, type, amount)
           } else {
             // Fallback to contextual expansion
-            taskId = await queueContextualExpansion(graphContext || createMinimalGraphContext(), type, amount)
+            taskId = await queueContextualExpansion(
+              graphContext || createMinimalGraphContext(),
+              type,
+              amount
+            )
           }
         } else if (graphContext && graphContext.historicalProgression) {
           // Use chronological progression for free-form with historical context
           taskId = await queueChronologicalProgression(graphContext, type, amount)
         } else {
           // Use contextual expansion for other cases
-          taskId = await queueContextualExpansion(graphContext || createMinimalGraphContext(), type, amount)
+          taskId = await queueContextualExpansion(
+            graphContext || createMinimalGraphContext(),
+            type,
+            amount
+          )
         }
 
         // Register callback for task completion
@@ -421,13 +431,12 @@ export const MindMapBottomMenu = ({
         })
 
         // Update task queue state
-        setAgentTaskQueue(prev => ({
+        setAgentTaskQueue((prev) => ({
           ...prev,
-          [taskId]: { ...result, id: taskId } as HistoricalQueryTask
+          [taskId]: {...result, id: taskId} as HistoricalQueryTask,
         }))
 
         console.log(`[MindMap Menu] Queued background task ${taskId} for ${type} records`)
-
       } catch (error) {
         console.error('Error queuing agent task:', error)
         updateNodeData(potentialUserNode.id, {
@@ -449,125 +458,140 @@ export const MindMapBottomMenu = ({
   )
 
   // Helper function to integrate agent results with React Flow
-  const integrateAgentResults = useCallback((
-    userNode: any, 
-    result: { nodes: ReactFlowNode[]; edges: ReactFlowEdge[]; analysis: string; suggestions: string[] },
-    type: string
-  ) => {
-    if (result.nodes.length > 0) {
-      // Filter out existing nodes
-      const newNodes = result.nodes.filter(node => !nodeExists(node.id, node.type))
-      
-      if (newNodes.length > 0) {
-        // Position nodes around the user input node with React Flow optimization
-        const radius = 300
-        const angleStep = (2 * Math.PI) / newNodes.length
+  const integrateAgentResults = useCallback(
+    (
+      userNode: any,
+      result: {
+        nodes: ReactFlowNode[]
+        edges: ReactFlowEdge[]
+        analysis: string
+        suggestions: string[]
+      },
+      type: string
+    ) => {
+      if (result.nodes.length > 0) {
+        // Filter out existing nodes
+        const newNodes = result.nodes.filter((node) => !nodeExists(node.id, node.type))
 
-        const positionedNodes = newNodes.map((node, index) => {
-          const angle = index * angleStep
-          const x = userNode.position.x + radius * Math.cos(angle)
-          const y = userNode.position.y + radius * Math.sin(angle)
+        if (newNodes.length > 0) {
+          // Position nodes around the user input node with React Flow optimization
+          const radius = 300
+          const angleStep = (2 * Math.PI) / newNodes.length
 
-          return {
-            ...node,
-            position: { x, y },
+          const positionedNodes = newNodes.map((node, index) => {
+            const angle = index * angleStep
+            const x = userNode.position.x + radius * Math.cos(angle)
+            const y = userNode.position.y + radius * Math.sin(angle)
+
+            return {
+              ...node,
+              position: {x, y},
+              // Ensure React Flow compatibility
+              connectable: true,
+              selectable: true,
+              deletable: true,
+              focusable: true,
+              draggable: true,
+              className: `agent-generated-node ${tourMode || 'free-form'}`,
+              style: {
+                border: tourMode === 'guided' ? '2px solid #3b82f6' : '2px solid #10b981',
+                borderRadius: '8px',
+              },
+            }
+          })
+
+          // Create edges with React Flow standards
+          const newEdges = result.edges.map((edge) => ({
+            ...edge,
             // Ensure React Flow compatibility
-            connectable: true,
             selectable: true,
             deletable: true,
             focusable: true,
-            draggable: true,
-            className: `agent-generated-node ${tourMode || 'free-form'}`,
+            updatable: true,
+            markerEnd: 'arrow',
+            className: `agent-generated-edge ${tourMode || 'free-form'}`,
             style: {
-              border: tourMode === 'guided' ? '2px solid #3b82f6' : '2px solid #10b981',
-              borderRadius: '8px'
-            }
-          }
-        })
+              ...edge.style,
+              strokeWidth: 2,
+              stroke: tourMode === 'guided' ? '#3b82f6' : '#10b981',
+            },
+          }))
 
-        // Create edges with React Flow standards
-        const newEdges = result.edges.map(edge => ({
-          ...edge,
-          // Ensure React Flow compatibility
-          selectable: true,
-          deletable: true,
-          focusable: true,
-          updatable: true,
-          markerEnd: 'arrow',
-          className: `agent-generated-edge ${tourMode || 'free-form'}`,
-          style: {
-            ...edge.style,
-            strokeWidth: 2,
-            stroke: tourMode === 'guided' ? '#3b82f6' : '#10b981'
-          }
-        }))
+          // Update user node with analysis
+          updateNodeData(userNode.id, {
+            input: `Found ${newNodes.length} ${type} records`,
+            answer: result.analysis,
+            suggestions: result.suggestions,
+          })
 
-        // Update user node with analysis
-        updateNodeData(userNode.id, {
-          input: `Found ${newNodes.length} ${type} records`,
-          answer: result.analysis,
-          suggestions: result.suggestions
-        })
+          // Add to graph
+          addNodes(positionedNodes)
+          addEdges(newEdges)
 
-        // Add to graph
-        addNodes(positionedNodes)
-        addEdges(newEdges)
-
-        console.log(`[MindMap Menu] Integrated ${newNodes.length} nodes and ${newEdges.length} edges from agent`)
+          console.log(
+            `[MindMap Menu] Integrated ${newNodes.length} nodes and ${newEdges.length} edges from agent`
+          )
+        } else {
+          updateNodeData(userNode.id, {
+            input: `No new ${type} data found. All relevant records are already on the graph.`,
+          })
+        }
       } else {
         updateNodeData(userNode.id, {
-          input: `No new ${type} data found. All relevant records are already on the graph.`,
+          input: `No ${type} data found in current context.`,
         })
       }
-    } else {
-      updateNodeData(userNode.id, {
-        input: `No ${type} data found in current context.`,
-      })
-    }
-  }, [addNodes, addEdges, updateNodeData, nodeExists, tourMode])
+    },
+    [addNodes, addEdges, updateNodeData, nodeExists, tourMode]
+  )
 
   // Helper function to create minimal graph context
-  const createMinimalGraphContext = useCallback((): GraphContext => ({
-    seedRecord: null,
-    connectedEntityTypes: new Set(),
-    timelineBounds: {},
-    relatedTopics: [],
-    keyPersonnel: [],
-    organizations: []
-  }), [])
+  const createMinimalGraphContext = useCallback(
+    (): GraphContext => ({
+      seedRecord: null,
+      connectedEntityTypes: new Set(),
+      timelineBounds: {},
+      relatedTopics: [],
+      keyPersonnel: [],
+      organizations: [],
+    }),
+    []
+  )
 
   // Tour control functions
-  const startTour = useCallback(async (tourId: string = 'roswell-disclosure', mode: 'guided' | 'free-form' = 'guided') => {
-    try {
-      const graphContext = getGraphContext(getNodes())
-      
-      let sessionId: string
-      if (mode === 'guided') {
-        sessionId = await startGuidedTour(tourId, graphContext)
-      } else {
-        sessionId = await startFreeFormExploration(tourId, graphContext)
+  const startTour = useCallback(
+    async (tourId: string = 'roswell-disclosure', mode: 'guided' | 'free-form' = 'guided') => {
+      try {
+        const graphContext = getGraphContext(getNodes())
+
+        let sessionId: string
+        if (mode === 'guided') {
+          sessionId = await startGuidedTour(tourId, graphContext)
+        } else {
+          sessionId = await startFreeFormExploration(tourId, graphContext)
+        }
+
+        setActiveTourSession(sessionId)
+        setTourMode(mode)
+
+        // Register for session updates
+        tourStateAgent.onSessionUpdate(sessionId, (session) => {
+          // Integrate tour state with React Flow
+          if (session.state.nodes.length > 0) {
+            addNodes(session.state.nodes)
+          }
+          if (session.state.edges.length > 0) {
+            addEdges(session.state.edges)
+          }
+        })
+
+        console.log(`[MindMap Menu] Started ${mode} tour ${tourId} with session ${sessionId}`)
+      } catch (error) {
+        console.error('Failed to start tour:', error)
       }
-
-      setActiveTourSession(sessionId)
-      setTourMode(mode)
-
-      // Register for session updates
-      tourStateAgent.onSessionUpdate(sessionId, (session) => {
-        // Integrate tour state with React Flow
-        if (session.state.nodes.length > 0) {
-          addNodes(session.state.nodes)
-        }
-        if (session.state.edges.length > 0) {
-          addEdges(session.state.edges)
-        }
-      })
-
-      console.log(`[MindMap Menu] Started ${mode} tour ${tourId} with session ${sessionId}`)
-      
-    } catch (error) {
-      console.error('Failed to start tour:', error)
-    }
-  }, [getNodes, addNodes, addEdges])
+    },
+    [getNodes, addNodes, addEdges]
+  )
 
   const toggleTourMode = useCallback(async () => {
     if (!activeTourSession) {
@@ -625,11 +649,11 @@ export const MindMapBottomMenu = ({
   const [modelMenuOpen, setModelMenuOpen] = useState(false)
   const [selectedModel, setSelectedModel] = useState<string | null>(null)
   const [deepResearchEnabled, setDeepResearchEnabled] = useState(false)
-  
+
   // Tour and agent state management
   const [activeTourSession, setActiveTourSession] = useState<string | null>(null)
   const [tourMode, setTourMode] = useState<'guided' | 'free-form' | null>(null)
-  const [agentTaskQueue, setAgentTaskQueue] = useState<{ [key: string]: HistoricalQueryTask }>({})
+  const [agentTaskQueue, setAgentTaskQueue] = useState<{[key: string]: HistoricalQueryTask}>({})
   const [backgroundProcessing, setBackgroundProcessing] = useState(false)
 
   const toggleDeepResearch = () => {
