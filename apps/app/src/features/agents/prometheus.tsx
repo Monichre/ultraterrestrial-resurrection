@@ -37,7 +37,7 @@ import {DocumentTopics} from '../document-processing/components/document-topics'
 import {DocumentProcessing} from '../document-processing/components/document-processing'
 import ErrorBoundary from '../../components/error-boundary'
 
-import {handleFileAction} from '../../../../../packages/ai/prometheus/lib/prometheus-file-handler'
+import {handleFileAction} from '@repo/ai'
 import {DocumentActions} from './lib/prometheus-document-actions'
 
 interface UseAutoResizeTextareaProps {
@@ -131,6 +131,7 @@ export function Prometheus() {
   })
 
   // Add a state to track PDF.js availability
+  const [isPdfJsAvailable, setIsPdfJsAvailable] = useState(false)
 
   const {textareaRef, adjustHeight} = useAutoResizeTextarea({
     minHeight: 60,
@@ -574,7 +575,7 @@ Content: ${att.content.substring(0, 1000)}${att.content.length > 1000 ? '...' : 
 
   return (
     <ErrorBoundary>
-      <div className='w-full max-w-2xl mx-auto relative z-10'>
+      <div className='w-full mx-auto relative z-10'>
         <motion.div
           layout
           className='relative z-10 space-y-8'
@@ -623,7 +624,6 @@ Content: ${att.content.substring(0, 1000)}${att.content.length > 1000 ? '...' : 
                 onFocus={() => setInputFocused(true)}
                 onBlur={() => setInputFocused(false)}
                 placeholder='Ask about UAPs/UFOs or request to ingest specific URLs...'
-                containerClassName='w-full'
                 className={cn(
                   'w-full px-4 py-3',
                   'resize-none',
@@ -637,7 +637,6 @@ Content: ${att.content.substring(0, 1000)}${att.content.length > 1000 ? '...' : 
                 style={{
                   overflow: 'hidden',
                 }}
-                showRing={false}
               />
             </div>
             <AnimatePresence>

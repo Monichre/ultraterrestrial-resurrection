@@ -15,9 +15,14 @@ import {
   ChevronUp,
   ChevronDown,
   BookOpen,
-  Star
+  Star,
+  Brain,
+  Users,
+  Zap,
+  Network,
+  TrendingUp
 } from 'lucide-react'
-import { useTour } from '../hooks/use-tour'
+import { useEnhancedTourController } from '../hooks/use-enhanced-tour-controller'
 import { useTourContext } from '../contexts/tour-context'
 import { type TourWaypoint } from '../types/tour'
 
@@ -99,11 +104,51 @@ export function HistoricalTourNavigation({
     tourContext,
     tourMode,
     suggestNextHistoricalRecords,
-    toggleTourMode
-  } = useTour({
-    showProgressIndicator: true,
-    allowSkipping: true,
-    allowBacktracking: true
+    toggleTourMode,
+    // Enhanced spatial intelligence functionality
+    tourSpatialState,
+    spatialGroups,
+    createTourNarrativeGroup,
+    suggestRecordsFromSpatialContext,
+    executeSuggestedGroupAction,
+    getSpatialProgressionSummary,
+    // Enhanced layout functionality
+    enhancedState,
+    currentLayout,
+    isLayoutUpdating,
+    enhancementLevel,
+    applyIntelligentLayout,
+    undoLayout,
+    redoLayout,
+    canUndo,
+    canRedo,
+    performanceMetrics
+  } = useEnhancedTourController({
+    spatialConfig: {
+      enableAutoGrouping: true,
+      enableNarrativeGrouping: true,
+      autoSuggestConnections: true,
+      spatialProximityThreshold: 200
+    },
+    layoutConfig: {
+      storyflowDirection: 'chronological',
+      temporalAlignment: {
+        enforceChronology: true,
+        timelineAxis: 'horizontal',
+        yearSpacing: 150
+      },
+      narrativeArcs: {
+        enableStoryArcs: true,
+        arcTension: 0.6,
+        arcHeight: 80
+      }
+    },
+    autoLayout: {
+      enableIntelligentPositioning: true,
+      repositionOnWaypointChange: true,
+      animateLayoutTransitions: true,
+      preserveUserPositions: false
+    }
   })
   
   // Use tour context for global tour state management
@@ -112,6 +157,7 @@ export function HistoricalTourNavigation({
   const [isPlaying, setIsPlaying] = useState(false)
   const [selectedPeriod, setSelectedPeriod] = useState<string | null>(null)
   const [showNarrative, setShowNarrative] = useState(true)
+  const [showSpatialIntelligence, setShowSpatialIntelligence] = useState(true)
   const containerRef = useRef<HTMLDivElement>(null)
   const timelineRef = useRef<HTMLDivElement>(null)
   const narrativeRef = useRef<HTMLDivElement>(null)
@@ -462,6 +508,283 @@ export function HistoricalTourNavigation({
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Enhanced Intelligence Panel */}
+      <AnimatePresence>
+        {showSpatialIntelligence && currentTour && (spatialGroups.length > 0 || currentLayout) && (
+          <motion.div
+            className="p-4 bg-slate-800/20 border-t border-blue-400/20"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+          >
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center space-x-2">
+                <Brain size={16} className="text-blue-400" />
+                <h5 className="font-medium text-blue-400">Enhanced Intelligence</h5>
+                <div className="flex items-center space-x-1">
+                  <span className="text-xs text-slate-400 bg-slate-700 px-2 py-1 rounded">
+                    {spatialGroups.length} groups
+                  </span>
+                  {currentLayout && (
+                    <span className="text-xs text-green-400 bg-green-500/20 px-2 py-1 rounded border border-green-400/30">
+                      AI Layout
+                    </span>
+                  )}
+                </div>
+              </div>
+              <div className="flex items-center space-x-2">
+                {isLayoutUpdating && (
+                  <motion.div
+                    className="w-3 h-3 bg-blue-400 rounded-full"
+                    animate={{ scale: [1, 1.2, 1], opacity: [1, 0.7, 1] }}
+                    transition={{ duration: 1, repeat: Infinity }}
+                  />
+                )}
+                <button
+                  onClick={() => setShowSpatialIntelligence(false)}
+                  className="text-slate-400 hover:text-white transition-colors"
+                >
+                  <ChevronUp size={14} />
+                </button>
+              </div>
+            </div>
+
+            {/* Enhancement Metrics */}
+            <div className="mb-3 p-2 bg-slate-700/30 rounded border border-slate-600/30">
+              <div className="text-xs text-slate-400 mb-2">Intelligence Enhancement</div>
+              <div className="space-y-1">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-blue-300">Spatial</span>
+                  <div className="flex items-center space-x-2">
+                    <div className="w-16 h-1 bg-slate-600 rounded-full overflow-hidden">
+                      <motion.div 
+                        className="h-full bg-blue-400"
+                        initial={{ width: 0 }}
+                        animate={{ width: `${enhancementLevel.spatialIntelligence * 100}%` }}
+                        transition={{ duration: 0.5 }}
+                      />
+                    </div>
+                    <span className="text-xs text-slate-300 w-8 text-right">
+                      {Math.round(enhancementLevel.spatialIntelligence * 100)}%
+                    </span>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-green-300">Narrative</span>
+                  <div className="flex items-center space-x-2">
+                    <div className="w-16 h-1 bg-slate-600 rounded-full overflow-hidden">
+                      <motion.div 
+                        className="h-full bg-green-400"
+                        initial={{ width: 0 }}
+                        animate={{ width: `${enhancementLevel.narrativeFlow * 100}%` }}
+                        transition={{ duration: 0.5 }}
+                      />
+                    </div>
+                    <span className="text-xs text-slate-300 w-8 text-right">
+                      {Math.round(enhancementLevel.narrativeFlow * 100)}%
+                    </span>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-purple-300">Overall</span>
+                  <div className="flex items-center space-x-2">
+                    <div className="w-16 h-1 bg-slate-600 rounded-full overflow-hidden">
+                      <motion.div 
+                        className="h-full bg-purple-400"
+                        initial={{ width: 0 }}
+                        animate={{ width: `${enhancementLevel.overallEnhancement * 100}%` }}
+                        transition={{ duration: 0.5 }}
+                      />
+                    </div>
+                    <span className="text-xs text-slate-300 w-8 text-right">
+                      {Math.round(enhancementLevel.overallEnhancement * 100)}%
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Layout Controls */}
+            {currentLayout && (
+              <div className="mb-3 p-2 bg-slate-700/30 rounded border border-green-400/30">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs text-green-400 font-medium">Narrative Layout</span>
+                  <div className="flex items-center space-x-1">
+                    <button
+                      onClick={undoLayout}
+                      disabled={!canUndo}
+                      className="p-1 text-xs bg-slate-600 hover:bg-slate-500 disabled:opacity-50 disabled:cursor-not-allowed rounded transition-colors"
+                      title="Undo Layout"
+                    >
+                      ↶
+                    </button>
+                    <button
+                      onClick={redoLayout}
+                      disabled={!canRedo}
+                      className="p-1 text-xs bg-slate-600 hover:bg-slate-500 disabled:opacity-50 disabled:cursor-not-allowed rounded transition-colors"
+                      title="Redo Layout"
+                    >
+                      ↷
+                    </button>
+                    <button
+                      onClick={() => applyIntelligentLayout(true)}
+                      disabled={isLayoutUpdating}
+                      className="px-2 py-1 text-xs bg-green-600 hover:bg-green-500 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded transition-colors"
+                      title="Refresh Layout"
+                    >
+                      ⟲
+                    </button>
+                  </div>
+                </div>
+                <div className="text-xs text-slate-300 space-y-1">
+                  <div>Primary Path: {currentLayout.narrativeFlow.primaryPath.length} nodes</div>
+                  <div>Key Moments: {currentLayout.narrativeFlow.keyMoments.length}</div>
+                  <div>Spatial Zones: {currentLayout.spatialZones.length}</div>
+                </div>
+              </div>
+            )}
+
+            {/* Current Spatial Context */}
+            <div className="space-y-3">
+              {/* Dominant Entity Types */}
+              {tourSpatialState.currentSpatialContext.dominantEntityTypes.length > 0 && (
+                <div>
+                  <div className="flex items-center space-x-1 mb-1">
+                    <Network size={12} className="text-blue-300" />
+                    <span className="text-xs text-blue-300 font-medium">Entity Types</span>
+                  </div>
+                  <div className="flex flex-wrap gap-1">
+                    {tourSpatialState.currentSpatialContext.dominantEntityTypes.slice(0, 4).map(type => (
+                      <span 
+                        key={type}
+                        className="text-xs bg-blue-500/20 text-blue-300 px-2 py-1 rounded border border-blue-400/30"
+                      >
+                        {type}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Temporal Clusters */}
+              {tourSpatialState.currentSpatialContext.temporalClusters.length > 0 && (
+                <div>
+                  <div className="flex items-center space-x-1 mb-1">
+                    <Clock size={12} className="text-green-300" />
+                    <span className="text-xs text-green-300 font-medium">Time Clusters</span>
+                  </div>
+                  <div className="space-y-1">
+                    {tourSpatialState.currentSpatialContext.temporalClusters.slice(0, 2).map((cluster, idx) => (
+                      <div key={idx} className="text-xs text-slate-300 bg-slate-700/50 px-2 py-1 rounded">
+                        {cluster.startYear === cluster.endYear 
+                          ? cluster.startYear 
+                          : `${cluster.startYear}-${cluster.endYear}`
+                        } ({cluster.nodeCount} nodes)
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Narrative Progression */}
+              {tourSpatialState.currentSpatialContext.narrativeProgression.currentTheme && (
+                <div>
+                  <div className="flex items-center space-x-1 mb-1">
+                    <TrendingUp size={12} className="text-purple-300" />
+                    <span className="text-xs text-purple-300 font-medium">Narrative Flow</span>
+                  </div>
+                  <div className="text-xs text-slate-300">
+                    <div className="mb-1">
+                      <span className="text-purple-300">Current:</span> {tourSpatialState.currentSpatialContext.narrativeProgression.currentTheme}
+                    </div>
+                    <div className="text-slate-400">
+                      <span className="text-purple-300">Next:</span> {tourSpatialState.currentSpatialContext.narrativeProgression.suggestedNextTheme}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Group Action Suggestions */}
+            {tourSpatialState.suggestedGroupActions.length > 0 && (
+              <div className="mt-3 pt-3 border-t border-slate-600/30">
+                <div className="flex items-center space-x-1 mb-2">
+                  <Zap size={12} className="text-yellow-400" />
+                  <span className="text-xs text-yellow-400 font-medium">Suggested Actions</span>
+                </div>
+                <div className="space-y-1">
+                  {tourSpatialState.suggestedGroupActions.slice(0, 3).map((action, idx) => (
+                    <button
+                      key={`${action.groupId}-${action.action}-${idx}`}
+                      onClick={() => executeSuggestedGroupAction(`action-${idx}`, action.groupId, action.action)}
+                      className="w-full text-left text-xs bg-slate-700/50 hover:bg-slate-600/50 px-2 py-1 rounded transition-colors group"
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className="text-slate-300 group-hover:text-white">
+                          {action.action.charAt(0).toUpperCase() + action.action.slice(1)} Group
+                        </span>
+                        <span className={`text-xs px-1 py-0.5 rounded ${
+                          action.priority === 'high' ? 'text-red-300 bg-red-500/20' :
+                          action.priority === 'medium' ? 'text-yellow-300 bg-yellow-500/20' :
+                          'text-green-300 bg-green-500/20'
+                        }`}>
+                          {action.priority}
+                        </span>
+                      </div>
+                      <div className="text-slate-400 mt-1 text-xs leading-tight">
+                        {action.reason}
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Spatial Groups Summary */}
+            <div className="mt-3 pt-3 border-t border-slate-600/30">
+              <div className="flex items-center space-x-1 mb-2">
+                <Users size={12} className="text-green-400" />
+                <span className="text-xs text-green-400 font-medium">Active Groups</span>
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                {spatialGroups.slice(0, 4).map(group => (
+                  <div 
+                    key={group.id}
+                    className="text-xs bg-slate-700/30 px-2 py-1 rounded border border-slate-600/30"
+                  >
+                    <div className="text-slate-300 font-medium">
+                      {group.metadata.dominantType}
+                    </div>
+                    <div className="text-slate-400">
+                      {group.nodes.length} nodes • {Math.round(group.metadata.confidence * 100)}%
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Collapsed Spatial Intelligence Indicator */}
+      {!showSpatialIntelligence && currentTour && spatialGroups.length > 0 && (
+        <motion.div 
+          className="px-4 py-2 bg-slate-800/20 border-t border-blue-400/20 cursor-pointer hover:bg-slate-700/20 transition-colors"
+          onClick={() => setShowSpatialIntelligence(true)}
+        >
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <Brain size={14} className="text-blue-400" />
+              <span className="text-sm text-blue-300">Spatial Intelligence</span>
+              <span className="text-xs text-slate-400 bg-slate-700 px-2 py-1 rounded">
+                {spatialGroups.length} groups active
+              </span>
+            </div>
+            <ChevronDown size={14} className="text-slate-400" />
+          </div>
+        </motion.div>
+      )}
 
       {/* Controls */}
       <div className="p-4 border-t border-green-400/20">

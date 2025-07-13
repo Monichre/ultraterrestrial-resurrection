@@ -1,11 +1,11 @@
-import { xata } from "../client";
-import type { TestimoniesRecord, Testimonies } from "../xata";
+import { xata } from "../client"
+import type { TestimoniesRecord, Testimonies } from "../xata"
 
 // Define error interface for consistent error handling
 interface TestimoniesOperationError extends Error {
-	code: string;
-	operation: string;
-	details?: unknown;
+	code: string
+	operation: string
+	details?: unknown
 }
 
 // Error creation helper function
@@ -15,22 +15,22 @@ function createTestimonyError(
 	operation: string,
 	details?: unknown,
 ): TestimoniesOperationError {
-	const error = new Error(message) as TestimoniesOperationError;
-	error.code = code;
-	error.operation = operation;
-	error.details = details;
-	return error;
+	const error = new Error( message ) as TestimoniesOperationError
+	error.code = code
+	error.operation = operation
+	error.details = details
+	return error
 }
 
 // Types for pagination response
 interface PaginatedTestimoniesResponse {
-	records: TestimoniesRecord[];
+	records: TestimoniesRecord[]
 	pagination: {
-		page: number;
-		size: number;
-		total?: number;
-		hasNextPage: boolean;
-	};
+		page: number
+		size: number
+		total?: number
+		hasNextPage: boolean
+	}
 }
 
 // #region CREATE OPERATIONS
@@ -45,30 +45,30 @@ export async function createTestimony(
 ): Promise<TestimoniesRecord> {
 	try {
 		// Validate required fields
-		if (!data.claim) {
+		if ( !data.claim ) {
 			throw createTestimonyError(
 				"Testimony claim is required",
 				"MISSING_REQUIRED_FIELD",
 				"createTestimony",
-			);
+			)
 		}
 
-		return await xata.db.testimonies.create(data);
-	} catch (error) {
-		console.error("Error creating testimony:", error);
+		return await xata.db.testimonies.create( data )
+	} catch ( error ) {
+		console.error( "Error creating testimony:", error )
 
 		// Re-throw typed errors
-		if ((error as TestimoniesOperationError).code) {
-			throw error;
+		if ( ( error as TestimoniesOperationError ).code ) {
+			throw error
 		}
 
 		// Create and throw standardized error
 		throw createTestimonyError(
-			`Failed to create testimony: ${(error as Error).message}`,
+			`Failed to create testimony: ${( error as Error ).message}`,
 			"CREATE_FAILED",
 			"createTestimony",
 			error,
-		);
+		)
 	}
 }
 
@@ -82,36 +82,36 @@ export async function createManyTestimonies(
 ): Promise<TestimoniesRecord[]> {
 	try {
 		// Validate input
-		if (!Array.isArray(data) || data.length === 0) {
+		if ( !Array.isArray( data ) || data.length === 0 ) {
 			throw createTestimonyError(
 				"Data must be a non-empty array",
 				"INVALID_INPUT",
 				"createManyTestimonies",
-			);
+			)
 		}
 
 		// Validate each record
-		for (const [index, item] of data.entries()) {
-			if (!item.claim) {
+		for ( const [index, item] of data.entries() ) {
+			if ( !item.claim ) {
 				throw createTestimonyError(
 					`Testimony at index ${index} is missing required claim field`,
 					"MISSING_REQUIRED_FIELD",
 					"createManyTestimonies",
-				);
+				)
 			}
 		}
 
-		return await xata.db.testimonies.create(data);
-	} catch (error) {
-		console.error("Error creating bulk testimonies:", error);
+		return await xata.db.testimonies.create( data )
+	} catch ( error ) {
+		console.error( "Error creating bulk testimonies:", error )
 
 		// Create and throw standardized error
 		throw createTestimonyError(
-			`Failed to create multiple testimonies: ${(error as Error).message}`,
+			`Failed to create multiple testimonies: ${( error as Error ).message}`,
 			"BULK_CREATE_FAILED",
 			"createManyTestimonies",
 			error,
-		);
+		)
 	}
 }
 
@@ -130,29 +130,29 @@ export async function getTestimonyById(
 	columns?: string[],
 ): Promise<TestimoniesRecord | null> {
 	try {
-		if (!id) {
+		if ( !id ) {
 			throw createTestimonyError(
 				"Testimony ID is required",
 				"MISSING_ID",
 				"getTestimonyById",
-			);
+			)
 		}
 
-		if (columns && columns.length > 0) {
+		if ( columns && columns.length > 0 ) {
 			// Use filter + getFirst for column selection
-			return await xata.db.testimonies.select(columns as any).filter({ id }).getFirst();
+			return await xata.db.testimonies.select( columns as any ).filter( { id } ).getFirst()
 		}
 
-		return await xata.db.testimonies.read(id);
-	} catch (error) {
-		console.error(`Error getting testimony with ID ${id}:`, error);
+		return await xata.db.testimonies.read( id )
+	} catch ( error ) {
+		console.error( `Error getting testimony with ID ${id}:`, error )
 
 		throw createTestimonyError(
-			`Failed to get testimony with ID ${id}: ${(error as Error).message}`,
+			`Failed to get testimony with ID ${id}: ${( error as Error ).message}`,
 			"GET_FAILED",
 			"getTestimonyById",
 			error,
-		);
+		)
 	}
 }
 
@@ -161,45 +161,45 @@ export async function getTestimonyById(
  * @param options Optional configuration for filtering, sorting, and pagination
  * @returns Array of testimony records
  */
-export async function getAllTestimonies(options?: {
-	filter?: Record<string, any>;
-	sort?: { column: string; direction: "asc" | "desc" }[];
-	page?: number;
-	size?: number;
-	columns?: string[];
-}): Promise<TestimoniesRecord[]> {
+export async function getAllTestimonies( options?: {
+	filter?: Record<string, any>
+	sort?: { column: string; direction: "asc" | "desc" }[]
+	page?: number
+	size?: number
+	columns?: string[]
+} ): Promise<TestimoniesRecord[]> {
 	try {
-		const { filter, sort, page, size, columns } = options || {};
+		const { filter, sort, page, size, columns } = options || {}
 
-		let query = xata.db.testimonies.filter(filter || {});
+		let query = xata.db.testimonies.filter( filter || {} )
 
-		if (columns && columns.length > 0) {
-			query = query.select(columns as any);
+		if ( columns && columns.length > 0 ) {
+			query = query.select( columns as any )
 		}
 
-		if (sort?.length) {
-			for (const { column, direction } of sort) {
-				query = query.sort(column as any, direction);
+		if ( sort?.length ) {
+			for ( const { column, direction } of sort ) {
+				query = query.sort( column as any, direction )
 			}
 		}
 
-		if (page && size) {
-			const result = await query.getPaginated({
-				pagination: { size, offset: (page - 1) * size },
-			});
-			return result.records as TestimoniesRecord[];
+		if ( page && size ) {
+			const result = await query.getPaginated( {
+				pagination: { size, offset: ( page - 1 ) * size },
+			} )
+			return result.records as TestimoniesRecord[]
 		}
 
-		return await query.getMany() as TestimoniesRecord[];
-	} catch (error) {
-		console.error("Error getting all testimonies:", error);
+		return await query.getAll() as TestimoniesRecord[]
+	} catch ( error ) {
+		console.error( "Error getting all testimonies:", error )
 
 		throw createTestimonyError(
-			`Failed to get testimonies: ${(error as Error).message}`,
+			`Failed to get testimonies: ${( error as Error ).message}`,
 			"QUERY_FAILED",
 			"getAllTestimonies",
 			error,
-		);
+		)
 	}
 }
 
@@ -219,31 +219,31 @@ export async function getTestimoniesWithPagination(
 ): Promise<PaginatedTestimoniesResponse> {
 	try {
 		// Validate input
-		if (page < 1) {
+		if ( page < 1 ) {
 			throw createTestimonyError(
 				"Page number must be greater than 0",
 				"INVALID_PAGE",
 				"getTestimoniesWithPagination",
-			);
+			)
 		}
 
-		if (size < 1 || size > 100) {
+		if ( size < 1 || size > 100 ) {
 			throw createTestimonyError(
 				"Page size must be between 1 and 100",
 				"INVALID_SIZE",
 				"getTestimoniesWithPagination",
-			);
+			)
 		}
 
-		let query = xata.db.testimonies.filter(filter || {});
+		let query = xata.db.testimonies.filter( filter || {} )
 
-		if (columns && columns.length > 0) {
-			query = query.select(columns as any);
+		if ( columns && columns.length > 0 ) {
+			query = query.select( columns as any )
 		}
 
-		const result = await query.getPaginated({
-			pagination: { size, offset: (page - 1) * size },
-		});
+		const result = await query.getPaginated( {
+			pagination: { size, offset: ( page - 1 ) * size },
+		} )
 
 		return {
 			records: result.records as TestimoniesRecord[],
@@ -253,16 +253,16 @@ export async function getTestimoniesWithPagination(
 				total: undefined, // Xata doesn't provide total in current SDK version
 				hasNextPage: typeof result.hasNextPage === 'function' ? result.hasNextPage() : !!result.hasNextPage,
 			},
-		};
-	} catch (error) {
-		console.error("Error getting paginated testimonies:", error);
+		}
+	} catch ( error ) {
+		console.error( "Error getting paginated testimonies:", error )
 
 		throw createTestimonyError(
-			`Failed to get paginated testimonies: ${(error as Error).message}`,
+			`Failed to get paginated testimonies: ${( error as Error ).message}`,
 			"PAGINATION_FAILED",
 			"getTestimoniesWithPagination",
 			error,
-		);
+		)
 	}
 }
 
@@ -275,20 +275,20 @@ export async function getTestimoniesWithPagination(
 export async function searchTestimonies(
 	searchQuery: string,
 	options?: {
-		fuzziness?: number;
-		prefix?: "phrase" | "disabled";
-		pagination?: { size?: number; offset?: number };
-		filter?: Record<string, any>;
+		fuzziness?: number
+		prefix?: "phrase" | "disabled"
+		pagination?: { size?: number; offset?: number }
+		filter?: Record<string, any>
 	},
 ): Promise<TestimoniesRecord[]> {
 	try {
 		// Validate input
-		if (!searchQuery || searchQuery.trim() === "") {
+		if ( !searchQuery || searchQuery.trim() === "" ) {
 			throw createTestimonyError(
 				"Search query is required",
 				"MISSING_QUERY",
 				"searchTestimonies",
-			);
+			)
 		}
 
 		const searchOptions = {
@@ -296,24 +296,24 @@ export async function searchTestimonies(
 			prefix: options?.prefix || "phrase",
 			page: options?.pagination
 				? {
-						size: options.pagination.size || 20,
-						offset: options.pagination.offset || 0,
-					}
+					size: options.pagination.size || 20,
+					offset: options.pagination.offset || 0,
+				}
 				: undefined,
 			filter: options?.filter,
-		};
+		}
 
-		const results = await xata.db.testimonies.search(searchQuery, searchOptions);
-		return results.records as TestimoniesRecord[];
-	} catch (error) {
-		console.error(`Error searching testimonies with query "${searchQuery}":`, error);
+		const results = await xata.db.testimonies.search( searchQuery, searchOptions )
+		return results.records as TestimoniesRecord[]
+	} catch ( error ) {
+		console.error( `Error searching testimonies with query "${searchQuery}":`, error )
 
 		throw createTestimonyError(
-			`Failed to search testimonies: ${(error as Error).message}`,
+			`Failed to search testimonies: ${( error as Error ).message}`,
 			"SEARCH_FAILED",
 			"searchTestimonies",
 			error,
-		);
+		)
 	}
 }
 
@@ -326,41 +326,41 @@ export async function searchTestimonies(
 export async function semanticSearchTestimonies(
 	embedding: number[],
 	options?: {
-		maxResults?: number;
-		filter?: Record<string, any>;
+		maxResults?: number
+		filter?: Record<string, any>
 	},
 ): Promise<TestimoniesRecord[]> {
 	try {
 		// Validate input
-		if (!embedding || !Array.isArray(embedding) || embedding.length !== 1536) {
+		if ( !embedding || !Array.isArray( embedding ) || embedding.length !== 1536 ) {
 			throw createTestimonyError(
 				"Valid embedding vector with 1536 dimensions is required",
 				"INVALID_EMBEDDING",
 				"semanticSearchTestimonies",
-			);
+			)
 		}
 
 		const searchOptions = {
 			maxResults: options?.maxResults || 10,
 			filter: options?.filter,
-		};
+		}
 
 		const results = await xata.db.testimonies.vectorSearch(
 			"embedding",
 			embedding,
 			searchOptions,
-		);
+		)
 
-		return results.records as TestimoniesRecord[];
-	} catch (error) {
-		console.error("Error in semantic search of testimonies:", error);
+		return results.records as TestimoniesRecord[]
+	} catch ( error ) {
+		console.error( "Error in semantic search of testimonies:", error )
 
 		throw createTestimonyError(
-			`Failed in semantic search: ${(error as Error).message}`,
+			`Failed in semantic search: ${( error as Error ).message}`,
 			"VECTOR_SEARCH_FAILED",
 			"semanticSearchTestimonies",
 			error,
-		);
+		)
 	}
 }
 
@@ -373,26 +373,26 @@ export async function getTestimoniesByEvent(
 	eventId: string,
 ): Promise<TestimoniesRecord[]> {
 	try {
-		if (!eventId) {
+		if ( !eventId ) {
 			throw createTestimonyError(
 				"Event ID is required",
 				"MISSING_EVENT_ID",
 				"getTestimoniesByEvent",
-			);
+			)
 		}
 
 		return await xata.db.testimonies
-			.filter({ "event.id": eventId })
-			.getAll() as TestimoniesRecord[];
-	} catch (error) {
-		console.error(`Error getting testimonies for event ${eventId}:`, error);
+			.filter( { "event.id": eventId } )
+			.getAll() as TestimoniesRecord[]
+	} catch ( error ) {
+		console.error( `Error getting testimonies for event ${eventId}:`, error )
 
 		throw createTestimonyError(
-			`Failed to get testimonies for event: ${(error as Error).message}`,
+			`Failed to get testimonies for event: ${( error as Error ).message}`,
 			"QUERY_FAILED",
 			"getTestimoniesByEvent",
 			error,
-		);
+		)
 	}
 }
 
@@ -405,26 +405,26 @@ export async function getTestimoniesByWitness(
 	witnessId: string,
 ): Promise<TestimoniesRecord[]> {
 	try {
-		if (!witnessId) {
+		if ( !witnessId ) {
 			throw createTestimonyError(
 				"Witness ID is required",
 				"MISSING_WITNESS_ID",
 				"getTestimoniesByWitness",
-			);
+			)
 		}
 
 		return await xata.db.testimonies
-			.filter({ "witness.id": witnessId })
-			.getAll() as TestimoniesRecord[];
-	} catch (error) {
-		console.error(`Error getting testimonies for witness ${witnessId}:`, error);
+			.filter( { "witness.id": witnessId } )
+			.getAll() as TestimoniesRecord[]
+	} catch ( error ) {
+		console.error( `Error getting testimonies for witness ${witnessId}:`, error )
 
 		throw createTestimonyError(
-			`Failed to get testimonies for witness: ${(error as Error).message}`,
+			`Failed to get testimonies for witness: ${( error as Error ).message}`,
 			"QUERY_FAILED",
 			"getTestimoniesByWitness",
 			error,
-		);
+		)
 	}
 }
 
@@ -437,29 +437,29 @@ export async function getTestimoniesByOrganization(
 	organizationId: string,
 ): Promise<TestimoniesRecord[]> {
 	try {
-		if (!organizationId) {
+		if ( !organizationId ) {
 			throw createTestimonyError(
 				"Organization ID is required",
 				"MISSING_ORGANIZATION_ID",
 				"getTestimoniesByOrganization",
-			);
+			)
 		}
 
 		return await xata.db.testimonies
-			.filter({ "organization.id": organizationId })
-			.getAll() as TestimoniesRecord[];
-	} catch (error) {
+			.filter( { "organization.id": organizationId } )
+			.getAll() as TestimoniesRecord[]
+	} catch ( error ) {
 		console.error(
 			`Error getting testimonies for organization ${organizationId}:`,
 			error,
-		);
+		)
 
 		throw createTestimonyError(
-			`Failed to get testimonies for organization: ${(error as Error).message}`,
+			`Failed to get testimonies for organization: ${( error as Error ).message}`,
 			"QUERY_FAILED",
 			"getTestimoniesByOrganization",
 			error,
-		);
+		)
 	}
 }
 
@@ -479,38 +479,38 @@ export async function updateTestimony(
 ): Promise<TestimoniesRecord | null> {
 	try {
 		// Validate input
-		if (!id) {
+		if ( !id ) {
 			throw createTestimonyError(
 				"Testimony ID is required",
 				"MISSING_ID",
 				"updateTestimony",
-			);
+			)
 		}
 
-		if (!data || Object.keys(data).length === 0) {
+		if ( !data || Object.keys( data ).length === 0 ) {
 			throw createTestimonyError(
 				"Update data is required",
 				"MISSING_DATA",
 				"updateTestimony",
-			);
+			)
 		}
 
 		// Verify the testimony exists before updating
-		const exists = await xata.db.testimonies.read(id);
-		if (!exists) {
-			return null;
+		const exists = await xata.db.testimonies.read( id )
+		if ( !exists ) {
+			return null
 		}
 
-		return await xata.db.testimonies.update(id, data);
-	} catch (error) {
-		console.error(`Error updating testimony with ID ${id}:`, error);
+		return await xata.db.testimonies.update( id, data )
+	} catch ( error ) {
+		console.error( `Error updating testimony with ID ${id}:`, error )
 
 		throw createTestimonyError(
-			`Failed to update testimony with ID ${id}: ${(error as Error).message}`,
+			`Failed to update testimony with ID ${id}: ${( error as Error ).message}`,
 			"UPDATE_FAILED",
 			"updateTestimony",
 			error,
-		);
+		)
 	}
 }
 
@@ -526,46 +526,46 @@ export async function updateManyTestimonies(
 ): Promise<{ numberOfRecordsUpdated: number }> {
 	try {
 		// Validate inputs
-		if (!filter || Object.keys(filter).length === 0) {
+		if ( !filter || Object.keys( filter ).length === 0 ) {
 			throw createTestimonyError(
 				"Filter criteria is required",
 				"MISSING_FILTER",
 				"updateManyTestimonies",
-			);
+			)
 		}
 
-		if (!data || Object.keys(data).length === 0) {
+		if ( !data || Object.keys( data ).length === 0 ) {
 			throw createTestimonyError(
 				"Update data is required",
 				"MISSING_DATA",
 				"updateManyTestimonies",
-			);
+			)
 		}
 
 		// Get testimonies matching the filter
-		const testimonies = await xata.db.testimonies.filter(filter).getMany() as TestimoniesRecord[];
+		const testimonies = await xata.db.testimonies.filter( filter ).getAll() as TestimoniesRecord[]
 
-		if (testimonies.length === 0) {
-			return { numberOfRecordsUpdated: 0 };
+		if ( testimonies.length === 0 ) {
+			return { numberOfRecordsUpdated: 0 }
 		}
 
-		const updatePromises = testimonies.map((testimony: TestimoniesRecord) =>
-			xata.db.testimonies.update(testimony.id, data),
-		);
+		const updatePromises = testimonies.map( ( testimony: TestimoniesRecord ) =>
+			xata.db.testimonies.update( testimony.id, data ),
+		)
 
-		const updatedTestimonies = await Promise.all(updatePromises);
+		const updatedTestimonies = await Promise.all( updatePromises )
 		return {
-			numberOfRecordsUpdated: updatedTestimonies.filter(Boolean).length,
-		};
-	} catch (error) {
-		console.error("Error updating multiple testimonies:", error);
+			numberOfRecordsUpdated: updatedTestimonies.filter( Boolean ).length,
+		}
+	} catch ( error ) {
+		console.error( "Error updating multiple testimonies:", error )
 
 		throw createTestimonyError(
-			`Failed to update multiple testimonies: ${(error as Error).message}`,
+			`Failed to update multiple testimonies: ${( error as Error ).message}`,
 			"BULK_UPDATE_FAILED",
 			"updateManyTestimonies",
 			error,
-		);
+		)
 	}
 }
 
@@ -578,28 +578,28 @@ export async function updateManyTestimonies(
  * @param id The testimony ID
  * @returns True if deleted, false if not found
  */
-export async function deleteTestimony(id: string): Promise<boolean> {
+export async function deleteTestimony( id: string ): Promise<boolean> {
 	try {
 		// Validate input
-		if (!id) {
+		if ( !id ) {
 			throw createTestimonyError(
 				"Testimony ID is required",
 				"MISSING_ID",
 				"deleteTestimony",
-			);
+			)
 		}
 
-		const deletedTestimony = await xata.db.testimonies.delete(id);
-		return deletedTestimony !== null;
-	} catch (error) {
-		console.error(`Error deleting testimony with ID ${id}:`, error);
+		const deletedTestimony = await xata.db.testimonies.delete( id )
+		return deletedTestimony !== null
+	} catch ( error ) {
+		console.error( `Error deleting testimony with ID ${id}:`, error )
 
 		throw createTestimonyError(
-			`Failed to delete testimony with ID ${id}: ${(error as Error).message}`,
+			`Failed to delete testimony with ID ${id}: ${( error as Error ).message}`,
 			"DELETE_FAILED",
 			"deleteTestimony",
 			error,
-		);
+		)
 	}
 }
 
@@ -613,38 +613,38 @@ export async function deleteManyTestimonies(
 ): Promise<{ numberOfRecordsDeleted: number }> {
 	try {
 		// Validate input
-		if (!filter || Object.keys(filter).length === 0) {
+		if ( !filter || Object.keys( filter ).length === 0 ) {
 			throw createTestimonyError(
 				"Filter criteria is required",
 				"MISSING_FILTER",
 				"deleteManyTestimonies",
-			);
+			)
 		}
 
 		// Get testimonies matching the filter
-		const testimonies = await xata.db.testimonies.filter(filter).getMany() as TestimoniesRecord[];
+		const testimonies = await xata.db.testimonies.filter( filter ).getAll() as TestimoniesRecord[]
 
-		if (testimonies.length === 0) {
-			return { numberOfRecordsDeleted: 0 };
+		if ( testimonies.length === 0 ) {
+			return { numberOfRecordsDeleted: 0 }
 		}
 
-		const deletePromises = testimonies.map((testimony: TestimoniesRecord) =>
-			xata.db.testimonies.delete(testimony.id),
-		);
+		const deletePromises = testimonies.map( ( testimony: TestimoniesRecord ) =>
+			xata.db.testimonies.delete( testimony.id ),
+		)
 
-		const deletedTestimonies = await Promise.all(deletePromises);
+		const deletedTestimonies = await Promise.all( deletePromises )
 		return {
-			numberOfRecordsDeleted: deletedTestimonies.filter(Boolean).length,
-		};
-	} catch (error) {
-		console.error("Error deleting multiple testimonies:", error);
+			numberOfRecordsDeleted: deletedTestimonies.filter( Boolean ).length,
+		}
+	} catch ( error ) {
+		console.error( "Error deleting multiple testimonies:", error )
 
 		throw createTestimonyError(
-			`Failed to delete multiple testimonies: ${(error as Error).message}`,
+			`Failed to delete multiple testimonies: ${( error as Error ).message}`,
 			"BULK_DELETE_FAILED",
 			"deleteManyTestimonies",
 			error,
-		);
+		)
 	}
 }
 

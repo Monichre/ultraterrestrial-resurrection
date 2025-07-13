@@ -230,7 +230,7 @@ export async function getAllTopics( options?: {
 			return result.records as TopicsRecord[]
 		}
 
-		return await query.getMany() as TopicsRecord[]
+		return await query.getAll() as TopicsRecord[]
 	} catch ( error ) {
 		console.error( "Error getting all topics:", error )
 
@@ -541,7 +541,7 @@ export async function updateManyTopics(
 		}
 
 		// Get topics matching the filter
-		const topics = await xata.db.topics.filter( filter ).getMany() as TopicsRecord[]
+		const topics = await xata.db.topics.filter( filter ).getAll() as TopicsRecord[]
 
 		if ( topics.length === 0 ) {
 			return { numberOfRecordsUpdated: 0 }
@@ -618,7 +618,7 @@ export async function deleteManyTopics(
 		}
 
 		// Get topics matching the filter
-		const topics = await xata.db.topics.filter( filter ).getMany() as TopicsRecord[]
+		const topics = await xata.db.topics.filter( filter ).getAll() as TopicsRecord[]
 
 		if ( topics.length === 0 ) {
 			return { numberOfRecordsDeleted: 0 }

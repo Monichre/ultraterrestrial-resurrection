@@ -1,7 +1,7 @@
 'use client'
-import React, { useState, useEffect } from 'react'
+import React, {useState, useEffect} from 'react'
 import * as THREE from 'three'
-import { useTheme } from 'next-themes'
+import {useTheme} from 'next-themes'
 import {
   Breadcrumb,
   BreadcrumbList,
@@ -11,7 +11,7 @@ import {
   BreadcrumbSeparator,
 } from './ui/breadcrumb'
 import Link from 'next/link'
-import { Toaster } from 'sonner'
+import {Toaster} from 'sonner'
 
 // Import the Prometheus agent component - will be provided by consumer
 interface PrometheusPageProps {
@@ -19,13 +19,14 @@ interface PrometheusPageProps {
   breadcrumbBasePath?: string
 }
 
-export function PrometheusPage({ 
-  PrometheusAgent, 
-  breadcrumbBasePath = '/explore' 
+export function PrometheusPage({
+  PrometheusAgent,
+  breadcrumbBasePath = '/explore',
 }: PrometheusPageProps) {
   const [mounted, setMounted] = useState(false)
-  const [shaderMaterial, setShaderMaterial] = useState<THREE.ShaderMaterial | null>(null)
-  const { theme } = useTheme()
+  const [shaderMaterial, setShaderMaterial] =
+    useState<THREE.ShaderMaterial | null>(null)
+  const {theme} = useTheme()
 
   useEffect(() => {
     // Scene setup
@@ -38,7 +39,7 @@ export function PrometheusPage({
     )
 
     // Make the renderer transparent
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
+    const renderer = new THREE.WebGLRenderer({antialias: true, alpha: true})
     renderer.setSize(window.innerWidth, window.innerHeight)
     renderer.setClearColor(0x000000, 0)
     document.body.appendChild(renderer.domElement)
@@ -153,14 +154,14 @@ export function PrometheusPage({
     const isDark = theme === 'dark'
     const material = new THREE.ShaderMaterial({
       uniforms: {
-        iTime: { value: 0 },
+        iTime: {value: 0},
         iResolution: {
           value: new THREE.Vector2(window.innerWidth, window.innerHeight),
         },
-        mouse: { value: new THREE.Vector2(0, 0) },
-        grainStrength: { value: isDark ? 0.05 : 0.02 }, // Adjust grain for theme
-        grainIntensity: { value: isDark ? 50.0 : 30.0 }, // Adjust intensity for theme
-        themeMode: { value: isDark ? 1.0 : 0.0 }, // Theme uniform for shader
+        mouse: {value: new THREE.Vector2(0, 0)},
+        grainStrength: {value: isDark ? 0.05 : 0.02}, // Adjust grain for theme
+        grainIntensity: {value: isDark ? 50.0 : 30.0}, // Adjust intensity for theme
+        themeMode: {value: isDark ? 1.0 : 0.0}, // Theme uniform for shader
       },
       vertexShader: vertexShader,
       fragmentShader: fragmentShader,
@@ -199,7 +200,10 @@ export function PrometheusPage({
       camera.aspect = window.innerWidth / window.innerHeight
       camera.updateProjectionMatrix()
       renderer.setSize(window.innerWidth, window.innerHeight)
-      material.uniforms.iResolution.value.set(window.innerWidth, window.innerHeight)
+      material.uniforms.iResolution.value.set(
+        window.innerWidth,
+        window.innerHeight
+      )
     }
 
     window.addEventListener('resize', handleResize)
@@ -232,16 +236,17 @@ export function PrometheusPage({
   }, [theme, shaderMaterial])
 
   return (
-    <main className='prometheus-page main min-h-screen relative'>
-      {/* The Three.js visualization needs to be the first element to ensure it's behind everything else */}
-
+    <main className='prometheus-page'>
       {/* Breadcrumb Navigation */}
-      <div className='absolute top-20 left-10 z-20'>
+      <div className='prometheus-breadcrumb'>
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
-                <Link href={breadcrumbBasePath} className='text-white/70 hover:text-white transition-colors'>
+                <Link
+                  href={breadcrumbBasePath}
+                  className='text-white/70 hover:text-white transition-colors'
+                >
                   Explore
                 </Link>
               </BreadcrumbLink>
@@ -256,20 +261,20 @@ export function PrometheusPage({
         </Breadcrumb>
       </div>
 
-      {/* Text wrapper with Agent in the center */}
-      <div className='text-wrapper relative z-10'>
-        <h2 className='small-text font-monumentMono tracking-wider text-sm opacity-70'>
-          I once brought you Fire
-        </h2>
+      {/* Content wrapper */}
+      <div className='prometheus-content'>
+        <div className='prometheus-main'>
+          <div className='prometheus-top-text'>I once brought you Fire</div>
 
-        {/* Agent component in the center instead of the text */}
-        <div className='flex-1 flex items-center justify-center w-[33vw] max-w-4xl mx-auto'>
-          <PrometheusAgent />
+          {/* Agent component in the center */}
+          <div className='prometheus-agent-container'>
+            <PrometheusAgent />
+          </div>
+
+          <div className='prometheus-bottom-text'>
+            Now I bring you Disclosure
+          </div>
         </div>
-
-        <h2 className='small-text font-monumentMono tracking-wider text-sm opacity-70'>
-          Now I bring you Disclosure
-        </h2>
       </div>
 
       <Toaster position='top-right' />

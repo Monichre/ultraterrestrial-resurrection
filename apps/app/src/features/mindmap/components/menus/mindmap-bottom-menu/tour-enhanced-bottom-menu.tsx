@@ -18,6 +18,7 @@ import { MindMapBottomMenu, type MindMapBottomMenuProps } from './mindmap-bottom
 import { HistoricalTourControls } from '../../tours/historical-tour-controls'
 import { HistoricalContextOverlay } from '../../tours/historical-context-overlay'
 import { TourModeIntegration } from '../../tours/tour-mode-integration'
+import { FamousEventsTourLauncher } from '../../../tours/components/famous-events-tour-launcher'
 import { useTour } from '../../../tours/hooks/use-tour'
 import { SessionNotesProvider } from '@/contexts/mindmap/session-notes-context'
 
@@ -33,9 +34,16 @@ interface TourEnhancedBottomMenuProps extends MindMapBottomMenuProps {
 // Tour quick actions for the bottom menu
 const TOUR_QUICK_ACTIONS = [
   {
-    id: 'start-tour',
-    label: 'Start Historical Tour',
+    id: 'famous-events-tour',
+    label: 'Famous Events Tour',
     icon: History,
+    description: 'Chronological journey through famous UFO events',
+    action: 'start-famous-events-tour'
+  },
+  {
+    id: 'start-tour',
+    label: 'Historical Tour',
+    icon: BookOpen,
     description: 'Begin guided journey from Roswell to modern disclosure',
     action: 'start-historical-tour'
   },
@@ -76,6 +84,7 @@ export function TourEnhancedBottomMenu({
   const [tourPanelExpanded, setTourPanelExpanded] = useState(false)
   const [activeTourAction, setActiveTourAction] = useState<string | null>(null)
   const [showTourHint, setShowTourHint] = useState(true)
+  const [showFamousEventsTour, setShowFamousEventsTour] = useState(false)
   
   const {
     currentTour,
@@ -98,6 +107,11 @@ export function TourEnhancedBottomMenu({
     setActiveTourAction(actionId)
     
     switch (actionId) {
+      case 'start-famous-events-tour':
+        setShowFamousEventsTour(true)
+        setTourPanelExpanded(false)
+        break
+
       case 'start-historical-tour':
         // This will be handled by the HistoricalTourControls component
         setTourPanelExpanded(true)
@@ -129,6 +143,17 @@ export function TourEnhancedBottomMenu({
 
   // Enhanced command change handler that includes tour commands
   const handleEnhancedCommandChange = useCallback((command: string | null) => {
+    // Handle specific tour commands
+    if (command?.toLowerCase().includes('famous') || command === '/famous') {
+      handleTourAction('start-famous-events-tour')
+      return
+    }
+    
+    if (command?.toLowerCase().includes('tour') || command === '/tour') {
+      handleTourAction('start-historical-tour')
+      return
+    }
+    
     // Check if it's a tour-related command
     const tourAction = TOUR_QUICK_ACTIONS.find(action => 
       action.label.toLowerCase().includes(command?.toLowerCase() || '') ||
@@ -146,6 +171,25 @@ export function TourEnhancedBottomMenu({
   return (
     <SessionNotesProvider>
       <div className="relative">
+        {/* Famous Events Tour Modal */}
+        {showFamousEventsTour && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center">
+            <div 
+              className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+              onClick={() => setShowFamousEventsTour(false)}
+            />
+            <div className="relative z-10">
+              <FamousEventsTourLauncher />
+              <button
+                onClick={() => setShowFamousEventsTour(false)}
+                className="absolute -top-2 -right-2 w-6 h-6 bg-slate-700 rounded-full flex items-center justify-center text-slate-400 hover:text-white text-sm"
+              >
+                ×
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* Tour mode integration overlay */}
         {enableTourMode && currentTour && (
           <TourModeIntegration
@@ -308,7 +352,7 @@ export function TourEnhancedBottomMenu({
                   <div className="flex items-center space-x-2">
                     <BookOpen className="w-4 h-4 text-blue-300" />
                     <span className="text-sm text-blue-100">
-                      Try typing <code className="bg-blue-800/50 px-1 rounded">/tour</code> to start your historical journey
+                      Try typing <code className="bg-blue-800/50 px-1 rounded">/famous</code> for the Famous Events Tour
                     </span>
                   </div>
                   

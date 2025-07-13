@@ -9,7 +9,7 @@ import {ClerkProvider} from '@clerk/nextjs'
 import {FullSiteNav} from '@/components/navbar/full-site-nav'
 import {lukasSans, monumentGrotesk, monumentGroteskMono, neueHaasGrotesk} from './fonts'
 import {CustomCursor} from '@/components/cursor-ui/CustomCursor'
-import {StagewiseToolbar} from '@21st-extension/toolbar-next'
+// import {StagewiseToolbar} from '@21st-extension/toolbar-next'
 import {ReactPlugin} from '@21st-extension/react'
 import {Just_Another_Hand} from 'next/font/google'
 const defaultUrl = process.env.VERCEL_URL
@@ -47,7 +47,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
           >
             {/* <DataLayer> */}
 
-            <StagewiseToolbar config={{plugins: [ReactPlugin]}} />
+            {/* <StagewiseToolbar config={{plugins: [ReactPlugin]}} /> */}
             <FullSiteNav />
             <CustomCursor />
             <main className='min-h-[100vh] min-w-screen relative site dark'>{children}</main>

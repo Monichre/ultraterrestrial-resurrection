@@ -1,3 +1,5 @@
+'use client'
+
 import {useMindMap} from '@/contexts/mindmap/mindmap-context'
 import {initiateDatabaseTableQuery} from '@/features/mindmap/actions/search'
 import {DOMAIN_MODEL_COLORS, ICON_GREEN} from '@/utils/constants'

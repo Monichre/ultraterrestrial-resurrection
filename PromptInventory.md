@@ -1,173 +1,235 @@
 # Disclosure RAG – Prompt Inventory
 
-This document provides a comprehensive inventory of **every prompt, prompt file, and prompt configuration** found in the `apps/`, `app/`, `disclosure-rag/`, and `docs/` directories. It includes all explicit prompt strings, prompt files, prompt templates, and configuration mappings for agent prompts.
+**Last Updated:** July 13, 2025 11:43 AM UTC  
+**Current Content:** Complete prompt file inventory with actual content
+
+This document provides a comprehensive inventory of **every prompt, prompt file, and prompt configuration** found in the `apps/disclosure-rag/prompts/` directory. It includes all explicit prompt strings, prompt files, prompt templates, and configuration mappings for agent prompts.
 
 ---
 
-## 1. Prompt Files & Prompt Definitions
+## 1. Agent Prompts
 
-### A. Python Code: Prompt Strings & Mappings
+### A. Research Agent Prompts
 
-#### `apps/disclosure-rag/agents/prompts.py`
-- **Purpose:** Centralized mapping of all specialized agent prompts.
-- **Key Variable:** `AGENT_PROMPTS` (dict mapping agent type to prompt string)
-- **Example:**
-  ```python
-  AGENT_PROMPTS = {
-      "historical": """You are an expert historical analyst specializing in UFO/UAP events chronology...""",
-      "claims_evidence": """You are an expert evidence analyst specializing in UAP phenomena documentation...""",
-      ...
-  }
-  ```
-- **Also contains:** `AGENT_CONFIG` (agent tag, name, model_id, agent_type)
+#### `research-lead-agent.md` - Research Leadership System
+**Purpose:** High-level research strategy, planning, delegation, and report writing
+**Type:** Lead agent orchestration
+**Content:**
+- Expert research lead focused on strategy and delegation
+- Follows structured process: Assessment → Query type determination → Research plan → Execution
+- Manages 3 query types: Depth-first, Breadth-first, Straightforward
+- Subagent count guidelines (1-20 agents max)
+- Parallel tool execution patterns
+- Integration with available internal tools (Slack, Asana, Github, etc.)
 
----
+#### `research-sub-agent.md` - Research Subagent System  
+**Purpose:** Individual research task execution
+**Type:** Subagent implementation
+**Content:**
+- Research subagent working as part of team
+- OODA loop execution (Observe, Orient, Decide, Act)
+- Tool selection strategy for web search, internal docs, calculations
+- Research budget management (5-15 tool calls)
+- Source quality evaluation protocols
+- Parallel tool call optimization
 
-#### `apps/disclosure-rag/agents/` (Individual Agent Files)
-- **Each agent file** (e.g., `claims_evidence_agent.py`, `dataviz_agent.py`, etc.) either:
-  - Imports its prompt from `AGENT_PROMPTS` (above), or
-  - Defines an inline prompt string (sometimes as a fallback or for legacy reasons).
+#### `research-subagents.md` - Multi-Agent Document Processing
+**Purpose:** Sub-agent orchestration for document analysis
+**Type:** Document processing workflow
+**Content:**
+- Claude 3.5 Sonnet system for PDF/CSV/MD ingestion
+- Dynamic file processing with Haiku/Opus sub-agents
+- Parallel document analysis with ThreadPoolExecutor
+- Complete code template for agent orchestration
+- Final consolidation with Opus for unified output
 
-**Examples:**
-- `claims_evidence_agent.py`:
-  ```python
-  prompt = AGENT_PROMPTS.get("claims_evidence", "You are a UAP/UFO evidence analysis assistant.")
-  ```
-- `geospatial_agent.py`, `network_agent.py`, `historical_agent.py`, etc.:
-  - Each defines a multi-line string prompt (e.g., `GEOSPATIAL_PROMPT`, `HISTORICAL_PROMPT`, `NETWORK_PROMPT`).
+### B. Specialized Analysis Agents
 
----
+#### `specialized-agents.md` - Core Analysis Agent System
+**Purpose:** Specialized UAP research agent definitions
+**Type:** Multi-agent specialization
+**Content:**
 
-#### `apps/disclosure-rag/agents/research_crew.py`
-- **Contains:** Large inline dictionaries for `AGENT_PROMPTS` and `AGENT_CONFIG` (mirrors `prompts.py`).
-- **Purpose:** Used to instantiate all agents in the research crew with their respective prompts.
+**1. Historical Analysis Agent**
+- Temporal pattern analysis across UAP events
+- Cross-era correlation detection
+- Source reliability assessment
+- Confidence levels and source attribution
 
----
+**2. Evidence Analysis Agent**
+- Multi-modal evidence assessment
+- Chain of custody validation
+- Physical trace analysis
+- Authentication protocols
 
-#### `apps/disclosure-rag/agents/content_analysis_agent.py`
-- **Defines:** `research_prompt` (imported from `research/research_prompt.py`)
-- **Used as:** `system_prompt` for Claude and OpenAI agents.
+**3. Geospatial Analysis Agent**
+- Geographical pattern analysis
+- Activity cluster identification
+- Terrain and installation correlation
+- Movement pattern tracking
 
----
-
-#### `apps/disclosure-rag/agents/entity_extraction_agent.py`
-- **Defines:** `ner_prompt` (imported from `research/ner_prompt.py`)
-- **Purpose:** Used for Named Entity Recognition (NER) extraction.
-
----
-
-#### `apps/disclosure-rag/agents/disclosure_assistant.py`
-- **Defines:** Default assistant instructions as a multi-line string in `_create_default_assistant`.
-- **Also uses:** Custom instructions passed to methods.
-
----
-
-### B. Prompt Files in `research/` and `docs/`
-
-#### `apps/disclosure-rag/research/research_prompt.py`
-- **Purpose:** System prompt for research methodology (imported and used in agents).
-- **Content:** Structured instructions for organizing, verifying, and documenting research data.
-
----
-
-#### `apps/disclosure-rag/research/ner-prompt.py` and `named_entity_recognition_prompt.py`
-- **Purpose:** Prompts for NER tasks (imported in entity extraction agents).
+**4. Network Analysis Agent**
+- Entity relationship mapping
+- Information flow analysis
+- Credibility network assessment
+- Influence mapping
 
 ---
 
-#### `apps/disclosure-rag/docs/AgenticResearchMethodology.md`
-- **Purpose:** Documentation of all agent roles and their prompts.
-- **Contains:** Full prompt texts for each agent, e.g., Historical Timeline Analyst, Data Visualization Specialist, etc.
+## 2. Content Analysis & Extraction
+
+### A. Schema-Based Research
+
+#### `research_base_schema.md` - UAP Research Knowledge System Schema v2.0
+**Purpose:** Core entity definitions and relationships
+**Type:** Database schema documentation
+**Content:**
+- **Core Entity Types:** PERSON, EVENT, ORGANIZATION, LOCATION, ARTIFACT
+- **Person attributes:** Labels, credentials, metrics, verification status
+- **Event attributes:** Classifications, environmental conditions, phenomena
+- **Organization types:** Agency, research group, military, civilian
+- **Location data:** Coordinates, geohash, activity metrics
+- **Artifact tracking:** Physical evidence, chain of custody, analysis status
+
+#### `research-prompt.md` - Research Assistant System Prompt
+**Purpose:** Core research methodology and database compliance
+**Type:** Research workflow instructions
+**Content:**
+- AI research assistant for resource evaluation
+- Structured database schema compliance
+- Evidence documentation protocols
+- Relationship mapping between entities
+- Classification and verification standards
+- Academic writing style requirements
+
+#### `extraction-prompt.md` - Ultraterrestrial NER Extraction Engine
+**Purpose:** Named Entity Recognition and structured data extraction
+**Type:** NER processing system
+**Content:**
+- Advanced entity recognition for UFO phenomena and Disclosure topics
+- 9 core entity types with priority fields
+- Relationship mapping matrix with Mermaid diagrams
+- Confidence framework (High 0.9-1.0, Medium 0.6-0.8, Low 0.3-0.5)
+- Validation protocols with SQL snippets
+- Vector similarity checking
+- Sample JSON output structures
+
+### B. Agent Methodology Documentation
+
+#### `AgenticResearchMethodology.md` - Specialized AI Agent System
+**Purpose:** Complete agent role definitions and collaboration workflows
+**Type:** Multi-agent system architecture
+**Content:**
+
+**Core Agents (11 types):**
+1. **Historical Timeline Analyst** - UFO events chronology
+2. **Data Visualization Specialist** - UFO data visualization
+3. **Claims & Evidence Evaluator** - Credibility assessment
+4. **Research Network Mapper** - Relationship connections
+5. **Documentation Librarian** - Document curation
+6. **Geospatial Analysis Agent** - Location pattern analysis
+7. **Theory Development & Analysis Agent** - Theoretical frameworks
+8. **Organization & Key Figure Relationship Analyst** - Network analysis
+9. **Testimony & Documentation Validator** - Evidence validation
+10. **User Engagement & Content Curator** - Community management
+11. **API & Data Integration Specialist** - System integration
+
+**Workflow Patterns:**
+- New Event Analysis Pipeline
+- Theory Development Cycle
+- User Content Integration
+- Cross-functional collaboration scenarios
+- Quality control checkpoints
+
+### C. Response Structure Templates
+
+#### `ner-response-structure.prompt.ts` - NER Response Format Template
+**Purpose:** Standardized output formatting for entity extraction
+**Type:** TypeScript template
+**Content:**
+- Sample input/output examples for content analysis
+- Applied research methodology content analysis format
+- Personnel profiles with authority metrics
+- Event documentation with precise location/timing
+- Organization profiles and relationships
+- Evidence documentation and testimonies
+- Structured JSON-like output examples
 
 ---
 
-#### `apps/disclosure-rag/docs/NER/specialized-agents.md`
-- **Purpose:** Expanded documentation of agent prompts and output standards.
-- **Contains:** Prompt blocks for Historical Analysis Agent, Evidence Analysis Agent, Geospatial Analysis Agent, Network Analysis Agent, etc.
+## 3. Empty/Placeholder Files
+
+#### `entity_relationships.md`
+**Status:** Empty file - placeholder for relationship documentation
 
 ---
 
-#### `apps/disclosure-rag/docs/extraction-prompt.md`
-- **Purpose:** System prompt for the NER Extraction Engine.
-- **Contains:** Extraction protocol, relationship mapping, output requirements, validation protocol, and sample output JSON.
+## 4. Prompt File Organization by Category
+
+### Research & Analysis
+- `research-lead-agent.md` - Research orchestration
+- `research-sub-agent.md` - Individual research tasks  
+- `research-subagents.md` - Document processing workflow
+- `research-prompt.md` - Core research methodology
+- `AgenticResearchMethodology.md` - Complete agent system
+
+### Entity Extraction & NER
+- `extraction-prompt.md` - NER extraction engine
+- `ner-response-structure.prompt.ts` - Output formatting
+- `research_base_schema.md` - Database schema definitions
+
+### Specialized Agents
+- `specialized-agents.md` - Four core analysis agents
+
+### Placeholders
+- `entity_relationships.md` - Empty file
 
 ---
 
-#### `apps/disclosure-rag/docs/research-prompt.md`
-- **Purpose:** System prompt for research assistants, focused on database schema compliance and structured output.
+## 5. Integration Patterns
+
+All prompts follow these patterns:
+- **Schema Compliance:** Strict adherence to UAP research database schema
+- **Confidence Scoring:** All outputs include confidence levels
+- **Source Attribution:** Required citation and verification
+- **Relationship Mapping:** Cross-entity connections maintained
+- **Parallel Processing:** Multi-agent coordination supported
+- **Quality Control:** Multi-stage validation protocols
 
 ---
 
-## 2. Prompt Configuration Patterns
+## 6. Implementation Notes
 
-- **Agent instantiation** (in `agents/` and `research_crew.py`) always includes a `prompt` or `prompt_template` argument, which is either:
-  - Pulled from `AGENT_PROMPTS` (central mapping)
-  - Defined as a local variable (multi-line string)
-  - Imported from a prompt file (e.g., `research_prompt`, `ner_prompt`)
+### Code Integration
+- Prompts are referenced in `/agents/` Python files
+- TypeScript template supports frontend integration
+- Schema definitions align with PostgreSQL database structure
+- Response formats support vector embedding (1536d)
 
-- **Prompt files** in `docs/` and `research/` are referenced in code and documentation for both runtime and design-time configuration.
-
----
-
-## 3. Summary Table
-
-| Location/Type                                      | Prompt Name/Variable/File                | Usage/Description                                      |
-|----------------------------------------------------|------------------------------------------|--------------------------------------------------------|
-| `agents/prompts.py`                                | `AGENT_PROMPTS`                         | Central mapping of all agent prompts                   |
-| `agents/prompts.py`                                | `AGENT_CONFIG`                          | Agent tag/name/model_id/type mapping                   |
-| `agents/claims_evidence_agent.py` (and others)     | `prompt` (from `AGENT_PROMPTS`)         | Used in agent factory functions                        |
-| `agents/historical_agent.py`, etc.                 | `*_PROMPT` (local variable)             | Used for agent instantiation                           |
-| `agents/content_analysis_agent.py`                 | `research_prompt` (imported)            | Used as system prompt for content analysis             |
-| `agents/entity_extraction_agent.py`                | `ner_prompt` (imported)                 | Used for NER extraction                                |
-| `agents/disclosure_assistant.py`                   | Multi-line string in `_create_default_assistant` | Default assistant instructions                |
-| `research/research_prompt.py`                      | (file)                                  | System prompt for research methodology                 |
-| `research/ner-prompt.py`                           | (file)                                  | NER extraction prompt                                 |
-| `docs/AgenticResearchMethodology.md`               | (markdown)                              | Full agent prompt documentation                        |
-| `docs/NER/specialized-agents.md`                   | (markdown)                              | Expanded agent prompt documentation                    |
-| `docs/extraction-prompt.md`                        | (markdown)                              | NER Extraction Engine system prompt                    |
-| `docs/research-prompt.md`                          | (markdown)                              | Research assistant system prompt                       |
+### Workflow Integration  
+- Lead agent coordinates 1-20 subagents
+- Parallel tool execution for efficiency
+- OODA loop implementation for research tasks
+- Quality control through cross-agent validation
 
 ---
 
-## 4. How to Find/Modify Prompts
+## 7. Next Steps for Prompt Development
 
-- **To update agent prompts:** Edit `apps/disclosure-rag/agents/prompts.py` (for code) and/or the relevant markdown files in `docs/` (for documentation).
-- **To add new prompt files:** Place them in `apps/disclosure-rag/research/` or `apps/disclosure-rag/docs/` and import as needed.
-- **To change runtime prompt selection:** Update the agent factory functions to use the new or modified prompt.
+1. **Complete entity_relationships.md** - Add relationship documentation
+2. **Expand specialized agents** - Add more domain-specific agents
+3. **Create prompt testing framework** - Validate prompt effectiveness
+4. **Add prompt versioning** - Track prompt evolution
+5. **Integration testing** - Verify end-to-end prompt workflows
 
----
+## 8. Summary
 
-## 5. Code Example: Using a Prompt in an Agent
+This comprehensive prompt inventory documents all 9 prompt files found in `apps/disclosure-rag/prompts/`. The system provides:
 
-```python
-from agents.prompts import AGENT_PROMPTS
-from agno.agent import Agent
-from agno.models.openai import OpenAIChat
+- **Multi-Agent Coordination:** Lead/sub-agent orchestration patterns
+- **Specialized Analysis:** Four core analysis agents with specific expertise  
+- **Schema-Driven Extraction:** NER system with confidence scoring
+- **Document Processing:** Automated PDF/CSV/MD ingestion workflows
+- **Quality Assurance:** Multi-stage validation and cross-referencing
 
-def create_network_agent():
-    prompt = AGENT_PROMPTS.get("network", "You are a UAP/UFO network analysis assistant.")
-    model = OpenAIChat(id="gpt-4-turbo")
-    return Agent(
-        name="Network Analyst",
-        model=model,
-        prompt_template=prompt,
-        # ... other config ...
-    )
-```
-
----
-
-## 6. References in Documentation
-
-- **All agent prompt texts** are documented in:
-  - `docs/AgenticResearchMethodology.md`
-  - `docs/NER/specialized-agents.md`
-  - `docs/extraction-prompt.md`
-  - `docs/research-prompt.md`
-
----
-
-**In summary:**  
-All prompts, prompt files, and prompt configurations are centralized in `agents/prompts.py`, individual agent files, and the `research/` and `docs/` directories. The system is designed for easy extension and modification of prompts, with clear separation between code and documentation.
-
-If you need a **full list of prompt texts** or want to see the **raw content** of any specific prompt, let me know! 
+All prompts are designed for integration with the UAP research database schema and support vector embedding for semantic search capabilities. The system scales from individual research tasks to complex multi-agent investigations.

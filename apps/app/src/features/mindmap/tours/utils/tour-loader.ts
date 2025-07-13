@@ -1,10 +1,14 @@
-import { xata } from '@db/xata/client'
-import type { 
-  TourDefinition, 
-  TourValidationResult, 
+import {
+  validateDatabaseReference as validateDbRef,
+  type DatabaseReferenceValidationParams,
+  type DatabaseReferenceValidationResult
+} from '@/features/mindmap/actions/tour-validation-server-actions'
+import type {
+  TourDefinition,
+  TourValidationResult,
   DatabaseReference,
   ValidationError,
-  ValidationWarning 
+  ValidationWarning
 } from '../types/tour'
 
 /**
@@ -26,82 +30,82 @@ const validationCache = new Map<string, TourValidationResult>()
  * Load a tour definition from various sources
  */
 export class TourLoader {
-  
+
   /**
    * Load tour from YAML content
    */
-  static async fromYaml(yamlContent: string): Promise<TourDefinition> {
+  static async fromYaml( yamlContent: string ): Promise<TourDefinition> {
     try {
       // For now, we'll parse JSON instead of YAML until we add YAML support
       // In a real implementation, you'd use a YAML parser like 'js-yaml'
-      const tourData = JSON.parse(yamlContent) as TourDefinition
-      
+      const tourData = JSON.parse( yamlContent ) as TourDefinition
+
       // Validate basic structure
-      if (!tourData.id || !tourData.title || !tourData.waypoints) {
-        throw new Error('Invalid tour structure: missing required fields')
+      if ( !tourData.id || !tourData.title || !tourData.waypoints ) {
+        throw new Error( 'Invalid tour structure: missing required fields' )
       }
-      
+
       return tourData
-    } catch (error) {
-      throw new Error(`Failed to parse tour YAML: ${error instanceof Error ? error.message : 'Unknown error'}`)
+    } catch ( error ) {
+      throw new Error( `Failed to parse tour YAML: ${error instanceof Error ? error.message : 'Unknown error'}` )
     }
   }
-  
+
   /**
    * Load tour from a file path (for development/testing)
    */
-  static async fromFile(filePath: string): Promise<TourDefinition> {
+  static async fromFile( filePath: string ): Promise<TourDefinition> {
     // Check cache first
-    if (tourCache.has(filePath)) {
-      return tourCache.get(filePath)!
+    if ( tourCache.has( filePath ) ) {
+      return tourCache.get( filePath )!
     }
-    
+
     try {
       // In a real implementation, this would fetch from the file system
       // For now, we'll simulate loading from a predefined tour
-      const tourData = await TourLoader.getBuiltinTour(filePath)
-      
+      const tourData = await TourLoader.getBuiltinTour( filePath )
+
       // Cache the result
-      tourCache.set(filePath, tourData)
-      
+      tourCache.set( filePath, tourData )
+
       return tourData
-    } catch (error) {
-      throw new Error(`Failed to load tour from file ${filePath}: ${error instanceof Error ? error.message : 'Unknown error'}`)
+    } catch ( error ) {
+      throw new Error( `Failed to load tour from file ${filePath}: ${error instanceof Error ? error.message : 'Unknown error'}` )
     }
   }
-  
+
   /**
    * Load tour from API endpoint
    */
-  static async fromApi(tourId: string): Promise<TourDefinition> {
+  static async fromApi( tourId: string ): Promise<TourDefinition> {
     const cacheKey = `api:${tourId}`
-    
+
     // Check cache first
-    if (tourCache.has(cacheKey)) {
-      return tourCache.get(cacheKey)!
+    if ( tourCache.has( cacheKey ) ) {
+      return tourCache.get( cacheKey )!
     }
-    
+
     try {
-      const response = await fetch(`/api/tours/${tourId}`)
-      if (!response.ok) {
-        throw new Error(`Failed to fetch tour: ${response.statusText}`)
+      const response = await fetch( `/api/tours/${tourId}` )
+      if ( !response.ok ) {
+        throw new Error( `Failed to fetch tour: ${response.statusText}` )
       }
-      
+
       const tourData = await response.json() as TourDefinition
-      
+
       // Cache the result
-      tourCache.set(cacheKey, tourData)
-      
+      tourCache.set( cacheKey, tourData )
+
       return tourData
-    } catch (error) {
-      throw new Error(`Failed to load tour from API: ${error instanceof Error ? error.message : 'Unknown error'}`)
+    } catch ( error ) {
+      throw new Error( `Failed to load tour from API: ${error instanceof Error ? error.message : 'Unknown error'}` )
     }
   }
-  
+
   /**
    * Get a built-in tour (for development/demo purposes)
    */
-  static async getBuiltinTour(tourId: string): Promise<TourDefinition> {
+  static async getBuiltinTour( tourId: string ): Promise<TourDefinition> {
     const builtinTours: Record<string, TourDefinition> = {
       'roswell-disclosure': {
         id: 'roswell-disclosure',
@@ -188,7 +192,7 @@ export class TourLoader {
           version: '1.0'
         }
       },
-      
+
       'key-figures-network': {
         id: 'key-figures-network',
         title: 'Key Figures in UFO Research',
@@ -228,14 +232,14 @@ export class TourLoader {
         }
       }
     }
-    
-    if (!builtinTours[tourId]) {
-      throw new Error(`Built-in tour '${tourId}' not found`)
+
+    if ( !builtinTours[tourId] ) {
+      throw new Error( `Built-in tour '${tourId}' not found` )
     }
-    
+
     return builtinTours[tourId]
   }
-  
+
   /**
    * List available tours
    */
@@ -254,7 +258,7 @@ export class TourLoader {
       }
     ]
   }
-  
+
   /**
    * Clear tour cache
    */
@@ -262,19 +266,19 @@ export class TourLoader {
     tourCache.clear()
     validationCache.clear()
   }
-  
+
   /**
    * Preload multiple tours for better performance
    */
-  static async preloadTours(tourIds: string[]): Promise<void> {
-    const loadPromises = tourIds.map(id => 
-      TourLoader.getBuiltinTour(id).catch(error => {
-        console.warn(`Failed to preload tour ${id}:`, error)
+  static async preloadTours( tourIds: string[] ): Promise<void> {
+    const loadPromises = tourIds.map( id =>
+      TourLoader.getBuiltinTour( id ).catch( error => {
+        console.warn( `Failed to preload tour ${id}:`, error )
         return null
-      })
+      } )
     )
-    
-    await Promise.all(loadPromises)
+
+    await Promise.all( loadPromises )
   }
 }
 
@@ -282,118 +286,118 @@ export class TourLoader {
  * Tour validation utilities
  */
 export class TourValidator {
-  
+
   /**
    * Validate a tour definition comprehensively
    */
-  static async validateTour(tour: TourDefinition): Promise<TourValidationResult> {
+  static async validateTour( tour: TourDefinition ): Promise<TourValidationResult> {
     const cacheKey = `${tour.id}:${tour.metadata?.version || 'unknown'}`
-    
+
     // Check cache first
-    if (validationCache.has(cacheKey)) {
-      return validationCache.get(cacheKey)!
+    if ( validationCache.has( cacheKey ) ) {
+      return validationCache.get( cacheKey )!
     }
-    
+
     const errors: ValidationError[] = []
     const warnings: ValidationWarning[] = []
-    
+
     // Basic structure validation
-    TourValidator.validateBasicStructure(tour, errors)
-    
+    TourValidator.validateBasicStructure( tour, errors )
+
     // Validate waypoints
-    for (const waypoint of tour.waypoints) {
-      await TourValidator.validateWaypoint(waypoint, errors, warnings)
+    for ( const waypoint of tour.waypoints ) {
+      await TourValidator.validateWaypoint( waypoint, errors, warnings )
     }
-    
+
     // Validate waypoint connections
-    TourValidator.validateWaypointConnections(tour, errors, warnings)
-    
+    TourValidator.validateWaypointConnections( tour, errors, warnings )
+
     // Check for cycles
-    TourValidator.detectCycles(tour, warnings)
-    
+    TourValidator.detectCycles( tour, warnings )
+
     const result: TourValidationResult = {
       valid: errors.length === 0,
       errors,
       warnings
     }
-    
+
     // Cache the result
-    validationCache.set(cacheKey, result)
-    
+    validationCache.set( cacheKey, result )
+
     return result
   }
-  
+
   /**
    * Validate basic tour structure
    */
-  private static validateBasicStructure(tour: TourDefinition, errors: ValidationError[]): void {
-    if (!tour.id) {
-      errors.push({ field: 'id', message: 'Tour ID is required', severity: 'error' })
+  private static validateBasicStructure( tour: TourDefinition, errors: ValidationError[] ): void {
+    if ( !tour.id ) {
+      errors.push( { field: 'id', message: 'Tour ID is required', severity: 'error' } )
     }
-    
-    if (!tour.title) {
-      errors.push({ field: 'title', message: 'Tour title is required', severity: 'error' })
+
+    if ( !tour.title ) {
+      errors.push( { field: 'title', message: 'Tour title is required', severity: 'error' } )
     }
-    
-    if (!tour.waypoints || tour.waypoints.length === 0) {
-      errors.push({ field: 'waypoints', message: 'Tour must have at least one waypoint', severity: 'error' })
+
+    if ( !tour.waypoints || tour.waypoints.length === 0 ) {
+      errors.push( { field: 'waypoints', message: 'Tour must have at least one waypoint', severity: 'error' } )
     }
-    
-    if (tour.estimatedDuration && tour.estimatedDuration <= 0) {
-      errors.push({ field: 'estimatedDuration', message: 'Estimated duration must be positive', severity: 'error' })
+
+    if ( tour.estimatedDuration && tour.estimatedDuration <= 0 ) {
+      errors.push( { field: 'estimatedDuration', message: 'Estimated duration must be positive', severity: 'error' } )
     }
   }
-  
+
   /**
    * Validate individual waypoint
    */
   private static async validateWaypoint(
-    waypoint: any, 
-    errors: ValidationError[], 
+    waypoint: any,
+    errors: ValidationError[],
     warnings: ValidationWarning[]
   ): Promise<void> {
     const waypointId = waypoint.id || 'unknown'
-    
-    if (!waypoint.id) {
-      errors.push({ 
-        waypointId, 
-        field: 'id', 
-        message: 'Waypoint ID is required', 
-        severity: 'error' 
-      })
+
+    if ( !waypoint.id ) {
+      errors.push( {
+        waypointId,
+        field: 'id',
+        message: 'Waypoint ID is required',
+        severity: 'error'
+      } )
     }
-    
-    if (!waypoint.title) {
-      errors.push({ 
-        waypointId, 
-        field: 'title', 
-        message: 'Waypoint title is required', 
-        severity: 'error' 
-      })
+
+    if ( !waypoint.title ) {
+      errors.push( {
+        waypointId,
+        field: 'title',
+        message: 'Waypoint title is required',
+        severity: 'error'
+      } )
     }
-    
-    if (!waypoint.dbRef) {
-      errors.push({ 
-        waypointId, 
-        field: 'dbRef', 
-        message: 'Database reference is required', 
-        severity: 'error' 
-      })
+
+    if ( !waypoint.dbRef ) {
+      errors.push( {
+        waypointId,
+        field: 'dbRef',
+        message: 'Database reference is required',
+        severity: 'error'
+      } )
     } else {
       // Validate database reference
-      await TourValidator.validateDatabaseReference(waypoint.dbRef, waypointId, errors, warnings)
+      await TourValidator.validateDatabaseReference( waypoint.dbRef, waypointId, errors, warnings )
     }
-    
-    if (!waypoint.narrative) {
-      warnings.push({ 
-        waypointId, 
-        field: 'narrative', 
-        message: 'Waypoint narrative is recommended for better user experience', 
-        severity: 'warning' 
-      })
+
+    if ( !waypoint.narrative ) {
+      warnings.push( {
+        waypointId,
+        field: 'narrative',
+        message: 'Waypoint narrative is recommended for better user experience',
+        severity: 'warning'
+      } )
     }
   }
-  
+
   /**
    * Validate database reference exists
    */
@@ -404,46 +408,53 @@ export class TourValidator {
     warnings: ValidationWarning[]
   ): Promise<void> {
     try {
-      if (!dbRef.type || !dbRef.id) {
-        errors.push({
+      if ( !dbRef.type || !dbRef.id ) {
+        errors.push( {
           waypointId,
           field: 'dbRef',
           message: 'Database reference must have type and id',
           severity: 'error'
-        })
+        } )
         return
       }
-      
-      // Check if the record exists in the database
-      const record = await xata.db[dbRef.type].read(dbRef.id)
-      
-      if (!record) {
-        if (dbRef.fallbackQuery) {
-          warnings.push({
+
+      // Use server action to validate database reference
+      const validationParams: DatabaseReferenceValidationParams = {
+        type: dbRef.type,
+        id: dbRef.id,
+        waypointId,
+        hasFallbackQuery: Boolean( dbRef.fallbackQuery )
+      }
+
+      const result = await validateDbRef( validationParams )
+
+      if ( !result.exists ) {
+        if ( result.shouldUseFallback ) {
+          warnings.push( {
             waypointId,
             field: 'dbRef',
             message: `Referenced record ${dbRef.id} not found, will use fallback query`,
             severity: 'warning'
-          })
+          } )
         } else {
-          errors.push({
+          errors.push( {
             waypointId,
             field: 'dbRef',
-            message: `Referenced record ${dbRef.id} not found and no fallback query provided`,
+            message: result.error || `Referenced record ${dbRef.id} not found and no fallback query provided`,
             severity: 'error'
-          })
+          } )
         }
       }
-    } catch (error) {
-      errors.push({
+    } catch ( error ) {
+      errors.push( {
         waypointId,
         field: 'dbRef',
         message: `Failed to validate database reference: ${error instanceof Error ? error.message : 'Unknown error'}`,
         severity: 'error'
-      })
+      } )
     }
   }
-  
+
   /**
    * Validate waypoint connections
    */
@@ -452,74 +463,74 @@ export class TourValidator {
     errors: ValidationError[],
     warnings: ValidationWarning[]
   ): void {
-    const waypointIds = new Set(tour.waypoints.map(w => w.id))
-    
-    for (const waypoint of tour.waypoints) {
-      if (waypoint.connections) {
-        for (const connection of waypoint.connections) {
-          if (!waypointIds.has(connection.fromWaypointId)) {
-            errors.push({
+    const waypointIds = new Set( tour.waypoints.map( w => w.id ) )
+
+    for ( const waypoint of tour.waypoints ) {
+      if ( waypoint.connections ) {
+        for ( const connection of waypoint.connections ) {
+          if ( !waypointIds.has( connection.fromWaypointId ) ) {
+            errors.push( {
               waypointId: waypoint.id,
               field: 'connections',
               message: `Connection references non-existent waypoint: ${connection.fromWaypointId}`,
               severity: 'error'
-            })
+            } )
           }
-          
-          if (!waypointIds.has(connection.toWaypointId)) {
-            errors.push({
+
+          if ( !waypointIds.has( connection.toWaypointId ) ) {
+            errors.push( {
               waypointId: waypoint.id,
               field: 'connections',
               message: `Connection references non-existent waypoint: ${connection.toWaypointId}`,
               severity: 'error'
-            })
+            } )
           }
         }
       }
     }
   }
-  
+
   /**
    * Detect cycles in tour paths
    */
-  private static detectCycles(tour: TourDefinition, warnings: ValidationWarning[]): void {
+  private static detectCycles( tour: TourDefinition, warnings: ValidationWarning[] ): void {
     // Simple cycle detection - in a real implementation you'd use a proper graph algorithm
     const visited = new Set<string>()
     const recursionStack = new Set<string>()
-    
-    const hasVisited = (waypointId: string): boolean => {
-      if (recursionStack.has(waypointId)) {
-        warnings.push({
+
+    const hasVisited = ( waypointId: string ): boolean => {
+      if ( recursionStack.has( waypointId ) ) {
+        warnings.push( {
           field: 'waypoints',
           message: `Potential cycle detected involving waypoint: ${waypointId}`,
           severity: 'warning'
-        })
+        } )
         return true
       }
-      
-      if (visited.has(waypointId)) {
+
+      if ( visited.has( waypointId ) ) {
         return false
       }
-      
-      visited.add(waypointId)
-      recursionStack.add(waypointId)
-      
-      const waypoint = tour.waypoints.find(w => w.id === waypointId)
-      if (waypoint?.connections) {
-        for (const connection of waypoint.connections) {
-          if (hasVisited(connection.toWaypointId)) {
+
+      visited.add( waypointId )
+      recursionStack.add( waypointId )
+
+      const waypoint = tour.waypoints.find( w => w.id === waypointId )
+      if ( waypoint?.connections ) {
+        for ( const connection of waypoint.connections ) {
+          if ( hasVisited( connection.toWaypointId ) ) {
             return true
           }
         }
       }
-      
-      recursionStack.delete(waypointId)
+
+      recursionStack.delete( waypointId )
       return false
     }
-    
-    for (const waypoint of tour.waypoints) {
-      if (!visited.has(waypoint.id)) {
-        hasVisited(waypoint.id)
+
+    for ( const waypoint of tour.waypoints ) {
+      if ( !visited.has( waypoint.id ) ) {
+        hasVisited( waypoint.id )
       }
     }
   }
@@ -534,7 +545,7 @@ export class TourLoadError extends Error {
     public readonly tourId?: string,
     public readonly validationErrors?: ValidationError[]
   ) {
-    super(message)
+    super( message )
     this.name = 'TourLoadError'
   }
 }
@@ -543,43 +554,43 @@ export class TourLoadError extends Error {
  * Utility functions for tour management
  */
 export const tourUtils = {
-  
+
   /**
    * Get the estimated completion time for a tour
    */
-  getEstimatedCompletionTime(tour: TourDefinition, progressPercentage: number): number {
+  getEstimatedCompletionTime( tour: TourDefinition, progressPercentage: number ): number {
     const remainingPercentage = 100 - progressPercentage
-    return Math.round((tour.estimatedDuration * remainingPercentage) / 100)
+    return Math.round( ( tour.estimatedDuration * remainingPercentage ) / 100 )
   },
-  
+
   /**
    * Generate a tour URL for sharing
    */
-  generateTourUrl(tourId: string, waypointIndex?: number): string {
+  generateTourUrl( tourId: string, waypointIndex?: number ): string {
     const baseUrl = typeof window !== 'undefined' ? window.location.origin : ''
-    const url = new URL('/mindmap', baseUrl)
-    url.searchParams.set('tourId', tourId)
-    if (waypointIndex !== undefined) {
-      url.searchParams.set('step', waypointIndex.toString())
+    const url = new URL( '/mindmap', baseUrl )
+    url.searchParams.set( 'tourId', tourId )
+    if ( waypointIndex !== undefined ) {
+      url.searchParams.set( 'step', waypointIndex.toString() )
     }
     return url.toString()
   },
-  
+
   /**
    * Export tour session data
    */
-  exportTourSession(session: any): string {
-    return JSON.stringify(session, null, 2)
+  exportTourSession( session: any ): string {
+    return JSON.stringify( session, null, 2 )
   },
-  
+
   /**
    * Import tour session data
    */
-  importTourSession(sessionData: string): any {
+  importTourSession( sessionData: string ): any {
     try {
-      return JSON.parse(sessionData)
-    } catch (error) {
-      throw new Error('Invalid tour session data')
+      return JSON.parse( sessionData )
+    } catch ( error ) {
+      throw new Error( 'Invalid tour session data' )
     }
   }
 }

@@ -5,7 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { type PinnedCard } from '@/contexts/research/research-context'
 import { type ReactFlowNode } from '@/features/mindmap/actions/xata-to-xyflow'
 import { cn } from '@/lib/utils'
-import { Sparkles, Zap, Link, X, Camera, FileText, Calendar, MapPin } from 'lucide-react'
+import { Sparkles, Zap, Link, X, Camera, FileText, Calendar, MapPin, Brain, Target } from 'lucide-react'
+import { useSmartResearchIntegration } from '@/features/mindmap/smart-integration/use-smart-tour-integration'
 
 interface PinnedCardsCanvasProps {
   pinnedCards: PinnedCard[]
@@ -15,6 +16,7 @@ interface PinnedCardsCanvasProps {
   onCardMove?: (cardId: string, position: { x: number, y: number }) => void
   onNodeDrop?: (node: ReactFlowNode, position: { x: number, y: number }) => void
   className?: string
+  enableSmartAnalysis?: boolean
 }
 
 export function PinnedCardsCanvas({ 
@@ -24,6 +26,7 @@ export function PinnedCardsCanvas({
   onCardConnect,
   onCardMove,
   onNodeDrop,
+  enableSmartAnalysis = true,
   className 
 }: PinnedCardsCanvasProps) {
   const [draggedCard, setDraggedCard] = useState<string | null>(null)
@@ -33,6 +36,22 @@ export function PinnedCardsCanvas({
   }>({ sourceCard: null, isActive: false })
   const [hoveredCard, setHoveredCard] = useState<string | null>(null)
   const canvasRef = useRef<HTMLDivElement>(null)
+  
+  // Smart integration for AI-powered canvas analysis
+  const {
+    researchSuggestions,
+    spatialInsights,
+    contextualIntelligence,
+    applyResearchSuggestion,
+    updateResearchState
+  } = useSmartResearchIntegration()
+  
+  // Update smart state when cards change
+  React.useEffect(() => {
+    if (enableSmartAnalysis) {
+      updateResearchState({ pinnedCards })
+    }
+  }, [pinnedCards, enableSmartAnalysis, updateResearchState])
 
   // Handle drop events from ReactFlow mindmap
   const handleDrop = useCallback((e: React.DragEvent) => {
@@ -175,6 +194,70 @@ export function PinnedCardsCanvas({
         ))}
       </AnimatePresence>
 
+      {/* Smart Analysis Overlay */}
+      {enableSmartAnalysis && pinnedCards.length > 1 && spatialInsights.length > 0 && (
+        <motion.div 
+          className="absolute top-4 right-4 bg-purple-900/80 backdrop-blur-sm border border-purple-400/50 rounded-lg p-3 shadow-lg max-w-xs"
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+        >
+          <div className="flex items-center space-x-2 mb-2">
+            <Brain className="w-4 h-4 text-purple-400" />
+            <span className="text-purple-300 text-sm font-medium">Smart Analysis</span>
+          </div>
+          {spatialInsights.slice(0, 1).map(insight => (
+            <div key={insight.id} className="space-y-1">
+              <div className="text-purple-200 text-xs">{insight.title}</div>
+              <div className="text-purple-300/70 text-xs line-clamp-2">
+                {insight.summary}
+              </div>
+              <div className="flex items-center justify-between mt-2">
+                <span className="text-purple-400 text-xs">
+                  {Math.round(insight.confidence * 100)}% confidence
+                </span>
+                <button 
+                  className="text-purple-400 hover:text-purple-300 text-xs"
+                  onClick={() => console.log('Expand insight:', insight)}
+                >
+                  Expand →
+                </button>
+              </div>
+            </div>
+          ))}
+        </motion.div>
+      )}
+      
+      {/* Smart Suggestions Overlay */}
+      {enableSmartAnalysis && researchSuggestions.length > 0 && pinnedCards.length > 0 && (
+        <motion.div 
+          className="absolute top-4 left-4 bg-blue-900/80 backdrop-blur-sm border border-blue-400/50 rounded-lg p-3 shadow-lg max-w-sm"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+        >
+          <div className="flex items-center space-x-2 mb-2">
+            <Target className="w-4 h-4 text-blue-400" />
+            <span className="text-blue-300 text-sm font-medium">Research Suggestions</span>
+          </div>
+          <div className="space-y-2">
+            {researchSuggestions.slice(0, 2).map(suggestion => (
+              <div 
+                key={suggestion.id} 
+                className="bg-blue-800/50 rounded p-2 cursor-pointer hover:bg-blue-800/70 transition-colors"
+                onClick={() => applyResearchSuggestion(suggestion.id)}
+              >
+                <div className="text-blue-200 text-xs font-medium">{suggestion.title}</div>
+                <div className="text-blue-300/70 text-xs mt-1 line-clamp-2">
+                  {suggestion.description}
+                </div>
+                <div className="text-blue-400 text-xs mt-1">
+                  {suggestion.type.replace('-', ' ')} • {Math.round(suggestion.confidence * 100)}%
+                </div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      )}
+      
       {/* Canvas info overlay */}
       {pinnedCards.length > 0 && (
         <motion.div 
@@ -187,6 +270,14 @@ export function PinnedCardsCanvas({
               <span className="font-medium">{pinnedCards.length}</span>
               <span>entities</span>
             </div>
+            {enableSmartAnalysis && contextualIntelligence.entityNetworkStrength > 0 && (
+              <>
+                <div className="text-slate-400">•</div>
+                <div className="text-blue-400">
+                  {Math.round(contextualIntelligence.entityNetworkStrength * 100)}% connected
+                </div>
+              </>
+            )}
             <div className="text-slate-400">•</div>
             <div className="text-slate-300">
               Research Canvas
@@ -297,6 +388,7 @@ function PinnedResearchCard({
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 disabled={isAnalyzing}
+                title="AI Analysis"
               >
                 {isAnalyzing ? (
                   <motion.div
@@ -319,6 +411,7 @@ function PinnedResearchCard({
               className="bg-green-500 hover:bg-green-600 text-white p-1.5 rounded-full shadow-lg"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
+              title="Connect Entities"
             >
               <Link className="w-3 h-3" />
             </motion.button>
@@ -331,6 +424,7 @@ function PinnedResearchCard({
               className="bg-red-500 hover:bg-red-600 text-white p-1.5 rounded-full shadow-lg"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
+              title="Remove Card"
             >
               <X className="w-3 h-3" />
             </motion.button>

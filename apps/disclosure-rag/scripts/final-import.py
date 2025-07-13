@@ -226,7 +226,7 @@ class FinalImporter:
 
 async def main():
     """Main function"""
-    database_url = os.getenv('DATABASE_URL', 'postgresql://liamellis@localhost:5432/ultraterrestrial')
+    database_url = os.getenv('DATABASE_URL', 'postgresql://kgubvq:xau_T2uckroqht3tNd7pL3uETsxM0EC5WSNd1@us-east-1.sql.xata.sh/ultraterrestrial-postgres:main?sslmode=require')
     exports_path = '../../../apps/app/scripts/xata-exports/exports'
     
     importer = FinalImporter(database_url, exports_path)

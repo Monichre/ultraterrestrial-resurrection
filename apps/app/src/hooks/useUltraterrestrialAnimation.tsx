@@ -16,6 +16,15 @@ export const useUltraterrestrialAnimation = () => {
   const animationRef = useRef<gsap.core.Timeline | null>(null)
   const orbsRef = useRef<HTMLDivElement[]>([])
 
+  // Debug: Log state changes
+  useEffect(() => {
+    console.log('🔮 showFluidOrbs state changed:', showFluidOrbs)
+  }, [showFluidOrbs])
+
+  useEffect(() => {
+    console.log('🔮 isReady state changed:', isReady)
+  }, [isReady])
+
   useEffect(() => {
     // Wait for all elements to be in the DOM
     const checkElements = setInterval(() => {
@@ -131,12 +140,26 @@ export const useUltraterrestrialAnimation = () => {
       ease: 'power4.inOut',
     }).set(flashOverlay, {opacity: 0})
 
-    // Phase 2: Fluid shader orbs (1-4s)
+    // Phase 2: Fluid shader orbs (0.5-4.5s) - Extended duration with better timing
     // Control FluidShaderOrbs visibility via React state
-    tl.call(() => setShowFluidOrbs(true), [], 1) // Start orbs at 1s
-      .call(() => setShowFluidOrbs(false), [], 3) // Hide orbs at 3s
+    tl.call(
+      () => {
+        console.log('🔮 Showing fluid orbs')
+        setShowFluidOrbs(true)
+      },
+      [],
+      0.5
+    ) // Start orbs earlier at 0.5s
+      .call(
+        () => {
+          console.log('🔮 Hiding fluid orbs')
+          setShowFluidOrbs(false)
+        },
+        [],
+        4.5
+      ) // Hide orbs later at 4.5s
 
-      // Phase 3: Big flash (4s)
+      // Phase 3: Big flash (5s) - Moved later to allow orbs to complete
       .to(
         flashOverlay,
         {
@@ -144,7 +167,7 @@ export const useUltraterrestrialAnimation = () => {
           duration: 0.1,
           ease: 'power4.out',
         },
-        4
+        5
       )
       .to(
         flashOverlay,
@@ -154,7 +177,7 @@ export const useUltraterrestrialAnimation = () => {
           duration: 1,
           ease: 'power2.out',
         },
-        4.1
+        5.1
       )
 
       // Phase 4: Reveal background elements first
@@ -165,7 +188,7 @@ export const useUltraterrestrialAnimation = () => {
           duration: 1.5,
           ease: 'power1.out',
         },
-        4.2
+        5.2
       )
       .to(
         '.shooting-stars',
@@ -174,7 +197,7 @@ export const useUltraterrestrialAnimation = () => {
           duration: 1.5,
           ease: 'power1.out',
         },
-        4.3
+        5.3
       )
 
       // Phase 5: Reveal Earth - SIMPLIFIED
@@ -191,11 +214,11 @@ export const useUltraterrestrialAnimation = () => {
             console.log('🌍 Earth SIMPLE animation complete')
           },
         },
-        4.5
+        5.5
       )
 
       // Moon comes in AFTER Earth - from behind over left shoulder
-      .set('#moon-canvas', {visibility: 'visible'}, 7) // Make visible only after Earth
+      .set('#moon-canvas', {visibility: 'visible'}, 8) // Make visible only after Earth
       .to(
         '#moon-canvas',
         {
@@ -213,10 +236,10 @@ export const useUltraterrestrialAnimation = () => {
             console.log('🌙 Moon reached final orbital position')
           },
         },
-        7.2
+        8.2
       ) // Start well after Earth is established
 
-      // Phase 6: UI elements (6-8s)
+      // Phase 6: UI elements (7-9s)
       .to(
         '.cosmic-nav',
         {
@@ -224,7 +247,7 @@ export const useUltraterrestrialAnimation = () => {
           duration: 1,
           ease: 'power2.out',
         },
-        6
+        7
       )
       .to(
         '.astronaut',
@@ -235,7 +258,7 @@ export const useUltraterrestrialAnimation = () => {
           duration: 1.5,
           ease: 'power2.out',
         },
-        6.5
+        7.5
       )
 
       // Add subtle floating animation to Earth after it appears
@@ -248,7 +271,7 @@ export const useUltraterrestrialAnimation = () => {
           yoyo: true,
           ease: 'power1.inOut',
         },
-        8
+        9
       )
 
     // Cleanup function

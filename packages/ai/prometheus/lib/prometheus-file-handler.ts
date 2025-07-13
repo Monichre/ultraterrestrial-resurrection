@@ -1,6 +1,13 @@
-import {
-  extractTextFromFile
-} from '@ai/utils/ai-file-processing'
+// Note: This will be imported from the consuming app
+// For now, we'll create a simple version here
+export async function extractTextFromFile(file: File): Promise<string> {
+  try {
+    return await file.text()
+  } catch (error) {
+    console.error('Error extracting text from file:', error)
+    throw new Error(`Failed to extract text from ${file.name}`)
+  }
+}
 
 export interface FileAttachment {
   id: string

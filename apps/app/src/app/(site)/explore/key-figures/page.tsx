@@ -1,5 +1,5 @@
 
-import { getXataClient } from '@/db/xata'
+import { getXataClient } from '@db/xata'
 
 import { Particles } from '@/components/animated/particles/Particles'
 import SwipeGrid from '@/components/animated/swipe-grid/SwipeGrid'

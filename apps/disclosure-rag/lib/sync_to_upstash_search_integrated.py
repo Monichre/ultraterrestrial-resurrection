@@ -13,11 +13,22 @@ from datetime import datetime
 from typing import List, Dict, Any, Optional
 import logging
 from .knowledge_base_crud import KnowledgeBaseCRUD, Document
-from upstash.queue import add_processed_content_to_queue  # Existing workflow
 
-# Configure logging
+# Configure logging first
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+# Import upstash queue if available
+try:
+    from upstash.queue import add_processed_content_to_queue  # Existing workflow
+    UPSTASH_QUEUE_AVAILABLE = True
+except ImportError:
+    logger.warning("upstash.queue not available - queue functionality disabled")
+    UPSTASH_QUEUE_AVAILABLE = False
+    
+    def add_processed_content_to_queue(*args, **kwargs):
+        logger.warning("Queue functionality not available - upstash package not installed")
+        return None
 
 
 class IntegratedUpstashSyncer:
