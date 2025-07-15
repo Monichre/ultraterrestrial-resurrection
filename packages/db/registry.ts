@@ -6,7 +6,7 @@
  * providers like Supabase or Convex in the future.
  */
 
-import { xata } from "./xata/client";
+import { xata } from "./src/xata-typescript-sdk/client";
 
 /**
  * The provider registry containing all available database connections

@@ -47,7 +47,7 @@ export type {
   Sightings,
   Documents,
   Users,
-} from "./xata/xata";
+} from "./src/xata-typescript-sdk/xata";
 
 // Re-export the client instance for direct use
-export { xata } from "./xata/client";
+export { xata } from "./src/xata-typescript-sdk/client";

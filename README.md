@@ -82,6 +82,10 @@ When it comes to the more mysterious aspects, Ultraterrestrial includes lists of
 [Feature Roadmap](./roadmap.md)
 [Pitch](./pitch.md)
 
+## Project Structure
+
+For a comprehensive overview of the codebase architecture, file organization, and navigation guide, see **[PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md)**.
+
 ## Tech Stack
 
 OpenAI
@@ -99,11 +103,10 @@ Framer Motion
 
 <https://us.cloud.langfuse.com/project/cm383h71b00ko9czugbg17ss6>
 
-
-
 # Application Development Resources
 
 ## Research & Learning
+
 1. [AsyncFuncAI Rabbitholes](https://deepwiki.com/AsyncFuncAI/rabbitholes) - Deep dives into asynchronous function AI concepts
 2. [XYflow React Implementation](https://deepwiki.com/xyflow/xyflow/5-react-implementation) - Guide for implementing React with XYflow
 3. [Reactflow Auto Layout](https://deepwiki.com/idootop/reactflow-auto-layout) - Automatic layout solutions for Reactflow
@@ -111,5 +114,35 @@ Framer Motion
 5. [AFFiNE](https://deepwiki.com/toeverything/AFFiNE) - Knowledge base and collaboration platform
 6. [Deep Research Documentation](https://aie-feb-25.vercel.app/docs/deep-research) - Comprehensive research documentation and methodologies
 7. MyLensAI
-8. https://www.heuristi.ca/
+8. <https://www.heuristi.ca/>
+<!-- 
 
+{
+  "permissions": {
+    "allow": [
+      "Bash(bun run:*)",
+      "Bash(chmod:*)",
+      "Bash(grep:*)",
+      "Bash(bun build:*)",
+      "Bash(psql:*)",
+      "Bash(rm:*)",
+      "Bash(bun install:*)",
+      "Bash(find:*)",
+      "Bash(./launch_dashboard.sh:*)",
+      "Bash(XATA_DATABASE_URL=\"https://UltraTerrestrial-kgubvq.us-east-1.xata.sh/db/ultraterrestrial\" XATA_API_KEY=\"xau_LKJxzxjzXasEUXxjmhCBACdTCvi5Ed2v1\" XATA_BRANCH=\"main\" GROQ_API_KEY=\"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\" python3 -c \"\nimport sys\nsys.path.append('.')\nfrom lib.interactive_entity_processor import process_summary_file_interactive\nimport os\n\n# Test with the existing summary file in non-interactive mode\ntest_summary = '/Users/liamellis/Desktop/ultraterrestrial-resurrection/packages/knowledge-base/transcripts/2025-01-31/WGUb1JKxBDo/exPentagonOfficialConfirmsAlienLanguageExistsLueElizondoDebriefedEp24Summary.txt'\n\nif os.path.exists(test_summary):\n    print('Testing entity processor in non-interactive mode...')\n    results = process_summary_file_interactive(test_summary, 'WGUb1JKxBDo', interactive=False)\n    print(f'Processing complete: {results.get(\\\"status\\\", \\\"unknown\\\")}')\n    if results.get('entities'):\n        for entity_type, entities in results['entities'].items():\n            if entities:\n                print(f'{entity_type}: {len(entities)} entities')\n    if results.get('xata_search_results'):\n        print(f'Xata search: {results.get(\\\"total_matches\\\", 0)} total matches found')\nelse:\n    print(f'Test file not found: {test_summary}')\n\")",
+      "Bash(./venv/bin/pip install asyncpg)",
+      "Bash(python3:*)",
+      "Bash(source:*)",
+      "mcp__search1api__crawl",
+      "mcp__mcp-server-aidd__list_directory",
+      "mcp__mcp-server-aidd__read_file"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "mcp-installer",
+    "memory-graph",
+    "notion",
+    "byterover-mcp"
+  ]
+} -->

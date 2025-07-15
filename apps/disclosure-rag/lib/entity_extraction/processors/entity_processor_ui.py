@@ -49,6 +49,19 @@ except Exception:
     ENTITY_CREATOR_AVAILABLE = False
     EntityCreator = None
 
+# Import entity research queue and manager
+try:
+    from ...research_queue_manager import ResearchQueueManager, ResearchTask, ResearchPriority, ResearchStatus
+    from ...research_manager import ResearchManager
+    RESEARCH_QUEUE_AVAILABLE = True
+except Exception:
+    RESEARCH_QUEUE_AVAILABLE = False
+    ResearchQueueManager = None
+    ResearchManager = None
+    ResearchTask = None
+    ResearchPriority = None
+    ResearchStatus = None
+
 logger = logging.getLogger(__name__)
 
 class EntityProcessorApp(App):
@@ -130,6 +143,8 @@ class EntityProcessorApp(App):
         self.video_id = video_id
         self.entity_extractor = EntityExtractionAgent()
         self.entity_creator = EntityCreator() if ENTITY_CREATOR_AVAILABLE else None
+        self.research_queue = ResearchQueueManager() if RESEARCH_QUEUE_AVAILABLE else None
+        self.research_manager = ResearchManager(self.research_queue) if RESEARCH_QUEUE_AVAILABLE and self.research_queue else None
         self.extracted_entities = {}
         self.search_results = {}
         self.creation_results = {}
@@ -164,6 +179,15 @@ class EntityProcessorApp(App):
                 yield Button("🔍 Search All Types", id="search-all-btn", classes="-success")
                 yield Button("💾 Save Results", id="save-btn", classes="-warning")
                 
+                yield Static("\n🆕 Entity Creation", markup=True)
+                yield Button("🚀 Create Missing Entities", id="create-entities-btn", classes="-primary")
+                yield Button("📊 View Creation Results", id="view-creation-btn", classes="-success")
+                
+                yield Static("\n📋 Research Queue", markup=True)
+                yield Button("➕ Add to Research Queue", id="add-to-queue-btn", classes="-warning")
+                yield Button("🧠 AI Research Analysis", id="ai-analysis-btn", classes="-success")
+                yield Button("📈 Queue Statistics", id="queue-stats-btn", classes="-primary")
+                
                 yield Static("\n🎛️ Entity Types", markup=True)
                 for entity_type, display_name in self.entity_types.items():
                     yield Checkbox(display_name, value=True, id=f"check-{entity_type}")
@@ -178,6 +202,14 @@ class EntityProcessorApp(App):
                     # Search Results tab  
                     with TabPane("🎯 Search Results", id="results-tab"):
                         yield DataTable(id="results-table", classes="entity-table")
+                    
+                    # Creation Results tab
+                    with TabPane("🚀 Creation Results", id="creation-tab"):
+                        yield DataTable(id="creation-table", classes="entity-table")
+                    
+                    # Research Queue tab
+                    with TabPane("📋 Research Queue", id="queue-tab"):
+                        yield DataTable(id="queue-table", classes="entity-table")
                     
                     # Log tab
                     with TabPane("📋 Processing Log", id="log-tab"):
@@ -212,6 +244,14 @@ class EntityProcessorApp(App):
         # Results table
         results_table = self.query_one("#results-table", DataTable)
         results_table.add_columns("Entity", "Status", "Xata Match", "Match Details")
+        
+        # Creation results table
+        creation_table = self.query_one("#creation-table", DataTable)
+        creation_table.add_columns("Entity Name", "Type", "Status", "Xata ID", "Created At")
+        
+        # Research queue table
+        queue_table = self.query_one("#queue-table", DataTable)
+        queue_table.add_columns("Entity Name", "Type", "Priority", "Status", "Created", "Notes")
     
     def log_message(self, message: str) -> None:
         """Add a message to the processing log"""
@@ -388,6 +428,16 @@ class EntityProcessorApp(App):
             self.search_entities_worker()
         elif event.button.id == "save-btn":
             self.save_results()
+        elif event.button.id == "create-entities-btn":
+            self.create_entities_worker()
+        elif event.button.id == "view-creation-btn":
+            self.view_creation_results()
+        elif event.button.id == "add-to-queue-btn":
+            self.add_to_research_queue_worker()
+        elif event.button.id == "ai-analysis-btn":
+            self.ai_research_analysis_worker()
+        elif event.button.id == "queue-stats-btn":
+            self.show_queue_statistics()
     
     def action_extract(self) -> None:
         """Extract entities action"""
@@ -401,7 +451,308 @@ class EntityProcessorApp(App):
         """Refresh the display"""
         self.update_entities_table()
         self.update_results_table()
+        self.update_creation_table()
+        self.update_queue_table()
         self.log_message("🔄 Display refreshed")
+    
+    @work(exclusive=True)
+    async def create_entities_worker(self) -> None:
+        """Worker to create missing entities using EntityCreator"""
+        if not ENTITY_CREATOR_AVAILABLE:
+            self.log_message("❌ EntityCreator not available")
+            return
+        
+        if not self.entity_creator:
+            self.log_message("❌ EntityCreator not initialized")
+            return
+        
+        if not self.search_results:
+            self.log_message("❌ No search results to process - search entities first")
+            return
+        
+        try:
+            self.update_status("🚀 Creating missing entities...")
+            progress = self.query_one("#progress-bar", ProgressBar)
+            progress.update(progress=0)
+            
+            # Count entities that need creation
+            entities_to_create = 0
+            for entity_type, results in self.search_results.items():
+                entities_to_create += len([
+                    r for r in results 
+                    if r.get('status') == 'not_found' and r.get('action_needed') == 'create_new'
+                ])
+            
+            if entities_to_create == 0:
+                self.log_message("ℹ️ No entities marked for creation")
+                self.update_status("No entities to create")
+                return
+            
+            self.log_message(f"🔍 Found {entities_to_create} entities marked for creation")
+            progress.update(progress=25)
+            
+            # Create entities using EntityCreator
+            self.log_message("🚀 Starting entity creation process...")
+            self.creation_results = await self.entity_creator.create_missing_entities(self.search_results)
+            progress.update(progress=75)
+            
+            # Update creation results table
+            self.update_creation_table()
+            progress.update(progress=100)
+            
+            # Show summary
+            stats = self.creation_results.get("statistics", {})
+            total_created = stats.get("total_created", 0)
+            total_failed = stats.get("total_failed", 0)
+            
+            self.log_message(f"✅ Entity creation complete!")
+            self.log_message(f"   - Created: {total_created} entities")
+            self.log_message(f"   - Failed: {total_failed} entities")
+            
+            if self.creation_results.get("errors"):
+                self.log_message("⚠️ Errors encountered during creation:")
+                for error in self.creation_results["errors"]:
+                    self.log_message(f"   - {error}")
+            
+            self.update_status(f"✅ Created {total_created} entities")
+            
+        except Exception as e:
+            self.log_message(f"❌ Entity creation failed: {e}")
+            self.update_status("❌ Entity creation failed")
+    
+    def update_creation_table(self) -> None:
+        """Update the creation results table with creation data"""
+        creation_table = self.query_one("#creation-table", DataTable)
+        creation_table.clear()
+        
+        if not self.creation_results:
+            return
+        
+        # Add successful creations
+        for entity_type, created_entities in self.creation_results.get("created_entities", {}).items():
+            for entity in created_entities:
+                creation_table.add_row(
+                    entity["entity_name"],
+                    entity_type.title(),
+                    "✅ Created",
+                    entity.get("xata_id", "Unknown"),
+                    entity.get("created_at", "Unknown")
+                )
+        
+        # Add failed creations
+        for entity_type, failed_entities in self.creation_results.get("failed_creations", {}).items():
+            for entity in failed_entities:
+                creation_table.add_row(
+                    entity["entity_name"],
+                    entity_type.title(),
+                    "❌ Failed",
+                    "—",
+                    entity.get("error", "Unknown error")
+                )
+    
+    def view_creation_results(self) -> None:
+        """Switch to creation results tab and show summary"""
+        if not self.creation_results:
+            self.log_message("ℹ️ No creation results available - create entities first")
+            return
+        
+        # Switch to creation tab
+        tabbed_content = self.query_one(TabbedContent)
+        tabbed_content.active = "creation-tab"
+        
+        # Log summary
+        stats = self.creation_results.get("statistics", {})
+        self.log_message("📊 Creation Results Summary:")
+        self.log_message(f"   - Total processed: {stats.get('total_processed', 0)}")
+        self.log_message(f"   - Total created: {stats.get('total_created', 0)}")
+        self.log_message(f"   - Total failed: {stats.get('total_failed', 0)}")
+        
+        # Show breakdown by entity type
+        for entity_type, created in self.creation_results.get("created_entities", {}).items():
+            if created:
+                self.log_message(f"   - {entity_type}: {len(created)} created")
+        
+        for entity_type, failed in self.creation_results.get("failed_creations", {}).items():
+            if failed:
+                self.log_message(f"   - {entity_type}: {len(failed)} failed")
+    
+    @work(exclusive=True)
+    async def add_to_research_queue_worker(self) -> None:
+        """Worker to add not_found entities to research queue"""
+        if not RESEARCH_QUEUE_AVAILABLE or not self.research_queue:
+            self.log_message("❌ Research Queue not available")
+            return
+        
+        if not self.search_results:
+            self.log_message("❌ No search results to process - search entities first")
+            return
+        
+        try:
+            self.update_status("📋 Adding entities to research queue...")
+            progress = self.query_one("#progress-bar", ProgressBar)
+            progress.update(progress=0)
+            
+            # Count entities that need research
+            entities_to_queue = 0
+            for entity_type, results in self.search_results.items():
+                entities_to_queue += len([
+                    r for r in results 
+                    if r.get('status') == 'not_found'
+                ])
+            
+            if entities_to_queue == 0:
+                self.log_message("ℹ️ No entities marked for research queue")
+                self.update_status("No entities to queue")
+                return
+            
+            self.log_message(f"📋 Found {entities_to_queue} entities to add to research queue")
+            progress.update(progress=25)
+            
+            # Add entities to research queue
+            added_count = 0
+            for entity_type, results in self.search_results.items():
+                for result in results:
+                    if result.get('status') == 'not_found':
+                        entity_name = result.get('entity_name', '')
+                        
+                        # Determine priority based on entity type and confidence
+                        if entity_type in ['personnel', 'organizations', 'events']:
+                            priority = ResearchPriority.HIGH
+                        elif entity_type in ['topics']:
+                            priority = ResearchPriority.MEDIUM
+                        else:
+                            priority = ResearchPriority.LOW
+                        
+                        # Add to research queue
+                        task = await self.research_queue.add_research_task(
+                            entity_name=entity_name,
+                            entity_type=entity_type,
+                            priority=priority,
+                            source_context=f"Extracted from video {self.video_id}",
+                            disclosure_relevance="Entity identified but not found in database - requires research",
+                            video_id=self.video_id,
+                            extraction_session=f"extraction_{self.video_id}"
+                        )
+                        
+                        if task:
+                            added_count += 1
+                            self.log_message(f"  ✅ Added {entity_name} ({entity_type}) to research queue")
+            
+            progress.update(progress=75)
+            
+            # Update queue table
+            self.update_queue_table()
+            progress.update(progress=100)
+            
+            self.log_message(f"✅ Research queue update complete!")
+            self.log_message(f"   - Added: {added_count} entities")
+            self.update_status(f"✅ Added {added_count} entities to research queue")
+            
+        except Exception as e:
+            self.log_message(f"❌ Research queue update failed: {e}")
+            self.update_status("❌ Research queue update failed")
+    
+    @work(exclusive=True)
+    async def ai_research_analysis_worker(self) -> None:
+        """Worker to get AI analysis of research priorities"""
+        if not RESEARCH_QUEUE_AVAILABLE or not self.research_manager:
+            self.log_message("❌ Research Manager not available")
+            return
+        
+        try:
+            self.update_status("🧠 Running AI research analysis...")
+            progress = self.query_one("#progress-bar", ProgressBar)
+            progress.update(progress=0)
+            
+            # Generate research briefing
+            self.log_message("🧠 Generating research briefing...")
+            progress.update(progress=25)
+            
+            briefing = await self.research_manager.generate_research_briefing()
+            progress.update(progress=50)
+            
+            # Get priority actions
+            self.log_message("📋 Analyzing research priorities...")
+            actions = await self.research_manager.analyze_research_priorities()
+            progress.update(progress=75)
+            
+            # Display results
+            self.log_message("📄 Research Briefing:")
+            for line in briefing.split('\n'):
+                if line.strip():
+                    self.log_message(f"   {line}")
+            
+            if actions:
+                self.log_message(f"\n📋 Priority Actions ({len(actions)}):")
+                for i, action in enumerate(actions[:5], 1):
+                    self.log_message(f"   {i}. {action.entity_name}: {action.action}")
+                    self.log_message(f"      {action.reasoning}")
+                    self.log_message(f"      Timeline: {action.timeline}")
+            
+            progress.update(progress=100)
+            self.update_status("✅ AI research analysis complete")
+            
+        except Exception as e:
+            self.log_message(f"❌ AI research analysis failed: {e}")
+            self.update_status("❌ AI research analysis failed")
+    
+    def update_queue_table(self) -> None:
+        """Update the research queue table with current queue data"""
+        queue_table = self.query_one("#queue-table", DataTable)
+        queue_table.clear()
+        
+        if not RESEARCH_QUEUE_AVAILABLE or not self.research_queue:
+            return
+        
+        # Get current tasks
+        for task in self.research_queue.tasks.values():
+            created_date = task.created_at[:10] if task.created_at else "Unknown"
+            notes = task.research_notes[:50] + "..." if len(task.research_notes) > 50 else task.research_notes
+            
+            queue_table.add_row(
+                task.entity_name,
+                task.entity_type.title(),
+                task.priority.value.title(),
+                task.status.value.title(),
+                created_date,
+                notes or "—"
+            )
+    
+    def show_queue_statistics(self) -> None:
+        """Show research queue statistics"""
+        if not RESEARCH_QUEUE_AVAILABLE or not self.research_queue:
+            self.log_message("❌ Research Queue not available")
+            return
+        
+        # Switch to queue tab
+        tabbed_content = self.query_one(TabbedContent)
+        tabbed_content.active = "queue-tab"
+        
+        # Get and display statistics
+        stats = self.research_queue.get_queue_stats()
+        
+        self.log_message("📊 Research Queue Statistics:")
+        self.log_message(f"   - Total tasks: {stats['total_tasks']}")
+        self.log_message(f"   - Upstash enabled: {stats['upstash_enabled']}")
+        self.log_message(f"   - AI enabled: {stats['ai_enabled']}")
+        
+        self.log_message("   Priority breakdown:")
+        for priority, count in stats['priority_breakdown'].items():
+            if count > 0:
+                self.log_message(f"     - {priority.title()}: {count}")
+        
+        self.log_message("   Status breakdown:")
+        for status, count in stats['status_breakdown'].items():
+            if count > 0:
+                self.log_message(f"     - {status.title()}: {count}")
+        
+        self.log_message("   Entity type breakdown:")
+        for entity_type, count in stats['entity_type_breakdown'].items():
+            if count > 0:
+                self.log_message(f"     - {entity_type.title()}: {count}")
+        
+        # Update the queue table
+        self.update_queue_table()
     
     def save_results(self) -> None:
         """Save the processing results"""
@@ -413,11 +764,14 @@ class EntityProcessorApp(App):
                 "summary_file": self.summary_file,
                 "entities": self.extracted_entities,
                 "xata_search_results": self.search_results,
+                "entity_creation_results": self.creation_results,
+                "research_queue_stats": self.research_queue.get_queue_stats() if self.research_queue else {},
                 "total_entities": sum(len(entities) for entities in self.extracted_entities.values()),
                 "total_matches": sum(
                     len([r for r in results if r['status'] == 'found'])
                     for results in self.search_results.values()
-                )
+                ),
+                "total_created": self.creation_results.get("statistics", {}).get("total_created", 0) if self.creation_results else 0
             }
             
             # Save to video folder

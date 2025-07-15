@@ -121,11 +121,6 @@
 - **Background Information**: Document theories, sightings, and official statements related to each base.
 - **Photographic Evidence**: Include photos, videos, and other visual evidence.
 
-**c. Security and Access**
-
-- **User Privacy Considerations**: Ensure sensitive location data is handled responsibly to protect user privacy and safety.
-- **Verification Mechanisms**: Implement systems to verify the credibility of information about these locations.
-
 ### **9. List of Suspected Contractors Camping on Retrieved Material**
 
 **a. Contractor Profiles**

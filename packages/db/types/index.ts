@@ -76,14 +76,14 @@ export type {
   
   // Database Schema
   DatabaseSchema,
-} from '../xata/xata';
+} from '../src/xata-typescript-sdk/xata';
 
 // =============================================================================
 // XATA CLIENT TYPES
 // =============================================================================
 
-export type { XataClient } from '../xata/xata';
-export type XataClientInstance = ReturnType<typeof import('../xata/xata').getXataClient>;
+export type { XataClient } from '../src/xata-typescript-sdk/xata';
+export type XataClientInstance = ReturnType<typeof import('../src/xata-typescript-sdk/xata').getXataClient>;
 
 // =============================================================================
 // MODEL INPUT/UPDATE TYPES
@@ -93,13 +93,13 @@ export type XataClientInstance = ReturnType<typeof import('../xata/xata').getXat
 export type {
   PersonnelInput,
   PersonnelUpdateInput,
-} from '../xata/models/personnel';
+} from '../src/xata-typescript-sdk/models/personnel';
 
 // Organization Types
 export type {
   OrganizationInput,
   OrganizationUpdateInput,
-} from '../xata/models/organizations';
+} from '../src/xata-typescript-sdk/models/organizations';
 
 // Event Types
 export type EventInput = Omit<Events, 'id' | 'xata'>;
@@ -117,43 +117,43 @@ export type TestimonyUpdateInput = Partial<TestimonyInput> & { id: string };
 export type {
   SightingInput,
   SightingUpdateInput,
-} from '../xata/models/sightings';
+} from '../src/xata-typescript-sdk/models/sightings';
 
 // Document Types
 export type {
   DocumentInput,
   DocumentUpdateInput,
-} from '../xata/models/documents';
+} from '../src/xata-typescript-sdk/models/documents';
 
 // Location Types
 export type {
   LocationInput,
   LocationUpdateInput,
-} from '../xata/models/locations';
+} from '../src/xata-typescript-sdk/models/locations';
 
 // Artifact Types
 export type {
   ArtifactInput,
   ArtifactUpdateInput,
-} from '../xata/models/artifacts';
+} from '../src/xata-typescript-sdk/models/artifacts';
 
 // Mindmap Types
 export type {
   MindmapInput,
   MindmapUpdateInput,
-} from '../xata/models/mindmaps';
+} from '../src/xata-typescript-sdk/models/mindmaps';
 
 // Summary File Types
 export type {
   SummaryFileInput,
   SummaryFileUpdateInput,
-} from '../xata/models/summary-files';
+} from '../src/xata-typescript-sdk/models/summary-files';
 
 // User Types
 export type {
   UserInput,
   UserUpdateInput,
-} from '../xata/models/users';
+} from '../src/xata-typescript-sdk/models/users';
 
 // User Saved Items Types
 export type {
@@ -171,43 +171,43 @@ export type {
   UserSavedOrganizationUpdateInput,
   UserSavedSightingInput,
   UserSavedSightingUpdateInput,
-} from '../xata/models/user-saved-items';
+} from '../src/xata-typescript-sdk/models/user-saved-items';
 
 // Join Table Types
 export type {
   EventSmeInput,
   EventSmeUpdateInput,
-} from '../xata/models/event-subject-matter-experts';
+} from '../src/xata-typescript-sdk/models/event-subject-matter-experts';
 
 export type {
   TopicSmeInput,
   TopicSmeUpdateInput,
-} from '../xata/models/topic-subject-matter-experts';
+} from '../src/xata-typescript-sdk/models/topic-subject-matter-experts';
 
 export type {
   EventTopicSmeInput,
   EventTopicSmeUpdateInput,
-} from '../xata/models/event-topic-subject-matter-experts';
+} from '../src/xata-typescript-sdk/models/event-topic-subject-matter-experts';
 
 export type {
   OrganizationMemberInput,
   OrganizationMemberUpdateInput,
-} from '../xata/models/organization-members';
+} from '../src/xata-typescript-sdk/models/organization-members';
 
 export type {
   TopicTestimonyInput,
   TopicTestimonyUpdateInput,
-} from '../xata/models/topics-testimonies';
+} from '../src/xata-typescript-sdk/models/topics-testimonies';
 
 export type {
   TagInput,
   TagUpdateInput,
-} from '../xata/models/tags';
+} from '../src/xata-typescript-sdk/models/tags';
 
 export type {
   TheoryInput,
   TheoryUpdateInput,
-} from '../xata/models/theories';
+} from '../src/xata-typescript-sdk/models/theories';
 
 // =============================================================================
 // API FUNCTION TYPES
@@ -247,20 +247,20 @@ export type {
   XataToXYFlowResult,
   XataToXYFlowParams,
   XataToXYFlowResponse,
-} from '../xata/api/xata-to-xyflow';
+} from '../src/xata-typescript-sdk/api/xata-to-xyflow';
 
 export type {
   MindMapNode,
   FetchNextMindmapRecordsResult,
   ConnectionResults,
   JoinTablesData,
-} from '../xata/api/helpers';
+} from '../src/xata-typescript-sdk/api/helpers';
 
 export type {
   GraphNode,
   GraphEdge,
   NetworkGraphPayload,
-} from '../xata/api/xyflow-integration';
+} from '../src/xata-typescript-sdk/api/xyflow-integration';
 
 // =============================================================================
 // PROVIDER REGISTRY TYPES

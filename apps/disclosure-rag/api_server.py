@@ -158,7 +158,7 @@ async def root():
         "message": "Disclosure RAG Knowledge Base API",
         "version": "1.0.0",
         "docs": "/docs",
-        "total_documents": len(kb_api.index_data.get('documents', {}))
+        "total_documents": str(len(kb_api.index_data.get('documents', {})))
     }
 
 @app.get("/health")

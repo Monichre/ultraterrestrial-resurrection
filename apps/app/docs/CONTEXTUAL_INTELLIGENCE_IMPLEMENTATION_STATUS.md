@@ -38,11 +38,13 @@ Successfully implemented contextual intelligence system for the mindmap function
 ## Key Features Implemented
 
 ### 1. Context Detection System
+
 - **Function:** `getGraphContext(nodes: Node[]): GraphContext | null`
 - **Purpose:** Analyzes existing mindmap nodes to extract contextual relationships
 - **Returns:** Null for first record (open exploration), detailed context object for subsequent records
 
 **Context Analysis Includes:**
+
 - Seed record identification (first non-user-input node)
 - Connected entity types tracking
 - Timeline bounds extraction (earliest/latest dates)
@@ -50,6 +52,7 @@ Successfully implemented contextual intelligence system for the mindmap function
 - Geographic proximity calculations
 
 ### 2. Relationship Filtering Logic
+
 - **Function:** `isRecordRelated(record: any, context: GraphContext): boolean`
 - **Filters Based On:**
   - Temporal relevance (±10 year window from existing timeline)
@@ -58,6 +61,7 @@ Successfully implemented contextual intelligence system for the mindmap function
   - Geographic proximity (within 500km radius)
 
 ### 3. Contextual Search Rules Generation
+
 - **Function:** `generateContextualSearchRules(context: GraphContext): string`
 - **Generates AI Instructions For:**
   - Temporal constraints based on existing timeline
@@ -66,6 +70,7 @@ Successfully implemented contextual intelligence system for the mindmap function
   - Special Roswell 1947 → disclosure narrative rules
 
 ### 4. Enhanced User Experience
+
 - **Visual Indicators:**
   - "Your Query" → "Contextual Search" label changes
   - Context info display showing connected entity counts
@@ -78,6 +83,7 @@ Successfully implemented contextual intelligence system for the mindmap function
 ## Technical Implementation Details
 
 ### Data Flow
+
 1. User clicks "Add Record" for entity type
 2. System calls `getGraphContext(existingNodes)`
 3. If context exists → generate contextual rules and targeted query
@@ -87,6 +93,7 @@ Successfully implemented contextual intelligence system for the mindmap function
 7. Position new nodes contextually around existing graph
 
 ### Integration Points
+
 - **Mindmap Context:** Uses existing `useMindMap()` hook for node management
 - **Search Integration:** Enhanced both `runSearch()` and `handleLoadingRecords()` functions
 - **AI Integration:** Passes contextual rules to `xataToXYFlow()` for intelligent record selection
@@ -95,6 +102,7 @@ Successfully implemented contextual intelligence system for the mindmap function
 ## Use Cases Enabled
 
 ### 1. Guided Disclosure Tours
+
 - Start with Roswell 1947 event (establishes 1947 timeline context)
 - Subsequent additions automatically filter for:
   - Related military personnel (witnesses, officials)
@@ -103,6 +111,7 @@ Successfully implemented contextual intelligence system for the mindmap function
   - Chronologically relevant events (Project Blue Book, etc.)
 
 ### 2. Focused Research Sessions
+
 - Begin with any key figure (e.g., Bob Lazar)
 - System automatically suggests:
   - Related events (Area 51, S-4 facility)
@@ -111,6 +120,7 @@ Successfully implemented contextual intelligence system for the mindmap function
   - Related topics (reverse engineering, element 115)
 
 ### 3. Network Analysis
+
 - Add organization (e.g., AATIP)
 - System filters for:
   - Key personnel members
@@ -130,6 +140,7 @@ The implementation leverages existing database relationships defined in `disclos
 ## Research Canvas Integration Ready
 
 The contextual intelligence system perfectly supports the planned research canvas workflow:
+
 - Users can select contextually related nodes
 - Save them to research canvas for detailed analysis
 - Take notes and build theories
@@ -160,7 +171,8 @@ The contextual intelligence system perfectly supports the planned research canva
 
 ## Component Interactions
 
-### Mindmap Bottom Menu Flow:
+### Mindmap Bottom Menu Flow
+
 ```
 User clicks "Add [Entity]" 
 → handleLoadingRecords() 
@@ -171,7 +183,8 @@ User clicks "Add [Entity]"
 → Add positioned nodes to graph
 ```
 
-### Search Flow:
+### Search Flow
+
 ```
 User searches "[term]"
 → runSearch()

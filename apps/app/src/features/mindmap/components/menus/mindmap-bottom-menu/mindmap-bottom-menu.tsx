@@ -36,16 +36,24 @@ import {
   queueContextualExpansion,
   type HistoricalQueryTask,
 } from '@/features/mindmap/agents/historical-query-agent'
-import {
-  tourStateAgent,
-  type TourSession,
-} from '@/features/mindmap/agents/tour-state-agent'
+import {tourStateAgent, type TourSession} from '@/features/mindmap/agents/tour-state-agent'
 import {
   startGuidedTour,
   startFreeFormExploration,
   switchToFreeForm,
   progressTour,
 } from '@/features/mindmap/agents/tour-state-actions'
+
+type MindMapNodeData = {
+  type: string
+  id: string
+  [key: string]: unknown
+}
+
+interface XataResponseRecord {
+  id: string
+  [key: string]: unknown
+}
 
 // Define explicit types for our entities and nodes
 export interface MindMapNode {
@@ -110,51 +118,21 @@ export const MindMapBottomMenu = ({
     typeof window !== 'undefined' ? localStorage.getItem('sessionId') || uuidv4() : uuidv4()
   )
 
-  // Store session ID in localStorage if it's new
-  useEffect(() => {
-    if (typeof window !== 'undefined' && !localStorage.getItem('sessionId')) {
-      localStorage.setItem('sessionId', sessionId.current)
-    }
-  }, [])
+  const menuRef = useRef<HTMLDivElement>(null)
+  const [commandMenuOpen, setCommandMenuOpen] = useState(false)
+  const [activeCommand, setActiveCommand] = useState<string | null>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [inputValue, setInputValue] = useState('')
+  const [modelMenuOpen, setModelMenuOpen] = useState(false)
+  const [selectedModel, setSelectedModel] = useState<string | null>(null)
+  const [deepResearchEnabled, setDeepResearchEnabled] = useState(false)
 
-  const {
-    status: chatStatus,
-    messages,
-    input,
-    setInput,
-    submitMessage,
-    handleInputChange,
-    append,
-    error,
-  } = useAssistant({
-    api: '/api/disclosure/chat',
-    headers: {
-      'x-session-id': sessionId.current,
-    },
-  })
-
-  console.log('🚀 ~ MindMapBottomMenu ~ input:', input)
-
-  // Keep inputValue in sync with useAssistant input, but avoid infinite loops
-  useEffect(() => {
-    setInputValue(input)
-  }, [input])
-
-  // Save messages to localStorage when they change
-  useEffect(() => {
-    if (messages.length > 0 && typeof window !== 'undefined') {
-      localStorage.setItem('chatMessages', JSON.stringify(messages))
-    }
-  }, [messages])
-
-  // Handle assistant errors
-  useEffect(() => {
-    if (error) {
-      console.error('Assistant error:', error)
-      // Display error to user - could use a toast library here
-    }
-  }, [error])
-
+  // Tour and agent state management
+  const [activeTourSession, setActiveTourSession] = useState<string | null>(null)
+  const [tourMode, setTourMode] = useState<'guided' | 'free-form' | null>(null)
+  const [agentTaskQueue, setAgentTaskQueue] = useState<{[key: string]: HistoricalQueryTask}>({})
+  const [backgroundProcessing, setBackgroundProcessing] = useState(false)
   const {
     addNextEntitiesToMindMap,
     loadNodesFromTableQuery,
@@ -173,6 +151,42 @@ export const MindMapBottomMenu = ({
 
     getNode,
   } = useMindMap()
+
+  const {
+    status: chatStatus,
+    messages,
+    input,
+    setInput,
+    submitMessage,
+    handleInputChange,
+    append,
+    error,
+  } = useAssistant({
+    api: '/api/disclosure/chat',
+    headers: {
+      'x-session-id': sessionId.current,
+    },
+  })
+  // Store session ID in localStorage if it's new
+  useEffect(() => {
+    if (typeof window !== 'undefined' && !localStorage.getItem('sessionId')) {
+      localStorage.setItem('sessionId', sessionId.current)
+    }
+  }, [])
+
+  // Keep inputValue in sync with useAssistant input, but avoid infinite loops
+  useEffect(() => {
+    setInputValue(input)
+  }, [input])
+
+  // Save messages to localStorage when they change
+  useEffect(() => {
+    if (messages.length > 0 && typeof window !== 'undefined') {
+      localStorage.setItem('chatMessages', JSON.stringify(messages))
+    }
+  }, [messages])
+
+  // Handle assistant errors
 
   const idCounter = useRef(0)
   const getNextId = useCallback(() => {
@@ -354,16 +368,6 @@ export const MindMapBottomMenu = ({
   )
 
   // Define proper types for nodes and responses
-  type MindMapNodeData = {
-    type: string
-    id: string
-    [key: string]: unknown
-  }
-
-  interface XataResponseRecord {
-    id: string
-    [key: string]: unknown
-  }
 
   // Enhanced agent-based data loading with React Flow optimization
   const handleLoadingRecords = useCallback(
@@ -430,13 +434,13 @@ export const MindMapBottomMenu = ({
             })
           }
           setBackgroundProcessing(false)
-        })
 
-        // Update task queue state
-        setAgentTaskQueue((prev) => ({
-          ...prev,
-          [taskId]: {...result, id: taskId} as HistoricalQueryTask,
-        }))
+          // Update task queue state here, where result is defined
+          setAgentTaskQueue((prev) => ({
+            ...prev,
+            [taskId]: {...result, id: taskId} as HistoricalQueryTask,
+          }))
+        })
 
         console.log(`[MindMap Menu] Queued background task ${taskId} for ${type} records`)
       } catch (error) {
@@ -641,22 +645,6 @@ export const MindMapBottomMenu = ({
     },
     [handleLoadingRecords]
   )
-
-  const menuRef = useRef<HTMLDivElement>(null)
-  const [commandMenuOpen, setCommandMenuOpen] = useState(false)
-  const [activeCommand, setActiveCommand] = useState<string | null>(null)
-  const inputRef = useRef<HTMLInputElement>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
-  const [inputValue, setInputValue] = useState('')
-  const [modelMenuOpen, setModelMenuOpen] = useState(false)
-  const [selectedModel, setSelectedModel] = useState<string | null>(null)
-  const [deepResearchEnabled, setDeepResearchEnabled] = useState(false)
-
-  // Tour and agent state management
-  const [activeTourSession, setActiveTourSession] = useState<string | null>(null)
-  const [tourMode, setTourMode] = useState<'guided' | 'free-form' | null>(null)
-  const [agentTaskQueue, setAgentTaskQueue] = useState<{[key: string]: HistoricalQueryTask}>({})
-  const [backgroundProcessing, setBackgroundProcessing] = useState(false)
 
   const toggleDeepResearch = () => {
     setDeepResearchEnabled(!deepResearchEnabled)

@@ -8,10 +8,10 @@
   "exports": {
     ".": "./index.ts",
     "./registry": "./registry.ts",
-    "./xata": "./xata/index.ts",
-    "./xata/client": "./xata/client.ts",
-    "./xata/models": "./xata/models/index.ts",
-    "./xata/api": "./xata/api/index.ts",
+    "./xata": "./src/xata-typescript-sdk/index.ts",
+    "./xata/client": "./src/xata-typescript-sdk/client.ts",
+    "./xata/models": "./src/xata-typescript-sdk/models/index.ts",
+    "./xata/api": "./src/xata-typescript-sdk/api/index.ts",
     "./types": "./types/index.ts"
   },
   "devDependencies": {

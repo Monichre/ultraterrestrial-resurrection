@@ -1,13 +1,11 @@
-import {getAllOrganizations} from '@/db/xata/db/models'
-import {getAllEvents, getAllTestimonies, getAllTopics} from '@/db/xata/db/models'
-import {getAllKeyFigures} from '@/db/xata/functions/key-figures'
+import {getAllOrganizations, getAllEvents, getAllTestimonies, getAllTopics, getAllPersonnel} from '@db/xata/models'
 import {AdminDashboard} from '@/features/admin/AdminDashboard'
 
 export default async function Index() {
   // Server Action
 
   const events = await getAllEvents()
-  const keyFigures = await getAllKeyFigures()
+  const keyFigures = await getAllPersonnel()
   const topics = await getAllTopics()
   const testimonies = await getAllTestimonies()
   const organizations = await getAllOrganizations()

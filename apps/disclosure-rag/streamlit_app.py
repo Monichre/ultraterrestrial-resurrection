@@ -29,9 +29,14 @@ try:
     from processing.web_content_processor import WebContentProcessor
     from components.data_sources_navigator import render_data_sources_navigator
     from scripts.bulk_folder_ingestion import BulkFolderIngestion, DocumentFile
+    # Entity creation imports
+    from lib.entity_extraction.core.entity_creator import EntityCreator
+    from lib.research_queue_manager import ResearchQueueManager
+    from lib.research_manager import ResearchManager
+    ENTITY_CREATION_AVAILABLE = True
 except ImportError as e:
-    st.error(f"Import error: {e}")
-    st.stop()
+    ENTITY_CREATION_AVAILABLE = False
+    st.warning(f"Entity creation components not available: {e}")
 
 # Configure page
 st.set_page_config(
@@ -90,6 +95,16 @@ def initialize_components():
             st.session_state.entity_agent = EntityExtractionAgent()
         if 'web_processor' not in st.session_state:
             st.session_state.web_processor = WebContentProcessor()
+        
+        # Initialize entity creation components
+        if ENTITY_CREATION_AVAILABLE:
+            if 'entity_creator' not in st.session_state:
+                st.session_state.entity_creator = EntityCreator()
+            if 'research_queue' not in st.session_state:
+                st.session_state.research_queue = ResearchQueueManager()
+            if 'research_manager' not in st.session_state:
+                st.session_state.research_manager = ResearchManager(st.session_state.research_queue)
+        
         return True
     except Exception as e:
         st.error(f"Failed to initialize components: {e}")
@@ -116,11 +131,138 @@ def process_document(content: str, title: str = "Document") -> Dict[str, Any]:
             st.session_state.processed_documents.append(processed_doc)
             st.session_state.entity_data[title] = entities
             
+            # Entity creation and research queue processing
+            if ENTITY_CREATION_AVAILABLE and hasattr(st.session_state, 'entity_creator'):
+                with st.spinner("🔍 Searching database for entities..."):
+                    # Simulate entity search results (would need actual Xata integration)
+                    search_results = simulate_entity_search(entities)
+                    processed_doc['search_results'] = search_results
+                    
+                    # Check processing options
+                    enable_creation = st.session_state.get('enable_entity_creation', True)
+                    enable_queue = st.session_state.get('enable_research_queue', True)
+                    
+                    if enable_creation:
+                        # Create missing entities
+                        creation_results = process_entity_creation(search_results)
+                        processed_doc['creation_results'] = creation_results
+                        
+                        if creation_results.get('total_created', 0) > 0:
+                            st.success(f"✅ Created {creation_results['total_created']} new entities")
+                    
+                    if enable_queue:
+                        # Add entities to research queue
+                        queue_results = process_research_queue_addition(search_results, title)
+                        processed_doc['queue_results'] = queue_results
+                        
+                        if queue_results.get('added_count', 0) > 0:
+                            st.info(f"📋 Added {queue_results['added_count']} entities to research queue")
+            
             return processed_doc
             
         except Exception as e:
             st.error(f"Error processing document: {e}")
             return None
+
+def simulate_entity_search(entities: Dict[str, List]) -> Dict[str, List]:
+    """Simulate entity search in database - would be replaced with actual Xata search"""
+    search_results = {}
+    
+    for entity_type, entity_list in entities.items():
+        search_results[entity_type] = []
+        for entity in entity_list:
+            entity_name = entity if isinstance(entity, str) else entity.get('name', str(entity))
+            
+            # Simulate some found, some not found
+            import random
+            if random.random() > 0.7:  # 30% are "found"
+                search_results[entity_type].append({
+                    'entity_name': entity_name,
+                    'status': 'found',
+                    'xata_record': {'id': f'rec_{random.randint(1000, 9999)}', 'name': entity_name}
+                })
+            else:
+                search_results[entity_type].append({
+                    'entity_name': entity_name,
+                    'status': 'not_found',
+                    'action_needed': 'create_new'
+                })
+    
+    return search_results
+
+def process_entity_creation(search_results: Dict[str, List]) -> Dict[str, Any]:
+    """Process entity creation for missing entities"""
+    if not ENTITY_CREATION_AVAILABLE or 'entity_creator' not in st.session_state:
+        return {'error': 'Entity creation not available'}
+    
+    try:
+        import asyncio
+        
+        # Create async wrapper
+        async def create_entities():
+            return await st.session_state.entity_creator.create_missing_entities(search_results)
+        
+        # Run entity creation
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        try:
+            results = loop.run_until_complete(create_entities())
+            return results
+        finally:
+            loop.close()
+            
+    except Exception as e:
+        return {'error': str(e), 'total_created': 0}
+
+def process_research_queue_addition(search_results: Dict[str, List], source_title: str) -> Dict[str, Any]:
+    """Add entities to research queue"""
+    if not ENTITY_CREATION_AVAILABLE or 'research_queue' not in st.session_state:
+        return {'error': 'Research queue not available'}
+    
+    try:
+        import asyncio
+        
+        async def add_to_queue():
+            added_count = 0
+            for entity_type, results in search_results.items():
+                for result in results:
+                    if result.get('status') == 'not_found':
+                        entity_name = result.get('entity_name', '')
+                        
+                        # Determine priority
+                        from lib.research_queue_manager import ResearchPriority
+                        if entity_type in ['personnel', 'organizations', 'events']:
+                            priority = ResearchPriority.HIGH
+                        elif entity_type in ['topics']:
+                            priority = ResearchPriority.MEDIUM
+                        else:
+                            priority = ResearchPriority.LOW
+                        
+                        # Add to queue
+                        task = await st.session_state.research_queue.add_research_task(
+                            entity_name=entity_name,
+                            entity_type=entity_type,
+                            priority=priority,
+                            source_context=f"Extracted from document: {source_title}",
+                            disclosure_relevance="Entity identified but not found in database - requires research"
+                        )
+                        
+                        if task:
+                            added_count += 1
+            
+            return {'added_count': added_count}
+        
+        # Run queue addition
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        try:
+            results = loop.run_until_complete(add_to_queue())
+            return results
+        finally:
+            loop.close()
+            
+    except Exception as e:
+        return {'error': str(e), 'added_count': 0}
 
 def process_bulk_folder_import(folder_path: str, file_types: List[str], batch_size: Optional[int] = None) -> bool:
     """Process bulk folder import using the BulkFolderIngestion system."""
@@ -129,7 +271,7 @@ def process_bulk_folder_import(folder_path: str, file_types: List[str], batch_si
         
         # Initialize ingestion system
         st.write("🔧 Initializing Triple RAG ingestion system...")
-        ingestion = BulkFolderIngestion()
+        ingestion = BulkFolderIngestion(folder_path=folder_path)
         
         # Find files to process
         folder_path_obj = Path(folder_path)
@@ -168,13 +310,36 @@ def process_bulk_folder_import(folder_path: str, file_types: List[str], batch_si
                 status_text.text(f"Processing [{i+1}/{total_files}]: {file_path.name}")
                 
                 try:
+                    # Calculate file hash for duplicate detection
+                    import hashlib
+                    hash_sha256 = hashlib.sha256()
+                    with open(file_path, "rb") as f:
+                        for chunk in iter(lambda: f.read(4096), b""):
+                            hash_sha256.update(chunk)
+                    file_hash = hash_sha256.hexdigest()
+                    
+                    # Determine MIME type
+                    import mimetypes
+                    mime_type, _ = mimetypes.guess_type(str(file_path))
+                    if not mime_type:
+                        extension = file_path.suffix.lower()
+                        if extension == '.pdf':
+                            mime_type = 'application/pdf'
+                        elif extension in ['.txt', '.md']:
+                            mime_type = 'text/plain'
+                        elif extension == '.docx':
+                            mime_type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                        else:
+                            mime_type = f'application/{extension[1:]}' if extension else 'application/octet-stream'
+                    
                     # Create document file object
                     doc_file = DocumentFile(
-                        path=file_path,
-                        name=file_path.name,
-                        size=file_path.stat().st_size,
-                        extension=file_path.suffix.lower(),
-                        mime_type="application/pdf" if file_path.suffix.lower() == '.pdf' else "text/plain"
+                        file_path=file_path,
+                        filename=file_path.name,
+                        size_bytes=file_path.stat().st_size,
+                        mime_type=mime_type,
+                        file_hash=file_hash,
+                        last_modified=datetime.fromtimestamp(file_path.stat().st_mtime)
                     )
                     
                     # Process document
@@ -577,11 +742,47 @@ def main():
         st.sidebar.markdown("### 📁 Bulk Folder Import")
         st.sidebar.info("Import entire folders of PDF, TXT, DOCX, MD, RTF files through Triple RAG system")
         
-        folder_path = st.sidebar.text_input(
-            "Folder path:",
-            placeholder="e.g., data/raw/greer-document-library",
-            help="Enter the path to a folder containing documents to import"
+        # Preconfigured directory options
+        preset_directories = {
+            "Custom Path": "",
+            "Greer Document Library": "data/raw/greer-document-library",
+            "US Astronauts UFO Research": "data/raw/US Astronauts and UFO Testimonies_ Comprehensive Research",
+            "Raw Data Directory": "data/raw",
+            "Processed Documents": "data/processed"
+        }
+        
+        # Directory selection method
+        directory_method = st.sidebar.radio(
+            "Directory Selection:",
+            ["📋 Preset Directories", "✏️ Custom Path"],
+            help="Choose a preset directory or enter a custom path"
         )
+        
+        if directory_method == "📋 Preset Directories":
+            selected_preset = st.sidebar.selectbox(
+                "Select directory preset:",
+                list(preset_directories.keys())[1:],  # Skip "Custom Path" option
+                help="Choose from commonly used document directories"
+            )
+            folder_path = preset_directories[selected_preset]
+            
+            # Show selected path
+            st.sidebar.code(f"📂 {folder_path}", language=None)
+            
+            # Quick stats for preset directories
+            if os.path.exists(folder_path):
+                folder_obj = Path(folder_path)
+                total_files = len(list(folder_obj.rglob("*.*")))
+                pdf_files = len(list(folder_obj.rglob("*.pdf")))
+                st.sidebar.metric("Total Files", total_files)
+                st.sidebar.metric("PDF Files", pdf_files)
+            
+        else:  # Custom Path
+            folder_path = st.sidebar.text_input(
+                "Custom folder path:",
+                placeholder="e.g., /path/to/your/documents",
+                help="Enter the full path to a folder containing documents to import"
+            )
         
         # Processing options
         batch_size = st.sidebar.selectbox(
@@ -655,6 +856,17 @@ def main():
     st.sidebar.subheader("⚙️ Processing Options")
     auto_visualize = st.sidebar.checkbox("Auto-generate visualizations", True)
     confidence_threshold = st.sidebar.slider("Confidence Threshold", 0.0, 1.0, 0.5, 0.1)
+    
+    # Entity creation options
+    if ENTITY_CREATION_AVAILABLE:
+        st.sidebar.subheader("🆕 Entity Management")
+        enable_entity_creation = st.sidebar.checkbox("Enable entity creation", True)
+        enable_research_queue = st.sidebar.checkbox("Add to research queue", True)
+        
+        if st.sidebar.button("📊 Show Research Queue Stats"):
+            if 'research_queue' in st.session_state:
+                stats = st.session_state.research_queue.get_queue_stats()
+                st.sidebar.json(stats)
     
     # Main content area
     if st.session_state.processed_documents:
