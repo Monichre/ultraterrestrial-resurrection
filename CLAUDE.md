@@ -36,4 +36,4 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Disclosure RAG** (`/apps/disclosure-rag/`) - Triple RAG document processing system  
 - **Research Canvas** (`/apps/research-canvas/`) - TipTap-based research editor with RAG integration
 
-[... rest of the file remains unchanged ...]
+Review [Steering](.kiro/steering)

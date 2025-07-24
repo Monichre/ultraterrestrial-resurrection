@@ -197,7 +197,15 @@ import { getSmartEdge } from '@tisoap/react-flow-smart-edge'
 import { motion } from 'framer-motion'
 
 type SiblingEdgeProps = {
-  data: { sourceType: string; targetType: string }
+  data?: { 
+    sourceType?: string
+    targetType?: string
+    prometheusReasoning?: string
+    connectionType?: string
+    analysisContext?: string
+    recordIndex?: number
+    totalRecords?: number
+  }
 }
 
 const foreignObjectSize = 200
@@ -284,30 +292,62 @@ export const SiblingEdge = ( props: EdgeProps & SiblingEdgeProps ) => {
   } )
   console.log( 'getSmartEdgeResponse: ', getSmartEdgeResponse )
 
-  // If the value returned is null, it means "getSmartEdge" was unable to find
-  // a valid path, and you should do something else instead
+  // Use smart edge path if available, otherwise fallback to bezier
+  let edgePath: string
+  let labelX: number
+  let labelY: number
 
-  // if (!sourceNode || !targetNode) {
-  //   return null
-  // }
+  if (getSmartEdgeResponse) {
+    const { edgeCenterX, edgeCenterY, svgPathString } = getSmartEdgeResponse
+    edgePath = svgPathString
+    labelX = edgeCenterX
+    labelY = edgeCenterY
+  } else {
+    // Fallback to bezier path if smart edge fails
+    const [bezierPath, bezierLabelX, bezierLabelY] = getBezierPath( {
+      sourceX,
+      sourceY,
+      sourcePosition,
+      targetX,
+      targetY,
+      targetPosition,
+    } )
+    edgePath = bezierPath
+    labelX = bezierLabelX
+    labelY = bezierLabelY
+  }
 
-  // const { edgeCenterX, edgeCenterY, svgPathString, ...rest } =
-  //   getSmartEdgeResponse
+  // Get connected node data for contextual information
+  const sourceNode = nodes.find(node => node.id === source)
+  const targetNode = nodes.find(node => node.id === target)
+  
+  // Determine relationship context for styling
+  const getRelationshipContext = () => {
+    if (!sourceNode || !targetNode) return 'unknown'
+    
+    // Check for Prometheus-annotated edges first
+    if (data?.connectionType) {
+      return data.connectionType
+    }
+    
+    // Check for user input → child relationships
+    if (sourceNode.type === 'userInputNode' && targetNode.data?.isContextual) {
+      return 'query-result'
+    }
+    
+    // Check for entity relationships
+    if (sourceNode.data?.type && targetNode.data?.type) {
+      if (sourceNode.data.type === targetNode.data.type) {
+        return 'same-type'
+      } else {
+        return 'cross-type'
+      }
+    }
+    
+    return 'sibling'
+  }
 
-
-  // const { sx, sy, tx, ty, sourcePos, targetPos } = getEdgeParams(
-  //   sourceNode,
-  //   targetNode
-  // )
-
-  const [edgePath, labelX, labelY] = getBezierPath( {
-    sourceX,
-    sourceY,
-    sourcePosition,
-    targetX,
-    targetY,
-    targetPosition,
-  } )
+  const relationshipType = getRelationshipContext()
 
   // const [edgePath, labelX, labelY] = getBezierPath({
   //   sourceX: sx,
@@ -317,8 +357,75 @@ export const SiblingEdge = ( props: EdgeProps & SiblingEdgeProps ) => {
   //   targetX: tx,
   //   targetY: ty,
   // })
+  // Enhanced styling based on relationship context
+  const getContextualStyle = () => {
+    const baseStyle = {
+      stroke: style?.stroke || NEONS.blue,
+      strokeWidth: 2,
+    }
+
+    switch (relationshipType) {
+      case 'query-result':
+        return {
+          ...baseStyle,
+          stroke: '#10b981', // emerald for query results
+          strokeWidth: 2.5,
+          strokeDasharray: '8,4',
+        }
+      case 'same-type':
+        return {
+          ...baseStyle,
+          stroke: '#6366f1', // indigo for same entity types
+          strokeWidth: 2,
+        }
+      case 'cross-type':
+        return {
+          ...baseStyle,
+          stroke: '#f59e0b', // amber for cross-entity relationships
+          strokeWidth: 1.5,
+          strokeDasharray: '4,4',
+        }
+      default:
+        return baseStyle
+    }
+  }
+
+  const contextualStyle = getContextualStyle()
+
+  // Enhanced labels with context information and Prometheus reasoning
+  const getContextualLabel = () => {
+    const defaultLabels = label?.split('::') || ['', '']
+    
+    // If we have Prometheus reasoning, use it
+    if (data?.prometheusReasoning) {
+      return [`Query`, `Result ${data.recordIndex || ''}`]
+    }
+    
+    switch (relationshipType) {
+      case 'query-result':
+        return [`Query`, `Result`]
+      case 'same-type':
+        return [`${sourceNode?.data?.type || 'Entity'}`, `${targetNode?.data?.type || 'Entity'}`]
+      case 'cross-type':
+        return [`${sourceNode?.data?.type || 'Source'}`, `${targetNode?.data?.type || 'Target'}`]
+      default:
+        return defaultLabels
+    }
+  }
+
+  // Get Prometheus reasoning for display
+  const getPrometheusAnnotation = () => {
+    if (data?.prometheusReasoning) {
+      // Truncate long reasoning for display
+      const reasoning = data.prometheusReasoning
+      return reasoning.length > 120 ? reasoning.substring(0, 120) + '...' : reasoning
+    }
+    return null
+  }
+
   // @ts-ignore
-  const [sourceLabel, targetLabel] = label?.split( '::' )
+  const [sourceLabel, targetLabel] = getContextualLabel()
+  const prometheusAnnotation = getPrometheusAnnotation()
   // return (
   //   <>
   //     <path
@@ -348,7 +455,7 @@ export const SiblingEdge = ( props: EdgeProps & SiblingEdgeProps ) => {
         id={id}
         path={edgePath}
         style={{
-          ...style,
+          ...contextualStyle,
           zIndex: 1,
         }}
         markerEnd={'custom-marker'}
@@ -404,7 +511,7 @@ export const SiblingEdge = ( props: EdgeProps & SiblingEdgeProps ) => {
                 {sourceLabel}
               </div>
               <div className=' w-fill-text-primary mx-4'>
-                <TwoWayArrows stroke={style.stroke}>
+                <TwoWayArrows stroke={contextualStyle.stroke}>
                   <animateMotion
                     dur='2s'
                     repeatCount='indefinite'
@@ -416,6 +523,14 @@ export const SiblingEdge = ( props: EdgeProps & SiblingEdgeProps ) => {
                 {targetLabel}
               </div>
             </div>
+            
+            {/* Prometheus Reasoning Annotation */}
+            {prometheusAnnotation && (
+              <div className='mt-2 px-2 py-1 bg-black/80 rounded text-[8px] text-white/90 border border-white/20 max-w-[180px] leading-tight'>
+                <div className='font-semibold text-emerald-400 mb-1'>Prometheus Analysis:</div>
+                <div className='text-wrap'>{prometheusAnnotation}</div>
+              </div>
+            )}
           </div>
         </motion.div>
       </EdgeLabelRenderer>

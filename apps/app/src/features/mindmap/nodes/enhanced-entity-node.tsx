@@ -1,25 +1,20 @@
 'use client'
 
+/**
+ * Enhanced Entity Node - Wrapper for existing entity-specific card components
+ * 
+ * This component serves as a wrapper that connects to the existing card system
+ * and displays entity-specific content using the renderEntity function.
+ * 
+ * When details are expanded, it shows the full entity-specific card implementation.
+ * When collapsed, it shows a basic description.
+ */
+
 import { memo, useEffect, useState, useCallback, Suspense } from 'react'
-import { Handle, Position, useNodesData, useUpdateNodeInternals } from '@xyflow/react'
+import { Handle, Position, useUpdateNodeInternals } from '@xyflow/react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { format } from 'date-fns'
-import { 
-  Clock, 
-  MapPin, 
-  Users, 
-  FileText, 
-  Star, 
-  Eye, 
-  Brain, 
-  Sparkles,
-  Calendar,
-  Building,
-  UserCheck,
-  Shield,
-  Globe,
-  TrendingUp
-} from 'lucide-react'
+import { Brain } from 'lucide-react'
 
 import {
   EnhancedNodeContainer,
@@ -28,16 +23,15 @@ import {
   EnhancedNodeFooter,
   EnhancedNodeStatus,
   QuickActions,
-  DataPoint,
-  DataGrid,
   ENTITY_COLORS
 } from './enhanced-core-node-ui'
+
+import { renderEntity } from '@/features/mindmap/components/cards/render-entity-card'
 
 import { useEntity } from '@/hooks'
 import { useMindMap } from '@/contexts/mindmap/mindmap-context'
 import { getGraphContext } from '@/features/mindmap/utils/contextual-intelligence'
 import { Badge } from '@/components/ui/badge'
-import { Progress } from '@/components/ui/progress'
 
 type EntityType = 'events' | 'personnel' | 'organizations' | 'testimonies' | 'documents' | 'topics'
 
@@ -103,175 +97,15 @@ const EnhancedEntityNode = memo<EnhancedEntityNodeProps>(function EnhancedEntity
     }
   }, [id, data, updateNodeInternals])
 
-  // Extract and format data based on entity type
-  const getEntitySpecificData = useCallback(() => {
-    const baseData = {
-      title: data.title || data.name || 'Unknown',
-      subtitle: '',
-      avatar: data.photos?.[0]?.url,
-      date: data.date ? format(new Date(data.date), 'MMM dd, yyyy') : undefined,
-      location: data.location,
-      credibilityScore: data.credibility || data.authority || data.rank,
-    }
-
-    switch (data.type) {
-      case 'events':
-        return {
-          ...baseData,
-          subtitle: data.description ? `${data.description.slice(0, 60)}...` : 'UFO Event',
-          details: (
-            <DataGrid>
-              <DataPoint 
-                label="Date" 
-                value={baseData.date || 'Unknown'} 
-                icon={<Calendar className="w-3 h-3" />} 
-              />
-              <DataPoint 
-                label="Location" 
-                value={data.location || 'Unknown'} 
-                icon={<MapPin className="w-3 h-3" />} 
-              />
-              {data.latitude && data.longitude && (
-                <div className="col-span-2">
-                  <DataPoint 
-                    label="Coordinates" 
-                    value={`${data.latitude.toFixed(4)}, ${data.longitude.toFixed(4)}`} 
-                    icon={<Globe className="w-3 h-3" />} 
-                  />
-                </div>
-              )}
-            </DataGrid>
-          )
-        }
-
-      case 'personnel':
-        return {
-          ...baseData,
-          subtitle: data.role || 'Key Figure',
-          details: (
-            <DataGrid>
-              <DataPoint 
-                label="Role" 
-                value={data.role || 'Unknown'} 
-                icon={<UserCheck className="w-3 h-3" />} 
-              />
-              {data.organization?.name && (
-                <DataPoint 
-                  label="Organization" 
-                  value={data.organization.name} 
-                  icon={<Building className="w-3 h-3" />} 
-                />
-              )}
-              {data.credibility && (
-                <div className="col-span-2">
-                  <div className="text-xs text-white/60 uppercase tracking-wide mb-1">Credibility</div>
-                  <div className="flex items-center gap-2">
-                    <Progress value={data.credibility * 10} className="flex-1" />
-                    <span className="text-sm text-white">{data.credibility}/10</span>
-                  </div>
-                </div>
-              )}
-            </DataGrid>
-          )
-        }
-
-      case 'organizations':
-        return {
-          ...baseData,
-          subtitle: data.specialization || 'Organization',
-          details: (
-            <DataGrid>
-              <DataPoint 
-                label="Type" 
-                value={data.specialization || 'Government'} 
-                icon={<Building className="w-3 h-3" />} 
-              />
-              <DataPoint 
-                label="Classification" 
-                value="Classified" 
-                icon={<Shield className="w-3 h-3" />} 
-              />
-            </DataGrid>
-          )
-        }
-
-      case 'testimonies':
-        return {
-          ...baseData,
-          subtitle: data.witness?.name ? `Testimony by ${data.witness.name}` : 'Witness Testimony',
-          details: (
-            <DataGrid>
-              {data.witness?.name && (
-                <DataPoint 
-                  label="Witness" 
-                  value={data.witness.name} 
-                  icon={<UserCheck className="w-3 h-3" />} 
-                />
-              )}
-              <DataPoint 
-                label="Date" 
-                value={baseData.date || 'Unknown'} 
-                icon={<Calendar className="w-3 h-3" />} 
-              />
-              {data.organization?.name && (
-                <div className="col-span-2">
-                  <DataPoint 
-                    label="Organization" 
-                    value={data.organization.name} 
-                    icon={<Building className="w-3 h-3" />} 
-                  />
-                </div>
-              )}
-            </DataGrid>
-          )
-        }
-
-      case 'documents':
-        return {
-          ...baseData,
-          subtitle: data.author ? `Document by ${data.author}` : 'Classified Document',
-          details: (
-            <DataGrid>
-              <DataPoint 
-                label="Author" 
-                value={data.author || 'Classified'} 
-                icon={<UserCheck className="w-3 h-3" />} 
-              />
-              <DataPoint 
-                label="Classification" 
-                value="SECRET" 
-                icon={<Shield className="w-3 h-3" />} 
-              />
-            </DataGrid>
-          )
-        }
-
-      case 'topics':
-        return {
-          ...baseData,
-          subtitle: 'Research Topic',
-          details: (
-            <DataGrid>
-              <DataPoint 
-                label="Category" 
-                value="UFO Research" 
-                icon={<TrendingUp className="w-3 h-3" />} 
-              />
-              <DataPoint 
-                label="Status" 
-                value="Active" 
-                icon={<Eye className="w-3 h-3" />} 
-              />
-            </DataGrid>
-          )
-        }
-
-      default:
-        return baseData
-    }
-  }, [data])
-
-  const entityData = getEntitySpecificData()
+  // Prepare entity data for display - let the existing card system handle specifics
+  const entityData = {
+    title: data.title || data.name || 'Unknown Entity',
+    subtitle: data.description ? `${data.description.slice(0, 60)}...` : `${data.type} Record`,
+    avatar: data.photos?.[0]?.url,
+    date: data.date ? format(new Date(data.date), 'MMM dd, yyyy') : undefined,
+    location: data.location,
+    credibilityScore: data.credibility || data.authority || data.rank,
+  }
   const connectionCount = connectionListConnections?.length || 0
 
   const handleViewDetails = useCallback(() => {
@@ -333,30 +167,36 @@ const EnhancedEntityNode = memo<EnhancedEntityNodeProps>(function EnhancedEntity
             </motion.div>
           )}
 
-          {/* Main content */}
+          {/* Entity content using existing card system */}
           <div className="space-y-3">
-            {data.description && (
-              <p className="text-sm text-white/80 leading-relaxed">
-                {showDetails 
-                  ? data.description 
-                  : `${data.description.slice(0, 120)}${data.description.length > 120 ? '...' : ''}`
-                }
-              </p>
-            )}
-
-            {/* Entity-specific details */}
-            <AnimatePresence>
-              {showDetails && (
+            {showDetails ? (
+              // When details are shown, use the existing entity-specific card system
+              <AnimatePresence>
                 <motion.div
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: 'auto' }}
                   exit={{ opacity: 0, height: 0 }}
                   transition={{ duration: 0.3 }}
+                  className="overflow-hidden"
                 >
-                  {entityData.details}
+                  <div className="max-h-60 overflow-y-auto">
+                    <Suspense fallback={<div className="text-sm text-white/60">Loading entity details...</div>}>
+                      {renderEntity({ 
+                        type: data.type as any, 
+                        data: { ...data, id } // Pass complete data to existing card system
+                      })}
+                    </Suspense>
+                  </div>
                 </motion.div>
-              )}
-            </AnimatePresence>
+              </AnimatePresence>
+            ) : (
+              // When collapsed, show basic description only
+              data.description && (
+                <p className="text-sm text-white/80 leading-relaxed">
+                  {`${data.description.slice(0, 120)}${data.description.length > 120 ? '...' : ''}`}
+                </p>
+              )
+            )}
           </div>
         </EnhancedNodeContent>
 

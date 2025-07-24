@@ -112,6 +112,18 @@ export async function POST( req: Request ) {
 						2. Then use searchDatabase with entities extracted from the file_search results
 						3. Then use transformXYFlow to transform the results into a graph visualization
 						
+						# CRITICAL: Edge Reasoning Requirements
+						When you analyze database records, you MUST provide specific reasoning for WHY each record was selected and how it connects to the original query. 
+
+						For each record returned, explain:
+						- WHY this specific record is relevant to the query
+						- WHAT connection or relationship it has to the original topic
+						- HOW it relates to other selected records
+
+						Format your reasoning clearly so it can be extracted for edge annotations in the mindmap.
+
+						Example: "Record 1 (Bob Lazar) was selected because he directly worked at Area 51 and provides first-hand testimony about extraterrestrial technology, making him highly relevant to queries about UFO disclosure."
+
 						Do not skip any steps, and make sure to extract entities from the first result, make sure to return strcutured entities from the second result and return graph nodes and edges in the final result
 
 						${NER_EXTRACTION_PROMPT}

@@ -3,6 +3,7 @@
 import { askXataWithAi } from "@db/xata/api"
 import { organizeNodeLayout } from "../layouts/organizeNodeLayout"
 import { xata } from "@db/xata/client"
+import { getEnhancedNodeData } from "@/features/ai/actions/actions"
 import type { Node, Edge } from '@xyflow/react'
 type AskParams = {
 	question: string
@@ -48,21 +49,29 @@ export const fetchRecords = async ( recordIds: string[], table: string ) => {
 
 export const askAIAction = async ( { question, rules, table }: AskParams ) => {
 	try {
-		const dbResponse = await askXataWithAi( { question, table, rules } )
-		console.log( "dbResponse: ", dbResponse )
-		const plainData = JSON.parse( JSON.stringify( dbResponse ) )
-		console.log( "plainData: ", plainData )
-		// const assistantResponse = await askDisclosureAgentToFindRelatedRecords( { subject: question, type: table } )
-		// !TODO: figure out how to process the response
+		// Use Prometheus AI instead of direct Xata calls
+		console.log( "🤖 Using Prometheus AI for enhanced node data" )
+		const enhancedData = await getEnhancedNodeData( question, table, rules )
+		
+		console.log( "enhancedData: ", enhancedData )
+		
+		// The enhanced data now returns full records, not just IDs
+		// Return the full response with reasoning for edge annotations
 		const response = {
-			...plainData,
-			// assistantResponse
+			answer: enhancedData.answer,
+			sessionId: enhancedData.sessionId,
+			records: enhancedData.records, // Full records, not just IDs
+			reasoning: enhancedData.reasoning // Prometheus reasoning for edge annotations
 		}
+		
 		console.log( "response: ", response )
 		return response
 	} catch ( error ) {
 		console.error( "Error in askAIAction:", error )
-		throw error
+		// Fallback to direct Xata if Prometheus fails
+		console.log( "⚠️ Falling back to direct Xata query" )
+		const dbResponse = await askXataWithAi( { question, table, rules } )
+		return JSON.parse( JSON.stringify( dbResponse ) )
 	}
 }
 
@@ -129,12 +138,15 @@ export type XataToXYFlowResult = {
 	edges: ReactFlowEdge[]
 	answer?: string
 	sessionId?: string
+	reasoning?: any[]
+	xataResponse?: any
 }
 
 type XataResult = {
 	answer: string
 	sessionId: string
 	records: any[]
+	reasoning?: any[]
 }
 
 async function transformForReactflow(
@@ -257,7 +269,7 @@ async function transformForReactflow(
 				const nodeId = record.id
 				const newNode: ReactFlowNode = {
 					id: nodeId,
-					type: "enhancedEntityNodePOC",
+					type: "enhancedEntityNode", // Use the production enhanced entity node
 					position: { x: 0, y: 0 }, // Initial position will be set by layout
 					data: nodeData,
 					parentId: centralNodeId,
@@ -545,19 +557,33 @@ export const xataToXYFlow = async ( {
 			validRules.push( `Tour narrative context: ${tourContext.narrativeContext}` )
 		}
 
-		console.log( "🤖 Calling askXataWithAi with:", { question, table, rulesCount: validRules.length, sessionId } )
+		console.log( "🤖 Calling Prometheus AI with:", { question, table, rulesCount: validRules.length, sessionId } )
 		
 		let response
 		try {
+			// Use Prometheus AI for enhanced contextual search
+			const enhancedData = await getEnhancedNodeData( 
+				question, 
+				table, 
+				validRules.join( '. ' ) // Combine rules into a single string
+			)
+			
+			// Convert enhanced data to expected format
+			// Now we have full records, not just IDs
+			response = {
+				answer: enhancedData.answer,
+				sessionId: enhancedData.sessionId,
+				records: enhancedData.records // Full records with all data
+			}
+		} catch ( aiError ) {
+			console.error( "❌ Prometheus AI failed, falling back to direct Xata:", aiError )
+			// Fallback to direct Xata query
 			response = await askXataWithAi( {
 				question,
 				table,
 				rules: validRules,
 				sessionId
 			} )
-		} catch ( aiError ) {
-			console.error( "❌ askXataWithAi failed:", aiError )
-			throw new Error( `AI query failed: ${aiError instanceof Error ? aiError.message : 'Unknown error'}` )
 		}
 
 		if ( !response ) {
@@ -574,22 +600,28 @@ export const xataToXYFlow = async ( {
 		} )
 		console.log( "🚀 ~ xataToXYFlow ~ response:", response )
 
-		// Fix: Convert record IDs to full record objects before transformation
-		console.log( "🔄 Converting record IDs to full record objects..." )
+		// Check if we have full records or just IDs
+		console.log( "🔄 Checking record format..." )
 		let fullRecords: any[] = []
 		
 		try {
-			fullRecords = response.records && response.records.length > 0 
-				? await fetchRecords( response.records, table )
-				: []
+			// If records are already full objects (from Prometheus), use them directly
+			if ( response.records && response.records.length > 0 && typeof response.records[0] === 'object' ) {
+				console.log( "✅ Records are already full objects from Prometheus AI" )
+				fullRecords = response.records
+			} else if ( response.records && response.records.length > 0 ) {
+				// Fallback: if we only have IDs, fetch full records
+				console.log( "🔄 Converting record IDs to full record objects..." )
+				fullRecords = await fetchRecords( response.records, table )
+			}
 		} catch ( fetchError ) {
-			console.error( "❌ Failed to fetch full records:", fetchError )
+			console.error( "❌ Failed to process records:", fetchError )
 			// Continue with empty records rather than failing completely
 			fullRecords = []
 		}
 		
-		console.log( "📊 Record conversion results:", {
-			originalRecordIds: response.records?.length || 0,
+		console.log( "📊 Record processing results:", {
+			originalRecords: response.records?.length || 0,
 			fullRecordsRetrieved: fullRecords?.length || 0,
 			sampleRecord: fullRecords?.[0] ? Object.keys( fullRecords[0] ) : []
 		} )

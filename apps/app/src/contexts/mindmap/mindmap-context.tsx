@@ -956,6 +956,7 @@ export const MindMapProvider = ({children}: {children: React.ReactNode}) => {
         if (isUserInputNode && flowData.xataResponse) {
           store.updateNodeData(source.id, {
             input: flowData.xataResponse.answer,
+            reasoning: flowData.reasoning, // Pass through Prometheus reasoning
           })
         }
 

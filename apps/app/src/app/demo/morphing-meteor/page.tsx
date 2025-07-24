@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { MorphingMeteorSequence } from '@/components/animations/MorphingMeteorAnimation'
 import { Button } from '@/components/ui/button'
+import { CosmicNavigation } from '@/components/demo-landing/cosmic-navigation'
 
 export default function MorphingMeteorDemo() {
   const [showAnimation, setShowAnimation] = useState(false)
@@ -25,7 +26,9 @@ export default function MorphingMeteorDemo() {
   ]
   
   return (
-    <div className="min-h-screen bg-black flex flex-col items-center justify-center p-8">
+    <>
+      <CosmicNavigation />
+      <div className="min-h-screen bg-black flex flex-col items-center justify-center p-8">
       <div className="text-center space-y-8">
         <h1 className="text-6xl font-bold bg-gradient-to-r from-[#adf0dd] to-[#ff6b6b] bg-clip-text text-transparent">
           Morphing Meteor Animation
@@ -113,6 +116,6 @@ export default function MorphingMeteorDemo() {
           autoPlay={true}
         />
       )}
-    </div>
+    </>
   )
 }

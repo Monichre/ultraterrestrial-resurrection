@@ -15,12 +15,15 @@ import {AIAnnotationNode} from '@/features/mindmap/nodes/ai-annotation-node'
 
 // Enhanced UI components (POC)
 import {EnhancedEntityNodePOC} from '@/features/mindmap/nodes/enhanced-node-poc'
+import {EnhancedEntityNode} from '@/features/mindmap/nodes/enhanced-entity-node'
 
 export const nodeTypes: any = {
   // Utilities Nodes
   annotationNode: AnnotationNode,
   // Enhanced Entity Nodes (POC)
   enhancedEntityNodePOC: EnhancedEntityNodePOC,
+  // Enhanced Entity Nodes (Production)
+  enhancedEntityNode: EnhancedEntityNode,
   // Legacy Entity Nodes (keeping for compatibility)
   entityNode: EntityNode,
   eventsNode: EntityNode,
