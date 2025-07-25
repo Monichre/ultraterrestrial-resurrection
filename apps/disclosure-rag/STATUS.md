@@ -18,11 +18,15 @@ The Disclosure RAG system is a comprehensive UFO/UAP research platform that comb
 
 ## 🏗️ System Architecture
 
-### Four-Tier Storage System
-1. **Local File System**: `/packages/knowledge-base/` - Date-organized document storage
-2. **Local PostgreSQL**: Vector embeddings + geographic UFO data (130,445+ sightings) 
-3. **Upstash Cloud**: Vector search and queue processing
-4. **OpenAI Vector Store**: Assistant integration and file uploads
+### Enhanced Triple RAG Architecture
+1. **☁️ Upstash Vector** (40%) - Cloud-based vector search with high availability
+2. **💾 LocalRAG FAISS** (30%) - Legacy local vector storage (fallback support)
+3. **🗄️ Enhanced CocoIndex** (30%) - Dual backend system:
+   - **PostgreSQL pgvector** (default) - Advanced analytics with live updates
+   - **FAISS Backend** (optional) - High-performance local storage
+   - **Live File Monitoring** - Automatic index updates via watchdog
+4. **Local File System**: `/packages/knowledge-base/` - Raw document storage
+5. **Geographic Database**: PostgreSQL with 130,445+ UFO sightings
 
 ### Multi-Interface Design
 - **Primary Interface**: Streamlit Web Dashboard (Port 8501)
@@ -105,10 +109,11 @@ DISCLOSURE_ASSISTANT_ID=asst_xxx
 # PostgreSQL
 DATABASE_URL=postgresql://user:pass@localhost:5432/ultraterrestrial
 
-# CocoIndex (Optional - June 29, 2025)
-COCOINDEX_ENABLED=true
-COCOINDEX_DB_PATH=./ufo_documents.db
-COCOINDEX_WATCH_DIRS=./knowledge_base,./new_documents
+# Enhanced CocoIndex (July 25, 2025)
+COCOINDEX_BACKEND=postgresql  # postgresql or faiss
+LIVE_UPDATES_ENABLED=true
+ENHANCED_COCOINDEX_ENABLED=true
+ENHANCED_COCOINDEX_WEIGHT=0.3
 
 # QStash (for workflow automation)
 QSTASH_URL=your_qstash_url
@@ -132,7 +137,7 @@ brew install gum huh glow glamour  # macOS
 | **Research Canvas** | ✅ Active | A+ | June 25, 2025 | TypeScript frontend with API integration |
 | **Knowledge Base CRUD** | ✅ Active | A+ | June 25, 2025 | 448 documents indexed |
 | **Geographic Analysis** | ✅ Active | A+ | Active | 130,445+ UFO sightings |
-| **Dual RAG System** | ✅ Ready | A | June 29, 2025 | Upstash + CocoIndex integration |
+| **Enhanced CocoIndex** | ✅ Active | A+ | July 25, 2025 | Dual backend (PostgreSQL + FAISS) with live updates |
 | **Terminal Display** | ✅ Active | A+ | June 20, 2025 | UFO-themed animations |
 | **Database Sync** | 🔧 Ready | B+ | June 29, 2025 | Plans ready, implementation pending |
 | **Agent System** | 🔧 Partial | B | June 28, 2025 | Individual agents work, crew partial |
@@ -187,33 +192,56 @@ embeddings = await agent.generate_embeddings(
 **Solution**: Enhanced section mapping to handle multiple formats  
 **Result**: 10 entities extracted (1 personnel, 1 event, 3 organizations, 5 locations)
 
-## 🔄 Dual RAG Integration (June 29, 2025)
+## 🚀 Enhanced CocoIndex Integration (July 25, 2025)
 
-**Status**: ✅ Implementation Complete - Ready for Testing
+**Status**: ✅ COMPLETE - Enhanced CocoIndex Fully Integrated
 
-### Architecture
+### Enhanced Architecture
 ```
-TipTap Editor → disclosure-rag API → Dual RAG System
-                                      ├── Upstash (Cloud) ☁️
-                                      └── CocoIndex (Local) 💾
+TipTap Editor → disclosure-rag API → Enhanced Triple RAG System
+                                      ├── Upstash Vector (40%) ☁️
+                                      ├── LocalRAG FAISS (30%) 💾
+                                      └── Enhanced CocoIndex (30%) 🗄️
+                                          ├── PostgreSQL pgvector (default)
+                                          ├── FAISS Backend (optional)
+                                          └── Live File Monitoring
 ```
 
 ### Implementation Files
-- **Backend**: `apps/disclosure-rag/lib/adapters/dual_rag_adapter.py`
-- **API Routes**: Updated FastAPI endpoints with source badges
-- **Frontend**: ResearchMentionSuggestion shows source indicators
-- **Config**: Environment-based system toggling
+- **Backend**: `apps/disclosure-rag/lib/adapters/dual_rag_adapter.py` (Enhanced CocoIndex integration)
+- **Core System**: `apps/disclosure-rag/lib/cocoindex/` (Complete backend abstraction)
+- **PostgreSQL Backend**: `lib/cocoindex/backends/postgresql_backend.py`
+- **FAISS Backend**: `lib/cocoindex/backends/faiss_backend.py`
+- **Live Updates**: `lib/cocoindex/live_updates.py`
+- **Backend Factory**: `lib/cocoindex/backends/base.py`
 
-### API Endpoints
-- **POST /rag/search**: Dual system search with result badges
-- **GET /rag/status**: System health and configuration check
-- **POST /rag/index**: Document indexing to both systems
+### Key Features
+- **Dual Backend Support**: PostgreSQL (analytics) + FAISS (performance)
+- **Live File Monitoring**: Automatic index updates via watchdog
+- **Backend Abstraction**: Unified interface with dynamic switching
+- **State Persistence**: Automatic state saving and recovery
+- **Async/Await**: Full async support throughout system
+
+### Configuration
+```bash
+# Backend selection
+COCOINDEX_BACKEND=postgresql  # or faiss
+LIVE_UPDATES_ENABLED=true
+ENHANCED_COCOINDEX_WEIGHT=0.3
+
+# PostgreSQL backend
+DATABASE_URL=postgresql://user@localhost:5432/db
+
+# Live monitoring
+WATCH_DIRECTORIES=./data/documents,./data/raw
+```
 
 ### Benefits
-- **No Breaking Changes**: Upstash continues as before
-- **Gradual Migration**: Add CocoIndex documents at your pace
-- **Best of Both**: Cloud sharing + local processing
-- **Fallback Support**: If one system fails, other continues
+- **Superior Performance**: Dual backend optimization for analytics + speed
+- **Real-time Updates**: Live file monitoring keeps index synchronized
+- **Production Ready**: Comprehensive error handling and state management
+- **Backend Flexibility**: Switch between PostgreSQL and FAISS as needed
+- **Legacy Migration**: Seamless transition from LocalRAG to enhanced system
 
 ## 📁 Knowledge Base Structure
 
@@ -437,38 +465,52 @@ curl http://localhost:8000/health
 # Returns: {"status": "healthy", "timestamp": "2025-06-29T..."}
 ```
 
-## 🎯 CocoIndex Integration (June 29, 2025)
+## 🎯 Enhanced CocoIndex Usage (July 25, 2025)
 
-### Quick Integration Benefits
-- **Incremental Indexing**: Real-time updates for new documents
-- **PDF Support**: Perfect for FOIA documents with auto PDF→markdown conversion
-- **Live Updates**: Drop new UFO doc in folder, auto-indexes
-- **Better Search**: Smart chunking superior to custom implementations
-- **Cost Savings**: Local processing reduces API costs
+### Production Benefits
+- **Dual Backend Architecture**: PostgreSQL (analytics) + FAISS (performance)
+- **Live File Monitoring**: Real-time index updates via watchdog
+- **Backend Abstraction**: Unified interface with dynamic switching
+- **Production Stability**: Comprehensive error handling and state persistence
+- **Cost Optimization**: Local processing reduces cloud API costs
 
-### Setup Commands
+### Usage Examples
+```python
+# Create enhanced CocoIndex with PostgreSQL backend
+from lib.cocoindex import create_live_cocoindex
+
+enhanced_cocoindex = await create_live_cocoindex(
+    backend_type='postgresql',
+    watch_directories=['./data/documents'],
+    connection_string='postgresql://user@localhost:5432/db'
+)
+
+# Start live file monitoring
+await enhanced_cocoindex.start_live_updates()
+```
+
+### Backend Switching
 ```bash
-# Install CocoIndex
-pip install cocoindex
+# Use PostgreSQL for analytics
+export COCOINDEX_BACKEND=postgresql
 
-# Initialize UFO research flow
-cocoindex setup main.py
-cocoindex update main.py
+# Use FAISS for performance
+export COCOINDEX_BACKEND=faiss
 
-# Start with server UI for debugging
-cocoindex server -ci main.py
+# Enable live updates
+export LIVE_UPDATES_ENABLED=true
 ```
 
 ### Integration Pattern
 ```python
-# Fallback approach in dual_rag_adapter.py
-try:
-    # Try CocoIndex search
-    coco_results = await self.coco_flow.search(query, top_k)
-except:
-    # Fallback to Upstash only
-    print("CocoIndex unavailable, using Upstash only")
-    return upstash_results
+# Enhanced CocoIndex integration in TripleRAGAdapter
+async def get_enhanced_cocoindex(self):
+    if self._enhanced_cocoindex is None:
+        self._enhanced_cocoindex = await create_live_cocoindex(
+            backend_type=self.cocoindex_backend_type,
+            **backend_config
+        )
+    return self._enhanced_cocoindex
 ```
 
 ## 🔐 Security & Configuration
@@ -522,11 +564,13 @@ print('Missing keys:', missing if missing else 'None - all configured!')
 - **Improved**: Accuracy from ~40-60% to ~85-95%
 - **Enhanced**: Vector embedding support for semantic search
 
-### June 29, 2025: Dual RAG System
-- **Implemented**: Complete dual RAG architecture
-- **Added**: Source badges in UI (☁️ Cloud, 💾 Local)
-- **Created**: Fallback mechanisms and error handling
-- **Documented**: Complete integration guide
+### July 25, 2025: Enhanced CocoIndex Integration
+- **Implemented**: Complete enhanced CocoIndex with dual backend support
+- **Added**: PostgreSQL pgvector + FAISS backend abstraction layer
+- **Created**: Live file monitoring with automatic index updates
+- **Enhanced**: TripleRAGAdapter with seamless enhanced CocoIndex integration
+- **Removed**: Legacy LocalRAG implementation and cleanup
+- **Documented**: Comprehensive enhanced CocoIndex architecture guide
 
 ### June 25, 2025: Knowledge Base Indexing
 - **Indexed**: 448 documents in metadata/index.json
@@ -546,14 +590,16 @@ print('Missing keys:', missing if missing else 'None - all configured!')
 ### Development Opportunities
 1. **Complete Agent Crew**: Finish multi-agent orchestration
 2. **Implement Database Sync**: Execute comprehensive sync plans
-3. **Enhance CocoIndex**: Full local processing integration
+3. **Enhanced CocoIndex Testing**: Performance optimization and load testing
 4. **Add Test Coverage**: Comprehensive testing framework
 5. **Mobile Interface**: Responsive design implementation
 
 ### Key Documentation Files
-- **DISCLOSURE_RAG_STATUS_REPORT.md**: Complete system status (2,847 lines)
-- **COMMAND_CHEATSHEET.md**: All commands and workflows (487 lines)  
-- **DUAL_RAG_INTEGRATION.md**: Complete dual RAG implementation
+- **STATUS.md**: Complete system status (updated July 25, 2025)
+- **RAG_SYSTEM_DOCUMENTATION.md**: Enhanced CocoIndex architecture (Version 2.0)
+- **RAG_ADAPTER_IMPLEMENTATION_SUMMARY.md**: Enhanced CocoIndex implementation
+- **RAG_INTEGRATION_STATUS.md**: Current integration status
+- **WORK_LOG_2025-07-25.md**: Enhanced CocoIndex implementation log
 - **ENTITY_EXTRACTION_REFACTOR.md**: AI-powered extraction details
 - **DATA_SYNCHRONIZATION_PLAN.md**: Database sync architecture
 
