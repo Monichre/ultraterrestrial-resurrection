@@ -7,8 +7,8 @@ from dotenv import load_dotenv
 from groq import Groq
 from openai import OpenAI
 from pydantic import BaseModel
-from research.named_entity_recognition_prompt import ner_prompt
-from research.research_prompt import research_prompt
+from prompts.named_entity_recognition_prompt import ner_prompt
+from prompts.research_prompt import research_prompt
 from rich.console import Console
 from rich.panel import Panel
 from rich.style import Style
@@ -24,6 +24,7 @@ console = Console()
 conversation_history = [
     {"role": "system", "content": research_prompt}
 ]
+
 
 class AssistantResponse(BaseModel):
     assistant_reply: str
@@ -59,7 +60,7 @@ class ContentAnalysisEngine:
         except Exception as e:
             print(f"Claude Analysis Error: {e}")
             return None
-    
+
     def get_openai_analysis(self, transcript):
         stream = self.deepseek_client_openai.chat.completions.create(
             model="deepseek-reasoner",
@@ -78,19 +79,19 @@ Your responses should always be organized as precisely as possible according the
                     "role": "user",
                     "content": transcript
                 },
-              
+
             ],
             max_completion_tokens=8000,
             stream=True,
             # response_format={"type": "json_object"}
         )
         return stream.choices[0].message
-    
+
     def get_deepseek_groq_analysis(self, transcript):
 
         completion = self.deepseek_client_groq.chat.completions.create(
             model="deepseek-r1-distill-llama-70b",
-        
+
             messages=[
                 {
                     "role": "system",
@@ -121,14 +122,13 @@ Your responses should always be organized as precisely as possible according the
 
         return completion.choices[0].message
 
-
-    def stream_openai_response(self,transcript):
+    def stream_openai_response(self, transcript):
         stream = self.deepseek_client_openai.chat.completions.create(
             model="deepseek-reasoner",
             messages=conversation_history,
             max_completion_tokens=8000,
             stream=True,
-            
+
         )
 
         console.print("\nThinking...", style="bold yellow")
@@ -142,7 +142,7 @@ Your responses should always be organized as precisely as possible according the
         #         content_chunk = chunk.choices[0].delta.content
         #         full_content += content_chunk
         #         print(content_chunk, end="")
-                
+
         #         if chunk.choices[0].delta.reasoning_content:
         #             reasoning_content += chunk.choices[0].delta.reasoning_content
         #         elif chunk.choices[0].delta.content:
@@ -156,11 +156,9 @@ Your responses should always be organized as precisely as possible according the
         #             final_content += chunk.choices[0].delta.content
         #             console.print(chunk.choices[0].delta.content, end="")
 
-     
-        
         # try:
         #     parsed_response = json.loads(final_content)
-        
+
         #     if "assistant_reply" not in parsed_response:
         #         parsed_response["assistant_reply"] = ""
         #     conversation_history.append({
@@ -177,7 +175,7 @@ Your responses should always be organized as precisely as possible according the
         #     })
 
         #     return response_obj
-        
+
         # except json.JSONDecodeError:
         #     error_msg = "Failed to parse JSON response from assistant"
         #     console.print(f"[red]✗[/red] {error_msg}", style="red")
@@ -185,8 +183,6 @@ Your responses should always be organized as precisely as possible according the
         #         assistant_reply=error_msg,
         #         files_to_create=[]
         #     )
-
-          
 
     def analyze_content(self, content_text):
         """Analyze transcript text using both OpenAI and Claude"""
@@ -203,7 +199,7 @@ Your responses should always be organized as precisely as possible according the
             #     analysis_section += deepseek_analysis
             #     analysis_section += "\n\n"
 
-                # TO DO: Prime a subagent with information to search existing database records
+            # TO DO: Prime a subagent with information to search existing database records
 
             # if openai_analysis:
             #     analysis_section += "OpenAI Analysis:\n"

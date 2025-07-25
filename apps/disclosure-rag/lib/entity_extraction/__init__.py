@@ -10,11 +10,17 @@ from .core.entity_creator import EntityCreator, create_entities_from_results
 
 # Processors 
 from .processors.interactive_entity_processor import InteractiveEntityProcessor, process_summary_file_interactive
-from .processors.entity_processor_ui import EntityProcessorUI
+
+# Optional UI processor (requires textual)
+try:
+    from .processors.entity_processor_ui import EntityProcessorUI
+    UI_AVAILABLE = True
+except ImportError:
+    UI_AVAILABLE = False
 
 # Agent integration (import from main agents folder)
 try:
-    from ..agents.entity_extraction_agent import (
+    from agents.entity_extraction_agent import (
         EntityExtractionAgent, 
         ExtractedEntity, 
         EntityExtractionResult,
@@ -35,7 +41,6 @@ __all__ = [
     # Processors
     'InteractiveEntityProcessor', 
     'process_summary_file_interactive',
-    'EntityProcessorUI',
     
     # Agent (if available)
     'EntityExtractionAgent',
@@ -47,5 +52,10 @@ __all__ = [
     'search_entities_with_payload',
     
     # Availability flags
-    'AGENT_AVAILABLE'
+    'AGENT_AVAILABLE',
+    'UI_AVAILABLE'
 ]
+
+# Add EntityProcessorUI to __all__ if available
+if UI_AVAILABLE:
+    __all__.append('EntityProcessorUI')

@@ -1,8 +1,9 @@
 "use server"
 
-import { askXataWithAi } from "@db/xata/api"
+
 import { organizeNodeLayout } from "../layouts/organizeNodeLayout"
 import { xata } from "@db/xata/client"
+import { askXataWithAi } from "@db/xata"
 import { getEnhancedNodeData } from "@/features/ai/actions/actions"
 import type { Node, Edge } from '@xyflow/react'
 type AskParams = {
@@ -52,9 +53,9 @@ export const askAIAction = async ( { question, rules, table }: AskParams ) => {
 		// Use Prometheus AI instead of direct Xata calls
 		console.log( "🤖 Using Prometheus AI for enhanced node data" )
 		const enhancedData = await getEnhancedNodeData( question, table, rules )
-		
+
 		console.log( "enhancedData: ", enhancedData )
-		
+
 		// The enhanced data now returns full records, not just IDs
 		// Return the full response with reasoning for edge annotations
 		const response = {
@@ -63,7 +64,7 @@ export const askAIAction = async ( { question, rules, table }: AskParams ) => {
 			records: enhancedData.records, // Full records, not just IDs
 			reasoning: enhancedData.reasoning // Prometheus reasoning for edge annotations
 		}
-		
+
 		console.log( "response: ", response )
 		return response
 	} catch ( error ) {
@@ -85,6 +86,10 @@ export type ReactFlowNode = Node & {
 	// React Flow compatible properties
 	width?: number
 	height?: number
+	measured?: {
+		width: number
+		height: number
+	}
 	selected?: boolean
 	dragging?: boolean
 	resizing?: boolean
@@ -157,17 +162,17 @@ async function transformForReactflow(
 	layoutType: "horizontal" | "vertical" | "radial" | "grid" = "horizontal",
 ): Promise<XataToXYFlowResult> {
 	const transformStartTime = performance.now()
-	
+
 	try {
 		console.log( '🔄 transformForReactflow: Starting data transformation' )
-		console.log( '📋 Transform parameters:', { 
+		console.log( '📋 Transform parameters:', {
 			hasXataResult: !!xataResult,
-			sourceNodeId: sourceNode?.id, 
+			sourceNodeId: sourceNode?.id,
 			existingNodesCount: existingNodes?.length || 0,
 			originalType,
-			layoutType 
+			layoutType
 		} )
-		
+
 		// Enhanced input validation
 		if ( !xataResult ) {
 			throw new Error( 'transformForReactflow: Invalid xataResult parameter' )
@@ -203,9 +208,9 @@ async function transformForReactflow(
 
 		if ( !Array.isArray( records ) ) {
 			console.warn( 'transformForReactflow: Records is not an array, using empty array' )
-			return { 
-				nodes: [], 
-				edges: [], 
+			return {
+				nodes: [],
+				edges: [],
 				answer: answer || 'No answer provided',
 				sessionId: xataResult.sessionId
 			}
@@ -213,9 +218,9 @@ async function transformForReactflow(
 
 		if ( records.length === 0 ) {
 			console.log( '📭 transformForReactflow: No records to process, returning empty result' )
-			return { 
-				nodes: [], 
-				edges: [], 
+			return {
+				nodes: [],
+				edges: [],
 				answer: answer || 'No records found',
 				sessionId: xataResult.sessionId
 			}
@@ -233,10 +238,10 @@ async function transformForReactflow(
 		// Create nodes for each record with parentId set to the source node
 		for ( let i = 0; i < records.length; i++ ) {
 			const record = records[i]
-			
+
 			try {
 				console.log( `📝 Processing record ${i + 1}/${records.length}: ${record?.id || 'unknown'}` )
-				
+
 				if ( !record || !record.id ) {
 					const warning = `Record ${i} is invalid or missing ID`
 					console.warn( `⚠️ transformForReactflow: ${warning}:`, record )
@@ -288,7 +293,7 @@ async function transformForReactflow(
 				}
 
 				edges.push( newEdge )
-				
+
 				console.log( `✅ Created node and edge for record: ${nodeId}` )
 			} catch ( error ) {
 				const errorMsg = `Error processing record ${record?.id || i}: ${error instanceof Error ? error.message : 'Unknown error'}`
@@ -303,14 +308,14 @@ async function transformForReactflow(
 		console.log( `  - Nodes created: ${nodes.length}` )
 		console.log( `  - Edges created: ${edges.length}` )
 		console.log( `  - Processing errors: ${processingErrors.length}` )
-		
+
 		if ( processingErrors.length > 0 ) {
 			console.warn( `⚠️ Processing errors encountered:`, processingErrors )
 		}
 
 		// Enhanced layout algorithm section with comprehensive error handling
 		const layoutStartTime = performance.now()
-		
+
 		// Validate layout parameters
 		const validLayoutTypes = ["horizontal", "vertical", "radial", "grid"]
 		if ( !validLayoutTypes.includes( layoutType ) ) {
@@ -335,7 +340,7 @@ async function transformForReactflow(
 
 		// Adaptive layout parameters based on node count and type
 		console.log( `🎨 Calculating layout parameters for ${nodes.length} nodes with '${direction}' layout` )
-		
+
 		if ( direction === "radial" && nodes.length > 5 ) {
 			parentChildSpacing = 120 + nodes.length * 5 // Scale with node count
 			console.log( `📐 Radial layout: Adjusted parentChildSpacing to ${parentChildSpacing} for ${nodes.length} nodes` )
@@ -359,25 +364,25 @@ async function transformForReactflow(
 		console.log( '🎨 Layout configuration:', layoutConfig )
 
 		let layoutedNodes: ReactFlowNode[]
-		
+
 		try {
 			console.log( `🚀 Applying ${direction} layout algorithm...` )
-			
+
 			// Apply our layout algorithm to position the nodes
 			layoutedNodes = organizeNodeLayout( nodes, edges, layoutConfig )
-			
+
 			const layoutDuration = performance.now() - layoutStartTime
-			console.log( `✅ Layout algorithm completed successfully in ${layoutDuration.toFixed(2)}ms` )
-			
+			console.log( `✅ Layout algorithm completed successfully in ${layoutDuration.toFixed( 2 )}ms` )
+
 			// Validate layout results
-			const invalidPositions = layoutedNodes.filter( node => 
-				!node.position || 
-				typeof node.position.x !== 'number' || 
+			const invalidPositions = layoutedNodes.filter( node =>
+				!node.position ||
+				typeof node.position.x !== 'number' ||
 				typeof node.position.y !== 'number' ||
 				isNaN( node.position.x ) ||
 				isNaN( node.position.y )
 			)
-			
+
 			if ( invalidPositions.length > 0 ) {
 				console.warn( `⚠️ Layout produced ${invalidPositions.length} nodes with invalid positions` )
 				// Fix invalid positions
@@ -389,26 +394,26 @@ async function transformForReactflow(
 
 		} catch ( layoutError ) {
 			const layoutDuration = performance.now() - layoutStartTime
-			const errorMsg = `Layout algorithm failed after ${layoutDuration.toFixed(2)}ms: ${layoutError instanceof Error ? layoutError.message : 'Unknown error'}`
+			const errorMsg = `Layout algorithm failed after ${layoutDuration.toFixed( 2 )}ms: ${layoutError instanceof Error ? layoutError.message : 'Unknown error'}`
 			console.error( `❌ transformForReactflow: ${errorMsg}` )
-			
+
 			// Apply fallback positioning
 			console.log( '🔄 Applying fallback linear positioning...' )
 			layoutedNodes = nodes.map( ( node, index ) => {
 				const fallbackPosition = { x: index * 220, y: 0 }
 				console.log( `🔧 Fallback position for ${node.id}: (${fallbackPosition.x}, ${fallbackPosition.y})` )
-				
+
 				return {
 					...node,
 					position: fallbackPosition
 				}
 			} )
-			
+
 			console.log( `✅ Fallback positioning applied to ${layoutedNodes.length} nodes` )
 		}
 
 		const transformDuration = performance.now() - transformStartTime
-		console.log( `🎯 transformForReactflow completed successfully in ${transformDuration.toFixed(2)}ms` )
+		console.log( `🎯 transformForReactflow completed successfully in ${transformDuration.toFixed( 2 )}ms` )
 		console.log( `📊 Final transformation results:` )
 		console.log( `  - Nodes: ${layoutedNodes.length}` )
 		console.log( `  - Edges: ${edges.length}` )
@@ -423,7 +428,7 @@ async function transformForReactflow(
 		}
 	} catch ( error ) {
 		const transformDuration = performance.now() - transformStartTime
-		const errorMsg = `Data transformation failed after ${transformDuration.toFixed(2)}ms: ${error instanceof Error ? error.message : 'Unknown error'}`
+		const errorMsg = `Data transformation failed after ${transformDuration.toFixed( 2 )}ms: ${error instanceof Error ? error.message : 'Unknown error'}`
 		console.error( `❌ transformForReactflow: ${errorMsg}` )
 		console.error( `📊 Error context:`, {
 			sourceNodeId: sourceNode?.id,
@@ -501,11 +506,11 @@ export const xataToXYFlow = async ( {
 	tourContext,
 }: XataToXYFlowParams ): Promise<XataToXYFlowResponse> => {
 	const startTime = performance.now()
-	
+
 	try {
 		console.log( "🚀 xataToXYFlow: Starting enhanced flow with comprehensive logging" )
 		console.log( "📋 Parameters:", { question, table, sourceNodeId: sourceNode?.id, layoutType } )
-		
+
 		// Enhanced input validation
 		if ( !question || typeof question !== 'string' || question.trim().length === 0 ) {
 			throw new Error( 'xataToXYFlow: Invalid or empty question parameter' )
@@ -558,16 +563,16 @@ export const xataToXYFlow = async ( {
 		}
 
 		console.log( "🤖 Calling Prometheus AI with:", { question, table, rulesCount: validRules.length, sessionId } )
-		
+
 		let response
 		try {
 			// Use Prometheus AI for enhanced contextual search
-			const enhancedData = await getEnhancedNodeData( 
-				question, 
-				table, 
+			const enhancedData = await getEnhancedNodeData(
+				question,
+				table,
 				validRules.join( '. ' ) // Combine rules into a single string
 			)
-			
+
 			// Convert enhanced data to expected format
 			// Now we have full records, not just IDs
 			response = {
@@ -603,7 +608,7 @@ export const xataToXYFlow = async ( {
 		// Check if we have full records or just IDs
 		console.log( "🔄 Checking record format..." )
 		let fullRecords: any[] = []
-		
+
 		try {
 			// If records are already full objects (from Prometheus), use them directly
 			if ( response.records && response.records.length > 0 && typeof response.records[0] === 'object' ) {
@@ -619,7 +624,7 @@ export const xataToXYFlow = async ( {
 			// Continue with empty records rather than failing completely
 			fullRecords = []
 		}
-		
+
 		console.log( "📊 Record processing results:", {
 			originalRecords: response.records?.length || 0,
 			fullRecordsRetrieved: fullRecords?.length || 0,
@@ -775,55 +780,55 @@ function generateHistoricalFilterRules(
 	const rules: string[] = []
 
 	// Date range filtering
-	if (historicalFilter.dateRange) {
+	if ( historicalFilter.dateRange ) {
 		const { startYear, endYear } = historicalFilter.dateRange
-		if (startYear && endYear) {
-			rules.push(`Filter records by date range from ${startYear} to ${endYear}`)
-		} else if (startYear) {
-			rules.push(`Focus on records from ${startYear} onwards`)
-		} else if (endYear) {
-			rules.push(`Focus on records up to ${endYear}`)
+		if ( startYear && endYear ) {
+			rules.push( `Filter records by date range from ${startYear} to ${endYear}` )
+		} else if ( startYear ) {
+			rules.push( `Focus on records from ${startYear} onwards` )
+		} else if ( endYear ) {
+			rules.push( `Focus on records up to ${endYear}` )
 		}
 	}
 
 	// Significance filtering - React Flow optimal node creation
-	if (historicalFilter.significance === 'historically_important') {
-		rules.push('Prioritize historically significant events that shaped UFO/UAP disclosure')
-		rules.push('Include watershed moments that will create impactful node clusters')
-		rules.push('Focus on events that have clear chronological connections for edge creation')
-	} else if (historicalFilter.significance === 'disclosure_related') {
-		rules.push('Focus specifically on disclosure-related events for coherent graph structure')
-		rules.push('Include government transparency initiatives with clear relationship chains')
-		rules.push('Prioritize records that enhance node connectivity and narrative flow')
+	if ( historicalFilter.significance === 'historically_important' ) {
+		rules.push( 'Prioritize historically significant events that shaped UFO/UAP disclosure' )
+		rules.push( 'Include watershed moments that will create impactful node clusters' )
+		rules.push( 'Focus on events that have clear chronological connections for edge creation' )
+	} else if ( historicalFilter.significance === 'disclosure_related' ) {
+		rules.push( 'Focus specifically on disclosure-related events for coherent graph structure' )
+		rules.push( 'Include government transparency initiatives with clear relationship chains' )
+		rules.push( 'Prioritize records that enhance node connectivity and narrative flow' )
 	}
 
 	// Chronological progression - optimized for React Flow layouts
-	if (historicalFilter.progression === 'forward') {
-		rules.push('Emphasize chronological progression for temporal edge creation')
-		rules.push('Connect events that led to subsequent developments for clear flow direction')
-		rules.push('Structure results for horizontal or timeline-based React Flow layouts')
-	} else if (historicalFilter.progression === 'backward') {
-		rules.push('Trace historical antecedents for reverse chronological edge connections')
-		rules.push('Show causal relationships moving backward through time')
-		rules.push('Optimize for radial layouts showing historical convergence')
+	if ( historicalFilter.progression === 'forward' ) {
+		rules.push( 'Emphasize chronological progression for temporal edge creation' )
+		rules.push( 'Connect events that led to subsequent developments for clear flow direction' )
+		rules.push( 'Structure results for horizontal or timeline-based React Flow layouts' )
+	} else if ( historicalFilter.progression === 'backward' ) {
+		rules.push( 'Trace historical antecedents for reverse chronological edge connections' )
+		rules.push( 'Show causal relationships moving backward through time' )
+		rules.push( 'Optimize for radial layouts showing historical convergence' )
 	}
 
 	// Mode-specific rules - React Flow layout optimization
-	switch (historicalFilter.mode) {
+	switch ( historicalFilter.mode ) {
 		case 'chronological':
-			rules.push('Maintain strict chronological ordering for linear React Flow layouts')
-			rules.push('Group events by periods for clustered node arrangements')
-			rules.push('Ensure clear temporal edge directions for optimal visual flow')
+			rules.push( 'Maintain strict chronological ordering for linear React Flow layouts' )
+			rules.push( 'Group events by periods for clustered node arrangements' )
+			rules.push( 'Ensure clear temporal edge directions for optimal visual flow' )
 			break
 		case 'contextual':
-			rules.push('Balance chronological accuracy with thematic node groupings')
-			rules.push('Create contextual clusters while maintaining temporal edge accuracy')
-			rules.push('Optimize for mixed radial and hierarchical React Flow layouts')
+			rules.push( 'Balance chronological accuracy with thematic node groupings' )
+			rules.push( 'Create contextual clusters while maintaining temporal edge accuracy' )
+			rules.push( 'Optimize for mixed radial and hierarchical React Flow layouts' )
 			break
 		case 'free-form':
-			rules.push('Allow flexible exploration optimized for dynamic React Flow interactions')
-			rules.push('Maintain loose chronological awareness without strict positioning')
-			rules.push('Support organic node positioning based on user interaction patterns')
+			rules.push( 'Allow flexible exploration optimized for dynamic React Flow interactions' )
+			rules.push( 'Maintain loose chronological awareness without strict positioning' )
+			rules.push( 'Support organic node positioning based on user interaction patterns' )
 			break
 	}
 

@@ -1,0 +1,19 @@
+declare module '@db/xata/api' {
+  export function searchXata( params: {
+    query: string
+    id?: string | null
+    table?: string | null
+  } ): Promise<{
+    success: boolean
+    searchResults?: any[]
+    error?: string
+  }>
+}
+
+declare module '@db/xata/client' {
+  export const xata: any
+}
+
+declare module '@db/xata/models' {
+  export * from '@db/xata-typescript-sdk/models'
+} 

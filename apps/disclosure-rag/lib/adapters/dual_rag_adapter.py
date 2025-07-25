@@ -31,16 +31,15 @@ except ImportError as e:
     LOCAL_RAG_AVAILABLE = False
     logging.warning(f"local_rag.py not available: {e}")
 
-# Import CocoIndex for PostgreSQL pgvector support
+# Import Enhanced CocoIndex for PostgreSQL pgvector support
 try:
-    import cocoindex
-    from cocoindex.functions import SentenceTransformerEmbed
+    from ..cocoindex import BackendFactory, create_live_cocoindex, Document
     import numpy as np
-    COCOINDEX_AVAILABLE = True
-    logging.info("CocoIndex service available")
+    ENHANCED_COCOINDEX_AVAILABLE = True
+    logging.info("Enhanced CocoIndex service available")
 except ImportError:
-    COCOINDEX_AVAILABLE = False
-    logging.warning("CocoIndex not available")
+    ENHANCED_COCOINDEX_AVAILABLE = False
+    logging.warning("Enhanced CocoIndex not available")
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -64,18 +63,20 @@ class TripleRAGAdapter:
         self.local_rag_enabled = os.getenv("LOCAL_RAG_ENABLED", "true").lower() == "true"
         self._local_rag = None
         
-        # CocoIndex configuration (PostgreSQL pgvector backend)
-        self.cocoindex_enabled = os.getenv("COCOINDEX_ENABLED", "true").lower() == "true"
-        self._cocoindex_client = None
+        # Enhanced CocoIndex configuration (FAISS + PostgreSQL pgvector backends)
+        self.enhanced_cocoindex_enabled = os.getenv("ENHANCED_COCOINDEX_ENABLED", "true").lower() == "true"
+        self._enhanced_cocoindex = None
         self.database_url = os.getenv("DATABASE_URL", "postgresql://liamellis@localhost:5432/ultraterrestrial")
+        self.cocoindex_backend_type = os.getenv("COCOINDEX_BACKEND", "postgresql")  # postgresql or faiss
+        self.live_updates_enabled = os.getenv("LIVE_UPDATES_ENABLED", "true").lower() == "true"
         
         # Performance settings (updated for 3 backends)
         self.parallel_search = os.getenv("PARALLEL_SEARCH", "true").lower() == "true"
         self.upstash_weight = float(os.getenv("UPSTASH_WEIGHT", "0.4"))
         self.local_rag_weight = float(os.getenv("LOCAL_RAG_WEIGHT", "0.3")) 
-        self.cocoindex_weight = float(os.getenv("COCOINDEX_WEIGHT", "0.3"))
+        self.enhanced_cocoindex_weight = float(os.getenv("ENHANCED_COCOINDEX_WEIGHT", "0.3"))
         
-        logger.info(f"TripleRAGAdapter initialized - Upstash: ✓, LocalRAG: {'✓' if self.local_rag_enabled else '✗'}, CocoIndex: {'✓' if self.cocoindex_enabled else '✗'}")
+        logger.info(f"TripleRAGAdapter initialized - Upstash: ✓, LocalRAG: {'✓' if self.local_rag_enabled else '✗'}, Enhanced CocoIndex ({self.cocoindex_backend_type}): {'✓' if self.enhanced_cocoindex_enabled else '✗'}")
     
     @property
     def local_rag(self):
@@ -93,42 +94,50 @@ class TripleRAGAdapter:
                 self.local_rag_enabled = False
         return self._local_rag
     
-    @property
-    def cocoindex_client(self):
-        """Lazy load CocoIndex client"""
-        if self._cocoindex_client is None and self.cocoindex_enabled and COCOINDEX_AVAILABLE:
+    async def get_enhanced_cocoindex(self):
+        """Lazy load Enhanced CocoIndex client"""
+        if self._enhanced_cocoindex is None and self.enhanced_cocoindex_enabled and ENHANCED_COCOINDEX_AVAILABLE:
             try:
-                # Initialize CocoIndex client with PostgreSQL backend
-                self._cocoindex_client = cocoindex.Client(
-                    database_url=self.database_url,
-                    schema="public"
+                # Choose backend type based on configuration
+                if self.cocoindex_backend_type == "postgresql":
+                    backend_config = {
+                        'connection_string': self.database_url,
+                        'table_name': 'enhanced_cocoindex_documents',
+                        'model_name': 'all-MiniLM-L6-v2',
+                        'embedding_dimension': 384
+                    }
+                else:
+                    # Default to FAISS backend
+                    backend_config = {
+                        'model_name': 'all-MiniLM-L6-v2',
+                        'index_path': './enhanced_cocoindex_faiss',
+                        'index_type': 'flat'
+                    }
+                
+                # Create backend
+                backend = BackendFactory.create_backend(
+                    self.cocoindex_backend_type, 
+                    **backend_config
                 )
                 
-                # Define text embedding transformation
-                @cocoindex.transform_flow()
-                def text_to_embedding(text):
-                    return text.transform(
-                        SentenceTransformerEmbed(
-                            model="sentence-transformers/all-MiniLM-L6-v2"
-                        )
+                # Initialize backend
+                await backend.initialize()
+                
+                # Create enhanced CocoIndex with live updates if enabled
+                if self.live_updates_enabled:
+                    self._enhanced_cocoindex = await create_live_cocoindex(
+                        backend_type=self.cocoindex_backend_type,
+                        watch_directories=['./data/documents'],  # Configure as needed
+                        **backend_config
                     )
+                else:
+                    self._enhanced_cocoindex = backend
                 
-                # Define document embedding flow
-                @cocoindex.flow_def(name="DocumentEmbedding")
-                def document_embedding_flow(flow_builder, data_scope):
-                    doc_embeddings = data_scope.add_collector()
-                    
-                    # This will be populated by our indexing operations
-                    return doc_embeddings
-                
-                # Store the transformation function for later use
-                self._text_to_embedding = text_to_embedding
-                
-                logger.info("CocoIndex client initialized successfully")
+                logger.info(f"Enhanced CocoIndex ({self.cocoindex_backend_type}) initialized successfully")
             except Exception as e:
-                logger.error(f"Failed to initialize CocoIndex: {e}")
-                self.cocoindex_enabled = False
-        return self._cocoindex_client
+                logger.error(f"Failed to initialize Enhanced CocoIndex: {e}")
+                self.enhanced_cocoindex_enabled = False
+        return self._enhanced_cocoindex
     
     
     async def search(self, query: str, top_k: int = 8, 
@@ -161,10 +170,10 @@ class TripleRAGAdapter:
             tasks.append(self._search_local_rag(query, top_k, include_metadata, filter_type))
             task_names.append("local_rag")
         
-        # Search CocoIndex if enabled
-        if self.cocoindex_enabled and COCOINDEX_AVAILABLE:
-            tasks.append(self._search_cocoindex(query, top_k, include_metadata, filter_type))
-            task_names.append("cocoindex")
+        # Search Enhanced CocoIndex if enabled
+        if self.enhanced_cocoindex_enabled and ENHANCED_COCOINDEX_AVAILABLE:
+            tasks.append(self._search_enhanced_cocoindex(query, top_k, include_metadata, filter_type))
+            task_names.append("enhanced_cocoindex")
         
         if self.parallel_search and len(tasks) > 1:
             # Run searches in parallel
@@ -280,50 +289,53 @@ class TripleRAGAdapter:
             logger.error(f"LocalRAG search error: {e}")
             return []
     
-    async def _search_cocoindex(self, query: str, top_k: int,
-                               include_metadata: bool = True,
-                               filter_type: Optional[str] = None) -> List[Dict[str, Any]]:
-        """Search CocoIndex (PostgreSQL pgvector backend)"""
-        if not self.cocoindex_enabled or not COCOINDEX_AVAILABLE or not self.cocoindex_client:
+    async def _search_enhanced_cocoindex(self, query: str, top_k: int = 8, 
+                                        include_metadata: bool = True,
+                                        filter_type: Optional[str] = None) -> List[Dict[str, Any]]:
+        """Search Enhanced CocoIndex (PostgreSQL pgvector or FAISS backend)"""
+        if not self.enhanced_cocoindex_enabled or not ENHANCED_COCOINDEX_AVAILABLE:
             return []
         
         try:
-            # Generate embedding for the query using CocoIndex's embedding function
-            query_embedding = self._text_to_embedding(query)
+            # Get enhanced CocoIndex client
+            enhanced_cocoindex = await self.get_enhanced_cocoindex()
+            if not enhanced_cocoindex:
+                return []
             
-            # Search using CocoIndex semantic search
-            search_results = self.cocoindex_client.search(
-                query_embedding=query_embedding,
+            # Search using enhanced CocoIndex
+            search_results = await enhanced_cocoindex.search(
+                query=query,
                 top_k=top_k,
-                collection_name="document_embeddings",
-                include_metadata=include_metadata,
-                filter_metadata={"doc_type": filter_type} if filter_type else None
+                threshold=None  # No threshold filtering for now
             )
             
             # Format results to match our standard format
             results = []
             for i, result in enumerate(search_results):
+                doc = result.document
                 formatted_result = {
-                    "id": result.get("doc_id", f"cocoindex_{i}"),
-                    "score": float(result.get("similarity_score", 0.0)),
-                    "system": "cocoindex",
-                    "badge": "🗄️ CocoIndex",
-                    "text": result.get("content", "")[:500] if result.get("content") else "",
-                    "metadata": result.get("metadata", {}),
-                    "source": result.get("metadata", {}).get("source", "CocoIndex Document")
+                    "id": doc.id,
+                    "score": float(result.score),
+                    "system": f"enhanced_cocoindex_{self.cocoindex_backend_type}",
+                    "badge": f"🗄️ CocoIndex ({self.cocoindex_backend_type.upper()})",
+                    "text": doc.content[:500] if doc.content else "",
+                    "metadata": doc.metadata or {},
+                    "source": doc.metadata.get("source", "Enhanced CocoIndex Document") if doc.metadata else "Enhanced CocoIndex Document",
+                    "rank": result.rank,
+                    "distance": result.distance
                 }
                 results.append(formatted_result)
             
             return results
             
         except Exception as e:
-            logger.error(f"CocoIndex search error: {e}")
+            logger.error(f"Enhanced CocoIndex search error: {e}")
             return []
     
     
     def _merge_triple_results(self, upstash_results: List[Dict], 
                              local_rag_results: List[Dict],
-                             cocoindex_results: List[Dict], 
+                             enhanced_cocoindex_results: List[Dict], 
                              top_k: int) -> List[Dict[str, Any]]:
         """Merge and deduplicate results from all three systems"""
         # Apply weights to scores
@@ -333,11 +345,11 @@ class TripleRAGAdapter:
         for result in local_rag_results:
             result["weighted_score"] = result["score"] * self.local_rag_weight
             
-        for result in cocoindex_results:
-            result["weighted_score"] = result["score"] * self.cocoindex_weight
+        for result in enhanced_cocoindex_results:
+            result["weighted_score"] = result["score"] * self.enhanced_cocoindex_weight
         
         # Combine all results
-        all_results = upstash_results + local_rag_results + cocoindex_results
+        all_results = upstash_results + local_rag_results + enhanced_cocoindex_results
         
         # Sort by weighted score
         all_results.sort(key=lambda x: x.get("weighted_score", 0), reverse=True)

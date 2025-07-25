@@ -10,6 +10,7 @@ import json
 import logging
 from typing import Dict, List, Any, Optional
 from pathlib import Path
+from datetime import datetime
 from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
@@ -20,8 +21,13 @@ from rich import print as rprint
 logger = logging.getLogger(__name__)
 console = Console()
 
-# Import existing agents
-from ...agents.entity_extraction_agent import EntityExtractionAgent
+# Import existing agents with fallback
+try:
+    from agents.entity_extraction_agent import EntityExtractionAgent
+    AGENT_AVAILABLE = True
+except ImportError as e:
+    logger.warning(f"EntityExtractionAgent not available: {e}")
+    AGENT_AVAILABLE = False
 
 # Import Xata search with fallback
 try:
@@ -48,7 +54,7 @@ class InteractiveEntityProcessor:
     """Interactive entity extraction and Xata search after knowledge base save"""
     
     def __init__(self):
-        self.entity_extractor = EntityExtractionAgent()
+        self.entity_extractor = EntityExtractionAgent() if AGENT_AVAILABLE else None
         self.entity_creator = EntityCreator() if ENTITY_CREATOR_AVAILABLE else None
         self.entity_types = {
             'personnel': '👤 Key Figures/Personnel',
@@ -117,6 +123,9 @@ class InteractiveEntityProcessor:
             
             self._save_entity_results(results, video_id)
             
+            # Step 7: Update the ongoing entity index
+            self._update_entity_index(results)
+            
             return results
             
         except Exception as e:
@@ -136,9 +145,14 @@ class InteractiveEntityProcessor:
             task = progress.add_task("🧠 Extracting entities with AI...", total=None)
             
             try:
-                entities = self.entity_extractor.extract_entities(summary_content)
-                progress.update(task, description="✅ Entity extraction complete")
-                return entities
+                if self.entity_extractor:
+                    entities = self.entity_extractor.extract_entities(summary_content)
+                    progress.update(task, description="✅ Entity extraction complete")
+                    return entities
+                else:
+                    progress.update(task, description="⚠️ Entity extractor not available")
+                    logger.warning("EntityExtractionAgent not available, returning empty results")
+                    return {}
                 
             except Exception as e:
                 progress.update(task, description="❌ Entity extraction failed")
@@ -438,6 +452,107 @@ class InteractiveEntityProcessor:
                         console.print(f"    ❌ {entity['entity_name']}: {entity.get('error', 'Unknown error')}")
         
         console.print()
+    
+    def _update_entity_index(self, results: Dict[str, Any]) -> None:
+        """Update the ongoing entity index with new extraction results"""
+        
+        # Determine index file location
+        index_file = Path(__file__).parent.parent / "entity_index.json"
+        
+        try:
+            # Load existing index or create new one
+            if index_file.exists():
+                with open(index_file, 'r', encoding='utf-8') as f:
+                    index_data = json.load(f)
+            else:
+                index_data = {
+                    "version": "1.0",
+                    "created": str(datetime.now()),
+                    "last_updated": str(datetime.now()),
+                    "total_processed_files": 0,
+                    "total_extracted_entities": 0,
+                    "total_matched_entities": 0,
+                    "total_created_entities": 0,
+                    "processed_files": [],
+                    "entity_summary": {
+                        "personnel": {"extracted": 0, "matched": 0, "created": 0},
+                        "organizations": {"extracted": 0, "matched": 0, "created": 0},
+                        "topics": {"extracted": 0, "matched": 0, "created": 0},
+                        "events": {"extracted": 0, "matched": 0, "created": 0},
+                        "locations": {"extracted": 0, "matched": 0, "created": 0},
+                        "artifacts": {"extracted": 0, "matched": 0, "created": 0},
+                        "sightings": {"extracted": 0, "matched": 0, "created": 0}
+                    },
+                    "recent_entities": {
+                        "personnel": [],
+                        "organizations": [],
+                        "topics": [],
+                        "events": [],
+                        "locations": [],
+                        "artifacts": [],
+                        "sightings": []
+                    }
+                }
+            
+            # Create file entry
+            file_entry = {
+                "document_id": results["video_id"],
+                "file_path": results["summary_file"],
+                "processed_date": str(datetime.now()),
+                "status": results["status"],
+                "entities": results["entities"],
+                "xata_matches": results["xata_search_results"],
+                "creation_results": results["entity_creation_results"],
+                "statistics": {
+                    "total_entities": results["total_entities"],
+                    "total_matches": results["total_matches"],
+                    "total_created": results["total_created"]
+                }
+            }
+            
+            # Update overall statistics
+            index_data["total_processed_files"] += 1
+            index_data["total_extracted_entities"] += results["total_entities"]
+            index_data["total_matched_entities"] += results["total_matches"]
+            index_data["total_created_entities"] += results["total_created"]
+            index_data["last_updated"] = str(datetime.now())
+            
+            # Update entity type summaries
+            for entity_type, entity_list in results["entities"].items():
+                if entity_type in index_data["entity_summary"]:
+                    index_data["entity_summary"][entity_type]["extracted"] += len(entity_list)
+                    
+                    # Count matches for this entity type
+                    matches = results["xata_search_results"].get(entity_type, [])
+                    matched_count = len([m for m in matches if m.get("status") == "found"])
+                    index_data["entity_summary"][entity_type]["matched"] += matched_count
+                    
+                    # Count created entities for this type
+                    created_entities = results["entity_creation_results"].get("created_entities", {})
+                    created_count = len(created_entities.get(entity_type, []))
+                    index_data["entity_summary"][entity_type]["created"] += created_count
+                    
+                    # Add recent entities (keep last 10 per type)
+                    recent_list = index_data["recent_entities"][entity_type]
+                    recent_list.extend(entity_list)
+                    index_data["recent_entities"][entity_type] = recent_list[-10:]  # Keep last 10
+            
+            # Add file to processed files list (keep last 20 files)
+            index_data["processed_files"].append(file_entry)
+            index_data["processed_files"] = index_data["processed_files"][-20:]  # Keep last 20 files
+            
+            # Save updated index
+            with open(index_file, 'w', encoding='utf-8') as f:
+                json.dump(index_data, f, indent=2, ensure_ascii=False)
+            
+            console.print(f"\\n📊 [green]Entity index updated:[/green] {index_file}")
+            console.print(f"   📈 Total processed files: {index_data['total_processed_files']}")
+            console.print(f"   🔍 Total extracted entities: {index_data['total_extracted_entities']}")
+            console.print(f"   ✅ Total matched entities: {index_data['total_matched_entities']}")
+            
+        except Exception as e:
+            logger.error(f"Failed to update entity index: {e}")
+            console.print(f"⚠️ [yellow]Could not update entity index: {e}[/yellow]")
 
 
 def process_summary_file_interactive(summary_file_path: str, video_id: str, interactive: bool = True) -> Dict[str, Any]:

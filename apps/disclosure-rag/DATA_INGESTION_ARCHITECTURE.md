@@ -151,7 +151,7 @@ async def store_vectors(doc_id: str, content: str, metadata: dict, upload_flag: 
     
     # 3. Always store in PostgreSQL
     await store_in_postgres(doc_id, content, embeddings, metadata)
-    
+    - differentiate between local postgres instance and persisting through from local to remote (xata)     
     # 4. Conditionally store in OpenAI
     if upload_flag:
         await upload_to_openai(doc_id, content, metadata)

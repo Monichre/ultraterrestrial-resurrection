@@ -20,6 +20,10 @@ from pathlib import Path
 from typing import Optional, Dict, Any
 import requests
 from urllib.parse import urlparse
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Configure logging
 logging.basicConfig(
@@ -49,13 +53,18 @@ from lib.youtube import (
 )
 from lib.upstash.queue import add_processed_content_to_queue
 from lib.knowledge_base_crud import KnowledgeBaseCRUD
-from lib.local_rag import LocalRAG, LocalRAGIntegration
+# Import enhanced CocoIndex for enhanced vector search
+try:
+    from lib.cocoindex import create_live_cocoindex, BackendFactory
+    ENHANCED_COCOINDEX_AVAILABLE = True
+    logger.info("Enhanced CocoIndex available")
+except ImportError:
+    ENHANCED_COCOINDEX_AVAILABLE = False
+    logger.warning("Enhanced CocoIndex not available")
 
 # Initialize processors
 web_processor = WebContentProcessor()
 kb_crud = KnowledgeBaseCRUD()
-local_rag = LocalRAG()
-rag_integration = LocalRAGIntegration(kb_crud, local_rag)
 
 def is_youtube_url(url: str) -> bool:
     """Check if URL is a YouTube video"""
@@ -246,8 +255,81 @@ def process_file(file_path: str, upload: bool = False, add_to_kb: bool = True) -
         
         # Add to knowledge base
         if add_to_kb:
-            doc_type = 'research' if file_path.endswith('.pdf') else 'article'
-            add_to_knowledge_base(data, doc_type)
+            doc_type = 'research' if file_path.endswith('.pdf') else 'case_file'
+            doc_id = add_to_knowledge_base(data, doc_type)
+            data['doc_id'] = doc_id
+            
+            # Entity Extraction (similar to YouTube workflow)
+            if doc_id:
+                try:
+                    from lib.terminal_display import display
+                    display.print_stage("🧠 ENTITY PROCESSING", "🧠")
+                    
+                    # Create summary file in the case_files directory (mirrors YouTube workflow)
+                    doc_info = kb_crud.get_document(doc_id)
+                    if doc_info:
+                        doc_dir = Path(doc_info.metadata.get('file_path', '')).parent
+                        summary_file_path = doc_dir / f"{Path(file_path).stem}_summary.txt"
+                        
+                        # Write content summary to file (for entity processing)
+                        with open(summary_file_path, 'w', encoding='utf-8') as f:
+                            f.write(content)
+                        
+                        try:
+                            from lib.entity_extraction.processors.interactive_entity_processor import process_summary_file_interactive
+                            display.start_spinner("🔍 Extracting entities and searching Xata database...")
+                            logger.info("Starting entity processing for file...")
+                            
+                            # Use non-interactive mode for automated workflow
+                            entity_results = process_summary_file_interactive(
+                                str(summary_file_path), doc_id, interactive=False)
+                            
+                            # Add entity processing results to metadata
+                            data['metadata']['entity_processing'] = entity_results
+                            
+                            total_entities = entity_results.get('total_entities', 0)
+                            total_matches = entity_results.get('total_matches', 0)
+                            display.stop_spinner(
+                                f"✅ Extracted {total_entities} entities, found {total_matches} Xata matches")
+                            logger.info(
+                                f"Entity processing complete: {entity_results.get('status', 'unknown')}")
+                            logger.info(
+                                f"Extracted {total_entities} entities, found {total_matches} Xata matches")
+                                
+                        except Exception as e:
+                            display.stop_spinner("❌ Entity processing failed")
+                            logger.error(f"Entity processing failed: {e}")
+                            # Don't fail the entire process if entity extraction fails
+                    else:
+                        logger.warning(f"Could not find document info for entity processing: {doc_id}")
+                            
+                except Exception as e:
+                    logger.error(f"Error setting up entity processing: {e}")
+            
+            # Move successfully processed files from processing_queue to case_files
+            if doc_id and file_path.startswith('/Users/liamellis/Desktop/ultraterrestrial-resurrection/apps/disclosure-rag/data/processing_queue/'):
+                try:
+                    import shutil
+                    case_files_dir = '/Users/liamellis/Desktop/ultraterrestrial-resurrection/packages/knowledge-base/case_files/'
+                    
+                    # Create case_files directory if it doesn't exist
+                    os.makedirs(case_files_dir, exist_ok=True)
+                    
+                    # Get filename and create destination path
+                    filename = os.path.basename(file_path)
+                    destination_path = os.path.join(case_files_dir, filename)
+                    
+                    # Move the file
+                    shutil.move(file_path, destination_path)
+                    logger.info(f"Moved processed file from processing_queue to case_files: {filename}")
+                    
+                    # Update the data source to reflect new location
+                    data['source'] = destination_path
+                    data['metadata']['source'] = destination_path
+                    
+                except Exception as e:
+                    logger.error(f"Failed to move file to case_files: {e}")
+                    # Don't fail the entire process if file move fails
         
         return data
         

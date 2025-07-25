@@ -181,7 +181,7 @@ class KnowledgeBaseService:
             if summary_file and os.path.exists(summary_file):
                 display.print_stage("🧠 ENTITY PROCESSING", "🧠")
                 try:
-                    from .interactive_entity_processor import process_summary_file_interactive
+                    from .entity_extraction.processors.interactive_entity_processor import process_summary_file_interactive
                     display.start_spinner(
                         "🔍 Extracting entities and searching Xata database...")
                     logger.info("Starting entity processing...")
@@ -243,6 +243,8 @@ class KnowledgeBaseService:
                 tags.append('youtube')
             elif 'url' in metadata:
                 tags.append('web_article')
+            elif 'file_type' in metadata:
+                tags.append('file')
 
             # Add document type tag
             tags.append(doc_type)

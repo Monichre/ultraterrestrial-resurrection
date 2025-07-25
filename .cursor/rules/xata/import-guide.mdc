@@ -1,3 +1,7 @@
+---
+description: Xata, @db, xata
+alwaysApply: false
+---
 # @db Package Import Guide
 
 This document provides a comprehensive guide to all available imports from the `@db` package in the Ultraterrestrial Resurrection monorepo.
@@ -36,10 +40,6 @@ import { ... } from '@db/xata'              // Complete Xata module
 import { ... } from '@db/xata/client'       // Client only
 import { ... } from '@db/xata/models'       // Models only
 import { ... } from '@db/xata/api'          // API functions only
-import { ... } from '@db/xata-typescript-sdk'         // Direct SDK access
-import { ... } from '@db/xata-typescript-sdk/client'  // Direct client access
-import { ... } from '@db/xata-typescript-sdk/models'  // Direct models access
-import { ... } from '@db/xata-typescript-sdk/api'     // Direct API access
 import { ... } from '@db/types'             // Types only
 ```
 
@@ -295,38 +295,6 @@ import {
 } from '@db/xata/api';
 ```
 
-## Direct SDK Exports (xata-typescript-sdk)
-
-**Import Path:** `@db/xata-typescript-sdk`
-
-For direct access to the underlying Xata TypeScript SDK structure:
-
-```typescript
-import { 
-  // All SDK exports - same as @db/xata
-  xata,
-  XataClient,
-  DatabaseSchema,
-  
-  // All models
-  getAllPersonnel,
-  createPersonnel,
-  // ... all other model functions
-  
-  // All API functions
-  askXataWithAi,
-  searchXata,
-  // ... all other API functions
-} from '@db/xata-typescript-sdk';
-
-// Or import specific modules directly
-import { xata } from '@db/xata-typescript-sdk/client';
-import { getAllPersonnel } from '@db/xata-typescript-sdk/models';
-import { askXataWithAi } from '@db/xata-typescript-sdk/api';
-```
-
-**Note:** The `/xata-typescript-sdk` paths provide direct access to the internal SDK structure. For most use cases, the cleaner `/xata` paths are recommended, but direct access can be useful for advanced scenarios or when you need to access specific internal modules.
-
 ## Type-Only Exports
 
 **Import Path:** `@db/types`
@@ -485,20 +453,6 @@ import {
 } from '@db';
 
 // All functionality available
-```
-
-### 7. Direct SDK Access (Advanced)
-
-```typescript
-// When you need direct access to SDK internals
-import { xata } from '@db/xata-typescript-sdk/client';
-import { createPersonnel } from '@db/xata-typescript-sdk/models/personnel';
-import { askXataWithAi } from '@db/xata-typescript-sdk/api/ask';
-
-// Equivalent to the cleaner imports:
-// import { xata } from '@db/xata/client';
-// import { createPersonnel } from '@db/xata/models';
-// import { askXataWithAi } from '@db/xata/api';
 ```
 
 ## Best Practices

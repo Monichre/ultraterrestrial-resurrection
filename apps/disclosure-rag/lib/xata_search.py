@@ -16,7 +16,8 @@ XATA_DATABASE_URL = os.environ.get("XATA_DATABASE_URL")
 XATA_BRANCH = os.environ.get("XATA_BRANCH", "main")
 
 if not XATA_API_KEY or not XATA_DATABASE_URL:
-    logger.error("Missing XATA_API_KEY or XATA_DATABASE_URL environment variable.")
+    logger.error(
+        "Missing XATA_API_KEY or XATA_DATABASE_URL environment variable.")
     raise EnvironmentError("XATA API credentials must be set.")
 
 # Extract database and branch info from URL
@@ -43,6 +44,7 @@ except Exception as e:
     logger.error(f"Failed to initialize Xata client: {e}")
     raise EnvironmentError("Could not initialize Xata client")
 
+
 def search_record_for_analysis(
     analysis_text: str,
     table_name: str,
@@ -50,23 +52,24 @@ def search_record_for_analysis(
 ) -> Optional[Dict[str, Any]]:
     """
     Searches for a record in the given table using a fragment of the analysis text.
-    
+
     Parameters:
       analysis_text: The output from the AI analysis (e.g., transcript summary)
       table_name: The target table to search records in.
       search_field: The field on which to match the analysis text. Default is 'summary'.
-      
+
     Returns:
       The first matching record as a dictionary if found; otherwise, None.
-      
+
     Note: The current implementation uses a simple substring query.
     You can enhance the search query for full-text search as needed.
     """
     # Create a query using a substring from the analysis text.
     # For example, we can use the first 50 characters to form a query.
     query_fragment = analysis_text.strip()[:50]
-    logger.info(f"Searching for records in '{table_name}' with {search_field} matching: {query_fragment}")
-    
+    logger.info(
+        f"Searching for records in '{table_name}' with {search_field} matching: {query_fragment}")
+
     try:
         # Use the correct Xata Python SDK search method
         # The search_table method expects a query object, not a string
@@ -74,7 +77,7 @@ def search_record_for_analysis(
             "query": query_fragment,
             "target": [search_field] if search_field else ["*"]
         }
-        
+
         response = xata_client.data().search_table(
             table_name,
             search_query
@@ -84,7 +87,8 @@ def search_record_for_analysis(
         # The response should contain a list of records
         if hasattr(response, 'records') and response.records:
             logger.info(f"Found {len(response.records)} record(s).")
-            return response.records[0].to_dict()  # return the first matched record
+            # return the first matched record
+            return response.records[0].to_dict()
         elif isinstance(response, dict) and "records" in response:
             records = response["records"]
             if records:
@@ -101,6 +105,7 @@ def search_record_for_analysis(
         logger.error(f"Error while searching records: {err}")
         return None
 
+
 def extract_entities_from_analysis(analysis_text: str) -> dict:
     """
     Parses the transcript summary output and extracts entities from the following sections:
@@ -112,7 +117,8 @@ def extract_entities_from_analysis(analysis_text: str) -> dict:
     Returns a dictionary with keys "topics", "personnel", "events", "organizations".
     The extraction logic is basic and depends on the section headers in the analysis.
     """
-    entities = {"topics": [], "personnel": [], "events": [], "organizations": []}
+    entities = {"topics": [], "personnel": [],
+                "events": [], "organizations": []}
     lines = analysis_text.splitlines()
     current_section = None
     section_headers = {
@@ -142,6 +148,7 @@ def extract_entities_from_analysis(analysis_text: str) -> dict:
 
     return entities
 
+
 def search_entities_from_analysis(analysis_text: str, table_mapping: dict) -> dict:
     """
     Given the analysis text and a mapping of entity category to Xata table name,
@@ -167,6 +174,7 @@ def search_entities_from_analysis(analysis_text: str, table_mapping: dict) -> di
         search_results[category] = results
 
     return search_results
+
 
 if __name__ == "__main__":
     # Sample analysis text from your attached transcript summary file.
@@ -235,4 +243,4 @@ David Spergel
             for rec in recs:
                 print("  Found record:", rec)
         else:
-            print("  No records found.") 
+            print("  No records found.")

@@ -78,7 +78,30 @@ class KnowledgeBaseCRUD:
         """Generate a unique ID for a document"""
         return hashlib.md5(content.encode()).hexdigest()[:12]
     
-    def _get_doc_path(self, doc_type: str, doc_id: str, filename: str) -> Path:
+    def _generate_filename(self, title: str) -> str:
+        """Generate a descriptive filename from document title"""
+        # Clean the title to make it filesystem-safe
+        import re
+        # Remove special characters and replace spaces with hyphens
+        filename = re.sub(r'[^\w\s-]', '', title).strip()
+        filename = re.sub(r'[-\s]+', '-', filename)
+        # Limit length and ensure it's not empty
+        filename = filename[:50].strip('-') or "document"
+        return f"{filename.lower()}.md"
+    
+    def _generate_dir_name(self, title: str, doc_id: str) -> str:
+        """Generate a meaningful directory name from document title with ID suffix for uniqueness"""
+        import re
+        # Clean the title to make it filesystem-safe
+        dir_name = re.sub(r'[^\w\s-]', '', title).strip()
+        dir_name = re.sub(r'[-\s]+', '-', dir_name)
+        # Limit length and ensure it's not empty
+        dir_name = dir_name[:40].strip('-') or "document"
+        # Add short ID suffix for uniqueness (first 8 chars of hash)
+        short_id = doc_id[:8]
+        return f"{dir_name.lower()}-{short_id}"
+    
+    def _get_doc_path(self, doc_type: str, doc_id: str, filename: str, title: str = None) -> Path:
         """Get the file path for a document with date-based organization"""
         from datetime import datetime
         
@@ -90,9 +113,17 @@ class KnowledgeBaseCRUD:
         }
         base_path = base_paths.get(doc_type, self.kb_path)
         
-        # Use date-based organization: YYYY-MM-DD/doc_id/
+        # Use date-based organization: YYYY-MM-DD/meaningful-dir-name/
         date_folder = datetime.now().strftime("%Y-%m-%d")
-        return base_path / date_folder / doc_id / filename
+        
+        if title:
+            # Use meaningful directory name based on title
+            dir_name = self._generate_dir_name(title, doc_id)
+        else:
+            # Fallback to doc_id for backward compatibility
+            dir_name = doc_id
+            
+        return base_path / date_folder / dir_name / filename
     
     # CREATE
     def create_document(self, 
@@ -119,27 +150,32 @@ class KnowledgeBaseCRUD:
             tags=tags or []
         )
         
-        # Create document directory
-        doc_dir = self._get_doc_path(doc_type, doc_id, "").parent
+        # Generate meaningful filename from title
+        content_filename = self._generate_filename(title)
+        
+        # Create document directory with meaningful name
+        doc_dir = self._get_doc_path(doc_type, doc_id, content_filename, title).parent
         doc_dir.mkdir(parents=True, exist_ok=True)
         
-        # Save content
-        content_file = self._get_doc_path(doc_type, doc_id, "content.md")
+        # Save content with descriptive filename
+        content_file = self._get_doc_path(doc_type, doc_id, content_filename, title)
         with open(content_file, 'w', encoding='utf-8') as f:
             f.write(content)
         
         # Save metadata
-        meta_file = self._get_doc_path(doc_type, doc_id, "metadata.json")
+        meta_file = self._get_doc_path(doc_type, doc_id, "metadata.json", title)
         with open(meta_file, 'w', encoding='utf-8') as f:
             json.dump(doc.to_dict(), f, indent=2)
         
-        # Update index with date-based path
+        # Update index with meaningful directory path
         date_folder = datetime.now().strftime("%Y-%m-%d")
+        meaningful_dir_name = self._generate_dir_name(title, doc_id)
         self.index["documents"][doc_id] = {
             "title": title,
             "doc_type": doc_type,
             "path": str(doc_dir),
             "date_folder": date_folder,
+            "meaningful_dir_name": meaningful_dir_name,
             "created_at": now,
             "updated_at": now,
             "tags": tags or []
@@ -262,8 +298,18 @@ class KnowledgeBaseCRUD:
             doc.title = title
         if content:
             doc.content = content
-            # Save new content
-            content_file = self._get_doc_path(doc.doc_type, doc_id, "content.md")
+            # Find existing content file or create new one with meaningful name
+            doc_dir = self._get_doc_path(doc.doc_type, doc_id, "metadata.json", doc.title).parent
+            content_files = list(doc_dir.glob("*.md"))
+            
+            if content_files:
+                # Use existing content file
+                content_file = content_files[0]
+            else:
+                # Create new file with meaningful name
+                content_filename = self._generate_filename(doc.title)
+                content_file = self._get_doc_path(doc.doc_type, doc_id, content_filename, doc.title)
+            
             with open(content_file, 'w', encoding='utf-8') as f:
                 f.write(content)
         if metadata:
@@ -284,7 +330,7 @@ class KnowledgeBaseCRUD:
         doc.updated_at = datetime.now().isoformat()
         
         # Save updated metadata
-        meta_file = self._get_doc_path(doc.doc_type, doc_id, "metadata.json")
+        meta_file = self._get_doc_path(doc.doc_type, doc_id, "metadata.json", doc.title)
         with open(meta_file, 'w', encoding='utf-8') as f:
             json.dump(doc.to_dict(), f, indent=2)
         
