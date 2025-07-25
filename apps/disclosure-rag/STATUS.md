@@ -1,9 +1,9 @@
 # Disclosure RAG System - Enhanced Unified Project Guide
 
 **System Status: ✅ PRODUCTION READY**  
-**Last Updated: June 29, 2025**  
+**Last Updated: July 25, 2025**  
 **Knowledge Base Last Indexed: June 25, 2025 (448 documents)**  
-**Entity Extraction System Enhanced: June 28, 2025**
+**Enhanced CocoIndex Integration: July 25, 2025**
 
 ## 🎯 Project Overview
 
@@ -14,6 +14,7 @@ The Disclosure RAG system is a comprehensive UFO/UAP research platform that comb
 - **June 25, 2025**: Complete system documentation and 448 documents indexed
 - **June 28, 2025**: Entity extraction agent refactored with AI-powered extraction
 - **June 29, 2025**: Dual RAG system (Upstash + CocoIndex) integration completed
+- **July 25, 2025**: Enhanced CocoIndex with dual backend support (PostgreSQL + FAISS) and live updates
 
 ## 🏗️ System Architecture
 
