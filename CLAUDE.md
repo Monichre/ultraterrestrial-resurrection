@@ -28,9 +28,15 @@
 ## Project Documentation
 
 - [README.md](./README.md) - Main project overview and introduction
-- [Feature Roadmap](./apps/app/docs/roadmap.md) - Planned features and development timeline
+- [Documentation Hub](./docs/README.md) - Centralized documentation navigation
+- [Documentation Organization Plan](./DOCUMENTATION_ORGANIZATION_PLAN.md) - Structure and standards
+- [Feature Roadmap](./docs/roadmap.md) - Planned features and development timeline
 - [ERD Diagram](./erd-diagram.mermaid) - Entity relationship diagram for the database
-- `repomix-output.md`
+
+### Documentation Automation
+- Run `bun run scripts/docs-automation.js audit` to check documentation coverage
+- Run `bun run scripts/docs-automation.js generate` to create missing README files
+- See [Documentation Standards](./docs/contributing/documentation-standards.md) for guidelines
 
 ## Claude Tasks
 
