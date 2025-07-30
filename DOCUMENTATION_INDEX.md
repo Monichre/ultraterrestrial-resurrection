@@ -334,17 +334,17 @@ This document provides a complete index of all markdown documentation files in t
 | README.md | `/apps/disclosure-rag/agents/README.md` | May 17, 2025 04:59 |
 | README.md | `/apps/disclosure-rag/react-examples/README.md` | Jun 29, 2025 05:45 |
 | index.md | `/apps/disclosure-rag/data/index.md` | Jul 13, 2025 06:10 |
-| documents.md | `/apps/disclosure-rag/data/raw/documents.md` | Jul 9, 2025 08:19 |
-| compass_artifact_wf-c5bacda7-5722-4d62-bae0-a2eaa61c458f_text_markdown.md | `/apps/disclosure-rag/data/raw/compass_artifact_wf-c5bacda7-5722-4d62-bae0-a2eaa61c458f_text_markdown.md` | Jul 13, 2025 06:09 |
+| documents.md | `/apps/disclosure-rag/data/queue/documents.md` | Jul 9, 2025 08:19 |
+| compass_artifact_wf-c5bacda7-5722-4d62-bae0-a2eaa61c458f_text_markdown.md | `/apps/disclosure-rag/data/queue/compass_artifact_wf-c5bacda7-5722-4d62-bae0-a2eaa61c458f_text_markdown.md` | Jul 13, 2025 06:09 |
 
 #### Astronaut UFO Research
 
 | File Name | Path | Created |
 |-----------|------|---------|
-| Astronaut UFO/UAP Research Findings.md | `/apps/disclosure-rag/data/raw/US Astronauts and UFO Testimonies_ Comprehensive Research/Astronaut UFO/UAP Research Findings.md` | Jul 12, 2025 20:24 |
-| Comprehensive Database of US Astronauts with UFO/UAP Testimonies.md | `/apps/disclosure-rag/data/raw/US Astronauts and UFO Testimonies_ Comprehensive Research/Comprehensive Database of US Astronauts with UFO/UAP Testimonies.md` | Jul 12, 2025 20:24 |
-| Verification Analysis of Astronaut UFO Claims.md | `/apps/disclosure-rag/data/raw/US Astronauts and UFO Testimonies_ Comprehensive Research/Verification Analysis of Astronaut UFO Claims.md` | Jul 12, 2025 20:24 |
-| todo.md | `/apps/disclosure-rag/data/raw/US Astronauts and UFO Testimonies_ Comprehensive Research/todo.md` | Jul 12, 2025 20:24 |
+| Astronaut UFO/UAP Research Findings.md | `/apps/disclosure-rag/data/queue/US Astronauts and UFO Testimonies_ Comprehensive Research/Astronaut UFO/UAP Research Findings.md` | Jul 12, 2025 20:24 |
+| Comprehensive Database of US Astronauts with UFO/UAP Testimonies.md | `/apps/disclosure-rag/data/queue/US Astronauts and UFO Testimonies_ Comprehensive Research/Comprehensive Database of US Astronauts with UFO/UAP Testimonies.md` | Jul 12, 2025 20:24 |
+| Verification Analysis of Astronaut UFO Claims.md | `/apps/disclosure-rag/data/queue/US Astronauts and UFO Testimonies_ Comprehensive Research/Verification Analysis of Astronaut UFO Claims.md` | Jul 12, 2025 20:24 |
+| todo.md | `/apps/disclosure-rag/data/queue/US Astronauts and UFO Testimonies_ Comprehensive Research/todo.md` | Jul 12, 2025 20:24 |
 
 ### Research Canvas (apps/research-canvas/)
 

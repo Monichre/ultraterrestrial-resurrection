@@ -1,6 +1,6 @@
 'use server'
 
-import { xata } from '@db/xata/client'
+import { xata } from '@db'
 
 export interface DatabaseReferenceValidationParams {
   type: string

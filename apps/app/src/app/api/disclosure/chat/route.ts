@@ -1,4 +1,4 @@
-import { askXataWithAi } from "@/db/xata/db/search-operations"
+import { askXataWithAi } from "@db/db/search-operations"
 import { openai } from "@/lib/openai/client"
 import { DISCLOSURE_ASSISTANT_ID } from "@/services/ai/openai/config"
 import { assistantEventHandler } from "@/services/ai/openai/stream-handler"
@@ -6,13 +6,13 @@ import { NER_EXTRACTION_PROMPT } from "@/services/ai/prompts/ner-extraction-prom
 import { AssistantResponse, streamText } from "ai"
 import { xataToXYFlow } from "@/features/mindmap/actions/xata-to-xyflow"
 import { searchDatabase } from "@/services/ai/openai/tools/search-database"
-import { xata } from "@/db/xata/client"
+import { xata } from "@db/client"
 import { streamObject } from "ai"
 import { z } from "zod"
 import { openai as openaiSdk } from "@ai-sdk/openai"
 import { anthropic } from "@ai-sdk/anthropic"
 import type { AnthropicProviderOptions } from "@ai-sdk/anthropic"
-import { executeDatabaseTableQuery } from "@/db/xata/db/search-operations"
+import { executeDatabaseTableQuery } from "@db/db/search-operations"
 
 
 export async function POST( req: Request ) {

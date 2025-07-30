@@ -44,8 +44,8 @@
 //   return await xata.db.mindmaps.get( record.id )
 // }
 
-// // import { getXataClient } from'@/db/xata'
-// // import type { EventsRecord } from'@/db/xata'
+// // import { getXataClient } from'@db'
+// // import type { EventsRecord } from'@db'
 // // import type { CreateUserSavedItemBase } from './actions.types'
 
 // // const xata = getXataClient()

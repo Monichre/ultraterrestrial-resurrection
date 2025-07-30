@@ -1,6 +1,6 @@
 'use client'
 
-import {EvidenceCard} from '@/features/case-files/case-file/case-file-evidence/evidence-card'
+import {EvidenceCard} from '@/features/research-canvas/case-files/case-file/case-file-evidence/evidence-card'
 import {Card} from '@/components/ui/card'
 import {AnimatePresence, motion} from 'framer-motion'
 import {useState} from 'react'

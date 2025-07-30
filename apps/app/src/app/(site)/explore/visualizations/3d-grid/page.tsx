@@ -1,6 +1,6 @@
 import {ThreeDGrid} from '@/features/3d/visualizations/3d-grid/3d-grid'
 
-import {getXataClient} from '@/db/xata'
+import {getXataClient} from '@db'
 import {Suspense} from 'react'
 const xata = getXataClient()
 

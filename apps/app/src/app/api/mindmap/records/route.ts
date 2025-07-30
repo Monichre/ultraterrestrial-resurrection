@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { fetchNextMindmapRecords } from '@db/xata/api/xyflow-integration'
+import { fetchNextMindmapRecords } from '@db/src/xata-typescript-sdk/api/xyflow-integration'
 
 export async function GET(request: NextRequest) {
   try {

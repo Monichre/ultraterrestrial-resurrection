@@ -4,7 +4,7 @@
 
 _**User**_
 
-can we make this a dropdown field populated by the local file system? Should default to @/disclosure-rag @/raw 
+can we make this a dropdown field populated by the local file system? Should default to @/disclosure-rag @/raw
 
 ---
 
@@ -16,13 +16,11 @@ First, let me search for the current implementation and understand the file stru
 
 ---
 
-
-
 ---
 
 <details>
             <summary>Searched codebase "How is the directory path input currently implemented in the bulk import section?" • **25** results</summary>
-        
+
 | File | Lines |
 |------|-------|
 | `apps/disclosure-rag/knowledge_base_ui.py` | L389-408 |
@@ -614,7 +612,7 @@ Now I need to update the bulk import section to handle the custom path option an
 +         if import_dir_selection == "__CUSTOM_PATH__":
 +             import_dir = st.text_input(
 +                 "Enter custom directory path:",
-+                 placeholder="e.g., /path/to/your/documents or data/raw/greer-document-library",
++                 placeholder="e.g., /path/to/your/documents or /data/queue/greer-document-library",
 +                 key="custom_import_dir",
 +                 help="Enter the full path to a directory containing documents"
 +             )
@@ -683,43 +681,46 @@ Perfect! Now let me store this knowledge for future reference:
 
 ---
 
-
-
 ---
 
 I've successfully replaced the simple text input with a sophisticated dropdown that's populated by scanning the local file system. Here's what I implemented:
 
-## Key Features Added:
+## Key Features Added
 
 ### 1. **Smart Directory Discovery**
+
 - Automatically scans for common document directories
-- Prioritizes `data/raw` as the primary default 
+- Prioritizes `data/raw` as the primary default
 - Includes packages/knowledge-base directories
 - Only shows directories that actually contain files
 
 ### 2. **User-Friendly Display**
+
 - Shows directory names with file counts
 - Uses relative paths (@/disclosure-rag/data/raw format)
 - Counts only supported file types (.pdf, .txt, .docx, .md, .rtf)
 - Includes intuitive icons and descriptions
 
 ### 3. **Flexible Input Options**
+
 - Dropdown with discovered directories
 - "Enter custom path" option for manual input
 - Real-time validation of custom paths
 - Shows file count preview for selected directories
 
 ### 4. **Enhanced Error Handling**
+
 - Graceful handling of permission errors
 - Clear validation messages
 - Helpful guidance for users
 
 ### 5. **Default Selection Logic**
+
 - Automatically selects `data/raw` if it exists
 - Falls back to first available directory
 - Remembers user selections via Streamlit session state
 
-## Functions Added:
+## Functions Added
 
 - `get_available_directories()` - Scans filesystem for suitable directories
 - `format_directory_option()` - Formats directory display with file counts and relative paths  
@@ -736,9 +737,9 @@ Traceback (most recent call last):
     potential_paths = extract_paths(module)
                       ^^^^^^^^^^^^^^^^^^^^^
   File "/Users/liamellis/Desktop/ultraterrestrial-resurrection/apps/disclosure-rag/.venv/lib/python3.11/site-packages/streamlit/watcher/local_sources_watcher.py", line 210, in <lambda>
-    lambda m: list(m.__path__._path),
+    lambda m: list(m.**path**._path),
                    ^^^^^^^^^^^^^^^^
-  File "/Users/liamellis/Desktop/ultraterrestrial-resurrection/apps/disclosure-rag/.venv/lib/python3.11/site-packages/torch/_classes.py", line 13, in __getattr__
+  File "/Users/liamellis/Desktop/ultraterrestrial-resurrection/apps/disclosure-rag/.venv/lib/python3.11/site-packages/torch/_classes.py", line 13, in **getattr**
     proxy = torch._C._get_custom_class_python_wrapper(self.name, attr)
 
 ---
@@ -751,7 +752,7 @@ This error is related to PyTorch/torch modules and Streamlit's file watcher syst
 
 <details>
             <summary>Searched codebase "Where are torch or PyTorch imports used in the disclosure-rag codebase?" • **25** results</summary>
-        
+
 | File | Lines |
 |------|-------|
 | `apps/disclosure-rag/requirements.txt` | L1-53 |
@@ -1421,41 +1422,47 @@ STREAMLIT_WATCHER_LOCAL_SOURCES_EXCLUDE_DIRS="torch,torchvision,torchaudio" stre
 
 Perfect! I've successfully implemented the directory dropdown functionality and fixed the PyTorch/Streamlit compatibility issue. Here's a summary of what I've accomplished:
 
-## ✅ Successfully Implemented:
+## ✅ Successfully Implemented
 
 ### 1. **Smart Directory Dropdown**
+
 - **Automated Discovery**: Scans filesystem for available directories suitable for bulk import
 - **Default Selection**: Automatically selects `@/disclosure-rag/data/raw` as the primary default
 - **File Count Display**: Shows number of supported files in each directory  
 - **Custom Path Option**: Users can enter custom paths when needed
 
 ### 2. **PyTorch/Streamlit Compatibility Fix**
+
 - **Environment Variables**: Set exclusion variables to prevent PyTorch conflicts
 - **Graceful Degradation**: UI works even when PyTorch dependencies are missing
 - **Error Handling**: Clear warnings when dependencies are unavailable
 - **Fallback Functionality**: Basic import still works without Triple RAG system
 
 ### 3. **Enhanced User Experience**
+
 - **Visual Indicators**: Shows file counts and relative paths (@/disclosure-rag/data/raw format)
 - **Real-time Validation**: Validates custom paths and shows feedback
 - **Dependency Status**: Clear indicators of what functionality is available
 - **Helpful Error Messages**: Guides users on how to resolve issues
 
 ### 4. **Directory Discovery Features**
-- **Priority Paths**: Checks `data/raw`, `data/raw/greer-document-library`, packages/knowledge-base directories
+
+- **Priority Paths**: Checks `data/raw`, `/data/queue/greer-document-library`, packages/knowledge-base directories
 - **Smart Filtering**: Only shows directories that contain actual files
 - **Relative Path Display**: Uses project-relative paths for better readability
 - **File Type Counting**: Counts only supported file extensions (.pdf, .txt, .docx, .md, .rtf)
 
-## 🛠 Utility Script Created:
+## 🛠 Utility Script Created
+
 - **`fix_streamlit_torch.py`**: Automated script to resolve PyTorch/Streamlit conflicts
 - **Cache Clearing**: Removes Streamlit cache that might cause conflicts  
 - **Config Creation**: Sets up proper Streamlit configuration
 - **Environment Setup**: Configures environment variables to prevent conflicts
 
-## 📁 Default Directory Logic:
+## 📁 Default Directory Logic
+
 1. **Primary**: `@/disclosure-rag/data/raw` (if exists)
-2. **Secondary**: `@/disclosure-rag/data/raw/greer-document-library`
+2. **Secondary**: `@/disclosure-rag/data/queue/greer-document-library`
 3. **Fallback**: First available directory with files
 4. **Custom**: Manual path entry option
 
@@ -1476,6 +1483,7 @@ PyTorch is a popular open-source machine learning framework developed by Meta (f
 ## 🧠 What is PyTorch?
 
 **PyTorch** is a deep learning library that provides:
+
 - **Tensor computations** with strong GPU acceleration
 - **Neural network building blocks** for creating AI models
 - **Automatic differentiation** for training models
@@ -1486,6 +1494,7 @@ PyTorch is a popular open-source machine learning framework developed by Meta (f
 In your project, PyTorch is used for several AI/ML components:
 
 ### 1. **Local RAG System** (`lib/local_rag.py`)
+
 ```python
 import torch
 # Used for:
@@ -1495,6 +1504,7 @@ import torch
 ```
 
 ### 2. **Sentence Transformers**
+
 ```python
 from sentence_transformers import SentenceTransformer
 # PyTorch powers the underlying models that:
@@ -1504,6 +1514,7 @@ from sentence_transformers import SentenceTransformer
 ```
 
 ### 3. **Triple RAG Integration**
+
 - **Upstash Vector**: Cloud-based vector storage
 - **LocalRAG FAISS**: Local vector search (requires PyTorch)
 - **PostgreSQL pgvector**: Database vector storage
@@ -1516,26 +1527,30 @@ The error you encountered happens because:
 2. **PyTorch's Internal Structure** uses complex C++ bindings that confuse Streamlit
 3. **Module Attributes** that PyTorch uses aren't standard Python attributes
 
-### The Error Chain:
+### The Error Chain
+
 ```
 Streamlit File Watcher → Tries to read PyTorch module → 
 PyTorch's C++ bindings → Attribute access fails → 
 Watcher crashes → App won't start
 ```
 
-## 🛠 Solutions I Implemented:
+## 🛠 Solutions I Implemented
 
 ### 1. **Environment Variable Fix**
+
 ```bash
 export STREAMLIT_WATCHER_LOCAL_SOURCES_EXCLUDE_DIRS="torch,torchvision,torchaudio"
 ```
 
 ### 2. **Graceful Fallbacks**
+
 - UI works even without PyTorch
 - Shows warnings when dependencies missing
 - Basic functionality still available
 
 ### 3. **Proper Import Handling**
+
 ```python
 try:
     import torch
@@ -1550,14 +1565,16 @@ except ImportError:
 **For your directory dropdown feature**: **No** - it works without PyTorch
 
 **For full RAG functionality**: **Yes** - you need PyTorch for:
+
 - ✅ Semantic search
 - ✅ Document embeddings
 - ✅ Local vector storage
 - ✅ AI-powered document processing
 
-## 🚀 Quick Fix Options:
+## 🚀 Quick Fix Options
 
 ### Option 1: Install in Virtual Environment
+
 ```bash
 # Make sure you're in the right venv
 source .venv/bin/activate
@@ -1565,6 +1582,7 @@ pip install torch sentence-transformers
 ```
 
 ### Option 2: Use Without PyTorch
+
 ```bash
 # Directory dropdown still works
 # Basic file import still works
@@ -1572,6 +1590,7 @@ pip install torch sentence-transformers
 ```
 
 ### Option 3: Alternative Setup
+
 ```bash
 # Use CPU-only version (smaller)
 pip install torch --index-url https://download.pytorch.org/whl/cpu
@@ -1580,4 +1599,3 @@ pip install torch --index-url https://download.pytorch.org/whl/cpu
 The directory dropdown feature I built for you works perfectly without PyTorch - you can browse and select directories regardless of whether the AI components are available! 🎉
 
 ---
-

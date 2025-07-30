@@ -102,7 +102,7 @@ export async function testComponentsIndividually() {
   try {
     // Test 1: Import validation
     console.log('1️⃣ Testing imports...')
-    const { askXataWithAi } = await import('@db/xata/api')
+    const { askXataWithAi } = await import('@db/src/xata-typescript-sdk/api')
     const { xata } = await import('@db/xata/client')
     console.log('✅ Imports successful')
     

@@ -14,6 +14,7 @@ import { TopicAndTestimoniesGroupCard } from '@/features/mindmap/components/card
 import { GraphCard } from '@/features/mindmap/components/cards/graph-card'
 import { TestimonyCard } from '@/features/mindmap/components/cards/testimony-card'
 import { SubjectMatterExpertCard } from './subject-matter-expert-card/SubjectMatterExpertCard'
+import { TopicCard } from '@/features/mindmap/components/cards/topic-card/topic-card'
 
 const UnOpinionatedGroupCard = ( props: any ) => <div {...props} />
 
@@ -24,7 +25,7 @@ const entityMap = {
   artifact: ( props: any ) => <GraphCard {...props} />,
   documents: ( props: any ) => <GraphCard {...props} />,
   testimonies: ( props: any ) => <TestimonyCard {...props} />,
-  topics: ( props: any ) => <EventCard {...props} />,
+  topics: ( props: any ) => <TopicCard {...props} />,
 }
 
 const groupEntityMap = {

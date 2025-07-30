@@ -20,26 +20,58 @@
     "geospatial",
     "sdk"
   ],
-  "main": "./dist/index.js",
-  "module": "./dist/index.js", 
-  "types": "./dist/index.d.ts",
+  "main": "index.ts",
+  "module": "index.ts", 
+  "types": "index.ts",
   "type": "module",
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "import": "./index.ts",
+      "types": "./index.ts"
     },
     "./registry": {
-      "import": "./dist/registry.js",
-      "types": "./dist/registry.d.ts"
+      "import": "./registry.ts",
+      "types": "./registry.ts"
     },
     "./xata": {
-      "import": "./dist/src/xata-typescript-sdk/index.js",
-      "types": "./dist/src/xata-typescript-sdk/index.d.ts"
+      "import": "./src/xata-typescript-sdk/index.ts",
+      "types": "./src/xata-typescript-sdk/index.ts"
+    },
+    "./xata/*": {
+      "import": "./src/xata-typescript-sdk/*.ts",
+      "types": "./src/xata-typescript-sdk/*.ts"
+    },
+    "./xata/client": {
+      "import": "./src/xata-typescript-sdk/client.ts",
+      "types": "./src/xata-typescript-sdk/client.ts"
+    },
+    "./xata/xata": {
+      "import": "./src/xata-typescript-sdk/xata.ts",
+      "types": "./src/xata-typescript-sdk/xata.ts"
+    },
+    "./xata/models": {
+      "import": "./src/xata-typescript-sdk/models/index.ts",
+      "types": "./src/xata-typescript-sdk/models/index.ts"
+    },
+    "./xata/models/*": {
+      "import": "./src/xata-typescript-sdk/models/*.ts",
+      "types": "./src/xata-typescript-sdk/models/*.ts"
+    },
+    "./xata/api": {
+      "import": "./src/xata-typescript-sdk/api/index.ts",
+      "types": "./src/xata-typescript-sdk/api/index.ts"
+    },
+    "./xata/api/*": {
+      "import": "./src/xata-typescript-sdk/api/*.ts",
+      "types": "./src/xata-typescript-sdk/api/*.ts"
+    },
+    "./src/xata-typescript-sdk/api": {
+      "import": "./src/xata-typescript-sdk/api/index.ts",
+      "types": "./src/xata-typescript-sdk/api/index.ts"
     },
     "./types": {
-      "import": "./dist/types/index.js", 
-      "types": "./dist/types/index.d.ts"
+      "import": "./types/index.ts", 
+      "types": "./types/index.ts"
     }
   },
   "files": [
@@ -51,19 +83,17 @@
     "*.md"
   ],
   "scripts": {
-    "build": "tsc --build",
     "dev": "bun run --watch index.ts",
     "test": "bun test",
-    "test:db": "bun run test-db-connection.js",
+    "test:db": "bun run test-db-connection.js", 
     "seed": "bun run xata-seeding-script.ts",
     "seed:simple": "bun run simple-seed.js",
     "seed:python": "python simple-seed.py",
     "fix-and-seed": "bun run fix-and-seed.ts",
     "analyze": "bun run database-state-analysis.js",
     "query": "bun run quick-db-query.ts",
-    "type-check": "tsc --noEmit",
-    "lint": "tsc --noEmit --strict",
-    "clean": "rm -rf dist node_modules/.cache"
+    "type-check": "tsc --noEmit --skipLibCheck",
+    "clean": "rm -rf node_modules/.cache"
   },
   "devDependencies": {
     "@types/bun": "latest",

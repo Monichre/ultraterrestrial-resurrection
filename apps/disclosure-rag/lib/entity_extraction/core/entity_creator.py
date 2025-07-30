@@ -42,7 +42,9 @@ class EntityCreator:
             "testimonies": "testimonies",
             "documents": "documents",
             "sightings": "sightings",
-            "artifacts": "artifacts"
+            "artifacts": "artifacts",
+            "key-figures": "key-figures",
+            "case_files": "documents"  # case_files are stored in documents table with doc_type metadata
         }
         
         # TypeScript model creation functions via Node.js calls
@@ -178,8 +180,13 @@ class EntityCreator:
             # Prepare record data based on entity type
             record_data = self._prepare_record_data(entity_type, entity_data)
             
+            # Check if record data preparation failed (unsupported entity type)
+            if record_data is None:
+                logger.warning(f"Entity type {entity_type} not supported - no corresponding database table")
+                return None
+            
             # Create record using Xata client
-            response = self.xata_client.data().insert(table_name, record_data)
+            response = self.xata_client.records().insert(table_name, record_data)
             
             if hasattr(response, 'to_dict'):
                 return response.to_dict()
@@ -283,6 +290,28 @@ class EntityCreator:
                 "comments": f"Auto-extracted sighting record",
                 "extraction_metadata": record_data["extraction_metadata"]
             }
+            
+        elif entity_type == "key-figures":
+            record_data.update({
+                "bio": f"Auto-extracted key figure record for {entity_name}",
+                "role": entity_data.get("metadata", {}).get("role", ""),
+                "rank": entity_data.get("metadata", {}).get("rank", ""),
+                "credibility": 50,  # Default neutral credibility
+                "popularity": 0,
+                "authority": 0
+            })
+            
+        elif entity_type == "case_files" or entity_type == "documents":
+            record_data.update({
+                "title": entity_name,
+                "content": entity_data.get("metadata", {}).get("content", f"Auto-extracted document record for {entity_name}"),
+                "doc_type": "case_file" if entity_type == "case_files" else entity_data.get("metadata", {}).get("doc_type", "document"),
+                "source": entity_data.get("metadata", {}).get("source", ""),
+                "metadata": {
+                    "extraction_source": "ai_entity_extraction",
+                    "confidence": entity_data.get("confidence", 0.0)
+                }
+            })
             
         return record_data
     

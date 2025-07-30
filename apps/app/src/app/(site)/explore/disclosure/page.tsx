@@ -24,7 +24,7 @@ export default async function Index() {
 
     <Suspense fallback={<Loading />}>
       {/* <MindMapCursor type="gooey" /> */}
-      <InAppNavbar color='white' />
+      {/* <InAppNavbar color='white' /> */}
       <StateOfDisclosureProvider stateOfDisclosure={data}>
         <MindMap />
       </StateOfDisclosureProvider>

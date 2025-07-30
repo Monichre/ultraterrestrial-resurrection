@@ -4,7 +4,7 @@ import {
   extractFileContent,
   type DocumentProcessingOptions
 } from '@/services/resource-scrape/process-document';
-import { xata } from '@/db/xata/client';
+import { xata } from '@db/client';
 
 /**
  * Process uploaded file and extract content for AI analysis

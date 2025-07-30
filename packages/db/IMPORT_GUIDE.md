@@ -30,17 +30,11 @@ The `@db` package provides access to the database layer through multiple export 
 
 ```typescript
 // Available import paths
-import { ... } from '@db'                    // Main exports
-import { ... } from '@db/registry'          // Provider registry
-import { ... } from '@db/xata'              // Complete Xata module
-import { ... } from '@db/xata/client'       // Client only
-import { ... } from '@db/xata/models'       // Models only
-import { ... } from '@db/xata/api'          // API functions only
-import { ... } from '@db/xata-typescript-sdk'         // Direct SDK access
-import { ... } from '@db/xata-typescript-sdk/client'  // Direct client access
-import { ... } from '@db/xata-typescript-sdk/models'  // Direct models access
-import { ... } from '@db/xata-typescript-sdk/api'     // Direct API access
-import { ... } from '@db/types'             // Types only
+import { ... } from '@db'                    // Main exports (registry + types)
+import { ... } from '@db/registry'          // Provider registry only
+import { ... } from '@db/xata'              // Complete Xata SDK
+import { ... } from '@db/xata/client'       // Xata client only
+import { ... } from '@db/types'             // Type definitions only
 ```
 
 ## Main Package Exports
@@ -164,168 +158,7 @@ import {
 const topics = await xata.db.topics.getAll();
 ```
 
-## Models-Only Exports
-
-**Import Path:** `@db/xata/models`
-
-**Available Exports:**
-
-```typescript
-import { 
-  // Personnel model
-  getPersonnelById,
-  getAllPersonnel,
-  createPersonnel,
-  updatePersonnel,
-  deletePersonnel,
-  searchPersonnel,
-  PersonnelInput,
-  PersonnelUpdateInput,
-  
-  // Organizations model
-  getOrganizationById,
-  getAllOrganizations,
-  createOrganization,
-  updateOrganization,
-  deleteOrganization,
-  searchOrganizations,
-  OrganizationInput,
-  OrganizationUpdateInput,
-  
-  // Events model
-  getEventById,
-  getAllEvents,
-  getEventsWithPagination,
-  createEvent,
-  createManyEvents,
-  updateEvent,
-  updateManyEvents,
-  deleteEvent,
-  deleteManyEvents,
-  searchEvents,
-  semanticSearchEvents,
-  getEventsByLocation,
-  
-  // Topics model
-  getTopicById,
-  getTopicByTitle,
-  getAllTopics,
-  getTopicsWithPagination,
-  createTopic,
-  createManyTopics,
-  updateTopic,
-  updateManyTopics,
-  deleteTopic,
-  deleteManyTopics,
-  searchTopics,
-  semanticSearchTopics,
-  getTopicsByTestimony,
-  
-  // Testimonies model
-  getTestimonyById,
-  getAllTestimonies,
-  getTestimoniesWithPagination,
-  createTestimony,
-  createManyTestimonies,
-  updateTestimony,
-  updateManyTestimonies,
-  deleteTestimony,
-  deleteManyTestimonies,
-  searchTestimonies,
-  semanticSearchTestimonies,
-  getTestimoniesByEvent,
-  getTestimoniesByWitness,
-  getTestimoniesByOrganization,
-  
-  // Other models (sightings, documents, locations, etc.)
-  // ... all other model functions and types
-} from '@db/xata/models';
-```
-
-## API-Only Exports
-
-**Import Path:** `@db/xata/api`
-
-**Available Exports:**
-
-```typescript
-import { 
-  // Ask/Query API
-  askXataWithAi,
-  askXata,
-  askFollowUp,
-  askStream,
-  
-  // Search API
-  searchXata,
-  
-  // Data fetching
-  fetchRecords,
-  
-  // XY Flow integration
-  xataToXYFlow,
-  initiateStreamingQuery,
-  transformStreamResponse,
-  
-  // Helper functions
-  fetchNextMindmapRecords,
-  getAllJoinTables,
-  getEntityNetworkGraphData,
-  convertDatabaseRecordToMindMapNode,
-  convertDatabaseRecordToGraphNode,
-  formatGraphNode,
-  formatGraphEdge,
-  
-  // Types
-  SearchParams,
-  AskParams,
-  AskResponse,
-  AskStreamChunk,
-  ReactFlowNode,
-  ReactFlowEdge,
-  XataToXYFlowParams,
-  XataToXYFlowResponse,
-  MindMapNode,
-  FetchNextMindmapRecordsResult,
-  ConnectionResults,
-  JoinTablesData,
-  GraphNode,
-  GraphEdge,
-  NetworkGraphPayload,
-} from '@db/xata/api';
-```
-
-## Direct SDK Exports (xata-typescript-sdk)
-
-**Import Path:** `@db/xata-typescript-sdk`
-
-For direct access to the underlying Xata TypeScript SDK structure:
-
-```typescript
-import { 
-  // All SDK exports - same as @db/xata
-  xata,
-  XataClient,
-  DatabaseSchema,
-  
-  // All models
-  getAllPersonnel,
-  createPersonnel,
-  // ... all other model functions
-  
-  // All API functions
-  askXataWithAi,
-  searchXata,
-  // ... all other API functions
-} from '@db/xata-typescript-sdk';
-
-// Or import specific modules directly
-import { xata } from '@db/xata-typescript-sdk/client';
-import { getAllPersonnel } from '@db/xata-typescript-sdk/models';
-import { askXataWithAi } from '@db/xata-typescript-sdk/api';
-```
-
-**Note:** The `/xata-typescript-sdk` paths provide direct access to the internal SDK structure. For most use cases, the cleaner `/xata` paths are recommended, but direct access can be useful for advanced scenarios or when you need to access specific internal modules.
+**Note:** Individual model and API functions are accessed through the complete Xata SDK import (`@db/xata`) rather than separate export paths.
 
 ## Type-Only Exports
 
@@ -413,37 +246,22 @@ const topics = await xata.db.topics.getAll();
 const user = await xata.db.users.create({ email: 'test@example.com' });
 ```
 
-### 2. Using Models
+### 2. Using Xata SDK
 
 ```typescript
-import { 
-  getAllPersonnel, 
-  createPersonnel,
-  PersonnelInput 
-} from '@db/xata/models';
+import { xata, models, api } from '@db/xata';
 
-const personnel = await getAllPersonnel();
-const newPerson: PersonnelInput = {
-  name: 'John Doe',
-  role: 'Analyst'
-};
-const created = await createPersonnel(newPerson);
-```
+// Using models (if available)
+const personnel = await models.getAllPersonnel?.();
 
-### 3. Using API Functions
-
-```typescript
-import { askXataWithAi, searchXata } from '@db/xata/api';
-
-const answer = await askXataWithAi({
+// Using API functions  
+const answer = await api.askXataWithAi?.({
   table: 'topics',
   question: 'What are the main UFO phenomena?'
 });
 
-const results = await searchXata({
-  query: 'alien contact',
-  table: 'testimonies'
-});
+// Direct client access
+const topics = await xata.db.topics.getAll();
 ```
 
 ### 4. Using Provider Registry
@@ -460,17 +278,14 @@ const data = await client.db.events.getAll();
 ```typescript
 import type { 
   TopicsRecord, 
-  EventInput,
-  QueryOptions 
+  EventsRecord
 } from '@db/types';
-import { getAllEvents } from '@db/xata/models';
+import { xata } from '@db/xata/client';
 
-const options: QueryOptions<EventsRecord> = {
-  filter: { category: 'UFO Sighting' },
-  pagination: { size: 10 }
-};
-
-const events = await getAllEvents(options);
+// Type-safe queries
+const events: EventsRecord[] = await xata.db.events
+  .filter({ category: 'UFO Sighting' })
+  .getAll();
 ```
 
 ### 6. Complete Import (Everything)
@@ -478,27 +293,14 @@ const events = await getAllEvents(options);
 ```typescript
 import { 
   xata,
-  getAllTopics,
-  searchXata,
+  PROVIDERS,
   TopicsRecord,
-  QueryOptions
+  EventsRecord
 } from '@db';
 
 // All functionality available
-```
-
-### 7. Direct SDK Access (Advanced)
-
-```typescript
-// When you need direct access to SDK internals
-import { xata } from '@db/xata-typescript-sdk/client';
-import { createPersonnel } from '@db/xata-typescript-sdk/models/personnel';
-import { askXataWithAi } from '@db/xata-typescript-sdk/api/ask';
-
-// Equivalent to the cleaner imports:
-// import { xata } from '@db/xata/client';
-// import { createPersonnel } from '@db/xata/models';
-// import { askXataWithAi } from '@db/xata/api';
+const topics = await xata.db.topics.getAll();
+const client = PROVIDERS.xata.client;
 ```
 
 ## Best Practices

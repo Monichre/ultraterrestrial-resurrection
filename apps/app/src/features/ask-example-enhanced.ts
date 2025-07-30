@@ -5,7 +5,7 @@ import {
   askStream,
   ufoResearch,
   type AskResponseWithRecords 
-} from "@db/xata/api";
+} from "@db/src/xata-typescript-sdk/api";
 
 /**
  * Example 1: Basic UFO Credibility Research

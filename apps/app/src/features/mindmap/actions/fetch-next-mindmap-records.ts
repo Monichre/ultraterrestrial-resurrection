@@ -1,6 +1,6 @@
 "use server"
 
-import { fetchNextMindmapRecords as _fetchNextMindmapRecords } from "@db/xata/api/xyflow-integration"
+import { fetchNextMindmapRecords as _fetchNextMindmapRecords } from "@db/src/xata-typescript-sdk/api/xyflow-integration"
 
 export type MindMapNode = {
   id: string

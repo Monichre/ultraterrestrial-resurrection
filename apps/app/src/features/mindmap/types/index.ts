@@ -1,5 +1,5 @@
 // Re-export types from the database package
-export type { NetworkGraphPayload } from "@db/xata/api/xyflow-integration";
+export type { NetworkGraphPayload } from "@db/src/xata-typescript-sdk/api/xyflow-integration";
 
 // Re-export types that are commonly used
 export type {

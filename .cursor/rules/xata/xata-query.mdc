@@ -1,6 +1,5 @@
 ---
-description: 
-globs: 
+description: database queries, askXata, add to mindmap, fetchNexRecord 
 alwaysApply: false
 ---
 The getFirst() method returns the first record matching the query, in ascending order of the id string field. In case there are no matching records it returns null. Alternatively, the getFirstOrThrow() method can be used to throw a "No results found." console error in case there are no results to return.
@@ -29,6 +28,7 @@ Both the getAll() and getMany() will produce multiple requests to the server if 
 Unless there's a specific reason to prefer another method, getMany() is generally recommended for its balance of usability and performant defaults, and it is the method used in the provided examples.
 
 #
+
 Getting a record by ID
 You can retrieve a record with a given ID using a request like this:
 
@@ -38,7 +38,9 @@ Go
 SQL
 JSON
 const user = await xata.db.Users.read('myid');
+
 #
+
 Columns Selection
 By default, the Query API returns all columns of the queried table. For link columns, only the ID column of the linked records is included in the response. You can use column selection to both reduce the number of columns returned, and to include columns from linked tables.
 
@@ -65,6 +67,7 @@ A sample response will look like this:
 It's worth noting that the special columns id, xata.version, xata.createdAt and xata.updatedAt are always returned, even if they are not explicitly requested.
 
 #
+
 Selecting Columns from the Linked Tables
 The same syntax can be used to select columns from a linked table, therefore adding new columns to the response. For example, to query all the columns of the teams table and also add all the columns of the owner user, you can use:
 
@@ -96,9 +99,13 @@ Go
 SQL
 JSON
 const user = await xata.db.Posts.read('myid', ['author.*']);
+
 #
+
 Many to Many relationships
+
 #
+
 Multiple relationship records per table
 To create many-to-many relationships in database tables, create multiple entries in a single table, with each entry representing a relation between two distinct entities.
 
@@ -127,6 +134,7 @@ With this schema design, keep in mind that there will be multiple records in the
 In case you prefer to keep just a single record per post in the posts table, you can use the junction table approach.
 
 #
+
 Junction tables
 You can manage many-to-many relationships between multiple tables by using an additional junction table, in which each record represents a relationship between records in other tables.
 
@@ -166,6 +174,7 @@ To remove a relationship, delete the record representing the relationship in the
 When using SQL JOIN, you're not limited to joining using only the id column. You can use any column or criteria as a common factor to join tables.
 
 #
+
 Filtering Records
 This section contains a few examples of how to use filtering. To find all supported operators and examples for them, see the Filtering section of the API Guide.
 
@@ -175,7 +184,7 @@ TypeScript
 Python
 SQL
 JSON
-const users = await xata.db.Users.filter({ email: 'keanu@example.com' }).getMany();
+const users = await xata.db.Users.filter({ email: '<keanu@example.com>' }).getMany();
 Will return only the records with the given email address.
 
 You can also refer to a linked column in filters, for example:
@@ -207,6 +216,7 @@ $any: which can be used to create OR conditions. The record matches if any of th
 To see the rest of the operators available, check out the Filtering guide.
 
 #
+
 Sorting the Results
 To sort the results, use the sort function/parameter. For example:
 
@@ -246,7 +256,9 @@ TypeScript
 Python
 SQL
 const { users } = await xata.sql<UsersRecord>`SELECT * FROM \"Users\" ORDER BY properties->'address' DESC LIMIT 20`;
+
 #
+
 Paginating results
 This section doesn't apply to the TypeScript SDK, because it is offering a higher-level abstraction over the pagination mechanism. See the query functions section. Only REST API examples are provided in this section.
 
@@ -254,7 +266,9 @@ Xata offers two types of pagination:
 
 cursor-based, using after and before parameters. It is optimal for building next / prev navigation patterns.
 offset-based, using offset and limit parameters. It is optimal for building 1..2..10...19..20 navigation patterns.
+
 #
+
 Cursor-based Pagination
 The depth of cursor-based pagination is unrestricted. When running a query, you can specify a particular page size.
 
@@ -322,6 +336,7 @@ const page2 = await page1.nextPage();
 You can continue like this until "more" is returned as false.
 
 #
+
 Offset-based Pagination
 Offset-based pagination lets you request specific pages of data using the offset parameter (offset), relative to a specified page size (size). While this offers flexibility, it requires knowing the total record count, which can affect performance. As a safeguard, Xata limits offset-based pagination to 50,000 total records to ensure timely responses.
 

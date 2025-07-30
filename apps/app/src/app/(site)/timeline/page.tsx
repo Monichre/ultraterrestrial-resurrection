@@ -1,4 +1,4 @@
-import {getXataClient, type EventsRecord} from '@/db/xata'
+import {getXataClient, type EventsRecord} from '@db'
 import type {JSONData} from '@xata.io/client'
 import {TimelineViews} from './timeline-views'
 import {GraphPaperBackground} from '@/components/backgrounds/graph-paper/graph-paper-bg'

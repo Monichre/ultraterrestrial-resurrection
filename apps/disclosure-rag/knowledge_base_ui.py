@@ -664,7 +664,7 @@ elif st.session_state.current_page == "Statistics":
         if import_dir_selection == "__CUSTOM_PATH__":
             import_dir = st.text_input(
                 "Enter custom directory path:",
-                placeholder="e.g., /path/to/your/documents or data/raw/greer-document-library",
+                placeholder="e.g., /path/to/your/documents or /data/queue/greer-document-library",
                 key="custom_import_dir",
                 help="Enter the full path to a directory containing documents"
             )

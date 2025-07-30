@@ -140,7 +140,7 @@ async function checkEnvironmentVariables() {
 async function checkModuleImports() {
   try {
     // Test Xata imports
-    const { askXataWithAi } = await import('@db/xata/api')
+    const { askXataWithAi } = await import('@db/src/xata-typescript-sdk/api')
     const { xata } = await import('@db/xata/client')
     const { getXataClient } = await import('@db/xata/xata')
     
@@ -252,7 +252,7 @@ async function testBasicTableQuery() {
  * Step 6: Test askXataWithAi function
  */
 async function testAskXataWithAi() {
-  const { askXataWithAi } = await import('@db/xata/api')
+  const { askXataWithAi } = await import('@db/src/xata-typescript-sdk/api')
   
   try {
     const result = await askXataWithAi({

@@ -145,7 +145,7 @@ export const useModelNodes = ( { models }: ModelNodesProps ) => {
 
 // 'use client'
 
-// // import { TopicPersonnelAndEventGraphDataPayload } from'@/db/xata'
+// // import { TopicPersonnelAndEventGraphDataPayload } from'@db'
 // import { DOMAIN_MODEL_COLORS } from '@/utils/colors'
 // import { useState, useEffect, useMemo } from 'react'
 

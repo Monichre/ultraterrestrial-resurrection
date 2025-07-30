@@ -4,7 +4,7 @@ import {
 	askFollowUp,
 	askStream,
 	AskStreamChunk,
-} from "@db/xata/api/ask";
+} from "@db/src/xata-typescript-sdk/api/ask";
 
 /**
  * Example 1: Simple question about data

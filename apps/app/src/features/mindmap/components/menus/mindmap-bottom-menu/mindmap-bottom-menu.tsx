@@ -506,8 +506,32 @@ export const MindMapBottomMenu = ({
             }
           })
 
-          // Create edges with React Flow standards
-          const newEdges = result.edges.map((edge) => ({
+          // Create edges from user input node to new nodes (Smart Edges)
+          const userToNodeEdges = positionedNodes.map((entityNode) => {
+            const edgeId = `${userNode.id}-${entityNode.id}`
+            return {
+              id: edgeId,
+              source: userNode.id,
+              target: entityNode.id,
+              animated: true,
+              type: 'smoothstep',
+              label: `Found ${type}`,
+              style: {
+                stroke: tourMode === 'guided' ? '#3b82f6' : '#10b981',
+                strokeWidth: 2,
+              },
+              // React Flow edge properties
+              selectable: true,
+              deletable: true,
+              focusable: true,
+              updatable: true,
+              markerEnd: 'arrow',
+              className: `user-to-entity-edge ${tourMode || 'free-form'}`,
+            }
+          })
+
+          // Create edges with React Flow standards (contextual edges between nodes)
+          const contextualEdges = result.edges.map((edge) => ({
             ...edge,
             // Ensure React Flow compatibility
             selectable: true,
@@ -523,19 +547,22 @@ export const MindMapBottomMenu = ({
             },
           }))
 
+          // Combine user-to-node edges with contextual edges
+          const allEdges = [...userToNodeEdges, ...contextualEdges]
+
           // Update user node with analysis
           updateNodeData(userNode.id, {
-            input: `Found ${newNodes.length} ${type} records`,
+            input: `Found ${newNodes.length} ${type} records, Contextual expansion added ${newNodes.length} records with ${userToNodeEdges.length} new connections`,
             answer: result.analysis,
             suggestions: result.suggestions,
           })
 
           // Add to graph
           addNodes(positionedNodes)
-          addEdges(newEdges)
+          addEdges(allEdges)
 
           console.log(
-            `[MindMap Menu] Integrated ${newNodes.length} nodes and ${newEdges.length} edges from agent`
+            `[MindMap Menu] Integrated ${newNodes.length} nodes and ${allEdges.length} edges from agent (${userToNodeEdges.length} user-to-node, ${contextualEdges.length} contextual)`
           )
         } else {
           updateNodeData(userNode.id, {

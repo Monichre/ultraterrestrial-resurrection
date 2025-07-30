@@ -8,19 +8,20 @@ import json
 import sys
 from pathlib import Path
 
+
 def analyze_csv():
-    csv_path = Path(__file__).parent / "data/raw/documents.csv"
-    
+    csv_path = Path(__file__).parent / "/data/queue/documents.csv"
+
     print(f"Analyzing CSV: {csv_path}")
     print("-" * 50)
-    
+
     with open(csv_path, 'r', encoding='utf-8') as f:
         reader = csv.DictReader(f)
         headers = reader.fieldnames
-        
+
         print(f"Headers ({len(headers)}): {headers}")
         print("-" * 50)
-        
+
         # Read first few rows
         for i, row in enumerate(reader):
             if i < 3:
@@ -37,8 +38,9 @@ def analyze_csv():
                 print()
             else:
                 break
-    
+
     print("Analysis complete!")
+
 
 if __name__ == "__main__":
     analyze_csv()

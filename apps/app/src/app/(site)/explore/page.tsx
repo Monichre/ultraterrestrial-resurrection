@@ -1,5 +1,5 @@
 import {EntityNetworkGraph3D} from '@/features/3d/entity-network-graph-3d'
-import {getEntityNetworkGraphData} from '@db/xata/api'
+import {getEntityNetworkGraphData} from '@db/src/xata-typescript-sdk/api'
 import {InAppNavbar} from '@/components/navbar/navbar'
 import {Suspense} from 'react'
 

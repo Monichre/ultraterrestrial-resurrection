@@ -1,4 +1,4 @@
-import {getAllOrganizations, getAllEvents, getAllTestimonies, getAllTopics, getAllPersonnel} from '@db/xata/models'
+import {getAllOrganizations, getAllEvents, getAllTestimonies, getAllTopics, getAllPersonnel} from '@db/src/xata-typescript-sdk/models'
 import {AdminDashboard} from '@/features/admin/AdminDashboard'
 
 export default async function Index() {

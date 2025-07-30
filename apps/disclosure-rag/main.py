@@ -62,6 +62,15 @@ except ImportError:
     ENHANCED_COCOINDEX_AVAILABLE = False
     logger.warning("Enhanced CocoIndex not available")
 
+# Import CocoIndex knowledge graph integration
+try:
+    from lib.cocoindex_integration import cocoindex_processor
+    COCOINDEX_KG_AVAILABLE = True
+    logger.info("CocoIndex knowledge graph integration available")
+except ImportError as e:
+    COCOINDEX_KG_AVAILABLE = False
+    logger.warning(f"CocoIndex knowledge graph integration not available: {e}")
+
 # Initialize processors
 web_processor = WebContentProcessor()
 kb_crud = KnowledgeBaseCRUD()
@@ -69,6 +78,31 @@ kb_crud = KnowledgeBaseCRUD()
 def is_youtube_url(url: str) -> bool:
     """Check if URL is a YouTube video"""
     return any(domain in url.lower() for domain in ['youtube.com', 'youtu.be'])
+
+def trigger_cocoindex_processing(doc_id: str, force_update: bool = False) -> Optional[Dict[str, Any]]:
+    """Trigger CocoIndex knowledge graph processing for a document"""
+    if not COCOINDEX_KG_AVAILABLE:
+        logger.info("CocoIndex KG processing skipped - not available")
+        return None
+    
+    try:
+        logger.info(f"Triggering CocoIndex knowledge graph processing for document: {doc_id}")
+        result = cocoindex_processor.process_document_knowledge_graph(doc_id, force_update)
+        
+        if result.get('status') == 'success':
+            entities_count = result.get('entities_processed', 0)
+            relationships_count = result.get('relationships_processed', 0)
+            logger.info(f"CocoIndex processing completed: {entities_count} entities, {relationships_count} relationships")
+        elif result.get('status') == 'skipped':
+            logger.info(f"CocoIndex processing skipped: {result.get('reason', 'unknown')}")
+        else:
+            logger.warning(f"CocoIndex processing failed: {result.get('error', 'unknown error')}")
+        
+        return result
+        
+    except Exception as e:
+        logger.error(f"Error triggering CocoIndex processing: {e}")
+        return None
 
 def process_url(url: str, upload: bool = False, add_to_kb: bool = True) -> Optional[Dict[str, Any]]:
     """Process a URL (web page or YouTube video) with enhanced integration"""
@@ -149,7 +183,14 @@ def process_youtube_url_original(url: str, upload: bool = False, add_to_kb: bool
         
         # Add to knowledge base
         if add_to_kb:
-            add_to_knowledge_base(data, 'transcript')
+            doc_id = add_to_knowledge_base(data, 'transcript')
+            data['doc_id'] = doc_id
+            
+            # Trigger CocoIndex knowledge graph processing
+            if doc_id:
+                cocoindex_result = trigger_cocoindex_processing(doc_id)
+                if cocoindex_result:
+                    data['cocoindex_processing'] = cocoindex_result
         
         return data
         
@@ -202,7 +243,14 @@ def process_web_url_original(url: str, upload: bool = False, add_to_kb: bool = T
         
         # Add to knowledge base
         if add_to_kb:
-            add_to_knowledge_base(data, 'article')
+            doc_id = add_to_knowledge_base(data, 'article')
+            data['doc_id'] = doc_id
+            
+            # Trigger CocoIndex knowledge graph processing
+            if doc_id:
+                cocoindex_result = trigger_cocoindex_processing(doc_id)
+                if cocoindex_result:
+                    data['cocoindex_processing'] = cocoindex_result
         
         return data
         
@@ -306,6 +354,29 @@ def process_file(file_path: str, upload: bool = False, add_to_kb: bool = True) -
                 except Exception as e:
                     logger.error(f"Error setting up entity processing: {e}")
             
+            # Trigger CocoIndex knowledge graph processing after entity extraction
+            if doc_id:
+                try:
+                    from lib.terminal_display import display
+                    display.print_stage("🕸️ KNOWLEDGE GRAPH", "🕸️")
+                    display.start_spinner("📊 Building knowledge graph with CocoIndex...")
+                    
+                    cocoindex_result = trigger_cocoindex_processing(doc_id)
+                    if cocoindex_result and cocoindex_result.get('status') == 'success':
+                        entities_count = cocoindex_result.get('entities_processed', 0)
+                        relationships_count = cocoindex_result.get('relationships_processed', 0)
+                        display.stop_spinner(f"✅ Knowledge graph built: {entities_count} entities, {relationships_count} relationships")
+                        data['cocoindex_processing'] = cocoindex_result
+                    else:
+                        display.stop_spinner("⚠️ Knowledge graph processing skipped or failed")
+                        if cocoindex_result:
+                            data['cocoindex_processing'] = cocoindex_result
+                            
+                except Exception as e:
+                    display.stop_spinner("❌ Knowledge graph processing failed")
+                    logger.error(f"CocoIndex processing failed: {e}")
+                    # Don't fail the entire process if CocoIndex processing fails
+            
             # Move successfully processed files from processing_queue to case_files
             if doc_id and file_path.startswith('/Users/liamellis/Desktop/ultraterrestrial-resurrection/apps/disclosure-rag/data/processing_queue/'):
                 try:
@@ -360,11 +431,30 @@ def main():
         print(f"   Search Sync: {'✅' if status['search_sync'] else '❌'}")
         print(f"   Search URL: {'✅' if status['search_url'] else '❌'}")
         print(f"   Search Token: {'✅' if status['search_token'] else '❌'}")
+        print(f"   CocoIndex KG: {'✅' if COCOINDEX_KG_AVAILABLE else '❌'}")
+        
+        if COCOINDEX_KG_AVAILABLE:
+            try:
+                # Get CocoIndex processor status
+                kg_status = cocoindex_processor.get_processing_status()
+                if kg_status.get('status') == 'success' and 'statistics' in kg_status:
+                    stats = kg_status['statistics']
+                    print(f"   KG Documents: {stats.get('total_documents', 0)}")
+                    print(f"   KG Entities: {stats.get('total_entities', 0)}")
+                    print(f"   KG Relationships: {stats.get('total_relationships', 0)}")
+            except Exception as e:
+                logger.debug(f"Could not get CocoIndex status: {e}")
         
         if not status['search_sync']:
             print(f"\n💡 To enable Search sync, set environment variables:")
             print(f"   export UPSTASH_SEARCH_URL=your_url")
             print(f"   export UPSTASH_SEARCH_TOKEN=your_token")
+        
+        if not COCOINDEX_KG_AVAILABLE:
+            print(f"\n💡 To enable CocoIndex knowledge graph:")
+            print(f"   pip install cocoindex")
+            print(f"   Configure PostgreSQL and Neo4j connections")
+        
         return
     
     # Check if input is required but not provided
@@ -399,6 +489,18 @@ def main():
         
         if 'queue_result' in result:
             print(f"   QStash Queue: ✅")
+        
+        # Show CocoIndex knowledge graph results
+        if 'cocoindex_processing' in result:
+            kg_result = result['cocoindex_processing']
+            if kg_result.get('status') == 'success':
+                entities = kg_result.get('entities_processed', 0)
+                relationships = kg_result.get('relationships_processed', 0)
+                print(f"   Knowledge Graph: ✅ ({entities} entities, {relationships} relationships)")
+            elif kg_result.get('status') == 'skipped':
+                print(f"   Knowledge Graph: ⚠️ Skipped ({kg_result.get('reason', 'unknown')})")
+            else:
+                print(f"   Knowledge Graph: ❌ Failed")
     else:
         print(f"\n❌ Processing failed!")
         sys.exit(1)

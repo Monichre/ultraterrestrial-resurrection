@@ -1,4 +1,4 @@
-import { getXataClient } from '@/db/xata'
+import { getXataClient } from '@db'
 import type { AskResult } from '@xata.io/client'
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'

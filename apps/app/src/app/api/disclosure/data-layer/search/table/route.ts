@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { searchXata } from '@db/xata/api/search'
+import { searchXata } from '@db/src/xata-typescript-sdk/api/search'
 import { xata } from '@db/xata/client'
 
 export interface SearchResult {

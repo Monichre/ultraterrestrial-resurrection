@@ -174,25 +174,25 @@ class AIEntityExtractor:
     def _get_default_model(self) -> str:
         """Get default model for provider"""
         defaults = {
-            "openai": "gpt-4o-mini",
-            "anthropic": "claude-3-haiku-20240307"
+            "openai": "gpt-4.1",
+            "anthropic": "claude-sonnet-4-20250514"
         }
-        return defaults.get(self.provider, "gpt-4o-mini")
+        return defaults.get(self.provider, "gpt-4.1")
 
     def _initialize_client(self):
         """Initialize AI client based on provider"""
-        if self.provider == "openai" and OPENAI_AVAILABLE:
-            api_key = os.getenv("OPENAI_API_KEY")
-            if not api_key:
-                raise ValueError(
-                    "OPENAI_API_KEY environment variable required")
-            return OpenAI(api_key=api_key)
-        elif self.provider == "anthropic" and ANTHROPIC_AVAILABLE:
+        if self.provider == "anthropic" and ANTHROPIC_AVAILABLE:
             api_key = os.getenv("ANTHROPIC_API_KEY")
             if not api_key:
                 raise ValueError(
                     "ANTHROPIC_API_KEY environment variable required")
             return Anthropic(api_key=api_key)
+        elif self.provider == "openai" and OPENAI_AVAILABLE:
+            api_key = os.getenv("OPENAI_API_KEY")
+            if not api_key:
+                raise ValueError(
+                    "OPENAI_API_KEY environment variable required")
+            return OpenAI(api_key=api_key)
         else:
             raise ValueError(
                 f"Provider {self.provider} not available or not supported")

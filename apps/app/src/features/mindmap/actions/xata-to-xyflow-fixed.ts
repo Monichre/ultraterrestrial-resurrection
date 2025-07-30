@@ -15,7 +15,7 @@
  * 7. Comprehensive logging for debugging
  */
 
-import { askXataWithAi } from "@db/xata/api"
+import { askXataWithAi } from "@db/src/xata-typescript-sdk/api"
 import { organizeNodeLayout } from "../layouts/organizeNodeLayout"
 import { xata } from "@db/xata/client"
 import type { Node, Edge } from '@xyflow/react'

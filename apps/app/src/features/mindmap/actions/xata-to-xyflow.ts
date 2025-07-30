@@ -2,8 +2,11 @@
 
 
 import { organizeNodeLayout } from "../layouts/organizeNodeLayout"
-import { xata } from "@db/xata/client"
-import { askXataWithAi } from "@db/xata"
+import { xata } from "@db/xata"
+
+
+
+
 import { getEnhancedNodeData } from "@/features/ai/actions/actions"
 import type { Node, Edge } from '@xyflow/react'
 type AskParams = {

@@ -1,4 +1,4 @@
-declare module '@db/xata/api' {
+declare module '@db/src/xata-typescript-sdk/api' {
   export function searchXata( params: {
     query: string
     id?: string | null
@@ -14,6 +14,6 @@ declare module '@db/xata/client' {
   export const xata: any
 }
 
-declare module '@db/xata/models' {
+declare module '@db/src/xata-typescript-sdk/models' {
   export * from '@db/xata-typescript-sdk/models'
 } 

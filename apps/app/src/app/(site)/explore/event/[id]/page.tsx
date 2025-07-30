@@ -1,4 +1,4 @@
-import { xata } from "@/db/xata"
+import { xata } from "@db/src/xata-typescript-sdk/xata"
 
 // const record = await xata.db.events.read( 'rec_xyz' )
 // console.log( record )

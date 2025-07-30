@@ -3,7 +3,7 @@
  * Demonstrates database operations and analytics
  */
 
-import { createUltraterrestrialDB, demoUltraterrestrialDB, generateEmbedding } from './lib/connectors/ultraterrestrial_db';
+import { createUltraterrestrialDB, demoUltraterrestrialDB, generateEmbedding } from '../lib/connectors/ultraterrestrial_db';
 
 async function testConnection() {
     console.log('🔌 Testing TypeScript database connection...');

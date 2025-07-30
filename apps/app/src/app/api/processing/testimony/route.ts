@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getXataClient } from '@/db/xata/xata';
+import { getXataClient } from '@db/xata';
 import { Queue } from '@upstash/queue';
 
 const queue = new Queue({

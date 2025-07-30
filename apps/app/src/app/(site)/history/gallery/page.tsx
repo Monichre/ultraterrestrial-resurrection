@@ -1,6 +1,6 @@
 import {SpatialGallery} from '@/features/3d/visualizations/spatial-gallery'
 
-import {getXataClient} from '@/db/xata'
+import {getXataClient} from '@db'
 import {transformImage} from '@xata.io/client'
 const xata = getXataClient()
 

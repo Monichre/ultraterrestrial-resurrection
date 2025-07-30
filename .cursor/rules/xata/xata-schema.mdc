@@ -1,12 +1,11 @@
 ---
-description: 
-globs: packages/db/**/*.ts,packages/db/xata/*.ts,packages/db/xata/**/*.ts
+description: db, database, entity, entitity record
 alwaysApply: false
 ---
-
 # Database Schema
 
 ## topics
+
 - **Columns:**
   - name (string)
   - summary (text)
@@ -21,6 +20,7 @@ alwaysApply: false
   - user-saved-topics (topic)
 
 ## personnel
+
 - **Columns:**
   - bio (text)
   - role (string)
@@ -41,6 +41,7 @@ alwaysApply: false
   - documents (author)
 
 ## events
+
 - **Columns:**
   - name (text)
   - description (text)
@@ -61,6 +62,7 @@ alwaysApply: false
   - user-saved-events (event)
 
 ## organizations
+
 - **Columns:**
   - name (string)
   - specialization (string)
@@ -76,6 +78,7 @@ alwaysApply: false
   - documents (organization)
 
 ## sightings
+
 - **Columns:**
   - date (datetime)
   - description (string)
@@ -94,22 +97,8 @@ alwaysApply: false
 - **Referenced by:**
   - user-saved-sightings (sighting)
 
-## event-subject-matter-experts
-- **Columns:**
-  - event (link to events)
-  - subject-matter-expert (link to personnel)
-
-## topic-subject-matter-experts
-- **Columns:**
-  - topic (link to topics)
-  - subject-matter-expert (link to personnel)
-
-## organization-members
-- **Columns:**
-  - member (link to personnel)
-  - organization (link to organizations)
-
 ## testimonies
+
 - **Columns:**
   - claim (text)
   - event (link to events)
@@ -126,12 +115,8 @@ alwaysApply: false
   - topics-testimonies (testimony)
   - user-saved-testimonies (testimony)
 
-## topics-testimonies
-- **Columns:**
-  - topic (link to topics)
-  - testimony (link to testimonies)
-
 ## documents
+
 - **Columns:**
   - file (file[])
   - summary (text)
@@ -149,6 +134,7 @@ alwaysApply: false
   - summary-files (document)
 
 ## locations
+
 - **Columns:**
   - name (string)
   - coordinates (string)
@@ -157,14 +143,87 @@ alwaysApply: false
   - state (string)
   - latitude (float)
   - longitude (float)
+-
+
+## artifacts
+
+- **Columns:**
+  - name (string, unique)
+  - description (text)
+  - photos (multiple)
+  - date (string)
+  - source (text)
+  - origin (text)
+  - images (file[], defaultPublicAccess: true)
+  - embedding (vector, dimension: 1536)
+
+## key-figures
+
+- **Columns:**
+  - name (text)
+  - bio (text)
+  - photo (text)
+  - role (text)
+  - rank (int)
+  - credibility (int)
+  - popularity (int)
+  - authority (int)
+  - embedding (text)
+  - xataversion (int)
+
+## summary-files
+
+- **Columns:**
+  - name (text)
+  - file (file)
+  - source (text)
+  - metadata (json)
+  - images (file)
+  - content (text)
+  - embedding (multiple, dimension: 0)
+  - document (link to documents, unique)
+
+## tags
+
+- **Columns:** (none)
+
+## theories
+
+- **Columns:** (none)
+
+## event-subject-matter-experts
+
+- **Columns:**
+  - event (link to events)
+  - subject-matter-expert (link to personnel)
+
+## topic-subject-matter-experts
+
+- **Columns:**
+  - topic (link to topics)
+  - subject-matter-expert (link to personnel)
+
+## organization-members
+
+- **Columns:**
+  - member (link to personnel)
+  - organization (link to organizations)
+
+## topics-testimonies
+
+- **Columns:**
+  - topic (link to topics)
+  - testimony (link to testimonies)
 
 ## event-topic-subject-matter-experts
+
 - **Columns:**
   - event (link to events)
   - topic (link to topics)
   - subject-matter-expert (link to personnel)
 
 ## users
+
 - **Columns:**
   - email (email, unique)
   - name (string)
@@ -183,6 +242,7 @@ alwaysApply: false
   - mindmaps (user)
 
 ## user-saved-events
+
 - **Columns:**
   - user (link to users)
   - event (link to events)
@@ -191,6 +251,7 @@ alwaysApply: false
   - note-title (string)
 
 ## user-saved-topics
+
 - **Columns:**
   - user (link to users)
   - topic (link to topics)
@@ -199,6 +260,7 @@ alwaysApply: false
   - note-title (string)
 
 ## user-saved-key-figure
+
 - **Columns:**
   - user (link to users)
   - key-figure (link to personnel)
@@ -207,6 +269,7 @@ alwaysApply: false
   - note-title (string)
 
 ## user-saved-testimonies
+
 - **Columns:**
   - user (link to users)
   - testimony (link to testimonies)
@@ -215,6 +278,7 @@ alwaysApply: false
   - note-title (string)
 
 ## user-saved-documents
+
 - **Columns:**
   - user (link to users)
   - document (link to documents)
@@ -223,6 +287,7 @@ alwaysApply: false
   - note-title (string)
 
 ## user-notes
+
 - **Columns:**
   - user (link to users)
   - name (string)
@@ -239,6 +304,7 @@ alwaysApply: false
   - user-saved-documents (theory)
 
 ## user-saved-organizations
+
 - **Columns:**
   - user (link to users)
   - organization (link to organizations)
@@ -247,6 +313,7 @@ alwaysApply: false
   - note-title (string)
 
 ## user-saved-sightings
+
 - **Columns:**
   - user (link to users)
   - sighting (link to sightings)
@@ -254,56 +321,13 @@ alwaysApply: false
   - note (text)
   - note-title (string)
 
-## tags
-- **Columns:** (none)
-
-## theories
-- **Columns:** (none)
-
 ## mindmaps
+
 - **Columns:**
   - json (json, defaultValue: "{}")
   - embedding (vector, dimension: 1536)
   - user (link to users)
   - file (file, defaultPublicAccess: true)
-
-## artifacts
-- **Columns:**
-  - name (string, unique)
-  - description (text)
-  - photos (multiple)
-  - date (string)
-  - source (text)
-  - origin (text)
-  - images (file[], defaultPublicAccess: true)
-  - embedding (vector, dimension: 1536)
-
-## key-figures
-- **Columns:**
-  - name (text)
-  - bio (text)
-  - photo (text)
-  - role (text)
-  - rank (int)
-  - credibility (int)
-  - popularity (int)
-  - authority (int)
-  - embedding (text)
-  - xataversion (int)
-
-## summary-files
-- **Columns:**
-  - name (text)
-  - file (file)
-  - source (text)
-  - metadata (json)
-  - images (file)
-  - content (text)
-  - embedding (multiple, dimension: 0)
-  - document (link to documents, unique)
-
-
-
 
 ### Schema File
 

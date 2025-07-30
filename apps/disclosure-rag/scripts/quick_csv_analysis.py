@@ -8,7 +8,7 @@ import pandas as pd
 import ast
 
 # Load and analyze CSV
-csv_path = "data/raw/documents.csv"
+csv_path = "/data/queue/documents.csv"
 print("📊 Loading documents.csv...")
 
 df = pd.read_csv(csv_path)
@@ -18,7 +18,7 @@ print(f"Columns: {list(df.columns)}")
 # Check embeddings
 if 'embedding' in df.columns:
     print("\n🎯 Analyzing embeddings...")
-    
+
     # Check first few embeddings
     for i in range(min(3, len(df))):
         embedding_str = df['embedding'].iloc[i]

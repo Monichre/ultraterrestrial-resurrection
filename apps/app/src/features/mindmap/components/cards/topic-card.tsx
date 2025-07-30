@@ -276,7 +276,7 @@ export function TopicCard( { card }: any ) {
         <motion.img
           layoutId={`image-${card.title}`}
           alt='card'
-          src={card?.photos[0]?.url || card?.photos[0]?.src}
+          src={card?.photos?.[0]?.url || card?.photos?.[0]?.src || '/default-topic-image.png'}
           className='-mt-10 h-full w-full bg-[#0a0a0b]'
         />
         <div className='flex w-full items-end justify-between'>

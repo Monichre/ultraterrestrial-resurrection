@@ -1,5 +1,5 @@
 import type { AddConnectionNodesFromSearchParams } from "@/contexts/mindmap";
-import type { DatabaseSchema } from "@/db/xata";
+import type { DatabaseSchema } from "@db";
 import type { MindMapNode } from "@/features/mindmap/actions/fetch-next-mindmap-records";
 import type { MindMapState, useMindMapStore } from "@/features/mindmap/store";
 import type { Edge, Node, XYPosition, useReactFlow } from "@xyflow/react";

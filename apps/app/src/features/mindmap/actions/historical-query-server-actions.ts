@@ -1,6 +1,6 @@
 'use server'
 
-import { askXataWithAi } from "@db/xata/api"
+import { askXataWithAi } from "@db/src/xata-typescript-sdk/api"
 import type { GraphContext } from '@/features/mindmap/utils/contextual-intelligence'
 import type { ReactFlowNode, ReactFlowEdge } from '@/features/mindmap/actions/xata-to-xyflow'
 

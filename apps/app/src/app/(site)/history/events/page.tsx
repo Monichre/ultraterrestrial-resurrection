@@ -4,7 +4,7 @@ dayjs.extend( utc )
 
 import { ThreeDTimelineJourney } from '@/features/3d/3d-timeline-journey'
 
-import { getXataClient } from '@/db/xata'
+import { getXataClient } from '@db'
 import { Suspense } from 'react'
 
 const xata = getXataClient()

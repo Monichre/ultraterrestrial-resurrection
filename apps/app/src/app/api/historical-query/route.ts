@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { askXataWithAi } from '@db/xata/api'
+import { askXataWithAi } from '@db/src/xata-typescript-sdk/api'
 import { 
   getGraphContext, 
   generateTourAwareSearchRules, 

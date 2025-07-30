@@ -7,7 +7,7 @@ import {
 	AskOptions,
 	AskResponse,
 	AskStreamChunk,
-} from "@db/xata/api/ask";
+} from "@db/src/xata-typescript-sdk/api/ask";
 
 interface UseXataAskProps {
 	table: string;

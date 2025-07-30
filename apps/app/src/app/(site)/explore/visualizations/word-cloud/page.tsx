@@ -1,4 +1,4 @@
-import {getXataClient} from '@/db/xata'
+import {getXataClient} from '@db'
 const xata = getXataClient()
 
 import dynamic from 'next/dynamic'
