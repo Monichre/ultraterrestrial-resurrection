@@ -14,6 +14,7 @@ import {
   type GraphContext
 } from '@/features/mindmap/utils/contextual-intelligence'
 import type { ReactFlowNode, ReactFlowEdge } from '@/features/mindmap/actions/xata-to-xyflow'
+import { organizeNodeLayout } from '@/features/mindmap/layouts/organizeNodeLayout'
 
 /**
  * Historical Database Query Agent
@@ -204,8 +205,16 @@ export class HistoricalQueryAgent {
       throw new Error( response.error || 'Chronological progression query failed' )
     }
 
-    const nodes = this.transformRecordsToNodes( response.records, parameters.table, 'chronological' )
-    const edges = this.generateChronologicalEdges( nodes, progression )
+    const rawNodes = this.transformRecordsToNodes( response.records, parameters.table, 'chronological' )
+    const edges = this.generateChronologicalEdges( rawNodes, progression )
+    
+    // Apply proper layout to prevent overlapping nodes
+    const nodes = organizeNodeLayout( rawNodes, edges, {
+      direction: 'horizontal',
+      parentChildSpacing: 120,
+      siblingSpacing: 80,
+      centerChildren: true
+    })
 
     return {
       nodes,
@@ -250,8 +259,16 @@ export class HistoricalQueryAgent {
       throw new Error( response.error || 'Tour waypoint query failed' )
     }
 
-    const nodes = this.transformRecordsToNodes( response.records, parameters.table, 'tour-guided' )
-    const edges = this.generateTourEdges( nodes, parameters.tourContext )
+    const rawNodes = this.transformRecordsToNodes( response.records, parameters.table, 'tour-guided' )
+    const edges = this.generateTourEdges( rawNodes, parameters.tourContext )
+    
+    // Apply proper layout for tour-guided nodes
+    const nodes = organizeNodeLayout( rawNodes, edges, {
+      direction: 'radial',
+      parentChildSpacing: 150,
+      siblingSpacing: 100,
+      centerChildren: true
+    })
 
     return {
       nodes,
@@ -292,8 +309,21 @@ export class HistoricalQueryAgent {
       throw new Error( response.error || 'Contextual expansion query failed' )
     }
 
-    const nodes = this.transformRecordsToNodes( response.records, parameters.table, 'contextual' )
-    const edges = this.generateContextualEdges( nodes, graphContext )
+    const rawNodes = this.transformRecordsToNodes( response.records, parameters.table, 'contextual' )
+    console.log( `[Historical Query Agent] Raw nodes created:`, rawNodes.length, rawNodes )
+    
+    const edges = this.generateContextualEdges( rawNodes, graphContext )
+    console.log( `[Historical Query Agent] Edges created:`, edges.length )
+    
+    // Apply proper layout for contextual expansion
+    const nodes = organizeNodeLayout( rawNodes, edges, {
+      direction: 'grid',
+      parentChildSpacing: 100,
+      siblingSpacing: 60,
+      centerChildren: true,
+      compactLayout: true
+    })
+    console.log( `[Historical Query Agent] Nodes after layout:`, nodes.length, nodes )
 
     return {
       nodes,
@@ -360,7 +390,7 @@ export class HistoricalQueryAgent {
     return records.map( ( record, index ) => ( {
       id: record.id || `${table}-${index}`,
       type: 'enhancedEntityNodePOC',
-      position: { x: index * 250, y: 0 }, // Initial positioning - will be optimized by layout
+      position: { x: index * 250, y: 0 }, // Initial positioning - layout optimization applied in calling functions
       data: {
         ...record,
         type: table,

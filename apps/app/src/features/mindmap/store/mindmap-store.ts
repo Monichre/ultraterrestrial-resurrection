@@ -106,7 +106,13 @@ export const useMindMapStore = create<MindMapState>((set, get) => ({
 	},
 
 	// Basic state setters
-	setNodes: (nodes) => set({ nodes }),
+	setNodes: (nodes) => {
+		console.log('[MindMap Store] setNodes called with:', nodes.length, 'nodes');
+		if (nodes.length === 0) {
+			console.trace('[MindMap Store] WARNING: setNodes called with empty array - stack trace:');
+		}
+		set({ nodes });
+	},
 	setEdges: (edges) => set({ edges }),
 
 	// Node and edge management

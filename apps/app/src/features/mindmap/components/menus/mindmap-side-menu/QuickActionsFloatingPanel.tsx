@@ -41,6 +41,7 @@ export const QuickActionsFloatingPanel = () => {
     setNodes,
     getNodes,
     addNode,
+    addNodesWithLayout,
 
     getNode,
   } = useMindMap()
@@ -140,8 +141,12 @@ export const QuickActionsFloatingPanel = () => {
             })
             .filter(Boolean)
 
-          // Add the entity nodes
-          addNodes(adjustedNodes)
+          // Add the entity nodes with proper layout
+          await addNodesWithLayout(adjustedNodes, {
+            direction: 'horizontal',
+            parentChildSpacing: 120,
+            siblingSpacing: 80
+          })
 
           // Create edges from the user node to each entity node
           const newEdges = adjustedNodes.map((node) => ({

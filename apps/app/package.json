@@ -19,7 +19,15 @@
     "parse-prd": "node scripts/dev.js parse-prd",
     "import:data": "bash scripts/data-import/run-import.sh",
     "import:events": "bun run scripts/data-import/events/import-events-to-xata.ts",
-    "import:sightings": "bun run scripts/data-import/import-sightings-to-xata.ts"
+    "import:sightings": "bun run scripts/data-import/import-sightings-to-xata.ts",
+    "log:checkin": "node scripts/log-checkin.js",
+    "log:work": "node scripts/log-work.js",
+    "log:approve": "node scripts/log-approve.js",
+    "log:tail": "tail -f LOG.md",
+    "agent:demo": "CLAUDE_AGENT_NAME=AGENT_DEMO node claude-agent-protocol.js",
+    "agent:status": "tail -20 LOG.md",
+    "log:status": "node scripts/log-status.js",
+    "log:status:once": "node scripts/log-status.js --once"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^1.2.12",
@@ -88,7 +96,6 @@
     "@tailwindcss/postcss": "^4.1.11",
     "@tanstack/react-table": "^8.21.3",
     "@tavily/core": "^0.5.9",
-    "@tiptap-cloud/provider": "^2.21.5",
     "@tiptap/extension-collaboration": "^2.25.1",
     "@tiptap/extension-document": "^2.25.1",
     "@tiptap/extension-highlight": "^2.25.1",
@@ -126,7 +133,7 @@
     "@vfx-js/core": "^0.8.0",
     "@xata.io/client": "^0.30.1",
     "@xyflow/react": "^12.8.1",
-    "ai": "^4.3.17",
+    "ai": "^4.3.19",
     "animejs": "^4.0.2",
     "annotation": "^0.1.0",
     "axios": "^1.10.0",

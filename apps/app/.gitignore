@@ -76,3 +76,6 @@ data/
  scripts/data-import/processing/testimonies/
 # clerk configuration (can include secrets)
 /.clerk/
+
+# Live logging lock file (ephemeral)
+.log.lock

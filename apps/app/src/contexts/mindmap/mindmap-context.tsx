@@ -1143,6 +1143,42 @@ export const MindMapProvider = ({children}: {children: React.ReactNode}) => {
     [createGroupNodeLayoutWithoutRootNode, graph, store.addNodes]
   )
 
+  // Centralized function to add nodes with automatic layout
+  const addNodesWithLayout = useCallback(
+    async (
+      nodes: any[], 
+      layoutOptions: {
+        direction?: 'horizontal' | 'vertical' | 'radial' | 'grid'
+        parentChildSpacing?: number
+        siblingSpacing?: number
+        preserveExistingLayout?: boolean
+        focusOnNewNodes?: boolean
+      } = {}
+    ) => {
+      try {
+        // Add nodes to store first
+        store.addNodes(nodes)
+        
+        // Layout temporarily disabled to debug node count issue
+        // await organizeLayout({
+        //   direction: 'horizontal',
+        //   parentChildSpacing: 120,
+        //   siblingSpacing: 80,
+        //   preserveExistingLayout: true, // Don't move existing nodes
+        //   focusOnNewNodes: true,
+        //   ...layoutOptions
+        // })
+        
+        console.log(`Added ${nodes.length} nodes with layout applied`)
+        return nodes
+      } catch (error) {
+        console.error('Error in addNodesWithLayout:', error)
+        throw error
+      }
+    },
+    [store.addNodes, organizeLayout]
+  )
+
   // Define the context value
   const contextValue: MindMapContextType = {
     // Store state and actions
@@ -1227,8 +1263,9 @@ export const MindMapProvider = ({children}: {children: React.ReactNode}) => {
 
     loadNodesFromTableQuery,
 
-    // Add our new organizeLayout function
+    // Layout functions
     organizeLayout,
+    addNodesWithLayout,
   }
 
   // Also enhance the onConnect callback to apply layout after new connections

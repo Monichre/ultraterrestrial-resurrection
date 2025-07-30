@@ -27,24 +27,46 @@ export const fetchRecords = async ( recordIds: string[], table: string ) => {
 			throw new Error( 'fetchRecords: Invalid table parameter' )
 		}
 
-		return await Promise.all(
-			recordIds.map(
-				async ( recordId ) => {
-					try {
-						if ( !recordId || typeof recordId !== 'string' ) {
-							console.warn( `fetchRecords: Invalid record ID: ${recordId}` )
-							return null
-						}
-
-						const result = await xata.db[table].read( recordId )
-						return result?.toSerializable() || null
-					} catch ( error ) {
-						console.error( `fetchRecords: Error fetching record ${recordId} from ${table}:`, error )
+		// Add timeout and retry logic for database calls
+		const fetchWithTimeout = async (recordId: string, retries = 2): Promise<any> => {
+			for (let attempt = 0; attempt <= retries; attempt++) {
+				try {
+					if ( !recordId || typeof recordId !== 'string' ) {
+						console.warn( `fetchRecords: Invalid record ID: ${recordId}` )
 						return null
 					}
+
+					// Add timeout wrapper
+					const controller = new AbortController()
+					const timeoutId = setTimeout(() => controller.abort(), 10000) // 10 second timeout
+					
+					try {
+						const result = await xata.db[table].read( recordId )
+						clearTimeout(timeoutId)
+						return result?.toSerializable() || null
+					} finally {
+						clearTimeout(timeoutId)
+					}
+				} catch ( error ) {
+					console.error( `fetchRecords: Error fetching record ${recordId} from ${table} (attempt ${attempt + 1}):`, error )
+					
+					if (attempt === retries) {
+						// Return a minimal record object with just the ID if all retries fail
+						return { id: recordId, _error: 'Failed to fetch', _table: table }
+					}
+					
+					// Wait before retry
+					await new Promise(resolve => setTimeout(resolve, 1000 * (attempt + 1)))
 				}
-			)
-		).then( records => records.filter( Boolean ) ) // Filter out null results
+			}
+			return null
+		}
+
+		const results = await Promise.all(
+			recordIds.map(recordId => fetchWithTimeout(recordId))
+		)
+		
+		return results.filter( Boolean ) // Filter out null results
 	} catch ( error ) {
 		console.error( 'fetchRecords: Failed to fetch records:', error )
 		throw new Error( `Database query failed: ${error instanceof Error ? error.message : 'Unknown error'}` )

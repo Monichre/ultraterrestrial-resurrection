@@ -8,9 +8,9 @@
 
 ### Phase 1: Foundation Understanding
 
-- [ ] **CORE_APP_AI_ARCHITECTURE_OVERVIEW.md** - System foundation and integration hierarchy (`@/app` context)
-- [ ] **CONTEXTUAL_INTELLIGENCE_DOCUMENTATION.md** - Core AI layer understanding  
-- [ ] **CONTEXTUAL_INTELLIGENCE_REVIEW_PREFACE.md** - System comparison matrix
+- [ ] **apps/app/CORE_APP_AI_ARCHITECTURE_OVERVIEW.md** - System foundation and integration hierarchy (`@/app` context)
+- [ ] **apps/app/CONTEXTUAL_INTELLIGENCE_DOCUMENTATION.md** - Core AI layer understanding  
+- [ ] **apps/app/CONTEXTUAL_INTELLIGENCE_REVIEW_PREFACE.md** - System comparison matrix
 
 ### Phase 2: @/app Directory Familiarization
 

@@ -1,0 +1,81 @@
+# Claude Code Agent Coordination Rules
+
+## MANDATORY: Live Logging Protocol
+
+ALL agents working on this codebase MUST use the live logging system for coordination.
+
+### Before Starting Any Work
+
+1. **Import the logging module**:
+
+```javascript
+import { appendEntry, computeAck } from "./log.js";
+```
+
+2. **Check in with your planned work**:
+
+```javascript
+await appendEntry({
+  agent: "AGENT_A", // Use your assigned agent name
+  type: "checkin",
+  ack: computeAck("AGENT_A"),
+  sections: {
+    "Summary": "- Brief description of planned work",
+    "Next (awaiting approval)": [
+      "1) First task",
+      "2) Second task"
+    ]
+  }
+});
+```
+
+3. **WAIT for USER approval** - Check LOG.md for:
+
+```
+### [agent=USER seq=N ack=M type=approve ts=...]
+#### Approval
+- Proceed with steps...
+```
+
+4. **Only then proceed with implementation**
+
+### After Completing Work
+
+Log what you did:
+
+```javascript
+await appendEntry({
+  agent: "AGENT_A",
+  type: "work",
+  ack: computeAck("AGENT_A"),
+  sections: {
+    "Summary": "- What was accomplished",
+    "Did": ["- Specific changes"],
+    "Files changed": ["- file.js (+10 -5)"]
+  }
+});
+```
+
+### Coordination Rules
+
+- **NEVER** start work without checking in first
+- **NEVER** proceed without USER approval
+- **ALWAYS** log completed work
+- **ALWAYS** read LOG.md to see other agents' status
+- **ALWAYS** set ack to the last seq from others
+
+### Quick Commands
+
+- View log: `cat LOG.md` or `npm run log:tail`
+- Check in: `npm run log:checkin`
+- Log work: `npm run log:work`
+- Approve (USER): `npm run log:approve`
+
+## Agent Assignment
+
+- AGENT_A: Primary development agent
+- AGENT_B: Review/refactor agent
+- AGENT_C: Testing agent
+- USER: Human supervisor
+
+Each agent MUST use their assigned name consistently.

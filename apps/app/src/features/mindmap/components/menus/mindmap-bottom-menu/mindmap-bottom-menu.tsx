@@ -139,14 +139,17 @@ export const MindMapBottomMenu = ({
     addConnectionNodesFromSearch,
     addUserInputNode,
     addNodes,
+    addNodesWithLayout,
     updateNodeData,
     addEdges,
     screenToFlowPosition,
     retrieveEntitiesFromStore,
+    organizeLayout,
 
     setEdges,
     setNodes,
     getNodes,
+    getEdges,
     addNode,
 
     getNode,
@@ -239,10 +242,10 @@ export const MindMapBottomMenu = ({
       const existingNodes = getNodes()
       return existingNodes.some(
         (node) =>
-          // Check by ID
+          // Check by ID (primary check)
           node.id === id ||
-          // Check by type and content similarity
-          (node.type === `${type}Node` && node.data?.id === id)
+          // Check by data ID for enhanced nodes
+          (node.data?.id === id && node.data?.type === type)
       )
     },
     [getNodes]
@@ -275,7 +278,10 @@ export const MindMapBottomMenu = ({
         existingNodes,
         type
       )
-      addNodes(userNode)
+      await addNodesWithLayout(userNode, {
+        direction: 'horizontal',
+        preserveExistingLayout: true
+      })
 
       const response = await initiateDatabaseTableQuery({
         table: type,
@@ -360,11 +366,15 @@ export const MindMapBottomMenu = ({
         })
 
         // Add entity nodes and edges to the graph
-        addNodes(entityNodes)
+        await addNodesWithLayout(entityNodes, {
+          direction: 'grid',
+          parentChildSpacing: 100,
+          siblingSpacing: 60
+        })
         addEdges(entityEdges)
       }
     },
-    [addNodes, addEdges, updateNodeData, getNodes, nodeExists]
+    [addNodesWithLayout, addEdges, updateNodeData, getNodes, nodeExists]
   )
 
   // Define proper types for nodes and responses
@@ -424,12 +434,27 @@ export const MindMapBottomMenu = ({
         }
 
         // Register callback for task completion
-        historicalQueryAgent.onTaskComplete(taskId, (result) => {
+        const userNodeId = potentialUserNode.id
+        console.log(`[MindMap Menu] Registering callback for taskId: ${taskId}, userNodeId: ${userNodeId}, type: ${type}`)
+        console.log(`[MindMap Menu] About to register callback with historicalQueryAgent`)
+        
+        historicalQueryAgent.onTaskComplete(taskId, async (result) => {
+          console.log(`[MindMap Menu] *** CALLBACK TRIGGERED *** Task ${taskId} completed with status:`, result.status, result)
+          
           if (result.status === 'completed' && result.result) {
-            // Integrate results with React Flow
-            integrateAgentResults(potentialUserNode, result.result, type)
+            // Find current userNode to avoid stale closure
+            const currentUserNode = getNodes().find(node => node.id === userNodeId)
+            console.log(`[MindMap Menu] Found currentUserNode:`, currentUserNode ? 'YES' : 'NO', currentUserNode?.id)
+            
+            if (currentUserNode) {
+              console.log(`[MindMap Menu] About to integrate agent results for ${type}:`, result.result.nodes.length, 'nodes')
+              await integrateAgentResults(currentUserNode, result.result, type)
+            } else {
+              console.error('[MindMap Menu] UserNode not found for task completion:', userNodeId)
+            }
           } else if (result.status === 'failed') {
-            updateNodeData(potentialUserNode.id, {
+            console.log(`[MindMap Menu] Task ${taskId} failed, updating node ${userNodeId}`)
+            updateNodeData(userNodeId, {
               input: `Failed to load ${type} data: Background processing error`,
             })
           }
@@ -465,7 +490,7 @@ export const MindMapBottomMenu = ({
 
   // Helper function to integrate agent results with React Flow
   const integrateAgentResults = useCallback(
-    (
+    async (
       userNode: any,
       result: {
         nodes: ReactFlowNode[]
@@ -476,10 +501,15 @@ export const MindMapBottomMenu = ({
       type: string
     ) => {
       if (result.nodes.length > 0) {
-        // Filter out existing nodes
-        const newNodes = result.nodes.filter((node) => !nodeExists(node.id, node.type))
+        console.log(`[MindMap Menu] Result nodes received:`, result.nodes.length, result.nodes)
+        
+        // Node filtering removed - add all nodes
+        const newNodes = result.nodes
+        
+        console.log(`[MindMap Menu] All nodes will be added:`, newNodes.length, newNodes)
 
         if (newNodes.length > 0) {
+          console.log(`[MindMap Menu] Processing ${newNodes.length} new nodes`)
           // Position nodes around the user input node with React Flow optimization
           const radius = 300
           const angleStep = (2 * Math.PI) / newNodes.length
@@ -557,14 +587,37 @@ export const MindMapBottomMenu = ({
             suggestions: result.suggestions,
           })
 
-          // Add to graph
-          addNodes(positionedNodes)
-          addEdges(allEdges)
+          // Add nodes with layout in single atomic operation
+          console.log(`[MindMap Menu] About to add ${positionedNodes.length} nodes with layout:`, positionedNodes)
+          
+          try {
+            await addNodesWithLayout(positionedNodes, {
+              direction: 'horizontal',
+              parentChildSpacing: 120,
+              siblingSpacing: 80,
+              preserveExistingLayout: true
+            })
+            console.log(`[MindMap Menu] Nodes added with layout successfully`)
+            console.log(`[MindMap Menu] Current node count:`, getNodes().length)
+          } catch (error) {
+            console.error('[MindMap Menu] Error adding nodes with layout:', error)
+          }
+          
+          // Add edges with debugging
+          console.log(`[MindMap Menu] About to add ${allEdges.length} edges:`, allEdges)
+          try {
+            addEdges(allEdges)
+            console.log(`[MindMap Menu] Edges added successfully`)
+            console.log(`[MindMap Menu] Current edge count:`, getEdges().length)
+          } catch (edgeError) {
+            console.error('[MindMap Menu] Error adding edges:', edgeError)
+          }
 
           console.log(
             `[MindMap Menu] Integrated ${newNodes.length} nodes and ${allEdges.length} edges from agent (${userToNodeEdges.length} user-to-node, ${contextualEdges.length} contextual)`
           )
         } else {
+          console.log(`[MindMap Menu] No new nodes to add - all filtered out as existing`)
           updateNodeData(userNode.id, {
             input: `No new ${type} data found. All relevant records are already on the graph.`,
           })
@@ -575,7 +628,7 @@ export const MindMapBottomMenu = ({
         })
       }
     },
-    [addNodes, addEdges, updateNodeData, nodeExists, tourMode]
+    [addNodesWithLayout, addEdges, updateNodeData, nodeExists, tourMode, getNodes, getEdges]
   )
 
   // Helper function to create minimal graph context
@@ -608,10 +661,14 @@ export const MindMapBottomMenu = ({
         setTourMode(mode)
 
         // Register for session updates
-        tourStateAgent.onSessionUpdate(sessionId, (session) => {
+        tourStateAgent.onSessionUpdate(sessionId, async (session) => {
           // Integrate tour state with React Flow
           if (session.state.nodes.length > 0) {
-            addNodes(session.state.nodes)
+            await addNodesWithLayout(session.state.nodes, {
+              direction: 'radial',
+              parentChildSpacing: 150,
+              siblingSpacing: 100
+            })
           }
           if (session.state.edges.length > 0) {
             addEdges(session.state.edges)
@@ -623,7 +680,7 @@ export const MindMapBottomMenu = ({
         console.error('Failed to start tour:', error)
       }
     },
-    [getNodes, addNodes, addEdges]
+    [getNodes, addNodesWithLayout, addEdges]
   )
 
   const toggleTourMode = useCallback(async () => {

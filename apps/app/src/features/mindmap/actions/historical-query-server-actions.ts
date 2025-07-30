@@ -1,6 +1,8 @@
 'use server'
 
 import { askXataWithAi } from "@db/src/xata-typescript-sdk/api"
+import { fetchRecords } from '@/features/mindmap/actions/xata-to-xyflow'
+import { xata } from '@db/xata'
 import type { GraphContext } from '@/features/mindmap/utils/contextual-intelligence'
 import type { ReactFlowNode, ReactFlowEdge } from '@/features/mindmap/actions/xata-to-xyflow'
 
@@ -31,6 +33,7 @@ export interface HistoricalQueryServerResponse {
   error?: string
 }
 
+
 /**
  * Server Action for chronological progression queries
  */
@@ -46,9 +49,13 @@ export async function executeChronologicalProgression(
       rules: params.rules
     } )
 
+    // Fetch actual record data using the record IDs and table parameter
+    const recordIds = response.records || []
+    const fullRecords = recordIds.length > 0 ? await fetchRecords(recordIds, params.table) : []
+
     return {
       success: true,
-      records: response.records || [],
+      records: fullRecords,
       answer: response.answer || '',
       sessionId: response.sessionId || ''
     }
@@ -79,9 +86,13 @@ export async function executeTourWaypoint(
       rules: params.rules
     } )
 
+    // Fetch actual record data using the record IDs and table parameter
+    const recordIds = response.records || []
+    const fullRecords = recordIds.length > 0 ? await fetchRecords(recordIds, params.table) : []
+
     return {
       success: true,
-      records: response.records || [],
+      records: fullRecords,
       answer: response.answer || '',
       sessionId: response.sessionId || ''
     }
@@ -105,16 +116,27 @@ export async function executeContextualExpansion(
 ): Promise<HistoricalQueryServerResponse> {
   try {
     console.log( `[Historical Query Server] Processing contextual expansion for ${params.table}` )
+    console.log( `[Historical Query Server] Query: ${params.query}` )
+    console.log( `[Historical Query Server] Rules: ${JSON.stringify(params.rules)}` )
 
     const response = await askXataWithAi( {
       question: params.query,
       table: params.table,
       rules: params.rules
     } )
+    
+    console.log( `[Historical Query Server] askXataWithAi response:`, response )
+
+    // Fetch actual record data using the record IDs and table parameter
+    const recordIds = response.records || []
+    console.log( `[Historical Query Server] Record IDs from askXataWithAi:`, recordIds )
+    
+    const fullRecords = recordIds.length > 0 ? await fetchRecords(recordIds, params.table) : []
+    console.log( `[Historical Query Server] Full records fetched:`, fullRecords.length )
 
     return {
       success: true,
-      records: response.records || [],
+      records: fullRecords,
       answer: response.answer || '',
       sessionId: response.sessionId || ''
     }

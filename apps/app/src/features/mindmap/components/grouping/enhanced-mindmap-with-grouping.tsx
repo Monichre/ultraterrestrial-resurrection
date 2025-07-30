@@ -274,7 +274,7 @@ export function EnhancedMindmapWithGrouping({
               <span>Toggle proximity</span>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   )

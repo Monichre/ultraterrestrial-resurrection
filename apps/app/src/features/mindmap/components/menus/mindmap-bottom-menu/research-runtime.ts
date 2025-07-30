@@ -26,7 +26,7 @@ export const createResearchNodeTool = tool({
   }),
   execute: async ({ type, query, connectionTo, amount }) => {
     const mindmapContext = useMindMap();
-    const { addNodes, addEdges, screenToFlowPosition, getNodes } = mindmapContext;
+    const { addNodes, addNodesWithLayout, addEdges, screenToFlowPosition, getNodes } = mindmapContext;
     
     try {
       // Use existing search functionality
@@ -53,7 +53,11 @@ export const createResearchNodeTool = tool({
           });
         });
         
-        addNodes(newNodes);
+        await addNodesWithLayout(newNodes, {
+          direction: 'radial',
+          parentChildSpacing: 150,
+          siblingSpacing: 100
+        });
         
         // Create connections if specified
         if (connectionTo && connectionTo.length > 0) {
