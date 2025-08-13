@@ -14,18 +14,21 @@ export const searchXata = async ({
 			return { success: false, error: "Query is required" };
 		}
 
+		// Ensure table name is lowercase for Xata compatibility
+		const normalizedTable = table?.toLowerCase();
+
 		let searchResults;
 
-		if (table && id) {
+		if (normalizedTable && id) {
 			// Search within a specific table and record
-			searchResults = await xata.db[table].search(query, {
+			searchResults = await xata.db[normalizedTable].search(query, {
 				fuzziness: 1,
 				prefix: "phrase",
 			});
-		} else if (table) {
+		} else if (normalizedTable) {
 			// Search within a specific table
 			searchResults = await xata.search.all(query, {
-				tables: [{ table }],
+				tables: [{ table: normalizedTable }],
 				fuzziness: 1,
 				prefix: "phrase",
 			});

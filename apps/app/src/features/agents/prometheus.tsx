@@ -1,7 +1,8 @@
 'use client'
 
 import type React from 'react'
-import {useState, useRef, useCallback, useEffect} from 'react'
+import {useState, useRef, useCallback, useEffect, useMemo} from 'react'
+import {useAutoResizeTextarea} from '../../hooks/useAutoResizeTextArea'
 import {Separator} from '@/components/ui/separator'
 import {toast} from 'sonner'
 import {
@@ -40,50 +41,6 @@ import ErrorBoundary from '../../components/error-boundary'
 import {handleFileAction} from '@repo/ai'
 import {DocumentActions} from './lib/prometheus-document-actions'
 
-interface UseAutoResizeTextareaProps {
-  minHeight: number
-  maxHeight?: number
-}
-
-function useAutoResizeTextarea({minHeight, maxHeight}: UseAutoResizeTextareaProps) {
-  const textareaRef = useRef<HTMLTextAreaElement>(null)
-
-  const adjustHeight = useCallback(
-    (reset?: boolean) => {
-      const textarea = textareaRef.current
-      if (!textarea) return
-
-      if (reset) {
-        textarea.style.height = `${minHeight}px`
-        return
-      }
-
-      textarea.style.height = `${minHeight}px`
-      const newHeight = Math.max(
-        minHeight,
-        Math.min(textarea.scrollHeight, maxHeight ?? Number.POSITIVE_INFINITY)
-      )
-
-      textarea.style.height = `${newHeight}px`
-    },
-    [minHeight, maxHeight]
-  )
-
-  useEffect(() => {
-    const textarea = textareaRef.current
-    if (textarea) {
-      textarea.style.height = `${minHeight}px`
-    }
-  }, [minHeight])
-
-  useEffect(() => {
-    const handleResize = () => adjustHeight()
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [adjustHeight])
-
-  return {textareaRef, adjustHeight}
-}
 
 interface CommandSuggestion {
   icon: React.ReactNode
@@ -102,10 +59,10 @@ interface FileAttachment {
   file: File
 }
 
-type ProcessingState = {
+interface ProcessingState {
   type: 'summary' | 'topics' | 'sentiment' | null
   isProcessing: boolean
-  result: string | string[] | any | null
+  result: string | string[] | Record<string, unknown> | null
 }
 
 // Export the Agent component as a named export
@@ -138,32 +95,32 @@ export function Prometheus() {
     maxHeight: 200,
   })
 
-  const commandSuggestions: CommandSuggestion[] = [
+  const commandSuggestions: CommandSuggestion[] = useMemo(() => [
     {
       icon: <ImageIcon className='w-4 h-4' />,
       label: 'Analyze Sighting',
-      description: 'Analyze a UAP sighting report',
+      description: 'Use OpenAI Assistant to analyze UAP sighting reports',
       prefix: '/analyze',
     },
     {
-      icon: <Figma className='w-4 h-4' />,
-      label: 'Ingest URL',
-      description: 'Process and analyze content from a URL',
-      prefix: '/ingest',
+      icon: <Database className='w-4 h-4' />,
+      label: 'Search Knowledge',
+      description: 'Search OpenAI vector store for UAP information',
+      prefix: '/search',
     },
     {
       icon: <MonitorIcon className='w-4 h-4' />,
       label: 'Research Topic',
-      description: 'Deep research on a UAP/UFO topic',
+      description: 'Deep research using OpenAI Assistant capabilities',
       prefix: '/research',
     },
     {
       icon: <Sparkles className='w-4 h-4' />,
       label: 'Connect Dots',
-      description: 'Find connections between UAP events',
+      description: 'Find connections using assistant knowledge base',
       prefix: '/connect',
     },
-  ]
+  ], [])
 
   useEffect(() => {
     if (input.startsWith('/') && !input.includes(' ')) {
@@ -359,9 +316,10 @@ Content: ${att.content.substring(0, 1000)}${att.content.length > 1000 ? '...' : 
           }
         )
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error processing request:', error)
-      toast.error(error.message || 'An error occurred while processing your request', {
+      const errorMessage = error instanceof Error ? error.message : 'An error occurred while processing your request'
+      toast.error(errorMessage, {
         closeButton: true,
         duration: 10000,
       })
@@ -475,7 +433,7 @@ Content: ${att.content.substring(0, 1000)}${att.content.length > 1000 ? '...' : 
       toast.success(`File ready: ${file.name}`, {
         duration: 3000,
       })
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error(`Error processing file ${file.name}:`, error)
 
       // Update status to error but keep the file visible
@@ -483,7 +441,8 @@ Content: ${att.content.substring(0, 1000)}${att.content.length > 1000 ? '...' : 
         prev.map((att) => (att.id === fileId ? {...att, status: 'error'} : att))
       )
 
-      toast.error(`Failed to process file: ${error.message}`, {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
+      toast.error(`Failed to process file: ${errorMessage}`, {
         duration: 5000,
       })
     }
@@ -553,9 +512,10 @@ Content: ${att.content.substring(0, 1000)}${att.content.length > 1000 ? '...' : 
       await handleFileAction(action, selectedFile, isPdfJsAvailable, (newState) => {
         setProcessingState(newState)
       })
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error(`Error processing document action ${action}:`, error)
-      toast.error(`Failed to ${action.toLowerCase()}: ${error.message}`, {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
+      toast.error(`Failed to ${action.toLowerCase()}: ${errorMessage}`, {
         duration: 5000,
       })
 
@@ -875,51 +835,50 @@ Content: ${att.content.substring(0, 1000)}${att.content.length > 1000 ? '...' : 
                   Knowledge Base Resources
                 </h2>
                 <p className='text-white/60 mb-4 text-sm'>
-                  The agent has access to information from these UAP/UFO research sources:
+                  Prometheus uses OpenAI Assistant API with specialized UAP vector store:
                 </p>
                 <div className='max-h-[200px] overflow-y-auto pr-2'>
-                  <ul className='grid grid-cols-1 md:grid-cols-2 gap-2 text-sm'>
-                    {[
-                      'archives.gov/research/topics/uaps',
-                      'cosmic-pluralism-studies.academy',
-                      'updb.app',
-                      'abovetopsecret.com',
-                      'anomalien.com',
-                      'astronomyufo.com',
-                      'kevinrandle.blogspot.com',
-                      'theblackvault.com',
-                      'uap-primer.com',
-                      'uaptheory.com',
-                      'ufocasebook.com',
-                      'mufon.com',
-                      'nationalufocenter.com',
-                      'project1947.com',
-                      'thedrive.com/the-war-zone',
-                      'harvard.edu/galileo',
-                      'uap.guide',
-                      'narcap.org',
-                      'nuforc.org',
-                      'thedebrief.org',
-                      'uaptracker.org',
-                      'ufoskeptic.org',
-                      '+ 70 more sources',
-                    ].map((resource, index) => (
-                      <motion.li
-                        key={index}
-                        className='flex items-center gap-1 text-white/70'
-                        initial={{opacity: 0, x: -5, y: 5}}
-                        animate={{opacity: 1, x: 0, y: 0}}
-                        transition={{
-                          delay: index * 0.01,
-                          type: 'spring',
-                          stiffness: 300,
-                          damping: 30,
-                        }}>
-                        <ExternalLink className='h-3 w-3 text-white/40' />
-                        {resource}
-                      </motion.li>
-                    ))}
-                  </ul>
+                  <div className='space-y-3'>
+                    <motion.div
+                      className='flex items-center gap-3 p-3 bg-white/[0.02] rounded-lg border border-white/[0.05]'
+                      initial={{opacity: 0, y: 5}}
+                      animate={{opacity: 1, y: 0}}
+                      transition={{delay: 0.1}}>
+                      <div className='w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center'>
+                        <Database className='h-4 w-4 text-green-400' />
+                      </div>
+                      <div>
+                        <div className='text-white/90 font-medium text-sm'>OpenAI Assistant</div>
+                        <div className='text-white/60 text-xs'>Party Martian Assistant (asst_sdNxYC9p05iGpeKXtL496cyh)</div>
+                      </div>
+                    </motion.div>
+                    <motion.div
+                      className='flex items-center gap-3 p-3 bg-white/[0.02] rounded-lg border border-white/[0.05]'
+                      initial={{opacity: 0, y: 5}}
+                      animate={{opacity: 1, y: 0}}
+                      transition={{delay: 0.2}}>
+                      <div className='w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center'>
+                        <Sparkles className='h-4 w-4 text-blue-400' />
+                      </div>
+                      <div>
+                        <div className='text-white/90 font-medium text-sm'>Vector Store</div>
+                        <div className='text-white/60 text-xs'>UFO Data Store (vs_meWOEnUiUxtQWf0W6NBsNpCG)</div>
+                      </div>
+                    </motion.div>
+                    <motion.div
+                      className='flex items-center gap-3 p-3 bg-white/[0.02] rounded-lg border border-white/[0.05]'
+                      initial={{opacity: 0, y: 5}}
+                      animate={{opacity: 1, y: 0}}
+                      transition={{delay: 0.3}}>
+                      <div className='w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center'>
+                        <FileText className='h-4 w-4 text-purple-400' />
+                      </div>
+                      <div>
+                        <div className='text-white/90 font-medium text-sm'>Knowledge Base</div>
+                        <div className='text-white/60 text-xs'>90+ UAP/UFO research sources with vector search</div>
+                      </div>
+                    </motion.div>
+                  </div>
                 </div>
               </motion.div>
             )}

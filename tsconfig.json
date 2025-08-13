@@ -32,13 +32,18 @@
       "@db/xata": ["./packages/db/src/xata-typescript-sdk/index.ts"],
       "@db/xata/client": ["./packages/db/src/xata-typescript-sdk/client.ts"],
       "@db/xata/xata": ["./packages/db/src/xata-typescript-sdk/xata.ts"],
-      "@db/xata/models": ["./packages/db/src/xata-typescript-sdk/models/index.ts"],
+      "@db/xata/models": [
+        "./packages/db/src/xata-typescript-sdk/models/index.ts"
+      ],
       "@db/xata/models/*": ["./packages/db/src/xata-typescript-sdk/models/*"],
       "@db/xata/api": ["./packages/db/src/xata-typescript-sdk/api/index.ts"],
       "@db/xata/api/*": ["./packages/db/src/xata-typescript-sdk/api/*"],
-      "@db/src/xata-typescript-sdk/api": ["./packages/db/src/xata-typescript-sdk/api/index.ts"],
+      "@db/src/xata-typescript-sdk/api": [
+        "./packages/db/src/xata-typescript-sdk/api/index.ts"
+      ],
       "@db/types": ["./packages/db/types/index.ts"],
       "@db/registry": ["./packages/db/registry.ts"]
     }
-  }
+  },
+  "exclude": ["node_modules", "dist"]
 }

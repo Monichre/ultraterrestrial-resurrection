@@ -1,9 +1,9 @@
-import type { Meta, StoryObj } from '@storybook/react'
-import { LaunchPad } from './launchpad'
+import type {Meta, StoryObj} from '@storybook/react'
+import {LaunchPadWithSession} from './LaunchPadWithSession'
 
 const meta = {
   title: 'Features/Mindmap/Components/LaunchPad',
-  component: LaunchPad,
+  component: LaunchPadWithSession,
   parameters: {
     layout: 'fullscreen',
     backgrounds: {
@@ -16,7 +16,7 @@ const meta = {
       ],
     },
   },
-} satisfies Meta<typeof LaunchPad>
+} satisfies Meta<typeof LaunchPadWithSession>
 
 export default meta
 type Story = StoryObj<typeof meta>
@@ -80,8 +80,8 @@ export const WithSearch: Story = {
     },
   },
   render: () => (
-    <div className="min-h-screen bg-black/90">
-      <LaunchPad applications={mockApplications} />
+    <div className='min-h-screen bg-black/90'>
+      <LaunchPadWithSession applications={mockApplications} />
     </div>
   ),
 }

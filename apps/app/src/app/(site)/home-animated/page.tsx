@@ -1,3 +1,5 @@
+'use client'
+
 import {useEffect, useRef} from 'react'
 import {gsap} from 'gsap'
 import {CustomEase} from 'gsap/CustomEase'
@@ -401,5 +403,35 @@ export const AnimationOverlays = () => {
       <div className='stars-background' />
       <div className='particle-field' />
     </>
+  )
+}
+
+// Default export required by Next.js App Router
+export default function HomeAnimatedPage() {
+  const {pauseAnimation, resumeAnimation, restartAnimation} = useUltraterrestrialAnimation()
+
+  return (
+    <div className='app-container'>
+      {/* Inject scoped styles for the animation */}
+      <style dangerouslySetInnerHTML={{__html: animationStyles}} />
+
+      <div className='camera-container'>
+        <div className='earth-container' />
+        <div className='moon-container' />
+      </div>
+
+      <div className='nav-container' />
+
+      <div className='hero-content'>
+        <div className='cta-buttons'>
+          <button onClick={restartAnimation}>Replay</button>
+          <button onClick={pauseAnimation}>Pause</button>
+          <button onClick={resumeAnimation}>Resume</button>
+        </div>
+      </div>
+
+      <AnimationOrbs />
+      <AnimationOverlays />
+    </div>
   )
 }

@@ -49,5 +49,6 @@ export type {
   Users,
 } from "./src/xata-typescript-sdk/xata";
 
-// Re-export the client instance for direct use
+// Re-export the client instance and factory function for direct use
 export { xata } from "./src/xata-typescript-sdk/client";
+export { getXataClient } from "./src/xata-typescript-sdk/xata";

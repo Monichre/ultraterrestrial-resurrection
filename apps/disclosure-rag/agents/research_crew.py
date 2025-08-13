@@ -43,17 +43,17 @@ class ResearchCrew:
         
         # Agent configuration mapping (tag, name, model_id, agent_type)
         AGENT_CONFIG = {
-            "HA": ("HistoricalTimelineAgent", "anthropic/claude-3-opus-20240229", "historical"),
-            "CE": ("ClaimsEvidenceAgent", "openai/gpt-4o", "claims_evidence"),
-            "GV": ("GeospatialAgent", "anthropic/claude-3-sonnet-20240229", "geospatial"),
-            "RN": ("ResearchNetworkAgent", "openai/gpt-4-turbo", "network"),
-            "DL": ("DocumentationLibrarianAgent", "openai/gpt-4o", "documentation"),
-            "DV": ("DataVizAgent", "openai/gpt-4o", "dataviz"),
-            "TD": ("TheoryDevAgent", "anthropic/claude-3-opus-20240229", "theory"),
-            "OR": ("OrgRelationAgent", "openai/gpt-4-turbo", "organization"),
-            "TV": ("TestimonyValidatorAgent", "anthropic/claude-3-sonnet-20240229", "testimony"),
-            "UE": ("UserEngagementAgent", "openai/gpt-4o", "user_engagement"),
-            "API": ("ApiIntegrationAgent", "openai/gpt-4-turbo", "api_integration")
+            "HA": ("HistoricalTimelineAgent", "anthropic/claude-4-sonnet-20250115", "historical"),
+            "CE": ("ClaimsEvidenceAgent", "openai/gpt-5", "claims_evidence"),
+            "GV": ("GeospatialAgent", "anthropic/claude-4-sonnet-20250115", "geospatial"),
+            "RN": ("ResearchNetworkAgent", "openai/gpt-5", "network"),
+            "DL": ("DocumentationLibrarianAgent", "openai/gpt-5", "documentation"),
+            "DV": ("DataVizAgent", "openai/gpt-5", "dataviz"),
+            "TD": ("TheoryDevAgent", "anthropic/claude-4-sonnet-20250115", "theory"),
+            "OR": ("OrgRelationAgent", "openai/gpt-5", "organization"),
+            "TV": ("TestimonyValidatorAgent", "anthropic/claude-4-sonnet-20250115", "testimony"),
+            "UE": ("UserEngagementAgent", "openai/gpt-5", "user_engagement"),
+            "API": ("ApiIntegrationAgent", "openai/gpt-5", "api_integration")
         }
         
         # Agent prompts mapping

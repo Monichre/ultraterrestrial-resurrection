@@ -22,7 +22,7 @@ import {wait} from '@/utils'
 
 import {AnimatedBeam, TextEffect} from '@/components/animated'
 import {AiStarIcon} from '@/components/icons'
-import {AddNote} from '@/components/note/AddNote'
+
 import {useMindMap} from '@/contexts/mindmap'
 import {Markdown} from '@/features/ai/components/prompt-kit/markdown'
 import {useTextStream} from '@/features/ai/components/prompt-kit/response-stream'
@@ -136,17 +136,17 @@ export const UserInputNode = memo((props: NodeProps) => {
     if (!hasRecords() || !data.records) return
 
     console.log('🔄 Creating child nodes from records:', data.records)
-    
+
     const childNodes = []
     const childEdges = []
 
     // Calculate positions around the user input node
     const baseRadius = 200
     const angleStep = (2 * Math.PI) / data.records.length
-    
+
     for (let i = 0; i < data.records.length; i++) {
       const record = data.records[i]
-      
+
       if (!record || !record.id) continue
 
       // Calculate position around the user input node
@@ -160,19 +160,19 @@ export const UserInputNode = memo((props: NodeProps) => {
       const childNode = {
         id: `child-${nodeId}-${record.id}`,
         type: 'enhancedEntityNode',
-        position: { x, y },
+        position: {x, y},
         data: {
           ...record,
           type: data.type || 'events', // Use the query type
           isContextual: true,
-          contextInfo: `Found via: ${data.input || 'User Query'}`
+          contextInfo: `Found via: ${data.input || 'User Query'}`,
         },
         parentId: nodeId,
       }
 
       // Find the reasoning for this specific record
-      const recordReasoning = data.reasoning?.find(r => r.recordId === record.id)
-      
+      const recordReasoning = data.reasoning?.find((r) => r.recordId === record.id)
+
       // Create edge connecting to user input node with Prometheus reasoning
       const childEdge = {
         id: `edge-${nodeId}-${record.id}`,
@@ -182,11 +182,13 @@ export const UserInputNode = memo((props: NodeProps) => {
         animated: true,
         label: `Query::Result`, // Will be enhanced by SiblingEdge component
         data: {
-          prometheusReasoning: recordReasoning?.reasoning || `Selected as relevant ${data.type || 'record'} for the query`,
+          prometheusReasoning:
+            recordReasoning?.reasoning ||
+            `Selected as relevant ${data.type || 'record'} for the query`,
           connectionType: recordReasoning?.connectionType || 'query-result',
           analysisContext: recordReasoning?.analysisContext || data.answer,
           recordIndex: i + 1,
-          totalRecords: data.records.length
+          totalRecords: data.records.length,
         },
       }
 
@@ -320,14 +322,13 @@ export const UserInputNode = memo((props: NodeProps) => {
         {hasRecords() && (
           <motion.div initial={{opacity: 0}} animate={{opacity: 1}} transition={{delay: 0.2}}>
             <div className='text-indigo-200 text-sm font-light space-y-2'>
-              <p className='text-xs uppercase tracking-wider text-indigo-400'>
-                Results Generated
-              </p>
+              <p className='text-xs uppercase tracking-wider text-indigo-400'>Results Generated</p>
               <p>
-                Found {data.records.length} record{data.records.length !== 1 ? 's' : ''} from {data.type || 'database'}.
+                Found {data.records.length} record{data.records.length !== 1 ? 's' : ''} from{' '}
+                {data.type || 'database'}.
                 {data.hasChildren && ' Child nodes created and positioned around this query.'}
               </p>
-              
+
               {data.answer && (
                 <details className='mt-2'>
                   <summary className='text-xs text-indigo-400 cursor-pointer hover:text-indigo-300'>
@@ -436,7 +437,8 @@ export const UserInputNode = memo((props: NodeProps) => {
             </div>
           </div>
           <span className='flex items-center gap-1'>
-            <AddNote saveNote={saveNote} popover={false} />
+            {/* TODO: Add note functionality */}
+            {/* <AddNote saveNote={saveNote} popover={false} /> */}
           </span>
         </CoreNodeBottom>
       </CoreNodeContainer>

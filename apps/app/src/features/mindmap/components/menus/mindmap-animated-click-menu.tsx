@@ -10,7 +10,7 @@ import {
   TestimoniesIcon,
   TopicsIcon,
 } from '@/components/icons'
-import {AddNote} from '@/components/note/AddNote'
+
 import {useMindMap} from '@/contexts'
 
 const mapRange = (
@@ -145,9 +145,6 @@ export function MindMapAnimatedClickMenu({isOpen, closeMenu, clickPosition}: any
           <OrganizationsIcon className='w-4 h-4' />
         </motion.button>
       ),
-    },
-    {
-      render: () => <AddNote saveNote={() => {}} userNote={{title: '', content: ''}} />,
     },
   ]
 

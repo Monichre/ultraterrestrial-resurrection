@@ -3,6 +3,7 @@
 import type React from 'react'
 import {
   BaseEdge,
+  Edge,
   EdgeLabelRenderer,
   type EdgeProps,
   getBezierPath,
@@ -10,7 +11,7 @@ import {
   getStraightPath,
 } from '@xyflow/react'
 
-export interface AIAnimatedEdgeData {
+export interface AIAnimatedEdgeData extends Record<string, unknown> {
   label?: string
   labelBgColor?: string
   labelTextColor?: string
@@ -23,6 +24,8 @@ export interface AIAnimatedEdgeData {
   relationType?: string
   insightType?: string
 }
+
+export type AIAnimatedEdgeType = Edge<AIAnimatedEdgeData>
 
 export function AIAnimatedEdge({
   id,
@@ -41,7 +44,7 @@ export function AIAnimatedEdge({
   },
   markerEnd,
   style,
-}: EdgeProps<AIAnimatedEdgeData>) {
+}: EdgeProps<AIAnimatedEdgeType>) {
   // Determine edge styling based on data
   const animated = data?.animated ?? true
   const pathType = data?.pathType ?? 'bezier'
@@ -156,19 +159,25 @@ export function AIAnimatedEdge({
       {data?.label && (
         <EdgeLabelRenderer>
           <div
+            className='nodrag nopan'
             style={{
               position: 'absolute',
               transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
               pointerEvents: 'all',
-              backgroundColor: data.labelBgColor || '#18181b',
-              color: data.labelTextColor || 'white',
-              padding: '2px 4px',
-              borderRadius: '4px',
+              padding: '2px 6px',
+              borderRadius: 9999,
               fontSize: '10px',
-              fontWeight: 500,
-              border: `1px solid ${edgeColor}`,
+              fontWeight: 600,
+              background: 'rgba(24,24,27,0.88)',
+              color: '#fff',
+              border: `1px solid ${edgeColor}55`,
+              boxShadow: `0 0 0 1px rgba(0,0,0,.2)`,
+              whiteSpace: 'nowrap',
+              maxWidth: 160,
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
             }}
-            className='nodrag nopan'>
+            title={String(data.label)}>
             {data.label}
           </div>
         </EdgeLabelRenderer>

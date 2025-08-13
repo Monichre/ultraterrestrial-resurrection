@@ -7,7 +7,7 @@ import {Button} from '@/components/ui/button'
 import {Card, CardContent} from '@/components/ui/card'
 import SightingsAIInsights from '@/components/sightings/sightings-ai-insights'
 import {AlertCircle, Sparkles} from 'lucide-react'
-import type {SightingsAnalysisResult} from '@/services/sightings/actions/sightings-ai-analysis''
+import type {SightingsAnalysisResult} from '@/services/sightings/actions/sightings-ai-analysis'
 
 interface SightingsAnalyticsProps {
   sightingsData: any[]

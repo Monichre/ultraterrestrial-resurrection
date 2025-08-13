@@ -51,11 +51,11 @@ class EntityExtractionResult:
     events: List[ExtractedEntity]
     organizations: List[ExtractedEntity]
     locations: List[ExtractedEntity]
-    technologies: List[ExtractedEntity]
-    dates: List[ExtractedEntity]
-    artifacts: List[ExtractedEntity]  # Added from schema
-    sightings: List[ExtractedEntity]  # Added from schema
-    relationships: List[Dict[str, Any]]  # Added for relationship extraction
+    testimonies: List[ExtractedEntity]
+    documents: List[ExtractedEntity]
+    artifacts: List[ExtractedEntity]
+    sightings: List[ExtractedEntity]
+    relationships: List[Dict[str, Any]]
     raw_analysis: str
     extraction_metadata: Dict[str, Any]
 

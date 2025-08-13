@@ -7,7 +7,7 @@ import {useUltraterrestrialAnimation} from '@/hooks/useUltraterrestrialAnimation
 // import { Howl } from 'howler'
 import {AnimatePresence} from 'framer-motion'
 import dynamic from 'next/dynamic'
-import { useEffect } from 'react'
+import {useEffect} from 'react'
 
 const CanvasCursor = dynamic(
   () => import('@/components/ui/canvas-cursor').then((mod) => mod.CanvasCursor),
@@ -40,14 +40,15 @@ const Earth = dynamic(() => import('@/components/earth').then((mod) => mod.Earth
 
 export type HomeProps = {}
 
-export const Home: React.FC<HomeProps> = () => {
+export const HomeAnimated: React.FC<HomeProps> = () => {
   // Initialize the GSAP animation
-  const { pauseAnimation, resumeAnimation, restartAnimation, skipToEnd } = useUltraterrestrialAnimation()
-  
+  const {pauseAnimation, resumeAnimation, restartAnimation, skipToEnd} =
+    useUltraterrestrialAnimation()
+
   // Optional: Add keyboard shortcuts for testing
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
-      switch(e.key) {
+      switch (e.key) {
         case ' ':
           e.preventDefault()
           pauseAnimation()
@@ -66,7 +67,7 @@ export const Home: React.FC<HomeProps> = () => {
           break
       }
     }
-    
+
     window.addEventListener('keydown', handleKeyPress)
     return () => window.removeEventListener('keydown', handleKeyPress)
   }, [pauseAnimation, resumeAnimation, restartAnimation, skipToEnd])

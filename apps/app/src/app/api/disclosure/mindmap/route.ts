@@ -236,26 +236,91 @@ export async function POST( req: Request ) {
   )
 }
 
-// Helper function to extract entities from a query
+// Enhanced entity extraction function with UFO/disclosure domain knowledge
 function extractEntitiesFromQuery( query: string ): Record<string, string>[] {
-  // In a real implementation, this would use a proper NER model
-  // This is a simplified version for demonstration
   const entities: Record<string, string>[] = []
-  const possibleEntities = query.match( /\b[A-Z][a-z]+\b/g ) || []
 
-  for ( const entity of possibleEntities ) {
-    const personNames = ["John", "Bob", "Alice", "David", "James"]
-    const organizationNames = ["NASA", "CIA", "FBI", "Pentagon"]
+  // UFO/disclosure domain patterns
+  const PATTERNS = {
+    // Key figures in UFO disclosure
+    personnel: [
+      'Bob Lazar', 'David Grusch', 'Luis Elizondo', 'Christopher Mellon',
+      'Harry Reid', 'John McCain', 'Marco Rubio', 'Tim Burchett',
+      'Jacques Vallée', 'J. Allen Hynek', 'Stanton Friedman',
+      'Robert Bigelow', 'Eric Davis', 'Hal Puthoff', 'Kit Green',
+      'Edgar Mitchell', 'Gordon Cooper', 'Buzz Aldrin',
+      'Philip Corso', 'Jesse Marcel', 'William Brazel'
+    ],
 
-    let type = "TOPIC"
-    if ( personNames.includes( entity ) ) type = "PERSONNEL"
-    if ( organizationNames.includes( entity ) ) type = "ORGANIZATION"
+    // Organizations
+    organizations: [
+      'AATIP', 'AAWSAP', 'To The Stars Academy', 'TTSA',
+      'NASA', 'CIA', 'FBI', 'Pentagon', 'DoD', 'Department of Defense',
+      'Air Force', 'Navy', 'Army', 'DIA', 'Defense Intelligence Agency',
+      'ODNI', 'Office of Director of National Intelligence',
+      'Bigelow Aerospace', 'Lockheed Martin', 'Raytheon',
+      'Wright-Patterson AFB', 'Area 51', 'S-4', 'Groom Lake'
+    ],
 
-    entities.push( {
-      name: entity,
-      type,
-    } )
+    // Events
+    events: [
+      'Roswell', 'Phoenix Lights', 'Rendlesham Forest', 'Belgian Wave',
+      'Washington D.C. 1952', 'Tehran 1976', 'JAL 1628', 'Stephenville',
+      'Nimitz Encounter', 'USS Nimitz', 'Tic Tac', 'GIMBAL', 'FLIR1',
+      'USS Theodore Roosevelt', 'USS Russell', 'USS Omaha'
+    ],
+
+    // Topics/Phenomena
+    topics: [
+      'UAP', 'UFO', 'USO', 'Unidentified Aerial Phenomena',
+      'disclosure', 'crash retrieval', 'reverse engineering',
+      'extraterrestrial', 'non-human intelligence', 'NHI',
+      'consciousness', 'remote viewing', 'psychic phenomena',
+      'antigravity', 'zero point energy', 'metamaterials',
+      'Skinwalker Ranch', 'cattle mutilation', 'abduction',
+      'close encounter', 'CE1', 'CE2', 'CE3', 'CE4', 'CE5'
+    ]
   }
 
-  return entities
+  const queryLower = query.toLowerCase()
+
+  // Extract named entities with context-aware classification
+  for ( const [type, items] of Object.entries( PATTERNS ) ) {
+    for ( const item of items ) {
+      if ( queryLower.includes( item.toLowerCase() ) ) {
+        entities.push( {
+          name: item,
+          type: type.toUpperCase()
+        } )
+      }
+    }
+  }
+
+  // Extract capitalized words as potential entities
+  const capitalizedWords = query.match( /\b[A-Z][a-zA-Z]*\b/g ) || []
+
+  for ( const word of capitalizedWords ) {
+    // Skip common words and already captured entities
+    if ( word.length > 2 && !entities.some( e => e.name.includes( word ) ) ) {
+      // Default classification based on context
+      let type = "TOPIC"
+
+      // Simple heuristics for classification
+      if ( /Base|AFB|Field|Station|Facility/i.test( word ) ) type = "LOCATION"
+      if ( /Project|Program|Operation/i.test( word ) ) type = "ORGANIZATION"
+      if ( /Incident|Event|Sighting|Case/i.test( word ) ) type = "EVENT"
+
+      entities.push( {
+        name: word,
+        type
+      } )
+    }
+  }
+
+  // Remove duplicates
+  const uniqueEntities = entities.filter( ( entity, index, self ) =>
+    index === self.findIndex( e => e.name === entity.name && e.type === entity.type )
+  )
+
+  return uniqueEntities
 }

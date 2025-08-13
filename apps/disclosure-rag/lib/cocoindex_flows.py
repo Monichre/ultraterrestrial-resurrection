@@ -372,7 +372,7 @@ if COCOINDEX_AVAILABLE:
                     cocoindex.functions.ExtractByLlm(
                         llm_spec=cocoindex.LlmSpec(
                             api_type=cocoindex.LlmApiType.OPENAI,
-                            model="gpt-4o"
+                            model="gpt-5"
                         ),
                         output_type=UAPDocumentSummary,
                         instruction="""
@@ -398,7 +398,7 @@ if COCOINDEX_AVAILABLE:
                     cocoindex.functions.ExtractByLlm(
                         llm_spec=cocoindex.LlmSpec(
                             api_type=cocoindex.LlmApiType.OPENAI,
-                            model="gpt-4o"
+                            model="gpt-5"
                         ),
                         output_type={
                             "persons": list[PersonEntity],

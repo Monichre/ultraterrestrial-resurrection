@@ -1,4 +1,4 @@
-import { askXataWithAi } from "@db/db/search-operations"
+
 import { openai } from "@/lib/openai/client"
 import { DISCLOSURE_ASSISTANT_ID } from "@/services/ai/openai/config"
 import { assistantEventHandler } from "@/services/ai/openai/stream-handler"
@@ -6,13 +6,15 @@ import { NER_EXTRACTION_PROMPT } from "@/services/ai/prompts/ner-extraction-prom
 import { AssistantResponse, streamText } from "ai"
 import { xataToXYFlow } from "@/features/mindmap/actions/xata-to-xyflow"
 import { searchDatabase } from "@/services/ai/openai/tools/search-database"
-import { xata } from "@db/client"
+
 import { streamObject } from "ai"
 import { z } from "zod"
 import { openai as openaiSdk } from "@ai-sdk/openai"
 import { anthropic } from "@ai-sdk/anthropic"
 import type { AnthropicProviderOptions } from "@ai-sdk/anthropic"
-import { executeDatabaseTableQuery } from "@db/db/search-operations"
+import { searchXata } from "@db/xata/api"
+
+
 
 
 export async function POST( req: Request ) {
@@ -79,7 +81,7 @@ When answering questions, incorporate this information and cite relevant details
 			const runStream = openai.beta.threads.runs.stream(
 				threadId,
 				{
-					// include: ['step_details.tool_calls[*].file_search.results[*].content'],
+					include: ['step_details.tool_calls[*].file_search.results[*].content'],
 					// tool_choice: "",
 					// tools: [{ type: "file_search", "search_database" }],
 
@@ -188,9 +190,10 @@ When answering questions, incorporate this information and cite relevant details
 									console.log( "🚀 ~ POST ~ response:", response )
 
 									// Use executeDatabaseTableQuery to search the database
-									const searchResults = await executeDatabaseTableQuery( {
-										keyword: query,
+									const searchResults = await searchXata( {
+										query,
 										table: "all", // Using "all" as default, adjust as needed
+
 									} )
 
 									console.log( "🚀 ~ query:", query )
@@ -214,7 +217,7 @@ When answering questions, incorporate this information and cite relevant details
 									console.log( "🚀 ~ POST ~ records:", records )
 
 									const result = await streamText( {
-										model: anthropic( "claude-3-7-sonnet-20250219" ),
+										model: anthropic( "claude-4-sonnet-20250115" ),
 										messages: [
 											{
 												role: "user",

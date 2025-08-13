@@ -199,7 +199,74 @@
 
 ---
 
-## 2. R2R (RAG) Integration
+## 2. Enhanced RAG Integration with OpenAI Deep Research (2025)
+
+### OpenAI Deep Research API Integration
+
+**New Models Available**:
+- `o3-deep-research-2025-06-26` - Comprehensive synthesis and analysis
+- `o4-mini-deep-research-2025-06-26` - Fast, latency-sensitive operations
+
+**File Search & Vector Store API**:
+- **Hosted Tool**: Available in Responses API for RAG applications
+- **Direct Vector Search**: Query vector stores without LLM integration
+- **Metadata Filtering**: Precise document retrieval with custom filters
+- **Hybrid Search**: Combine semantic and keyword search with ranking
+
+### Implementation Strategy
+
+#### a. Enhanced AI Pipeline Configuration
+
+```typescript
+// src/features/ai/pipelines/unified/enhanced-rag-config.ts
+export const DEEP_RESEARCH_CONFIG = {
+  models: {
+    comprehensive: 'o3-deep-research-2025-06-26',
+    fast: 'o4-mini-deep-research-2025-06-26'
+  },
+  vectorStore: {
+    id: process.env.OPENAI_VECTOR_STORE_ID, // vs_meWOEnUiUxtQWf0W6NBsNpCG
+    searchOptions: {
+      max_num_results: 20,
+      metadata_filter: {},
+      include_citations: true
+    }
+  },
+  tools: [
+    { type: 'web_search_preview' },
+    { type: 'file_search', vector_store_ids: [VECTOR_STORE_ID] }
+  ]
+}
+```
+
+#### b. Deep Research Pipeline Integration
+
+```typescript
+// Enhanced pipeline tool for autonomous research
+deepResearchPipeline: tool({
+  description: 'Conduct comprehensive multi-step research with autonomous planning',
+  parameters: z.object({
+    query: z.string(),
+    depth: z.enum(['comprehensive', 'fast']).default('fast'),
+    includePrivateKnowledge: z.boolean().default(true),
+    maxSteps: z.number().default(5)
+  }),
+  execute: async ({ query, depth, includePrivateKnowledge, maxSteps }) => {
+    const model = depth === 'comprehensive' ? 
+      DEEP_RESEARCH_CONFIG.models.comprehensive : 
+      DEEP_RESEARCH_CONFIG.models.fast
+
+    return await streamText({
+      model: openai(model),
+      system: `You are conducting deep research on UFO/UAP phenomena. Plan your research autonomously across multiple steps.`,
+      tools: includePrivateKnowledge ? DEEP_RESEARCH_CONFIG.tools : [{ type: 'web_search_preview' }],
+      maxToolRoundtrips: maxSteps
+    })
+  }
+})
+```
+
+### R2R Integration (Legacy Support)
 
 ### File: /lib/r2r/r2r-client.ts
 
@@ -210,17 +277,19 @@
   ```
   R2R_API_URL=https://api.r2r.sciphi.ai/v1
   R2R_API_KEY=sk-...
+  
+  # OpenAI Deep Research (Recommended)
+  OPENAI_VECTOR_STORE_ID=vs_meWOEnUiUxtQWf0W6NBsNpCG
   ```
 
-- Optionally expose via `process.env` or secrets manager.
+#### b. Hybrid Integration
 
-#### b. Use Helper
-
-- All "RAG" document ingest & search goes through:
+- **Primary**: OpenAI Deep Research API for new implementations
+- **Legacy**: R2R client for existing workflows:
   - `r2rIngestDocument(...)`
   - `r2rSearch(...)`
   - `r2rGetDocument(...)`
-- Plug into relevant pipeline UI for advanced search/context.
+- **Migration Path**: Gradual transition from R2R to OpenAI File Search
 
 ---
 

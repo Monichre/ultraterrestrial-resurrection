@@ -1,11 +1,11 @@
-import {Home} from '@/layouts/home'
+import {HomeAnimated} from '@/layouts/home/home-animated'
 import {Suspense} from 'react'
 
 export default async function Index() {
   return (
     <div className='h-[100vh] overflow-hidden'>
       <Suspense>
-        <Home />
+        <HomeAnimated />
         {/* </Suspense> */}
       </Suspense>
     </div>

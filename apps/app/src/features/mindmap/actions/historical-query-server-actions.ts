@@ -1,10 +1,7 @@
 'use server'
 
-import { askXataWithAi } from "@db/src/xata-typescript-sdk/api"
+import { askXataWithAi } from "@db/src/xata-typescript-sdk/api/ask"
 import { fetchRecords } from '@/features/mindmap/actions/xata-to-xyflow'
-import { xata } from '@db/xata'
-import type { GraphContext } from '@/features/mindmap/utils/contextual-intelligence'
-import type { ReactFlowNode, ReactFlowEdge } from '@/features/mindmap/actions/xata-to-xyflow'
 
 export interface HistoricalQueryServerParams {
   table: string
@@ -140,14 +137,28 @@ export async function executeContextualExpansion(
       answer: response.answer || '',
       sessionId: response.sessionId || ''
     }
-  } catch ( error ) {
+  } catch ( error: any ) {
     console.error( '[Historical Query Server] Contextual expansion failed:', error )
+    
+    // Enhanced error messages based on error type
+    let userFriendlyMessage = 'Unknown error occurred'
+    
+    if ( error?.code === 'MAX_RETRIES_EXCEEDED' ) {
+      userFriendlyMessage = 'Database connection timeout - the request took too long to process. Please try again with a simpler query.'
+    } else if ( error?.code === 'FETCH_TIMEOUT' || error?.code === 'ETIMEDOUT' ) {
+      userFriendlyMessage = 'Request timeout - the database server is taking too long to respond. Please try again in a moment.'
+    } else if ( error?.name === 'TypeError' && error?.message?.includes('fetch failed') ) {
+      userFriendlyMessage = 'Network connection error - unable to reach the database server. Please check your connection and try again.'
+    } else if ( error?.message ) {
+      userFriendlyMessage = error.message
+    }
+
     return {
       success: false,
       records: [],
       answer: '',
       sessionId: '',
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: userFriendlyMessage
     }
   }
 } 

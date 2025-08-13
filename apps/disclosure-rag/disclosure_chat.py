@@ -42,7 +42,7 @@ class DisclosureBotChat:
     
     def __init__(self):
         self.client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
-        self.model = os.environ.get("OPENAI_MODEL", "gpt-4o")
+        self.model = os.environ.get("OPENAI_MODEL", "gpt-5")
         self.conversation_history = []
         self.system_prompt = """You are the Disclosure Bot, an expert AI assistant with deep knowledge of UFO/UAP research material. 
 
@@ -528,7 +528,7 @@ def main():
                 "[red]Error initializing Disclosure Bot[/red]\n\n" +
                 "Make sure your environment variables are set correctly:\n" +
                 "[cyan]• OPENAI_API_KEY[/cyan]\n" +
-                "[cyan]• OPENAI_MODEL[/cyan] (optional, defaults to gpt-4o)",
+                "[cyan]• OPENAI_MODEL[/cyan] (optional, defaults to gpt-5)",
                 title="[red]Configuration Error[/red]",
                 border_style="red"
             )
@@ -537,7 +537,7 @@ def main():
             print(f"❌ Error initializing Disclosure Bot: {e}")
             print("Make sure your environment variables are set correctly:")
             print("- OPENAI_API_KEY")
-            print("- OPENAI_MODEL (optional, defaults to gpt-4o)")
+            print("- OPENAI_MODEL (optional, defaults to gpt-5)")
 
 
 if __name__ == "__main__":

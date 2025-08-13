@@ -13,7 +13,7 @@ export async function askClaude({
 	content,
 }: { systemPrompt: string; content: string }): Promise<string> {
 	const response = await generateText({
-		model: anthropic("claude-3-7-sonnet-20240229"), // update to latest Claude 3.7 model string if needed
+		model: anthropic("claude-4-sonnet-20250115"), // Updated to Claude 4 Sonnet
 		system: systemPrompt,
 		messages: [{ role: "user", content }],
 	});

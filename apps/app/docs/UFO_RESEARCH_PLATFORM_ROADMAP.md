@@ -114,23 +114,37 @@ A **comprehensive UFO/UAP disclosure research platform** that integrates mindmap
 - **Export capabilities** - reports, timelines, relationship diagrams
 - **Archive system** for completed investigations
 
-### 6. **AI-Native Research Tools** ⏳ PLANNED
+### 6. **AI-Native Research Tools** 🔄 ENHANCED WITH OPENAI DEEP RESEARCH
+
+**OpenAI Deep Research Integration (2025)**:
+
+- **Deep Research Models**: `o3-deep-research-2025-06-26` for comprehensive analysis, `o4-mini-deep-research-2025-06-26` for fast responses
+- **File Search Tool**: Hosted RAG with vector stores, metadata filtering, hybrid search
+- **Autonomous Research Planning**: Multi-step reasoning for complex UFO/UAP investigations
+- **MCP Server Support**: Extend with private knowledge stores for sensitive research
+- **Background Processing**: Long-form research tasks with structured report generation
 
 **TipTap Editor Integration:**
 
-- **AI-assisted note taking** with contextual suggestions
+- **AI-assisted note taking** with contextual suggestions powered by deep research models
 - **Entity mention detection** - automatic linking to mindmap nodes
 - **Research question tracking** within documents
-- **Citation management** for documents and testimonies
+- **Citation management** for documents and testimonies with automatic source validation
 - **Collaborative editing** with real-time updates
 
-**AI Research Assistant:**
+**Enhanced AI Research Assistant:**
 
+- **Deep Research Queries** - Autonomous multi-step investigation planning
 - **Query context awareness** - AI knows current mindmap state and spatial relationships
-- **Intelligent record expansion** - proximity-based loading of related records
-- **Pattern recognition** across multiple investigation sessions
-- **Anomaly detection** in relationship networks
-- **Research direction suggestions** based on current findings
+- **Intelligent record expansion** - proximity-based loading with deep research synthesis
+- **Pattern recognition** across multiple investigation sessions using advanced reasoning
+- **Anomaly detection** in relationship networks with confidence scoring
+- **Research direction suggestions** based on comprehensive analysis of findings
+
+**Vector Store Enhancements**:
+- **Direct Vector Search** via Vector Store API for faster queries
+- **Metadata Filtering** for precise document retrieval
+- **Evaluation Metrics** (Recall@k, MRR, MAP) for search quality assessment
 
 ### 7. **Advanced Visualization & Analysis** ⏳ PLANNED
 

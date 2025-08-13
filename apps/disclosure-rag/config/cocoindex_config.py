@@ -38,7 +38,7 @@ class Neo4jConfig:
 class OpenAIConfig:
     """OpenAI API configuration"""
     api_key: str
-    model: str = "gpt-4o"
+    model: str = "gpt-5"
     max_tokens: int = 4000
     temperature: float = 0.1
     
@@ -91,7 +91,7 @@ class UAPKnowledgeGraphConfig:
         """Load OpenAI configuration from environment"""
         return OpenAIConfig(
             api_key=os.getenv("OPENAI_API_KEY", ""),
-            model=os.getenv("OPENAI_MODEL", "gpt-4o"),
+            model=os.getenv("OPENAI_MODEL", "gpt-5"),
             max_tokens=int(os.getenv("OPENAI_MAX_TOKENS", "4000")),
             temperature=float(os.getenv("OPENAI_TEMPERATURE", "0.1"))
         )
@@ -228,7 +228,7 @@ NEO4J_PASSWORD=password
 
 # OpenAI Configuration (Required)
 OPENAI_API_KEY=your_openai_api_key_here
-OPENAI_MODEL=gpt-4o
+OPENAI_MODEL=gpt-5
 OPENAI_MAX_TOKENS=4000
 OPENAI_TEMPERATURE=0.1
 

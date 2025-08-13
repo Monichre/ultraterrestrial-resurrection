@@ -10,9 +10,16 @@ import type {JSONData} from '@xata.io/client'
 import {useMemo, useRef, useState} from 'react'
 import './events-timeline.css'
 import './timeline.css'
-import {SciFiGlobe} from './sci-fi-globe'
-import {EventsGlobe} from './events-globe'
-import {ThreeJSGlobe} from '@/components/globes/threejs-globe'
+import dynamic from 'next/dynamic'
+
+const SciFiGlobe = dynamic(() => import('./sci-fi-globe').then(mod => ({ default: mod.SciFiGlobe })), { 
+  ssr: false,
+  loading: () => <div className="flex items-center justify-center h-full w-full text-white">Loading Globe...</div>
+})
+const EventsGlobe = dynamic(() => import('./events-globe').then(mod => ({ default: mod.EventsGlobe })), { 
+  ssr: false,
+  loading: () => <div className="flex items-center justify-center h-full w-full text-white">Loading Globe...</div>
+})
 
 export const HistoricalEventsTimeline = ({events}: {events: JSONData<EventsRecord>[]}) => {
   const years: any = extractUniqueYearsFromEvents(events)

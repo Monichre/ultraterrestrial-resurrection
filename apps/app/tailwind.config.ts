@@ -324,6 +324,6 @@ const config = {
 			require( "tailwindcss-motion" ),
 			require( "@tailwindcss/typography" ),
 		],
-	} satisfies Config
+} satisfies Config
 
-	export default config
+export default config

@@ -1,0 +1,5 @@
+- Increase contrast and rotation for Impact.
+- Make center nearly full-bleed; shrink and shove top/bottom plates.
+- Move stamp to top-left for Impact; keep bottom-right for Recon.
+- Boost ribbon legibility (opacity/weight) and z-index.
+- Leave Recon as balanced, dense-typography baseline.

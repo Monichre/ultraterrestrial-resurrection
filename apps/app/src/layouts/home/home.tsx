@@ -2,12 +2,13 @@
 
 import {LovecraftQuote} from '@/layouts/home/LovecraftQuote'
 import {TitleAlt} from '@/layouts/home/TitleAlt'
+import {SiteTitle} from '@/layouts/home/SiteTitle'
 import {CosmicNav} from '@/components/navbar/cosmic-nav'
 import {useUltraterrestrialAnimation} from '@/hooks/useUltraterrestrialAnimation'
 // import { Howl } from 'howler'
 import {AnimatePresence} from 'framer-motion'
 import dynamic from 'next/dynamic'
-import {useEffect} from 'react'
+import {useEffect, useState} from 'react'
 
 const FluidShaderOrbs = dynamic(
   () => import('@/components/animated/FluidShaderOrbs').then((mod) => mod.FluidShaderOrbs),
@@ -51,6 +52,20 @@ export const Home: React.FC<HomeProps> = () => {
   // Initialize the GSAP animation
   const {pauseAnimation, resumeAnimation, restartAnimation, skipToEnd, isReady, showFluidOrbs} =
     useUltraterrestrialAnimation()
+
+  // Gate UI text animations to start after planetary reveal
+  const [titleVisible, setTitleVisible] = useState(false)
+  const [quoteVisible, setQuoteVisible] = useState(false)
+
+  useEffect(() => {
+    if (!isReady) return
+    const titleTimer = setTimeout(() => setTitleVisible(true), 8600) // ~8.6s, after moon starts
+    const quoteTimer = setTimeout(() => setQuoteVisible(true), 9200) // ~9.2s
+    return () => {
+      clearTimeout(titleTimer)
+      clearTimeout(quoteTimer)
+    }
+  }, [isReady])
 
   // Optional: Add keyboard shortcuts for testing
   useEffect(() => {
@@ -138,12 +153,11 @@ export const Home: React.FC<HomeProps> = () => {
       <CanvasCursor />
       <div className='astronaut h-[100vh] w-full absolute top-0 left-0 flex flex-col justify-center align-middle relative overflow-hidden items-center z-40'>
         {/* @ts-ignore */}
-        {/* <AnimatePresence> */}
-        {/* <div className='w-full'> */}
-        {/* <SiteTitle /> */}
-        <TitleAlt />
-        {/* <LovecraftQuote /> */}
-        {/* </AnimatePresence> */}
+        <AnimatePresence>
+          {/* <div className='w-full'> */}
+          {titleVisible && <TitleAlt />}
+          {/* {quoteVisible && <LovecraftQuote trigger />} */}
+        </AnimatePresence>
         {/* </div> */}
       </div>
       <div className='shooting-stars'>

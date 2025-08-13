@@ -1,0 +1,445 @@
+# Storybook Documentation Standards
+
+## Story Structure and Organization
+
+### Story File Naming
+
+- **Co-locate stories** with component files
+- **Use component name** + `.stories.tsx` extension
+- **Group related stories** in the same file
+- **Export stories** as named exports
+
+```typescript
+// ✅ DO: Proper story file structure
+// PersonnelFileCard.stories.tsx
+import type {Meta, StoryObj} from '@storybook/react'
+import {PersonnelFileCard} from './PersonnelFileCard'
+
+const meta: Meta<typeof PersonnelFileCard> = {
+  title: 'Documents/PersonnelFileCard',
+  component: PersonnelFileCard,
+  parameters: {
+    layout: 'centered',
+  },
+  tags: ['autodocs'],
+}
+
+export default meta
+type Story = StoryObj<typeof PersonnelFileCard>
+
+export const Default: Story = {
+  args: {
+    personnel: {
+      id: '1',
+      name: 'John Smith',
+      classification: 'secret',
+      date: '1963-05-15',
+      rank: 'Captain',
+      serviceNumber: '12345',
+      organization: 'NASA',
+    },
+  },
+}
+```
+
+### Story Organization
+
+- **Group by feature** in Storybook sidebar
+- **Use consistent naming** for story variants
+- **Include comprehensive examples** for all props
+- **Document edge cases** and error states
+
+## Component Documentation
+
+### Meta Configuration
+
+- **Set appropriate title** for component grouping
+- **Configure layout** (centered, fullscreen, etc.)
+- **Enable autodocs** for automatic documentation
+- **Add tags** for categorization and search
+
+```typescript
+// ✅ DO: Comprehensive meta configuration
+const meta: Meta<typeof VintageDocumentCard> = {
+  title: 'Documents/VintageDocumentCard',
+  component: VintageDocumentCard,
+  parameters: {
+    layout: 'centered',
+    docs: {
+      description: {
+        component: 'Base component for all vintage document cards with classification badges and paper styling.',
+      },
+    },
+  },
+  tags: ['autodocs', 'documents', 'vintage'],
+  argTypes: {
+    classification: {
+      control: 'select',
+      options: ['unclassified', 'confidential', 'secret', 'top-secret'],
+      description: 'Security classification level',
+    },
+    title: {
+      control: 'text',
+      description: 'Document title',
+    },
+    date: {
+      control: 'text',
+      description: 'Document date',
+    },
+    location: {
+      control: 'text',
+      description: 'Document location (optional)',
+    },
+  },
+}
+```
+
+### ArgTypes Configuration
+
+- **Define controls** for all props
+- **Add descriptions** for prop documentation
+- **Set appropriate control types** (text, select, boolean, etc.)
+- **Include validation** for required props
+
+## Story Variants
+
+### Default Story
+
+- **Show typical usage** of the component
+- **Use realistic data** that represents real use cases
+- **Include all required props** with sensible defaults
+- **Demonstrate proper styling** and layout
+
+### Variant Stories
+
+- **Create stories for each prop variant**
+- **Show different states** (loading, error, empty)
+- **Demonstrate responsive behavior** with different screen sizes
+- **Include edge cases** and boundary conditions
+
+```typescript
+// ✅ DO: Multiple story variants
+export const TopSecret: Story = {
+  args: {
+    personnel: {
+      ...Default.args.personnel,
+      classification: 'top-secret',
+      securityClearance: 'TS/SCI',
+    },
+  },
+}
+
+export const WithPhoto: Story = {
+  args: {
+    personnel: {
+      ...Default.args.personnel,
+      profilePhoto: {
+        id: 'photo-1',
+        url: '/api/placeholder/150/200',
+        caption: 'Official personnel photo',
+        type: 'photo',
+      },
+    },
+  },
+}
+
+export const EmptyState: Story = {
+  args: {
+    personnel: {
+      id: '2',
+      name: 'Unknown Personnel',
+      classification: 'confidential',
+      date: '1963-05-15',
+    },
+  },
+}
+```
+
+## Interactive Documentation
+
+### Controls and Actions
+
+- **Add interactive controls** for all props
+- **Include action logging** for event handlers
+- **Demonstrate prop changes** in real-time
+- **Show component behavior** with different inputs
+
+```typescript
+// ✅ DO: Interactive story with actions
+export const Interactive: Story = {
+  args: {
+    personnel: Default.args.personnel,
+  },
+  parameters: {
+    controls: {
+      expanded: true,
+    },
+  },
+  argTypes: {
+    onEdit: {action: 'edit clicked'},
+    onDelete: {action: 'delete clicked'},
+  },
+}
+```
+
+### Play Function Stories
+
+- **Use play functions** for complex interactions
+- **Test user workflows** and sequences
+- **Demonstrate accessibility** features
+- **Show error handling** and edge cases
+
+```typescript
+// ✅ DO: Play function for testing interactions
+export const WithInteractions: Story = {
+  args: {
+    personnel: Default.args.personnel,
+  },
+  play: async ({canvasElement}) => {
+    const canvas = within(canvasElement)
+    
+    // Test keyboard navigation
+    await userEvent.tab()
+    
+    // Test hover effects
+    const card = canvas.getByRole('article')
+    await userEvent.hover(card)
+    
+    // Verify accessibility
+    expect(card).toHaveAttribute('aria-label')
+  },
+}
+```
+
+## Accessibility Testing
+
+### Accessibility Stories
+
+- **Test with screen readers** using play functions
+- **Verify keyboard navigation** for all interactive elements
+- **Check color contrast** and visual accessibility
+- **Test with assistive technologies**
+
+```typescript
+// ✅ DO: Accessibility-focused story
+export const Accessibility: Story = {
+  args: {
+    personnel: Default.args.personnel,
+  },
+  parameters: {
+    a11y: {
+      config: {
+        rules: [
+          {
+            id: 'color-contrast',
+            enabled: true,
+          },
+        ],
+      },
+    },
+  },
+  play: async ({canvasElement}) => {
+    const canvas = within(canvasElement)
+    
+    // Test screen reader compatibility
+    const title = canvas.getByRole('heading', {level: 1})
+    expect(title).toBeInTheDocument()
+    
+    // Test keyboard navigation
+    await userEvent.tab()
+    const focusableElements = canvas.getAllByRole('button')
+    expect(focusableElements[0]).toHaveFocus()
+  },
+}
+```
+
+## Visual Testing
+
+### Visual Regression Testing
+
+- **Use Chromatic** or similar tools for visual testing
+- **Test across browsers** and devices
+- **Verify responsive behavior** at different breakpoints
+- **Check dark mode** and theme variations
+
+### Responsive Stories
+
+- **Create stories for different viewport sizes**
+- **Test mobile layouts** and touch interactions
+- **Verify tablet and desktop** experiences
+- **Document responsive breakpoints**
+
+```typescript
+// ✅ DO: Responsive story configuration
+export const Mobile: Story = {
+  args: Default.args,
+  parameters: {
+    viewport: {
+      defaultViewport: 'mobile1',
+    },
+  },
+}
+
+export const Tablet: Story = {
+  args: Default.args,
+  parameters: {
+    viewport: {
+      defaultViewport: 'tablet',
+    },
+  },
+}
+
+export const Desktop: Story = {
+  args: Default.args,
+  parameters: {
+    viewport: {
+      defaultViewport: 'desktop',
+    },
+  },
+}
+```
+
+## Documentation Content
+
+### Component Description
+
+- **Write clear descriptions** of component purpose
+- **Include usage examples** and code snippets
+- **Document prop requirements** and validation
+- **Explain design decisions** and patterns
+
+### Usage Guidelines
+
+- **Provide best practices** for component usage
+- **Show common patterns** and anti-patterns
+- **Include accessibility guidelines** and requirements
+- **Document performance considerations**
+
+```typescript
+// ✅ DO: Comprehensive component documentation
+const meta: Meta<typeof PersonnelFileCard> = {
+  title: 'Documents/PersonnelFileCard',
+  component: PersonnelFileCard,
+  parameters: {
+    docs: {
+      description: {
+        component: `
+## Personnel File Card
+
+A vintage-styled document card for displaying personnel information with security classification.
+
+### Usage
+
+\`\`\`tsx
+import {PersonnelFileCard} from '@/components/documents'
+
+<PersonnelFileCard 
+  personnel={personnelData}
+  className="custom-styles"
+/>
+\`\`\`
+
+### Features
+
+- **Security Classification**: Visual badges for different security levels
+- **Photo Display**: Optional personnel photo with vintage styling
+- **Responsive Layout**: Adapts to different screen sizes
+- **Accessibility**: Full keyboard navigation and screen reader support
+
+### Props
+
+- \`personnel\`: Required personnel data object
+- \`className\`: Optional CSS classes for customization
+
+### Accessibility
+
+- Proper heading hierarchy for document structure
+- ARIA labels for interactive elements
+- Keyboard navigation support
+- Screen reader compatible content
+        `,
+      },
+    },
+  },
+}
+```
+
+## Story Organization
+
+### Story Hierarchy
+
+```
+Documents/
+├── VintageDocumentCard/
+│   ├── Default
+│   ├── TopSecret
+│   ├── Confidential
+│   └── Unclassified
+├── PersonnelFileCard/
+│   ├── Default
+│   ├── WithPhoto
+│   ├── EmptyState
+│   └── Interactive
+└── IncidentReportCard/
+    ├── Default
+    ├── WithWitnesses
+    └── Timeline
+```
+
+### Story Naming Conventions
+
+- **Use descriptive names** that explain the variant
+- **Follow consistent patterns** across similar components
+- **Include prop values** in story names when relevant
+- **Use camelCase** for story names
+
+## Testing Integration
+
+### Unit Test Stories
+
+- **Include stories for testing** different component states
+- **Test error boundaries** and error states
+- **Verify prop validation** and default values
+- **Test component lifecycle** and cleanup
+
+### Integration Test Stories
+
+- **Test component interactions** with other components
+- **Verify data flow** and state management
+- **Test API integration** and data fetching
+- **Verify form handling** and validation
+
+## Best Practices
+
+### ✅ DO
+
+- Write comprehensive component descriptions
+- Include realistic data examples
+- Test accessibility features
+- Document prop requirements
+- Use consistent story organization
+- Include interactive examples
+- Test responsive behavior
+- Verify visual consistency
+
+### ❌ DON'T
+
+- Skip accessibility testing
+- Use placeholder data without context
+- Forget to document prop types
+- Ignore responsive design testing
+- Skip error state documentation
+- Use inconsistent naming
+- Forget to test edge cases
+- Skip performance considerations
+
+## References
+
+- [PersonnelFileCard.stories.tsx](mdc:apps/app/src/components/documents/PersonnelFileCard.stories.tsx)
+- [VintageDocumentCard.stories.tsx](mdc:apps/app/src/components/documents/VintageDocumentCard.stories.tsx)
+- [CaseFileFolder.stories.tsx](mdc:apps/app/src/components/documents/CaseFileFolder.stories.tsx)
+description:
+globs:
+alwaysApply: false
+
+---

@@ -207,23 +207,25 @@ function TextEffect({
   )
 }
 
-export const LovecraftQuote = () => {
+export const LovecraftQuote = ({ trigger = true }: { trigger?: boolean }) => {
   return (
-    <div className='text-white tracking-wide mt-8 mx-auto p-12 text-center w-[800px] lovecraft-block'>
+    <div className='text-white tracking-wide mt-8 mx-auto px-6 py-10 text-center max-w-[900px] lovecraft-block'>
+      {/* Subheading appears first with gentle fade */}
       <TextEffect
         per='char'
         preset='fade'
         as='h2'
-        className='text-white text-center text-xl relative site-tagline mb-8 font-neueHaasGrotesk'>
+        className='text-white/90 text-center text-2xl md:text-3xl relative site-tagline mb-6 font-neueHaasGrotesk'>
         Tracking the State of Disclosure
       </TextEffect>
 
+      {/* Main quote: elegant stagger by word with slight slide */}
       <TextEffect
         per='word'
-        preset='fade'
+        preset='slide'
         as='p'
-        delay={0.25}
-        className='font-neueHaasGrotesk mb-8 text-md'>
+        delay={trigger ? 0.6 : 999}
+        className='font-neueHaasGrotesk mb-6 text-base md:text-lg leading-7 md:leading-8 text-white/85'>
         The most merciful thing in the world, I think, is the inability of the human mind to
         correlate all its contents. We live on a placid island of ignorance in the midst of black
         seas of infinity, and it was not meant that we should voyage far. The sciences, each
@@ -233,11 +235,12 @@ export const LovecraftQuote = () => {
         deadly light into the peace and safety of a new dark age.
       </TextEffect>
 
+      {/* Author credit: subtle blur-in after the quote finishes */}
       <TextEffect
         per='char'
-        delay={4}
+        delay={trigger ? 4 : 999}
         as='h3'
-        className=' text-white text-center text-xl relative site-tagline'
+        className='text-white/80 text-center text-lg md:text-xl relative site-tagline mt-2'
         preset='blur'>
         H.P. Lovecraft
       </TextEffect>

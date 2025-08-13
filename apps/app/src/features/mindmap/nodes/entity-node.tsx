@@ -5,21 +5,9 @@ import {AskAI} from '@/features/mindmap/components/ask-ai'
 import {useEntity} from '@/hooks'
 import {renderEntity} from '@/features/mindmap/components/cards/render-entity-card'
 import type {FC, ReactElement} from 'react'
-import {
-  PopoverCloseButton,
-  PopoverContent,
-  PopoverFooter,
-  PopoverForm,
-  PopoverRoot,
-  PopoverSubmitButton,
-  PopoverTextarea,
-  PopoverTrigger,
-} from '@/components/animated'
+
 import {AiStarIcon, ConnectionsIcon} from '@/components/icons'
-import {AddNote} from '@/components/note/AddNote'
-import {Button} from '@/components/ui/button'
-import {useMindMap} from '@/contexts/mindmap/mindmap-context'
-import {TestimonyCoreNodeBottom} from '@/features/mindmap/components/cards/testimony-card'
+
 import {
   CoreNodeBottom,
   CoreNodeContainer,
@@ -27,7 +15,6 @@ import {
   CoreNodeTop,
 } from '@/features/mindmap/nodes/core-node-ui'
 import {ICON_GREEN, cn} from '@/utils'
-import {Lightbulb} from 'lucide-react'
 
 interface Photo {
   id: string
@@ -159,70 +146,69 @@ const EntityNode: FC<EntityNodeProps> = memo(function EntityNode(props): ReactEl
 
   return (
     <>
-      <PopoverRoot>
-        <Handle type='target' position={Position.Top} />
-        <CoreNodeContainer
-          className={cn(
-            'motion-opacity-in-0 min-w-[200px] w-content core-node-container overflow-visible'
-          )}
-          id={id}>
-          <CoreNodeTop>
-            <div className='flex justify-between w-content align-center items-center ml-auto' />
-          </CoreNodeTop>
-          <CoreNodeContent className='min-h-[100xp]'>
-            {component}
+      <Handle type='target' position={Position.Top} />
+      <CoreNodeContainer
+        className={cn(
+          'motion-opacity-in-0 min-w-[200px] w-content core-node-container overflow-visible'
+        )}
+        id={id}>
+        <CoreNodeTop>
+          <div className='flex justify-between w-content align-center items-center ml-auto' />
+        </CoreNodeTop>
+        <CoreNodeContent className='min-h-[100xp]'>
+          {component}
 
-            {handles?.length > 0 &&
-              handles.map((handleId) => (
-                <Handle
-                  key={handleId}
-                  type='source'
-                  position={Position.Bottom}
-                  id={handleId}
-                  isConnectable={true}
+          {handles?.length > 0 &&
+            handles.map((handleId) => (
+              <Handle
+                key={handleId}
+                type='source'
+                position={Position.Bottom}
+                id={handleId}
+                isConnectable={true}
+              />
+            ))}
+        </CoreNodeContent>
+        <CoreNodeBottom>
+          <div className='flex items-center gap-1 rounded-full py-1 pl-2 pr-2.5  bg-neutral-800 text-neutral-400'>
+            <div className='size-5'>
+              <span
+                className='relative flex shrink-0 overflow-hidden rounded-full aspect-square h-full animate-overlayShow cursor-pointer border-2 shadow duration-200 pointer-events-none'
+                data-state='closed'
+                style={{
+                  borderColor: 'rgba(255, 255, 255, 0.5)',
+                  transform: 'translateX(0px)',
+                }}>
+                <AiStarIcon
+                  stroke={'#fff'}
+                  className='w-4 h-4 stroke-1'
+                  onClick={toggleShowAskAI}
                 />
-              ))}
-          </CoreNodeContent>
-          <CoreNodeBottom>
-            <div className='flex items-center gap-1 rounded-full py-1 pl-2 pr-2.5  bg-neutral-800 text-neutral-400'>
-              <div className='size-5'>
-                <span
-                  className='relative flex shrink-0 overflow-hidden rounded-full aspect-square h-full animate-overlayShow cursor-pointer border-2 shadow duration-200 pointer-events-none'
-                  data-state='closed'
-                  style={{
-                    borderColor: 'rgba(255, 255, 255, 0.5)',
-                    transform: 'translateX(0px)',
-                  }}>
-                  <AiStarIcon
-                    stroke={'#fff'}
-                    className='w-4 h-4 stroke-1'
-                    onClick={toggleShowAskAI}
-                  />
-                  {showAskAI &&
-                    data.entities &&
-                    data.entities.length > 0 &&
-                    data.type &&
-                    data.input && (
-                      <AskAIWrapper
-                        question={askQuestion({
-                          entities: data.entities.map(({data}) => data.name),
-                          input: data.input,
-                          type: data.type,
-                        })}
-                        table={data.type}
-                        updateAnalysis={updateAnalysis}
-                      />
-                    )}
-                </span>
-              </div>
-              <span className='text-neutral-400' />
+                {showAskAI &&
+                  data.entities &&
+                  data.entities.length > 0 &&
+                  data.type &&
+                  data.input && (
+                    <AskAIWrapper
+                      question={askQuestion({
+                        entities: data.entities.map(({data}) => data.name),
+                        input: data.input,
+                        type: data.type,
+                      })}
+                      table={data.type}
+                      updateAnalysis={updateAnalysis}
+                    />
+                  )}
+              </span>
             </div>
-            <span className='flex items-center gap-1'>
-              <AddNote saveNote={saveNote} popover={false} />
-            </span>
-          </CoreNodeBottom>
-        </CoreNodeContainer>
-      </PopoverRoot>
+            <span className='text-neutral-400' />
+          </div>
+          <span className='flex items-center gap-1'>
+            {/* TODO: Add note functionality */}
+            {/* <AddNote saveNote={saveNote} popover={false} /> */}
+          </span>
+        </CoreNodeBottom>
+      </CoreNodeContainer>
     </>
   )
 })

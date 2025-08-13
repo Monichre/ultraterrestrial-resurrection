@@ -9,6 +9,7 @@ import {v4 as uuidv4} from 'uuid'
 
 import OracleInput from '@/features/mindmap/components/menus/mindmap-bottom-menu/oracle-input'
 import {AlertCircle, Brain, FileSearch, Lightbulb, SearchIcon, XIcon} from 'lucide-react'
+import EntityAdditionProgress from '@/components/ai/EntityAdditionProgress'
 import {askAIAction} from '@/features/mindmap/actions/xata-to-xyflow'
 import {OracleCommandMenu, type CommandItem} from './oracle-command-menu/OracleCommandMenu'
 import {UltraterrestrialModelSelection, type ModelAction} from './UltraterrestrialModelSelection'
@@ -133,6 +134,7 @@ export const MindMapBottomMenu = ({
   const [tourMode, setTourMode] = useState<'guided' | 'free-form' | null>(null)
   const [agentTaskQueue, setAgentTaskQueue] = useState<{[key: string]: HistoricalQueryTask}>({})
   const [backgroundProcessing, setBackgroundProcessing] = useState(false)
+  const [currentProcessingType, setCurrentProcessingType] = useState<string>('')
   const {
     addNextEntitiesToMindMap,
     loadNodesFromTableQuery,
@@ -153,6 +155,7 @@ export const MindMapBottomMenu = ({
     addNode,
 
     getNode,
+    fitView,
   } = useMindMap()
 
   const {
@@ -280,7 +283,7 @@ export const MindMapBottomMenu = ({
       )
       await addNodesWithLayout(userNode, {
         direction: 'horizontal',
-        preserveExistingLayout: true
+        preserveExistingLayout: true,
       })
 
       const response = await initiateDatabaseTableQuery({
@@ -369,7 +372,7 @@ export const MindMapBottomMenu = ({
         await addNodesWithLayout(entityNodes, {
           direction: 'grid',
           parentChildSpacing: 100,
-          siblingSpacing: 60
+          siblingSpacing: 60,
         })
         addEdges(entityEdges)
       }
@@ -404,6 +407,7 @@ export const MindMapBottomMenu = ({
 
       addNode(potentialUserNode)
       setBackgroundProcessing(true)
+      setCurrentProcessingType(type)
 
       try {
         let taskId: string
@@ -421,8 +425,8 @@ export const MindMapBottomMenu = ({
               amount
             )
           }
-        } else if (graphContext && graphContext.historicalProgression) {
-          // Use chronological progression for free-form with historical context
+        } else if (tourMode === 'guided' && graphContext && graphContext.historicalProgression) {
+          // Use chronological progression only for guided historical tours
           taskId = await queueChronologicalProgression(graphContext, type, amount)
         } else {
           // Use contextual expansion for other cases
@@ -435,19 +439,33 @@ export const MindMapBottomMenu = ({
 
         // Register callback for task completion
         const userNodeId = potentialUserNode.id
-        console.log(`[MindMap Menu] Registering callback for taskId: ${taskId}, userNodeId: ${userNodeId}, type: ${type}`)
+        console.log(
+          `[MindMap Menu] Registering callback for taskId: ${taskId}, userNodeId: ${userNodeId}, type: ${type}`
+        )
         console.log(`[MindMap Menu] About to register callback with historicalQueryAgent`)
-        
+
         historicalQueryAgent.onTaskComplete(taskId, async (result) => {
-          console.log(`[MindMap Menu] *** CALLBACK TRIGGERED *** Task ${taskId} completed with status:`, result.status, result)
-          
+          console.log(
+            `[MindMap Menu] *** CALLBACK TRIGGERED *** Task ${taskId} completed with status:`,
+            result.status,
+            result
+          )
+
           if (result.status === 'completed' && result.result) {
             // Find current userNode to avoid stale closure
-            const currentUserNode = getNodes().find(node => node.id === userNodeId)
-            console.log(`[MindMap Menu] Found currentUserNode:`, currentUserNode ? 'YES' : 'NO', currentUserNode?.id)
-            
+            const currentUserNode = getNodes().find((node) => node.id === userNodeId)
+            console.log(
+              `[MindMap Menu] Found currentUserNode:`,
+              currentUserNode ? 'YES' : 'NO',
+              currentUserNode?.id
+            )
+
             if (currentUserNode) {
-              console.log(`[MindMap Menu] About to integrate agent results for ${type}:`, result.result.nodes.length, 'nodes')
+              console.log(
+                `[MindMap Menu] About to integrate agent results for ${type}:`,
+                result.result.nodes.length,
+                'nodes'
+              )
               await integrateAgentResults(currentUserNode, result.result, type)
             } else {
               console.error('[MindMap Menu] UserNode not found for task completion:', userNodeId)
@@ -459,6 +477,7 @@ export const MindMapBottomMenu = ({
             })
           }
           setBackgroundProcessing(false)
+          setCurrentProcessingType('')
 
           // Update task queue state here, where result is defined
           setAgentTaskQueue((prev) => ({
@@ -474,6 +493,7 @@ export const MindMapBottomMenu = ({
           input: `Error loading ${type} data: ${error instanceof Error ? error.message : 'Unknown error'}`,
         })
         setBackgroundProcessing(false)
+        setCurrentProcessingType('')
       }
     },
     [
@@ -502,10 +522,10 @@ export const MindMapBottomMenu = ({
     ) => {
       if (result.nodes.length > 0) {
         console.log(`[MindMap Menu] Result nodes received:`, result.nodes.length, result.nodes)
-        
+
         // Node filtering removed - add all nodes
         const newNodes = result.nodes
-        
+
         console.log(`[MindMap Menu] All nodes will be added:`, newNodes.length, newNodes)
 
         if (newNodes.length > 0) {
@@ -537,15 +557,23 @@ export const MindMapBottomMenu = ({
           })
 
           // Create edges from user input node to new nodes (Smart Edges)
-          const userToNodeEdges = positionedNodes.map((entityNode) => {
+          const userToNodeEdges = positionedNodes.map((entityNode, index) => {
             const edgeId = `${userNode.id}-${entityNode.id}`
             return {
               id: edgeId,
               source: userNode.id,
               target: entityNode.id,
               animated: true,
-              type: 'smoothstep',
-              label: `Found ${type}`,
+              type: 'siblingEdge',  // Use siblingEdge for Prometheus reasoning display
+              label: `Query::Result ${index + 1}`,
+              data: {
+                prometheusReasoning: entityNode.data?.prometheusReasoning || entityNode.data?.xataReasoning?.explanation || `Selected as relevant ${type} record (${index + 1}/${positionedNodes.length})`,
+                connectionType: 'query-result',
+                recordIndex: index + 1,
+                totalRecords: positionedNodes.length,
+                sourceType: 'user-query',
+                targetType: type
+              },
               style: {
                 stroke: tourMode === 'guided' ? '#3b82f6' : '#10b981',
                 strokeWidth: 2,
@@ -588,27 +616,74 @@ export const MindMapBottomMenu = ({
           })
 
           // Add nodes with layout in single atomic operation
-          console.log(`[MindMap Menu] About to add ${positionedNodes.length} nodes with layout:`, positionedNodes)
-          
+          console.log(
+            `[MindMap Menu] About to add ${positionedNodes.length} nodes with layout:`,
+            positionedNodes
+          )
+
           try {
             await addNodesWithLayout(positionedNodes, {
-              direction: 'horizontal',
-              parentChildSpacing: 120,
-              siblingSpacing: 80,
-              preserveExistingLayout: true
+              direction: 'radial',
+              parentChildSpacing: 350,  // Increased radius for proper spacing
+              siblingSpacing: 100,      // Space between nodes
+              nodeWidth: 200,           // Enhanced node width
+              nodeHeight: 250,          // Enhanced node height  
+              preserveExistingLayout: true,
+              focusOnNewNodes: true,
             })
-            console.log(`[MindMap Menu] Nodes added with layout successfully`)
-            console.log(`[MindMap Menu] Current node count:`, getNodes().length)
+            
+            // Force React Flow update and viewport refresh
+            setTimeout(() => {
+              const currentNodes = getNodes()
+              console.log(`[MindMap Menu] Nodes added with layout successfully`)
+              console.log(`[MindMap Menu] Current node count after timeout:`, currentNodes.length)
+              
+              // Trigger React Flow internal refresh
+              if (currentNodes.length > 0) {
+                // Find the newly added nodes for viewport focus
+                const newNodeIds = positionedNodes.map(n => n.id)
+                const addedNodes = currentNodes.filter(n => newNodeIds.includes(n.id))
+                console.log(`[MindMap Menu] Verified ${addedNodes.length} nodes were actually added`)
+                
+                if (addedNodes.length !== positionedNodes.length) {
+                  console.warn(`[MindMap Menu] Mismatch: Expected ${positionedNodes.length}, found ${addedNodes.length}`)
+                } else {
+                  // Force viewport update to show the new nodes
+                  console.log(`[MindMap Menu] Calling fitView to show new nodes`)
+                  try {
+                    fitView({ padding: 0.1, duration: 500 })
+                  } catch (viewError) {
+                    console.warn('[MindMap Menu] Error calling fitView:', viewError)
+                  }
+                }
+              }
+            }, 100)
+            
           } catch (error) {
             console.error('[MindMap Menu] Error adding nodes with layout:', error)
           }
-          
-          // Add edges with debugging
+
+          // Add edges with debugging and verification
           console.log(`[MindMap Menu] About to add ${allEdges.length} edges:`, allEdges)
           try {
             addEdges(allEdges)
-            console.log(`[MindMap Menu] Edges added successfully`)
-            console.log(`[MindMap Menu] Current edge count:`, getEdges().length)
+            
+            // Verify edges were added with delay for state synchronization
+            setTimeout(() => {
+              const currentEdges = getEdges()
+              console.log(`[MindMap Menu] Edges added successfully`)
+              console.log(`[MindMap Menu] Current edge count after timeout:`, currentEdges.length)
+              
+              // Verify edges by looking for our specific edge IDs
+              const newEdgeIds = allEdges.map(e => e.id)
+              const addedEdges = currentEdges.filter(e => newEdgeIds.includes(e.id))
+              console.log(`[MindMap Menu] Verified ${addedEdges.length} edges were actually added`)
+              
+              if (addedEdges.length !== allEdges.length) {
+                console.warn(`[MindMap Menu] Edge mismatch: Expected ${allEdges.length}, found ${addedEdges.length}`)
+              }
+            }, 150)
+            
           } catch (edgeError) {
             console.error('[MindMap Menu] Error adding edges:', edgeError)
           }
@@ -628,7 +703,7 @@ export const MindMapBottomMenu = ({
         })
       }
     },
-    [addNodesWithLayout, addEdges, updateNodeData, nodeExists, tourMode, getNodes, getEdges]
+    [addNodesWithLayout, addEdges, updateNodeData, nodeExists, tourMode, getNodes, getEdges, fitView]
   )
 
   // Helper function to create minimal graph context
@@ -667,7 +742,7 @@ export const MindMapBottomMenu = ({
             await addNodesWithLayout(session.state.nodes, {
               direction: 'radial',
               parentChildSpacing: 150,
-              siblingSpacing: 100
+              siblingSpacing: 100,
             })
           }
           if (session.state.edges.length > 0) {
@@ -965,8 +1040,6 @@ export const MindMapBottomMenu = ({
   }
 
   const handleCommandSelect = (commandId: string) => {
-    console.log('🚀 ~ handleCommandSelect ~ commandId:', commandId)
-
     // We might receive either the display name (like "Search") or the ID (like "search")
     // First, try to find the command by direct ID match
     let foundCommand = COMMANDS.find(
@@ -1041,10 +1114,6 @@ export const MindMapBottomMenu = ({
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    console.log('🚀 ~ handleFormSubmit ~ activeCommand:', activeCommand)
-    console.log('🚀 ~ handleFormSubmit ~ inputValue:', inputValue)
-    console.log('🚀 ~ handleFormSubmit ~ chatStatus:', chatStatus)
-
     // Prevent submission if chat is loading
     if (chatStatus === 'in_progress' || chatStatus === 'generating') {
       console.log('Chat is currently processing, skipping submission')
@@ -1086,7 +1155,8 @@ export const MindMapBottomMenu = ({
   }
 
   return (
-    <div className='fixed bottom-0 left-1/2 transform -translate-x-1/2 w-[500px]'>
+    <>
+    <div className='fixed bottom-0 left-1/2 transform -translate-x-1/2 w-[500px] z-40'>
       <div className='p-0 flex flex-col w-full h-auto relative'>
         <UltraterrestrialModelSelection
           modelMenuOpen={modelMenuOpen}
@@ -1142,8 +1212,8 @@ export const MindMapBottomMenu = ({
             </div>
           )}
 
-          {/* Show loading indicator */}
-          {isAILoading && (
+          {/* Show loading indicator - hide when backgroundProcessing is active */}
+          {isAILoading && !backgroundProcessing && (
             <div className='animate-pulse text-sm text-neutral-400 mb-2 flex items-center justify-center'>
               <div className='h-1.5 w-1.5 rounded-full bg-cyan-500/80 mr-2' />
               AI is thinking...
@@ -1152,5 +1222,18 @@ export const MindMapBottomMenu = ({
         </div>
       </div>
     </div>
+
+    {/* Entity Addition Progress - Show when backgroundProcessing is active */}
+    <EntityAdditionProgress
+      isVisible={backgroundProcessing}
+      queryType={currentProcessingType}
+      onComplete={() => {
+        console.log('Entity addition completed');
+      }}
+      onError={(error) => {
+        console.error('Entity addition failed:', error);
+      }}
+    />
+    </>
   )
 }

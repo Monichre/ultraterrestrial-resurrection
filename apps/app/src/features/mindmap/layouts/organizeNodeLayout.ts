@@ -130,6 +130,9 @@ export function organizeNodeLayout(
   edges: ReactFlowEdge[],
   options: LayoutOptions = {}
 ): ReactFlowNode[] {
+  console.log('[Layout] organizeNodeLayout called with:', nodes.length, 'nodes');
+  console.log('[Layout] Input nodes:', nodes.map(n => ({ id: n.id, type: n.type })));
+  
   if (!nodes.length) return [];
   
   const {
@@ -144,7 +147,11 @@ export function organizeNodeLayout(
   } = options;
   
   const { parentToChildren, rootNodes } = analyzeNodeHierarchy(nodes, edges);
+  console.log('[Layout] Root nodes found:', rootNodes.length, rootNodes.map(n => n.id));
+  console.log('[Layout] Parent-child relationships:', parentToChildren.size);
+  
   const layoutedNodes = nodes.map(node => ({ ...node }));
+  console.log('[Layout] Initial layoutedNodes:', layoutedNodes.length);
   
   // If preserving layout, only position new nodes (nodes without proper positions)
   const nodesToLayout = preserveExistingLayout ? 
@@ -248,11 +255,24 @@ export function organizeNodeLayout(
       });
       
     } else if (direction === 'radial') {
-      // Radial layout around parent
+      // Enhanced radial layout around parent with proper spacing
+      const childDimensions = sortedChildren.map(child => getNodeDimensions(child));
+      const maxChildWidth = Math.max(...childDimensions.map(d => d.width));
+      const maxChildHeight = Math.max(...childDimensions.map(d => d.height));
+      
+      // Calculate radius based on node dimensions and count for no overlap
+      const circumferenceNeeded = sortedChildren.length * (maxChildWidth + siblingSpacing);
+      const radiusFromCircumference = circumferenceNeeded / (2 * Math.PI);
+      const minRadiusForSpacing = Math.max(maxChildWidth, maxChildHeight) + siblingSpacing;
+      
       const radius = Math.max(
-        parentChildSpacing, 
-        Math.min(children.length * 50, 400)
+        parentChildSpacing,
+        radiusFromCircumference,
+        minRadiusForSpacing,
+        200  // Minimum radius
       );
+      
+      console.log(`[Layout] Radial layout: ${sortedChildren.length} nodes, radius: ${radius}, max dimensions: ${maxChildWidth}x${maxChildHeight}`);
       
       sortedChildren.forEach((child, index) => {
         const childIndex = layoutedNodes.findIndex(n => n.id === child.id);
@@ -260,6 +280,8 @@ export function organizeNodeLayout(
           const angle = (index / sortedChildren.length) * 2 * Math.PI;
           const x = parent.position.x + (parentDims.width / 2) + Math.cos(angle) * radius;
           const y = parent.position.y + (parentDims.height / 2) + Math.sin(angle) * radius;
+          
+          console.log(`[Layout] Node ${child.id} positioned at (${Math.round(x)}, ${Math.round(y)}) with angle ${(angle * 180 / Math.PI).toFixed(1)}°`);
           
           layoutedNodes[childIndex] = {
             ...layoutedNodes[childIndex],
@@ -310,6 +332,20 @@ export function organizeNodeLayout(
       });
     }
   });
+  
+  console.log('[Layout] Final layoutedNodes:', layoutedNodes.length);
+  console.log('[Layout] Output nodes:', layoutedNodes.map(n => ({ id: n.id, type: n.type, position: n.position })));
+  
+  // CRITICAL: Ensure we never lose nodes
+  if (layoutedNodes.length !== nodes.length) {
+    console.error('[Layout] NODE LOSS DETECTED!');
+    console.error('[Layout] Input count:', nodes.length, 'Output count:', layoutedNodes.length);
+    console.error('[Layout] Missing nodes:', nodes.filter(n => !layoutedNodes.find(ln => ln.id === n.id)));
+    
+    // Return original nodes with warning rather than losing data
+    console.warn('[Layout] Returning original nodes to prevent data loss');
+    return nodes;
+  }
   
   return layoutedNodes;
 }

@@ -31,8 +31,8 @@ class ContentAnalysisAgent:
             storage_path: Path to SQLite storage for conversation history
             vector_store_id: Optional ID of vector store for file search
         """
-        self.claude_model = AnthropicChat(id="claude-3-5-sonnet")
-        self.openai_model = OpenAIChat(id="gpt-4o")
+        self.claude_model = AnthropicChat(id="claude-4-sonnet-20250115")
+        self.openai_model = OpenAIChat(id="gpt-5")
         self.storage_path = storage_path
         self.vector_store_id = vector_store_id
 
@@ -79,7 +79,7 @@ class ContentAnalysisAgent:
                 3. Evaluate credibility of sources and claims
                 4. Summarize findings in structured format
                 """,
-                model="gpt-4o",
+                model="gpt-5",
                 tools=[
                     {"type": "code_interpreter"},
                     {"type": "file_search"}

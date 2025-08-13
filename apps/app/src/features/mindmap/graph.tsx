@@ -23,6 +23,7 @@ import {useMindMap} from '@/contexts/mindmap/mindmap-context'
 import {useRef, useEffect} from 'react'
 import {ThreadBoard} from '@/features/mindmap/components/status-ui/thread-board'
 import {SessionNotes} from '@/features/mindmap/components/status-ui/session-notes'
+import {ConnectedRecordsPanel} from '@/features/mindmap/components/connected-records-panel'
 
 export function Graph(props: any) {
   // Get basic flow state from the store
@@ -65,7 +66,7 @@ export function Graph(props: any) {
       className='relative h-[100vh] w-[100vw] bg-black bg-repeat z-0'
       style={{
         backgroundImage:
-          "url('data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2220%22%20height=%2220%22%20viewBox=%220%200%2020%2020%22%3E%3Ccircle%20cx=%221%22%20cy=%221%22%20r=%221%22%20fill=%22%23ccc%22%20fill-opacity=%220.3%22/%3E%3C/svg%3E')",
+          'url(\'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28"%3E%3Cdefs%3E%3CradialGradient id="g" cx="14" cy="14" r="16" gradientUnits="userSpaceOnUse"%3E%3Cstop offset="0%25" stop-color="%23000000" stop-opacity="0.0"/%3E%3Cstop offset="100%25" stop-color="%23000000" stop-opacity="0.0"/%3E%3C/radialGradient%3E%3C/defs%3E%3Cg fill="none" stroke="%23ffffff" stroke-opacity="0.08"%3E%3Cpath d="M0 14h28M14 0v28"/%3E%3C/g%3E%3C/svg%3E\')',
       }}>
       <ReactFlow
         ref={ref}
@@ -113,6 +114,15 @@ export function Graph(props: any) {
 
         {/* bg-gradient-to-r from-black/50 to-transparent  */}
       </ReactFlow>
+
+      {/* Connected Records Panel - Outside ReactFlow */}
+      {nodes.some(
+        (node) =>
+          node.type &&
+          node.type !== 'userInputNode' &&
+          node.data &&
+          (node.data.name || node.data.title || node.data.label)
+      ) && <ConnectedRecordsPanel />}
     </div>
   )
 }

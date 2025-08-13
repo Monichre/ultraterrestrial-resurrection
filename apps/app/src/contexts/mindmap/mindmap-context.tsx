@@ -828,6 +828,8 @@ export const MindMapProvider = ({children}: {children: React.ReactNode}) => {
 
       const currentNodes = reactFlowInstance.getNodes()
       const currentEdges = reactFlowInstance.getEdges()
+      
+      console.log('[Context] organizeLayout called with', currentNodes.length, 'nodes')
 
       // Apply our enhanced layout algorithm to position the nodes
       const layoutedNodes = organizeNodeLayout(currentNodes as any[], currentEdges as any[], {
@@ -840,8 +842,32 @@ export const MindMapProvider = ({children}: {children: React.ReactNode}) => {
         ...options,
       })
 
-      // Update the nodes with their new positions
-      store.setNodes(layoutedNodes as any)
+      console.log('[Context] Layout algorithm returned', layoutedNodes.length, 'nodes')
+
+      // SAFE APPROACH: Update positions without replacing nodes
+      // This prevents node loss by only updating positions, not replacing the entire node array
+      if (layoutedNodes.length === currentNodes.length) {
+        // Use onNodesChange to update positions safely
+        const nodeChanges = layoutedNodes.map(layoutedNode => {
+          const currentNode = currentNodes.find(n => n.id === layoutedNode.id)
+          if (currentNode && (currentNode.position.x !== layoutedNode.position.x || currentNode.position.y !== layoutedNode.position.y)) {
+            return {
+              id: layoutedNode.id,
+              type: 'position' as const,
+              position: layoutedNode.position,
+            }
+          }
+          return null
+        }).filter(Boolean)
+        
+        console.log('[Context] Applying', nodeChanges.length, 'position updates')
+        if (nodeChanges.length > 0) {
+          store.onNodesChange(nodeChanges)
+        }
+      } else {
+        console.error('[Context] Layout returned different node count, skipping update to prevent data loss')
+        console.error('[Context] Expected:', currentNodes.length, 'Got:', layoutedNodes.length)
+      }
 
       // Use a more reliable viewport adjustment
       return new Promise((resolve) => {
@@ -1157,17 +1183,19 @@ export const MindMapProvider = ({children}: {children: React.ReactNode}) => {
     ) => {
       try {
         // Add nodes to store first
+        console.log(`[addNodesWithLayout] Adding ${nodes.length} nodes to store`)
         store.addNodes(nodes)
         
-        // Layout temporarily disabled to debug node count issue
-        // await organizeLayout({
-        //   direction: 'horizontal',
-        //   parentChildSpacing: 120,
-        //   siblingSpacing: 80,
-        //   preserveExistingLayout: true, // Don't move existing nodes
-        //   focusOnNewNodes: true,
-        //   ...layoutOptions
-        // })
+        // Apply layout with safe position updates (no longer overwrites nodes)
+        console.log(`[addNodesWithLayout] Applying layout to ${nodes.length} new nodes`)
+        await organizeLayout({
+          direction: 'horizontal',
+          parentChildSpacing: 120,
+          siblingSpacing: 80,
+          preserveExistingLayout: true, // Don't move existing nodes
+          focusOnNewNodes: true,
+          ...layoutOptions
+        })
         
         console.log(`Added ${nodes.length} nodes with layout applied`)
         return nodes

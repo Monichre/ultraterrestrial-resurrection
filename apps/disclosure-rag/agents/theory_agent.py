@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 
 def create_theory_agent(name="TheoryDevAgent",
-                       model_id="claude-3-opus-20240229",
+                       model_id="claude-4-sonnet-20250115",
                        storage_path="tmp/research_agents.db"):
     """
     Factory function to create the Theory Development Agent.

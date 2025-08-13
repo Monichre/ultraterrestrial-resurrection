@@ -15,6 +15,7 @@ import {
 } from '@/features/mindmap/utils/contextual-intelligence'
 import type { ReactFlowNode, ReactFlowEdge } from '@/features/mindmap/actions/xata-to-xyflow'
 import { organizeNodeLayout } from '@/features/mindmap/layouts/organizeNodeLayout'
+import { xata } from '@db/xata/client'
 
 /**
  * Historical Database Query Agent
@@ -291,9 +292,18 @@ export class HistoricalQueryAgent {
   ): Promise<HistoricalQueryTask['result']> {
 
     const contextualRules = generateTourAwareSearchRules( graphContext )
-    const query = `Expand the knowledge graph with ${parameters.amount || 3} related ${parameters.table} records`
+    
+    // Check if we have meaningful context (nodes on the graph)
+    const hasContext = graphContext.seedRecord ||
+      graphContext.keyPersonnel.length > 0 ||
+      graphContext.relatedTopics.length > 0 ||
+      graphContext.organizations.length > 0
+    
+    const query = hasContext 
+      ? `Expand the knowledge graph with ${parameters.amount || 3} related ${parameters.table} records`
+      : this.generateDefaultQuery(parameters.table, parameters.amount || 3)
 
-    console.log( `[Historical Query Agent] Contextual expansion query: ${query}` )
+    console.log( `[Historical Query Agent] Contextual expansion query (hasContext: ${hasContext}): ${query}` )
 
     const serverParams: HistoricalQueryServerParams = {
       table: parameters.table,
@@ -444,6 +454,25 @@ export class HistoricalQueryAgent {
     }
 
     return edges
+  }
+
+  /**
+   * Generate default queries for empty/minimal context graphs
+   */
+  private generateDefaultQuery(table: string, amount: number): string {
+    const defaultQueries = {
+      personnel: `Find ${amount} most high-ranking military personnel involved in UFO investigations`,
+      events: `Find ${amount} most significant historically documented UFO events ordered by date`,
+      testimonies: `Find ${amount} most impactful testimonies from credible witnesses with military or pilot backgrounds`, 
+      organizations: `Find ${amount} most important government organizations involved in UFO research`,
+      locations: `Find ${amount} most frequently reported UFO hotspot locations`,
+      documents: `Find ${amount} most important declassified UFO documents`,
+      topics: `Find ${amount} most researched UFO-related topics and phenomena`,
+      artifacts: `Find ${amount} most significant physical UFO artifacts or evidence`
+    }
+
+    return defaultQueries[table as keyof typeof defaultQueries] || 
+           `Find ${amount} most relevant ${table} records`
   }
 
   /**

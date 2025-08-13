@@ -1,33 +1,33 @@
 'use  client'
-import { formatNodesForCardDisplay } from '@/features/mindmap/components/cards/card-stack/card-stack'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import {formatNodesForCardDisplay} from '@/features/mindmap/components/cards/card-stack/card-stack'
+import {useEffect, useMemo, useRef, useState} from 'react'
 
-import { useMindMap } from '@/contexts'
-import { truncate } from '@/utils'
-import { AnimatePresence, motion } from 'framer-motion'
-import { ChevronsRight, X } from 'lucide-react'
+import {useMindMap} from '@/contexts'
+import {truncate} from '@/utils'
+import {AnimatePresence, motion} from 'framer-motion'
+import {ChevronsRight, X} from 'lucide-react'
 
-import { Gallery } from '@/components/animated/gallery'
-import { Button } from '@/components/ui/button'
+import {Gallery} from '@/components/animated/gallery'
+import {Button} from '@/components/ui/button'
 
-import { ConnectionsIcon, TopicsIcon } from '@/components/icons'
-import { AddNote } from '@/components/note/AddNote'
-import { Separator } from '@/components/ui/separator'
-import { useEntity } from '@/hooks/useEntity'
-import { format } from 'date-fns'
+import {ConnectionsIcon, TopicsIcon} from '@/components/icons'
+
+import {Separator} from '@/components/ui/separator'
+import {useEntity} from '@/hooks/useEntity'
+import {format} from 'date-fns'
 import Link from 'next/link'
-import { useMediaQuery, useOnClickOutside } from 'usehooks-ts'
-export function TopicAndTestimoniesGroupCard( { card }: any ) {
-  const { height, width } = card
-  const { getIntersectingNodes, useNodesData, toggleLocationVisualization, screenToFlowPosition } =
+import {useMediaQuery, useOnClickOutside} from 'usehooks-ts'
+export function TopicAndTestimoniesGroupCard({card}: any) {
+  const {height, width} = card
+  const {getIntersectingNodes, useNodesData, toggleLocationVisualization, screenToFlowPosition} =
     useMindMap()
-  const groupNodeData = useNodesData( card.id )
-  const { findConnections, updateNote, saveNote, userNote } = useEntity( {
+  const groupNodeData = useNodesData(card.id)
+  const {findConnections, updateNote, saveNote, userNote} = useEntity({
     card: groupNodeData,
-  } )
+  })
 
   const [groupCards, setGroupCards]: any = useState(
-    formatNodesForCardDisplay( groupNodeData?.data.children )
+    formatNodesForCardDisplay(groupNodeData?.data.children)
   )
 
   console.log(
@@ -36,78 +36,79 @@ export function TopicAndTestimoniesGroupCard( { card }: any ) {
   )
 
   const [clones, setClones]: any = useState()
-  const removeChildCardClone = ( cardId: any ) => {
+  const removeChildCardClone = (cardId: any) => {
     const existing = [...groupCards]
-    const newCards = existing.filter( ( card ) => card.id !== cardId )
-    setGroupCards( newCards )
+    const newCards = existing.filter((card) => card.id !== cardId)
+    setGroupCards(newCards)
   }
-  useEffect( () => {
-    if ( groupNodeData?.data.children ) {
-      const formattedCards = formatNodesForCardDisplay( groupNodeData?.data.children )
-      setGroupCards( formattedCards )
+  useEffect(() => {
+    if (groupNodeData?.data.children) {
+      const formattedCards = formatNodesForCardDisplay(groupNodeData?.data.children)
+      setGroupCards(formattedCards)
     }
-  }, [groupNodeData] )
+  }, [groupNodeData])
 
-  const [alignment, setAlignment] = useState<'columns' | 'rows'>( 'columns' )
-  const [activePost, setActivePost] = useState( groupCards[0] )
-  const [clickedPost, setClickedPost]: any = useState( null )
+  const [alignment, setAlignment] = useState<'columns' | 'rows'>('columns')
+  const [activePost, setActivePost] = useState(groupCards[0])
+  const [clickedPost, setClickedPost]: any = useState(null)
 
-  const [isHovered, setIsHovered] = useState<number | null>( null )
-  const ref = useRef<HTMLDivElement>( null )
-  useOnClickOutside( ref, () => setClickedPost( null ) )
+  const [isHovered, setIsHovered] = useState<number | null>(null)
+  const ref = useRef<HTMLDivElement>(null)
+  useOnClickOutside(ref, () => setClickedPost(null))
 
-  useEffect( () => {
-    const nodes = Array.from( document.querySelectorAll( '.react-flow__node-entityGroupNodeChildTopics' ) )
-    nodes.forEach( ( n ) => {
-      n.classList.add( 'hide' )
-    } )
+  useEffect(() => {
+    const nodes = Array.from(
+      document.querySelectorAll('.react-flow__node-entityGroupNodeChildTopics')
+    )
+    nodes.forEach((n) => {
+      n.classList.add('hide')
+    })
 
-
-    function onKeyDown( event: KeyboardEvent ) {
-      if ( event.key === 'Escape' ) {
-        setClickedPost( null )
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        setClickedPost(null)
       }
     }
 
-    window.addEventListener( 'keydown', onKeyDown )
-    return () => window.removeEventListener( 'keydown', onKeyDown )
-  }, [] )
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [])
 
-  const matches = useMediaQuery( '(max-width: 640px)' )
+  const matches = useMediaQuery('(max-width: 640px)')
 
-  useEffect( () => {
-    if ( matches ) {
-      setAlignment( 'rows' )
+  useEffect(() => {
+    if (matches) {
+      setAlignment('rows')
     }
-  }, [matches] )
+  }, [matches])
 
-  const initialRotation = useMemo( () => {
+  const initialRotation = useMemo(() => {
     return () => `${Math.random() * 10 > 5 ? '-' : ''}${Math.random() * 10 + 10}deg`
-  }, [] )
+  }, [])
 
   const clickedImage =
     clickedPost && clickedPost?.photos?.length
       ? clickedPost?.photos[0]
-      : { url: '/foofighters.webp', signedUrl: '/foofighters.webp' }
+      : {url: '/foofighters.webp', signedUrl: '/foofighters.webp'}
   return (
     <main className='border-2 p-1.5 rounded-3xl duration-200 border-neutral-200 dark:border-neutral-800 bg-neutral-100 dark:bg-neutral-900 group hover:border-indigo-200 dark:hover:border-indigo-800'>
       <AnimatePresence>
         {clickedPost && !matches && alignment === 'columns' && (
           <motion.div
             className='absolute inset-0 z-50 flex left-0 top-0 h-full w-full items-center justify-center bg-transparent p-4'
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}>
+            initial={{opacity: 0}}
+            animate={{opacity: 1}}
+            exit={{opacity: 0}}>
             <motion.div
               className='relative w-full h-full p-6 '
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
+              initial={{opacity: 0, scale: 0.9}}
+              animate={{opacity: 1, scale: 1}}
+              exit={{opacity: 0, scale: 0.9}}
               layoutId='post-detail'
               ref={ref}>
               <Button
                 variant='ghost'
-                onClick={() => setClickedPost( null )}
+                onClick={() => setClickedPost(null)}
                 className='absolute right-6 top-6 z-30 transition-transform duration-300 active:scale-95'>
                 <X className='w-4 h-4' />
               </Button>
@@ -117,12 +118,12 @@ export function TopicAndTestimoniesGroupCard( { card }: any ) {
                 ) : (
                   <Gallery
                     images={[
-                      { url: '/foofighters.webp' },
-                      { url: '/astro-3.png' },
+                      {url: '/foofighters.webp'},
+                      {url: '/astro-3.png'},
 
-                      { url: '/DALLE7.webp' },
-                      { url: '/DALLE8.webp' },
-                      { url: '/DALLE9.webp' },
+                      {url: '/DALLE7.webp'},
+                      {url: '/DALLE8.webp'},
+                      {url: '/DALLE9.webp'},
                     ]}
                   />
                 )}
@@ -140,7 +141,7 @@ export function TopicAndTestimoniesGroupCard( { card }: any ) {
                 </p>
               </div>
               <p className='mt-4 text-sm text-black font-source'>
-                {truncate( clickedPost.summary, 500 )}
+                {truncate(clickedPost.summary, 500)}
               </p>
               <Link
                 aria-label='Read more'
@@ -160,9 +161,9 @@ export function TopicAndTestimoniesGroupCard( { card }: any ) {
                       strokeWidth='2'
                       strokeLinecap='round'
                       strokeLinejoin='round'
-                      initial={{ opacity: 0, x: -10 }}
-                      whileHover={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.2 }}
+                      initial={{opacity: 0, x: -10}}
+                      whileHover={{opacity: 1, x: 0}}
+                      transition={{duration: 0.2}}
                     />
                     <motion.path
                       d='M12 5L19 12L12 19'
@@ -170,9 +171,9 @@ export function TopicAndTestimoniesGroupCard( { card }: any ) {
                       strokeWidth='2'
                       strokeLinecap='round'
                       strokeLinejoin='round'
-                      initial={{ x: -7 }}
-                      whileHover={{ x: 0 }}
-                      transition={{ duration: 0.2 }}
+                      initial={{x: -7}}
+                      whileHover={{x: 0}}
+                      transition={{duration: 0.2}}
                     />
                   </motion.svg>
                 </Button>
@@ -190,10 +191,10 @@ export function TopicAndTestimoniesGroupCard( { card }: any ) {
                 flexDirection: alignment === 'rows' ? 'column' : 'row',
                 gap: alignment === 'rows' ? '1.5rem' : '0',
               }}>
-              {groupCards.map( ( card: any, index: any ) => {
+              {groupCards.map((card: any, index: any) => {
                 const image = card?.photos?.length
                   ? card?.photos[0]
-                  : { url: '/foofighters.webp', signedUrl: '/foofighters.webp' }
+                  : {url: '/foofighters.webp', signedUrl: '/foofighters.webp'}
                 return (
                   <>
                     <motion.div
@@ -211,28 +212,28 @@ export function TopicAndTestimoniesGroupCard( { card }: any ) {
                       layout>
                       <motion.div
                         className='relative'
-                        initial={{ opacity: 0, y: 20, scale: 0.9, rotate: 5 }}
-                        animate={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
+                        initial={{opacity: 0, y: 20, scale: 0.9, rotate: 5}}
+                        animate={{opacity: 1, y: 0, scale: 1, rotate: 0}}
                         transition={{
                           duration: 0.3,
                           delay: index * 0.2,
                         }}
-                        onMouseEnter={() => setIsHovered( index )}
-                        onMouseLeave={() => setIsHovered( null )}
-                      // layoutId={`${card.name}-image`}
-                      // layout
+                        onMouseEnter={() => setIsHovered(index)}
+                        onMouseLeave={() => setIsHovered(null)}
+                        // layoutId={`${card.name}-image`}
+                        // layout
                       >
                         <motion.div
                           className='ease-bounce group relative shrink-0 cursor-pointer overflow-hidden rounded-3xl bg-black shadow-xl transition-all duration-300 will-change-transform after:absolute after:left-0 after:top-0 after:h-full after:w-full after:rounded-3xl after:border-[5px] after:border-white/50 after:transition-[border] hover:!rotate-0 hover:after:border-8'
-                          onMouseEnter={() => setActivePost( card )}
-                          onClick={() => setClickedPost( card )}
+                          onMouseEnter={() => setActivePost(card)}
+                          onClick={() => setClickedPost(card)}
                           style={{
                             rotate: alignment === 'rows' ? '0' : initialRotation(),
                             width: matches ? 'auto' : alignment === 'rows' ? 512 : 214,
                             height: matches ? 'auto' : alignment === 'rows' ? 288 : 160,
                           }}
                           layoutId={`${card.name}-image`}
-                        // layout
+                          // layout
                         >
                           {activePost === card && <IndicatorPoint />}
                           <motion.img
@@ -254,7 +255,7 @@ export function TopicAndTestimoniesGroupCard( { card }: any ) {
                     )}
                   </>
                 )
-              } )}
+              })}
             </div>
             {alignment === 'columns' && (
               <PostDetail
@@ -284,7 +285,7 @@ export function TopicAndTestimoniesGroupCard( { card }: any ) {
           </div>
           <span className='text-neutral-600 dark:text-neutral-400'>Topics</span>
         </div>
-        <span>{format( new Date(), 'MMM d, yyyy' )}</span>
+        <span>{format(new Date(), 'MMM d, yyyy')}</span>
       </div>
     </main>
   )
@@ -293,7 +294,7 @@ export function TopicAndTestimoniesGroupCard( { card }: any ) {
 {
   /* <CardCorners type={card.id.split('-')[0]} /> */
 }
-const PostDetail = ( {
+const PostDetail = ({
   activePost,
   findConnections,
   alignment,
@@ -307,12 +308,12 @@ const PostDetail = ( {
   saveNote: any
   userNote: any
   updateNote: any
-} ) => {
+}) => {
   return (
     <motion.div
       className={`flex w-full justify-between gap-6`}
       layoutId='post-detail'
-      transition={{ staggerChildren: 0.5 }}
+      transition={{staggerChildren: 0.5}}
       style={{
         marginTop: alignment === 'rows' ? '0' : '5rem',
 
@@ -324,9 +325,9 @@ const PostDetail = ( {
           <motion.h3
             className='min-h-10 text-xl text-white font-bebasNeuePro'
             key={activePost.name}
-            animate={{ opacity: 1, y: 0 }}
-            initial={{ opacity: 0, y: 10 }}
-            transition={{ type: 'spring', duration: 0.8 }}>
+            animate={{opacity: 1, y: 0}}
+            initial={{opacity: 0, y: 10}}
+            transition={{type: 'spring', duration: 0.8}}>
             {activePost.name}
           </motion.h3>
         </div>
@@ -335,7 +336,6 @@ const PostDetail = ( {
             <ConnectionsIcon className='h-5 w-5 text-white stroke-1' />
           </Button>
           <Separator orientation='vertical' className='ml-4' />
-          <AddNote saveNote={saveNote} userNote={userNote} updateNote={updateNote} />
         </div>
       </div>
       <div className='w-full flex flex-col align-end'>
@@ -344,10 +344,10 @@ const PostDetail = ( {
           <motion.p
             className='text-pretty text-sm text-white font-nunito line-clamp-4'
             key={activePost.name}
-            animate={{ opacity: 1, y: 0 }}
-            initial={{ opacity: 0, y: 10 }}
-            transition={{ type: 'spring', duration: 0.8 }}>
-            {truncate( activePost.summary, 400 )}
+            animate={{opacity: 1, y: 0}}
+            initial={{opacity: 0, y: 10}}
+            transition={{type: 'spring', duration: 0.8}}>
+            {truncate(activePost.summary, 400)}
           </motion.p>
         </div>
       </div>

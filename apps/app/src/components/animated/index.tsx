@@ -9,7 +9,6 @@ export * from './blur-fade'
 export * from './blur-in'
 export * from './box-reveal'
 
-export * from '../cult-ui'
 export * from './accordion-basic'
 export * from './accordion-icons'
 export * from './accordion-variant'
@@ -38,4 +37,3 @@ export * from './transition-panel'
 
 export * from './transition'
 export * from './transition-panel-tabs'
-

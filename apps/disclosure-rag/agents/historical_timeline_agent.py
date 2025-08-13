@@ -55,7 +55,7 @@ def make_historical_timeline_agent(storage_path="tmp/research_agents.db"):
     Returns:
         An Agno Agent configured as a Historical Timeline Analyst
     """
-    model = AnthropicChat(id="claude-3-opus-20240229")
+    model = AnthropicChat(id="claude-4-sonnet-20250115")
     tools = get_tools_for_agent("historical")
     
     agent = Agent(

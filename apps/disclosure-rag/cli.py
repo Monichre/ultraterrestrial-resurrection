@@ -145,13 +145,12 @@ class DisclosureRAGCLI:
 
     def welcome_banner(self):
         """Display welcome banner with styling."""
-        banner = """
-# 🛸 Disclosure RAG Interactive CLI
+        banner = """# 🛸 Disclosure RAG Interactive CLI
 
-> Advanced UFO/UAP Research & Analysis System
-> Powered by Charm CLI Tools
+            > Advanced UFO/UAP Research & Analysis System
+            > Powered by Charm CLI Tools
 
-Welcome to the enhanced disclosure research environment!
+            Welcome to the enhanced disclosure research environment!
         """
         self.charm.glow_render(banner)
 
@@ -596,6 +595,8 @@ Your documents are now searchable via:
     def run(self):
         """Main CLI loop."""
         try:
+            import os
+            os.system('cls' if os.name == 'nt' else 'clear')
             self.welcome_banner()
 
             while True:

@@ -7,11 +7,16 @@ from agno.storage.sqlite import SqliteStorage
 from agno.tools.duckduckgo import DuckDuckGoTools
 from agno.tools.web import WebBrowserTools
 
-# Define constants for models
-CLAUDE_OPUS = "claude-3-opus-20240229"
-CLAUDE_SONNET = "claude-3-sonnet-20240229"
-GPT4_TURBO = "gpt-4-turbo"
-GPT4O = "gpt-4o"
+# Define constants for models - Updated January 11, 2025
+CLAUDE_SONNET_4 = "claude-4-sonnet-20250115"  # Latest Sonnet 4 
+CLAUDE_OPUS_4 = "claude-4-opus-20250115"      # Latest Opus 4
+CLAUDE_SONNET_35 = "claude-3-5-sonnet-20241022"  # Fallback Sonnet 3.5
+GPT_5 = "gpt-5"                               # Latest GPT-5 model  
+GPT_O3 = "o3"                                 # Latest O3 model
+
+# Recommended default models for different use cases
+DEFAULT_CLAUDE = CLAUDE_SONNET_4   # Primary Claude model
+DEFAULT_OPENAI = GPT_5             # Primary OpenAI model
 
 # Create standard tools
 search_tool = DuckDuckGoTools()

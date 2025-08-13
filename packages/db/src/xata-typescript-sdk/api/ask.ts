@@ -1,56 +1,56 @@
-import type { AskOptions } from "@xata.io/client";
-import { getXataClient, type XataClient } from "../xata";
-import { xata } from "../client";
+import type { AskOptions } from "@xata.io/client"
+import { getXataClient, type XataClient } from "../xata"
+import { xata } from "../client"
 
-const xataClient = getXataClient();
+const xataClient = getXataClient()
 
 // Enhanced types for comprehensive Ask SDK support
 export interface XataAskOptions {
-	rules?: string[];
-	searchType?: 'keyword' | 'vector';
+	rules?: string[]
+	searchType?: 'keyword' | 'vector'
 	search?: {
-		fuzziness?: number;
-		prefix?: 'phrase' | 'disabled';
-		target?: (string | { column: string; weight?: number })[];
+		fuzziness?: number
+		prefix?: 'phrase' | 'disabled'
+		target?: ( string | { column: string; weight?: number } )[]
 		boosters?: Array<{
 			valueBooster?: {
-				column: string;
-				value: string;
-				factor: number;
-			};
+				column: string
+				value: string
+				factor: number
+			}
 			numericBooster?: {
-				column: string;
-				factor: number;
-				modifier?: 'log' | 'log1p' | 'log2p' | 'ln' | 'ln1p' | 'ln2p' | 'square' | 'sqrt' | 'reciprocal';
-			};
-		}>;
-		filter?: Record<string, any>;
-	};
+				column: string
+				factor: number
+				modifier?: 'log' | 'log1p' | 'log2p' | 'ln' | 'ln1p' | 'ln2p' | 'square' | 'sqrt' | 'reciprocal'
+			}
+		}>
+		filter?: Record<string, any>
+	}
 	vectorSearch?: {
-		column: string;
-		contentColumn?: string;
-		filter?: Record<string, any>;
-	};
-	sessionId?: string;
+		column: string
+		contentColumn?: string
+		filter?: Record<string, any>
+	}
+	sessionId?: string
 }
 
 export interface AskResponse {
-	answer: string;
-	sessionId: string;
-	records: string[];
+	answer: string
+	sessionId: string
+	records: string[]
 }
 
 export interface AskResponseWithRecords {
-	answer: string;
-	sessionId: string;
-	records: any[];
+	answer: string
+	sessionId: string
+	records: any[]
 }
 
 export interface AskStreamChunk {
-	answer?: string;
-	sessionId?: string;
-	records?: string[];
-	done?: boolean;
+	answer?: string
+	sessionId?: string
+	records?: string[]
+	done?: boolean
 }
 
 /**
@@ -61,11 +61,11 @@ export const askXata = async (
 	table: string,
 	question: string,
 	options?: {
-		rules?: string[];
-		searchType?: string;
-		search?: any;
-		vectorSearch?: any;
-		sessionId?: string;
+		rules?: string[]
+		searchType?: string
+		search?: any
+		vectorSearch?: any
+		sessionId?: string
 	},
 ) => {
 	try {
@@ -75,21 +75,21 @@ export const askXata = async (
 			search: options?.search,
 			vectorSearch: options?.vectorSearch,
 			sessionId: options?.sessionId,
-		};
+		}
 
-		const result = await xataClient.db[table].ask(question, askOptions);
-		return result;
-	} catch (error) {
-		console.error("Error asking Xata:", error);
-		throw error;
+		const result = await xataClient.db[table].ask( question, askOptions )
+		return result
+	} catch ( error ) {
+		console.error( "Error asking Xata:", error )
+		throw error
 	}
-};
+}
 
 /**
  * Enhanced askXataWithAi function that fetches actual record data
  * Returns both the AI answer and the actual record objects
  */
-export const askXataWithAi = async ({
+export const askXataWithAi = async ( {
 	table,
 	question,
 	rules,
@@ -97,27 +97,21 @@ export const askXataWithAi = async ({
 	search,
 	sessionId,
 }: {
-	table: string;
-	question: string;
-	rules?: string[];
-	searchType?: string;
-	search?: any;
-	sessionId?: string;
-}) => {
-	try {
-		const askOptions: any = {};
-		if (rules) askOptions.rules = rules;
-		if (searchType) askOptions.searchType = searchType;
-		if (search) askOptions.search = search;
-		if (sessionId) askOptions.sessionId = sessionId;
+	table: string
+	question: string
+	rules?: string[]
+	searchType?: string
+	search?: any
+	sessionId?: string
+} ) => {
+	const askOptions: any = {}
+	if ( rules ) askOptions.rules = Array.isArray( rules ) ? rules : [rules]
+	if ( searchType ) askOptions.searchType = searchType
+	if ( search ) askOptions.search = search
+	if ( sessionId ) askOptions.sessionId = sessionId
 
-		const result = await xata.db[table].ask(question, askOptions);
-		return result;
-	} catch (error) {
-		console.error("Error asking Xata with AI:", error);
-		throw error;
-	}
-};
+	return await xataClient.db[table].ask( question, askOptions )
+}
 
 /**
  * Ask a follow-up question in an existing conversation
@@ -129,8 +123,8 @@ export const askFollowUp = async (
 	sessionId: string,
 	options: Omit<XataAskOptions, 'sessionId'> = {}
 ): Promise<AskResponse> => {
-	return askXata(table, question, { ...options, sessionId });
-};
+	return askXata( table, question, { ...options, sessionId } )
+}
 
 /**
  * Ask with comprehensive search configuration (matching the SDK example)
@@ -140,95 +134,50 @@ export const askXataComprehensive = async (
 	table: string,
 	question: string,
 	config: {
-		rules?: string[];
-		searchType?: 'keyword' | 'vector';
+		rules?: string[]
+		searchType?: 'keyword' | 'vector'
 		keywordSearch?: {
-			fuzziness?: number;
-			prefix?: 'phrase' | 'disabled';
-			target?: (string | { column: string; weight: number })[];
+			fuzziness?: number
+			prefix?: 'phrase' | 'disabled'
+			target?: ( string | { column: string; weight: number } )[]
 			boosters?: Array<{
 				valueBooster?: {
-					column: string;
-					value: string;
-					factor: number;
-				};
-			}>;
-		};
+					column: string
+					value: string
+					factor: number
+				}
+			}>
+		}
 		vectorSearch?: {
-			column: string;
-			contentColumn?: string;
-			filter?: Record<string, any>;
-		};
-		sessionId?: string;
+			column: string
+			contentColumn?: string
+			filter?: Record<string, any>
+		}
+		sessionId?: string
 	} = {}
 ): Promise<AskResponseWithRecords> => {
 	const options: XataAskOptions = {
 		rules: config.rules,
 		searchType: config.searchType || 'keyword',
 		sessionId: config.sessionId
-	};
-
-	if (config.keywordSearch) {
-		options.search = config.keywordSearch;
 	}
 
-	if (config.vectorSearch) {
-		options.vectorSearch = config.vectorSearch;
+	if ( config.keywordSearch ) {
+		options.search = config.keywordSearch
 	}
 
-	return askXataWithAi({
+	if ( config.vectorSearch ) {
+		options.vectorSearch = config.vectorSearch
+	}
+
+	return askXataWithAi( {
 		table,
 		question,
 		...options
-	});
-};
+	} )
+}
 
-/**
- * Process the SSE response stream from Xata's ask endpoint
- */
-const processStream = (stream: ReadableStream) => {
-	const reader = stream.getReader();
-	const decoder = new TextDecoder();
-
-	return new ReadableStream({
-		async start(controller) {
-			try {
-				while (true) {
-					const { done, value } = await reader.read();
-
-					if (done) {
-						controller.close();
-						return;
-					}
-
-					const chunk = decoder.decode(value, { stream: true });
-					const lines = chunk.split("\n");
-
-					for (const line of lines) {
-						if (line.startsWith("data: ")) {
-							const data = line.slice(6); // Remove 'data: ' prefix
-
-							try {
-								const parsedData = JSON.parse(data);
-								controller.enqueue(parsedData);
-
-								// If this is the final chunk with done:true, close the stream
-								if (parsedData.done) {
-									controller.close();
-									return;
-								}
-							} catch (e) {
-								console.error("Error parsing SSE data:", e);
-							}
-						}
-					}
-				}
-			} catch (error) {
-				controller.error(error);
-			}
-		},
-	});
-};
+// NOTE: Streaming is implemented using the SDK's onMessage callback to avoid relying on internal client fields
 
 /**
  * Create a streaming ask request that returns the answer as a stream of events
@@ -240,116 +189,97 @@ export const askStream = async (
 	options: XataAskOptions = {},
 ): Promise<ReadableStream<AskStreamChunk>> => {
 	try {
-		// Setting up headers for server-sent events
-		const fetchOptions: any = {
-			headers: {
-				Accept: "text/event-stream",
-				"Content-Type": "application/json",
-			},
-			method: "POST",
-		};
-
-		// Prepare the request body with all supported options
-		const requestBody: any = {
-			question,
-		};
-
-		// Add all optional parameters
-		if (options.rules) requestBody.rules = options.rules;
-		if (options.searchType) requestBody.searchType = options.searchType;
-		if (options.search) requestBody.search = options.search;
-		if (options.vectorSearch) requestBody.vectorSearch = options.vectorSearch;
-
-		fetchOptions.body = JSON.stringify(requestBody);
-
-		let url: string;
-
-		// Determine if this is a new question or a follow-up
-		if (options.sessionId) {
-			url = `${xataClient.fetch.baseURL}/db/${xataClient.databaseURL}/tables/${table}/ask/${options.sessionId}`;
-		} else {
-			url = `${xataClient.fetch.baseURL}/db/${xataClient.databaseURL}/tables/${table}/ask`;
-		}
-
-		// Send the request
-		const response = await fetch(url, fetchOptions);
-
-		if (!response.ok || !response.body) {
-			throw new Error(`Failed to stream response: ${response.statusText}`);
-		}
-
-		// Process and return the stream
-		return processStream(response.body);
-	} catch (error) {
-		console.error("Error streaming question:", error);
-		throw error;
+		return new ReadableStream<AskStreamChunk>( {
+			async start( controller ) {
+				try {
+					const coercedRules = options.rules ? ( Array.isArray( options.rules ) ? options.rules : [options.rules] ) : undefined
+					await xataClient.db[table].ask( question, {
+						...( coercedRules ? { rules: coercedRules } : {} ),
+						...( options.searchType ? { searchType: options.searchType } : {} ),
+						...( options.search ? { search: options.search } : {} ),
+						...( options.vectorSearch ? { vectorSearch: options.vectorSearch } : {} ),
+						...( options.sessionId ? { sessionId: options.sessionId } : {} ),
+						onMessage: ( message: any ) => {
+							try {
+								controller.enqueue( message )
+								if ( message?.done ) {
+									controller.close()
+								}
+							} catch ( e ) {
+								controller.error( e )
+							}
+						}
+					} as any )
+				} catch ( e ) {
+					controller.error( e )
+				}
+			}
+		} )
+	} catch ( error ) {
+		console.error( "Error streaming question:", error )
+		throw error
 	}
-};
+}
 
 /**
  * Utility function to create a comprehensive ask configuration
  * This helper makes it easy to create complex search configurations
  */
-export const createAskConfig = (config: {
-	rules?: string[];
-	searchType?: 'keyword' | 'vector';
-	fuzziness?: number;
-	prefix?: 'phrase' | 'disabled';
-	targets?: (string | { column: string; weight: number })[];
-	valueBooters?: Array<{ column: string; value: string; factor: number }>;
-	vectorColumn?: string;
-	vectorContentColumn?: string;
-	filter?: Record<string, any>;
-}): XataAskOptions => {
+export const createAskConfig = ( config: {
+	rules?: string[]
+	searchType?: 'keyword' | 'vector'
+	fuzziness?: number
+	prefix?: 'phrase' | 'disabled'
+	targets?: ( string | { column: string; weight: number } )[]
+	valueBooters?: Array<{ column: string; value: string; factor: number }>
+	vectorColumn?: string
+	vectorContentColumn?: string
+	filter?: Record<string, any>
+} ): XataAskOptions => {
 	const options: XataAskOptions = {
 		rules: config.rules,
 		searchType: config.searchType || 'keyword'
-	};
+	}
 
-	if (config.searchType === 'keyword' || !config.searchType) {
-		options.search = {};
-		
-		if (typeof config.fuzziness === 'number') {
-			options.search.fuzziness = config.fuzziness;
+	if ( config.searchType === 'keyword' || !config.searchType ) {
+		options.search = {}
+
+		if ( typeof config.fuzziness === 'number' ) {
+			options.search.fuzziness = config.fuzziness
 		}
-		
-		if (config.prefix) {
-			options.search.prefix = config.prefix;
+
+		if ( config.prefix ) {
+			options.search.prefix = config.prefix
 		}
-		
-		if (config.targets) {
-			options.search.target = config.targets;
+
+		if ( config.targets ) {
+			options.search.target = config.targets
 		}
-		
-		if (config.valueBooters) {
-			options.search.boosters = config.valueBooters.map(booster => ({
+
+		if ( config.valueBooters ) {
+			options.search.boosters = config.valueBooters.map( booster => ( {
 				valueBooster: booster
-			}));
+			} ) )
 		}
-		
-		if (config.filter) {
-			options.search.filter = config.filter;
+
+		if ( config.filter ) {
+			options.search.filter = config.filter
 		}
 	}
 
-	if (config.searchType === 'vector') {
+	if ( config.searchType === 'vector' ) {
 		options.vectorSearch = {
 			column: config.vectorColumn || 'embedding',
 			contentColumn: config.vectorContentColumn,
 			filter: config.filter
-		};
+		}
 	}
 
-	return options;
-};
+	return options
+}
 
 // Export types for external use
-export type {
-	XataAskOptions,
-	AskResponse,
-	AskResponseWithRecords,
-	AskStreamChunk
-};
+// (Types above are already exported; avoid duplicate export declarations in the same module)
 
 // =============================================================================
 // UFO/UAP RESEARCH-SPECIFIC ENHANCEMENTS
@@ -380,7 +310,7 @@ export const UFO_RESEARCH_RULES = {
 		"Compare similar incidents across different time periods and geographical regions",
 		"Identify common characteristics in technology descriptions, entity encounters, or environmental effects"
 	]
-};
+}
 
 /**
  * Optimized search configurations for different types of UFO/UAP research
@@ -482,7 +412,7 @@ export const UFO_SEARCH_CONFIGS = {
 			}]
 		}
 	}
-};
+}
 
 /**
  * Specialized ask function for UFO/UAP credibility research
@@ -491,9 +421,9 @@ export const askUFOCredibilityAnalysis = async (
 	table: string,
 	question: string,
 	options: {
-		sessionId?: string;
-		includeDebunked?: boolean;
-		minCredibilityScore?: number;
+		sessionId?: string
+		includeDebunked?: boolean
+		minCredibilityScore?: number
 	} = {}
 ): Promise<AskResponseWithRecords> => {
 	const searchConfig = {
@@ -501,23 +431,23 @@ export const askUFOCredibilityAnalysis = async (
 		search: {
 			...UFO_SEARCH_CONFIGS.CREDIBLE_SIGHTINGS.search,
 			filter: {
-				...(!options.includeDebunked && { debunked: { $ne: true } }),
-				...(options.minCredibilityScore && { 
-					credibility_score: { $gte: options.minCredibilityScore } 
-				})
+				...( !options.includeDebunked && { debunked: { $ne: true } } ),
+				...( options.minCredibilityScore && {
+					credibility_score: { $gte: options.minCredibilityScore }
+				} )
 			}
 		}
-	};
+	}
 
-	return askXataWithAi({
+	return askXataWithAi( {
 		table,
 		question,
 		rules: UFO_RESEARCH_RULES.SCIENTIFIC_ANALYSIS,
 		searchType: searchConfig.searchType,
 		search: searchConfig.search,
 		sessionId: options.sessionId
-	});
-};
+	} )
+}
 
 /**
  * Specialized ask function for government disclosure research
@@ -526,9 +456,9 @@ export const askGovernmentDisclosure = async (
 	table: string,
 	question: string,
 	options: {
-		sessionId?: string;
-		includeClassified?: boolean;
-		officialOnly?: boolean;
+		sessionId?: string
+		includeClassified?: boolean
+		officialOnly?: boolean
 	} = {}
 ): Promise<AskResponseWithRecords> => {
 	const searchConfig = {
@@ -536,25 +466,25 @@ export const askGovernmentDisclosure = async (
 		search: {
 			...UFO_SEARCH_CONFIGS.GOVERNMENT_DISCLOSURE.search,
 			filter: {
-				...(!options.includeClassified && { 
-					classification_status: { $ne: 'classified' } 
-				}),
-				...(options.officialOnly && { 
-					government_involvement: 'confirmed' 
-				})
+				...( !options.includeClassified && {
+					classification_status: { $ne: 'classified' }
+				} ),
+				...( options.officialOnly && {
+					government_involvement: 'confirmed'
+				} )
 			}
 		}
-	};
+	}
 
-	return askXataWithAi({
+	return askXataWithAi( {
 		table,
 		question,
 		rules: UFO_RESEARCH_RULES.DISCLOSURE_FOCUSED,
 		searchType: searchConfig.searchType,
 		search: searchConfig.search,
 		sessionId: options.sessionId
-	});
-};
+	} )
+}
 
 /**
  * Specialized ask function for historical timeline analysis
@@ -563,10 +493,10 @@ export const askHistoricalTimeline = async (
 	table: string,
 	question: string,
 	options: {
-		sessionId?: string;
-		startYear?: number;
-		endYear?: number;
-		includeAncient?: boolean;
+		sessionId?: string
+		startYear?: number
+		endYear?: number
+		includeAncient?: boolean
 	} = {}
 ): Promise<AskResponseWithRecords> => {
 	const searchConfig = {
@@ -574,28 +504,28 @@ export const askHistoricalTimeline = async (
 		search: {
 			...UFO_SEARCH_CONFIGS.HISTORICAL_TIMELINE.search,
 			filter: {
-				...(options.startYear && { 
-					date: { $gte: new Date(`${options.startYear}-01-01`) } 
-				}),
-				...(options.endYear && { 
-					date: { $lte: new Date(`${options.endYear}-12-31`) } 
-				}),
-				...(!options.includeAncient && { 
-					date: { $gte: new Date('1900-01-01') } 
-				})
+				...( options.startYear && {
+					date: { $gte: new Date( `${options.startYear}-01-01` ) }
+				} ),
+				...( options.endYear && {
+					date: { $lte: new Date( `${options.endYear}-12-31` ) }
+				} ),
+				...( !options.includeAncient && {
+					date: { $gte: new Date( '1900-01-01' ) }
+				} )
 			}
 		}
-	};
+	}
 
-	return askXataWithAi({
+	return askXataWithAi( {
 		table,
 		question,
 		rules: UFO_RESEARCH_RULES.HISTORICAL_CONTEXT,
 		searchType: searchConfig.searchType,
 		search: searchConfig.search,
 		sessionId: options.sessionId
-	});
-};
+	} )
+}
 
 /**
  * Specialized ask function for geographic pattern analysis
@@ -604,11 +534,11 @@ export const askGeographicPatterns = async (
 	table: string,
 	question: string,
 	options: {
-		sessionId?: string;
-		region?: string;
-		radius?: number; // in kilometers
-		centerLat?: number;
-		centerLng?: number;
+		sessionId?: string
+		region?: string
+		radius?: number // in kilometers
+		centerLat?: number
+		centerLng?: number
 	} = {}
 ): Promise<AskResponseWithRecords> => {
 	const searchConfig = {
@@ -616,32 +546,32 @@ export const askGeographicPatterns = async (
 		search: {
 			...UFO_SEARCH_CONFIGS.GEOGRAPHIC_PATTERNS.search,
 			filter: {
-				...(options.region && { location: { $contains: options.region } }),
-				...(options.centerLat && options.centerLng && options.radius && {
+				...( options.region && { location: { $contains: options.region } } ),
+				...( options.centerLat && options.centerLng && options.radius && {
 					// This would need to be implemented with proper geospatial queries
 					// For now, we'll filter by approximate bounds
 					latitude: {
-						$gte: options.centerLat - (options.radius / 111), // rough conversion
-						$lte: options.centerLat + (options.radius / 111)
+						$gte: options.centerLat - ( options.radius / 111 ), // rough conversion
+						$lte: options.centerLat + ( options.radius / 111 )
 					},
 					longitude: {
-						$gte: options.centerLng - (options.radius / 111),
-						$lte: options.centerLng + (options.radius / 111)
+						$gte: options.centerLng - ( options.radius / 111 ),
+						$lte: options.centerLng + ( options.radius / 111 )
 					}
-				})
+				} )
 			}
 		}
-	};
+	}
 
-	return askXataWithAi({
+	return askXataWithAi( {
 		table,
 		question,
 		rules: UFO_RESEARCH_RULES.PATTERN_ANALYSIS,
 		searchType: searchConfig.searchType,
 		search: searchConfig.search,
 		sessionId: options.sessionId
-	});
-};
+	} )
+}
 
 /**
  * Multi-table research function that queries across events, personnel, and testimonies
@@ -649,133 +579,133 @@ export const askGeographicPatterns = async (
 export const askMultiTableResearch = async (
 	question: string,
 	options: {
-		tables?: string[];
-		sessionId?: string;
-		researchType?: keyof typeof UFO_RESEARCH_RULES;
+		tables?: string[]
+		sessionId?: string
+		researchType?: keyof typeof UFO_RESEARCH_RULES
 	} = {}
 ): Promise<{
-	combinedAnswer: string;
-	tableResults: Record<string, AskResponseWithRecords>;
-	sessionId: string;
+	combinedAnswer: string
+	tableResults: Record<string, AskResponseWithRecords>
+	sessionId: string
 }> => {
-	const tables = options.tables || ['events', 'personnel', 'testimonies'];
-	const rules = UFO_RESEARCH_RULES[options.researchType || 'SCIENTIFIC_ANALYSIS'];
-	
-	const results: Record<string, AskResponseWithRecords> = {};
-	let sessionId = options.sessionId;
+	const tables = options.tables || ['events', 'personnel', 'testimonies']
+	const rules = UFO_RESEARCH_RULES[options.researchType || 'SCIENTIFIC_ANALYSIS']
+
+	const results: Record<string, AskResponseWithRecords> = {}
+	let sessionId = options.sessionId
 
 	// Query each table
-	for (const table of tables) {
+	for ( const table of tables ) {
 		try {
-			const result = await askXataWithAi({
+			const result = await askXataWithAi( {
 				table,
 				question,
 				rules,
 				sessionId
-			});
-			
-			results[table] = result;
-			sessionId = result.sessionId; // Use the session for follow-ups
-		} catch (error) {
-			console.error(`Error querying table ${table}:`, error);
+			} )
+
+			results[table] = result
+			sessionId = result.sessionId // Use the session for follow-ups
+		} catch ( error ) {
+			console.error( `Error querying table ${table}:`, error )
 		}
 	}
 
 	// Combine results into a comprehensive answer
-	const combinedAnswer = Object.entries(results)
-		.map(([table, result]) => `**${table.toUpperCase()}**: ${result.answer}`)
-		.join('\n\n');
+	const combinedAnswer = Object.entries( results )
+		.map( ( [table, result] ) => `**${table.toUpperCase()}**: ${result.answer}` )
+		.join( '\n\n' )
 
 	return {
 		combinedAnswer,
 		tableResults: results,
 		sessionId: sessionId || ''
-	};
-};
+	}
+}
 
 /**
  * Research conversation builder for complex investigations
  */
 export class UFOResearchConversation {
-	private sessionId?: string;
-	private table: string;
+	private sessionId?: string
+	private table: string
 	private conversationHistory: Array<{
-		question: string;
-		answer: string;
-		timestamp: Date;
-		searchType?: string;
+		question: string
+		answer: string
+		timestamp: Date
+		searchType?: string
 	}> = [];
 
-	constructor(table: string) {
-		this.table = table;
+	constructor( table: string ) {
+		this.table = table
 	}
 
 	async startInvestigation(
 		initialQuestion: string,
 		researchType: keyof typeof UFO_RESEARCH_RULES = 'SCIENTIFIC_ANALYSIS'
 	): Promise<AskResponseWithRecords> {
-		const result = await askXataWithAi({
+		const result = await askXataWithAi( {
 			table: this.table,
 			question: initialQuestion,
 			rules: UFO_RESEARCH_RULES[researchType]
-		});
+		} )
 
-		this.sessionId = result.sessionId;
-		this.conversationHistory.push({
+		this.sessionId = result.sessionId
+		this.conversationHistory.push( {
 			question: initialQuestion,
 			answer: result.answer,
 			timestamp: new Date(),
 			searchType: researchType
-		});
+		} )
 
-		return result;
+		return result
 	}
 
 	async askFollowUp(
 		question: string,
 		searchConfig?: keyof typeof UFO_SEARCH_CONFIGS
 	): Promise<AskResponseWithRecords> {
-		if (!this.sessionId) {
-			throw new Error('No active investigation session. Call startInvestigation first.');
+		if ( !this.sessionId ) {
+			throw new Error( 'No active investigation session. Call startInvestigation first.' )
 		}
 
-		const config = searchConfig ? UFO_SEARCH_CONFIGS[searchConfig] : undefined;
-		
-		const result = await askXataWithAi({
+		const config = searchConfig ? UFO_SEARCH_CONFIGS[searchConfig] : undefined
+
+		const result = await askXataWithAi( {
 			table: this.table,
 			question,
 			sessionId: this.sessionId,
-			...(config && {
+			...( config && {
 				searchType: config.searchType,
 				search: config.search
-			})
-		});
+			} )
+		} )
 
-		this.conversationHistory.push({
+		this.conversationHistory.push( {
 			question,
 			answer: result.answer,
 			timestamp: new Date(),
 			searchType: searchConfig
-		});
+		} )
 
-		return result;
+		return result
 	}
 
 	getConversationSummary(): {
-		totalQuestions: number;
-		sessionId?: string;
-		history: typeof this.conversationHistory;
+		totalQuestions: number
+		sessionId?: string
+		history: typeof this.conversationHistory
 	} {
 		return {
 			totalQuestions: this.conversationHistory.length,
 			sessionId: this.sessionId,
 			history: this.conversationHistory
-		};
+		}
 	}
 
 	async generateInvestigationReport(): Promise<string> {
-		if (!this.sessionId || this.conversationHistory.length === 0) {
-			return 'No investigation data available.';
+		if ( !this.sessionId || this.conversationHistory.length === 0 ) {
+			return 'No investigation data available.'
 		}
 
 		const reportPrompt = `Based on our investigation conversation, generate a comprehensive research report summarizing the key findings, evidence patterns, and conclusions. Include:
@@ -783,10 +713,10 @@ export class UFOResearchConversation {
 		2. Key Evidence Found
 		3. Patterns and Connections
 		4. Credibility Assessment
-		5. Areas for Further Investigation`;
+		5. Areas for Further Investigation`
 
-		const result = await askFollowUp(this.table, reportPrompt, this.sessionId);
-		return result.answer;
+		const result = await askFollowUp( this.table, reportPrompt, this.sessionId )
+		return result.answer
 	}
 }
 
@@ -802,4 +732,4 @@ export const ufoResearch = {
 	UFOResearchConversation,
 	RULES: UFO_RESEARCH_RULES,
 	CONFIGS: UFO_SEARCH_CONFIGS
-};
+}

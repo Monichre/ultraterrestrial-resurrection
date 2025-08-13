@@ -1,6 +1,6 @@
 'use client'
 
-import {Brain, XIcon} from 'lucide-react'
+import {Brain, XIcon, ChevronDown, ChevronUp} from 'lucide-react'
 import {motion, AnimatePresence} from 'framer-motion'
 import {TextShimmer} from '@/components/animated/text-effect'
 import {OracleIcon} from '@/components/icons/entity-icons'
@@ -86,20 +86,28 @@ export function UltraterrestrialModelSelection({
           <div className='flex w-full justify-between items-center content-center'>
             <div className='flex items-center gap-2'>
               <motion.button
-                onClick={toggleModelMenu}
-                className='flex justify-start items-center gap-1'>
-                <div className='cursor-pointer hover:shadow-sm hover:shadow-indigo-500/50 flex hover:ring-indigo-500/50 relative w-fit gap-3\1 rounded-xl align-center items-center content-center px-2 py-1 text-xs ring-1 ring-neutral-200 duration-200 ring-neutral-700 bg-neutral-950 bg-gradient-to-b from-black/90'>
-                  <OracleIcon
-                    className={cn(
-                      'w-3 h-3 mr-2',
-                      chatStatus === 'in_progress' ? 'animate-spin' : ''
-                    )}
-                    fill={ICON_GREEN}
-                  />
-                  <TextShimmer as='span' className='inline-block mr-2'>
-                    Oracle {selectedModel && `| ${capitalize(selectedModel as string)}`}{' '}
-                  </TextShimmer>
-                </div>
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  console.log('Model menu button clicked, current state:', modelMenuOpen)
+                  toggleModelMenu()
+                }}
+                className={cn(
+                  'cursor-pointer hover:shadow-sm hover:shadow-indigo-500/50 flex hover:ring-indigo-500/50 relative w-fit gap-3 rounded-xl align-center items-center content-center px-2 py-1 text-xs ring-1 ring-neutral-200 duration-200 ring-neutral-700 bg-neutral-950 bg-gradient-to-b from-black/90 justify-start gap-1 transition-all',
+                  modelMenuOpen && 'ring-indigo-500/50 shadow-indigo-500/25'
+                )}>
+                <OracleIcon
+                  className={cn('w-3 h-3 mr-2', chatStatus === 'in_progress' ? 'animate-spin' : '')}
+                  fill={ICON_GREEN}
+                />
+                <TextShimmer as='span' className='inline-block mr-2'>
+                  {`Oracle${selectedModel ? ` | ${capitalize(selectedModel as string)}` : ''}`}
+                </TextShimmer>
+                {modelMenuOpen ? (
+                  <ChevronUp className='w-3 h-3 text-indigo-400' />
+                ) : (
+                  <ChevronDown className='w-3 h-3 text-neutral-400' />
+                )}
               </motion.button>
 
               {activeCommand && (
@@ -130,8 +138,7 @@ export function UltraterrestrialModelSelection({
           </div>
         </div>
         <motion.div
-          ref={menuRef}
-          className='rounded-xl relative flex gap-2 items-center relative w-full duration-200 text-neutral-500 willChange gpu-transform text-neutral-500 bg-neutral-950 bg-gradient-to-b from-black/90'
+          className='rounded-xl relative flex gap-2 items-center w-full duration-200 text-neutral-500 bg-neutral-950 bg-gradient-to-b from-black/90 overflow-hidden z-60'
           initial={{
             height: 0,
           }}
@@ -149,7 +156,7 @@ export function UltraterrestrialModelSelection({
             {modelMenuOpen && (
               <motion.div
                 key='model-menu'
-                className='pb-0 flex flex-col h-full items-end rounded-xl justify-evenly absolute w-full text-neutral-500 bg-neutral-950 bg-gradient-to-b from-black/90'
+                className='pb-0 flex flex-col h-full items-end rounded-xl justify-evenly absolute w-full text-neutral-500 bg-neutral-950 bg-gradient-to-b from-black/90 z-70'
                 initial={{opacity: 0, y: 20}}
                 animate={{opacity: 1, y: 0}}>
                 {modelSearchActions.map((model) => (
