@@ -2,7 +2,7 @@ import React from 'react'
 import {cn} from '../../../../lib/utils'
 import TypedParagraph from './TypedParagraph'
 import HandwrittenNote from './HandwrittenNote'
-import DistressedPhoto from './DistressedPhoto'
+import DistressedPhoto from '../photography/distressed/DistressedPhoto'
 import TopSecretBanner from './TopSecretBanner'
 const TopSecretUfoDocument: React.FC = () => {
   return (

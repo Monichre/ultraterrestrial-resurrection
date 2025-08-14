@@ -1,5 +1,5 @@
 import localFont from 'next/font/local'
-import {Anton, Just_Another_Hand, Special_Elite} from 'next/font/google'
+import {Anton, Just_Another_Hand, Special_Elite, Caveat} from 'next/font/google'
 export const FONT_SPECIAL_ELITE = Special_Elite({
   weight: ['400'],
   subsets: ['latin'],
@@ -11,6 +11,12 @@ export const FONT_ANTON = Anton({
   weight: ['400'],
   subsets: ['latin'],
   variable: '--font-anton',
+  display: 'swap',
+})
+export const FONT_CAVEAT = Caveat({
+  weight: ['400'],
+  subsets: ['latin'],
+  variable: '--font-caveat',
   display: 'swap',
 })
 
@@ -28,7 +34,7 @@ export const neueHaasGrotesk = localFont({
   style: 'normal',
 })
 
-const justAnotherHand = Just_Another_Hand({
+export const justAnotherHand = Just_Another_Hand({
   weight: '400',
   subsets: ['latin'],
   display: 'swap',

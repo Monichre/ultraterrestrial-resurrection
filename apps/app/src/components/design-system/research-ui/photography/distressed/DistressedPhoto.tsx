@@ -1,6 +1,6 @@
 import {cn} from '@/utils'
 
-export const DistressedPhoto = ({}) => {
+export default function DistressedPhoto() {
   return (
     <div className='relative'>
       {/* Date stamp */}

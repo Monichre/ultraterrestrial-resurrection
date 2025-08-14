@@ -63,7 +63,7 @@ Issues = "https://github.com/ufo-research/ultraterrestrial-resurrection/issues"
 packages = ["db"]
 
 [tool.setuptools.package-dir]
-db = "src/xata-python-sdk"
+db = "src/xata_python_sdk"
 
 [tool.black]
 line-length = 88
@@ -121,7 +121,7 @@ ignore_missing_imports = true
 testpaths = ["tests"]
 asyncio_mode = "auto"
 addopts = [
-    "--cov=src/xata-python-sdk",
+    "--cov=src/xata_python_sdk",
     "--cov-report=html",
     "--cov-report=term-missing",
     "--cov-fail-under=80",
@@ -132,7 +132,7 @@ filterwarnings = [
 ]
 
 [tool.coverage.run]
-source = ["src/xata-python-sdk"]
+source = ["src/xata_python_sdk"]
 omit = [
     "*/tests/*",
     "*/test_*",

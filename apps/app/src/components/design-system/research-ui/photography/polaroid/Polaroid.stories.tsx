@@ -1,5 +1,5 @@
 import type {Meta, StoryObj} from '@storybook/react'
-import {PolaroidBasic, PolaroidAlt} from '../../documents/Polaroid'
+import {PolaroidBasic, PolaroidAlt} from './Polaroid'
 
 const meta: Meta = {
   title: 'Documents/Polaroid',

@@ -69,6 +69,7 @@ const preview: Preview = {
       },
     },
     layout: 'fullscreen',
+    chromatic: {viewports: [1200]}, // optional to force width
     // Enhanced controls configuration
     controls: {
       matchers: {
@@ -115,7 +116,7 @@ const preview: Preview = {
           // disableTransitionOnChange
         >
           <div
-            className={`${neueHaasGrotesk.variable} ${monumentGrotesk.variable} ${monumentGroteskMono.variable} ${lukasSans.variable} ${justAnotherHand.variable} dark w-[100vw] h-[100vh] bg-black p-4 flex flex-col justify-center items-center`}>
+            className={`${neueHaasGrotesk.variable} ${monumentGrotesk.variable} ${monumentGroteskMono.variable} ${lukasSans.variable} ${justAnotherHand.variable} dark w-full h-full bg-black flex flex-col justify-center items-center`}>
             <Story />
           </div>
         </ThemeProvider>

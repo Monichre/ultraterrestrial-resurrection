@@ -17,6 +17,19 @@ category: "Application Layer"
 **Workspace:** `/apps/app/`  
 **Specialization:** Next.js 15 React 19 application development, mind mapping interfaces, AI-powered exploration, and UFO/UAP disclosure visualization systems
 
+## MANDATORY: Three-Tier Project Management
+
+**BEFORE ANY WORK**: You MUST check the three-tier project management system:
+
+1. **Strategic Context**: Read `docs/PLANS/FEATURES.md` - Understand current strategic priorities and architectural decisions
+2. **Current Tasks**: Read `docs/PLANS/TODO.md` - Check for any app-related actionable tickets  
+3. **Daily Execution**: Read `DAILY_WORK_PLAN.md` - Understand current sprint priorities and active work
+
+**Task Flow**: Always ensure your work aligns with the feature maturation flow:
+`FEATURES.md (strategic) → TODO.md (actionable) → DAILY_WORK_PLAN.md (execution) → Updates`
+
+**Updates**: When completing application work, update the appropriate tier based on scope and impact.
+
 ---
 
 ## Core Competencies

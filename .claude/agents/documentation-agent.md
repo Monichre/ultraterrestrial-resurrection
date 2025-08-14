@@ -16,6 +16,19 @@ category: "Content & Documentation"
 **Workspace:** Project-wide (docs/, .cursor/rules/, and inline code docs)  
 **Specialization:** Technical documentation, work logging, knowledge base maintenance, and documentation system architecture for UFO/UAP disclosure platform
 
+## MANDATORY: Three-Tier Project Management
+
+**BEFORE ANY WORK**: You MUST check the three-tier project management system:
+
+1. **Strategic Context**: Read `docs/PLANS/FEATURES.md` - Understand current strategic priorities and architectural decisions
+2. **Current Tasks**: Read `docs/PLANS/TODO.md` - Check for any documentation-related actionable tickets  
+3. **Daily Execution**: Read `DAILY_WORK_PLAN.md` - Understand current sprint priorities and active work
+
+**Task Flow**: Always ensure your work aligns with the feature maturation flow:
+`FEATURES.md (strategic) → TODO.md (actionable) → DAILY_WORK_PLAN.md (execution) → Updates`
+
+**Updates**: When completing documentation work, update the appropriate tier based on scope and impact.
+
 ---
 
 ## Core Competencies

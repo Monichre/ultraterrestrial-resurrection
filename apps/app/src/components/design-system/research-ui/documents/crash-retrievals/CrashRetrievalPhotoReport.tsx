@@ -1,6 +1,6 @@
-import {ImageWithFallback} from './figma/ImageWithFallback'
+import Image from 'next/image'
 
-export default function UfoDocument() {
+export function UfoDocument() {
   return (
     <div className='relative w-full h-screen bg-zinc-50 overflow-hidden'>
       {/* Grid System Overlay */}
@@ -111,7 +111,7 @@ export default function UfoDocument() {
           <div className='col-span-6'>
             <div className='border-2 border-zinc-900 bg-white p-2 h-[500px]'>
               <div className='relative w-full h-full'>
-                <ImageWithFallback
+                <Image
                   src='https://images.unsplash.com/photo-1682685797742-42c9987a2c34?w=700&h=500&fit=crop'
                   alt='Incident location'
                   className='w-full h-full object-cover grayscale'
