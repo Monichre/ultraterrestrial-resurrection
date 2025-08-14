@@ -12,22 +12,23 @@
       "import": "./index.ts",
       "types": "./index.ts"
     },
-    "./case_files": "./case_files",
-    "./transcripts": "./transcripts",
-    "./external_resources.json": "./external_resources.json",
+    "./files": "./sources/files",
+    "./transcripts": "./sources/transcripts",
+    "./web": "./sources/web",
+    "./metadata": "./metadata",
     "./python": "./python"
   },
   "files": [
     "index.ts",
     "external_resources.json",
-    "case_files",
-    "transcripts",
-    "vector_storage",
+    "sources",
+    "metadata",
+    "docs",
+    "cases",
     "python"
   ],
   "scripts": {
     "build": "tsc",
-    "merge-knowledge": "node scripts/merge-knowledge.js"
   },
   "devDependencies": {
     "@types/bun": "latest",

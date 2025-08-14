@@ -18,7 +18,6 @@
 - **Text_Files:** 4 files
 - **Other:** 4 files
 
-
 ## Data Sources
 
 The top source directories for our training data:
@@ -28,12 +27,11 @@ The top source directories for our training data:
 - `/Users/liamellis/Desktop/ultraterrestrial/packages/agentic-rag/knowledge/transcripts/2025-04-10/p0S0BfoZy0w`: 6 files
 - `/Users/liamellis/Desktop/scripts/youtube-transcription-service/transcripts/2025-01-14`: 6 files
 - `/Users/liamellis/Desktop/scripts/youtube-transcription-service/transcripts/2024-09-27`: 5 files
-- `/Users/liamellis/Desktop/ultraterrestrial-resurrection/packages/knowledge-base/transcripts/2025-04-19/B6WFLOIkyho`: 3 files
+- `/Users/liamellis/Desktop/ultraterrestrial-resurrection/packages/knowledge-base/sources/transcripts/2025-04-19/B6WFLOIkyho`: 3 files
 - `/Users/liamellis/Desktop/ultraterrestrial/packages/agentic-rag/knowledge/transcripts/2025-04-12/IQefdkl8PfY`: 3 files
 - `/Users/liamellis/Desktop/ultraterrestrial/packages/agentic-rag/knowledge/transcripts/2025-02-22/5neRAsS0nrY`: 3 files
 - `/Users/liamellis/Desktop/ultraterrestrial/packages/agentic-rag/knowledge/transcripts/2025-02-22/3zm4nh3S66I`: 3 files
 - `/Users/liamellis/Desktop/ultraterrestrial/packages/agentic-rag/knowledge/transcripts/2025-02-22/nTiFs8LudUo`: 3 files
-
 
 ## Size Statistics
 
