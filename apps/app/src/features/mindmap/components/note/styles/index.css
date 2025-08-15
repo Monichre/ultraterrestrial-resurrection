@@ -1,4 +1,4 @@
-.ProseMirror {
+/* .ProseMirror {
   @apply caret-black dark:caret-white outline-0 pr-8 pl-20 py-16 z-0 lg:pl-8 lg:pr-8;
 
   & > * {
@@ -42,4 +42,4 @@
 @import './partials/lists.css';
 @import './partials/placeholder.css';
 @import './partials/table.css';
-@import './partials/typography.css';
+@import './partials/typography.css'; */

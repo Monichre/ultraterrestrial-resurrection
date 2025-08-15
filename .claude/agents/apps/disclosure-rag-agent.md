@@ -418,14 +418,19 @@ if __name__ == "__main__":
 ### Knowledge Base Status (Current)
 
 ```yaml
-Total_Documents: 448  # Indexed as of June 25, 2025
+Total_Documents: 524+  # Updated count as of August 2025
 Document_Types:
-  PDF_Case_Files: 31        # CIA documents, UAP reports
-  Video_Transcripts: 407    # YouTube testimonies, interviews  
+  PDF_files: 31         # CIA documents, UAP reports in sources/files/
+  Video_Transcripts: 431+   # YouTube testimonies, interviews in sources/transcripts/
+  Web_Content: Variable     # Web-scraped articles in sources/web/
   Research_Articles: 10     # Academic and investigative content
 
 Storage_Structure:
   Raw_Documents: "./data/"
+  Knowledge_Base_Sources: "@packages/knowledge-base/sources/"
+  PDF_Documents: "@packages/knowledge-base/sources/files/"
+  Transcripts: "@packages/knowledge-base/sources/transcripts/"
+  Web_Content: "@packages/knowledge-base/sources/web/"
   Metadata_Index: "./metadata/index.json"
   Processing_Queue: "./data/queue/"
   
@@ -562,7 +567,7 @@ python tests/test_triple_rag.py
 Expected_Performance:
   Document_Processing: "5-60 seconds (content dependent)"
   Entity_Extraction: "2-5 seconds (85-95% accuracy)"
-  Vector_Search: "1-3 seconds (448 documents)"
+  Vector_Search: "1-3 seconds (462+ documents)"
   Dashboard_Load: "2-3 seconds initial"
   API_Response: "Sub-second for simple queries"
   
@@ -739,11 +744,15 @@ python main.py "https://youtube.com/watch?v=dQw4w9WgXcQ" --upload
 # Web article processing
 python main.py "https://www.nationalarchives.gov.uk/ufo-files" --upload
 
-# Local PDF processing  
-python main.py "./data/queue/document.pdf" --upload
+# Local PDF processing from new knowledge-base structure
+python main.py "@packages/knowledge-base/sources/files/CIA-RDP96-00788R001700210016-5.pdf" --upload
 
-# Bulk directory processing
-python scripts/bulk_folder_ingestion.py ./data/new-documents/
+# Process existing transcripts from knowledge-base
+python main.py "@packages/knowledge-base/sources/transcripts/2024-12-26/joeRoganExperience2246JamesFox.txt" --upload
+
+# Bulk directory processing - knowledge-base integration
+python scripts/bulk_folder_ingestion.py @packages/knowledge-base/sources/files/
+python scripts/bulk_folder_ingestion.py @packages/knowledge-base/sources/transcripts/
 
 # Search processed content
 python main.py --search "Phoenix lights 1997"
@@ -890,7 +899,7 @@ CPU_Usage:
   Web_Interface: "Low (serving only)"
 
 Disk_Usage:
-  Knowledge_Base: "~500 MB (448 documents)"
+  Knowledge_Base: "~550 MB (462+ documents)"
   Vector_Indexes: "~200 MB"
   Logs: "10-50 MB"
 ```
@@ -1112,7 +1121,7 @@ Quality_Metrics:
   System_Uptime: ">99%"
 
 Business_Metrics:
-  Documents_Processed: "Current: 448, Target: 1000+"
+  Documents_Processed: "Current: 524+, Target: 1000+"
   Research_Queries: "Target: >100 per week"
   Agent_Accuracy: "Target: >95%"
   User_Satisfaction: "Target: >4.5/5"

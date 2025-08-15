@@ -35,6 +35,27 @@ bun run start
 bun run lint
 ```
 
+### Environment Variables
+
+The following environment variables are required for full Prometheus functionality:
+
+```bash
+# OpenAI Configuration
+OPENAI_API_KEY=your_openai_api_key
+OPENAI_ASSISTANT_ID=your_assistant_id  
+OPENAI_VECTOR_STORE_ID=your_vector_store_id
+
+# Exa AI Configuration (for external web resources)
+EXA_API_KEY=your_exa_api_key
+
+# Other configurations...
+```
+
+**New in External Resources RAG Integration:**
+- `EXA_API_KEY`: Required for searching trusted external UFO/UAP websites
+- Enables real-time access to MUFON, The Black Vault, Open Minds, and other research sources
+- Provides neural semantic search capabilities with domain restrictions
+
 ## Architecture Overview
 
 ### Core Technologies
@@ -81,13 +102,122 @@ The primary chat interface handling:
 - Command palette with slash commands (`/analyze`, `/ingest`, `/research`, `/connect`)
 - Real-time document analysis features
 
-### API Integration (`app/api/agent/route.ts`)
+### API Integration (`app/api/prometheus/chat/route.ts`)
 
 Server endpoint managing:
-- Anthropic Claude API communication
-- Framework switching between Prometheus and Daedalus
-- Custom tools for document analysis (illuminate, summarize, contextualize)
+- OpenAI Assistant API communication with vector store search
+- **NEW: Exa AI integration for external web resources**
+- Framework switching between Prometheus and other AI personalities
+- Custom tools for comprehensive UAP/UFO research:
+  - `searchUAP`: Local knowledge base via OpenAI Assistant
+  - `searchExternalResources`: External trusted sources via Exa AI
+  - `processDocument`: Document analysis (illuminate, summarize, contextualize)
 - Error handling and response formatting
+
+### External Resources Integration (NEW)
+
+Comprehensive external web search capabilities:
+- **Neural Search**: Semantic understanding of UFO/UAP content
+- **Domain Restrictions**: 13 trusted research sources (MUFON, Black Vault, etc.)
+- **Content Filtering**: Excludes social media and unreliable sources  
+- **Real-time Access**: Live search of current external content
+- **Hybrid Intelligence**: Combines local knowledge with external research
+
+## Testing Guide & Usage Examples
+
+### Quick Start Testing
+
+1. **Install Dependencies**: `bun install` (exa-js should now be included)
+2. **Environment Setup**: Add `EXA_API_KEY=your_exa_api_key` to `.env.local`
+3. **Start Development**: `bun run dev`
+4. **Navigate to Prometheus**: Visit `/prometheus` page
+
+### Command Palette Usage
+
+**Available Commands**:
+- `/search` - Search local knowledge base (OpenAI Assistant)
+- `/external` - Search external websites (Exa AI neural search)
+- `/research` - Deep research analysis (Exa AI Research Pro)
+- `/analyze` - Analyze uploaded documents
+- `/connect` - Find connections in knowledge base
+
+### Example Queries
+
+**Basic External Search**:
+```
+/external Pentagon UAP report 2024
+Search for recent MUFON triangle sightings
+Find Black Vault documents about Roswell
+```
+
+**Deep Research Examples**:
+```
+/research Analyze the correlation between nuclear facilities and UAP sightings
+Research the evolution of government UAP disclosure from 2017 to 2024
+Comprehensive analysis of pilot UAP encounters and official responses
+```
+
+**Hybrid Research Workflow**:
+```
+1. "Search local knowledge for Nimitz incident details"
+2. "/external latest analysis of Nimitz UAP encounter"  
+3. "/research comprehensive analysis of Nimitz incident including recent developments"
+```
+
+### Advanced Features
+
+**Livecrawl Options** (automatic, can be specified):
+- `always` - Get the most current content (slower, most up-to-date)
+- `fallback` - Use cached then live if needed (balanced, default)
+- `never` - Use only cached content (faster, may be outdated)
+
+**Research Depth Levels**:
+- `summary` - Quick overview and key points
+- `comprehensive` - Detailed analysis with multiple perspectives (default)
+- `academic` - Scholarly depth with extensive source analysis
+
+**Domain Targeting**:
+```
+Focus search on specific sources:
+"Search MUFON and CUFOS for recent triangle UAP reports"
+"Research using only government and scientific sources"
+```
+
+### Testing Scenarios
+
+**Scenario 1: Current Events**
+```
+Query: "What are the latest UAP developments from Congress?"
+Expected: Recent congressional hearings, bills, statements
+Tools Used: searchExternalResources with livecrawl 'always'
+```
+
+**Scenario 2: Historical Analysis**
+```
+Query: "Analyze patterns in UAP sightings near nuclear facilities"
+Expected: Historical data + recent analysis + research connections
+Tools Used: searchUAP + searchExternalResources + researchExternalTopic
+```
+
+**Scenario 3: Document Analysis**
+```
+Upload: Recent UAP report PDF
+Expected: Summary + connections to known cases + external verification
+Tools Used: processDocument + searchUAP + searchExternalResources
+```
+
+### Performance Expectations
+
+**Response Times**:
+- Local search: 2-5 seconds
+- External search: 5-15 seconds (depending on livecrawl)
+- Deep research: 2-5 minutes (comprehensive analysis)
+
+**Quality Indicators**:
+- Source citations from trusted domains
+- Real-time content when using livecrawl
+- Cross-referenced information between local and external sources
+- Structured research output with academic rigor
 
 ### Document Processing System
 

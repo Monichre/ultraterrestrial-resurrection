@@ -13,6 +13,21 @@ const meta: Meta = {
         {name: 'dark', value: '#0f172a'},
       ],
     },
+    designs: [
+      {
+        type: 'figma',
+        name: 'Spec (optional)',
+        url: 'https://www.figma.com/',
+      },
+    ],
+    designAssets: {
+      assets: [
+        {name: 'Doc A Main', url: '/images/doc-a-main.png'},
+        {name: 'Doc B Abstract', url: '/images/doc-b-abstract.png'},
+        {name: 'Textstorm', url: '/images/doc-b-textstorm.png'},
+        {name: 'Stamp', url: '/images/doc-b-stamp.png'},
+      ],
+    },
   },
   tags: ['autodocs'],
 }

@@ -5,16 +5,26 @@ import {ThemeProvider} from '@/contexts/theme-provider'
 import {ClerkProvider} from '@clerk/nextjs'
 import {FullSiteNav} from '@/components/navbar/full-site-nav'
 import {
-  lukasSans,
-  monumentGrotesk,
-  monumentGroteskMono,
-  neueHaasGrotesk,
-  justAnotherHand,
+  FONT_LUKAS_SANS,
+  FONT_MONUMENT_GROTESK,
+  FONT_MONUMENT_GROTESK_MONO,
+  FONT_NEUE_HAAS_GROTESK,
+  FONT_JUST_ANOTHER_HAND,
+  FONT_JET_BRAINS_MONO,
+  FONT_MARTIAN_MONO,
+  FONT_NOTO_SANS,
+  FONT_CAVEAT,
+  FONT_SPECIAL_ELITE,
+  FONT_ANTON,
+  FONT_SPACE_GROTESK,
+  FONT_LEAGUE_SPARTAN,
 } from './fonts'
 import {CustomCursor} from '@/components/cursor-ui/CustomCursor'
+import BrowserEchoScript from '@browser-echo/next/BrowserEchoScript'
 
 import '@xyflow/react/dist/style.css'
 import './globals.css'
+import './research-ui.css'
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -32,8 +42,23 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <ClerkProvider>
       <html lang='en' suppressHydrationWarning className='dark'>
+        <head>
+          <head>
+            {process.env.NODE_ENV === 'development' && (
+              <BrowserEchoScript
+                route='/api/client-logs'
+                include={['warn', 'error']}
+                preserveConsole={true}
+                tag='[NextJS Browser]'
+                stackMode='condensed'
+                showSource={true}
+                batch={{size: 10, interval: 500}}
+              />
+            )}
+          </head>
+        </head>
         <body
-          className={`${neueHaasGrotesk.variable} ${monumentGrotesk.variable} ${monumentGroteskMono.variable} ${lukasSans.variable} ${justAnotherHand.variable} dark`}>
+          className={`${FONT_NEUE_HAAS_GROTESK.variable} ${FONT_MONUMENT_GROTESK.variable} ${FONT_MONUMENT_GROTESK_MONO.variable} ${FONT_LUKAS_SANS.variable} ${FONT_JUST_ANOTHER_HAND.variable} ${FONT_JET_BRAINS_MONO.variable} ${FONT_MARTIAN_MONO.variable} ${FONT_NOTO_SANS.variable} ${FONT_SPACE_GROTESK.variable} ${FONT_LEAGUE_SPARTAN.variable} ${FONT_SPECIAL_ELITE.variable} ${FONT_ANTON.variable} ${FONT_CAVEAT.variable} dark`}>
           <ThemeProvider
             attribute='class'
             forcedTheme='dark'

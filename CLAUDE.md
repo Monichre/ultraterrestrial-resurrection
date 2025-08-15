@@ -14,24 +14,28 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 **CRITICAL**: All agents MUST use this standardized three-tier approach for project management:
 
 ### Tier 1: Strategic Planning - `docs/PLANS/FEATURES.md`
+
 - **Purpose**: High-level feature concepts, architectural decisions, strategic vision
 - **Scope**: Long-term features, complex architectural changes, research ideas
 - **Update Frequency**: Weekly reviews, major planning sessions
 - **Content**: Concepts → Requirements → Technical approach → Architectural decisions
 
-### Tier 2: Actionable Tickets - `docs/PLANS/TODO.md` 
+### Tier 2: Actionable Tickets - `docs/PLANS/TODO.md`
+
 - **Purpose**: Ready-to-implement tasks with clear success criteria
 - **Scope**: Features that have completed strategic planning and are ready for execution
 - **Update Frequency**: Sprint planning, daily reviews
 - **Content**: Specific tasks → Files → Timeline → Success metrics
 
 ### Tier 3: Daily Execution - `DAILY_WORK_PLAN.md`
+
 - **Purpose**: Current sprint execution, tactical implementation
 - **Scope**: Active development, immediate priorities, current session work
 - **Update Frequency**: Daily updates, session tracking
 - **Content**: Current tasks → Progress → Blockers → Next steps
 
-### Project Management Rules for All Agents:
+### Project Management Rules for All Agents
+
 1. **Always check all three tiers** before starting any work
 2. **Update appropriate tier** when completing tasks or discovering new requirements
 3. **Maintain consistency** - ensure tasks flow from FEATURES.md → TODO.md → DAILY_WORK_PLAN.md
@@ -39,7 +43,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 5. **Track progress** in TODO.md with realistic timelines
 6. **Report status** in DAILY_WORK_PLAN.md with specific accomplishments
 
-### Feature Maturation Flow:
+### Feature Maturation Flow
+
 ```
 FEATURES.md (strategic concept) 
     → TODO.md (actionable ticket) 
@@ -272,5 +277,13 @@ When you receive the command "/worklog", automatically:
 
 ### @apps/app/ Review Process
 
-- Always review `.claude/agents/apps-app-agent.md` when working in `@apps/app/` directory
+- Always review `.claude/agents/apps/app-agent.md` when working in `@apps/app/` directory
 - Ensure full compliance with agent-specific guidelines and context
+
+- we've updated the @packages/knowledge-base/ directory names changing case_files
+to files. @packages/knowledge-base/files/
+
+- **IMPORTANT:** All former content in [@packages/knowledge-base](@packages/knowledge-base) are now nested under [@packages/knowledge-base/sources](@packages/knowledge-base/sources)
+- AND we've changed `case_files` to `files` so [@.packages/knowledge-base/sources/files](@.packages/knowledge-base/sources/files)
+
+- always show and report all effected files

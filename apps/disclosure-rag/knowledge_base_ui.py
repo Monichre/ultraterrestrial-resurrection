@@ -94,7 +94,7 @@ def get_available_directories() -> list:
         current_dir / "data" / "processed",
         current_dir / "unified_ufo_library" / "documents",
         # Add packages/knowledge-base directories
-        current_dir.parent.parent / "packages" / "knowledge-base" / "case_files",
+        current_dir.parent.parent / "packages" / "knowledge-base" / "files",
         current_dir.parent.parent / "packages" / "knowledge-base" / "transcripts",
         current_dir.parent.parent / "packages" / "knowledge-base" / "articles",
         current_dir.parent.parent / "packages" / "knowledge-base" / "research",
@@ -115,7 +115,7 @@ def get_available_directories() -> list:
     # Scan for additional data directories in the current project
     try:
         # Look for common document directories
-        for pattern in ["**/data", "**/documents", "**/raw", "**/case_files", "**/transcripts"]:
+        for pattern in ["**/data", "**/documents", "**/raw", "**/files", "**/transcripts"]:
             for path in current_dir.glob(pattern):
                 if path.is_dir() and str(path) not in directories:
                     # Only add if it contains files

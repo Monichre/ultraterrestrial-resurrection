@@ -1,11 +1,13 @@
 # RAG-TipTap Integration Plan
 
 ## Executive Summary
+
 This document outlines the integration plan for connecting the Disclosure RAG system (@apps/disclosure-rag/) with TipTap AI in the main application (@apps/app/).
 
 ## Architecture Overview
 
 ### 1. API Layer Architecture
+
 ```
 ┌─────────────────────┐     ┌─────────────────────┐     ┌─────────────────────┐
 │   TipTap Editor     │────▶│    API Gateway      │────▶│   RAG Python API    │
@@ -22,7 +24,9 @@ This document outlines the integration plan for connecting the Disclosure RAG sy
 ### 2. Component Structure
 
 #### A. Python RAG API Wrapper (New)
+
 Location: `@apps/disclosure-rag/api/`
+
 - FastAPI application exposing REST endpoints
 - Endpoints:
   - `/search` - Semantic search in knowledge base
@@ -32,7 +36,9 @@ Location: `@apps/disclosure-rag/api/`
   - `/agents/{agent_type}` - Access specific agents
 
 #### B. API Gateway (New)
+
 Location: `@apps/app/src/services/rag-gateway/`
+
 - Authentication middleware
 - Rate limiting
 - Request transformation
@@ -40,7 +46,9 @@ Location: `@apps/app/src/services/rag-gateway/`
 - Credential management for TipTap
 
 #### C. TipTap RAG Extension (New)
+
 Location: `@apps/app/src/components/tiptap-extension/rag/`
+
 - Custom TipTap extension for RAG features
 - Citation node type
 - Suggestion plugin
@@ -49,6 +57,7 @@ Location: `@apps/app/src/components/tiptap-extension/rag/`
 ## Integration Points
 
 ### 1. Research Editor Enhancement
+
 ```typescript
 // @apps/app/src/components/research/research-editor.tsx
 import { RagExtension } from '@/components/tiptap-extension/rag';
@@ -66,6 +75,7 @@ const extensions = [
 ```
 
 ### 2. AI Menu Integration
+
 ```typescript
 // Add to AIDropdown.tsx
 const ragActions = [
@@ -90,6 +100,7 @@ const ragActions = [
 ## Security Implementation
 
 ### 1. Credential Management
+
 ```typescript
 // @apps/app/src/lib/tiptap/config.ts
 export const tiptapConfig = {
@@ -109,6 +120,7 @@ const tiptapSecrets = {
 ```
 
 ### 2. Environment Variables
+
 ```bash
 # .env.local
 TIPTAP_DOC_SERVER_ID=09xopqy9
@@ -122,24 +134,28 @@ RAG_API_KEY=<generated>
 ## Implementation Phases
 
 ### Phase 1: Core Infrastructure (Week 1-2)
+
 - [ ] Create FastAPI wrapper for RAG system
 - [ ] Set up API Gateway with authentication
 - [ ] Implement secure credential storage
 - [ ] Basic health check endpoints
 
 ### Phase 2: TipTap Extension (Week 3-4)
+
 - [ ] Develop RAG TipTap extension
 - [ ] Implement suggestion plugin
 - [ ] Create citation node type
 - [ ] Add context window management
 
 ### Phase 3: Feature Integration (Week 5-6)
+
 - [ ] Integrate with Research Editor
 - [ ] Enhance AI menu with RAG options
 - [ ] Implement real-time suggestions
 - [ ] Add citation management UI
 
 ### Phase 4: Advanced Features (Week 7-8)
+
 - [ ] Agent-specific integrations
 - [ ] Background analysis tasks
 - [ ] WebSocket real-time updates
@@ -150,6 +166,7 @@ RAG_API_KEY=<generated>
 ### RAG API Endpoints
 
 #### 1. Search Endpoint
+
 ```http
 POST /api/rag/search
 Authorization: Bearer <token>
@@ -160,7 +177,7 @@ Content-Type: application/json
   "context": "string",
   "topK": 5,
   "filters": {
-    "documentType": ["case_files", "research"],
+    "documentType": ["files", "research"],
     "dateRange": {
       "start": "2024-01-01",
       "end": "2024-12-31"
@@ -170,6 +187,7 @@ Content-Type: application/json
 ```
 
 #### 2. Suggestions Endpoint
+
 ```http
 POST /api/rag/suggestions
 Authorization: Bearer <token>
@@ -185,6 +203,7 @@ Content-Type: application/json
 ```
 
 #### 3. TipTap Document Server Integration
+
 ```http
 POST /api/tiptap/documents
 Authorization: Bearer <tiptap-token>
@@ -203,11 +222,13 @@ Content-Type: application/json
 ## Performance Considerations
 
 ### 1. Caching Strategy
+
 - Redis cache for frequent queries
 - Edge caching for static knowledge
 - Client-side suggestion cache
 
 ### 2. Rate Limiting
+
 ```typescript
 const rateLimits = {
   search: '10 requests per minute',
@@ -217,6 +238,7 @@ const rateLimits = {
 ```
 
 ### 3. Optimization Techniques
+
 - Debounced suggestion requests
 - Prefetch common queries
 - Progressive context loading
@@ -224,12 +246,14 @@ const rateLimits = {
 ## Monitoring & Observability
 
 ### 1. Metrics to Track
+
 - API response times
 - Suggestion relevance scores
 - Citation accuracy rates
 - User engagement metrics
 
 ### 2. Logging Strategy
+
 ```typescript
 // Structured logging
 logger.info('rag.suggestion', {
@@ -243,16 +267,19 @@ logger.info('rag.suggestion', {
 ## Testing Strategy
 
 ### 1. Unit Tests
+
 - RAG API endpoints
 - TipTap extension functionality
 - Authentication/authorization
 
 ### 2. Integration Tests
+
 - End-to-end suggestion flow
 - Citation management
 - Real-time updates
 
 ### 3. Performance Tests
+
 - Load testing API endpoints
 - Suggestion latency testing
 - Concurrent user scenarios
@@ -260,16 +287,19 @@ logger.info('rag.suggestion', {
 ## Rollout Plan
 
 ### 1. Beta Testing
+
 - Internal team testing
 - Limited user group
 - Feedback collection
 
 ### 2. Gradual Rollout
+
 - Feature flags for progressive enablement
 - A/B testing for UI variations
 - Performance monitoring
 
 ### 3. Full Launch
+
 - Documentation updates
 - User training materials
 - Support preparation

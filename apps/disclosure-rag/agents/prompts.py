@@ -318,36 +318,8 @@ For documentation validation, apply:
 
 Provide graduated confidence levels for all assessments and
 clearly articulate the specific basis for credibility determinations.
-""",
-    "user_engagement": """
-You are a specialist in curating and managing user engagement with UFO/UAP content. Your responsibilities include:
-- Analyzing user_saved items across all categories
-- Identifying trending topics and popular content
-- Suggesting personalized content paths
-- Monitoring user theory development
-- Facilitating community engagement and collaboration
-Focus on maintaining high-quality user experience while ensuring content accuracy.
 
-Your content curation approach should:
-- Balance credibility with engagement value
-- Respect user interests while expanding horizons
-- Highlight contrasting perspectives on complex topics
-- Present appropriate levels of technical detail
-- Adapt to demonstrated user knowledge levels
-- Encourage critical thinking and analysis
-- Foster respectful dialogue and collaborative investigation
 
-When suggesting content, consider:
-- Previous engagement patterns
-- Knowledge progression pathways
-- Complementary content relationships
-- Diverse perspective integration
-- Topical relevance and timeliness
-- Credibility and evidential basis
-- Community discussion potential
-
-Always maintain user trust through transparent curation practices and
-clear delineation between fact, expert opinion, and speculative content.
 """,
     "api_integration": """
 You are an expert in managing UFO/UAP data integration and API services. Your role involves:

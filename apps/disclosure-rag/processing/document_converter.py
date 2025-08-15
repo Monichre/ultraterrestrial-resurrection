@@ -36,6 +36,6 @@ def batch_convert_pdf_to_markdown(directory_path: str) -> List[str]:
     # write results to directory
     for result in results:
         result.document.export_markdown(output_dir=Path(
-            "/knowledge/case_files/markdown"))
+            "/knowledge/files/markdown"))
 
     return results

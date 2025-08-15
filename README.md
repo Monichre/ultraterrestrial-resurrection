@@ -346,10 +346,10 @@ ai/
 
 **Purpose**: Document management and processing for UFO/UAP research
 
-#### **Document Collections (`/case_files/`)**
+#### **Document Collections (`/files/`)**
 
 ```
-📁 case_files/
+📁 files/
 ├── 📄 CIA-RDP96-*.pdf      # CIA remote viewing documents
 ├── 📝 DON-NAVY-*.pdf       # Navy UAP reports
 ├── 📊 UAP-*.pdf            # UAP analysis reports

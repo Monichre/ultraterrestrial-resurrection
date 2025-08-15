@@ -484,7 +484,7 @@ class KnowledgeBaseService:
             import hashlib
             from pathlib import Path
             from datetime import datetime
-            
+
             sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
             from processing.web_content_processor import WebContentProcessor
             from .upstash.queue import add_processed_content_to_queue
@@ -512,7 +512,7 @@ class KnowledgeBaseService:
             # Extract key information
             content = result.get('content', '')
             title = result.get('title', 'Web Article')
-            
+
             display.print_success(f"🌐 Processing: {title}")
 
             # Create comprehensive data structure with enhanced metadata
@@ -542,46 +542,48 @@ class KnowledgeBaseService:
             # Create directories for web content files (similar to YouTube structure)
             date_folder = datetime.now().strftime("%Y-%m-%d")
             url_hash = hashlib.md5(url.encode()).hexdigest()[:8]
-            safe_title = "".join(c for c in title if c.isalnum() or c in (' ', '-', '_')).rstrip()[:50]
-            
-            # Fix: Use proper output directory - packages/knowledge-base/articles/
+            safe_title = "".join(c for c in title if c.isalnum() or c in (
+                ' ', '-', '_')).rstrip()[:50]
+
+            # Fix: Use proper output directory - packages/knowledge-base/sources/web/
             # Fix: Implement human-readable naming with meaningful title
             if not safe_title or safe_title.strip() == "Web Article":
                 # Fallback to domain name if no meaningful title
                 from urllib.parse import urlparse
                 domain = urlparse(url).netloc.replace('www.', '')
                 safe_title = f"{domain.replace('.', '-')}"
-            
+
             # Create meaningful directory name in correct location
             base_dir = Path(__file__).parent.parent.parent.parent  # Go up to project root
-            web_dir = base_dir / "packages" / "knowledge-base" / "articles" / date_folder / f"{safe_title}_{url_hash}"
+            web_dir = base_dir / "packages" / "knowledge-base" / "sources" / "web" / date_folder / f"{safe_title}_{url_hash}"
             web_dir.mkdir(parents=True, exist_ok=True)
 
             # Generate comprehensive summary file
             display.print_stage("📋 CONTENT ANALYSIS", "📋")
             display.start_spinner("📝 Generating comprehensive summary...")
-            
+
             try:
                 # Create enhanced summary with research methodology
-                summary_content = self._generate_web_content_summary(content, title, url, result)
-                
+                summary_content = self._generate_web_content_summary(
+                    content, title, url, result)
+
                 # Write summary file
                 summary_file_path = web_dir / f"{safe_title}_summary.txt"
                 with open(summary_file_path, 'w', encoding='utf-8') as f:
                     f.write(summary_content)
-                
-                # Write raw content file 
+
+                # Write raw content file
                 content_file_path = web_dir / f"{safe_title}_content.txt"
                 with open(content_file_path, 'w', encoding='utf-8') as f:
                     f.write(content)
-                    
+
                 # Write comprehensive metadata file
                 metadata_file_path = web_dir / f"{safe_title}_metadata.json"
                 enhanced_metadata = {
                     **data['metadata'],
                     'files': {
                         'summary': str(summary_file_path),
-                        'content': str(content_file_path), 
+                        'content': str(content_file_path),
                         'metadata': str(metadata_file_path)
                     },
                     'analysis': {
@@ -591,18 +593,18 @@ class KnowledgeBaseService:
                         'complexity_score': self._calculate_complexity_score(content)
                     }
                 }
-                
+
                 with open(metadata_file_path, 'w', encoding='utf-8') as f:
                     json.dump(enhanced_metadata, f, indent=2)
-                
+
                 data['metadata'] = enhanced_metadata
                 data['metadata']['processing_status']['summary_generated'] = True
-                
+
                 display.stop_spinner("✅ Comprehensive summary generated")
                 display.print_file_created(str(summary_file_path), "summary")
-                display.print_file_created(str(content_file_path), "content") 
+                display.print_file_created(str(content_file_path), "content")
                 display.print_file_created(str(metadata_file_path), "metadata")
-                
+
             except Exception as e:
                 display.stop_spinner("❌ Summary generation failed")
                 logger.error(f"Summary generation error: {e}")
@@ -612,16 +614,19 @@ class KnowledgeBaseService:
                 display.print_stage("☁️ UPLOADING TO OPENAI", "☁️")
                 try:
                     display.start_spinner("☁️ Uploading web article...")
-                    
+
                     # Upload summary file if available
-                    upload_file = str(summary_file_path) if 'summary_file_path' in locals() else result.get('file_path')
+                    upload_file = str(summary_file_path) if 'summary_file_path' in locals(
+                    ) else result.get('file_path')
                     if upload_file and os.path.exists(upload_file):
                         upload_result = upload_file_to_openai(upload_file)
                         data['upload_results'] = upload_result
-                        
+
                         if isinstance(upload_result, dict) and 'id' in upload_result:
-                            display.stop_spinner("✅ Web article uploaded successfully")
-                            display.print_upload_status(upload_result['id'], "success")
+                            display.stop_spinner(
+                                "✅ Web article uploaded successfully")
+                            display.print_upload_status(
+                                upload_result['id'], "success")
                         else:
                             display.stop_spinner("❌ Web article upload failed")
                             display.print_upload_status("", "failed")
@@ -637,10 +642,12 @@ class KnowledgeBaseService:
             display.print_stage("🔄 QSTASH WORKFLOW", "🔄")
             try:
                 display.start_spinner("📤 Adding to processing queue...")
-                
-                summary_path = str(summary_file_path) if 'summary_file_path' in locals() else result.get('summary_path')
-                content_path = str(content_file_path) if 'content_file_path' in locals() else result.get('file_path')
-                
+
+                summary_path = str(summary_file_path) if 'summary_file_path' in locals(
+                ) else result.get('summary_path')
+                content_path = str(content_file_path) if 'content_file_path' in locals(
+                ) else result.get('file_path')
+
                 if summary_path and os.path.exists(summary_path):
                     queue_result = add_processed_content_to_queue(
                         data['metadata'],
@@ -651,7 +658,7 @@ class KnowledgeBaseService:
                     display.stop_spinner("✅ Added to processing queue")
                 else:
                     display.stop_spinner("⚠️ No summary file for queue")
-                    
+
             except Exception as e:
                 display.stop_spinner("❌ Queue processing failed")
                 logger.error(f"Queue processing error: {e}")
@@ -659,7 +666,8 @@ class KnowledgeBaseService:
             # Add to local knowledge base
             display.print_stage("💾 LOCAL KNOWLEDGE BASE", "💾")
             try:
-                display.start_spinner("📊 Adding to local vectorized database...")
+                display.start_spinner(
+                    "📊 Adding to local vectorized database...")
                 doc_id = self.add_to_knowledge_base(data, 'article')
                 data['doc_id'] = doc_id
 
@@ -668,7 +676,7 @@ class KnowledgeBaseService:
                     display.stop_spinner("✅ Added to local knowledge base")
                 else:
                     display.stop_spinner("❌ Local KB storage failed")
-                    
+
             except Exception as e:
                 display.stop_spinner("❌ Local KB storage failed")
                 logger.error(f"Error adding to local knowledge base: {e}")
@@ -678,75 +686,90 @@ class KnowledgeBaseService:
             if data.get('doc_id') and 'summary_file_path' in locals():
                 try:
                     display.print_stage("🧠 ENTITY PROCESSING", "🧠")
-                    display.start_spinner("🔍 Extracting entities and searching Xata database...")
-                    logger.info("Starting entity processing for web article...")
-                    
+                    display.start_spinner(
+                        "🔍 Extracting entities and searching Xata database...")
+                    logger.info(
+                        "Starting entity processing for web article...")
+
                     # Import entity processor (same as file processing)
                     from lib.entity_extraction.processors.interactive_entity_processor import process_summary_file_interactive
-                    
+
                     # Use non-interactive mode for automated workflow
                     entity_results = process_summary_file_interactive(
-                        str(summary_file_path), 
-                        doc_id, 
+                        str(summary_file_path),
+                        doc_id,
                         interactive=False
                     )
-                    
+
                     # Add entity processing results to metadata
                     data['metadata']['entity_processing'] = entity_results
                     data['metadata']['processing_status']['entities_extracted'] = True
-                    
+
                     total_entities = entity_results.get('total_entities', 0)
                     total_matches = entity_results.get('total_matches', 0)
-                    
-                    display.stop_spinner(f"✅ Extracted {total_entities} entities, found {total_matches} Xata matches")
-                    logger.info(f"Entity processing complete: {entity_results.get('status', 'unknown')}")
-                    logger.info(f"Extracted {total_entities} entities, found {total_matches} Xata matches")
-                    
+
+                    display.stop_spinner(
+                        f"✅ Extracted {total_entities} entities, found {total_matches} Xata matches")
+                    logger.info(
+                        f"Entity processing complete: {entity_results.get('status', 'unknown')}")
+                    logger.info(
+                        f"Extracted {total_entities} entities, found {total_matches} Xata matches")
+
                 except Exception as e:
                     display.stop_spinner("❌ Entity processing failed")
                     logger.error(f"Entity processing failed: {e}")
                     # Don't fail the entire process if entity extraction fails
 
-            # KNOWLEDGE GRAPH PROCESSING (CocoIndex - matching file processing) 
+            # KNOWLEDGE GRAPH PROCESSING (CocoIndex - matching file processing)
             if data.get('doc_id'):
                 try:
                     display.print_stage("🕸️ KNOWLEDGE GRAPH", "🕸️")
-                    display.start_spinner("📊 Building knowledge graph with CocoIndex...")
-                    
+                    display.start_spinner(
+                        "📊 Building knowledge graph with CocoIndex...")
+
                     # Import CocoIndex integration
                     try:
                         from lib.cocoindex_integration import cocoindex_processor
-                        
+
                         # Trigger CocoIndex knowledge graph processing
                         cocoindex_result = cocoindex_processor.process_document_knowledge_graph(
-                            doc_id, 
+                            doc_id,
                             force_update=False
                         )
-                        
+
                         if cocoindex_result and cocoindex_result.get('status') == 'success':
-                            entities_count = cocoindex_result.get('entities_processed', 0)
-                            relationships_count = cocoindex_result.get('relationships_processed', 0)
-                            
-                            display.stop_spinner(f"✅ Knowledge graph built: {entities_count} entities, {relationships_count} relationships")
+                            entities_count = cocoindex_result.get(
+                                'entities_processed', 0)
+                            relationships_count = cocoindex_result.get(
+                                'relationships_processed', 0)
+
+                            display.stop_spinner(
+                                f"✅ Knowledge graph built: {entities_count} entities, {relationships_count} relationships")
                             data['cocoindex_processing'] = cocoindex_result
                             data['metadata']['processing_status']['kg_processed'] = True
-                            logger.info(f"CocoIndex processing completed: {entities_count} entities, {relationships_count} relationships")
-                            
+                            logger.info(
+                                f"CocoIndex processing completed: {entities_count} entities, {relationships_count} relationships")
+
                         elif cocoindex_result and cocoindex_result.get('status') == 'skipped':
-                            display.stop_spinner(f"⚠️ Knowledge graph skipped: {cocoindex_result.get('reason', 'unknown')}")
+                            display.stop_spinner(
+                                f"⚠️ Knowledge graph skipped: {cocoindex_result.get('reason', 'unknown')}")
                             data['cocoindex_processing'] = cocoindex_result
-                            logger.info(f"CocoIndex processing skipped: {cocoindex_result.get('reason', 'unknown')}")
-                            
+                            logger.info(
+                                f"CocoIndex processing skipped: {cocoindex_result.get('reason', 'unknown')}")
+
                         else:
-                            display.stop_spinner("❌ Knowledge graph processing failed")
+                            display.stop_spinner(
+                                "❌ Knowledge graph processing failed")
                             if cocoindex_result:
                                 data['cocoindex_processing'] = cocoindex_result
-                                logger.warning(f"CocoIndex processing failed: {cocoindex_result.get('error', 'unknown error')}")
-                            
+                                logger.warning(
+                                    f"CocoIndex processing failed: {cocoindex_result.get('error', 'unknown error')}")
+
                     except ImportError:
                         display.stop_spinner("⚠️ CocoIndex not available")
-                        logger.info("CocoIndex knowledge graph integration not available")
-                        
+                        logger.info(
+                            "CocoIndex knowledge graph integration not available")
+
                 except Exception as e:
                     display.stop_spinner("❌ Knowledge graph processing failed")
                     logger.error(f"CocoIndex processing failed: {e}")
@@ -759,7 +782,8 @@ class KnowledgeBaseService:
                     display.start_spinner("🔗 Syncing to cloud search...")
                     doc = self.kb_crud.get_document(data['doc_id'])
                     if doc:
-                        search_result = self.search_syncer.sync_document_to_search(doc)
+                        search_result = self.search_syncer.sync_document_to_search(
+                            doc)
                         if search_result:
                             display.stop_spinner("✅ Synced to cloud search")
                         else:
@@ -784,16 +808,16 @@ class KnowledgeBaseService:
         """Generate comprehensive summary with research methodology analysis for web content"""
         try:
             from datetime import datetime
-            
+
             # Basic content analysis
             word_count = len(content.split()) if content else 0
             reading_time = max(1, word_count // 200)
-            
+
             # Extract key information
             content_type = self._analyze_content_type(content)
             key_topics = self._extract_key_topics(content)
             complexity_score = self._calculate_complexity_score(content)
-            
+
             # Generate comprehensive summary
             summary = f"""=== APPLIED RESEARCH METHODOLOGY CONTENT ANALYSIS ===
 
@@ -844,7 +868,7 @@ Authority Level: {self._assess_content_authority(content, result)}
 === END ANALYSIS ===
 """
             return summary
-            
+
         except Exception as e:
             logger.error(f"Error generating web content summary: {e}")
             # Return basic summary on error
@@ -862,9 +886,9 @@ Processing Error: {str(e)}
         """Analyze and classify content type"""
         if not content:
             return "empty"
-            
+
         content_lower = content.lower()
-        
+
         # Check for various content types
         if any(keyword in content_lower for keyword in ['ufo', 'uap', 'alien', 'extraterrestrial', 'roswell', 'majestic']):
             return "ufo_research"
@@ -883,91 +907,93 @@ Processing Error: {str(e)}
         """Extract key topics from content"""
         if not content:
             return []
-            
+
         # Simple keyword extraction (could be enhanced with NLP)
         common_ufo_terms = [
-            'ufo', 'uap', 'alien', 'extraterrestrial', 'roswell', 'area 51', 
+            'ufo', 'uap', 'alien', 'extraterrestrial', 'roswell', 'area 51',
             'majestic 12', 'mj-12', 'disclosure', 'sighting', 'encounter',
             'fbi', 'cia', 'government', 'classified', 'witness', 'testimony'
         ]
-        
+
         content_lower = content.lower()
         found_topics = []
-        
+
         for term in common_ufo_terms:
             if term in content_lower:
                 found_topics.append(term.title())
-                
+
         return found_topics[:10]  # Return top 10 topics
 
     def _calculate_complexity_score(self, content: str) -> int:
         """Calculate content complexity score (0-100)"""
         if not content:
             return 0
-            
+
         # Simple complexity metrics
         words = content.split()
         sentences = content.split('.')
-        
+
         if not words:
             return 0
-            
+
         avg_word_length = sum(len(word) for word in words) / len(words)
         avg_sentence_length = len(words) / max(1, len(sentences))
-        
+
         # Technical terms boost complexity
-        technical_terms = ['classified', 'intelligence', 'phenomena', 'extraterrestrial', 'investigation']
-        technical_score = sum(1 for term in technical_terms if term.lower() in content.lower())
-        
+        technical_terms = ['classified', 'intelligence',
+                           'phenomena', 'extraterrestrial', 'investigation']
+        technical_score = sum(
+            1 for term in technical_terms if term.lower() in content.lower())
+
         # Calculate final score (0-100)
         complexity = min(100, int(
             (avg_word_length * 10) +
             (avg_sentence_length * 2) +
             (technical_score * 5)
         ))
-        
+
         return complexity
 
     def _assess_content_authority(self, content: str, result: Dict[str, Any]) -> str:
         """Assess content authority level"""
         author = result.get('author', '').lower()
         url = result.get('url', '').lower()
-        
+
         # Government sources
         if any(domain in url for domain in ['.gov', 'fbi.gov', 'cia.gov']):
             return "Government Official"
-        
+
         # News organizations
         if any(domain in url for domain in ['cnn.com', 'bbc.com', 'reuters.com', 'ap.org']):
             return "Major News Organization"
-            
+
         # Research institutions
         if any(domain in url for domain in ['.edu', 'research', 'institute']):
             return "Research Institution"
-            
+
         # UFO research sites
         if any(domain in url for domain in ['blackvault', 'mufon', 'nicap']):
             return "UFO Research Organization"
-            
+
         return "Independent Source"
 
     def _extract_key_information(self, content: str) -> str:
         """Extract key information from content"""
         if not content:
             return "No content available for analysis"
-            
+
         # Find first few paragraphs for summary
         paragraphs = [p.strip() for p in content.split('\n\n') if p.strip()]
-        
+
         if not paragraphs:
             return content[:500] + '...' if len(content) > 500 else content
-            
+
         # Return first meaningful paragraph or two
         key_info = []
         for para in paragraphs[:3]:
             if len(para) > 50:  # Skip very short paragraphs
                 key_info.append(para)
-                
+
         result = '\n\n'.join(key_info)
         return result[:1000] + '...' if len(result) > 1000 else result
 
@@ -975,9 +1001,9 @@ Processing Error: {str(e)}
         """Assess information completeness"""
         if not content:
             return "No content"
-            
+
         word_count = len(content.split())
-        
+
         if word_count < 100:
             return "Limited"
         elif word_count < 500:
@@ -991,17 +1017,18 @@ Processing Error: {str(e)}
         """Assess research value of content"""
         if not content:
             return "None"
-            
+
         content_lower = content.lower()
-        
+
         # Check for high-value research indicators
         high_value_indicators = [
             'classified', 'declassified', 'testimony', 'witness', 'investigation',
             'evidence', 'documentation', 'official', 'report', 'analysis'
         ]
-        
-        value_score = sum(1 for indicator in high_value_indicators if indicator in content_lower)
-        
+
+        value_score = sum(
+            1 for indicator in high_value_indicators if indicator in content_lower)
+
         if value_score >= 5:
             return "High"
         elif value_score >= 3:

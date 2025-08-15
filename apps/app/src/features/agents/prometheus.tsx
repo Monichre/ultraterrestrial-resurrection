@@ -32,15 +32,11 @@ import {
 import {motion, AnimatePresence} from 'framer-motion'
 import {cn} from '@/lib/utils'
 import {Textarea} from '../../components/ui/textarea'
-import {processFileWithAI, extractTextFromFile} from '@/utils/ai-file-processing'
-import {DocumentSummary} from '../document-processing/components/document-summary'
-import {DocumentTopics} from '../document-processing/components/document-topics'
-import {DocumentProcessing} from '../document-processing/components/document-processing'
+import {extractTextFromFile} from '@/services/ai/prometheus/lib/prometheus-file-handler'
 import ErrorBoundary from '../../components/error-boundary'
 
-import {handleFileAction} from '@repo/ai'
+import {handleFileAction} from '@/services/ai/prometheus/lib/prometheus-file-handler'
 import {DocumentActions} from './lib/prometheus-document-actions'
-
 
 interface CommandSuggestion {
   icon: React.ReactNode
@@ -109,10 +105,22 @@ export function Prometheus() {
       prefix: '/search',
     },
     {
+      icon: <Network className='w-4 h-4' />,
+      label: 'Search External',
+      description: 'Search trusted external UFO/UAP websites with Exa AI',
+      prefix: '/external',
+    },
+    {
+      icon: <Lightbulb className='w-4 h-4' />,
+      label: 'Deep Research',
+      description: 'Conduct comprehensive research using Exa AI Research Pro',
+      prefix: '/research',
+    },
+    {
       icon: <MonitorIcon className='w-4 h-4' />,
       label: 'Research Topic',
       description: 'Deep research using OpenAI Assistant capabilities',
-      prefix: '/research',
+      prefix: '/topic',
     },
     {
       icon: <Sparkles className='w-4 h-4' />,
@@ -1012,74 +1020,6 @@ Content: ${att.content.substring(0, 1000)}${att.content.length > 1000 ? '...' : 
               />
             </motion.div>
           )}
-
-          {!processingState.isProcessing &&
-            processingState.type === 'summary' &&
-            processingState.result && (
-              <motion.div
-                initial={{opacity: 0}}
-                animate={{opacity: 1}}
-                exit={{opacity: 0}}
-                transition={{duration: 0.2}}
-                className='fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm'
-                onClick={closeProcessingResult}>
-                <div onClick={(e) => e.stopPropagation()}>
-                  <DocumentSummary
-                    fileName={selectedFile?.name || 'Document'}
-                    summary={
-                      typeof processingState.result === 'string'
-                        ? processingState.result
-                        : 'Processing result...'
-                    }
-                    onClose={closeProcessingResult}
-                  />
-                </div>
-              </motion.div>
-            )}
-
-          {!processingState.isProcessing &&
-            processingState.type === 'topics' &&
-            processingState.result && (
-              <motion.div
-                initial={{opacity: 0}}
-                animate={{opacity: 1}}
-                exit={{opacity: 0}}
-                transition={{duration: 0.2}}
-                className='fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm'
-                onClick={closeProcessingResult}>
-                <div onClick={(e) => e.stopPropagation()}>
-                  <DocumentTopics
-                    fileName={selectedFile?.name || 'Document'}
-                    topics={processingState.result as string[]}
-                    onClose={closeProcessingResult}
-                  />
-                </div>
-              </motion.div>
-            )}
-
-          {!processingState.isProcessing &&
-            processingState.type === 'sentiment' &&
-            processingState.result && (
-              <motion.div
-                initial={{opacity: 0}}
-                animate={{opacity: 1}}
-                exit={{opacity: 0}}
-                transition={{duration: 0.2}}
-                className='fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm'
-                onClick={closeProcessingResult}>
-                <div onClick={(e) => e.stopPropagation()}>
-                  <DocumentSummary
-                    fileName={selectedFile?.name || 'Document - Sentiment Analysis'}
-                    summary={
-                      typeof processingState.result === 'string'
-                        ? processingState.result
-                        : 'Processing sentiment analysis...'
-                    }
-                    onClose={closeProcessingResult}
-                  />
-                </div>
-              </motion.div>
-            )}
         </AnimatePresence>
       </div>
     </ErrorBoundary>
@@ -1109,6 +1049,24 @@ function TypingDots() {
           }}
         />
       ))}
+    </div>
+  )
+}
+
+// Simple DocumentProcessing component
+function DocumentProcessing({ fileName, action }: { fileName: string; action: string }) {
+  return (
+    <div className='w-80 backdrop-blur-2xl bg-black/90 rounded-xl border border-white/[0.05] shadow-2xl p-6'>
+      <div className='text-center space-y-4'>
+        <div className='w-12 h-12 rounded-full bg-white/[0.05] flex items-center justify-center mx-auto'>
+          <LoaderIcon className='w-6 h-6 animate-spin text-white/70' />
+        </div>
+        <div>
+          <h3 className='text-lg font-medium text-white/90 mb-1'>Processing Document</h3>
+          <p className='text-sm text-white/60'>{fileName}</p>
+          <p className='text-xs text-white/40 mt-2'>{action}</p>
+        </div>
+      </div>
     </div>
   )
 }

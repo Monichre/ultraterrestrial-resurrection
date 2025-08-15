@@ -1,0 +1,62 @@
+# OpenRouter API settings
+openrouter:
+  api_key: "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"
+  base_url: "https://openrouter.ai/api/v1"
+  
+  # IMPORTANT: When selecting a model, ensure it has a high context window (200k+ tokens recommended)
+  # The orchestrator can generate large amounts of results from multiple agents that need to be
+  # processed together during synthesis. Low context window models may fail or truncate results.
+  model: "moonshotai/kimi-k2"
+
+# System prompt for the agent
+system_prompt: |
+  You are a helpful research assistant. When users ask questions that require 
+  current information or web search, use the search tool and all other tools available to find relevant 
+  information and provide comprehensive answers based on the results.
+  
+  IMPORTANT: When you have fully satisfied the user's request and provided a complete answer, 
+  you MUST call the mark_task_complete tool with a summary of what was accomplished and 
+  a final message for the user. This signals that the task is finished.
+
+# Agent settings
+agent:
+  max_iterations: 10
+
+# Orchestrator settings
+orchestrator:
+  parallel_agents: 6  # Number of agents to run in parallel
+  task_timeout: 300   # Timeout in seconds per agent
+  aggregation_strategy: "consensus"  # How to combine results
+  
+  # Question generation prompt for orchestrator
+  question_generation_prompt: |
+    You are an orchestrator that needs to create {num_agents} different questions to thoroughly analyze this topic from multiple angles.
+    
+    Original user query: {user_input}
+    
+    Generate exactly {num_agents} different, specific questions that will help gather comprehensive information about this topic.
+    Each question should approach the topic from a different angle (research, analysis, verification, alternatives, etc.).
+    
+    Return your response as a JSON array of strings, like this:
+    ["question 1", "question 2", "question 3", "question 4"]
+    
+    Only return the JSON array, nothing else.
+
+  # Synthesis prompt for combining all agent responses
+  synthesis_prompt: |
+    You have {num_responses} different AI agents that analyzed the same query from different perspectives. 
+    Your job is to synthesize their responses into ONE comprehensive final answer.
+    
+    Here are all the agent responses:
+    
+    {agent_responses}
+    
+    IMPORTANT: Just synthesize these into ONE final comprehensive answer that combines the best information from all agents. 
+    Do NOT call mark_task_complete or any other tools. Do NOT mention that you are synthesizing multiple responses. 
+    Simply provide the final synthesized answer directly as your response.
+
+# Search tool settings
+search:
+  max_results: 5
+  user_agent: "Mozilla/5.0 (compatible; OpenRouter Agent)"
+  

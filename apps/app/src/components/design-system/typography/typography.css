@@ -4,23 +4,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import url('https://fonts.cdnfonts.com/css/pp-neue-montreal');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&display=swap');
 
 /* Font Family Hierarchy */
 /* Modern/Tech Interface (Main App) */
 .font-monument {
-  font-family: var(--font-monument), 'Monument Grotesk', sans-serif;
+  font-family:
+    var(--font-monument), 'Monument Grotesk', 'PP Neue Montreal', 'Noto Sans', sans-serif;
 }
 
 .font-monument-mono {
-  font-family: var(--font-monument-mono), 'MONUMENT GROTESK Mono', monospace;
+  font-family:
+    var(--font-monument-mono), 'MONUMENT GROTESK Mono', 'JetBrains Mono', 'Martian Mono', monospace;
 }
 
 .font-neue-haas {
-  font-family: var(--font-neue-haas), 'Neue Haas Grotesk', sans-serif;
+  font-family:
+    var(--font-neue-haas), 'Neue Haas Grotesk', 'PP Neue Montreal', 'Noto Sans', sans-serif;
 }
 
 .font-lukas {
-  font-family: var(--font-lukas-sans), 'Lukas Sans', sans-serif;
+  font-family: var(--font-lukas-sans), 'Lukas Sans', 'PP Neue Montreal', sans-serif;
 }
 
 /* Research/Archival Interface (Noir Aesthetic) */
@@ -38,12 +43,38 @@
 
 /* Fallback mono for technical data */
 .font-mono {
-  font-family: var(--font-monument-mono), 'JetBrains Mono', 'Courier New', monospace;
+  font-family:
+    var(--font-monument-mono), 'JetBrains Mono', 'Martian Mono', 'Courier New', monospace;
 }
 
 /* Research Base Terminal */
 .font-research-terminal {
   font-family: 'Martian Mono', var(--font-monument-mono), monospace;
+}
+
+/* Direct utility font classes for showcases */
+.font-pp-neue-montreal {
+  font-family: 'PP Neue Montreal', var(--font-neue-haas), var(--font-noto-sans), sans-serif;
+}
+
+.font-noto-sans {
+  font-family: var(--font-noto-sans), 'Noto Sans', sans-serif;
+}
+
+.font-jetbrains-mono {
+  font-family: var(--font-jetbrains-mono), 'JetBrains Mono', monospace;
+}
+
+.font-martian-mono {
+  font-family: var(--font-martian-mono), 'Martian Mono', monospace;
+}
+
+.font-just-another-hand {
+  font-family: var(--font-just-another-hand), cursive;
+}
+
+.font-special-elite {
+  font-family: var(--font-special-elite), 'Special Elite', monospace;
 }
 
 /* Glitch Effects */
@@ -172,10 +203,12 @@
 }
 
 @keyframes glitch-skew {
-  2%, 64% {
+  2%,
+  64% {
     transform: skew(0deg);
   }
-  4%, 60% {
+  4%,
+  60% {
     transform: skew(-2deg);
   }
   62% {
@@ -197,17 +230,28 @@
   overflow: hidden;
   border-right: 2px solid;
   white-space: nowrap;
-  animation: typing 3s steps(40, end), blink-cursor 0.75s step-end infinite;
+  animation:
+    typing 3s steps(40, end),
+    blink-cursor 0.75s step-end infinite;
 }
 
 @keyframes typing {
-  from { width: 0 }
-  to { width: 100% }
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
 }
 
 @keyframes blink-cursor {
-  from, to { border-color: transparent }
-  50% { border-color: currentColor }
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: currentColor;
+  }
 }
 
 /* Paper texture text overlay */
@@ -255,11 +299,7 @@
 
 /* Redacted text effect */
 .redacted-text {
-  background: linear-gradient(90deg, 
-    #000 0%, #000 20%, 
-    #333 25%, #333 75%, 
-    #000 80%, #000 100%
-  );
+  background: linear-gradient(90deg, #000 0%, #000 20%, #333 25%, #333 75%, #000 80%, #000 100%);
   background-size: 100% 100%;
   color: transparent;
   background-clip: text;
@@ -268,13 +308,14 @@
 }
 
 @keyframes redacted-flicker {
-  0%, 90% { 
+  0%,
+  90% {
     background: #000;
   }
-  95% { 
+  95% {
     background: rgba(0, 0, 0, 0.8);
   }
-  100% { 
+  100% {
     background: #000;
   }
 }
@@ -292,19 +333,20 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.6),
-    transparent
-  );
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
   animation: scan-across 3s infinite;
 }
 
 @keyframes scan-across {
-  0% { left: -100%; }
-  50% { left: 100%; }
-  100% { left: 100%; }
+  0% {
+    left: -100%;
+  }
+  50% {
+    left: 100%;
+  }
+  100% {
+    left: 100%;
+  }
 }
 
 /* Data table styles */

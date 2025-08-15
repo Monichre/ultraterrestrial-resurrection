@@ -1,5 +1,15 @@
 import localFont from 'next/font/local'
-import {Anton, Just_Another_Hand, Special_Elite, Caveat} from 'next/font/google'
+import {
+  Anton,
+  Just_Another_Hand,
+  Special_Elite,
+  Caveat,
+  JetBrains_Mono,
+  Martian_Mono,
+  Noto_Sans,
+  League_Spartan,
+  Space_Grotesk,
+} from 'next/font/google'
 export const FONT_SPECIAL_ELITE = Special_Elite({
   weight: ['400'],
   subsets: ['latin'],
@@ -20,13 +30,13 @@ export const FONT_CAVEAT = Caveat({
   display: 'swap',
 })
 
-export const lukasSans = localFont({
+export const FONT_LUKAS_SANS = localFont({
   src: './fonts/LukasSans.woff2',
   variable: '--font-lukas-sans',
   display: 'swap',
 })
 
-export const neueHaasGrotesk = localFont({
+export const FONT_NEUE_HAAS_GROTESK = localFont({
   src: './fonts/NeueHaasGrotesk/neuehaas.woff',
   variable: '--font-neue-haas',
   display: 'swap',
@@ -34,14 +44,14 @@ export const neueHaasGrotesk = localFont({
   style: 'normal',
 })
 
-export const justAnotherHand = Just_Another_Hand({
+export const FONT_JUST_ANOTHER_HAND = Just_Another_Hand({
   weight: '400',
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-just-another-hand',
 })
 
-export const monumentGroteskMono = localFont({
+export const FONT_MONUMENT_GROTESK_MONO = localFont({
   src: [
     {
       path: './fonts/MonumentGroteskMono/ABCMonumentGroteskMono-Regular-Trial.woff2',
@@ -65,13 +75,13 @@ export const monumentGroteskMono = localFont({
   display: 'swap',
 })
 
-// export const monumentGrotesk = localFont( {
+// export const FONT_monumentGrotesk = localFont( {
 //   src: './fonts/Monument-Grotesk/ABCMonument-Grotesk.woff2',
 //   variable: '--font-monument',
 //   display: 'swap'
 // } )
 
-export const monumentGrotesk = localFont({
+export const FONT_MONUMENT_GROTESK = localFont({
   src: [
     {
       path: './fonts/Monument-Grotesk/ABCMonumentGrotesk-Regular-Trial.woff2',
@@ -90,5 +100,40 @@ export const monumentGrotesk = localFont({
     },
   ],
   variable: '--font-monument',
+  display: 'swap',
+})
+
+export const FONT_JET_BRAINS_MONO = JetBrains_Mono({
+  weight: ['400', '500', '700'],
+  subsets: ['latin'],
+  variable: '--font-jetbrains-mono',
+  display: 'swap',
+})
+
+export const FONT_MARTIAN_MONO = Martian_Mono({
+  weight: ['400', '600', '700'],
+  subsets: ['latin'],
+  variable: '--font-martian-mono',
+  display: 'swap',
+})
+
+export const FONT_NOTO_SANS = Noto_Sans({
+  weight: ['400', '600', '700'],
+  subsets: ['latin'],
+  variable: '--font-noto-sans',
+  display: 'swap',
+})
+
+export const FONT_SPACE_GROTESK = Space_Grotesk({
+  weight: ['400', '600', '700'],
+  subsets: ['latin'],
+  variable: '--font-space-grotesk',
+  display: 'swap',
+})
+
+export const FONT_LEAGUE_SPARTAN = League_Spartan({
+  weight: ['400', '600', '700'],
+  subsets: ['latin'],
+  variable: '--font-league-spartan',
   display: 'swap',
 })

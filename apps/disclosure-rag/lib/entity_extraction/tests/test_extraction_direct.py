@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-import sys
-sys.path.append('/Users/liamellis/Desktop/ultraterrestrial-resurrection/apps/disclosure-rag')
-
 from agents.entity_extraction_agent import extract_entities_from_structured_text
+import sys
+sys.path.append(
+    '/Users/liamellis/Desktop/ultraterrestrial-resurrection/apps/disclosure-rag')
+
 
 # Read the summary file
-with open('/Users/liamellis/Desktop/ultraterrestrial-resurrection/packages/knowledge-base/transcripts/2025-06-28/-JBwH6yHEDo/rendleshamForestUfoSightingEyewitnessColonelCharlesHaltSummary.txt', 'r') as f:
+with open('/Users/liamellis/Desktop/ultraterrestrial-resurrection/packages/knowledge-base/sources/transcripts/2025-06-28/-JBwH6yHEDo/rendleshamForestUfoSightingEyewitnessColonelCharlesHaltSummary.txt', 'r') as f:
     content = f.read()
 
 # Test entity extraction

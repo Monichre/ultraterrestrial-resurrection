@@ -3,6 +3,7 @@ import { streamText, tool } from 'ai';
 import { z } from 'zod';
 import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
+import Exa from 'exa-js';
 
 // Constants
 const DEFAULT_SEARCH_LIMIT = 10;
@@ -57,6 +58,37 @@ const openaiClient = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY!,
 });
 
+// Initialize Exa AI client
+const exaClient = new Exa(process.env.EXA_API_KEY!);
+
+// Trusted UFO/UAP research domains for external search
+const TRUSTED_UFO_DOMAINS = [
+  'mufon.com',
+  'theblackvault.com',
+  'openminds.tv',
+  'ufoexplorations.com',
+  'nationalufocenter.com',
+  'cufos.org',
+  'nicap.org',
+  'project1947.com',
+  'ufoevidence.org',
+  'paradigmresearchgroup.org',
+  'disclosureproject.org',
+  'ufoinvestigator.org',
+  'historicufoevents.com'
+];
+
+// Domains to exclude from external search
+const EXCLUDED_DOMAINS = [
+  'reddit.com',
+  'pinterest.com',
+  'facebook.com',
+  'twitter.com',
+  'instagram.com',
+  'tiktok.com',
+  'youtube.com'
+];
+
 // OpenAI Assistant configuration
 const ASSISTANT_ID = process.env.OPENAI_ASSISTANT_ID!;
 const VECTOR_STORE_ID = process.env.OPENAI_VECTOR_STORE_ID!;
@@ -65,14 +97,33 @@ const VECTOR_STORE_ID = process.env.OPENAI_VECTOR_STORE_ID!;
 const SYSTEM_PROMPTS = {
   main: `You are Prometheus, an advanced UAP/UFO research assistant dedicated to illuminating the unknown by gathering, organizing, analyzing, and documenting resources on unexplained aerial phenomena. 
 
-You have access to a specialized UAP knowledge base through the searchUAP tool and can process documents through the processDocument tool.
+You have access to both local knowledge and external resources:
+- searchUAP: Search the specialized UAP knowledge base through OpenAI Assistant with vector store
+- searchExternalResources: Search trusted external UFO/UAP websites using Exa AI neural search with livecrawl options
+- researchExternalTopic: Conduct deep research using Exa AI Research Pro for comprehensive analysis
+- processDocument: Analyze uploaded documents with various processing options
+
+For comprehensive research, you can:
+1. Search local knowledge base first for foundational information
+2. Search external resources for current events and additional perspectives (with real-time livecrawl)
+3. Conduct deep research on complex topics using Research Pro for academic-level analysis
+4. Cross-reference findings between local, external, and research sources
+5. Process user-uploaded documents for analysis
+
+External search capabilities:
+- Neural search for semantic understanding, keyword search for exact matches
+- Livecrawl options: 'always' for real-time content, 'fallback' for cached then live, 'never' for cached only
+- Deep research with summary, comprehensive, or academic analysis depth
+
+Trusted external sources include MUFON, The Black Vault, Open Minds, CUFOS, NICAP, and other established UFO/UAP research organizations.
 
 Always:
 - Be factual, informative, and balanced in your responses
-- Draw connections between evidence and patterns
-- Cite sources when available from the knowledge base
+- Draw connections between evidence and patterns from multiple sources
+- Cite sources when available from knowledge base, external searches, and research analysis
 - Acknowledge uncertainties and the evolving nature of UAP research
-- Help users understand the scientific approach to unexplained phenomena`,
+- Help users understand the scientific approach to unexplained phenomena
+- Use appropriate tools based on query complexity (search for quick facts, research for deep analysis)`,
 
   summary: 'You are an expert document analyst. Create comprehensive, well-structured summaries of documents.',
   
@@ -377,6 +428,163 @@ export async function POST(req: NextRequest) {
                 results: [],
                 totalResults: 0,
                 error: 'Search service temporarily unavailable',
+              };
+            }
+          },
+        }),
+
+        searchExternalResources: tool({
+          description: 'Search trusted external UFO/UAP websites and research sources using Exa AI neural search',
+          parameters: z.object({
+            query: z.string().describe('Search query for external UFO/UAP resources'),
+            limit: z.number().optional().describe('Maximum number of results to return (1-10)'),
+            includeDomains: z.array(z.string()).optional().describe('Specific trusted domains to search'),
+            type: z.enum(['neural', 'keyword']).optional().describe('Search type: neural (default) for semantic search, keyword for exact matches'),
+            livecrawl: z.enum(['always', 'fallback', 'never']).optional().describe('Live crawling preference: always for real-time content, fallback for cached then live, never for cached only'),
+          }),
+          execute: async ({ query, limit, includeDomains, type = 'neural', livecrawl = 'fallback' }) => {
+            const searchLimit = Math.min(limit || DEFAULT_SEARCH_LIMIT, 10);
+            const searchDomains = includeDomains || TRUSTED_UFO_DOMAINS;
+            
+            try {
+              // Use Exa's search and contents method with livecrawl
+              const searchOptions = {
+                query,
+                numResults: searchLimit,
+                type: type as 'neural' | 'keyword',
+                includeDomains: searchDomains,
+                excludeDomains: EXCLUDED_DOMAINS,
+                livecrawl: livecrawl as 'always' | 'fallback' | 'never',
+                contents: {
+                  text: { maxCharacters: CONTENT_PREVIEW_LENGTH }
+                }
+              };
+
+              const searchResults = await exaClient.searchAndContents(searchOptions);
+              
+              if (searchResults && searchResults.results) {
+                const formattedResults = searchResults.results.map((result: any) => ({
+                  content: result.text ? truncateContent(result.text, CONTENT_PREVIEW_LENGTH) : result.title || 'No content available',
+                  relevance: result.score ? `${Math.round(result.score * 100)}%` : 'High',
+                  source: result.url || 'External Source',
+                  title: result.title || 'Untitled',
+                  publishedDate: result.publishedDate || null,
+                  author: result.author || null,
+                }));
+
+                return {
+                  query,
+                  results: formattedResults,
+                  totalResults: formattedResults.length,
+                  searchType: type,
+                  livecrawl: livecrawl,
+                  domainsSearched: searchDomains.length,
+                };
+              }
+
+              return {
+                query,
+                results: [],
+                totalResults: 0,
+                error: 'No results found in external sources',
+              };
+            } catch (error) {
+              console.error('External resources search error:', error);
+              return {
+                query,
+                results: [],
+                totalResults: 0,
+                error: `External search temporarily unavailable: ${error instanceof Error ? error.message : 'Unknown error'}`,
+              };
+            }
+          },
+        }),
+
+        researchExternalTopic: tool({
+          description: 'Conduct deep research on UFO/UAP topics using Exa AI Research Pro with comprehensive analysis',
+          parameters: z.object({
+            topic: z.string().describe('Research topic or question about UFO/UAP phenomena'),
+            focusDomains: z.array(z.string()).optional().describe('Specific trusted domains to focus research on'),
+            analysisDepth: z.enum(['summary', 'comprehensive', 'academic']).optional().describe('Depth of analysis: summary for quick overview, comprehensive for detailed analysis, academic for scholarly depth'),
+          }),
+          execute: async ({ topic, focusDomains, analysisDepth = 'comprehensive' }) => {
+            const researchDomains = focusDomains || TRUSTED_UFO_DOMAINS;
+            
+            try {
+              // Create instructions for UFO/UAP research
+              const instructions = `Research and analyze the following UFO/UAP topic: "${topic}"
+
+Focus on:
+- Historical context and documented cases
+- Credible witness testimonies and official reports
+- Scientific analysis and explanations
+- Government disclosure and official statements
+- Pattern analysis across multiple incidents
+- Connections to established UFO/UAP research
+
+Provide ${analysisDepth} analysis with:
+- Key findings and evidence
+- Multiple perspectives and interpretations
+- Source credibility assessment
+- Gaps in current understanding
+- Implications for UFO/UAP research
+
+Search primarily from trusted sources: ${researchDomains.join(', ')}`;
+
+              // Use Exa Research Pro for deep analysis
+              const { id: taskId } = await exaClient.research.createTask({
+                instructions,
+                model: "exa-research-pro",
+                output: {
+                  inferSchema: true
+                }
+              });
+
+              // Poll for completion with timeout
+              let attempts = 0;
+              const maxAttempts = 30; // 5 minutes max
+              
+              while (attempts < maxAttempts) {
+                await new Promise(resolve => setTimeout(resolve, 10000)); // Wait 10 seconds
+                
+                try {
+                  const task = await exaClient.research.pollTask(taskId);
+                  
+                  if (task.status === 'completed' && task.result) {
+                    return {
+                      topic,
+                      analysisDepth,
+                      result: task.result,
+                      sources: task.sources || [],
+                      taskId,
+                      status: 'completed'
+                    };
+                  } else if (task.status === 'failed') {
+                    throw new Error(`Research task failed: ${task.error || 'Unknown error'}`);
+                  }
+                  
+                  attempts++;
+                } catch (pollError) {
+                  console.error('Error polling research task:', pollError);
+                  attempts++;
+                }
+              }
+
+              return {
+                topic,
+                analysisDepth,
+                error: 'Research task timed out after 5 minutes',
+                taskId,
+                status: 'timeout'
+              };
+              
+            } catch (error) {
+              console.error('Research task creation error:', error);
+              return {
+                topic,
+                analysisDepth,
+                error: `Research unavailable: ${error instanceof Error ? error.message : 'Unknown error'}`,
+                status: 'failed'
               };
             }
           },

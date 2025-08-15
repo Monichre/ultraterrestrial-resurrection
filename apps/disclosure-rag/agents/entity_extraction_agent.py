@@ -297,39 +297,6 @@ class AIEntityExtractor:
                         "required": ["name", "confidence", "context"]
                     }
                 },
-                "technologies": {
-                    "type": "array",
-                    "items": {
-                        "type": "object",
-                        "properties": {
-                            "name": {"type": "string", "description": "Technology or technical term"},
-                            "confidence": {"type": "number", "minimum": 0, "maximum": 1},
-                            "context": {"type": "string", "description": "Context where technology was mentioned"},
-                            "metadata": {"type": "object"}
-                        },
-                        "required": ["name", "confidence", "context"]
-                    }
-                },
-                "dates": {
-                    "type": "array",
-                    "items": {
-                        "type": "object",
-                        "properties": {
-                            "name": {"type": "string", "description": "Date or time reference"},
-                            "confidence": {"type": "number", "minimum": 0, "maximum": 1},
-                            "context": {"type": "string", "description": "Context where date was mentioned"},
-                            "metadata": {
-                                "type": "object",
-                                "properties": {
-                                    "parsed_date": {"type": "string"},
-                                    "precision": {"type": "string", "description": "exact, approximate, range"},
-                                    "type": {"type": "string", "description": "event_date, publication_date, etc."}
-                                }
-                            }
-                        },
-                        "required": ["name", "confidence", "context"]
-                    }
-                },
                 "artifacts": {
                     "type": "array",
                     "items": {
@@ -400,7 +367,7 @@ class AIEntityExtractor:
                     }
                 }
             },
-            "required": ["topics", "personnel", "events", "organizations", "locations", "technologies", "dates", "artifacts", "sightings", "relationships", "extraction_metadata"]
+            "required": ["topics", "personnel", "events", "organizations", "locations", "artifacts", "sightings", "relationships", "extraction_metadata"]
         }
 
     async def extract_entities(self, text: str, domain_context: str = "UAP/UFO research") -> EntityExtractionResult:
@@ -415,8 +382,8 @@ Your task is to extract and classify entities from the given text with high prec
 3. **Events**: Specific incidents, meetings, observations, or happenings
 4. **Organizations**: Government agencies, military units, companies, institutions
 5. **Locations**: Geographic locations, facilities, bases, coordinates
-6. **Technologies**: Equipment, systems, technical terms, capabilities
-7. **Dates**: Temporal references, timeframes, specific dates
+6. **Testimonies**: Witness statements, testimonies, claims
+7. **Documents**: Referenced documents, reports, studies
 8. **Artifacts**: Physical evidence, materials, objects with photos or documentation
 9. **Sightings**: UAP/UFO observations with shape, duration, witness details
 10. **Relationships**: Connections between entities (who works for whom, who witnessed what, etc.)
@@ -430,9 +397,7 @@ For each entity, provide:
 Be especially attentive to:
 - Military/government personnel and their roles/ranks
 - Specific incident names and locations
-- Technical terminology and capabilities
 - Organizational hierarchies and relationships
-- Temporal sequences and timeframes
 - Physical evidence and artifacts
 - UAP sighting characteristics (shape, duration, witnesses)
 - Entity relationships (works_for, witnessed, investigated_by, etc.)
@@ -501,8 +466,9 @@ Return a structured JSON object with all identified entities organized by type."
             # Return empty result on error
             return EntityExtractionResult(
                 topics=[], personnel=[], events=[], organizations=[],
-                locations=[], technologies=[], dates=[],
-                raw_analysis=text, extraction_metadata={"error": str(e)}
+                locations=[], testimonies=[], documents=[], artifacts=[], 
+                sightings=[], relationships=[], raw_analysis=text, 
+                extraction_metadata={"error": str(e)}
             )
 
     def _convert_to_structured_result(self, extracted_data: Dict[str, Any], original_text: str) -> EntityExtractionResult:
@@ -526,13 +492,12 @@ Return a structured JSON object with all identified entities organized by type."
             personnel=create_entities(
                 extracted_data.get("personnel", []), "personnel"),
             events=create_entities(extracted_data.get("events", []), "events"),
-            organizations=create_entities(extracted_data.get(
-                "organizations", []), "organizations"),
+            organizations=create_entities(
+                extracted_data.get("organizations", []), "organizations"),
             locations=create_entities(
                 extracted_data.get("locations", []), "locations"),
-            technologies=create_entities(extracted_data.get(
-                "technologies", []), "technologies"),
-            dates=create_entities(extracted_data.get("dates", []), "dates"),
+            testimonies=create_entities(extracted_data.get("testimonies", []), "testimonies"),
+            documents=create_entities(extracted_data.get("documents", []), "documents"),
             artifacts=create_entities(
                 extracted_data.get("artifacts", []), "artifacts"),
             sightings=create_entities(
@@ -604,8 +569,7 @@ class EntityExtractionAgent:
                 filtered_entities = []
                 for entity_list in [extraction_result.topics, extraction_result.personnel,
                                     extraction_result.events, extraction_result.organizations,
-                                    extraction_result.locations, extraction_result.technologies,
-                                    extraction_result.dates, extraction_result.artifacts,
+                                    extraction_result.locations, extraction_result.artifacts,
                                     extraction_result.sightings]:
                     filtered_entities.extend(
                         [e for e in entity_list if e.confidence >= confidence_threshold])
@@ -623,9 +587,7 @@ class EntityExtractionAgent:
                         len(extraction_result.events), len(
                             extraction_result.organizations),
                         len(extraction_result.locations), len(
-                            extraction_result.technologies),
-                        len(extraction_result.dates),
-                        len(extraction_result.artifacts),
+                            extraction_result.artifacts),
                         len(extraction_result.sightings)
                     ]),
                     "relationships_extracted": len(extraction_result.relationships),
@@ -720,15 +682,13 @@ class EntityExtractionAgent:
                 "events": [e.name for e in extraction.events],
                 "organizations": [e.name for e in extraction.organizations],
                 "locations": [e.name for e in extraction.locations],
-                "technologies": [e.name for e in extraction.technologies],
-                "dates": [e.name for e in extraction.dates],
                 "artifacts": [e.name for e in extraction.artifacts],
                 "sightings": [e.name for e in extraction.sightings]
             }
         else:
             return {
                 "topics": [], "personnel": [], "events": [], "organizations": [],
-                "locations": [], "technologies": [], "dates": [], "artifacts": [], "sightings": []
+                "locations": [], "artifacts": [], "sightings": []
             }
 
     def search_entities(self, structured_payload: Dict[str, Any], table_mapping: Dict[str, str]) -> Dict[str, Any]:

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none">
+  <rect width="128" height="128" rx="16" fill="#000"/>
+  <circle cx="64" cy="64" r="34" stroke="#00E5FF" stroke-width="3" fill="none"/>
+  <path d="M32 72c16-6 48-6 64 0" stroke="#00E5FF" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <circle cx="64" cy="60" r="6" fill="#00E5FF"/>
+  <text x="64" y="108" text-anchor="middle" font-family="monospace" font-size="10" fill="#00E5FF">ULTRATERRESTRIAL</text>
+</svg>

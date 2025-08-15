@@ -50,11 +50,11 @@ const config = {
 				monument: ["var(--font-monument)"],
 				monumentMono: ["var(--font-monument-mono)"],
 				justAnotherHand: ["var(--font-just-another-hand)"],
-				lukasSans: ["var(--font-lukas-sans})"],
-				spaceMono: ["var(--font-space-mono)"],
+				lukasSans: ["var(--font-lukas-sans)"],
+				jetbrainsMono: ["var(--font-jetbrains-mono)"],
 				martianMono: ["var(--font-martian-mono)"],
-				justAnotherHand: ["var(--font-just-another-hand)"],
-				robotoMono: ["var(--font-roboto-mono)"],
+				notoSans: ["var(--font-noto-sans)"],
+				ppNeueMontreal: ["PP Neue Montreal", "var(--font-neue-haas)", "var(--font-noto-sans)"],
 			},
 			colors: {
 				border: "hsl(var(--border))",
@@ -324,6 +324,6 @@ const config = {
 			require( "tailwindcss-motion" ),
 			require( "@tailwindcss/typography" ),
 		],
-} satisfies Config
+	} satisfies Config
 
 export default config

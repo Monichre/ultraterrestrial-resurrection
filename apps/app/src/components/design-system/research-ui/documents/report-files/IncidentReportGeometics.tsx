@@ -1,4 +1,16 @@
-import {ImageWithFallback} from './figma/ImageWithFallback'
+const ImageWithFallback = ({
+  src,
+  alt,
+  className,
+}: {
+  src: string
+  alt: string
+  className?: string
+}) => (
+  // Minimal stub for Storybook
+  // If the figma component exists, swap the import back
+  <img src={src} alt={alt} className={className} />
+)
 
 export default function UfoDocument() {
   return (

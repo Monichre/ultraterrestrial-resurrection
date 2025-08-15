@@ -131,7 +131,26 @@ Looking at what you’ve got so far, you’re already nailing key pieces of the 
 
 ## Fonts
 
+- Special Elite
+- Anton
+- Caveat
+- PP Neue Montreal
+- Monument Grotesk
+- Monument Grotesk Mono
+- Neue Haas Grotesk
+- Just Another Hand
+- JetBrains Mono
+- Courier New
+- Martian Mono
+- Lukas Sans
+- Noto Sans
+- Courier New / OCR-A
+
+---
+
 import { Special_Elite, Anton, Caveat } from 'next/font/google';
+
+PP Neue Montreal
 
 export const FONT_SPECIAL_ELITE = Special_Elite({
   weight: ['400'],

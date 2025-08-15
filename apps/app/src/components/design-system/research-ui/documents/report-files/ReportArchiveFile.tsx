@@ -1,5 +1,6 @@
 import {useState} from 'react'
-import UfoDocument from './components/UfoDocument'
+// Temporary inline component to avoid missing import during Storybook build
+const UfoDocument = () => <div className='p-12 text-sm text-zinc-600'>UfoDocument placeholder</div>
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<'collage' | 'ufo'>('collage')

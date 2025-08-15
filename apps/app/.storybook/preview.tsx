@@ -3,15 +3,21 @@ import React from 'react'
 import '../src/app/globals.css'
 // import '@xyflow/react/dist/style.css'
 import {ThemeProvider} from '../src/contexts/theme-provider'
-import {lukasSans, monumentGrotesk, monumentGroteskMono, neueHaasGrotesk} from '../src/app/fonts'
-import {Just_Another_Hand} from 'next/font/google'
-
-const justAnotherHand = Just_Another_Hand({
-  weight: '400',
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-just-another-hand',
-})
+import {
+  FONT_LUKAS_SANS,
+  FONT_MONUMENT_GROTESK,
+  FONT_MONUMENT_GROTESK_MONO,
+  FONT_NEUE_HAAS_GROTESK,
+  FONT_JUST_ANOTHER_HAND,
+  FONT_JET_BRAINS_MONO,
+  FONT_MARTIAN_MONO,
+  FONT_NOTO_SANS,
+  FONT_SPECIAL_ELITE,
+  FONT_ANTON,
+  FONT_CAVEAT,
+} from '../src/app/fonts'
+import {create} from '@storybook/theming'
+import {withReferenceAssets} from './decorators/reference-assets'
 
 // Mock window.location for Storybook environment
 if (typeof window !== 'undefined' && !window.location) {
@@ -32,6 +38,21 @@ if (typeof window !== 'undefined' && !window.location) {
 }
 
 const preview: Preview = {
+  globalTypes: {
+    designSystem: {
+      name: 'Design System',
+      description: 'Toggle between App and Research UI design systems',
+      defaultValue: 'app',
+      toolbar: {
+        icon: 'paintbrush',
+        items: [
+          {value: 'app', title: 'App'},
+          {value: 'research', title: 'Research UI'},
+        ],
+        dynamicTitle: true,
+      },
+    },
+  },
   parameters: {
     // Enhanced viewport configuration
 
@@ -94,29 +115,41 @@ const preview: Preview = {
         {name: 'black', value: '#000000'},
       ],
     },
-    // Enhanced docs configuration
+    // Docs & UI theming
     docs: {
       toc: true,
       source: {
         state: 'open',
       },
+      theme: ultraterrestrialTheme,
     },
+    designAssets: {
+      // default panel tab order and asset categories
+      // See: https://storybook.js.org/addons/@storybook/addon-design-assets
+      defaultTab: 'Assets',
+      // Optionally group assets by type
+      types: {
+        images: ['png', 'jpg', 'jpeg', 'svg', 'webp'],
+        docs: ['pdf'],
+      },
+    },
+    theme: ultraterrestrialTheme,
   },
 
   decorators: [
+    withReferenceAssets,
     // 👇 Defining the decorator in the preview file applies it to all stories
-    (Story, {parameters}) => {
+    (Story, context) => {
+      const isResearch = context.globals.designSystem === 'research'
       return (
         <ThemeProvider
           attribute='class'
           forcedTheme='dark'
           defaultTheme='dark'
-          enableSystem={false}
-          // enableSystem
-          // disableTransitionOnChange
-        >
+          enableSystem={false}>
           <div
-            className={`${neueHaasGrotesk.variable} ${monumentGrotesk.variable} ${monumentGroteskMono.variable} ${lukasSans.variable} ${justAnotherHand.variable} dark w-full h-full bg-black flex flex-col justify-center items-center`}>
+            data-design-system={context.globals.designSystem}
+            className={`${isResearch ? 'research-ui' : ''} ${FONT_NEUE_HAAS_GROTESK.variable} ${FONT_MONUMENT_GROTESK.variable} ${FONT_MONUMENT_GROTESK_MONO.variable} ${FONT_LUKAS_SANS.variable} ${FONT_JUST_ANOTHER_HAND.variable} ${FONT_JET_BRAINS_MONO.variable} ${FONT_MARTIAN_MONO.variable} ${FONT_NOTO_SANS.variable} ${FONT_SPECIAL_ELITE.variable} ${FONT_ANTON.variable} ${FONT_CAVEAT.variable} dark w-full h-full bg-black flex flex-col justify-center items-center`}>
             <Story />
           </div>
         </ThemeProvider>

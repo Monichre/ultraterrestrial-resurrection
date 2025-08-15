@@ -1,3 +1,151 @@
+ ---
+ description: Ensure Storybook coverage for Research UI and Mindmap components/nodes; list missing stories and provide creation stubs
+ globs: apps/app/src/components/design-system/research-ui/**/*, apps/app/src/features/mindmap/components/**/*, apps/app/src/features/mindmap/nodes/**/*
+ alwaysApply: false
+ ---
+
+ - **Goal**: All React components in `research-ui`, `features/mindmap/components`, and `features/mindmap/nodes` must have colocated Storybook stories (`*.stories.tsx`).
+   - **Placement**: Put stories next to the component file.
+   - **Naming**: `<ComponentName>.stories.tsx` using CSF v3 with typed `Meta` and `StoryObj`.
+   - **Coverage**: At minimum, add a `Primary` story with sensible `args`; add variants where helpful.
+
+ ### Current Coverage Summary
+ - **Research UI**: Some missing stories (see checklist below).
+ - **Mindmap Components**: No missing stories detected at scan time.
+ - **Mindmap Nodes**: Stories largely missing; add one per node component (see checklist).
+
+ ### Checklist — Missing Stories To Add
+
+ #### Research UI (`apps/app/src/components/design-system/research-ui`)
+ - **Crash Retrievals**
+   - [ ] [CrashRetrievalPhotoReport.tsx](mdc:apps/app/src/components/design-system/research-ui/documents/crash-retrievals/CrashRetrievalPhotoReport.tsx) → `documents/crash-retrievals/CrashRetrievalPhotoReport.stories.tsx`
+   - [ ] [EventDispatchDoc.tsx](mdc:apps/app/src/components/design-system/research-ui/documents/crash-retrievals/EventDispatchDoc.tsx) → `documents/crash-retrievals/EventDispatchDoc.stories.tsx`
+ - **Documents**
+   - [ ] [DynamicToolbar.tsx](mdc:apps/app/src/components/design-system/research-ui/documents/DynamicToolbar.tsx) → `documents/DynamicToolbar.stories.tsx`
+   - [ ] [NodeDropdown.tsx](mdc:apps/app/src/components/design-system/research-ui/documents/NodeDropdown.tsx) → `documents/NodeDropdown.stories.tsx`
+ - **Report Files**
+   - [ ] [EventReport.tsx](mdc:apps/app/src/components/design-system/research-ui/documents/report-files/EventReport.tsx) → `documents/report-files/EventReport.stories.tsx`
+   - [ ] [UfoSightingsReport.tsx](mdc:apps/app/src/components/design-system/research-ui/documents/report-files/ufo-sightings-report/UfoSightingsReport.tsx) → `documents/report-files/ufo-sightings-report/UfoSightingsReport.stories.tsx`
+   - [ ] [IncidentReportGeometics.tsx](mdc:apps/app/src/components/design-system/research-ui/documents/report-files/IncidentReportGeometics.tsx) → `documents/report-files/IncidentReportGeometics.stories.tsx`
+   - [ ] [ReportArchiveFile.tsx](mdc:apps/app/src/components/design-system/research-ui/documents/report-files/ReportArchiveFile.tsx) → `documents/report-files/ReportArchiveFile.stories.tsx`
+   - [ ] [RoswellIncidentCard.tsx](mdc:apps/app/src/components/design-system/research-ui/documents/report-files/RoswellIncidentCard.tsx) → `documents/report-files/RoswellIncidentCard.stories.tsx`
+ - **Case Files**
+   - [ ] [ClassifiedComposition.tsx](mdc:apps/app/src/components/design-system/research-ui/documents/case-files/classified-composition/ClassifiedComposition.tsx) → `documents/case-files/classified-composition/ClassifiedComposition.stories.tsx`
+   - [ ] [EventMagazineCoverFile.tsx](mdc:apps/app/src/components/design-system/research-ui/documents/case-files/EventMagazineCoverFile.tsx) → `documents/case-files/EventMagazineCoverFile.stories.tsx`
+
+ Notes:
+ - Files like `index.ts(x)` and image asset modules do not require stories.
+ - Duplicate/temp files (e.g., `SpyFilesArchiveViewer (1).tsx`) should be cleaned up or ignored.
+
+ #### Mindmap Components (`apps/app/src/features/mindmap/components`)
+ - No missing stories detected at scan time. If adding new components, add a colocated story immediately.
+
+ #### Mindmap Nodes (`apps/app/src/features/mindmap/nodes`)
+ Add one story per component below (grouped stories are acceptable if they render each component independently):
+ - [ ] [ai-annotation-node.tsx](mdc:apps/app/src/features/mindmap/nodes/ai-annotation-node.tsx)
+ - [ ] [animated-node.tsx](mdc:apps/app/src/features/mindmap/nodes/animated-node.tsx)
+ - [ ] [annotation-node.tsx](mdc:apps/app/src/features/mindmap/nodes/annotation-node.tsx)
+ - [ ] [AnnotationNode.tsx](mdc:apps/app/src/features/mindmap/nodes/AnnotationNode.tsx) (deduplicate with `annotation-node.tsx` if appropriate)
+ - [ ] [base-node.tsx](mdc:apps/app/src/features/mindmap/nodes/base-node.tsx)
+ - [ ] [core-node-ui.tsx](mdc:apps/app/src/features/mindmap/nodes/core-node-ui.tsx)
+ - [ ] [database-schema-node.tsx](mdc:apps/app/src/features/mindmap/nodes/database-schema-node.tsx)
+ - [ ] [document-node.tsx](mdc:apps/app/src/features/mindmap/nodes/document-node.tsx)
+ - [ ] [enhanced-core-node-ui.tsx](mdc:apps/app/src/features/mindmap/nodes/enhanced-core-node-ui.tsx)
+ - [ ] [enhanced-entity-node.tsx](mdc:apps/app/src/features/mindmap/nodes/enhanced-entity-node.tsx)
+ - [ ] [enhanced-node-poc.tsx](mdc:apps/app/src/features/mindmap/nodes/enhanced-node-poc.tsx)
+ - [ ] [enhanced-user-input-node.tsx](mdc:apps/app/src/features/mindmap/nodes/enhanced-user-input-node.tsx)
+ - [ ] [entity-group-node-child-events.tsx](mdc:apps/app/src/features/mindmap/nodes/entity-group-node-child-events.tsx)
+ - [ ] [entity-group-node-child.tsx](mdc:apps/app/src/features/mindmap/nodes/entity-group-node-child.tsx)
+ - [ ] [entity-group-node.tsx](mdc:apps/app/src/features/mindmap/nodes/entity-group-node.tsx)
+ - [ ] [entity-node.tsx](mdc:apps/app/src/features/mindmap/nodes/entity-node.tsx)
+ - [ ] [group-results-node.tsx](mdc:apps/app/src/features/mindmap/nodes/group-results-node.tsx)
+ - [ ] [personnel-group-node-child.tsx](mdc:apps/app/src/features/mindmap/nodes/personnel-group-node-child.tsx)
+ - [ ] [personnel-group-node.tsx](mdc:apps/app/src/features/mindmap/nodes/personnel-group-node.tsx)
+ - [ ] [root-node.tsx](mdc:apps/app/src/features/mindmap/nodes/root-node.tsx)
+ - [ ] [testimony-node.tsx](mdc:apps/app/src/features/mindmap/nodes/testimony-node.tsx)
+ - [ ] [user-input-node/user-input-node.tsx](mdc:apps/app/src/features/mindmap/nodes/user-input-node/user-input-node.tsx)
+ - [ ] [user-input-node/anchor.tsx](mdc:apps/app/src/features/mindmap/nodes/user-input-node/anchor.tsx)
+ - [ ] [user-input-node/animated-markdown.tsx](mdc:apps/app/src/features/mindmap/nodes/user-input-node/animated-markdown.tsx)
+
+ ### Standard Story Template (TypeScript, CSF v3)
+ ```typescript
+ import type { Meta, StoryObj } from '@storybook/react'
+ import { ComponentName } from './ComponentName'
+ 
+ const meta: Meta<typeof ComponentName> = {
+   title: 'Category/Subcategory/ComponentName',
+   component: ComponentName,
+   tags: ['autodocs'],
+   parameters: {
+     layout: 'centered'
+   }
+ }
+ export default meta
+ 
+ type Story = StoryObj<typeof ComponentName>
+ 
+ export const Primary: Story = {
+   args: {
+     // Provide sensible defaults for props
+   }
+ }
+ ```
+
+ ### Examples — Replace placeholders per component
+ - **Research UI example** (for `documents/report-files/EventReport.tsx`):
+ ```typescript
+ import type { Meta, StoryObj } from '@storybook/react'
+ import { EventReport } from './EventReport'
+ 
+ const meta: Meta<typeof EventReport> = {
+   title: 'Research UI/Report Files/EventReport',
+   component: EventReport,
+   tags: ['autodocs'],
+ }
+ export default meta
+ 
+ type Story = StoryObj<typeof EventReport>
+ 
+ export const Primary: Story = {
+   args: {
+     title: 'Sample Event',
+     date: '1947-07-08',
+     location: 'Roswell, NM',
+   }
+ }
+ ```
+
+ - **Mindmap Node example** (for `entity-node.tsx`):
+ ```typescript
+ import type { Meta, StoryObj } from '@storybook/react'
+ import { EntityNode } from './entity-node'
+ 
+ const meta: Meta<typeof EntityNode> = {
+   title: 'Mindmap/Nodes/EntityNode',
+   component: EntityNode,
+   tags: ['autodocs'],
+ }
+ export default meta
+ 
+ type Story = StoryObj<typeof EntityNode>
+ 
+ export const Primary: Story = {
+   args: {
+     data: { label: 'Entity', entityId: 'example-id' }
+   }
+ }
+ ```
+
+ ### Implementation Guidelines
+ - **Co-locate** story files beside their component.
+ - **Type stories** with `Meta<typeof Component>` and `StoryObj<typeof Component>`.
+ - **Avoid external state**: Provide minimal mock props to render in isolation.
+ - **Group nodes**: A single story file may contain multiple named stories if components are tightly related, but each component must be rendered at least once.
+ - **Keep titles consistent**: `Research UI/...` and `Mindmap/Nodes/...` for discoverability.
+
+ ### Maintenance
+ - When adding a new component under the configured globs, add its story in the same PR.
+ - Periodically scan for missing stories and update this checklist.
 # Storybook Documentation Standards
 
 ## Story Structure and Organization

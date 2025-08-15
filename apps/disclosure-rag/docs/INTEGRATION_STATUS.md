@@ -66,7 +66,7 @@ When you run `dy <youtube_url> --upload`, here's the complete data flow:
 ```
 1. 📹 YOUTUBE PROCESSING
    ├── Extract video metadata and transcript
-   ├── Save to packages/knowledge-base/transcripts/YYYY-MM-DD/video-id/
+   ├── Save to packages/knowledge-base/sources/transcripts/YYYY-MM-DD/video-id/
    └── Create content.md, metadata.json, summary files
 
 2. ☁️  OPENAI UPLOADS (with --upload flag)
@@ -96,7 +96,7 @@ When you run `dy <youtube_url> --upload`, here's the complete data flow:
 ### Local File System (Existing)
 
 ```
-packages/knowledge-base/transcripts/
+packages/knowledge-base/sources/transcripts/
 ├── 2025-06-20/
 │   └── h0hAit-KH9A/
 │       ├── content.md

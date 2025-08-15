@@ -267,7 +267,7 @@ The `/packages` directory contains shared libraries and resources:
 
 A centralized repository of data resources that can be imported and used across different applications. It contains:
 
-- `case_files`: Documented UFO case information
+- `files`: Documented UFO case information
 - `transcripts`: Processed transcripts from videos and interviews
 - `vector-store-files`: Files prepared for vector database storage
 - `prompts`: Reusable AI prompt templates

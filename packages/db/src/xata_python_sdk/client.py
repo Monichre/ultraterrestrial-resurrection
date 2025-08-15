@@ -260,6 +260,15 @@ class XataClient:
         response.raise_for_status()
         return response.json()
     
+    # Compatibility methods for entity_creator.py
+    def records(self):
+        """Return a records interface compatible with entity_creator expectations"""
+        return RecordsInterface(self)
+    
+    def data(self):
+        """Return a data interface compatible with entity_creator expectations"""
+        return DataInterface(self)
+    
     # Global search across all tables
     async def global_search(
         self,
@@ -305,6 +314,69 @@ async def xata_client():
         yield client
     finally:
         pass  # Keep singleton alive
+
+
+class RecordsInterface:
+    """Interface for record operations to match entity_creator expectations"""
+    
+    def __init__(self, client: XataClient):
+        self.client = client
+    
+    async def insert_async(self, table: str, data: Dict[str, Any]) -> Dict[str, Any]:
+        """Insert a single record (async version)"""
+        return await self.client.create_record(table, data)
+    
+    async def create_many_async(self, table: str, records: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """Create multiple records (async version)"""
+        result = await self.client.create_multiple_records(table, records)
+        return {"records": result if isinstance(result, list) else [result]}
+
+
+class DataInterface:
+    """Interface for data operations to match entity_creator expectations"""
+    
+    def __init__(self, client: XataClient):
+        self.client = client
+    
+    async def search_async(self, table: str, query: Dict[str, Any]) -> Dict[str, Any]:
+        """Search records (async version)"""
+        # Convert entity_creator query format to Xata search format
+        if "filter" in query:
+            filter_params = query["filter"]
+            size = query.get("size", 20)
+            
+            # Check if this is a name-based search
+            if "name" in filter_params:
+                name_filter = filter_params["name"]
+                
+                if "$any" in name_filter:
+                    # Batch search for multiple names
+                    names = name_filter["$any"]
+                    search_query = " OR ".join(names)
+                    return await self.client.search_records(
+                        table=table,
+                        query=search_query,
+                        target=["name"],
+                        size=size
+                    )
+                elif "$iContains" in name_filter:
+                    # Single name search
+                    return await self.client.search_records(
+                        table=table,
+                        query=name_filter["$iContains"],
+                        target=["name"],
+                        size=size
+                    )
+            
+            # Fallback to query records
+            return await self.client.query_records(
+                table=table,
+                filter_params=filter_params,
+                size=size
+            )
+        else:
+            # Direct search query
+            return await self.client.search_records(table=table, **query)
 
 
 # Export the client instance

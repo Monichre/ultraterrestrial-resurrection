@@ -1,6 +1,5 @@
 'use client'
 import {Prometheus} from '@/features/agents/prometheus'
-import {PrometheusPage} from '@repo/ai'
 import {useEffect} from 'react'
 
 // Import the CSS for styling
@@ -16,5 +15,5 @@ export default function PrometheusPageWrapper() {
     }
   }, [])
 
-  return <PrometheusPage PrometheusAgent={Prometheus} breadcrumbBasePath='/explore' />
+  return <Prometheus />
 }

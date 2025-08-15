@@ -2,7 +2,7 @@
 
 **Purpose**: Collaborative space for high-level feature concepts, architectural decisions, and strategic planning before they become actionable tickets.
 
-**Last Updated**: August 9, 2025  
+**Last Updated**: January 15, 2025  
 **Contributors**: Liam Ellis, Claude Code  
 **Project**: Ultraterrestrial Resurrection - UFO/UAP Research Platform
 
@@ -42,7 +42,31 @@
 
 ---
 
-### **2. Prometheus API Consolidation** ⭐ **Priority 2**
+### **2. Database Infrastructure Modernization** ⭐ **Priority 2**
+
+**Vision**: Migrate to Postgres Wire enabled Xata for enhanced performance and modern PostgreSQL capabilities.
+
+**Problem**: Current Xata instance lacks modern PostgreSQL features and performance optimizations needed for advanced RAG operations and complex spatial queries.
+
+**Migration Strategy**:
+- **Phase 1**: Setup Postgres Wire enabled Xata instance 
+- **Phase 2**: Comprehensive schema analysis and dependency mapping
+- **Phase 3**: Data migration with minimal downtime
+- **Phase 4**: Application configuration updates and testing
+- **Phase 5**: Performance validation and optimization
+
+**Benefits**: 
+- Enhanced vector search capabilities for RAG operations
+- Better spatial query performance for mindmap operations
+- Modern PostgreSQL features for complex analytical queries
+- Improved scalability for growing dataset (230,998+ records)
+
+**Risk Mitigation**: Comprehensive testing, rollback procedures, dependency validation
+**Reference**: Extracted from Todo2 migration sequence (T-1 through T-6)
+
+---
+
+### **3. Prometheus API Consolidation** ⭐ **Priority 3**
 
 **Vision**: Eliminate redundancy across 5+ API endpoints, create coherent unified API architecture.
 
@@ -69,7 +93,79 @@
 
 ---
 
-### **3. Workspace-Wide Prompts System** 🔄 **Priority 3**
+### **4. Unified Mindmap Experience Architecture** 🎯 **Priority 4**
+
+**Vision**: Consolidate mindmap functionality into single coherent experience with enhanced state management and real-time collaboration.
+
+**Current State**: Fragmented mindmap components across multiple contexts with inconsistent state management
+
+**Unified Architecture**:
+- **Foundation API**: Single source of truth for mindmap data
+- **State Management**: Centralized Zustand store with real-time synchronization  
+- **Enhanced Nodes**: All mindmap nodes use `enhancedEntityNodePOC` consistently
+- **Spatial Intelligence**: Integrated proximity analysis and contextual grouping
+- **Tour Integration**: Seamless connection between exploration and guided narratives
+
+**Key Components**:
+- Unified API endpoints for all mindmap operations
+- Real-time collaboration via Liveblocks integration
+- Enhanced state persistence and session restoration
+- Contextual intelligence for smart relationship detection
+
+**Benefits**: Consistent user experience, reduced maintenance overhead, enhanced performance
+**Reference**: Extracted from Todo2 architecture foundation (T-10)
+
+---
+
+### **5. Research Canvas Integration as Contextual Panel** 📝 **Priority 5**
+
+**Vision**: Transform research canvas from standalone component to integrated contextual panel within mindmap workflow.
+
+**Integration Strategy**:
+- **Panel Architecture**: Slide-out contextual panel triggered by mindmap interactions
+- **TipTap Enhancement**: Advanced research editor with AI-powered assistance
+- **Session Management**: Automatic research session creation from spatial grouping
+- **Evidence Tracking**: Persistent evidence collection linked to mindmap entities
+
+**Key Features**:
+- Seamless transition from mindmap discovery to research documentation
+- AI-powered research assistance with RAG integration
+- Real-time collaboration on research sessions
+- Evidence citation and relationship tracking
+
+**User Journey**: Mindmap Discovery → Contextual Research Panel → Session Documentation → Evidence Validation
+**Reference**: Extracted from Todo2 integration concept (T-11)
+
+---
+
+### **6. 3D Visualization Spatial Integration** 🌐 **Priority 6** 
+
+**Vision**: Advanced 3D globe visualization with spatial intelligence for geographic UAP incident mapping and temporal analysis.
+
+**Current State**: Basic 3D components exist but lack integration with spatial intelligence and mindmap systems
+
+**Enhanced Architecture**:
+- **Globe Integration**: Three.js globe with incident location mapping
+- **Spatial Intelligence**: Integration with existing `useSpatialGrouping` for geographic clustering
+- **Temporal Analysis**: Time-based incident visualization and pattern recognition
+- **Interactive Navigation**: Seamless zoom from global view to local incident details
+
+**Technical Requirements**:
+- Enhanced Three.js globe with performance optimization
+- Spatial indexing for efficient geographic queries
+- Integration with existing mindmap spatial intelligence
+- Real-time updates for collaborative exploration
+
+**User Stories**:
+- "Show me all UFO incidents within 100 miles of Area 51"
+- "Display the temporal progression of disclosure events globally"
+- "Find geographic clusters of similar incident types"
+
+**Reference**: Extracted from Todo2 3D visualization concept (T-13)
+
+---
+
+### **7. Workspace-Wide Prompts System** 🔄 **Priority 7**
 
 **Vision**: Centralized prompts management shared across apps/app and apps/disclosure-rag.
 
@@ -95,61 +191,6 @@ packages/prompts/
 
 ---
 
-### **4. Deep Research & Thoroughness Analysis** 🔬 **Priority 4**
-
-**Vision**: Multi-source research with comprehensive evidence tracking and quality scoring.
-
-**Components**:
-- **Research Session Management**: Evidence trails, session persistence, collaborative research
-- **Source Credibility Engine**: Weighting algorithms, diversity metrics, authority scoring
-- **Multi-hop Reasoning**: Advanced query understanding, cross-reference discovery, pattern recognition
-- **Report Generation**: Multiple formats (markdown, PDF, structured data), citation management
-
-**Quality Framework**:
-- **Thoroughness Scoring**: Coverage analysis across multiple sources
-- **Completeness Metrics**: Information gap identification, recommendation engine
-- **Temporal Relevance**: Recency weighting, historical context integration
-- **Credibility Assessment**: Source verification, cross-validation, bias detection
-
-**Integration Points**: External RAG + existing Triple RAG + Contextual Intelligence + Enhanced Nodes
-**Current RAG Performance**: Upstash Vector (40%), LocalRAG FAISS (40%), CocoIndex PostgreSQL (20%)
-**Reference**: Analysis framework in `DAILY_WORK_PLAN.md` Day 5
-
----
-
-### **5. Smart Tours & Research Canvas Integration** 📍 **Active Development**
-
-**Vision**: Seamless connection between guided historical narratives and interactive research workflows.
-
-**Current State**: Smart Tours 85% complete, Research Canvas needs enhancement
-**Key Integration Points**:
-- **Enhanced Node Consistency**: All tour waypoints use `enhancedEntityNodePOC` with AI badges
-- **Spatial Intelligence**: Tours auto-group nodes by proximity and context using `useSpatialGrouping`
-- **Contextual Intelligence**: AI-driven relationship suggestions and tour progression
-- **Session Automation**: Auto-creation of research sessions from spatial grouping
-
-**User Journey**: Mindmap Discovery → Tour Navigation → Research Canvas Investigation → Session Documentation
-**Files**: `enhanced-node-poc.tsx`, `contextual-intelligence.ts`, `useSpatialGrouping`, research canvas components
-**Reference**: Active tickets in `TODO.md` Focus 1
-
----
-
-### **6. TipTap AI RAG Integration** ✍️ **Architecture Complete**
-
-**Vision**: Advanced research editor with AI-powered writing assistance using existing RAG infrastructure.
-
-**Key Features**:
-- **Admin Configuration**: Toggle between local/remote RAG servers
-- **Enhanced Mention System**: Search both local entities and RAG knowledge base
-- **AI Commands**: Generate, Fact Check, Cite, Elaborate, Summarize with UFO/UAP context
-- **Document Sync**: Automatic indexing of research documents into Triple RAG
-
-**Technical Approach**: TipTap native AI extensions + custom LLM handler + existing RAG backend
-**Implementation**: 10-day phased approach detailed in `features/TIPTAP_AI_RAG_INTEGRATION_PLAN_V2.md`
-**Status**: Architecture complete, ready for implementation
-
----
-
 ## 🌟 Emerging Ideas & Future Concepts
 
 ### **Natural Language Tours (Agentic Tours)** 🎙️ **Post-MVP**
@@ -162,6 +203,42 @@ packages/prompts/
 - "Find connections between Bob Lazar and Area 51"
 **Complexity**: High - requires sophisticated AI reasoning and tour state management
 **Timeline**: Post-MVP (after core research workflows are stable)
+
+### **UFO Research Methodology Framework** 🔬 **Future Phase**
+**Idea**: Develop systematic approach to UFO/UAP research based on famous researchers' methodologies (Jacques Vallée, Diana Pasulka Walsh, etc.)
+
+**Research Framework Components**:
+- **Vallée Classification System**: Standardized incident categorization and analysis
+- **Evidence Evaluation**: Multi-dimensional credibility assessment inspired by scientific methodology
+- **Source Verification**: Academic standards for witness testimony and document authentication
+- **Pattern Analysis**: Statistical approaches to identifying meaningful correlations
+- **Historical Context**: Temporal relationship mapping and sociocultural analysis
+
+**Implementation Strategy**:
+- Research methodologies database with tagged approaches
+- AI-powered analysis scoring based on established frameworks
+- Template-driven investigation workflows
+- Cross-reference validation using multiple researcher perspectives
+
+**Value Proposition**: Brings academic rigor to UFO research, provides structured investigation paths
+**Timeline**: Future phase (requires extensive research methodology analysis)
+
+### **Performance Optimization and Caching** ⚡ **Architecture Enhancement**
+**Vision**: Comprehensive performance optimization with intelligent caching and web worker integration.
+
+**Optimization Areas**:
+- **Smart Caching**: Multi-layer caching strategy for database queries, RAG results, and API responses
+- **Web Workers**: Background processing for heavy computational tasks
+- **Bundle Optimization**: Code splitting and lazy loading for improved initial load times
+- **Database Indexing**: Advanced indexing strategies for complex spatial and temporal queries
+
+**Performance Targets**:
+- Sub-2s response times for all core operations
+- 99.9% uptime with graceful degradation
+- Efficient memory usage for large dataset operations
+- Real-time collaboration without performance impact
+
+**Reference**: Extracted from Todo2 performance optimization (T-16)
 
 ### **AI-Driven Research Insights** 🧠 **Future Phase**
 **Idea**: Proactive pattern detection across research sessions - "Users researching X also discover Y"

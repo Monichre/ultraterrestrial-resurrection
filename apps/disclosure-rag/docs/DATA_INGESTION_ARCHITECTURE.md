@@ -21,7 +21,7 @@ User Input: dy 'https://youtube.com/watch?v=...' [--upload]
                     File Storage (Always)
                     └── /packages/knowledge-base/
                         ├── /transcripts/ (YouTube)
-                        ├── /articles/ (Web)
+                        ├── /web/ (Web)
                         └── /documents/ (Files)
                             ↓
                     Embedding Generation
@@ -113,7 +113,7 @@ User Input: dy 'https://youtube.com/watch?v=...' [--upload]
    # Extract content using BeautifulSoup/Readability
    # Clean and format text
    # Extract metadata (title, author, date)
-   # Save to /articles/YYYY/MM/DD/{sanitized_title}.txt
+   # Save to /web/YYYY/MM/DD/{sanitized_title}.txt
    ```
 
 3. **Document Processing:**

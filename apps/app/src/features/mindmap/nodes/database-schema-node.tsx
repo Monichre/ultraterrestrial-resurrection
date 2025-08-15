@@ -2,7 +2,7 @@ import { Node, NodeProps, Position } from "@xyflow/react";
 
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 
-import { BaseNode } from "@/components/base-node";
+import { BaseNode } from "@/features/mindmap/nodes/base-node";
 import { LabeledHandle } from "@/features/mindmap/components/labeled-handle";
 
 type DatabaseSchemaNode = Node<{

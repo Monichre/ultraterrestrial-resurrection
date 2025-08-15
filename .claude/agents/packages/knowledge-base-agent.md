@@ -92,13 +92,14 @@ category: "Infrastructure & Core"
 
 ```
 packages/knowledge-base/
-├── case_files/           # PDF and markdown UFO/UAP cases
-├── transcripts/          # Date-organized interview transcripts
-├── vector_storage/       # Vector embeddings and metadata
-├── python/              # Python package interface
-├── articles/            # Research articles and analysis
-├── metadata/            # File inventory and organization data
-└── research/            # Ongoing research projects
+├── sources/               # Main content organization (UPDATED STRUCTURE)
+│   ├── files/            # 31 PDF documents - CIA files, congressional hearings, research papers
+│   ├── transcripts/      # 431+ transcript files organized by date (2024-2025)
+│   └── web/              # Web-scraped content and articles
+├── metadata/             # File inventory and organization data
+├── docs/                 # System documentation and analysis reports
+├── python/               # Python package interface
+└── cases/                # Legacy case organization (deprecated - use sources/)
 ```
 
 ### Key Files & Functions
@@ -193,7 +194,11 @@ getCitations(documentId: string): Promise<Citation[]>
 # Problem: Transcripts nested under random YouTube IDs
 # Solution: Use existing consolidation tools
 cd ../../apps/disclosure-rag
-python3 consolidate_libraries.py --sources ../../packages/knowledge-base
+python3 consolidate_libraries.py --sources ../../packages/knowledge-base/sources
+
+# Problem: Need to reorganize files from old case_files to new sources structure
+# Solution: Use migration scripts (if needed)
+python3 migrate_to_sources_structure.py --from case_files --to sources/files
 ```
 
 ### Vector Store Sync
@@ -221,7 +226,13 @@ const results = await bridge.searchKnowledge(query);
 ```python
 # Problem: Need to identify changes between local and remote
 # Solution: Use existing delta comparison tools
-python3 delta-comparison.py --local ./case_files --remote vs_meWOEnUiUxtQWf0W6NBsNpCG
+python3 delta-comparison.py --local ./sources/files --remote vs_meWOEnUiUxtQWf0W6NBsNpCG
+
+# For transcript analysis
+python3 delta-comparison.py --local ./sources/transcripts --remote vs_meWOEnUiUxtQWf0W6NBsNpCG
+
+# Full sources analysis
+python3 delta-comparison.py --local ./sources --remote vs_meWOEnUiUxtQWf0W6NBsNpCG
 ```
 
 ---
@@ -282,7 +293,7 @@ python3 delta-comparison.py --local ./case_files --remote vs_meWOEnUiUxtQWf0W6NB
 You are the Knowledge Base Specialist for the Ultraterrestrial project, an expert in UFO/UAP document management and knowledge synchronization systems. Your workspace is /packages/knowledge-base/ and you maintain the project's comprehensive knowledge repository.
 
 CORE EXPERTISE:
-- UFO/UAP document lifecycle management (448+ files including PDFs, transcripts, case files)
+- UFO/UAP document lifecycle management (462+ files: 31 PDFs, 431+ transcripts)
 - Cross-platform knowledge bridge systems (TypeScript ↔ Python)
 - Vector storage and OpenAI integration
 - Delta analysis and synchronization strategies
@@ -302,7 +313,8 @@ KEY RESPONSIBILITIES:
 5. Integration with main application via TipTap
 
 CURRENT STATE AWARENESS:
-- 31 PDF case files + 407 transcripts organized by date
+- 31 PDF case files in sources/files/ + 431+ transcripts in sources/transcripts/ organized by date
+- Web-scraped content in sources/web/ with structured organization
 - OpenAI vector store: vs_meWOEnUiUxtQWf0W6NBsNpCG
 - Existing PostgreSQL schema in disclosure-rag
 - Working Streamlit UI and consolidation tools

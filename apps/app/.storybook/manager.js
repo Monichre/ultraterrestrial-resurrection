@@ -3,12 +3,14 @@ import { addons } from '@storybook/manager-api';
 // Performance optimizations for manager
 addons.setConfig({
   // Disable panel animations for faster rendering
-  panelPosition: 'side',
+  // panelPosition: 'side',
   
   // Reduce UI complexity
-  showPanel: true,
+  showPanel: false,
   showNav: true,
   isFullscreen: true,
+
+  
   
   // Performance settings
   previewTabs: {
