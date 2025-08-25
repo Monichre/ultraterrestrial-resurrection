@@ -20,12 +20,16 @@ import {EnhancedTimeSelector, type TimeRangeState} from './enhanced-time-selecto
 import {useAnimationTimeline} from './animation-timeline-manager'
 import {AnimatePresence, motion} from 'framer-motion'
 import {X} from 'lucide-react'
+import {calculateTopSightingLocations} from '@/features/data-viz/sightings/utils/location-analysis'
 
 // Import GSAP for animations
 import Script from 'next/script'
 
 const ThreeJSGlobe = dynamic(
-  () => import('@/components/globes/threejs-globe').then((mod) => mod.ThreeJsGlobe),
+  () =>
+    import('@/features/data-viz/sightings/components/globes/threejs-globe').then(
+      (mod) => mod.ThreeJsGlobe
+    ),
   {
     ssr: false,
     loading: () => (
@@ -62,26 +66,11 @@ const CodepenGlobe = dynamic(() => import('./codepen-globe'), {
   ),
 })
 
-const locations = [
-  {name: 'NEW YORK', lat: 40.7128, lon: -74.006},
-  {name: 'TOKYO', lat: 35.6762, lon: 139.6503},
-  {name: 'LONDON', lat: 51.5074, lon: -0.1278},
-  {name: 'SYDNEY', lat: -33.8688, lon: 151.2093},
-  {name: 'RIO', lat: -22.9068, lon: -43.1729},
-  {name: 'JOHANNESBURG', lat: -33.9249, lon: 18.4241},
-  {name: 'MOSCOW', lat: 55.7558, lon: 37.6173},
-  {name: 'DUBAI', lat: 25.2048, lon: 55.2708},
-  {name: 'CAIRO', lat: 30.0444, lon: 31.2357},
-  {name: 'MUMBAI', lat: 19.076, lon: 72.8777},
-  {name: 'SINGAPORE', lat: 1.3521, lon: 103.8198},
-  {name: 'SHANGHAI', lat: 31.2304, lon: 121.4737},
-]
-
 // Set up interface props for optional initial data
 interface HudUapInterfaceProps {
   initialSightings: ValidatedUAPSighting[]
   events?: any[] // Replace with proper event type when available
-  analysisResults?: SightingsAnalysisResult
+  analysisResults?: any // AI analysis result
   initialLocations?: any
 }
 
@@ -94,63 +83,93 @@ export function HudUapInterface({
   console.log('🔍 HudUapInterface - Initial Data:', {
     sightingsCount: initialSightings?.length,
     eventsCount: events?.length,
-    sightingsWithCoords: initialSightings?.filter(s => 
-      s.location?.coordinates?.lat && s.location?.coordinates?.lng
+    sightingsWithCoords: initialSightings?.filter(
+      (s) => s.location?.coordinates?.lat && s.location?.coordinates?.lng
     )?.length,
     sampleSighting: initialSightings?.[0],
     dateRange: {
-      earliest: initialSightings?.reduce((earliest, sighting) => {
-        const sightingDate = new Date(sighting.timestamp);
-        return !earliest || sightingDate < earliest ? sightingDate : earliest;
-      }, null as Date | null),
-      latest: initialSightings?.reduce((latest, sighting) => {
-        const sightingDate = new Date(sighting.timestamp);
-        return !latest || sightingDate > latest ? sightingDate : latest;
-      }, null as Date | null)
-    }
-  });
+      earliest: initialSightings?.reduce(
+        (earliest, sighting) => {
+          const sightingDate = new Date(sighting.timestamp)
+          return !earliest || sightingDate < earliest ? sightingDate : earliest
+        },
+        null as Date | null
+      ),
+      latest: initialSightings?.reduce(
+        (latest, sighting) => {
+          const sightingDate = new Date(sighting.timestamp)
+          return !latest || sightingDate > latest ? sightingDate : latest
+        },
+        null as Date | null
+      ),
+    },
+  })
 
   const [selectedView, setSelectedView] = useState<'globe' | 'list' | 'analysis'>('globe')
   const [filteredSightings, setFilteredSightings] =
     useState<ValidatedUAPSighting[]>(initialSightings)
   const [filteredEvents, setFilteredEvents] = useState<any[]>(events)
-  
+
   // Sidebar state
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   // Enhanced time range state - fix date range calculation
   const currentYear = new Date().getFullYear()
-  const MIN_YEAR = 1940
-  
+  const MIN_YEAR = 1947 // Start from Roswell incident for historical context
+
   // Calculate actual date range from data
   const actualDateRange = React.useMemo(() => {
     if (!initialSightings || initialSightings.length === 0) {
-      return { minYear: MIN_YEAR, maxYear: currentYear };
+      return {minYear: MIN_YEAR, maxYear: currentYear}
     }
 
-    const years = initialSightings.map(s => new Date(s.timestamp).getFullYear());
-    const minYear = Math.max(Math.min(...years), MIN_YEAR);
-    const maxYear = Math.min(Math.max(...years), currentYear);
-    
-    console.log('🗓️ Calculated date range from sightings:', { minYear, maxYear, totalSightings: initialSightings.length });
-    
-    return { minYear, maxYear };
-  }, [initialSightings, MIN_YEAR, currentYear]);
+    const years = initialSightings.map((s) => new Date(s.timestamp).getFullYear())
+    const minYear = Math.max(Math.min(...years), MIN_YEAR)
+    const maxYear = Math.min(Math.max(...years), currentYear)
+
+    console.log('🗓️ Calculated date range from sightings:', {
+      minYear,
+      maxYear,
+      totalSightings: initialSightings.length,
+    })
+
+    return {minYear, maxYear}
+  }, [initialSightings, MIN_YEAR, currentYear])
 
   const [selectedYear, setSelectedYear] = useState<number>(actualDateRange.maxYear)
   const [availableYears, setAvailableYears] = useState<number[]>(
-    Array.from({length: actualDateRange.maxYear - actualDateRange.minYear + 1}, (_, i) => actualDateRange.maxYear - i)
+    Array.from(
+      {length: actualDateRange.maxYear - actualDateRange.minYear + 1},
+      (_, i) => actualDateRange.maxYear - i
+    )
   )
-  
-  // Enhanced time selector state - use actual date range
+
+  // Dynamic locations based on actual sightings data
+  const locations = React.useMemo(() => {
+    const topLocations = calculateTopSightingLocations(filteredSightings, 12)
+
+    console.log('🗺️ Dynamic locations calculated:', {
+      totalSightings: filteredSightings.length,
+      topLocations: topLocations.map((loc) => ({name: loc.name, count: loc.count})),
+    })
+
+    // Convert to format expected by existing components
+    return topLocations.map((loc) => ({
+      name: loc.name,
+      lat: loc.lat,
+      lon: loc.lon,
+    }))
+  }, [filteredSightings])
+
+  // Enhanced time selector state - use broader historical range by default
   const [enhancedTimeRange, setEnhancedTimeRange] = useState<TimeRangeState>({
-    startDate: new Date(actualDateRange.maxYear - 5, 0, 1), // Default to last 5 years from actual range
+    startDate: new Date(1947, 0, 1), // Start from Roswell era to show more historical data
     endDate: new Date(actualDateRange.maxYear, 11, 31),
     selectedYear: actualDateRange.maxYear,
     isAnimating: false,
     animationSpeed: 1.0,
   })
-  
+
   // Toggle between basic and enhanced time controls
   const [useEnhancedTimeControls, setUseEnhancedTimeControls] = useState(false)
 
@@ -165,12 +184,10 @@ export function HudUapInterface({
   } = useAnimationTimeline(enhancedTimeRange, initialSightings, events)
 
   // Use animated data when animation is active, otherwise use filtered data
-  const currentSightings = enhancedTimeRange.isAnimating 
-    ? animatedVisibleData.sightings 
+  const currentSightings = enhancedTimeRange.isAnimating
+    ? animatedVisibleData.sightings
     : filteredSightings
-  const currentEvents = enhancedTimeRange.isAnimating 
-    ? animatedVisibleData.events 
-    : filteredEvents
+  const currentEvents = enhancedTimeRange.isAnimating ? animatedVisibleData.events : filteredEvents
 
   // Combine sightings and events for visualization
   const combinedData = React.useMemo(() => {
@@ -219,9 +236,9 @@ export function HudUapInterface({
 
       // If we have specific years from the data, use them
       if (years.size > 0) {
-        const sortedYears = Array.from(years).sort((a, b) => b - a); // Descending order
-        setAvailableYears(sortedYears);
-        console.log('📅 Available years from data:', sortedYears);
+        const sortedYears = Array.from(years).sort((a, b) => b - a) // Descending order
+        setAvailableYears(sortedYears)
+        console.log('📅 Available years from data:', sortedYears)
       }
     }
   }, [initialSightings, events, actualDateRange.minYear, actualDateRange.maxYear])
@@ -243,7 +260,7 @@ export function HudUapInterface({
 
       setFilteredSightings(filteredByRange)
       setFilteredEvents(filteredEventsByRange)
-      
+
       // Update legacy year selection for backward compatibility
       setSelectedYear(endDate.getFullYear())
     },
@@ -281,9 +298,9 @@ export function HudUapInterface({
 
       setFilteredSightings(filteredByYear)
       setFilteredEvents(filteredEventsByYear)
-      
+
       // Update enhanced time range for consistency
-      setEnhancedTimeRange(prev => ({
+      setEnhancedTimeRange((prev) => ({
         ...prev,
         startDate: yearStart,
         endDate: yearEnd,
@@ -309,7 +326,9 @@ export function HudUapInterface({
           <Globe
             focusedLocation={focusedLocation}
             sightings={currentSightings}
-            selectedYear={enhancedTimeRange.isAnimating ? currentAnimationDate.getFullYear() : selectedYear}
+            selectedYear={
+              enhancedTimeRange.isAnimating ? currentAnimationDate.getFullYear() : selectedYear
+            }
           />
         )
       case 'alternative':
@@ -321,7 +340,9 @@ export function HudUapInterface({
           <Globe
             focusedLocation={focusedLocation}
             sightings={currentSightings}
-            selectedYear={enhancedTimeRange.isAnimating ? currentAnimationDate.getFullYear() : selectedYear}
+            selectedYear={
+              enhancedTimeRange.isAnimating ? currentAnimationDate.getFullYear() : selectedYear
+            }
           />
         )
     }
@@ -331,18 +352,19 @@ export function HudUapInterface({
   const globePositions = React.useMemo(() => {
     console.log('🌍 Building globe positions from:', {
       currentSightingsCount: currentSightings.length,
-      currentEventsCount: currentEvents.length
-    });
+      currentEventsCount: currentEvents.length,
+    })
 
     // Create individual point data for sightings and events
     const sightingPoints = currentSightings
       .filter((s) => {
         const coords = s.location?.coordinates
-        const hasValidCoords = coords && typeof coords.lat === 'number' && typeof coords.lng === 'number'
+        const hasValidCoords =
+          coords && typeof coords.lat === 'number' && typeof coords.lng === 'number'
         if (!hasValidCoords) {
-          console.log('⚠️ Sighting missing valid coordinates:', s.id, coords);
+          console.log('⚠️ Sighting missing valid coordinates:', s.id, coords)
         }
-        return hasValidCoords;
+        return hasValidCoords
       })
       .map((sighting, index) => ({
         order: index + 1,
@@ -363,9 +385,12 @@ export function HudUapInterface({
       .filter((e) => {
         const hasValidCoords = typeof e.latitude === 'number' && typeof e.longitude === 'number'
         if (!hasValidCoords) {
-          console.log('⚠️ Event missing valid coordinates:', e.id, { lat: e.latitude, lng: e.longitude });
+          console.log('⚠️ Event missing valid coordinates:', e.id, {
+            lat: e.latitude,
+            lng: e.longitude,
+          })
         }
-        return hasValidCoords;
+        return hasValidCoords
       })
       .map((event, index) => ({
         order: sightingPoints.length + index + 1,
@@ -382,15 +407,15 @@ export function HudUapInterface({
       }))
 
     // Combine all points
-    const allPoints = [...sightingPoints, ...eventPoints];
+    const allPoints = [...sightingPoints, ...eventPoints]
     console.log('🎯 Globe positions created:', {
       sightingPoints: sightingPoints.length,
       eventPoints: eventPoints.length,
       totalPoints: allPoints.length,
-      samplePoint: allPoints[0]
-    });
+      samplePoint: allPoints[0],
+    })
 
-    return allPoints;
+    return allPoints
   }, [currentSightings, currentEvents])
 
   const renderContent = () => {
@@ -567,16 +592,17 @@ export function HudUapInterface({
           className={`relative h-screen w-full z-10 transition-opacity duration-1000 ${
             graphPaperReady ? 'opacity-100' : 'opacity-0'
           }`}>
-          
           {/* Floating Sidebar Toggle Button */}
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
             className='fixed top-4 left-4 z-50 p-3 bg-black/80 backdrop-blur border border-white/20 rounded-lg hover:bg-black/90 transition-all'
-            style={{ backdropFilter: 'blur(8px)' }}>
+            style={{backdropFilter: 'blur(8px)'}}>
             <div className='flex flex-col items-center gap-1'>
               <div className='text-xs font-monument-mono text-white/90'>CTRL</div>
-              <div className={`w-4 h-0.5 bg-white/60 transition-transform ${sidebarOpen ? 'rotate-45' : ''}`}></div>
-              <div className={`w-4 h-0.5 bg-white/60 transition-transform ${sidebarOpen ? '-rotate-45 -mt-0.5' : ''}`}></div>
+              <div
+                className={`w-4 h-0.5 bg-white/60 transition-transform ${sidebarOpen ? 'rotate-45' : ''}`}></div>
+              <div
+                className={`w-4 h-0.5 bg-white/60 transition-transform ${sidebarOpen ? '-rotate-45 -mt-0.5' : ''}`}></div>
             </div>
           </button>
 
@@ -584,19 +610,18 @@ export function HudUapInterface({
           <AnimatePresence>
             {sidebarOpen && (
               <motion.div
-                initial={{ x: -100, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                exit={{ x: -100, opacity: 0 }}
-                transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                initial={{x: -100, opacity: 0}}
+                animate={{x: 0, opacity: 1}}
+                exit={{x: -100, opacity: 0}}
+                transition={{type: 'spring', stiffness: 300, damping: 30}}
                 className='fixed top-0 left-0 w-80 h-full z-40 bg-black/90 backdrop-blur-xl border-r border-white/20'
-                style={{ backdropFilter: 'blur(16px)' }}>
-                
+                style={{backdropFilter: 'blur(16px)'}}>
                 {/* Header */}
                 <div className='border border-white/20 p-3 flex justify-between items-center'>
                   <h1 className='text-lg tracking-wider uppercase font-monument-mono'>
                     ULTRATERRESTRIAL
                   </h1>
-                  <button 
+                  <button
                     onClick={() => setSidebarOpen(false)}
                     className='text-white/60 hover:text-white/90 transition-colors'>
                     <X className='w-4 h-4' />
@@ -647,9 +672,13 @@ export function HudUapInterface({
                               {label: 'OCEAN BUOYS', value: '3,241', status: 'SYNCING'},
                             ].map((item, i) => (
                               <div key={i} className='flex justify-between text-xs'>
-                                <span className='text-white/60 font-monument-mono'>{item.label}</span>
+                                <span className='text-white/60 font-monument-mono'>
+                                  {item.label}
+                                </span>
                                 <div className='flex items-center space-x-2'>
-                                  <span className='text-white font-monument-mono'>{item.value}</span>
+                                  <span className='text-white font-monument-mono'>
+                                    {item.value}
+                                  </span>
                                   <span className='text-xs text-white/50 font-monument-mono'>
                                     {item.status}
                                   </span>
@@ -674,8 +703,12 @@ export function HudUapInterface({
                             ].map((metric, i) => (
                               <div key={i} className='space-y-1'>
                                 <div className='flex justify-between text-xs'>
-                                  <span className='text-white/60 font-monument-mono'>{metric.label}</span>
-                                  <span className='text-white font-monument-mono'>{metric.value}%</span>
+                                  <span className='text-white/60 font-monument-mono'>
+                                    {metric.label}
+                                  </span>
+                                  <span className='text-white font-monument-mono'>
+                                    {metric.value}%
+                                  </span>
                                 </div>
                                 <div className='h-1 bg-white/10'>
                                   <div
@@ -731,15 +764,13 @@ export function HudUapInterface({
                               )[0]
                               return latest ? new Date(latest.timestamp).toISOString() : undefined
                             })(),
-                            timeRange: enhancedTimeRange.isAnimating 
+                            timeRange: enhancedTimeRange.isAnimating
                               ? {
                                   selectedYear: currentAnimationDate.getFullYear(),
-                                  isAnimating: true,
-                                  animationProgress: Math.round(animationProgress * 100)
                                 }
-                              : {selectedYear}
+                              : {selectedYear},
                           }}
-                          status={enhancedTimeRange.isAnimating ? 'ANIMATING' : 'ACTIVE'}
+                          status={enhancedTimeRange.isAnimating ? 'ACTIVE' : 'ACTIVE'}
                           progress={enhancedTimeRange.isAnimating ? animationProgress * 100 : 100}
                         />
                       </Card>
@@ -749,7 +780,12 @@ export function HudUapInterface({
                         <div className='text-xs font-medium text-white/80 font-monument-mono flex justify-between mb-2'>
                           <span>GLOBE SELECTION</span>
                           <span className='text-white/40'>
-                            00{globeType === 'default' ? '1' : globeType === 'alternative' ? '2' : '3'}
+                            00
+                            {globeType === 'default'
+                              ? '1'
+                              : globeType === 'alternative'
+                                ? '2'
+                                : '3'}
                           </span>
                         </div>
                         <div className='grid grid-cols-1 gap-2'>
@@ -789,7 +825,7 @@ export function HudUapInterface({
           {/* Main Content Area - Full Screen with minimal top HUD */}
           <div className='w-full h-full flex flex-col'>
             {/* Minimized Space HUD - Top strip */}
-            <div className='h-16 w-full border-b border-white/20 bg-black/40 backdrop-blur'>
+            {/* <div className='h-16 w-full border-b border-white/20 bg-black/40 backdrop-blur'>
               <TechSection title='ORBITAL MONITORING' className='h-full p-2'>
                 <div className='h-full flex items-center justify-center'>
                   <div className='text-xs text-white/60 font-monument-mono'>
@@ -797,7 +833,7 @@ export function HudUapInterface({
                   </div>
                 </div>
               </TechSection>
-            </div>
+            </div> */}
 
             {/* Globe Section - Takes remaining space */}
             <div className='flex-1 relative'>
@@ -815,7 +851,9 @@ export function HudUapInterface({
                       onChange={handleEnhancedTimeRangeChange}
                       onDateRangeChange={filterByDateRange}
                       className='w-full max-w-sm'
-                      sightingsData={filteredSightings.map(s => ({timestamp: new Date(s.timestamp)}))}
+                      sightingsData={filteredSightings.map((s) => ({
+                        timestamp: new Date(s.timestamp),
+                      }))}
                       showAnimation={true}
                     />
                   ) : (
@@ -843,20 +881,28 @@ export function HudUapInterface({
                 <div className='absolute right-4 top-1/2 transform -translate-y-1/2 z-10'>
                   <Card className='bg-black/80 backdrop-blur border-white/20 p-2 max-h-[200px] overflow-y-auto w-40'>
                     <div className='text-xs font-medium text-white/80 font-monument-mono flex justify-between mb-2'>
-                      <span>LOCATIONS</span>
+                      <span>TOP HOTSPOTS</span>
                       <span className='text-white/40'>{locations.length}</span>
                     </div>
                     <div className='space-y-1'>
-                      {locations.slice(0, 8).map((location, i) => (
+                      {calculateTopSightingLocations(filteredSightings, 8).map((location, i) => (
                         <div
                           key={i}
-                          className='text-xs text-white/60 hover:text-white cursor-pointer transition-colors font-monument-mono truncate'
+                          className='text-xs text-white/60 hover:text-white cursor-pointer transition-colors font-monument-mono'
                           onMouseEnter={() =>
                             setFocusedLocation({lat: location.lat, lon: location.lon})
                           }
                           onMouseLeave={() => setFocusedLocation(null)}
-                          title={location.name}>
-                          {location.name}
+                          title={`${location.name} - ${location.count > 0 ? location.count + ' sightings' : 'No data-based sightings'}`}>
+                          <div className='flex justify-between items-center w-full'>
+                            <span className='truncate flex-1 mr-2'>{location.name}</span>
+                            <span
+                              className={`font-medium text-xs ${
+                                location.count > 0 ? 'text-cyan-400' : 'text-white/30'
+                              }`}>
+                              {location.count > 0 ? location.count : '—'}
+                            </span>
+                          </div>
                         </div>
                       ))}
                     </div>

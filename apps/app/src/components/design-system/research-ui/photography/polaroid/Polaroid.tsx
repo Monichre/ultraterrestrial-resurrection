@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import {MaskingTape} from '@/components/masking-tape'
+import {MaskingTape} from '@/components/design-system/masking-tape'
 
 export const PolaroidBasic = ({person}) => {
   const {image, name, role, popularity, rank, credibility} = person
