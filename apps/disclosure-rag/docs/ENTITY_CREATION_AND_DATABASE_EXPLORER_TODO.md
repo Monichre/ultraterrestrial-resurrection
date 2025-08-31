@@ -1,10 +1,31 @@
 # **Development Todo List**
 
-**Generated:** July 13, 2025  
-**Focus:** Entity Creation System Completion & Database Explorer Implementation  
+**Generated:** July 13, 2025 | **Updated:** August 25, 2025  
+**Focus:** AGNO Integration Priority + Entity Creation System + Database Explorer Implementation  
 **Project:** Ultraterrestrial Resurrection - Disclosure RAG System  
 
-## **🚀 Priority 1: Complete Entity Creation System**
+## **🚀 STRATEGIC PRIORITY: AGNO Integration (6-Week Transformation)**
+
+**CRITICAL INITIATIVE**: Transform disclosure-rag into premier UAP research intelligence platform
+
+### **AGNO Integration Timeline**
+- **Phase 1** (Week 1-2): Core Agent Integration  
+- **Phase 2** (Week 3-4): Enhanced Streamlit Interface  
+- **Phase 3** (Week 5-6): Advanced Integration  
+
+### **Key Deliverables**
+- **Enhanced YouTube Agent**: Timestamp-based UAP analysis with event markers
+- **Deep Research UAP Agent**: Multi-source cross-referencing for 448 documents + 130K sightings  
+- **SQL Query Interface**: Natural language queries over massive geographic UFO database
+- **Academic Report Generation**: Comprehensive UAP research synthesis capabilities
+
+**Documentation**: 
+- `AGNO_INTEGRATION_ROADMAP.md` - Complete 6-week implementation plan
+- `PHASE_1_IMPLEMENTATION_PLAN.md` - Detailed Phase 1 tasks (14 days)
+
+---
+
+## **🔄 Priority 2: Complete Entity Creation System** (Post-AGNO)
 
 ### **Core Implementation (High Priority)**
 1. **Complete EntityCreator core implementation** in `lib/entity_extraction/core/`

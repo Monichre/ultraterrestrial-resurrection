@@ -4,6 +4,7 @@ import {SightingsLoader} from './sightings-loader'
 import {useState, useEffect, useCallback} from 'react'
 import {HudUapInterface} from '@/features/data-viz/sightings/uap-dashboard/HudUapInterface'
 import type {ValidatedUAPSighting} from '@/services/sightings/uap-sighting'
+import {debugLog} from '@/utils/logger'
 
 interface StatsType {
   totalSightings: number
@@ -21,10 +22,10 @@ interface SightingsClientProps {
 }
 
 export const SightingsClient = ({sightings, events, stats, analysis}: SightingsClientProps) => {
-  console.log('🚀 ~ SightingsClient ~ sightings:', sightings)
-  console.log('🚀 ~ SightingsClient ~ events:', events)
-  console.log('🚀 ~ SightingsClient ~ stats:', stats)
-  console.log('🚀 ~ SightingsClient ~ analysis:', analysis)
+  debugLog('🚀 ~ SightingsClient ~ sightings:', sightings)
+  debugLog('🚀 ~ SightingsClient ~ events:', events)
+  debugLog('🚀 ~ SightingsClient ~ stats:', stats)
+  debugLog('🚀 ~ SightingsClient ~ analysis:', analysis)
 
   const [isLoading, setIsLoading] = useState(true)
   const [sightingsData, setSightingsData] = useState<ValidatedUAPSighting[] | null>(null)

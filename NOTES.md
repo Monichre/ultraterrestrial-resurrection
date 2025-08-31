@@ -8,11 +8,9 @@ Personal notes and to-do items for the Ultraterrestrial project.
 
 - [ ] Test the new to-do command functionality
 
-
 ## Note [2025-08-13 20:15:38]
 
 This is a sample note to test the note functionality
-
 
 ## Note [2025-08-14 15:58:32]
 
@@ -24,3 +22,11 @@ In Vallée's context, "The Invisible College" described this network of research
 
 **References:** Added to knowledge-base at `/packages/knowledge-base/research/ufo-researchers-methodologies.md`
 
+<https://www.onenode.ai/pricing>
+<https://www.d5render.com/>
+<https://kreatli.com/>
+<https://cloud.appwrite.io/console/login?redirect=/console/>
+<https://visualize.graphy.app/chart/19c9a86a-b16b-4550-aa3b-4eab0ee5982b>
+<https://better-upload.com/>
+<https://www.haimeta.com/home>
+<https://myspace.d5render.com/overview>

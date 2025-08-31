@@ -1,0 +1,19 @@
+╭────────────────────────────────────────────────────────────────╮
+│ ✻ Welcome to Claude Code!                                      │
+│                                                                │
+│   /help for help, /status for your current setup               │
+│                                                                │
+│   cwd: /Users/liamellis/Desktop/ultraterrestrial-resurrection  │
+╰────────────────────────────────────────────────────────────────╯
+⏺ Compact summary (ctrl+r to expand)
+  ⎿  Referenced file apps/disclosure-rag/agents/entity_extraction_agent.py
+  ⎿  Referenced file apps/disclosure-rag/lib/shared_entity_store.py
+  ⎿  Referenced file apps/disclosure-rag/agents/uap_deep_research_agent.py
+  ⎿ Referenced file 
+    apps/disclosure-rag/agents/ultraterrestrial_domain_ner_agent.py
+  ⎿  Read DEEP_RESEARCH_AGENT_IMPLEMENTATION_SUMMARY.md (231 lines)
+  ⎿  Todo list read (5 items)
+
+> /compact 
+  ⎿  Compacted. ctrl+r to see full summary
+

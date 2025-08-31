@@ -18,7 +18,28 @@ VECTOR_STORE_ID = 'vs_meWOEnUiUxtQWf0W6NBsNpCG'
 def get_vector_store_info():
     """Get information about the vector store"""
     try:
-        vector_store = client.beta.vector_stores.retrieve(VECTOR_STORE_ID)
+        # Try newer API first
+        if hasattr(client, 'vector_stores'):
+            vector_store = client.vector_stores.retrieve(VECTOR_STORE_ID)
+        elif hasattr(client, 'beta') and hasattr(client.beta, 'vector_stores'):
+            vector_store = client.beta.vector_stores.retrieve(VECTOR_STORE_ID)
+        else:
+            # Alternative: use files API to get file info from vector store
+            print("Vector stores API not available in this SDK version")
+            print(f"Attempting to check vector store {VECTOR_STORE_ID} via files API...")
+            
+            # Try to get assistant that uses this vector store
+            assistants = client.beta.assistants.list()
+            for assistant in assistants.data:
+                if hasattr(assistant, 'tool_resources') and assistant.tool_resources:
+                    if hasattr(assistant.tool_resources, 'file_search') and assistant.tool_resources.file_search:
+                        if assistant.tool_resources.file_search.vector_store_ids and VECTOR_STORE_ID in assistant.tool_resources.file_search.vector_store_ids:
+                            print(f"Found vector store {VECTOR_STORE_ID} in assistant: {assistant.name} ({assistant.id})")
+                            return {"id": VECTOR_STORE_ID, "name": f"Vector store for {assistant.name}", "status": "active"}
+            
+            print(f"Vector store {VECTOR_STORE_ID} not found in any assistant")
+            return None
+        
         print(f"Vector Store: {vector_store.name}")
         print(f"ID: {vector_store.id}")
         print(f"File Count: {vector_store.file_counts}")
@@ -36,8 +57,25 @@ def list_vector_store_files():
         files = []
         after = None
 
+        # Try different API paths
+        if hasattr(client, 'vector_stores'):
+            vector_stores_api = client.vector_stores
+        elif hasattr(client, 'beta') and hasattr(client.beta, 'vector_stores'):
+            vector_stores_api = client.beta.vector_stores
+        else:
+            print("Vector stores files API not available - using fallback method")
+            # Fallback: try to get files from assistants
+            assistants = client.beta.assistants.list()
+            assistant_files = []
+            for assistant in assistants.data:
+                if hasattr(assistant, 'file_ids') and assistant.file_ids:
+                    assistant_files.extend(assistant.file_ids)
+            
+            print(f"Found {len(assistant_files)} files referenced by assistants")
+            return assistant_files
+
         while True:
-            response = client.beta.vector_stores.files.list(
+            response = vector_stores_api.files.list(
                 vector_store_id=VECTOR_STORE_ID,
                 limit=100,
                 after=after

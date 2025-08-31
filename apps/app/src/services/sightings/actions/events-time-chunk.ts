@@ -1,6 +1,7 @@
 "use server"
 
 import { xata } from "@db/xata/client"
+import {debugLog} from '@/utils/logger'
 import type { EventsRecord } from "@db/xata/xata"
 
 // Type definitions for aggregation results based on Xata's documentation
@@ -37,7 +38,7 @@ export async function getEventsByTimeChunk(
 			.sort( "date", "desc" )
 			.getPaginated( {
 				pagination: {
-					size: limit,
+					size: Math.min(limit, 200), // Respect Xata's 200 record limit
 				},
 			} )
 
@@ -65,30 +66,28 @@ export async function getEventsStats(
 		const maxAllowedYear = Math.min( endYear, currentYear )
 		const endDate = new Date( `${maxAllowedYear}-12-31T23:59:59Z` )
 
-		console.log( "🔍 Events: Using date range:", startDate.toISOString(), "to", endDate.toISOString() )
+    debugLog( "🔍 Events: Using date range:", startDate.toISOString(), "to", endDate.toISOString() )
 
 		// Category aggregation removed per requirement
 
-		// Get time series data by year with date filters
+		// Get time series data by year - simplified without date filters for now
 		const timeSeriesAggregation = ( await xata.db.events.aggregate( {
 			eventsByYear: {
 				dateHistogram: {
 					column: "date",
 					calendarInterval: "year",
-				},
-				filter: {
-					date: {
-						$ge: startDate,
-						$le: endDate
-					}
 				}
-			},
+			}
 		} ) ) as unknown as XataAggregationResult
 
-		// Fetch all events to process location data with coordinates
+		// Fetch events to process location data with coordinates (limited)
 		const eventsRecords = await xata.db.events
 			.filter( "date", { $ge: startDate, $le: endDate } )
-			.getAll()
+			.getPaginated( {
+				pagination: {
+					size: 200, // Maximum safe limit for Xata
+				},
+			} )
 
 		// Process location data to include coordinates
 		const locationGroups = new Map<
@@ -100,7 +99,7 @@ export async function getEventsStats(
 			}
 		>()
 
-		for ( const event of eventsRecords ) {
+		for ( const event of eventsRecords.records ) {
 			// Create a composite key that represents this location
 			const locationKey = event.location || "Unknown"
 
@@ -201,17 +200,17 @@ export async function getEventsStats(
 		} )
 
 		// Log the corrections for debugging
-		if ( filteredTimeSeriesData.length > 0 ) {
-			console.log(
-				`📅 Original first date: ${timeSeriesAggregation.aggs.eventsByYear?.values?.[0]?.$key}`,
-			)
-			console.log(
-				`📅 Normalized first date: ${filteredTimeSeriesData[0].value}`,
-			)
-			console.log(
-				`📅 Date counts: ${filteredTimeSeriesData.map( ( d ) => d.count ).join( ", " )}`,
-			)
-		}
+    if ( filteredTimeSeriesData.length > 0 ) {
+        debugLog(
+            `📅 Original first date: ${timeSeriesAggregation.aggs.eventsByYear?.values?.[0]?.$key}`,
+        )
+        debugLog(
+            `📅 Normalized first date: ${filteredTimeSeriesData[0].value}`,
+        )
+        debugLog(
+            `📅 Date counts: ${filteredTimeSeriesData.map( ( d ) => d.count ).join( ", " )}`,
+        )
+    }
 
 		// Create a complete timeseries with all years in the range
 		// First, convert the filtered data to a map for easy lookup

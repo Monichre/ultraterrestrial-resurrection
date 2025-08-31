@@ -6,7 +6,7 @@ import {MindMapBottomMenu} from './mindmap-bottom-menu'
 import {useMindMap} from '@/contexts/mindmap/mindmap-context'
 import {COMMANDS} from './oracle-command-menu/commands'
 import {ENTITY_TYPES} from './entity-types'
-import {useAssistant} from '@ai-sdk/react'
+import {useChat} from '@ai-sdk/react'
 import {useAIMindMap} from '@/features/mindmap/components/ai-integration'
 
 /**
@@ -35,7 +35,7 @@ export function SmartBottomMenu() {
   const [selectedModel, setSelectedModel] = useState<string | null>(null)
 
   // Get AI session status
-  const sessionState = useAssistant({
+  const sessionState = useChat({
     api: '/api/disclosure/chat',
   })
 

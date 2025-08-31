@@ -3,7 +3,7 @@
 
 import {ThemeProvider} from '@/contexts/theme-provider'
 import {ClerkProvider} from '@clerk/nextjs'
-import {FullSiteNav} from '@/components/navbar/full-site-nav'
+// import {FullSiteNav} from '@/components/navbar/full-site-nav'
 import {
   FONT_LUKAS_SANS,
   FONT_MONUMENT_GROTESK,
@@ -25,6 +25,7 @@ import BrowserEchoScript from '@browser-echo/next/BrowserEchoScript'
 import '@xyflow/react/dist/style.css'
 import './globals.css'
 import './research-ui.css'
+import {CosmicNav} from '@/components/navbar/cosmic-nav'
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -42,21 +43,6 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <ClerkProvider>
       <html lang='en' suppressHydrationWarning className='dark'>
-        <head>
-          <head>
-            {process.env.NODE_ENV === 'development' && (
-              <BrowserEchoScript
-                route='/api/client-logs'
-                include={['warn', 'error']}
-                preserveConsole={true}
-                tag='[NextJS Browser]'
-                stackMode='condensed'
-                showSource={true}
-                batch={{size: 10, interval: 500}}
-              />
-            )}
-          </head>
-        </head>
         <body
           className={`${FONT_NEUE_HAAS_GROTESK.variable} ${FONT_MONUMENT_GROTESK.variable} ${FONT_MONUMENT_GROTESK_MONO.variable} ${FONT_LUKAS_SANS.variable} ${FONT_JUST_ANOTHER_HAND.variable} ${FONT_JET_BRAINS_MONO.variable} ${FONT_MARTIAN_MONO.variable} ${FONT_NOTO_SANS.variable} ${FONT_SPACE_GROTESK.variable} ${FONT_LEAGUE_SPARTAN.variable} ${FONT_SPECIAL_ELITE.variable} ${FONT_ANTON.variable} ${FONT_CAVEAT.variable} dark`}>
           <ThemeProvider
@@ -69,9 +55,14 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
           >
             {/* <DataLayer> */}
 
-            <FullSiteNav />
+            {/* <FullSiteNav /> */}
             <CustomCursor />
-            <main className='min-h-[100vh] min-w-screen relative site dark'>{children}</main>
+            <main className='min-h-[100vh] min-w-screen relative site dark'>
+              <div className='cosmic-nav'>
+                <CosmicNav />
+              </div>
+              {children}
+            </main>
           </ThemeProvider>
         </body>
         {/* </DataLayer> */}

@@ -1,5 +1,6 @@
 import type {Meta, StoryObj} from '@storybook/react'
 import {LaunchPadWithSession} from './LaunchPadWithSession'
+import {LaunchPad} from './launchpad'
 
 const meta = {
   title: 'Features/Mindmap/Components/LaunchPad',

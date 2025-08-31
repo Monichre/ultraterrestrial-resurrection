@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Textarea } from "@/components/ui/Textarea"
+import { Textarea } from "@/components/ui/textarea"
 import { useTextareaResize } from "@/hooks/use-textarea-resize"
 import { cn } from "@/utils"
 import { ArrowUpIcon } from "lucide-react"

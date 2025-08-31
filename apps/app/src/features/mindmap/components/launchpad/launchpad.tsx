@@ -22,7 +22,8 @@ import {
 } from '../menus/mindmap-bottom-menu/UltraterrestrialModelSelection'
 import {ENTITY_TYPES} from '../menus/mindmap-bottom-menu/entity-types'
 import {initiateDatabaseTableQuery} from '../../actions/search'
-import {useAssistant, type Message as AISdkMessage} from '@ai-sdk/react'
+// @ts-ignore - Storybook aliases '@ai-sdk/react' to a local stub; Next app uses real package
+import {useChat} from 'ai/react'
 import {v4 as uuidv4} from 'uuid'
 import {useSession} from '@/contexts/SessionContext'
 import {SessionProgressIndicator, SessionProgressBadge} from '@/components/SessionProgressIndicator'
@@ -233,21 +234,14 @@ export function LaunchPad({
     autoSave: true,
     saveInterval: 30000, // 30 seconds
     onSaveError: (error) => console.error('Session save failed:', error),
+    onRestoreError: (error) => console.error('Session restore failed:', error),
   })
 
   // Session ID for AI assistant
   const sessionId = useRef<string>(sessionState.sessionId || uuidv4())
 
   // AI SDK integration
-  const {
-    status: chatStatus,
-    messages,
-    input,
-    setInput,
-    submitMessage,
-    append,
-    error,
-  } = useAssistant({
+  const {messages, input, setInput, append, isLoading} = useChat({
     api: '/api/disclosure/chat',
     headers: {
       'x-session-id': sessionId.current,
@@ -374,7 +368,7 @@ export function LaunchPad({
         e.preventDefault()
 
         // Prevent submission if chat is loading
-        if (chatStatus === 'in_progress') {
+        if (isLoading) {
           return
         }
 
@@ -385,7 +379,6 @@ export function LaunchPad({
         ) {
           setInput(inputValue)
           append({role: 'user', content: inputValue})
-          submitMessage({preventDefault: () => {}} as React.FormEvent<HTMLFormElement>)
 
           // Add message to session
           addMessage({
@@ -457,16 +450,7 @@ export function LaunchPad({
         setCommandMenuOpen(true)
       }
     },
-    [
-      inputValue,
-      activeCommand,
-      chatStatus,
-      setInput,
-      append,
-      submitMessage,
-      selectedModel,
-      modelSearchActions,
-    ]
+    [inputValue, activeCommand, isLoading, setInput, append, selectedModel, modelSearchActions]
   )
 
   const removeActiveCommand = useCallback(() => {
@@ -484,9 +468,7 @@ export function LaunchPad({
     if (activeCommand === 'chat' || activeCommand === 'deep research') {
       // Handle chat submission
       if (inputValue.trim()) {
-        const formData = new FormData()
-        formData.append('message', inputValue)
-        submitMessage({preventDefault: () => {}} as React.FormEvent<HTMLFormElement>)
+        append({role: 'user', content: inputValue})
         setInput('')
         setInputValue('')
       }
@@ -511,7 +493,7 @@ export function LaunchPad({
         console.log(`📝 Select a search term to add ${selectedModel} data`)
       }
     }
-  }, [activeCommand, inputValue, selectedModel, submitMessage, setInput, modelSearchActions])
+  }, [activeCommand, inputValue, selectedModel, append, setInput, modelSearchActions])
 
   // Model selection handlers
   const toggleModelMenu = useCallback(() => {
@@ -703,9 +685,7 @@ export function LaunchPad({
                     aria-describedby={activeTab === 'ai' ? 'ai-input-help' : undefined}
                   />
                   <div className='absolute right-3 top-1/2 -translate-y-1/2 flex items-center space-x-2'>
-                    {activeTab === 'ai' && chatStatus === 'in_progress' && (
-                      <LoadingSpinner size='sm' />
-                    )}
+                    {activeTab === 'ai' && isLoading && <LoadingSpinner size='sm' />}
                     <Search
                       className='text-muted-foreground pointer-events-none'
                       aria-hidden='true'
@@ -922,7 +902,7 @@ export function LaunchPad({
                           activeCommand={activeCommand}
                           removeActiveCommand={removeActiveCommand}
                           modelSearchActions={modelSearchActions}
-                          chatStatus={chatStatus}
+                          chatStatus={isLoading ? 'in_progress' : 'awaiting_message'}
                         />
                       </Suspense>
 
@@ -939,9 +919,9 @@ export function LaunchPad({
                           isChatActive={
                             activeCommand === 'chat' || activeCommand === 'deep research'
                           }
-                          chatStatus={chatStatus}
+                          chatStatus={isLoading ? 'in_progress' : 'awaiting_message'}
                           messages={messages.map(
-                            (msg: AISdkMessage): LocalMessage => ({
+                            (msg: any): LocalMessage => ({
                               id: msg.id,
                               role: msg.role === 'data' ? 'assistant' : msg.role,
                               content: msg.content,
@@ -1009,17 +989,7 @@ export function LaunchPad({
                         )}
                       </div>
 
-                      {/* Error Display */}
-                      {error && (
-                        <motion.div
-                          {...ANIMATION_CONFIG.feedback.error}
-                          className='mt-2 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-red-700 dark:text-red-300 text-sm flex items-center gap-2'>
-                          <AlertCircle className='w-4 h-4 flex-shrink-0' />
-                          <span>
-                            Error: {error.message || 'An error occurred with the AI assistant'}
-                          </span>
-                        </motion.div>
-                      )}
+                      {/* Error Display - handled upstream or via toasts */}
 
                       {/* Session Progress Indicator */}
                       {sessionState.backgroundTasks.length > 0 && (

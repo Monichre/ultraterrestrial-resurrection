@@ -15,7 +15,8 @@ import {Badge} from '@/components/ui/badge'
 import {ChatResourceForm} from '@/components/chat-resource-form'
 import {Tabs, TabsContent, TabsList, TabsTrigger} from '@/components/ui/tabs'
 import {ScrollArea} from '@/components/ui/scroll-area'
-import {useAssistant} from '@ai-sdk/react'
+import {useChat} from '@ai-sdk/react'
+import {DefaultChatTransport, generateId} from 'ai'
 import {cn} from '@/utils'
 import type {ResearchDepth, ResearchCategory} from '@/lib/firecrawl/firecrawl'
 
@@ -59,34 +60,27 @@ export function ChatWithContext({
   const [activeResource, setActiveResource] = useState<string | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
-  const {
-    messages,
-    input,
-    handleInputChange,
-    submitMessage: originalSubmitMessage,
-    isLoading,
-    error,
-  } = useAssistant({
-    api: apiEndpoint,
-    initialMessages,
+  const {messages, sendMessage, status, error, setMessages} = useChat({
+    transport: new DefaultChatTransport({
+      api: apiEndpoint,
+    }),
   })
+  const isLoading = status === 'submitted' || status === 'streaming'
+  const [input, setInput] = useState('')
 
   // Override submitMessage to include resource context
   const submitMessage = () => {
     if (activeResource) {
       const resource = resources.find((r) => r.resourceId === activeResource)
       if (resource) {
-        return originalSubmitMessage(input, {
-          resourceContext: {
-            resourceId: resource.resourceId,
-            summary: resource.summary,
-            sourceUrl: resource.sourceUrl,
-            fileName: resource.fileName,
-          },
-        })
+        if (input?.trim()) {
+          return sendMessage({text: input})
+        }
       }
     }
-    return originalSubmitMessage()
+    if (input?.trim()) {
+      return sendMessage({text: input})
+    }
   }
 
   // Scroll to bottom of messages
@@ -190,15 +184,8 @@ export function ChatWithContext({
 
         analysisPrompt += `focusing on ${values.categories.join(', ')}. Please provide a summary of the key information and insights from this content.`
 
-        // Submit system message to inform the AI
-        originalSubmitMessage(analysisPrompt, {
-          resourceContext: {
-            resourceId: newResource.resourceId,
-            summary: newResource.summary,
-            sourceUrl: newResource.sourceUrl,
-            fileName: newResource.fileName,
-          },
-        })
+        // Send analysis prompt to chat
+        sendMessage({text: analysisPrompt})
 
         // Switch to chat tab
         setActiveTab('chat')
@@ -208,10 +195,20 @@ export function ChatWithContext({
       }
     } catch (err: any) {
       console.error('Error processing resource:', err)
-      // Add error message to chat
-      originalSubmitMessage(
-        `There was an error processing your resource: ${err.message}. Please try again.`
-      )
+      // Add error message to chat UI
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: generateId(),
+          role: 'assistant',
+          parts: [
+            {
+              type: 'text',
+              text: `There was an error processing your resource: ${err.message}. Please try again.`,
+            },
+          ],
+        },
+      ])
     } finally {
       setProcessingResource(false)
     }
@@ -277,7 +274,9 @@ export function ChatWithContext({
                       'rounded-lg px-3 py-2 max-w-[85%] text-sm',
                       message.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted'
                     )}>
-                    {message.content}
+                    {message.parts?.map((part, index) =>
+                      part.type === 'text' ? <span key={index}>{part.text}</span> : null
+                    )}
                   </div>
                 </div>
               ))}
@@ -327,9 +326,7 @@ export function ChatWithContext({
                               : resource.title}
                           </span>
                         </div>
-                        <Badge variant='outline' size='sm'>
-                          {resource.type}
-                        </Badge>
+                        <Badge variant='outline'>{resource.type}</Badge>
                       </div>
                     ))}
                   </div>
@@ -344,7 +341,7 @@ export function ChatWithContext({
         <form onSubmit={handleSubmit} className='flex space-x-2'>
           <Input
             value={input}
-            onChange={handleInputChange}
+            onChange={(e) => setInput(e.target.value)}
             placeholder='Ask a question about the document...'
             className='flex-1'
             disabled={isLoading || activeTab !== 'chat'}

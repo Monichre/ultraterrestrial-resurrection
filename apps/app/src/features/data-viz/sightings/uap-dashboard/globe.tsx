@@ -8,6 +8,7 @@ import * as THREE from 'three'
 import {Color} from 'three'
 import type {ValidatedUAPSighting} from '@/services/sightings/uap-sighting'
 import {AdaptiveRenderingLayers} from '../components/VisualizationLayers'
+import {debugLog} from '@/utils/logger'
 
 // Interface for location point data
 interface GlobePoint {
@@ -264,10 +265,10 @@ function Earth({focusedLocation, sightings = [], children}: EarthProps) {
     }
 
     // Log statistics for debugging
-    console.log(
+    debugLog(
       `🌎 Globe clustering: ${sightingsWithCoordinates}/${totalSightings} sightings have valid coordinates`
     )
-    console.log(`🌎 Created ${cityMap.size} clusters from sightings data`)
+    debugLog(`🌎 Created ${cityMap.size} clusters from sightings data`)
 
     return Array.from(cityMap.values())
       .filter((cluster) => cluster.count > 1)
@@ -372,7 +373,7 @@ export default function Globe({
         !isNaN(s.location.coordinates.lng)
     )
 
-    console.log(`🌎 Globe: ${valid.length}/${sightings.length} sightings have valid coordinates`)
+    debugLog(`🌎 Globe: ${valid.length}/${sightings.length} sightings have valid coordinates`)
     return valid
   }, [sightings])
 

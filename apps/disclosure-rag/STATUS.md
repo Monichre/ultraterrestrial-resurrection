@@ -420,7 +420,27 @@ cd apps/research-canvas && ./launch.sh
 
 ### Development Priorities
 
-#### Immediate (Week 1-2)
+#### 🚀 TOP PRIORITY: AGNO Integration (Week 1-6)
+**Strategic Initiative**: Transform disclosure-rag into premier UAP research intelligence platform
+
+**Phase 1: Core Agent Integration (Week 1-2)**
+1. **UFO YouTube Agent**: Enhanced timestamp-based UAP analysis with event markers
+2. **Deep Research UAP Agent**: Multi-source cross-referencing for 448 documents + 130K sightings
+3. **Integration with existing entity extraction**: Leverage 85-95% accuracy AI-powered system
+
+**Phase 2: Enhanced Streamlit Interface (Week 3-4)**
+4. **SQL Query Interface**: Natural language queries over 130K+ sightings database
+5. **Multi-Agent Research Workflow**: Searcher → Analyst → Writer UAP methodology
+6. **Geographic Pattern Analysis**: Military base proximity investigations
+
+**Phase 3: Advanced Integration (Week 5-6)**
+7. **Media Trend Analysis**: UAP disclosure monitoring and congressional hearing tracking
+8. **Cross-System Knowledge Bridge**: Hybrid search across all vector stores
+9. **Academic-Grade Report Generation**: Comprehensive UAP research reports
+
+**Expected Impact**: Transform from document processing tool → comprehensive UAP research intelligence platform
+
+#### Immediate (Post-AGNO, Week 7-8)
 1. **Complete Agent Orchestration**: Finish research crew implementation
 2. **CocoIndex Testing**: Set up clean environment for full dual RAG testing
 3. **Missing Files Recovery**: Locate or recreate missing chat implementations

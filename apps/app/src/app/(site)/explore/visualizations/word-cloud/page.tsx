@@ -4,7 +4,9 @@ const xata = getXataClient()
 import dynamic from 'next/dynamic'
 import {Suspense} from 'react'
 
-const Loading = dynamic(() => import('@/components/loaders/loading').then((mod) => mod.Loading))
+const Loading = dynamic(() =>
+  import('@/features/data-viz/sightings/components/loaders/loading').then((mod) => mod.Loading)
+)
 
 const WordCloud = dynamic(() =>
   import('@/features/3d/visualizations/word-cloud').then((mod) => mod.WordCloud)
@@ -78,9 +80,8 @@ export default async function Index() {
   const organizationsMembers = await xata.db['organization-members'].getAll()
 
   // This is a 3 way link. How to handle?
-  const eventsTopicsExpertsConnections = await xata.db[
-    'event-topic-subject-matter-experts'
-  ].getAll()
+  const eventsTopicsExpertsConnections =
+    await xata.db['event-topic-subject-matter-experts'].getAll()
 
   const topicsTestimoniesConnections = await xata.db['topics-testimonies'].getAll()
 

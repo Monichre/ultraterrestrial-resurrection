@@ -3,9 +3,9 @@ import {Suspense} from 'react'
 import type {ValidatedUAPSighting} from '@/services/sightings/uap-sighting'
 import {getSightingsBatched} from '@/services/sightings/actions/sightings-time-chunk'
 import {getEventsBatched} from '@/services/sightings/actions/events-time-chunk'
-import {analyzeSightingsData} from '@/services/sightings/actions/sightings-ai-analysis'
-import {getYear, subYears} from 'date-fns'
+import {getYear} from 'date-fns'
 import {serializeXataRecords} from '@/utils/serialization'
+import {debugLog} from '@/utils/logger'
 
 // Define interface for sightings stats matching StatsType in SightingsClient
 interface SightingsStats {
@@ -75,25 +75,30 @@ export default async function Index() {
   // Create a dynamic 10-year window using date-fns
   const currentDate = new Date()
   const currentYear = getYear(currentDate)
-  const startDate = subYears(currentDate, 10)
-  const startYear = getYear(startDate)
 
-  // Use a single time range instead of multiple small chunks
-  const timeRange = {
-    startYear: 2015,
-    endYear: 2025,
-  }
+  // Create multiple time ranges for better historical distribution
+  const timeRanges = [
+    { startYear: 1947, endYear: 1970 }, // Classic UFO era (Roswell to early sightings)
+    { startYear: 1970, endYear: 1990 }, // Modern UFO wave 
+    { startYear: 1990, endYear: 2010 }, // Digital age sightings
+    { startYear: 2010, endYear: currentYear }, // Recent UAP disclosure era
+  ]
 
-  console.log('🔍 Fetching sightings and events with time range:', timeRange)
+  debugLog('🔍 Fetching sightings and events with expanded historical time ranges:')
+  debugLog('  • Classic UFO Era (1947-1970): Roswell to early documented sightings')
+  debugLog('  • Modern UFO Wave (1970-1990): Increased public awareness period')
+  debugLog('  • Digital Age (1990-2010): Internet documentation boom')
+  debugLog('  • UAP Disclosure Era (2010-present): Government acknowledgment period')
+  debugLog('  • Total time span:', timeRanges)
 
   try {
-    // Fetch both sightings and events data in parallel
+    // Fetch both sightings and events data in parallel with conservative limits
     const [sightingsResponse, eventsResponse] = await Promise.all([
-      getSightingsBatched([timeRange], 100),
-      getEventsBatched([timeRange], 100),
+      getSightingsBatched(timeRanges, 200),  // Conservative limit per time range
+      getEventsBatched(timeRanges, 100),     // Conservative limit per time range
     ])
 
-    console.log('🚀 ~ Index ~ sightingsResponse:', sightingsResponse)
+    debugLog('🚀 ~ Index ~ sightingsResponse:', sightingsResponse)
 
     // Safely serialize the responses for client components
     const serializedResponses = serializeXataRecords([sightingsResponse, eventsResponse])
@@ -111,21 +116,24 @@ export default async function Index() {
       SerializedEventsResponse,
     ]
 
-    console.log('🚀 ~ Index ~ serialized sightingsResponse:', serializedSightingsResponse)
-    console.log('🚀 ~ Index ~ serialized eventsResponse:', serializedEventsResponse)
+    debugLog('🚀 ~ Index ~ serialized sightingsResponse:', serializedSightingsResponse)
+    debugLog('🚀 ~ Index ~ serialized eventsResponse:', serializedEventsResponse)
 
     const {sightings, stats} = serializedSightingsResponse
 
-    console.log('🚀 ~ Index ~ sightings stats:', stats)
-
-    console.log('🚀 ~ Index ~ sightings:', sightings)
+    debugLog('🚀 ~ Index ~ sightings stats:', stats)
+    debugLog('🚀 ~ Index ~ sightings:', sightings)
 
     const {events, stats: eventStats} = serializedEventsResponse
 
-    console.log('🚀 ~ Index ~ sightings length:', sightings?.length || 0)
-    console.log('🚀 ~ Index ~ events length:', events?.length || 0)
-    console.log('🚀 ~ Index ~ stats:', stats)
-    console.log('🚀 ~ Index ~ eventStats:', eventStats)
+    debugLog('📊 DATA SUMMARY:')
+    debugLog('  • Sightings loaded:', sightings?.length || 0)
+    debugLog('  • Events loaded:', events?.length || 0)
+    debugLog('  • Time range covered:', stats?.timeRange || 'Unknown')
+    debugLog('  • Distribution by year:', Object.keys(stats?.byYear || {}).length, 'years represented')
+    debugLog('  • Geographic coverage:', Object.keys(stats?.byLocation || {}).length, 'locations')
+    debugLog('📊 FULL STATS:', stats)
+    debugLog('📊 EVENT STATS:', eventStats)
 
     // Create stats object with proper typing
     const formattedStats: SightingsStats = {
@@ -134,7 +142,7 @@ export default async function Index() {
       byConfidence: stats?.byConfidence || countByField(sightings, 'confidence'),
       byYear: stats?.byYear || countByYear(sightings),
       timeRange: {
-        startYear,
+        startYear: 1947, // Use the full historical range
         endYear: currentYear,
       },
     }
@@ -180,7 +188,13 @@ export default async function Index() {
       </Suspense>
     )
   } catch (error) {
-    console.error('❌ Error fetching sightings:', error)
+    console.error('❌ Error fetching sightings data:')
+    console.error('  • Error type:', error instanceof Error ? error.constructor.name : typeof error)
+    console.error('  • Error message:', error instanceof Error ? error.message : String(error))
+    console.error('  • Time ranges attempted:', timeRanges)
+    if (error instanceof Error && error.stack) {
+      console.error('  • Stack trace:', error.stack.split('\n').slice(0, 5).join('\n'))
+    }
 
     // Return fallback UI with empty data
     return (

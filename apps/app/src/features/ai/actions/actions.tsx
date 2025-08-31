@@ -3,7 +3,7 @@
 import {Message} from '@/features/ai/components/message'
 import {searchXata} from '@db/src/xata-typescript-sdk/api'
 import {generateId} from 'ai'
-import {createStreamableUI, createStreamableValue} from 'ai/rsc'
+import {createStreamableUI, createStreamableValue} from '@ai-sdk/rsc'
 import {openai} from '@/lib/openai/client'
 import type {ReactNode} from 'react'
 

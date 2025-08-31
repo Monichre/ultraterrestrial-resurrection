@@ -1,6 +1,7 @@
 import type {Preview} from '@storybook/react'
 import React from 'react'
 import '../src/app/globals.css'
+import '../src/app/research-ui.css'
 // import '@xyflow/react/dist/style.css'
 import {ThemeProvider} from '../src/contexts/theme-provider'
 import {
@@ -18,6 +19,7 @@ import {
 } from '../src/app/fonts'
 import {create} from '@storybook/theming'
 import {withReferenceAssets} from './decorators/reference-assets'
+import ultraterrestrialTheme from './theme'
 
 // Mock window.location for Storybook environment
 if (typeof window !== 'undefined' && !window.location) {

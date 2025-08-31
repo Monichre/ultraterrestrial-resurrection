@@ -1,6 +1,7 @@
 "use server"
 
 import { xata } from "@db/xata/client"
+import { debugLog } from '@/utils/logger'
 import { UAPSightingSchema, type ValidatedUAPSighting } from "../uap-sighting"
 
 // Xata response types - define these based on actual API responses
@@ -129,7 +130,7 @@ export async function getSightingsByTimeChunk(
 				date: "desc",
 			},
 			page: {
-				size: limit,
+				size: Math.min( limit, 200 ), // Respect Xata's 200 record limit
 			},
 			boosters: [
 				{
@@ -242,8 +243,8 @@ export async function getSightingsByTimeChunk(
 			const expandedResults = await xata.db.sightings.search( "*", {
 				filter: {
 					$all: [
-						{ latitude: { $isNotNull: "" } },
-						{ longitude: { $isNotNull: "" } },
+						{ latitude: { $exists: true } },
+						{ longitude: { $exists: true } },
 						{ date: { $ge: startDate, $le: endDate } },
 					],
 				},
@@ -251,7 +252,7 @@ export async function getSightingsByTimeChunk(
 					date: "desc",
 				},
 				page: {
-					size: Math.min( limit * 2, 1000 ),
+					size: Math.min( limit, 200 ), // Respect Xata's 200 record limit
 				},
 			} )
 
@@ -472,7 +473,7 @@ export async function getSightingsStats(
 		}
 
 		// Since we can't use dateHistogram, we'll fetch records to count years
-		// Fetch records directly for counting using search
+		// Fetch records directly for counting using search with proper pagination
 		const sampleRecords = await xata.db.sightings.search( "*", {
 			filter: {
 				date: {
@@ -481,7 +482,7 @@ export async function getSightingsStats(
 				},
 			},
 			page: {
-				size: 500, // Get a decent sample
+				size: 200, // Maximum allowed by Xata
 			},
 		} )
 
@@ -546,7 +547,7 @@ export async function getSightingsStats(
 					},
 				},
 				page: {
-					size: 500, // Get a decent sample
+					size: 200, // Maximum allowed by Xata
 				},
 			} )
 
@@ -811,7 +812,7 @@ export async function getSightingsBatched(
 	}
 }> {
 	try {
-		console.log(
+		debugLog(
 			"🔍 getSightingsBatched called with time ranges:",
 			timeRanges,
 			"and limit:",
@@ -882,7 +883,7 @@ export async function getSightingsBatched(
 			endDate = currentDate
 		}
 
-		console.log(
+		debugLog(
 			"🔍 Using consolidated date range:",
 			startDate.toISOString(),
 			"to",
@@ -890,25 +891,26 @@ export async function getSightingsBatched(
 		)
 
 		// Fetch both stats and records in parallel for better performance
+		// Use the consolidated date range derived from provided timeRanges
 		const [stats, allSightings] = await Promise.all( [
-			// Get aggregated statistics
-			getSightingsStats( 2015, 2025 ),
+			// Get aggregated statistics for the requested window
+			getSightingsStats( startDate, endDate ),
 
-			// Get actual sightings records
-			fetchSightingsRecords( 2015, 2025, limit ),
+			// Get actual sightings records within the requested window
+			fetchSightingsRecords( startDate, endDate, limit ),
 		] )
 
-		console.log( "🚀 ~ allSightings:", allSightings )
+		debugLog( "🚀 ~ allSightings:", allSightings )
 
-		console.log( "📊 Stats fetched:", stats )
-		console.log( `📄 Fetched ${allSightings.length} sightings records` )
+		debugLog( "📊 Stats fetched:", stats )
+		debugLog( `📄 Fetched ${allSightings.length} sightings records` )
 
 		// Check how many records have mappable coordinates
 		const mappableSightings = allSightings.filter(
 			( s ) => s.location?.coordinates?.lat && s.location?.coordinates?.lng,
 		)
 
-		console.log(
+		debugLog(
 			`📍 Found ${mappableSightings.length}/${allSightings.length} sightings with coordinates for mapping`,
 		)
 
@@ -916,7 +918,7 @@ export async function getSightingsBatched(
 		// fetch some specifically with coordinates
 		if ( mappableSightings.length < 50 && allSightings.length > 0 ) {
 			try {
-				console.log(
+				debugLog(
 					"📍 Fetching additional sightings with coordinates for mapping",
 				)
 
@@ -924,8 +926,8 @@ export async function getSightingsBatched(
 				const mappableResults = await xata.db.sightings.search( "*", {
 					filter: {
 						$all: [
-							{ latitude: { $isNotNull: "" } },
-							{ longitude: { $isNotNull: "" } },
+							{ latitude: { $exists: true } },
+							{ longitude: { $exists: true } },
 							{ date: { $ge: startDate, $le: endDate } },
 						],
 					},
@@ -933,12 +935,12 @@ export async function getSightingsBatched(
 						date: "desc",
 					},
 					page: {
-						size: 500,
+						size: 200, // Maximum allowed by Xata
 					},
 				} )
 
 				if ( mappableResults.records.length > 0 ) {
-					console.log(
+					debugLog(
 						`📍 Found ${mappableResults.records.length} additional sightings with coordinates`,
 					)
 
@@ -1003,7 +1005,7 @@ export async function getSightingsBatched(
 						( s ) => !existingIds.has( s.id ),
 					)
 
-					console.log(
+					debugLog(
 						`📍 Adding ${uniqueMappableSightings.length} unique mappable sightings to results`,
 					)
 					allSightings.push( ...uniqueMappableSightings )

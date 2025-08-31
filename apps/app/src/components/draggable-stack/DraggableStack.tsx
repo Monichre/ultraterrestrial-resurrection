@@ -1,14 +1,19 @@
 'use client'
 
 import {motion} from 'framer-motion'
-import {useRef, useState} from 'react'
+import React, {useRef, useState} from 'react'
 import {twMerge} from 'tailwind-merge'
+import {MaskingTape} from '@/components/design-system/masking-tape'
 
 import {cn} from '@/utils'
 
-export const DragCards = ({className, ...props}: React.HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn('absolute inset-0 z-10', className)} {...props} />
+export const DragCards = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({className, ...props}, ref) => (
+    <div ref={ref} className={cn('absolute inset-0 z-10', className)} {...props} />
+  )
 )
+
+DragCards.displayName = 'DragCards'
 
 export const DragCardsTitle = ({className, ...props}: React.HTMLAttributes<HTMLHeadingElement>) => (
   <h4
@@ -34,7 +39,7 @@ export function DragCard({containerRef, src, alt, top, left, rotate, className}:
   const [zIndex, setZIndex] = useState(0)
 
   return (
-    <motion.img
+    <motion.div
       onMouseDown={() => updateZIndex_(setZIndex)}
       style={{
         top,
@@ -42,15 +47,24 @@ export function DragCard({containerRef, src, alt, top, left, rotate, className}:
         rotate,
         zIndex,
       }}
-      className={twMerge('drag-elements absolute w-48 bg-neutral-200 p-1 pb-4', className)}
-      src={src}
-      alt={alt}
+      className={twMerge(
+        'drag-elements absolute w-48 bg-neutral-200 p-1 pb-4',
+        'shadow-sm',
+        className
+      )}
       drag
       dragConstraints={containerRef}
       // Uncomment below and remove dragElastic to remove movement after release
       //   dragMomentum={false}
-      dragElastic={0.65}
-    />
+      dragElastic={0.65}>
+      <MaskingTape position='left' />
+      <MaskingTape position='right' />
+      <img
+        src={src}
+        alt={alt}
+        className='object-cover bg-neutral-200 pt-4 px-2 pb-16 z-1 h-full w-full'
+      />
+    </motion.div>
   )
 }
 

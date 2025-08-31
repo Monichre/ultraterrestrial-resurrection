@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 
 /* @plugin '@tailwindcss/typography'; */
-/* @config ".././tailwind.config.ts"; */
+/* @config "../../tailwind.config.ts"; */
 
 /* Import accessibility styles */
 /* @import "../styles/accessibility.scss"; */
@@ -564,7 +564,19 @@ h2,
 h3 {
   /* font-family: 'Centima Sans', sans-serif; */
   /* font-family: 'Bebas Neue Pro', sans-serif; */
-  font-family: 'Grotesk Mono', sans-serif;
+  /* Prefer Monument Grotesk, fall back to system sans */
+  font-family:
+    'Monument Grotesk',
+    var(--font-monument),
+    var(--font-neue-haas),
+    var(--font-lukas-sans),
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
 
   /* font-size: 24px;
   line-height: 32px;
@@ -675,7 +687,18 @@ h3,
 .header-style {
   /* font-family: var(--font-ailerons); */
   /* font-family: var(--font-bebas-neue); */
-  font-family: 'Grotesk Mono', sans-serif;
+  font-family:
+    'Monument Grotesk',
+    var(--font-monument),
+    var(--font-neue-haas),
+    var(--font-lukas-sans),
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
 }
 
 /* var(--font-source-sans) */
@@ -1027,7 +1050,7 @@ td p {
   background-size: cover;
   background-position: center center;
   background-repeat: repeat;
-  background-image: url('/rcd.jpeg') l;
+  background-image: url('/rcd.jpeg');
 }
 
 .magicpattern {

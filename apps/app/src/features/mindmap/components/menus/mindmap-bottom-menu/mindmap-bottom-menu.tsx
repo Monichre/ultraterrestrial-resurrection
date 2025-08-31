@@ -3,7 +3,8 @@
 import {useMindMap} from '@/contexts/mindmap/mindmap-context'
 import {initiateDatabaseTableQuery} from '@/features/mindmap/actions/search'
 import {DOMAIN_MODEL_COLORS, ICON_GREEN} from '@/utils/constants'
-import {type Message as AISdkMessage, useAssistant} from '@ai-sdk/react'
+import type {UIMessage as AISdkMessage} from '@ai-sdk/react'
+import {useChat} from '@ai-sdk/react'
 import {useCallback, useEffect, useRef, useState} from 'react'
 import {v4 as uuidv4} from 'uuid'
 
@@ -158,21 +159,13 @@ export const MindMapBottomMenu = ({
     fitView,
   } = useMindMap()
 
-  const {
-    status: chatStatus,
-    messages,
-    input,
-    setInput,
-    submitMessage,
-    handleInputChange,
-    append,
-    error,
-  } = useAssistant({
+  const {messages, input, setInput, append, isLoading, error} = useChat({
     api: '/api/disclosure/chat',
     headers: {
       'x-session-id': sessionId.current,
     },
   })
+  const chatStatus = isLoading ? 'in_progress' : 'awaiting_message'
   // Store session ID in localStorage if it's new
   useEffect(() => {
     if (typeof window !== 'undefined' && !localStorage.getItem('sessionId')) {
@@ -564,15 +557,18 @@ export const MindMapBottomMenu = ({
               source: userNode.id,
               target: entityNode.id,
               animated: true,
-              type: 'siblingEdge',  // Use siblingEdge for Prometheus reasoning display
+              type: 'siblingEdge', // Use siblingEdge for Prometheus reasoning display
               label: `Query::Result ${index + 1}`,
               data: {
-                prometheusReasoning: entityNode.data?.prometheusReasoning || entityNode.data?.xataReasoning?.explanation || `Selected as relevant ${type} record (${index + 1}/${positionedNodes.length})`,
+                prometheusReasoning:
+                  entityNode.data?.prometheusReasoning ||
+                  entityNode.data?.xataReasoning?.explanation ||
+                  `Selected as relevant ${type} record (${index + 1}/${positionedNodes.length})`,
                 connectionType: 'query-result',
                 recordIndex: index + 1,
                 totalRecords: positionedNodes.length,
                 sourceType: 'user-query',
-                targetType: type
+                targetType: type,
               },
               style: {
                 stroke: tourMode === 'guided' ? '#3b82f6' : '#10b981',
@@ -624,41 +620,44 @@ export const MindMapBottomMenu = ({
           try {
             await addNodesWithLayout(positionedNodes, {
               direction: 'radial',
-              parentChildSpacing: 350,  // Increased radius for proper spacing
-              siblingSpacing: 100,      // Space between nodes
-              nodeWidth: 200,           // Enhanced node width
-              nodeHeight: 250,          // Enhanced node height  
+              parentChildSpacing: 350, // Increased radius for proper spacing
+              siblingSpacing: 100, // Space between nodes
+              nodeWidth: 200, // Enhanced node width
+              nodeHeight: 250, // Enhanced node height
               preserveExistingLayout: true,
               focusOnNewNodes: true,
             })
-            
+
             // Force React Flow update and viewport refresh
             setTimeout(() => {
               const currentNodes = getNodes()
               console.log(`[MindMap Menu] Nodes added with layout successfully`)
               console.log(`[MindMap Menu] Current node count after timeout:`, currentNodes.length)
-              
+
               // Trigger React Flow internal refresh
               if (currentNodes.length > 0) {
                 // Find the newly added nodes for viewport focus
-                const newNodeIds = positionedNodes.map(n => n.id)
-                const addedNodes = currentNodes.filter(n => newNodeIds.includes(n.id))
-                console.log(`[MindMap Menu] Verified ${addedNodes.length} nodes were actually added`)
-                
+                const newNodeIds = positionedNodes.map((n) => n.id)
+                const addedNodes = currentNodes.filter((n) => newNodeIds.includes(n.id))
+                console.log(
+                  `[MindMap Menu] Verified ${addedNodes.length} nodes were actually added`
+                )
+
                 if (addedNodes.length !== positionedNodes.length) {
-                  console.warn(`[MindMap Menu] Mismatch: Expected ${positionedNodes.length}, found ${addedNodes.length}`)
+                  console.warn(
+                    `[MindMap Menu] Mismatch: Expected ${positionedNodes.length}, found ${addedNodes.length}`
+                  )
                 } else {
                   // Force viewport update to show the new nodes
                   console.log(`[MindMap Menu] Calling fitView to show new nodes`)
                   try {
-                    fitView({ padding: 0.1, duration: 500 })
+                    fitView({padding: 0.1, duration: 500})
                   } catch (viewError) {
                     console.warn('[MindMap Menu] Error calling fitView:', viewError)
                   }
                 }
               }
             }, 100)
-            
           } catch (error) {
             console.error('[MindMap Menu] Error adding nodes with layout:', error)
           }
@@ -667,23 +666,24 @@ export const MindMapBottomMenu = ({
           console.log(`[MindMap Menu] About to add ${allEdges.length} edges:`, allEdges)
           try {
             addEdges(allEdges)
-            
+
             // Verify edges were added with delay for state synchronization
             setTimeout(() => {
               const currentEdges = getEdges()
               console.log(`[MindMap Menu] Edges added successfully`)
               console.log(`[MindMap Menu] Current edge count after timeout:`, currentEdges.length)
-              
+
               // Verify edges by looking for our specific edge IDs
-              const newEdgeIds = allEdges.map(e => e.id)
-              const addedEdges = currentEdges.filter(e => newEdgeIds.includes(e.id))
+              const newEdgeIds = allEdges.map((e) => e.id)
+              const addedEdges = currentEdges.filter((e) => newEdgeIds.includes(e.id))
               console.log(`[MindMap Menu] Verified ${addedEdges.length} edges were actually added`)
-              
+
               if (addedEdges.length !== allEdges.length) {
-                console.warn(`[MindMap Menu] Edge mismatch: Expected ${allEdges.length}, found ${addedEdges.length}`)
+                console.warn(
+                  `[MindMap Menu] Edge mismatch: Expected ${allEdges.length}, found ${addedEdges.length}`
+                )
               }
             }, 150)
-            
           } catch (edgeError) {
             console.error('[MindMap Menu] Error adding edges:', edgeError)
           }
@@ -703,7 +703,16 @@ export const MindMapBottomMenu = ({
         })
       }
     },
-    [addNodesWithLayout, addEdges, updateNodeData, nodeExists, tourMode, getNodes, getEdges, fitView]
+    [
+      addNodesWithLayout,
+      addEdges,
+      updateNodeData,
+      nodeExists,
+      tourMode,
+      getNodes,
+      getEdges,
+      fitView,
+    ]
   )
 
   // Helper function to create minimal graph context
@@ -848,10 +857,8 @@ export const MindMapBottomMenu = ({
     if (activeCommand === 'chat' || activeCommand === 'deepresearch') {
       // Handle chat submission
       if (inputValue.trim()) {
-        // Use submitMessage for proper form submission
-        const formData = new FormData()
-        formData.append('message', inputValue)
-        submitMessage({preventDefault: () => {}} as React.FormEvent<HTMLFormElement>)
+        // Send message via useChat
+        append({role: 'user', content: inputValue})
         // Clear input immediately after submission
         setInput('')
         setInputValue('')
@@ -882,15 +889,7 @@ export const MindMapBottomMenu = ({
       // Only if there's no input but a model is selected, add data to mindmap
       addDataToMindMap(selectedModel)
     }
-  }, [
-    activeCommand,
-    inputValue,
-    selectedModel,
-    submitMessage,
-    setInput,
-    runSearch,
-    addDataToMindMap,
-  ])
+  }, [activeCommand, inputValue, selectedModel, append, setInput, runSearch, addDataToMindMap])
 
   // Define our expected search parameters interface
   interface InitiateQueryParams {
@@ -917,7 +916,7 @@ export const MindMapBottomMenu = ({
         e.preventDefault()
 
         // Prevent submission if chat is loading
-        if (chatStatus === 'in_progress' || chatStatus === 'generating') {
+        if (isLoading) {
           console.log('Chat is currently processing, skipping submission')
           return
         }
@@ -941,9 +940,6 @@ export const MindMapBottomMenu = ({
             setInput(inputValue)
             append({role: 'user', content: inputValue})
           }
-
-          // Submit to assistant
-          submitMessage({preventDefault: () => {}} as React.FormEvent<HTMLFormElement>)
 
           // Clear inputs
           setInputValue('')
@@ -1000,14 +996,13 @@ export const MindMapBottomMenu = ({
     [
       inputValue,
       selectedModel,
-      submitMessage,
       activeCommand,
       handleOracleAction,
       loadNodesFromTableQuery,
       setInput,
       setInputValue,
       append,
-      chatStatus,
+      isLoading,
     ]
   )
 
@@ -1115,7 +1110,7 @@ export const MindMapBottomMenu = ({
     e.preventDefault()
 
     // Prevent submission if chat is loading
-    if (chatStatus === 'in_progress' || chatStatus === 'generating') {
+    if (isLoading) {
       console.log('Chat is currently processing, skipping submission')
       return
     }
@@ -1142,9 +1137,6 @@ export const MindMapBottomMenu = ({
         content: inputValue,
       })
 
-      // Submit the message to the AI endpoint
-      submitMessage(e)
-
       // Clear input fields after submission
       setInputValue('')
       setInput('')
@@ -1156,84 +1148,84 @@ export const MindMapBottomMenu = ({
 
   return (
     <>
-    <div className='fixed bottom-0 left-1/2 transform -translate-x-1/2 w-[500px] z-40'>
-      <div className='p-0 flex flex-col w-full h-auto relative'>
-        <UltraterrestrialModelSelection
-          modelMenuOpen={modelMenuOpen}
-          selectedModel={selectedModel}
-          deepResearchEnabled={deepResearchEnabled}
-          toggleModelMenu={toggleModelMenu}
-          toggleDeepResearch={toggleDeepResearch}
-          updateSelectedModel={updateSelectedModel}
-          menuRef={menuRef as React.RefObject<HTMLDivElement>}
-          activeCommand={activeCommand}
-          removeActiveCommand={removeActiveCommand}
-          modelSearchActions={modelSearchActions}
-          chatStatus={chatStatus}
-        />
-        <div
-          className='p-0 flex flex-col w-full border border-neutral-700/30 text-neutral-500 
-            bg-black bg-gradient-to-b from-black relative rounded-xl'>
-          <OracleCommandMenu
-            commandMenuOpen={commandMenuOpen}
+      <div className='fixed bottom-0 left-1/2 transform -translate-x-1/2 w-[500px] z-40'>
+        <div className='p-0 flex flex-col w-full h-auto relative'>
+          <UltraterrestrialModelSelection
+            modelMenuOpen={modelMenuOpen}
+            selectedModel={selectedModel}
+            deepResearchEnabled={deepResearchEnabled}
+            toggleModelMenu={toggleModelMenu}
+            toggleDeepResearch={toggleDeepResearch}
+            updateSelectedModel={updateSelectedModel}
+            menuRef={menuRef as React.RefObject<HTMLDivElement>}
             activeCommand={activeCommand}
-            commands={commandItems}
-            handleCommandSelect={handleCommandSelect}
-            inputValue={inputValue}
-            setInputValue={setInputValue}
-            handleKeyDown={handleKeyDown}
+            removeActiveCommand={removeActiveCommand}
+            modelSearchActions={modelSearchActions}
+            chatStatus={chatStatus}
           />
-
-          {/* Display chat messages */}
-
-          <form onSubmit={handleFormSubmit} className={isChatActive ? 'w-full' : ''}>
-            <OracleInput
-              activeModel={selectedModel}
-              activeCommand={activeCommand}
-              inputValue={inputValue}
-              // activeCommand === 'chat' || activeCommand === 'deep research' ? input :
-              setInputValue={handleChange}
-              handleKeyDown={handleKeyDown}
-              setCommandMenuOpen={setCommandMenuOpen}
+          <div
+            className='p-0 flex flex-col w-full border border-neutral-700/30 text-neutral-500 
+            bg-black bg-gradient-to-b from-black relative rounded-xl'>
+            <OracleCommandMenu
               commandMenuOpen={commandMenuOpen}
-              loadModelData={handleOracleAction}
-              isChatActive={activeCommand === 'chat' || activeCommand === 'deepresearch'}
-              chatStatus={chatStatus}
-              messages={messages}
-              setActiveCommand={setActiveCommand}
+              activeCommand={activeCommand}
+              commands={commandItems}
+              handleCommandSelect={handleCommandSelect}
+              inputValue={inputValue}
+              setInputValue={setInputValue}
+              handleKeyDown={handleKeyDown}
             />
-          </form>
 
-          {/* Display error message if assistant encounters an error */}
-          {error && (
-            <div className='mb-2 p-2 bg-red-900/30 border border-red-500/50 rounded text-red-200 text-sm flex items-center'>
-              <AlertCircle size={16} className='mr-2' />
-              Error: {error.message || 'An error occurred with the AI assistant'}
-            </div>
-          )}
+            {/* Display chat messages */}
 
-          {/* Show loading indicator - hide when backgroundProcessing is active */}
-          {isAILoading && !backgroundProcessing && (
-            <div className='animate-pulse text-sm text-neutral-400 mb-2 flex items-center justify-center'>
-              <div className='h-1.5 w-1.5 rounded-full bg-cyan-500/80 mr-2' />
-              AI is thinking...
-            </div>
-          )}
+            <form onSubmit={handleFormSubmit} className={isChatActive ? 'w-full' : ''}>
+              <OracleInput
+                activeModel={selectedModel}
+                activeCommand={activeCommand}
+                inputValue={inputValue}
+                // activeCommand === 'chat' || activeCommand === 'deep research' ? input :
+                setInputValue={handleChange}
+                handleKeyDown={handleKeyDown}
+                setCommandMenuOpen={setCommandMenuOpen}
+                commandMenuOpen={commandMenuOpen}
+                loadModelData={handleOracleAction}
+                isChatActive={activeCommand === 'chat' || activeCommand === 'deepresearch'}
+                chatStatus={chatStatus}
+                messages={messages}
+                setActiveCommand={setActiveCommand}
+              />
+            </form>
+
+            {/* Display error message if assistant encounters an error */}
+            {error && (
+              <div className='mb-2 p-2 bg-red-900/30 border border-red-500/50 rounded text-red-200 text-sm flex items-center'>
+                <AlertCircle size={16} className='mr-2' />
+                Error: {error.message || 'An error occurred with the AI assistant'}
+              </div>
+            )}
+
+            {/* Show loading indicator - hide when backgroundProcessing is active */}
+            {isAILoading && !backgroundProcessing && (
+              <div className='animate-pulse text-sm text-neutral-400 mb-2 flex items-center justify-center'>
+                <div className='h-1.5 w-1.5 rounded-full bg-cyan-500/80 mr-2' />
+                AI is thinking...
+              </div>
+            )}
+          </div>
         </div>
       </div>
-    </div>
 
-    {/* Entity Addition Progress - Show when backgroundProcessing is active */}
-    <EntityAdditionProgress
-      isVisible={backgroundProcessing}
-      queryType={currentProcessingType}
-      onComplete={() => {
-        console.log('Entity addition completed');
-      }}
-      onError={(error) => {
-        console.error('Entity addition failed:', error);
-      }}
-    />
+      {/* Entity Addition Progress - Show when backgroundProcessing is active */}
+      <EntityAdditionProgress
+        isVisible={backgroundProcessing}
+        queryType={currentProcessingType}
+        onComplete={() => {
+          console.log('Entity addition completed')
+        }}
+        onError={(error) => {
+          console.error('Entity addition failed:', error)
+        }}
+      />
     </>
   )
 }

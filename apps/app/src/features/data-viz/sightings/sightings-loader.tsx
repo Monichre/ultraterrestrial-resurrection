@@ -12,7 +12,7 @@ interface SightingsLoaderProps {
 
 export const SightingsLoader = ({
   onLoadComplete,
-  minDisplayTime = 9000, // Set a default min display time that matches our animation duration
+  minDisplayTime = 2500, // Reduced default to improve perceived load time
 }: SightingsLoaderProps = {}) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const counterRef = useRef<HTMLHeadingElement>(null)

@@ -14,7 +14,8 @@ import {
   X,
 } from 'lucide-react'
 import {cn} from '@/utils'
-import {useAssistant, type Message as AISdkMessage} from '@ai-sdk/react'
+import {useChat} from '@ai-sdk/react'
+import {DefaultChatTransport} from 'ai'
 import {v4 as uuidv4} from 'uuid'
 import {ENTITY_TYPES} from '../mindmap-bottom-menu/entity-types'
 import {COMMANDS} from '../mindmap-bottom-menu/oracle-command-menu/commands'
@@ -166,20 +167,15 @@ export function CanvasMenu({
   )
 
   // AI Assistant integration
-  const {
-    status: chatStatus,
-    messages,
-    input,
-    setInput,
-    submitMessage,
-    append,
-    error,
-  } = useAssistant({
-    api: '/api/disclosure/chat',
-    headers: {
-      'x-session-id': sessionId.current,
-    },
+  const {messages, sendMessage, status} = useChat({
+    transport: new DefaultChatTransport({
+      api: '/api/disclosure/chat',
+      headers: {
+        'x-session-id': sessionId.current,
+      },
+    }),
   })
+  const isLoading = status === 'submitted' || status === 'streaming'
 
   // Build command groups
   const commandGroups: GroupCommands = {
@@ -429,7 +425,7 @@ export function CanvasMenu({
                       if (e.key === 'Enter' && activeCommand === 'chat') {
                         // Handle chat submission
                         if (searchQuery.trim()) {
-                          append({role: 'user', content: searchQuery})
+                          sendMessage({text: searchQuery})
                           setSearchQuery('')
                         }
                       }
@@ -451,10 +447,12 @@ export function CanvasMenu({
                                 ? 'bg-cyan-500/10 text-cyan-400 ml-8'
                                 : 'bg-white/5 text-white/70 mr-8'
                             )}>
-                            {message.content}
+                            {message.parts?.map((part, index) =>
+                              part.type === 'text' ? <span key={index}>{part.text}</span> : null
+                            )}
                           </div>
                         ))}
-                        {chatStatus === 'in_progress' && (
+                        {isLoading && (
                           <div className='flex items-center gap-2 text-white/40 text-xs'>
                             <div className='w-2 h-2 bg-cyan-500 rounded-full animate-pulse' />
                             AI is thinking...
@@ -509,9 +507,7 @@ export function CanvasMenu({
                         <span>Close</span>
                       </div>
                     </div>
-                    {chatStatus === 'in_progress' && (
-                      <div className='text-[10px] text-cyan-400'>Processing...</div>
-                    )}
+                    {isLoading && <div className='text-[10px] text-cyan-400'>Processing...</div>}
                   </div>
                 </div>
               </div>

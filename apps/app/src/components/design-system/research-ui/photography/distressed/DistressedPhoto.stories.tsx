@@ -1,5 +1,5 @@
 import type {Meta, StoryObj} from '@storybook/react'
-import {DistressedPhoto} from './DistressedPhoto'
+import DistressedPhoto from './DistressedPhoto'
 
 const meta: Meta<typeof DistressedPhoto> = {
   title: 'Documents/DistressedPhoto',

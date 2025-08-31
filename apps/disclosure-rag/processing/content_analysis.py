@@ -14,6 +14,9 @@ from rich.panel import Panel
 from rich.style import Style
 from rich.table import Table
 
+# Load environment variables when module is imported
+load_dotenv()
+
 openai_api_key = os.environ.get("OPENAI_API_KEY")
 anthropic_api_key = os.environ.get("ANTHROPIC_API_KEY")
 deepseek_api_key = os.environ.get("DEEPSEEK_API_KEY")
@@ -44,6 +47,10 @@ class ContentAnalysisEngine:
     def get_claude_analysis(self, transcript):
         """Get analysis from Claude"""
         try:
+            if not anthropic_api_key:
+                print("❌ ANTHROPIC_API_KEY not found in environment variables")
+                return None
+                
             message = self.anthropic_client.messages.create(
                 model="claude-3-5-sonnet-20241022",
                 max_tokens=4000,

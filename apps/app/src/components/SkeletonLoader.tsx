@@ -18,7 +18,7 @@ const skeletonVariants = {
     transition: {
       duration: 1.5,
       repeat: Infinity,
-      ease: 'easeInOut',
+      ease: 'easeInOut' as const,
     },
   },
 }
@@ -30,7 +30,7 @@ export function SkeletonLoader({
   height,
   count = 1,
   animated = true,
-}: SkeletonLoaderProps) {
+}: SkeletonLoaderProps & {count?: number}) {
   const baseClasses = cn('bg-gray-200 dark:bg-gray-700', animated && 'animate-pulse', className)
 
   const getVariantClasses = () => {

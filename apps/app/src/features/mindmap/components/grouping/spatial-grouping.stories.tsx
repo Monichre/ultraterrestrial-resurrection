@@ -284,7 +284,7 @@ export const FullEnhancedMindmap: Story = {
             onGroupAction={(action, group) => {
               console.log('Group action:', action, group)
             }}
-          >
+         >
             <ReactFlow
               nodes={mockNodesWithGroups}
               edges={mockEdges}
@@ -399,7 +399,7 @@ export const InteractiveGroupingDemo: Story = {
                     alert(`🧠 Analyzing group...\n\nEntities: ${group.nodes.length}\nType: ${group.metadata.dominantType}\nConfidence: ${Math.round(group.metadata.confidence * 100)}%`)
                   }
                 }}
-              >
+             >
                 <ReactFlow
                   nodes={mockNodesWithGroups}
                   edges={mockEdges}

@@ -222,27 +222,39 @@ export function serializeXataRecords<T extends Record<string, any>>(
 				continue;
 			}
 
-			// Handle arrays (including file arrays)
-			if (Array.isArray(value)) {
-				safeObject[key as keyof T] = value.map((item) => {
-					// For file objects, only keep safe properties
-					if (
-						item &&
-						typeof item === "object" &&
-						("mediaType" in item || "name" in item || "url" in item)
-					) {
-						return {
-							name: item.name,
-							mediaType: item.mediaType,
-							url: item.url,
-							size: item.size,
-							// Exclude problematic fields like signedUrl, uploadUrl, enablePublicUrl, etc.
-						};
-					}
-					return item;
-				}) as any;
-				continue;
-			}
+    // Handle arrays (including file arrays) with deep serialization of items
+    if (Array.isArray(value)) {
+        safeObject[key as keyof T] = value.map((item) => {
+            if (item == null) return item as any
+
+            // For file objects, only keep safe properties
+            if (
+                typeof item === "object" &&
+                ("mediaType" in item || "name" in item || "url" in item)
+            ) {
+                return {
+                    name: (item as any).name,
+                    mediaType: (item as any).mediaType,
+                    url: (item as any).url,
+                    size: (item as any).size,
+                }
+            }
+
+            // Xata records or other objects: use toSerializable if available, otherwise recurse
+            if (typeof item === "object") {
+                if (typeof (item as any).toSerializable === "function") {
+                    const serialized = (item as any).toSerializable()
+                    // Reuse the same logic for nested objects
+                    return serializeRecord(serialized as any)
+                }
+                return serializeRecord(item as any)
+            }
+
+            // Primitive
+            return item as any
+        }) as any
+        continue
+    }
 
 			// Handle file objects
 			if (

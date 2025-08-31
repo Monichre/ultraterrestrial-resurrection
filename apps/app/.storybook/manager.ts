@@ -1,13 +1,7 @@
 import { addons } from '@storybook/manager-api'
-import { create } from '@storybook/theming'
-
-const ultraterrestrialTheme = create( {
-  base: 'dark',
-  brandTitle: 'Ultraterrestrial',
-  brandUrl: 'https://ultraterrestrial.app',
-  brandImage: '/ultraterrestrial-logo.svg',
-} )
+import ultraterrestrialTheme from './theme'
 
 addons.setConfig( {
   theme: ultraterrestrialTheme,
+  sidebar: { showRoots: true },
 } )

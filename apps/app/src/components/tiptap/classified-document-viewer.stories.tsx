@@ -84,7 +84,7 @@ INCIDENT OVERVIEW
 Date: March 13, 1997
 Time: 19:30 - 22:30 MST
 Location: Phoenix, Arizona metropolitan area
-Weather: Clear skies, visibility >10 miles
+Weather: Clear skies, visibility>10 miles
 Duration: Approximately 3 hours
 
 PRIMARY OBSERVATION CATEGORIES
@@ -379,7 +379,7 @@ export const InteractiveDemo: Story = {
                     ? 'bg-[#adf0dd]/20 text-[#adf0dd] border border-[#adf0dd]/30' 
                     : 'bg-neutral-800 text-neutral-400 hover:text-neutral-300'
                 }`}
-              >
+             >
                 SECRET DOC
               </button>
               <button
@@ -389,7 +389,7 @@ export const InteractiveDemo: Story = {
                     ? 'bg-[#adf0dd]/20 text-[#adf0dd] border border-[#adf0dd]/30' 
                     : 'bg-neutral-800 text-neutral-400 hover:text-neutral-300'
                 }`}
-              >
+             >
                 CONFIDENTIAL DOC
               </button>
             </div>

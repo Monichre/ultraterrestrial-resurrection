@@ -2,7 +2,7 @@ import {Suspense} from 'react'
 
 import {MindMap} from '@/features/mindmap'
 
-import {Loading} from '@/components/loaders/loading'
+import {Loading} from '@/features/data-viz/sightings/components/loaders/loading'
 import {
   type NetworkGraphPayload,
   getEntityNetworkGraphData,

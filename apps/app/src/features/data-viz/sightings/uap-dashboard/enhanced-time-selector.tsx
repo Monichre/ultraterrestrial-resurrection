@@ -211,16 +211,7 @@ export function EnhancedTimeSelector({
     [timeRange, onChange]
   )
 
-  // Update enhanced time range for consistency when dateRange changes
-  useEffect(() => {
-    if (dateRange?.from && dateRange?.to) {
-      setEnhancedTimeRange(prev => ({
-        ...prev,
-        startDate: dateRange.from!,
-        endDate: dateRange.to!,
-      }))
-    }
-  }, [dateRange])
+  // Parent owns timeRange via onChange/onDateRangeChange; avoid local state mutation here
 
   // Timeline scrubber component
   const TimelineScrubber = () => {

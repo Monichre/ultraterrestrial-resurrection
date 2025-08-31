@@ -1,20 +1,14 @@
 'use client'
 
-import {useAssistant} from '@ai-sdk/react'
-
 import {AssistantRuntimeProvider} from '@assistant-ui/react'
-import {useVercelUseAssistantRuntime} from '@assistant-ui/react-ai-sdk'
+import {useChatRuntime} from '@assistant-ui/react-ai-sdk'
 
 export function DisclosureAssistantProvider({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const assistant = useAssistant({
-    api: '/api/disclosure/chat',
-  })
-
-  const runtime = useVercelUseAssistantRuntime(assistant)
+  const runtime = useChatRuntime()
 
   return <AssistantRuntimeProvider runtime={runtime}>{children}</AssistantRuntimeProvider>
 }

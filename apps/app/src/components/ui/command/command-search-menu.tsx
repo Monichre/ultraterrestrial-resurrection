@@ -1,8 +1,11 @@
-import { Command } from 'cmdk'
+import {Command} from 'cmdk'
+import {useState} from 'react'
 
 interface CommandSearchMenuProps {}
 
 export const CommandSearchMenu: React.FC<CommandSearchMenuProps> = () => {
+  const [open, setOpen] = useState(false)
+  const [loading, setLoading] = useState(false)
   return (
     <Command.Dialog open={open} onOpenChange={setOpen}>
       <Command.Input />

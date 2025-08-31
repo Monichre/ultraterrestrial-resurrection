@@ -270,7 +270,7 @@ export const Playground: Story = {
             </div>
 
             {/* Action History */}
-            {actionHistory.length > 0 && (
+            {actionHistory.length> 0 && (
               <div className='mt-6 bg-white/5 backdrop-blur-lg rounded-xl p-6 border border-white/10'>
                 <h2 className='text-xl font-semibold mb-4'>Action History</h2>
                 <div className='space-y-2'>

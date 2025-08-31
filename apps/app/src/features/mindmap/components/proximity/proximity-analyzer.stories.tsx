@@ -170,7 +170,7 @@ export const FullMindmapIntegration: Story = {
             onConnectNodes={(sourceId, targetId, reason) =>
               console.log('Connect nodes:', { sourceId, targetId, reason })
             }
-          >
+         >
             <ReactFlow
               nodes={mockNodes}
               edges={mockEdges}
@@ -240,7 +240,7 @@ export const InteractiveDemo: Story = {
                   console.log('Connect nodes:', { sourceId, targetId, reason })
                   alert(`Connected nodes: ${sourceId} → ${targetId}\nReason: ${reason}`)
                 }}
-              >
+             >
                 <ReactFlow
                   nodes={mockNodes}
                   edges={mockEdges}

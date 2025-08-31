@@ -1,10 +1,9 @@
 import type { StorybookConfig } from "@storybook/nextjs"
-import path from 'path'
-import { fileURLToPath } from 'url'
-import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'
+import path from "path"
+import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin"
+import { fileURLToPath } from "url"
 
-const __filename = fileURLToPath( import.meta.url )
-const __dirname = path.dirname( __filename )
+const __dirname = path.dirname( fileURLToPath( import.meta.url ) )
 
 const config: StorybookConfig = {
 	// Comprehensive story patterns to capture all 91 story files
@@ -15,32 +14,26 @@ const config: StorybookConfig = {
 
 	// Enhanced addons for better development experience
 	addons: [
-		"@storybook/addon-onboarding",
-		"@storybook/addon-docs",
-		"@storybook/addon-controls",
-		"@storybook/addon-backgrounds",
-		"@storybook/addon-viewport",
-		"@storybook/addon-toolbars",
-		"@storybook/addon-outline",
-		"@storybook/addon-measure",
+		"@storybook/addon-essentials",
+		"@storybook/addon-interactions",
+		"@storybook/addon-themes",
 	],
 
 	framework: {
 		name: "@storybook/nextjs",
 		options: {
-			// Point to the actual Next config (ts)
 			nextConfigPath: '../next.config.ts',
 		},
 	},
 
 	staticDirs: ["../public"],
 
-	// Enable docs generation for better documentation
-	docs: {
-		autodocs: true,
-	},
+	// Enable docs generation for better documentation (uses default autodocs from preview tags)
+	docs: {},
 
 	// Enhanced webpack optimizations + path resolution
+
+	// If you need webpack customizations, uncomment
 	webpackFinal: async ( config ) => {
 		// Faster source maps for development
 		config.devtool = 'eval-cheap-module-source-map'
@@ -58,6 +51,7 @@ const config: StorybookConfig = {
 		]
 		config.resolve.alias = {
 			...( config.resolve.alias || {} ),
+			'@ai-sdk/react': path.resolve( __dirname, './stubs/ai-sdk-react.ts' ),
 			'@': path.resolve( __dirname, '../src' ),
 			'@tiptap-pro/extension-drag-handle-react': path.resolve( __dirname, './stubs/tiptap-pro/extension-drag-handle-react.ts' ),
 			'react-hot-toast': path.resolve( __dirname, './stubs/react-hot-toast.ts' ),
@@ -110,14 +104,9 @@ const config: StorybookConfig = {
 		return config
 	},
 
+
 	// Branding parameters for Ultraterrestrial
-	refs: {},
-	core: {
-		builder: '@storybook/builder-webpack5',
-		channelOptions: {
-			// brand
-		},
-	},
+	refs: {}
 }
 
 export default config

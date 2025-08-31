@@ -9,6 +9,9 @@ from concurrent.futures import ThreadPoolExecutor
 import requests
 import streamlit as st
 import yt_dlp
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from processing.content_analysis import ContentAnalysisEngine
 from dotenv import load_dotenv
 from processing.web_content_processor import WebContentProcessor
@@ -17,8 +20,51 @@ from processing.web_content_processor import WebContentProcessor
 load_dotenv()
 directory = os.environ.get('TRANSCRIPT_DIRECTORY_PATH')
 
-analyzer = ContentAnalysisEngine()
-web_processor = WebContentProcessor()
+# Lazy initialization to prevent environment variable loading issues
+analyzer = None
+web_processor = None
+
+def get_analyzer():
+    global analyzer
+    if analyzer is None:
+        analyzer = ContentAnalysisEngine()
+    return analyzer
+
+def get_web_processor():
+    global web_processor
+    if web_processor is None:
+        web_processor = WebContentProcessor()
+    return web_processor
+
+
+def detect_transcript_language(text):
+    """Detect if transcript is actually in English despite YouTube labeling"""
+    if not text or len(text.strip()) < 50:
+        return 'too_short'
+    
+    # Count different character types
+    korean_count = sum(1 for char in text if '\uAC00' <= char <= '\uD7A3')
+    chinese_count = sum(1 for char in text if '\u4E00' <= char <= '\u9FFF')
+    japanese_count = sum(1 for char in text if '\u3040' <= char <= '\u309F' or '\u30A0' <= char <= '\u30FF')
+    english_count = sum(1 for char in text if char.isalpha() and ord(char) < 128)
+    
+    total_alpha_chars = sum(1 for char in text if char.isalpha())
+    if total_alpha_chars < 30:  # Lowered threshold for better detection
+        return 'too_short'
+    
+    # Calculate if this is actually English
+    if korean_count > total_alpha_chars * 0.1:
+        return 'korean'
+    elif chinese_count > total_alpha_chars * 0.1:
+        return 'chinese'  
+    elif japanese_count > total_alpha_chars * 0.1:
+        return 'japanese'
+    elif english_count > total_alpha_chars * 0.7:
+        return 'english'
+    else:
+        return 'mixed'
+
+
 
 
 def get_folder_path_from_metadata(metadata):
@@ -86,44 +132,120 @@ def get_video_info_and_transcript(url):
     """Get video information and transcript using yt-dlp"""
     try:
         ydl_opts = {
-            'writesubtitles': True,
-            'writeautomaticsub': True,
-            'subtitlesformat': 'vtt',
             'skip_download': True,
-            'quiet': True
+            'quiet': True,
+            'no_warnings': True,
+            'extract_flat': False,
+            # Don't try to download anything, just get info
+            'format': None,  # Don't select any format
+            'ignoreerrors': True,
+            'no_check_certificate': True,
+            'geo_bypass': True,
+            # Don't write subtitle files
+            'writesubtitles': False,
+            'writeautomaticsub': False,
+            'subtitlesformat': 'vtt',
+            # User agent to avoid bot detection
+            'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
         }
 
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(url, download=False)
+            
+            # Check if info extraction was successful
+            if not info:
+                print("❌ Failed to extract video information")
+                return None
+                
             transcript_text = None
 
+            # Check for English captions first
             for subtitle_type in ['subtitles', 'automatic_captions']:
-                if not transcript_text and info.get(subtitle_type, {}).get('en'):
-                    captions = info[subtitle_type]['en']
-                    if isinstance(captions, list):
-                        for fmt in captions:
-                            if fmt.get('ext') == 'vtt':
-                                response = requests.get(fmt['url'])
-                                if response.status_code == 200:
+                if not transcript_text and info.get(subtitle_type, {}):
+                    # Try English first
+                    if 'en' in info[subtitle_type]:
+                        captions = info[subtitle_type]['en']
+                        print(f"✅ Found English {subtitle_type}")
+                        if isinstance(captions, list):
+                            for fmt in captions:
+                                if fmt.get('ext') == 'vtt':
+                                    response = requests.get(fmt['url'])
+                                    if response.status_code == 200:
 
-                                    vtt_content = response.text
+                                        vtt_content = response.text
 
-                                    content_parts = vtt_content.split('\n\n')
-                                    transcript_parts = []
-                                    for part in content_parts:
-                                        if '-->' in part:  # This is a caption block
+                                        content_parts = vtt_content.split('\n\n')
+                                        transcript_parts = []
+                                        for part in content_parts:
+                                            if '-->' in part:  # This is a caption block
 
-                                            lines = part.split('\n')
-                                            if len(lines) > 2:  # Has timestamp and text
-                                                text = ' '.join(lines[2:])
+                                                lines = part.split('\n')
+                                                if len(lines) > 2:  # Has timestamp and text
+                                                    text = ' '.join(lines[2:])
 
-                                                text = re.sub(
-                                                    '<[^>]+>', '', text)
-                                                transcript_parts.append(
-                                                    text.strip())
-                                    transcript_text = ' '.join(
-                                        transcript_parts)
-                                    break
+                                                    text = re.sub(
+                                                        '<[^>]+>', '', text)
+                                                    transcript_parts.append(
+                                                        text.strip())
+                                        transcript_text = ' '.join(
+                                            transcript_parts)
+                                        print(f"✅ Extracted English transcript from captions: {len(transcript_text)} chars")
+                                        break
+                    
+                    # If no English captions found, try other languages and detect if it's actually English
+                    if not transcript_text:
+                        print(f"⚠️ No English captions found in {subtitle_type}, checking other languages...")
+                        available_langs = list(info[subtitle_type].keys())
+                        print(f"Available languages: {available_langs}")
+                        
+                        # Try each available language
+                        for lang in available_langs:
+                            if transcript_text:
+                                break  # Already found a good transcript
+                                
+                            captions = info[subtitle_type][lang]
+                            print(f"Trying {lang} captions...")
+                            
+                            if isinstance(captions, list):
+                                for fmt in captions:
+                                    if fmt.get('ext') == 'vtt':
+                                        response = requests.get(fmt['url'])
+                                        if response.status_code == 200:
+                                            vtt_content = response.text
+                                            content_parts = vtt_content.split('\n\n')
+                                            transcript_parts = []
+                                            
+                                            for part in content_parts:
+                                                if '-->' in part:  # This is a caption block
+                                                    lines = part.split('\n')
+                                                    if len(lines) > 2:  # Has timestamp and text
+                                                        text = ' '.join(lines[2:])
+                                                        text = re.sub('<[^>]+>', '', text)
+                                                        transcript_parts.append(text.strip())
+                                            
+                                            temp_transcript = ' '.join(transcript_parts)
+                                            
+                                            # Check if this transcript is actually in English
+                                            if temp_transcript and len(temp_transcript) > 100:
+                                                detected_lang = detect_transcript_language(temp_transcript)
+                                                print(f"Language detected for {lang} captions: {detected_lang}")
+                                                
+                                                if detected_lang == 'english':
+                                                    transcript_text = temp_transcript
+                                                    print(f"✅ Found English content in {lang} captions: {len(transcript_text)} chars")
+                                                    break
+                                            break  # Only check VTT format
+
+            # Language validation - check if transcript is actually English
+            if transcript_text:
+                detected_lang = detect_transcript_language(transcript_text)
+                if detected_lang != 'english':
+                    print(f"❌ Transcript detected as {detected_lang}, not English - skipping this video")
+                    transcript_text = None
+            
+            # No fallback - if no English captions found, skip this video
+            if not transcript_text:
+                print("❌ No English captions found - skipping this video")
 
             metadata = {
                 'title': info.get('title'),
@@ -135,7 +257,7 @@ def get_video_info_and_transcript(url):
                 'chapters': info.get('chapters', []),
                 'transcript': transcript_text
             }
-            st.write(metadata)
+            # st.write(metadata) # Removed Streamlit dependency for core library compatibility
 
             return metadata
 
@@ -199,8 +321,15 @@ def generate_transcript(url):
     print("========================METADATA=========================")
 
     if metadata['transcript']:
-        analysis = analyzer.analyze_content(metadata['transcript'])
-        st.write(analysis)
+        try:
+            analysis = get_analyzer().analyze_content(metadata['transcript'])
+            if analysis is None:
+                print("❌ Content analysis failed - likely API key issue")
+                return None
+        except Exception as e:
+            print(f"❌ Content analysis error: {e}")
+            return None
+        # st.write(analysis) # Removed Streamlit dependency for core library compatibility
         chapters = []
         if metadata['chapters'] and len(metadata['chapters']) > 0:
             for chapter in metadata['chapters']:
@@ -289,7 +418,7 @@ def parse_file_and_generate_transcript(file_path, max_workers=5):
                     future = executor.submit(generate_transcript, url)
                 else:
                     # For other URLs, use web_processor.process_url
-                    future = executor.submit(web_processor.process_url, url)
+                    future = executor.submit(get_web_processor().process_url, url)
 
                 future_to_url[future] = url
 

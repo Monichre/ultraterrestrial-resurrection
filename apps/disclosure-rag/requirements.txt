@@ -16,7 +16,6 @@ beautifulsoup4
 html2text
 markdownify
 Pillow
-mimetypes
 
 # Data processing
 PyPDF2

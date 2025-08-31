@@ -11,7 +11,21 @@
 **Project**: Disclosure RAG (Retrieval-Augmented Generation)  
 **Type**: Python AI/ML Research Platform  
 **Purpose**: UFO/UAP research and analysis with multi-backend vector search  
-**Architecture**: Triple RAG system with web interfaces  
+**Architecture**: Triple RAG system with web interfaces
+
+## 🚀 STRATEGIC PRIORITY: AGNO Integration
+
+**TRANSFORMATIONAL UPGRADE IN PROGRESS**
+The Disclosure RAG system is undergoing a strategic transformation through AGNO agent integration, evolving from a document processing tool into a comprehensive UAP research intelligence platform.
+
+### Key Enhancement Areas:
+- **Enhanced YouTube Agent**: Timestamp-based UFO event analysis with content classification
+- **Deep Research Agent**: Multi-source cross-referencing across 448 documents + 130K sightings
+- **SQL Query Interface**: Natural language queries over massive geographic UFO database
+- **Academic Report Generation**: Comprehensive UAP research synthesis capabilities
+
+**Expected Timeline**: 6-week transformation (3 phases)  
+**Impact**: Premier UAP research platform with unparalleled analytical capabilities  
 
 ## 🏗️ Core Architecture
 

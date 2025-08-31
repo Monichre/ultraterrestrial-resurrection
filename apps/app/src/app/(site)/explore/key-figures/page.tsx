@@ -1,12 +1,11 @@
+import {getXataClient} from '@db/xata'
 
-import { getXataClient } from '@db/xata'
-
-import { Particles } from '@/components/animated/particles/Particles'
+import {Particles} from '@/components/animated/particles/Particles'
 import SwipeGrid from '@/components/animated/swipe-grid/SwipeGrid'
-import { TextEffect } from '@/components/animated/text-effect'
-import { Loading } from '@/components/loaders/loading'
-import { cn } from '@/utils'
-import { Suspense } from 'react'
+import {TextEffect} from '@/components/animated/text-effect'
+import {Loading} from '@/features/data-viz/sightings/components/loaders/loading'
+import {cn} from '@/utils'
+import {Suspense} from 'react'
 
 type photo = {
   signedUrl: string
@@ -29,7 +28,7 @@ export type KeyFiguresArray = KeyFigure[]
 export default async function Index() {
   const xata = getXataClient()
   const data: any = await xata.db.personnel
-    .select( [
+    .select([
       'name',
       'bio',
       'role',
@@ -40,11 +39,11 @@ export default async function Index() {
       'popularity',
       'photo.signedUrl',
       'photo.enablePublicUrl',
-    ] )
+    ])
     .getAll()
 
   const personnel = data.toSerializable()
-  console.log( 'personnel: ', personnel )
+  console.log('personnel: ', personnel)
   return (
     <Suspense fallback={<Loading />}>
       <div className='key-figures relative'>
@@ -57,14 +56,8 @@ export default async function Index() {
             'w-min',
             'h-min',
             'z-50'
-          )}
-        >
-          <TextEffect
-            per='char'
-            preset='fade'
-            className='text-white text-6xl header-style'
-            as='h1'
-          >
+          )}>
+          <TextEffect per='char' preset='fade' className='text-white text-6xl header-style' as='h1'>
             Key Figures
           </TextEffect>
         </div>

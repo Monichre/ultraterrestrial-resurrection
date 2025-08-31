@@ -48,7 +48,7 @@ const AnimatedArcLayerDemo = ({
         views={new OrthographicView({ 
           flipY: false 
         })}
-      >
+     >
         {/* Dark background to see arcs clearly */}
         <div 
           style={{ 

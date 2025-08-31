@@ -4,6 +4,7 @@ import {type ReactNode, useRef} from 'react'
 import type {ValidatedUAPSighting} from '@/services/sightings/uap-sighting'
 import {getZoomConfig} from '../hooks/useTimeSeriesVisualization'
 import * as THREE from 'three'
+import {debugLog} from '@/utils/logger'
 
 // Type definitions for visualization components
 interface ClusterData {
@@ -133,7 +134,7 @@ export function PointsLayer({points, maxPoints = 200, onPointHover}: PointsLayer
 
   // Log statistics about valid vs. invalid points for debugging
   if (points.length > 0) {
-    console.log(
+    debugLog(
       `🗺️ PointsLayer: ${validPoints.length}/${points.length} points have valid coordinates`
     )
   }
@@ -177,6 +178,7 @@ export function PointsLayer({points, maxPoints = 200, onPointHover}: PointsLayer
             />
           )
         } catch (error) {
+          // eslint-disable-next-line no-console
           console.error(`Error rendering point ${point.id}:`, error)
           return null
         }

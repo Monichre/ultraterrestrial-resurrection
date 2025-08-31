@@ -33,25 +33,24 @@ import {getSightingsBatched} from '@/services/sightings/actions/sightings-time-c
 
 async function getSightings() {
   try {
-    // Get current year and use a broader range starting from 2010 to include all known records
+    // Get current year and use historical range from famous UFO incidents
     const currentYear = new Date().getFullYear()
-    const startYear = 2010 // Changed from currentYear-30 to include 2014 records we know exist
+    const startYear = 1947 // Start from Roswell incident for historical context
 
-    // Create time ranges in 5-year chunks for optimal performance
-    const timeRanges = []
-    const chunkSize = 5 // Years per chunk
+    // Create time ranges in decade chunks for better historical distribution
+    const timeRanges = [
+      { startYear: 1947, endYear: 1960 }, // Early UFO era
+      { startYear: 1960, endYear: 1980 }, // Classic UFO period 
+      { startYear: 1980, endYear: 2000 }, // Modern UFO wave
+      { startYear: 2000, endYear: currentYear }, // Digital age sightings
+    ]
 
-    for (let year = startYear; year <= currentYear; year += chunkSize) {
-      const endYear = Math.min(year + chunkSize - 1, currentYear)
-      timeRanges.push({startYear: year, endYear})
-    }
-
-    // Use the server action to fetch data in batches
-    const {sightings, stats} = await getSightingsBatched(timeRanges, 50)
+    // Use the server action to fetch data in batches with conservative limit
+    const {sightings, stats} = await getSightingsBatched(timeRanges, 150)
 
     // Log statistics for debugging
     console.log(
-      `Fetched ${sightings.length} sightings across the years 2010-${currentYear}:`,
+      `Fetched ${sightings.length} sightings across the years 1947-${currentYear}:`,
       stats?.totalSightings ? `${stats.totalSightings} total in stats` : 'No stats available'
     )
 

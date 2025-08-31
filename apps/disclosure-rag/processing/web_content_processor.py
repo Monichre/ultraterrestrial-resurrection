@@ -17,7 +17,14 @@ from PIL import Image, ImageFile
 import base64
 import io
 
-analysis_engine = ContentAnalysisEngine()
+# Lazy initialization to prevent environment variable loading issues
+analysis_engine = None
+
+def get_analysis_engine():
+    global analysis_engine
+    if analysis_engine is None:
+        analysis_engine = ContentAnalysisEngine()
+    return analysis_engine
 
 
 class WebContentProcessor:
@@ -176,7 +183,7 @@ class WebContentProcessor:
 
             # Use the existing analysis engine for text-based analysis of image context
             # In a full implementation, this would use vision-capable AI models
-            context_analysis = analysis_engine.analyze_content(
+            context_analysis = get_analysis_engine().analyze_content(
                 image_analysis_prompt)
 
             return {
@@ -296,7 +303,7 @@ class WebContentProcessor:
             markdown_content = convert_pdf_to_markdown(str(pdf_filepath))
 
             # Analyze PDF content for additional insights
-            pdf_analysis = analysis_engine.analyze_content(
+            pdf_analysis = get_analysis_engine().analyze_content(
                 markdown_content[:10000])  # Limit for analysis
 
             # Prepare metadata using the markdown content
@@ -452,7 +459,7 @@ class WebContentProcessor:
             metadata = processed_content['metadata']
 
             # Analyze main content
-            main_analysis = analysis_engine.analyze_content(content)
+            main_analysis = get_analysis_engine().analyze_content(content)
             print(f"Main content analysis completed")
 
             # Prepare multimedia summaries

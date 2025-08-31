@@ -19,7 +19,7 @@ const meta = {
     },
   },
   decorators: [
-    ( Story ) => (
+    Story => (
       <div style={{
         position: 'fixed',
         top: 0,

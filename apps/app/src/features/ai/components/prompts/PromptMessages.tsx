@@ -1,9 +1,7 @@
 // @ts-nocheck
 'use client'
 
-import { type StreamableValue } from 'ai/rsc'
-
-
+import {type StreamableValue} from '@ai-sdk/rsc'
 
 interface ChatMessagesProps {
   messages: any
@@ -15,32 +13,29 @@ type GroupedMessage = {
   isCollapsed?: StreamableValue<boolean> | undefined
 }
 
-export function ChatMessages( { messages }: ChatMessagesProps ) {
-  if ( !messages.length ) {
+export function ChatMessages({messages}: ChatMessagesProps) {
+  if (!messages.length) {
     return null
   }
 
   // Group messages based on ID, and if there are multiple messages with the same ID, combine them into one message
-  const groupedMessages = messages.reduce(
-    ( acc: { [key: string]: GroupedMessage }, message ) => {
-      if ( !acc[message.id] ) {
-        acc[message.id] = {
-          id: message.id,
-          components: [],
-          isCollapsed: message.isCollapsed,
-        }
+  const groupedMessages = messages.reduce((acc: {[key: string]: GroupedMessage}, message) => {
+    if (!acc[message.id]) {
+      acc[message.id] = {
+        id: message.id,
+        components: [],
+        isCollapsed: message.isCollapsed,
       }
-      acc[message.id].components.push( message.component )
-      return acc
-    },
-    {}
-  )
+    }
+    acc[message.id].components.push(message.component)
+    return acc
+  }, {})
 
   // Convert grouped messages into an array with explicit type
-  const groupedMessagesArray = Object.values( groupedMessages ).map( ( group ) => ( {
+  const groupedMessagesArray = Object.values(groupedMessages).map((group) => ({
     ...group,
     components: group.components as React.ReactNode[],
-  } ) ) as {
+  })) as {
     id: string
     components: React.ReactNode[]
     isCollapsed?: StreamableValue<boolean>

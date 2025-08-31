@@ -1,6 +1,6 @@
 import { Spinner } from '@/components/ui/Spinner'
 import { useDropZone, useFileUpload, useUploader } from './hooks'
-import { Button } from '@/components/ui/Button'
+import { Button } from '@/components/ui/button'
 import { Icon } from '@/components/ui/Icon'
 import { cn } from '@/utils'
 import { ChangeEvent, useCallback } from 'react'

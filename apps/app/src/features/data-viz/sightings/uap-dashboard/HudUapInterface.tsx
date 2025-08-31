@@ -8,9 +8,7 @@ import {Badge} from '@/components/ui/badge'
 import {Button} from '@/components/ui/button'
 import {TechSection} from './tech-section'
 import {GraphPaperBackground} from './graph-paper-background/graph-paper-background'
-import {SpaceHud} from './space-hud/space-hud'
 import {Terminal} from './terminal/terminal'
-import {useSightingsData} from '@/hooks/use-sightings-data'
 import type {ValidatedUAPSighting} from '@/services/sightings/uap-sighting'
 import {FilterPanel} from './filter-panel'
 import {TimeRangeSelector} from './time-range-selector'
@@ -24,6 +22,7 @@ import {calculateTopSightingLocations} from '@/features/data-viz/sightings/utils
 
 // Import GSAP for animations
 import Script from 'next/script'
+import {debugLog} from '@/utils/logger'
 
 const ThreeJSGlobe = dynamic(
   () =>
@@ -80,7 +79,7 @@ export function HudUapInterface({
   analysisResults,
   initialLocations,
 }: HudUapInterfaceProps) {
-  console.log('🔍 HudUapInterface - Initial Data:', {
+  debugLog('🔍 HudUapInterface - Initial Data:', {
     sightingsCount: initialSightings?.length,
     eventsCount: events?.length,
     sightingsWithCoords: initialSightings?.filter(
@@ -111,7 +110,7 @@ export function HudUapInterface({
   const [filteredEvents, setFilteredEvents] = useState<any[]>(events)
 
   // Sidebar state
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [sidebarOpen, setSidebarOpen] = useState(true)
 
   // Enhanced time range state - fix date range calculation
   const currentYear = new Date().getFullYear()
@@ -127,7 +126,7 @@ export function HudUapInterface({
     const minYear = Math.max(Math.min(...years), MIN_YEAR)
     const maxYear = Math.min(Math.max(...years), currentYear)
 
-    console.log('🗓️ Calculated date range from sightings:', {
+    debugLog('🗓️ Calculated date range from sightings:', {
       minYear,
       maxYear,
       totalSightings: initialSightings.length,
@@ -148,7 +147,7 @@ export function HudUapInterface({
   const locations = React.useMemo(() => {
     const topLocations = calculateTopSightingLocations(filteredSightings, 12)
 
-    console.log('🗺️ Dynamic locations calculated:', {
+    debugLog('🗺️ Dynamic locations calculated:', {
       totalSightings: filteredSightings.length,
       topLocations: topLocations.map((loc) => ({name: loc.name, count: loc.count})),
     })
@@ -238,7 +237,7 @@ export function HudUapInterface({
       if (years.size > 0) {
         const sortedYears = Array.from(years).sort((a, b) => b - a) // Descending order
         setAvailableYears(sortedYears)
-        console.log('📅 Available years from data:', sortedYears)
+    debugLog('📅 Available years from data:', sortedYears)
       }
     }
   }, [initialSightings, events, actualDateRange.minYear, actualDateRange.maxYear])
@@ -350,7 +349,7 @@ export function HudUapInterface({
 
   // Build individual sighting points for globe visualization - CRITICAL FIX
   const globePositions = React.useMemo(() => {
-    console.log('🌍 Building globe positions from:', {
+    debugLog('🌍 Building globe positions from:', {
       currentSightingsCount: currentSightings.length,
       currentEventsCount: currentEvents.length,
     })
@@ -362,7 +361,7 @@ export function HudUapInterface({
         const hasValidCoords =
           coords && typeof coords.lat === 'number' && typeof coords.lng === 'number'
         if (!hasValidCoords) {
-          console.log('⚠️ Sighting missing valid coordinates:', s.id, coords)
+          debugLog('⚠️ Sighting missing valid coordinates:', s.id, coords)
         }
         return hasValidCoords
       })
@@ -385,7 +384,7 @@ export function HudUapInterface({
       .filter((e) => {
         const hasValidCoords = typeof e.latitude === 'number' && typeof e.longitude === 'number'
         if (!hasValidCoords) {
-          console.log('⚠️ Event missing valid coordinates:', e.id, {
+          debugLog('⚠️ Event missing valid coordinates:', e.id, {
             lat: e.latitude,
             lng: e.longitude,
           })
@@ -408,7 +407,7 @@ export function HudUapInterface({
 
     // Combine all points
     const allPoints = [...sightingPoints, ...eventPoints]
-    console.log('🎯 Globe positions created:', {
+    debugLog('🎯 Globe positions created:', {
       sightingPoints: sightingPoints.length,
       eventPoints: eventPoints.length,
       totalPoints: allPoints.length,
@@ -574,12 +573,6 @@ export function HudUapInterface({
 
   return (
     <>
-      {/* GSAP Script for animations */}
-      <Script
-        src='https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js'
-        strategy='beforeInteractive'
-      />
-
       <main className='min-h-screen text-white font-monument-mono relative z-10 bg-black'>
         {/* GraphPaperBackground will now be behind all content */}
         <GraphPaperBackground onReady={() => setGraphPaperReady(true)} />

@@ -51,7 +51,7 @@ const AnimatedArcGroupLayerDemo = ({
         views={new OrthographicView({ 
           flipY: false 
         })}
-      >
+     >
         {/* Dark background to see arcs clearly */}
         <div 
           style={{ 
@@ -72,14 +72,14 @@ const AnimatedArcGroupLayerDemo = ({
 // Generate mock data for the arcs in a grid pattern
 const generateGridArcData = (count = 5) => {
   const data = []
-  for (let i = 0; i < count; i++) {
-    for (let j = 0; j < count; j++) {
+  for (let i = 0; i <count; i++) {
+    for (let j = 0; j <count; j++) {
       // Create a grid of points
       const sourceX = (i - count/2) * 50
       const sourceY = (j - count/2) * 50
       
       // Connect to adjacent points
-      if (i < count - 1) {
+      if (i <count - 1) {
         data.push({
           source: [sourceX, sourceY, 0],
           target: [sourceX + 50, sourceY, 0],
@@ -88,7 +88,7 @@ const generateGridArcData = (count = 5) => {
         })
       }
       
-      if (j < count - 1) {
+      if (j <count - 1) {
         data.push({
           source: [sourceX, sourceY, 0],
           target: [sourceX, sourceY + 50, 0],
@@ -132,7 +132,7 @@ const generateSpiralArcData = (turns = 3, pointsPerTurn = 20) => {
   const totalPoints = turns * pointsPerTurn
   const data = []
   
-  for (let i = 1; i < totalPoints; i++) {
+  for (let i = 1; i <totalPoints; i++) {
     const prevAngle = ((i - 1) / pointsPerTurn) * Math.PI * 2
     const prevRadius = ((i - 1) / totalPoints) * 100 + 10
     const prevPoint = [

@@ -44,7 +44,7 @@ function TextAnnotationDemo() {
         <button
           onClick={clearAnnotations}
           className="px-4 py-2 bg-red-900/20 text-red-400 hover:bg-red-900/30 rounded-sm text-sm font-mono transition-colors"
-        >
+       >
           CLEAR ANNOTATIONS ({annotations.length})
         </button>
       </div>
@@ -52,7 +52,7 @@ function TextAnnotationDemo() {
       <div 
         ref={containerRef}
         className="p-6 bg-neutral-900/50 rounded-sm border border-neutral-800"
-      >
+     >
         <p className="text-neutral-300 leading-relaxed font-mono text-sm">
           <strong className="text-[#adf0dd]">EXECUTIVE SUMMARY:</strong> Analysis of recovered materials from Site 7-Alpha 
           indicates anomalous quantum signatures consistent with non-terrestrial manufacturing processes. 
@@ -74,7 +74,7 @@ function TextAnnotationDemo() {
       </div>
 
       {/* Display annotations */}
-      {annotations.length > 0 && (
+      {annotations.length> 0 && (
         <div className="mt-6">
           <h3 className="text-sm font-bold text-[#adf0dd] font-mono mb-3">ANNOTATIONS:</h3>
           <div className="space-y-2">
@@ -82,7 +82,7 @@ function TextAnnotationDemo() {
               <div 
                 key={annotation.id} 
                 className="p-3 bg-neutral-900/50 rounded-sm border border-neutral-800"
-              >
+             >
                 <div className="flex justify-between items-start">
                   <div>
                     <span className="text-xs text-[#adf0dd] font-mono">{annotation.type.toUpperCase()}</span>
@@ -149,7 +149,7 @@ function AdvancedAnnotationDemo() {
             <button
               onClick={clearAnnotations}
               className="px-3 py-1 bg-red-900/20 text-red-400 hover:bg-red-900/30 rounded-sm text-xs font-mono transition-colors"
-            >
+           >
               CLEAR ALL
             </button>
           </div>
@@ -157,7 +157,7 @@ function AdvancedAnnotationDemo() {
           <div 
             ref={containerRef}
             className="p-6 bg-neutral-900/50 rounded-sm border border-neutral-800 space-y-4"
-          >
+         >
             <div>
               <h3 className="text-[#adf0dd] font-mono text-sm font-bold mb-2">INCIDENT TIMELINE</h3>
               <p className="text-neutral-300 text-sm font-mono leading-relaxed">
@@ -267,7 +267,7 @@ function MinimalExample() {
       <div 
         ref={containerRef}
         className="p-4 bg-neutral-900 rounded border border-neutral-700 max-w-md"
-      >
+     >
         <p className="text-neutral-300 text-sm">
           Select this text to annotate it. The hook handles all the selection logic and menu positioning.
         </p>

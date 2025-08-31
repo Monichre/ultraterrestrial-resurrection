@@ -74,7 +74,7 @@ function InteractiveDemo() {
         <div 
           className="h-48 bg-neutral-900/50 border border-neutral-800 rounded-sm p-4 cursor-pointer"
           onClick={handleClick}
-        >
+       >
           <p className="text-neutral-300 text-sm font-mono leading-relaxed">
             <strong className="text-[#adf0dd]">FIELD REPORT 7A-X119:</strong> Anomalous readings detected at coordinates 
             37.2431°N, 115.7930°W during Operation Stardust. Visual confirmation of unidentified craft 
@@ -143,7 +143,7 @@ function MultipleMenusDemo() {
           <div 
             className="absolute text-xs text-[#adf0dd] font-mono"
             style={{ left: pos.x + 10, top: pos.y - 10 }}
-          >
+         >
             {pos.label}
           </div>
           
@@ -183,7 +183,7 @@ export const CustomStyling: Story = {
           zIndex: 1000,
         }}
         className="bg-gradient-to-b from-neutral-900 to-black border-2 border-[#adf0dd]/50 rounded-lg shadow-xl shadow-[#adf0dd]/20 p-3 flex flex-col gap-2"
-      >
+     >
         <button className="text-sm px-4 py-2 bg-yellow-900/30 hover:bg-yellow-900/50 text-yellow-300 rounded-sm transition-colors font-mono">
           ✨ Highlight
         </button>

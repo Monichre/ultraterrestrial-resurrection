@@ -134,9 +134,9 @@ export const Home: React.FC<HomeProps> = () => {
       <FluidShaderOrbs isVisible={showFluidOrbs} />
 
       {/* Cosmic Navigation - add class for animation targeting */}
-      <div className='cosmic-nav'>
+      {/* <div className='cosmic-nav'>
         <CosmicNav />
-      </div>
+      </div> */}
 
       <div className='absolute top-0 left-0 right-0 bottom-0  h-full w-full z-20 flex flex-col justify-center items-center'>
         <Earth activeLocation={null} />
