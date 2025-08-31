@@ -1115,26 +1115,29 @@ export const MindMapBottomMenu = ({
       return
     }
 
+    // Safely normalize inputValue in case an external caller set it to undefined/null
+    const normalizedInput = typeof inputValue === 'string' ? inputValue : ''
+
     // Handle model selection without input (Add to Mindmap)
-    if (selectedModel && inputValue.trim() === '') {
+    if (selectedModel && normalizedInput.trim() === '') {
       addDataToMindMap(selectedModel)
       return
     }
 
     // Only proceed if we have input
-    if (inputValue.trim() === '') return
+    if (normalizedInput.trim() === '') return
 
     // Handle chat commands
     if (activeCommand === 'chat' || activeCommand === 'deep research') {
       console.log('Submitting chat message via form')
 
       // Set the message content for useAssistant
-      setInput(inputValue)
+      setInput(normalizedInput)
 
       // Append user message to conversation
       append({
         role: 'user',
-        content: inputValue,
+        content: normalizedInput,
       })
 
       // Clear input fields after submission
