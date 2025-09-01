@@ -920,8 +920,8 @@ def main():
 
     # Main content area
     if st.session_state.processed_documents:
-        tab1, tab2, tab3, tab4, tab5 = st.tabs(
-            ["📊 Dashboard", "🗺️ Geographic Analysis", "💬 Chat", "📁 Documents", "🗂️ Data Sources"])
+        tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(
+            ["📊 Dashboard", "🗺️ Geographic Analysis", "💬 Chat", "📁 Documents", "🗂️ Data Sources", "🔍 Unified Search"])
 
         with tab1:
             # Get latest document entities
@@ -964,6 +964,15 @@ def main():
         with tab5:
             # Data Sources Navigator
             render_data_sources_navigator()
+            
+        with tab6:
+            # Unified RAG Search
+            try:
+                from components.unified_search_ui import render_unified_search
+                render_unified_search()
+            except ImportError as e:
+                st.error(f"Unified Search not available: {e}")
+                st.info("Make sure the unified RAG orchestrator is properly installed.")
 
     else:
         # Welcome screen with data sources navigator

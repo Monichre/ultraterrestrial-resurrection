@@ -243,8 +243,10 @@ export async function getSightingsByTimeChunk(
 			const expandedResults = await xata.db.sightings.search( "*", {
 				filter: {
 					$all: [
-						{ latitude: { $exists: true } },
-						{ longitude: { $exists: true } },
+						{ latitude: { $ge: -90 } },
+						{ latitude: { $le: 90 } },
+						{ longitude: { $ge: -180 } },
+						{ longitude: { $le: 180 } },
 						{ date: { $ge: startDate, $le: endDate } },
 					],
 				},
@@ -926,8 +928,10 @@ export async function getSightingsBatched(
 				const mappableResults = await xata.db.sightings.search( "*", {
 					filter: {
 						$all: [
-							{ latitude: { $exists: true } },
-							{ longitude: { $exists: true } },
+							{ latitude: { $ge: -90 } },
+							{ latitude: { $le: 90 } },
+							{ longitude: { $ge: -180 } },
+							{ longitude: { $le: 180 } },
 							{ date: { $ge: startDate, $le: endDate } },
 						],
 					},

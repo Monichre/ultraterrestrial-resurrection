@@ -23,7 +23,7 @@ import {
 import {ENTITY_TYPES} from '../menus/mindmap-bottom-menu/entity-types'
 import {initiateDatabaseTableQuery} from '../../actions/search'
 // @ts-ignore - Storybook aliases '@ai-sdk/react' to a local stub; Next app uses real package
-import {useChat} from 'ai/react'
+import { useAssistant } from '@ai-sdk/react';
 import {v4 as uuidv4} from 'uuid'
 import {useSession} from '@/contexts/SessionContext'
 import {SessionProgressIndicator, SessionProgressBadge} from '@/components/SessionProgressIndicator'

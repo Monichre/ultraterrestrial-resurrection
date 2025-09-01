@@ -237,7 +237,7 @@ export function HudUapInterface({
       if (years.size > 0) {
         const sortedYears = Array.from(years).sort((a, b) => b - a) // Descending order
         setAvailableYears(sortedYears)
-    debugLog('📅 Available years from data:', sortedYears)
+        debugLog('📅 Available years from data:', sortedYears)
       }
     }
   }, [initialSightings, events, actualDateRange.minYear, actualDateRange.maxYear])
@@ -751,11 +751,21 @@ export function HudUapInterface({
                               return top?.[0]
                             })(),
                             latestSightingISO: (() => {
-                              const latest = [...currentSightings].sort(
-                                (a, b) =>
-                                  new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
-                              )[0]
-                              return latest ? new Date(latest.timestamp).toISOString() : undefined
+                              const latest = [...currentSightings]
+                                .filter(
+                                  (s) =>
+                                    s &&
+                                    s.timestamp &&
+                                    !isNaN(new Date(s.timestamp as any).getTime())
+                                )
+                                .sort(
+                                  (a, b) =>
+                                    new Date(b.timestamp as any).getTime() -
+                                    new Date(a.timestamp as any).getTime()
+                                )[0]
+                              return latest
+                                ? new Date(latest.timestamp as any).toISOString()
+                                : undefined
                             })(),
                             timeRange: enhancedTimeRange.isAnimating
                               ? {
