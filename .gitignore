@@ -191,6 +191,8 @@ out/
 # Include package.json files
 !package.json
 !package-lock.json
+# Allow tracking specific JSON configs
+!apps/app/components.json
 
 # Vector store files
 packages/knowledge-base/vector-store-files/
