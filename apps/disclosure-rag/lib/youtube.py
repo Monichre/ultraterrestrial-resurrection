@@ -167,30 +167,81 @@ def get_video_info_and_transcript(url):
                         captions = info[subtitle_type]['en']
                         print(f"✅ Found English {subtitle_type}")
                         if isinstance(captions, list):
-                            for fmt in captions:
-                                if fmt.get('ext') == 'vtt':
-                                    response = requests.get(fmt['url'])
-                                    if response.status_code == 200:
-
-                                        vtt_content = response.text
-
-                                        content_parts = vtt_content.split('\n\n')
-                                        transcript_parts = []
-                                        for part in content_parts:
-                                            if '-->' in part:  # This is a caption block
-
-                                                lines = part.split('\n')
-                                                if len(lines) > 2:  # Has timestamp and text
-                                                    text = ' '.join(lines[2:])
-
-                                                    text = re.sub(
-                                                        '<[^>]+>', '', text)
-                                                    transcript_parts.append(
-                                                        text.strip())
-                                        transcript_text = ' '.join(
-                                            transcript_parts)
-                                        print(f"✅ Extracted English transcript from captions: {len(transcript_text)} chars")
-                                        break
+                            # Try multiple formats: VTT first, then SRT as fallback
+                            for format_preference in ['vtt', 'srt']:
+                                if transcript_text:
+                                    break
+                                for fmt in captions:
+                                    if fmt.get('ext') == format_preference:
+                                        print(f"Attempting to download {format_preference.upper()} captions...")
+                                        try:
+                                            # Add headers to appear more like a regular browser
+                                            headers = {
+                                                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+                                                'Accept': 'text/vtt,text/plain,*/*',
+                                                'Accept-Language': 'en-US,en;q=0.9',
+                                                'Referer': 'https://www.youtube.com/'
+                                            }
+                                            
+                                            # Retry logic for rate limiting
+                                            import time
+                                            for attempt in range(3):
+                                                if attempt > 0:
+                                                    wait_time = attempt * 2
+                                                    print(f"Retrying in {wait_time} seconds... (attempt {attempt + 1}/3)")
+                                                    time.sleep(wait_time)
+                                                    
+                                                response = requests.get(fmt['url'], timeout=15, headers=headers)
+                                                print(f"Response status: {response.status_code}")
+                                                
+                                                if response.status_code == 200:
+                                                    break
+                                                elif response.status_code == 429:
+                                                    print("Rate limited, waiting before retry...")
+                                                    continue
+                                                else:
+                                                    print(f"HTTP error {response.status_code}, trying next format")
+                                                    break
+                                            
+                                            if response.status_code == 200:
+                                                content = response.text
+                                                
+                                                # Parse VTT or SRT content
+                                                if format_preference == 'vtt':
+                                                    content_parts = content.split('\n\n')
+                                                    transcript_parts = []
+                                                    for part in content_parts:
+                                                        if '-->' in part:  # This is a caption block
+                                                            lines = part.split('\n')
+                                                            if len(lines) > 2:  # Has timestamp and text
+                                                                text = ' '.join(lines[2:])
+                                                                text = re.sub('<[^>]+>', '', text)
+                                                                transcript_parts.append(text.strip())
+                                                    transcript_text = ' '.join(transcript_parts)
+                                                elif format_preference == 'srt':
+                                                    # Simple SRT parsing
+                                                    lines = content.split('\n')
+                                                    transcript_parts = []
+                                                    for line in lines:
+                                                        if line.strip() and not line.strip().isdigit() and '-->' not in line:
+                                                            transcript_parts.append(line.strip())
+                                                    transcript_text = ' '.join(transcript_parts)
+                                                
+                                                if transcript_text and transcript_text.strip():
+                                                    print(f"✅ Extracted English transcript from {format_preference.upper()}: {len(transcript_text)} chars")
+                                                    break
+                                                else:
+                                                    print(f"⚠️ Extracted transcript from {format_preference.upper()} is empty")
+                                                    transcript_text = None
+                                            else:
+                                                print(f"❌ Failed to download {format_preference.upper()} captions (HTTP {response.status_code})")
+                                        except Exception as e:
+                                            print(f"❌ Error downloading {format_preference.upper()} captions: {e}")
+                                        break  # Only try the first format of this type
+                        
+                        # Break from subtitle_type loop if we have a transcript
+                        if transcript_text:
+                            break
                     
                     # If no English captions found, try other languages and detect if it's actually English
                     if not transcript_text:

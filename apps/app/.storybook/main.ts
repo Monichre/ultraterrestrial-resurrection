@@ -52,6 +52,7 @@ const config: StorybookConfig = {
 		config.resolve.alias = {
 			...( config.resolve.alias || {} ),
 			'@ai-sdk/react': path.resolve( __dirname, './stubs/ai-sdk-react.ts' ),
+			'@ai-sdk/rsc': path.resolve( __dirname, './stubs/ai-sdk-rsc.ts' ),
 			'@': path.resolve( __dirname, '../src' ),
 			'@tiptap-pro/extension-drag-handle-react': path.resolve( __dirname, './stubs/tiptap-pro/extension-drag-handle-react.ts' ),
 			'react-hot-toast': path.resolve( __dirname, './stubs/react-hot-toast.ts' ),

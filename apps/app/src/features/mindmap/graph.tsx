@@ -44,9 +44,9 @@ export function Graph(props: any) {
         organizeLayout({
           direction: 'horizontal',
           centerChildren: true,
-          parentChildSpacing: 100,
-          nodeWidth: 200,
-          nodeHeight: 100,
+          parentChildSpacing: 120,
+          siblingSpacing: 80,
+          preserveExistingLayout: true,
         })
       }, 300)
 

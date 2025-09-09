@@ -172,20 +172,23 @@ ai/
 └── 🔌 integrations/        # External service integrations
 ```
 
-#### **Triple RAG System**
+#### **Quinuple RAG Architecture**
 
 **Active Configuration**:
 
-1. **☁️ Upstash Vector** (40% weight) - Cloud-based vector search
-2. **💾 LocalRAG FAISS** (40% weight) - Local vector storage  
-3. **🗄️ CocoIndex PostgreSQL** (20% weight) - Advanced analytics
+1. **🎯 OpenAI Vector Store** (Primary) - 2,426+ files powering Prometheus AI
+2. **📊 Xata Database** (Primary) - 230,998+ structured records with vector search
+3. **☁️ Upstash Vector** (Secondary) - Cloud-based vector search
+4. **💾 Local FAISS** (Secondary) - Local vector storage and offline capability
+5. **🗄️ PostgreSQL + pgvector** (Secondary) - Advanced vector operations
 
 **Features**:
 
-- **Parallel search** across all backends
-- **Intelligent result merging** with score weighting
-- **Environment-based configuration** and fallback handling
-- **85% schema compatibility** with existing Xata models
+- **Intelligent tier ranking** - OpenAI + Xata as primary sources
+- **Unified search orchestration** across all 5 layers
+- **Cross-system result merging** with priority-based scoring
+- **Comprehensive knowledge access** to 233,932+ total searchable items
+- **Environment-based configuration** and graceful fallback handling
 
 #### **Key Components**
 
@@ -378,18 +381,34 @@ Organized by date with comprehensive UFO/UAP content:
 ### **Project Documentation**
 
 - **`CLAUDE.md`** - AI assistant instructions and project guidelines
-- **`NLP.md`** - Natural language processing documentation
-- **`XATA_INTEGRATION_PLAN.md`** - Database integration strategy
+- **`docs/INDEX.md`** - Documentation navigation index
+- **`docs/DOCUMENTATION_ORGANIZATION_PLAN.md`** - Documentation structure guide
 
-### **Feature Planning (`/docs/feature-planning/`)**
+### **Agent Configuration (`/docs/agents/`)**
 
-- **`disclosure-research-canvas/`** - Research canvas specifications
-- **`ranking-system/`** - Personnel ranking system design and implementation
+- **`docs/agents/AGENT_ONBOARDING_CHECKLIST.md`** - Validation checklist for new agents
+- **`docs/agents/sessions/`** - Session management and resumption guides
 
-### **Code Quality (`/docs/code-quality/`)**
+### **Feature Planning (`/docs/plans/`)**
 
-- **`component-audit-report.md`** - Component analysis and recommendations
-- **`component-missing-stories-report.md`** - Storybook coverage analysis
+- **`docs/plans/FEATURES.md`** - Strategic feature concepts and architectural decisions
+- **`docs/plans/TODO.md`** - Ready-to-implement tasks with clear success criteria
+- **`docs/plans/app/`** - Main application planning documents
+- **`docs/plans/features/`** - Feature-specific specifications and plans
+
+### **Research & Methodology (`/docs/research/`)**
+
+- **`docs/research/RESEARCH_QUEUE.md`** - Research task prioritization
+
+### **Work Logs (`/docs/work_logs/`)**
+
+- **Recent development sessions and implementation logs**
+- **Progress tracking and decision documentation**
+
+### **AI Prompts (`/docs/prompts/`)**
+
+- **Agent system instructions and prompt templates**
+- **Research methodology prompts and configurations**
 
 ---
 

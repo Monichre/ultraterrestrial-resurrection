@@ -7,8 +7,8 @@ from dotenv import load_dotenv
 from groq import Groq
 from openai import OpenAI
 from pydantic import BaseModel
-from prompts.named_entity_recognition_prompt import ner_prompt
-from prompts.research_prompt import research_prompt
+from research.prompts.named_entity_recognition_prompt import ner_prompt
+from research.prompts.research_prompt import research_prompt
 from rich.console import Console
 from rich.panel import Panel
 from rich.style import Style

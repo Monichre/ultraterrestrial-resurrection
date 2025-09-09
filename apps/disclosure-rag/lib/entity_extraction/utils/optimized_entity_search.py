@@ -311,28 +311,47 @@ class OptimizedEntitySearch:
     
     async def _batch_exact_search(self, table_name: str, entity_names: List[str]) -> List[Dict[str, Any]]:
         """Perform batch exact match search"""
-        if hasattr(self.xata_client, 'data'):
+        try:
+            # Use the correct Xata search_table method
             search_query = {
-                "filter": {
-                    "name": {
-                        "$any": entity_names
-                    }
-                },
+                "query": " OR ".join(f'name:"{name}"' for name in entity_names),
+                "target": ["name"],
                 "size": len(entity_names) * 2
             }
             
-            response = await self.xata_client.data().search_async(table_name, search_query)
-            return response.get("records", [])
-        else:
-            # Fallback to query_records
-            response = await self.xata_client.query_records(
-                table=table_name,
-                filter_params={
-                    "name": {"$any": entity_names}
-                },
-                size=len(entity_names) * 2
-            )
-            return response.get("records", [])
+            response = self.xata_client.data().search_table(table_name, search_query)
+            
+            if hasattr(response, 'records'):
+                return [record.to_dict() if hasattr(record, 'to_dict') else record for record in response.records]
+            elif isinstance(response, dict) and "records" in response:
+                return response["records"]
+            else:
+                return []
+                
+        except Exception as e:
+            logger.error(f"Batch search failed for {table_name}: {e}")
+            # Fallback to individual searches
+            results = []
+            for name in entity_names:
+                try:
+                    single_query = {
+                        "query": name,
+                        "target": ["name"],
+                        "size": 1
+                    }
+                    single_response = self.xata_client.data().search_table(table_name, single_query)
+                    
+                    if hasattr(single_response, 'records') and single_response.records:
+                        record = single_response.records[0]
+                        results.append(record.to_dict() if hasattr(record, 'to_dict') else record)
+                    elif isinstance(single_response, dict) and single_response.get("records"):
+                        results.append(single_response["records"][0])
+                        
+                except Exception as single_e:
+                    logger.error(f"Individual search error for {name}: {single_e}")
+                    continue
+                    
+            return results
     
     async def _fuzzy_search(
         self, 
@@ -345,19 +364,26 @@ class OptimizedEntitySearch:
         
         for entity_name in entity_names:
             try:
-                # Use search_records for fuzzy matching
-                response = await self.xata_client.search_records(
-                    table=table_name,
-                    query=entity_name,
-                    target=["name"],
-                    fuzziness=2,
-                    size=3
-                )
+                # Use search_table for fuzzy matching
+                search_query = {
+                    "query": entity_name,
+                    "target": ["name"],
+                    "fuzziness": 2,
+                    "size": 3
+                }
+                response = self.xata_client.data().search_table(table_name, search_query)
                 
                 best_match = None
                 best_score = 0.0
                 
-                for record in response.get("records", []):
+                # Handle response format properly
+                records = []
+                if hasattr(response, 'records'):
+                    records = [record.to_dict() if hasattr(record, 'to_dict') else record for record in response.records]
+                elif isinstance(response, dict) and "records" in response:
+                    records = response["records"]
+                    
+                for record in records:
                     # Calculate similarity score (simplified)
                     record_name = record.get("name", "")
                     score = self._calculate_similarity(entity_name, record_name)
@@ -406,15 +432,22 @@ class OptimizedEntitySearch:
         
         for entity_name in entity_names:
             try:
-                response = await self.xata_client.search_records(
-                    table=table_name,
-                    query=entity_name,
-                    target=["name"],
-                    size=1
-                )
+                search_query = {
+                    "query": entity_name,
+                    "target": ["name"],
+                    "size": 1
+                }
+                response = self.xata_client.data().search_table(table_name, search_query)
                 
-                if response.get("records"):
-                    record = response["records"][0]
+                # Handle response format properly
+                records = []
+                if hasattr(response, 'records') and response.records:
+                    records = [record.to_dict() if hasattr(record, 'to_dict') else record for record in response.records]
+                elif isinstance(response, dict) and response.get("records"):
+                    records = response["records"]
+                
+                if records:
+                    record = records[0]
                     results.append(SearchResult(
                         entity_name=entity_name,
                         status="found",

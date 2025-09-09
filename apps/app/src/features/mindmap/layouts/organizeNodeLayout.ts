@@ -1,69 +1,69 @@
-import { Node, Edge } from '@xyflow/react';
+import { Node, Edge } from '@xyflow/react'
 
 // ReactFlowNode type to match the existing project types
 export type ReactFlowNode = {
-  id: string;
-  type: string;
-  position: { x: number; y: number };
-  data: Record<string, any>;
-  parentId?: string;
-  width?: number;
-  height?: number;
+  id: string
+  type: string
+  position: { x: number; y: number }
+  data: Record<string, any>
+  parentId?: string
+  width?: number
+  height?: number
   measured?: {
-    width: number;
-    height: number;
-  };
-};
+    width: number
+    height: number
+  }
+}
 
 export type ReactFlowEdge = {
-  id: string;
-  source: string;
-  target: string;
-  type?: string;
-  animated?: boolean;
-  label?: string;
-  style?: Record<string, any>;
-};
+  id: string
+  source: string
+  target: string
+  type?: string
+  animated?: boolean
+  label?: string
+  style?: Record<string, any>
+}
 
 export interface LayoutOptions {
-  direction?: 'horizontal' | 'vertical' | 'radial' | 'grid';
-  parentChildSpacing?: number;
-  siblingSpacing?: number;
-  nodeWidth?: number;
-  nodeHeight?: number;
-  centerChildren?: boolean;
-  compactLayout?: boolean;
-  groupPadding?: number;
-  preserveExistingLayout?: boolean;
-  focusOnNewNodes?: boolean;
+  direction?: 'horizontal' | 'vertical' | 'radial' | 'grid'
+  parentChildSpacing?: number
+  siblingSpacing?: number
+  nodeWidth?: number
+  nodeHeight?: number
+  centerChildren?: boolean
+  compactLayout?: boolean
+  groupPadding?: number
+  preserveExistingLayout?: boolean
+  focusOnNewNodes?: boolean
 }
 
 // Enhanced dimension calculation
-const getNodeDimensions = (node: ReactFlowNode): { width: number; height: number } => {
+const getNodeDimensions = ( node: ReactFlowNode ): { width: number; height: number } => {
   // Priority order: measured > explicit dimensions > data style > defaults
-  if (node.measured) {
-    return { width: node.measured.width, height: node.measured.height };
+  if ( node.measured ) {
+    return { width: node.measured.width, height: node.measured.height }
   }
-  
-  if (node.width && node.height) {
-    return { width: node.width, height: node.height };
+
+  if ( node.width && node.height ) {
+    return { width: node.width, height: node.height }
   }
-  
+
   // Check for style-based dimensions
-  const style = node.data?.style;
-  if (style) {
-    const width = typeof style.width === 'string' ? 
-      parseInt(style.width.replace('px', ''), 10) : 
-      (typeof style.width === 'number' ? style.width : null);
-    const height = typeof style.height === 'string' ? 
-      parseInt(style.height.replace('px', ''), 10) : 
-      (typeof style.height === 'number' ? style.height : null);
-    
-    if (width && height) {
-      return { width, height };
+  const style = node.data?.style
+  if ( style ) {
+    const width = typeof style.width === 'string' ?
+      parseInt( style.width.replace( 'px', '' ), 10 ) :
+      ( typeof style.width === 'number' ? style.width : null )
+    const height = typeof style.height === 'string' ?
+      parseInt( style.height.replace( 'px', '' ), 10 ) :
+      ( typeof style.height === 'number' ? style.height : null )
+
+    if ( width && height ) {
+      return { width, height }
     }
   }
-  
+
   // Node type-based defaults
   const nodeTypeDefaults: Record<string, { width: number; height: number }> = {
     'rootNode': { width: 300, height: 120 },
@@ -73,54 +73,54 @@ const getNodeDimensions = (node: ReactFlowNode): { width: number; height: number
     'groupResultsNode': { width: 800, height: 300 },
     'userInputNode': { width: 250, height: 80 },
     'default': { width: 200, height: 100 }
-  };
-  
-  return nodeTypeDefaults[node.type] || nodeTypeDefaults['default'];
-};
+  }
+
+  return nodeTypeDefaults[node.type] || nodeTypeDefaults['default']
+}
 
 // Enhanced node hierarchy analysis
-const analyzeNodeHierarchy = (nodes: ReactFlowNode[], edges: ReactFlowEdge[]) => {
-  const nodeMap = new Map(nodes.map(node => [node.id, node]));
-  const parentToChildren = new Map<string, ReactFlowNode[]>();
-  const childToParent = new Map<string, string>();
-  const rootNodes: ReactFlowNode[] = [];
-  
+const analyzeNodeHierarchy = ( nodes: ReactFlowNode[], edges: ReactFlowEdge[] ) => {
+  const nodeMap = new Map( nodes.map( node => [node.id, node] ) )
+  const parentToChildren = new Map<string, ReactFlowNode[]>()
+  const childToParent = new Map<string, string>()
+  const rootNodes: ReactFlowNode[] = []
+
   // Build parent-child relationships from edges and parentId
-  nodes.forEach(node => {
-    if (node.parentId) {
-      if (!parentToChildren.has(node.parentId)) {
-        parentToChildren.set(node.parentId, []);
+  nodes.forEach( node => {
+    if ( node.parentId ) {
+      if ( !parentToChildren.has( node.parentId ) ) {
+        parentToChildren.set( node.parentId, [] )
       }
-      parentToChildren.get(node.parentId)!.push(node);
-      childToParent.set(node.id, node.parentId);
+      parentToChildren.get( node.parentId )!.push( node )
+      childToParent.set( node.id, node.parentId )
     } else {
       // Check if this node is a root based on edges
-      const isChild = edges.some(edge => edge.target === node.id);
-      if (!isChild) {
-        rootNodes.push(node);
+      const isChild = edges.some( edge => edge.target === node.id )
+      if ( !isChild ) {
+        rootNodes.push( node )
       }
     }
-  });
-  
+  } )
+
   // Also analyze edge-based relationships
-  edges.forEach(edge => {
-    const sourceNode = nodeMap.get(edge.source);
-    const targetNode = nodeMap.get(edge.target);
-    
-    if (sourceNode && targetNode && !targetNode.parentId) {
+  edges.forEach( edge => {
+    const sourceNode = nodeMap.get( edge.source )
+    const targetNode = nodeMap.get( edge.target )
+
+    if ( sourceNode && targetNode && !targetNode.parentId ) {
       // This creates an implicit parent-child relationship via edges
-      if (!parentToChildren.has(edge.source)) {
-        parentToChildren.set(edge.source, []);
+      if ( !parentToChildren.has( edge.source ) ) {
+        parentToChildren.set( edge.source, [] )
       }
-      const children = parentToChildren.get(edge.source)!;
-      if (!children.find(child => child.id === targetNode.id)) {
-        children.push(targetNode);
+      const children = parentToChildren.get( edge.source )!
+      if ( !children.find( child => child.id === targetNode.id ) ) {
+        children.push( targetNode )
       }
     }
-  });
-  
-  return { parentToChildren, childToParent, rootNodes, nodeMap };
-};
+  } )
+
+  return { parentToChildren, childToParent, rootNodes, nodeMap }
+}
 
 /**
  * Enhanced organizeNodeLayout with better handling of new nodes and viewport management
@@ -130,11 +130,11 @@ export function organizeNodeLayout(
   edges: ReactFlowEdge[],
   options: LayoutOptions = {}
 ): ReactFlowNode[] {
-  console.log('[Layout] organizeNodeLayout called with:', nodes.length, 'nodes');
-  console.log('[Layout] Input nodes:', nodes.map(n => ({ id: n.id, type: n.type })));
-  
-  if (!nodes.length) return [];
-  
+  console.log( '[Layout] organizeNodeLayout called with:', nodes.length, 'nodes' )
+  console.log( '[Layout] Input nodes:', nodes.map( n => ( { id: n.id, type: n.type } ) ) )
+
+  if ( !nodes.length ) return []
+
   const {
     direction = 'horizontal',
     parentChildSpacing = 120,
@@ -144,210 +144,259 @@ export function organizeNodeLayout(
     groupPadding = 20,
     preserveExistingLayout = false,
     focusOnNewNodes = false
-  } = options;
-  
-  const { parentToChildren, rootNodes } = analyzeNodeHierarchy(nodes, edges);
-  console.log('[Layout] Root nodes found:', rootNodes.length, rootNodes.map(n => n.id));
-  console.log('[Layout] Parent-child relationships:', parentToChildren.size);
-  
-  const layoutedNodes = nodes.map(node => ({ ...node }));
-  console.log('[Layout] Initial layoutedNodes:', layoutedNodes.length);
-  
+  } = options
+
+  const { parentToChildren, rootNodes } = analyzeNodeHierarchy( nodes, edges )
+  console.log( '[Layout] Root nodes found:', rootNodes.length, rootNodes.map( n => n.id ) )
+  console.log( '[Layout] Parent-child relationships:', parentToChildren.size )
+
+  const layoutedNodes = nodes.map( node => ( { ...node } ) )
+  console.log( '[Layout] Initial layoutedNodes:', layoutedNodes.length )
+
   // If preserving layout, only position new nodes (nodes without proper positions)
-  const nodesToLayout = preserveExistingLayout ? 
-    layoutedNodes.filter(node => !node.position || (node.position.x === 0 && node.position.y === 0)) :
-    layoutedNodes;
-  
+  const nodesToLayout = preserveExistingLayout ?
+    layoutedNodes.filter( node => !node.position || ( node.position.x === 0 && node.position.y === 0 ) ) :
+    layoutedNodes
+  const nodesToLayoutIdSet = new Set( nodesToLayout.map( n => n.id ) )
+
   // Position root nodes first
-  const rootSpacing = 400;
-  let rootX = 0;
-  
-  rootNodes.forEach((rootNode, index) => {
-    const nodeIndex = layoutedNodes.findIndex(n => n.id === rootNode.id);
-    if (nodeIndex !== -1 && (!preserveExistingLayout || nodesToLayout.includes(rootNode))) {
+  const rootSpacing = 400
+  let rootX = 0
+
+  rootNodes.forEach( ( rootNode, index ) => {
+    const nodeIndex = layoutedNodes.findIndex( n => n.id === rootNode.id )
+    if ( nodeIndex !== -1 && ( !preserveExistingLayout || nodesToLayout.includes( rootNode ) ) ) {
       layoutedNodes[nodeIndex] = {
         ...layoutedNodes[nodeIndex],
         position: {
           x: rootX,
           y: 0
         }
-      };
-      rootX += rootSpacing;
+      }
+      rootX += rootSpacing
     }
-  });
-  
+  } )
+
   // Position children for each parent
-  parentToChildren.forEach((children, parentId) => {
-    const parent = layoutedNodes.find(node => node.id === parentId);
-    if (!parent) return;
-    
-    const parentDims = getNodeDimensions(parent);
-    
+  parentToChildren.forEach( ( children, parentId ) => {
+    const parent = layoutedNodes.find( node => node.id === parentId )
+    if ( !parent ) return
+
+    const parentDims = getNodeDimensions( parent )
+
     // Sort children by their original index to maintain consistent ordering
-    const sortedChildren = children.sort((a, b) => {
-      const aIndex = nodes.findIndex(n => n.id === a.id);
-      const bIndex = nodes.findIndex(n => n.id === b.id);
-      return aIndex - bIndex;
-    });
-    
-    if (direction === 'horizontal') {
+    const sortedChildren = children.sort( ( a, b ) => {
+      const aIndex = nodes.findIndex( n => n.id === a.id )
+      const bIndex = nodes.findIndex( n => n.id === b.id )
+      return aIndex - bIndex
+    } )
+
+    if ( direction === 'horizontal' ) {
       // Calculate total width needed for all children
-      const childDimensions = sortedChildren.map(child => getNodeDimensions(child));
-      const totalWidth = childDimensions.reduce((sum, dims, index) => {
-        return sum + dims.width + (index < childDimensions.length - 1 ? siblingSpacing : 0);
-      }, 0);
-      
+      const childDimensions = sortedChildren.map( child => getNodeDimensions( child ) )
+      const totalWidth = childDimensions.reduce( ( sum, dims, index ) => {
+        return sum + dims.width + ( index < childDimensions.length - 1 ? siblingSpacing : 0 )
+      }, 0 )
+
       // Calculate starting position to center children under parent
-      const startX = centerChildren ? 
-        parent.position.x + (parentDims.width / 2) - (totalWidth / 2) :
-        parent.position.x;
-      
-      const childY = parent.position.y + parentDims.height + parentChildSpacing;
-      
+      const startX = centerChildren ?
+        parent.position.x + ( parentDims.width / 2 ) - ( totalWidth / 2 ) :
+        parent.position.x
+
+      const childY = parent.position.y + parentDims.height + parentChildSpacing
+
       // Position each child
-      let currentX = startX;
-      sortedChildren.forEach((child) => {
-        const childIndex = layoutedNodes.findIndex(n => n.id === child.id);
-        if (childIndex !== -1 && (!preserveExistingLayout || nodesToLayout.includes(child))) {
-          const dims = getNodeDimensions(child);
-          
+      let currentX = startX
+      sortedChildren.forEach( ( child ) => {
+        const childIndex = layoutedNodes.findIndex( n => n.id === child.id )
+        if ( childIndex !== -1 && ( !preserveExistingLayout || nodesToLayout.includes( child ) ) ) {
+          const dims = getNodeDimensions( child )
+
           layoutedNodes[childIndex] = {
             ...layoutedNodes[childIndex],
             position: {
               x: currentX,
               y: childY
             }
-          };
-          
-          currentX += dims.width + siblingSpacing;
+          }
+
+          currentX += dims.width + siblingSpacing
         }
-      });
-      
-    } else if (direction === 'vertical') {
+      } )
+
+    } else if ( direction === 'vertical' ) {
       // Vertical layout
-      const childDimensions = sortedChildren.map(child => getNodeDimensions(child));
-      const totalHeight = childDimensions.reduce((sum, dims, index) => {
-        return sum + dims.height + (index < childDimensions.length - 1 ? siblingSpacing : 0);
-      }, 0);
-      
-      const startY = centerChildren ? 
-        parent.position.y + (parentDims.height / 2) - (totalHeight / 2) :
-        parent.position.y + parentDims.height + parentChildSpacing;
-      
-      const childX = parent.position.x + parentDims.width + parentChildSpacing;
-      
-      let currentY = startY;
-      sortedChildren.forEach((child) => {
-        const childIndex = layoutedNodes.findIndex(n => n.id === child.id);
-        if (childIndex !== -1 && (!preserveExistingLayout || nodesToLayout.includes(child))) {
-          const dims = getNodeDimensions(child);
-          
+      const childDimensions = sortedChildren.map( child => getNodeDimensions( child ) )
+      const totalHeight = childDimensions.reduce( ( sum, dims, index ) => {
+        return sum + dims.height + ( index < childDimensions.length - 1 ? siblingSpacing : 0 )
+      }, 0 )
+
+      const startY = centerChildren ?
+        parent.position.y + ( parentDims.height / 2 ) - ( totalHeight / 2 ) :
+        parent.position.y + parentDims.height + parentChildSpacing
+
+      const childX = parent.position.x + parentDims.width + parentChildSpacing
+
+      let currentY = startY
+      sortedChildren.forEach( ( child ) => {
+        const childIndex = layoutedNodes.findIndex( n => n.id === child.id )
+        if ( childIndex !== -1 && ( !preserveExistingLayout || nodesToLayout.includes( child ) ) ) {
+          const dims = getNodeDimensions( child )
+
           layoutedNodes[childIndex] = {
             ...layoutedNodes[childIndex],
             position: {
               x: childX,
               y: currentY
             }
-          };
-          
-          currentY += dims.height + siblingSpacing;
+          }
+
+          currentY += dims.height + siblingSpacing
         }
-      });
-      
-    } else if (direction === 'radial') {
+      } )
+
+    } else if ( direction === 'radial' ) {
       // Enhanced radial layout around parent with proper spacing
-      const childDimensions = sortedChildren.map(child => getNodeDimensions(child));
-      const maxChildWidth = Math.max(...childDimensions.map(d => d.width));
-      const maxChildHeight = Math.max(...childDimensions.map(d => d.height));
-      
+      const childDimensions = sortedChildren.map( child => getNodeDimensions( child ) )
+      const maxChildWidth = Math.max( ...childDimensions.map( d => d.width ) )
+      const maxChildHeight = Math.max( ...childDimensions.map( d => d.height ) )
+
       // Calculate radius based on node dimensions and count for no overlap
-      const circumferenceNeeded = sortedChildren.length * (maxChildWidth + siblingSpacing);
-      const radiusFromCircumference = circumferenceNeeded / (2 * Math.PI);
-      const minRadiusForSpacing = Math.max(maxChildWidth, maxChildHeight) + siblingSpacing;
-      
+      const circumferenceNeeded = sortedChildren.length * ( maxChildWidth + siblingSpacing )
+      const radiusFromCircumference = circumferenceNeeded / ( 2 * Math.PI )
+      const minRadiusForSpacing = Math.max( maxChildWidth, maxChildHeight ) + siblingSpacing
+
       const radius = Math.max(
         parentChildSpacing,
         radiusFromCircumference,
         minRadiusForSpacing,
         200  // Minimum radius
-      );
-      
-      console.log(`[Layout] Radial layout: ${sortedChildren.length} nodes, radius: ${radius}, max dimensions: ${maxChildWidth}x${maxChildHeight}`);
-      
-      sortedChildren.forEach((child, index) => {
-        const childIndex = layoutedNodes.findIndex(n => n.id === child.id);
-        if (childIndex !== -1 && (!preserveExistingLayout || nodesToLayout.includes(child))) {
-          const angle = (index / sortedChildren.length) * 2 * Math.PI;
-          const x = parent.position.x + (parentDims.width / 2) + Math.cos(angle) * radius;
-          const y = parent.position.y + (parentDims.height / 2) + Math.sin(angle) * radius;
-          
-          console.log(`[Layout] Node ${child.id} positioned at (${Math.round(x)}, ${Math.round(y)}) with angle ${(angle * 180 / Math.PI).toFixed(1)}°`);
-          
+      )
+
+      console.log( `[Layout] Radial layout: ${sortedChildren.length} nodes, radius: ${radius}, max dimensions: ${maxChildWidth}x${maxChildHeight}` )
+
+      sortedChildren.forEach( ( child, index ) => {
+        const childIndex = layoutedNodes.findIndex( n => n.id === child.id )
+        if ( childIndex !== -1 && ( !preserveExistingLayout || nodesToLayout.includes( child ) ) ) {
+          const angle = ( index / sortedChildren.length ) * 2 * Math.PI
+          const x = parent.position.x + ( parentDims.width / 2 ) + Math.cos( angle ) * radius
+          const y = parent.position.y + ( parentDims.height / 2 ) + Math.sin( angle ) * radius
+
+          console.log( `[Layout] Node ${child.id} positioned at (${Math.round( x )}, ${Math.round( y )}) with angle ${( angle * 180 / Math.PI ).toFixed( 1 )}°` )
+
           layoutedNodes[childIndex] = {
             ...layoutedNodes[childIndex],
             position: { x, y }
-          };
+          }
         }
-      });
-      
-    } else if (direction === 'grid') {
+      } )
+
+    } else if ( direction === 'grid' ) {
       // Grid layout
-      const cols = Math.ceil(Math.sqrt(sortedChildren.length));
-      const rows = Math.ceil(sortedChildren.length / cols);
-      
+      const cols = Math.ceil( Math.sqrt( sortedChildren.length ) )
+      const rows = Math.ceil( sortedChildren.length / cols )
+
       // Calculate cell dimensions based on largest child
-      const maxChildDims = sortedChildren.reduce((max, child) => {
-        const dims = getNodeDimensions(child);
+      const maxChildDims = sortedChildren.reduce( ( max, child ) => {
+        const dims = getNodeDimensions( child )
         return {
-          width: Math.max(max.width, dims.width),
-          height: Math.max(max.height, dims.height)
-        };
-      }, { width: 0, height: 0 });
-      
-      const cellWidth = maxChildDims.width + siblingSpacing;
-      const cellHeight = maxChildDims.height + siblingSpacing;
-      
-      const gridWidth = cols * cellWidth;
-      const gridHeight = rows * cellHeight;
-      
-      const startX = centerChildren ? 
-        parent.position.x + (parentDims.width / 2) - (gridWidth / 2) :
-        parent.position.x;
-      const startY = parent.position.y + parentDims.height + parentChildSpacing;
-      
-      sortedChildren.forEach((child, index) => {
-        const childIndex = layoutedNodes.findIndex(n => n.id === child.id);
-        if (childIndex !== -1 && (!preserveExistingLayout || nodesToLayout.includes(child))) {
-          const col = index % cols;
-          const row = Math.floor(index / cols);
-          
+          width: Math.max( max.width, dims.width ),
+          height: Math.max( max.height, dims.height )
+        }
+      }, { width: 0, height: 0 } )
+
+      const cellWidth = maxChildDims.width + siblingSpacing
+      const cellHeight = maxChildDims.height + siblingSpacing
+
+      const gridWidth = cols * cellWidth
+      const gridHeight = rows * cellHeight
+
+      const startX = centerChildren ?
+        parent.position.x + ( parentDims.width / 2 ) - ( gridWidth / 2 ) :
+        parent.position.x
+      const startY = parent.position.y + parentDims.height + parentChildSpacing
+
+      sortedChildren.forEach( ( child, index ) => {
+        const childIndex = layoutedNodes.findIndex( n => n.id === child.id )
+        if ( childIndex !== -1 && ( !preserveExistingLayout || nodesToLayout.includes( child ) ) ) {
+          const col = index % cols
+          const row = Math.floor( index / cols )
+
           layoutedNodes[childIndex] = {
             ...layoutedNodes[childIndex],
             position: {
               x: startX + col * cellWidth,
               y: startY + row * cellHeight
             }
-          };
+          }
         }
-      });
+      } )
     }
-  });
-  
-  console.log('[Layout] Final layoutedNodes:', layoutedNodes.length);
-  console.log('[Layout] Output nodes:', layoutedNodes.map(n => ({ id: n.id, type: n.type, position: n.position })));
-  
-  // CRITICAL: Ensure we never lose nodes
-  if (layoutedNodes.length !== nodes.length) {
-    console.error('[Layout] NODE LOSS DETECTED!');
-    console.error('[Layout] Input count:', nodes.length, 'Output count:', layoutedNodes.length);
-    console.error('[Layout] Missing nodes:', nodes.filter(n => !layoutedNodes.find(ln => ln.id === n.id)));
-    
-    // Return original nodes with warning rather than losing data
-    console.warn('[Layout] Returning original nodes to prevent data loss');
-    return nodes;
+  } )
+
+  // Collision resolution pass – keep existing nodes fixed and nudge only layouted/new ones
+  // This prevents visual overlap and respects current user positioning.
+  const getBounds = ( node: ReactFlowNode ) => {
+    const dims = getNodeDimensions( node )
+    return {
+      x1: node.position.x,
+      y1: node.position.y,
+      x2: node.position.x + dims.width,
+      y2: node.position.y + dims.height,
+      width: dims.width,
+      height: dims.height,
+    }
   }
-  
-  return layoutedNodes;
+  const padding = Math.max( 12, Math.floor( ( siblingSpacing || 0 ) / 2 ) )
+  const overlaps = ( a: any, b: any, pad: number ) => {
+    return !( a.x2 + pad <= b.x1 || a.x1 - pad >= b.x2 || a.y2 + pad <= b.y1 || a.y1 - pad >= b.y2 )
+  }
+  const maxIterations = 5
+  for ( let iter = 0; iter < maxIterations; iter++ ) {
+    let movedThisIter = false
+    for ( let i = 0; i < layoutedNodes.length; i++ ) {
+      const nodeA = layoutedNodes[i]
+      // Only move nodes that were newly layouted when preserving existing layout
+      if ( preserveExistingLayout && !nodesToLayoutIdSet.has( nodeA.id ) ) continue
+      const a = getBounds( nodeA )
+      for ( let j = 0; j < layoutedNodes.length; j++ ) {
+        if ( i === j ) continue
+        const nodeB = layoutedNodes[j]
+        const b = getBounds( nodeB )
+        if ( overlaps( a, b, padding ) ) {
+          // Compute minimal vertical nudge to resolve overlap
+          const overlapY = Math.min( a.y2 - b.y1, b.y2 - a.y1 )
+          const nudge = Math.max( padding, overlapY + padding )
+          layoutedNodes[i] = {
+            ...nodeA,
+            position: {
+              x: nodeA.position.x,
+              y: nodeA.position.y + nudge,
+            },
+          }
+          movedThisIter = true
+          break
+        }
+      }
+    }
+    if ( !movedThisIter ) break
+  }
+
+  console.log( '[Layout] Final layoutedNodes:', layoutedNodes.length )
+  console.log( '[Layout] Output nodes:', layoutedNodes.map( n => ( { id: n.id, type: n.type, position: n.position } ) ) )
+
+  // CRITICAL: Ensure we never lose nodes
+  if ( layoutedNodes.length !== nodes.length ) {
+    console.error( '[Layout] NODE LOSS DETECTED!' )
+    console.error( '[Layout] Input count:', nodes.length, 'Output count:', layoutedNodes.length )
+    console.error( '[Layout] Missing nodes:', nodes.filter( n => !layoutedNodes.find( ln => ln.id === n.id ) ) )
+
+    // Return original nodes with warning rather than losing data
+    console.warn( '[Layout] Returning original nodes to prevent data loss' )
+    return nodes
+  }
+
+  return layoutedNodes
 }
 
 /**
@@ -355,16 +404,16 @@ export function organizeNodeLayout(
  */
 export function createGroupWithLayout(
   parentData: {
-    id: string;
-    position: { x: number; y: number };
-    type?: string;
-    data?: any;
-    style?: React.CSSProperties;
+    id: string
+    position: { x: number; y: number }
+    type?: string
+    data?: any
+    style?: React.CSSProperties
   },
   childrenData: Array<{
-    id: string;
-    type?: string;
-    data?: any;
+    id: string
+    type?: string
+    data?: any
   }>,
   layoutOptions: LayoutOptions = {}
 ): { parentNode: ReactFlowNode; childNodes: ReactFlowNode[] } {
@@ -374,7 +423,7 @@ export function createGroupWithLayout(
     height: '300px',
     padding: '10px',
     backgroundColor: 'rgba(240, 240, 240, 0.1)'
-  };
+  }
 
   // Create the parent node
   const parentNode: ReactFlowNode = {
@@ -385,30 +434,30 @@ export function createGroupWithLayout(
       ...parentData.data,
       label: parentData.data?.label || 'Group'
     },
-    width: parentData.style?.width ? 
-      parseInt(parentData.style.width.toString(), 10) : 500,
-    height: parentData.style?.height ? 
-      parseInt(parentData.style.height.toString(), 10) : 300
-  };
+    width: parentData.style?.width ?
+      parseInt( parentData.style.width.toString(), 10 ) : 500,
+    height: parentData.style?.height ?
+      parseInt( parentData.style.height.toString(), 10 ) : 300
+  }
 
   // Create child nodes with initial positions (will be adjusted by layout)
-  const childNodes: ReactFlowNode[] = childrenData.map(childData => ({
+  const childNodes: ReactFlowNode[] = childrenData.map( childData => ( {
     id: childData.id,
     type: childData.type || 'default',
     position: { x: 0, y: 0 }, // Initial position doesn't matter, layout will adjust
     data: childData.data || { label: 'Child' },
     parentId: parentData.id, // Connect to parent
-  }));
+  } ) )
 
   // Apply layout to child nodes
   const layoutedChildren = organizeNodeLayout(
     childNodes,
     [], // No edges needed for layout
     layoutOptions
-  );
+  )
 
   return {
     parentNode,
     childNodes: layoutedChildren
-  };
+  }
 } 

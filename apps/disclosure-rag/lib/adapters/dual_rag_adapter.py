@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Triple RAG Adapter - Integrates Upstash (cloud), LocalRAG (FAISS), and CocoIndex (PostgreSQL pgvector) for maximum flexibility
+Quinuple RAG Adapter - Integrates OpenAI Vector Store, Xata Database, Upstash (cloud), LocalRAG (FAISS), and CocoIndex (PostgreSQL pgvector) for maximum flexibility
 Date: June 29, 2025 - Updated January 9, 2025
 """
 

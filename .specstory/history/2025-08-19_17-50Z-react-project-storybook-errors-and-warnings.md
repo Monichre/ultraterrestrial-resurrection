@@ -37,6 +37,7 @@ Module not found: Error: Can't resolve ''/paper-texture.png'' in '/Users/liamell
 The issue appears to be with the path format - it's trying to resolve ''/paper-texture.png'' (with double quotes around it), which is incorrect. This is likely a CSS import or background-image URL that has incorrect syntax.
 
 I need to:
+
 1. Check the globals.css file to find the problematic line
 2. Fix the path reference to properly point to the image
 3. Ensure the image exists in the public directory
@@ -62,6 +63,7 @@ background-image: url('/rcd.jpeg') l;
 This doesn't seem to be the direct issue causing the module not found error. Let me search for the actual problem with '/paper-texture.png':
 
 The error message shows:
+
 ```
 Module not found: Error: Can't resolve ''/paper-texture.png'' in '/Users/liamellis/Desktop/ultraterrestrial-resurrection/apps/app/src/app'
 ```
@@ -69,6 +71,7 @@ Module not found: Error: Can't resolve ''/paper-texture.png'' in '/Users/liamell
 The issue is that there are double quotes around the path. Let me search the CSS file more carefully for any reference to paper-texture.png.
 
 Looking at the file, I don't see any direct reference to 'paper-texture.png' in the globals.css file. This could be:
+
 1. A processed/compiled reference
 2. Coming from a Tailwind CSS utility class
 3. Coming from an imported file
@@ -114,11 +117,9 @@ Now let me search for any references to `paper-texture.png` in your codebase to 
 
 ---
 
-
-
 ---
 
-<think><details><summary>Thought Process</summary>Found it! The issue is coming from the `EventDispatchDoc.tsx` and `EventReport.tsx` components. They're using the Tailwind CSS utility class `bg-[url('/paper-texture.png')]`. 
+<think><details><summary>Thought Process</summary>Found it! The issue is coming from the `EventDispatchDoc.tsx` and `EventReport.tsx` components. They're using the Tailwind CSS utility class `bg-[url('/paper-texture.png')]`.
 
 The error is happening because Storybook is trying to process these CSS classes, and somehow the path is getting double-quoted in the process. This is a common issue with Storybook and CSS-in-JS or Tailwind arbitrary values.
 
@@ -132,7 +133,7 @@ Found the issue! The error is coming from two React components that use a Tailwi
 
 <details>
             <summary>Listed directory undefined • **0** results</summary>
-        
+
 No results found
 </details>
 
@@ -144,6 +145,7 @@ No results found
 2. Storybook's CSS processing is somehow double-quoting the path, causing the module resolution error
 
 I have two options to fix this:
+
 1. Change the reference to use an existing texture file
 2. Remove the texture background from these components (if it's not essential)
 
@@ -169,7 +171,7 @@ Lines added: 1, lines removed: 1
           {/* Background Texture */}
           <div
 -           className="absolute inset-0 bg-[url('/paper-texture.png')] opacity-30 mix-blend-multiply"
-+           className="absolute inset-0 bg-[url('/textured-paper-bg.png')] opacity-30 mix-blend-multiply"
++           className="absolute inset-0 opacity-30 mix-blend-multiply"
             style={{backgroundSize: 'cover'}}
           />
 ```
@@ -194,7 +196,7 @@ Lines added: 1, lines removed: 1
         {/* Background Texture */}
         <div
 -         className="absolute inset-0 bg-[url('/paper-texture.png')] opacity-30 mix-blend-multiply"
-+         className="absolute inset-0 bg-[url('/textured-paper-bg.png')] opacity-30 mix-blend-multiply"
++         className="absolute inset-0 opacity-30 mix-blend-multiply"
           style={{backgroundSize: 'cover'}}
         />
 ```
@@ -210,8 +212,6 @@ Lines added: 1, lines removed: 1
 Now let's check if there are any linting errors in the files we modified:
 
 ---
-
-
 
 ---
 
@@ -327,9 +327,9 @@ Great! The build completed without the module resolution error. The fix was succ
 The Storybook build should now work without the module resolution error. You can run `npm run storybook` to start the development server or `npm run build-storybook` to create a production build.
 
 If you encounter any other issues or need to add the original `paper-texture.png` file, you can either:
+
 - Add a `paper-texture.png` file to the public directory
 - Continue using `textured-paper-bg.png` as I've configured
 - Use one of the other texture files available in your public directory like `gritty-grid-paper.png`
 
 ---
-

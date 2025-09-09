@@ -372,10 +372,27 @@ class EntityCreator:
                     continue
                     
                 try:
-                    # Execute batch creation
-                    batch_response = await self.xata_client.records().create_many_async(
-                        table_name, batch_data
-                    )
+                    # Execute batch creation using correct Xata method
+                    # Xata doesn't have create_many_async, need to create records individually
+                    batch_response = {"records": []}
+                    
+                    for record_data in batch_data:
+                        try:
+                            # Use the correct Xata create method
+                            single_response = self.xata_client.data().create_record(
+                                table_name, record_data
+                            )
+                            
+                            if hasattr(single_response, 'id'):
+                                batch_response["records"].append({"id": single_response.id})
+                            elif isinstance(single_response, dict) and single_response.get("id"):
+                                batch_response["records"].append({"id": single_response["id"]})
+                            else:
+                                batch_response["records"].append({"id": None})
+                                
+                        except Exception as e:
+                            logger.error(f"Failed to create individual record: {e}")
+                            batch_response["records"].append({"id": None, "error": str(e)})
                     
                     # Process batch results
                     created_count = 0

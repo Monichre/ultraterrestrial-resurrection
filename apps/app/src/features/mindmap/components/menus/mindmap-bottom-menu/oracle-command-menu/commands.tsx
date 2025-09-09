@@ -8,7 +8,7 @@ export const COMMANDS = [
   {
     id: 'chat',
     label: 'Chat',
-    description: 'Start a conversation with our Disclosure Agent',
+    description: 'Start a conversation with Prometheus',
     icon: () => <LightningBoltIcon stroke={ICON_GREEN} />,
     prefix: '/chat',
   },

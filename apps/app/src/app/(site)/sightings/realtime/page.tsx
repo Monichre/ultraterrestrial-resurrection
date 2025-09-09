@@ -1,169 +1,22 @@
-import {SightingsVisualization} from '@/features/data-viz/sightings/uap-dashboard/sightings-visualization'
-import {SightingsGlobe} from '@/features/data-viz/sightings/sightings-globe'
-import {UAPSightingSchema, type ValidatedUAPSighting} from '@/services/sightings/uap-sighting'
-import {Suspense} from 'react'
+'use client'
 
-function transformToGeoJSON(sightings: ValidatedUAPSighting[]) {
-  return {
-    type: 'FeatureCollection',
-    features: sightings.map((sighting) => ({
-      type: 'Feature',
-      geometry: {
-        type: 'Point',
-        coordinates: sighting.location.coordinates
-          ? [sighting.location.coordinates.lng, sighting.location.coordinates.lat]
-          : [-74.4057, 40.0583], // Default to center of NJ if no coordinates
-      },
-      properties: {
-        id: sighting.id,
-        title: sighting.title,
-        content: sighting.content,
-        type: sighting.type,
-        confidence: sighting.confidence,
-        category: sighting.category,
-        city: sighting.location.city,
-        timestamp: sighting.timestamp.toISOString(),
-        source: sighting.source,
-      },
-    })),
-  } as GeoJSON.FeatureCollection
-}
+import { Suspense } from 'react'
+import { RealtimeSightingsInterface } from '@/features/data-viz/sightings/components/realtime-sightings-interface'
 
-import {getSightingsBatched} from '@/services/sightings/actions/sightings-time-chunk'
+// This page is now a client-side interface for real-time sightings
 
-async function getSightings() {
-  try {
-    // Get current year and use historical range from famous UFO incidents
-    const currentYear = new Date().getFullYear()
-    const startYear = 1947 // Start from Roswell incident for historical context
-
-    // Create time ranges in decade chunks for better historical distribution
-    const timeRanges = [
-      { startYear: 1947, endYear: 1960 }, // Early UFO era
-      { startYear: 1960, endYear: 1980 }, // Classic UFO period 
-      { startYear: 1980, endYear: 2000 }, // Modern UFO wave
-      { startYear: 2000, endYear: currentYear }, // Digital age sightings
-    ]
-
-    // Use the server action to fetch data in batches with conservative limit
-    const {sightings, stats} = await getSightingsBatched(timeRanges, 150)
-
-    // Log statistics for debugging
-    console.log(
-      `Fetched ${sightings.length} sightings across the years 1947-${currentYear}:`,
-      stats?.totalSightings ? `${stats.totalSightings} total in stats` : 'No stats available'
-    )
-
-    return sightings
-  } catch (error) {
-    console.error('Error fetching sightings:', error)
-    return []
-  }
-}
-
-// Fetch military bases data
-async function getMilitaryBases() {
-  try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/internal/military-bases`, {
-      next: {revalidate: 86400}, // Cache for 24 hours
-    })
-
-    if (!response.ok) return null
-    const data = await response.json()
-    return data as GeoJSON.FeatureCollection
-  } catch {
-    return null
-  }
-}
-
-// Fetch UFO posts data
-async function getUFOPosts() {
-  try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/internal/ufo-posts`, {
-      next: {revalidate: 3600}, // Cache for 1 hour
-    })
-
-    if (!response.ok) return null
-    const data = await response.json()
-    return data as GeoJSON.FeatureCollection
-  } catch {
-    return null
-  }
-}
-
-export default async function RealtimeSightingsPage() {
-  const [sightings, militaryBases, ufoPosts] = await Promise.all([
-    getSightings(),
-    getMilitaryBases(),
-    getUFOPosts(),
-  ])
-
-  const sightingsGeoJSON = transformToGeoJSON(sightings)
-
+export default function RealtimeSightingsPage() {
   return (
-    <div className='flex flex-col gap-8'>
-      {/* Globe View */}
-      <div className='h-[600px] w-full relative bg-card rounded-lg overflow-hidden'>
-        <Suspense fallback={<div className='h-full w-full animate-pulse bg-muted' />}>
-          <SightingsGlobe
-            sightings={sightingsGeoJSON}
-            militaryBases={militaryBases || {type: 'FeatureCollection', features: []}}
-            ufoPosts={ufoPosts || {type: 'FeatureCollection', features: []}}
-          />
-        </Suspense>
-      </div>
-
-      {/* Statistics and List View */}
-      <div className='container mx-auto px-4 py-8'>
-        <h1 className='text-2xl font-bold mb-6'>Realtime UAP Sightings in New Jersey</h1>
-
-        <div className='grid gap-6'>
-          <div className='bg-card rounded-lg p-6 shadow-sm'>
-            <h2 className='text-xl font-semibold mb-4'>Sightings by Category</h2>
-            <Suspense fallback={<div>Loading visualization...</div>}>
-              <SightingsVisualization sightings={sightings} />
-            </Suspense>
+    <div className="min-h-screen bg-black">
+      <Suspense
+        fallback={
+          <div className="w-full h-screen flex items-center justify-center">
+            <div className="text-white font-mono">Loading real-time sightings...</div>
           </div>
-
-          <div className='bg-card rounded-lg p-6 shadow-sm'>
-            <h2 className='text-xl font-semibold mb-4'>Recent Sightings</h2>
-            <div className='grid gap-4'>
-              {sightings.map((sighting: ValidatedUAPSighting) => (
-                <div key={sighting.id} className='border border-border rounded-md p-4'>
-                  <div className='flex justify-between items-start mb-2'>
-                    <h3 className='font-medium'>{sighting.title || 'Untitled Sighting'}</h3>
-                    <span className='text-sm text-muted-foreground'>
-                      {new Date(sighting.timestamp).toLocaleDateString()}
-                    </span>
-                  </div>
-
-                  <p className='text-sm text-muted-foreground mb-2'>
-                    {sighting.content.substring(0, 200)}...
-                  </p>
-
-                  <div className='flex gap-2 text-sm'>
-                    <span className='px-2 py-1 bg-primary/10 rounded-full'>{sighting.type}</span>
-                    <span className='px-2 py-1 bg-primary/10 rounded-full'>
-                      {sighting.confidence}
-                    </span>
-                    {sighting.category?.map((cat: string) => (
-                      <span key={cat} className='px-2 py-1 bg-primary/10 rounded-full'>
-                        {cat}
-                      </span>
-                    ))}
-                  </div>
-
-                  {sighting.location.city && (
-                    <div className='mt-2 text-sm text-muted-foreground'>
-                      📍 {sighting.location.city}, NJ
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
+        }
+      >
+        <RealtimeSightingsInterface />
+      </Suspense>
     </div>
   )
 }

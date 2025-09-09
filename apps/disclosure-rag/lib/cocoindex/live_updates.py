@@ -22,6 +22,12 @@ try:
 except ImportError:
     WATCHDOG_AVAILABLE = False
     print("Warning: watchdog not available. Install with: pip install watchdog")
+    # Define dummy classes when watchdog is not available
+    FileSystemEventHandler = object
+    FileModifiedEvent = object
+    FileCreatedEvent = object
+    FileDeletedEvent = object
+    Observer = None
 
 from .backends.base import BackendInterface, Document
 

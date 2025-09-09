@@ -123,7 +123,6 @@ export class AssistantStreamEventHandler extends EventEmitter {
 		try {
 			// Use the submitToolOutputsStream helper
 			const stream = this.client.beta.threads.runs.submitToolOutputsStream(
-				threadId,
 				runId,
 				{ tool_outputs: toolOutputs },
 			);

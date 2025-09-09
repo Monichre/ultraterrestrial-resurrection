@@ -7,20 +7,42 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 **CRITICAL**: Before starting any work, read these documents in order:
 
 1. [README.md](README.md)
-2. [AGENT_ONBOARDING_CHECKLIST.md](AGENT_ONBOARDING_CHECKLIST.md)  **MANDATORY FIRST READ**  - Validation checklist
+2. [AGENT.md](AGENT.md) - **COMPREHENSIVE DEVELOPMENT GUIDELINES** 
+3. [docs/agents/AGENT_ONBOARDING_CHECKLIST.md](docs/agents/AGENT_ONBOARDING_CHECKLIST.md) - **MANDATORY FIRST READ** - Validation checklist
+
+## Agent Configuration System
+
+**NEW STRUCTURE**: All development guidelines consolidated into streamlined system:
+
+### 📖 Master Guidelines - `AGENT.md` 
+- **Single source of truth** for all development guidelines
+- Comprehensive commands, standards, and project structure
+- Technology stack and AI architecture documentation
+- Three-tier project management system
+
+### 🤖 Platform-Specific Configurations - `docs/agents/`
+- **`docs/agents/claude-code.md`** - Claude Code specific instructions
+- **`docs/agents/cursor.md`** - Cursor IDE specific rules  
+- **`docs/agents/warp.md`** - Warp terminal specific commands
+- **`docs/agents/README.md`** - Agent configuration overview
+
+### 📋 Project Management System
+- **`docs/plans/FEATURES.md`** - Strategic planning (Tier 1)
+- **`docs/plans/TODO.md`** - Actionable tickets (Tier 2)
+- **`DAILY_WORK_PLAN.md`** - Daily execution (Tier 3)
 
 ## Three-Tier Project Management System (MANDATORY FOR ALL AGENTS)
 
 **CRITICAL**: All agents MUST use this standardized three-tier approach for project management:
 
-### Tier 1: Strategic Planning - `docs/PLANS/FEATURES.md`
+### Tier 1: Strategic Planning - `docs/plans/FEATURES.md`
 
 - **Purpose**: High-level feature concepts, architectural decisions, strategic vision
 - **Scope**: Long-term features, complex architectural changes, research ideas
 - **Update Frequency**: Weekly reviews, major planning sessions
 - **Content**: Concepts → Requirements → Technical approach → Architectural decisions
 
-### Tier 2: Actionable Tickets - `docs/PLANS/TODO.md`
+### Tier 2: Actionable Tickets - `docs/plans/TODO.md`
 
 - **Purpose**: Ready-to-implement tasks with clear success criteria
 - **Scope**: Features that have completed strategic planning and are ready for execution
@@ -46,8 +68,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ### Feature Maturation Flow
 
 ```
-FEATURES.md (strategic concept) 
-    → TODO.md (actionable ticket) 
+docs/plans/FEATURES.md (strategic concept) 
+    → docs/plans/TODO.md (actionable ticket) 
     → DAILY_WORK_PLAN.md (active implementation)
     → Documentation updates → Completion
 ```
@@ -289,3 +311,12 @@ to files. @packages/knowledge-base/files/
 - always show and report all effected files
 - **IMPORTANT:** *ALWAYS use mcp_filesystem-with-morph_edit_file tool to make any code edits. Do not use the default edit tool.*
 - make a note to develop a framework, system or theoretical paradigm to approach data analysis, investigations or any sort of historical review or content ingestion according to "famous UFO researchers" methodology. Ex: Jacques Valle, Diana Pasulka Walksh etc
+
+### Agent Configuration Reference
+
+**CRITICAL**: Read [AGENTS.md](AGENTS.md) for comprehensive development guidelines before starting any work.
+
+For platform-specific configurations, see:
+- **`docs/agents/`** - Platform-specific agent configurations that reference AGENTS.md
+- **`docs/agents/claude-code.md`** - Claude Code specific instructions
+- **`docs/agents/AGENT_ONBOARDING_CHECKLIST.md`** - Mandatory validation checklist

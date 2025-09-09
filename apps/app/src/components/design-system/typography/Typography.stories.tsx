@@ -1,413 +1,292 @@
-import type { Meta, StoryObj } from '@storybook/react'
-import { Typography, Heading, SubHeading, DataLabel, DataValue, HandwrittenNote, Code } from './Typography'
+import type {Meta, StoryObj} from '@storybook/react'
+import * as React from 'react'
+import {
+  Typography,
+  Heading,
+  SubHeading,
+  DataLabel,
+  DataValue,
+  Code as CodeInline,
+  TypewriterText,
+  HandwrittenNote,
+  ClassifiedStamp,
+  GlitchText,
+  RedactedText,
+} from './Typography'
+
+const VARIANTS = [
+  'h1',
+  'h2',
+  'h3',
+  'h4',
+  'h5',
+  'h6',
+  'heading-main',
+  'heading-distorted',
+  'heading-classified',
+  'subheading',
+  'subheading-glitch',
+  'body',
+  'body-large',
+  'body-small',
+  'caption',
+  'data-label',
+  'data-value',
+  'coordinates',
+  'timestamp',
+  'code',
+  'button',
+  'typewriter',
+  'typewriter-animated',
+  'handwritten',
+  'annotation',
+  'stamp',
+  'glitch',
+  'redacted',
+  'scan-line',
+  'blurred',
+  'faded',
+] as const
+
+const COLORS = [
+  'default',
+  'muted',
+  'destructive',
+  'primary',
+  'secondary',
+  'accent',
+  'ink-black',
+  'ink-faded',
+  'fire-orange',
+  'classified-red',
+  'fire-gradient',
+  'glow',
+  'hard-shadow',
+] as const
+
+const SIZES = ['xs', 'sm', 'base', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl'] as const
+const WEIGHTS = ['light', 'normal', 'medium', 'semibold', 'bold', 'black'] as const
+const ALIGNS = ['left', 'center', 'right', 'justify'] as const
+const TRANSFORMS = ['none', 'uppercase', 'lowercase', 'capitalize'] as const
 
 const meta: Meta<typeof Typography> = {
   title: 'Design System/Typography',
   component: Typography,
+  tags: ['autodocs'],
   parameters: {
     layout: 'centered',
-    docs: {
-      description: {
-        component: 'A comprehensive typography system with dystopian UFO document styling, special effects, and data visualization elements.',
-      },
-    },
   },
   argTypes: {
     variant: {
       control: 'select',
-      options: [
-        'heading-main',
-        'heading-distorted',
-        'heading-classified',
-        'subheading',
-        'subheading-glitch',
-        'data-label',
-        'data-value',
-        'coordinates',
-        'timestamp',
-        'handwritten',
-        'annotation',
-        'body',
-        'body-small',
-        'body-large',
-        'button',
-        'caption',
-        'code',
-        'blurred',
-        'faded',
-        'redacted',
-      ],
-      description: 'Typography variant with preset styling',
+      options: VARIANTS,
+    },
+    color: {
+      control: 'select',
+      options: COLORS,
     },
     size: {
       control: 'select',
-      options: ['xs', 'sm', 'base', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl'],
-      description: 'Text size override',
+      options: SIZES,
     },
     weight: {
       control: 'select',
-      options: ['light', 'normal', 'medium', 'semibold', 'bold', 'black'],
-      description: 'Font weight override',
+      options: WEIGHTS,
     },
     align: {
       control: 'select',
-      options: ['left', 'center', 'right', 'justify'],
-      description: 'Text alignment',
+      options: ALIGNS,
     },
     transform: {
       control: 'select',
-      options: ['none', 'uppercase', 'lowercase', 'capitalize'],
-      description: 'Text transformation',
+      options: TRANSFORMS,
     },
-    as: {
-      control: 'text',
-      description: 'HTML element to render as',
-    },
-    glitch: {
-      control: 'boolean',
-      description: 'Enable glitch effect animation',
-    },
-    rotation: {
-      control: { type: 'range', min: -45, max: 45, step: 1 },
-      description: 'Rotation angle in degrees',
-    },
+    glitch: {control: 'boolean'},
+    rotation: {control: {type: 'range', min: -15, max: 15, step: 1}},
+    dataText: {control: 'text'},
+    as: {control: false},
+    className: {control: 'text'},
+    style: {control: false},
+    children: {control: 'text'},
   },
-  tags: ['autodocs'],
+  args: {
+    children: 'Sample typography text',
+    variant: 'body',
+    color: 'default',
+    size: 'base',
+    weight: 'normal',
+    align: 'left',
+    transform: 'none',
+  },
 }
 
 export default meta
 type Story = StoryObj<typeof Typography>
 
-// Basic Typography Stories
-export const Default: Story = {
-  args: {
-    children: 'The truth is out there, hidden in classified documents.',
-  },
-}
+export const Playground: Story = {}
 
-export const HeadingMain: Story = {
-  args: {
-    variant: 'heading-main',
-    children: 'UFO DISCLOSURE',
-    as: 'h1',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Main heading with large, bold styling perfect for document titles.',
-      },
-    },
-  },
-}
-
-export const HeadingDistorted: Story = {
-  args: {
-    variant: 'heading-distorted',
-    children: 'CLASSIFIED',
-    as: 'h1',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Distorted heading with skewed transform effect for dramatic emphasis.',
-      },
-    },
-  },
-}
-
-export const HeadingClassified: Story = {
-  args: {
-    variant: 'heading-classified',
-    children: 'TOP SECRET',
-    as: 'h1',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Classified document heading in warning red.',
-      },
-    },
-  },
-}
-
-export const SubheadingWithGlitch: Story = {
-  args: {
-    variant: 'subheading-glitch',
-    children: 'PROJECT BLUE BOOK',
-    glitch: true,
-    as: 'h2',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Subheading with optional glitch effect for corrupted data aesthetic.',
-      },
-    },
-  },
-}
-
-export const DataElements: Story = {
-  render: () => (
-    <div className="space-y-4 p-6 bg-amber-50 border border-amber-200">
-      <div className="flex justify-between">
-        <DataLabel>CASE FILE NO.</DataLabel>
-        <DataValue>UFO-1947-07-08-001</DataValue>
-      </div>
-      <div className="flex justify-between">
-        <DataLabel>COORDINATES</DataLabel>
-        <Typography variant="coordinates">33°23'45"N 106°28'35"W</Typography>
-      </div>
-      <div className="flex justify-between">
-        <DataLabel>TIMESTAMP</DataLabel>
-        <Typography variant="timestamp">1947-07-08 15:30:00 UTC</Typography>
-      </div>
-      <div className="flex justify-between">
-        <DataLabel>CLASSIFICATION</DataLabel>
-        <Typography variant="redacted">████████████</Typography>
-      </div>
+export const VariantsGallery: Story = {
+  render: (args) => (
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+        gap: 16,
+        maxWidth: 1200,
+      }}>
+      {VARIANTS.map((v) => (
+        <div key={v} style={{padding: 12, border: '1px solid #222', borderRadius: 8}}>
+          <Typography variant='caption' color='muted' style={{display: 'block', marginBottom: 6}}>
+            variant="{v}"
+          </Typography>
+          <Typography {...args} variant={v as any}>
+            The quick brown fox jumps over the lazy dog.
+          </Typography>
+        </div>
+      ))}
     </div>
   ),
-  parameters: {
-    docs: {
-      description: {
-        story: 'Data elements for displaying structured information in documents.',
-      },
-    },
-  },
 }
 
-export const HandwrittenNotes: Story = {
-  render: () => (
-    <div className="space-y-4 p-6 bg-white border-2 border-gray-300 shadow-lg">
-      <Typography variant="body">
-        Witness reported seeing unusual craft approximately 2300 hours.
-      </Typography>
-      <HandwrittenNote rotation={-2}>
-        "Definitely not conventional aircraft" - Agent Smith
-      </HandwrittenNote>
-      <HandwrittenNote rotation={1}>
-        Follow up required - investigate debris field
-      </HandwrittenNote>
-      <Typography variant="annotation" rotation={-1}>
-        Note: Files classified under Project Blue Book
-      </Typography>
+export const ColorsShowcase: Story = {
+  args: {variant: 'h4'},
+  render: (args) => (
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+        gap: 16,
+        maxWidth: 1200,
+      }}>
+      {COLORS.map((c) => (
+        <div key={c} style={{padding: 12, border: '1px solid #222', borderRadius: 8}}>
+          <Typography variant='caption' color='muted' style={{display: 'block', marginBottom: 6}}>
+            color="{c}"
+          </Typography>
+          <Typography {...args} color={c as any}>
+            Color token: {String(c)}
+          </Typography>
+        </div>
+      ))}
     </div>
   ),
-  parameters: {
-    docs: {
-      description: {
-        story: 'Handwritten annotations and notes with rotation for authentic document feel.',
-      },
-    },
-  },
+}
+
+export const SizesRow: Story = {
+  args: {variant: 'body'},
+  render: (args) => (
+    <div style={{display: 'flex', flexDirection: 'column', gap: 12}}>
+      {SIZES.map((s) => (
+        <Typography key={s} {...args} size={s as any}>
+          size="{s}" — The quick brown fox jumps over the lazy dog.
+        </Typography>
+      ))}
+    </div>
+  ),
+}
+
+export const WeightsRow: Story = {
+  args: {variant: 'body'},
+  render: (args) => (
+    <div style={{display: 'flex', flexDirection: 'column', gap: 12}}>
+      {WEIGHTS.map((w) => (
+        <Typography key={w} {...args} weight={w as any}>
+          weight="{w}" — The quick brown fox jumps over the lazy dog.
+        </Typography>
+      ))}
+    </div>
+  ),
+}
+
+export const AlignmentAndTransform: Story = {
+  args: {variant: 'body-large'},
+  render: (args) => (
+    <div style={{display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 16}}>
+      {ALIGNS.map((a) => (
+        <div key={a} style={{padding: 12, border: '1px solid #222', borderRadius: 8}}>
+          <Typography variant='caption' color='muted' style={{display: 'block', marginBottom: 6}}>
+            align="{a}"
+          </Typography>
+          <Typography {...args} align={a as any}>
+            Alignment example for {String(a)} alignment.
+          </Typography>
+        </div>
+      ))}
+      {TRANSFORMS.map((t) => (
+        <div key={t} style={{padding: 12, border: '1px solid #222', borderRadius: 8}}>
+          <Typography variant='caption' color='muted' style={{display: 'block', marginBottom: 6}}>
+            transform="{t}"
+          </Typography>
+          <Typography {...args} transform={t as any}>
+            Transform example with {String(t)}
+          </Typography>
+        </div>
+      ))}
+    </div>
+  ),
 }
 
 export const SpecialEffects: Story = {
   render: () => (
-    <div className="space-y-8 p-6">
+    <div style={{display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 16}}>
+      <GlitchText dataText='GLITCH EFFECT'>GLITCH EFFECT</GlitchText>
+      <RedactedText>TOP SECRET INFORMATION REDACTED</RedactedText>
+      <Typography variant='scan-line'>Scanning transmission in progress...</Typography>
+      <Typography variant='blurred'>Slightly blurred archival note</Typography>
+      <Typography variant='faded'>Faded caption from declassified document</Typography>
+      <ClassifiedStamp>Operation ULTRATERRESTRIAL</ClassifiedStamp>
+    </div>
+  ),
+}
+
+export const DataDisplay: Story = {
+  render: () => (
+    <div style={{display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 16}}>
       <div>
-        <h3 className="mb-2 font-semibold">Glitch Effect</h3>
-        <Typography variant="heading-main" glitch>
-          SIGNAL CORRUPTED
-        </Typography>
+        <DataLabel>Latitude</DataLabel>
+        <br />
+        <DataValue>51.4779° N</DataValue>
       </div>
-      
       <div>
-        <h3 className="mb-2 font-semibold">Blurred Text</h3>
-        <Typography variant="blurred">
-          This text appears slightly out of focus, as if photographed poorly.
-        </Typography>
+        <DataLabel>Longitude</DataLabel>
+        <br />
+        <DataValue>0.0015° W</DataValue>
       </div>
-      
       <div>
-        <h3 className="mb-2 font-semibold">Faded Text</h3>
-        <Typography variant="faded">
-          This text looks aged and faded over time.
-        </Typography>
+        <Typography variant='coordinates'>51.4779, -0.0015</Typography>
       </div>
-      
       <div>
-        <h3 className="mb-2 font-semibold">Redacted Information</h3>
-        <Typography variant="body">
-          The witness stated that{' '}
-          <Typography variant="redacted" as="span">
-            classified information removed
-          </Typography>{' '}
-          and then proceeded to describe the craft.
+        <Typography variant='timestamp'>1967-10-04 23:12:45Z</Typography>
+      </div>
+      <div>
+        <Typography as='pre' variant='code'>
+          <CodeInline>{`curl -X GET https://api.ultra.dev/sightings?year=1967`}</CodeInline>
         </Typography>
       </div>
     </div>
   ),
-  parameters: {
-    docs: {
-      description: {
-        story: 'Special text effects for creating authentic document aesthetics.',
-      },
-    },
-  },
 }
 
-export const RotatedText: Story = {
+export const ResearchStyles: Story = {
   render: () => (
-    <div className="space-y-6 p-12">
-      <Typography rotation={-15}>Rotated left 15°</Typography>
-      <Typography rotation={0}>Normal orientation</Typography>
-      <Typography rotation={15}>Rotated right 15°</Typography>
-      <Typography variant="data-label" rotation={-5}>
-        CASE STAMP: APPROVED
+    <div style={{display: 'flex', flexDirection: 'column', gap: 16}}>
+      <TypewriterText>Typing declassified transcript...</TypewriterText>
+      <Typography variant='typewriter-animated'>Simulating terminal feed...</Typography>
+      <HandwrittenNote>Witness margin note: "It moved without sound"</HandwrittenNote>
+      <Typography variant='annotation'>Figure 3: anomalous radar return</Typography>
+    </div>
+  ),
+}
+
+export const ConvenienceComponents: Story = {
+  render: () => (
+    <div style={{display: 'flex', flexDirection: 'column', gap: 16}}>
+      <Heading>Primary Heading</Heading>
+      <SubHeading>Section Heading</SubHeading>
+      <Typography variant='body'>Standard body copy for articles and notes.</Typography>
+      <Typography variant='caption' color='muted'>
+        Caption with muted color
       </Typography>
     </div>
   ),
-  parameters: {
-    docs: {
-      description: {
-        story: 'Text with custom rotation angles for document stamp effects.',
-      },
-    },
-  },
-}
-
-export const CodeAndMonospace: Story = {
-  render: () => (
-    <div className="space-y-4">
-      <Code>const classified = "PROJECT_BLUE_BOOK";</Code>
-      <Typography variant="data-value">
-        ID: UFO-19470708-001
-      </Typography>
-      <Typography variant="coordinates">
-        GPS: 33.396389, -106.475833
-      </Typography>
-    </div>
-  ),
-  parameters: {
-    docs: {
-      description: {
-        story: 'Code snippets and monospaced text for technical documentation.',
-      },
-    },
-  },
-}
-
-// Convenience Component Stories
-export const HeadingComponent: Story = {
-  render: () => (
-    <Heading>ROSWELL INCIDENT</Heading>
-  ),
-  parameters: {
-    docs: {
-      description: {
-        story: 'Convenience Heading component with preset styling.',
-      },
-    },
-  },
-}
-
-export const SubHeadingComponent: Story = {
-  render: () => (
-    <SubHeading>Investigation Summary</SubHeading>
-  ),
-  parameters: {
-    docs: {
-      description: {
-        story: 'Convenience SubHeading component with preset styling.',
-      },
-    },
-  },
-}
-
-// Typography Scale Demo
-export const TypographyScale: Story = {
-  render: () => (
-    <div className="space-y-4">
-      <Typography size="6xl" weight="black">6XL Heading</Typography>
-      <Typography size="5xl" weight="bold">5XL Heading</Typography>
-      <Typography size="4xl" weight="bold">4XL Heading</Typography>
-      <Typography size="3xl" weight="bold">3XL Heading</Typography>
-      <Typography size="2xl" weight="semibold">2XL Heading</Typography>
-      <Typography size="xl" weight="semibold">XL Heading</Typography>
-      <Typography size="lg">Large Body Text</Typography>
-      <Typography size="base">Base Body Text</Typography>
-      <Typography size="sm">Small Text</Typography>
-      <Typography size="xs">Extra Small Text</Typography>
-    </div>
-  ),
-  parameters: {
-    docs: {
-      description: {
-        story: 'Complete typography scale showing all available sizes.',
-      },
-    },
-  },
-}
-
-// Document Layout Example
-export const DocumentLayout: Story = {
-  render: () => (
-    <div className="max-w-2xl p-8 bg-amber-50 border border-amber-200 shadow-xl">
-      {/* Header */}
-      <div className="text-center mb-8 border-b-2 border-red-600 pb-4">
-        <Typography variant="heading-classified" as="h1" className="mb-2">
-          CLASSIFIED DOCUMENT
-        </Typography>
-        <DataLabel>CASE FILE: UFO-1947-001</DataLabel>
-      </div>
-      
-      {/* Metadata */}
-      <div className="grid grid-cols-2 gap-4 mb-6 p-4 border border-gray-300 bg-white/50">
-        <div>
-          <DataLabel>DATE</DataLabel>
-          <DataValue>July 8, 1947</DataValue>
-        </div>
-        <div>
-          <DataLabel>LOCATION</DataLabel>
-          <Typography variant="coordinates">Roswell, NM</Typography>
-        </div>
-        <div>
-          <DataLabel>REPORTING AGENT</DataLabel>
-          <DataValue>Agent M. Scully</DataValue>
-        </div>
-        <div>
-          <DataLabel>CLEARANCE LEVEL</DataLabel>
-          <Typography variant="redacted">████████</Typography>
-        </div>
-      </div>
-      
-      {/* Content */}
-      <SubHeading className="mb-4">Incident Summary</SubHeading>
-      
-      <Typography variant="body" className="mb-4">
-        At approximately 1530 hours, multiple witnesses reported observing an unidentified flying object 
-        in the vicinity of Roswell Army Air Field. The craft exhibited flight characteristics 
-        inconsistent with known aircraft.
-      </Typography>
-      
-      <HandwrittenNote rotation={-1} className="mb-4">
-        "Unlike anything I've seen before" - Major J. Marcel
-      </HandwrittenNote>
-      
-      <Typography variant="body" className="mb-6">
-        Investigation teams were dispatched to the crash site. Recovery operations commenced at{' '}
-        <Typography variant="redacted" as="span">████████████</Typography>{' '}
-        hours under the direction of{' '}
-        <Typography variant="redacted" as="span">████████████</Typography>.
-      </Typography>
-      
-      {/* Footer */}
-      <div className="border-t pt-4 mt-8">
-        <Typography variant="timestamp" className="float-right">
-          Document processed: 2024-01-15 14:30:00 UTC
-        </Typography>
-        <Typography variant="data-label">
-          AUTHORIZATION: ████████████
-        </Typography>
-      </div>
-    </div>
-  ),
-  parameters: {
-    docs: {
-      description: {
-        story: 'Complete document layout example using various typography components.',
-      },
-    },
-  },
 }

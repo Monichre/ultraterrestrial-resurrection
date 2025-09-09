@@ -2,7 +2,7 @@ import type {Preview} from '@storybook/react'
 import React from 'react'
 import '../src/app/globals.css'
 import '../src/app/research-ui.css'
-// import '@xyflow/react/dist/style.css'
+import '@xyflow/react/dist/style.css'
 import {ThemeProvider} from '../src/contexts/theme-provider'
 import {
   FONT_LUKAS_SANS,
@@ -16,10 +16,13 @@ import {
   FONT_SPECIAL_ELITE,
   FONT_ANTON,
   FONT_CAVEAT,
+  FONT_SPACE_GROTESK,
+  FONT_LEAGUE_SPARTAN,
 } from '../src/app/fonts'
 import {create} from '@storybook/theming'
 import {withReferenceAssets} from './decorators/reference-assets'
 import ultraterrestrialTheme from './theme'
+import { withMindmapProviders } from './decorators/with-mindmap'
 
 // Mock window.location for Storybook environment
 if (typeof window !== 'undefined' && !window.location) {
@@ -140,8 +143,9 @@ const preview: Preview = {
 
   decorators: [
     withReferenceAssets,
+    withMindmapProviders,
     // 👇 Defining the decorator in the preview file applies it to all stories
-    (Story, context) => {
+    ((Story: any, context: any) => {
       const isResearch = context.globals.designSystem === 'research'
       return (
         <ThemeProvider
@@ -151,12 +155,15 @@ const preview: Preview = {
           enableSystem={false}>
           <div
             data-design-system={context.globals.designSystem}
-            className={`${isResearch ? 'research-ui' : ''} ${FONT_NEUE_HAAS_GROTESK.variable} ${FONT_MONUMENT_GROTESK.variable} ${FONT_MONUMENT_GROTESK_MONO.variable} ${FONT_LUKAS_SANS.variable} ${FONT_JUST_ANOTHER_HAND.variable} ${FONT_JET_BRAINS_MONO.variable} ${FONT_MARTIAN_MONO.variable} ${FONT_NOTO_SANS.variable} ${FONT_SPECIAL_ELITE.variable} ${FONT_ANTON.variable} ${FONT_CAVEAT.variable} dark w-full h-full bg-black flex flex-col justify-center items-center`}>
-            <Story />
+            className={`${isResearch ? 'research-ui' : ''} ${FONT_NEUE_HAAS_GROTESK.variable} ${FONT_MONUMENT_GROTESK.variable} ${FONT_MONUMENT_GROTESK_MONO.variable} ${FONT_LUKAS_SANS.variable} ${FONT_JUST_ANOTHER_HAND.variable} ${FONT_JET_BRAINS_MONO.variable} ${FONT_MARTIAN_MONO.variable} ${FONT_NOTO_SANS.variable} ${FONT_SPECIAL_ELITE.variable} ${FONT_ANTON.variable} ${FONT_CAVEAT.variable} ${FONT_SPACE_GROTESK.variable} ${FONT_LEAGUE_SPARTAN.variable} dark w-full min-h-screen bg-black`}>
+            {/* Ensure font variables are available at root for all stories */}
+            <div className='w-full h-full flex flex-col justify-center items-center p-6'>
+              <Story />
+            </div>
           </div>
         </ThemeProvider>
       )
-    },
+    }) as any,
   ],
 
   tags: ['autodocs'],

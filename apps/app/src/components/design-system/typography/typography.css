@@ -37,6 +37,15 @@
   font-family: var(--font-just-another-hand), var(--font-caveat), 'Caveat', cursive;
 }
 
+/* Specific handwriting variants */
+.font-just-another-hand {
+  font-family: var(--font-just-another-hand), cursive;
+}
+
+.font-caveat {
+  font-family: var(--font-caveat), 'Caveat', cursive;
+}
+
 .font-anton {
   font-family: var(--font-anton), 'Anton', sans-serif;
 }
@@ -55,6 +64,14 @@
 /* Direct utility font classes for showcases */
 .font-pp-neue-montreal {
   font-family: 'PP Neue Montreal', var(--font-neue-haas), var(--font-noto-sans), sans-serif;
+}
+
+.font-space-grotesk {
+  font-family: var(--font-space-grotesk), 'Space Grotesk', sans-serif;
+}
+
+.font-league-spartan {
+  font-family: var(--font-league-spartan), 'League Spartan', sans-serif;
 }
 
 .font-noto-sans {

@@ -1,108 +1,110 @@
-import { transformForReactflow } from "@/services/ai/workflows/transform-for-reactflow";
-import { AssistantResponse, type DataMessage } from "ai";
-import OpenAI from "openai";
+import { transformForReactflow } from "@/services/ai/workflows/transform-for-reactflow"
+import type { DataMessage } from "ai"
+import { createSSEBridge, sseHeaders } from "@/services/ai/openai/sse"
+import OpenAI from "openai"
 
 
 
 // OpenAI client initialization
-const openai = new OpenAI({
+const openai = new OpenAI( {
 	apiKey: process.env.OPENAI_API_KEY || "",
-});
+} )
 
 // Assistant ID (replace with your actual ID)
-const DISCLOSURE_ASSISTANT_ID = process.env.DISCLOSURE_ASSISTANT_ID || "";
+const PROMETHEUS_ASSISTANT_ID = process.env.OPENAI_ASSISTANT_ID || ""
 
 // Sample NER extraction prompt
-const NER_EXTRACTION_PROMPT = `Extract entities from the user's query to help with database search.`;
+const NER_EXTRACTION_PROMPT = `Extract entities from the user's query to help with database search.`
 
 // Define types for our multi-step workflow
 interface XataRecord {
-	id?: string;
-	name?: string;
-	title?: string;
-	[key: string]: unknown;
+	id?: string
+	name?: string
+	title?: string
+	[key: string]: unknown
 }
 
 interface RecordObject {
-	answer: string;
-	record: XataRecord | null;
+	answer: string
+	record: XataRecord | null
 }
 
 interface XataResult {
 	relatedRecords: {
-		personnel?: RecordObject;
-		events?: RecordObject;
+		personnel?: RecordObject
+		events?: RecordObject
 		testimonies?: RecordObject;
-		[key: string]: RecordObject | undefined;
-	};
+		[key: string]: RecordObject | undefined
+	}
 }
 
 interface ReactFlowNode {
-	id: string;
-	type: string;
-	position: { x: number; y: number };
+	id: string
+	type: string
+	position: { x: number; y: number }
 	data: {
 		label: string;
-		[key: string]: unknown;
-	};
+		[key: string]: unknown
+	}
 }
 
 interface ReactFlowEdge {
-	id: string;
-	source: string;
-	target: string;
-	type: string;
-	animated: boolean;
-	label?: string;
+	id: string
+	source: string
+	target: string
+	type: string
+	animated: boolean
+	label?: string
 }
 
 interface ReactFlowData {
-	nodes: ReactFlowNode[];
-	edges: ReactFlowEdge[];
+	nodes: ReactFlowNode[]
+	edges: ReactFlowEdge[]
 }
 
 // Custom progress update interface
 interface CustomDataMessage extends DataMessage {
-	status?: string;
-	message?: string;
-	step?: string;
-	progress?: number;
+	status?: string
+	message?: string
+	step?: string
+	progress?: number
 }
 
-export async function POST(req: Request) {
-	console.log("🚀 ~ POST ~ req:", req);
+export async function POST( req: Request ) {
+	console.log( "🚀 ~ POST ~ req:", req )
 
 	const input: {
-		threadId: string | null;
-		message: string;
-	} = await req.json();
+		threadId: string | null
+		message: string
+	} = await req.json()
 
 	// If no threadId, create one with file_search tool resources enabled
 	const threadId =
 		input.threadId ??
 		(
-			await openai.beta.threads.create({
+			await openai.beta.threads.create( {
 				tool_resources: {
 					file_search: {
 						vector_store_ids: ["vs_meWOEnUiUxtQWf0W6NBsNpCG"], // Replace with your vector store ID
 					},
 				},
-			})
-		).id;
+			} )
+		).id
 
-	console.log("🚀 ~ threadId:", threadId);
+	console.log( "🚀 ~ threadId:", threadId )
 
-	const createdMessage = await openai.beta.threads.messages.create(threadId, {
+	const createdMessage = await openai.beta.threads.messages.create( threadId, {
 		role: "user",
 		content: input.message,
-	});
+	} )
 
-	return AssistantResponse(
-		{ threadId, messageId: createdMessage.id },
-		async ({ forwardStream, sendDataMessage }) => {
+	const { readable, writeSSE, forwardStream, sendDataMessage, close } = createSSEBridge()
+
+	;(async () => {
+		try {
 			// STEP 1: Initiate a three-step run with three tools
 			// 1. file_search, 2. searchDatabase, and 3. transformReactflow
-			const runStream = openai.beta.threads.runs.stream(threadId, {
+			const runStream = openai.beta.threads.runs.stream( threadId, {
 				tools: [
 					{ type: "file_search" },
 					{
@@ -133,12 +135,12 @@ export async function POST(req: Request) {
 					},
 				],
 				additional_instructions: NER_EXTRACTION_PROMPT,
-				assistant_id: DISCLOSURE_ASSISTANT_ID,
-			});
+				assistant_id: PROMETHEUS_ASSISTANT_ID,
+			} )
 
 			// Start the stream and forward its output to the client
-			let runResult = await forwardStream(runStream);
-			console.log("🚀 ~ initial runResult:", runResult);
+			let runResult = await forwardStream( runStream )
+			console.log( "🚀 ~ initial runResult:", runResult )
 
 			// Process tool calls until the workflow is complete
 			while (
@@ -147,16 +149,16 @@ export async function POST(req: Request) {
 			) {
 				const tool_outputs = await Promise.all(
 					runResult.required_action.submit_tool_outputs.tool_calls.map(
-						async (toolCall: {
-							id: string;
-							function: { name: string; arguments: string };
-						}) => {
-							console.log("🚀 ~ toolCall:", toolCall);
+						async ( toolCall: {
+							id: string
+							function: { name: string; arguments: string }
+						} ) => {
+							console.log( "🚀 ~ toolCall:", toolCall )
 							const parameters = JSON.parse(
 								toolCall.function.arguments || "{}",
-							);
+							)
 
-							switch (toolCall.function.name) {
+							switch ( toolCall.function.name ) {
 								case "searchDatabase": {
 									// STEP 2: Database Search using the context from file search
 									// Note: The file_search results are already available to the assistant
@@ -164,40 +166,40 @@ export async function POST(req: Request) {
 
 									// Query multiple tables in parallel
 									const [askPersonnel, askEvents, askTestimonies] =
-										await Promise.all([
-											askXataWithAi({
+										await Promise.all( [
+											askXataWithAi( {
 												table: "personnel",
 												question: input.message,
-											}).then((res) => ({
+											} ).then( ( res ) => ( {
 												answer: res.answer,
 												record: res.records[0] || null,
-											})),
-											askXataWithAi({
+											} ) ),
+											askXataWithAi( {
 												table: "events",
 												question: input.message,
-											}).then((res) => ({
+											} ).then( ( res ) => ( {
 												answer: res.answer,
 												record: res.records[0] || null,
-											})),
-											askXataWithAi({
+											} ) ),
+											askXataWithAi( {
 												table: "testimonies",
 												question: input.message,
-											}).then((res) => ({
+											} ).then( ( res ) => ( {
 												answer: res.answer,
 												record: res.records[0] || null,
-											})),
-										]);
+											} ) ),
+										] )
 
 									// Send a data message to update the client on progress
-									sendDataMessage({
+									sendDataMessage( {
 										status: "searching",
 										message: "Database search completed",
 										progress: 66, // 2/3 of the workflow complete
-									} as CustomDataMessage);
+									} as CustomDataMessage )
 
 									return {
 										tool_call_id: toolCall.id,
-										output: JSON.stringify({
+										output: JSON.stringify( {
 											data: {
 												relatedRecords: {
 													personnel: askPersonnel,
@@ -205,53 +207,57 @@ export async function POST(req: Request) {
 													testimonies: askTestimonies,
 												},
 											},
-										}),
-									};
+										} ),
+									}
 								}
 								case "transformReactflow": {
 									// STEP 3: Transform the database results into ReactFlow format
-									const xataResult = parameters.data as any; // TODO: Fix this
-									const reactflowData = await transformForReactflow(xataResult);
+									const xataResult = parameters.data as any // TODO: Fix this
+									const reactflowData = await transformForReactflow( xataResult )
 
 									// Send a data message to update the client on progress
-									sendDataMessage({
+									sendDataMessage( {
 										status: "complete",
 										message: "ReactFlow transformation completed",
 										progress: 100, // Workflow complete
-									} as CustomDataMessage);
+									} as CustomDataMessage )
 
 									return {
 										tool_call_id: toolCall.id,
-										output: JSON.stringify({
+										output: JSON.stringify( {
 											data: {
 												reactflow: reactflowData,
 											},
-										}),
-									};
+										} ),
+									}
 								}
 								default:
 									throw new Error(
 										`Unknown tool call function: ${toolCall.function.name}`,
-									);
+									)
 							}
 						},
 					),
-				);
+				)
 
-				console.log("🚀 ~ tool_outputs:", tool_outputs);
+				console.log( "🚀 ~ tool_outputs:", tool_outputs )
 
 				// Submit the outputs for the current tool calls and continue the stream
 				runResult = await forwardStream(
 					openai.beta.threads.runs.submitToolOutputsStream(
-						threadId,
 						runResult.id,
 						{ tool_outputs },
 					),
-				);
+				)
 			}
 
-			// Return the final result of the multi-step workflow
-			return runResult;
-		},
-	);
+			await writeSSE({ done: true })
+			await close()
+		} catch (err) {
+			await writeSSE({ error: 'internal_error', message: (err as Error)?.message })
+			await close()
+		}
+	})()
+
+	return new Response(readable, { headers: sseHeaders() })
 }

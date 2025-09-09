@@ -485,7 +485,7 @@ Would you like me to elaborate on any specific aspect?"""
         """Process bulk ingestion with progress feedback."""
         try:
             # Initialize ingestion system
-            print("🔧 Initializing Triple RAG ingestion system...")
+            print("🔧 Initializing Quinuple RAG ingestion system...")
             ingestion = BulkFolderIngestion()
 
             # Process files
@@ -546,7 +546,9 @@ Would you like me to elaborate on any specific aspect?"""
 **Failed:** {failed}
 **Success Rate:** {(processed/total_files)*100:.1f}%
 
-The documents have been indexed in the Triple RAG system:
+The documents have been indexed in the Quinuple RAG system:
+- 🧠 **OpenAI Vector Store** - Foundational research layer
+- 🗄️ **Xata Database** - Native vector search with 230,998+ records
 - ☁️  **Upstash Vector** - Cloud vector search
 - 💾 **LocalRAG FAISS** - Local vector storage  
 - 🗄️  **PostgreSQL pgvector** - Advanced analytics

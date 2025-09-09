@@ -37,3 +37,5 @@ export * from './transition-panel'
 
 export * from './transition'
 export * from './transition-panel-tabs'
+export * from './pill'
+export {default as DynamicSettingsVariant1} from './dynamic-settings-variant-1'

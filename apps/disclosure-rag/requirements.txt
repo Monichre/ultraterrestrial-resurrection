@@ -51,3 +51,6 @@ composio-langchain
 langchain-groq
 groq
 langchain-ollama
+
+# OneNode.ai integration (optional)
+onenode

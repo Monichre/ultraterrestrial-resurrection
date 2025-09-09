@@ -129,6 +129,9 @@ export const MindMapBottomMenu = ({
   const [modelMenuOpen, setModelMenuOpen] = useState(false)
   const [selectedModel, setSelectedModel] = useState<string | null>(null)
   const [deepResearchEnabled, setDeepResearchEnabled] = useState(false)
+  // New: UI toggles for AI-mode and quick layout fix
+  const [aiMode, setAiMode] = useState(false)
+  const [layoutBusy, setLayoutBusy] = useState(false)
 
   // Tour and agent state management
   const [activeTourSession, setActiveTourSession] = useState<string | null>(null)
@@ -158,6 +161,16 @@ export const MindMapBottomMenu = ({
     getNode,
     fitView,
   } = useMindMap()
+
+  // Derived: Context awareness indicator
+  const hasContext = (() => {
+    try {
+      const ctx = getGraphContext(getNodes())
+      return !!ctx
+    } catch {
+      return false
+    }
+  })()
 
   const {messages, input, setInput, append, isLoading, error} = useChat({
     api: '/api/disclosure/chat',
@@ -818,6 +831,61 @@ export const MindMapBottomMenu = ({
     setDeepResearchEnabled(!deepResearchEnabled)
   }
 
+  // New: Toggle AI edge animations for agent-generated edges
+  const toggleAiMode = useCallback(() => {
+    setAiMode((prev) => !prev)
+    const currentEdges = getEdges()
+    const updated = currentEdges.map((e: any) => {
+      const isAgentEdge = typeof e.className === 'string' && (
+        e.className.includes('agent-generated-edge') || e.className.includes('user-to-entity-edge')
+      )
+      if (!isAgentEdge) return e
+      // Preserve original type to allow reverting
+      const origType = (e.data && e.data._origType) || e.type || 'smoothstep'
+      if (!prev) {
+        // turning ON: switch to AI animated edge
+        return {
+          ...e,
+          type: 'aiAnimatedEdge',
+          animated: true,
+          data: { ...(e.data || {}), _origType: origType },
+          style: {
+            ...(e.style || {}),
+            stroke: '#22d3ee',
+            strokeWidth: Math.max(2, (e.style?.strokeWidth as number) || 2),
+            filter: 'drop-shadow(0 0 6px rgba(34,211,238,0.65))',
+          },
+        }
+      }
+      // turning OFF: revert
+      return {
+        ...e,
+        type: origType,
+        data: { ...(e.data || {}), _origType: origType },
+        animated: e.animated && origType !== 'aiAnimatedEdge',
+        style: { ...(e.style || {}), filter: undefined },
+      }
+    })
+    setEdges(updated)
+  }, [getEdges, setEdges])
+
+  // New: Quick overlap fix using organizeLayout (non-destructive)
+  const fixOverlaps = useCallback(async () => {
+    try {
+      setLayoutBusy(true)
+      await organizeLayout({
+        preserveExistingLayout: true,
+        direction: 'horizontal',
+        parentChildSpacing: 150,
+        siblingSpacing: 90,
+        centerChildren: true,
+        focusOnNewNodes: false,
+      })
+    } finally {
+      setLayoutBusy(false)
+    }
+  }, [organizeLayout])
+
   const updateSelectedModel = (model: string) => {
     setSelectedModel(model)
     // Notify parent component about model change
@@ -1151,8 +1219,35 @@ export const MindMapBottomMenu = ({
 
   return (
     <>
-      <div className='fixed bottom-0 left-1/2 transform -translate-x-1/2 w-[500px] z-40'>
+      <div className='fixed bottom-0 left-1/2 transform -translate-x-1/2 w-[500px] z-50 pointer-events-auto'>
         <div className='p-0 flex flex-col w-full h-auto relative'>
+          {/* Quick controls bar */}
+          <div className='flex items-center justify-between mb-1 px-1 text-xs text-neutral-300'>
+            <div className='flex items-center gap-2'>
+              <span className={hasContext ? 'text-emerald-400' : 'text-neutral-400'}>
+                Contextual: {hasContext ? 'ON' : 'OFF'}
+              </span>
+            </div>
+            <div className='flex items-center gap-2'>
+              <button
+                type='button'
+                onClick={fixOverlaps}
+                disabled={layoutBusy}
+                className='px-2 py-1 rounded-md bg-neutral-800/70 hover:bg-neutral-700/80 border border-neutral-600/40 disabled:opacity-60'
+                title='Resolve node overlaps'
+              >
+                {layoutBusy ? 'Layout…' : 'Fix Overlaps'}
+              </button>
+              <button
+                type='button'
+                onClick={toggleAiMode}
+                className={`px-2 py-1 rounded-md border ${aiMode ? 'bg-cyan-600/30 border-cyan-400/60 text-cyan-200' : 'bg-neutral-800/70 hover:bg-neutral-700/80 border-neutral-600/40 text-neutral-200'}`}
+                title='Toggle AI animated connections for agent-generated edges'
+              >
+                AI Mode
+              </button>
+            </div>
+          </div>
           <UltraterrestrialModelSelection
             modelMenuOpen={modelMenuOpen}
             selectedModel={selectedModel}
@@ -1168,7 +1263,7 @@ export const MindMapBottomMenu = ({
           />
           <div
             className='p-0 flex flex-col w-full border border-neutral-700/30 text-neutral-500 
-            bg-black bg-gradient-to-b from-black relative rounded-xl'>
+            bg-black/90 backdrop-blur-sm bg-gradient-to-b from-black relative rounded-xl shadow-[0_0_40px_rgba(0,0,0,0.35)]'>
             <OracleCommandMenu
               commandMenuOpen={commandMenuOpen}
               activeCommand={activeCommand}

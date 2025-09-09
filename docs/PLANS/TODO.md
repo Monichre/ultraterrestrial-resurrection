@@ -3,7 +3,7 @@
 **Consolidated:** January 15, 2025  
 **Priority Focus:** Infrastructure Foundation & Research Canvas Integration  
 **Strategy:** MVP-first approach with realistic timelines  
-**Total Tasks:** 28 (integrated from Todo2 and refined priorities)
+**Total Tasks:** 30 (integrated from Todo2 and refined priorities + new design system tasks)
 
 ---
 
@@ -52,22 +52,14 @@
 
 *Consolidate fragmented mindmap systems into coherent foundation*
 
-6. **API Gateway and Endpoint Consolidation** ⭐ **HIGH PRIORITY**
-   - **Problem:** 5+ overlapping API endpoints with mock/stubbed implementations  
-   - **Solution:** Unified `/api/prometheus/` structure with real implementations
-   - **Target Structure:**
-     ```
-     /api/prometheus/
-     ├── chat/          # Core chat functionality (enhanced)
-     ├── search/        # Unified search (consolidates historical-query + mindmap/records)
-     ├── entities/      # Real NER extraction (replaces fake implementations)
-     └── rag/           # External + internal RAG coordination
-     ```
+6. **Replace Mock Entity Extraction with Real Implementation** ⭐ **HIGH PRIORITY**
+   - **Problem:** Fake entity extraction in mindmap routes needs real NER implementation
+   - **Solution:** Use sophisticated NER from `disclosure/chat` to replace placeholder implementations
    - **Files:** 
-     - Consolidate: `@apps/app/src/app/api/historical-query/`, `@apps/app/src/app/api/mindmap/records/`, `@apps/app/src/app/api/prometheus/chat/`
-     - Preserve: `@apps/app/src/app/api/disclosure/chat/` (sophisticated implementation)
-   - **Success:** Single coherent API with real NER, no redundant endpoints
-   - **Timeline:** 4 days
+     - Update: `@apps/app/src/app/api/disclosure/mindmap/` (remove mocks)
+     - Source: `@apps/app/src/app/api/disclosure/chat/` (copy real NER logic)
+   - **Success:** Real entity extraction working in mindmap features
+   - **Timeline:** 2 days
    - **Dependencies:** Database migration completion
 
 7. **Unified State Management Architecture** ⭐ **HIGH PRIORITY**
@@ -149,11 +141,61 @@
 
 ---
 
-## **🎯 FOCUS 5: Advanced Integration Features**
+## **🎯 FOCUS 5: Design System & UX Enhancement**
+
+*Mindmap visual overhaul with emerging design system integration*
+
+16. **Mindmap Graph, Cards, and Nodes UI/UX Makeover** 🎨 **NEEDS GROOMING**
+    - **Problem:** Current mindmap components need standardization with new design system
+    - **Solution:** Comprehensive visual overhaul integrating emerging design patterns
+    - **Phase 1 - Standardization:**
+      - Audit existing mindmap graph, card, and node components
+      - Apply consistent base styling and interactions
+      - Ensure accessibility and performance baselines
+    - **Phase 2 - Enhanced Presentations:**
+      - Containing/group nodes with sophisticated presentational layers
+      - Domain-specific interfaces for different entity types
+      - Image handling with polaroid aesthetic integration
+      - Retro document styling for research contexts
+    - **Files:**
+      - `@apps/app/src/features/mindmap/components/` - All mindmap components
+      - `@apps/app/src/features/mindmap/nodes/` - Node variants
+      - `@apps/app/src/components/design-system/` - New design tokens
+    - **Design Philosophy:** 
+      - **Mindmap Core**: Sci-fi minimal elegance matching main application
+      - **Research Canvas**: Retro dystopian classical document aesthetic
+      - **Design Union**: Seamless transition between the two visual languages
+    - **Success:** Cohesive design system applied across all mindmap components
+    - **Timeline:** TBD (requires design specification and component identification)
+    - **Dependencies:** Design system components need identification and creation
+    - **⚠️ GROOMING NEEDED:** Requires detailed design specification and newly designed component catalog
+
+17. **Rocket.new Interface Patterns Integration** 🚀 **NEEDS GROOMING**
+    - **Problem:** Excellent UX patterns designed on Rocket.new need integration into main application
+    - **Solution:** Systematic breakdown and integration of proven interface designs
+    - **Scope:** 
+      - Catalog and document existing Rocket.new interface designs
+      - Identify integration points within current application architecture
+      - Create implementation roadmap for high-value UX patterns
+      - Ensure design consistency with emerging design system
+    - **Integration Areas:**
+      - Navigation and interaction patterns
+      - Data visualization enhancements
+      - User workflow optimizations
+      - Advanced UI components and microinteractions
+    - **Files:** TBD (depends on pattern analysis and integration strategy)
+    - **Success:** Key Rocket.new UX patterns successfully integrated with measurable UX improvements
+    - **Timeline:** TBD (requires pattern analysis and integration planning)
+    - **Dependencies:** Rocket.new pattern documentation and design system standardization
+    - **⚠️ GROOMING NEEDED:** Requires feature specification, pattern breakdown, and integration strategy
+
+---
+
+## **🎯 FOCUS 6: Advanced Integration Features**
 
 *Ready for implementation features from FEATURES.md*
 
-16. **Workspace-Wide Prompts System** 🔄 **READY**
+18. **Workspace-Wide Prompts System** 🔄 **READY**
     - **Problem:** Scattered prompts in various files, inconsistent management
     - **Solution:** `@repo/prompts` workspace package with centralized management
     - **Target Architecture:**
@@ -171,7 +213,7 @@
     - **Timeline:** 3 days
     - **Dependencies:** Core infrastructure stable (Tasks 1-8)
 
-17. **TipTap AI RAG Integration** ✍️ **READY**
+19. **TipTap AI RAG Integration** ✍️ **READY**
     - **Status:** Architecture complete, detailed 10-day plan exists
     - **Scope:** Advanced research editor with AI-powered writing assistance
     - **Key Features:**
@@ -184,9 +226,9 @@
     - **Reference:** `docs/PLANS/features/TIPTAP_AI_RAG_INTEGRATION_PLAN_V2.md` (detailed implementation)
     - **Success:** AI-powered research editor with seamless RAG integration
     - **Timeline:** 10 days (phased approach)
-    - **Dependencies:** Prompts system (Task 16)
+    - **Dependencies:** Prompts system (Task 18)
 
-18. **Real-time Collaboration Unification** 🔄 **READY**
+20. **Real-time Collaboration Unification** 🔄 **READY**
     - **Problem:** Collaboration features scattered across different systems
     - **Solution:** Unified real-time collaboration using existing Liveblocks infrastructure
     - **Features:**
@@ -199,7 +241,7 @@
     - **Timeline:** 4 days
     - **Dependencies:** Unified state management (Task 7)
 
-19. **Performance Optimization and Caching** ⚡ **READY**
+21. **Performance Optimization and Caching** ⚡ **READY**
     - **Problem:** Need systematic performance optimization for growing dataset
     - **Solution:** Multi-layer caching strategy with intelligent optimization
     - **Components:**
@@ -228,15 +270,15 @@
 
 ### **Advanced Features (Not Current Priority)**
 
-20. **3D Visualization Spatial Integration** - Globe visualization with spatial intelligence
+22. **3D Visualization Spatial Integration** - Globe visualization with spatial intelligence
     - **Condition:** After unified mindmap foundation is stable
     - **Timeline:** TBD
 
-21. **Multi-user Advanced Collaboration** - Advanced real-time research session sharing  
+23. **Multi-user Advanced Collaboration** - Advanced real-time research session sharing  
     - **Condition:** After core UX is stable and validated
     - **Timeline:** TBD
 
-22. **Advanced Analytics** - Research pattern analysis and insights  
+24. **Advanced Analytics** - Research pattern analysis and insights  
     - **Condition:** After sufficient user data and feedback
     - **Timeline:** TBD
 
@@ -246,21 +288,21 @@
 
 ### **System Integration & Validation**
 
-23. **Test Complete Research Workflow** - End-to-end user journey validation  
+25. **Test Complete Research Workflow** - End-to-end user journey validation  
     - **Success:** Mindmap → Research Canvas → Session → Documentation flow works
     - **Timeline:** 2 days
     - **Dependencies:** All core features complete (Tasks 1-14)
 
-24. **RAG-TipTap Integration Testing** - Verify Generate, Summarize, Fact Check commands  
+26. **RAG-TipTap Integration Testing** - Verify Generate, Summarize, Fact Check commands  
     - **File:** Research editor integration
     - **Success:** AI commands work with multi-RAG backend (Postgres+CocoIndex, OpenAI, Upstash)
     - **Timeline:** 1 day
-    - **Dependencies:** TipTap integration (Task 17)
+    - **Dependencies:** TipTap integration (Task 19)
 
-25. **Performance Validation** - Database queries and response times  
+27. **Performance Validation** - Database queries and response times  
     - **Success:** Sub-2s response times for all core operations with load testing
     - **Timeline:** 2 days
-    - **Dependencies:** Performance optimization (Task 19)
+    - **Dependencies:** Performance optimization (Task 21)
 
 ---
 
@@ -268,20 +310,20 @@
 
 ### **Critical Documentation Tasks**
 
-26. **Consolidate RAG System Documentation** - Single source of truth for current architecture  
+28. **Consolidate RAG System Documentation** - Single source of truth for current architecture  
     - **Output:** Updated CLAUDE.md with current RAG strategy
     - **Timeline:** 0.5 days
     - **Dependencies:** RAG integration stable
 
-27. **Update Project Structure** - Reflect current priorities and completed work  
+29. **Update Project Structure** - Reflect current priorities and completed work  
     - **File:** `PROJECT_STRUCTURE.md`
     - **Timeline:** 0.5 days
     - **Dependencies:** Major structural changes complete
 
-28. **Archive Outdated Documentation** - Remove or consolidate duplicate files  
+30. **Archive Outdated Documentation** - Remove or consolidate duplicate files  
     - **Target:** Reduce from 284 to ~150 active documentation files
     - **Timeline:** 1 day
-    - **Dependencies:** Documentation consolidation (Tasks 26-27)
+    - **Dependencies:** Documentation consolidation (Tasks 28-29)
 
 ---
 
@@ -289,7 +331,7 @@
 
 ### **Database & Infrastructure**
 - `packages/db/xata/` - Database configuration and migrations
-- `apps/app/src/app/api/prometheus/` - Unified API structure
+- `apps/app/src/app/api/disclosure/mindmap/` - Entity extraction endpoints
 
 ### **Core Research Canvas**
 - `apps/app/src/components/research/pinned-cards-canvas.tsx`

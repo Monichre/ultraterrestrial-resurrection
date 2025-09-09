@@ -29,7 +29,7 @@ class CocoIndexProcessor:
             import cocoindex
             # Check required environment variables
             required_vars = [
-                "DB_HOST", "DB_USER", "DB_PASSWORD", "DB_NAME"
+                "POSTGRES_HOST", "POSTGRES_USER", "POSTGRES_PASSWORD", "POSTGRES_DATABASE"
             ]
             missing_vars = [var for var in required_vars if not os.getenv(var)]
             if missing_vars:
@@ -119,9 +119,9 @@ class CocoIndexProcessor:
             logger.info(f"Processing knowledge graph for document: {doc_id}")
             
             # Run CocoIndex ETL for the specific document
+            # Note: --filter option not available in CocoIndex 0.2.4, processing all documents
             cmd = [
-                "cocoindex", "update", str(self.flow_file),
-                "--filter", f"id='{doc_id}'"
+                "cocoindex", "update", str(self.flow_file)
             ]
             
             if force_update:

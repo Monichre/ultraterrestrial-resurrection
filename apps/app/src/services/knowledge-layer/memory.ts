@@ -1,5 +1,5 @@
 import { memoryAgent } from "@/lib/mem0";
-import { DISCLOSURE_ASSISTANT_ID } from "@/services/ai/openai/config";
+import { PROMETHEUS_ASSISTANT_ID } from "@/services/ai/openai/config";
 
 // Types
 type Message = {
@@ -19,7 +19,7 @@ type EntityType =
 	| "testimonies"
 	| "organizations";
 
-const AGENT_ID = DISCLOSURE_ASSISTANT_ID || process.env.OPENAI_ASSISTANT_ID;
+const AGENT_ID = PROMETHEUS_ASSISTANT_ID || process.env.OPENAI_ASSISTANT_ID;
 
 const addMemory = async (message: any, options: any) => {
 	try {

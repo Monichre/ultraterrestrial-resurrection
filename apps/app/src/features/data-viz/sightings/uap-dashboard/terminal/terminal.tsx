@@ -41,7 +41,7 @@ export function Terminal({metrics, status = 'ACTIVE', progress = 100, logs = []}
         progressFillRef.current!.style.width = `${Math.max(0, Math.min(100, progress))}%`
       }, 600)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, [progress])
 
   // Function to animate terminal text

@@ -133,6 +133,79 @@
   - storage_location: ref(LOCATION)
   - metadata: jsonb [indexed]
 
+### TOPIC
+
+- Labels: [SUBJECT_AREA, THEME]
+- Attributes:
+  - id: uuid [primary_key]
+  - title: string [required, unique, indexed]
+  - name: string
+  - summary: text [indexed]
+  - photo: file [defaultPublicAccess: true]
+  - photos: file[] [defaultPublicAccess: true]
+  - embedding: vector(1536)
+  - subject_matter_experts: ref(PERSON)[]
+  - related_events: ref(EVENT)[]
+  - related_documents: ref(DOCUMENT)[]
+  - verification_status: enum(VERIFICATION_STATES)
+  - metadata: jsonb [indexed]
+
+### TESTIMONY
+
+- Labels: [WITNESS_STATEMENT, OFFICIAL_STATEMENT, SECOND_HAND_ACCOUNT]
+- Attributes:
+  - id: uuid [primary_key]
+  - claim: text [required, indexed]
+  - summary: text
+  - date: datetime [indexed]
+  - witness: ref(PERSON) [required]
+  - event: ref(EVENT)
+  - organization: ref(ORGANIZATION)
+  - documentation: file[]
+  - media: file[] [defaultPublicAccess: true]
+  - source: text
+  - context: text
+  - verification_status: enum(VERIFICATION_STATES)
+  - embedding: vector(1536)
+  - metadata: jsonb [indexed]
+
+### DOCUMENT
+
+- Labels: [REPORT, ARTICLE, PAPER, MEDIA]
+- Attributes:
+  - id: uuid [primary_key]
+  - title: string [indexed]
+  - summary: text
+  - file: file[]
+  - images: file[] [defaultPublicAccess: true]
+  - url: text
+  - date: datetime [indexed]
+  - author: ref(PERSON)
+  - organization: ref(ORGANIZATION)
+  - processed: boolean [default: false]
+  - embedding: vector(1536)
+  - metadata: jsonb
+
+### CORROBORATIVE_ANALYSIS (Custom Layer)
+
+- Description: Analytical layer that evaluates whether multiple independent evidence items support a subject claim. Produces normalized scores and links to underlying evidence.
+- Attributes:
+  - id: uuid [primary_key]
+  - subject_type: enum(SUBJECT_TYPES) // {TOPIC, EVENT, TESTIMONY, DOCUMENT, ARTIFACT, PERSON, ORGANIZATION}
+  - subject_id: uuid [required, indexed]
+  - hypothesis: text [required]
+  - evidence_testimonies: ref(TESTIMONY)[]
+  - evidence_documents: ref(DOCUMENT)[]
+  - evidence_events: ref(EVENT)[]
+  - evidence_artifacts: ref(ARTIFACT)[]
+  - method: enum(CORROBORATION_METHODS) // {CROSS_SOURCE_VALIDATION, TEMPORAL_SPATIAL_CORRELATION, EXPERT_CONSENSUS, DOCUMENT_CHAIN_OF_CUSTODY, VECTOR_SIMILARITY}
+  - corroboration_score: float(0.0-1.0)
+  - confidence: float(0.0-1.0)
+  - evaluator: ref(PERSON)
+  - evaluated_at: datetime [indexed]
+  - notes: text
+  - metadata: jsonb [indexed]
+
 # Database Schema
 
 ## topics
@@ -313,6 +386,24 @@
   - content (text)
   - embedding (multiple, dimension: 0)
   - document (link to documents, unique)
+
+## corroborative-analyses
+
+- **Columns:**
+  - hypothesis (text)
+  - subject-type (enum: TOPIC, EVENT, TESTIMONY, DOCUMENT, ARTIFACT, PERSON, ORGANIZATION)
+  - subject-id (uuid)
+  - evidence-testimonies (link to testimonies[])
+  - evidence-documents (link to documents[])
+  - evidence-events (link to events[])
+  - evidence-artifacts (link to artifacts[])
+  - method (enum: CROSS_SOURCE_VALIDATION | TEMPORAL_SPATIAL_CORRELATION | EXPERT_CONSENSUS | DOCUMENT_CHAIN_OF_CUSTODY | VECTOR_SIMILARITY)
+  - corroboration-score (float)
+  - confidence (float)
+  - evaluator (link to personnel)
+  - evaluated-at (datetime)
+  - notes (text)
+  - metadata (json, defaultValue: "{}")
 
 ## tags
 

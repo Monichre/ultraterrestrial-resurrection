@@ -28,7 +28,7 @@
     "python"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc"
   },
   "devDependencies": {
     "@types/bun": "latest",

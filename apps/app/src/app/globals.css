@@ -2,7 +2,7 @@
 
 /* @plugin '@tailwindcss/typography'; */
 /* @config "../../tailwind.config.ts"; */
-
+/* Module resolution error fix - Line was empty */
 /* Import accessibility styles */
 /* @import "../styles/accessibility.scss"; */
 

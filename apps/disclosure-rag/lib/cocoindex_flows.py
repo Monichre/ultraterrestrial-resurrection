@@ -25,12 +25,8 @@ except ImportError:
 if COCOINDEX_AVAILABLE:
     postgres_conn_spec = cocoindex.add_auth_entry(
         "PostgreSQLConnection",
-        cocoindex.targets.PostgreSQLConnection(
-            host=os.getenv("DB_HOST", "localhost"),
-            port=int(os.getenv("DB_PORT", "5432")),
-            database=os.getenv("DB_NAME", "disclosure_rag"),
-            user=os.getenv("DB_USER"),
-            password=os.getenv("DB_PASSWORD")
+        cocoindex.DatabaseConnectionSpec(
+            url=f"postgresql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
         )
     )
 
@@ -344,8 +340,8 @@ if COCOINDEX_AVAILABLE:
             
             # Multi-source document ingestion
             data_scope["documents"] = flow_builder.add_source(
-                cocoindex.sources.PostgreSQL(
-                    connection=postgres_conn_spec,
+    cocoindex.sources.Postgres(
+        database=postgres_conn_spec,
                     query="""
                         SELECT 
                             id,
@@ -946,7 +942,6 @@ if COCOINDEX_AVAILABLE:
             logger.error(f"Error in UAPDisclosureKG flow: {e}")
             raise
 
-    @cocoindex.main_fn()
     def run_uap_kg_flow():
         """Main function to execute UAP knowledge graph flow"""
         try:

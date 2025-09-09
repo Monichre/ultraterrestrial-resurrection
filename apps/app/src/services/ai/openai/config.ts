@@ -1,5 +1,5 @@
-export const DISCLOSURE_ASSISTANT_ID: any =
-  process.env.OPENAI_ASSISTANT_ID || ''
+// Primary assistant for the system: Prometheus
+export const PROMETHEUS_ASSISTANT_ID: string = process.env.OPENAI_ASSISTANT_ID || ''
 
 export const ENTITY_RELATION_RELEVANCE_THREAD =
   'thread_entity_relation_relevance'
@@ -7,9 +7,14 @@ export const INSTRUCTIONS = `The following conversation will consist of messages
 export const ENTITY_RELATION_RELEVANCE_THREAD_THREAD_ID =
   'thread_KnfuohJYTwsOlQoXA1QuV7T1'
 export const metadata = {
-  assistant_id: DISCLOSURE_ASSISTANT_ID,
+  assistant_id: PROMETHEUS_ASSISTANT_ID,
   internal_thread_key: ENTITY_RELATION_RELEVANCE_THREAD,
   instructions: INSTRUCTIONS,
   role: 'system',
 }
-export const UFO_VECTOR_DATA_STORE_ID: any = process.env.OPENAI_VECTOR_STORE_ID
+// Vector store attached to Prometheus' mind
+export const PROMETHEUS_VECTOR_STORE_ID: string = process.env.OPENAI_VECTOR_STORE_ID || ''
+
+// Backward-compatibility alias (to be removed):
+export const DISCLOSURE_ASSISTANT_ID = PROMETHEUS_ASSISTANT_ID
+export const UFO_VECTOR_DATA_STORE_ID = PROMETHEUS_VECTOR_STORE_ID

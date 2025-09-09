@@ -65,7 +65,7 @@
 
   |------------------------------------------|------------------------------
   ---------|---------------------------------------------|
-  | Triple RAG (Upstash + FAISS + CocoIndex) | Deep Knowledge Agent
+  | Quinuple RAG (OpenAI + Xata + Upstash + FAISS + CocoIndex) | Deep Knowledge Agent
   iterative search | ✅ Perfect - enhances existing vector search |
   | 448 Documents indexed                    | Research Agent structured
   analysis    | ✅ Perfect - leverages your knowledge base   |

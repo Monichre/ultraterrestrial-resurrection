@@ -1,8 +1,8 @@
 import { openai } from "@/lib/openai/client"
-import { DISCLOSURE_ASSISTANT_ID } from "@/services/ai/openai/config"
+import { PROMETHEUS_ASSISTANT_ID, PROMETHEUS_VECTOR_STORE_ID } from "@/services/ai/openai/config"
 import { searchDatabase } from "@/services/ai/openai/tools/search-database"
 import { NER_EXTRACTION_PROMPT } from "@/services/ai/prompts/ner-extraction-prompt"
-import { AssistantResponse } from "ai"
+import { createSSEBridge, sseHeaders } from "@/services/ai/openai/sse"
 
 // Define types for tool results and entities
 interface ToolResults {
@@ -24,7 +24,7 @@ export async function POST( req: Request ) {
 			await openai.beta.threads.create( {
 				tool_resources: {
 					file_search: {
-						vector_store_ids: ["vs_meWOEnUiUxtQWf0W6NBsNpCG"],
+						vector_store_ids: [PROMETHEUS_VECTOR_STORE_ID].filter(Boolean) as string[],
 					},
 				},
 			} )
@@ -38,9 +38,10 @@ export async function POST( req: Request ) {
 	// Store tool results between steps
 	const toolResults: ToolResults = {}
 
-	return AssistantResponse(
-		{ threadId, messageId: createdMessage.id },
-		async ( { forwardStream, sendDataMessage } ) => {
+	const { readable, writeSSE, forwardStream, sendDataMessage, close } = createSSEBridge()
+
+	;(async () => {
+		try {
 			// Set up for sequential tool calls
 			const runStream = openai.beta.threads.runs.stream( threadId, {
 				// Only define the searchDatabase tool - file_search is built-in
@@ -115,7 +116,7 @@ export async function POST( req: Request ) {
 						${NER_EXTRACTION_PROMPT}
 					`,
 				assistant_id:
-					DISCLOSURE_ASSISTANT_ID ??
+					PROMETHEUS_ASSISTANT_ID ??
 					( () => {
 						throw new Error( "ASSISTANT_ID environment is not set" )
 					} )(),
@@ -132,7 +133,7 @@ export async function POST( req: Request ) {
 					runResult.required_action.submit_tool_outputs.tool_calls
 
 				// Process tool calls sequentially to maintain state between them
-				const tool_outputs = []
+				const tool_outputs: Array<{ tool_call_id: string; output: string }> = []
 
 				for ( const toolCall of toolCalls ) {
 					// Handle built-in file_search tool results
@@ -210,16 +211,21 @@ export async function POST( req: Request ) {
 				// Submit all tool outputs and continue the run
 				runResult = await forwardStream(
 					openai.beta.threads.runs.submitToolOutputsStream(
-						threadId,
 						runResult.id,
 						{ tool_outputs },
 					),
 				)
 			}
 
-			return runResult
-		},
-	)
+			await writeSSE({ done: true })
+			await close()
+		} catch (err) {
+			await writeSSE({ error: 'internal_error', message: (err as Error)?.message })
+			await close()
+		}
+	})()
+
+	return new Response(readable, { headers: sseHeaders() })
 }
 
 // Helper function to extract entities from a query

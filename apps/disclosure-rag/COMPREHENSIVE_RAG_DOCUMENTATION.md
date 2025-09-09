@@ -7,14 +7,16 @@
 
 ## Executive Summary
 
-The **@apps/disclosure-rag** workspace represents a sophisticated Triple RAG (Retrieval-Augmented Generation) system architected for UFO/UAP research and disclosure document analysis. This Python-based system provides multiple interfaces (FastAPI, Streamlit, CLI) with advanced multi-vector storage capabilities and agent-based processing workflows.
+The **@apps/disclosure-rag** workspace represents a sophisticated Quinuple RAG (Retrieval-Augmented Generation) system architected for UFO/UAP research and disclosure document analysis. This Python-based system provides multiple interfaces (FastAPI, Streamlit, CLI) with advanced multi-vector storage capabilities and agent-based processing workflows.
 
-### Core Architecture: Triple RAG Engine
+### Core Architecture: Quinuple RAG Engine
 
-**Multi-Backend Vector Storage (3-Tier System):**
+**Multi-Backend Vector Storage (5-Tier System):**
 
-- **Upstash Vector** (40% weight) - Cloud-native vector storage for scalability
-- **LocalRAG FAISS** (40% weight) - High-performance local vector operations  
+- **OpenAI Vector Store** (Primary) - 2,426 files, foundational research layer
+- **Xata Database** (Primary) - 230,998+ records with native vector search  
+- **Upstash Vector** (30% weight) - Cloud-native vector storage for scalability
+- **LocalRAG FAISS** (20% weight) - High-performance local vector operations  
 - **CocoIndex PostgreSQL** (20% weight) - Advanced analytics with pgvector integration
 
 **Document Processing Pipeline:**
@@ -32,14 +34,14 @@ The **@apps/disclosure-rag** workspace represents a sophisticated Triple RAG (Re
 
 - **Purpose**: RESTful API exposing knowledge base data to React/Next.js frontends
 - **Key Features**: CORS-enabled, 12 endpoints, real-time WebSocket support
-- **Integration**: Direct access to Triple RAG adapter and knowledge base CRUD operations
+- **Integration**: Direct access to Quinuple RAG adapter and knowledge base CRUD operations
 - **Endpoints**: Document management, search, RAG queries, health monitoring
 
 **`streamlit_app.py`** - Interactive Dashboard
 
 - **Purpose**: Web-based interface for knowledge base exploration and analysis
 - **Features**: Interactive document browser, real-time search, analytics dashboards
-- **Integration**: Native Triple RAG search with result visualization
+- **Integration**: Native Quinuple RAG search with result visualization
 
 **`cli.py`** - Command Line Interface  
 
@@ -47,9 +49,9 @@ The **@apps/disclosure-rag** workspace represents a sophisticated Triple RAG (Re
 - **Features**: Interactive prompts, bulk operations, agent coordination
 - **Integration**: Direct agent framework access with rich terminal UI
 
-**`dual_rag_adapter.py`** (551 lines) - Triple RAG Engine
+**`dual_rag_adapter.py`** (551 lines) - Quinuple RAG Engine  
 
-- **Core Class**: `TripleRAGAdapter` with lazy-loading and parallel processing
+- **Core Class**: `QuinupleRAGAdapter` (formerly `TripleRAGAdapter`) with lazy-loading and parallel processing
 - **Search Methods**: Asynchronous multi-backend coordination with weighted scoring
 - **Indexing**: Cross-system document indexing with metadata preservation
 - **Status Monitoring**: Comprehensive health checks and performance metrics
@@ -202,7 +204,7 @@ GET /stats:
   - Total size calculation and storage metrics
 ```
 
-**Triple RAG Integration:**
+**Quinuple RAG Integration:**
 
 ```yaml
 POST /rag/search:
@@ -240,14 +242,16 @@ WebSocket /ws:
 - **Development Support**: Full wildcard support for local development
 - **Production Ready**: Configurable domain allowlist for deployment
 
-## Triple RAG System Deep Dive
+## Quinuple RAG System Deep Dive
 
 ### Backend Weight Distribution
 
 ```yaml
 Performance_Optimized_Weights:
-  upstash_weight: 0.4    # Cloud reliability and scalability
-  local_rag_weight: 0.4  # High-performance local processing
+  openai_vector_store: Primary     # Foundational research layer (2,426 files)
+  xata_database: Primary           # Native vector search (230,998+ records)
+  upstash_weight: 0.3             # Cloud reliability and scalability  
+  local_rag_weight: 0.2           # High-performance local processing
   enhanced_cocoindex_weight: 0.2  # Advanced analytics and PostgreSQL features
 ```
 
@@ -255,7 +259,7 @@ Performance_Optimized_Weights:
 
 **Parallel Processing Pipeline:**
 
-1. **Query Distribution**: Simultaneous dispatch to all three backends
+1. **Query Distribution**: Simultaneous dispatch to all five backends
 2. **Result Normalization**: Standardized response format across systems
 3. **Weighted Scoring**: Backend-specific score weighting for relevance
 4. **Deduplication**: Content-based deduplication using text similarity
@@ -264,6 +268,18 @@ Performance_Optimized_Weights:
 **Backend-Specific Features:**
 
 ```yaml
+OpenAI_Vector_Store:
+  - Foundational research layer with 2,426 files
+  - Assistant API integration for contextual search
+  - Advanced semantic understanding and retrieval
+  - Badge: "🧠 OpenAI" for UI distinction
+
+Xata_Database:
+  - Native vector search with 230,998+ records  
+  - PostgreSQL-based with built-in vector capabilities
+  - Real-time synchronization and metadata integration
+  - Badge: "🗄️ Xata" for UI distinction
+
 Upstash:
   - Cloud-native scalability with global edge caching
   - Metadata filtering with structured queries
@@ -378,7 +394,7 @@ API_Performance:
 ### Resource Requirements
 
 - **Python Version**: 3.9+ for optimal compatibility
-- **Memory**: ~500MB for full Triple RAG operation
+- **Memory**: ~500MB for full Quinuple RAG operation
 - **Storage**: Configurable based on document corpus size
 - **Network**: Cloud vector backend requires stable internet connectivity
 
@@ -388,7 +404,7 @@ API_Performance:
 
 **Primary Responsibilities:**
 
-1. **Triple RAG System Management**: Backend coordination, performance optimization, health monitoring
+1. **Quinuple RAG System Management**: Backend coordination, performance optimization, health monitoring
 2. **Document Processing Pipeline**: Ingestion, classification, metadata enrichment
 3. **API Endpoint Maintenance**: FastAPI server development, endpoint optimization
 4. **Agent Framework Coordination**: Workflow orchestration, multi-model integration
@@ -403,7 +419,7 @@ API_Performance:
 
 **Technical Performance:**
 
-- **Search Latency**: Maintain <200ms average response time across Triple RAG backends
+- **Search Latency**: Maintain <200ms average response time across Quinuple RAG backends
 - **System Uptime**: 99.5%+ availability for API endpoints and core services
 - **Document Processing**: 100+ documents/hour ingestion rate with metadata enrichment
 - **Error Rate**: <1% for search operations and document retrieval
@@ -426,7 +442,7 @@ API_Performance:
 
 **Technical Handoff:**
 
-- [ ] Triple RAG system status and performance baselines established
+- [ ] Quinuple RAG system status and performance baselines established
 - [ ] API endpoint documentation and testing procedures provided
 - [ ] Agent framework workflows mapped and documented
 - [ ] Error handling and monitoring procedures established

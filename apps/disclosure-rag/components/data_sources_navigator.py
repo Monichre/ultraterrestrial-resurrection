@@ -32,6 +32,7 @@ class DataSourcesNavigator:
         self.knowledge_base_path = Path(__file__).parent.parent.parent / "packages" / "knowledge-base"
         self.sources_path = self.knowledge_base_path / "sources"
         self.transcripts_path = self.sources_path / "transcripts"
+        self.files_path = self.sources_path / "files"  # Added missing files_path attribute
         self.articles_path = self.knowledge_base_path / "articles"
         self.research_path = self.knowledge_base_path / "research"
         self.metadata_path = self.knowledge_base_path / "metadata"

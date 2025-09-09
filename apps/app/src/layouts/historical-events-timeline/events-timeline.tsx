@@ -11,6 +11,7 @@ import {ScrollSmoother} from 'gsap-trial/ScrollSmoother'
 import {ScrollTrigger} from 'gsap-trial/ScrollTrigger'
 
 import {Float} from '@/components/animated/float'
+import {Video} from '@/components/video/video'
 
 import {ICON_BLUE} from '@/utils'
 import type * as React from 'react'
@@ -58,7 +59,7 @@ export function YearLayout({
   ...props
 }: YearLayoutProps) {
   return (
-    <motion.div className={className} {...props}>
+    <motion.div className={className}>
       {/* Crosshairs */}
       {crosshairs?.topLeft && (
         <CrosshairIcon className='w-3 h-[1px] absolute -left-2 -top-2 z-40' />
@@ -138,16 +139,7 @@ export const TimelineYearEvents = ({event, updateActiveLocation}) => {
               <Float>
                 <div className='h-48 w-48 relative overflow-hidden hover:scale-105 duration-200 cursor-pointer transition-transform'>
                   {!image ? (
-                    <ReactPlayer
-                      url={photo.url}
-                      width='100%'
-                      height='100%'
-                      playing
-                      loop
-                      muted
-                      playsinline
-                      className='absolute top-0 left-0'
-                    />
+                    <Video video={{url: photo.url}} />
                   ) : (
                     <Image src={photo.url} alt='' fill className='object-cover' />
                   )}
@@ -193,12 +185,28 @@ export function EventsTimeline({
   }
 
   useEffect(() => {
-    const event = eventsByYear[years[activeIndex]][0]
-    const coordinates = [event.latitude, event.longitude]
+    if (!Array.isArray(years) || years.length === 0) return
+    if (activeIndex < 0 || activeIndex >= years.length) return
+
+    const year = years[activeIndex]
+    const yearEvents = eventsByYear?.[year]
+    if (!Array.isArray(yearEvents) || yearEvents.length === 0) return
+
+    const event = yearEvents[0]
+    const hasCoords = typeof event?.latitude === 'number' && typeof event?.longitude === 'number'
+    if (hasCoords) {
+      updateActiveLocation([event.latitude, event.longitude])
+    }
     updateCurrentYearIndex(activeIndex)
-    updateCurrentYear(years[activeIndex])
-    updateActiveLocation(coordinates)
-  }, [activeIndex])
+    updateCurrentYear(year)
+  }, [
+    activeIndex,
+    years,
+    eventsByYear,
+    updateCurrentYearIndex,
+    updateCurrentYear,
+    updateActiveLocation,
+  ])
   return (
     <div id='smooth-wrapper'>
       <div

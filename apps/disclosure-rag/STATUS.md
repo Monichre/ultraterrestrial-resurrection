@@ -13,20 +13,22 @@ The Disclosure RAG system is a comprehensive UFO/UAP research platform that comb
 - **June 20, 2025**: Upstash integration completed
 - **June 25, 2025**: Complete system documentation and 448 documents indexed
 - **June 28, 2025**: Entity extraction agent refactored with AI-powered extraction
-- **June 29, 2025**: Dual RAG system (Upstash + CocoIndex) integration completed
+- **June 29, 2025**: Quinuple RAG system (OpenAI + Xata + Upstash + FAISS + CocoIndex) integration completed
 - **July 25, 2025**: Enhanced CocoIndex with dual backend support (PostgreSQL + FAISS) and live updates
 
 ## 🏗️ System Architecture
 
-### Enhanced Triple RAG Architecture
-1. **☁️ Upstash Vector** (40%) - Cloud-based vector search with high availability
-2. **💾 LocalRAG FAISS** (30%) - Legacy local vector storage (fallback support)
-3. **🗄️ Enhanced CocoIndex** (30%) - Dual backend system:
+### Quinuple RAG Architecture  
+1. **🧠 OpenAI Vector Store** (Primary) - 2,426 files, foundational research layer
+2. **🗄️ Xata Database** (Primary) - 230,998+ records with native vector search
+3. **☁️ Upstash Vector** (30%) - Cloud-based vector search with high availability
+4. **💾 LocalRAG FAISS** (20%) - Legacy local vector storage (fallback support)  
+5. **🗄️ Enhanced CocoIndex** (20%) - Dual backend system:
    - **PostgreSQL pgvector** (default) - Advanced analytics with live updates
    - **FAISS Backend** (optional) - High-performance local storage
    - **Live File Monitoring** - Automatic index updates via watchdog
-4. **Local File System**: `/packages/knowledge-base/` - Raw document storage
-5. **Geographic Database**: PostgreSQL with 130,445+ UFO sightings
+6. **Local File System**: `/packages/knowledge-base/` - Raw document storage
+7. **Geographic Database**: PostgreSQL with 130,445+ UFO sightings
 
 ### Multi-Interface Design
 - **Primary Interface**: Streamlit Web Dashboard (Port 8501)
@@ -113,7 +115,7 @@ DATABASE_URL=postgresql://user:pass@localhost:5432/ultraterrestrial
 COCOINDEX_BACKEND=postgresql  # postgresql or faiss
 LIVE_UPDATES_ENABLED=true
 ENHANCED_COCOINDEX_ENABLED=true
-ENHANCED_COCOINDEX_WEIGHT=0.3
+ENHANCED_COCOINDEX_WEIGHT=0.2
 
 # QStash (for workflow automation)
 QSTASH_URL=your_qstash_url
@@ -198,10 +200,12 @@ embeddings = await agent.generate_embeddings(
 
 ### Enhanced Architecture
 ```
-TipTap Editor → disclosure-rag API → Enhanced Triple RAG System
-                                      ├── Upstash Vector (40%) ☁️
-                                      ├── LocalRAG FAISS (30%) 💾
-                                      └── Enhanced CocoIndex (30%) 🗄️
+TipTap Editor → disclosure-rag API → Quinuple RAG System
+                                      ├── OpenAI Vector Store (Primary) 🧠
+                                      ├── Xata Database (Primary) 🗄️  
+                                      ├── Upstash Vector (30%) ☁️
+                                      ├── LocalRAG FAISS (20%) 💾
+                                      └── Enhanced CocoIndex (20%) 🗄️
                                           ├── PostgreSQL pgvector (default)
                                           ├── FAISS Backend (optional)
                                           └── Live File Monitoring
@@ -227,7 +231,7 @@ TipTap Editor → disclosure-rag API → Enhanced Triple RAG System
 # Backend selection
 COCOINDEX_BACKEND=postgresql  # or faiss
 LIVE_UPDATES_ENABLED=true
-ENHANCED_COCOINDEX_WEIGHT=0.3
+ENHANCED_COCOINDEX_WEIGHT=0.2
 
 # PostgreSQL backend
 DATABASE_URL=postgresql://user@localhost:5432/db
@@ -442,7 +446,7 @@ cd apps/research-canvas && ./launch.sh
 
 #### Immediate (Post-AGNO, Week 7-8)
 1. **Complete Agent Orchestration**: Finish research crew implementation
-2. **CocoIndex Testing**: Set up clean environment for full dual RAG testing
+2. **CocoIndex Testing**: Set up clean environment for full Quinuple RAG testing
 3. **Missing Files Recovery**: Locate or recreate missing chat implementations
 4. **Database Sync Deployment**: Implement documented synchronization plans
 
@@ -605,7 +609,7 @@ print('Missing keys:', missing if missing else 'None - all configured!')
 2. **Test Processing**: Try with a YouTube URL
 3. **Explore Interfaces**: Web dashboard, CLI, research canvas
 4. **Review Documentation**: Status report and command cheatsheet
-5. **Study Architecture**: Multi-tier storage and dual RAG system
+5. **Study Architecture**: Multi-tier storage and Quinuple RAG system
 
 ### Development Opportunities
 1. **Complete Agent Crew**: Finish multi-agent orchestration
@@ -630,7 +634,7 @@ print('Missing keys:', missing if missing else 'None - all configured!')
 - **UFO Sightings**: 130,445+ in geographic database
 - **Entity Types**: 10 categories with AI extraction
 - **File Formats**: YouTube, Web, PDF, DOCX, TXT, MD
-- **Storage Tiers**: 4-tier architecture (Local, PostgreSQL, Upstash, OpenAI)
+- **Storage Tiers**: 5-tier Quinuple RAG architecture (OpenAI, Xata, Upstash, FAISS, CocoIndex)
 
 ### Performance (June 2025 benchmarks)
 - **Processing Speed**: 5-60 seconds depending on content type

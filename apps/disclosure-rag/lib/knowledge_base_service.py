@@ -563,9 +563,16 @@ class KnowledgeBaseService:
             display.start_spinner("📝 Generating comprehensive summary...")
 
             try:
-                # Create enhanced summary with research methodology
-                summary_content = self._generate_web_content_summary(
-                    content, title, url, result)
+                # Generate AI-powered analysis (like YouTube processing)
+                from processing.content_analysis import ContentAnalysisEngine
+                analysis_engine = ContentAnalysisEngine()
+                
+                # Use the same AI analysis as YouTube processing
+                ai_analysis = analysis_engine.analyze_content(content)
+                
+                # Create enhanced summary with AI analysis
+                summary_content = self._generate_web_content_summary_with_ai(
+                    content, title, url, result, ai_analysis)
 
                 # Write summary file
                 summary_file_path = web_dir / f"{safe_title}_summary.txt"
@@ -622,11 +629,11 @@ class KnowledgeBaseService:
                         upload_result = upload_file_to_openai(upload_file)
                         data['upload_results'] = upload_result
 
-                        if isinstance(upload_result, dict) and 'id' in upload_result:
+                        if isinstance(upload_result, dict) and 'file_id' in upload_result:
                             display.stop_spinner(
                                 "✅ Web article uploaded successfully")
                             display.print_upload_status(
-                                upload_result['id'], "success")
+                                upload_result['file_id'], "success")
                         else:
                             display.stop_spinner("❌ Web article upload failed")
                             display.print_upload_status("", "failed")
@@ -804,8 +811,30 @@ class KnowledgeBaseService:
             logger.error(f"Error in enhanced web processing: {e}")
             return None
 
-    def _generate_web_content_summary(self, content: str, title: str, url: str, result: Dict[str, Any]) -> str:
-        """Generate comprehensive summary with research methodology analysis for web content"""
+    def _generate_web_content_summary_with_ai(self, content: str, title: str, url: str, result: Dict[str, Any], ai_analysis: str) -> str:
+        """Generate comprehensive summary with AI-powered research methodology analysis (matching YouTube quality)"""
+        try:
+            from datetime import datetime
+
+            # Basic content analysis
+            word_count = len(content.split()) if content else 0
+            reading_time = max(1, word_count // 200)
+
+            # Extract key information
+            content_type = self._analyze_content_type(content)
+            complexity_score = self._calculate_complexity_score(content)
+
+            # Use AI analysis directly (same as YouTube processing)
+            return ai_analysis
+
+        except Exception as e:
+            logger.error(f"Error generating AI-powered web summary: {e}")
+            # Fallback to basic summary
+            return self._generate_web_content_summary_basic(content, title, url, result)
+
+    def _generate_web_content_summary_basic(self, content: str, title: str, url: str, result: Dict[str, Any]) -> str:
+        """Fallback method - original basic summary generation"""
+        """Fallback method - original basic summary generation for web content"""
         try:
             from datetime import datetime
 

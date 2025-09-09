@@ -1,10 +1,11 @@
 
 
 import { openai } from "@/lib/openai/client"
-import { DISCLOSURE_ASSISTANT_ID } from "@/services/ai/openai/config"
+import { PROMETHEUS_ASSISTANT_ID, PROMETHEUS_VECTOR_STORE_ID } from "@/services/ai/openai/config"
 import { searchDatabase } from "@/services/ai/openai/tools/search-database"
 import { NER_EXTRACTION_PROMPT } from "@/services/ai/prompts/ner-extraction-prompt"
-import { AssistantResponse } from "ai"
+import { createSSEBridge, sseHeaders } from "@/services/ai/openai/sse"
+import Exa from 'exa-js'
 
 // Define types for tool results and entities
 interface ToolResults {
@@ -26,7 +27,7 @@ export async function POST( req: Request ) {
       await openai.beta.threads.create( {
         tool_resources: {
           file_search: {
-            vector_store_ids: ["vs_meWOEnUiUxtQWf0W6NBsNpCG"],
+            vector_store_ids: [PROMETHEUS_VECTOR_STORE_ID].filter(Boolean) as string[],
           },
         },
       } )
@@ -39,10 +40,12 @@ export async function POST( req: Request ) {
 
   // Store tool results between steps
   const toolResults: ToolResults = {}
+  const exaClient = new Exa( process.env.EXA_API_KEY || '' )
 
-  return AssistantResponse(
-    { threadId, messageId: createdMessage.id },
-    async ( { forwardStream, sendDataMessage } ) => {
+  const { readable, writeSSE, forwardStream, sendDataMessage, close } = createSSEBridge()
+
+  ;(async () => {
+    try {
       // Set up for sequential tool calls
       const runStream = openai.beta.threads.runs.stream( threadId, {
         // Only define the searchDatabase tool - file_search is built-in
@@ -83,6 +86,21 @@ export async function POST( req: Request ) {
               },
             },
 
+          },
+          {
+            type: "function",
+            function: {
+              name: "searchExternalResources",
+              description: "Search trusted external UFO/UAP sources (via Exa) to enrich context",
+              parameters: {
+                type: "object",
+                properties: {
+                  query: { type: "string", description: "Search query for external resources" },
+                  limit: { type: "number", description: "Max results (1-10)", minimum: 1, maximum: 10 },
+                },
+                required: ["query"],
+              },
+            },
           },
           {
             type: "function",
@@ -129,7 +147,7 @@ export async function POST( req: Request ) {
 						${NER_EXTRACTION_PROMPT}
 					`,
         assistant_id:
-          DISCLOSURE_ASSISTANT_ID ??
+          PROMETHEUS_ASSISTANT_ID ??
           ( () => {
             throw new Error( "ASSISTANT_ID environment is not set" )
           } )(),
@@ -146,25 +164,19 @@ export async function POST( req: Request ) {
           runResult.required_action.submit_tool_outputs.tool_calls
 
         // Process tool calls sequentially to maintain state between them
-        const tool_outputs = []
+        const tool_outputs: Array<{ tool_call_id: string; output: string | any }> = []
 
         for ( const toolCall of toolCalls ) {
-          // Handle built-in file_search tool results
+          // Handle built-in file_search tool results if present
           if ( toolCall.type === "retrieval" ) {
-            // File search is handled automatically by OpenAI
-            // But we need to extract entities from the results for the next step
-
-            // In a real implementation, we would extract entities from the file search content
-            // For now, we'll extract from the original user query as a placeholder
             const fileSearchResult = {
               response: "Information retrieved from file search",
               entities: extractEntitiesFromQuery( input.message ),
             }
 
-            // Store result for the next tool to use
             toolResults.fileSearchResult = fileSearchResult
 
-            sendDataMessage( {
+            await sendDataMessage( {
               role: "data",
               data: {
                 tool: "file_search",
@@ -172,15 +184,12 @@ export async function POST( req: Request ) {
                 result: fileSearchResult,
               },
             } )
-
-            // No need to add output for retrieval tool calls
             continue
           }
 
           const parameters = JSON.parse( toolCall.function.arguments )
 
-          // Notify frontend about current step
-          sendDataMessage( {
+          await sendDataMessage( {
             role: "data",
             data: {
               tool: toolCall.function.name,
@@ -190,10 +199,7 @@ export async function POST( req: Request ) {
           } )
 
           if ( toolCall.function.name === "searchDatabase" ) {
-            // Use entities from file search results
             const previousResult = toolResults.fileSearchResult
-
-            // Get search terms either from parameters or extract from previous result
             const searchTerms =
               parameters.search_terms ||
               previousResult?.entities?.map( ( e ) => e.name ) ||
@@ -205,7 +211,7 @@ export async function POST( req: Request ) {
               searchFields: parameters.search_fields,
             } )
 
-            sendDataMessage( {
+            await sendDataMessage( {
               role: "data",
               data: {
                 tool: "searchDatabase",
@@ -218,22 +224,62 @@ export async function POST( req: Request ) {
               tool_call_id: toolCall.id,
               output: JSON.stringify( searchResult ),
             } )
+          } else if ( toolCall.function.name === 'searchExternalResources' ) {
+            const { query, limit = 5 } = parameters
+            try {
+              const searchResults = await exaClient.searchAndContents( {
+                query,
+                numResults: Math.min( Number( limit ) || 5, 10 ),
+                type: 'neural',
+                contents: { text: { maxCharacters: 2000 } },
+              } as any )
+
+              const formatted = (searchResults?.results || []).map( (r: any) => ({
+                title: r.title,
+                url: r.url,
+                text: r.text,
+                score: r.score,
+                source: 'external',
+              }) )
+
+              await sendDataMessage( {
+                role: 'data',
+                data: { tool: 'searchExternalResources', status: 'complete', result: formatted },
+              } )
+
+              tool_outputs.push( {
+                tool_call_id: toolCall.id,
+                output: JSON.stringify( { results: formatted } ),
+              } )
+            } catch (e) {
+              await sendDataMessage( { role: 'data', data: { tool: 'searchExternalResources', status: 'error', message: (e as Error)?.message } } )
+              tool_outputs.push( {
+                tool_call_id: toolCall.id,
+                output: JSON.stringify( { results: [], error: 'external_search_failed' } ),
+              } )
+            }
           }
         }
 
         // Submit all tool outputs and continue the run
         runResult = await forwardStream(
           openai.beta.threads.runs.submitToolOutputsStream(
-            threadId,
             runResult.id,
             { tool_outputs },
           ),
         )
       }
 
-      return runResult
-    },
-  )
+      // Signal end of stream
+      await writeSSE( { done: true } )
+      await close()
+    } catch (err) {
+      await writeSSE( { error: 'internal_error', message: (err as Error)?.message } )
+      await close()
+    }
+  })()
+
+  return new Response( readable, { headers: sseHeaders() } )
 }
 
 // Enhanced entity extraction function with UFO/disclosure domain knowledge

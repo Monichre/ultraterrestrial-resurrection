@@ -1,9 +1,10 @@
 
 import { openai } from "@/lib/openai/client"
-import { DISCLOSURE_ASSISTANT_ID } from "@/services/ai/openai/config"
+import { PROMETHEUS_ASSISTANT_ID, PROMETHEUS_VECTOR_STORE_ID } from "@/services/ai/openai/config"
 import { assistantEventHandler } from "@/services/ai/openai/stream-handler"
 import { NER_EXTRACTION_PROMPT } from "@/services/ai/prompts/ner-extraction-prompt"
-import { AssistantResponse, streamText } from "ai"
+import { streamText } from "ai"
+import { createSSEBridge, sseHeaders } from "@/services/ai/openai/sse"
 import { xataToXYFlow } from "@/features/mindmap/actions/xata-to-xyflow"
 import { searchDatabase } from "@/services/ai/openai/tools/search-database"
 
@@ -36,7 +37,7 @@ export async function POST( req: Request ) {
 			await openai.beta.threads.create( {
 				tool_resources: {
 					file_search: {
-						vector_store_ids: ["vs_meWOEnUiUxtQWf0W6NBsNpCG"],
+						vector_store_ids: [PROMETHEUS_VECTOR_STORE_ID].filter(Boolean) as string[],
 					},
 				},
 			} )
@@ -70,12 +71,11 @@ When answering questions, incorporate this information and cite relevant details
 		content: messageContent,
 	} )
 
-	return AssistantResponse(
-		{ threadId, messageId: createdMessage.id },
-		async ( {
-			forwardStream,
-			sendDataMessage,
-		}: { forwardStream: any; sendDataMessage: any } ) => {
+	// SSE bridge
+	const { readable, writeSSE, forwardStream, sendDataMessage, close } = createSSEBridge()
+
+	;(async () => {
+		try {
 			// { type: 'function', function: { name: 'search_database' } }
 
 			const runStream = openai.beta.threads.runs.stream(
@@ -149,7 +149,7 @@ When answering questions, incorporate this information and cite relevant details
 					If user has provided resource context, prioritize information from that source when responding to queries about it. Always cite the specific resource when referencing information from it.`,
 					tool_choice: "auto",
 					assistant_id:
-						DISCLOSURE_ASSISTANT_ID ??
+						PROMETHEUS_ASSISTANT_ID ??
 						( () => {
 							throw new Error( "ASSISTANT_ID environment is not set" )
 						} )(),
@@ -260,20 +260,18 @@ When answering questions, incorporate this information and cite relevant details
 				console.log( "🚀 ~ file: route.ts:124 ~ tool_outputs:", tool_outputs )
 				runResult = await forwardStream(
 					openai.beta.threads.runs.submitToolOutputsStream(
-						threadId,
 						runResult.id,
 						{ tool_outputs },
-						// { signal: req.signal }
-						tool_outputs[0].tool_call_id,
-						// { tool_outputs },
 					),
 				)
 			}
-			return runResult
-			// return {
-			//   threadMessages
-			// }
-		},
-	)
-}
+			await writeSSE({ done: true })
+			await close()
+		} catch (err) {
+			await writeSSE({ error: 'internal_error', message: (err as Error)?.message })
+			await close()
+		}
+	})()
 
+	return new Response(readable, { headers: sseHeaders() })
+}

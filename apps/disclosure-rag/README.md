@@ -11,7 +11,7 @@
 **Project**: Disclosure RAG (Retrieval-Augmented Generation)  
 **Type**: Python AI/ML Research Platform  
 **Purpose**: UFO/UAP research and analysis with multi-backend vector search  
-**Architecture**: Triple RAG system with web interfaces
+**Architecture**: Quinuple RAG system with web interfaces
 
 ## 🚀 STRATEGIC PRIORITY: AGNO Integration
 
@@ -50,17 +50,27 @@ The Disclosure RAG system is undergoing a strategic transformation through AGNO 
 
 ## 🔍 Core Components
 
-### 1. RAG System Architecture (Triple Backend)
+### 1. RAG System Architecture (Quinuple Backend)
 
 ```yaml
 Components:
+  OpenAI_Vector_Store:
+    Weight: Primary
+    Type: Foundational research layer
+    Files: 2,426 documents
+    
+  Xata_Database:
+    Weight: Primary  
+    Type: Native vector search
+    Records: 230,998+ with PostgreSQL backend
+    
   Upstash_Vector: 
-    Weight: 40%
+    Weight: 30%
     Type: Cloud vector search
     Embedding: sentence-transformers/all-MiniLM-L6-v2
   
   LocalRAG_FAISS:
-    Weight: 40% 
+    Weight: 20% 
     Type: Local vector storage
     Backend: FAISS indices
   
@@ -109,7 +119,7 @@ Core_Endpoints:
 
 **Knowledge Base UI** (`knowledge_base_ui.py`):
 - Document browser
-- Triple RAG toggle
+- Quinuple RAG toggle
 - Advanced search filters
 - Import/export capabilities
 
@@ -136,7 +146,7 @@ apps/disclosure-rag/
 ### Database Schema
 - **29 Entity Types**: events, testimonies, personnel, organizations, locations
 - **230,998+ Records**: Comprehensive UFO/UAP database
-- **Vector Dimensions**: 1536 (Xata), 384 (Triple RAG)
+- **Vector Dimensions**: 1536 (OpenAI/Xata), 384 (Quinuple RAG)
 - **Storage**: Xata PostgreSQL + local backup options
 
 ### Document Processing
@@ -162,7 +172,7 @@ DATABASE_URL=postgresql://...
 UPSTASH_VECTOR_REST_URL=https://...
 UPSTASH_VECTOR_REST_TOKEN=...
 
-# Triple RAG Configuration  
+# Quinuple RAG Configuration  
 LOCAL_RAG_ENABLED=true
 COCOINDEX_ENABLED=true
 UPSTASH_WEIGHT=0.4
@@ -220,7 +230,7 @@ COCOINDEX_WEIGHT=0.2
 ## 📈 Development Status
 
 ### Completed Features ✅
-- Triple RAG integration
+- Quinuple RAG integration
 - Bulk UI integration
 - Geographic analysis
 - Entity extraction pipeline

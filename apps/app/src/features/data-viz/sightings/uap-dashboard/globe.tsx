@@ -272,16 +272,16 @@ function Earth({focusedLocation, sightings = [], children}: EarthProps) {
 
     return Array.from(cityMap.values())
       .filter((cluster) => cluster.count > 1)
-      .map((cluster) => ({
-        id: cluster.id,
-        count: cluster.count,
-        position: [
-          ((cluster.lon * Math.PI) / 180) * 2.01,
-          ((cluster.lat * Math.PI) / 180) * 2.01,
-          0.02,
-        ] as [number, number, number],
-        color: getClusterColor(cluster.count),
-      }))
+      .map((cluster) => {
+        // Use proper spherical coordinate conversion for clusters
+        const spherePosition = latLonToVector3(cluster.lat, cluster.lon, 2.01)
+        return {
+          id: cluster.id,
+          count: cluster.count,
+          position: [spherePosition.x, spherePosition.y, spherePosition.z] as [number, number, number],
+          color: getClusterColor(cluster.count),
+        }
+      })
   }, [sightings])
 
   function getClusterColor(count: number): string {

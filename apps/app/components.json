@@ -10,15 +10,11 @@
     "cssVariables": false,
     "prefix": ""
   },
+  "iconLibrary": "radix",
   "aliases": {
     "components": "@/components",
-    "layouts": "@/layouts",
-    "providers": "@/providers",
     "utils": "@/utils",
     "ui": "@/components/ui",
-    "animated": "@/components/animated",
-    "backgrounds": "@/components/backgrounds",
-    "services": "@/services",
     "hooks": "@/hooks"
   },
   "registries": {
@@ -27,6 +23,8 @@
       "headers": {
         "X-API-Key": "${CULT_PRO_TOKEN}"
       }
-    }
+    },
+    "@smoothui": "https://smoothui.dev/r/{name}.json",
+    "@animate-ui": "https://animate-ui.com/r/{name}.json"
   }
 }

@@ -7,7 +7,7 @@ export function ClassifiedDocumentPage() {
     <div className='relative w-full max-w-2xl font-special-elite bg-[#e9e4d8] shadow-2xl shadow-black/50 p-8 md:p-12 text-black/80 rounded-sm'>
       {/* Background Texture */}
       <div
-        className="absolute inset-0 bg-[url('/textured-paper-bg.png')] opacity-30 mix-blend-multiply"
+        className='absolute inset-0 opacity-30 mix-blend-multiply'
         style={{backgroundSize: 'cover'}}
       />
 

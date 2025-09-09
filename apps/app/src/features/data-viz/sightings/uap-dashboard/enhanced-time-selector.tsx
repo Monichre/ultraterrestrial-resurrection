@@ -52,12 +52,24 @@ export function EnhancedTimeSelector({
   const currentDate = new Date()
 
   // Local state
-  const [selectedMode, setSelectedMode] = useState<
-    'range' | 'year' | 'decade' | 'animation'
-  >('range')
+  const startDateObj = useMemo(
+    () =>
+      timeRange.startDate instanceof Date
+        ? timeRange.startDate
+        : new Date(timeRange.startDate as any),
+    [timeRange.startDate]
+  )
+  const endDateObj = useMemo(
+    () =>
+      timeRange.endDate instanceof Date ? timeRange.endDate : new Date(timeRange.endDate as any),
+    [timeRange.endDate]
+  )
+  const [selectedMode, setSelectedMode] = useState<'range' | 'year' | 'decade' | 'animation'>(
+    'range'
+  )
   const [dateRange, setDateRange] = useState<DateRange | undefined>({
-    from: timeRange.startDate,
-    to: timeRange.endDate,
+    from: startDateObj,
+    to: endDateObj,
   })
   const [isCalendarOpen, setIsCalendarOpen] = useState(false)
   const [animationProgress, setAnimationProgress] = useState(0)
@@ -216,10 +228,8 @@ export function EnhancedTimeSelector({
   // Timeline scrubber component
   const TimelineScrubber = () => {
     const totalYears = MAX_YEAR - MIN_YEAR
-    const startPercent =
-      ((timeRange.startDate.getFullYear() - MIN_YEAR) / totalYears) * 100
-    const endPercent =
-      ((timeRange.endDate.getFullYear() - MIN_YEAR) / totalYears) * 100
+    const startPercent = ((startDateObj.getFullYear() - MIN_YEAR) / totalYears) * 100
+    const endPercent = ((endDateObj.getFullYear() - MIN_YEAR) / totalYears) * 100
 
     return (
       <div className='relative h-12 bg-black/20 border border-white/10 rounded'>
@@ -279,10 +289,7 @@ export function EnhancedTimeSelector({
       {/* Header with mode selector */}
       <div className='flex items-center justify-between border-b border-white/10 pb-2'>
         <div className='flex items-center gap-2'>
-          <motion.div
-            animate={pulseControls}
-            className='h-2 w-2 rounded-full bg-cyan-500'
-          />
+          <motion.div animate={pulseControls} className='h-2 w-2 rounded-full bg-cyan-500' />
           <span className='font-monument-mono text-sm text-white/80 uppercase'>
             Temporal Control
           </span>
@@ -324,8 +331,7 @@ export function EnhancedTimeSelector({
             <div className='flex items-center justify-between text-sm'>
               <span className='text-white/60 font-monument-mono'>Selected Range:</span>
               <Badge variant='outline' className='bg-black border-white/30 text-cyan-400'>
-                {format(timeRange.startDate, 'MMM dd, yyyy')} -{' '}
-                {format(timeRange.endDate, 'MMM dd, yyyy')}
+                {format(startDateObj, 'MMM dd, yyyy')} - {format(endDateObj, 'MMM dd, yyyy')}
               </Badge>
             </div>
 
@@ -353,12 +359,10 @@ export function EnhancedTimeSelector({
                   Custom Date Range
                 </Button>
               </PopoverTrigger>
-              <PopoverContent
-                className='w-auto p-0 bg-black border-white/20'
-                align='start'>
+              <PopoverContent className='w-auto p-0 bg-black border-white/20' align='start'>
                 <Calendar
                   mode='range'
-                  defaultMonth={timeRange.startDate}
+                  defaultMonth={startDateObj}
                   selected={dateRange}
                   onSelect={handleDateRangeSelect}
                   numberOfMonths={2}
@@ -455,9 +459,7 @@ export function EnhancedTimeSelector({
 
       {/* Timeline scrubber - always visible */}
       <div className='space-y-2'>
-        <div className='text-xs text-white/60 font-monument-mono'>
-          Timeline Visualization
-        </div>
+        <div className='text-xs text-white/60 font-monument-mono'>Timeline Visualization</div>
         <TimelineScrubber />
       </div>
 
@@ -465,10 +467,14 @@ export function EnhancedTimeSelector({
       <div className='flex justify-between text-xs text-white/40 font-monument-mono pt-2 border-t border-white/10'>
         <span>
           {sightingsData.length} sightings in{' '}
-          {timeRange.endDate.getFullYear() - timeRange.startDate.getFullYear() + 1} years
+          {endDateObj.getFullYear() - startDateObj.getFullYear() + 1} years
         </span>
         <span>
-          Density: {dataDensity.length > 0 ? Math.round(dataDensity.reduce((sum, d) => sum + d.count, 0) / dataDensity.length) : 0} avg/year
+          Density:{' '}
+          {dataDensity.length > 0
+            ? Math.round(dataDensity.reduce((sum, d) => sum + d.count, 0) / dataDensity.length)
+            : 0}{' '}
+          avg/year
         </span>
       </div>
 
