@@ -1,0 +1,16 @@
+id: synthesis
+version: "0.1.0"
+description: "Synthesis prompt skeleton (to be refined)."
+owner: "ai-platform"
+tags: ["synthesis"]
+schema_ref: null
+runtime:
+  max_tokens: 1200
+  temperature: 0.2
+variables:
+  - name: "inputs"
+    type: "string"
+    required: true
+prompt: |-
+  Synthesize the following inputs into a concise, evidence-grounded summary with key takeaways and caveats.
+  Inputs: {{inputs}}

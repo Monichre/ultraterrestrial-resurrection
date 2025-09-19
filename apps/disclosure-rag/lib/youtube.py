@@ -8,7 +8,6 @@ from concurrent.futures import ThreadPoolExecutor
 
 import requests
 import streamlit as st
-import yt_dlp
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
@@ -129,188 +128,24 @@ def format_metadata(metadata):
 
 
 def get_video_info_and_transcript(url):
-    """Get video information and transcript using yt-dlp"""
+    """Get video information and transcript using youtube-transcript-api only"""
     try:
-        ydl_opts = {
-            'skip_download': True,
-            'quiet': True,
-            'no_warnings': True,
-            'extract_flat': False,
-            # Don't try to download anything, just get info
-            'format': None,  # Don't select any format
-            'ignoreerrors': True,
-            'no_check_certificate': True,
-            'geo_bypass': True,
-            # Don't write subtitle files
-            'writesubtitles': False,
-            'writeautomaticsub': False,
-            'subtitlesformat': 'vtt',
-            # User agent to avoid bot detection
-            'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-        }
-
-        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            info = ydl.extract_info(url, download=False)
-            
-            # Check if info extraction was successful
-            if not info:
-                print("❌ Failed to extract video information")
+        # Use youtube-transcript-api (cookie-free, fast, reliable)
+        try:
+            from .youtube_transcript_enhanced import get_video_info_and_transcript_enhanced
+            enhanced_result = get_video_info_and_transcript_enhanced(url)
+            if enhanced_result and enhanced_result.get('transcript'):
+                print("✅ Successfully extracted transcript using youtube-transcript-api")
+                return enhanced_result
+            else:
+                print("⚠️ youtube-transcript-api failed - no transcript available")
                 return None
-                
-            transcript_text = None
-
-            # Check for English captions first
-            for subtitle_type in ['subtitles', 'automatic_captions']:
-                if not transcript_text and info.get(subtitle_type, {}):
-                    # Try English first
-                    if 'en' in info[subtitle_type]:
-                        captions = info[subtitle_type]['en']
-                        print(f"✅ Found English {subtitle_type}")
-                        if isinstance(captions, list):
-                            # Try multiple formats: VTT first, then SRT as fallback
-                            for format_preference in ['vtt', 'srt']:
-                                if transcript_text:
-                                    break
-                                for fmt in captions:
-                                    if fmt.get('ext') == format_preference:
-                                        print(f"Attempting to download {format_preference.upper()} captions...")
-                                        try:
-                                            # Add headers to appear more like a regular browser
-                                            headers = {
-                                                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-                                                'Accept': 'text/vtt,text/plain,*/*',
-                                                'Accept-Language': 'en-US,en;q=0.9',
-                                                'Referer': 'https://www.youtube.com/'
-                                            }
-                                            
-                                            # Retry logic for rate limiting
-                                            import time
-                                            for attempt in range(3):
-                                                if attempt > 0:
-                                                    wait_time = attempt * 2
-                                                    print(f"Retrying in {wait_time} seconds... (attempt {attempt + 1}/3)")
-                                                    time.sleep(wait_time)
-                                                    
-                                                response = requests.get(fmt['url'], timeout=15, headers=headers)
-                                                print(f"Response status: {response.status_code}")
-                                                
-                                                if response.status_code == 200:
-                                                    break
-                                                elif response.status_code == 429:
-                                                    print("Rate limited, waiting before retry...")
-                                                    continue
-                                                else:
-                                                    print(f"HTTP error {response.status_code}, trying next format")
-                                                    break
-                                            
-                                            if response.status_code == 200:
-                                                content = response.text
-                                                
-                                                # Parse VTT or SRT content
-                                                if format_preference == 'vtt':
-                                                    content_parts = content.split('\n\n')
-                                                    transcript_parts = []
-                                                    for part in content_parts:
-                                                        if '-->' in part:  # This is a caption block
-                                                            lines = part.split('\n')
-                                                            if len(lines) > 2:  # Has timestamp and text
-                                                                text = ' '.join(lines[2:])
-                                                                text = re.sub('<[^>]+>', '', text)
-                                                                transcript_parts.append(text.strip())
-                                                    transcript_text = ' '.join(transcript_parts)
-                                                elif format_preference == 'srt':
-                                                    # Simple SRT parsing
-                                                    lines = content.split('\n')
-                                                    transcript_parts = []
-                                                    for line in lines:
-                                                        if line.strip() and not line.strip().isdigit() and '-->' not in line:
-                                                            transcript_parts.append(line.strip())
-                                                    transcript_text = ' '.join(transcript_parts)
-                                                
-                                                if transcript_text and transcript_text.strip():
-                                                    print(f"✅ Extracted English transcript from {format_preference.upper()}: {len(transcript_text)} chars")
-                                                    break
-                                                else:
-                                                    print(f"⚠️ Extracted transcript from {format_preference.upper()} is empty")
-                                                    transcript_text = None
-                                            else:
-                                                print(f"❌ Failed to download {format_preference.upper()} captions (HTTP {response.status_code})")
-                                        except Exception as e:
-                                            print(f"❌ Error downloading {format_preference.upper()} captions: {e}")
-                                        break  # Only try the first format of this type
-                        
-                        # Break from subtitle_type loop if we have a transcript
-                        if transcript_text:
-                            break
-                    
-                    # If no English captions found, try other languages and detect if it's actually English
-                    if not transcript_text:
-                        print(f"⚠️ No English captions found in {subtitle_type}, checking other languages...")
-                        available_langs = list(info[subtitle_type].keys())
-                        print(f"Available languages: {available_langs}")
-                        
-                        # Try each available language
-                        for lang in available_langs:
-                            if transcript_text:
-                                break  # Already found a good transcript
-                                
-                            captions = info[subtitle_type][lang]
-                            print(f"Trying {lang} captions...")
-                            
-                            if isinstance(captions, list):
-                                for fmt in captions:
-                                    if fmt.get('ext') == 'vtt':
-                                        response = requests.get(fmt['url'])
-                                        if response.status_code == 200:
-                                            vtt_content = response.text
-                                            content_parts = vtt_content.split('\n\n')
-                                            transcript_parts = []
-                                            
-                                            for part in content_parts:
-                                                if '-->' in part:  # This is a caption block
-                                                    lines = part.split('\n')
-                                                    if len(lines) > 2:  # Has timestamp and text
-                                                        text = ' '.join(lines[2:])
-                                                        text = re.sub('<[^>]+>', '', text)
-                                                        transcript_parts.append(text.strip())
-                                            
-                                            temp_transcript = ' '.join(transcript_parts)
-                                            
-                                            # Check if this transcript is actually in English
-                                            if temp_transcript and len(temp_transcript) > 100:
-                                                detected_lang = detect_transcript_language(temp_transcript)
-                                                print(f"Language detected for {lang} captions: {detected_lang}")
-                                                
-                                                if detected_lang == 'english':
-                                                    transcript_text = temp_transcript
-                                                    print(f"✅ Found English content in {lang} captions: {len(transcript_text)} chars")
-                                                    break
-                                            break  # Only check VTT format
-
-            # Language validation - check if transcript is actually English
-            if transcript_text:
-                detected_lang = detect_transcript_language(transcript_text)
-                if detected_lang != 'english':
-                    print(f"❌ Transcript detected as {detected_lang}, not English - skipping this video")
-                    transcript_text = None
-            
-            # No fallback - if no English captions found, skip this video
-            if not transcript_text:
-                print("❌ No English captions found - skipping this video")
-
-            metadata = {
-                'title': info.get('title'),
-                'id': info.get('id'),
-                'webpage_url': url,
-                'categories': info.get('categories', []),
-                'tags': info.get('tags', []),
-                'description': info.get('description'),
-                'chapters': info.get('chapters', []),
-                'transcript': transcript_text
-            }
-            # st.write(metadata) # Removed Streamlit dependency for core library compatibility
-
-            return metadata
+        except ImportError:
+            print("❌ youtube-transcript-api module not available")
+            return None
+        except Exception as e:
+            print(f"❌ youtube-transcript-api error: {e}")
+            return None
 
     except Exception as e:
         print(f"Error: {e}")
@@ -361,66 +196,83 @@ def write_metadata_to_json(metadata, title):
 
 
 def generate_transcript(url):
+    """Generate transcript using only youtube-transcript-api"""
     metadata = get_video_info_and_transcript(url)
-    if not metadata:
+    if not metadata or not metadata.get('title'):
+        print("❌ Failed to extract video information")
         return None
-
-    # write_metadata_to_json(metadata, metadata['title'])
-    # formatted_metadata = format_metadata(metadata)
 
     name = metadata['title']
     print("========================METADATA=========================")
 
-    if metadata['transcript']:
-        try:
-            analysis = get_analyzer().analyze_content(metadata['transcript'])
-            if analysis is None:
-                print("❌ Content analysis failed - likely API key issue")
-                return None
-        except Exception as e:
-            print(f"❌ Content analysis error: {e}")
+    # If transcript is missing at this point, abort gracefully (downstream expects transcript)
+    if not metadata.get('transcript'):
+        print("❌ Failed to generate transcript")
+        return None
+
+    try:
+        analysis = get_analyzer().analyze_content(metadata['transcript'])
+        if analysis is None:
+            print("❌ Content analysis failed - likely API key issue")
             return None
-        # st.write(analysis) # Removed Streamlit dependency for core library compatibility
-        chapters = []
-        if metadata['chapters'] and len(metadata['chapters']) > 0:
-            for chapter in metadata['chapters']:
-                chapters.append({
-                    'title': chapter['title']
+    except Exception as e:
+        print(f"❌ Content analysis error: {e}")
+        return None
 
-                })
+    chapters = []
+    if metadata.get('chapters'):
+        for chapter in metadata['chapters']:
+            if 'title' in chapter:
+                chapters.append({'title': chapter['title']})
 
-        summary_title = f"{name} Summary"
-        file_metadata = {
-            'title': name,
-            'url': metadata['webpage_url'],
-            'id': metadata['id'],
-            'categories': metadata['categories'],
-            'tags': metadata['tags'],
-            'description': metadata['description'],
-            'chapters': chapters
-        }
+    summary_title = f"{name} Summary"
+    file_metadata = {
+        'title': name,
+        'url': metadata.get('webpage_url', url),
+        'id': metadata.get('id'),
+        'categories': metadata.get('categories', []),
+        'tags': metadata.get('tags', []),
+        'description': metadata.get('description'),
+        'chapters': chapters
+    }
 
-        file_path = write_transcript_to_file(
-            name, metadata['transcript'], url, None, metadata)
-        print(file_path)
+    file_path = write_transcript_to_file(name, metadata['transcript'], url, None, metadata)
+    print(file_path)
 
-        summary_path = write_transcript_to_file(
-            summary_title, analysis, url, None, metadata)
-        print(summary_path)
+    summary_path = write_transcript_to_file(summary_title, analysis, url, None, metadata)
+    print(summary_path)
 
-        metadata_file_name = f"{clean_string(name)}_metadata.json"
+    # Write summary to Mem0 memory (best-effort, no failures propagated)
+    try:
+        from .mem0_integration import add_youtube_summary_memory
+    except Exception:
+        try:
+            from lib.mem0_integration import add_youtube_summary_memory
+        except Exception:
+            add_youtube_summary_memory = None
 
-        metadata_path = os.path.join(
-            os.path.dirname(file_path), metadata_file_name)
-        with open(metadata_path, 'w', encoding='utf-8') as f:
-            json.dump(file_metadata, f, indent=2, ensure_ascii=False)
+    if add_youtube_summary_memory:
+        try:
+            add_youtube_summary_memory(
+                title=name,
+                video_url=metadata.get('webpage_url', url),
+                video_id=metadata.get('id'),
+                summary_text=analysis or "",
+                tags=metadata.get('tags', [])
+            )
+        except Exception as e:
+            print(f"⚠️ Mem0 write skipped: {e}")
 
-        return {
-            'file_path': file_path,
-            'summary_path': summary_path,
-            'metadata_path': metadata_path
-        }
-    return None
+    metadata_file_name = f"{clean_string(name)}_metadata.json"
+    metadata_path = os.path.join(os.path.dirname(file_path), metadata_file_name)
+    with open(metadata_path, 'w', encoding='utf-8') as f:
+        json.dump(file_metadata, f, indent=2, ensure_ascii=False)
+
+    return {
+        'file_path': file_path,
+        'summary_path': summary_path,
+        'metadata_path': metadata_path
+    }
 
 
 def parse_file_and_generate_transcript(file_path, max_workers=5):

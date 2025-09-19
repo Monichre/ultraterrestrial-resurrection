@@ -28,12 +28,36 @@ except ImportError:
     xata_client = None
 
 
+from dataclasses import dataclass
+import time
+
 class EntityCreator:
-    """Creates new database records for entities marked with 'action_needed': 'create_new'"""
+    """Creates new database records for entities marked with 'action_needed': 'create_new'
+
+    This class now supports a staged, policy-driven write flow so that entity
+    extraction does not immediately mutate the database. Use ENTITY_WRITE_MODE
+    to configure behavior:
+      - off:     never write, only stage decisions
+      - staging: default; write a local plan (and optionally a Xata staging table)
+      - auto:    write to Xata after simple policy checks (confidence, dedupe)
+    """
 
     def __init__(self):
         self.xata_client = xata_client if XATA_AVAILABLE else None
         self._search_cache = {}  # Cache for entity search results
+        # Write policy (read from env)
+        self.write_mode = os.getenv("ENTITY_WRITE_MODE", "staging").lower()  # off|staging|auto
+        try:
+            self.min_confidence = float(os.getenv("ENTITY_WRITE_MIN_CONFIDENCE", "0.75"))
+        except Exception:
+            self.min_confidence = 0.75
+        try:
+            self.rate_limit_per_min = int(os.getenv("ENTITY_WRITE_RATE_LIMIT", "20"))
+        except Exception:
+            self.rate_limit_per_min = 20
+        self._writes_this_window = 0
+        self._window_start = time.time()
+
         self.table_mappings = {
             "topics": "topics",
             "personnel": "personnel",
@@ -82,9 +106,11 @@ class EntityCreator:
         creation_results = {
             "created_entities": {},
             "failed_creations": {},
+            "staged_entities": {},
             "statistics": {
                 "total_processed": 0,
                 "total_created": 0,
+                "total_staged": 0,
                 "total_failed": 0
             },
             "errors": []
@@ -113,13 +139,38 @@ class EntityCreator:
 
                 created_count = 0
                 failed_count = 0
+                staged_count = 0
                 creation_results["created_entities"][entity_type] = []
                 creation_results["failed_creations"][entity_type] = []
+                creation_results["staged_entities"][entity_type] = []
 
                 for entity_data in entities_to_create:
                     try:
+                        # Decide action based on policy
+                        decision = self._decide_write_action(entity_type, entity_data)
+
+                        if decision == "stage":
+                            self._stage_entity(entity_type, entity_data)
+                            creation_results["staged_entities"][entity_type].append({
+                                "entity_name": entity_data["entity_name"],
+                                "staged_at": datetime.now().isoformat()
+                            })
+                            staged_count += 1
+                            logger.info(f"📝 Staged {entity_type}: {entity_data['entity_name']}")
+                            continue
+                        elif decision == "skip":
+                            creation_results["failed_creations"][entity_type].append({
+                                "entity_name": entity_data["entity_name"],
+                                "error": "Below confidence threshold or policy skip"
+                            })
+                            failed_count += 1
+                            continue
+
+                        # Rate limiting
+                        self._rate_limit()
+
                         # Create the entity record
-                        created_record = await self._create_entity_record(entity_type, entity_data)
+                        created_record = self._create_entity_record_sync(entity_type, entity_data)
 
                         if created_record:
                             creation_results["created_entities"][entity_type].append({
@@ -150,6 +201,7 @@ class EntityCreator:
                 creation_results["statistics"]["total_processed"] += len(
                     entities_to_create)
                 creation_results["statistics"]["total_created"] += created_count
+                creation_results["statistics"]["total_staged"] += staged_count
                 creation_results["statistics"]["total_failed"] += failed_count
 
                 logger.info(
@@ -162,9 +214,9 @@ class EntityCreator:
 
         return creation_results
 
-    async def _create_entity_record(self, entity_type: str, entity_data: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    def _create_entity_record_sync(self, entity_type: str, entity_data: Dict[str, Any]) -> Optional[Dict[str, Any]]:
         """
-        Create a single entity record in the appropriate Xata table
+        Create a single entity record in the appropriate Xata table (synchronous)
 
         Args:
             entity_type: Type of entity (personnel, organizations, etc.)
@@ -193,16 +245,16 @@ class EntityCreator:
                     f"Entity type {entity_type} not supported - no corresponding database table")
                 return None
 
-            # Create record using Xata client (convert to async)
-            response = await self.xata_client.records().insert_async(table_name, record_data)
+            # Create record using Xata client records() interface
+            response = self.xata_client.records().insert(table_name, record_data)
 
-            if hasattr(response, 'to_dict'):
-                return response.to_dict()
-            elif isinstance(response, dict):
+            # Normalize response to dict
+            if isinstance(response, dict):
                 return response
-            else:
-                logger.warning(f"Unexpected response type: {type(response)}")
-                return {"id": str(response)} if response else None
+            if hasattr(response, "to_dict"):
+                return response.to_dict()
+            logger.warning(f"Unexpected response type: {type(response)}")
+            return {"id": getattr(response, "id", None)}
 
         except Exception as e:
             logger.error(
@@ -378,15 +430,23 @@ class EntityCreator:
                     
                     for record_data in batch_data:
                         try:
+                            # Policy and rate limit per record
+                            tmp_entity = {"entity_name": record_data.get("name", ""), "confidence": record_data.get("extraction_metadata", {}).get("confidence", 0.0)}
+                            decision = self._decide_write_action(entity_type, tmp_entity)
+                            if decision != "write":
+                                batch_response["records"].append({"id": None, "error": f"{decision}"})
+                                continue
+                            self._rate_limit()
+
                             # Use the correct Xata create method
-                            single_response = self.xata_client.data().create_record(
+                            single_response = self.xata_client.records().insert(
                                 table_name, record_data
                             )
                             
-                            if hasattr(single_response, 'id'):
-                                batch_response["records"].append({"id": single_response.id})
-                            elif isinstance(single_response, dict) and single_response.get("id"):
+                            if isinstance(single_response, dict) and single_response.get("id"):
                                 batch_response["records"].append({"id": single_response["id"]})
+                            elif hasattr(single_response, 'id'):
+                                batch_response["records"].append({"id": getattr(single_response, 'id', None)})
                             else:
                                 batch_response["records"].append({"id": None})
                                 
@@ -443,6 +503,61 @@ class EntityCreator:
             batch_results["errors"].append(error_msg)
             
         return batch_results
+
+    # --------------------
+    # Policy/Gating helpers
+    # --------------------
+    def _decide_write_action(self, entity_type: str, entity_data: Dict[str, Any]) -> str:
+        """Return 'write', 'stage', or 'skip' based on policy and confidence."""
+        # Always stage if mode=staging
+        if self.write_mode == "staging":
+            return "stage"
+        if self.write_mode == "off":
+            return "stage"  # treat as staging only
+
+        # mode=auto: enforce confidence threshold
+        conf = float(entity_data.get("confidence", 0.0))
+        if conf < self.min_confidence:
+            return "skip"
+        return "write"
+
+    def _stage_entity(self, entity_type: str, entity_data: Dict[str, Any]) -> None:
+        """Persist a local staging plan for later human/agent review."""
+        try:
+            # Determine a staging file in CWD: out/entity_write_plan.jsonl
+            os.makedirs("out", exist_ok=True)
+            plan_path = os.path.join("out", "entity_write_plan.jsonl")
+            payload = {
+                "timestamp": datetime.now().isoformat(),
+                "entity_type": entity_type,
+                "entity_name": entity_data.get("entity_name"),
+                "confidence": entity_data.get("confidence", 0.0),
+                "metadata": entity_data.get("metadata", {}),
+                "action": "create",
+                "status": "pending"
+            }
+            with open(plan_path, "a", encoding="utf-8") as f:
+                f.write(json.dumps(payload, ensure_ascii=False) + "\n")
+        except Exception as e:
+            logger.warning(f"Failed to stage entity: {e}")
+
+    def _rate_limit(self) -> None:
+        """Simple per-minute rate limiter for write operations."""
+        if self.rate_limit_per_min <= 0:
+            return
+        now = time.time()
+        # reset window every 60s
+        if now - self._window_start > 60:
+            self._window_start = now
+            self._writes_this_window = 0
+        if self._writes_this_window >= self.rate_limit_per_min:
+            # sleep until window resets
+            sleep_for = 60 - (now - self._window_start)
+            if sleep_for > 0:
+                time.sleep(sleep_for)
+            self._window_start = time.time()
+            self._writes_this_window = 0
+        self._writes_this_window += 1
 
     def create_entity_via_typescript(self, entity_type: str, record_data: Dict[str, Any]) -> Optional[Dict[str, Any]]:
         """

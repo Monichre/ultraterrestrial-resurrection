@@ -45,10 +45,10 @@ import {
   TaskItem,
   TaskList,
 } from '.'
-import { CodeBlockLowlight } from '@tiptap/extension-code-block-lowlight'
+import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import { ImageUpload } from './ImageUpload'
 import { TableOfContentsNode } from './TableOfContentsNode'
-import { lowlight } from 'lowlight'
+import lowlight from 'lowlight'
 
 interface ExtensionKitProps {
   provider?: HocuspocusProvider | null

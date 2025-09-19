@@ -1,4 +1,4 @@
-import {BubbleMenu as BaseBubbleMenu} from '@tiptap/react'
+import { BubbleMenu as BaseBubbleMenu } from '@/components/tiptap/react-compat/BubbleMenu'
 import React, {useCallback} from 'react'
 import * as PopoverMenu from '@/components/ui/PopoverMenu'
 

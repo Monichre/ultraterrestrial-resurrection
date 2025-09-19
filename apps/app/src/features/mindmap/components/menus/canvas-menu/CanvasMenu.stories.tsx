@@ -1,7 +1,7 @@
 import type {Meta, StoryObj} from '@storybook/react'
 import {CanvasMenu, type MenuAction} from './CanvasMenu'
 import {useState} from 'react'
-import {action} from '@storybook/addon-actions'
+import {action} from 'storybook/actions'
 
 /**
  * CanvasMenu is a beautiful floating command palette inspired by CommandK design patterns.

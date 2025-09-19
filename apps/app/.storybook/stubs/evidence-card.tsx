@@ -1,1 +1,2 @@
-export default function EvidenceCard(){ return null }
+export function EvidenceCard(){ return null }
+export default EvidenceCard

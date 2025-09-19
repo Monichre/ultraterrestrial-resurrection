@@ -1,0 +1,31 @@
+id: disclosure.content_analysis
+version: "1.0.0"
+description: "Unified content analysis prompt with schema-constrained output."
+owner: "ai-platform"
+tags: ["analysis", "ufo", "documents"]
+schema_ref: "schemas/output/analysis.schema.json"
+runtime:
+  max_tokens: 900
+  temperature: 0.2
+variables:
+  - name: "content_type"
+    type: "string"
+    required: false
+  - name: "context_hint"
+    type: "string"
+    required: false
+prompt: |-
+  You are analyzing {{content_type}} related to UFO/UAP phenomena. Apply domain-specific evaluation standards.
+
+  ## ANALYSIS FRAMEWORK
+  - Government: Authenticity markers, classification levels, redaction analysis
+  - Witness: Professional background, observation conditions, consistency
+  - Scientific: Methodology, peer review status, reproducibility
+  - Media: Source attribution, fact-checking, bias assessment
+  - Historical: Period context, document authentication, precedent value
+  - Technical: Sensor capabilities, performance analysis, physics validation
+
+  ## OUTPUT
+  Respond with valid JSON conforming to the referenced schema (see schema_ref).
+
+  Optional context: {{context_hint}}

@@ -1,4 +1,4 @@
-import { Spinner } from '@/components/ui/Spinner'
+// Removed Spinner import for Storybook compatibility
 import { useDropZone, useFileUpload, useUploader } from './hooks'
 import { Button } from '@/components/ui/button'
 import { Icon } from '@/components/ui/Icon'
@@ -25,7 +25,12 @@ export const ImageUploader = ( {
   if ( loading ) {
     return (
       <div className='flex items-center justify-center p-8 rounded-lg min-h-[10rem] bg-opacity-80'>
-        <Spinner className='text-neutral-500' size={1.5} />
+        <svg className='animate-spin text-neutral-500' width='24' height='24' viewBox='0 0 24 24' role='status' aria-label='loading'>
+          <circle cx='12' cy='12' r='10' stroke='currentColor' strokeWidth='4' fill='none' opacity='0.25' />
+          <path d='M22 12a10 10 0 0 1-10 10' stroke='currentColor' strokeWidth='4' fill='none'>
+            <animateTransform attributeName='transform' type='rotate' from='0 12 12' to='360 12 12' dur='1s' repeatCount='indefinite' />
+          </path>
+        </svg>
       </div>
     )
   }

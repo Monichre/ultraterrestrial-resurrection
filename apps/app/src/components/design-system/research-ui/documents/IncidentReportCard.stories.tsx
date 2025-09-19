@@ -71,13 +71,13 @@ const roswellIncident: IncidentReport = {
   attachments: [
     {
       id: 'photo-debris',
-      url: '/api/placeholder/300/200',
+      url: './demo-roswell.png',
       caption: 'Debris field photographed at Foster Ranch',
       type: 'photo',
     },
     {
       id: 'doc-press-release',
-      url: '/api/placeholder/400/300',
+      url: './press.png',
       caption: 'Original press release - "Flying Disc Recovered"',
       type: 'document',
     },

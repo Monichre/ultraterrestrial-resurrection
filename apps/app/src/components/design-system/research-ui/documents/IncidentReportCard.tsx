@@ -38,17 +38,17 @@ const AttachmentArea = ({
               />
             ) : (
               <div className='w-full h-32 bg-white border border-gray-200 flex items-center justify-center'>
-                <div className='text-center text-xs font-mono text-gray-600'>
+                <div className='text-center text-xs  text-gray-600'>
                   <div className='font-bold'>[{attachment.type.toUpperCase()}]</div>
                   <div className='mt-1'>CLASSIFIED</div>
                 </div>
               </div>
             )}
-            <div className='text-xs font-mono text-gray-700 text-center'>{attachment.caption}</div>
+            <div className='text-xs  text-gray-700 text-center'>{attachment.caption}</div>
           </div>
         ) : (
           <div className='w-full h-32 bg-gray-200 border border-gray-300 flex items-center justify-center'>
-            <div className='text-xs text-gray-500 text-center font-mono'>
+            <div className='text-xs text-gray-500 text-center '>
               NO ATTACHMENT
               <br />
               AVAILABLE
@@ -70,14 +70,10 @@ const WitnessReport = ({
   return (
     <div className='border-l-4 border-red-600 pl-4 py-2 mb-4 bg-red-50/30'>
       <div className='flex justify-between items-start mb-2'>
-        <span className='font-mono text-xs font-bold text-gray-800'>
-          WITNESS REPORT #{index + 1}
-        </span>
-        {report.witness && (
-          <span className='font-mono text-xs text-gray-600'>BY: {report.witness}</span>
-        )}
+        <span className=' text-xs font-bold text-gray-800'>WITNESS REPORT #{index + 1}</span>
+        {report.witness && <span className=' text-xs text-gray-600'>BY: {report.witness}</span>}
       </div>
-      <div className='font-mono text-sm text-gray-800 leading-relaxed'>"{report.description}"</div>
+      <div className=' text-sm text-gray-800 leading-relaxed'>"{report.description}"</div>
     </div>
   )
 }
@@ -96,41 +92,35 @@ const IncidentReportCard = React.forwardRef<HTMLDivElement, IncidentReportCardPr
         <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mb-6'>
           <div className='space-y-3'>
             <div className='border-b border-gray-400 pb-2'>
-              <span className='font-mono text-sm font-bold text-gray-800'>INCIDENT TYPE:</span>
-              <div className='font-mono text-sm text-gray-700 mt-1'>
-                UNIDENTIFIED AERIAL PHENOMENA
-              </div>
+              <span className=' text-sm font-bold text-gray-800'>INCIDENT TYPE:</span>
+              <div className=' text-sm text-gray-700 mt-1'>UNIDENTIFIED AERIAL PHENOMENA</div>
             </div>
 
             <div className='border-b border-gray-400 pb-2'>
-              <span className='font-mono text-sm font-bold text-gray-800'>REPORT ID:</span>
-              <div className='font-mono text-sm text-gray-700 mt-1'>{incident.id}</div>
+              <span className=' text-sm font-bold text-gray-800'>REPORT ID:</span>
+              <div className=' text-sm text-gray-700 mt-1'>{incident.id}</div>
             </div>
 
             <div className='border-b border-gray-400 pb-2'>
-              <span className='font-mono text-sm font-bold text-gray-800'>STATUS:</span>
-              <div className='font-mono text-sm text-red-600 mt-1 font-bold'>
-                UNDER INVESTIGATION
-              </div>
+              <span className=' text-sm font-bold text-gray-800'>STATUS:</span>
+              <div className=' text-sm text-red-600 mt-1 font-bold'>UNDER INVESTIGATION</div>
             </div>
           </div>
 
           {/* Attachment area */}
           <div>
-            <div className='font-mono text-sm font-bold text-gray-800 mb-3'>
-              PHOTOGRAPHIC EVIDENCE:
-            </div>
+            <div className=' text-sm font-bold text-gray-800 mb-3'>PHOTOGRAPHIC EVIDENCE:</div>
             <AttachmentArea attachment={incident.attachments?.[0]} className='w-full' />
           </div>
         </div>
 
         {/* Incident description */}
         <div className='mb-6'>
-          <div className='font-mono text-sm font-bold text-gray-800 mb-3 border-b border-gray-400 pb-1'>
+          <div className=' text-sm font-bold text-gray-800 mb-3 border-b border-gray-400 pb-1'>
             INCIDENT SUMMARY:
           </div>
           <div className='bg-yellow-50 border border-yellow-200 p-4 relative'>
-            <div className='font-mono text-sm text-gray-800 leading-relaxed'>
+            <div className=' text-sm text-gray-800 leading-relaxed'>
               {incident.incidentDescription}
             </div>
 
@@ -144,7 +134,7 @@ const IncidentReportCard = React.forwardRef<HTMLDivElement, IncidentReportCardPr
         {/* Witness reports */}
         {incident.witnessReports && incident.witnessReports.length > 0 && (
           <div className='mb-6'>
-            <div className='font-mono text-sm font-bold text-gray-800 mb-3 border-b border-gray-400 pb-1'>
+            <div className=' text-sm font-bold text-gray-800 mb-3 border-b border-gray-400 pb-1'>
               WITNESS STATEMENTS:
             </div>
             <div className='space-y-3'>
@@ -158,7 +148,7 @@ const IncidentReportCard = React.forwardRef<HTMLDivElement, IncidentReportCardPr
         {/* Additional attachments */}
         {incident.attachments && incident.attachments.length > 1 && (
           <div className='mb-6'>
-            <div className='font-mono text-sm font-bold text-gray-800 mb-3 border-b border-gray-400 pb-1'>
+            <div className=' text-sm font-bold text-gray-800 mb-3 border-b border-gray-400 pb-1'>
               ADDITIONAL EVIDENCE:
             </div>
             <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
@@ -177,13 +167,13 @@ const IncidentReportCard = React.forwardRef<HTMLDivElement, IncidentReportCardPr
                 PRIORITY: HIGH
               </div>
             </div>
-            <div className='text-xs font-mono text-gray-600'>INVESTIGATING OFFICER: [REDACTED]</div>
+            <div className='text-xs  text-gray-600'>INVESTIGATING OFFICER: [REDACTED]</div>
           </div>
 
           <div className='text-center'>
-            <div className='font-mono text-xs text-gray-600 mb-2'>REPORT NO: {incident.id}</div>
+            <div className=' text-xs text-gray-600 mb-2'>REPORT NO: {incident.id}</div>
             <div className='border-t border-gray-400 w-32'>
-              <div className='text-xs font-mono text-gray-600 mt-1'>AUTHORIZED SIGNATURE</div>
+              <div className='text-xs  text-gray-600 mt-1'>AUTHORIZED SIGNATURE</div>
             </div>
           </div>
 

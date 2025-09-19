@@ -1,7 +1,10 @@
+import { createRequire } from "node:module";
 import type { StorybookConfig } from "@storybook/nextjs"
-import path from "path"
+import path, { dirname, join } from "path";
 import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin"
 import { fileURLToPath } from "url"
+
+const require = createRequire(import.meta.url);
 
 const __dirname = path.dirname( fileURLToPath( import.meta.url ) )
 
@@ -14,13 +17,13 @@ const config: StorybookConfig = {
 
 	// Enhanced addons for better development experience
 	addons: [
-		"@storybook/addon-essentials",
-		"@storybook/addon-interactions",
-		"@storybook/addon-themes",
+		getAbsolutePath("@storybook/addon-themes"),
+		getAbsolutePath("@storybook/addon-docs"),
+		"./addons/font-selector/register.js"
 	],
 
 	framework: {
-		name: "@storybook/nextjs",
+		name: getAbsolutePath("@storybook/nextjs"),
 		options: {
 			nextConfigPath: '../next.config.ts',
 		},
@@ -111,3 +114,7 @@ const config: StorybookConfig = {
 }
 
 export default config
+
+function getAbsolutePath(value: string): any {
+    return dirname(require.resolve(join(value, "package.json")));
+}

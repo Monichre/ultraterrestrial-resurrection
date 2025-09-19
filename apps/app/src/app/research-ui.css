@@ -1,3 +1,10 @@
+/* Import research-specific fonts for archival aesthetic */
+@import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import url('https://fonts.cdnfonts.com/css/pp-neue-montreal');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&display=swap');
+
 .polaroid {
   position: relative;
   background-color: #f4f1e8; /* Off-white paper color */
@@ -342,4 +349,395 @@
 
 .research-ui .glitch-element::before {
   color: #ff4d4f; /* slightly warmer glitch accent */
+}
+
+/* TYPOGRAPHY */
+/* Typography CSS for UFO Disclosure Document Effects */
+
+/* Font Family Hierarchy */
+/* Modern/Tech Interface (Main App) */
+.font-monument {
+  font-family:
+    var(--font-monument), 'Monument Grotesk', 'PP Neue Montreal', 'Noto Sans', sans-serif;
+}
+
+.font-monument-mono {
+  font-family:
+    var(--font-monument-mono), 'MONUMENT GROTESK Mono', 'JetBrains Mono', 'Martian Mono', monospace;
+}
+
+.font-neue-haas {
+  font-family:
+    var(--font-neue-haas), 'Neue Haas Grotesk', 'PP Neue Montreal', 'Noto Sans', sans-serif;
+}
+
+.font-lukas {
+  font-family: var(--font-lukas-sans), 'Lukas Sans', 'PP Neue Montreal', sans-serif;
+}
+
+/* Research/Archival Interface (Noir Aesthetic) */
+.font-typewriter {
+  font-family: var(--font-special-elite), 'Special Elite', 'Courier New', monospace;
+}
+
+.font-handwriting {
+  font-family: var(--font-just-another-hand), var(--font-caveat), 'Caveat', cursive;
+}
+
+/* Specific handwriting variants */
+.font-just-another-hand {
+  font-family: var(--font-just-another-hand), cursive;
+}
+
+.font-caveat {
+  font-family: var(--font-caveat), 'Caveat', cursive;
+}
+
+.font-anton {
+  font-family: var(--font-anton), 'Anton', sans-serif;
+}
+
+/* Fallback mono for technical data */
+.font-mono {
+  font-family:
+    var(--font-monument-mono), 'JetBrains Mono', 'Martian Mono', 'Courier New', monospace;
+}
+
+/* Research Base Terminal */
+.font-research-terminal {
+  font-family: 'Martian Mono', var(--font-monument-mono), monospace;
+}
+
+/* Direct utility font classes for showcases */
+.font-pp-neue-montreal {
+  font-family: 'PP Neue Montreal', var(--font-neue-haas), var(--font-noto-sans), sans-serif;
+}
+
+.font-space-grotesk {
+  font-family: var(--font-space-grotesk), 'Space Grotesk', sans-serif;
+}
+
+.font-league-spartan {
+  font-family: var(--font-league-spartan), 'League Spartan', sans-serif;
+}
+
+.font-noto-sans {
+  font-family: var(--font-noto-sans), 'Noto Sans', sans-serif;
+}
+
+.font-jetbrains-mono {
+  font-family: var(--font-jetbrains-mono), 'JetBrains Mono', monospace;
+}
+
+.font-martian-mono {
+  font-family: var(--font-martian-mono), 'Martian Mono', monospace;
+}
+
+.font-just-another-hand {
+  font-family: var(--font-just-another-hand), cursive;
+}
+
+.font-special-elite {
+  font-family: var(--font-special-elite), 'Special Elite', monospace;
+}
+
+/* Glitch Effects */
+.glitch-element {
+  position: relative;
+  display: inline-block;
+  animation: glitch-skew 1s infinite linear alternate-reverse;
+}
+
+.glitch-element::before,
+.glitch-element::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: inherit;
+}
+
+.glitch-element::before {
+  animation: glitch-anim-1 0.5s infinite linear alternate-reverse;
+  color: #ff0000;
+  z-index: -1;
+}
+
+.glitch-element::after {
+  animation: glitch-anim-2 0.3s infinite linear alternate-reverse;
+  color: #00ffff;
+  z-index: -2;
+}
+
+/* Glitch Animations */
+@keyframes glitch-anim-1 {
+  0% {
+    clip-path: inset(20% 0 30% 0);
+    transform: translate(-2px, 0);
+  }
+  10% {
+    clip-path: inset(10% 0 40% 0);
+    transform: translate(-1px, 0);
+  }
+  20% {
+    clip-path: inset(40% 0 20% 0);
+    transform: translate(1px, 0);
+  }
+  30% {
+    clip-path: inset(30% 0 25% 0);
+    transform: translate(-1px, 0);
+  }
+  40% {
+    clip-path: inset(50% 0 15% 0);
+    transform: translate(2px, 0);
+  }
+  50% {
+    clip-path: inset(25% 0 35% 0);
+    transform: translate(-2px, 0);
+  }
+  60% {
+    clip-path: inset(35% 0 30% 0);
+    transform: translate(1px, 0);
+  }
+  70% {
+    clip-path: inset(15% 0 45% 0);
+    transform: translate(-1px, 0);
+  }
+  80% {
+    clip-path: inset(45% 0 20% 0);
+    transform: translate(1px, 0);
+  }
+  90% {
+    clip-path: inset(20% 0 35% 0);
+    transform: translate(-2px, 0);
+  }
+  100% {
+    clip-path: inset(35% 0 25% 0);
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes glitch-anim-2 {
+  0% {
+    clip-path: inset(25% 0 40% 0);
+    transform: translate(2px, 1px);
+  }
+  15% {
+    clip-path: inset(40% 0 20% 0);
+    transform: translate(-1px, 0);
+  }
+  25% {
+    clip-path: inset(15% 0 50% 0);
+    transform: translate(1px, -1px);
+  }
+  35% {
+    clip-path: inset(50% 0 15% 0);
+    transform: translate(-2px, 1px);
+  }
+  45% {
+    clip-path: inset(30% 0 30% 0);
+    transform: translate(1px, 0);
+  }
+  55% {
+    clip-path: inset(20% 0 45% 0);
+    transform: translate(-1px, -1px);
+  }
+  65% {
+    clip-path: inset(45% 0 25% 0);
+    transform: translate(2px, 1px);
+  }
+  75% {
+    clip-path: inset(35% 0 30% 0);
+    transform: translate(-1px, 0);
+  }
+  85% {
+    clip-path: inset(25% 0 40% 0);
+    transform: translate(1px, -1px);
+  }
+  95% {
+    clip-path: inset(40% 0 25% 0);
+    transform: translate(-2px, 1px);
+  }
+  100% {
+    clip-path: inset(30% 0 35% 0);
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes glitch-skew {
+  2%,
+  64% {
+    transform: skew(0deg);
+  }
+  4%,
+  60% {
+    transform: skew(-2deg);
+  }
+  62% {
+    transform: skew(2deg);
+  }
+}
+
+/* Text Effects */
+.text-fragment {
+  filter: blur(0.3px);
+  letter-spacing: -0.5px;
+}
+
+.text-aged {
+  filter: contrast(1.2) brightness(0.95) sepia(0.1);
+}
+
+.text-typewriter {
+  overflow: hidden;
+  border-right: 2px solid;
+  white-space: nowrap;
+  animation:
+    typing 3s steps(40, end),
+    blink-cursor 0.75s step-end infinite;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink-cursor {
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: currentColor;
+  }
+}
+
+/* Paper texture text overlay */
+.text-on-paper {
+  background: linear-gradient(
+    45deg,
+    transparent 25%,
+    rgba(0, 0, 0, 0.02) 25%,
+    rgba(0, 0, 0, 0.02) 50%,
+    transparent 50%,
+    transparent 75%,
+    rgba(0, 0, 0, 0.02) 75%
+  );
+  background-size: 4px 4px;
+}
+
+/* Classification stamps */
+.classified-stamp {
+  position: relative;
+  display: inline-block;
+}
+
+.classified-stamp::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border: 3px solid currentColor;
+  border-radius: 8px;
+  opacity: 0.7;
+  transform: rotate(-5deg);
+  z-index: -1;
+}
+
+.classified-stamp::after {
+  content: 'CLASSIFIED';
+  position: absolute;
+  top: -25px;
+  right: -15px;
+  font-size: 10px;
+  font-weight: bold;
+  color: #dc2626;
+  transform: rotate(15deg);
+  opacity: 0.8;
+}
+
+/* Redacted text effect */
+.redacted-text {
+  background: linear-gradient(90deg, #000 0%, #000 20%, #333 25%, #333 75%, #000 80%, #000 100%);
+  background-size: 100% 100%;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  animation: redacted-flicker 2s infinite alternate;
+}
+
+@keyframes redacted-flicker {
+  0%,
+  90% {
+    background: #000;
+  }
+  95% {
+    background: rgba(0, 0, 0, 0.8);
+  }
+  100% {
+    background: #000;
+  }
+}
+
+/* Scan line effect for text */
+.scan-line-text {
+  position: relative;
+  overflow: hidden;
+}
+
+.scan-line-text::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+  animation: scan-across 3s infinite;
+}
+
+@keyframes scan-across {
+  0% {
+    left: -100%;
+  }
+  50% {
+    left: 100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Data table styles */
+.data-table-text {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+}
+
+/* Utility classes */
+.text-shadow-glow {
+  text-shadow: 0 0 10px currentColor;
+}
+
+.text-shadow-hard {
+  text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.8);
+}
+
+.text-gradient-fire {
+  background: linear-gradient(45deg, #ff6b35, #ffd23f);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.text-gradient-classified {
+  background: linear-gradient(45deg, #dc2626, #991b1b);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
 }

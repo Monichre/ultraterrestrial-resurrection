@@ -36,9 +36,8 @@ qstash
 xata
 
 # YouTube processing
-pytube
 youtube-transcript-api
-yt-dlp
+faster-whisper
 
 # UI and visualization
 matplotlib
@@ -47,6 +46,7 @@ rich
 prompt-toolkit
 
 # Optional AI integrations
+mem0ai
 composio-langchain
 langchain-groq
 groq

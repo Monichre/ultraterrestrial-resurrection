@@ -1,4 +1,4 @@
-import {BubbleMenu as BaseBubbleMenu} from '@tiptap/react'
+import { BubbleMenu as BaseBubbleMenu } from '@/components/tiptap/react-compat/BubbleMenu'
 import {useCallback} from 'react'
 import {sticky} from 'tippy.js'
 import {v4 as uuid} from 'uuid'

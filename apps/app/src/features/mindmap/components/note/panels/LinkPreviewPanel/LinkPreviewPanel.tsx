@@ -1,7 +1,7 @@
 import {Icon} from '@/components/ui/Icon'
 import {Surface} from '@/components/ui/Surface'
 import {Toolbar} from '@/components/9-ui/toolbar'
-import Tooltip from '@/components/ui/tooltip/tooltip'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip/tooltip'
 
 export type LinkPreviewPanelProps = {
   url: string
@@ -20,15 +20,21 @@ export const LinkPreviewPanel = ({onClear, onEdit, url}: LinkPreviewPanelProps) 
         {url}
       </a>
       <Toolbar.Divider />
-      <Tooltip title='Edit link'>
-        <Toolbar.Button onClick={onEdit}>
-          <Icon name='Pen' />
-        </Toolbar.Button>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Toolbar.Button onClick={onEdit}>
+            <Icon name='Pen' />
+          </Toolbar.Button>
+        </TooltipTrigger>
+        <TooltipContent side='top'>Edit link</TooltipContent>
       </Tooltip>
-      <Tooltip title='Remove link'>
-        <Toolbar.Button onClick={onClear}>
-          <Icon name='Trash2' />
-        </Toolbar.Button>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Toolbar.Button onClick={onClear}>
+            <Icon name='Trash2' />
+          </Toolbar.Button>
+        </TooltipTrigger>
+        <TooltipContent side='top'>Remove link</TooltipContent>
       </Tooltip>
     </Surface>
   )

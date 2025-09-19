@@ -8,7 +8,7 @@ import {
 } from '@/components/icons'
 
 import {ICON_GREEN} from '@/utils'
-import {FileSearch} from 'lucide-react'
+import {FileSearch, UserCheck, Shield, Newspaper, AlertTriangle} from 'lucide-react'
 
 export interface EntityType {
   type: string
@@ -82,5 +82,35 @@ export const ENTITY_TYPES: EntityType[] = [
       <ArtifactsIcon {...props} stroke={ICON_GREEN} />
     ),
     description: 'Add historical artifacts to the mind map',
+  },
+  {
+    type: 'whistleblower',
+    label: 'whistleblower',
+    displayName: 'Whistleblower',
+    icon: (props?: React.SVGProps<SVGSVGElement>) => <UserCheck {...props} stroke={ICON_GREEN} />,
+    description: 'Add whistleblower testimonies and information',
+  },
+  {
+    type: 'crash-retrieval',
+    label: 'crash-retrieval',
+    displayName: 'Crash Retrieval/Evidence',
+    icon: (props?: React.SVGProps<SVGSVGElement>) => <Shield {...props} stroke={ICON_GREEN} />,
+    description: 'Add crash retrieval cases and evidence',
+  },
+  {
+    type: 'media-coverage',
+    label: 'media-coverage',
+    displayName: 'Media Coverage',
+    icon: (props?: React.SVGProps<SVGSVGElement>) => <Newspaper {...props} stroke={ICON_GREEN} />,
+    description: 'Add media coverage and documentary evidence',
+  },
+  {
+    type: 'disclosure-milestone',
+    label: 'disclosure-milestone',
+    displayName: 'Disclosure Milestone',
+    icon: (props?: React.SVGProps<SVGSVGElement>) => (
+      <AlertTriangle {...props} stroke={ICON_GREEN} />
+    ),
+    description: 'Add key disclosure milestones and events',
   },
 ]

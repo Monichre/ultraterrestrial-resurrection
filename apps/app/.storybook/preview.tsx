@@ -22,7 +22,7 @@ import {
 import {create} from '@storybook/theming'
 import {withReferenceAssets} from './decorators/reference-assets'
 import ultraterrestrialTheme from './theme'
-import { withMindmapProviders } from './decorators/with-mindmap'
+import {withMindmapProviders} from './decorators/with-mindmap'
 
 // Mock window.location for Storybook environment
 if (typeof window !== 'undefined' && !window.location) {
@@ -53,6 +53,30 @@ const preview: Preview = {
         items: [
           {value: 'app', title: 'App'},
           {value: 'research', title: 'Research UI'},
+        ],
+        dynamicTitle: true,
+      },
+    },
+    fontSelector: {
+      name: 'Font Family',
+      description: 'Select the primary font family for components',
+      defaultValue: 'neue-haas',
+      toolbar: {
+        icon: 'type',
+        items: [
+          {value: 'neue-haas', title: 'Neue Haas Grotesk'},
+          {value: 'monument', title: 'Monument Grotesk'},
+          {value: 'monument-mono', title: 'Monument Grotesk Mono'},
+          {value: 'lukas', title: 'Lukas Sans'},
+          {value: 'hand', title: 'Just Another Hand'},
+          {value: 'jetbrains', title: 'JetBrains Mono'},
+          {value: 'martian', title: 'Martian Mono'},
+          {value: 'noto', title: 'Noto Sans'},
+          {value: 'elite', title: 'Special Elite'},
+          {value: 'anton', title: 'Anton'},
+          {value: 'caveat', title: 'Caveat'},
+          {value: 'space', title: 'Space Grotesk'},
+          {value: 'spartan', title: 'League Spartan'},
         ],
         dynamicTitle: true,
       },
@@ -143,10 +167,31 @@ const preview: Preview = {
 
   decorators: [
     withReferenceAssets,
-    withMindmapProviders,
+    // withMindmapProviders,
     // 👇 Defining the decorator in the preview file applies it to all stories
     ((Story: any, context: any) => {
       const isResearch = context.globals.designSystem === 'research'
+      const selectedFont = context.globals.fontSelector || 'neue-haas'
+
+      // Map font keys to CSS classes
+      const fontMap = {
+        'neue-haas': 'font-neue-haas-grotesk',
+        'monument': 'font-monument-grotesk',
+        'monument-mono': 'font-monument-grotesk-mono',
+        'lukas': 'font-lukas-sans',
+        'hand': 'font-just-another-hand',
+        'jetbrains': 'font-jetbrains-mono',
+        'martian': 'font-martian-mono',
+        'noto': 'font-noto-sans',
+        'elite': 'font-special-elite',
+        'anton': 'font-anton',
+        'caveat': 'font-caveat',
+        'space': 'font-space-grotesk',
+        'spartan': 'font-league-spartan',
+      }
+
+      const primaryFontClass = fontMap[selectedFont] || 'font-neue-haas-grotesk'
+
       return (
         <ThemeProvider
           attribute='class'
@@ -155,9 +200,10 @@ const preview: Preview = {
           enableSystem={false}>
           <div
             data-design-system={context.globals.designSystem}
+            data-selected-font={selectedFont}
             className={`${isResearch ? 'research-ui' : ''} ${FONT_NEUE_HAAS_GROTESK.variable} ${FONT_MONUMENT_GROTESK.variable} ${FONT_MONUMENT_GROTESK_MONO.variable} ${FONT_LUKAS_SANS.variable} ${FONT_JUST_ANOTHER_HAND.variable} ${FONT_JET_BRAINS_MONO.variable} ${FONT_MARTIAN_MONO.variable} ${FONT_NOTO_SANS.variable} ${FONT_SPECIAL_ELITE.variable} ${FONT_ANTON.variable} ${FONT_CAVEAT.variable} ${FONT_SPACE_GROTESK.variable} ${FONT_LEAGUE_SPARTAN.variable} dark w-full min-h-screen bg-black`}>
             {/* Ensure font variables are available at root for all stories */}
-            <div className='w-full h-full flex flex-col justify-center items-center p-6'>
+            <div className={`w-full h-full flex flex-col justify-center items-center p-6 ${primaryFontClass}`}>
               <Story />
             </div>
           </div>

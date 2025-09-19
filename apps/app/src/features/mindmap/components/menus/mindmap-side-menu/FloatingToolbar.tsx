@@ -1,89 +1,107 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { Plus, Shapes, History, Scan, PenSquare, MessageSquare, HelpCircle } from "lucide-react"
-import { Avatar, AvatarImage } from "@/components/ui/avatar"
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card"
-import { ToolbarButton } from "./ToolbarButton"
-import { AssetPanel } from "./AssetPanel"
+import {useState} from 'react'
+import {Network, Clock, LayoutGrid, Filter, Bookmark, Zap, FolderOpen} from 'lucide-react'
+import {Avatar, AvatarImage} from '@/components/ui/avatar'
+import {HoverCard, HoverCardContent, HoverCardTrigger} from '@/components/ui/hover-card'
+import {ToolbarButton} from './ToolbarButton'
+import {NetworkPanel} from './hover-panels/NetworkPanel'
+import {TimelinePanel} from './hover-panels/TimelinePanel'
+import {LayoutPanel} from './hover-panels/LayoutPanel'
+import {FilterPanel} from './hover-panels/FilterPanel'
+import {SavedViewsPanel} from './hover-panels/SavedViewsPanel'
+import {QuickActionsPanel} from './hover-panels/QuickActionsPanel'
+import {AssetLibraryPanel} from './hover-panels/AssetLibraryPanel'
 
 const TOOLBAR_ITEMS = [
   {
-    id: "add",
-    icon: <Plus size={20} strokeWidth={2} />,
-    tooltip: "Add",
+    id: 'network',
+    icon: <Network size={20} strokeWidth={2} />,
+    tooltip: 'Network Graph Explorer',
+    submenu: <NetworkPanel />,
   },
   {
-    id: "shapes",
-    icon: <Shapes size={20} strokeWidth={2} />,
-    tooltip: "Shapes",
-    submenu: <AssetPanel />,
+    id: 'timeline',
+    icon: <Clock size={20} strokeWidth={2} />,
+    tooltip: 'Timeline Scrubber',
+    submenu: <TimelinePanel />,
   },
   {
-    id: "history",
-    icon: <History size={20} strokeWidth={2} />,
-    tooltip: "History",
+    id: 'layout',
+    icon: <LayoutGrid size={20} strokeWidth={2} />,
+    tooltip: 'Layout Algorithms',
+    submenu: <LayoutPanel />,
   },
   {
-    id: "scan",
-    icon: <Scan size={20} strokeWidth={2} />,
-    tooltip: "Scan",
+    id: 'filter',
+    icon: <Filter size={20} strokeWidth={2} />,
+    tooltip: 'Filter Panel',
+    submenu: <FilterPanel />,
   },
   {
-    id: "draw",
-    icon: <PenSquare size={20} strokeWidth={2} />,
-    tooltip: "Draw",
+    id: 'saved-views',
+    icon: <Bookmark size={20} strokeWidth={2} />,
+    tooltip: 'Saved Views & Pathways',
+    submenu: <SavedViewsPanel />,
+  },
+  {
+    id: 'quick-actions',
+    icon: <Zap size={20} strokeWidth={2} />,
+    tooltip: 'Quick Actions',
+    submenu: <QuickActionsPanel />,
+  },
+  {
+    id: 'assets',
+    icon: <FolderOpen size={20} strokeWidth={2} />,
+    tooltip: 'Asset Library',
+    submenu: <AssetLibraryPanel />,
   },
 ]
 
 export function FloatingToolbar() {
-  const [activeTool, setActiveTool] = useState("add")
+  const [activeTool, setActiveTool] = useState('network')
+
+  const renderToolbarItem = (item: any) => {
+    const button = (
+      <ToolbarButton
+        key={item.id}
+        tooltip={item.tooltip}
+        isActive={activeTool === item.id}
+        onClick={() => setActiveTool(item.id)}>
+        {item.icon}
+      </ToolbarButton>
+    )
+
+    if (item.submenu) {
+      return (
+        <HoverCard key={item.id} openDelay={100} closeDelay={100}>
+          <HoverCardTrigger asChild>{button}</HoverCardTrigger>
+          <HoverCardContent
+            side='right'
+            align='start'
+            sideOffset={16}
+            className='bg-transparent border-none shadow-none w-auto p-0'>
+            {item.submenu}
+          </HoverCardContent>
+        </HoverCard>
+      )
+    }
+
+    return button
+  }
 
   return (
-    <aside className="absolute top-1/2 left-4 z-10 -translate-y-1/2 flex flex-col items-center gap-2 p-2 rounded-full bg-neutral-800/90 text-white shadow-[0_0_0_0_#ffffff_inset,0_0_0_1px_#ffffff0d_inset,0_1px_0_0_#ffffff0d_inset] backdrop-blur-md">
-      {TOOLBAR_ITEMS.map((item) => {
-        const button = (
-          <ToolbarButton
-            key={item.id}
-            tooltip={item.tooltip}
-            isActive={activeTool === item.id}
-            onClick={() => setActiveTool(item.id)}
-          >
-            {item.icon}
-          </ToolbarButton>
-        )
+    <aside className='absolute top-1/2 left-4 z-10 -translate-y-1/2 flex flex-col items-center gap-2 p-2 rounded-full bg-neutral-800/90 text-white shadow-[0_0_0_0_#ffffff_inset,0_0_0_1px_#ffffff0d_inset,0_1px_0_0_#ffffff0d_inset] backdrop-blur-md'>
+      {/* Primary Tools */}
+      {TOOLBAR_ITEMS.map(renderToolbarItem)}
 
-        if (item.submenu) {
-          return (
-            <HoverCard key={item.id} openDelay={100} closeDelay={100}>
-              <HoverCardTrigger asChild>{button}</HoverCardTrigger>
-              <HoverCardContent
-                side="right"
-                align="start"
-                sideOffset={16}
-                className="bg-transparent border-none shadow-none w-auto p-0"
-              >
-                {item.submenu}
-              </HoverCardContent>
-            </HoverCard>
-          )
-        }
+      {/* Divider */}
+      <div role='none' className='my-2 w-6 h-px bg-white/10 shrink-0'></div>
 
-        return button
-      })}
-
-      <ToolbarButton tooltip="Comments">
-        <MessageSquare size={20} strokeWidth={2} />
-      </ToolbarButton>
-      <ToolbarButton tooltip="Help">
-        <HelpCircle size={20} strokeWidth={2} />
-      </ToolbarButton>
-
-      <div role="none" className="my-2 w-6 h-px bg-white/10 shrink-0"></div>
-
-      <ToolbarButton tooltip="Profile" className="p-0 w-10 h-10">
-        <Avatar className="w-10 h-10">
-          <AvatarImage src="https://placehold.co/128x128" alt="User Avatar" />
+      {/* Profile */}
+      <ToolbarButton tooltip='Research Profile' className='p-0 w-10 h-10'>
+        <Avatar className='w-10 h-10'>
+          <AvatarImage src='https://placehold.co/128x128' alt='Researcher Avatar' />
         </Avatar>
       </ToolbarButton>
     </aside>

@@ -1,0 +1,15 @@
+prompts:
+  - id: disclosure.ner
+    version: "1.0.0"
+    file: "sets/disclosure/ner.v1.yaml"
+    schema: "schemas/output/entity.schema.json"
+    tags: ["ufo", "ner", "extraction"]
+    owner: "ai-platform"
+    aliases: ["enhanced_ner", "ner"]
+  - id: disclosure.content_analysis
+    version: "1.0.0"
+    file: "sets/disclosure/specialized-analysis.v1.yaml"
+    schema: "schemas/output/analysis.schema.json"
+    tags: ["analysis", "ufo", "documents"]
+    owner: "ai-platform"
+    aliases: ["content_analysis", "specialized_analysis"]

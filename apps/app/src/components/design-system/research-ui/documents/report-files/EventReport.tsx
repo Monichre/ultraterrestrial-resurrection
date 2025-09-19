@@ -1,6 +1,7 @@
 import Image from 'next/image'
 
-import {cn} from '@/lib/utils'
+import {cn} from '@/utils/cn'
+import {FONT_ANTON, FONT_SPECIAL_ELITE, FONT_CAVEAT} from '@/app/fonts'
 
 export function ClassifiedDocumentPage() {
   return (

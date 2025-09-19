@@ -1,4 +1,4 @@
-import { BubbleMenu as BaseBubbleMenu } from '@tiptap/react'
+import { BubbleMenu as BaseBubbleMenu } from '@/components/tiptap/react-compat/BubbleMenu'
 import React, { useCallback, useState } from 'react'
 
 import { MenuProps } from '../types'

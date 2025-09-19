@@ -1,4 +1,6 @@
 @import 'tailwindcss';
+@import '../styles/_variables.scss';
+@import '../styles/_keyframe-animations.scss';
 
 /* @plugin '@tailwindcss/typography'; */
 /* @config "../../tailwind.config.ts"; */
@@ -992,41 +994,6 @@ a {
     radial-gradient(at 50% 56%, rgb(13, 148, 136) 0, transparent 47%);
 }
 
-.admin-dashboard-table-card {
-  /* background: radial-gradient(
-    50% 86.9% at 49.99999847225504% 99.99999436619007%,
-    rgba(255, 255, 255, 0.2) 0%,
-    rgba(255, 255, 255, 0) 100%
-  ); */
-  background: #000206;
-
-  /* #0a0a0a; */
-
-  /* background: radial-gradient(#ffffff33 1px, #00091d 1px); */
-  /* background-size:
-    100%,
-    20px 20px;
-  background-position:
-    center,
-    0 0; */
-  /* background-color: rgb(207, 250, 254); */
-  /* background-image: radial-gradient(
-    at 85% 21%,
-    rgb(17, 24, 39) 0,
-    transparent 8%
-  ); */
-  /* radial-gradient(
-      at 22% 69%,
-      rgb(30, 58, 138) 0,
-      transparent 24%
-    ),
-    radial-gradient(at 85% 21%, rgb(17, 24, 39) 0, transparent 8%),
-    radial-gradient(at 41% 32%, rgb(167, 139, 250) 0, transparent 68%),
-    radial-gradient(at 78% 48%, rgb(96, 165, 250) 0, transparent 94%),
-    radial-gradient(at 74% 67%, rgb(34, 197, 94) 0, transparent 43%),
-    radial-gradient(at 19% 19%, rgb(217, 70, 239) 0, transparent 81%); */
-}
-
 td,
 td p {
   font-family: var(--font-source-sans);
@@ -1050,7 +1017,7 @@ td p {
   background-size: cover;
   background-position: center center;
   background-repeat: repeat;
-  background-image: url('/rcd.jpeg');
+  /* background-image: url('/textured-paper-bg.png'); */
 }
 
 .magicpattern {

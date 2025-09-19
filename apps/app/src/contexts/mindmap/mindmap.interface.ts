@@ -1,4 +1,4 @@
-import type { AddConnectionNodesFromSearchParams } from "@/contexts/mindmap";
+import type { AddConnectionNodesFromSearchParams } from "./mindmap-context";
 import type { DatabaseSchema } from "@db";
 import type { MindMapNode } from "@/features/mindmap/actions/fetch-next-mindmap-records";
 import type { MindMapState, useMindMapStore } from "@/features/mindmap/store";

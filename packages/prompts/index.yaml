@@ -1,0 +1,33 @@
+prompts:
+  - id: enhanced_ner
+    version: "1.0.0"
+    file: "templates/enhanced_ner.yaml"
+    schema: "schemas/enhancedNER.schema.json"
+    tags: ["ufo", "ner", "extraction"]
+    owner: "ai-platform"
+  - id: content_analysis
+    version: "1.0.0"
+    file: "templates/content_analysis.yaml"
+    schema: "schemas/contentAnalysis.schema.json"
+    tags: ["analysis", "ufo", "documents"]
+    owner: "ai-platform"
+  - id: deep_research
+    version: "0.1.0"
+    file: "templates/deep_research.yaml"
+    tags: ["research"]
+    owner: "ai-platform"
+  - id: real_time_monitoring
+    version: "0.1.0"
+    file: "templates/real_time_monitoring.yaml"
+    tags: ["monitoring"]
+    owner: "ai-platform"
+  - id: validation
+    version: "0.1.0"
+    file: "templates/validation.yaml"
+    tags: ["qc"]
+    owner: "ai-platform"
+  - id: synthesis
+    version: "0.1.0"
+    file: "templates/synthesis.yaml"
+    tags: ["synthesis"]
+    owner: "ai-platform"

@@ -86,7 +86,7 @@ const VintageDocumentCard = React.forwardRef<HTMLDivElement, VintageDocumentCard
         {/* Document Header */}
         <div className='relative z-10 mb-6'>
           <div className='text-center mb-4'>
-            <h1 className='text-2xl font-bold text-black dark:text-gray-900 tracking-wider'>
+            <h1 className='text-2xl font-bold text-black dark:text-gray-900 tracking-wider font-monument'>
               {title}
             </h1>
             {date && (

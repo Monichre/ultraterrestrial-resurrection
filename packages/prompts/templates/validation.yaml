@@ -1,0 +1,17 @@
+id: validation
+version: "0.1.0"
+description: "Validation/QA prompt skeleton (to be refined)."
+owner: "ai-platform"
+tags: ["qc"]
+schema_ref: null
+runtime:
+  max_tokens: 800
+  temperature: 0.0
+variables:
+  - name: "target"
+    type: "string"
+    required: true
+prompt: |-
+  Validate the following output for correctness and completeness.
+  Target: {{target}}
+  Enumerate issues, severity, and suggested fixes.
