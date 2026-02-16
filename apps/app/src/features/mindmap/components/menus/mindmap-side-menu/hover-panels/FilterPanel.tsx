@@ -1,14 +1,14 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { Filter, MapPin, Tag } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { CalendarIcon, MagnifyingGlassIcon, Cross2Icon } from "@radix-ui/react-icons"
+import { Filter, MapPin, Tag } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Badge } from '@/components/ui/badge'
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { CalendarIcon, MagnifyingGlassIcon, Cross2Icon } from '@radix-ui/react-icons'
+import { useMindMapUiStore } from '@/features/mindmap/store/mindmap-ui-store'
 
 const ENTITY_TYPES = [
   { id: "people", name: "People", count: 1247, checked: true },
@@ -38,30 +38,43 @@ const LOCATIONS = [
 ]
 
 export function FilterPanel() {
-  const [entityTypes, setEntityTypes] = useState(ENTITY_TYPES)
-  const [selectedThemes, setSelectedThemes] = useState<string[]>([])
-  const [selectedLocations, setSelectedLocations] = useState<string[]>([])
-  const [timeRange, setTimeRange] = useState({ start: "1947", end: "2024" })
-  const [searchQuery, setSearchQuery] = useState("")
+  const {
+    filters,
+    toggleFilterNodeType,
+    setFilterDateRange,
+    setFilterSearchQuery,
+    toggleFilterTheme,
+    toggleFilterLocation,
+    clearAllFilters,
+  } = useMindMapUiStore()
+
+  // Derive entity types checked state from store
+  const entityTypes = ENTITY_TYPES.map((type) => ({
+    ...type,
+    checked: filters.nodeTypes.includes(type.id),
+  }))
+  const selectedThemes = filters.themes
+  const selectedLocations = filters.locations
+  const timeRange = {
+    start: filters.dateRange.start || '1947',
+    end: filters.dateRange.end || '2024',
+  }
+  const searchQuery = filters.searchQuery
 
   const toggleEntityType = (id: string) => {
-    setEntityTypes((prev) => prev.map((type) => (type.id === id ? { ...type, checked: !type.checked } : type)))
+    toggleFilterNodeType(id)
   }
 
   const toggleTheme = (id: string) => {
-    setSelectedThemes((prev) => (prev.includes(id) ? prev.filter((t) => t !== id) : [...prev, id]))
+    toggleFilterTheme(id)
   }
 
   const toggleLocation = (id: string) => {
-    setSelectedLocations((prev) => (prev.includes(id) ? prev.filter((l) => l !== id) : [...prev, id]))
+    toggleFilterLocation(id)
   }
 
-  const clearAllFilters = () => {
-    setEntityTypes((prev) => prev.map((type) => ({ ...type, checked: true })))
-    setSelectedThemes([])
-    setSelectedLocations([])
-    setTimeRange({ start: "1947", end: "2024" })
-    setSearchQuery("")
+  const handleClearAllFilters = () => {
+    clearAllFilters()
   }
 
   const activeFiltersCount =
@@ -71,7 +84,7 @@ export function FilterPanel() {
     (searchQuery ? 1 : 0)
 
   return (
-    <div className="w-[380px] h-auto flex flex-col bg-neutral-800/90 text-white shadow-lg backdrop-blur-md border border-gray-200 border-white/5 rounded-2xl dark:border-gray-800">
+    <div className="w-[425px] h-auto flex flex-col bg-neutral-800/90 text-white shadow-lg backdrop-blur-md border border-white/5 rounded-2xl">
       <header className="border-b border-b-[#292f35] p-3">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
@@ -91,14 +104,14 @@ export function FilterPanel() {
           <Input
             placeholder="Search entities..."
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => setFilterSearchQuery(e.target.value)}
             className="w-full h-8 pl-8 pr-8 text-sm bg-neutral-900 border-[#292f35] rounded-xl focus-visible:ring-1 focus-visible:ring-blue-500 focus-visible:ring-offset-0"
           />
           {searchQuery && (
             <Button
               size="icon"
               variant="ghost"
-              onClick={() => setSearchQuery("")}
+              onClick={() => setFilterSearchQuery('')}
               className="absolute top-1/2 right-1 -translate-y-1/2 size-6 hover:bg-white/10"
             >
               <Cross2Icon size={12} strokeWidth={2} />
@@ -209,12 +222,12 @@ export function FilterPanel() {
                 <label className="text-xs text-gray-400 mb-1 block">Start Year</label>
                 <Select
                   value={timeRange.start}
-                  onValueChange={(value) => setTimeRange((prev) => ({ ...prev, start: value }))}
+                  onValueChange={(value) => setFilterDateRange(value, timeRange.end)}
                 >
-                  <SelectTrigger className="bg-neutral-900 border-neutral-700">
+                  <SelectTrigger className="bg-neutral-900 border-[#292f35]">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-neutral-900 border-neutral-700">
+                  <SelectContent className="bg-neutral-900 border-[#292f35]">
                     <SelectItem value="1600">1600</SelectItem>
                     <SelectItem value="1800">1800</SelectItem>
                     <SelectItem value="1900">1900</SelectItem>
@@ -229,12 +242,12 @@ export function FilterPanel() {
                 <label className="text-xs text-gray-400 mb-1 block">End Year</label>
                 <Select
                   value={timeRange.end}
-                  onValueChange={(value) => setTimeRange((prev) => ({ ...prev, end: value }))}
+                  onValueChange={(value) => setFilterDateRange(timeRange.start, value)}
                 >
-                  <SelectTrigger className="bg-neutral-900 border-neutral-700">
+                  <SelectTrigger className="bg-neutral-900 border-[#292f35]">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-neutral-900 border-neutral-700">
+                  <SelectContent className="bg-neutral-900 border-[#292f35]">
                     <SelectItem value="1990">1990</SelectItem>
                     <SelectItem value="2000">2000</SelectItem>
                     <SelectItem value="2010">2010</SelectItem>
@@ -258,7 +271,7 @@ export function FilterPanel() {
                     key={range.label}
                     size="sm"
                     variant="ghost"
-                    onClick={() => setTimeRange({ start: range.start, end: range.end })}
+                    onClick={() => setFilterDateRange(range.start, range.end)}
                     className="text-xs"
                   >
                     {range.label}
@@ -276,7 +289,7 @@ export function FilterPanel() {
           <Button
             size="sm"
             variant="ghost"
-            onClick={clearAllFilters}
+            onClick={handleClearAllFilters}
             className="w-full text-red-400 hover:text-red-300 hover:bg-red-500/10"
           >
             <Cross2Icon size={14} className="mr-1" strokeWidth={2} />

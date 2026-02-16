@@ -219,7 +219,6 @@ import { DataVizComponent } from '@/features/data-viz'
 
 ## ⚠️ Important Notes
 
-- **ALWAYS use mcp_filesystem-with-morph_edit_file tool** for code edits, not default edit tool
 - **Check README.md and docs/agents/AGENT_ONBOARDING_CHECKLIST.md** when onboarding
 - **Existing AI infrastructure is sophisticated and well-integrated** - enhance, don't replace
 - **Never create documentation files unless explicitly requested** by the user

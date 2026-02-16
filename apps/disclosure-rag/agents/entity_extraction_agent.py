@@ -175,7 +175,7 @@ class AIEntityExtractor:
         """Get default model for provider"""
         defaults = {
             "openai": "gpt-4.1",
-            "anthropic": "claude-sonnet-4-20250514"
+            "anthropic": "claude-sonnet-4.5-20250514"
         }
         return defaults.get(self.provider, "gpt-4.1")
 

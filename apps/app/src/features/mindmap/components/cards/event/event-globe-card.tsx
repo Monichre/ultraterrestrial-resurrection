@@ -1,6 +1,6 @@
 'use client'
 
-import type {GlobeLocation} from '@/features/data-viz/sightings/components/globes'
+import type {GlobeLocation} from '@/features/sightings/components/globes'
 import {STOCK_PHOTOS, wait} from '@/utils'
 import createGlobe from 'cobe'
 import {format} from 'date-fns'

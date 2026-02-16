@@ -7,26 +7,29 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 **CRITICAL**: Before starting any work, read these documents in order:
 
 1. [README.md](README.md)
-2. [AGENT.md](AGENT.md) - **COMPREHENSIVE DEVELOPMENT GUIDELINES** 
+2. [AGENT.md](AGENT.md) - **COMPREHENSIVE DEVELOPMENT GUIDELINES**
 3. [docs/agents/AGENT_ONBOARDING_CHECKLIST.md](docs/agents/AGENT_ONBOARDING_CHECKLIST.md) - **MANDATORY FIRST READ** - Validation checklist
 
 ## Agent Configuration System
 
 **NEW STRUCTURE**: All development guidelines consolidated into streamlined system:
 
-### 📖 Master Guidelines - `AGENT.md` 
+### 📖 Master Guidelines - `AGENT.md`
+
 - **Single source of truth** for all development guidelines
 - Comprehensive commands, standards, and project structure
 - Technology stack and AI architecture documentation
 - Three-tier project management system
 
 ### 🤖 Platform-Specific Configurations - `docs/agents/`
+
 - **`docs/agents/claude-code.md`** - Claude Code specific instructions
 - **`docs/agents/cursor.md`** - Cursor IDE specific rules  
 - **`docs/agents/warp.md`** - Warp terminal specific commands
 - **`docs/agents/README.md`** - Agent configuration overview
 
 ### 📋 Project Management System
+
 - **`docs/plans/FEATURES.md`** - Strategic planning (Tier 1)
 - **`docs/plans/TODO.md`** - Actionable tickets (Tier 2)
 - **`DAILY_WORK_PLAN.md`** - Daily execution (Tier 3)
@@ -191,8 +194,6 @@ import { DataVizComponent } from '@/features/data-viz'
 
 ## Critical Development Principles
 
-**IMPORTANT:** *ALWAYS use mcp_filesystem-with-morph_edit_file tool to make any code edits. Do not use the default edit tool.*
-
 ### "Orchestration over Replacement"
 
 - Existing AI infrastructure is sophisticated and well-integrated
@@ -309,7 +310,7 @@ to files. @packages/knowledge-base/files/
 - AND we've changed `case_files` to `files` so [@.packages/knowledge-base/sources/files](@.packages/knowledge-base/sources/files)
 
 - always show and report all effected files
-- **IMPORTANT:** *ALWAYS use mcp_filesystem-with-morph_edit_file tool to make any code edits. Do not use the default edit tool.*
+- **IMPORTANT:**
 - make a note to develop a framework, system or theoretical paradigm to approach data analysis, investigations or any sort of historical review or content ingestion according to "famous UFO researchers" methodology. Ex: Jacques Valle, Diana Pasulka Walksh etc
 
 ### Agent Configuration Reference
@@ -317,6 +318,7 @@ to files. @packages/knowledge-base/files/
 **CRITICAL**: Read [AGENTS.md](AGENTS.md) for comprehensive development guidelines before starting any work.
 
 For platform-specific configurations, see:
+
 - **`docs/agents/`** - Platform-specific agent configurations that reference AGENTS.md
 - **`docs/agents/claude-code.md`** - Claude Code specific instructions
 - **`docs/agents/AGENT_ONBOARDING_CHECKLIST.md`** - Mandatory validation checklist

@@ -1,7 +1,7 @@
 ---
 name: research-ui-agent
 description: Specialized design agent for authentic vintage document components and classified archival aesthetics in the Ultraterrestrial Research Platform. Expert in creating historically accurate UAP/UFO research materials with proper classification systems.
-model: sonnet
+model: claude-sonnet-4.5
 color: "#dc2626"
 icon: "🎨"
 category: "Content & Documentation"

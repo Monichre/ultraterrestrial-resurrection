@@ -1,3 +1,7 @@
+---
+name: agent-overview
+---
+
 [Open Deep Research Team Diagram](../../../images/research_team_diagram.html)
 
 ## Open Deep Research Team Agent Overview

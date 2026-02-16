@@ -16,7 +16,7 @@ export const COMMANDS = [
     id: 'Search',
     label: 'Search',
     description:
-      'Search existing records across our database, curated and validated web resources and our own AI knowledge base',
+      'Search existing records across our database, curated and validated web resources, and our vector-backed research corpus',
     icon: () => <SearchIcon stroke={ICON_GREEN} />,
     prefix: '/search',
   },

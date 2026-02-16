@@ -14,7 +14,7 @@ export const AnnotationNode = forwardRef<HTMLDivElement, AnnotationNodeProps>(
         ref={ref}
         {...props}
         className={cn(
-          "relative flex max-w-[180px] items-start p-2 text-sm text-gray-900 dark:text-gray-50",
+          "relative flex max-w-[180px] items-start p-2 text-sm text-white",
           className,
         )}
       >

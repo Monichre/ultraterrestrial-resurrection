@@ -417,6 +417,12 @@ This work plan follows the **Three-Tier Project Management System** as defined i
 
 ### ⚡ Medium Priority Tasks
 
+- [x] Integrate research-canvas FloatingToolbar into mindmap graph with live data panels
+  - **Priority:** Medium
+  - **References:** apps/app/src/features/mindmap/research-canvas/FloatingToolbar.tsx; apps/app/src/features/mindmap/graph.tsx
+  - **Added:** 2026-01-21 06:21:15
+  - **Completed:** 2026-01-21 06:21:15
+
 - [ ] Investigate integration opportunities for tools referenced in NOTES.md including Papra.app, Context AI, Needle AI, SurrealDB, OneNode, Ragster and other database/AI integrations
   - **Priority:** Medium
   - **References:** @NOTES.md (lines 25-242 contain various tool links and database integrations)
@@ -587,7 +593,7 @@ Operationalizes the comprehensive prompt optimization analysis into concrete, ph
 Replace LLM Agent Providers with AI Gateway:
 
 AI_GATEWAY_API_KEY=REDACTED_VERCEL_API_KEY
-anthropic/claude-sonnet-4
+anthropic/claude-sonnet-4.5
 openai/gpt-5
 google/gemini-2.5-pro
 xai/grok-code-fast-1

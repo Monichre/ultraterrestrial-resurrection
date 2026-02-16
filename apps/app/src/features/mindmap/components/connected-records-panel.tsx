@@ -1,6 +1,6 @@
 'use client'
 
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useCallback} from 'react'
 import {motion, AnimatePresence} from 'framer-motion'
 import {
   Brain,
@@ -14,6 +14,7 @@ import {
   RefreshCw,
 } from 'lucide-react'
 import {useMindMap} from '@/contexts/mindmap/mindmap-context'
+import {useMindMapAgent} from '@/features/mindmap/hooks/use-mindmap-agent'
 import {
   getGraphContext,
   isRecordRelated,
@@ -33,12 +34,13 @@ interface ConnectedRecord {
 
 export function ConnectedRecordsPanel() {
   const {getNodes} = useMindMap()
+  const {runAgentQuery} = useMindMapAgent()
   const [suggestions, setSuggestions] = useState<ConnectedRecord[]>([])
   const [loading, setLoading] = useState(false)
   const [expanded, setExpanded] = useState(true)
 
   // Fetch connections using comprehensive disclosure API with Prometheus AI + agentic tools
-  const fetchContextualConnections = async () => {
+  const fetchContextualConnections = useCallback(async () => {
     const nodes = getNodes()
     setLoading(true)
 
@@ -109,75 +111,9 @@ export function ConnectedRecordsPanel() {
 
       const intelligentQuery = `Find related UAP/UFO records connected to: ${nodeNames.join(', ')}. ${searchRules} Focus on documented connections and related incidents, organizations, and evidence.`
 
-      // Use the comprehensive disclosure API that combines Prometheus AI + agentic tools
-      const response = await fetch('/api/disclosure/mindmap', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          threadId: null, // Create new thread for connections analysis
-          message: intelligentQuery,
-        }),
-      })
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-
-      // Parse the streaming response from the disclosure API
-      const reader = response.body?.getReader()
-      if (!reader) {
-        throw new Error('No response body reader available')
-      }
-
-      const decoder = new TextDecoder()
-      let aiAnalysis = ''
-      let searchResults: any = null
-      let graphData: any = null
-
-      try {
-        while (true) {
-          const {done, value} = await reader.read()
-          if (done) break
-
-          const chunk = decoder.decode(value, {stream: true})
-          const lines = chunk.split('\n').filter((line) => line.trim())
-
-          for (const line of lines) {
-            if (line.startsWith('data: ')) {
-              const data = line.slice(6)
-              if (data === '[DONE]') continue
-
-              try {
-                const parsed = JSON.parse(data)
-
-                // Handle AI analysis content
-                if (parsed.content) {
-                  aiAnalysis += parsed.content
-                }
-
-                // Handle tool execution results
-                if (parsed.data) {
-                  const toolData = parsed.data
-
-                  if (toolData.tool === 'searchDatabase' && toolData.status === 'complete') {
-                    searchResults = toolData.result
-                  }
-
-                  if (toolData.tool === 'transformXYFlow' && toolData.status === 'complete') {
-                    graphData = toolData.result
-                  }
-                }
-              } catch (e) {
-                console.debug('Skipped chunk:', data)
-              }
-            }
-          }
-        }
-      } finally {
-        reader.releaseLock()
-      }
+      const agentResult = await runAgentQuery({message: intelligentQuery})
+      const aiAnalysis = agentResult.analysis ?? ''
+      const searchResults = agentResult.search ?? null
 
       // Process the comprehensive results from Prometheus AI + agentic tools
       const contextualRecords: ConnectedRecord[] = []
@@ -237,7 +173,7 @@ export function ConnectedRecordsPanel() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [getNodes, runAgentQuery])
 
   // Helper functions for contextual intelligence integration
   const calculateRelationshipScore = (record: any, context: any): number => {
@@ -573,7 +509,7 @@ export function ConnectedRecordsPanel() {
     }, 500)
 
     return () => clearTimeout(timeout)
-  }, [getNodes])
+  }, [fetchContextualConnections])
 
   const getRelationshipIcon = (type: string) => {
     switch (type) {
@@ -736,7 +672,7 @@ export function ConnectedRecordsPanel() {
               </div>
               <div className='text-center mt-2'>
                 <p className='text-xs text-white/40'>
-                  Powered by Prometheus AI + Agentic Tools • UAP Knowledge Base
+                  Powered by Prometheus • UAP Research/Intelligence Corpus
                 </p>
               </div>
             </div>

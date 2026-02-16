@@ -252,27 +252,27 @@ export function FullSiteNav({className}: {className?: string}) {
               <HoveredLink className='' href='/explore'>
                 Explore Home
               </HoveredLink>
-              <HoveredLink className='' href='/explore/disclosure'>
+              <HoveredLink className='' href='/research-canvas'>
                 The State of Disclosure
               </HoveredLink>
-              <HoveredLink className='' href='/explore/key-figures'>
+              <HoveredLink className='' href='/key-figures'>
                 Key Figures
               </HoveredLink>
-              <HoveredLink className='' href='/explore/visualizations'>
+              <HoveredLink className='' href='/visualizations'>
                 3D Interactive Timeline
               </HoveredLink>
               {isAdmin && (
                 <>
-                  <HoveredLink className='' href='/explore/visualizations'>
+                  <HoveredLink className='' href='/visualizations'>
                     3D Model Network Graph
                   </HoveredLink>
-                  <HoveredLink className='' href='/explore/visualizations/3d-grid'>
+                  <HoveredLink className='' href='/visualizations/3d-grid'>
                     3D Grid
                   </HoveredLink>
-                  <HoveredLink className='' href='/explore/visualizations/drawing-board'>
+                  <HoveredLink className='' href='/visualizations/drawing-board'>
                     Drawing Board
                   </HoveredLink>
-                  <HoveredLink className='' href='/explore/visualizations/word-cloud'>
+                  <HoveredLink className='' href='/visualizations/word-cloud'>
                     Word Cloud
                   </HoveredLink>
                 </>

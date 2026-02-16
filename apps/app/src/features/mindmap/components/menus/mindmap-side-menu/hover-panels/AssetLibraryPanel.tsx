@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState, useRef, useCallback } from "react"
+import {useCallback, useRef, useState} from 'react'
 import {
   Grid3X3,
   List,
@@ -18,12 +18,13 @@ import {
   Archive,
   CheckCircle
 } from "lucide-react"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
-import { Progress } from "@/components/ui/progress"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { MagnifyingGlassIcon, Cross2Icon, ExclamationTriangleIcon, ReloadIcon } from "@radix-ui/react-icons"
+import {Input} from '@/components/ui/input'
+import {Button} from '@/components/ui/button'
+import {Tabs, TabsContent, TabsList, TabsTrigger} from '@/components/ui/tabs'
+import {Progress} from '@/components/ui/progress'
+import {Alert, AlertDescription} from '@/components/ui/alert'
+import {MagnifyingGlassIcon, Cross2Icon, ExclamationTriangleIcon, ReloadIcon} from '@radix-ui/react-icons'
+import {useMindMapUiStore} from '@/features/mindmap/store/mindmap-ui-store'
 
 interface Asset {
   id: string
@@ -35,6 +36,7 @@ interface Asset {
   uploading?: boolean
   uploadProgress?: number
   uploadError?: string
+  file?: File
 }
 
 interface UploadFile {
@@ -92,10 +94,18 @@ const ALLOWED_TYPES = {
   "application/x-rar-compressed": ["rar"],
 }
 
-export function AssetLibraryPanel() {
-  const [searchQuery, setSearchQuery] = useState("")
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
-  const [activeCategory, setActiveCategory] = useState("my-files")
+export interface AssetLibraryPanelProps {
+  onAssetAdded?: (asset: Asset) => void
+}
+
+export function AssetLibraryPanel({onAssetAdded}: AssetLibraryPanelProps) {
+  const {
+    assets: assetsState,
+    setAssetCategory,
+    setAssetQuery,
+    setAssetViewMode,
+  } = useMindMapUiStore()
+  const {query: searchQuery, viewMode, category: activeCategory} = assetsState
   const [assets, setAssets] = useState(ASSET_CATEGORIES)
   const [uploadFiles, setUploadFiles] = useState<UploadFile[]>([])
   const [isDragOver, setIsDragOver] = useState(false)
@@ -199,6 +209,7 @@ export function AssetLibraryPanel() {
                 type: getFileType(uploadFile.file),
                 size: formatFileSize(uploadFile.file.size),
                 modified: "Just now",
+                file: uploadFile.file,
               }
 
               setAssets((prev) =>
@@ -206,6 +217,8 @@ export function AssetLibraryPanel() {
                   category.id === activeCategory ? { ...category, assets: [newAsset, ...category.assets] } : category,
                 ),
               )
+
+              onAssetAdded?.(newAsset)
 
               // Remove from upload list after a delay
               setTimeout(() => {
@@ -249,7 +262,7 @@ export function AssetLibraryPanel() {
         console.error("Upload failed:", error)
       }
     }
-  }, [])
+  }, [activeCategory, onAssetAdded])
 
   const handleFileSelect = () => {
     fileInputRef.current?.click()
@@ -296,8 +309,8 @@ export function AssetLibraryPanel() {
 
   return (
     <div
-      className={`w-[420px] h-auto flex flex-col bg-neutral-900 text-white shadow-xl border rounded-2xl overflow-hidden transition-colors ${
-        isDragOver ? "border-blue-500 bg-blue-500/5" : "border-neutral-800"
+      className={`w-[425px] h-auto flex flex-col bg-neutral-800/90 text-white shadow-lg backdrop-blur-md border rounded-2xl transition-colors ${
+        isDragOver ? "border-blue-500 bg-blue-500/5" : "border-white/5"
       }`}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
@@ -312,26 +325,26 @@ export function AssetLibraryPanel() {
         accept={Object.keys(ALLOWED_TYPES).join(",")}
       />
 
-      <header className="border-b border-neutral-800 p-4">
+      <header className="border-b border-b-[#292f35] p-3">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="text-base font-medium text-white">Asset Library</h3>
+          <h3 className="text-sm font-medium text-white">Asset Library</h3>
           <div className="flex items-center gap-1">
-            <Button variant="ghost" size="icon" className="size-8 hover:bg-neutral-800">
+            <Button variant="ghost" size="icon" className="size-8 hover:bg-white/5">
               <SlidersHorizontal size={16} strokeWidth={2} />
             </Button>
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => setViewMode("grid")}
-              className={`size-8 ${viewMode === "grid" ? "bg-neutral-700" : "hover:bg-neutral-800"}`}
+              onClick={() => setAssetViewMode("grid")}
+              className={`size-8 ${viewMode === "grid" ? "bg-white/10" : "hover:bg-white/5"}`}
             >
               <Grid3X3 size={16} strokeWidth={2} />
             </Button>
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => setViewMode("list")}
-              className={`size-8 ${viewMode === "list" ? "bg-neutral-700" : "hover:bg-neutral-800"}`}
+              onClick={() => setAssetViewMode("list")}
+              className={`size-8 ${viewMode === "list" ? "bg-white/10" : "hover:bg-white/5"}`}
             >
               <List size={16} strokeWidth={2} />
             </Button>
@@ -343,15 +356,15 @@ export function AssetLibraryPanel() {
           <Input
             placeholder="Search assets..."
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full h-9 pl-9 pr-9 text-sm bg-neutral-800 border-neutral-700 rounded-lg focus-visible:ring-1 focus-visible:ring-blue-500 focus-visible:ring-offset-0 placeholder:text-neutral-500"
+            onChange={(e) => setAssetQuery(e.target.value)}
+            className="w-full h-8 pl-8 pr-8 text-sm bg-neutral-900 border-[#292f35] rounded-xl focus-visible:ring-1 focus-visible:ring-blue-500 focus-visible:ring-offset-0"
           />
           {searchQuery && (
             <Button
               size="icon"
               variant="ghost"
-              onClick={() => setSearchQuery("")}
-              className="absolute top-1/2 right-2 -translate-y-1/2 size-5 hover:bg-neutral-700"
+              onClick={() => setAssetQuery("")}
+              className="absolute top-1/2 right-2 -translate-y-1/2 size-5 hover:bg-white/10"
             >
               <Cross2Icon size={12} strokeWidth={2} />
             </Button>
@@ -359,20 +372,20 @@ export function AssetLibraryPanel() {
         </div>
       </header>
 
-      <Tabs value={activeCategory} onValueChange={setActiveCategory} className="flex-1">
-        <TabsList className="w-full bg-transparent p-3 h-auto gap-1 justify-start">
+      <Tabs value={activeCategory} onValueChange={setAssetCategory} className="flex-1">
+        <TabsList className="w-full bg-transparent p-2 h-auto gap-1">
           {assets.map((category) => (
             <TabsTrigger
               key={category.id}
               value={category.id}
-              className="text-sm font-medium h-8 px-4 data-[state=active]:bg-neutral-700 data-[state=active]:text-white text-neutral-400 hover:bg-neutral-800 hover:text-white rounded-md"
+              className="text-sm font-medium h-8 px-3 data-[state=active]:bg-white/10 data-[state=active]:text-white text-[#8c8c8c] hover:bg-white/5 hover:text-white"
             >
               {category.name}
             </TabsTrigger>
           ))}
         </TabsList>
 
-        <div className="p-4 overflow-y-auto max-h-96">
+        <div className="p-3 overflow-y-auto max-h-96">
           {/* Upload Error Alert */}
           {uploadError && (
             <Alert className="mb-4 border-red-500/20 bg-red-500/10">
@@ -384,9 +397,9 @@ export function AssetLibraryPanel() {
           {/* Upload Progress */}
           {uploadFiles.length > 0 && (
             <div className="mb-4 space-y-2">
-              <h4 className="text-sm font-medium text-neutral-300">Uploading Files</h4>
+              <h4 className="text-sm font-medium text-neutral-400">Uploading Files</h4>
               {uploadFiles.map((uploadFile) => (
-                <div key={uploadFile.id} className="bg-neutral-800 rounded-lg p-3">
+                <div key={uploadFile.id} className="bg-neutral-700/30 rounded-lg p-3">
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
                       {uploadFile.status === "uploading" && (
@@ -403,7 +416,7 @@ export function AssetLibraryPanel() {
                           size="icon"
                           variant="ghost"
                           onClick={() => removeUploadFile(uploadFile.id)}
-                          className="size-5 hover:bg-neutral-700"
+                          className="size-5 hover:bg-white/10"
                         >
                           <Cross2Icon size={10} strokeWidth={2} />
                         </Button>
@@ -428,7 +441,7 @@ export function AssetLibraryPanel() {
                     className={`aspect-square rounded-xl border-2 border-dashed flex flex-col items-center justify-center transition-colors cursor-pointer ${
                       isDragOver
                         ? "border-blue-500 bg-blue-500/10"
-                        : "border-neutral-600 bg-neutral-800 hover:bg-neutral-750 hover:border-neutral-500"
+                        : "border-neutral-600 bg-neutral-700/30 hover:bg-neutral-700/50 hover:border-neutral-500"
                     }`}
                   >
                     <Upload size={20} className="text-neutral-400 mb-2" strokeWidth={2} />
@@ -440,7 +453,7 @@ export function AssetLibraryPanel() {
                 {filteredAssets.map((asset) => (
                   <div
                     key={asset.id}
-                    className="group aspect-square bg-neutral-800 rounded-xl p-3 hover:bg-neutral-750 transition-colors cursor-pointer border border-gray-200 border-neutral-700 flex flex-col dark:border-gray-800"
+                    className="group aspect-square bg-neutral-700/30 rounded-xl p-3 hover:bg-neutral-700/50 transition-colors cursor-pointer border border-white/5 flex flex-col"
                   >
                     <div className="flex-1 flex items-center justify-center mb-2">{getAssetIcon(asset.type, 24)}</div>
                     <div className="space-y-1">
@@ -462,10 +475,10 @@ export function AssetLibraryPanel() {
                   <div
                     onClick={handleFileSelect}
                     className={`flex items-center gap-3 p-3 rounded-lg transition-colors cursor-pointer border border-dashed ${
-                      isDragOver ? "border-blue-500 bg-blue-500/10" : "border-neutral-600 hover:bg-neutral-800"
+                      isDragOver ? "border-blue-500 bg-blue-500/10" : "border-neutral-600 hover:bg-neutral-700/30"
                     }`}
                   >
-                    <div className="w-8 h-8 bg-neutral-700 rounded flex items-center justify-center">
+                    <div className="w-8 h-8 bg-neutral-700/50 rounded flex items-center justify-center">
                       <Upload size={14} className="text-neutral-400" strokeWidth={2} />
                     </div>
                     <div className="flex-1">
@@ -481,9 +494,9 @@ export function AssetLibraryPanel() {
                 {filteredAssets.map((asset) => (
                   <div
                     key={asset.id}
-                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-neutral-800 transition-colors cursor-pointer"
+                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-neutral-700/30 transition-colors cursor-pointer"
                   >
-                    <div className="w-8 h-8 bg-neutral-700 rounded flex items-center justify-center">
+                    <div className="w-8 h-8 bg-neutral-700/50 rounded flex items-center justify-center">
                       {getAssetIcon(asset.type, 16)}
                     </div>
                     <div className="flex-1 min-w-0">
@@ -500,10 +513,10 @@ export function AssetLibraryPanel() {
                       </div>
                     </div>
                     <div className="flex items-center gap-1">
-                      <Button size="icon" variant="ghost" className="size-7 hover:bg-neutral-700">
+                      <Button size="icon" variant="ghost" className="size-7 hover:bg-white/10">
                         <Eye size={12} strokeWidth={2} />
                       </Button>
-                      <Button size="icon" variant="ghost" className="size-7 hover:bg-neutral-700">
+                      <Button size="icon" variant="ghost" className="size-7 hover:bg-white/10">
                         <Download size={12} strokeWidth={2} />
                       </Button>
                     </div>

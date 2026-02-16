@@ -21,20 +21,20 @@ export const searchXata = async ({
 
 		if (normalizedTable && id) {
 			// Search within a specific table and record
-			searchResults = await xata.db[normalizedTable].search(query, {
+			searchResults = await (xata.db as any)[normalizedTable].search(query, {
 				fuzziness: 1,
 				prefix: "phrase",
 			});
 		} else if (normalizedTable) {
 			// Search within a specific table
-			searchResults = await xata.search.all(query, {
+			searchResults = await (xata.search as any).all(query, {
 				tables: [{ table: normalizedTable }],
 				fuzziness: 1,
 				prefix: "phrase",
 			});
 		} else {
 			// Global search across all tables
-			searchResults = await xata.search.all(query, {
+			searchResults = await (xata.search as any).all(query, {
 				fuzziness: 1,
 				prefix: "phrase",
 			});

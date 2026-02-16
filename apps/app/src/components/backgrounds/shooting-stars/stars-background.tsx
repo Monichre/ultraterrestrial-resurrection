@@ -116,13 +116,13 @@ export const StarsBackground: React.FC<StarsBackgroundProps> = ( {
     <div
       ref={containerRef}
       className={cn(
-        'h-full w-full absolute inset-0 pointer-none z-0',
+        'h-full w-full absolute inset-0 pointer-events-none z-0',
         className
       )}
     >
       <svg
         preserveAspectRatio='none'
-        className='h-full w-full bg-transparent pointer-none relative z-0'
+        className='h-full w-full bg-transparent pointer-events-none relative z-0'
       >
         <rect width='100%' height='100%' fill='none' />
         {stars.map( ( star, index ) => (

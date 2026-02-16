@@ -64,7 +64,7 @@ const RN = ( node: RootNode ) => {
   }
   return (
     <BlurAppear>
-      <div className='border border-white/50 rounded-[calc(var(--radius)-2px)] relative w-fit h-fit'>
+      <div className='border border-neutral-800 rounded-2xl relative w-fit h-fit bg-neutral-900/80 backdrop-blur-sm shadow-[0_0_0_1px_rgba(255,255,255,0.03)]'>
         {handles && handles?.length
           ? handles.map( ( id: string ) => (
             <Handle

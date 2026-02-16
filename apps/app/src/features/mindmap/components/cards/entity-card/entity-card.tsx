@@ -45,20 +45,20 @@ export const closeSpring = { type: 'spring', stiffness: 300, damping: 35 }
 export const AnimatedCardWithRef = forwardRef( ( props: any, ref: any ) => (
   <Card ref={ref} {...props} />
 ) )
-export const AnimatedCard = motion( AnimatedCardWithRef )
+export const AnimatedCard = motion.create( AnimatedCardWithRef )
 AnimatedCard.displayName = 'AnimatedCard'
 
 export const AnimatedCardContentWithRef = forwardRef( ( props, ref: any ) => (
   <CardContent ref={ref} {...props} />
 ) )
 AnimatedCardContentWithRef.displayName = 'AnimatedCardContentWithRef'
-export const AnimatedCardContent = motion( AnimatedCardContentWithRef )
+export const AnimatedCardContent = motion.create( AnimatedCardContentWithRef )
 
 export const AnimatedImageRef = forwardRef( ( props: any, ref: any ) => (
   <Image ref={ref} {...props} />
 ) )
 AnimatedImageRef.displayName = 'AnimatedImageRef'
-export const AnimatedImageContent = motion( AnimatedImageRef )
+export const AnimatedImageContent = motion.create( AnimatedImageRef )
 
 export const MindMapEntityCard: React.FC<MindMapEntityCardProps> = ( {
   data,

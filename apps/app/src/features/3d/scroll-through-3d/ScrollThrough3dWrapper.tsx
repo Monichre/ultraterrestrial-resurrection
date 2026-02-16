@@ -38,7 +38,7 @@
 import {Suspense, useEffect, useRef} from 'react'
 import gsap from 'gsap'
 import {ScrollThrough3D} from '@/features/3d/scroll-through-3d/ScrollThroughThreeD'
-import {Loading} from '@/features/data-viz/sightings/components/loaders/loading'
+import {Loading} from '@/features/sightings/components/loaders/loading'
 
 // Define prop types
 interface Section {

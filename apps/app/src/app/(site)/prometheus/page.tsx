@@ -1,19 +1,8 @@
-'use client'
-import {Prometheus} from '@/features/agents/prometheus'
-import {useEffect} from 'react'
-
+import PrometheusChat from './prometheus-chat'
 // Import the CSS for styling
 import './prometheus.css'
 
 export default function PrometheusPageWrapper() {
   // Apply body class for proper styling
-  useEffect(() => {
-    document.body.classList.add('prometheus-page')
-
-    return () => {
-      document.body.classList.remove('prometheus-page')
-    }
-  }, [])
-
-  return <Prometheus />
+  return <PrometheusChat />
 }

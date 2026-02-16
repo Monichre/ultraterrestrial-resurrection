@@ -1,99 +1,24 @@
-const dayjs = require( 'dayjs' )
-const utc = require( 'dayjs/plugin/utc' )
-dayjs.extend( utc )
 
-import { ScrollThrough3D } from '@/features/3d/scroll-through-3d'
+import { ScrollTimeline } from './scroll-timeline'
 
-import { getXataClient } from '@db'
+const ufoTimelineData = [
+  { year: '1947', events: [{ title: 'Kenneth Arnold sighting', description: 'Flying saucer sighting over Mount Rainier' }] },
+  { year: '1961', events: [{ title: 'Betty and Barney Hill', description: 'First documented abduction' }] },
+  { year: '1976', events: [{ title: 'Tehran Incident', description: 'Iranian jet interceptors encounter UFO' }] },
+  { year: '1980', events: [{ title: 'Rendlesham Forest', description: 'UKRAF Bentwaters incident' }] },
+  { year: '2004', events: [{ title: 'USS Nimitz', description: 'Tic Tac UFO encounter' }] },
+  { year: '2017', events: [{ title: 'NYT Article', description: 'AATIP disclosure to public' }] },
+]
 
-const xata = getXataClient()
+import { ScrollTimeline } from './scroll-timeline'
 
-export default async function Index() {
-  const records: any = await xata.db.events
-    .sort( 'date', 'desc' )
-    .select( [
-      'name',
-      'description',
-      'location',
-      'latitude',
-      'longitude',
-      'date',
-      'photos',
-      'photos.signedUrl',
-      'photos.enablePublicUrl',
-      {
-        name: '<-event-subject-matter-experts.event',
-        columns: ['*'],
-        as: 'experts',
-      },
-    ] )
-    .getAll()
+// Placeholder data - in production this would come from props or data fetching
+const ufoTimelineData = []
 
-  const expertPersonnel = await xata.db['event-subject-matter-experts']
-    .select( [
-      'event.id',
-      'subject-matter-expert.id',
-      'subject-matter-expert.name',
-      'subject-matter-expert.photo',
-    ] )
-    .getAll()
-
-  const personnel = expertPersonnel
-    .toSerializable()
-    .map( ( { event, id, xata: xataMeta, ...rest } ) => ( {
-      ...rest['subject-matter-expert'],
-      eventId: event?.id,
-    } ) )
-
-  const data = records.toSerializable()
-
-  const events = data.map( ( event: { experts: { records: any[] } } ) => {
-    if ( event?.experts?.records ) {
-      const experts = event.experts.records.map( ( expert ) => expert )
-      return {
-        ...event,
-        experts,
-      }
-    }
-    return event
-  } )
-
-  const removeEmptyKeys = ( obj: any ) => {
-    const newObj: any = {}
-    for ( const key in obj ) {
-      if ( obj[key] && obj[key].length ) {
-        newObj[key] = obj[key]
-      }
-    }
-    return newObj
-  }
-  function removeLeadingZero( input ) {
-    const str = String( input )
-    return str.startsWith( '0' ) ? str.slice( 1 ) : str
-  }
-
-  const eventsByYear: any = removeEmptyKeys(
-    events.reduce( ( acc: any, item: any ) => {
-      const year: any = removeLeadingZero( item.date.split( '-' )[0] ) // dayjs.utc(new Date(date)).getYear()
-      console.log( 'year: ', year )
-
-      if ( acc[year] ) {
-        acc[year].push( item )
-      } else {
-        acc[year] = []
-        acc[year].push( item )
-      }
-      return acc
-    }, {} )
-  )
-
-  const years = Object.keys( eventsByYear ).reverse()
-
+export default function HistoryPage() {
   return (
-    <ScrollThrough3D
-      years={years}
-      events={eventsByYear}
-      keyFigures={personnel}
-    />
-  )
+    <div className="w-full h-full relative">
+      <ScrollTimeline ufoTimelineData={ufoTimelineData} />
+    </div>
+  );
 }

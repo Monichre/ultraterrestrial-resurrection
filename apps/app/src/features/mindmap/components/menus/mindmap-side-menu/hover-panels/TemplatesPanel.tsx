@@ -50,7 +50,7 @@ export function TemplatesPanel() {
   )
 
   return (
-    <div className="w-[380px] h-auto flex flex-col bg-neutral-800/90 text-white shadow-lg backdrop-blur-md border border-gray-200 border-white/5 rounded-2xl dark:border-gray-800">
+    <div className="w-[425px] h-auto flex flex-col bg-neutral-800/90 text-white shadow-lg backdrop-blur-md border border-white/5 rounded-2xl">
       <header className="border-b border-b-[#292f35] p-3">
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-sm font-medium text-white">Templates</h3>

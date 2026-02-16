@@ -762,6 +762,7 @@ export async function transformStreamResponse(
 	sourceNode: ReactFlowNode,
 	existingNodes: ReactFlowNode[],
 	table: string,
+	layoutType: 'horizontal' | 'vertical' | 'radial' | 'grid' = 'horizontal',
 ): Promise<XataToXYFlowResponse> {
 	// Use the existing transformForReactflow to generate the nodes and edges
 	const reactFlowData = await transformForReactflow(
@@ -773,6 +774,7 @@ export async function transformStreamResponse(
 		sourceNode,
 		existingNodes,
 		table,
+		layoutType,
 	)
 
 	return {

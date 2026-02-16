@@ -1,59 +1,271 @@
 'use client'
-import {Panel, ReactFlow} from '@xyflow/react'
-import {GitGraph} from 'lucide-react'
+import {ReactFlow} from '@xyflow/react'
+import {useCallback, useEffect, useMemo} from 'react'
+import {Sparkles, Search, Plus} from 'lucide-react'
 
 import {edgeTypes} from '@/features/mindmap/config/edge-types'
 
 import {nodeTypes} from '@/features/mindmap/config/index.config'
 
-import {MindMapAnimatedClickMenu, MindMapSideMenu} from '@/features/mindmap/components/menus'
+import {FloatingToolbar} from '@/features/mindmap/research-canvas/FloatingToolbar'
 import {MindMapBottomMenu} from '@/features/mindmap/components/menus/mindmap-bottom-menu/mindmap-bottom-menu'
+import {TimelinePanel} from '@/features/mindmap/components/menus/mindmap-side-menu/hover-panels/TimelinePanel'
+import {AssetLibraryPanel} from '@/features/mindmap/components/menus/mindmap-side-menu/hover-panels/AssetLibraryPanel'
+import {EmptyCanvas} from '@/features/mindmap/research-canvas/EmptyCanvas'
+import {ActionChip} from '@/features/mindmap/research-canvas/ActionChip'
+
 
 import {useContextMenu} from '@/hooks/useContextMenu'
-// import { useElkLayout } from '@/features/mindmap/layouts/algorithms/elk-layout'
 
-// this helper function returns the intersection point
-// of the line between the center of the intersectionNode and the target node
-// const {nodes: layoutNodes, edges: layoutEdges} = layoutElementsTreeFlex({}, 'root', 'TB')
-import {CaseFilesAndEvidenceBoard} from '@/features/mindmap/components/status-ui/case-files-and-evidence-board'
-import {GraphStatusLog} from '@/features/mindmap/components/status-ui/graph-status-log'
 import {useMindMapStore} from '@/features/mindmap/store'
 import {useMindMap} from '@/contexts/mindmap/mindmap-context'
+import {useMindMapAgent} from '@/features/mindmap/hooks/use-mindmap-agent'
+import {useMindMapUiStore} from '@/features/mindmap/store/mindmap-ui-store'
+import {transformStreamResponse} from '@/features/mindmap/actions/xata-to-xyflow'
+import {extractTextFromFile} from '@/utils/file-processing'
 
-import {useRef, useEffect} from 'react'
-import {ThreadBoard} from '@/features/mindmap/components/status-ui/thread-board'
 import {SessionNotes} from '@/features/mindmap/components/status-ui/session-notes'
 import {ConnectedRecordsPanel} from '@/features/mindmap/components/connected-records-panel'
 import {MindMapCommandMenu} from '@/features/mindmap/components/command-menu'
+import ResearchCanvasConsole from '@/features/mindmap/research-canvas/research-canvas-console.tsx'
 
-export function Graph(props: any) {
+const LAYOUT_DIRECTION_MAP: Record<string, 'horizontal' | 'vertical' | 'radial' | 'grid'> = {
+  chronological: 'horizontal',
+  thematic: 'radial',
+  geographic: 'grid',
+  hierarchical: 'vertical',
+  'force-directed': 'radial',
+}
+
+const resolveLayoutDirection = (layoutId?: string | null) =>
+  LAYOUT_DIRECTION_MAP[layoutId ?? 'chronological'] ?? 'horizontal'
+
+export function Graph() {
   // Get basic flow state from the store
-  const {nodes, edges, setNodes, addEdge, onConnect, onNodesDelete, onNodesChange, onEdgesChange} =
-    useMindMapStore()
+  const {nodes, edges, onConnect, onNodesDelete, onNodesChange, onEdgesChange} = useMindMapStore()
 
   // Get layout function from the context
-  const {organizeLayout} = useMindMap()
+  const {
+    organizeLayout,
+    addNodes,
+    addEdges,
+    addNodesWithLayout,
+    addUserInputNode,
+    updateNodeData,
+    getNodes,
+    screenToFlowPosition,
+    fitView,
+  } = useMindMap()
 
-  // Ref to keep track of the currently dragged node
-  const draggingNode = useRef<any>(null)
+  const {runAgentQuery, status: agentStatus} = useMindMapAgent()
+
+  const {
+    autoLayout,
+    layoutSettings,
+    activeLayoutId,
+    timeline,
+    setTimelineYear,
+    setTimelineEra,
+    setTimelinePlaying,
+    setTimelineSpeed,
+    startTour,
+    setCommandMenuOpen,
+  } = useMindMapUiStore()
+
+  const layoutDirection = useMemo(() => resolveLayoutDirection(activeLayoutId), [activeLayoutId])
+
+  const getCenteredPosition = useCallback(() => {
+    if (typeof window === 'undefined') return {x: 0, y: 0}
+    if (!screenToFlowPosition) return {x: 0, y: 0}
+    return screenToFlowPosition({x: window.innerWidth / 2, y: window.innerHeight / 2})
+  }, [screenToFlowPosition])
+
+  const runAgentQueryAndAddNodes = useCallback(
+    async ({message, table}: {message: string; table?: string}) => {
+      const sourceNode = addUserInputNode({
+        input: message,
+        user: 'Prometheus',
+        position: getCenteredPosition(),
+      })
+      updateNodeData(sourceNode.id, {label: message})
+
+      try {
+        const agentResult = await runAgentQuery({message})
+        const searchRecords = agentResult.search?.records ?? []
+        const resolvedTable = table ?? agentResult.search?.table ?? 'events'
+
+        updateNodeData(sourceNode.id, {
+          answer: agentResult.analysis,
+          entities: searchRecords,
+          table: resolvedTable,
+        })
+
+        if (!searchRecords.length) return
+
+        const existingNodes = getNodes()
+        const {nodes: newNodes, edges: newEdges} = await transformStreamResponse(
+          agentResult.analysis ?? '',
+          searchRecords,
+          '',
+          sourceNode,
+          existingNodes,
+          resolvedTable,
+          layoutDirection
+        )
+
+        const existingNodeIds = new Set(existingNodes.map((node) => node.id))
+        const existingEdgeIds = new Set(edges.map((edge) => edge.id))
+        const filteredNodes = newNodes.filter((node) => !existingNodeIds.has(node.id))
+        const filteredEdges = newEdges.filter((edge) => !existingEdgeIds.has(edge.id))
+
+        if (filteredNodes.length) addNodes(filteredNodes)
+        if (filteredEdges.length) addEdges(filteredEdges)
+
+        setTimeout(() => {
+          fitView({padding: 0.2})
+        }, 200)
+      } catch (error) {
+        console.error('Mindmap agent query failed:', error)
+        updateNodeData(sourceNode.id, {
+          answer: 'Unable to fetch results right now. Please try again.',
+        })
+      }
+    },
+    [
+      addEdges,
+      addNodes,
+      addUserInputNode,
+      edges,
+      fitView,
+      getCenteredPosition,
+      getNodes,
+      layoutDirection,
+      runAgentQuery,
+      updateNodeData,
+    ]
+  )
+
+  const handleTimelineRequest = useCallback(
+    async ({year, era, dateRange}: {year: number; era?: string; dateRange?: any}) => {
+      const dateLabel = dateRange
+        ? `${dateRange.startYear}-${dateRange.endYear}`
+        : `${year}`
+      const eraLabel = era ? ` during the ${era} era` : ''
+      const message = `Search the events table for notable UFO/UAP incidents${eraLabel} (${dateLabel}). Include witnesses, organizations, and documents connected to those events.`
+
+      await runAgentQueryAndAddNodes({message, table: 'events'})
+    },
+    [runAgentQueryAndAddNodes]
+  )
+
+  const handleAssetAdded = useCallback(
+    async (asset: {id: string; name: string; file?: File}) => {
+      if (!asset.file) return
+      try {
+        const fileText = await extractTextFromFile(asset.file)
+        const truncatedText = fileText.slice(0, 4000)
+        const summaryResult = await runAgentQuery({
+          message: `Summarize this document for a mindmap node. Focus on key entities, dates, and claims.\n\n${truncatedText}`,
+        })
+        const summary = summaryResult.analysis?.trim() || truncatedText.slice(0, 800)
+
+        const newNode = {
+          id: `document-${asset.id}`,
+          type: 'documentNode',
+          position: getCenteredPosition(),
+          data: {
+            title: asset.name,
+            content: summary,
+            fileName: asset.name,
+          },
+        }
+
+        await addNodesWithLayout([newNode], {
+          direction: 'grid',
+          preserveExistingLayout: true,
+          focusOnNewNodes: true,
+        })
+
+        setTimeout(() => {
+          fitView({padding: 0.2})
+        }, 200)
+      } catch (error) {
+        console.error('Asset summarization failed:', error)
+      }
+    },
+    [addNodesWithLayout, fitView, getCenteredPosition, runAgentQuery]
+  )
+
+  const panels = useMemo(
+    () => ({
+      timeline: (
+        <TimelinePanel
+          year={timeline.year}
+          era={timeline.era}
+          isPlaying={timeline.isPlaying}
+          playbackSpeed={timeline.speed}
+          onYearChange={(value) => setTimelineYear(value)}
+          onEraChange={(value) => setTimelineEra(value)}
+          onTogglePlay={() => setTimelinePlaying(!timeline.isPlaying)}
+          onPlaybackSpeedChange={(value) => setTimelineSpeed(value)}
+          onRequestData={handleTimelineRequest}
+        />
+      ),
+      assets: <AssetLibraryPanel onAssetAdded={handleAssetAdded} />,
+    }),
+    [
+      handleAssetAdded,
+      handleTimelineRequest,
+      setTimelineEra,
+      setTimelinePlaying,
+      setTimelineSpeed,
+      setTimelineYear,
+      timeline.era,
+      timeline.isPlaying,
+      timeline.speed,
+      timeline.year,
+    ]
+  )
+
+  const handleEmptyCanvasSubmit = useCallback(
+    async (input: string) => {
+      await runAgentQueryAndAddNodes({message: input})
+    },
+    [runAgentQueryAndAddNodes]
+  )
+
+  const handleStartTour = useCallback(() => {
+    startTour('default', 'guided')
+  }, [startTour])
+
+  const handleSearchDatabase = useCallback(() => {
+    setCommandMenuOpen(true)
+  }, [setCommandMenuOpen])
+
+  const handleAddNode = useCallback(() => {
+    addUserInputNode({
+      input: '',
+      user: 'User',
+      position: getCenteredPosition(),
+    })
+  }, [addUserInputNode, getCenteredPosition])
 
   // Automatically apply layout when nodes change
   useEffect(() => {
-    if (nodes.length > 0) {
-      // Apply layout with a small delay to ensure all node dimensions are available
-      const timeoutId = setTimeout(() => {
-        organizeLayout({
-          direction: 'horizontal',
-          centerChildren: true,
-          parentChildSpacing: 120,
-          siblingSpacing: 80,
-          preserveExistingLayout: true,
-        })
-      }, 300)
+    if (!autoLayout || nodes.length === 0) return
 
-      return () => clearTimeout(timeoutId)
-    }
-  }, [nodes.length, organizeLayout])
+    const timeoutId = setTimeout(() => {
+      organizeLayout({
+        direction: layoutDirection,
+        centerChildren: true,
+        parentChildSpacing: layoutSettings.nodeSpacing,
+        siblingSpacing: layoutSettings.edgeLength,
+        preserveExistingLayout: true,
+      })
+    }, 300)
+
+    return () => clearTimeout(timeoutId)
+  }, [autoLayout, layoutDirection, layoutSettings.edgeLength, layoutSettings.nodeSpacing, nodes.length, organizeLayout])
 
   const edgeOptions = {
     animated: true,
@@ -62,6 +274,8 @@ export function Graph(props: any) {
 
   const {ref, clickPosition, isOpen, closeMenu} = useContextMenu()
 
+  const isEmpty = nodes.length === 0
+
   return (
     <div className='relative h-[100vh] w-[100vw] z-0'>
       <ReactFlow
@@ -69,7 +283,6 @@ export function Graph(props: any) {
         colorMode='dark'
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
-        // snapToGrid={true}
         defaultEdgeOptions={edgeOptions}
         nodes={nodes}
         edges={edges}
@@ -77,7 +290,6 @@ export function Graph(props: any) {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         onNodesDelete={onNodesDelete}
-        // connectionLineComponent={FloatingConnectionLine}
         elevateNodesOnSelect={true}
         fitView
         defaultViewport={{
@@ -86,45 +298,51 @@ export function Graph(props: any) {
           y: 0,
         }}
         style={{
-          backgroundImage:
-            "url('data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2220%22%20height=%2220%22%20viewBox=%220%200%2020%2020%22%3E%3Ccircle%20cx=%221%22%20cy=%221%22%20r=%221%22%20fill=%22%23ccc%22%20fill-opacity=%220.3%22/%3E%3C/svg%3E')",
-        }}>
-        <Panel position='center-left'>
-          <div className='ml-2 mt-2'>
-            <MindMapSideMenu />
+          backgroundColor: '#0a0a0a',
+          backgroundImage: `radial-gradient(circle at 25% 25%, #222222 0.5px, transparent 1px),        radial-gradient(circle at 75% 75%, #111111 0.5px, transparent 1px)     `,
+          backgroundSize: '10px 10px',
+          imageRendering: 'pixelated',
+        }}
+      />
+
+      {isEmpty ? (
+        <div className='absolute inset-0 z-10 pointer-events-auto'>
+          <EmptyCanvas onSubmit={handleEmptyCanvasSubmit} />
+        </div>
+      ) : (
+        <>
+          <FloatingToolbar panels={panels} />
+
+          <div className='absolute top-6 right-6 z-20'>
+            <SessionNotes />
           </div>
-        </Panel>
 
-        <Panel position='top-right'>
-          {/* <ThreadBoard /> */}
-          {/* <CaseFilesAndEvidenceBoard /> */}
-          <SessionNotes />
-        </Panel>
+          <div className='absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-3'>
+            {/* Action Chips */}
+            <div className='flex items-center gap-2'>
+              <ActionChip icon={<Sparkles className='size-4' />} onClick={handleStartTour}>
+                Start Tour
+              </ActionChip>
+              <ActionChip icon={<Search className='size-4' />} onClick={handleSearchDatabase}>
+                Search Database
+              </ActionChip>
+              <ActionChip icon={<Plus className='size-4' />} onClick={handleAddNode}>
+                Add Node
+              </ActionChip>
+            </div>
 
-        <MindMapAnimatedClickMenu
-          isOpen={isOpen}
-          clickPosition={clickPosition}
-          closeMenu={closeMenu}
-        />
+            <ResearchCanvasConsole onSubmit={handleEmptyCanvasSubmit} />
+          </div>
 
-        <Panel position='bottom-center'>
-          <MindMapBottomMenu />
-        </Panel>
-
-        {/* bg-gradient-to-r from-black/50 to-transparent  */}
-      </ReactFlow>
-
-      {/* Connected Records Panel - Outside ReactFlow */}
-      {nodes.some(
-        (node) =>
-          node.type &&
-          node.type !== 'userInputNode' &&
-          node.data &&
-          (node.data.name || node.data.title || node.data.label)
-      ) && <ConnectedRecordsPanel />}
-
-      {/* Command Menu */}
-      <MindMapCommandMenu />
+          {nodes.some(
+            (node) =>
+              node.type &&
+              node.type !== 'userInputNode' &&
+              node.data &&
+              (node.data.name || node.data.title || node.data.label)
+          ) && <ConnectedRecordsPanel />}
+        </>
+      )}
     </div>
   )
 }

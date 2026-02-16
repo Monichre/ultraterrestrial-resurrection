@@ -77,7 +77,7 @@ const GN = memo( ( props: any ) => {
           : null}
 
 
-        <div className="overflow-hidden rounded-3xl bg-white dark:bg-black">
+        <div className="overflow-hidden rounded-2xl bg-neutral-900/80 backdrop-blur-sm shadow-[0_0_0_1px_rgba(255,255,255,0.03)]">
           {renderEntityGroup( {
             type: type,
             data: {

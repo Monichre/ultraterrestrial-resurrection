@@ -8,9 +8,9 @@ export const BaseNode = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "rounded-md border border-gray-200 bg-white p-5 text-gray-950 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-50",
+      "rounded-2xl border border-neutral-800 bg-neutral-900/80 backdrop-blur-sm p-5 text-white shadow-[0_0_0_1px_rgba(255,255,255,0.03)]",
       className,
-      selected ? "border-gray-500 shadow-lg dark:border-gray-400" : "",
+      selected ? "border-blue-500/50 shadow-[0_0_12px_rgba(59,130,246,0.15)]" : "",
       "hover:ring-1",
     )}
     {...props}

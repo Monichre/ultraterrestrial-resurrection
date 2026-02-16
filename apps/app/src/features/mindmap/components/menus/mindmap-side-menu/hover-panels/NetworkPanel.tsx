@@ -1,32 +1,33 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { Users, MapPin, FileText, Eye, EyeOff, Settings2, Grid3X3, List } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Switch } from "@/components/ui/switch"
-import { Slider } from "@/components/ui/slider"
-import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
-import { CalendarIcon, MagnifyingGlassIcon, Cross2Icon } from "@radix-ui/react-icons"
+import { useState } from 'react'
+import { Users, MapPin, FileText, Eye, EyeOff, Settings2, Grid3X3, List } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Switch } from '@/components/ui/switch'
+import { Slider } from '@/components/ui/slider'
+import { Badge } from '@/components/ui/badge'
+import { Input } from '@/components/ui/input'
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
+import { CalendarIcon, MagnifyingGlassIcon, Cross2Icon } from '@radix-ui/react-icons'
+import { useMindMapStore } from '@/features/mindmap/store/mindmap-store'
 
 const NODE_TYPES = [
-  { id: "people", name: "People", icon: <Users size={14} />, color: "bg-blue-500", count: 1247, visible: true },
+  { id: 'people', name: 'People', icon: <Users size={14} />, color: 'bg-blue-500', count: 1247, visible: true },
   {
-    id: "institutions",
-    name: "Institutions",
+    id: 'institutions',
+    name: 'Institutions',
     icon: <Settings2 size={14} />,
-    color: "bg-green-500",
+    color: 'bg-green-500',
     count: 342,
     visible: true,
   },
-  { id: "events", name: "Events", icon: <CalendarIcon size={14} />, color: "bg-yellow-500", count: 856, visible: true },
-  { id: "locations", name: "Locations", icon: <MapPin size={14} />, color: "bg-purple-500", count: 623, visible: true },
+  { id: 'events', name: 'Events', icon: <CalendarIcon size={14} />, color: 'bg-yellow-500', count: 856, visible: true },
+  { id: 'locations', name: 'Locations', icon: <MapPin size={14} />, color: 'bg-purple-500', count: 623, visible: true },
   {
-    id: "documents",
-    name: "Documents",
+    id: 'documents',
+    name: 'Documents',
     icon: <FileText size={14} />,
-    color: "bg-red-500",
+    color: 'bg-red-500',
     count: 2134,
     visible: false,
   },
@@ -34,30 +35,30 @@ const NODE_TYPES = [
 
 const NETWORK_TEMPLATES = [
   {
-    id: "1",
-    name: "Government Network",
-    description: "Official agencies and personnel",
+    id: '1',
+    name: 'Government Network',
+    description: 'Official agencies and personnel',
     nodeCount: 234,
     popular: true,
   },
   {
-    id: "2",
-    name: "Military Encounters",
-    description: "Military witnesses and incidents",
+    id: '2',
+    name: 'Military Encounters',
+    description: 'Military witnesses and incidents',
     nodeCount: 156,
     popular: false,
   },
   {
-    id: "3",
-    name: "Civilian Sightings",
-    description: "Public witness network",
+    id: '3',
+    name: 'Civilian Sightings',
+    description: 'Public witness network',
     nodeCount: 892,
     popular: true,
   },
   {
-    id: "4",
-    name: "Research Network",
-    description: "Scientists and researchers",
+    id: '4',
+    name: 'Research Network',
+    description: 'Scientists and researchers',
     nodeCount: 67,
     popular: false,
   },
@@ -66,8 +67,20 @@ const NETWORK_TEMPLATES = [
 export function NetworkPanel() {
   const [nodeTypes, setNodeTypes] = useState(NODE_TYPES)
   const [density, setDensity] = useState([75])
-  const [searchQuery, setSearchQuery] = useState("")
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
+  const [searchQuery, setSearchQuery] = useState('')
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
+
+  // Live graph stats
+  const storeNodes = useMindMapStore((s) => s.nodes)
+  const storeEdges = useMindMapStore((s) => s.edges)
+
+  const liveNodeCount = storeNodes.length
+  const liveEdgeCount = storeEdges.length
+  const nodeTypeDistribution = storeNodes.reduce<Record<string, number>>((acc, node) => {
+    const type = (node.type || 'default') as string
+    acc[type] = (acc[type] || 0) + 1
+    return acc
+  }, {})
 
   const toggleNodeType = (id: string) => {
     setNodeTypes((prev) => prev.map((type) => (type.id === id ? { ...type, visible: !type.visible } : type)))
@@ -81,24 +94,24 @@ export function NetworkPanel() {
   )
 
   return (
-    <div className="w-[420px] h-auto flex flex-col bg-neutral-900 text-white shadow-xl border border-gray-200 border-neutral-800 rounded-2xl overflow-hidden dark:border-gray-800">
-      <header className="border-b border-neutral-800 p-4">
+    <div className="w-[425px] h-auto flex flex-col bg-neutral-800/90 text-white shadow-lg backdrop-blur-md border border-white/5 rounded-2xl">
+      <header className="border-b border-b-[#292f35] p-3">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="text-base font-medium text-white">Network Explorer</h3>
+          <h3 className="text-sm font-medium text-white">Network Explorer</h3>
           <div className="flex items-center gap-1">
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => setViewMode("grid")}
-              className={`size-8 ${viewMode === "grid" ? "bg-neutral-700" : "hover:bg-neutral-800"}`}
+              onClick={() => setViewMode('grid')}
+              className={`size-8 ${viewMode === 'grid' ? 'bg-white/10' : 'hover:bg-white/5'}`}
             >
               <Grid3X3 size={16} strokeWidth={2} />
             </Button>
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => setViewMode("list")}
-              className={`size-8 ${viewMode === "list" ? "bg-neutral-700" : "hover:bg-neutral-800"}`}
+              onClick={() => setViewMode('list')}
+              className={`size-8 ${viewMode === 'list' ? 'bg-white/10' : 'hover:bg-white/5'}`}
             >
               <List size={16} strokeWidth={2} />
             </Button>
@@ -111,14 +124,14 @@ export function NetworkPanel() {
             placeholder="Search network..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full h-9 pl-9 pr-9 text-sm bg-neutral-800 border-neutral-700 rounded-lg focus-visible:ring-1 focus-visible:ring-blue-500 focus-visible:ring-offset-0 placeholder:text-neutral-500"
+            className="w-full h-8 pl-8 pr-8 text-sm bg-neutral-900 border-[#292f35] rounded-xl focus-visible:ring-1 focus-visible:ring-blue-500 focus-visible:ring-offset-0"
           />
           {searchQuery && (
             <Button
               size="icon"
               variant="ghost"
-              onClick={() => setSearchQuery("")}
-              className="absolute top-1/2 right-2 -translate-y-1/2 size-5 hover:bg-neutral-700"
+              onClick={() => setSearchQuery('')}
+              className="absolute top-1/2 right-2 -translate-y-1/2 size-5 hover:bg-white/10"
             >
               <Cross2Icon size={12} strokeWidth={2} />
             </Button>
@@ -127,37 +140,37 @@ export function NetworkPanel() {
       </header>
 
       <Tabs defaultValue="templates" className="flex-1">
-        <TabsList className="w-full bg-transparent p-3 h-auto gap-1 justify-start">
+        <TabsList className="w-full bg-transparent p-2 h-auto gap-1">
           <TabsTrigger
             value="templates"
-            className="text-sm font-medium h-8 px-4 data-[state=active]:bg-neutral-700 data-[state=active]:text-white text-neutral-400 hover:bg-neutral-800 hover:text-white rounded-md"
+            className="text-sm font-medium h-8 px-3 data-[state=active]:bg-white/10 data-[state=active]:text-white text-[#8c8c8c] hover:bg-white/5 hover:text-white"
           >
             Templates
           </TabsTrigger>
           <TabsTrigger
             value="nodes"
-            className="text-sm font-medium h-8 px-4 data-[state=active]:bg-neutral-700 data-[state=active]:text-white text-neutral-400 hover:bg-neutral-800 hover:text-white rounded-md"
+            className="text-sm font-medium h-8 px-3 data-[state=active]:bg-white/10 data-[state=active]:text-white text-[#8c8c8c] hover:bg-white/5 hover:text-white"
           >
             Node Types
           </TabsTrigger>
           <TabsTrigger
             value="settings"
-            className="text-sm font-medium h-8 px-4 data-[state=active]:bg-neutral-700 data-[state=active]:text-white text-neutral-400 hover:bg-neutral-800 hover:text-white rounded-md"
+            className="text-sm font-medium h-8 px-3 data-[state=active]:bg-white/10 data-[state=active]:text-white text-[#8c8c8c] hover:bg-white/5 hover:text-white"
           >
             Settings
           </TabsTrigger>
         </TabsList>
 
-        <div className="p-4 overflow-y-auto max-h-96">
+        <div className="p-3 overflow-y-auto max-h-96">
           <TabsContent value="templates" className="mt-0">
-            {viewMode === "grid" ? (
+            {viewMode === 'grid' ? (
               <div className="grid grid-cols-2 gap-3">
                 {filteredTemplates.map((template) => (
                   <div
                     key={template.id}
-                    className="group relative bg-neutral-800 rounded-xl p-4 hover:bg-neutral-750 transition-colors cursor-pointer border border-gray-200 border-neutral-700 dark:border-gray-800"
+                    className="group relative bg-neutral-700/30 rounded-xl p-4 hover:bg-neutral-700/50 transition-colors cursor-pointer border border-white/5"
                   >
-                    <div className="aspect-video bg-gradient-to-br from-blue-600/20 to-purple-600/20 rounded-lg mb-3 flex items-center justify-center border border-gray-200 border-neutral-700 dark:border-gray-800">
+                    <div className="aspect-video bg-gradient-to-br from-blue-600/20 to-purple-600/20 rounded-lg mb-3 flex items-center justify-center border border-white/5">
                       <Eye size={20} className="text-neutral-400" strokeWidth={2} />
                     </div>
                     <div className="space-y-2">
@@ -173,7 +186,7 @@ export function NetworkPanel() {
                       <p className="text-xs text-neutral-500 line-clamp-2">{template.description}</p>
                       <Button
                         size="sm"
-                        className="w-full mt-2 bg-neutral-700 hover:bg-neutral-600 text-white border-none h-8"
+                        className="w-full mt-2 bg-white/10 hover:bg-white/20 text-white border-none h-8"
                       >
                         Load Network
                       </Button>
@@ -186,9 +199,9 @@ export function NetworkPanel() {
                 {filteredTemplates.map((template) => (
                   <div
                     key={template.id}
-                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-neutral-800 transition-colors cursor-pointer"
+                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-neutral-700/30 transition-colors cursor-pointer"
                   >
-                    <div className="w-12 h-8 bg-gradient-to-br from-blue-600/20 to-purple-600/20 rounded flex items-center justify-center border border-gray-200 border-neutral-700 dark:border-gray-800">
+                    <div className="w-12 h-8 bg-gradient-to-br from-blue-600/20 to-purple-600/20 rounded flex items-center justify-center border border-white/5">
                       <Eye size={14} className="text-neutral-400" strokeWidth={2} />
                     </div>
                     <div className="flex-1 min-w-0">
@@ -205,7 +218,7 @@ export function NetworkPanel() {
                     <Button
                       size="sm"
                       variant="ghost"
-                      className="text-neutral-400 hover:text-white hover:bg-neutral-700"
+                      className="text-[#8c8c8c] hover:text-white hover:bg-white/10"
                     >
                       Load
                     </Button>
@@ -216,6 +229,33 @@ export function NetworkPanel() {
           </TabsContent>
 
           <TabsContent value="nodes" className="space-y-4 mt-0">
+            {/* Live Graph Stats */}
+            <div className="grid grid-cols-2 gap-2 mb-3">
+              <div className="p-3 rounded-lg bg-white/5">
+                <p className="text-xs text-neutral-400">Total Nodes</p>
+                <p className="text-lg font-bold text-white">{liveNodeCount}</p>
+              </div>
+              <div className="p-3 rounded-lg bg-white/5">
+                <p className="text-xs text-neutral-400">Total Edges</p>
+                <p className="text-lg font-bold text-white">{liveEdgeCount}</p>
+              </div>
+            </div>
+
+            {Object.keys(nodeTypeDistribution).length > 0 && (
+              <div className="space-y-2 mb-3">
+                <h4 className="text-sm font-medium">Node Distribution</h4>
+                {Object.entries(nodeTypeDistribution)
+                  .sort(([, a], [, b]) => b - a)
+                  .slice(0, 5)
+                  .map(([type, count]) => (
+                    <div key={type} className="flex items-center justify-between p-2 rounded-lg bg-white/5">
+                      <span className="text-sm capitalize">{type.replace(/-/g, ' ')}</span>
+                      <Badge className="bg-blue-500/20 text-blue-400 border-blue-500/30 text-xs">{count}</Badge>
+                    </div>
+                  ))}
+              </div>
+            )}
+
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <h4 className="text-sm font-medium flex items-center gap-2">
@@ -229,7 +269,7 @@ export function NetworkPanel() {
               {nodeTypes.map((nodeType) => (
                 <div
                   key={nodeType.id}
-                  className="flex items-center justify-between p-3 rounded-lg hover:bg-neutral-800 transition-colors"
+                  className="flex items-center justify-between p-3 rounded-lg hover:bg-neutral-700/30 transition-colors"
                 >
                   <div className="flex items-center gap-3">
                     <div className={`w-3 h-3 rounded-full ${nodeType.color}`} />
@@ -247,13 +287,13 @@ export function NetworkPanel() {
               ))}
             </div>
 
-            <div className="pt-3 border-t border-neutral-800">
+            <div className="pt-3 border-t border-white/5">
               <div className="grid grid-cols-2 gap-2">
                 <Button
                   size="sm"
                   variant="ghost"
                   onClick={() => setNodeTypes((prev) => prev.map((type) => ({ ...type, visible: true })))}
-                  className="text-xs hover:bg-neutral-800"
+                  className="text-xs hover:bg-white/10"
                 >
                   <Eye size={12} className="mr-1" strokeWidth={2} />
                   Show All
@@ -262,7 +302,7 @@ export function NetworkPanel() {
                   size="sm"
                   variant="ghost"
                   onClick={() => setNodeTypes((prev) => prev.map((type) => ({ ...type, visible: false })))}
-                  className="text-xs hover:bg-neutral-800"
+                  className="text-xs hover:bg-white/10"
                 >
                   <EyeOff size={12} className="mr-1" strokeWidth={2} />
                   Hide All
@@ -275,7 +315,7 @@ export function NetworkPanel() {
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <h4 className="text-sm font-medium">Network Density</h4>
-                <Badge className="bg-neutral-700 text-white text-xs">{density[0]}%</Badge>
+                <Badge className="bg-white/5 text-white text-xs">{density[0]}%</Badge>
               </div>
 
               <Slider value={density} onValueChange={setDensity} max={100} min={10} step={5} className="w-full" />
@@ -283,14 +323,14 @@ export function NetworkPanel() {
               <p className="text-xs text-neutral-400">Controls connection visibility and visual complexity</p>
             </div>
 
-            <div className="pt-3 border-t border-neutral-800">
+            <div className="pt-3 border-t border-white/5">
               <h4 className="text-sm font-medium mb-3">Connection Types</h4>
               <div className="space-y-3">
                 {[
-                  { name: "Direct Relationships", enabled: true },
-                  { name: "Institutional Links", enabled: true },
-                  { name: "Temporal Connections", enabled: false },
-                  { name: "Geographic Proximity", enabled: false },
+                  { name: 'Direct Relationships', enabled: true },
+                  { name: 'Institutional Links', enabled: true },
+                  { name: 'Temporal Connections', enabled: false },
+                  { name: 'Geographic Proximity', enabled: false },
                 ].map((connection) => (
                   <div key={connection.name} className="flex items-center justify-between">
                     <span className="text-sm">{connection.name}</span>

@@ -145,7 +145,7 @@ export function LayersPanel() {
               <DotsHorizontalIcon size={12} className="text-gray-400" strokeWidth={2} />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="bg-neutral-900 border-neutral-700">
+          <DropdownMenuContent className="bg-neutral-900 border-[#292f35]">
             <DropdownMenuItem className="text-white hover:bg-neutral-800">Duplicate Layer</DropdownMenuItem>
             <DropdownMenuItem className="text-white hover:bg-neutral-800">Rename Layer</DropdownMenuItem>
             <DropdownMenuItem className="text-red-400 hover:bg-neutral-800">
@@ -161,7 +161,7 @@ export function LayersPanel() {
   )
 
   return (
-    <div className="w-[320px] h-auto flex flex-col bg-neutral-800/90 text-white shadow-lg backdrop-blur-md border border-gray-200 border-white/5 rounded-2xl dark:border-gray-800">
+    <div className="w-[425px] h-auto flex flex-col bg-neutral-800/90 text-white shadow-lg backdrop-blur-md border border-white/5 rounded-2xl">
       <header className="border-b border-b-[#292f35] p-3">
         <div className="flex items-center justify-between">
           <h3 className="text-sm font-medium text-white">Layers</h3>

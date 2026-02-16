@@ -1,103 +1,13 @@
 'use client'
 
 import {useEffect, useRef, useState, useCallback, MutableRefObject} from 'react'
-// import {useEffect, useRef, useState, useCallback} from 'react'
-// import {gsap} from 'gsap'
-// import {CustomEase} from 'gsap/CustomEase'
-// import {MotionPathPlugin} from 'gsap/MotionPathPlugin'
-// import { gsap } from "gsap";
-// import { useGSAP } from "@gsap/react";
-
-// import { CustomEase } from "gsap/CustomEase";
-// // CustomBounce requires CustomEase
-// import { CustomBounce } from "gsap/CustomBounce";
-// // CustomWiggle requires CustomEase
-// import { CustomWiggle } from "gsap/CustomWiggle";
-// import { RoughEase, ExpoScaleEase, SlowMo } from "gsap/EasePack";
-
-// import { Draggable } from "gsap/Draggable";
-// import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
-// import { EaselPlugin } from "gsap/EaselPlugin";
-// import { Flip } from "gsap/Flip";
-// import { GSDevTools } from "gsap/GSDevTools";
-// import { InertiaPlugin } from "gsap/InertiaPlugin";
-// import { MotionPathHelper } from "gsap/MotionPathHelper";
-// import { MotionPathPlugin } from "gsap/MotionPathPlugin";
-// import { MorphSVGPlugin } from "gsap/MorphSVGPlugin";
-// import { Observer } from "gsap/Observer";
-// import { Physics2DPlugin } from "gsap/Physics2DPlugin";
-// import { PhysicsPropsPlugin } from "gsap/PhysicsPropsPlugin";
-// import { PixiPlugin } from "gsap/PixiPlugin";
-// import { ScrambleTextPlugin } from "gsap/ScrambleTextPlugin";
-// import { ScrollTrigger } from "gsap/ScrollTrigger";
-// // ScrollSmoother requires ScrollTrigger
-// import { ScrollSmoother } from "gsap/ScrollSmoother";
-// import { ScrollToPlugin } from "gsap/ScrollToPlugin";
-// import { SplitText } from "gsap/SplitText";
-// import { TextPlugin } from "gsap/TextPlugin";
 import {gsap} from 'gsap'
 import {useGSAP} from '@gsap/react'
-
 import {CustomEase} from 'gsap/CustomEase'
-// CustomBounce requires CustomEase
-import {CustomBounce} from 'gsap/CustomBounce'
-// CustomWiggle requires CustomEase
-import {CustomWiggle} from 'gsap/CustomWiggle'
-import {RoughEase, ExpoScaleEase, SlowMo} from 'gsap/EasePack'
 
-import {Draggable} from 'gsap/Draggable'
-import {DrawSVGPlugin} from 'gsap/DrawSVGPlugin'
-import {EaselPlugin} from 'gsap/EaselPlugin'
-import {Flip} from 'gsap/Flip'
-import {GSDevTools} from 'gsap/GSDevTools'
-import {InertiaPlugin} from 'gsap/InertiaPlugin'
-import {MotionPathHelper} from 'gsap/MotionPathHelper'
-import {MotionPathPlugin} from 'gsap/MotionPathPlugin'
-import {MorphSVGPlugin} from 'gsap/MorphSVGPlugin'
-import {Observer} from 'gsap/Observer'
-import {Physics2DPlugin} from 'gsap/Physics2DPlugin'
-import {PhysicsPropsPlugin} from 'gsap/PhysicsPropsPlugin'
-import {PixiPlugin} from 'gsap/PixiPlugin'
-import {ScrambleTextPlugin} from 'gsap/ScrambleTextPlugin'
-import {ScrollTrigger} from 'gsap/ScrollTrigger'
-// ScrollSmoother requires ScrollTrigger
-import {ScrollSmoother} from 'gsap/ScrollSmoother'
-import {ScrollToPlugin} from 'gsap/ScrollToPlugin'
-import {SplitText} from 'gsap/SplitText'
-import {TextPlugin} from 'gsap/TextPlugin'
-
-// Register GSAP plugins
+// Register only the GSAP plugins we actually use
 if (typeof window !== 'undefined') {
-  gsap.registerPlugin(
-    CustomEase,
-    MotionPathPlugin,
-    useGSAP,
-    Draggable,
-    DrawSVGPlugin,
-    EaselPlugin,
-    Flip,
-    GSDevTools,
-    InertiaPlugin,
-    MotionPathHelper,
-    MotionPathPlugin,
-    MorphSVGPlugin,
-    Observer,
-    Physics2DPlugin,
-    PhysicsPropsPlugin,
-    PixiPlugin,
-    ScrambleTextPlugin,
-    ScrollTrigger,
-    ScrollSmoother,
-    ScrollToPlugin,
-    SplitText,
-    TextPlugin,
-    RoughEase,
-    ExpoScaleEase,
-    SlowMo,
-    CustomEase,
-    CustomBounce,
-    CustomWiggle
-  )
+  gsap.registerPlugin(CustomEase, useGSAP)
 }
 
 type AnimationRefs = {
@@ -110,25 +20,76 @@ type AnimationRefs = {
   shootingStars: MutableRefObject<HTMLDivElement | null>
   cursor: MutableRefObject<HTMLDivElement | null>
   orbs: MutableRefObject<HTMLDivElement | null>
+  prometheus: MutableRefObject<HTMLDivElement | null>
 }
 
 export const useUltraterrestrialAnimation = () => {
   const [isReady, setIsReady] = useState(false)
   const [showFluidOrbs, setShowFluidOrbs] = useState(false)
+  const [titleVisible, setTitleVisible] = useState(false)
+  const [navVisible, setNavVisible] = useState(false)
+  const [forcedReveal, setForcedReveal] = useState(false)
+  const [shouldReduceMotion, setShouldReduceMotion] = useState(false)
   const animationRef = useRef<gsap.core.Timeline | null>(null)
   const orbsRef = useRef<HTMLDivElement[]>([])
+  const hasRevealedRef = useRef(false)
+
+  const container = useRef<HTMLDivElement>(null)
+  const moon = useRef<HTMLDivElement>(null)
+  const earth = useRef<HTMLDivElement>(null)
+  const nav = useRef<HTMLDivElement>(null)
+  const title = useRef<HTMLDivElement>(null)
+  const stars = useRef<HTMLDivElement>(null)
+  const shootingStars = useRef<HTMLDivElement>(null)
+  const cursor = useRef<HTMLDivElement>(null)
+  const orbs = useRef<HTMLDivElement>(null)
+  const prometheus = useRef<HTMLDivElement>(null)
 
   const refs: AnimationRefs = {
-    container: useRef<HTMLDivElement>(null),
-    moon: useRef<HTMLDivElement>(null),
-    earth: useRef<HTMLDivElement>(null),
-    nav: useRef<HTMLDivElement>(null),
-    title: useRef<HTMLDivElement>(null),
-    stars: useRef<HTMLDivElement>(null),
-    shootingStars: useRef<HTMLDivElement>(null),
-    cursor: useRef<HTMLDivElement>(null),
-    orbs: useRef<HTMLDivElement>(null),
+    container,
+    moon,
+    earth,
+    nav,
+    title,
+    stars,
+    shootingStars,
+    cursor,
+    orbs,
+    prometheus,
   }
+
+  const revealSceneImmediately = useCallback(() => {
+    if (hasRevealedRef.current) return
+    hasRevealedRef.current = true
+
+    setShowFluidOrbs(false)
+    setTitleVisible(true)
+    setNavVisible(true)
+
+    const visibleTargets = [
+      stars.current,
+      shootingStars.current,
+      prometheus.current,
+      moon.current,
+      earth.current,
+      nav.current,
+      title.current,
+    ]
+
+    visibleTargets.forEach((target) => {
+      if (target) {
+        gsap.set(target, {
+          opacity: 1,
+          visibility: 'visible',
+          filter: 'none',
+          scale: 1,
+          x: 0,
+          y: 0,
+          clearProps: 'all',
+        })
+      }
+    })
+  }, [])
 
   // Debug: Log state changes
   useGSAP(() => {
@@ -140,33 +101,76 @@ export const useUltraterrestrialAnimation = () => {
   }, [isReady])
 
   useEffect(() => {
-    // Wait for all elements to be in the DOM
-    const checkElements = setInterval(() => {
+    if (typeof window === 'undefined') return
+
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+
+    const updatePreference = () => {
+      const matches = mediaQuery.matches
+      setShouldReduceMotion(matches)
+      if (matches) {
+        setForcedReveal(true)
+        revealSceneImmediately()
+      }
+    }
+
+    updatePreference()
+    if (mediaQuery.addEventListener) {
+      mediaQuery.addEventListener('change', updatePreference)
+    } else {
+      mediaQuery.addListener(updatePreference)
+    }
+
+    return () => {
+      if (mediaQuery.removeEventListener) {
+        mediaQuery.removeEventListener('change', updatePreference)
+      } else {
+        mediaQuery.removeListener(updatePreference)
+      }
+    }
+  }, [revealSceneImmediately])
+
+  useEffect(() => {
+    if (shouldReduceMotion || forcedReveal) return
+
+    let fallbackTimer: number | null = null
+
+    const checkElements = window.setInterval(() => {
       const earthCanvas = document.querySelector('#earth-canvas')
       const moonCanvas = document.querySelector('#moon-canvas')
-      const astronaut = document.querySelector('.astronaut')
-      const cosmicNav = document.querySelector('.cosmic-nav')
+      const prometheusEl = document.querySelector('.prometheus-container')
 
-      console.log('🔍 Checking elements:', {
-        earthCanvas: !!earthCanvas,
-        moonCanvas: !!moonCanvas,
-        astronaut: !!astronaut,
-        cosmicNav: !!cosmicNav,
-      })
-
-      if (earthCanvas && moonCanvas && astronaut && cosmicNav) {
+      if (earthCanvas && moonCanvas && prometheusEl) {
         console.log('✅ All elements found, starting animation')
-        clearInterval(checkElements)
+        window.clearInterval(checkElements)
+        if (fallbackTimer) {
+          window.clearTimeout(fallbackTimer)
+        }
+        hasRevealedRef.current = false
         setIsReady(true)
       }
-    }, 100)
+    }, 120)
 
-    return () => clearInterval(checkElements)
-  }, [])
+    fallbackTimer = window.setTimeout(() => {
+      console.warn('⚠️ Ultraterrestrial hero animation fallback triggered')
+      window.clearInterval(checkElements)
+      setForcedReveal(true)
+      revealSceneImmediately()
+    }, 4000)
+
+    return () => {
+      window.clearInterval(checkElements)
+      if (fallbackTimer) {
+        window.clearTimeout(fallbackTimer)
+      }
+    }
+  }, [revealSceneImmediately, shouldReduceMotion, forcedReveal])
 
   useGSAP(
     () => {
-      if (!isReady) return
+      if (!isReady || forcedReveal || shouldReduceMotion) {
+        return
+      }
 
       console.log('🚀 Starting animation sequence...')
 
@@ -198,13 +202,12 @@ export const useUltraterrestrialAnimation = () => {
         gsap.set(refs.earth.current, {opacity: 0, visibility: 'visible'})
       }
 
-      if (refs.nav.current) gsap.set(refs.nav.current, {opacity: 0})
+      if (refs.nav.current) gsap.set(refs.nav.current, {opacity: 0, y: -20})
       if (refs.title.current)
         gsap.set(refs.title.current, {opacity: 0, scale: 0.8, filter: 'blur(20px)'})
 
-      // Also hide the shooting stars initially
-      if (refs.shootingStars.current) gsap.set(refs.shootingStars.current, {opacity: 0})
-      if (refs.stars.current) gsap.set(refs.stars.current, {opacity: 0})
+      // Hide Prometheus initially - will fade in ethereally
+      if (refs.prometheus.current) gsap.set(refs.prometheus.current, {opacity: 0})
 
       // Create flash overlay
       const flashOverlay = document.createElement('div')
@@ -250,7 +253,7 @@ export const useUltraterrestrialAnimation = () => {
         ease: 'power4.inOut',
       }).set(flashOverlay, {opacity: 0})
 
-      // Phase 2: Fluid shader orbs (0.5-4.5s) - Extended duration with better timing
+      // Phase 2: Fluid shader orbs (0.5-4.8s) - Seamless transition to flash
       // Control FluidShaderOrbs visibility via React state
       tl.call(
         () => {
@@ -259,40 +262,49 @@ export const useUltraterrestrialAnimation = () => {
         },
         [],
         0.5
-      ) // Start orbs earlier at 0.5s
+      ) // Start orbs at 0.5s
         .call(
           () => {
-            console.log('🔮 Hiding fluid orbs')
+            console.log('🔮 Fading fluid orbs')
             setShowFluidOrbs(false)
           },
           [],
-          4.5
-        ) // Hide orbs later at 4.5s
+          4.8
+        ) // Hide orbs just before flash for seamless transition
 
-        // Phase 3: Big flash (5s) - Moved later to allow orbs to complete
+        // Phase 3: Big flash (5s) - Synchronized with orb fade
         .to(
           flashOverlay,
           {
             opacity: 1,
-            duration: 0.1,
+            duration: 0.2,
             ease: 'power4.out',
           },
-          5
+          4.9
         )
         .to(
           flashOverlay,
           {
             opacity: 0,
-            scale: 3,
-            duration: 1,
+            scale: 2,
+            duration: 1.5,
             ease: 'power2.out',
           },
           5.1
         )
 
-        // Phase 4: Reveal background elements first
-        .to(refs.stars.current, {opacity: 1, duration: 1.5, ease: 'power1.out'}, 5.2)
-        .to(refs.shootingStars.current, {opacity: 1, duration: 1.5, ease: 'power1.out'}, 5.3)
+        // Prometheus fades in slowly and ethereally, watching over the cosmic dance
+        .to(
+          refs.prometheus.current,
+          {
+            opacity: 0.85,
+            duration: 3,
+            ease: 'power1.inOut',
+            onStart: () => console.log('👁️ Prometheus awakening...'),
+            onComplete: () => console.log('👁️ Prometheus watching'),
+          },
+          5.5
+        )
 
         // Phase 5: Reveal Earth - SIMPLIFIED
         .to(
@@ -326,12 +338,45 @@ export const useUltraterrestrialAnimation = () => {
           8.2
         )
 
-        // Phase 6: UI elements (7-9s)
-        .to(refs.nav.current, {opacity: 1, duration: 1, ease: 'power2.out'}, 7)
+        // Phase 6: UI elements appear after celestial bodies are in place
+        .call(
+          () => {
+            console.log('📝 Title appearing')
+            setTitleVisible(true)
+          },
+          [],
+          9
+        )
+        // Animate title with GSAP
         .to(
           refs.title.current,
-          {opacity: 1, scale: 1, filter: 'blur(0px)', duration: 1.5, ease: 'power2.out'},
-          7.5
+          {
+            opacity: 1,
+            scale: 1,
+            filter: 'blur(0px)',
+            duration: 1.5,
+            ease: 'power2.out',
+          },
+          9
+        )
+        .call(
+          () => {
+            console.log('🧭 Navigation appearing')
+            setNavVisible(true)
+          },
+          [],
+          10.5
+        )
+        // Animate nav with GSAP
+        .to(
+          refs.nav.current,
+          {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            ease: 'power2.out',
+          },
+          10.5
         )
 
         // Add subtle floating animation to Earth after it appears
@@ -351,7 +396,7 @@ export const useUltraterrestrialAnimation = () => {
         orbsRef.current = []
       }
     },
-    {dependencies: [isReady], scope: refs.container}
+    {dependencies: [isReady, forcedReveal, shouldReduceMotion], scope: refs.container}
   )
 
   // Control methods
@@ -368,16 +413,24 @@ export const useUltraterrestrialAnimation = () => {
   }, [])
 
   const restartAnimation = useCallback(() => {
-    if (animationRef.current) {
-      animationRef.current.restart()
+    if (!animationRef.current) {
+      revealSceneImmediately()
+      return
     }
-  }, [])
+    setTitleVisible(false)
+    setNavVisible(false)
+    animationRef.current.restart()
+  }, [revealSceneImmediately])
 
   const skipToEnd = useCallback(() => {
-    if (animationRef.current) {
-      animationRef.current.progress(1)
+    if (!animationRef.current) {
+      revealSceneImmediately()
+      return
     }
-  }, [])
+    animationRef.current.progress(1)
+    setTitleVisible(true)
+    setNavVisible(true)
+  }, [revealSceneImmediately])
 
   return {
     pauseAnimation,
@@ -386,6 +439,8 @@ export const useUltraterrestrialAnimation = () => {
     skipToEnd,
     isReady,
     showFluidOrbs,
+    titleVisible,
+    navVisible,
     refs,
   }
 }

@@ -24,7 +24,7 @@ export const PolaroidBasic = ({person}) => {
           {role}, {popularity || rank || credibility}
         </p>
         <Link
-          href={`/explore/key-figures/${person.id}`}
+          href={`/key-figures/${person.id}`}
           className='pointer-events-auto inline-flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-xs font-medium text-white transition hover:bg-white/5'>
           <span>View</span>
         </Link>

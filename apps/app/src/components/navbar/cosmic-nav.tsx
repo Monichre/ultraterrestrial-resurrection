@@ -37,15 +37,15 @@ export function CosmicNav({className}: CosmicNavProps) {
       href: '/explore',
       subItems: [
         {title: 'Explore Home', href: '/explore'},
-        {title: 'The State of Disclosure', href: '/explore/disclosure'},
-        {title: 'Key Figures', href: '/explore/key-figures'},
-        {title: '3D Interactive Timeline', href: '/explore/visualizations'},
+        {title: 'The State of Disclosure', href: '/disclosure'},
+        {title: 'Key Figures', href: '/key-figures'},
+        {title: '3D Interactive Timeline', href: '/visualizations'},
         ...(isAdmin
           ? [
-              {title: '3D Model Network Graph', href: '/explore/visualizations'},
-              {title: '3D Grid', href: '/explore/visualizations/3d-grid'},
-              {title: 'Drawing Board', href: '/explore/visualizations/drawing-board'},
-              {title: 'Word Cloud', href: '/explore/visualizations/word-cloud'},
+              {title: '3D Model Network Graph', href: '/visualizations'},
+              {title: '3D Grid', href: '/visualizations/3d-grid'},
+              {title: 'Drawing Board', href: '/visualizations/drawing-board'},
+              {title: 'Word Cloud', href: '/visualizations/word-cloud'},
             ]
           : []),
       ],

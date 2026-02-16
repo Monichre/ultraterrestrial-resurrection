@@ -74,7 +74,7 @@ export const GroupResultsNode: any = ( props: any ) => {
         </CoreNodeContent>
         <CoreNodeBottom>
           {/* Label and Icon */}
-          <div className="flex items-center gap-1 rounded-full bg-neutral-200 py-1 pl-2 pr-2.5 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-400">
+          <div className="flex items-center gap-1 rounded-full bg-neutral-800 py-1 pl-2 pr-2.5 text-neutral-400">
             <div className="w-5 h-5 relative">
               <span
                 className="absolute inset-0 flex items-center justify-center rounded-full border-2 shadow pointer-events-none transition-transform duration-200"
@@ -87,7 +87,7 @@ export const GroupResultsNode: any = ( props: any ) => {
                 <MyFavoriteStarIllustration className="w-full h-full object-cover transition delay-400 duration-500 ease-spring-bouncier scale-0" />
               </span>
             </div>
-            <span className="text-neutral-600 dark:text-neutral-400">{props.label}</span>
+            <span className="text-neutral-400">{props.label}</span>
           </div>
 
           {/* AI Button */}

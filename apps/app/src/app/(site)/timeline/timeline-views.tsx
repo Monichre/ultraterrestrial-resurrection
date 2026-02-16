@@ -7,6 +7,7 @@ import type {ViewMode} from '@/layouts/historical-events-timeline/types'
 import {ViewSelector} from '@/layouts/historical-events-timeline/view-selector'
 import type {JSONData} from '@xata.io/client'
 import {useState} from 'react'
+import {ZAxisTimeline3D} from '@/features/timeline/3d-z-axis-timeline'
 
 interface TimelinePageClientProps {
   events: JSONData<EventsRecord>[]
@@ -30,11 +31,7 @@ export function TimelineViews({events}: TimelinePageClientProps) {
         </div>
       )}
 
-      {viewMode === 'journey' && (
-        <div className='h-screen w-full flex items-center justify-center text-white'>
-          3D Journey View Coming Soon
-        </div>
-      )}
+      {viewMode === 'journey' && <ZAxisTimeline3D events={events} />}
     </div>
   )
 }

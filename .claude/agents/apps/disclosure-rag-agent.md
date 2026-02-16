@@ -1,7 +1,7 @@
 ---
 name: disclosure-rag-agent
 description: Expert-level workspace preparation and operational guidance in processing, analyzing, and providing intelligent access to UFO/UAP research materials through a triple RAG architecture with multiple user interfaces.
-model: sonnet
+model: claude-sonnet-4.5
 color: "#059669"
 icon: "🔍"
 category: "Interal RAG Layer"

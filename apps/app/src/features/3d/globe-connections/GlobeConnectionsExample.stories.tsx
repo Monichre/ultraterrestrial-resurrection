@@ -65,19 +65,22 @@ export const VRMode: Story = {
   },
 }
 
-// Fullscreen view
+// Fullscreen view (compute size at render-time to avoid SSR window access)
 export const Fullscreen: Story = {
+  render: (args) => {
+    const w = typeof window !== 'undefined' ? window.innerWidth : 800
+    const h = typeof window !== 'undefined' ? window.innerHeight : 600
+    return (
+      <GlobeConnections {...args} width={w} height={h} />
+    )
+  },
   args: {
-    width: window.innerWidth,
-    height: window.innerHeight,
     stats: false,
     vr: false,
   },
   parameters: {
     docs: {
-      description: {
-        story: 'Displays the globe in fullscreen mode.',
-      },
+      description: { story: 'Displays the globe in fullscreen mode.' },
     },
   },
 }

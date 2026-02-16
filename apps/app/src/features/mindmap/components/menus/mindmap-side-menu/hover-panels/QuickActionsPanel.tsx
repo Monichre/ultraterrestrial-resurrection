@@ -143,19 +143,19 @@ export function QuickActionsPanel() {
   }
 
   return (
-    <div className="w-[380px] h-auto flex flex-col bg-neutral-900 text-white shadow-xl border border-gray-200 border-neutral-800 rounded-2xl overflow-hidden dark:border-gray-800">
-      <header className="border-b border-neutral-800 p-4">
+    <div className="w-[425px] h-auto flex flex-col bg-neutral-800/90 text-white shadow-lg backdrop-blur-md border border-white/5 rounded-2xl">
+      <header className="border-b border-b-[#292f35] p-3">
         <div className="flex items-center gap-2 mb-2">
           <Zap size={16} className="text-blue-400" strokeWidth={2} />
-          <h3 className="text-base font-medium text-white">Quick Actions</h3>
+          <h3 className="text-sm font-medium text-white">Quick Actions</h3>
         </div>
         <p className="text-xs text-neutral-400">Shortcuts and common tasks</p>
       </header>
 
-      <div className="p-4 overflow-y-auto max-h-96 space-y-4">
+      <div className="p-3 overflow-y-auto max-h-96 space-y-4">
         {Object.entries(groupedActions).map(([category, actions]) => (
           <div key={category} className="space-y-2">
-            <h4 className="text-sm font-medium text-neutral-300">
+            <h4 className="text-sm font-medium text-neutral-400">
               {categoryNames[category as keyof typeof categoryNames]}
             </h4>
             <div className="space-y-1">
@@ -164,16 +164,16 @@ export function QuickActionsPanel() {
                   key={action.id}
                   variant="ghost"
                   onClick={() => handleActionClick(action.id)}
-                  className="w-full justify-start h-auto p-3 hover:bg-neutral-800 text-left"
+                  className="w-full justify-start h-auto p-3 hover:bg-white/10 text-left"
                 >
                   <div className="flex items-center gap-3 w-full">
-                    <div className="flex items-center justify-center w-8 h-8 bg-neutral-800 rounded-lg">
+                    <div className="flex items-center justify-center w-8 h-8 bg-neutral-700/50 rounded-lg">
                       {action.icon}
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between">
                         <span className="text-sm font-medium text-white">{action.name}</span>
-                        <Badge className="bg-neutral-700 text-neutral-300 text-xs font-mono">{action.shortcut}</Badge>
+                        <Badge className="bg-white/5 text-[#8c8c8c] text-xs font-mono">{action.shortcut}</Badge>
                       </div>
                       <p className="text-xs text-neutral-400 truncate">{action.description}</p>
                     </div>
@@ -184,10 +184,10 @@ export function QuickActionsPanel() {
           </div>
         ))}
 
-        <Separator className="bg-neutral-800" />
+        <Separator className="bg-white/5" />
 
         <div className="space-y-2">
-          <h4 className="text-sm font-medium text-neutral-300 flex items-center gap-2">
+          <h4 className="text-sm font-medium text-neutral-400 flex items-center gap-2">
             <History size={14} strokeWidth={2} />
             Recent Actions
           </h4>
@@ -195,7 +195,7 @@ export function QuickActionsPanel() {
             {recentActions.map((action, index) => (
               <div
                 key={index}
-                className="flex items-center justify-between p-2 rounded-lg hover:bg-neutral-800 transition-colors"
+                className="flex items-center justify-between p-2 rounded-lg hover:bg-neutral-700/30 transition-colors"
               >
                 <span className="text-sm text-white">{action.name}</span>
                 <span className="text-xs text-neutral-400">{action.time}</span>

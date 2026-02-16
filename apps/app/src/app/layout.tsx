@@ -3,6 +3,7 @@
 
 import {ThemeProvider} from '@/contexts/theme-provider'
 import {ClerkProvider} from '@clerk/nextjs'
+import {CommandPaletteProvider} from '@/components/command-palette'
 // import {FullSiteNav} from '@/components/navbar/full-site-nav'
 import {
   FONT_LUKAS_SANS,
@@ -53,16 +54,19 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
             // enableSystem
             // disableTransitionOnChange
           >
-            {/* <DataLayer> */}
+            <CommandPaletteProvider>
+              {/* <DataLayer> */}
 
-            {/* <FullSiteNav /> */}
-            <CustomCursor />
-            <main className='min-h-[100vh] min-w-screen relative site dark'>
-              <div className='cosmic-nav'>
-                <CosmicNav />
-              </div>
-              {children}
-            </main>
+              <CosmicNav />
+
+              {/* <FullSiteNav /> */}
+              <CustomCursor />
+              <main
+                className='min-h-[100vh] min-w-screen relative site dark'
+                style={{backgroundColor: '#000'}}>
+                {children}
+              </main>
+            </CommandPaletteProvider>
           </ThemeProvider>
         </body>
         {/* </DataLayer> */}

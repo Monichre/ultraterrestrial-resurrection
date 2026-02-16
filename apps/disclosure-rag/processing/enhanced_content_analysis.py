@@ -21,8 +21,15 @@ from groq import Groq
 from dotenv import load_dotenv
 
 # Import our enhanced prompts
-from research.prompts.enhanced_research_prompt import enhanced_research_prompt
-from research.prompts.specialized_analysis_prompts import (
+import sys
+from pathlib import Path
+
+# Add packages/prompts to path
+packages_path = Path(__file__).parent.parent.parent.parent / "packages" / "prompts"
+sys.path.insert(0, str(packages_path))
+
+from enhanced_research_prompt import enhanced_research_prompt
+from specialized_analysis_prompts import (
     get_specialized_prompt, 
     detect_content_type,
     content_type_keywords

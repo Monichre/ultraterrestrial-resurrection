@@ -1,19 +1,22 @@
 # Mindmap Add Entity Debug Work Session
+
 **Date:** 2025-01-30
 **Issue:** Records returned from database but not appearing on graph
 **Status:** Issue Identified - Working on Fix
 
 ## Problem Summary
+
 User reports that when adding records to mindmap outside of historical/guided tour mode, records are successfully returned from `askXataWithAi` but don't appear on the graph. The logs show:
 
 ```
 [Historical Query Server] Full records fetched: 3
-POST /explore/disclosure 200 in 14867ms with no results on the graph
+POST /disclosure 200 in 14867ms with no results on the graph
 ```
 
 ## Analysis Completed
 
 ### 1. **Data Flow Traced** ✅
+
 The complete flow has been mapped:
 
 1. **User Interaction** → `mindmap-bottom-menu.tsx:queueContextualExpansion()`
@@ -33,6 +36,7 @@ The complete flow has been mapped:
 **Issue:** The `integrateAgentResults()` function is receiving the processed nodes and edges from the historical query agent, but there appears to be a disconnect in the integration process.
 
 **Evidence from Logs:**
+
 - ✅ Records successfully fetched (3 personnel records)
 - ✅ askXataWithAi response contains valid record IDs
 - ✅ Historical Query Agent processes records into nodes
@@ -41,6 +45,7 @@ The complete flow has been mapped:
 ### 3. **Key Findings**
 
 #### **Working Components:**
+
 - `executeContextualExpansion()` in `historical-query-server-actions.ts:114` - Logs show success
 - `askXataWithAi()` - Returns 3 personnel records as expected  
 - `fetchRecords()` - Successfully retrieves full record data
@@ -48,6 +53,7 @@ The complete flow has been mapped:
 - `organizeNodeLayout()` - Applies proper positioning
 
 #### **Problem Area:**
+
 - `integrateAgentResults()` function at `mindmap-bottom-menu.tsx:488`
 - The callback executes but nodes don't get added to the visible graph
 - Suspect issue in `addNodes()` call or state synchronization
@@ -55,6 +61,7 @@ The complete flow has been mapped:
 ### 4. **Architecture Context**
 
 **Integration Hierarchy:**
+
 ```
 Contextual Intelligence (Foundation) ✅
 ├── Powers: Smart badges, filtering, suggestions
@@ -78,13 +85,15 @@ Mindmap Context Integration ❌
 
 ## Files Examined
 
-### Core Files:
+### Core Files
+
 1. **`historical-query-server-actions.ts`** - Server actions (WORKING)
 2. **`historical-query-agent.ts`** - Background agent (WORKING)  
 3. **`mindmap-bottom-menu.tsx`** - Integration point (ISSUE HERE)
 4. **`contextual-intelligence.ts`** - AI foundation (WORKING)
 
-### Integration Points:
+### Integration Points
+
 - `queueContextualExpansion()` - ✅ Working
 - `onTaskComplete()` callback - ✅ Executing  
 - `integrateAgentResults()` - ❌ **Issue identified here**
@@ -92,12 +101,14 @@ Mindmap Context Integration ❌
 ## Next Steps
 
 ### 4. **Immediate Fix Required**
+
 - [ ] Examine `integrateAgentResults()` function implementation
 - [ ] Check if `addNodes()` is being called correctly
 - [ ] Verify state synchronization between agent and mindmap context
 - [ ] Test with debugging to see if nodes reach the React Flow graph
 
 ### 5. **Testing Plan**
+
 - [ ] Add detailed logging to `integrateAgentResults()`
 - [ ] Verify nodes are properly formatted for React Flow
 - [ ] Check if there are any state management issues
@@ -105,7 +116,8 @@ Mindmap Context Integration ❌
 
 ## Debugging Enhancements Applied ✅
 
-### 5. **Enhanced Debugging Added** 
+### 5. **Enhanced Debugging Added**
+
 - ✅ Added comprehensive logging to `integrateAgentResults()` function
 - ✅ Changed from `addNodes()` to `addNodesWithLayout()` for better integration
 - ✅ Added error handling around node and edge addition
@@ -116,13 +128,15 @@ Mindmap Context Integration ❌
 
 **File:** `apps/app/src/features/mindmap/components/menus/mindmap-bottom-menu/mindmap-bottom-menu.tsx`
 
-1. **Line 588-602:** Enhanced node addition with `addNodesWithLayout()` 
+1. **Line 588-602:** Enhanced node addition with `addNodesWithLayout()`
 2. **Line 604-612:** Added comprehensive edge addition debugging
 3. **Line 629:** Updated dependency array to include required functions
 4. **Enhanced Logging:** Added detailed state tracking throughout integration process
 
 ### 7. **Expected Debug Output:**
+
 When the issue occurs again, we should now see detailed logs showing:
+
 - ✅ Number of nodes before/after addition attempts
 - ✅ Success/failure of `addNodesWithLayout()` calls
 - ✅ Edge addition status and counts

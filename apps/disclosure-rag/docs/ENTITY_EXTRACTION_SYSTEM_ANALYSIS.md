@@ -13,9 +13,11 @@ The existing entity extraction system represents a sophisticated, production-rea
 ### Core Components Analysis
 
 #### 1. **EntityExtractionAgent** (`agents/entity_extraction_agent.py`)
+
 **Status**: ✅ Production Ready - 875 lines of sophisticated code
 
 **Key Capabilities**:
+
 - **AI-Powered Extraction**: Dual provider support (OpenAI/Anthropic)
 - **Structured Schema**: Comprehensive 9+ entity types with relationships
 - **Confidence Scoring**: Granular 0-1 confidence metrics
@@ -24,6 +26,7 @@ The existing entity extraction system represents a sophisticated, production-rea
 - **Database Integration**: Intelligent Xata search with fuzzy matching
 
 **Entity Types Supported**:
+
 ```python
 ENTITY_TYPES = {
     "topics": "Main subjects, themes, areas of discussion",
@@ -40,15 +43,18 @@ ENTITY_TYPES = {
 ```
 
 **AI Model Configuration**:
+
 - **OpenAI**: Function calling with structured schema, default gpt-4.1
-- **Anthropic**: JSON parsing with schema validation, default claude-sonnet-4-20250514
+- **Anthropic**: JSON parsing with schema validation, default claude-sonnet-4.5-20250514
 - **Confidence Thresholding**: User-configurable filtering (default 0.5)
 - **Context Awareness**: Domain-specific UFO/UAP research prompts
 
 #### 2. **XataSearchTool** (Integrated within EntityExtractionAgent)
+
 **Status**: ✅ Fully Operational with 230,998+ Records
 
 **Database Schema Coverage**:
+
 ```python
 TABLE_MAPPINGS = {
     "topics": ["name", "title", "summary"],
@@ -64,20 +70,24 @@ TABLE_MAPPINGS = {
 ```
 
 **Search Capabilities**:
+
 - **Fuzzy Matching**: Configurable fuzziness levels
 - **Multi-field Search**: Searches across relevant columns
 - **Batch Processing**: Parallel entity searches
 - **Result Ranking**: Confidence-based result ordering
 
 #### 3. **Interactive Processing System**
+
 **Status**: ✅ Production UI with Rich Console Interface
 
 **Components**:
+
 - **InteractiveEntityProcessor**: Rich CLI with progress bars
 - **EntityProcessorUI**: Full TUI application with real-time feedback
 - **Batch Processing**: Non-interactive mode for automation
 
 **Processing Pipeline**:
+
 ```
 Text Input → AI Extraction → Confidence Filtering → Database Search → Result Merging → JSON Storage
 ```
@@ -85,18 +95,21 @@ Text Input → AI Extraction → Confidence Filtering → Database Search → Re
 ## Current System Performance Metrics
 
 ### Accuracy Measurements
+
 - **Entity Extraction Accuracy**: 85-95% (documented in preservation plan)
 - **Confidence Calibration**: Well-tuned scoring with 0-1 range
 - **Relationship Detection**: Advanced entity relationship mapping
 - **Domain Specialization**: UFO/UAP research optimized
 
 ### Processing Performance
+
 - **AI Response Time**: ~2-5 seconds per extraction request
 - **Database Search**: <1 second per entity search
 - **Batch Processing**: Efficient parallel entity searches
 - **Memory Usage**: Optimized async processing patterns
 
 ### Data Integration
+
 - **Xata Records**: 230,998+ structured records across 9 entity types
 - **Schema Compliance**: 85% compatibility with Triple RAG system
 - **Vector Support**: Built-in OpenAI embedding generation
@@ -105,6 +118,7 @@ Text Input → AI Extraction → Confidence Filtering → Database Search → Re
 ## Entity Schema Deep Dive
 
 ### Structured Entity Definition
+
 ```python
 @dataclass
 class ExtractedEntity:
@@ -118,6 +132,7 @@ class ExtractedEntity:
 ### Entity Type Schemas
 
 #### Personnel Entities
+
 ```python
 {
     "name": "Lou Elizondo",
@@ -134,6 +149,7 @@ class ExtractedEntity:
 ```
 
 #### Sighting Entities
+
 ```python
 {
     "description": "Large black disc underwater moving 450-550 knots",
@@ -150,6 +166,7 @@ class ExtractedEntity:
 ```
 
 #### Relationship Entities
+
 ```python
 {
     "from_entity": "Lou Elizondo",
@@ -165,24 +182,29 @@ class ExtractedEntity:
 ## Confidence Scoring System Analysis
 
 ### Scoring Framework
+
 The system implements a sophisticated confidence scoring mechanism:
 
 **High Confidence (0.9-1.0)**:
+
 - Explicit entity mentions with clear context
 - Structured data with specific details
 - Cross-referenced information validation
 
 **Medium Confidence (0.6-0.8)**:
+
 - Implied entities with contextual evidence
 - Partial information requiring inference
 - Ambiguous but likely correct references
 
 **Low Confidence (0.3-0.5)**:
+
 - Weak contextual clues
 - Uncertain or speculative references
 - Requires human validation
 
 ### Accuracy Optimization Techniques
+
 1. **Domain-Specific Prompts**: UFO/UAP specialized extraction prompts
 2. **Schema Validation**: Structured output enforcement
 3. **Confidence Thresholding**: User-configurable filtering
@@ -194,6 +216,7 @@ The system implements a sophisticated confidence scoring mechanism:
 ### Current Integration Points
 
 #### 1. **Workflow Integration** (main.py → knowledge_base_service.py)
+
 ```python
 # Existing integration trigger
 if summary_file and os.path.exists(summary_file):
@@ -204,11 +227,13 @@ if summary_file and os.path.exists(summary_file):
 ```
 
 #### 2. **Entity Processing Pipeline**
+
 ```
 YouTube URL → Transcript Generation → AI Summary → Entity Extraction → Database Search → Result Storage
 ```
 
 #### 3. **Data Storage Integration**
+
 - **JSON Results**: `entity_processing_results.json`
 - **Database Integration**: Direct Xata table updates
 - **Knowledge Base**: Triple RAG system compatibility (85%)
@@ -216,10 +241,13 @@ YouTube URL → Transcript Generation → AI Summary → Entity Extraction → D
 ### AGNO Integration Strategy
 
 #### Phase 1: Temporal Enhancement Integration
+
 **Objective**: Add temporal analysis to existing high-accuracy extraction
 
 **Integration Points**:
+
 1. **ExtractedEntity Enhancement**:
+
    ```python
    @dataclass
    class TemporalExtractedEntity(ExtractedEntity):
@@ -230,6 +258,7 @@ YouTube URL → Transcript Generation → AI Summary → Entity Extraction → D
    ```
 
 2. **Relationship Enhancement**:
+
    ```python
    {
        "from_entity": "Lou Elizondo",
@@ -245,6 +274,7 @@ YouTube URL → Transcript Generation → AI Summary → Entity Extraction → D
    ```
 
 3. **Agent Communication Layer**:
+
    ```python
    class SharedEntityStore:
        """Cross-agent entity knowledge sharing"""
@@ -260,9 +290,11 @@ YouTube URL → Transcript Generation → AI Summary → Entity Extraction → D
    ```
 
 #### Phase 2: Cross-Agent Sharing Architecture
+
 **Objective**: Enable AGNO agents to leverage existing entity knowledge
 
 **Shared Components**:
+
 1. **Entity Knowledge Base**: Centralized store with 230K+ existing entities
 2. **Confidence Aggregation**: Multi-agent confidence scoring
 3. **Temporal Indexing**: Time-based entity organization
@@ -271,6 +303,7 @@ YouTube URL → Transcript Generation → AI Summary → Entity Extraction → D
 ### Compatibility Assessment
 
 #### Strengths for AGNO Integration
+
 ✅ **High Accuracy Foundation**: 85-95% accuracy provides reliable base  
 ✅ **Comprehensive Schema**: 9+ entity types cover UFO research domain  
 ✅ **Confidence Framework**: Well-calibrated scoring system  
@@ -279,12 +312,14 @@ YouTube URL → Transcript Generation → AI Summary → Entity Extraction → D
 ✅ **Vector Support**: OpenAI embeddings for semantic matching  
 
 #### Integration Requirements
+
 🎯 **Temporal Extensions**: Add timestamp awareness to entities  
 🎯 **Cross-Agent Communication**: Shared entity store implementation  
 🎯 **Narrative Sequencing**: Chronological entity organization  
 🎯 **Enhanced Relationships**: Temporal relationship modeling  
 
 #### Minimal Changes Required
+
 - **ExtractedEntity dataclass**: Add temporal fields
 - **EntityExtractionAgent**: Add temporal parsing methods  
 - **SharedEntityStore**: New class for cross-agent communication
@@ -293,12 +328,14 @@ YouTube URL → Transcript Generation → AI Summary → Entity Extraction → D
 ## Implementation Recommendations
 
 ### 1. **Preserve Core Excellence**
+
 - **Maintain 85-95% accuracy**: No changes to core AI extraction logic
 - **Keep existing interfaces**: Backward compatibility essential  
 - **Preserve performance**: Existing benchmarks must be maintained
 - **Maintain database integration**: Existing Xata search functionality
 
 ### 2. **AGNO Integration Pattern**
+
 ```python
 class AGNOEntityExtractor(EntityExtractionAgent):
     """AGNO-enhanced entity extraction with temporal awareness"""
@@ -327,6 +364,7 @@ class AGNOEntityExtractor(EntityExtractionAgent):
 ```
 
 ### 3. **Shared Entity Store Design**
+
 ```python
 class SharedEntityStore:
     """Cross-agent entity knowledge sharing with temporal indexing"""
@@ -347,6 +385,7 @@ class SharedEntityStore:
 ```
 
 ### 4. **Performance Optimization**
+
 - **Incremental Enhancement**: Add features without slowing existing pipeline
 - **Caching Strategy**: In-memory cache for frequently accessed entities  
 - **Parallel Processing**: Maintain existing async patterns
@@ -355,6 +394,7 @@ class SharedEntityStore:
 ## Testing and Validation Framework
 
 ### Unit Test Coverage
+
 ```python
 class TestTemporalEntityExtraction:
     async def test_timestamp_parsing(self):
@@ -371,6 +411,7 @@ class TestTemporalEntityExtraction:
 ```
 
 ### Integration Testing
+
 - **YouTube Pipeline**: End-to-end testing with real videos
 - **Database Integration**: Verify Xata compatibility maintained
 - **Performance Benchmarks**: Ensure <30 second processing target
@@ -379,18 +420,21 @@ class TestTemporalEntityExtraction:
 ## Success Metrics for AGNO Integration
 
 ### Functional Metrics
+
 - ✅ **Accuracy Preservation**: 85-95% entity extraction accuracy maintained
 - 🎯 **Temporal Enhancement**: 80%+ timestamp extraction accuracy
 - 🎯 **Cross-Agent Sharing**: Functional shared entity store
 - 🎯 **Narrative Sequencing**: Chronological entity organization
 
 ### Performance Metrics  
+
 - ✅ **Processing Speed**: <30 seconds for standard videos maintained
 - 🎯 **Temporal Processing**: <5 second overhead for temporal features
 - 🎯 **Shared Store**: <1 second entity retrieval from store
 - 🎯 **Memory Usage**: <20% increase with temporal features
 
 ### Integration Quality
+
 - ✅ **Backward Compatibility**: All existing tests pass
 - 🎯 **AGNO Agent Communication**: Functional cross-agent entity sharing
 - 🎯 **Database Compatibility**: Temporal data integrates with existing schema
@@ -401,12 +445,14 @@ class TestTemporalEntityExtraction:
 The existing entity extraction system provides an exceptional foundation for AGNO integration. With its **85-95% accuracy**, comprehensive schema design, and sophisticated AI pipeline, it represents one of the most advanced UFO research entity extraction systems available.
 
 **Key Integration Advantages**:
+
 - **Proven Accuracy**: Years of refinement achieving production-grade performance
 - **Comprehensive Coverage**: 9+ entity types covering complete UFO research domain  
 - **Scalable Architecture**: Modern async patterns ready for enhancement
 - **Rich Database**: 230K+ existing entities for cross-referencing
 
 **AGNO Integration Strategy**:
+
 - **Preserve Excellence**: Maintain all existing capabilities unchanged
 - **Temporal Enhancement**: Add timestamp awareness as optional feature
 - **Cross-Agent Sharing**: Implement shared entity store for agent communication

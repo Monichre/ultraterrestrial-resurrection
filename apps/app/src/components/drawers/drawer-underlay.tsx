@@ -7,7 +7,7 @@ const EXPANDED_HEIGHT = 704
 const COLLAPSED_HEIGHT = 400
 const TOGGLE_HEIGHT_THRESHOLD = (EXPANDED_HEIGHT + COLLAPSED_HEIGHT) / 2
 
-const CaretSortIconMotion = motion(ChevronsUpDown)
+const CaretSortIconMotion = motion.create(ChevronsUpDown)
 
 //
 export function DemoDrawerUnderlay() {

@@ -16,7 +16,7 @@ export function DatabaseSchemaNode({
 }: NodeProps<DatabaseSchemaNode>) {
 	return (
 		<BaseNode className="p-0" selected={selected}>
-			<h2 className="rounded-tl-md rounded-tr-md bg-gray-100 p-2 text-center text-sm text-gray-500 dark:bg-gray-800 dark:text-gray-400">
+			<h2 className="rounded-tl-2xl rounded-tr-2xl bg-neutral-800 p-2 text-center text-sm text-neutral-400">
 				{data.label}
 			</h2>
 			{/* shadcn Table cannot be used because of hardcoded overflow-auto */}

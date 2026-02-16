@@ -79,16 +79,16 @@ export function MindMapCommandMenu() {
       keywords: ['data', 'models', 'entities', 'database', 'uap', 'ufo'],
     },
     {
-      id: 'search-knowledge',
-      name: 'Search Knowledge Base',
-      description: 'Search the UFO/UAP knowledge base',
+      id: 'search-corpus',
+      name: 'Search Knowledge Base / Research Corpus',
+      description: 'Search the curated UFO/UAP knowledge base and research corpus',
       icon: <Database className='h-4 w-4' />,
       action: () => {
-        // TODO: Implement knowledge base search
-        console.log('Searching knowledge base')
+        // TODO: Implement corpus search
+        console.log('Searching knowledge base and research corpus')
         setOpen(false)
       },
-      keywords: ['search', 'knowledge', 'database', 'find'],
+      keywords: ['search', 'knowledge', 'corpus', 'database', 'find'],
     },
     {
       id: 'analyze-sighting',

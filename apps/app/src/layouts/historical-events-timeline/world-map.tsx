@@ -25,10 +25,12 @@ export function WorldMap( {
   console.log( "🚀 ~ markers:", markers )
   const svgRef = useRef<SVGSVGElement>( null )
   const map = new DottedMap( { height: 100, grid: "diagonal" } )
-  const chainedMarkers = markers & markers?.length ? markers.slice( 0, -1 ).map( ( marker, i ) => ( {
-    start: markers[i],
-    end: markers[i + 1]
-  } ) ) : []
+  const chainedMarkers = (markers && markers.length > 1)
+    ? markers.slice(0, -1).map((_, i) => ({
+        start: markers[i],
+        end: markers[i + 1],
+      }))
+    : []
 
 
   const svgMap = map.getSVG( {

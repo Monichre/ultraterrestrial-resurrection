@@ -26,7 +26,7 @@ export function SettingsPanel() {
   ]
 
   return (
-    <div className="w-[360px] h-auto flex flex-col bg-neutral-800/90 text-white shadow-lg backdrop-blur-md border border-gray-200 border-white/5 rounded-2xl dark:border-gray-800">
+    <div className="w-[425px] h-auto flex flex-col bg-neutral-800/90 text-white shadow-lg backdrop-blur-md border border-white/5 rounded-2xl">
       <header className="border-b border-b-[#292f35] p-3">
         <h3 className="text-sm font-medium text-white">Settings</h3>
       </header>
@@ -98,10 +98,10 @@ export function SettingsPanel() {
               <div className="space-y-2">
                 <label className="text-sm">Export Quality</label>
                 <Select defaultValue="high">
-                  <SelectTrigger className="bg-neutral-900 border-neutral-700">
+                  <SelectTrigger className="bg-neutral-900 border-[#292f35]">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-neutral-900 border-neutral-700">
+                  <SelectContent className="bg-neutral-900 border-[#292f35]">
                     <SelectItem value="low">Low (72 DPI)</SelectItem>
                     <SelectItem value="medium">Medium (150 DPI)</SelectItem>
                     <SelectItem value="high">High (300 DPI)</SelectItem>
@@ -159,10 +159,10 @@ export function SettingsPanel() {
               <div className="space-y-2">
                 <label className="text-sm">Interface Scale</label>
                 <Select defaultValue="100">
-                  <SelectTrigger className="bg-neutral-900 border-neutral-700">
+                  <SelectTrigger className="bg-neutral-900 border-[#292f35]">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-neutral-900 border-neutral-700">
+                  <SelectContent className="bg-neutral-900 border-[#292f35]">
                     <SelectItem value="75">75%</SelectItem>
                     <SelectItem value="100">100%</SelectItem>
                     <SelectItem value="125">125%</SelectItem>
@@ -178,7 +178,7 @@ export function SettingsPanel() {
               {shortcuts.map((shortcut, index) => (
                 <div key={index} className="flex items-center justify-between p-2 rounded-lg hover:bg-neutral-700/30">
                   <span className="text-sm">{shortcut.action}</span>
-                  <kbd className="px-2 py-1 text-xs bg-neutral-700 rounded border border-gray-200 border-neutral-600 dark:border-gray-800">
+                  <kbd className="px-2 py-1 text-xs bg-neutral-700 rounded border border-[#292f35]">
                     {shortcut.keys}
                   </kbd>
                 </div>

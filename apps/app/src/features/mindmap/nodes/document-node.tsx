@@ -26,15 +26,15 @@ export const DocumentNode = (node: any) => {
 	return (
 		<BlurAppear>
 			<div
-				className="animate-running speed-normal nodrag overflow-hidden rounded-3xl bg-white dark:bg-black"
+				className="animate-running speed-normal nodrag overflow-hidden rounded-2xl bg-neutral-900/80 backdrop-blur-sm"
 				style={{ opacity: 1, willChange: "auto" }}
 			>
 				<main
 					id="920040ff-0893-4f70-9648-da435c47f0e4"
-					className="space-y-3.5 w-96 border-2 p-1.5 rounded-3xl duration-200 border-neutral-200 dark:border-neutral-800 bg-neutral-100 dark:bg-neutral-900 group hover:border-indigo-200 dark:hover:border-indigo-800"
+					className="space-y-3.5 w-96 border p-1.5 rounded-2xl duration-200 border-neutral-800 bg-neutral-900/80 group hover:border-neutral-700 hover:bg-white/5"
 				>
-					<section className="overflow-visible relative rounded-2xl duration-200 border-2 bg-neutral-50 px-4 py-5 shadow-lg shadow-neutral-200/50 dark:bg-neutral-950 dark:shadow-neutral-800/50 border-neutral-200 dark:border-neutral-800">
-						<div className="nodrag peer/wrap relative flex w-full flex-col items-stretch gap-2 font-medium text-neutral-600 duration-500 dark:text-neutral-50">
+					<section className="overflow-visible relative rounded-2xl duration-200 border bg-neutral-950 px-4 py-5 shadow-lg shadow-neutral-800/50 border-neutral-800">
+						<div className="nodrag peer/wrap relative flex w-full flex-col items-stretch gap-2 font-medium text-white duration-500">
 							<div className="flex flex-col gap-3 font-inter">
 								<div className="mark-scroll-bar overflow-y-auto">
 									<h2 className="text-lg font-bold">{node?.data?.title}</h2>
@@ -46,7 +46,7 @@ export const DocumentNode = (node: any) => {
 						</div>
 					</section>
 					<div className="flex w-full items-center justify-between px-1 font-mono text-[0.65rem]">
-						<div className="flex items-center gap-1 rounded-full bg-neutral-200 py-1 pl-2 pr-2.5 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-400">
+						<div className="flex items-center gap-1 rounded-full bg-neutral-800 py-1 pl-2 pr-2.5 text-neutral-400">
 							<div className="size-5">
 								<span
 									className="relative flex shrink-0 overflow-hidden rounded-full aspect-square h-full animate-overlayShow cursor-pointer border-2 shadow duration-200 pointer-events-none"
@@ -62,13 +62,13 @@ export const DocumentNode = (node: any) => {
 									/>
 								</span>
 							</div>
-							<span className="text-neutral-600 dark:text-neutral-400">Me</span>
+							<span className="text-neutral-400">Me</span>
 						</div>
 						{/* <span>{}</span> */}
 					</div>
 				</main>
 				<button
-					className="invisible ring-neutral-950/10 dark:ring-neutral-50/10 absolute -bottom-3 left-1/2 flex -translate-x-1/2 items-center justify-center rounded-full bg-neutral-200 p-1 outline-none ring-2 duration-200 md:hover:block md:peer-hover/wrap:block dark:bg-neutral-800"
+					className="invisible ring-neutral-50/10 absolute -bottom-3 left-1/2 flex -translate-x-1/2 items-center justify-center rounded-full bg-neutral-800 p-1 outline-none ring-2 duration-200 md:hover:block md:peer-hover/wrap:block"
 					data-state="closed"
 				>
 					<svg

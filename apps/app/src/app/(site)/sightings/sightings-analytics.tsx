@@ -5,7 +5,7 @@ import {useRef, useState, useEffect} from 'react'
 import {Button} from '@/components/ui/button'
 
 import {Card, CardContent} from '@/components/ui/card'
-import SightingsAIInsights from '@/features/data-viz/sightings/sightings-ai-insights'
+import SightingsAIInsights from '@/features/sightings/sightings-ai-insights'
 import {AlertCircle, Sparkles} from 'lucide-react'
 import type {SightingsAnalysisResult} from '@/services/sightings/actions/sightings-ai-analysis'
 

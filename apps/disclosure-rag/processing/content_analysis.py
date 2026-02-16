@@ -7,8 +7,15 @@ from dotenv import load_dotenv
 from groq import Groq
 from openai import OpenAI
 from pydantic import BaseModel
-from research.prompts.named_entity_recognition_prompt import ner_prompt
-from research.prompts.research_prompt import research_prompt
+import sys
+from pathlib import Path
+
+# Add packages/prompts to path
+packages_path = Path(__file__).parent.parent.parent.parent / "packages" / "prompts"
+sys.path.insert(0, str(packages_path))
+
+from named_entity_recognition_prompt import ner_prompt
+from research_prompt import research_prompt
 from rich.console import Console
 from rich.panel import Panel
 from rich.style import Style

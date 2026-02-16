@@ -104,7 +104,7 @@ export function CollaborationPanel() {
   }
 
   return (
-    <div className="w-[380px] h-auto flex flex-col bg-neutral-800/90 text-white shadow-lg backdrop-blur-md border border-gray-200 border-white/5 rounded-2xl dark:border-gray-800">
+    <div className="w-[425px] h-auto flex flex-col bg-neutral-800/90 text-white shadow-lg backdrop-blur-md border border-white/5 rounded-2xl">
       <header className="border-b border-b-[#292f35] p-3">
         <div className="flex items-center justify-between">
           <h3 className="text-sm font-medium text-white flex items-center gap-2">
@@ -126,13 +126,13 @@ export function CollaborationPanel() {
               placeholder="Enter email address"
               value={inviteEmail}
               onChange={(e) => setInviteEmail(e.target.value)}
-              className="flex-1 h-8 bg-neutral-900 border-neutral-700 text-sm"
+              className="flex-1 h-8 bg-neutral-900 border-[#292f35] text-sm"
             />
             <Select value={inviteRole} onValueChange={setInviteRole}>
-              <SelectTrigger className="w-24 h-8 bg-neutral-900 border-neutral-700">
+              <SelectTrigger className="w-24 h-8 bg-neutral-900 border-[#292f35]">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="bg-neutral-900 border-neutral-700">
+              <SelectContent className="bg-neutral-900 border-[#292f35]">
                 <SelectItem value="viewer">Viewer</SelectItem>
                 <SelectItem value="editor">Editor</SelectItem>
               </SelectContent>
@@ -236,13 +236,13 @@ export function CollaborationPanel() {
         </div>
 
         {/* Share Link */}
-        <div className="space-y-2 pt-2 border-t border-neutral-700">
+        <div className="space-y-2 pt-2 border-t border-white/5">
           <h4 className="text-sm font-medium">Share Link</h4>
           <div className="flex gap-2">
             <Input
               value="https://app.example.com/project/abc123"
               readOnly
-              className="flex-1 h-8 bg-neutral-900 border-neutral-700 text-sm"
+              className="flex-1 h-8 bg-neutral-900 border-[#292f35] text-sm"
             />
             <Button size="sm" variant="ghost" className="h-8 px-2">
               <Link size={14} strokeWidth={2} />

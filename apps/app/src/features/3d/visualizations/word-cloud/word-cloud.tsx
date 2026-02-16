@@ -6,7 +6,7 @@ import {useRouter} from 'next/navigation'
 import {Suspense, useRef, useState, memo} from 'react'
 import * as THREE from 'three'
 
-import {Loading} from '@/features/data-viz/sightings/components/loaders/loading'
+import {Loading} from '@/features/sightings/components/loaders/loading'
 import {Card, CardHeader} from '@/components/ui/card'
 
 import {ModelAvatar} from '@/features/mindmap/components/connection-list'

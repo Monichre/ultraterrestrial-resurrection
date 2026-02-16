@@ -501,6 +501,7 @@
 
 html {
   block-size: 100%;
+  background-color: #000;
 }
 
 body {
@@ -512,6 +513,7 @@ body {
   /* var(--font-fira-code); */
 
   position: relative;
+  background-color: #000;
   /* font-family: 'Sentient', serif; */
 }
 

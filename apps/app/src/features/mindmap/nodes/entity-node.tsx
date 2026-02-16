@@ -31,7 +31,7 @@ interface Photo {
 export const IconMenuWrapper = ({children}: {children: React.ReactNode}) => {
   return (
     <div
-      className='flex items-center gap-1 rounded-full bg-neutral-200 py-1 pl-2 pr-2.5 text-neutral-700 text-neutral-400 border border-white/50'
+      className='flex items-center gap-1 rounded-full bg-neutral-800 py-1 pl-2 pr-2.5 text-neutral-400 border border-neutral-800'
       style={{
         borderColor: 'rgba(255, 255, 255, 0.5)',
         transform: 'translateX(0px)',
@@ -48,7 +48,7 @@ export const IconMenuWrapper = ({children}: {children: React.ReactNode}) => {
           {children}
         </span>
       </div>
-      <span className='text-neutral-600 text-neutral-400'></span>
+      <span className='text-neutral-400'></span>
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import {SightingsClient} from '@/features/data-viz/sightings/sightings'
+import {SightingsClient} from '@/features/sightings/sightings'
 import {Suspense} from 'react'
 import type {ValidatedUAPSighting} from '@/services/sightings/uap-sighting'
 import {getSightingsBatched} from '@/services/sightings/actions/sightings-time-chunk'
@@ -78,10 +78,10 @@ export default async function Index() {
 
   // Create multiple time ranges for better historical distribution
   const timeRanges = [
-    { startYear: 1947, endYear: 1970 }, // Classic UFO era (Roswell to early sightings)
-    { startYear: 1970, endYear: 1990 }, // Modern UFO wave 
-    { startYear: 1990, endYear: 2010 }, // Digital age sightings
-    { startYear: 2010, endYear: currentYear }, // Recent UAP disclosure era
+    {startYear: 1947, endYear: 1970}, // Classic UFO era (Roswell to early sightings)
+    {startYear: 1970, endYear: 1990}, // Modern UFO wave
+    {startYear: 1990, endYear: 2010}, // Digital age sightings
+    {startYear: 2010, endYear: currentYear}, // Recent UAP disclosure era
   ]
 
   debugLog('🔍 Fetching sightings and events with expanded historical time ranges:')
@@ -94,8 +94,8 @@ export default async function Index() {
   try {
     // Fetch both sightings and events data in parallel with conservative limits
     const [sightingsResponse, eventsResponse] = await Promise.all([
-      getSightingsBatched(timeRanges, 200),  // Conservative limit per time range
-      getEventsBatched(timeRanges, 100),     // Conservative limit per time range
+      getSightingsBatched(timeRanges, 200), // Conservative limit per time range
+      getEventsBatched(timeRanges, 100), // Conservative limit per time range
     ])
 
     debugLog('🚀 ~ Index ~ sightingsResponse:', sightingsResponse)
@@ -130,7 +130,11 @@ export default async function Index() {
     debugLog('  • Sightings loaded:', sightings?.length || 0)
     debugLog('  • Events loaded:', events?.length || 0)
     debugLog('  • Time range covered:', stats?.timeRange || 'Unknown')
-    debugLog('  • Distribution by year:', Object.keys(stats?.byYear || {}).length, 'years represented')
+    debugLog(
+      '  • Distribution by year:',
+      Object.keys(stats?.byYear || {}).length,
+      'years represented'
+    )
     debugLog('  • Geographic coverage:', Object.keys(stats?.byLocation || {}).length, 'locations')
     debugLog('📊 FULL STATS:', stats)
     debugLog('📊 EVENT STATS:', eventStats)

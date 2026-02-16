@@ -1,4 +1,4 @@
-import type { KeyFiguresArray } from "@/app/(site)/explore/key-figures/page";
+import type { KeyFiguresArray } from "@/app/(site)/key-figures/page";
 import { Particles, TextEffect } from "@/components/animated";
 import SwipeGrid from "@/components/animated/swipe-grid/SwipeGrid";
 import { cn } from "@/utils";

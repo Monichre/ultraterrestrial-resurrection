@@ -167,7 +167,7 @@ const preview: Preview = {
 
   decorators: [
     withReferenceAssets,
-    // withMindmapProviders,
+    withMindmapProviders,
     // 👇 Defining the decorator in the preview file applies it to all stories
     ((Story: any, context: any) => {
       const isResearch = context.globals.designSystem === 'research'

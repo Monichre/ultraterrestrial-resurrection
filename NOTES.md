@@ -10,7 +10,7 @@ AI Tools & Platforms
  • AgentOps Dashboard
  • Llama Coder – AI Coding Assistant
  • Genspark
- • Ada | The World’s First AI
+ • Ada | The World's First AI
  • Bika.ai – AI Organizer
  • Indy AI by Contra
  • Genie 3 by DeepMind
@@ -100,3 +100,49 @@ Here is a list of all books currently open in your uap.gg tabs:
 <https://platform.vectorize.io/organization/7cffc8fe-09d5-4213-bfae-83dd576695fb>
 
 <https://app.contextual.ai/digital-mischief-group/agents/create?section=prompts>
+
+---
+
+## Note [2025-09-19 17:46:42]
+
+Introducing Ultraterrestrial, an AI integrated collaborative research canvas, and document archive. An entirely novel ontology corpus for tracking the past, present and future of the Disclosure Topic
+
+---
+
+## Note [2025-09-21 19:40:12]
+
+**Textile Metaphor Research Taxonomy Framework**
+
+Brilliant new organizational paradigm for Ultraterrestrial research architecture using textile metaphors:
+
+**Three-Tier Structure:**
+
+- **Yarn** — atomic investigation (single claim, case, or datapoint)
+  - Example: "Betty Hill's star map sketch"
+  - Fields: evidence_type, raw_payload, confidence (0-1)
+
+- **Thread** — sustained line of inquiry (3+ related yarns showing patterns)
+  - Example: "Zeta Reticuli references across abductee reports + Lazar"
+  - Fields: representative_yarns, pattern_summary, hypotheses
+
+- **Quilt** — big-picture synthesis (multi-thread narrative product)
+  - Example: "Origins Quilt: Nephilim + Star People + Mars + Propulsion"
+  - Fields: chapters, publish_status, DOI/external_reference
+
+**Key Features:**
+
+- Auto-suggest thread formation when 3+ yarns cohere (similarity >0.7, coherence >0.75)
+- Trust scoring algorithm (0-1) combining source quality, corroboration, recency
+- Immutable provenance tracking with curator override logging
+- State transitions: draft → active → mature → archived
+- Version-controlled, citable synthesis ready for publication
+
+**Implementation Options:**
+
+1. JSON schema + migrations + Zeta Reticuli seed data
+2. Full research draft for Zeta Reticuli Thread (prose + refs + visuals)
+3. UI scaffold (YarnCard, ThreadView, QuiltComposer components)
+
+This framework elegantly addresses scale, entanglement, and trust in research systems while maintaining intuitive exploration patterns.
+
+**References:** Textile metaphor conversation, UFO research methodology patterns

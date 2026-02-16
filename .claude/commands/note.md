@@ -1,142 +1,100 @@
-# Custom Command: /note
+# Note Command Implementation
 
-## Command Recognition
+## Command: /note
 
-When the user types `/note`, Claude Code should:
+Personal note-taking and task management system for the Ultraterrestrial project.
 
-1. **Parse the command arguments**:
-   - `note "content"` - Create a note entry in NOTES.md
-   - `todo "content"` - Create a to-do item with checkbox in NOTES.md
-   - `done "content"` - Mark existing to-do as completed in NOTES.md
-   - `list [number]` - Show recent entries from NOTES.md
-   - `help` - Show command usage
-
-2. **Process with these steps**:
-
-### For `/note note "content" [--refs "references"]`
-
-```markdown
-Execute:
-1. Get current timestamp in format: YYYY-MM-DD HH:MM:SS
-2. Read or create NOTES.md in project root
-3. Append this structure:
-
-## Note [TIMESTAMP]
-
-[CONTENT]
-
-**References:** [REFS] (if provided)
-
-4. Confirm with: "📝 Added note: [CONTENT preview...]"
-```
-
-### For `/note todo "content" [--refs "references"]`
-
-```markdown
-Execute:
-1. Get current timestamp in format: YYYY-MM-DD HH:MM:SS
-2. Read or create NOTES.md in project root
-3. Append this structure:
-
-## To-Do [TIMESTAMP]
-
-- [ ] [CONTENT]
-  - **References:** [REFS] (if provided)
-
-4. Confirm with: "✅ Added personal to-do: [CONTENT]"
-```
-
-### For `/note done "content"`
-
-```markdown
-Execute:
-1. Read NOTES.md
-2. Search for "- [ ] [CONTENT]" (exact or partial match)
-3. Replace with "- [x] [CONTENT]"
-4. Confirm with: "✅ Marked as done: [CONTENT]"
-```
-
-### For `/note list [number]`
-
-```markdown
-Execute:
-1. Read NOTES.md
-2. Show last [number] entries (default: 5)
-3. Display in chronological order (newest first)
-```
-
-### For `/note help`
-
-```markdown
-Display:
-/note Command Usage:
-
-📝 Create personal entries:
-  /note note "Note content"
-  /note todo "Personal task"
-
-🔗 With references:
-  /note note "Note" --refs "link or reference"
-  /note todo "Task" --refs "documentation link"
-
-✅ Mark complete:
-  /note done "Task description"
-
-📋 View entries:
-  /note list      # Last 5 personal entries
-  /note list 10   # Last 10 personal entries
-
-❓ Help:
-  /note help
-```
-
-## Technical Implementation
-
-- **Target File**: `NOTES.md` in project root
-- **Timestamp Format**: `YYYY-MM-DD HH:MM:SS`
-- **Markdown Compatible**: Uses standard markdown checkboxes and headers
-- **Error Handling**: Create file if missing, handle permissions gracefully
-- **Search Logic**: For 'done' command, use fuzzy matching on task content
-- **Content Types**: Notes (research, ideas, links) and personal to-dos
-
-## Usage Examples
+### Usage Patterns
 
 ```bash
-# Create a research note
-/note note "Jacques Vallée methodology analysis" --refs "research/ufo-researchers-methodologies.md"
+# Create notes
+/note note "Research insight or observation" [--refs "reference"]
 
-# Create a personal to-do
-/note todo "Review the Prometheus AI integration"
+# Create personal todos  
+/note todo "Personal task to complete" [--refs "reference"]
 
-# Mark a task as complete
-/note done "Test the new to-do command functionality"
+# Mark todos complete
+/note done "Task description to mark complete"
 
 # List recent entries
-/note list 3
+/note list [number]    # Default: 5 entries
+
+# Show help
+/note help
 ```
 
-## File Structure Example
+### Implementation Logic
 
-```markdown
-# NOTES.md
+When `/note` command is detected:
 
-Personal notes and to-do items for the Ultraterrestrial project.
+1. **Parse Arguments**:
+   - Extract subcommand: note, todo, done, list, help
+   - Extract content string (quoted)
+   - Extract optional --refs parameter
 
----
+2. **Execute Based on Subcommand**:
 
-## Note [2025-01-08 14:30:00]
-
-Research findings on advanced propulsion technologies.
-
-**References:** packages/knowledge-base/sources/files/advanced-tech.md
-
-## To-Do [2025-01-08 14:35:00]
-
-- [ ] Analyze Brown intelligence disclosure claims
-  - **References:** intelligence-analysis/brown-disclosure.md
-
-## To-Do [2025-01-08 14:40:00]
-
-- [x] Complete entity extraction analysis
-  - **Completed:** 2025-01-08 16:20:00
+#### /note note "content" [--refs "references"]
 ```
+1. Get timestamp: YYYY-MM-DD HH:MM:SS
+2. Read/create NOTES.md
+3. Append new note section:
+   ## Note [TIMESTAMP]
+   
+   [CONTENT]
+   
+   **References:** [REFS] (if provided)
+   
+4. Confirm: "📝 Added note: [preview...]"
+```
+
+#### /note todo "content" [--refs "references"]  
+```
+1. Get timestamp: YYYY-MM-DD HH:MM:SS
+2. Read/create NOTES.md
+3. Append new todo section:
+   ## To-Do [TIMESTAMP]
+   
+   - [ ] [CONTENT]
+     - **References:** [REFS] (if provided)
+   
+4. Confirm: "✅ Added personal to-do: [CONTENT]"
+```
+
+#### /note done "content"
+```
+1. Read NOTES.md
+2. Search for "- [ ] [CONTENT]" (fuzzy match)
+3. Replace with "- [x] [CONTENT]"
+4. Add completion timestamp
+5. Confirm: "✅ Marked as done: [CONTENT]"
+```
+
+#### /note list [number]
+```
+1. Read NOTES.md  
+2. Extract last [number] Note/To-Do sections (default: 5)
+3. Display chronologically (newest first)
+```
+
+#### /note help
+```
+Display usage information and examples
+```
+
+### File Structure
+
+Target: `NOTES.md` in project root
+
+Append entries after existing content, maintaining:
+- Timestamp format: YYYY-MM-DD HH:MM:SS
+- Markdown headers for sections  
+- Standard checkbox format for todos
+- Optional references section
+
+### Error Handling
+
+- Create NOTES.md if missing
+- Handle file permissions gracefully
+- Fuzzy matching for 'done' command
+- Clear error messages for malformed commands

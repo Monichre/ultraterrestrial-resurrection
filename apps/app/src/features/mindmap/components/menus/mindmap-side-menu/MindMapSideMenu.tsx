@@ -1,15 +1,11 @@
 "use client"
 
-import { FloatingToolbar } from "./FloatingToolbar"
+import {FloatingToolbar, FloatingToolbarProps} from './FloatingToolbar'
 
 export interface MindMapSideMenuProps {
-  onToolChange?: (tool: string | null) => void
+  panels?: FloatingToolbarProps['panels']
 }
 
-export const MindMapSideMenu = ({
-  onToolChange,
-}: MindMapSideMenuProps = {}) => {
-  return (
-    <FloatingToolbar />
-  )
+export const MindMapSideMenu = ({panels}: MindMapSideMenuProps = {}) => {
+  return <FloatingToolbar panels={panels} />
 }

@@ -119,7 +119,7 @@ export const CoreNodeAvatar: React.FC<CoreNodeAvatarProps & {label?: string}> = 
   label,
 }) => {
   return (
-    <div className='flex items-center gap-1 rounded-full bg-neutral-200 py-1 pl-2 pr-2.5 text-neutral-700 bg-neutral-800 text-neutral-400'>
+    <div className='flex items-center gap-1 rounded-full bg-neutral-800 py-1 pl-2 pr-2.5 text-neutral-400'>
       <div className='size-5'>
         <span
           className='relative flex shrink-0 overflow-hidden rounded-full absolute aspect-square h-full animate-overlayShow cursor-pointer border-2 shadow duration-200 pointer-events-none'
@@ -162,7 +162,7 @@ export const CoreNodeContent: React.FC<CoreNodeContentProps> = ({className = '',
   return (
     <section
       className={cn(
-        'overflow-hidden relative rounded-2xl duration-200 border-2 bg-neutral-50 px-4 py-5 shadow-lg shadow-neutral-200/50 dark:bg-neutral-950 dark:shadow-neutral-800/50 dark:border-neutral-800 border-neutral-200 transition-all duration-300 will-change-transform',
+        'overflow-hidden relative rounded-2xl duration-200 border bg-neutral-950 px-4 py-5 shadow-lg shadow-neutral-800/50 border-neutral-800 transition-all duration-300 will-change-transform',
         className
       )}>
       {children}
@@ -186,14 +186,14 @@ export const CoreNodeContainer: React.FC<CoreNodeContainerProps> = ({
   return (
     <div
       ref={ref}
-      className={cn('overflow-hidden rounded-3xl bg-black relative w-96', className)}
+      className={cn('overflow-hidden rounded-2xl bg-neutral-900/80 backdrop-blur-sm relative w-96 shadow-[0_0_0_1px_rgba(255,255,255,0.03)]', className)}
       id={id}>
-      <main className='space-y-3.5 border-2 p-1.5 rounded-3xl duration-200 border-neutral-200 dark:border-neutral-800 bg-neutral-100 dark:bg-neutral-900 group hover:border-indigo-200 dark:hover:border-indigo-800 transition-all duration-300 will-change-transform'>
+      <main className='space-y-3.5 border p-1.5 rounded-2xl duration-200 border-neutral-800 bg-neutral-900/80 group hover:border-neutral-700 hover:bg-white/5 transition-all duration-300 will-change-transform'>
         {children}
       </main>
       <button
         type='button'
-        className='invisible ring-neutral-950/10 dark:ring-neutral-50/10 absolute -bottom-3 left-1/2 flex -translate-x-1/2 items-center justify-center rounded-full bg-neutral-200 p-1 outline-none ring-2 duration-200 md:hover:block md:peer-hover/wrap:block dark:bg-neutral-800'
+        className='invisible ring-neutral-50/10 absolute -bottom-3 left-1/2 flex -translate-x-1/2 items-center justify-center rounded-full bg-neutral-800 p-1 outline-none ring-2 duration-200 md:hover:block md:peer-hover/wrap:block'
         data-state='closed'>
         <svg
           width='15'

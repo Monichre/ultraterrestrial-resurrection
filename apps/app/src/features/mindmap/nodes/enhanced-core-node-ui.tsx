@@ -72,7 +72,7 @@ export const EnhancedNodeStatus: React.FC<EnhancedNodeStatusProps> = ({
   const colors = isContextual ? ENTITY_COLORS.contextual : ENTITY_COLORS[type]
 
   return (
-    <div className='flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/20 backdrop-blur-sm border border-white/10'>
+    <div className='flex items-center gap-2 px-3 py-1.5 rounded-full bg-neutral-900/80 backdrop-blur-sm border border-neutral-800'>
       {isContextual && (
         <motion.div initial={{scale: 0}} animate={{scale: 1}} className='flex items-center gap-1'>
           <Brain className='w-3 h-3' style={{color: colors.accent}} />
@@ -224,7 +224,7 @@ export const EnhancedNodeFooter: React.FC<EnhancedNodeFooterProps> = ({
   const colors = isContextual ? ENTITY_COLORS.contextual : ENTITY_COLORS[entityType]
 
   return (
-    <div className='p-3 pt-2 bg-neutral-950/90 rounded-b-2xl border-t border-white/5'>
+    <div className='p-3 pt-2 bg-neutral-900/90 rounded-b-2xl border-t border-neutral-800'>
       <div className='flex items-center justify-between'>
         {children}
 
@@ -277,11 +277,11 @@ export const EnhancedNodeContainer: React.FC<EnhancedNodeContainerProps> = ({
       id={id}
       className={cn(
         'relative w-80 rounded-2xl overflow-hidden',
-        'border-2 transition-all duration-300',
-        'bg-gradient-to-b from-neutral-800 to-neutral-900',
-        'shadow-lg hover:shadow-xl',
+        'border transition-all duration-300 border-neutral-800',
+        'bg-neutral-900/80 backdrop-blur-sm',
+        'shadow-[0_0_0_1px_rgba(255,255,255,0.03)] hover:shadow-xl hover:border-neutral-700',
         'will-change-transform',
-        isSelected && 'ring-2 ring-offset-2 ring-offset-black',
+        isSelected && 'border-blue-500/50 shadow-[0_0_12px_rgba(59,130,246,0.15)]',
         className
       )}
       style={{
@@ -358,7 +358,7 @@ export const QuickActions: React.FC<QuickActionsProps> = ({
           whileHover={{scale: 1.1}}
           whileTap={{scale: 0.9}}
           onClick={onViewDetails}
-          className='p-1.5 rounded-full bg-white/10 hover:bg-white/20 transition-colors'>
+          className='p-1.5 rounded-full bg-neutral-800 hover:bg-white/10 transition-colors border border-neutral-700/50'>
           <Eye className='w-3 h-3 text-white/70' />
         </motion.button>
       )}
@@ -368,7 +368,7 @@ export const QuickActions: React.FC<QuickActionsProps> = ({
           whileHover={{scale: 1.1}}
           whileTap={{scale: 0.9}}
           onClick={onAddToResearch}
-          className='p-1.5 rounded-full bg-white/10 hover:bg-white/20 transition-colors'>
+          className='p-1.5 rounded-full bg-neutral-800 hover:bg-white/10 transition-colors border border-neutral-700/50'>
           <FileText className='w-3 h-3 text-white/70' />
         </motion.button>
       )}
@@ -378,7 +378,7 @@ export const QuickActions: React.FC<QuickActionsProps> = ({
           whileHover={{scale: 1.1}}
           whileTap={{scale: 0.9}}
           onClick={onAskAI}
-          className='p-1.5 rounded-full bg-white/10 hover:bg-white/20 transition-colors'>
+          className='p-1.5 rounded-full bg-neutral-800 hover:bg-white/10 transition-colors border border-neutral-700/50'>
           <Brain className='w-3 h-3 text-white/70' />
         </motion.button>
       )}
@@ -388,7 +388,7 @@ export const QuickActions: React.FC<QuickActionsProps> = ({
           whileHover={{scale: 1.1}}
           whileTap={{scale: 0.9}}
           onClick={onConnect}
-          className='p-1.5 rounded-full bg-white/10 hover:bg-white/20 transition-colors'>
+          className='p-1.5 rounded-full bg-neutral-800 hover:bg-white/10 transition-colors border border-neutral-700/50'>
           <Users className='w-3 h-3 text-white/70' />
         </motion.button>
       )}

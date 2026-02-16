@@ -4,7 +4,7 @@ import {Markdown, type MarkdownProps} from '@/features/ai/components/prompt-kit/
 import {AnimatePresence, motion} from 'framer-motion'
 import {memo, useId, useMemo} from 'react'
 import {cn} from '@/utils'
-const MotionMarkdown = motion(Markdown)
+const MotionMarkdown = motion.create(Markdown)
 
 // Animation variants for the container
 const containerVariants = {

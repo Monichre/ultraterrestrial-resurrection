@@ -2,7 +2,7 @@ import type {Meta, StoryObj} from '@storybook/react'
 import {GraphStatusLog} from './graph-status-log'
 
 const meta = {
-  title: 'Features/Mindmap | Status UI | GraphStatusLog',
+  title: 'Features/Mindmap / Status UI / GraphStatusLog',
   component: GraphStatusLog,
   parameters: {
     layout: 'centered',

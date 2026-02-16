@@ -15,21 +15,57 @@ import { anthropic } from "@ai-sdk/anthropic"
 import type { AnthropicProviderOptions } from "@ai-sdk/anthropic"
 import { searchXata } from "@db/xata/api"
 
+/**
+ * Input validation schema for disclosure chat API
+ * Prevents XSS, injection attacks, and ensures type safety
+ */
+const ChatRequestSchema = z.object({
+	threadId: z.string().uuid().nullable().optional(),
+	message: z.string()
+		.min(1, "Message cannot be empty")
+		.max(4000, "Message exceeds maximum length of 4000 characters")
+		.transform(str => str.trim()), // Sanitize whitespace
+	resourceContext: z.object({
+		resourceId: z.string().max(255).optional(),
+		content: z.string().max(50000).optional(), // 50KB limit
+		summary: z.string().max(2000).optional(),
+		sourceUrl: z.string().url().max(500).optional(),
+		fileName: z.string().max(255).optional()
+	}).optional()
+})
 
-
+type ChatRequest = z.infer<typeof ChatRequestSchema>
 
 export async function POST( req: Request ) {
-	const input: {
-		threadId: string | null
-		message: string
-		resourceContext?: {
-			resourceId?: string
-			content?: string
-			summary?: string
-			sourceUrl?: string
-			fileName?: string
+	// Validate and sanitize input
+	let input: ChatRequest
+	try {
+		const rawInput = await req.json()
+		input = ChatRequestSchema.parse(rawInput)
+	} catch (error) {
+		if (error instanceof z.ZodError) {
+			return new Response(
+				JSON.stringify({
+					error: "Invalid request",
+					details: error.errors.map(e => ({
+						field: e.path.join('.'),
+						message: e.message
+					}))
+				}),
+				{
+					status: 400,
+					headers: { "Content-Type": "application/json" }
+				}
+			)
 		}
-	} = await req.json()
+		return new Response(
+			JSON.stringify({ error: "Invalid JSON format" }),
+			{
+				status: 400,
+				headers: { "Content-Type": "application/json" }
+			}
+		)
+	}
 	console.log( "🚀 ~ file: route.ts:51 ~ POST ~ input:", input )
 	const threadId =
 		input.threadId ??

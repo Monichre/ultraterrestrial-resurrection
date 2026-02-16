@@ -1,80 +1,95 @@
 "use client"
 
-import { useState } from "react"
-import { LayoutGrid, Clock, Map, TreePine, Zap, Settings2 } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Slider } from "@/components/ui/slider"
-import { Switch } from "@/components/ui/switch"
-import { Badge } from "@/components/ui/badge"
+import {Clock, LayoutGrid, Map, Settings2, TreePine, Zap} from 'lucide-react'
+import {Button} from '@/components/ui/button'
+import {Slider} from '@/components/ui/slider'
+import {Switch} from '@/components/ui/switch'
+import {Badge} from '@/components/ui/badge'
+import {useMindMap} from '@/contexts/mindmap/mindmap-context'
+import {useMindMapUiStore, type LayoutSettings} from '@/features/mindmap/store/mindmap-ui-store'
 
 const LAYOUT_ALGORITHMS = [
   {
-    id: "chronological",
-    name: "Chronological",
+    id: 'chronological',
+    name: 'Chronological',
     icon: <Clock size={16} strokeWidth={2} />,
-    description: "Timeline-based positioning",
-    active: true,
+    description: 'Timeline-based positioning',
+    direction: 'horizontal' as const,
   },
   {
-    id: "thematic",
-    name: "Thematic",
+    id: 'thematic',
+    name: 'Thematic',
     icon: <TreePine size={16} strokeWidth={2} />,
-    description: "Grouped by topic/theme",
-    active: false,
+    description: 'Grouped by topic/theme',
+    direction: 'radial' as const,
   },
   {
-    id: "geographic",
-    name: "Geographic",
+    id: 'geographic',
+    name: 'Geographic',
     icon: <Map size={16} strokeWidth={2} />,
-    description: "Location-based clustering",
-    active: false,
+    description: 'Location-based clustering',
+    direction: 'grid' as const,
   },
   {
-    id: "hierarchical",
-    name: "Hierarchical",
+    id: 'hierarchical',
+    name: 'Hierarchical',
     icon: <Settings2 size={16} strokeWidth={2} />,
-    description: "Institutional relationships",
-    active: false,
+    description: 'Institutional relationships',
+    direction: 'vertical' as const,
   },
   {
-    id: "force-directed",
-    name: "Force-Directed",
+    id: 'force-directed',
+    name: 'Force-Directed',
     icon: <Zap size={16} strokeWidth={2} />,
-    description: "Physics-based layout",
-    active: false,
+    description: 'Physics-based layout',
+    direction: 'radial' as const,
   },
 ]
 
-const LAYOUT_SETTINGS = [
-  { name: "Node Spacing", value: [75], min: 25, max: 150, unit: "px" },
-  { name: "Edge Length", value: [100], min: 50, max: 200, unit: "px" },
-  { name: "Cluster Strength", value: [60], min: 0, max: 100, unit: "%" },
-  { name: "Repulsion Force", value: [80], min: 20, max: 150, unit: "%" },
+const LAYOUT_SETTINGS: Array<{
+  key: keyof LayoutSettings
+  name: string
+  min: number
+  max: number
+  unit: string
+}> = [
+  {key: 'nodeSpacing', name: 'Node Spacing', min: 25, max: 150, unit: 'px'},
+  {key: 'edgeLength', name: 'Edge Length', min: 50, max: 200, unit: 'px'},
+  {key: 'clusterStrength', name: 'Cluster Strength', min: 0, max: 100, unit: '%'},
+  {key: 'repulsionForce', name: 'Repulsion Force', min: 20, max: 150, unit: '%'},
 ]
 
 export function LayoutPanel() {
-  const [algorithms, setAlgorithms] = useState(LAYOUT_ALGORITHMS)
-  const [settings, setSettings] = useState(LAYOUT_SETTINGS)
-  const [autoLayout, setAutoLayout] = useState(true)
-  const [animateTransitions, setAnimateTransitions] = useState(true)
+  const {organizeLayout, fitView, saveMindMap} = useMindMap()
+  const {
+    activeLayoutId,
+    layoutSettings,
+    autoLayout,
+    animateTransitions,
+    setActiveLayoutId,
+    setLayoutSetting,
+    setAutoLayout,
+    setAnimateTransitions,
+  } = useMindMapUiStore()
 
-  const toggleAlgorithm = (id: string) => {
-    setAlgorithms((prev) =>
-      prev.map((algo) => ({
-        ...algo,
-        active: algo.id === id ? !algo.active : false,
-      })),
-    )
+  const activeAlgorithm = LAYOUT_ALGORITHMS.find((algo) => algo.id === activeLayoutId)
+
+  const applyLayout = (layoutId: string, overrides?: LayoutSettings) => {
+    const algorithm = LAYOUT_ALGORITHMS.find((algo) => algo.id === layoutId)
+    if (!algorithm) return
+
+    const settings = overrides ?? layoutSettings
+
+    organizeLayout({
+      direction: algorithm.direction,
+      centerChildren: true,
+      parentChildSpacing: settings.nodeSpacing,
+      siblingSpacing: settings.edgeLength,
+    })
   }
-
-  const updateSetting = (index: number, newValue: number[]) => {
-    setSettings((prev) => prev.map((setting, i) => (i === index ? { ...setting, value: newValue } : setting)))
-  }
-
-  const activeAlgorithm = algorithms.find((algo) => algo.active)
 
   return (
-    <div className="w-[360px] h-auto flex flex-col bg-neutral-800/90 text-white shadow-lg backdrop-blur-md border border-gray-200 border-white/5 rounded-2xl dark:border-gray-800">
+    <div className="w-[425px] h-auto flex flex-col bg-neutral-800/90 text-white shadow-lg backdrop-blur-md border border-white/5 rounded-2xl">
       <header className="border-b border-b-[#292f35] p-3">
         <div className="flex items-center gap-2 mb-2">
           <LayoutGrid size={16} className="text-blue-400" strokeWidth={2} />
@@ -88,7 +103,7 @@ export function LayoutPanel() {
         <div className="space-y-2">
           <h4 className="text-sm font-medium">Current Layout</h4>
           {activeAlgorithm && (
-            <div className="p-3 rounded-lg bg-blue-500/10 border border-gray-200 border-blue-500/20 dark:border-gray-800">
+            <div className="p-3 rounded-lg bg-blue-500/10 border border-blue-500/20">
               <div className="flex items-center gap-2 mb-1">
                 {activeAlgorithm.icon}
                 <span className="text-sm font-medium">{activeAlgorithm.name}</span>
@@ -103,12 +118,15 @@ export function LayoutPanel() {
         <div className="space-y-2">
           <h4 className="text-sm font-medium">Available Layouts</h4>
           <div className="space-y-1">
-            {algorithms.map((algorithm) => (
+            {LAYOUT_ALGORITHMS.map((algorithm) => (
               <Button
                 key={algorithm.id}
                 size="sm"
-                variant={algorithm.active ? "default" : "ghost"}
-                onClick={() => toggleAlgorithm(algorithm.id)}
+                variant={activeLayoutId === algorithm.id ? "default" : "ghost"}
+                onClick={() => {
+                  setActiveLayoutId(algorithm.id)
+                  applyLayout(algorithm.id)
+                }}
                 className="w-full justify-start h-auto py-2"
               >
                 <div className="flex items-center gap-2">
@@ -126,18 +144,27 @@ export function LayoutPanel() {
         {/* Layout Settings */}
         <div className="space-y-3">
           <h4 className="text-sm font-medium">Layout Parameters</h4>
-          {settings.map((setting, index) => (
-            <div key={setting.name} className="space-y-2">
+          {LAYOUT_SETTINGS.map((setting) => (
+            <div key={setting.key} className="space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-sm">{setting.name}</span>
                 <span className="text-sm text-gray-400">
-                  {setting.value[0]}
+                  {layoutSettings[setting.key]}
                   {setting.unit}
                 </span>
               </div>
               <Slider
-                value={setting.value}
-                onValueChange={(value) => updateSetting(index, value)}
+                value={[layoutSettings[setting.key]]}
+                onValueChange={(value) => {
+                  const nextValue = value[0]
+                  const nextSettings = {
+                    ...layoutSettings,
+                    [setting.key]: nextValue,
+                  }
+
+                  setLayoutSetting(setting.key, nextValue)
+                  applyLayout(activeLayoutId, nextSettings)
+                }}
                 max={setting.max}
                 min={setting.min}
                 step={5}
@@ -148,7 +175,7 @@ export function LayoutPanel() {
         </div>
 
         {/* Layout Options */}
-        <div className="space-y-3 pt-2 border-t border-neutral-700">
+        <div className="space-y-3 pt-2 border-t border-white/5">
           <h4 className="text-sm font-medium">Options</h4>
 
           <div className="flex items-center justify-between">
@@ -169,19 +196,31 @@ export function LayoutPanel() {
         </div>
 
         {/* Quick Actions */}
-        <div className="space-y-2 pt-2 border-t border-neutral-700">
+        <div className="space-y-2 pt-2 border-t border-white/5">
           <h4 className="text-sm font-medium">Quick Actions</h4>
           <div className="grid grid-cols-2 gap-2">
-            <Button size="sm" variant="ghost" className="text-xs">
+            <Button
+              size="sm"
+              variant="ghost"
+              className="text-xs"
+              onClick={() =>
+                organizeLayout({
+                  direction: 'horizontal',
+                  centerChildren: true,
+                  parentChildSpacing: 120,
+                  siblingSpacing: 90,
+                })
+              }
+            >
               Reset Layout
             </Button>
-            <Button size="sm" variant="ghost" className="text-xs">
+            <Button size="sm" variant="ghost" className="text-xs" onClick={() => fitView()}>
               Center View
             </Button>
-            <Button size="sm" variant="ghost" className="text-xs">
+            <Button size="sm" variant="ghost" className="text-xs" onClick={() => fitView()}>
               Fit to Screen
             </Button>
-            <Button size="sm" variant="ghost" className="text-xs">
+            <Button size="sm" variant="ghost" className="text-xs" onClick={() => saveMindMap()}>
               Save Layout
             </Button>
           </div>

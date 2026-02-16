@@ -10,6 +10,7 @@ import type {
   ValidationError,
   ValidationWarning
 } from '../types/tour'
+import {TOUR_REGISTRY, ALL_TOURS} from '../configs/tour-definitions'
 
 /**
  * Tour loading and validation utilities
@@ -106,6 +107,12 @@ export class TourLoader {
    * Get a built-in tour (for development/demo purposes)
    */
   static async getBuiltinTour( tourId: string ): Promise<TourDefinition> {
+    // Check new tour registry first
+    if ( TOUR_REGISTRY[tourId] ) {
+      return TOUR_REGISTRY[tourId]
+    }
+
+    // Legacy built-in tours for backwards compatibility
     const builtinTours: Record<string, TourDefinition> = {
       'roswell-disclosure': {
         id: 'roswell-disclosure',
@@ -244,8 +251,14 @@ export class TourLoader {
    * List available tours
    */
   static async listAvailableTours(): Promise<{ id: string; title: string; description: string }[]> {
-    // In a real implementation, this would scan tour files or query a database
-    return [
+    // Combine new tour registry with legacy tours
+    const registryTours = ALL_TOURS.map( tour => ( {
+      id: tour.id,
+      title: tour.title,
+      description: tour.description
+    } ) )
+
+    const legacyTours = [
       {
         id: 'roswell-disclosure',
         title: 'Roswell to Modern Disclosure',
@@ -257,6 +270,12 @@ export class TourLoader {
         description: 'Explore the network of researchers, witnesses, and officials who shaped UFO disclosure'
       }
     ]
+
+    // Deduplicate by ID, preferring registry tours
+    const seenIds = new Set( registryTours.map( t => t.id ) )
+    const uniqueLegacy = legacyTours.filter( t => !seenIds.has( t.id ) )
+
+    return [...registryTours, ...uniqueLegacy]
   }
 
   /**

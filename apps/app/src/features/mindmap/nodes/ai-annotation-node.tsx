@@ -68,9 +68,9 @@ export function AIAnnotationNode({id, data, selected}: NodeProps<AIAnnotationNod
       <NodeToolbar
         isVisible={selected || showToolbar}
         position={Position.Top}
-        className='bg-black border border-neutral-800 rounded-md p-1'>
+        className='bg-neutral-900/80 backdrop-blur-sm border border-neutral-800 rounded-2xl p-1'>
         <button
-          className='p-1.5 hover:bg-white/10 rounded'
+          className='p-1.5 hover:bg-white/5 rounded-lg'
           onClick={toggleExpanded}
           title={expanded ? 'Collapse' : 'Expand'}>
           {expanded ? <ChevronUpIcon size={16} /> : <ChevronDownIcon size={16} />}
@@ -79,8 +79,8 @@ export function AIAnnotationNode({id, data, selected}: NodeProps<AIAnnotationNod
 
       <div
         className={cn(
-          'relative bg-black bg-opacity-80 backdrop-blur-sm text-white rounded-lg',
-          'border border-opacity-30 shadow-lg transition-all transform',
+          'relative bg-neutral-900/80 backdrop-blur-sm text-white rounded-2xl',
+          'border border-neutral-800 shadow-[0_0_0_1px_rgba(255,255,255,0.03)] transition-all transform',
           expanded ? 'min-w-[300px] p-4' : 'max-w-[200px] p-3',
           data.isAnimated && 'animate-pulse'
         )}
@@ -119,28 +119,28 @@ export function AIAnnotationNode({id, data, selected}: NodeProps<AIAnnotationNod
           type='source'
           position={Position.Right}
           id='right'
-          className='w-3 h-3 border-2 border-black'
+          className='w-3 h-3 border border-neutral-800 bg-neutral-600 hover:bg-blue-400'
           style={{backgroundColor: color}}
         />
         <Handle
           type='source'
           position={Position.Bottom}
           id='bottom'
-          className='w-3 h-3 border-2 border-black'
+          className='w-3 h-3 border border-neutral-800 bg-neutral-600 hover:bg-blue-400'
           style={{backgroundColor: color}}
         />
         <Handle
           type='target'
           position={Position.Left}
           id='left'
-          className='w-3 h-3 border-2 border-black'
+          className='w-3 h-3 border border-neutral-800 bg-neutral-600 hover:bg-blue-400'
           style={{backgroundColor: color}}
         />
         <Handle
           type='target'
           position={Position.Top}
           id='top'
-          className='w-3 h-3 border-2 border-black'
+          className='w-3 h-3 border border-neutral-800 bg-neutral-600 hover:bg-blue-400'
           style={{backgroundColor: color}}
         />
       </div>
