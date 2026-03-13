@@ -1,4 +1,4 @@
-# CLAUDE.md
+# [CLAUDE.md](http://CLAUDE.md)
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
@@ -8,7 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 1. [README.md](README.md)
 2. [AGENT.md](AGENT.md) - **COMPREHENSIVE DEVELOPMENT GUIDELINES**
-3. [docs/agents/AGENT_ONBOARDING_CHECKLIST.md](docs/agents/AGENT_ONBOARDING_CHECKLIST.md) - **MANDATORY FIRST READ** - Validation checklist
+3. docs/agents/AGENT_ONBOARDING_CHECKLIST.md - **MANDATORY FIRST READ** - Validation checklist
 
 ## Agent Configuration System
 
@@ -23,16 +23,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### 🤖 Platform-Specific Configurations - `docs/agents/`
 
-- **`docs/agents/claude-code.md`** - Claude Code specific instructions
-- **`docs/agents/cursor.md`** - Cursor IDE specific rules  
-- **`docs/agents/warp.md`** - Warp terminal specific commands
-- **`docs/agents/README.md`** - Agent configuration overview
+- `docs/agents/claude-code.md` - Claude Code specific instructions
+- `docs/agents/cursor.md` - Cursor IDE specific rules
+- `docs/agents/warp.md` - Warp terminal specific commands
+- `docs/agents/README.md` - Agent configuration overview
 
 ### 📋 Project Management System
 
-- **`docs/plans/FEATURES.md`** - Strategic planning (Tier 1)
-- **`docs/plans/TODO.md`** - Actionable tickets (Tier 2)
-- **`DAILY_WORK_PLAN.md`** - Daily execution (Tier 3)
+- `docs/plans/FEATURES.md` - Strategic planning (Tier 1)
+- `docs/plans/TODO.md` - Actionable tickets (Tier 2)
+- `DAILY_WORK_PLAN.md` - Daily execution (Tier 3)
 
 ## Three-Tier Project Management System (MANDATORY FOR ALL AGENTS)
 
@@ -138,11 +138,11 @@ bun run import:events   # Import events specifically
 
 ### Monorepo Structure
 
-- **`apps/app/`** - Main Next.js application with research platform
-- **`apps/disclosure-rag/`** - Python RAG system with triple backend architecture
-- **`apps/research-canvas/`** - TipTap research editor (being consolidated)
-- **`packages/db/`** - Xata database integration with 29 models, 230,998+ records
-- **`packages/ai/`** - AI processing components and external integrations
+- `apps/app/` - Main Next.js application with research platform
+- `apps/disclosure-rag/` - Python RAG system with triple backend architecture
+- `apps/research-canvas/` - TipTap research editor (being consolidated)
+- `packages/db/` - Xata database integration with 29 models, 230,998+ records
+- `packages/ai/` - AI processing components and external integrations
 
 ### Core AI Architecture (Critical Understanding)
 
@@ -212,7 +212,7 @@ import { DataVizComponent } from '@/features/data-viz'
 ### File Organization Rules
 
 - **Feature-first structure** - group related functionality together
-- **Enhanced Nodes** serve as common UI layer across ALL features  
+- **Enhanced Nodes** serve as common UI layer across ALL features
 - **Contextual Intelligence** powers smart badges, filtering, suggestions
 - **Spatial Intelligence** builds on contextual intelligence foundation
 - Use `@/` imports for apps/app paths, workspace imports for packages
@@ -269,14 +269,16 @@ import { DataVizComponent } from '@/features/data-viz'
 When you receive the command "/worklog", automatically:
 
 1. **ANALYZE** recent work to determine:
+
    - Primary focus area (frontend-ui, backend-api, database, testing, docs, deployment, research, bugfix, feature, refactor, integration, security)
    - Files modified/created/deleted
    - Time spent (estimate if needed)
    - Key accomplishments
 
-2. **GENERATE** session ID using format: [focus-area]-[YYYYMMDD]-[HHMMSS]
+2. **GENERATE** session ID using format: \[focus-area\]-\[YYYYMMDD\]-\[HHMMSS\]
 
 3. **AUTO-POPULATE** header with:
+
    - Current date/time
    - Generated session ID
    - Detected focus area
@@ -301,16 +303,19 @@ When you receive the command "/worklog", automatically:
 ### @apps/app/ Review Process
 
 - Always review `.claude/agents/apps/app-agent.md` when working in `@apps/app/` directory
+
 - Ensure full compliance with agent-specific guidelines and context
 
-- we've updated the @packages/knowledge-base/ directory names changing case_files
-to files. @packages/knowledge-base/files/
+- we've updated the @packages/knowledge-base/ directory names changing case_files to files. @packages/knowledge-base/files/
 
 - **IMPORTANT:** All former content in [@packages/knowledge-base](@packages/knowledge-base) are now nested under [@packages/knowledge-base/sources](@packages/knowledge-base/sources)
+
 - AND we've changed `case_files` to `files` so [@.packages/knowledge-base/sources/files](@.packages/knowledge-base/sources/files)
 
 - always show and report all effected files
+
 - **IMPORTANT:**
+
 - make a note to develop a framework, system or theoretical paradigm to approach data analysis, investigations or any sort of historical review or content ingestion according to "famous UFO researchers" methodology. Ex: Jacques Valle, Diana Pasulka Walksh etc
 
 ### Agent Configuration Reference
@@ -319,6 +324,6 @@ to files. @packages/knowledge-base/files/
 
 For platform-specific configurations, see:
 
-- **`docs/agents/`** - Platform-specific agent configurations that reference AGENTS.md
-- **`docs/agents/claude-code.md`** - Claude Code specific instructions
-- **`docs/agents/AGENT_ONBOARDING_CHECKLIST.md`** - Mandatory validation checklist
+- `docs/agents/` - Platform-specific agent configurations that reference AGENTS.md
+- `docs/agents/claude-code.md` - Claude Code specific instructions
+- `docs/agents/AGENT_ONBOARDING_CHECKLIST.md` - Mandatory validation checklist
