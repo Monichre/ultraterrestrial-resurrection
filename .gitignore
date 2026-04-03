@@ -47,6 +47,10 @@ tasks/
 !application/.env.example
 /application/.turbo
 
+# Monorepo: prevent root-level Next.js build artifacts from being committed
+.next/
+out/
+
 # Agent UI
 /agent-ui/front-end/node_modules/
 /agent-ui/front-end/dist/
@@ -193,6 +197,7 @@ out/
 !package-lock.json
 # Allow tracking specific JSON configs
 !apps/app/components.json
+!vercel.json
 
 # Vector store files
 packages/knowledge-base/vector-store-files/
