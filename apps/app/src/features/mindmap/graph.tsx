@@ -1,5 +1,5 @@
 'use client'
-import {ReactFlow} from '@xyflow/react'
+import {ReactFlow, type Edge, type Node} from '@xyflow/react'
 import {useCallback, useEffect, useMemo} from 'react'
 import {Sparkles, Search, Plus} from 'lucide-react'
 
@@ -21,7 +21,11 @@ import {useContextMenu} from '@/hooks/useContextMenu'
 
 import {useMindMapStore} from '@/features/mindmap/store'
 import {useMindMap} from '@/contexts/mindmap/mindmap-context'
-import {useMindMapAgent} from '@/features/mindmap/hooks/use-mindmap-agent'
+import {
+  useMindMapAgent,
+  type AgentGraphEdgePayload,
+  type AgentGraphStatePayload,
+} from '@/features/mindmap/hooks/use-mindmap-agent'
 import {useMindMapUiStore} from '@/features/mindmap/store/mindmap-ui-store'
 import {transformStreamResponse} from '@/features/mindmap/actions/xata-to-xyflow'
 import {extractTextFromFile} from '@/utils/file-processing'
@@ -40,6 +44,39 @@ const LAYOUT_DIRECTION_MAP: Record<string, 'horizontal' | 'vertical' | 'radial' 
 
 const resolveLayoutDirection = (layoutId?: string | null) =>
   LAYOUT_DIRECTION_MAP[layoutId ?? 'chronological'] ?? 'horizontal'
+
+const GRAPH_CONTEXT_NODE_LIMIT = 40
+const GRAPH_CONTEXT_EDGE_LIMIT = 60
+const AGENT_NODE_DEFAULT_TYPE = 'enhancedEntityNodePOC'
+const AGENT_EDGE_DEFAULT_TYPE = 'siblingEdge'
+
+const resolveNodeLabel = (node: Node): string => {
+  const nodeData = node.data as Record<string, unknown> | undefined
+  const labelCandidates = [nodeData?.label, nodeData?.title, nodeData?.name]
+
+  for (const candidate of labelCandidates) {
+    if (typeof candidate === 'string' && candidate.trim()) {
+      return candidate.trim()
+    }
+  }
+
+  return node.id
+}
+
+const resolveNodeTable = (node: Node): string | undefined => {
+  const nodeData = node.data as Record<string, unknown> | undefined
+  if (typeof nodeData?.table === 'string') return nodeData.table
+  if (typeof nodeData?.xata_table === 'string') return nodeData.xata_table
+  return undefined
+}
+
+const createAgentEdgeId = (edge: AgentGraphEdgePayload, index: number): string => {
+  const seed = `${edge.source}-${edge.target}-${edge.label || edge.reasoning || index}`
+    .toLowerCase()
+    .replace(/[^a-z0-9_-]+/g, '-')
+
+  return `agent-edge-${seed}`
+}
 
 export function Graph() {
   // Get basic flow state from the store
@@ -81,6 +118,37 @@ export function Graph() {
     return screenToFlowPosition({x: window.innerWidth / 2, y: window.innerHeight / 2})
   }, [screenToFlowPosition])
 
+  const buildAgentGraphState = useCallback((): AgentGraphStatePayload => {
+    const currentNodes = getNodes()
+    const contextualNodes = currentNodes
+      .filter((node) => node.type !== 'userInputNode')
+      .slice(-GRAPH_CONTEXT_NODE_LIMIT)
+      .map((node) => ({
+        id: node.id,
+        type: node.type,
+        label: resolveNodeLabel(node),
+        table: resolveNodeTable(node),
+      }))
+
+    const contextualEdges = edges.slice(-GRAPH_CONTEXT_EDGE_LIMIT).map((edge) => {
+      const edgeData = edge.data as Record<string, unknown> | undefined
+      return {
+        source: edge.source,
+        target: edge.target,
+        label: typeof edge.label === 'string' ? edge.label : undefined,
+        reasoning: typeof edgeData?.reasoning === 'string' ? edgeData.reasoning : undefined,
+      }
+    })
+
+    return {
+      nodeCount: currentNodes.length,
+      edgeCount: edges.length,
+      activeView: activeLayoutId,
+      nodes: contextualNodes,
+      edges: contextualEdges,
+    }
+  }, [activeLayoutId, edges, getNodes])
+
   const runAgentQueryAndAddNodes = useCallback(
     async ({message, table}: {message: string; table?: string}) => {
       const sourceNode = addUserInputNode({
@@ -91,9 +159,15 @@ export function Graph() {
       updateNodeData(sourceNode.id, {label: message})
 
       try {
-        const agentResult = await runAgentQuery({message})
+        const agentResult = await runAgentQuery({
+          message,
+          contextRules: table ? `Prioritize ${table} entities when strong evidence is available.` : undefined,
+          researchFocus: table ? `Investigate ${table} relationships for: ${message}` : message,
+          graphState: buildAgentGraphState(),
+        })
         const searchRecords = agentResult.search?.records ?? []
         const resolvedTable = table ?? agentResult.search?.table ?? 'events'
+        const graphWrites = agentResult.graphWrites
 
         updateNodeData(sourceNode.id, {
           answer: agentResult.analysis,
@@ -101,26 +175,122 @@ export function Graph() {
           table: resolvedTable,
         })
 
-        if (!searchRecords.length) return
-
         const existingNodes = getNodes()
-        const {nodes: newNodes, edges: newEdges} = await transformStreamResponse(
-          agentResult.analysis ?? '',
-          searchRecords,
-          '',
-          sourceNode,
-          existingNodes,
-          resolvedTable,
-          layoutDirection
-        )
+        const knownNodeIds = new Set(existingNodes.map((node) => node.id))
+        knownNodeIds.add(sourceNode.id)
+        const knownEdgeIds = new Set(edges.map((edge) => edge.id))
 
-        const existingNodeIds = new Set(existingNodes.map((node) => node.id))
-        const existingEdgeIds = new Set(edges.map((edge) => edge.id))
-        const filteredNodes = newNodes.filter((node) => !existingNodeIds.has(node.id))
-        const filteredEdges = newEdges.filter((edge) => !existingEdgeIds.has(edge.id))
+        const basePosition = sourceNode.position || getCenteredPosition()
 
-        if (filteredNodes.length) addNodes(filteredNodes)
-        if (filteredEdges.length) addEdges(filteredEdges)
+        const normalizedGraphNodes = (graphWrites?.nodes || [])
+          .map((node, index): Node | null => {
+            if (!node.id || knownNodeIds.has(node.id)) {
+              return null
+            }
+
+            const label = node.label?.trim() || node.id
+            const hasExplicitPosition =
+              typeof node.position?.x === 'number' && typeof node.position?.y === 'number'
+            const resolvedPosition = hasExplicitPosition
+              ? {
+                  x: node.position?.x as number,
+                  y: node.position?.y as number,
+                }
+              : {
+                  x: basePosition.x + ((index % 4) - 1.5) * 260,
+                  y: basePosition.y + (Math.floor(index / 4) + 1) * 180,
+                }
+
+            return {
+              id: node.id,
+              type: node.type || AGENT_NODE_DEFAULT_TYPE,
+              position: resolvedPosition,
+              data: {
+                ...(node.data || {}),
+                label,
+                title:
+                  typeof node.data?.title === 'string' && node.data.title
+                    ? node.data.title
+                    : label,
+              },
+            }
+          })
+          .filter((node): node is Node => Boolean(node))
+
+        if (normalizedGraphNodes.length) {
+          addNodes(normalizedGraphNodes)
+          normalizedGraphNodes.forEach((node) => {
+            knownNodeIds.add(node.id)
+          })
+        }
+
+        const normalizedGraphEdges = (graphWrites?.edges || [])
+          .map((edge, index): Edge | null => {
+            if (!edge.source || !edge.target) {
+              return null
+            }
+
+            const id = edge.id?.trim() || createAgentEdgeId(edge, index)
+            if (knownEdgeIds.has(id)) {
+              return null
+            }
+
+            if (!knownNodeIds.has(edge.source) || !knownNodeIds.has(edge.target)) {
+              return null
+            }
+
+            const edgeLabel = edge.label || edge.reasoning
+            return {
+              id,
+              source: edge.source,
+              target: edge.target,
+              type: edge.type || AGENT_EDGE_DEFAULT_TYPE,
+              ...(edgeLabel ? {label: edgeLabel} : {}),
+              data: {
+                ...(edge.data || {}),
+                ...(edge.reasoning ? {reasoning: edge.reasoning} : {}),
+                ...(edge.label ? {label: edge.label} : {}),
+              },
+            }
+          })
+          .filter((edge): edge is Edge => Boolean(edge))
+
+        if (normalizedGraphEdges.length) {
+          addEdges(normalizedGraphEdges)
+          normalizedGraphEdges.forEach((edge) => {
+            knownEdgeIds.add(edge.id)
+          })
+        }
+
+        if (!searchRecords.length && !normalizedGraphNodes.length && !normalizedGraphEdges.length) {
+          return
+        }
+
+        if (searchRecords.length) {
+          const {nodes: newNodes, edges: newEdges} = await transformStreamResponse(
+            agentResult.analysis ?? '',
+            searchRecords,
+            '',
+            sourceNode,
+            existingNodes,
+            resolvedTable,
+            layoutDirection
+          )
+
+          const filteredNodes = newNodes.filter((node) => !knownNodeIds.has(node.id))
+          const filteredEdges = newEdges.filter((edge) => !knownEdgeIds.has(edge.id))
+
+          if (filteredNodes.length) {
+            addNodes(filteredNodes)
+            filteredNodes.forEach((node) => {
+              knownNodeIds.add(node.id)
+            })
+          }
+
+          if (filteredEdges.length) {
+            addEdges(filteredEdges)
+          }
+        }
 
         setTimeout(() => {
           fitView({padding: 0.2})
@@ -136,6 +306,7 @@ export function Graph() {
       addEdges,
       addNodes,
       addUserInputNode,
+      buildAgentGraphState,
       edges,
       fitView,
       getCenteredPosition,
@@ -167,6 +338,8 @@ export function Graph() {
         const truncatedText = fileText.slice(0, 4000)
         const summaryResult = await runAgentQuery({
           message: `Summarize this document for a mindmap node. Focus on key entities, dates, and claims.\n\n${truncatedText}`,
+          researchFocus: `Summarize uploaded document "${asset.name}" for canvas context`,
+          graphState: buildAgentGraphState(),
         })
         const summary = summaryResult.analysis?.trim() || truncatedText.slice(0, 800)
 
@@ -194,7 +367,7 @@ export function Graph() {
         console.error('Asset summarization failed:', error)
       }
     },
-    [addNodesWithLayout, fitView, getCenteredPosition, runAgentQuery]
+    [addNodesWithLayout, buildAgentGraphState, fitView, getCenteredPosition, runAgentQuery]
   )
 
   const panels = useMemo(

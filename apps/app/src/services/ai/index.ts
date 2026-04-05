@@ -18,3 +18,6 @@ export * from './tools';
 
 // AI workflows
 export * from './workflows';
+
+// Shared agent context
+export * from './context';

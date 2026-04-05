@@ -4,6 +4,10 @@ import { z } from 'zod';
 import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
 import Exa from 'exa-js';
+import {
+  buildAgentContext,
+  type AgentContextGraphState,
+} from '@/services/ai/context/build-agent-context';
 
 // Constants
 const DEFAULT_SEARCH_LIMIT = 10;
@@ -34,7 +38,7 @@ interface ProcessResult {
   fileType?: string;
   fileSize?: string;
   analysisType?: string;
-  result: any;
+  result: unknown;
   error?: string;
 }
 
@@ -130,7 +134,7 @@ function truncateContent(content: string, maxLength: number): string {
     : content;
 }
 
-function parseJsonArray(jsonString: string, defaultValue: any[] = []): any[] {
+function parseJsonArray(jsonString: string, defaultValue: unknown[] = []): unknown[] {
   try {
     const parsed = JSON.parse(jsonString);
     return Array.isArray(parsed) ? parsed : defaultValue;
@@ -141,6 +145,58 @@ function parseJsonArray(jsonString: string, defaultValue: any[] = []): any[] {
 
 function formatFileSize(bytes: number): string {
   return (bytes / 1024).toFixed(1);
+}
+
+function normalizeMessageContent(content: unknown): string {
+  if (typeof content === 'string') {
+    return content.trim();
+  }
+
+  if (!Array.isArray(content)) {
+    return '';
+  }
+
+  return content
+    .map((part) => {
+      if (typeof part === 'string') {
+        return part;
+      }
+
+      if (part && typeof part === 'object') {
+        const textValue =
+          'text' in part && typeof part.text === 'string'
+            ? part.text
+            : '';
+        return textValue;
+      }
+
+      return '';
+    })
+    .filter(Boolean)
+    .join('\n')
+    .trim();
+}
+
+function extractLatestUserMessage(messages: unknown[]): string {
+  for (let index = messages.length - 1; index >= 0; index -= 1) {
+    const message = messages[index];
+    if (!message || typeof message !== 'object') {
+      continue;
+    }
+
+    const role = 'role' in message ? message.role : undefined;
+    if (role !== 'user') {
+      continue;
+    }
+
+    const content = 'content' in message ? message.content : undefined;
+    const normalized = normalizeMessageContent(content);
+    if (normalized) {
+      return normalized;
+    }
+  }
+
+  return '';
 }
 
 // Document processing actions
@@ -328,7 +384,21 @@ export async function POST(req: NextRequest) {
   try {
     // Parse request body
     const body = await req.json();
-    const { messages, system, tools: frontendToolsConfig } = body;
+    const {
+      messages,
+      system,
+      tools: frontendToolsConfig,
+      graphState,
+      researchFocus,
+      contextRules,
+    }: {
+      messages?: unknown[];
+      system?: string;
+      tools?: unknown;
+      graphState?: AgentContextGraphState | null;
+      researchFocus?: string | null;
+      contextRules?: string | null;
+    } = body;
 
     if (!messages || !Array.isArray(messages)) {
       return NextResponse.json(
@@ -337,9 +407,18 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    const userMessage = extractLatestUserMessage(messages) || 'No user query provided.';
+    const sharedAgentContext = buildAgentContext({
+      userMessage,
+      researchFocus,
+      contextRules,
+      graphState: graphState || null,
+    });
+    const contextualSystemPrompt = `${system || SYSTEM_PROMPTS.main}\n\n${sharedAgentContext}`;
+
     const result = await streamText({
       model: openai(MODEL_NAME),
-      system: system || SYSTEM_PROMPTS.main,
+      system: contextualSystemPrompt,
       messages,
       tools: {
         searchUAP: tool({
@@ -362,7 +441,7 @@ export async function POST(req: NextRequest) {
               // Run the assistant with vector store search
               const run = await openaiClient.beta.threads.runs.create(thread.id, {
                 assistant_id: ASSISTANT_ID,
-                additional_instructions: `Search the vector store for information about: ${query}`,
+                additional_instructions: `Search the vector store for information about: ${query}\n\n${sharedAgentContext}`,
                 tools: [{
                   type: 'file_search'
                 }]
@@ -384,7 +463,7 @@ export async function POST(req: NextRequest) {
                   const content = assistantMessage.content[0].text.value;
                   
                   // Parse citations if available
-                  const citations = assistantMessage.content[0].text.annotations || [];
+                    const citations = assistantMessage.content[0].text.annotations || [];
                   
                   return {
                     query,
@@ -392,7 +471,17 @@ export async function POST(req: NextRequest) {
                       content: truncateContent(content, CONTENT_PREVIEW_LENGTH),
                       relevance: 'High',
                       source: citations.length > 0 ? `${citations.length} document(s)` : 'OpenAI Assistant',
-                      citations: citations.map((citation: any) => citation.file_citation?.file_id || 'Unknown')
+                      citations: citations.map((citation: unknown) => {
+                        if (!citation || typeof citation !== 'object') {
+                          return 'Unknown';
+                        }
+
+                        const fileCitation = (
+                          citation as { file_citation?: { file_id?: string } }
+                        ).file_citation;
+
+                        return fileCitation?.file_id || 'Unknown';
+                      })
                     }],
                     totalResults: 1,
                   };
@@ -442,7 +531,14 @@ export async function POST(req: NextRequest) {
               const searchResults = await exaClient.searchAndContents(searchOptions);
               
               if (searchResults && searchResults.results) {
-                const formattedResults = searchResults.results.map((result: any) => ({
+                const formattedResults = searchResults.results.map((result: {
+                  text?: string;
+                  title?: string;
+                  score?: number;
+                  url?: string;
+                  publishedDate?: string | null;
+                  author?: string | null;
+                }) => ({
                   content: result.text ? truncateContent(result.text, CONTENT_PREVIEW_LENGTH) : result.title || 'No content available',
                   relevance: result.score ? `${Math.round(result.score * 100)}%` : 'High',
                   source: result.url || 'External Source',

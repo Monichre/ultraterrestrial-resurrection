@@ -146,7 +146,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 ## Phase 3 — Agent System Hardening (Days 5-10)
 
 ### T-013: Add graph-write tools to disclosure mindmap route
-- **Status:** OPEN
+- **Status:** DONE — 2026-04-05
 - **Size:** M (3-5 days)
 - **Dependencies:** T-015 (ideally)
 - **Files:**
@@ -169,7 +169,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Acceptance:** Each action is a separate tool. `processDocument` is removed.
 
 ### T-015: Standardize context injection
-- **Status:** OPEN
+- **Status:** DONE — 2026-04-05
 - **Size:** M (2-3 days)
 - **Dependencies:** None
 - **Files:** Create `apps/app/src/services/ai/context/build-agent-context.ts`, update both route files
@@ -294,6 +294,8 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 |----|------|-----------|
 | T-001 | Remove Edge runtime from Prometheus chat route | 2026-03-29 |
 | T-002 | Fix 3 broken API routes | 2026-03-29 |
+| T-015 | Standardize context injection | 2026-04-05 |
+| T-013 | Add graph-write tools to disclosure mindmap route | 2026-04-05 |
 | — | Ground CLAUDE.md, AGENTS.md, CORE_APP_AI_ARCHITECTURE_OVERVIEW.md, AGENT_ONBOARDING_CHECKLIST.md | 2026-03-29 |
 | — | Generate docs/CONTRIB.md | 2026-03-29 |
 | — | Generate docs/RUNBOOK.md | 2026-03-29 |
@@ -323,9 +325,9 @@ Phase 2 (core UX)   ▼
   T-012 (Zod validation) ◄── T-002
 
 Phase 3 (agent hardening)
-  T-013 (graph-write tools) ◄── T-015 ideally
+  T-013 ✅ done (graph-write tools) ◄── T-015 ideally
   T-014 (split processDocument)
-  T-015 (standardize context)
+  T-015 ✅ done (standardize context)
   T-016 (unify routes) ◄── T-014, T-015
   T-017 (testimony cron)
 

@@ -13,12 +13,52 @@ export type AgentToolEvent = {
 export type AgentSearchResult = {
   table?: string
   searchTerms?: string[]
-  records: any[]
+  records: Record<string, unknown>[]
 }
 
 export type AgentExternalResult = {
   query?: string
-  results: any[]
+  results: Record<string, unknown>[]
+}
+
+export type AgentGraphNodePayload = {
+  id: string
+  type?: string
+  label?: string
+  data?: Record<string, unknown>
+  position?: {
+    x: number
+    y: number
+  }
+}
+
+export type AgentGraphEdgePayload = {
+  id?: string
+  source: string
+  target: string
+  type?: string
+  label?: string
+  reasoning?: string
+  data?: Record<string, unknown>
+}
+
+export type AgentGraphStatePayload = {
+  nodeCount?: number
+  edgeCount?: number
+  activeNodeId?: string | null
+  activeView?: string | null
+  nodes?: Array<{
+    id: string
+    type?: string
+    label?: string
+    table?: string
+  }>
+  edges?: Array<{
+    source: string
+    target: string
+    label?: string
+    reasoning?: string
+  }>
 }
 
 export type AgentRunResult = {
@@ -26,15 +66,84 @@ export type AgentRunResult = {
   toolEvents: AgentToolEvent[]
   search?: AgentSearchResult
   external?: AgentExternalResult
+  graphWrites?: {
+    nodes: AgentGraphNodePayload[]
+    edges: AgentGraphEdgePayload[]
+  }
 }
 
 type RunAgentQueryParams = {
   message: string
   contextRules?: string
+  researchFocus?: string
+  graphState?: AgentGraphStatePayload
   threadId?: string | null
 }
 
 type AgentStatus = 'idle' | 'streaming' | 'complete' | 'error'
+
+const getResultArray = (result: unknown, key: string): unknown[] => {
+  if (Array.isArray(result)) {
+    return result
+  }
+
+  if (!result || typeof result !== 'object') {
+    return []
+  }
+
+  const value = (result as Record<string, unknown>)[key]
+  return Array.isArray(value) ? value : []
+}
+
+const toGraphNodes = (result: unknown): AgentGraphNodePayload[] =>
+  getResultArray(result, 'nodes')
+    .map((candidate) => {
+      if (!candidate || typeof candidate !== 'object') return null
+
+      const node = candidate as Record<string, unknown>
+      const id = typeof node.id === 'string' ? node.id.trim() : ''
+      if (!id) return null
+
+      const position =
+        node.position && typeof node.position === 'object'
+          ? (node.position as Record<string, unknown>)
+          : undefined
+
+      const x = typeof position?.x === 'number' ? position.x : undefined
+      const y = typeof position?.y === 'number' ? position.y : undefined
+
+      return {
+        id,
+        type: typeof node.type === 'string' ? node.type : undefined,
+        label: typeof node.label === 'string' ? node.label : undefined,
+        data: node.data && typeof node.data === 'object' ? (node.data as Record<string, unknown>) : undefined,
+        ...(typeof x === 'number' && typeof y === 'number' ? {position: {x, y}} : {}),
+      } satisfies AgentGraphNodePayload
+    })
+    .filter((node): node is AgentGraphNodePayload => Boolean(node))
+
+const toGraphEdges = (result: unknown): AgentGraphEdgePayload[] =>
+  getResultArray(result, 'edges')
+    .map((candidate) => {
+      if (!candidate || typeof candidate !== 'object') return null
+
+      const edge = candidate as Record<string, unknown>
+      const source = typeof edge.source === 'string' ? edge.source.trim() : ''
+      const target = typeof edge.target === 'string' ? edge.target.trim() : ''
+
+      if (!source || !target) return null
+
+      return {
+        id: typeof edge.id === 'string' && edge.id.trim() ? edge.id.trim() : undefined,
+        source,
+        target,
+        type: typeof edge.type === 'string' ? edge.type : undefined,
+        label: typeof edge.label === 'string' ? edge.label : undefined,
+        reasoning: typeof edge.reasoning === 'string' ? edge.reasoning : undefined,
+        data: edge.data && typeof edge.data === 'object' ? (edge.data as Record<string, unknown>) : undefined,
+      } satisfies AgentGraphEdgePayload
+    })
+    .filter((edge): edge is AgentGraphEdgePayload => Boolean(edge))
 
 export function useMindMapAgent() {
   const [status, setStatus] = useState<AgentStatus>('idle')
@@ -46,17 +155,19 @@ export function useMindMapAgent() {
   const pendingExternalParams = useRef<{query?: string} | null>(null)
 
   const runAgentQuery = useCallback(
-    async ({message, contextRules, threadId = null}: RunAgentQueryParams): Promise<AgentRunResult> => {
+    async ({
+      message,
+      contextRules,
+      researchFocus,
+      graphState,
+      threadId = null,
+    }: RunAgentQueryParams): Promise<AgentRunResult> => {
       setStatus('streaming')
       setAnalysis('')
       setToolEvents([])
       setError(null)
       pendingSearchParams.current = null
       pendingExternalParams.current = null
-
-      const prompt = contextRules
-        ? `${message}\n\nContextual Rules:\n${contextRules}`
-        : message
 
       const response = await fetch('/api/disclosure/mindmap', {
         method: 'POST',
@@ -65,7 +176,10 @@ export function useMindMapAgent() {
         },
         body: JSON.stringify({
           threadId,
-          message: prompt,
+          message,
+          contextRules,
+          researchFocus,
+          graphState,
         }),
       })
 
@@ -89,6 +203,8 @@ export function useMindMapAgent() {
       let aggregatedToolEvents: AgentToolEvent[] = []
       let searchResult: AgentSearchResult | undefined
       let externalResult: AgentExternalResult | undefined
+      const graphNodeWrites: AgentGraphNodePayload[] = []
+      const graphEdgeWrites: AgentGraphEdgePayload[] = []
 
       try {
         while (true) {
@@ -140,11 +256,14 @@ export function useMindMapAgent() {
                   }
 
                   if (toolData.status === 'complete') {
-                    const result = toolData.result as any
+                    const result = toolData.result as
+                      | Record<string, unknown>
+                      | Record<string, unknown>[]
+                      | undefined
                     const records = Array.isArray(result)
                       ? result
                       : Array.isArray(result?.records)
-                        ? result.records
+                        ? (result.records as Record<string, unknown>[])
                         : []
 
                     searchResult = {
@@ -164,9 +283,12 @@ export function useMindMapAgent() {
                   }
 
                   if (toolData.status === 'complete') {
-                    const result = toolData.result as any
+                    const result = toolData.result as
+                      | Record<string, unknown>
+                      | Record<string, unknown>[]
+                      | undefined
                     const results = Array.isArray(result?.results)
-                      ? result.results
+                      ? (result.results as Record<string, unknown>[])
                       : Array.isArray(result)
                         ? result
                         : []
@@ -177,8 +299,16 @@ export function useMindMapAgent() {
                     }
                   }
                 }
+
+                if (toolData.tool === 'addGraphNodes' && toolData.status === 'complete') {
+                  graphNodeWrites.push(...toGraphNodes(toolData.result))
+                }
+
+                if (toolData.tool === 'addGraphEdges' && toolData.status === 'complete') {
+                  graphEdgeWrites.push(...toGraphEdges(toolData.result))
+                }
               }
-            } catch (parseError) {
+            } catch {
               console.debug('Skipped chunk:', data)
             }
           }
@@ -189,11 +319,30 @@ export function useMindMapAgent() {
 
       setStatus('complete')
 
+      const dedupedNodes = Array.from(
+        new Map(graphNodeWrites.map((node) => [node.id, node])).values()
+      )
+      const dedupedEdges = Array.from(
+        new Map(
+          graphEdgeWrites.map((edge, index) => [
+            edge.id || `${edge.source}:${edge.target}:${edge.label || edge.reasoning || index}`,
+            edge,
+          ])
+        ).values()
+      )
+
       return {
         analysis: aggregatedAnalysis,
         toolEvents: aggregatedToolEvents,
         search: searchResult,
         external: externalResult,
+        graphWrites:
+          dedupedNodes.length || dedupedEdges.length
+            ? {
+                nodes: dedupedNodes,
+                edges: dedupedEdges,
+              }
+            : undefined,
       }
     },
     []

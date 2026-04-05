@@ -46,6 +46,163 @@ type FetchNextMindmapRecordsParams = {
 	cursor?: string;
 };
 
+export async function getBoundedInitialGraphData(
+	options?: { maxNodesPerType?: number },
+): Promise<NetworkGraphPayload> {
+	const { maxNodesPerType = 50 } = options ?? {};
+
+	try {
+		// Fetch bounded initial nodes from each entity table using single paginated call
+		// No looping - just fetch the first page up to maxNodesPerType
+		const [eventsResult, topicsResult, testimoniesResult, organizationsResult, personnelResult, artifactsResult, documentsResult] =
+			await Promise.all([
+				xata.db.events.getPaginated({ pagination: { size: maxNodesPerType } }),
+				xata.db.topics.getPaginated({ pagination: { size: maxNodesPerType } }),
+				xata.db.testimonies.getPaginated({ pagination: { size: maxNodesPerType } }),
+				xata.db.organizations.getPaginated({ pagination: { size: maxNodesPerType } }),
+				xata.db.personnel.getPaginated({ pagination: { size: maxNodesPerType } }),
+				xata.db.artifacts.getPaginated({ pagination: { size: maxNodesPerType } }),
+				xata.db.documents.getPaginated({ pagination: { size: maxNodesPerType } }),
+			]);
+
+		// Fetch ALL join/edge tables (they are much smaller and needed for connectivity)
+		const [
+			topicsExpertsConnections,
+			eventsExpertsConnections,
+			organizationsMembers,
+			eventsTopicsExpertsConnections,
+			topicsTestimoniesConnections,
+		] = await Promise.all([
+			getAllTopicsExpertsConnections(),
+			getAllEventsExpertsConnections(),
+			getAllOrganizationsMembers(),
+			getAllEventsTopicsExpertsConnections(),
+			getAllTopicsTestimoniesConnections(),
+		]);
+
+		const records = {
+			topics: topicsResult.records as TopicsRecord[],
+			events: eventsResult.records as EventsRecord[],
+			personnel: personnelResult.records as PersonnelRecord[],
+			testimonies: testimoniesResult.records as TestimoniesRecord[],
+			organizations: organizationsResult.records as OrganizationsRecord[],
+			documents: documentsResult.records as DocumentsRecord[],
+			artifacts: artifactsResult.records as ArtifactsRecord[],
+		};
+
+		// Build nodes using Map for O(1) lookups during edge resolution
+		const topicsNodes = records.topics.map((record) =>
+			formatGraphNode({ record, type: "topics" }),
+		);
+		const eventsNodes = records.events.map((record) =>
+			formatGraphNode({ record, type: "events" }),
+		);
+		const personnelNodes = records.personnel.map((record) =>
+			formatGraphNode({ record, type: "personnel" }),
+		);
+		const testimoniesNodes = records.testimonies.map((record) =>
+			formatGraphNode({ record, type: "testimonies" }),
+		);
+		const organizationsNodes = records.organizations.map((record) =>
+			formatGraphNode({ record, type: "organizations" }),
+		);
+		const documentsNodes = records.documents.map((record) =>
+			formatGraphNode({ record, type: "documents" }),
+		);
+		const artifactsNodes = records.artifacts.map((record) =>
+			formatGraphNode({ record, type: "artifacts" }),
+		);
+
+		const nodes = [
+			...topicsNodes,
+			...eventsNodes,
+			...personnelNodes,
+			...testimoniesNodes,
+			...organizationsNodes,
+			...documentsNodes,
+			...artifactsNodes,
+		];
+
+		// Create O(1) lookup map for edge resolution
+		const nodeMap = new Map<string, GraphNode>(nodes.map((n) => [n.id, n]));
+
+		const connections = {
+			topicsExpertsConnections,
+			eventsExpertsConnections,
+			eventsTopicsExpertsConnections,
+			topicsTestimoniesConnections,
+			organizationsPersonnelConnections: organizationsMembers,
+		};
+
+		// Collect all link records in a flattened format
+		const allLinkRecords = [
+			...connections.eventsExpertsConnections.records,
+			...connections.topicsExpertsConnections.records,
+			...connections.eventsTopicsExpertsConnections.records,
+			...connections.topicsTestimoniesConnections.records,
+			...connections.organizationsPersonnelConnections.records,
+		];
+
+		// Use Map for O(1) node existence checks instead of nodes.find()
+		const links = allLinkRecords
+			.map(({ id, ...rest }) => {
+				const entries = Object.entries(rest);
+				if (entries.length < 2) return null;
+
+				const [sourceTypeStr, sourceNodeRaw] = entries[0];
+				const [targetTypeStr, targetNodeRaw] = entries[1];
+
+				const sourceNode = sourceNodeRaw as unknown as { id: string };
+				const targetNode = targetNodeRaw as unknown as { id: string };
+
+				// O(1) lookup instead of nodes.find()
+				const sourceNodeExists = sourceNode?.id ? nodeMap.get(sourceNode.id) : null;
+				const targetNodeExists = targetNode?.id ? nodeMap.get(targetNode.id) : null;
+
+				if (sourceNodeExists && targetNodeExists) {
+					return formatGraphEdge({ id, sourceNode, targetNode });
+				}
+				return null;
+			})
+			.filter(
+				(link): link is GraphEdge => !!link && !!link.source && !!link.target,
+			);
+
+		return {
+			records,
+			connections,
+			graphData: {
+				nodes,
+				links,
+			},
+		};
+	} catch (error) {
+		// Return a minimal valid payload
+		return {
+			records: {
+				topics: [],
+				events: [],
+				personnel: [],
+				testimonies: [],
+				organizations: [],
+				documents: [],
+				artifacts: [],
+			},
+			connections: {
+				topicsExpertsConnections: { records: [], pagination: { hasNextPage: false } },
+				eventsExpertsConnections: { records: [], pagination: { hasNextPage: false } },
+				eventsTopicsExpertsConnections: { records: [], pagination: { hasNextPage: false } },
+				topicsTestimoniesConnections: { records: [], pagination: { hasNextPage: false } },
+				organizationsPersonnelConnections: { records: [], pagination: { hasNextPage: false } },
+			},
+			graphData: {
+				nodes: [],
+				links: [],
+			},
+		} as NetworkGraphPayload;
+	}
+}
+
 export async function fetchNextMindmapRecords(
 	params: FetchNextMindmapRecordsParams,
 ): Promise<FetchNextMindmapRecordsResult> {
@@ -246,6 +403,9 @@ export const getEntityNetworkGraphData = async () => {
 			...artifactsNodes,
 		];
 
+		// Create O(1) lookup map for edge resolution
+		const nodeMap = new Map<string, GraphNode>(nodes.map((n) => [n.id, n]));
+
 		const connections = {
 			topicsExpertsConnections,
 			eventsExpertsConnections,
@@ -263,6 +423,7 @@ export const getEntityNetworkGraphData = async () => {
 			...connections.organizationsPersonnelConnections.records,
 		];
 
+		// Use Map for O(1) node existence checks instead of nodes.find()
 		const links = allLinkRecords
 			.map(({ id, ...rest }) => {
 				const entries = Object.entries(rest);
@@ -274,14 +435,9 @@ export const getEntityNetworkGraphData = async () => {
 				const sourceNode = sourceNodeRaw as unknown as { id: string };
 				const targetNode = targetNodeRaw as unknown as { id: string };
 
-				// Check if source and target nodes exist because occasionally a join record can exist
-				// in either table while missing the record referenced by the foreign key
-				const sourceNodeExists = sourceNode?.id
-					? nodes.find((node) => node.id === sourceNode.id)
-					: null;
-				const targetNodeExists = targetNode?.id
-					? nodes.find((node) => node.id === targetNode.id)
-					: null;
+				// O(1) lookup instead of nodes.find()
+				const sourceNodeExists = sourceNode?.id ? nodeMap.get(sourceNode.id) : null;
+				const targetNodeExists = targetNode?.id ? nodeMap.get(targetNode.id) : null;
 
 				if (sourceNodeExists && targetNodeExists) {
 					return formatGraphEdge({ id, sourceNode, targetNode });

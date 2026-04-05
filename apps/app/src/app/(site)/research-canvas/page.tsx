@@ -5,12 +5,12 @@ import {MindMap} from '@/features/mindmap'
 import {Loading} from '@/features/sightings/components/loaders/loading'
 import {
   type NetworkGraphPayload,
-  getEntityNetworkGraphData,
+  getBoundedInitialGraphData,
 } from '@/features/mindmap/actions/get-entity-network-graph-data'
 import {StateOfDisclosureProvider} from '@/contexts'
 
 export default async function Index() {
-  const data: NetworkGraphPayload = await getEntityNetworkGraphData()
+  const data: NetworkGraphPayload = await getBoundedInitialGraphData({ maxNodesPerType: 30 })
 
   return (
     <Suspense fallback={<Loading />}>

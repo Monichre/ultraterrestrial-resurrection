@@ -4,7 +4,10 @@ import { openai } from "@/lib/openai/client"
 import { PROMETHEUS_ASSISTANT_ID, PROMETHEUS_VECTOR_STORE_ID } from "@/services/ai/openai/config"
 import { extractNamedSearchEntities, toSearchTerms } from "@/services/ai/openai/extract-search-terms"
 import { searchDatabase } from "@/services/ai/openai/tools/search-database"
-import { NER_EXTRACTION_PROMPT } from "@/services/ai/prompts/ner-extraction-prompt"
+import {
+  buildAgentContext,
+  type AgentContextGraphState,
+} from "@/services/ai/context/build-agent-context"
 import { createSSEBridge, sseHeaders } from "@/services/ai/openai/sse"
 import Exa from 'exa-js'
 
@@ -34,11 +37,42 @@ interface FileSearchToolCallLike {
   }
 }
 
+interface GraphNodeToolInput {
+  id?: string
+  type?: string
+  label?: string
+  data?: Record<string, unknown>
+  position?: {
+    x?: number
+    y?: number
+  }
+}
+
+interface GraphEdgeToolInput {
+  id?: string
+  source?: string
+  target?: string
+  type?: string
+  label?: string
+  reasoning?: string
+  data?: Record<string, unknown>
+}
+
 export async function POST( req: Request ) {
   const input: {
     threadId: string | null
     message: string
+    contextRules?: string | null
+    researchFocus?: string | null
+    graphState?: AgentContextGraphState | null
   } = await req.json()
+
+  const sharedAgentContext = buildAgentContext( {
+    userMessage: input.message,
+    contextRules: input.contextRules,
+    researchFocus: input.researchFocus,
+    graphState: input.graphState,
+  } )
 
   const threadId =
     input.threadId ??
@@ -122,32 +156,103 @@ export async function POST( req: Request ) {
                 },
               },
             },
+            {
+              type: "function",
+              function: {
+                name: "addGraphNodes",
+                description:
+                  "Add new nodes to the active mindmap graph. Use this when you identify important entities not already in the graph.",
+                parameters: {
+                  type: "object",
+                  properties: {
+                    nodes: {
+                      type: "array",
+                      items: {
+                        type: "object",
+                        properties: {
+                          id: { type: "string", description: "Stable node ID" },
+                          type: { type: "string", description: "React Flow node type" },
+                          label: { type: "string", description: "Display label for the node" },
+                          data: {
+                            type: "object",
+                            additionalProperties: true,
+                            description: "Optional extra node metadata",
+                          },
+                          position: {
+                            type: "object",
+                            properties: {
+                              x: { type: "number" },
+                              y: { type: "number" },
+                            },
+                            required: ["x", "y"],
+                          },
+                        },
+                        required: ["id", "type", "label"],
+                      },
+                    },
+                  },
+                  required: ["nodes"],
+                },
+              },
+            },
+            {
+              type: "function",
+              function: {
+                name: "addGraphEdges",
+                description:
+                  "Add relationship edges between graph nodes. Use this to explicitly capture why two entities are connected.",
+                parameters: {
+                  type: "object",
+                  properties: {
+                    edges: {
+                      type: "array",
+                      items: {
+                        type: "object",
+                        properties: {
+                          id: { type: "string", description: "Optional stable edge ID" },
+                          source: { type: "string", description: "Source node ID" },
+                          target: { type: "string", description: "Target node ID" },
+                          type: { type: "string", description: "React Flow edge type" },
+                          label: { type: "string", description: "Short edge label" },
+                          reasoning: {
+                            type: "string",
+                            description: "Why this relationship exists",
+                          },
+                          data: {
+                            type: "object",
+                            additionalProperties: true,
+                            description: "Optional extra edge metadata",
+                          },
+                        },
+                        required: ["source", "target"],
+                      },
+                    },
+                  },
+                  required: ["edges"],
+                },
+              },
+            },
           ],
           additional_instructions: `
-						
-						
-						# Sequential Tool Execution Instructions
-						Always follow this exact sequence:
-						1. First use the file_search to retrieve relevant information from the vector-backed research corpus
-						2. Then use searchDatabase with entities extracted from the file_search results
-						3. Optionally use searchExternalResources only if external corroboration would materially improve the answer
-						
-						# CRITICAL: Edge Reasoning Requirements
-						When you analyze database records, you MUST provide specific reasoning for WHY each record was selected and how it connects to the original query. 
+            # Sequential Tool Execution Instructions
+            Always follow this execution order:
+            1. Use file_search to retrieve relevant knowledge-base evidence.
+            2. Use searchDatabase with extracted entities and terms.
+            3. Optionally use searchExternalResources when corroboration is needed.
+            4. Use addGraphNodes and addGraphEdges when you identify important entities/relationships that should be materialized on the graph.
 
-						For each record returned, explain:
-						- WHY this specific record is relevant to the query
-						- WHAT connection or relationship it has to the original topic
-						- HOW it relates to other selected records
+            # CRITICAL: Edge Reasoning Requirements
+            For each selected record or created relationship, explain:
+            - WHY this record/connection is relevant
+            - WHAT relationship it has to the original query
+            - HOW it links to other selected entities
 
-						Format your reasoning clearly so it can be extracted for edge annotations in the mindmap.
+            Example: "Bob Lazar was selected because he directly worked at Area 51 and provides first-hand testimony about extraterrestrial technology, making him highly relevant to UFO disclosure."
 
-						Example: "Record 1 (Bob Lazar) was selected because he directly worked at Area 51 and provides first-hand testimony about extraterrestrial technology, making him highly relevant to queries about UFO disclosure."
+            Do not call transformXYFlow. The client is responsible for graph rendering.
 
-						Do not skip the file_search and searchDatabase steps. The client will build graph nodes and edges from the database results, so do not call transformXYFlow.
-
-						${NER_EXTRACTION_PROMPT}
-					`,
+            ${sharedAgentContext}
+          `,
           assistant_id:
             PROMETHEUS_ASSISTANT_ID ??
             ( () => {
@@ -321,6 +426,214 @@ export async function POST( req: Request ) {
                   output: JSON.stringify( { results: [], error: 'external_search_failed' } ),
                 } )
               }
+            } else if ( toolCall.function.name === 'addGraphNodes' ) {
+              const rawNodes = Array.isArray( parameters.nodes )
+                ? ( parameters.nodes as GraphNodeToolInput[] )
+                : []
+
+              const normalizedNodes = rawNodes
+                .map( ( node ) => {
+                  const id = typeof node.id === 'string' ? node.id.trim() : ''
+                  if ( !id ) return null
+
+                  const label = typeof node.label === 'string' && node.label.trim()
+                    ? node.label.trim()
+                    : id
+
+                  const resolvedType =
+                    typeof node.type === 'string' && node.type.trim()
+                      ? node.type.trim()
+                      : 'enhancedEntityNodePOC'
+
+                  const hasPosition =
+                    typeof node.position?.x === 'number' && typeof node.position?.y === 'number'
+                  const position = hasPosition
+                    ? { x: node.position?.x as number, y: node.position?.y as number }
+                    : undefined
+
+                  return {
+                    id,
+                    type: resolvedType,
+                    label,
+                    data: {
+                      ...( node.data || {} ),
+                      label,
+                    },
+                    ...( position ? { position } : {} ),
+                  }
+                } )
+                .filter( ( node ): node is NonNullable<typeof node> => Boolean( node ) )
+
+              await sendDataMessage( {
+                role: 'data',
+                data: {
+                  tool: 'addGraphNodes',
+                  status: 'processing',
+                  parameters: { requested: rawNodes.length },
+                },
+              } )
+
+              if ( !normalizedNodes.length ) {
+                const errorPayload = {
+                  error: 'invalid_nodes_payload',
+                  message: 'No valid nodes were provided to addGraphNodes',
+                }
+
+                await sendDataMessage( {
+                  role: 'data',
+                  data: {
+                    tool: 'addGraphNodes',
+                    status: 'error',
+                    result: errorPayload,
+                  },
+                } )
+
+                tool_outputs.push( {
+                  tool_call_id: toolCall.id,
+                  output: JSON.stringify( errorPayload ),
+                } )
+              } else {
+                const nodeResult = {
+                  added: normalizedNodes.length,
+                  nodes: normalizedNodes,
+                }
+
+                await sendDataMessage( {
+                  role: 'data',
+                  data: {
+                    tool: 'addGraphNodes',
+                    status: 'complete',
+                    result: nodeResult,
+                  },
+                } )
+
+                tool_outputs.push( {
+                  tool_call_id: toolCall.id,
+                  output: JSON.stringify( {
+                    added: nodeResult.added,
+                    nodeIds: nodeResult.nodes.map( ( node ) => node.id ),
+                  } ),
+                } )
+              }
+            } else if ( toolCall.function.name === 'addGraphEdges' ) {
+              const rawEdges = Array.isArray( parameters.edges )
+                ? ( parameters.edges as GraphEdgeToolInput[] )
+                : []
+
+              const normalizedEdges = rawEdges
+                .map( ( edge, index ) => {
+                  const source = typeof edge.source === 'string' ? edge.source.trim() : ''
+                  const target = typeof edge.target === 'string' ? edge.target.trim() : ''
+
+                  if ( !source || !target ) {
+                    return null
+                  }
+
+                  const label =
+                    typeof edge.label === 'string' && edge.label.trim()
+                      ? edge.label.trim()
+                      : undefined
+                  const reasoning =
+                    typeof edge.reasoning === 'string' && edge.reasoning.trim()
+                      ? edge.reasoning.trim()
+                      : undefined
+
+                  const edgeIdSeed = `${source}-${target}-${label || reasoning || index}`
+                    .toLowerCase()
+                    .replace( /[^a-z0-9_-]+/g, '-' )
+
+                  return {
+                    id:
+                      typeof edge.id === 'string' && edge.id.trim()
+                        ? edge.id.trim()
+                        : `agent-edge-${edgeIdSeed}`,
+                    source,
+                    target,
+                    type:
+                      typeof edge.type === 'string' && edge.type.trim()
+                        ? edge.type.trim()
+                        : 'siblingEdge',
+                    label,
+                    reasoning,
+                    data: {
+                      ...( edge.data || {} ),
+                      ...( label ? { label } : {} ),
+                      ...( reasoning ? { reasoning } : {} ),
+                    },
+                  }
+                } )
+                .filter( ( edge ): edge is NonNullable<typeof edge> => Boolean( edge ) )
+
+              await sendDataMessage( {
+                role: 'data',
+                data: {
+                  tool: 'addGraphEdges',
+                  status: 'processing',
+                  parameters: { requested: rawEdges.length },
+                },
+              } )
+
+              if ( !normalizedEdges.length ) {
+                const errorPayload = {
+                  error: 'invalid_edges_payload',
+                  message: 'No valid edges were provided to addGraphEdges',
+                }
+
+                await sendDataMessage( {
+                  role: 'data',
+                  data: {
+                    tool: 'addGraphEdges',
+                    status: 'error',
+                    result: errorPayload,
+                  },
+                } )
+
+                tool_outputs.push( {
+                  tool_call_id: toolCall.id,
+                  output: JSON.stringify( errorPayload ),
+                } )
+              } else {
+                const edgeResult = {
+                  added: normalizedEdges.length,
+                  edges: normalizedEdges,
+                }
+
+                await sendDataMessage( {
+                  role: 'data',
+                  data: {
+                    tool: 'addGraphEdges',
+                    status: 'complete',
+                    result: edgeResult,
+                  },
+                } )
+
+                tool_outputs.push( {
+                  tool_call_id: toolCall.id,
+                  output: JSON.stringify( {
+                    added: edgeResult.added,
+                    edgeIds: edgeResult.edges.map( ( edge ) => edge.id ),
+                  } ),
+                } )
+              }
+            } else {
+              const unsupportedPayload = {
+                error: 'unsupported_tool',
+                message: `Unsupported tool requested: ${toolCall.function.name}`,
+              }
+
+              await sendDataMessage( {
+                role: 'data',
+                data: {
+                  tool: toolCall.function.name,
+                  status: 'error',
+                  result: unsupportedPayload,
+                },
+              } )
+
+              tool_outputs.push( {
+                tool_call_id: toolCall.id,
+                output: JSON.stringify( unsupportedPayload ),
+              } )
             }
           }
 
