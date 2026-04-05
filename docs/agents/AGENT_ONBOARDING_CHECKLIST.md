@@ -16,11 +16,14 @@
 
 - [ ] Understand the `apps/app/src/` directory structure
 - [ ] Locate key system files:
-  - [ ] `features/mindmap/utils/contextual-intelligence.ts`
-  - [ ] `features/mindmap/hooks/use-spatial-grouping.ts`
-  - [ ] `features/mindmap/nodes/enhanced-node-poc.tsx`
-  - [ ] `features/agents/prometheus.tsx`
-  - [ ] `app/api/chat/route.ts`
+  - [ ] `app/api/disclosure/mindmap/route.ts` — the ONLY working e2e AI path
+  - [ ] `app/api/prometheus/chat/route.ts` — standalone chat (separate protocol)
+  - [ ] `features/mindmap/hooks/use-mindmap-agent.ts` — SSE client for disclosure agent
+  - [ ] `features/mindmap/graph.tsx` — core React Flow canvas (359 lines)
+  - [ ] `features/mindmap/mind-map.tsx` — canonical shell (16 lines, only live shell)
+  - [ ] `features/mindmap/utils/contextual-intelligence.ts` — foundation utility
+  - [ ] `features/mindmap/store/mindmap-ui-store.ts` — healthy Zustand store
+- [ ] Read `features/mindmap/CLAUDE.md` for dead code list and render path
 
 ### Phase 3: Task-Specific Documentation
 
@@ -32,52 +35,76 @@
 
 Answer these BEFORE starting any work:
 
-#### Foundational AI Understanding (`@/app` Systems)
+#### AI Architecture Understanding (grounded 2026-03-29)
 
-- [ ] What is "Prometheus" and how does it power the system?
-  - **Location:** `apps/app/src/features/agents/prometheus.tsx`
-  - **API:** `/api/chat` route at `apps/app/src/app/api/chat/route.ts`
-  - **Vector Store:** `vs_meWOEnUiUxtQWf0W6NBsNpCG`
-- [ ] How does Vector Storage + Database Search work?
-  - **Knowledge Base:** `apps/app/src/features/ai/knowledge/`
-  - **Database Operations:** `apps/app/src/db/xata/db/search-operations.ts`
-- [ ] What is the role of Contextual Intelligence in the architecture?
-  - **Implementation:** `apps/app/src/features/mindmap/utils/contextual-intelligence.ts`
-  - **Export:** `getGraphContext()`, `GraphContext` interface
+- [ ] Which route is the ONLY working end-to-end AI path?
+  - **Answer:** `/api/disclosure/mindmap` (OpenAI Assistants API + SSE + Xata search + graph nodes)
+  - **File:** `apps/app/src/app/api/disclosure/mindmap/route.ts`
+- [ ] What is the Prometheus chat route and how does it differ?
+  - **Answer:** `/api/prometheus/chat` — standalone Vercel AI SDK `streamText`, NOT graph-connected
+  - **File:** `apps/app/src/app/api/prometheus/chat/route.ts`
+- [ ] What search systems actually work in the Next.js app?
+  - **Answer:** OpenAI file_search (vector store) + Xata full-text search. Nothing else.
+  - ~~Triple RAG~~, ~~FAISS~~, ~~Upstash Vector~~, ~~CocoIndex~~ do NOT exist here.
+- [ ] What is Contextual Intelligence?
+  - **Answer:** A utility that provides graph context and relationship filtering, NOT an AI pipeline
+  - **File:** `apps/app/src/features/mindmap/utils/contextual-intelligence.ts`
 
-#### System Integration Understanding (`@/app/src/features/`)
+#### Canonical Render Path
 
-- [ ] Which systems are already integrated and how?
-  - **Enhanced Nodes:** `features/mindmap/nodes/enhanced-node-poc.tsx` (used by ALL systems)
-  - **Spatial Intelligence:** `features/mindmap/hooks/use-spatial-grouping.ts`
-  - **Tour Integration:** `features/mindmap/tours/`
-- [ ] What does "85% AI connectivity" actually represent?
-- [ ] How do Enhanced Nodes serve as the common UI layer?
-  - **Usage:** Import via `@/features/mindmap/nodes/enhanced-node-poc`
+- [ ] Can you trace the research canvas render path?
+  ```
+  (site)/research-canvas/page.tsx
+    -> MindMap (features/mindmap/mind-map.tsx)  [16 lines, only live shell]
+      -> ReactFlowProvider + MindMapProvider
+        -> ViewSwitcher -> Graph | TimelineView | SightingsView | SearchView | DetailView
+  ```
 
-#### @/app Import Path Understanding
+#### State Management
 
-- [ ] Can you write correct import statements for key components?
+- [ ] Where does UI state live?
+  - **Answer:** Zustand `mindmap-ui-store.ts` — healthy, well-typed slices
+  - **NOT** in `mindmap-context.tsx` (1,363-line god-object, do not add logic here)
+- [ ] How does navigation work?
+  - **Answer:** Zustand `setActiveView()`, NOT `router.push()`
+
+#### Dead Code Awareness
+
+- [ ] Do you know what NOT to extend?
+  - Ghost routes: `(site)/disclosure/`, `(site)/search-and-discovery-interface/`, `(site)/content-card-detail-view/`, `(site)/ufo-sightings/`
+  - Dead shells: `smart-mindmap.tsx`, `smart-mindmap-with-auto-connections.tsx`, `smart-mindmap-with-shared-context.tsx`, `smart-graph.tsx`
+
+#### Security Awareness
+
+- [ ] Do you know about the auth gap?
+  - **Answer:** No authentication middleware exists. Every API route is publicly accessible.
+  - Planned fix: Clerk middleware in `apps/app/src/middleware.ts`
+
+#### Import Patterns
+
+- [ ] Can you write correct import statements?
 
   ```typescript
-  // Contextual Intelligence
+  // Database
+  import { XataClient } from '@db/xata'
+  import { askXata, searchXata } from '@db/xata/api'
+
+  // Mindmap agent hook
+  import { useMindMapAgent } from '@/features/mindmap/hooks/use-mindmap-agent'
+
+  // Zustand store (preferred for UI state)
+  import { useMindMapUiStore } from '@/features/mindmap/store/mindmap-ui-store'
+
+  // Contextual Intelligence utility
   import { getGraphContext } from '@/features/mindmap/utils/contextual-intelligence'
-  
-  // Spatial Intelligence  
-  import { useSpatialGrouping } from '@/features/mindmap/hooks/use-spatial-grouping'
-  
-  // Enhanced Nodes
-  import { EnhancedEntityNodePOC } from '@/features/mindmap/nodes/enhanced-node-poc'
-  
-  // Prometheus Integration
-  import { Prometheus } from '@/features/agents/prometheus'
   ```
 
 #### Task Relationship Understanding
 
-- [ ] How does your task relate to existing infrastructure?
-- [ ] Are you building new systems or enhancing existing ones?
-- [ ] What existing systems should you leverage vs. rebuild?
+- [ ] How does your task relate to the hardening plan?
+  - **Reference:** `docs/plans/2026-03-29-roundtable-unified-action-plan.md`
+- [ ] Are you building on the working path or creating something new?
+- [ ] Have you checked the feature-local CLAUDE.md for your area? (`features/mindmap/CLAUDE.md`)
 
 ## 🗂️ @/app Directory Structure Awareness
 

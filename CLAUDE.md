@@ -96,8 +96,8 @@ bun run storybook       # Component development
 bun run new             # Generate new component with Plop
 bun run bun:new         # Alternative Bun-based generator
 
-# Testing and analysis
-bun run audit:components # Component audit report
+# Storybook
+bun run build-storybook  # Build static Storybook
 ```
 
 ### RAG System (Python)
@@ -138,34 +138,39 @@ bun run import:events   # Import events specifically
 
 ### Monorepo Structure
 
-- `apps/app/` - Main Next.js application with research platform
-- `apps/disclosure-rag/` - Python RAG system with triple backend architecture
-- `apps/research-canvas/` - TipTap research editor (being consolidated)
-- `packages/db/` - Xata database integration with 29 models, 230,998+ records
-- `packages/ai/` - AI processing components and external integrations
+- `apps/app/` - Main Next.js 15 application (research platform, mindmap, AI agents)
+- `apps/disclosure-rag/` - Python RAG system (completely disconnected from Next.js app)
+- `packages/db/` - Xata database SDK (@db workspace), 29 models, 230,998+ records
+- `packages/ai/` - AI processing components
+- `packages/knowledge-base/` - Research source materials (under `sources/files/`)
 
-### Core AI Architecture (Critical Understanding)
+### Core AI Architecture (Grounded 2026-03-29)
 
-**Foundation Layer:**
+**Working AI Paths (verified by 4-specialist roundtable audit):**
 
-- **Prometheus AI** (`apps/app/src/features/agents/prometheus.tsx`) - Core OpenAI assistant
-- **Contextual Intelligence** (`apps/app/src/features/mindmap/utils/contextual-intelligence.ts`) - Brain of the system
-- **Vector Storage + Database Search** - Dual approach with Xata vector + PostgreSQL
+1. **Disclosure Mindmap Agent** — the ONLY end-to-end AI path
+   - Route: `/api/disclosure/mindmap` (OpenAI Assistants API + custom SSE bridge)
+   - Tools: `file_search` (OpenAI vector store) + `searchDatabase` (Xata full-text) + `searchExternalResources` (Exa)
+   - Client: `useMindMapAgent` hook → `transformStreamResponse` → graph nodes/edges
+   - Files: `apps/app/src/app/api/disclosure/mindmap/route.ts`, `apps/app/src/features/mindmap/hooks/use-mindmap-agent.ts`
 
-**Integration Hierarchy:**
+2. **Prometheus Chat** — standalone conversational chat (separate protocol)
+   - Route: `/api/prometheus/chat` (Vercel AI SDK `streamText`)
+   - Tools: `searchUAP`, `searchExternalResources`, `researchExternalTopic`, `processDocument`
+   - File: `apps/app/src/app/api/prometheus/chat/route.ts`
 
-1. **Contextual Intelligence** (✅ Complete) - Foundation for all AI features
-2. **Spatial Intelligence** (✅ Complete) - R-Tree indexing, proximity analysis
-3. **Enhanced Nodes** (✅ Complete) - Common UI layer used by ALL systems
-4. **Smart Tours** (✅ 85% Complete) - Historical narrative progression
-5. **Agentic Tours** (📋 Planning) - Natural language tour control
+**What does NOT exist in the Next.js app (corrected myths):**
+- ~~Triple RAG with 40/40/20 weighting~~ — Only OpenAI file_search + Xata full-text search work
+- ~~FAISS, Upstash Vector, CocoIndex~~ — Python-only or completely unimplemented
+- ~~Multi-agent tour orchestrator~~ — 6 agent classes specced (July 2025), zero code written, scrapped
+- ~~85% AI connectivity~~ — One end-to-end agent path works; the rest are broken or dead
 
-### Triple RAG System
+**Foundation utilities (these do exist and work):**
+- **Contextual Intelligence** (`features/mindmap/utils/contextual-intelligence.ts`) — graph context, relationship filtering
+- **Spatial Intelligence** (`features/mindmap/hooks/use-spatial-grouping.ts`) — R-Tree proximity queries
+- **Enhanced Nodes** (`features/mindmap/nodes/enhanced-node-poc.tsx`) — one node type in React Flow
 
-- **Upstash Vector** (40% weight) - Cloud vector search
-- **LocalRAG FAISS** (40% weight) - Local vector storage
-- **CocoIndex PostgreSQL** (20% weight) - Advanced analytics
-- **85% schema compatibility** with existing Xata models
+**Reference:** `docs/plans/2026-03-29-roundtable-unified-action-plan.md` for full audit and hardening plan
 
 ## Key Import Patterns
 
@@ -196,26 +201,44 @@ import { DataVizComponent } from '@/features/data-viz'
 
 ### "Orchestration over Replacement"
 
-- Existing AI infrastructure is sophisticated and well-integrated
-- 85% AI connectivity represents advanced functional integration, NOT incomplete work
-- Enhance existing systems rather than rebuild them
-- Contextual Intelligence is the foundation - all other systems depend on it
+- Enhance the one working agent path (disclosure/mindmap) rather than building new ones
+- Contextual Intelligence utilities are the foundation — other features depend on them
+- The Python RAG system (`apps/disclosure-rag/`) is completely disconnected from the Next.js app
 
 ### Common Mistakes to Avoid
 
-- Planning to "connect" already-connected systems
-- Treating 85% connectivity as incomplete
-- Missing the unified AI foundation (Prometheus + Contextual Intelligence)
-- Assuming systems need architectural overhaul
-- Creating new AI infrastructure when sophisticated systems exist
+- Assuming "Triple RAG" or multi-agent tours exist — they do not (see myths corrected in roundtable audit)
+- Extending dead code: 4 ghost routes + 4 smart-mindmap shell variants have zero consumers
+- Adding state to `mindmap-context.tsx` (1,363-line god-object) — use Zustand store instead
+- Using `router.push()` for canvas navigation — use Zustand `setActiveView()`
+- Treating the Python RAG system as connected to the Next.js app
+
+### Canonical Render Path (Research Canvas)
+
+```
+(site)/research-canvas/page.tsx
+  -> MindMap (features/mindmap/index.tsx -> mind-map.tsx)  [16 lines, only live shell]
+    -> ReactFlowProvider + MindMapProvider
+      -> ViewSwitcher (canvasContent=<Graph />)
+        -> Graph | TimelineView | SightingsView | SearchView | DetailView
+        -> always mounts <FullScreenMenu />
+```
+
+### State Management
+
+- **Zustand `mindmap-ui-store.ts`** — healthy, well-typed slices (navigation, tour, filter, timeline, layout, assets). Use this for UI state.
+- **`mindmap-context.tsx`** — 1,363-line god-object. Do NOT add more logic here. Scheduled for decomposition.
+- **Navigation** goes through Zustand `setActiveView()`, NOT `router.push()`. Path fields in FullScreenMenu are decorative.
+
+### Dead Code — Do Not Extend
+
+- `smart-mindmap.tsx`, `smart-mindmap-with-auto-connections.tsx`, `smart-mindmap-with-shared-context.tsx`, `smart-graph.tsx` — zero production consumers
+- Ghost routes: `(site)/disclosure/`, `(site)/search-and-discovery-interface/`, `(site)/content-card-detail-view/`, `(site)/ufo-sightings/`
 
 ### File Organization Rules
 
 - **Feature-first structure** - group related functionality together
-- **Enhanced Nodes** serve as common UI layer across ALL features
-- **Contextual Intelligence** powers smart badges, filtering, suggestions
-- **Spatial Intelligence** builds on contextual intelligence foundation
-- Use `@/` imports for apps/app paths, workspace imports for packages
+- Use `@/` imports for apps/app paths, `@db/` for database package, `workspace:*` for packages
 
 ## Technology Stack
 
@@ -229,17 +252,18 @@ import { DataVizComponent } from '@/features/data-viz'
 
 ### Backend & Data
 
-- **Xata (PostgreSQL)** with vector search capabilities
-- **Multi-vector storage**: Upstash Vector, FAISS, pgvector
-- **AI**: OpenAI, Anthropic, Groq via Vercel AI SDK
-- **Authentication**: Clerk
+- **Xata (PostgreSQL)** — primary database, 230,998+ records, full-text search
+- **OpenAI Assistants API** — disclosure mindmap agent (file_search + threads)
+- **Vercel AI SDK** — Prometheus chat route (streamText)
+- **AI providers**: OpenAI, Anthropic, Groq
+- **Authentication**: Clerk (middleware NOT YET implemented — all routes publicly accessible)
+- **Search**: OpenAI file_search (vector store) + Xata full-text. No other vector search is wired in the Next.js app.
 
-### Python RAG System
+### Python RAG System (disconnected)
 
 - **FastAPI** + Streamlit for APIs and dashboards
 - **LangChain** + sentence-transformers for AI/ML
-- **Triple vector backends** with adapter pattern
-- **Document processing**: PyPDF2, PyMuPDF, BeautifulSoup4
+- **Note**: This system does NOT share data or vector stores with the Next.js app
 
 ## Development Guidelines
 

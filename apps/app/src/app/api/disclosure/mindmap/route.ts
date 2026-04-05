@@ -2,6 +2,7 @@
 
 import { openai } from "@/lib/openai/client"
 import { PROMETHEUS_ASSISTANT_ID, PROMETHEUS_VECTOR_STORE_ID } from "@/services/ai/openai/config"
+import { extractNamedSearchEntities, toSearchTerms } from "@/services/ai/openai/extract-search-terms"
 import { searchDatabase } from "@/services/ai/openai/tools/search-database"
 import { NER_EXTRACTION_PROMPT } from "@/services/ai/prompts/ner-extraction-prompt"
 import { createSSEBridge, sseHeaders } from "@/services/ai/openai/sse"
@@ -11,7 +12,25 @@ import Exa from 'exa-js'
 interface ToolResults {
   fileSearchResult?: {
     response: string
-    entities: Record<string, string>[]
+    entities?: Record<string, string>[]
+  }
+}
+
+interface ExternalSearchResult {
+  title?: string | null
+  url?: string | null
+  text?: string | null
+  score?: number | null
+}
+
+interface FileSearchToolCallLike {
+  type: 'file_search' | 'retrieval'
+  file_search?: {
+    results?: Array<{
+      content?: Array<{
+        text?: string
+      }>
+    }>
   }
 }
 
@@ -33,7 +52,7 @@ export async function POST( req: Request ) {
       } )
     ).id
 
-  const createdMessage = await openai.beta.threads.messages.create( threadId, {
+  await openai.beta.threads.messages.create( threadId, {
     role: "user",
     content: input.message,
   } )
@@ -103,24 +122,6 @@ export async function POST( req: Request ) {
                 },
               },
             },
-            {
-              type: "function",
-              function: {
-                name: "transformXYFlow",
-                description:
-                  "Transform database results into ReactFlow nodes and edges",
-                parameters: {
-                  type: "object",
-                  properties: {
-                    data: {
-                      type: "object",
-                      description: "The data from the previous step to transform",
-                    },
-                  },
-                  required: ["data"],
-                },
-              },
-            },
           ],
           additional_instructions: `
 						
@@ -129,7 +130,7 @@ export async function POST( req: Request ) {
 						Always follow this exact sequence:
 						1. First use the file_search to retrieve relevant information from the vector-backed research corpus
 						2. Then use searchDatabase with entities extracted from the file_search results
-						3. Then use transformXYFlow to transform the results into a graph visualization
+						3. Optionally use searchExternalResources only if external corroboration would materially improve the answer
 						
 						# CRITICAL: Edge Reasoning Requirements
 						When you analyze database records, you MUST provide specific reasoning for WHY each record was selected and how it connects to the original query. 
@@ -143,7 +144,7 @@ export async function POST( req: Request ) {
 
 						Example: "Record 1 (Bob Lazar) was selected because he directly worked at Area 51 and provides first-hand testimony about extraterrestrial technology, making him highly relevant to queries about UFO disclosure."
 
-						Do not skip any steps, and make sure to extract entities from the first result, make sure to return strcutured entities from the second result and return graph nodes and edges in the final result
+						Do not skip the file_search and searchDatabase steps. The client will build graph nodes and edges from the database results, so do not call transformXYFlow.
 
 						${NER_EXTRACTION_PROMPT}
 					`,
@@ -165,13 +166,21 @@ export async function POST( req: Request ) {
             runResult.required_action.submit_tool_outputs.tool_calls
 
           // Process tool calls sequentially to maintain state between them
-          const tool_outputs: Array<{ tool_call_id: string; output: string | any }> = []
+          const tool_outputs: Array<{ tool_call_id: string; output: string }> = []
 
           for ( const toolCall of toolCalls ) {
             // Handle built-in file_search tool results if present
-            if ( toolCall.type === "retrieval" ) {
+            if ( toolCall.type === "file_search" || toolCall.type === "retrieval" ) {
+              const fileSearchToolCall = toolCall as FileSearchToolCallLike
+              const response = fileSearchToolCall.file_search?.results
+                ?.flatMap( result => result.content || [] )
+                .map( content => content.text?.trim() )
+                .filter( ( text ): text is string => Boolean( text ) )
+                .join( '\n\n' )
+                .trim() || input.message
+
               const fileSearchResult = {
-                response: "Information retrieved from file search",
+                response,
               }
 
               toolResults.fileSearchResult = fileSearchResult
@@ -189,22 +198,49 @@ export async function POST( req: Request ) {
 
             const parameters = JSON.parse( toolCall.function.arguments )
 
-            await sendDataMessage( {
-              role: "data",
-              data: {
-                tool: toolCall.function.name,
-                status: "processing",
-                parameters,
-              },
-            } )
-
             if ( toolCall.function.name === "searchDatabase" ) {
-              // Prefer assistant-provided NER terms. Fallback to a single query string if provided.
-              const searchTerms: string[] = Array.isArray( parameters.search_terms )
-                ? parameters.search_terms
-                : ( typeof parameters.query === 'string' && parameters.query.trim() )
-                  ? [ parameters.query.trim() ]
-                  : []
+              const assistantSearchTerms = Array.isArray( parameters.search_terms )
+                ? Array.from(
+                  new Set(
+                    parameters.search_terms
+                      .filter( ( term: unknown ): term is string => typeof term === 'string' )
+                      .map( ( term: string ) => term.trim().replace( /\s+/g, ' ' ) )
+                      .filter( Boolean )
+                  )
+                )
+                : []
+
+              const fallbackQuery = typeof parameters.query === 'string' && parameters.query.trim()
+                ? parameters.query.trim()
+                : input.message
+
+              const extractedEntities = assistantSearchTerms.length
+                ? []
+                : await extractNamedSearchEntities( {
+                  text:
+                    typeof parameters.response === 'string' && parameters.response.trim()
+                      ? parameters.response
+                      : toolResults.fileSearchResult?.response || input.message,
+                  query: fallbackQuery,
+                } )
+
+              const searchTerms = assistantSearchTerms.length
+                ? assistantSearchTerms
+                : toSearchTerms( extractedEntities, fallbackQuery )
+
+              const resolvedParameters = {
+                ...parameters,
+                search_terms: searchTerms,
+              }
+
+              await sendDataMessage( {
+                role: "data",
+                data: {
+                  tool: "searchDatabase",
+                  status: "processing",
+                  parameters: resolvedParameters,
+                },
+              } )
 
               if ( !searchTerms.length ) {
                 const errorPayload = { error: 'missing_search_terms', message: 'search_terms were not provided by the assistant' }
@@ -243,6 +279,15 @@ export async function POST( req: Request ) {
                 } )
               }
             } else if ( toolCall.function.name === 'searchExternalResources' ) {
+              await sendDataMessage( {
+                role: "data",
+                data: {
+                  tool: 'searchExternalResources',
+                  status: 'processing',
+                  parameters,
+                },
+              } )
+
               const { query, limit = 5 } = parameters
               try {
                 const searchResults = await exaClient.searchAndContents( {
@@ -250,9 +295,9 @@ export async function POST( req: Request ) {
                   numResults: Math.min( Number( limit ) || 5, 10 ),
                   type: 'neural',
                   contents: { text: { maxCharacters: 2000 } },
-                } as any )
+                } )
 
-                const formatted = ( searchResults?.results || [] ).map( ( r: any ) => ( {
+                const formatted = ( ( searchResults?.results || [] ) as ExternalSearchResult[] ).map( r => ( {
                   title: r.title,
                   url: r.url,
                   text: r.text,

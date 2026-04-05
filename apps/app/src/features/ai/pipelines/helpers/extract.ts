@@ -1,4 +1,3 @@
-import "@ungap/with-resolvers";
 import { getDocument } from "pdfjs-dist";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "../db/types";

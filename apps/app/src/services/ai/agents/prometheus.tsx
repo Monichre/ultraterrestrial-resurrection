@@ -254,7 +254,7 @@ Content: ${att.content.substring(0, 1000)}${att.content.length > 1000 ? '...' : 
   .join('\n')}`
 
       // Call the new hybrid API route
-      const response = await fetch('/api/chat', {
+      const response = await fetch('/api/prometheus/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

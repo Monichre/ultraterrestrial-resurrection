@@ -11,17 +11,7 @@ import Image from "next/image"
 import Link from "next/link"
 import dynamic from "next/dynamic"
 
-const UFOGlobe = dynamic(() => import("@/components/ui/UFOGlobe").then((mod) => mod.UFOGlobe), {
-  ssr: false,
-  loading: () => (
-    <div className="w-full h-[600px] bg-card border border-border rounded-xl flex items-center justify-center">
-      <div className="flex flex-col items-center gap-3">
-        <Globe2 className="w-12 h-12 text-primary animate-pulse" />
-        <p className="text-muted-foreground">Loading 3D Globe...</p>
-      </div>
-    </div>
-  ),
-})
+
 
 type ViewMode = "grid" | "list" | "map"
 type SortOption = "date-desc" | "date-asc" | "witnesses" | "name"
@@ -301,11 +291,11 @@ export default function UFOSightingsPage() {
           {viewMode === "map" && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mb-8">
               <div className="h-[600px]">
-                <UFOGlobe
+                {/* <UFOGlobe
                   incidents={filteredIncidents}
                   onIncidentClick={handleIncidentClick}
                   selectedIncident={selectedIncident}
-                />
+                /> */}
               </div>
 
               {/* Selected Incident Panel */}

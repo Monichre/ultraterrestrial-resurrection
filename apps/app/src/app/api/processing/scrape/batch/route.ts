@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { ResearchCategory, ResearchDepth } from "@/services/resource-scrape";
+import { ResearchCategory, ResearchDepth } from "@/lib/firecrawl/firecrawl";
 import {
 	processMultipleResources,
 	processResource,

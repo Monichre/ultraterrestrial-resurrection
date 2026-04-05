@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { calculatePersonnelRanking } from "@/services/ranking/personnel-ranking.service";
-import { xata } from "@db/client";
+import { xata } from "@db/xata/client";
 
 /**
  * Admin test endpoint to evaluate the personnel ranking system

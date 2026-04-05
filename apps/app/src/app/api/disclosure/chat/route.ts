@@ -269,10 +269,12 @@ When answering questions, incorporate this information and cite relevant details
 											} satisfies AnthropicProviderOptions,
 										},
 									} )
+									const text = await result.text
 									return {
 										tool_call_id: toolCall.id,
-										output: result.toDataStreamResponse( {
-											sendReasoning: true,
+										output: JSON.stringify( {
+											success: true,
+											transformation: text,
 										} ),
 									}
 								}

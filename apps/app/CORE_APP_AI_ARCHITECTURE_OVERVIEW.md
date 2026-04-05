@@ -33,37 +33,45 @@ Located in `apps/app/src/features/ai/` and `apps/app/src/services/ai/`
 ## 🎯 System Integration Hierarchy (`@/app/src/features/`)
 
 ```
-Contextual Intelligence (✅ COMPLETE - June 2025)
+WORKING AI PATHS (verified 2026-03-29 by 4-specialist roundtable audit):
+
+1. Disclosure Mindmap Agent — THE ONLY END-TO-END AI PATH
+   📁 apps/app/src/app/api/disclosure/mindmap/route.ts
+   ├── Protocol: OpenAI Assistants API + custom SSE bridge
+   ├── Tools: file_search (OpenAI vector store) + searchDatabase (Xata) + searchExternalResources (Exa)
+   ├── Client: features/mindmap/hooks/use-mindmap-agent.ts → graph nodes/edges
+   └── Status: Working in production
+
+2. Prometheus Chat — STANDALONE CONVERSATIONAL CHAT (separate protocol)
+   📁 apps/app/src/app/api/prometheus/chat/route.ts
+   ├── Protocol: Vercel AI SDK streamText
+   ├── Tools: searchUAP, searchExternalResources, researchExternalTopic, processDocument
+   └── Status: Functional but separate from graph canvas
+
+FOUNDATION UTILITIES (these exist and work):
+
+Contextual Intelligence (✅ COMPLETE)
 📁 apps/app/src/features/mindmap/utils/contextual-intelligence.ts
-├── Foundation layer for all AI features
-├── Powers: Context detection, relationship filtering, smart suggestions
+├── Graph context, relationship filtering, smart suggestions
 └── Export: `getGraphContext()`, `GraphContext` interface
 
-↓ Built on Contextual Intelligence ↓
-
-Spatial Intelligence (✅ COMPLETE - June 2025)  
+Spatial Intelligence (✅ COMPLETE)
 📁 apps/app/src/features/mindmap/hooks/use-spatial-grouping.ts
-📁 apps/app/src/features/mindmap/tours/hooks/use-tour-with-spatial-intelligence.ts
 ├── R-Tree indexing for O(log n) proximity queries
-├── 150px threshold, 2-second triggers
-└── Export: `useSpatialGrouping()`, `useTourWithSpatialIntelligence()`
+└── Export: `useSpatialGrouping()`
 
-↓ Leverages Both Above ↓
+Enhanced Nodes (✅ COMPLETE)
+📁 apps/app/src/features/mindmap/nodes/enhanced-node-poc.tsx
+├── One node type in React Flow with smart badges
+└── Used by graph canvas
 
-Smart Tour Integration (✅ 85% Complete - July 2025)
-📁 apps/app/src/features/mindmap/tours/
-├── Enhanced nodes with AI-powered badges
-├── Tour-specific contextual intelligence
-├── Historical significance detection
-└── Tools: `apps/app/src/features/mindmap/tours/tools/`
+WHAT DOES NOT EXIST (corrected myths — do not reference these):
 
-↓ Natural Language Layer ↓
-
-Agentic Tours (📋 Planning - July 2025)
-📁 apps/app/src/features/mindmap/tours/hooks/
-├── Natural language tour control
-├── Leverages all above systems through tool interfaces
-└── Philosophy: Orchestration over Replacement
+✗ Triple RAG (40/40/20) — Only OpenAI file_search + Xata full-text search work
+✗ Multi-agent tour orchestrator — 6 agent classes specced July 2025, zero code, SCRAPPED
+✗ "85% AI connectivity" — One end-to-end path works; the rest are broken or dead
+✗ Smart Tours "85% Complete" — Tour UI exists but agent orchestrator was never built
+✗ Python RAG connection — apps/disclosure-rag/ is completely disconnected from this app
 ```
 
 ## 📂 @/app Directory Structure Overview
@@ -139,40 +147,42 @@ import { getGraphContext, type GraphContext } from '@/features/mindmap/utils/con
 ```typescript
 // Import paths within @/app
 import { Prometheus } from '@/features/agents/prometheus'
-// API endpoint: /api/chat (apps/app/src/app/api/chat/route.ts)
+// API endpoint: /api/prometheus/chat (apps/app/src/app/api/prometheus/chat/route.ts)
 ```
 
-- **Powers:** All AI conversations and analysis
-- **Integration:** Connected to all knowledge systems
-- **Vector Store:** `vs_meWOEnUiUxtQWf0W6NBsNpCG`
+- **Powers:** Standalone conversational AI (NOT graph-connected)
+- **Route:** `/api/prometheus/chat` (Vercel AI SDK streamText)
+- **Vector Store:** Referenced via `OPENAI_VECTOR_STORE_ID` env var
 
-## 📊 Current Status Matrix (`@/app` Implementation)
+## 📊 Current Status Matrix (`@/app` Implementation, grounded 2026-03-29)
 
-| System | Status | File Location (apps/app/src/) | AI Connectivity |
-|--------|--------|-------------------------------|-----------------|
-| Contextual Intelligence | ✅ COMPLETE | `features/mindmap/utils/contextual-intelligence.ts` | 100% |
-| Spatial Intelligence | ✅ COMPLETE | `features/mindmap/hooks/use-spatial-grouping.ts` | 100% |
-| Smart Tours | ✅ 85% Complete | `features/mindmap/tours/` | 85% |
-| Enhanced Nodes | ✅ COMPLETE | `features/mindmap/nodes/enhanced-node-poc.tsx` | 100% |
-| Prometheus Integration | ✅ COMPLETE | `features/agents/prometheus.tsx` | 100% |
-| Agentic Tours | 📋 Planning | `features/mindmap/tours/hooks/` | TBD |
+| System | Status | File Location (apps/app/src/) | Notes |
+|--------|--------|-------------------------------|-------|
+| Disclosure Mindmap Agent | ✅ WORKING | `app/api/disclosure/mindmap/route.ts` | Only working e2e AI path |
+| Prometheus Chat | ✅ WORKING | `app/api/prometheus/chat/route.ts` | Standalone chat, separate protocol |
+| Contextual Intelligence | ✅ COMPLETE | `features/mindmap/utils/contextual-intelligence.ts` | Foundation utility |
+| Spatial Intelligence | ✅ COMPLETE | `features/mindmap/hooks/use-spatial-grouping.ts` | Foundation utility |
+| Enhanced Nodes | ✅ COMPLETE | `features/mindmap/nodes/enhanced-node-poc.tsx` | One React Flow node type |
+| Auth Middleware | ❌ MISSING | N/A | All routes publicly accessible |
+| Graph Pagination | ❌ MISSING | `packages/db/.../xyflow-integration.ts` | Loads all 230,998 records |
+| Multi-agent Tours | ❌ SCRAPPED | N/A | Never started, do not revive |
 
 ## ⚠️ CRITICAL FOR AGENTS
 
 ### BEFORE STARTING ANY TASK
 
-1. **Understand this hierarchy** - Don't treat systems as separate
-2. **85% AI connectivity ≠ low integration** - This represents sophisticated functional integration
-3. **Most integration already exists** - You're likely polishing, not building from scratch
-4. **Contextual Intelligence is the brain** - All other systems depend on it
+1. **Only one AI path works end-to-end** — disclosure/mindmap route. Prometheus chat is separate.
+2. **Contextual Intelligence is a utility** — it provides graph context, not an AI pipeline
+3. **Do not add state to mindmap-context.tsx** — it's a 1,363-line god-object scheduled for decomposition
+4. **Navigation uses Zustand** `setActiveView()`, NOT `router.push()`
+5. **Read the hardening plan** — `docs/plans/2026-03-29-roundtable-unified-action-plan.md`
 
 ### COMMON MISTAKES TO AVOID
 
-- Planning to "connect" already-connected systems
-- Treating 85% connectivity as incomplete
-- Missing the unified AI foundation
-- Assuming systems need architectural overhaul
-- Reverse-engineering from code without reading documentation
+- Assuming Triple RAG, multi-agent tours, or "85% AI connectivity" exist — they do not
+- Extending dead code (4 ghost routes, 4 smart-mindmap shell variants)
+- Treating the Python RAG system as connected to this app
+- Adding logic to mindmap-context.tsx instead of Zustand store
 
 ### REQUIRED READING ORDER
 
@@ -194,19 +204,19 @@ import { Prometheus } from '@/features/agents/prometheus'
 
 Can you answer these before starting your task?
 
-- [ ] What is Prometheus and how does it power the system?
-- [ ] How does Contextual Intelligence serve as the foundation?
-- [ ] Which systems are already integrated and how?
-- [ ] What does "85% AI connectivity" actually represent?
-- [ ] How does your task relate to existing infrastructure?
+- [ ] Which route is the only working end-to-end AI path? (`/api/disclosure/mindmap`)
+- [ ] What protocol does it use? (OpenAI Assistants API + SSE)
+- [ ] What is the canonical render path for the research canvas? (page.tsx -> MindMap -> ViewSwitcher -> Graph)
+- [ ] Where does UI state live? (Zustand `mindmap-ui-store.ts`, NOT mindmap-context.tsx)
+- [ ] What is dead code in this codebase? (4 ghost routes, 4 smart-mindmap shells)
 
 **If you can't answer these, read the documentation first.**
 
 ---
 
-**Last Updated:** July 15, 2025  
-**Status:** Living document - update as architecture evolves  
-**Critical:** This must be the first document any agent reads
+**Last Updated:** 2026-03-29 (grounded by 4-specialist roundtable audit)
+**Status:** Living document - update as architecture evolves
+**Reference:** `docs/plans/2026-03-29-roundtable-unified-action-plan.md`
 
 ## 🔧 Development Integration Examples
 
@@ -240,16 +250,25 @@ export function SpatialExample() {
 }
 ```
 
-### Prometheus AI Integration
+### Prometheus Chat Integration
 
 ```typescript
 // Example: apps/app/src/features/ai/components/ai-example.tsx
-// API Call to Prometheus
-const response = await fetch('/api/chat', {
+// API Call to Prometheus (standalone chat, NOT graph-connected)
+const response = await fetch('/api/prometheus/chat', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({
     messages: [{ role: 'user', content: 'Analyze this UFO sighting...' }]
   })
 })
+```
+
+### Disclosure Mindmap Agent (graph-connected AI)
+
+```typescript
+// The disclosure mindmap agent is consumed via useMindMapAgent hook:
+// apps/app/src/features/mindmap/hooks/use-mindmap-agent.ts
+// It streams SSE events that get transformed into graph nodes/edges
+// See: apps/app/src/features/mindmap/graph.tsx (runAgentQueryAndAddNodes)
 ```

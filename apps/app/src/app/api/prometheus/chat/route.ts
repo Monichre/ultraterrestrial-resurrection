@@ -15,21 +15,6 @@ const MAX_TAGS = 12;
 const MIN_TAGS = 8;
 const MODEL_NAME = 'gpt-4-turbo'; // Fixed model name
 
-// Rate limiting and caching
-const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
-const RATE_LIMIT_MAX_REQUESTS = 30; // Max requests per window
-const CACHE_TTL = 5 * 60 * 1000; // 5 minutes cache
-
-// In-memory stores (for development - use Redis in production)
-const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
-const responseCache = new Map<string, { data: any; timestamp: number }>();
-const metricsStore = {
-  requests: 0,
-  successful: 0,
-  failed: 0,
-  avgResponseTime: 0,
-  lastReset: Date.now()
-};
 
 // Types
 interface SearchResult {
@@ -337,12 +322,9 @@ Return ${MIN_TAGS}-${MAX_TAGS} tags as: ["tag1", "tag2", "tag3"]`
   }
 };
 
-export const runtime = 'edge';
-export const maxDuration = 30;
+export const maxDuration = 60;
 
 export async function POST(req: NextRequest) {
-  const startTime = Date.now();
-  
   try {
     // Parse request body
     const body = await req.json();
@@ -354,9 +336,6 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
-
-    // Update metrics
-    metricsStore.requests++;
 
     const result = await streamText({
       model: openai(MODEL_NAME),
@@ -623,17 +602,9 @@ Search primarily from trusted sources: ${researchDomains.join(', ')}`;
       },
     });
 
-    // Update success metrics
-    metricsStore.successful++;
-    const responseTime = Date.now() - startTime;
-    metricsStore.avgResponseTime = (metricsStore.avgResponseTime + responseTime) / 2;
-
     return result.toDataStreamResponse();
   } catch (error) {
     console.error('Chat API error:', error);
-    
-    // Update failure metrics
-    metricsStore.failed++;
 
     return NextResponse.json(
       { 
@@ -648,9 +619,5 @@ Search primarily from trusted sources: ${researchDomains.join(', ')}`;
 export async function GET() {
   return NextResponse.json({
     status: 'healthy',
-    metrics: {
-      ...metricsStore,
-      uptime: Date.now() - metricsStore.lastReset,
-    },
   });
 }

@@ -8,8 +8,10 @@ import {edgeTypes} from '@/features/mindmap/config/edge-types'
 import {nodeTypes} from '@/features/mindmap/config/index.config'
 
 import {FloatingToolbar} from '@/features/mindmap/research-canvas/FloatingToolbar'
-import {MindMapBottomMenu} from '@/features/mindmap/components/menus/mindmap-bottom-menu/mindmap-bottom-menu'
-import {TimelinePanel} from '@/features/mindmap/components/menus/mindmap-side-menu/hover-panels/TimelinePanel'
+import {
+  TimelinePanel,
+  type TimelineRequestPayload,
+} from '@/features/mindmap/components/menus/mindmap-side-menu/hover-panels/TimelinePanel'
 import {AssetLibraryPanel} from '@/features/mindmap/components/menus/mindmap-side-menu/hover-panels/AssetLibraryPanel'
 import {EmptyCanvas} from '@/features/mindmap/research-canvas/EmptyCanvas'
 import {ActionChip} from '@/features/mindmap/research-canvas/ActionChip'
@@ -26,7 +28,6 @@ import {extractTextFromFile} from '@/utils/file-processing'
 
 import {SessionNotes} from '@/features/mindmap/components/status-ui/session-notes'
 import {ConnectedRecordsPanel} from '@/features/mindmap/components/connected-records-panel'
-import {MindMapCommandMenu} from '@/features/mindmap/components/command-menu'
 import ResearchCanvasConsole from '@/features/mindmap/research-canvas/research-canvas-console.tsx'
 
 const LAYOUT_DIRECTION_MAP: Record<string, 'horizontal' | 'vertical' | 'radial' | 'grid'> = {
@@ -57,7 +58,7 @@ export function Graph() {
     fitView,
   } = useMindMap()
 
-  const {runAgentQuery, status: agentStatus} = useMindMapAgent()
+  const {runAgentQuery, status: agentStatus, analysis, toolEvents} = useMindMapAgent()
 
   const {
     autoLayout,
@@ -146,7 +147,7 @@ export function Graph() {
   )
 
   const handleTimelineRequest = useCallback(
-    async ({year, era, dateRange}: {year: number; era?: string; dateRange?: any}) => {
+    async ({year, era, dateRange}: TimelineRequestPayload) => {
       const dateLabel = dateRange
         ? `${dateRange.startYear}-${dateRange.endYear}`
         : `${year}`
@@ -272,12 +273,12 @@ export function Graph() {
     style: {stroke: 'white'},
   }
 
-  const {ref, clickPosition, isOpen, closeMenu} = useContextMenu()
+  const {ref} = useContextMenu()
 
   const isEmpty = nodes.length === 0
 
   return (
-    <div className='relative h-[100vh] w-[100vw] z-0'>
+    <div className='relative z-0 h-dvh w-full overflow-hidden'>
       <ReactFlow
         ref={ref}
         colorMode='dark'
@@ -307,7 +308,12 @@ export function Graph() {
 
       {isEmpty ? (
         <div className='absolute inset-0 z-10 pointer-events-auto'>
-          <EmptyCanvas onSubmit={handleEmptyCanvasSubmit} />
+          <EmptyCanvas
+            onSubmit={handleEmptyCanvasSubmit}
+            agentStatus={agentStatus}
+            agentAnalysis={analysis}
+            agentToolEvents={toolEvents}
+          />
         </div>
       ) : (
         <>
@@ -317,7 +323,7 @@ export function Graph() {
             <SessionNotes />
           </div>
 
-          <div className='absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-3'>
+          <div className='absolute inset-x-0 bottom-6 z-20 flex flex-col items-center gap-3 px-4'>
             {/* Action Chips */}
             <div className='flex items-center gap-2'>
               <ActionChip icon={<Sparkles className='size-4' />} onClick={handleStartTour}>
@@ -331,7 +337,12 @@ export function Graph() {
               </ActionChip>
             </div>
 
-            <ResearchCanvasConsole onSubmit={handleEmptyCanvasSubmit} />
+            <ResearchCanvasConsole
+              onSubmit={handleEmptyCanvasSubmit}
+              agentStatus={agentStatus}
+              agentAnalysis={analysis}
+              agentToolEvents={toolEvents}
+            />
           </div>
 
           {nodes.some(

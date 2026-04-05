@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useEffect, useState } from 'react'
 import { Play, Users, Settings, Terminal, ChevronDown, ChevronRight, X, Clock, CheckCircle, Zap, BarChart3, Eye, Radar, Shield, Star, Target, Globe } from 'lucide-react'
 

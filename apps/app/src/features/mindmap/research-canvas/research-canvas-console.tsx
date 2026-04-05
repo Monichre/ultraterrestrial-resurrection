@@ -7,10 +7,13 @@ import { FileText, ImageIcon, CodeXml } from "lucide-react"
 import MessageInput from "./MessageInput"
 import EnhancedAnimatedChat from "./EnhancedAnimatedChat"
 import { useTyper, CardStack, PinnedCard, ANIMATION_CONFIG } from "./typer"
-import { useMindMapAgent } from '@/features/mindmap/hooks/use-mindmap-agent'
+import type { AgentToolEvent } from '@/features/mindmap/hooks/use-mindmap-agent'
 
 interface ResearchCanvasConsoleProps {
   onSubmit: (value: string) => void
+  agentStatus?: 'idle' | 'streaming' | 'complete' | 'error'
+  agentAnalysis?: string
+  agentToolEvents?: AgentToolEvent[]
 }
 
 interface EnhancedMessage {
@@ -20,11 +23,13 @@ interface EnhancedMessage {
   description: string
 }
 
-export default function ResearchCanvasConsole({ onSubmit }: ResearchCanvasConsoleProps) {
+export default function ResearchCanvasConsole({
+  onSubmit,
+  agentStatus,
+  agentAnalysis,
+  agentToolEvents,
+}: ResearchCanvasConsoleProps) {
   const [input, setInput] = useState('')
-  const [threadId, setThreadId] = useState<string | null>(null)
-
-  const { status: agentStatus, analysis, toolEvents, runAgentQuery } = useMindMapAgent()
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setInput(e.target.value)
@@ -35,21 +40,14 @@ export default function ResearchCanvasConsole({ onSubmit }: ResearchCanvasConsol
     const trimmedInput = input.trim()
     if (!trimmedInput) return
     onSubmit(trimmedInput)
-    try {
-      await runAgentQuery({ message: trimmedInput, threadId })
-    } catch (err) {
-      console.error('Agent query failed:', err)
-    }
     setInput('')
-  }, [input, onSubmit, runAgentQuery, threadId])
+  }, [input, onSubmit])
 
   const handleFollowUp = useCallback(async (message: string) => {
-    try {
-      await runAgentQuery({ message, threadId })
-    } catch (err) {
-      console.error('Follow-up query failed:', err)
-    }
-  }, [runAgentQuery, threadId])
+    const trimmedMessage = message.trim()
+    if (!trimmedMessage) return
+    onSubmit(trimmedMessage)
+  }, [onSubmit])
 
   const {
     active,
@@ -57,8 +55,6 @@ export default function ResearchCanvasConsole({ onSubmit }: ResearchCanvasConsol
     setIsHovering,
     showEnhancedChat,
     pinnedCard,
-    chatState,
-    setChatState,
     animationState,
     pinnedItem,
     handleCardClick,
@@ -89,52 +85,45 @@ export default function ResearchCanvasConsole({ onSubmit }: ResearchCanvasConsol
   ]
 
   return (
-    <div className='text-white flex flex-col justify-end items-center gap-6 min-h-[400px] h-screen'>
-      <div className='w-full max-w-4xl'>
-    <div className="size-full w-full flex flex-col justify-end items-center pb-10 relative">
+    <div className='w-full max-w-4xl text-white'>
+      <div className="relative flex min-h-[400px] w-full flex-col items-center justify-end pb-10">
+        <PinnedCard pinnedCard={pinnedCard} pinnedItem={pinnedItem} onUnpin={handleUnpin} />
 
-      <PinnedCard
-        pinnedCard={pinnedCard}
-        pinnedItem={pinnedItem}
-        onUnpin={handleUnpin}
-      />
+        <CardStack
+          active={active}
+          showEnhancedChat={showEnhancedChat}
+          pinnedCard={pinnedCard}
+          animationState={animationState}
+          isHovering={isHovering}
+          onHoverStart={() => setIsHovering(true)}
+          onHoverEnd={() => setIsHovering(false)}
+          onCardClick={handleCardClick}
+        />
 
-      <CardStack
-        active={active}
-        showEnhancedChat={showEnhancedChat}
-        pinnedCard={pinnedCard}
-        animationState={animationState}
-        isHovering={isHovering}
-        onHoverStart={() => setIsHovering(true)}
-        onHoverEnd={() => setIsHovering(false)}
-        onCardClick={handleCardClick}
-      />
-
-      <div className="w-full flex justify-center relative z-10">
-        {showEnhancedChat && input.length > 0 ? (
-          <EnhancedAnimatedChat
-            input={input}
-            handleInputChange={handleInputChange}
-            handleSubmit={handleSubmit}
-            messages={enhancedMessages}
-            onMessageClick={handleMessageClick}
-            placeholder="Ask about UFO phenomena..."
-            animationConfig={ANIMATION_CONFIG}
-            agentStatus={agentStatus}
-            agentAnalysis={analysis}
-            agentToolEvents={toolEvents}
-            onFollowUp={handleFollowUp}
-          />
-        ) : (
-          <MessageInput
-            value={input}
-            onChange={(value) => handleInputChangeWrapper(value)}
-            onSubmit={handleSubmit}
-          />
-        )}
+        <div className="relative z-10 flex w-full justify-center">
+          {showEnhancedChat && input.length > 0 ? (
+            <EnhancedAnimatedChat
+              input={input}
+              handleInputChange={handleInputChange}
+              handleSubmit={handleSubmit}
+              messages={enhancedMessages}
+              onMessageClick={handleMessageClick}
+              placeholder="Ask about UFO phenomena..."
+              animationConfig={ANIMATION_CONFIG}
+              agentStatus={agentStatus}
+              agentAnalysis={agentAnalysis}
+              agentToolEvents={agentToolEvents}
+              onFollowUp={handleFollowUp}
+            />
+          ) : (
+            <MessageInput
+              value={input}
+              onChange={(value) => handleInputChangeWrapper(value)}
+              onSubmit={handleSubmit}
+            />
+          )}
+        </div>
       </div>
-    </div>
-    </div>
     </div>
   )
 }

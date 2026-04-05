@@ -1,3 +1,39 @@
+# Mindmap Feature — Agent Guidance
+
+**Full architecture audit:** `docs/plans/2026-03-29-research-canvas-frontend-architecture-audit.md`
+
+## Canonical Render Path
+
+```
+(site)/research-canvas/page.tsx
+  -> MindMap (index.tsx -> mind-map.tsx)  [16 lines, the only live shell]
+    -> ReactFlowProvider + MindMapProvider
+      -> ViewSwitcher (canvasContent=<Graph />)
+        -> Graph | TimelineView | SightingsView | SearchView | DetailView
+        -> always mounts <FullScreenMenu />
+```
+
+## Dead Code — Do Not Extend or Debug
+
+These files have zero production consumers. Scheduled for deletion (Phase 1 of audit plan):
+- `smart-mindmap.tsx`, `smart-mindmap-with-auto-connections.tsx`, `smart-mindmap-with-shared-context.tsx`
+- `smart-graph.tsx` (feature root — `components/smart-graph/` is separate)
+- Ghost routes: `(site)/disclosure/`, `(site)/search-and-discovery-interface/`, `(site)/content-card-detail-view/`, `(site)/ufo-sightings/`
+
+## State Management
+
+- `store/mindmap-ui-store.ts` — healthy Zustand store, no changes needed to structure
+- `contexts/mindmap/mindmap-context.tsx` — 1,363-line god-object; contains pure factory functions, layout helpers, UI useState, and data-fetch effects that all belong elsewhere. Do not add more logic here. See audit plan for decomposition steps.
+- Navigation goes through Zustand `setActiveView()`, NOT `router.push()`. The `path` fields in `FullScreenMenu.VIEWS` are stale/decorative.
+
+## FloatingToolbar Duplication
+
+Two unrelated implementations exist:
+- `research-canvas/FloatingToolbar.tsx` — LIVE (imported by graph.tsx)
+- `components/menus/mindmap-side-menu/FloatingToolbar.tsx` — Storybook only, not in main render path
+
+Always import from `research-canvas/FloatingToolbar` when working with the canvas.
+
 <claude-mem-context>
 # Recent Activity
 

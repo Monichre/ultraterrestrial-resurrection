@@ -10,15 +10,10 @@ const ufoTimelineData = [
   { year: '2017', events: [{ title: 'NYT Article', description: 'AATIP disclosure to public' }] },
 ]
 
-import { ScrollTimeline } from './scroll-timeline'
-
-// Placeholder data - in production this would come from props or data fetching
-const ufoTimelineData = []
-
 export default function HistoryPage() {
   return (
     <div className="w-full h-full relative">
       <ScrollTimeline ufoTimelineData={ufoTimelineData} />
     </div>
-  );
+  )
 }

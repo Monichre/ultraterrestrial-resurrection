@@ -1,5 +1,6 @@
-import { Queue } from '@upstash/queue';
+import { Queue } from '../../src/lib/upstash/queue';
 import { processTestimony } from '@/services/processing/testimony-processor';
+import type { TestimonyData } from '@/types/testimony';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -20,7 +21,7 @@ const queue = new Queue({
 interface QueueItem {
   type: 'testimony';
   action: 'create' | 'update';
-  data: any;
+  data: TestimonyData;
 }
 
 async function processQueueItem(item: QueueItem) {

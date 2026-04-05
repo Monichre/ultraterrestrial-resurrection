@@ -281,16 +281,14 @@ export const ScrollTimeline = ({ ufoTimelineData }: { ufoTimelineData: TimelineE
             <button
               onClick={() => navigateSection("prev")}
               disabled={currentSection === 0}
-              className="p-3 bg-card/80 backdrop-blur-sm border border-border rounded-full
-                hover:bg-card transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+              className="p-3 bg-card/80 backdrop-blur-sm border border-border rounded-full hover:bg-card transition-all disabled:opacity-30 disabled:cursor-not-allowed"
             >
               <ChevronUp className="w-5 h-5 text-foreground" />
             </button>
             <button
               onClick={() => navigateSection("next")}
               disabled={currentSection === numSections - 1}
-              className="p-3 bg-card/80 backdrop-blur-sm border border-border rounded-full
-                hover:bg-card transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+              className="p-3 bg-card/80 backdrop-blur-sm border border-border rounded-full hover:bg-card transition-all disabled:opacity-30 disabled:cursor-not-allowed"
             >
               <ChevronDown className="w-5 h-5 text-foreground" />
             </button>

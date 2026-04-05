@@ -7,9 +7,9 @@ import {
 	getAllDocuments,
 	
 } from "../models";
-import { getAllEvents } from "../models/events";
-import { getAllTestimonies } from "../models/testimonies";
-import { getAllTopics } from "../models/topics";
+import { getEventsWithPagination } from "../models/events";
+import { getTestimoniesWithPagination } from "../models/testimonies";
+import { getTopicsWithPagination } from "../models/topics";
 import type { ConnectionResults } from "../helpers";
 import {
 	convertDatabaseRecordToMindMapNode,
@@ -161,11 +161,34 @@ export type NetworkGraphPayload = {
 	};
 };
 
+const DEFAULT_PAGE_SIZE = 100;
+
+async function collectAllPaginatedRecords<T>(
+	fetchPage: (page: number, size: number) => Promise<{
+		records: T[];
+		pagination: { hasNextPage: boolean };
+	}>,
+	pageSize = DEFAULT_PAGE_SIZE,
+) {
+	const records: T[] = [];
+	let page = 1;
+	let hasNextPage = true;
+
+	while (hasNextPage) {
+		const result = await fetchPage(page, pageSize);
+		records.push(...result.records);
+		hasNextPage = result.pagination.hasNextPage && result.records.length > 0;
+		page += 1;
+	}
+
+	return records;
+}
+
 export const getEntityNetworkGraphData = async () => {
 	try {
-		const events = await getAllEvents();
-		const topics = await getAllTopics();
-		const testimonies = await getAllTestimonies();
+		const events = await collectAllPaginatedRecords( getEventsWithPagination );
+		const topics = await collectAllPaginatedRecords( getTopicsWithPagination );
+		const testimonies = await collectAllPaginatedRecords( getTestimoniesWithPagination );
 		const organizations = await getAllOrganizations();
 		const personnel = await getAllPersonnel();
 		const topicsExpertsConnections = await getAllTopicsExpertsConnections();
@@ -179,10 +202,10 @@ export const getEntityNetworkGraphData = async () => {
 		const documents = await getAllDocuments();
 
 		const records = {
-			topics: topics.records,
-			events: events.records,
+			topics,
+			events,
 			personnel: personnel.records,
-			testimonies: testimonies.records,
+			testimonies,
 			organizations: organizations.records,
 			documents: documents.records,
 			artifacts: artifacts.records,

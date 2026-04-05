@@ -30,10 +30,15 @@ interface ConnectedRecord {
   relationshipScore: number
   relationshipType: 'personnel' | 'temporal' | 'organizational' | 'topic' | 'location'
   confidence: number
+  rawRecord?: Record<string, unknown>
+}
+
+type PanelRecord = Record<string, unknown> & {
+  id?: string
 }
 
 export function ConnectedRecordsPanel() {
-  const {getNodes} = useMindMap()
+  const {getNodes, activeNode, addConnectionNodesFromSearch} = useMindMap()
   const {runAgentQuery} = useMindMapAgent()
   const [suggestions, setSuggestions] = useState<ConnectedRecord[]>([])
   const [loading, setLoading] = useState(false)
@@ -139,6 +144,7 @@ export function ConnectedRecordsPanel() {
             relationshipScore: relationshipScore,
             relationshipType: relationshipType,
             confidence: Math.min(95, Math.max(60, Math.round(relationshipScore * 100))),
+            rawRecord: record,
           })
         }
       }
@@ -532,6 +538,38 @@ export function ConnectedRecordsPanel() {
     return 'text-red-400'
   }
 
+  const handleAddRecordToGraph = (record: ConnectedRecord) => {
+    const sourceNode =
+      activeNode && activeNode.type !== 'userInputNode'
+        ? activeNode
+        : getNodes()
+            .filter(
+              (node) =>
+                node.type &&
+                node.type !== 'userInputNode' &&
+                (node.data?.name || node.data?.title || node.data?.label)
+            )
+            .at(-1)
+
+    if (!sourceNode) return
+
+    addConnectionNodesFromSearch({
+      source: {
+        id: sourceNode.id,
+      },
+      searchResults: [
+        {
+          ...((record.rawRecord || {}) as PanelRecord),
+          id: ((record.rawRecord || {}) as PanelRecord).id || record.id,
+          type: record.type,
+          label: record.title,
+          title: record.title,
+          name: record.title,
+        },
+      ],
+    })
+  }
+
   return (
     <motion.div
       initial={{opacity: 0, x: 300}}
@@ -603,10 +641,7 @@ export function ConnectedRecordsPanel() {
                     animate={{opacity: 1, y: 0}}
                     transition={{delay: index * 0.1}}
                     className='p-4 border-b border-white/5 hover:bg-white/5 cursor-pointer transition-colors'
-                    onClick={() => {
-                      // Add to graph logic here
-                      console.log('Adding record to graph:', record)
-                    }}>
+                    onClick={() => handleAddRecordToGraph(record)}>
                     <div className='flex items-start gap-3'>
                       {getRelationshipIcon(record.relationshipType)}
                       <div className='flex-1 min-w-0'>

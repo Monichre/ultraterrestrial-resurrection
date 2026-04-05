@@ -38,17 +38,18 @@ ultraterrestrial-resurrection/
 
 ### Backend & Data
 
-- **Xata (PostgreSQL)** with vector search capabilities
-- **Multi-vector storage**: Upstash Vector, FAISS, pgvector
-- **AI**: OpenAI, Anthropic, Groq via Vercel AI SDK
-- **Authentication**: Clerk
+- **Xata (PostgreSQL)** — primary database, 230,998+ records, full-text search
+- **OpenAI Assistants API** — disclosure mindmap agent (file_search + threads)
+- **Vercel AI SDK** — Prometheus chat route (streamText)
+- **AI providers**: OpenAI, Anthropic, Groq
+- **Authentication**: Clerk (middleware NOT YET implemented)
+- **Search**: OpenAI file_search + Xata full-text only in the Next.js app
 
-### Python RAG System
+### Python RAG System (disconnected from Next.js app)
 
 - **FastAPI** + Streamlit for APIs and dashboards
 - **LangChain** + sentence-transformers for AI/ML
-- **Triple vector backends** with adapter pattern
-- **Document processing**: PyPDF2, PyMuPDF, BeautifulSoup4
+- Does NOT share data or vector stores with the Next.js app
 
 ## 📋 Development Standards
 
@@ -76,26 +77,31 @@ ultraterrestrial-resurrection/
 
 ## 🏗 Core AI Architecture
 
-### Foundation Layer
+### Working AI Paths (grounded 2026-03-29)
 
-- **Prometheus AI** (`apps/app/src/features/agents/prometheus.tsx`) - Core OpenAI assistant
-- **Contextual Intelligence** (`apps/app/src/features/mindmap/utils/contextual-intelligence.ts`) - Brain of the system
-- **Vector Storage + Database Search** - Dual approach with Xata vector + PostgreSQL
+1. **Disclosure Mindmap Agent** — the ONLY end-to-end AI path in the Next.js app
+   - Route: `/api/disclosure/mindmap` (OpenAI Assistants API + custom SSE bridge)
+   - Tools: `file_search` + `searchDatabase` (Xata full-text) + `searchExternalResources` (Exa)
+   - Client: `useMindMapAgent` hook → graph nodes/edges
 
-### Integration Hierarchy
+2. **Prometheus Chat** — standalone conversational chat (separate protocol)
+   - Route: `/api/prometheus/chat` (Vercel AI SDK `streamText`)
+   - Tools: `searchUAP`, `searchExternalResources`, `researchExternalTopic`, `processDocument`
 
-1. **Contextual Intelligence** (✅ Complete) - Foundation for all AI features
-2. **Spatial Intelligence** (✅ Complete) - R-Tree indexing, proximity analysis
-3. **Enhanced Nodes** (✅ Complete) - Common UI layer used by ALL systems
-4. **Smart Tours** (✅ 85% Complete) - Historical narrative progression
-5. **Agentic Tours** (📋 Planning) - Natural language tour control
+### Foundation Utilities
 
-### Triple RAG System
+- **Contextual Intelligence** (`features/mindmap/utils/contextual-intelligence.ts`) — graph context, relationship filtering
+- **Spatial Intelligence** (`features/mindmap/hooks/use-spatial-grouping.ts`) — R-Tree proximity queries
+- **Enhanced Nodes** (`features/mindmap/nodes/enhanced-node-poc.tsx`) — React Flow node type
 
-- **Upstash Vector** (40% weight) - Cloud vector search
-- **LocalRAG FAISS** (40% weight) - Local vector storage
-- **CocoIndex PostgreSQL** (20% weight) - Advanced analytics
-- **85% schema compatibility** with existing Xata models
+### What Does NOT Exist (corrected myths)
+
+- ~~Triple RAG (40/40/20)~~ — Only OpenAI file_search + Xata full-text search work in the Next.js app
+- ~~Multi-agent tour orchestrator~~ — 6 agent classes specced July 2025, zero code written, scrapped
+- ~~85% AI connectivity~~ — One end-to-end path works; the rest are broken or dead
+- The Python RAG system (`apps/disclosure-rag/`) is completely disconnected from the Next.js app
+
+**Reference:** `docs/plans/2026-03-29-roundtable-unified-action-plan.md`
 
 ## 📖 Three-Tier Project Management System
 
@@ -147,9 +153,10 @@ ultraterrestrial-resurrection/
 
 ### Critical Development Principles
 
-- **"Orchestration over Replacement"** - enhance existing systems rather than rebuild
-- **85% AI connectivity** represents advanced functional integration, NOT incomplete work
-- **Contextual Intelligence is the foundation** - all other systems depend on it
+- **"Orchestration over Replacement"** — enhance the working agent path, don't build new ones
+- **One end-to-end AI path works** (disclosure/mindmap) — the rest are broken or dead
+- **Contextual Intelligence utilities** are the foundation — other features depend on them
+- **No auth middleware exists** — all API routes are publicly accessible (critical security gap)
 
 ### Safety Rules
 

@@ -29,13 +29,15 @@ interface HistoricalTourControlsProps {
   position?: 'top' | 'bottom' | 'left' | 'right'
 }
 
+const CURRENT_YEAR = new Date().getFullYear()
+
 // Historical periods for the disclosure tour
 const HISTORICAL_PERIODS = [
   { name: 'Early Sightings', years: '1947-1952', color: '#ef4444', icon: '🛸' },
   { name: 'Government Investigation', years: '1952-1969', color: '#f97316', icon: '🏛️' },
   { name: 'Civilian Research', years: '1969-1990', color: '#eab308', icon: '🔬' },
   { name: 'Modern Research', years: '1990-2010', color: '#22c55e', icon: '📡' },
-  { name: 'Disclosure Era', years: '2010-Present', color: '#3b82f6', icon: '📰' },
+  { name: 'Disclosure Era', years: `2010-${CURRENT_YEAR}`, color: '#3b82f6', icon: '📰' },
 ]
 
 // Sample tour definition for Roswell to Disclosure
@@ -81,7 +83,7 @@ const ROSWELL_DISCLOSURE_TOUR: TourDefinition = {
       dbRef: { type: 'events', id: 'pentagon-uap-videos' },
       narrative: 'Recent Pentagon acknowledgments and the UAP Task Force. How we got from secrecy to transparency.',
       contextRules: {
-        temporalWindow: { startYear: 2017, endYear: 2024 },
+        temporalWindow: { startYear: 2017, endYear: CURRENT_YEAR },
         entityFilters: { types: ['events', 'documents', 'personnel'] }
       },
       visualSettings: { cameraPosition: { zoom: 1.1, center: { x: 400, y: 0 } } },

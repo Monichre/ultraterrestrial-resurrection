@@ -1,4 +1,4 @@
-import { askXataWithAi } from "@/db/xata";
+import { askXataWithAi } from "@db/xata/api";
 import { getClaudeSummary } from "@/services/ai/claude/get-claude-response";
 import { generateEmbeddings } from "@/services/ai/embeddings/embedding";
 import { SUMMARIZE_PROMPT } from "@/services/ai/prompts/summarize.prompt";
@@ -8,7 +8,7 @@ import {
 	deepResearch,
 	ResearchCategory,
 	ResearchDepth,
-} from "@/services/resource-scrape";
+} from "@/lib/firecrawl/firecrawl";
 import { EXTERNAL_RESOURCES } from "@/utils";
 
 export type ResourceProcessingOptions = {
@@ -145,9 +145,10 @@ export const processResource = async (
 	);
 
 	// Check if similar data already exists in the database
-	const doesItExist = await askXataWithAi(
-		`Are there records in the database for any of the following information? ${summary}`,
-	);
+	const doesItExist = await askXataWithAi({
+		table: 'events',
+		question: `Are there records in the database for any of the following information? ${summary}`,
+	});
 
 	console.log(
 		"🚀 ~ file: process-resource.ts:51 ~ processResource ~ doesItExist:",

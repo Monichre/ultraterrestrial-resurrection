@@ -5,6 +5,7 @@ import React from "react"
 import { useState } from "react"
 import ResearchCanvasConsole from "./research-canvas-console"
 import { ResearchTimeline } from "./ResearchTimeline"
+import type { AgentToolEvent } from '@/features/mindmap/hooks/use-mindmap-agent'
 
 const UFO_RESEARCH_EVENTS = [
   {
@@ -45,9 +46,17 @@ const UFO_RESEARCH_EVENTS = [
 
 interface EmptyCanvasProps {
   onSubmit?: (input: string) => void
+  agentStatus?: 'idle' | 'streaming' | 'complete' | 'error'
+  agentAnalysis?: string
+  agentToolEvents?: AgentToolEvent[]
 }
 
-export function EmptyCanvas({ onSubmit }: EmptyCanvasProps) {
+export function EmptyCanvas({
+  onSubmit,
+  agentStatus,
+  agentAnalysis,
+  agentToolEvents,
+}: EmptyCanvasProps) {
   const [showTimeline, setShowTimeline] = useState(false)
 
   const handleSubmit = (input: string) => {
@@ -75,7 +84,8 @@ export function EmptyCanvas({ onSubmit }: EmptyCanvasProps) {
           <div className="text-center max-w-2xl">
             <h1 className="text-2xl font-light text-zinc-300 mb-2">Research Canvas</h1>
             <p className="text-sm text-zinc-500">
-              Start your investigation by typing a query below, or select a guided tour card.
+              Start with a research question below. Once the canvas is active, use Start Tour,
+              Search Database, or Add Node to expand the investigation.
             </p>
           </div>
         )}
@@ -83,7 +93,12 @@ export function EmptyCanvas({ onSubmit }: EmptyCanvasProps) {
 
       {/* Console at the bottom */}
       <div className="w-full max-w-4xl pb-10 px-4">
-        <ResearchCanvasConsole onSubmit={handleSubmit} />
+        <ResearchCanvasConsole
+          onSubmit={handleSubmit}
+          agentStatus={agentStatus}
+          agentAnalysis={agentAnalysis}
+          agentToolEvents={agentToolEvents}
+        />
       </div>
     </div>
   )

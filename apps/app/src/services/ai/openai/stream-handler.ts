@@ -1,12 +1,60 @@
 import { openai } from "@/lib/openai/client"
+import {
+	extractNamedSearchEntities,
+	toSearchTerms,
+	type ExtractedSearchEntity,
+} from "@/services/ai/openai/extract-search-terms"
 import { searchDatabase } from "@/services/ai/openai/tools/search-database"
 
 import EventEmitter from "events"
 import type OpenAI from "openai"
 
+type StoredToolResults = {
+	knowledgeBaseResult?: {
+		response: string
+		entities: ExtractedSearchEntity[]
+	}
+}
+
+type ToolCallArguments = {
+	query?: string
+	table?: string
+	search_terms?: string[]
+	search_fields?: string[]
+}
+
+type RequiredToolCall = {
+	id: string
+	function: {
+		name: string
+		arguments: string
+	}
+}
+
+type RunRequiresActionPayload = {
+	required_action: {
+		submit_tool_outputs: {
+			tool_calls: RequiredToolCall[]
+		}
+	}
+}
+
+type AssistantStreamEvent = {
+	event: string
+	data: RunRequiresActionPayload & {
+		id: string
+		thread_id: string
+	}
+}
+
+type ToolOutput = {
+	tool_call_id: string
+	output: string
+}
+
 export class AssistantStreamEventHandler extends EventEmitter {
 	client: OpenAI
-	toolResults: Record<string, any> // Store results for future tool calls
+	toolResults: StoredToolResults
 
 	constructor( client: OpenAI ) {
 		super()
@@ -14,7 +62,7 @@ export class AssistantStreamEventHandler extends EventEmitter {
 		this.toolResults = {}
 	}
 
-	async onEvent( event: { event: string; data: Record<string, any> } ) {
+	async onEvent( event: AssistantStreamEvent ) {
 		console.log(
 			"🚀 ~ file: stream-handler.ts:15 ~ AssistantStreamEventHandler ~ onEvent ~ event:",
 			event,
@@ -27,7 +75,6 @@ export class AssistantStreamEventHandler extends EventEmitter {
 				await this.handleRequiresAction(
 					event.data,
 					event.data.id,
-					event.data.thread_id,
 				)
 			} else if ( event.event === "thread.message.completed" ) {
 				console.log( event.data )
@@ -42,7 +89,7 @@ export class AssistantStreamEventHandler extends EventEmitter {
 		}
 	}
 
-	async handleFinished( data: any, runId: any, threadId: any ) {
+	async handleFinished( _data: Record<string, unknown>, _runId: string, threadId: string ) {
 		console.log(
 			"🚀 ~ file: event-handler.ts:33 ~ AssistantStreamEventHandler ~ handleFinished ~ threadId:",
 			threadId,
@@ -56,7 +103,7 @@ export class AssistantStreamEventHandler extends EventEmitter {
 		}
 	}
 
-	async handleRequiresAction( data: any, runId: any, threadId: any ) {
+	async handleRequiresAction( data: RunRequiresActionPayload, runId: string ) {
 		console.log(
 			"🚀 ~ file: stream-handler.ts:47 ~ AssistantStreamEventHandler ~ handleRequiresAction ~ data:",
 			data,
@@ -64,12 +111,12 @@ export class AssistantStreamEventHandler extends EventEmitter {
 
 		try {
 			const toolCalls = data.required_action.submit_tool_outputs.tool_calls
-			const toolOutputs = []
+			const toolOutputs: ToolOutput[] = []
 
 			// Process each tool call sequentially
 			for ( const toolCall of toolCalls ) {
 				const { name } = toolCall.function
-				const args = JSON.parse( toolCall.function.arguments )
+				const args = JSON.parse( toolCall.function.arguments ) as ToolCallArguments
 
 				console.log( `Processing tool call: ${name} with args:`, args )
 
@@ -77,13 +124,17 @@ export class AssistantStreamEventHandler extends EventEmitter {
 
 				if ( name === "queryKnowledgeBase" ) {
 					// First tool: query the research corpus
-					const { query } = args
+					const query = args.query || ''
+					const entities = await extractNamedSearchEntities( {
+						text: query,
+						query,
+					} )
 
 					// Simulate a corpus query with a simple response
 					// In a real implementation, you'd query your actual vector-backed corpus
 					result = {
 						response: `Information about ${query} from research corpus`,
-						entities: extractEntities( query ), // Helper function to extract entities
+						entities,
 					}
 
 					// Store the result for the second tool call
@@ -94,8 +145,9 @@ export class AssistantStreamEventHandler extends EventEmitter {
 					const previousResult = this.toolResults.knowledgeBaseResult
 
 					// Get search terms either from previous result or directly from args
-					const searchTerms = args.search_terms ||
-						( previousResult?.entities?.map( ( e: any ) => e.name ) || [] )
+					const searchTerms = Array.isArray( args.search_terms ) && args.search_terms.length
+						? args.search_terms
+						: toSearchTerms( previousResult?.entities || [], args.query )
 
 					const analogousRecords = await searchDatabase( {
 						table: args.table,
@@ -113,13 +165,13 @@ export class AssistantStreamEventHandler extends EventEmitter {
 			}
 
 			// Submit all the tool outputs together
-			await this.submitToolOutputs( toolOutputs, runId, threadId )
+			await this.submitToolOutputs( toolOutputs, runId )
 		} catch ( error ) {
 			console.error( "Error processing required action:", error )
 		}
 	}
 
-	async submitToolOutputs( toolOutputs: any, runId: any, threadId: any ) {
+	async submitToolOutputs( toolOutputs: ToolOutput[], runId: string ) {
 		try {
 			// Use the submitToolOutputsStream helper
 			const stream = this.client.beta.threads.runs.submitToolOutputsStream(
@@ -135,35 +187,7 @@ export class AssistantStreamEventHandler extends EventEmitter {
 	}
 }
 
-// Helper function to extract entities from text
-function extractEntities( text: string ) {
-	// This is a very simplified entity extraction
-	// In a real implementation, you'd use NER models or more sophisticated techniques
-	const entities = []
-	const keywords = text.match( /\b[A-Z][a-z]+\b/g ) || []
-
-	for ( const keyword of keywords ) {
-		entities.push( {
-			name: keyword,
-			type: determineEntityType( keyword ),
-		} )
-	}
-
-	return entities
-}
-
-// Simple helper to determine entity type
-function determineEntityType( entity: string ) {
-	// This would be more sophisticated in a real implementation
-	const personNames = ["John", "Bob", "Alice", "David", "James"]
-	const organizationNames = ["NASA", "CIA", "FBI", "Pentagon"]
-
-	if ( personNames.includes( entity ) ) return "PERSONNEL"
-	if ( organizationNames.includes( entity ) ) return "ORGANIZATION"
-	return "TOPIC"
-}
-
-const assistantEventHandler: any = new AssistantStreamEventHandler( openai )
+const assistantEventHandler = new AssistantStreamEventHandler( openai )
 assistantEventHandler.on(
 	"event",
 	assistantEventHandler.onEvent.bind( assistantEventHandler ),

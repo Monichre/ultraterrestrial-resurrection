@@ -22,7 +22,7 @@ export interface FileAttachment {
 export type ProcessingState = {
   type: 'summary' | 'topics' | 'sentiment' | null
   isProcessing: boolean
-  result: string | string[] | any | null
+  result: string | string[] | Record<string, unknown> | null
 }
 
 /**
@@ -50,7 +50,7 @@ export async function handleFileAction(
     console.log( `Extracted text length: ${fileContent.length} characters` )
 
     // Call the chat API with the processDocument tool
-    const response = await fetch( '/api/chat', {
+    const response = await fetch( '/api/prometheus/chat', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -201,8 +201,10 @@ export async function handleFileAction(
       }
     }
 
-  } catch ( error: any ) {
+  } catch ( error: unknown ) {
     console.error( `Error processing document action ${action}:`, error )
+    const errorMessage =
+      error instanceof Error ? error.message : typeof error === 'string' ? error : 'Unknown error'
 
     // Create fallback response based on action type
     if ( action === 'Extract topics' || action === 'Generate tags' ) {
@@ -216,7 +218,7 @@ export async function handleFileAction(
       updateProcessingState( {
         type: 'summary',
         isProcessing: false,
-        result: `Error processing ${action.toLowerCase()}: ${error.message}`,
+        result: `Error processing ${action.toLowerCase()}: ${errorMessage}`,
       } )
     }
   }

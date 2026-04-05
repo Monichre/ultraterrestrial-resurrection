@@ -572,6 +572,14 @@ export const MindMapProvider = ({children}: {children: React.ReactNode}) => {
 
       searchResults.forEach((result: {id?: any; type?: any}, i: number) => {
         const {type, id, ...rest} = result
+        if (!id || !type) return
+        if (existingNodes.some((existingNode) => existingNode.id === id)) return
+        const resultRecord = rest as Record<string, unknown> & {
+          label?: string
+          title?: string
+          name?: string
+        }
+        const label = resultRecord.label || resultRecord.title || resultRecord.name || id
 
         // Calculate placement
         const totalNodes = searchResults.length
@@ -607,9 +615,12 @@ export const MindMapProvider = ({children}: {children: React.ReactNode}) => {
         const positionedNode = {
           id,
           type: `${type}Node`,
-          label: (rest as any)?.label || (rest as any)?.name,
+          label,
           data: {
-            ...rest,
+            ...resultRecord,
+            label,
+            title: resultRecord.title || label,
+            name: resultRecord.name || label,
             type,
           },
           position: {x, y},
@@ -624,7 +635,7 @@ export const MindMapProvider = ({children}: {children: React.ReactNode}) => {
           type: 'siblingEdge',
           markerEnd: 'custom-marker',
           style: {
-            stroke: DOMAIN_MODEL_COLORS[type],
+            stroke: DOMAIN_MODEL_COLORS[type] || '#fff',
           },
           sourceHandle: `handle:${edgeId}`,
         }
@@ -632,6 +643,8 @@ export const MindMapProvider = ({children}: {children: React.ReactNode}) => {
         incomingNodes.push(positionedNode)
         incomingEdges.push(siblingEdge)
       })
+
+      if (!incomingNodes.length) return null
 
       // Update source node with new handle connections
       const incomingSiblingHandles: any = incomingEdges.map((edge: any) => edge.sourceHandle)

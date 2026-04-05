@@ -1,9 +1,11 @@
 'use client'
 
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useCallback} from 'react'
 import {motion, AnimatePresence} from 'framer-motion'
 import {Plus, Brain, ArrowRight, Loader, Sparkles} from 'lucide-react'
 import {Button} from '@/components/ui/button'
+import {useMindMap} from '@/contexts/mindmap/mindmap-context'
+import {useMindMapAgent} from '@/features/mindmap/hooks/use-mindmap-agent'
 
 interface ConnectionSuggestion {
   id: string
@@ -11,112 +13,68 @@ interface ConnectionSuggestion {
   type: string
   relationshipReason: string
   confidence: number
+  record?: Record<string, unknown>
 }
 
-interface AIConnectionSuggestion {
-  entity: string
-  relationship: string
-  evidence: string
-  confidence: number
-  type: 'personnel' | 'events' | 'organizations' | 'documents'
+type SearchRecord = Record<string, unknown> & {
+  id?: string
+  xata_table?: string
+  type?: string
+  title?: string
+  name?: string
+  subject?: string
 }
 
 interface NodeConnectionOverlayProps {
   nodeId: string
+  nodeLabel: string
   position: {x: number; y: number}
   visible: boolean
   onClose: () => void
-  onAddConnection: (suggestionId: string) => void
+  onAddConnection?: (suggestionId: string) => void
 }
 
 export function NodeConnectionOverlay({
   nodeId,
+  nodeLabel,
   position,
   visible,
   onClose,
   onAddConnection,
 }: NodeConnectionOverlayProps) {
+  const {addConnectionNodesFromSearch} = useMindMap()
+  const {runAgentQuery} = useMindMapAgent()
   const [suggestions, setSuggestions] = useState<ConnectionSuggestion[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [nodeContext, setNodeContext] = useState('')
 
   // Fetch AI-powered connections for specific node
-  const fetchNodeConnections = async (nodeName: string) => {
+  const fetchNodeConnections = useCallback(async (nodeName: string) => {
     setIsLoading(true)
     try {
-      // Create targeted connection prompt for this specific node
-      const connectPrompt = `/connect Find specific documented connections and relationships for "${nodeName}" in UAP/UFO research. Focus on real documented connections with key researchers like James Fox, Robert Dean, Nick Pope, incidents, organizations, and evidence. Provide specific reasoning based on documented evidence.`
-
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          messages: [
-            {
-              role: 'user',
-              content: connectPrompt,
-            },
-          ],
-          system: `You are Prometheus, an expert UAP researcher analyzing connections for: "${nodeName}"
-
-Provide 3-5 specific documented connections in this format:
-- Entity Name: Specific documented relationship or connection (Confidence: XX%)
-
-Focus on:
-1. Direct documented relationships with UAP researchers/investigators
-2. Connections to specific UAP incidents or cases
-3. Organizational affiliations or collaborations
-4. Documented evidence or testimony connections
-
-Be specific about documented relationships, not speculative connections.`,
-        }),
+      const agentResult = await runAgentQuery({
+        message: `Find up to 5 documented UAP/UFO records directly connected to "${nodeName}". Prioritize records with explicit historical, organizational, witness, or evidence links and explain each connection briefly.`,
       })
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
+      const aiSuggestions = (agentResult.search?.records || [])
+        .slice(0, 5)
+        .map((record) => {
+          const typedRecord = record as SearchRecord
+          const title =
+            typedRecord.title || typedRecord.name || typedRecord.subject || 'Untitled Record'
 
-      // Handle streaming response
-      const reader = response.body?.getReader()
-      if (!reader) {
-        throw new Error('No response body reader available')
-      }
-
-      const decoder = new TextDecoder()
-      let fullResponse = ''
-
-      try {
-        while (true) {
-          const {done, value} = await reader.read()
-          if (done) break
-
-          const chunk = decoder.decode(value, {stream: true})
-          const lines = chunk.split('\n').filter((line) => line.trim())
-
-          for (const line of lines) {
-            if (line.startsWith('data: ')) {
-              const data = line.slice(6)
-              if (data === '[DONE]') continue
-
-              try {
-                const parsed = JSON.parse(data)
-                if (parsed.content) {
-                  fullResponse += parsed.content
-                }
-              } catch (e) {
-                console.debug('Skipped chunk:', data)
-              }
-            }
+          return {
+            id: typedRecord.id || `${typedRecord.xata_table || 'record'}-${title}`,
+            title,
+            type: inferEntityType(typedRecord),
+            relationshipReason:
+              extractReasoningForRecord(agentResult.analysis, title) ||
+              `Related to ${nodeName} through Prometheus contextual analysis.`,
+            confidence: 80,
+            record: typedRecord,
           }
-        }
-      } finally {
-        reader.releaseLock()
-      }
+        })
 
-      // Parse AI response into connection suggestions
-      const aiSuggestions = parseNodeConnectionResponse(fullResponse)
       setSuggestions(aiSuggestions)
       setNodeContext(`AI analysis for: ${nodeName}`)
     } catch (error) {
@@ -134,124 +92,68 @@ Be specific about documented relationships, not speculative connections.`,
     } finally {
       setIsLoading(false)
     }
+  }, [runAgentQuery])
+
+  const extractReasoningForRecord = (analysis: string, recordTitle: string): string | null => {
+    if (!analysis || !recordTitle) return null
+
+    const normalizedTitle = recordTitle.toLowerCase()
+    const matchingLine = analysis
+      .split('\n')
+      .find((line) => line.toLowerCase().includes(normalizedTitle))
+
+    return matchingLine?.trim() || null
   }
 
-  // Parse AI response into structured suggestions
-  const parseNodeConnectionResponse = (aiText: string): ConnectionSuggestion[] => {
-    const suggestions: ConnectionSuggestion[] = []
-    const lines = aiText.split('\n').filter((line) => line.trim())
+  const inferEntityType = (record: SearchRecord): string => {
+    const table = record.xata_table || record.type
+    if (table) return table
 
-    let idCounter = 1
-
-    for (const line of lines) {
-      const trimmed = line.trim()
-
-      // Look for connection patterns: "Entity Name: Description (Confidence: XX%)"
-      if (trimmed.includes(':') && trimmed.length > 20 && trimmed.length < 200) {
-        const parts = trimmed.split(':')
-        if (parts.length >= 2) {
-          const entityName = parts[0].replace(/^[\-\*\s\d\.]+/, '').trim()
-          const description = parts.slice(1).join(':').trim()
-
-          // Skip if entity name is too generic or empty
-          if (entityName.length < 3 || entityName.toLowerCase().includes('entity')) {
-            continue
-          }
-
-          // Extract confidence if present
-          const confidenceMatch =
-            description.match(/confidence[:\s]*(\d{1,3})%/i) || description.match(/\((\d{1,3})%\)/)
-          let confidence = 75 // default
-          if (confidenceMatch) {
-            confidence = parseInt(confidenceMatch[1])
-          } else {
-            // Infer confidence from language
-            const descLower = description.toLowerCase()
-            if (descLower.includes('documented') || descLower.includes('confirmed')) {
-              confidence = 85
-            } else if (descLower.includes('reported') || descLower.includes('stated')) {
-              confidence = 70
-            } else if (descLower.includes('possible') || descLower.includes('suggested')) {
-              confidence = 55
-            }
-          }
-
-          // Determine entity type
-          const type = inferEntityTypeFromName(entityName)
-
-          suggestions.push({
-            id: (idCounter++).toString(),
-            title: entityName,
-            type,
-            relationshipReason: description.replace(/\(\d{1,3}%\)/, '').trim(),
-            confidence,
-          })
-        }
-      }
-    }
-
-    return suggestions.slice(0, 5) // Limit to top 5 suggestions
-  }
-
-  // Helper function to infer entity type from name
-  const inferEntityTypeFromName = (name: string): string => {
-    const nameLower = name.toLowerCase()
-    if (
-      nameLower.includes('dr.') ||
-      nameLower.includes('colonel') ||
-      nameLower.includes('sergeant') ||
-      nameLower.includes('investigator') ||
-      nameLower.includes('researcher') ||
-      nameLower.includes('journalist') ||
-      nameLower.includes('dean') ||
-      nameLower.includes('fox') ||
-      nameLower.includes('pope')
-    ) {
-      return 'personnel'
-    }
-    if (
-      nameLower.includes('incident') ||
-      nameLower.includes('sighting') ||
-      nameLower.includes('case') ||
-      nameLower.includes('event') ||
-      nameLower.includes('investigation') ||
-      nameLower.includes('lights')
-    ) {
-      return 'events'
-    }
-    if (
-      nameLower.includes('project') ||
-      nameLower.includes('program') ||
-      nameLower.includes('organization') ||
-      nameLower.includes('agency') ||
-      nameLower.includes('network') ||
-      nameLower.includes('ministry') ||
-      nameLower.includes('nato') ||
-      nameLower.includes('mufon')
-    ) {
-      return 'organizations'
-    }
-    if (
-      nameLower.includes('report') ||
-      nameLower.includes('document') ||
-      nameLower.includes('file') ||
-      nameLower.includes('testimony') ||
-      nameLower.includes('photos') ||
-      nameLower.includes('evidence')
-    ) {
+    const title = `${record.title || record.name || record.subject || ''}`.toLowerCase()
+    if (title.includes('report') || title.includes('memo') || title.includes('document')) {
       return 'documents'
     }
-    return 'personnel' // default
+    if (title.includes('incident') || title.includes('event') || title.includes('case')) {
+      return 'events'
+    }
+    if (title.includes('project') || title.includes('agency') || title.includes('organization')) {
+      return 'organizations'
+    }
+
+    return 'personnel'
+  }
+
+  const handleAddSuggestion = (suggestion: ConnectionSuggestion) => {
+    if (!suggestion.record) return
+
+    const connection = addConnectionNodesFromSearch({
+      source: {
+        id: nodeId,
+      },
+      searchResults: [
+        {
+          ...(suggestion.record as SearchRecord),
+          id: (suggestion.record as SearchRecord).id || suggestion.id,
+          type: suggestion.type,
+          label: suggestion.title,
+          title: suggestion.title,
+          name: suggestion.title,
+        },
+      ],
+    })
+
+    if (connection) {
+      onAddConnection?.(suggestion.id)
+      onClose()
+    }
   }
 
   // Trigger AI analysis when overlay becomes visible
   useEffect(() => {
-    if (visible && nodeId) {
-      // Extract node name from nodeId or use a placeholder
-      const nodeName = nodeId.replace(/^node-/, '').replace(/-/g, ' ')
-      fetchNodeConnections(nodeName)
+    if (visible && nodeLabel) {
+      fetchNodeConnections(nodeLabel)
     }
-  }, [visible, nodeId])
+  }, [fetchNodeConnections, visible, nodeLabel])
 
   return (
     <AnimatePresence>
@@ -320,7 +222,7 @@ Be specific about documented relationships, not speculative connections.`,
                     animate={{opacity: 1, x: 0}}
                     transition={{delay: index * 0.1}}
                     className='p-3 border-b border-white/5 hover:bg-white/5 cursor-pointer group transition-colors'
-                    onClick={() => onAddConnection(suggestion.id)}>
+                    onClick={() => handleAddSuggestion(suggestion)}>
                     <div className='flex items-start gap-3'>
                       <div className='w-8 h-8 bg-teal-500/20 rounded-lg flex items-center justify-center group-hover:bg-teal-500/30 transition-colors'>
                         <Plus className='w-4 h-4 text-teal-400' />
@@ -368,9 +270,7 @@ Be specific about documented relationships, not speculative connections.`,
                 <Button
                   variant='ghost'
                   size='sm'
-                  onClick={() =>
-                    fetchNodeConnections(nodeId.replace(/^node-/, '').replace(/-/g, ' '))
-                  }
+                  onClick={() => fetchNodeConnections(nodeLabel)}
                   className='w-full mb-2 text-teal-400 hover:text-white hover:bg-teal-500/20 text-xs'>
                   <Sparkles className='w-3 h-3 mr-1' /> Find More Connections
                 </Button>

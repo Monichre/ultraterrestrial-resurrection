@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getXataClient } from '@db/xata';
-import { Queue } from '@upstash/queue';
+import { Queue } from '@/lib/upstash/queue';
 
 const queue = new Queue({
   url: process.env.UPSTASH_REDIS_REST_URL!,

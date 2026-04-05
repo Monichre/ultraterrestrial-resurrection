@@ -8,8 +8,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 // Import existing components to extend
 import { EntityNode } from './entity-node'
 import { getGraphContext } from '@/features/mindmap/utils/contextual-intelligence'
-import { useMindMap } from '@/contexts/mindmap/mindmap-context'
 import { NodeConnectionOverlay } from '@/features/mindmap/components/node-connection-overlay'
+import { useMindMapStore } from '@/features/mindmap/store'
 
 // Helper functions moved outside component for better performance
 function extractYearFromNodeData(data: any): number | null {
@@ -59,12 +59,12 @@ function isInHistoricalContext(data: any, graphContext: any): boolean {
  * - Optimized for performance with memoization
  */
 export const EnhancedEntityNodePOC = memo<NodeProps>((props) => {
-  const { getNodes } = useMindMap()
+  const nodes = useMindMapStore((state) => state.nodes)
   const [showConnectionOverlay, setShowConnectionOverlay] = useState(false)
   const [overlayPosition, setOverlayPosition] = useState({ x: 0, y: 0 })
   
   // Memoize expensive calculations
-  const graphContext = useMemo(() => getGraphContext(getNodes()), [getNodes])
+  const graphContext = useMemo(() => getGraphContext(nodes), [nodes])
   
   const nodeAnalysis = useMemo(() => ({
     isContextual: graphContext && graphContext.connectedEntityTypes.has(props.data?.type),
@@ -284,6 +284,7 @@ export const EnhancedEntityNodePOC = memo<NodeProps>((props) => {
       {/* Connection Overlay */}
       <NodeConnectionOverlay
         nodeId={props.id}
+        nodeLabel={props.data?.label || props.data?.title || props.data?.name || props.id}
         position={overlayPosition}
         visible={showConnectionOverlay}
         onClose={() => setShowConnectionOverlay(false)}

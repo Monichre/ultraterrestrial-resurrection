@@ -10,11 +10,6 @@ import {
 	processResource,
 	processMultipleResources,
 } from "@/services/processing/process-resource";
-import type {
-	ResearchCategory,
-	scrapeWithFireCrawl,
-} from "@/lib/firecrawl/firecrawl";
-import type { ResearchDepth } from "@/services/r2r";
 
 // Schema for basic URL scrape
 const BasicScrapeSchema = z.object({

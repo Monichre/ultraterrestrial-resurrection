@@ -1,13 +1,15 @@
 import {getXataClient, type EventsRecord} from '@db'
 import type {JSONData} from '@xata.io/client'
 import {TimelineViews} from './timeline-views'
-import {GraphPaperBackground} from '@/components/backgrounds/graph-paper/graph-paper-bg'
 import {CustomCursor} from '@/components/cursor-ui/CustomCursor'
 
 const xata = getXataClient()
 
-export default async function TimelinePage() {
-  const events: JSONData<EventsRecord>[] = await xata.db.events
+const TIMELINE_PAGE_SIZE = 100
+
+async function getHistoricEvents() {
+  const events: JSONData<EventsRecord>[] = []
+  const baseQuery = xata.db.events
     .filter({
       category: {$includes: 'historic'},
     })
@@ -28,8 +30,26 @@ export default async function TimelinePage() {
         as: 'experts',
       },
     ])
-    .getAll()
-    .then((data) => data.toSerializable())
+
+  let page = 1
+  let hasNextPage = true
+
+  while (hasNextPage) {
+    const result = await baseQuery.getPaginated({
+      pagination: {size: TIMELINE_PAGE_SIZE, offset: (page - 1) * TIMELINE_PAGE_SIZE},
+    })
+
+    events.push(...result.records.map((record) => record.toSerializable()))
+    const nextPageExists = typeof result.hasNextPage === 'function' ? result.hasNextPage() : !!result.hasNextPage
+    hasNextPage = nextPageExists && result.records.length > 0
+    page += 1
+  }
+
+  return events
+}
+
+export default async function TimelinePage() {
+  const events = await getHistoricEvents()
 
   return (
     <div className='h-screen w-screen'>

@@ -1,5 +1,18 @@
 - File search is a tool available in the Responses API. It enables models to retrieve information in a knowledge base of previously uploaded files through semantic and keyword search. By creating vector stores and uploading files to them, you can augment the models' inherent knowledge by giving them access to these knowledge bases or vector_stores.
 
+## Mindmap Architecture Notes
+
+- Treat wrapper routes in `src/app/(site)/` as potentially thin aliases only; do not assume the wrapper itself is the source of UI behavior.
+- For mindmap or research-canvas regressions, trace the full render chain before editing anything: route page -> provider -> shell component -> view switcher -> final rendered view.
+- In this app, `research-canvas/page.tsx` and `disclosure/page.tsx` can point into the same `MindMap` shell, while `ViewSwitcher.tsx` decides whether users actually see `Graph`, search/discovery, timeline, globe, or detail views.
+- When debugging unexpected default UI, inspect both current render wiring and git history of the route page plus `features/mindmap/research-canvas/ViewSwitcher.tsx` before concluding a route wrapper introduced the behavior.
+
+## Review And Planning Persistence
+
+- Persist meaningful reviews, multi-agent analyses, architecture discussions, and group problem-solving outputs to a canonical markdown document in `docs/plans/` before implementation begins.
+- When a review or planning outcome materially improves future agent performance, also update the nearest relevant agent memory/config file (`CLAUDE.md`, `AGENTS.md`, or feature-local `CLAUDE.md`) with concise durable guidance.
+- Canonical review and plan docs should be treated as the source of truth for multi-perspective analysis; chat alone is not sufficient for substantial review outcomes.
+
 <claude-mem-context>
 # Recent Activity
 

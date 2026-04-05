@@ -260,8 +260,8 @@ export function Agent() {
     setConversationHistory(updatedHistory)
 
     try {
-      console.log("Sending request to /api/agent")
-      const apiResponse = await fetch("/api/agent", {
+      console.log("Sending request to /api/prometheus/chat")
+      const apiResponse = await fetch("/api/prometheus/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -353,7 +353,7 @@ export function Agent() {
         content: fullResponse,
       }
       setConversationHistory([...updatedHistory, assistantMessage])
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error processing request:", error)
 
       let errorMessage = "An error occurred while processing your request."
@@ -519,13 +519,15 @@ export function Agent() {
           const text = await extractTextFromFile(selectedFile.file)
           const summary = generateSummary(text)
           setProcessingState({ type: "summary", isProcessing: false, result: summary })
-        } catch (error: any) {
+        } catch (error: unknown) {
           console.error("Error processing summary:", error)
-          toast.error(`Error summarizing document: ${error.message}`, { duration: 5000 })
+          const errorMessage =
+            error instanceof Error ? error.message : typeof error === "string" ? error : "Unknown error"
+          toast.error(`Error summarizing document: ${errorMessage}`, { duration: 5000 })
           setProcessingState({
             type: "summary",
             isProcessing: false,
-            result: `Error processing document: ${error.message}`,
+            result: `Error processing document: ${errorMessage}`,
           })
         }
       } else if (action === "Extract topics") {
@@ -534,9 +536,11 @@ export function Agent() {
           const text = await extractTextFromFile(selectedFile.file)
           const topics = extractTopics(text)
           setProcessingState({ type: "topics", isProcessing: false, result: topics })
-        } catch (error: any) {
+        } catch (error: unknown) {
           console.error("Error extracting topics:", error)
-          toast.error(`Error extracting topics: ${error.message}`, { duration: 5000 })
+          const errorMessage =
+            error instanceof Error ? error.message : typeof error === "string" ? error : "Unknown error"
+          toast.error(`Error extracting topics: ${errorMessage}`, { duration: 5000 })
           setProcessingState({
             type: "topics",
             isProcessing: false,
@@ -549,9 +553,11 @@ export function Agent() {
           duration: 3000,
         })
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error(`Error processing document action ${action}:`, error)
-      toast.error(`Failed to ${action.toLowerCase()}: ${error.message}`, { duration: 5000 })
+      const errorMessage =
+        error instanceof Error ? error.message : typeof error === "string" ? error : "Unknown error"
+      toast.error(`Failed to ${action.toLowerCase()}: ${errorMessage}`, { duration: 5000 })
       setProcessingState({ type: null, isProcessing: false, result: null })
     }
   }
