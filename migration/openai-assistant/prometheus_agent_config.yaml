@@ -1,0 +1,196 @@
+# Prometheus Agent Configuration
+# Migrated from OpenAI Assistant asst_sdNxYC9p05iGpeKXtL496cyh
+# Original model: gpt-4.1 | top_p: 0.55 | temperature: 1.0
+# Original vector store: vs_meWOEnUiUxtQWf0W6NBsNpCG (1,292 files, 125MB)
+
+name: prometheus
+description: >
+  Subject matter expert and preeminent research authority on UFOs, UAP,
+  and the Disclosure Topic. Prioritizes the migrated UFO Data Store
+  corpus and the Xata database searchDatabase function.
+
+# Model configuration — upgrade from gpt-4.1 to current best
+model: gpt-4.1
+temperature: 1.0
+top_p: 0.55
+max_tokens: 16384
+
+# System instructions — ported from OpenAI Assistant
+system_instructions: |
+  You are a subject matter expert and preeminent research authority on all things
+  related to the field of Ufology, UFOs, UAP and the Disclosure Topic as a whole.
+
+  Always use all of the data at your disposal but be sure to prioritize the local
+  RAG pipeline (Xata pgvector + FAISS + Upstash Vector) which contains the migrated
+  UFO Data Store (1,292 documents, formerly hosted as OpenAI Vector Store
+  vs_meWOEnUiUxtQWf0W6NBsNpCG).
+
+  Your main responsibility is to provide thorough, well researched answers with your
+  own custom insights to any and all questions asked in your domain of expertise.
+
+  Be sure to provide citations, records, analysis, and images (when possible), as well
+  as additional topics and references for further investigation.
+
+  Always present your answers according to the following Named Entity Recognition format:
+
+  1. Key Figures
+     - Names and roles
+     - Affiliations
+     - Significance to disclosure
+
+  2. Events
+     - Dates and locations
+     - Type of event
+     - Witnesses and participants
+     - Significance
+
+  3. Topics
+     - Main subjects covered
+     - Related fields
+     - Technical concepts
+     - Policy implications
+
+  4. Testimonies
+     - Witness credentials
+     - Nature of testimony
+     - Corroborating evidence
+     - Chain of custody
+
+  5. Artifacts
+     - Physical evidence
+     - Documentation
+     - Technology claims
+     - Verification status
+
+  6. Documents
+     - Classification level
+     - Distribution
+     - Authentication status
+     - Related documents
+
+  7. Timeline Items
+     - Chronological placement
+     - Historical context
+     - Related events
+     - Significance
+
+  8. Sightings
+     - Location and date
+     - Witnesses
+     - Physical evidence
+     - Official response
+
+  9. Theories
+     - Scientific basis
+     - Supporting evidence
+     - Implications
+     - Related research
+
+  10. Organizations
+      - Government entities
+      - Private organizations
+      - Research groups
+      - Advocacy groups
+
+  Remember that ultimately your priority is to educate and illustrate the past, present
+  and future of the UFO and Disclosure topic, so always be sure to leverage your expertise
+  by including highly salient insights, fascinating details, and novel connections between
+  data points to enhance the user's understanding and appreciation of the Disclosure topic.
+
+# Tool mapping — OpenAI Assistant tools → Ultraterrestrial equivalents
+tools:
+  - name: searchDatabase
+    description: Search the Xata database for records matching a query
+    migration_notes: >
+      Was a function tool on the OpenAI Assistant. Maps directly to the existing
+      Xata search API at /packages/db/xata/api/. Uses full-text search + pgvector
+      semantic search across 230K+ records (29 entity models).
+    implementation: /packages/db/xata/api/search.ts
+    parameters:
+      query:
+        type: string
+        required: true
+        description: The user query to search for
+      response:
+        type: string
+        required: false
+        description: Context from prior RAG retrieval to refine search
+
+  - name: transformXYFlow
+    description: Transform database records into a graph visualization
+    migration_notes: >
+      Was a function tool on the OpenAI Assistant. Maps directly to the existing
+      xata-to-xyflow converter at /packages/db/xata/xata-to-xyflow.ts.
+    implementation: /packages/db/xata/xata-to-xyflow.ts
+    parameters:
+      records:
+        type: object
+        description: The database records to transform
+      query:
+        type: string
+        description: The query used to retrieve the records
+      prompt:
+        type: string
+        description: Optional guidance for the AI search
+
+  - name: file_search
+    description: RAG retrieval across the migrated document corpus
+    migration_notes: >
+      Was OpenAI's built-in file_search with max_num_results=50 and
+      ranker=default_2024_08_21. Replaced by the Quinuple RAG pipeline:
+      1. Xata pgvector (primary) — migrated docs ingested here
+      2. FAISS (local) — migrated docs indexed here
+      3. Upstash Vector (cloud) — migrated docs synced here
+      Original had hybrid_search=null; the new pipeline uses hybrid by default.
+    implementation: /apps/disclosure-rag/lib/adapters/dual_rag_adapter.py
+    parameters:
+      query:
+        type: string
+        required: true
+      max_results:
+        type: integer
+        default: 50
+
+  - name: code_interpreter
+    description: Execute code for data analysis
+    migration_notes: >
+      Was OpenAI's built-in code_interpreter (no files attached).
+      Maps to Vercel AI SDK tool calling + execute_code in the
+      Prometheus chat route at /apps/app/src/app/api/prometheus/chat/route.ts
+
+# RAG configuration for the migrated corpus
+rag:
+  source_directory: migration/openai-assistant/files/
+  file_count: 1292
+  file_types:
+    pdf: 866
+    txt: 363
+    json: 54
+    md: 5
+    docx: 4
+  total_size_mb: 1308.6
+
+  # Ingestion targets (in priority order)
+  targets:
+    - backend: xata_pgvector
+      priority: primary
+      embedding_model: text-embedding-3-small
+      embedding_dimensions: 1536
+
+    - backend: faiss
+      priority: secondary
+      embedding_model: text-embedding-3-small
+      embedding_dimensions: 1536
+      index_path: /apps/disclosure-rag/data/faiss_index/
+
+    - backend: upstash_vector
+      priority: secondary
+      embedding_model: text-embedding-3-small
+      embedding_dimensions: 1536
+
+  # Chunking strategy
+  chunking:
+    method: recursive_text_splitter
+    chunk_size: 1500
+    chunk_overlap: 200
+    separators: ["\n\n", "\n", ". ", " "]

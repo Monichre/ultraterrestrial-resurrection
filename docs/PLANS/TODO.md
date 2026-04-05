@@ -30,9 +30,8 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
   - `/api/disclosure/chat/route.ts` — fix `transformXYFlow` tool output (serialize Response to JSON string)
 
 ### T-003: Add Clerk authentication middleware
-- **Status:** OPEN
+- **Status:** DONE — 2026-04-05
 - **Size:** S (half day)
-- **Dependencies:** None
 - **Files:** Create `apps/app/src/middleware.ts`
 - **What:** Protect at minimum:
   - `/api/admin/*` — admin only
@@ -47,7 +46,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 ## Phase 1 — Delete Dead Code (Day 1-2)
 
 ### T-004: Delete 4 ghost route wrappers
-- **Status:** OPEN
+- **Status:** DONE — 2026-03-29
 - **Size:** XS (30 min)
 - **Dependencies:** None
 - **What:** Delete these directories/files:
@@ -58,7 +57,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Acceptance:** Directories deleted. No imports break (they have zero consumers).
 
 ### T-005: Delete 4 dead shell variants
-- **Status:** OPEN
+- **Status:** DONE — 2026-03-29
 - **Size:** XS (30 min)
 - **Dependencies:** None
 - **What:** Delete:
@@ -69,7 +68,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Acceptance:** Files deleted. No imports break (zero production consumers confirmed).
 
 ### T-006: Prune index.tsx
-- **Status:** OPEN
+- **Status:** DONE — 2026-03-29
 - **Size:** XS (10 min)
 - **Dependencies:** T-005
 - **Files:** `features/mindmap/index.tsx`
@@ -77,7 +76,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Acceptance:** File is 1-2 lines. No imports break.
 
 ### T-007: Consolidate xata-to-xyflow files
-- **Status:** OPEN
+- **Status:** DONE — 2026-04-05
 - **Size:** S (2-4 hours)
 - **Dependencies:** None
 - **Files:**
@@ -105,7 +104,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Acceptance:** Initial load under 500 nodes. No full-table scans. Edge resolution is O(1) per lookup.
 
 ### T-009: Fix EmptyCanvas
-- **Status:** OPEN
+- **Status:** DONE — 2026-04-05
 - **Size:** XS (30 min)
 - **Dependencies:** None
 - **Files:** `apps/app/src/features/mindmap/research-canvas/EmptyCanvas.tsx`
@@ -116,7 +115,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Acceptance:** No dummy data. State reflects actual agent status.
 
 ### T-010: Wire suggestion chips to agent
-- **Status:** OPEN
+- **Status:** DONE — 2026-04-05
 - **Size:** XS (30 min)
 - **Dependencies:** None
 - **Files:** `apps/app/src/features/mindmap/research-canvas/research-canvas-console.tsx`
