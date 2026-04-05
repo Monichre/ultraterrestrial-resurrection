@@ -90,7 +90,12 @@ You have access to both local knowledge and external resources:
 - searchUAP: Search the specialized UAP knowledge base through OpenAI Assistant with vector store
 - searchExternalResources: Search trusted external UFO/UAP websites using Exa AI neural search with livecrawl options
 - researchExternalTopic: Conduct deep research using Exa AI Research Pro for comprehensive analysis
-- processDocument: Analyze uploaded documents with various processing options
+- summarizeDocument: Generate concise document summaries
+- extractTopics: Extract key document topics as structured output
+- analyzeSentiment: Analyze tone, perspective, and confidence cues
+- findConnections: Link document content to known UFO/UAP entities and events
+- findInsights: Surface hidden patterns and meaningful implications
+- generateTags: Produce classification tags for indexing and retrieval
 
 For comprehensive research, you can:
 1. Search local knowledge base first for foundational information
@@ -288,7 +293,7 @@ Provide analysis of:
     };
   },
 
-  connectTheDots: async (fileContent: string, fileName: string): Promise<ProcessResult> => {
+  findConnections: async (fileContent: string, fileName: string): Promise<ProcessResult> => {
     const result = await streamText({
       model: openai(MODEL_NAME),
       system: SYSTEM_PROMPTS.connections,
@@ -377,6 +382,54 @@ Return ${MIN_TAGS}-${MAX_TAGS} tags as: ["tag1", "tag2", "tag3"]`
     };
   }
 };
+
+const documentToolParamsSchema = z.object({
+  fileContent: z.string().describe('Content of the file to process'),
+  fileName: z.string().describe('Name of the file'),
+  fileType: z.string().optional().describe('Type of the file'),
+  fileSizeKB: z.string().optional().describe('Size of the file in KB'),
+});
+
+type DocumentToolParams = z.infer<typeof documentToolParamsSchema>;
+type DocumentToolAction =
+  | 'summarize'
+  | 'extractTopics'
+  | 'analyzeSentiment'
+  | 'findConnections'
+  | 'findInsights'
+  | 'generateTags';
+
+async function executeDocumentAction(
+  action: DocumentToolAction,
+  { fileContent, fileName, fileType = 'unknown', fileSizeKB = '0' }: DocumentToolParams
+): Promise<ProcessResult> {
+  try {
+    switch (action) {
+      case 'summarize':
+        return await documentActions.summarize(fileContent, fileName, fileType, fileSizeKB);
+      case 'extractTopics':
+        return await documentActions.extractTopics(fileContent, fileName);
+      case 'analyzeSentiment':
+        return await documentActions.analyzeSentiment(fileContent, fileName);
+      case 'findConnections':
+        return await documentActions.findConnections(fileContent, fileName);
+      case 'findInsights':
+        return await documentActions.findInsights(fileContent, fileName);
+      case 'generateTags':
+        return await documentActions.generateTags(fileContent, fileName);
+      default:
+        throw new Error(`Unknown document action: ${action}`);
+    }
+  } catch (error) {
+    console.error(`Document processing error (${action}):`, error);
+    return {
+      type: action,
+      fileName,
+      error: `Failed to ${action} document: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      result: null,
+    };
+  }
+}
 
 export const maxDuration = 60;
 
@@ -665,32 +718,40 @@ Search primarily from trusted sources: ${researchDomains.join(', ')}`;
           },
         }),
 
-        processDocument: tool({
-          description: 'Process uploaded documents with various analysis options',
-          parameters: z.object({
-            fileContent: z.string().describe('Content of the file to process'),
-            fileName: z.string().describe('Name of the file'),
-            fileType: z.string().optional().describe('Type of the file'),
-            fileSizeKB: z.string().optional().describe('Size of the file in KB'),
-            action: z.enum(['summarize', 'extractTopics', 'analyzeSentiment', 'connectTheDots', 'findInsights', 'generateTags']).describe('Analysis action to perform'),
-          }),
-          execute: async ({ fileContent, fileName, fileType = 'unknown', fileSizeKB = '0', action }) => {
-            try {
-              const actionFunction = documentActions[action];
-              if (!actionFunction) {
-                throw new Error(`Unknown action: ${action}`);
-              }
+        summarizeDocument: tool({
+          description: 'Create a comprehensive summary of an uploaded document',
+          parameters: documentToolParamsSchema,
+          execute: async (params) => executeDocumentAction('summarize', params),
+        }),
 
-              return await actionFunction(fileContent, fileName, fileType, fileSizeKB);
-            } catch (error) {
-              console.error(`Document processing error (${action}):`, error);
-              return {
-                type: action,
-                fileName,
-                error: `Failed to ${action} document: ${error instanceof Error ? error.message : 'Unknown error'}`,
-              };
-            }
-          },
+        extractTopics: tool({
+          description: 'Extract key topics from an uploaded document',
+          parameters: documentToolParamsSchema,
+          execute: async (params) => executeDocumentAction('extractTopics', params),
+        }),
+
+        analyzeSentiment: tool({
+          description: 'Analyze sentiment, tone, and perspective of an uploaded document',
+          parameters: documentToolParamsSchema,
+          execute: async (params) => executeDocumentAction('analyzeSentiment', params),
+        }),
+
+        findConnections: tool({
+          description: 'Find connections between document content and known UFO/UAP entities',
+          parameters: documentToolParamsSchema,
+          execute: async (params) => executeDocumentAction('findConnections', params),
+        }),
+
+        findInsights: tool({
+          description: 'Identify hidden insights and patterns in an uploaded document',
+          parameters: documentToolParamsSchema,
+          execute: async (params) => executeDocumentAction('findInsights', params),
+        }),
+
+        generateTags: tool({
+          description: 'Generate structured classification tags for an uploaded document',
+          parameters: documentToolParamsSchema,
+          execute: async (params) => executeDocumentAction('generateTags', params),
         }),
 
         // Include frontend tools if provided

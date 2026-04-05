@@ -25,8 +25,26 @@ export type ProcessingState = {
   result: string | string[] | Record<string, unknown> | null
 }
 
+function resolveDocumentToolName(action: string):
+  | 'summarizeDocument'
+  | 'extractTopics'
+  | 'analyzeSentiment'
+  | 'findConnections'
+  | 'findInsights'
+  | 'generateTags' {
+  const normalized = action.trim().toLowerCase()
+
+  if (normalized.includes('topic')) return 'extractTopics'
+  if (normalized.includes('tag')) return 'generateTags'
+  if (normalized.includes('sentiment')) return 'analyzeSentiment'
+  if (normalized.includes('connection') || normalized.includes('dot')) return 'findConnections'
+  if (normalized.includes('insight')) return 'findInsights'
+
+  return 'summarizeDocument'
+}
+
 /**
- * Handler for document actions using the chat API with processDocument tool
+ * Handler for document actions using granular document tools
  */
 export async function handleFileAction(
   action: string,
@@ -49,7 +67,9 @@ export async function handleFileAction(
     const fileContent = await extractTextFromFile( selectedFile.file )
     console.log( `Extracted text length: ${fileContent.length} characters` )
 
-    // Call the chat API with the processDocument tool
+    const documentToolName = resolveDocumentToolName( action )
+
+    // Call the chat API with a granular document tool
     const response = await fetch( '/api/prometheus/chat', {
       method: 'POST',
       headers: {
@@ -63,12 +83,11 @@ export async function handleFileAction(
           }
         ],
         tools: {
-          processDocument: {
-            action: action,
+          [documentToolName]: {
             fileContent: fileContent,
             fileName: selectedFile.name,
             fileType: selectedFile.type,
-            fileSize: selectedFile.size,
+            fileSizeKB: (selectedFile.size / 1024).toFixed(1),
           }
         }
       } ),

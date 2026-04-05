@@ -161,7 +161,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Acceptance:** Agent can add nodes and edges to the graph via tool calls.
 
 ### T-014: Split processDocument into granular tools
-- **Status:** OPEN
+- **Status:** DONE — 2026-04-05
 - **Size:** M (1-2 days)
 - **Dependencies:** None
 - **Files:** `apps/app/src/app/api/prometheus/chat/route.ts`
@@ -294,6 +294,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 |----|------|-----------|
 | T-001 | Remove Edge runtime from Prometheus chat route | 2026-03-29 |
 | T-002 | Fix 3 broken API routes | 2026-03-29 |
+| T-014 | Split processDocument into granular tools | 2026-04-05 |
 | T-015 | Standardize context injection | 2026-04-05 |
 | T-013 | Add graph-write tools to disclosure mindmap route | 2026-04-05 |
 | — | Ground CLAUDE.md, AGENTS.md, CORE_APP_AI_ARCHITECTURE_OVERVIEW.md, AGENT_ONBOARDING_CHECKLIST.md | 2026-03-29 |
