@@ -3,6 +3,7 @@
 
 import { organizeNodeLayout } from "../layouts/organizeNodeLayout"
 import { xata } from "@db/xata"
+import { askXataWithAi } from "@db/xata/api"
 
 
 
