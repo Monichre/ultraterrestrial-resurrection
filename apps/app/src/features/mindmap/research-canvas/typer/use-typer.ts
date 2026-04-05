@@ -5,9 +5,10 @@ import { TYPER_ITEMS } from "./constants"
 interface UseTyperProps {
   input: string
   handleInputChange: (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => void
+  onSubmit?: (message: string) => void
 }
 
-export function useTyper({ input, handleInputChange }: UseTyperProps) {
+export function useTyper({ input, handleInputChange, onSubmit }: UseTyperProps) {
   const [active, setActive] = useState(false)
   const [isHovering, setIsHovering] = useState(false)
   const [showEnhancedChat, setShowEnhancedChat] = useState(false)
@@ -49,9 +50,13 @@ export function useTyper({ input, handleInputChange }: UseTyperProps) {
 
   const handleMessageClick = useCallback(
     (message: { title: string }) => {
-      handleInputChange(createSyntheticEvent(`Tell me about ${message.title.toLowerCase()}`))
+      const formattedMessage = `Tell me about ${message.title.toLowerCase()}`
+      handleInputChange(createSyntheticEvent(formattedMessage))
+      if (onSubmit) {
+        onSubmit(formattedMessage)
+      }
     },
-    [handleInputChange, createSyntheticEvent]
+    [handleInputChange, createSyntheticEvent, onSubmit]
   )
 
   const handleInputChangeWrapper = useCallback(

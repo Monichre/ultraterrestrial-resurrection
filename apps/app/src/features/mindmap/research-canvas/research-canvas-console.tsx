@@ -61,7 +61,7 @@ export default function ResearchCanvasConsole({
     handleUnpin,
     handleMessageClick,
     handleInputChangeWrapper,
-  } = useTyper({ input, handleInputChange })
+  } = useTyper({ input, handleInputChange, onSubmit: handleSubmit })
 
   const enhancedMessages: EnhancedMessage[] = [
     {
