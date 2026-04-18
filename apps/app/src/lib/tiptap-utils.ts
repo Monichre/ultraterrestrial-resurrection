@@ -127,6 +127,25 @@ export function findNodePosition(props: {
     : null
 }
 
+export function isNodeTypeSelected(editor: Editor | null, nodeTypes: string[]): boolean {
+  if (!editor) return false
+  return nodeTypes.some((type) => editor.isActive(type))
+}
+
+export function parseShortcutKeys({ shortcutKeys }: { shortcutKeys?: string }): string[] {
+  if (!shortcutKeys) return []
+  return shortcutKeys.split('+').map((k) => k.trim()).filter(Boolean)
+}
+
+export function isValidPosition(pos: number | undefined | null): pos is number {
+  return typeof pos === 'number' && pos >= 0
+}
+
+export function focusNextNode(editor: Editor | null): void {
+  if (!editor) return
+  editor.chain().focus('end').run()
+}
+
 /**
  * Handles image upload with progress tracking and abort capability
  * @param file The file to upload
