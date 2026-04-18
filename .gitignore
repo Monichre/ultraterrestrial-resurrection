@@ -198,6 +198,8 @@ out/
 # Allow tracking specific JSON configs
 !apps/app/components.json
 !vercel.json
+!**/tsconfig.json
+!**/tsconfig.*.json
 
 # Vector store files
 packages/knowledge-base/vector-store-files/
@@ -273,3 +275,8 @@ tasks.json
 .cursor/rules/todo2.mdc
 .cursor/mcp.json
 .todo2/
+
+# OpenMemory - IDE/Assistant specific rules
+.cursor/rules/openmemory.mdc
+CLAUDE.md
+AGENTS.md
