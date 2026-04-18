@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { Index } from '@upstash/search';
+import { Search as Index } from '@upstash/search';
 
-// Initialize Upstash Search client
-const searchIndex = new Index({
-  url: process.env.UPSTASH_SEARCH_URL!,
-  token: process.env.UPSTASH_SEARCH_TOKEN!,
-});
+function getSearchIndex() {
+  return new Index({
+    url: process.env.UPSTASH_SEARCH_URL!,
+    token: process.env.UPSTASH_SEARCH_TOKEN!,
+  });
+}
 
 export async function GET(
   request: NextRequest,
@@ -17,7 +18,7 @@ export async function GET(
     // Fetch specific document by ID
     // Note: Upstash Search doesn't have a direct fetch by ID,
     // so we search with the ID as query and filter
-    const results = await searchIndex.query({
+    const results = await getSearchIndex().query({
       q: id,
       topK: 1,
       filter: { id },

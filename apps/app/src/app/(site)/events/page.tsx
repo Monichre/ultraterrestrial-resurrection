@@ -4,6 +4,8 @@ import { ThreeDTimelineJourney } from '@/features/3d/3d-timeline-journey'
 import { getXataClient } from '@db'
 import { Suspense } from 'react'
 
+export const dynamic = 'force-dynamic'
+
 dayjs.extend(utc)
 
 const xata = getXataClient()

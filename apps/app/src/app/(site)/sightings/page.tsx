@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import {SightingsClient} from '@/features/sightings/sightings'
 import {Suspense} from 'react'
 import type {ValidatedUAPSighting} from '@/services/sightings/uap-sighting'

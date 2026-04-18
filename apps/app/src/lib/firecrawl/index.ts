@@ -300,3 +300,32 @@ export const search = async (
 ) => {
 	return await fireCrawl.search(query, options);
 };
+
+export enum ResearchDepth {
+	SURFACE = "surface",
+	MODERATE = "moderate",
+	DEEP = "deep",
+	COMPREHENSIVE = "comprehensive",
+}
+
+export enum ResearchCategory {
+	SIGHTINGS = "sightings",
+	TESTIMONIES = "testimonies",
+	ARTIFACTS = "artifacts",
+	ORGANIZATIONS = "organizations",
+	PERSONNEL = "personnel",
+	EVENTS = "events",
+	THEORIES = "theories",
+	LOCATIONS = "locations",
+	PHENOMENA = "phenomena",
+}
+
+export const scrapeWithFireCrawl = async ({
+	url,
+	formats = ["markdown", "extract", "screenshot"] as Format[],
+	extract = {
+		prompt: "Extract all data related to Events, Topics, Key Figures, Sightings, Artifacts, Testimonies, and any other relevant information as it concerns UFO/UAP Phenomenon",
+	},
+}: { url: string; formats?: Format[]; extract?: { prompt: string } }) => {
+	return await enhancedScrapeContent(url, { formats, extract: { prompt: extract.prompt } });
+};

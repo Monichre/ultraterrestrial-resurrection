@@ -6,4 +6,8 @@ export async function getEntityNetworkGraphData(...args: Parameters<typeof _getE
   const data = await _getEntityNetworkGraphData(...args);
   console.log('🚀 ~ getEntityNetworkGraphData ~ data:', data)
   return data;
-} 
+}
+
+export async function getBoundedInitialGraphData({ maxNodesPerType = 30 }: { maxNodesPerType?: number } = {}) {
+  return getEntityNetworkGraphData({ maxNodesPerType } as any);
+}

@@ -1,6 +1,8 @@
 import {getAllOrganizations, getAllEvents, getAllTestimonies, getAllTopics, getAllPersonnel} from '@db/src/xata-typescript-sdk/models'
 import {AdminDashboard} from '@/features/admin/AdminDashboard'
 
+export const dynamic = 'force-dynamic'
+
 export default async function Index() {
   // Server Action
 

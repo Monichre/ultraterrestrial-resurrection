@@ -3,6 +3,8 @@ import type {JSONData} from '@xata.io/client'
 import {TimelineViews} from './timeline-views'
 import {CustomCursor} from '@/components/cursor-ui/CustomCursor'
 
+export const dynamic = 'force-dynamic'
+
 const xata = getXataClient()
 
 const TIMELINE_PAGE_SIZE = 100

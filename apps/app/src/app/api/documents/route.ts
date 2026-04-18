@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { Index } from '@upstash/search';
+import { Search as Index } from '@upstash/search';
 
-// Initialize Upstash Search client
-const searchIndex = new Index({
-  url: process.env.UPSTASH_SEARCH_URL!,
-  token: process.env.UPSTASH_SEARCH_TOKEN!,
-});
+function getSearchIndex() {
+  return new Index({
+    url: process.env.UPSTASH_SEARCH_URL!,
+    token: process.env.UPSTASH_SEARCH_TOKEN!,
+  });
+}
 
 export async function GET(request: NextRequest) {
   try {
@@ -31,7 +32,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Search documents
-    const results = await searchIndex.query({
+    const results = await getSearchIndex().query({
       q: query,
       topK: limit,
       ...(Object.keys(filter).length > 0 && { filter }),

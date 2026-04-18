@@ -1,6 +1,11 @@
 'use client'
 
-import WebProcessingPipeline from '@/features/ai/pipelines/web-processing-pipeline/WebProcessingPipeline'
+import dynamicImport from 'next/dynamic'
+
+const WebProcessingPipeline = dynamicImport(
+  () => import('@/features/ai/pipelines/web-processing-pipeline/WebProcessingPipeline'),
+  { ssr: false }
+)
 
 export default function AgentsPage() {
   return (

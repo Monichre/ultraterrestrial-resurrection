@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { Index } from '@upstash/search';
+import { Search as Index } from '@upstash/search';
 
 // Initialize Upstash Search client
-const searchIndex = new Index({
-  url: process.env.UPSTASH_SEARCH_URL!,
-  token: process.env.UPSTASH_SEARCH_TOKEN!,
-});
+function getSearchIndex() {
+  return new Index({
+    url: process.env.UPSTASH_SEARCH_URL!,
+    token: process.env.UPSTASH_SEARCH_TOKEN!,
+  });
+}
 
 export async function GET(request: NextRequest) {
   try {
@@ -26,7 +28,7 @@ export async function GET(request: NextRequest) {
     const offset = (page - 1) * limit;
 
     // Browse all documents (using wildcard)
-    const results = await searchIndex.query({
+    const results = await getSearchIndex().query({
       q: '*',  // Wildcard to match all
       topK: limit,
       offset,
@@ -34,7 +36,7 @@ export async function GET(request: NextRequest) {
     });
 
     // Get total count for pagination
-    const totalResults = await searchIndex.info();
+    const totalResults = await getSearchIndex().info();
 
     return NextResponse.json({
       success: true,

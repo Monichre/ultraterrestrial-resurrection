@@ -16,6 +16,8 @@ const PERSPECTIVE = 800
 const Z_SPACING = -2000
 const SCROLL_MULTIPLIER = -2 // Negative to move frames towards camera on scroll down
 
+const getEventData = (_id: string) => null
+
 const getClassificationColor = (classification: string) => {
   const colors: Record<string, string> = {
     CE1: "from-cyan-500 to-blue-600",

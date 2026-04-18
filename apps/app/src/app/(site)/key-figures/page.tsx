@@ -7,6 +7,8 @@ import {Loading} from '@/features/sightings/components/loaders/loading'
 import {cn} from '@/utils'
 import {Suspense} from 'react'
 
+export const dynamic = 'force-dynamic'
+
 type photo = {
   signedUrl: string
   enablePublicUrl: boolean

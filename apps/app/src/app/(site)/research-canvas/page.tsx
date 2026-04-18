@@ -9,6 +9,8 @@ import {
 } from '@/features/mindmap/actions/get-entity-network-graph-data'
 import {StateOfDisclosureProvider} from '@/contexts'
 
+export const dynamic = 'force-dynamic'
+
 export default async function Index() {
   const data: NetworkGraphPayload = await getBoundedInitialGraphData({ maxNodesPerType: 30 })
 

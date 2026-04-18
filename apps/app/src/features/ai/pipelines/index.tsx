@@ -1,6 +1,5 @@
 export * from './agent-execution-pipeline'
 export * from './types'
-// TODO: Fix missing dependencies before enabling
-// export * from './document-processing-pipeline'
+// export * from './document-processing-pipeline' // has missing deps (upload-zone, lib/actions, react-dropzone)
 export * from './web-processing-pipeline'
 export * from './helpers'

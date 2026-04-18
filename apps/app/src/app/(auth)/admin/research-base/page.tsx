@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { ResearchInterface } from "@/features/mindmap/components/menus/mindmap-bottom-menu/research-interface";
 import { ResearchProvider } from "@/contexts/research/research-context";
 import { AIMindMapProvider } from "@/features/mindmap/components/ai-integration";

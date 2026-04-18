@@ -1,4 +1,4 @@
-import { Webhook } from '@clerk/nextjs/server'
+import { Webhook } from 'svix'
 import { headers } from 'next/headers'
 import { getXataClient } from '@db/xata/client'
 

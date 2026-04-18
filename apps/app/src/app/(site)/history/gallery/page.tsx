@@ -2,6 +2,8 @@ import {SpatialGallery} from '@/features/3d/visualizations/spatial-gallery'
 
 import {getXataClient} from '@db'
 import {transformImage} from '@xata.io/client'
+
+export const dynamic = 'force-dynamic'
 const xata = getXataClient()
 
 function generatePositions(totalItems: [any]) {

@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import PrometheusChat from './prometheus-chat'
 // Import the CSS for styling
 import './prometheus.css'
