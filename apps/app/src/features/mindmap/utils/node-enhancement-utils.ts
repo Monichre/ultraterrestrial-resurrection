@@ -2,6 +2,8 @@ import type { Node } from '@xyflow/react'
 import { getNodeType, ENHANCED_FEATURES } from '@/features/mindmap/config/enhanced-node-mapping'
 import { getGraphContext } from './contextual-intelligence'
 
+export { getNodeType } from '@/features/mindmap/config/enhanced-node-mapping'
+
 /**
  * Enhances node data with additional properties for the new UI components
  */

@@ -146,6 +146,11 @@ export function focusNextNode(editor: Editor | null): void {
   editor.chain().focus('end').run()
 }
 
+export function isExtensionAvailable(editor: Editor | null, extensionName: string): boolean {
+  if (!editor) return false
+  return editor.extensionManager.extensions.some((ext) => ext.name === extensionName)
+}
+
 /**
  * Handles image upload with progress tracking and abort capability
  * @param file The file to upload

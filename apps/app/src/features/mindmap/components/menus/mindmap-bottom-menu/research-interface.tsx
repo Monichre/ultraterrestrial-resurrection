@@ -1,6 +1,6 @@
 'use client';
 
-import { AssistantRuntimeProvider, Thread, useAssistantInstructions } from "@assistant-ui/react";
+import { AssistantRuntimeProvider, ThreadPrimitive, ComposerPrimitive, useAssistantInstructions } from "@assistant-ui/react";
 import { useResearchRuntime } from "./research-runtime";
 import { useMindMap } from '@/contexts/mindmap/mindmap-context';
 import { SessionNotesProvider } from '@/contexts/mindmap/session-notes-context';
@@ -34,7 +34,22 @@ function ResearchCanvas() {
 
   return (
     <div className="research-canvas">
-      <Thread />
+      <ThreadPrimitive.Root className="flex flex-col h-full">
+        <ThreadPrimitive.Viewport className="flex-1 overflow-y-auto p-4">
+          <ThreadPrimitive.Messages
+            components={{
+              UserMessage: () => <div className="text-right text-sm text-neutral-300 mb-2" />,
+              AssistantMessage: () => <div className="text-left text-sm text-neutral-400 mb-2" />,
+            }}
+          />
+        </ThreadPrimitive.Viewport>
+        <div className="p-2 border-t border-neutral-700">
+          <ComposerPrimitive.Root>
+            <ComposerPrimitive.Input className="w-full bg-transparent text-neutral-200 text-sm outline-none resize-none" placeholder="Ask about UAP/UFO research..." />
+            <ComposerPrimitive.Send className="text-neutral-400 hover:text-neutral-200" />
+          </ComposerPrimitive.Root>
+        </div>
+      </ThreadPrimitive.Root>
     </div>
   );
 }
