@@ -1,0 +1,50 @@
+{
+  "id": "famous-events-chronological",
+  "name": "Famous UFO Events: A Chronological Journey",
+  "description": "Explore the most significant UFO/UAP events in history, from Roswell 1947 to modern congressional hearings",
+  "category": "historical",
+  "difficulty": "beginner",
+  "estimatedDuration": "20-30 minutes",
+  "tags": ["famous", "chronological", "historical", "disclosure"],
+  "metadata": {
+    "author": "Ultraterrestrial AI",
+    "version": "1.0.0",
+    "lastUpdated": "2025-01-13",
+    "tourType": "guided",
+    "narrativeStyle": "chronological-progression"
+  },
+  "features": {
+    "useUniversalAgentTools": true,
+    "enableSpatialIntelligence": true,
+    "showHistoricalProgression": true,
+    "adaptiveNarrative": true
+  },
+  "startingContext": {
+    "message": "Welcome to a chronological journey through the most famous UFO events in history. We'll start with the incidents that sparked the modern UFO era and progress through to current disclosure efforts.",
+    "suggestedStartYear": 1947,
+    "historicalContext": "The modern UFO era began in 1947 with two pivotal events that would shape public consciousness for decades to come."
+  },
+  "progressionRules": {
+    "chronologicalDirection": "forward",
+    "allowBranching": true,
+    "suggestRelatedEvents": true,
+    "maintainHistoricalContext": true
+  },
+  "waypointTemplate": {
+    "includeFields": ["title", "date", "location", "description", "significance"],
+    "enhancementLevel": "full",
+    "showContextualBadges": true,
+    "enableSpatialGrouping": true
+  },
+  "completionCriteria": {
+    "minimumWaypoints": 5,
+    "requiredEras": ["Post-War Genesis", "Government Investigation", "Modern Disclosure"],
+    "allowEarlyCompletion": true
+  },
+  "narrativeThemes": [
+    "Evolution of public awareness",
+    "Government response and investigation",
+    "Technological advancement in observation",
+    "Shift from denial to disclosure"
+  ]
+}
