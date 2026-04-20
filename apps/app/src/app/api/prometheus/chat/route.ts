@@ -42,13 +42,13 @@ interface ProcessResult {
   error?: string;
 }
 
-// Initialize OpenAI client
-const openaiClient = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY!,
-});
-
-// Initialize Exa AI client
-const exaClient = new Exa(process.env.EXA_API_KEY!);
+// Lazy client getters — avoid top-level instantiation so module import doesn't throw during build
+function getOpenAIClient() {
+  return new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
+}
+function getExaClient() {
+  return new Exa(process.env.EXA_API_KEY!);
+}
 
 // Trusted UFO/UAP research domains for external search
 const TRUSTED_UFO_DOMAINS = [
@@ -484,6 +484,7 @@ export async function POST(req: NextRequest) {
             const searchLimit = limit || DEFAULT_SEARCH_LIMIT;
             try {
               // Create a thread for the search query
+              const openaiClient = getOpenAIClient()
               const thread = await openaiClient.beta.threads.create({
                 messages: [{
                   role: 'user',
@@ -581,6 +582,7 @@ export async function POST(req: NextRequest) {
                 }
               };
 
+              const exaClient = getExaClient()
               const searchResults = await exaClient.searchAndContents(searchOptions);
               
               if (searchResults && searchResults.results) {
@@ -660,6 +662,7 @@ Provide ${analysisDepth} analysis with:
 Search primarily from trusted sources: ${researchDomains.join(', ')}`;
 
               // Use Exa Research Pro for deep analysis
+              const exaClient = getExaClient()
               const { id: taskId } = await exaClient.research.createTask({
                 instructions,
                 model: "exa-research-pro",
