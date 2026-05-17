@@ -1,0 +1,315 @@
+---
+description: Guided tour system for the mind map — curated, narrated entity walkthroughs. Includes the "Out of Place Artifacts" tour and the "Manhattan Project → Roswell → Black Physics" tour.
+globs:
+alwaysApply: false
+---
+# Guided Tours
+
+## Overview
+Guided tours turn the mind map from a free-form exploration surface into a narrated experience. A tour is an ordered sequence of steps; each step focuses one or more entities (events, personnel, topics, organizations, locations, documents), frames the graph camera on them, reveals connecting edges, and presents narration in a side panel. Tours give first-time visitors a curated entry point and give returning users a way to follow a thesis through the knowledge graph.
+
+This spec covers (1) the reusable guided tour engine, and (2) two launch tours:
+- **Out of Place Artifacts (OOPArt)** — a survey of anomalous physical artifacts.
+- **Manhattan Project → Roswell → Black Physics → Advanced Propulsion** — a chronological thesis tracing nuclear weapons development, the rise of classification regimes, the 1947 Roswell incident, and the emergence of compartmentalized ("black") physics and propulsion research.
+
+## Background
+- The mind map is built on XYFlow (`@xyflow/react`) — see `src/features/mindmap/graph.tsx`, with Zustand state in `src/features/mindmap/store/mindmap-store.ts` and layout in `src/features/mindmap/layouts/organizeNodeLayout.ts`.
+- Entities live in Xata (`personnel`, `events`, `topics`, `organizations`, `locations`, `documents`, `testimonies`, plus junction tables) — see `src/.cursor/rules/xata-models.mdc`.
+- The `3d-timeline-journey` feature (`src/features/3d/3d-timeline-journey/`) already establishes a "sequenced, narrated content" pattern (`config/assetData.ts`, `config/assetOrder.ts`, `stories/data.ts`) and is the closest precedent.
+- No tour/onboarding/walkthrough feature currently exists. This is greenfield.
+- Animation stack already in the project: Framer Motion, GSAP, react-spring. Tours should choreograph with these rather than add new deps.
+
+## Requirements
+
+1. **Tour engine** — a reusable controller that drives any tour definition:
+   - Step navigation: next, previous, jump-to-step, exit.
+   - Per step: focus a set of node IDs, fit the XYFlow viewport to them, highlight their edges, dim unrelated nodes.
+   - Narration panel with title, body copy (markdown), and optional media.
+   - Progress indicator (step N of M) and a step rail for non-linear jumps.
+   - Keyboard support: `→`/`←` to navigate, `Esc` to exit; focus-trapped panel; `aria-live` narration.
+   - Resumable: persist current step per tour in `localStorage`; offer "resume" on re-entry.
+   - Deep-linkable: `?tour=<id>&step=<n>` hydrates directly to a step.
+
+2. **Tour definition format** — declarative, data-only, no per-tour code:
+   - Each tour is a typed object: `id`, `title`, `summary`, `estimatedMinutes`, `coverImage`, ordered `steps[]`.
+   - Each step: `id`, `title`, `narration` (markdown), `entityRefs[]` (entity type + slug/id), `edgeReveal` policy, `camera` hint, optional `media`, optional `callout` quotes.
+   - Entity references resolve to live Xata records at load time so narration stays in sync with data; missing entities degrade gracefully (step still renders, missing refs skipped + logged).
+
+3. **Tour discovery** — a directory page listing available tours with cover, summary, duration, and progress state.
+
+4. **Graph integration** — tours run *inside* the existing mind map, not a separate canvas. The engine reuses the XYFlow instance and Zustand store; on exit, it restores the pre-tour graph state (selection, viewport, visible nodes).
+
+5. **Two launch tours authored** as data definitions (see below).
+
+6. **Analytics & logging** — emit `tour_started`, `tour_step_viewed`, `tour_completed`, `tour_abandoned`; log unresolved entity refs for content maintenance.
+
+7. **Accessibility** — WCAG 2.1 AA: keyboard-operable, screen-reader narration via `aria-live`, respects `prefers-reduced-motion` (camera moves become instant cuts), visible focus states.
+
+## Implementation Plan
+
+### Architecture: Declarative tour definitions + a client-side engine overlaying the existing mind map
+
+A tour is pure data. A single engine (`useTourEngine`) interprets any definition, manipulates the existing XYFlow/Zustand store, and renders a narration overlay. This keeps tour content authorable by non-engineers (just data files), avoids a parallel visualization stack, and guarantees the graph behaves identically inside and outside a tour.
+
+Rejected alternatives are listed under *Alternative Approaches Considered*.
+
+### Core Components
+
+1. **Tour types & registry**
+   - Path: `src/features/guided-tours/types.ts`, `src/features/guided-tours/registry.ts`
+   - The registry maps `tourId → TourDefinition` and is the single import surface for both the directory page and the engine.
+
+   ```typescript
+   export type EntityType =
+     | "event" | "personnel" | "topic"
+     | "organization" | "location" | "document" | "testimony";
+
+   export interface EntityRef {
+     type: EntityType;
+     /** Stable slug or Xata record id; resolved at load time. */
+     ref: string;
+     /** Optional label fallback if the record cannot be resolved. */
+     label?: string;
+   }
+
+   export interface TourStep {
+     id: string;
+     title: string;
+     /** Markdown. Rendered with the existing react-markdown pipeline. */
+     narration: string;
+     entityRefs: EntityRef[];
+     /** Which edges to surface when this step is active. */
+     edgeReveal: "between-refs" | "refs-and-neighbors" | "none";
+     camera?: { padding?: number; duration?: number };
+     media?: { kind: "image" | "video"; src: string; alt: string };
+     callout?: { quote: string; attribution: string };
+   }
+
+   export interface TourDefinition {
+     id: string;
+     title: string;
+     summary: string;
+     estimatedMinutes: number;
+     coverImage: string;
+     steps: TourStep[];
+   }
+   ```
+
+2. **Tour engine hook**
+   - Path: `src/features/guided-tours/use-tour-engine.ts`
+   - Owns step index, resolves `entityRefs` against Xata, drives the XYFlow viewport via `fitView({ nodes })`, sets node/edge highlight + dim state in the mindmap store, and persists progress to `localStorage`.
+   - On mount it snapshots current graph state; on `exit()` it restores that snapshot.
+
+   ```typescript
+   export function useTourEngine(tour: TourDefinition) {
+     const { setNodes, setEdges } = useMindMapStore();
+     const { fitView } = useReactFlow();
+     const [stepIndex, setStepIndex] = useState(0);
+     // resolve refs -> node ids, apply highlight/dim, fitView to step nodes,
+     // persist `tour:${tour.id}` = stepIndex, emit analytics per transition.
+     // exit() restores the pre-tour snapshot.
+   }
+   ```
+
+3. **Narration overlay**
+   - Path: `src/features/guided-tours/components/tour-overlay.tsx`
+   - A Framer Motion panel pinned to the mind map (follows the existing side-panel pattern of `GraphStatusLog` / `SessionNotes`). Contains narration, media, callout, progress, step rail, prev/next, exit.
+   - `prefers-reduced-motion` disables panel slide and camera easing.
+
+4. **Tour launcher / directory**
+   - Path: `src/app/(site)/explore/guided-tours/page.tsx` (directory) and `.../guided-tours/[tourId]/page.tsx` (launches the mind map with `?tour=` active).
+   - Server component lists `registry` entries; progress badges hydrate client-side from `localStorage`.
+
+5. **Mindmap store extensions**
+   - Path: `src/features/mindmap/store/mindmap-store.ts`
+   - Add `tourHighlightIds: string[]`, `tourDimmed: boolean`, and a `restoreSnapshot` action. Node/edge components read highlight state to apply the dim/glow treatment.
+
+6. **Tour definitions**
+   - Path: `src/features/guided-tours/tours/out-of-place-artifacts.ts`
+   - Path: `src/features/guided-tours/tours/manhattan-to-propulsion.ts`
+
+### Edge reveal policy
+- `between-refs` — show only edges whose both endpoints are in the step's `entityRefs`.
+- `refs-and-neighbors` — also show edges to direct neighbors (one hop), neighbors rendered dimmed.
+- `none` — focus nodes only, no edge emphasis.
+
+### Monitoring and Logging
+- Analytics events listed under Requirement 6, sent through the existing analytics util.
+- Unresolved `EntityRef`s are collected per tour load and logged (console in dev, analytics `tour_ref_unresolved` in prod) so content authors can see drift between tour copy and the database.
+
+---
+
+## Tour 1 — Out of Place Artifacts
+
+### Synopsis
+A survey of artifacts whose material, placement, or sophistication is claimed to be inconsistent with their accepted historical or geological context. The tour models the *pattern of claims* and the *evaluation lens* rather than asserting conclusions — each step pairs the artifact with the credibility/evaluation framework used elsewhere in the platform.
+
+### Step outline
+Each step lists the entities it focuses. Slugs are placeholders to be reconciled with live Xata records during authoring; unresolved refs degrade gracefully.
+
+1. **What counts as "out of place"?** — Topic: `out-of-place-artifacts`. Sets the evaluation lens: provenance, dating method, chain of custody, peer scrutiny. `edgeReveal: none`.
+2. **Provenance and dating** — Topic: `archaeological-dating`, `provenance-chain`. Explains why context-of-discovery matters more than the object. `edgeReveal: between-refs`.
+3. **Case cluster: anomalous metallurgy** — Topics/Events for commonly cited metallurgical artifacts; Documents for the analyses. `edgeReveal: refs-and-neighbors`.
+4. **Case cluster: anachronistic mechanisms** — Events/Topics for mechanism-type artifacts; linked Personnel (investigators) and Documents. `edgeReveal: refs-and-neighbors`.
+5. **The skeptical apparatus** — Personnel + Organizations doing debunking/verification; Topic: `claims-evidence-evaluation`. Mirrors the platform's Claims & Evidence Evaluator role. `edgeReveal: refs-and-neighbors`.
+6. **Why the category persists** — returns to Topic: `out-of-place-artifacts`, summarizing how disputed provenance keeps cases unresolved. `edgeReveal: between-refs`.
+
+### Authoring notes
+- Tone: neutral and evidentiary. Narration states claims as claims and always names the evaluation criterion.
+- Every artifact step should reference at least one `document` so the user can drill into sources.
+- `estimatedMinutes: 8`.
+
+---
+
+## Tour 2 — Manhattan Project → Los Alamos → Nuclear Classification → Roswell → Black Physics → Advanced Propulsion
+
+### Synopsis
+A chronological thesis tour. It traces a line from the Manhattan Project and Los Alamos, through the birth of the modern secrecy/classification regime around nuclear weapons, into the 1947 Roswell incident, and onward to the emergence of compartmentalized ("black") physics programs and advanced propulsion research. The thesis the tour *presents for examination* is that the classification machinery built for nuclear weapons became the template for how later anomalous-technology claims were handled. The tour frames this as a documented institutional pattern, not a proven causal claim.
+
+### Step outline
+Ordered chronologically; entity slugs are placeholders pending reconciliation with live Xata records.
+
+1. **The Manhattan Project** — Event: `manhattan-project`; Organizations: `manhattan-engineer-district`, `us-army-corps-of-engineers`; Personnel: project leadership. Establishes scale and wartime urgency. `edgeReveal: refs-and-neighbors`.
+2. **Los Alamos** — Location: `los-alamos`; Organization: `los-alamos-laboratory`; Personnel: lab scientists. The site as a model of a closed, self-contained research city. `edgeReveal: refs-and-neighbors`.
+3. **The classification regime** — Topic: `nuclear-classification`; Documents: `atomic-energy-act-1946`; Organization: `atomic-energy-commission`. Introduces "born secret," compartmentalization, and need-to-know. `edgeReveal: between-refs`.
+4. **Roswell, 1947** — Event: `roswell-incident`; Location: `roswell`; Organization: `roswell-army-air-field`; Personnel: officers and witnesses. Presents the incident and the competing official accounts. `edgeReveal: refs-and-neighbors`.
+5. **From secrecy to "black" programs** — Topic: `special-access-programs`, `black-budget`; Organizations associated with compartmented programs. Shows how the nuclear-era apparatus generalized into special-access programs. `edgeReveal: refs-and-neighbors`.
+6. **Black physics & advanced propulsion** — Topics: `advanced-propulsion`, `black-physics`; Personnel and Documents tied to propulsion research claims. The contested frontier where claims, classification, and physics intersect. `edgeReveal: refs-and-neighbors`.
+7. **The thesis, examined** — returns to Topics `nuclear-classification` and `advanced-propulsion`, surfacing the edge between them. Narration explicitly separates what is documented (the classification machinery, the timeline) from what is inferred (any causal link). `edgeReveal: between-refs`.
+
+### Authoring notes
+- This tour is chronological and argumentative; the final step must distinguish documented record from interpretation, consistent with the platform's evidence-evaluation stance.
+- Each step should reference at least one `document` (declassified records, official reports) as a primary source anchor.
+- Steps 5–6 are the most claim-heavy; narration should flag where sourcing is contested.
+- `estimatedMinutes: 14`.
+
+---
+
+## User Stories
+
+### Epic
+> As a visitor to the UFO/UAP disclosure platform, I want curated, narrated paths through the knowledge graph so that I can understand a thesis or theme without having to know where to start.
+
+### Story 1 — Discover and start a tour
+> **As a** first-time visitor
+> **I want** to see a list of guided tours with a short summary and estimated duration
+> **So that** I can pick a starting point that matches my interest and time.
+
+**Acceptance criteria**
+- The Guided Tours directory lists every registered tour with cover image, title, summary, and `estimatedMinutes`.
+- Selecting a tour opens the mind map with the tour active on step 1.
+- If a tour was previously started, the card shows progress and a "Resume" action.
+
+### Story 2 — Follow a tour step by step
+> **As a** user taking a tour
+> **I want** each step to focus the relevant entities, frame the camera on them, and explain how they connect
+> **So that** I can follow the narrative without getting lost in the full graph.
+
+**Acceptance criteria**
+- Advancing a step dims unrelated nodes, highlights the step's entities, reveals edges per the step's `edgeReveal` policy, and fits the viewport to the focused nodes.
+- The narration panel shows step title, markdown body, optional media/callout, and a "step N of M" indicator.
+- `←`/`→` navigate steps; `Esc` exits; the panel is keyboard-operable and screen-reader friendly.
+- With `prefers-reduced-motion`, camera changes are instant cuts.
+
+### Story 3 — Drill in and resume
+> **As a** curious user
+> **I want** to click a focused entity to open its detail view and later return to the tour where I left off
+> **So that** I can dig deeper without losing my place.
+
+**Acceptance criteria**
+- Clicking a focused node opens that entity's existing detail view/panel.
+- Tour progress is persisted to `localStorage`; re-entering the tour offers "Resume at step N".
+- A tour step is deep-linkable via `?tour=<id>&step=<n>`.
+
+### Story 4 — Exit cleanly
+> **As a** user
+> **I want** exiting a tour to return the mind map to how it was before
+> **So that** I can continue free exploration without leftover highlight or dimming state.
+
+**Acceptance criteria**
+- `exit()` restores pre-tour selection, viewport, and node/edge visibility from the snapshot.
+- `tour_completed` fires on finishing the last step; `tour_abandoned` fires on early exit.
+
+### Story 5 — Take the OOPArt tour
+> **As a** user interested in anomalous artifacts
+> **I want** the Out of Place Artifacts tour to walk me through representative cases and the evaluation lens used to assess them
+> **So that** I understand both the claims and how the platform weighs them.
+
+**Acceptance criteria**
+- The tour presents the six steps in `out-of-place-artifacts.ts`.
+- Each artifact step links at least one source `document`.
+- Narration states claims as claims and names the evaluation criterion at each step.
+
+### Story 6 — Take the Manhattan→Propulsion tour
+> **As a** user interested in the secrecy/disclosure thesis
+> **I want** a chronological tour from the Manhattan Project through Roswell to black physics and advanced propulsion
+> **So that** I can follow the institutional pattern the platform documents.
+
+**Acceptance criteria**
+- The tour presents the seven steps in `manhattan-to-propulsion.ts` in chronological order.
+- The final step explicitly separates documented record from interpretation.
+- Steps reference primary-source `document` records where available; contested sourcing is flagged in narration.
+
+### Story 7 — Author a tour without code
+> **As a** content maintainer
+> **I want** to define a tour as a data file and add it to the registry
+> **So that** I can publish new tours without touching engine code.
+
+**Acceptance criteria**
+- Adding a `TourDefinition` to `registry.ts` makes it appear in the directory and run in the engine.
+- Unresolved entity references are logged and skipped; the tour still runs.
+
+---
+
+## Alternative Approaches Considered
+
+### 1. Generic DOM tour library (e.g. driver.js / Shepherd)
+- Benefits: fast to wire up, well-trodden onboarding pattern.
+- Drawbacks: these tooltip-on-DOM-element libraries target static UI chrome, not a pannable/zoomable graph canvas. They cannot frame a camera, highlight edges, or reason about entities. Rejected.
+
+### 2. A separate, purpose-built tour canvas
+- Benefits: full control over presentation; no risk of disturbing mind map state.
+- Drawbacks: duplicates the XYFlow rendering, node/edge components, and layout logic; tours would visually and behaviorally diverge from the real graph; double maintenance. Rejected.
+
+### 3. Tours as imperative React components (one component per tour)
+- Benefits: maximum flexibility per tour.
+- Drawbacks: every new tour requires an engineer; no shared engine; content and logic entangled. Rejected in favor of declarative definitions interpreted by one engine.
+
+### 4. Extend the existing `3d-timeline-journey` feature
+- Benefits: reuses an established narrated-sequence pattern.
+- Drawbacks: that feature is a bespoke R3F/shader experience, not the 2D knowledge graph; tours need to operate on the actual entity graph. Its *data-shape* pattern (`config/assetData.ts`) is borrowed; its rendering is not.
+
+---
+
+## Timeline and Implementation Steps
+
+### Phase 1: Engine foundation (Week 1)
+- Add `types.ts`, `registry.ts`, mindmap store extensions (`tourHighlightIds`, `tourDimmed`, `restoreSnapshot`).
+- Implement `useTourEngine` with step navigation, ref resolution, `fitView`, highlight/dim, snapshot/restore.
+- Implement `tour-overlay.tsx` with narration, progress, keyboard support, reduced-motion handling.
+
+### Phase 2: Discovery & integration (Week 2)
+- Build the Guided Tours directory page and `[tourId]` launch route.
+- Wire `?tour=&step=` deep-linking and `localStorage` progress/resume.
+- Apply highlight/dim treatment in node and edge components.
+- Emit analytics events; log unresolved refs.
+
+### Phase 3: Author launch tours (Week 3)
+- Reconcile placeholder slugs against live Xata records; create any missing `topics`/`events`/`documents`.
+- Author `out-of-place-artifacts.ts` (6 steps) and `manhattan-to-propulsion.ts` (7 steps).
+- Editorial review for tone, sourcing, and the documented-vs-inferred distinction.
+
+### Phase 4: Polish & accessibility (Week 4)
+- Full keyboard and screen-reader pass; `prefers-reduced-motion` verification.
+- Camera/transition choreography tuning.
+- Storybook stories for the overlay and a sample tour.
+
+## Future Enhancements
+1. Branching tours — steps that offer the user a choice of which thread to follow next.
+2. Authenticated progress sync — persist tour progress to the `users` table instead of `localStorage`.
+3. AI-generated tours — use the existing LLM stack to draft a tour definition from a user prompt or a selected entity cluster.
+4. Audio narration — text-to-speech track per step with synced highlighting.
+5. Shareable tour state — generate a link to a specific step with a custom annotation.
+
+## Conclusion
+Guided tours give the platform a narrative front door without forking the visualization. A declarative definition format plus a single engine that drives the existing XYFlow graph keeps tours authorable as data, visually consistent with free exploration, and cheap to extend. The two launch tours — Out of Place Artifacts and Manhattan Project → Advanced Propulsion — exercise the full engine and establish the editorial standard: present claims as claims, anchor steps in source documents, and keep documented record distinct from interpretation.
