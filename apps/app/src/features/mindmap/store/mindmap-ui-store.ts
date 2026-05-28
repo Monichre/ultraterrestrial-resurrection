@@ -52,6 +52,16 @@ export type TourState = {
   currentProcessingType: string
 }
 
+export type SessionEventType = 'query' | 'nodes_added' | 'analysis' | 'tour' | 'save'
+
+export type SessionEvent = {
+  id: string
+  timestamp: number
+  type: SessionEventType
+  label: string
+  detail?: string
+}
+
 export interface MindMapUiState {
   activeTool: string | null
   pinnedPanel: string | null
@@ -66,6 +76,16 @@ export interface MindMapUiState {
   tour: TourState
   aiMode: boolean
   deepResearchEnabled: boolean
+  sessionEvents: SessionEvent[]
+  hiddenNodeTypes: string[]
+
+  // Session history actions
+  addSessionEvent: (event: Omit<SessionEvent, 'id' | 'timestamp'>) => void
+  clearSessionEvents: () => void
+
+  // Layer visibility actions
+  toggleNodeTypeHidden: (nodeType: string) => void
+  setNodeTypeHidden: (nodeType: string, hidden: boolean) => void
 
   // Tool/Panel actions
   setActiveTool: (tool: string | null) => void
@@ -175,6 +195,40 @@ export const useMindMapUiStore = create<MindMapUiState>()(
         currentWaypointIndex: 0,
         backgroundProcessing: false,
         currentProcessingType: '',
+      },
+      sessionEvents: [],
+      hiddenNodeTypes: [],
+
+      // Session history actions
+      addSessionEvent: (event) =>
+        set({
+          sessionEvents: [
+            {
+              ...event,
+              id: `session-event-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+              timestamp: Date.now(),
+            },
+            ...get().sessionEvents,
+          ].slice(0, 100),
+        }),
+      clearSessionEvents: () => set({sessionEvents: []}),
+
+      // Layer visibility actions
+      toggleNodeTypeHidden: (nodeType) => {
+        const current = get().hiddenNodeTypes
+        set({
+          hiddenNodeTypes: current.includes(nodeType)
+            ? current.filter((t) => t !== nodeType)
+            : [...current, nodeType],
+        })
+      },
+      setNodeTypeHidden: (nodeType, hidden) => {
+        const current = get().hiddenNodeTypes
+        set({
+          hiddenNodeTypes: hidden
+            ? [...new Set([...current, nodeType])]
+            : current.filter((t) => t !== nodeType),
+        })
       },
 
       // Tool/Panel actions

@@ -15,6 +15,7 @@ import {
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useMindMapUiStore, type ActiveView } from "@/features/mindmap/store/mindmap-ui-store"
+import { useMindMapStore } from "@/features/mindmap/store"
 
 interface ViewItem {
   id: string
@@ -105,6 +106,20 @@ export function FullScreenMenu({ isOpen: isOpenProp, onClose: onCloseProp }: Ful
   const [isAnimating, setIsAnimating] = useState(false)
 
   const { navigation, setFullScreenMenuOpen, setActiveView } = useMindMapUiStore()
+  const { nodes, edges } = useMindMapStore()
+
+  // Overlay live canvas stats onto the static view metadata
+  const views: ViewItem[] = VIEWS.map((view) =>
+    view.id === "canvas"
+      ? {
+          ...view,
+          stats: [
+            { label: "Active Nodes", value: String(nodes.length) },
+            { label: "Connections", value: String(edges.length) },
+          ],
+        }
+      : view
+  )
 
   // Support both prop-based and store-based control
   const isOpen = isOpenProp ?? navigation.fullScreenMenuOpen
@@ -147,7 +162,7 @@ export function FullScreenMenu({ isOpen: isOpenProp, onClose: onCloseProp }: Ful
 
   if (!isOpen) return null
 
-  const activeView = hoveredView ? VIEWS.find((v) => v.id === hoveredView) : null
+  const activeView = hoveredView ? views.find((v) => v.id === hoveredView) : null
 
   return (
     <div
@@ -212,7 +227,7 @@ export function FullScreenMenu({ isOpen: isOpenProp, onClose: onCloseProp }: Ful
           {/* Navigation list */}
           <nav className="flex-1 flex flex-col justify-center max-w-2xl">
             <div className="space-y-2">
-              {VIEWS.map((view, index) => {
+              {views.map((view, index) => {
                 const isActive = navigation.activeView === view.id
                 const isHovered = hoveredView === view.id
 

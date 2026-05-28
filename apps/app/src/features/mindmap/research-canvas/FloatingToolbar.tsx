@@ -2,7 +2,7 @@
 
 import {useMemo} from 'react'
 import type {ReactNode} from 'react'
-import {Network, Clock, LayoutGrid, Filter, Bookmark, Zap, FolderOpen, Layers} from 'lucide-react'
+import {Network, Clock, LayoutGrid, Filter, Bookmark, Zap, FolderOpen, Layers, Layers2, History} from 'lucide-react'
 import {Avatar, AvatarImage, AvatarFallback} from '@/components/ui/avatar'
 import {HoverCard, HoverCardContent, HoverCardTrigger} from '@/components/ui/hover-card'
 import {ToolbarButton} from './ToolbarButton'
@@ -10,8 +10,10 @@ import {NetworkPanel} from '@/features/mindmap/components/menus/mindmap-side-men
 import {TimelinePanel} from '@/features/mindmap/components/menus/mindmap-side-menu/hover-panels/TimelinePanel'
 import {LayoutPanel} from '@/features/mindmap/components/menus/mindmap-side-menu/hover-panels/LayoutPanel'
 import {FilterPanel} from '@/features/mindmap/components/menus/mindmap-side-menu/hover-panels/FilterPanel'
+import {LayersPanel} from '@/features/mindmap/components/menus/mindmap-side-menu/hover-panels/LayersPanel'
 import {SavedViewsPanel} from '@/features/mindmap/components/menus/mindmap-side-menu/hover-panels/SavedViewsPanel'
 import {QuickActionsPanel} from '@/features/mindmap/components/menus/mindmap-side-menu/hover-panels/QuickActionsPanel'
+import {HistoryPanel} from '@/features/mindmap/components/menus/mindmap-side-menu/hover-panels/HistoryPanel'
 import {AssetLibraryPanel} from '@/features/mindmap/components/menus/mindmap-side-menu/hover-panels/AssetLibraryPanel'
 import {useMindMapUiStore} from '@/features/mindmap/store/mindmap-ui-store'
 
@@ -47,6 +49,18 @@ const TOOLBAR_ITEMS = [
     panel: 'filter',
   },
   {
+    id: 'layers',
+    icon: <Layers2 size={20} strokeWidth={2} />,
+    tooltip: 'Layers',
+    panel: 'layers',
+  },
+  {
+    id: 'history',
+    icon: <History size={20} strokeWidth={2} />,
+    tooltip: 'Session History',
+    panel: 'history',
+  },
+  {
     id: 'saved-views',
     icon: <Bookmark size={20} strokeWidth={2} />,
     tooltip: 'Saved Views & Pathways',
@@ -71,6 +85,8 @@ const PANELS: Record<string, ReactNode> = {
   timeline: <TimelinePanel />,
   layout: <LayoutPanel />,
   filter: <FilterPanel />,
+  layers: <LayersPanel />,
+  history: <HistoryPanel />,
   'saved-views': <SavedViewsPanel />,
   'quick-actions': <QuickActionsPanel />,
   assets: <AssetLibraryPanel />,

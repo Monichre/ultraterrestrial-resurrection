@@ -20,7 +20,7 @@ import {
   FileText,
   Eye,
 } from "lucide-react"
-import { getIncidentById, getRelatedIncidents } from "@/features/mindmap/research-canvas/data/ufo-sightings"
+import { getIncidentById, getRelatedIncidents, UFO_SIGHTINGS } from "@/features/mindmap/research-canvas/data/ufo-sightings"
 
 function IncidentDetailContent() {
   const searchParams = useSearchParams()
@@ -28,6 +28,59 @@ function IncidentDetailContent() {
   const incident = id ? getIncidentById(id) : null
 
   if (!incident) {
+    // No id selected → show a browsable Case Files index instead of a dead-end.
+    if (!id) {
+      return (
+        <div className="min-h-screen bg-background p-8 overflow-y-auto">
+          <div className="max-w-5xl mx-auto">
+            <div className="flex items-center gap-3 mb-2">
+              <FileText className="w-6 h-6 text-muted-foreground" />
+              <h1 className="text-2xl font-bold text-foreground">Case Files</h1>
+            </div>
+            <p className="text-muted-foreground mb-8">
+              Select an incident to open its full case file.
+            </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {UFO_SIGHTINGS.map((sighting) => (
+                <Link
+                  key={sighting.id}
+                  href={`?id=${sighting.id}`}
+                  className="group block rounded-2xl border border-border bg-card hover:bg-accent/40 transition-colors overflow-hidden"
+                >
+                  <div className="p-4">
+                    <div className="flex items-start justify-between gap-2 mb-2">
+                      <h2 className="text-base font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-1">
+                        {sighting.name}
+                      </h2>
+                      <span className="flex-shrink-0 text-xs px-2 py-0.5 rounded-full bg-muted text-muted-foreground">
+                        {sighting.classification}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-3 text-xs text-muted-foreground mb-3">
+                      <span className="flex items-center gap-1">
+                        <Calendar className="w-3 h-3" />
+                        {sighting.date}
+                      </span>
+                      <span className="flex items-center gap-1 truncate">
+                        <MapPin className="w-3 h-3 flex-shrink-0" />
+                        <span className="truncate">{sighting.location}</span>
+                      </span>
+                    </div>
+                    <p className="text-sm text-muted-foreground line-clamp-2">{sighting.description}</p>
+                    <div className="flex items-center gap-1 mt-3 text-xs text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                      Open case file
+                      <ChevronRight className="w-3 h-3" />
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      )
+    }
+
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
@@ -37,11 +90,11 @@ function IncidentDetailContent() {
           <h1 className="text-3xl font-bold text-foreground mb-3">Incident Not Found</h1>
           <p className="text-muted-foreground mb-6">The incident you are looking for does not exist in our database.</p>
           <Link
-            href="/ufo-sightings"
+            href="?"
             className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-xl font-medium hover:bg-primary/90 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
-            Back to Sightings
+            Back to Case Files
           </Link>
         </div>
       </div>
