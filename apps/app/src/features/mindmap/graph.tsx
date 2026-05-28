@@ -108,6 +108,8 @@ export function Graph() {
     setTimelineSpeed,
     startTour,
     setCommandMenuOpen,
+    addSessionEvent,
+    hiddenNodeTypes,
   } = useMindMapUiStore()
 
   const layoutDirection = useMemo(() => resolveLayoutDirection(activeLayoutId), [activeLayoutId])
@@ -157,6 +159,8 @@ export function Graph() {
         position: getCenteredPosition(),
       })
       updateNodeData(sourceNode.id, {label: message})
+
+      addSessionEvent({type: 'query', label: 'Research query', detail: message})
 
       try {
         const agentResult = await runAgentQuery({
@@ -292,6 +296,22 @@ export function Graph() {
           }
         }
 
+        const addedCount = getNodes().length - existingNodes.length
+        if (addedCount > 0) {
+          addSessionEvent({
+            type: 'nodes_added',
+            label: `Added ${addedCount} node${addedCount === 1 ? '' : 's'}`,
+            detail: message,
+          })
+        }
+        if (agentResult.analysis) {
+          addSessionEvent({
+            type: 'analysis',
+            label: 'Analysis complete',
+            detail: agentResult.analysis.slice(0, 140),
+          })
+        }
+
         setTimeout(() => {
           fitView({padding: 0.2})
         }, 200)
@@ -305,6 +325,7 @@ export function Graph() {
     [
       addEdges,
       addNodes,
+      addSessionEvent,
       addUserInputNode,
       buildAgentGraphState,
       edges,
@@ -410,7 +431,8 @@ export function Graph() {
 
   const handleStartTour = useCallback(() => {
     startTour('default', 'guided')
-  }, [startTour])
+    addSessionEvent({type: 'tour', label: 'Started guided tour'})
+  }, [startTour, addSessionEvent])
 
   const handleSearchDatabase = useCallback(() => {
     setCommandMenuOpen(true)
@@ -450,6 +472,14 @@ export function Graph() {
 
   const isEmpty = nodes.length === 0
 
+  const visibleNodes = useMemo(() => {
+    if (hiddenNodeTypes.length === 0) return nodes
+    return nodes.map((node) => {
+      const nodeType = String((node.data as Record<string, unknown>)?.type ?? '')
+      return hiddenNodeTypes.includes(nodeType) ? {...node, hidden: true} : node
+    })
+  }, [nodes, hiddenNodeTypes])
+
   return (
     <div className='relative z-0 h-dvh w-full overflow-hidden'>
       <ReactFlow
@@ -458,7 +488,7 @@ export function Graph() {
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
         defaultEdgeOptions={edgeOptions}
-        nodes={nodes}
+        nodes={visibleNodes}
         edges={edges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}

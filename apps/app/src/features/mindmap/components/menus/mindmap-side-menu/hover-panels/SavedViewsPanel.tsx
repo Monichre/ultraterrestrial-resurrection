@@ -1,135 +1,125 @@
 "use client"
 
-import { useState } from "react"
-import { Bookmark, Star, Eye, Share2, Trash2, Clock } from "lucide-react"
+import { useCallback, useEffect, useState } from "react"
+import { Bookmark, Eye, Trash2, Clock, Compass } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { PlusIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons"
+import type { Edge, Node } from "@xyflow/react"
+import { useMindMap } from "@/contexts/mindmap/mindmap-context"
+import { useMindMapStore } from "@/features/mindmap/store"
+import { useMindMapUiStore } from "@/features/mindmap/store/mindmap-ui-store"
+
+const STORAGE_KEY = "mindmap-saved-views"
 
 interface SavedView {
   id: string
   name: string
-  description: string
-  type: "exploration" | "pathway" | "tour"
-  created: Date
-  lastViewed: Date
-  isStarred: boolean
-  isPublic: boolean
+  created: number
   nodeCount: number
-  creator: string
+  nodes: Node[]
+  edges: Edge[]
 }
 
-const SAVED_VIEWS: SavedView[] = [
-  {
-    id: "1",
-    name: "Roswell & Coverups",
-    description: "Comprehensive view of the Roswell incident and related government coverup activities",
-    type: "pathway",
-    created: new Date(Date.now() - 86400000 * 7),
-    lastViewed: new Date(Date.now() - 3600000),
-    isStarred: true,
-    isPublic: true,
-    nodeCount: 127,
-    creator: "Dr. Sarah Chen",
-  },
-  {
-    id: "2",
-    name: "Modern Military Disclosures",
-    description: "Pentagon UAP disclosures from 2017 onwards, including key military witnesses",
-    type: "exploration",
-    created: new Date(Date.now() - 86400000 * 3),
-    lastViewed: new Date(Date.now() - 7200000),
-    isStarred: false,
-    isPublic: false,
-    nodeCount: 89,
-    creator: "You",
-  },
-  {
-    id: "3",
-    name: "Project Blue Book Network",
-    description: "Complete institutional network of Project Blue Book personnel and investigations",
-    type: "tour",
-    created: new Date(Date.now() - 86400000 * 14),
-    lastViewed: new Date(Date.now() - 86400000 * 2),
-    isStarred: true,
-    isPublic: true,
-    nodeCount: 234,
-    creator: "Research Team",
-  },
-  {
-    id: "4",
-    name: "Civilian Witness Network",
-    description: "Network of civilian witnesses and their interconnected sighting reports",
-    type: "exploration",
-    created: new Date(Date.now() - 86400000 * 21),
-    lastViewed: new Date(Date.now() - 86400000 * 5),
-    isStarred: false,
-    isPublic: true,
-    nodeCount: 456,
-    creator: "Community",
-  },
-]
-
 const EXPLORATION_PATHWAYS = [
-  {
-    id: "p1",
-    name: "Government Disclosure Timeline",
-    description: "Follow the progression of official UAP disclosures",
-    steps: 8,
-    duration: "15 min",
-  },
-  {
-    id: "p2",
-    name: "Military Encounters Deep Dive",
-    description: "Explore military UAP encounters and witness testimonies",
-    steps: 12,
-    duration: "25 min",
-  },
-  {
-    id: "p3",
-    name: "Scientific Investigation Trail",
-    description: "Track scientific approaches to UAP research",
-    steps: 6,
-    duration: "12 min",
-  },
+  { id: "government-disclosure", name: "Government Disclosure Timeline", description: "Follow the progression of official UAP disclosures", steps: 8, duration: "15 min" },
+  { id: "military-encounters", name: "Military Encounters Deep Dive", description: "Explore military UAP encounters and witness testimonies", steps: 12, duration: "25 min" },
+  { id: "scientific-investigation", name: "Scientific Investigation Trail", description: "Track scientific approaches to UAP research", steps: 6, duration: "12 min" },
 ]
 
-const VIEW_TYPE_COLORS = {
-  exploration: "bg-blue-500/20 text-blue-400 border-blue-500/30",
-  pathway: "bg-green-500/20 text-green-400 border-green-500/30",
-  tour: "bg-purple-500/20 text-purple-400 border-purple-500/30",
+function loadSavedViews(): SavedView[] {
+  if (typeof window === "undefined") return []
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY)
+    return raw ? (JSON.parse(raw) as SavedView[]) : []
+  } catch {
+    return []
+  }
+}
+
+function persistSavedViews(views: SavedView[]) {
+  if (typeof window === "undefined") return
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(views))
+}
+
+function formatDate(timestamp: number) {
+  const days = Math.floor((Date.now() - timestamp) / 86400000)
+  if (days === 0) return "Today"
+  if (days === 1) return "Yesterday"
+  if (days < 7) return `${days} days ago`
+  return new Date(timestamp).toLocaleDateString()
 }
 
 export function SavedViewsPanel() {
+  const { getNodes, getEdges, fitView } = useMindMap()
+  const { setNodes, setEdges } = useMindMapStore()
+  const { startTour, addSessionEvent, setActiveView } = useMindMapUiStore()
+
   const [searchQuery, setSearchQuery] = useState("")
+  const [views, setViews] = useState<SavedView[]>([])
   const [selectedView, setSelectedView] = useState<string | null>(null)
 
-  const filteredViews = SAVED_VIEWS.filter(
-    (view) =>
-      view.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      view.description.toLowerCase().includes(searchQuery.toLowerCase()),
+  useEffect(() => {
+    setViews(loadSavedViews())
+  }, [])
+
+  const saveCurrent = useCallback(() => {
+    const nodes = getNodes()
+    if (nodes.length === 0) return
+    const name = typeof window !== "undefined"
+      ? window.prompt("Name this view", `View ${views.length + 1}`)
+      : null
+    if (!name) return
+    const next: SavedView = {
+      id: `view-${Date.now()}`,
+      name,
+      created: Date.now(),
+      nodeCount: nodes.length,
+      nodes,
+      edges: getEdges(),
+    }
+    const updated = [next, ...views]
+    setViews(updated)
+    persistSavedViews(updated)
+    addSessionEvent({ type: "save", label: `Saved view "${name}"`, detail: `${nodes.length} nodes` })
+  }, [getNodes, getEdges, views, addSessionEvent])
+
+  const loadView = useCallback(
+    (view: SavedView) => {
+      setNodes(view.nodes)
+      setEdges(view.edges)
+      setActiveView("canvas")
+      setTimeout(() => fitView({ padding: 0.2 }), 200)
+      addSessionEvent({ type: "save", label: `Loaded view "${view.name}"` })
+    },
+    [setNodes, setEdges, setActiveView, fitView, addSessionEvent]
   )
 
-  const formatDate = (date: Date) => {
-    const now = new Date()
-    const diff = now.getTime() - date.getTime()
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24))
+  const deleteView = useCallback(
+    (id: string) => {
+      const updated = views.filter((v) => v.id !== id)
+      setViews(updated)
+      persistSavedViews(updated)
+    },
+    [views]
+  )
 
-    if (days === 0) return "Today"
-    if (days === 1) return "Yesterday"
-    if (days < 7) return `${days} days ago`
-    return date.toLocaleDateString()
-  }
+  const startPathway = useCallback(
+    (pathwayId: string, name: string) => {
+      startTour(pathwayId, "guided")
+      addSessionEvent({ type: "tour", label: `Started tour: ${name}` })
+    },
+    [startTour, addSessionEvent]
+  )
 
-  const toggleStar = (id: string) => {
-    // In a real app, this would update the backend
-    console.log(`Toggle star for view ${id}`)
-  }
+  const filteredViews = views.filter((view) =>
+    view.name.toLowerCase().includes(searchQuery.toLowerCase())
+  )
 
   return (
-    <div className="w-[420px] h-auto flex flex-col bg-neutral-800/90 text-white shadow-lg backdrop-blur-md border border-gray-200 border-white/5 rounded-2xl dark:border-gray-800">
+    <div className="w-[420px] h-auto flex flex-col bg-neutral-800/90 text-white shadow-lg backdrop-blur-md border border-white/5 rounded-2xl">
       <header className="border-b border-b-[#292f35] p-3">
         <div className="flex items-center gap-2 mb-3">
           <Bookmark size={16} className="text-blue-400" strokeWidth={2} />
@@ -137,7 +127,7 @@ export function SavedViewsPanel() {
         </div>
 
         <div className="relative">
-          <MagnifyingGlassIcon className="absolute top-1/2 left-2.5 -translate-y-1/2 size-4 text-gray-400" strokeWidth={2} />
+          <MagnifyingGlassIcon className="absolute top-1/2 left-2.5 -translate-y-1/2 size-4 text-gray-400" />
           <Input
             placeholder="Search saved views..."
             value={searchQuery}
@@ -167,78 +157,69 @@ export function SavedViewsPanel() {
           <TabsContent value="saved" className="space-y-2 mt-0">
             <div className="flex items-center justify-between mb-3">
               <h4 className="text-sm font-medium">Your Saved Views</h4>
-              <Button size="sm" variant="ghost" className="h-7 px-2">
-                <PlusIcon size={12} className="mr-1" strokeWidth={2} />
+              <Button size="sm" variant="ghost" className="h-7 px-2" onClick={saveCurrent}>
+                <PlusIcon className="mr-1" />
                 Save Current
               </Button>
             </div>
 
-            {filteredViews.map((view) => (
-              <div
-                key={view.id}
-                className={`p-3 rounded-lg border transition-colors cursor-pointer ${
-                  selectedView === view.id
-                    ? "bg-blue-500/10 border-blue-500/30"
-                    : "bg-neutral-700/30 border-neutral-600/30 hover:bg-neutral-700/50"
-                }`}
-                onClick={() => setSelectedView(view.id)}
-              >
-                <div className="flex items-start justify-between mb-2">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      <h5 className="text-sm font-medium truncate">{view.name}</h5>
-                      <Badge className={`text-xs ${VIEW_TYPE_COLORS[view.type]}`}>{view.type}</Badge>
-                    </div>
-                    <p className="text-xs text-gray-400 line-clamp-2">{view.description}</p>
-                  </div>
-
-                  <div className="flex items-center gap-1 ml-2">
-                    <Button
-                      size="icon"
-                      variant="ghost"
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        toggleStar(view.id)
-                      }}
-                      className="size-6 hover:bg-white/10"
-                    >
-                      <Star
-                        size={12}
-                        className={view.isStarred ? "text-yellow-400 fill-yellow-400" : "text-gray-400"}
-                        strokeWidth={2}
-                      />
-                    </Button>
-                    {view.isPublic && <Share2 size={12} className="text-gray-400" strokeWidth={2} />}
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between text-xs text-gray-400">
-                  <div className="flex items-center gap-3">
-                    <span>{view.nodeCount} nodes</span>
-                    <span>by {view.creator}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Clock size={10} strokeWidth={2} />
-                    <span>{formatDate(view.lastViewed)}</span>
-                  </div>
-                </div>
-
-                {selectedView === view.id && (
-                  <div className="flex items-center gap-2 mt-3 pt-2 border-t border-neutral-600">
-                    <Button size="sm" className="flex-1 h-7">
-                      <Eye size={12} className="mr-1" strokeWidth={2} />
-                      Load View
-                    </Button>
-                    <Button size="sm" variant="ghost" className="h-7 px-2">
-                      <Share2 size={12} strokeWidth={2} />
-                    </Button>
-                    <Button size="sm" variant="ghost" className="h-7 px-2 text-red-400 hover:text-red-300">
-                      <Trash2 size={12} strokeWidth={2} />
-                    </Button>
-                  </div>
-                )}
+            {filteredViews.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-8 text-center text-neutral-500">
+                <Bookmark size={20} className="mb-2 opacity-50" strokeWidth={2} />
+                <p className="text-sm">No saved views</p>
+                <p className="text-xs">Save the current canvas to revisit it later</p>
               </div>
-            ))}
+            ) : (
+              filteredViews.map((view) => (
+                <div
+                  key={view.id}
+                  className={`p-3 rounded-lg border transition-colors cursor-pointer ${
+                    selectedView === view.id
+                      ? "bg-blue-500/10 border-blue-500/30"
+                      : "bg-neutral-700/30 border-neutral-600/30 hover:bg-neutral-700/50"
+                  }`}
+                  onClick={() => setSelectedView(view.id)}
+                >
+                  <div className="flex items-start justify-between mb-2">
+                    <h5 className="text-sm font-medium truncate">{view.name}</h5>
+                  </div>
+                  <div className="flex items-center justify-between text-xs text-gray-400">
+                    <span>{view.nodeCount} nodes</span>
+                    <div className="flex items-center gap-1">
+                      <Clock size={10} strokeWidth={2} />
+                      <span>{formatDate(view.created)}</span>
+                    </div>
+                  </div>
+
+                  {selectedView === view.id && (
+                    <div className="flex items-center gap-2 mt-3 pt-2 border-t border-neutral-600">
+                      <Button
+                        size="sm"
+                        className="flex-1 h-7"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          loadView(view)
+                        }}
+                      >
+                        <Eye size={12} className="mr-1" strokeWidth={2} />
+                        Load View
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="h-7 px-2 text-red-400 hover:text-red-300"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          deleteView(view.id)
+                        }}
+                      >
+                        <Trash2 size={12} strokeWidth={2} />
+                      </Button>
+                    </div>
+                  )}
+                </div>
+              ))
+            )}
           </TabsContent>
 
           <TabsContent value="pathways" className="space-y-2 mt-0">
@@ -247,32 +228,24 @@ export function SavedViewsPanel() {
             {EXPLORATION_PATHWAYS.map((pathway) => (
               <div
                 key={pathway.id}
-                className="p-3 rounded-lg bg-neutral-700/30 border border-gray-200 border-neutral-600/30 hover:bg-neutral-700/50 transition-colors cursor-pointer dark:border-gray-800"
+                className="p-3 rounded-lg bg-neutral-700/30 border border-neutral-600/30 hover:bg-neutral-700/50 transition-colors"
               >
-                <div className="flex items-start justify-between mb-2">
-                  <div className="flex-1 min-w-0">
-                    <h5 className="text-sm font-medium mb-1">{pathway.name}</h5>
-                    <p className="text-xs text-gray-400 line-clamp-2">{pathway.description}</p>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between text-xs text-gray-400 mb-3">
+                <h5 className="text-sm font-medium mb-1">{pathway.name}</h5>
+                <p className="text-xs text-gray-400 line-clamp-2">{pathway.description}</p>
+                <div className="flex items-center justify-between text-xs text-gray-400 my-3">
                   <span>{pathway.steps} steps</span>
                   <span>{pathway.duration}</span>
                 </div>
-
-                <Button size="sm" className="w-full h-7">
+                <Button
+                  size="sm"
+                  className="w-full h-7"
+                  onClick={() => startPathway(pathway.id, pathway.name)}
+                >
+                  <Compass size={12} className="mr-1" strokeWidth={2} />
                   Start Guided Tour
                 </Button>
               </div>
             ))}
-
-            <div className="pt-2 border-t border-neutral-700">
-              <Button size="sm" variant="ghost" className="w-full h-7">
-                <PlusIcon size={12} className="mr-1" strokeWidth={2} />
-                Create Custom Pathway
-              </Button>
-            </div>
           </TabsContent>
         </div>
       </Tabs>
