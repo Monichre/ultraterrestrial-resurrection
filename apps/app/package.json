@@ -173,7 +173,6 @@
     "gsap": "^3.13.0",
     "gsap-trial": "^3.13.0",
     "harden-react-markdown": "^1.0.4",
-    "inngest": "^3.40.1",
     "input-otp": "^1.4.2",
     "install": "^0.13.0",
     "jsdom": "^26.1.0",
