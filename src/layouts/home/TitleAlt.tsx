@@ -2,7 +2,8 @@
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
+import { onIntroPhase } from "@/components/intro/IntroScene";
 
 const LETTERS = "ULTRATERRESTRIAL".split("");
 
@@ -110,6 +111,25 @@ export function TitleAlt() {
 		},
 		{ scope: containerRef },
 	);
+
+	// Phase-driven exit: when intro hits blackout, fade the title group out.
+	useEffect(() => {
+		const off = onIntroPhase((phase) => {
+			if (!containerRef.current) return;
+			if (phase === "blackout") {
+				gsap.to(containerRef.current, {
+					autoAlpha: 0,
+					filter: "blur(18px)",
+					y: -20,
+					duration: 0.55,
+					ease: "power3.in",
+				});
+			}
+		});
+		return () => {
+			off();
+		};
+	}, []);
 
 	return (
 		<div
