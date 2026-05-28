@@ -17,9 +17,7 @@ export function useTyper({ input, handleInputChange, onSubmit }: UseTyperProps) 
 
   useEffect(() => {
     setActive(input.length > 0)
-    if (input.length > 0) {
-      setShowEnhancedChat(true)
-    }
+    // showEnhancedChat is only set by card click or explicit submit — not on keystroke
   }, [input])
 
   const animationState = active ? "active" : isHovering ? "hover" : "initial"
@@ -73,6 +71,7 @@ export function useTyper({ input, handleInputChange, onSubmit }: UseTyperProps) 
     isHovering,
     setIsHovering,
     showEnhancedChat,
+    setShowEnhancedChat,
     pinnedCard,
     chatState,
     setChatState,

@@ -23,6 +23,27 @@ interface EnhancedMessage {
   description: string
 }
 
+const ENHANCED_MESSAGES: EnhancedMessage[] = [
+  {
+    id: "guided-tour",
+    icon: <FileText className="size-5" />,
+    title: "Guided Tour",
+    description: "Follow curated pathways through UFO history and key events",
+  },
+  {
+    id: "deep-research",
+    icon: <ImageIcon className="size-5" />,
+    title: "Deep Research",
+    description: "Dive deep into specific cases, witness accounts, and documentation",
+  },
+  {
+    id: "explore-network",
+    icon: <CodeXml className="size-5" />,
+    title: "Explore Network",
+    description: "Navigate the interconnected web of UFO phenomena and research",
+  },
+]
+
 export default function ResearchCanvasConsole({
   onSubmit,
   agentStatus,
@@ -30,6 +51,7 @@ export default function ResearchCanvasConsole({
   agentToolEvents,
 }: ResearchCanvasConsoleProps) {
   const [input, setInput] = useState('')
+  const [hasSubmitted, setHasSubmitted] = useState(false)
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setInput(e.target.value)
@@ -39,6 +61,7 @@ export default function ResearchCanvasConsole({
     e.preventDefault()
     const trimmedInput = input.trim()
     if (!trimmedInput) return
+    setHasSubmitted(true)
     onSubmit(trimmedInput)
     setInput('')
   }, [input, onSubmit])
@@ -63,35 +86,23 @@ export default function ResearchCanvasConsole({
     handleInputChangeWrapper,
   } = useTyper({ input, handleInputChange, onSubmit: handleSubmit })
 
-  const enhancedMessages: EnhancedMessage[] = [
-    {
-      id: "guided-tour",
-      icon: <FileText className="size-5" />,
-      title: "Guided Tour",
-      description: "Follow curated pathways through UFO history and key events",
-    },
-    {
-      id: "deep-research",
-      icon: <ImageIcon className="size-5" />,
-      title: "Deep Research",
-      description: "Dive deep into specific cases, witness accounts, and documentation",
-    },
-    {
-      id: "explore-network",
-      icon: <CodeXml className="size-5" />,
-      title: "Explore Network",
-      description: "Navigate the interconnected web of UFO phenomena and research",
-    },
-  ]
+  const handleUnpinAndReset = useCallback(() => {
+    handleUnpin()
+    setHasSubmitted(false)
+  }, [handleUnpin])
+
+  // Show EnhancedAnimatedChat when: card was clicked (showEnhancedChat from hook)
+  // OR user submitted via keyboard (hasSubmitted)
+  const showChat = showEnhancedChat || hasSubmitted
 
   return (
     <div className='w-full max-w-4xl text-white'>
       <div className="relative flex min-h-[400px] w-full flex-col items-center justify-end pb-10">
-        <PinnedCard pinnedCard={pinnedCard} pinnedItem={pinnedItem} onUnpin={handleUnpin} />
+        <PinnedCard pinnedCard={pinnedCard} pinnedItem={pinnedItem} onUnpin={handleUnpinAndReset} />
 
         <CardStack
           active={active}
-          showEnhancedChat={showEnhancedChat}
+          showEnhancedChat={showChat}
           pinnedCard={pinnedCard}
           animationState={animationState}
           isHovering={isHovering}
@@ -101,12 +112,12 @@ export default function ResearchCanvasConsole({
         />
 
         <div className="relative z-10 flex w-full justify-center">
-          {showEnhancedChat && input.length > 0 ? (
+          {showChat ? (
             <EnhancedAnimatedChat
               input={input}
               handleInputChange={handleInputChange}
               handleSubmit={handleSubmit}
-              messages={enhancedMessages}
+              messages={ENHANCED_MESSAGES}
               onMessageClick={handleMessageClick}
               placeholder="Ask about UFO phenomena..."
               animationConfig={ANIMATION_CONFIG}
