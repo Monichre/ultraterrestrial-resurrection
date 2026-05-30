@@ -17,6 +17,9 @@ thumbs.db
 # MCP
 .mcp.json
 
+# Claude local worktrees
+.claude/worktrees/
+
 # Node.js
 node_modules/
 npm-debug.log*
@@ -280,3 +283,4 @@ tasks.json
 .cursor/rules/openmemory.mdc
 CLAUDE.md
 AGENTS.md
+.superpowers/
