@@ -15,22 +15,23 @@ matters. Otherwise just write._
 _Last touched: 2026-05-30 (Claude)_
 
 ## 🟢 Active decisions (this session)
+- [x] **Xata is DEAD DEAD** — service gone. This is a **greenfield rebuild from the Feb-24 CSV export** (the only surviving source of truth), NOT an SDK port. Don't preserve Xata semantics/return-shapes. We own all consumers and refactor them freely. Any Xata-SDK detail = moot.
 - [x] **Documents = immutable evidence**, CRUD only on derived data. (confirmed)
 - [x] **Vectorization = Option A**: owned ingestion pipeline → own pgvector, vectors live next to relational data. (confirmed)
 - [ ] **DB platform** — Supabase vs Neon+Vercel Blob vs self-host. Pending platform-comparison screen.
 - [x] **ufo-ui role** = component/design source (cherry-pick into apps/app, drop the v0 scaffold).
 
 ## 🔬 Xata migration audit — distilled (branch `claude/database-z-jet-audit-XHnL6`)
-Parallel audit; **not merged** (no code, just findings — doc lives on that remote branch).
-Convergent with our architecture: CRUD = easy bulk, `.ask()` RAG = the one real rebuild.
-- **Surface by lift:** 🟢 CRUD (read/getAll/create/update/delete/filter/sort, 200+ sites) = mechanical ORM port · 🟡 aggregate/summarize (~24) = SQL GROUP BY · 🟡 search/`search.all` (~17) = Postgres FTS + ranking tuning · 🔴 `.ask()` (4 core + wrappers) = full rebuild (pgvector + embeddings + LLM).
-- **Adapter seam (= our plan):** keep chokepoint signatures, swap internals (`askXata*`, table-query, platform-wide-connection-search, `fetchNextMindmapRecords`); preserve `{answer, records}` shape so mindmap/SSE consumers don't change.
-- **Reuse:** Xata's per-table column weights (`targetsPerTable`) → our embedding/retrieval config.
-- ⚠️ **Stale coordinates:** audit forked from pre-monorepo Apr-2025 main. Paths `src/...` → real `apps/app/src/...`; `search-operations.ts` gone by that name (seam now `askXata` in `packages/db`). Re-map before trusting any file:line.
+Use it ONLY as a **capabilities inventory** (what the app does with data). Xata-SDK
+specifics below are moot now that Xata's dead — kept just to enumerate features to rebuild.
+- **Capabilities to provide (not port):** plain CRUD (read/list/create/update/delete/filter/sort) · aggregations (counts/sums/time-series) · full-text search w/ ranking · the RAG feature that feeds the mindmap (answer + matched records → React Flow nodes/edges).
+- ~~Adapter seam / preserve `{answer,records}` shape / reuse `targetsPerTable`~~ **MOOT** — no live system to stay compatible with. Rebuild consumers to fit the new layer.
+- ⚠️ Audit file:line coordinates are stale (pre-monorepo) AND now largely irrelevant — treat the doc as a feature checklist, not a code map.
 
-## ❓ GROUND TRUTH NEEDED (blocks scoping the rebuild)
-- **Two AI retrieval paths coexist on dev:** Xata `.ask()` (mindmap via `xata-to-xyflow.ts`) AND OpenAI Assistants/`file_search` (disclosure chat/mindmap routes). **Which is actually wired to the running app?** Determines what "rebuild `.ask()`" means.
-- 🔴 **Security re-verify:** audit flagged hardcoded `xau_` key at `app/api/internal/export/route.ts:64` — route/literal NOT on dev now. Confirm rotated (not just moved). Don't assume.
+## ❓ What actually needs grounding now (requirements, not forensics)
+- Xata-backed CRUD/search/`.ask()` are **all dead by definition** — none of those code paths run today. "Which AI path is live" is answered: not the Xata ones. Surviving functional AI = OpenAI `file_search`, *if* still wired.
+- Real question: **what capabilities must the rebuilt layer provide**, mapped against the **CSV export schema** as source of truth. That's the spec input.
+- 🔴 Leaked `xau_` key is inert (service dead) but scrub from history if still present — hygiene, not urgency.
 
 ## 📌 Parked tasks (do later, don't derail)
 - [ ] **Delta audit**: recompute local knowledge-base sources vs what's actually in the OpenAI Vector Store. Done before; redo. Sources at `packages/knowledge-base/sources/` (+ `apps/disclosure-rag/data/...` new FBI/NASA releases).
