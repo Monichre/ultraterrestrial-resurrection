@@ -1,0 +1,75 @@
+<h2>Target architecture (Option A unified)</h2>
+<p class="subtitle">One source of truth. The Library hosts immutable files; an owned pipeline turns them into vectors that live in the same Postgres as your CRUD records. Both the frontend and the agent read from that single store.</p>
+
+<style>
+  .stage { font-size:11px; text-transform:uppercase; letter-spacing:.08em; opacity:.5; margin:0 0 8px; }
+  .grid { display:flex; gap:14px; align-items:stretch; margin:14px 0; }
+  .b { border:1px solid rgba(255,255,255,.16); border-radius:11px; padding:13px 15px; background:rgba(255,255,255,.035); flex:1; }
+  .b h4 { margin:0 0 5px; font-size:14px; }
+  .b p { margin:0; font-size:11.5px; opacity:.72; line-height:1.5; }
+  .b.lib { border-color:rgba(120,170,255,.5); background:rgba(120,170,255,.06); }
+  .b.pipe { border-color:rgba(190,160,255,.5); background:rgba(190,160,255,.05); }
+  .b.core { border-color:rgba(120,230,180,.55); background:rgba(120,230,180,.06); }
+  .b.consume { border-color:rgba(255,200,120,.5); background:rgba(255,200,120,.05); }
+  .vdown { text-align:center; font-size:20px; opacity:.35; margin:2px 0; }
+  .core-wrap { border:1.5px solid rgba(120,230,180,.55); border-radius:14px; padding:8px 12px 12px; background:rgba(120,230,180,.04); margin:14px 0; }
+  .core-title { font-size:12px; opacity:.8; margin:6px 0 10px; font-weight:600; color:#7fe6b4; }
+  .pill { display:inline-block; font-size:10px; padding:2px 8px; border-radius:20px; background:rgba(0,0,0,.22); margin:2px 4px 2px 0; opacity:.85; }
+  .plat { font-size:11px; opacity:.6; margin-top:6px; font-style:italic; }
+  .note { font-size:12px; opacity:.62; line-height:1.55; margin-top:14px; }
+</style>
+
+<p class="stage">1 · Canonical evidence</p>
+<div class="grid">
+  <div class="b lib">
+    <h4>📚 Library — object storage</h4>
+    <p>Immutable files: PDFs, image sets, transcripts, video. Content-addressed + versioned. Serves originals to the viewer and acts as the citation source. <span class="plat">platform piece: object store</span></p>
+  </div>
+</div>
+
+<div class="vdown">↓ emits new/changed files</div>
+
+<p class="stage">2 · Owned ingestion pipeline</p>
+<div class="grid">
+  <div class="b pipe"><h4>Extract</h4><p>PDF/image/transcript → text + page refs. OCR where needed.</p></div>
+  <div class="b pipe"><h4>Chunk</h4><p>Your chunking strategy (size, overlap, headings). Fully controllable.</p></div>
+  <div class="b pipe"><h4>Embed</h4><p>text-embedding-3-small → vector(1536). Matches your existing schema.</p></div>
+</div>
+
+<div class="vdown">↓ writes rows + vectors</div>
+
+<p class="stage">3 · Single source of truth</p>
+<div class="core-wrap">
+  <div class="core-title">⬢ Postgres + pgvector — one database</div>
+  <div class="grid">
+    <div class="b core">
+      <h4>Relational / CRUD</h4>
+      <p>events, personnel, sightings, testimonies, topics, user-saved-*, notes. Document <em>metadata</em> rows (not the file bytes).</p>
+    </div>
+    <div class="b core">
+      <h4>Vectors (pgvector)</h4>
+      <p>document-chunks.embedding, documents.embedding, entity embeddings. Joinable to the relational rows via FK.</p>
+    </div>
+  </div>
+  <div style="margin-top:6px">
+    <span class="pill">vector search</span><span class="pill">full-text</span><span class="pill">SQL joins</span><span class="pill">filters by entity/date/source</span>
+  </div>
+  <p class="plat" style="margin-top:8px">platform piece: managed Postgres with pgvector + compute to run the pipeline</p>
+</div>
+
+<div class="vdown">↓ both read the same store</div>
+
+<p class="stage">4 · Consumers (now sharing one brain)</p>
+<div class="grid">
+  <div class="b consume">
+    <h4>Frontend consumption</h4>
+    <p>Cards, mindmap nodes, detail views, semantic search, "related evidence." Reads via the db layer.</p>
+  </div>
+  <div class="b consume">
+    <h4>Agent / AI corpus</h4>
+    <p>Retrieval = pgvector similarity + full-text + entity filters, all in SQL. OpenAI file_search becomes optional / retired.</p>
+  </div>
+</div>
+
+<p class="note"><strong>What this buys you:</strong> edit/derive an entity in the UI and the agent sees it; ingest a new FBI release into the Library and it's instantly in both the agent's corpus and the frontend search — because there's only one store. No more silo drift.</p>
+<p class="note"><strong>Still need to fill 3 platform boxes:</strong> ① object store (Library) ② managed Postgres + pgvector ③ compute for the ingestion pipeline. That's the platform decision — and now it's a concrete checklist instead of a vibe. Ready to look at how Supabase vs Neon+Blob vs self-host fill these?</p>
