@@ -20,6 +20,18 @@ _Last touched: 2026-05-30 (Claude)_
 - [ ] **DB platform** — Supabase vs Neon+Vercel Blob vs self-host. Pending platform-comparison screen.
 - [x] **ufo-ui role** = component/design source (cherry-pick into apps/app, drop the v0 scaffold).
 
+## 🔬 Xata migration audit — distilled (branch `claude/database-z-jet-audit-XHnL6`)
+Parallel audit; **not merged** (no code, just findings — doc lives on that remote branch).
+Convergent with our architecture: CRUD = easy bulk, `.ask()` RAG = the one real rebuild.
+- **Surface by lift:** 🟢 CRUD (read/getAll/create/update/delete/filter/sort, 200+ sites) = mechanical ORM port · 🟡 aggregate/summarize (~24) = SQL GROUP BY · 🟡 search/`search.all` (~17) = Postgres FTS + ranking tuning · 🔴 `.ask()` (4 core + wrappers) = full rebuild (pgvector + embeddings + LLM).
+- **Adapter seam (= our plan):** keep chokepoint signatures, swap internals (`askXata*`, table-query, platform-wide-connection-search, `fetchNextMindmapRecords`); preserve `{answer, records}` shape so mindmap/SSE consumers don't change.
+- **Reuse:** Xata's per-table column weights (`targetsPerTable`) → our embedding/retrieval config.
+- ⚠️ **Stale coordinates:** audit forked from pre-monorepo Apr-2025 main. Paths `src/...` → real `apps/app/src/...`; `search-operations.ts` gone by that name (seam now `askXata` in `packages/db`). Re-map before trusting any file:line.
+
+## ❓ GROUND TRUTH NEEDED (blocks scoping the rebuild)
+- **Two AI retrieval paths coexist on dev:** Xata `.ask()` (mindmap via `xata-to-xyflow.ts`) AND OpenAI Assistants/`file_search` (disclosure chat/mindmap routes). **Which is actually wired to the running app?** Determines what "rebuild `.ask()`" means.
+- 🔴 **Security re-verify:** audit flagged hardcoded `xau_` key at `app/api/internal/export/route.ts:64` — route/literal NOT on dev now. Confirm rotated (not just moved). Don't assume.
+
 ## 📌 Parked tasks (do later, don't derail)
 - [ ] **Delta audit**: recompute local knowledge-base sources vs what's actually in the OpenAI Vector Store. Done before; redo. Sources at `packages/knowledge-base/sources/` (+ `apps/disclosure-rag/data/...` new FBI/NASA releases).
 - [ ] **`packages/db` adapter rewrite**: Xata → Postgres without changing the ~10 `@db/xata` import sites in `apps/app/src`. (events, contexts, routes, features).
