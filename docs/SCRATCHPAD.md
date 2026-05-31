@@ -48,6 +48,13 @@ specifics below are moot now that Xata's dead — kept just to enumerate feature
 - **Load quirks (confirmed):** `&amp;#44;` in sightings.comments (~32,752) decode · `multiple` cols = Python list literals → `text[]` · FK = bare `rec_*`, `''` → NULL · filter header-echo rows (`id=='id'`) · normalize all embeddings to `vector(1536)` (fix orgs-500, chunks-3 anomalies).
 - **Load strategy:** keep `rec_*` text PKs for initial direct CSV import (clean tables); regenerate embeddings; documents from source not CSV; surrogate keys later if needed.
 
+## 🗂 disclosure-rag verdict (rag-reviewer — full report `docs/design/disclosure-rag-review.md`)
+**Harvest-then-retire.** Nothing runs (AGNO agents fail import, FastAPI won't start, Streamlit broken, frozen Sept 2025). It's reusable logic, not a parallel product.
+- **Harvest:** `agents/prompts.py` (11 UAP-domain prompts → #3) · entity write-policy `off/staging/auto`+`min_confidence 0.75` (→ #2) · **128 govt FOIA PDFs** `data/government/pursue_war_gov/` not yet in KB (→ #2 primary-tier corpus) · Friedman evidence-tier → `source_tier` col on documents (→ #1) · CocoIndex entity dataclasses → TS interfaces (→ #2) · Honcho memory pattern (optional → #3).
+- **Run now:** `vector_storage/check_openai_vectorstore.py` → the delta audit, before we drop the OpenAI VS dependency.
+- **Retire:** AGNO layer, FastAPI, Streamlit, CLI, FAISS (empty), Upstash (1024-dim, incompatible), all the "✅ Production Ready" marketing docs.
+- Friedman `source_tier` = the concrete version of the [[Vallée/Pasulka methodology]] idea below.
+
 ## 📌 Parked tasks (do later, don't derail)
 - [ ] **Delta audit**: recompute local knowledge-base sources vs what's actually in the OpenAI Vector Store. Done before; redo. Sources at `packages/knowledge-base/sources/` (+ `apps/disclosure-rag/data/...` new FBI/NASA releases).
 - [ ] **`packages/db` adapter rewrite**: Xata → Postgres without changing the ~10 `@db/xata` import sites in `apps/app/src`. (events, contexts, routes, features).

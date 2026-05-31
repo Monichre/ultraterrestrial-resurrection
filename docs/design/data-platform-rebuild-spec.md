@@ -79,6 +79,9 @@ them; otherwise defer.
 - **FTS:** add `tsvector` generated columns + GIN indexes on the text-heavy searchable tables
   (sightings.comments, documents, testimonies, topics, personnel.bio) to replace Xata `.search()`.
 - **Reserved words:** quote `"user"` etc.
+- **`source_tier`:** add `source_tier text` (`primary` | `secondary` | `supporting`) to `documents` —
+  evidence-tier classification harvested from disclosure-rag's Friedman framework. Column defined
+  here in #1; populated during ingestion in #2.
 
 ## Data flow
 
@@ -141,14 +144,22 @@ sources + FBI/NASA releases). Owned TS pipeline: extract (Docling for PDFs, tran
 handlers) → chunk (real chunking, sizes/overlap TBD) → embed (`text-embedding-3-small`) →
 write `document_chunks` + entity embeddings to pgvector. Re-ingest the 400 documents from
 source. Regenerate ALL entity embeddings (topics/personnel/events/orgs/testimonies/artifacts).
-Port disclosure-rag's entity-extraction schema/prompt + entity→table mappings verbatim. Build
+Port disclosure-rag's entity-extraction schema/prompt + entity→table mappings verbatim, plus its
+**entity write-policy** (`off/staging/auto`, `min_confidence 0.75`) and **CocoIndex entity
+dataclasses → TS interfaces**. **Ingest the 128 government FOIA PDFs** (`apps/disclosure-rag/data/government/pursue_war_gov/`)
+as new primary-tier corpus, and classify each doc's **`source_tier`** (Friedman framework). Build
 the delta-audit (`check_openai_vectorstore.py` method) to reconcile against the OpenAI store.
 
 **#3 App data-layer cutover:** new `@db` client (Drizzle/Kysely TBD) implementing the
 capabilities the audit inventoried — CRUD, Postgres FTS (replacing `.search()`), aggregations
 (GROUP BY), and a pgvector retrieval module that replaces the OpenAI `file_search` corpus +
 rebuilds the mindmap RAG feature (return `{answer, records}` to the existing React Flow
-consumers, which we can also refactor freely). Rewire all `@db/xata` import sites.
+consumers, which we can also refactor freely). Rewire all `@db/xata` import sites. Harvest
+disclosure-rag's `agents/prompts.py` (11 UAP-domain system prompts) for domain-specialized RAG
+routing; optionally port the Honcho researcher-session memory pattern (one TS file).
+
+**`apps/disclosure-rag` disposition:** harvest-then-retire — nothing in it runs (see
+`docs/design/disclosure-rag-review.md`). Keep alive only until the harvest items land, then remove.
 
 **#4 ufo-ui cherry-pick:** harvest the good components/screens from `apps/ufo-ui` (v0 export,
 Next 16) into `apps/app` (Next 15.3.5); reconcile deps; drop the v0 scaffold + stray
