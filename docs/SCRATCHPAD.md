@@ -18,7 +18,8 @@ _Last touched: 2026-05-30 (Claude)_
 - [x] **Xata is DEAD DEAD** — service gone. This is a **greenfield rebuild from the Feb-24 CSV export** (the only surviving source of truth), NOT an SDK port. Don't preserve Xata semantics/return-shapes. We own all consumers and refactor them freely. Any Xata-SDK detail = moot.
 - [x] **Documents = immutable evidence**, CRUD only on derived data. (confirmed)
 - [x] **Vectorization = Option A**: owned ingestion pipeline → own pgvector, vectors live next to relational data. (confirmed)
-- [~] **DB platform = REOPENED 2026-05-31** (was Supabase). Graph-engine question raised — see "🕸 Graph-engine fork" below. Supabase still leads IF graph stays relational; but if native openCypher Graph-RAG is near-term, Supabase is OUT (can't run Apache AGE).
+- [x] **DB platform = Postgres + pgvector, SINGLE engine, AGE deferred** (soft yes, 2026-05-31). Relational spine + vectors colocated (free joins). Host stays managed-friendly (Supabase/Neon) — edge model is vanilla-Postgres-portable, so AGE/self-host remains a fast-follow, not a prerequisite. See "🕸 Graph-engine fork — RESOLVED" below.
+- [x] **Graph = GraphRAG, not a graph engine.** Edges are *extracted by the ingestion pipeline* (disclosure-rag `relationships` taxonomy: conf + source sentence), not hand-authored. Traversal is the *agent's* job (vector-find → graph-expand tool), not hand-written CTE/Cypher. Unified `edges` model lives in #1; AGE only if the agent ever needs to emit Cypher for open-ended path-finding.
 - [x] **ufo-ui role** = component/design source (cherry-pick into apps/app, drop the v0 scaffold).
 
 ## 🔬 Xata migration audit — distilled (branch `claude/database-z-jet-audit-XHnL6`)
@@ -46,17 +47,31 @@ specifics below are moot now that Xata's dead — kept just to enumerate feature
 - **`documents` CSV is unusable** — embeddings corrupted across all 400 rows, metadata spilled/unrecoverable. **Re-ingest documents from source files** (`packages/knowledge-base/sources/` + FBI/NASA releases) via the Library + pipeline.
 - **`key-figures` = exact dup of `personnel`** (930 rows, broken embedding) → drop/merge.
 - **Load quirks (confirmed):** `&amp;#44;` in sightings.comments (~32,752) decode · `multiple` cols = Python list literals → `text[]` · FK = bare `rec_*`, `''` → NULL · filter header-echo rows (`id=='id'`) · normalize all embeddings to `vector(1536)` (fix orgs-500, chunks-3 anomalies).
-- **Load strategy:** keep `rec_*` text PKs for initial direct CSV import (clean tables); regenerate embeddings; documents from source not CSV; surrogate keys later if needed.
+- **Load strategy:** ~~keep `rec_*` text PKs~~ **SUPERSEDED 2026-05-31** — see "🔑 ID normalization" below (Liam wants Xata identity gone now, via crosswalk).
 
-## 🕸 Graph-engine fork (NEW — 2026-05-31, triggered by Liam's research note)
-Question: do we want **native graph (openCypher Graph-RAG)** in the engine, alongside relational + vector?
-- **Domain is graph-shaped** (disclosure networks; 5 junction tables already = edges; mindmap = graph view). Graph-RAG (vector-find → traverse) is well-motivated.
-- **BUT Postgres+pgvector already does graph traversal** via junction tables + recursive CTEs for the shallow depth the mindmap needs. AGE/openCypher only pays off at deep/variable-length/perf-critical traversal. = a LATER problem, maybe never.
-- **LOAD-BEARING FACT: Supabase CANNOT run Apache AGE** (not on its extension allowlist). **Neon can't either** (no custom C-extensions). So "native graph" ⟹ NOT Supabase/Neon. ← this is the real reason to hesitate on Supabase.
-- **AGE needs self-host or Azure:** self-host Postgres+AGE+pgvector on **Fly/Railway** (Liam already runs Hermes on Fly.io → within ops comfort) OR **Azure DB for PostgreSQL Flexible Server** (managed AGE + pgvector + pgai). Verify current ext support before committing.
-- **SurrealDB** = native multi-model but biggest bet: discards the direct CSV→Postgres import edge, SurrealQL rewrite, younger DB/less-proven vectors. Rank 3rd for this 0-to-1.
-- **KEY: this does NOT block sub-project #1.** The relational schema + pgvector DDL are identical & portable across Supabase/Neon/Azure/self-host. AGE just projects a graph over the same tables. Keep #1 vanilla-Postgres-portable; defer the graph-engine/host decision to ~#2.
-- **OPEN DECISION (Liam):** is openCypher Graph-RAG **near-term** (→ self-host Fly/Railway Postgres+AGE+pgvector, or Azure) or **later** (→ Supabase/managed now, add AGE if/when)? Resolves the host.
+## 🔑 ID normalization + crosswalk (firsthand CSV review, Claude, 2026-05-31)
+Reviewed `packages/db/docs/exports/*.csv` directly (NOT via subagent). Findings:
+- **PK column is already `id`** (export stripped `xata_id`/`xata_createdat`/`xata_updatedat`). Residue = (a) the id *values* are `rec_*` Xata record ids (e.g. `rec_cobdfd4jmvif9dabl0g0`), (b) a stray `key-figures.xataversion` col, (c) `tags.csv`/`theories.csv` = 0 rows w/ garbage `id,id,id,…` headers → **drop both**.
+- **`key-figures.csv` == `personnel.csv` line-for-line** (both 11,893 lines) → confirmed dup → **drop key-figures**.
+- **The graph is already on disk as edge lists:** junctions are clean `rec_*→rec_*` pairs; entity FKs too (`testimonies.event/witness=rec_*`). Edges already exist — they're just fragmented.
+- **"Corruption" was mostly my naive-awk artifact:** `coordinates` is a quoted `lat,lng` (comma inside); `bio`/`description` have real newlines. ⇒ **quote-aware parser mandatory** (Python `csv` / psycopg `COPY … CSV`). (documents.csv embedding corruption is the one genuine on-disk loss → re-ingest from source per inventory.)
+- **DECISION — normalize ids via staging + crosswalk (the user's "temp table"):**
+  1. **Stage raw**: load each CSV verbatim (quote-aware), `rec_*` intact, no constraints → `staging.<table>`.
+  2. **Crosswalk = `id_map(node_id BIGINT GENERATED ALWAYS AS IDENTITY, entity_type text, legacy_id text, UNIQUE(entity_type, legacy_id))`** — ONE global id space across ALL entities. This persists/preserves the unique ids across relations AND **doubles as the graph node registry** (id normalization and the unified node space are the same artifact).
+  3. **Materialize clean tables**: new `id BIGINT PK` (from crosswalk) + keep `legacy_id text` (provenance / delta-audit vs OpenAI store keyed on rec_*). Remap the row's own id AND every FK col via JOIN on `id_map`.
+  4. **Edges** (junctions + FKs + extracted) reference `node_id` (compact bigint joins — ideal for traversal).
+  5. Add FK constraints last; report dangling.
+  - Tradeoff acknowledged: crosswalk = more work/risk than carrying `rec_*`, bought for clean non-Xata ids + a ready-made global node space. `legacy_id` keeps the bridge to the past.
+
+## 🕸 Graph-engine fork — RESOLVED 2026-05-31
+The fork dissolved once we separated **graph MODEL** from **graph ENGINE** from **edge CREATION**:
+- **Graph is core, not "later"** (Liam pushed back hard — connecting dots across 13 heterogeneous tables IS the project). My earlier "shallow traversal → defer graph" was wrong: it deferred the *model*, not just the *engine*.
+- **Graph MODEL → in #1 now.** Collapse the fragmented relationships (5 junction tables + ~dozen FK cols) into ONE uniform `edges(src, src_type, rel, dst, dst_type, conf, provenance)` table. This is the cure for the "13 tables, varying columns" nightmare and is vanilla-Postgres.
+- **Edge CREATION is automatic, not manual.** The ingestion pipeline (disclosure-rag `entity_extraction`, which already emits a `relationships` type with confidence + source sentence) writes edges *from the document text*. Junction tables seed structural edges; extraction adds the rich latent ones (Lazar→worked_at→S-4). Governed by the existing write-policy (`off/staging/auto`, `min_confidence 0.75`).
+- **Traversal is the AGENT's job, not hand-written queries.** Mindmap agent: user asks in English → vector-find entry nodes → graph-expand via a `get_connected(entity, depth, rel)` tool → answer + draw map. No human types CTE/Cypher.
+- **Graph ENGINE (AGE) = deferred upgrade.** Fixed `get_connected` SQL/CTE tool runs on *managed* Postgres (Supabase/Neon) with zero generated-query risk = the v1 default. AGE (→ self-host Fly, where Hermes already runs, or Azure Flexible Server) only if the agent needs to *emit Cypher* for open-ended path-finding. The `edges` table makes adopting AGE a non-migration.
+- **Rejected:** **Weaviate** (you have an instance, but it can't hold the relational/analytical bulk → always a 2nd store + sync = the exact thing Option A kills; its scale wins are irrelevant at ~thousands of vectors). **SurrealDB** (native graph, but throws away the CSV→PG import edge + SurrealQL rewrite + bets the analytical bulk on a younger engine; AGE-over-PG dominates it). 
+- ⚠️ Verify before spending: Azure Flexible Server *currently* ships AGE; Supabase/Neon *still* exclude it. (ctx7 was down — couldn't doc-check live.)
 
 ## 🗂 disclosure-rag verdict — CORRECTED 2026-05-31 (subagent review was wrong about the centerpiece; Liam flagged it)
 ⚠️ The subagent review (`docs/design/disclosure-rag-review.md`) concluded "harvest-then-retire / nothing runs." **Wrong about the core.** Claude read `main.py`/`main.sh` directly:
