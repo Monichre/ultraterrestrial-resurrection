@@ -1,5 +1,19 @@
 # `apps/disclosure-rag` — Subsystem Review & Harvest Verdict
 
+> ⚠️ **CORRECTION (2026-05-31, Claude after reading `main.py`/`main.sh` directly; Liam flagged the error):**
+> This review's overall "harvest-then-retire / nothing runs" conclusion is **WRONG about the centerpiece.**
+> `main.py` + its core `lib/` modules are the **working production ingestion pipeline** Liam used to
+> catalogue, collect, and vectorize the ~1,477 records into the OpenAI vector store (`UFO_DATA_STORE_ID`)
+> that the live Next.js mindmap agent reads. Flow: extract (YouTube/web/file) → `add_to_knowledge_base`
+> → `upload_file_to_openai` (→ OpenAI vector store) → entity extraction → Xata. It is connected to the
+> Next.js app *via the corpus it produces*. **Corrected disposition:** the CORE pipeline (`main.py` +
+> `lib/knowledge_base_service`, `lib/openai_client/upload`, `lib/knowledge_base_crud`,
+> `lib/entity_extraction`, `processing/web_content_processor`) = **the reference blueprint for
+> sub-project #2's owned TS pipeline — port/modernize, do not reinvent.** Only the experimental
+> bolt-ons (AGNO, CocoIndex KG, FAISS, Streamlit, mem0/Honcho — all `try/except`-optional) are
+> retire/optional. The per-subsystem verdicts below for those *bolt-ons* are likely fine; the
+> framing that treated the whole app as dead is not. Read with that lens.
+
 **Date:** 2026-05-31  
 **Reviewer:** Read-only audit agent  
 **Basis:** Ground-truth code reading; ingestion pipeline covered in `ingestion-analysis.md` — not repeated here.  
