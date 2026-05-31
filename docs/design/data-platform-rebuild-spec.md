@@ -45,8 +45,12 @@ all non-document tables populated and verified.
 
 ## Components
 
-1. **Supabase project** — Postgres 15+, `vector` (pgvector) extension enabled, a private Storage
-   bucket `library` created (used in #2). Connection via pooled connection string in env.
+1. **Postgres host (TBD — see graph-engine fork)** — Postgres 15+, `vector` (pgvector) extension,
+   + object storage for the Library (used in #2). **Keep all DDL vanilla-Postgres-portable** so the
+   host can be Supabase, Neon, Azure Flexible Server, or self-hosted Fly/Railway without schema
+   changes. The host decision is deferred (it hinges on whether native openCypher Graph-RAG via
+   Apache AGE is near-term — Supabase/Neon can't run AGE; self-host/Azure can). #1's relational
+   schema + pgvector columns are identical either way. Connection via pooled connection string in env.
 2. **Schema migration** (`supabase/migrations/0001_init.sql`) — the target tables, types, PKs,
    FKs, vector columns (empty for now), and FTS `tsvector` columns + GIN indexes.
 3. **CSV loader** — **Python + psycopg**, in `apps/app/scripts/xata-exports/seed/` (matches the

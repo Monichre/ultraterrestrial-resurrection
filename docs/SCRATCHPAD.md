@@ -18,7 +18,7 @@ _Last touched: 2026-05-30 (Claude)_
 - [x] **Xata is DEAD DEAD** — service gone. This is a **greenfield rebuild from the Feb-24 CSV export** (the only surviving source of truth), NOT an SDK port. Don't preserve Xata semantics/return-shapes. We own all consumers and refactor them freely. Any Xata-SDK detail = moot.
 - [x] **Documents = immutable evidence**, CRUD only on derived data. (confirmed)
 - [x] **Vectorization = Option A**: owned ingestion pipeline → own pgvector, vectors live next to relational data. (confirmed)
-- [x] **DB platform = Supabase** — Postgres+pgvector + integrated Storage (the Library) + Edge Functions/queues for ingestion. Pure-merits pick; document re-ingestion need favored integrated storage. (decided 2026-05-30)
+- [~] **DB platform = REOPENED 2026-05-31** (was Supabase). Graph-engine question raised — see "🕸 Graph-engine fork" below. Supabase still leads IF graph stays relational; but if native openCypher Graph-RAG is near-term, Supabase is OUT (can't run Apache AGE).
 - [x] **ufo-ui role** = component/design source (cherry-pick into apps/app, drop the v0 scaffold).
 
 ## 🔬 Xata migration audit — distilled (branch `claude/database-z-jet-audit-XHnL6`)
@@ -47,6 +47,16 @@ specifics below are moot now that Xata's dead — kept just to enumerate feature
 - **`key-figures` = exact dup of `personnel`** (930 rows, broken embedding) → drop/merge.
 - **Load quirks (confirmed):** `&amp;#44;` in sightings.comments (~32,752) decode · `multiple` cols = Python list literals → `text[]` · FK = bare `rec_*`, `''` → NULL · filter header-echo rows (`id=='id'`) · normalize all embeddings to `vector(1536)` (fix orgs-500, chunks-3 anomalies).
 - **Load strategy:** keep `rec_*` text PKs for initial direct CSV import (clean tables); regenerate embeddings; documents from source not CSV; surrogate keys later if needed.
+
+## 🕸 Graph-engine fork (NEW — 2026-05-31, triggered by Liam's research note)
+Question: do we want **native graph (openCypher Graph-RAG)** in the engine, alongside relational + vector?
+- **Domain is graph-shaped** (disclosure networks; 5 junction tables already = edges; mindmap = graph view). Graph-RAG (vector-find → traverse) is well-motivated.
+- **BUT Postgres+pgvector already does graph traversal** via junction tables + recursive CTEs for the shallow depth the mindmap needs. AGE/openCypher only pays off at deep/variable-length/perf-critical traversal. = a LATER problem, maybe never.
+- **LOAD-BEARING FACT: Supabase CANNOT run Apache AGE** (not on its extension allowlist). **Neon can't either** (no custom C-extensions). So "native graph" ⟹ NOT Supabase/Neon. ← this is the real reason to hesitate on Supabase.
+- **AGE needs self-host or Azure:** self-host Postgres+AGE+pgvector on **Fly/Railway** (Liam already runs Hermes on Fly.io → within ops comfort) OR **Azure DB for PostgreSQL Flexible Server** (managed AGE + pgvector + pgai). Verify current ext support before committing.
+- **SurrealDB** = native multi-model but biggest bet: discards the direct CSV→Postgres import edge, SurrealQL rewrite, younger DB/less-proven vectors. Rank 3rd for this 0-to-1.
+- **KEY: this does NOT block sub-project #1.** The relational schema + pgvector DDL are identical & portable across Supabase/Neon/Azure/self-host. AGE just projects a graph over the same tables. Keep #1 vanilla-Postgres-portable; defer the graph-engine/host decision to ~#2.
+- **OPEN DECISION (Liam):** is openCypher Graph-RAG **near-term** (→ self-host Fly/Railway Postgres+AGE+pgvector, or Azure) or **later** (→ Supabase/managed now, add AGE if/when)? Resolves the host.
 
 ## 🗂 disclosure-rag verdict (rag-reviewer — full report `docs/design/disclosure-rag-review.md`)
 **Harvest-then-retire.** Nothing runs (AGNO agents fail import, FastAPI won't start, Streamlit broken, frozen Sept 2025). It's reusable logic, not a parallel product.
