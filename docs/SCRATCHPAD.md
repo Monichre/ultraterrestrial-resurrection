@@ -14,6 +14,20 @@ matters. Otherwise just write._
 
 _Last touched: 2026-05-30 (Claude)_
 
+## 🧭 CURRENT THREAD (2026-05-31, post-compaction resume here)
+**Mode = COMPREHENSION, not deciding.** Liam (rightly) flagged that Claude was hurrying — locking specs on a system not fully understood. Each turn surfaced another unread file that changed the picture. So: **stop deciding, build a trustworthy system map first.**
+- **Method (PINNED):** whiteboard 2–3 user stories, trace each down the full stack — `UI/UX → function call → query layer → resource requested → RESOURCE → RESPONSE → (mods) → state → UI/UX → result` — citing real `file:line` per hop, flagging **real vs aspirational** at the RESOURCE hop (where myths live: Quinuple RAG, FAISS, Upstash).
+- **Diagram + stories + method are in the collab canvas:** `docs/design/canvas/2026-05-31-system-trace/` (legacy July-2025 flow SVG imported as foil + INDEX.md). 
+- **3 candidate stories (pending Liam's pick — start #1):** (1) "Ask the board a question" = mindmap agent path; (2) "Seed board from known record" = relational/no-AI; (3) Prometheus chat. See canvas INDEX.
+- **CORRECTIONS to earlier-locked claims (the spec a0b948b is now SUSPECT until traces verify):**
+  - ⚠️ **Assistants API ≠ Vector Stores API.** Assistants API deprecating does NOT kill the vector store `vs_meWOEnUiUxtQWf0W6NBsNpCG` — it persists via Responses API `file_search`. NO corpus fire-drill. (Old delta error `'Beta' has no attribute 'vector_stores'` = stale SDK calling `client.beta.vector_stores`; now top-level.)
+  - **`packages/db/migrations/001_create_tables.sql`** = authoritative full Postgres schema (gen'd from `packages/db/docs/exports/schema.json`); its FK block (L464–507) = the canonical structural-edge map. **Build ON it**, don't write from scratch.
+  - **`packages/db/xata-to-supabase.md`** explicitly says KEEP `rec_*` text PKs, never auto-generate — the OPPOSITE of the bigint+crosswalk I locked. ⇒ id-strategy is an OPEN decision again (Liam leans normalize; prior guidance says keep). Don't treat crosswalk as settled.
+  - **Chunking already decided** (`migration/openai-assistant/prometheus_agent_config.yaml`): recursive splitter, **1500 / 200 overlap**, `text-embedding-3-small`/1536. Removes "TBD".
+  - **Corpus counts:** OpenAI store = **1,292 files** (not 1,477); local knowledge-base = **448 files** (31 pdf/407 transcript/10 md per delta-report); `documents` table = 400 rows. The 1,292 store bytes are NOT on disk (`migration/openai-assistant/files/` empty; only manifests survive).
+  - Agent config also yields the real **system prompt + 10-section NER output format + tool map** (searchDatabase, transformXYFlow, file_search, code_interpreter) → for #3.
+- **Layer-ignorance map (what Claude still hasn't read firsthand):** `apps/app` consumers + AI routes (assumed only); most of `packages/db` (src SDKs, types, api/ search fns, `xata-to-xyflow.ts`, seed scripts); disclosure-rag `lib/`+`adapters/dual_rag_adapter.py`+`agents/prompts.py`; knowledge-base `sources/`; `apps/ufo-ui`; what retrieval backends actually run vs myth.
+
 ## 🟢 Active decisions (this session)
 - [x] **Xata is DEAD DEAD** — service gone. This is a **greenfield rebuild from the Feb-24 CSV export** (the only surviving source of truth), NOT an SDK port. Don't preserve Xata semantics/return-shapes. We own all consumers and refactor them freely. Any Xata-SDK detail = moot.
 - [x] **Documents = immutable evidence**, CRUD only on derived data. (confirmed)
