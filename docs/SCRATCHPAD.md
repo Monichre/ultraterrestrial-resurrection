@@ -18,7 +18,7 @@ _Last touched: 2026-05-30 (Claude)_
 - [x] **Xata is DEAD DEAD** — service gone. This is a **greenfield rebuild from the Feb-24 CSV export** (the only surviving source of truth), NOT an SDK port. Don't preserve Xata semantics/return-shapes. We own all consumers and refactor them freely. Any Xata-SDK detail = moot.
 - [x] **Documents = immutable evidence**, CRUD only on derived data. (confirmed)
 - [x] **Vectorization = Option A**: owned ingestion pipeline → own pgvector, vectors live next to relational data. (confirmed)
-- [ ] **DB platform** — Supabase vs Neon+Vercel Blob vs self-host. Pending platform-comparison screen.
+- [x] **DB platform = Supabase** — Postgres+pgvector + integrated Storage (the Library) + Edge Functions/queues for ingestion. Pure-merits pick; document re-ingestion need favored integrated storage. (decided 2026-05-30)
 - [x] **ufo-ui role** = component/design source (cherry-pick into apps/app, drop the v0 scaffold).
 
 ## 🔬 Xata migration audit — distilled (branch `claude/database-z-jet-audit-XHnL6`)
@@ -28,10 +28,25 @@ specifics below are moot now that Xata's dead — kept just to enumerate feature
 - ~~Adapter seam / preserve `{answer,records}` shape / reuse `targetsPerTable`~~ **MOOT** — no live system to stay compatible with. Rebuild consumers to fit the new layer.
 - ⚠️ Audit file:line coordinates are stale (pre-monorepo) AND now largely irrelevant — treat the doc as a feature checklist, not a code map.
 
-## ❓ What actually needs grounding now (requirements, not forensics)
-- Xata-backed CRUD/search/`.ask()` are **all dead by definition** — none of those code paths run today. "Which AI path is live" is answered: not the Xata ones. Surviving functional AI = OpenAI `file_search`, *if* still wired.
-- Real question: **what capabilities must the rebuilt layer provide**, mapped against the **CSV export schema** as source of truth. That's the spec input.
-- 🔴 Leaked `xau_` key is inert (service dead) but scrub from history if still present — hygiene, not urgency.
+## ✅ Ground truth (resolved by ingestion-scout, 2026-05-30)
+- **Live AI corpus = OpenAI Vector Store `vs_meWOEnUiUxtQWf0W6NBsNpCG`** (~1,477 files), feeds the Next.js mindmap agent via `file_search`. Xata `.ask()` is dead. This is what our owned pgvector pipeline absorbs/replaces.
+- Real spec question now: **what capabilities must the rebuilt layer provide**, mapped against the **CSV export schema** (source of truth). ← schema-scout reporting on this.
+- 🔴 Leaked `xau_` key is inert (service dead); scrub from history if still present — hygiene, not urgency.
+
+## ♻️ Reuse from disclosure-rag (ingestion-scout — full report `docs/design/ingestion-analysis.md`)
+- **Port verbatim:** entity-extraction schema + prompt (9-type taxonomy: personnel/orgs/events/topics/locations/artifacts/sightings/testimonies/relationships, GPT-4 function-calling w/ confidence + context sentences); entity→table mappings (1:1 with our schema).
+- **Reuse as the delta-audit tool:** `vector_storage/check_openai_vectorstore.py` (paginates the OpenAI VS files, diffs vs local). Store ID `vs_meWOEnUiUxtQWf0W6NBsNpCG`.
+- **Pattern to adopt:** Docling for layout-aware PDF→markdown.
+- **Embedding:** our `text-embedding-3-small`/1536 confirmed; do NOT reuse Python's `all-MiniLM-L6-v2`/384d vectors (incompatible). Python pipeline does NO chunking — we add real chunking.
+- **Ignore (dead/aspirational):** CocoIndex ETL (refs non-existent gpt-5, Neo4j dep), `topic_classifier.py` (broken), FAISS (dead), multi-model consensus in `enhanced_content_analysis.py` (over-engineered), `index_knowledge_base.py` PDF "extraction" (returns filename).
+
+## 📊 Data model (schema-scout — full report `docs/design/data-model-inventory.md`)
+- **31 tables / ~119,734 rows**; 20 populated, 7 empty, 4 to drop. Core: sightings 86,962 · locations 27,866 · personnel 930 · documents 400 · testimonies 356 · events 282 · topics 182 · organizations 80 · artifacts 72 · + 5 junction tables.
+- **Embeddings must be fully regenerated** — only ~1 populated embedding row survived per table in the export. ⇒ our owned pipeline is mandatory, not optional. Volume is moderate (~2.3k entity rows + chunks from 400 re-ingested docs), not 119k.
+- **`documents` CSV is unusable** — embeddings corrupted across all 400 rows, metadata spilled/unrecoverable. **Re-ingest documents from source files** (`packages/knowledge-base/sources/` + FBI/NASA releases) via the Library + pipeline.
+- **`key-figures` = exact dup of `personnel`** (930 rows, broken embedding) → drop/merge.
+- **Load quirks (confirmed):** `&amp;#44;` in sightings.comments (~32,752) decode · `multiple` cols = Python list literals → `text[]` · FK = bare `rec_*`, `''` → NULL · filter header-echo rows (`id=='id'`) · normalize all embeddings to `vector(1536)` (fix orgs-500, chunks-3 anomalies).
+- **Load strategy:** keep `rec_*` text PKs for initial direct CSV import (clean tables); regenerate embeddings; documents from source not CSV; surrogate keys later if needed.
 
 ## 📌 Parked tasks (do later, don't derail)
 - [ ] **Delta audit**: recompute local knowledge-base sources vs what's actually in the OpenAI Vector Store. Done before; redo. Sources at `packages/knowledge-base/sources/` (+ `apps/disclosure-rag/data/...` new FBI/NASA releases).
