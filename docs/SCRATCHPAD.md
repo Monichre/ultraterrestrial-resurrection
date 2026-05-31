@@ -58,12 +58,15 @@ Question: do we want **native graph (openCypher Graph-RAG)** in the engine, alon
 - **KEY: this does NOT block sub-project #1.** The relational schema + pgvector DDL are identical & portable across Supabase/Neon/Azure/self-host. AGE just projects a graph over the same tables. Keep #1 vanilla-Postgres-portable; defer the graph-engine/host decision to ~#2.
 - **OPEN DECISION (Liam):** is openCypher Graph-RAG **near-term** (→ self-host Fly/Railway Postgres+AGE+pgvector, or Azure) or **later** (→ Supabase/managed now, add AGE if/when)? Resolves the host.
 
-## 🗂 disclosure-rag verdict (rag-reviewer — full report `docs/design/disclosure-rag-review.md`)
-**Harvest-then-retire.** Nothing runs (AGNO agents fail import, FastAPI won't start, Streamlit broken, frozen Sept 2025). It's reusable logic, not a parallel product.
-- **Harvest:** `agents/prompts.py` (11 UAP-domain prompts → #3) · entity write-policy `off/staging/auto`+`min_confidence 0.75` (→ #2) · **128 govt FOIA PDFs** `data/government/pursue_war_gov/` not yet in KB (→ #2 primary-tier corpus) · Friedman evidence-tier → `source_tier` col on documents (→ #1) · CocoIndex entity dataclasses → TS interfaces (→ #2) · Honcho memory pattern (optional → #3).
-- **Run now:** `vector_storage/check_openai_vectorstore.py` → the delta audit, before we drop the OpenAI VS dependency.
-- **Retire:** AGNO layer, FastAPI, Streamlit, CLI, FAISS (empty), Upstash (1024-dim, incompatible), all the "✅ Production Ready" marketing docs.
-- Friedman `source_tier` = the concrete version of the [[Vallée/Pasulka methodology]] idea below.
+## 🗂 disclosure-rag verdict — CORRECTED 2026-05-31 (subagent review was wrong about the centerpiece; Liam flagged it)
+⚠️ The subagent review (`docs/design/disclosure-rag-review.md`) concluded "harvest-then-retire / nothing runs." **Wrong about the core.** Claude read `main.py`/`main.sh` directly:
+- **`main.py` IS the working production ingestion pipeline** — the tool Liam used to catalogue/collect/vectorize the ~1,477 records into the **OpenAI vector store** (`UFO_DATA_STORE_ID`) that the live Next.js mindmap agent reads. Connected via the corpus it produced, NOT disconnected junk.
+- **Real flow:** `main.py <url|file> [--upload]` → extract (YouTube transcript / web scrape / file read) → `add_to_knowledge_base` → **`upload_file_to_openai` → OpenAI vector store** → entity extraction (→ Xata search) → [try/except optional: CocoIndex KG, mem0]. Core lib/: `knowledge_base_service`, `openai_client/upload`, `knowledge_base_crud`, `entity_extraction`, `web_content_processor`, `upstash/queue`.
+- **No pre-chunking is INTENTIONAL** (OpenAI file_search chunks server-side). Our owned pgvector pipeline DOES need its own chunking — we're not using OpenAI's managed store.
+- **Corrected disposition:** CORE (`main.py` + ingestion lib/ + entity extraction) = **the reference blueprint for sub-project #2's owned TS pipeline — port/modernize, don't reinvent.** Only experimental bolt-ons (AGNO, CocoIndex KG, FAISS, Streamlit, mem0/Honcho) = retire/optional.
+- **NEXT (proper, grounded): Claude reads the core lib/ modules directly** (`lib/knowledge_base_service.py`, `lib/openai_client/upload.py`, `lib/entity_extraction/`, `processing/web_content_processor.py`) to spec #2 against the real tool — not via subagent.
+- Still-valid harvest items: 128 FOIA PDFs (→#2 corpus), Friedman `source_tier` (→#1), entity write-policy, `agents/prompts.py`. `check_openai_vectorstore.py` = delta audit.
+- **Lesson:** don't outsource review of load-bearing code to a subagent + relay as fact. Read centerpieces firsthand.
 
 ## 📌 Parked tasks (do later, don't derail)
 - [ ] **Delta audit**: recompute local knowledge-base sources vs what's actually in the OpenAI Vector Store. Done before; redo. Sources at `packages/knowledge-base/sources/` (+ `apps/disclosure-rag/data/...` new FBI/NASA releases).

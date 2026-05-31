@@ -143,9 +143,15 @@ export/*.csv ──▶ loader (per-table)
 
 ## Sub-project 2-4 outlines (for later specs)
 
-**#2 Library + ingestion pipeline:** Supabase Storage bucket holds source files (knowledge-base
-sources + FBI/NASA releases). Owned TS pipeline: extract (Docling for PDFs, transcript/web
-handlers) → chunk (real chunking, sizes/overlap TBD) → embed (`text-embedding-3-small`) →
+**#2 Library + ingestion pipeline:** **This is a port/modernization of the EXISTING working tool
+`apps/disclosure-rag/main.py`** — the production pipeline Liam used to build the ~1,477-file OpenAI
+vector store. Use it (and its `lib/` modules: `knowledge_base_service`, `openai_client/upload`,
+`knowledge_base_crud`, `entity_extraction`, `web_content_processor`, `upstash/queue`) as the
+reference spec; don't reinvent. Key change vs the original: it uploaded whole files to OpenAI's
+managed store (server-side chunking); the owned pgvector version must do its OWN chunking. Supabase
+Storage bucket holds source files (knowledge-base sources + FBI/NASA releases). Owned TS pipeline:
+extract (Docling for PDFs, transcript/web handlers) → chunk (real chunking, sizes/overlap TBD) →
+embed (`text-embedding-3-small`) →
 write `document_chunks` + entity embeddings to pgvector. Re-ingest the 400 documents from
 source. Regenerate ALL entity embeddings (topics/personnel/events/orgs/testimonies/artifacts).
 Port disclosure-rag's entity-extraction schema/prompt + entity→table mappings verbatim, plus its
