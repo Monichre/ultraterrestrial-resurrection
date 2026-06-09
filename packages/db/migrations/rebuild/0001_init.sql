@@ -451,6 +451,7 @@ CREATE TABLE summary_files (
     id               TEXT PRIMARY KEY DEFAULT gen_random_uuid()::text,
     xata_createdat   TIMESTAMPTZ DEFAULT NOW(),
     xata_updatedat   TIMESTAMPTZ DEFAULT NOW(),
+    xata_version     INTEGER     DEFAULT 0,
     document         TEXT UNIQUE,   -- FK → documents(id) ON DELETE CASCADE
     content          TEXT,
     embedding        vector(1536) NULL
