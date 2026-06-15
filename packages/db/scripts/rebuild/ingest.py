@@ -101,7 +101,7 @@ def _stable_id(path_key: str) -> str:
 
 def _read_safe(path: Path) -> str:
     try:
-        return path.read_text(errors="replace").strip()
+        return path.read_text(errors="replace").replace("\x00", "").strip()
     except Exception:
         return ""
 
@@ -213,7 +213,8 @@ def _pdf_text(path: Path) -> str:
     try:
         import fitz  # pymupdf
         doc = fitz.open(str(path))
-        return "\n".join(page.get_text() for page in doc).strip()
+        text = "\n".join(page.get_text() for page in doc).strip()
+        return text.replace("\x00", "")  # strip NUL bytes — Postgres text rejects them
     except Exception as exc:
         print(f"  WARN: could not read {path.name}: {exc}", file=sys.stderr)
         return ""
