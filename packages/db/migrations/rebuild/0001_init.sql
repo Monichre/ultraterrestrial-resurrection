@@ -1,7 +1,7 @@
 -- =============================================================================
 -- 0001_init.sql  —  Ultraterrestrial data-platform rebuild
--- Target: Azure Database for PostgreSQL Flexible Server (Postgres 16 + pgvector)
--- Created: 2026-06-09
+-- Target: any managed Postgres 16+ with pgvector (Neon, current host). Host-portable.
+-- Created: 2026-06-09 (Azure dropped 2026-06-15; key_figures rename 2026-06-15)
 -- Conventions:
 --   • id TEXT PRIMARY KEY DEFAULT gen_random_uuid()::text  (all tables)
 --   • On CSV import the default is overridden with the original rec_* value
@@ -50,9 +50,9 @@ CREATE TABLE IF NOT EXISTS topics (
 CREATE INDEX IF NOT EXISTS idx_topics_search       ON topics USING GIN (search_vector);
 
 -- ---------------------------------------------------------------------------
--- 2. personnel
+-- 2. key_figures
 -- ---------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS personnel (
+CREATE TABLE IF NOT EXISTS key_figures (
     id               TEXT PRIMARY KEY DEFAULT gen_random_uuid()::text,
     xata_createdat   TIMESTAMPTZ DEFAULT NOW(),
     xata_updatedat   TIMESTAMPTZ DEFAULT NOW(),
@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS personnel (
                              COALESCE(role, ''))
                      ) STORED
 );
-CREATE INDEX IF NOT EXISTS idx_personnel_search    ON personnel USING GIN (search_vector);
+CREATE INDEX IF NOT EXISTS idx_key_figures_search    ON key_figures USING GIN (search_vector);
 
 -- ---------------------------------------------------------------------------
 -- 3. events
@@ -136,7 +136,7 @@ CREATE TABLE IF NOT EXISTS sightings (
     state               VARCHAR(255),
     country             VARCHAR(255),
     shape               VARCHAR(255),
-    duration_seconds    INTEGER,
+    duration_seconds    REAL,
     duration_hours_min  VARCHAR(255),
     comments            TEXT,
     date_posted         TIMESTAMPTZ,
@@ -164,7 +164,7 @@ CREATE TABLE IF NOT EXISTS testimonies (
     date             TIMESTAMPTZ,
     summary          TEXT,
     event            TEXT,   -- FK → events(id)
-    witness          TEXT,   -- FK → personnel(id)
+    witness          TEXT,   -- FK → key_figures(id)
     organization     TEXT,   -- FK → organizations(id)
     embedding        vector(1536) NULL,
     search_vector    tsvector GENERATED ALWAYS AS (
@@ -190,7 +190,7 @@ CREATE TABLE IF NOT EXISTS documents (
     summary          TEXT,
     url              TEXT,
     date             TIMESTAMPTZ,
-    author           TEXT,   -- FK → personnel(id)  ON DELETE SET NULL
+    author           TEXT,   -- FK → key_figures(id)  ON DELETE SET NULL
     organization     TEXT,   -- FK → organizations(id) ON DELETE SET NULL
     source_type      VARCHAR(255),
     source_tier      TEXT,
@@ -217,7 +217,7 @@ CREATE TABLE IF NOT EXISTS artifacts (
     name             TEXT,
     description      TEXT,
     origin           TEXT,
-    date             TIMESTAMPTZ,
+    date             TEXT,   -- freeform/ancient ("7,000 B.C.", "13-15th Century") — not a timestamp
     images           TEXT[],
     metadata         JSONB,
     embedding        vector(1536) NULL
@@ -272,7 +272,7 @@ CREATE INDEX IF NOT EXISTS idx_edges_rel ON edges (rel_type);
 CREATE TABLE IF NOT EXISTS event_subject_matter_experts (
     id                      TEXT PRIMARY KEY DEFAULT gen_random_uuid()::text,
     event                   TEXT,   -- FK → events(id)
-    subject_matter_expert   TEXT    -- FK → personnel(id)
+    subject_matter_expert   TEXT    -- FK → key_figures(id)
 );
 CREATE INDEX IF NOT EXISTS idx_esme_event  ON event_subject_matter_experts (event);
 CREATE INDEX IF NOT EXISTS idx_esme_expert ON event_subject_matter_experts (subject_matter_expert);
@@ -283,7 +283,7 @@ CREATE INDEX IF NOT EXISTS idx_esme_expert ON event_subject_matter_experts (subj
 CREATE TABLE IF NOT EXISTS topic_subject_matter_experts (
     id                      TEXT PRIMARY KEY DEFAULT gen_random_uuid()::text,
     topic                   TEXT,   -- FK → topics(id)
-    subject_matter_expert   TEXT    -- FK → personnel(id)
+    subject_matter_expert   TEXT    -- FK → key_figures(id)
 );
 CREATE INDEX IF NOT EXISTS idx_tsme_topic  ON topic_subject_matter_experts (topic);
 CREATE INDEX IF NOT EXISTS idx_tsme_expert ON topic_subject_matter_experts (subject_matter_expert);
@@ -293,7 +293,7 @@ CREATE INDEX IF NOT EXISTS idx_tsme_expert ON topic_subject_matter_experts (subj
 -- ---------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS organization_members (
     id            TEXT PRIMARY KEY DEFAULT gen_random_uuid()::text,
-    member        TEXT,   -- FK → personnel(id)
+    member        TEXT,   -- FK → key_figures(id)
     organization  TEXT    -- FK → organizations(id)
 );
 CREATE INDEX IF NOT EXISTS idx_org_members_member ON organization_members (member);
@@ -317,7 +317,7 @@ CREATE TABLE IF NOT EXISTS event_topic_subject_matter_experts (
     id                      TEXT PRIMARY KEY DEFAULT gen_random_uuid()::text,
     event                   TEXT,   -- FK → events(id)
     topic                   TEXT,   -- FK → topics(id)
-    subject_matter_expert   TEXT    -- FK → personnel(id)
+    subject_matter_expert   TEXT    -- FK → key_figures(id)
 );
 CREATE INDEX IF NOT EXISTS idx_etsme_event  ON event_topic_subject_matter_experts (event);
 CREATE INDEX IF NOT EXISTS idx_etsme_topic  ON event_topic_subject_matter_experts (topic);
@@ -439,7 +439,7 @@ CREATE INDEX IF NOT EXISTS idx_ustm_theory  ON user_saved_testimonies (theory);
 CREATE TABLE IF NOT EXISTS user_saved_key_figure (
     id          TEXT PRIMARY KEY DEFAULT gen_random_uuid()::text,
     "user"      TEXT,   -- FK → users(id)
-    key_figure  TEXT,   -- FK → personnel(id)
+    key_figure  TEXT,   -- FK → key_figures(id)
     theory      TEXT    -- FK → user_notes(id)
 );
 CREATE INDEX IF NOT EXISTS idx_uskf_user   ON user_saved_key_figure ("user");
@@ -524,8 +524,8 @@ $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE TRIGGER trg_topics_updatedat
     BEFORE UPDATE ON topics FOR EACH ROW EXECUTE FUNCTION update_xata_updatedat();
-CREATE OR REPLACE TRIGGER trg_personnel_updatedat
-    BEFORE UPDATE ON personnel FOR EACH ROW EXECUTE FUNCTION update_xata_updatedat();
+CREATE OR REPLACE TRIGGER trg_key_figures_updatedat
+    BEFORE UPDATE ON key_figures FOR EACH ROW EXECUTE FUNCTION update_xata_updatedat();
 CREATE OR REPLACE TRIGGER trg_events_updatedat
     BEFORE UPDATE ON events FOR EACH ROW EXECUTE FUNCTION update_xata_updatedat();
 CREATE OR REPLACE TRIGGER trg_organizations_updatedat
@@ -568,7 +568,7 @@ DO $$ BEGIN
 EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 DO $$ BEGIN
   ALTER TABLE testimonies ADD CONSTRAINT fk_testimonies_witness
-    FOREIGN KEY (witness) REFERENCES personnel(id) ON DELETE SET NULL NOT VALID;
+    FOREIGN KEY (witness) REFERENCES key_figures(id) ON DELETE SET NULL NOT VALID;
 EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 DO $$ BEGIN
   ALTER TABLE testimonies ADD CONSTRAINT fk_testimonies_organization
@@ -578,7 +578,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 -- documents soft refs
 DO $$ BEGIN
   ALTER TABLE documents ADD CONSTRAINT fk_documents_author
-    FOREIGN KEY (author) REFERENCES personnel(id) ON DELETE SET NULL NOT VALID;
+    FOREIGN KEY (author) REFERENCES key_figures(id) ON DELETE SET NULL NOT VALID;
 EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 DO $$ BEGIN
   ALTER TABLE documents ADD CONSTRAINT fk_documents_organization
@@ -610,7 +610,7 @@ DO $$ BEGIN
 EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 DO $$ BEGIN
   ALTER TABLE event_subject_matter_experts ADD CONSTRAINT fk_esme_expert
-    FOREIGN KEY (subject_matter_expert) REFERENCES personnel(id) ON DELETE CASCADE NOT VALID;
+    FOREIGN KEY (subject_matter_expert) REFERENCES key_figures(id) ON DELETE CASCADE NOT VALID;
 EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- junction: topic_subject_matter_experts
@@ -620,13 +620,13 @@ DO $$ BEGIN
 EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 DO $$ BEGIN
   ALTER TABLE topic_subject_matter_experts ADD CONSTRAINT fk_tsme_expert
-    FOREIGN KEY (subject_matter_expert) REFERENCES personnel(id) ON DELETE CASCADE NOT VALID;
+    FOREIGN KEY (subject_matter_expert) REFERENCES key_figures(id) ON DELETE CASCADE NOT VALID;
 EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- junction: organization_members
 DO $$ BEGIN
   ALTER TABLE organization_members ADD CONSTRAINT fk_org_members_member
-    FOREIGN KEY (member) REFERENCES personnel(id) ON DELETE CASCADE NOT VALID;
+    FOREIGN KEY (member) REFERENCES key_figures(id) ON DELETE CASCADE NOT VALID;
 EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 DO $$ BEGIN
   ALTER TABLE organization_members ADD CONSTRAINT fk_org_members_organization
@@ -654,7 +654,7 @@ DO $$ BEGIN
 EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 DO $$ BEGIN
   ALTER TABLE event_topic_subject_matter_experts ADD CONSTRAINT fk_etsme_expert
-    FOREIGN KEY (subject_matter_expert) REFERENCES personnel(id) ON DELETE CASCADE NOT VALID;
+    FOREIGN KEY (subject_matter_expert) REFERENCES key_figures(id) ON DELETE CASCADE NOT VALID;
 EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- user_notes
@@ -746,7 +746,7 @@ DO $$ BEGIN
 EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 DO $$ BEGIN
   ALTER TABLE user_saved_key_figure ADD CONSTRAINT fk_uskf_key_figure
-    FOREIGN KEY (key_figure) REFERENCES personnel(id) ON DELETE CASCADE NOT VALID;
+    FOREIGN KEY (key_figure) REFERENCES key_figures(id) ON DELETE CASCADE NOT VALID;
 EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 DO $$ BEGIN
   ALTER TABLE user_saved_key_figure ADD CONSTRAINT fk_uskf_theory
@@ -792,7 +792,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 -- TRIGRAM INDEXES (pg_trgm) — fuzzy name search
 -- =============================================================================
 
-CREATE INDEX IF NOT EXISTS idx_personnel_name_trgm     ON personnel     USING gin (name gin_trgm_ops);
+CREATE INDEX IF NOT EXISTS idx_key_figures_name_trgm     ON key_figures     USING gin (name gin_trgm_ops);
 CREATE INDEX IF NOT EXISTS idx_organizations_name_trgm ON organizations USING gin (name gin_trgm_ops);
 CREATE INDEX IF NOT EXISTS idx_topics_name_trgm        ON topics        USING gin (name gin_trgm_ops);
 
