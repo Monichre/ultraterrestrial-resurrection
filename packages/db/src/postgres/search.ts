@@ -182,26 +182,131 @@ export async function searchXata({
 }
 
 /**
+ * Vector (pgvector cosine) search against a single table.
+ * Returns records enriched with the same xata/xataReasoning shape as searchTable.
+ */
+export async function vectorSearch(
+  table: string,
+  embedding: number[],
+  limit = 10,
+): Promise<Record<string, unknown>[]> {
+  const pgTable = resolveTable(table)
+  if (!VECTOR_TABLES.has(pgTable)) return []
+
+  const sql = getSql()
+  const vecLiteral = `'[${embedding.join(',')}]'::vector`
+
+  let rows: Record<string, unknown>[] = []
+  try {
+    rows = await sql.unsafe(`
+      SELECT *, 1-(embedding <=> ${vecLiteral}) AS _score
+      FROM "${pgTable}"
+      WHERE embedding IS NOT NULL
+      ORDER BY embedding <=> ${vecLiteral}
+      LIMIT ${limit}
+    `) as Record<string, unknown>[]
+  } catch {
+    return []
+  }
+
+  return rows.map(r => {
+    const score = (r._score as number) ?? 0
+    const { _score, ...record } = r
+    return {
+      ...record,
+      xata: {
+        score,
+        highlight: {},
+      },
+      xataReasoning: {
+        score,
+        relevancyLevel: score > 0.8 ? 'high relevance' : score > 0.6 ? 'moderate relevance' : 'low relevance',
+        highlightReasons: 'Vector similarity match',
+        searchTerms: '',
+        explanation: `pgvector cosine similarity (score: ${score.toFixed(4)})`,
+      },
+    }
+  })
+}
+
+/**
+ * Fan-out vector search across all VECTOR_TABLES.
+ * Merges results, sorts by score desc, returns top `limit` with _table tag.
+ */
+export async function vectorSearchAll(
+  embedding: number[],
+  limit = 10,
+): Promise<Record<string, unknown>[]> {
+  const tables = [...VECTOR_TABLES]
+  const results = await Promise.allSettled(
+    tables.map(t => vectorSearch(t, embedding, Math.ceil(limit / 2)))
+  )
+
+  const merged: (Record<string, unknown> & { _table: string })[] = []
+  results.forEach((r, i) => {
+    if (r.status === 'fulfilled') {
+      r.value.forEach(rec => merged.push({ ...rec, _table: tables[i] }))
+    }
+  })
+
+  return merged
+    .sort((a, b) => ((b.xata as any)?.score ?? 0) - ((a.xata as any)?.score ?? 0))
+    .slice(0, limit)
+}
+
+/**
  * searchDatabase — replaces the disclosure-mindmap-agent's search tool.
  * Preserves existing interface: { table, searchTerms, searchFields, limit }.
+ * When `embedding` is provided, runs vector search in parallel with FTS and
+ * merges results ranked by score (higher wins), deduped by id.
  */
 export async function searchDatabase({
   table,
   searchTerms,
   limit = 3,
+  embedding,
 }: {
   table?: string
   searchTerms?: string[]
   searchFields?: string[]
   limit?: number
+  embedding?: number[]
 }): Promise<Record<string, unknown>[]> {
-  if (!searchTerms?.length) return []
-  const query = searchTerms.join(' ')
+  if (!searchTerms?.length && !embedding?.length) return []
+  const query = searchTerms?.join(' ') ?? ''
   const pgTable = table ? resolveTable(table.toLowerCase()) : undefined
 
-  const results = pgTable
-    ? await searchTable(pgTable, query, limit)
-    : await searchAll(query, limit)
+  if (!embedding?.length) {
+    // Original behaviour — FTS only
+    return pgTable
+      ? searchTable(pgTable, query, limit)
+      : searchAll(query, limit)
+  }
 
-  return results
+  // Run FTS and vector search in parallel
+  const [ftsResults, vecResults] = await Promise.all([
+    query
+      ? (pgTable ? searchTable(pgTable, query, limit) : searchAll(query, limit))
+      : Promise.resolve([] as Record<string, unknown>[]),
+    pgTable
+      ? vectorSearch(pgTable, embedding, limit)
+      : vectorSearchAll(embedding, limit),
+  ])
+
+  // Merge by id: keep highest-scoring record, dedup
+  const byId = new Map<string, Record<string, unknown>>()
+  for (const rec of [...ftsResults, ...vecResults]) {
+    const id = (rec.id ?? rec.xata_id) as string | undefined
+    if (!id) continue
+    const existing = byId.get(id)
+    const existingScore = (existing?.xata as any)?.score ?? 0
+    const recScore = (rec.xata as any)?.score ?? 0
+    if (!existing || recScore > existingScore) {
+      byId.set(id, rec)
+    }
+  }
+
+  return [...byId.values()]
+    .sort((a, b) => ((b.xata as any)?.score ?? 0) - ((a.xata as any)?.score ?? 0))
+    .slice(0, limit)
 }

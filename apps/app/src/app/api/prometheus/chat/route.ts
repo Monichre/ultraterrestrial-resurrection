@@ -8,6 +8,7 @@ import {
   buildAgentContext,
   type AgentContextGraphState,
 } from '@/services/ai/context/build-agent-context';
+import { searchDatabase } from '@db/postgres';
 
 // Constants
 const DEFAULT_SEARCH_LIMIT = 10;
@@ -48,6 +49,18 @@ function getOpenAIClient() {
 }
 function getExaClient() {
   return new Exa(process.env.EXA_API_KEY!);
+}
+
+// Generate a pgvector embedding for semantic search. Returns [] on failure so
+// callers can safely fall through to FTS-only mode.
+async function embedQuery(text: string): Promise<number[]> {
+  try {
+    const client = getOpenAIClient()
+    const res = await client.embeddings.create({ model: 'text-embedding-3-small', input: text })
+    return res.data[0].embedding
+  } catch {
+    return []
+  }
 }
 
 // Trusted UFO/UAP research domains for external search
@@ -755,6 +768,49 @@ Search primarily from trusted sources: ${researchDomains.join(', ')}`;
           description: 'Generate structured classification tags for an uploaded document',
           parameters: documentToolParamsSchema,
           execute: async (params) => executeDocumentAction('generateTags', params),
+        }),
+
+        // Search the Neon Postgres database (FTS + pgvector semantic search in parallel)
+        searchNeonDatabase: tool({
+          description: 'Search the UAP/UFO Neon Postgres database using full-text search combined with pgvector semantic similarity. Use this to find entities, events, sightings, testimonies, documents, and key figures stored in the local knowledge base.',
+          parameters: z.object({
+            query: z.string().describe('Search query to find relevant UAP/UFO records'),
+            table: z.string().optional().describe('Specific table to search: topics, events, key_figures, organizations, sightings, testimonies, documents, artifacts. Omit to search all tables.'),
+            limit: z.number().optional().describe('Maximum number of results to return (default 6)'),
+          }),
+          execute: async ({ query, table, limit = 6 }) => {
+            try {
+              const embedding = await embedQuery(query)
+              const results = await searchDatabase({
+                table,
+                searchTerms: [query],
+                embedding: embedding.length ? embedding : undefined,
+                limit,
+              })
+              return {
+                query,
+                table: table ?? 'all',
+                results: results.map(r => ({
+                  id: r.id ?? r.xata_id,
+                  table: (r as any)._table ?? table,
+                  name: (r as any).name ?? (r as any).title ?? null,
+                  description: (r as any).description ?? (r as any).summary ?? (r as any).bio ?? null,
+                  score: (r.xata as any)?.score ?? 0,
+                  searchMethod: (r.xataReasoning as any)?.highlightReasons ?? 'FTS',
+                })),
+                totalResults: results.length,
+                embeddingUsed: embedding.length > 0,
+              }
+            } catch (error) {
+              console.error('Neon database search error:', error)
+              return {
+                query,
+                results: [],
+                totalResults: 0,
+                error: `Database search unavailable: ${error instanceof Error ? error.message : 'Unknown error'}`,
+              }
+            }
+          },
         }),
 
         // Include frontend tools if provided
