@@ -2,6 +2,15 @@
 
 import { openai } from "@/lib/openai/client"
 import { PROMETHEUS_ASSISTANT_ID, PROMETHEUS_VECTOR_STORE_ID } from "@/services/ai/openai/config"
+
+async function embedQuery(text: string): Promise<number[]> {
+  try {
+    const res = await openai.embeddings.create({ model: 'text-embedding-3-small', input: text })
+    return res.data[0].embedding
+  } catch {
+    return []
+  }
+}
 import { extractNamedSearchEntities, toSearchTerms } from "@/services/ai/openai/extract-search-terms"
 import { searchDatabase } from "@/services/ai/openai/tools/search-database"
 import {
@@ -363,10 +372,12 @@ export async function POST( req: Request ) {
                   output: JSON.stringify( errorPayload ),
                 } )
               } else {
+                const embedding = await embedQuery(fallbackQuery)
                 const searchResult = await searchDatabase( {
                   table: parameters.table,
                   searchTerms,
                   searchFields: parameters.search_fields,
+                  embedding,
                 } )
 
                 await sendDataMessage( {

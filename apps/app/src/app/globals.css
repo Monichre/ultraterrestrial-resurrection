@@ -431,61 +431,7 @@
   --tw-shadow: var(--tw-shadow-colored);
 }
 
-@font-face {
-  font-family: 'Monument Grotesk';
-  font-style: normal;
-  font-weight: 400;
-  src: url('./fonts/Monument-Grotesk/ABCMonumentGrotesk-Regular-Trial.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Monument Grotesk';
-  font-style: normal;
-  font-weight: 500;
-  src: url('./fonts/Monument-Grotesk/ABCMonumentGrotesk-Medium-Trial.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Monument Grotesk';
-  font-style: normal;
-  font-weight: 800;
-  src: url('./fonts/Monument-Grotesk/ABCMonumentGrotesk-Heavy-Trial.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'MONUMENT GROTESK Mono';
-  font-style: normal;
-  font-weight: 400;
-  src: url('./fonts/MonumentGroteskMono/ABCMonumentGroteskMono-Regular-Trial.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'MONUMENT GROTESK Mono';
-  font-style: normal;
-  font-weight: 500;
-  src: url('./fonts/MonumentGroteskMono/ABCMonumentGroteskMono-Medium-Trial.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'MONUMENT GROTESK Mono';
-  font-style: normal;
-  font-weight: 800;
-  src: url('./fonts/MonumentGroteskMono/ABCMonumentGroteskMono-Heavy-Trial.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Neue Haas Grotesk';
-  font-style: normal;
-  font-weight: 400;
-  src: url('./fonts/NeueHaasGrotesk/neuehaas.woff') format('woff');
-}
-
-@font-face {
-  font-family: 'Lukas Sans';
-  font-style: normal;
-  font-weight: 400;
-  src: url('./fonts/LukasSans.woff2') format('woff2');
-}
+/* Local font files removed — fallback to Google Fonts loaded via fonts.tsx CSS variables */
 
 .bg-dot {
   /* background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='1' cy='1' r='1' fill='%23ccc'/%3E%3C/svg%3E"); */
@@ -1894,4 +1840,11 @@ body {
   .cursor-active * {
     cursor: auto;
   }
+}
+
+/* Network timeline canvas grid background */
+.network-grid {
+  background-image: linear-gradient(oklch(0.25 0.03 270 / 0.3) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(0.25 0.03 270 / 0.3) 1px, transparent 1px);
+  background-size: 50px 50px;
 }

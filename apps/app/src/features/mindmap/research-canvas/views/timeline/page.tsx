@@ -1,8 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState, useRef, useCallback } from "react"
-import Link from "next/link"
+import { useState, useRef, useCallback, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import {
   ZoomIn,
@@ -17,8 +16,10 @@ import {
   Users,
   ExternalLink,
   Info,
+  Loader2,
 } from "lucide-react"
 import { UFO_SIGHTINGS, type UFOSighting } from "@/features/mindmap/research-canvas/data/ufo-sightings"
+import { getTimelineEvents } from "@/features/timeline/get-timeline-events"
 
 interface NetworkNode {
   id: string
@@ -72,6 +73,10 @@ const generateNetworkLayout = (incidents: UFOSighting[]): { nodes: NetworkNode[]
 }
 
 export default function NetworkTimelineExplorer() {
+  const [incidents, setIncidents] = useState<UFOSighting[]>(UFO_SIGHTINGS)
+  const [isLoading, setIsLoading] = useState(true)
+  const [dataSource, setDataSource] = useState<"static" | "database">("static")
+
   const [zoom, setZoom] = useState(1)
   const [pan, setPan] = useState({ x: 0, y: 0 })
   const [isDragging, setIsDragging] = useState(false)
@@ -82,10 +87,32 @@ export default function NetworkTimelineExplorer() {
   const [showFilters, setShowFilters] = useState(false)
   const canvasRef = useRef<HTMLDivElement>(null)
 
+  // Load database events on mount; fall back to static data on error
+  useEffect(() => {
+    let cancelled = false
+    setIsLoading(true)
+    getTimelineEvents(150)
+      .then((dbIncidents) => {
+        if (cancelled) return
+        if (dbIncidents.length > 0) {
+          setIncidents(dbIncidents)
+          setDataSource("database")
+        }
+        // If empty, keep UFO_SIGHTINGS (already set as default)
+      })
+      .catch(() => {
+        // Already falls back to static data
+      })
+      .finally(() => {
+        if (!cancelled) setIsLoading(false)
+      })
+    return () => { cancelled = true }
+  }, [])
+
   const filteredIncidents =
     filterClassification === "all"
-      ? UFO_SIGHTINGS
-      : UFO_SIGHTINGS.filter((i) => i.classification === filterClassification)
+      ? incidents
+      : incidents.filter((i) => i.classification === filterClassification)
 
   const { nodes, connections } = generateNetworkLayout(filteredIncidents)
 
@@ -160,6 +187,26 @@ export default function NetworkTimelineExplorer() {
         {/* Radial Gradient Overlay */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,var(--background)_70%)]" />
 
+        {/* Loading indicator */}
+        {isLoading && (
+          <div className="absolute top-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2
+            bg-card/90 backdrop-blur-sm border border-border rounded-xl px-4 py-2 text-sm text-muted-foreground">
+            <Loader2 className="w-4 h-4 animate-spin" />
+            Loading events…
+          </div>
+        )}
+
+        {/* Data source badge */}
+        {!isLoading && (
+          <div className="absolute top-4 left-1/2 -translate-x-1/2 z-20
+            bg-card/90 backdrop-blur-sm border border-border rounded-xl px-3 py-1
+            text-xs text-muted-foreground">
+            {dataSource === "database"
+              ? `${incidents.length} events from database`
+              : `${incidents.length} static events`}
+          </div>
+        )}
+
         {/* Network Container */}
         <div
           className="absolute inset-0 transition-transform duration-100"
@@ -211,7 +258,7 @@ export default function NetworkTimelineExplorer() {
             >
               <div
                 className={`
-                  relative w-20 h-20 rounded-full 
+                  relative w-20 h-20 rounded-full
                   bg-gradient-to-br ${getNodeColor(node.incident.classification)}
                   flex items-center justify-center
                   transition-all duration-300
@@ -242,8 +289,8 @@ export default function NetworkTimelineExplorer() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 10 }}
-                    className="absolute top-full left-1/2 -translate-x-1/2 mt-2 
-                      bg-card/95 backdrop-blur-sm border border-border rounded-lg 
+                    className="absolute top-full left-1/2 -translate-x-1/2 mt-2
+                      bg-card/95 backdrop-blur-sm border border-border rounded-lg
                       px-3 py-2 whitespace-nowrap z-10 shadow-xl"
                   >
                     <p className="text-sm font-semibold text-foreground">{node.incident.name}</p>
@@ -374,7 +421,7 @@ export default function NetworkTimelineExplorer() {
             initial={{ opacity: 0, x: 400 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 400 }}
-            className="fixed right-0 top-0 bottom-0 w-full max-w-md bg-card border-l border-border 
+            className="fixed right-0 top-0 bottom-0 w-full max-w-md bg-card border-l border-border
               shadow-2xl overflow-y-auto z-50"
           >
             {/* Header Image */}
@@ -419,10 +466,12 @@ export default function NetworkTimelineExplorer() {
                   <MapPin className="w-4 h-4" />
                   {selectedNode.incident.location}
                 </div>
-                <div className="flex items-center gap-1">
-                  <Users className="w-4 h-4" />
-                  {selectedNode.incident.witnesses.toLocaleString()} witnesses
-                </div>
+                {selectedNode.incident.witnesses > 0 && (
+                  <div className="flex items-center gap-1">
+                    <Users className="w-4 h-4" />
+                    {selectedNode.incident.witnesses.toLocaleString()} witnesses
+                  </div>
+                )}
               </div>
 
               {/* Description */}
@@ -445,39 +494,43 @@ export default function NetworkTimelineExplorer() {
               </div>
 
               {/* Tags */}
-              <div className="mb-6">
-                <h4 className="text-sm font-semibold text-muted-foreground mb-2">Tags</h4>
-                <div className="flex flex-wrap gap-2">
-                  {selectedNode.incident.tags.map((tag) => (
-                    <span key={tag} className="px-2 py-1 bg-muted text-muted-foreground rounded text-xs">
-                      #{tag}
-                    </span>
-                  ))}
+              {selectedNode.incident.tags.length > 0 && (
+                <div className="mb-6">
+                  <h4 className="text-sm font-semibold text-muted-foreground mb-2">Tags</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedNode.incident.tags.map((tag) => (
+                      <span key={tag} className="px-2 py-1 bg-muted text-muted-foreground rounded text-xs">
+                        #{tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
 
               {/* Sources */}
-              <div className="mb-6">
-                <h4 className="text-sm font-semibold text-muted-foreground mb-2">Sources</h4>
-                <ul className="space-y-1">
-                  {selectedNode.incident.sources.map((source, i) => (
-                    <li key={i} className="text-sm text-foreground/80 flex items-center gap-2">
-                      <ChevronRight className="w-3 h-3 text-primary" />
-                      {source}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              {selectedNode.incident.sources.length > 0 && (
+                <div className="mb-6">
+                  <h4 className="text-sm font-semibold text-muted-foreground mb-2">Sources</h4>
+                  <ul className="space-y-1">
+                    {selectedNode.incident.sources.map((source, i) => (
+                      <li key={i} className="text-sm text-foreground/80 flex items-center gap-2">
+                        <ChevronRight className="w-3 h-3 text-primary" />
+                        {source}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
 
-              {/* Action Button */}
-              <Link
-                href={`/content-card-detail-view?id=${selectedNode.incident.id}`}
-                className="flex items-center justify-center gap-2 w-full py-3 bg-primary text-primary-foreground 
-                  rounded-xl font-medium hover:bg-primary/90 transition-colors"
+              {/* Close button */}
+              <button
+                onClick={() => setSelectedNode(null)}
+                className="flex items-center justify-center gap-2 w-full py-3 bg-muted text-foreground
+                  rounded-xl font-medium hover:bg-muted/80 transition-colors"
               >
-                View Full Details
-                <ExternalLink className="w-4 h-4" />
-              </Link>
+                Close
+                <ExternalLink className="w-4 h-4 opacity-50" />
+              </button>
             </div>
           </motion.div>
         )}
