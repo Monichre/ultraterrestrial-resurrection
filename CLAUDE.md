@@ -145,24 +145,26 @@ bun run analyze         # Database state analysis
 
 ### Core AI Architecture (Grounded 2026-03-29)
 
-**Working AI Paths (verified by 4-specialist roundtable audit):**
+**Working AI Paths (SP1–SP4 complete, 2026-06-16):**
 
-1. **Disclosure Mindmap Agent** — the ONLY end-to-end AI path
+1. **Disclosure Mindmap Agent** — primary end-to-end AI path
    - Route: `/api/disclosure/mindmap` (OpenAI Assistants API + custom SSE bridge)
-   - Tools: `file_search` (OpenAI vector store) + `searchDatabase` (Postgres FTS/trgm via `@db/postgres`) + `searchExternalResources` (Exa)
+   - Tools: `file_search` (OpenAI vector store) + `searchDatabase` (FTS + pgvector cosine via `@db/postgres`) + `searchExternalResources` (Exa)
+   - **pgvector**: `embedQuery(text-embedding-3-small)` runs before every `searchDatabase` call — FTS and vector search run in parallel, deduped by id, ranked by score
    - Client: `useMindMapAgent` hook → `transformStreamResponse` → graph nodes/edges
    - Files: `apps/app/src/app/api/disclosure/mindmap/route.ts`, `apps/app/src/features/mindmap/hooks/use-mindmap-agent.ts`
 
 2. **Prometheus Chat** — standalone conversational chat (separate protocol)
    - Route: `/api/prometheus/chat` (Vercel AI SDK `streamText`)
-   - Tools: `searchUAP`, `searchExternalResources`, `researchExternalTopic`, `processDocument`
+   - Tools: `searchUAP` (OpenAI Assistants vector store), `searchNeonDatabase` (FTS + pgvector via `@db/postgres`), `searchExternalResources`, `researchExternalTopic`, `processDocument`
+   - **pgvector**: `searchNeonDatabase` tool generates embedding then calls `searchDatabase({ embedding })` — same parallel FTS+vector pattern as mindmap agent
    - File: `apps/app/src/app/api/prometheus/chat/route.ts`
 
 **What does NOT exist in the Next.js app (corrected myths):**
-- ~~Triple RAG with 40/40/20 weighting~~ — Only OpenAI file_search + Postgres full-text search work
+- ~~Triple RAG with 40/40/20 weighting~~ — FTS + pgvector (2 paths), not 3
 - ~~FAISS, Upstash Vector, CocoIndex~~ — Python-only or completely unimplemented
 - ~~Multi-agent tour orchestrator~~ — 6 agent classes specced (July 2025), zero code written, scrapped
-- ~~85% AI connectivity~~ — One end-to-end agent path works; the rest are broken or dead
+- ~~85% AI connectivity~~ — Two live AI paths (mindmap agent + Prometheus chat); the rest are broken or dead
 
 **Foundation utilities (these do exist and work):**
 - **Contextual Intelligence** (`features/mindmap/utils/contextual-intelligence.ts`) — graph context, relationship filtering

@@ -23,7 +23,7 @@ ultraterrestrial-resurrection/          # Monorepo root
     disclosure-rag/                     # Python RAG system (FastAPI + Streamlit)
     research-canvas/                    # TipTap editor (being consolidated)
   packages/
-    db/                                 # Xata database SDK (@db workspace)
+    db/                                 # Neon Postgres+pgvector layer (@db/postgres — sole DB layer)
     ai/                                 # AI processing components
     knowledge-base/                     # Research source materials
       sources/files/                    # (formerly case_files)
@@ -52,23 +52,27 @@ There is no `.env.example`. Copy `.env` and `.env.local` from a team member or s
 
 | Category | Key vars | Required for |
 |----------|----------|-------------|
-| **Xata (database)** | `XATA_API_KEY`, `XATA_BRANCH`, `XATA_DATABASE_URL` | All database operations |
-| **OpenAI** | `OPENAI_API_KEY`, `OPENAI_ASSISTANT_ID`, `OPENAI_VECTOR_STORE_ID` | AI agent, file_search |
+| **Neon Postgres** | `DATABASE_URL` | All database operations (`packages/db/.env`) |
+| **OpenAI** | `OPENAI_API_KEY`, `OPENAI_ASSISTANT_ID`, `OPENAI_VECTOR_STORE_ID` | AI agent, file_search, embeddings |
 | **Clerk (auth)** | `CLERK_SECRET_KEY`, `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | Authentication |
 | **Anthropic** | `ANTHROPIC_API_KEY` | Claude-based features |
 | **Groq** | `GROQ_API_KEY` | Fast inference |
 | **Exa** | `EXA_API_KEY` | External research search |
 | **FireCrawl** | `FIRECRAWL_API_KEY` | Web scraping pipeline |
-| **Upstash** | `UPSTASH_REDIS_REST_*`, `UPSTASH_VECTOR_REST_*` | Redis cache, vector search |
+| **Upstash** | `UPSTASH_REDIS_REST_*` | Redis cache |
 | **Liveblocks** | `LIVEBLOCKS_*` | Real-time collaboration |
 | **Mapbox** | `NEXT_PUBLIC_MAPBOX_*` | Globe/sightings visualization |
 | **TipTap** | `TIPTAP_*`, `TIP_TAP_PRO_TOKEN` | Research editor |
 | **Disclosure agent** | `DISCLOSURE_ENGINEER_ASSISTANT_ID`, `DISCLOSURE_ENGINEER_VECTOR_STORE_ID` | Mindmap AI agent |
 
+> **Note:** `DATABASE_URL` lives in `packages/db/.env` (gitignored). Never commit it. Xata vars (`XATA_API_KEY`, `XATA_BRANCH`, `XATA_DATABASE_URL`) are obsolete — `@db/xata` is retired (SP3).
+
 **Minimum viable `.env` for local dev** (AI features):
 ```
-XATA_API_KEY=...
-XATA_BRANCH=main
+# packages/db/.env
+DATABASE_URL=postgresql://...@ep-red-sky-ah7swer1.us-east-2.aws.neon.tech/neondb?sslmode=require
+
+# apps/app/.env.local
 OPENAI_API_KEY=...
 OPENAI_ASSISTANT_ID=...
 OPENAI_VECTOR_STORE_ID=...
