@@ -10,17 +10,17 @@
 ### Platform
 
 - **Hosting:** Vercel (Next.js auto-detected)
-- **Database:** Xata (PostgreSQL + vector search)
+- **Database:** Neon Postgres 17.10 + pgvector 0.8.0 (endpoint `ep-red-sky-ah7swer1`, db `neondb`, 29 tables, 230k+ records)
 - **Auth:** Clerk
-- **AI:** OpenAI Assistants API (disclosure agent), Vercel AI SDK (Prometheus chat)
+- **AI:** OpenAI Assistants API (disclosure mindmap agent) + Vercel AI SDK (Prometheus chat) — both routes use `text-embedding-3-small` + pgvector for semantic search
 - **Python RAG:** Separate deployment (not connected to Next.js app)
 
 ### Pre-deployment checklist
 
 1. Ensure `bun run build:app` succeeds locally
    - Note: `typescript.ignoreBuildErrors` is **not** set in next.config — type errors will fail the build
-2. Verify environment variables are set in Vercel dashboard (212 total, see CONTRIB.md for critical subset)
-3. Check that `XATA_BRANCH` matches the target branch
+2. Verify environment variables are set in Vercel dashboard (see CONTRIB.md for critical subset)
+3. Ensure `DATABASE_URL` points to Neon endpoint `ep-red-sky-ah7swer1` (never commit — lives in `packages/db/.env`)
 4. Verify `OPENAI_ASSISTANT_ID` and `DISCLOSURE_ENGINEER_ASSISTANT_ID` point to valid assistants
 
 ### Deploy process
