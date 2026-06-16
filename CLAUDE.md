@@ -121,17 +121,16 @@ python main.py              # Main processing pipeline
 ### Database Operations
 
 ```bash
-# Xata operations
+# Postgres rebuild scripts (packages/db/scripts/rebuild/)
+python embed_entities.py   # Batch-embed 6 entity tables via OpenAI
+python ingest.py           # Ingest transcripts/PDFs → documents + chunks
+python load_csv.py         # Load CSV exports into Postgres
+
+# packages/db npm scripts
 cd packages/db
 bun run seed            # Seed database
 bun run query           # Quick database query
 bun run analyze         # Database state analysis
-
-# Data import/export
-cd apps/app
-bun run export:xata     # Export Xata data
-bun run import:data     # Import data
-bun run import:events   # Import events specifically
 ```
 
 ## Architecture Overview
@@ -140,7 +139,7 @@ bun run import:events   # Import events specifically
 
 - `apps/app/` - Main Next.js 15 application (research platform, mindmap, AI agents)
 - `apps/disclosure-rag/` - Python RAG system (completely disconnected from Next.js app)
-- `packages/db/` - Xata database SDK (@db workspace), 29 models, 230,998+ records
+- `packages/db/` - Neon Postgres+pgvector layer (`@db/postgres`), 29 tables, 230,998+ records
 - `packages/ai/` - AI processing components
 - `packages/knowledge-base/` - Research source materials (under `sources/files/`)
 
@@ -150,7 +149,7 @@ bun run import:events   # Import events specifically
 
 1. **Disclosure Mindmap Agent** — the ONLY end-to-end AI path
    - Route: `/api/disclosure/mindmap` (OpenAI Assistants API + custom SSE bridge)
-   - Tools: `file_search` (OpenAI vector store) + `searchDatabase` (Xata full-text) + `searchExternalResources` (Exa)
+   - Tools: `file_search` (OpenAI vector store) + `searchDatabase` (Postgres FTS/trgm via `@db/postgres`) + `searchExternalResources` (Exa)
    - Client: `useMindMapAgent` hook → `transformStreamResponse` → graph nodes/edges
    - Files: `apps/app/src/app/api/disclosure/mindmap/route.ts`, `apps/app/src/features/mindmap/hooks/use-mindmap-agent.ts`
 
@@ -160,7 +159,7 @@ bun run import:events   # Import events specifically
    - File: `apps/app/src/app/api/prometheus/chat/route.ts`
 
 **What does NOT exist in the Next.js app (corrected myths):**
-- ~~Triple RAG with 40/40/20 weighting~~ — Only OpenAI file_search + Xata full-text search work
+- ~~Triple RAG with 40/40/20 weighting~~ — Only OpenAI file_search + Postgres full-text search work
 - ~~FAISS, Upstash Vector, CocoIndex~~ — Python-only or completely unimplemented
 - ~~Multi-agent tour orchestrator~~ — 6 agent classes specced (July 2025), zero code written, scrapped
 - ~~85% AI connectivity~~ — One end-to-end agent path works; the rest are broken or dead
@@ -174,11 +173,17 @@ bun run import:events   # Import events specifically
 
 ## Key Import Patterns
 
-### Database
+### Database (SP3 — use `@db/postgres` for ALL database access)
 
 ```typescript
-import { XataClient } from '@db/xata'
-import { askXata, searchXata } from '@db/xata/api'
+// Typed queries — replace any legacy @db/xata imports with these
+import { getAllEvents, getAllPersonnel, getAllTopics, loadEntityGraph } from '@db/postgres'
+import { searchXata, searchAll, searchTable, searchDatabase } from '@db/postgres'
+import { getSql } from '@db/postgres'           // raw tagged-template SQL for writes/custom queries
+import { readById, getPaginatedRecords } from '@db/postgres'
+import type { EventsRecord, PersonnelRecord, TopicsRecord } from '@db/postgres'
+
+// NEVER import from @db/xata — that package is retired
 import { getGraphContext } from '@/features/mindmap/utils/contextual-intelligence'
 ```
 
@@ -207,6 +212,8 @@ import { DataVizComponent } from '@/features/data-viz'
 
 ### Common Mistakes to Avoid
 
+- **Importing from `@db/xata` or `@db`** — that package is retired. Use `@db/postgres` for ALL database operations.
+- Using `xata.db.*` patterns — Xata SDK is dead. Use typed helpers or `getSql()` tagged-template.
 - Assuming "Triple RAG" or multi-agent tours exist — they do not (see myths corrected in roundtable audit)
 - Extending dead code: 4 ghost routes + 4 smart-mindmap shell variants have zero consumers
 - Adding state to `mindmap-context.tsx` (1,363-line god-object) — use Zustand store instead
@@ -252,12 +259,14 @@ import { DataVizComponent } from '@/features/data-viz'
 
 ### Backend & Data
 
-- **Xata (PostgreSQL)** — primary database, 230,998+ records, full-text search
+- **Neon Postgres 17.10 + pgvector 0.8.0** — primary database (endpoint `ep-red-sky-ah7swer1`, db `neondb`), 29 tables, 230,998+ records. Connection in `packages/db/.env` as `DATABASE_URL` — never commit.
+- **`@db/postgres`** — the ONLY live database layer (`packages/db/src/postgres/`). Exports typed queries, search, and `getSql()` tagged-template client via `@neondatabase/serverless`.
+- **Embeddings**: `text-embedding-3-small` @ 1536 dims (locked). 1,405 entity rows + 4,946 document chunks embedded.
 - **OpenAI Assistants API** — disclosure mindmap agent (file_search + threads)
 - **Vercel AI SDK** — Prometheus chat route (streamText)
 - **AI providers**: OpenAI, Anthropic, Groq
 - **Authentication**: Clerk (middleware NOT YET implemented — all routes publicly accessible)
-- **Search**: OpenAI file_search (vector store) + Xata full-text. No other vector search is wired in the Next.js app.
+- **Search**: OpenAI file_search (vector store) + Postgres FTS (`search_vector @@ plainto_tsquery`) + trgm fallback. No Xata full-text in the Next.js app.
 
 ### Python RAG System (disconnected)
 
