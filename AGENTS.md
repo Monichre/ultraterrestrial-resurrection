@@ -38,12 +38,14 @@ ultraterrestrial-resurrection/
 
 ### Backend & Data
 
-- **Xata (PostgreSQL)** — primary database, 230,998+ records, full-text search
+- **Neon Postgres 17.10 + pgvector 0.8.0** — primary database, 29 tables, 230,998+ records
+- **`@db/postgres`** — the ONLY live database layer (`packages/db/src/postgres/`). `@db/xata` is retired.
+- **Embeddings**: `text-embedding-3-small` @ 1536 dims. 1,405 entity rows + 4,946 document chunks.
 - **OpenAI Assistants API** — disclosure mindmap agent (file_search + threads)
 - **Vercel AI SDK** — Prometheus chat route (streamText)
 - **AI providers**: OpenAI, Anthropic, Groq
 - **Authentication**: Clerk (middleware NOT YET implemented)
-- **Search**: OpenAI file_search + Xata full-text only in the Next.js app
+- **Search**: OpenAI file_search + Postgres FTS/trgm via `@db/postgres`
 
 ### Python RAG System (disconnected from Next.js app)
 
@@ -81,7 +83,7 @@ ultraterrestrial-resurrection/
 
 1. **Disclosure Mindmap Agent** — the ONLY end-to-end AI path in the Next.js app
    - Route: `/api/disclosure/mindmap` (OpenAI Assistants API + custom SSE bridge)
-   - Tools: `file_search` + `searchDatabase` (Xata full-text) + `searchExternalResources` (Exa)
+   - Tools: `file_search` + `searchDatabase` (Postgres FTS/trgm via `@db/postgres`) + `searchExternalResources` (Exa)
    - Client: `useMindMapAgent` hook → graph nodes/edges
 
 2. **Prometheus Chat** — standalone conversational chat (separate protocol)
@@ -96,9 +98,10 @@ ultraterrestrial-resurrection/
 
 ### What Does NOT Exist (corrected myths)
 
-- ~~Triple RAG (40/40/20)~~ — Only OpenAI file_search + Xata full-text search work in the Next.js app
+- ~~Triple RAG (40/40/20)~~ — Only OpenAI file_search + Postgres full-text search work in the Next.js app
 - ~~Multi-agent tour orchestrator~~ — 6 agent classes specced July 2025, zero code written, scrapped
 - ~~85% AI connectivity~~ — One end-to-end path works; the rest are broken or dead
+- ~~`@db/xata` / Xata SDK~~ — **Retired (SP3)**. All live call sites migrated to `@db/postgres`.
 - The Python RAG system (`apps/disclosure-rag/`) is completely disconnected from the Next.js app
 
 **Reference:** `docs/plans/2026-03-29-roundtable-unified-action-plan.md`
@@ -136,18 +139,33 @@ ultraterrestrial-resurrection/
 
 ## 🔧 Database Operations
 
-### Xata Best Practices
+### Postgres Layer (`@db/postgres`) — SP3 Complete
 
-- **Always use filter chains**, not query() method
-- **Use getPaginated()** for paginated results
-- **Handle many-to-many relationships** via junction tables
-- **Vector search available** for tables with embedding columns
+**ALWAYS import from `@db/postgres`. The `@db/xata` package is retired.**
+
+```typescript
+// Reads
+import { getAllEvents, getAllPersonnel, loadEntityGraph, readById, getPaginatedRecords } from '@db/postgres'
+// Search (drop-in compatible with old Xata search shapes)
+import { searchXata, searchAll, searchTable, searchDatabase } from '@db/postgres'
+// Raw SQL for writes or custom queries
+import { getSql } from '@db/postgres'
+const sql = getSql()
+const rows = await sql`SELECT * FROM events WHERE date > ${cutoff}`
+```
+
+- **Connection**: `DATABASE_URL` in `packages/db/.env` (gitignored, never commit)
+- **Driver**: `@neondatabase/serverless` neon() tagged-template client
+- **Write pattern**: `getSql()` + tagged-template SQL; use `autocommit=True` + `conn.transaction()` in Python scripts
+- **Pagination**: `getPaginatedRecords(table, size, offset)` — cursor field removed, offset-based
+- **Table alias**: `personnel` → `key_figures` in Postgres; `resolveTable()` handles both names
 
 ### Key Database Entities
 
 - **230,998+ database records** across UFO/UAP research entities
-- **29 database entity models** with comprehensive relationships
-- **Events, testimonies, personnel, organizations, locations, documents**
+- **29 Postgres tables** with comprehensive relationships + junction tables
+- **Events, testimonies, key_figures (=personnel), organizations, locations, documents**
+- **1,405 entity embeddings** + **4,946 document chunks** (text-embedding-3-small @ 1536 dims)
 
 ## 🛡 Security & Best Practices
 
@@ -201,11 +219,13 @@ When you receive the command "/worklog", automatically:
 
 ## 🎯 Key Import Patterns
 
-### Database
+### Database (SP3 — `@db/xata` retired, use `@db/postgres`)
 
 ```typescript
-import { XataClient } from '@db/xata'
-import { askXata, searchXata } from '@db/xata/api'
+import { getAllEvents, getAllPersonnel, loadEntityGraph } from '@db/postgres'
+import { searchXata, searchAll, searchDatabase } from '@db/postgres'
+import { getSql, readById, getPaginatedRecords } from '@db/postgres'
+import type { EventsRecord, PersonnelRecord, TopicsRecord } from '@db/postgres'
 import { getGraphContext } from '@/features/mindmap/utils/contextual-intelligence'
 ```
 
