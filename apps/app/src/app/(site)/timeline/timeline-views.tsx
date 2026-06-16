@@ -1,7 +1,7 @@
 'use client'
 
 import {CustomCursor} from '@/components/cursor-ui/CustomCursor'
-import type {EventsRecord} from '@db'
+import type {EventsRecord} from '@db/postgres'
 import {HistoricalEventsTimeline} from '@/layouts/historical-events-timeline/historical-events-timeline'
 import type {ViewMode} from '@/layouts/historical-events-timeline/types'
 import {ViewSelector} from '@/layouts/historical-events-timeline/view-selector'

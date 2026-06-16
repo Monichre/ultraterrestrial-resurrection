@@ -1,10 +1,9 @@
 import {SpatialGallery} from '@/features/3d/visualizations/spatial-gallery'
 
-import {getXataClient} from '@db'
+import {getEventsWithPhotos} from '@db/postgres'
 import {transformImage} from '@xata.io/client'
 
 export const dynamic = 'force-dynamic'
-const xata = getXataClient()
 
 function generatePositions(totalItems: [any]) {
   const layers = [1, 8, 16, 24, 32, 29] // Items per layer
@@ -41,25 +40,7 @@ function generatePositions(totalItems: [any]) {
 // console.log(spatialData)
 
 const EventsGalleryPage = async () => {
-  const records = await xata.db.events
-    .filter({
-      $none: {
-        photos: [],
-      },
-    })
-    .select([
-      'name',
-      'description',
-      'location',
-      'latitude',
-      'longitude',
-      'date',
-      'photos',
-      'photos.signedUrl',
-      'photos.enablePublicUrl',
-      // 'photos.base64Content',
-    ])
-    .getAll()
+  const records = await getEventsWithPhotos(9)
 
   const spatialData = [
     {position: [0, 0, 1.5], rotation: [0, 0, 0]},
@@ -74,10 +55,9 @@ const EventsGalleryPage = async () => {
   ]
 
   const events = records
-    .toSerializable()
-    .filter((event) => event?.photos?.length)
+    .filter((event: any) => event?.photos?.length)
     .slice(0, 9)
-    .map(({id, photos, xata, ...rest}: any, i) => {
+    .map(({id, photos, ...rest}: any, i: number) => {
       const {position, rotation} = spatialData[i]
 
       const [photo] = photos

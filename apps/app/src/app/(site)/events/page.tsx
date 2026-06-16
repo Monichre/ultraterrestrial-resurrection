@@ -1,53 +1,25 @@
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import { ThreeDTimelineJourney } from '@/features/3d/3d-timeline-journey'
-import { getXataClient } from '@db'
+import { getAllEvents, getAllEventSMEs } from '@db/postgres'
 import { Suspense } from 'react'
 
 export const dynamic = 'force-dynamic'
 
 dayjs.extend(utc)
 
-const xata = getXataClient()
-
 export default async function Index() {
-  const records = await xata.db.events
-    .sort( 'date', 'desc' )
-    .select( [
-      'name',
-      'description',
-      'location',
-      'latitude',
-      'longitude',
-      'date',
-      'photos',
-      'photos.signedUrl',
-      'photos.enablePublicUrl',
-      {
-        name: '<-event-subject-matter-experts.event',
-        columns: ['*'],
-        as: 'experts',
-      },
-    ] )
-    .getAll()
+  const records = await getAllEvents()
 
-  const expertPersonnel = await xata.db['event-subject-matter-experts']
-    .select( [
-      'event.id',
-      'subject-matter-expert.id',
-      'subject-matter-expert.name',
-      'subject-matter-expert.photo',
-    ] )
-    .getAll()
+  const expertPersonnel = await getAllEventSMEs()
 
   const personnel = expertPersonnel
-    .toSerializable()
-    .map( ( { event, ...rest } ) => ( {
+    .map( ( { event, ...rest }: any ) => ( {
       ...rest['subject-matter-expert'],
       eventId: event?.id,
     } ) )
 
-  const data = records.toSerializable()
+  const data = records
 
   const events = data.map( ( event ) => {
     if ( event?.experts?.records ) {
@@ -77,7 +49,7 @@ export default async function Index() {
 
   const eventsByYear = removeEmptyKeys(
     events.reduce( ( acc: Record<string, unknown[]>, item ) => {
-      const year = removeLeadingZero( item.date.split( '-' )[0] )
+      const year = removeLeadingZero( String( item.date ).split( '-' )[0] )
 
       if ( acc[year] ) {
         acc[year].push( item )

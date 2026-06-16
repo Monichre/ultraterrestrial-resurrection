@@ -2,6 +2,7 @@ import { openai } from '@ai-sdk/openai';
 import { streamText, tool } from 'ai';
 import { z } from 'zod';
 import { NextRequest, NextResponse } from 'next/server';
+import { searchAll, searchTable } from '@db/postgres';
 
 // Constants
 const DEFAULT_SEARCH_LIMIT = 10;
@@ -625,176 +626,121 @@ export async function POST(req: NextRequest) {
               }
 
               console.log(`Searching database for: ${query} (type: ${entityType || 'all'})`);
-              
-              // Import Xata client here to avoid edge runtime issues
-              const { xata } = await import('@db');
-              
+
               const results: Array<{
                 content: string;
                 relevance: string;
                 source: string;
               }> = [];
-              
+
               // Search different entity types based on the request
               const searchTypes = entityType ? [entityType] : ['personnel', 'events', 'topics', 'organizations', 'testimonies', 'documents'];
-              
+
               for (const type of searchTypes) {
                 try {
-                  let searchResults: any[] = [];
-                  
+                  const tableLimit = ['personnel', 'events', 'topics', 'organizations'].includes(type)
+                    ? Math.min(limit, 5)
+                    : Math.min(limit, 3);
+                  const searchResults = await searchTable(type, query, tableLimit);
+
                   switch (type) {
                     case 'personnel':
-                      searchResults = await xata.db.personnel
-                        .search(query, {
-                          target: ['name', 'bio', 'role'],
-                          fuzziness: 1,
-                        })
-                        .getMany({ pagination: { size: Math.min(limit, 5) } });
-                      
                       searchResults.forEach(person => {
-                        if (person.name) {
+                        if (person['name']) {
                           results.push({
-                            content: `**${person.name}** (${person.role || 'Personnel'})\n\n${person.bio || 'No biography available.'}\n\nCredibility: ${person.credibility || 'N/A'}\nAuthority: ${person.authority || 'N/A'}`,
+                            content: `**${person['name']}** (${person['role'] || 'Personnel'})\n\n${person['bio'] || 'No biography available.'}\n\nCredibility: ${person['credibility'] || 'N/A'}\nAuthority: ${person['authority'] || 'N/A'}`,
                             relevance: 'high',
-                            source: `database:personnel:${person.name}`,
+                            source: `database:personnel:${person['name']}`,
                           });
                         }
                       });
                       break;
-                      
+
                     case 'events':
-                      searchResults = await xata.db.events
-                        .search(query, {
-                          target: ['name', 'description', 'title', 'summary'],
-                          fuzziness: 1,
-                        })
-                        .getMany({ pagination: { size: Math.min(limit, 5) } });
-                      
                       searchResults.forEach(event => {
-                        if (event.title || event.name) {
-                          const eventDate = event.date ? new Date(event.date).toLocaleDateString() : 'Date unknown';
+                        if (event['title'] || event['name']) {
+                          const eventDate = event['date'] ? new Date(event['date'] as string).toLocaleDateString() : 'Date unknown';
                           results.push({
-                            content: `**${event.title || event.name}** (${eventDate})\n\n${event.description || event.summary || 'No description available.'}\n\nLocation: ${event.location || 'Unknown'}\nCategory: ${Array.isArray(event.category) ? event.category.join(', ') : event.category || 'Uncategorized'}`,
+                            content: `**${event['title'] || event['name']}** (${eventDate})\n\n${event['description'] || event['summary'] || 'No description available.'}\n\nLocation: ${event['location'] || 'Unknown'}\nCategory: ${Array.isArray(event['category']) ? (event['category'] as string[]).join(', ') : event['category'] || 'Uncategorized'}`,
                             relevance: 'high',
-                            source: `database:events:${event.title || event.name}`,
+                            source: `database:events:${event['title'] || event['name']}`,
                           });
                         }
                       });
                       break;
-                      
+
                     case 'topics':
-                      searchResults = await xata.db.topics
-                        .search(query, {
-                          target: ['name', 'title', 'summary'],
-                          fuzziness: 1,
-                        })
-                        .getMany({ pagination: { size: Math.min(limit, 5) } });
-                      
                       searchResults.forEach(topic => {
-                        if (topic.title || topic.name) {
+                        if (topic['title'] || topic['name']) {
                           results.push({
-                            content: `**${topic.title || topic.name}** (Topic)\n\n${topic.summary || 'No summary available.'}`,
+                            content: `**${topic['title'] || topic['name']}** (Topic)\n\n${topic['summary'] || 'No summary available.'}`,
                             relevance: 'high',
-                            source: `database:topics:${topic.title || topic.name}`,
+                            source: `database:topics:${topic['title'] || topic['name']}`,
                           });
                         }
                       });
                       break;
-                      
+
                     case 'organizations':
-                      searchResults = await xata.db.organizations
-                        .search(query, {
-                          target: ['name', 'title', 'description', 'specialization'],
-                          fuzziness: 1,
-                        })
-                        .getMany({ pagination: { size: Math.min(limit, 5) } });
-                      
                       searchResults.forEach(org => {
-                        if (org.title || org.name) {
+                        if (org['title'] || org['name']) {
                           results.push({
-                            content: `**${org.title || org.name}** (Organization)\n\n${org.description || 'No description available.'}\n\nSpecialization: ${org.specialization || 'N/A'}`,
+                            content: `**${org['title'] || org['name']}** (Organization)\n\n${org['description'] || 'No description available.'}\n\nSpecialization: ${org['specialization'] || 'N/A'}`,
                             relevance: 'high',
-                            source: `database:organizations:${org.title || org.name}`,
+                            source: `database:organizations:${org['title'] || org['name']}`,
                           });
                         }
                       });
                       break;
-                      
+
                     case 'testimonies':
-                      searchResults = await xata.db.testimonies
-                        .search(query, {
-                          target: ['claim', 'summary', 'context', 'source'],
-                          fuzziness: 1,
-                        })
-                        .getMany({ pagination: { size: Math.min(limit, 3) } });
-                      
                       searchResults.forEach(testimony => {
-                        if (testimony.claim) {
-                          const testimonySummary = testimony.claim.substring(0, 200) + (testimony.claim.length > 200 ? '...' : '');
+                        if (testimony['claim']) {
+                          const claim = testimony['claim'] as string;
+                          const testimonySummary = claim.substring(0, 200) + (claim.length > 200 ? '...' : '');
                           results.push({
-                            content: `**Testimony**: ${testimonySummary}\n\n${testimony.summary || ''}\n\nSource: ${testimony.source || 'Unknown'}\nContext: ${testimony.context || 'N/A'}`,
+                            content: `**Testimony**: ${testimonySummary}\n\n${testimony['summary'] || ''}\n\nSource: ${testimony['source'] || 'Unknown'}\nContext: ${testimony['context'] || 'N/A'}`,
                             relevance: 'medium',
-                            source: `database:testimonies:${testimony.id}`,
+                            source: `database:testimonies:${testimony['id']}`,
                           });
                         }
                       });
                       break;
-                      
+
                     case 'documents':
-                      searchResults = await xata.db.documents
-                        .search(query, {
-                          target: ['title', 'summary'],
-                          fuzziness: 1,
-                        })
-                        .getMany({ pagination: { size: Math.min(limit, 3) } });
-                      
                       searchResults.forEach(doc => {
-                        if (doc.title) {
-                          const docDate = doc.date ? new Date(doc.date).toLocaleDateString() : 'Date unknown';
+                        if (doc['title']) {
+                          const docDate = doc['date'] ? new Date(doc['date'] as string).toLocaleDateString() : 'Date unknown';
                           results.push({
-                            content: `**${doc.title}** (Document - ${docDate})\n\n${doc.summary || 'No summary available.'}\n\nURL: ${doc.url || 'Not available'}`,
+                            content: `**${doc['title']}** (Document - ${docDate})\n\n${doc['summary'] || 'No summary available.'}\n\nURL: ${doc['url'] || 'Not available'}`,
                             relevance: 'medium',
-                            source: `database:documents:${doc.title}`,
+                            source: `database:documents:${doc['title']}`,
                           });
                         }
                       });
                       break;
-                      
+
                     case 'artifacts':
-                      searchResults = await xata.db.artifacts
-                        .search(query, {
-                          target: ['name', 'description', 'source', 'origin'],
-                          fuzziness: 1,
-                        })
-                        .getMany({ pagination: { size: Math.min(limit, 3) } });
-                      
                       searchResults.forEach(artifact => {
-                        if (artifact.name) {
+                        if (artifact['name']) {
                           results.push({
-                            content: `**${artifact.name}** (Artifact)\n\n${artifact.description || 'No description available.'}\n\nDate: ${artifact.date || 'Unknown'}\nSource: ${artifact.source || 'Unknown'}\nOrigin: ${artifact.origin || 'Unknown'}`,
+                            content: `**${artifact['name']}** (Artifact)\n\n${artifact['description'] || 'No description available.'}\n\nDate: ${artifact['date'] || 'Unknown'}\nSource: ${artifact['source'] || 'Unknown'}\nOrigin: ${artifact['origin'] || 'Unknown'}`,
                             relevance: 'medium',
-                            source: `database:artifacts:${artifact.name}`,
+                            source: `database:artifacts:${artifact['name']}`,
                           });
                         }
                       });
                       break;
-                      
+
                     case 'sightings':
-                      searchResults = await xata.db.sightings
-                        .search(query, {
-                          target: ['description', 'city', 'state', 'country', 'comments'],
-                          fuzziness: 1,
-                        })
-                        .getMany({ pagination: { size: Math.min(limit, 3) } });
-                      
                       searchResults.forEach(sighting => {
-                        if (sighting.description) {
-                          const sightingDate = sighting.date ? new Date(sighting.date).toLocaleDateString() : 'Date unknown';
-                          const location = [sighting.city, sighting.state, sighting.country].filter(Boolean).join(', ') || 'Unknown location';
+                        if (sighting['description']) {
+                          const sightingDate = sighting['date'] ? new Date(sighting['date'] as string).toLocaleDateString() : 'Date unknown';
+                          const location = [sighting['city'], sighting['state'], sighting['country']].filter(Boolean).join(', ') || 'Unknown location';
                           results.push({
-                            content: `**Sighting** (${sightingDate} - ${location})\n\n${sighting.description}\n\nShape: ${sighting.shape || 'Unknown'}\nDuration: ${sighting.duration_hours_min || sighting.duration_seconds || 'Unknown'}\nComments: ${sighting.comments || 'None'}`,
+                            content: `**Sighting** (${sightingDate} - ${location})\n\n${sighting['description']}\n\nShape: ${sighting['shape'] || 'Unknown'}\nDuration: ${sighting['duration_hours_min'] || sighting['duration_seconds'] || 'Unknown'}\nComments: ${sighting['comments'] || 'None'}`,
                             relevance: 'medium',
-                            source: `database:sightings:${sighting.id}`,
+                            source: `database:sightings:${sighting['id']}`,
                           });
                         }
                       });
@@ -978,40 +924,27 @@ export async function POST(req: NextRequest) {
               // Search database if requested
               if (searchSources.includes('database')) {
                 try {
-                  const { xata } = await import('@db');
-                  
-                  // Search personnel
-                  const personnelSearch = await xata.db.personnel
-                    .search(query, { target: ['name', 'bio', 'role'], fuzziness: 1 });
-                  const personnel = personnelSearch.records.slice(0, 3);
-                  
-                  personnel.forEach(person => {
-                    if (person.name) {
-                      aggregatedResults.push({
-                        content: `**${person.name}** (Personnel)\\n\\n${person.bio || 'No biography available.'}\\n\\nRole: ${person.role || 'N/A'}\\nCredibility: ${person.credibility || 'N/A'}`,
-                        relevance: 'high',
-                        source: `xata:database:personnel:${person.name}`,
-                      });
-                    }
-                  });
+                  const dbResults = await searchAll(query, 6);
 
-                  // Search events
-                  const eventsSearch = await xata.db.events
-                    .search(query, { target: ['name', 'description', 'title'], fuzziness: 1 });
-                  const events = eventsSearch.records.slice(0, 3);
-                  
-                  events.forEach(event => {
-                    if (event.title || event.name) {
-                      const eventDate = event.date ? new Date(event.date).toLocaleDateString() : 'Date unknown';
+                  dbResults.forEach(record => {
+                    const data = record.data as Record<string, unknown>;
+                    if (record.table === 'personnel') {
                       aggregatedResults.push({
-                        content: `**${event.title || event.name}** (Event - ${eventDate})\\n\\n${event.description || 'No description available.'}\\n\\nLocation: ${event.location || 'Unknown'}`,
+                        content: `**${record.name}** (Personnel)\\n\\n${data['bio'] || 'No biography available.'}\\n\\nRole: ${data['role'] || 'N/A'}\\nCredibility: ${data['credibility'] || 'N/A'}`,
                         relevance: 'high',
-                        source: `xata:database:events:${event.title || event.name}`,
+                        source: `xata:database:personnel:${record.name}`,
+                      });
+                    } else if (record.table === 'events') {
+                      const eventDate = data['date'] ? new Date(data['date'] as string).toLocaleDateString() : 'Date unknown';
+                      aggregatedResults.push({
+                        content: `**${record.name}** (Event - ${eventDate})\\n\\n${data['description'] || 'No description available.'}\\n\\nLocation: ${data['location'] || 'Unknown'}`,
+                        relevance: 'high',
+                        source: `xata:database:events:${record.name}`,
                       });
                     }
                   });
                 } catch (dbError) {
-                  console.warn('Xata database search error:', dbError);
+                  console.warn('Database search error:', dbError);
                 }
               }
 

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { fetchNextMindmapRecords } from '@db/src/xata-typescript-sdk/api/xyflow-integration'
+import { getPaginatedRecords } from '@db/postgres'
 
 export async function GET(request: NextRequest) {
   try {
@@ -8,7 +8,6 @@ export async function GET(request: NextRequest) {
     const table = searchParams.get('table')
     const size = parseInt(searchParams.get('size') || '10')
     const offset = parseInt(searchParams.get('offset') || '0')
-    const cursor = searchParams.get('cursor') || undefined
     const cacheParam = searchParams.get('cache')
 
     // Determine cache control based on cache parameter
@@ -26,12 +25,7 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    const result = await fetchNextMindmapRecords({
-      table,
-      size,
-      offset,
-      cursor,
-    })
+    const result = await getPaginatedRecords(table, size, offset)
 
     return NextResponse.json(result, {
       headers: {

@@ -1,4 +1,4 @@
-import { xata } from "@db/xata/client"
+import { readById, getSql } from "@db/postgres"
 import { openai } from "@ai-sdk/openai"
 import { embedMany } from "ai"
 import pMap from "p-map"
@@ -48,7 +48,7 @@ export async function processDocument( documentId: string ) {
   try {
     // Get document
     console.log( "[Vectorize] Retrieving document..." )
-    const document = await xata.db.documents.read( documentId )
+    const document = await readById( "documents", documentId )
 
     if ( !document ) throw new Error( "Document not found" )
 
@@ -78,10 +78,8 @@ export async function processDocument( documentId: string ) {
       ]
     }
 
-    await xata.db.documents.update( documentId, {
-      metadata: updatedMetadata,
-      processed: false
-    } )
+    const sql = getSql()
+    await sql`UPDATE documents SET metadata = ${JSON.stringify( updatedMetadata )}, xata_updatedat = NOW() WHERE id = ${documentId}`
 
     console.log( `[Vectorize] Created vectorization task: ${taskId}` )
 
@@ -195,10 +193,8 @@ export async function processDocument( documentId: string ) {
       ]
     }
 
-    await xata.db.documents.update( documentId, {
-      processed: true,
-      metadata: finalMetadata,
-    } )
+    const sql2 = getSql()
+    await sql2`UPDATE documents SET metadata = ${JSON.stringify( finalMetadata )}, xata_updatedat = NOW() WHERE id = ${documentId}`
 
     console.log( `[Vectorize] Vectorization completed for document ${documentId}`, {
       totalChunks: totalProcessedChunks,
@@ -219,7 +215,7 @@ export async function processDocument( documentId: string ) {
 
     // Update document status to error
     try {
-      const currentDoc = await xata.db.documents.read( documentId )
+      const currentDoc = await readById( "documents", documentId )
       const currentMetadata = ( currentDoc?.metadata as DocumentMetadata ) || {}
 
       const errorMetadata: DocumentMetadata = {
@@ -237,10 +233,8 @@ export async function processDocument( documentId: string ) {
         ) || []
       }
 
-      await xata.db.documents.update( documentId, {
-        processed: false,
-        metadata: errorMetadata,
-      } )
+      const sqlErr = getSql()
+      await sqlErr`UPDATE documents SET metadata = ${JSON.stringify( errorMetadata )}, xata_updatedat = NOW() WHERE id = ${documentId}`
     } catch ( updateError ) {
       console.error( "[Vectorize] Failed to update document error status:", updateError )
     }
@@ -312,7 +306,7 @@ function estimateTokenCount( text: string ): number {
 // Helper function to get document chunks from metadata
 export async function getDocumentChunks( documentId: string ): Promise<DocumentChunkData[]> {
 
-  const document = await xata.db.documents.read( documentId )
+  const document = await readById( "documents", documentId )
 
   if ( !document ) {
     throw new Error( "Document not found" )

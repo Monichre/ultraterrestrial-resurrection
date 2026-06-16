@@ -1,20 +1,7 @@
 "use server"
 
-import { xata } from "@db/xata/client"
+import { getEventsByDateRange, aggregateEventsByYear } from "@db/postgres"
 import {debugLog} from '@/utils/logger'
-import type { EventsRecord } from "@db/xata/xata"
-
-// Type definitions for aggregation results based on Xata's documentation
-interface XataAggregationResult {
-	aggs: {
-		categoryDistribution?: {
-			values: Array<{ $key: string; $count: number }>
-		}
-		eventsByYear?: {
-			values: Array<{ $key: string; $count: number }>
-		}
-	}
-}
 
 /**
  * Fetch events within a specified time range, with pagination
@@ -32,17 +19,10 @@ export async function getEventsByTimeChunk(
 		const startDate = new Date( `${startYear}-01-01T00:00:00Z` )
 		const endDate = new Date( `${endYear}-12-31T23:59:59Z` )
 
-		// Use Xata's filter to get events within date range
-		const eventsRecords = await xata.db.events
-			.filter( "date", { $ge: startDate, $le: endDate } )
-			.sort( "date", "desc" )
-			.getPaginated( {
-				pagination: {
-					size: Math.min(limit, 200), // Respect Xata's 200 record limit
-				},
-			} )
+		// Use Postgres layer to fetch events within date range
+		const records = await getEventsByDateRange( startDate, endDate, Math.min( limit, 200 ) )
 
-		return eventsRecords.records
+		return records
 	} catch ( error ) {
 		console.error( "Error fetching events by time chunk:", error )
 		return []
@@ -70,24 +50,26 @@ export async function getEventsStats(
 
 		// Category aggregation removed per requirement
 
-		// Get time series data by year - simplified without date filters for now
-		const timeSeriesAggregation = ( await xata.db.events.aggregate( {
-			eventsByYear: {
-				dateHistogram: {
-					column: "date",
-					calendarInterval: "year",
-				}
-			}
-		} ) ) as unknown as XataAggregationResult
+		// Get time series data by year and raw records in parallel
+		const [yearAggs, eventsRaw] = await Promise.all( [
+			aggregateEventsByYear( startDate, endDate ),
+			getEventsByDateRange( startDate, endDate, 200 ),
+		] )
 
-		// Fetch events to process location data with coordinates (limited)
-		const eventsRecords = await xata.db.events
-			.filter( "date", { $ge: startDate, $le: endDate } )
-			.getPaginated( {
-				pagination: {
-					size: 200, // Maximum safe limit for Xata
+		// Wrap year aggs into the shape the downstream code expects
+		const timeSeriesAggregation = {
+			aggs: {
+				eventsByYear: {
+					values: yearAggs.map( ( { year, count } ) => ( {
+						$key: new Date( Date.UTC( year, 0, 1 ) ).toISOString(),
+						$count: count,
+					} ) ),
 				},
-			} )
+			},
+		}
+
+		// Alias so the rest of the function body can use eventsRecords.records unchanged
+		const eventsRecords = { records: eventsRaw }
 
 		// Process location data to include coordinates
 		const locationGroups = new Map<

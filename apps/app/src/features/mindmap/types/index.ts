@@ -1,6 +1,3 @@
-// Re-export types from the database package
-export type { NetworkGraphPayload } from "@db/src/xata-typescript-sdk/api/xyflow-integration";
-
 // Re-export types that are commonly used
 export type {
   TopicsRecord,
@@ -14,7 +11,10 @@ export type {
   EventSubjectMatterExpertsRecord,
   TopicsTestimoniesRecord,
   OrganizationMembersRecord,
-} from "@db/xata";
+} from "@db/postgres";
+
+/** Shape returned by loadEntityGraph / getEntityNetworkGraphData */
+export type NetworkGraphPayload = Awaited<ReturnType<typeof import('@db/postgres').loadEntityGraph>>
 
 // Export additional types that are commonly used in the mindmap context
 export interface MindMapNode {

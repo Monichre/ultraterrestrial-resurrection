@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import { getXataClient } from '@db/xata';
 import { Queue } from '@/lib/upstash/queue';
 
 const queue = new Queue({
@@ -41,7 +40,6 @@ interface TestimonyQueueItem {
 export async function POST(req: Request) {
   try {
     const data = await req.json();
-    const xata = getXataClient();
 
     // Validate incoming data
     if (!data.title) {

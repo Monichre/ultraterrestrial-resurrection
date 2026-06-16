@@ -6,7 +6,7 @@ import type {
   TopicsRecord,
   TestimoniesRecord,
   OrganizationsRecord,
-} from '@db/xata'
+} from '@db/postgres'
 
 // Helper to get count from paginated or array response
 function getCount<T>(data: T[] | { records: T[] }): number {

@@ -1,6 +1,6 @@
 'use server'
 
-import { xata } from '@db'
+import { readById } from '@db/postgres'
 
 export interface DatabaseReferenceValidationParams {
   type: string
@@ -31,7 +31,7 @@ export async function validateDatabaseReference(
     }
 
     // Check if the record exists in the database
-    const record = await xata.db[params.type].read( params.id )
+    const record = await readById( params.type, params.id )
 
     if ( !record ) {
       return {

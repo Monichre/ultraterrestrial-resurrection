@@ -1,6 +1,6 @@
 "use server"
 
-import { fetchNextMindmapRecords as _fetchNextMindmapRecords } from "@db/src/xata-typescript-sdk/api/xyflow-integration"
+import { getPaginatedRecords } from "@db/postgres"
 
 export type MindMapNode = {
   id: string
@@ -14,7 +14,6 @@ export type MindMapNode = {
 export type FetchNextMindmapRecordsResult = {
   nodes: MindMapNode[]
   meta: {
-    cursor?: string
     more?: boolean
   }
 }
@@ -23,7 +22,6 @@ export type FetchNextMindmapRecordsParams = {
   table: string
   size: number
   offset: number
-  cursor?: string
 }
 
 /**
@@ -33,5 +31,14 @@ export type FetchNextMindmapRecordsParams = {
 export async function fetchNextMindmapRecords(
   params: FetchNextMindmapRecordsParams
 ): Promise<FetchNextMindmapRecordsResult> {
-  return await _fetchNextMindmapRecords( params )
-} 
+  const { records, hasMore } = await getPaginatedRecords( params.table, params.size, params.offset )
+  const nodes: MindMapNode[] = records.map( ( record ) => ( {
+    id: String( record.id ?? '' ),
+    data: {
+      label: String( (record as any).name ?? (record as any).title ?? record.id ?? '' ),
+      ...record,
+    },
+    type: params.table,
+  } ) )
+  return { nodes, meta: { more: hasMore } }
+}

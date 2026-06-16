@@ -1,4 +1,4 @@
-import {getXataClient} from '@db/xata'
+import {getAllPersonnel} from '@db/postgres'
 
 import {Particles} from '@/components/animated/particles/Particles'
 import SwipeGrid from '@/components/animated/swipe-grid/SwipeGrid'
@@ -28,23 +28,7 @@ type KeyFigure = {
 }
 export type KeyFiguresArray = KeyFigure[]
 export default async function Index() {
-  const xata = getXataClient()
-  const data: any = await xata.db.personnel
-    .select([
-      'name',
-      'bio',
-      'role',
-      'photo',
-
-      'rank',
-      'credibility',
-      'popularity',
-      'photo.signedUrl',
-      'photo.enablePublicUrl',
-    ])
-    .getAll()
-
-  const personnel = data.toSerializable()
+  const personnel: any = await getAllPersonnel()
   console.log('personnel: ', personnel)
   return (
     <Suspense fallback={<Loading />}>

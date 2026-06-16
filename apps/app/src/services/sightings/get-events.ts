@@ -1,4 +1,8 @@
-import { xata } from '@/db/xata/client';
+import {
+  getEventsByDateRange,
+  aggregateEventsByYear,
+  getSql,
+} from '@db/postgres';
 
 /**
  * Fetch events within a specified time range, with pagination
@@ -12,26 +16,10 @@ export async function getEventsByTimeChunk(
   limit: number = 100
 ) {
   try {
-    // Calculate date range
-    const startDate = new Date(`${startYear}-01-01T00:00:00Z`);
-    const endDate = new Date(`${endYear}-12-31T23:59:59Z`);
+    const start = `${startYear}-01-01T00:00:00Z`;
+    const end = `${endYear}-12-31T23:59:59Z`;
 
-    // Use Xata's filter to get events within date range
-    const eventsRecords = await xata.db.events
-      .filter({
-        date: {
-          $ge: startDate,
-          $le: endDate
-        }
-      })
-      .sort('date', 'desc')
-      .getPaginated({
-        pagination: {
-          size: limit
-        }
-      });
-
-    return eventsRecords.records;
+    return await getEventsByDateRange(start, end, limit);
   } catch (error) {
     console.error('Error fetching events by time chunk:', error);
     return [];
@@ -40,76 +28,43 @@ export async function getEventsByTimeChunk(
 
 /**
  * Get aggregate statistics for events based on time range
- * Uses Xata's aggregate functionality for efficient computation
  */
 export async function getEventsStats(
   startYear: number = 1940,
   endYear: number = new Date().getFullYear()
 ) {
   try {
-    // Calculate date range
-    const startDate = new Date(`${startYear}-01-01T00:00:00Z`);
-    const endDate = new Date(`${endYear}-12-31T23:59:59Z`);
+    const start = `${startYear}-01-01T00:00:00Z`;
+    const end = `${endYear}-12-31T23:59:59Z`;
+    const sql = getSql();
 
-    // Use Xata's aggregate to get category distribution
-    const categoryAggregation = await xata.db.events
-      .filter({
-        date: {
-          $ge: startDate,
-          $le: endDate
-        }
-      })
-      .aggregate({
-        categoryDistribution: {
-          distinctCount: {
-            column: 'id',
-            groupBy: 'category'
-          }
-        }
-      });
-    
-    // Get time series data by year
-    const timeSeriesAggregation = await xata.db.events
-      .filter({
-        date: {
-          $ge: startDate,
-          $le: endDate
-        }
-      })
-      .aggregate({
-        eventsByYear: {
-          count: {
-            groupBy: {
-              dateColumn: 'date',
-              method: 'byYear'
-            }
-          }
-        }
-      });
+    // category is a text[] column — unnest to count per category value
+    const categoryRows = await sql`
+      SELECT cat AS category, count(*)::int AS count
+      FROM events,
+           LATERAL unnest(category) AS cat
+      WHERE date >= ${start}::timestamptz AND date <= ${end}::timestamptz
+        AND category IS NOT NULL
+      GROUP BY cat
+      ORDER BY count DESC
+    ` as { category: string; count: number }[];
 
-    // Aggregate by location
-    const locationAggregation = await xata.db.events
-      .filter({
-        date: {
-          $ge: startDate,
-          $le: endDate
-        }
-      })
-      .aggregate({
-        eventsByLocation: {
-          count: {
-            groupBy: 'location'
-          }
-        }
-      });
+    const timeSeriesRows = await aggregateEventsByYear(start, end);
+
+    const locationRows = await sql`
+      SELECT location, count(*)::int AS count
+      FROM events
+      WHERE date >= ${start}::timestamptz AND date <= ${end}::timestamptz
+        AND location IS NOT NULL
+      GROUP BY location
+      ORDER BY count DESC
+    ` as { location: string; count: number }[];
 
     return {
-      total: timeSeriesAggregation.aggs.eventsByYear.reduce(
-        (sum, item) => sum + item.count, 0
-      ),
-      categoryDistribution: categoryAggregation.aggs.categoryDistribution,
-      timeseriesData: timeSeriesAggregation.aggs.eventsByYear,
-      locationData: locationAggregation.aggs.eventsByLocation,
+      total: timeSeriesRows.reduce((sum, item) => sum + item.count, 0),
+      categoryDistribution: categoryRows,
+      timeseriesData: timeSeriesRows,
+      locationData: locationRows,
       timeRange: {
         startYear,
         endYear

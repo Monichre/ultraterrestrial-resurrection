@@ -1,28 +1,22 @@
-import { xata } from '@/db/xata/client';
+import { getSql } from '@db/postgres';
+import type { EventsRecord } from '@db/postgres';
 
 /**
  * Fetch famous events chronologically for the guided tour
  * @param limit Maximum number of records to return
  */
-export async function getFamousEventsChronologically(limit: number = 50) {
+export async function getFamousEventsChronologically(limit: number = 50): Promise<EventsRecord[]> {
   try {
-    // Query events that are marked as famous or historically significant
-    const famousEvents = await xata.db.events
-      .filter({
-        $any: [
-          { category: { $is: 'famous' } },
-          { significance: { $is: 'high' } },
-          { historical_importance: { $is: true } }
-        ]
-      })
-      .sort('date', 'asc') // Chronological order
-      .getPaginated({
-        pagination: {
-          size: limit
-        }
-      });
-
-    return famousEvents.records;
+    const sql = getSql();
+    // category is a text[] column; match any row that contains 'famous' or 'historic'
+    const rows = await sql`
+      SELECT * FROM events
+      WHERE 'famous'  = ANY(category)
+         OR 'historic' = ANY(category)
+      ORDER BY date ASC NULLS LAST
+      LIMIT ${limit}
+    ` as EventsRecord[];
+    return rows;
   } catch (error) {
     console.error('Error fetching famous events:', error);
     return [];

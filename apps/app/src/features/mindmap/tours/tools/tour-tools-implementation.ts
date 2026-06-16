@@ -30,7 +30,7 @@ import type { useSpatialGrouping } from '@/features/mindmap/utils/spatial-groupi
 import { getGraphContext } from '@/features/mindmap/utils/contextual-intelligence'
 
 // Database imports for entity discovery
-import { xata } from '@/lib/xata'
+import { getSql, readById } from '@db/postgres'
 
 /**
  * Historical period definitions for navigation
@@ -207,15 +207,13 @@ export class HistoricalTourToolsImplementation implements TourToolsImplementatio
       const startTime = performance.now()
       
       // Query events within time period
-      const events = await xata.db.events
-        .filter({
-          date: {
-            $ge: new Date(params.time_period.start_year, 0, 1),
-            $le: new Date(params.time_period.end_year, 11, 31)
-          }
-        })
-        .sort('date', 'asc')
-        .getAll()
+      const sql = getSql()
+      const events = await sql`
+        SELECT * FROM events
+        WHERE date >= ${new Date(params.time_period.start_year, 0, 1)}
+          AND date <= ${new Date(params.time_period.end_year, 11, 31)}
+        ORDER BY date ASC
+      `
       
       // Focus on specific entities if provided
       const focusedEvents = params.focus_entities 
@@ -428,7 +426,7 @@ export class HistoricalTourToolsImplementation implements TourToolsImplementatio
       const waypoint = waypoints[i]
       if (waypoint.dbRef.type === 'events') {
         // Get event date and compare to period
-        const event = await xata.db.events.read(waypoint.dbRef.id)
+        const event = await readById('events', waypoint.dbRef.id)
         if (event?.date) {
           const eventYear = new Date(event.date).getFullYear()
           if (eventYear >= periodInfo.start && eventYear <= periodInfo.end) {
@@ -454,7 +452,7 @@ export class HistoricalTourToolsImplementation implements TourToolsImplementatio
     for (let i = 0; i < waypoints.length; i++) {
       const waypoint = waypoints[i]
       if (waypoint.dbRef.type === 'events') {
-        const event = await xata.db.events.read(waypoint.dbRef.id)
+        const event = await readById('events', waypoint.dbRef.id)
         if (event?.date) {
           const eventYear = new Date(event.date).getFullYear()
           const score = Math.abs(eventYear - year)

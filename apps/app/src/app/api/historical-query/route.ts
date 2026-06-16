@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { askXataWithAi } from '@db/src/xata-typescript-sdk/api'
-import { 
-  getGraphContext, 
-  generateTourAwareSearchRules, 
+import {
+  getGraphContext,
+  generateTourAwareSearchRules,
   determineHistoricalProgression,
-  type GraphContext 
+  type GraphContext
 } from '@/features/mindmap/utils/contextual-intelligence'
 
 export interface HistoricalQueryRequest {
@@ -36,140 +35,16 @@ export interface HistoricalQueryResponse {
   suggestions: string[]
 }
 
-export async function POST(request: NextRequest) {
-  try {
-    const body: HistoricalQueryRequest = await request.json()
-    const { type, graphContext, parameters } = body
-
-    let result: HistoricalQueryResponse
-
-    switch (type) {
-      case 'chronological-progression':
-        result = await processChronologicalProgression(graphContext, parameters)
-        break
-      
-      case 'tour-waypoint':
-        result = await processTourWaypoint(graphContext, parameters)
-        break
-      
-      case 'contextual-expansion':
-        result = await processContextualExpansion(graphContext, parameters)
-        break
-      
-      default:
-        return NextResponse.json(
-          { error: `Unknown task type: ${type}` },
-          { status: 400 }
-        )
-    }
-
-    return NextResponse.json(result)
-
-  } catch (error) {
-    console.error('Historical query error:', error)
-    return NextResponse.json(
-      { error: 'Historical query failed' },
-      { status: 500 }
-    )
-  }
+export async function POST(_request: NextRequest) {
+  return NextResponse.json(
+    { error: 'historical-query: AI ask not yet ported to Postgres layer' },
+    { status: 501 }
+  )
 }
 
-async function processChronologicalProgression(
-  graphContext: GraphContext, 
-  parameters: HistoricalQueryRequest['parameters']
-): Promise<HistoricalQueryResponse> {
-  
-  const progression = graphContext.historicalProgression || determineHistoricalProgression(graphContext)
-  
-  if (!progression) {
-    throw new Error('No historical progression context available')
-  }
-
-  const query = buildChronologicalQuery(progression, parameters)
-  const rules = buildChronologicalRules(progression, parameters)
-
-  const response = await askXataWithAi({
-    question: query,
-    table: parameters.table,
-    rules
-  })
-
-  const nodes = transformRecordsToNodes(response.records, parameters.table, 'chronological')
-  const edges = generateChronologicalEdges(nodes, progression)
-
-  return {
-    nodes,
-    edges,
-    analysis: `Found ${nodes.length} records in ${progression.currentPeriod.era}. Next suggested period: ${progression.nextChronologicalStep.suggestedYear} (${progression.nextChronologicalStep.rationale}).`,
-    suggestions: [
-      `Explore ${progression.nextChronologicalStep.suggestedYear} events`,
-      `Investigate connections to ${progression.significantEvents.slice(0, 2).join(' and ')}`,
-      `Expand research into ${progression.currentPeriod.era}`
-    ]
-  }
-}
-
-async function processTourWaypoint(
-  graphContext: GraphContext, 
-  parameters: HistoricalQueryRequest['parameters']
-): Promise<HistoricalQueryResponse> {
-  
-  if (!parameters.tourContext) {
-    throw new Error('Tour context required for tour waypoint processing')
-  }
-
-  const tourRules = generateTourAwareSearchRules(graphContext)
-  const query = `Following guided tour ${parameters.tourContext.tourId}, waypoint ${parameters.tourContext.waypointId}: ${parameters.tourContext.narrativeContext}`
-
-  const response = await askXataWithAi({
-    question: query,
-    table: parameters.table,
-    rules: [tourRules]
-  })
-
-  const nodes = transformRecordsToNodes(response.records, parameters.table, 'tour-guided')
-  const edges = generateTourEdges(nodes, parameters.tourContext)
-
-  return {
-    nodes,
-    edges,
-    analysis: `Tour waypoint ${parameters.tourContext.waypointId} yielded ${nodes.length} relevant records.`,
-    suggestions: [
-      `Continue to next waypoint in ${parameters.tourContext.tourId}`,
-      `Explore connections discovered in this waypoint`,
-      `Deep dive into specific entities from this waypoint`
-    ]
-  }
-}
-
-async function processContextualExpansion(
-  graphContext: GraphContext, 
-  parameters: HistoricalQueryRequest['parameters']
-): Promise<HistoricalQueryResponse> {
-  
-  const contextualRules = generateTourAwareSearchRules(graphContext)
-  const query = `Expand the knowledge graph with ${parameters.amount || 3} related ${parameters.table} records`
-
-  const response = await askXataWithAi({
-    question: query,
-    table: parameters.table,
-    rules: [contextualRules]
-  })
-
-  const nodes = transformRecordsToNodes(response.records, parameters.table, 'contextual')
-  const edges = generateContextualEdges(nodes, graphContext)
-
-  return {
-    nodes,
-    edges,
-    analysis: `Contextual expansion added ${nodes.length} records with ${edges.length} new connections.`,
-    suggestions: [
-      `Investigate key personnel connections`,
-      `Explore organizational relationships`,
-      `Follow temporal progression threads`
-    ]
-  }
-}
+// NOTE: processChronologicalProgression, processTourWaypoint, and processContextualExpansion
+// previously called askXataWithAi from @db/src/xata-typescript-sdk/api, which has been removed
+// as part of the Postgres migration. This route returns 501 until the AI-ask layer is ported.
 
 // Helper functions (extracted from original agent class)
 function buildChronologicalQuery(

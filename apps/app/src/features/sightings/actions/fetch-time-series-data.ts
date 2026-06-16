@@ -1,6 +1,6 @@
 "use server"
 
-import { xata } from '@db/xata/client'
+import { sightingsTimeSeries, getPaginatedSightings } from '@db/postgres'
 
 export interface TimeDataPoint {
   date: Date
@@ -21,40 +21,18 @@ export async function fetchTimeSeriesData( {
   timeRange
 }: FetchTimeSeriesDataParams ): Promise<FetchTimeSeriesDataResult> {
   try {
-    const results = await xata.db.sightings.summarize( {
-      filter: {
-        date: {
-          $ge: timeRange[0],
-          $le: timeRange[1],
-        },
-      },
-      columns: ['date'],
-      summaries: {
-        count: { count: '*' },
-      },
-    } )
+    const rows = await sightingsTimeSeries( timeRange[0], timeRange[1] )
 
-    // Process the summarized data
-    if ( results.summaries?.count ) {
-      const dateMap = results.summaries.count as Record<string, number>
+    const formattedData = rows
+      .map( ( { date, count } ) => ( {
+        date: new Date( date ),
+        count,
+      } ) )
+      .sort( ( a, b ) => a.date.getTime() - b.date.getTime() )
 
-      // Format the time series data
-      const formattedData = Object.entries( dateMap )
-        .map( ( [dateStr, count] ) => ( {
-          date: new Date( dateStr ),
-          count,
-        } ) )
-        .sort( ( a, b ) => a.date.getTime() - b.date.getTime() )
-
-      return {
-        success: true,
-        data: formattedData
-      }
-    } else {
-      return {
-        success: true,
-        data: []
-      }
+    return {
+      success: true,
+      data: formattedData
     }
   } catch ( err ) {
     console.error( 'Error fetching time series data:', err )
@@ -68,7 +46,8 @@ export async function fetchTimeSeriesData( {
 
 export interface FetchPaginatedSightingsParams {
   timeRange: [Date, Date]
-  cursor?: string | null
+  /** Numeric offset (page * size). Replaces the old Xata cursor. */
+  offset?: number
 }
 
 export interface FetchPaginatedSightingsResult {
@@ -79,33 +58,26 @@ export interface FetchPaginatedSightingsResult {
   error?: string
 }
 
+const PAGE_SIZE = 100
+
 export async function fetchPaginatedSightings( {
   timeRange,
-  cursor
+  offset = 0
 }: FetchPaginatedSightingsParams ): Promise<FetchPaginatedSightingsResult> {
   try {
-    // Use Xata's recommended cursor pattern for robustness
-    const response = await xata.db.sightings
-      .filter( {
-        date: {
-          $ge: timeRange[0],
-          $le: timeRange[1],
-        },
-      } )
-      .sort( 'date', 'asc' )
-      .getPaginated( {
-        pagination: {
-          size: 100,
-          // Only include cursor for subsequent pages
-          ...( cursor ? { after: cursor } : {} ),
-        },
-      } )
+    const { records, hasMore } = await getPaginatedSightings(
+      timeRange[0],
+      timeRange[1],
+      PAGE_SIZE,
+      offset,
+    )
 
     return {
       success: true,
-      records: response.records,
-      cursor: response.meta?.page?.cursor || null,
-      hasMore: response.meta?.page?.more || false
+      records,
+      // Encode next offset as a string cursor so callers don't need to change their interface
+      cursor: hasMore ? String( offset + PAGE_SIZE ) : null,
+      hasMore,
     }
   } catch ( err ) {
     console.error( 'Error fetching paginated sightings:', err )
