@@ -1,10 +1,8 @@
 'use client'
 
 import { KnowledgeItem, KnowledgeSources, SearchOptions } from '../types'
-import { getXataClient } from '@db/xata'
 
 export class XataAdapter implements KnowledgeSource {
-  private xata = getXataClient()
   private mockItems: KnowledgeItem[] = [] // Temporary mock data
 
   constructor() {

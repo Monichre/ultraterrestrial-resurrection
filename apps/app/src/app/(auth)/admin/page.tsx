@@ -1,4 +1,4 @@
-import {getAllOrganizations, getAllEvents, getAllTestimonies, getAllTopics, getAllPersonnel} from '@db/src/xata-typescript-sdk/models'
+import { getAllTopics, getAllPersonnel, getAllEvents, getAllTestimonies, getAllOrganizations } from '@db/postgres'
 import {AdminDashboard} from '@/features/admin/AdminDashboard'
 
 export const dynamic = 'force-dynamic'

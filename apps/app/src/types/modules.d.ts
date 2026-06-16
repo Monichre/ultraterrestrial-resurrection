@@ -14,6 +14,6 @@ declare module '@db/xata/client' {
   export const xata: any
 }
 
-declare module '@db/src/xata-typescript-sdk/models' {
-  export * from '@db/xata-typescript-sdk/models'
-} 
+declare module '@db/postgres' {
+  export * from '@db/postgres'
+}

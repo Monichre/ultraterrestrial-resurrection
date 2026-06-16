@@ -1,7 +1,7 @@
 'use server'
 
 import {Message} from '@/features/ai/components/message'
-import {searchXata} from '@db/src/xata-typescript-sdk/api'
+import {searchXata} from '@db/postgres'
 import {generateId} from 'ai'
 import {createStreamableUI, createStreamableValue} from '@ai-sdk/rsc'
 import {openai} from '@/lib/openai/client'

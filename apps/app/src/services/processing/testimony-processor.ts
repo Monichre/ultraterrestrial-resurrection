@@ -1,102 +1,70 @@
-import { getXataClient } from '@/db/xata/xata';
-import type { TestimonyData } from '@/types/testimony';
+import { getSql } from '@db/postgres'
+import type { TestimonyData } from '@/types/testimony'
 
 export async function processTestimony(data: TestimonyData) {
-  const xata = getXataClient();
-  
+  const sql = getSql()
+
   try {
     // Check for existing testimony
-    const existing = await xata.db.testimonies
-      .filter({ title: data.title })
-      .getFirst();
+    const existing = await sql`SELECT id FROM testimonies WHERE title = ${data.title} LIMIT 1`
 
-    if (existing) {
-      // Update existing testimony
-      await xata.db.testimonies.update(existing.id, {
-        summary: data.summary,
-        context: data.context,
-        claim: data.claims?.join('\n'),
-        source: data.source
-      });
-
-      return {
-        status: 'updated',
-        id: existing.id
-      };
+    if (existing.length > 0) {
+      await sql`
+        UPDATE testimonies
+        SET summary = ${data.summary ?? null},
+            description = ${data.context ?? null},
+            xata_updatedat = NOW()
+        WHERE id = ${existing[0].id}
+      `
+      return { status: 'updated', id: existing[0].id as string }
     }
 
     // Create new testimony
-    const testimony = await xata.db.testimonies.create({
-      title: data.title,
-      summary: data.summary,
-      context: data.context,
-      claim: data.claims?.join('\n'),
-      source: data.source
-    });
+    const [testimony] = await sql`
+      INSERT INTO testimonies (title, summary, description)
+      VALUES (${data.title}, ${data.summary ?? null}, ${data.context ?? null})
+      RETURNING id
+    `
 
-    // Process related entities
     if (data.personnel?.length) {
       for (const person of data.personnel) {
-        const personnelRecord = await xata.db.personnel.create({
-          name: person.name,
-          role: person.role,
-          bio: person.bio,
-          rank: person.authorityMetrics?.rank,
-          credibility: person.authorityMetrics?.credibility
-        });
-
-        // Link personnel as witness
-        await xata.db.testimonies.update(testimony.id, {
-          witness: {
-            id: personnelRecord.id
-          }
-        });
+        const [kf] = await sql`
+          INSERT INTO key_figures (name, role, bio, rank, credibility)
+          VALUES (${person.name}, ${person.role ?? null}, ${person.bio ?? null},
+                  ${person.authorityMetrics?.rank ?? null}, ${person.authorityMetrics?.credibility ?? null})
+          RETURNING id
+        `
+        await sql`UPDATE testimonies SET witness = ${kf.id}, xata_updatedat = NOW() WHERE id = ${testimony.id}`
       }
     }
 
-    // Process events
     if (data.events?.length) {
       for (const event of data.events) {
-        const eventRecord = await xata.db.events.create({
-          title: event.title,
-          description: event.description,
-          location: event.location,
-          date: event.date ? new Date(event.date) : undefined
-        });
-
-        // Link event to testimony
-        await xata.db.testimonies.update(testimony.id, {
-          event: {
-            id: eventRecord.id
-          }
-        });
+        const [ev] = await sql`
+          INSERT INTO events (title, description, location, date)
+          VALUES (${event.title}, ${event.description ?? null}, ${event.location ?? null},
+                  ${event.date ? new Date(event.date) : null})
+          RETURNING id
+        `
+        await sql`UPDATE testimonies SET event = ${ev.id}, xata_updatedat = NOW() WHERE id = ${testimony.id}`
       }
     }
 
-    // Process organizations
     if (data.organizations?.length) {
       for (const org of data.organizations) {
-        const orgRecord = await xata.db.organizations.create({
-          name: org.name,
-          description: org.description
-        });
-
-        // Link organization to testimony
-        await xata.db.testimonies.update(testimony.id, {
-          organization: {
-            id: orgRecord.id
-          }
-        });
+        const [o] = await sql`
+          INSERT INTO organizations (name, description)
+          VALUES (${org.name}, ${org.description ?? null})
+          RETURNING id
+        `
+        await sql`UPDATE testimonies SET organization = ${o.id}, xata_updatedat = NOW() WHERE id = ${testimony.id}`
       }
     }
 
-    return {
-      status: 'created',
-      id: testimony.id
-    };
+    return { status: 'created', id: testimony.id as string }
 
   } catch (error) {
-    console.error('Error processing testimony:', error);
-    throw error;
+    console.error('Error processing testimony:', error)
+    throw error
   }
 }

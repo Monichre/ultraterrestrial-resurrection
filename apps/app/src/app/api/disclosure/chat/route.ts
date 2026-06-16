@@ -5,7 +5,6 @@ import { assistantEventHandler } from "@/services/ai/openai/stream-handler"
 import { NER_EXTRACTION_PROMPT } from "@/services/ai/prompts/ner-extraction-prompt"
 import { streamText } from "ai"
 import { createSSEBridge, sseHeaders } from "@/services/ai/openai/sse"
-import { xataToXYFlow } from "@/features/mindmap/actions/xata-to-xyflow"
 import { searchDatabase } from "@/services/ai/openai/tools/search-database"
 
 import { streamObject } from "ai"
@@ -13,7 +12,7 @@ import { z } from "zod"
 import { openai as openaiSdk } from "@ai-sdk/openai"
 import { anthropic } from "@ai-sdk/anthropic"
 import type { AnthropicProviderOptions } from "@ai-sdk/anthropic"
-import { searchXata } from "@db/xata/api"
+import { searchXata } from "@db/postgres"
 
 /**
  * Input validation schema for disclosure chat API

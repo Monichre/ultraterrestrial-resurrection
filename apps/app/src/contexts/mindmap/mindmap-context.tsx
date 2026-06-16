@@ -40,7 +40,7 @@ import {useShallow} from 'zustand/react/shallow'
 import {xataToXYFlow} from '@/features/mindmap/actions/xata-to-xyflow'
 import {organizeNodeLayout, LayoutOptions} from '@/features/mindmap/layouts/organizeNodeLayout'
 // Removed direct Xata import to avoid browser API key exposure
-import type {DatabaseSchema} from '@db/xata'
+import type { DatabaseSchema } from '@db/postgres'
 import type {MindMapNode} from '@/features/mindmap/actions/get-entity-network-graph-data'
 
 export type RootNodeKey =

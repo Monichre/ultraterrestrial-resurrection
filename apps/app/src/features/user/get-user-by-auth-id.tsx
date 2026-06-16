@@ -1,16 +1,11 @@
-import { getXataClient } from '@db'
+import { getUserByExternalId } from '@db/postgres'
 // import { clerkClient } from '@clerk/nextjs/server'
-const xata = getXataClient()
 
 export const getUserByAuthId = async ( user ) => {
   const id = user?.id || null
   if ( !id ) return null
-  const { records } = await xata.db.users.search( id, {
-    target: [{ column: 'external_id' }],
-    fuzziness: 0,
-    prefix: 'phrase',
-  } )
-  console.log( 'records: ', records )
+  const record = await getUserByExternalId( id )
+  console.log( 'record: ', record )
 
   // await clerkClient.users.updateUserMetadata(userId, {
   //   publicMetadata: {
@@ -18,5 +13,5 @@ export const getUserByAuthId = async ( user ) => {
   //   }
   // })
 
-  return records[0]
+  return record
 }

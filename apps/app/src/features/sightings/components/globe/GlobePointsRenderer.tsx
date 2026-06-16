@@ -6,7 +6,7 @@ import {
   getZoomConfig,
   type ZOOM_LEVEL_CONFIG,
 } from '@/services/sightings/actions/sightings-time-chunk'
-import {xata} from '@/db/xata/client'
+import { fetchTimeSeriesData } from '@/features/sightings/actions/fetch-time-series-data'
 
 // Define types for the cluster data
 export interface ClusterData {
@@ -76,36 +76,10 @@ export function useTimeSeriesWithAggregation(timeRange: [Date, Date]) {
   useEffect(() => {
     async function fetchTimeData() {
       try {
-        // Using a simpler approach for time series data
-        // This is a placeholder - you may need to adjust based on Xata's actual API
-        // @ts-ignore - Handling Xata type issues
-        const records = await xata.db.sightings
-          .filter({
-            date: {
-              $ge: timeRange[0],
-              $le: timeRange[1],
-            },
-          })
-          .getAll()
-
-        // Group by date manually
-        const dateGroups: Record<string, number> = {}
-        records.forEach((record: any) => {
-          if (!record.date) return
-
-          const dateKey = record.date.toISOString().split('T')[0]
-          dateGroups[dateKey] = (dateGroups[dateKey] || 0) + 1
-        })
-
-        // Convert to array format
-        const formattedData = Object.entries(dateGroups)
-          .map(([dateStr, count]) => ({
-            date: new Date(dateStr),
-            count,
-          }))
-          .sort((a, b) => a.date.getTime() - b.date.getTime())
-
-        setTimeData(formattedData)
+        const result = await fetchTimeSeriesData({ timeRange })
+        if (result.success) {
+          setTimeData(result.data)
+        }
       } catch (err) {
         console.error('Error fetching time series data:', err)
       }

@@ -1,26 +1,13 @@
 "use server"
 
-import { xata } from "@db/xata/client"
+import {
+	getSightingsByDateRange,
+	getSightingsWithCoords,
+	aggregateSightingsByShape,
+	aggregateSightingsByCity,
+} from "@db/postgres"
 import { debugLog } from '@/utils/logger'
 import { UAPSightingSchema, type ValidatedUAPSighting } from "../uap-sighting"
-
-// Xata response types - define these based on actual API responses
-interface XataAggregationResult {
-	aggs?: {
-		shapeDistribution?: Array<{
-			value: string
-			count: number
-		}>
-		sightingsByYear?: Array<{
-			value: string // Year string like "2020"
-			count: number
-		}>
-		sightingsByLocation?: Array<{
-			value: string
-			count: number
-		}>
-	}
-}
 
 interface XataRecord {
 	id: string
@@ -117,37 +104,12 @@ export async function getSightingsByTimeChunk(
 			endDate.toISOString(),
 		)
 
-		// Use Xata's search API with date filter and boosting
-		// We'll use "*" as the query to match all records within our filter
-		const sightingsResults = await xata.db.sightings.search( "*", {
-			filter: {
-				date: {
-					$ge: startDate,
-					$le: endDate,
-				},
-			},
-			sort: {
-				date: "desc",
-			},
-			page: {
-				size: Math.min( limit, 200 ), // Respect Xata's 200 record limit
-			},
-			boosters: [
-				{
-					dateBooster: {
-						column: "date",
-						decay: 0.5,
-						scale: "365d", // Boost records within a year
-						factor: 5,
-						origin: new Date(), // Prefer more recent records
-					},
-				},
-			],
-		} )
+		// Use Postgres layer to fetch sightings in date range
+		const rawRecords = await getSightingsByDateRange( startDate, endDate, Math.min( limit, 200 ) )
 
 		console.log(
 			"🔍 Found sightings records:",
-			sightingsResults?.records?.length || 0,
+			rawRecords?.length || 0,
 			"for year range:",
 			startYear,
 			"-",
@@ -156,13 +118,11 @@ export async function getSightingsByTimeChunk(
 
 		// Map directly to ValidatedUAPSighting without strict schema validation for debugging
 		// This will show us what data we have even if it doesn't match the schema perfectly
-		const sightings = sightingsResults.records
+		const sightings = rawRecords
 			.map( ( record: XataRecord ) => {
 				try {
-					// Use Xata's built-in serialization
-					const serializedRecord = record.toSerializable
-						? record.toSerializable()
-						: sanitizeXataRecord( record )
+					// Postgres records are plain objects; sanitize for serialization safety
+					const serializedRecord = sanitizeXataRecord( record )
 
 					const timestamp = serializedRecord.date
 						? new Date( serializedRecord.date )
@@ -239,37 +199,19 @@ export async function getSightingsByTimeChunk(
 				"⚠️ No sightings with coordinates found. Fetching a larger batch to find mappable sightings...",
 			)
 
-			// Search specifically for records with coordinates
-			const expandedResults = await xata.db.sightings.search( "*", {
-				filter: {
-					$all: [
-						{ latitude: { $ge: -90 } },
-						{ latitude: { $le: 90 } },
-						{ longitude: { $ge: -180 } },
-						{ longitude: { $le: 180 } },
-						{ date: { $ge: startDate, $le: endDate } },
-					],
-				},
-				sort: {
-					date: "desc",
-				},
-				page: {
-					size: Math.min( limit, 200 ), // Respect Xata's 200 record limit
-				},
-			} )
+			// Search specifically for records with coordinates using Postgres layer
+			const expandedRecords = await getSightingsWithCoords( startDate, endDate, Math.min( limit, 200 ) )
 
-			if ( expandedResults.records.length > 0 ) {
+			if ( expandedRecords.length > 0 ) {
 				console.log(
-					`✅ Found ${expandedResults.records.length} mappable sightings with location data`,
+					`✅ Found ${expandedRecords.length} mappable sightings with location data`,
 				)
 
 				// Add any new records with coordinates to our result
-				const additionalSightings = expandedResults.records
+				const additionalSightings = expandedRecords
 					.map( ( record: XataRecord ) => {
 						try {
-							const serializedRecord = record.toSerializable
-								? record.toSerializable()
-								: sanitizeXataRecord( record )
+							const serializedRecord = sanitizeXataRecord( record )
 
 							const sightingObject = {
 								id: serializedRecord.id,
@@ -432,37 +374,14 @@ export async function getSightingsStats(
 			endDate.toISOString(),
 		)
 
-		// Use simple search with aggregation instead of the unsupported aggregate method
-		const searchResults = await xata.db.sightings.search( "*", {
-			filter: {
-				date: {
-					$ge: startDate,
-					$le: endDate,
-				},
-			},
-			page: {
-				size: 0, // We don't need actual records, just aggregations
-			},
-			aggregations: {
-				totalCount: {
-					count: "*",
-				},
-				byShapes: {
-					topValues: {
-						column: "shape",
-						size: 20,
-					},
-				},
-				byLocations: {
-					topValues: {
-						column: "city",
-						size: 30,
-					},
-				},
-			},
-		} )
+		// Use Postgres aggregation functions
+		const [shapeAggs, cityAggs, sampleRecords] = await Promise.all( [
+			aggregateSightingsByShape( startDate, endDate, 20 ),
+			aggregateSightingsByCity( startDate, endDate, 30 ),
+			getSightingsByDateRange( startDate, endDate, 200 ),
+		] )
 
-		console.log( "🔍 Search aggregation results:", searchResults )
+		console.log( "🔍 Postgres aggregation results: shapes, cities, sample records fetched" )
 
 		// Format into expected return structure
 		const shapeCounts: Record<string, number> = {}
@@ -474,139 +393,40 @@ export async function getSightingsStats(
 			yearCounts[year.toString()] = 0
 		}
 
-		// Since we can't use dateHistogram, we'll fetch records to count years
-		// Fetch records directly for counting using search with proper pagination
-		const sampleRecords = await xata.db.sightings.search( "*", {
-			filter: {
-				date: {
-					$ge: startDate,
-					$le: endDate,
-				},
-			},
-			page: {
-				size: 200, // Maximum allowed by Xata
-			},
-		} )
-
 		console.log(
-			`📊 Got ${sampleRecords.records.length} sample records for year counting`,
+			`📊 Got ${sampleRecords.length} sample records for year counting`,
 		)
 
 		// Count years from records
-		if ( sampleRecords.records.length > 0 ) {
-			for ( const record of sampleRecords.records ) {
-				if ( record.date ) {
-					const year = new Date( record.date ).getFullYear()
-					if ( year >= startYear && year <= maxAllowedYear ) {
-						yearCounts[year.toString()] =
-							( yearCounts[year.toString()] || 0 ) + 1
-					}
+		for ( const record of sampleRecords ) {
+			if ( record.date ) {
+				const year = new Date( record.date ).getFullYear()
+				if ( year >= startYear && year <= maxAllowedYear ) {
+					yearCounts[year.toString()] =
+						( yearCounts[year.toString()] || 0 ) + 1
 				}
 			}
 		}
 
-		// Process shapes from the aggregation results
-		if ( searchResults.aggs?.byShapes?.values ) {
-			const shapeBuckets = searchResults.aggs.byShapes.values
-			for ( const bucket of shapeBuckets ) {
-				if ( bucket && typeof bucket.$key === "string" ) {
-					shapeCounts[bucket.$key.toLowerCase()] = bucket.$count
+		// Process shapes from aggregation
+		for ( const { shape, count } of shapeAggs ) {
+			if ( shape ) {
+				shapeCounts[shape.toLowerCase()] = count
+			}
+		}
+
+		// Process locations from aggregation
+		for ( const { city, count } of cityAggs ) {
+			if ( city ) {
+				const normalizedLocation = city.toLowerCase()
+				if ( normalizedLocation !== "unknown" ) {
+					locationCounts[normalizedLocation] = count
 				}
 			}
 		}
 
-		// Process locations
-		if ( searchResults.aggs?.byLocations?.values ) {
-			const locationBuckets = searchResults.aggs.byLocations.values
-			for ( const bucket of locationBuckets ) {
-				if ( bucket && typeof bucket.$key === "string" ) {
-					const normalizedLocation = bucket.$key.toLowerCase()
-					if ( normalizedLocation !== "unknown" ) {
-						locationCounts[normalizedLocation] = bucket.$count
-					}
-				}
-			}
-		}
-
-		// Get total count from aggregation
-		const totalSightings = searchResults.aggs?.totalCount || 0
-
-		// If we didn't get enough data from aggregations, fetch directly
-		if (
-			Object.keys( shapeCounts ).length === 0 ||
-			Object.keys( yearCounts ).filter( ( y ) => yearCounts[y] > 0 ).length === 0
-		) {
-			console.log(
-				"⚠️ Not enough data from aggregations, fetching records directly",
-			)
-
-			// Fetch some records directly for counting using search
-			const sampleRecords = await xata.db.sightings.search( "*", {
-				filter: {
-					date: {
-						$ge: startDate,
-						$le: endDate,
-					},
-				},
-				page: {
-					size: 200, // Maximum allowed by Xata
-				},
-			} )
-
-			console.log(
-				`📊 Got ${sampleRecords.records.length} sample records for counting`,
-			)
-
-			// If we have no shape data, count from records
-			if (
-				Object.keys( shapeCounts ).length === 0 &&
-				sampleRecords.records.length > 0
-			) {
-				for ( const record of sampleRecords.records ) {
-					if ( record.shape ) {
-						const shape = record.shape.toLowerCase()
-						shapeCounts[shape] = ( shapeCounts[shape] || 0 ) + 1
-					}
-				}
-			}
-
-			// If we have no year data, count from records
-			if (
-				Object.keys( yearCounts ).filter( ( y ) => yearCounts[y] > 0 ).length === 0 &&
-				sampleRecords.records.length > 0
-			) {
-				for ( const record of sampleRecords.records ) {
-					if ( record.date ) {
-						const year = new Date( record.date ).getFullYear()
-						if ( year >= startYear && year <= maxAllowedYear ) {
-							yearCounts[year.toString()] =
-								( yearCounts[year.toString()] || 0 ) + 1
-						}
-					}
-				}
-			}
-
-			// If we have no location data, count from records
-			if (
-				Object.keys( locationCounts ).length === 0 &&
-				sampleRecords.records.length > 0
-			) {
-				for ( const record of sampleRecords.records ) {
-					if ( record.city ) {
-						const normalizedLocation = formatLocationString(
-							record.city,
-							record.state,
-							record.country,
-						)
-
-						if ( normalizedLocation !== "unknown" ) {
-							locationCounts[normalizedLocation] =
-								( locationCounts[normalizedLocation] || 0 ) + 1
-						}
-					}
-				}
-			}
-		}
+		// Get total count from year sums
+		const totalSightings = Object.values( yearCounts ).reduce( ( a, b ) => a + b, 0 )
 
 		console.log( "📊 Year distribution:", yearCounts )
 		console.log( "📊 Shape distribution:", shapeCounts )
@@ -689,31 +509,19 @@ export async function fetchSightingsRecords(
 			endDate.toISOString(),
 		)
 
-		// Use Xata's search API instead of filter
-		const sightingsResults = await xata.db.sightings.search(
-			`Get all records between ${startDate.toISOString()} and ${endDate.toISOString()}`,
-			{
-				filter: {
-					date: {
-						$ge: startDate,
-						$le: endDate,
-					},
-				},
-			},
-		)
+		// Use Postgres layer to fetch sightings records
+		const rawRecords = await getSightingsByDateRange( startDate, endDate, limit )
 
 		console.log(
-			`🔍 Retrieved ${sightingsResults.records.length} sightings records`,
+			`🔍 Retrieved ${rawRecords.length} sightings records`,
 		)
 
 		// Map records to ValidatedUAPSighting format
-		const sightings = sightingsResults.records
+		const sightings = rawRecords
 			.map( ( record: XataRecord ) => {
 				try {
-					// Use Xata's built-in serialization
-					const serializedRecord = record.toSerializable
-						? record.toSerializable()
-						: sanitizeXataRecord( record )
+					// Postgres records are plain objects; sanitize for serialization safety
+					const serializedRecord = sanitizeXataRecord( record )
 
 					const timestamp = serializedRecord.date
 						? new Date( serializedRecord.date )
@@ -924,37 +732,19 @@ export async function getSightingsBatched(
 					"📍 Fetching additional sightings with coordinates for mapping",
 				)
 
-				// Use Xata search API with filters for coordinates and date range
-				const mappableResults = await xata.db.sightings.search( "*", {
-					filter: {
-						$all: [
-							{ latitude: { $ge: -90 } },
-							{ latitude: { $le: 90 } },
-							{ longitude: { $ge: -180 } },
-							{ longitude: { $le: 180 } },
-							{ date: { $ge: startDate, $le: endDate } },
-						],
-					},
-					sort: {
-						date: "desc",
-					},
-					page: {
-						size: 200, // Maximum allowed by Xata
-					},
-				} )
+				// Use Postgres layer to fetch sightings with coordinates
+				const mappableRaw = await getSightingsWithCoords( startDate!, endDate!, 200 )
 
-				if ( mappableResults.records.length > 0 ) {
+				if ( mappableRaw.length > 0 ) {
 					debugLog(
-						`📍 Found ${mappableResults.records.length} additional sightings with coordinates`,
+						`📍 Found ${mappableRaw.length} additional sightings with coordinates`,
 					)
 
 					// Convert to our format
-					const additionalMappableSightings = mappableResults.records
+					const additionalMappableSightings = mappableRaw
 						.map( ( record: XataRecord ) => {
 							try {
-								const serializedRecord = record.toSerializable
-									? record.toSerializable()
-									: sanitizeXataRecord( record )
+								const serializedRecord = sanitizeXataRecord( record )
 
 								const sightingObject = {
 									id: serializedRecord.id,
