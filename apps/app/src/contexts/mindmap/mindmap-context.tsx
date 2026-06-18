@@ -12,13 +12,13 @@ import {
   PADDING,
   ROOT_DIMENSIONS,
   ROOT_NODE_HEIGHT,
-  ROOT_NODE_POSITIONS,
   ROOT_NODE_WIDTH,
   entityGroupNodeBaseConfig,
 } from '@/features/mindmap/config/index.config'
 
 import type {MindMapState} from '@/features/mindmap/store'
 import {useMindMapStore} from '@/features/mindmap/store'
+import {useMindMapUiStore} from '@/features/mindmap/store/mindmap-ui-store'
 import {use3DGraph} from '@/hooks/use3dGraph'
 import {DOMAIN_MODEL_COLORS} from '@/utils'
 import {capitalize} from '@/utils/functions'
@@ -39,6 +39,13 @@ import {createContext, useCallback, useContext, useEffect, useState} from 'react
 import {useShallow} from 'zustand/react/shallow'
 import {xataToXYFlow} from '@/features/mindmap/actions/xata-to-xyflow'
 import {organizeNodeLayout, LayoutOptions} from '@/features/mindmap/layouts/organizeNodeLayout'
+import {
+  createRootNodeChild,
+  createSiblingEdge,
+  createRootNodeEdge,
+  createRootNodeEdges,
+} from '@/features/mindmap/utils/node-factories'
+import {useGraphInit} from '@/features/mindmap/hooks/use-graph-init'
 // Removed direct Xata import to avoid browser API key exposure
 import type { DatabaseSchema } from '@db/postgres'
 import type {MindMapNode} from '@/features/mindmap/actions/get-entity-network-graph-data'
@@ -112,14 +119,33 @@ export const MindMapProvider = ({children}: {children: React.ReactNode}) => {
 
   // Local state for UI and visualization
   const [graph, setGraph] = useState<Record<string, {nodes: Node[]; edges: Edge[]}>>({})
-  const [activeNode, setActiveNode] = useState<Node | null>(null)
-  const [conciseViewActive, setConciseViewActive] = useState<boolean>(true)
-  const [showLocationVisualization, setShowLocationVisualization] = useState<boolean>(false)
-  const [locationsToVisualize, setLocationsToVisualize] = useState<Array<Record<string, unknown>>>(
-    []
-  )
-  const [keepLoadedOnMap, setKeepLoadedOnMap] = useState<boolean>(false)
   const [mindMapInstance, setMindMapInstance] = useState<Record<string, unknown> | null>(null)
+
+  // Canvas UI state — sourced from Zustand store (T-020)
+  const {
+    canvas,
+    setActiveNode,
+    setConciseViewActive,
+    setShowLocationVisualization,
+    setLocationsToVisualize,
+    setKeepLoadedOnMap,
+  } = useMindMapUiStore(
+    useShallow((s) => ({
+      canvas: s.canvas,
+      setActiveNode: s.setActiveNode,
+      setConciseViewActive: s.setConciseViewActive,
+      setShowLocationVisualization: s.setShowLocationVisualization,
+      setLocationsToVisualize: s.setLocationsToVisualize,
+      setKeepLoadedOnMap: s.setKeepLoadedOnMap,
+    }))
+  )
+  const {
+    activeNode,
+    conciseViewActive,
+    showLocationVisualization,
+    locationsToVisualize,
+    keepLoadedOnMap,
+  } = canvas
   const [rootNodeState, setRootNodeState] = useState<
     Record<RootNodeKey, {lastIndex: number; cursor?: string}>
   >({
@@ -143,134 +169,40 @@ export const MindMapProvider = ({children}: {children: React.ReactNode}) => {
   const childNodeBatchSize = 3
   const flowKey = 'mindmap-cache'
 
-  // Local state management functions
-  const updateActiveNode = useCallback((node: Node | null) => setActiveNode(node), [])
-  const toggleConciseView = useCallback(() => setConciseViewActive((prev) => !prev), [])
-  const turnOffConciseView = useCallback(() => setConciseViewActive(false), [])
-  const turnOnConciseView = useCallback(() => setConciseViewActive(true), [])
+  // Local state management functions (delegating to Zustand canvas slice)
+  const updateActiveNode = useCallback(
+    (node: Node | null) => setActiveNode(node),
+    [setActiveNode]
+  )
+  const toggleConciseView = useCallback(
+    () => setConciseViewActive(!conciseViewActive),
+    [conciseViewActive, setConciseViewActive]
+  )
+  const turnOffConciseView = useCallback(
+    () => setConciseViewActive(false),
+    [setConciseViewActive]
+  )
+  const turnOnConciseView = useCallback(
+    () => setConciseViewActive(true),
+    [setConciseViewActive]
+  )
   const toggleLocationVisualization = useCallback(
-    () => setShowLocationVisualization((prev) => !prev),
-    []
+    () => setShowLocationVisualization(!showLocationVisualization),
+    [showLocationVisualization, setShowLocationVisualization]
   )
-  const closeLocationVisualization = useCallback(() => setShowLocationVisualization(false), [])
-  const addLocationsToVisualize = useCallback((locations: Array<Record<string, unknown>>) => {
-    setLocationsToVisualize((prev) => [...prev, ...locations])
-  }, [])
-  const toggleKeepLoaded = useCallback(() => setKeepLoadedOnMap((prev) => !prev), [])
-
-  // Root node creation
-  const createRootNode = useCallback(
-    (
-      node: {
-        id: string
-        label?: string
-        name?: string
-        fill?: string
-        data: Record<string, unknown> & {type: string}
-        childNodes?: Array<unknown>
-      },
-      index: number
-    ) => {
-      const {id, label, name, fill, data} = node
-      const title = label || name
-      const childCount = node?.childNodes ? node?.childNodes?.length : 0
-
-      return {
-        id,
-        type: 'rootNode',
-        position: ROOT_NODE_POSITIONS[data.type as keyof typeof ROOT_NODE_POSITIONS],
-        data: {
-          childCount,
-          ...data,
-          label: title,
-          fill,
-        },
-      }
-    },
-    []
+  const closeLocationVisualization = useCallback(
+    () => setShowLocationVisualization(false),
+    [setShowLocationVisualization]
   )
-
-  // Node creation
-  const createRootNodeChild = useCallback(
-    (node: {
-      id: string
-      label?: string
-      name?: string
-      fill?: string
-      data: Record<string, unknown>
-    }) => {
-      const {id, label, name, fill, data} = node
-      const title = label || name
-
-      return {
-        id,
-        data: {
-          ...data,
-          label: title,
-          fill,
-        },
-        type: 'entityNode',
-      }
+  const addLocationsToVisualize = useCallback(
+    (locations: Array<Record<string, unknown>>) => {
+      setLocationsToVisualize([...locationsToVisualize, ...locations])
     },
-    []
+    [locationsToVisualize, setLocationsToVisualize]
   )
-
-  // Edge creation utilities
-  const createSiblingEdge = useCallback(
-    (sourceNode: {id: string}, targetNode: {id: string}, type?: string) => {
-      const id = `${sourceNode.id}:${targetNode.id}`
-      const edgeType = type || 'siblingEdge'
-
-      return {
-        id,
-        source: sourceNode.id,
-        target: targetNode.id,
-        animated: true,
-        type: edgeType,
-        markerEnd: 'custom-marker',
-        style: {
-          stroke: '#fff',
-        },
-        sourceHandle: `handle:${id}`,
-      }
-    },
-    []
-  )
-
-  const createRootNodeEdge = useCallback(
-    (
-      rootNodeChildNode: {id: string; data?: Record<string, unknown>},
-      source: string | {id: string; data?: Record<string, unknown>}
-    ) => {
-      const isObject = typeof source === 'object'
-      const isString = typeof source === 'string'
-      const sourceNode = isString ? reactFlowInstance.getNode(source) : isObject ? source : null
-
-      if (!sourceNode) return null
-
-      const id = `${sourceNode.id}:${rootNodeChildNode.id}`
-
-      return {
-        id,
-        source: sourceNode.id,
-        target: rootNodeChildNode.id,
-        animated: true,
-        type: 'rootNodeEdge',
-        markerEnd: 'custom-marker',
-        style: {
-          stroke: '#fff',
-        },
-        sourceHandle: `handle:${id}`,
-      }
-    },
-    [reactFlowInstance]
-  )
-
-  const createRootNodeEdges = useCallback(
-    (rootNodeChildNodes: Node[], source: any) => {
-      return rootNodeChildNodes.map((node) => createRootNodeEdge(node, source))
-    },
-    [createRootNodeEdge]
+  const toggleKeepLoaded = useCallback(
+    () => setKeepLoadedOnMap(!keepLoadedOnMap),
+    [keepLoadedOnMap, setKeepLoadedOnMap]
   )
 
   // Node positioning
@@ -403,35 +335,8 @@ export const MindMapProvider = ({children}: {children: React.ReactNode}) => {
     [store.addNodes, store.addEdges]
   )
 
-  // #1: FIRST STEP
-  // Initialize graph from 3D graph data
-  useEffect(() => {
-    // Only set graph state if it's empty or null
-    if (!graph || Object.keys(graph).length === 0) {
-      const formattedGraphNodesObject: any = {}
-      for (const key in graph3d) {
-        const graphModel = graph3d[key] as any
-        const tempNodes = graphModel?.nodes ? graphModel.nodes.map(createRootNodeChild) : []
-        const tempLinks = graphModel?.links
-          ? [].concat(
-              ...Object.keys(graphModel.links).map((key) => {
-                const links = graphModel.links[key].connectedTo
-                return [...links]
-              })
-            )
-          : []
-
-        formattedGraphNodesObject[key] = {
-          nodes: tempNodes,
-          edges: tempLinks,
-        }
-      }
-
-      setGraph(formattedGraphNodesObject)
-    }
-
-    // const initialRootNodes = graph3d.root.nodes.map(createRootNode);
-  }, [createRootNodeChild, graph, graph3d])
+  // #1: FIRST STEP — Initialize graph from 3D graph data (moved to use-graph-init hook)
+  useGraphInit(graph3d, graph, setGraph)
 
   // Layout functions
   const createGroupNodeLayoutWithoutRootNode = useCallback(
@@ -703,7 +608,9 @@ export const MindMapProvider = ({children}: {children: React.ReactNode}) => {
       const connections = currentNodes.filter((nodeOnMap: any) => nodeLinks.includes(nodeOnMap.id))
 
       // Create edges to these connections
-      const handles = connections.map((connection: any) => createRootNodeEdge(node, connection))
+      const handles = connections.map((connection: any) =>
+        createRootNodeEdge(node, connection, reactFlowInstance.getNode)
+      )
 
       // Update the node with the new connections
       store.updateNodeData(node.id, {...node.data, handles})
@@ -713,7 +620,6 @@ export const MindMapProvider = ({children}: {children: React.ReactNode}) => {
     },
     [
       store.addEdges,
-      createRootNodeEdge,
       reactFlowInstance,
       mindMapIntialGraphState,
       store.updateNodeData,
@@ -1261,7 +1167,8 @@ export const MindMapProvider = ({children}: {children: React.ReactNode}) => {
     useUpdateNodeInternals,
     // Utility functions
     // @ts-ignore
-    createRootNodeEdges,
+    createRootNodeEdges: (rootNodeChildNodes: Node[], source: any) =>
+      createRootNodeEdges(rootNodeChildNodes, source, reactFlowInstance.getNode),
 
     assignPositionsToChildNodes,
     // @ts-ignore

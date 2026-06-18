@@ -1,3 +1,10 @@
+// LEGACY: OpenAI Assistants API + SSE bridge for standalone mindmap chat panels.
+// Active consumers: mindmap-bottom-menu, launchpad, CanvasMenu, chat-with-context,
+//                   smart-bottom-menu, mindmap-ai-chat (all pass api='/api/disclosure/chat').
+// TODO (T-016): Evaluate migrating these consumers to /api/disclosure/mindmap (the primary graph agent)
+//               or /api/prometheus/chat (Vercel AI SDK streamText). Do NOT delete until consumers are
+//               migrated. This route duplicates much of /api/disclosure/mindmap logic.
+// NOTE: The transformXYFlow tool here calls claude-4-sonnet-20250115 (verify model name is valid).
 
 import { openai } from "@/lib/openai/client"
 import { PROMETHEUS_ASSISTANT_ID, PROMETHEUS_VECTOR_STORE_ID } from "@/services/ai/openai/config"

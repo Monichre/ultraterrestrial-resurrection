@@ -1,5 +1,10 @@
+// PRIMARY: OpenAI Assistants API + SSE bridge. Graph canvas agent. Use this for mindmap AI interactions.
+// Tools: file_search (vector store), searchDatabase (Postgres FTS/trgm), searchExternalResources (Exa),
+//        addGraphNodes, addGraphEdges (React Flow graph mutation via SSE data messages).
+// Client: useMindMapAgent hook → graph nodes/edges
+// DO NOT confuse with /api/disclosure/chat — that route is for legacy standalone chat consumers.
 
-
+import { z } from 'zod'
 import { openai } from "@/lib/openai/client"
 import { PROMETHEUS_ASSISTANT_ID, PROMETHEUS_VECTOR_STORE_ID } from "@/services/ai/openai/config"
 
@@ -67,14 +72,31 @@ interface GraphEdgeToolInput {
   data?: Record<string, unknown>
 }
 
+const MindmapBodySchema = z.object({
+  threadId: z.string().nullable().optional().default(null),
+  message: z.string().min(1, 'Message is required'),
+  contextRules: z.string().nullable().optional(),
+  researchFocus: z.string().nullable().optional(),
+  graphState: z.object({
+    nodeCount: z.number().optional(),
+    edgeCount: z.number().optional(),
+    activeNodeId: z.string().nullable().optional(),
+    activeView: z.string().nullable().optional(),
+    nodes: z.array(z.unknown()).optional(),
+    edges: z.array(z.unknown()).optional(),
+  }).nullable().optional(),
+})
+
 export async function POST( req: Request ) {
-  const input: {
-    threadId: string | null
-    message: string
-    contextRules?: string | null
-    researchFocus?: string | null
-    graphState?: AgentContextGraphState | null
-  } = await req.json()
+  const body = await req.json()
+  const parsed = MindmapBodySchema.safeParse(body)
+  if (!parsed.success) {
+    return new Response(
+      JSON.stringify({ error: 'Invalid request', details: parsed.error.flatten() }),
+      { status: 422, headers: { 'Content-Type': 'application/json' } }
+    )
+  }
+  const input = parsed.data
 
   const sharedAgentContext = buildAgentContext( {
     userMessage: input.message,
