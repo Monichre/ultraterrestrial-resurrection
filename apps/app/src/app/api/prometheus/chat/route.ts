@@ -1,3 +1,8 @@
+// PRIMARY: Vercel AI SDK streamText. Standalone conversational chat. Use this for Prometheus chat UI.
+// Tools: searchUAP (OpenAI Assistant + vector store), searchExternalResources (Exa),
+//        researchExternalTopic (Exa Research Pro), processDocument (summarize/topics/sentiment/etc).
+// DO NOT use this for mindmap graph interactions — use /api/disclosure/mindmap instead.
+
 import { openai } from '@ai-sdk/openai';
 import { streamText, tool } from 'ai';
 import { z } from 'zod';
@@ -446,10 +451,36 @@ async function executeDocumentAction(
 
 export const maxDuration = 60;
 
+const BodySchema = z.object({
+  messages: z.array(z.object({
+    role: z.string(),
+    content: z.unknown(),
+  })).min(1, 'At least one message is required'),
+  system: z.string().optional(),
+  tools: z.unknown().optional(),
+  graphState: z.object({
+    nodeCount: z.number().optional(),
+    edgeCount: z.number().optional(),
+    activeNodeId: z.string().nullable().optional(),
+    activeView: z.string().nullable().optional(),
+    nodes: z.array(z.unknown()).optional(),
+    edges: z.array(z.unknown()).optional(),
+  }).nullable().optional(),
+  researchFocus: z.string().nullable().optional(),
+  contextRules: z.string().nullable().optional(),
+})
+
 export async function POST(req: NextRequest) {
   try {
-    // Parse request body
+    // Parse and validate request body
     const body = await req.json();
+    const parsed = BodySchema.safeParse(body)
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: 'Invalid request', details: parsed.error.flatten() },
+        { status: 422 }
+      )
+    }
     const {
       messages,
       system,
@@ -457,21 +488,7 @@ export async function POST(req: NextRequest) {
       graphState,
       researchFocus,
       contextRules,
-    }: {
-      messages?: unknown[];
-      system?: string;
-      tools?: unknown;
-      graphState?: AgentContextGraphState | null;
-      researchFocus?: string | null;
-      contextRules?: string | null;
-    } = body;
-
-    if (!messages || !Array.isArray(messages)) {
-      return NextResponse.json(
-        { error: 'Invalid request: messages array is required' },
-        { status: 400 }
-      );
-    }
+    } = parsed.data
 
     const userMessage = extractLatestUserMessage(messages) || 'No user query provided.';
     const sharedAgentContext = buildAgentContext({

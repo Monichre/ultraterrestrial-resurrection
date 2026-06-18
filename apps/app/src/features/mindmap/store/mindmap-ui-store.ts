@@ -2,6 +2,7 @@
 
 import {create} from 'zustand'
 import {persist} from 'zustand/middleware'
+import type {Node} from '@xyflow/react'
 
 export type ActiveView = 'canvas' | 'timeline' | 'globe' | 'search' | 'detail'
 export type TourMode = 'guided' | 'free-form' | null
@@ -62,6 +63,14 @@ export type SessionEvent = {
   detail?: string
 }
 
+export type CanvasState = {
+  activeNode: Node | null
+  conciseViewActive: boolean
+  showLocationVisualization: boolean
+  locationsToVisualize: Array<Record<string, unknown>>
+  keepLoadedOnMap: boolean
+}
+
 export interface MindMapUiState {
   activeTool: string | null
   pinnedPanel: string | null
@@ -78,6 +87,9 @@ export interface MindMapUiState {
   deepResearchEnabled: boolean
   sessionEvents: SessionEvent[]
   hiddenNodeTypes: string[]
+
+  // Canvas node state
+  canvas: CanvasState
 
   // Session history actions
   addSessionEvent: (event: Omit<SessionEvent, 'id' | 'timestamp'>) => void
@@ -144,6 +156,13 @@ export interface MindMapUiState {
   toggleAiMode: () => void
   setDeepResearchEnabled: (enabled: boolean) => void
   toggleDeepResearch: () => void
+
+  // Canvas actions
+  setActiveNode: (node: Node | null) => void
+  setConciseViewActive: (active: boolean) => void
+  setShowLocationVisualization: (show: boolean) => void
+  setLocationsToVisualize: (locations: Array<Record<string, unknown>>) => void
+  setKeepLoadedOnMap: (keep: boolean) => void
 }
 
 export const useMindMapUiStore = create<MindMapUiState>()(
@@ -198,6 +217,15 @@ export const useMindMapUiStore = create<MindMapUiState>()(
       },
       sessionEvents: [],
       hiddenNodeTypes: [],
+
+      // Canvas initial state
+      canvas: {
+        activeNode: null,
+        conciseViewActive: true,
+        showLocationVisualization: false,
+        locationsToVisualize: [],
+        keepLoadedOnMap: false,
+      },
 
       // Session history actions
       addSessionEvent: (event) =>
@@ -514,6 +542,18 @@ export const useMindMapUiStore = create<MindMapUiState>()(
       toggleAiMode: () => set({aiMode: !get().aiMode}),
       setDeepResearchEnabled: (enabled) => set({deepResearchEnabled: enabled}),
       toggleDeepResearch: () => set({deepResearchEnabled: !get().deepResearchEnabled}),
+
+      // Canvas actions
+      setActiveNode: (node) =>
+        set({canvas: {...get().canvas, activeNode: node}}),
+      setConciseViewActive: (active) =>
+        set({canvas: {...get().canvas, conciseViewActive: active}}),
+      setShowLocationVisualization: (show) =>
+        set({canvas: {...get().canvas, showLocationVisualization: show}}),
+      setLocationsToVisualize: (locations) =>
+        set({canvas: {...get().canvas, locationsToVisualize: locations}}),
+      setKeepLoadedOnMap: (keep) =>
+        set({canvas: {...get().canvas, keepLoadedOnMap: keep}}),
     }),
     {
       name: 'mindmap-ui-storage',

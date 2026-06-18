@@ -137,6 +137,19 @@ export async function getAllOrganizations(): Promise<OrganizationsRecord[]> {
 // Sightings
 // ---------------------------------------------------------------------------
 
+export async function getAllSightings(
+  limit = 50,
+  offset = 0,
+): Promise<{ records: SightingsRecord[]; hasMore: boolean }> {
+  const sql = getSql()
+  const records = await sql`
+    SELECT * FROM sightings
+    ORDER BY occurred_at DESC NULLS LAST
+    LIMIT ${limit + 1} OFFSET ${offset}
+  ` as SightingsRecord[]
+  return { records: records.slice(0, limit), hasMore: records.length > limit }
+}
+
 export async function getSightingsByDateRange(
   start: string,
   end: string,

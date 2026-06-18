@@ -1,8 +1,9 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { UFO_SIGHTINGS, type UFOSighting } from "@/features/mindmap/research-canvas/data/ufo-sightings"
+import { getSightings } from "@/features/mindmap/research-canvas/actions/get-sightings"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
@@ -21,6 +22,9 @@ const CREDIBILITY_LEVELS = ["All", "High", "Medium", "Low"] as const
 const DECADES = ["All", "1940s", "1950s", "1960s", "1970s", "1980s", "1990s", "2000s", "2010s"] as const
 
 export default function UFOSightingsPage() {
+  const [sightings, setSightings] = useState<UFOSighting[]>(UFO_SIGHTINGS)
+  const [totalLoaded, setTotalLoaded] = useState(UFO_SIGHTINGS.length)
+  const [isLoading, setIsLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState("")
   const [viewMode, setViewMode] = useState<ViewMode>("grid")
   const [sortBy, setSortBy] = useState<SortOption>("date-desc")
@@ -30,9 +34,29 @@ export default function UFOSightingsPage() {
   const [showFilters, setShowFilters] = useState(false)
   const [selectedIncident, setSelectedIncident] = useState<UFOSighting | null>(null)
 
+  // Fetch real sightings from Postgres on mount
+  useEffect(() => {
+    let cancelled = false
+    async function fetchData() {
+      try {
+        const data = await getSightings({ limit: 50, offset: 0 })
+        if (!cancelled) {
+          setSightings(data)
+          setTotalLoaded(data.length)
+        }
+      } catch {
+        // fallback already returned by server action; keep initial state
+      } finally {
+        if (!cancelled) setIsLoading(false)
+      }
+    }
+    fetchData()
+    return () => { cancelled = true }
+  }, [])
+
   // Filter and sort incidents
   const filteredIncidents = useMemo(() => {
-    let filtered = [...UFO_SIGHTINGS]
+    let filtered = [...sightings]
 
     // Search filter
     if (searchQuery) {
@@ -82,7 +106,7 @@ export default function UFOSightingsPage() {
     }
 
     return filtered
-  }, [searchQuery, selectedClassification, selectedCredibility, selectedDecade, sortBy])
+  }, [sightings, searchQuery, selectedClassification, selectedCredibility, selectedDecade, sortBy])
 
   const activeFiltersCount = [
     selectedClassification !== "All",
@@ -280,7 +304,7 @@ export default function UFOSightingsPage() {
 
           {/* Results Count */}
           <p className="text-sm text-muted-foreground mb-6">
-            Showing {filteredIncidents.length} of {UFO_SIGHTINGS.length} incidents
+            {isLoading ? "Loading sightings..." : `Showing ${filteredIncidents.length} of ${totalLoaded} incidents`}
           </p>
         </div>
       </section>

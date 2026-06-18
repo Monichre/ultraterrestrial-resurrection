@@ -2,5 +2,11 @@
   "framework": "nextjs",
   "buildCommand": "cd apps/app && next build",
   "outputDirectory": "apps/app/.next",
-  "installCommand": "bun install"
+  "installCommand": "bun install",
+  "crons": [
+    {
+      "path": "/api/cron/process-testimonies",
+      "schedule": "0 */6 * * *"
+    }
+  ]
 }

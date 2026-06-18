@@ -1,3 +1,13 @@
+// DEAD STUB: This route always returns 501 — the underlying askXataWithAi dependency was removed
+// during the Postgres migration (SP3). The entire call chain is broken:
+//   historical-query-agent.ts → historical-query-server-actions.ts → askXataWithAi (retired Xata SDK)
+// The agent file also imports @db/xata/client which is retired.
+// TODO: Delete this route and its consumer chain (historical-query-agent.ts,
+//       historical-query-server-actions.ts, research-runtime.ts, tour-state-agent.ts)
+//       once the mindmap bottom menu is confirmed to not depend on any live behaviour from it.
+//       Check: mindmap-bottom-menu.tsx imports historicalQueryAgent — if that code path is
+//       currently reachable in the UI, it will silently fail (501) at runtime.
+
 import { NextRequest, NextResponse } from 'next/server'
 import {
   getGraphContext,
