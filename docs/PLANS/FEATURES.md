@@ -2,7 +2,7 @@
 
 **Purpose**: Collaborative space for high-level feature concepts, architectural decisions, and strategic planning before they become actionable tickets.
 
-**Last Updated**: January 15, 2025  
+**Last Updated**: 2026-06-20  
 **Contributors**: Liam Ellis, Claude Code  
 **Project**: Ultraterrestrial Resurrection - UFO/UAP Research Platform
 
@@ -18,7 +18,7 @@
 3. **Documentation** → Persistent research sessions with evidence tracking
 4. **Narrative** → Guided historical tours with spatial intelligence
 
-**Technical Philosophy**: "Orchestration over Replacement" - enhance existing sophisticated 85% complete AI infrastructure
+**Technical Philosophy**: "Orchestration over Replacement" - enhance the 1 working end-to-end AI path (disclosure/mindmap) rather than rebuilding. See AGENTS.md for grounded reality: only one AI path is fully operational in the Next.js app.
 
 ---
 
@@ -28,41 +28,35 @@
 
 **Vision**: Transform Prometheus AI into comprehensive UFO/UAP research platform with access to 90+ specialized external websites.
 
-**Core Concept**: Use Firecrawl to pre-ingest external content → Triple RAG storage → fast local search instead of slow real-time scraping.
+**Core Concept**: Use Firecrawl to pre-ingest external content → local search instead of slow real-time scraping. The Exa `searchExternalResources` tool already works in both active routes.
 
 **Key Components**:
 - **Content Pipeline**: Background crawling with quality filtering
-- **Tool Architecture**: Formalize existing capabilities as Prometheus tools (searchUAP, searchDatabase, searchDocuments, xataSearch, searchWebResources, processDocument)
+- **Tool Architecture**: Formalize existing capabilities as Prometheus tools (searchUAP, searchDatabase, searchDocuments, searchWebResources, processDocument)
 - **Integration**: Leverage existing Contextual Intelligence for orchestration
 
-**Status**: Requirements analyzed, architecture designed, ready for implementation
-**Decision**: Use tool-wrapper approach to enhance existing 85% complete AI infrastructure
-**Notes**: Perfectly aligns with existing architecture - orchestration over replacement
-**Reference**: See `docs/PROMETHEUS_REQUIREMENTS_ANALYSIS.md` for detailed technical approach
+**Status**: ⚠️ ASPIRATIONAL — not yet built. The Exa real-time search tool exists in both active routes. Full pre-ingestion pipeline (Firecrawl → local vector store) has not been implemented.
+**Decision**: Use tool-wrapper approach to enhance the working AI paths
+**Notes**: The old "Triple RAG (40/40/20 Upstash/FAISS/Postgres split)" design is SCRAPPED — that was the Python RAG system which is completely disconnected from the Next.js app. The Next.js app uses OpenAI file_search + Postgres FTS/trgm only.
+**Reference**: See `docs/plans/features/prometheus/PROMETHEUS_REQUIREMENTS_ANALYSIS.md` for detailed technical approach
 
 ---
 
-### **2. Database Infrastructure Modernization** ⭐ **Priority 2**
+### **2. Database Infrastructure Modernization** ✅ **COMPLETE (SP1-SP4)**
 
-**Vision**: Migrate to Postgres Wire enabled Xata for enhanced performance and modern PostgreSQL capabilities.
+**Vision**: Full migration from Xata to Neon Postgres 17.10 + pgvector 0.8.0.
 
-**Problem**: Current Xata instance lacks modern PostgreSQL features and performance optimizations needed for advanced RAG operations and complex spatial queries.
+**Migration Status: COMPLETE (2026-06)**
 
-**Migration Strategy**:
-- **Phase 1**: Setup Postgres Wire enabled Xata instance 
-- **Phase 2**: Comprehensive schema analysis and dependency mapping
-- **Phase 3**: Data migration with minimal downtime
-- **Phase 4**: Application configuration updates and testing
-- **Phase 5**: Performance validation and optimization
+What was actually done (SP1–SP4):
+- **SP1**: Schema DDL (`0001_init.sql`) — 29 tables, vector(1536), FTS, trgm indexes — loaded and verified on Neon
+- **SP2**: Re-ingestion pipeline — 189 docs / 4,946 document chunks / 1,405 entity embeddings live (text-embedding-3-small @ 1536 dims)
+- **SP3**: App `@db` data-layer cutover — ~25 call sites migrated from `@db/xata` to `@db/postgres`. `@db/xata` is now **retired**.
+- **SP4**: ufo-ui cherry-pick (`NetworkTimelineExplorer`) complete
 
-**Benefits**: 
-- Enhanced vector search capabilities for RAG operations
-- Better spatial query performance for mindmap operations
-- Modern PostgreSQL features for complex analytical queries
-- Improved scalability for growing dataset (230,998+ records)
+**Live state**: 230,998 records across 29 tables. Neon Postgres 17.10 + pgvector 0.8.0 is the sole database. `DATABASE_URL` lives in `packages/db/.env`.
 
-**Risk Mitigation**: Comprehensive testing, rollback procedures, dependency validation
-**Reference**: Extracted from Todo2 migration sequence (T-1 through T-6)
+**`@db/postgres`** is the ONLY import to use. `@db/xata` is retired — do not reference it.
 
 ---
 
@@ -194,15 +188,18 @@ packages/prompts/
 ## 🌟 Emerging Ideas & Future Concepts
 
 ### **Natural Language Tours (Agentic Tours)** 🎙️ **Post-MVP**
+
+> ⚠️ **SCRAPPED (as of 2026-03-29 roundtable)**: The multi-agent tour orchestrator (6 agent classes specced July 2025) was scrapped — **zero code was ever written**. Do not plan against this architecture. See `docs/plans/2026-03-29-documentation-roundtable-report.md`.
+
 **Idea**: Voice/text-controlled tour navigation - "Take me to the Roswell connection" or "Show me government involvement"
-**Dependencies**: Smart Tours (85% complete), Enhanced Nodes, Contextual Intelligence
-**Technical Requirements**: Advanced NLP, voice recognition, tour orchestration, natural language understanding
+**Dependencies**: Enhanced Nodes, Contextual Intelligence (both exist), working AI agent path
+**Technical Requirements**: Advanced NLP, tour state management, natural language understanding
 **User Stories**: 
 - "Show me all government officials connected to Roswell"
 - "Take me through the Pentagon UFO disclosure timeline"
 - "Find connections between Bob Lazar and Area 51"
-**Complexity**: High - requires sophisticated AI reasoning and tour state management
-**Timeline**: Post-MVP (after core research workflows are stable)
+**Complexity**: High - requires building on the working disclosure/mindmap agent path
+**Timeline**: Future (blocked on UX hardening and state management work first)
 
 ### **UFO Research Methodology Framework** 🔬 **Future Phase**
 **Idea**: Develop systematic approach to UFO/UAP research based on famous researchers' methodologies (Jacques Vallée, Diana Pasulka Walsh, etc.)
@@ -259,7 +256,7 @@ packages/prompts/
 - **Audio Processing**: Interview transcription, voice analysis, audio enhancement
 - **Cross-Modal Search**: "Find videos mentioning entities from this document"
 **Technical Stack**: Computer vision (OpenCV, YOLO), speech-to-text (Whisper), multi-modal embeddings (CLIP)
-**Integration**: Extend existing Triple RAG with multi-modal vector storage
+**Integration**: Extend the live FTS + pgvector search paths (`searchDatabase` in both active routes) with multi-modal vector storage; embeddings use `text-embedding-3-small` @ 1536 dims via `@db/postgres`. Note: there is no "Triple RAG" — the Next.js app has two search paths (OpenAI file_search + Postgres FTS/pgvector), not three.
 **Timeline**: Advanced feature (requires significant ML infrastructure)
 
 ### **Collaborative Investigation Workspaces** 👥 **Future Vision**
@@ -290,18 +287,18 @@ packages/prompts/
 **Date**: August 9, 2025  
 **Context**: External RAG integration strategy  
 **Decision**: Wrap existing capabilities as formal Prometheus tools rather than rebuild
-**Rationale**: Preserves 85% complete sophisticated AI infrastructure, enables incremental enhancement
+**Rationale**: Preserves the working AI paths (disclosure/mindmap + prometheus/chat), enables incremental enhancement without rebuilding
 **Impact**: Low risk, high compatibility, leverages existing Contextual Intelligence
 **Status**: ✅ Approved - Implementation ready
 
 ### **Decision 2: Firecrawl Pre-Ingestion Strategy**
 **Date**: August 9, 2025  
 **Context**: External web resources access method  
-**Decision**: Pre-ingest content to Triple RAG vs real-time scraping
-**Rationale**: LangBase lesson - fast search but slow integration solved by local storage
+**Decision**: Pre-ingest content to local vector store vs real-time scraping
+**Rationale**: Fast search but slow integration solved by local storage
 **Impact**: Fast responses, reliable performance, respects external sites
-**Technical Details**: Background crawling → Triple RAG storage → fast local vector search
-**Status**: ✅ Approved - Architecture designed
+**Technical Details**: Background crawling → local storage → fast local search
+**Status**: ⚠️ ASPIRATIONAL — not implemented. The "Triple RAG (40/40/20 Upstash/FAISS/Postgres split)" design is **SCRAPPED** — that was the Python RAG system (`apps/disclosure-rag/`) which is completely disconnected from the Next.js app. The Next.js app uses only OpenAI file_search + Postgres FTS/trgm.
 
 ### **Decision 3: API Consolidation Boundaries**  
 **Date**: August 9, 2025  
@@ -335,6 +332,11 @@ packages/prompts/
 **Migration**: `@apps/research-canvas/` → `@apps/app/src/features/research-canvas/`
 **Status**: 🔄 In Progress - Referenced in TODO.md
 
+### Decision 7: Postgres + pgvector as sole database (SP1-SP4 Complete)
+**Date**: June 2026
+**Decision**: Full migration from Xata to Neon Postgres 17.10 + pgvector 0.8.0. @db/xata retired.
+**Status**: ✅ COMPLETE — 230,998 records, 29 tables, 1,405 entity embeddings + 4,946 doc chunks live.
+
 ---
 
 ## 🔄 Implementation Flow
@@ -363,11 +365,11 @@ packages/prompts/
 - **API Consolidation**: ✅ Ready for TODO.md (architecture complete)
 - **Prompts System**: ✅ Ready for TODO.md (design finalized)
 - **Deep Research**: 🔄 Needs technical approach refinement
-- **Smart Tours Integration**: ✅ Already in TODO.md (active development)
+- **Natural Language Tours**: ⛔ SCRAPPED — multi-agent tour orchestrator was specced July 2025, zero code written, scrapped at 2026-03-29 roundtable. Do not pursue.
 - **TipTap Integration**: ✅ Ready for TODO.md (detailed plan exists)
 
 ### **Current Development Pipeline**:
-- **Active**: Smart Tours + Research Canvas (TODO.md Focus 1)
+- **Active**: Research Canvas integration (TODO.md Focus 1) — Smart Tours is SCRAPPED
 - **Next Sprint**: External Web RAG, API Consolidation (ready to move from FEATURES.md)
 - **Planning**: Deep Research refinement, Prompts system architecture
 
@@ -381,12 +383,12 @@ packages/prompts/
 | External Web RAG | Medium | Very High | Low | ⭐⭐⭐⭐⭐ |
 | API Consolidation | Low | High | Low | ⭐⭐⭐⭐ |
 | Prompts System | Medium | Medium | Low | ⭐⭐⭐ |
-| Smart Tours Integration | Low | High | Very Low | ⭐⭐⭐⭐ (Active) |
+| ~~Smart Tours Integration~~ | ~~Low~~ | ~~High~~ | ~~Very Low~~ | ⛔ SCRAPPED |
 | TipTap RAG Integration | Medium | High | Medium | ⭐⭐⭐ |
 | Deep Research | High | Very High | Medium | ⭐⭐ |
 
 ### **Resource Allocation Recommendations**
-- **Immediate Focus**: Complete Smart Tours integration (TODO.md Focus 1)
+- **Immediate Focus**: Research Canvas integration (TODO.md Focus 1) — Smart Tours was scrapped
 - **Next Sprint**: External Web RAG (highest ROI, low risk)
 - **Parallel Development**: API Consolidation (low complexity, can run alongside)
 - **Following Sprint**: Prompts System + TipTap Integration
