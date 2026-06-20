@@ -265,18 +265,18 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Dependencies:** T-003 (auth middleware)
 
 ### T-026: Add monitoring (Sentry + Vercel Analytics)
-- **Status:** OPEN
+- **Status:** BLOCKED — 2026-06-20 (env-gated, dependency-free observability seam landed: `apps/app/src/lib/observability.ts` + `docs/observability/monitoring-plan.md`. Blocked on `@sentry/nextjs` dependency approval + `SENTRY_DSN` credential. Interface stable — wiring Sentry needs no call-site changes.)
 - **Size:** M (1-2 days)
 - **What:** Wire Sentry for error tracking, Vercel Analytics for performance. Set up OpenAI cost tracking.
 
 ### T-027: Create ResearchSession unified state slice
-- **Status:** OPEN
+- **Status:** DONE — 2026-06-20 (non-destructive `researchSession` Zustand slice on `mindmap-ui-store.ts` converging research-context + use-research-state; sessionId/pinnedCards/canvasNotes persisted. Consumer migration documented + deferred. `docs/plans/2026-06-20-t027-research-session-slice.md`)
 - **Size:** M (2-3 days)
 - **What:** Single owner of investigation-session state: `activeSessionId`, `pinnedNodeIds`, `notes`, `evidenceIds`, `citationIds`, `saveStatus`. Converge 4 fragmented providers.
 - **Reference:** `docs/plans/2026-03-29-research-canvas-grounding.md`
 
 ### T-028: Mindmap Agent Consolidation (ai-sdk-tools)
-- **Status:** OPEN
+- **Status:** AUDIT DONE / IMPL DEFERRED — 2026-06-20 (baseline audit `docs/plans/2026-06-20-t028-mindmap-agent-consolidation-audit.md`: found 3 agent paths not 2; `/api/sse/xata/ask` still imports retired `@db/xata` with 4 live consumers. Impl deferred — behavior-changing, needs runtime smoke beyond the tsc-only gate.)
 - **Size:** L (5-7 days)
 - **What:** Tasks 26-31 from original TODO. Baseline audit, tool adapter schemas, MindmapResearchAgent, API route v2, client hook integration, validation.
 - **Dependencies:** T-013, T-015

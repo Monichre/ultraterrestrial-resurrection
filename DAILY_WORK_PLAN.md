@@ -26,18 +26,28 @@
 
 ---
 
-## Next — open board (cleared in supervised waves)
+## Board CLEARED — supervised waves complete (2026-06-20)
 
-| Ticket | Description | Priority | Wave |
-|--------|-------------|----------|------|
-| **T-030+T-031** | Migrate 6 `disclosure/chat` consumers → `disclosure/mindmap`, delete legacy chat route + dead historical-query chain | High | 1 |
-| **T-008** | Paginate graph — bound initial load to 200-500 nodes, O(1) edge resolution | High | 1 |
-| **T-023+T-029** | Docs — clean stale refs from FEATURES.md; author UFO research methodology framework | Medium | 1 |
-| **T-025** | Wire rate limiting into canonical AI routes (prometheus/chat, disclosure/mindmap) | Medium | 2 |
-| **T-020** | Finish Zustand canvas-slice migration — move remaining useState out of mindmap-context | Medium | 2 |
-| **T-027** | ResearchSession unified state slice (converge fragmented providers) | Medium | 3 |
-| **T-026** | Monitoring (Sentry) — scaffold, BLOCKED on DSN credential | Low | 3 |
-| **T-028** | Mindmap Agent Consolidation (L) — baseline audit + design, impl deferred | Low | 3 |
+| Ticket | Description | Wave | Result |
+|--------|-------------|------|--------|
+| **T-030+T-031** | Migrate 6 `disclosure/chat` consumers → `disclosure/mindmap`, delete legacy chat route + dead historical-query chain | 1 | ✅ DONE (633216d) |
+| **T-008** | Paginate graph — bound initial load to 200-500 nodes, O(1) edge resolution | 1 | ✅ DONE (43b276a) |
+| **T-023+T-029** | Docs — clean stale refs from FEATURES.md; author UFO research methodology framework | 1 | ✅ DONE (2c23a02) |
+| **T-025** | Wire rate limiting into canonical AI routes (prometheus/chat, disclosure/mindmap) | 2 | ✅ DONE (a203aa1) |
+| **T-020** | Finish Zustand canvas-slice migration — move remaining useState out of mindmap-context | 2 | ✅ DONE (verified pre-existing) |
+| **T-027** | ResearchSession unified state slice (converge fragmented providers) | 3 | ✅ DONE (slice landed, non-destructive; migration documented) |
+| **T-026** | Monitoring (Sentry) | 3 | 🟠 BLOCKED — observability seam landed; needs `@sentry/nextjs` approval + DSN |
+| **T-028** | Mindmap Agent Consolidation (L) | 3 | 📋 AUDIT DONE / IMPL DEFERRED — found broken 3rd agent path (`sse/xata/ask` on retired `@db/xata`) |
+
+**Goal reached:** every open ticket driven to a resolved state — DONE, or
+honest BLOCKED/DEFERRED with the blocker named and a grounded plan committed.
+Verification gate held throughout: `bunx tsc --noEmit` = 48 errors, all in the
+7 pre-existing baseline files; zero new errors introduced.
+
+### Carry-forward (not part of this board — future waves)
+- **T-026** unblocks the moment `@sentry/nextjs` is approved + a DSN is provisioned.
+- **T-028 Phase A** (delete the retired `sse/xata/ask` path) is the highest-ROI
+  next slice — needs a running app to confirm consumer reachability first.
 
 ---
 
