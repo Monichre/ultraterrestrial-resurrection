@@ -71,6 +71,35 @@ export type CanvasState = {
   keepLoadedOnMap: boolean
 }
 
+// --- ResearchSession (T-027) ---
+// Unified slice converging the previously fragmented research state:
+//   - contexts/research/research-context.tsx  (pinned cards + canvas notes)
+//   - components/menus/mindmap-bottom-menu/hooks/use-research-state.ts
+//     (sessionId, activeMode, isProcessing, selectedNodes, tourState, analysisResults)
+// This is additive/non-destructive — the legacy providers remain until consumers
+// migrate. See docs/plans/2026-06-20-t027-research-session-slice.md for the plan.
+export type ResearchMode = 'research' | 'tour' | 'analysis' | null
+
+export type ResearchPinnedCard = {
+  id: string
+  type?: string
+  title?: string
+  pinnedAt: number
+  notes?: string
+  position: { x: number, y: number }
+  data?: Record<string, unknown>
+}
+
+export type ResearchSessionState = {
+  sessionId: string | null
+  activeMode: ResearchMode
+  isProcessing: boolean
+  selectedNodeIds: string[]
+  analysisResults: Array<Record<string, unknown>>
+  pinnedCards: ResearchPinnedCard[]
+  canvasNotes: string
+}
+
 export interface MindMapUiState {
   activeTool: string | null
   pinnedPanel: string | null
@@ -90,6 +119,9 @@ export interface MindMapUiState {
 
   // Canvas node state
   canvas: CanvasState
+
+  // Unified research session state (T-027)
+  researchSession: ResearchSessionState
 
   // Session history actions
   addSessionEvent: (event: Omit<SessionEvent, 'id' | 'timestamp'>) => void
@@ -163,6 +195,19 @@ export interface MindMapUiState {
   setShowLocationVisualization: (show: boolean) => void
   setLocationsToVisualize: (locations: Array<Record<string, unknown>>) => void
   setKeepLoadedOnMap: (keep: boolean) => void
+
+  // Research session actions (T-027)
+  initResearchSession: (sessionId?: string) => void
+  setResearchMode: (mode: ResearchMode) => void
+  setResearchProcessing: (processing: boolean) => void
+  setResearchSelectedNodes: (nodeIds: string[]) => void
+  addResearchAnalysisResult: (result: Record<string, unknown>) => void
+  clearResearchAnalysisResults: () => void
+  pinResearchCard: (card: Omit<ResearchPinnedCard, 'pinnedAt' | 'position'> & {position?: {x: number, y: number}}) => void
+  unpinResearchCard: (cardId: string) => void
+  updateResearchCardNotes: (cardId: string, notes: string) => void
+  setResearchCanvasNotes: (notes: string) => void
+  resetResearchSession: () => void
 }
 
 export const useMindMapUiStore = create<MindMapUiState>()(
@@ -225,6 +270,17 @@ export const useMindMapUiStore = create<MindMapUiState>()(
         showLocationVisualization: false,
         locationsToVisualize: [],
         keepLoadedOnMap: false,
+      },
+
+      // Research session initial state (T-027)
+      researchSession: {
+        sessionId: null,
+        activeMode: null,
+        isProcessing: false,
+        selectedNodeIds: [],
+        analysisResults: [],
+        pinnedCards: [],
+        canvasNotes: '',
       },
 
       // Session history actions
@@ -554,6 +610,88 @@ export const useMindMapUiStore = create<MindMapUiState>()(
         set({canvas: {...get().canvas, locationsToVisualize: locations}}),
       setKeepLoadedOnMap: (keep) =>
         set({canvas: {...get().canvas, keepLoadedOnMap: keep}}),
+
+      // Research session actions (T-027)
+      initResearchSession: (sessionId) =>
+        set({
+          researchSession: {
+            ...get().researchSession,
+            sessionId:
+              sessionId ??
+              get().researchSession.sessionId ??
+              `research-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+          },
+        }),
+      setResearchMode: (mode) =>
+        set({researchSession: {...get().researchSession, activeMode: mode}}),
+      setResearchProcessing: (processing) =>
+        set({researchSession: {...get().researchSession, isProcessing: processing}}),
+      setResearchSelectedNodes: (nodeIds) =>
+        set({researchSession: {...get().researchSession, selectedNodeIds: nodeIds}}),
+      addResearchAnalysisResult: (result) =>
+        set({
+          researchSession: {
+            ...get().researchSession,
+            analysisResults: [...get().researchSession.analysisResults, result],
+          },
+        }),
+      clearResearchAnalysisResults: () =>
+        set({researchSession: {...get().researchSession, analysisResults: []}}),
+      pinResearchCard: (card) => {
+        const current = get().researchSession.pinnedCards
+        const existingIndex = current.findIndex((c) => c.id === card.id)
+        if (existingIndex >= 0) {
+          set({
+            researchSession: {
+              ...get().researchSession,
+              pinnedCards: current.map((c, i) =>
+                i === existingIndex ? {...c, ...card, pinnedAt: c.pinnedAt, position: card.position ?? c.position} : c,
+              ),
+            },
+          })
+          return
+        }
+        const position = card.position ?? {
+          x: (current.length % 3) * 320 + 20,
+          y: Math.floor(current.length / 3) * 200 + 20,
+        }
+        set({
+          researchSession: {
+            ...get().researchSession,
+            pinnedCards: [...current, {...card, pinnedAt: Date.now(), position}],
+          },
+        })
+      },
+      unpinResearchCard: (cardId) =>
+        set({
+          researchSession: {
+            ...get().researchSession,
+            pinnedCards: get().researchSession.pinnedCards.filter((c) => c.id !== cardId),
+          },
+        }),
+      updateResearchCardNotes: (cardId, notes) =>
+        set({
+          researchSession: {
+            ...get().researchSession,
+            pinnedCards: get().researchSession.pinnedCards.map((c) =>
+              c.id === cardId ? {...c, notes} : c,
+            ),
+          },
+        }),
+      setResearchCanvasNotes: (notes) =>
+        set({researchSession: {...get().researchSession, canvasNotes: notes}}),
+      resetResearchSession: () =>
+        set({
+          researchSession: {
+            ...get().researchSession,
+            activeMode: null,
+            isProcessing: false,
+            selectedNodeIds: [],
+            analysisResults: [],
+            pinnedCards: [],
+            canvasNotes: '',
+          },
+        }),
     }),
     {
       name: 'mindmap-ui-storage',
@@ -564,6 +702,11 @@ export const useMindMapUiStore = create<MindMapUiState>()(
         deepResearchEnabled: state.deepResearchEnabled,
         navigation: {
           activeView: state.navigation.activeView,
+        },
+        researchSession: {
+          sessionId: state.researchSession.sessionId,
+          pinnedCards: state.researchSession.pinnedCards,
+          canvasNotes: state.researchSession.canvasNotes,
         },
       }),
     }
