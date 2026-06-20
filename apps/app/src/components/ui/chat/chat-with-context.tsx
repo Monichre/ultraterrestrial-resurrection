@@ -46,7 +46,7 @@ interface ChatWithContextProps {
 }
 
 export function ChatWithContext({
-  apiEndpoint = '/api/disclosure/chat',
+  apiEndpoint = '/api/disclosure/mindmap',
   position = 'bottom-right',
   size = 'lg',
   icon,

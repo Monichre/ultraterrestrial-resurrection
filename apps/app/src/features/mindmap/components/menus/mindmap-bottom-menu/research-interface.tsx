@@ -1,10 +1,7 @@
 'use client';
 
-import { AssistantRuntimeProvider, ThreadPrimitive, ComposerPrimitive, useAssistantInstructions } from "@assistant-ui/react";
-import { useResearchRuntime } from "./research-runtime";
-import { useMindMap } from '@/contexts/mindmap/mindmap-context';
-import { SessionNotesProvider } from '@/contexts/mindmap/session-notes-context';
-import { useEffect } from 'react';
+// research-runtime.ts deleted (T-031) — this component was solely a shell for useResearchRuntime.
+// Stubbed to null until a Postgres-native replacement is implemented.
 
 interface ResearchInterfaceProps {
   onCommandChange?: (command: string | null) => void;
@@ -12,70 +9,8 @@ interface ResearchInterfaceProps {
   className?: string;
 }
 
-function ResearchCanvas() {
-  const { getNodes, getEdges } = useMindMap();
-  
-  // Provide dynamic context to the assistant
-  useAssistantInstructions(`
-    Current research context:
-    - Total nodes: ${getNodes().length}
-    - Total connections: ${getEdges().length}
-    - Node types: ${[...new Set(getNodes().map(n => n.type))].join(', ')}
-    
-    You can help users:
-    1. Create new research nodes by searching the UFO/UAP database
-    2. Analyze spatial relationships between selected nodes
-    3. Generate historical tours through significant events
-    4. Cross-reference testimonies and witness accounts
-    5. Explore connections between entities
-    
-    When users ask about UFO/UAP topics, use the available tools to provide comprehensive, data-driven insights.
-  `);
-
-  return (
-    <div className="research-canvas">
-      <ThreadPrimitive.Root className="flex flex-col h-full">
-        <ThreadPrimitive.Viewport className="flex-1 overflow-y-auto p-4">
-          <ThreadPrimitive.Messages
-            components={{
-              UserMessage: () => <div className="text-right text-sm text-neutral-300 mb-2" />,
-              AssistantMessage: () => <div className="text-left text-sm text-neutral-400 mb-2" />,
-            }}
-          />
-        </ThreadPrimitive.Viewport>
-        <div className="p-2 border-t border-neutral-700">
-          <ComposerPrimitive.Root>
-            <ComposerPrimitive.Input className="w-full bg-transparent text-neutral-200 text-sm outline-none resize-none" placeholder="Ask about UAP/UFO research..." />
-            <ComposerPrimitive.Send className="text-neutral-400 hover:text-neutral-200" />
-          </ComposerPrimitive.Root>
-        </div>
-      </ThreadPrimitive.Root>
-    </div>
-  );
-}
-
-export function ResearchInterface({ 
-  onCommandChange, 
-  onModelChange, 
-  className = '' 
-}: ResearchInterfaceProps) {
-  const runtime = useResearchRuntime();
-
-  return (
-    <SessionNotesProvider>
-      <AssistantRuntimeProvider runtime={runtime}>
-        <div className={`research-interface ${className}`}>
-          <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-[500px]">
-            <div className="p-0 flex flex-col w-full h-auto relative">
-              <div className="p-4 flex flex-col w-full border border-neutral-700/30 text-neutral-500 bg-black bg-gradient-to-b from-black relative rounded-xl">
-                <ResearchCanvas />
-              </div>
-            </div>
-          </div>
-        </div>
-      </AssistantRuntimeProvider>
-    </SessionNotesProvider>
-  );
+export function ResearchInterface(_props: ResearchInterfaceProps) {
+  return null;
 }
 
 export default ResearchInterface;

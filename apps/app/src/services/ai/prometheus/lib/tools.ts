@@ -10,8 +10,8 @@
  * - apps/app/src/app/api/prometheus/chat/route.ts  ← PRIMARY standalone chat (Vercel AI SDK)
  *   Tools: searchUAP, searchExternalResources, researchExternalTopic, processDocument
  *
- * The legacy route apps/app/src/app/api/disclosure/chat/route.ts still exists
- * for active mindmap chat-panel consumers (see TODO T-016 for migration plan).
+ * The legacy route apps/app/src/app/api/disclosure/chat/route.ts has been deleted (T-030).
+ * All former consumers now point to /api/disclosure/mindmap.
  *
  * @deprecated Use API route implementations directly
  * @see apps/app/src/app/api/disclosure/mindmap/route.ts

@@ -169,7 +169,7 @@ export function CanvasMenu({
   // AI Assistant integration
   const {messages, sendMessage, status} = useChat({
     transport: new DefaultChatTransport({
-      api: '/api/disclosure/chat',
+      api: '/api/disclosure/mindmap',
       headers: {
         'x-session-id': sessionId.current,
       },
