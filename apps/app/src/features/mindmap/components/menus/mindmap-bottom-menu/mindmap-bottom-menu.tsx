@@ -2,55 +2,26 @@
 
 import {useMindMap} from '@/contexts/mindmap/mindmap-context'
 import {initiateDatabaseTableQuery} from '@/features/mindmap/actions/search'
-import {DOMAIN_MODEL_COLORS, ICON_GREEN} from '@/utils/constants'
-import type {UIMessage as AISdkMessage} from '@ai-sdk/react'
+import {DOMAIN_MODEL_COLORS} from '@/utils/constants'
 import {useChat} from '@ai-sdk/react'
 import {useCallback, useEffect, useRef, useState} from 'react'
 import {v4 as uuidv4} from 'uuid'
 
 import OracleInput from '@/features/mindmap/components/menus/mindmap-bottom-menu/oracle-input'
-import {AlertCircle, Brain, FileSearch, Lightbulb, SearchIcon, XIcon} from 'lucide-react'
-import EntityAdditionProgress from '@/components/ai/EntityAdditionProgress'
+import {AlertCircle} from 'lucide-react'
 import {askAIAction} from '@/features/mindmap/actions/xata-to-xyflow'
 import {OracleCommandMenu, type CommandItem} from './oracle-command-menu/OracleCommandMenu'
 import {UltraterrestrialModelSelection, type ModelAction} from './UltraterrestrialModelSelection'
 import {ENTITY_TYPES} from '@/features/mindmap/components/menus/mindmap-bottom-menu/entity-types'
 import {COMMANDS} from '@/features/mindmap/components/menus/mindmap-bottom-menu/oracle-command-menu/commands'
-import {MindMapMessages, convertAiSdkMessage, type Message} from './MindMapMessages'
-import {SessionNotesProvider, useSessionNotes} from '@/contexts/mindmap/session-notes-context'
-import {SessionNotes} from '@/features/mindmap/components/status-ui/session-notes'
 import {
   getGraphContext,
-  isRecordRelated,
-  generateContextualSearchRules,
-  generateTourAwareSearchRules,
-  determineHistoricalProgression,
   type GraphContext,
 } from '@/features/mindmap/utils/contextual-intelligence'
 import {
   createEnhancedUserInputNode,
   createEnhancedEntityNode,
-  getNodeType,
 } from '@/features/mindmap/utils/node-enhancement-utils'
-import {
-  historicalQueryAgent,
-  queueChronologicalProgression,
-  queueContextualExpansion,
-  type HistoricalQueryTask,
-} from '@/features/mindmap/agents/historical-query-agent'
-import {tourStateAgent, type TourSession} from '@/features/mindmap/agents/tour-state-agent'
-import {
-  startGuidedTour,
-  startFreeFormExploration,
-  switchToFreeForm,
-  progressTour,
-} from '@/features/mindmap/agents/tour-state-actions'
-
-type MindMapNodeData = {
-  type: string
-  id: string
-  [key: string]: unknown
-}
 
 interface XataResponseRecord {
   id: string
@@ -69,41 +40,6 @@ export interface MindMapNode {
 export interface SearchParams {
   type: string
   searchTerm: string
-}
-
-// Unified entity definitions for use across multiple components
-
-// Define interface for ReactFlowNode to use in type casting
-interface ReactFlowNode {
-  id: string
-  type: string
-  position: {x: number; y: number}
-  data: Record<string, unknown>
-  parentId?: string
-  // Add any other properties that might be needed
-}
-
-// Helper to load chat messages from localStorage
-const loadMessagesFromLocalStorage = () => {
-  if (typeof window === 'undefined') return []
-
-  try {
-    const savedMessages = localStorage.getItem('chatMessages')
-    return savedMessages ? JSON.parse(savedMessages) : []
-  } catch (error) {
-    console.error('Error loading chat messages from localStorage:', error)
-    return []
-  }
-}
-
-// Create a message wrapper component that uses the SessionNotes context
-const MessagesWithNotesSaving = ({messages}: {messages: AISdkMessage[]}) => {
-  const {addNoteFromMessage} = useSessionNotes()
-
-  // Convert AI SDK messages to our internal format
-  const convertedMessages = messages.map((msg) => convertAiSdkMessage(msg))
-
-  return <MindMapMessages messages={convertedMessages} onSaveAsNote={addNoteFromMessage} />
 }
 
 export interface MindMapBottomMenuProps {
@@ -133,33 +69,16 @@ export const MindMapBottomMenu = ({
   const [aiMode, setAiMode] = useState(false)
   const [layoutBusy, setLayoutBusy] = useState(false)
 
-  // Tour and agent state management
-  const [activeTourSession, setActiveTourSession] = useState<string | null>(null)
-  const [tourMode, setTourMode] = useState<'guided' | 'free-form' | null>(null)
-  const [agentTaskQueue, setAgentTaskQueue] = useState<{[key: string]: HistoricalQueryTask}>({})
-  const [backgroundProcessing, setBackgroundProcessing] = useState(false)
-  const [currentProcessingType, setCurrentProcessingType] = useState<string>('')
   const {
-    addNextEntitiesToMindMap,
     loadNodesFromTableQuery,
-    addConnectionNodesFromSearch,
-    addUserInputNode,
-    addNodes,
     addNodesWithLayout,
     updateNodeData,
     addEdges,
-    screenToFlowPosition,
-    retrieveEntitiesFromStore,
     organizeLayout,
-
     setEdges,
     setNodes,
     getNodes,
     getEdges,
-    addNode,
-
-    getNode,
-    fitView,
   } = useMindMap()
 
   // Derived: Context awareness indicator
@@ -173,7 +92,7 @@ export const MindMapBottomMenu = ({
   })()
 
   const {messages, input, setInput, append, isLoading, error} = useChat({
-    api: '/api/disclosure/chat',
+    api: '/api/disclosure/mindmap',
     headers: {
       'x-session-id': sessionId.current,
     },
@@ -199,51 +118,6 @@ export const MindMapBottomMenu = ({
   }, [messages])
 
   // Handle assistant errors
-
-  const idCounter = useRef(0)
-  const getNextId = useCallback(() => {
-    idCounter.current += 1
-    return `userInputNode-${idCounter.current}`
-  }, [])
-
-  const calculateCenterOfScreen = useCallback(() => {
-    return {x: window.innerWidth / 2, y: window.innerHeight / 2}
-  }, [])
-
-  /**
-   * Computes the positions for child nodes based on the parent's position.
-   * - Retrieves the parent's width and height from the DOM.
-   * - Calculates the total width needed for the children (using fixed node width and spacing).
-   * - Determines the starting x-coordinate so that the children are centered below the parent.
-   */
-  const computeChildPositions = useCallback((parentNode: MindMapNode, numberOfChildren: number) => {
-    console.log('🚀 ~ computeChildPositions ~ parentNode:', parentNode)
-
-    // NOTE: We dont need to use the DOM position of the parent node as the chld nodes will be positioned relatively to the parent by default (bc of the parentId prop)
-
-    const parentRect = document
-      .querySelector(`[data-id="${parentNode.id}"]`)
-      ?.getBoundingClientRect()
-
-    console.log('🚀 ~ computeChildPositions ~ parentRect:', parentRect)
-
-    const parentWidth = parentRect?.width || 250
-    const parentHeight = parentRect?.height || 100
-
-    const entityWidth = 250 // Default width for each child node
-    const entitySpacing = 100 // Space between child nodes
-    const totalWidth = numberOfChildren * entityWidth + (numberOfChildren - 1) * entitySpacing
-
-    // Parent's center is its left position plus half its width
-    const parentCenterX = parentWidth / 2
-    // Start so that the children (as a group) are centered below the parent's center
-    const startX = 0 - totalWidth / 2
-
-    const verticalSpacing = 200 // Vertical offset from the bottom of the parent
-    const childY = parentHeight + verticalSpacing
-
-    return {startX, childY, entityWidth, entitySpacing}
-  }, [])
 
   // Check if a node with similar content already exists on the graph
   const nodeExists = useCallback(
@@ -388,424 +262,8 @@ export const MindMapBottomMenu = ({
 
   // Define proper types for nodes and responses
 
-  // Enhanced agent-based data loading with React Flow optimization
-  const handleLoadingRecords = useCallback(
-    async ({data: {type}}: {data: {type: string}}) => {
-      console.log('🚀 ~ MindMapBottomMenu ~ type:', type)
-
-      const amount = 3
-      const center = screenToFlowPosition(calculateCenterOfScreen())
-      const existingNodes = getNodes()
-      const graphContext = getGraphContext(existingNodes)
-
-      // Create user input node first
-      const potentialUserNode = createEnhancedUserInputNode(
-        getNextId(),
-        tourMode === 'guided'
-          ? `Guided tour: Finding ${amount} ${type} records`
-          : graphContext
-            ? `Finding ${amount} related ${type} to expand your knowledge graph`
-            : `Beginning your exploration by loading ${amount} ${type}`,
-        {...center},
-        existingNodes,
-        type
-      )
-
-      addNode(potentialUserNode)
-      setBackgroundProcessing(true)
-      setCurrentProcessingType(type)
-
-      try {
-        let taskId: string
-
-        if (tourMode === 'guided' && activeTourSession) {
-          // Use tour progression for guided mode
-          const session = tourStateAgent.getSession(activeTourSession)
-          if (session && session.state.graphContext) {
-            taskId = await queueChronologicalProgression(session.state.graphContext, type, amount)
-          } else {
-            // Fallback to contextual expansion
-            taskId = await queueContextualExpansion(
-              graphContext || createMinimalGraphContext(),
-              type,
-              amount
-            )
-          }
-        } else if (tourMode === 'guided' && graphContext && graphContext.historicalProgression) {
-          // Use chronological progression only for guided historical tours
-          taskId = await queueChronologicalProgression(graphContext, type, amount)
-        } else {
-          // Use contextual expansion for other cases
-          taskId = await queueContextualExpansion(
-            graphContext || createMinimalGraphContext(),
-            type,
-            amount
-          )
-        }
-
-        // Register callback for task completion
-        const userNodeId = potentialUserNode.id
-        console.log(
-          `[MindMap Menu] Registering callback for taskId: ${taskId}, userNodeId: ${userNodeId}, type: ${type}`
-        )
-        console.log(`[MindMap Menu] About to register callback with historicalQueryAgent`)
-
-        historicalQueryAgent.onTaskComplete(taskId, async (result) => {
-          console.log(
-            `[MindMap Menu] *** CALLBACK TRIGGERED *** Task ${taskId} completed with status:`,
-            result.status,
-            result
-          )
-
-          if (result.status === 'completed' && result.result) {
-            // Find current userNode to avoid stale closure
-            const currentUserNode = getNodes().find((node) => node.id === userNodeId)
-            console.log(
-              `[MindMap Menu] Found currentUserNode:`,
-              currentUserNode ? 'YES' : 'NO',
-              currentUserNode?.id
-            )
-
-            if (currentUserNode) {
-              console.log(
-                `[MindMap Menu] About to integrate agent results for ${type}:`,
-                result.result.nodes.length,
-                'nodes'
-              )
-              await integrateAgentResults(currentUserNode, result.result, type)
-            } else {
-              console.error('[MindMap Menu] UserNode not found for task completion:', userNodeId)
-            }
-          } else if (result.status === 'failed') {
-            console.log(`[MindMap Menu] Task ${taskId} failed, updating node ${userNodeId}`)
-            updateNodeData(userNodeId, {
-              input: `Failed to load ${type} data: Background processing error`,
-            })
-          }
-          setBackgroundProcessing(false)
-          setCurrentProcessingType('')
-
-          // Update task queue state here, where result is defined
-          setAgentTaskQueue((prev) => ({
-            ...prev,
-            [taskId]: {...result, id: taskId} as HistoricalQueryTask,
-          }))
-        })
-
-        console.log(`[MindMap Menu] Queued background task ${taskId} for ${type} records`)
-      } catch (error) {
-        console.error('Error queuing agent task:', error)
-        updateNodeData(potentialUserNode.id, {
-          input: `Error loading ${type} data: ${error instanceof Error ? error.message : 'Unknown error'}`,
-        })
-        setBackgroundProcessing(false)
-        setCurrentProcessingType('')
-      }
-    },
-    [
-      screenToFlowPosition,
-      calculateCenterOfScreen,
-      getNextId,
-      addNode,
-      updateNodeData,
-      getNodes,
-      tourMode,
-      activeTourSession,
-    ]
-  )
-
-  // Helper function to integrate agent results with React Flow
-  const integrateAgentResults = useCallback(
-    async (
-      userNode: any,
-      result: {
-        nodes: ReactFlowNode[]
-        edges: ReactFlowEdge[]
-        analysis: string
-        suggestions: string[]
-      },
-      type: string
-    ) => {
-      if (result.nodes.length > 0) {
-        console.log(`[MindMap Menu] Result nodes received:`, result.nodes.length, result.nodes)
-
-        // Node filtering removed - add all nodes
-        const newNodes = result.nodes
-
-        console.log(`[MindMap Menu] All nodes will be added:`, newNodes.length, newNodes)
-
-        if (newNodes.length > 0) {
-          console.log(`[MindMap Menu] Processing ${newNodes.length} new nodes`)
-          // Position nodes around the user input node with React Flow optimization
-          const radius = 300
-          const angleStep = (2 * Math.PI) / newNodes.length
-
-          const positionedNodes = newNodes.map((node, index) => {
-            const angle = index * angleStep
-            const x = userNode.position.x + radius * Math.cos(angle)
-            const y = userNode.position.y + radius * Math.sin(angle)
-
-            return {
-              ...node,
-              position: {x, y},
-              // Ensure React Flow compatibility
-              connectable: true,
-              selectable: true,
-              deletable: true,
-              focusable: true,
-              draggable: true,
-              className: `agent-generated-node ${tourMode || 'free-form'}`,
-              style: {
-                border: tourMode === 'guided' ? '2px solid #3b82f6' : '2px solid #10b981',
-                borderRadius: '8px',
-              },
-            }
-          })
-
-          // Create edges from user input node to new nodes (Smart Edges)
-          const userToNodeEdges = positionedNodes.map((entityNode, index) => {
-            const edgeId = `${userNode.id}-${entityNode.id}`
-            return {
-              id: edgeId,
-              source: userNode.id,
-              target: entityNode.id,
-              animated: true,
-              type: 'siblingEdge', // Use siblingEdge for Prometheus reasoning display
-              label: `Query::Result ${index + 1}`,
-              data: {
-                prometheusReasoning:
-                  entityNode.data?.prometheusReasoning ||
-                  entityNode.data?.xataReasoning?.explanation ||
-                  `Selected as relevant ${type} record (${index + 1}/${positionedNodes.length})`,
-                connectionType: 'query-result',
-                recordIndex: index + 1,
-                totalRecords: positionedNodes.length,
-                sourceType: 'user-query',
-                targetType: type,
-              },
-              style: {
-                stroke: tourMode === 'guided' ? '#3b82f6' : '#10b981',
-                strokeWidth: 2,
-              },
-              // React Flow edge properties
-              selectable: true,
-              deletable: true,
-              focusable: true,
-              updatable: true,
-              markerEnd: 'arrow',
-              className: `user-to-entity-edge ${tourMode || 'free-form'}`,
-            }
-          })
-
-          // Create edges with React Flow standards (contextual edges between nodes)
-          const contextualEdges = result.edges.map((edge) => ({
-            ...edge,
-            // Ensure React Flow compatibility
-            selectable: true,
-            deletable: true,
-            focusable: true,
-            updatable: true,
-            markerEnd: 'arrow',
-            className: `agent-generated-edge ${tourMode || 'free-form'}`,
-            style: {
-              ...edge.style,
-              strokeWidth: 2,
-              stroke: tourMode === 'guided' ? '#3b82f6' : '#10b981',
-            },
-          }))
-
-          // Combine user-to-node edges with contextual edges
-          const allEdges = [...userToNodeEdges, ...contextualEdges]
-
-          // Update user node with analysis
-          updateNodeData(userNode.id, {
-            input: `Found ${newNodes.length} ${type} records, Contextual expansion added ${newNodes.length} records with ${userToNodeEdges.length} new connections`,
-            answer: result.analysis,
-            suggestions: result.suggestions,
-          })
-
-          // Add nodes with layout in single atomic operation
-          console.log(
-            `[MindMap Menu] About to add ${positionedNodes.length} nodes with layout:`,
-            positionedNodes
-          )
-
-          try {
-            await addNodesWithLayout(positionedNodes, {
-              direction: 'radial',
-              parentChildSpacing: 350, // Increased radius for proper spacing
-              siblingSpacing: 100, // Space between nodes
-              nodeWidth: 200, // Enhanced node width
-              nodeHeight: 250, // Enhanced node height
-              preserveExistingLayout: true,
-              focusOnNewNodes: true,
-            })
-
-            // Force React Flow update and viewport refresh
-            setTimeout(() => {
-              const currentNodes = getNodes()
-              console.log(`[MindMap Menu] Nodes added with layout successfully`)
-              console.log(`[MindMap Menu] Current node count after timeout:`, currentNodes.length)
-
-              // Trigger React Flow internal refresh
-              if (currentNodes.length > 0) {
-                // Find the newly added nodes for viewport focus
-                const newNodeIds = positionedNodes.map((n) => n.id)
-                const addedNodes = currentNodes.filter((n) => newNodeIds.includes(n.id))
-                console.log(
-                  `[MindMap Menu] Verified ${addedNodes.length} nodes were actually added`
-                )
-
-                if (addedNodes.length !== positionedNodes.length) {
-                  console.warn(
-                    `[MindMap Menu] Mismatch: Expected ${positionedNodes.length}, found ${addedNodes.length}`
-                  )
-                } else {
-                  // Force viewport update to show the new nodes
-                  console.log(`[MindMap Menu] Calling fitView to show new nodes`)
-                  try {
-                    fitView({padding: 0.1, duration: 500})
-                  } catch (viewError) {
-                    console.warn('[MindMap Menu] Error calling fitView:', viewError)
-                  }
-                }
-              }
-            }, 100)
-          } catch (error) {
-            console.error('[MindMap Menu] Error adding nodes with layout:', error)
-          }
-
-          // Add edges with debugging and verification
-          console.log(`[MindMap Menu] About to add ${allEdges.length} edges:`, allEdges)
-          try {
-            addEdges(allEdges)
-
-            // Verify edges were added with delay for state synchronization
-            setTimeout(() => {
-              const currentEdges = getEdges()
-              console.log(`[MindMap Menu] Edges added successfully`)
-              console.log(`[MindMap Menu] Current edge count after timeout:`, currentEdges.length)
-
-              // Verify edges by looking for our specific edge IDs
-              const newEdgeIds = allEdges.map((e) => e.id)
-              const addedEdges = currentEdges.filter((e) => newEdgeIds.includes(e.id))
-              console.log(`[MindMap Menu] Verified ${addedEdges.length} edges were actually added`)
-
-              if (addedEdges.length !== allEdges.length) {
-                console.warn(
-                  `[MindMap Menu] Edge mismatch: Expected ${allEdges.length}, found ${addedEdges.length}`
-                )
-              }
-            }, 150)
-          } catch (edgeError) {
-            console.error('[MindMap Menu] Error adding edges:', edgeError)
-          }
-
-          console.log(
-            `[MindMap Menu] Integrated ${newNodes.length} nodes and ${allEdges.length} edges from agent (${userToNodeEdges.length} user-to-node, ${contextualEdges.length} contextual)`
-          )
-        } else {
-          console.log(`[MindMap Menu] No new nodes to add - all filtered out as existing`)
-          updateNodeData(userNode.id, {
-            input: `No new ${type} data found. All relevant records are already on the graph.`,
-          })
-        }
-      } else {
-        updateNodeData(userNode.id, {
-          input: `No ${type} data found in current context.`,
-        })
-      }
-    },
-    [
-      addNodesWithLayout,
-      addEdges,
-      updateNodeData,
-      nodeExists,
-      tourMode,
-      getNodes,
-      getEdges,
-      fitView,
-    ]
-  )
-
-  // Helper function to create minimal graph context
-  const createMinimalGraphContext = useCallback(
-    (): GraphContext => ({
-      seedRecord: null,
-      connectedEntityTypes: new Set(),
-      timelineBounds: {},
-      relatedTopics: [],
-      keyPersonnel: [],
-      organizations: [],
-    }),
-    []
-  )
-
-  // Tour control functions
-  const startTour = useCallback(
-    async (tourId: string = 'roswell-disclosure', mode: 'guided' | 'free-form' = 'guided') => {
-      try {
-        const graphContext = getGraphContext(getNodes())
-
-        let sessionId: string
-        if (mode === 'guided') {
-          sessionId = await startGuidedTour(tourId, graphContext)
-        } else {
-          sessionId = await startFreeFormExploration(tourId, graphContext)
-        }
-
-        setActiveTourSession(sessionId)
-        setTourMode(mode)
-
-        // Register for session updates
-        tourStateAgent.onSessionUpdate(sessionId, async (session) => {
-          // Integrate tour state with React Flow
-          if (session.state.nodes.length > 0) {
-            await addNodesWithLayout(session.state.nodes, {
-              direction: 'radial',
-              parentChildSpacing: 150,
-              siblingSpacing: 100,
-            })
-          }
-          if (session.state.edges.length > 0) {
-            addEdges(session.state.edges)
-          }
-        })
-
-        console.log(`[MindMap Menu] Started ${mode} tour ${tourId} with session ${sessionId}`)
-      } catch (error) {
-        console.error('Failed to start tour:', error)
-      }
-    },
-    [getNodes, addNodesWithLayout, addEdges]
-  )
-
-  const toggleTourMode = useCallback(async () => {
-    if (!activeTourSession) {
-      // Start a new guided tour
-      await startTour('roswell-disclosure', 'guided')
-    } else if (tourMode === 'guided') {
-      // Switch to free-form
-      await switchToFreeForm(activeTourSession)
-      setTourMode('free-form')
-    } else {
-      // End tour session
-      tourStateAgent.endSession(activeTourSession)
-      setActiveTourSession(null)
-      setTourMode(null)
-    }
-  }, [activeTourSession, tourMode, startTour])
-
-  const progressTourStep = useCallback(async () => {
-    if (activeTourSession && tourMode === 'guided') {
-      try {
-        await progressTour(activeTourSession)
-        console.log('[MindMap Menu] Progressed tour to next waypoint')
-      } catch (error) {
-        console.error('Failed to progress tour:', error)
-      }
-    }
-  }, [activeTourSession, tourMode])
+  // (integrateAgentResults and handleLoadingRecords removed — they backed the retired
+  // historical-query-agent chain which called the 501 /api/historical-query route)
 
   const modelSearchActions: ModelAction[] = ENTITY_TYPES.map((entity) => ({
     icon: entity.icon(),
@@ -818,14 +276,15 @@ export const MindMapBottomMenu = ({
     },
   }))
 
+  // addDataToMindMap previously called handleLoadingRecords which hit the retired
+  // historical-query-agent chain; stubbed to no-op until a Postgres replacement is wired.
   const addDataToMindMap = useCallback(
-    (model: string) => {
-      console.log('🚀 ~ addDataToMindMap ~ model:', model)
-
-      handleLoadingRecords({data: {type: model}})
+    (_model: string) => {
+      console.warn('[MindMapBottomMenu] addDataToMindMap: historical-query-agent chain removed — use search instead')
     },
-    [handleLoadingRecords]
+    []
   )
+
 
   const toggleDeepResearch = () => {
     setDeepResearchEnabled(!deepResearchEnabled)
@@ -1302,8 +761,8 @@ export const MindMapBottomMenu = ({
               </div>
             )}
 
-            {/* Show loading indicator - hide when backgroundProcessing is active */}
-            {isAILoading && !backgroundProcessing && (
+            {/* Show loading indicator */}
+            {isAILoading && (
               <div className='animate-pulse text-sm text-neutral-400 mb-2 flex items-center justify-center'>
                 <div className='h-1.5 w-1.5 rounded-full bg-cyan-500/80 mr-2' />
                 AI is thinking...
@@ -1312,18 +771,6 @@ export const MindMapBottomMenu = ({
           </div>
         </div>
       </div>
-
-      {/* Entity Addition Progress - Show when backgroundProcessing is active */}
-      <EntityAdditionProgress
-        isVisible={backgroundProcessing}
-        queryType={currentProcessingType}
-        onComplete={() => {
-          console.log('Entity addition completed')
-        }}
-        onError={(error) => {
-          console.error('Entity addition failed:', error)
-        }}
-      />
     </>
   )
 }

@@ -36,7 +36,7 @@ export function SmartBottomMenu() {
 
   // Get AI session status
   const sessionState = useChat({
-    api: '/api/disclosure/chat',
+    api: '/api/disclosure/mindmap',
   })
 
   // Add AI integration capabilities

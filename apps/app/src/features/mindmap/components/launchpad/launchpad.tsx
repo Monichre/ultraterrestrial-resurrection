@@ -242,7 +242,7 @@ export function LaunchPad({
 
   // AI SDK integration
   const {messages, input, setInput, append, isLoading} = useChat({
-    api: '/api/disclosure/chat',
+    api: '/api/disclosure/mindmap',
     headers: {
       'x-session-id': sessionId.current,
     },

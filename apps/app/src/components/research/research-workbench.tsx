@@ -2,7 +2,6 @@
 
 import React, { useState, useCallback, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ResearchInterface } from './research-interface'
 import { useResearch } from '@/contexts/research/research-context'
 import { PinnedCardsCanvas } from './pinned-cards-canvas'
 import { cn } from '@/lib/utils'
@@ -288,7 +287,8 @@ function ResearchMode({
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -20 }}
     >
-      <ResearchInterface />
+      {/* ResearchInterface removed (research-runtime.ts deleted in T-031) */}
+      <div className="text-neutral-500 text-sm p-4">Research interface unavailable</div>
     </motion.div>
   )
 }
