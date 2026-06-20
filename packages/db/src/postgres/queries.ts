@@ -342,23 +342,186 @@ export async function getAllJoinTables() {
 }
 
 // ---------------------------------------------------------------------------
+// Graph node / edge types for the NetworkGraphPayload shape
+// ---------------------------------------------------------------------------
+
+export interface GraphNode {
+  id: string
+  label: string
+  data: {
+    name: string
+    label: string
+    type: string
+    [key: string]: unknown
+  }
+}
+
+export interface GraphEdge {
+  id: string
+  source: string
+  target: string
+}
+
+export type ConnectionResults<T> = {
+  records: T[]
+  pagination: { hasNextPage: boolean; total?: number }
+}
+
+export interface NetworkGraphPayload {
+  records: {
+    topics: TopicsRecord[]
+    events: EventsRecord[]
+    personnel: PersonnelRecord[]
+    testimonies: TestimoniesRecord[]
+    organizations: OrganizationsRecord[]
+    documents: DocumentsRecord[]
+    artifacts: ArtifactsRecord[]
+  }
+  connections: {
+    topicsExpertsConnections: ConnectionResults<TopicSubjectMatterExpertsRecord>
+    eventsExpertsConnections: ConnectionResults<EventSubjectMatterExpertsRecord>
+    eventsTopicsExpertsConnections: ConnectionResults<EventTopicSubjectMatterExpertsRecord>
+    topicsTestimoniesConnections: ConnectionResults<TopicsTestimoniesRecord>
+    organizationsPersonnelConnections: ConnectionResults<OrganizationMembersRecord>
+  }
+  graphData: {
+    nodes: GraphNode[]
+    links: GraphEdge[]
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Internal helper: format a DB record as a GraphNode
+// ---------------------------------------------------------------------------
+
+function toGraphNode(record: Record<string, unknown> & { id: string }, type: string): GraphNode {
+  const name = record.name as string | null | undefined
+  const title = record.title as string | null | undefined
+  const label = name ?? title ?? record.id
+  return {
+    id: record.id,
+    label,
+    data: { ...record, name: label, label, type },
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Full entity graph load (replaces get-entity-network-graph-data pattern)
 // ---------------------------------------------------------------------------
 
-export async function loadEntityGraph(maxPerType = 50) {
+/**
+ * Bounded initial graph load.
+ *
+ * Caps each entity type at `maxPerType` rows (default 50) so first-paint
+ * never full-scans 230k+ records. Join/connection tables are capped at
+ * `maxJoinRows` (default 2000 — they are small but still bounded).
+ *
+ * Edge resolution uses Map<id, GraphNode> — O(1) per lookup instead of
+ * O(n) Array.find() for each of m edges.
+ *
+ * Returns the full NetworkGraphPayload shape expected by StateOfDisclosureProvider
+ * and all downstream consumers.
+ */
+export async function loadEntityGraph(
+  maxPerType = 50,
+  maxJoinRows = 2000,
+): Promise<NetworkGraphPayload> {
   const sql = getSql()
-  const [topics, personnel, events, testimonies, organizations, documents, artifacts, joins] =
-    await Promise.all([
-      sql`SELECT * FROM topics LIMIT ${maxPerType}` as Promise<TopicsRecord[]>,
-      sql`SELECT * FROM key_figures LIMIT ${maxPerType}` as Promise<PersonnelRecord[]>,
-      sql`SELECT * FROM events ORDER BY date DESC NULLS LAST LIMIT ${maxPerType}` as Promise<EventsRecord[]>,
-      sql`SELECT * FROM testimonies LIMIT ${maxPerType}` as Promise<TestimoniesRecord[]>,
-      sql`SELECT * FROM organizations LIMIT ${maxPerType}` as Promise<OrganizationsRecord[]>,
-      sql`SELECT * FROM documents LIMIT ${maxPerType}` as Promise<DocumentsRecord[]>,
-      sql`SELECT * FROM artifacts LIMIT ${maxPerType}` as Promise<ArtifactsRecord[]>,
-      getAllJoinTables(),
-    ])
-  return { topics, personnel, events, testimonies, organizations, documents, artifacts, ...joins }
+
+  // Fetch bounded entity rows in parallel with per-type LIMIT.
+  // Join tables use the existing helper functions (already in baseline typecheck)
+  // and are sliced to maxJoinRows after fetching.
+  const [
+    topics,
+    personnel,
+    events,
+    testimonies,
+    organizations,
+    documents,
+    artifacts,
+    joinData,
+  ] = await Promise.all([
+    sql`SELECT * FROM topics LIMIT ${maxPerType}` as Promise<TopicsRecord[]>,
+    sql`SELECT * FROM key_figures LIMIT ${maxPerType}` as Promise<PersonnelRecord[]>,
+    sql`SELECT * FROM events ORDER BY date DESC NULLS LAST LIMIT ${maxPerType}` as Promise<EventsRecord[]>,
+    sql`SELECT * FROM testimonies LIMIT ${maxPerType}` as Promise<TestimoniesRecord[]>,
+    sql`SELECT * FROM organizations LIMIT ${maxPerType}` as Promise<OrganizationsRecord[]>,
+    sql`SELECT * FROM documents LIMIT ${maxPerType}` as Promise<DocumentsRecord[]>,
+    sql`SELECT * FROM artifacts LIMIT ${maxPerType}` as Promise<ArtifactsRecord[]>,
+    getAllJoinTables(),
+  ])
+
+  // Slice join rows to maxJoinRows so they are also bounded
+  const topicSMERows = joinData.topicSMEs.slice(0, maxJoinRows)
+  const eventSMERows = joinData.eventSMEs.slice(0, maxJoinRows)
+  const eventTopicSMERows = joinData.eventTopicSMEs.slice(0, maxJoinRows)
+  const topicsTestimoniesRows = joinData.topicsTestimonies.slice(0, maxJoinRows)
+  const orgMemberRows = joinData.orgMembers.slice(0, maxJoinRows)
+
+  const records = { topics, events, personnel, testimonies, organizations, documents, artifacts }
+
+  // Cast helper: TypeScript interfaces don't implicitly satisfy index signatures,
+  // so we widen through unknown to satisfy toGraphNode's parameter contract.
+  type LooseRecord = Record<string, unknown> & { id: string }
+  const asLoose = (r: { id: string }) => r as unknown as LooseRecord
+
+  // Build all graph nodes
+  const nodes: GraphNode[] = [
+    ...topics.map(r => toGraphNode(asLoose(r), 'topics')),
+    ...events.map(r => toGraphNode(asLoose(r), 'events')),
+    ...personnel.map(r => toGraphNode(asLoose(r), 'personnel')),
+    ...testimonies.map(r => toGraphNode(asLoose(r), 'testimonies')),
+    ...organizations.map(r => toGraphNode(asLoose(r), 'organizations')),
+    ...documents.map(r => toGraphNode(asLoose(r), 'documents')),
+    ...artifacts.map(r => toGraphNode(asLoose(r), 'artifacts')),
+  ]
+
+  // O(1) lookup map: id → GraphNode (built once, used for all edge checks)
+  const nodeById = new Map<string, GraphNode>(nodes.map(n => [n.id, n]))
+
+  // Helper: build a GraphEdge only when both endpoints exist in the loaded set
+  function makeEdge(id: string, sourceId: string | null | undefined, targetId: string | null | undefined): GraphEdge | null {
+    if (!sourceId || !targetId) return null
+    if (!nodeById.has(sourceId) || !nodeById.has(targetId)) return null
+    return { id, source: sourceId, target: targetId }
+  }
+
+  // Resolve edges from each join table using O(1) Map lookups
+  const links: GraphEdge[] = []
+
+  for (const r of eventSMERows) {
+    const e = makeEdge(`esme-${r.id}`, r.event, r.subject_matter_expert)
+    if (e) links.push(e)
+  }
+  for (const r of topicSMERows) {
+    const e = makeEdge(`tsme-${r.id}`, r.topic, r.subject_matter_expert)
+    if (e) links.push(e)
+  }
+  for (const r of eventTopicSMERows) {
+    // Three-way join: emit event→topic and event→expert edges
+    const e1 = makeEdge(`etsme-et-${r.id}`, r.event, r.topic)
+    const e2 = makeEdge(`etsme-ee-${r.id}`, r.event, r.subject_matter_expert)
+    if (e1) links.push(e1)
+    if (e2) links.push(e2)
+  }
+  for (const r of topicsTestimoniesRows) {
+    const e = makeEdge(`tt-${r.id}`, r.topic, r.testimony)
+    if (e) links.push(e)
+  }
+  for (const r of orgMemberRows) {
+    const e = makeEdge(`om-${r.id}`, r.organization, r.member)
+    if (e) links.push(e)
+  }
+
+  const connections = {
+    topicsExpertsConnections: { records: topicSMERows, pagination: { hasNextPage: topicSMERows.length >= maxJoinRows } },
+    eventsExpertsConnections: { records: eventSMERows, pagination: { hasNextPage: eventSMERows.length >= maxJoinRows } },
+    eventsTopicsExpertsConnections: { records: eventTopicSMERows, pagination: { hasNextPage: eventTopicSMERows.length >= maxJoinRows } },
+    topicsTestimoniesConnections: { records: topicsTestimoniesRows, pagination: { hasNextPage: topicsTestimoniesRows.length >= maxJoinRows } },
+    organizationsPersonnelConnections: { records: orgMemberRows, pagination: { hasNextPage: orgMemberRows.length >= maxJoinRows } },
+  }
+
+  return { records, connections, graphData: { nodes, links } }
 }
 
 // ---------------------------------------------------------------------------
