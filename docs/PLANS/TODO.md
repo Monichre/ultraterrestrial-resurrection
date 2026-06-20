@@ -90,7 +90,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 ## Phase 2 — Core UX & Performance (Days 2-5)
 
 ### T-008: Paginate initial graph data load
-- **Status:** OPEN
+- **Status:** DONE — 2026-06-20 (per-type LIMIT bounded load ~210 nodes; Map O(1) edge resolution; commit 43b276a)
 - **Size:** M (2-3 days)
 - **Dependencies:** T-007
 - **Files:**
@@ -123,7 +123,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Acceptance:** Clicking a chip submits it as a query to the agent.
 
 ### T-011: Replace local sightings dataset with Xata query
-- **Status:** OPEN
+- **Status:** DONE — 2026-06-17 (get-sightings.ts action; verified 2026-06-20)
 - **Size:** M (1 day)
 - **Dependencies:** None
 - **Files:** `apps/app/src/features/mindmap/research-canvas/data/ufo-sightings.ts`
@@ -131,7 +131,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Acceptance:** Sightings view shows real data from Xata. Fallback works if DB is unreachable.
 
 ### T-012: Add Zod validation to remaining API routes
-- **Status:** OPEN
+- **Status:** DONE — 2026-06-17 (zod present in prometheus/chat, processing/testimony, mindmap/records, disclosure/mindmap; verified 2026-06-20)
 - **Size:** S (1 day)
 - **Dependencies:** T-002
 - **What:** Routes that already have Zod: `disclosure/chat`, `processing/scrape/batch`. Routes that need it:
@@ -177,7 +177,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Acceptance:** Both disclosure/mindmap and prometheus/chat use the same context builder.
 
 ### T-016: Unify or clearly separate chat routes
-- **Status:** OPEN
+- **Status:** DONE (phase 1 — annotate/audit) — 2026-06-17. Phase 2 deletion tracked as T-030.
 - **Size:** M (2-3 days)
 - **Dependencies:** T-014, T-015
 - **What:** Keep two routes with clear ownership:
@@ -187,7 +187,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Acceptance:** Only 2 chat-related routes remain. All consumers rewired. Build passes.
 
 ### T-017: Wire testimony queue worker as cron
-- **Status:** OPEN
+- **Status:** DONE — 2026-06-17 (api/cron/process-testimonies/route.ts; verified 2026-06-20)
 - **Size:** S (1 day)
 - **Dependencies:** None
 - **Files:** `scripts/workers/testimony-queue-worker.ts` → adapt into `/api/cron/process-testimonies/route.ts`
@@ -198,7 +198,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 ## Phase 4 — State Management & Architecture (Days 10-15)
 
 ### T-018: Extract pure factories from mindmap-context
-- **Status:** OPEN
+- **Status:** DONE — 2026-06-17 (features/mindmap/utils/node-factories.ts; verified 2026-06-20)
 - **Size:** S (half day)
 - **Dependencies:** None
 - **Files:** `apps/app/src/contexts/mindmap/mindmap-context.tsx` → new `features/mindmap/utils/node-factories.ts`
@@ -206,7 +206,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Acceptance:** Factory functions importable from utils. Context no longer defines them.
 
 ### T-019: Move graph init effect out of context
-- **Status:** OPEN
+- **Status:** DONE — 2026-06-17 (features/mindmap/hooks/use-graph-init.ts; verified 2026-06-20)
 - **Size:** S (half day)
 - **Dependencies:** T-018
 - **Files:** `mindmap-context.tsx` (line ~408) → `graph.tsx` or new `useGraphInit` hook
@@ -226,21 +226,21 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 ## Documentation Tasks
 
 ### T-021: Create .env.example
-- **Status:** OPEN
+- **Status:** DONE (.env.example present at repo root; verified 2026-06-20)
 - **Size:** XS (2 hours)
 - **Dependencies:** None
 - **What:** Mirror current `.env` structure (212 vars) with placeholder values. Document each var's purpose and which service it belongs to. Reference: `docs/CONTRIB.md` already lists all vars.
 - **Acceptance:** `.env.example` exists at repo root. All 212 vars present with comments.
 
 ### T-022: Create docs/archive/ and move obsolete files
-- **Status:** OPEN
+- **Status:** DONE — 2026-06-17 (docs/archive/{sessions,scrapped-plans,design-explorations}/ populated; verified 2026-06-20)
 - **Size:** XS (2 hours)
 - **Dependencies:** None
 - **What:** Create `docs/archive/` with subdirectories: `sessions/`, `status-reports/`, `scrapped-plans/`, `design-explorations/`. Move 50+ files from June-September 2025. See `docs/plans/2026-03-29-documentation-roundtable-report.md` for full list.
 - **Acceptance:** Active doc directories contain only current files. Archive preserves history.
 
 ### T-023: Refresh FEATURES.md for Q1 2026
-- **Status:** OPEN
+- **Status:** DONE — 2026-06-20 (stale Triple-RAG/tour/Xata refs reframed as scrapped/retired; commit 2c23a02)
 - **Size:** S (3 hours)
 - **Dependencies:** None
 - **Files:** `docs/plans/FEATURES.md` (last updated Aug 2025 — 7 months stale)
@@ -248,7 +248,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Acceptance:** FEATURES.md reflects current quarter priorities and grounded architecture.
 
 ### T-024: Create API_ROUTES.md
-- **Status:** OPEN
+- **Status:** DONE — 2026-06-17 (docs/API_ROUTES.md; verified 2026-06-20)
 - **Size:** S (3 hours)
 - **Dependencies:** None
 - **What:** Document all API routes: path, method, auth required, request schema, response schema. Start with working paths: `/api/disclosure/mindmap`, `/api/prometheus/chat`.
@@ -282,9 +282,33 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Dependencies:** T-013, T-015
 
 ### T-029: UFO Research Methodology Framework
-- **Status:** OPEN
+- **Status:** DONE — 2026-06-20 (docs/research/ufo-research-methodology.md; commit 2c23a02)
 - **Size:** M (2 days)
 - **What:** Define structured methodology inspired by Jacques Vallee, Diana Pasulka Walsh. Framework for classification, evidence evaluation, source verification, pattern analysis. Map to ingestion/analysis workflows.
+
+---
+
+## Follow-Up: T-016 Phase 2 (Discovered 2026-06-17)
+
+### T-030: Migrate 6 /api/disclosure/chat consumers to /api/disclosure/mindmap
+- **Status:** DONE — 2026-06-20 (6 consumers repointed; chat route deleted; commit 633216d)
+- **Size:** M (half day)
+- **Dependencies:** T-016 (done)
+- **What:** T-016 audit found `/api/disclosure/chat` has 6 active UI consumers blocking deletion. Migrate each to `/api/disclosure/mindmap` (schemas are compatible — both are Assistants + SSE protocol), then delete `apps/app/src/app/api/disclosure/chat/`.
+- **Note:** Also verify `disclosure/chat/route.ts` line ~255 calls `anthropic('claude-4-sonnet-20250115')` — confirm this model string is valid.
+
+### T-031: Delete broken historical-query chain
+- **Status:** DONE — 2026-06-20 (chain + tour-state agents deleted, consumers stubbed; commit 633216d)
+- **Size:** S (2 hours)
+- **Dependencies:** None (entire chain is dead — 501 responses, full Xata dependency retired)
+- **What:** Delete as a batch:
+  - `apps/app/src/app/api/historical-query/route.ts`
+  - `historical-query-agent.ts`
+  - `historical-query-server-actions.ts`
+  - `research-runtime.ts`
+  - `tour-state-agent.ts`
+  - Fix or remove any mindmap bottom-menu consumers that call this dead chain
+- **Why:** Silently fails at runtime — the whole tree calls retired Xata APIs.
 
 ---
 
@@ -297,6 +321,15 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 | T-014 | Split processDocument into granular tools | 2026-04-05 |
 | T-015 | Standardize context injection | 2026-04-05 |
 | T-013 | Add graph-write tools to disclosure mindmap route | 2026-04-05 |
+| T-011 | Replace hardcoded sightings with real Postgres query | 2026-06-17 |
+| T-012 | Add Zod validation to 4 API routes | 2026-06-17 |
+| T-016 | Annotate / audit chat routes (phase 1 — consumers block deletion) | 2026-06-17 |
+| T-017 | Wire testimony queue as cron endpoint | 2026-06-17 |
+| T-018 | Extract pure node factories from mindmap-context | 2026-06-17 |
+| T-019 | Move graph-init effect into use-graph-init hook | 2026-06-17 |
+| T-021 | Create .env.example | 2026-06-17 |
+| T-022 | Create docs/archive/ and move obsolete files | 2026-06-17 |
+| T-024 | Create docs/API_ROUTES.md | 2026-06-17 |
 | — | Ground CLAUDE.md, AGENTS.md, CORE_APP_AI_ARCHITECTURE_OVERVIEW.md, AGENT_ONBOARDING_CHECKLIST.md | 2026-03-29 |
 | — | Generate docs/CONTRIB.md | 2026-03-29 |
 | — | Generate docs/RUNBOOK.md | 2026-03-29 |
