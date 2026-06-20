@@ -214,7 +214,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Acceptance:** Context no longer has graph init side effect.
 
 ### T-020: Move UI-local state to Zustand
-- **Status:** OPEN
+- **Status:** DONE — verified 2026-06-20. All 5 useState (activeNode, conciseViewActive, showLocationVisualization, locationsToVisualize, keepLoadedOnMap) already migrated to the `canvas` slice in mindmap-ui-store.ts and bridged through context via useShallow; no useState backing remains. (Full god-object decomposition to ~200-300 lines is a larger follow-up tracked separately.)
 - **Size:** S (1 day)
 - **Dependencies:** T-018
 - **Files:** `mindmap-context.tsx` → `features/mindmap/store/mindmap-ui-store.ts`
@@ -259,7 +259,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 ## Backlog (Not Sequenced)
 
 ### T-025: Implement rate limiting
-- **Status:** OPEN
+- **Status:** DONE — 2026-06-20 (30 req/60s on prometheus/chat + disclosure/mindmap, Clerk-userId/IP keyed, graceful no-Upstash fallback; commit pending)
 - **Size:** S (3-4 hours)
 - **What:** Use Upstash Redis (already in deps) to rate-limit AI routes. Default: 30 req/min per user/IP.
 - **Dependencies:** T-003 (auth middleware)
