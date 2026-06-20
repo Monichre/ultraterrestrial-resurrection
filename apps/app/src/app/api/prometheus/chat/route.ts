@@ -9,6 +9,8 @@ import { z } from 'zod';
 import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
 import Exa from 'exa-js';
+import { auth } from '@clerk/nextjs/server';
+import { checkRateLimit } from '@/lib/rate-limit';
 import {
   buildAgentContext,
   type AgentContextGraphState,
@@ -472,6 +474,29 @@ const BodySchema = z.object({
 
 export async function POST(req: NextRequest) {
   try {
+    // Rate limiting — identify by Clerk userId when authenticated, fall back to IP.
+    const { userId } = await auth();
+    const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
+    const rateLimitKey = `ai:prometheus:${userId ?? ip}`;
+    const rl = await checkRateLimit(rateLimitKey);
+    if (!rl.success) {
+      return new Response(
+        JSON.stringify({
+          error: 'rate_limited',
+          message: 'Too many requests. Please wait before trying again.',
+          retryAfter: 60,
+        }),
+        {
+          status: 429,
+          headers: {
+            'Content-Type': 'application/json',
+            'Retry-After': '60',
+            ...rl.headers,
+          },
+        }
+      );
+    }
+
     // Parse and validate request body
     const body = await req.json();
     const parsed = BodySchema.safeParse(body)

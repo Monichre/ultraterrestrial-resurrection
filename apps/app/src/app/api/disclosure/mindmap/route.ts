@@ -5,6 +5,8 @@
 // DO NOT confuse with /api/disclosure/chat — that route is for legacy standalone chat consumers.
 
 import { z } from 'zod'
+import { auth } from '@clerk/nextjs/server'
+import { checkRateLimit } from '@/lib/rate-limit'
 import { openai } from "@/lib/openai/client"
 import { PROMETHEUS_ASSISTANT_ID, PROMETHEUS_VECTOR_STORE_ID } from "@/services/ai/openai/config"
 
@@ -88,6 +90,30 @@ const MindmapBodySchema = z.object({
 })
 
 export async function POST( req: Request ) {
+  // Rate limiting — identify by Clerk userId when authenticated, fall back to IP.
+  const { userId } = await auth()
+  const forwarded = req.headers.get('x-forwarded-for')
+  const ip = forwarded?.split(',')[0]?.trim() ?? 'unknown'
+  const rateLimitKey = `ai:mindmap:${userId ?? ip}`
+  const rl = await checkRateLimit(rateLimitKey)
+  if (!rl.success) {
+    return new Response(
+      JSON.stringify({
+        error: 'rate_limited',
+        message: 'Too many requests. Please wait before trying again.',
+        retryAfter: 60,
+      }),
+      {
+        status: 429,
+        headers: {
+          'Content-Type': 'application/json',
+          'Retry-After': '60',
+          ...rl.headers,
+        },
+      }
+    )
+  }
+
   const body = await req.json()
   const parsed = MindmapBodySchema.safeParse(body)
   if (!parsed.success) {
