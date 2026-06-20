@@ -1,9 +1,13 @@
 # Daily Work Plan
 
-**Date:** 2026-06-17
-**Sprint:** Phase 2 & 4 — UX Hardening + State Management
+**Date:** 2026-06-20
+**Sprint:** Phase 2/3/4 — autonomous board-clear (multi-agent dev session)
 **Branch:** dev
 **Reference:** `docs/plans/TODO.md`, `AGENTS.md`
+
+> RECONCILED 2026-06-20: T-011, T-012, T-016(ph1), T-017, T-018, T-019, T-021,
+> T-022, T-024 verified DONE in code (commit 3edff59) — board was stale. Remaining
+> open set below is being cleared by a supervised multi-agent session.
 
 > NOTE: Data-Platform Rebuild (SP1-SP4) is **fully complete** as of 2026-06-15/16.
 > Neon Postgres 17.10 + pgvector 0.8.0 is live. `@db/xata` is retired. The active
@@ -22,18 +26,18 @@
 
 ---
 
-## Next — Phase 2 & 4 (UX Hardening + State Management)
+## Next — open board (cleared in supervised waves)
 
-| Ticket | Description | Priority |
-|--------|-------------|----------|
-| **T-008** | Paginate graph — graph currently fetches all 230,998 records (known perf issue) | High |
-| **T-011** | Sightings data — wire up globe/sightings view with real Postgres data | High |
-| **T-012** | Zod validation — audit and complete Zod schemas across API routes | Medium |
-| **T-016** | Route cleanup — evaluate migrating `disclosure/chat` consumers to `disclosure/mindmap` or `prometheus/chat`; retire legacy SSE/Xata routes | Medium |
-| **T-017** | Cron — secure `cron/update-rankings` with `CRON_SECRET` env var check | Medium |
-| **T-018** | Zustand migration (part 1) — identify all React Context state that should move to Zustand | Medium |
-| **T-019** | Zustand migration (part 2) — migrate mindmap-context god-object slices | Medium |
-| **T-020** | Zustand migration (part 3) — validate state consistency across ViewSwitcher views | Medium |
+| Ticket | Description | Priority | Wave |
+|--------|-------------|----------|------|
+| **T-030+T-031** | Migrate 6 `disclosure/chat` consumers → `disclosure/mindmap`, delete legacy chat route + dead historical-query chain | High | 1 |
+| **T-008** | Paginate graph — bound initial load to 200-500 nodes, O(1) edge resolution | High | 1 |
+| **T-023+T-029** | Docs — clean stale refs from FEATURES.md; author UFO research methodology framework | Medium | 1 |
+| **T-025** | Wire rate limiting into canonical AI routes (prometheus/chat, disclosure/mindmap) | Medium | 2 |
+| **T-020** | Finish Zustand canvas-slice migration — move remaining useState out of mindmap-context | Medium | 2 |
+| **T-027** | ResearchSession unified state slice (converge fragmented providers) | Medium | 3 |
+| **T-026** | Monitoring (Sentry) — scaffold, BLOCKED on DSN credential | Low | 3 |
+| **T-028** | Mindmap Agent Consolidation (L) — baseline audit + design, impl deferred | Low | 3 |
 
 ---
 
