@@ -1,8 +1,15 @@
 # UFO-UI × Mindmap Marriage — Plan & Progress
 
+> **⚠️ DIRECTION CORRECTED 2026-06-20 (owner):** This doc's original premise —
+> "ufo-ui as the host shell, delete apps/app" (see D10 below) — is **BACKWARDS**.
+> The correct direction: **`apps/app` is the home.** Cannibalize ufo-ui's
+> better-designed components piecemeal INTO `apps/app/src`, then **delete
+> `apps/ufo-ui`**. Read every "host shell = ufo-ui" / D10 statement below as
+> reversed. The component wiring decisions (D1–D8) are still useful reference.
+>
 > **Created:** 2026-05-29
 > **Branch:** `dev`
-> **Host shell:** ufo-ui · **Engine:** `apps/app/src/features/mindmap`
+> **Home app:** `apps/app` · **Donor (to be deleted):** `apps/ufo-ui`
 > Companion audit: `docs/PLANS/2026-03-29-research-canvas-frontend-architecture-audit.md`
 
 ## Context
