@@ -265,7 +265,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Dependencies:** T-003 (auth middleware)
 
 ### T-026: Add monitoring (Sentry + Vercel Analytics)
-- **Status:** BLOCKED — 2026-06-20 (env-gated, dependency-free observability seam landed: `apps/app/src/lib/observability.ts` + `docs/observability/monitoring-plan.md`. Blocked on `@sentry/nextjs` dependency approval + `SENTRY_DSN` credential. Interface stable — wiring Sentry needs no call-site changes.)
+- **Status:** DROPPED — 2026-06-20 (descoped by owner. No monitoring/log infra for MVP — it's not user-facing value. Revisit post-launch if/when needed.)
 - **Size:** M (1-2 days)
 - **What:** Wire Sentry for error tracking, Vercel Analytics for performance. Set up OpenAI cost tracking.
 
