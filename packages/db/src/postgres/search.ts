@@ -31,7 +31,9 @@ function resolveTable(name: string): string {
   return TABLE_ALIAS[lower] ?? lower
 }
 
-/** FTS search against a single table. Returns rows with a ts_rank score. */
+/** FTS search against a single table. Returns rows with a ts_rank score.
+ *  `table` is constrained to the FTS_TABLES whitelist, so inlining it as an
+ *  identifier is injection-safe; the user query is passed as a bound param. */
 async function ftsSingle(
   table: string,
   query: string,
@@ -39,13 +41,14 @@ async function ftsSingle(
 ): Promise<Record<string, unknown>[]> {
   const sql = getSql()
   if (!FTS_TABLES.has(table)) return []
-  return sql`
-    SELECT *, ts_rank(search_vector, plainto_tsquery('english', ${query})) AS _score
-    FROM ${sql(table)}
-    WHERE search_vector @@ plainto_tsquery('english', ${query})
-    ORDER BY _score DESC
-    LIMIT ${limit}
-  ` as Promise<Record<string, unknown>[]>
+  return sql.query(
+    `SELECT *, ts_rank(search_vector, plainto_tsquery('english', $1)) AS _score
+     FROM "${table}"
+     WHERE search_vector @@ plainto_tsquery('english', $1)
+     ORDER BY _score DESC
+     LIMIT $2`,
+    [query, limit],
+  ) as Promise<Record<string, unknown>[]>
 }
 
 /** trgm-based similarity search (catches partial/fuzzy matches without FTS) */
@@ -69,18 +72,20 @@ async function trgmSingle(
   const cols = textCols[table]
   if (!cols) return []
 
-  // Build a similarity expression over all text columns
+  // Build a similarity expression over all text columns. Column names come from
+  // the static map above (safe to inline); the query value is bound as $1.
   const simExpr = cols
-    .map(c => `similarity(coalesce(${c}::text,''), ${JSON.stringify(query)})`)
+    .map(c => `similarity(coalesce("${c}"::text,''), $1)`)
     .join(' + ')
 
-  return sql.unsafe(`
-    SELECT *, (${simExpr}) AS _score
-    FROM "${table}"
-    WHERE (${simExpr}) > 0.1
-    ORDER BY _score DESC
-    LIMIT ${limit}
-  `) as Promise<Record<string, unknown>[]>
+  return sql.query(
+    `SELECT *, (${simExpr}) AS _score
+     FROM "${table}"
+     WHERE (${simExpr}) > 0.1
+     ORDER BY _score DESC
+     LIMIT $2`,
+    [query, limit],
+  ) as Promise<Record<string, unknown>[]>
 }
 
 /**
@@ -194,17 +199,18 @@ export async function vectorSearch(
   if (!VECTOR_TABLES.has(pgTable)) return []
 
   const sql = getSql()
-  const vecLiteral = `'[${embedding.join(',')}]'::vector`
+  const vecLiteral = `[${embedding.join(',')}]`
 
   let rows: Record<string, unknown>[] = []
   try {
-    rows = await sql.unsafe(`
-      SELECT *, 1-(embedding <=> ${vecLiteral}) AS _score
-      FROM "${pgTable}"
-      WHERE embedding IS NOT NULL
-      ORDER BY embedding <=> ${vecLiteral}
-      LIMIT ${limit}
-    `) as Record<string, unknown>[]
+    rows = await sql.query(
+      `SELECT *, 1-(embedding <=> $1::vector) AS _score
+       FROM "${pgTable}"
+       WHERE embedding IS NOT NULL
+       ORDER BY embedding <=> $1::vector
+       LIMIT $2`,
+      [vecLiteral, limit],
+    ) as Record<string, unknown>[]
   } catch {
     return []
   }
@@ -254,11 +260,62 @@ export async function vectorSearchAll(
     .slice(0, limit)
 }
 
+const recordId = (rec: Record<string, unknown>): string | undefined =>
+  (rec.id ?? rec.xata_id) as string | undefined
+
 /**
- * searchDatabase — replaces the disclosure-mindmap-agent's search tool.
+ * Reciprocal Rank Fusion — merge N ranked result lists into one ranking that is
+ * invariant to each list's score scale. A record's fused score is the sum over
+ * every list of 1/(k + rank), where rank is its 0-based position in that list.
+ * k dampens the contribution of low-ranked items; 60 is the canonical default
+ * from the original RRF paper (Cormack et al., 2009).
+ *
+ * Why this and not raw-score sort: FTS ts_rank (~0–0.1) and pgvector cosine
+ * (~0.6–1.0) are not comparable as numbers. Sorting their union by raw score
+ * lets vector hits dominate purely by magnitude. RRF ranks by agreement of
+ * position across signals, so a result both searches surface rises to the top.
+ */
+function fuseRRF(
+  lists: Record<string, unknown>[][],
+  limit: number,
+  k = 60,
+): Record<string, unknown>[] {
+  const fused = new Map<string, { rec: Record<string, unknown>, score: number }>()
+
+  for (const list of lists) {
+    list.forEach((rec, rank) => {
+      const id = recordId(rec)
+      if (!id) return
+      const contribution = 1 / (k + rank)
+      const existing = fused.get(id)
+      if (existing) {
+        existing.score += contribution
+        // Prefer the variant carrying the higher native relevance score, so the
+        // surfaced record keeps its strongest xata/xataReasoning payload.
+        const existingNative = (existing.rec.xata as any)?.score ?? 0
+        const recNative = (rec.xata as any)?.score ?? 0
+        if (recNative > existingNative) existing.rec = rec
+      } else {
+        fused.set(id, { rec, score: contribution })
+      }
+    })
+  }
+
+  return [...fused.values()]
+    .sort((a, b) => b.score - a.score)
+    .slice(0, limit)
+    .map(({ rec, score }) => ({
+      ...rec,
+      _rrfScore: score,
+    }))
+}
+
+/**
+ * searchDatabase — the disclosure-mindmap-agent + Prometheus chat search tool.
  * Preserves existing interface: { table, searchTerms, searchFields, limit }.
- * When `embedding` is provided, runs vector search in parallel with FTS and
- * merges results ranked by score (higher wins), deduped by id.
+ * When `embedding` is provided, runs FTS and pgvector search in parallel and
+ * fuses them with Reciprocal Rank Fusion (scale-invariant), so keyword and
+ * semantic matches compete on rank agreement rather than raw score magnitude.
  */
 export async function searchDatabase({
   table,
@@ -277,36 +334,24 @@ export async function searchDatabase({
   const pgTable = table ? resolveTable(table.toLowerCase()) : undefined
 
   if (!embedding?.length) {
-    // Original behaviour — FTS only
+    // FTS only
     return pgTable
       ? searchTable(pgTable, query, limit)
       : searchAll(query, limit)
   }
 
-  // Run FTS and vector search in parallel
+  // Pull a deeper candidate pool from each signal than the final limit so RRF
+  // has rank structure to fuse, then trim to `limit` after fusion.
+  const pool = Math.max(limit * 3, 10)
+
   const [ftsResults, vecResults] = await Promise.all([
     query
-      ? (pgTable ? searchTable(pgTable, query, limit) : searchAll(query, limit))
+      ? (pgTable ? searchTable(pgTable, query, pool) : searchAll(query, pool))
       : Promise.resolve([] as Record<string, unknown>[]),
     pgTable
-      ? vectorSearch(pgTable, embedding, limit)
-      : vectorSearchAll(embedding, limit),
+      ? vectorSearch(pgTable, embedding, pool)
+      : vectorSearchAll(embedding, pool),
   ])
 
-  // Merge by id: keep highest-scoring record, dedup
-  const byId = new Map<string, Record<string, unknown>>()
-  for (const rec of [...ftsResults, ...vecResults]) {
-    const id = (rec.id ?? rec.xata_id) as string | undefined
-    if (!id) continue
-    const existing = byId.get(id)
-    const existingScore = (existing?.xata as any)?.score ?? 0
-    const recScore = (rec.xata as any)?.score ?? 0
-    if (!existing || recScore > existingScore) {
-      byId.set(id, rec)
-    }
-  }
-
-  return [...byId.values()]
-    .sort((a, b) => ((b.xata as any)?.score ?? 0) - ((a.xata as any)?.score ?? 0))
-    .slice(0, limit)
+  return fuseRRF([ftsResults, vecResults], limit)
 }
