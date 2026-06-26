@@ -704,7 +704,7 @@ const UFOResearchOrchestrator = () => {
         
         {isRunning && (
           <div className="text-yellow-400 animate-pulse">
-            > Executing UFO investigation step {currentStep + 1}...
+            {'>'} Executing UFO investigation step {currentStep + 1}...
           </div>
         )}
         

@@ -1,5 +1,31 @@
 # UFO-UI × Mindmap Marriage — Plan & Progress
 
+> **✅ PORT CONFIRMED & FINALIZED 2026-06-26.** Every valuable `apps/ufo-ui`
+> component has been absorbed into `apps/app/src/features/mindmap` and is wired
+> into the **live** render path (`(site)/research-canvas` → `MindMap` →
+> `ViewSwitcher` → `Graph`/views + always-mounted `FullScreenMenu`). Verified:
+> - `tsc --noEmit` across `apps/app` is **clean** in all ported areas
+>   (`research-canvas`, `hover-panel`, `navigation`). One JSX syntax error in
+>   `features/research-canvas/ufo-research-orchestrator.tsx:707` (literal `>`
+>   parsed as a tag) was fixed (`{'>'}`); the inconsistent `.tsx` import
+>   extension in `graph.tsx` was normalized.
+> - Canvas overlay confirmed wired in `graph.tsx`: `isEmpty` → `EmptyCanvas`
+>   hero/Typer idle state; non-empty → `FloatingToolbar` + `SessionNotes` +
+>   ActionChips + `ResearchCanvasConsole` (this is "Step 3 slice 2", done).
+> - `apps/app/src` has **zero** `ufo-ui` imports — copy is decoupled.
+>
+> **Donor-only leftovers are dead weight** (superseded predecessors, not worth
+> porting): `AnimatedChat.tsx`, `AnimatedChatWithSuggestions.tsx`, `Typer.tsx`
+> (replaced by `EnhancedAnimatedChat` + the refactored `typer/` dir). The donor's
+> `NetworkTimelineExplorer` is the `views/timeline/page.tsx`, and the ported copy
+> is **better** (already DB-wired via `getTimelineEvents`, with static fallback).
+> Orphan note: `research-canvas/ResearchTimeline.tsx` has no consumers (D2's
+> repurposing-over-`sessionEvents` is still open).
+>
+> **Remaining to fully retire the donor:** (a) browser walk of the Verification
+> checklist below; (b) delete `apps/ufo-ui` (`my-v0-project`) — matched only by
+> the `apps/*` workspace glob, no inbound refs. Destructive; awaiting go-ahead.
+
 > **⚠️ DIRECTION CORRECTED 2026-06-20 (owner):** This doc's original premise —
 > "ufo-ui as the host shell, delete apps/app" (see D10 below) — is **BACKWARDS**.
 > The correct direction: **`apps/app` is the home.** Cannibalize ufo-ui's

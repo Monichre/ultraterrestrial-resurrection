@@ -32,7 +32,7 @@ import {extractTextFromFile} from '@/utils/file-processing'
 
 import {SessionNotes} from '@/features/mindmap/components/status-ui/session-notes'
 import {ConnectedRecordsPanel} from '@/features/mindmap/components/connected-records-panel'
-import ResearchCanvasConsole from '@/features/mindmap/research-canvas/research-canvas-console.tsx'
+import ResearchCanvasConsole from '@/features/mindmap/research-canvas/research-canvas-console'
 
 const LAYOUT_DIRECTION_MAP: Record<string, 'horizontal' | 'vertical' | 'radial' | 'grid'> = {
   chronological: 'horizontal',
