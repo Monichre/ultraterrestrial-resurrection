@@ -246,8 +246,8 @@ export default function NetworkTimelineExplorer() {
               key={node.id}
               className="absolute cursor-pointer"
               style={{
-                left: node.x - 40,
-                top: node.y - 40,
+                left: node.x - 24,
+                top: node.y - 24,
               }}
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -258,7 +258,7 @@ export default function NetworkTimelineExplorer() {
             >
               <div
                 className={`
-                  relative w-20 h-20 rounded-full
+                  relative w-12 h-12 rounded-full
                   bg-gradient-to-br ${getNodeColor(node.incident.classification)}
                   flex items-center justify-center
                   transition-all duration-300
@@ -266,8 +266,8 @@ export default function NetworkTimelineExplorer() {
                   ${selectedNode?.id === node.id ? "ring-4 ring-primary ring-offset-2 ring-offset-background" : ""}
                 `}
               >
-                <div className="absolute inset-1 rounded-full bg-background/90 flex items-center justify-center">
-                  <span className="text-xs font-bold text-foreground text-center px-1 leading-tight">
+                <div className="absolute inset-[3px] rounded-full bg-background/90 flex items-center justify-center">
+                  <span className="text-[10px] font-bold text-foreground text-center leading-none">
                     {new Date(node.incident.date).getFullYear()}
                   </span>
                 </div>
@@ -302,8 +302,12 @@ export default function NetworkTimelineExplorer() {
           ))}
         </div>
 
-        {/* Controls Panel */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-4">
+        {/* Controls Panel — hidden while the detail panel is open to avoid overlap */}
+        <div
+          className={`absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-4 transition-opacity duration-200 ${
+            selectedNode ? "opacity-0 pointer-events-none" : "opacity-100"
+          }`}
+        >
           <div className="flex items-center gap-2 bg-card/90 backdrop-blur-sm border border-border rounded-xl px-4 py-2">
             <button
               onClick={() => setZoom((z) => Math.min(3, z * 1.2))}
@@ -377,8 +381,12 @@ export default function NetworkTimelineExplorer() {
           )}
         </AnimatePresence>
 
-        {/* Legend */}
-        <div className="absolute right-6 top-24 bg-card/95 backdrop-blur-sm border border-border rounded-xl p-4">
+        {/* Legend — hidden while the detail panel is open (they share the right edge) */}
+        <div
+          className={`absolute right-6 top-24 bg-card/95 backdrop-blur-sm border border-border rounded-xl p-4 transition-opacity duration-200 ${
+            selectedNode ? "opacity-0 pointer-events-none" : "opacity-100"
+          }`}
+        >
           <h3 className="font-semibold text-foreground mb-3 flex items-center gap-2">
             <Info className="w-4 h-4" />
             Legend
@@ -401,8 +409,12 @@ export default function NetworkTimelineExplorer() {
           </div>
         </div>
 
-        {/* Stats Bar */}
-        <div className="absolute left-6 bottom-8 flex gap-3">
+        {/* Stats Bar — hidden while the detail panel is open */}
+        <div
+          className={`absolute left-6 bottom-8 flex gap-3 transition-opacity duration-200 ${
+            selectedNode ? "opacity-0 pointer-events-none" : "opacity-100"
+          }`}
+        >
           <div className="bg-card/90 backdrop-blur-sm border border-border rounded-xl px-4 py-2">
             <span className="text-2xl font-bold text-primary">{filteredIncidents.length}</span>
             <span className="text-sm text-muted-foreground ml-2">Incidents</span>

@@ -8,6 +8,28 @@ import type { UFOSighting } from '@/features/mindmap/research-canvas/data/ufo-si
  * Adapt an EventsRecord from the Postgres DB to the UFOSighting shape
  * used by the NetworkTimelineExplorer canvas.
  */
+/** Clean a possibly-malformed event name (DB rows sometimes carry serialized
+ * fragments like `dateText:"July 2`). Strip field-label/quote artifacts and
+ * fall back to title/location when the result is unusable. */
+function cleanName(raw: string | null | undefined, event: EventsRecord): string {
+  let n = (raw ?? '').trim()
+  // Drop leading `someText:"` style field-label artifacts and stray quotes.
+  n = n.replace(/^[a-zA-Z]+\s*:\s*"?/, '').replace(/^["']+|["']+$/g, '').trim()
+  if (n.length < 3) {
+    return (event.title ?? event.location ?? 'Unknown Event').trim() || 'Unknown Event'
+  }
+  return n
+}
+
+/** Strip markdown bold markers and bracketed citation markers (`[4, 7]`) so
+ * the detail panel renders clean prose. */
+function cleanDescription(raw: string | null | undefined): string {
+  return (raw ?? '')
+    .replace(/\*\*/g, '')
+    .replace(/\s*\[[\d,\s]+\]/g, '')
+    .trim()
+}
+
 function adaptEventToSighting(event: EventsRecord): UFOSighting {
   const categories: string[] = event.category ?? []
 
@@ -37,10 +59,10 @@ function adaptEventToSighting(event: EventsRecord): UFOSighting {
 
   return {
     id: event.id,
-    name: event.name ?? event.title ?? 'Unknown Event',
+    name: cleanName(event.name ?? event.title, event),
     date: event.date ?? new Date().toISOString(),
     location: event.location ?? 'Unknown Location',
-    description: event.description ?? event.summary ?? '',
+    description: cleanDescription(event.description ?? event.summary),
     classification,
     credibility: 'High',
     witnesses: 0,

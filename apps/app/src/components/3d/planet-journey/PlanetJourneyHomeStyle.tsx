@@ -22,11 +22,6 @@ if (typeof window !== 'undefined') {
 }
 
 // Dynamic imports following Home component pattern
-const CosmicNav = dynamic(
-  () => import('@/components/navbar/cosmic-nav').then((mod) => mod.CosmicNav),
-  { ssr: false }
-)
-
 const CanvasCursor = dynamic(
   () => import('@/components/ui/canvas-cursor').then((mod) => mod.CanvasCursor),
   { ssr: false }
@@ -486,10 +481,7 @@ export const PlanetJourneyHomeStyle: React.FC = () => {
       ref={containerRef}
       className="h-[500vh] w-[100vw] relative overflow-hidden"
     >
-      {/* Cosmic Navigation like Home */}
-      <div className="cosmic-nav fixed top-0 left-0 right-0 z-50">
-        <CosmicNav />
-      </div>
+      {/* Global navigation is mounted once in app/layout.tsx */}
 
       {/* 3D Scene Layer like Home Earth/Moon layers */}
       <div className="absolute top-0 left-0 h-[100vh] w-[100vw] z-[1] fixed">

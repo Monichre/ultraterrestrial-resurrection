@@ -2,6 +2,8 @@
 
 import React from "react"
 import { useState, useEffect, useCallback } from "react"
+import Link from "next/link"
+import { usePathname, useRouter } from "next/navigation"
 import {
   X,
   Search,
@@ -10,8 +12,10 @@ import {
   FileText,
   Sparkles,
   ArrowRight,
-  Command,
   Layers,
+  Users,
+  Map,
+  Flame,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useMindMapUiStore, type ActiveView } from "@/features/mindmap/store/mindmap-ui-store"
@@ -21,79 +25,68 @@ interface ViewItem {
   id: string
   title: string
   description: string
-  path: string
   icon: React.ReactNode
   preview: string
   color: string
   stats?: { label: string; value: string }[]
 }
 
+// In-canvas views — navigated by id via setActiveView (see handleNavigate)
 const VIEWS: ViewItem[] = [
   {
     id: "canvas",
     title: "Research Canvas",
     description: "Interactive workspace for investigating UFO phenomena with AI-assisted analysis",
-    path: "/",
     icon: <Sparkles size={24} />,
     preview: "/images/abstract-disclosure.png",
     color: "from-cyan-500/20 to-blue-500/20",
-    stats: [
-      { label: "Active Nodes", value: "24" },
-      { label: "Connections", value: "67" },
-    ],
   },
   {
     id: "timeline",
     title: "Timeline Explorer",
     description: "Navigate through decades of documented encounters with immersive 3D scrolling",
-    path: "/ufo-sightings",
     icon: <Clock size={24} />,
     preview: "/images/colares.png",
     color: "from-purple-500/20 to-pink-500/20",
-    stats: [
-      { label: "Events", value: "156" },
-      { label: "Years Covered", value: "77" },
-    ],
   },
   {
     id: "globe",
     title: "Global Sightings",
     description: "Explore worldwide UFO encounters on an interactive 3D globe visualization",
-    path: "/ufo-sightings",
     icon: <Globe size={24} />,
     preview: "/images/digital-mischief-group-metallic-sphere-darting-above-atlantic-ad66a4d1-55b7-448c-acee-3e4bee70eb1c-0.png",
     color: "from-emerald-500/20 to-teal-500/20",
-    stats: [
-      { label: "Locations", value: "89" },
-      { label: "Countries", value: "34" },
-    ],
   },
   {
     id: "search",
     title: "Search & Discover",
     description: "Advanced search interface with filters for classification, date, and credibility",
-    path: "/search-and-discovery-interface",
     icon: <Search size={24} />,
     preview: "/images/22.png",
     color: "from-orange-500/20 to-amber-500/20",
-    stats: [
-      { label: "Records", value: "2.4K" },
-      { label: "Categories", value: "12" },
-    ],
   },
   {
     id: "detail",
     title: "Case Files",
     description: "Deep dive into individual incidents with evidence, witnesses, and analysis",
-    path: "/content-card-detail-view",
     icon: <FileText size={24} />,
     preview: "/images/0-2.jpg",
     color: "from-rose-500/20 to-red-500/20",
-    stats: [
-      { label: "Documents", value: "892" },
-      { label: "Media Files", value: "1.2K" },
-    ],
   },
+]
+
+// Standalone routes folded into the menu as a subordinate "Explore" row
+interface PageLink {
+  href: string
+  title: string
+  icon: React.ReactNode
+}
+
+const PAGES: PageLink[] = [
+  { href: "/key-figures", title: "Key Figures", icon: <Users size={16} /> },
+  { href: "/sightings", title: "Global Sightings", icon: <Map size={16} /> },
+  { href: "/timeline", title: "Timeline", icon: <Clock size={16} /> },
+  { href: "/prometheus", title: "Prometheus", icon: <Flame size={16} /> },
 ]
 
 interface FullScreenMenuProps {
@@ -107,6 +100,8 @@ export function FullScreenMenu({ isOpen: isOpenProp, onClose: onCloseProp }: Ful
 
   const { navigation, setFullScreenMenuOpen, setActiveView } = useMindMapUiStore()
   const { nodes, edges } = useMindMapStore()
+  const pathname = usePathname()
+  const router = useRouter()
 
   // Overlay live canvas stats onto the static view metadata
   const views: ViewItem[] = VIEWS.map((view) =>
@@ -153,11 +148,16 @@ export function FullScreenMenu({ isOpen: isOpenProp, onClose: onCloseProp }: Ful
     (viewId: string) => {
       setIsAnimating(false)
       setActiveView(viewId as ActiveView)
+      // The view cards only render on the canvas — when the menu is opened
+      // from any other route, send the user to the canvas first.
+      if (pathname !== "/research-canvas") {
+        router.push("/research-canvas")
+      }
       setTimeout(() => {
         onClose()
       }, 300)
     },
-    [onClose, setActiveView]
+    [onClose, setActiveView, pathname, router]
   )
 
   if (!isOpen) return null
@@ -209,10 +209,6 @@ export function FullScreenMenu({ isOpen: isOpenProp, onClose: onCloseProp }: Ful
           </div>
 
           <div className="flex items-center gap-4">
-            <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-neutral-800/50 text-neutral-400 text-sm">
-              <Command size={14} />
-              <span>K</span>
-            </div>
             <button
               onClick={onClose}
               className="w-10 h-10 rounded-full bg-neutral-800/50 hover:bg-neutral-700/50 flex items-center justify-center text-neutral-400 hover:text-white transition-colors"
@@ -298,6 +294,26 @@ export function FullScreenMenu({ isOpen: isOpenProp, onClose: onCloseProp }: Ful
                 )
               })}
             </div>
+
+            {/* Secondary route links — subordinate to the primary view cards */}
+            <div className="mt-8 pt-6 border-t border-white/5">
+              <p className="px-4 mb-3 text-xs font-medium uppercase tracking-wider text-neutral-600">
+                Explore
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {PAGES.map((page) => (
+                  <Link
+                    key={page.href}
+                    href={page.href}
+                    onClick={onClose}
+                    className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-neutral-400 hover:text-white hover:bg-white/5 transition-colors duration-200"
+                  >
+                    <span className="text-neutral-500">{page.icon}</span>
+                    {page.title}
+                  </Link>
+                ))}
+              </div>
+            </div>
           </nav>
 
           {/* Preview panel - hidden on mobile */}
@@ -317,17 +333,19 @@ export function FullScreenMenu({ isOpen: isOpenProp, onClose: onCloseProp }: Ful
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-transparent to-transparent" />
 
-                  {/* Stats overlay */}
-                  <div className="absolute bottom-0 left-0 right-0 p-6">
-                    <div className="flex gap-6">
-                      {activeView.stats?.map((stat) => (
-                        <div key={stat.label}>
-                          <div className="text-2xl font-bold text-white">{stat.value}</div>
-                          <div className="text-sm text-neutral-400">{stat.label}</div>
-                        </div>
-                      ))}
+                  {/* Stats overlay — only the canvas card carries live stats */}
+                  {activeView.stats && (
+                    <div className="absolute bottom-0 left-0 right-0 p-6">
+                      <div className="flex gap-6">
+                        {activeView.stats.map((stat) => (
+                          <div key={stat.label}>
+                            <div className="text-2xl font-bold text-white">{stat.value}</div>
+                            <div className="text-sm text-neutral-400">{stat.label}</div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               )}
             </div>

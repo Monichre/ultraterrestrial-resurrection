@@ -4,7 +4,6 @@
 import {ThemeProvider} from '@/contexts/theme-provider'
 import {ClerkProvider} from '@clerk/nextjs'
 import {CommandPaletteProvider} from '@/components/command-palette'
-// import {FullSiteNav} from '@/components/navbar/full-site-nav'
 import {
   FONT_LUKAS_SANS,
   FONT_MONUMENT_GROTESK,
@@ -22,11 +21,12 @@ import {
 } from './fonts'
 import {CustomCursor} from '@/components/cursor-ui/CustomCursor'
 import BrowserEchoScript from '@browser-echo/next/BrowserEchoScript'
+import {Agentation} from 'agentation'
 
 import '@xyflow/react/dist/style.css'
 import './globals.css'
 import './research-ui.css'
-import {CosmicNav} from '@/components/navbar/cosmic-nav'
+import {MenuTrigger} from '@/features/mindmap/navigation/MenuTrigger'
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -57,15 +57,16 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
             <CommandPaletteProvider>
               {/* <DataLayer> */}
 
-              <CosmicNav />
+              {/* Global navigation — wordmark + hamburger that opens FullScreenMenu */}
+              <MenuTrigger />
 
-              {/* <FullSiteNav /> */}
               <CustomCursor />
               <main
                 className='min-h-[100vh] min-w-screen relative site dark'
                 style={{backgroundColor: '#000'}}>
                 {children}
               </main>
+              {process.env.NODE_ENV === 'development' && <Agentation />}
             </CommandPaletteProvider>
           </ThemeProvider>
         </body>
