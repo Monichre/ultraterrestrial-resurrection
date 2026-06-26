@@ -1,7 +1,6 @@
 'use client'
 
 import {TitleAlt} from '@/layouts/home/TitleAlt'
-import {CosmicNav} from '@/components/navbar/cosmic-nav'
 import dynamic from 'next/dynamic'
 import {useUltraterrestrialAnimation} from '@/hooks/useUltraterrestrialAnimation'
 
@@ -45,11 +44,6 @@ export const Home: React.FC<HomeProps> = () => {
 
   return (
     <div className='h-[100vh] w-[100vw] relative overflow-hidden'>
-      {/* Cosmic Navigation */}
-      <div className='cosmic-nav'>
-        <CosmicNav />
-      </div>
-
       {/* Moon Layer */}
       <div className='absolute top-0 left-0 h-[100vh] w-[100vw] z-[1]'>
         <Moon />

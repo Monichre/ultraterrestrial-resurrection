@@ -1,7 +1,6 @@
 'use client'
 
 import {TitleAlt} from '@/layouts/home/TitleAlt'
-import {CosmicNav} from '@/components/navbar/cosmic-nav'
 import dynamic from 'next/dynamic'
 import {useHomeAnimations} from './useHomeAnimations'
 
@@ -35,10 +34,8 @@ export const HomeGSAP: React.FC<HomeGSAPProps> = () => {
 
   return (
     <div ref={refs.container} className='h-[100vh] w-[100vw] relative overflow-hidden bg-black'>
-      {/* Cosmic Navigation */}
-      <div ref={refs.nav} className='relative z-50'>
-        <CosmicNav />
-      </div>
+      {/* Global navigation is mounted once in app/layout.tsx; this ref node is kept for GSAP timing */}
+      <div ref={refs.nav} className='relative z-50' />
 
       {/* Moon Container */}
       <div ref={refs.moon} className='absolute top-0 left-0 h-[100vh] w-[100vw] z-10'>

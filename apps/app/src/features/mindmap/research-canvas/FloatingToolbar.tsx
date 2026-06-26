@@ -2,28 +2,18 @@
 
 import {useMemo} from 'react'
 import type {ReactNode} from 'react'
-import {Network, Clock, LayoutGrid, Filter, Bookmark, Zap, FolderOpen, Layers, Layers2, History} from 'lucide-react'
+import {Network, Clock, Filter, Bookmark, FolderOpen} from 'lucide-react'
 import {Avatar, AvatarImage, AvatarFallback} from '@/components/ui/avatar'
 import {HoverCard, HoverCardContent, HoverCardTrigger} from '@/components/ui/hover-card'
 import {ToolbarButton} from './ToolbarButton'
 import {NetworkPanel} from '@/features/mindmap/components/menus/mindmap-side-menu/hover-panels/NetworkPanel'
 import {TimelinePanel} from '@/features/mindmap/components/menus/mindmap-side-menu/hover-panels/TimelinePanel'
-import {LayoutPanel} from '@/features/mindmap/components/menus/mindmap-side-menu/hover-panels/LayoutPanel'
 import {FilterPanel} from '@/features/mindmap/components/menus/mindmap-side-menu/hover-panels/FilterPanel'
-import {LayersPanel} from '@/features/mindmap/components/menus/mindmap-side-menu/hover-panels/LayersPanel'
 import {SavedViewsPanel} from '@/features/mindmap/components/menus/mindmap-side-menu/hover-panels/SavedViewsPanel'
-import {QuickActionsPanel} from '@/features/mindmap/components/menus/mindmap-side-menu/hover-panels/QuickActionsPanel'
-import {HistoryPanel} from '@/features/mindmap/components/menus/mindmap-side-menu/hover-panels/HistoryPanel'
 import {AssetLibraryPanel} from '@/features/mindmap/components/menus/mindmap-side-menu/hover-panels/AssetLibraryPanel'
 import {useMindMapUiStore} from '@/features/mindmap/store/mindmap-ui-store'
 
 const TOOLBAR_ITEMS = [
-  {
-    id: 'menu',
-    icon: <Layers size={20} strokeWidth={2} />,
-    tooltip: 'Switch View',
-    panel: null,
-  },
   {
     id: 'network',
     icon: <Network size={20} strokeWidth={2} />,
@@ -37,40 +27,16 @@ const TOOLBAR_ITEMS = [
     panel: 'timeline',
   },
   {
-    id: 'layout',
-    icon: <LayoutGrid size={20} strokeWidth={2} />,
-    tooltip: 'Layout Algorithms',
-    panel: 'layout',
-  },
-  {
     id: 'filter',
     icon: <Filter size={20} strokeWidth={2} />,
     tooltip: 'Filter Panel',
     panel: 'filter',
   },
   {
-    id: 'layers',
-    icon: <Layers2 size={20} strokeWidth={2} />,
-    tooltip: 'Layers',
-    panel: 'layers',
-  },
-  {
-    id: 'history',
-    icon: <History size={20} strokeWidth={2} />,
-    tooltip: 'Session History',
-    panel: 'history',
-  },
-  {
     id: 'saved-views',
     icon: <Bookmark size={20} strokeWidth={2} />,
     tooltip: 'Saved Views & Pathways',
     panel: 'saved-views',
-  },
-  {
-    id: 'quick-actions',
-    icon: <Zap size={20} strokeWidth={2} />,
-    tooltip: 'Quick Actions',
-    panel: 'quick-actions',
   },
   {
     id: 'assets',
@@ -83,12 +49,8 @@ const TOOLBAR_ITEMS = [
 const PANELS: Record<string, ReactNode> = {
   network: <NetworkPanel />,
   timeline: <TimelinePanel />,
-  layout: <LayoutPanel />,
   filter: <FilterPanel />,
-  layers: <LayersPanel />,
-  history: <HistoryPanel />,
   'saved-views': <SavedViewsPanel />,
-  'quick-actions': <QuickActionsPanel />,
   assets: <AssetLibraryPanel />,
 }
 
@@ -103,20 +65,6 @@ export function FloatingToolbar({panels}: FloatingToolbarProps) {
   const renderToolbarItem = (item: (typeof TOOLBAR_ITEMS)[number]) => {
     const isPinned = pinnedPanel === item.id
     const panel = resolvedPanels[item.panel] ?? PANELS[item.panel]
-
-    // Special handling for menu button - toggles full screen menu
-    if (item.id === 'menu') {
-      return (
-        <ToolbarButton
-          key={item.id}
-          tooltip={item.tooltip}
-          isActive={false}
-          onClick={() => useMindMapUiStore.getState().toggleFullScreenMenu()}
-        >
-          {item.icon}
-        </ToolbarButton>
-      )
-    }
 
     const button = (
       <ToolbarButton

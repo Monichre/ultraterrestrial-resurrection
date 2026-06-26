@@ -1,7 +1,7 @@
 "use client"
 
 import { useCallback, useEffect, useState } from "react"
-import { Bookmark, Eye, Trash2, Clock, Compass } from "lucide-react"
+import { Bookmark, Eye, Trash2, Clock, Compass, RotateCcw, Search, Plus, Sparkles, Save } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
@@ -10,9 +10,36 @@ import { PlusIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons"
 import type { Edge, Node } from "@xyflow/react"
 import { useMindMap } from "@/contexts/mindmap/mindmap-context"
 import { useMindMapStore } from "@/features/mindmap/store"
-import { useMindMapUiStore } from "@/features/mindmap/store/mindmap-ui-store"
+import { useMindMapUiStore, type SessionEventType } from "@/features/mindmap/store/mindmap-ui-store"
 
 const STORAGE_KEY = "mindmap-saved-views"
+
+// Folded in from HistoryPanel — session-event styling surfaced in the "Recent" tab
+const EVENT_ICONS: Record<SessionEventType, React.ReactNode> = {
+  query: <Search size={14} strokeWidth={2} />,
+  nodes_added: <Plus size={14} strokeWidth={2} />,
+  analysis: <Sparkles size={14} strokeWidth={2} />,
+  tour: <Compass size={14} strokeWidth={2} />,
+  save: <Save size={14} strokeWidth={2} />,
+}
+
+const EVENT_COLORS: Record<SessionEventType, string> = {
+  query: "bg-blue-500/20 text-blue-400 border-blue-500/30",
+  nodes_added: "bg-green-500/20 text-green-400 border-green-500/30",
+  analysis: "bg-purple-500/20 text-purple-400 border-purple-500/30",
+  tour: "bg-cyan-500/20 text-cyan-400 border-cyan-500/30",
+  save: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
+}
+
+function formatTime(timestamp: number) {
+  const diff = Date.now() - timestamp
+  const minutes = Math.floor(diff / 60000)
+  if (minutes < 1) return "Just now"
+  if (minutes < 60) return `${minutes}m ago`
+  const hours = Math.floor(minutes / 60)
+  if (hours < 24) return `${hours}h ago`
+  return new Date(timestamp).toLocaleDateString()
+}
 
 interface SavedView {
   id: string
@@ -55,7 +82,7 @@ function formatDate(timestamp: number) {
 export function SavedViewsPanel() {
   const { getNodes, getEdges, fitView } = useMindMap()
   const { setNodes, setEdges } = useMindMapStore()
-  const { startTour, addSessionEvent, setActiveView } = useMindMapUiStore()
+  const { startTour, addSessionEvent, setActiveView, sessionEvents, clearSessionEvents } = useMindMapUiStore()
 
   const [searchQuery, setSearchQuery] = useState("")
   const [views, setViews] = useState<SavedView[]>([])
@@ -150,6 +177,12 @@ export function SavedViewsPanel() {
             className="text-sm font-medium h-8 px-3 data-[state=active]:bg-white/10 data-[state=active]:text-white text-[#8c8c8c] hover:bg-white/5 hover:text-white"
           >
             Guided Tours
+          </TabsTrigger>
+          <TabsTrigger
+            value="recent"
+            className="text-sm font-medium h-8 px-3 data-[state=active]:bg-white/10 data-[state=active]:text-white text-[#8c8c8c] hover:bg-white/5 hover:text-white"
+          >
+            Recent
           </TabsTrigger>
         </TabsList>
 
@@ -246,6 +279,60 @@ export function SavedViewsPanel() {
                 </Button>
               </div>
             ))}
+          </TabsContent>
+
+          {/* Recent — session history folded in from the former Session History panel */}
+          <TabsContent value="recent" className="space-y-2 mt-0">
+            <div className="flex items-center justify-between mb-3">
+              <h4 className="text-sm font-medium">Session History</h4>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="size-7 hover:bg-white/10"
+                onClick={clearSessionEvents}
+                disabled={sessionEvents.length === 0}
+                title="Clear history"
+              >
+                <RotateCcw size={14} strokeWidth={2} />
+              </Button>
+            </div>
+
+            {sessionEvents.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-10 text-center text-neutral-500">
+                <Clock size={20} className="mb-2 opacity-50" strokeWidth={2} />
+                <p className="text-sm">No activity yet</p>
+                <p className="text-xs">Run a query to start the log</p>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                {sessionEvents.map((event) => (
+                  <div
+                    key={event.id}
+                    className="flex items-start gap-3 p-2 rounded-lg bg-neutral-700/30 hover:bg-neutral-700/50 transition-colors"
+                  >
+                    <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-neutral-700/50 mt-0.5">
+                      {EVENT_ICONS[event.type]}
+                    </div>
+
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        <Badge className={`text-xs ${EVENT_COLORS[event.type]}`}>
+                          {event.type.replace("_", " ")}
+                        </Badge>
+                        <span className="text-xs text-gray-400 flex items-center gap-1">
+                          <Clock size={10} strokeWidth={2} />
+                          {formatTime(event.timestamp)}
+                        </span>
+                      </div>
+                      <p className="text-sm text-white">{event.label}</p>
+                      {event.detail && (
+                        <p className="text-xs text-gray-400 line-clamp-2">{event.detail}</p>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </TabsContent>
         </div>
       </Tabs>

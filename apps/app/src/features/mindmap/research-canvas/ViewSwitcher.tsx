@@ -2,7 +2,6 @@
 
 import {lazy, Suspense} from 'react'
 import {useMindMapUiStore} from '@/features/mindmap/store/mindmap-ui-store'
-import {FullScreenMenu} from '@/features/mindmap/navigation/FullScreenMenu'
 
 // Lazy load view components
 const TimelineView = lazy(() => import('@/features/mindmap/research-canvas/views/timeline/page'))
@@ -42,10 +41,6 @@ export function ViewSwitcher({canvasContent}: ViewSwitcherProps) {
     }
   }
 
-  return (
-    <>
-      {renderView()}
-      <FullScreenMenu />
-    </>
-  )
+  // MenuTrigger is now mounted globally in app/layout.tsx, so we only render the view here.
+  return <>{renderView()}</>
 }

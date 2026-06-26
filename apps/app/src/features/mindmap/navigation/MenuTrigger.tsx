@@ -1,8 +1,9 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { Menu, Command } from "lucide-react"
+import Link from "next/link"
+import { Menu } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { useMindMapUiStore } from "@/features/mindmap/store/mindmap-ui-store"
 import { FullScreenMenu } from "./FullScreenMenu"
 
 interface MenuTriggerProps {
@@ -11,25 +12,16 @@ interface MenuTriggerProps {
 }
 
 export function MenuTrigger({ className, variant = "floating" }: MenuTriggerProps) {
-  const [isOpen, setIsOpen] = useState(false)
-
-  // Handle keyboard shortcut (Cmd/Ctrl + K)
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
-        e.preventDefault()
-        setIsOpen((prev) => !prev)
-      }
-    }
-    window.addEventListener("keydown", handleKeyDown)
-    return () => window.removeEventListener("keydown", handleKeyDown)
-  }, [])
+  // Global Zustand store — the menu open state lives here so any trigger
+  // (hamburger, command palette, programmatic) stays in sync.
+  const { navigation, setFullScreenMenuOpen } = useMindMapUiStore()
+  const isOpen = navigation.fullScreenMenuOpen
 
   if (variant === "inline") {
     return (
       <>
         <button
-          onClick={() => setIsOpen(true)}
+          onClick={() => setFullScreenMenuOpen(true)}
           className={cn(
             "flex items-center gap-2 px-3 py-2 rounded-lg",
             "bg-neutral-800/50 hover:bg-neutral-700/50",
@@ -40,20 +32,30 @@ export function MenuTrigger({ className, variant = "floating" }: MenuTriggerProp
         >
           <Menu size={18} />
           <span className="text-sm font-medium">Menu</span>
-          <div className="hidden sm:flex items-center gap-1 ml-2 text-xs text-neutral-500">
-            <Command size={12} />
-            <span>K</span>
-          </div>
         </button>
-        <FullScreenMenu isOpen={isOpen} onClose={() => setIsOpen(false)} />
+        <FullScreenMenu />
       </>
     )
   }
 
   return (
     <>
+      {/* Project wordmark — global chrome, top-left */}
+      <Link
+        href="/"
+        className="fixed top-6 left-6 z-40 group pointer-events-auto"
+        aria-label="Ultraterrestrial home"
+      >
+        <div className="backdrop-blur-md bg-black/20 border border-white/10 rounded-lg px-4 py-2 hover:bg-black/30 transition-all duration-300">
+          <span className="text-white/80 group-hover:text-white text-sm font-monumentMono tracking-wider">
+            ULTRATERRESTRIAL
+          </span>
+        </div>
+      </Link>
+
+      {/* Hamburger — global chrome, top-right */}
       <button
-        onClick={() => setIsOpen(true)}
+        onClick={() => setFullScreenMenuOpen(true)}
         className={cn(
           "fixed top-6 right-6 z-40",
           "w-12 h-12 rounded-full",
@@ -71,7 +73,7 @@ export function MenuTrigger({ className, variant = "floating" }: MenuTriggerProp
       >
         <Menu size={20} />
       </button>
-      <FullScreenMenu isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      <FullScreenMenu />
     </>
   )
 }
