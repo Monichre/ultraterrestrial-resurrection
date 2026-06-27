@@ -317,9 +317,13 @@ export function Graph() {
         }, 200)
       } catch (error) {
         console.error('Mindmap agent query failed:', error)
-        updateNodeData(sourceNode.id, {
-          answer: 'Unable to fetch results right now. Please try again.',
-        })
+        // Prefer the real reason from the agent stream (e.g. quota/billing,
+        // rate limit) over a generic message so the user knows what to fix.
+        const reason =
+          error instanceof Error && error.message && !/^HTTP error/.test(error.message)
+            ? error.message
+            : 'Unable to fetch results right now. Please try again.'
+        updateNodeData(sourceNode.id, {answer: reason})
       }
     },
     [
@@ -510,14 +514,17 @@ export function Graph() {
       />
 
       {isEmpty ? (
-        <div className='absolute inset-0 z-10 pointer-events-auto'>
-          <EmptyCanvas
-            onSubmit={handleEmptyCanvasSubmit}
-            agentStatus={agentStatus}
-            agentAnalysis={analysis}
-            agentToolEvents={toolEvents}
-          />
-        </div>
+        <>
+          <div className='absolute inset-0 z-10 pointer-events-auto'>
+            <EmptyCanvas
+              onSubmit={handleEmptyCanvasSubmit}
+              agentStatus={agentStatus}
+              agentAnalysis={analysis}
+              agentToolEvents={toolEvents}
+            />
+          </div>
+          <FloatingToolbar panels={panels} />
+        </>
       ) : (
         <>
           <FloatingToolbar panels={panels} />
