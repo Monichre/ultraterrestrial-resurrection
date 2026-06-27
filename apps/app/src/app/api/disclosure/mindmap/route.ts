@@ -705,6 +705,18 @@ export async function POST( req: Request ) {
           )
         }
 
+        // Surface non-success terminal run states instead of silently ending.
+        // Otherwise a failed/expired run (e.g. OpenAI quota exceeded) reaches the
+        // client as an empty stream and the UI shows nothing about why.
+        const terminalStatus = runResult?.status
+        if ( terminalStatus && terminalStatus !== "completed" ) {
+          const reason =
+            ( runResult as { last_error?: { message?: string } } )?.last_error?.message ??
+            ( runResult as { incomplete_details?: { reason?: string } } )?.incomplete_details?.reason ??
+            `Assistant run ${terminalStatus}`
+          await writeSSE( { error: `run_${terminalStatus}`, message: reason } )
+        }
+
         // Signal end of stream
         await writeSSE( { done: true } )
         await close()

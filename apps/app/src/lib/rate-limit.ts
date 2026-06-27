@@ -47,17 +47,38 @@ export async function checkRateLimit(identifier: string) {
     };
   }
 
-  const { success, limit, reset, remaining } = await limiter.limit(identifier);
+  try {
+    const { success, limit, reset, remaining } = await limiter.limit(identifier);
 
-  return {
-    success,
-    limit,
-    reset,
-    remaining,
-    headers: {
-      "X-RateLimit-Limit": limit.toString(),
-      "X-RateLimit-Remaining": remaining.toString(),
-      "X-RateLimit-Reset": reset.toString(),
-    },
-  };
+    return {
+      success,
+      limit,
+      reset,
+      remaining,
+      headers: {
+        "X-RateLimit-Limit": limit.toString(),
+        "X-RateLimit-Remaining": remaining.toString(),
+        "X-RateLimit-Reset": reset.toString(),
+      },
+    };
+  } catch (error) {
+    // Upstash unreachable (e.g. DNS failure on a decommissioned instance).
+    // Fail OPEN: rate limiting is a guardrail, not a hard dependency — it must
+    // never take down the core API. Allow the request and move on.
+    console.warn(
+      "[rate-limit] limiter unavailable, failing open:",
+      (error as Error)?.message
+    );
+    return {
+      success: true,
+      limit: 30,
+      reset: Date.now() + 60_000,
+      remaining: 30,
+      headers: {
+        "X-RateLimit-Limit": "30",
+        "X-RateLimit-Remaining": "30",
+        "X-RateLimit-Reset": (Date.now() + 60_000).toString(),
+      },
+    };
+  }
 }

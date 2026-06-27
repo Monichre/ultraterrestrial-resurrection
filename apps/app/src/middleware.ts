@@ -1,17 +1,20 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 
 const isAdminRoute = createRouteMatcher(['/admin(.*)'])
+// Only gate genuinely sensitive mutation/ingest endpoints. The read-only AI
+// query routes (/api/disclosure/*, /api/prometheus/chat) power the public
+// research canvas and must stay reachable without a Clerk session — there is
+// no sign-in flow wired into that UI yet (see CLAUDE.md: "all routes publicly
+// accessible"). Add them back here once auth is surfaced in the canvas.
 const isProtectedApiRoute = createRouteMatcher([
   '/api/processing(.*)',
-  '/api/prometheus/chat',
-  '/api/disclosure(.*)',
 ])
 const isPublicApiRoute = createRouteMatcher([
   '/api/webhooks(.*)',
   '/api/cron(.*)',
 ])
 
-export default clerkMiddleware((auth, req) => {
+export default clerkMiddleware(async (auth, req) => {
   // Skip auth for webhooks and cron endpoints (they use secret verification)
   if (isPublicApiRoute(req)) {
     return
@@ -19,13 +22,13 @@ export default clerkMiddleware((auth, req) => {
 
   // Protect admin routes - require authentication
   if (isAdminRoute(req)) {
-    auth().protect()
+    await auth.protect()
     return
   }
 
   // Protect API routes - require authentication
   if (isProtectedApiRoute(req)) {
-    auth().protect()
+    await auth.protect()
     return
   }
 })
