@@ -18,10 +18,10 @@ export const ToolbarButton = React.forwardRef<HTMLButtonElement, ToolbarButtonPr
               ref={ref}
               variant="ghost"
               className={cn(
-                "shrink-0 text-center text-nowrap whitespace-nowrap justify-center items-center rounded-full size-10 p-0",
+                "shrink-0 text-center text-nowrap whitespace-nowrap justify-center items-center rounded-full size-10 p-0 transition-colors duration-150",
                 isActive
-                  ? "text-neutral-900 bg-white hover:bg-white"
-                  : "text-neutral-400 hover:bg-white/20 hover:text-white",
+                  ? "text-[oklch(0.18_0.008_85)] bg-[var(--ut-paper)] hover:bg-[var(--ut-paper)]"
+                  : "text-[var(--ut-ink-faint)] hover:bg-[oklch(0.93_0.015_90/0.12)] hover:text-[var(--ut-paper)]",
                 className,
               )}
               {...props}
@@ -29,7 +29,10 @@ export const ToolbarButton = React.forwardRef<HTMLButtonElement, ToolbarButtonPr
               {children}
             </Button>
           </TooltipTrigger>
-          <TooltipContent side="right" className="bg-neutral-900 text-white border-neutral-700">
+          <TooltipContent
+            side="right"
+            className="ut-mono border-[var(--ut-line-strong)] bg-[var(--ut-surface-2)] text-[10px] text-[var(--ut-ink-dim)]"
+          >
             <p>{tooltip}</p>
           </TooltipContent>
         </Tooltip>

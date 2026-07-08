@@ -17,11 +17,13 @@ export function EvidentiaryStateBadge({
   className?: string
 }) {
   const c = EVIDENTIARY_STATE_COLORS[state]
+  // Bracketed mono, mirroring the `[State]` wire prefix in edge reasoning:
+  // the UI shows the same notation the data actually carries.
   return (
     <span
-      className={`inline-flex shrink-0 items-center rounded border ${c.border} ${c.bg} px-1 py-px text-[9px] font-semibold uppercase tracking-wide ${c.text} ${className}`}
+      className={`ut-mono inline-flex shrink-0 items-center rounded-[2px] border ${c.border} ${c.bg} px-1 py-px text-[8.5px] font-medium ${c.text} ${className}`}
     >
-      {state}
+      [&thinsp;{state}&thinsp;]
     </span>
   )
 }

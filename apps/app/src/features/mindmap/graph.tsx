@@ -31,8 +31,13 @@ import {transformStreamResponse} from '@/features/mindmap/actions/xata-to-xyflow
 import {extractTextFromFile} from '@/utils/file-processing'
 
 import {SessionNotes} from '@/features/mindmap/components/status-ui/session-notes'
-import {ConnectedRecordsPanel} from '@/features/mindmap/components/connected-records-panel'
+import {ResearchSuggestionsDock} from '@/features/mindmap/components/research-suggestions-dock'
+import {TourOverlay} from '@/features/mindmap/tours/tour-overlay'
+import {useGuidedTour} from '@/features/mindmap/tours/use-guided-tour'
+import {useGuidedTourStore} from '@/features/mindmap/tours/guided-tour-store'
+import {FAMOUS_EVENTS_TOUR} from '@/features/mindmap/tours/famous-events-tour'
 import ResearchCanvasConsole from '@/features/mindmap/research-canvas/research-canvas-console'
+import '@/features/mindmap/research-canvas/canvas-animations.css'
 
 const LAYOUT_DIRECTION_MAP: Record<string, 'horizontal' | 'vertical' | 'radial' | 'grid'> = {
   chronological: 'horizontal',
@@ -96,6 +101,7 @@ export function Graph() {
   } = useMindMap()
 
   const {runAgentQuery, status: agentStatus, analysis, toolEvents} = useMindMapAgent()
+  const {startTour: startGuidedTour} = useGuidedTour()
 
   const {
     autoLayout,
@@ -106,7 +112,6 @@ export function Graph() {
     setTimelineEra,
     setTimelinePlaying,
     setTimelineSpeed,
-    startTour,
     setCommandMenuOpen,
     addSessionEvent,
     hiddenNodeTypes,
@@ -434,9 +439,8 @@ export function Graph() {
   )
 
   const handleStartTour = useCallback(() => {
-    startTour('default', 'guided')
-    addSessionEvent({type: 'tour', label: 'Started guided tour'})
-  }, [startTour, addSessionEvent])
+    void startGuidedTour(FAMOUS_EVENTS_TOUR)
+  }, [startGuidedTour])
 
   const handleSearchDatabase = useCallback(() => {
     setCommandMenuOpen(true)
@@ -469,26 +473,42 @@ export function Graph() {
 
   const edgeOptions = {
     animated: true,
-    style: {stroke: 'white'},
+    // Parchment at reduced strength: edges read as pencil lines on the
+    // dark table, not wires. Full white fought the nodes for attention.
+    style: {stroke: 'oklch(0.93 0.015 90 / 0.45)', strokeWidth: 1.25},
   }
 
   const {ref} = useContextMenu()
 
   const isEmpty = nodes.length === 0
 
+  const tourStatus = useGuidedTourStore((s) => s.status)
+  const tourWaypoints = useGuidedTourStore((s) => s.waypoints)
+  const tourStepIndex = useGuidedTourStore((s) => s.stepIndex)
+  const activeTourNodeId =
+    tourStatus === 'running' ? (tourWaypoints[tourStepIndex]?.recordId ?? null) : null
+
   const visibleNodes = useMemo(() => {
-    if (hiddenNodeTypes.length === 0) return nodes
+    if (hiddenNodeTypes.length === 0 && !activeTourNodeId) return nodes
     return nodes.map((node) => {
       const nodeType = String((node.data as Record<string, unknown>)?.type ?? '')
-      return hiddenNodeTypes.includes(nodeType) ? {...node, hidden: true} : node
+      const hidden = hiddenNodeTypes.includes(nodeType)
+      const isTourActive = node.id === activeTourNodeId
+      if (!hidden && !isTourActive) return node
+      return {
+        ...node,
+        ...(hidden ? {hidden: true} : {}),
+        ...(isTourActive ? {className: 'ut-tour-active'} : {}),
+      }
     })
-  }, [nodes, hiddenNodeTypes])
+  }, [nodes, hiddenNodeTypes, activeTourNodeId])
 
   return (
-    <div className='relative z-0 h-dvh w-full overflow-hidden'>
+    <div className='ut-canvas relative z-0 h-dvh w-full overflow-hidden'>
       <ReactFlow
         ref={ref}
         colorMode='dark'
+        className='ut-canvas-floor'
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
         defaultEdgeOptions={edgeOptions}
@@ -505,13 +525,11 @@ export function Graph() {
           x: 0,
           y: 0,
         }}
-        style={{
-          backgroundColor: '#0a0a0a',
-          backgroundImage: `radial-gradient(circle at 25% 25%, #222222 0.5px, transparent 1px),        radial-gradient(circle at 75% 75%, #111111 0.5px, transparent 1px)     `,
-          backgroundSize: '10px 10px',
-          imageRendering: 'pixelated',
-        }}
       />
+
+      <div className='ut-grain' aria-hidden />
+
+      <TourOverlay />
 
       {isEmpty ? (
         <>
@@ -523,6 +541,11 @@ export function Graph() {
               agentToolEvents={toolEvents}
             />
           </div>
+          <div className='absolute inset-x-0 bottom-6 z-20 flex justify-center'>
+            <ActionChip icon={<Sparkles className='size-4' />} onClick={handleStartTour}>
+              Take the guided tour
+            </ActionChip>
+          </div>
           <FloatingToolbar panels={panels} />
         </>
       ) : (
@@ -533,35 +556,34 @@ export function Graph() {
             <SessionNotes />
           </div>
 
-          <div className='absolute inset-x-0 bottom-6 z-20 flex flex-col items-center gap-3 px-4'>
-            {/* Action Chips */}
-            <div className='flex items-center gap-2'>
-              <ActionChip icon={<Sparkles className='size-4' />} onClick={handleStartTour}>
-                Start Tour
-              </ActionChip>
-              <ActionChip icon={<Search className='size-4' />} onClick={handleSearchDatabase}>
-                Search Database
-              </ActionChip>
-              <ActionChip icon={<Plus className='size-4' />} onClick={handleAddNode}>
-                Add Node
-              </ActionChip>
+          {/* Tour mode owns the bottom of the screen — hide the console
+              cluster while a tour is resolving/running to keep focus on
+              the narrative and the suggestion dock. */}
+          {(tourStatus === 'idle' || tourStatus === 'completed') && (
+            <div className='absolute inset-x-0 bottom-6 z-20 flex flex-col items-center gap-3 px-4'>
+              <div className='flex items-center gap-2'>
+                <ActionChip icon={<Sparkles className='size-4' />} onClick={handleStartTour}>
+                  Start Tour
+                </ActionChip>
+                <ActionChip icon={<Search className='size-4' />} onClick={handleSearchDatabase}>
+                  Search Database
+                </ActionChip>
+                <ActionChip icon={<Plus className='size-4' />} onClick={handleAddNode}>
+                  Add Node
+                </ActionChip>
+              </div>
+
+              <ResearchCanvasConsole
+                variant='compact'
+                onSubmit={handleEmptyCanvasSubmit}
+                agentStatus={agentStatus}
+                agentAnalysis={analysis}
+                agentToolEvents={toolEvents}
+              />
             </div>
+          )}
 
-            <ResearchCanvasConsole
-              onSubmit={handleEmptyCanvasSubmit}
-              agentStatus={agentStatus}
-              agentAnalysis={analysis}
-              agentToolEvents={toolEvents}
-            />
-          </div>
-
-          {nodes.some(
-            (node) =>
-              node.type &&
-              node.type !== 'userInputNode' &&
-              node.data &&
-              (node.data.name || node.data.title || node.data.label)
-          ) && <ConnectedRecordsPanel />}
+          <ResearchSuggestionsDock />
         </>
       )}
     </div>

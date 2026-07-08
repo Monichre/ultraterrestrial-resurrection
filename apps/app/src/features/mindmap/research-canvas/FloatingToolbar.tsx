@@ -169,12 +169,12 @@ export function FloatingToolbar({panels}: FloatingToolbarProps) {
 
   return (
     <>
-      <aside className="absolute top-1/2 left-4 z-20 -translate-y-1/2 flex flex-col items-center gap-2 p-2 rounded-full bg-neutral-800/90 text-white shadow-[0_0_0_0_#ffffff_inset,0_0_0_1px_#ffffff0d_inset,0_1px_0_0_#ffffff0d_inset] backdrop-blur-md">
+      <aside className="absolute top-1/2 left-4 z-20 -translate-y-1/2 flex flex-col items-center gap-2 p-2 rounded-full border border-[var(--ut-line)] bg-[var(--ut-surface)] text-[var(--ut-paper)] backdrop-blur-md">
         {/* Primary Tools */}
         {TOOLBAR_ITEMS.map(renderToolbarItem)}
 
         {/* Divider */}
-        <div role="none" className="my-2 w-6 h-px bg-white/10 shrink-0" />
+        <div role="none" className="my-2 w-6 h-px bg-[var(--ut-line)] shrink-0" />
 
         {/* Synthesize Investigation — turns the assembled canvas into an
             Ultraterrestrial research narrative. Needs at least two record
@@ -190,7 +190,7 @@ export function FloatingToolbar({panels}: FloatingToolbarProps) {
         )}
 
         {/* Divider */}
-        <div role="none" className="my-2 w-6 h-px bg-white/10 shrink-0" />
+        <div role="none" className="my-2 w-6 h-px bg-[var(--ut-line)] shrink-0" />
 
         {/* Profile */}
         <ToolbarButton tooltip="Research Profile" className="p-0 w-10 h-10">

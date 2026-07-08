@@ -214,14 +214,14 @@ export function ResearchSuggestionsDock() {
       <motion.div
         initial={{ opacity: 0, y: -12 }}
         animate={{ opacity: 1, y: 0 }}
-        className='pointer-events-auto flex items-center gap-2 rounded-t-xl border border-white/10 bg-black/70 px-3 py-2.5 backdrop-blur-md'
+        className='ut-panel pointer-events-auto flex items-center gap-2 rounded-t-lg px-3 py-2.5 backdrop-blur-md'
       >
-        <Sparkles className='size-4 text-emerald-400' />
-        <span className='text-xs font-semibold uppercase tracking-[0.14em] text-white/80'>
+        <Sparkles className='size-4 text-emerald-400/90' />
+        <span className='ut-mono text-[10px] font-medium text-[oklch(0.93_0.015_90/0.8)]'>
           {tourSeed ? 'Tour Intelligence' : 'Research Signals'}
         </span>
         {tourSeed && (
-          <span className='flex items-center gap-1 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-2 py-0.5 text-[10px] text-emerald-300'>
+          <span className='ut-mono flex items-center gap-1 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-2 py-0.5 text-[8.5px] text-emerald-300'>
             <Compass className='size-3' />
             {tourSeed.title.length > 18 ? `${tourSeed.title.slice(0, 17)}…` : tourSeed.title}
           </span>
@@ -230,7 +230,7 @@ export function ResearchSuggestionsDock() {
           <button
             type='button'
             onClick={fetchSuggestions}
-            className='rounded-md p-1 text-white/50 transition hover:bg-white/10 hover:text-white'
+            className='rounded-md p-1 text-[var(--ut-ink-faint)] transition-colors duration-150 hover:bg-[oklch(0.93_0.015_90/0.1)] hover:text-[var(--ut-paper)]'
             aria-label='Refresh suggestions'
           >
             <RefreshCw className={`size-3.5 ${isPending ? 'animate-spin' : ''}`} />
@@ -238,7 +238,7 @@ export function ResearchSuggestionsDock() {
           <button
             type='button'
             onClick={() => setCollapsed((c) => !c)}
-            className='rounded-md p-1 text-white/50 transition hover:bg-white/10 hover:text-white'
+            className='rounded-md p-1 text-[var(--ut-ink-faint)] transition-colors duration-150 hover:bg-[oklch(0.93_0.015_90/0.1)] hover:text-[var(--ut-paper)]'
             aria-label={collapsed ? 'Expand suggestions' : 'Collapse suggestions'}
           >
             <ChevronDown
@@ -255,7 +255,7 @@ export function ResearchSuggestionsDock() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className='pointer-events-auto flex min-h-0 flex-col overflow-hidden rounded-b-xl border-x border-b border-white/10 bg-black/60 backdrop-blur-md'
+            className='pointer-events-auto flex min-h-0 flex-col overflow-hidden rounded-b-lg border-x border-b border-[var(--ut-line)] bg-[var(--ut-surface)] backdrop-blur-md'
           >
             {/* Hypothesis — deterministic floor, upgraded to the four-part
                 reading (reading / counter-reading / what remains weird / next
@@ -267,43 +267,58 @@ export function ResearchSuggestionsDock() {
                   initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0 }}
-                  className={`border-b border-white/10 border-l-2 px-3 py-2.5 ${
-                    enriched ? 'border-l-violet-400/70' : 'border-l-emerald-400/60'
-                  }`}
+                  className='border-b border-[var(--ut-line)] px-3 py-2.5'
                 >
-                  <p className='text-[11px] leading-relaxed text-white/70 italic'>
-                    {enriched?.reading ?? hypothesis}
+                  {/* Provenance overline: deterministic floor vs AI reading.
+                      Dashed border = inference, per DESIGN.md. */}
+                  <p
+                    className={`ut-mono mb-1 text-[8.5px] font-medium ${
+                      enriched ? 'text-violet-300/80' : 'text-emerald-300/80'
+                    }`}
+                  >
+                    {enriched ? 'AI reading' : 'Field hypothesis'}
                   </p>
-                  {enriched && (
-                    <div className='mt-2 space-y-1.5'>
-                      <p className='text-[10.5px] leading-snug text-white/55'>
-                        <span className='mr-1 text-[9px] uppercase tracking-wide text-amber-300/80'>
-                          Counter-reading
-                        </span>
-                        {enriched.counterReading}
-                      </p>
-                      <p className='text-[10.5px] leading-snug text-white/55'>
-                        <span className='mr-1 text-[9px] uppercase tracking-wide text-violet-300/80'>
-                          Remains weird
-                        </span>
-                        {enriched.whatRemainsWeird}
-                      </p>
-                      <p className='text-[10.5px] leading-snug text-white/55'>
-                        <span className='mr-1 text-[9px] uppercase tracking-wide text-emerald-300/80'>
-                          Next trace
-                        </span>
-                        {enriched.nextTrace}
-                      </p>
-                    </div>
-                  )}
+                  <div
+                    className={
+                      enriched
+                        ? 'rounded-md border border-dashed border-violet-400/25 bg-violet-400/[0.04] p-2'
+                        : ''
+                    }
+                  >
+                    <p className='text-[11px] leading-relaxed text-[var(--ut-ink-dim)] italic'>
+                      {enriched?.reading ?? hypothesis}
+                    </p>
+                    {enriched && (
+                      <div className='mt-2 space-y-1.5'>
+                        <p className='text-[10.5px] leading-snug text-[oklch(0.93_0.015_90/0.55)]'>
+                          <span className='ut-mono mr-1 text-[8.5px] text-amber-300/80'>
+                            Counter-reading
+                          </span>
+                          {enriched.counterReading}
+                        </p>
+                        <p className='text-[10.5px] leading-snug text-[oklch(0.93_0.015_90/0.55)]'>
+                          <span className='ut-mono mr-1 text-[8.5px] text-violet-300/80'>
+                            Remains weird
+                          </span>
+                          {enriched.whatRemainsWeird}
+                        </p>
+                        <p className='text-[10.5px] leading-snug text-[oklch(0.93_0.015_90/0.55)]'>
+                          <span className='ut-mono mr-1 text-[8.5px] text-emerald-300/80'>
+                            Next trace
+                          </span>
+                          {enriched.nextTrace}
+                        </p>
+                      </div>
+                    )}
+                  </div>
                   {enriched ? (
-                    <span className='mt-2 inline-flex items-center gap-1 rounded-full border border-violet-400/30 bg-violet-400/10 px-1.5 py-px text-[9px] uppercase tracking-wide text-violet-300'>
+                    <span className='ut-mono mt-2 inline-flex items-center gap-1 rounded-full border border-dashed border-violet-400/40 bg-violet-400/10 px-2 py-0.5 text-[8.5px] text-violet-300'>
                       <BrainCircuit className='size-2.5' />
                       AI reading · {enriched.provider}
                     </span>
                   ) : (
                     isEnriching && (
-                      <span className='mt-1.5 inline-flex items-center gap-1 text-[9px] uppercase tracking-wide text-white/35'>
+                      <span className='ut-mono mt-1.5 inline-flex items-center gap-1 text-[8.5px] text-[var(--ut-ink-faint)]'>
                         <RefreshCw className='size-2.5 animate-spin' />
                         Deepening the reading…
                       </span>
@@ -334,7 +349,7 @@ export function ResearchSuggestionsDock() {
                         damping: 28,
                         delay: i * 0.045,
                       }}
-                      className={`group w-full rounded-lg border ${meta.border} bg-white/[0.03] p-2.5 text-left transition hover:bg-white/[0.07]`}
+                      className={`group w-full rounded-lg border ${meta.border} bg-[oklch(0.93_0.015_90/0.03)] p-2.5 text-left transition-colors duration-150 hover:bg-[oklch(0.93_0.015_90/0.07)]`}
                     >
                       <div className='flex items-start gap-2'>
                         <span className={`mt-0.5 rounded-md ${meta.bg} p-1 ${meta.accent}`}>
@@ -342,22 +357,22 @@ export function ResearchSuggestionsDock() {
                         </span>
                         <div className='min-w-0 flex-1'>
                           <div className='flex items-center gap-1.5'>
-                            <span className='truncate text-[12.5px] font-medium text-white/90'>
+                            <span className='truncate text-[12.5px] font-medium text-[oklch(0.93_0.015_90/0.9)]'>
                               {s.title}
                             </span>
-                            <span className='shrink-0 rounded border border-white/15 px-1 py-px text-[9px] uppercase tracking-wide text-white/40'>
+                            <span className='ut-mono shrink-0 rounded-[2px] border border-[var(--ut-line-strong)] px-1 py-px text-[8px] text-[var(--ut-ink-faint)]'>
                               {TABLE_LABEL[s.table] ?? s.table}
                             </span>
                             <EvidentiaryStateBadge state={meta.state} className='ml-auto' />
                           </div>
                           <p className={`mt-0.5 text-[10.5px] ${meta.accent}`}>{s.reasonDetail}</p>
                           {s.snippet && (
-                            <p className='mt-1 line-clamp-2 text-[10.5px] leading-snug text-white/45'>
+                            <p className='mt-1 line-clamp-2 text-[10.5px] leading-snug text-[var(--ut-ink-faint)]'>
                               {s.snippet}
                             </p>
                           )}
                         </div>
-                        <span className='mt-0.5 rounded-md border border-white/15 p-1 text-white/40 opacity-0 transition group-hover:opacity-100'>
+                        <span className='mt-0.5 rounded-md border border-[var(--ut-line-strong)] p-1 text-[var(--ut-ink-faint)] opacity-0 transition-opacity duration-150 group-hover:opacity-100'>
                           <Plus className='size-3.5' />
                         </span>
                       </div>
@@ -366,22 +381,27 @@ export function ResearchSuggestionsDock() {
                 })}
               </AnimatePresence>
 
-              {!suggestions.length && (
-                <div className='flex flex-col items-center gap-2 py-8 text-center'>
-                  {isPending ? (
-                    <>
-                      <RefreshCw className='size-4 animate-spin text-white/30' />
-                      <p className='text-[11px] text-white/40'>
-                        Scanning documented links, embeddings and timelines…
-                      </p>
-                    </>
-                  ) : (
-                    <p className='px-4 text-[11px] text-white/40'>
+              {!suggestions.length &&
+                (isPending ? (
+                  // Redacted lines awaiting declassification, not a spinner
+                  <div className='px-2 py-3' aria-label='Scanning'>
+                    {['86%', '64%', '78%'].map((w, i) => (
+                      <div key={i} className='mb-3 space-y-1.5'>
+                        <div className='ut-redaction w-14 opacity-60' />
+                        <div className='ut-redaction' style={{ width: w }} />
+                      </div>
+                    ))}
+                    <p className='ut-mono pt-1 text-center text-[8.5px] text-[var(--ut-ink-faint)]'>
+                      Scanning links · embeddings · timelines
+                    </p>
+                  </div>
+                ) : (
+                  <div className='flex flex-col items-center gap-2 py-8 text-center'>
+                    <p className='px-4 text-[11px] text-[var(--ut-ink-faint)]'>
                       No unexplored records for the current canvas — try adding a different entity.
                     </p>
-                  )}
-                </div>
-              )}
+                  </div>
+                ))}
             </div>
           </motion.div>
         )}
