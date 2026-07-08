@@ -66,7 +66,7 @@ export async function POST(request: Request) {
 				linkDepth = 1,
 				processResults = false,
 				maxResults = 10,
-				extractionModel = "anthropic/claude-3-opus-20240229",
+				extractionModel = "anthropic/claude-opus-4-8",
 			} = DeepResearchSchema.parse(body);
 
 			// Handle url as string or array

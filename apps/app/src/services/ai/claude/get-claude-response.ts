@@ -4,7 +4,7 @@ import { generateText, streamObject, streamText } from 'ai'
 
 export async function getClaudeTextResponse( { system, prompt, message }: { system?: string, prompt?: string, message: { role: 'user', content: string } } ) {
   const response = await generateText( {
-    model: anthropic( 'claude-3-5-sonnet-20241022' ),
+    model: anthropic( 'claude-sonnet-5' ),
     system,
     prompt,
     messages: [message]
@@ -23,7 +23,7 @@ export const getClaudeSummary = async ( { system = baseResearcherPrompt, prompt,
 }
 export const streamClaudeResponse = async ( { prompt, system, message }: { prompt: string, system?: string, message: { role: 'user', content: string } } ) => {
   const result: any = streamText( {
-    model: anthropic( 'claude-3-5-sonnet-20241022' ),
+    model: anthropic( 'claude-sonnet-5' ),
 
     system,
     prompt,

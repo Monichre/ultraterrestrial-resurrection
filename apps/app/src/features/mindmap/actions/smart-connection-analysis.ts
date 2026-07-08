@@ -1,7 +1,6 @@
 "use server"
 
 import OpenAI from "openai"
-import { askXataWithAi } from "@db/src/xata-typescript-sdk/api"
 import { generateContextualSearchRules } from "@/features/mindmap/utils/contextual-intelligence"
 import type { Node } from '@xyflow/react'
 
@@ -88,7 +87,7 @@ export async function analyzeSmartConnections({
     const userPrompt = getUserPrompt(nodeData, contextualRules, analysisDepth)
 
     const completion = await openai.chat.completions.create({
-      model: "gpt-4o",
+      model: "gpt-5.5",
       messages: [
         { role: "system", content: systemPrompt },
         { role: "user", content: userPrompt }

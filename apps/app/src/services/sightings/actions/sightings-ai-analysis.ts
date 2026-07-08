@@ -218,7 +218,7 @@ export const analyzeSightingsData = async (
 
 		// Make the OpenAI API call with streaming
 		const { partialObjectStream } = await streamObject( {
-			model: openai.responses( "gpt-4-turbo-preview" ),
+			model: openai.responses( "gpt-5.5" ),
 			system: systemPrompt,
 			prompt: userPrompt,
 			schema: analysisSchema,

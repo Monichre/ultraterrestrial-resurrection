@@ -2,7 +2,6 @@
 
 import OpenAI from "openai";
 import { revalidatePath } from "next/cache";
-import { askXataWithAi } from "@db/src/xata-typescript-sdk/api"
 
 // Initialize OpenAI client
 const openai = new OpenAI({
@@ -38,7 +37,7 @@ export async function enhanceLayoutWithAI({
 
 		// Use OpenAI to analyze entities and suggest optimal layout
 		const completion = await openai.chat.completions.create({
-			model: "gpt-4o",
+			model: "gpt-5.5",
 			messages: [
 				{
 					role: "system",
@@ -89,22 +88,3 @@ export async function enhanceLayoutWithAI({
 	}
 }
 
-export const askAIAction = async ({ question, rules, table }: AskParams) => {
-	try {
-		const dbResponse = await askXataWithAi({ question, table, rules });
-		console.log("dbResponse: ", dbResponse);
-		const plainData = JSON.parse(JSON.stringify(dbResponse));
-		console.log("plainData: ", plainData);
-		// const assistantResponse = await askDisclosureAgentToFindRelatedRecords( { subject: question, type: table } )
-		// !TODO: figure out how to process the response
-		const response = {
-			...plainData,
-			// assistantResponse
-		};
-		console.log("response: ", response);
-		return response;
-	} catch (error) {
-		console.error("Error in askAIAction:", error);
-		throw error;
-	}
-};

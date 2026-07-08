@@ -67,7 +67,7 @@ export async function testAgent(
 
 	// Base model configuration with defaults
 	const model = {
-		modelId: "gpt-4o-mini",
+		modelId: "gpt-5.5",
 		maxTokens: 500,
 		...params,
 	};
