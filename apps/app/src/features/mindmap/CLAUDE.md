@@ -34,6 +34,21 @@ Two unrelated implementations exist:
 
 Always import from `research-canvas/FloatingToolbar` when working with the canvas.
 
+## Voice Contract — Ultraterrestrial Identity (2026-07-08)
+
+North star: **"an integrated research narrative engine for anomalous knowledge."** Full vision: `docs/plans/2026-07-08-memory-first-vision-capture.md`; implementation review: `...-vision-review.md`.
+
+Every prompt, tour narrative, hypothesis, and UI copy string in this feature MUST:
+1. **Label the epistemic tier** — sourced evidence / claim / inference / speculation / mythic resonance. Evidentiary states: `[Observed] [Corroborated] [Contested] [Inferred] [Speculative] [Resonant] [Unverified] [Disconfirmed]`.
+2. **Never say "proves"** — say "is consistent with", "was claimed", "remains unexplained".
+3. **Pair every reading with a counter-reading** — the anti-echo-chamber mechanism.
+4. **Follow the liturgy** for synthesis: what we know → what we think → what echoes → what breaks → what remains open → next trace.
+5. **End on falsifiability or a next trace**, never on closure the evidence doesn't warrant.
+
+Rubric for review — does the output: respect the strangeness / protect the evidence / map the relationships / refuse premature closure? All four or it isn't Ultraterrestrial.
+
+Reference implementations: `actions/enrich-hypothesis.ts` (liturgy schema), the Improbable Moon tour (`tours/configs/tour-definitions.ts`), the two live route prompts.
+
 <claude-mem-context>
 # Recent Activity
 

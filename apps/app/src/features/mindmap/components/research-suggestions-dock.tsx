@@ -246,12 +246,13 @@ export function ResearchSuggestionsDock() {
             exit={{ opacity: 0, height: 0 }}
             className='pointer-events-auto flex min-h-0 flex-col overflow-hidden rounded-b-xl border-x border-b border-white/10 bg-black/60 backdrop-blur-md'
           >
-            {/* Hypothesis — deterministic floor, swapped for the LLM-enriched
-                thesis when a frontier provider responds */}
+            {/* Hypothesis — deterministic floor, upgraded to the four-part
+                reading (reading / counter-reading / what remains weird / next
+                trace) when a frontier provider responds */}
             <AnimatePresence mode='wait'>
-              {(enriched?.hypothesis ?? hypothesis) && (
+              {(enriched?.reading ?? hypothesis) && (
                 <motion.div
-                  key={enriched?.hypothesis ?? hypothesis}
+                  key={enriched?.reading ?? hypothesis}
                   initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0 }}
@@ -260,18 +261,40 @@ export function ResearchSuggestionsDock() {
                   }`}
                 >
                   <p className='text-[11px] leading-relaxed text-white/70 italic'>
-                    {enriched?.hypothesis ?? hypothesis}
+                    {enriched?.reading ?? hypothesis}
                   </p>
+                  {enriched && (
+                    <div className='mt-2 space-y-1.5'>
+                      <p className='text-[10.5px] leading-snug text-white/55'>
+                        <span className='mr-1 text-[9px] uppercase tracking-wide text-amber-300/80'>
+                          Counter-reading
+                        </span>
+                        {enriched.counterReading}
+                      </p>
+                      <p className='text-[10.5px] leading-snug text-white/55'>
+                        <span className='mr-1 text-[9px] uppercase tracking-wide text-violet-300/80'>
+                          Remains weird
+                        </span>
+                        {enriched.whatRemainsWeird}
+                      </p>
+                      <p className='text-[10.5px] leading-snug text-white/55'>
+                        <span className='mr-1 text-[9px] uppercase tracking-wide text-emerald-300/80'>
+                          Next trace
+                        </span>
+                        {enriched.nextTrace}
+                      </p>
+                    </div>
+                  )}
                   {enriched ? (
-                    <span className='mt-1.5 inline-flex items-center gap-1 rounded-full border border-violet-400/30 bg-violet-400/10 px-1.5 py-px text-[9px] uppercase tracking-wide text-violet-300'>
+                    <span className='mt-2 inline-flex items-center gap-1 rounded-full border border-violet-400/30 bg-violet-400/10 px-1.5 py-px text-[9px] uppercase tracking-wide text-violet-300'>
                       <BrainCircuit className='size-2.5' />
-                      AI-refined · {enriched.provider}
+                      AI reading · {enriched.provider}
                     </span>
                   ) : (
                     isEnriching && (
                       <span className='mt-1.5 inline-flex items-center gap-1 text-[9px] uppercase tracking-wide text-white/35'>
                         <RefreshCw className='size-2.5 animate-spin' />
-                        Refining hypothesis…
+                        Deepening the reading…
                       </span>
                     )
                   )}
