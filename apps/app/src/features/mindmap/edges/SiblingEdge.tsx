@@ -195,6 +195,8 @@ import {BaseEdge, EdgeLabelRenderer, getBezierPath, type EdgeProps} from '@xyflo
 
 import {getSmartEdge} from '@tisoap/react-flow-smart-edge'
 import {motion} from 'framer-motion'
+import {EvidentiaryStateBadge} from '@/features/mindmap/components/evidentiary-state-badge'
+import {parseEvidentiaryState} from '@/features/mindmap/utils/evidentiary-state'
 
 type SiblingEdgeProps = {
   data?: {
@@ -422,6 +424,20 @@ export const SiblingEdge = (props: EdgeProps & SiblingEdgeProps) => {
   // @ts-ignore
   const [sourceLabel, targetLabel] = getContextualLabel()
   const prometheusAnnotation = getPrometheusAnnotation()
+
+  // Evidentiary state ("claim temperature") — the mindmap agent route and
+  // the research suggestions dock both prefix reasoning text with a
+  // `[State]` bracket. Strip it for display and render it as its own badge;
+  // an unrecognized or missing prefix renders no badge at all (never a
+  // default), per the Voice Contract in features/mindmap/CLAUDE.md.
+  const rawEvidentiaryText =
+    typeof data?.reasoning === 'string'
+      ? data.reasoning
+      : typeof label === 'string'
+        ? label
+        : undefined
+  const {state: evidentiaryState, text: evidentiaryText} = parseEvidentiaryState(rawEvidentiaryText)
+  const reasoningDisplay = evidentiaryText || prometheusAnnotation
   // return (
   //   <>
   //     <path
@@ -514,17 +530,20 @@ export const SiblingEdge = (props: EdgeProps & SiblingEdgeProps) => {
               </div>
             </div>
 
-            {/* Prometheus Reasoning Annotation */}
-            {prometheusAnnotation && (
+            {/* Evidentiary state + reasoning annotation */}
+            {(evidentiaryState || reasoningDisplay) && (
               <div
-                className='mt-2 px-2 py-1 rounded-full text-[10px] text-white/90'
+                className='mt-2 flex max-w-[180px] items-center gap-1 rounded-full px-2 py-1'
                 style={{
                   background: 'rgba(24,24,27,0.88)',
                   border: '1px solid rgba(16,185,129,0.35)',
                   boxShadow: '0 0 0 1px rgba(0,0,0,.2)',
                 }}
-                title={prometheusAnnotation}>
-                Prometheus note
+                title={reasoningDisplay ?? undefined}>
+                {evidentiaryState && <EvidentiaryStateBadge state={evidentiaryState} />}
+                {reasoningDisplay && (
+                  <span className='truncate text-[10px] text-white/90'>{reasoningDisplay}</span>
+                )}
               </div>
             )}
           </div>
