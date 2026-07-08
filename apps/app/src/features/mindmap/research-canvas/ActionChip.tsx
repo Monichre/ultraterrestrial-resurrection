@@ -11,7 +11,7 @@ export function ActionChip({ icon, children, className, ...props }: ActionChipPr
     <Button
       variant="ghost"
       className={cn(
-        "h-10 text-[#8c8c8c] bg-black/20 backdrop-blur-md border border-white/10 rounded-full px-4 gap-3 hover:bg-white/10 hover:text-white",
+        "h-10 rounded-full border border-[var(--ut-line)] bg-[var(--ut-surface)] px-4 gap-3 text-[var(--ut-ink-dim)] backdrop-blur-md transition-colors duration-150 hover:bg-[oklch(0.93_0.015_90/0.1)] hover:text-[var(--ut-paper)]",
         !children && "w-10 px-0",
         className,
       )}

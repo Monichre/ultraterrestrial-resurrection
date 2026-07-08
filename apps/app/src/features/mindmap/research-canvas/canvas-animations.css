@@ -1,0 +1,139 @@
+/* Research Canvas — Microfilm Dark theme layer + entrance animations.
+   Design language: DESIGN.md (repo root). Tokens are scoped to the canvas
+   so the rest of the app is untouched.
+
+   `scale`/`filter` are standalone properties (not `transform`), so they
+   compose safely with React Flow's inline translate positioning. */
+
+/* :root, not .ut-canvas — Radix portals (tooltips, hover cards) render
+   outside the canvas subtree and still need the tokens. */
+:root {
+  /* Warm charcoal (manila hue ≈85) — never pure black */
+  --ut-void: oklch(0.16 0.006 85);
+  --ut-surface: oklch(0.21 0.008 85 / 0.88);
+  --ut-surface-2: oklch(0.25 0.01 85 / 0.9);
+  --ut-line: oklch(0.87 0.02 85 / 0.14);
+  --ut-line-strong: oklch(0.87 0.02 85 / 0.26);
+  --ut-paper: oklch(0.93 0.015 90);
+  --ut-ink-dim: oklch(0.93 0.015 90 / 0.62);
+  --ut-ink-faint: oklch(0.93 0.015 90 / 0.4);
+  --ut-stamp: oklch(0.58 0.19 27);
+}
+
+/* Canvas floor: warm dot grid over the void, vignetted toward the edges
+   like a document photographed under a work lamp. */
+.ut-canvas .react-flow__pane,
+.ut-canvas .react-flow {
+  background-color: var(--ut-void);
+}
+
+.ut-canvas-floor {
+  background-color: var(--ut-void);
+  background-image:
+    radial-gradient(ellipse 120% 90% at 50% 42%, transparent 55%, oklch(0.1 0.005 85 / 0.55) 100%),
+    radial-gradient(circle at 25% 25%, oklch(0.3 0.012 85 / 0.5) 0.5px, transparent 1px),
+    radial-gradient(circle at 75% 75%, oklch(0.24 0.01 85 / 0.5) 0.5px, transparent 1px);
+  background-size: 100% 100%, 10px 10px, 10px 10px;
+}
+
+/* Film grain — one feTurbulence pass at ~5%, multiplied so it darkens like
+   emulsion rather than adding milkiness. Pointer-events off; it is air. */
+.ut-grain {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3"/></filter><rect width="160" height="160" filter="url(%23n)"/></svg>');
+}
+
+/* Dossier panel recipe: dark manila glass, hairline border, clipped
+   top-right corner ("secret-file cut"). Panels keep their own radius on
+   the other three corners. */
+.ut-panel {
+  background: var(--ut-surface);
+  border: 1px solid var(--ut-line);
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
+}
+
+/* Mono meta voice — labels, stamps, file references */
+.ut-mono {
+  font-family: var(--font-martian-mono), var(--font-jetbrains-mono), monospace;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+/* The single typewriter wordmark moment per surface */
+.ut-typewriter {
+  font-family: var(--font-special-elite), var(--font-martian-mono), monospace;
+  letter-spacing: 0.06em;
+}
+
+/* Redaction-bar skeleton: loading states are redacted lines waiting to be
+   declassified. Shimmer conveys "in progress", nothing else moves. */
+@keyframes ut-redact-shimmer {
+  from { background-position: -160px 0; }
+  to { background-position: 160px 0; }
+}
+
+.ut-redaction {
+  height: 9px;
+  border-radius: 1px;
+  background-color: oklch(0.32 0.01 85);
+  background-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    oklch(0.4 0.012 85 / 0.65) 50%,
+    transparent 100%
+  );
+  background-size: 160px 100%;
+  background-repeat: no-repeat;
+  animation: ut-redact-shimmer 1.6s ease-in-out infinite;
+}
+
+@keyframes ut-node-enter {
+  from {
+    opacity: 0;
+    scale: 0.72;
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+    filter: blur(0);
+  }
+}
+
+.react-flow__node {
+  animation: ut-node-enter 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes ut-edge-enter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.react-flow__edge {
+  animation: ut-edge-enter 700ms ease-out 120ms both;
+}
+
+/* Waypoint highlight while a guided tour step is active */
+@keyframes ut-tour-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 0 14px rgba(52, 211, 153, 0);
+  }
+}
+
+.react-flow__node.ut-tour-active {
+  animation: ut-node-enter 520ms cubic-bezier(0.16, 1, 0.3, 1) both,
+    ut-tour-pulse 2.2s ease-in-out 600ms infinite;
+  border-radius: 12px;
+}

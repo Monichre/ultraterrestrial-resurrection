@@ -109,14 +109,17 @@ Operating principles:
 - Say "is consistent with", "was claimed", "remains unexplained" — never "proves".
 - The user is the investigator: propose and challenge, never decree.
 
-Follow the liturgy: what we know -> what we think -> what echoes -> what breaks -> what remains open -> next trace. Name specific records rather than speaking generically. No preamble, no markdown, no hedging boilerplate. Tone: field anthropology meets intelligence analysis — controlled, a little uncanny, no cheap certainty.`
+Follow the liturgy: what we know -> what we think -> what echoes -> what breaks -> what remains open -> next trace. Name specific records by their titles rather than speaking generically. Never output internal identifiers (rec_..., doc_...) — they are plumbing, not evidence. No preamble, no markdown, no hedging boilerplate. Tone: field anthropology meets intelligence analysis — controlled, a little uncanny, no cheap certainty.`
 
 function formatNode(n: SynthesisNode): string {
-  return `- "${n.title}" (${n.table}, id: ${n.id})`
+  return `- "${n.title}" (${n.table})`
 }
 
-function formatEdge(e: SynthesisEdge): string {
-  const parts = [`- ${e.source} -> ${e.target}`]
+// Edges are described by record TITLE so the model never sees raw ids —
+// verified live 2026-07-08: given ids, Gemini echoed them into the prose.
+function formatEdge(e: SynthesisEdge, titleById: Map<string, string>): string {
+  const name = (id: string) => titleById.get(id) ?? id
+  const parts = [`- "${name(e.source)}" -> "${name(e.target)}"`]
   if (e.label) parts.push(`label: ${e.label}`)
   if (e.reasoning) parts.push(`reasoning: ${e.reasoning}`)
   return parts.join('; ')
@@ -133,6 +136,8 @@ export async function synthesizeInvestigation({
 }): Promise<SynthesizeInvestigationResult | null> {
   if (nodes.length < 2) return null
 
+  const titleById = new Map(nodes.map((n) => [n.id, n.title]))
+
   const prompt = [
     focus ? `Researcher-stated focus: ${focus}` : null,
     `Records assembled on the canvas (${nodes.length}):`,
@@ -141,7 +146,7 @@ export async function synthesizeInvestigation({
     edges.length
       ? `Connections drawn between them (${edges.length}):`
       : 'No explicit connections have been drawn between these records yet.',
-    ...edges.map(formatEdge),
+    ...edges.map((e) => formatEdge(e, titleById)),
     '',
     'Produce the full Ultraterrestrial research synthesis of this evidence field: signal, evidentiary ground, sequence, field map, contradictions, the five readings (prosaic, institutional, psychological-social, anomalous, mythopoetic), evidentiary weight, open questions, and next traces.',
   ]
