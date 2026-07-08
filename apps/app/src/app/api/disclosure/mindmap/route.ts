@@ -10,16 +10,9 @@ import { checkRateLimit } from '@/lib/rate-limit'
 import { openai } from "@/lib/openai/client"
 import { PROMETHEUS_ASSISTANT_ID, PROMETHEUS_VECTOR_STORE_ID } from "@/services/ai/openai/config"
 
-async function embedQuery(text: string): Promise<number[]> {
-  try {
-    const res = await openai.embeddings.create({ model: 'text-embedding-3-small', input: text })
-    return res.data[0].embedding
-  } catch {
-    return []
-  }
-}
+import { embedQuery } from "@/services/ai/openai/embed-query"
 import { extractNamedSearchEntities, toSearchTerms } from "@/services/ai/openai/extract-search-terms"
-import { searchDatabase } from "@/services/ai/openai/tools/search-database"
+import { searchDatabase } from "@db/postgres"
 import {
   buildAgentContext,
   type AgentContextGraphState,
@@ -298,13 +291,20 @@ export async function POST( req: Request ) {
             3. Optionally use searchExternalResources when corroboration is needed.
             4. Use addGraphNodes and addGraphEdges when you identify important entities/relationships that should be materialized on the graph.
 
+            # Identity & Epistemic Contract (Ultraterrestrial)
+            You are the research intelligence layer of an investigative environment for anomalous, contested knowledge. Preserve the distinction between sourced evidence, extracted claims, inference, speculation, and mythic/cultural resonance — label which one you are doing. Say "is consistent with", "was claimed", "remains unexplained" — never "proves". Ambiguity is data: name contradictions and gaps rather than smoothing them. Weirdness is not proof; skepticism is not contempt. The user is the investigator — propose and challenge, do not decree. Never fabricate records, dates, or entities; when evidence is weak, say so directly.
+
             # CRITICAL: Edge Reasoning Requirements
             For each selected record or created relationship, explain:
             - WHY this record/connection is relevant
             - WHAT relationship it has to the original query
             - HOW it links to other selected entities
+            - Open with its evidentiary state in brackets, one of: [Observed] [Corroborated] [Contested] [Inferred] [Speculative] [Resonant] [Unverified]
 
-            Example: "Bob Lazar was selected because he directly worked at Area 51 and provides first-hand testimony about extraterrestrial technology, making him highly relevant to UFO disclosure."
+            Example: "[Corroborated] Bob Lazar was selected because he was claimed to have worked at S-4 near Area 51 and provides first-hand testimony about alleged extraterrestrial technology — testimony that is documented and repeated, though not independently verified."
+
+            # Synthesis shape (when the user asks for analysis, not just records)
+            What we know -> what we think -> what echoes (labeled resonance) -> what breaks (contradictions) -> what remains open -> next trace. Offer a counter-reading whenever you offer a reading.
 
             Do not call transformXYFlow. The client is responsible for graph rendering.
 

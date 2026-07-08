@@ -15,7 +15,8 @@
  *   Zhipu      glm-5.2             (open flagship, via z.ai OpenAI-compatible API)
  *   Groq       openai/gpt-oss-120b (top Groq-hosted; kimi-k2 deprecated 2026-03)
  */
-import { generateText, type LanguageModel } from 'ai'
+import { generateText, generateObject, type LanguageModel } from 'ai'
+import type { z } from 'zod'
 import { openai, createOpenAI } from '@ai-sdk/openai'
 import { anthropic } from '@ai-sdk/anthropic'
 import { google } from '@ai-sdk/google'
@@ -118,6 +119,58 @@ export async function generateWithFallback({
     } catch (error) {
       console.warn(
         `model-fallback: ${tier.id} failed, trying next tier:`,
+        error instanceof Error ? error.message : error,
+      )
+    }
+  }
+  return null
+}
+
+export type FallbackObjectResult<T> = {
+  object: T
+  tierId: string
+  provider: string
+}
+
+/**
+ * Schema-constrained variant of the chain — same tier walk, but the model is
+ * forced into a zod schema via generateObject. Tiers whose provider rejects
+ * structured-output mode simply fall through like any other error.
+ */
+export async function generateObjectWithFallback<T>({
+  schema,
+  system,
+  prompt,
+  maxOutputTokens = 512,
+  timeoutMsPerTier = 10_000,
+  tiers = FRONTIER_FALLBACK_CHAIN,
+}: {
+  schema: z.ZodType<T>
+  system?: string
+  prompt: string
+  maxOutputTokens?: number
+  timeoutMsPerTier?: number
+  tiers?: FallbackTier[]
+}): Promise<FallbackObjectResult<T> | null> {
+  for (const tier of tiers) {
+    if (tier.envKeys.some((key) => !process.env[key])) continue
+
+    try {
+      // Cast: generateObject's conditional generic can't resolve against an
+      // unconstrained T; the zod schema still validates the output at runtime.
+      const { object } = await generateObject({
+        model: tier.getModel(),
+        schema: schema as z.ZodTypeAny,
+        system,
+        prompt,
+        maxOutputTokens,
+        maxRetries: 0,
+        abortSignal: AbortSignal.timeout(timeoutMsPerTier),
+      })
+      return { object: object as T, tierId: tier.id, provider: tier.provider }
+    } catch (error) {
+      console.warn(
+        `model-fallback(object): ${tier.id} failed, trying next tier:`,
         error instanceof Error ? error.message : error,
       )
     }
