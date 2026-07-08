@@ -264,11 +264,6 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **What:** Use Upstash Redis (already in deps) to rate-limit AI routes. Default: 30 req/min per user/IP.
 - **Dependencies:** T-003 (auth middleware)
 
-### T-026: Add monitoring (Sentry + Vercel Analytics)
-- **Status:** DROPPED — 2026-06-20 (descoped by owner. No monitoring/log infra for MVP — it's not user-facing value. Revisit post-launch if/when needed.)
-- **Size:** M (1-2 days)
-- **What:** Wire Sentry for error tracking, Vercel Analytics for performance. Set up OpenAI cost tracking.
-
 ### T-027: Create ResearchSession unified state slice
 - **Status:** DONE — 2026-06-20 (non-destructive `researchSession` Zustand slice on `mindmap-ui-store.ts` converging research-context + use-research-state; sessionId/pinnedCards/canvasNotes persisted. Consumer migration documented + deferred. `docs/plans/2026-06-20-t027-research-session-slice.md`)
 - **Size:** M (2-3 days)
@@ -276,15 +271,37 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Reference:** `docs/plans/2026-03-29-research-canvas-grounding.md`
 
 ### T-028: Mindmap Agent Consolidation (ai-sdk-tools)
-- **Status:** AUDIT DONE / IMPL DEFERRED — 2026-06-20 (baseline audit `docs/plans/2026-06-20-t028-mindmap-agent-consolidation-audit.md`: found 3 agent paths not 2; `/api/sse/xata/ask` still imports retired `@db/xata` with 4 live consumers. Impl deferred — behavior-changing, needs runtime smoke beyond the tsc-only gate.)
-- **Size:** L (5-7 days)
-- **What:** Tasks 26-31 from original TODO. Baseline audit, tool adapter schemas, MindmapResearchAgent, API route v2, client hook integration, validation.
+- **Status:** PHASES A+B DONE — 2026-07-05; Phase C OPEN (baseline audit `docs/plans/2026-06-20-t028-mindmap-agent-consolidation-audit.md`)
+- **Phase A completed (2026-07-05):** Deleted retired `/api/sse/xata/ask` + `/send` + `/api/sse/test` routes. Deleted dead consumers (`useSSE.tsx`, `useAskXata.ts`, `XataAskComponent.tsx`, `useXataAsk.ts`, `ask-example.ts`, `ask-example-enhanced.ts`, `features/mindmap/debug/`). Rewired `AskAIStreaming` → `useMindMapAgent` (canonical `/api/disclosure/mindmap`). Purged all remaining `@db/xata`/`@db` value imports: `xata-to-xyflow.ts` (fetchRecords → `readById`, fallbacks → `searchTable`), `process-resource.ts` (→ `searchTable`), Clerk webhook route rewritten on `@db/postgres` (URL kept stable). 4 type-only `@db` imports repointed to `@db/postgres`.
+- **Phase B completed (2026-07-05):** Shared search core already lived in `@db/postgres` (`searchDatabase`: FTS + pgvector + RRF fusion); remaining duplication removed — shared `embedQuery` extracted to `services/ai/openai/embed-query.ts` (both live routes now import it), one-line `tools/search-database.ts` wrapper + orphan `tools/index.ts` barrel deleted, 4 importers repointed to `@db/postgres` directly.
+- **Runtime smoke (2026-07-05):** `/api/disclosure/mindmap` streams SSE end-to-end (thread create + run start OK) — run fails only on **OpenAI quota exhausted** (billing, not code). `/api/prometheus/chat` had TWO real runtime bugs from AI SDK v4→v6 drift, both FIXED: `toDataStreamResponse()` → `toUIMessageStreamResponse()` (5 files) and `tool({ parameters: ... })` → `tool({ inputSchema: ... })` (10 tools) — route now streams the correct v6 UI-message protocol. Neon `searchDatabase` verified live against real data (Roswell FTS top-hit correct). Clerk webhook blocked locally on missing `CLERK_WEBHOOK_SECRET` env (route runs, refuses correctly).
+- **Remaining (Phase C):** unify external-resources + DB-search tool definitions across the two live routes. Also: re-smoke both agents once OpenAI billing is topped up; set `CLERK_WEBHOOK_SECRET` to smoke webhook.
+- **Size:** remaining S-M (1-2 days)
 - **Dependencies:** T-013, T-015
 
 ### T-029: UFO Research Methodology Framework
 - **Status:** DONE — 2026-06-20 (docs/research/ufo-research-methodology.md; commit 2c23a02)
 - **Size:** M (2 days)
 - **What:** Define structured methodology inspired by Jacques Vallee, Diana Pasulka Walsh. Framework for classification, evidence evaluation, source verification, pattern analysis. Map to ingestion/analysis workflows.
+
+### T-036: LLM Wiki — compounding knowledge layer (Karpathy-style)
+- **Status:** RESEARCH — 2026-06-20 (multi-agent fit analysis in `docs/plans/2026-06-20-llm-wiki-approach-analysis.md`; pattern ref `docs/research/llm-wiki-pattern.md`)
+- **Size:** L (multi-week, phased)
+- **What:** Build a persistent, LLM-maintained wiki layer between the ~960 raw knowledge-base sources and Prometheus — interlinked markdown entity/concept/event pages that the LLM compiles once and keeps current (ingest/query/lint ops), instead of re-deriving knowledge per query via RAG. Compounding artifact; cross-refs + contradictions pre-flagged. Natural fit with the mindmap (wiki graph = canvas), the UFO research methodology (T-029), and pgvector retrieval. See analysis doc for project-specific recommendation + phased plan.
+- **Source idea:** `docs/research/llm-wiki-pattern.md`
+
+### T-037: AI prompt & model audit — frontier-models-only policy + fallback-chain adoption
+- **Status:** OPEN — created 2026-07-07 (user directive)
+- **Size:** M (1-2 days)
+- **Policy (user-stated, 2026-07-07):** Only current frontier models by top providers are acceptable anywhere in the app — GPT-5.5, Claude Opus 4.8 / Sonnet 5, Gemini 3.5 Flash, GLM-5.2. No legacy tiers (gpt-4-turbo, gpt-4o-mini, etc.), ever.
+- **Done in this pass (2026-07-07):** `src/lib/ai/model-fallback.ts` created (6-tier frontier chain, env-key gated); hypothesis enrichment (`enrich-hypothesis.ts`) runs through it; Prometheus `MODEL_NAME` upgraded `gpt-4-turbo` → `gpt-5.5`.
+- **Remaining:**
+  - Audit ALL research/mindmap-related prompts for quality + model pinning: mindmap agent system prompt + Assistants API assistant config (model set server-side on the assistant — verify/upgrade in OpenAI dashboard or via API), Prometheus system prompt + 5 tool prompts, `build-agent-context.ts`, tour narrative prompts, enrichment prompt (`enrich-hypothesis.ts`).
+  - Grep the repo for stale model strings (`gpt-4`, `gpt-3.5`, `claude-3`, `text-davinci`) in routes, packages/ai, packages/db scripts.
+  - Extend `model-fallback.ts` with a `streamText` + tool-call variant so both live agent routes (mindmap, Prometheus) survive a single-provider outage.
+  - Add `GOOGLE_GENERATIVE_AI_API_KEY` + `ZHIPU_API_KEY` to `.env` to activate the Gemini 3.5 Flash and GLM-5.2 tiers (chain skips them until set).
+- **Files:** `apps/app/src/lib/ai/model-fallback.ts`, `apps/app/src/app/api/prometheus/chat/route.ts`, `apps/app/src/app/api/disclosure/mindmap/route.ts`, `apps/app/src/features/mindmap/actions/enrich-hypothesis.ts`
+- **Reference:** `docs/plans/2026-07-07-llm-enriched-hypothesis.md`
 
 ---
 

@@ -16,6 +16,7 @@ import {
   type AgentContextGraphState,
 } from '@/services/ai/context/build-agent-context';
 import { searchDatabase } from '@db/postgres';
+import { embedQuery } from '@/services/ai/openai/embed-query';
 
 // Constants
 const DEFAULT_SEARCH_LIMIT = 10;
@@ -25,7 +26,10 @@ const TAGS_CONTENT_LENGTH = 4000;
 const MAX_TOPICS = 12;
 const MAX_TAGS = 12;
 const MIN_TAGS = 8;
-const MODEL_NAME = 'gpt-4-turbo'; // Fixed model name
+// Frontier-models-only policy (2026-07): gpt-5.5 is OpenAI's current flagship.
+// TODO(T-037): route through @/lib/ai/model-fallback so Anthropic/Google/GLM
+// cover OpenAI outages here too (requires tool-call support in the chain).
+const MODEL_NAME = 'gpt-5.5';
 
 
 // Types
@@ -58,17 +62,6 @@ function getExaClient() {
   return new Exa(process.env.EXA_API_KEY!);
 }
 
-// Generate a pgvector embedding for semantic search. Returns [] on failure so
-// callers can safely fall through to FTS-only mode.
-async function embedQuery(text: string): Promise<number[]> {
-  try {
-    const client = getOpenAIClient()
-    const res = await client.embeddings.create({ model: 'text-embedding-3-small', input: text })
-    return res.data[0].embedding
-  } catch {
-    return []
-  }
-}
 
 // Trusted UFO/UAP research domains for external search
 const TRUSTED_UFO_DOMAINS = [
@@ -531,7 +524,7 @@ export async function POST(req: NextRequest) {
       tools: {
         searchUAP: tool({
           description: 'Search the UAP/UFO knowledge base for relevant information using OpenAI Assistant with vector store',
-          parameters: z.object({
+          inputSchema: z.object({
             query: z.string().describe('Search query for UAP/UFO information'),
             limit: z.number().optional().describe('Maximum number of results to return'),
           }),
@@ -612,7 +605,7 @@ export async function POST(req: NextRequest) {
 
         searchExternalResources: tool({
           description: 'Search trusted external UFO/UAP websites and research sources using Exa AI neural search',
-          parameters: z.object({
+          inputSchema: z.object({
             query: z.string().describe('Search query for external UFO/UAP resources'),
             limit: z.number().optional().describe('Maximum number of results to return (1-10)'),
             includeDomains: z.array(z.string()).optional().describe('Specific trusted domains to search'),
@@ -687,7 +680,7 @@ export async function POST(req: NextRequest) {
 
         researchExternalTopic: tool({
           description: 'Conduct deep research on UFO/UAP topics using Exa AI Research Pro with comprehensive analysis',
-          parameters: z.object({
+          inputSchema: z.object({
             topic: z.string().describe('Research topic or question about UFO/UAP phenomena'),
             focusDomains: z.array(z.string()).optional().describe('Specific trusted domains to focus research on'),
             analysisDepth: z.enum(['summary', 'comprehensive', 'academic']).optional().describe('Depth of analysis: summary for quick overview, comprehensive for detailed analysis, academic for scholarly depth'),
@@ -778,44 +771,44 @@ Search primarily from trusted sources: ${researchDomains.join(', ')}`;
 
         summarizeDocument: tool({
           description: 'Create a comprehensive summary of an uploaded document',
-          parameters: documentToolParamsSchema,
+          inputSchema: documentToolParamsSchema,
           execute: async (params) => executeDocumentAction('summarize', params),
         }),
 
         extractTopics: tool({
           description: 'Extract key topics from an uploaded document',
-          parameters: documentToolParamsSchema,
+          inputSchema: documentToolParamsSchema,
           execute: async (params) => executeDocumentAction('extractTopics', params),
         }),
 
         analyzeSentiment: tool({
           description: 'Analyze sentiment, tone, and perspective of an uploaded document',
-          parameters: documentToolParamsSchema,
+          inputSchema: documentToolParamsSchema,
           execute: async (params) => executeDocumentAction('analyzeSentiment', params),
         }),
 
         findConnections: tool({
           description: 'Find connections between document content and known UFO/UAP entities',
-          parameters: documentToolParamsSchema,
+          inputSchema: documentToolParamsSchema,
           execute: async (params) => executeDocumentAction('findConnections', params),
         }),
 
         findInsights: tool({
           description: 'Identify hidden insights and patterns in an uploaded document',
-          parameters: documentToolParamsSchema,
+          inputSchema: documentToolParamsSchema,
           execute: async (params) => executeDocumentAction('findInsights', params),
         }),
 
         generateTags: tool({
           description: 'Generate structured classification tags for an uploaded document',
-          parameters: documentToolParamsSchema,
+          inputSchema: documentToolParamsSchema,
           execute: async (params) => executeDocumentAction('generateTags', params),
         }),
 
         // Search the Neon Postgres database (FTS + pgvector semantic search in parallel)
         searchNeonDatabase: tool({
           description: 'Search the UAP/UFO Neon Postgres database using full-text search combined with pgvector semantic similarity. Use this to find entities, events, sightings, testimonies, documents, and key figures stored in the local knowledge base.',
-          parameters: z.object({
+          inputSchema: z.object({
             query: z.string().describe('Search query to find relevant UAP/UFO records'),
             table: z.string().optional().describe('Specific table to search: topics, events, key_figures, organizations, sightings, testimonies, documents, artifacts. Omit to search all tables.'),
             limit: z.number().optional().describe('Maximum number of results to return (default 6)'),
@@ -860,7 +853,7 @@ Search primarily from trusted sources: ${researchDomains.join(', ')}`;
       },
     });
 
-    return result.toDataStreamResponse();
+    return result.toUIMessageStreamResponse();
   } catch (error) {
     console.error('Chat API error:', error);
 
