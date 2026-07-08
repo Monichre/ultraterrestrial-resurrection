@@ -544,11 +544,192 @@ export const OLD_GODS_RETURNING_TOUR: TourDefinition = {
   },
 }
 
+/**
+ * "The Improbable Moon" — hollow/artificial Moon hypothesis walked as an
+ * evidence ladder, strangeness ascending, every anomaly presented beside its
+ * conventional account. Spec + DB coverage probe:
+ * docs/plans/2026-07-08-hollow-moon-tour-spec.md
+ */
+export const IMPROBABLE_MOON_TOUR: TourDefinition = {
+  id: 'improbable-moon',
+  title: 'The Improbable Moon',
+  description:
+    'Walk the evidence ladder of the hollow and artificial Moon hypothesis — from the unsolved problem of lunar origin, through the Soviet "Spaceship Moon" paper and the Apollo seismic record, to what Artemis-era data could actually settle.',
+  difficulty: 'expert',
+  estimatedDuration: 55,
+  tags: ['moon', 'hollow-moon', 'artificial-moon', 'apollo', 'vasin-shcherbakov', 'lunar-anomalies', 'seti'],
+  waypoints: [
+    {
+      id: 'lunar-origin-problem',
+      title: "The Moon That Shouldn't Be There",
+      dbRef: {
+        type: 'topics',
+        id: 'lunar-origin',
+        fallbackQuery: 'Moon landing lunar origin formation Apollo',
+      },
+      narrative: `NASA geochemist Robin Brett once remarked it "seems easier to explain the nonexistence of the Moon than its existence." Every formation theory — fission, capture, co-accretion, and today's giant-impact hypothesis — carries unresolved problems, most famously the near-identical oxygen isotope signatures of lunar and terrestrial rock. Before any exotic claim, the grounded starting point is this: the Moon's origin is a genuinely open scientific question.`,
+      contextRules: {
+        temporalWindow: {startYear: 1969, endYear: 2025},
+        entityFilters: {types: ['topics', 'events', 'documents']},
+        contentRules: [
+          'Include Apollo program records and lunar sample analysis',
+          'Show competing formation theories as documented science',
+          'Frame the origin question as open, not answered',
+        ],
+      },
+      visualSettings: {
+        layoutPreference: 'radial',
+        animationDuration: 1200,
+      },
+    },
+    {
+      id: 'sky-without-a-moon',
+      title: 'A Sky Without a Moon',
+      dbRef: {
+        type: 'topics',
+        id: 'proselene-traditions',
+        fallbackQuery: 'ancient mythology moon archaeology traditions gods sky',
+      },
+      narrative: `Greek writers preserved a strange claim: that the Arcadians were "Proselenes" — a people said to predate the Moon itself, a tradition noted by Aristotle and Plutarch. Similar "before the Moon" motifs appear in other cultures. As evidence these accounts are weak — folklore, not observation. As pattern, they belong in the file: the same method Vallée applied to fairy lore and Magonia applies to a sky remembered as different.`,
+      contextRules: {
+        temporalWindow: {startYear: -3000, endYear: 500},
+        entityFilters: {types: ['topics', 'documents', 'artifacts']},
+        contentRules: [
+          'Include ancient-tradition and mythology records',
+          'Label folklore explicitly as the lowest evidence tier',
+          'Connect method to Vallée folklore analysis',
+        ],
+      },
+      visualSettings: {
+        layoutPreference: 'horizontal',
+      },
+    },
+    {
+      id: 'spaceship-moon-1970',
+      title: 'The Spaceship Moon Hypothesis (1970)',
+      dbRef: {
+        type: 'topics',
+        id: 'extraterrestrial-bases-moon',
+        fallbackQuery: 'extraterrestrial bases moon artificial structures lunar',
+      },
+      narrative: `In July 1970, Soviet researchers Mikhail Vasin and Alexander Shcherbakov published "Is the Moon the Creation of Alien Intelligence?" in the state magazine Sputnik — proposing the Moon as a hollowed planetoid steered into Earth orbit by an unknown intelligence. It was a thought experiment, not a peer-reviewed finding, and its authors framed it that way. But it gave the anomaly ledger a unifying hypothesis, and every artificial-Moon argument since descends from it.`,
+      contextRules: {
+        temporalWindow: {startYear: 1965, endYear: 1980},
+        entityFilters: {types: ['topics', 'documents', 'organizations']},
+        contentRules: [
+          'Include Cold War space-program context',
+          'Present the paper as hypothesis, not finding',
+          'Connect to later artificial-structure claims',
+        ],
+      },
+      visualSettings: {
+        layoutPreference: 'radial',
+        dimOtherNodes: true,
+      },
+    },
+    {
+      id: 'moon-rang-like-a-bell',
+      title: 'The Bell That Rang for an Hour (1969–1970)',
+      dbRef: {
+        type: 'events',
+        id: 'apollo-12-seismic',
+        fallbackQuery: 'Apollo 12 Apollo 14 lunar module impact seismic experiment moon',
+      },
+      narrative: `On November 20, 1969, Apollo 12's crew deliberately crashed their ascent stage into the Moon. The seismometers they had left behind registered reverberations for nearly an hour — "the Moon rang like a bell," in the experimenters' own words. Apollo 13's spent booster stage later produced over three hours of ringing. The data is real and instrumental. So is the mainstream reading: a bone-dry, deeply fractured crust with no water to damp vibration rings regardless of what fills the interior. The anomaly is the starting gun, not the verdict.`,
+      contextRules: {
+        temporalWindow: {startYear: 1969, endYear: 1977},
+        entityFilters: {types: ['events', 'personnel', 'organizations', 'documents']},
+        contentRules: [
+          'Include Apollo Passive Seismic Experiment records',
+          'Present both the ringing data and the dry-regolith explanation',
+          'Connect to NASA personnel and mission records',
+        ],
+      },
+      visualSettings: {
+        layoutPreference: 'horizontal',
+      },
+    },
+    {
+      id: 'anomaly-ledger',
+      title: 'The Anomaly Ledger',
+      dbRef: {
+        type: 'topics',
+        id: 'lunar-anomalies',
+        fallbackQuery: 'moon landing lunar anomalies density orbit eclipse',
+      },
+      narrative: `The case is cumulative, so audit the ledger: mean density of 3.34 g/cm³ against Earth's 5.51 with a proportionally tiny core; mass concentrations that perturb every low lunar orbit; a diameter exactly ~1/400th of the Sun's at ~1/400th the distance, producing the only perfect eclipses in the known solar system; a tidally locked far side we never see. Each item has a conventional account. What the artificial-Moon hypothesis really argues is that the stack of coincidences demands explanation — a probabilistic claim, and it should be weighed as one.`,
+      contextRules: {
+        temporalWindow: {startYear: 1959, endYear: 2015},
+        entityFilters: {types: ['topics', 'events', 'documents']},
+        contentRules: [
+          'Include GRAIL and lunar-orbiter mapping records where present',
+          'Show each anomaly beside its conventional explanation',
+          'Frame the hypothesis as probabilistic, not evidentiary',
+        ],
+      },
+      visualSettings: {
+        layoutPreference: 'grid',
+      },
+    },
+    {
+      id: 'witnesses-far-side',
+      title: 'Testimony at the Edge of the Visible',
+      dbRef: {
+        type: 'testimonies',
+        id: 'far-side-testimony',
+        fallbackQuery: 'moon lunar structures far side base photographs testimony',
+      },
+      narrative: `The testimony tier: Disclosure Project witnesses claimed knowledge of structures in far-side imagery; remote viewer Ingo Swann described a monitored lunar presence in "Penetration"; archive technicians alleged airbrushed photographs. None of it is verifiable from where we sit, and this platform's method requires saying so plainly. What testimony contributes is not proof but a claims-map — names, dates, and specific allegations that new imagery can eventually check.`,
+      contextRules: {
+        temporalWindow: {startYear: 1994, endYear: 2010},
+        entityFilters: {types: ['testimonies', 'personnel', 'organizations']},
+        contentRules: [
+          'Include Disclosure Project era testimony records',
+          'Connect to NSA and NASA organization records',
+          'Label the entire tier as unverifiable claims-mapping',
+        ],
+      },
+      visualSettings: {
+        layoutPreference: 'radial',
+        dimOtherNodes: true,
+      },
+    },
+    {
+      id: 'probe-artifact-or-rock',
+      title: 'Probe, Artifact, or Rock: The Modern Test',
+      dbRef: {
+        type: 'topics',
+        id: 'von-neumann-probe',
+        fallbackQuery: 'Von Neumann probe self-replicating artifact SETI',
+      },
+      narrative: `Strip the mythology and the artificial-Moon idea becomes a question mainstream SETI now asks openly: could ancient artifacts — "lurkers," in the published literature — sit quietly in our own system? The Moon is the nearest place to look, and for the first time since 1972 we are actually going: Artemis, the Lunar Reconnaissance Orbiter's meter-scale imagery, Chang'e on the far side, commercial landers. The hypothesis finally faces the only judge that matters — new data. Define in advance what would count, and let the Moon answer.`,
+      contextRules: {
+        temporalWindow: {startYear: 2015, endYear: 2026},
+        entityFilters: {types: ['topics', 'events', 'organizations']},
+        contentRules: [
+          'Include SETI artifact-search and Von Neumann probe records',
+          'Show current lunar missions as the falsifiability path',
+          'Close on method: pre-registered expectations, then data',
+        ],
+      },
+      visualSettings: {
+        layoutPreference: 'horizontal',
+      },
+    },
+  ],
+  metadata: {
+    author: 'Ultraterrestrial Research Team',
+    createdAt: '2026-07-08',
+    version: '1.0',
+  },
+}
+
 export const ALL_TOURS: TourDefinition[] = [
   ROSWELL_ADVANCED_PROPULSION_TOUR,
   UFOS_AND_NUKES_TOUR,
   ZETA_RETICULI_TOUR,
   OLD_GODS_RETURNING_TOUR,
+  IMPROBABLE_MOON_TOUR,
 ]
 
 export const TOUR_REGISTRY: Record<string, TourDefinition> = {
@@ -556,4 +737,5 @@ export const TOUR_REGISTRY: Record<string, TourDefinition> = {
   'ufos-and-nukes': UFOS_AND_NUKES_TOUR,
   'zeta-reticuli': ZETA_RETICULI_TOUR,
   'old-gods-returning': OLD_GODS_RETURNING_TOUR,
+  'improbable-moon': IMPROBABLE_MOON_TOUR,
 }
