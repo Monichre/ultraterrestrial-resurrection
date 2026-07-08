@@ -13,8 +13,7 @@ export const MODELS = [
 	"deepseek-r1-distill-llama-70b",
 	"llama-3.3-70b-versatile",
 	"llama-3.1-8b-instant",
-	"gpt-4o",
-	"gpt-4o-mini",
+	"gpt-5.5",
 ] as const;
 
 export type Model = (typeof MODELS)[number];
@@ -118,6 +117,5 @@ const ModelIcons: Record<Model, ElementType> = {
 	"llama-3.3-70b-versatile": Groq,
 	"llama-3.1-8b-instant": Groq,
 	"deepseek-r1-distill-llama-70b": Groq,
-	"gpt-4o": OpenAI,
-	"gpt-4o-mini": OpenAI,
+	"gpt-5.5": OpenAI,
 };

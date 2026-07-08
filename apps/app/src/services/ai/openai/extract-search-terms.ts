@@ -68,7 +68,7 @@ export async function extractNamedSearchEntities( {
 
   try {
     const { object } = await generateObject( {
-      model: openai( 'gpt-4o-mini' ),
+      model: openai( 'gpt-5.5' ),
       schema: entityExtractionSchema,
       prompt: `Extract the most specific searchable UFO/UAP disclosure entities from the text below.
 
