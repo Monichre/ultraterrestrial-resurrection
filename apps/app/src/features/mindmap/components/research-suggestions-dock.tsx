@@ -35,10 +35,18 @@ import {
 } from '@/features/mindmap/actions/enrich-hypothesis'
 import { useActiveTourSeed } from '@/features/mindmap/tours/guided-tour-store'
 import { useAddRecordNode } from '@/features/mindmap/hooks/use-add-record-node'
+import { EvidentiaryStateBadge } from '@/features/mindmap/components/evidentiary-state-badge'
+import { withEvidentiaryState, type EvidentiaryState } from '@/features/mindmap/utils/evidentiary-state'
 
+// Each deterministic signal type maps to one evidentiary state ("claim
+// temperature") — connected records are documented join-table links
+// (Corroborated), semantic affinity is a resonance, not a citation
+// (Resonant), and temporal clustering is a supported but unproven read
+// (Inferred). See features/mindmap/CLAUDE.md Voice Contract.
 const REASON_META = {
   connected: {
     label: 'Documented link',
+    state: 'Corroborated' as EvidentiaryState,
     icon: Link2,
     accent: 'text-emerald-400',
     border: 'border-emerald-400/30',
@@ -46,6 +54,7 @@ const REASON_META = {
   },
   similar: {
     label: 'Semantic affinity',
+    state: 'Resonant' as EvidentiaryState,
     icon: BrainCircuit,
     accent: 'text-violet-400',
     border: 'border-violet-400/30',
@@ -53,6 +62,7 @@ const REASON_META = {
   },
   temporal: {
     label: 'Same era',
+    state: 'Inferred' as EvidentiaryState,
     icon: Clock,
     accent: 'text-amber-400',
     border: 'border-amber-400/30',
@@ -181,14 +191,15 @@ export function ResearchSuggestionsDock() {
 
   const handleAdd = useCallback(
     (s: RelatedSuggestion) => {
+      const meta = REASON_META[s.reason]
       addRecordNode({
         id: s.id,
         table: s.table,
         title: s.title,
         record: s.record,
         sourceNodeId: s.seedId,
-        edgeLabel: REASON_META[s.reason].label,
-        edgeReasoning: s.reasonDetail,
+        edgeLabel: meta.label,
+        edgeReasoning: withEvidentiaryState(meta.state, s.reasonDetail),
       })
       setSuggestions((prev) => prev.filter((x) => x.id !== s.id))
     },
@@ -337,6 +348,7 @@ export function ResearchSuggestionsDock() {
                             <span className='shrink-0 rounded border border-white/15 px-1 py-px text-[9px] uppercase tracking-wide text-white/40'>
                               {TABLE_LABEL[s.table] ?? s.table}
                             </span>
+                            <EvidentiaryStateBadge state={meta.state} className='ml-auto' />
                           </div>
                           <p className={`mt-0.5 text-[10.5px] ${meta.accent}`}>{s.reasonDetail}</p>
                           {s.snippet && (

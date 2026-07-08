@@ -12,7 +12,7 @@ import { PROMETHEUS_ASSISTANT_ID, PROMETHEUS_VECTOR_STORE_ID } from "@/services/
 
 import { embedQuery } from "@/services/ai/openai/embed-query"
 import { extractNamedSearchEntities, toSearchTerms } from "@/services/ai/openai/extract-search-terms"
-import { searchDatabase } from "@db/postgres"
+import { searchDatabase, insertAgentInference, type EvidentiaryState } from "@db/postgres"
 import {
   buildAgentContext,
   type AgentContextGraphState,
@@ -65,6 +65,45 @@ interface GraphEdgeToolInput {
   label?: string
   reasoning?: string
   data?: Record<string, unknown>
+}
+
+const EVIDENTIARY_STATES = new Set<EvidentiaryState>([
+  'observed', 'corroborated', 'contested', 'inferred',
+  'speculative', 'resonant', 'unverified', 'disconfirmed',
+])
+
+/**
+ * Persists each edge's `reasoning` as an agent_inferences row — the agent's
+ * ANALYTICAL layer, never evidence ("claim" is reserved for source-extracted
+ * assertions). Keeps session analysis recoverable as structure,
+ * not just an ephemeral SSE message. Fire-and-forget: never blocks or fails
+ * the graph-mutation response.
+ */
+function recordEdgeInferences(
+  edges: Array<{ source: string; target: string; reasoning?: string }>,
+) {
+  for ( const edge of edges ) {
+    if ( !edge.reasoning ) continue
+
+    const bracketMatch = edge.reasoning.match( /^\[([^\]]+)\]\s*/ )
+    const inferenceText = bracketMatch
+      ? edge.reasoning.slice( bracketMatch[0].length ).trim()
+      : edge.reasoning
+
+    const bracketState = bracketMatch?.[1]?.trim().toLowerCase() as EvidentiaryState | undefined
+    const evidentiaryState: EvidentiaryState =
+      bracketState && EVIDENTIARY_STATES.has( bracketState ) ? bracketState : 'unverified'
+
+    insertAgentInference( {
+      inferenceText: inferenceText || edge.reasoning,
+      evidentiaryState,
+      sourceRecordId: edge.source,
+      targetRecordId: edge.target,
+      extractedBy: 'mindmap-agent',
+    } ).catch( ( err ) => {
+      console.warn( '[mindmap] insertAgentInference failed:', err )
+    } )
+  }
 }
 
 const MindmapBodySchema = z.object({
@@ -622,6 +661,8 @@ export async function POST( req: Request ) {
                   }
                 } )
                 .filter( ( edge ): edge is NonNullable<typeof edge> => Boolean( edge ) )
+
+              recordEdgeInferences( normalizedEdges )
 
               await sendDataMessage( {
                 role: 'data',

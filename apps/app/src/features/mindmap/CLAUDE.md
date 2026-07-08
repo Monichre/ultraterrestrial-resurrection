@@ -47,6 +47,8 @@ Every prompt, tour narrative, hypothesis, and UI copy string in this feature MUS
 
 Rubric for review — does the output: respect the strangeness / protect the evidence / map the relationships / refuse premature closure? All four or it isn't Ultraterrestrial.
 
+**Terminology ruling (Liam, 2026-07-08) — "claim" is RESERVED.** A claim is a discrete assertion extracted from SOURCE material (human testimony, documents). AI output is never a claim — it is an **inference**, part of the analytical layer. Persisted agent analysis lives in the `agent_inferences` table (`@db/postgres`: `insertAgentInference`/`getInferencesForRecord`) and must NEVER feed retrieval, search, or suggestions. Its legitimate roles: auditable analytical trail, and (Phase 2) support attached to a user-owned `theory`. Never name a table, type, or UI surface "claim(s)" unless its content is source-extracted.
+
 Reference implementations: `actions/enrich-hypothesis.ts` (liturgy schema), the Improbable Moon tour (`tours/configs/tour-definitions.ts`), the two live route prompts.
 
 <claude-mem-context>
