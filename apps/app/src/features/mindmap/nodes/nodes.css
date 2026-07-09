@@ -1,3 +1,59 @@
+/* ============================================================
+   Connection points — the physical splice terminals of the
+   evidence wire. Quiet at rest, unmistakable when the node is
+   hovered or a wire is live. (Microfilm Dark, 2026-07-09.)
+   NOTE: everything below the legacy marker is one giant
+   commented-out block inherited from the old theme — live rules
+   must stay ABOVE it.
+   ============================================================ */
+
+.react-flow__handle {
+  width: 9px;
+  height: 9px;
+  border-radius: 9999px;
+  background: var(--ut-surface-2, oklch(0.24 0.008 85));
+  border: 1px solid oklch(0.93 0.015 90 / 0.4);
+  opacity: 0.45;
+  cursor: crosshair;
+  /* Card bodies otherwise paint over the terminal and swallow the click. */
+  z-index: 10;
+  transition: opacity 120ms ease-out, transform 120ms ease-out,
+    border-color 120ms ease-out, background-color 120ms ease-out;
+}
+
+/* Invisible oversize hit area — a 9px dot is a statement, not a target. */
+.react-flow__handle::after {
+  content: '';
+  position: absolute;
+  inset: -10px;
+  border-radius: 9999px;
+}
+
+.react-flow__node:hover .react-flow__handle,
+.react-flow__node.selected .react-flow__handle {
+  opacity: 1;
+}
+
+.react-flow__node:hover .react-flow__handle:hover,
+.react-flow__handle.connectingfrom,
+.react-flow__handle.connectingto {
+  background: var(--ut-paper, oklch(0.93 0.015 90));
+  border-color: var(--ut-paper, oklch(0.93 0.015 90));
+  transform: scale(1.35);
+}
+
+.react-flow__handle.connectionindicator {
+  opacity: 1;
+}
+
+/* The wire being dragged: dashed = not yet asserted, per the provenance rule. */
+.react-flow__connection-path {
+  stroke: oklch(0.93 0.015 90 / 0.7);
+  stroke-width: 1.5;
+  stroke-dasharray: 6 4;
+}
+
+/* ==================== legacy (fully commented) ==================== */
 /* .react-flow {
   --bg-color: rgb(17, 17, 17);
   --text-color: rgb(243, 244, 246);

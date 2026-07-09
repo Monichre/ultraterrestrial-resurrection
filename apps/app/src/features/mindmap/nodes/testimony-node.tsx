@@ -31,6 +31,7 @@ const TN = memo( ( node: any ) => {
   return (
     <>
       <Handle type='target' position={Position.Top} />
+      <Handle type='source' position={Position.Bottom} />
       {handles && handles?.length
         ? handles.map( ( id: string ) => (
           <Handle
