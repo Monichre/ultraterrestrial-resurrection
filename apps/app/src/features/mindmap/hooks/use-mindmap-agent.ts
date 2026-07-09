@@ -220,15 +220,26 @@ export function useMindMapAgent() {
             const data = line.slice(6).trim()
             if (!data || data === '[DONE]') continue
 
+            // Parse failures only skip the chunk; agent-reported errors must
+            // propagate. Keeping JSON.parse in its own try prevents the
+            // stream-error throw below from being swallowed by the skip path
+            // (which left the canvas node on "AI is thinking..." forever).
+            let parsed: any
             try {
-              const parsed = JSON.parse(data)
+              parsed = JSON.parse(data)
+            } catch {
+              console.debug('Skipped chunk:', data)
+              continue
+            }
 
-              if (parsed.error) {
-                const errorMessage = parsed.message || 'Agent stream error'
-                setStatus('error')
-                setError(errorMessage)
-                throw new Error(errorMessage)
-              }
+            if (parsed.error) {
+              const errorMessage = parsed.message || 'Agent stream error'
+              setStatus('error')
+              setError(errorMessage)
+              throw new Error(errorMessage)
+            }
+
+            try {
 
               if (parsed.content) {
                 aggregatedAnalysis += parsed.content

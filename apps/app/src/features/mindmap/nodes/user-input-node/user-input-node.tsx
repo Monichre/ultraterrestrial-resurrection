@@ -26,17 +26,12 @@ import {AiStarIcon} from '@/components/icons'
 import {useMindMap} from '@/contexts/mindmap'
 import {Markdown} from '@/features/ai/components/prompt-kit/markdown'
 import {useTextStream} from '@/features/ai/components/prompt-kit/response-stream'
-import {AskAI, AskAIStreaming} from '@/features/mindmap/components/ask-ai'
 import {useGroupNode} from '@/features/mindmap/hooks/useGroupNode'
-import {useAskXata} from '@/features/mindmap/hooks/useAskXata'
 import {Anchor} from '@/features/mindmap/nodes/user-input-node/anchor'
 import {useEntity} from '@/hooks'
 import {AnimatePresence, motion} from 'framer-motion'
 import {Loader2, RefreshCw, Bug, MonitorCheck} from 'lucide-react'
-import {useSSE} from '@/hooks/useSSE'
 import {AnimatedMarkdown} from '@/features/mindmap/nodes/user-input-node/animated-markdown'
-
-// This component is no longer needed - we're using our improved useSSE hook instead
 
 interface EntityData {
   id?: string
@@ -281,9 +276,13 @@ export const UserInputNode = memo((props: NodeProps) => {
         <motion.div
           initial={{opacity: 0}}
           animate={{opacity: 1}}
-          className='flex items-center justify-center py-4 text-red-400'>
-          <Bug className='h-5 w-5 mr-2' />
-          <span>Error loading content</span>
+          className='flex flex-col items-center gap-2 px-4 py-5 text-center'>
+          <span className='ut-mono inline-block -rotate-2 rounded-[2px] border-2 border-[var(--ut-stamp)] px-2 py-1 text-[10px] font-medium uppercase tracking-[0.13em] text-[var(--ut-stamp)] opacity-80'>
+            No carrier
+          </span>
+          <span className='max-w-[38ch] text-[11px] leading-relaxed text-neutral-400'>
+            {data.error || 'The agent did not respond. The canvas remains your instrument.'}
+          </span>
         </motion.div>
       )
     }
