@@ -179,6 +179,8 @@ export const EnhancedEntityNodePOC = memo<NodeProps>((props) => {
 
   return (
     <div className="relative">
+      <Handle type="target" position={Position.Top} />
+      <Handle type="source" position={Position.Bottom} />
       {/* Smart Contextual Intelligence Badge */}
       <AnimatePresence>
         {nodeAnalysis.isContextual && (

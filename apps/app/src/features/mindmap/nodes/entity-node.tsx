@@ -147,6 +147,9 @@ const EntityNode: FC<EntityNodeProps> = memo(function EntityNode(props): ReactEl
   return (
     <>
       <Handle type='target' position={Position.Top} />
+      {/* Always-present source terminal so any record can start a connection;
+          the id'd handles below remain for group-node flows that expect them. */}
+      <Handle type='source' position={Position.Bottom} />
       <CoreNodeContainer
         className={cn(
           'motion-opacity-in-0 min-w-[200px] w-content core-node-container overflow-visible'

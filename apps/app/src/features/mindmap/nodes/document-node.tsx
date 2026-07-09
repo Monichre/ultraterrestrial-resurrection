@@ -2,6 +2,7 @@
 
 import { BlurAppear } from "@/components/animated";
 import { useMindMap } from "@/contexts";
+import { Handle, Position } from "@xyflow/react";
 import { FileIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -25,6 +26,8 @@ export const DocumentNode = (node: any) => {
 	}, [node, updateNodeInternals, nodeData]);
 	return (
 		<BlurAppear>
+			<Handle type="target" position={Position.Top} />
+			<Handle type="source" position={Position.Bottom} />
 			<div
 				className="animate-running speed-normal nodrag overflow-hidden rounded-2xl bg-neutral-900/80 backdrop-blur-sm"
 				style={{ opacity: 1, willChange: "auto" }}

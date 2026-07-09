@@ -472,7 +472,10 @@ export function Graph() {
   }, [autoLayout, layoutDirection, layoutSettings.edgeLength, layoutSettings.nodeSpacing, nodes.length, organizeLayout])
 
   const edgeOptions = {
-    animated: true,
+    // Solid, not animated: a hand-drawn connection is a researcher assertion
+    // (provenance rule — dashed is reserved for AI inference and tour paths,
+    // which style themselves in SiblingEdge / ai-animated-edge).
+    animated: false,
     // Parchment at reduced strength: edges read as pencil lines on the
     // dark table, not wires. Full white fought the nodes for attention.
     style: {stroke: 'oklch(0.93 0.015 90 / 0.45)', strokeWidth: 1.25},
@@ -518,6 +521,7 @@ export function Graph() {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         onNodesDelete={onNodesDelete}
+        connectionRadius={36}
         elevateNodesOnSelect={true}
         fitView
         defaultViewport={{
