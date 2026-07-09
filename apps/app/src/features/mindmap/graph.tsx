@@ -122,7 +122,10 @@ export function Graph() {
   const getCenteredPosition = useCallback(() => {
     if (typeof window === 'undefined') return {x: 0, y: 0}
     if (!screenToFlowPosition) return {x: 0, y: 0}
-    return screenToFlowPosition({x: window.innerWidth / 2, y: window.innerHeight / 2})
+    // Anchor at 35% height, not dead center: the console cluster owns the
+    // bottom of the screen and grows upward while the agent streams — a
+    // center-placed node ends up underneath it on short viewports.
+    return screenToFlowPosition({x: window.innerWidth / 2, y: window.innerHeight * 0.35})
   }, [screenToFlowPosition])
 
   const buildAgentGraphState = useCallback((): AgentGraphStatePayload => {
@@ -328,7 +331,9 @@ export function Graph() {
           error instanceof Error && error.message && !/^HTTP error/.test(error.message)
             ? error.message
             : 'Unable to fetch results right now. Please try again.'
-        updateNodeData(sourceNode.id, {answer: reason})
+        // Set error (not just answer) so the node leaves its loading state
+        // and renders the failure explicitly.
+        updateNodeData(sourceNode.id, {error: reason, answer: reason})
       }
     },
     [
