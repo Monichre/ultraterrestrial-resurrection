@@ -9,6 +9,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 1. [README.md](README.md)
 2. [AGENT.md](AGENT.md) - **COMPREHENSIVE DEVELOPMENT GUIDELINES**
 3. docs/agents/AGENT_ONBOARDING_CHECKLIST.md - **MANDATORY FIRST READ** - Validation checklist
+4. [PRODUCT.md](PRODUCT.md) + [DESIGN.md](DESIGN.md) - **CANONICAL PRODUCT & DESIGN CONTEXT** (added 2026-07-08). Repo-root product narrative and the "Microfilm Dark" design language. Read before any UI or product-facing work.
 
 ## Agent Configuration System
 
