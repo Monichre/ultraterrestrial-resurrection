@@ -78,7 +78,7 @@ except (ImportError, RuntimeError) as e:
 
     def add_processed_content_to_queue(*args, **kwargs):
         logger.warning("Skipping Upstash queue - not configured")
-        return None
+        return {"success": False, "skipped": True}
 
 # Initialize processors
 web_processor = WebContentProcessor()
@@ -220,12 +220,14 @@ def process_file(file_path: str, upload: bool = False, add_to_kb: bool = True) -
         logger.error(f"File not found: {file_path}")
         return None
 
+    is_pdf = file_path.lower().endswith('.pdf')
+
     try:
         # Read file content - PDFs need text extraction, everything else is
         # read as text (main.py's docstring advertises PDF support, but this
         # used to unconditionally open() in text mode, which raises
         # UnicodeDecodeError on any real PDF).
-        if file_path.lower().endswith('.pdf'):
+        if is_pdf:
             from PyPDF2 import PdfReader
             reader = PdfReader(file_path)
             content = "\n\n".join(
@@ -271,14 +273,25 @@ def process_file(file_path: str, upload: bool = False, add_to_kb: bool = True) -
             data['upload_results'] = upload_result
             processing_steps.append("OpenAI vector store upload")
 
+            # The queue reopens its file arguments as UTF-8 text, so a raw
+            # PDF path would crash it - hand it the extracted text instead.
+            queue_content_path = file_path
+            if is_pdf:
+                import tempfile
+                with tempfile.NamedTemporaryFile(
+                        mode='w', encoding='utf-8', suffix='.txt',
+                        prefix=Path(file_path).stem + '_extracted_',
+                        delete=False) as tf:
+                    tf.write(content)
+                    queue_content_path = tf.name
+
             # Add to queue
             add_processed_content_to_queue(
-                data['metadata'], file_path, file_path)
+                data['metadata'], queue_content_path, queue_content_path)
 
         # Add to knowledge base
         if add_to_kb:
-            doc_type = 'research' if file_path.endswith(
-                '.pdf') else 'case_file'
+            doc_type = 'research' if is_pdf else 'case_file'
             doc_id = add_to_knowledge_base(data, doc_type)
             data['doc_id'] = doc_id
             processing_steps.append("Knowledge base storage")
@@ -412,10 +425,14 @@ def process_file(file_path: str, upload: bool = False, add_to_kb: bool = True) -
                     logger.error(f"CocoIndex processing failed: {e}")
                     # Don't fail the entire process if CocoIndex processing fails
 
-            # Move successfully processed files from processing_queue to files
+            # Move successfully processed files from processing_queue to files.
+            # Containment is checked on the resolved path, so the move must
+            # also operate on the resolved path - moving the raw argument
+            # would relocate a symlink instead of the queued file.
             processing_queue_dir = (
                 Path(__file__).parent / "data" / "processing_queue").resolve()
-            if doc_id and Path(file_path).resolve().is_relative_to(processing_queue_dir):
+            resolved_source = Path(file_path).resolve()
+            if doc_id and resolved_source.is_relative_to(processing_queue_dir):
                 try:
                     import shutil
                     files_dir = str(
@@ -426,14 +443,12 @@ def process_file(file_path: str, upload: bool = False, add_to_kb: bool = True) -
                     # Create files directory if it doesn't exist
                     os.makedirs(files_dir, exist_ok=True)
 
-                    # Get filename and create destination path
-                    filename = os.path.basename(file_path)
-                    destination_path = os.path.join(files_dir, filename)
+                    destination_path = os.path.join(
+                        files_dir, resolved_source.name)
 
-                    # Move the file
-                    shutil.move(file_path, destination_path)
+                    shutil.move(str(resolved_source), destination_path)
                     logger.info(
-                        f"Moved processed file from processing_queue to files: {filename}")
+                        f"Moved processed file from processing_queue to files: {resolved_source.name}")
 
                     # Update the data source to reflect new location
                     data['source'] = destination_path
@@ -441,8 +456,11 @@ def process_file(file_path: str, upload: bool = False, add_to_kb: bool = True) -
                     processing_steps.append("File relocation")
 
                 except Exception as e:
+                    # Non-fatal, but surfaced in the result so callers can see
+                    # the file is still sitting in processing_queue.
                     logger.error(f"Failed to move file to files: {e}")
-                    # Don't fail the entire process if file move fails
+                    data['metadata']['relocation_failed'] = str(e)
+                    processing_steps.append("File relocation FAILED")
 
             # Add comprehensive processing summary to memory
             if doc_id:
