@@ -1,9 +1,11 @@
 # TODO — Ultraterrestrial Resurrection
 
-**Last Updated:** 2026-03-29
+**Last Updated:** 2026-07-10
 **Source:** Roundtable audit (4 specialists) + agent-native remediation audit
 **Reference:** `docs/plans/2026-03-29-roundtable-unified-action-plan.md`
 **Branch:** dev
+
+> **2026-07-10 session note:** Scaffolded Matt Pocock engineering-skills config (`docs/agents/issue-tracker.md`, `triage-labels.md`, `domain.md`; `## Agent skills` block in `CLAUDE.md`). Built first-pass system-wide domain model: `CONTEXT-MAP.md` (4 contexts), `CONTEXT.md` (full glossary — reserved words, adopted vocabulary, 8 evidentiary states, all record types, classification taxonomy, Phase 2 reserved names). First ADR: `docs/adr/0001-agent-inferences-excluded-from-retrieval.md`. New ticket created for follow-up context files (see T-043 below).
 
 ---
 
@@ -271,11 +273,11 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Reference:** `docs/plans/2026-03-29-research-canvas-grounding.md`
 
 ### T-028: Mindmap Agent Consolidation (ai-sdk-tools)
-- **Status:** PHASES A+B DONE — 2026-07-05; Phase C OPEN (baseline audit `docs/plans/2026-06-20-t028-mindmap-agent-consolidation-audit.md`)
+- **Status:** DONE / IN REVIEW — 2026-07-12 ([DMGD-183](https://linear.app/dmg-dev/issue/DMGD-183))
 - **Phase A completed (2026-07-05):** Deleted retired `/api/sse/xata/ask` + `/send` + `/api/sse/test` routes. Deleted dead consumers (`useSSE.tsx`, `useAskXata.ts`, `XataAskComponent.tsx`, `useXataAsk.ts`, `ask-example.ts`, `ask-example-enhanced.ts`, `features/mindmap/debug/`). Rewired `AskAIStreaming` → `useMindMapAgent` (canonical `/api/disclosure/mindmap`). Purged all remaining `@db/xata`/`@db` value imports: `xata-to-xyflow.ts` (fetchRecords → `readById`, fallbacks → `searchTable`), `process-resource.ts` (→ `searchTable`), Clerk webhook route rewritten on `@db/postgres` (URL kept stable). 4 type-only `@db` imports repointed to `@db/postgres`.
 - **Phase B completed (2026-07-05):** Shared search core already lived in `@db/postgres` (`searchDatabase`: FTS + pgvector + RRF fusion); remaining duplication removed — shared `embedQuery` extracted to `services/ai/openai/embed-query.ts` (both live routes now import it), one-line `tools/search-database.ts` wrapper + orphan `tools/index.ts` barrel deleted, 4 importers repointed to `@db/postgres` directly.
 - **Runtime smoke (2026-07-05):** `/api/disclosure/mindmap` streams SSE end-to-end (thread create + run start OK) — run fails only on **OpenAI quota exhausted** (billing, not code). `/api/prometheus/chat` had TWO real runtime bugs from AI SDK v4→v6 drift, both FIXED: `toDataStreamResponse()` → `toUIMessageStreamResponse()` (5 files) and `tool({ parameters: ... })` → `tool({ inputSchema: ... })` (10 tools) — route now streams the correct v6 UI-message protocol. Neon `searchDatabase` verified live against real data (Roswell FTS top-hit correct). Clerk webhook blocked locally on missing `CLERK_WEBHOOK_SECRET` env (route runs, refuses correctly).
-- **Remaining (Phase C):** unify external-resources + DB-search tool definitions across the two live routes. Also: re-smoke both agents once OpenAI billing is topped up; set `CLERK_WEBHOOK_SECRET` to smoke webhook.
+- **Phase C completed (2026-07-12):** shared DB-search and Exa schemas/executors now serve both live routes from `services/ai/tools/research-search.ts`. Re-smoke the OpenAI Assistants path after billing is restored; set `CLERK_WEBHOOK_SECRET` to smoke the webhook.
 - **Size:** remaining S-M (1-2 days)
 - **Dependencies:** T-013, T-015
 
@@ -285,66 +287,75 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **What:** Define structured methodology inspired by Jacques Vallee, Diana Pasulka Walsh. Framework for classification, evidence evaluation, source verification, pattern analysis. Map to ingestion/analysis workflows.
 
 ### T-036: LLM Wiki — compounding knowledge layer (Karpathy-style)
-- **Status:** RESEARCH — 2026-06-20 (multi-agent fit analysis in `docs/plans/2026-06-20-llm-wiki-approach-analysis.md`; pattern ref `docs/research/llm-wiki-pattern.md`)
+- **Status:** DECISION READY — 2026-07-12 ([DMGD-184](https://linear.app/dmg-dev/issue/DMGD-184)); full build NO-GO, explicit 10-source provenance pilot recommended
 - **Size:** L (multi-week, phased)
 - **What:** Build a persistent, LLM-maintained wiki layer between the ~960 raw knowledge-base sources and Prometheus — interlinked markdown entity/concept/event pages that the LLM compiles once and keeps current (ingest/query/lint ops), instead of re-deriving knowledge per query via RAG. Compounding artifact; cross-refs + contradictions pre-flagged. Natural fit with the mindmap (wiki graph = canvas), the UFO research methodology (T-029), and pgvector retrieval. See analysis doc for project-specific recommendation + phased plan.
 - **Source idea:** `docs/research/llm-wiki-pattern.md`
+- **Decision:** Raw sources remain immutable and Postgres remains the entity/graph/search system of record. A generated wiki is only a versioned secondary artifact. Promote beyond a pilot only if citation traceability, contradiction preservation, idempotence, and researcher-utility gates pass.
+- **Blockers:** The referenced fit-analysis document is missing; source identity/provenance, claims boundaries, the evaluation set, and ingestion/idempotency contracts are not canonical.
 
 ### T-037: AI prompt & model audit — frontier-models-only policy + fallback-chain adoption
-- **Status:** OPEN — created 2026-07-07 (user directive)
+- **Status:** IMPLEMENTATION DONE / EXTERNAL VERIFICATION BLOCKED — 2026-07-12 (DMGD-152 and DMGD-158 in review)
 - **Size:** M (1-2 days)
 - **Policy (user-stated, 2026-07-07):** Only current frontier models by top providers are acceptable anywhere in the app — GPT-5.5, Claude Opus 4.8 / Sonnet 5, Gemini 3.5 Flash, GLM-5.2. No legacy tiers (gpt-4-turbo, gpt-4o-mini, etc.), ever.
 - **Done in this pass (2026-07-07):** `src/lib/ai/model-fallback.ts` created (6-tier frontier chain, env-key gated); hypothesis enrichment (`enrich-hypothesis.ts`) runs through it; Prometheus `MODEL_NAME` upgraded `gpt-4-turbo` → `gpt-5.5`.
 - **Vision Phase 0 done (2026-07-08)** per `docs/plans/2026-07-08-memory-first-vision-review.md`: both live prompts rewritten with UT identity + operating principles (Prometheus `SYSTEM_PROMPTS.main`, mindmap `additional_instructions` with `[Observed]…[Unverified]` evidentiary-state edge labeling); `enrich-hypothesis.ts` upgraded to liturgy schema `{reading, counterReading, whatRemainsWeird, nextTrace}` via new `generateObjectWithFallback`; dock renders four-part reading; voice contract + rubric added to `features/mindmap/CLAUDE.md`. Remaining prompt audit items below still open; Vision Phase 1 (evidentiary-state badges, claims table, Synthesize action) tracked in the review doc.
 - **Stale-model sweep DONE — 2026-07-08 (delegated audit):** 8 strings upgraded in 7 live files (claude-3-opus→opus-4-8 in scrape route/firecrawl/process-resource; claude-3-5-sonnet→sonnet-5 in get-claude-response; gpt-4o-mini→gpt-5.5 in agent-patterns + agent-states; gpt-4-turbo-preview→gpt-5.5 in sightings-ai-analysis) + 4 held-back files fixed after agent merge window (ai-actions.ts, smart-connection-analysis.ts, extract-search-terms.ts → gpt-5.5; model-selector.tsx cleaned). ~16 dead/orphaned files with stale models cataloged (deletion candidates, not upgraded — includes orphaned `services/ai/prometheus/` vendored tree). 61 hits in disconnected apps/disclosure-rag report-only. `text-embedding-3-small` confirmed untouched (locked).
 - **`generateText`/`generateObject` fallback chain DONE — 2026-07-08 (commit 37d9a6c):** `model-fallback.ts` hardened to survive real-world provider failures — env-alias gating (tiers skipped unless their key is set), z.ai `.chat()` fix, Gemini `thinkingBudget: 0`, per-tier retries, and a `gemini-3-flash-preview` backup tier. New smoke script `apps/app/scripts/smoke-model-fallback.ts`. Chain verified live: with only the Google tier currently funded, the first end-to-end **Synthesize Investigation** dossier was served by Gemini 3 Flash in the UI. The `streamText` + tool-call variant for the two live agent routes remains open (see below).
-- **Remaining:**
-  - Extend `model-fallback.ts` with a `streamText` + tool-call variant so both live agent routes (`/api/disclosure/mindmap`, `/api/prometheus/chat`) survive a single-provider outage. (The `generateText`/`generateObject` chain is done as of 2026-07-08.)
-  - UT-voice review of `build-agent-context.ts` and the Prometheus tool prompts (summary/topics/sentiment/connections/insights/tags) for voice alignment.
+- **Completed 2026-07-12:** Prometheus main chat and all six document actions use a retry-aware transport-level `streamText`/tool-call fallback before bytes are emitted. Both live routes share DB/Exa tool definitions. `build-agent-context.ts` and all six document prompts received the UT epistemic/voice pass.
+- **Remaining external checks:**
   - Verify/upgrade the OpenAI Assistants API assistant's model (set server-side on the assistant object — dashboard or API, needs OpenAI billing live).
   - Add `GOOGLE_GENERATIVE_AI_API_KEY` + `ZHIPU_API_KEY` to `.env` to activate the Gemini 3.5 Flash and GLM-5.2 tiers (chain skips them until set). Note (2026-07-08): `GEMINI_API_KEY` was revoked as leaked — rotate before relying on it.
 - **Files:** `apps/app/src/lib/ai/model-fallback.ts`, `apps/app/src/app/api/prometheus/chat/route.ts`, `apps/app/src/app/api/disclosure/mindmap/route.ts`, `apps/app/src/features/mindmap/actions/enrich-hypothesis.ts`
 - **Reference:** `docs/plans/2026-07-07-llm-enriched-hypothesis.md`
 
 ### T-038: Design language & domain vocabulary canonicalization
-- **Status:** PHASE 1 DONE — 2026-07-09 (delegated supervisor: Fable). Four identity artifacts + audit drafted in new `docs/vision/`; open items below.
+- **Status:** IMPLEMENTATION DONE / EXTERNAL FIGMA REVIEW BLOCKED — 2026-07-12 (DMGD-154 and DMGD-155 in review)
 - **Size:** remaining S-M
 - **Done (2026-07-09):** Extensive review of the Brand Bible package (`docs/design/brand-bible/` — moved into repo from Desktop) + vision docs + shipped Phase 0/1 code. Created: `docs/vision/2026-07-09-canonicalization-audit.md` (overlap audit + placement ruling), `RESEARCH_NARRATIVE_RUBRIC.md` (judging checklist: 2 governing questions, 7 hard gates, 16 scored criteria), `UX_LANGUAGE_GUIDE.md` (reserved words, 8-term adopted vocabulary, badge grammar, interaction copy rules), `AGENT_ARCHITECTURE_BRIEF.md` (5 investigative roles — Archivist/Analyst/Skeptic/Mythographer/Cartographer — mapped honestly to the 2 live AI paths; no orchestrator claimed), `IMPLEMENTATION_SPEC.md` (identity→code map with gap list).
 - **Audit finding:** only `RESEARCH_CANVAS_AESTHETIC.md` is byte-identical between the package's Design Canon and `apps/app/src/components/design-system/`; the other four Canon files are NEWER (carry the 04_DESIGN_REVIEW_NOTES corrections) — repo copies are stale.
-- **Remaining:**
-  - User decision: extend `PRODUCT.md` ~5 lines with Brand Bible Core Rule + Final Direction (Product Manifesto verdict: extend-in-place, don't draft new — audit §2).
-  - User decision: extract shared voice-core prompt module (Fable System Prompt verdict: canonicalize by extraction from `enrich-hypothesis.ts`/`synthesize-investigation.ts`, not new prose — audit §3).
-  - Sync 4 corrected Design Canon files over `apps/app/src/components/design-system/`.
-  - Mine the Figma-Make prototype (`docs/design/reference-prototype/`) via a cannibalization audit in the mold of `2026-06-20-ufo-ui-cannibalization-audit.md`.
-  - Four Figma files pending Figma MCP access (Document Library, Visual Archaeology Timeline, UN-DEFECTTAL Poster, Ultraterrestrial Design Lab).
-  - UI terminology sweep per `docs/vision/UX_LANGUAGE_GUIDE.md` §2/§5.
+- **Completed 2026-07-12:** extended `PRODUCT.md` with the exact Core Rule and Final Direction; synced four corrected Design Canon files; added the prototype cannibalization ruling to the existing audit; completed a surgical live UI terminology/failure/empty-state sweep.
+- **External blocker:** Four remote Figma files remain inaccessible (Document Library, Visual Archaeology Timeline, UN-DEFECTTAL Poster, Ultraterrestrial Design Lab).
 - **Files:** `docs/vision/*`, `docs/plans/2026-07-08-memory-first-vision-*.md`, `docs/design/brand-bible/`
 - **Reference:** `docs/vision/2026-07-09-canonicalization-audit.md`
 
 ### T-039: Documentation cleanup & simplification (all docs)
-- **Status:** OPEN — 2026-07-09
+- **Status:** DONE / IN REVIEW — 2026-07-12 ([DMGD-185](https://linear.app/dmg-dev/issue/DMGD-185))
 - **Size:** M-L
 - **What:** Repo-wide pass to simplify and de-duplicate documentation before Linear (T-040) takes over task tracking. Candidates found so far: stale `docs/agents/AGENT_ONBOARDING_CHECKLIST.md` (still references retired Xata-era file paths); confirm `docs/plans/` vs `docs/PLANS/` is a macOS case-insensitive filesystem alias, not a real duplicate (verified 2026-07-09: same inode — no action needed, just don't let an agent copy content between them believing they're distinct); general docs/ sprawl audit.
 - **Why:** User wants task tracking to feel "completely invisible" — that only works once the docs it's built on are simplified and non-duplicated.
 - **Depends on:** none; blocks T-040 in spirit (do the cleanup before wiring Linear so tickets map to a clean doc set).
 
 ### T-040: Linear integration for task tracking
-- **Status:** OPEN — 2026-07-09
+- **Status:** DONE / IN REVIEW — 2026-07-12 ([DMGD-186](https://linear.app/dmg-dev/issue/DMGD-186))
 - **Size:** M
-- **What:** Replace/augment the docs/plans three-tier system with Linear so ticket tracking stops requiring manual doc edits. Scope TBD with user: which tier(s) move to Linear (likely TODO.md tickets → Linear issues; FEATURES.md may stay as strategic doc; DAILY_WORK_PLAN.md may be replaced by Linear cycles/views).
+- **Cutover:** Linear owns actionable tickets and status. `FEATURES.md` remains strategic, `DAILY_WORK_PLAN.md` is a session log, and this file is the historical `T-*` migration ledger. New implementation tickets go to Linear; do not extend this ledger.
 - **Why:** User's own words: "integrate Linear so that task tracking just seems completely fucking invisible to me right now."
 - **Depends on:** T-039 (docs cleanup) should land first so migration maps cleanly.
 
 ### T-041: Roundtable UX/UI review
-- **Status:** OPEN — 2026-07-09
+- **Status:** BLOCKED — 2026-07-12 ([DMGD-187](https://linear.app/dmg-dev/issue/DMGD-187)); app ran locally, but no browser backend was available for the required current-run screenshot evidence
 - **What:** Multi-perspective review of UX/UI covering (a) the live application itself, (b) the conceptual/identity layer (`docs/vision/*`, `DESIGN.md`, `PRODUCT.md`), and (c) the ingested brainstorm material (`docs/design/brand-bible/`, `docs/design/reference-prototype/`).
 - **Why:** User wants a synthesis pass across code, concept, and reference material now that the canonicalization (T-038) and design-registers reframe (`docs/vision/DESIGN_REGISTERS.md`) exist to review against.
 - **Depends on:** T-038 remaining items should be resolved or at least visible before this review, since they're inputs to it.
 
-### T-042: Custom agent architecture brainstorm (parked — discussion, not yet scoped)
-- **Status:** OPEN — 2026-07-09
+### T-042: Custom agent architecture brainstorm
+- **Status:** DECISION READY — 2026-07-12 ([DMGD-188](https://linear.app/dmg-dev/issue/DMGD-188)); local-first scoped specialists, no cloud-persistent agents yet
 - **What:** Explore what app-specific custom agents (memory, specialization, shared vs. independent context) would look like for Ultraterrestrial — local (`.claude/agents/*.md`, already has app-agent/db-agent/disclosure-rag-agent/knowledge-base-agent/research-ui-agent) vs. cloud-persistent (Claude Managed Agents / Claude API Managed Agents with a hosted sandbox). No decision made yet — this is a live discussion thread, not a committed direction.
 - **Depends on:** none directly; informs future automation of T-039/T-040/T-041 style reflection work.
+- **Decision:** Use one coordinator with App/AI, Postgres/Data, Knowledge/Provenance, Research UI/Canon, and Verification/Skeptic specialists. Share versioned canon and typed handoffs, not hidden cross-agent memory. Keep investigative roles as prompt stances rather than separate runtime services.
+- **Next gate:** Rewrite the stale local agent definitions around Postgres and the two live AI paths, then validate the pattern on one bounded workflow. Reconsider hosted persistence only after stable contracts, evals, RBAC/auditability, and a recurring unattended workload exist.
+
+### T-043: Write per-context CONTEXT.md files (domain model follow-up)
+- **Status:** OPEN
+- **Size:** S (2-3 hours total)
+- **Dependencies:** CONTEXT-MAP.md + root CONTEXT.md (done 2026-07-10)
+- **What:** Create the three context-specific glossary files mapped in `CONTEXT-MAP.md`:
+  - `apps/app/CONTEXT.md` — Research Canvas context: node types, edge types, panel names, canvas-specific interaction vocabulary
+  - `packages/db/CONTEXT.md` — DB context: table names, query patterns, the retrieval model, the `agent_inferences` contract
+  - `packages/prompts/CONTEXT.md` — AI/Prompts context: the five investigative roles, liturgy schema, voice contract terms
+- **Why:** Completes the multi-context domain model. Skills like `domain-modeling`, `to-tickets`, and `qa` read from these during implementation.
+- **Reference:** `CONTEXT-MAP.md`, `CONTEXT.md`, `docs/agents/domain.md`
 
 ---
 
