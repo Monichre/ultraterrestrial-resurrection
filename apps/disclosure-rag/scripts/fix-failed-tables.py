@@ -5,13 +5,16 @@ Fix the failed tables with reserved keyword issues
 
 import asyncio
 import asyncpg
+import os
 import ssl
 from datetime import datetime
 
 async def fix_failed_tables():
     """Fix tables that failed due to reserved keywords"""
     
-    postgres_url = "postgresql://kgubvq:xau_T2uckroqht3tNd7pL3uETsxM0EC5WSNd1@us-east-1.sql.xata.sh/ultraterrestrial-postgres:main?sslmode=require"
+    postgres_url = os.getenv('DATABASE_URL')
+    if not postgres_url:
+        raise RuntimeError("DATABASE_URL environment variable must be set")
     
     print(f"🔧 Fixing Failed Tables")
     print(f"📅 {datetime.now().isoformat()}")

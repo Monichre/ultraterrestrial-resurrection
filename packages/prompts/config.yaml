@@ -1,8 +1,8 @@
-# OpenRouter API settings
+# OpenRouter API settings — set OPENROUTER_API_KEY in your environment
 openrouter:
-  api_key: "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"
+  api_key: "${OPENROUTER_API_KEY}"
   base_url: "https://openrouter.ai/api/v1"
-  
+
   # IMPORTANT: When selecting a model, ensure it has a high context window (200k+ tokens recommended)
   # The orchestrator can generate large amounts of results from multiple agents that need to be
   # processed together during synthesis. Low context window models may fail or truncate results.
@@ -59,4 +59,3 @@ orchestrator:
 search:
   max_results: 5
   user_agent: "Mozilla/5.0 (compatible; OpenRouter Agent)"
-  

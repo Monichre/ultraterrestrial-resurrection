@@ -32,7 +32,13 @@ class WebContentProcessor:
         self.headers = {
             'User-Agent': ('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) '
                            'AppleWebKit/537.36 (KHTML, like Gecko) '
-                           'Chrome/91.0.4472.124 Safari/537.36')
+                           'Chrome/126.0.0.0 Safari/537.36'),
+            'Accept': ('text/html,application/xhtml+xml,application/xml;q=0.9,'
+                       'image/avif,image/webp,*/*;q=0.8'),
+            'Accept-Language': 'en-US,en;q=0.9',
+            'Accept-Encoding': 'gzip, deflate, br',
+            'Connection': 'keep-alive',
+            'Upgrade-Insecure-Requests': '1',
         }
         self.enable_media_extraction = enable_media_extraction
         self.max_images = max_images
@@ -347,15 +353,41 @@ class WebContentProcessor:
                 'error': str(e)
             }
 
+    def _fetch_with_fallback(self, url: str, timeout: int = 30) -> 'requests.Response':
+        """Fetch URL with requests, falling back to curl_cffi for bot-protected sites."""
+        try:
+            response = self.session.get(url, timeout=timeout)
+            response.raise_for_status()
+            return response
+        except requests.exceptions.HTTPError as e:
+            if response.status_code == 403:
+                # Bot-protected site — try curl_cffi with browser TLS impersonation
+                try:
+                    from curl_cffi import requests as cffi_requests
+                    cffi_response = cffi_requests.get(
+                        url, impersonate="chrome", timeout=timeout,
+                        headers=dict(self.headers))
+                    cffi_response.raise_for_status()
+                    # Wrap into a requests-like object for downstream compatibility
+                    response.status_code = cffi_response.status_code
+                    response._content = cffi_response.content
+                    response.headers.update(cffi_response.headers)
+                    response.encoding = cffi_response.encoding or 'utf-8'
+                    return response
+                except ImportError:
+                    raise
+                except Exception:
+                    raise
+            raise
+
     def scrape_url(self, url: str) -> Dict[str, Any]:
         try:
             # Handle PDF URLs
             if url.lower().endswith('.pdf') or 'application/pdf' in url.lower():
                 return self.handle_pdf(url)
 
-            # Handle regular web pages
-            response = self.session.get(url, timeout=30)
-            response.raise_for_status()
+            # Handle regular web pages (with bot-protection fallback)
+            response = self._fetch_with_fallback(url, timeout=30)
             soup = BeautifulSoup(response.text, 'html.parser')
 
             # Extract title and meta information

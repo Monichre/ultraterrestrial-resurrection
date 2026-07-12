@@ -1,8 +1,14 @@
+import os
 from upstash_vector import Index, Vector
 from datetime import datetime
 
-index = Index(url="https://known-bobcat-28794-us1-vector.upstash.io",
-              token="ABYFMGtub3duLWJvYmNhdC0yODc5NC11czFhZG1pbllUZ3daREJqT1RRdFpUTmtZUzAwWTJGaExUZzNNelV0WlRGaE9USmxZelJpWXpnMg==")
+_UPSTASH_URL = os.getenv("UPSTASH_VECTOR_REST_URL")
+_UPSTASH_TOKEN = os.getenv("UPSTASH_VECTOR_REST_TOKEN")
+if not _UPSTASH_URL or not _UPSTASH_TOKEN:
+    raise RuntimeError(
+        "UPSTASH_VECTOR_REST_URL and UPSTASH_VECTOR_REST_TOKEN must be set in the environment"
+    )
+index = Index(url=_UPSTASH_URL, token=_UPSTASH_TOKEN)
 
 
 def generate_vector_id(prefix: str = "vec") -> str:

@@ -2,8 +2,7 @@
 
 
 import { organizeNodeLayout } from "../layouts/organizeNodeLayout"
-import { xata } from "@db/xata"
-import { askXataWithAi } from "@db/xata/api"
+import { readById, searchTable } from "@db/postgres"
 
 
 
@@ -12,6 +11,7 @@ import { getEnhancedNodeData } from "@/features/ai/actions/actions"
 import type { Node, Edge } from '@xyflow/react'
 type AskParams = {
 	question: string
+	prompt?: string
 	rules?: string
 	table?: string
 }
@@ -42,9 +42,9 @@ export const fetchRecords = async ( recordIds: string[], table: string ) => {
 					const timeoutId = setTimeout(() => controller.abort(), 10000) // 10 second timeout
 					
 					try {
-						const result = await xata.db[table].read( recordId )
+						const result = await readById( table, recordId )
 						clearTimeout(timeoutId)
-						return result?.toSerializable() || null
+						return result || null
 					} finally {
 						clearTimeout(timeoutId)
 					}
@@ -95,10 +95,15 @@ export const askAIAction = async ( { question, rules, table }: AskParams ) => {
 		return response
 	} catch ( error ) {
 		console.error( "Error in askAIAction:", error )
-		// Fallback to direct Xata if Prometheus fails
-		console.log( "⚠️ Falling back to direct Xata query" )
-		const dbResponse = await askXataWithAi( { question, table, rules } )
-		return JSON.parse( JSON.stringify( dbResponse ) )
+		// Fallback to direct Postgres FTS if Prometheus fails
+		console.log( "⚠️ Falling back to direct Postgres search" )
+		const records = await searchTable( table || 'events', question, 12 )
+		return {
+			answer: '',
+			sessionId: undefined,
+			records,
+			reasoning: undefined,
+		}
 	}
 }
 
@@ -546,11 +551,6 @@ export const xataToXYFlow = async ( {
 			throw new Error( 'xataToXYFlow: Invalid table parameter' )
 		}
 
-		// Validate table exists in Xata client
-		if ( !xata.db[table] ) {
-			throw new Error( `xataToXYFlow: Table '${table}' does not exist in database` )
-		}
-
 		if ( !sourceNode || !sourceNode.id ) {
 			throw new Error( 'xataToXYFlow: Invalid sourceNode parameter' )
 		}
@@ -607,21 +607,20 @@ export const xataToXYFlow = async ( {
 				records: enhancedData.records // Full records with all data
 			}
 		} catch ( aiError ) {
-			console.error( "❌ Prometheus AI failed, falling back to direct Xata:", aiError )
-			// Fallback to direct Xata query
-			response = await askXataWithAi( {
-				question,
-				table,
-				rules: validRules,
-				sessionId
-			} )
+			console.error( "❌ Prometheus AI failed, falling back to direct Postgres search:", aiError )
+			// Fallback to direct Postgres FTS query
+			response = {
+				answer: '',
+				sessionId,
+				records: await searchTable( table, question, 12 ),
+			}
 		}
 
 		if ( !response ) {
-			throw new Error( 'xataToXYFlow: No response from askXataWithAi' )
+			throw new Error( 'xataToXYFlow: No response from AI search' )
 		}
 
-		console.log( "✅ askXataWithAi response received" )
+		console.log( "✅ AI search response received" )
 		console.log( "📊 Response analysis:", {
 			hasAnswer: !!response.answer,
 			answerLength: response.answer?.length || 0,
@@ -675,12 +674,6 @@ export const xataToXYFlow = async ( {
 		console.log( "🚀 ~ edges:", edges )
 		console.log( "🚀 ~ nodes:", nodes )
 
-		// To use with EventSource, we need to provide a callback system
-		const streamingUrl = sessionId
-			? `/api/sse/xata/ask/${sessionId}`
-			: "/api/sse/xata/ask"
-
-		// Return an object with methods to start streaming and handle events
 		return {
 			nodes,
 			edges,
@@ -702,55 +695,6 @@ export const xataToXYFlow = async ( {
 				records: [],
 				sessionId: sessionId || '',
 			},
-		}
-	}
-}
-
-// Server action that initiates a streaming query and returns the first chunk
-// This is intended for components that can't directly use EventSource
-export async function initiateStreamingQuery( {
-	question,
-	table,
-	rules,
-}: {
-	question: string
-	table: string
-	rules?: string | string[] // Allow both string and string array
-} ) {
-	try {
-		// Convert rules to array if it's a string
-		const rulesArray = rules ? ( Array.isArray( rules ) ? rules : [rules] ) : []
-
-		// Make a request to our API route
-		const response = await fetch(
-			`${process.env.NEXT_PUBLIC_APP_URL || ""}/api/sse/xata/ask`,
-			{
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify( {
-					question,
-					table,
-					rules: rulesArray,
-				} ),
-			},
-		)
-
-		if ( !response.ok ) {
-			throw new Error( "Failed to initiate streaming query" )
-		}
-
-		// Return the initial response
-		return {
-			success: true,
-			streamUrl: "/api/sse/xata/ask",
-		}
-	} catch ( error ) {
-		console.error( "Error initiating streaming query:", error )
-		return {
-			success: false,
-			error: error instanceof Error ? error.message : "Unknown error",
 		}
 	}
 }

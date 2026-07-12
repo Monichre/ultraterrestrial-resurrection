@@ -1,0 +1,651 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+  /* Base variables for all posters */
+  --paper: #e9e7e2;
+  --paper-shadow: #cfcac1;
+  --ink: #151515;
+  --graphite: #2a2a2a;
+  --mid: #6e6b66;
+  --burn-1: #e56b3f;
+  --burn-2: #ffcf77;
+  --noise-opacity: 0.25;
+  --fold-core: rgba(0, 0, 0, 0.28);
+  --fold-glow: rgba(255, 255, 255, 0.65);
+  --hair: rgba(0, 0, 0, 0.55);
+  --ledger: rgba(0, 0, 0, 0.75);
+  --page-w: 768px;
+  --page-h: 1152px;
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.145 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.145 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.985 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.396 0.141 25.723);
+  --destructive-foreground: oklch(0.637 0.237 25.331);
+  --border: oklch(0.269 0 0);
+  --input: oklch(0.269 0 0);
+  --ring: oklch(0.439 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(0.269 0 0);
+  --sidebar-ring: oklch(0.439 0 0);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Custom styles for the UFO report component */
+.document-texture {
+  background-color: #ffffff;
+  background-image: repeating-linear-gradient(45deg, transparent, transparent 2px, #f3f4f6 2px, #f3f4f6 4px);
+}
+
+.noise-pattern {
+  /* A subtle noise pattern using SVG */
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noise)"/></svg>');
+}
+
+@keyframes glow {
+  0%,
+  100% {
+    box-shadow: 0 0 5px 2px rgba(253, 230, 138, 0.3), 0 0 10px 5px rgba(251, 191, 36, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 15px 8px rgba(253, 230, 138, 0.5), 0 0 25px 15px rgba(251, 191, 36, 0.4);
+  }
+}
+
+.glow-effect {
+  animation: glow 4s ease-in-out infinite;
+}
+
+/* Font utility classes */
+.font-special-elite {
+  font-family: var(--font-special-elite);
+}
+
+.font-anton {
+  font-family: var(--font-anton);
+}
+
+.font-caveat {
+  font-family: var(--font-caveat);
+}
+
+.font-pp-neue-montreal {
+  font-family: var(--font-pp-neue-montreal);
+}
+
+.font-space-grotesk {
+  font-family: var(--font-space-grotesk);
+}
+
+.font-league-spartan {
+  font-family: var(--font-league-spartan);
+}
+
+.font-lukas-sans {
+  font-family: var(--font-lukas-sans);
+}
+
+.font-neue-haas-grotesk {
+  font-family: var(--font-neue-haas);
+}
+
+.font-monument-grotesk-mono {
+  font-family: var(--font-monument-mono);
+}
+
+.font-monument-grotesk {
+  font-family: var(--font-monument);
+}
+
+/* Additional Font utility classes */
+.font-just-another-hand {
+  font-family: var(--font-just-another-hand);
+}
+
+.font-jetbrains-mono {
+  font-family: var(--font-jetbrains-mono);
+}
+
+.font-martian-mono {
+  font-family: var(--font-martian-mono);
+}
+
+.font-noto-sans {
+  font-family: var(--font-noto-sans);
+}
+
+.font-space-grotesk {
+  font-family: var(--font-space-grotesk);
+}
+
+.font-league-spartan {
+  font-family: var(--font-league-spartan);
+}
+
+.font-lukas-sans {
+  font-family: var(--font-lukas-sans);
+}
+
+.font-neue-haas-grotesk {
+  font-family: var(--font-neue-haas);
+}
+
+.font-monument-grotesk-mono {
+  font-family: var(--font-monument-mono);
+}
+
+.font-monument-grotesk {
+  font-family: var(--font-monument);
+}
+
+/* UFO Document Specific Animations */
+@keyframes shimmer {
+  0% {
+    background-position-y: 0px;
+  }
+  100% {
+    background-position-y: 2px;
+  }
+}
+
+/* Photo Caption Styles */
+.caption {
+  @apply absolute bg-white/90 backdrop-blur-sm border border-black/20 p-2 rounded-sm shadow-lg;
+  font-family: var(--font-special-elite, monospace);
+}
+
+.caption .label {
+  @apply block text-xs font-bold uppercase tracking-wider text-black/80 mb-1;
+}
+
+.caption .note {
+  @apply text-sm text-black/70 leading-relaxed;
+}
+
+.caption .scribble {
+  font-family: var(--font-caveat, cursive);
+  @apply text-base italic;
+}
+
+/* Weathered Document Styles */
+@layer components {
+  .weathered-document {
+    position: relative;
+    filter: contrast(0.95) brightness(0.98);
+  }
+
+  .weathered-document::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 20% 30%, rgba(139, 69, 19, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(160, 82, 45, 0.08) 0%, transparent 40%),
+      radial-gradient(circle at 60% 20%, rgba(205, 133, 63, 0.06) 0%, transparent 35%),
+      radial-gradient(circle at 30% 80%, rgba(222, 184, 135, 0.05) 0%, transparent 45%);
+    pointer-events: none;
+    border-radius: inherit;
+  }
+
+  .weathered-document::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        45deg,
+        transparent 48%,
+        rgba(139, 69, 19, 0.03) 49%,
+        rgba(139, 69, 19, 0.03) 51%,
+        transparent 52%
+      ),
+      linear-gradient(
+        -45deg,
+        transparent 48%,
+        rgba(160, 82, 45, 0.02) 49%,
+        rgba(160, 82, 45, 0.02) 51%,
+        transparent 52%
+      );
+    pointer-events: none;
+    border-radius: inherit;
+  }
+
+  .weathered-photo {
+    position: relative;
+    filter: sepia(0.2) contrast(0.9) brightness(0.95);
+  }
+
+  .weathered-photo::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 10% 10%, rgba(139, 69, 19, 0.15) 0%, transparent 30%),
+      radial-gradient(circle at 90% 90%, rgba(160, 82, 45, 0.12) 0%, transparent 25%);
+    pointer-events: none;
+    border-radius: inherit;
+  }
+}
+
+/* Vintage Poster Utilities */
+@layer utilities {
+  .paper-bg {
+    background: var(--paper);
+    position: relative;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.04);
+  }
+  .paper-texture::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(ellipse at 30% 20%, rgba(0, 0, 0, 0.06) 0px, transparent 280px),
+      radial-gradient(ellipse at 70% 80%, rgba(0, 0, 0, 0.05) 0px, transparent 320px),
+      repeating-linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0.03) 0px,
+        rgba(0, 0, 0, 0.03) 1px,
+        transparent 2px,
+        transparent 6px
+      ),
+      url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="4" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity="0.08"/></svg>');
+    mix-blend-mode: multiply;
+    opacity: var(--noise-opacity);
+  }
+  .fold-mid::after {
+    content: "";
+    position: absolute;
+    left: calc(50% - 1px);
+    top: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(
+      180deg,
+      transparent 0px,
+      var(--fold-core) 560px,
+      var(--fold-core) 592px,
+      transparent 1152px
+    );
+    box-shadow: 0 0 8px var(--fold-glow);
+    opacity: 0.85;
+    pointer-events: none;
+  }
+  .fold-hoz::before {
+    content: "";
+    position: absolute;
+    top: calc(50% - 1px);
+    left: 0;
+    height: 2px;
+    width: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent 0px,
+      var(--fold-core) 380px,
+      var(--fold-core) 412px,
+      transparent 768px
+    );
+    box-shadow: 0 0 8px var(--fold-glow);
+    opacity: 0.8;
+    pointer-events: none;
+  }
+  .vignette::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.22) 100%);
+    mix-blend-mode: multiply;
+  }
+  .ledger-line {
+    border-top: 2px solid var(--ledger);
+    opacity: 0.45;
+  }
+  .hairline {
+    border-top: 1px solid var(--hair);
+    opacity: 0.6;
+  }
+  .crosshair-x,
+  .crosshair-y {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.35);
+  }
+  .crosshair-x {
+    left: 0;
+    right: 0;
+    height: 2px;
+    top: 50%;
+    transform: translateY(-1px);
+  }
+  .crosshair-y {
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    left: 50%;
+    transform: translateX(-1px);
+  }
+  .stamp {
+    display: inline-block;
+    padding: 2px 6px;
+    background: #c9c6bf;
+    color: #111;
+    text-transform: uppercase;
+    font-family: var(
+      --font-mono,
+      ui-monospace,
+      SFMono-Regular,
+      Menlo,
+      Monaco,
+      Consolas,
+      "Liberation Mono",
+      "Courier New",
+      monospace
+    );
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+  .grain {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.15;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120"><filter id="f"><feTurbulence type="fractalNoise" baseFrequency="1.2" numOctaves="2" seed="3"/></filter><rect width="100%" height="100%" filter="url(%23f)" opacity="0.7"/></svg>');
+    mix-blend-mode: multiply;
+  }
+  .scanlines {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.3;
+    background: repeating-linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.45) 0px,
+      rgba(0, 0, 0, 0.45) 1px,
+      transparent 4px,
+      transparent 6px
+    );
+    mix-blend-mode: multiply;
+  }
+}
+
+/* Page wrapper */
+.poster {
+  width: var(--page-w);
+  height: var(--page-h);
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+  background: var(--paper);
+  animation: paperFadeIn 600ms ease-out both;
+  perspective: 800px;
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
+}
+
+.poster:hover {
+  transform: translateY(-6px);
+}
+
+/* Typography tokens */
+.h-title {
+  font-family: "Impact", "Anton", system-ui;
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 0.95;
+}
+.h-title--xl {
+  font-size: 48px;
+  letter-spacing: -2px;
+}
+.h-title--lg {
+  font-size: 44px;
+  letter-spacing: -1px;
+}
+.label {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--graphite);
+  opacity: 0.85;
+}
+.mono {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  color: var(--graphite);
+}
+.mono-sm {
+  font-size: 10px;
+  line-height: 12px;
+}
+.mono-md {
+  font-size: 12px;
+  line-height: 14px;
+}
+.mono-lg {
+  font-size: 16px;
+  line-height: 18px;
+}
+
+/* Image blocks */
+.hero-photo {
+  position: absolute;
+  object-fit: cover;
+  filter: contrast(1.05) saturate(0.6) brightness(0.92);
+}
+.inset-photo {
+  position: absolute;
+  width: 140px;
+  height: 84px;
+  filter: grayscale(1) contrast(1.2);
+}
+
+/* Circular technical graphic (Poster A) */
+.circle-micro {
+  position: absolute;
+  width: 480px;
+  height: 480px;
+  border-radius: 9999px;
+  background: radial-gradient(circle at center, transparent 120px, rgba(0, 0, 0, 0.35) 121px, transparent 122px),
+    repeating-radial-gradient(
+      circle at center,
+      rgba(0, 0, 0, 0.85) 0px,
+      rgba(0, 0, 0, 0.85) 0.5px,
+      transparent 1px,
+      transparent 3px
+    );
+  opacity: 0.85;
+  mix-blend-mode: multiply;
+}
+
+/* Beam (Poster C) */
+.beam {
+  position: absolute;
+  left: calc(50% - 90px);
+  top: 520px;
+  width: 180px;
+  height: 420px;
+  background: linear-gradient(
+      180deg,
+      rgba(245, 210, 160, 0.25) 0px,
+      rgba(245, 210, 160, 0.15) 180px,
+      rgba(245, 210, 160, 0.0) 420px
+    ),
+    repeating-linear-gradient(180deg, rgba(0, 0, 0, 0.4) 0px, rgba(0, 0, 0, 0.4) 1px, transparent 3px, transparent 4px);
+  filter: blur(0.6px);
+  mix-blend-mode: screen;
+}
+
+/* Border (Poster D) */
+.frame-border {
+  position: absolute;
+  inset: 12px;
+  box-shadow: 0 0 0 16px rgba(21, 21, 21, 0.7) inset, 0 0 0 1px rgba(0, 0, 0, 0.3) inset;
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+/* Stamps / Numerics */
+.big-stamp {
+  font-family: var(--font-mono, monospace);
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #111;
+  animation: stampIn 280ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+/* Animations */
+@keyframes paperFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes stampIn {
+  from {
+    transform: translateY(-6px) scale(0.98) rotate(-1deg);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+@keyframes scanlineDrift {
+  from {
+    background-position-y: 0px;
+  }
+  to {
+    background-position-y: 6px;
+  }
+}
+.scanlines {
+  animation: scanlineDrift 6000ms linear infinite;
+}
+
+/* Responsive scaling: constrain by width, preserve ratio */
+@media (max-width: 820px) {
+  :root {
+    --page-w: 92vw;
+    --page-h: calc(92vw * 1.5);
+  }
+}
+
+/* UFO Document Specific Responsive adjustments */
+@media (max-width: 767px) {
+  .poster {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 2 / 3;
+  }
+
+  .poster .bg-scanlines {
+    background-size: 100% 2px !important;
+  }
+}

@@ -35,7 +35,7 @@ except Exception as exc:  # pragma: no cover
     )
 
 DEFAULT_OUT = Path(
-    "/Users/liamellis/Desktop/01_ACTIVE/ultraterrestrial-resurrection/apps/disclosure-rag/data/government/pursue_war_gov"
+    "/Users/liamellis/Desktop/ACTIVE/ultraterrestrial-resurrection/apps/disclosure-rag/data/government/pursue_war_gov"
 )
 
 PURSUE_URL = "https://www.war.gov/ufo/"

@@ -10,18 +10,12 @@ from agno.models.openai import OpenAIChat
 from agno.storage.sqlite import SqliteStorage
 from openai import OpenAI
 
-# Import research prompt
-import sys
-from pathlib import Path
-
-# Add packages/prompts to path
-packages_path = Path(__file__).parent.parent.parent.parent / "packages" / "prompts"
-sys.path.insert(0, str(packages_path))
-
-from research_prompt import research_prompt
+from lib.prompt_loader import get_prompt
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
+
+research_prompt = get_prompt("disclosure.research")
 
 
 class ContentAnalysisAgent:

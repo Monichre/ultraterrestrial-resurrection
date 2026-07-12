@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Xata replacement map</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 960px; margin: 2rem auto; padding: 0 1rem; line-height: 1.5; }
+    h1 { font-size: 1.5rem; border-bottom: 2px solid #2563eb; padding-bottom: 0.5rem; }
+    h2 { font-size: 1.15rem; margin-top: 1.5rem; }
+    .diagram { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem; margin: 1rem 0; overflow-x: auto; font-size: 0.85rem; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    th, td { border: 1px solid #e2e8f0; padding: 0.5rem 0.75rem; text-align: left; }
+    th { background: #f1f5f9; }
+    code { background: #f1f5f9; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.85em; }
+  </style>
+</head>
+<body>
+  <h1>Xata replacement map (conceptual)</h1>
+  <p>Every production path that touches Xata should be classified before migration. Generated types and SDK calls are the contract surface.</p>
+  <h2>Call sites (representative)</h2>
+  <div class="diagram">
+<pre>
+packages/db
+  askXata / searchXata / askXataWithAi
+  searchXataWithAi (AI SDK)
+  xata-to-xyflow.ts (hydrateGraphFromXata)
+  xata-typescript-sdk/api/ask.ts, search.ts
+apps/app
+  searchDatabase tool → askXata
+  mindmap graph hydration
+  packages/ai (if any direct xata usage)
+</pre>
+  </div>
+  <h2>Replacement strategies</h2>
+  <table>
+    <thead><tr><th>Strategy</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Strangler / adapter</td><td>Keep Xata behind interface; swap implementation per call site</td></tr>
+      <tr><td>Postgres + pgvector</td><td>Align with disclosure-rag vector path</td></tr>
+      <tr><td>Generated types</td><td>Regenerate from new schema; version API routes</td></tr>
+    </tbody>
+  </table>
+  <h2>Consumers</h2>
+  <div class="diagram">
+<pre>
+Mindmap agent (searchDatabase)
+Disclosure RAG (if Xata used in search path)
+Any future feature using askXata / searchXata
+</pre>
+  </div>
+</body>
+</html>

@@ -5,10 +5,13 @@ Quick verification of PostgreSQL database tables
 
 import asyncio
 import asyncpg
+import os
 import ssl
 
 async def quick_verify():
-    postgres_url = "postgresql://kgubvq:xau_T2uckroqht3tNd7pL3uETsxM0EC5WSNd1@us-east-1.sql.xata.sh/ultraterrestrial-postgres:main?sslmode=require"
+    postgres_url = os.getenv('DATABASE_URL')
+    if not postgres_url:
+        raise RuntimeError("DATABASE_URL environment variable must be set")
     
     ssl_context = ssl.create_default_context()
     ssl_context.check_hostname = False

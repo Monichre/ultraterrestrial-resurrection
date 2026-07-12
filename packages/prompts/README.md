@@ -1,54 +1,58 @@
 # Cross-language Prompt Registry (YAML)
 
-This directory provides a shared, YAML-based prompt registry that can be consumed from both TypeScript/Node and Python.
+Shared prompt corpus for the Ultraterrestrial monorepo. Consumed by **disclosure-rag** (Python) and **apps/app** (TypeScript via `@repo/prompts`).
 
 ## Structure
 
-- `templates/` — YAML prompt files (one per prompt)
-- `schemas/` — JSON Schemas that define expected model outputs
-- `index.yaml` — Catalog of available prompts with metadata
+- `registry.yaml` — **canonical catalog** (source of truth)
+- `sets/disclosure/` — versioned UFO/UAP prompts (`*.v1.yaml`)
+- `templates/` — general-purpose prompt templates
+- `schemas/` — JSON Schemas for structured model outputs
+- `yaml_loader.py` / `yaml-loader.ts` — cross-language loaders with alias support
+- `scripts/promptctl.ts` — CLI: `list | validate | render | bump`
 
-## YAML Template Format
+## Registry IDs
 
-Common fields:
-- `id`: unique identifier (also the filename stem)
-- `version`: semver string
-- `description`: short description
-- `owner`: owning team or person
-- `tags`: discovery metadata
-- `schema_ref`: path to JSON Schema (relative to `prompts/`) or null
-- `runtime`: defaults for `max_tokens`, `temperature`, etc.
-- `variables`: array of `{ name, type, required }`
-- `prompt`: multi-line string with `{{variable}}` placeholders
+| ID | Aliases | File |
+|----|---------|------|
+| `disclosure.ner` | `enhanced_ner`, `ner` | `sets/disclosure/ner.v1.yaml` |
+| `disclosure.content_analysis` | `content_analysis`, `specialized_analysis` | `sets/disclosure/specialized-analysis.v1.yaml` |
+| `disclosure.research` | `research` | `sets/disclosure/research.v1.yaml` |
+| `disclosure.enhanced_research` | `enhanced_research` | `sets/disclosure/enhanced-research.v1.yaml` |
 
 ## Environment
 
-Both loaders support an optional `PROMPTS_DIR` env var to override the location of this folder.
-If not set, they attempt to resolve `prompts/` relative to the repository root.
+Set `PROMPTS_DIR` to override the default `packages/prompts` location.
 
-## TypeScript Usage (server-side)
+## TypeScript (`@repo/prompts`)
 
-1) Install dependency: `npm i yaml` (or `pnpm add yaml`)
-2) Use the loader in `apps/app/src/services/ai/prompts/yaml-loader.ts`
+```typescript
+import { loadPromptSync } from '@repo/prompts/yaml-loader'
 
-Example:
+const { prompt } = loadPromptSync('disclosure.ner', { context_hint: 'Roswell 1947' })
+```
 
-- Load `enhanced_ner`:
-  - Rendered prompt string
-  - Attached JSON Schema (if any)
+## Python (disclosure-rag)
 
-## Python Usage
+```python
+from lib.prompt_loader import get_prompt
 
-1) Install dependency: `pip install pyyaml`
-2) Use the loader in `apps/disclosure-rag/research/prompts/yaml_loader.py`
+research_prompt = get_prompt("disclosure.research")
+ner_prompt = get_prompt("disclosure.ner")
+```
 
-Example:
+Legacy `.py` shim files (`research_prompt.py`, etc.) re-export from the YAML registry for backward compatibility.
 
-- Load `content_analysis` with variables
-  - Rendered prompt string
-  - Attached JSON Schema (if any)
+## CLI
+
+```bash
+bun run prompts:validate   # from repo root
+bun run prompts:list
+cd packages/prompts && bun run render disclosure.ner context_hint="Roswell 1947"
+```
 
 ## Notes
 
-- Keep templates compact; move any long procedural logic into code, not the prompt text.
-- Use JSON Schema to enforce structured outputs and simplify downstream parsing.
+- Keep templates compact; push procedural logic into code.
+- Attach JSON Schema via `schema_ref` for structured outputs.
+- `config.yaml` expects `OPENROUTER_API_KEY` in the environment (never commit secrets).

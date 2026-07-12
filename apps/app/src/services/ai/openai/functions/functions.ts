@@ -7,7 +7,7 @@ import { openai } from '@/lib/openai/client'
 import { PROMETHEUS_ASSISTANT_ID, INSTRUCTIONS } from '@/services/ai/openai/config'
 import { askHow, formatRelatedItems, parseApiResponse } from '@/services/ai/openai/helpers'
 import { assistantEventHandler } from '@/services/ai/openai/stream-handler'
-import { searchDatabase } from '@/services/ai/openai/tools/search-database'
+import { searchDatabase } from '@db/postgres'
 import { traceable } from 'langsmith/traceable'
 
 

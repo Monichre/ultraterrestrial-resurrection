@@ -1,0 +1,299 @@
+# .understandignore — patterns for files/dirs to exclude from analysis
+# Syntax: same as .gitignore (globs, # comments, ! negation, trailing / for dirs)
+# Lines below are suggestions — uncomment to activate.
+# Use ! prefix to force-include something excluded by defaults.
+#
+# Built-in defaults (always excluded unless negated):
+#   node_modules/, .git/, dist/, build/, obj/, *.lock, *.min.js, etc.
+#
+
+# --- From .gitignore (uncomment to exclude) ---
+
+# .DS_Store
+# *.swp
+# .env
+# .env.*
+# !.env.example
+# .history
+# .tmp
+# .temp
+# thumbs.db
+# *.bak
+# *.tar.gz
+# .mcp.json
+# .claude/worktrees/
+# npm-debug.log*
+# yarn-debug.log*
+# yarn-error.log*
+# .pnpm-debug.log*
+# .yarn-integrity
+# .npm
+# *.tgz
+# tasks/
+# *.tsbuildinfo
+# /cli/dist/
+# /cli/coverage/
+# /cli/.nyc_output/
+# /application/.next/
+# /application/out/
+# /application/build/
+# /application/coverage/
+# /application/.vercel/
+# /application/next-env.d.ts
+# /application/.env
+# /application/.env.*
+# !application/.env.example
+# /application/.turbo
+# /agent-ui/front-end/node_modules/
+# /agent-ui/front-end/dist/
+# /agent-ui/front-end/build/
+# /agent-ui/front-end/coverage/
+# /agent-ui/front-end/.env
+# /agent-ui/front-end/.env.*
+# !agent-ui/front-end/.env.example
+# /agent-ui/back-end/node_modules/
+# /agent-ui/back-end/dist/
+# /agent-ui/back-end/build/
+# /agent-ui/back-end/coverage/
+# /agent-ui/back-end/.env
+# /agent-ui/back-end/.env.*
+# !agent-ui/back-end/.env.example
+# /docs/.vitepress/dist/
+# /docs/.vitepress/cache/
+# /data/
+# *.code-workspace
+# *.sublime-*
+# .project
+# .classpath
+# .settings/
+# *.suo
+# *.ntvs*
+# *.njsproj
+# *.sln
+# .cursorignore
+# /coverage/
+# .nyc_output/
+# .jest/
+# .AppleDouble
+# .LSOverride
+# Icon
+# ._*
+# .DocumentRevisions-V100
+# .fseventsd
+# .Spotlight-V100
+# .TemporaryItems
+# .Trashes
+# .VolumeIcon.icns
+# Thumbs.db
+# ehthumbs.db
+# Desktop.ini
+# $RECYCLE.BIN/
+# bun.lockb
+# .output/
+# .nuxt/
+# .debug/
+# .eslintcache
+# .stylelintcache
+# .netlify
+# *.db
+# *.sqlite
+# *.sqlite3
+# *.sql.gz
+# *.dump
+# *.dmp
+# *.7z
+# *.rar
+# *.iso
+# *.img
+# *.dmg
+# *.exe
+# *.bin
+# *.onnx
+# *.pt
+# *.pth
+# *.h5
+# *.hdf5
+# *.pkl
+# *.pickle
+# *.joblib
+# *.model
+# *.weights
+# *.mlmodel
+# *.tfrecord
+# *.avi
+# *.mov
+# *.wmv
+# *.flv
+# *.webm
+# *.psd
+# *.ai
+# *.docx
+# *.xlsx
+# *.pptx
+# *.wav
+# *.flac
+# *.ogg
+# *.aac
+# *.csv
+# *.tsv
+# *.parquet
+# *.arrow
+# *.feather
+# *.avro
+# *.json
+# !package.json
+# !package-lock.json
+# !apps/app/components.json
+# !vercel.json
+# !**/tsconfig.json
+# !**/tsconfig.*.json
+# packages/knowledge-base/vector-store-files/
+# packages/knowledge-base/vector_storage/
+# *.bin
+# scene.bin
+# /docs/generated/
+# /docs/api/
+# /docs/build/
+# .ipynb_checkpoints/
+# *.ipynb
+# /runs/
+# /mlruns/
+# /wandb/
+# /lightning_logs/
+# /ray_results/
+# /checkpoints/
+# *.log.*
+# logs/
+# analytics/
+# traces/
+# metrics/
+# *.heapsnapshot
+# *.py[cod]
+# *.so
+# .sass-cache/
+# .parcel-cache/
+# ENV/
+# .specstory/.what-is-this.md
+# .specstory/.project.json
+# .specstory/ai_rules_backups/*
+# checkmate/
+# .checkmate
+# .checkmate-telemetry/
+# logs
+# dev-debug.log
+# *.sw?
+# tasks.json
+# .cursor/rules/todo2-overview.mdc
+# .cursor/rules/todo2.mdc
+# .cursor/mcp.json
+# .todo2/
+# .cursor/rules/openmemory.mdc
+# CLAUDE.md
+# AGENTS.md
+# .superpowers/
+# .live-session/
+
+# --- Detected directories (uncomment to exclude) ---
+
+# docs/
+
+# --- Test file patterns (uncomment to exclude) ---
+
+# JS / TS
+# *.test.*
+# *.spec.*
+# *.snap
+# C# / .NET
+# **/*Tests.cs
+# **/*Test.cs
+# **/*Fixture.cs
+# **/*.Tests.csproj
+# Java / Kotlin
+# **/src/test/**
+# **/*Test.java
+# **/*IT.java
+# **/*Spec.kt
+# Go
+# **/*_test.go
+
+# --- Active scope for this run (2026-06-20) ---
+# Analyze only the requested project domains:
+# - apps/app
+# - apps/disclosure-rag
+# - packages/knowledge-base
+# - packages/db
+*
+!README.md
+!package.json
+!turbo.json
+!tsconfig.json
+!AGENTS.md
+!CLAUDE.md
+!.understand-anything/
+!.understand-anything/**
+!apps/
+!apps/app/
+!apps/app/**
+!apps/disclosure-rag/
+!apps/disclosure-rag/**
+!packages/
+!packages/knowledge-base/
+!packages/knowledge-base/**
+!packages/db/
+!packages/db/**
+
+# Keep generated, vendored, cache, and heavy corpus artifacts out of the graph.
+node_modules/
+**/node_modules/
+.next/
+**/.next/
+dist/
+**/dist/
+build/
+**/build/
+coverage/
+**/coverage/
+.turbo/
+**/.turbo/
+.venv/
+**/.venv/
+__pycache__/
+**/__pycache__/
+.pytest_cache/
+**/.pytest_cache/
+*.py[cod]
+*.log
+*.lock
+*.sqlite
+*.sqlite3
+*.db
+*.bin
+*.parquet
+*.arrow
+*.feather
+*.avro
+*.onnx
+*.pt
+*.pth
+*.h5
+*.hdf5
+*.pkl
+*.pickle
+*.joblib
+*.model
+*.weights
+*.mlmodel
+*.tfrecord
+*.pdf
+*.docx
+*.xlsx
+*.pptx
+*.zip
+*.tar
+*.tar.gz
+*.7z
+*.rar
+apps/app/.storybook/storybook-static/
+packages/knowledge-base/vector-store-files/
+packages/knowledge-base/vector_storage/
+packages/knowledge-base/sources/files/

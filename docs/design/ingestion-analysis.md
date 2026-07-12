@@ -1,7 +1,42 @@
 # Disclosure-RAG Ingestion Pipeline Analysis
 
-**Date:** 2026-05-30  
+**Date:** 2026-05-30 · **Firsthand verification added 2026-06-01**
 **Purpose:** Ground-truth audit of `apps/disclosure-rag` ingestion to inform our owned TypeScript pipeline (extract → chunk → embed → pgvector).
+
+> **Canvas:** a visual reality-map of these findings lives at
+> `docs/design/canvas/2026-05-31-system-trace/ingestion-reality-map.html`.
+
+---
+
+## 0. Firsthand verification (Claude, 2026-06-01)
+
+The sections below (2026-05-30) were produced by a scout subagent. On 2026-06-01 the
+load-bearing files were re-read directly. The scout was substantially correct; this section
+records what firsthand reading **confirmed, corrected, and newly found** — and is the
+authoritative summary. **What "ingestion" actually is, ranked by reality:**
+
+| Tier | Path | Reality |
+|---|---|---|
+| ✅ **Live** | `lib/knowledge_base_service.py` → `lib/openai_client/upload.py::upload_file_to_openai()` | The **only** path that reaches the live OpenAI vector store. `client.files.create(purpose="assistants")` + **top-level** `client.vector_stores.files.create(...)` (current SDK — confirms the store persists independent of Assistants-API deprecation). **Per-URL, manual, YouTube/web only**, gated on `upload=True` (default `False`). Store chunks + embeds **server-side**. No automated bulk ingest exists — the live 1,292 files were fed one URL at a time via the now-dead `main.py` CLI family. |
+| 🟡 **Disconnected** | `index_knowledge_base.py` | Builds a local `metadata/index.json` **filename catalog**; PDF "content" is literally `"PDF Document: {name}"` (no extraction). No embeddings, no store, no DB. |
+| 🔴 **Ghost (non-runnable)** | `scripts/bulk_folder_ingestion.py` | Has the **good** PDF/docx/text extractors (PyMuPDF / PyPDF2 / python-docx), but line 40 imports `integrations.triple_rag_integration.TripleRAGIntegration` — a module that **exists nowhere** (`lib/integrations/` absent; class defined nowhere) → **ImportError on run**. The Greer-library bulk pipeline never executed. *Salvage the extractor methods only.* |
+| 🔴 **Myth (half-built, broken)** | `lib/adapters/dual_rag_adapter.py` | Docstring claims "Quinuple RAG (OpenAI + Xata + Upstash + FAISS + CocoIndex)" but the class wires only **3** (Upstash + LocalRAG/FAISS + CocoIndex/pgvector) — **no OpenAI store, no Xata**. `get_status()` and `index_document(use_system="cocoindex")` reference attributes never set in `__init__` (`self.cocoindex_enabled`, `self.cocoindex_client`, `COCOINDEX_AVAILABLE`, `self.cocoindex_weight`) → **AttributeError**. A half-finished `cocoindex → enhanced_cocoindex` rename left it broken. |
+
+**Corrections to the scout / earlier notes**
+- **Chunking is OUR design choice, not inherited.** `upload.py::chunk_text` (500/50) and `generate_embeddings` are **vestigial and broken** (`response['data'][0]…` is pre-1.0 SDK dict syntax → `TypeError`; `process_and_upload_document` references an undefined `file_path` → `NameError`). They are **not** on the live path. The live store uses OpenAI's **server-side default** chunking. So neither the 500/50 here nor the 1500/200 in the agent config governs the live store — our pipeline picks its own (1500/200 recursive remains the plan).
+- The "Triple/Quinuple RAG" naming across the repo describes systems that are **dead or never ran**. Do **not** port them.
+
+🚨 **SECURITY — new finding, needs action**
+A **live Upstash REST token is hardcoded as a default fallback** in three files:
+`lib/sync_to_upstash.py`, `lib/adapters/dual_rag_adapter.py:56-57`, `lib/upstash/vector.py`.
+Unlike the inert `xau_` Xata key, **Upstash may still be live** → anyone with the repo can
+read/write that vector index. **Rotate the token and scrub it from source + git history;**
+replace with a required `os.environ[...]` lookup (no literal fallback).
+
+**Net for the rebuild:** disclosure-rag contributes (1) the entity-extraction schema/prompt
+(see §below), (2) salvageable PDF/docx extractors in `bulk_folder_ingestion.py`, and (3) the
+thin OpenAI-upload wrapper as a *reference* for our pgvector ingest. Everything else labeled
+"RAG pipeline" is dead, disconnected, or a myth.
 
 ---
 
