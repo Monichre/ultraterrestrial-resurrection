@@ -32,15 +32,23 @@ _PACKAGES_DB_ENV = (
 
 
 def _read_url_from_env_file(env_path: Path) -> str | None:
-    """Pull DATABASE_URL out of a dotenv file without mutating os.environ."""
+    """Pull DATABASE_URL out of a dotenv file without mutating os.environ.
+
+    Uses python-dotenv's parser so `export DATABASE_URL=...`, quoted values,
+    and inline comments all behave the way the shell would treat them.
+    """
     if not env_path.is_file():
         return None
-    for line in env_path.read_text().splitlines():
-        line = line.strip()
-        if line.startswith("DATABASE_URL="):
-            value = line.split("=", 1)[1].strip().strip("'\"")
-            return value or None
-    return None
+    from dotenv import dotenv_values
+    return dotenv_values(env_path).get("DATABASE_URL") or None
+
+
+def _host_of(url: str) -> str:
+    """Best-effort host extraction for log messages - never logs credentials."""
+    try:
+        return url.split("@", 1)[1].split("/", 1)[0]
+    except IndexError:
+        return "<unparseable>"
 
 
 def get_database_url() -> str:
@@ -55,7 +63,14 @@ def get_database_url() -> str:
 
     url = _read_url_from_env_file(_PACKAGES_DB_ENV)
     if url:
-        logger.info("DATABASE_URL not in environment; using packages/db/.env")
+        # Loud on purpose: this fallback silently retargets code that may
+        # previously have pointed at localhost onto the SHARED Neon database.
+        logger.warning(
+            "DATABASE_URL not in environment - falling back to "
+            "packages/db/.env (host: %s). This is the LIVE shared database; "
+            "source apps/disclosure-rag/.env if you intended a different "
+            "target.", _host_of(url)
+        )
         return url
 
     raise RuntimeError(
@@ -65,11 +80,16 @@ def get_database_url() -> str:
     )
 
 
-def connect(autocommit: bool = False):
+def connect(autocommit: bool = False, read_only: bool = False):
     """Open a psycopg (v3) connection to the shared database.
 
     Returned connection is a context manager; use `with connect() as conn:`
     so transactions commit/rollback deterministically.
+
+    Pass read_only=True for stats/inspection callers - it marks the psycopg
+    session read-only so an accidental write raises instead of mutating the
+    shared database. (Set via the connection attribute, not a startup
+    `options` parameter - Neon's pooled endpoints reject startup options.)
     """
     try:
         import psycopg
@@ -77,4 +97,7 @@ def connect(autocommit: bool = False):
         raise RuntimeError(
             'psycopg not installed. Run: pip install "psycopg[binary]"'
         ) from e
-    return psycopg.connect(get_database_url(), autocommit=autocommit)
+    conn = psycopg.connect(get_database_url(), autocommit=autocommit)
+    if read_only:
+        conn.read_only = True
+    return conn
