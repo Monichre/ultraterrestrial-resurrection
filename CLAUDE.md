@@ -363,3 +363,17 @@ For platform-specific configurations, see:
 - `docs/agents/` - Platform-specific agent configurations that reference AGENTS.md
 - `docs/agents/claude-code.md` - Claude Code specific instructions
 - `docs/agents/AGENT_ONBOARDING_CHECKLIST.md` - Mandatory validation checklist
+
+## Agent skills
+
+### Issue tracker
+
+Issues live as markdown files under `.scratch/<feature>/` in this repo (local-markdown convention). See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Five canonical labels used as-is: needs-triage, needs-info, ready-for-agent, ready-for-human, wontfix. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Multi-context — root `CONTEXT-MAP.md` points to per-context `CONTEXT.md` files. See `docs/agents/domain.md`.

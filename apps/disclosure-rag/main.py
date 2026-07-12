@@ -11,7 +11,6 @@ Usage (same as before):
 """
 
 from lib.knowledge_base_crud import KnowledgeBaseCRUD
-from lib.upstash.queue import add_processed_content_to_queue
 
 from processing.web_content_processor import WebContentProcessor
 from lib.openai_client.upload import upload_file_to_openai
@@ -66,6 +65,20 @@ try:
 except ImportError as e:
     COCOINDEX_KG_AVAILABLE = False
     logger.warning(f"CocoIndex knowledge graph integration not available: {e}")
+
+# Import Upstash queue (fails at import time if UPSTASH_VECTOR_REST_URL/TOKEN
+# are unset) - guard it so --status and non-upload runs still work without
+# Upstash configured.
+try:
+    from lib.upstash.queue import add_processed_content_to_queue
+    UPSTASH_QUEUE_AVAILABLE = True
+except (ImportError, RuntimeError) as e:
+    UPSTASH_QUEUE_AVAILABLE = False
+    logger.warning(f"Upstash queue not available: {e}")
+
+    def add_processed_content_to_queue(*args, **kwargs):
+        logger.warning("Skipping Upstash queue - not configured")
+        return None
 
 # Initialize processors
 web_processor = WebContentProcessor()
@@ -208,9 +221,26 @@ def process_file(file_path: str, upload: bool = False, add_to_kb: bool = True) -
         return None
 
     try:
-        # Read file content
-        with open(file_path, 'r', encoding='utf-8') as f:
-            content = f.read()
+        # Read file content - PDFs need text extraction, everything else is
+        # read as text (main.py's docstring advertises PDF support, but this
+        # used to unconditionally open() in text mode, which raises
+        # UnicodeDecodeError on any real PDF).
+        if file_path.lower().endswith('.pdf'):
+            from PyPDF2 import PdfReader
+            reader = PdfReader(file_path)
+            content = "\n\n".join(
+                page.extract_text() or "" for page in reader.pages)
+            if not content.strip():
+                logger.error(f"No extractable text in PDF: {file_path}")
+                return None
+        else:
+            try:
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    content = f.read()
+            except UnicodeDecodeError:
+                logger.error(
+                    f"File is not valid UTF-8 text and not a .pdf: {file_path}")
+                return None
 
         # Extract title from filename
         title = Path(file_path).stem.replace(
@@ -383,10 +413,15 @@ def process_file(file_path: str, upload: bool = False, add_to_kb: bool = True) -
                     # Don't fail the entire process if CocoIndex processing fails
 
             # Move successfully processed files from processing_queue to files
-            if doc_id and file_path.startswith('/Users/liamellis/Desktop/ultraterrestrial-resurrection/apps/disclosure-rag/data/processing_queue/'):
+            processing_queue_dir = (
+                Path(__file__).parent / "data" / "processing_queue").resolve()
+            if doc_id and Path(file_path).resolve().is_relative_to(processing_queue_dir):
                 try:
                     import shutil
-                    files_dir = '/Users/liamellis/Desktop/ultraterrestrial-resurrection/packages/knowledge-base/sources/files/'
+                    files_dir = str(
+                        Path(__file__).parent.parent.parent
+                        / "packages" / "knowledge-base" / "sources" / "files"
+                    )
 
                     # Create files directory if it doesn't exist
                     os.makedirs(files_dir, exist_ok=True)

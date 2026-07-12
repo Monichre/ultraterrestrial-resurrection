@@ -41,7 +41,8 @@ class KnowledgeBase:
             self.kb_path = Path(kb_path)
 
         # Update paths to use sources/ directory structure
-        self.sources_path = self.kb_path / "sources"  
+        self.sources_path = self.kb_path / "sources"
+        self.files_path = self.sources_path / "files"
         self.transcripts_path = self.sources_path / "transcripts"
         self.vector_store = None
 
