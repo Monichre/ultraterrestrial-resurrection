@@ -1,6 +1,6 @@
 import { openai } from '@/lib/openai/client'
 import { PROMETHEUS_ASSISTANT_ID, PROMETHEUS_VECTOR_STORE_ID } from '@/services/ai/openai/config'
-import { searchDatabase } from '@/services/ai/openai/tools/search-database'
+import { searchDatabase } from '@db/postgres'
 import { createSSEBridge, sseHeaders } from '@/services/ai/openai/sse'
 
 export const maxDuration = 30

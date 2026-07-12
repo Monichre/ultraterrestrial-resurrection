@@ -1,9 +1,11 @@
 # Disclosure RAG – Prompt Inventory
 
-**Last Updated:** July 13, 2025 11:43 AM UTC  
-**Current Content:** Complete prompt file inventory with actual content
+**Last Updated:** June 25th 2026  
+**Canonical location:** [`packages/prompts/`](../) with YAML registry in [`registry.yaml`](../registry.yaml)
 
-This document provides a comprehensive inventory of **every prompt, prompt file, and prompt configuration** found in the [`apps/disclosure-rag/prompts/`](../apps/disclosure-rag/prompts/) directory. It includes all explicit prompt strings, prompt files, prompt templates, and configuration mappings for agent prompts.
+> **Note:** Prompts were migrated from `apps/disclosure-rag/prompts/` to `packages/prompts/` (September 2025). Runtime prompts load via `registry.yaml` and `@repo/prompts`.
+
+This document inventories prompt files in **`packages/prompts/`**. Legacy paths under `apps/disclosure-rag/prompts/` are empty/removed.
 
 ---
 

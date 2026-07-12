@@ -19,7 +19,9 @@ class XataExporter:
         self.source_database = "ultraterrestrial" 
         self.source_branch = "main"
         self.source_region = "us-east-1"
-        self.source_api_key = os.getenv('XATA_API_KEY', 'xau_LKJxzxjzXasEUXxjmhCBACdTCvi5Ed2v1')
+        self.source_api_key = os.getenv('XATA_API_KEY')
+        if not self.source_api_key:
+            raise RuntimeError("XATA_API_KEY environment variable must be set")
         
         # Paths
         self.project_root = Path(__file__).parent

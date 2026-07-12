@@ -8,7 +8,7 @@ import {
 import * as THREE from 'three'
 import { useModelNodes } from './useModelNodes'
 
-import { TopicPersonnelAndEventGraphDataPayload } from '@db'
+import type { NetworkGraphPayload as TopicPersonnelAndEventGraphDataPayload } from '@db/postgres'
 import {
   Image,
   Text

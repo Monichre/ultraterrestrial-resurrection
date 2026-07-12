@@ -22,15 +22,19 @@ class XataPostgresMigration:
         self.source_database = "ultraterrestrial"
         self.source_branch = "main"
         self.source_region = "us-east-1"
-        self.source_api_key = os.getenv('XATA_API_KEY', 'xau_LKJxzxjzXasEUXxjmhCBACdTCvi5Ed2v1')
-        
+        self.source_api_key = os.getenv('XATA_API_KEY')
+        if not self.source_api_key:
+            raise RuntimeError("XATA_API_KEY environment variable must be set")
+
         # Target (New PostgreSQL Wire Instance)
         self.target_workspace = "UltraTerrestrial-kgubvq"
         self.target_database = "ultraterrestrial-postgres"
         self.target_branch = "main"
         self.target_region = "us-east-1"
-        self.target_api_key = "xau_T2uckroqht3tNd7pL3uETsxM0EC5WSNd1"
-        self.target_pg_url = "postgresql://kgubvq:xau_T2uckroqht3tNd7pL3uETsxM0EC5WSNd1@us-east-1.sql.xata.sh/ultraterrestrial-postgres:main?sslmode=require"
+        self.target_api_key = os.getenv('XATA_TARGET_API_KEY')
+        self.target_pg_url = os.getenv('DATABASE_URL')
+        if not self.target_pg_url:
+            raise RuntimeError("DATABASE_URL environment variable must be set")
         
         # Paths
         self.project_root = Path(__file__).parent

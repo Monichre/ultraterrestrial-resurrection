@@ -5,11 +5,14 @@ Test single record insert to verify connection and table structure
 
 import asyncio
 import asyncpg
+import os
 import ssl
 from datetime import datetime
 
 async def test_insert():
-    postgres_url = "postgresql://kgubvq:xau_T2uckroqht3tNd7pL3uETsxM0EC5WSNd1@us-east-1.sql.xata.sh/ultraterrestrial-postgres:main?sslmode=require"
+    postgres_url = os.getenv('DATABASE_URL')
+    if not postgres_url:
+        raise RuntimeError("DATABASE_URL environment variable must be set")
     
     print(f"🧪 Testing single record insert")
     print(f"📅 {datetime.now().isoformat()}")

@@ -306,6 +306,46 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Files:** `apps/app/src/lib/ai/model-fallback.ts`, `apps/app/src/app/api/prometheus/chat/route.ts`, `apps/app/src/app/api/disclosure/mindmap/route.ts`, `apps/app/src/features/mindmap/actions/enrich-hypothesis.ts`
 - **Reference:** `docs/plans/2026-07-07-llm-enriched-hypothesis.md`
 
+### T-038: Design language & domain vocabulary canonicalization
+- **Status:** PHASE 1 DONE — 2026-07-09 (delegated supervisor: Fable). Four identity artifacts + audit drafted in new `docs/vision/`; open items below.
+- **Size:** remaining S-M
+- **Done (2026-07-09):** Extensive review of the Brand Bible package (`docs/design/brand-bible/` — moved into repo from Desktop) + vision docs + shipped Phase 0/1 code. Created: `docs/vision/2026-07-09-canonicalization-audit.md` (overlap audit + placement ruling), `RESEARCH_NARRATIVE_RUBRIC.md` (judging checklist: 2 governing questions, 7 hard gates, 16 scored criteria), `UX_LANGUAGE_GUIDE.md` (reserved words, 8-term adopted vocabulary, badge grammar, interaction copy rules), `AGENT_ARCHITECTURE_BRIEF.md` (5 investigative roles — Archivist/Analyst/Skeptic/Mythographer/Cartographer — mapped honestly to the 2 live AI paths; no orchestrator claimed), `IMPLEMENTATION_SPEC.md` (identity→code map with gap list).
+- **Audit finding:** only `RESEARCH_CANVAS_AESTHETIC.md` is byte-identical between the package's Design Canon and `apps/app/src/components/design-system/`; the other four Canon files are NEWER (carry the 04_DESIGN_REVIEW_NOTES corrections) — repo copies are stale.
+- **Remaining:**
+  - User decision: extend `PRODUCT.md` ~5 lines with Brand Bible Core Rule + Final Direction (Product Manifesto verdict: extend-in-place, don't draft new — audit §2).
+  - User decision: extract shared voice-core prompt module (Fable System Prompt verdict: canonicalize by extraction from `enrich-hypothesis.ts`/`synthesize-investigation.ts`, not new prose — audit §3).
+  - Sync 4 corrected Design Canon files over `apps/app/src/components/design-system/`.
+  - Mine the Figma-Make prototype (`docs/design/reference-prototype/`) via a cannibalization audit in the mold of `2026-06-20-ufo-ui-cannibalization-audit.md`.
+  - Four Figma files pending Figma MCP access (Document Library, Visual Archaeology Timeline, UN-DEFECTTAL Poster, Ultraterrestrial Design Lab).
+  - UI terminology sweep per `docs/vision/UX_LANGUAGE_GUIDE.md` §2/§5.
+- **Files:** `docs/vision/*`, `docs/plans/2026-07-08-memory-first-vision-*.md`, `docs/design/brand-bible/`
+- **Reference:** `docs/vision/2026-07-09-canonicalization-audit.md`
+
+### T-039: Documentation cleanup & simplification (all docs)
+- **Status:** OPEN — 2026-07-09
+- **Size:** M-L
+- **What:** Repo-wide pass to simplify and de-duplicate documentation before Linear (T-040) takes over task tracking. Candidates found so far: stale `docs/agents/AGENT_ONBOARDING_CHECKLIST.md` (still references retired Xata-era file paths); confirm `docs/plans/` vs `docs/PLANS/` is a macOS case-insensitive filesystem alias, not a real duplicate (verified 2026-07-09: same inode — no action needed, just don't let an agent copy content between them believing they're distinct); general docs/ sprawl audit.
+- **Why:** User wants task tracking to feel "completely invisible" — that only works once the docs it's built on are simplified and non-duplicated.
+- **Depends on:** none; blocks T-040 in spirit (do the cleanup before wiring Linear so tickets map to a clean doc set).
+
+### T-040: Linear integration for task tracking
+- **Status:** OPEN — 2026-07-09
+- **Size:** M
+- **What:** Replace/augment the docs/plans three-tier system with Linear so ticket tracking stops requiring manual doc edits. Scope TBD with user: which tier(s) move to Linear (likely TODO.md tickets → Linear issues; FEATURES.md may stay as strategic doc; DAILY_WORK_PLAN.md may be replaced by Linear cycles/views).
+- **Why:** User's own words: "integrate Linear so that task tracking just seems completely fucking invisible to me right now."
+- **Depends on:** T-039 (docs cleanup) should land first so migration maps cleanly.
+
+### T-041: Roundtable UX/UI review
+- **Status:** OPEN — 2026-07-09
+- **What:** Multi-perspective review of UX/UI covering (a) the live application itself, (b) the conceptual/identity layer (`docs/vision/*`, `DESIGN.md`, `PRODUCT.md`), and (c) the ingested brainstorm material (`docs/design/brand-bible/`, `docs/design/reference-prototype/`).
+- **Why:** User wants a synthesis pass across code, concept, and reference material now that the canonicalization (T-038) and design-registers reframe (`docs/vision/DESIGN_REGISTERS.md`) exist to review against.
+- **Depends on:** T-038 remaining items should be resolved or at least visible before this review, since they're inputs to it.
+
+### T-042: Custom agent architecture brainstorm (parked — discussion, not yet scoped)
+- **Status:** OPEN — 2026-07-09
+- **What:** Explore what app-specific custom agents (memory, specialization, shared vs. independent context) would look like for Ultraterrestrial — local (`.claude/agents/*.md`, already has app-agent/db-agent/disclosure-rag-agent/knowledge-base-agent/research-ui-agent) vs. cloud-persistent (Claude Managed Agents / Claude API Managed Agents with a hosted sandbox). No decision made yet — this is a live discussion thread, not a committed direction.
+- **Depends on:** none directly; informs future automation of T-039/T-040/T-041 style reflection work.
+
 ---
 
 ## Follow-Up: T-016 Phase 2 (Discovered 2026-06-17)

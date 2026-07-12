@@ -14,6 +14,9 @@ interface ResearchCanvasConsoleProps {
   agentStatus?: 'idle' | 'streaming' | 'complete' | 'error'
   agentAnalysis?: string
   agentToolEvents?: AgentToolEvent[]
+  /** 'launchpad' shows the topic CardStack (empty-canvas affordance);
+   *  'compact' is input-only for a populated canvas where the stack is clutter */
+  variant?: 'launchpad' | 'compact'
 }
 
 interface EnhancedMessage {
@@ -49,6 +52,7 @@ export default function ResearchCanvasConsole({
   agentStatus,
   agentAnalysis,
   agentToolEvents,
+  variant = 'launchpad',
 }: ResearchCanvasConsoleProps) {
   const [input, setInput] = useState('')
   const [hasSubmitted, setHasSubmitted] = useState(false)
@@ -95,21 +99,35 @@ export default function ResearchCanvasConsole({
   // OR user submitted via keyboard (hasSubmitted)
   const showChat = showEnhancedChat || hasSubmitted
 
+  const isLaunchpad = variant === 'launchpad'
+
   return (
     <div className='w-full max-w-4xl text-white'>
-      <div className="relative flex min-h-[400px] w-full flex-col items-center justify-end pb-10">
-        <PinnedCard pinnedCard={pinnedCard} pinnedItem={pinnedItem} onUnpin={handleUnpinAndReset} />
+      <div
+        className={`relative flex w-full flex-col items-center justify-end ${
+          isLaunchpad ? 'min-h-[400px] pb-10' : 'min-h-0'
+        }`}
+      >
+        {isLaunchpad && (
+          <>
+            <PinnedCard
+              pinnedCard={pinnedCard}
+              pinnedItem={pinnedItem}
+              onUnpin={handleUnpinAndReset}
+            />
 
-        <CardStack
-          active={active}
-          showEnhancedChat={showChat}
-          pinnedCard={pinnedCard}
-          animationState={animationState}
-          isHovering={isHovering}
-          onHoverStart={() => setIsHovering(true)}
-          onHoverEnd={() => setIsHovering(false)}
-          onCardClick={handleCardClick}
-        />
+            <CardStack
+              active={active}
+              showEnhancedChat={showChat}
+              pinnedCard={pinnedCard}
+              animationState={animationState}
+              isHovering={isHovering}
+              onHoverStart={() => setIsHovering(true)}
+              onHoverEnd={() => setIsHovering(false)}
+              onCardClick={handleCardClick}
+            />
+          </>
+        )}
 
         <div className="relative z-10 flex w-full justify-center">
           {showChat ? (

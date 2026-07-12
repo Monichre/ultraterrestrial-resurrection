@@ -16,8 +16,10 @@ from datetime import datetime
 
 class DataImporter:
     def __init__(self):
-        # PostgreSQL wire-enabled connection string
-        self.postgres_url = "postgresql://kgubvq:xau_T2uckroqht3tNd7pL3uETsxM0EC5WSNd1@us-east-1.sql.xata.sh/ultraterrestrial-postgres:main?sslmode=require"
+        # PostgreSQL connection string from environment
+        self.postgres_url = os.getenv("DATABASE_URL")
+        if not self.postgres_url:
+            raise RuntimeError("DATABASE_URL environment variable must be set")
         self.exports_path = Path("/Users/liamellis/Desktop/ultraterrestrial-resurrection/apps/app/scripts/xata-exports/exports")
         
         print(f"🛸 PostgreSQL Data Import")
