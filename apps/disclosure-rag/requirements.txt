@@ -54,3 +54,6 @@ langchain-ollama
 
 # OneNode.ai integration (optional)
 onenode
+# Shared Neon Postgres client (issue #154) - same driver pattern as
+# packages/db/scripts/rebuild/db_ops.py
+psycopg[binary]
