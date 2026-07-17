@@ -10,8 +10,6 @@ Usage (same as before):
   python main_enhanced.py /path/to/document.pdf --upload
 """
 
-from lib.knowledge_base_crud import KnowledgeBaseCRUD
-
 from processing.web_content_processor import WebContentProcessor
 from lib.openai_client.upload import upload_file_to_openai
 from lib.knowledge_base_service import (
@@ -82,7 +80,6 @@ except (ImportError, RuntimeError) as e:
 
 # Initialize processors
 web_processor = WebContentProcessor()
-kb_crud = KnowledgeBaseCRUD()
 
 
 def is_youtube_url(url: str) -> bool:
@@ -129,12 +126,12 @@ def process_url(url: str, upload: bool = False, add_to_kb: bool = True) -> Optio
     if is_youtube_url(url):
         # Use enhanced YouTube processing
         processing_steps.append("YouTube transcript extraction")
-        result = process_youtube_url_enhanced(url, upload)
+        result = process_youtube_url_enhanced(url, upload, add_to_kb)
         content_type = "youtube_video"
     else:
         # Use enhanced web processing
         processing_steps.append("Web content extraction")
-        result = process_web_url_enhanced(url, upload)
+        result = process_web_url_enhanced(url, upload, add_to_kb)
         content_type = "web_article"
 
     # Add mem0 integration for web articles (YouTube already has it in generate_transcript)
@@ -152,8 +149,13 @@ def process_url(url: str, upload: bool = False, add_to_kb: bool = True) -> Optio
         except Exception as e:
             logger.warning(f"Mem0 web article memory skipped: {e}")
 
-    # Add CocoIndex knowledge graph processing if result has doc_id
-    if result and result.get('doc_id') and add_to_kb:
+    # Add CocoIndex knowledge graph processing if result has doc_id.
+    # process_web_with_enhanced_workflow() already runs CocoIndex internally
+    # (knowledge_base_service.py:~735-785); triggering it again here for web
+    # results ran a second, global `cocoindex update` on every web ingestion.
+    # The YouTube workflow has no internal CocoIndex step, so it still needs
+    # this pass.
+    if result and result.get('doc_id') and add_to_kb and is_youtube_url(url):
         try:
             from lib.terminal_display import display
             display.print_stage("🕸️ KNOWLEDGE GRAPH", "🕸️")
@@ -317,8 +319,12 @@ def process_file(file_path: str, upload: bool = False, add_to_kb: bool = True) -
                     display.print_stage("🧠 ENTITY PROCESSING", "🧠")
                     processing_steps.append("Entity extraction")
 
-                    # Create summary file in the files directory (mirrors YouTube workflow)
-                    doc_info = kb_crud.get_document(doc_id)
+                    # Create summary file in the files directory (mirrors YouTube workflow).
+                    # Read through kb_service's own KnowledgeBaseCRUD instance -
+                    # a second, separately-constructed instance here loaded its
+                    # in-memory index before this document was written and
+                    # would never see it (doc_info always None for new docs).
+                    doc_info = kb_service.kb_crud.get_document(doc_id)
                     if doc_info:
                         doc_dir = Path(doc_info.metadata.get(
                             'file_path', '')).parent
