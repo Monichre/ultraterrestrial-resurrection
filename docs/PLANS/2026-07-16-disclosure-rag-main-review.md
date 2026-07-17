@@ -11,18 +11,26 @@
 
 ---
 
+## Fix status (2026-07-16, commit `aefc21b`)
+
+C1, C2, C3, and H1 are fixed — see the CRITICAL and H1 sections below for details. Verified: `tests/test_postgres_client.py` still 8/8, `main.py --help` imports cleanly without Upstash configured, and the C1 repro case (`main.py <url> --no-kb` with no Upstash) no longer dies at import time.
+
+H2, H3, H4, H5, H6, H7, and all MEDIUM findings are still open — see `docs/plans/TODO.md` T-045 for the tracked backlog. The file still has no dedicated regression test suite (M2), so this is a partial clearance, not a merge-ready verdict; re-review before treating `main.py` as the base for the playlist harvester.
+
+---
+
 ## Executive summary
 
 The two hardening commits improve PDF extraction, remove stale absolute paths, and make `--help` and `--status` import successfully without Upstash. Those fixes are real but incomplete.
 
 The entry point still violates its advertised contract in several load-bearing ways:
 
-1. Non-upload YouTube and web processing still fails when Upstash is unavailable because the enhanced service methods re-import the queue outside `main.py`'s guard.
-2. `--no-kb` is ignored for URL processing; both enhanced URL workflows write to the local knowledge base unconditionally.
-3. Local-file entity extraction reads from a second, stale `KnowledgeBaseCRUD` instance rather than the instance that performed the write.
-4. Web knowledge-graph processing runs twice by default.
-5. Queue relocation can overwrite an existing source file and leaves persisted provenance pointing to the pre-move path.
-6. CLI status and success output overstate what actually succeeded.
+1. ~~Non-upload YouTube and web processing still fails when Upstash is unavailable because the enhanced service methods re-import the queue outside `main.py`'s guard.~~ **FIXED** (`aefc21b`)
+2. ~~`--no-kb` is ignored for URL processing; both enhanced URL workflows write to the local knowledge base unconditionally.~~ **FIXED** (`aefc21b`)
+3. ~~Local-file entity extraction reads from a second, stale `KnowledgeBaseCRUD` instance rather than the instance that performed the write.~~ **FIXED** (`aefc21b`)
+4. ~~Web knowledge-graph processing runs twice by default.~~ **FIXED** (`aefc21b`)
+5. Queue relocation can overwrite an existing source file and leaves persisted provenance pointing to the pre-move path. — still open (H2/H3)
+6. CLI status and success output overstate what actually succeeded. — still open (H5/H7)
 
 The current file should not become the core of the planned playlist harvester without first separating extraction, validation, persistence, vectorization, graph construction, and optional integrations into explicit stages with typed outcomes.
 
@@ -61,7 +69,7 @@ This review also cross-checked:
 
 ### CRITICAL
 
-#### C1. The Upstash import guard does not protect actual URL ingestion
+#### C1. The Upstash import guard does not protect actual URL ingestion — **FIXED** (`aefc21b`)
 
 **Locations**
 
@@ -94,7 +102,7 @@ Inject one optional queue adapter into the service, or centralize queue acquisit
 
 ---
 
-#### C2. `--no-kb` is ignored for YouTube and web URLs
+#### C2. `--no-kb` is ignored for YouTube and web URLs — **FIXED** (`aefc21b`)
 
 **Locations**
 
@@ -123,7 +131,7 @@ Add an explicit options object or keyword-only stage controls to both enhanced w
 
 ---
 
-#### C3. Local-file entity processing reads a stale CRUD index
+#### C3. Local-file entity processing reads a stale CRUD index — **FIXED** (`aefc21b`)
 
 **Locations**
 
@@ -155,7 +163,7 @@ Use one service-owned repository instance throughout. Prefer having the write op
 
 ### HIGH
 
-#### H1. Web knowledge-graph processing runs twice
+#### H1. Web knowledge-graph processing runs twice — **FIXED** (`aefc21b`)
 
 **Locations**
 

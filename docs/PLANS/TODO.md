@@ -357,6 +357,21 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Why:** Completes the multi-context domain model. Skills like `domain-modeling`, `to-tickets`, and `qa` read from these during implementation.
 - **Reference:** `CONTEXT-MAP.md`, `CONTEXT.md`, `docs/agents/domain.md`
 
+### T-044: Fix CRITICAL findings from disclosure-rag/main.py contract review
+- **Status:** DONE — 2026-07-16 (commit `aefc21b`)
+- **What:** Resolved C1 (Upstash import guard didn't cover actual URL ingestion), C2 (`--no-kb` ignored for YouTube/web URLs), C3 (entity processing read a stale second `KnowledgeBaseCRUD` instance), and H1 (web ingestion ran CocoIndex twice).
+- **Why:** `docs/PLANS/2026-07-16-disclosure-rag-main-review.md` gave `main.py` a FAIL verdict; these four were the load-bearing correctness bugs blocking merge.
+- **Verified:** `tests/test_postgres_client.py` 8/8, `main.py --help` imports cleanly without Upstash, C1 repro case no longer crashes at import time.
+- **Reference:** `docs/PLANS/2026-07-16-disclosure-rag-main-review.md` (fix status annotated inline)
+
+### T-045: Remaining HIGH/MEDIUM findings from disclosure-rag/main.py review
+- **Status:** OPEN
+- **Size:** M (review lists concrete fix directions per item; no design work needed)
+- **What:** H2 (queue relocation can overwrite an existing file), H3 (relocation leaves persisted provenance stale), H4 (extracted PDF temp files never deleted), H5 (`--status` overstates CocoIndex readiness), H6 (substring-based YouTube URL detection accepts hostile URLs), H7 (completion output doesn't reflect real per-stage success/failure), M1 (eager heavy imports before arg parsing), M2 (no `main.py` regression tests), M3 (broad exception handling collapses distinct failures to `None`), M4 (no file size/type/resource limits on ingestion).
+- **Why:** Review verdict is still FAIL pending these; T-044 only cleared the three CRITICAL blockers plus H1.
+- **Depends on:** none blocking; M2 (tests) is worth doing first since it would catch regressions in the rest of this list.
+- **Reference:** `docs/PLANS/2026-07-16-disclosure-rag-main-review.md`
+
 ---
 
 ## Follow-Up: T-016 Phase 2 (Discovered 2026-06-17)
