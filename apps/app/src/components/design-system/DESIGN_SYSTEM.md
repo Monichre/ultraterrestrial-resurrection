@@ -472,3 +472,22 @@ Specialized document presentation components for UAP/UFO research materials.
   }
 }
 ```
+
+## Scope & Motion Guardrails
+
+* Full-screen collage styles (`100vw`/`100vh` containers) are reserved for hero scenes, case covers, and launch visuals — never mixed into standard document cards.
+* Fire, glitch, and portal effects are **opt-in variants**, not defaults.
+* All infinite animations above must respect user motion preferences:
+
+```css
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+```

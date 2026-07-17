@@ -2,7 +2,7 @@
 
 # 2025-11-26 05:08:28Z
 
-<!-- Cursor IDE Session 7b0b3096-1adf-42d5-a144-a72b6236a8ba (2025-11-26 05:08:28Z) -->
+<!-- Cursor IDE Session 96c14211-fc97-4e8e-8921-05957be944ac (2025-11-26 05:08:28Z) -->
 
 _**User (2025-11-26 01:03:33Z)**_
 
@@ -40,20 +40,20 @@ User cancelled questionnaire
 
 ---
 
-_**User (2025-11-26 01:41:05Z)**_
+_**User (2025-11-26 01:41:08Z)**_
 
 proceed
 
 ---
 
-_**Agent (claude-4.5-opus-high-thinking 2025-11-26 01:41:05Z)**_
+_**Agent (claude-4.5-opus-high-thinking 2025-11-26 01:41:08Z)**_
 
-I'll explore the codebase to understand the current structure, data models, and existing components before creating a plan.
+I'll explore the codebase to understand the current structure, data models, and UI components before creating a plan.
 
 _**Agent (claude-4.5-opus-high-thinking)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file">
-<details><summary>Tool use: **read_file** • Read file: /Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/apps/app/src/app/(site)/sightings/page.tsx</summary>
+<details><summary>Tool use: **read_file** • Read file: /Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/app/(site)/sightings/page.tsx</summary>
 
 </details>
 </tool-use>
@@ -75,7 +75,7 @@ Parameters:
 ```json
 {
   "shouldEnrichTerminalMetadata": true,
-  "targetDirectory": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/apps/app/src/features/sightings"
+  "targetDirectory": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/features/sightings"
 }
 ```
 Result:
@@ -83,10 +83,10 @@ Result:
 ```json
 {
   "directoryTreeRoot": {
-    "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/apps/app/src/features/sightings",
+    "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/features/sightings",
     "childrenDirs": [
       {
-        "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/apps/app/src/features/sightings/actions",
+        "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/features/sightings/actions",
         "childrenFiles": [
           {
             "name": "fetch-time-series-data.ts"
@@ -95,10 +95,10 @@ Result:
         "childrenWereProcessed": true
       },
       {
-        "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/apps/app/src/features/sightings/components",
+        "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/features/sightings/components",
         "childrenDirs": [
           {
-            "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/apps/app/src/features/sightings/components/globe",
+            "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/features/sightings/components/globe",
             "childrenFiles": [
               {
                 "name": "Globe.tsx"
@@ -110,10 +110,10 @@ Result:
             "childrenWereProcessed": true
           },
           {
-            "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/apps/app/src/features/sightings/components/globes",
+            "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/features/sightings/components/globes",
             "childrenDirs": [
               {
-                "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/apps/app/src/features/sightings/components/globes/cobe-globes"
+                "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/features/sightings/components/globes/cobe-globes"
               }
             ],
             "childrenFiles": [
@@ -130,7 +130,7 @@ Result:
             "childrenWereProcessed": true
           },
           {
-            "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/apps/app/src/features/sightings/components/GridAnimation",
+            "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/features/sightings/components/GridAnimation",
             "childrenFiles": [
               {
                 "name": "GridAnimation.tsx"
@@ -142,7 +142,7 @@ Result:
             "childrenWereProcessed": true
           },
           {
-            "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/apps/app/src/features/sightings/components/hud-interface",
+            "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/features/sightings/components/hud-interface",
             "childrenFiles": [
               {
                 "name": "AnimatedHudInterface.tsx"
@@ -229,7 +229,7 @@ Result:
             "childrenWereProcessed": true
           },
           {
-            "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/apps/app/src/features/sightings/components/loaders",
+            "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/features/sightings/components/loaders",
             "childrenFiles": [
               {
                 "name": "index.tsx"
@@ -244,7 +244,7 @@ Result:
             "childrenWereProcessed": true
           },
           {
-            "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/apps/app/src/features/sightings/components/location-visualization",
+            "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/features/sightings/components/location-visualization",
             "childrenFiles": [
               {
                 "name": "index.tsx"
@@ -256,10 +256,10 @@ Result:
             "childrenWereProcessed": true
           },
           {
-            "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/apps/app/src/features/sightings/components/sightings-timeseries"
+            "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/features/sightings/components/sightings-timeseries"
           },
           {
-            "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/apps/app/src/features/sightings/components/ufo",
+            "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/features/sightings/components/ufo",
             "childrenFiles": [
               {
                 "name": "UFO.tsx"
@@ -309,10 +309,10 @@ Result:
         "childrenWereProcessed": true
       },
       {
-        "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/apps/app/src/features/sightings/globes",
+        "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/features/sightings/globes",
         "childrenDirs": [
           {
-            "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/apps/app/src/features/sightings/globes/codepen-viz",
+            "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/features/sightings/globes/codepen-viz",
             "childrenFiles": [
               {
                 "name": "codepen-earth-alt.tsx"
@@ -338,7 +338,7 @@ Result:
         "childrenWereProcessed": true
       },
       {
-        "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/apps/app/src/features/sightings/hooks",
+        "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/features/sightings/hooks",
         "childrenFiles": [
           {
             "name": "use-map-initialization.tsx"
@@ -356,13 +356,13 @@ Result:
         "childrenWereProcessed": true
       },
       {
-        "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/apps/app/src/features/sightings/uap-dashboard",
+        "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/features/sightings/uap-dashboard",
         "childrenDirs": [
           {
-            "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/apps/app/src/features/sightings/uap-dashboard/graph-paper-background"
+            "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/features/sightings/uap-dashboard/graph-paper-background"
           },
           {
-            "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/apps/app/src/features/sightings/uap-dashboard/hooks",
+            "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/features/sightings/uap-dashboard/hooks",
             "childrenFiles": [
               {
                 "name": "use-globe-focus.tsx"
@@ -371,10 +371,10 @@ Result:
             "childrenWereProcessed": true
           },
           {
-            "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/apps/app/src/features/sightings/uap-dashboard/space-hud"
+            "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/features/sightings/uap-dashboard/space-hud"
           },
           {
-            "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/apps/app/src/features/sightings/uap-dashboard/terminal"
+            "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/features/sightings/uap-dashboard/terminal"
           }
         ],
         "childrenFiles": [
@@ -457,7 +457,7 @@ Result:
         "childrenWereProcessed": true
       },
       {
-        "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/apps/app/src/features/sightings/utils",
+        "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/features/sightings/utils",
         "childrenFiles": [
           {
             "name": "location-analysis.ts"
@@ -475,7 +475,7 @@ Result:
         "childrenWereProcessed": true
       },
       {
-        "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/apps/app/src/features/sightings/world-map",
+        "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/features/sightings/world-map",
         "childrenFiles": [
           {
             "name": "world-map.tsx"
@@ -583,9 +583,9 @@ Parameters:
 
 ```json
 {
-  "explanation": "Find the main SightingsClient component to understand its current structure",
-  "includePattern": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/apps/app/src/features/sightings",
-  "query": "Where is the SightingsClient component defined and what does it render?",
+  "explanation": "Find the events database schema to understand what fields are available for filtering \"famous\" events",
+  "includePattern": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db",
+  "query": "What fields and properties does the events database table have?",
   "repositoryInfo": {
     "orthogonalTransformSeed": 8672480398045957,
     "preferredEmbeddingModel": "EMBEDDING_MODEL_UNSPECIFIED",
@@ -610,7 +610,7 @@ Status: **completed**
 _**Agent (claude-4.5-opus-high-thinking)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file">
-<details><summary>Tool use: **read_file** • Read file: /Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/apps/app/src/features/sightings/sightings.tsx</summary>
+<details><summary>Tool use: **read_file** • Read file: /Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/features/sightings/sightings.tsx</summary>
 
 </details>
 </tool-use>
@@ -619,251 +619,113 @@ _**Agent (claude-4.5-opus-high-thinking)**_
 <summary>Tool use: **read_file**</summary>
 
 </details></tool-use>
-
-_**Agent (claude-4.5-opus-high-thinking)**_
-
-<tool-use data-tool-type="read" data-tool-name="read_file">
-<details><summary>Tool use: **read_file** • Read file: /Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/apps/app/src/features/sightings/types.ts</summary>
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="read" data-tool-name="read_file"><details>
-<summary>Tool use: **read_file**</summary>
-
-</details></tool-use>
-
-_**Agent (claude-4.5-opus-high-thinking)**_
-
-<tool-use data-tool-type="read" data-tool-name="read_file">
-<details><summary>Tool use: **read_file** • Read file: /Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/apps/app/src/services/sightings/uap-sighting.ts</summary>
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="read" data-tool-name="read_file"><details>
-<summary>Tool use: **read_file**</summary>
-
-</details></tool-use>
-
-_**Agent (claude-4.5-opus-high-thinking)**_
-
-<tool-use data-tool-type="read" data-tool-name="read_file">
-<details><summary>Tool use: **read_file** • Read file: /Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/apps/app/src/features/sightings/uap-dashboard/HudUapInterface.tsx</summary>
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="read" data-tool-name="read_file"><details>
-<summary>Tool use: **read_file**</summary>
-
-</details></tool-use>
-
-_**Agent (claude-4.5-opus-high-thinking)**_
-
-<tool-use data-tool-type="unknown" data-tool-name="codebase_search">
-<details>
-<summary>Tool use: **codebase_search**</summary>
-
-
-Parameters:
-
-```json
-{
-  "explanation": "Find the events data fetching logic to understand the event schema",
-  "includePattern": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/apps/app/src/services/sightings",
-  "query": "How are events fetched from the database and what fields do they have?",
-  "repositoryInfo": {
-    "orthogonalTransformSeed": 8672480398045957,
-    "preferredEmbeddingModel": "EMBEDDING_MODEL_UNSPECIFIED",
-    "relativeWorkspacePath": ".",
-    "repoName": "16212adc-a102-4c1e-a60d-f9eb72a53099",
-    "repoOwner": "github|user_01HX9C6DK68HDNRQ5XC0GNBCD3"
-  },
-  "topK": 15
-}
-```
-Status: **completed**
-
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="unknown" data-tool-name="codebase_search"><details>
-<summary>Tool use: **codebase_search**</summary>
-
-</details></tool-use>
-
-_**Agent (claude-4.5-opus-high-thinking)**_
-
-<tool-use data-tool-type="read" data-tool-name="read_file">
-<details><summary>Tool use: **read_file** • Read file: /Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/apps/app/src/services/sightings/actions/events-time-chunk.ts</summary>
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="read" data-tool-name="read_file"><details>
-<summary>Tool use: **read_file**</summary>
-
-</details></tool-use>
-
-_**Agent (claude-4.5-opus-high-thinking)**_
-
-<tool-use data-tool-type="read" data-tool-name="read_file">
-<details><summary>Tool use: **read_file** • Read file: /Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/apps/app/src/services/sightings/actions/sightings-time-chunk.ts</summary>
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="read" data-tool-name="read_file"><details>
-<summary>Tool use: **read_file**</summary>
-
-</details></tool-use>
-
-_**Agent (claude-4.5-opus-high-thinking)**_
-
-<tool-use data-tool-type="read" data-tool-name="read_file">
-<details><summary>Tool use: **read_file** • Read file: /Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/apps/app/src/features/sightings/components/globes/threejs-globe.tsx</summary>
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="read" data-tool-name="read_file"><details>
-<summary>Tool use: **read_file**</summary>
-
-</details></tool-use>
-
-_**Agent (claude-4.5-opus-high-thinking)**_
-
-Now let me check the database schema for events to understand what fields are available and how to identify "famous" events:
 
 _**Agent (claude-4.5-opus-high-thinking)**_
 
 <tool-use data-tool-type="search" data-tool-name="grep">
 <details>
-<summary>Tool use: **grep** • Grep for "EventsRecord|events\s*=|famous|notable|significant" in "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db" • 116 matches</summary>
+<summary>Tool use: **grep** • Grep for "events.*schema|EventsRecord|interface.*Event" in "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db" • 95 matches</summary>
 
 Output mode: content
 
 
 | File | Content | Line |
 |------|------|------|
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/types/index.ts` | `EventsRecord,` | L50 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/types/index.ts` | `UserSavedEventsRecord,` | L62 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/types/index.ts` | `EventsRecord: EventsRecord;` | L370 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/types/comprehensive.ts` | `EventsRecord,` | L52 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/types/comprehensive.ts` | `UserSavedEventsRecord,` | L64 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/types/comprehensive.ts` | `getEventById: (id: string, columns?: string[]) => Promise<EventsRecord \| null>;` | L122 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/types/comprehensive.ts` | `getAllEvents: (options?: EventQueryOptions) => Promise<EventsRecord[]>;` | L123 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/types/comprehensive.ts` | `createEvent: (data: EventInput) => Promise<EventsRecord>;` | L125 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/types/comprehensive.ts` | `createManyEvents: (data: EventInput[]) => Promise<EventsRecord[]>;` | L126 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/types/comprehensive.ts` | `updateEvent: (id: string, data: Partial<EventInput>) => Promise<EventsRecord \| null>;` | L127 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/types/comprehensive.ts` | `searchEvents: (query: string, options?: EventSearchOptions) => Promise<EventsRecord[]>;` | L133 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/types/comprehensive.ts` | `semanticSearchEvents: (embedding: number[], options?: VectorSearchOptions) => Promise<EventsRecord[]>;` | L134 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/types/comprehensive.ts` | `getEventsByLocation: (latitude: number, longitude: number, radiusKm: number) => Promise<EventsRecord[]>;` | L135 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/types/comprehensive.ts` | `export type EventQueryOptions = QueryOptions<EventsRecord>;` | L305 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/types/comprehensive.ts` | `export interface PaginatedEventsResponse extends PaginatedResponse<EventsRecord> \{\}` | L313 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/types/comprehensive.ts` | `events: EventsRecord[];` | L442 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata_python_sdk/models/events.py` | `class EventsRecord(XataRecord):` | L15 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata_python_sdk/models/events.py` | `class EventsModel(BaseModelOperations[EventsRecord, EventInput, EventUpdateInput]):` | L75 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata_python_sdk/models/events.py` | `return EventsRecord` | L82 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata_python_sdk/models/events.py` | `async def get_by_title(self, title: str, columns: Optional[List[str]] = None) -> Optional[EventsRecord]:` | L97 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata_python_sdk/models/events.py` | `return EventsRecord(**records[0])` | L117 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata_python_sdk/models/events.py` | `) -> List[EventsRecord]:` | L135 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata_python_sdk/models/events.py` | `records = [EventsRecord(**record) for record in result.get("records", [])]` | L156 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata_python_sdk/models/events.py` | `async def create_event(client: XataClient, data: EventInput) -> EventsRecord:` | L244 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata_python_sdk/models/events.py` | `async def get_event_by_id(client: XataClient, id: str, columns: Optional[List[str]] = None) -> Optional[EventsRecord]:` | L250 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata_python_sdk/models/events.py` | `async def get_event_by_title(client: XataClient, title: str, columns: Optional[List[str]] = None) -> Optional[EventsRecord]:` | L256 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata_python_sdk/models/events.py` | `async def get_all_events(client: XataClient, **kwargs) -> List[EventsRecord]:` | L262 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata_python_sdk/models/events.py` | `async def update_event(client: XataClient, id: str, data: EventUpdateInput) -> Optional[EventsRecord]:` | L268 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata_python_sdk/models/events.py` | `async def search_events(client: XataClient, query: str, **kwargs) -> List[EventsRecord]:` | L280 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata_python_sdk/models/events.py` | `async def semantic_search_events(client: XataClient, embedding: List[float], **kwargs) -> List[EventsRecord]:` | L286 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata_python_sdk/models/events.py` | `async def get_events_by_location(client: XataClient, latitude: float, longitude: float, radius_km: float) -> List[EventsRecord]:` | L292 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata_python_sdk/models/__init__.py` | `EventsRecord,` | L18 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata_python_sdk/models/__init__.py` | `"EventsRecord",` | L43 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata_python_sdk/api/helpers.py` | `from ..models.events import EventsRecord` | L11 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata_python_sdk/__init__.py` | `"EventsRecord",` | L33 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata-typescript-sdk/xata.ts` | `export type Events = InferredTypes["events"];` | L422 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata-typescript-sdk/xata.ts` | `export type EventsRecord = Events & XataRecord;` | L423 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata-typescript-sdk/xata.ts` | `export type UserSavedEvents = InferredTypes["user-saved-events"];` | L464 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata-typescript-sdk/xata.ts` | `export type UserSavedEventsRecord = UserSavedEvents & XataRecord;` | L465 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata-typescript-sdk/xata.ts` | `events: EventsRecord;` | L509 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata-typescript-sdk/xata.ts` | `"user-saved-events": UserSavedEventsRecord;` | L521 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata-typescript-sdk/models/user-saved-items.ts` | `UserSavedEventsRecord,` | L3 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata-typescript-sdk/models/user-saved-items.ts` | `): Promise<UserSavedEventsRecord \| null> \{` | L27 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata-typescript-sdk/models/user-saved-items.ts` | `): Promise<UserSavedEventsRecord[]> \{` | L33 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata-typescript-sdk/models/user-saved-items.ts` | `): Promise<UserSavedEventsRecord> \{` | L41 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata-typescript-sdk/models/user-saved-items.ts` | `\}: UserSavedEventUpdateInput): Promise<UserSavedEventsRecord \| null> \{` | L48 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata-typescript-sdk/models/user-saved-items.ts` | `): Promise<UserSavedEventsRecord[]> \{` | L70 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata-typescript-sdk/models/user-saved-items.ts` | `return results.records as UserSavedEventsRecord[];` | L108 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata-typescript-sdk/models/user-saved-items.ts` | `events: UserSavedEventsRecord[];` | L793 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata-typescript-sdk/models/user-saved-items.ts` | `const events: UserSavedEventsRecord[] = [];` | L882 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata-typescript-sdk/models/user-saved-items.ts` | `events.push(record as UserSavedEventsRecord);` | L893 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata-typescript-sdk/models/locations.ts` | `"notable-events"?: string[];` | L14 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata-typescript-sdk/models/events.ts` | `import type \{ EventsRecord, Events \} from "../xata"` | L2 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata-typescript-sdk/models/events.ts` | `records: EventsRecord[]` | L27 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata-typescript-sdk/models/events.ts` | `): Promise<EventsRecord> \{` | L45 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata-typescript-sdk/models/events.ts` | `): Promise<EventsRecord[]> \{` | L82 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata-typescript-sdk/models/events.ts` | `): Promise<EventsRecord \| null> \{` | L132 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata-typescript-sdk/models/events.ts` | `): Promise<EventsRecord \| null> \{` | L169 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata-typescript-sdk/models/events.ts` | `\} ): Promise<EventsRecord[]> \{` | L210 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata-typescript-sdk/models/events.ts` | `return result.records as EventsRecord[]` | L230 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata-typescript-sdk/models/events.ts` | `return await query.getAll() as EventsRecord[]` | L233 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata-typescript-sdk/models/events.ts` | `records: result.records as EventsRecord[],` | L289 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata-typescript-sdk/models/events.ts` | `): Promise<EventsRecord[]> \{` | L323 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata-typescript-sdk/models/events.ts` | `return results.records as EventsRecord[]` | L347 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata-typescript-sdk/models/events.ts` | `): Promise<EventsRecord[]> \{` | L372 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata-typescript-sdk/models/events.ts` | `return results.records as EventsRecord[]` | L394 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata-typescript-sdk/models/events.ts` | `): Promise<EventsRecord[]> \{` | L418 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata-typescript-sdk/models/events.ts` | `return ( result as EventsRecord[] ).filter( ( event ) => \{` | L437 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata-typescript-sdk/models/events.ts` | `): Promise<EventsRecord \| null> \{` | L498 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata-typescript-sdk/models/events.ts` | `const records = await xata.db.events.filter( filter ).getAll() as EventsRecord[]` | L565 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata-typescript-sdk/models/events.ts` | `const records = await xata.db.events.filter( filter ).getAll() as EventsRecord[]` | L642 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata-typescript-sdk/api/xyflow-integration.ts` | `EventsRecord,` | L22 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata-typescript-sdk/api/xyflow-integration.ts` | `events: EventsRecord[];` | L144 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata-typescript-sdk/api/xyflow-integration.ts` | `const events = await getAllEvents();` | L166 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/index.ts` | `EventsRecord,` | L34 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/docs/XATA_TYPESCRIPT_SDK_GUIDE.md` | `const paginatedEvents = await xata.db.events` | L233 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/docs/XATA_TYPESCRIPT_SDK_GUIDE.md` | `const sortedEvents = await xata.db.events` | L245 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/docs/XATA_TYPESCRIPT_SDK_GUIDE.md` | `const events = await xata.db.events` | L458 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/docs/XATA_TYPESCRIPT_SDK_GUIDE.md` | `import type \{ EventsRecord \} from '@db/types';` | L480 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/docs/XATA_TYPESCRIPT_SDK_GUIDE.md` | `const [events, setEvents] = useState<EventsRecord[]>([]);` | L483 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/docs/XATA_TYPESCRIPT_SDK_GUIDE.md` | `export const mockEvents = Array.from(\{ length: 10 \}, (_, i) => (\{` | L733 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/docs/XATA_TROUBLESHOOTING.md` | `import type \{ EventsRecord \} from '@db/types';` | L185 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/docs/XATA_TROUBLESHOOTING.md` | `import type \{ EventsRecord \} from '@db/xata/xata';` | L189 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/docs/XATA_TROUBLESHOOTING.md` | `const events = await xata.db.events` | L229 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/docs/XATA_TROUBLESHOOTING.md` | `const events = await xata.db.events` | L243 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/docs/XATA_TROUBLESHOOTING.md` | `const events = await xata.db.events` | L271 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/docs/XATA_TROUBLESHOOTING.md` | `const allEvents = await xata.db.events.getAll(); // Could be thousands` | L398 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/docs/XATA_TROUBLESHOOTING.md` | `const events = await debugOperation('fetch events', () =>` | L702 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/docs/XATA_EXAMPLES.md` | `const paginatedEvents = await xata.db.events` | L84 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/docs/XATA_EXAMPLES.md` | `const sortedEvents = await xata.db.events` | L96 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/docs/XATA_EXAMPLES.md` | `const events = await xata.db.events` | L311 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/docs/XATA_EXAMPLES.md` | `import type \{ EventsRecord \} from '@db/types';` | L333 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/docs/XATA_EXAMPLES.md` | `const [events, setEvents] = useState<EventsRecord[]>([]);` | L336 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/docs/XATA_BEST_PRACTICES.md` | `const allEvents = await xata.db.events.getAll(); // Could be thousands of records` | L101 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/docs/XATA_BEST_PRACTICES.md` | `const recentEvents = await xata.db.events` | L159 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/docs/XATA_BEST_PRACTICES.md` | `const specificEvents = await xata.db.events` | L164 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/docs/XATA_BEST_PRACTICES.md` | `const events = await xata.db.events` | L175 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/docs/XATA_BEST_PRACTICES.md` | `const events = await xata.db.events` | L436 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/docs/XATA_BEST_PRACTICES.md` | `const [events, setEvents] = useState<EventsRecord[]>([]);` | L456 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/docs/DATABASE_STATE_ANALYSIS.md` | `- **Priority**: Critical (significant technical debt)` | L184 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/docs/COMPREHENSIVE_DATABASE_DOCUMENTATION.md` | `import type \{ TopicsRecord, EventsRecord \} from "@db/xata/models";` | L200 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/docs/COMPREHENSIVE_DATABASE_DOCUMENTATION.md` | `EventsRecord,` | L208 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/docs/COMPREHENSIVE_DATABASE_DOCUMENTATION.md` | `const nearbyEvents = await xata.db.events.filter(\{` | L258 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/database-state-analysis.js` | `console.log("🔥 HIGH PRIORITY: Significant data volume - SDK migration critical");` | L247 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/README.md` | `EventsRecord,` | L58 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/QUICK_REFERENCE.md` | `const events = await xata.db.events.create(\{ title: 'New Event' \});` | L56 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/QUICK_REFERENCE.md` | `const events = await getAllEvents(options);` | L127 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/PYTHON_SDK_USAGE.md` | `events = await client.query_records("events", size=100)` | L121 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/IMPORT_PATH_RESOLUTION_REPORT.md` | `- ✅ `import type \{ EventsRecord \} from '@db/xata/models'`` | L121 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/IMPORT_GUIDE.md` | `EventsRecord,` | L61 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/IMPORT_GUIDE.md` | `EventsRecord,` | L124 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/IMPORT_GUIDE.md` | `EventsRecord,` | L182 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/IMPORT_GUIDE.md` | `EventsRecord` | L281 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/IMPORT_GUIDE.md` | `const events: EventsRecord[] = await xata.db.events` | L286 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/IMPORT_GUIDE.md` | `EventsRecord` | L298 |
-| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/FRESH_EXPORT_GUIDE.md` | `const events = await xata.db.events.getMany();` | L79 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/types/index.ts` | `EventsRecord,` | L50 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/types/index.ts` | `UserSavedEventsRecord,` | L62 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/types/index.ts` | `EventsRecord: EventsRecord;` | L370 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/types/comprehensive.ts` | `EventsRecord,` | L52 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/types/comprehensive.ts` | `UserSavedEventsRecord,` | L64 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/types/comprehensive.ts` | `export interface EventsModel \{` | L120 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/types/comprehensive.ts` | `getEventById: (id: string, columns?: string[]) => Promise<EventsRecord \| null>;` | L122 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/types/comprehensive.ts` | `getAllEvents: (options?: EventQueryOptions) => Promise<EventsRecord[]>;` | L123 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/types/comprehensive.ts` | `createEvent: (data: EventInput) => Promise<EventsRecord>;` | L125 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/types/comprehensive.ts` | `createManyEvents: (data: EventInput[]) => Promise<EventsRecord[]>;` | L126 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/types/comprehensive.ts` | `updateEvent: (id: string, data: Partial<EventInput>) => Promise<EventsRecord \| null>;` | L127 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/types/comprehensive.ts` | `searchEvents: (query: string, options?: EventSearchOptions) => Promise<EventsRecord[]>;` | L133 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/types/comprehensive.ts` | `semanticSearchEvents: (embedding: number[], options?: VectorSearchOptions) => Promise<EventsRecord[]>;` | L134 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/types/comprehensive.ts` | `getEventsByLocation: (latitude: number, longitude: number, radiusKm: number) => Promise<EventsRecord[]>;` | L135 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/types/comprehensive.ts` | `export interface EventUpdateInput extends Partial<EventInput> \{` | L253 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/types/comprehensive.ts` | `export type EventQueryOptions = QueryOptions<EventsRecord>;` | L305 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/types/comprehensive.ts` | `export interface PaginatedEventsResponse extends PaginatedResponse<EventsRecord> \{\}` | L313 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/types/comprehensive.ts` | `events: EventsRecord[];` | L442 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata_python_sdk/models/events.py` | `class EventsRecord(XataRecord):` | L15 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata_python_sdk/models/events.py` | `class EventsModel(BaseModelOperations[EventsRecord, EventInput, EventUpdateInput]):` | L75 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata_python_sdk/models/events.py` | `return EventsRecord` | L82 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata_python_sdk/models/events.py` | `async def get_by_title(self, title: str, columns: Optional[List[str]] = None) -> Optional[EventsRecord]:` | L97 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata_python_sdk/models/events.py` | `return EventsRecord(**records[0])` | L117 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata_python_sdk/models/events.py` | `) -> List[EventsRecord]:` | L135 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata_python_sdk/models/events.py` | `records = [EventsRecord(**record) for record in result.get("records", [])]` | L156 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata_python_sdk/models/events.py` | `async def create_event(client: XataClient, data: EventInput) -> EventsRecord:` | L244 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata_python_sdk/models/events.py` | `async def get_event_by_id(client: XataClient, id: str, columns: Optional[List[str]] = None) -> Optional[EventsRecord]:` | L250 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata_python_sdk/models/events.py` | `async def get_event_by_title(client: XataClient, title: str, columns: Optional[List[str]] = None) -> Optional[EventsRecord]:` | L256 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata_python_sdk/models/events.py` | `async def get_all_events(client: XataClient, **kwargs) -> List[EventsRecord]:` | L262 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata_python_sdk/models/events.py` | `async def update_event(client: XataClient, id: str, data: EventUpdateInput) -> Optional[EventsRecord]:` | L268 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata_python_sdk/models/events.py` | `async def search_events(client: XataClient, query: str, **kwargs) -> List[EventsRecord]:` | L280 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata_python_sdk/models/events.py` | `async def semantic_search_events(client: XataClient, embedding: List[float], **kwargs) -> List[EventsRecord]:` | L286 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata_python_sdk/models/events.py` | `async def get_events_by_location(client: XataClient, latitude: float, longitude: float, radius_km: float) -> List[EventsRecord]:` | L292 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata_python_sdk/models/__init__.py` | `EventsRecord,` | L18 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata_python_sdk/models/__init__.py` | `"EventsRecord",` | L43 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata_python_sdk/api/helpers.py` | `from ..models.events import EventsRecord` | L11 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata_python_sdk/__init__.py` | `"EventsRecord",` | L33 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/xata.ts` | `export type EventsRecord = Events & XataRecord;` | L423 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/xata.ts` | `export type UserSavedEventsRecord = UserSavedEvents & XataRecord;` | L465 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/xata.ts` | `events: EventsRecord;` | L509 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/xata.ts` | `"user-saved-events": UserSavedEventsRecord;` | L521 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/models/user-saved-items.ts` | `UserSavedEventsRecord,` | L3 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/models/user-saved-items.ts` | `): Promise<UserSavedEventsRecord \| null> \{` | L27 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/models/user-saved-items.ts` | `): Promise<UserSavedEventsRecord[]> \{` | L33 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/models/user-saved-items.ts` | `): Promise<UserSavedEventsRecord> \{` | L41 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/models/user-saved-items.ts` | `\}: UserSavedEventUpdateInput): Promise<UserSavedEventsRecord \| null> \{` | L48 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/models/user-saved-items.ts` | `): Promise<UserSavedEventsRecord[]> \{` | L70 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/models/user-saved-items.ts` | `return results.records as UserSavedEventsRecord[];` | L108 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/models/user-saved-items.ts` | `events: UserSavedEventsRecord[];` | L793 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/models/user-saved-items.ts` | `const events: UserSavedEventsRecord[] = [];` | L882 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/models/user-saved-items.ts` | `events.push(record as UserSavedEventsRecord);` | L893 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/models/events.ts` | `import type \{ EventsRecord, Events \} from "../xata"` | L2 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/models/events.ts` | `interface EventsOperationError extends Error \{` | L5 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/models/events.ts` | `interface PaginatedEventsResponse \{` | L26 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/models/events.ts` | `records: EventsRecord[]` | L27 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/models/events.ts` | `): Promise<EventsRecord> \{` | L45 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/models/events.ts` | `): Promise<EventsRecord[]> \{` | L82 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/models/events.ts` | `): Promise<EventsRecord \| null> \{` | L132 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/models/events.ts` | `): Promise<EventsRecord \| null> \{` | L169 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/models/events.ts` | `\} ): Promise<EventsRecord[]> \{` | L210 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/models/events.ts` | `return result.records as EventsRecord[]` | L230 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/models/events.ts` | `return await query.getAll() as EventsRecord[]` | L233 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/models/events.ts` | `records: result.records as EventsRecord[],` | L289 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/models/events.ts` | `): Promise<EventsRecord[]> \{` | L323 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/models/events.ts` | `return results.records as EventsRecord[]` | L347 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/models/events.ts` | `): Promise<EventsRecord[]> \{` | L372 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/models/events.ts` | `return results.records as EventsRecord[]` | L394 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/models/events.ts` | `): Promise<EventsRecord[]> \{` | L418 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/models/events.ts` | `return ( result as EventsRecord[] ).filter( ( event ) => \{` | L437 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/models/events.ts` | `): Promise<EventsRecord \| null> \{` | L498 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/models/events.ts` | `const records = await xata.db.events.filter( filter ).getAll() as EventsRecord[]` | L565 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/models/events.ts` | `const records = await xata.db.events.filter( filter ).getAll() as EventsRecord[]` | L642 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/api/xyflow-integration.ts` | `EventsRecord,` | L22 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/api/xyflow-integration.ts` | `events: EventsRecord[];` | L144 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/index.ts` | `EventsRecord,` | L34 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/docs/XATA_TYPESCRIPT_SDK_GUIDE.md` | `interface Events \{` | L132 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/docs/XATA_TYPESCRIPT_SDK_GUIDE.md` | `import type \{ EventsRecord \} from '@db/types';` | L480 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/docs/XATA_TYPESCRIPT_SDK_GUIDE.md` | `const [events, setEvents] = useState<EventsRecord[]>([]);` | L483 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/docs/XATA_TROUBLESHOOTING.md` | `import type \{ EventsRecord \} from '@db/types';` | L185 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/docs/XATA_TROUBLESHOOTING.md` | `import type \{ EventsRecord \} from '@db/xata/xata';` | L189 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/docs/XATA_EXAMPLES.md` | `import type \{ EventsRecord \} from '@db/types';` | L333 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/docs/XATA_EXAMPLES.md` | `const [events, setEvents] = useState<EventsRecord[]>([]);` | L336 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/docs/XATA_BEST_PRACTICES.md` | `const [events, setEvents] = useState<EventsRecord[]>([]);` | L456 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/docs/XATA_BEST_PRACTICES.md` | `export interface Event \{` | L650 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/docs/COMPREHENSIVE_DATABASE_DOCUMENTATION.md` | `interface Events \{` | L93 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/docs/COMPREHENSIVE_DATABASE_DOCUMENTATION.md` | `import type \{ TopicsRecord, EventsRecord \} from "@db/xata/models";` | L200 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/docs/COMPREHENSIVE_DATABASE_DOCUMENTATION.md` | `EventsRecord,` | L208 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/README.md` | `EventsRecord,` | L58 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/IMPORT_PATH_RESOLUTION_REPORT.md` | `- ✅ `import type \{ EventsRecord \} from '@db/xata/models'`` | L121 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/IMPORT_GUIDE.md` | `EventsRecord,` | L61 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/IMPORT_GUIDE.md` | `EventsRecord,` | L124 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/IMPORT_GUIDE.md` | `EventsRecord,` | L182 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/IMPORT_GUIDE.md` | `EventsRecord` | L281 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/IMPORT_GUIDE.md` | `const events: EventsRecord[] = await xata.db.events` | L286 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/IMPORT_GUIDE.md` | `EventsRecord` | L298 |
 
 
 </details>
@@ -876,17 +738,8 @@ Output mode: content
 
 _**Agent (claude-4.5-opus-high-thinking)**_
 
-Could not find file '/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/xata/xata.ts' in the workspace.
-
-<tool-use data-tool-type="read" data-tool-name="read_file"><details>
-<summary>Tool use: **read_file**</summary>
-
-</details></tool-use>
-
-_**Agent (claude-4.5-opus-high-thinking)**_
-
 <tool-use data-tool-type="read" data-tool-name="read_file">
-<details><summary>Tool use: **read_file** • Read file: /Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata-typescript-sdk/xata.ts</summary>
+<details><summary>Tool use: **read_file** • Read file: /Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/services/sightings/actions/events-time-chunk.ts</summary>
 
 </details>
 </tool-use>
@@ -898,17 +751,8 @@ _**Agent (claude-4.5-opus-high-thinking)**_
 
 _**Agent (claude-4.5-opus-high-thinking)**_
 
-Could not find file '/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/apps/app/scripts/xata-exports/exports/events.csv' in the workspace.
-
-<tool-use data-tool-type="read" data-tool-name="read_file"><details>
-<summary>Tool use: **read_file**</summary>
-
-</details></tool-use>
-
-_**Agent (claude-4.5-opus-high-thinking)**_
-
 <tool-use data-tool-type="read" data-tool-name="read_file">
-<details><summary>Tool use: **read_file** • Read file: /Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/packages/db/src/xata-typescript-sdk/xata.ts</summary>
+<details><summary>Tool use: **read_file** • Read file: /Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/features/sightings/uap-dashboard/HudUapInterface.tsx</summary>
 
 </details>
 </tool-use>
@@ -920,30 +764,741 @@ _**Agent (claude-4.5-opus-high-thinking)**_
 
 _**Agent (claude-4.5-opus-high-thinking)**_
 
-Now I have a good understanding of the codebase. Let me check for any existing popup/card components and understand how the globe currently handles click interactions:
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/xata.ts</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file"><details>
+<summary>Tool use: **read_file**</summary>
+
+</details></tool-use>
 
 _**Agent (claude-4.5-opus-high-thinking)**_
 
-<tool-use data-tool-type="unknown" data-tool-name="codebase_search">
+Could not find file '/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/scripts/xata-exports/exports/events.csv' in the workspace.
+
+<tool-use data-tool-type="read" data-tool-name="read_file"><details>
+<summary>Tool use: **read_file**</summary>
+
+</details></tool-use>
+
+_**Agent (claude-4.5-opus-high-thinking)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/xata.ts</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file"><details>
+<summary>Tool use: **read_file**</summary>
+
+</details></tool-use>
+
+_**Agent (claude-4.5-opus-high-thinking)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/features/sightings/components/globes/threejs-globe.tsx</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file"><details>
+<summary>Tool use: **read_file**</summary>
+
+</details></tool-use>
+
+_**Agent (claude-4.5-opus-high-thinking)**_
+
+<tool-use data-tool-type="search" data-tool-name="grep">
 <details>
-<summary>Tool use: **codebase_search**</summary>
+<summary>Tool use: **grep** • Grep for "famous|notable|significant|important" in "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db" • 6 matches</summary>
+
+Output mode: content
+
+
+| File | Content | Line |
+|------|------|------|
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/models/locations.ts` | `"notable-events"?: string[];` | L14 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/models/README.md` | `## Important Note` | L18 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/api/XataAskSDK_DOCUMENTATION.md` | `// Weight important columns higher` | L385 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/api/XataAskSDK_DOCUMENTATION.md` | `\{ column: 'name', weight: 3 \},      // Most important` | L387 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/docs/DATABASE_STATE_ANALYSIS.md` | `- **Priority**: Critical (significant technical debt)` | L184 |
+| `/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/database-state-analysis.js` | `console.log("🔥 HIGH PRIORITY: Significant data volume - SDK migration critical");` | L247 |
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="search" data-tool-name="grep"><details>
+<summary>Tool use: **grep**</summary>
+
+</details></tool-use>
+
+_**Agent (claude-4.5-opus-high-thinking)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/xata.ts</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file"><details>
+<summary>Tool use: **read_file**</summary>
+
+</details></tool-use>
+
+_**Agent (claude-4.5-opus-high-thinking)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/services/sightings/uap-sighting.ts</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file"><details>
+<summary>Tool use: **read_file**</summary>
+
+</details></tool-use>
+
+_**Agent (claude-4.5-opus-high-thinking)**_
+
+Now let me check the events schema to understand what fields are available:
+
+_**Agent (claude-4.5-opus-high-thinking)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/packages/db/src/xata-typescript-sdk/xata.ts</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file"><details>
+<summary>Tool use: **read_file**</summary>
+
+</details></tool-use>
+
+_**Agent (claude-4.5-opus-high-thinking)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="list_dir">
+<details>
+<summary>Tool use: **list_dir**</summary>
 
 
 Parameters:
 
 ```json
 {
-  "explanation": "Find existing popup/card implementations for map interactions",
-  "includePattern": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/apps/app/src/features/sightings",
-  "query": "How are popups or data cards shown when clicking on map points or globe markers?",
-  "repositoryInfo": {
-    "orthogonalTransformSeed": 8672480398045957,
-    "preferredEmbeddingModel": "EMBEDDING_MODEL_UNSPECIFIED",
-    "relativeWorkspacePath": ".",
-    "repoName": "16212adc-a102-4c1e-a60d-f9eb72a53099",
-    "repoOwner": "github|user_01HX9C6DK68HDNRQ5XC0GNBCD3"
-  },
-  "topK": 15
+  "shouldEnrichTerminalMetadata": true,
+  "targetDirectory": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/components/ui"
+}
+```
+Result:
+
+```json
+{
+  "directoryTreeRoot": {
+    "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/components/ui",
+    "childrenDirs": [
+      {
+        "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/components/ui/ai",
+        "childrenDirs": [
+          {
+            "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/components/ui/ai/kibo",
+            "childrenFiles": [
+              {
+                "name": "branch.tsx"
+              },
+              {
+                "name": "conversation.tsx"
+              },
+              {
+                "name": "input.tsx"
+              },
+              {
+                "name": "message.tsx"
+              },
+              {
+                "name": "reasoning.tsx"
+              },
+              {
+                "name": "response.tsx"
+              },
+              {
+                "name": "source.tsx"
+              },
+              {
+                "name": "suggestion.tsx"
+              },
+              {
+                "name": "tool.tsx"
+              }
+            ],
+            "childrenWereProcessed": true
+          },
+          {
+            "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/components/ui/ai/shadcn",
+            "childrenFiles": [
+              {
+                "name": "actions.tsx"
+              },
+              {
+                "name": "branch.tsx"
+              },
+              {
+                "name": "code-block.tsx"
+              },
+              {
+                "name": "conversation.tsx"
+              },
+              {
+                "name": "image.tsx"
+              },
+              {
+                "name": "inline-citation.tsx"
+              },
+              {
+                "name": "loader.tsx"
+              },
+              {
+                "name": "message.tsx"
+              },
+              {
+                "name": "prompt-input.tsx"
+              },
+              {
+                "name": "reasoning.tsx"
+              },
+              {
+                "name": "response.tsx"
+              },
+              {
+                "name": "source.tsx"
+              },
+              {
+                "name": "suggestion.tsx"
+              },
+              {
+                "name": "task.tsx"
+              },
+              {
+                "name": "tool.tsx"
+              },
+              {
+                "name": "web-preview.tsx"
+              }
+            ],
+            "childrenWereProcessed": true
+          }
+        ],
+        "childrenWereProcessed": true
+      },
+      {
+        "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/components/ui/button",
+        "childrenDirs": [
+          {
+            "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/components/ui/button/delete-button",
+            "childrenFiles": [
+              {
+                "name": "DeleteButton.tsx"
+              },
+              {
+                "name": "index.tsx"
+              }
+            ],
+            "childrenWereProcessed": true
+          },
+          {
+            "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/components/ui/button/divider-buttons"
+          }
+        ],
+        "childrenFiles": [
+          {
+            "name": "animated-button.tsx"
+          },
+          {
+            "name": "animated-menu-button.tsx"
+          },
+          {
+            "name": "button.stories.tsx"
+          },
+          {
+            "name": "button.tsx"
+          },
+          {
+            "name": "create-button.tsx"
+          },
+          {
+            "name": "index.tsx"
+          },
+          {
+            "name": "share-button.tsx"
+          },
+          {
+            "name": "shiny-button.tsx"
+          }
+        ],
+        "childrenWereProcessed": true
+      },
+      {
+        "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/components/ui/canvas-cursor",
+        "childrenFiles": [
+          {
+            "name": "blob-cursor.tsx"
+          },
+          {
+            "name": "canvas-cursor.tsx"
+          },
+          {
+            "name": "index.tsx"
+          }
+        ],
+        "childrenWereProcessed": true
+      },
+      {
+        "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/components/ui/card",
+        "childrenDirs": [
+          {
+            "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/components/ui/card/bento"
+          },
+          {
+            "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/components/ui/card/card-stack"
+          },
+          {
+            "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/components/ui/card/data-card"
+          },
+          {
+            "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/components/ui/card/expandable-card"
+          },
+          {
+            "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/components/ui/card/hover-card"
+          },
+          {
+            "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/components/ui/card/list-card"
+          },
+          {
+            "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/components/ui/card/pill-card"
+          }
+        ],
+        "childrenFiles": [
+          {
+            "name": "background-overlay-card.stories.tsx"
+          },
+          {
+            "name": "background-overlay-card.tsx"
+          },
+          {
+            "name": "card.tsx"
+          },
+          {
+            "name": "cards.css"
+          },
+          {
+            "name": "expandable-card.tsx"
+          },
+          {
+            "name": "ExpandableCard.stories.tsx"
+          },
+          {
+            "name": "ExpandableCard.tsx"
+          },
+          {
+            "name": "graph-node-card.tsx"
+          },
+          {
+            "name": "grid-layout-examples.tsx"
+          },
+          {
+            "name": "grid-layout.tsx"
+          },
+          {
+            "name": "hover-card.tsx"
+          },
+          {
+            "name": "index.tsx"
+          },
+          {
+            "name": "pill-card.stories.tsx"
+          },
+          {
+            "name": "pill-card.tsx"
+          },
+          {
+            "name": "product-swap-card.tsx"
+          },
+          {
+            "name": "shift-card-demo.tsx"
+          },
+          {
+            "name": "shift-card.stories.tsx"
+          },
+          {
+            "name": "shift-card.tsx"
+          },
+          {
+            "name": "simple-card.tsx"
+          },
+          {
+            "name": "stars-card.stories.tsx"
+          },
+          {
+            "name": "stars-card.tsx"
+          },
+          {
+            "name": "text-reveal-card.stories.tsx"
+          },
+          {
+            "name": "text-reveal-card.tsx"
+          },
+          {
+            "name": "toggle-entity-input-with-search.tsx"
+          }
+        ],
+        "childrenWereProcessed": true
+      },
+      {
+        "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/components/ui/chat",
+        "childrenFiles": [
+          {
+            "name": "chat-bubble.tsx"
+          },
+          {
+            "name": "chat-input.tsx"
+          },
+          {
+            "name": "chat-message-area.tsx"
+          },
+          {
+            "name": "chat-message-list.tsx"
+          },
+          {
+            "name": "chat-message.tsx"
+          },
+          {
+            "name": "chat-with-context.tsx"
+          },
+          {
+            "name": "expandable-chat.tsx"
+          },
+          {
+            "name": "index.tsx"
+          },
+          {
+            "name": "markdown-content.tsx"
+          },
+          {
+            "name": "message-loading.tsx"
+          },
+          {
+            "name": "scroll-area.tsx"
+          }
+        ],
+        "childrenWereProcessed": true
+      },
+      {
+        "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/components/ui/command",
+        "childrenFiles": [
+          {
+            "name": "command-mind-map-menu.stories.tsx"
+          },
+          {
+            "name": "command-mind-map-menu.tsx"
+          },
+          {
+            "name": "command-search-menu.stories.tsx"
+          },
+          {
+            "name": "command-search-menu.tsx"
+          }
+        ],
+        "childrenWereProcessed": true
+      },
+      {
+        "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/components/ui/direction-aware-tabs",
+        "childrenFiles": [
+          {
+            "name": "direction-aware-tabs.tsx"
+          },
+          {
+            "name": "index.tsx"
+          }
+        ],
+        "childrenWereProcessed": true
+      },
+      {
+        "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/components/ui/header",
+        "childrenFiles": [
+          {
+            "name": "site-header.tsx"
+          }
+        ],
+        "childrenWereProcessed": true
+      },
+      {
+        "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/components/ui/icons",
+        "childrenFiles": [
+          {
+            "name": "arrow.tsx"
+          },
+          {
+            "name": "index.tsx"
+          },
+          {
+            "name": "openai.tsx"
+          }
+        ],
+        "childrenWereProcessed": true
+      },
+      {
+        "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/components/ui/kibo-ui",
+        "childrenDirs": [
+          {
+            "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/components/ui/kibo-ui/code-block"
+          },
+          {
+            "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/components/ui/kibo-ui/pill"
+          }
+        ],
+        "childrenWereProcessed": true
+      },
+      {
+        "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/components/ui/loading",
+        "childrenFiles": [
+          {
+            "name": "globe-loading.tsx"
+          }
+        ],
+        "childrenWereProcessed": true
+      },
+      {
+        "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/components/ui/tooltip",
+        "childrenFiles": [
+          {
+            "name": "animated-tooltip.tsx"
+          },
+          {
+            "name": "index.tsx"
+          },
+          {
+            "name": "tooltip.tsx"
+          }
+        ],
+        "childrenWereProcessed": true
+      }
+    ],
+    "childrenFiles": [
+      {
+        "name": "accordion.tsx"
+      },
+      {
+        "name": "agent-plan.tsx"
+      },
+      {
+        "name": "alert-dialog.tsx"
+      },
+      {
+        "name": "alert.tsx"
+      },
+      {
+        "name": "annotation-menu.stories.tsx"
+      },
+      {
+        "name": "annotation-menu.tsx"
+      },
+      {
+        "name": "aspect-ratio.tsx"
+      },
+      {
+        "name": "avatar.tsx"
+      },
+      {
+        "name": "badge.tsx"
+      },
+      {
+        "name": "breadcrumb.tsx"
+      },
+      {
+        "name": "button.tsx"
+      },
+      {
+        "name": "calendar.tsx"
+      },
+      {
+        "name": "card.tsx"
+      },
+      {
+        "name": "carousel.tsx"
+      },
+      {
+        "name": "chart.tsx"
+      },
+      {
+        "name": "checkbox.tsx"
+      },
+      {
+        "name": "collapsible.tsx"
+      },
+      {
+        "name": "command.tsx"
+      },
+      {
+        "name": "context-menu.tsx"
+      },
+      {
+        "name": "dialog.tsx"
+      },
+      {
+        "name": "dock.tsx"
+      },
+      {
+        "name": "draggable-card.tsx"
+      },
+      {
+        "name": "drawer.tsx"
+      },
+      {
+        "name": "dropdown-menu.tsx"
+      },
+      {
+        "name": "expandable-card.tsx"
+      },
+      {
+        "name": "expandable-dock.tsx"
+      },
+      {
+        "name": "form.tsx"
+      },
+      {
+        "name": "glowing-ai-chat-assistant.tsx"
+      },
+      {
+        "name": "gradient-tracing.tsx"
+      },
+      {
+        "name": "hover-card.tsx"
+      },
+      {
+        "name": "index.ui.tsx"
+      },
+      {
+        "name": "input-otp.tsx"
+      },
+      {
+        "name": "input.tsx"
+      },
+      {
+        "name": "jsx-preview.tsx"
+      },
+      {
+        "name": "label.tsx"
+      },
+      {
+        "name": "markdown.tsx"
+      },
+      {
+        "name": "menubar.tsx"
+      },
+      {
+        "name": "navigation-menu.tsx"
+      },
+      {
+        "name": "pagination.tsx"
+      },
+      {
+        "name": "popover.tsx"
+      },
+      {
+        "name": "progress.tsx"
+      },
+      {
+        "name": "radio-group.tsx"
+      },
+      {
+        "name": "resizable.tsx"
+      },
+      {
+        "name": "scroll-area.tsx"
+      },
+      {
+        "name": "select.tsx"
+      },
+      {
+        "name": "separator.tsx"
+      },
+      {
+        "name": "seperatorpro.tsx"
+      },
+      {
+        "name": "services-grid.tsx"
+      },
+      {
+        "name": "sheet.tsx"
+      },
+      {
+        "name": "sidebar.ts"
+      },
+      {
+        "name": "sidebar.tsx"
+      },
+      {
+        "name": "skeleton.tsx"
+      },
+      {
+        "name": "slider.tsx"
+      },
+      {
+        "name": "sonner.tsx"
+      },
+      {
+        "name": "switch.tsx"
+      },
+      {
+        "name": "table.tsx"
+      },
+      {
+        "name": "tabs.tsx"
+      },
+      {
+        "name": "textarea.tsx"
+      },
+      {
+        "name": "toast.tsx"
+      },
+      {
+        "name": "toaster.tsx"
+      },
+      {
+        "name": "toasts.tsx"
+      },
+      {
+        "name": "toggle-group.tsx"
+      },
+      {
+        "name": "toggle.tsx"
+      },
+      {
+        "name": "toolbar-expandable.tsx"
+      },
+      {
+        "name": "tooltip.tsx"
+      },
+      {
+        "name": "use-toast.ts"
+      },
+      {
+        "name": "use-toast.tsx"
+      }
+    ],
+    "childrenWereProcessed": true,
+    "fullSubtreeExtensionCounts": {
+      ".css": 3,
+      ".ts": 3,
+      ".tsx": 175
+    },
+    "numFiles": 181
+  }
 }
 ```
 Status: **completed**
@@ -952,15 +1507,76 @@ Status: **completed**
 </details>
 </tool-use>
 
-<tool-use data-tool-type="unknown" data-tool-name="codebase_search"><details>
-<summary>Tool use: **codebase_search**</summary>
+<tool-use data-tool-type="unknown" data-tool-name="list_dir"><details>
+<summary>Tool use: **list_dir**</summary>
+
+</details></tool-use>
+
+_**Agent (claude-4.5-opus-high-thinking)**_
+
+Could not find file '/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/components/ui/card/data-card/index.tsx' in the workspace.
+
+<tool-use data-tool-type="read" data-tool-name="read_file"><details>
+<summary>Tool use: **read_file**</summary>
+
+</details></tool-use>
+
+_**Agent (claude-4.5-opus-high-thinking)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="list_dir">
+<details>
+<summary>Tool use: **list_dir**</summary>
+
+
+Parameters:
+
+```json
+{
+  "shouldEnrichTerminalMetadata": true,
+  "targetDirectory": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/components/ui/card/data-card"
+}
+```
+Result:
+
+```json
+{
+  "directoryTreeRoot": {
+    "absPath": "/Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/components/ui/card/data-card",
+    "childrenFiles": [
+      {
+        "name": "data-card.css"
+      },
+      {
+        "name": "data-card.stories.tsx"
+      },
+      {
+        "name": "data-card.tsx"
+      }
+    ],
+    "childrenWereProcessed": true,
+    "fullSubtreeExtensionCounts": {
+      ".css": 1,
+      ".tsx": 2
+    },
+    "numFiles": 3
+  }
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="list_dir"><details>
+<summary>Tool use: **list_dir**</summary>
 
 </details></tool-use>
 
 _**Agent (claude-4.5-opus-high-thinking)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file">
-<details><summary>Tool use: **read_file** • Read file: /Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/nbv/apps/app/src/features/sightings/components/MapPopup.tsx</summary>
+<details><summary>Tool use: **read_file** • Read file: /Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/components/ui/card/data-card/data-card.tsx</summary>
 
 </details>
 </tool-use>
@@ -972,20 +1588,20 @@ _**Agent (claude-4.5-opus-high-thinking)**_
 
 _**Agent (claude-4.5-opus-high-thinking)**_
 
-Now I have a comprehensive understanding of the codebase. Let me create a plan for this refactoring task.
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/liamellis/.cursor/worktrees/ultraterrestrial-resurrection/qrq/apps/app/src/services/sightings/actions/sightings-time-chunk.ts</summary>
 
-Based on my research, I need to clarify a few things before creating the plan:
+</details>
+</tool-use>
 
-1. **"Famous" events definition**: The events table has fields like `name`, `title`, `description`, `category`, `date`, `location`, `latitude`, `longitude`. There's no explicit "famous" or "notable" flag. I'll need to either:
-   - Use a hardcoded list of well-known UFO events (Roswell, Phoenix Lights, etc.)
-   - Filter by category field
-   - Load ALL events (since they're curated and likely significant)
+<tool-use data-tool-type="read" data-tool-name="read_file"><details>
+<summary>Tool use: **read_file**</summary>
 
-2. **Data card content**: The existing `MapPopup.tsx` shows a good template with title, date, location, description, duration, source URL, and media indicators.
+</details></tool-use>
 
-Given the context (UFO/UAP research platform with curated events), I'll assume:
-- **Famous events = ALL events from the events table** (since they're curated historical events)
-- **Data card = similar to existing MapPopup but adapted for Three.js globe overlay**
+_**Agent (claude-4.5-opus-high-thinking)**_
+
+Now I have a comprehensive understanding of the codebase. Let me create a detailed plan for this refactor.
 
 _**Agent (claude-4.5-opus-high-thinking)**_
 
@@ -1000,7 +1616,7 @@ Parameters:
 {
   "todos": [
     {
-      "content": "Create server action to fetch famous events (all events with coordinates)",
+      "content": "Create server action to fetch famous events and recent 1000 sightings",
       "id": "1",
       "status": "pending"
     }
@@ -1013,33 +1629,28 @@ Result:
 {
   "finalTodos": [
     {
-      "content": "Create server action to fetch famous events (all events with coordinates)",
+      "content": "Create server action to fetch famous events and recent 1000 sightings",
       "id": "1",
       "status": "pending"
     },
     {
-      "content": "Create server action to fetch recent 1000 sightings with coordinates",
+      "content": "Create data card popup component for dot click interaction",
       "id": "2",
       "status": "pending"
     },
     {
-      "content": "Create DataCard popup component for displaying event/sighting details",
+      "content": "Refactor page.tsx to use new data fetching approach",
       "id": "3",
       "status": "pending"
     },
     {
-      "content": "Modify ThreeJS globe to support click interactions on points",
+      "content": "Update ThreeJS globe to handle click events on dots",
       "id": "4",
       "status": "pending"
     },
     {
-      "content": "Update HudUapInterface to manage selected item state and show DataCard",
+      "content": "Update HudUapInterface to manage popup state",
       "id": "5",
-      "status": "pending"
-    },
-    {
-      "content": "Update page.tsx to use new data fetching approach",
-      "id": "6",
       "status": "pending"
     }
   ],
@@ -1060,159 +1671,24 @@ Status: **completed**
 
 _**Agent (claude-4.5-opus-high-thinking)**_
 
-Based on my comprehensive analysis of the codebase, here is my plan:
+Based on my analysis of the codebase, I now have a clear understanding of the architecture. Before I finalize the plan, I have two clarifying questions:
 
----
+1. **How should "famous" events be identified?**
+   - a) Use a hardcoded list of well-known UFO events (Roswell, Phoenix Lights, Nimitz encounter, etc.) that I'll define
+   - b) Filter by an existing field (the events table has `category` field - we could use specific categories)
+   - c) You'll provide a list of event IDs or names to use
 
-## Plan: Refactor Sightings Page for Clickable Dots with Data Card Popups
+2. **What information should the popup data card display?**
+   - a) Basic: title/name, date, location, short description
+   - b) Extended: basic info plus category, coordinates, media links if available
+   - c) Custom (please specify what fields you want)
 
-### Overview
+For option 1a (hardcoded famous events), I would include events like:
+- Roswell Incident (1947)
+- Phoenix Lights (1997)
+- USS Nimitz Encounter (2004)
+- Rendlesham Forest (1980)
+- Belgium UFO Wave (1989-1990)
+- And other historically significant UAP events
 
-Refactor the sightings page to:
-1. Load ALL events from the database as "famous events" (curated historical UFO events)
-2. Load the most recent 1000 UFO sightings with valid coordinates
-3. Render them as distinct colored dots on the Three.js globe
-4. Make dots clickable with a data card popup showing event/sighting details
-
-### File Changes
-
-#### 1. Create New Server Action: `getFamousEvents`
-
-**File**: [`apps/app/src/services/sightings/actions/famous-events.ts`](apps/app/src/services/sightings/actions/famous-events.ts) (new)
-
-- Create a server action that fetches ALL events with valid lat/lng coordinates
-- Events in this database are already curated historical UFO events (Roswell, Phoenix Lights, etc.)
-- Return events sorted by date descending
-- Include fields: id, title, name, description, date, location, latitude, longitude, category, photos
-
-#### 2. Create New Server Action: `getRecentSightings`
-
-**File**: [`apps/app/src/services/sightings/actions/recent-sightings.ts`](apps/app/src/services/sightings/actions/recent-sightings.ts) (new)
-
-- Create a server action that fetches the 1000 most recent sightings with valid coordinates
-- Filter for records where latitude/longitude exist and are valid
-- Sort by date descending
-- Return mapped `ValidatedUAPSighting` objects
-
-#### 3. Create DataCard Popup Component
-
-**File**: [`apps/app/src/features/sightings/components/DataCard.tsx`](apps/app/src/features/sightings/components/DataCard.tsx) (new)
-
-- Create a floating card component styled to match the existing HUD aesthetic
-- Display: title, date, location, description (truncated), category/shape, media indicators
-- Different styling for events (orange accent) vs sightings (green accent)
-- Include close button and optional "View Details" link
-- Use Framer Motion for enter/exit animations
-- Position relative to viewport (not 3D space) for simplicity
-
-#### 4. Modify Three.js Globe for Click Interactions
-
-**File**: [`apps/app/src/features/sightings/components/globes/threejs-globe.tsx`](apps/app/src/features/sightings/components/globes/threejs-globe.tsx)
-
-Changes:
-- Extend `Position` type to include `id`, `title`, `type`, `data` for click handling
-- Add `onPointClick` callback prop to `WorldProps`
-- Implement raycasting in the Globe component to detect clicks on point meshes
-- Use `@react-three/fiber`'s `useFrame` and pointer events
-- Call `onPointClick` with the clicked point's data
-
-Key additions:
-
-```typescript
-type Position = {
-  order: number
-  startLat: number
-  startLng: number
-  endLat: number
-  endLng: number
-  arcAlt: number
-  color: string
-  id: string        // NEW
-  title: string     // NEW
-  type: 'event' | 'sighting'  // NEW
-  data: EventData | SightingData  // NEW - full record for popup
-}
-
-interface WorldProps {
-  globeConfig: GlobeConfig
-  data: Position[]
-  onPointClick?: (point: Position) => void  // NEW
-}
-```
-
-#### 5. Update HudUapInterface
-
-**File**: [`apps/app/src/features/sightings/uap-dashboard/HudUapInterface.tsx`](apps/app/src/features/sightings/uap-dashboard/HudUapInterface.tsx)
-
-Changes:
-- Add state for `selectedPoint: Position | null`
-- Pass `onPointClick` handler to ThreeJSGlobe
-- Render DataCard when `selectedPoint` is set
-- Update `globePositions` memo to include full record data for popup display
-
-#### 6. Update Page Server Component
-
-**File**: [`apps/app/src/app/(site)/sightings/page.tsx`](apps/app/src/app/(site)/sightings/page.tsx)
-
-Changes:
-- Replace current batched fetching with new focused approach
-- Call `getFamousEvents()` for all curated events
-- Call `getRecentSightings(1000)` for recent sightings
-- Pass both datasets to `SightingsClient`
-- Simplify stats calculation
-
-### Data Flow
-
-```
-page.tsx (Server)
-  ├── getFamousEvents() → all events with coordinates
-  └── getRecentSightings(1000) → 1000 most recent sightings
-        ↓
-SightingsClient (Client)
-        ↓
-HudUapInterface
-  ├── globePositions memo → combines events + sightings with full data
-  ├── selectedPoint state
-  └── onPointClick handler
-        ↓
-ThreeJSGlobe
-  ├── renders points with different colors (orange=events, green=sightings)
-  └── onClick → calls onPointClick with point data
-        ↓
-DataCard (conditionally rendered)
-  └── displays selected event/sighting details
-```
-
-### Visual Distinction
-
-- **Events (Famous)**: Orange dots (#ff6b35), larger size (6px)
-- **Sightings**: Green dots (#00ff88), standard size (4px)
-
-### Type Definitions
-
-Will add to [`apps/app/src/features/sightings/types.ts`](apps/app/src/features/sightings/types.ts):
-
-```typescript
-export interface GlobePoint {
-  id: string
-  type: 'event' | 'sighting'
-  title: string
-  description: string
-  date: Date
-  location: string
-  latitude: number
-  longitude: number
-  category?: string[]
-  mediaUrls?: string[]
-  sourceUrl?: string
-  color: string
-  size: number
-}
-```
-
-### Estimated Scope
-
-- 2 new server action files
-- 1 new DataCard component
-- 3 modified files (globe, HudUapInterface, page.tsx)
-- 1 updated types file
+Please let me know your preferences so I can finalize the implementation plan.

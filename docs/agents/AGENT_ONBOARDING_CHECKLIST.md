@@ -38,13 +38,13 @@ Answer these BEFORE starting any work:
 #### AI Architecture Understanding (grounded 2026-03-29)
 
 - [ ] Which route is the ONLY working end-to-end AI path?
-  - **Answer:** `/api/disclosure/mindmap` (OpenAI Assistants API + SSE + Xata search + graph nodes)
+  - **Answer:** `/api/disclosure/mindmap` (OpenAI Assistants API + SSE + Postgres search + graph nodes)
   - **File:** `apps/app/src/app/api/disclosure/mindmap/route.ts`
 - [ ] What is the Prometheus chat route and how does it differ?
   - **Answer:** `/api/prometheus/chat` — standalone Vercel AI SDK `streamText`, NOT graph-connected
   - **File:** `apps/app/src/app/api/prometheus/chat/route.ts`
 - [ ] What search systems actually work in the Next.js app?
-  - **Answer:** OpenAI file_search (vector store) + Xata full-text search. Nothing else.
+  - **Answer:** OpenAI file_search (vector store) + Postgres FTS/trgm and pgvector via `@db/postgres`. Nothing else in the live Next.js path.
   - ~~Triple RAG~~, ~~FAISS~~, ~~Upstash Vector~~, ~~CocoIndex~~ do NOT exist here.
 - [ ] What is Contextual Intelligence?
   - **Answer:** A utility that provides graph context and relationship filtering, NOT an AI pipeline
@@ -86,8 +86,8 @@ Answer these BEFORE starting any work:
 
   ```typescript
   // Database
-  import { XataClient } from '@db/xata'
-  import { askXata, searchXata } from '@db/xata/api'
+  import { getSql, readById, searchDatabase, searchTable } from '@db/postgres'
+  import type { EventsRecord, PersonnelRecord } from '@db/postgres'
 
   // Mindmap agent hook
   import { useMindMapAgent } from '@/features/mindmap/hooks/use-mindmap-agent'

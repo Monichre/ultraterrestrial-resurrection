@@ -1,0 +1,27 @@
+ .specstory/history/2025-11-26_05-08-28Z-refactor-sightings-page-for-ui-dots.md         |    2 +-
+ .../history/2025-11-26_18-32-02Z-review-home-page-animations-and-create-guide.md       |    2 +-
+ .specstory/history/2025-11-26_18-32-02Z-where-did-we-leave-off.md                      | 1437 +----------------------------------------
+ .specstory/history/2025-12-12_21-23-04Z-unified-v0.dev-ui-projects.md                  |  371 +++++++++--
+ DAILY_WORK_PLAN.md                                                                     |   66 ++
+ PRODUCT.md                                                                             |    4 +
+ README.md                                                                              |  577 ++---------------
+ WORKSPACE_STATUS_REPORT.md                                                             |    7 +-
+ apps/app/src/app/api/disclosure/mindmap/route.ts                                       | 1030 ++++++++++++++---------------
+ apps/app/src/app/api/prometheus/chat/route.ts                                          |  689 ++++++++++----------
+ apps/app/src/components/design-system/ARCHIVAL_DYSTOPIAN_AESTHETIC.md                  |    5 +
+ apps/app/src/components/design-system/DESIGN_SYSTEM.md                                 |   19 +
+ apps/app/src/components/design-system/README.md                                        |   35 +-
+ apps/app/src/components/design-system/RESEARCH_UI_DESIGN_GUIDE.md                      |   47 +-
+ apps/app/src/features/mindmap/navigation/FullScreenMenu.tsx                            |  230 ++++---
+ apps/app/src/features/mindmap/research-canvas/EmptyCanvas.tsx                          |   46 +-
+ apps/app/src/lib/ai/model-fallback.ts                                                  |   87 ++-
+ apps/app/src/services/ai/context/build-agent-context.ts                                |   15 +-
+ docs/API_ROUTES.md                                                                     |   17 +-
+ docs/PLANS/FEATURES.md                                                                 |   15 +-
+ docs/RUNBOOK.md                                                                        |   31 +-
+ docs/agents/AGENT_ONBOARDING_CHECKLIST.md                                              |    8 +-
+ docs/vision/2026-07-09-canonicalization-audit.md                                       |   45 +-
+ packages/db/IMPORT_GUIDE.md                                                            |  365 ++---------
+ packages/db/QUICK_REFERENCE.md                                                         |  256 +-------
+ packages/prompts/agno-integration-ufo-prompts-plan.md                                  |  137 ----
+ 26 files changed, 1799 insertions(+), 3744 deletions(-)

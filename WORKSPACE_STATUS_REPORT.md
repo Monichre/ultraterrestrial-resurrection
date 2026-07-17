@@ -1,4 +1,9 @@
-# Workspace Status Report - Ultraterrestrial Resurrection
+# Historical Workspace Status Report - Ultraterrestrial Resurrection
+
+> **Historical snapshot:** This 2025 audit is retained for provenance, not as current
+> operating guidance. Xata has since been retired in favor of `@db/postgres`, and
+> several package and route claims below are obsolete. Use `AGENTS.md`, `README.md`,
+> `docs/API_ROUTES.md`, and `docs/RUNBOOK.md` for current state.
 
 **Generated**: December 12, 2025
 **Last Audit**: December 12, 2025

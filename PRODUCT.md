@@ -12,6 +12,10 @@ Serious independent researchers, writers, and the intellectually curious who wan
 
 ## Brand & Tone
 
+- Core rule: **Does this make the impossible feel investigable?** If a design, feature, or
+  sentence makes the mystery merely spooky—or makes the analysis feel falsely certain—it fails.
+- Final direction: **the paperwork left behind after reality got breached**. The extraordinary
+  arrives through disciplined records, material traces, and restrained analytical overlays.
 - Sci-fi **archival dystopian**: declassified dossier meets 2025 AI war room. Manila folders, typewriter text, stamped classifications, redaction bars — overlaid with restrained HUD "digital ghosts" (wireframe, scanline, reticle) that whisper rather than shout.
 - Institutional authority masking extraordinary discovery: clinical, slightly ominous, never campy.
 - Voice contract (enforced): label epistemic tiers, never "proves", pair reading with counter-reading, end on falsifiability. UI copy follows the same liturgy.

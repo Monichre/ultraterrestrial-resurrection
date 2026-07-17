@@ -1,6 +1,6 @@
 # Runbook
 
-**Generated:** 2026-03-29
+**Updated:** 2026-07-12
 **Source of truth:** `package.json`, `apps/app/next.config.js`, deployment config, codebase audit
 
 ---
@@ -18,7 +18,7 @@
 ### Pre-deployment checklist
 
 1. Ensure `bun run build:app` succeeds locally
-   - Note: `typescript.ignoreBuildErrors` is **not** set in next.config — type errors will fail the build
+   - Note: the app currently has substantial baseline TypeScript debt and the Next.js configuration bypasses build-time type failures. Run a clean typecheck separately and compare touched files against the baseline.
 2. Verify environment variables are set in Vercel dashboard (see CONTRIB.md for critical subset)
 3. Ensure `DATABASE_URL` points to Neon endpoint `ep-red-sky-ah7swer1` (never commit — lives in `packages/db/.env`)
 4. Verify `OPENAI_ASSISTANT_ID` and `DISCLOSURE_ENGINEER_ASSISTANT_ID` point to valid assistants
@@ -64,7 +64,7 @@ From `next.config.js`:
 |------|-----------------|----------|
 | Runtime errors | Vercel Analytics + Sentry | High |
 | AI API costs | OpenAI usage dashboard | High |
-| Database health | Xata dashboard | Medium |
+| Database health | Neon dashboard | Medium |
 | Performance | Vercel Speed Insights | Medium |
 | Auth events | Clerk dashboard | Medium |
 | Scraping costs | FireCrawl dashboard | Low |
@@ -72,7 +72,7 @@ From `next.config.js`:
 ### Key metrics to watch
 
 - **OpenAI API spend:** The disclosure mindmap route creates threads, uses file_search, and polls assistants in loops. Uncapped without auth middleware.
-- **Xata query volume:** Initial graph load fetches all 230,998 records (known issue, pagination planned).
+- **Postgres query volume:** Watch slow queries, connection failures, and compute wake-up latency in Neon.
 - **FireCrawl usage:** `/api/processing/scrape/batch` triggers web scraping — publicly accessible (no auth middleware).
 
 ---
@@ -93,9 +93,9 @@ From `next.config.js`:
 | Issue | Cause | Fix |
 |-------|-------|-----|
 | AI agent returns nothing | OpenAI assistant ID misconfigured | Verify `DISCLOSURE_ENGINEER_ASSISTANT_ID` env var |
-| Graph shows empty | Xata connection fails silently | Check `XATA_API_KEY`, `XATA_BRANCH` in env |
+| Graph shows empty | Postgres connection or query fails | Check `DATABASE_URL`, then inspect the server log and Neon status |
 | Auth redirect loop | Clerk env vars missing | Set `NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in`, `NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up` |
-| Slow initial load | Fetches 230,998 records | Known issue — pagination is Phase 2.1 of hardening plan |
+| Slow initial load | Large graph query or Neon cold start | Confirm pagination limits and inspect query timing |
 | SSE stream drops | Edge runtime timeout | Fixed 2026-03-29 — removed Edge runtime from prometheus/chat route |
 | `/api/processing/file` 404 | Route deleted (was broken stub) | Intentional removal — route wrote to nonexistent table |
 
@@ -103,9 +103,9 @@ From `next.config.js`:
 
 | Issue | Cause | Fix |
 |-------|-------|-----|
-| `xata codegen` fails | Schema mismatch | Update schema in Xata dashboard first, then run codegen |
-| Seed script errors | Missing tables | Run `db:fix-and-seed` instead of `db:seed` |
-| Vector search returns nothing | Embeddings not populated | Check OpenAI file_search vector store, not Xata vectors |
+| `DATABASE_URL is not set` | Database env is missing | Set `DATABASE_URL` in `packages/db/.env` or the runtime environment |
+| Query uses `personnel` table directly | Postgres stores it as `key_figures` | Use exported helpers or `resolveTable()` |
+| Vector search returns nothing | Entity embeddings are absent or query embedding failed | Check the relevant Postgres embedding rows and AI-provider logs |
 
 ### Development environment
 
@@ -134,12 +134,12 @@ vercel rollback <deployment-url>        # Rollback to specific deployment
 
 ### Database rollback
 
-**Xata does not support point-in-time recovery on free tier.** Mitigations:
+Use Neon's restore and branching capabilities according to the project's Neon plan.
 
-1. **Before migrations:** Export affected tables via `bun run db:analyze`
-2. **Schema changes:** Always make in Xata dashboard first, then codegen
-3. **Data issues:** Use `bun run db:interactive` to inspect and fix records
-4. **Seed recovery:** `bun run db:fix-and-seed` recreates base data
+1. Take or verify a restore point before destructive migrations.
+2. Apply schema changes through reviewed SQL migrations in `packages/db/migrations/`.
+3. Validate counts and representative reads after the migration.
+4. Restore or reverse the migration if validation fails.
 
 ### Git rollback
 
@@ -165,7 +165,6 @@ git reset --hard origin/dev
 | `/api/processing/scrape/batch` | High | Triggers expensive FireCrawl operations |
 | `/api/prometheus/chat` | High | Unlimited OpenAI API calls |
 | `/api/disclosure/mindmap` | High | OpenAI thread creation + file_search |
-| `/api/disclosure/chat` | High | OpenAI assistant polling |
 | `/api/processing/testimony` | Medium | Data injection into DB |
 | `/api/admin/*` | Critical | Admin operations without auth |
 
@@ -183,7 +182,7 @@ User query (Graph.tsx)
     -> POST /api/disclosure/mindmap
       -> OpenAI Assistants API (thread creation)
         -> file_search tool (vector store)
-        -> searchDatabase tool (Xata full-text)
+        -> searchDatabase tool (Postgres FTS, trgm, and pgvector)
         -> searchExternalResources tool (Exa)
       -> SSE bridge (custom streaming)
     -> transformStreamResponse (client-side)
