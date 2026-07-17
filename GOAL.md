@@ -2,30 +2,30 @@
 
 ## Objective
 
-Complete the actionable remainder of tickets T-028 and T-037 through T-042, and bring T-036 to a decision-ready research state.
+Debug, correctly configure, and run Storybook for `apps/app` so the component workspace is usable for local development.
 
 ## Source
 
-inline — user request on 2026-07-12
+inline — user request on 2026-07-16; context: Codex task `019eab4d-6bc7-7830-bd0d-cb7eee84dabf`
 
 ## Done when
 
-- T-028 and T-037 through T-042 have implemented, verified outcomes or explicit external blockers recorded with evidence.
-- T-036 has a current, decision-ready recommendation without expanding into an unapproved multi-week implementation.
-- The three planning tiers agree on ticket status and next actions.
-- Touched application files introduce zero new TypeScript errors; relevant builds, lint checks, database tests, and runtime checks pass where credentials permit.
-- Changes are committed on an isolated branch and a PR is opened for human review when `origin` is available.
+- Storybook starts from the repository's documented command and remains available on its configured local port.
+- The Storybook static build completes successfully.
+- Blocking configuration, dependency, compilation, and runtime errors discovered during startup are fixed.
+- Representative stories render in the browser without blocking console or preview errors.
+- Any story-specific failures left outside the setup/debugging scope are identified with reproducible evidence.
 
 ## Constraints
 
-- Preserve the user's checkpoint commit and unrelated existing work.
-- Follow the identity and UX canon in `docs/vision/`, `DESIGN.md`, and `PRODUCT.md`.
-- Use `@db/postgres`; do not revive Xata or dead agent paths.
-- Do not claim externally blocked verification as complete.
-- Do not implement the multi-week T-036 platform without a separate explicit decision.
-- Keep parallel agent file ownership non-overlapping and integrate in dependency order.
+- Scope implementation to Storybook setup, configuration, dependencies, and fixes required for stories to load in `apps/app`.
+- Preserve all unrelated changes in the shared dirty worktree; never stash or rewrite them.
+- Follow existing `apps/app` package-manager, formatting, and Storybook conventions.
+- Do not redesign components or change production behavior unless a minimal compatibility fix is required and verified.
+- Do not claim success from startup output alone; verify both the static build and rendered browser behavior.
 
 ## Progress
 
 | Date | Run | Result |
 |------|-----|--------|
+| 2026-07-16 20:10:44 CDT | goal-set | Replaced the prior ticket-swarm objective with the Storybook setup and debugging objective. |

@@ -37,7 +37,7 @@ Coverage is already high:
 - `PRODUCT.md:19-24` — anti-references; `PRODUCT.md:26-31` — strategic principles (deterministic floor, evidentiary states first-class, "Claim" reserved, reference execution).
 - `docs/plans/2026-07-08-memory-first-vision-capture.md` §1-§8, §26-§27 — the long-form soul (what it is / is not, emotional center, "What remains weird?", cleanest + poetic articulations).
 
-**Gap:** PRODUCT.md doesn't carry the Brand Bible's Core Rule ("Does this make the impossible feel investigable?") or the Final Direction line ("the paperwork left behind after reality got breached"). Both belong in PRODUCT.md's Brand & Tone section — a 3–5 line extension, not a new document. A second manifesto file would fork the register and violate PRODUCT.md's own role as the root `register: product` doc. **Recommendation: extend PRODUCT.md in place (~5 lines). Awaiting user blessing; not executed.**
+**Resolution (2026-07-12):** `PRODUCT.md` now carries the Brand Bible's Core Rule ("Does this make the impossible feel investigable?") and Final Direction line ("the paperwork left behind after reality got breached") under Brand & Tone. Extending the existing product register avoids a second, divergent manifesto.
 
 ## 3. Fable System Prompt — audit verdict: mostly EXISTS AS CODE; canonicalize by extraction, not authorship
 
@@ -69,9 +69,46 @@ Ticket: T-038 in `docs/plans/TODO.md`.
 
 ## 5. What remains open
 
-- Product Manifesto extension of PRODUCT.md (§2 above) — user decision.
 - Fable System Prompt extraction to a shared module (§3 above) — user decision.
-- Sync the four corrected Design Canon files over `apps/app/src/components/design-system/` (§1).
 - Brand Bible visual ingestion (tokens 06 → design system; Polaroid spec 03; roadmap 02 harvest) — see T-038.
-- Prototype mining audit in the mold of `docs/plans/2026-06-20-ufo-ui-cannibalization-audit.md` — deferred, secondary per the delegation brief.
 - Four Figma files — blocked on Figma access.
+
+Resolved 2026-07-12: PRODUCT.md extension, four corrected Design Canon copies, local
+reference-prototype audit (§6), and the scoped live UI terminology pass. Shared AI prompt work is
+owned by T-037/T-028 rather than this design pass.
+
+## 6. Reference-prototype cannibalization ruling (2026-07-12)
+
+The local Figma-Make export at `docs/design/reference-prototype/` is a mood-and-pattern donor,
+not production code. It duplicates the app's component stack, uses placeholder or invented case
+copy, contains invalid dynamic Tailwind classes (`rotate-${value}`), and bakes fixed poster sizes
+and decorative infinite animation into document components. Importing it wholesale would create a
+second design system and reverse the canonicalization work above.
+
+### Harvest
+
+| Donor | What survives | Target when implemented |
+|---|---|---|
+| `components/DocumentFrame.tsx` | A single document-material wrapper: grain, aged tint, fold/crease, and decorative layers marked `aria-hidden` | Extract as the shared document-materiality primitive described in `DESIGN_REGISTERS.md`; use tokens from `DESIGN.md`, not the donor's generic amber utilities |
+| `components/ui/PhotoCaption.tsx` | Provenance-bearing image caption as a structured subcomponent | Document and evidence surfaces; require real source/date/reference fields and never label generated interpretation as evidence |
+| `components/layouts/MixedDocumentLayout.tsx` | A controlled archive-stack composition for case covers and exports | Opt-in composition only; typed variants, stable transforms, responsive reading order |
+| `components/classified-documents/UFODocument.tsx` | Dense report anatomy: truthful micro-header, metadata grid, image plate, findings, footer reference | Future dossier/report templates after replacing invented copy and fixed dimensions |
+| bundled PP Neue Montreal files | Locally hosted archival-material display option | Evaluate against the existing Martian Mono / Special Elite contract before adding a font role; no duplicate default body font |
+
+### Reject
+
+- The generated `components/ui/` shadcn copy and duplicate app shell: the real app already owns these.
+- `app/page.tsx` as a product surface: it is a component dump, not a user flow.
+- Fictional pseudo-data (`UN:DE FECTAL`, fake clearance codes, categorical conclusions) as defaults.
+- Fixed `768x1152` posters, magic-number grids, and `any`-typed document registries.
+- Scanlines, shimmer loops, indiscriminate gradients, and hover rotation as defaults. `DESIGN.md`
+  explicitly bans scanlines and decorative loops; motion must be opt-in and reduced-motion safe.
+- Classification stamps on functional chrome. They belong only to intentionally fictionalized
+  document artifacts.
+
+### Decision
+
+No prototype code is promoted in T-038. The only implementation-ready extraction is a shared
+document-materiality primitive, but that affects Timeline, key-figures, sightings, and canvas
+surfaces and deserves a separately scoped feature with visual regression coverage. The prototype
+has now been mined; keeping it as reference is sufficient.

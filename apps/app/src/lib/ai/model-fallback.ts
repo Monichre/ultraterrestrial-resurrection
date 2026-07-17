@@ -15,12 +15,13 @@
  *   Zhipu      glm-5.2             (open flagship, via z.ai OpenAI-compatible API)
  *   Groq       openai/gpt-oss-120b (top Groq-hosted; kimi-k2 deprecated 2026-03)
  */
-import { generateText, generateObject, type LanguageModel } from 'ai'
-import type { z } from 'zod'
-import { openai, createOpenAI } from '@ai-sdk/openai'
-import { anthropic } from '@ai-sdk/anthropic'
-import { createGoogleGenerativeAI } from '@ai-sdk/google'
-import { groq } from '@ai-sdk/groq'
+import {generateText, generateObject, type LanguageModel} from 'ai'
+import type {LanguageModelV2, LanguageModelV2CallOptions} from '@ai-sdk/provider'
+import type {z} from 'zod'
+import {openai, createOpenAI} from '@ai-sdk/openai'
+import {anthropic} from '@ai-sdk/anthropic'
+import {createGoogleGenerativeAI} from '@ai-sdk/google'
+import {groq} from '@ai-sdk/groq'
 
 export type FallbackTier = {
   /** Stable identifier, e.g. "openai/gpt-5.5" */
@@ -90,7 +91,7 @@ export const FRONTIER_FALLBACK_CHAIN: FallbackTier[] = [
     envKeys: ['GOOGLE_GENERATIVE_AI_API_KEY', 'GOOGLE_API_KEY', 'GEMINI_API_KEY'],
     getModel: () => googleProvider()('gemini-3.5-flash'),
     maxRetries: 1,
-    providerOptions: { google: { thinkingConfig: { thinkingBudget: 0 } } },
+    providerOptions: {google: {thinkingConfig: {thinkingBudget: 0}}},
   },
   {
     // Backup Google tier: 3.5-flash frequently sheds load with 503s on
@@ -100,7 +101,7 @@ export const FRONTIER_FALLBACK_CHAIN: FallbackTier[] = [
     envKeys: ['GOOGLE_GENERATIVE_AI_API_KEY', 'GOOGLE_API_KEY', 'GEMINI_API_KEY'],
     getModel: () => googleProvider()('gemini-3-flash-preview'),
     maxRetries: 1,
-    providerOptions: { google: { thinkingConfig: { thinkingBudget: 0 } } },
+    providerOptions: {google: {thinkingConfig: {thinkingBudget: 0}}},
   },
   {
     id: 'zhipu/glm-5.2',
@@ -116,6 +117,64 @@ export const FRONTIER_FALLBACK_CHAIN: FallbackTier[] = [
     getModel: () => groq('openai/gpt-oss-120b'),
   },
 ]
+
+const enabledTiers = (tiers: FallbackTier[]) =>
+  tiers.filter((tier) => tier.envKeys.some((key) => process.env[key]))
+
+/**
+ * AI SDK language model that fails over before a provider stream begins.
+ * Tool schemas and messages are replayed unchanged, so multi-step tool calls
+ * remain owned by streamText. Once a provider has begun emitting bytes, the
+ * stream cannot be safely replayed without duplicating UI/tool events.
+ */
+export function createStreamingFallbackModel(
+  tiers: FallbackTier[] = FRONTIER_FALLBACK_CHAIN
+): LanguageModelV2 {
+  const active = enabledTiers(tiers)
+  if (!active.length) throw new Error('No frontier AI provider credentials are configured')
+
+  const primary = active[0].getModel() as LanguageModelV2
+  const call = async <T>(
+    method: 'doGenerate' | 'doStream',
+    options: LanguageModelV2CallOptions
+  ): Promise<T> => {
+    let lastError: unknown
+    for (const tier of active) {
+      const attempts = (tier.maxRetries ?? 0) + 1
+      for (let attempt = 1; attempt <= attempts; attempt += 1) {
+        try {
+          const model = tier.getModel() as LanguageModelV2
+          const tierOptions = {
+            ...options,
+            providerOptions: {
+              ...(options.providerOptions || {}),
+              ...(tier.providerOptions || {}),
+            },
+          }
+          return (await model[method](tierOptions)) as T
+        } catch (error) {
+          lastError = error
+          console.warn(
+            `model-fallback(stream): ${tier.id} attempt ${attempt}/${attempts} failed before streaming${attempt < attempts ? ', retrying tier' : ', trying next tier'}:`,
+            error instanceof Error ? error.message : error
+          )
+        }
+      }
+    }
+    throw lastError instanceof Error ? lastError : new Error('All frontier AI providers failed')
+  }
+
+  return {
+    specificationVersion: 'v2',
+    provider: 'ultraterrestrial-fallback',
+    modelId: active.map((tier) => tier.id).join(' -> '),
+    supportedUrls: primary.supportedUrls,
+    doGenerate: (options) =>
+      call<Awaited<ReturnType<LanguageModelV2['doGenerate']>>>('doGenerate', options),
+    doStream: (options) =>
+      call<Awaited<ReturnType<LanguageModelV2['doStream']>>>('doStream', options),
+  }
+}
 
 export type FallbackResult = {
   text: string
@@ -141,7 +200,7 @@ export async function generateWithFallback({
     if (!tier.envKeys.some((key) => process.env[key])) continue
 
     try {
-      const { text } = await generateText({
+      const {text} = await generateText({
         model: tier.getModel(),
         system,
         prompt,
@@ -154,13 +213,13 @@ export async function generateWithFallback({
       })
       const trimmed = text.trim()
       if (trimmed) {
-        return { text: trimmed, tierId: tier.id, provider: tier.provider }
+        return {text: trimmed, tierId: tier.id, provider: tier.provider}
       }
       console.warn(`model-fallback: ${tier.id} returned empty text, trying next tier`)
     } catch (error) {
       console.warn(
         `model-fallback: ${tier.id} failed, trying next tier:`,
-        error instanceof Error ? error.message : error,
+        error instanceof Error ? error.message : error
       )
     }
   }
@@ -199,7 +258,7 @@ export async function generateObjectWithFallback<T>({
     try {
       // Cast: generateObject's conditional generic can't resolve against an
       // unconstrained T; the zod schema still validates the output at runtime.
-      const { object } = await generateObject({
+      const {object} = await generateObject({
         model: tier.getModel(),
         schema: schema as z.ZodTypeAny,
         system,
@@ -209,11 +268,11 @@ export async function generateObjectWithFallback<T>({
         providerOptions: tier.providerOptions,
         abortSignal: AbortSignal.timeout(timeoutMsPerTier),
       })
-      return { object: object as T, tierId: tier.id, provider: tier.provider }
+      return {object: object as T, tierId: tier.id, provider: tier.provider}
     } catch (error) {
       console.warn(
         `model-fallback(object): ${tier.id} failed, trying next tier:`,
-        error instanceof Error ? error.message : error,
+        error instanceof Error ? error.message : error
       )
     }
   }
