@@ -28,7 +28,9 @@
     "db:cmd:ufo-disclosure": "cd ./packages/db && bun run cmd:ufo-disclosure",
     "db:cmd:ufo-timeline": "cd ./packages/db && bun run cmd:ufo-timeline",
     "db:cmd:ufo-geographic": "cd ./packages/db && bun run cmd:ufo-geographic",
-    "db:cmd:multi-table": "cd ./packages/db && bun run cmd:multi-table"
+    "db:cmd:multi-table": "cd ./packages/db && bun run cmd:multi-table",
+    "prompts:list": "cd ./packages/prompts && bun run list",
+    "prompts:validate": "cd ./packages/prompts && bun run validate"
   },
   "devDependencies": {
     "@types/bun": "latest",
@@ -47,5 +49,6 @@
   ],
   "dependencies": {
     "biome": "^0.3.3"
-  }
+  },
+  "packageManager": "pnpm@11.1.2+sha512.415a1cc25974731e75455c1468371be74c5aa5fb7621b50d4056d222451609f11412f23fd602e6169f1e060466641f798597e1be961a10688836a67b16569499"
 }

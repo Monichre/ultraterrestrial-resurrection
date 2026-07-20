@@ -14,6 +14,3 @@ declare module '@db/xata/client' {
   export const xata: any
 }
 
-declare module '@db/postgres' {
-  export * from '@db/postgres'
-}

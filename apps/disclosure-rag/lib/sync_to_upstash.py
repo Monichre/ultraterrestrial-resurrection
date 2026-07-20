@@ -20,11 +20,14 @@ from knowledge_base_crud import KnowledgeBaseCRUD, Document
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Initialize Upstash Vector Index
-index = Index(
-    url="https://known-bobcat-28794-us1-vector.upstash.io",
-    token="ABYFMGtub3duLWJvYmNhdC0yODc5NC11czFhZG1pbllUZ3daREJqT1RRdFpUTmtZUzAwWTJGaExUZzNNelV0WlRGaE9USmxZelJpWXpnMg=="
-)
+# Initialize Upstash Vector Index from environment
+_UPSTASH_URL = os.getenv("UPSTASH_VECTOR_REST_URL")
+_UPSTASH_TOKEN = os.getenv("UPSTASH_VECTOR_REST_TOKEN")
+if not _UPSTASH_URL or not _UPSTASH_TOKEN:
+    raise RuntimeError(
+        "UPSTASH_VECTOR_REST_URL and UPSTASH_VECTOR_REST_TOKEN must be set in the environment"
+    )
+index = Index(url=_UPSTASH_URL, token=_UPSTASH_TOKEN)
 
 class KnowledgeBaseSyncer:
     """Sync local knowledge base to Upstash for cloud access"""

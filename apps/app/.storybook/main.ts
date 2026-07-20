@@ -1,12 +1,14 @@
-import { createRequire } from "node:module";
 import type { StorybookConfig } from "@storybook/nextjs"
-import path, { dirname, join } from "path";
+import path from "path";
 import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin"
-import { fileURLToPath } from "url"
 
-const require = createRequire(import.meta.url);
+const appRoot = process.cwd()
+const storybookDir = path.join( appRoot, '.storybook' )
 
-const __dirname = path.dirname( fileURLToPath( import.meta.url ) )
+process.env.NEXT_FONT_GOOGLE_MOCKED_RESPONSES ??= path.join(
+	storybookDir,
+	'mocked-google-fonts.cjs'
+)
 
 const config: StorybookConfig = {
 	// Comprehensive story patterns to capture all 91 story files
@@ -17,13 +19,13 @@ const config: StorybookConfig = {
 
 	// Enhanced addons for better development experience
 	addons: [
-		getAbsolutePath("@storybook/addon-themes"),
-		getAbsolutePath("@storybook/addon-docs"),
+		"@storybook/addon-themes",
+		"@storybook/addon-docs",
 		"./addons/font-selector/register.js"
 	],
 
 	framework: {
-		name: getAbsolutePath("@storybook/nextjs"),
+		name: "@storybook/nextjs",
 		options: {
 			nextConfigPath: '../next.config.ts',
 		},
@@ -49,32 +51,35 @@ const config: StorybookConfig = {
 		config.resolve.plugins = [
 			...( config.resolve.plugins || [] ),
 			new TsconfigPathsPlugin( {
-				configFile: path.resolve( __dirname, '../tsconfig.json' ),
+				configFile: path.join( appRoot, 'tsconfig.json' ),
 			} ),
 		]
 		config.resolve.alias = {
 			...( config.resolve.alias || {} ),
-			'@ai-sdk/react': path.resolve( __dirname, './stubs/ai-sdk-react.ts' ),
-			'@ai-sdk/rsc': path.resolve( __dirname, './stubs/ai-sdk-rsc.ts' ),
-			'@': path.resolve( __dirname, '../src' ),
-			'@tiptap-pro/extension-drag-handle-react': path.resolve( __dirname, './stubs/tiptap-pro/extension-drag-handle-react.ts' ),
-			'react-hot-toast': path.resolve( __dirname, './stubs/react-hot-toast.ts' ),
-			'@tippyjs/react/headless': path.resolve( __dirname, './stubs/tippy-headless.tsx' ),
-			'@tiptap/extension-table': path.resolve( __dirname, './stubs/tiptap/extension-table.ts' ),
-			'@tiptap/extension-table-row': path.resolve( __dirname, './stubs/tiptap/extension-table-row.ts' ),
-			'@tiptap/extension-table-header': path.resolve( __dirname, './stubs/tiptap/extension-table-header.ts' ),
-			'@tiptap/extension-code-block-lowlight': path.resolve( __dirname, './stubs/tiptap/extension-code-block-lowlight.ts' ),
-			'lowlight': path.resolve( __dirname, './stubs/lowlight.ts' ),
-			'@tiptap/extension-character-count': path.resolve( __dirname, './stubs/tiptap/extension-character-count.ts' ),
-			'@tiptap/extension-font-family': path.resolve( __dirname, './stubs/tiptap/extension-font-family.ts' ),
-			'@tiptap/extension-color': path.resolve( __dirname, './stubs/tiptap/extension-color.ts' ),
-			'@tiptap/extension-focus': path.resolve( __dirname, './stubs/tiptap/extension-focus.ts' ),
-			'@tiptap/extension-collaboration-cursor': path.resolve( __dirname, './stubs/tiptap/extension-collaboration-cursor.ts' ),
-			'@tiptap-pro/extension-emoji': path.resolve( __dirname, './stubs/tiptap-pro/extension-emoji.ts' ),
-			'@tiptap-pro/extension-table-of-contents': path.resolve( __dirname, './stubs/tiptap-pro/extension-toc.ts' ),
-			'@tiptap-pro/extension-file-handler': path.resolve( __dirname, './stubs/tiptap-pro/extension-file-handler.ts' ),
-			'@tiptap-pro/extension-ai': path.resolve( __dirname, './stubs/tiptap-pro/extension-ai.ts' ),
-			'react-colorful': path.resolve( __dirname, './stubs/react-colorful.tsx' ),
+			'@ai-sdk/react': path.join( storybookDir, 'stubs/ai-sdk-react.ts' ),
+			'@ai-sdk/rsc': path.join( storybookDir, 'stubs/ai-sdk-rsc.ts' ),
+			'next/font/google': path.join( storybookDir, 'stubs/next-font.ts' ),
+			'next/font/local': path.join( storybookDir, 'stubs/next-font.ts' ),
+			'@/app/fonts': path.join( storybookDir, 'stubs/app-fonts.ts' ),
+			'@': path.join( appRoot, 'src' ),
+			'@tiptap-pro/extension-drag-handle-react': path.join( storybookDir, 'stubs/tiptap-pro/extension-drag-handle-react.ts' ),
+			'react-hot-toast': path.join( storybookDir, 'stubs/react-hot-toast.ts' ),
+			'@tippyjs/react/headless': path.join( storybookDir, 'stubs/tippy-headless.tsx' ),
+			'@tiptap/extension-table': path.join( storybookDir, 'stubs/tiptap/extension-table.ts' ),
+			'@tiptap/extension-table-row': path.join( storybookDir, 'stubs/tiptap/extension-table-row.ts' ),
+			'@tiptap/extension-table-header': path.join( storybookDir, 'stubs/tiptap/extension-table-header.ts' ),
+			'@tiptap/extension-code-block-lowlight': path.join( storybookDir, 'stubs/tiptap/extension-code-block-lowlight.ts' ),
+			'lowlight': path.join( storybookDir, 'stubs/lowlight.ts' ),
+			'@tiptap/extension-character-count': path.join( storybookDir, 'stubs/tiptap/extension-character-count.ts' ),
+			'@tiptap/extension-font-family': path.join( storybookDir, 'stubs/tiptap/extension-font-family.ts' ),
+			'@tiptap/extension-color': path.join( storybookDir, 'stubs/tiptap/extension-color.ts' ),
+			'@tiptap/extension-focus': path.join( storybookDir, 'stubs/tiptap/extension-focus.ts' ),
+			'@tiptap/extension-collaboration-cursor': path.join( storybookDir, 'stubs/tiptap/extension-collaboration-cursor.ts' ),
+			'@tiptap-pro/extension-emoji': path.join( storybookDir, 'stubs/tiptap-pro/extension-emoji.ts' ),
+			'@tiptap-pro/extension-table-of-contents': path.join( storybookDir, 'stubs/tiptap-pro/extension-toc.ts' ),
+			'@tiptap-pro/extension-file-handler': path.join( storybookDir, 'stubs/tiptap-pro/extension-file-handler.ts' ),
+			'@tiptap-pro/extension-ai': path.join( storybookDir, 'stubs/tiptap-pro/extension-ai.ts' ),
+			'react-colorful': path.join( storybookDir, 'stubs/react-colorful.tsx' ),
 		}
 
 		// Remove CaseSensitivePathsPlugin to avoid casing build breaks on macOS
@@ -114,7 +119,3 @@ const config: StorybookConfig = {
 }
 
 export default config
-
-function getAbsolutePath(value: string): any {
-    return dirname(require.resolve(join(value, "package.json")));
-}

@@ -1,6 +1,6 @@
 import type {Meta, StoryObj} from '@storybook/react'
 import {TimelineViews} from './timeline-views'
-import type {EventsRecord} from '@db'
+import type {EventsRecord} from '@db/postgres'
 import type {JSONData} from '@xata.io/client'
 import {Suspense} from 'react'
 

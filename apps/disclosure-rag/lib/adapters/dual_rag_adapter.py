@@ -51,11 +51,13 @@ class TripleRAGAdapter:
     
     def __init__(self):
         # Upstash configuration
-        self.upstash_url = os.getenv("UPSTASH_VECTOR_REST_URL", 
-                                     "https://known-bobcat-28794-us1-vector.upstash.io")
-        self.upstash_token = os.getenv("UPSTASH_VECTOR_REST_TOKEN",
-                                       "ABYFMGtub3duLWJvYmNhdC0yODc5NC11czFhZG1pbllUZ3daREJqT1RRdFpUTmtZUzAwWTJGaExUZzNNelV0WlRGaE9USmxZelJpWXpnMg==")
-        
+        self.upstash_url = os.getenv("UPSTASH_VECTOR_REST_URL")
+        self.upstash_token = os.getenv("UPSTASH_VECTOR_REST_TOKEN")
+        if not self.upstash_url or not self.upstash_token:
+            raise RuntimeError(
+                "UPSTASH_VECTOR_REST_URL and UPSTASH_VECTOR_REST_TOKEN must be set in the environment"
+            )
+
         # Initialize Upstash
         self.upstash = Index(url=self.upstash_url, token=self.upstash_token)
         

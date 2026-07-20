@@ -58,11 +58,21 @@ def _resolve_prompts_dir(custom: Optional[str] = None) -> Path:
     return cand_pkg
 
 
+def _find_registry_entry(index: list, prompt_id: str) -> Optional[Dict[str, Any]]:
+    for entry in index:
+        if entry.get("id") == prompt_id:
+            return entry
+        aliases = entry.get("aliases") or []
+        if prompt_id in aliases:
+            return entry
+    return None
+
+
 def list_prompts(prompts_dir: Optional[str] = None) -> Any:
     base = _resolve_prompts_dir(prompts_dir)
     index_path = base / "registry.yaml"
     if not index_path.exists():
-        index_path = base / "index.yaml"
+        raise FileNotFoundError(f"Prompt registry not found: {index_path}")
     data = yaml.safe_load(index_path.read_text())
     return data.get("prompts", [])
 
@@ -70,9 +80,9 @@ def list_prompts(prompts_dir: Optional[str] = None) -> Any:
 def load_prompt(id: str, params: Optional[Dict[str, Any]] = None, prompts_dir: Optional[str] = None) -> Dict[str, Any]:
     base = _resolve_prompts_dir(prompts_dir)
     index = list_prompts(str(base))
-    entry = next((p for p in index if p.get("id") == id), None)
+    entry = _find_registry_entry(index, id)
     if not entry:
-        raise FileNotFoundError(f"Prompt not found in index: {id}")
+        raise FileNotFoundError(f"Prompt not found in registry: {id}")
 
     tpl_path = base / entry.get("file")
     tpl = yaml.safe_load(tpl_path.read_text())
@@ -89,6 +99,11 @@ def load_prompt(id: str, params: Optional[Dict[str, Any]] = None, prompts_dir: O
             except Exception:
                 schema = None
 
+    try:
+        source = str(tpl_path.relative_to(Path.cwd()))
+    except ValueError:
+        source = str(tpl_path)
+
     meta = {
         "id": tpl.get("id", id),
         "version": tpl.get("version", entry.get("version")),
@@ -98,7 +113,7 @@ def load_prompt(id: str, params: Optional[Dict[str, Any]] = None, prompts_dir: O
         "runtime": tpl.get("runtime"),
         "variables": tpl.get("variables"),
         "schema_ref": schema_ref,
-        "source": str(tpl_path.relative_to(Path.cwd())),
+        "source": source,
     }
 
     return {"id": id, "version": meta.get("version"), "prompt": rendered, "schema": schema, "meta": meta}

@@ -4,7 +4,7 @@ import {
 	toSearchTerms,
 	type ExtractedSearchEntity,
 } from "@/services/ai/openai/extract-search-terms"
-import { searchDatabase } from "@/services/ai/openai/tools/search-database"
+import { searchDatabase } from "@db/postgres"
 
 import EventEmitter from "events"
 import type OpenAI from "openai"

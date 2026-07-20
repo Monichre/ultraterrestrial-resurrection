@@ -19,7 +19,8 @@ try:
     logger.info("CocoIndex available for knowledge graph processing")
 except ImportError:
     COCOINDEX_AVAILABLE = False
-    logger.warning("CocoIndex not available - install with: pip install cocoindex")
+    logger.warning(
+        "CocoIndex not available - install with: pip install cocoindex")
 
 # Database connections
 if COCOINDEX_AVAILABLE:
@@ -31,7 +32,7 @@ if COCOINDEX_AVAILABLE:
     )
 
     neo4j_conn_spec = cocoindex.add_auth_entry(
-        "Neo4jConnection", 
+        "Neo4jConnection",
         cocoindex.targets.Neo4jConnection(
             uri=os.getenv("NEO4J_URI", "bolt://localhost:7687"),
             user=os.getenv("NEO4J_USER", "neo4j"),
@@ -40,9 +41,11 @@ if COCOINDEX_AVAILABLE:
     )
 
 # Enums for consistency with existing schema
+
+
 class EntityType(Enum):
     PERSON = "person"
-    EVENT = "event" 
+    EVENT = "event"
     ORGANIZATION = "organization"
     LOCATION = "location"
     ARTIFACT = "artifact"
@@ -50,6 +53,7 @@ class EntityType(Enum):
     TESTIMONY = "testimony"
     DOCUMENT = "document"
     TOPIC = "topic"
+
 
 class PersonRole(Enum):
     WITNESS = "witness"
@@ -59,6 +63,7 @@ class PersonRole(Enum):
     RESEARCHER = "researcher"
     CONTACTEE = "contactee"
 
+
 class EventType(Enum):
     SIGHTING = "sighting"
     ENCOUNTER = "encounter"
@@ -67,11 +72,13 @@ class EventType(Enum):
     ABDUCTION = "abduction"
     CONTACT = "contact"
 
+
 class OrganizationType(Enum):
     AGENCY = "agency"
     RESEARCH_GROUP = "research_group"
-    MILITARY = "military" 
+    MILITARY = "military"
     CIVILIAN_ORG = "civilian_org"
+
 
 @dataclasses.dataclass
 class PersonEntity:
@@ -80,14 +87,17 @@ class PersonEntity:
     full_name: str
     aliases: List[str]
     role: str
-    credentials: Dict[str, Any]  # title, organization, years_experience, specializations, security_clearance
-    metrics: Dict[str, float]    # reliability_score, technical_expertise, research_impact, public_visibility
+    # title, organization, years_experience, specializations, security_clearance
+    credentials: Dict[str, Any]
+    # reliability_score, technical_expertise, research_impact, public_visibility
+    metrics: Dict[str, float]
     verification_status: str
     biography: str
     contact_info: Dict[str, Any]
     confidence: float
     context: str
     source_document: str
+
 
 @dataclasses.dataclass
 class EventEntity:
@@ -101,12 +111,14 @@ class EventEntity:
     witnesses: List[str]
     classification: str  # Close encounter type
     environment_conditions: Dict[str, Any]
-    phenomena: Dict[str, bool]  # electromagnetic_effects, physical_traces, etc.
+    # electromagnetic_effects, physical_traces, etc.
+    phenomena: Dict[str, bool]
     verification_status: str
     evidence: List[str]
     confidence: float
     context: str
     source_document: str
+
 
 @dataclasses.dataclass
 class OrganizationEntity:
@@ -125,6 +137,7 @@ class OrganizationEntity:
     context: str
     source_document: str
 
+
 @dataclasses.dataclass
 class LocationEntity:
     """Enhanced location entity matching existing locations schema"""
@@ -134,11 +147,13 @@ class LocationEntity:
     coordinates: Dict[str, float]  # latitude, longitude, altitude, accuracy
     address: Dict[str, str]        # street, city, state, country, postal_code
     geohash: str
-    activity_metrics: Dict[str, float]  # frequency, intensity, pattern_confidence
+    # frequency, intensity, pattern_confidence
+    activity_metrics: Dict[str, float]
     security_classification: str
     confidence: float
     context: str
     source_document: str
+
 
 @dataclasses.dataclass
 class ArtifactEntity:
@@ -149,13 +164,15 @@ class ArtifactEntity:
     discovery_date: Optional[datetime]
     discovery_location: str
     chain_of_custody: List[Dict[str, Any]]
-    physical_properties: Dict[str, Any]  # mass, dimensions, composition, radiation_level
+    # mass, dimensions, composition, radiation_level
+    physical_properties: Dict[str, Any]
     analysis_status: str
     security_classification: str
     storage_location: str
     confidence: float
     context: str
     source_document: str
+
 
 @dataclasses.dataclass
 class SightingEntity:
@@ -175,6 +192,7 @@ class SightingEntity:
     context: str
     source_document: str
 
+
 @dataclasses.dataclass
 class TestimonyEntity:
     """Enhanced testimony entity matching existing testimonies schema"""
@@ -192,6 +210,7 @@ class TestimonyEntity:
     context: str
     source_document: str
 
+
 @dataclasses.dataclass
 class TopicEntity:
     """Enhanced topic entity matching existing topics schema"""
@@ -203,6 +222,7 @@ class TopicEntity:
     confidence: float
     context: str
     source_document: str
+
 
 @dataclasses.dataclass
 class UAPRelationship:
@@ -218,6 +238,7 @@ class UAPRelationship:
     source_document: str
     relationship_metadata: Dict[str, Any]
 
+
 @dataclasses.dataclass
 class UAPDocumentSummary:
     """Enhanced document summary for UAP research materials"""
@@ -230,20 +251,16 @@ class UAPDocumentSummary:
     entities_found: Dict[str, int]  # Count by entity type
     relationships_found: int
 
+
 def get_ner_extraction_instruction() -> str:
-    """Get the comprehensive NER extraction instruction incorporating existing prompts"""
+    """Get the comprehensive NER extraction instruction from the YAML registry."""
     try:
-        # Try to read the existing NER prompt
-        ner_prompt_path = "/Users/liamellis/Desktop/ultraterrestrial-resurrection/apps/disclosure-rag/prompts/named_entity_recognition_prompt.py"
-        if os.path.exists(ner_prompt_path):
-            with open(ner_prompt_path, 'r') as f:
-                ner_content = f.read()
-        else:
-            ner_content = "Using default NER schema"
+        from lib.prompt_loader import get_prompt
+        ner_content = get_prompt("disclosure.ner")
     except Exception as e:
-        logger.warning(f"Could not read NER prompt file: {e}")
+        logger.warning(f"Could not load NER prompt from registry: {e}")
         ner_content = "Using fallback NER schema"
-    
+
     return f"""
     Extract comprehensive entities from this UAP disclosure content using the established schema:
 
@@ -312,10 +329,11 @@ def get_ner_extraction_instruction() -> str:
     CRITICAL: Ensure all entities have valid IDs and proper type classification for knowledge graph construction.
     """
 
+
 if COCOINDEX_AVAILABLE:
     @cocoindex.flow_def(name="UAPDisclosureKG")
     def uap_disclosure_kg_flow(
-        flow_builder: cocoindex.FlowBuilder, 
+        flow_builder: cocoindex.FlowBuilder,
         data_scope: cocoindex.DataScope
     ) -> None:
         """
@@ -324,7 +342,7 @@ if COCOINDEX_AVAILABLE:
         """
         try:
             logger.info("Starting UAPDisclosureKG flow execution")
-            
+
             # Data collectors for different entity types (aligned with existing schema)
             document_node = data_scope.add_collector()
             person_entity = data_scope.add_collector()
@@ -337,11 +355,11 @@ if COCOINDEX_AVAILABLE:
             topic_entity = data_scope.add_collector()
             relationship_edge = data_scope.add_collector()
             entity_mention = data_scope.add_collector()
-            
+
             # Multi-source document ingestion
             data_scope["documents"] = flow_builder.add_source(
-    cocoindex.sources.Postgres(
-        database=postgres_conn_spec,
+                cocoindex.sources.Postgres(
+                    database=postgres_conn_spec,
                     query="""
                         SELECT 
                             id,
@@ -359,10 +377,10 @@ if COCOINDEX_AVAILABLE:
                     """
                 )
             )
-            
+
             with data_scope["documents"].row() as doc:
                 logger.debug(f"Processing document: {doc['id']}")
-                
+
                 # Enhanced document summarization with entity counting
                 doc["enhanced_summary"] = doc["content"].transform(
                     cocoindex.functions.ExtractByLlm(
@@ -388,7 +406,7 @@ if COCOINDEX_AVAILABLE:
                         """
                     )
                 )
-                
+
                 # Comprehensive entity extraction using existing NER schema
                 doc["extracted_entities"] = doc["content"].transform(
                     cocoindex.functions.ExtractByLlm(
@@ -398,7 +416,7 @@ if COCOINDEX_AVAILABLE:
                         ),
                         output_type={
                             "persons": list[PersonEntity],
-                            "events": list[EventEntity], 
+                            "events": list[EventEntity],
                             "organizations": list[OrganizationEntity],
                             "locations": list[LocationEntity],
                             "artifacts": list[ArtifactEntity],
@@ -410,7 +428,7 @@ if COCOINDEX_AVAILABLE:
                         instruction=get_ner_extraction_instruction()
                     )
                 )
-                
+
                 # Collect enhanced document nodes
                 document_node.collect(
                     doc_id=doc["id"],
@@ -425,7 +443,7 @@ if COCOINDEX_AVAILABLE:
                     entities_found=doc["enhanced_summary"]["entities_found"],
                     relationships_found=doc["enhanced_summary"]["relationships_found"]
                 )
-                
+
                 # Process Person entities
                 with doc["extracted_entities"]["persons"].row() as person:
                     person_entity.collect(
@@ -442,7 +460,7 @@ if COCOINDEX_AVAILABLE:
                         source_document=doc["id"],
                         created_at=cocoindex.GeneratedField.CURRENT_TIMESTAMP
                     )
-                    
+
                     entity_mention.collect(
                         id=cocoindex.GeneratedField.UUID,
                         entity_name=person["full_name"],
@@ -453,7 +471,7 @@ if COCOINDEX_AVAILABLE:
                         context=person["context"]
                     )
 
-                # Process Event entities  
+                # Process Event entities
                 with doc["extracted_entities"]["events"].row() as event:
                     event_entity.collect(
                         entity_id=event["id"],
@@ -473,7 +491,7 @@ if COCOINDEX_AVAILABLE:
                         source_document=doc["id"],
                         created_at=cocoindex.GeneratedField.CURRENT_TIMESTAMP
                     )
-                    
+
                     entity_mention.collect(
                         id=cocoindex.GeneratedField.UUID,
                         entity_name=event["title"],
@@ -502,7 +520,7 @@ if COCOINDEX_AVAILABLE:
                         source_document=doc["id"],
                         created_at=cocoindex.GeneratedField.CURRENT_TIMESTAMP
                     )
-                    
+
                     entity_mention.collect(
                         id=cocoindex.GeneratedField.UUID,
                         entity_name=org["name"],
@@ -529,7 +547,7 @@ if COCOINDEX_AVAILABLE:
                         source_document=doc["id"],
                         created_at=cocoindex.GeneratedField.CURRENT_TIMESTAMP
                     )
-                    
+
                     entity_mention.collect(
                         id=cocoindex.GeneratedField.UUID,
                         entity_name=location["name"],
@@ -558,7 +576,7 @@ if COCOINDEX_AVAILABLE:
                         source_document=doc["id"],
                         created_at=cocoindex.GeneratedField.CURRENT_TIMESTAMP
                     )
-                    
+
                     entity_mention.collect(
                         id=cocoindex.GeneratedField.UUID,
                         entity_name=artifact["name"],
@@ -588,7 +606,7 @@ if COCOINDEX_AVAILABLE:
                         source_document=doc["id"],
                         created_at=cocoindex.GeneratedField.CURRENT_TIMESTAMP
                     )
-                    
+
                     entity_mention.collect(
                         id=cocoindex.GeneratedField.UUID,
                         entity_name=sighting["description"][:100],
@@ -617,7 +635,7 @@ if COCOINDEX_AVAILABLE:
                         source_document=doc["id"],
                         created_at=cocoindex.GeneratedField.CURRENT_TIMESTAMP
                     )
-                    
+
                     entity_mention.collect(
                         id=cocoindex.GeneratedField.UUID,
                         entity_name=testimony["claim"][:100],
@@ -641,7 +659,7 @@ if COCOINDEX_AVAILABLE:
                         source_document=doc["id"],
                         created_at=cocoindex.GeneratedField.CURRENT_TIMESTAMP
                     )
-                    
+
                     entity_mention.collect(
                         id=cocoindex.GeneratedField.UUID,
                         entity_name=topic["name"],
@@ -667,9 +685,9 @@ if COCOINDEX_AVAILABLE:
                         metadata=relationship["relationship_metadata"],
                         created_at=cocoindex.GeneratedField.CURRENT_TIMESTAMP
                     )
-            
+
             # Export to multiple targets with proper schema alignment
-            
+
             # 1. Enhanced PostgreSQL storage (existing system integration)
             document_node.export(
                 "kg_enhanced_documents",
@@ -680,10 +698,10 @@ if COCOINDEX_AVAILABLE:
                 ),
                 primary_key_fields=["doc_id"]
             )
-            
+
             # Export each entity type to separate tables
             person_entity.export(
-                "kg_persons", 
+                "kg_persons",
                 cocoindex.targets.PostgreSQL(
                     connection=postgres_conn_spec,
                     table="kg_persons",
@@ -691,27 +709,27 @@ if COCOINDEX_AVAILABLE:
                 ),
                 primary_key_fields=["entity_id"]
             )
-            
+
             event_entity.export(
                 "kg_events",
                 cocoindex.targets.PostgreSQL(
                     connection=postgres_conn_spec,
-                    table="kg_events", 
+                    table="kg_events",
                     upsert_key_fields=["entity_id"]
                 ),
                 primary_key_fields=["entity_id"]
             )
-            
+
             organization_entity.export(
                 "kg_organizations",
                 cocoindex.targets.PostgreSQL(
                     connection=postgres_conn_spec,
                     table="kg_organizations",
-                    upsert_key_fields=["entity_id"] 
+                    upsert_key_fields=["entity_id"]
                 ),
                 primary_key_fields=["entity_id"]
             )
-            
+
             location_entity.export(
                 "kg_locations",
                 cocoindex.targets.PostgreSQL(
@@ -721,7 +739,7 @@ if COCOINDEX_AVAILABLE:
                 ),
                 primary_key_fields=["entity_id"]
             )
-            
+
             artifact_entity.export(
                 "kg_artifacts",
                 cocoindex.targets.PostgreSQL(
@@ -731,7 +749,7 @@ if COCOINDEX_AVAILABLE:
                 ),
                 primary_key_fields=["entity_id"]
             )
-            
+
             sighting_entity.export(
                 "kg_sightings",
                 cocoindex.targets.PostgreSQL(
@@ -741,7 +759,7 @@ if COCOINDEX_AVAILABLE:
                 ),
                 primary_key_fields=["entity_id"]
             )
-            
+
             testimony_entity.export(
                 "kg_testimonies",
                 cocoindex.targets.PostgreSQL(
@@ -751,7 +769,7 @@ if COCOINDEX_AVAILABLE:
                 ),
                 primary_key_fields=["entity_id"]
             )
-            
+
             topic_entity.export(
                 "kg_topics",
                 cocoindex.targets.PostgreSQL(
@@ -761,7 +779,7 @@ if COCOINDEX_AVAILABLE:
                 ),
                 primary_key_fields=["entity_id"]
             )
-            
+
             # Export relationships
             relationship_edge.export(
                 "kg_relationships",
@@ -772,7 +790,7 @@ if COCOINDEX_AVAILABLE:
                 ),
                 primary_key_fields=["relationship_id"]
             )
-            
+
             # Export entity mentions
             entity_mention.export(
                 "kg_entity_mentions",
@@ -783,7 +801,7 @@ if COCOINDEX_AVAILABLE:
                 ),
                 primary_key_fields=["id"]
             )
-            
+
             # 2. Neo4j Knowledge Graph with proper entity types
             flow_builder.declare(
                 cocoindex.targets.Neo4jDeclaration(
@@ -792,7 +810,7 @@ if COCOINDEX_AVAILABLE:
                     primary_key_fields=["doc_id"]
                 )
             )
-            
+
             # Declare all entity node types
             for entity_type in ["Person", "Event", "Organization", "Location", "Artifact", "Sighting", "Testimony", "Topic"]:
                 flow_builder.declare(
@@ -802,7 +820,7 @@ if COCOINDEX_AVAILABLE:
                         primary_key_fields=["entity_id"]
                     )
                 )
-            
+
             # Export document nodes to Neo4j
             document_node.export(
                 "neo4j_documents",
@@ -812,7 +830,7 @@ if COCOINDEX_AVAILABLE:
                 ),
                 primary_key_fields=["doc_id"]
             )
-            
+
             # Export entity nodes to Neo4j with proper labels
             person_entity.export(
                 "neo4j_persons",
@@ -822,7 +840,7 @@ if COCOINDEX_AVAILABLE:
                 ),
                 primary_key_fields=["entity_id"]
             )
-            
+
             event_entity.export(
                 "neo4j_events",
                 cocoindex.targets.Neo4j(
@@ -831,7 +849,7 @@ if COCOINDEX_AVAILABLE:
                 ),
                 primary_key_fields=["entity_id"]
             )
-            
+
             organization_entity.export(
                 "neo4j_organizations",
                 cocoindex.targets.Neo4j(
@@ -840,7 +858,7 @@ if COCOINDEX_AVAILABLE:
                 ),
                 primary_key_fields=["entity_id"]
             )
-            
+
             location_entity.export(
                 "neo4j_locations",
                 cocoindex.targets.Neo4j(
@@ -849,7 +867,7 @@ if COCOINDEX_AVAILABLE:
                 ),
                 primary_key_fields=["entity_id"]
             )
-            
+
             artifact_entity.export(
                 "neo4j_artifacts",
                 cocoindex.targets.Neo4j(
@@ -858,7 +876,7 @@ if COCOINDEX_AVAILABLE:
                 ),
                 primary_key_fields=["entity_id"]
             )
-            
+
             sighting_entity.export(
                 "neo4j_sightings",
                 cocoindex.targets.Neo4j(
@@ -867,7 +885,7 @@ if COCOINDEX_AVAILABLE:
                 ),
                 primary_key_fields=["entity_id"]
             )
-            
+
             testimony_entity.export(
                 "neo4j_testimonies",
                 cocoindex.targets.Neo4j(
@@ -876,7 +894,7 @@ if COCOINDEX_AVAILABLE:
                 ),
                 primary_key_fields=["entity_id"]
             )
-            
+
             topic_entity.export(
                 "neo4j_topics",
                 cocoindex.targets.Neo4j(
@@ -885,7 +903,7 @@ if COCOINDEX_AVAILABLE:
                 ),
                 primary_key_fields=["entity_id"]
             )
-            
+
             # Export relationships to Neo4j with typed relationships
             relationship_edge.export(
                 "neo4j_relationships",
@@ -913,7 +931,7 @@ if COCOINDEX_AVAILABLE:
                 ),
                 primary_key_fields=["relationship_id"]
             )
-            
+
             # Export entity mentions (Document-Entity relationships)
             entity_mention.export(
                 "neo4j_mentions",
@@ -923,21 +941,24 @@ if COCOINDEX_AVAILABLE:
                         rel_type="MENTIONS",
                         source=cocoindex.targets.NodeFromFields(
                             label="Document",
-                            fields=[cocoindex.targets.TargetFieldMapping("document_id", "doc_id")]
+                            fields=[cocoindex.targets.TargetFieldMapping(
+                                "document_id", "doc_id")]
                         ),
                         target=cocoindex.targets.NodeFromFields(
                             label="Entity",
                             fields=[
-                                cocoindex.targets.TargetFieldMapping("entity_id", "entity_id")
+                                cocoindex.targets.TargetFieldMapping(
+                                    "entity_id", "entity_id")
                             ]
                         )
                     )
                 ),
                 primary_key_fields=["id"]
             )
-            
-            logger.info("UAPDisclosureKG flow execution completed successfully")
-            
+
+            logger.info(
+                "UAPDisclosureKG flow execution completed successfully")
+
         except Exception as e:
             logger.error(f"Error in UAPDisclosureKG flow: {e}")
             raise
@@ -954,11 +975,13 @@ if COCOINDEX_AVAILABLE:
 else:
     # Fallback when CocoIndex is not available
     def uap_disclosure_kg_flow(*args, **kwargs):
-        logger.warning("CocoIndex not available - skipping knowledge graph flow")
+        logger.warning(
+            "CocoIndex not available - skipping knowledge graph flow")
         return None
-    
+
     def run_uap_kg_flow():
-        logger.warning("CocoIndex not available - install with: pip install cocoindex")
+        logger.warning(
+            "CocoIndex not available - install with: pip install cocoindex")
         return "CocoIndex not available"
 
 if __name__ == "__main__":

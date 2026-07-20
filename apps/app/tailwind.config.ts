@@ -293,7 +293,8 @@ const config = {
 				"dots-pattern-dark": "radial-gradient(transparent 1px, rgb(0 0 0) 1px)",
 			},
 		},
-		plugins: [
+	},
+	plugins: [
 			tailwindAnimate,
 			addVariablesForColors,
 			( { matchUtilities, theme }: any ) => {

@@ -1,0 +1,510 @@
+ .agent/skills/frontend-design         |     1 -
+ .../frontend-design/LICENSE.txt       |   177 -
+ .../skills/frontend-design/SKILL.md   |    42 -
+ .claude/agents/academic-researcher.md |    33 -
+ .claude/agents/agent-overview.md      |   239 -
+ .claude/agents/ai-engineer.md         |    33 -
+ .claude/agents/architect-review.md    |    50 -
+ .../agents/architecture-modernizer.md |    37 -
+ .claude/agents/business-analyst.md    |   194 -
+ .claude/agents/cli-ui-designer.md     |   405 -
+ .claude/agents/command-expert.md      |   422 -
+ .claude/agents/connection-agent.md    |    67 -
+ .claude/agents/content-marketer.md    |    36 -
+ .claude/agents/context-manager.md     |    65 -
+ .claude/agents/data-analyst.md        |   112 -
+ .claude/agents/data-engineer.md       |    33 -
+ .claude/agents/data-scientist.md      |   337 -
+ .claude/agents/database-architect.md  |   590 -
+ .claude/agents/documentation-agent.md |   422 -
+ .../agents/documentation-expert.md    |    47 -
+ .claude/agents/dx-optimizer.md        |    64 -
+ .claude/agents/fullstack-developer.md |  1205 --
+ .claude/agents/mcp-expert.md          |   259 -
+ .../agents/mcp-server-architect.md    |    74 -
+ .../nextjs-architecture-expert.md     |   194 -
+ .claude/agents/product-strategist.md  |   212 -
+ ...project-supervisor-orchestrator.md |    48 -
+ .claude/agents/prompt-engineer.md     |   112 -
+ .claude/agents/python-pro.md          |    33 -
+ .../react-performance-optimization.md |    65 -
+ .claude/agents/report-generator.md    |   108 -
+ .../agents/research-coordinator.md    |    94 -
+ .../agents/research-orchestrator.md   |   119 -
+ .claude/agents/search-specialist.md   |    59 -
+ .claude/agents/seo-analyzer.md        |    37 -
+ .../task-decomposition-expert.md      |    97 -
+ .../agents/technical-researcher.md    |    95 -
+ .claude/agents/technical-writer.md    |    37 -
+ .claude/agents/ui-ux-designer.md      |    36 -
+ .gitignore                            |     1 +
+ .project_tree.txt                     | 10790 -----------
+ ...ompound-engineeringagent-brows.txt |   160 -
+ DAILY_WORK_PLAN.md                    |     6 +
+ NOTES.md                              |   156 +
+ apps/app/.storybook/main.ts           |    69 +-
+ apps/app/.storybook/preview.tsx       |    19 +-
+ .../docs/AGENT_1_WORK_LOG_20250629.md |   175 -
+ ...ELLIGENCE_IMPLEMENTATION_STATUS.md |   223 -
+ .../docs/DynamicSettingsVariant1.md   |    27 -
+ ...amicSettingsVariant1_PSUEDOCODE.md |    35 -
+ .../docs/ENHANCED_NODE_POC_STATUS.md  |    74 -
+ apps/app/docs/GalleryFlow.md          |    56 -
+ .../docs/GalleryFlow_PSUEDOCODE.md    |    62 -
+ .../docs/MINDMAP_NODE_CREATION_FIX.md |    56 -
+ apps/app/docs/Pill.md                 |    27 -
+ apps/app/docs/Pill_PSUEDOCODE.md      |    43 -
+ apps/app/docs/ProductSwapCard.md      |    29 -
+ .../ProductSwapCard_PSUEDOCODE.md     |    31 -
+ .../docs/RESEARCH_INTERFACE_STATUS.md |   169 -
+ ...TIAL_INTELLIGENCE_STATUS_UPDATE.md |   302 -
+ ...ASK_COMPLETION_LOG_JUNE_25_2025.md |   224 -
+ apps/app/docs/TODO_AGENT_TASKS.md     |   248 -
+ .../timeline-views.stories.tsx        |     2 +-
+ .../app/src/app/api/sse/test/route.ts |    23 -
+ .../src/app/api/sse/xata/ask/route.ts |   203 -
+ .../api/sse/xata/ask/send/route.ts    |    40 -
+ .../app/api/sse/xata/ask/shared.ts    |     4 -
+ .../src/app/api/sse/xata/ask/utils.ts |    78 -
+ .../app/api/webhooks/xata/route.ts    |   360 +-
+ .../enhanced-planet-journey/page.tsx  |   152 -
+ .../agents/ResearchOrchestration.tsx  |  1071 -
+ .../app/experimental/agents/page.tsx  |     7 -
+ .../app/src/app/experimental/page.tsx |    27 -
+ .../app/src/app/fonts/LukasSans.woff2 |   Bin 17924 -> 0 bytes
+ ...ABCMonumentGrotesk-Black-Trial.otf |   Bin 123656 -> 0 bytes
+ ...BCMonumentGrotesk-Black-Trial.woff |   Bin 74480 -> 0 bytes
+ ...CMonumentGrotesk-Black-Trial.woff2 |   Bin 55340 -> 0 bytes
+ ...umentGrotesk-BlackItalic-Trial.otf |   Bin 122744 -> 0 bytes
+ ...mentGrotesk-BlackItalic-Trial.woff |   Bin 75576 -> 0 bytes
+ ...entGrotesk-BlackItalic-Trial.woff2 |   Bin 56068 -> 0 bytes
+ .../ABCMonumentGrotesk-Bold-Trial.otf |   Bin 101872 -> 0 bytes
+ ...ABCMonumentGrotesk-Bold-Trial.woff |   Bin 61596 -> 0 bytes
+ ...BCMonumentGrotesk-Bold-Trial.woff2 |   Bin 46768 -> 0 bytes
+ ...numentGrotesk-BoldItalic-Trial.otf |   Bin 102540 -> 0 bytes
+ ...umentGrotesk-BoldItalic-Trial.woff |   Bin 62832 -> 0 bytes
+ ...mentGrotesk-BoldItalic-Trial.woff2 |   Bin 47816 -> 0 bytes
+ ...ABCMonumentGrotesk-Heavy-Trial.otf |   Bin 124128 -> 0 bytes
+ ...BCMonumentGrotesk-Heavy-Trial.woff |   Bin 70860 -> 0 bytes
+ ...CMonumentGrotesk-Heavy-Trial.woff2 |   Bin 53044 -> 0 bytes
+ ...umentGrotesk-HeavyItalic-Trial.otf |   Bin 124516 -> 0 bytes
+ ...mentGrotesk-HeavyItalic-Trial.woff |   Bin 71432 -> 0 bytes
+ ...entGrotesk-HeavyItalic-Trial.woff2 |   Bin 53492 -> 0 bytes
+ ...ABCMonumentGrotesk-Light-Trial.otf |   Bin 104880 -> 0 bytes
+ ...BCMonumentGrotesk-Light-Trial.woff |   Bin 61532 -> 0 bytes
+ ...CMonumentGrotesk-Light-Trial.woff2 |   Bin 46312 -> 0 bytes
+ ...umentGrotesk-LightItalic-Trial.otf |   Bin 108796 -> 0 bytes
+ ...mentGrotesk-LightItalic-Trial.woff |   Bin 63440 -> 0 bytes
+ ...entGrotesk-LightItalic-Trial.woff2 |   Bin 47892 -> 0 bytes
+ ...BCMonumentGrotesk-Medium-Trial.otf |   Bin 103448 -> 0 bytes
+ ...CMonumentGrotesk-Medium-Trial.woff |   Bin 62004 -> 0 bytes
+ ...MonumentGrotesk-Medium-Trial.woff2 |   Bin 46820 -> 0 bytes
+ ...mentGrotesk-MediumItalic-Trial.otf |   Bin 104544 -> 0 bytes
+ ...entGrotesk-MediumItalic-Trial.woff |   Bin 63064 -> 0 bytes
+ ...ntGrotesk-MediumItalic-Trial.woff2 |   Bin 47764 -> 0 bytes
+ ...CMonumentGrotesk-Regular-Trial.otf |   Bin 97176 -> 0 bytes
+ ...MonumentGrotesk-Regular-Trial.woff |   Bin 59260 -> 0 bytes
+ ...onumentGrotesk-Regular-Trial.woff2 |   Bin 44796 -> 0 bytes
+ ...entGrotesk-RegularItalic-Trial.otf |   Bin 98368 -> 0 bytes
+ ...ntGrotesk-RegularItalic-Trial.woff |   Bin 60228 -> 0 bytes
+ ...tGrotesk-RegularItalic-Trial.woff2 |   Bin 45636 -> 0 bytes
+ .../ABCMonumentGrotesk-Thin-Trial.otf |   Bin 98880 -> 0 bytes
+ ...ABCMonumentGrotesk-Thin-Trial.woff |   Bin 57648 -> 0 bytes
+ ...BCMonumentGrotesk-Thin-Trial.woff2 |   Bin 43588 -> 0 bytes
+ ...numentGrotesk-ThinItalic-Trial.otf |   Bin 102232 -> 0 bytes
+ ...umentGrotesk-ThinItalic-Trial.woff |   Bin 59144 -> 0 bytes
+ ...mentGrotesk-ThinItalic-Trial.woff2 |   Bin 44716 -> 0 bytes
+ ...ABCMonumentGrotesk-Ultra-Trial.otf |   Bin 118972 -> 0 bytes
+ ...BCMonumentGrotesk-Ultra-Trial.woff |   Bin 71104 -> 0 bytes
+ ...CMonumentGrotesk-Ultra-Trial.woff2 |   Bin 53108 -> 0 bytes
+ ...umentGrotesk-UltraItalic-Trial.otf |   Bin 118724 -> 0 bytes
+ ...mentGrotesk-UltraItalic-Trial.woff |   Bin 72096 -> 0 bytes
+ ...entGrotesk-UltraItalic-Trial.woff2 |   Bin 53348 -> 0 bytes
+ ...onumentGroteskMono-Black-Trial.otf |   Bin 58548 -> 0 bytes
+ ...numentGroteskMono-Black-Trial.woff |   Bin 50068 -> 0 bytes
+ ...umentGroteskMono-Black-Trial.woff2 |   Bin 37220 -> 0 bytes
+ ...tGroteskMono-BlackItalic-Trial.otf |   Bin 56660 -> 0 bytes
+ ...GroteskMono-BlackItalic-Trial.woff |   Bin 51284 -> 0 bytes
+ ...roteskMono-BlackItalic-Trial.woff2 |   Bin 38260 -> 0 bytes
+ ...MonumentGroteskMono-Bold-Trial.otf |   Bin 54740 -> 0 bytes
+ ...onumentGroteskMono-Bold-Trial.woff |   Bin 45064 -> 0 bytes
+ ...numentGroteskMono-Bold-Trial.woff2 |   Bin 34032 -> 0 bytes
+ ...ntGroteskMono-BoldItalic-Trial.otf |   Bin 53396 -> 0 bytes
+ ...tGroteskMono-BoldItalic-Trial.woff |   Bin 45264 -> 0 bytes
+ ...GroteskMono-BoldItalic-Trial.woff2 |   Bin 34248 -> 0 bytes
+ ...onumentGroteskMono-Heavy-Trial.otf |   Bin 58332 -> 0 bytes
+ ...numentGroteskMono-Heavy-Trial.woff |   Bin 46976 -> 0 bytes
+ ...umentGroteskMono-Heavy-Trial.woff2 |   Bin 35264 -> 0 bytes
+ ...tGroteskMono-HeavyItalic-Trial.otf |   Bin 56372 -> 0 bytes
+ ...GroteskMono-HeavyItalic-Trial.woff |   Bin 46756 -> 0 bytes
+ ...roteskMono-HeavyItalic-Trial.woff2 |   Bin 35240 -> 0 bytes
+ ...onumentGroteskMono-Light-Trial.otf |   Bin 51484 -> 0 bytes
+ ...numentGroteskMono-Light-Trial.woff |   Bin 43692 -> 0 bytes
+ ...umentGroteskMono-Light-Trial.woff2 |   Bin 32816 -> 0 bytes
+ ...tGroteskMono-LightItalic-Trial.otf |   Bin 54568 -> 0 bytes
+ ...GroteskMono-LightItalic-Trial.woff |   Bin 44276 -> 0 bytes
+ ...roteskMono-LightItalic-Trial.woff2 |   Bin 33348 -> 0 bytes
+ ...numentGroteskMono-Medium-Trial.otf |   Bin 55008 -> 0 bytes
+ ...umentGroteskMono-Medium-Trial.woff |   Bin 44808 -> 0 bytes
+ ...mentGroteskMono-Medium-Trial.woff2 |   Bin 33736 -> 0 bytes
+ ...GroteskMono-MediumItalic-Trial.otf |   Bin 53808 -> 0 bytes
+ ...roteskMono-MediumItalic-Trial.woff |   Bin 44836 -> 0 bytes
+ ...oteskMono-MediumItalic-Trial.woff2 |   Bin 33956 -> 0 bytes
+ ...umentGroteskMono-Regular-Trial.otf |   Bin 52248 -> 0 bytes
+ ...mentGroteskMono-Regular-Trial.woff |   Bin 44008 -> 0 bytes
+ ...entGroteskMono-Regular-Trial.woff2 |   Bin 33176 -> 0 bytes
+ ...roteskMono-RegularItalic-Trial.otf |   Bin 52104 -> 0 bytes
+ ...oteskMono-RegularItalic-Trial.woff |   Bin 44432 -> 0 bytes
+ ...teskMono-RegularItalic-Trial.woff2 |   Bin 33468 -> 0 bytes
+ ...MonumentGroteskMono-Thin-Trial.otf |   Bin 51604 -> 0 bytes
+ ...onumentGroteskMono-Thin-Trial.woff |   Bin 43256 -> 0 bytes
+ ...numentGroteskMono-Thin-Trial.woff2 |   Bin 32460 -> 0 bytes
+ ...ntGroteskMono-ThinItalic-Trial.otf |   Bin 52688 -> 0 bytes
+ ...tGroteskMono-ThinItalic-Trial.woff |   Bin 44412 -> 0 bytes
+ ...GroteskMono-ThinItalic-Trial.woff2 |   Bin 33388 -> 0 bytes
+ .../NeueHaasGroteskRoman.ttf          |   Bin 115704 -> 0 bytes
+ .../NeueHaasGroteskRoman.woff         |   Bin 48712 -> 0 bytes
+ .../Sentient-Regular.otf              |   Bin 46308 -> 0 bytes
+ .../Sentient-Regular.ttf              |   Bin 73196 -> 0 bytes
+ .../Sentient-Regular.woff             |   Bin 32004 -> 0 bytes
+ ...302c99b5ba55e6778c730de81ebd.woff2 |   Bin 34648 -> 0 bytes
+ .../NeueHaasGrotesk/neuehaas.woff     |   Bin 48712 -> 0 bytes
+ ...s-grotesk-display-pro-55-roman.ttf |   Bin 100400 -> 0 bytes
+ .../src/app/planet-journey/page.tsx   |    37 -
+ .../PlanetShowcase.stories.tsx        |   393 -
+ .../src/app/planet-showcase/page.tsx  |   148 -
+ .../src/app/simple/editor-client.tsx  |     7 -
+ apps/app/src/app/simple/page.tsx      |    12 -
+ apps/app/src/components/NewLogo.tsx   |   138 +-
+ .../blocks/DropdownCard.tsx           |     2 -
+ .../blocks/LinkCardGrid.tsx           |     2 -
+ .../components/blocks/LinkCards.tsx   |     2 -
+ .../mindmap/mindmap.interface.ts      |     2 +-
+ .../drawing-board__d3.tsx             |     2 +-
+ .../graph/rtf-graph.tsx               |     2 +-
+ .../src/features/XataAskComponent.tsx |   207 -
+ .../features/ask-example-enhanced.ts  |   582 -
+ apps/app/src/features/ask-example.ts  |   198 -
+ .../mindmap/actions/actions.ts        |   121 -
+ .../mindmap/actions/xata-to-xyflow.ts |   100 +-
+ .../mindmap/components/ask-ai.tsx     |    93 +-
+ .../SubjectMatterExpertCard.tsx       |     2 +-
+ .../EmptyCanvas.stories.tsx           |     2 +-
+ .../menus/mindmap-side-menu/index.tsx |     2 +-
+ ...-auto-connection-panel.stories.tsx |    25 -
+ .../debug/comprehensive-debug.ts      |   543 -
+ .../debug/debug-test-component.tsx    |   334 -
+ .../mindmap/debug/test-runner.ts      |    65 -
+ .../mindmap/debug/xata-flow-test.ts   |   199 -
+ .../mindmap/hooks/useAskXata.ts       |   267 -
+ .../research-canvas-console.tsx       |    44 +-
+ .../hud-sightings-terminal.tsx        |    54 +-
+ apps/app/src/features/useXataAsk.ts   |   198 -
+ .../src/hooks/hooks\\use-mobile.ts"   |    19 -
+ apps/app/src/hooks/use-mobile.ts      |     2 +
+ apps/app/src/hooks/use-mobile.tsx     |    19 -
+ apps/app/src/hooks/useSSE.tsx         |   199 -
+ apps/app/src/lib/observability.ts     |    68 -
+ .../ai/openai/functions/functions.ts  |     2 +-
+ .../ai/openai/prometheus-agent.ts     |     2 +-
+ .../ai/openai/stream-handler.ts       |     2 +-
+ .../services/ai/openai/tools/index.ts |     5 -
+ .../openai/tools/search-database.ts   |     2 -
+ .../ai/prometheus/api/agent/route.ts  |     2 +-
+ .../ai/prometheus/api/chat/route.ts   |     2 +-
+ .../prompts/ner-extraction-prompt.ts  |   235 +-
+ .../ai/prompts/yaml-loader.ts         |   101 +-
+ .../services/ai/tools/exa/agent.ts    |     2 +-
+ .../services/ai/tools/tavily/agent.ts |     2 +-
+ .../services/ai/workflows/index.ts    |     8 -
+ .../prompt-to-multistep.workflow.ts   |   205 -
+ .../transform-for-reactflow.ts        |    82 -
+ apps/app/src/types/modules.d.ts       |     3 -
+ apps/app/tailwind.config.ts           |     3 +-
+ apps/app/tsconfig.json                |     1 +
+ .../agents/content_analysis_agent.py  |    12 +-
+ .../config/cocoindex_config.py        |    84 +-
+ .../lib/adapters/dual_rag_adapter.py  |    12 +-
+ .../lib/cocoindex_flows.py            |   175 +-
+ .../lib/sync_to_upstash.py            |    13 +-
+ .../lib/upstash/vector.py             |    10 +-
+ .../processing/content_analysis.py    |    14 +-
+ .../enhanced_content_analysis.py      |   167 +-
+ .../scripts/check-tables.py           |     5 +-
+ .../scripts/direct-sql-import.py      |     4 +-
+ .../download_pursue_ufo_releases.py   |     2 +-
+ .../scripts/export-xata-data.py       |     4 +-
+ .../scripts/final-import.py           |     4 +-
+ .../scripts/fix-failed-tables.py      |     5 +-
+ .../scripts/import-core-tables.py     |     7 +-
+ .../import-data-to-postgres.py        |     6 +-
+ .../migrate-to-postgres-xata.py       |    12 +-
+ .../scripts/quick-verify.py           |     5 +-
+ .../scripts/setup-postgres-tables.py  |     4 +-
+ .../tests/test-single-insert.py       |     5 +-
+ apps/ufo-ui/.gitignore                |    27 -
+ .../app/api/local-data/route.ts       |     8 -
+ .../loading.tsx                       |    25 -
+ .../content-card-detail-view/page.tsx |   430 -
+ apps/ufo-ui/app/globals.css           |   161 -
+ apps/ufo-ui/app/layout.tsx            |    44 -
+ apps/ufo-ui/app/not-found.tsx         |    59 -
+ apps/ufo-ui/app/page.tsx              |    28 -
+ .../app/research-canvas/page.tsx      |    14 -
+ .../loading.tsx                       |     3 -
+ .../page.tsx                          |   647 -
+ .../app/timeline-explorer/page.tsx    |    25 -
+ apps/ufo-ui/app/timeline/page.tsx     |   500 -
+ .../app/ufo-sightings/loading.tsx     |     3 -
+ .../ufo-ui/app/ufo-sightings/page.tsx |   577 -
+ apps/ufo-ui/bun.lock                  |  1561 --
+ .../hover-panel/AssetLibraryPanel.tsx |   533 -
+ .../CollaborationPanel.tsx            |   254 -
+ .../hover-panel/FilterPanel.tsx       |   288 -
+ .../hover-panel/HistoryPanel.tsx      |   183 -
+ .../hover-panel/LayersPanel.tsx       |   194 -
+ .../hover-panel/LayoutPanel.tsx       |   192 -
+ .../hover-panel/NetworkPanel.tsx      |   306 -
+ .../hover-panel/QuickActionsPanel.tsx |   208 -
+ .../hover-panel/SavedViewsPanel.tsx   |   280 -
+ .../hover-panel/SettingsPanel.tsx     |   195 -
+ .../hover-panel/TemplatesPanel.tsx    |   157 -
+ .../hover-panel/TimelinePanel.tsx     |   182 -
+ .../hover-panels/ArchivePanel.tsx     |   102 -
+ .../AssetLibraryPanel.tsx             |   152 -
+ .../CollaborationPanel.tsx            |   255 -
+ .../hover-panels/FilterPanel.tsx      |    56 -
+ .../hover-panels/HistoryPanel.tsx     |   184 -
+ .../hover-panels/LayersPanel.tsx      |   195 -
+ .../hover-panels/LayoutPanel.tsx      |   101 -
+ .../hover-panels/NetworkPanel.tsx     |    60 -
+ .../hover-panels/PanelWrapper.tsx     |    45 -
+ .../QuickActionsPanel.tsx             |    51 -
+ .../hover-panels/SavedViewsPanel.tsx  |    48 -
+ .../hover-panels/SettingsPanel.tsx    |   199 -
+ .../hover-panels/TemplatesPanel.tsx   |   158 -
+ .../hover-panels/TimelinePanel.tsx    |   186 -
+ .../navigation/FullScreenMenu.tsx     |   362 -
+ .../navigation/MenuTrigger.tsx        |    77 -
+ .../pages/NetworkTimelineExplorer.tsx |   490 -
+ .../research-canvas/ActionChip.tsx    |    24 -
+ .../research-canvas/AnimatedChat.tsx  |   161 -
+ .../AnimatedChatWithSuggestions.tsx   |   305 -
+ .../research-canvas/AssetPanel.tsx    |    79 -
+ .../research-canvas/EmptyCanvas.tsx   |    91 -
+ .../EnhancedAnimatedChat.tsx          |   456 -
+ .../FloatingToolbar.tsx               |   219 -
+ .../research-canvas/MessageInput.tsx  |    82 -
+ .../ResearchTimeline.tsx              |   101 -
+ .../research-canvas/ToolbarButton.tsx |    41 -
+ .../research-canvas/Typer.tsx         |   266 -
+ .../components/theme-provider.tsx     |    11 -
+ .../components/ui/FloatingHeader.tsx  |   120 -
+ .../ufo-ui/components/ui/UFOGlobe.tsx |   382 -
+ .../components/ui/ZAxisTimeline.tsx   |   336 -
+ .../components/ui/accordion.tsx       |    66 -
+ .../components/ui/alert-dialog.tsx    |   157 -
+ apps/ufo-ui/components/ui/alert.tsx   |    66 -
+ .../components/ui/aspect-ratio.tsx    |    11 -
+ apps/ufo-ui/components/ui/avatar.tsx  |    53 -
+ apps/ufo-ui/components/ui/badge.tsx   |    46 -
+ .../components/ui/breadcrumb.tsx      |   109 -
+ .../components/ui/button-group.tsx    |    83 -
+ apps/ufo-ui/components/ui/button.tsx  |    60 -
+ .../ufo-ui/components/ui/calendar.tsx |   213 -
+ apps/ufo-ui/components/ui/card.tsx    |    92 -
+ .../ufo-ui/components/ui/carousel.tsx |   241 -
+ apps/ufo-ui/components/ui/chart.tsx   |   351 -
+ .../ufo-ui/components/ui/checkbox.tsx |    32 -
+ .../components/ui/collapsible.tsx     |    33 -
+ apps/ufo-ui/components/ui/command.tsx |   184 -
+ .../components/ui/context-menu.tsx    |   252 -
+ apps/ufo-ui/components/ui/dialog.tsx  |   143 -
+ .../components/ui/dot-pattern.tsx     |    34 -
+ apps/ufo-ui/components/ui/drawer.tsx  |   135 -
+ .../components/ui/dropdown-menu.tsx   |   257 -
+ apps/ufo-ui/components/ui/empty.tsx   |   104 -
+ apps/ufo-ui/components/ui/field.tsx   |   244 -
+ apps/ufo-ui/components/ui/form.tsx    |   167 -
+ .../components/ui/hover-card.tsx      |    44 -
+ .../components/ui/input-group.tsx     |   169 -
+ .../components/ui/input-otp.tsx       |    77 -
+ apps/ufo-ui/components/ui/input.tsx   |    21 -
+ apps/ufo-ui/components/ui/item.tsx    |   193 -
+ apps/ufo-ui/components/ui/kbd.tsx     |    28 -
+ apps/ufo-ui/components/ui/label.tsx   |    24 -
+ apps/ufo-ui/components/ui/menubar.tsx |   276 -
+ .../components/ui/navigation-menu.tsx |   166 -
+ .../components/ui/pagination.tsx      |   127 -
+ apps/ufo-ui/components/ui/popover.tsx |    48 -
+ .../ufo-ui/components/ui/progress.tsx |    31 -
+ .../components/ui/radio-group.tsx     |    45 -
+ .../components/ui/resizable.tsx       |    56 -
+ .../components/ui/scroll-area.tsx     |    58 -
+ apps/ufo-ui/components/ui/select.tsx  |   185 -
+ .../components/ui/separator.tsx       |    28 -
+ apps/ufo-ui/components/ui/sheet.tsx   |   139 -
+ apps/ufo-ui/components/ui/sidebar.tsx |   726 -
+ .../ufo-ui/components/ui/skeleton.tsx |    13 -
+ apps/ufo-ui/components/ui/slider.tsx  |    59 -
+ apps/ufo-ui/components/ui/sonner.tsx  |    25 -
+ apps/ufo-ui/components/ui/spinner.tsx |    16 -
+ apps/ufo-ui/components/ui/switch.tsx  |    29 -
+ apps/ufo-ui/components/ui/table.tsx   |   116 -
+ apps/ufo-ui/components/ui/tabs.tsx    |    66 -
+ .../ufo-ui/components/ui/textarea.tsx |    18 -
+ apps/ufo-ui/components/ui/toast.tsx   |   129 -
+ apps/ufo-ui/components/ui/toaster.tsx |    35 -
+ .../components/ui/toggle-group.tsx    |    73 -
+ apps/ufo-ui/components/ui/toggle.tsx  |    47 -
+ apps/ufo-ui/components/ui/tooltip.tsx |    61 -
+ .../components/ui/use-mobile.tsx      |    19 -
+ .../ufo-ui/components/ui/use-toast.ts |   191 -
+ apps/ufo-ui/contexts/AuthContext.tsx  |    76 -
+ apps/ufo-ui/data/events.ts            |   164 -
+ apps/ufo-ui/data/key-figures.ts       |   154 -
+ apps/ufo-ui/data/testimonies.ts       |   115 -
+ apps/ufo-ui/data/ufo-sightings.ts     |   281 -
+ .../data/ufo-timeline-events.ts       |   498 -
+ apps/ufo-ui/hooks/use-mobile.ts       |    19 -
+ apps/ufo-ui/hooks/use-toast.ts        |   191 -
+ apps/ufo-ui/lib/local-data.ts         |   238 -
+ .../ufo-ui/lib/use-local-incidents.ts |    54 -
+ apps/ufo-ui/lib/utils.ts              |     6 -
+ apps/ufo-ui/next-env.d.ts             |     6 -
+ apps/ufo-ui/next.config.mjs           |    11 -
+ apps/ufo-ui/package.json              |    83 -
+ apps/ufo-ui/postcss.config.mjs        |     8 -
+ apps/ufo-ui/public/0-2.jpg            |   Bin 232736 -> 0 bytes
+ apps/ufo-ui/public/22.png             |   Bin 1536624 -> 0 bytes
+ .../public/abstract-disclosure.png    |   Bin 1536624 -> 0 bytes
+ apps/ufo-ui/public/apple-icon.png     |   Bin 2626 -> 0 bytes
+ ...imbabwe-ufo-children-encounter.jpg |   Bin 118055 -> 0 bytes
+ ...lgium-ufo-triangle-craft-night.jpg |   Bin 54078 -> 0 bytes
+ apps/ufo-ui/public/colares-beams.png  |   Bin 1535099 -> 0 bytes
+ apps/ufo-ui/public/colares-ufo.png    |   Bin 1846348 -> 0 bytes
+ apps/ufo-ui/public/colares.png        |   Bin 1846348 -> 0 bytes
+ ...-6912-41b9-8a21-4e70cd5de960-0.png |   Bin 1535099 -> 0 bytes
+ ...-142d-4281-a215-b88249617eb9-0.png |   Bin 1890926 -> 0 bytes
+ ...-55b7-448c-acee-3e4bee70eb1c-0.png |   Bin 1922239 -> 0 bytes
+ ...-c2f8-4379-8308-405ce468d9a4-0.png |   Bin 1673037 -> 0 bytes
+ ...-c2f8-4379-8308-405ce468d9a4-3.png |   Bin 2034769 -> 0 bytes
+ ...-362c-4e86-bd62-b654a886cdb4-3.png |   Bin 1115015 -> 0 bytes
+ ...-ddb1-4125-a56f-095695760e5f-1.png |   Bin 1419312 -> 0 bytes
+ ...-ddb1-4125-a56f-095695760e5f-3.png |   Bin 1755898 -> 0 bytes
+ ...-71d2-43ca-bcd0-ce319ca09cee-2.png |   Bin 1669959 -> 0 bytes
+ ...-71d2-43ca-bcd0-ce319ca09cee-3.png |   Bin 1717298 -> 0 bytes
+ ...-47c5-4486-b1ec-8188e163247e-3.png |   Bin 1833920 -> 0 bytes
+ ...-517b-4cad-a6f9-01d3590d1af2-0.png |   Bin 1697649 -> 0 bytes
+ ...mbal-ufo-navy-infrared-footage.jpg |   Bin 85229 -> 0 bytes
+ apps/ufo-ui/public/harbour-mille.png  |   Bin 1890926 -> 0 bytes
+ .../ufo-ui/public/icon-dark-32x32.png |   Bin 585 -> 0 bytes
+ .../public/icon-light-32x32.png       |   Bin 566 -> 0 bytes
+ apps/ufo-ui/public/icon.svg           |    26 -
+ apps/ufo-ui/public/icy-terrain.png    |   Bin 1697649 -> 0 bytes
+ apps/ufo-ui/public/images/0-2.jpg     |   Bin 232736 -> 0 bytes
+ apps/ufo-ui/public/images/22.png      |   Bin 1536624 -> 0 bytes
+ .../images/abstract-disclosure.png    |   Bin 1536624 -> 0 bytes
+ .../public/images/colares-beams.png   |   Bin 1535099 -> 0 bytes
+ .../public/images/colares-ufo.png     |   Bin 1846348 -> 0 bytes
+ apps/ufo-ui/public/images/colares.png |   Bin 1846348 -> 0 bytes
+ ...-142d-4281-a215-b88249617eb9-0.png |   Bin 1890926 -> 0 bytes
+ ...-55b7-448c-acee-3e4bee70eb1c-0.png |   Bin 1922239 -> 0 bytes
+ ...-c2f8-4379-8308-405ce468d9a4-3.png |   Bin 2034769 -> 0 bytes
+ .../ufo-ui/public/metallic-sphere.png |   Bin 1922239 -> 0 bytes
+ apps/ufo-ui/public/nimitz-fleet.png   |   Bin 1419312 -> 0 bytes
+ .../public/nimitz-silhouette.png      |   Bin 1755898 -> 0 bytes
+ .../public/nimitz-ufo-hover.png       |   Bin 1115015 -> 0 bytes
+ ...hare-airport-ufo-saucer-clouds.jpg |   Bin 132672 -> 0 bytes
+ ...x-lights-ufo-v-shape-night-sky.jpg |   Bin 78258 -> 0 bytes
+ .../public/placeholder-logo.png       |   Bin 568 -> 0 bytes
+ .../public/placeholder-logo.svg       |     1 -
+ .../public/placeholder-user.jpg       |   Bin 1635 -> 0 bytes
+ apps/ufo-ui/public/placeholder.jpg    |   Bin 1064 -> 0 bytes
+ apps/ufo-ui/public/placeholder.svg    |     1 -
+ ...-ufo-landing-mysterious-lights.jpg |   Bin 242077 -> 0 bytes
+ .../ufo-ui/public/roosevelt-ocean.png |   Bin 1669959 -> 0 bytes
+ .../public/roosevelt-space-view.png   |   Bin 1717298 -> 0 bytes
+ .../roswell-ufo-crash-site-desert.jpg |   Bin 137942 -> 0 bytes
+ ...ur-ufo-crash-water-nova-scotia.jpg |   Bin 191155 -> 0 bytes
+ ...-mexico-ufo-egg-shaped-landing.jpg |   Bin 89304 -> 0 bytes
+ ...lle-texas-ufo-lights-night-sky.jpg |   Bin 86696 -> 0 bytes
+ ...iran-ufo-fighter-jet-intercept.jpg |   Bin 87773 -> 0 bytes
+ .../public/tic-tac-aircraft.png       |   Bin 1673037 -> 0 bytes
+ .../public/tic-tac-submarine.png      |   Bin 2034769 -> 0 bytes
+ ...c-tac-ufo-navy-encounter-ocean.jpg |   Bin 108471 -> 0 bytes
+ ...lton-abduction-forest-ufo-beam.jpg |   Bin 212886 -> 0 bytes
+ apps/ufo-ui/public/ufo-carrier.jpg    |   Bin 232736 -> 0 bytes
+ .../public/vintage-world-map.png      |   Bin 1616934 -> 0 bytes
+ ...washington-dc-capitol-ufo-1952.jpg |   Bin 89274 -> 0 bytes
+ ...tralia-school-ufo-saucer-field.jpg |   Bin 136656 -> 0 bytes
+ apps/ufo-ui/public/westall-school.png |   Bin 1833920 -> 0 bytes
+ apps/ufo-ui/styles/globals.css        |   125 -
+ apps/ufo-ui/tsconfig.json             |    41 -
+ apps/ufo-ui/types/timeline-scroll.ts  |    29 -
+ disclosure-rag-processor.skill        |   Bin 7884 -> 0 bytes
+ ...ps-app-agent-native-remediation.md |     6 +-
+ .../ai_geo_blockchain_validation.md   |   213 -
+ .../alternative_perspectives.md       |   144 -
+ ...ive_perspectives_event_analysis.md |   188 -
+ ...pectives_pattern_trend_analysis.md |   142 -
+ ...ive_ufo_chronology_perspectives.md |   172 -
+ ..._study_watergate_discrepancies.txt |    83 -
+ ...isclosure_alternatives_research.md |   157 -
+ .../disclosure_status_research.md     |   314 -
+ ...re_status_tracking_alternatives.md |   192 -
+ ...losure_status_tracking_analysis.md |   254 -
+ .../event_documentation_analysis.md   |   298 -
+ ...analysis_comprehensive_research.md |   397 -
+ ...vent_documentation_methodology.txt |   143 -
+ .../expanded_perspectives.md          |   114 -
+ .../historical_context_research.md    |   243 -
+ ...rn_event_verification_protocol.txt |   114 -
+ .../network_visualization_analysis.md |   340 -
+ ...lization_comprehensive_overview.md |   464 -
+ ...work_visualization_perspectives.md |   148 -
+ .../platform_architecture_analysis.md |   253 -
+ ...regulatory_compliance_framework.md |   121 -
+ .../research_notes.txt                |    49 -
+ .../research_plan.md                  |    23 -
+ ...ion_methods_progress_indicators.md |    24 -
+ ...tic_methodology_practical_guide.md |    91 -
+ .../timeline-navigation-research.md   |   230 -
+ ...meline_alternative_perspectives.md |   208 -
+ .../timeline_filtering_analysis.md    |   223 -
+ ..._tracking_knowledge_graph_facts.md |   119 -
+ ...acking_knowledge_graph_research.md |   359 -
+ .../uap_disclosure_status_facts.md    |    71 -
+ .../ufo_analysis_framework.md         |   136 -
+ .../ufo_chronology_research.md        |   152 -
+ ...data_quality_verification_guide.md |   218 -
+ .../verified_facts_report.md          |   129 -
+ ...ilitary_ufo_nuclear_testimonies.md |   190 -
+ .../perspectives_analysis.md          |    60 -
+ .../prompt.md                         |   408 -
+ .../prompt_perspectives.md            |    82 -
+ .../roadmap.md                        |   244 -
+ .../statistical_framework.py          |   490 -
+ .../ufo_analysis_example.py           |   268 -
+ ...fo_nuclear_correlation_analysis.md |   269 -
+ docs/SCRATCHPAD.md                    |    61 +-
+ .../2026-05-31-system-trace/INDEX.md  |     8 +-
+ .../data-platform-rebuild-spec.md     |   459 +-
+ docs/design/ingestion-analysis.md     |    37 +-
+ docs/observability/monitoring-plan.md |    63 -
+ openmemory.md                         |    12 +
+ package.json                          |     6 +-
+ packages/db/src/postgres/client.ts    |    49 +-
+ packages/prompts/PROMPT_INVENTORY.md  |     8 +-
+ packages/prompts/README.md            |    70 +-
+ packages/prompts/config.yaml          |     7 +-
+ .../enhanced_research_prompt.py       |   211 +-
+ packages/prompts/index.yaml           |    36 +-
+ ...named_entity_recognition_prompt.py |   240 +-
+ packages/prompts/registry.yaml        |    63 +-
+ packages/prompts/research_manager.py  |   374 -
+ packages/prompts/research_prompt.py   |   232 +-
+ .../prompts/research_queue_manager.py |   525 -
+ packages/prompts/scripts/promptctl.ts |   149 +-
+ packages/prompts/yaml_loader.py       |    23 +-
+ 509 files changed, 1454 insertions(+), 57337 deletions(-)

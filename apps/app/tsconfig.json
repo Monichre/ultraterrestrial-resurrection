@@ -67,6 +67,7 @@
       ],
 
       "@db": ["../../packages/db/index.ts"],
+      "@db/postgres": ["../../packages/db/src/postgres/index.ts"],
       "@db/*": ["../../packages/db/*"],
       "@db/xata": ["../../packages/db/src/xata-typescript-sdk/index.ts"],
       "@db/xata/*": ["../../packages/db/src/xata-typescript-sdk/*"],

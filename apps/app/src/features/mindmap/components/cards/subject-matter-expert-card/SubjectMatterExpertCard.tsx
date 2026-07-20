@@ -29,7 +29,7 @@ export function SubjectMatterExpertCard({card}: any) {
     entity
   )
 
-  const image: any = photo[0] || {url: '/astro-3.png'}
+  const image: any = photo?.[0] || {url: '/astro-3.png'}
   const imgRef = useRef(null)
   // useEffect( () => {
   //   const vfx = new VFX()

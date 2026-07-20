@@ -296,7 +296,7 @@ async def process_youtube_unified(url: str, upload_to_openai: bool = False) -> D
     )
     
     # Add to knowledge base
-    kb_crud.add_document(
+    kb_crud.create_document(
         title=title,
         content=transcript_content,
         source=url,
@@ -352,7 +352,7 @@ async def process_web_unified(url: str, upload_to_openai: bool = False) -> Dict[
     )
     
     # Save to knowledge base
-    kb_crud.add_document(
+    kb_crud.create_document(
         title=title,
         content=content,
         source=url,
@@ -370,7 +370,7 @@ async def process_web_unified(url: str, upload_to_openai: bool = False) -> Dict[
         "title": title,
         "doc_id": doc_id,
         "file_path": str(file_path),
-        "storage_results": result
+        "storage_results": result.get("storage_results", result) if isinstance(result, dict) else result
     }
 
 
@@ -407,7 +407,7 @@ async def process_file_unified(file_path: str, upload_to_openai: bool = False) -
     )
     
     # Add to knowledge base
-    kb_crud.add_document(
+    kb_crud.create_document(
         title=file_path.stem,
         content=content,
         source=str(file_path),
@@ -420,7 +420,7 @@ async def process_file_unified(file_path: str, upload_to_openai: bool = False) -
         "success": True,
         "doc_id": doc_id,
         "file_path": str(file_path),
-        "storage_results": result
+        "storage_results": result.get("storage_results", result) if isinstance(result, dict) else result
     }
 
 
