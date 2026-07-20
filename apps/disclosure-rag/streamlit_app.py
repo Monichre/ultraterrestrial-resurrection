@@ -576,7 +576,7 @@ def chat_interface():
                 })
 
                 # Clear input and rerun to update display
-                st.experimental_rerun()
+                st.rerun()
 
             except Exception as e:
                 st.error(f"Chat error: {e}")
@@ -754,7 +754,7 @@ def main():
                 processed_doc = process_document(content, title)
                 if processed_doc:
                     st.success(f"✅ Processed: {title}")
-                    st.experimental_rerun()
+                    st.rerun()
 
     elif input_method == "File Upload":
         uploaded_file = st.sidebar.file_uploader(
@@ -775,7 +775,7 @@ def main():
                 processed_doc = process_document(content, uploaded_file.name)
                 if processed_doc:
                     st.success(f"✅ Processed: {uploaded_file.name}")
-                    st.experimental_rerun()
+                    st.rerun()
             except Exception as e:
                 st.error(f"File processing error: {e}")
 
@@ -875,7 +875,7 @@ def main():
                         folder_path, file_types, batch_size)
                 if success:
                     st.success("✅ Bulk import completed successfully!")
-                    st.experimental_rerun()
+                    st.rerun()
             else:
                 st.error("❌ Invalid folder path")
 
@@ -895,7 +895,7 @@ def main():
                         )
                         if processed_doc:
                             st.success(f"✅ Processed URL: {url}")
-                            st.experimental_rerun()
+                            st.rerun()
                 except Exception as e:
                     st.error(f"URL processing error: {e}")
 

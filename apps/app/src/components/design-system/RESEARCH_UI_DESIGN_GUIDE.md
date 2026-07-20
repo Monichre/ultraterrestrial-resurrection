@@ -93,7 +93,9 @@ Classification Level → Document Title → Date/Location → Content → Annota
 
 .document-handwritten {
   font-family: 'Kalam', 'Permanent Marker', cursive;
-  transform: rotate(-1deg to -3deg);
+  /* Vary per instance between -1deg and -3deg via the custom property */
+  --note-rotation: -2deg;
+  transform: rotate(var(--note-rotation));
   color: var(--ink-faded);
 }
 
@@ -361,9 +363,9 @@ Classification Level → Document Title → Date/Location → Content → Annota
 
 ### Vintage Document Card
 ```css
+/* Plain CSS: compose in markup instead of @extend (SCSS-only).
+   Usage: <div class="vintage-document-base vintage-document-card"> */
 .vintage-document-card {
-  @extend .vintage-document-base;
-  
   /* Additional card-specific styling */
   min-height: 400px;
   transform: rotate(0.5deg);  /* Slight organic rotation */
@@ -378,9 +380,8 @@ Classification Level → Document Title → Date/Location → Content → Annota
 
 ### Personnel File Card
 ```css
+/* Usage: <div class="vintage-document-base vintage-document-card personnel-file-card"> */
 .personnel-file-card {
-  @extend .vintage-document-card;
-  
   /* Personnel file specific layout */
   display: grid;
   grid-template-columns: 120px 1fr;
@@ -422,8 +423,9 @@ Classification Level → Document Title → Date/Location → Content → Annota
 
 ### Incident Report Card
 ```css
+/* Usage: <div class="vintage-document-base vintage-document-card incident-report-card"> */
 .incident-report-card {
-  @extend .vintage-document-card;
+  /* Inherits all styling through class composition above */
 }
 
 .incident-witness-section {
@@ -451,8 +453,8 @@ Classification Level → Document Title → Date/Location → Content → Annota
 
 ### Technical Diagram Document
 ```css
+/* Usage: <div class="vintage-document-base technical-diagram-document"> */
 .technical-diagram-document {
-  @extend .vintage-document-base;
   background: #f8f8ff;  /* Slightly blue tint for blueprints */
 }
 
@@ -742,11 +744,30 @@ Classification Level → Document Title → Date/Location → Content → Annota
   border: 0;
 }
 
-/* Ensure decorative elements are ignored by screen readers */
-.paper-aging-spots,
-.masking-tape,
-.background-texture {
-  aria-hidden: true;
+```
+
+Decorative elements must be hidden from screen readers in markup, not CSS (`aria-hidden` is not a CSS property):
+
+```tsx
+<span className="paper-aging-spots" aria-hidden="true" />
+<span className="masking-tape" aria-hidden="true" />
+<span className="background-texture" aria-hidden="true" />
+```
+
+### Reduced Motion
+
+All animations and transitions must respect user motion preferences:
+
+```css
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 ```
 

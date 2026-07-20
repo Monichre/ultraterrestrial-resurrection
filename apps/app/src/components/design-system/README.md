@@ -20,6 +20,36 @@ This design system creates authentic-looking UFO/UAP disclosure documents with:
 4. **Consistency**: Unified color palette and spacing system throughout
 5. **Responsiveness**: Components work across all device sizes
 
+## Related Docs
+
+* [`RESEARCH_UI_DESIGN_GUIDE.md`](./RESEARCH_UI_DESIGN_GUIDE.md) — primary implementation reference (CSS, components, accessibility, performance).
+* [`DESIGN_SYSTEM.md`](./DESIGN_SYSTEM.md) — cinematic collage visuals and effects (hero scenes only).
+* [`ARCHIVAL_DYSTOPIAN_AESTHETIC.md`](./ARCHIVAL_DYSTOPIAN_AESTHETIC.md) — image-generation prompt language.
+* [`RESEARCH_CANVAS_AESTHETIC.md`](./RESEARCH_CANVAS_AESTHETIC.md) — research workspace / AI war room direction.
+* `../00_MASTER_BRAND_BIBLE.md` and `../06_DESIGN_TOKENS.ts` — consolidated brand system and tokens.
+
+## Visual Modes
+
+The design system supports six primary research visual modes. Every component declares one primary mode and at most one secondary accent mode:
+
+* `archive-document` — authentic declassified documents.
+* `field-evidence` — Polaroids, photos, recovered fragments and witness material.
+* `technical-blueprint` — schematics, diagrams and anomalous technology analysis.
+* `noir-research-canvas` — corkboards, red string, desk evidence and investigation walls.
+* `ai-war-room` — modern analytical HUD overlays and graph interfaces.
+* `dystopian-collage` — cinematic classified poster/case-cover compositions.
+
+## Classification Colors
+
+```css
+:root {
+  --classification-unclassified: #16a34a;
+  --classification-confidential: #eab308;
+  --classification-secret: #ea580c;
+  --classification-top-secret: #dc2626;
+}
+```
+
 ## Components
 
 ### Typography System
@@ -120,7 +150,8 @@ import { SpacingDemo, LayoutGrid, DocumentMargins } from '@/components/design-sy
 ### Complete Document Layout
 
 ```tsx
-<div className="max-w-2xl p-8 bg-amber-50 border border-amber-200 shadow-xl">
+{/* Use design tokens (06_DESIGN_TOKENS.ts / CSS variables), not generic Tailwind colors */}
+<div className="max-w-2xl p-8 shadow-xl bg-[var(--bg-paper)] border border-[var(--grid-lines)]">
   {/* Header */}
   <div className="text-center mb-8 border-b-2 border-red-600 pb-4">
     <Typography variant="heading-classified" as="h1" className="mb-2">

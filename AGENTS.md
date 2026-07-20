@@ -267,6 +267,7 @@ import { DataVizComponent } from '@/features/data-viz'
 - **Existing AI infrastructure is sophisticated and well-integrated** - enhance, don't replace
 - **Never create documentation files unless explicitly requested** by the user
 - **Always timestamp documentation updates** with exact date and time
+- **Never `git stash` on the shared working tree.** Multiple agent sessions run concurrently in this repo. Stashing removes other sessions' uncommitted work from disk — it is a destructive mutation of shared state, not a filing cabinet. To exclude foreign changes from your commit, stage selectively (`git add <your paths>`) and list the foreign paths in your work log for their owner. (Added 2026-07-12 after a ticket-swarm stash reverted four files of a live concurrent session — see `docs/work_logs/WORK_LOG_2026-07-12_Open-Ticket-Swarm-and-Linear-Cutover.md`, Reviewer Addendum.)
 
 ---
 

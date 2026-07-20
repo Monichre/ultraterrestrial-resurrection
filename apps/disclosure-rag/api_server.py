@@ -9,6 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from typing import List, Dict, Any, Optional
+import asyncio
 import json
 import os
 from pathlib import Path as PathlibPath
@@ -563,7 +564,7 @@ async def rag_status():
 async def rag_index_document(
     content: str,
     metadata: Dict[str, Any],
-    use_system: str = Query("both", regex="^(upstash|cocoindex|both)$")
+    use_system: str = Query("both", pattern="^(upstash|cocoindex|both)$")
 ):
     """Index a document in one or both RAG systems"""
     if not DUAL_RAG_AVAILABLE:
