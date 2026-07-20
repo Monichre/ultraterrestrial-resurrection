@@ -1,0 +1,96 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=1440, initial-scale=1"><style>
+:root {
+  --bg:#0b0d0e;
+  --panel:#121617;
+  --panel2:#181d1f;
+  --line:#293033;
+  --text:#ece7dc;
+  --muted:#989d99;
+  --soft:#c7c0b2;
+  --amber:#c98f46;
+  --cyan:#6ca8ad;
+  --red:#a4534d;
+  --violet:#7a6d9b;
+  --green:#728f72;
+  --paper:#d9cfbd;
+  --paper2:#eee5d4;
+}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.12;background-image:radial-gradient(circle at 20% 20%,rgba(255,255,255,.18) 0 1px,transparent 1.4px),radial-gradient(circle at 80% 40%,rgba(255,255,255,.12) 0 1px,transparent 1.4px);background-size:30px 30px,38px 38px;mix-blend-mode:soft-light}
+.app{width:1440px;height:960px;display:grid;grid-template-columns:72px 1fr;background:linear-gradient(145deg,#101314,#0a0c0d 60%)}
+.rail{border-right:1px solid #24292b;background:#0d1011;display:flex;flex-direction:column;align-items:center;padding:18px 0;gap:14px;position:relative;z-index:5}
+.logo{width:38px;height:38px;border:1px solid #4e5556;border-radius:11px;display:grid;place-items:center;font-family:Georgia,serif;font-size:21px;color:#e8dec9;background:linear-gradient(145deg,#202526,#111516);box-shadow:0 8px 20px rgba(0,0,0,.35)}
+.railbtn{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;color:#7d8583;border:1px solid transparent;font-size:18px}
+.railbtn.active{color:#f0e7d5;border-color:#4a4134;background:linear-gradient(145deg,rgba(201,143,70,.22),rgba(201,143,70,.05));box-shadow:inset 0 0 0 1px rgba(255,255,255,.02)}
+.railspacer{flex:1}
+.shell{min-width:0;display:grid;grid-template-rows:68px 1fr}
+.topbar{border-bottom:1px solid #242a2b;background:rgba(16,19,20,.94);display:flex;align-items:center;padding:0 22px;gap:16px;position:relative;z-index:4}
+.brand{font-family:Georgia,serif;letter-spacing:.22em;font-size:13px;color:#e0d7c4;text-transform:uppercase}
+.divider{width:1px;height:24px;background:#323738}
+.context{font-size:13px;color:#9da4a1}
+.context b{color:#ebe4d7;font-weight:600}
+.search{margin-left:auto;width:300px;border:1px solid #313839;background:#111516;border-radius:10px;height:36px;display:flex;align-items:center;padding:0 12px;color:#737b79;font-size:12px}
+.topchip{border:1px solid #343a3b;border-radius:9px;padding:8px 10px;font-size:11px;color:#b5bab6;background:#15191a}
+.avatar{width:30px;height:30px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#d6b697,#785e49 55%,#2a231f);border:1px solid #6a665f}
+.main{position:relative;min-height:0;overflow:hidden}
+.panel{background:linear-gradient(180deg,rgba(25,30,31,.98),rgba(15,18,19,.98));border:1px solid #2b3233;box-shadow:0 18px 45px rgba(0,0,0,.28)}
+.smallcaps{text-transform:uppercase;letter-spacing:.17em;font-size:10px;color:#8c938f;font-weight:700}
+.h1{font-family:Georgia,serif;font-size:24px;color:#eee6d8;margin:0}
+.muted{color:#8f9794}
+.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid #363d3e;border-radius:999px;padding:6px 9px;font-size:10px;color:#aeb4b0;background:#15191a}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--amber);box-shadow:0 0 12px rgba(201,143,70,.6)}
+.btn{border:1px solid #3a4243;border-radius:9px;background:#171c1d;color:#d8d5cd;padding:8px 11px;font-size:11px}
+.btn.primary{border-color:#79623f;background:linear-gradient(180deg,#5a4932,#3d3226);color:#f0e7d5}
+.scrollhint{position:absolute;right:18px;bottom:14px;color:#5f6765;font-size:10px}
+
+.canvas{position:absolute;inset:0;background:radial-gradient(circle at 32% 24%,rgba(98,78,54,.22),transparent 35%),linear-gradient(130deg,#171612,#101311 55%,#0b0e0f);overflow:hidden}
+.canvas:before{content:"";position:absolute;inset:0;opacity:.28;background-image:radial-gradient(circle at 10% 20%,#5a4b35 0 1px,transparent 1.5px),radial-gradient(circle at 70% 80%,#3f3528 0 1px,transparent 1.5px);background-size:16px 16px,19px 19px}
+.leftdock{position:absolute;left:18px;top:18px;width:220px;border-radius:14px;padding:16px;z-index:6}
+.rightdock{position:absolute;right:18px;top:18px;width:294px;height:790px;border-radius:14px;padding:16px;z-index:6}
+.boardtitle{position:absolute;left:270px;top:25px;z-index:5}
+.boardtitle .h1{font-size:27px}.boardtitle p{margin:5px 0 0;font-size:12px;color:#989d99}
+.toolrow{display:flex;gap:8px;margin-top:13px;flex-wrap:wrap}
+.layer{padding:10px;border-radius:9px;border:1px solid transparent;display:flex;align-items:center;gap:10px;font-size:11px;color:#a3aaa6;margin-top:6px}
+.layer.active{background:#1b2021;border-color:#343b3c;color:#e5dfd3}
+.layer .sw{width:9px;height:9px;border-radius:3px;background:#777}.layer .count{margin-left:auto;color:#606866}
+.card{position:absolute;background:linear-gradient(145deg,#e8dec9,#cfc2aa);color:#2b2925;border-radius:7px;border:1px solid rgba(255,255,255,.55);box-shadow:0 15px 28px rgba(0,0,0,.34),0 2px 0 rgba(255,255,255,.25) inset;transform:rotate(var(--r));z-index:3;padding:13px}
+.card:after{content:"";position:absolute;inset:0;border-radius:7px;pointer-events:none;opacity:.14;background-image:repeating-linear-gradient(0deg,rgba(70,55,35,.25) 0 1px,transparent 1px 4px)}
+.card .type{font-size:8px;text-transform:uppercase;letter-spacing:.16em;color:#665f54;font-weight:800}
+.card .ctitle{font-family:Georgia,serif;font-weight:700;font-size:15px;margin:8px 0 7px;line-height:1.15}
+.card p{font-size:9px;line-height:1.45;margin:0;color:#4b463e}
+.card .meta{display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding-top:8px;border-top:1px solid rgba(72,62,49,.2);font-size:8px;color:#6a645a}
+.photo{padding:7px;background:#eee7d8}.photo .img{height:92px;border-radius:4px;background:linear-gradient(140deg,#6e6557,#272b2e 55%,#9d8d72);position:relative;overflow:hidden}.photo .img:before{content:"";position:absolute;width:58px;height:28px;border-radius:50%;background:radial-gradient(ellipse,#d8d0bc 0 6%,#6f736f 26%,#1e2324 70%);left:36px;top:24px;transform:rotate(-8deg);box-shadow:0 0 18px rgba(227,220,200,.35)}
+.pin{position:absolute;width:15px;height:15px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffdeb0,#b27538 35%,#5a361d 70%);box-shadow:0 3px 5px rgba(0,0,0,.5);z-index:7}
+.thread{position:absolute;inset:0;z-index:2;pointer-events:none;filter:drop-shadow(0 3px 2px rgba(0,0,0,.55))}
+.inspector-head{display:flex;align-items:center;justify-content:space-between;padding-bottom:12px;border-bottom:1px solid #303738}
+.status{display:inline-flex;align-items:center;gap:7px;color:#c9b99c;font-size:10px}.status:before{content:"";width:8px;height:8px;border-radius:50%;background:#769177;box-shadow:0 0 9px rgba(118,145,119,.5)}
+.quote{font-family:Georgia,serif;font-size:17px;line-height:1.45;color:#e8e0d1;margin:18px 0 14px}
+.factrow{display:grid;grid-template-columns:88px 1fr;gap:10px;padding:8px 0;border-bottom:1px solid #282f30;font-size:10px}.factrow span:first-child{color:#707976}.factrow span:last-child{color:#c7cbc6}
+.score{margin-top:16px;border:1px solid #343b3c;border-radius:11px;padding:12px;background:#141819}
+.scoretop{display:flex;align-items:end;justify-content:space-between}.scoretop b{font-family:Georgia,serif;font-size:26px}.bar{height:5px;background:#242a2b;border-radius:999px;margin-top:9px;overflow:hidden}.bar i{display:block;height:100%;width:78%;background:linear-gradient(90deg,#8c6e3f,#c99b5a)}
+.ai{margin-top:14px;border:1px solid #4a4358;background:linear-gradient(145deg,rgba(122,109,155,.18),rgba(60,51,80,.08));border-radius:11px;padding:12px}.ai h4{margin:0 0 8px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#b4aacb}.ai p{font-size:10px;line-height:1.45;color:#bfc2bd;margin:0}
+</style></head><body><div class="app"><aside class="rail"><div class="logo">U</div><div class="railbtn active">⌘</div><div class="railbtn ">≣</div><div class="railbtn ">◫</div><div class="railbtn ">◇</div><div class="railbtn ">⌬</div><div class="railbtn ">▤</div><div class="railspacer"></div><div class="railbtn">⚙</div><div class="avatar"></div></aside><div class="shell"><header class="topbar"><div class="brand">Ultraterrestrial</div><div class="divider"></div><div class="context"><b>Living Research Canvas</b>&nbsp;&nbsp; / &nbsp;&nbsp;Roswell → Present</div><div class="search">⌕&nbsp;&nbsp; Search people, events, claims, sources…</div><div class="topchip">SYNCED · 12s</div><div class="topchip">Liam Ellis</div></header><main class="main">
+<section class="canvas">
+  <div class="boardtitle"><div class="smallcaps">Canvas / Guided Investigation</div><h1 class="h1">Roswell → Present: The Nuclear Thread</h1><p>27 entities · 41 relationships · 6 unresolved contradictions</p><div class="toolrow"><button class="btn primary">+ Add Pin</button><button class="btn">Connect</button><button class="btn">Run Proximity Analysis</button><span class="pill"><span class="dot"></span> Epistemic overlay</span></div></div>
+  <div class="leftdock panel"><div class="smallcaps">Layers</div><div class="layer active"><span class="sw" style="background:#c98f46"></span>All research objects<span class="count">27</span></div><div class="layer"><span class="sw" style="background:#6ca8ad"></span>Corroboration<span class="count">14</span></div><div class="layer"><span class="sw" style="background:#a4534d"></span>Contradictions<span class="count">6</span></div><div class="layer"><span class="sw" style="background:#7a6d9b"></span>Hypotheses<span class="count">4</span></div><div class="layer"><span class="sw" style="background:#728f72"></span>Verified records<span class="count">9</span></div><div style="height:1px;background:#2c3334;margin:12px 0"></div><div class="smallcaps">Saved views</div><div class="layer">Nuclear facilities</div><div class="layer">Disclosure chronology</div><div class="layer">Witness conflicts</div></div>
+  <svg class="thread" viewBox="0 0 1368 892" preserveAspectRatio="none">
+    <defs><filter id="soft"><feGaussianBlur stdDeviation="0.65"/></filter></defs>
+    <path d="M430 310 C520 270 600 380 720 340" stroke="#7b2931" stroke-width="5" fill="none" stroke-linecap="round" opacity=".78"/>
+    <path d="M490 340 C560 420 650 420 770 450" stroke="#9b3037" stroke-width="3" fill="none" stroke-linecap="round" opacity=".82"/>
+    <path d="M365 555 C510 600 610 540 760 590" stroke="#5f8b92" stroke-width="4" fill="none" stroke-linecap="round" opacity=".8"/>
+    <path d="M700 340 C760 300 845 290 920 325" stroke="#8f7cbd" stroke-width="3.5" fill="none" stroke-linecap="round" opacity=".78"/>
+    <path d="M760 590 C825 540 870 455 920 325" stroke="#b5945d" stroke-width="2.8" fill="none" stroke-linecap="round" opacity=".82"/>
+    <path d="M525 650 C650 705 780 690 900 630" stroke="#6b8a70" stroke-width="3.2" fill="none" stroke-linecap="round" opacity=".78"/>
+    <path d="M920 325 C965 355 1000 390 1030 440" stroke="#6f8f98" stroke-width="3" fill="none" stroke-linecap="round" opacity=".7"/>
+  </svg>
+  <article class="card photo" style="left:320px;top:225px;width:170px;--r:-2deg"><div class="img"></div><div class="ctitle" style="font-size:13px;margin:8px 3px 2px">Roswell debris photograph</div><div class="meta"><span>Artifact</span><span>1947-07</span></div></article><span class="pin" style="left:426px;top:304px"></span>
+  <article class="card" style="left:575px;top:255px;width:190px;--r:1.2deg"><div class="type">Government record</div><div class="ctitle">RAAF Press Release</div><p>Original public statement announcing recovery of a “flying disc,” followed by rapid reversal.</p><div class="meta"><span>Primary source</span><span>Contested</span></div></article><span class="pin" style="left:693px;top:333px"></span>
+  <article class="card" style="left:840px;top:245px;width:185px;--r:-1deg;background:linear-gradient(145deg,#d8d2c7,#b7b0a4)"><div class="type">Organization</div><div class="ctitle">Atomic Energy Commission</div><p>Institutional node linking early nuclear infrastructure, policy, and security programs.</p><div class="meta"><span>1946–1974</span><span>Verified</span></div></article><span class="pin" style="left:913px;top:318px"></span>
+  <article class="card" style="left:280px;top:490px;width:210px;--r:1.6deg;background:linear-gradient(145deg,#d5ccb9,#bba98f)"><div class="type">Event</div><div class="ctitle">Malmstrom missile shutdowns</div><p>Reported simultaneous interference involving multiple ICBM systems and anomalous aerial observations.</p><div class="meta"><span>1967-03</span><span>Corroborated</span></div></article><span class="pin" style="left:356px;top:549px"></span>
+  <article class="card" style="left:640px;top:520px;width:190px;--r:-1.5deg;background:linear-gradient(145deg,#d8cdb6,#bfa984)"><div class="type">Testimony</div><div class="ctitle">Robert Salas account</div><p>Later testimony describing missile-system failure during reported aerial activity.</p><div class="meta"><span>Witness</span><span>Reliability 7.8</span></div></article><span class="pin" style="left:754px;top:583px"></span>
+  <article class="card" style="left:820px;top:590px;width:205px;--r:1deg;background:linear-gradient(145deg,#d7d0c7,#b4aea7)"><div class="type">Hypothesis</div><div class="ctitle">Nuclear-site monitoring pattern</div><p>Non-random concentration of anomalous reports around strategic nuclear infrastructure.</p><div class="meta"><span>Human-authored</span><span>Plausible</span></div></article><span class="pin" style="left:895px;top:625px"></span>
+  <div class="rightdock panel"><div class="inspector-head"><div><div class="smallcaps">Selected entity</div><div style="margin-top:5px;font-family:Georgia,serif;font-size:18px">RAAF Press Release</div></div><span class="status">Primary source</span></div><div class="quote">“The many rumors regarding the flying disc became a reality yesterday…”</div><div class="factrow"><span>Published</span><span>July 8, 1947</span></div><div class="factrow"><span>Issuer</span><span>Roswell Army Air Field</span></div><div class="factrow"><span>Status</span><span>Contested · superseded publicly</span></div><div class="factrow"><span>Connections</span><span>8 direct · 17 indirect</span></div><div class="factrow"><span>Provenance</span><span>Newspaper archive → scan → OCR</span></div><div class="score"><div class="scoretop"><div><div class="smallcaps">Credibility model</div><b>7.8</b></div><span class="pill">Inspectable</span></div><div class="bar"><i></i></div><div style="display:flex;justify-content:space-between;margin-top:8px;font-size:9px;color:#7e8784"><span>Source authority 9.1</span><span>Consistency 6.2</span></div></div><div class="ai"><h4>Evidence Agent · suggested link</h4><p>This document may be directly connected to the later weather-balloon reversal. Confidence 0.84. Review the newspaper chronology before accepting.</p><div style="display:flex;gap:7px;margin-top:10px"><button class="btn primary">Review</button><button class="btn">Dismiss</button></div></div></div>
+  <div class="scrollhint">SPACE + DRAG TO PAN · ⌘K SEARCH · 68% ZOOM</div>
+</section>
+</main></div></div></body></html>
