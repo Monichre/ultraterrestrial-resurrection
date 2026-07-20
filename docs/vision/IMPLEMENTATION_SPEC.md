@@ -1,3 +1,10 @@
+---
+status: live
+role: identity
+spine: how
+updated: 2026-07-19
+---
+
 # Implementation Spec — Where the Identity Touches Code
 
 register: implementation

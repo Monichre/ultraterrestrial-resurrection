@@ -1,0 +1,59 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=1440, initial-scale=1"><style>
+:root {
+  --bg:#0b0d0e;
+  --panel:#121617;
+  --panel2:#181d1f;
+  --line:#293033;
+  --text:#ece7dc;
+  --muted:#989d99;
+  --soft:#c7c0b2;
+  --amber:#c98f46;
+  --cyan:#6ca8ad;
+  --red:#a4534d;
+  --violet:#7a6d9b;
+  --green:#728f72;
+  --paper:#d9cfbd;
+  --paper2:#eee5d4;
+}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.12;background-image:radial-gradient(circle at 20% 20%,rgba(255,255,255,.18) 0 1px,transparent 1.4px),radial-gradient(circle at 80% 40%,rgba(255,255,255,.12) 0 1px,transparent 1.4px);background-size:30px 30px,38px 38px;mix-blend-mode:soft-light}
+.app{width:1440px;height:960px;display:grid;grid-template-columns:72px 1fr;background:linear-gradient(145deg,#101314,#0a0c0d 60%)}
+.rail{border-right:1px solid #24292b;background:#0d1011;display:flex;flex-direction:column;align-items:center;padding:18px 0;gap:14px;position:relative;z-index:5}
+.logo{width:38px;height:38px;border:1px solid #4e5556;border-radius:11px;display:grid;place-items:center;font-family:Georgia,serif;font-size:21px;color:#e8dec9;background:linear-gradient(145deg,#202526,#111516);box-shadow:0 8px 20px rgba(0,0,0,.35)}
+.railbtn{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;color:#7d8583;border:1px solid transparent;font-size:18px}
+.railbtn.active{color:#f0e7d5;border-color:#4a4134;background:linear-gradient(145deg,rgba(201,143,70,.22),rgba(201,143,70,.05));box-shadow:inset 0 0 0 1px rgba(255,255,255,.02)}
+.railspacer{flex:1}
+.shell{min-width:0;display:grid;grid-template-rows:68px 1fr}
+.topbar{border-bottom:1px solid #242a2b;background:rgba(16,19,20,.94);display:flex;align-items:center;padding:0 22px;gap:16px;position:relative;z-index:4}
+.brand{font-family:Georgia,serif;letter-spacing:.22em;font-size:13px;color:#e0d7c4;text-transform:uppercase}
+.divider{width:1px;height:24px;background:#323738}
+.context{font-size:13px;color:#9da4a1}
+.context b{color:#ebe4d7;font-weight:600}
+.search{margin-left:auto;width:300px;border:1px solid #313839;background:#111516;border-radius:10px;height:36px;display:flex;align-items:center;padding:0 12px;color:#737b79;font-size:12px}
+.topchip{border:1px solid #343a3b;border-radius:9px;padding:8px 10px;font-size:11px;color:#b5bab6;background:#15191a}
+.avatar{width:30px;height:30px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#d6b697,#785e49 55%,#2a231f);border:1px solid #6a665f}
+.main{position:relative;min-height:0;overflow:hidden}
+.panel{background:linear-gradient(180deg,rgba(25,30,31,.98),rgba(15,18,19,.98));border:1px solid #2b3233;box-shadow:0 18px 45px rgba(0,0,0,.28)}
+.smallcaps{text-transform:uppercase;letter-spacing:.17em;font-size:10px;color:#8c938f;font-weight:700}
+.h1{font-family:Georgia,serif;font-size:24px;color:#eee6d8;margin:0}
+.muted{color:#8f9794}
+.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid #363d3e;border-radius:999px;padding:6px 9px;font-size:10px;color:#aeb4b0;background:#15191a}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--amber);box-shadow:0 0 12px rgba(201,143,70,.6)}
+.btn{border:1px solid #3a4243;border-radius:9px;background:#171c1d;color:#d8d5cd;padding:8px 11px;font-size:11px}
+.btn.primary{border-color:#79623f;background:linear-gradient(180deg,#5a4932,#3d3226);color:#f0e7d5}
+.scrollhint{position:absolute;right:18px;bottom:14px;color:#5f6765;font-size:10px}
+
+.observatory{position:absolute;inset:0;display:grid;grid-template-rows:1fr 240px;background:#0c1011}
+.mapwrap{position:relative;overflow:hidden;background:radial-gradient(circle at 55% 40%,rgba(83,106,104,.16),transparent 38%),linear-gradient(180deg,#0e1415,#0a0d0e)}
+.mapgrid{position:absolute;inset:0;opacity:.55;background-image:linear-gradient(rgba(102,130,128,.10) 1px,transparent 1px),linear-gradient(90deg,rgba(102,130,128,.10) 1px,transparent 1px);background-size:42px 42px}
+.land{position:absolute;left:230px;top:90px;width:810px;height:430px;border:1px solid rgba(121,145,140,.18);border-radius:50% 42% 48% 55%;transform:rotate(-5deg);background:radial-gradient(circle at 35% 40%,rgba(107,134,128,.18),transparent 35%),linear-gradient(145deg,rgba(49,70,67,.48),rgba(23,34,34,.36));clip-path:polygon(2% 40%,15% 18%,34% 10%,50% 18%,62% 8%,80% 19%,98% 35%,91% 55%,76% 60%,65% 86%,42% 90%,27% 74%,12% 68%)}
+.maphead{position:absolute;left:22px;top:20px;z-index:5}.maphead p{margin:6px 0 0;color:#848e8a;font-size:11px}
+.filters{position:absolute;right:20px;top:18px;z-index:5;display:flex;gap:8px}.legend{position:absolute;left:20px;bottom:18px;display:flex;gap:16px;padding:10px 12px;border:1px solid #303738;border-radius:11px;background:rgba(15,20,21,.86);font-size:9px;color:#9aa29f}.legend span{display:flex;align-items:center;gap:6px}.legend i{width:8px;height:8px;border-radius:50%}
+.point{position:absolute;width:16px;height:16px;border-radius:50%;border:2px solid rgba(255,255,255,.6);box-shadow:0 0 0 7px rgba(108,168,173,.12),0 0 24px rgba(108,168,173,.55);z-index:3}.point.red{box-shadow:0 0 0 7px rgba(164,83,77,.12),0 0 24px rgba(164,83,77,.55)}.point.amber{box-shadow:0 0 0 7px rgba(201,143,70,.12),0 0 24px rgba(201,143,70,.55)}
+.arc{position:absolute;border-top:1px solid rgba(108,168,173,.35);border-radius:50%;transform-origin:left center}
+.eventbubble{position:absolute;width:210px;border:1px solid #3a4344;border-radius:12px;background:rgba(17,22,23,.94);padding:11px;box-shadow:0 18px 38px rgba(0,0,0,.35);z-index:4}.eventbubble h4{font-family:Georgia,serif;font-size:14px;margin:5px 0;color:#e4ddcf}.eventbubble p{font-size:9px;line-height:1.45;color:#8d9692;margin:0}.eventbubble .row{display:flex;justify-content:space-between;margin-top:9px;font-size:8px;color:#67706d}
+.timeline{border-top:1px solid #293031;background:linear-gradient(180deg,#121617,#0f1314);padding:16px 20px;position:relative}.timeline-head{display:flex;align-items:center}.timeline-head .h1{font-size:19px}.timeline-head .controls{margin-left:auto;display:flex;gap:8px}.axis{position:absolute;left:30px;right:30px;top:92px;height:2px;background:#384142}.tick{position:absolute;top:-5px;width:1px;height:12px;background:#606c69}.tick label{position:absolute;top:18px;left:-14px;font-size:9px;color:#6e7774}.marker{position:absolute;top:-7px;width:15px;height:15px;border-radius:50%;background:#c98f46;border:3px solid #141819;box-shadow:0 0 0 1px #c98f46}.marker:after{content:attr(data-label);position:absolute;white-space:nowrap;top:-40px;left:50%;transform:translateX(-50%);font-size:9px;color:#b9bfbb;background:#1a2021;border:1px solid #343c3d;border-radius:6px;padding:5px 7px}.brush{position:absolute;left:36%;right:13%;top:130px;height:48px;border:1px solid #6f5a3a;background:rgba(201,143,70,.08);border-radius:7px}.brush:before,.brush:after{content:"";position:absolute;top:0;bottom:0;width:6px;background:#8a6c43}.brush:before{left:-3px}.brush:after{right:-3px}
+</style></head><body><div class="app"><aside class="rail"><div class="logo">U</div><div class="railbtn ">⌘</div><div class="railbtn ">≣</div><div class="railbtn active">◫</div><div class="railbtn ">◇</div><div class="railbtn ">⌬</div><div class="railbtn ">▤</div><div class="railspacer"></div><div class="railbtn">⚙</div><div class="avatar"></div></aside><div class="shell"><header class="topbar"><div class="brand">Ultraterrestrial</div><div class="divider"></div><div class="context"><b>Temporal–Geospatial Observatory</b>&nbsp;&nbsp; / &nbsp;&nbsp;Nuclear Pattern</div><div class="search">⌕&nbsp;&nbsp; Search people, events, claims, sources…</div><div class="topchip">SYNCED · 12s</div><div class="topchip">Liam Ellis</div></header><main class="main">
+<section class="observatory"><div class="mapwrap"><div class="mapgrid"></div><div class="land"></div><div class="maphead"><div class="smallcaps">Temporal–geospatial observatory</div><h1 class="h1">Nuclear-linked anomalous reports</h1><p>Filtered to multi-witness, military, or sensor-supported events</p></div><div class="filters"><button class="btn primary">1945–2026</button><button class="btn">Infrastructure: Nuclear</button><button class="btn">Confidence ≥ 0.62</button></div><div class="arc" style="left:385px;top:303px;width:410px;height:130px;transform:rotate(-9deg)"></div><div class="arc" style="left:595px;top:220px;width:370px;height:120px;transform:rotate(14deg);border-color:rgba(164,83,77,.32)"></div><span class="point amber" style="left:375px;top:294px;background:#c98f46"></span><span class="point" style="left:560px;top:258px;background:#6ca8ad"></span><span class="point red" style="left:785px;top:332px;background:#a4534d"></span><span class="point" style="left:945px;top:285px;background:#6ca8ad"></span><span class="point amber" style="left:665px;top:432px;background:#c98f46"></span><div class="eventbubble" style="left:410px;top:155px"><div class="smallcaps">Event · 1947</div><h4>Roswell, New Mexico</h4><p>Initial “flying disc” announcement followed by a rapid official reversal.</p><div class="row"><span>8 sources</span><span>Contested</span></div></div><div class="eventbubble" style="left:810px;top:390px"><div class="smallcaps">Event cluster · 1967</div><h4>Malmstrom AFB</h4><p>Missile shutdown reports associated with anomalous aerial observations.</p><div class="row"><span>12 sources</span><span>Corroborated</span></div></div><div class="legend"><span><i style="background:#6ca8ad"></i>Corroborated</span><span><i style="background:#c98f46"></i>Contested</span><span><i style="background:#a4534d"></i>Contradiction cluster</span><span><i style="background:#7a6d9b"></i>Hypothesis link</span></div></div><div class="timeline"><div class="timeline-head"><div><div class="smallcaps">Chronology projection</div><h1 class="h1">Disclosure and nuclear infrastructure</h1></div><div class="controls"><button class="btn">◀</button><button class="btn primary">▶ Play sequence</button><button class="btn">Fit selection</button></div></div><div class="axis"><div class="tick" style="left:2%"><label>1945</label></div><div class="tick" style="left:20%"><label>1960</label></div><div class="tick" style="left:39%"><label>1975</label></div><div class="tick" style="left:58%"><label>1990</label></div><div class="tick" style="left:77%"><label>2005</label></div><div class="tick" style="left:97%"><label>2025</label></div><span class="marker" data-label="Trinity" style="left:3%"></span><span class="marker" data-label="Roswell" style="left:6%"></span><span class="marker" data-label="Malmstrom" style="left:28%;background:#6ca8ad;box-shadow:0 0 0 1px #6ca8ad"></span><span class="marker" data-label="Rendlesham" style="left:47%;background:#6ca8ad;box-shadow:0 0 0 1px #6ca8ad"></span><span class="marker" data-label="Nimitz" style="left:77%;background:#6ca8ad;box-shadow:0 0 0 1px #6ca8ad"></span><span class="marker" data-label="Hearings" style="left:93%;background:#7a6d9b;box-shadow:0 0 0 1px #7a6d9b"></span></div><div class="brush"></div></div></section>
+</main></div></div></body></html>

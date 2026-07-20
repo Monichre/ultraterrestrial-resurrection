@@ -1,3 +1,10 @@
+---
+status: live
+role: identity
+spine: want
+updated: 2026-07-19
+---
+
 # Agent Architecture Brief — Investigative Roles
 
 register: agents

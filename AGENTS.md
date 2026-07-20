@@ -201,11 +201,12 @@ const rows = await sql`SELECT * FROM events WHERE date > ${cutoff}`
 
 ## 🔗 Agent-Specific Configuration
 
-For platform-specific agent configurations, see:
+For agent intake and ops docs, see:
 
-- **`docs/agents/`** - Agent configuration files and session management
-- **`.cursorrules`** - Cursor IDE specific rules
-- **Platform-specific files** reference this core AGENTS.md file
+- **`docs/ops/`** - Onboarding checklist, triage, issue tracker, contrib
+- **`docs/README.md`** - Documentation spine navigator
+- **`.cursorrules` / `.cursor/` / `.claude/`** - Platform IDE rules
+- Platform-specific files reference this core AGENTS.md file
 
 ## 🪞 Identity & Design Canon (read before any brand/UX/UI/voice work)
 
@@ -263,15 +264,15 @@ import { DataVizComponent } from '@/features/data-viz'
 
 ## ⚠️ Important Notes
 
-- **Check README.md and docs/agents/AGENT_ONBOARDING_CHECKLIST.md** when onboarding
+- **Check README.md, docs/README.md, and docs/ops/AGENT_ONBOARDING_CHECKLIST.md** when onboarding
 - **Existing AI infrastructure is sophisticated and well-integrated** - enhance, don't replace
 - **Never create documentation files unless explicitly requested** by the user
 - **Always timestamp documentation updates** with exact date and time
-- **Never `git stash` on the shared working tree.** Multiple agent sessions run concurrently in this repo. Stashing removes other sessions' uncommitted work from disk — it is a destructive mutation of shared state, not a filing cabinet. To exclude foreign changes from your commit, stage selectively (`git add <your paths>`) and list the foreign paths in your work log for their owner. (Added 2026-07-12 after a ticket-swarm stash reverted four files of a live concurrent session — see `docs/work_logs/WORK_LOG_2026-07-12_Open-Ticket-Swarm-and-Linear-Cutover.md`, Reviewer Addendum.)
+- **Never `git stash` on the shared working tree.** Multiple agent sessions run concurrently in this repo. Stashing removes other sessions' uncommitted work from disk — it is a destructive mutation of shared state, not a filing cabinet. To exclude foreign changes from your commit, stage selectively (`git add <your paths>`) and list the foreign paths in your work log for their owner. (Added 2026-07-12 after a ticket-swarm stash reverted four files of a live concurrent session — see `docs/archive/sessions/` for session logs.)
 
 ---
 
-*This file serves as the single source of truth for development guidelines. Platform-specific configurations in docs/agents/ should reference this file rather than duplicate information.*
+*This file serves as the single source of truth for development guidelines. Platform ops docs in `docs/ops/` and IDE configs under `.cursor/` / `.claude/` should reference this file rather than duplicate information.*
 
 ## Autonomous Loop Protocol
 

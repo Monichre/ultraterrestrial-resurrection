@@ -1,3 +1,10 @@
+---
+status: live
+role: identity
+spine: where
+updated: 2026-07-19
+---
+
 # Canonicalization Audit — Design Language & Domain Vocabulary
 
 **Date:** 2026-07-09 · **Author:** Fable (delegated supervisor) · **Register:** audit

@@ -1,11 +1,20 @@
+---
+status: live
+role: eng
+spine: do
+updated: 2026-07-19
+---
+
 # TODO — Ultraterrestrial Resurrection
 
-**Last Updated:** 2026-07-10
+**Last Updated:** 2026-07-19
 **Source:** Roundtable audit (4 specialists) + agent-native remediation audit
 **Reference:** `docs/plans/2026-03-29-roundtable-unified-action-plan.md`
 **Branch:** dev
 
-> **2026-07-10 session note:** Scaffolded Matt Pocock engineering-skills config (`docs/agents/issue-tracker.md`, `triage-labels.md`, `domain.md`; `## Agent skills` block in `CLAUDE.md`). Built first-pass system-wide domain model: `CONTEXT-MAP.md` (4 contexts), `CONTEXT.md` (full glossary — reserved words, adopted vocabulary, 8 evidentiary states, all record types, classification taxonomy, Phase 2 reserved names). First ADR: `docs/adr/0001-agent-inferences-excluded-from-retrieval.md`. New ticket created for follow-up context files (see T-043 below).
+> **2026-07-10 session note:** Scaffolded Matt Pocock engineering-skills config (`docs/ops/issue-tracker.md`, `triage-labels.md`, `domain.md`; `## Agent skills` block in `CLAUDE.md`). Built first-pass system-wide domain model: `CONTEXT-MAP.md` (4 contexts), `CONTEXT.md` (full glossary — reserved words, adopted vocabulary, 8 evidentiary states, all record types, classification taxonomy, Phase 2 reserved names). First ADR: `docs/adr/0001-agent-inferences-excluded-from-retrieval.md`. New ticket created for follow-up context files (see T-043 below).
+
+> **2026-07-19 docs prune:** Completed spine restructure per FEATURES Decision 8. See `docs/README.md`, `docs/ops/PRUNE_MATRIX.md`. T-039 follow-up closed for filesystem/layout; optional automation → T-046.
 
 ---
 
@@ -18,12 +27,14 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 ## Phase 0 — Emergency Fixes (Day 1)
 
 ### T-001: Remove Edge runtime from Prometheus chat route
+
 - **Status:** DONE — 2026-03-29
 - **Size:** XS (30 min)
 - **Files:** `apps/app/src/app/api/prometheus/chat/route.ts`
 - **What:** Delete `export const runtime = 'edge'`, set `maxDuration = 60`, remove in-memory `Map()` rate limiter
 
 ### T-002: Fix 3 broken API routes
+
 - **Status:** DONE — 2026-03-29
 - **Size:** S (1-2 hours)
 - **What:**
@@ -32,6 +43,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
   - `/api/disclosure/chat/route.ts` — fix `transformXYFlow` tool output (serialize Response to JSON string)
 
 ### T-003: Add Clerk authentication middleware
+
 - **Status:** DONE — 2026-04-05
 - **Size:** S (half day)
 - **Files:** Create `apps/app/src/middleware.ts`
@@ -48,6 +60,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 ## Phase 1 — Delete Dead Code (Day 1-2)
 
 ### T-004: Delete 4 ghost route wrappers
+
 - **Status:** DONE — 2026-03-29
 - **Size:** XS (30 min)
 - **Dependencies:** None
@@ -59,6 +72,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Acceptance:** Directories deleted. No imports break (they have zero consumers).
 
 ### T-005: Delete 4 dead shell variants
+
 - **Status:** DONE — 2026-03-29
 - **Size:** XS (30 min)
 - **Dependencies:** None
@@ -70,6 +84,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Acceptance:** Files deleted. No imports break (zero production consumers confirmed).
 
 ### T-006: Prune index.tsx
+
 - **Status:** DONE — 2026-03-29
 - **Size:** XS (10 min)
 - **Dependencies:** T-005
@@ -78,6 +93,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Acceptance:** File is 1-2 lines. No imports break.
 
 ### T-007: Consolidate xata-to-xyflow files
+
 - **Status:** DONE — 2026-04-05
 - **Size:** S (2-4 hours)
 - **Dependencies:** None
@@ -92,6 +108,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 ## Phase 2 — Core UX & Performance (Days 2-5)
 
 ### T-008: Paginate initial graph data load
+
 - **Status:** DONE — 2026-06-20 (per-type LIMIT bounded load ~210 nodes; Map O(1) edge resolution; commit 43b276a)
 - **Size:** M (2-3 days)
 - **Dependencies:** T-007
@@ -106,6 +123,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Acceptance:** Initial load under 500 nodes. No full-table scans. Edge resolution is O(1) per lookup.
 
 ### T-009: Fix EmptyCanvas
+
 - **Status:** DONE — 2026-04-05
 - **Size:** XS (30 min)
 - **Dependencies:** None
@@ -117,6 +135,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Acceptance:** No dummy data. State reflects actual agent status.
 
 ### T-010: Wire suggestion chips to agent
+
 - **Status:** DONE — 2026-04-05
 - **Size:** XS (30 min)
 - **Dependencies:** None
@@ -125,6 +144,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Acceptance:** Clicking a chip submits it as a query to the agent.
 
 ### T-011: Replace local sightings dataset with Xata query
+
 - **Status:** DONE — 2026-06-17 (get-sightings.ts action; verified 2026-06-20)
 - **Size:** M (1 day)
 - **Dependencies:** None
@@ -133,6 +153,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Acceptance:** Sightings view shows real data from Xata. Fallback works if DB is unreachable.
 
 ### T-012: Add Zod validation to remaining API routes
+
 - **Status:** DONE — 2026-06-17 (zod present in prometheus/chat, processing/testimony, mindmap/records, disclosure/mindmap; verified 2026-06-20)
 - **Size:** S (1 day)
 - **Dependencies:** T-002
@@ -148,6 +169,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 ## Phase 3 — Agent System Hardening (Days 5-10)
 
 ### T-013: Add graph-write tools to disclosure mindmap route
+
 - **Status:** DONE — 2026-04-05
 - **Size:** M (3-5 days)
 - **Dependencies:** T-015 (ideally)
@@ -163,6 +185,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Acceptance:** Agent can add nodes and edges to the graph via tool calls.
 
 ### T-014: Split processDocument into granular tools
+
 - **Status:** DONE — 2026-04-05
 - **Size:** M (1-2 days)
 - **Dependencies:** None
@@ -171,6 +194,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Acceptance:** Each action is a separate tool. `processDocument` is removed.
 
 ### T-015: Standardize context injection
+
 - **Status:** DONE — 2026-04-05
 - **Size:** M (2-3 days)
 - **Dependencies:** None
@@ -179,6 +203,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Acceptance:** Both disclosure/mindmap and prometheus/chat use the same context builder.
 
 ### T-016: Unify or clearly separate chat routes
+
 - **Status:** DONE (phase 1 — annotate/audit) — 2026-06-17. Phase 2 deletion tracked as T-030.
 - **Size:** M (2-3 days)
 - **Dependencies:** T-014, T-015
@@ -189,6 +214,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Acceptance:** Only 2 chat-related routes remain. All consumers rewired. Build passes.
 
 ### T-017: Wire testimony queue worker as cron
+
 - **Status:** DONE — 2026-06-17 (api/cron/process-testimonies/route.ts; verified 2026-06-20)
 - **Size:** S (1 day)
 - **Dependencies:** None
@@ -200,6 +226,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 ## Phase 4 — State Management & Architecture (Days 10-15)
 
 ### T-018: Extract pure factories from mindmap-context
+
 - **Status:** DONE — 2026-06-17 (features/mindmap/utils/node-factories.ts; verified 2026-06-20)
 - **Size:** S (half day)
 - **Dependencies:** None
@@ -208,6 +235,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Acceptance:** Factory functions importable from utils. Context no longer defines them.
 
 ### T-019: Move graph init effect out of context
+
 - **Status:** DONE — 2026-06-17 (features/mindmap/hooks/use-graph-init.ts; verified 2026-06-20)
 - **Size:** S (half day)
 - **Dependencies:** T-018
@@ -216,6 +244,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Acceptance:** Context no longer has graph init side effect.
 
 ### T-020: Move UI-local state to Zustand
+
 - **Status:** DONE — verified 2026-06-20. All 5 useState (activeNode, conciseViewActive, showLocationVisualization, locationsToVisualize, keepLoadedOnMap) already migrated to the `canvas` slice in mindmap-ui-store.ts and bridged through context via useShallow; no useState backing remains. (Full god-object decomposition to ~200-300 lines is a larger follow-up tracked separately.)
 - **Size:** S (1 day)
 - **Dependencies:** T-018
@@ -228,13 +257,15 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 ## Documentation Tasks
 
 ### T-021: Create .env.example
+
 - **Status:** DONE (.env.example present at repo root; verified 2026-06-20)
 - **Size:** XS (2 hours)
 - **Dependencies:** None
-- **What:** Mirror current `.env` structure (212 vars) with placeholder values. Document each var's purpose and which service it belongs to. Reference: `docs/CONTRIB.md` already lists all vars.
+- **What:** Mirror current `.env` structure (212 vars) with placeholder values. Document each var's purpose and which service it belongs to. Reference: `docs/ops/CONTRIB.md` already lists all vars.
 - **Acceptance:** `.env.example` exists at repo root. All 212 vars present with comments.
 
 ### T-022: Create docs/archive/ and move obsolete files
+
 - **Status:** DONE — 2026-06-17 (docs/archive/{sessions,scrapped-plans,design-explorations}/ populated; verified 2026-06-20)
 - **Size:** XS (2 hours)
 - **Dependencies:** None
@@ -242,6 +273,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Acceptance:** Active doc directories contain only current files. Archive preserves history.
 
 ### T-023: Refresh FEATURES.md for Q1 2026
+
 - **Status:** DONE — 2026-06-20 (stale Triple-RAG/tour/Xata refs reframed as scrapped/retired; commit 2c23a02)
 - **Size:** S (3 hours)
 - **Dependencies:** None
@@ -250,7 +282,8 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Acceptance:** FEATURES.md reflects current quarter priorities and grounded architecture.
 
 ### T-024: Create API_ROUTES.md
-- **Status:** DONE — 2026-06-17 (docs/API_ROUTES.md; verified 2026-06-20)
+
+- **Status:** DONE — 2026-06-17 (`docs/architecture/API_ROUTES.md`; verified 2026-06-20)
 - **Size:** S (3 hours)
 - **Dependencies:** None
 - **What:** Document all API routes: path, method, auth required, request schema, response schema. Start with working paths: `/api/disclosure/mindmap`, `/api/prometheus/chat`.
@@ -261,18 +294,21 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 ## Backlog (Not Sequenced)
 
 ### T-025: Implement rate limiting
+
 - **Status:** DONE — 2026-06-20 (30 req/60s on prometheus/chat + disclosure/mindmap, Clerk-userId/IP keyed, graceful no-Upstash fallback; commit pending)
 - **Size:** S (3-4 hours)
 - **What:** Use Upstash Redis (already in deps) to rate-limit AI routes. Default: 30 req/min per user/IP.
 - **Dependencies:** T-003 (auth middleware)
 
 ### T-027: Create ResearchSession unified state slice
+
 - **Status:** DONE — 2026-06-20 (non-destructive `researchSession` Zustand slice on `mindmap-ui-store.ts` converging research-context + use-research-state; sessionId/pinnedCards/canvasNotes persisted. Consumer migration documented + deferred. `docs/plans/2026-06-20-t027-research-session-slice.md`)
 - **Size:** M (2-3 days)
 - **What:** Single owner of investigation-session state: `activeSessionId`, `pinnedNodeIds`, `notes`, `evidenceIds`, `citationIds`, `saveStatus`. Converge 4 fragmented providers.
 - **Reference:** `docs/plans/2026-03-29-research-canvas-grounding.md`
 
 ### T-028: Mindmap Agent Consolidation (ai-sdk-tools)
+
 - **Status:** DONE / IN REVIEW — 2026-07-12 ([DMGD-183](https://linear.app/dmg-dev/issue/DMGD-183))
 - **Phase A completed (2026-07-05):** Deleted retired `/api/sse/xata/ask` + `/send` + `/api/sse/test` routes. Deleted dead consumers (`useSSE.tsx`, `useAskXata.ts`, `XataAskComponent.tsx`, `useXataAsk.ts`, `ask-example.ts`, `ask-example-enhanced.ts`, `features/mindmap/debug/`). Rewired `AskAIStreaming` → `useMindMapAgent` (canonical `/api/disclosure/mindmap`). Purged all remaining `@db/xata`/`@db` value imports: `xata-to-xyflow.ts` (fetchRecords → `readById`, fallbacks → `searchTable`), `process-resource.ts` (→ `searchTable`), Clerk webhook route rewritten on `@db/postgres` (URL kept stable). 4 type-only `@db` imports repointed to `@db/postgres`.
 - **Phase B completed (2026-07-05):** Shared search core already lived in `@db/postgres` (`searchDatabase`: FTS + pgvector + RRF fusion); remaining duplication removed — shared `embedQuery` extracted to `services/ai/openai/embed-query.ts` (both live routes now import it), one-line `tools/search-database.ts` wrapper + orphan `tools/index.ts` barrel deleted, 4 importers repointed to `@db/postgres` directly.
@@ -282,11 +318,13 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Dependencies:** T-013, T-015
 
 ### T-029: UFO Research Methodology Framework
+
 - **Status:** DONE — 2026-06-20 (docs/research/ufo-research-methodology.md; commit 2c23a02)
 - **Size:** M (2 days)
 - **What:** Define structured methodology inspired by Jacques Vallee, Diana Pasulka Walsh. Framework for classification, evidence evaluation, source verification, pattern analysis. Map to ingestion/analysis workflows.
 
 ### T-036: LLM Wiki — compounding knowledge layer (Karpathy-style)
+
 - **Status:** DECISION READY — 2026-07-12 ([DMGD-184](https://linear.app/dmg-dev/issue/DMGD-184)); full build NO-GO, explicit 10-source provenance pilot recommended
 - **Size:** L (multi-week, phased)
 - **What:** Build a persistent, LLM-maintained wiki layer between the ~960 raw knowledge-base sources and Prometheus — interlinked markdown entity/concept/event pages that the LLM compiles once and keeps current (ingest/query/lint ops), instead of re-deriving knowledge per query via RAG. Compounding artifact; cross-refs + contradictions pre-flagged. Natural fit with the mindmap (wiki graph = canvas), the UFO research methodology (T-029), and pgvector retrieval. See analysis doc for project-specific recommendation + phased plan.
@@ -295,6 +333,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Blockers:** The referenced fit-analysis document is missing; source identity/provenance, claims boundaries, the evaluation set, and ingestion/idempotency contracts are not canonical.
 
 ### T-037: AI prompt & model audit — frontier-models-only policy + fallback-chain adoption
+
 - **Status:** IMPLEMENTATION DONE / EXTERNAL VERIFICATION BLOCKED — 2026-07-12 (DMGD-152 and DMGD-158 in review)
 - **Size:** M (1-2 days)
 - **Policy (user-stated, 2026-07-07):** Only current frontier models by top providers are acceptable anywhere in the app — GPT-5.5, Claude Opus 4.8 / Sonnet 5, Gemini 3.5 Flash, GLM-5.2. No legacy tiers (gpt-4-turbo, gpt-4o-mini, etc.), ever.
@@ -310,6 +349,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Reference:** `docs/plans/2026-07-07-llm-enriched-hypothesis.md`
 
 ### T-038: Design language & domain vocabulary canonicalization
+
 - **Status:** IMPLEMENTATION DONE / EXTERNAL FIGMA REVIEW BLOCKED — 2026-07-12 (DMGD-154 and DMGD-155 in review)
 - **Size:** remaining S-M
 - **Done (2026-07-09):** Extensive review of the Brand Bible package (`docs/design/brand-bible/` — moved into repo from Desktop) + vision docs + shipped Phase 0/1 code. Created: `docs/vision/2026-07-09-canonicalization-audit.md` (overlap audit + placement ruling), `RESEARCH_NARRATIVE_RUBRIC.md` (judging checklist: 2 governing questions, 7 hard gates, 16 scored criteria), `UX_LANGUAGE_GUIDE.md` (reserved words, 8-term adopted vocabulary, badge grammar, interaction copy rules), `AGENT_ARCHITECTURE_BRIEF.md` (5 investigative roles — Archivist/Analyst/Skeptic/Mythographer/Cartographer — mapped honestly to the 2 live AI paths; no orchestrator claimed), `IMPLEMENTATION_SPEC.md` (identity→code map with gap list).
@@ -320,6 +360,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Reference:** `docs/vision/2026-07-09-canonicalization-audit.md`
 
 ### T-039: Documentation cleanup & simplification (all docs)
+
 - **Status:** DONE / IN REVIEW — 2026-07-12 ([DMGD-185](https://linear.app/dmg-dev/issue/DMGD-185))
 - **Size:** M-L
 - **What:** Repo-wide pass to simplify and de-duplicate documentation before Linear (T-040) takes over task tracking. Candidates found so far: stale `docs/agents/AGENT_ONBOARDING_CHECKLIST.md` (still references retired Xata-era file paths); confirm `docs/plans/` vs `docs/PLANS/` is a macOS case-insensitive filesystem alias, not a real duplicate (verified 2026-07-09: same inode — no action needed, just don't let an agent copy content between them believing they're distinct); general docs/ sprawl audit.
@@ -327,6 +368,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Depends on:** none; blocks T-040 in spirit (do the cleanup before wiring Linear so tickets map to a clean doc set).
 
 ### T-040: Linear integration for task tracking
+
 - **Status:** DONE / IN REVIEW — 2026-07-12 ([DMGD-186](https://linear.app/dmg-dev/issue/DMGD-186))
 - **Size:** M
 - **Cutover:** Linear owns actionable tickets and status. `FEATURES.md` remains strategic, `DAILY_WORK_PLAN.md` is a session log, and this file is the historical `T-*` migration ledger. New implementation tickets go to Linear; do not extend this ledger.
@@ -334,12 +376,14 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Depends on:** T-039 (docs cleanup) should land first so migration maps cleanly.
 
 ### T-041: Roundtable UX/UI review
+
 - **Status:** BLOCKED — 2026-07-12 ([DMGD-187](https://linear.app/dmg-dev/issue/DMGD-187)); app ran locally, but no browser backend was available for the required current-run screenshot evidence
 - **What:** Multi-perspective review of UX/UI covering (a) the live application itself, (b) the conceptual/identity layer (`docs/vision/*`, `DESIGN.md`, `PRODUCT.md`), and (c) the ingested brainstorm material (`docs/design/brand-bible/`, `docs/design/reference-prototype/`).
 - **Why:** User wants a synthesis pass across code, concept, and reference material now that the canonicalization (T-038) and design-registers reframe (`docs/vision/DESIGN_REGISTERS.md`) exist to review against.
 - **Depends on:** T-038 remaining items should be resolved or at least visible before this review, since they're inputs to it.
 
 ### T-042: Custom agent architecture brainstorm
+
 - **Status:** DECISION READY — 2026-07-12 ([DMGD-188](https://linear.app/dmg-dev/issue/DMGD-188)); local-first scoped specialists, no cloud-persistent agents yet
 - **What:** Explore what app-specific custom agents (memory, specialization, shared vs. independent context) would look like for Ultraterrestrial — local (`.claude/agents/*.md`, already has app-agent/db-agent/disclosure-rag-agent/knowledge-base-agent/research-ui-agent) vs. cloud-persistent (Claude Managed Agents / Claude API Managed Agents with a hosted sandbox). No decision made yet — this is a live discussion thread, not a committed direction.
 - **Depends on:** none directly; informs future automation of T-039/T-040/T-041 style reflection work.
@@ -347,6 +391,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Next gate:** Rewrite the stale local agent definitions around Postgres and the two live AI paths, then validate the pattern on one bounded workflow. Reconsider hosted persistence only after stable contracts, evals, RBAC/auditability, and a recurring unattended workload exist.
 
 ### T-043: Write per-context CONTEXT.md files (domain model follow-up)
+
 - **Status:** OPEN
 - **Size:** S (2-3 hours total)
 - **Dependencies:** CONTEXT-MAP.md + root CONTEXT.md (done 2026-07-10)
@@ -355,9 +400,17 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
   - `packages/db/CONTEXT.md` — DB context: table names, query patterns, the retrieval model, the `agent_inferences` contract
   - `packages/prompts/CONTEXT.md` — AI/Prompts context: the five investigative roles, liturgy schema, voice contract terms
 - **Why:** Completes the multi-context domain model. Skills like `domain-modeling`, `to-tickets`, and `qa` read from these during implementation.
-- **Reference:** `CONTEXT-MAP.md`, `CONTEXT.md`, `docs/agents/domain.md`
+- **Reference:** `CONTEXT-MAP.md`, `CONTEXT.md`, `docs/ops/domain.md`
+
+### T-046: Docs maintenance automation (future)
+
+- **Status:** OPEN
+- **Size:** M
+- **What:** Optional CI: markdown link check, stale `status: live` audit, archive dated drafts after 14 days. Not in scope for 2026-07-19 prune pass.
+- **Reference:** `docs/ops/DOC_MAINTENANCE.md`, FEATURES Decision 8
 
 ### T-044: Fix CRITICAL findings from disclosure-rag/main.py contract review
+
 - **Status:** DONE — 2026-07-16 (commit `aefc21b`)
 - **What:** Resolved C1 (Upstash import guard didn't cover actual URL ingestion), C2 (`--no-kb` ignored for YouTube/web URLs), C3 (entity processing read a stale second `KnowledgeBaseCRUD` instance), and H1 (web ingestion ran CocoIndex twice).
 - **Why:** `docs/PLANS/2026-07-16-disclosure-rag-main-review.md` gave `main.py` a FAIL verdict; these four were the load-bearing correctness bugs blocking merge.
@@ -365,6 +418,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Reference:** `docs/PLANS/2026-07-16-disclosure-rag-main-review.md` (fix status annotated inline)
 
 ### T-045: Remaining HIGH/MEDIUM findings from disclosure-rag/main.py review
+
 - **Status:** OPEN
 - **Size:** M (review lists concrete fix directions per item; no design work needed)
 - **What:** H2 (queue relocation can overwrite an existing file), H3 (relocation leaves persisted provenance stale), H4 (extracted PDF temp files never deleted), H5 (`--status` overstates CocoIndex readiness), H6 (substring-based YouTube URL detection accepts hostile URLs), H7 (completion output doesn't reflect real per-stage success/failure), M1 (eager heavy imports before arg parsing), M2 (no `main.py` regression tests), M3 (broad exception handling collapses distinct failures to `None`), M4 (no file size/type/resource limits on ingestion).
@@ -377,6 +431,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 ## Follow-Up: T-016 Phase 2 (Discovered 2026-06-17)
 
 ### T-030: Migrate 6 /api/disclosure/chat consumers to /api/disclosure/mindmap
+
 - **Status:** DONE — 2026-06-20 (6 consumers repointed; chat route deleted; commit 633216d)
 - **Size:** M (half day)
 - **Dependencies:** T-016 (done)
@@ -384,6 +439,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Note:** Also verify `disclosure/chat/route.ts` line ~255 calls `anthropic('claude-4-sonnet-20250115')` — confirm this model string is valid.
 
 ### T-031: Delete broken historical-query chain
+
 - **Status:** DONE — 2026-06-20 (chain + tour-state agents deleted, consumers stubbed; commit 633216d)
 - **Size:** S (2 hours)
 - **Dependencies:** None (entire chain is dead — 501 responses, full Xata dependency retired)

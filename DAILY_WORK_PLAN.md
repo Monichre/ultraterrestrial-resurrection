@@ -1,139 +1,28 @@
 _Last agent session: 
-_Files touched: .specstory/history/2025-11-26_05-08-28Z-proceed-with-the-next-steps.md .specstory/history/2025-11-26_05-08-28Z-refactor-sightings-page-for-ui-dots.md .specstory/history/2025-11-26_18-32-02Z-where-did-we-leave-off.md .specstory/history/2025-12-12_21-23-04Z-unified-v0.dev-ui-projects.md DAILY_WORK_PLAN.md GOAL.md PRODUCT.md README.md WORKSPACE_STATUS_REPORT.md apps/app/src/app/api/disclosure/mindmap/route.ts apps/app/src/app/api/prometheus/chat/route.ts apps/app/src/components/design-system/ARCHIVAL_DYSTOPIAN_AESTHETIC.md apps/app/src/components/design-system/DESIGN_SYSTEM.md apps/app/src/components/design-system/README.md apps/app/src/components/design-system/RESEARCH_UI_DESIGN_GUIDE.md,_
+_Files touched: .claude/commands/xata-analyze.md .claude/commands/xata-ask.md .claude/commands/xata-create.md .claude/commands/xata-create.yaml .claude/commands/xata-delete.md .claude/commands/xata-read.md .claude/commands/xata-read.yaml .claude/commands/xata-research.md .claude/commands/xata-seed.md .claude/commands/xata-update.md .cursor/rules/ai-sdk-5.mdc .cursor/rules/cursor-rule-creation.mdc .cursor/rules/cursor_rules.mdc .cursor/rules/date-formatting-and-docs.mdc .cursor/rules/derived-cursor-rules.mdc,_
 
 _Last agent session: 
-_Files touched: .specstory/history/2025-11-26_05-08-28Z-proceed-with-the-next-steps.md .specstory/history/2025-11-26_05-08-28Z-refactor-sightings-page-for-ui-dots.md .specstory/history/2025-11-26_18-32-02Z-where-did-we-leave-off.md .specstory/history/2025-12-12_21-23-04Z-unified-v0.dev-ui-projects.md DAILY_WORK_PLAN.md GOAL.md PRODUCT.md README.md WORKSPACE_STATUS_REPORT.md apps/app/src/app/api/disclosure/mindmap/route.ts apps/app/src/app/api/prometheus/chat/route.ts apps/app/src/components/design-system/ARCHIVAL_DYSTOPIAN_AESTHETIC.md apps/app/src/components/design-system/DESIGN_SYSTEM.md apps/app/src/components/design-system/README.md apps/app/src/components/design-system/RESEARCH_UI_DESIGN_GUIDE.md,_
+_Files touched: .claude/commands/xata-analyze.md .claude/commands/xata-ask.md .claude/commands/xata-create.md .claude/commands/xata-create.yaml .claude/commands/xata-delete.md .claude/commands/xata-read.md .claude/commands/xata-read.yaml .claude/commands/xata-research.md .claude/commands/xata-seed.md .claude/commands/xata-update.md .cursor/rules/ai-sdk-5.mdc .cursor/rules/cursor-rule-creation.mdc .cursor/rules/cursor_rules.mdc .cursor/rules/date-formatting-and-docs.mdc .cursor/rules/derived-cursor-rules.mdc,_
 
-_Last agent session: 
-_Files touched: .specstory/history/2025-11-26_05-08-28Z-proceed-with-the-next-steps.md .specstory/history/2025-11-26_05-08-28Z-refactor-sightings-page-for-ui-dots.md .specstory/history/2025-11-26_18-32-02Z-where-did-we-leave-off.md .specstory/history/2025-12-12_21-23-04Z-unified-v0.dev-ui-projects.md DAILY_WORK_PLAN.md PRODUCT.md README.md WORKSPACE_STATUS_REPORT.md apps/app/src/app/api/disclosure/mindmap/route.ts apps/app/src/app/api/prometheus/chat/route.ts apps/app/src/components/design-system/ARCHIVAL_DYSTOPIAN_AESTHETIC.md apps/app/src/components/design-system/DESIGN_SYSTEM.md apps/app/src/components/design-system/README.md apps/app/src/components/design-system/RESEARCH_UI_DESIGN_GUIDE.md apps/app/src/features/mindmap/navigation/FullScreenMenu.tsx,_
+# Daily Work Plan — Ultraterrestrial Resurrection
 
-_Last agent session: 
-_Files touched: .specstory/history/2025-11-26_05-08-28Z-proceed-with-the-next-steps.md .specstory/history/2025-11-26_05-08-28Z-refactor-sightings-page-for-ui-dots.md .specstory/history/2025-11-26_18-32-02Z-where-did-we-leave-off.md .specstory/history/2025-12-12_21-23-04Z-unified-v0.dev-ui-projects.md DAILY_WORK_PLAN.md PRODUCT.md README.md WORKSPACE_STATUS_REPORT.md apps/app/src/app/api/disclosure/mindmap/route.ts apps/app/src/app/api/prometheus/chat/route.ts apps/app/src/components/design-system/ARCHIVAL_DYSTOPIAN_AESTHETIC.md apps/app/src/components/design-system/DESIGN_SYSTEM.md apps/app/src/components/design-system/README.md apps/app/src/components/design-system/RESEARCH_UI_DESIGN_GUIDE.md apps/app/src/features/mindmap/navigation/FullScreenMenu.tsx,_
+**Last updated:** 2026-07-19 21:45 CDT  
+**Branch:** `docs/root-and-prune`  
+**Focus:** docs root-and-prune (FEATURES Decision 8)
 
-_Last agent session: 
-_Files touched: .specstory/history/2025-11-26_05-08-28Z-refactor-sightings-page-for-ui-dots.md .specstory/history/2025-11-26_18-32-02Z-review-home-page-animations-and-create-guide.md .specstory/history/2025-11-26_18-32-02Z-where-did-we-leave-off.md .specstory/history/2025-12-12_21-23-04Z-unified-v0.dev-ui-projects.md DAILY_WORK_PLAN.md PRODUCT.md README.md WORKSPACE_STATUS_REPORT.md apps/app/src/app/api/disclosure/mindmap/route.ts apps/app/src/app/api/prometheus/chat/route.ts apps/app/src/components/design-system/ARCHIVAL_DYSTOPIAN_AESTHETIC.md apps/app/src/components/design-system/DESIGN_SYSTEM.md apps/app/src/components/design-system/README.md apps/app/src/components/design-system/RESEARCH_UI_DESIGN_GUIDE.md apps/app/src/features/mindmap/navigation/FullScreenMenu.tsx,_
+### Session 2026-07-19 21:45 CDT — Docs root, prune, spine navigation
 
-_Last agent session: 
-_Files touched: .specstory/history/2025-11-26_05-08-28Z-refactor-sightings-page-for-ui-dots.md .specstory/history/2025-11-26_18-32-02Z-review-home-page-animations-and-create-guide.md .specstory/history/2025-11-26_18-32-02Z-where-did-we-leave-off.md .specstory/history/2025-12-12_21-23-04Z-unified-v0.dev-ui-projects.md DAILY_WORK_PLAN.md PRODUCT.md README.md WORKSPACE_STATUS_REPORT.md apps/app/src/app/api/disclosure/mindmap/route.ts apps/app/src/app/api/prometheus/chat/route.ts apps/app/src/components/design-system/ARCHIVAL_DYSTOPIAN_AESTHETIC.md apps/app/src/components/design-system/DESIGN_SYSTEM.md apps/app/src/components/design-system/README.md apps/app/src/components/design-system/RESEARCH_UI_DESIGN_GUIDE.md apps/app/src/features/mindmap/navigation/FullScreenMenu.tsx,_
+**Done:**
 
-_Last agent session: 
-_Files touched: .specstory/history/2025-11-26_05-08-28Z-refactor-sightings-page-for-ui-dots.md .specstory/history/2025-11-26_18-32-02Z-review-home-page-animations-and-create-guide.md .specstory/history/2025-11-26_18-32-02Z-where-did-we-leave-off.md .specstory/history/2025-12-12_21-23-04Z-unified-v0.dev-ui-projects.md DAILY_WORK_PLAN.md PRODUCT.md README.md WORKSPACE_STATUS_REPORT.md apps/app/src/app/api/disclosure/mindmap/route.ts apps/app/src/app/api/prometheus/chat/route.ts apps/app/src/components/design-system/ARCHIVAL_DYSTOPIAN_AESTHETIC.md apps/app/src/components/design-system/DESIGN_SYSTEM.md apps/app/src/components/design-system/README.md apps/app/src/components/design-system/RESEARCH_UI_DESIGN_GUIDE.md apps/app/src/features/mindmap/navigation/FullScreenMenu.tsx,_
+- Restructured `docs/` (~24MB → ~3.5MB): deleted stale INDEX/DOCUMENTATION_ORGANIZATION_PLAN; archived historical root MD, plan dumps, dated vision audits, prototypes
+- Created living tree: `architecture/`, `ops/`, `research/methodology/`; narrowed `plans/` to FEATURES+TODO; flat `vision/` canon
+- Restored `docs/ops/` (onboarding, triage, issue-tracker, domain, CONTRIB with `@db/postgres`)
+- Wrote `docs/README.md` six-question spine; tagged living canon with frontmatter
+- Updated CLAUDE.md + AGENTS.md paths; canvas `docs-root-and-prune`
 
-_Last agent session: 
-_Files touched: .specstory/history/2025-11-26_05-08-28Z-refactor-sightings-page-for-ui-dots.md .specstory/history/2025-11-26_18-32-02Z-review-home-page-animations-and-create-guide.md .specstory/history/2025-11-26_18-32-02Z-where-did-we-leave-off.md .specstory/history/2025-12-12_21-23-04Z-unified-v0.dev-ui-projects.md DAILY_WORK_PLAN.md PRODUCT.md README.md WORKSPACE_STATUS_REPORT.md apps/app/src/app/api/disclosure/mindmap/route.ts apps/app/src/app/api/prometheus/chat/route.ts apps/app/src/components/design-system/ARCHIVAL_DYSTOPIAN_AESTHETIC.md apps/app/src/components/design-system/DESIGN_SYSTEM.md apps/app/src/components/design-system/README.md apps/app/src/components/design-system/RESEARCH_UI_DESIGN_GUIDE.md apps/app/src/features/mindmap/navigation/FullScreenMenu.tsx,_
+**Next:** merge branch; optional T-046 docs automation
 
-_Last agent session: 
-_Files touched: .specstory/history/2025-11-26_05-08-28Z-refactor-sightings-page-for-ui-dots.md .specstory/history/2025-11-26_18-32-02Z-review-home-page-animations-and-create-guide.md .specstory/history/2025-11-26_18-32-02Z-where-did-we-leave-off.md .specstory/history/2025-12-12_21-23-04Z-unified-v0.dev-ui-projects.md DAILY_WORK_PLAN.md PRODUCT.md README.md WORKSPACE_STATUS_REPORT.md apps/app/src/app/api/disclosure/mindmap/route.ts apps/app/src/app/api/prometheus/chat/route.ts apps/app/src/components/design-system/ARCHIVAL_DYSTOPIAN_AESTHETIC.md apps/app/src/components/design-system/DESIGN_SYSTEM.md apps/app/src/components/design-system/README.md apps/app/src/components/design-system/RESEARCH_UI_DESIGN_GUIDE.md apps/app/src/features/mindmap/navigation/FullScreenMenu.tsx,_
-
-_Last agent session: 
-_Files touched: .specstory/history/2025-11-26_05-08-28Z-refactor-sightings-page-for-ui-dots.md .specstory/history/2025-11-26_18-32-02Z-review-home-page-animations-and-create-guide.md .specstory/history/2025-11-26_18-32-02Z-where-did-we-leave-off.md .specstory/history/2025-12-12_21-23-04Z-unified-v0.dev-ui-projects.md DAILY_WORK_PLAN.md PRODUCT.md README.md WORKSPACE_STATUS_REPORT.md apps/app/src/app/api/disclosure/mindmap/route.ts apps/app/src/app/api/prometheus/chat/route.ts apps/app/src/components/design-system/ARCHIVAL_DYSTOPIAN_AESTHETIC.md apps/app/src/components/design-system/DESIGN_SYSTEM.md apps/app/src/components/design-system/README.md apps/app/src/components/design-system/RESEARCH_UI_DESIGN_GUIDE.md apps/app/src/features/mindmap/navigation/FullScreenMenu.tsx,_
-
-_Last agent session: 
-_Files touched: .specstory/history/2025-11-26_05-08-28Z-refactor-sightings-page-for-ui-dots.md .specstory/history/2025-11-26_18-32-02Z-review-home-page-animations-and-create-guide.md .specstory/history/2025-11-26_18-32-02Z-where-did-we-leave-off.md .specstory/history/2025-12-12_21-23-04Z-unified-v0.dev-ui-projects.md DAILY_WORK_PLAN.md PRODUCT.md README.md WORKSPACE_STATUS_REPORT.md apps/app/src/app/api/disclosure/mindmap/route.ts apps/app/src/app/api/prometheus/chat/route.ts apps/app/src/components/design-system/ARCHIVAL_DYSTOPIAN_AESTHETIC.md apps/app/src/components/design-system/DESIGN_SYSTEM.md apps/app/src/components/design-system/README.md apps/app/src/components/design-system/RESEARCH_UI_DESIGN_GUIDE.md apps/app/src/features/mindmap/navigation/FullScreenMenu.tsx,_
-
-_Last agent session: 
-_Files touched: .specstory/history/2025-11-26_05-08-28Z-refactor-sightings-page-for-ui-dots.md .specstory/history/2025-11-26_18-32-02Z-review-home-page-animations-and-create-guide.md .specstory/history/2025-11-26_18-32-02Z-where-did-we-leave-off.md .specstory/history/2025-12-12_21-23-04Z-unified-v0.dev-ui-projects.md DAILY_WORK_PLAN.md PRODUCT.md README.md WORKSPACE_STATUS_REPORT.md apps/app/src/app/api/disclosure/mindmap/route.ts apps/app/src/app/api/prometheus/chat/route.ts apps/app/src/components/design-system/ARCHIVAL_DYSTOPIAN_AESTHETIC.md apps/app/src/components/design-system/DESIGN_SYSTEM.md apps/app/src/components/design-system/README.md apps/app/src/components/design-system/RESEARCH_UI_DESIGN_GUIDE.md apps/app/src/features/mindmap/navigation/FullScreenMenu.tsx,_
-
-_Last agent session: 
-_Files touched: .specstory/history/2025-11-26_05-08-28Z-refactor-sightings-page-for-ui-dots.md .specstory/history/2025-11-26_18-32-02Z-review-home-page-animations-and-create-guide.md .specstory/history/2025-11-26_18-32-02Z-where-did-we-leave-off.md .specstory/history/2025-12-12_21-23-04Z-unified-v0.dev-ui-projects.md DAILY_WORK_PLAN.md PRODUCT.md README.md WORKSPACE_STATUS_REPORT.md apps/app/src/app/api/disclosure/mindmap/route.ts apps/app/src/app/api/prometheus/chat/route.ts apps/app/src/components/design-system/ARCHIVAL_DYSTOPIAN_AESTHETIC.md apps/app/src/components/design-system/DESIGN_SYSTEM.md apps/app/src/components/design-system/README.md apps/app/src/components/design-system/RESEARCH_UI_DESIGN_GUIDE.md apps/app/src/features/mindmap/navigation/FullScreenMenu.tsx,_
-
-_Last agent session: 
-_Files touched: .specstory/history/2025-11-26_05-08-28Z-refactor-sightings-page-for-ui-dots.md .specstory/history/2025-11-26_18-32-02Z-review-home-page-animations-and-create-guide.md .specstory/history/2025-11-26_18-32-02Z-where-did-we-leave-off.md .specstory/history/2025-12-12_21-23-04Z-unified-v0.dev-ui-projects.md DAILY_WORK_PLAN.md PRODUCT.md README.md WORKSPACE_STATUS_REPORT.md apps/app/src/app/api/disclosure/mindmap/route.ts apps/app/src/app/api/prometheus/chat/route.ts apps/app/src/components/design-system/ARCHIVAL_DYSTOPIAN_AESTHETIC.md apps/app/src/components/design-system/DESIGN_SYSTEM.md apps/app/src/components/design-system/README.md apps/app/src/components/design-system/RESEARCH_UI_DESIGN_GUIDE.md apps/app/src/features/mindmap/navigation/FullScreenMenu.tsx,_
-
-_Last agent session: 
-_Files touched: .specstory/history/2025-11-26_05-08-28Z-refactor-sightings-page-for-ui-dots.md .specstory/history/2025-11-26_18-32-02Z-review-home-page-animations-and-create-guide.md .specstory/history/2025-11-26_18-32-02Z-where-did-we-leave-off.md .specstory/history/2025-12-12_21-23-04Z-unified-v0.dev-ui-projects.md DAILY_WORK_PLAN.md PRODUCT.md README.md WORKSPACE_STATUS_REPORT.md apps/app/src/app/api/disclosure/mindmap/route.ts apps/app/src/app/api/prometheus/chat/route.ts apps/app/src/components/design-system/ARCHIVAL_DYSTOPIAN_AESTHETIC.md apps/app/src/components/design-system/DESIGN_SYSTEM.md apps/app/src/components/design-system/README.md apps/app/src/components/design-system/RESEARCH_UI_DESIGN_GUIDE.md apps/app/src/features/mindmap/navigation/FullScreenMenu.tsx,_
-
-_Last agent session: 
-_Files touched: .specstory/history/2025-11-26_05-08-28Z-refactor-sightings-page-for-ui-dots.md .specstory/history/2025-11-26_18-32-02Z-review-home-page-animations-and-create-guide.md .specstory/history/2025-11-26_18-32-02Z-where-did-we-leave-off.md .specstory/history/2025-12-12_21-23-04Z-unified-v0.dev-ui-projects.md DAILY_WORK_PLAN.md PRODUCT.md README.md WORKSPACE_STATUS_REPORT.md apps/app/src/app/api/disclosure/mindmap/route.ts apps/app/src/app/api/prometheus/chat/route.ts apps/app/src/components/design-system/ARCHIVAL_DYSTOPIAN_AESTHETIC.md apps/app/src/components/design-system/DESIGN_SYSTEM.md apps/app/src/components/design-system/README.md apps/app/src/components/design-system/RESEARCH_UI_DESIGN_GUIDE.md apps/app/src/features/mindmap/navigation/FullScreenMenu.tsx,_
-
-_Last agent session: 
-_Files touched: .specstory/history/2025-11-26_05-08-28Z-refactor-sightings-page-for-ui-dots.md .specstory/history/2025-11-26_18-32-02Z-review-home-page-animations-and-create-guide.md .specstory/history/2025-11-26_18-32-02Z-where-did-we-leave-off.md .specstory/history/2025-12-12_21-23-04Z-unified-v0.dev-ui-projects.md DAILY_WORK_PLAN.md PRODUCT.md README.md WORKSPACE_STATUS_REPORT.md apps/app/src/app/api/disclosure/mindmap/route.ts apps/app/src/app/api/prometheus/chat/route.ts apps/app/src/components/design-system/ARCHIVAL_DYSTOPIAN_AESTHETIC.md apps/app/src/components/design-system/DESIGN_SYSTEM.md apps/app/src/components/design-system/README.md apps/app/src/components/design-system/RESEARCH_UI_DESIGN_GUIDE.md apps/app/src/features/mindmap/navigation/FullScreenMenu.tsx,_
-
-_Last agent session: 
-_Files touched: .specstory/history/2025-11-26_05-08-28Z-refactor-sightings-page-for-ui-dots.md .specstory/history/2025-11-26_18-32-02Z-review-home-page-animations-and-create-guide.md .specstory/history/2025-11-26_18-32-02Z-where-did-we-leave-off.md .specstory/history/2025-12-12_21-23-04Z-unified-v0.dev-ui-projects.md DAILY_WORK_PLAN.md PRODUCT.md README.md WORKSPACE_STATUS_REPORT.md apps/app/src/app/api/disclosure/mindmap/route.ts apps/app/src/app/api/prometheus/chat/route.ts apps/app/src/components/design-system/ARCHIVAL_DYSTOPIAN_AESTHETIC.md apps/app/src/components/design-system/DESIGN_SYSTEM.md apps/app/src/components/design-system/README.md apps/app/src/components/design-system/RESEARCH_UI_DESIGN_GUIDE.md apps/app/src/features/mindmap/navigation/FullScreenMenu.tsx,_
-
-_Last agent session: 
-_Files touched: .specstory/history/2025-11-26_05-08-28Z-refactor-sightings-page-for-ui-dots.md .specstory/history/2025-11-26_18-32-02Z-review-home-page-animations-and-create-guide.md .specstory/history/2025-11-26_18-32-02Z-where-did-we-leave-off.md .specstory/history/2025-12-12_21-23-04Z-unified-v0.dev-ui-projects.md DAILY_WORK_PLAN.md PRODUCT.md README.md WORKSPACE_STATUS_REPORT.md apps/app/src/app/api/disclosure/mindmap/route.ts apps/app/src/app/api/prometheus/chat/route.ts apps/app/src/components/design-system/ARCHIVAL_DYSTOPIAN_AESTHETIC.md apps/app/src/components/design-system/DESIGN_SYSTEM.md apps/app/src/components/design-system/README.md apps/app/src/components/design-system/RESEARCH_UI_DESIGN_GUIDE.md apps/app/src/features/mindmap/navigation/FullScreenMenu.tsx,_
-
-_Last agent session: 
-_Files touched: .specstory/history/2025-11-26_05-08-28Z-refactor-sightings-page-for-ui-dots.md .specstory/history/2025-11-26_18-32-02Z-review-home-page-animations-and-create-guide.md .specstory/history/2025-11-26_18-32-02Z-where-did-we-leave-off.md .specstory/history/2025-12-12_21-23-04Z-unified-v0.dev-ui-projects.md DAILY_WORK_PLAN.md PRODUCT.md README.md WORKSPACE_STATUS_REPORT.md apps/app/src/app/api/disclosure/mindmap/route.ts apps/app/src/app/api/prometheus/chat/route.ts apps/app/src/components/design-system/ARCHIVAL_DYSTOPIAN_AESTHETIC.md apps/app/src/components/design-system/DESIGN_SYSTEM.md apps/app/src/components/design-system/README.md apps/app/src/components/design-system/RESEARCH_UI_DESIGN_GUIDE.md apps/app/src/features/mindmap/navigation/FullScreenMenu.tsx,_
-
-_Last agent session: 
-_Files touched: .claude/agents/apps/disclosure-rag-agent.md .specstory/history/2025-11-26_05-08-28Z-refactor-sightings-page-for-ui-dots.md .specstory/history/2025-11-26_18-32-02Z-review-home-page-animations-and-create-guide.md .specstory/history/2025-11-26_18-32-02Z-where-did-we-leave-off.md .specstory/history/2025-12-12_21-23-04Z-unified-v0.dev-ui-projects.md AGENTS.md CLAUDE.md DAILY_WORK_PLAN.md PRODUCT.md README.md WORKSPACE_STATUS_REPORT.md apps/app/src/app/api/disclosure/mindmap/route.ts apps/app/src/app/api/prometheus/chat/route.ts apps/app/src/components/design-system/ARCHIVAL_DYSTOPIAN_AESTHETIC.md apps/app/src/components/design-system/DESIGN_SYSTEM.md,_
-
-_Last agent session: 
-_Files touched: .claude/agents/apps/disclosure-rag-agent.md CLAUDE.md DAILY_WORK_PLAN.md PRODUCT.md README.md WORKSPACE_STATUS_REPORT.md apps/app/src/app/api/disclosure/mindmap/route.ts apps/app/src/app/api/prometheus/chat/route.ts apps/app/src/components/design-system/ARCHIVAL_DYSTOPIAN_AESTHETIC.md apps/app/src/components/design-system/DESIGN_SYSTEM.md apps/app/src/components/design-system/README.md apps/app/src/components/design-system/RESEARCH_UI_DESIGN_GUIDE.md apps/app/src/features/mindmap/navigation/FullScreenMenu.tsx apps/app/src/features/mindmap/research-canvas/EmptyCanvas.tsx apps/app/src/lib/ai/model-fallback.ts,_
-
-_Last agent session: 
-_Files touched: DAILY_WORK_PLAN.md PRODUCT.md README.md WORKSPACE_STATUS_REPORT.md apps/app/src/app/api/disclosure/mindmap/route.ts apps/app/src/app/api/prometheus/chat/route.ts apps/app/src/components/design-system/ARCHIVAL_DYSTOPIAN_AESTHETIC.md apps/app/src/components/design-system/DESIGN_SYSTEM.md apps/app/src/components/design-system/README.md apps/app/src/components/design-system/RESEARCH_UI_DESIGN_GUIDE.md apps/app/src/features/mindmap/navigation/FullScreenMenu.tsx apps/app/src/features/mindmap/research-canvas/EmptyCanvas.tsx apps/app/src/lib/ai/model-fallback.ts apps/app/src/services/ai/context/build-agent-context.ts apps/disclosure-rag/api_server.py,_
-
-_Last agent session: 
-_Files touched: DAILY_WORK_PLAN.md PRODUCT.md README.md WORKSPACE_STATUS_REPORT.md apps/app/src/app/api/disclosure/mindmap/route.ts apps/app/src/app/api/prometheus/chat/route.ts apps/app/src/components/design-system/ARCHIVAL_DYSTOPIAN_AESTHETIC.md apps/app/src/components/design-system/DESIGN_SYSTEM.md apps/app/src/components/design-system/README.md apps/app/src/components/design-system/RESEARCH_UI_DESIGN_GUIDE.md apps/app/src/features/mindmap/navigation/FullScreenMenu.tsx apps/app/src/features/mindmap/research-canvas/EmptyCanvas.tsx apps/app/src/lib/ai/model-fallback.ts apps/app/src/services/ai/context/build-agent-context.ts apps/disclosure-rag/api_server.py,_
-
-_Last agent session: 
-_Files touched: DAILY_WORK_PLAN.md PRODUCT.md README.md WORKSPACE_STATUS_REPORT.md apps/app/src/app/api/disclosure/mindmap/route.ts apps/app/src/app/api/prometheus/chat/route.ts apps/app/src/components/design-system/ARCHIVAL_DYSTOPIAN_AESTHETIC.md apps/app/src/components/design-system/DESIGN_SYSTEM.md apps/app/src/components/design-system/README.md apps/app/src/components/design-system/RESEARCH_UI_DESIGN_GUIDE.md apps/app/src/features/mindmap/navigation/FullScreenMenu.tsx apps/app/src/features/mindmap/research-canvas/EmptyCanvas.tsx apps/app/src/lib/ai/model-fallback.ts apps/app/src/services/ai/context/build-agent-context.ts docs/API_ROUTES.md,_
-
-_Last agent session: 
-_Files touched: .agent/skills/frontend-design .agents/skills/frontend-design/LICENSE.txt .agents/skills/frontend-design/SKILL.md .augment/skills/frontend-design .claude/agents/academic-researcher.md .claude/agents/agent-overview.md .claude/agents/ai-engineer.md .claude/agents/architect-review.md .claude/agents/architecture-modernizer.md .claude/agents/business-analyst.md .claude/agents/cli-ui-designer.md .claude/agents/command-expert.md .claude/agents/connection-agent.md .claude/agents/content-marketer.md .claude/agents/context-manager.md,_
-
-_Last agent session: 
-_Files touched: .agent/skills/frontend-design .agents/skills/frontend-design/LICENSE.txt .agents/skills/frontend-design/SKILL.md .augment/skills/frontend-design .claude/agents/academic-researcher.md .claude/agents/agent-overview.md .claude/agents/ai-engineer.md .claude/agents/architect-review.md .claude/agents/architecture-modernizer.md .claude/agents/business-analyst.md .claude/agents/cli-ui-designer.md .claude/agents/command-expert.md .claude/agents/connection-agent.md .claude/agents/content-marketer.md .claude/agents/context-manager.md,_
-
-_Last agent session: 
-_Files touched: .agent/skills/frontend-design .agents/skills/frontend-design/LICENSE.txt .agents/skills/frontend-design/SKILL.md .augment/skills/frontend-design .claude/agents/academic-researcher.md .claude/agents/agent-overview.md .claude/agents/ai-engineer.md .claude/agents/architect-review.md .claude/agents/architecture-modernizer.md .claude/agents/business-analyst.md .claude/agents/cli-ui-designer.md .claude/agents/command-expert.md .claude/agents/connection-agent.md .claude/agents/content-marketer.md .claude/agents/context-manager.md,_
-
-_Last agent session: 
-_Files touched: .agent/skills/frontend-design .agents/skills/frontend-design/LICENSE.txt .agents/skills/frontend-design/SKILL.md .augment/skills/frontend-design .claude/agents/academic-researcher.md .claude/agents/agent-overview.md .claude/agents/ai-engineer.md .claude/agents/architect-review.md .claude/agents/architecture-modernizer.md .claude/agents/business-analyst.md .claude/agents/cli-ui-designer.md .claude/agents/command-expert.md .claude/agents/connection-agent.md .claude/agents/content-marketer.md .claude/agents/context-manager.md,_
-
-_Last agent session: 
-_Files touched: .agent/skills/frontend-design .agents/skills/frontend-design/LICENSE.txt .agents/skills/frontend-design/SKILL.md .claude/agents/academic-researcher.md .claude/agents/agent-overview.md .claude/agents/ai-engineer.md .claude/agents/architect-review.md .claude/agents/architecture-modernizer.md .claude/agents/business-analyst.md .claude/agents/cli-ui-designer.md .claude/agents/command-expert.md .claude/agents/connection-agent.md .claude/agents/content-marketer.md .claude/agents/context-manager.md .claude/agents/data-analyst.md,_
-
-_Last agent session: 
-_Files touched: .agent/skills/frontend-design .agents/skills/frontend-design/LICENSE.txt .agents/skills/frontend-design/SKILL.md .claude/agents/academic-researcher.md .claude/agents/agent-overview.md .claude/agents/ai-engineer.md .claude/agents/architect-review.md .claude/agents/architecture-modernizer.md .claude/agents/business-analyst.md .claude/agents/cli-ui-designer.md .claude/agents/command-expert.md .claude/agents/connection-agent.md .claude/agents/content-marketer.md .claude/agents/context-manager.md .claude/agents/data-analyst.md,_
-
-_Last agent session: 
-_Files touched: .agent/skills/frontend-design .agents/skills/frontend-design/LICENSE.txt .agents/skills/frontend-design/SKILL.md .claude/agents/academic-researcher.md .claude/agents/agent-overview.md .claude/agents/ai-engineer.md .claude/agents/architect-review.md .claude/agents/architecture-modernizer.md .claude/agents/business-analyst.md .claude/agents/cli-ui-designer.md .claude/agents/command-expert.md .claude/agents/connection-agent.md .claude/agents/content-marketer.md .claude/agents/context-manager.md .claude/agents/data-analyst.md,_
-
-_Last agent session: 
-_Files touched: .agent/skills/frontend-design .agents/skills/frontend-design/LICENSE.txt .agents/skills/frontend-design/SKILL.md .claude/agents/academic-researcher.md .claude/agents/agent-overview.md .claude/agents/ai-engineer.md .claude/agents/architect-review.md .claude/agents/architecture-modernizer.md .claude/agents/business-analyst.md .claude/agents/cli-ui-designer.md .claude/agents/command-expert.md .claude/agents/connection-agent.md .claude/agents/content-marketer.md .claude/agents/context-manager.md .claude/agents/data-analyst.md,_
-
-_Last agent session: 
-_Files touched: .agent/skills/frontend-design .agents/skills/frontend-design/LICENSE.txt .agents/skills/frontend-design/SKILL.md .claude/agents/academic-researcher.md .claude/agents/agent-overview.md .claude/agents/ai-engineer.md .claude/agents/architect-review.md .claude/agents/architecture-modernizer.md .claude/agents/business-analyst.md .claude/agents/cli-ui-designer.md .claude/agents/command-expert.md .claude/agents/connection-agent.md .claude/agents/content-marketer.md .claude/agents/context-manager.md .claude/agents/data-analyst.md,_
-
-_Last agent session: 
-_Files touched: .agent/skills/frontend-design .agents/skills/frontend-design/LICENSE.txt .agents/skills/frontend-design/SKILL.md .claude/agents/academic-researcher.md .claude/agents/agent-overview.md .claude/agents/ai-engineer.md .claude/agents/architect-review.md .claude/agents/architecture-modernizer.md .claude/agents/business-analyst.md .claude/agents/cli-ui-designer.md .claude/agents/command-expert.md .claude/agents/connection-agent.md .claude/agents/content-marketer.md .claude/agents/context-manager.md .claude/agents/data-analyst.md,_
-
-_Last agent session: 
-_Files touched: .agent/skills/frontend-design .agents/skills/frontend-design/LICENSE.txt .agents/skills/frontend-design/SKILL.md .claude/agents/academic-researcher.md .claude/agents/agent-overview.md .claude/agents/ai-engineer.md .claude/agents/architect-review.md .claude/agents/architecture-modernizer.md .claude/agents/business-analyst.md .claude/agents/cli-ui-designer.md .claude/agents/command-expert.md .claude/agents/connection-agent.md .claude/agents/content-marketer.md .claude/agents/context-manager.md .claude/agents/data-analyst.md,_
-
-_Last agent session: 
-_Files touched: .agent/skills/frontend-design .agents/skills/frontend-design/LICENSE.txt .agents/skills/frontend-design/SKILL.md .claude/agents/academic-researcher.md .claude/agents/agent-overview.md .claude/agents/ai-engineer.md .claude/agents/architect-review.md .claude/agents/architecture-modernizer.md .claude/agents/business-analyst.md .claude/agents/cli-ui-designer.md .claude/agents/command-expert.md .claude/agents/connection-agent.md .claude/agents/content-marketer.md .claude/agents/context-manager.md .claude/agents/data-analyst.md,_
-
-_Last agent session: 
-_Files touched: .agent/skills/frontend-design .agents/skills/frontend-design/LICENSE.txt .agents/skills/frontend-design/SKILL.md .claude/agents/academic-researcher.md .claude/agents/agent-overview.md .claude/agents/ai-engineer.md .claude/agents/architect-review.md .claude/agents/architecture-modernizer.md .claude/agents/business-analyst.md .claude/agents/cli-ui-designer.md .claude/agents/command-expert.md .claude/agents/connection-agent.md .claude/agents/content-marketer.md .claude/agents/context-manager.md .claude/agents/data-analyst.md,_
-
-_Last agent session: 
-_Files touched: .agent/skills/frontend-design .agents/skills/frontend-design/LICENSE.txt .agents/skills/frontend-design/SKILL.md .claude/agents/academic-researcher.md .claude/agents/agent-overview.md .claude/agents/ai-engineer.md .claude/agents/architect-review.md .claude/agents/architecture-modernizer.md .claude/agents/business-analyst.md .claude/agents/cli-ui-designer.md .claude/agents/command-expert.md .claude/agents/connection-agent.md .claude/agents/content-marketer.md .claude/agents/context-manager.md .claude/agents/data-analyst.md,_
-
-_Last agent session: 
-_Files touched: .agent/skills/frontend-design .agents/skills/frontend-design/LICENSE.txt .agents/skills/frontend-design/SKILL.md .claude/agents/academic-researcher.md .claude/agents/agent-overview.md .claude/agents/ai-engineer.md .claude/agents/architect-review.md .claude/agents/architecture-modernizer.md .claude/agents/business-analyst.md .claude/agents/cli-ui-designer.md .claude/agents/command-expert.md .claude/agents/connection-agent.md .claude/agents/content-marketer.md .claude/agents/context-manager.md .claude/agents/data-analyst.md,_
-
-_Last agent session: 
-_Files touched: .agent/skills/frontend-design .agents/skills/frontend-design/LICENSE.txt .agents/skills/frontend-design/SKILL.md .claude/agents/academic-researcher.md .claude/agents/agent-overview.md .claude/agents/ai-engineer.md .claude/agents/architect-review.md .claude/agents/architecture-modernizer.md .claude/agents/business-analyst.md .claude/agents/cli-ui-designer.md .claude/agents/command-expert.md .claude/agents/connection-agent.md .claude/agents/content-marketer.md .claude/agents/context-manager.md .claude/agents/data-analyst.md,_
-
-_Last agent session: 
-_Files touched: .agent/skills/frontend-design .agents/skills/frontend-design/LICENSE.txt .agents/skills/frontend-design/SKILL.md .claude/agents/academic-researcher.md .claude/agents/agent-overview.md .claude/agents/ai-engineer.md .claude/agents/architect-review.md .claude/agents/architecture-modernizer.md .claude/agents/business-analyst.md .claude/agents/cli-ui-designer.md .claude/agents/command-expert.md .claude/agents/connection-agent.md .claude/agents/content-marketer.md .claude/agents/context-manager.md .claude/agents/data-analyst.md,_
-
-_Last agent session: 
-_Files touched: .agent/skills/frontend-design .agents/skills/frontend-design/LICENSE.txt .agents/skills/frontend-design/SKILL.md .claude/agents/academic-researcher.md .claude/agents/agent-overview.md .claude/agents/ai-engineer.md .claude/agents/architect-review.md .claude/agents/architecture-modernizer.md .claude/agents/business-analyst.md .claude/agents/cli-ui-designer.md .claude/agents/command-expert.md .claude/agents/connection-agent.md .claude/agents/content-marketer.md .claude/agents/context-manager.md .claude/agents/data-analyst.md,_
-
-_Last agent session: 
-_Files touched: .agent/skills/frontend-design .agents/skills/frontend-design/LICENSE.txt .agents/skills/frontend-design/SKILL.md .claude/agents/academic-researcher.md .claude/agents/agent-overview.md .claude/agents/ai-engineer.md .claude/agents/architect-review.md .claude/agents/architecture-modernizer.md .claude/agents/business-analyst.md .claude/agents/cli-ui-designer.md .claude/agents/command-expert.md .claude/agents/connection-agent.md .claude/agents/content-marketer.md .claude/agents/context-manager.md .claude/agents/data-analyst.md,_
-
-_Last agent session: 
-_Files touched: .agent/skills/frontend-design .agents/skills/frontend-design/LICENSE.txt .agents/skills/frontend-design/SKILL.md .claude/agents/academic-researcher.md .claude/agents/agent-overview.md .claude/agents/ai-engineer.md .claude/agents/architect-review.md .claude/agents/architecture-modernizer.md .claude/agents/business-analyst.md .claude/agents/cli-ui-designer.md .claude/agents/command-expert.md .claude/agents/connection-agent.md .claude/agents/content-marketer.md .claude/agents/context-manager.md .claude/agents/data-analyst.md,_
-
-
+---
 
 # Daily Work Plan
 
@@ -181,6 +70,7 @@ Verification gate held throughout: `bunx tsc --noEmit` = 48 errors, all in the
 7 pre-existing baseline files; zero new errors introduced.
 
 ### Carry-forward (not part of this board — future waves)
+
 - ~~**T-028 Phase A** (delete the retired `sse/xata/ask` path)~~ ✅ DONE 2026-07-05 (see below)
 
 ---
@@ -252,7 +142,23 @@ Verification gate held throughout: `bunx tsc --noEmit` = 48 errors, all in the
 **Verification so far:** touched AI files have zero filtered TypeScript errors; fallback retry smoke produced `retry → retry → ok`; targeted UI lint produced zero errors; documentation/canon diffs pass `git diff --check`. Full loop verification and PR remain pending.
 
 ## How agents use this file
+
 1. Check "Next" table for unblocked tasks.
 2. Claim by adding an "In Progress" note with your agent name and date.
 3. On done → update ticket status and date. Blocked → note reason.
 4. Full task detail lives in `docs/plans/TODO.md`.
+
+### Session 2026-07-18 19:53 CDT — Cursor research subagents
+
+- Generated 18 project-scoped Cursor research subagents in `.cursor/agents/` from the canonical v2 definitions.
+- Embedded the shared epistemic contract, complete role prompts, authority and logical tool boundaries, I/O contracts, handoffs, failure modes, and evaluation criteria.
+- Added `.cursor/generate-research-agents.mjs` for deterministic regeneration and `.cursor/agents/README.md` for roster documentation.
+- Kept `DOTY_PATTERN` excluded and preserved the distinction between development-time specialists and the two live product AI paths.
+- Verified 18 unique valid frontmatter names, all required sections, DOTY exclusion, clean whitespace, and zero linter diagnostics in the generator.
+
+### Session 2026-07-18 20:40 CDT — Research subagent review + harden
+
+- Fixed Cursor Task routing: flat quoted `description` (was YAML `>-`, catalog showed bare `>-`).
+- Added `model: inherit` + `readonly: true`; slimmed prompts ~40% (avg ~6.8KB).
+- Renamed source dir `ultraterrestrial-agent-definitions-v2 3` → `ultraterrestrial-agent-definitions-v2`; corrected Xata→Postgres in suite README.
+- Docs: `.cursor/Agents.md`, `.cursor/Agents_PSUEDOCODE.md`, routing/dialectics/vision-role map in `.cursor/agents/README.md`.
