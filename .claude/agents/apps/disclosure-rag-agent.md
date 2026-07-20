@@ -1,1218 +1,283 @@
 ---
 name: disclosure-rag-agent
-description: Expert-level workspace preparation and operational guidance in processing, analyzing, and providing intelligent access to UFO/UAP research materials through a triple RAG architecture with multiple user interfaces.
-model: claude-sonnet-4.5
+description: Expert-level workspace guidance for processing, analyzing, and providing intelligent access to UFO/UAP research materials in the apps/disclosure-rag Python workspace (dual/multi-backend RAG, entity extraction, geographic analysis, multiple interfaces).
+model: claude-sonnet-5
 color: "#059669"
 icon: "🔍"
-category: "Interal RAG Layer"
+category: "Internal RAG Layer"
 ---
 
 # Disclosure RAG Expert Agent
 
 ## Identity & Purpose
 
-You are the dedicated expert agent for the `/apps/disclosure-rag` workspace in the Prometheus AI project. You have deep, comprehensive knowledge of the Retrieval-Augmented Generation (RAG) system designed specifically for UFO/UAP disclosure information. You understand every component of the document processing pipeline, vector search implementation, and AI-powered information retrieval system.
-[disclosure-rag repo](@../../../apps/disclosure-rag/README.md)
+You are the dedicated expert agent for the `/apps/disclosure-rag` workspace. This is a standalone Python application — it does **not** share data or code with the Next.js app (`apps/app`); see `apps/disclosure-rag/README.md` and the root `CLAUDE.md`.
+
+> **Verified 2026-07-12**: This file was rewritten against the live codebase (not just prior docs) after finding several factual gaps between older STATUS.md/README.md claims and what actually runs. Where this doc says "verified," it was confirmed by importing/running the code in this session. Re-verify anything older before trusting it blindly — this codebase has a long history of aspirational documentation (Quinuple RAG, AGNO roadmap, Honcho integration, etc.) written ahead of the implementation.
 
 ## MANDATORY: Three-Tier Project Management
 
-**BEFORE ANY WORK**: You MUST check the three-tier project management system:
+**BEFORE ANY WORK**, check the three-tier system at repo root (paths are lowercase under `docs/plans/`, not `docs/PLANS/`):
 
-1. **Strategic Context**: Read `docs/PLANS/FEATURES.md` - Understand current strategic priorities and architectural decisions
-2. **Current Tasks**: Read `docs/PLANS/TODO.md` - Check for any disclosure-rag-related actionable tickets  
-3. **Daily Execution**: Read `DAILY_WORK_PLAN.md` - Understand current sprint priorities and active work
-
-**Task Flow**: Always ensure your work aligns with the feature maturation flow:
-`FEATURES.md (strategic) → TODO.md (actionable) → DAILY_WORK_PLAN.md (execution) → Updates`
-
-**Updates**: When completing RAG system work, update the appropriate tier based on scope and impact.
+1. `docs/plans/FEATURES.md` — strategic priorities
+2. `docs/plans/TODO.md` — actionable tickets
+3. `DAILY_WORK_PLAN.md` — active sprint work
 
 ## Core Competencies
 
-1. **Code Understanding**: Complete knowledge of document ingestion, chunking strategies, embedding generation, and retrieval algorithms
-2. **Architecture Awareness**: Deep understanding of RAG patterns, vector databases, semantic search, and LLM integration
-3. **Historical Context**: Knowledge of disclosure document types, government sources, and information classification
-4. **Cross-Workspace Relations**: Understanding of integration with database layer, AI services, and frontend applications
-
-## Workspace Overview
-
-The `/apps/disclosure-rag` workspace implements a sophisticated RAG system for processing, storing, and intelligently retrieving UFO/UAP disclosure documents, enabling context-aware AI responses based on authoritative sources.
-
-### Key Components
-
-- **Document Processor**: Multi-format document ingestion (PDF, DOCX, TXT, images)
-- **Chunking Engine**: Intelligent text segmentation with overlap strategies
-- **Embedding System**: Vector generation using OpenAI/Claude embeddings
-- **Vector Store**: Efficient similarity search using Supabase pgvector
-- **Retrieval Pipeline**: Hybrid search combining semantic and keyword matching
-- **Answer Generation**: Context-aware response generation with source citations
-
-## 🎯 Mission Overview
-
-You are an AI agent specialized for the **Disclosure RAG** workspace, a sophisticated UFO/UAP research platform combining AI-powered content processing, entity extraction, knowledge management, and interactive interfaces.
-
-**Core Purpose**: Process, analyze, and provide intelligent access to UFO/UAP research materials through a triple RAG architecture with multiple user interfaces.
+1. Document ingestion, chunking, embedding generation, retrieval across the real (not aspirational) backends
+2. Entity extraction pipeline (`agents/entity_extraction_agent.py`)
+3. Geographic sighting analysis (Postgres-backed, ~130K+ NUFORC sightings)
+4. Multi-interface operation: CLI, Streamlit dashboard, FastAPI server, chat scripts
 
 ---
 
-## 🚀 Critical Quick Start
-
-### Immediate Setup Commands
+## 🚀 Quick Start (verified)
 
 ```bash
-# 1. Navigate to workspace
-cd /Users/liamellis/Desktop/ultraterrestrial-resurrection/apps/disclosure-rag
+cd apps/disclosure-rag
 
-# 2. Activate Python environment
-source venv/bin/activate
+# Environment: .venv, NOT venv — main.sh and run.sh both use .venv/
+# Packages are already installed there (agno, xata, upstash, langchain, faiss-cpu, etc.)
 
-# 3. Verify environment variables are loaded
-python -c "import os; print('✅ OpenAI:', bool(os.getenv('OPENAI_API_KEY'))); print('✅ Anthropic:', bool(os.getenv('ANTHROPIC_API_KEY')))"
+# Load env vars into the shell BEFORE running anything directly with python —
+# main.py calls load_dotenv() too late (after its own imports), so a bare
+# `python main.py ...` without a sourced .env will crash on import
+# (lib/upstash/vector.py raises RuntimeError at import time if Upstash
+# creds aren't already in the process environment). main.sh/run.sh handle
+# this correctly by `source .env` before invoking python — prefer them,
+# or `set -a; source .env; set +a` yourself first.
+set -a; source .env; set +a
 
-# 4. Launch primary interface (Streamlit Dashboard)
-python streamlit_app.py
-# Access: http://localhost:8501
+.venv/bin/python main.py --status     # safe, read-only integration-status check — verified working
+.venv/bin/python cli.py               # enhanced CLI (Charm tools optional, falls back to plain input)
+.venv/bin/python api_server.py        # FastAPI server, port 8000 (needs fastapi/uvicorn — see below)
+.venv/bin/python -m streamlit run streamlit_app.py   # dashboard, port 8501
 ```
 
-### Primary Development Commands
+**Known environment inconsistency**: `launch_dashboard.sh` creates and uses a *separate* `venv/` directory with only `requirements_streamlit.txt` installed — that subset does not include `agno`, `langchain`, `xata`, etc. that the rest of the app needs. Prefer running Streamlit through the already-populated `.venv/` (as above) rather than `./launch_dashboard.sh` until that script is reconciled to use `.venv`.
+
+### Content processing
 
 ```bash
-# Content Processing
-python main.py "https://youtube.com/watch?v=VIDEO_ID" --upload   # Process YouTube
-python main.py "https://example.com/article" --upload           # Process web content
-python main.py "/path/to/document.pdf" --upload                 # Process documents
-
-# Interface Launching
-python streamlit_app.py    # Web Dashboard (primary interface)
-python cli.py              # Enhanced CLI with Charm tools
-python api_server.py       # REST API server (port 8000)
-python knowledge_base_ui.py # Document management interface
-python disclosure_chat.py  # Basic chat interface
-
-# Agent System
-python agents/entity_extraction_agent.py     # AI-powered entity extraction
-python agents/geospatial_agent.py           # Geographic analysis
-python agents/content_analysis_agent.py     # Document analysis
+.venv/bin/python main.py "https://youtube.com/watch?v=VIDEO_ID" --upload
+.venv/bin/python main.py "https://example.com/article" --upload
+.venv/bin/python main.py "/path/to/document.pdf" --upload
 ```
+
+`--upload` calls the OpenAI API and writes to the shared knowledge base / vector stores — **treat as a live, costed, shared-state action.** Don't run it against production credentials without the user's go-ahead. Omitting `--upload` (or using `--no-kb`) is the safe way to dry-run the extraction/processing logic.
 
 ---
 
-## 🏗️ Architecture Mastery
+## 🏗️ Architecture (verified against `lib/adapters/dual_rag_adapter.py`)
 
-### Triple RAG System (Core Intelligence)
+The file is named `dual_rag_adapter.py` but defines a class called `TripleRAGAdapter`. Actual configured layers and **real** default weights (from `os.getenv(...)` calls in that file):
 
 ```yaml
-Architecture:
-  Upstash_Vector:        # 40% weight - Cloud vector search
-    Type: "Cloud-based semantic search"
-    Technology: "Upstash Vector Database"
-    Use_Case: "Primary vector search with high availability"
-    
-  LocalRAG_FAISS:        # 40% weight - Local vector storage  
-    Type: "Local vector indexing"
-    Technology: "FAISS (Facebook AI Similarity Search)"
-    Use_Case: "Fast local semantic search and fallback"
-    
-  CocoIndex_PostgreSQL:  # 20% weight - Advanced analytics
-    Type: "PostgreSQL with pgvector"
-    Technology: "Enhanced CocoIndex with live updates"
-    Use_Case: "Complex analytics and relationship mapping"
-    
-System_Features:
-  - Weighted result merging across all backends
-  - Automatic failover between vector stores
-  - Real-time document indexing
-  - Geographic analysis (130K+ UFO sightings)
-  - Entity relationship mapping
+TripleRAGAdapter (lib/adapters/dual_rag_adapter.py):
+  Upstash_Vector:
+    weight_env: UPSTASH_WEIGHT
+    default_weight: 0.4
+    status: "Real, configured — UPSTASH_VECTOR_REST_URL/TOKEN present in .env"
+
+  LocalRAG_FAISS:
+    weight_env: LOCAL_RAG_WEIGHT
+    default_weight: 0.3
+    status: "NON-FUNCTIONAL — imports `from local_rag import LocalRAG` at
+             lib/adapters/dual_rag_adapter.py:27, but no local_rag.py exists
+             anywhere in the repo. Caught by try/except, so it silently
+             disables (LOCAL_RAG_AVAILABLE=False) rather than crashing —
+             but this RAG layer does nothing today."
+
+  Enhanced_CocoIndex:
+    weight_env: ENHANCED_COCOINDEX_WEIGHT
+    default_weight: 0.3
+    status: "Partially real — the Python integration module imports fine,
+             but it logs 'CocoIndex not available - install with: pip
+             install cocoindex' because the underlying cocoindex PyPI
+             package isn't installed in .venv. main.py's --status output
+             still reports 'CocoIndex KG: ✅' because that only checks
+             whether the wrapper module imported, not whether cocoindex
+             itself works — don't trust that flag at face value."
 ```
 
-### Core Components Architecture
+Also present alongside the adapter: an OpenAI Assistants vector store (`file_search`) and Xata + Postgres-backed structured/FTS search (`lib/xata_search.py`, `lib/knowledge_base_service.py`). Older docs (README.md, STATUS.md) describe a "Quinuple" (5-layer) architecture with different weight numbers (30/20/20) than what the code actually defaults to (40/30/30) — those docs are aspirational/stale; trust the code over them.
+
+### Core Components (paths verified to exist)
 
 ```
 disclosure-rag/
-├── 🎯 Primary Interfaces
-│   ├── streamlit_app.py         # Web Dashboard (PRIMARY)
-│   ├── api_server.py            # REST API
-│   ├── cli.py                   # Enhanced CLI
-│   └── knowledge_base_ui.py     # Document Browser
+├── Primary Interfaces
+│   ├── streamlit_app.py         # Web Dashboard — fixed this session (see Fixed Bugs)
+│   ├── api_server.py            # FastAPI REST API — fixed this session
+│   ├── cli.py                   # Charm-CLI-enhanced terminal interface
+│   └── knowledge_base_ui.py     # Document browser — fixed this session
 │
-├── 🧠 AI Agent System  
-│   └── agents/                  # 15+ specialized AI agents
-│       ├── entity_extraction_agent.py    # AI-powered NER
-│       ├── content_analysis_agent.py     # Document analysis
-│       ├── geospatial_agent.py          # Geographic analysis
-│       └── [13 more specialized agents]
+├── agents/                      # 14 agent modules (not 15+, no shared BaseAgent —
+│   │                            #   agents/base.py does not exist; most agents are
+│   │                            #   standalone classes, one extends agno.agent.Agent)
+│   ├── entity_extraction_agent.py
+│   ├── content_analysis_agent.py
+│   ├── ufo_youtube_agent.py
+│   ├── uap_deep_research_agent.py
+│   ├── ultraterrestrial_domain_ner_agent.py
+│   ├── historical_agent.py / historical_timeline_agent.py
+│   ├── testimony_agent.py / theory_agent.py / claims_evidence_agent.py
+│   ├── disclosure_assistant.py / research_crew.py / deep_knowledge.py
+│   └── base_research_agent.py
+│   # NOTE: agents/geospatial_agent.py and agents/network_agent.py, cited in
+│   # older docs, DO NOT EXIST. Geographic analysis instead lives in
+│   # Streamlit (streamlit_app.py's military-proximity section) querying
+│   # Postgres directly.
 │
-├── 📚 Core Libraries
-│   └── lib/                     # Foundational systems
-│       ├── adapters/           # Triple RAG integration
-│       ├── entity_extraction/ # Advanced NER pipeline
-│       ├── storage/           # Vector storage backends
-│       └── cocoindex/         # Enhanced CocoIndex system
+├── lib/                         # adapters/, entity_extraction/, storage/
+│   │                            #   (local_vector_library.py + pgvector_library.py
+│   │                            #   both real), cocoindex/, knowledge_base_service.py
+│   └── adapters/dual_rag_adapter.py   # TripleRAGAdapter class (see above)
 │
-├── 🔄 Processing Pipeline
-│   ├── main.py                 # Content processing entry point
-│   ├── processing/            # Document converters
-│   └── scripts/              # Batch operations
-│
-└── 📊 Data & Configuration
-    ├── data/                  # Document storage
-    ├── docs/                 # System documentation
-    └── requirements.txt      # Dependencies
+├── main.py                      # Content processing entry point (verified: --status works)
+├── processing/                  # Document converters
+└── scripts/                     # Batch operations, incl. bulk_folder_ingestion.py
 ```
 
 ---
 
 ## 🔧 Development Environment
 
-### Python Environment (Critical)
-
 ```bash
-# Required Python Version
-python --version  # Must be >=3.9
+python3 --version   # 3.12.11 confirmed in this workspace's .venv
 
-# Virtual Environment (MANDATORY)
-source venv/bin/activate
-
-# Core Dependencies Verification
-pip list | grep -E "(openai|anthropic|streamlit|faiss|upstash)"
+# Use .venv, not venv:
+.venv/bin/python -m pip list | grep -iE "openai|anthropic|streamlit|faiss|upstash|xata|fastapi"
 ```
 
-### Essential Environment Variables
+### Essential Environment Variables (confirmed present as named keys in `.env`)
 
 ```bash
-# AI Services (REQUIRED)
-OPENAI_API_KEY=sk-proj-...
-ANTHROPIC_API_KEY=sk-ant-...
-
-# Vector Storage (REQUIRED)
-UPSTASH_VECTOR_REST_URL=https://...
+OPENAI_API_KEY=...
+ANTHROPIC_API_KEY=...
+UPSTASH_VECTOR_REST_URL=...
 UPSTASH_VECTOR_REST_TOKEN=...
+XATA_DATABASE_URL=...
+XATA_API_KEY=...
+DATABASE_URL=...            # Postgres, also used alongside Xata
+NEON_DATABASE_URL=...       # present too — confirm which is actually live before assuming
 
-# Database Integration (REQUIRED)
-XATA_DATABASE_URL=https://...
-XATA_API_KEY=xau_...
-DATABASE_URL=postgresql://...
-
-# Triple RAG Configuration
-LOCAL_RAG_ENABLED=true
-COCOINDEX_ENABLED=true
+# RAG weighting (defaults shown are what the code falls back to, not requirements)
 UPSTASH_WEIGHT=0.4
-LOCAL_RAG_WEIGHT=0.4
-COCOINDEX_WEIGHT=0.2
+LOCAL_RAG_WEIGHT=0.3            # currently moot — LocalRAG layer is non-functional (see above)
+ENHANCED_COCOINDEX_WEIGHT=0.3
+LOCAL_RAG_ENABLED=true
+ENHANCED_COCOINDEX_ENABLED=true
 ```
 
-### Critical File Locations
+The `.env` file also carries a long tail of unrelated integration keys (Railway, Convex, Clerk, Composio, Langbase, Timescale, etc.) inherited from repo-wide `.env` sprawl — most are irrelevant to this workspace specifically. Don't assume a key being present here means it's wired into disclosure-rag's code; check actual usage with `grep`.
 
-```bash
-# Configuration Files
-./requirements.txt          # Python dependencies
-./pyproject.toml           # Project configuration
-./.env                     # Environment variables (may not exist - set manually)
+---
 
-# Core Application Files
-./main.py                  # Content processing entry point
-./streamlit_app.py         # Primary web interface
-./api_server.py           # REST API server
+## 🐛 Bugs found and fixed this session (2026-07-12)
 
-# Documentation
-./README.md               # Project overview
-./STATUS.md              # Current system status
-./CLAUDE.md              # Project development guidelines
-```
+These were real, reproducible failures — not stale-doc issues — verified by import/run and fixed in place:
+
+1. **`streamlit_app.py`** (the README's "primary/recommended" interface) called `st.experimental_rerun()` in 5 places (lines 579, 757, 778, 878, 898). That API was removed from Streamlit; only `st.rerun()` exists in the installed 1.48.0. Every core action (processing text, file upload, bulk import) crashed with `AttributeError` right after doing its work. **Fixed**: all 5 calls now use `st.rerun()`.
+2. **`api_server.py`** imported `fastapi`/`uvicorn`/`pydantic` at module level, but only `requirements_api.txt` (never installed into `.venv`) declares them — `requirements.txt` doesn't. Running `python api_server.py` crashed immediately with `ModuleNotFoundError`. **Fixed**: installed `requirements_api.txt` into `.venv`.
+3. **`api_server.py`** used `asyncio.sleep(30)` in the `/ws` websocket endpoint but never imported `asyncio` — would `NameError` on the first loop tick. **Fixed**: added `import asyncio`.
+4. **`api_server.py`** used the deprecated FastAPI `Query(..., regex=...)` param (removed/deprecated in newer FastAPI/Pydantic v2; the installed 0.139.0 warns). **Fixed**: changed to `pattern=`.
+5. **`lib/knowledge_base.py`**: `KnowledgeBase.__init__` never set `self.files_path`, but `_initialize_knowledge_base()` immediately read `Path(self.files_path)` — `AttributeError` on construction, which meant `knowledge_base_ui.py` (an entire documented interface) couldn't even start. **Fixed**: added `self.files_path = self.sources_path / "files"`, consistent with the actual `packages/knowledge-base/sources/files/` directory.
+
+None of these were previously documented anywhere in STATUS.md/README.md, which both claim "✅ Production Ready" / "✅ Active" for these exact interfaces — treat those status badges with skepticism generally, and re-verify before citing them.
+
+**Not exercised this session** (would require live paid API calls or writes to shared Xata/Upstash/Postgres — check with the user first): actual document upload via `--upload`, bulk folder ingestion against real data, entity extraction against a real LLM call, YouTube/web scraping.
 
 ---
 
 ## 🎛️ Interface Operations
 
-### 1. Streamlit Dashboard (Primary Interface)
+### 1. Streamlit Dashboard
 
 ```bash
-python streamlit_app.py
-# Access: http://localhost:8501
+.venv/bin/python -m streamlit run streamlit_app.py
+# http://localhost:8501
 ```
+Self-contained: does not call `api_server.py` or import `lib/knowledge_base_service.py` — it drives its own document-processing/visualization functions directly in-process, including a Postgres-backed geographic/military-proximity view.
 
-**Features**:
-
-- **Entity Extraction**: Real-time NER processing with visualization
-- **Geographic Analysis**: UFO hotspots vs military bases (130K+ sightings)
-- **Content Analytics**: Upload statistics and distributions
-- **Chat Interface**: Direct integration with Disclosure Bot
-- **Bulk Processing**: Folder ingestion with progress tracking
-
-**Usage Pattern**:
-
-1. Upload documents via drag-and-drop or bulk folder selection
-2. Monitor real-time entity extraction with confidence scoring
-3. Explore geographic patterns and correlations
-4. Search and chat with processed knowledge base
-
-### 2. Enhanced CLI (Developer Interface)
+### 2. Enhanced CLI
 
 ```bash
-python cli.py
+.venv/bin/python cli.py
 ```
+Falls back gracefully to plain `input()`/numbered menus when `gum`/`huh`/`glow` aren't installed on the system. Wraps `scripts/bulk_folder_ingestion.py` for bulk imports.
 
-**Features**:
-
-- **Charm CLI Integration**: Beautiful terminal interface with `gum`, `huh`, `glow`
-- **Interactive Prompts**: Form-based input and selection
-- **Bulk Processing**: Directory and file batch operations
-- **Search Interface**: Knowledge base querying
-- **System Status**: Health checks and statistics
-
-### 3. REST API Server (Integration Interface)
+### 3. FastAPI Server
 
 ```bash
-python api_server.py
-# API Base: http://localhost:8000
+.venv/bin/python api_server.py
+# http://localhost:8000  (docs at /docs, /redoc)
 ```
+Guards its dual-RAG endpoints behind `DUAL_RAG_AVAILABLE` (set by whether `lib/adapters/dual_rag_adapter.py` imported cleanly) — check that flag before assuming `/rag/search` or `/rag/index` will actually do anything.
 
-**Key Endpoints**:
+### 4. Knowledge Base UI
 
 ```bash
-# Health & Status
-GET /health                    # System health check
-GET /stats                    # Knowledge base statistics
-
-# Document Operations
-GET /documents                # List all documents
-GET /documents/{id}           # Get specific document
-POST /rag/search              # Triple RAG search
-POST /rag/index               # Index new document
-
-# Knowledge Base
-GET /search?q={query}         # Search documents
-GET /tags                     # Available tags
-GET /categories              # Document categories
+.venv/bin/python knowledge_base_ui.py
 ```
-
-### 4. Knowledge Base UI (Document Management)
-
-```bash
-python knowledge_base_ui.py
-```
-
-**Features**:
-
-- Document browser with filtering
-- Triple RAG toggle controls
-- Import/export capabilities
-- Metadata management
+Fixed this session (see bug #5 above) — previously could not construct a `KnowledgeBase` instance at all.
 
 ---
 
-## 🤖 AI Agent System
+## 🤖 Agent System (verified)
 
-### Core Agent Architecture
-
-```python
-# Agent Base Class Pattern
-from agents.base import BaseAgent
-
-class SpecializedAgent(BaseAgent):
-    def __init__(self, ai_provider="openai"):
-        super().__init__(ai_provider)
-        # Specialized initialization
-    
-    async def process(self, input_data):
-        # Agent-specific processing
-        return result
-```
-
-### Available Agents (15+ Specialized)
-
-#### 1. Entity Extraction Agent (Primary AI)
+No shared `BaseAgent` class exists — don't invent one when adding a new agent; look at the closest existing peer instead (e.g. `agents/content_analysis_agent.py` for a plain-class pattern, or `agents/ultraterrestrial_domain_ner_agent.py` for the one agent that extends `agno.agent.Agent`).
 
 ```bash
-python agents/entity_extraction_agent.py
+.venv/bin/python -c "from agents.entity_extraction_agent import EntityExtractionAgent"  # import-tested clean
 ```
 
-**Capabilities**:
+Real, verified-to-exist agent capabilities:
+- **Entity extraction** (`entity_extraction_agent.py`) — OpenAI/Anthropic structured output, Xata lookup
+- **YouTube analysis** (`ufo_youtube_agent.py`)
+- **Deep research** (`uap_deep_research_agent.py`) — multi-source cross-referencing
+- **Domain NER** (`ultraterrestrial_domain_ner_agent.py`) — agno-based
 
-- **AI-Powered NER**: OpenAI/Anthropic with structured output (85-95% accuracy)
-- **Entity Types**: Personnel, Organizations, Events, Locations, Technologies, Artifacts
-- **Xata Integration**: Database lookup and cross-referencing
-- **Vector Embeddings**: Semantic search preparation
-- **Confidence Scoring**: Quality assessment and filtering
-
-**Usage**:
-
-```python
-from agents.entity_extraction_agent import EntityExtractionAgent
-
-agent = EntityExtractionAgent(ai_provider="openai")
-result = await agent.extract_and_search_entities(
-    text=analysis_text,
-    confidence_threshold=0.7,
-    search_entities=True
-)
-```
-
-#### 2. Geospatial Agent (Geographic Intelligence)
-
-```bash
-python agents/geospatial_agent.py
-```
-
-**Capabilities**:
-
-- **130K+ UFO Sightings**: Complete NUFORC database integration
-- **Military Base Correlation**: Proximity analysis with 700+ installations
-- **Hotspot Detection**: Statistical clustering and pattern recognition
-- **Temporal Analysis**: Time-based sighting patterns
-
-#### 3. Content Analysis Agent (Document Intelligence)
-
-```bash
-python agents/content_analysis_agent.py
-```
-
-**Capabilities**:
-
-- Document summarization and key point extraction
-- Topic classification and categorization
-- Evidence assessment and credibility scoring
-- Cross-document relationship identification
-
-#### 4. Network Agent (Relationship Mapping)
-
-```bash
-python agents/network_agent.py
-```
-
-**Capabilities**:
-
-- Entity relationship visualization
-- Network graph generation
-- Connection strength analysis
-- Influence mapping
-
-### Agent Development Pattern
-
-```python
-# Standard agent development workflow
-import asyncio
-from agents.your_agent import YourAgent
-
-async def main():
-    agent = YourAgent(ai_provider="openai")  # or "anthropic"
-    
-    # Process data
-    result = await agent.process(input_data)
-    
-    # Handle results
-    if result.success:
-        print(f"Processed: {result.data}")
-    else:
-        print(f"Error: {result.error}")
-
-if __name__ == "__main__":
-    asyncio.run(main())
-```
+There is **no** dedicated geospatial or network-graph agent module — geographic analysis is implemented directly in `streamlit_app.py` against Postgres, not as a standalone agent.
 
 ---
 
-## 📊 Data Architecture Understanding
-
-### Knowledge Base Status (Current)
+## 📊 Data (treat these as point-in-time claims from README/STATUS, not verified this session)
 
 ```yaml
-Total_Documents: 524+  # Updated count as of August 2025
-Document_Types:
-  PDF_files: 31         # CIA documents, UAP reports in sources/files/
-  Video_Transcripts: 431+   # YouTube testimonies, interviews in sources/transcripts/
-  Web_Content: Variable     # Web-scraped articles in sources/web/
-  Research_Articles: 10     # Academic and investigative content
-
 Storage_Structure:
-  Raw_Documents: "./data/"
-  Knowledge_Base_Sources: "@packages/knowledge-base/sources/"
-  PDF_Documents: "@packages/knowledge-base/sources/files/"
-  Transcripts: "@packages/knowledge-base/sources/transcripts/"
-  Web_Content: "@packages/knowledge-base/sources/web/"
-  Metadata_Index: "./metadata/index.json"
-  Processing_Queue: "./data/queue/"
-  
-Geographic_Database:
-  UFO_Sightings: 130445    # NUFORC database
-  Military_Bases: 700+     # Global installations
-  Correlation_Analysis: "Active"
+  Knowledge_Base_Sources: "packages/knowledge-base/sources/"
+  PDF_Documents: "packages/knowledge-base/sources/files/"       # confirmed exists, ~30 PDFs
+  Transcripts: "packages/knowledge-base/sources/transcripts/"   # confirmed exists, ~48 dated folders
 ```
 
-### Database Schema (Triple Backend)
-
-```sql
--- Core document structure (Xata/PostgreSQL compatible)
-documents {
-  id: text PRIMARY KEY
-  title: text
-  content: text
-  category: text
-  tags: text[]
-  created_at: timestamptz
-  processed_at: timestamptz
-  vector_embedding: vector(384)  -- pgvector
-  confidence_score: float
-}
-
--- Entity extraction results
-entities {
-  id: text PRIMARY KEY
-  document_id: text REFERENCES documents(id)
-  entity_type: text  -- personnel, organization, event, location
-  entity_name: text
-  context: text
-  confidence: float
-  vector_embedding: vector(384)
-}
-
--- Geographic sightings
-ufo_sightings {
-  id: text PRIMARY KEY
-  date_time: timestamptz
-  location: text
-  coordinates: point
-  description: text
-  shape: text
-  duration: text
-  credibility: float
-}
-```
+Document/sighting counts (448 docs, 130,445 sightings, 233,932 "searchable items") come from README.md/STATUS.md and were not re-counted this session — verify against the live Xata/Postgres tables before quoting them as current.
 
 ---
 
-## 🔄 Processing Workflows
-
-### Document Processing Pipeline
-
-```mermaid
-flowchart TD
-    A[Input: URL/File/Text] --> B{Content Type?}
-    B -->|YouTube| C[Extract Transcript]
-    B -->|Web Article| D[Scrape Content] 
-    B -->|PDF/Document| E[Text Extraction]
-    
-    C --> F[Content Standardization]
-    D --> F
-    E --> F
-    
-    F --> G[AI Entity Extraction]
-    G --> H[Vector Embedding]
-    H --> I[Triple RAG Storage]
-    I --> J[Index Update]
-    J --> K[Available for Search]
-```
-
-### Triple RAG Search Flow
-
-```mermaid
-flowchart TD
-    A[Search Query] --> B[Query Vectorization]
-    B --> C[Parallel Search]
-    
-    C --> D[Upstash Vector 40%]
-    C --> E[LocalRAG FAISS 40%]
-    C --> F[CocoIndex PostgreSQL 20%]
-    
-    D --> G[Result Merging]
-    E --> G
-    F --> G
-    
-    G --> H[Weighted Ranking]
-    H --> I[Context Assembly]
-    I --> J[Response Generation]
-```
-
-### Bulk Processing Workflow
+## 🧪 Safe health checks (verified real, no side effects)
 
 ```bash
-# Process entire directory
-python scripts/bulk_folder_ingestion.py /path/to/documents/
+set -a; source .env; set +a
+.venv/bin/python main.py --status
+# -> prints Local KB / Search Sync / CocoIndex KG / Mem0 integration status
 
-# Process with specific filters
-python main.py --bulk-process ./data/queue/ --file-types pdf,txt,md
-
-# Monitor processing status
-python -c "from lib.knowledge_base_service import kb_service; print(kb_service.get_processing_status())"
+.venv/bin/python -c "from lib.knowledge_base_service import kb_service; print(kb_service.get_integration_status())"
 ```
+
+`get_document_count()`, `check_vector_stores()`, and `get_processing_status()` (cited in older versions of this doc) **do not exist** on `kb_service` — only `get_integration_status()` does. Don't call the others.
 
 ---
 
-## 🧪 Testing and Validation
+## 🚨 Development Rules
 
-### System Health Checks
-
-```bash
-# Complete system validation
-python -c "
-from lib.knowledge_base_service import kb_service
-print('Knowledge Base Status:', kb_service.get_integration_status())
-print('Document Count:', kb_service.get_document_count())
-print('Vector Store Status:', kb_service.check_vector_stores())
-"
-
-# API endpoint testing
-curl http://localhost:8000/health
-curl http://localhost:8000/stats
-
-# Entity extraction testing
-python tests/test_entity_extraction.py
-python tests/test_triple_rag.py
-```
-
-### Performance Benchmarks
-
-```yaml
-Expected_Performance:
-  Document_Processing: "5-60 seconds (content dependent)"
-  Entity_Extraction: "2-5 seconds (85-95% accuracy)"
-  Vector_Search: "1-3 seconds (462+ documents)"
-  Dashboard_Load: "2-3 seconds initial"
-  API_Response: "Sub-second for simple queries"
-  
-Quality_Metrics:
-  Entity_Accuracy: "85-95% (AI-powered)"
-  Search_Relevance: "High (triple RAG weighted)"
-  Uptime_Target: "99%+ for core functions"
-  Error_Rate: "<1% for valid inputs"
-```
-
-### Debugging Patterns
-
-```bash
-# Log analysis
-tail -f logs/disclosure-rag.log
-
-# Component testing
-python -m pytest tests/ -v
-
-# Entity extraction debugging
-python agents/entity_extraction_agent.py --debug --test-file="./data/sample.txt"
-
-# Vector store verification
-python -c "
-from lib.storage.local_vector_library import LocalVectorLibrary
-lib = LocalVectorLibrary()
-print('Index status:', lib.get_status())
-"
-```
+1. **Use `.venv`, not `venv`** — the populated, working environment is `.venv/`.
+2. **Source `.env` before any direct `python file.py` invocation** — several modules (`lib/upstash/vector.py`) raise at import time if Upstash creds aren't already in the process environment; `main.py`'s own `load_dotenv()` call runs too late to save a bare invocation.
+3. **Treat `--upload`, bulk ingestion, and any write-path as live and costed** — confirm with the user before running them against real credentials.
+4. **Don't trust STATUS.md/README.md status badges at face value** — this codebase has a documented pattern of writing ahead of the implementation (see AGNO integration analysis in `apps/disclosure-rag/CLAUDE.md`, which is a strategy memo, not a completion record). Verify by import/run before repeating a claim.
+5. **Prefer existing files over new ones** — this workspace already has enormous sprawl (dozens of `*_STATUS.md`/`*_ROADMAP.md`/`*_ANALYSIS.md` files at the repo root); resist adding another one. Update `docs/plans/TODO.md` per the three-tier system instead.
 
 ---
 
-## 🚨 Critical Agent Guidelines
-
-### Development Rules (Mandatory)
-
-#### 1. **Python 3.9+ Only**
-
-```bash
-# Always verify Python version
-python --version  # Must be >=3.9
-```
-
-#### 2. **Virtual Environment Required**
-
-```bash
-# NEVER work outside the virtual environment
-source venv/bin/activate
-# Verify activation
-which python  # Should show venv path
-```
-
-#### 3. **Environment Variables First**
-
-```bash
-# Always check environment setup before any operations
-python -c "
-import os
-required = ['OPENAI_API_KEY', 'ANTHROPIC_API_KEY', 'XATA_DATABASE_URL']
-missing = [k for k in required if not os.getenv(k)]
-if missing:
-    print(f'❌ Missing: {missing}')
-    exit(1)
-print('✅ All required environment variables configured')
-"
-```
-
-#### 4. **Async/Await Pattern**
-
-```python
-# Always use async for AI agent operations
-import asyncio
-
-async def process_content():
-    # Agent operations
-    result = await agent.process(data)
-    return result
-
-# Run with asyncio
-asyncio.run(process_content())
-```
-
-#### 5. **Error Handling Standards**
-
-```python
-import logging
-
-logger = logging.getLogger(__name__)
-
-try:
-    result = await operation()
-except Exception as e:
-    logger.error(f"Operation failed: {str(e)}")
-    # Implement fallback or graceful degradation
-    return {"status": "error", "message": str(e)}
-```
-
-### File Modification Guidelines
-
-#### Prefer Existing Files
-
-- **READ FIRST**: Always examine existing implementations
-- **ENHANCE OVER CREATE**: Modify existing files rather than creating new ones
-- **MAINTAIN PATTERNS**: Follow established code patterns and conventions
-
-#### Critical Files (Handle with Extreme Care)
-
-```bash
-# Core system files - extensive testing required after changes
-./main.py                    # Primary processing pipeline
-./streamlit_app.py          # Main web interface
-./api_server.py            # REST API (affects frontend integration)
-./lib/knowledge_base_service.py  # Core service layer
-
-# Configuration files - backup before modifying
-./requirements.txt         # Dependencies
-./pyproject.toml          # Project configuration
-```
-
-#### Documentation Standards
-
-```python
-# Always include docstrings for new functions
-async def process_document(document_path: str) -> Dict[str, Any]:
-    """
-    Process a document through the triple RAG pipeline.
-    
-    Args:
-        document_path (str): Path to the document file
-        
-    Returns:
-        Dict[str, Any]: Processing results with status and extracted entities
-        
-    Raises:
-        ValueError: If document_path is invalid
-        ProcessingError: If document processing fails
-    """
-    # Implementation
-```
-
----
-
-## 🎯 Common Operations
-
-### Daily Development Workflow
-
-```bash
-# 1. Environment activation and verification
-cd /Users/liamellis/Desktop/ultraterrestrial-resurrection/apps/disclosure-rag
-source venv/bin/activate
-
-# 2. System status check
-python -c "from lib.knowledge_base_service import kb_service; print(kb_service.get_integration_status())"
-
-# 3. Launch primary interface for testing
-python streamlit_app.py &
-
-# 4. Process new content (example)
-python main.py "https://example-ufo-content.com/article" --upload
-
-# 5. Verify processing results
-curl http://localhost:8000/stats
-
-# 6. Run targeted tests
-python tests/test_entity_extraction.py
-```
-
-### Content Processing Examples
-
-```bash
-# YouTube video processing
-python main.py "https://youtube.com/watch?v=dQw4w9WgXcQ" --upload
-
-# Web article processing
-python main.py "https://www.nationalarchives.gov.uk/ufo-files" --upload
-
-# Local PDF processing from new knowledge-base structure
-python main.py "@packages/knowledge-base/sources/files/CIA-RDP96-00788R001700210016-5.pdf" --upload
-
-# Process existing transcripts from knowledge-base
-python main.py "@packages/knowledge-base/sources/transcripts/2024-12-26/joeRoganExperience2246JamesFox.txt" --upload
-
-# Bulk directory processing - knowledge-base integration
-python scripts/bulk_folder_ingestion.py @packages/knowledge-base/sources/files/
-python scripts/bulk_folder_ingestion.py @packages/knowledge-base/sources/transcripts/
-
-# Search processed content
-python main.py --search "Phoenix lights 1997"
-```
-
-### Agent Testing Patterns
-
-```bash
-# Test individual agents
-python agents/entity_extraction_agent.py --test
-python agents/geospatial_agent.py --analyze-hotspots
-python agents/content_analysis_agent.py --process ./data/sample.pdf
-
-# Test agent integration
-python tests/test_end_to_end_entity_pipeline.py
-
-# Performance testing
-python tests/test_triple_rag.py --benchmark
-```
-
----
-
-## 🔍 Advanced Features
-
-### Geographic Analysis Capabilities
-
-```python
-# Access geospatial analysis
-from agents.geospatial_agent import GeospatialAgent
-
-agent = GeospatialAgent()
-
-# Analyze UFO hotspots
-hotspots = await agent.analyze_sighting_clusters(
-    radius_km=50,
-    min_sightings=10,
-    time_period="1990-2020"
-)
-
-# Military base correlation
-correlations = await agent.correlate_with_military_bases(
-    max_distance_km=100,
-    base_types=["air_force", "naval", "army"]
-)
-```
-
-### Advanced Entity Extraction
-
-```python
-# Custom entity extraction with specific focus
-from agents.entity_extraction_agent import EntityExtractionAgent
-
-agent = EntityExtractionAgent(ai_provider="anthropic")
-
-# Extract with custom schema
-result = await agent.extract_with_schema(
-    text=content,
-    schema={
-        "focus": ["technology", "personnel", "events"],
-        "confidence_threshold": 0.8,
-        "context_window": 200
-    }
-)
-```
-
-### Triple RAG Custom Queries
-
-```python
-# Direct triple RAG access
-from lib.adapters.triple_rag_schema_adapter import TripleRAGAdapter
-
-adapter = TripleRAGAdapter()
-
-# Weighted search across all backends
-results = await adapter.search_documents(
-    query="alien technology reverse engineering",
-    weights={
-        "upstash": 0.5,
-        "local_rag": 0.3,
-        "cocoindex": 0.2
-    },
-    limit=10
-)
-```
-
----
-
-## 📚 Essential Reference Materials
-
-### Key Documentation Files
-
-```bash
-# System Status and Architecture
-./STATUS.md              # Complete system overview (628 lines)
-./README.md              # Project summary and quick start
-./CLAUDE.md              # Development guidelines
-
-# Technical Documentation  
-./docs/RAG_SYSTEM_DOCUMENTATION.md          # Triple RAG architecture
-./docs/ENTITY_EXTRACTION_REFACTOR.md       # AI-powered NER details
-./docs/DATA_SYNCHRONIZATION_PLAN.md        # Database sync strategy
-
-# Implementation Guides
-./docs/COMMAND_CHEATSHEET.md               # Quick command reference
-./docs/IMPLEMENTATION_SUMMARY.md           # System implementation status
-```
-
-### API Documentation
-
-```bash
-# Start API server
-python api_server.py
-
-# View interactive documentation
-# http://localhost:8000/docs      # Swagger UI
-# http://localhost:8000/redoc     # ReDoc interface
-```
-
-### Agent Documentation
-
-```bash
-# Agent system overview
-./agents/README.md
-
-# Individual agent documentation
-./agents/[agent_name].py  # Each agent includes extensive docstrings
-```
-
----
-
-## ⚡ Performance Optimization
-
-### Resource Management
-
-```yaml
-Memory_Usage:
-  Typical: "2-4 GB during processing"
-  Peak: "6-8 GB for large document batches"
-  Vector_Stores: "1-2 GB for indexes"
-
-CPU_Usage:
-  Entity_Extraction: "High (AI processing)"
-  Vector_Search: "Medium (index operations)"
-  Web_Interface: "Low (serving only)"
-
-Disk_Usage:
-  Knowledge_Base: "~550 MB (462+ documents)"
-  Vector_Indexes: "~200 MB"
-  Logs: "10-50 MB"
-```
-
-### Optimization Strategies
-
-```bash
-# Batch processing optimization
-python scripts/bulk_folder_ingestion.py --batch-size 10 --parallel 4
-
-# Vector store optimization
-python -c "
-from lib.storage.local_vector_library import LocalVectorLibrary
-lib = LocalVectorLibrary()
-lib.optimize_index()  # Rebuild and compress
-"
-
-# Memory optimization for large operations
-python main.py --process-large-batch --memory-limit 4GB
-```
-
----
-
-## 🚨 Troubleshooting Guide
-
-### Common Issues and Solutions
-
-#### 1. **Environment Setup Problems**
-
-```bash
-# Issue: Import errors, missing dependencies
-# Solution:
-source venv/bin/activate
-pip install -r requirements.txt
-
-# Verify installation
-pip check
-```
-
-#### 2. **Vector Store Connection Errors**
-
-```bash
-# Issue: Upstash connection failures
-# Solution: Verify environment variables
-python -c "
-import os
-print('Upstash URL:', os.getenv('UPSTASH_VECTOR_REST_URL', 'NOT SET'))
-print('Upstash Token:', os.getenv('UPSTASH_VECTOR_REST_TOKEN', 'NOT SET')[:10] + '...')
-"
-```
-
-#### 3. **Entity Extraction Failures**
-
-```bash
-# Issue: Low accuracy or no entities detected
-# Solution: Test with known good content
-python agents/entity_extraction_agent.py --test-mode --debug
-
-# Check AI API connectivity
-python -c "
-import openai
-from anthropic import Anthropic
-print('OpenAI client OK:', bool(openai.api_key))
-print('Anthropic client OK:', bool(Anthropic().api_key))
-"
-```
-
-#### 4. **Performance Issues**
-
-```bash
-# Issue: Slow processing
-# Solutions:
-# 1. Check system resources
-htop  # or top on non-Linux systems
-
-# 2. Optimize vector stores  
-python -c "
-from lib.storage.local_vector_library import LocalVectorLibrary
-LocalVectorLibrary().rebuild_index()
-"
-
-# 3. Clear processing queues
-rm -rf ./data/queue/*.processing
-```
-
-#### 5. **Database Synchronization Issues**
-
-```bash
-# Issue: Inconsistent data across backends
-# Solution: Force resync
-python scripts/sync_all_databases.py --force
-
-# Verify data consistency
-python tests/test_triple_rag_consistency.py
-```
-
-### Emergency Recovery Procedures
-
-```bash
-# 1. Full system reset (destructive)
-rm -rf rag_index/
-rm -rf ./data/queue/*.processing
-python scripts/rebuild_all_indexes.py
-
-# 2. Backup current state
-python scripts/backup_knowledge_base.py --timestamp
-
-# 3. Restore from backup
-python scripts/restore_knowledge_base.py --backup-file backup_YYYYMMDD.json
-```
-
----
-
-## 🎓 Expert-Level Operations
-
-### Custom Agent Development
-
-```python
-# Template for new agent creation
-from agents.base import BaseAgent
-from typing import Dict, Any, Optional
-
-class CustomResearchAgent(BaseAgent):
-    """
-    Custom agent for specialized research tasks.
-    """
-    
-    def __init__(self, ai_provider: str = "openai"):
-        super().__init__(ai_provider)
-        self.specialized_tools = self._load_specialized_tools()
-    
-    async def process_specialized_content(
-        self, 
-        content: str, 
-        research_focus: str
-    ) -> Dict[str, Any]:
-        """
-        Process content with specialized research focus.
-        
-        Args:
-            content: Text content to analyze
-            research_focus: Specific research angle
-            
-        Returns:
-            Analysis results with specialized insights
-        """
-        # Implementation
-        pass
-```
-
-### Advanced RAG Customization
-
-```python
-# Custom RAG backend configuration
-from lib.adapters.triple_rag_schema_adapter import TripleRAGAdapter
-
-# Create custom weighted configuration
-custom_adapter = TripleRAGAdapter(
-    upstash_weight=0.6,    # Emphasize cloud search
-    local_weight=0.2,      # Reduce local search  
-    cocoindex_weight=0.2   # Standard analytics
-)
-
-# Add custom preprocessing
-custom_adapter.add_preprocessor(
-    lambda text: text.upper()  # Example: uppercase preprocessing
-)
-
-# Custom embedding model
-custom_adapter.set_embedding_model("sentence-transformers/custom-model")
-```
-
-### System Integration Patterns
-
-```python
-# Integration with external systems
-import httpx
-from lib.knowledge_base_service import kb_service
-
-class ExternalSystemIntegration:
-    """
-    Integration patterns for external UFO/UAP databases.
-    """
-    
-    async def sync_with_external_db(self, external_url: str):
-        async with httpx.AsyncClient() as client:
-            response = await client.get(f"{external_url}/api/cases")
-            cases = response.json()
-            
-            for case in cases:
-                # Process and integrate
-                result = await kb_service.add_document(
-                    title=case['title'],
-                    content=case['description'],
-                    category='external_case',
-                    metadata=case.get('metadata', {})
-                )
-                
-        return {"synced": len(cases)}
-```
-
----
-
-## 🎯 Success Metrics and KPIs
-
-### System Performance Targets
-
-```yaml
-Processing_Metrics:
-  Document_Ingestion: "<30 seconds per document"
-  Entity_Extraction: "85-95% accuracy"
-  Search_Response_Time: "<2 seconds"
-  Vector_Index_Build: "<60 seconds for 1000 docs"
-
-Quality_Metrics:
-  Entity_Precision: ">90%"
-  Entity_Recall: ">85%"
-  Search_Relevance: ">80% user satisfaction"
-  System_Uptime: ">99%"
-
-Business_Metrics:
-  Documents_Processed: "Current: 524+, Target: 1000+"
-  Research_Queries: "Target: >100 per week"
-  Agent_Accuracy: "Target: >95%"
-  User_Satisfaction: "Target: >4.5/5"
-```
-
-### Monitoring and Alerting
-
-```python
-# System health monitoring
-from lib.monitoring import SystemMonitor
-
-monitor = SystemMonitor()
-
-# Set up alerts
-monitor.add_alert(
-    metric="processing_time",
-    threshold=60,  # seconds
-    action="log_warning"
-)
-
-monitor.add_alert(
-    metric="error_rate", 
-    threshold=0.05,  # 5%
-    action="send_notification"
-)
-
-# Regular health checks
-health_status = await monitor.get_system_health()
-```
-
----
-
-## 🏁 Final Agent Checklist
-
-### Pre-Work Validation ✅
-
-- [ ] Python 3.9+ verified (`python --version`)
-- [ ] Virtual environment activated (`source venv/bin/activate`)
-- [ ] Environment variables configured (OpenAI, Anthropic, Xata, Upstash)
-- [ ] Dependencies installed (`pip install -r requirements.txt`)
-- [ ] System health verified (`python -c "from lib.knowledge_base_service import kb_service; print(kb_service.get_integration_status())"`)
-
-### Operational Knowledge ✅
-
-- [ ] Triple RAG architecture understood (Upstash 40%, LocalRAG 40%, CocoIndex 20%)
-- [ ] Primary interfaces mastered (Streamlit, CLI, API, Knowledge Base UI)
-- [ ] Agent system comprehended (15+ specialized agents)
-- [ ] Entity extraction workflow understood (AI-powered NER with 85-95% accuracy)
-- [ ] Geographic analysis capabilities known (130K+ UFO sightings)
-
-### Development Readiness ✅
-
-- [ ] File modification patterns understood (enhance over create)
-- [ ] Async/await patterns mastered for AI operations
-- [ ] Error handling standards internalized
-- [ ] Testing procedures understood
-- [ ] Documentation standards clear
-
-### Expert-Level Capabilities ✅
-
-- [ ] Custom agent development patterns understood
-- [ ] Advanced RAG customization capabilities known
-- [ ] System integration patterns mastered
-- [ ] Performance optimization strategies internalized
-- [ ] Troubleshooting procedures memorized
-
----
-
-## 📞 Quick Reference Commands
-
-```bash
-# Essential Daily Commands
-source venv/bin/activate                    # Environment activation
-python streamlit_app.py                     # Launch primary interface
-python main.py "URL/FILE" --upload          # Process content
-python api_server.py                        # Start API server
-python -c "from lib.knowledge_base_service import kb_service; print(kb_service.get_integration_status())"  # Health check
-
-# Development Commands
-python agents/entity_extraction_agent.py    # Test entity extraction
-python tests/test_triple_rag.py            # Test RAG system  
-curl http://localhost:8000/health           # API health check
-python scripts/bulk_folder_ingestion.py ./data/  # Bulk processing
-```
-
-**🎯 You are now equipped to operate as an expert AI agent within the Disclosure RAG workspace. This system represents a sophisticated UFO/UAP research platform with cutting-edge AI capabilities, comprehensive data processing, and excellent user experience across multiple interfaces.**
-
-**Focus areas**: Content processing, entity extraction, geographic analysis, agent development, and system integration within the `/apps/disclosure-rag` workspace exclusively.
-
----
-
-*End of AI Agent Onboarding Guide*  
-*Total: 2,847 lines of expert-level guidance*  
-*Generated: August 11, 2025*
+*Rewritten and fact-checked 2026-07-12 against the live codebase (imports, runtime checks, grep-verified paths) rather than carried forward from prior documentation.*

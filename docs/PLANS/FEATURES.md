@@ -361,17 +361,18 @@ packages/prompts/
 6. ✅ Risk mitigation strategies identified
 
 ### **Feature Maturation Status**:
-- **External Web RAG**: ✅ Ready for TODO.md (all criteria met)
-- **API Consolidation**: ✅ Ready for TODO.md (architecture complete)
-- **Prompts System**: ✅ Ready for TODO.md (design finalized)
+- **External Web RAG**: ✅ Live through the shared Exa research tool; further work belongs in Linear
+- **API Consolidation**: ✅ Two live paths with shared DB/Exa tools; OpenAI Assistants boundary documented
+- **Prompts System**: ✅ Shared epistemic guidance and frontier fallback implemented; further work belongs in Linear
 - **Deep Research**: 🔄 Needs technical approach refinement
 - **Natural Language Tours**: ⛔ SCRAPPED — multi-agent tour orchestrator was specced July 2025, zero code written, scrapped at 2026-03-29 roundtable. Do not pursue.
 - **TipTap Integration**: ✅ Ready for TODO.md (detailed plan exists)
 
 ### **Current Development Pipeline**:
-- **Active**: Research Canvas integration (TODO.md Focus 1) — Smart Tours is SCRAPPED
-- **Next Sprint**: External Web RAG, API Consolidation (ready to move from FEATURES.md)
-- **Planning**: Deep Research refinement, Prompts system architecture
+- **Active tracker**: Linear project `Ultraterrestrial Resurrection` (DMG Dev)
+- **In review**: agent consolidation, provider fallback, design canon, documentation cleanup, and Linear cutover
+- **Blocked**: screenshot-grounded UX audit until a browser backend is available
+- **Planning**: 10-source LLM-wiki provenance pilot decision; local-agent definition refresh
 
 ---
 

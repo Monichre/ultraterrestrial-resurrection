@@ -4,21 +4,27 @@
 // Client: useMindMapAgent hook → graph nodes/edges
 // DO NOT confuse with /api/disclosure/chat — that route is for legacy standalone chat consumers.
 
-import { z } from 'zod'
-import { auth } from '@clerk/nextjs/server'
-import { checkRateLimit } from '@/lib/rate-limit'
-import { openai } from "@/lib/openai/client"
-import { PROMETHEUS_ASSISTANT_ID, PROMETHEUS_VECTOR_STORE_ID } from "@/services/ai/openai/config"
+import {z} from 'zod'
+import {auth} from '@clerk/nextjs/server'
+import {checkRateLimit} from '@/lib/rate-limit'
+import {openai} from '@/lib/openai/client'
+import {PROMETHEUS_ASSISTANT_ID, PROMETHEUS_VECTOR_STORE_ID} from '@/services/ai/openai/config'
 
-import { embedQuery } from "@/services/ai/openai/embed-query"
-import { extractNamedSearchEntities, toSearchTerms } from "@/services/ai/openai/extract-search-terms"
-import { searchDatabase, insertAgentInference, type EvidentiaryState } from "@db/postgres"
+import {extractNamedSearchEntities, toSearchTerms} from '@/services/ai/openai/extract-search-terms'
+import {insertAgentInference, type EvidentiaryState} from '@db/postgres'
 import {
   buildAgentContext,
   type AgentContextGraphState,
-} from "@/services/ai/context/build-agent-context"
-import { createSSEBridge, sseHeaders } from "@/services/ai/openai/sse"
-import Exa from 'exa-js'
+} from '@/services/ai/context/build-agent-context'
+import {createSSEBridge, sseHeaders} from '@/services/ai/openai/sse'
+import {
+  DATABASE_SEARCH_DESCRIPTION,
+  EXTERNAL_SEARCH_DESCRIPTION,
+  databaseSearchJsonSchema,
+  externalSearchJsonSchema,
+  executeDatabaseSearch,
+  executeExternalSearch,
+} from '@/services/ai/tools/research-search'
 
 // Define types for tool results and entities
 interface ToolResults {
@@ -26,13 +32,6 @@ interface ToolResults {
     response: string
     entities?: Record<string, string>[]
   }
-}
-
-interface ExternalSearchResult {
-  title?: string | null
-  url?: string | null
-  text?: string | null
-  score?: number | null
 }
 
 interface FileSearchToolCallLike {
@@ -68,8 +67,14 @@ interface GraphEdgeToolInput {
 }
 
 const EVIDENTIARY_STATES = new Set<EvidentiaryState>([
-  'observed', 'corroborated', 'contested', 'inferred',
-  'speculative', 'resonant', 'unverified', 'disconfirmed',
+  'observed',
+  'corroborated',
+  'contested',
+  'inferred',
+  'speculative',
+  'resonant',
+  'unverified',
+  'disconfirmed',
 ])
 
 /**
@@ -79,30 +84,28 @@ const EVIDENTIARY_STATES = new Set<EvidentiaryState>([
  * not just an ephemeral SSE message. Fire-and-forget: never blocks or fails
  * the graph-mutation response.
  */
-function recordEdgeInferences(
-  edges: Array<{ source: string; target: string; reasoning?: string }>,
-) {
-  for ( const edge of edges ) {
-    if ( !edge.reasoning ) continue
+function recordEdgeInferences(edges: Array<{source: string; target: string; reasoning?: string}>) {
+  for (const edge of edges) {
+    if (!edge.reasoning) continue
 
-    const bracketMatch = edge.reasoning.match( /^\[([^\]]+)\]\s*/ )
+    const bracketMatch = edge.reasoning.match(/^\[([^\]]+)\]\s*/)
     const inferenceText = bracketMatch
-      ? edge.reasoning.slice( bracketMatch[0].length ).trim()
+      ? edge.reasoning.slice(bracketMatch[0].length).trim()
       : edge.reasoning
 
     const bracketState = bracketMatch?.[1]?.trim().toLowerCase() as EvidentiaryState | undefined
     const evidentiaryState: EvidentiaryState =
-      bracketState && EVIDENTIARY_STATES.has( bracketState ) ? bracketState : 'unverified'
+      bracketState && EVIDENTIARY_STATES.has(bracketState) ? bracketState : 'unverified'
 
-    insertAgentInference( {
+    insertAgentInference({
       inferenceText: inferenceText || edge.reasoning,
       evidentiaryState,
       sourceRecordId: edge.source,
       targetRecordId: edge.target,
       extractedBy: 'mindmap-agent',
-    } ).catch( ( err ) => {
-      console.warn( '[mindmap] insertAgentInference failed:', err )
-    } )
+    }).catch((err) => {
+      console.warn('[mindmap] insertAgentInference failed:', err)
+    })
   }
 }
 
@@ -111,19 +114,22 @@ const MindmapBodySchema = z.object({
   message: z.string().min(1, 'Message is required'),
   contextRules: z.string().nullable().optional(),
   researchFocus: z.string().nullable().optional(),
-  graphState: z.object({
-    nodeCount: z.number().optional(),
-    edgeCount: z.number().optional(),
-    activeNodeId: z.string().nullable().optional(),
-    activeView: z.string().nullable().optional(),
-    nodes: z.array(z.unknown()).optional(),
-    edges: z.array(z.unknown()).optional(),
-  }).nullable().optional(),
+  graphState: z
+    .object({
+      nodeCount: z.number().optional(),
+      edgeCount: z.number().optional(),
+      activeNodeId: z.string().nullable().optional(),
+      activeView: z.string().nullable().optional(),
+      nodes: z.array(z.unknown()).optional(),
+      edges: z.array(z.unknown()).optional(),
+    })
+    .nullable()
+    .optional(),
 })
 
-export async function POST( req: Request ) {
+export async function POST(req: Request) {
   // Rate limiting — identify by Clerk userId when authenticated, fall back to IP.
-  const { userId } = await auth()
+  const {userId} = await auth()
   const forwarded = req.headers.get('x-forwarded-for')
   const ip = forwarded?.split(',')[0]?.trim() ?? 'unknown'
   const rateLimitKey = `ai:mindmap:${userId ?? ip}`
@@ -150,179 +156,144 @@ export async function POST( req: Request ) {
   const parsed = MindmapBodySchema.safeParse(body)
   if (!parsed.success) {
     return new Response(
-      JSON.stringify({ error: 'Invalid request', details: parsed.error.flatten() }),
-      { status: 422, headers: { 'Content-Type': 'application/json' } }
+      JSON.stringify({error: 'Invalid request', details: parsed.error.flatten()}),
+      {status: 422, headers: {'Content-Type': 'application/json'}}
     )
   }
   const input = parsed.data
 
-  const sharedAgentContext = buildAgentContext( {
+  const sharedAgentContext = buildAgentContext({
     userMessage: input.message,
     contextRules: input.contextRules,
     researchFocus: input.researchFocus,
     graphState: input.graphState,
-  } )
+  })
 
   const threadId =
     input.threadId ??
     (
-      await openai.beta.threads.create( {
+      await openai.beta.threads.create({
         tool_resources: {
           file_search: {
-            vector_store_ids: [PROMETHEUS_VECTOR_STORE_ID].filter( Boolean ) as string[],
+            vector_store_ids: [PROMETHEUS_VECTOR_STORE_ID].filter(Boolean) as string[],
           },
         },
-      } )
+      })
     ).id
 
-  await openai.beta.threads.messages.create( threadId, {
-    role: "user",
+  await openai.beta.threads.messages.create(threadId, {
+    role: 'user',
     content: input.message,
-  } )
+  })
 
   // Store tool results between steps
   const toolResults: ToolResults = {}
-  const exaClient = new Exa( process.env.EXA_API_KEY || '' )
+  const {readable, writeSSE, forwardStream, sendDataMessage, close} = createSSEBridge()
 
-  const { readable, writeSSE, forwardStream, sendDataMessage, close } = createSSEBridge()
-
-    ; ( async () => {
-      try {
-        // Set up for sequential tool calls
-        const runStream = openai.beta.threads.runs.stream( threadId, {
-          include: ['step_details.tool_calls[*].file_search.results[*].content'],
-          // Only define the searchDatabase tool - file_search is built-in
-          tools: [
-            {
-              type: "file_search",
+  ;(async () => {
+    try {
+      // Set up for sequential tool calls
+      const runStream = openai.beta.threads.runs.stream(threadId, {
+        include: ['step_details.tool_calls[*].file_search.results[*].content'],
+        // Only define the searchDatabase tool - file_search is built-in
+        tools: [
+          {
+            type: 'file_search',
+          },
+          {
+            type: 'function',
+            function: {
+              name: 'searchDatabase',
+              description: DATABASE_SEARCH_DESCRIPTION,
+              parameters: databaseSearchJsonSchema,
             },
-            {
-              type: "function",
-              function: {
-                name: "searchDatabase",
-                description:
-                  "Search a specified table in the database using provided search terms extracted from previous results",
-                parameters: {
-                  type: "object",
-                  properties: {
-                    table: {
-                      type: "string",
-                      description:
-                        "The table to search (e.g., PERSONNEL, EVENT, TOPIC)",
-                    },
-                    search_terms: {
-                      type: "array",
-                      items: {
-                        type: "string",
-                      },
-                      description: "List of search terms to use in the query.",
-                    },
-                    search_fields: {
-                      type: "array",
-                      items: {
-                        type: "string",
-                      },
-                      description: "Fields to search within the table.",
-                    },
-                  },
-                  required: ["table", "search_terms"],
-                },
-              },
-
+          },
+          {
+            type: 'function',
+            function: {
+              name: 'searchExternalResources',
+              description: EXTERNAL_SEARCH_DESCRIPTION,
+              parameters: externalSearchJsonSchema,
             },
-            {
-              type: "function",
-              function: {
-                name: "searchExternalResources",
-                description: "Search trusted external UFO/UAP sources (via Exa) to enrich context",
-                parameters: {
-                  type: "object",
-                  properties: {
-                    query: { type: "string", description: "Search query for external resources" },
-                    limit: { type: "number", description: "Max results (1-10)", minimum: 1, maximum: 10 },
-                  },
-                  required: ["query"],
-                },
-              },
-            },
-            {
-              type: "function",
-              function: {
-                name: "addGraphNodes",
-                description:
-                  "Add new nodes to the active mindmap graph. Use this when you identify important entities not already in the graph.",
-                parameters: {
-                  type: "object",
-                  properties: {
-                    nodes: {
-                      type: "array",
-                      items: {
-                        type: "object",
-                        properties: {
-                          id: { type: "string", description: "Stable node ID" },
-                          type: { type: "string", description: "React Flow node type" },
-                          label: { type: "string", description: "Display label for the node" },
-                          data: {
-                            type: "object",
-                            additionalProperties: true,
-                            description: "Optional extra node metadata",
-                          },
-                          position: {
-                            type: "object",
-                            properties: {
-                              x: { type: "number" },
-                              y: { type: "number" },
-                            },
-                            required: ["x", "y"],
-                          },
+          },
+          {
+            type: 'function',
+            function: {
+              name: 'addGraphNodes',
+              description:
+                'Add new nodes to the active mindmap graph. Use this when you identify important entities not already in the graph.',
+              parameters: {
+                type: 'object',
+                properties: {
+                  nodes: {
+                    type: 'array',
+                    items: {
+                      type: 'object',
+                      properties: {
+                        id: {type: 'string', description: 'Stable node ID'},
+                        type: {type: 'string', description: 'React Flow node type'},
+                        label: {type: 'string', description: 'Display label for the node'},
+                        data: {
+                          type: 'object',
+                          additionalProperties: true,
+                          description: 'Optional extra node metadata',
                         },
-                        required: ["id", "type", "label"],
-                      },
-                    },
-                  },
-                  required: ["nodes"],
-                },
-              },
-            },
-            {
-              type: "function",
-              function: {
-                name: "addGraphEdges",
-                description:
-                  "Add relationship edges between graph nodes. Use this to explicitly capture why two entities are connected.",
-                parameters: {
-                  type: "object",
-                  properties: {
-                    edges: {
-                      type: "array",
-                      items: {
-                        type: "object",
-                        properties: {
-                          id: { type: "string", description: "Optional stable edge ID" },
-                          source: { type: "string", description: "Source node ID" },
-                          target: { type: "string", description: "Target node ID" },
-                          type: { type: "string", description: "React Flow edge type" },
-                          label: { type: "string", description: "Short edge label" },
-                          reasoning: {
-                            type: "string",
-                            description: "Why this relationship exists",
+                        position: {
+                          type: 'object',
+                          properties: {
+                            x: {type: 'number'},
+                            y: {type: 'number'},
                           },
-                          data: {
-                            type: "object",
-                            additionalProperties: true,
-                            description: "Optional extra edge metadata",
-                          },
+                          required: ['x', 'y'],
                         },
-                        required: ["source", "target"],
                       },
+                      required: ['id', 'type', 'label'],
                     },
                   },
-                  required: ["edges"],
                 },
+                required: ['nodes'],
               },
             },
-          ],
-          additional_instructions: `
+          },
+          {
+            type: 'function',
+            function: {
+              name: 'addGraphEdges',
+              description:
+                'Add relationship edges between graph nodes. Use this to explicitly capture why two entities are connected.',
+              parameters: {
+                type: 'object',
+                properties: {
+                  edges: {
+                    type: 'array',
+                    items: {
+                      type: 'object',
+                      properties: {
+                        id: {type: 'string', description: 'Optional stable edge ID'},
+                        source: {type: 'string', description: 'Source node ID'},
+                        target: {type: 'string', description: 'Target node ID'},
+                        type: {type: 'string', description: 'React Flow edge type'},
+                        label: {type: 'string', description: 'Short edge label'},
+                        reasoning: {
+                          type: 'string',
+                          description: 'Why this relationship exists',
+                        },
+                        data: {
+                          type: 'object',
+                          additionalProperties: true,
+                          description: 'Optional extra edge metadata',
+                        },
+                      },
+                      required: ['source', 'target'],
+                    },
+                  },
+                },
+                required: ['edges'],
+              },
+            },
+          },
+        ],
+        additional_instructions: `
             # Sequential Tool Execution Instructions
             Always follow this execution order:
             1. Use file_search to retrieve relevant knowledge-base evidence.
@@ -349,423 +320,424 @@ export async function POST( req: Request ) {
 
             ${sharedAgentContext}
           `,
-          assistant_id:
-            PROMETHEUS_ASSISTANT_ID ??
-            ( () => {
-              throw new Error( "ASSISTANT_ID environment is not set" )
-            } )(),
-        } )
+        assistant_id:
+          PROMETHEUS_ASSISTANT_ID ??
+          (() => {
+            throw new Error('ASSISTANT_ID environment is not set')
+          })(),
+      })
 
-        let runResult = await forwardStream( runStream )
+      let runResult = await forwardStream(runStream)
 
-        // Process potentially multiple rounds of tool calls
-        while (
-          runResult?.status === "requires_action" &&
-          runResult.required_action?.type === "submit_tool_outputs"
-        ) {
-          const toolCalls =
-            runResult.required_action.submit_tool_outputs.tool_calls
+      // Process potentially multiple rounds of tool calls
+      while (
+        runResult?.status === 'requires_action' &&
+        runResult.required_action?.type === 'submit_tool_outputs'
+      ) {
+        const toolCalls = runResult.required_action.submit_tool_outputs.tool_calls
 
-          // Process tool calls sequentially to maintain state between them
-          const tool_outputs: Array<{ tool_call_id: string; output: string }> = []
+        // Process tool calls sequentially to maintain state between them
+        const tool_outputs: Array<{tool_call_id: string; output: string}> = []
 
-          for ( const toolCall of toolCalls ) {
-            // Handle built-in file_search tool results if present
-            if ( toolCall.type === "file_search" || toolCall.type === "retrieval" ) {
-              const fileSearchToolCall = toolCall as FileSearchToolCallLike
-              const response = fileSearchToolCall.file_search?.results
-                ?.flatMap( result => result.content || [] )
-                .map( content => content.text?.trim() )
-                .filter( ( text ): text is string => Boolean( text ) )
-                .join( '\n\n' )
+        for (const toolCall of toolCalls) {
+          // Handle built-in file_search tool results if present
+          if (toolCall.type === 'file_search' || toolCall.type === 'retrieval') {
+            const fileSearchToolCall = toolCall as FileSearchToolCallLike
+            const response =
+              fileSearchToolCall.file_search?.results
+                ?.flatMap((result) => result.content || [])
+                .map((content) => content.text?.trim())
+                .filter((text): text is string => Boolean(text))
+                .join('\n\n')
                 .trim() || input.message
 
-              const fileSearchResult = {
-                response,
-              }
-
-              toolResults.fileSearchResult = fileSearchResult
-
-              await sendDataMessage( {
-                role: "data",
-                data: {
-                  tool: "file_search",
-                  status: "complete",
-                  result: fileSearchResult,
-                },
-              } )
-              continue
+            const fileSearchResult = {
+              response,
             }
 
-            const parameters = JSON.parse( toolCall.function.arguments )
+            toolResults.fileSearchResult = fileSearchResult
 
-            if ( toolCall.function.name === "searchDatabase" ) {
-              const assistantSearchTerms = Array.isArray( parameters.search_terms )
-                ? Array.from(
+            await sendDataMessage({
+              role: 'data',
+              data: {
+                tool: 'file_search',
+                status: 'complete',
+                result: fileSearchResult,
+              },
+            })
+            continue
+          }
+
+          const parameters = JSON.parse(toolCall.function.arguments)
+
+          if (toolCall.function.name === 'searchDatabase') {
+            const assistantSearchTerms = Array.isArray(parameters.search_terms)
+              ? Array.from(
                   new Set(
                     parameters.search_terms
-                      .filter( ( term: unknown ): term is string => typeof term === 'string' )
-                      .map( ( term: string ) => term.trim().replace( /\s+/g, ' ' ) )
-                      .filter( Boolean )
+                      .filter((term: unknown): term is string => typeof term === 'string')
+                      .map((term: string) => term.trim().replace(/\s+/g, ' '))
+                      .filter(Boolean)
                   )
                 )
-                : []
+              : []
 
-              const fallbackQuery = typeof parameters.query === 'string' && parameters.query.trim()
+            const fallbackQuery =
+              typeof parameters.query === 'string' && parameters.query.trim()
                 ? parameters.query.trim()
                 : input.message
 
-              const extractedEntities = assistantSearchTerms.length
-                ? []
-                : await extractNamedSearchEntities( {
+            const extractedEntities = assistantSearchTerms.length
+              ? []
+              : await extractNamedSearchEntities({
                   text:
                     typeof parameters.response === 'string' && parameters.response.trim()
                       ? parameters.response
                       : toolResults.fileSearchResult?.response || input.message,
                   query: fallbackQuery,
-                } )
+                })
 
-              const searchTerms = assistantSearchTerms.length
-                ? assistantSearchTerms
-                : toSearchTerms( extractedEntities, fallbackQuery )
+            const searchTerms = assistantSearchTerms.length
+              ? assistantSearchTerms
+              : toSearchTerms(extractedEntities, fallbackQuery)
 
-              const resolvedParameters = {
-                ...parameters,
-                search_terms: searchTerms,
+            const resolvedParameters = {
+              ...parameters,
+              search_terms: searchTerms,
+            }
+
+            await sendDataMessage({
+              role: 'data',
+              data: {
+                tool: 'searchDatabase',
+                status: 'processing',
+                parameters: resolvedParameters,
+              },
+            })
+
+            if (!searchTerms.length) {
+              const errorPayload = {
+                error: 'missing_search_terms',
+                message: 'search_terms were not provided by the assistant',
               }
-
-              await sendDataMessage( {
-                role: "data",
+              await sendDataMessage({
+                role: 'data',
                 data: {
-                  tool: "searchDatabase",
-                  status: "processing",
-                  parameters: resolvedParameters,
+                  tool: 'searchDatabase',
+                  status: 'error',
+                  result: errorPayload,
                 },
-              } )
+              })
 
-              if ( !searchTerms.length ) {
-                const errorPayload = { error: 'missing_search_terms', message: 'search_terms were not provided by the assistant' }
-                await sendDataMessage( {
-                  role: "data",
-                  data: {
-                    tool: "searchDatabase",
-                    status: "error",
-                    result: errorPayload,
-                  },
-                } )
+              tool_outputs.push({
+                tool_call_id: toolCall.id,
+                output: JSON.stringify(errorPayload),
+              })
+            } else {
+              const searchResult = await executeDatabaseSearch({
+                query: fallbackQuery,
+                table: parameters.table,
+                search_terms: searchTerms as string[],
+                search_fields: parameters.search_fields,
+                limit: parameters.limit,
+              })
 
-                tool_outputs.push( {
-                  tool_call_id: toolCall.id,
-                  output: JSON.stringify( errorPayload ),
-                } )
-              } else {
-                const embedding = await embedQuery(fallbackQuery)
-                const searchResult = await searchDatabase( {
-                  table: parameters.table,
-                  searchTerms,
-                  searchFields: parameters.search_fields,
-                  embedding,
-                } )
+              await sendDataMessage({
+                role: 'data',
+                data: {
+                  tool: 'searchDatabase',
+                  status: 'complete',
+                  result: searchResult,
+                },
+              })
 
-                await sendDataMessage( {
-                  role: "data",
-                  data: {
-                    tool: "searchDatabase",
-                    status: "complete",
-                    result: searchResult,
-                  },
-                } )
+              tool_outputs.push({
+                tool_call_id: toolCall.id,
+                output: JSON.stringify(searchResult),
+              })
+            }
+          } else if (toolCall.function.name === 'searchExternalResources') {
+            await sendDataMessage({
+              role: 'data',
+              data: {
+                tool: 'searchExternalResources',
+                status: 'processing',
+                parameters,
+              },
+            })
 
-                tool_outputs.push( {
-                  tool_call_id: toolCall.id,
-                  output: JSON.stringify( searchResult ),
-                } )
-              }
-            } else if ( toolCall.function.name === 'searchExternalResources' ) {
-              await sendDataMessage( {
-                role: "data",
+            const {query, limit = 5} = parameters
+            try {
+              const searchResults = await executeExternalSearch(parameters)
+              const formatted = searchResults.results.map((r) => ({
+                title: r.title,
+                url: r.url,
+                text: r.text,
+                score: r.score,
+                source: 'external',
+              }))
+
+              await sendDataMessage({
+                role: 'data',
+                data: {tool: 'searchExternalResources', status: 'complete', result: formatted},
+              })
+
+              tool_outputs.push({
+                tool_call_id: toolCall.id,
+                output: JSON.stringify({results: formatted}),
+              })
+            } catch (e) {
+              await sendDataMessage({
+                role: 'data',
                 data: {
                   tool: 'searchExternalResources',
-                  status: 'processing',
-                  parameters,
+                  status: 'error',
+                  message: (e as Error)?.message,
                 },
-              } )
+              })
+              tool_outputs.push({
+                tool_call_id: toolCall.id,
+                output: JSON.stringify({results: [], error: 'external_search_failed'}),
+              })
+            }
+          } else if (toolCall.function.name === 'addGraphNodes') {
+            const rawNodes = Array.isArray(parameters.nodes)
+              ? (parameters.nodes as GraphNodeToolInput[])
+              : []
 
-              const { query, limit = 5 } = parameters
-              try {
-                const searchResults = await exaClient.searchAndContents( {
-                  query,
-                  numResults: Math.min( Number( limit ) || 5, 10 ),
-                  type: 'neural',
-                  contents: { text: { maxCharacters: 2000 } },
-                } )
+            const normalizedNodes = rawNodes
+              .map((node) => {
+                const id = typeof node.id === 'string' ? node.id.trim() : ''
+                if (!id) return null
 
-                const formatted = ( ( searchResults?.results || [] ) as ExternalSearchResult[] ).map( r => ( {
-                  title: r.title,
-                  url: r.url,
-                  text: r.text,
-                  score: r.score,
-                  source: 'external',
-                } ) )
+                const label =
+                  typeof node.label === 'string' && node.label.trim() ? node.label.trim() : id
 
-                await sendDataMessage( {
-                  role: 'data',
-                  data: { tool: 'searchExternalResources', status: 'complete', result: formatted },
-                } )
+                const resolvedType =
+                  typeof node.type === 'string' && node.type.trim()
+                    ? node.type.trim()
+                    : 'enhancedEntityNodePOC'
 
-                tool_outputs.push( {
-                  tool_call_id: toolCall.id,
-                  output: JSON.stringify( { results: formatted } ),
-                } )
-              } catch ( e ) {
-                await sendDataMessage( { role: 'data', data: { tool: 'searchExternalResources', status: 'error', message: ( e as Error )?.message } } )
-                tool_outputs.push( {
-                  tool_call_id: toolCall.id,
-                  output: JSON.stringify( { results: [], error: 'external_search_failed' } ),
-                } )
-              }
-            } else if ( toolCall.function.name === 'addGraphNodes' ) {
-              const rawNodes = Array.isArray( parameters.nodes )
-                ? ( parameters.nodes as GraphNodeToolInput[] )
-                : []
+                const hasPosition =
+                  typeof node.position?.x === 'number' && typeof node.position?.y === 'number'
+                const position = hasPosition
+                  ? {x: node.position?.x as number, y: node.position?.y as number}
+                  : undefined
 
-              const normalizedNodes = rawNodes
-                .map( ( node ) => {
-                  const id = typeof node.id === 'string' ? node.id.trim() : ''
-                  if ( !id ) return null
-
-                  const label = typeof node.label === 'string' && node.label.trim()
-                    ? node.label.trim()
-                    : id
-
-                  const resolvedType =
-                    typeof node.type === 'string' && node.type.trim()
-                      ? node.type.trim()
-                      : 'enhancedEntityNodePOC'
-
-                  const hasPosition =
-                    typeof node.position?.x === 'number' && typeof node.position?.y === 'number'
-                  const position = hasPosition
-                    ? { x: node.position?.x as number, y: node.position?.y as number }
-                    : undefined
-
-                  return {
-                    id,
-                    type: resolvedType,
+                return {
+                  id,
+                  type: resolvedType,
+                  label,
+                  data: {
+                    ...(node.data || {}),
                     label,
-                    data: {
-                      ...( node.data || {} ),
-                      label,
-                    },
-                    ...( position ? { position } : {} ),
-                  }
-                } )
-                .filter( ( node ): node is NonNullable<typeof node> => Boolean( node ) )
+                  },
+                  ...(position ? {position} : {}),
+                }
+              })
+              .filter((node): node is NonNullable<typeof node> => Boolean(node))
 
-              await sendDataMessage( {
+            await sendDataMessage({
+              role: 'data',
+              data: {
+                tool: 'addGraphNodes',
+                status: 'processing',
+                parameters: {requested: rawNodes.length},
+              },
+            })
+
+            if (!normalizedNodes.length) {
+              const errorPayload = {
+                error: 'invalid_nodes_payload',
+                message: 'No valid nodes were provided to addGraphNodes',
+              }
+
+              await sendDataMessage({
                 role: 'data',
                 data: {
                   tool: 'addGraphNodes',
-                  status: 'processing',
-                  parameters: { requested: rawNodes.length },
+                  status: 'error',
+                  result: errorPayload,
                 },
-              } )
+              })
 
-              if ( !normalizedNodes.length ) {
-                const errorPayload = {
-                  error: 'invalid_nodes_payload',
-                  message: 'No valid nodes were provided to addGraphNodes',
-                }
-
-                await sendDataMessage( {
-                  role: 'data',
-                  data: {
-                    tool: 'addGraphNodes',
-                    status: 'error',
-                    result: errorPayload,
-                  },
-                } )
-
-                tool_outputs.push( {
-                  tool_call_id: toolCall.id,
-                  output: JSON.stringify( errorPayload ),
-                } )
-              } else {
-                const nodeResult = {
-                  added: normalizedNodes.length,
-                  nodes: normalizedNodes,
-                }
-
-                await sendDataMessage( {
-                  role: 'data',
-                  data: {
-                    tool: 'addGraphNodes',
-                    status: 'complete',
-                    result: nodeResult,
-                  },
-                } )
-
-                tool_outputs.push( {
-                  tool_call_id: toolCall.id,
-                  output: JSON.stringify( {
-                    added: nodeResult.added,
-                    nodeIds: nodeResult.nodes.map( ( node ) => node.id ),
-                  } ),
-                } )
+              tool_outputs.push({
+                tool_call_id: toolCall.id,
+                output: JSON.stringify(errorPayload),
+              })
+            } else {
+              const nodeResult = {
+                added: normalizedNodes.length,
+                nodes: normalizedNodes,
               }
-            } else if ( toolCall.function.name === 'addGraphEdges' ) {
-              const rawEdges = Array.isArray( parameters.edges )
-                ? ( parameters.edges as GraphEdgeToolInput[] )
-                : []
 
-              const normalizedEdges = rawEdges
-                .map( ( edge, index ) => {
-                  const source = typeof edge.source === 'string' ? edge.source.trim() : ''
-                  const target = typeof edge.target === 'string' ? edge.target.trim() : ''
+              await sendDataMessage({
+                role: 'data',
+                data: {
+                  tool: 'addGraphNodes',
+                  status: 'complete',
+                  result: nodeResult,
+                },
+              })
 
-                  if ( !source || !target ) {
-                    return null
-                  }
+              tool_outputs.push({
+                tool_call_id: toolCall.id,
+                output: JSON.stringify({
+                  added: nodeResult.added,
+                  nodeIds: nodeResult.nodes.map((node) => node.id),
+                }),
+              })
+            }
+          } else if (toolCall.function.name === 'addGraphEdges') {
+            const rawEdges = Array.isArray(parameters.edges)
+              ? (parameters.edges as GraphEdgeToolInput[])
+              : []
 
-                  const label =
-                    typeof edge.label === 'string' && edge.label.trim()
-                      ? edge.label.trim()
-                      : undefined
-                  const reasoning =
-                    typeof edge.reasoning === 'string' && edge.reasoning.trim()
-                      ? edge.reasoning.trim()
-                      : undefined
+            const normalizedEdges = rawEdges
+              .map((edge, index) => {
+                const source = typeof edge.source === 'string' ? edge.source.trim() : ''
+                const target = typeof edge.target === 'string' ? edge.target.trim() : ''
 
-                  const edgeIdSeed = `${source}-${target}-${label || reasoning || index}`
-                    .toLowerCase()
-                    .replace( /[^a-z0-9_-]+/g, '-' )
+                if (!source || !target) {
+                  return null
+                }
 
-                  return {
-                    id:
-                      typeof edge.id === 'string' && edge.id.trim()
-                        ? edge.id.trim()
-                        : `agent-edge-${edgeIdSeed}`,
-                    source,
-                    target,
-                    type:
-                      typeof edge.type === 'string' && edge.type.trim()
-                        ? edge.type.trim()
-                        : 'siblingEdge',
-                    label,
-                    reasoning,
-                    data: {
-                      ...( edge.data || {} ),
-                      ...( label ? { label } : {} ),
-                      ...( reasoning ? { reasoning } : {} ),
-                    },
-                  }
-                } )
-                .filter( ( edge ): edge is NonNullable<typeof edge> => Boolean( edge ) )
+                const label =
+                  typeof edge.label === 'string' && edge.label.trim()
+                    ? edge.label.trim()
+                    : undefined
+                const reasoning =
+                  typeof edge.reasoning === 'string' && edge.reasoning.trim()
+                    ? edge.reasoning.trim()
+                    : undefined
 
-              recordEdgeInferences( normalizedEdges )
+                const edgeIdSeed = `${source}-${target}-${label || reasoning || index}`
+                  .toLowerCase()
+                  .replace(/[^a-z0-9_-]+/g, '-')
 
-              await sendDataMessage( {
+                return {
+                  id:
+                    typeof edge.id === 'string' && edge.id.trim()
+                      ? edge.id.trim()
+                      : `agent-edge-${edgeIdSeed}`,
+                  source,
+                  target,
+                  type:
+                    typeof edge.type === 'string' && edge.type.trim()
+                      ? edge.type.trim()
+                      : 'siblingEdge',
+                  label,
+                  reasoning,
+                  data: {
+                    ...(edge.data || {}),
+                    ...(label ? {label} : {}),
+                    ...(reasoning ? {reasoning} : {}),
+                  },
+                }
+              })
+              .filter((edge): edge is NonNullable<typeof edge> => Boolean(edge))
+
+            recordEdgeInferences(normalizedEdges)
+
+            await sendDataMessage({
+              role: 'data',
+              data: {
+                tool: 'addGraphEdges',
+                status: 'processing',
+                parameters: {requested: rawEdges.length},
+              },
+            })
+
+            if (!normalizedEdges.length) {
+              const errorPayload = {
+                error: 'invalid_edges_payload',
+                message: 'No valid edges were provided to addGraphEdges',
+              }
+
+              await sendDataMessage({
                 role: 'data',
                 data: {
                   tool: 'addGraphEdges',
-                  status: 'processing',
-                  parameters: { requested: rawEdges.length },
+                  status: 'error',
+                  result: errorPayload,
                 },
-              } )
+              })
 
-              if ( !normalizedEdges.length ) {
-                const errorPayload = {
-                  error: 'invalid_edges_payload',
-                  message: 'No valid edges were provided to addGraphEdges',
-                }
-
-                await sendDataMessage( {
-                  role: 'data',
-                  data: {
-                    tool: 'addGraphEdges',
-                    status: 'error',
-                    result: errorPayload,
-                  },
-                } )
-
-                tool_outputs.push( {
-                  tool_call_id: toolCall.id,
-                  output: JSON.stringify( errorPayload ),
-                } )
-              } else {
-                const edgeResult = {
-                  added: normalizedEdges.length,
-                  edges: normalizedEdges,
-                }
-
-                await sendDataMessage( {
-                  role: 'data',
-                  data: {
-                    tool: 'addGraphEdges',
-                    status: 'complete',
-                    result: edgeResult,
-                  },
-                } )
-
-                tool_outputs.push( {
-                  tool_call_id: toolCall.id,
-                  output: JSON.stringify( {
-                    added: edgeResult.added,
-                    edgeIds: edgeResult.edges.map( ( edge ) => edge.id ),
-                  } ),
-                } )
-              }
+              tool_outputs.push({
+                tool_call_id: toolCall.id,
+                output: JSON.stringify(errorPayload),
+              })
             } else {
-              const unsupportedPayload = {
-                error: 'unsupported_tool',
-                message: `Unsupported tool requested: ${toolCall.function.name}`,
+              const edgeResult = {
+                added: normalizedEdges.length,
+                edges: normalizedEdges,
               }
 
-              await sendDataMessage( {
+              await sendDataMessage({
                 role: 'data',
                 data: {
-                  tool: toolCall.function.name,
-                  status: 'error',
-                  result: unsupportedPayload,
+                  tool: 'addGraphEdges',
+                  status: 'complete',
+                  result: edgeResult,
                 },
-              } )
+              })
 
-              tool_outputs.push( {
+              tool_outputs.push({
                 tool_call_id: toolCall.id,
-                output: JSON.stringify( unsupportedPayload ),
-              } )
+                output: JSON.stringify({
+                  added: edgeResult.added,
+                  edgeIds: edgeResult.edges.map((edge) => edge.id),
+                }),
+              })
             }
+          } else {
+            const unsupportedPayload = {
+              error: 'unsupported_tool',
+              message: `Unsupported tool requested: ${toolCall.function.name}`,
+            }
+
+            await sendDataMessage({
+              role: 'data',
+              data: {
+                tool: toolCall.function.name,
+                status: 'error',
+                result: unsupportedPayload,
+              },
+            })
+
+            tool_outputs.push({
+              tool_call_id: toolCall.id,
+              output: JSON.stringify(unsupportedPayload),
+            })
           }
-
-          // Submit all tool outputs and continue the run
-          runResult = await forwardStream(
-            openai.beta.threads.runs.submitToolOutputsStream(
-              runResult.id,
-              { tool_outputs },
-            ),
-          )
         }
 
-        // Surface non-success terminal run states instead of silently ending.
-        // Otherwise a failed/expired run (e.g. OpenAI quota exceeded) reaches the
-        // client as an empty stream and the UI shows nothing about why.
-        const terminalStatus = runResult?.status
-        if ( terminalStatus && terminalStatus !== "completed" ) {
-          const reason =
-            ( runResult as { last_error?: { message?: string } } )?.last_error?.message ??
-            ( runResult as { incomplete_details?: { reason?: string } } )?.incomplete_details?.reason ??
-            `Assistant run ${terminalStatus}`
-          await writeSSE( { error: `run_${terminalStatus}`, message: reason } )
-        }
-
-        // Signal end of stream
-        await writeSSE( { done: true } )
-        await close()
-      } catch ( err ) {
-        await writeSSE( { error: 'internal_error', message: ( err as Error )?.message } )
-        await close()
+        // Submit all tool outputs and continue the run
+        runResult = await forwardStream(
+          openai.beta.threads.runs.submitToolOutputsStream(runResult.id, {tool_outputs})
+        )
       }
-    } )()
 
-  return new Response( readable, { headers: sseHeaders() } )
+      // Surface non-success terminal run states instead of silently ending.
+      // Otherwise a failed/expired run (e.g. OpenAI quota exceeded) reaches the
+      // client as an empty stream and the UI shows nothing about why.
+      const terminalStatus = runResult?.status
+      if (terminalStatus && terminalStatus !== 'completed') {
+        const reason =
+          (runResult as {last_error?: {message?: string}})?.last_error?.message ??
+          (runResult as {incomplete_details?: {reason?: string}})?.incomplete_details?.reason ??
+          `Assistant run ${terminalStatus}`
+        await writeSSE({error: `run_${terminalStatus}`, message: reason})
+      }
+
+      // Signal end of stream
+      await writeSSE({done: true})
+      await close()
+    } catch (err) {
+      await writeSSE({error: 'internal_error', message: (err as Error)?.message})
+      await close()
+    }
+  })()
+
+  return new Response(readable, {headers: sseHeaders()})
 }

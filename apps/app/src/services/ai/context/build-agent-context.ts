@@ -1,4 +1,4 @@
-import { NER_EXTRACTION_PROMPT } from '@/services/ai/prompts/ner-extraction-prompt'
+import {NER_EXTRACTION_PROMPT} from '@/services/ai/prompts/ner-extraction-prompt'
 
 export type AgentContextGraphNode = {
   id: string
@@ -42,6 +42,14 @@ Use these table-level hints when selecting search targets:
 - topics: thematic concepts, cross-links to experts and testimonies
 - sightings: geotemporal sighting records and observational attributes
 - artifacts: physical evidence, provenance, media references
+`.trim()
+
+const EPISTEMIC_GUIDANCE = `
+Keep source material and analysis distinct. Label analytical statements as observed, corroborated,
+contested, inferred, speculative, resonant, unverified, or disconfirmed. A claim is a discrete
+assertion from a source; never call model-generated analysis a claim. Pair a reading with a
+counter-reading, name contradictions, and end synthesis with a falsifiable next trace rather than
+premature closure.
 `.trim()
 
 const formatGraphState = (graphState?: AgentContextGraphState | null): string => {
@@ -95,8 +103,11 @@ export function buildAgentContext({
     researchFocus ? `## User Research Focus\n${researchFocus}` : null,
     contextRules ? `## Context Rules\n${contextRules}` : null,
     `## Current Graph State\n${formatGraphState(graphState)}`,
+    `## Epistemic Guidance\n${EPISTEMIC_GUIDANCE}`,
     includeSchemaHints ? `## Database Schema Hints\n${DB_SCHEMA_HINTS}` : null,
-    includeNerPrompt ? `## Named Entity Extraction Guidance\n${NER_EXTRACTION_PROMPT.trim()}` : null,
+    includeNerPrompt
+      ? `## Named Entity Extraction Guidance\n${NER_EXTRACTION_PROMPT.trim()}`
+      : null,
   ]
     .filter(Boolean)
     .join('\n\n')

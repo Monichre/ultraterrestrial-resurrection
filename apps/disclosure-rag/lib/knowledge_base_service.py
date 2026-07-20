@@ -22,6 +22,27 @@ logger = logging.getLogger(__name__)
 display = TerminalDisplay()
 
 
+def _get_queue_adapter():
+    """Lazily import the Upstash queue function.
+
+    main.py guards this same import at module load so --status and
+    --no-kb runs work without Upstash configured. The enhanced
+    workflows below used to re-import '.upstash.queue' directly,
+    which bypassed that guard and crashed non-upload URL processing
+    whenever Upstash wasn't configured.
+    """
+    try:
+        from .upstash.queue import add_processed_content_to_queue
+        return add_processed_content_to_queue
+    except (ImportError, RuntimeError) as e:
+        logger.warning(f"Upstash queue not available: {e}")
+
+        def _skip_queue(*args, **kwargs):
+            return {"success": False, "skipped": True}
+
+        return _skip_queue
+
+
 class KnowledgeBaseService:
     """Knowledge base service that handles document indexing and search synchronization"""
 
@@ -279,7 +300,7 @@ class KnowledgeBaseService:
             logger.error(f"Error adding to knowledge base: {e}")
             return None
 
-    def process_youtube_with_enhanced_workflow(self, url: str, upload: bool = False) -> Optional[Dict[str, Any]]:
+    def process_youtube_with_enhanced_workflow(self, url: str, upload: bool = False, add_to_kb: bool = True) -> Optional[Dict[str, Any]]:
         """
         Enhanced YouTube processing that includes Search sync
         This can replace process_youtube_url in main.py
@@ -287,7 +308,7 @@ class KnowledgeBaseService:
         try:
             # Import YouTube processing functions and display
             from .youtube import generate_transcript
-            from .upstash.queue import add_processed_content_to_queue
+            add_processed_content_to_queue = _get_queue_adapter()
             from .openai_client.upload import upload_file_to_openai
             from .terminal_display import display
 
@@ -420,20 +441,24 @@ class KnowledgeBaseService:
 
             # Add to local knowledge base using YouTube-specific method
             display.print_stage("💾 LOCAL KNOWLEDGE BASE", "💾")
-            try:
-                display.start_spinner(
-                    "📊 Adding to local vectorized database...")
-                # Use YouTube-specific KB method that works with existing file structure
-                doc_id = self.add_youtube_to_knowledge_base(data, file_paths)
-                data['doc_id'] = doc_id
+            if add_to_kb:
+                try:
+                    display.start_spinner(
+                        "📊 Adding to local vectorized database...")
+                    # Use YouTube-specific KB method that works with existing file structure
+                    doc_id = self.add_youtube_to_knowledge_base(data, file_paths)
+                    data['doc_id'] = doc_id
 
-                if doc_id:
-                    display.stop_spinner("✅ Added to local knowledge base")
-                else:
+                    if doc_id:
+                        display.stop_spinner("✅ Added to local knowledge base")
+                    else:
+                        display.stop_spinner("❌ Local KB storage failed")
+                except Exception as e:
                     display.stop_spinner("❌ Local KB storage failed")
-            except Exception as e:
-                display.stop_spinner("❌ Local KB storage failed")
-                logger.error(f"Error adding to local knowledge base: {e}")
+                    logger.error(f"Error adding to local knowledge base: {e}")
+                    data['doc_id'] = None
+            else:
+                display.print_warning("Knowledge base storage skipped (--no-kb)")
                 data['doc_id'] = None
 
             # Additional search sync (separate from local KB)
@@ -466,7 +491,7 @@ class KnowledgeBaseService:
             logger.error(f"Error processing YouTube URL: {e}")
             return None
 
-    def process_web_with_enhanced_workflow(self, url: str, upload: bool = False) -> Optional[Dict[str, Any]]:
+    def process_web_with_enhanced_workflow(self, url: str, upload: bool = False, add_to_kb: bool = True) -> Optional[Dict[str, Any]]:
         """
         Enhanced web processing with complete workflow matching file processing:
         - Content extraction and analysis
@@ -487,7 +512,7 @@ class KnowledgeBaseService:
 
             sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
             from processing.web_content_processor import WebContentProcessor
-            from .upstash.queue import add_processed_content_to_queue
+            add_processed_content_to_queue = _get_queue_adapter()
             from .openai_client.upload import upload_file_to_openai
             from .terminal_display import display
 
@@ -672,21 +697,25 @@ class KnowledgeBaseService:
 
             # Add to local knowledge base
             display.print_stage("💾 LOCAL KNOWLEDGE BASE", "💾")
-            try:
-                display.start_spinner(
-                    "📊 Adding to local vectorized database...")
-                doc_id = self.add_to_knowledge_base(data, 'article')
-                data['doc_id'] = doc_id
+            if add_to_kb:
+                try:
+                    display.start_spinner(
+                        "📊 Adding to local vectorized database...")
+                    doc_id = self.add_to_knowledge_base(data, 'article')
+                    data['doc_id'] = doc_id
 
-                if doc_id:
-                    data['metadata']['processing_status']['kb_indexed'] = True
-                    display.stop_spinner("✅ Added to local knowledge base")
-                else:
+                    if doc_id:
+                        data['metadata']['processing_status']['kb_indexed'] = True
+                        display.stop_spinner("✅ Added to local knowledge base")
+                    else:
+                        display.stop_spinner("❌ Local KB storage failed")
+
+                except Exception as e:
                     display.stop_spinner("❌ Local KB storage failed")
-
-            except Exception as e:
-                display.stop_spinner("❌ Local KB storage failed")
-                logger.error(f"Error adding to local knowledge base: {e}")
+                    logger.error(f"Error adding to local knowledge base: {e}")
+                    data['doc_id'] = None
+            else:
+                display.print_warning("Knowledge base storage skipped (--no-kb)")
                 data['doc_id'] = None
 
             # ENTITY EXTRACTION WORKFLOW (matching file processing)
@@ -1088,11 +1117,11 @@ def add_to_knowledge_base(data: Dict[str, Any], doc_type: str = 'transcript') ->
     return kb_service.add_to_knowledge_base(data, doc_type)
 
 
-def process_youtube_url_enhanced(url: str, upload: bool = False) -> Optional[Dict[str, Any]]:
+def process_youtube_url_enhanced(url: str, upload: bool = False, add_to_kb: bool = True) -> Optional[Dict[str, Any]]:
     """Enhanced YouTube processing with Search sync"""
-    return kb_service.process_youtube_with_enhanced_workflow(url, upload)
+    return kb_service.process_youtube_with_enhanced_workflow(url, upload, add_to_kb)
 
 
-def process_web_url_enhanced(url: str, upload: bool = False) -> Optional[Dict[str, Any]]:
+def process_web_url_enhanced(url: str, upload: bool = False, add_to_kb: bool = True) -> Optional[Dict[str, Any]]:
     """Enhanced web processing with Search sync"""
     return kb_service.process_web_with_enhanced_workflow(url, upload)
