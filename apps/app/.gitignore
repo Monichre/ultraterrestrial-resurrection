@@ -79,3 +79,6 @@ ai-convert --file /Users/liamellis/Desktop/ultraterrestrial-resurrection/docs/uf
 
 # Live logging lock file (ephemeral)
 .log.lock
+
+# Built Storybook output — never commit
+storybook-static/
