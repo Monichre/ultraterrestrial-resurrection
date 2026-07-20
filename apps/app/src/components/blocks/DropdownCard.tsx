@@ -1,4 +1,3 @@
-````tsx
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -76,4 +75,3 @@ export default function GridList01() {
     </div>
   );
 }
-````

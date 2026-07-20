@@ -48,7 +48,7 @@ Do not change the existing `0:` stream parsing logic in this task.
 Run:
 
 ```bash
-bun run --cwd "/Users/liamellis/Desktop/01_ACTIVE/ultraterrestrial-resurrection/apps/app" lint --file "src/app/(site)/prometheus/agent.tsx"
+bun run --cwd "/Users/liamellis/Desktop/ACTIVE/ultraterrestrial-resurrection/apps/app" lint --file "src/app/(site)/prometheus/agent.tsx"
 ```
 
 Expected: no new lint errors in the edited file.
@@ -97,7 +97,7 @@ Do not refactor request/response parsing in this task.
 Run:
 
 ```bash
-bun run --cwd "/Users/liamellis/Desktop/01_ACTIVE/ultraterrestrial-resurrection/apps/app" lint --file "src/services/ai/agents/prometheus.tsx" --file "src/services/ai/prometheus/lib/prometheus-file-handler.ts"
+bun run --cwd "/Users/liamellis/Desktop/ACTIVE/ultraterrestrial-resurrection/apps/app" lint --file "src/services/ai/agents/prometheus.tsx" --file "src/services/ai/prometheus/lib/prometheus-file-handler.ts"
 ```
 
 Expected: no new lint errors in the edited files.
@@ -150,7 +150,7 @@ If unchanged, ensure no Phase 1 route rewiring accidentally depends on this hook
 Run:
 
 ```bash
-bun run --cwd "/Users/liamellis/Desktop/01_ACTIVE/ultraterrestrial-resurrection/apps/app" build
+bun run --cwd "/Users/liamellis/Desktop/ACTIVE/ultraterrestrial-resurrection/apps/app" build
 ```
 
 Expected: build succeeds without introducing new type or route errors from the rewired files.

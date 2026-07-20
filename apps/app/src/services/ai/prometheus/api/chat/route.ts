@@ -1143,7 +1143,7 @@ export async function POST(req: NextRequest) {
     });
 
     // Create response with rate limit headers
-    const response = result.toDataStreamResponse();
+    const response = result.toUIMessageStreamResponse();
     
     // Add headers
     response.headers.set('X-RateLimit-Limit', RATE_LIMIT_MAX_REQUESTS.toString());

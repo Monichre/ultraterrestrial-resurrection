@@ -7,15 +7,8 @@ from dotenv import load_dotenv
 from groq import Groq
 from openai import OpenAI
 from pydantic import BaseModel
-import sys
-from pathlib import Path
 
-# Add packages/prompts to path
-packages_path = Path(__file__).parent.parent.parent.parent / "packages" / "prompts"
-sys.path.insert(0, str(packages_path))
-
-from named_entity_recognition_prompt import ner_prompt
-from research_prompt import research_prompt
+from lib.prompt_loader import get_prompt
 from rich.console import Console
 from rich.panel import Panel
 from rich.style import Style
@@ -30,6 +23,9 @@ deepseek_api_key = os.environ.get("DEEPSEEK_API_KEY")
 groq_api_key = os.environ.get("GROQ_API_KEY")
 
 console = Console()
+
+research_prompt = get_prompt("disclosure.research")
+ner_prompt = get_prompt("disclosure.ner")
 
 conversation_history = [
     {"role": "system", "content": research_prompt}
@@ -57,7 +53,7 @@ class ContentAnalysisEngine:
             if not anthropic_api_key:
                 print("❌ ANTHROPIC_API_KEY not found in environment variables")
                 return None
-                
+
             message = self.anthropic_client.messages.create(
                 model="claude-3-5-sonnet-20241022",
                 max_tokens=4000,

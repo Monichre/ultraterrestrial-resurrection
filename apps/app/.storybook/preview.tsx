@@ -18,7 +18,7 @@ import {
   FONT_CAVEAT,
   FONT_SPACE_GROTESK,
   FONT_LEAGUE_SPARTAN,
-} from '../src/app/fonts'
+} from './stubs/app-fonts'
 import {create} from '@storybook/theming'
 import {withReferenceAssets} from './decorators/reference-assets'
 import ultraterrestrialTheme from './theme'
@@ -201,6 +201,7 @@ const preview: Preview = {
           <div
             data-design-system={context.globals.designSystem}
             data-selected-font={selectedFont}
+            style={storybookFontVariables}
             className={`${isResearch ? 'research-ui' : ''} ${FONT_NEUE_HAAS_GROTESK.variable} ${FONT_MONUMENT_GROTESK.variable} ${FONT_MONUMENT_GROTESK_MONO.variable} ${FONT_LUKAS_SANS.variable} ${FONT_JUST_ANOTHER_HAND.variable} ${FONT_JET_BRAINS_MONO.variable} ${FONT_MARTIAN_MONO.variable} ${FONT_NOTO_SANS.variable} ${FONT_SPECIAL_ELITE.variable} ${FONT_ANTON.variable} ${FONT_CAVEAT.variable} ${FONT_SPACE_GROTESK.variable} ${FONT_LEAGUE_SPARTAN.variable} dark w-full min-h-screen bg-black`}>
             {/* Ensure font variables are available at root for all stories */}
             <div className={`w-full h-full flex flex-col justify-center items-center p-6 ${primaryFontClass}`}>
@@ -214,5 +215,21 @@ const preview: Preview = {
 
   tags: ['autodocs'],
 }
+
+const storybookFontVariables = {
+  '--font-neue-haas': "'Neue Haas Grotesk', 'Helvetica Neue', Arial, sans-serif",
+  '--font-monument': "'Monument Grotesk', 'Helvetica Neue', Arial, sans-serif",
+  '--font-monument-mono': "'Monument Grotesk Mono', 'JetBrains Mono', monospace",
+  '--font-lukas-sans': "'Lukas Sans', Arial, sans-serif",
+  '--font-just-another-hand': "'Just Another Hand', 'Caveat', cursive",
+  '--font-jetbrains-mono': "'JetBrains Mono', monospace",
+  '--font-martian-mono': "'Martian Mono', monospace",
+  '--font-noto-sans': "'Noto Sans', Arial, sans-serif",
+  '--font-special-elite': "'Special Elite', 'Courier New', monospace",
+  '--font-anton': "'Anton', Impact, sans-serif",
+  '--font-caveat': "'Caveat', cursive",
+  '--font-space-grotesk': "'Space Grotesk', 'Helvetica Neue', Arial, sans-serif",
+  '--font-league-spartan': "'League Spartan', 'Helvetica Neue', Arial, sans-serif",
+} as React.CSSProperties
 
 export default preview

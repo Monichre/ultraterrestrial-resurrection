@@ -1,7 +1,7 @@
 import {askAIAction} from '@/features/mindmap/actions/xata-to-xyflow'
-import {useSSE} from '@/hooks/useSSE'
+import {useMindMapAgent} from '@/features/mindmap/hooks/use-mindmap-agent'
 import {Loader2, RefreshCw} from 'lucide-react'
-import {useEffect, useState} from 'react'
+import {useCallback, useEffect, useState} from 'react'
 
 interface AskAIProps {
   question: any
@@ -22,7 +22,7 @@ export const AskAI: React.FC<AskAIProps> = ({
 
   useEffect(() => {
     askAIAction({question, prompt, table}).then((res) => {
-      if (res?.dbResponse) {
+      if (res) {
         const {answer: text, records} = res
         setStatus('Complete')
         updateAnalysis({text, records})
@@ -54,64 +54,33 @@ export const AskAIStreaming: React.FC<AskAIStreamingProps> = ({
   onComplete,
   onError,
 }) => {
-  console.log('🚀 ~ table:', table)
+  const {status, analysis, error, runAgentQuery} = useMindMapAgent()
+  const [records, setRecords] = useState<any[]>([])
 
-  console.log('🚀 ~ question:', question)
+  const startQuery = useCallback(async () => {
+    if (!question || !table) return
 
-  const endpoint = '/api/sse/xata/ask'
-  const {streaming, isConnected, error, records, isComplete, postQuery} = useSSE(endpoint)
-
-  console.log('🚀 ~ isConnected:', isConnected)
-
-  console.log('🚀 ~ streaming:', streaming)
-
-  const [status, setStatus] = useState<string>('idle')
-
-  // For debugging - log state changes
-  useEffect(() => {
-    console.log('AskAIStreaming state update:', {
-      status,
-      isConnected,
-      streamingLength: streaming?.length || 0,
-      recordCount: records?.length || 0,
-      isComplete
-    });
-  }, [status, isConnected, streaming, records, isComplete]);
-
-  // Start the query when the component mounts
-  useEffect(() => {
-    if (question && table) {
-      console.log(`Starting query for: ${table} - ${question.substring(0, 50)}`);
-      setStatus('loading')
-      postQuery(question, table, rules).then((success) => {
-        console.log(`Query initialization ${success ? 'successful' : 'failed'}`);
-        if (success) {
-          setStatus('streaming');
-        } else {
-          setStatus('error');
-        }
+    try {
+      const result = await runAgentQuery({
+        message: question,
+        contextRules: [`Focus on the ${table} table.`, ...rules].join(' '),
       })
-    }
-  }, [question, table, rules, postQuery])
 
-  // Only notify parent when complete or error
+      const entities = result.search?.records ?? []
+      setRecords(entities)
+      onComplete?.({answer: result.analysis, entities})
+    } catch (err) {
+      onError?.(err instanceof Error ? err.message : 'Agent query failed')
+    }
+  }, [question, table, rules, runAgentQuery, onComplete, onError])
+
+  // Start the query when the component mounts or the question changes
   useEffect(() => {
-    if (isComplete && onComplete && streaming) {
-      console.log('Stream complete! Notifying parent with:', {
-        answerLength: streaming?.length || 0,
-        recordCount: records?.length || 0
-      });
-      
-      onComplete({
-        answer: streaming,
-        entities: records || [],
-      });
-      
-      setStatus('complete');
-    }
-  }, [isComplete, streaming, records, onComplete])
+    startQuery()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [question, table])
 
-  // Handle errors
+  // Surface stream-level errors to the parent
   useEffect(() => {
     if (error && onError) {
       onError(error)
@@ -123,7 +92,7 @@ export const AskAIStreaming: React.FC<AskAIStreamingProps> = ({
       <div className='w-full text-red-400 p-2'>
         <div className='mb-2'>Error: {error}</div>
         <button
-          onClick={() => postQuery(question, table, rules)}
+          onClick={startQuery}
           className='flex items-center justify-center gap-2 px-3 py-1.5 bg-indigo-700/50 hover:bg-indigo-700/80 text-indigo-200 text-sm rounded transition-colors self-start'>
           <RefreshCw className='h-3 w-3' />
           <span>Retry Query</span>
@@ -138,14 +107,18 @@ export const AskAIStreaming: React.FC<AskAIStreamingProps> = ({
       <div className='flex items-center mb-2 text-xs'>
         <div
           className={`h-2 w-2 rounded-full mr-2 ${
-            isConnected ? 'bg-green-500' : 'bg-amber-500 animate-pulse'
+            status === 'streaming' || status === 'complete'
+              ? 'bg-green-500'
+              : 'bg-amber-500 animate-pulse'
           }`}
         />
-        <span className='text-gray-400'>{isConnected ? 'Connected' : 'Connecting...'}</span>
+        <span className='text-gray-400'>
+          {status === 'streaming' ? 'Streaming...' : status === 'complete' ? 'Connected' : 'Connecting...'}
+        </span>
       </div>
 
       {/* Loading state */}
-      {status === 'loading' && !streaming && (
+      {status === 'streaming' && !analysis && (
         <div className='flex items-center justify-center py-2'>
           <Loader2 className='h-5 w-5 animate-spin text-indigo-400 mr-2' />
           <span className='text-indigo-200'>AI is thinking...</span>
@@ -153,10 +126,10 @@ export const AskAIStreaming: React.FC<AskAIStreamingProps> = ({
       )}
 
       {/* Streaming content - always show this while streaming */}
-      {streaming && <div className='py-2 text-indigo-100 whitespace-pre-wrap'>{streaming}</div>}
+      {analysis && <div className='py-2 text-indigo-100 whitespace-pre-wrap'>{analysis}</div>}
 
       {/* Show indicator when records are found */}
-      {records && records.length > 0 && (
+      {records.length > 0 && (
         <div className='mt-2 text-xs text-green-400'>Found {records.length} relevant records</div>
       )}
     </div>

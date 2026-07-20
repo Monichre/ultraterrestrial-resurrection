@@ -159,5 +159,5 @@ const fullPrompt = buildPrompt({systemPrompt, structurePrompt})
     },
   });
 
-  return result.toDataStreamResponse();
+  return result.toUIMessageStreamResponse();
 }

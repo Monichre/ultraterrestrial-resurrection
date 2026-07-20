@@ -1,15 +1,58 @@
+# Canonical prompt registry — source of truth for @repo/prompts
+# Legacy ids are preserved as aliases for backward compatibility.
 prompts:
+  # --- Disclosure set (versioned, preferred) ---
   - id: disclosure.ner
     version: "1.0.0"
-    file: "sets/disclosure/ner.v1.yaml"
-    schema: "schemas/output/entity.schema.json"
-    tags: ["ufo", "ner", "extraction"]
-    owner: "ai-platform"
-    aliases: ["enhanced_ner", "ner"]
+    file: sets/disclosure/ner.v1.yaml
+    schema: schemas/output/entity.schema.json
+    tags: [ufo, ner, extraction]
+    owner: ai-platform
+    aliases: [enhanced_ner, ner]
+
   - id: disclosure.content_analysis
     version: "1.0.0"
-    file: "sets/disclosure/specialized-analysis.v1.yaml"
-    schema: "schemas/output/analysis.schema.json"
-    tags: ["analysis", "ufo", "documents"]
-    owner: "ai-platform"
-    aliases: ["content_analysis", "specialized_analysis"]
+    file: sets/disclosure/specialized-analysis.v1.yaml
+    schema: schemas/output/analysis.schema.json
+    tags: [analysis, ufo, documents]
+    owner: ai-platform
+    aliases: [content_analysis, specialized_analysis]
+
+  - id: disclosure.research
+    version: "1.0.0"
+    file: sets/disclosure/research.v1.yaml
+    tags: [research, ufo]
+    owner: ai-platform
+    aliases: [research]
+
+  - id: disclosure.enhanced_research
+    version: "1.0.0"
+    file: sets/disclosure/enhanced-research.v1.yaml
+    tags: [research, ufo, analysis]
+    owner: ai-platform
+    aliases: [enhanced_research]
+
+  # --- Template prompts (general-purpose) ---
+  - id: deep_research
+    version: "0.1.0"
+    file: templates/deep_research.yaml
+    tags: [research]
+    owner: ai-platform
+
+  - id: real_time_monitoring
+    version: "0.1.0"
+    file: templates/real_time_monitoring.yaml
+    tags: [monitoring]
+    owner: ai-platform
+
+  - id: validation
+    version: "0.1.0"
+    file: templates/validation.yaml
+    tags: [qc]
+    owner: ai-platform
+
+  - id: synthesis
+    version: "0.1.0"
+    file: templates/synthesis.yaml
+    tags: [synthesis]
+    owner: ai-platform

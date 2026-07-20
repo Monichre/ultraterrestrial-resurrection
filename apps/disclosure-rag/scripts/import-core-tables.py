@@ -7,14 +7,17 @@ Focus: key-figures, artifacts, events, topics, testimonies, organizations
 import asyncio
 import asyncpg
 import csv
-import ssl
 import json
+import os
+import ssl
 from pathlib import Path
 from datetime import datetime
 
 class CoreTableImporter:
     def __init__(self):
-        self.postgres_url = "postgresql://kgubvq:xau_T2uckroqht3tNd7pL3uETsxM0EC5WSNd1@us-east-1.sql.xata.sh/ultraterrestrial-postgres:main?sslmode=require"
+        self.postgres_url = os.getenv('DATABASE_URL')
+        if not self.postgres_url:
+            raise RuntimeError("DATABASE_URL environment variable must be set")
         self.exports_path = Path("/Users/liamellis/Desktop/ultraterrestrial-resurrection/apps/app/scripts/xata-exports/exports")
         
         # Core tables to import (order matters for dependencies)
