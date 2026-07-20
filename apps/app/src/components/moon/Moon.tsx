@@ -69,13 +69,14 @@ export const MoonScene = () => {
   const meshRef = useRef<THREE.Mesh>(null)
   const shaderRef = useRef<THREE.ShaderMaterial>(null)
 
-  const uniforms = useMemo(
-    () => ({
+  const uniforms = useMemo(() => {
+    const width = typeof window !== 'undefined' ? window.innerWidth : 1
+    const height = typeof window !== 'undefined' ? window.innerHeight : 1
+    return {
       t: {value: 0},
-      r: {value: new THREE.Vector2(window.innerWidth, window.innerHeight)},
-    }),
-    []
-  )
+      r: {value: new THREE.Vector2(width, height)},
+    }
+  }, [])
 
   useFrame((state, delta) => {
     if (meshRef.current) {
@@ -112,10 +113,16 @@ export const MoonScene = () => {
 export const Moon = () => {
   return (
     <div
-      className='h-[60vh] w-[60vw] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'
+      className='h-[60vh] w-[60vw] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black'
       id='moon-canvas'>
-      <Canvas gl={{antialias: false}}>
-        {/* <color attach='background' args={['#101015']} /> */}
+      <Canvas
+        gl={{antialias: false, alpha: false}}
+        style={{background: '#000'}}
+        onCreated={({gl}) => {
+          gl.setClearColor('#000000', 1)
+        }}>
+        {/* Required: EffectComposer clears opaque — without this the canvas paints white */}
+        <color attach='background' args={['#000000']} />
         <PerspectiveCamera makeDefault position={[0, -0.5, 5]} fov={50} />
         <ambientLight intensity={0.01} />
         <directionalLight intensity={5} position={[1, 5, -2]} />

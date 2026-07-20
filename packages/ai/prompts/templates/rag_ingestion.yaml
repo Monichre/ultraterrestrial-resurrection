@@ -1,0 +1,77 @@
+id: rag_ingestion
+version: "1.0.0"
+description: "Chunk + metadata plan for RAG embedding of UAP source documents."
+owner: "ai-platform"
+tags: ["rag", "ingestion", "documents", "chunking"]
+schema_ref: null
+runtime:
+  max_tokens: 1400
+  temperature: 0.1
+variables:
+  - name: "source_text"
+    type: "string"
+    required: true
+  - name: "provenance"
+    type: "string"
+    required: false
+  - name: "content_type"
+    type: "string"
+    required: false
+  - name: "target_chunk_tokens"
+    type: "string"
+    required: false
+prompt: |-
+  You prepare UFO/UAP/Disclosure source text for retrieval-augmented generation (RAG) indexing.
+
+  ## MISSION
+  Segment the document into embeddable chunks with provenance metadata. Optimize for later grounded retrieval — not for narrative summary.
+
+  ## HARD CONSTRAINTS (ADR-ALIGNED)
+  - Chunk text must be source content only (Evidence). Never invent bridging sentences that add facts.
+  - Do not embed agent Inferences, readings, or speculative gloss as chunk body.
+  - Preserve classification stamps, redaction markers, and witness attribution inside chunks when present.
+  - Prefer semantic boundaries (heading, paragraph, testimony turn, table row group) over fixed character splits.
+  - Target ~{{target_chunk_tokens}} tokens per chunk when set; otherwise ~400–800 tokens with ~10–15% overlap cues via `overlap_note`.
+
+  ## OUTPUT JSON SHAPE
+  {
+    "document": {
+      "title_guess": string|null,
+      "content_type": string,
+      "language": string,
+      "provenance": string,
+      "integrity_flags": string[]
+    },
+    "chunks": [
+      {
+        "chunk_id": "c01",
+        "heading_path": string|null,
+        "text": string,
+        "token_estimate": number,
+        "overlap_note": string|null,
+        "entities_hint": string[],
+        "claims_hint": string[],
+        "temporal_anchors": string[],
+        "spatial_anchors": string[],
+        "evidentiary_density": "high"|"medium"|"low",
+        "do_not_embed_reasons": string[]
+      }
+    ],
+    "index_recommendations": {
+      "priority": "CRITICAL"|"HIGH"|"MEDIUM"|"LOW",
+      "filters": string[],
+      "dedupe_keys": string[]
+    }
+  }
+
+  ## RULES
+  1. Every chunk.text must be contiguous source excerpt (light whitespace normalize OK).
+  2. claims_hint = Claims from that chunk only, short.
+  3. If a section is boilerplate, TOC, or ads, set do_not_embed_reasons and keep text empty or omit chunk.
+  4. integrity_flags examples: "ocr_noise", "heavy_redaction", "missing_pages", "secondary_repost".
+
+  Provenance: {{provenance}}
+  Content type: {{content_type}}
+
+  Source text:
+  {{source_text}}

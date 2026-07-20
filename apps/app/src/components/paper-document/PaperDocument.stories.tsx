@@ -1,5 +1,5 @@
-import type {Meta, StoryObj} from '@storybook/react'
-import PaperDocument from './PaperDocument'
+import type { Meta, StoryObj } from '@storybook/react'
+import { PaperDocument } from './PaperDocument'
 
 const meta: Meta<typeof PaperDocument> = {
   title: 'Documents/PaperDocument',
@@ -7,45 +7,33 @@ const meta: Meta<typeof PaperDocument> = {
   parameters: {
     layout: 'fullscreen',
     backgrounds: {
-      default: 'light',
+      default: 'void',
       values: [
-        {name: 'light', value: '#F5F7F9'},
-        {name: 'white', value: '#FFFFFF'},
-        {name: 'dark', value: '#1a1a1a'},
+        { name: 'void', value: '#0a0b0d' },
+        { name: 'light', value: '#F5F7F9' },
+        { name: 'white', value: '#FFFFFF' },
       ],
     },
     docs: {
       description: {
         component:
-          'A paper document component with a stacked paper effect. Features a title, paragraphs with optional emphasized phrases, and a signature block. Perfect for letters, announcements, and formal communications.',
+          'Archival paper document with warm stock, fiber tooth, stacked under-sheets, and optional field-note meta. Uses `/textures/paper/*` for material feel.',
       },
     },
   },
   argTypes: {
-    title: {
-      control: 'text',
-      description: 'The document title displayed at the top',
+    title: { control: 'text' },
+    paragraphs: { control: 'object' },
+    emphasizedPhrases: { control: 'object' },
+    signatureName: { control: 'text' },
+    signatureTitle: { control: 'text' },
+    signatureImageUrl: { control: 'text' },
+    variant: {
+      control: 'select',
+      options: ['letter', 'research', 'memo'],
     },
-    paragraphs: {
-      control: 'object',
-      description: 'Array of paragraph strings for the document content',
-    },
-    emphasizedPhrases: {
-      control: 'object',
-      description: 'Array of phrases to emphasize with their paragraph positions',
-    },
-    signatureName: {
-      control: 'text',
-      description: 'Name displayed in the signature block',
-    },
-    signatureTitle: {
-      control: 'text',
-      description: 'Title/role displayed below the name',
-    },
-    signatureImageUrl: {
-      control: 'text',
-      description: 'URL for the signature image',
-    },
+    lightDesk: { control: 'boolean' },
+    embedded: { control: 'boolean' },
   },
   tags: ['autodocs'],
 }
@@ -55,14 +43,6 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {},
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'Default paper document with sample content demonstrating the stacked paper effect and signature block.',
-      },
-    },
-  },
 }
 
 export const UfoDisclosure: Story = {
@@ -77,26 +57,22 @@ export const UfoDisclosure: Story = {
       'The truth, whatever it may be, belongs to the people. Our duty is to seek it without fear or favor.',
     ],
     emphasizedPhrases: [
-      {text: 'cannot be explained by conventional means', position: 0},
-      {text: 'This is not about belief. This is about evidence.', position: 3},
+      { text: 'cannot be explained by conventional means', position: 0 },
+      { text: 'This is not about belief. This is about evidence.', position: 3 },
     ],
     signatureName: 'Sen. John M.',
     signatureTitle: 'Chair, Senate Intelligence Committee',
-    signatureImageUrl: '/placeholder.svg',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'A UFO disclosure-themed document demonstrating customization for government communications.',
-      },
+    meta: {
+      date: '14 Jun 2024',
+      classification: 'Unverified',
     },
   },
 }
 
 export const ResearchNote: Story = {
   args: {
-    title: 'Field Research Notes - Phoenix, AZ',
+    variant: 'research',
+    title: 'Field Research Notes — Phoenix, AZ',
     paragraphs: [
       'The events of March 13, 1997 remain one of the most witnessed and documented mass sightings in modern history.',
       'Thousands of residents reported observing a V-shaped formation of lights traversing the night sky. The lights maintained perfect formation throughout their trajectory.',
@@ -105,17 +81,22 @@ export const ResearchNote: Story = {
       'Further investigation is warranted.',
     ],
     emphasizedPhrases: [
-      {text: 'most witnessed and documented mass sightings', position: 0},
-      {text: 'Further investigation is warranted.', position: 4},
+      { text: 'most witnessed and documented mass sightings', position: 0 },
+      { text: 'Further investigation is warranted.', position: 4 },
     ],
     signatureName: 'Dr. Sarah Chen',
     signatureTitle: 'Lead Researcher, Atmospheric Phenomena Division',
-    signatureImageUrl: '/placeholder.svg',
+    meta: {
+      date: '13 Mar 1997',
+      location: 'Phoenix metro · 33.4°N',
+      classification: 'Corroborated',
+    },
   },
   parameters: {
     docs: {
       description: {
-        story: 'A research note demonstrating use for scientific documentation and field reports.',
+        story:
+          'Field research note on warm textured stock with meta band (date, locus, evidentiary state) and drafting-desk ground.',
       },
     },
   },
@@ -123,6 +104,7 @@ export const ResearchNote: Story = {
 
 export const MinimalContent: Story = {
   args: {
+    variant: 'memo',
     title: 'Brief Memo',
     paragraphs: [
       'Meeting scheduled for 0800 hours.',
@@ -132,14 +114,32 @@ export const MinimalContent: Story = {
     emphasizedPhrases: [],
     signatureName: 'Col. Davis',
     signatureTitle: 'Operations Director',
-    signatureImageUrl: '/placeholder.svg',
+    meta: {
+      date: 'Today',
+      classification: 'Contested',
+    },
   },
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'A minimal paper document with brief content, demonstrating the component with less text.',
-      },
+}
+
+export const LightDesk: Story = {
+  args: {
+    variant: 'research',
+    lightDesk: true,
+    title: 'Field Research Notes — Phoenix, AZ',
+    paragraphs: [
+      'The events of March 13, 1997 remain one of the most witnessed and documented mass sightings in modern history.',
+      'Further investigation is warranted.',
+    ],
+    emphasizedPhrases: [
+      { text: 'most witnessed and documented mass sightings', position: 0 },
+      { text: 'Further investigation is warranted.', position: 1 },
+    ],
+    signatureName: 'Dr. Sarah Chen',
+    signatureTitle: 'Lead Researcher, Atmospheric Phenomena Division',
+    meta: {
+      date: '13 Mar 1997',
+      location: 'Phoenix, AZ',
+      classification: 'Corroborated',
     },
   },
 }
@@ -153,17 +153,9 @@ export const InteractivePlayground: Story = {
       'Third paragraph to emphasize.',
       'Final thoughts and conclusions.',
     ],
-    emphasizedPhrases: [{text: 'Third paragraph to emphasize.', position: 2}],
+    emphasizedPhrases: [{ text: 'Third paragraph to emphasize.', position: 2 }],
     signatureName: 'Your Name',
     signatureTitle: 'Your Title',
-    signatureImageUrl: '/placeholder.svg',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'Interactive playground for testing different content and configurations. Use the controls to customize the document.',
-      },
-    },
+    variant: 'letter',
   },
 }

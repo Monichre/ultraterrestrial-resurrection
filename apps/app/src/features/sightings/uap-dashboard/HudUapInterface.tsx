@@ -19,6 +19,12 @@ import {useAnimationTimeline} from './animation-timeline-manager'
 import {AnimatePresence, motion} from 'framer-motion'
 import {X} from 'lucide-react'
 import {calculateTopSightingLocations} from '@/features/sightings/utils/location-analysis'
+import {RocketHud} from '@/features/sightings/components/rocket-telemetry-hud'
+import {
+  buildHudHotspots,
+  buildHudMetrics,
+  buildHudPositionLog,
+} from '@/features/sightings/components/rocket-telemetry-hud/map-sightings-to-hud'
 
 // Import GSAP for animations
 import Script from 'next/script'
@@ -313,11 +319,14 @@ export function HudUapInterface({
     lat: number
     lon: number
   } | null>(null)
-  const [globeType, setGlobeType] = useState<'default' | 'alternative' | 'codepen'>('default')
+  const [globeType, setGlobeType] = useState<'telemetry' | 'default' | 'alternative' | 'codepen'>(
+    'telemetry'
+  )
   const [graphPaperReady, setGraphPaperReady] = useState(false)
 
-  const renderGlobe = () => {
+  const renderGlobeInner = () => {
     switch (globeType) {
+      case 'telemetry':
       case 'default':
         return (
           <Globe
@@ -332,17 +341,78 @@ export function HudUapInterface({
         return <AlternativeGlobe />
       case 'codepen':
         return <CodepenGlobe focusedLocation={focusedLocation} locations={locations} />
-      default:
-        return (
-          <Globe
-            focusedLocation={focusedLocation}
-            sightings={currentSightings}
-            selectedYear={
-              enhancedTimeRange.isAnimating ? currentAnimationDate.getFullYear() : selectedYear
-            }
-          />
-        )
+      default: {
+        const _exhaustive: never = globeType
+        return _exhaustive
+      }
     }
+  }
+
+  const renderGlobe = () => {
+    const globe = renderGlobeInner()
+    if (globeType !== 'telemetry') return globe
+
+    const activeYear = enhancedTimeRange.isAnimating
+      ? currentAnimationDate.getFullYear()
+      : selectedYear
+    const topLocations = calculateTopSightingLocations(currentSightings, 8)
+    const activeHotspotName =
+      focusedLocation == null
+        ? null
+        : (topLocations
+            .find((loc) => loc.lat === focusedLocation.lat && loc.lon === focusedLocation.lon)
+            ?.name.toUpperCase() ?? null)
+
+    return (
+      <RocketHud
+        fill='parent'
+        identityLabel='UAP-SCAN-01'
+        metrics={buildHudMetrics(currentSightings, activeYear)}
+        hotspots={buildHudHotspots(topLocations)}
+        positionLog={buildHudPositionLog(currentSightings)}
+        activeHotspotName={activeHotspotName}
+        onHotspotFocus={(hotspot) => {
+          if (!hotspot) {
+            setFocusedLocation(null)
+            return
+          }
+          setFocusedLocation({lat: hotspot.lat, lon: hotspot.lon})
+        }}
+        showSaturnFocus={false}
+        showBottomAxis
+        center={<div className='h-full w-full min-h-0'>{globe}</div>}
+        centerOverlay={
+          <div className='absolute left-3 top-3 z-20 w-48'>
+            {useEnhancedTimeControls ? (
+              <EnhancedTimeSelector
+                timeRange={enhancedTimeRange}
+                onChange={handleEnhancedTimeRangeChange}
+                onDateRangeChange={filterByDateRange}
+                className='w-full max-w-sm'
+                sightingsData={filteredSightings.map((s) => ({
+                  timestamp: new Date(s.timestamp),
+                }))}
+                showAnimation={true}
+              />
+            ) : (
+              <YearSelectionMenu
+                availableYears={availableYears}
+                selectedYear={selectedYear}
+                onChange={filterByYear}
+                className='w-full'
+              />
+            )}
+            <Button
+              variant='outline'
+              size='sm'
+              className='mt-2 h-7 w-full border-hud-border bg-black/80 font-mono text-[10px] uppercase tracking-[0.12em] text-hud-text-primary hover:border-hud-accent hover:bg-black'
+              onClick={() => setUseEnhancedTimeControls(!useEnhancedTimeControls)}>
+              {useEnhancedTimeControls ? 'Basic year' : 'Enhanced time'}
+            </Button>
+          </div>
+        }
+      />
+    )
   }
 
   // Build individual sighting points for globe visualization - CRITICAL FIX
@@ -782,14 +852,24 @@ export function HudUapInterface({
                           <span>GLOBE SELECTION</span>
                           <span className='text-white/40'>
                             00
-                            {globeType === 'default'
-                              ? '1'
-                              : globeType === 'alternative'
-                                ? '2'
-                                : '3'}
+                            {globeType === 'telemetry'
+                              ? '0'
+                              : globeType === 'default'
+                                ? '1'
+                                : globeType === 'alternative'
+                                  ? '2'
+                                  : '3'}
                           </span>
                         </div>
                         <div className='grid grid-cols-1 gap-2'>
+                          <Button
+                            variant='outline'
+                            className={`bg-black border-white/30 text-white hover:bg-white/10 font-monument-mono text-xs h-8 ${
+                              globeType === 'telemetry' ? 'bg-white/10' : ''
+                            }`}
+                            onClick={() => setGlobeType('telemetry')}>
+                            TELEMETRY HUD
+                          </Button>
                           <Button
                             variant='outline'
                             className={`bg-black border-white/30 text-white hover:bg-white/10 font-monument-mono text-xs h-8 ${
@@ -837,86 +917,90 @@ export function HudUapInterface({
             </div> */}
 
             {/* Globe Section - Takes remaining space */}
-            <div className='flex-1 relative'>
-              <TechSection
-                title='GLOBAL MONITORING SYSTEM'
-                subtitle={`SYNC RATE: 97.3% | UPLINK: ACTIVE`}
-                className='h-full'>
-                <div className='h-full bg-transparent'>{renderGlobe()}</div>
+            <div className='flex-1 relative min-h-0'>
+              {globeType === 'telemetry' ? (
+                <div className='h-full min-h-0 bg-black'>{renderGlobe()}</div>
+              ) : (
+                <TechSection
+                  title='GLOBAL MONITORING SYSTEM'
+                  subtitle={`SYNC RATE: 97.3% | UPLINK: ACTIVE`}
+                  className='h-full'>
+                  <div className='h-full bg-transparent'>{renderGlobe()}</div>
 
-                {/* Year Selection Menu - top left */}
-                <div className='absolute top-12 left-4 z-20 w-48'>
-                  {useEnhancedTimeControls ? (
-                    <EnhancedTimeSelector
-                      timeRange={enhancedTimeRange}
-                      onChange={handleEnhancedTimeRangeChange}
-                      onDateRangeChange={filterByDateRange}
-                      className='w-full max-w-sm'
-                      sightingsData={filteredSightings.map((s) => ({
-                        timestamp: new Date(s.timestamp),
-                      }))}
-                      showAnimation={true}
-                    />
-                  ) : (
-                    <YearSelectionMenu
-                      availableYears={availableYears}
-                      selectedYear={selectedYear}
-                      onChange={filterByYear}
-                      className='w-full'
-                    />
-                  )}
-                </div>
+                  {/* Year Selection Menu - top left */}
+                  <div className='absolute top-12 left-4 z-20 w-48'>
+                    {useEnhancedTimeControls ? (
+                      <EnhancedTimeSelector
+                        timeRange={enhancedTimeRange}
+                        onChange={handleEnhancedTimeRangeChange}
+                        onDateRangeChange={filterByDateRange}
+                        className='w-full max-w-sm'
+                        sightingsData={filteredSightings.map((s) => ({
+                          timestamp: new Date(s.timestamp),
+                        }))}
+                        showAnimation={true}
+                      />
+                    ) : (
+                      <YearSelectionMenu
+                        availableYears={availableYears}
+                        selectedYear={selectedYear}
+                        onChange={filterByYear}
+                        className='w-full'
+                      />
+                    )}
+                  </div>
 
-                {/* Time Control Toggle - top right - FIX EMOJI */}
-                <div className='absolute top-12 right-4 z-20'>
-                  <Button
-                    variant='outline'
-                    size='sm'
-                    className='h-8 bg-black/80 backdrop-blur border-white/30 text-white hover:bg-white/10 font-monument-mono text-xs'
-                    onClick={() => setUseEnhancedTimeControls(!useEnhancedTimeControls)}>
-                    {useEnhancedTimeControls ? '📊 Enhanced' : '📊 Basic'}
-                  </Button>
-                </div>
+                  {/* Time Control Toggle - top right */}
+                  <div className='absolute top-12 right-4 z-20'>
+                    <Button
+                      variant='outline'
+                      size='sm'
+                      className='h-8 bg-black/80 backdrop-blur border-white/30 text-white hover:bg-white/10 font-monument-mono text-xs'
+                      onClick={() => setUseEnhancedTimeControls(!useEnhancedTimeControls)}>
+                      {useEnhancedTimeControls ? 'Enhanced' : 'Basic'}
+                    </Button>
+                  </div>
 
-                {/* Locations list - right side, smaller */}
-                <div className='absolute right-4 top-1/2 transform -translate-y-1/2 z-10'>
-                  <Card className='bg-black/80 backdrop-blur border-white/20 p-2 max-h-[200px] overflow-y-auto w-40'>
-                    <div className='text-xs font-medium text-white/80 font-monument-mono flex justify-between mb-2'>
-                      <span>TOP HOTSPOTS</span>
-                      <span className='text-white/40'>{locations.length}</span>
-                    </div>
-                    <div className='space-y-1'>
-                      {calculateTopSightingLocations(filteredSightings, 8).map((location, i) => (
-                        <div
-                          key={i}
-                          className='text-xs text-white/60 hover:text-white cursor-pointer transition-colors font-monument-mono'
-                          onMouseEnter={() =>
-                            setFocusedLocation({lat: location.lat, lon: location.lon})
-                          }
-                          onMouseLeave={() => setFocusedLocation(null)}
-                          title={`${location.name} - ${location.count > 0 ? location.count + ' sightings' : 'No data-based sightings'}`}>
-                          <div className='flex justify-between items-center w-full'>
-                            <span className='truncate flex-1 mr-2'>{location.name}</span>
-                            <span
-                              className={`font-medium text-xs ${
-                                location.count > 0 ? 'text-cyan-400' : 'text-white/30'
-                              }`}>
-                              {location.count > 0 ? location.count : '—'}
-                            </span>
+                  {/* Locations list - right side, smaller */}
+                  <div className='absolute right-4 top-1/2 transform -translate-y-1/2 z-10'>
+                    <Card className='bg-black/80 backdrop-blur border-white/20 p-2 max-h-[200px] overflow-y-auto w-40'>
+                      <div className='text-xs font-medium text-white/80 font-monument-mono flex justify-between mb-2'>
+                        <span>TOP HOTSPOTS</span>
+                        <span className='text-white/40'>{locations.length}</span>
+                      </div>
+                      <div className='space-y-1'>
+                        {calculateTopSightingLocations(filteredSightings, 8).map((location, i) => (
+                          <div
+                            key={i}
+                            className='text-xs text-white/60 hover:text-white cursor-pointer transition-colors font-monument-mono'
+                            onMouseEnter={() =>
+                              setFocusedLocation({lat: location.lat, lon: location.lon})
+                            }
+                            onMouseLeave={() => setFocusedLocation(null)}
+                            title={`${location.name} - ${location.count > 0 ? location.count + ' sightings' : 'No data-based sightings'}`}>
+                            <div className='flex justify-between items-center w-full'>
+                              <span className='truncate flex-1 mr-2'>{location.name}</span>
+                              <span
+                                className={`font-medium text-xs ${
+                                  location.count > 0 ? 'text-cyan-400' : 'text-white/30'
+                                }`}>
+                                {location.count > 0 ? location.count : '—'}
+                              </span>
+                            </div>
                           </div>
-                        </div>
-                      ))}
-                    </div>
-                  </Card>
-                </div>
+                        ))}
+                      </div>
+                    </Card>
+                  </div>
 
-                {/* Status indicators - bottom right */}
-                <div className='absolute bottom-4 right-4 text-right text-xs bg-black/60 backdrop-blur p-2 rounded border border-white/20'>
-                  <div className='text-white/60 font-monument-mono'>GLOBAL SCAN COMPLETE</div>
-                  <div className='text-white/60 font-monument-mono'>CONNECTION: SECURE</div>
-                  <div className='text-white/60 font-monument-mono'>MONITORING: ACTIVE</div>
-                </div>
-              </TechSection>
+                  {/* Status indicators - bottom right */}
+                  <div className='absolute bottom-4 right-4 text-right text-xs bg-black/60 backdrop-blur p-2 rounded border border-white/20'>
+                    <div className='text-white/60 font-monument-mono'>GLOBAL SCAN COMPLETE</div>
+                    <div className='text-white/60 font-monument-mono'>CONNECTION: SECURE</div>
+                    <div className='text-white/60 font-monument-mono'>MONITORING: ACTIVE</div>
+                  </div>
+                </TechSection>
+              )}
             </div>
           </div>
         </div>

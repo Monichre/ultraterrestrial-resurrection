@@ -1,5 +1,7 @@
 # Home GSAP Animation System
 
+> **2026-07-19:** Production `/` uses `HomeAnimated` + `useHomeHeroSequence` (see `ANIMATION_SEQUENCE.md`). This doc describes the parallel `HomeGSAP` / `useHomeAnimations` path kept for Storybook comparison.
+
 ## Overview
 
 A sophisticated GSAP (GreenSock) animation system for the Ultraterrestrial home page featuring complex entrance sequences, continuous animations, and interactive parallax effects.

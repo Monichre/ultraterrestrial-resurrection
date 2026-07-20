@@ -8,20 +8,27 @@ const meta: Meta<typeof VintageDocumentCard> = {
   parameters: {
     layout: 'centered',
     backgrounds: {
-      default: 'slate',
+      default: 'void',
       values: [
+        {name: 'void', value: '#1a1916'},
         {name: 'slate', value: '#1e293b'},
         {name: 'dark', value: '#0f172a'},
-        {name: 'vintage', value: '#2c1810'},
       ],
     },
     docs: {
       description: {
         component:
-          'Base vintage government document card component with authentic 1940s-1960s styling. Features aged paper effects, classification badges, and paperclip attachments for authentic government document aesthetics.',
+          'Archival dossier card: warm manila stock with real paper textures, clipped corner, bracketed classification stamp, and file-reference micro-header (Microfilm Dark).',
       },
     },
   },
+  decorators: [
+    (Story) => (
+      <div className='vd-blotter min-h-[480px] w-full min-w-[360px] p-8'>
+        <Story />
+      </div>
+    ),
+  ],
   argTypes: {
     classification: {
       control: {type: 'select'},

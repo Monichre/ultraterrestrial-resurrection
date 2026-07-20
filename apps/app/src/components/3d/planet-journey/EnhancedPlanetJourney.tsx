@@ -177,7 +177,7 @@ const CameraController: React.FC<{ section: number, earthRef: React.RefObject<TH
 
 const EarthModel: React.FC<{ earthRef: React.RefObject<THREE.Group> }> = ({ earthRef }) => {
   const { scene } = useGLTF('/assets/earth2/TERRA.glb')
-  const cloudTexture = useTexture('/assets/earth2/clouds.jpg', (texture) => {
+  const cloudTexture = useTexture('/assets/scenes/earth/textures/Material_62_baseColor.png', (texture) => {
     texture.wrapS = texture.wrapT = THREE.RepeatWrapping
   })
   

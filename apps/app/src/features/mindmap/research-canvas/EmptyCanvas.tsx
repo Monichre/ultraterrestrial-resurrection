@@ -22,6 +22,7 @@ export function EmptyCanvas({
   const hasError = agentStatus === 'error'
 
   return (
+
     <div className='text-white flex flex-col justify-between items-center h-full w-full pt-10 overflow-y-auto'>
       {/* Hero section */}
       <div className='w-full flex-1 flex flex-col items-center justify-center px-4'>
@@ -67,5 +68,6 @@ export function EmptyCanvas({
         />
       </div>
     </div>
+
   )
 }

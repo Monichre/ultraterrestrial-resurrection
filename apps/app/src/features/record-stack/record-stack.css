@@ -1,0 +1,606 @@
+/* Record Stack — 3D exploding dossier anatomy (Microfilm Dark)
+   Technique after jh3y's "3D CSS Grid Exploding Stack": recursive nested
+   layers with preserve-3d so per-layer Z translates compound on explode. */
+
+.ut-stack-scene {
+  /* Microfilm Dark tokens (DESIGN.md) */
+  --ut-void: oklch(0.16 0.006 85);
+  --ut-surface: oklch(0.21 0.008 85);
+  --ut-surface-2: oklch(0.25 0.01 85);
+  --ut-line: oklch(0.87 0.02 85 / 0.14);
+  --ut-paper: oklch(0.93 0.015 90);
+  --ut-ink-dim: oklch(0.93 0.015 90 / 0.62);
+  --ut-ink-faint: oklch(0.93 0.015 90 / 0.4);
+  --ut-stamp: oklch(0.58 0.19 27);
+  --ut-emerald: oklch(0.72 0.14 160);
+  --ut-violet: oklch(0.72 0.12 300);
+  --ut-amber: oklch(0.78 0.13 80);
+  --ut-zinc: oklch(0.7 0.01 85);
+  --ut-shadow: oklch(0 0 0 / 0.65);
+  --mono: var(--font-martian-mono, 'JetBrains Mono', 'Martian Mono'), monospace;
+
+  /* stack geometry */
+  --heading: 46px;
+  --core-h: 236px;
+  --inset: 0.9rem;
+  --radius: 10px;
+
+  /* explode config (driven from JS) */
+  --x1: -20;
+  --y1: 35;
+  --x2: 30;
+  --step: 3.2;
+  --tx: 0.5;
+  --ty: -0.5;
+
+  /* custom power easing (jh3y) */
+  --power: linear(
+    0 0%, 0.2688 9.91%, 0.3859 15%, 0.4917 20.19%, 0.5865 25.5%,
+    0.6705 30.93%, 0.7441 36.51%, 0.8075 42.26%, 0.8593 47.98%,
+    0.9022 53.93%, 0.9366 60.13%, 0.963 66.67%, 0.9812 73.4%,
+    0.9929 80.76%, 0.9986 88.89%, 1 100%
+  );
+
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: var(--ut-void);
+  color: var(--ut-paper);
+  font-family: var(--mono);
+}
+.ut-stack-scene[data-exploded='true'] {
+  touch-action: none;
+  cursor: grab;
+}
+
+/* warm dot grid + vignette backdrop */
+.ut-stack-scene::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+    oklch(0.87 0.02 85 / 0.1) 1px,
+    transparent 1px
+  );
+  background-size: 26px 26px;
+  mask-image: radial-gradient(ellipse 90% 80% at 50% 45%, white 30%, transparent 75%);
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------------ */
+/* 3D machinery                                                        */
+/* ------------------------------------------------------------------ */
+
+.ut-stack {
+  transform-style: preserve-3d;
+  cursor: grab;
+}
+.ut-stack *,
+.ut-stack::before {
+  transform-style: preserve-3d;
+}
+.ut-stack[data-dragging='true'] {
+  cursor: grabbing;
+}
+
+.ut-stack {
+  width: clamp(320px, 46vw, 540px);
+  display: grid;
+  grid-template: auto / auto;
+  transition: transform 1s var(--power);
+}
+
+.ut-stack[data-exploded='false'] {
+  transform: rotateX(0deg) rotateY(0deg) rotateX(0deg);
+  transition-delay: 0.9s;
+}
+.ut-stack[data-exploded='true'] {
+  transform: rotateX(calc(var(--x1) * 1deg)) rotateY(calc(var(--y1) * 1deg))
+    rotateX(calc(var(--x2) * 1deg));
+  transition-delay: 0s;
+}
+.ut-stack[data-dragging='true'] {
+  transition: none;
+}
+
+/* each layer: heading band + body region; nested layer overlays the body */
+.ut-stack .uts-layer {
+  pointer-events: none;
+  position: relative;
+  display: grid;
+  grid-template-rows: var(--heading) 1fr;
+  translate: 0 0 0;
+  transition: translate 1s var(--power);
+}
+.ut-stack[data-exploded='false'] .uts-layer {
+  transition-delay: 0s;
+}
+.ut-stack[data-exploded='true'] .uts-layer--nested {
+  translate: calc(var(--tx) * 1rem) calc(var(--ty) * 1rem)
+    calc(var(--step) * 1rem);
+  transition-delay: 0.9s;
+}
+.ut-stack[data-dragging='true'] .uts-layer {
+  transition: none;
+}
+
+.ut-stack .uts-layer--nested {
+  grid-area: 2 / 1;
+  padding: 0 var(--inset) var(--inset);
+}
+
+.ut-stack .uts-mover {
+  pointer-events: all;
+  grid-area: 1 / 1 / -1 / -1;
+  display: grid;
+  grid-template: auto / auto;
+}
+.ut-stack .uts-mover > * {
+  grid-area: 1 / 1;
+}
+
+/* content card: heading + body rows matching the section grid */
+.ut-stack .uts-content {
+  display: grid;
+  grid-template-rows: var(--heading) 1fr;
+  background: var(--ut-surface);
+  border: 1px solid var(--ut-line);
+  border-radius: var(--radius);
+  transition: transform 0.26s;
+  min-width: 0;
+}
+.ut-stack[data-exploded='true'] .uts-mover:hover > .uts-content,
+.ut-stack[data-exploded='true'] .uts-mover:hover > .uts-shadow {
+  transform: translate3d(0, 0, 1.1rem);
+}
+.ut-stack .uts-mover:focus-within > .uts-content {
+  outline: 1px dashed var(--ut-ink-faint);
+  outline-offset: 3px;
+}
+
+/* drop shadows: fade/scale away as siblings lift, spread on explode */
+.ut-stack .uts-shadow {
+  pointer-events: none;
+  opacity: 0.35;
+  scale: 0.999;
+  transition: opacity 1s, transform 0.26s, scale 0.26s;
+}
+.ut-stack .uts-shadow > div {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius);
+  background: var(--ut-shadow);
+  transition: translate 1s var(--power), scale 0.26s;
+}
+.ut-stack .uts-shadow {
+  position: relative;
+  z-index: -1;
+}
+.ut-stack[data-exploded='true'] .uts-shadow {
+  opacity: 0.55;
+}
+.ut-stack[data-exploded='true'] .uts-shadow > div {
+  translate: calc(var(--tx) * 1.4rem) calc(var(--ty) * -1.4rem);
+  transition-delay: 0.9s;
+}
+/* dim ancestor shadows while a deeper layer is hovered */
+.ut-stack .uts-mover:has(+ .uts-layer .uts-mover:hover) > .uts-shadow {
+  opacity: 0.15;
+}
+.ut-stack .uts-mover:has(+ .uts-layer .uts-mover:hover) > .uts-shadow > div {
+  scale: 0.94;
+}
+.ut-stack[data-exploded='true'] .uts-mover:hover > .uts-shadow {
+  opacity: 0.8;
+  scale: 0.98;
+}
+
+/* selected layer accent */
+.ut-stack .uts-mover[data-selected='true'] > .uts-content {
+  border-color: oklch(0.87 0.02 85 / 0.35);
+}
+
+/* ------------------------------------------------------------------ */
+/* Dossier chrome                                                      */
+/* ------------------------------------------------------------------ */
+
+.ut-stack .uts-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0 0.9rem;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ut-ink-dim);
+  border: 0;
+  background: none;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  width: 100%;
+}
+.ut-stack .uts-heading .idx {
+  color: var(--ut-ink-faint);
+}
+.ut-stack .uts-heading .ttl {
+  color: var(--ut-paper);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.ut-stack .uts-heading .links {
+  margin-left: auto;
+  color: var(--ut-ink-faint);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+}
+
+/* bracketed evidentiary badge */
+.ut-badge {
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+  color: var(--state, var(--ut-zinc));
+}
+.ut-badge::before {
+  content: '[ ';
+  color: var(--ut-ink-faint);
+}
+.ut-badge::after {
+  content: ' ]';
+  color: var(--ut-ink-faint);
+}
+[data-state='CORROBORATED'],
+[data-state='DOCUMENTED'] {
+  --state: var(--ut-emerald);
+}
+[data-state='CONTESTED'] {
+  --state: var(--ut-amber);
+}
+[data-state='UNVERIFIED'] {
+  --state: var(--ut-zinc);
+}
+[data-state='DISCONFIRMED'] {
+  --state: var(--ut-stamp);
+}
+[data-state='AI-INFERRED'] {
+  --state: var(--ut-violet);
+}
+
+/* case shell: clipped dossier corner + extraction slot */
+.ut-stack .uts-content--case {
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
+  background: var(--ut-surface-2);
+}
+.ut-stack .uts-content--case .uts-case-head {
+  display: grid;
+  align-content: center;
+  gap: 2px;
+  padding: 0 0.9rem;
+}
+.ut-stack .uts-fileref {
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  color: var(--ut-ink-faint);
+  text-transform: uppercase;
+  display: flex;
+  gap: 0.75rem;
+}
+.ut-stack .uts-fileref .classif {
+  color: var(--ut-stamp);
+}
+.ut-stack .uts-case-title {
+  font-family: var(--font-special-elite, var(--mono));
+  font-size: 15px;
+  letter-spacing: 0.02em;
+  color: var(--ut-paper);
+}
+.ut-stack .uts-slot {
+  margin: 0 var(--inset) var(--inset);
+  border-radius: 6px;
+  border: 1px solid oklch(0.58 0.19 27 / 0.55);
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent 0 5px,
+    oklch(0.58 0.19 27 / 0.28) 5px 6px
+  );
+  position: relative;
+}
+.ut-stack .uts-slot::after {
+  content: 'RECORD EXTRACTED';
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: oklch(0.58 0.19 27 / 0.8);
+  background: var(--ut-surface-2);
+  width: max-content;
+  height: max-content;
+  margin: auto;
+  padding: 0.2rem 0.6rem;
+  border: 1px solid oklch(0.58 0.19 27 / 0.55);
+  border-radius: 4px;
+  rotate: -4deg;
+}
+
+/* generic layer body */
+.ut-stack .uts-body {
+  margin: 0 var(--inset) var(--inset);
+  border-radius: 6px;
+  background: var(--ut-void);
+  border: 1px solid var(--ut-line);
+  overflow: hidden;
+  min-height: 0;
+  font-size: 11px;
+}
+
+/* event facts grid */
+.ut-stack .uts-facts {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.45rem 1rem;
+  padding: 0.8rem 0.9rem;
+  margin: 0;
+}
+.ut-stack .uts-facts dt {
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ut-ink-faint);
+  align-self: center;
+}
+.ut-stack .uts-facts dd {
+  margin: 0;
+  color: var(--ut-ink-dim);
+  font-size: 10.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* witness table */
+.ut-stack .uts-witnesses {
+  width: 100%;
+  border-collapse: collapse;
+}
+.ut-stack .uts-witnesses td,
+.ut-stack .uts-witnesses th {
+  padding: 0.42rem 0.9rem;
+  border-bottom: 1px solid var(--ut-line);
+  font-size: 10.5px;
+  text-align: left;
+  font-weight: 400;
+  color: var(--ut-ink-dim);
+  white-space: nowrap;
+}
+.ut-stack .uts-witnesses th {
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ut-ink-faint);
+}
+.ut-stack .uts-witnesses .nm {
+  color: var(--ut-paper);
+}
+.ut-stack .uts-witnesses tr:last-child td {
+  border-bottom: 0;
+}
+
+/* evidence list */
+.ut-stack .uts-evidence {
+  list-style: none;
+  margin: 0;
+  padding: 0.3rem 0;
+}
+.ut-stack .uts-evidence li {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0 0.8rem;
+  padding: 0.42rem 0.9rem;
+  border-bottom: 1px solid var(--ut-line);
+}
+.ut-stack .uts-evidence li:last-child {
+  border-bottom: 0;
+}
+.ut-stack .uts-evidence .nm {
+  color: var(--ut-paper);
+  font-size: 10.5px;
+}
+.ut-stack .uts-evidence .prov {
+  grid-column: 1 / -1;
+  color: var(--ut-ink-faint);
+  font-size: 9.5px;
+}
+
+/* analysis layer — AI inference: dashed provenance boundary */
+.ut-stack .uts-content--analysis,
+.ut-stack .uts-content--analysis .uts-body {
+  border-style: dashed;
+}
+.ut-stack .uts-analysis {
+  padding: 0.7rem 0.9rem;
+  display: grid;
+  gap: 0.45rem;
+  height: var(--core-h);
+  align-content: start;
+}
+.ut-stack .uts-analysis .hyp {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.8rem;
+  color: var(--ut-ink-dim);
+  font-size: 10.5px;
+}
+.ut-stack .uts-analysis .metric {
+  margin-top: 0.25rem;
+  padding-top: 0.55rem;
+  border-top: 1px dashed var(--ut-line);
+  color: var(--ut-ink-dim);
+  font-size: 10px;
+}
+.ut-stack .uts-analysis .metric b {
+  color: var(--ut-violet);
+  font-weight: 600;
+}
+.ut-stack .uts-analysis .falsify {
+  color: var(--ut-ink-faint);
+  font-size: 9.5px;
+  line-height: 1.5;
+}
+.ut-stack .uts-analysis .falsify::before {
+  content: 'FALSIFIABILITY // ';
+  color: var(--ut-amber);
+  letter-spacing: 0.12em;
+}
+
+/* ------------------------------------------------------------------ */
+/* HUD chrome (controls + inspector)                                   */
+/* ------------------------------------------------------------------ */
+
+.ut-stack-hud {
+  position: absolute;
+  left: 50%;
+  bottom: 1.4rem;
+  translate: -50% 0;
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  padding: 0.55rem 0.9rem;
+  background: oklch(0.21 0.008 85 / 0.88);
+  border: 1px solid var(--ut-line);
+  border-radius: 8px;
+  backdrop-filter: blur(6px);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ut-ink-dim);
+  z-index: 10;
+}
+.ut-stack-hud button {
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  background: none;
+  border: 1px solid var(--ut-line);
+  border-radius: 5px;
+  color: var(--ut-paper);
+  padding: 0.35rem 0.7rem;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+.ut-stack-hud button:hover,
+.ut-stack-hud button:focus-visible {
+  border-color: var(--ut-stamp);
+  color: var(--ut-paper);
+}
+.ut-stack-hud label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.ut-stack-hud input[type='range'] {
+  accent-color: var(--ut-stamp);
+  width: 90px;
+}
+.ut-stack-hud {
+  white-space: nowrap;
+}
+.ut-stack-hud .hint {
+  color: var(--ut-ink-faint);
+  font-size: 9px;
+  max-width: 34ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* inspector rail */
+.ut-stack-inspector {
+  position: absolute;
+  top: 50%;
+  right: 1.6rem;
+  translate: 0 -50%;
+  width: 250px;
+  padding: 0.9rem;
+  background: oklch(0.21 0.008 85 / 0.88);
+  border: 1px solid var(--ut-line);
+  border-radius: 8px;
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+  backdrop-filter: blur(6px);
+  font-size: 10px;
+  z-index: 10;
+  display: grid;
+  gap: 0.55rem;
+}
+.ut-stack-inspector .insp-ref {
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ut-ink-faint);
+}
+.ut-stack-inspector .insp-title {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.6rem;
+  align-items: baseline;
+  color: var(--ut-paper);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.ut-stack-inspector .insp-summary {
+  color: var(--ut-ink-dim);
+  font-size: 10px;
+  line-height: 1.55;
+  letter-spacing: 0.01em;
+}
+.ut-stack-inspector .insp-links {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0.55rem 0 0;
+  border-top: 1px solid var(--ut-line);
+  list-style: none;
+}
+.ut-stack-inspector .insp-links li {
+  display: grid;
+  gap: 1px;
+}
+.ut-stack-inspector .insp-links .ref {
+  color: var(--ut-ink-faint);
+  font-size: 8.5px;
+  letter-spacing: 0.14em;
+}
+.ut-stack-inspector .insp-links .lbl {
+  color: var(--ut-ink-dim);
+  font-size: 9.5px;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.6rem;
+}
+.ut-stack-inspector .insp-web {
+  font-size: 8.5px;
+  letter-spacing: 0.18em;
+  color: var(--ut-ink-faint);
+  text-transform: uppercase;
+}
+
+@media (max-width: 900px) {
+  .ut-stack-inspector {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ut-stack,
+  .ut-stack .uts-layer,
+  .ut-stack .uts-content,
+  .ut-stack .uts-shadow,
+  .ut-stack .uts-shadow > div {
+    transition: none !important;
+  }
+}

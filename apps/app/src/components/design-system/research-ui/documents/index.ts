@@ -20,6 +20,10 @@ export type { IncidentReportCardProps } from "./IncidentReportCard"
 export { PersonnelFileCard } from "./PersonnelFileCard"
 export type { PersonnelFileCardProps } from "./PersonnelFileCard"
 
+export { ClassifiedDocument } from "./ClassifiedDocument"
+export { PhotoCaption } from "./PhotoCaption"
+export type { PhotoCaptionProps } from "./PhotoCaption"
+
 // Case File Component
 export { default as CaseFileFolder } from "./case-files/case-file-folder/CaseFileFolder"
 export type { CaseFileFolderProps } from "./case-files/case-file-folder/CaseFileFolder"

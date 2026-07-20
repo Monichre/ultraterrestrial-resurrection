@@ -89,6 +89,47 @@ const formatGraphState = (graphState?: AgentContextGraphState | null): string =>
     .join('\n')
 }
 
+/**
+ * Static, byte-stable guidance shared by every request. Safe to place inside
+ * a cached system-prompt prefix — nothing here may vary per request.
+ */
+export function buildStaticAgentGuidance({
+  includeSchemaHints = true,
+  includeNerPrompt = true,
+}: {includeSchemaHints?: boolean; includeNerPrompt?: boolean} = {}): string {
+  return [
+    `## Epistemic Guidance\n${EPISTEMIC_GUIDANCE}`,
+    includeSchemaHints ? `## Database Schema Hints\n${DB_SCHEMA_HINTS}` : null,
+    includeNerPrompt
+      ? `## Named Entity Extraction Guidance\n${NER_EXTRACTION_PROMPT.trim()}`
+      : null,
+  ]
+    .filter(Boolean)
+    .join('\n\n')
+}
+
+/**
+ * Volatile per-turn context (graph state, focus, rules). Changes every turn,
+ * so it must render AFTER any prompt-cache breakpoint — never inside the
+ * system prompt, which sits ahead of the whole conversation in the prefix.
+ * The user's question is deliberately excluded: it is already the last
+ * message of the conversation.
+ */
+export function buildTurnContext({
+  researchFocus,
+  contextRules,
+  graphState,
+}: Pick<BuildAgentContextOptions, 'researchFocus' | 'contextRules' | 'graphState'>): string {
+  return [
+    '# Current Turn Context',
+    researchFocus ? `## User Research Focus\n${researchFocus}` : null,
+    contextRules ? `## Context Rules\n${contextRules}` : null,
+    `## Current Graph State\n${formatGraphState(graphState)}`,
+  ]
+    .filter(Boolean)
+    .join('\n\n')
+}
+
 export function buildAgentContext({
   userMessage,
   researchFocus,

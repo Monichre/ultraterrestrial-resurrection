@@ -45,5 +45,13 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Base: Story = {
-  args: {trigger: true},
+  args: {trigger: true, reduceMotion: false},
+}
+
+export const ReducedMotion: Story = {
+  args: {trigger: true, reduceMotion: true},
+}
+
+export const Hidden: Story = {
+  args: {trigger: false},
 }

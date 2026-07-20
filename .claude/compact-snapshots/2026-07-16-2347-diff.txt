@@ -1,0 +1,12 @@
+ DAILY_WORK_PLAN.md                                 |  11 +
+ GOAL.md                                            |   1 +
+ apps/app/.storybook/decorators/with-mindmap.tsx    |   4 +-
+ apps/app/.storybook/main.ts                        | 254 ++++++++++++---------
+ apps/app/.storybook/mocked-google-fonts.cjs        |  35 +--
+ apps/app/.storybook/preview.tsx                    |  60 ++---
+ apps/app/package.json                              |   4 +-
+ .../3d/planet-journey/EnhancedPlanetJourney.tsx    |   2 +-
+ apps/app/src/contexts/mindmap/mindmap-context.tsx  |   2 +-
+ .../src/features/mindmap/utils/node-factories.ts   |   2 +-
+ bun.lock                                           |   2 +-
+ 11 files changed, 214 insertions(+), 163 deletions(-)

@@ -21,6 +21,7 @@ from groq import Groq
 from dotenv import load_dotenv
 
 from lib.prompt_loader import get_prompt
+from processing.rag_prompt_pipeline import RagPromptPipeline
 from specialized_analysis_prompts import (
     get_specialized_prompt,
     detect_content_type,
@@ -125,7 +126,14 @@ class EnhancedContentAnalysisEngine:
                     final_analysis, structured_entities
                 )
 
-            # Step 6: Generate comprehensive response
+            # Step 6: Registry RAG / NER pipeline (Evidence chunks for indexing)
+            rag_pipeline = RagPromptPipeline(run_ner=True).process(
+                content,
+                provenance=f"enhanced_content_analysis:{detected_type}",
+                content_type_override=detected_type,
+            ).to_dict()
+
+            # Step 7: Generate comprehensive response
             comprehensive_result = {
                 'content_type': detected_type,
                 'analysis_method': 'multi_model' if use_multi_model else 'single_model',
@@ -133,6 +141,8 @@ class EnhancedContentAnalysisEngine:
                 'structured_entities': structured_entities,
                 'quality_metrics': quality_metrics,
                 'model_results': analysis_results,
+                'rag_pipeline': rag_pipeline,
+                'embeddable_texts': rag_pipeline.get('embeddable_texts') or [],
                 'timestamp': self._get_timestamp(),
                 'confidence_score': self._calculate_confidence_score(analysis_results, quality_metrics)
             }

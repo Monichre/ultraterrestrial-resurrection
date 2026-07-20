@@ -1,7 +1,10 @@
+'use client'
+
 import * as React from 'react'
 import {cn} from '@/utils'
 import {VintageDocumentCard} from './VintageDocumentCard'
-import {IncidentReport, DocumentAttachment} from './types'
+import type {DocumentAttachment, IncidentReport} from './types'
+import './vintage-document.css'
 
 interface IncidentReportCardProps {
   incident: IncidentReport
@@ -17,42 +20,33 @@ const AttachmentArea = ({
 }) => {
   return (
     <div className={cn('relative', className)}>
-      {/* Paperclip effect */}
-      <div className='absolute -top-2 -right-2 z-20'>
-        <div className='w-6 h-8 bg-gray-400 rounded-sm transform rotate-12 shadow-md'>
-          <div className='absolute inset-0.5 bg-gray-300 rounded-sm'></div>
-          <div className='absolute top-1 left-1 right-1 h-0.5 bg-gray-500 rounded'></div>
-          <div className='absolute bottom-1 left-1 right-1 h-0.5 bg-gray-500 rounded'></div>
-        </div>
-      </div>
-
-      {/* Attachment display area */}
-      <div className='border-2 border-gray-300 bg-gray-50 p-2 shadow-md transform -rotate-1'>
+      <div className='vd-insert'>
         {attachment?.url ? (
           <div className='space-y-2'>
             {attachment.type === 'photo' ? (
+              // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={attachment.url}
                 alt={attachment.caption}
-                className='w-full h-32 object-cover filter sepia-[30%] contrast-120 saturate-75'
+                className='h-32 w-full object-cover contrast-110 saturate-75 sepia-[20%]'
               />
             ) : (
-              <div className='w-full h-32 bg-white border border-gray-200 flex items-center justify-center'>
-                <div className='text-center text-xs  text-gray-600'>
+              <div className='flex h-32 items-center justify-center border border-[color:var(--vd-rule)] bg-[color:var(--vd-stock)]'>
+                <div className='text-center font-[family-name:var(--vd-mono)] text-[10px] uppercase tracking-[0.14em] text-[color:var(--vd-ink-faint)]'>
                   <div className='font-bold'>[{attachment.type.toUpperCase()}]</div>
                   <div className='mt-1'>CLASSIFIED</div>
                 </div>
               </div>
             )}
-            <div className='text-xs  text-gray-700 text-center'>{attachment.caption}</div>
+            <div className='text-center font-[family-name:var(--vd-mono)] text-[10px] tracking-wide text-[color:var(--vd-ink-dim)]'>
+              {attachment.caption}
+            </div>
           </div>
         ) : (
-          <div className='w-full h-32 bg-gray-200 border border-gray-300 flex items-center justify-center'>
-            <div className='text-xs text-gray-500 text-center '>
-              NO ATTACHMENT
-              <br />
-              AVAILABLE
-            </div>
+          <div className='flex h-32 items-center justify-center font-[family-name:var(--vd-mono)] text-[10px] uppercase tracking-[0.14em] text-[color:var(--vd-ink-faint)]'>
+            NO ATTACHMENT
+            <br />
+            AVAILABLE
           </div>
         )}
       </div>
@@ -68,12 +62,14 @@ const WitnessReport = ({
   index: number
 }) => {
   return (
-    <div className='border-l-4 border-red-600 pl-4 py-2 mb-4 bg-red-50/30'>
-      <div className='flex justify-between items-start mb-2'>
-        <span className=' text-xs font-bold text-gray-800'>WITNESS REPORT #{index + 1}</span>
-        {report.witness && <span className=' text-xs text-gray-600'>BY: {report.witness}</span>}
+    <div className='vd-witness'>
+      <div className='vd-witness-head'>
+        <span>Witness report #{index + 1}</span>
+        {report.witness && <span>By: {report.witness}</span>}
       </div>
-      <div className=' text-sm text-gray-800 leading-relaxed'>"{report.description}"</div>
+      <div className='text-[13px] leading-relaxed text-[color:var(--vd-ink)]'>
+        &ldquo;{report.description}&rdquo;
+      </div>
     </div>
   )
 }
@@ -87,57 +83,47 @@ const IncidentReportCard = React.forwardRef<HTMLDivElement, IncidentReportCardPr
         title='INCIDENT REPORT'
         date={incident.date}
         location={incident.location}
+        fileRef={`UT·VD // ${incident.id}`}
         className={cn('relative', className)}>
-        {/* Report header information */}
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mb-6'>
+        <div className='mb-5 grid grid-cols-1 gap-5 md:grid-cols-2'>
           <div className='space-y-3'>
-            <div className='border-b border-gray-400 pb-2'>
-              <span className=' text-sm font-bold text-gray-800'>INCIDENT TYPE:</span>
-              <div className=' text-sm text-gray-700 mt-1'>UNIDENTIFIED AERIAL PHENOMENA</div>
+            <div>
+              <div className='vd-label'>Incident type</div>
+              <div className='mt-1 text-[13px] tracking-wide'>UNIDENTIFIED AERIAL PHENOMENA</div>
             </div>
-
-            <div className='border-b border-gray-400 pb-2'>
-              <span className=' text-sm font-bold text-gray-800'>REPORT ID:</span>
-              <div className=' text-sm text-gray-700 mt-1'>{incident.id}</div>
+            <hr className='vd-rule' />
+            <div>
+              <div className='vd-label'>Report id</div>
+              <div className='mt-1 font-[family-name:var(--vd-mono)] text-[12px] tracking-wide'>
+                {incident.id}
+              </div>
             </div>
-
-            <div className='border-b border-gray-400 pb-2'>
-              <span className=' text-sm font-bold text-gray-800'>STATUS:</span>
-              <div className=' text-sm text-red-600 mt-1 font-bold'>UNDER INVESTIGATION</div>
+            <hr className='vd-rule' />
+            <div>
+              <div className='vd-label'>Status</div>
+              <div className='mt-1 text-[12px] font-semibold tracking-wide text-[color:var(--vd-stamp)]'>
+                UNDER INVESTIGATION
+              </div>
             </div>
           </div>
 
-          {/* Attachment area */}
           <div>
-            <div className=' text-sm font-bold text-gray-800 mb-3'>PHOTOGRAPHIC EVIDENCE:</div>
+            <div className='vd-label mb-2'>Photographic evidence</div>
             <AttachmentArea attachment={incident.attachments?.[0]} className='w-full' />
           </div>
         </div>
 
-        {/* Incident description */}
-        <div className='mb-6'>
-          <div className=' text-sm font-bold text-gray-800 mb-3 border-b border-gray-400 pb-1'>
-            INCIDENT SUMMARY:
-          </div>
-          <div className='bg-yellow-50 border border-yellow-200 p-4 relative'>
-            <div className=' text-sm text-gray-800 leading-relaxed'>
-              {incident.incidentDescription}
-            </div>
-
-            {/* Handwritten annotation effect */}
-            <div className='absolute bottom-2 right-2 transform rotate-6 text-blue-600 opacity-70'>
-              <div className='text-xs font-handwriting'>Verify details</div>
-            </div>
+        <div className='mb-5'>
+          <div className='vd-label mb-2'>Incident summary</div>
+          <div className='vd-insert'>
+            <div className='text-[13px] leading-relaxed'>{incident.incidentDescription}</div>
           </div>
         </div>
 
-        {/* Witness reports */}
         {incident.witnessReports && incident.witnessReports.length > 0 && (
-          <div className='mb-6'>
-            <div className=' text-sm font-bold text-gray-800 mb-3 border-b border-gray-400 pb-1'>
-              WITNESS STATEMENTS:
-            </div>
-            <div className='space-y-3'>
+          <div className='mb-5'>
+            <div className='vd-label mb-2'>Witness statements</div>
+            <div>
               {incident.witnessReports.map((report, index) => (
                 <WitnessReport key={report.id} report={report} index={index} />
               ))}
@@ -145,43 +131,35 @@ const IncidentReportCard = React.forwardRef<HTMLDivElement, IncidentReportCardPr
           </div>
         )}
 
-        {/* Additional attachments */}
         {incident.attachments && incident.attachments.length > 1 && (
-          <div className='mb-6'>
-            <div className=' text-sm font-bold text-gray-800 mb-3 border-b border-gray-400 pb-1'>
-              ADDITIONAL EVIDENCE:
-            </div>
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-              {incident.attachments.slice(1).map((attachment, index) => (
+          <div className='mb-5'>
+            <div className='vd-label mb-2'>Additional evidence</div>
+            <div className='grid grid-cols-1 gap-3 md:grid-cols-2'>
+              {incident.attachments.slice(1).map((attachment) => (
                 <AttachmentArea key={attachment.id} attachment={attachment} className='w-full' />
               ))}
             </div>
           </div>
         )}
 
-        {/* Footer stamps and signatures */}
-        <div className='mt-8 flex justify-between items-end'>
+        <div className='mt-6 flex flex-wrap items-end justify-between gap-4'>
           <div className='space-y-2'>
-            <div className='transform -rotate-2'>
-              <div className='border-2 border-red-600 text-red-600 px-3 py-1 text-xs font-bold bg-red-50'>
-                PRIORITY: HIGH
-              </div>
+            <div className='vd-mark vd-mark--priority'>Priority: high</div>
+            <div className='font-[family-name:var(--vd-mono)] text-[10px] tracking-wide text-[color:var(--vd-ink-faint)]'>
+              Investigating officer: [REDACTED]
             </div>
-            <div className='text-xs  text-gray-600'>INVESTIGATING OFFICER: [REDACTED]</div>
           </div>
 
           <div className='text-center'>
-            <div className=' text-xs text-gray-600 mb-2'>REPORT NO: {incident.id}</div>
-            <div className='border-t border-gray-400 w-32'>
-              <div className='text-xs  text-gray-600 mt-1'>AUTHORIZED SIGNATURE</div>
+            <div className='font-[family-name:var(--vd-mono)] text-[10px] tracking-wide text-[color:var(--vd-ink-faint)]'>
+              Report no: {incident.id}
+            </div>
+            <div className='mt-2 w-32 border-t border-[color:var(--vd-rule)] pt-1 font-[family-name:var(--vd-mono)] text-[9px] uppercase tracking-[0.12em] text-[color:var(--vd-ink-faint)]'>
+              Authorized signature
             </div>
           </div>
 
-          <div className='transform rotate-3'>
-            <div className='border-2 border-black text-black px-3 py-1 text-xs font-bold bg-white'>
-              EYES ONLY
-            </div>
-          </div>
+          <div className='vd-mark vd-mark--eyes'>Eyes only</div>
         </div>
       </VintageDocumentCard>
     )

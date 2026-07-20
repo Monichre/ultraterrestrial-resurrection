@@ -1,16 +1,12 @@
 /**
  * Home Page
  *
- * Main landing page with hero animation
+ * Cinematic hero per layouts/home/ANIMATION_SEQUENCE.md
+ * (HomeAnimated + useUltraterrestrialAnimation)
  */
 
-import {HomeGSAP} from '@/layouts/home/home-gsap'
 import {HomeAnimated} from '@/layouts/home/home-animated'
 
-
-
 export default function Page() {
-  // return <HomeGSAP />
-
   return <HomeAnimated />
 }
