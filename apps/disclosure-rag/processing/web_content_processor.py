@@ -20,6 +20,7 @@ import io
 # Lazy initialization to prevent environment variable loading issues
 analysis_engine = None
 
+
 def get_analysis_engine():
     global analysis_engine
     if analysis_engine is None:
@@ -491,8 +492,25 @@ class WebContentProcessor:
             metadata = processed_content['metadata']
 
             # Analyze main content
-            main_analysis = get_analysis_engine().analyze_content(content)
+            engine = get_analysis_engine()
+            main_analysis = engine.analyze_content(content)
             print(f"Main content analysis completed")
+
+            # Registry-backed RAG / NER pipeline for indexing
+            rag_pipeline = {}
+            try:
+                rag_pipeline = engine.process_for_rag(
+                    content,
+                    provenance=url,
+                    filename_hint=metadata.get('title') or url,
+                )
+                print(
+                    f"RAG pipeline status={rag_pipeline.get('status')} "
+                    f"embeddable={len(rag_pipeline.get('embeddable_texts') or [])}"
+                )
+            except Exception as rag_exc:
+                print(f"RAG pipeline error (non-fatal): {rag_exc}")
+                rag_pipeline = {'status': 'error', 'errors': [str(rag_exc)]}
 
             # Prepare multimedia summaries
             media_summaries = {
@@ -579,6 +597,8 @@ class WebContentProcessor:
                 'html': processed_content['html'],
                 'metadata': metadata,
                 'summary': comprehensive_summary,
+                'rag_pipeline': rag_pipeline,
+                'embeddable_texts': rag_pipeline.get('embeddable_texts') or [],
                 'media_type': processed_content.get('media_type', 'webpage'),
                 'extracted_links': processed_content.get('extracted_links', {}),
                 'downloaded_media': downloaded_media,

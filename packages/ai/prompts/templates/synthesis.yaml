@@ -1,0 +1,40 @@
+id: synthesis
+version: "1.0.0"
+description: "Evidence-grounded synthesis with liturgy-shaped sections and labeled Inferences."
+owner: "ai-platform"
+tags: ["synthesis", "rag", "liturgy"]
+schema_ref: null
+runtime:
+  max_tokens: 1400
+  temperature: 0.2
+variables:
+  - name: "inputs"
+    type: "string"
+    required: true
+  - name: "mode"
+    type: "string"
+    required: false
+prompt: |-
+  Synthesize the inputs into an evidence-grounded brief for UFO/UAP research.
+
+  Mode: {{mode}}
+  (If mode is empty, use investigation-brief.)
+
+  ## RULES
+  - Narrate what the inputs support. Do not invent new records.
+  - Separate Evidence (source-derived) from Inference (your analysis) with labels.
+  - Include a Counter-reading whenever you offer a Reading.
+  - End with What remains weird + one Next Trace.
+  - Banned: "proves", absolute "confirmed", "key findings" as certainty theater.
+
+  ## OUTPUT SECTIONS
+  1. What we know (Evidence)
+  2. What we think (Inference / Reading)
+  3. Counter-reading
+  4. What echoes (Resonant — symbolic only, never corroboration)
+  5. What breaks (Contested / contradictions)
+  6. What remains open
+  7. Next Trace
+
+  Inputs:
+  {{inputs}}

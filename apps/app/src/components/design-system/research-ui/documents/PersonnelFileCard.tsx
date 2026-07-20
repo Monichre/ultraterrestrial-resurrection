@@ -1,142 +1,109 @@
+'use client'
+
 import * as React from 'react'
 import {cn} from '@/utils'
 import {VintageDocumentCard} from './VintageDocumentCard'
-
-import {PersonnelFile, DocumentAttachment} from './types'
+import type {PersonnelFile} from './types'
 import {PolaroidBasic} from '@/components/design-system/research-ui/photography/polaroid/Polaroid'
+import './vintage-document.css'
 
 interface PersonnelFileCardProps {
   personnel: PersonnelFile
   className?: string
-}
-
-const PersonnelPhoto = ({
-  photo,
-  name,
-  rank,
-  organization,
-}: {
-  photo?: DocumentAttachment
-  name: string
-  rank?: string
-  organization?: string
-}) => {
-  // Transform personnel data to match Polaroid component interface
-  const polaroidData = {
-    image: photo || {url: '/placeholder.svg'},
-    name,
-    role: organization || 'PERSONNEL',
-    rank: rank || 'CLASSIFIED',
-    id: `personnel-${name.replace(/\s+/g, '-').toLowerCase()}`,
-  }
-
-  return (
-    <div className='scale-75 origin-top-left'>
-      <PolaroidBasic person={polaroidData} />
-    </div>
-  )
-}
-
-const DocumentInfo = ({
-  label,
-  value,
-  className,
-}: {
-  label: string
-  value?: string
-  className?: string
-}) => {
-  if (!value) return null
-
-  return (
-    <div className={cn('flex', className)}>
-      <span className='font-bold text-black min-w-24'>{label}:</span>
-      <span className='text-black ml-2'>{value}</span>
-    </div>
-  )
+  /** Show clipped polaroid; default off for dense dossier layout */
+  showPhoto?: boolean
 }
 
 const PersonnelFileCard = React.forwardRef<HTMLDivElement, PersonnelFileCardProps>(
-  ({personnel, className, ...props}, ref) => {
+  ({personnel, className, showPhoto = false, ...props}, ref) => {
+    const orgLine = [personnel.organization, personnel.rank].filter(Boolean).join(' · ')
+
     return (
       <VintageDocumentCard
         ref={ref}
         classification={personnel.classification}
         title={personnel.name}
-        date={personnel.date}
+        date={[personnel.date, personnel.rank].filter(Boolean).join(', ')}
         location={personnel.location}
-        className={cn('font-mono', 'document-texture', className)}
+        fileRef={`UT·VD // ${personnel.serviceNumber || personnel.id}`}
+        className={cn(className)}
         {...props}>
-        <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
-          {/* Personnel Photo */}
-          <div className='md:col-span-1'>
-            <PersonnelPhoto
-              photo={personnel.profilePhoto}
-              name={personnel.name}
-              rank={personnel.rank}
-              organization={personnel.organization}
-            />
-          </div>
-
-          {/* Personnel Information */}
-          <div className='md:col-span-2 space-y-4'>
-            {/* Basic Information */}
-            <div className='space-y-2 text-sm'>
-              <h2 className='text-lg font-bold text-black mb-3 tracking-wider'>
-                {personnel.organization || 'MERCURY ASTRONAUT 1963'}
-              </h2>
-
-              <DocumentInfo label='Name' value={personnel.name} />
-              <DocumentInfo label='Rank' value={personnel.rank} />
-              <DocumentInfo label='Service No' value={personnel.serviceNumber} />
-              <DocumentInfo label='Organization' value={personnel.organization} />
+        <div className={cn('grid gap-5', showPhoto ? 'md:grid-cols-[140px_1fr]' : 'grid-cols-1')}>
+          {showPhoto && (
+            <div className='origin-top-left scale-[0.72]'>
+              <PolaroidBasic
+                person={{
+                  image: personnel.profilePhoto || {url: '/placeholder.svg'},
+                  name: personnel.name,
+                  role: personnel.organization || 'PERSONNEL',
+                  rank: personnel.rank || 'CLASSIFIED',
+                  id: `personnel-${personnel.name.replace(/\s+/g, '-').toLowerCase()}`,
+                }}
+              />
             </div>
+          )}
 
-            {/* Security Clearance Section */}
-            <div className='border-t border-gray-400 pt-4'>
-              <h3 className='font-bold text-black mb-3'>Security Information:</h3>
-              <DocumentInfo label='Clearance Level' value={personnel.securityClearance} />
-              <DocumentInfo label='Notes' value={personnel.notes} />
-            </div>
-
-            {/* Classification Details */}
-            <div className='border-t border-gray-400 pt-4'>
-              <div className='grid grid-cols-2 gap-4 text-sm'>
-                <div>
-                  <span className='font-bold text-black'>OCR 617</span>
-                </div>
-                <div>
-                  <span className='font-bold text-black'>17-2-1</span>
-                </div>
+          <div className='space-y-4'>
+            <div className='grid gap-4 sm:grid-cols-[1fr_1.1fr]'>
+              <div>
+                <div className='vd-label'>Assignment</div>
+                <p className='mt-1 text-[13px] font-semibold tracking-wide uppercase'>
+                  {orgLine || 'MERCURY ASTRONAUT'}
+                </p>
+                {personnel.serviceNumber && (
+                  <p className='vd-mono vd-ink-dim mt-2 text-[11px] tracking-wide'>
+                    SVC {personnel.serviceNumber}
+                  </p>
+                )}
               </div>
-
-              <div className='mt-3 grid grid-cols-2 gap-4 text-sm'>
-                <div>
-                  <span className='text-black'>830 48166 42 4986</span>
-                </div>
-                <div>
-                  <span className='text-black'>LRK: 09CG72</span>
-                </div>
+              <div>
+                <div className='vd-label'>Assessment</div>
+                <p className='vd-ink-dim mt-1 text-[13px] leading-relaxed'>
+                  {personnel.notes ||
+                    'Pilot demonstrates exceptional test flight capabilities. Recommended for Mercury mission assignment.'}
+                </p>
               </div>
             </div>
 
-            {/* Technical Diagrams Area */}
-            <div className='border-t border-gray-400 pt-4'>
-              <div className='bg-gray-100 border border-gray-300 p-2 h-24 flex items-center justify-center'>
-                <div className='text-xs text-gray-600 text-center'>
-                  [TECHNICAL DIAGRAMS]
-                  <br />
-                  <span className='font-mono'>OCR 617</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+            <hr className='vd-rule' />
 
-        {/* Additional Classification Stamp */}
-        <div className='absolute bottom-4 right-4'>
-          <div className='bg-black text-white px-2 py-1 text-xs font-bold transform rotate-2'>
-            CLASSIFIED
+            <div className='vd-code-grid'>
+              <span>OCR 617</span>
+              <span>17-2-1</span>
+              <span>830 48166 42 4986</span>
+              <span>LRK: 09CG72</span>
+            </div>
+
+            {(personnel.securityClearance || personnel.notes) && (
+              <>
+                <hr className='vd-rule' />
+                <div className='grid gap-2 text-[12px] sm:grid-cols-2'>
+                  {personnel.securityClearance && (
+                    <div>
+                      <div className='vd-label'>Clearance</div>
+                      <div className='mt-1 font-semibold tracking-wide'>
+                        {personnel.securityClearance}
+                      </div>
+                    </div>
+                  )}
+                  {personnel.organization && (
+                    <div>
+                      <div className='vd-label'>Organization</div>
+                      <div className='mt-1 tracking-wide'>{personnel.organization}</div>
+                    </div>
+                  )}
+                </div>
+              </>
+            )}
+
+            <div className='vd-diagram'>
+              <div>
+                [TECHNICAL DIAGRAMS]
+                <br />
+                OCR 617
+              </div>
+              <span className='vd-diagram-stamp'>CLASSIFIED</span>
+            </div>
           </div>
         </div>
       </VintageDocumentCard>

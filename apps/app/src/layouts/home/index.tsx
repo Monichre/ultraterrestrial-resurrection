@@ -1,3 +1,5 @@
-export * from "./home";
-export { DoubleHelixScene } from "./DoubleHelix";
-export { Home } from "./home";
+export * from './home'
+export {DoubleHelixScene} from './DoubleHelix'
+export {Home} from './home'
+export {HomeAnimated} from './home-animated'
+export {HomeGSAP} from './home-gsap'

@@ -11,7 +11,7 @@ _**User**_
 
 ---
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <think><details><summary>Thought Process</summary>
 Invoking the domain-modeling skill with prompts.
@@ -20,12 +20,12 @@ Identifying the project's prompt files. The domain-modeling workflow will challe
 
 Reading CONTEXT.md and CONTEXT-MAP.md. Searching for the prompts directory to determine the exact scope of the domain-modeling work.</details></think>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 Applying domain-modeling to the prompts area: I'll read the project glossary and locate prompt-related files first.
 
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="search" data-tool-name="glob_file_search">
 <details>
@@ -133,7 +133,7 @@ Directory: **/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection** (89 f
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/CONTEXT.md</summary>
@@ -146,7 +146,7 @@ _**Agent (default)**_
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/CONTEXT-MAP.md</summary>
@@ -159,7 +159,7 @@ _**Agent (default)**_
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="search" data-tool-name="glob_file_search">
 <details>
@@ -239,19 +239,19 @@ Directory: **/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection** (61 f
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <think><details><summary>Thought Process</summary>
 A CONTEXT-MAP already points to `packages/prompts/CONTEXT`.
 
 Reading the context file and key prompts to identify vocabulary gaps and contradictions.</details></think>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 Reading the prompts context glossary and key prompt files to map vocabulary against the domain model.
 
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 File not found
 
@@ -260,7 +260,7 @@ File not found
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/prompts/README.md</summary>
@@ -273,7 +273,7 @@ _**Agent (default)**_
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/prompts/registry.yaml</summary>
@@ -286,7 +286,7 @@ _**Agent (default)**_
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/docs/vision/UX_LANGUAGE_GUIDE.md</summary>
@@ -299,14 +299,14 @@ _**Agent (default)**_
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <think><details><summary>Thought Process</summary>
 CONTEXT.md referenced by CONTEXT-MAP does not yet exist.
 
 Reading prompt files to understand the vocabulary and schemas needed for domain modeling.</details></think>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/docs/vision/AGENT_ARCHITECTURE_BRIEF.md</summary>
@@ -319,7 +319,7 @@ _**Agent (default)**_
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/services/ai/prompts/prometheus.prompt.ts</summary>
@@ -332,7 +332,7 @@ _**Agent (default)**_
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/services/ai/prompts/disclosure-assistant.prompt.ts</summary>
@@ -345,7 +345,7 @@ _**Agent (default)**_
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/prompts/01_LEAD_RESEARCH_AGENT_SYSTEM_INSTRUCTIONS.md</summary>
@@ -358,7 +358,7 @@ _**Agent (default)**_
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/prompts/templates/synthesis.yaml</summary>
@@ -371,12 +371,12 @@ _**Agent (default)**_
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <think><details><summary>Thought Process</summary>
 Reading additional prompts and YAML files to identify vocabulary conflicts.</details></think>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
 <details>
@@ -464,7 +464,7 @@ Status: **completed**
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
 <details>
@@ -520,7 +520,7 @@ Status: **completed**
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/prompts/sets/disclosure/research.v1.yaml</summary>
@@ -533,7 +533,7 @@ _**Agent (default)**_
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/services/ai/prompts/research-methodology.prompt.md</summary>
@@ -546,7 +546,7 @@ _**Agent (default)**_
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <think><details><summary>Thought Process</summary>
 The user wants a sharpened domain model for the prompts context.
@@ -559,7 +559,7 @@ Liturgy is a synthesis structure spanning six stages: knowns, unknowns, echoes, 
 
 Liturgy Schema defines synthesis output structure. Extraction prompts generate structured entity data from source text. Research prompts guide investigation and analysis. Role stances are the five investigative roles as a prompt-engineering checklist. Next, I will read the liturgy and voice contract text from enrich-hypothesis and synthesize-investigation, and check apps/app/CONTEXT.md for cross-reference formatting.</details></think>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 File not found
 
@@ -568,7 +568,7 @@ File not found
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/mindmap/actions/enrich-hypothesis.ts</summary>
@@ -581,7 +581,7 @@ _**Agent (default)**_
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/mindmap/CLAUDE.md</summary>
@@ -594,7 +594,7 @@ _**Agent (default)**_
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/.claude/skills/domain-modeling/CONTEXT-FORMAT.md</summary>
@@ -607,7 +607,7 @@ _**Agent (default)**_
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <think><details><summary>Thought Process</summary>
 Enough context exists to create the missing `packages/prompts/CONTEXT.md` file.
@@ -630,7 +630,7 @@ Implementation decisions such as voice contract centralization belong in code, n
 
 I will synthesize the full liturgy sections.</details></think>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/mindmap/actions/synthesize-investigation.ts</summary>
@@ -643,7 +643,7 @@ _**Agent (default)**_
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/docs/adr/0001-agent-inferences-excluded-from-retrieval.md</summary>
@@ -656,19 +656,19 @@ _**Agent (default)**_
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <think><details><summary>Thought Process</summary>
 Creating `packages/prompts/CONTEXT.md`, the main deliverable.
 
 Drafting a glossary following CONTEXT-FORMAT.md. System-wide reserved words will be referenced rather than repeated. Contradictions and edge-case stress-test scenarios will be noted.</details></think>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 Creating the missing `packages/prompts/CONTEXT.md` referenced in CONTEXT-MAP and documenting prompt-specific vocabulary.
 
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="write" data-tool-name="edit_file_v2">
 
@@ -683,14 +683,14 @@ _**Agent (default)**_
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <think><details><summary>Thought Process</summary>
 Preparing a clear domain modeling report.
 
 Found contradictions between code and glossary. Identified edge-case scenarios to stress-test. ADR likely unnecessary. Missing CONTEXT.md files in apps/app/ and packages/db/. Core work is complete.</details></think>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 Domain modeling for `@prompts` is done. `CONTEXT-MAP.md` already pointed at `packages/prompts/CONTEXT.md`, but that file did not exist — it does now.
 
@@ -768,14 +768,14 @@ What is an ADR?
 
 ---
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <think><details><summary>Thought Process</summary>
 I'll explain what an ADR is and how it's used in this project.
 
 No code changes are needed. I'll reference the project's existing ADR and the domain-modeling skill's guidance on when to use ADRs.</details></think>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 An **ADR** (Architecture Decision Record) is a short, durable note that captures **why** the project made a specific technical or domain decision — especially when the choice is hard to reverse, surprising without context, or came from a real trade-off.
 
@@ -960,19 +960,19 @@ For a local‑first, privacy‑preserving Ultraterrestrial stack, Docker Compose
 
 ---
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <think><details><summary>Thought Process</summary>
 Reviewing the requested files and data architecture document against the prior domain modeling discussion.
 
 Reading the three referenced files now. I will cross-check them against the prior CONTEXT.md, the data architecture document, and the earlier domain modeling findings. Then I will flag contradictions, alignment gaps, and recommendations.</details></think>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 Reviewing those files against the domain glossary and the data architecture doc you shared.
 
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/docs/adr/0001-agent-inferences-excluded-from-retrieval.md</summary>
@@ -985,7 +985,7 @@ _**Agent (default)**_
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/CONTEXT.md</summary>
@@ -998,7 +998,7 @@ _**Agent (default)**_
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/prompts/DisclosureResearcherPreSubmissionMethodology.md</summary>
@@ -1011,7 +1011,7 @@ _**Agent (default)**_
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/prompts/CONTEXT.md</summary>
@@ -1024,12 +1024,12 @@ _**Agent (default)**_
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <think><details><summary>Thought Process</summary>
 Checking the current database schema against the proposed data architecture.</details></think>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
 <details>
@@ -1113,7 +1113,7 @@ Status: **completed**
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
 <details>
@@ -1165,12 +1165,12 @@ Status: **completed**
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <think><details><summary>Thought Process</summary>
 Checking for claims and edges tables, and clarifying what searchDatabase queries.</details></think>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
 <details>
@@ -1215,7 +1215,7 @@ Status: **completed**
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/db/src/postgres/search.ts</summary>
@@ -1228,12 +1228,12 @@ _**Agent (default)**_
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <think><details><summary>Thought Process</summary>
 Checking the edges table structure and whether a claims table exists.</details></think>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/db/migrations/rebuild/0001_init.sql</summary>
@@ -1246,7 +1246,7 @@ _**Agent (default)**_
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
 <details>
@@ -1295,7 +1295,7 @@ Status: **completed**
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <think><details><summary>Thought Process</summary>
 Synthesizing a comprehensive review of the methodology, ADR, context file, and data architecture documentation.
@@ -1344,7 +1344,7 @@ Specialist lenses map cleanly to Investigative Roles. Archivist handles evidence
 
 The source tier scale mismatch is the most serious glossary bug.</details></think>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 # Cross-review: Methodology, ADR, Glossary, and Data Architecture
 
@@ -1616,19 +1616,19 @@ _**User**_
 
 ---
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <think><details><summary>Thought Process</summary>
 Reviewing CONTEXT.md, ADR-0001, the disclosure methodology, and the data architecture document to build the domain modeling canvas.
 
 Reading the canvas SDK declarations to identify available components. The standalone analytical artifact will be created at the project's canvas directory.</details></think>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 Turning the cross-review into a canvas artifact — checking the canvas SDK and whether any canvases already exist.
 
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/.cursor/skills-cursor/canvas/sdk/index.d.ts</summary>
@@ -1641,7 +1641,7 @@ _**Agent (default)**_
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="search" data-tool-name="glob_file_search">
 <details>
@@ -1657,14 +1657,14 @@ Directory: **/Users/liamellis/.cursor/projects/Users-liamellis-Desktop-apps-ultr
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <think><details><summary>Thought Process</summary>
 No existing canvases were found. This is the first one.
 
 Checking the SDK for Callout, Stat, UsageBar, and Table props.</details></think>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/.cursor/skills-cursor/canvas/sdk/ui-primitives.d.ts</summary>
@@ -1677,7 +1677,7 @@ _**Agent (default)**_
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/.cursor/skills-cursor/canvas/sdk/hooks.d.ts</summary>
@@ -1690,7 +1690,7 @@ _**Agent (default)**_
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/.cursor/skills-cursor/canvas/sdk/collapsible-section.d.ts</summary>
@@ -1703,12 +1703,12 @@ _**Agent (default)**_
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <think><details><summary>Thought Process</summary>
 Checking props for Callout, Stat, Pill, and TodoList components to prepare the canvas.</details></think>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
 <details>
@@ -1754,7 +1754,7 @@ Status: **completed**
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/.cursor/skills-cursor/canvas/sdk/usage-bar.d.ts</summary>
@@ -1767,14 +1767,14 @@ _**Agent (default)**_
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <think><details><summary>Thought Process</summary>
 Creating a comprehensive canvas to visualize the cross-review.
 
 The canvas will include eight sections: verdict stats, artifact alignment, alignment matrix, contradictions with tone, data stack gaps, vocabulary map, next steps, and an implementation readiness bar. Now writing the polished file.</details></think>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="write" data-tool-name="edit_file_v2">
 
@@ -1789,14 +1789,14 @@ _**Agent (default)**_
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <think><details><summary>Thought Process</summary>
 Fixing TypeScript errors.
 
 Checking CardHeaderProps, TableProps, and aodoListProps in the SDK.</details></think>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
 <details>
@@ -1850,14 +1850,14 @@ Status: **completed**
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <think><details><summary>Thought Process</summary>
 CardHeader needs to use children instead of title and subtitle.
 
 Subtitle can use trailing or an H3 below CardHeader. Table rowTones should be renamed to rowTone. TodoList items should be renamed to todos. Text elements with keys need wrapping in a span or using a string. The TodoItem type also needs checking.</details></think>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2">
 <details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/.cursor/skills-cursor/canvas/sdk/todo-list.d.ts</summary>
@@ -1870,14 +1870,14 @@ _**Agent (default)**_
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <think><details><summary>Thought Process</summary>
 TodoItem uses `content` instead of `label`.
 
 Fixing all issues in the canvas file.</details></think>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="write" data-tool-name="edit_file_v2">
 
@@ -1892,7 +1892,7 @@ _**Agent (default)**_
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="write" data-tool-name="edit_file_v2">
 
@@ -1907,7 +1907,7 @@ _**Agent (default)**_
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="write" data-tool-name="edit_file_v2">
 
@@ -1922,7 +1922,7 @@ _**Agent (default)**_
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="write" data-tool-name="edit_file_v2">
 
@@ -1937,7 +1937,7 @@ _**Agent (default)**_
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="write" data-tool-name="edit_file_v2">
 
@@ -1952,7 +1952,7 @@ _**Agent (default)**_
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="write" data-tool-name="edit_file_v2">
 
@@ -1967,7 +1967,7 @@ _**Agent (default)**_
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="write" data-tool-name="edit_file_v2">
 
@@ -1982,14 +1982,14 @@ _**Agent (default)**_
 
 </details></tool-use>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 <think><details><summary>Thought Process</summary>
 The canvas is clean. I'll share the link.
 
 I'll briefly explain what a canvas is.</details></think>
 
-_**Agent (default)**_
+_**Agent (grok-4.5)**_
 
 A **canvas** is a live React panel you can open beside the chat — useful for structured reviews like this instead of scrolling a long markdown dump.
 

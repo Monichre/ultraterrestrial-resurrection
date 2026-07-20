@@ -1,7 +1,7 @@
 import React from 'react'
 import {ReactFlowProvider} from '@xyflow/react'
 import {StateOfDisclosureProvider} from '../../src/contexts/state-of-disclosure-provider'
-import {MindMapProvider} from '../../src/contexts/mindmap'
+import {MindMapProvider} from '../../src/contexts/mindmap/mindmap-context'
 
 // Minimal default fixture for StateOfDisclosureProvider and MindMap stories
 const DEFAULT_FIXTURE = {

@@ -14,7 +14,7 @@ import {
   ROOT_NODE_HEIGHT,
   ROOT_NODE_WIDTH,
   entityGroupNodeBaseConfig,
-} from '@/features/mindmap/config/index.config'
+} from '@/features/mindmap/config/nodes.config'
 
 import type {MindMapState} from '@/features/mindmap/store'
 import {useMindMapStore} from '@/features/mindmap/store'

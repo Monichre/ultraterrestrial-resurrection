@@ -11,6 +11,7 @@ Usage (same as before):
 """
 
 from processing.web_content_processor import WebContentProcessor
+from processing.content_analysis import ContentAnalysisEngine
 from lib.openai_client.upload import upload_file_to_openai
 from lib.knowledge_base_service import (
     kb_service,
@@ -18,6 +19,7 @@ from lib.knowledge_base_service import (
     process_web_url_enhanced,
     add_to_knowledge_base
 )
+from lib.terminal_display import display
 import argparse
 import os
 import sys
@@ -268,6 +270,40 @@ def process_file(file_path: str, upload: bool = False, add_to_kb: bool = True) -
                 'file_type': Path(file_path).suffix
             }
         }
+
+        # Registry-backed RAG / NER pipeline (Evidence chunks for indexing)
+        try:
+            display.print_stage("🧬 RAG PROMPT PIPELINE", "🧬")
+            display.start_spinner(
+                "Running classification → chunk → NER → validation...")
+            rag_pipeline = ContentAnalysisEngine().process_for_rag(
+                content,
+                provenance=file_path,
+                filename_hint=title,
+            )
+            data['rag_pipeline'] = rag_pipeline
+            data['embeddable_texts'] = rag_pipeline.get(
+                'embeddable_texts') or []
+            data['metadata']['rag_pipeline'] = {
+                'status': rag_pipeline.get('status'),
+                'chunk_count': (rag_pipeline.get('metadata') or {}).get('chunk_count'),
+                'embeddable_count': (rag_pipeline.get('metadata') or {}).get('embeddable_count'),
+                'ingestion_recommendation': (rag_pipeline.get('metadata') or {}).get(
+                    'ingestion_recommendation'
+                ),
+            }
+            rag_out = Path(file_path).with_name(
+                f"{Path(file_path).stem}_rag_pipeline.json"
+            )
+            with open(rag_out, 'w', encoding='utf-8') as f:
+                json.dump(rag_pipeline, f, indent=2, ensure_ascii=False)
+            display.stop_spinner(
+                f"✅ RAG pipeline status={rag_pipeline.get('status')} "
+                f"embeddable={len(data['embeddable_texts'])}"
+            )
+            processing_steps.append("RAG prompt pipeline")
+        except Exception as e:
+            logger.warning(f"RAG prompt pipeline skipped: {e}")
 
         # Upload if requested
         if upload:

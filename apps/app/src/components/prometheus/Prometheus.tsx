@@ -297,7 +297,7 @@ export const Prometheus = () => {
 
   return (
     <div
-      className='prometheus-container'
+      className='prometheus-container bg-black'
       style={{
         position: 'absolute',
         top: 0,
@@ -306,19 +306,22 @@ export const Prometheus = () => {
         height: '100vh',
         pointerEvents: 'none',
         zIndex: 0,
+        backgroundColor: '#000',
       }}>
       <Canvas
         gl={{
           antialias: true,
-          alpha: true,
+          alpha: false,
           powerPreference: 'high-performance',
           preserveDrawingBuffer: false,
         }}
+        style={{background: '#000'}}
         dpr={[1, 2]}
         onCreated={({gl}) => {
-          gl.setClearColor('#000000', 0)
+          // EffectComposer ignores CSS transparency — must clear opaque black
+          gl.setClearColor('#000000', 1)
         }}>
-        <color attach='background' args={['transparent']} />
+        <color attach='background' args={['#000000']} />
 
         <PerspectiveCamera makeDefault position={[0, 0, 5]} fov={50} />
 

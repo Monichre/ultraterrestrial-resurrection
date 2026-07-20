@@ -1,3 +1,6 @@
+from processing.web_content_processor import WebContentProcessor
+from dotenv import load_dotenv
+from processing.content_analysis import ContentAnalysisEngine
 import concurrent.futures
 import csv
 import datetime
@@ -11,9 +14,6 @@ import streamlit as st
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-from processing.content_analysis import ContentAnalysisEngine
-from dotenv import load_dotenv
-from processing.web_content_processor import WebContentProcessor
 
 # Load environment variables
 load_dotenv()
@@ -23,11 +23,13 @@ directory = os.environ.get('TRANSCRIPT_DIRECTORY_PATH')
 analyzer = None
 web_processor = None
 
+
 def get_analyzer():
     global analyzer
     if analyzer is None:
         analyzer = ContentAnalysisEngine()
     return analyzer
+
 
 def get_web_processor():
     global web_processor
@@ -40,30 +42,30 @@ def detect_transcript_language(text):
     """Detect if transcript is actually in English despite YouTube labeling"""
     if not text or len(text.strip()) < 50:
         return 'too_short'
-    
+
     # Count different character types
     korean_count = sum(1 for char in text if '\uAC00' <= char <= '\uD7A3')
     chinese_count = sum(1 for char in text if '\u4E00' <= char <= '\u9FFF')
-    japanese_count = sum(1 for char in text if '\u3040' <= char <= '\u309F' or '\u30A0' <= char <= '\u30FF')
-    english_count = sum(1 for char in text if char.isalpha() and ord(char) < 128)
-    
+    japanese_count = sum(1 for char in text if '\u3040' <=
+                         char <= '\u309F' or '\u30A0' <= char <= '\u30FF')
+    english_count = sum(1 for char in text if char.isalpha()
+                        and ord(char) < 128)
+
     total_alpha_chars = sum(1 for char in text if char.isalpha())
     if total_alpha_chars < 30:  # Lowered threshold for better detection
         return 'too_short'
-    
+
     # Calculate if this is actually English
     if korean_count > total_alpha_chars * 0.1:
         return 'korean'
     elif chinese_count > total_alpha_chars * 0.1:
-        return 'chinese'  
+        return 'chinese'
     elif japanese_count > total_alpha_chars * 0.1:
         return 'japanese'
     elif english_count > total_alpha_chars * 0.7:
         return 'english'
     else:
         return 'mixed'
-
-
 
 
 def get_folder_path_from_metadata(metadata):
@@ -210,14 +212,30 @@ def generate_transcript(url):
         print("❌ Failed to generate transcript")
         return None
 
+    analyzer = get_analyzer()
     try:
-        analysis = get_analyzer().analyze_content(metadata['transcript'])
+        analysis = analyzer.analyze_content(metadata['transcript'])
         if analysis is None:
             print("❌ Content analysis failed - likely API key issue")
             return None
     except Exception as e:
         print(f"❌ Content analysis error: {e}")
         return None
+
+    rag_pipeline = {'status': 'skipped', 'errors': []}
+    try:
+        rag_pipeline = analyzer.process_for_rag(
+            metadata['transcript'],
+            provenance=metadata.get('webpage_url', url),
+            filename_hint=name,
+        )
+        print(
+            f"RAG pipeline status={rag_pipeline.get('status')} "
+            f"embeddable={len(rag_pipeline.get('embeddable_texts') or [])}"
+        )
+    except Exception as e:
+        print(f"⚠️ RAG pipeline skipped: {e}")
+        rag_pipeline = {'status': 'error', 'errors': [str(e)]}
 
     chapters = []
     if metadata.get('chapters'):
@@ -233,14 +251,29 @@ def generate_transcript(url):
         'categories': metadata.get('categories', []),
         'tags': metadata.get('tags', []),
         'description': metadata.get('description'),
-        'chapters': chapters
+        'chapters': chapters,
+        'rag_pipeline': {
+            'status': rag_pipeline.get('status'),
+            'embeddable_count': len(rag_pipeline.get('embeddable_texts') or []),
+            'prompts_used': (rag_pipeline.get('metadata') or {}).get('prompts_used'),
+        },
     }
 
-    file_path = write_transcript_to_file(name, metadata['transcript'], url, None, metadata)
+    file_path = write_transcript_to_file(
+        name, metadata['transcript'], url, None, metadata)
     print(file_path)
 
-    summary_path = write_transcript_to_file(summary_title, analysis, url, None, metadata)
+    summary_path = write_transcript_to_file(
+        summary_title, analysis, url, None, metadata)
     print(summary_path)
+
+    rag_pipeline_path = os.path.join(
+        os.path.dirname(file_path),
+        f"{clean_string(name)}_rag_pipeline.json",
+    )
+    with open(rag_pipeline_path, 'w', encoding='utf-8') as f:
+        json.dump(rag_pipeline, f, indent=2, ensure_ascii=False)
+    print(rag_pipeline_path)
 
     # Write summary to Mem0 memory (best-effort, no failures propagated)
     try:
@@ -264,14 +297,18 @@ def generate_transcript(url):
             print(f"⚠️ Mem0 write skipped: {e}")
 
     metadata_file_name = f"{clean_string(name)}_metadata.json"
-    metadata_path = os.path.join(os.path.dirname(file_path), metadata_file_name)
+    metadata_path = os.path.join(
+        os.path.dirname(file_path), metadata_file_name)
     with open(metadata_path, 'w', encoding='utf-8') as f:
         json.dump(file_metadata, f, indent=2, ensure_ascii=False)
 
     return {
         'file_path': file_path,
         'summary_path': summary_path,
-        'metadata_path': metadata_path
+        'metadata_path': metadata_path,
+        'rag_pipeline_path': rag_pipeline_path,
+        'rag_pipeline': rag_pipeline,
+        'embeddable_texts': rag_pipeline.get('embeddable_texts') or [],
     }
 
 
@@ -321,7 +358,8 @@ def parse_file_and_generate_transcript(file_path, max_workers=5):
                     future = executor.submit(generate_transcript, url)
                 else:
                     # For other URLs, use web_processor.process_url
-                    future = executor.submit(get_web_processor().process_url, url)
+                    future = executor.submit(
+                        get_web_processor().process_url, url)
 
                 future_to_url[future] = url
 

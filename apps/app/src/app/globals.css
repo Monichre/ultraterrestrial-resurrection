@@ -11,6 +11,47 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
+  /* Rocket Telemetry HUD (sightings 3D chrome) */
+  --color-hud-bg: #000000;
+  --color-hud-surface: #0a0a0a;
+  --color-hud-grid: #141414;
+  --color-hud-border-faint: #1f1f1f;
+  --color-hud-border: #2a2a2a;
+  --color-hud-text-primary: #e5e5e5;
+  --color-hud-text-secondary: #7a7a7a;
+  --color-hud-text-muted: #4d4d4d;
+  --color-hud-accent: #e11d2a;
+  --color-hud-accent-dim: #7a1218;
+  --color-hud-marker: #ff1f2d;
+
+  /* Writers-desk note letter (dark stacked sheets) */
+  --color-canvas: #0f1117;
+  --color-canvas-elevated: #1a1d24;
+  --color-canvas-overlay: #242830;
+  --color-ink: #a1a8b3;
+  --color-ink-strong: #f1f3f5;
+  --color-ink-muted: #6b7280;
+  --color-divider: #2e333d;
+  --color-divider-subtle: #1f2329;
+
+  /* Writers-desk NoteApp (warm cream filing UI) */
+  --color-note-canvas: #f4f2ee;
+  --color-note-tab-1: #ebe9e5;
+  --color-note-tab-2: #e2e0dc;
+  --color-note-frame: #ffffff;
+  --color-note-selected: #eae8e4;
+  --color-note-text: #1c1c1c;
+  --color-note-text-secondary: #969696;
+  --color-note-text-body: #555555;
+  --color-note-text-preview: #777777;
+  --color-note-border: #d0cec9;
+
+  --shadow-sheet1: 0px 2px 12px rgba(0, 0, 0, 0.4), 0px 0px 1px rgba(255, 255, 255, 0.05) inset;
+  --shadow-sheet2: 10px 12px 0px rgba(0, 0, 0, 0.25);
+  --shadow-sheet3: 18px 22px 0px rgba(0, 0, 0, 0.15);
+  --shadow-sheet1-hover: 0px 6px 20px rgba(0, 0, 0, 0.5), 0px 0px 1px rgba(255, 255, 255, 0.08) inset;
+  --radius-card: 12px;
+
   --background: 0 0% 100%;
   --foreground: 224 71.4% 4.1%;
   --card: 0 0% 100%;
@@ -1844,7 +1885,8 @@ body {
 
 /* Network timeline canvas grid background */
 .network-grid {
-  background-image: linear-gradient(oklch(0.25 0.03 270 / 0.3) 1px, transparent 1px),
+  background-image:
+    linear-gradient(oklch(0.25 0.03 270 / 0.3) 1px, transparent 1px),
     linear-gradient(90deg, oklch(0.25 0.03 270 / 0.3) 1px, transparent 1px);
   background-size: 50px 50px;
 }

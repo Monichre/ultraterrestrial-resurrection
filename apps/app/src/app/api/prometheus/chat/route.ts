@@ -12,9 +12,16 @@ import {auth} from '@clerk/nextjs/server'
 import {checkRateLimit} from '@/lib/rate-limit'
 import {
   buildAgentContext,
+  buildStaticAgentGuidance,
+  buildTurnContext,
   type AgentContextGraphState,
 } from '@/services/ai/context/build-agent-context'
 import {createStreamingFallbackModel} from '@/lib/ai/model-fallback'
+import {
+  assembleCachedPrompt,
+  logCacheUsage,
+  openaiPromptCacheOptions,
+} from '@/lib/ai/prompt-cache'
 import {
   DATABASE_SEARCH_DESCRIPTION,
   EXTERNAL_SEARCH_DESCRIPTION,
@@ -513,18 +520,41 @@ export async function POST(req: NextRequest) {
     } = parsed.data
 
     const userMessage = extractLatestUserMessage(messages) || 'No user query provided.'
+    // Zod leaves nodes/edges as unknown[]; formatGraphState only reads the
+    // optional fields it defends against, so the narrowing is safe.
+    const graphContextState = (graphState || null) as AgentContextGraphState | null
+    // Full context for the searchUAP tool's Assistants thread — a fresh
+    // thread per call, so prefix caching doesn't apply there.
     const sharedAgentContext = buildAgentContext({
       userMessage,
       researchFocus,
       contextRules,
-      graphState: graphState || null,
+      graphState: graphContextState,
     })
-    const contextualSystemPrompt = `${system || SYSTEM_PROMPTS.main}\n\n${sharedAgentContext}`
+
+    // Prompt-cache layout: frozen prefix first (tools -> system -> history,
+    // each behind a cache breakpoint), volatile per-turn context last. Graph
+    // state and the current question change every turn — putting them in the
+    // system prompt (the old layout) invalidated the entire conversation
+    // cache on every request, for every provider.
+    const stableSystemPrompt = `${system || SYSTEM_PROMPTS.main}\n\n${buildStaticAgentGuidance()}`
+    const turnContext = buildTurnContext({
+      researchFocus,
+      contextRules,
+      graphState: graphContextState,
+    })
 
     const result = await streamText({
       model: createStreamingFallbackModel(),
-      system: contextualSystemPrompt,
-      messages,
+      messages: assembleCachedPrompt({
+        system: stableSystemPrompt,
+        messages,
+        turnContext,
+      }),
+      // Pins this conversation's requests to one OpenAI cache shard; keyed
+      // per user (Clerk id or IP), never per request.
+      providerOptions: openaiPromptCacheOptions(rateLimitKey),
+      onFinish: ({usage}) => logCacheUsage('prometheus/chat', usage),
       tools: {
         searchUAP: tool({
           description:

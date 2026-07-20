@@ -1,4 +1,4 @@
-import {ROOT_NODE_POSITIONS} from '@/features/mindmap/config/index.config'
+import {ROOT_NODE_POSITIONS} from '@/features/mindmap/config/nodes.config'
 import type {Node} from '@xyflow/react'
 
 // ---------------------------------------------------------------------------

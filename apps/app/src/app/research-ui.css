@@ -275,17 +275,18 @@
 { 'silver': { DEFAULT: '#adabaa', 100: '#232221', 200: '#464443', 300: '#696664', 400: '#8b8886', 500: '#adabaa', 600: '#bdbbba', 700: '#cecccc', 800: '#dedddd', 900: '#efeeee' }, 'jet': { DEFAULT: '#353537', 100: '#0a0a0b', 200: '#151516', 300: '#1f1f21', 400: '#2a2a2c', 500: '#353537', 600: '#5c5c60', 700: '#848489', 800: '#adadb0', 900: '#d6d6d8' }, 'battleship_gray': { DEFAULT: '#969697', 100: '#1e1e1e', 200: '#3c3c3c', 300: '#5a5a5a', 400: '#787878', 500: '#969697', 600: '#ababab', 700: '#c0c0c0', 800: '#d5d5d5', 900: '#eaeaea' }, 'davy's_gray': { DEFAULT: '#535252', 100: '#101010', 200: '#212020', 300: '#313030', 400: '#424141', 500: '#535252', 600: '#757373', 700: '#989696', 800: '#bab9b9', 900: '#dddcdc' }, 'outer_space': { DEFAULT: '#46474b', 100: '#0e0e0f', 200: '#1c1c1d', 300: '#2a2a2c', 400: '#37383b', 500: '#46474b', 600: '#696a6f', 700: '#8e8f94', 800: '#b3b4b8', 900: '#d9dadb' } } 
  */
 
-/* Custom vintage document styles */
+/* Custom vintage document styles — real paper tooth when available */
 .document-texture {
-  background-image:
-    radial-gradient(circle at 20% 30%, rgba(139, 69, 19, 0.05) 1px, transparent 1px),
-    radial-gradient(circle at 80% 70%, rgba(160, 82, 45, 0.03) 1px, transparent 1px),
-    radial-gradient(circle at 40% 80%, rgba(210, 180, 140, 0.07) 1px, transparent 1px);
-  background-size:
-    50px 50px,
-    30px 30px,
-    70px 70px;
   position: relative;
+  background-color: #f2f1e8;
+  background-image:
+    url('/textures/paper/debut-twill.png'), url('/textures/paper/groove-paper.png'),
+    radial-gradient(circle at 20% 30%, rgba(139, 69, 19, 0.05) 1px, transparent 1px);
+  background-size:
+    150px 150px,
+    220px 220px,
+    50px 50px;
+  background-blend-mode: multiply, multiply, normal;
 }
 
 .document-texture::before {
@@ -295,12 +296,10 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-image:
-    linear-gradient(45deg, transparent 40%, rgba(139, 69, 19, 0.02) 50%, transparent 60%),
-    linear-gradient(-45deg, transparent 40%, rgba(160, 82, 45, 0.015) 50%, transparent 60%);
-  background-size:
-    15px 15px,
-    20px 20px;
+  background-image: url('/textures/paper/grid-noise.png');
+  background-size: 160px 160px;
+  opacity: 0.07;
+  mix-blend-mode: multiply;
   pointer-events: none;
 }
 

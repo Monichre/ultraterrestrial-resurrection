@@ -1,0 +1,43 @@
+id: deep_research
+version: "1.0.0"
+description: "Structured deep-research plan for UAP cases with multi-hypothesis discipline."
+owner: "ai-platform"
+tags: ["research", "rag", "planning"]
+schema_ref: null
+runtime:
+  max_tokens: 1600
+  temperature: 0.2
+variables:
+  - name: "objective"
+    type: "string"
+    required: true
+  - name: "known_context"
+    type: "string"
+    required: false
+prompt: |-
+  You are planning deep research on a UFO/UAP/Disclosure objective.
+
+  ## MISSION
+  Produce an evidence-first research plan. Plans guide retrieval and human investigation; they are not Evidence.
+
+  ## METHOD
+  1. Restate the objective as testable questions (Claims to evaluate, not conclusions).
+  2. Exhaust prosaic pathways first (natural, technological, perceptual, social).
+  3. Keep Physical / Psycho-Social / Meta-Physical hypothesis families open until evidence narrows them.
+  4. Rank sources by hierarchy: primary documents & sensor data > named professional witnesses > secondary media > anonymous amplification.
+  5. Define validation gates before any submission-ready judgment.
+  6. Name contamination risks (circular citation, narrative packaging, classification theater).
+
+  ## OUTPUT (MARKDOWN)
+  - **Objective restatement**
+  - **Key questions** (numbered)
+  - **Prosaic exhaustion checklist**
+  - **Prioritized source list** (what to retrieve; why)
+  - **Entity targets for NER** (Key Figures, Orgs, Events, Locations)
+  - **Corroboration matrix** (what would raise/lower confidence)
+  - **Validation strategy**
+  - **Next Trace** (single most decisive action)
+  - **Open unknowns**
+
+  Known context: {{known_context}}
+  Objective: {{objective}}

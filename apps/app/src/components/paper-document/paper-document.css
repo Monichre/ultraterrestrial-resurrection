@@ -1,0 +1,274 @@
+/* PaperDocument — archival / field-note material language */
+
+.pd-root {
+  --pd-ink: #1c1b19;
+  --pd-ink-body: #3d3a36;
+  --pd-ink-muted: #7a756c;
+  --pd-rule: rgba(28, 27, 25, 0.12);
+  --pd-stock: #f4f0e6;
+  --pd-stock-warm: #efe9db;
+  --pd-header: #e8e2d4;
+  --pd-serif: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
+  --pd-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  min-height: 100vh;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 3rem 1rem 4rem;
+  box-sizing: border-box;
+}
+
+.pd-root--embedded {
+  min-height: 0;
+  padding: 1.5rem 1rem;
+}
+
+/* Dark drafting desk behind the sheet */
+.pd-root::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-color: #0a0b0d;
+  background-image:
+    url('/textures/paper/inflicted-grid.png'),
+    url('/textures/paper/fabric-of-squares.png'),
+    linear-gradient(165deg, #12141a 0%, #0a0b0d 60%, #070809 100%);
+  background-size: 240px 240px, 420px 420px, auto;
+  background-repeat: repeat, repeat, no-repeat;
+  background-blend-mode: soft-light, overlay, normal;
+}
+
+.pd-root::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: url('/textures/paper/debut-twill.png');
+  background-size: 180px 180px;
+  opacity: 0.28;
+  mix-blend-mode: soft-light;
+}
+
+.pd-stage {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 640px;
+  margin: 2.5rem 0 3rem;
+}
+
+.pd-sheet-back,
+.pd-sheet-mid {
+  position: absolute;
+  inset: 0;
+  border-radius: 2px;
+  pointer-events: none;
+  background-color: var(--pd-stock-warm);
+  background-image: url('/textures/paper/debut-twill.png');
+  background-size: 160px 160px;
+  background-blend-mode: multiply;
+}
+
+.pd-sheet-back {
+  transform: translate(14px, 18px) rotate(0.6deg);
+  opacity: 0.72;
+  box-shadow: 0 18px 28px rgba(0, 0, 0, 0.35);
+  filter: brightness(0.92);
+}
+
+.pd-sheet-mid {
+  transform: translate(7px, 9px) rotate(0.25deg);
+  opacity: 0.88;
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.28);
+  filter: brightness(0.96);
+}
+
+.pd-sheet {
+  position: relative;
+  border-radius: 2px;
+  background-color: var(--pd-stock);
+  background-image:
+    url('/textures/paper/debut-twill.png'),
+    linear-gradient(180deg, #f7f3ea 0%, var(--pd-stock) 42%, #efe8d8 100%);
+  background-size: 140px 140px, auto;
+  background-blend-mode: multiply, normal;
+  border: 1px solid rgba(28, 27, 25, 0.08);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.55) inset,
+    0 2px 3px rgba(28, 27, 25, 0.04),
+    0 18px 40px rgba(0, 0, 0, 0.38),
+    0 4px 10px rgba(0, 0, 0, 0.22);
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease;
+}
+
+.pd-sheet::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background-image: url('/textures/paper/groove-paper.png');
+  background-size: 220px 220px;
+  opacity: 0.07;
+  mix-blend-mode: multiply;
+}
+
+.pd-sheet:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.6) inset,
+    0 2px 3px rgba(28, 27, 25, 0.05),
+    0 24px 48px rgba(0, 0, 0, 0.42),
+    0 8px 16px rgba(0, 0, 0, 0.25);
+}
+
+.pd-sheet-inner {
+  position: relative;
+  z-index: 1;
+  padding: 2rem 1.75rem 2.75rem;
+}
+
+@media (min-width: 640px) {
+  .pd-sheet-inner {
+    padding: 2.25rem 2.5rem 3rem;
+  }
+}
+
+.pd-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  align-items: center;
+  margin: -2rem -1.75rem 1.25rem;
+  padding: 0.65rem 1.75rem;
+  background: linear-gradient(180deg, var(--pd-header) 0%, #e4ddcd 100%);
+  border-bottom: 1px solid var(--pd-rule);
+  font-family: var(--pd-sans);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--pd-ink-muted);
+}
+
+@media (min-width: 640px) {
+  .pd-meta {
+    margin: -2.25rem -2.5rem 1.35rem;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+}
+
+.pd-meta > span + span:not(.pd-meta-badge)::before {
+  content: '·';
+  margin-right: 1rem;
+  opacity: 0.45;
+}
+
+.pd-meta-badge {
+  margin-left: auto;
+  padding: 0.2rem 0.45rem;
+  border: 1px solid rgba(28, 27, 25, 0.18);
+  border-radius: 2px;
+  color: var(--pd-ink);
+  letter-spacing: 0.12em;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.pd-title {
+  margin: 0;
+  font-family: var(--pd-sans);
+  font-size: 1.125rem;
+  font-weight: 650;
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+  color: var(--pd-ink);
+}
+
+.pd-title--research {
+  font-family: var(--pd-serif);
+  font-size: 1.5rem;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+}
+
+.pd-rule {
+  margin: 0.85rem 0 1.25rem;
+  border: 0;
+  border-top: 1px solid var(--pd-rule);
+}
+
+.pd-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.pd-p {
+  margin: 0;
+  font-family: var(--pd-sans);
+  font-size: 0.9375rem;
+  line-height: 1.75;
+  color: var(--pd-ink-body);
+  text-wrap: pretty;
+}
+
+.pd-p strong,
+.pd-em {
+  font-weight: 650;
+  color: var(--pd-ink);
+}
+
+.pd-signature {
+  margin-top: 1.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--pd-rule);
+}
+
+.pd-sig-name {
+  font-family: var(--pd-sans);
+  font-size: 0.9375rem;
+  font-weight: 650;
+  line-height: 1.4;
+  color: var(--pd-ink);
+}
+
+.pd-sig-title {
+  margin-top: 0.25rem;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: var(--pd-ink-muted);
+}
+
+.pd-sig-img {
+  margin-top: 1rem;
+  height: 28px;
+  width: auto;
+  user-select: none;
+  opacity: 0.85;
+  filter: contrast(1.05);
+}
+
+/* Light desk option for non-dark storybook canvases */
+.pd-root--light::before {
+  background-color: #ece7db;
+  background-image:
+    url('/textures/paper/grid-noise.png'),
+    url('/textures/paper/debut-twill.png'),
+    linear-gradient(180deg, #f3efe4 0%, #e8e2d4 100%);
+  background-size: 180px 180px, 200px 200px, auto;
+  background-blend-mode: multiply, multiply, normal;
+  opacity: 1;
+}
+
+.pd-root--light::after {
+  opacity: 0.08;
+  mix-blend-mode: multiply;
+}
