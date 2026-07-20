@@ -58,7 +58,7 @@ run a clean typecheck and confirm touched files introduce no new failures.
 
 Never commit secrets. The live database connection is `DATABASE_URL`, commonly loaded
 from `packages/db/.env`. AI, auth, search, and ingestion features require their own
-provider keys; see `.env.example` and [docs/CONTRIB.md](./docs/CONTRIB.md).
+provider keys; see `.env.example` and [docs/ops/CONTRIB.md](./docs/ops/CONTRIB.md).
 
 Xata credentials are not required by the live Next.js data path. Old scripts and the
 disconnected Python system may still contain Xata-specific migration code.
@@ -68,17 +68,19 @@ disconnected Python system may still contain Xata-specific migration code.
 Read these in order before changing code:
 
 1. [AGENTS.md](./AGENTS.md) — current architecture, safety rules, and workflows.
-2. [docs/agents/AGENT_ONBOARDING_CHECKLIST.md](./docs/agents/AGENT_ONBOARDING_CHECKLIST.md)
+2. [docs/README.md](./docs/README.md) — documentation spine (what exists / where / how / want / do / start).
+3. [docs/ops/AGENT_ONBOARDING_CHECKLIST.md](./docs/ops/AGENT_ONBOARDING_CHECKLIST.md)
    — app-specific orientation.
-3. Task-specific code and documentation.
+4. Task-specific code and documentation.
 
 For design, UX, product language, or identity work, also read `docs/vision/`,
 [DESIGN.md](./DESIGN.md), and [PRODUCT.md](./PRODUCT.md).
 
 Operational references:
 
-- [API routes](./docs/API_ROUTES.md)
-- [Runbook](./docs/RUNBOOK.md)
+- [Documentation spine](./docs/README.md)
+- [API routes](./docs/architecture/API_ROUTES.md)
+- [Runbook](./docs/architecture/RUNBOOK.md)
 - [Database imports](./packages/db/IMPORT_GUIDE.md)
 - [Database quick reference](./packages/db/QUICK_REFERENCE.md)
 

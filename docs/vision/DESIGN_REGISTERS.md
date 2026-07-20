@@ -1,3 +1,10 @@
+---
+status: live
+role: identity
+spine: want
+updated: 2026-07-19
+---
+
 register: vision
 
 # Design Registers — not two product lines

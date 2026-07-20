@@ -1,3 +1,10 @@
+---
+status: live
+role: design
+spine: want
+updated: 2026-07-19
+---
+
 register: inspiration
 
 # UI Inspiration — External Reference Links

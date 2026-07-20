@@ -1,4 +1,0 @@
-export { UFODocument } from "./UFODocument"
-export { ClassifiedDocument } from "./ClassifiedDocument"
-export { default as UFODispatchDocument } from "./UFODispatchDocument"
-export { WeatheredClassifiedDocument } from "./WeatheredClassifiedDocument"
