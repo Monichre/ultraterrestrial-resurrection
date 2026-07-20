@@ -201,11 +201,29 @@ const rows = await sql`SELECT * FROM events WHERE date > ${cutoff}`
 
 ## 🔗 Agent-Specific Configuration
 
-For platform-specific agent configurations, see:
+For agent intake and ops docs, see:
 
-- **`docs/agents/`** - Agent configuration files and session management
-- **`.cursorrules`** - Cursor IDE specific rules
-- **Platform-specific files** reference this core AGENTS.md file
+- **`docs/ops/`** - Onboarding checklist, triage, issue tracker, contrib
+- **`docs/README.md`** - Documentation spine navigator
+- **`.cursorrules` / `.cursor/` / `.claude/`** - Platform IDE rules
+- Platform-specific files reference this core AGENTS.md file
+
+## 🪞 Identity & Design Canon (read before any brand/UX/UI/voice work)
+
+Any agent, on any platform, waking into this repo for design-, identity-, or
+UX-adjacent work should read `docs/vision/` before proposing anything:
+
+- `docs/vision/2026-07-09-canonicalization-audit.md` - source-of-truth audit + placement rulings
+- `docs/vision/RESEARCH_NARRATIVE_RUBRIC.md` - judging checklist for "does this feel Ultraterrestrial"
+- `docs/vision/UX_LANGUAGE_GUIDE.md` - reserved words, adopted vocabulary, badge grammar
+- `docs/vision/AGENT_ARCHITECTURE_BRIEF.md` - investigative-role framing (honest about what's actually live)
+- `docs/vision/IMPLEMENTATION_SPEC.md` - identity → real code map + gap list
+- `docs/vision/DESIGN_REGISTERS.md` - the techno-analytical vs. archival-material reframe (not two product lines)
+- `docs/vision/UI_INSPIRATION.md` - curated external UI reference links (Fable Showcase, etc.) with steal-notes
+- `DESIGN.md` (repo root) - the shipped Microfilm Dark canvas contract
+- `PRODUCT.md` (repo root) - product manifesto register
+
+This index is expected to grow; check `docs/vision/` for new files even if this list is stale.
 
 ## 📝 Work Log Command
 
@@ -246,11 +264,21 @@ import { DataVizComponent } from '@/features/data-viz'
 
 ## ⚠️ Important Notes
 
-- **Check README.md and docs/agents/AGENT_ONBOARDING_CHECKLIST.md** when onboarding
+- **Check README.md, docs/README.md, and docs/ops/AGENT_ONBOARDING_CHECKLIST.md** when onboarding
 - **Existing AI infrastructure is sophisticated and well-integrated** - enhance, don't replace
 - **Never create documentation files unless explicitly requested** by the user
 - **Always timestamp documentation updates** with exact date and time
+- **Never `git stash` on the shared working tree.** Multiple agent sessions run concurrently in this repo. Stashing removes other sessions' uncommitted work from disk — it is a destructive mutation of shared state, not a filing cabinet. To exclude foreign changes from your commit, stage selectively (`git add <your paths>`) and list the foreign paths in your work log for their owner. (Added 2026-07-12 after a ticket-swarm stash reverted four files of a live concurrent session — see `docs/archive/sessions/` for session logs.)
 
 ---
 
-*This file serves as the single source of truth for development guidelines. Platform-specific configurations in docs/agents/ should reference this file rather than duplicate information.*
+*This file serves as the single source of truth for development guidelines. Platform ops docs in `docs/ops/` and IDE configs under `.cursor/` / `.claude/` should reference this file rather than duplicate information.*
+
+## Autonomous Loop Protocol
+
+This app has a closed development loop.
+
+- `GOAL.md` (app root) — the current objective, done condition, and constraints. One goal at a time.
+- `/goal` (`.agents/skills/goal/SKILL.md`) — set or update the goal. Accepts a Linear ticket ID or inline text.
+- `/loop` (`.agents/skills/loop/SKILL.md`) — run the closed loop: plan → execute → verify → iterate → PR for human review.
+- Platforms without skill support: read `.agents/skills/loop/SKILL.md` and follow it manually.

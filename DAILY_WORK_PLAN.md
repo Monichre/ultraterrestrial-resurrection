@@ -1,4 +1,28 @@
+_Last agent session: 
+_Files touched: .claude/commands/xata-analyze.md .claude/commands/xata-ask.md .claude/commands/xata-create.md .claude/commands/xata-create.yaml .claude/commands/xata-delete.md .claude/commands/xata-read.md .claude/commands/xata-read.yaml .claude/commands/xata-research.md .claude/commands/xata-seed.md .claude/commands/xata-update.md .cursor/rules/ai-sdk-5.mdc .cursor/rules/cursor-rule-creation.mdc .cursor/rules/cursor_rules.mdc .cursor/rules/date-formatting-and-docs.mdc .cursor/rules/derived-cursor-rules.mdc,_
 
+_Last agent session: 
+_Files touched: .claude/commands/xata-analyze.md .claude/commands/xata-ask.md .claude/commands/xata-create.md .claude/commands/xata-create.yaml .claude/commands/xata-delete.md .claude/commands/xata-read.md .claude/commands/xata-read.yaml .claude/commands/xata-research.md .claude/commands/xata-seed.md .claude/commands/xata-update.md .cursor/rules/ai-sdk-5.mdc .cursor/rules/cursor-rule-creation.mdc .cursor/rules/cursor_rules.mdc .cursor/rules/date-formatting-and-docs.mdc .cursor/rules/derived-cursor-rules.mdc,_
+
+# Daily Work Plan — Ultraterrestrial Resurrection
+
+**Last updated:** 2026-07-19 21:45 CDT  
+**Branch:** `docs/root-and-prune`  
+**Focus:** docs root-and-prune (FEATURES Decision 8)
+
+### Session 2026-07-19 21:45 CDT — Docs root, prune, spine navigation
+
+**Done:**
+
+- Restructured `docs/` (~24MB → ~3.5MB): deleted stale INDEX/DOCUMENTATION_ORGANIZATION_PLAN; archived historical root MD, plan dumps, dated vision audits, prototypes
+- Created living tree: `architecture/`, `ops/`, `research/methodology/`; narrowed `plans/` to FEATURES+TODO; flat `vision/` canon
+- Restored `docs/ops/` (onboarding, triage, issue-tracker, domain, CONTRIB with `@db/postgres`)
+- Wrote `docs/README.md` six-question spine; tagged living canon with frontmatter
+- Updated CLAUDE.md + AGENTS.md paths; canvas `docs-root-and-prune`
+
+**Next:** merge branch; optional T-046 docs automation
+
+---
 
 # Daily Work Plan
 
@@ -46,6 +70,7 @@ Verification gate held throughout: `bunx tsc --noEmit` = 48 errors, all in the
 7 pre-existing baseline files; zero new errors introduced.
 
 ### Carry-forward (not part of this board — future waves)
+
 - ~~**T-028 Phase A** (delete the retired `sse/xata/ask` path)~~ ✅ DONE 2026-07-05 (see below)
 
 ---
@@ -101,8 +126,39 @@ Verification gate held throughout: `bunx tsc --noEmit` = 48 errors, all in the
 
 **Next steps:** T-037 remainder — extend the fallback chain with a `streamText` + tool-call variant so both live agent routes (`/api/disclosure/mindmap`, `/api/prometheus/chat`) survive a single-provider outage; UT-voice review of `build-agent-context.ts` and the Prometheus tool prompts. Then Phase 2 design work (theories user-owned model + canonical claims table).
 
+### Wave 2026-07-12 — Open-ticket swarm + Linear cutover
+
+| Ticket | Result |
+|--------|--------|
+| **T-028** | ✅ Phase C implemented: shared Postgres/Exa research tools across both live routes. Linear: DMGD-183. |
+| **T-036** | 📋 Decision ready: full build NO-GO; 10-source provenance pilot proposed. Linear: DMGD-184. |
+| **T-037** | ✅ Prometheus and all six document actions use retry-aware pre-stream provider fallback; UT voice pass complete. OpenAI Assistant verification remains externally blocked. |
+| **T-038** | ✅ Product/canon sync, prototype ruling, and scoped UI language sweep complete. Remote Figma review remains blocked. |
+| **T-039** | ✅ Operational docs simplified and checked against live routes/Postgres exports. Linear: DMGD-185. |
+| **T-040** | ✅ Linear is now the actionable tracker; historical `T-*` work migrated without duplicating existing audit issues. Linear: DMGD-186. |
+| **T-041** | ⏸ Blocked: app ran at `localhost:3000`, but no browser backend was available for mandatory current-run screenshots. Linear: DMGD-187. |
+| **T-042** | 📋 Decision ready: local coordinator + scoped specialists; cloud persistence rejected for now. Linear: DMGD-188. |
+
+**Verification so far:** touched AI files have zero filtered TypeScript errors; fallback retry smoke produced `retry → retry → ok`; targeted UI lint produced zero errors; documentation/canon diffs pass `git diff --check`. Full loop verification and PR remain pending.
+
 ## How agents use this file
+
 1. Check "Next" table for unblocked tasks.
 2. Claim by adding an "In Progress" note with your agent name and date.
 3. On done → update ticket status and date. Blocked → note reason.
 4. Full task detail lives in `docs/plans/TODO.md`.
+
+### Session 2026-07-18 19:53 CDT — Cursor research subagents
+
+- Generated 18 project-scoped Cursor research subagents in `.cursor/agents/` from the canonical v2 definitions.
+- Embedded the shared epistemic contract, complete role prompts, authority and logical tool boundaries, I/O contracts, handoffs, failure modes, and evaluation criteria.
+- Added `.cursor/generate-research-agents.mjs` for deterministic regeneration and `.cursor/agents/README.md` for roster documentation.
+- Kept `DOTY_PATTERN` excluded and preserved the distinction between development-time specialists and the two live product AI paths.
+- Verified 18 unique valid frontmatter names, all required sections, DOTY exclusion, clean whitespace, and zero linter diagnostics in the generator.
+
+### Session 2026-07-18 20:40 CDT — Research subagent review + harden
+
+- Fixed Cursor Task routing: flat quoted `description` (was YAML `>-`, catalog showed bare `>-`).
+- Added `model: inherit` + `readonly: true`; slimmed prompts ~40% (avg ~6.8KB).
+- Renamed source dir `ultraterrestrial-agent-definitions-v2 3` → `ultraterrestrial-agent-definitions-v2`; corrected Xata→Postgres in suite README.
+- Docs: `.cursor/Agents.md`, `.cursor/Agents_PSUEDOCODE.md`, routing/dialectics/vision-role map in `.cursor/agents/README.md`.

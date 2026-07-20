@@ -7,29 +7,28 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 **CRITICAL**: Before starting any work, read these documents in order:
 
 1. [README.md](README.md)
-2. [AGENT.md](AGENT.md) - **COMPREHENSIVE DEVELOPMENT GUIDELINES**
-3. docs/agents/AGENT_ONBOARDING_CHECKLIST.md - **MANDATORY FIRST READ** - Validation checklist
-4. [PRODUCT.md](PRODUCT.md) + [DESIGN.md](DESIGN.md) - **CANONICAL PRODUCT & DESIGN CONTEXT** (added 2026-07-08). Repo-root product narrative and the "Microfilm Dark" design language. Read before any UI or product-facing work.
+2. [AGENTS.md](AGENTS.md) - **COMPREHENSIVE DEVELOPMENT GUIDELINES**
+3. [docs/ops/AGENT_ONBOARDING_CHECKLIST.md](docs/ops/AGENT_ONBOARDING_CHECKLIST.md) - **MANDATORY FIRST READ** - Validation checklist
+4. [docs/README.md](docs/README.md) - Documentation spine (what exists / where / how / want / do / start)
+5. [PRODUCT.md](PRODUCT.md) + [DESIGN.md](DESIGN.md) - **CANONICAL PRODUCT & DESIGN CONTEXT**. Repo-root product narrative and the "Microfilm Dark" design language. Read before any UI or product-facing work.
 
 ## Agent Configuration System
 
-**NEW STRUCTURE**: All development guidelines consolidated into streamlined system:
+All development guidelines consolidated into:
 
-### 📖 Master Guidelines - `AGENT.md`
+### Master Guidelines - `AGENTS.md`
 
-- **Single source of truth** for all development guidelines
-- Comprehensive commands, standards, and project structure
-- Technology stack and AI architecture documentation
-- Three-tier project management system
+- Single source of truth for development guidelines, stack, and AI architecture
+- Three-tier project management details live here (do not duplicate elsewhere)
 
-### 🤖 Platform-Specific Configurations - `docs/agents/`
+### Ops / agent intake - `docs/ops/`
 
-- `docs/agents/claude-code.md` - Claude Code specific instructions
-- `docs/agents/cursor.md` - Cursor IDE specific rules
-- `docs/agents/warp.md` - Warp terminal specific commands
-- `docs/agents/README.md` - Agent configuration overview
+- `docs/ops/AGENT_ONBOARDING_CHECKLIST.md` - Mandatory validation checklist
+- `docs/ops/issue-tracker.md` / `triage-labels.md` / `domain.md` - Skills meta
+- `docs/ops/CONTRIB.md` - Contribution and import conventions
+- Platform IDE rules live in `.cursor/`, `.claude/`, etc. — not under `docs/ops/`
 
-### 📋 Project Management System
+### Project Management System
 
 - `docs/plans/FEATURES.md` - Strategic planning (Tier 1)
 - `docs/plans/TODO.md` - Actionable tickets (Tier 2)
@@ -101,6 +100,15 @@ bun run bun:new         # Alternative Bun-based generator
 bun run build-storybook  # Build static Storybook
 ```
 
+### Tests
+
+```bash
+bun run test:app                    # Frontend (Vitest) from repo root if scripted
+cd apps/app && bun run lint         # ESLint
+cd packages/db && bun run test:db   # DB connection smoke test
+cd apps/disclosure-rag && python -m pytest tests/  # Python RAG tests (when present)
+```
+
 ### RAG System (Python)
 
 ```bash
@@ -162,12 +170,14 @@ bun run analyze         # Database state analysis
    - File: `apps/app/src/app/api/prometheus/chat/route.ts`
 
 **What does NOT exist in the Next.js app (corrected myths):**
+
 - ~~Triple RAG with 40/40/20 weighting~~ — FTS + pgvector (2 paths), not 3
 - ~~FAISS, Upstash Vector, CocoIndex~~ — Python-only or completely unimplemented
 - ~~Multi-agent tour orchestrator~~ — 6 agent classes specced (July 2025), zero code written, scrapped
 - ~~85% AI connectivity~~ — Two live AI paths (mindmap agent + Prometheus chat); the rest are broken or dead
 
 **Foundation utilities (these do exist and work):**
+
 - **Contextual Intelligence** (`features/mindmap/utils/contextual-intelligence.ts`) — graph context, relationship filtering
 - **Spatial Intelligence** (`features/mindmap/hooks/use-spatial-grouping.ts`) — R-Tree proximity queries
 - **Enhanced Nodes** (`features/mindmap/nodes/enhanced-node-poc.tsx`) — one node type in React Flow
@@ -262,13 +272,13 @@ import { DataVizComponent } from '@/features/data-viz'
 
 ### Backend & Data
 
-- **Neon Postgres 17.10 + pgvector 0.8.0** — primary database (endpoint `ep-red-sky-ah7swer1`, db `neondb`), 29 tables, 230,998+ records. Connection in `packages/db/.env` as `DATABASE_URL` — never commit.
-- **`@db/postgres`** — the ONLY live database layer (`packages/db/src/postgres/`). Exports typed queries, search, and `getSql()` tagged-template client via `@neondatabase/serverless`.
+- **Neon Postgres 17.10 + pgvector 0.8.0** — primary database, 29 tables, 230,998+ records. Connection in `packages/db/.env` as `DATABASE_URL` — never commit.
+- **`@db/postgres`** — the ONLY live database layer (`packages/db/src/postgres/`). Exports typed queries, search, and `getSql()` tagged-template client via `@neondatabase/serverless`. Package-local guidance: `packages/db/CLAUDE.md`.
 - **Embeddings**: `text-embedding-3-small` @ 1536 dims (locked). 1,405 entity rows + 4,946 document chunks embedded.
 - **OpenAI Assistants API** — disclosure mindmap agent (file_search + threads)
 - **Vercel AI SDK** — Prometheus chat route (streamText)
 - **AI providers**: OpenAI, Anthropic, Groq
-- **Authentication**: Clerk (middleware NOT YET implemented — all routes publicly accessible)
+- **Authentication**: Clerk middleware exists (`apps/app/src/middleware.ts`) — `/admin` and `/api/processing` gated; most AI read routes (`/api/disclosure/*`, `/api/prometheus/chat`) remain public until canvas sign-in exists
 - **Search**: OpenAI file_search (vector store) + Postgres FTS (`search_vector @@ plainto_tsquery`) + trgm fallback. No Xata full-text in the Next.js app.
 
 ### Python RAG System (disconnected)
@@ -358,8 +368,22 @@ When you receive the command "/worklog", automatically:
 
 **CRITICAL**: Read [AGENTS.md](AGENTS.md) for comprehensive development guidelines before starting any work.
 
-For platform-specific configurations, see:
+For agent intake and ops docs, see:
 
-- `docs/agents/` - Platform-specific agent configurations that reference AGENTS.md
-- `docs/agents/claude-code.md` - Claude Code specific instructions
-- `docs/agents/AGENT_ONBOARDING_CHECKLIST.md` - Mandatory validation checklist
+- `docs/ops/` - Onboarding, triage, issue tracker, contrib
+- `docs/ops/AGENT_ONBOARDING_CHECKLIST.md` - Mandatory validation checklist
+- `docs/README.md` - Full documentation spine
+
+## Agent skills
+
+### Issue tracker
+
+Issues live as markdown files under `.scratch/<feature>/` in this repo (local-markdown convention). See `docs/ops/issue-tracker.md`.
+
+### Triage labels
+
+Five canonical labels used as-is: needs-triage, needs-info, ready-for-agent, ready-for-human, wontfix. See `docs/ops/triage-labels.md`.
+
+### Domain docs
+
+Multi-context — root `CONTEXT-MAP.md` points to per-context `CONTEXT.md` files. See `docs/ops/domain.md`.
