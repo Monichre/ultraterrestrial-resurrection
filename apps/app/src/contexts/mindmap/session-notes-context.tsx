@@ -2,9 +2,15 @@
 
 import type React from 'react'
 import {createContext, useContext, useState, useCallback, useEffect, useMemo} from 'react'
-import type {Message} from '@/features/mindmap/components/menus/mindmap-bottom-menu/MindMapMessages'
 import type {Note} from '@/features/mindmap/components/status-ui/session-notes'
 import {useToast} from '@/components/ui/use-toast'
+
+// Minimal message shape needed to convert an AI response into a session note.
+// Previously imported from the now-deleted mindmap-bottom-menu/MindMapMessages.tsx.
+interface Message {
+  id: string
+  content: string
+}
 
 // Interface for Xata save options
 interface SaveToXataOptions {

@@ -1,6 +1,6 @@
 'use client'
 
-import {ENTITY_TYPES} from '@/features/mindmap/components/menus/mindmap-bottom-menu/entity-types'
+import {ENTITY_TYPES} from './entity-types'
 import {useMindMap} from '@/contexts/mindmap/mindmap-context'
 import {useCallback} from 'react'
 
