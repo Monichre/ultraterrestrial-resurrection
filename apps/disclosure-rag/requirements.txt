@@ -38,6 +38,7 @@ xata
 # YouTube processing
 youtube-transcript-api
 faster-whisper
+yt-dlp  # playlist enumeration (scripts/playlist_ingestion.py)
 
 # UI and visualization
 matplotlib
