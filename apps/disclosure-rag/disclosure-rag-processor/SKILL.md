@@ -40,7 +40,8 @@ Auto-detects content type (YouTube / web / file). `--upload` sends to OpenAI vec
 ```bash
 ./main.sh process-url <URL> [--upload]    # Single URL
 ./main.sh process-file <FILE> [--upload]  # Single file
-./main.sh process-urls <URL_FILE>         # Batch from file
+./main.sh process-urls <URL_FILE>         # Batch from file (loops main.py per URL)
+./main.sh process-playlist <PL_URL> [...] # YouTube playlist(s) → playlist_ingestion.py
 ./main.sh search "Phoenix Lights"         # Search KB
 ./main.sh stats                           # KB statistics
 ./main.sh ui                              # Streamlit (port 8501)
@@ -49,7 +50,7 @@ Auto-detects content type (YouTube / web / file). `--upload` sends to OpenAI vec
 ./main.sh sync-rag                        # Sync to local RAG
 ```
 
-Auto-creates `.venv` if missing, loads `.env`, validates env vars.
+Auto-creates `.venv` if missing, loads `.env`, validates env vars. The user's global `dy` alias points at this script, so `dy process-playlist <URL>` works anywhere; bare playlist URLs (`dy "https://youtube.com/playlist?list=..."`) auto-route to the playlist pipeline (any URL containing `/playlist` or `list=`, including watch URLs inside a playlist).
 
 ### cli.py -- Interactive TUI (use for bulk ingestion & research chat)
 
