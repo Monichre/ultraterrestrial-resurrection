@@ -1,9 +1,18 @@
 import type { AddConnectionNodesFromSearchParams } from "./mindmap-context";
 import type { DatabaseSchema } from "@db/postgres";
-import type { MindMapNode } from "@/features/mindmap/actions/fetch-next-mindmap-records";
 import type { MindMapState, useMindMapStore } from "@/features/mindmap/store";
 import type { Edge, Node, XYPosition, useReactFlow } from "@xyflow/react";
 import { LayoutOptions } from '@/features/mindmap/layouts/organizeNodeLayout';
+
+// Previously imported from the now-deleted actions/fetch-next-mindmap-records.ts.
+type MindMapNode = {
+	id: string;
+	data: {
+		label: string;
+		[key: string]: unknown;
+	};
+	type: string;
+};
 
 // Define context interface with utility functions and UI state
 export interface MindMapContextType extends MindMapState {

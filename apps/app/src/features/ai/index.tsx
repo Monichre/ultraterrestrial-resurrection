@@ -1,5 +1,3 @@
-export * from '../mindmap/actions/search'
-
 export * from './components/ai-assisted-search-interface'
 export * from './components/chat-interface'
 export * from './components/chat-interface/chat'

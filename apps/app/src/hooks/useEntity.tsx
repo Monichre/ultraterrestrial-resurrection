@@ -1,10 +1,6 @@
 'use client'
 
 import {useMindMap} from '@/contexts'
-import {
-  initiateDatabaseWideConnectionSearch,
-  initiateRagEnrichedDatabaseSearch,
-} from '@/features/mindmap/actions/search'
 import {saveEventForUser} from '@/features/user/api/save-event'
 import {objectMapToSingular} from '@/utils'
 import {useAuth} from '@clerk/nextjs'
@@ -13,7 +9,6 @@ import {useCallback, useState} from 'react'
 export const useEntity = ({card}: any) => {
   const {
     loadNodesFromTableQuery,
-    addConnectionNodesFromSearch,
     getNode,
 
     screenToFlowPosition,
@@ -68,14 +63,14 @@ export const useEntity = ({card}: any) => {
   const user: any = useAuth()
   const [relatedDataPoints, setRelatedDataPoints]: any = useState(null)
 
+  // NOTE: previously called initiateRagEnrichedDatabaseSearch, which hit
+  // /api/disclosure/data-layer/enrich — a route that does not exist (404).
+  // The endpoint was removed with actions/search.ts (dead-code purge); this
+  // is a no-op stub so existing call sites keep working without inventing a
+  // new backend.
   const findEntityConnectionsWithAI = useCallback(async () => {
-    const payload = await initiateRagEnrichedDatabaseSearch({
-      id,
-      type,
-    })
-    console.log('payload: ', payload)
-    setRelatedDataPoints(payload.data)
-  }, [id, type])
+    console.warn('findEntityConnectionsWithAI: disabled, backend endpoint does not exist')
+  }, [])
 
   const addEntityToMindMap = (cardId: any) => {
     console.log('🚀 ~ file: useEntity.tsx:81 ~ addEntityToMindMap ~ cardId:', cardId)
@@ -110,21 +105,14 @@ export const useEntity = ({card}: any) => {
     return cardNode
   }
 
+  // NOTE: previously called initiateDatabaseWideConnectionSearch, which hit
+  // /api/disclosure/data-layer/search/connections — a route that does not
+  // exist (404). The endpoint was removed with actions/search.ts (dead-code
+  // purge); this is a no-op stub so existing call sites keep working
+  // without inventing a new backend.
   const findEntityConnections = useCallback(async () => {
-    const siblingSourceNode: any = getNode(card.id)
-
-    const payload = await initiateDatabaseWideConnectionSearch({
-      id: siblingSourceNode.id,
-      type: siblingSourceNode.data.type,
-    })
-    console.log('payload: ', payload)
-    const searchResults = payload.data
-    console.log('searchResults: ', searchResults)
-    addConnectionNodesFromSearch({
-      source: siblingSourceNode,
-      searchResults,
-    })
-  }, [addConnectionNodesFromSearch, card.id, getNode])
+    console.warn('findEntityConnections: disabled, backend endpoint does not exist')
+  }, [])
 
   const [bookmarked, setBookmarked] = useState(false)
 

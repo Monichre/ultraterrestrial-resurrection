@@ -1,6 +1,6 @@
 import {NumberTicker} from '@/components/animated/number-ticker'
 import {DotGridBackgroundBlack} from '@/components/backgrounds'
-import {Card, CardContent, CardDescription, CardFooter, CardHeader} from '@/components/ui/card/card'
+import {Card, CardDescription, CardFooter, CardHeader} from '@/components/ui/card/card'
 
 import {capitalize, cn} from '@/utils'
 
@@ -8,10 +8,7 @@ import '@/components/ui/card/cards.css'
 import {useNodesData} from '@xyflow/react'
 
 import {useMindMap} from '@/contexts/mindmap'
-import {memo, useCallback, useState} from 'react'
-
-import {InputWithVanishAnimation} from '@/features/mindmap/components/cards/root-node-card/InputWithVanishAnimation'
-import {initiateDatabaseTableQuery} from '@/features/mindmap/actions/search'
+import {memo, useCallback} from 'react'
 
 const Description = memo(({childCount, label}: any) => (
   <>
@@ -28,7 +25,6 @@ const LoadedStats = memo(({length, childCount, label}: any) => (
 
 export const RootNodeCard = memo(({nodeData}: any) => {
   const {
-    loadNodesFromTableQuery,
     conciseViewActive,
     renderRootNodeConciseLayout,
 
@@ -40,28 +36,6 @@ export const RootNodeCard = memo(({nodeData}: any) => {
 
   const type = nodeData?.data?.type
 
-  const [searchTerm, setSearchTerm]: any = useState('')
-
-  const [searchResults, setSearchResults] = useState([])
-  const updateSearchTerm = (event: any) => {
-    const {value} = event.target
-
-    setSearchTerm(value)
-  }
-
-  const runSearch = useCallback(async () => {
-    const keyword = searchTerm
-    const table = type
-
-    const {results} = await initiateDatabaseTableQuery({table, keyword})
-
-    loadNodesFromTableQuery({
-      type,
-      searchResults: results,
-      searchTerm: keyword.trim().replace(/ /g, ''),
-    })
-    setSearchTerm('')
-  }, [searchTerm, type, loadNodesFromTableQuery])
   const {
     data: {childCount, label},
     ...rest
@@ -112,20 +86,6 @@ export const RootNodeCard = memo(({nodeData}: any) => {
         </CardDescription>
       </CardHeader>
 
-      <CardContent className='my-2'>
-        <InputWithVanishAnimation
-          onSubmit={runSearch}
-          type={type}
-          placeholders={['Roswell', 'USS Nimitz']}
-        />
-      </CardContent>
-
-      {/* <RootNodeToolbar
-        onChange={updateSearchTerm}
-        onSubmit={runSearch}
-        type={type}
-        value={searchTerm}
-      /> */}
       <CardFooter className='p-2 flex justify-center align-middle items-center mt-2'>
         <ShinyButton onClick={handleLoadingRecords} className='load-records-button cursor-pointer'>
           Load {capitalize(label)}
