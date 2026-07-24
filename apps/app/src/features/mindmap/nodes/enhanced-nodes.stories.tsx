@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { ReactFlowProvider } from '@xyflow/react'
 import { EnhancedEntityNode } from './enhanced-entity-node'
-import { EnhancedUserInputNode } from './enhanced-user-input-node'
 
 const meta: Meta = {
   title: 'MindMap/Enhanced Nodes',
@@ -140,71 +139,6 @@ export const ResearchTopic: StoryObj = {
   ),
 }
 
-// User Input Node Stories
-export const OpenExplorationQuery: StoryObj = {
-  render: () => (
-    <EnhancedUserInputNode
-      id="user-query-1"
-      selected={false}
-      data={{
-        input: 'Tell me about the most credible UFO sightings in the 1940s',
-        label: 'Your Query',
-        isContextual: false,
-        isLoading: false,
-        answer: 'The 1940s marked the beginning of the modern UFO era, with several highly credible sightings. The most notable include the Kenneth Arnold sighting in 1947, which coined the term "flying saucer," and the Roswell incident later that year. These events involved credible witnesses including pilots, military personnel, and civilians.',
-      }}
-    />
-  ),
-}
-
-export const ContextualQuery: StoryObj = {
-  render: () => (
-    <EnhancedUserInputNode
-      id="user-query-2"
-      selected={false}
-      data={{
-        input: 'Who were the key military officials involved in the Roswell investigation?',
-        label: 'Contextual Search',
-        isContextual: true,
-        contextInfo: 'Building on 4 entity types, 3 key figures',
-        isLoading: false,
-        answer: 'Based on the connected records in your graph, the key military officials included Major Jesse Marcel (Intelligence Officer, 509th Bomb Group), General Roger Ramey (Commander, 8th Air Force), and Colonel William Blanchard (Commander, 509th Bomb Group). Each played crucial roles in the initial response and subsequent explanations.',
-      }}
-    />
-  ),
-}
-
-export const LoadingQuery: StoryObj = {
-  render: () => (
-    <EnhancedUserInputNode
-      id="user-query-3"
-      selected={false}
-      data={{
-        input: 'Find documents related to Project Blue Book',
-        label: 'Contextual Search',
-        isContextual: true,
-        isLoading: true,
-        contextInfo: 'Searching connected records...',
-      }}
-    />
-  ),
-}
-
-export const ErrorQuery: StoryObj = {
-  render: () => (
-    <EnhancedUserInputNode
-      id="user-query-4"
-      selected={false}
-      data={{
-        input: 'Search for classified alien technology',
-        label: 'Your Query',
-        isContextual: false,
-        error: 'Access denied: Insufficient clearance level for requested information',
-      }}
-    />
-  ),
-}
-
 // Showcase multiple nodes together
 export const DisclosureNetwork: StoryObj = {
   render: () => (
@@ -212,7 +146,6 @@ export const DisclosureNetwork: StoryObj = {
       <RoswellIncident.render />
       <MajorJesseMarcel.render />
       <TestimonyNode.render />
-      <ContextualQuery.render />
     </div>
   ),
 }
