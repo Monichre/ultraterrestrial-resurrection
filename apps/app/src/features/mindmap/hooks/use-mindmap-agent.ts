@@ -82,6 +82,22 @@ type RunAgentQueryParams = {
 
 type AgentStatus = 'idle' | 'streaming' | 'complete' | 'error'
 
+/**
+ * Splits a decoded SSE chunk on newlines, carrying any trailing partial line
+ * (a `data:` line split across two `reader.read()` chunk boundaries) back to
+ * the caller instead of dropping it. Pure so it can be unit tested in
+ * isolation from the stream-reading loop.
+ */
+export const splitSseLines = (
+  buffer: string,
+  chunk: string
+): {lines: string[]; remainder: string} => {
+  const combined = buffer + chunk
+  const lines = combined.split('\n')
+  const remainder = lines.pop() ?? ''
+  return {lines, remainder}
+}
+
 const getResultArray = (result: unknown, key: string): unknown[] => {
   if (Array.isArray(result)) {
     return result
@@ -205,6 +221,122 @@ export function useMindMapAgent() {
       let externalResult: AgentExternalResult | undefined
       const graphNodeWrites: AgentGraphNodePayload[] = []
       const graphEdgeWrites: AgentGraphEdgePayload[] = []
+      let sseBuffer = ''
+
+      const processSseLine = (rawLine: string) => {
+        const line = rawLine.trim()
+        if (!line || !line.startsWith('data: ')) return
+
+        const data = line.slice(6).trim()
+        if (!data) return
+
+        // Parse failures only skip the chunk; agent-reported errors must
+        // propagate. Keeping JSON.parse in its own try prevents the
+        // stream-error throw below from being swallowed by the skip path
+        // (which left the canvas node on "AI is thinking..." forever).
+        let parsed: any
+        try {
+          parsed = JSON.parse(data)
+        } catch {
+          console.debug('Skipped chunk:', data)
+          return
+        }
+
+        if (parsed.error) {
+          const errorMessage = parsed.message || 'Agent stream error'
+          setStatus('error')
+          setError(errorMessage)
+          throw new Error(errorMessage)
+        }
+
+        try {
+          if (parsed.content) {
+            aggregatedAnalysis += parsed.content
+            setAnalysis(aggregatedAnalysis)
+          }
+
+          if (parsed.done) {
+            setStatus('complete')
+          }
+
+          if (parsed.data) {
+            const toolData = parsed.data as AgentToolEvent
+            aggregatedToolEvents = [...aggregatedToolEvents, toolData]
+            setToolEvents(aggregatedToolEvents)
+
+            if (toolData.tool === 'searchDatabase') {
+              if (toolData.status === 'processing') {
+                const params = toolData.parameters as
+                  | {table?: string; search_terms?: string[]}
+                  | undefined
+                pendingSearchParams.current = {
+                  table: params?.table,
+                  searchTerms: params?.search_terms,
+                }
+              }
+
+              if (toolData.status === 'complete') {
+                const result = toolData.result as
+                  | Record<string, unknown>
+                  | Record<string, unknown>[]
+                  | undefined
+                // executeDatabaseSearch (research-search.ts) returns
+                // {results: [...]}; keep `.records` and the bare-array
+                // shapes too for compatibility with other tool responses.
+                const records = Array.isArray(result)
+                  ? result
+                  : Array.isArray(result?.records)
+                    ? (result.records as Record<string, unknown>[])
+                    : Array.isArray(result?.results)
+                      ? (result.results as Record<string, unknown>[])
+                      : []
+
+                searchResult = {
+                  table: pendingSearchParams.current?.table,
+                  searchTerms: pendingSearchParams.current?.searchTerms,
+                  records,
+                }
+              }
+            }
+
+            if (toolData.tool === 'searchExternalResources') {
+              if (toolData.status === 'processing') {
+                const params = toolData.parameters as {query?: string} | undefined
+                pendingExternalParams.current = {
+                  query: params?.query,
+                }
+              }
+
+              if (toolData.status === 'complete') {
+                const result = toolData.result as
+                  | Record<string, unknown>
+                  | Record<string, unknown>[]
+                  | undefined
+                const results = Array.isArray(result?.results)
+                  ? (result.results as Record<string, unknown>[])
+                  : Array.isArray(result)
+                    ? result
+                    : []
+
+                externalResult = {
+                  query: pendingExternalParams.current?.query,
+                  results,
+                }
+              }
+            }
+
+            if (toolData.tool === 'addGraphNodes' && toolData.status === 'complete') {
+              graphNodeWrites.push(...toGraphNodes(toolData.result))
+            }
+
+            if (toolData.tool === 'addGraphEdges' && toolData.status === 'complete') {
+              graphEdgeWrites.push(...toGraphEdges(toolData.result))
+            }
+          }
+        } catch {
+          console.debug('Skipped chunk:', data)
+        }
+      }
 
       try {
         while (true) {
@@ -212,118 +344,25 @@ export function useMindMapAgent() {
           if (done) break
 
           const chunk = decoder.decode(value, {stream: true})
-          const lines = chunk.split('\n').filter((line) => line.trim())
+          const {lines, remainder} = splitSseLines(sseBuffer, chunk)
+          sseBuffer = remainder
 
-          for (const line of lines) {
-            if (!line.startsWith('data: ')) continue
-
-            const data = line.slice(6).trim()
-            if (!data || data === '[DONE]') continue
-
-            // Parse failures only skip the chunk; agent-reported errors must
-            // propagate. Keeping JSON.parse in its own try prevents the
-            // stream-error throw below from being swallowed by the skip path
-            // (which left the canvas node on "AI is thinking..." forever).
-            let parsed: any
-            try {
-              parsed = JSON.parse(data)
-            } catch {
-              console.debug('Skipped chunk:', data)
-              continue
-            }
-
-            if (parsed.error) {
-              const errorMessage = parsed.message || 'Agent stream error'
-              setStatus('error')
-              setError(errorMessage)
-              throw new Error(errorMessage)
-            }
-
-            try {
-
-              if (parsed.content) {
-                aggregatedAnalysis += parsed.content
-                setAnalysis(aggregatedAnalysis)
-              }
-
-              if (parsed.done) {
-                setStatus('complete')
-              }
-
-              if (parsed.data) {
-                const toolData = parsed.data as AgentToolEvent
-                aggregatedToolEvents = [...aggregatedToolEvents, toolData]
-                setToolEvents(aggregatedToolEvents)
-
-                if (toolData.tool === 'searchDatabase') {
-                  if (toolData.status === 'processing') {
-                    const params = toolData.parameters as
-                      | {table?: string; search_terms?: string[]}
-                      | undefined
-                    pendingSearchParams.current = {
-                      table: params?.table,
-                      searchTerms: params?.search_terms,
-                    }
-                  }
-
-                  if (toolData.status === 'complete') {
-                    const result = toolData.result as
-                      | Record<string, unknown>
-                      | Record<string, unknown>[]
-                      | undefined
-                    const records = Array.isArray(result)
-                      ? result
-                      : Array.isArray(result?.records)
-                        ? (result.records as Record<string, unknown>[])
-                        : []
-
-                    searchResult = {
-                      table: pendingSearchParams.current?.table,
-                      searchTerms: pendingSearchParams.current?.searchTerms,
-                      records,
-                    }
-                  }
-                }
-
-                if (toolData.tool === 'searchExternalResources') {
-                  if (toolData.status === 'processing') {
-                    const params = toolData.parameters as {query?: string} | undefined
-                    pendingExternalParams.current = {
-                      query: params?.query,
-                    }
-                  }
-
-                  if (toolData.status === 'complete') {
-                    const result = toolData.result as
-                      | Record<string, unknown>
-                      | Record<string, unknown>[]
-                      | undefined
-                    const results = Array.isArray(result?.results)
-                      ? (result.results as Record<string, unknown>[])
-                      : Array.isArray(result)
-                        ? result
-                        : []
-
-                    externalResult = {
-                      query: pendingExternalParams.current?.query,
-                      results,
-                    }
-                  }
-                }
-
-                if (toolData.tool === 'addGraphNodes' && toolData.status === 'complete') {
-                  graphNodeWrites.push(...toGraphNodes(toolData.result))
-                }
-
-                if (toolData.tool === 'addGraphEdges' && toolData.status === 'complete') {
-                  graphEdgeWrites.push(...toGraphEdges(toolData.result))
-                }
-              }
-            } catch {
-              console.debug('Skipped chunk:', data)
-            }
+          for (const rawLine of lines) {
+            processSseLine(rawLine)
           }
         }
+
+        // Flush a trailing partial line that never received a closing
+        // newline before the stream closed (route sends `{done:true}` as
+        // its final payload, not a `[DONE]` sentinel).
+        if (sseBuffer.trim()) {
+          processSseLine(sseBuffer)
+        }
+      } catch (streamError) {
+        // Tear down the underlying body immediately on a mid-stream error
+        // instead of leaving it open for the browser to reclaim on GC.
+        await reader.cancel().catch(() => {})
+        throw streamError
       } finally {
         reader.releaseLock()
       }

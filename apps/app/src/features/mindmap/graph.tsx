@@ -55,6 +55,19 @@ const GRAPH_CONTEXT_EDGE_LIMIT = 60
 const AGENT_NODE_DEFAULT_TYPE = 'enhancedEntityNodePOC'
 const AGENT_EDGE_DEFAULT_TYPE = 'siblingEdge'
 
+// Module scope: this object is structurally static, so recreating it every
+// render (as an inline literal) defeats ReactFlow's prop-identity checks on
+// `defaultEdgeOptions`.
+const DEFAULT_EDGE_OPTIONS = {
+  // Solid, not animated: a hand-drawn connection is a researcher assertion
+  // (provenance rule — dashed is reserved for AI inference and tour paths,
+  // which style themselves in SiblingEdge / ai-animated-edge).
+  animated: false,
+  // Parchment at reduced strength: edges read as pencil lines on the
+  // dark table, not wires. Full white fought the nodes for attention.
+  style: {stroke: 'oklch(0.93 0.015 90 / 0.45)', strokeWidth: 1.25},
+}
+
 const resolveNodeLabel = (node: Node): string => {
   const nodeData = node.data as Record<string, unknown> | undefined
   const labelCandidates = [nodeData?.label, nodeData?.title, nodeData?.name]
@@ -476,15 +489,6 @@ export function Graph() {
     return () => clearTimeout(timeoutId)
   }, [autoLayout, layoutDirection, layoutSettings.edgeLength, layoutSettings.nodeSpacing, nodes.length, organizeLayout])
 
-  const edgeOptions = {
-    // Solid, not animated: a hand-drawn connection is a researcher assertion
-    // (provenance rule — dashed is reserved for AI inference and tour paths,
-    // which style themselves in SiblingEdge / ai-animated-edge).
-    animated: false,
-    // Parchment at reduced strength: edges read as pencil lines on the
-    // dark table, not wires. Full white fought the nodes for attention.
-    style: {stroke: 'oklch(0.93 0.015 90 / 0.45)', strokeWidth: 1.25},
-  }
 
   const {ref} = useContextMenu()
 
@@ -519,7 +523,7 @@ export function Graph() {
         className='ut-canvas-floor'
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
-        defaultEdgeOptions={edgeOptions}
+        defaultEdgeOptions={DEFAULT_EDGE_OPTIONS}
         nodes={visibleNodes}
         edges={edges}
         onNodesChange={onNodesChange}

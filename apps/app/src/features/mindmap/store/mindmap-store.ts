@@ -107,10 +107,6 @@ export const useMindMapStore = create<MindMapState>((set, get) => ({
 
 	// Basic state setters
 	setNodes: (nodes) => {
-		console.log('[MindMap Store] setNodes called with:', nodes.length, 'nodes');
-		if (nodes.length === 0) {
-			console.trace('[MindMap Store] WARNING: setNodes called with empty array - stack trace:');
-		}
 		set({ nodes });
 	},
 	setEdges: (edges) => set({ edges }),
@@ -141,7 +137,9 @@ export const useMindMapStore = create<MindMapState>((set, get) => ({
 	updateEdgeData: (edgeId, data) => {
 		set({
 			edges: get().edges.map((edge) =>
-				edge.id === edgeId ? { ...edge, ...data } : edge,
+				edge.id === edgeId
+					? { ...edge, data: { ...edge.data, ...data } }
+					: edge,
 			),
 		});
 	},
