@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>apps/app — Agentic UX</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 960px; margin: 2rem auto; padding: 0 1rem; line-height: 1.5; color: #1a1a1a; }
+    h1 { font-size: 1.5rem; border-bottom: 2px solid #2563eb; padding-bottom: 0.5rem; }
+    h2 { font-size: 1.15rem; margin-top: 1.5rem; }
+    .diagram { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem; margin: 1rem 0; overflow-x: auto; font-size: 0.85rem; }
+    .gap { background: #fffbeb; border-left: 4px solid #f59e0b; padding: 0.75rem; margin: 0.75rem 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    th, td { border: 1px solid #e2e8f0; padding: 0.5rem 0.75rem; text-align: left; }
+    th { background: #f1f5f9; }
+    code { background: #f1f5f9; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.85em; }
+    ul { padding-left: 1.25rem; }
+  </style>
+</head>
+<body>
+  <h1>apps/app — Agentic UX (live path)</h1>
+  <p>Research canvas renders the mindmap; the bottom menu drives <strong>chat</strong> via <code>/api/disclosure/chat</code> (Vercel AI SDK). The disclosure mindmap agent uses a <strong>separate</strong> route: <code>/api/disclosure/mindmap</code> (OpenAI Assistants + SSE).</p>
+
+  <h2>Live render path</h2>
+  <div class="diagram">
+<pre>
+research-canvas/page.tsx
+  → MindMap (mindmap-context)
+      → Graph (React Flow)
+      → useMindMapAgent
+            → POST /api/disclosure/mindmap (SSE)
+                  → AgentToolEvent → addNodes / addGraphEdges
+</pre>
+  </div>
+
+  <h2>Two agent stacks</h2>
+  <table>
+    <thead><tr><th>Surface</th><th>API</th><th>UX</th></tr></thead>
+    <tbody>
+      <tr><td>Bottom menu chat</td><td><code>/api/disclosure/chat</code></td><td>useChat, OracleCommandMenu, UltraterrestrialModelSelection</td></tr>
+      <tr><td>Mindmap canvas agent</td><td><code>/api/disclosure/mindmap</code></td><td>Assistants API, SSE tool events, graph mutations</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Tool events (mindmap route)</h2>
+  <p>Server emits <code>AgentToolEvent</code> with types: <code>file_search</code>, <code>searchDatabase</code>, <code>web_search</code>, <code>addNodes</code>, <code>addGraphEdges</code>, <code>addUserInputNode</code>, <code>addNextEntitiesToMindMap</code>, <code>updateNodeData</code>.</p>
+  <ul>
+    <li><code>searchDatabase</code> → Xata via <code>askXata</code> / <code>searchXataWithAi</code> (packages/db)</li>
+    <li><code>file_search</code> → OpenAI vector store (Assistants file_search tool)</li>
+    <li>Graph writes use <code>addNodes</code> / <code>addGraphEdges</code> with parentId for layout</li>
+  </ul>
+
+  <h2>UX gaps vs ai-ux-patterns / building-ai-chat</h2>
+  <div class="gap">
+    <strong>Partial:</strong> Tool progress via <code>EntityAdditionProgress</code> during graph writes; session status on chat route.
+  </div>
+  <div class="gap">
+    <strong>Missing / weak:</strong> No unified retrieval evidence panel in UI; limited citation/source surfacing; no explicit context budget UI; mock adapters (<code>local-files-adapter</code>, <code>xata-adapter</code>) should not be treated as production retrieval.
+  </div>
+
+  <h2>Bottom menu</h2>
+  <p><code>mindmap-bottom-menu</code> and <code>smart-bottom-menu</code> wrap AssistantRuntime with mindmap context (nodes, edges, addUserInputNode, tour actions). Chat uses <code>useChat({ api: '/api/disclosure/chat' })</code>.</p>
+</body>
+</html>

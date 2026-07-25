@@ -67,16 +67,8 @@ A versioned, domain-specific bundle under `sets/` (currently `disclosure/`). Pre
 _Avoid_: "prompt pack", "prompt folder" in planning docs
 
 **Prompt Template**:
-A general-purpose or RAG-pipeline prompt under `templates/`. Operational templates include `document_classification`, `rag_ingestion`, `rag_grounded_answer`, `validation`, `synthesis`, `deep_research`. Disclosure production paths prefer `sets/disclosure/` (aliases may resolve template names like `enhanced_ner` → `disclosure.ner`).
-_Avoid_: assuming every template is wired to a live Next.js route; assuming stubs are still empty after 2026-07-19
-
-**RAG Ingestion Prompt**:
-Template `rag_ingestion` — plans Evidence-only chunks + provenance metadata for embedding. Chunk bodies must not contain agent Inference.
-_Avoid_: using synthesis/liturgy output as chunk text
-
-**Grounded Answer Prompt**:
-Template `rag_grounded_answer` — answers using retrieved passages only, with citations, labeled Readings/Counter-readings, and a Next Trace.
-_Avoid_: backfilling case facts from parametric memory when passages are thin
+A general-purpose skeleton under `templates/` — not yet bound to a live production surface. May be incomplete (`synthesis` is a stub).
+_Avoid_: assuming every template is wired to a route
 
 **Extraction Prompt**:
 A prompt whose job is to pull structured record fields from unstructured source text (NER, entity extraction). Output targets database entity shapes, not narrative synthesis.

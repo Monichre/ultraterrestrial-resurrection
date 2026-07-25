@@ -446,8 +446,7 @@ class KnowledgeBaseService:
                     display.start_spinner(
                         "📊 Adding to local vectorized database...")
                     # Use YouTube-specific KB method that works with existing file structure
-                    doc_id = self.add_youtube_to_knowledge_base(
-                        data, file_paths)
+                    doc_id = self.add_youtube_to_knowledge_base(data, file_paths)
                     data['doc_id'] = doc_id
 
                     if doc_id:
@@ -459,8 +458,7 @@ class KnowledgeBaseService:
                     logger.error(f"Error adding to local knowledge base: {e}")
                     data['doc_id'] = None
             else:
-                display.print_warning(
-                    "Knowledge base storage skipped (--no-kb)")
+                display.print_warning("Knowledge base storage skipped (--no-kb)")
                 data['doc_id'] = None
 
             # Additional search sync (separate from local KB)
@@ -581,10 +579,8 @@ class KnowledgeBaseService:
                 safe_title = f"{domain.replace('.', '-')}"
 
             # Create meaningful directory name in correct location
-            # Go up to project root
-            base_dir = Path(__file__).parent.parent.parent.parent
-            web_dir = base_dir / "packages" / "knowledge-base" / \
-                "sources" / "web" / date_folder / f"{safe_title}_{url_hash}"
+            base_dir = Path(__file__).parent.parent.parent.parent  # Go up to project root
+            web_dir = base_dir / "packages" / "knowledge-base" / "sources" / "web" / date_folder / f"{safe_title}_{url_hash}"
             web_dir.mkdir(parents=True, exist_ok=True)
 
             # Generate comprehensive summary file
@@ -595,23 +591,10 @@ class KnowledgeBaseService:
                 # Generate AI-powered analysis (like YouTube processing)
                 from processing.content_analysis import ContentAnalysisEngine
                 analysis_engine = ContentAnalysisEngine()
-
+                
                 # Use the same AI analysis as YouTube processing
                 ai_analysis = analysis_engine.analyze_content(content)
-
-                # Registry-backed RAG / NER pipeline (non-fatal if LLM path fails)
-                rag_pipeline = {'status': 'skipped', 'errors': []}
-                try:
-                    rag_pipeline = analysis_engine.process_for_rag(
-                        content,
-                        provenance=url,
-                        filename_hint=safe_title,
-                    )
-                except Exception as rag_exc:
-                    logger.error(f"RAG pipeline error (non-fatal): {rag_exc}")
-                    rag_pipeline = {'status': 'error',
-                                    'errors': [str(rag_exc)]}
-
+                
                 # Create enhanced summary with AI analysis
                 summary_content = self._generate_web_content_summary_with_ai(
                     content, title, url, result, ai_analysis)
@@ -626,36 +609,21 @@ class KnowledgeBaseService:
                 with open(content_file_path, 'w', encoding='utf-8') as f:
                     f.write(content)
 
-                # Write RAG pipeline artifact (classification, chunks, NER, gates)
-                rag_pipeline_path = web_dir / f"{safe_title}_rag_pipeline.json"
-                with open(rag_pipeline_path, 'w', encoding='utf-8') as f:
-                    json.dump(rag_pipeline, f, indent=2, ensure_ascii=False)
-
                 # Write comprehensive metadata file
                 metadata_file_path = web_dir / f"{safe_title}_metadata.json"
-                rag_meta = rag_pipeline.get('metadata') or {}
                 enhanced_metadata = {
                     **data['metadata'],
                     'files': {
                         'summary': str(summary_file_path),
                         'content': str(content_file_path),
-                        'metadata': str(metadata_file_path),
-                        'rag_pipeline': str(rag_pipeline_path),
+                        'metadata': str(metadata_file_path)
                     },
                     'analysis': {
                         'content_type': self._analyze_content_type(content),
                         'key_topics': self._extract_key_topics(content),
                         'reading_time_minutes': max(1, len(content.split()) // 200),
                         'complexity_score': self._calculate_complexity_score(content)
-                    },
-                    'rag_pipeline': {
-                        'status': rag_pipeline.get('status'),
-                        'content_type': rag_meta.get('content_type'),
-                        'chunk_count': rag_meta.get('chunk_count'),
-                        'embeddable_count': rag_meta.get('embeddable_count'),
-                        'ingestion_recommendation': rag_meta.get('ingestion_recommendation'),
-                        'prompts_used': rag_meta.get('prompts_used'),
-                    },
+                    }
                 }
 
                 with open(metadata_file_path, 'w', encoding='utf-8') as f:
@@ -663,19 +631,11 @@ class KnowledgeBaseService:
 
                 data['metadata'] = enhanced_metadata
                 data['metadata']['processing_status']['summary_generated'] = True
-                data['metadata']['processing_status']['rag_pipeline'] = (
-                    rag_pipeline.get('status') not in ('error', 'skipped')
-                )
-                data['rag_pipeline'] = rag_pipeline
-                data['embeddable_texts'] = rag_pipeline.get(
-                    'embeddable_texts') or []
 
                 display.stop_spinner("✅ Comprehensive summary generated")
                 display.print_file_created(str(summary_file_path), "summary")
                 display.print_file_created(str(content_file_path), "content")
                 display.print_file_created(str(metadata_file_path), "metadata")
-                display.print_file_created(
-                    str(rag_pipeline_path), "rag_pipeline")
 
             except Exception as e:
                 display.stop_spinner("❌ Summary generation failed")
@@ -755,8 +715,7 @@ class KnowledgeBaseService:
                     logger.error(f"Error adding to local knowledge base: {e}")
                     data['doc_id'] = None
             else:
-                display.print_warning(
-                    "Knowledge base storage skipped (--no-kb)")
+                display.print_warning("Knowledge base storage skipped (--no-kb)")
                 data['doc_id'] = None
 
             # ENTITY EXTRACTION WORKFLOW (matching file processing)

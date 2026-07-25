@@ -1,7 +1,6 @@
 import json
 import os
 from textwrap import dedent
-from typing import Any, Dict, Optional
 
 from anthropic import Anthropic
 from dotenv import load_dotenv
@@ -10,7 +9,6 @@ from openai import OpenAI
 from pydantic import BaseModel
 
 from lib.prompt_loader import get_prompt
-from processing.rag_prompt_pipeline import RagPromptPipeline
 from rich.console import Console
 from rich.panel import Panel
 from rich.style import Style
@@ -230,54 +228,3 @@ Your responses should always be organized as precisely as possible according the
         except Exception as e:
             print(f"Analysis Error: {e}")
             return None
-
-    def process_for_rag(
-        self,
-        content_text: str,
-        *,
-        provenance: str = "",
-        filename_hint: str = "",
-        content_type_override: Optional[str] = None,
-        skip_ner: bool = False,
-        run_ner: bool = True,
-    ) -> Dict[str, Any]:
-        """
-        Run the registry-backed RAG/NER document pipeline.
-
-        Returns structured classification, analysis, Evidence chunks, NER, and
-        embeddable_texts suitable for vector indexing (Inference excluded).
-        """
-        pipeline = RagPromptPipeline(run_ner=run_ner)
-        return pipeline.process(
-            content_text,
-            provenance=provenance,
-            filename_hint=filename_hint,
-            content_type_override=content_type_override,
-            skip_ner=skip_ner,
-        ).to_dict()
-
-    def analyze_content_with_rag_pipeline(
-        self,
-        content_text: str,
-        *,
-        provenance: str = "",
-        filename_hint: str = "",
-        include_legacy_summary: bool = True,
-        skip_ner: bool = False,
-    ) -> Dict[str, Any]:
-        """Legacy narrative summary + structured RAG pipeline artifact."""
-        rag = self.process_for_rag(
-            content_text,
-            provenance=provenance,
-            filename_hint=filename_hint,
-            skip_ner=skip_ner,
-        )
-        legacy = None
-        if include_legacy_summary:
-            legacy = self.analyze_content(content_text)
-        return {
-            "legacy_analysis": legacy,
-            "rag_pipeline": rag,
-            "embeddable_texts": rag.get("embeddable_texts") or [],
-            "status": rag.get("status"),
-        }

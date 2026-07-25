@@ -71,6 +71,16 @@ def _find_registry_entry(index: list, prompt_id: str) -> Optional[Dict[str, Any]
     return None
 
 
+def _find_registry_entry(index: list, prompt_id: str) -> Optional[Dict[str, Any]]:
+    for entry in index:
+        if entry.get("id") == prompt_id:
+            return entry
+        aliases = entry.get("aliases") or []
+        if prompt_id in aliases:
+            return entry
+    return None
+
+
 def list_prompts(prompts_dir: Optional[str] = None) -> Any:
     base = _resolve_prompts_dir(prompts_dir)
     index_path = base / "registry.yaml"
