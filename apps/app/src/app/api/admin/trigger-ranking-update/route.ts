@@ -32,10 +32,11 @@ export async function POST(request: Request) {
   }
   
   const token = authHeader.split(" ")[1];
-  
-  // Simple auth check - replace with proper auth in production
-  // In production, use process.env.ADMIN_API_TOKEN from environment variables
-  if (token !== "dev_admin_token") {
+
+  // Token is checked against ADMIN_API_TOKEN from the environment. If the var is
+  // unset the route fails closed rather than falling back to a shared default.
+  const adminToken = process.env.ADMIN_API_TOKEN;
+  if (!adminToken || token !== adminToken) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   
