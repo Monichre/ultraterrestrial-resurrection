@@ -203,6 +203,9 @@ out/
 !vercel.json
 !**/tsconfig.json
 !**/tsconfig.*.json
+# Canonical archive metadata — not a large data file, it's the source of truth
+!packages/knowledge-base/metadata/index.json
+!packages/knowledge-base/metadata/redirect.json
 
 # Vector store files
 packages/knowledge-base/vector-store-files/
