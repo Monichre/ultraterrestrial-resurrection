@@ -8,22 +8,29 @@
 import { getSql } from './client'
 import type { SearchResponse } from './types'
 
-// Tables that have a search_vector tsvector column
+// Tables that have a search_vector tsvector column.
+// document_chunks is deliberately excluded — it has no search_vector column
+// (see migrations/rebuild/0001_init.sql:467-476). It gets a trgm fallback via
+// textCols in trgmSingle() instead of FTS.
 const FTS_TABLES = new Set([
   'topics', 'key_figures', 'events', 'organizations',
   'sightings', 'testimonies', 'documents', 'artifacts',
 ])
 
-// Tables that have an embedding vector(1536) column
+// Tables that have an embedding vector(1536) column.
+// document_chunks added so the 4,946 embedded chunks (previously write-only —
+// no reader in this file included the table) become reachable through
+// vectorSearch/vectorSearchAll/searchDatabase.
 const VECTOR_TABLES = new Set([
   'topics', 'key_figures', 'events', 'organizations',
-  'testimonies', 'documents', 'artifacts',
+  'testimonies', 'documents', 'artifacts', 'document_chunks',
 ])
 
 const TABLE_ALIAS: Record<string, string> = {
   personnel: 'key_figures',
   'key-figures': 'key_figures',
   'key_figures': 'key_figures',
+  'document-chunks': 'document_chunks',
 }
 
 function resolveTable(name: string): string {
@@ -68,6 +75,11 @@ async function trgmSingle(
     testimonies:   ['title', 'description', 'summary'],
     documents:     ['title', 'summary'],
     artifacts:     ['name', 'description'],
+    // No search_vector on this table (see FTS_TABLES comment above), so trgm
+    // is the only keyword-search path in. content is the whole chunk, not a
+    // short field like the entity tables' name/title — trgm similarity degrades
+    // on long strings, but it's still a reachability win over zero keyword access.
+    document_chunks: ['content'],
   }
   const cols = textCols[table]
   if (!cols) return []
@@ -203,14 +215,30 @@ export async function vectorSearch(
 
   let rows: Record<string, unknown>[] = []
   try {
-    rows = await sql.query(
-      `SELECT *, 1-(embedding <=> $1::vector) AS _score
-       FROM "${pgTable}"
-       WHERE embedding IS NOT NULL
-       ORDER BY embedding <=> $1::vector
-       LIMIT $2`,
-      [vecLiteral, limit],
-    ) as Record<string, unknown>[]
+    // document_chunks has no `title` (unlike every other VECTOR_TABLES member)
+    // and its useful display context — what document it's from — lives in a
+    // parent row. Join it in rather than forcing the chunk into the entity
+    // shape, so results are attributable without a second round-trip.
+    rows = pgTable === 'document_chunks'
+      ? await sql.query(
+          `SELECT dc.*, d.title AS document_title, d.url AS document_url,
+                  d.source_tier AS document_source_tier,
+                  1-(dc.embedding <=> $1::vector) AS _score
+           FROM document_chunks dc
+           LEFT JOIN documents d ON d.id = dc.document
+           WHERE dc.embedding IS NOT NULL
+           ORDER BY dc.embedding <=> $1::vector
+           LIMIT $2`,
+          [vecLiteral, limit],
+        ) as Record<string, unknown>[]
+      : await sql.query(
+          `SELECT *, 1-(embedding <=> $1::vector) AS _score
+           FROM "${pgTable}"
+           WHERE embedding IS NOT NULL
+           ORDER BY embedding <=> $1::vector
+           LIMIT $2`,
+          [vecLiteral, limit],
+        ) as Record<string, unknown>[]
   } catch {
     return []
   }

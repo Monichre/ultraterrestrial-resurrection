@@ -7,6 +7,8 @@ import os
 import json
 import shutil
 import logging
+import fcntl
+from contextlib import contextmanager
 from pathlib import Path
 from typing import List, Optional, Dict, Any, Union, Tuple
 from datetime import datetime
@@ -28,6 +30,12 @@ class Document:
     updated_at: str
     metadata: Dict[str, Any]
     tags: List[str]
+    # Full (unabridged) content hash. `id` is only the first 12 hex chars of
+    # this same hash, kept short for filenames/dir names; other systems
+    # depend on that `id` scheme, so it is not changed. Default keeps
+    # loading of pre-existing metadata.json records (written before this
+    # field existed) backward compatible.
+    content_hash: str = ""
 
     def to_dict(self):
         return asdict(self)
@@ -73,14 +81,59 @@ class KnowledgeBaseCRUD:
                 self.index = json.load(f)
 
     def _save_index(self):
-        """Save the index to disk"""
+        """Save the index to disk atomically.
+
+        Writes to a temp file in the same directory then `os.replace()`s it
+        onto the target, so a crash mid-write can never leave index.json
+        truncated or partially written (mirrors the pattern in
+        scripts/playlist_ingestion.py::save_state).
+        """
         self.index["last_updated"] = datetime.now().isoformat()
-        with open(self.index_file, 'w') as f:
+        tmp_file = self.index_file.parent / f"{self.index_file.name}.tmp"
+        with open(tmp_file, 'w') as f:
             json.dump(self.index, f, indent=2)
+        os.replace(tmp_file, self.index_file)
+
+    @contextmanager
+    def _locked_index(self):
+        """Exclusive OS-level lock spanning an index read-modify-write cycle.
+
+        Acquires an flock() on a dedicated lock file (not index.json itself,
+        so readers/writers never fight over the atomic-replace target), then
+        reloads self.index from disk while holding the lock so this process
+        observes any writes made by other concurrent processes/instances
+        instead of trusting a possibly-stale in-memory copy. Callers should
+        do all of their index reads *and* writes inside this context.
+
+        Only the methods in this file that perform create/update/delete use
+        this. lib/knowledge_base_service.py's YouTube ingest path calls
+        self.kb_crud._save_index() directly without holding this lock; that
+        file is owned elsewhere and out of scope here, so its writes remain
+        unlocked (still atomic per-write, just not race-free end-to-end).
+        """
+        lock_path = self.metadata_path / "index.json.lock"
+        lock_file = open(lock_path, "a+")
+        try:
+            fcntl.flock(lock_file.fileno(), fcntl.LOCK_EX)
+            if self.index_file.exists():
+                with open(self.index_file, 'r') as f:
+                    self.index = json.load(f)
+            else:
+                self.index = {"documents": {}, "tags": {}, "last_updated": ""}
+            yield self.index
+        finally:
+            try:
+                fcntl.flock(lock_file.fileno(), fcntl.LOCK_UN)
+            finally:
+                lock_file.close()
+
+    def _content_hash(self, content: str) -> str:
+        """Full md5 hex digest of document content (dedup key / integrity check)."""
+        return hashlib.md5(content.encode()).hexdigest()
 
     def _generate_id(self, content: str) -> str:
-        """Generate a unique ID for a document"""
-        return hashlib.md5(content.encode()).hexdigest()[:12]
+        """Generate a unique ID for a document (first 12 hex chars of its content hash)."""
+        return self._content_hash(content)[:12]
 
     def _generate_filename(self, title: str) -> str:
         """Generate a descriptive filename from document title"""
@@ -136,65 +189,136 @@ class KnowledgeBaseCRUD:
                         source: str,
                         doc_type: str,
                         metadata: Optional[Dict[str, Any]] = None,
-                        tags: Optional[List[str]] = None) -> Document:
-        """Create a new document in the knowledge base"""
-        doc_id = self._generate_id(content)
+                        tags: Optional[List[str]] = None,
+                        force: bool = False) -> Document:
+        """Create a new document in the knowledge base.
+
+        `doc_id` is a content hash, so re-ingesting byte-identical content is
+        expected to happen (e.g. a re-run of an ingest script) and is a
+        no-op by default: the existing record is returned unchanged. Pass
+        force=True to deliberately overwrite the existing record's content
+        and metadata in place.
+
+        Paths are date-stamped (YYYY-MM-DD/...), so the same content
+        ingested on a later day would, without this guard, compute a new
+        directory while sharing the old doc_id — silently repointing the
+        index and stranding the original files with nothing referencing
+        them ("orphaning"). That case is always refused and reported,
+        regardless of `force`: this method never deletes or abandons a
+        directory another index entry still points at. Use
+        update_document() to edit a record's content in place instead.
+        """
+        content_hash = self._content_hash(content)
+        doc_id = content_hash[:12]
         now = datetime.now().isoformat()
 
-        # Create document object
-        doc = Document(
-            id=doc_id,
-            title=title,
-            content=content,
-            source=source,
-            doc_type=doc_type,
-            created_at=now,
-            updated_at=now,
-            metadata=metadata or {},
-            tags=tags or []
-        )
+        with self._locked_index():
+            existing_info = self.index["documents"].get(doc_id)
+            existing_doc = self.get_document(doc_id) if existing_info else None
 
-        # Generate meaningful filename from title
-        content_filename = self._generate_filename(title)
+            content_filename = self._generate_filename(title)
+            doc_dir = self._get_doc_path(
+                doc_type, doc_id, content_filename, title).parent
 
-        # Create document directory with meaningful name
-        doc_dir = self._get_doc_path(
-            doc_type, doc_id, content_filename, title).parent
-        doc_dir.mkdir(parents=True, exist_ok=True)
+            created_at = now
 
-        # Save content with descriptive filename
-        content_file = self._get_doc_path(
-            doc_type, doc_id, content_filename, title)
-        with open(content_file, 'w', encoding='utf-8') as f:
-            f.write(content)
+            if existing_info and existing_doc:
+                existing_path = Path(existing_info["path"])
 
-        # Save metadata
-        meta_file = self._get_doc_path(
-            doc_type, doc_id, "metadata.json", title)
-        with open(meta_file, 'w', encoding='utf-8') as f:
-            json.dump(doc.to_dict(), f, indent=2)
+                if existing_path != doc_dir:
+                    # Orphaning case: writing here would repoint the index
+                    # entry for doc_id away from existing_path, leaving
+                    # those files on disk but unreachable through the KB.
+                    # Refuse unconditionally and leave everything as-is.
+                    logger.warning(
+                        f"Refusing to re-ingest document {doc_id} ({title!r}): "
+                        f"existing record lives at {existing_path} but this "
+                        f"content would now write to {doc_dir} (date-folder "
+                        f"drift). This would orphan the original files. "
+                        f"Returning the existing record unchanged; nothing "
+                        f"at {existing_path} was touched. Use "
+                        f"update_document({doc_id!r}, ...) to edit it in place."
+                    )
+                    return existing_doc
 
-        # Update index with meaningful directory path
-        date_folder = datetime.now().strftime("%Y-%m-%d")
-        meaningful_dir_name = self._generate_dir_name(title, doc_id)
-        self.index["documents"][doc_id] = {
-            "title": title,
-            "doc_type": doc_type,
-            "path": str(doc_dir),
-            "date_folder": date_folder,
-            "meaningful_dir_name": meaningful_dir_name,
-            "created_at": now,
-            "updated_at": now,
-            "tags": tags or []
-        }
+                if not force:
+                    logger.info(
+                        f"Document {doc_id} ({title!r}) already exists at "
+                        f"{existing_path} — identical content, skipping "
+                        f"re-ingest. Pass force=True to overwrite in place."
+                    )
+                    return existing_doc
 
-        # Update tag index
-        for tag in (tags or []):
-            if tag not in self.index["tags"]:
-                self.index["tags"][tag] = []
-            self.index["tags"][tag].append(doc_id)
+                logger.info(
+                    f"Overwriting existing document {doc_id} ({title!r}) at "
+                    f"{existing_path} (force=True)."
+                )
+                # Preserve the original acquisition date; only updated_at
+                # should move on a legitimate re-ingest/overwrite.
+                created_at = existing_info.get("created_at", now)
+            elif existing_info and not existing_doc:
+                # Index points at a record whose metadata.json is missing
+                # (corrupt/partial prior write) — nothing reliable to
+                # preserve; recreate it fresh at the freshly computed path.
+                logger.warning(
+                    f"Index referenced document {doc_id} but its metadata "
+                    f"file was missing under {existing_info.get('path')}; "
+                    f"recreating the record."
+                )
 
-        self._save_index()
+            # Create document object
+            doc = Document(
+                id=doc_id,
+                title=title,
+                content=content,
+                source=source,
+                doc_type=doc_type,
+                created_at=created_at,
+                updated_at=now,
+                metadata=metadata or {},
+                tags=tags or [],
+                content_hash=content_hash,
+            )
+
+            # Create document directory with meaningful name
+            doc_dir.mkdir(parents=True, exist_ok=True)
+
+            # Save content with descriptive filename
+            content_file = self._get_doc_path(
+                doc_type, doc_id, content_filename, title)
+            with open(content_file, 'w', encoding='utf-8') as f:
+                f.write(content)
+
+            # Save metadata
+            meta_file = self._get_doc_path(
+                doc_type, doc_id, "metadata.json", title)
+            with open(meta_file, 'w', encoding='utf-8') as f:
+                json.dump(doc.to_dict(), f, indent=2)
+
+            # Update index with meaningful directory path
+            date_folder = datetime.now().strftime("%Y-%m-%d")
+            meaningful_dir_name = self._generate_dir_name(title, doc_id)
+            self.index["documents"][doc_id] = {
+                "title": title,
+                "doc_type": doc_type,
+                "path": str(doc_dir),
+                "date_folder": date_folder,
+                "meaningful_dir_name": meaningful_dir_name,
+                "content_hash": content_hash,
+                "created_at": created_at,
+                "updated_at": now,
+                "tags": tags or []
+            }
+
+            # Update tag index (deduped — re-ingests must not pile up
+            # repeated doc_id entries under the same tag)
+            for tag in (tags or []):
+                tag_docs = self.index["tags"].setdefault(tag, [])
+                if doc_id not in tag_docs:
+                    tag_docs.append(doc_id)
+
+            self._save_index()
+
         logger.info(f"Created document: {doc_id} - {title}")
         return doc
 
@@ -295,62 +419,67 @@ class KnowledgeBaseCRUD:
                         content: Optional[str] = None,
                         metadata: Optional[Dict[str, Any]] = None,
                         tags: Optional[List[str]] = None) -> Optional[Document]:
-        """Update an existing document"""
-        doc = self.get_document(doc_id)
-        if not doc:
-            return None
+        """Update an existing document in place. created_at is never touched
+        here — only updated_at moves — so the original acquisition date
+        always survives a legitimate update."""
+        with self._locked_index():
+            doc = self.get_document(doc_id)
+            if not doc:
+                return None
 
-        # Update fields
-        if title:
-            doc.title = title
-        if content:
-            doc.content = content
-            # Find existing content file or create new one with meaningful name
-            doc_dir = self._get_doc_path(
-                doc.doc_type, doc_id, "metadata.json", doc.title).parent
-            content_files = list(doc_dir.glob("*.md"))
+            # Update fields
+            if title:
+                doc.title = title
+            if content:
+                doc.content = content
+                doc.content_hash = self._content_hash(content)
+                # Find existing content file or create new one with meaningful name
+                doc_dir = self._get_doc_path(
+                    doc.doc_type, doc_id, "metadata.json", doc.title).parent
+                content_files = list(doc_dir.glob("*.md"))
 
-            if content_files:
-                # Use existing content file
-                content_file = content_files[0]
-            else:
-                # Create new file with meaningful name
-                content_filename = self._generate_filename(doc.title)
-                content_file = self._get_doc_path(
-                    doc.doc_type, doc_id, content_filename, doc.title)
+                if content_files:
+                    # Use existing content file
+                    content_file = content_files[0]
+                else:
+                    # Create new file with meaningful name
+                    content_filename = self._generate_filename(doc.title)
+                    content_file = self._get_doc_path(
+                        doc.doc_type, doc_id, content_filename, doc.title)
 
-            with open(content_file, 'w', encoding='utf-8') as f:
-                f.write(content)
-        if metadata:
-            doc.metadata.update(metadata)
-        if tags is not None:
-            # Remove old tags from index
-            for old_tag in doc.tags:
-                if old_tag in self.index["tags"] and doc_id in self.index["tags"][old_tag]:
-                    self.index["tags"][old_tag].remove(doc_id)
+                with open(content_file, 'w', encoding='utf-8') as f:
+                    f.write(content)
+            if metadata:
+                doc.metadata.update(metadata)
+            if tags is not None:
+                # Remove old tags from index
+                for old_tag in doc.tags:
+                    if old_tag in self.index["tags"] and doc_id in self.index["tags"][old_tag]:
+                        self.index["tags"][old_tag].remove(doc_id)
 
-            # Add new tags
-            doc.tags = tags
-            for tag in tags:
-                if tag not in self.index["tags"]:
-                    self.index["tags"][tag] = []
-                self.index["tags"][tag].append(doc_id)
+                # Add new tags (deduped)
+                doc.tags = tags
+                for tag in tags:
+                    tag_docs = self.index["tags"].setdefault(tag, [])
+                    if doc_id not in tag_docs:
+                        tag_docs.append(doc_id)
 
-        doc.updated_at = datetime.now().isoformat()
+            doc.updated_at = datetime.now().isoformat()
 
-        # Save updated metadata
-        meta_file = self._get_doc_path(
-            doc.doc_type, doc_id, "metadata.json", doc.title)
-        with open(meta_file, 'w', encoding='utf-8') as f:
-            json.dump(doc.to_dict(), f, indent=2)
+            # Save updated metadata
+            meta_file = self._get_doc_path(
+                doc.doc_type, doc_id, "metadata.json", doc.title)
+            with open(meta_file, 'w', encoding='utf-8') as f:
+                json.dump(doc.to_dict(), f, indent=2)
 
-        # Update index
-        self.index["documents"][doc_id].update({
-            "title": doc.title,
-            "updated_at": doc.updated_at,
-            "tags": doc.tags
-        })
-        self._save_index()
+            # Update index (created_at deliberately omitted — preserved as-is)
+            self.index["documents"][doc_id].update({
+                "title": doc.title,
+                "content_hash": doc.content_hash,
+                "updated_at": doc.updated_at,
+                "tags": doc.tags
+            })
+            self._save_index()
 
         logger.info(f"Updated document: {doc_id}")
         return doc
@@ -358,26 +487,27 @@ class KnowledgeBaseCRUD:
     # DELETE
     def delete_document(self, doc_id: str) -> bool:
         """Delete a document from the knowledge base"""
-        if doc_id not in self.index["documents"]:
-            return False
+        with self._locked_index():
+            if doc_id not in self.index["documents"]:
+                return False
 
-        doc_info = self.index["documents"][doc_id]
-        doc_path = Path(doc_info["path"])
+            doc_info = self.index["documents"][doc_id]
+            doc_path = Path(doc_info["path"])
 
-        # Remove from tag index
-        for tag in doc_info["tags"]:
-            if tag in self.index["tags"] and doc_id in self.index["tags"][tag]:
-                self.index["tags"][tag].remove(doc_id)
-                if not self.index["tags"][tag]:
-                    del self.index["tags"][tag]
+            # Remove from tag index
+            for tag in doc_info["tags"]:
+                if tag in self.index["tags"] and doc_id in self.index["tags"][tag]:
+                    self.index["tags"][tag].remove(doc_id)
+                    if not self.index["tags"][tag]:
+                        del self.index["tags"][tag]
 
-        # Delete files
-        if doc_path.exists():
-            shutil.rmtree(doc_path)
+            # Delete files
+            if doc_path.exists():
+                shutil.rmtree(doc_path)
 
-        # Remove from index
-        del self.index["documents"][doc_id]
-        self._save_index()
+            # Remove from index
+            del self.index["documents"][doc_id]
+            self._save_index()
 
         logger.info(f"Deleted document: {doc_id}")
         return True
