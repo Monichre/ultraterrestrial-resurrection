@@ -17,7 +17,8 @@ The `@agents` reference likely points to the newly created research agents in `.
 
 I will inspect the `.cursor/agents/` directory and related source definitions. I will search memory first per OpenMemory rules. I will write pseudocode before implementing any changes.
 
-I will read openmemory.md first. The git status reveals `.cursor/agents/` files, a generation script, and a definitions folder. A prior subagent-creation transcript may guide the review.</details></think>
+I will read openmemory.md first. The git status reveals `.cursor/agents/` files, a generation script, and a definitions folder. A prior subagent-creation transcript may guide the review.
+</details></think>
 
 _**Agent (grok-4.5)**_
 
@@ -25,9 +26,8 @@ I'll review the agents setup in this repo, starting with the current agent defin
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
-<details><summary>Tool use: **run_terminal_command_v2** • Run command: pwd && ls -la .cursor/agents/ 2>/dev/null; ls -la "ultraterrestrial-agent-definitions-v2 3/" 2>/dev/null | head -40; head -80 openmemory.md 2>/dev/null; ls GOAL.md DAILY_WORK_PLAN.md 2>/dev/null</summary>
-
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2** • Run command: pwd &amp;&amp; ls -la .cursor/agents/ 2&gt;/dev/null; ls -la &#34;ultraterrestrial-agent-definitions-v2 3/&#34; 2&gt;/dev/null | head -40; head -80 openmemory.md 2&gt;/dev/null; ls GOAL.md DAILY_WORK_PLAN.md 2&gt;/dev/null</summary>
 ```bash
 pwd && ls -la .cursor/agents/ 2>/dev/null; ls -la "ultraterrestrial-agent-definitions-v2 3/" 2>/dev/null | head -40; head -80 openmemory.md 2>/dev/null; ls GOAL.md DAILY_WORK_PLAN.md 2>/dev/null
 ```
@@ -69,76 +69,15 @@ drwxr-xr-x@  5 liamellis  staff    160 Jul 18 19:08 shared
 
 ## Overview
 
-UAP research platform monorepo: Next.js app (&#96;apps/app&#96;), disconnected Python RAG (&#96;apps/disclosure-rag&#96;), Neon Postgres via &#96;@db/postgres&#96; (&#96;packages/db&#96;).
-
-## Architecture
-
-- Research canvas → MindMap shell → ViewSwitcher → Graph / Timeline / Sightings / Search / Detail
-- Live AI: disclosure mindmap agent + Prometheus chat
-- Design: Microfilm Dark (&#96;DESIGN.md&#96;), vision docs in &#96;docs/vision/&#96;
-
-## User Defined Namespaces
-
-- frontend
-- design
-
-## Components
-
-### OraclePanel
-
-- **Path:** &#96;apps/app/src/components/oracle-panel/&#96;
-- **Purpose:** Oracle Recipe panel — view/edit multi-step workflow, confirm &amp; run, duplicate &amp; re-run
-- **Stories:** &#96;Components/OraclePanel&#96; (incl. InteractiveDemo)
-- **Deps:** framer-motion, @dnd-kit, lucide-react, sonner
-
-### OryzaeTimeline
-
-- **Path:** &#96;apps/app/src/components/oryzae-timeline/&#96;
-- **Purpose:** Dark floating-card memory timeline (CodePen port) — spine, range nav, dimmed memories
-- **Stories:** &#96;Components/OryzaeTimeline&#96;
-- **Fonts:** Inter + Noto Serif JP (injected via &#96;useOryzaeFonts&#96;)
-
-### Cursor Research Subagents
-
-- **Path:** &#96;.cursor/agents/&#96;
-- **Purpose:** 18 project-scoped research specialists generated from the canonical v2 agent definitions
-- **Scope:** Development-time Cursor subagents only; they do not add runtime product agents
-- **Safety:** Shared epistemic contract, role authority, logical tool/write boundaries, handoffs, and output contracts are embedded in every agent
-- **Generator:** &#96;.cursor/generate-research-agents.mjs&#96;
-- **Excluded:** Restricted &#96;DOTY_PATTERN&#96; adversarial profile
-
-### RocketTelemetryHud
-
-- **Path:** &#96;apps/app/src/features/sightings/components/rocket-telemetry-hud/&#96;
-- **Purpose:** Sci-fi rocket telemetry HUD chrome around sightings 3D globe (v0 port)
-- **Entry:** &#96;RocketHud&#96; — default mode in &#96;HudUapInterface&#96; (&#96;globeType: 'telemetry'&#96;)
-- **Source:** v0 chat &#96;tzMkXRdlZmx&#96; (digital-mischief-group)
-- **Stories:** &#96;Features/Sightings/RocketTelemetryHud&#96;
-
-## Patterns
-
-- Feature/component folders: kebab-case dir, PascalCase components, co-located &#96;.stories.tsx&#96;
-- Storybook demos that need state live as &#96;*Demo.tsx&#96; harnesses next to the component
-- Design ports keep inline styles when matching source fidelity; extract tokens to &#96;types&#96; / constants
-- Cursor research agents are generated from canonical source definitions to prevent prompt drift; logical tools remain capability boundaries rather than claims of available runtime tools
-DAILY_WORK_PLAN.md
-GOAL.md
-
+UAP research platform monorepo: Next.js app (`apps/app`), disconnected Python RAG
+… (output truncated)
 ```
-</details>
-</tool-use>
-
-<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
-<summary>Tool use: **run_terminal_command_v2**</summary>
-
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="unknown" data-tool-name="get_mcp_tools">
-<details>
+<tool-use data-tool-type="unknown" data-tool-name="get_mcp_tools"><details>
 <summary>Tool use: **get_mcp_tools**</summary>
-
 
 Parameters:
 
@@ -156,35 +95,21 @@ Result:
 ```
 Status: **completed**
 
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="unknown" data-tool-name="get_mcp_tools"><details>
-<summary>Tool use: **get_mcp_tools**</summary>
-
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
-
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.cursor/agents/README.md</summary>
-
-</details>
-</tool-use>
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.cursor/agents/README.md</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="search" data-tool-name="glob_file_search">
-<details>
+<tool-use data-tool-type="search" data-tool-name="glob_file_search"><details>
 <summary>Tool use: **glob_file_search** • Searched codebase "" • **19** results in **1** directory</summary>
 
-Directory: **** (19 files)
+Directory: **``** (19 files)
 
 | File |
 |------|
@@ -207,19 +132,13 @@ Directory: **** (19 files)
 | `./.cursor/agents/fort.md` |
 | `./.cursor/agents/lone-gunmen.md` |
 | `./.cursor/agents/majestic.md` |
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="search" data-tool-name="glob_file_search"><details>
-<summary>Tool use: **glob_file_search**</summary>
-
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
 <think><details><summary>Thought Process</summary>
-Digging deeper into the generator, source definitions, and generated agents. Reviewing the Cursor agent format and OpenMemory. Checking the prior transcript on subagent creation.</details></think>
+Digging deeper into the generator, source definitions, and generated agents. Reviewing the Cursor agent format and OpenMemory. Checking the prior transcript on subagent creation.
+</details></think>
 
 _**Agent (grok-4.5)**_
 
@@ -227,62 +146,36 @@ Next I'll compare the generator, source definitions, and a few generated agents 
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.cursor/generate-research-agents.mjs</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.cursor/generate-research-agents.mjs</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.cursor/agents/majestic.md</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.cursor/agents/majestic.md</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/ultraterrestrial-agent-definitions-v2 3/README.md</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/ultraterrestrial-agent-definitions-v2 3/README.md</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/ultraterrestrial-agent-definitions-v2 3/MANIFEST.md</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/ultraterrestrial-agent-definitions-v2 3/MANIFEST.md</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="unknown" data-tool-name="get_mcp_tools">
-<details>
+<tool-use data-tool-type="unknown" data-tool-name="get_mcp_tools"><details>
 <summary>Tool use: **get_mcp_tools**</summary>
-
 
 Parameters:
 
@@ -295,30 +188,17 @@ Result:
 
 ```json
 {
-  "content": "{\n  \"mode\": \"search\",\n  \"pattern\": \"memory|openmemory|search\",\n  \"matches\": [\n    {\n      \"server\": \"plugin-context-mode-context-mode\",\n      \"tool\": \"ctx_search\",\n      \"description\": \"Search a unified knowledge base with a multi-strategy ranking pipeline. Two parallel matchers run on every query: a Porter-stemming matcher (\\\"caching\\\" finds \\\"cached\\\", \\\"caches\\\", \\\"cach\\\") ... [truncated]\"\n    },\n    {\n      \"server\": \"plugin-exa-exa\",\n      \"tool\": \"web_search_exa\",\n      \"description\": \"Search the web for any topic and get clean, ready-to-use content. Best for: Finding current information, news, facts, people, companies, or answering questions about any topic. Returns:... [truncated]\"\n    },\n    {\n      \"server\": \"plugin-firebase-firebase\",\n      \"tool\": \"developerknowledge_search_documents\",\n      \"description\": \"Use this tool to find documentation about Google developer products. The documents contain official APIs, code snippets, release notes, best practices, guides, debugging info, and more.... [truncated]\"\n    },\n    {\n      \"server\": \"plugin-pinecone-pinecone\",\n      \"tool\": \"search-docs\",\n      \"description\": \"Search Pinecone documentation for relevant information\"\n    },\n    {\n      \"server\": \"plugin-shadcn-shadcn\",\n      \"tool\": \"search_items_in_registries\",\n      \"description\": \"Search for components in registries using fuzzy matching (requires components.json). After finding an item, use get_item_examples_from_registries to see usage examples.\"\n    },\n    {\n      \"server\": \"plugin-tldraw-tldraw\",\n      \"tool\": \"search\",\n      \"description\": \"Search the tldraw Editor API spec by writing JavaScript that receives a &#96;spec&#96; object and returns a result. The spec contains: spec.members (all Editor methods/properties with name, kin... [truncated]\"\n    },\n    {\n      \"server\": \"plugin-vercel-vercel\",\n      \"tool\": \"search_vercel_documentation\",\n      \"description\": \"Search the Vercel documentation. Use this tool to answer any questions about Vercel’s platform, features, and best practices, including: - Core Concepts: Projects, Deployments, Git Inte... [truncated]\"\n    },\n    {\n      \"server\": \"user-Linear\",\n      \"tool\": \"search_documentation\",\n      \"description\": \"Search Linear's documentation to learn about features and usage\"\n    },\n    {\n      \"server\": \"user-Neon\",\n      \"tool\": \"search\",\n      \"description\": \"Search across all organizations, projects, and branches by keyword. Returns matching items with id, title, and URL. Query must be at least 3 characters. Do not use when you need all pro... [truncated]\"\n    },\n    {\n      \"server\": \"user-Notion\",\n      \"tool\": \"notion-search\",\n      \"description\": \"Search the user's Notion workspace and connected sources (Slack, Google Drive, GitHub, Jira, Teams, SharePoint, OneDrive, Linear) and return a ranked list of results to read. Two query ... [truncated]\"\n    },\n    {\n      \"server\": \"user-open-knowledge\",\n      \"tool\": \"search\",\n      \"description\": \"[Requires: Hocuspocus server] Ranked retrieval across ALL non-ignored files (markdown by title/body, other file types by name/path, plus folders) — pair with &#96;exec&#96; &#96;grep&#96; for exhaustiv... [truncated]\"\n    },\n    {\n      \"server\": \"user-plan\",\n      \"tool\": \"search-pr-recaps\",\n      \"description\": \"Search merged pull request visual recaps for product knowledge. Use this first for questions like what shipped in the last week, when an API changed, what a shipped UI looked like, or w... [truncated]\"\n    },\n    {\n      \"server\": \"user-plan\",\n      \"tool\": \"tool-search\",\n      \"description\": \"Discover callable Plan MCP tools by name and description. Omit query to list the visible Plan connector surface; pass query to filter by capability.\"\n    }\n  ]\n}"
-}
+  "content": "{\n  \"mode\": \"search\",\n  \"pattern\": \"memory|openmemory|search\",\n  \"matches\": [\n    {\n      \"server\": \"plugin-context-mode-context-mode\",\n      \"tool\": \"ctx_search\",\n      \"description\": \"Search a unified knowledge base with a multi-strategy ranking pipeline. Two parallel matchers run on every query: a Porter-stemming matcher (\\\"caching\\\" finds \\\"cached\\\", \\\"caches\\\", \\\"cach\\\") ... [truncated]\"\n    },\n    {\n      \"server\": \"plugin-exa-exa\",\n      \"tool\": \"web_search_exa\",\n      \"description\": \"Search the web for any topic and get clean, ready-to-use content. Best for: Finding current information, news, facts, people, companies, or answering questions about any topic. Returns:... [truncated]\"\n    },\n    {\n      \"server\": \"plugin-firebase-firebase\",\n      \"tool\": \"developerknowledge_search_documents\",\n      \"description\": \"Use this tool to find documentation about Google developer products. The documents contain official APIs, code snippets, release notes, best practices, guides, debugging info, and more.... [truncated]\"\n    },\n    {\n      \"server\": \"plugin-pinecone-pinecone\",\n      \"tool\": \"search-docs\",\n      \"description\": \"Search Pinecone documentation for relevant information\"\n    },\n    {\n      \"server\": \"plugin-shadcn-shadcn\",\n      \"tool\": \"search_items_in_registries\",\n      \"description\": \"Search for components in registries using fuzzy matching (requires components.json). After finding an item, use get_item_examples_from_registries to see usage examples.\"\n    },\n    {\n      \"server\": \"plugin-tldraw-tldraw\",\n      \"tool\": \"search\",\n      \"description\": \"Search the tldraw Editor API spec by writing JavaScript that receives a `spec` object and returns a result. The spec contains: spec.members (all Editor methods/properties with name, kin... [truncated]\"\n    },\n    {\n      \"server\": \"plugin-vercel-vercel\",\n      
+… (output truncated)
 ```
 Status: **completed**
-
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="unknown" data-tool-name="get_mcp_tools"><details>
-<summary>Tool use: **get_mcp_tools**</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/.cursor/skills-cursor/create-subagent/SKILL.md</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/.cursor/skills-cursor/create-subagent/SKILL.md</summary>
 
 </details></tool-use>
 
@@ -331,66 +211,41 @@ A stale Xata reference remains in the source README despite Postgres being the l
 
 All eighteen agents are already registered with Cursor's Task tool. The plan is to tighten the generator so it produces leaner, Cursor-optimized prompts instead of dumping full source bodies. Stale Xata references will be fixed across both source and generated grounding.
 
-New improvements include adding `readonly: true` flags, defining when each agent should not be used, compressing the shared contract, and adding generator validation. The create-subagent skill, source agents, shared contract, and prior transcript will be reviewed next.</details></think>
+New improvements include adding `readonly: true` flags, defining when each agent should not be used, compressing the shared contract, and adding generator validation. The create-subagent skill, source agents, shared contract, and prior transcript will be reviewed next.
+</details></think>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/.cursor/skills-cursor/create-subagent/SKILL.md</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/.cursor/skills-cursor/create-subagent/SKILL.md</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/ultraterrestrial-agent-definitions-v2 3/shared/00-operating-contract.md</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/ultraterrestrial-agent-definitions-v2 3/shared/00-operating-contract.md</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/ultraterrestrial-agent-definitions-v2 3/agents/06-scully-evidence-evaluator.md</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/ultraterrestrial-agent-definitions-v2 3/agents/06-scully-evidence-evaluator.md</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.cursor/agents/scully.md</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.cursor/agents/scully.md</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
-<details>
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
 <summary>Tool use: **ripgrep_raw_search**</summary>
-
 
 Parameters:
 
@@ -416,21 +271,12 @@ Additional data:
 ```
 Status: **completed**
 
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
-<summary>Tool use: **ripgrep_raw_search**</summary>
-
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
-<details>
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
 <summary>Tool use: **ripgrep_raw_search**</summary>
-
 
 Parameters:
 
@@ -508,25 +354,12 @@ Additional data:
 ```
 Status: **completed**
 
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
-<summary>Tool use: **ripgrep_raw_search**</summary>
-
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.specstory/history/2026-07-19_00-16-35Z-subagent-creation-for-app.md</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.specstory/history/2026-07-19_00-16-35Z-subagent-creation-for-app.md</summary>
 
 </details></tool-use>
 
@@ -539,7 +372,8 @@ Task tool descriptions contain only YAML folded scalar markers like `>-`. This s
 
 This is likely the root cause of routing failures. The create-subagent skill uses plain single-line descriptions, confirming the `>-` syntax is the culprit. Converting all descriptions to single-line quoted strings is the highest-impact fix.
 
-I've mapped out the remaining improvements. Prompts will be tightened by extracting system prompt, procedure, and handoffs while dropping redundant identity and null-filled YAML schemas. Descriptions will gain trigger terms and explicit "when not to use" guidance. I'll fix the stale Xata reference in the source README, support both the current and renamed source directory paths, and add invocation workflows to every agent. The generator will validate frontmatter, unique names, and description length. Finally, the README will get clearer dialectics, a routing guide, and usage criteria.</details></think>
+I've mapped out the remaining improvements. Prompts will be tightened by extracting system prompt, procedure, and handoffs while dropping redundant identity and null-filled YAML schemas. Descriptions will gain trigger terms and explicit "when not to use" guidance. I'll fix the stale Xata reference in the source README, support both the current and renamed source directory paths, and add invocation workflows to every agent. The generator will validate frontmatter, unique names, and description length. Finally, the README will get clearer dialectics, a routing guide, and usage criteria.
+</details></think>
 
 _**Agent (grok-4.5)**_
 
@@ -547,10 +381,8 @@ The Task tool shows agent descriptions as bare `>-` — likely a frontmatter par
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="unknown" data-tool-name="get_mcp_tools">
-<details>
+<tool-use data-tool-type="unknown" data-tool-name="get_mcp_tools"><details>
 <summary>Tool use: **get_mcp_tools**</summary>
-
 
 Parameters:
 
@@ -569,34 +401,19 @@ Result:
 ```
 Status: **completed**
 
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="unknown" data-tool-name="get_mcp_tools"><details>
-<summary>Tool use: **get_mcp_tools**</summary>
-
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
-
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/docs/vision/AGENT_ARCHITECTURE_BRIEF.md</summary>
-
-</details>
-</tool-use>
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/docs/vision/AGENT_ARCHITECTURE_BRIEF.md</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
-<details>
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
 <summary>Tool use: **ripgrep_raw_search**</summary>
-
 
 Parameters:
 
@@ -672,29 +489,21 @@ Additional data:
 ```
 Status: **completed**
 
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
-<summary>Tool use: **ripgrep_raw_search**</summary>
-
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
-<details><summary>Tool use: **run_terminal_command_v2** • Run command: wc -l .cursor/agents/*.md | sort -n; echo '---'; for f in .cursor/agents/*.md; do echo "$f: $(wc -c < "$f") bytes"; done | sort -t: -k2 -n; echo '---'; head -5 .cursor/agents/scully.md | od -c | head -20; python3 -c "
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2** • Run command: wc -l .cursor/agents/*.md | sort -n; echo &#39;---&#39;; for f in .cursor/agents/*.md; do echo &#34;$f: $(wc -c &lt; &#34;$f&#34;) bytes&#34;; done | sort -t: -k2 -n; echo &#39;---&#39;; head -5 .cursor/agents/scully.md | od -c | head -20; python3 -c &#34;
 import yaml, pathlib
-for p in sorted(pathlib.Path('.cursor/agents').glob('*.md')):
-    if p.name=='README.md': continue
+for p in sorted(pathlib.Path(&#39;.cursor/agents&#39;).glob(&#39;*.md&#39;)):
+    if p.name==&#39;README.md&#39;: continue
     text=p.read_text()
-    fm=text.split('---',2)[1]
+    fm=text.split(&#39;---&#39;,2)[1]
     data=yaml.safe_load(fm)
-    d=data.get('description','')
-    print(f\"{p.name}: name={data.get('name')!r} desc_len={len(d) if isinstance(d,str) else type(d)} desc_start={repr(d)[:80] if isinstance(d,str) else d}\")
-"</summary>
-
+    d=data.get(&#39;description&#39;,&#39;&#39;)
+    print(f\&#34;{p.name}: name={data.get(&#39;name&#39;)!r} desc_len={len(d) if isinstance(d,str) else type(d)} desc_start={repr(d)[:80] if isinstance(d,str) else d}\&#34;)
+&#34;</summary>
 ```bash
 wc -l .cursor/agents/*.md | sort -n; echo '---'; for f in .cursor/agents/*.md; do echo "$f: $(wc -c < "$f") bytes"; done | sort -t: -k2 -n; echo '---'; head -5 .cursor/agents/scully.md | od -c | head -20; python3 -c "
 import yaml, pathlib
@@ -751,46 +560,15 @@ for p in sorted(pathlib.Path('.cursor/agents').glob('*.md')):
 .cursor/agents/majestic.md:    11200 bytes
 ---
 0000000    -   -   -  \n   n   a   m   e   :       s   c   u   l   l   y
-0000020   \n   d   e   s   c   r   i   p   t   i   o   n   :       &gt;   -
+0000020   \n   d   e   s   c   r   i   p   t   i   o   n   :       >   -
 0000040   \n           E   v   i   d   e   n   c   e       e   v   a   l
 0000060    u   a   t   i   o   n       a   n   d       c   o   n   v   e
 0000100    n   t   i   o   n   a   l   -   e   x   p   l   a   n   a   t
 0000120    i   o   n       a   n   a   l   y   s   t   .       U   s   e
 0000140        p   r   o   a   c   t   i   v   e   l   y       w   h   e
-0000160    n       c   l   a   i   m   s       n   e   e   d       c   r
-0000200    e   d   i   b   i   l   i   t   y       s   c   o   r   i   n
-0000220    g   ,       p   r   o   v   e   n   a   n   c   e       c   h
-0000240    e   c   k   s   ,       c   o   r   r   o   b   o   r   a   t
-0000260    i   o   n       a   n   a   l   y   s   i   s   ,       o   r
-0000300        p   r   o   s   a   i   c       a   l   t   e   r   n   a
-0000320    t   i   v   e   s   .  \n   -   -   -  \n                    
-0000333
-fort.md: name='fort' desc_len=185 desc_start='Archive ingestion and source-acquisition specialist. Use proactively to acquire
-grusch.md: name='grusch' desc_len=180 desc_start='Protected-disclosure and claim-chain analyst. Use proactively for whistleblower
-hynek.md: name='hynek' desc_len=155 desc_start='Scientific anomaly and technical-feasibility analyst. Use proactively for senso
-keel.md: name='keel' desc_len=183 desc_start='Strategic synthesis and high-strangeness integration director. Use proactively 
-knapp.md: name='knapp' desc_len=183 desc_start='Investigative journalism and source-development analyst. Use proactively to tra
-lone-gunmen.md: name='lone-gunmen' desc_len=188 desc_start='Real-time monitoring and flap-detection specialist. Use proactively for new rep
-mack.md: name='mack' desc_len=153 desc_start='Witness psychology and experiencer-testimony analyst. Use proactively to assess
-majestic.md: name='majestic' desc_len=198 desc_start='Master investigation controller for Ultraterrestrial research. Use proactively 
-masters.md: name='masters' desc_len=169 desc_start='Cryptoterrestrial and alternative-origin hypothesis analyst. Use proactively to
-mellon.md: name='mellon' desc_len=157 desc_start='Government structure and disclosure-policy analyst. Use proactively to map agen
-michel.md: name='michel' desc_len=162 desc_start='Timeline, geography, and flap-correlation analyst. Use proactively for temporal
-mulder.md: name='mulder' desc_len=183 desc_start='Pattern-recognition and hypothesis-generation analyst. Use proactively to ident
-pasulka.md: name='pasulka' desc_len=170 desc_start='Religion, technology, and myth-formation analyst. Use proactively for symbolic 
-pilkington.md: name='pilkington' desc_len=175 desc_start='Information-operations and narrative-contamination analyst. Use proactively to 
-pope.md: name='pope' desc_len=176 desc_start='Official narrative and institutional-communications analyst. Use proactively to
-ruppelt.md: name='ruppelt' desc_len=170 desc_start='Schema-first fact and event extractor. Use proactively to convert source materi
-scully.md: name='scully' desc_len=179 desc_start='Evidence evaluation and conventional-explanation analyst. Use proactively when 
-vallee.md: name='vallee' desc_len=184 desc_start='Ontology, entity, and phenomenon-model curator. Use proactively for entity reso
-
+0000160    n       c   l   a   i 
+… (output truncated)
 ```
-</details>
-</tool-use>
-
-<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
-<summary>Tool use: **run_terminal_command_v2**</summary>
-
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
@@ -812,7 +590,8 @@ The source directory will be renamed because the trailing " 3" appears to be a m
 
 The pseudocode will be saved to `.cursor/agents/Agents_PSUEDOCODE.md`. Final documentation will live in `.cursor/agents/Agents.md` in PascalCase. This avoids clashing with the existing README.
 
-The generator will produce a better README and `Agents.md` as the architecture document. Pseudocode will be placed at `.cursor/Agents_PSUEDOCODE.md`. One full source agent will be inspected to ensure reliable section extraction.</details></think>
+The generator will produce a better README and `Agents.md` as the architecture document. Pseudocode will be placed at `.cursor/Agents_PSUEDOCODE.md`. One full source agent will be inspected to ensure reliable section extraction.
+</details></think>
 
 _**Agent (grok-4.5)**_
 
@@ -820,10 +599,8 @@ YAML parses fine, but Cursor’s Task catalog shows descriptions as bare `>-` �
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="unknown" data-tool-name="todo_write">
-<details>
+<tool-use data-tool-type="unknown" data-tool-name="todo_write"><details>
 <summary>Tool use: **todo_write**</summary>
-
 
 Parameters:
 
@@ -863,34 +640,19 @@ Result:
 ```
 Status: **completed**
 
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="unknown" data-tool-name="todo_write"><details>
-<summary>Tool use: **todo_write**</summary>
-
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
-
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/ultraterrestrial-agent-definitions-v2 3/agents/01-majestic-master-controller.md</summary>
-
-</details>
-</tool-use>
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/ultraterrestrial-agent-definitions-v2 3/agents/01-majestic-master-controller.md</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="unknown" data-tool-name="mcp-exa-web_search_exa">
-<details>
+<tool-use data-tool-type="unknown" data-tool-name="mcp-exa-web_search_exa"><details>
 <summary>Tool use: **mcp-exa-web_search_exa**</summary>
-
 
 Parameters:
 
@@ -914,32 +676,19 @@ Additional data:
 ```
 Result:
 
-```json
+````json
 {
-  "result": "{\"content\":[{\"type\":\"text\",\"text\":\"Title: Subagents | Cursor Docs\\nURL: https://cursor.com/docs/subagents\\nPublished: N/A\\nAuthor: N/A\\nHighlights:\\nAgent automatically uses subagents when appropriate\\n...\\ncreate a custom subagent by asking Agent:\\n...\\nCreate a subagent file at .cursor/agents/verifier.md with YAML frontmatter (name, description) followed by the prompt. The verifier subagent should validate completed work, check that implementations are functional, run tests, and report what passed vs what's incomplete.\\n...\\nCustom subagents\\n...\\n| Type | Location | Scope |\\n| --- | --- | --- |\\n| Project subagents | &#96;.cursor/agents/&#96; | Current project only |\\n| | &#96;.claude/agents/&#96; | Current project only (Claude compatibility) |\\n| | &#96;.codex/agents/&#96; | Current project only (Codex compatibility) |\\n| User subagents | &#96;~/.cursor/agents/&#96; | All projects for current user |\\n| | &#96;~/.claude/agents/&#96; | All projects for current user (Claude compatibility) |\\n| | &#96;~/.codex/agents/&#96; | All projects for current user (Codex compatibility) |\\n...\\n### File format\\n...\\nEach subagent is a markdown file with YAML frontmatter:\\n...\\n&#96;&#96;&#96;markdown\\n---\\nname: security-auditor\\ndescription: Security specialist. Use when implementing auth, payments, or handling sensitive data.\\nmodel: inherit\\nreadonly: true\\n---\\n...\\n### Configuration fields\\n...\\n| Field | Type | Required | Default | Description |\\n| --- | --- | --- | --- | --- |\\n| &#96;name&#96; | string | No | Derived from filename | Display name and identifier. Use lowercase letters and hyphens. |\\n| &#96;description&#96; | string | No | — | Short description shown in Task tool hints. Agent reads this to decide delegation. |\\n| &#96;model&#96; | string | No | &#96;inherit&#96; | Model to use: &#96;inherit&#96; or a specific model ID. See model configuration. |\\n| &#96;readonly&#96; | boolean | No | &#96;false&#96; | If &#96;true&#96;, the subagent runs with restricted write permissions (no file edits, no state-changing shell commands). |\\n| &#96;is_background&#96; | boolean | No | &#96;false&#96; | If &#96;true&#96;, the subagent runs in the background without blocking the parent. |\\n...\\n### Model configuration\\n...\\nThe &#96;model&#96; field controls which model a subagent uses. There are two options:\\n...\\n| Value | Behavior |\\n| --- | --- |\\n| &#96;inherit&#96; | Uses the same model as the parent agent. This is the default. |\\n| A specific model ID | Uses the exact model you specify, such as &#96;composer-2&#96; or &#96;gpt-5.6-sol&#96;. See the models reference for available IDs. |\\n...\\nChoose &#96;inherit&#96; when the subagent needs the same reasoning power as the parent. Use a specific model ID when you need a particular model's capabilities regardless of what the parent uses.\\n...\\n#### Model parameters\\n...\\nAppend square brackets to a model ID to set per-model options like speed, reasoning effort, and context window. Write options as &#96;id=value&#96; pairs, and separate multiple options with commas.\\n...\\n| Example | Behavior |\\n| --- | --- |\\n| &#96;composer-2.5[]&#96; | Pins the base model. Empty brackets select the standard variant instead of the fast one. |\\n| &#96;composer-2.5[fast=false]&#96; | Selects the standard (non-fast) variant explicitly. |\\n| &#96;claude-opus-4-8[effort=high]&#96; | Sets reasoning effort to &#96;high&#96;. |\\n| &#96;claude-opus-4-8[context=300k]&#96; | Sets the context window to 300k tokens. |\\n| &#96;claude-opus-4-8[effort=high,context=300k]&#96; | Combines options. |\\n...\\nAvailable options depend on\\n...\\nmodel, and use the same &#96;\\n...\\n&#96; pairs as the SDK's model\\n...\\n&#96;&#96;&#96;markdown\\n---\\nname: planner\\ndescription: Plans complex changes before implementation.\\nmodel: claude-opus-4-8[effort=high]\\n---\\n...\\n#### When the configured model won't be used\\n...\\nCursor honors the &#96;model&#96; field in your subagent frontmatter unless one of these conditions applies:\\n...\\n- Team admin restrictions — Your organization's admin has blocked the specified model.\\n- Legacy Max Mode setting — On a legacy request-based plan, the model requires Max Mode and you don't have it enabled.\\n- Plan limitations — The model isn't available on your current plan.\\n...\\nIn these cases, Cursor falls back to a compatible model. If you're seeing unexpected model behavior, check your plan and model settings.\\n...\\n&#96;&#96;&#96;markdown\\n---\\nname: code-reviewer\\ndescription: Reviews code for correctness and style.\\nmodel: inherit\\n---\\n...\\n&#96;&#96;&#96;markdown\\n---\\nname: search-agent\\ndescription: Searches the codebase for relevant files and symbols.\\nmodel: inherit\\n---\\n...\\n&#96;&#96;&#96;markdown\\n---\\nname: reasoning-agent\\ndescription: Handles complex architectural decisions.\\nmodel: gpt-5.6-sol\\n---\\n\\nAnalyze the architecture and recommend changes with detailed reasoning.\\n...\\nsubagent file at\\n...\\n/agents/\\n...\\nYAML frontmatter\\n...\\nname and description\\n...\\nCreate a subagent file at .cursor/agents/test-\\n...\\n.md with YAML frontmatter containing name and description (\\n...\\nThe test-\\n...\\nsubagent should proactively run tests when it sees code changes, analyze\\n...\\nwhile preserving test intent, and report\\n...\\nCreate a subagent file at .cursor/agents/security-reviewer.md with YAML frontmatter containing name and description. The security-reviewer subagent should check code for common vulnerabilities like injection, XSS, and hardcoded secrets.\\n...\\nYou can also create subagents manually by adding markdown files to &#96;.cursor/agents/&#96; (project) or &#96;~/.cursor/agents/&#96; (user).\\n...\\nCursor overrides the configured model when your team admin blocks it, your plan doesn't include it, or a legacy request-based plan requires Max Mode and you don't have it enabled. On legacy request-based plans without Max Mode, subagents run using Composer regardless of any &#96;model&#96; configuration. If your team admin has blocked Composer, subagents can run only when Max Mode is enabled. On usage-based plans and legacy request-based plans with Max Mode, subagents default to the parent model. See model configuration for details.\\n\\n---\\n\\nTitle: docs/quick-reference.md at main · DVC2/cursor-agent-configs\\nURL: https://github.com/DVC2/cursor-agent-configs/blob/main/docs/quick-reference.md\\nPublished: N/A\\nAuthor: N/A\\nHighlights:\\n## Subagents — &#96;.cursor/agents/*.md&#96;\\n...\\n&#96;&#96;&#96;yaml\\n---\\nname: code-reviewer        # lowercase + hyphens; defaults to the filename\\ndescription: Shown in Task-tool hints; the agent reads it to decide when to delegate.\\nmodel: inherit             # &#96;inherit&#96; (default) or a specific model id\\nreadonly: true             # true = no edits / no state-changing shell commands\\nis_background: false       # true = runs without blocking the parent\\n---\\n...\\nThe system prompt / instructions for this subagent.\\n...\\nExactly five fields — **there is no &#96;tools:&#96; field** (that's Claude Code syntax, not Cursor).\\nInvoke with &#96;/name&#96; or by mentioning it. Project files (&#96;.cursor/agents/&#96;) win over\\nuser-level (&#96;~/.cursor/agents/&#96;) on name conflicts.\\n\\n---\\n\\nTitle: Cursor Subagents — Complete Guide | by Code and Bird\\nURL: https://medium.com/@codeandbird/cursor-subagents-complete-guide-5853e8d39176\\nPublished: 2026-03-18T20:49:39.000Z\\nAuthor: Code and Bird\\nHighlights:\\n## File Structure — Where Subagents Live\\n...\\nCustom subagents are Markdown files. Here’s where they go:\\n...\\n.cursor/agents/ — project-scoped, committed to your repo\\n...\\n~/.cursor/agents/ — global, available across all your projects\\n...\\nEach file is one subagent. The filename becomes the subagent’s identity. The format is YAML frontmatter followed by the agent’s instructions.\\n...\\n&#96;&#96;&#96;\\n---name: security-auditordescription: Reviews code changes for security vulnerabilities.             Use when new endpoints, auth logic, or data handling are added.model: inheritreadonly: trueis_background: false---\\n&#96;&#96;&#96;\\n...\\nLet’s break down each frontmatter field:\\n...\\n- name — what Cursor uses to reference this agent internally\\n- description — this is critical. The main agent reads this to decide when to delegate. Write it like a job description: specific about when to use it, not vague.\\n- model — inherit uses whatever model the main agent is using. fast uses a cheaper/faster model for simpler tasks. You can also hardcode a model ID.\\n- readonly — set to true if this agent should only read and analyze, never write files. Useful for auditors and reviewers.\\n- is_background — true makes it async. The parent agent doesn’t wait for it to finish before continuing.\\n...\\n## Subagent example — Security Auditor\\n...\\n&#96;&#96;&#96;\\n[DEMO — create .cursor/agents/security-auditor.md]---name: security-auditordescription: Reviews code for security vulnerabilities. Use when new API endpoints, authentication logic, database queries, or user input handling are added.model: inheritreadonly: trueis_background: false---You are a senior application security engineer.When reviewing code, systematically check for:1. **Injection vulnerabilities** — SQL, NoSQL, command injection.   Look for raw string interpolation into queries or shell calls.2. **Broken authentication** — missing session invalidation, weak token storage,   JWT without expiry, passwords logged or returned in responses.3. **Authorization gaps** — missing ownership checks on resource access.   Can user A access user B's data by changing an ID?4. **Sensitive data exposure** — secrets hardcoded, PII in logs,   stack traces in API responses, verbose error messages.5. **Input validation** — missing sanitization on user-controlled input,   file upload type/size not validated, unsafe deserialization.For every finding, report:- File path and line number- Severity: Critical / High / Medium / Low- The attack vector in plain English- A specific code fix, not just a descriptionOnly report confirmed findings. Do not speculate or flag theoretical issues.If you find nothing, say \\\"No issues found\\\" — don't pad the report.\\n&#96;&#96;&#96;\\n...\\nNow when the main agent adds a new API endpoint, Cursor sees that the security auditor’s description matches — “new API endpoints” — and delegates to it automatically. The main agent keeps writing code while the auditor runs in parallel and surfaces any issues directly in the conversation.\\n...\\nThe readonly: true flag is important here. The auditor can’t accidentally modify files. Its job is to look, not touch.\\n...\\nUse whennew\\n...\\nauth logic, or\\n...\\ndescription to decide\\n...\\nStart with one custom subagent — the security auditor is the easiest first one to add because it’s readonly and can’t break anything. Get comfortable seeing it run alongside your main agent. Then add the frontend/backend split pattern for your next feature. Build up from there.\\n\\n---\\n\\nTitle: Cloud Agents API | Cursor Docs\\nURL: https://cursor.com/docs/cloud-agent/api/endpoints\\nPublished: N/A\\nAuthor: N/A\\nHighlights:\\n&#96;customSubagents&#96; array (optional)\\n...\\nDefine custom subagents the main agent can delegate to during the run. Maximum 20 subagents. Each entry requires &#96;name&#96;, &#96;description&#96;, and &#96;prompt&#96;, plus an optional &#96;model&#96; (model ID string, &#96;ModelSelection&#96; object, or &#96;\\\"inherit\\\"&#96;). Names must be unique and cannot collide with built-ins (&#96;explore&#96;, &#96;debug&#96;, &#96;shell&#96;, &#96;computerUse&#96;, etc.).\\n...\\n### List Models\\n...\\nReturns the recommended models you can pass to the &#96;model.id&#96; field on Create An Agent, along with the parameters and variants each model accepts. Model parameters use the same &#96;model.params&#96; shape as the TypeScript SDK ModelSelection.\\n...\\nTo use the configured default model, omit &#96;model&#96; from the request body entirely. Cursor resolves your user default model, then your team default model, then a system default.\\n...\\n#### Response Fields\\n...\\nEach item in &#96;items&#96; describes one model:\\n...\\n&#96;description&#96; string (optional)\\n...\\nthe model.\\n...\\n&#96;parameters&#96; array (optional)\\n...\\nPer-model parameter definitions. Each entry has an &#96;id&#96;, optional &#96;displayName&#96;, and a &#96;values&#96; array of permitted &#96;{ value, displayName? }&#96; entries. Use these to populate &#96;model.params&#96; on the create request.\\n...\\n&#96;variants&#96; array (optional)\\n...\\nConcrete &#96;id&#96;+&#96;params&#96; combinations the model accepts. Each entry has a &#96;params&#96; array (which may be empty), a &#96;displayName&#96;, an optional &#96;description&#96;, and an optional &#96;isDefault&#96; flag.\\n\\n---\\n\\nTitle: Subagents\\nURL: https://cursor.com/docs/subagents.md\\nPublished: N/A\\nAuthor: N/A\\nHighlights:\\nuses subagents\\n...\\ncustom subagent by asking Agent:\\n...\\nCreate a subagent file at .cursor/agents/verifier.md with YAML frontmatter (name, description) followed by the prompt. The verifier subagent should validate completed work, check that implementations are functional, run tests, and report what passed vs what's incomplete.\\n...\\nCustom subagents\\n...\\n### File locations\\n...\\n| Type | Location | Scope |\\n| :-------------------- | :------------------ | :--------------------------------------------------- |\\n| **Project subagents** | &#96;.cursor/agents/&#96; | Current project only |\\n| | &#96;.claude/agents/&#96; | Current project only (Claude compatibility) |\\n| | &#96;.codex/agents/&#96; | Current project only (Codex compatibility) |\\n| **User subagents** | &#96;~/.cursor/agents/&#96; | All projects for current user |\\n| | &#96;~/.claude/agents/&#96; | All projects for current user (Claude compatibility) |\\n| | &#96;~/.codex/agents/&#96; | All projects for current user (Codex compatibility) |\\n...\\n### File format\\n...\\nEach subagent is a markdown file with YAML frontmatter:\\n...\\n&#96;&#96;&#96;markdown\\n---\\nname: security-auditor\\ndescription: Security specialist. Use when implementing auth, payments, or handling sensitive data.\\nmodel: inherit\\nreadonly: true\\n---\\n...\\n### Configuration fields\\n...\\n| Field | Type | Required | Default | Description |\\n| :-------------- | :------ | :------- | :-------------------- | :----------------------------------------------------------------------------------------------------------------------------------- |\\n| &#96;name&#96; | string | No | Derived from filename | Display name and identifier. Use lowercase letters and hyphens. |\\n| &#96;description&#96; | string | No | — | Short description shown in Task tool hints. Agent reads this to decide delegation. |\\n| &#96;model&#96; | string | No | &#96;inherit&#96; | Model to use: &#96;inherit&#96; or a specific model ID. See [model configuration](https://cursor.com/docs/subagents.md#model-configuration). |\\n| &#96;readonly&#96; | boolean | No | &#96;false&#96; | If &#96;true&#96;, the subagent runs with restricted write permissions (no file edits, no state-changing shell commands). |\\n| &#96;is_background&#96; | boolean | No | &#96;false&#96; | If &#96;true&#96;, the subagent runs in the background without blocking the parent. |\\n...\\n### Model configuration\\n...\\nThe &#96;model&#96; field controls which model a subagent uses. There are two options:\\n...\\n| Value | Behavior |\\n| :------------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\\n| &#96;inherit&#96; | Uses the same model as the parent agent. This is the default. |\\n| A specific model ID | Uses the exact model you specify, such as &#96;composer-2&#96; or &#96;gpt-5.6-sol&#96;. See the [models reference](https://cursor.com/docs/models-and-pricing.md) for available IDs. |\\n...\\nChoose &#96;inherit&#96; when the subagent needs the same reasoning power as the parent. Use a specific model ID when you need a particular model's capabilities regardless of what the parent uses.\\n...\\n#### Model parameters\\n...\\nAppend square brackets to a model ID to set per-model options like speed, reasoning effort, and context window. Write options as &#96;id=value&#96; pairs, and separate multiple options with commas.\\n...\\n| Example | Behavior |\\n| :------------------------------------------ | :--------------------------------------------------------------------------------------- |\\n| &#96;composer-2.5[]&#96; | Pins the base model. Empty brackets select the standard variant instead of the fast one. |\\n| &#96;composer-2.5[fast=false]&#96; | Selects the standard (non-fast) variant explicitly. |\\n| &#96;claude-opus-4-8[effort=high]&#96; | Sets reasoning effort to &#96;high&#96;. |\\n| &#96;claude-opus-4-8[context=300k]&#96; | Sets the context window to 300k tokens. |\\n| &#96;claude-opus-4-8[effort=high,context=300k]&#96; | Combines options. |\\n...\\ncursor.com\\n...\\n&#96;&#96;&#96;markdown\\n---\\nname: planner\\ndescription: Plans complex changes before implementation.\\nmodel: claude-opus-4-8[effort=high]\\n---\\n...\\n#### When the configured model won't be used\\n...\\nCursor honors the &#96;model&#96; field in your subagent frontmatter unless one of these conditions applies:\\n...\\n- **Team admin restrictions** — Your organization's admin has blocked the specified model.\\n- **Legacy Max Mode setting** — On a legacy request-based plan, the model requires [Max Mode](https://cursor.com/help/ai-features/max-mode.md) and you don't have it enabled.\\n- **Plan limitations** — The model isn't available on your current plan.\\n...\\nIn these cases, Cursor falls back to a compatible model. If you're seeing unexpected model behavior, check your plan and model settings.\\n...\\n&#96;&#96;&#96;markdown\\n---\\nname: code-reviewer\\ndescription: Reviews code for correctness and style.\\nmodel: inherit\\n---\\n...\\n&#96;&#96;&#96;markdown\\n---\\nname: search-agent\\ndescription: Searches the codebase for relevant files and symbols.\\nmodel: inherit\\n---\\n...\\n&#96;&#96;&#96;markdown\\n---\\nname: reasoning-agent\\ndescription: Handles complex architectural decisions.\\nmodel: gpt-5.6-sol\\n---\\n\\nAnalyze the architecture and recommend changes with detailed reasoning.\\n...\\nsubagent file at .cursor/agents/\\n...\\nYAML frontmatter containing name and description\\n...\\nsubagent file at .\\n...\\nYAML frontmatter\\n...\\nagent should specialize in\\n...\\nCreate a subagent file at .cursor/agents/test-runner.md with YAML frontmatter containing name and description (mentioning 'Use proactively\\n...\\nThe test-runner subagent should proactively run tests when it sees code changes, analyze failures, fix issues while preserving test intent, and report results.\\n...\\nto create a subagent is to\\n...\\nto create one for\\n...\\nCreate a subagent file at .cursor/agents/security-reviewer.md with YAML frontmatter containing name and description. The security-reviewer subagent should check code for common vulnerabilities like injection, XSS, and hardcoded secrets.\\n...\\nYou can also create subagents manually by adding markdown files to &#96;.cursor/agents/&#96; (project) or &#96;~/.cursor/agents/&#96; (user).\\n...\\nCursor overrides the configured model when your team admin blocks it, your plan doesn't include it, or a legacy request-based plan requires [Max Mode](https://cursor.com/help/ai-features/max-mode.md) and you don't have it enabled. On legacy request-based plans without Max Mode, subagents run using Composer regardless of any &#96;model&#96; configuration. If your team admin has blocked Composer, subagents can run only when Max Mode is enabled. On usage-based plans and legacy request-based plans with Max Mode, subagents default to the parent model. See [model configuration](https://cursor.com/docs/subagents.md#model-configuration) for details.\"}]}"
-}
-```
+  "result": "{\"content\":[{\"type\":\"text\",\"text\":\"Title: Subagents | Cursor Docs\\nURL: https://cursor.com/docs/subagents\\nPublished: N/A\\nAuthor: N/A\\nHighlights:\\nAgent automatically uses subagents when appropriate\\n...\\ncreate a custom subagent by asking Agent:\\n...\\nCreate a subagent file at .cursor/agents/verifier.md with YAML frontmatter (name, description) followed by the prompt. The verifier subagent should validate completed work, check that implementations are functional, run tests, and report what passed vs what's incomplete.\\n...\\nCustom subagents\\n...\\n| Type | Location | Scope |\\n| --- | --- | --- |\\n| Project subagents | `.cursor/agents/` | Current project only |\\n| | `.claude/agents/` | Current project only (Claude compatibility) |\\n| | `.codex/agents/` | Current project only (Codex compatibility) |\\n| User subagents | `~/.cursor/agents/` | All projects for current user |\\n| | `~/.claude/agents/` | All projects for current user (Claude compatibility) |\\n| | `~/.codex/agents/` | All projects for current user (Codex compatibility) |\\n...\\n### File format\\n...\\nEach subagent is a markdown file with YAML frontmatter:\\n...\\n```markdown\\n---\\nname: security-auditor\\ndescription: Security specialist. Use when implementing auth, payments, or handling sensitive data.\\nmodel: inherit\\nreadonly: true\\n---\\n...\\n### Configuration fields\\n...\\n| Field | Type | Required | Default | Description |\\n| --- | --- | --- | --- | --- |\\n| `name` | string | No | Derived from filename | Display name and identifier. Use lowercase letters and hyphens. |\\n| `description` | string | No | — | Short description shown in Task tool hints. Agent reads this to decide delegation. |\\n| `model` | string | No | `inherit` | Model to use: `inherit` or a specific model ID. See model configuration. |\\n| `readonly` | boolean | No | `false` | If `true`, the subagent runs with restricted write permissions (no file edits, no state-changing shell c
+… (output truncated)
+````
 Status: **completed**
-
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="unknown" data-tool-name="mcp-exa-web_search_exa"><details>
-<summary>Tool use: **mcp-exa-web_search_exa**</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/ultraterrestrial-agent-definitions-v2 3/README.md</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/ultraterrestrial-agent-definitions-v2 3/README.md</summary>
 
 </details></tool-use>
 
@@ -950,7 +699,8 @@ A clear improvement plan is ready. Official Cursor documentation shows agent YAM
 
 Flat single-line descriptions will replace multiline blocks. Research agents will use `model: inherit` and `readonly: true` to prevent code edits. Prompts will be slimmed and the Xata reference fixed. Source directory renaming is optional.
 
-MAJESTIC may need write access to create plan files. Fort and other research agents will remain read-only.</details></think>
+MAJESTIC may need write access to create plan files. Fort and other research agents will remain read-only.
+</details></think>
 
 _**Agent (grok-4.5)**_
 
@@ -958,30 +708,21 @@ Cursor docs confirm flat `description` plus `model`/`readonly`. Implementing the
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
-
-<details><summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.cursor/Agents_PSUEDOCODE.md</summary>
-
-</details>
-
-</tool-use>
-
 <tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
-<summary>Tool use: **edit_file_v2**</summary>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.cursor/Agents_PSUEDOCODE.md</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
 <think><details><summary>Thought Process</summary>
-Rewriting the generator completely with improvements. Renaming the source directory. Fixing the README Xata claim. Then regenerating.</details></think>
+Rewriting the generator completely with improvements. Renaming the source directory. Fixing the README Xata claim. Then regenerating.
+</details></think>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="unknown" data-tool-name="todo_write">
-<details>
+<tool-use data-tool-type="unknown" data-tool-name="todo_write"><details>
 <summary>Tool use: **todo_write**</summary>
-
 
 Parameters:
 
@@ -1044,50 +785,35 @@ Result:
 ```
 Status: **completed**
 
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="unknown" data-tool-name="todo_write"><details>
-<summary>Tool use: **todo_write**</summary>
-
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
-
-<details><summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.cursor/generate-research-agents.mjs</summary>
-
-</details>
-
-</tool-use>
-
 <tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
-<summary>Tool use: **edit_file_v2**</summary>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.cursor/generate-research-agents.mjs</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
 <think><details><summary>Thought Process</summary>
-Renaming the source directory comes first. Then I'll fix the Xata reference in the README. After that I'll run the generator and verify the results.</details></think>
+Renaming the source directory comes first. Then I'll fix the Xata reference in the README. After that I'll run the generator and verify the results.
+</details></think>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
-<details><summary>Tool use: **run_terminal_command_v2** • Run command: mv "ultraterrestrial-agent-definitions-v2 3" ultraterrestrial-agent-definitions-v2 && ls ultraterrestrial-agent-definitions-v2/ | head -20 && bun .cursor/generate-research-agents.mjs && echo '---' && head -8 .cursor/agents/scully.md && echo '---' && wc -l .cursor/agents/*.md | sort -n | tail -5 && python3 -c "
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2** • Run command: mv &#34;ultraterrestrial-agent-definitions-v2 3&#34; ultraterrestrial-agent-definitions-v2 &amp;&amp; ls ultraterrestrial-agent-definitions-v2/ | head -20 &amp;&amp; bun .cursor/generate-research-agents.mjs &amp;&amp; echo &#39;---&#39; &amp;&amp; head -8 .cursor/agents/scully.md &amp;&amp; echo &#39;---&#39; &amp;&amp; wc -l .cursor/agents/*.md | sort -n | tail -5 &amp;&amp; python3 -c &#34;
 import yaml, pathlib
-for p in sorted(pathlib.Path('.cursor/agents').glob('*.md')):
-    if p.name=='README.md': continue
-    fm=p.read_text().split('---',2)[1]
+for p in sorted(pathlib.Path(&#39;.cursor/agents&#39;).glob(&#39;*.md&#39;)):
+    if p.name==&#39;README.md&#39;: continue
+    fm=p.read_text().split(&#39;---&#39;,2)[1]
     data=yaml.safe_load(fm)
-    assert '>-' not in str(data.get('description','')), p.name
-    assert data.get('readonly') is True, p.name
-    assert data.get('model')=='inherit', p.name
-    print(f\"OK {p.name}: desc[{len(data['description'])}] readonly={data['readonly']}\")
-"</summary>
-
+    assert &#39;&gt;-&#39; not in str(data.get(&#39;description&#39;,&#39;&#39;)), p.name
+    assert data.get(&#39;readonly&#39;) is True, p.name
+    assert data.get(&#39;model&#39;)==&#39;inherit&#39;, p.name
+    print(f\&#34;OK {p.name}: desc[{len(data[&#39;description&#39;])}] readonly={data[&#39;readonly&#39;]}\&#34;)
+&#34;</summary>
 ```bash
 mv "ultraterrestrial-agent-definitions-v2 3" ultraterrestrial-agent-definitions-v2 && ls ultraterrestrial-agent-definitions-v2/ | head -20 && bun .cursor/generate-research-agents.mjs && echo '---' && head -8 .cursor/agents/scully.md && echo '---' && wc -l .cursor/agents/*.md | sort -n | tail -5 && python3 -c "
 import yaml, pathlib
@@ -1121,7 +847,7 @@ model: inherit
 readonly: true
 ---
 
-&lt;!-- Generated from 06-scully-evidence-evaluator.md. Regenerate with: bun .cursor/generate-research-agents.mjs --&gt;
+<!-- Generated from 06-scully-evidence-evaluator.md. Regenerate with: bun .cursor/generate-research-agents.mjs -->
 ---
      151 .cursor/agents/fort.md
      151 .cursor/agents/keel.md
@@ -1148,21 +874,13 @@ OK scully.md: desc[231] readonly=True
 OK vallee.md: desc[217] readonly=True
 
 ```
-</details>
-</tool-use>
-
-<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
-<summary>Tool use: **run_terminal_command_v2**</summary>
-
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-File not found: 
-
 <tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
 <summary>Tool use: **edit_file_v2**</summary>
-
+File not found: 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
@@ -1170,7 +888,8 @@ _**Agent (grok-4.5)**_
 <think><details><summary>Thought Process</summary>
 The rename succeeded, but the StrReplace failed. The correct path is now `ultraterrestrial-agent-definitions-v2/README.md`.
 
-The StrReplace and rename ran in parallel, causing the file-not-found error. I'll fix the README now.</details></think>
+The StrReplace and rename ran in parallel, causing the file-not-found error. I'll fix the README now.
+</details></think>
 
 _**Agent (grok-4.5)**_
 
@@ -1178,38 +897,22 @@ Rename and regenerate succeeded; fixing the source README next (the earlier edit
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
-
-<details><summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/ultraterrestrial-agent-definitions-v2/README.md</summary>
-
-</details>
-
-</tool-use>
-
 <tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
-<summary>Tool use: **edit_file_v2**</summary>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/ultraterrestrial-agent-definitions-v2/README.md</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
-
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.cursor/agents/scully.md</summary>
-
-</details>
-</tool-use>
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.cursor/agents/scully.md</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
-<details>
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
 <summary>Tool use: **ripgrep_raw_search**</summary>
-
 
 Parameters:
 
@@ -1259,13 +962,6 @@ Additional data:
 ```
 Status: **completed**
 
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
-<summary>Tool use: **ripgrep_raw_search**</summary>
-
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
@@ -1273,20 +969,13 @@ _**Agent (grok-4.5)**_
 <think><details><summary>Thought Process</summary>
 The source README needs updating to remove the old directory name containing a space. The tree structure there should also be corrected.
 
-openmemory.md and DAILY_WORK_PLAN.md may still reference the old path and need updating. A new Agents.md file should be created. The source README tree path is already correct.</details></think>
+openmemory.md and DAILY_WORK_PLAN.md may still reference the old path and need updating. A new Agents.md file should be created. The source README tree path is already correct.
+</details></think>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
-
-<details><summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.cursor/Agents.md</summary>
-
-</details>
-
-</tool-use>
-
 <tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
-<summary>Tool use: **edit_file_v2**</summary>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.cursor/Agents.md</summary>
 
 </details></tool-use>
 
@@ -1295,42 +984,27 @@ _**Agent (grok-4.5)**_
 <think><details><summary>Thought Process</summary>
 Updating openmemory.md and DAILY_WORK_PLAN.md. Confirmed the canonical README tree uses the correct folder name without spaces.
 
-Updating the openmemory Components section to include Cursor Research Subagents.</details></think>
+Updating the openmemory Components section to include Cursor Research Subagents.
+</details></think>
 
 _**Agent (grok-4.5)**_
-
-<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
-
-<details><summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/openmemory.md</summary>
-
-</details>
-
-</tool-use>
 
 <tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
-<summary>Tool use: **edit_file_v2**</summary>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/openmemory.md</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
-
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/DAILY_WORK_PLAN.md</summary>
-
-</details>
-</tool-use>
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/DAILY_WORK_PLAN.md</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
-<details>
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
 <summary>Tool use: **ripgrep_raw_search**</summary>
-
 
 Parameters:
 
@@ -1362,71 +1036,39 @@ Additional data:
 ```
 Status: **completed**
 
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
-<summary>Tool use: **ripgrep_raw_search**</summary>
-
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
-
-<details><summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/openmemory.md</summary>
-
-</details>
-
-</tool-use>
-
 <tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
-<summary>Tool use: **edit_file_v2**</summary>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/openmemory.md</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
 <think><details><summary>Thought Process</summary>
-The daily work plan contains excess clutter at the top. A new session note will be appended near the research subagents section instead of cleaning the entire file.</details></think>
+The daily work plan contains excess clutter at the top. A new session note will be appended near the research subagents section instead of cleaning the entire file.
+</details></think>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
-
-<details><summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/DAILY_WORK_PLAN.md</summary>
-
-</details>
-
-</tool-use>
-
 <tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
-<summary>Tool use: **edit_file_v2**</summary>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/DAILY_WORK_PLAN.md</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
-
-<details><summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/ultraterrestrial-agent-definitions-v2/README.md</summary>
-
-</details>
-
-</tool-use>
-
 <tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
-<summary>Tool use: **edit_file_v2**</summary>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/ultraterrestrial-agent-definitions-v2/README.md</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="unknown" data-tool-name="todo_write">
-<details>
+<tool-use data-tool-type="unknown" data-tool-name="todo_write"><details>
 <summary>Tool use: **todo_write**</summary>
-
 
 Parameters:
 
@@ -1489,35 +1131,27 @@ Result:
 ```
 Status: **completed**
 
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="unknown" data-tool-name="todo_write"><details>
-<summary>Tool use: **todo_write**</summary>
-
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
-<details><summary>Tool use: **run_terminal_command_v2** • Run command: # size before/after summary + frontmatter smoke check
-python3 <<'PY'
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2** • Run command: # size before/after summary + frontmatter smoke check
+python3 &lt;&lt;&#39;PY&#39;
 import yaml, pathlib
-agents = list(pathlib.Path('.cursor/agents').glob('*.md'))
-agents = [p for p in agents if p.name != 'README.md']
+agents = list(pathlib.Path(&#39;.cursor/agents&#39;).glob(&#39;*.md&#39;))
+agents = [p for p in agents if p.name != &#39;README.md&#39;]
 sizes = [p.stat().st_size for p in agents]
-print(f"agents={len(agents)} avg_bytes={sum(sizes)//len(sizes)} min={min(sizes)} max={max(sizes)}")
+print(f&#34;agents={len(agents)} avg_bytes={sum(sizes)//len(sizes)} min={min(sizes)} max={max(sizes)}&#34;)
 # spot-check majestic description is usable for Task
-fm = pathlib.Path('.cursor/agents/majestic.md').read_text().split('---',2)[1]
+fm = pathlib.Path(&#39;.cursor/agents/majestic.md&#39;).read_text().split(&#39;---&#39;,2)[1]
 d = yaml.safe_load(fm)
-print('majestic.description:', d['description'][:120]+'...')
-print('keys:', sorted(d.keys()))
-assert '>-' not in pathlib.Path('.cursor/agents/majestic.md').read_text().split('---',2)[1].split('description:')[1].split('\n')[0]
-print('PASS: no folded-scalar description line')
+print(&#39;majestic.description:&#39;, d[&#39;description&#39;][:120]+&#39;...&#39;)
+print(&#39;keys:&#39;, sorted(d.keys()))
+assert &#39;&gt;-&#39; not in pathlib.Path(&#39;.cursor/agents/majestic.md&#39;).read_text().split(&#39;---&#39;,2)[1].split(&#39;description:&#39;)[1].split(&#39;\n&#39;)[0]
+print(&#39;PASS: no folded-scalar description line&#39;)
 PY
-ls -d ultraterrestrial-agent-definitions-v2 "ultraterrestrial-agent-definitions-v2 3" 2>&1 | head -5</summary>
-
+ls -d ultraterrestrial-agent-definitions-v2 &#34;ultraterrestrial-agent-definitions-v2 3&#34; 2&gt;&amp;1 | head -5</summary>
 ```bash
 # size before/after summary + frontmatter smoke check
 python3 <<'PY'
@@ -1546,12 +1180,6 @@ ls: ultraterrestrial-agent-definitions-v2 3: No such file or directory
 ultraterrestrial-agent-definitions-v2
 
 ```
-</details>
-</tool-use>
-
-<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
-<summary>Tool use: **run_terminal_command_v2**</summary>
-
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
@@ -1559,7 +1187,8 @@ _**Agent (grok-4.5)**_
 <think><details><summary>Thought Process</summary>
 The MCP search and add tools were not found. The guide was noted as updated.
 
-Phase 3 cannot store memory without MCP. A brief note will be added. The expert review summary follows.</details></think>
+Phase 3 cannot store memory without MCP. A brief note will be added. The expert review summary follows.
+</details></think>
 
 _**Agent (grok-4.5)**_
 

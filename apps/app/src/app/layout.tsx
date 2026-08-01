@@ -18,6 +18,7 @@ import {
   FONT_ANTON,
   FONT_SPACE_GROTESK,
   FONT_LEAGUE_SPARTAN,
+  FONT_PP_NEUE_MONTREAL,
 } from './fonts'
 import {CustomCursor} from '@/components/cursor-ui/CustomCursor'
 import BrowserEchoScript from '@browser-echo/next/BrowserEchoScript'
@@ -45,7 +46,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
     <ClerkProvider>
       <html lang='en' suppressHydrationWarning className='dark'>
         <body
-          className={`${FONT_NEUE_HAAS_GROTESK.variable} ${FONT_MONUMENT_GROTESK.variable} ${FONT_MONUMENT_GROTESK_MONO.variable} ${FONT_LUKAS_SANS.variable} ${FONT_JUST_ANOTHER_HAND.variable} ${FONT_JET_BRAINS_MONO.variable} ${FONT_MARTIAN_MONO.variable} ${FONT_NOTO_SANS.variable} ${FONT_SPACE_GROTESK.variable} ${FONT_LEAGUE_SPARTAN.variable} ${FONT_SPECIAL_ELITE.variable} ${FONT_ANTON.variable} ${FONT_CAVEAT.variable} dark`}>
+          className={`${FONT_NEUE_HAAS_GROTESK.variable} ${FONT_MONUMENT_GROTESK.variable} ${FONT_MONUMENT_GROTESK_MONO.variable} ${FONT_LUKAS_SANS.variable} ${FONT_JUST_ANOTHER_HAND.variable} ${FONT_JET_BRAINS_MONO.variable} ${FONT_MARTIAN_MONO.variable} ${FONT_NOTO_SANS.variable} ${FONT_SPACE_GROTESK.variable} ${FONT_LEAGUE_SPARTAN.variable} ${FONT_SPECIAL_ELITE.variable} ${FONT_ANTON.variable} ${FONT_CAVEAT.variable} ${FONT_PP_NEUE_MONTREAL.variable} dark`}>
           <ThemeProvider
             attribute='class'
             forcedTheme='dark'
@@ -69,6 +70,9 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
               {process.env.NODE_ENV === 'development' && <Agentation />}
             </CommandPaletteProvider>
           </ThemeProvider>
+          {/* impeccable-live-start */}
+          <script src='http://localhost:8400/live.js'></script>
+          {/* impeccable-live-end */}
         </body>
         {/* </DataLayer> */}
       </html>

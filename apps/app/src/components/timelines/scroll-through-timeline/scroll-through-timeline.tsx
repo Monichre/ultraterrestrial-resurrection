@@ -1,166 +1,118 @@
-import type { EventsRecord } from "@/db/xata"
-import { Float } from "@react-three/drei"
-import { format } from "date-fns"
-import { motion, useAnimate } from "framer-motion"
+import type {EventsRecord} from '@db/postgres'
+import {motion} from 'framer-motion'
+import Image from 'next/image'
 
-const EventTimelineItem = ( { disclosureEvent }: { disclosureEvent: EventsRecord } ) => {
-  const { name, date, location, latitude, longitude, photos } = disclosureEvent
-  const photo = photos?.[0] || { url: "" }
+const EVENT_DATE_FORMATTER = new Intl.DateTimeFormat('en-US', {
+  day: '2-digit',
+  month: 'short',
+  timeZone: 'UTC',
+  year: 'numeric',
+})
 
-  console.log( "🚀 ~ file: SpatialTimelineV2.tsx:27 ~ photos:", photos )
+export interface ScrollThroughTimelineProps {
+  events: EventsRecord[]
+  years?: ReadonlyArray<string | number>
+  activeYear?: string | number | null
+}
 
+const formatEventDate = (dateValue: string | null) => {
+  if (!dateValue) return 'Date unrecorded'
 
+  const parsedDate = new Date(dateValue)
+  return Number.isNaN(parsedDate.getTime()) ? dateValue : EVENT_DATE_FORMATTER.format(parsedDate)
+}
 
-  const [scope, animate] = useAnimate()
+const getEventTitle = (event: EventsRecord) => event.name ?? event.title ?? 'Untitled event'
+
+const isSupportedImageUrl = (imageUrl: string) => {
+  if (imageUrl.startsWith('/')) return true
+
+  try {
+    const parsedUrl = new URL(imageUrl)
+    return parsedUrl.protocol === 'http:' || parsedUrl.protocol === 'https:'
+  } catch {
+    return false
+  }
+}
+
+const EventTimelineItem = ({event}: {event: EventsRecord}) => {
+  const eventTitle = getEventTitle(event)
+  const photoUrl = event.photos?.find(isSupportedImageUrl)
 
   return (
-    <div className="slide" id="slide-1">
-      <div className="slide-copy">
-        <h2>{name}</h2>
-        <p id="index">      {date && format( date, 'MMM dd, yyyy' )}</p>
+    <motion.article
+      className='grid gap-6 border-b border-[var(--ut-line)] py-8 md:grid-cols-[minmax(0,1fr)_minmax(16rem,28rem)]'
+      initial={{opacity: 0, y: 20}}
+      whileInView={{opacity: 1, y: 0}}
+      transition={{duration: 0.25, ease: 'easeOut'}}
+      viewport={{once: true, amount: 0.25}}>
+      <div className='space-y-3'>
+        <p className='font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--ut-ink-faint)]'>
+          {formatEventDate(event.date)}
+        </p>
+        <h2 className='text-2xl text-[var(--ut-paper)]'>{eventTitle}</h2>
+        {event.location && <p className='text-sm text-[var(--ut-ink-dim)]'>{event.location}</p>}
+      </div>
 
-
-        <div className="flex items-center mt-8 gap-6">
-          <span className="text-white tracking-wider">
-            {location}
-          </span>
-
+      {photoUrl && (
+        <div className='relative aspect-[3/2] overflow-hidden border border-[var(--ut-line)]'>
+          <Image
+            src={photoUrl}
+            alt={`Source image for ${eventTitle}`}
+            fill
+            sizes='(min-width: 768px) 28rem, calc(100vw - 2rem)'
+            className='object-cover'
+            unoptimized
+          />
         </div>
-      </div>
-
-      <div className="slide-img">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.25, delay: 0.5, ease: "easeOut" }}
-        >
-          <Float>
-            <div className="sm:w-40 sm:h-40 h-32 w-32 md:w-48 md:h-48 shadow-2xl relative overflow-hidden  hover:scale-105 duration-200 cursor-pointer transition-transform">
-              <img
-
-                src={photo.url}
-                className="w-full h-full object-cover absolute top-0 left-0"
-
-              />
-            </div>
-          </Float>
-        </motion.div>
-
-      </div>
-    </div>
+      )}
+    </motion.article>
   )
 }
 
-
-export const ScrollThroughTimeline = ( { events, years, activeYear } ) => {
+export const ScrollThroughTimeline = ({
+  events,
+  years = [],
+  activeYear = null,
+}: ScrollThroughTimelineProps) => {
+  const normalizedActiveYear = activeYear === null ? null : String(activeYear)
+  const visibleEvents = normalizedActiveYear
+    ? events.filter((event) => event.date?.startsWith(normalizedActiveYear))
+    : events
 
   return (
-    <div className="container">
-      <div className="active-slide">
-        <img src="./assets/1.jpg" alt="" />
-        <img src="./assets/2.jpg" alt="" />
-        <img src="./assets/3.jpg" alt="" />
-        <img src="./assets/4.jpg" alt="" />
-        <img src="./assets/5.jpg" alt="" />
-        <img src="./assets/6.jpg" alt="" />
-        <img src="./assets/7.jpg" alt="" />
-        <img src="./assets/8.jpg" alt="" />
-        <img src="./assets/9.jpg" alt="" />
-        <img src="./assets/10.jpg" alt="" />
-      </div>
+    <section className='mx-auto w-full max-w-6xl px-4 py-8'>
+      {years.length > 0 && (
+        <ol
+          aria-label='Timeline years'
+          className='mb-8 flex flex-wrap gap-3 border-b border-[var(--ut-line)] pb-4'>
+          {years.map((year) => {
+            const normalizedYear = String(year)
+            const isActive = normalizedYear === normalizedActiveYear
 
-      <div className="slider">
-        <div className="slide" id="slide-1">
-          <div className="slide-copy">
-            <p>Neo Elegance°</p>
-            <p id="index">( ES 2023 0935 )</p>
-          </div>
-          <div className="slide-img">
-            <img src="./assets/1.jpg" alt="" />
-          </div>
-        </div>
-        <div className="slide" id="slide-2">
-          <div className="slide-copy">
-            <p>Future Luxe</p>
-            <p id="index">( ES 2023 0936 )</p>
-          </div>
-          <div className="slide-img">
-            <img src="./assets/2.jpg" alt="" />
-          </div>
-        </div>
-        <div className="slide" id="slide-3">
-          <div className="slide-copy">
-            <p>Cyber Glam</p>
-            <p id="index">( ES 2023 0937 )</p>
-          </div>
-          <div className="slide-img">
-            <img src="./assets/3.jpg" alt="" />
-          </div>
-        </div>
-        <div className="slide" id="slide-4">
-          <div className="slide-copy">
-            <p>Visionary Threads</p>
-            <p id="index">( ES 2023 0938 )</p>
-          </div>
-          <div className="slide-img">
-            <img src="./assets/4.jpg" alt="" />
-          </div>
-        </div>
-        <div className="slide" id="slide-5">
-          <div className="slide-copy">
-            <p>Galactic Chic</p>
-            <p id="index">( ES 2023 0939 )</p>
-          </div>
-          <div className="slide-img">
-            <img src="./assets/5.jpg" alt="" />
-          </div>
-        </div>
-        <div className="slide" id="slide-6">
-          <div className="slide-copy">
-            <p>Tech Sophistication</p>
-            <p id="index">( ES 2023 0940 )</p>
-          </div>
-          <div className="slide-img">
-            <img src="./assets/6.jpg" alt="" />
-          </div>
-        </div>
-        <div className="slide" id="slide-7">
-          <div className="slide-copy">
-            <p>Avant Edge</p>
-            <p id="index">( ES 2023 0941 )</p>
-          </div>
-          <div className="slide-img">
-            <img src="./assets/7.jpg" alt="" />
-          </div>
-        </div>
-        <div className="slide" id="slide-8">
-          <div className="slide-copy">
-            <p>Moda Futura</p>
-            <p id="index">( ES 2023 0942 )</p>
-          </div>
-          <div className="slide-img">
-            <img src="./assets/8.jpg" alt="" />
-          </div>
-        </div>
-        <div className="slide" id="slide-9">
-          <div className="slide-copy">
-            <p>Eco Futurist</p>
-            <p id="index">( ES 2023 0943 )</p>
-          </div>
-          <div className="slide-img">
-            <img src="./assets/9.jpg" alt="" />
-          </div>
-        </div>
-        <div className="slide" id="slide-10">
-          <div className="slide-copy">
-            <p>Sleek Tomorrow</p>
-            <p id="index">( ES 2023 0944 )</p>
-          </div>
-          <div className="slide-img">
-            <img src="./assets/10.jpg" alt="" />
-          </div>
-        </div>
-      </div>
-    </div>
+            return (
+              <li
+                key={normalizedYear}
+                aria-current={isActive ? 'date' : undefined}
+                className={
+                  isActive
+                    ? 'font-mono text-xs text-[var(--ut-paper)]'
+                    : 'font-mono text-xs text-[var(--ut-ink-faint)]'
+                }>
+                {normalizedYear}
+              </li>
+            )
+          })}
+        </ol>
+      )}
+
+      {visibleEvents.length > 0 ? (
+        visibleEvents.map((event) => <EventTimelineItem key={event.id} event={event} />)
+      ) : (
+        <p className='py-12 text-center text-sm text-[var(--ut-ink-dim)]'>
+          No event records match this period.
+        </p>
+      )}
+    </section>
   )
 }

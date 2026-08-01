@@ -148,7 +148,7 @@ bun run analyze         # Database state analysis
 
 - `apps/app/` - Main Next.js 15 application (research platform, mindmap, AI agents)
 - `apps/disclosure-rag/` - Python RAG system (completely disconnected from Next.js app)
-- `packages/db/` - Neon Postgres+pgvector layer (`@db/postgres`), 29 tables, 230,998+ records
+- `packages/db/` - Neon Postgres+pgvector layer (`@db/postgres`), 30 tables, 126,483 records (live count 2026-07-24; includes runtime-added `agent_inferences`)
 - `packages/ai/` - AI processing components
 - `packages/knowledge-base/` - Research source materials (under `sources/files/`)
 
@@ -272,9 +272,9 @@ import { DataVizComponent } from '@/features/data-viz'
 
 ### Backend & Data
 
-- **Neon Postgres 17.10 + pgvector 0.8.0** — primary database, 29 tables, 230,998+ records. Connection in `packages/db/.env` as `DATABASE_URL` — never commit.
+- **Neon Postgres 17.10 + pgvector 0.8.0** — primary database, 30 tables, 126,483 records (live `count(*)` 2026-07-24). Connection in `packages/db/.env` as `DATABASE_URL` — never commit.
 - **`@db/postgres`** — the ONLY live database layer (`packages/db/src/postgres/`). Exports typed queries, search, and `getSql()` tagged-template client via `@neondatabase/serverless`. Package-local guidance: `packages/db/CLAUDE.md`.
-- **Embeddings**: `text-embedding-3-small` @ 1536 dims (locked). 1,405 entity rows + 4,946 document chunks embedded.
+- **Embeddings**: `text-embedding-3-small` @ 1536 dims (locked). 1,594 entity rows + 4,946 document chunks embedded = 6,540 total vectors. All entity embeddings 100% populated (live 2026-07-24).
 - **OpenAI Assistants API** — disclosure mindmap agent (file_search + threads)
 - **Vercel AI SDK** — Prometheus chat route (streamText)
 - **AI providers**: OpenAI, Anthropic, Groq
@@ -308,7 +308,7 @@ import { DataVizComponent } from '@/features/data-viz'
 1. Update Xata schema through dashboard first
 2. Run `xata codegen` to update types
 3. Test integration with existing contextual intelligence
-4. Maintain compatibility with 230,998+ existing records
+4. Maintain compatibility with 126,483 existing records (live count 2026-07-24)
 
 ## Work Log Command
 

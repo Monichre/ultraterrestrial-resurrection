@@ -1,20 +1,23 @@
 import type {Meta, StoryObj} from '@storybook/nextjs'
-import {DocumentA as ReferenceDocumentA} from '@reference/components/DocumentA'
-import {DocumentB as ReferenceDocumentB} from '@reference/components/DocumentB'
-import {DocumentFrame as ReferenceDocumentFrame} from '@reference/components/DocumentFrame'
-import {DocumentOne as ReferenceDocumentOne} from '@reference/components/DocumentOne'
-import {ClassifiedDocument as ReferenceClassifiedDocument} from '@reference/components/classified-documents/ClassifiedDocument'
-import ReferenceUfoDispatchDocument from '@reference/components/classified-documents/UFODispatchDocument'
-import {UFODocument as ReferenceUfoDocument} from '@reference/components/classified-documents/UFODocument'
-import {WeatheredClassifiedDocument as ReferenceWeatheredClassifiedDocument} from '@reference/components/classified-documents/WeatheredClassifiedDocument'
-import {DocumentShowcase as ReferenceDocumentShowcase} from '@reference/components/layouts/DocumentShowcase'
-import {MixedDocumentLayout as ReferenceMixedDocumentLayout} from '@reference/components/layouts/MixedDocumentLayout'
-import {ResponsiveDocumentGrid as ReferenceResponsiveDocumentGrid} from '@reference/components/layouts/ResponsiveDocumentGrid'
-import {PhotoCaption as ReferencePhotoCaption} from '@reference/components/ui/PhotoCaption'
-import {VintagePosterA as ReferenceVintagePosterA} from '@reference/components/vintage-posters/VintagePosterA'
-import {VintagePosterB as ReferenceVintagePosterB} from '@reference/components/vintage-posters/VintagePosterB'
-import {VintagePosterC as ReferenceVintagePosterC} from '@reference/components/vintage-posters/VintagePosterC'
-import {VintagePosterD as ReferenceVintagePosterD} from '@reference/components/vintage-posters/VintagePosterD'
+import {
+  DocumentA as ReferenceDocumentA,
+  DocumentB as ReferenceDocumentB,
+  DocumentFrame as ReferenceDocumentFrame,
+  DocumentOne as ReferenceDocumentOne,
+  ClassifiedDocument as ReferenceClassifiedDocument,
+  HardcodedClassifiedStack as ReferenceHardcodedClassifiedStack,
+  UFODispatchDocument as ReferenceUfoDispatchDocument,
+  UFODocument as ReferenceUfoDocument,
+  WeatheredClassifiedDocument as ReferenceWeatheredClassifiedDocument,
+  DocumentShowcase as ReferenceDocumentShowcase,
+  MixedDocumentLayout as ReferenceMixedDocumentLayout,
+  ResponsiveDocumentGrid as ReferenceResponsiveDocumentGrid,
+  PhotoCaption as ReferencePhotoCaption,
+  VintagePosterA as ReferenceVintagePosterA,
+  VintagePosterB as ReferenceVintagePosterB,
+  VintagePosterC as ReferenceVintagePosterC,
+  VintagePosterD as ReferenceVintagePosterD,
+} from '@/components/design-system/research-ui/documents/reference-prototype'
 import '../../../../.storybook/reference-prototype.css'
 
 function ReferenceCanvas({children}: {children: React.ReactNode}) {
@@ -33,7 +36,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'Quarantined Figma Make reference components for visual comparison. These stories render the donor source without promoting it into the production design system.',
+          'Migrated Figma Make reference document components living under research-ui/documents/reference-prototype. Donor source remains at docs/design/reference-prototype for provenance.',
       },
     },
   },
@@ -173,6 +176,15 @@ export const WeatheredClassifiedDocument: Story = {
         showNavigation={false}
         photo={{src: '/images/doc-b-textstorm.png', alt: 'Reference archival scan'}}
       />
+    </ReferenceCanvas>
+  ),
+}
+
+export const HardcodedClassifiedStack: Story = {
+  name: 'Hardcoded Classified Stack',
+  render: () => (
+    <ReferenceCanvas>
+      <ReferenceHardcodedClassifiedStack />
     </ReferenceCanvas>
   ),
 }

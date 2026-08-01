@@ -2,24 +2,17 @@
 import gsap from 'gsap'
 import { Draggable } from 'gsap/Draggable'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import Image from 'next/image'
 import React, { useEffect, useRef } from 'react'
 
-
-
-/* The following eases are Club GSAP perks */
-
-/* The following plugins are Club GSAP perks */
-
 import '@/lib/gsap/inertia.js'
-
-
 
 // Register GSAP plugins
 if ( typeof window !== 'undefined' ) {
   gsap.registerPlugin( ScrollTrigger, Draggable )
 }
 
-interface TimelineEvent {
+export interface TimelineEvent {
   year: string
   title: string
   imageUrl: string
@@ -176,7 +169,9 @@ export const Timeline: React.FC<TimelineProps> = ( { events, className } ) => {
           {events.map( ( event, index ) => (
             <a
               key={index}
-              ref={el => navLinksRef.current[index] = el}
+              ref={(element) => {
+                navLinksRef.current[index] = element
+              }}
               href={`#section_${index + 1}`}
               data-link
               className="timeline-nav__link"
@@ -190,7 +185,9 @@ export const Timeline: React.FC<TimelineProps> = ( { events, className } ) => {
         <section
           key={index}
           id={`section_${index + 1}`}
-          ref={el => sectionsRef.current[index] = el}
+          ref={(element) => {
+            sectionsRef.current[index] = element
+          }}
           style={{ '--i': index } as React.CSSProperties}
         >
           <div className="container">
@@ -199,7 +196,14 @@ export const Timeline: React.FC<TimelineProps> = ( { events, className } ) => {
               <span>{event.title}</span>
             </h2>
             <div className="section__image">
-              <img src={event.imageUrl} width="1200" height="1200" alt={event.title} />
+              <Image
+                src={event.imageUrl}
+                width={1200}
+                height={1200}
+                sizes="(min-width: 1280px) 1200px, 100vw"
+                alt={event.title}
+                unoptimized
+              />
             </div>
           </div>
 

@@ -12,8 +12,6 @@ review and improve a best in class prompt caching implementation
 
 _**Agent (claude-fable-5 2026-07-19 13:34:33Z)**_
 
-_**Agent (claude-fable-5 2026-07-19 13:34:33Z)**_
-
 I'll start with the required Librarian artifact, then locate the prompt caching implementation in the repo.
 
 _**Agent (claude-fable-5 2026-07-19 13:34:40Z)**_
@@ -67,8 +65,6 @@ _**Agent (claude-fable-5 2026-07-19 13:34:47Z)**_
 The file /Users/liamellis/.fieldtheory/librarian/jobs/job_193.json has been updated successfully. (file state is current in your context — no need to Read it back)
 ```
 </details></tool-use>
-
-_**Agent (claude-fable-5 2026-07-19 13:34:50Z)**_
 
 _**Agent (claude-fable-5 2026-07-19 13:34:50Z)**_
 
@@ -304,10 +300,6 @@ Searchable terms for follow-up: cache_control, cached_tokens, node_modules, prom
 ```
 </details></tool-use>
 
-_**Agent (claude-fable-5 2026-07-19 13:36:30Z)**_
-
-_**Agent (claude-fable-5 2026-07-19 13:36:30Z)**_
-
 _**Agent (claude-fable-5 2026-07-19 13:36:43Z)**_
 
 <tool-use data-tool-type="unknown" data-tool-name="mcp__plugin_context-mode_context-mode__ctx_batch_execute"><details>
@@ -494,10 +486,6 @@ warning: you may want to set your diff.renameLimit variable to at least 4645 and
 Searchable terms for follow-up: disclosure-rag, ultraterrestrial-resurrection, prometheus, functions, research, route---, context, ---live, config, client, grep, docs, chat, -rn, -ie, -40, app, set, liamellis, services, desktop, users, route, head, src, api
 ```
 </details></tool-use>
-
-_**Agent (claude-fable-5 2026-07-19 13:36:59Z)**_
-
-_**Agent (claude-fable-5 2026-07-19 13:36:59Z)**_
 
 _**Agent (claude-fable-5 2026-07-19 13:37:00Z)**_
 
@@ -8685,10 +8673,6 @@ prompt caching best practices — cache_control breakpoints, TTL, minimum cachea
 
 ---
 
-_**Agent (claude-fable-5 2026-07-19 13:37:24Z)**_
-
-_**Agent (claude-fable-5 2026-07-19 13:37:24Z)**_
-
 _**Agent (claude-fable-5 2026-07-19 13:37:26Z)**_
 
 <tool-use data-tool-type="read" data-tool-name="Read"><details>
@@ -9012,10 +8996,6 @@ src/lib/ai/model-fallback.ts
 ```
 </details></tool-use>
 
-_**Agent (claude-fable-5 2026-07-19 13:37:35Z)**_
-
-_**Agent (claude-fable-5 2026-07-19 13:37:35Z)**_
-
 _**Agent (claude-fable-5 2026-07-19 13:37:37Z)**_
 
 <tool-use data-tool-type="shell" data-tool-name="Bash"><details>
@@ -9222,8 +9202,6 @@ _**Agent (claude-fable-5 2026-07-19 13:37:40Z)**_
 ```
 </details></tool-use>
 
-_**Agent (claude-fable-5 2026-07-19 13:37:45Z)**_
-
 _**Agent (claude-fable-5 2026-07-19 13:37:46Z)**_
 
 <tool-use data-tool-type="read" data-tool-name="Read"><details>
@@ -9379,8 +9357,6 @@ _**Agent (claude-fable-5 2026-07-19 13:37:46Z)**_
 ```
 </details></tool-use>
 
-_**Agent (claude-fable-5 2026-07-19 13:37:48Z)**_
-
 _**Agent (claude-fable-5 2026-07-19 13:37:50Z)**_
 
 <tool-use data-tool-type="shell" data-tool-name="Bash"><details>
@@ -9522,10 +9498,6 @@ _**Agent (claude-fable-5 2026-07-19 13:37:52Z)**_
 ```
 </details></tool-use>
 
-_**Agent (claude-fable-5 2026-07-19 13:38:29Z)**_
-
-_**Agent (claude-fable-5 2026-07-19 13:38:29Z)**_
-
 _**Agent (claude-fable-5 2026-07-19 13:38:35Z)**_
 
 <tool-use data-tool-type="shell" data-tool-name="Bash"><details>
@@ -9539,10 +9511,6 @@ npm warn exec The following package was not found and will be installed: ctx7@0.
 ✖ Invalid API key. Please check your API key. API keys should start with 'ctx7sk' prefix.
 ```
 </details></tool-use>
-
-_**Agent (claude-fable-5 2026-07-19 13:38:40Z)**_
-
-_**Agent (claude-fable-5 2026-07-19 13:38:40Z)**_
 
 _**Agent (claude-fable-5 2026-07-19 13:38:41Z)**_
 
@@ -9877,8 +9845,6 @@ Prompt caching is automatically enabled for supported OpenAI models, such as gpt
 
 _**Agent (claude-fable-5 2026-07-19 13:39:59Z)**_
 
-_**Agent (claude-fable-5 2026-07-19 13:39:59Z)**_
-
 Verified syntax. Now let me see the tail of the `streamText` call (response handling, any `onFinish`) before editing.
 
 _**Agent (claude-fable-5 2026-07-19 13:40:01Z)**_
@@ -9944,8 +9910,6 @@ _**Agent (claude-fable-5 2026-07-19 13:40:05Z)**_
 880	}
 ```
 </details></tool-use>
-
-_**Agent (claude-fable-5 2026-07-19 13:41:13Z)**_
 
 _**Agent (claude-fable-5 2026-07-19 13:41:13Z)**_
 
@@ -10090,8 +10054,6 @@ File created successfully at: /Users/liamellis/Desktop/apps/ultraterrestrial-res
 ```
 </details></tool-use>
 
-_**Agent (claude-fable-5 2026-07-19 13:41:47Z)**_
-
 _**Agent (claude-fable-5 2026-07-19 13:41:53Z)**_
 
 <tool-use data-tool-type="write" data-tool-name="Edit"><details>
@@ -10160,8 +10122,6 @@ The file /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/sr
 
 _**Agent (claude-fable-5 2026-07-19 13:42:16Z)**_
 
-_**Agent (claude-fable-5 2026-07-19 13:42:16Z)**_
-
 Now verify the touched files typecheck (filtering against the known ~1,900-error baseline):
 
 _**Agent (claude-fable-5 2026-07-19 13:43:26Z)**_
@@ -10202,10 +10162,6 @@ EXIT_MARKER_DONE
 > **Tip:** Results are scoped to this batch only. To search across all indexed sources, use `ctx_search(queries: [...])` or call ctx_batch_execute with `query_scope: "global"`.
 ```
 </details></tool-use>
-
-_**Agent (claude-fable-5 2026-07-19 13:43:35Z)**_
-
-_**Agent (claude-fable-5 2026-07-19 13:43:35Z)**_
 
 _**Agent (claude-fable-5 2026-07-19 13:43:40Z)**_
 
@@ -10261,10 +10217,6 @@ EXIT_DONE
 > **Tip:** Results are scoped to this batch only. To search across all indexed sources, use `ctx_search(queries: [...])` or call ctx_batch_execute with `query_scope: "global"`.
 ```
 </details></tool-use>
-
-_**Agent (claude-fable-5 2026-07-19 13:44:14Z)**_
-
-_**Agent (claude-fable-5 2026-07-19 13:44:14Z)**_
 
 _**Agent (claude-fable-5 2026-07-19 13:44:24Z)**_
 
@@ -10340,10 +10292,6 @@ merge keeps foreign ns: {"openai":{"x":1},"anthropic":{"cacheControl":{"type":"e
 openai opts: {"openai":{"promptCacheKey":"user-123"}}
 ```
 </details></tool-use>
-
-_**Agent (claude-fable-5 2026-07-19 13:44:37Z)**_
-
-_**Agent (claude-fable-5 2026-07-19 13:44:37Z)**_
 
 _**Agent (claude-fable-5 2026-07-19 13:45:00Z)**_
 
@@ -10434,8 +10382,6 @@ File created successfully at: /Users/liamellis/Desktop/apps/ultraterrestrial-res
 
 _**Agent (claude-fable-5 2026-07-19 13:45:16Z)**_
 
-_**Agent (claude-fable-5 2026-07-19 13:45:16Z)**_
-
 **Done. There was no real prompt caching to review — the live chat route was actively defeating it — so I built the implementation: reviewed the prompt-assembly path, fixed the invalidator, and added explicit Anthropic breakpoints plus OpenAI cache-key pinning.**
 
 **What I found:** The only "prompt cache" in the repo was a prompt-hash *response* cache in the dead legacy route (`src/services/ai/prometheus/api/chat/route.ts` — do-not-extend code). The live Prometheus route was worse than uncached: it interpolated the **latest user message and current graph state into the system prompt** every turn. Since providers hash the prompt as a prefix (tools → system → messages), those changing bytes at the front invalidated the entire conversation history on every single request — for OpenAI's automatic caching and Anthropic's explicit caching alike.
@@ -10457,8 +10403,6 @@ _**User (2026-07-19 15:17:19Z)**_
 what do you recommend?
 
 ---
-
-_**Agent (claude-fable-5 2026-07-19 15:17:33Z)**_
 
 _**Agent (claude-fable-5 2026-07-19 15:17:42Z)**_
 

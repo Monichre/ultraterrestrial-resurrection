@@ -1,22 +1,24 @@
 // ./src/components/3d-timeline/ThreeDTimeline.tsx
-import { cn } from "@/utils"
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import Image from 'next/image'
 import React, { useEffect, useRef } from 'react'
+
+import { cn } from '@/utils'
 
 // Register GSAP plugins
 if ( typeof window !== 'undefined' ) {
   gsap.registerPlugin( ScrollTrigger )
 }
 
-interface Slide {
+export interface ThreeDTimelineSlide {
   id: string
   image: string
   title?: string
 }
 
-interface ThreeDTimelineProps {
-  slides: Slide[]
+export interface ThreeDTimelineProps {
+  slides: ThreeDTimelineSlide[]
   className?: string
   showNavigation?: boolean
 }
@@ -116,12 +118,18 @@ export const ThreeDTimeline: React.FC<ThreeDTimelineProps> = ( {
       <div ref={containerRef} className="container perspective-1000 h-[500vh]">
         <div className="active-slide fixed top-0 left-0 w-full h-screen flex items-center justify-center">
           {slides.map( ( slide, index ) => (
-            <img
+            <Image
               key={`active-${slide.id}`}
-              ref={el => activeSlideImagesRef.current[index] = el}
+              ref={(element) => {
+                activeSlideImagesRef.current[index] = element
+              }}
               src={slide.image}
+              width={1200}
+              height={800}
+              sizes="40vw"
               alt={slide.title || ''}
               className="absolute w-[40vw] h-auto opacity-0"
+              unoptimized
             />
           ) )}
         </div>
@@ -133,7 +141,9 @@ export const ThreeDTimeline: React.FC<ThreeDTimelineProps> = ( {
           return (
             <div
               key={slide.id}
-              ref={el => slideRefs.current[index] = el}
+              ref={(element) => {
+                slideRefs.current[index] = element
+              }}
               className="slide fixed top-1/2 w-[40vw] aspect-[4/3]"
               style={{
                 left: `${xPosition}%`,
@@ -141,10 +151,13 @@ export const ThreeDTimeline: React.FC<ThreeDTimelineProps> = ( {
                 opacity: index === slides.length - 1 ? 1 : 0,
               }}
             >
-              <img
+              <Image
                 src={slide.image}
+                fill
+                sizes="40vw"
                 alt={slide.title || ''}
-                className="w-full h-full object-cover"
+                className="h-full w-full object-cover"
+                unoptimized
               />
               {slide.title && (
                 <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">

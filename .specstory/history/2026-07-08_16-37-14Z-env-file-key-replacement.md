@@ -8,9 +8,9 @@ _**User**_
 
 replace all duplicate keys in current @.env file with the below and add any non existent additional keys.
 
-OPENAI_API_KEY="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"
+OPENAI_API_KEY="[REDACTED:openai-api-key]"
 
-MERGE_DEV_API_KEY=mg_XOHbG7MOoX1z07uZw3unRUyAv8aIZnmFtCKwtg_tU8Q
+MERGE_DEV_API_KEY=[REDACTED:generic-api-key]
 
 # Hermes Agent Environment Configuration
 # Copy this file to .env and fill in your API keys
@@ -25,23 +25,23 @@ MERGE_DEV_API_KEY=mg_XOHbG7MOoX1z07uZw3unRUyAv8aIZnmFtCKwtg_tU8Q
 # Default model to use (OpenRouter format: provider/model)
 # Examples: anthropic/claude-opus-4.6, openai/gpt-4o, google/gemini-3-flash-preview, zhipuai/glm-4-plus
 # LLM_MODEL=openai/gpt-5.3-codex
-RUNPOD_API_KEY=rpa_UQPTSZYR3LHRVYB78MHJK0UCPQ0QG3PM4N1ATGTT3gh9h5
-DAYTONA_API_KEY=dtn_7dff86383092a5e1095bd11e6d0c1032c3fff6345be21916d7b034e0917db61f
+RUNPOD_API_KEY=[REDACTED:generic-api-key]
+DAYTONA_API_KEY=[REDACTED:generic-api-key]
 DAYTONA_API_URL=https://app.daytona.io/api
 
-# sk-api-yjE9SGgm8wdCHaRu4mS9Qc6dTcIQ013fFCXlBFisGzkIqoRLuhmUg372O4oQNKRfBeoNm2B6C9k3UMNlUOO6qLH1EN-tpijiB6P4w7xMXSb8CWtmVrEUUoU
+# [REDACTED:minimax-api-key]
 # =============================================================================
 # LLM PROVIDER (z.ai / GLM)
 # =============================================================================
 # z.ai provides access to ZhipuAI GLM models (GLM-4-Plus, etc.)
 # Get your key at: https://z.ai or https://open.bigmodel.cn
-GLM_API_KEY=e856125e731f41c190e05f41d57da38f.zprcEj0ZZacnsYpQ
+GLM_API_KEY=[REDACTED:zai-api-key]
 # GLM_BASE_URL=https://api.z.ai/api/paas/v4  # Override default base URL
-REPLICATE_API_TOKEN=r8_fSYPgjzEWU92pw9K2Y2Xo1taDoVOK0S3ZRpDw
-OPENROUTER_API_KEY=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
+REPLICATE_API_TOKEN=[REDACTED:replicate-api-token]
+OPENROUTER_API_KEY=[REDACTED:openrouter-api-key]
 
 
-COPILOT_GITHUB_TOKEN=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
+COPILOT_GITHUB_TOKEN=[REDACTED:github-oauth]
 # Default model to use (OpenRouter format: provider/model)
 # =============================================================================
 # LLM PROVIDER (Kimi / Moonshot)
@@ -51,9 +51,9 @@ COPILOT_GITHUB_TOKEN=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
 # Keys prefixed sk-kimi- use the Kimi Code API (api.kimi.com) by default.
 # Legacy keys from platform.moonshot.ai need KIMI_BASE_URL override below.
 
-MUAPI_API_KEY=398627f9cc5e82d4fff93774689c03ab1db8fd949703af920b7f698707f2d62c
-MODAL_API_TOKEN=ak-lpLUAC7mTDUGJPFNADHd89
-KIMI_API_KEY=sk-kimi-F6qAqpXqKn1ptwaO9FXJrSs3oqHC30imbLhld958K5kRvrLOG5IZwMgGU2Fd36Ts
+MUAPI_API_KEY=[REDACTED:generic-api-key]
+MODAL_API_TOKEN=[REDACTED:generic-api-key]
+KIMI_API_KEY=[REDACTED:generic-api-key]
 # KIMI_BASE_URL=https://api.kimi.com/coding/v1  # Default for sk-kimi- keFAL_API_KEY=9a2b8ccc-0bb1-4a28-898f-db33250505c8:e95acf88ba9a8fb7f27d4dc996ecee9cys
 # KIMI_BASE_URL=https://api.moonshot.ai/v1      # For legacy Moonshot keys
 # KIMI_BASE_URL=https://api.moonshot.cn/v1       # For Moonshot China keys
@@ -63,7 +63,7 @@ KIMI_API_KEY=sk-kimi-F6qAqpXqKn1ptwaO9FXJrSs3oqHC30imbLhld958K5kRvrLOG5IZwMgGU2F
 # MiniMax provides access to MiniMax models (global endpoint)
 # Get your key at: https://www.minimax.io
 
-MINIMAX_API_KEY=sk-api-yjE9SGgm8wdCHaRu4mS9Qc6dTcIQ013fFCXlBFisGzkIqoRLuhmUg372O4oQNKRfBeoNm2B6C9k3UMNlUOO6qLH1EN-tpijiB6P4w7xMXSb8CWtmVrEUUoU
+MINIMAX_API_KEY=[REDACTED:minimax-api-key]
 # MINIMAX_BASE_URL=https://api.minimax.io/v1  # Override default base URL
 
 # MiniMax China endpoint (for users in mainland China)
@@ -76,7 +76,7 @@ MINIMAX_API_KEY=sk-api-yjE9SGgm8wdCHaRu4mS9Qc6dTcIQ013fFCXlBFisGzkIqoRLuhmUg372O
 
 # Firecrawl API Key - Web search, extract, and crawl
 # Get at: https://firecrawl.dev/
-FIRECRAWL_API_KEY=fc-6ed84138622044578021b6ec17b62a00
+FIRECRAWL_API_KEY=[REDACTED:generic-api-key]
 
 # FAL.ai API Key - Image generation
 # Get at: https://fal.ai/
@@ -86,7 +86,7 @@ FAL_API_KEY=9a2b8ccc-0bb1-4a28-898f-db33250505c8:e95acf88ba9a8fb7f27d4dc996ecee9
 # Builds a persistent understanding of the user across sessions and tools.
 # Get at: https://app.honcho.dev
 # Also requires ~/.honcho/config.json with enabled=true (see README).
-HONCHO_API_KEY=hch-v2-xasajhk914jp7yqc4iapewesvon4kw685q9ztho6wva9d6hfa2s4ub149o14lj7y
+HONCHO_API_KEY=[REDACTED:generic-api-key]
 
 # =============================================================================
 # TERMINAL TOOL CONFIGURATION (mini-swe-agent backend)
@@ -159,52 +159,52 @@ TERMINAL_LIFETIME_SECONDS=300
 # Run: pip install modal && modal setup
 # This will authenticate via browser and store credentials locally.
 # No API key needed in .env - Modal handles auth automatically.
-VERCEL_AI_GATEWAY_API_KEY="vck_1uigHszfC1rgAjXdE1sg6tT0ygNS0mVgF1uo7cklkxNgEOKBmL4cNZri"
-# COMPOSIO_API_KEY="mfcv0l300os9b2bl03dm9"
-# DEEPGRAM_API_KEY="58db455a6f531c825827cdafb597ab39c098bf1f"
-# E2B_API_KEY="e2b_2b02a7a26a265be0680ce0466f5c7e8e365c0a55"
-EXA_API_KEY="41756a4d-85a8-4402-bce2-8983786e4435"
+VERCEL_AI_GATEWAY_API_KEY="[REDACTED:vercel-ai-gateway-key]"
+# COMPOSIO_API_KEY="[REDACTED:generic-api-key]"
+# DEEPGRAM_API_KEY="[REDACTED:deepgram-api-key]"
+# E2B_API_KEY="[REDACTED:generic-api-key]"
+EXA_API_KEY="[REDACTED:generic-api-key]"
 
-# FIRECRAWL_API_KEY="fc-22d136e7c1484888b4ba53b1a85da50e"
-# GEMINI_API_KEY=AIzaSyD_fv79HeoDIc13WomINVuoAG6_6sr9m0g
-# GROQ_API_KEY="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"
-# MORPH_API_KEY="sk-bOj2Ksk4nb4n8Qsnshn9X9MBCP_fcCLlSsHyRcX1cj9MF0wF"
-# MULTIONAI_API_KEY="602e191c75d649fdb109f2a56329f6ee"
+# FIRECRAWL_API_KEY="[REDACTED:generic-api-key]"
+# GEMINI_API_KEY=[REDACTED:gcp-api-key]
+# GROQ_API_KEY="[REDACTED:groq-api-key]"
+# MORPH_API_KEY="[REDACTED:generic-api-key]"
+# MULTIONAI_API_KEY="[REDACTED:generic-api-key]"
 
-# OPENAI_API_KEY="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"
-# PERIGNON_API_KEY="065efe41-6c22-4886-9a25-442791659604"
-# PERPLEXITY_API_KEY="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"
-# SCRAPEGRAPH_API_KEY="sgai-130e8849-fdfe-4215-8e1b-ae00a14f3816"
-# SEARCH1API_KEY="C758D027-BA59-46D4-88EA-11F43C5E97A7"
-# SERPER_API_KEY="773974adedf733ee3ecf9f4c7690ab609e2b70c5"
+# OPENAI_API_KEY="[REDACTED:openai-api-key]"
+# PERIGNON_API_KEY="[REDACTED:generic-api-key]"
+# PERPLEXITY_API_KEY="[REDACTED:perplexity-api-key]"
+# SCRAPEGRAPH_API_KEY="[REDACTED:generic-api-key]"
+# SEARCH1API_KEY="[REDACTED:generic-api-key]"
+# SERPER_API_KEY="[REDACTED:generic-api-key]"
 # TOGETHERAI_API_KEY="bc3acfa53172fc75ee41981b19770aa4ba3f6387312856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"
-# UPSTASH_SEARCH_REST_READONLY_TOKEN="AB0IMG5vdGFibGUtZG9ua2V5LTExMTYxLWdjcC11c2MxcmVhZG9ubHlNRGs0TmpkaE5tTXRaR0prTkMwMFlURmpMVGd5T0RFdE16SmhNRFZsWTJOa1pqSms="
-# UPSTASH_SEARCH_REST_TOKEN="AB0FMG5vdGFibGUtZG9ua2V5LTExMTYxLWdjcC11c2MxYWRtaW5NbVF4TWpRMVkyWXRabU5rT1MwME0yUTNMV0V6WlRjdE1UYzNNalZoWXpRd09ERmo="
+# UPSTASH_SEARCH_REST_READONLY_TOKEN="[REDACTED:generic-api-key]"
+# UPSTASH_SEARCH_REST_TOKEN="[REDACTED:generic-api-key]"
 # UPSTASH_SEARCH_REST_URL="https://notable-donkey-11161-gcp-usc1-search.upstash.io"
-# VERCEL_OIDC_TOKEN="eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Im1yay00MzAyZWMxYjY3MGY0OGE5OGFkNjFkYWRlNGEyM2JlNyJ9.eyJpc3MiOiJodHRwczovL29pZGMudmVyY2VsLmNvbS9kaWdpdGFsLW1pc2NoaWVmLWdyb3VwIiwic3ViIjoib3duZXI6ZGlnaXRhbC1taXNjaGllZi1ncm91cDpwcm9qZWN0OnYwLWRtZy1wcm9kdWN0aW9uOmVudmlyb25tZW50OmRldmVsb3BtZW50Iiwic2NvcGUiOiJvd25lcjpkaWdpdGFsLW1pc2NoaWVmLWdyb3VwOnByb2plY3Q6djAtZG1nLXByb2R1Y3Rpb246ZW52aXJvbm1lbnQ6ZGV2ZWxvcG1lbnQiLCJhdWQiOiJodHRwczovL3ZlcmNlbC5jb20vZGlnaXRhbC1taXNjaGllZi1ncm91cCIsIm93bmVyIjoiZGlnaXRhbC1taXNjaGllZi1ncm91cCIsIm93bmVyX2lkIjoidGVhbV8wZzF5WFptOHlMMWVVcVlDOEhMamMxVUoiLCJwcm9qZWN0IjoidjAtZG1nLXByb2R1Y3Rpb24iLCJwcm9qZWN0X2lkIjoicHJqX3F2Wkh5d0FueDhrMDBlY0RGejUwZDl3OG1TaDciLCJlbnZpcm9ubWVudCI6ImRldmVsb3BtZW50IiwicGxhbiI6InBybyIsInVzZXJfaWQiOiJRTDdnbGdUUXM1WDdsWXRMZnB1clJob1UiLCJuYmYiOjE3NjYyNDkzOTEsImlhdCI6MTc2NjI0OTM5MSwiZXhwIjoxNzY2MjkyNTkxfQ.RKRtQMJsoKA-PhBrYCTNKmCeQK8GpsXfjfCK_p0W6TLVPJCj_z1PxYgV7Huwna85bZc8pVRdYPFXfAlZhRwXuxUpJgwgRcDKfhWVHImZ6Tw9aROpGfEvMXlqEcrt7GeGBVUdQpR73JIflLuJQGQ4Ej25mjJGMOsznC2r7RuwRZpl1PWPA50j-4LP9ETOhm9yc33k2odKFgc5BhtPjpFMgKq8UogQSCB0en0c205MFFgWTenIdH2nrriZmBEMdMl7O61pBOcVTK9ABEsmfpmUliFw68fFGKyCpQaM8_LNje-RzmA5qxwO3oB_98CAkbagsE5a2jouDGjdWu1iVAaxRw"
-# XAI_API_KEY="xai-AqOPbpwhXrGenpbE2TZvRT479kSaWot2HPjvs6t5zCUuIFCLXeEf3iYtXwKa3ynREohcB5V5SbeIPn7B"
-# OPENROUTER_API_KEY=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
-# UPSTASH_API_KEY=16069618-2918-4c7c-a530-fc3c70ad9d9a
-# TOGGLE_API_KEY=3d089a52b7cc3a323923af506aa1c63220e177e89c5f7b21554f975b0da87c4a
-# NOTION_API_KEY="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"
-# ELEVENLABS_API_KEY="50d570c2c3d19924b91fd749dd541af01004fa486f400a712ebfab09942b5097"
+# VERCEL_OIDC_TOKEN="[REDACTED:jwt]"
+# XAI_API_KEY="[REDACTED:xai-api-key]"
+# OPENROUTER_API_KEY=[REDACTED:openrouter-api-key]
+# UPSTASH_API_KEY=[REDACTED:generic-api-key]
+# TOGGLE_API_KEY=[REDACTED:generic-api-key]
+# NOTION_API_KEY="[REDACTED:notion-api-token]"
+# ELEVENLABS_API_KEY="[REDACTED:generic-api-key]"
 # ELEVENLABS_VOICE_ID="z2sgjL6ER8zZEFccuQMN"
 # SAG_VOICE_ID="z2sgjL6ER8zZEFccuQMN"
 
 
-GEMINI_API_KEY="AIzaSyCeE-OMNXCU-2zcHhKooZBoHwRTxH7UIzU"
+GEMINI_API_KEY="[REDACTED:gcp-api-key]"
 
 # # OpenClaw Completio
-# TOGGLE_API_KEY="3d089a52b7cc3a323923af506aa1c63220e177e89c5f7b21554f975b0da87c4a"
+# TOGGLE_API_KEY="[REDACTED:generic-api-key]"
 # FAL_API_KEY="d9ee5195-2de1-4e0c-8bba-248dbec88493:a2b92a16bba216c582d7c721a7865088"
-# REPLICATE_API_TOKEN="r8_fSYPgjzEWU92pw9K2Y2Xo1taDoVOK0S3ZRpDw"
-ANTHROPIC_API_KEY="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"
-COMPOSIO_API_KEY="mfcv0l300os9b2bl03dm9"
-AI_GATEWAY_API_KEY="dhedA45rwAlZ5nzo8DFrrEj2"
-# FACTORY_API_KEY="fk-jVlfnFcqW8RBSmCU4wwS-9UuO7RuM0ZQulNQ5EyWVjpRcJ_yGeTakjM6V42WZYt0"
-# OPENAI_API_KEY="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"
-MINIMAX_API_KEY=sk-cp-QlY_YpIh7hDKwLCrSb17tyum8u5SYznI0OQRsAd8-Zt47i3XpV9rSv5AlEK-myYf983O28N8gVnQAdtDtm7q65z8AOHNLGTRvaRXNG7KmwPUPXh-B0xvJ1A
-ELEVENLABS_API_KEY=sk_f2b215fd830e974b0d6b3d22523b30ac29e438d3557cef16
+# REPLICATE_API_TOKEN="[REDACTED:replicate-api-token]"
+ANTHROPIC_API_KEY="[REDACTED:anthropic-api-key]"
+COMPOSIO_API_KEY="[REDACTED:generic-api-key]"
+AI_GATEWAY_API_KEY="[REDACTED:generic-api-key]"
+# FACTORY_API_KEY="[REDACTED:generic-api-key]"
+# OPENAI_API_KEY="[REDACTED:openai-api-key]"
+MINIMAX_API_KEY=[REDACTED:generic-api-key]
+ELEVENLABS_API_KEY=[REDACTED:elevenlabs-api-key]
 # =============================================================================
 # VOICE TRANSCRIPTION & OPENAI TTS
 # =============================================================================
@@ -212,14 +212,14 @@ ELEVENLABS_API_KEY=sk_f2b215fd830e974b0d6b3d22523b30ac29e438d3557cef16
 # Uses OpenAI's API directly (not via OpenRouter).
 # Named VOICE_TOOLS_OPENAI_KEY to avoid interference with OpenRouter.
 # Get at: https://platform.openai.com/api-keys
-VOICE_TOOLS_OPENAI_KEY="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"
+VOICE_TOOLS_OPENAI_KEY="[REDACTED:openai-api-key]"
 # Tinker API Key - RL training service
 # Get at: https://tinker-console.thinkingmachines.ai/keys
-TINKER_API_KEY=tml-LFqXDQoxmrRF160zdFX6PZzuXUGEOBTwuQ0fmBEmjf5emgDjofbjIkECS2qG2C8iNAAAAtml-LFqXDQoxmrRF160zdFX6PZzuXUGEOBTwuQ0fmBEmjf5emgDjofbjIkECS2qG2C8iNAAAA
+TINKER_API_KEY=[REDACTED:generic-api-key]
 
 # Weights & Biases API Key - Experiment tracking and metrics
 # Get at: https://wandb.ai/authorize
-WANDB_API_KEY=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
+WANDB_API_KEY=[REDACTED:weights-and-biases-api-key-v1]
 
 # RL API Server URL (default: http://localhost:8080)
 # Change if running the rl-server on a different host/port
@@ -231,8 +231,8 @@ WANDB_API_KEY=wandb_v1_Q4e3RTPDjiQqX1ebVpCsqgg8BkW_qD17l8bNDKykwMGCOjuqM0oShxu7H
 
 # GitHub Personal Access Token — for higher API rate limits on skill search/install
 # Get at: https://github.com/settings/tokens (Fine-grained recommended)
-GITHUB_TOKEN=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
-BROWSER_USE_API_KEY=bu_DVMONT4YteoL9kOlDm5w5OzKIiCTOdmHj56zy0RUU20
+GITHUB_TOKEN=[REDACTED:github-fine-grained-pat]
+BROWSER_USE_API_KEY=[REDACTED:generic-api-key]
 
 
 # =============================================================================
@@ -330,12 +330,12 @@ IMAGE_TOOLS_DEBUG=false
 # =============================================================================
 # Run reinforcement learning training on language models using the Tinker API.
 # Requires the rl-server to be running (from tinker-atropos package).
-WEAVIATE_ENGRAM_API_KEY=eng_Ciz4LEqOwjPH0VUCUSqYesPNRATrmt44oo2pfUEtFM0
-WEAVIATE_DATABASE_API_KEY=MmZvbjNFN2VtSjBqNGNmTF9KU0l6YTU0cmVNZXlUTFVsaTl3dEVGVHhhSVZyR1ByNm5ObFFVdVdLZ3dFPV92MjAw
+WEAVIATE_ENGRAM_API_KEY=[REDACTED:generic-api-key]
+WEAVIATE_DATABASE_API_KEY=[REDACTED:generic-api-key]
 WEAVIATE_URL="ezemfioqmxicbq8vsexw.c0.us-east-1.aws.weaviate.cloud"
-BROWSER_USE_API_KEY=bu_jdvIjZ7F2-RadRwz4FYo2jg_Q61Jf088CJJ2uFu-Tqk
-CODEX_ACCESS_TOKEN=eyJhbGciOiJSUzI1NiIsImtpZCI6InNoYTI1Ni0tby12N3FxaU1Fc1Y2UUNJbWFueTV5REl4MktFTEVsS3FsWWcxN2lBemNZIiwidHlwIjoiSldUIn0.eyJhY2NvdW50X2lkIjoiYzcxMTY4NmUtOGFiMS00MzZkLTg2ZDgtMDU3ZTBkYzNiNDg1IiwiYWdlbnRfcHJpdmF0ZV9rZXkiOiJNQzRDQVFBd0JRWURLMlZ3QkNJRUlDdFFZby9mSUxqZVZkVjFwWjUyNTBLU1huZFpiN2JDbVdsMGdmZTZTcjZFIiwiYWdlbnRfcnVudGltZV9pZCI6ImFnZW50LTNDN0dGMjBDT3E0UGhLbXhsbXBvZWVTayIsImF1ZCI6ImNvZGV4LWFwcC1zZXJ2ZXIiLCJjaGF0Z3B0X2FjY291bnRfaXNfZmVkcmFtcCI6ZmFsc2UsImNoYXRncHRfdXNlcl9pZCI6InVzZXItd1BCbG1ucXJ3WUtPN0hHQ21uU3NvWFBsIiwiZW1haWwiOiJsaWFtaGVsbGlzQGdtYWlsLmNvbSIsImV4cCI6MjA5NDU2NTE1OSwiaWF0IjoxNzc5MjA1MTU5LCJpc3MiOiJodHRwczovL2NoYXRncHQuY29tL2NvZGV4LWJhY2tlbmQvYWdlbnQtaWRlbnRpdHkiLCJwbGFuX3R5cGUiOiJ0ZWFtIn0.p7Qo-4weYWSK_c8KAEa7SFOPWWYt_QvqnzUnTweMreOT6JBVWuxhm_KId0MlnT1bWhf278qrQO5w4MTrQc6f69MLnGFWk2XgE6B-qP_6hIEE6kyFRczegx3make9Eus5bFvqrzJyvSHnL4ncdZKFQ93u7cw8TU0hYOgE27EQ8qPOkqARCZoc6h23_y7McgQNVeoQAqCZpADWtIa4s7pfo6CPcE9ZESpwCmYZ0_2dkLMEr56QpdFnANvoATI2XQh8xzDNgWXe3fp8YYEtQm7c_qOCFApfj86DJJWJ13NfpnTaYH1XQCGYeuLuyoqF7LfdfwtcSHJHTUoEaCptvFbpyQ
-GOOGLE_API_KEY="AIzaSyA4UVxBCCnxTxOaQZSTdYhHtMKibRaNSP8"
+BROWSER_USE_API_KEY=[REDACTED:generic-api-key]
+CODEX_ACCESS_TOKEN=[REDACTED:jwt]
+GOOGLE_API_KEY="[REDACTED:gcp-api-key]"
 
 
 ---
@@ -347,14 +347,8 @@ I'll read the current `.env` file, identify duplicate keys, and merge in your pr
 
 _**Agent (composer-2.5)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.env</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.env</summary>
 
 </details></tool-use>
 
@@ -375,4 +369,556 @@ Also extracting Tinker API key, Weights & Biases API key, GitHub token, and Brow
 
 Browser timeout and debug flags are extracted. Weaviate API keys and URL are added. The second BrowserBase API key wins as a duplicate. CodeX access token is also included.
 
-Identified duplicate</details></think>
+Identified duplicate keys in the current .env file. These include LANGCHAIN_API_KEY, GOOGLE_API_KEY, NEXT_PUBLIC_CLERK_SIGN_IN_URL, NEXT_PUBLIC_CLERK_SIGN_UP_URL, NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY, CLERK_SECRET_KEY, PERPLEXITY_API_KEY, MODEL, PERPLEXITY_MODEL, MAX_TOKENS, and TEMPERATURE. The last occurrence of each duplicate will be kept.
+</details></think>
+
+_**Agent (composer-2.5)**_
+
+Parsing both files and merging: updating overlapping keys, adding missing ones, and deduplicating.
+
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2** • Run command: cd /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection &amp;&amp; python3 &lt;&lt; &#39;PYEOF&#39;
+import re
+from pathlib import Path
+
+# User-provided content (keys to update/add)
+user_content = r&#39;&#39;&#39;
+OPENAI_API_KEY=&#34;[REDACTED:openai-api-key]&#34;
+MERGE_DEV_API_KEY=[REDACTED:generic-api-key]
+RUNPOD_API_KEY=[REDACTED:generic-api-key]
+DAYTONA_API_KEY=[REDACTED:generic-api-key]
+DAYTONA_API_URL=https://app.daytona.io/api
+GLM_API_KEY=[REDACTED:zai-api-key]
+REPLICATE_API_TOKEN=[REDACTED:replicate-api-token]
+OPENROUTER_API_KEY=[REDACTED:openrouter-api-key]
+COPILOT_GITHUB_TOKEN=[REDACTED:github-oauth]
+MUAPI_API_KEY=[REDACTED:generic-api-key]
+MODAL_API_TOKEN=[REDACTED:generic-api-key]
+KIMI_API_KEY=[REDACTED:generic-api-key]
+MINIMAX_API_KEY=[REDACTED:minimax-api-key]
+FIRECRAWL_API_KEY=[REDACTED:generic-api-key]
+FAL_API_KEY=9a2b8ccc-0bb1-4a28-898f-db33250505c8:e95acf88ba9a8fb7f27d4dc996ecee9c
+HONCHO_API_KEY=[REDACTED:generic-api-key]
+TERMINAL_MODAL_IMAGE=nikolaik/python-nodejs:python3.11-nodejs20
+TERMINAL_TIMEOUT=60
+TERMINAL_LIFETIME_SECONDS=300
+VERCEL_AI_GATEWAY_API_KEY=&#34;[REDACTED:vercel-ai-gateway-key]&#34;
+EXA_API_KEY=&#34;[REDACTED:generic-api-key]&#34;
+GEMINI_API_KEY=&#34;[REDACTED:gcp-api-key]&#34;
+ANTHROPIC_API_KEY=&#34;[REDACTED:anthropic-api-key]&#34;
+COMPOSIO_API_KEY=&#34;[REDACTED:generic-api-key]&#34;
+AI_GATEWAY_API_KEY=&#34;[REDACTED:generic-api-key]&#34;
+MINIMAX_API_KEY=[REDACTED:generic-api-key]
+ELEVENLABS_API_KEY=[REDACTED:elevenlabs-api-key]
+VOICE_TOOLS_OPENAI_KEY=&#34;[REDACTED:openai-api-key]&#34;
+TINKER_API_KEY=[REDACTED:generic-api-key]
+WANDB_API_KEY=[REDACTED:weights-and-biases-api-key-v1]
+GITHUB_TOKEN=[REDACTED:github-fine-grained-pat]
+BROWSER_USE_API_KEY=[REDACTED:generic-api-key]
+BROWSERBASE_PROJECT_ID=a8673247-5615-411b-b92f-30292e83c7b7
+BROWSERBASE_PROXIES=true
+BROWSERBASE_ADVANCED_STEALTH=true
+BROWSER_SESSION_TIMEOUT=300
+BROWSER_INACTIVITY_TIMEOUT=120
+WEB_TOOLS_DEBUG=false
+VISION_TOOLS_DEBUG=false
+MOA_TOOLS_DEBUG=false
+IMAGE_TOOLS_DEBUG=false
+WEAVIATE_ENGRAM_API_KEY=[REDACTED:generic-api-key]
+WEAVIATE_DATABASE_API_KEY=[REDACTED:generic-api-key]
+WEAVIATE_URL=&#34;ezemfioqmxicbq8vsexw.c0.us-east-1.aws.weaviate.cloud&#34;
+BROWSER_USE_API_KEY=[REDACTED:generic-api-key]
+CODEX_ACCESS_TOKEN=[REDACTED:jwt]
+GOOGLE_API_KEY=&#34;[REDACTED:gcp-api-key]&#34;
+&#39;&#39;&#39;
+
+KEY_RE = re.compile(r&#39;^([A-Za-z_][A-Za-z0-9_]*)=(.*)$&#39;)
+
+def parse_env_lines(text):
+    &#34;&#34;&#34;Parse env vars; last occurrence wins for duplicates.&#34;&#34;&#34;
+    result = {}
+    for line in text.splitlines():
+        stripped = line.strip()
+        if not stripped or stripped.startswith(&#39;#&#39;):
+            continue
+        m = KEY_RE.match(stripped)
+        if m:
+            result[m.group(1)] = m.group(2)
+    return result
+
+user_vars = parse_env_lines(user_content)
+
+env_path = Path(&#39;.env&#39;)
+original = env_path.read_text()
+
+# Parse current file preserving order of first occurrence
+lines = original.splitlines(keepends=True)
+output_lines = []
+seen_keys = set()
+existing_keys = set()
+replaced = []
+deduped = []
+added_keys = []
+
+for line in lines:
+    stripped = line.strip()
+    if not stripped or stripped.startswith(&#39;#&#39;):
+        output_lines.append(line if line.endswith(&#39;\n&#39;) else line + &#39;\n&#39;)
+        continue
+    m = KEY_RE.match(stripped)
+    if not m:
+        output_lines.append(line if line.endswith(&#39;\n&#39;) else line + &#39;\n&#39;)
+        continue
+    key = m.group(1)
+    existing_keys.add(key)
+    if key in seen_keys:
+        deduped.append(key)
+        continue  # skip duplicate
+    seen_keys.add(key)
+    if key in user_vars:
+        new_line = f&#39;{key}={user_vars[key]}\n&#39;
+        if m.group(2) != user_vars[key]:
+            replaced.append(key)
+        output_lines.append(new_line)
+    else:
+        output_lines.append(line if line.endswith(&#39;\n&#39;) else line + &#39;\n&#39;)
+
+# Add new keys from user content
+new_section_keys = [k for k in user_vars if k not in existing_keys]
+if new_section_keys:
+    output_lines.append(&#39;\n&#39;)
+    output_lines.append(&#39;# =============================================================================\n&#39;)
+    output_lines.append(&#39;# HERMES / AGENT TOOL KEYS (added 2026-07-08)\n&#39;)
+    output_lines.append(&#39;# =============================================================================\n&#39;)
+    for key in new_section_keys:
+        output_lines.append(f&#39;{key}={user_vars[key]}\n&#39;)
+        added_keys.append(key)
+
+result = &#39;&#39;.join(output_lines)
+env_path.write_text(result)
+
+print(&#39;=== REPLACED KEYS ===&#39;)
+for k in sorted(replaced):
+    print(f&#39;  {k}&#39;)
+print(f&#39;\n=== DEDUPLICATED (removed later copies) ===&#39;)
+from collections import Counter
+for k, c in sorted(Counter(deduped).items()):
+    print(f&#39;  {k} ({c} extra copy/copies removed)&#39;)
+print(f&#39;\n=== ADDED NEW KEYS ({len(added_keys)}) ===&#39;)
+for k in sorted(added_keys):
+    print(f&#39;  {k}&#39;)
+PYEOF</summary>
+```bash
+cd /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection && python3 << 'PYEOF'
+import re
+from pathlib import Path
+
+# User-provided content (keys to update/add)
+user_content = r'''
+OPENAI_API_KEY="[REDACTED:openai-api-key]"
+MERGE_DEV_API_KEY=[REDACTED:generic-api-key]
+RUNPOD_API_KEY=[REDACTED:generic-api-key]
+DAYTONA_API_KEY=[REDACTED:generic-api-key]
+DAYTONA_API_URL=https://app.daytona.io/api
+GLM_API_KEY=[REDACTED:zai-api-key]
+REPLICATE_API_TOKEN=[REDACTED:replicate-api-token]
+OPENROUTER_API_KEY=[REDACTED:openrouter-api-key]
+COPILOT_GITHUB_TOKEN=[REDACTED:github-oauth]
+MUAPI_API_KEY=[REDACTED:generic-api-key]
+MODAL_API_TOKEN=[REDACTED:generic-api-key]
+KIMI_API_KEY=[REDACTED:generic-api-key]
+MINIMAX_API_KEY=[REDACTED:minimax-api-key]
+FIRECRAWL_API_KEY=[REDACTED:generic-api-key]
+FAL_API_KEY=9a2b8ccc-0bb1-4a28-898f-db33250505c8:e95acf88ba9a8fb7f27d4dc996ecee9c
+HONCHO_API_KEY=[REDACTED:generic-api-key]
+TERMINAL_MODAL_IMAGE=nikolaik/python-nodejs:python3.11-nodejs20
+TERMINAL_TIMEOUT=60
+TERMINAL_LIFETIME_SECONDS=300
+VERCEL_AI_GATEWAY_API_KEY="[REDACTED:vercel-ai-gateway-key]"
+EXA_API_KEY="[REDACTED:generic-api-key]"
+GEMINI_API_KEY="[REDACTED:gcp-api-key]"
+ANTHROPIC_API_KEY="[REDACTED:anthropic-api-key]"
+COMPOSIO_API_KEY="[REDACTED:generic-api-key]"
+AI_GATEWAY_API_KEY="[REDACTED:generic-api-key]"
+MINIMAX_API_KEY=[REDACTED:generic-api-key]
+ELEVENLABS_API_KEY=[REDACTED:elevenlabs-api-key]
+VOICE_TOOLS_OPENAI_KEY="[REDACTED:openai-api-key]"
+TINKER_API_KEY=[REDACTED:generic-api-key]
+WANDB_API_KEY=[REDACTED:weights-and-biases-api-key-v1]
+GITHUB_TOKEN=[REDACTED:github-fine-grained-pat]
+BROWSER_USE_API_KEY=[REDACTED:generic-api-key]
+BROWSERBASE_PROJECT_ID=a8673247-5615-411b-b92f-30292e83c7b7
+BROWSERBASE_PROXIES=true
+BROWSERBASE_ADVANCED_STEALTH=true
+BROWSER_SESSION_TIMEOUT=300
+BROWSER_INACTIVITY_TIMEOUT=120
+WEB_TOOLS_DEBUG=false
+VISION_TOOLS_DEBUG=false
+MOA_TOOLS_DEBUG=false
+IMAGE_TOOLS_DEBUG=false
+WEAVIATE_ENGRAM_API_KEY=[REDACTED:generic-api-key]
+WEAVIATE_DATABASE_API_KEY=[REDACTED:generic-api-key]
+WEAVIATE_URL="ezemfioqmxicbq8vsexw.c0.us-east-1.aws.weaviate.cloud"
+BROWSER_USE_API_KEY=[REDACTED:generic-api-key]
+CODEX_ACCESS_TOKEN=[REDACTED:jwt]
+GOOGLE_API_KEY="[REDACTED:gcp-api-key]"
+'''
+
+KEY_RE = re.compile(r'^([A-Za-z_][A-Za-z0-9_]*)=(.*)$')
+
+def parse_env_lines(text):
+    """Parse env vars; last occurrence wins for duplicates."""
+    result = {}
+    for line in text.splitlines():
+        stripped = line.strip()
+        if not stripped or stripped.startswith('#'):
+            continue
+        m = KEY_RE.match(stripped)
+        if m:
+            result[m.group(1)] = m.group(2)
+    return result
+
+user_vars = parse_env_lines(user_content)
+
+env_path = Path('.env')
+original = env_path.read_text()
+
+# Parse current file preserving order of first occurrence
+lines = original.splitlines(keepends=True)
+output_lines = []
+seen_keys = set()
+existing_keys = set()
+replaced = []
+deduped = []
+added_keys = []
+
+for line in lines:
+    stripped = line.strip()
+    if not stripped or stripped.startswith('#'):
+        output_lines.append(line if line.endswith('\n') else line + '\n')
+        continue
+    m = KEY_RE.match(stripped)
+    if not m:
+        output_lines.append(line if line.endswith('\n') else line + '\n')
+        continue
+    key = m.group(1)
+    existing_keys.add(key)
+    if key in seen_keys:
+        deduped.append(key)
+        continue  # skip duplicate
+    seen_keys.add(key)
+    if key in user_vars:
+        new_line = f'{key}={user_vars[key]}\n'
+        if m.group(2) != user_vars[key]:
+            replaced.append(key)
+        output_lines.append(new_line)
+    else:
+        output_lines.append(line if line.endswith('\n') else line + '\n')
+
+# Add new keys from user content
+new_section_keys = [k for k in user_vars if k not in existing_keys]
+if new_section_keys:
+    output_lines.append('\n')
+    output_lines.append('# =============================================================================\n')
+    output_lines.append('# HERMES / AGENT TOOL KEYS (added 2026-07-08)\n')
+    output_lines.append('# =============================================================================\n')
+    for key in new_section_keys:
+        output_lines.append(f'{key}={user_vars[key]}\n')
+        added_keys.append(key)
+
+result = ''.join(output_lines)
+env_path.write_text(result)
+
+print('=== REPLACED KEYS ===')
+for k in sorted(replaced):
+    print(f'  {k}')
+print(f'\n=== DEDUPLICATED (removed later copies) ===')
+from collections import Counter
+for k, c in sorted(Counter(deduped).items()):
+    print(f'  {k} ({c} extra copy/copies removed)')
+print(f'\n=== ADDED NEW KEYS ({len(added_keys)}) ===')
+for k in sorted(added_keys):
+    print(f'  {k}')
+PYEOF
+```
+
+```
+=== REPLACED KEYS ===
+  AI_GATEWAY_API_KEY
+  ANTHROPIC_API_KEY
+  COMPOSIO_API_KEY
+  EXA_API_KEY
+  FIRECRAWL_API_KEY
+  GEMINI_API_KEY
+  GOOGLE_API_KEY
+  HONCHO_API_KEY
+  OPENAI_API_KEY
+
+=== DEDUPLICATED (removed later copies) ===
+  BLOB_BASE_URL (1 extra copy/copies removed)
+  BLOB_READ_WRITE_TOKEN (1 extra copy/copies removed)
+  BLOB_STORE_ID (1 extra copy/copies removed)
+  CLERK_SECRET_KEY (1 extra copy/copies removed)
+  DEFAULT_PRIORITY (1 extra copy/copies removed)
+  DEFAULT_SUBTASKS (1 extra copy/copies removed)
+  GOOGLE_API_KEY (1 extra copy/copies removed)
+  LANGCHAIN_API_KEY (1 extra copy/copies removed)
+  MAX_TOKENS (1 extra copy/copies removed)
+  MEM0_API_KEY (1 extra copy/copies removed)
+  MODEL (1 extra copy/copies removed)
+  NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY (1 extra copy/copies removed)
+  NEXT_PUBLIC_CLERK_SIGN_IN_URL (1 extra copy/copies removed)
+  NEXT_PUBLIC_CLERK_SIGN_UP_URL (1 extra copy/copies removed)
+  PERPLEXITY_API_KEY (1 extra copy/copies removed)
+  PERPLEXITY_MODEL (1 extra copy/copies removed)
+  QSTASH_CURRENT_SIGNING_KEY (2 extra copy/copies removed)
+  QSTASH_NEXT_SIGNING_KEY (2 extra copy/copies removed)
+  QSTASH_TOKEN (2 extra copy/copies removed)
+  QSTASH_URL (2 extra copy/copies removed)
+  TEMPERATURE (1 extra copy/copies removed)
+  UPSTASH_VECTOR_REST_TOKEN (1 extra copy/copies removed)
+  UPSTASH_VECTOR_REST_URL (1 extra copy/copies removed)
+
+=== ADDED NEW KEYS (35) ===
+  BROWSERBASE_ADVANCED_STEALTH
+  BROWSERBASE_PROXIES
+  BROWSER_INACTIVITY_TIMEOUT
+  BROWSER_SESSION_TIMEOUT
+  BROWSER_USE_API_KEY
+  CODEX_ACCESS_TOKEN
+  COPILOT_GITHUB_TOKEN
+  DAYTONA_API_KEY
+  DAYTONA_API_URL
+  ELEVENLABS_API_KEY
+  FAL_API_KEY
+  GITHUB_TOKEN
+  GLM_API_KEY
+  IMAGE_TOOLS_DEBUG
+  KIMI_API_KEY
+  MERGE_DEV_API_KEY
+  MINIMAX_API_KEY
+  MOA_TOOLS_DEBUG
+  MODAL_API_TOKEN
+  MUAPI_API_KEY
+  OPENROUTER_API_KEY
+  REPLICATE_API_TOKEN
+  RUNPOD_API_KEY
+  TERMINAL_LIFETIME_SECONDS
+  TERMINAL_MODAL_IMAGE
+  TERMINAL_TIMEOUT
+  TINKER_API_KEY
+  VERCEL_AI_GATEWAY_API_KEY
+ 
+… (output truncated)
+```
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+Verifying no duplicate keys remain and checking the updated sections:
+
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2** • Run command: cd /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection &amp;&amp; python3 &lt;&lt; &#39;PYEOF&#39;
+import re
+from collections import Counter
+
+text = open(&#39;.env&#39;).read()
+keys = []
+for i, line in enumerate(text.splitlines(), 1):
+    m = re.match(r&#39;^([A-Za-z_][A-Za-z0-9_]*)=&#39;, line.strip())
+    if m:
+        keys.append((m.group(1), i))
+
+dupes = {k: [ln for key, ln in keys if key == k] for k, c in Counter(k for k,_ in keys).items() if c &gt; 1}
+print(f&#39;Total keys: {len(keys)}&#39;)
+print(f&#39;Duplicate keys remaining: {len(dupes)}&#39;)
+if dupes:
+    for k, lines in sorted(dupes.items()):
+        print(f&#39;  {k}: lines {lines}&#39;)
+else:
+    print(&#39;  None - all clean!&#39;)
+print(f&#39;\nFinal line count: {len(text.splitlines())}&#39;)
+PYEOF</summary>
+```bash
+cd /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection && python3 << 'PYEOF'
+import re
+from collections import Counter
+
+text = open('.env').read()
+keys = []
+for i, line in enumerate(text.splitlines(), 1):
+    m = re.match(r'^([A-Za-z_][A-Za-z0-9_]*)=', line.strip())
+    if m:
+        keys.append((m.group(1), i))
+
+dupes = {k: [ln for key, ln in keys if key == k] for k, c in Counter(k for k,_ in keys).items() if c > 1}
+print(f'Total keys: {len(keys)}')
+print(f'Duplicate keys remaining: {len(dupes)}')
+if dupes:
+    for k, lines in sorted(dupes.items()):
+        print(f'  {k}: lines {lines}')
+else:
+    print('  None - all clean!')
+print(f'\nFinal line count: {len(text.splitlines())}')
+PYEOF
+```
+
+```
+Total keys: 222
+Duplicate keys remaining: 0
+  None - all clean!
+
+Final line count: 378
+
+```
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.env",
+  "pattern": "^(OPENAI_API_KEY|ANTHROPIC_API_KEY|GOOGLE_API_KEY|MINIMAX_API_KEY|BROWSER_USE_API_KEY|AI_GATEWAY_API_KEY)="
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.env",
+  "pattern": "^(OPENAI_API_KEY|ANTHROPIC_API_KEY|GOOGLE_API_KEY|MINIMAX_API_KEY|BROWSER_USE_API_KEY|AI_GATEWAY_API_KEY)=",
+  "topFiles": [
+    {
+      "matchCount": 6,
+      "uri": ".env"
+    }
+  ],
+  "totalFiles": 1,
+  "totalMatches": 6
+}
+```
+Status: **completed**
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.env</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+Checking for orphaned sections after deduplication:
+
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.env",
+  "pattern": "^(QSTASH_|BLOB_|UPSTASH_VECTOR)"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.env",
+  "pattern": "^(QSTASH_|BLOB_|UPSTASH_VECTOR)",
+  "topFiles": [
+    {
+      "matchCount": 9,
+      "uri": ".env"
+    }
+  ],
+  "totalFiles": 1,
+  "totalMatches": 9
+}
+```
+Status: **completed**
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.env</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.env</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+Cleaning up orphaned comment blocks left after deduplication.
+
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.env</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.env</summary>
+
+</details></tool-use>
+
+_**Agent (composer-2.5)**_
+
+`.env` is updated. Summary:
+
+### Replaced (9 overlapping keys)
+Values from your paste now override: `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `GOOGLE_API_KEY`, `GEMINI_API_KEY`, `EXA_API_KEY`, `FIRECRAWL_API_KEY`, `COMPOSIO_API_KEY`, `AI_GATEWAY_API_KEY`, `HONCHO_API_KEY`
+
+### Deduplicated (23 keys)
+Removed later copies of keys that appeared 2–3 times, including:
+- `GOOGLE_API_KEY`, `LANGCHAIN_API_KEY`, `MEM0_API_KEY`
+- Clerk keys (`NEXT_PUBLIC_CLERK_*`, `CLERK_SECRET_KEY`)
+- QStash keys (tripled → single set kept at lines 142–147)
+- Model config (`MODEL`, `MAX_TOKENS`, `TEMPERATURE`, etc.)
+- Blob/Upstash vector keys
+
+First occurrence kept in each case; orphaned comment blocks from stripped duplicate sections were removed.
+
+### Added (35 new keys)
+Appended under `# HERMES / AGENT TOOL KEYS (added 2026-07-08)`:
+`MERGE_DEV_API_KEY`, `RUNPOD_API_KEY`, `DAYTONA_*`, `GLM_API_KEY`, `OPENROUTER_API_KEY`, `KIMI_API_KEY`, `MINIMAX_API_KEY`, `FAL_API_KEY`, `REPLICATE_API_TOKEN`, `VERCEL_AI_GATEWAY_API_KEY`, `VOICE_TOOLS_OPENAI_KEY`, `ELEVENLABS_API_KEY`, `TINKER_API_KEY`, `WANDB_API_KEY`, `GITHUB_TOKEN`, `CODEX_ACCESS_TOKEN`, `WEAVIATE_*`, browser/terminal/debug keys, and others.
+
+### Duplicate resolution in your paste
+- `MINIMAX_API_KEY` → kept the `sk-cp-...` value (second occurrence)
+- `BROWSER_USE_API_KEY` → kept `bu_jdvIjZ7F2...` (second occurrence)
+
+**Final state:** 222 unique keys, 0 duplicates, 366 lines. All existing ultraterrestrial-specific keys (Supabase, Neon, Clerk, Xata, etc.) are unchanged.

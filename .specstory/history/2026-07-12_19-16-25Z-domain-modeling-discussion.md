@@ -18,7 +18,8 @@ Invoking the domain-modeling skill with prompts.
 
 Identifying the project's prompt files. The domain-modeling workflow will challenge terms against CONTEXT.md, sharpen fuzzy language, and cross-reference with code.
 
-Reading CONTEXT.md and CONTEXT-MAP.md. Searching for the prompts directory to determine the exact scope of the domain-modeling work.</details></think>
+Reading CONTEXT.md and CONTEXT-MAP.md. Searching for the prompts directory to determine the exact scope of the domain-modeling work.
+</details></think>
 
 _**Agent (grok-4.5)**_
 
@@ -27,11 +28,10 @@ Applying domain-modeling to the prompts area: I'll read the project glossary and
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="search" data-tool-name="glob_file_search">
-<details>
+<tool-use data-tool-type="search" data-tool-name="glob_file_search"><details>
 <summary>Tool use: **glob_file_search** • Searched codebase "" • **89** results in **1** directory</summary>
 
-Directory: **/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection** (89 files)
+Directory: **`/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection`** (89 files)
 
 | File |
 |------|
@@ -124,48 +124,28 @@ Directory: **/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection** (89 f
 | `apps/app/src/services/ai/prompts/ner-response-structure.prompt.ts` |
 | `packages/prompts/methodology/FIELD_SIGNAL_INTERACTION_MODEL.md` |
 | `packages/prompts/templates/enhanced_ner.yaml` |
+</details></tool-use>
 
-</details>
-</tool-use>
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/CONTEXT.md</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/CONTEXT-MAP.md</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="search" data-tool-name="glob_file_search"><details>
-<summary>Tool use: **glob_file_search**</summary>
-
-</details></tool-use>
-
-_**Agent (grok-4.5)**_
-
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/CONTEXT.md</summary>
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
-
-</details></tool-use>
-
-_**Agent (grok-4.5)**_
-
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/CONTEXT-MAP.md</summary>
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
-
-</details></tool-use>
-
-_**Agent (grok-4.5)**_
-
-<tool-use data-tool-type="search" data-tool-name="glob_file_search">
-<details>
 <summary>Tool use: **glob_file_search** • Searched codebase "" • **61** results in **1** directory</summary>
 
-Directory: **/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection** (61 files)
+Directory: **`/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection`** (61 files)
 
 | File |
 |------|
@@ -230,13 +210,6 @@ Directory: **/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection** (61 f
 | `apps/app/src/services/ai/prompts/summarize.prompt.ts` |
 | `apps/app/src/services/ai/prompts/researchers.prompt.ts` |
 | `apps/app/src/services/ai/prompts/knowledge-graph.prompt.ts` |
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="search" data-tool-name="glob_file_search"><details>
-<summary>Tool use: **glob_file_search**</summary>
-
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
@@ -244,7 +217,8 @@ _**Agent (grok-4.5)**_
 <think><details><summary>Thought Process</summary>
 A CONTEXT-MAP already points to `packages/prompts/CONTEXT`.
 
-Reading the context file and key prompts to identify vocabulary gaps and contradictions.</details></think>
+Reading the context file and key prompts to identify vocabulary gaps and contradictions.
+</details></think>
 
 _**Agent (grok-4.5)**_
 
@@ -253,49 +227,29 @@ Reading the prompts context glossary and key prompt files to map vocabulary agai
 
 _**Agent (grok-4.5)**_
 
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
 File not found
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/prompts/README.md</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/prompts/README.md</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/prompts/registry.yaml</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/prompts/registry.yaml</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
-
-</details></tool-use>
-
-_**Agent (grok-4.5)**_
-
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/docs/vision/UX_LANGUAGE_GUIDE.md</summary>
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/docs/vision/UX_LANGUAGE_GUIDE.md</summary>
 
 </details></tool-use>
 
@@ -304,84 +258,54 @@ _**Agent (grok-4.5)**_
 <think><details><summary>Thought Process</summary>
 CONTEXT.md referenced by CONTEXT-MAP does not yet exist.
 
-Reading prompt files to understand the vocabulary and schemas needed for domain modeling.</details></think>
+Reading prompt files to understand the vocabulary and schemas needed for domain modeling.
+</details></think>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/docs/vision/AGENT_ARCHITECTURE_BRIEF.md</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/docs/vision/AGENT_ARCHITECTURE_BRIEF.md</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/services/ai/prompts/prometheus.prompt.ts</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/services/ai/prompts/prometheus.prompt.ts</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/services/ai/prompts/disclosure-assistant.prompt.ts</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/services/ai/prompts/disclosure-assistant.prompt.ts</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/prompts/01_LEAD_RESEARCH_AGENT_SYSTEM_INSTRUCTIONS.md</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/prompts/01_LEAD_RESEARCH_AGENT_SYSTEM_INSTRUCTIONS.md</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/prompts/templates/synthesis.yaml</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/prompts/templates/synthesis.yaml</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
 <think><details><summary>Thought Process</summary>
-Reading additional prompts and YAML files to identify vocabulary conflicts.</details></think>
+Reading additional prompts and YAML files to identify vocabulary conflicts.
+</details></think>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
-<details>
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
 <summary>Tool use: **ripgrep_raw_search**</summary>
-
 
 Parameters:
 
@@ -455,21 +379,12 @@ Additional data:
 ```
 Status: **completed**
 
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
-<summary>Tool use: **ripgrep_raw_search**</summary>
-
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
-<details>
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
 <summary>Tool use: **ripgrep_raw_search**</summary>
-
 
 Parameters:
 
@@ -511,38 +426,19 @@ Additional data:
 ```
 Status: **completed**
 
+</details></tool-use>
 
-</details>
-</tool-use>
+_**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
-<summary>Tool use: **ripgrep_raw_search**</summary>
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/prompts/sets/disclosure/research.v1.yaml</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/prompts/sets/disclosure/research.v1.yaml</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
-
-</details></tool-use>
-
-_**Agent (grok-4.5)**_
-
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/services/ai/prompts/research-methodology.prompt.md</summary>
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/services/ai/prompts/research-methodology.prompt.md</summary>
 
 </details></tool-use>
 
@@ -557,53 +453,34 @@ More terminology conflicts surfaced. "Insight" and "finding" are banned for agen
 
 Liturgy is a synthesis structure spanning six stages: knowns, unknowns, echoes, breaks, remaining open, and next trace. Voice contracts are duplicated across enrich-hypothesis and synthesize-investigation. A prompt taxonomy needs domain terms for registry IDs, aliases, templates, sets, system prompts, voice contracts, liturgy schemas, and methodology frameworks. Live paths include mindmap agents, prometheus chat, and server actions such as synthesize and enrich. Voice contracts serve as epistemic integrity rules.
 
-Liturgy Schema defines synthesis output structure. Extraction prompts generate structured entity data from source text. Research prompts guide investigation and analysis. Role stances are the five investigative roles as a prompt-engineering checklist. Next, I will read the liturgy and voice contract text from enrich-hypothesis and synthesize-investigation, and check apps/app/CONTEXT.md for cross-reference formatting.</details></think>
+Liturgy Schema defines synthesis output structure. Extraction prompts generate structured entity data from source text. Research prompts guide investigation and analysis. Role stances are the five investigative roles as a prompt-engineering checklist. Next, I will read the liturgy and voice contract text from enrich-hypothesis and synthesize-investigation, and check apps/app/CONTEXT.md for cross-reference formatting.
+</details></think>
 
 _**Agent (grok-4.5)**_
 
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
 File not found
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/mindmap/actions/enrich-hypothesis.ts</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/mindmap/actions/enrich-hypothesis.ts</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/mindmap/CLAUDE.md</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/mindmap/CLAUDE.md</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
-
-</details></tool-use>
-
-_**Agent (grok-4.5)**_
-
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/.claude/skills/domain-modeling/CONTEXT-FORMAT.md</summary>
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/.claude/skills/domain-modeling/CONTEXT-FORMAT.md</summary>
 
 </details></tool-use>
 
@@ -628,31 +505,20 @@ An ADR already exists for agent inferences excluded from retrieval. No new ADR i
 
 Implementation decisions such as voice contract centralization belong in code, not domain modeling. The full three-phase memory workflow is unnecessary for documentation tasks. The MCP tools for search-memory and add-memory are unavailable.
 
-I will synthesize the full liturgy sections.</details></think>
+I will synthesize the full liturgy sections.
+</details></think>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/mindmap/actions/synthesize-investigation.ts</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/mindmap/actions/synthesize-investigation.ts</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/docs/adr/0001-agent-inferences-excluded-from-retrieval.md</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/docs/adr/0001-agent-inferences-excluded-from-retrieval.md</summary>
 
 </details></tool-use>
 
@@ -661,7 +527,8 @@ _**Agent (grok-4.5)**_
 <think><details><summary>Thought Process</summary>
 Creating `packages/prompts/CONTEXT.md`, the main deliverable.
 
-Drafting a glossary following CONTEXT-FORMAT.md. System-wide reserved words will be referenced rather than repeated. Contradictions and edge-case stress-test scenarios will be noted.</details></think>
+Drafting a glossary following CONTEXT-FORMAT.md. System-wide reserved words will be referenced rather than repeated. Contradictions and edge-case stress-test scenarios will be noted.
+</details></think>
 
 _**Agent (grok-4.5)**_
 
@@ -670,16 +537,8 @@ Creating the missing `packages/prompts/CONTEXT.md` referenced in CONTEXT-MAP and
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
-
-<details><summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/prompts/CONTEXT.md</summary>
-
-</details>
-
-</tool-use>
-
 <tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
-<summary>Tool use: **edit_file_v2**</summary>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/prompts/CONTEXT.md</summary>
 
 </details></tool-use>
 
@@ -688,7 +547,8 @@ _**Agent (grok-4.5)**_
 <think><details><summary>Thought Process</summary>
 Preparing a clear domain modeling report.
 
-Found contradictions between code and glossary. Identified edge-case scenarios to stress-test. ADR likely unnecessary. Missing CONTEXT.md files in apps/app/ and packages/db/. Core work is complete.</details></think>
+Found contradictions between code and glossary. Identified edge-case scenarios to stress-test. ADR likely unnecessary. Missing CONTEXT.md files in apps/app/ and packages/db/. Core work is complete.
+</details></think>
 
 _**Agent (grok-4.5)**_
 
@@ -773,7 +633,8 @@ _**Agent (grok-4.5)**_
 <think><details><summary>Thought Process</summary>
 I'll explain what an ADR is and how it's used in this project.
 
-No code changes are needed. I'll reference the project's existing ADR and the domain-modeling skill's guidance on when to use ADRs.</details></think>
+No code changes are needed. I'll reference the project's existing ADR and the domain-modeling skill's guidance on when to use ADRs.
+</details></think>
 
 _**Agent (grok-4.5)**_
 
@@ -965,7 +826,8 @@ _**Agent (grok-4.5)**_
 <think><details><summary>Thought Process</summary>
 Reviewing the requested files and data architecture document against the prior domain modeling discussion.
 
-Reading the three referenced files now. I will cross-check them against the prior CONTEXT.md, the data architecture document, and the earlier domain modeling findings. Then I will flag contradictions, alignment gaps, and recommendations.</details></think>
+Reading the three referenced files now. I will cross-check them against the prior CONTEXT.md, the data architecture document, and the earlier domain modeling findings. Then I will flag contradictions, alignment gaps, and recommendations.
+</details></think>
 
 _**Agent (grok-4.5)**_
 
@@ -974,67 +836,42 @@ Reviewing those files against the domain glossary and the data architecture doc 
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/docs/adr/0001-agent-inferences-excluded-from-retrieval.md</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/docs/adr/0001-agent-inferences-excluded-from-retrieval.md</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/CONTEXT.md</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/CONTEXT.md</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/prompts/DisclosureResearcherPreSubmissionMethodology.md</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/prompts/DisclosureResearcherPreSubmissionMethodology.md</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/prompts/CONTEXT.md</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/prompts/CONTEXT.md</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
 <think><details><summary>Thought Process</summary>
-Checking the current database schema against the proposed data architecture.</details></think>
+Checking the current database schema against the proposed data architecture.
+</details></think>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
-<details>
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
 <summary>Tool use: **ripgrep_raw_search**</summary>
-
 
 Parameters:
 
@@ -1104,21 +941,12 @@ Additional data:
 ```
 Status: **completed**
 
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
-<summary>Tool use: **ripgrep_raw_search**</summary>
-
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
-<details>
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
 <summary>Tool use: **ripgrep_raw_search**</summary>
-
 
 Parameters:
 
@@ -1156,26 +984,18 @@ Additional data:
 ```
 Status: **completed**
 
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
-<summary>Tool use: **ripgrep_raw_search**</summary>
-
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
 <think><details><summary>Thought Process</summary>
-Checking for claims and edges tables, and clarifying what searchDatabase queries.</details></think>
+Checking for claims and edges tables, and clarifying what searchDatabase queries.
+</details></think>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
-<details>
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
 <summary>Tool use: **ripgrep_raw_search**</summary>
-
 
 Parameters:
 
@@ -1206,52 +1026,32 @@ Additional data:
 ```
 Status: **completed**
 
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
-<summary>Tool use: **ripgrep_raw_search**</summary>
-
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/db/src/postgres/search.ts</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/db/src/postgres/search.ts</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
 <think><details><summary>Thought Process</summary>
-Checking the edges table structure and whether a claims table exists.</details></think>
+Checking the edges table structure and whether a claims table exists.
+</details></think>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/db/migrations/rebuild/0001_init.sql</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/db/migrations/rebuild/0001_init.sql</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
-<details>
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
 <summary>Tool use: **ripgrep_raw_search**</summary>
-
 
 Parameters:
 
@@ -1285,13 +1085,6 @@ Additional data:
 }
 ```
 Status: **completed**
-
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
-<summary>Tool use: **ripgrep_raw_search**</summary>
 
 </details></tool-use>
 
@@ -1342,7 +1135,8 @@ Its epistemic discipline is strong. Proves and NHI logic, prosaic exhaustion, an
 
 Specialist lenses map cleanly to Investigative Roles. Archivist handles evidence. Analyst handles patterns. Skeptic handles prosaic. Mythographer handles Vallée and meta-physical. Cartographer handles orchestration.
 
-The source tier scale mismatch is the most serious glossary bug.</details></think>
+The source tier scale mismatch is the most serious glossary bug.
+</details></think>
 
 _**Agent (grok-4.5)**_
 
@@ -1621,7 +1415,8 @@ _**Agent (grok-4.5)**_
 <think><details><summary>Thought Process</summary>
 Reviewing CONTEXT.md, ADR-0001, the disclosure methodology, and the data architecture document to build the domain modeling canvas.
 
-Reading the canvas SDK declarations to identify available components. The standalone analytical artifact will be created at the project's canvas directory.</details></think>
+Reading the canvas SDK declarations to identify available components. The standalone analytical artifact will be created at the project's canvas directory.
+</details></think>
 
 _**Agent (grok-4.5)**_
 
@@ -1630,31 +1425,17 @@ Turning the cross-review into a canvas artifact — checking the canvas SDK and 
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/.cursor/skills-cursor/canvas/sdk/index.d.ts</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/.cursor/skills-cursor/canvas/sdk/index.d.ts</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="search" data-tool-name="glob_file_search">
-<details>
+<tool-use data-tool-type="search" data-tool-name="glob_file_search"><details>
 <summary>Tool use: **glob_file_search** • Searched codebase "" • **0** results in **1** directory</summary>
 
-Directory: **/Users/liamellis/.cursor/projects/Users-liamellis-Desktop-apps-ultraterrestrial-resurrection/canvases** (0 files)
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="search" data-tool-name="glob_file_search"><details>
-<summary>Tool use: **glob_file_search**</summary>
-
+Directory: **`/Users/liamellis/.cursor/projects/Users-liamellis-Desktop-apps-ultraterrestrial-resurrection/canvases`** (0 files)
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
@@ -1662,58 +1443,40 @@ _**Agent (grok-4.5)**_
 <think><details><summary>Thought Process</summary>
 No existing canvases were found. This is the first one.
 
-Checking the SDK for Callout, Stat, UsageBar, and Table props.</details></think>
+Checking the SDK for Callout, Stat, UsageBar, and Table props.
+</details></think>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/.cursor/skills-cursor/canvas/sdk/ui-primitives.d.ts</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/.cursor/skills-cursor/canvas/sdk/ui-primitives.d.ts</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/.cursor/skills-cursor/canvas/sdk/hooks.d.ts</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/.cursor/skills-cursor/canvas/sdk/hooks.d.ts</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/.cursor/skills-cursor/canvas/sdk/collapsible-section.d.ts</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/.cursor/skills-cursor/canvas/sdk/collapsible-section.d.ts</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
 <think><details><summary>Thought Process</summary>
-Checking props for Callout, Stat, Pill, and TodoList components to prepare the canvas.</details></think>
+Checking props for Callout, Stat, Pill, and TodoList components to prepare the canvas.
+</details></think>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
-<details>
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
 <summary>Tool use: **ripgrep_raw_search**</summary>
-
 
 Parameters:
 
@@ -1745,25 +1508,12 @@ Additional data:
 ```
 Status: **completed**
 
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
-<summary>Tool use: **ripgrep_raw_search**</summary>
-
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/.cursor/skills-cursor/canvas/sdk/usage-bar.d.ts</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/.cursor/skills-cursor/canvas/sdk/usage-bar.d.ts</summary>
 
 </details></tool-use>
 
@@ -1772,20 +1522,13 @@ _**Agent (grok-4.5)**_
 <think><details><summary>Thought Process</summary>
 Creating a comprehensive canvas to visualize the cross-review.
 
-The canvas will include eight sections: verdict stats, artifact alignment, alignment matrix, contradictions with tone, data stack gaps, vocabulary map, next steps, and an implementation readiness bar. Now writing the polished file.</details></think>
+The canvas will include eight sections: verdict stats, artifact alignment, alignment matrix, contradictions with tone, data stack gaps, vocabulary map, next steps, and an implementation readiness bar. Now writing the polished file.
+</details></think>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
-
-<details><summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/.cursor/projects/Users-liamellis-Desktop-apps-ultraterrestrial-resurrection/canvases/domain-epistemic-cross-review.canvas.tsx</summary>
-
-</details>
-
-</tool-use>
-
 <tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
-<summary>Tool use: **edit_file_v2**</summary>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/.cursor/projects/Users-liamellis-Desktop-apps-ultraterrestrial-resurrection/canvases/domain-epistemic-cross-review.canvas.tsx</summary>
 
 </details></tool-use>
 
@@ -1794,14 +1537,13 @@ _**Agent (grok-4.5)**_
 <think><details><summary>Thought Process</summary>
 Fixing TypeScript errors.
 
-Checking CardHeaderProps, TableProps, and aodoListProps in the SDK.</details></think>
+Checking CardHeaderProps, TableProps, and aodoListProps in the SDK.
+</details></think>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
-<details>
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
 <summary>Tool use: **ripgrep_raw_search**</summary>
-
 
 Parameters:
 
@@ -1841,13 +1583,6 @@ Additional data:
 ```
 Status: **completed**
 
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
-<summary>Tool use: **ripgrep_raw_search**</summary>
-
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
@@ -1855,18 +1590,13 @@ _**Agent (grok-4.5)**_
 <think><details><summary>Thought Process</summary>
 CardHeader needs to use children instead of title and subtitle.
 
-Subtitle can use trailing or an H3 below CardHeader. Table rowTones should be renamed to rowTone. TodoList items should be renamed to todos. Text elements with keys need wrapping in a span or using a string. The TodoItem type also needs checking.</details></think>
+Subtitle can use trailing or an H3 below CardHeader. Table rowTones should be renamed to rowTone. TodoList items should be renamed to todos. Text elements with keys need wrapping in a span or using a string. The TodoItem type also needs checking.
+</details></think>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/.cursor/skills-cursor/canvas/sdk/todo-list.d.ts</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/.cursor/skills-cursor/canvas/sdk/todo-list.d.ts</summary>
 
 </details></tool-use>
 
@@ -1875,110 +1605,55 @@ _**Agent (grok-4.5)**_
 <think><details><summary>Thought Process</summary>
 TodoItem uses `content` instead of `label`.
 
-Fixing all issues in the canvas file.</details></think>
+Fixing all issues in the canvas file.
+</details></think>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
-
-<details><summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/.cursor/projects/Users-liamellis-Desktop-apps-ultraterrestrial-resurrection/canvases/domain-epistemic-cross-review.canvas.tsx</summary>
-
-</details>
-
-</tool-use>
-
 <tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
-<summary>Tool use: **edit_file_v2**</summary>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/.cursor/projects/Users-liamellis-Desktop-apps-ultraterrestrial-resurrection/canvases/domain-epistemic-cross-review.canvas.tsx</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
-
-<details><summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/.cursor/projects/Users-liamellis-Desktop-apps-ultraterrestrial-resurrection/canvases/domain-epistemic-cross-review.canvas.tsx</summary>
-
-</details>
-
-</tool-use>
-
 <tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
-<summary>Tool use: **edit_file_v2**</summary>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/.cursor/projects/Users-liamellis-Desktop-apps-ultraterrestrial-resurrection/canvases/domain-epistemic-cross-review.canvas.tsx</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
-
-<details><summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/.cursor/projects/Users-liamellis-Desktop-apps-ultraterrestrial-resurrection/canvases/domain-epistemic-cross-review.canvas.tsx</summary>
-
-</details>
-
-</tool-use>
-
 <tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
-<summary>Tool use: **edit_file_v2**</summary>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/.cursor/projects/Users-liamellis-Desktop-apps-ultraterrestrial-resurrection/canvases/domain-epistemic-cross-review.canvas.tsx</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
-
-<details><summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/.cursor/projects/Users-liamellis-Desktop-apps-ultraterrestrial-resurrection/canvases/domain-epistemic-cross-review.canvas.tsx</summary>
-
-</details>
-
-</tool-use>
-
 <tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
-<summary>Tool use: **edit_file_v2**</summary>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/.cursor/projects/Users-liamellis-Desktop-apps-ultraterrestrial-resurrection/canvases/domain-epistemic-cross-review.canvas.tsx</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
-
-<details><summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/.cursor/projects/Users-liamellis-Desktop-apps-ultraterrestrial-resurrection/canvases/domain-epistemic-cross-review.canvas.tsx</summary>
-
-</details>
-
-</tool-use>
-
 <tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
-<summary>Tool use: **edit_file_v2**</summary>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/.cursor/projects/Users-liamellis-Desktop-apps-ultraterrestrial-resurrection/canvases/domain-epistemic-cross-review.canvas.tsx</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
-
-<details><summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/.cursor/projects/Users-liamellis-Desktop-apps-ultraterrestrial-resurrection/canvases/domain-epistemic-cross-review.canvas.tsx</summary>
-
-</details>
-
-</tool-use>
-
 <tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
-<summary>Tool use: **edit_file_v2**</summary>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/.cursor/projects/Users-liamellis-Desktop-apps-ultraterrestrial-resurrection/canvases/domain-epistemic-cross-review.canvas.tsx</summary>
 
 </details></tool-use>
 
 _**Agent (grok-4.5)**_
 
-<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
-
-<details><summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/.cursor/projects/Users-liamellis-Desktop-apps-ultraterrestrial-resurrection/canvases/domain-epistemic-cross-review.canvas.tsx</summary>
-
-</details>
-
-</tool-use>
-
 <tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
-<summary>Tool use: **edit_file_v2**</summary>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/.cursor/projects/Users-liamellis-Desktop-apps-ultraterrestrial-resurrection/canvases/domain-epistemic-cross-review.canvas.tsx</summary>
 
 </details></tool-use>
 
@@ -1987,7 +1662,8 @@ _**Agent (grok-4.5)**_
 <think><details><summary>Thought Process</summary>
 The canvas is clean. I'll share the link.
 
-I'll briefly explain what a canvas is.</details></think>
+I'll briefly explain what a canvas is.
+</details></think>
 
 _**Agent (grok-4.5)**_
 

@@ -1,5 +1,5 @@
 // ./src/components/stories/Timeline.stories.tsx
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/nextjs'
 import { Timeline } from './Timeline'
 
 const meta = {
@@ -14,7 +14,7 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-const sampleEvents = [
+const SAMPLE_EVENTS = [
   {
     year: '1993',
     title: 'Pablo Honey',
@@ -44,21 +44,21 @@ const sampleEvents = [
 
 export const Default: Story = {
   args: {
-    events: sampleEvents,
+    events: SAMPLE_EVENTS,
     className: 'min-h-screen bg-gradient-to-b from-gray-900 to-gray-800'
   }
 }
 
 export const WithCustomColors: Story = {
   args: {
-    events: sampleEvents,
+    events: SAMPLE_EVENTS,
     className: 'min-h-screen bg-gradient-to-b from-blue-900 to-indigo-900'
   }
 }
 
 export const MinimalEvents: Story = {
   args: {
-    events: sampleEvents.slice( 0, 2 ),
+    events: SAMPLE_EVENTS.slice( 0, 2 ),
     className: 'min-h-screen bg-gradient-to-b from-gray-900 to-gray-800'
   }
 }
@@ -66,8 +66,8 @@ export const MinimalEvents: Story = {
 export const ManyEvents: Story = {
   args: {
     events: [
-      ...sampleEvents,
-      ...sampleEvents.map( event => ( {
+      ...SAMPLE_EVENTS,
+      ...SAMPLE_EVENTS.map( event => ( {
         ...event,
         year: String( Number( event.year ) + 30 ),
         title: `${event.title} (Remastered)`

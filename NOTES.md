@@ -302,3 +302,169 @@ Would you like:
 - Integration advice for connecting this with your existing mindmap code?
 
 Let me know your priorities or if you want to go deeper on any feature!
+
+---
+
+## Famous UFO Researchers
+
+- **J. Allen Hynek** — Astronomer and former U.S. Air Force consultant for Project Blue Book; created the “Close Encounters” classification system.
+- **Jacques Vallée** — Computer scientist and ufologist known for arguing that UFO phenomena may be more complex than extraterrestrial visitation alone.
+- **Stanton T. Friedman** — Nuclear physicist and prominent advocate of the Roswell UFO incident and extraterrestrial hypothesis.
+- **John E. Mack** — Harvard psychiatrist who studied alleged alien abduction experiences.
+- **Donald Keyhoe** — Former Marine Corps officer and early public UFO investigator; argued the U.S. government was withholding UFO information.
+- **Richard Dolan** — Historian and author focused on UFO secrecy, government documents, and national security implications.
+- **Leslie Kean** — Investigative journalist known for serious reporting on UFOs/UAP and government transparency.
+- **George Knapp** — Investigative journalist associated with reporting on Area 51, Bob Lazar, and modern UAP stories.
+- **Budd Hopkins** — Artist and researcher known for work on alien abduction claims.
+- **David M. Jacobs** — Historian and controversial researcher focused on alien abduction narratives.
+- **Kevin Randle** — Military veteran and author known for research into Roswell and historical UFO cases.
+- **Peter A. Sturrock** — Stanford physicist who organized scientific reviews of UFO evidence.
+- **James McDonald** — Atmospheric physicist who argued UFOs deserved serious scientific investigation.
+- **Nick Pope** — Former UK Ministry of Defence official who worked on UFO-related files.
+- **Garry Nolan** — Stanford professor who has studied alleged anomalous materials and biological effects linked to UAP cases.
+
+## Researchers Who Made Fundamental Methodological or Pedagogical Contributions
+
+Among the names listed, the strongest contributors to the *process, methodology, and pedagogy* of UFO research are:
+
+| Researcher | Main Contribution | Why It Was Fundamental |
+|---|---|---|
+| **J. Allen Hynek** | Classification systems, witness evaluation, scientific framing | Helped turn UFO reports into something that could be categorized, compared, and taught systematically |
+| **Jacques Vallée** | Pattern analysis, database-driven research, sociocultural interpretation | Expanded UFO research beyond “is it extraterrestrial?” into broader analytical and interdisciplinary methods |
+| **Peter A. Sturrock** | Scientific review standards and peer-style evaluation | Tried to bring UFO research closer to mainstream scientific procedure |
+| **James E. McDonald** | Case-investigation rigor, atmospheric science analysis, congressional advocacy | Modeled serious technical investigation of UFO cases and challenged poor official explanations |
+| **Stanton T. Friedman** | Archival/document-based research, public pedagogy | Popularized document-driven UFO research and taught the public how to think about evidence and secrecy |
+| **Richard Dolan** | Historical synthesis and national-security framing | Helped organize UFO history into a structured, teachable narrative using documents and chronology |
+| **Leslie Kean** | Journalistic standards, source vetting, institutional credibility | Helped model careful public-facing UFO reporting using credible witnesses and official documents |
+
+## The Most Important Figure: J. Allen Hynek
+
+If you are asking who made the most foundational contribution to UFO research methodology, the answer is probably **J. Allen Hynek**.
+
+His major contributions include:
+
+- **Close Encounter classification system**
+  - Close Encounter of the First Kind: visual sighting
+  - Close Encounter of the Second Kind: physical effects
+  - Close Encounter of the Third Kind: occupant/entity reports
+
+- **Scientific skepticism without dismissal**
+  - Hynek began as a skeptic while consulting for the U.S. Air Force’s Project Blue Book.
+  - Over time, he became critical of superficial debunking and argued that some cases deserved serious study.
+
+- **The “Hynek scale” of case significance**
+  - He emphasized the importance of witness reliability, observational detail, and strangeness.
+  - This helped distinguish weak reports from cases that deserved deeper investigation.
+
+- **Pedagogical influence**
+  - His books and public explanations gave later researchers a vocabulary and framework for discussing UFO cases.
+
+Hynek’s contribution was not just that he believed UFOs were worth studying. His importance lies in the fact that he helped create a *research language* for the field.
+
+## Jacques Vallée’s Methodological Importance
+
+**Jacques Vallée** is arguably the second most important methodological figure.
+
+His contributions include:
+
+- **Database-oriented UFO research**
+  - Vallée emphasized collecting, coding, and comparing large numbers of cases.
+  - This moved UFO study away from isolated anecdotes and toward pattern analysis.
+
+- **Interdisciplinary method**
+  - He drew from folklore, psychology, anthropology, computer science, and systems theory.
+  - This broadened the field beyond simple “alien spacecraft” explanations.
+
+- **Challenge to the extraterrestrial hypothesis**
+  - Vallée argued that UFO phenomena might involve deception, symbolic structures, altered perception, or unknown control systems.
+  - Whether one agrees or not, this forced researchers to become more careful about assumptions.
+
+- **Pedagogy of uncertainty**
+  - He taught that researchers should distinguish between:
+    - the report
+    - the witness interpretation
+    - the investigator’s interpretation
+    - the cultural mythology surrounding the case
+
+This distinction is central to serious UFO methodology.
+
+## Peter Sturrock and Scientific Standards
+
+**Peter A. Sturrock** made a different kind of contribution: he tried to define how scientists should evaluate UFO evidence.
+
+His importance lies in:
+
+- encouraging structured scientific review
+- involving specialists in physics, astronomy, atmospheric science, and instrumentation
+- emphasizing measurable evidence over belief
+- arguing that UFO cases should be studied without stigma
+
+Sturrock was not as culturally famous as Hynek or Vallée, but his work is important for anyone interested in UFO research as a scientific process.
+
+## James McDonald and Investigative Rigor
+
+**James E. McDonald** was one of the strongest advocates for serious scientific investigation of UFO reports.
+
+His contributions include:
+
+- careful review of unexplained cases
+- technical criticism of weak Air Force explanations
+- application of atmospheric physics to UFO sightings
+- congressional testimony and institutional advocacy
+
+McDonald’s model was: treat UFO reports as potentially serious empirical problems, not as jokes or automatic misidentifications.
+
+His work helped establish that UFO research needed domain experts, not just enthusiasts.
+
+## Stanton Friedman’s Pedagogical Role
+
+**Stanton T. Friedman** was less of a theorist than Hynek or Vallée, but he was very influential pedagogically.
+
+His contributions include:
+
+- teaching the public to look at documents, records, and official statements
+- focusing attention on government secrecy and archival research
+- popularizing Roswell research
+- making UFO research accessible through lectures, debates, and books
+
+His methodology was strongly document-centered. He helped create the style of UFO research that asks: *What do the records say, who had access, and what was officially denied or classified?*
+
+## Leslie Kean and Modern Credibility Standards
+
+**Leslie Kean** made a major contribution to modern UFO pedagogy and public methodology.
+
+Her approach emphasizes:
+
+- credible witnesses
+- pilots, military officials, and government sources
+- official documentation
+- cautious claims
+- avoidance of sensationalism
+
+Her work helped shift public discussion from “UFO believers” toward “UAP transparency” and evidence-based journalism.
+
+## Richard Dolan and Historical Method
+
+**Richard Dolan** contributed mainly through historical organization.
+
+His importance comes from:
+
+- creating long-form historical syntheses of UFO events
+- connecting UFO cases with Cold War secrecy, intelligence agencies, and national security
+- treating UFO history as a chronological institutional subject
+
+Dolan’s work is useful pedagogically because it gives students of the subject a structured historical framework.
+
+## Less Central to Methodology, More Case-Specific or Topical
+
+The following researchers are important, but their contributions are less foundational to general UFO methodology:
+
+| Researcher | Main Area | Methodological Status |
+|---|---|---|
+| **John E. Mack** | Abduction psychology | Important but focused on experiencer testimony and consciousness studies |
+| **Budd Hopkins** | Abduction narratives | Influential, but controversial due to hypnosis-heavy methods |
+| **David M. Jacobs** | Abduction research | Influential but highly controversial methodologically |
+| **Kevin Randle** | Roswell and military cases | Strong case researcher, but less foundational as a methodology-builder |
+| **Donald Keyhoe** | Early disclosure advocacy | Historically important, but more journalistic and activist than methodological |
+| **Nick Pope** | Government files and public explanation | Important communicator, but not a major methodological innovator |
+| **George Knapp** | Investigative journalism | Influential reporter, especially on Area 51 and UAP topics, but not primarily a methodology theorist |

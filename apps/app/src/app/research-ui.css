@@ -409,7 +409,7 @@
 
 /* Direct utility font classes for showcases */
 .font-pp-neue-montreal {
-  font-family: 'PP Neue Montreal', var(--font-neue-haas), var(--font-noto-sans), sans-serif;
+  font-family: var(--font-pp-neue-montreal), 'PP Neue Montreal', var(--font-neue-haas), sans-serif;
 }
 
 .font-space-grotesk {

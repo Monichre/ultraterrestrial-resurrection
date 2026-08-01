@@ -16,7 +16,7 @@ Port six design prototypes into `apps/app` as Storybook-ready, Next.js client co
 | `react-app (2).js` | `PlanetaryTransit` | NEW — mobile orbital transit HUD |
 | `react-app (3).js` | `OryzaeTimeline` | EXISTS — re-export in gallery only |
 | `react-app (4).js` | `EnergyInputHub` | NEW — glass synth input + template cards |
-| `diagnostic-architecture-model-teardown.html` | `DiagnosticArchitecture` | NEW — exploded wireframe teardown |
+| `diagnostic-architecture-model-teardown.html` | `DiagnosticArchitecture` | DONE — exploded wireframe teardown |
 
 ## Structure (per new component)
 

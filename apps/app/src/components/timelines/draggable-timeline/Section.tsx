@@ -1,21 +1,23 @@
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 
+import type { DraggableTimelineItem } from './types'
 
-interface SectionProps {
-  item: any
+export interface SectionProps {
+  item: DraggableTimelineItem
   index: number
 }
 
-export function Section( { item, index }: SectionProps ) {
+export function Section({ item, index }: SectionProps) {
   return (
     <section
       id={`section_${item.id}`}
-      className="min-h-screen flex items-center justify-center"
+      className="flex min-h-screen items-center justify-center"
       style={{ '--i': index } as React.CSSProperties}
     >
       <div className="container mx-auto px-4">
         <motion.h2
-          className="section-heading text-4xl md:text-6xl font-syncopate mb-8"
+          className="section-heading font-syncopate mb-8 text-4xl md:text-6xl"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -30,10 +32,14 @@ export function Section( { item, index }: SectionProps ) {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
         >
-          <img
+          <Image
             src={item.image}
             alt={item.title}
-            className="w-full h-auto rounded-lg shadow-2xl"
+            width={1200}
+            height={800}
+            sizes="(min-width: 768px) 672px, calc(100vw - 2rem)"
+            className="h-auto w-full rounded-lg shadow-2xl"
+            unoptimized
           />
         </motion.div>
       </div>

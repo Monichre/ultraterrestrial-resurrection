@@ -245,6 +245,7 @@
     "tailwind-merge": "^3.3.1",
     "tailwindcss-animate": "^1.0.7",
     "tailwindcss-motion": "^1.1.1",
+    "thinking-orbs": "^0.1.1",
     "three": "^0.179.1",
     "three-globe": "^2.44.0",
     "three-stdlib": "^2.36.0",

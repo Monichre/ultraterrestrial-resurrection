@@ -31,6 +31,7 @@ function IncidentDetailContent() {
     // No id selected → show a browsable Case Files index instead of a dead-end.
     if (!id) {
       return (
+
         <div className="min-h-screen bg-background p-8 overflow-y-auto">
           <div className="max-w-5xl mx-auto">
             <div className="flex items-center gap-3 mb-2">
@@ -78,6 +79,7 @@ function IncidentDetailContent() {
             </div>
           </div>
         </div>
+
       )
     }
 
@@ -104,16 +106,17 @@ function IncidentDetailContent() {
   const relatedIncidents = getRelatedIncidents(incident.id)
 
   const getClassificationColor = (classification: string) => {
+    // Microfilm Dark evidentiary hues — no purple/cyan SaaS gradients
     const colors: Record<string, string> = {
-      CE1: "from-cyan-500 to-blue-600",
-      CE2: "from-blue-500 to-indigo-600",
-      CE3: "from-purple-500 to-pink-600",
-      CE4: "from-pink-500 to-red-600",
-      Radar: "from-green-500 to-teal-600",
-      Military: "from-orange-500 to-amber-600",
-      Mass: "from-yellow-500 to-orange-600",
+      CE1: "from-emerald-700 to-emerald-900",
+      CE2: "from-amber-700 to-amber-900",
+      CE3: "from-stone-600 to-stone-800",
+      CE4: "from-red-800 to-red-950",
+      Radar: "from-emerald-800 to-stone-900",
+      Military: "from-amber-800 to-stone-900",
+      Mass: "from-stone-500 to-stone-800",
     }
-    return colors[classification] || "from-gray-500 to-gray-600"
+    return colors[classification] || "from-stone-600 to-stone-800"
   }
 
   const getClassificationDescription = (classification: string) => {

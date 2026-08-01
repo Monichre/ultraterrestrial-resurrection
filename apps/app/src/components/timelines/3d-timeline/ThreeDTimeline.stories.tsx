@@ -1,5 +1,5 @@
 // ./src/components/stories/ThreeDTimeline.stories.tsx
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/nextjs'
 import { ThreeDTimeline } from './ThreeDTimeline'
 
 const meta = {
@@ -14,7 +14,7 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-const sampleSlides = [
+const SAMPLE_SLIDES = [
   {
     id: '1',
     image: 'https://source.unsplash.com/random/1200x800?architecture,1',
@@ -49,7 +49,7 @@ const sampleSlides = [
 
 export const Default: Story = {
   args: {
-    slides: sampleSlides,
+    slides: SAMPLE_SLIDES,
     className: 'bg-black',
     showNavigation: true
   }
@@ -57,7 +57,7 @@ export const Default: Story = {
 
 export const WithoutNavigation: Story = {
   args: {
-    slides: sampleSlides,
+    slides: SAMPLE_SLIDES,
     className: 'bg-black',
     showNavigation: false
   }
@@ -65,7 +65,7 @@ export const WithoutNavigation: Story = {
 
 export const MinimalSlides: Story = {
   args: {
-    slides: sampleSlides.slice( 0, 3 ),
+    slides: SAMPLE_SLIDES.slice( 0, 3 ),
     className: 'bg-black',
     showNavigation: true
   }
@@ -73,7 +73,7 @@ export const MinimalSlides: Story = {
 
 export const WithoutTitles: Story = {
   args: {
-    slides: sampleSlides.map( ( { id, image } ) => ( { id, image } ) ),
+    slides: SAMPLE_SLIDES.map( ( { id, image } ) => ( { id, image } ) ),
     className: 'bg-black',
     showNavigation: true
   }
@@ -81,7 +81,7 @@ export const WithoutTitles: Story = {
 
 export const CustomBackground: Story = {
   args: {
-    slides: sampleSlides,
+    slides: SAMPLE_SLIDES,
     className: 'bg-gradient-to-b from-indigo-900 to-black',
     showNavigation: true
   }

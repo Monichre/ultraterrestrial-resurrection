@@ -1,10 +1,11 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/nextjs'
 
 
 import { DraggableTimeline } from './draggable-timeline'
+import type { DraggableTimelineItem } from './types'
 
 
-export const items: any[] = [
+const TIMELINE_ITEMS: DraggableTimelineItem[] = [
   {
     id: 1,
     year: '1993',
@@ -78,6 +79,6 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
-    items: items,
+    items: TIMELINE_ITEMS,
   },
 }

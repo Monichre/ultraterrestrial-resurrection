@@ -286,3 +286,9 @@ AGENTS.md
 .superpowers/
 .live-session/
 apps/app/storybook-static/
+.claude/skills/open-knowledge/
+.cursor/skills/open-knowledge/
+.codex/skills/open-knowledge/
+.github/skills/open-knowledge/
+.opencode/skills/open-knowledge/
+.pi/skills/open-knowledge/

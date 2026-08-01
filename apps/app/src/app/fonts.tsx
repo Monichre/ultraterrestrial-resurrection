@@ -11,6 +11,7 @@ import {
   Inter,
   Plus_Jakarta_Sans,
 } from 'next/font/google'
+import localFont from 'next/font/local'
 
 export const FONT_SPECIAL_ELITE = Special_Elite({
   weight: ['400'],
@@ -101,5 +102,22 @@ export const FONT_LEAGUE_SPARTAN = League_Spartan({
   weight: ['400', '600', '700'],
   subsets: ['latin'],
   variable: '--font-league-spartan',
+  display: 'swap',
+})
+
+export const FONT_PP_NEUE_MONTREAL = localFont({
+  src: [
+    {
+      path: '../../public/fonts/PPNeueMontreal-Regular.ttf',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: '../../public/fonts/PPNeueMontreal-Medium.ttf',
+      weight: '500',
+      style: 'normal',
+    },
+  ],
+  variable: '--font-pp-neue-montreal',
   display: 'swap',
 })

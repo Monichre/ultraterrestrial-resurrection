@@ -15,7 +15,8 @@ _**Agent (default)**_
 <think><details><summary>Thought Process</summary>
 Helping create subagents for this app using the ultraterrestrial agent definitions v2 version 3.
 
-Reading the create-subagent skill and locating the ultraterrestrial-agent-definitions-v2 resource.</details></think>
+Reading the create-subagent skill and locating the ultraterrestrial-agent-definitions-v2 resource.
+</details></think>
 
 _**Agent (default)**_
 
@@ -23,24 +24,17 @@ I'll pull the create-subagent skill and locate the `ultraterrestrial-agent-defin
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/.cursor/skills-cursor/create-subagent/SKILL.md</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/.cursor/skills-cursor/create-subagent/SKILL.md</summary>
 
 </details></tool-use>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="search" data-tool-name="glob_file_search">
-<details>
+<tool-use data-tool-type="search" data-tool-name="glob_file_search"><details>
 <summary>Tool use: **glob_file_search** • Searched codebase "" • **24** results in **1** directory</summary>
 
-Directory: **** (24 files)
+Directory: **``** (24 files)
 
 | File |
 |------|
@@ -68,22 +62,14 @@ Directory: **** (24 files)
 | `ultraterrestrial-agent-definitions-v2 3/agents/08-mack-witness-psychology.md` |
 | `ultraterrestrial-agent-definitions-v2 3/agents/03-fort-source-ingestor.md` |
 | `ultraterrestrial-agent-definitions-v2 3/shared/00-operating-contract.md` |
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="search" data-tool-name="glob_file_search"><details>
-<summary>Tool use: **glob_file_search**</summary>
-
 </details></tool-use>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="search" data-tool-name="glob_file_search">
-<details>
+<tool-use data-tool-type="search" data-tool-name="glob_file_search"><details>
 <summary>Tool use: **glob_file_search** • Searched codebase "" • **24** results in **1** directory</summary>
 
-Directory: **** (24 files)
+Directory: **``** (24 files)
 
 | File |
 |------|
@@ -111,21 +97,12 @@ Directory: **** (24 files)
 | `ultraterrestrial-agent-definitions-v2 3/agents/03-fort-source-ingestor.md` |
 | `ultraterrestrial-agent-definitions-v2 3/agents/14-mulder-pattern-recognition.md` |
 | `ultraterrestrial-agent-definitions-v2 3/agents/16-masters-alternative-origin.md` |
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="search" data-tool-name="glob_file_search"><details>
-<summary>Tool use: **glob_file_search**</summary>
-
 </details></tool-use>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
-<details>
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
 <summary>Tool use: **ripgrep_raw_search**</summary>
-
 
 Parameters:
 
@@ -156,20 +133,12 @@ Additional data:
 ```
 Status: **completed**
 
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
-<summary>Tool use: **ripgrep_raw_search**</summary>
-
 </details></tool-use>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
-<details><summary>Tool use: **run_terminal_command_v2** • Run command: pwd && ls -la</summary>
-
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2** • Run command: pwd &amp;&amp; ls -la</summary>
 ```bash
 pwd && ls -la
 ```
@@ -205,65 +174,16 @@ drwxr-xr-x@    3 liamellis  staff       96 Jul 16 20:11 .next
 drwxr-xr-x@    9 liamellis  staff      288 Jul 18 18:57 .specstory
 -rw-r--r--     1 liamellis  staff   130269 Jun 16 14:10 .sub_tree.txt
 drwxr-xr-x@    9 liamellis  staff      288 Jun 20 22:31 .understand-anything
-drwxr-xr-x    11 liamellis  staff      352 Aug  8  2025 .venv
-drwxr-xr-x     5 liamellis  staff      160 Aug 10  2025 .vscode
--rw-r--r--     1 liamellis  staff    40092 Aug  1  2025 .windsurfrules
-drwxr-xr-x     2 liamellis  staff       64 Jul 10 06:46 .xata
--rw-r--r--     1 liamellis  staff    13436 Jul 12 11:29 AGENTS.md
-drwxr-xr-x     6 liamellis  staff      192 Jul  8 01:38 apps
--rw-r--r--@    1 liamellis  staff  1566117 Jul 18 18:59 bun.lock
--rw-r--r--     1 liamellis  staff  7964657 May  5  2025 charlie-day.gif
--rw-r--r--     1 liamellis  staff    16460 Jul 12 09:44 CLAUDE.md
--rw-r--r--     1 liamellis  staff     1637 Jul 12 09:05 CONTEXT-MAP.md
--rw-r--r--     1 liamellis  staff    12237 Jul 17 06:21 CONTEXT.md
--rw-r--r--     1 liamellis  staff     1613 Sep  8  2025 CRUSH.md
--rw-------@    1 liamellis  staff    60786 Jul 18 18:23 DAILY_WORK_PLAN.md
--rw-r--r--     1 liamellis  staff     3352 Jul  8 15:25 DESIGN.md
-drwxr-xr-x    27 liamellis  staff      864 Jul 12 11:52 docs
--rw-r--r--@    1 liamellis  staff     1820 Jul 16 21:21 GOAL.md
--rw-r--r--@    1 liamellis  staff        0 Jul 14  2025 Icon
--rw-r--r--     1 liamellis  staff     1068 Jun 29  2025 LICENSE
--rw-r--r--@    1 liamellis  staff    24669 Jun 20 21:15 llm-wiki-playground.html
--rw-r--r--     1 liamellis  staff     3643 Jun 16 14:10 load_clean.sql
--rw-r--r--     1 liamellis  staff     3643 Jun 16 14:10 load_data.sql
-drwxr-xr-x     3 liamellis  staff       96 Apr  5 01:06 migration
--rw-r--r--     1 liamellis  staff      211 May  5  2025 next-env.d.ts
-drwxr-xr-x  2483 liamellis  staff    79456 Jul 18 18:58 node_modules
--rw-r--r--     1 liamellis  staff    11614 Jul  8 01:38 NOTES.md
--rw-r--r--@    1 liamellis  staff      316 Dec 12  2025 notion-database-ids.json
--rw-r--r--@    1 liamellis  staff     1024 Jul 18 17:53 openmemory.md
--rw-r--r--@    1 liamellis  staff     2334 Jul 10 06:55 package.json
-drwxr-xr-x     7 liamellis  staff      224 Sep 19  2025 packages
--rw-r--r--     1 liamellis  staff  1263232 May  5  2025 preview.jpeg
--rw-r--r--     1 liamellis  staff     2598 Jul 12 07:05 PRODUCT.md
--rw-r--r--     1 liamellis  staff     3440 Jul 12 07:09 README.md
--rw-r--r--@    1 liamellis  staff     3539 Mar 13 03:12 RESEARCH_QUEUE.md
--rw-r--r--@    1 liamellis  staff    86600 Mar 13 03:12 roswell_nuclear_graph.png
--rw-r--r--     1 liamellis  staff     5896 Jun 16 14:10 schema_clean.sql
--rw-r--r--     1 liamellis  staff     9858 Jun 16 14:10 schema_gen.sql
--rw-r--r--@    1 liamellis  staff  1282958 Mar 13 03:12 Screenshot 2024-08-09 at 9.04.40 PM.png
--rw-r--r--@    1 liamellis  staff     1104 Mar 13 03:12 TECH.md
--rw-r--r--     1 liamellis  staff     1622 Aug  1  2025 tsconfig.json
-drwxr-xr-x@    8 liamellis  staff      256 Jul 18 19:08 ultraterrestrial-agent-definitions-v2 3
--rw-r--r--@    1 liamellis  staff  1287066 Jul 18 18:27 ultraterrestrial-ui-concepts.zip
--rw-r--r--@    1 liamellis  staff      258 Jun 17 21:45 vercel.json
--rw-r--r--@    1 liamellis  staff    18506 Mar 10 13:42 visual-language-schema.json
--rw-r--r--     1 liamellis  staff     1420 Sep 17  2025 WARP.md
--rw-r--r--@    1 liamellis  staff    18676 Jul 12 07:08 WORKSPACE_STATUS_REPORT.md
-
+drwxr-xr-x    11 liamellis  staff      352 Aug  8  202
+… (output truncated)
 ```
-</details>
-</tool-use>
-
-<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
-<summary>Tool use: **run_terminal_command_v2**</summary>
-
 </details></tool-use>
 
 _**Agent (default)**_
 
 <think><details><summary>Thought Process</summary>
-Reviewing the ultraterrestrial-agent-definitions-v2 pack to understand its structure. Checking for an existing `.cursor/agents/` directory. Planning how to convert the definitions into Cursor subagent format.</details></think>
+Reviewing the ultraterrestrial-agent-definitions-v2 pack to understand its structure. Checking for an existing `.cursor/agents/` directory. Planning how to convert the definitions into Cursor subagent format.
+</details></think>
 
 _**Agent (default)**_
 
@@ -271,79 +191,46 @@ Found the v2 definitions pack. Next I'll read the manifest and a few agent files
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/ultraterrestrial-agent-definitions-v2 3/README.md</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/ultraterrestrial-agent-definitions-v2 3/README.md</summary>
 
 </details></tool-use>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/ultraterrestrial-agent-definitions-v2 3/MANIFEST.md</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/ultraterrestrial-agent-definitions-v2 3/MANIFEST.md</summary>
 
 </details></tool-use>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/ultraterrestrial-agent-definitions-v2 3/shared/00-operating-contract.md</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/ultraterrestrial-agent-definitions-v2 3/shared/00-operating-contract.md</summary>
 
 </details></tool-use>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/ultraterrestrial-agent-definitions-v2 3/agents/01-majestic-master-controller.md</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/ultraterrestrial-agent-definitions-v2 3/agents/01-majestic-master-controller.md</summary>
 
 </details></tool-use>
 
 _**Agent (default)**_
-
-<tool-use data-tool-type="search" data-tool-name="glob_file_search">
-<details>
-<summary>Tool use: **glob_file_search** • Searched codebase "" • **0** results in **1** directory</summary>
-
-Directory: **** (0 files)
-
-</details>
-</tool-use>
 
 <tool-use data-tool-type="search" data-tool-name="glob_file_search"><details>
-<summary>Tool use: **glob_file_search**</summary>
+<summary>Tool use: **glob_file_search** • Searched codebase "" • **0** results in **1** directory</summary>
 
+Directory: **``** (0 files)
 </details></tool-use>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="search" data-tool-name="glob_file_search">
-<details>
+<tool-use data-tool-type="search" data-tool-name="glob_file_search"><details>
 <summary>Tool use: **glob_file_search** • Searched codebase "" • **5** results in **1** directory</summary>
 
-Directory: **** (5 files)
+Directory: **``** (5 files)
 
 | File |
 |------|
@@ -352,21 +239,12 @@ Directory: **** (5 files)
 | `.claude/agents/apps/app-agent.md` |
 | `.claude/agents/apps/research-ui-agent.md` |
 | `.claude/agents/packages/db-agent.md` |
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="search" data-tool-name="glob_file_search"><details>
-<summary>Tool use: **glob_file_search**</summary>
-
 </details></tool-use>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="unknown" data-tool-name="switch_mode">
-<details>
+<tool-use data-tool-type="unknown" data-tool-name="switch_mode"><details>
 <summary>Tool use: **switch_mode**</summary>
-
 
 Parameters:
 
@@ -388,13 +266,6 @@ User decision: **accepted**
 
 Status: **completed**
 
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="unknown" data-tool-name="switch_mode"><details>
-<summary>Tool use: **switch_mode**</summary>
-
 </details></tool-use>
 
 _**Agent (default)**_
@@ -404,7 +275,8 @@ Reviewing agent definitions and existing Claude agents to plan Cursor subagent c
 
 Four key design choices remain: whether to generate all 18+ agents or a subset, whether to place them at project or user level, how to handle shared contracts, and how to map the simpler Cursor subagent format. These scope decisions must be resolved before drafting the plan.
 
-Examining a full agent file to understand its system prompt structure. Checking existing agent vision documentation for related context.</details></think>
+Examining a full agent file to understand its system prompt structure. Checking existing agent vision documentation for related context.
+</details></think>
 
 _**Agent (default)**_
 
@@ -412,49 +284,29 @@ Checking how the definitions encode system prompts and whether the app already h
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/ultraterrestrial-agent-definitions-v2 3/agents/01-majestic-master-controller.md</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/ultraterrestrial-agent-definitions-v2 3/agents/01-majestic-master-controller.md</summary>
 
 </details></tool-use>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/ultraterrestrial-agent-definitions-v2 3/agents/06-scully-evidence-evaluator.md</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/ultraterrestrial-agent-definitions-v2 3/agents/06-scully-evidence-evaluator.md</summary>
 
 </details></tool-use>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.claude/agents/apps/app-agent.md</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.claude/agents/apps/app-agent.md</summary>
 
 </details></tool-use>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
-<details>
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
 <summary>Tool use: **ripgrep_raw_search**</summary>
-
 
 Parameters:
 
@@ -481,25 +333,12 @@ Additional data:
 ```
 Status: **completed**
 
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
-<summary>Tool use: **ripgrep_raw_search**</summary>
-
 </details></tool-use>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/docs/vision/AGENT_ARCHITECTURE_BRIEF.md</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/docs/vision/AGENT_ARCHITECTURE_BRIEF.md</summary>
 
 </details></tool-use>
 
@@ -512,7 +351,8 @@ The subagents belong in `.cursor/agents/`. Cursor requires name, description, an
 
 The full conversion requires 19 `.cursor/agents/*.md` files. A scripted approach will handle the volume. The scope is confirmed as Cursor subagents only.
 
-DOTY should be included despite its restricted status, with strong sandbox language in its description. The scope question still needs resolution before proceeding.</details></think>
+DOTY should be included despite its restricted status, with strong sandbox language in its description. The scope question still needs resolution before proceeding.
+</details></think>
 
 _**Agent (default)**_
 
@@ -523,7 +363,8 @@ _**Agent (default)**_
 <think><details><summary>Thought Process</summary>
 The AskQuestion tool is unavailable. I'll either ask the user inline or use sensible defaults to proceed.
 
-I'll ask the user inline before creating the plan, since these decisions materially change the approach.</details></think>
+I'll ask the user inline before creating the plan, since these decisions materially change the approach.
+</details></think>
 
 _**Agent (default)**_
 
@@ -554,7 +395,8 @@ _**Agent (default)**_
 <think><details><summary>Thought Process</summary>
 The user selected option A for question 1, covering all 18 trusted agents while skipping DOTY. For question 2, they chose option B, requiring full embedding of operating procedures, I/O contracts, failure modes, and evaluation criteria from each source file.
 
-I am now creating a plan using the CreatePlan tool. Execution will wait until the plan is finalized.</details></think>
+I am now creating a plan using the CreatePlan tool. Execution will wait until the plan is finalized.
+</details></think>
 
 _**Agent (default)**_
 
@@ -562,49 +404,29 @@ Got it: all 18 trusted agents, full prompt depth, no DOTY. Drafting the plan now
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/ultraterrestrial-agent-definitions-v2 3/shared/00-operating-contract.md</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/ultraterrestrial-agent-definitions-v2 3/shared/00-operating-contract.md</summary>
 
 </details></tool-use>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/ultraterrestrial-agent-definitions-v2 3/adversaries/doty-pattern.md</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/ultraterrestrial-agent-definitions-v2 3/adversaries/doty-pattern.md</summary>
 
 </details></tool-use>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="search" data-tool-name="glob_file_search">
-<details>
+<tool-use data-tool-type="search" data-tool-name="glob_file_search"><details>
 <summary>Tool use: **glob_file_search** • Searched codebase "" • **2** results in **1** directory</summary>
 
-Directory: **** (2 files)
+Directory: **``** (2 files)
 
 | File |
 |------|
 | `.cursor/plans/ai-data-audit_57824186.plan.md` |
 | `.cursor/commands/threejs.md` |
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="search" data-tool-name="glob_file_search"><details>
-<summary>Tool use: **glob_file_search**</summary>
-
 </details></tool-use>
 
 _**Agent (default)**_
@@ -612,30 +434,29 @@ _**Agent (default)**_
 <think><details><summary>Thought Process</summary>
 A concrete plan is forming to convert all 18 trusted agents into Cursor subagents with full prompt depth. Agents will be placed under `.cursor/agents/` at the project level. DOTY will be skipped.
 
-Each agent will embed its full operating procedure, I/O contracts, failure modes, and evaluation criteria. A shared operating contract will be baked into every agent or handled through a shared preamble. Cursor subagents will use lowercase hyphenated names. They are intended for research methodology assistance during development, not for live Next.js AI paths. The v2 pack remains the source of truth; these agents are projections. A README may be added to `.cursor/agents/`.</details></think>
+Each agent will embed its full operating procedure, I/O contracts, failure modes, and evaluation criteria. A shared operating contract will be baked into every agent or handled through a shared preamble. Cursor subagents will use lowercase hyphenated names. They are intended for research methodology assistance during development, not for live Next.js AI paths. The v2 pack remains the source of truth; these agents are projections. A README may be added to `.cursor/agents/`.
+</details></think>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="unknown" data-tool-name="create_plan">
-<details>
+<tool-use data-tool-type="unknown" data-tool-name="create_plan"><details>
 <summary>Tool use: **create_plan**</summary>
-
 
 Parameters:
 
-```json
+````json
 {
   "name": "Cursor Research Subagents",
   "overview": "Project Cursor subagents for all 18 trusted Ultraterrestrial research agents from the v2 definitions pack, with full prompt bodies (system prompt, operating procedure, I/O contracts, failure modes, evaluation). DOTY is excluded.",
-  "plan": "# Create 18 Cursor Research Subagents\n\n## Decisions (locked)\n\n- **Roster:** All 18 trusted agents from [&#96;ultraterrestrial-agent-definitions-v2 3/MANIFEST.md&#96;](ultraterrestrial-agent-definitions-v2%203/MANIFEST.md). Skip DOTY.\n- **Prompt depth:** Full — each Cursor agent embeds identity, system prompt, operating procedure, tool/write boundaries, input/output contracts, handoffs, failure modes, and evaluation criteria from its source file.\n- **Location:** Project-scoped [&#96;.cursor/agents/&#96;](.cursor/agents/) (new directory; none exist yet).\n- **Honesty:** These are **development/research Cursor subagents** (Task tool specialists). They do **not** wire new runtime product agents into the Next.js app. Live AI remains disclosure/mindmap + Prometheus per [&#96;docs/vision/AGENT_ARCHITECTURE_BRIEF.md&#96;](docs/vision/AGENT_ARCHITECTURE_BRIEF.md).\n\n## Target files\n\nCreate 18 markdown agents:\n\n| Cursor &#96;name&#96; | Source |\n|---|---|\n| &#96;majestic&#96; | &#96;agents/01-majestic-master-controller.md&#96; |\n| &#96;lone-gunmen&#96; | &#96;agents/02-lone-gunmen-realtime-monitor.md&#96; |\n| &#96;fort&#96; | &#96;agents/03-fort-source-ingestor.md&#96; |\n| &#96;knapp&#96; | &#96;agents/04-knapp-investigative-journalism.md&#96; |\n| &#96;ruppelt&#96; | &#96;agents/05-ruppelt-schema-extractor.md&#96; |\n| &#96;scully&#96; | &#96;agents/06-scully-evidence-evaluator.md&#96; |\n| &#96;hynek&#96; | &#96;agents/07-hynek-scientific-anomaly.md&#96; |\n| &#96;mack&#96; | &#96;agents/08-mack-witness-psychology.md&#96; |\n| &#96;grusch&#96; | &#96;agents/09-grusch-protected-disclosure.md&#96; |\n| &#96;mellon&#96; | &#96;agents/10-mellon-government-disclosure.md&#96; |\n| &#96;pope&#96; | &#96;agents/11-pope-official-narrative.md&#96; |\n| &#96;pilkington&#96; | &#96;agents/12-pilkington-information-operations.md&#96; |\n| &#96;michel&#96; | &#96;agents/13-michel-spatiotemporal-correlation.md&#96; |\n| &#96;mulder&#96; | &#96;agents/14-mulder-pattern-recognition.md&#96; |\n| &#96;vallee&#96; | &#96;agents/15-vallee-ontology-curator.md&#96; |\n| &#96;masters&#96; | &#96;agents/16-masters-alternative-origin.md&#96; |\n| &#96;pasulka&#96; | &#96;agents/17-pasulka-religion-myth.md&#96; |\n| &#96;keel&#96; | &#96;agents/18-keel-strategic-synthesis.md&#96; |\n\nAlso add [&#96;.cursor/agents/README.md&#96;](.cursor/agents/README.md) listing the roster, source pack path, and “not runtime product agents” note.\n\n## File format (Cursor subagent)\n\nEach file:\n\n&#96;&#96;&#96;markdown\n---\nname: scully\ndescription: \u003e-\n  Evidence evaluation and conventional-explanation analyst for Ultraterrestrial\n  research. Use proactively when claims need credibility scoring, provenance\n  checks, or prosaic alternatives before exotic hypotheses.\n---\n\n# SCULLY — ...\n\n[Full body assembled as below]\n&#96;&#96;&#96;\n\n**Description rules:** Specific trigger language + “use proactively” where the role should auto-delegate (SCULLY, MAJESTIC, KEEL especially). Codename + role from YAML frontmatter.\n\n## Body assembly template (same for all 18)\n\nFor each source file, assemble in this order:\n\n1. **Shared operating contract preamble** — condensed from [&#96;shared/00-operating-contract.md&#96;](ultraterrestrial-agent-definitions-v2%203/shared/00-operating-contract.md): epistemic layers, Pin→Thread→Hunch→Canvas→Quilt, universal prohibitions, publication gates, prompt-injection safety. (~40–60 lines, identical across agents so behavior stays aligned without requiring a separate “read this file” step.)\n2. **Identity + portrayal policy** — namesake is archetypal; never impersonate/imitate/claim affiliation.\n3. **Canonical mission + success conditions** — from YAML &#96;mission&#96;.\n4. **System prompt** — verbatim from the source &#96;## System Prompt&#96; fenced block.\n5. **Operating procedure** — numbered steps from source.\n6. **Authority + tool contract** — &#96;may&#96; / &#96;may_not&#96;, allowed/denied tools, &#96;write_scope&#96; (logical tools; Cursor will use repo/search tools as the practical stand-in; state that explicitly).\n7. **Input / output contracts** — task envelope + primary schema + required &#96;meta&#96; block.\n8. **Handoff rules** — receives_from / sends_to / mandatory_review.\n9. **Failure modes + evaluation criteria** — from source.\n10. **App grounding footer** — short note: prefer &#96;@db/postgres&#96; facts when researching this codebase; never invent DB writes; inferences are not retrieval evidence; cite file/path anchors when analyzing repo code.\n\n## Implementation approach\n\n1. Create &#96;.cursor/agents/&#96;.\n2. Scripted generation preferred: a one-shot Node/Bun script (or manual batch) that parses each source YAML+markdown sections and emits the Cursor file. Keep the script ephemeral or under &#96;scripts/&#96; only if useful for regeneration; primary deliverable is the 18 &#96;.md&#96; agents + README.\n3. Validate: unique &#96;name&#96; fields, valid YAML frontmatter, every agent includes the shared contract preamble, no DOTY file.\n4. Smoke-check one agent end-to-end by reading the generated &#96;majestic.md&#96; and &#96;scully.md&#96; against their sources.\n\n## Out of scope\n\n- DOTY adversarial profile\n- Wiring agents into &#96;/api/disclosure/mindmap&#96; or Prometheus\n- Enforcing logical tool allowlists at runtime (prompt-level only in Cursor)\n- Moving/renaming the source pack folder\n\n&#96;&#96;&#96;mermaid\nflowchart TD\n  srcPack[\"v2 definitions pack\"] --\u003e shared[\"shared operating contract\"]\n  srcPack --\u003e agents18[\"18 agent source files\"]\n  shared --\u003e cursorAgents[\".cursor/agents/*.md\"]\n  agents18 --\u003e cursorAgents\n  cursorAgents --\u003e taskTool[\"Cursor Task subagent delegation\"]\n&#96;&#96;&#96;\n",
+  "plan": "# Create 18 Cursor Research Subagents\n\n## Decisions (locked)\n\n- **Roster:** All 18 trusted agents from [`ultraterrestrial-agent-definitions-v2 3/MANIFEST.md`](ultraterrestrial-agent-definitions-v2%203/MANIFEST.md). Skip DOTY.\n- **Prompt depth:** Full — each Cursor agent embeds identity, system prompt, operating procedure, tool/write boundaries, input/output contracts, handoffs, failure modes, and evaluation criteria from its source file.\n- **Location:** Project-scoped [`.cursor/agents/`](.cursor/agents/) (new directory; none exist yet).\n- **Honesty:** These are **development/research Cursor subagents** (Task tool specialists). They do **not** wire new runtime product agents into the Next.js app. Live AI remains disclosure/mindmap + Prometheus per [`docs/vision/AGENT_ARCHITECTURE_BRIEF.md`](docs/vision/AGENT_ARCHITECTURE_BRIEF.md).\n\n## Target files\n\nCreate 18 markdown agents:\n\n| Cursor `name` | Source |\n|---|---|\n| `majestic` | `agents/01-majestic-master-controller.md` |\n| `lone-gunmen` | `agents/02-lone-gunmen-realtime-monitor.md` |\n| `fort` | `agents/03-fort-source-ingestor.md` |\n| `knapp` | `agents/04-knapp-investigative-journalism.md` |\n| `ruppelt` | `agents/05-ruppelt-schema-extractor.md` |\n| `scully` | `agents/06-scully-evidence-evaluator.md` |\n| `hynek` | `agents/07-hynek-scientific-anomaly.md` |\n| `mack` | `agents/08-mack-witness-psychology.md` |\n| `grusch` | `agents/09-grusch-protected-disclosure.md` |\n| `mellon` | `agents/10-mellon-government-disclosure.md` |\n| `pope` | `agents/11-pope-official-narrative.md` |\n| `pilkington` | `agents/12-pilkington-information-operations.md` |\n| `michel` | `agents/13-michel-spatiotemporal-correlation.md` |\n| `mulder` | `agents/14-mulder-pattern-recognition.md` |\n| `vallee` | `agents/15-vallee-ontology-curator.md` |\n| `masters` | `agents/16-masters-alternative-origin.md` |\n| `pasulka` | `agents/17-pasulka-religion-myth.md` |\n| `keel` | `agents/18-keel-strategic-synthesis.md` |\n\nAlso add [`.cursor/agents/README.md`](.cursor/agents/README.md) listing the roster, source pack path, and “not runtime product agents” note.\n\n## File format (Cursor subagent)\n\nEach file:\n\n```markdown\n---\nname: scully\ndescription: \u003e-\n  Evidence evaluation and conventional-explanation analyst for Ultraterrestrial\n  research. Use proactively when claims need credibility scoring, provenance\n  checks, or prosaic alternatives before exotic hypotheses.\n---\n\n# SCULLY — ...\n\n[Full body assembled as below]\n```\n\n**Description rules:** Specific trigger language + “use proactively” where the role should auto-delegate (SCULLY, MAJESTIC, KEEL especially). Codename + role from YAML frontmatter.\n\n## Body assembly template (same for all 18)\n\nFor each source file, assemble in this order:\n\n1. **Shared operating contract preamble** — condensed from [`shared/00-operating-contract.md`](ultraterrestrial-agent-definitions-v2%203/shared/00-operating-contract.md): epistemic layers, Pin→Thread→Hunch→Canvas→Quilt, universal prohibitions, publication gates, prompt-injection safety. (~40–60 lines, identical across agents so behavior stays aligned without requiring a separate “read this file” step.)\n2. **Identity + portrayal policy** — namesake is archetypal; never impersonate/imitate/claim affiliation.\n3. **Canonical mission + success conditions** — from YAML `mission`.\n4. **System prompt** — verbatim from the source `## System Prompt` fenced block.\n5. **Operating procedure** — numbered steps from source.\n6. **Authority + tool contract** — `may` / `may_not`, allowed/denied tools, `write_scope` (logical tools; Cursor will use repo/search tools as the practical stand-in; state that explicitly).\n7. **Input / output contracts** — task envelope + primary schema + required `meta` block.\n8. **Handoff rules** — receives_from / sends_to / mandatory_review.\n9. **Failure modes + evaluation criteria** — from source.\n10. **App grounding footer** — short note: prefer `@db/postgres` facts when researching this codebase; never invent DB writes; inferences are not retrieval evidence; cite file/path anchors when analyzing repo code.\n\n## Implementation approach\n\n1. Create `.cursor/agents/`.\n2. Scripted generation preferred: a one-shot Node/Bun script (or manual batch) that parses each source YAML+markdown sections and emits the Cursor file. Keep the script ephemeral or under `scripts/` only if useful for regeneration; primary deliverable is the 18 `.md` agents + README.\n3. Validate: unique `name` fields, valid YAML frontmatter, every agent includes the shared contract preamble, no DOTY file.\n4. Smoke-check one agent end-to-end by reading the generated `majestic.md` and `scully.md` against their sources.\n\n## Out of scope\n\n- DOTY adversarial profile\n- Wiring agents into `/api/disclosure/mindmap` or Prometheus\n- Enforcing logical tool allowlists at runtime (prompt-level only in Cursor)\n- Moving/renaming the source pack folder\n\n```mermaid\nflowchart TD\n  srcPack[\"v2 definitions pack\"] --\u003e shared[\"shared operating contract\"]\n  srcPack --\u003e agents18[\"18 agent source files\"]\n  shared --\u003e cursorAgents[\".cursor/agents/*.md\"]\n  agents18 --\u003e cursorAgents\n  cursorAgents --\u003e taskTool[\"Cursor Task subagent delegation\"]\n```\n",
   "todos": [
     {
-      "content": "Create &#96;.cursor/agents/&#96; and README with roster + honesty note",
+      "content": "Create `.cursor/agents/` and README with roster + honesty note",
       "id": "scaffold-dir",
       "status": "pending"
     },
     {
-      "content": "Generate 18 full-depth Cursor agent &#96;.md&#96; files from v2 sources + shared contract preamble",
+      "content": "Generate 18 full-depth Cursor agent `.md` files from v2 sources + shared contract preamble",
       "id": "generate-18",
       "status": "pending"
     },
@@ -646,7 +467,7 @@ Parameters:
     }
   ]
 }
-```
+````
 Additional data:
 
 ```json
@@ -670,13 +491,6 @@ Result:
 ```
 Status: **completed**
 
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="unknown" data-tool-name="create_plan"><details>
-<summary>Tool use: **create_plan**</summary>
-
 </details></tool-use>
 
 ---
@@ -691,101 +505,57 @@ To-do's from the plan have already been created. Do not create them again. Mark 
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/openmemory.md</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/openmemory.md</summary>
 
 </details></tool-use>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/README.md</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/README.md</summary>
 
 </details></tool-use>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/docs/agents/AGENT_ONBOARDING_CHECKLIST.md</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/docs/agents/AGENT_ONBOARDING_CHECKLIST.md</summary>
 
 </details></tool-use>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/PRODUCT.md</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/PRODUCT.md</summary>
 
 </details></tool-use>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/DESIGN.md</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/DESIGN.md</summary>
 
 </details></tool-use>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/docs/plans/FEATURES.md</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/docs/plans/FEATURES.md</summary>
 
 </details></tool-use>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/docs/plans/TODO.md</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/docs/plans/TODO.md</summary>
 
 </details></tool-use>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="unknown" data-tool-name="todo_write">
-<details>
+<tool-use data-tool-type="unknown" data-tool-name="todo_write"><details>
 <summary>Tool use: **todo_write**</summary>
-
 
 Parameters:
 
@@ -800,12 +570,12 @@ Result:
 {
   "finalTodos": [
     {
-      "content": "Create &#96;.cursor/agents/&#96; and README with roster + honesty note",
+      "content": "Create `.cursor/agents/` and README with roster + honesty note",
       "id": "scaffold-dir",
       "status": "in_progress"
     },
     {
-      "content": "Generate 18 full-depth Cursor agent &#96;.md&#96; files from v2 sources + shared contract preamble",
+      "content": "Generate 18 full-depth Cursor agent `.md` files from v2 sources + shared contract preamble",
       "id": "generate-18",
       "status": "pending"
     },
@@ -817,12 +587,12 @@ Result:
   ],
   "initialTodos": [
     {
-      "content": "Create &#96;.cursor/agents/&#96; and README with roster + honesty note",
+      "content": "Create `.cursor/agents/` and README with roster + honesty note",
       "id": "scaffold-dir",
       "status": "pending"
     },
     {
-      "content": "Generate 18 full-depth Cursor agent &#96;.md&#96; files from v2 sources + shared contract preamble",
+      "content": "Generate 18 full-depth Cursor agent `.md` files from v2 sources + shared contract preamble",
       "id": "generate-18",
       "status": "pending"
     },
@@ -838,21 +608,12 @@ Result:
 ```
 Status: **completed**
 
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="unknown" data-tool-name="todo_write"><details>
-<summary>Tool use: **todo_write**</summary>
-
 </details></tool-use>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="unknown" data-tool-name="get_mcp_tools">
-<details>
+<tool-use data-tool-type="unknown" data-tool-name="get_mcp_tools"><details>
 <summary>Tool use: **get_mcp_tools**</summary>
-
 
 Parameters:
 
@@ -870,13 +631,6 @@ Result:
 ```
 Status: **completed**
 
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="unknown" data-tool-name="get_mcp_tools"><details>
-<summary>Tool use: **get_mcp_tools**</summary>
-
 </details></tool-use>
 
 _**Agent (default)**_
@@ -885,10 +639,8 @@ OpenMemory has no subagent guidance, and no memory MCP is available in this sess
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
-<details>
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
 <summary>Tool use: **ripgrep_raw_search**</summary>
-
 
 Parameters:
 
@@ -989,21 +741,12 @@ Additional data:
 ```
 Status: **completed**
 
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
-<summary>Tool use: **ripgrep_raw_search**</summary>
-
 </details></tool-use>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
-<details>
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
 <summary>Tool use: **ripgrep_raw_search**</summary>
-
 
 Parameters:
 
@@ -1104,37 +847,20 @@ Additional data:
 ```
 Status: **completed**
 
+</details></tool-use>
 
-</details>
-</tool-use>
+_**Agent (default)**_
+
+<tool-use data-tool-type="search" data-tool-name="glob_file_search"><details>
+<summary>Tool use: **glob_file_search** • Searched codebase "" • **0** results in **1** directory</summary>
+
+Directory: **`/Users/liamellis/.cursor/agents`** (0 files)
+</details></tool-use>
+
+_**Agent (default)**_
 
 <tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
 <summary>Tool use: **ripgrep_raw_search**</summary>
-
-</details></tool-use>
-
-_**Agent (default)**_
-
-<tool-use data-tool-type="search" data-tool-name="glob_file_search">
-<details>
-<summary>Tool use: **glob_file_search** • Searched codebase "" • **0** results in **1** directory</summary>
-
-Directory: **/Users/liamellis/.cursor/agents** (0 files)
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="search" data-tool-name="glob_file_search"><details>
-<summary>Tool use: **glob_file_search**</summary>
-
-</details></tool-use>
-
-_**Agent (default)**_
-
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
-<details>
-<summary>Tool use: **ripgrep_raw_search**</summary>
-
 
 Parameters:
 
@@ -1162,51 +888,26 @@ Additional data:
 ```
 Status: **completed**
 
+</details></tool-use>
 
-</details>
-</tool-use>
+_**Agent (default)**_
 
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
-<summary>Tool use: **ripgrep_raw_search**</summary>
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/package.json</summary>
 
 </details></tool-use>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/package.json</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/ultraterrestrial-agent-definitions-v2 3/shared/01-tool-registry.md</summary>
 
 </details></tool-use>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/ultraterrestrial-agent-definitions-v2 3/shared/01-tool-registry.md</summary>
-
-</details>
-</tool-use>
-
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
-
-</details></tool-use>
-
-_**Agent (default)**_
-
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/ultraterrestrial-agent-definitions-v2 3/shared/02-output-schemas.md</summary>
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/ultraterrestrial-agent-definitions-v2 3/shared/02-output-schemas.md</summary>
 
 </details></tool-use>
 
@@ -1215,47 +916,32 @@ _**Agent (default)**_
 <think><details><summary>Thought Process</summary>
 **Preparing to implement**
 
-I need to implement something, but before I create the generator script, I should check if the parent scripts exist in the directory. I'll use a method to glob the scripts from the root. This way, I'll ensure everything is in order before proceeding. Checking for existing files first is super important to avoid any potential issues later on! Let's make sure I cover all bases while moving forward.</details></think>
+I need to implement something, but before I create the generator script, I should check if the parent scripts exist in the directory. I'll use a method to glob the scripts from the root. This way, I'll ensure everything is in order before proceeding. Checking for existing files first is super important to avoid any potential issues later on! Let's make sure I cover all bases while moving forward.
+</details></think>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="search" data-tool-name="glob_file_search">
-<details>
+<tool-use data-tool-type="search" data-tool-name="glob_file_search"><details>
 <summary>Tool use: **glob_file_search** • Searched codebase "" • **1** result in **1** directory</summary>
 
-Directory: **/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection** (1 file)
+Directory: **`/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection`** (1 file)
 
 | File |
 |------|
 | `apps/app/scripts/audit-storybook-stories.mjs` |
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="search" data-tool-name="glob_file_search"><details>
-<summary>Tool use: **glob_file_search**</summary>
-
 </details></tool-use>
 
 _**Agent (default)**_
-
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/ultraterrestrial-agent-definitions-v2 3/agents/02-lone-gunmen-realtime-monitor.md</summary>
-
-</details>
-</tool-use>
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/ultraterrestrial-agent-definitions-v2 3/agents/02-lone-gunmen-realtime-monitor.md</summary>
 
 </details></tool-use>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
-<details>
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
 <summary>Tool use: **ripgrep_raw_search**</summary>
-
 
 Parameters:
 
@@ -1292,21 +978,12 @@ Additional data:
 ```
 Status: **completed**
 
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
-<summary>Tool use: **ripgrep_raw_search**</summary>
-
 </details></tool-use>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
-<details>
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
 <summary>Tool use: **ripgrep_raw_search**</summary>
-
 
 Parameters:
 
@@ -1338,13 +1015,6 @@ Additional data:
 ```
 Status: **completed**
 
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
-<summary>Tool use: **ripgrep_raw_search**</summary>
-
 </details></tool-use>
 
 _**Agent (default)**_
@@ -1352,7 +1022,8 @@ _**Agent (default)**_
 <think><details><summary>Thought Process</summary>
 **Planning script locations**
 
-I need to figure out where to place an additional script that’s not in the target. The plan allows for scripts in the `scripts` directory, so that's good. First, I should check if the `scripts` root is missing. If it is, should I create the script under an existing source pack like `ultraterrestrial-agent-definitions-v2 3/generate-cursor-agents.mjs`? But modifying the source pack might complicate things. Placing it under `.cursor/agents/generate.mjs` could work, but it seems like the directory is absent. Maybe I can just use `scripts/generate-cursor-research-agents.mjs` and let the tool create the parent directory for me?</details></think>
+I need to figure out where to place an additional script that’s not in the target. The plan allows for scripts in the `scripts` directory, so that's good. First, I should check if the `scripts` root is missing. If it is, should I create the script under an existing source pack like `ultraterrestrial-agent-definitions-v2 3/generate-cursor-agents.mjs`? But modifying the source pack might complicate things. Placing it under `.cursor/agents/generate.mjs` could work, but it seems like the directory is absent. Maybe I can just use `scripts/generate-cursor-research-agents.mjs` and let the tool create the parent directory for me?
+</details></think>
 
 _**Agent (default)**_
 
@@ -1360,24 +1031,15 @@ The source files are structurally uniform: all 18 expose the same eight operatio
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
-
-<details><summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.cursor/generate-research-agents.mjs</summary>
-
-</details>
-
-</tool-use>
-
 <tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
-<summary>Tool use: **edit_file_v2**</summary>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.cursor/generate-research-agents.mjs</summary>
 
 </details></tool-use>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
-<details><summary>Tool use: **run_terminal_command_v2** • Run command: bun .cursor/generate-research-agents.mjs</summary>
-
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2** • Run command: bun .cursor/generate-research-agents.mjs</summary>
 ```bash
 bun .cursor/generate-research-agents.mjs
 ```
@@ -1387,12 +1049,6 @@ Generated 18 trusted Cursor agents in /Users/liamellis/Desktop/apps/ultraterrest
 Excluded restricted adversarial profiles; source roster: ultraterrestrial-agent-definitions-v2 3
 
 ```
-</details>
-</tool-use>
-
-<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
-<summary>Tool use: **run_terminal_command_v2**</summary>
-
 </details></tool-use>
 
 _**Agent (default)**_
@@ -1400,14 +1056,13 @@ _**Agent (default)**_
 <think><details><summary>Thought Process</summary>
 **Updating task status**
 
-Okay, I need to update my to-do list. The first task is complete, so I’ll mark that off. The second task is still in progress, so I’ll indicate that it's ongoing. It’s important to keep my tasks organized and up to date, as it helps me stay focused and on track. I want to ensure I'm managing my responsibilities efficiently!</details></think>
+Okay, I need to update my to-do list. The first task is complete, so I’ll mark that off. The second task is still in progress, so I’ll indicate that it's ongoing. It’s important to keep my tasks organized and up to date, as it helps me stay focused and on track. I want to ensure I'm managing my responsibilities efficiently!
+</details></think>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="unknown" data-tool-name="todo_write">
-<details>
+<tool-use data-tool-type="unknown" data-tool-name="todo_write"><details>
 <summary>Tool use: **todo_write**</summary>
-
 
 Parameters:
 
@@ -1422,12 +1077,12 @@ Result:
 {
   "finalTodos": [
     {
-      "content": "Create &#96;.cursor/agents/&#96; and README with roster + honesty note",
+      "content": "Create `.cursor/agents/` and README with roster + honesty note",
       "id": "scaffold-dir",
       "status": "completed"
     },
     {
-      "content": "Generate 18 full-depth Cursor agent &#96;.md&#96; files from v2 sources + shared contract preamble",
+      "content": "Generate 18 full-depth Cursor agent `.md` files from v2 sources + shared contract preamble",
       "id": "generate-18",
       "status": "in_progress"
     },
@@ -1439,12 +1094,12 @@ Result:
   ],
   "initialTodos": [
     {
-      "content": "Create &#96;.cursor/agents/&#96; and README with roster + honesty note",
+      "content": "Create `.cursor/agents/` and README with roster + honesty note",
       "id": "scaffold-dir",
       "status": "in_progress"
     },
     {
-      "content": "Generate 18 full-depth Cursor agent &#96;.md&#96; files from v2 sources + shared contract preamble",
+      "content": "Generate 18 full-depth Cursor agent `.md` files from v2 sources + shared contract preamble",
       "id": "generate-18",
       "status": "pending"
     },
@@ -1460,13 +1115,6 @@ Result:
 ```
 Status: **completed**
 
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="unknown" data-tool-name="todo_write"><details>
-<summary>Tool use: **todo_write**</summary>
-
 </details></tool-use>
 
 _**Agent (default)**_
@@ -1474,15 +1122,15 @@ _**Agent (default)**_
 <think><details><summary>Thought Process</summary>
 **Inspecting generated files**
 
-I need to take a closer look at the generated files, starting with reading through the Majestic, Scully, and README documents. They might be extensive, but that's fine! I also have to check out the globbing functionality. After that, I'll validate my script using shell or a specialized search tool like `rg`. Running linter checks on the `.mjs` files is also important, but first things first: inspecting everything thoroughly!</details></think>
+I need to take a closer look at the generated files, starting with reading through the Majestic, Scully, and README documents. They might be extensive, but that's fine! I also have to check out the globbing functionality. After that, I'll validate my script using shell or a specialized search tool like `rg`. Running linter checks on the `.mjs` files is also important, but first things first: inspecting everything thoroughly!
+</details></think>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="search" data-tool-name="glob_file_search">
-<details>
+<tool-use data-tool-type="search" data-tool-name="glob_file_search"><details>
 <summary>Tool use: **glob_file_search** • Searched codebase "" • **19** results in **1** directory</summary>
 
-Directory: **/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.cursor/agents** (19 files)
+Directory: **`/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.cursor/agents`** (19 files)
 
 | File |
 |------|
@@ -1505,60 +1153,33 @@ Directory: **/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.cursor
 | `fort.md` |
 | `lone-gunmen.md` |
 | `majestic.md` |
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="search" data-tool-name="glob_file_search"><details>
-<summary>Tool use: **glob_file_search**</summary>
-
 </details></tool-use>
 
 _**Agent (default)**_
-
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.cursor/agents/README.md</summary>
-
-</details>
-</tool-use>
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.cursor/agents/README.md</summary>
 
 </details></tool-use>
 
 _**Agent (default)**_
-
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.cursor/agents/majestic.md</summary>
-
-</details>
-</tool-use>
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.cursor/agents/majestic.md</summary>
 
 </details></tool-use>
 
 _**Agent (default)**_
-
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.cursor/agents/scully.md</summary>
-
-</details>
-</tool-use>
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.cursor/agents/scully.md</summary>
 
 </details></tool-use>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
-<details>
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
 <summary>Tool use: **ripgrep_raw_search**</summary>
-
 
 Parameters:
 
@@ -1586,21 +1207,12 @@ Additional data:
 ```
 Status: **completed**
 
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
-<summary>Tool use: **ripgrep_raw_search**</summary>
-
 </details></tool-use>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
-<details>
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
 <summary>Tool use: **ripgrep_raw_search**</summary>
-
 
 Parameters:
 
@@ -1633,13 +1245,6 @@ Additional data:
 ```
 Status: **completed**
 
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
-<summary>Tool use: **ripgrep_raw_search**</summary>
-
 </details></tool-use>
 
 _**Agent (default)**_
@@ -1647,7 +1252,8 @@ _**Agent (default)**_
 <think><details><summary>Thought Process</summary>
 **Investigating file ignoring issues**
 
-I'm looking into why "rg" isn't matching names, possibly because hidden files are ignored. The "rg" tool might respect the .gitignore rules. I need to validate this with the shell, maybe using `bun -e` and node YAML. I'm also concerned that Cursor recognizes agents, so perhaps I should check if the frontmatter description is too long. I should confirm if all generated files are validated and check if the root .gitignore actually ignores .cursor/agents.</details></think>
+I'm looking into why "rg" isn't matching names, possibly because hidden files are ignored. The "rg" tool might respect the .gitignore rules. I need to validate this with the shell, maybe using `bun -e` and node YAML. I'm also concerned that Cursor recognizes agents, so perhaps I should check if the frontmatter description is too long. I should confirm if all generated files are validated and check if the root .gitignore actually ignores .cursor/agents.
+</details></think>
 
 _**Agent (default)**_
 
@@ -1655,10 +1261,8 @@ Generation is complete: 18 agent files plus README, with MAJESTIC and SCULLY mat
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="unknown" data-tool-name="todo_write">
-<details>
+<tool-use data-tool-type="unknown" data-tool-name="todo_write"><details>
 <summary>Tool use: **todo_write**</summary>
-
 
 Parameters:
 
@@ -1673,12 +1277,12 @@ Result:
 {
   "finalTodos": [
     {
-      "content": "Create &#96;.cursor/agents/&#96; and README with roster + honesty note",
+      "content": "Create `.cursor/agents/` and README with roster + honesty note",
       "id": "scaffold-dir",
       "status": "completed"
     },
     {
-      "content": "Generate 18 full-depth Cursor agent &#96;.md&#96; files from v2 sources + shared contract preamble",
+      "content": "Generate 18 full-depth Cursor agent `.md` files from v2 sources + shared contract preamble",
       "id": "generate-18",
       "status": "completed"
     },
@@ -1690,12 +1294,12 @@ Result:
   ],
   "initialTodos": [
     {
-      "content": "Create &#96;.cursor/agents/&#96; and README with roster + honesty note",
+      "content": "Create `.cursor/agents/` and README with roster + honesty note",
       "id": "scaffold-dir",
       "status": "completed"
     },
     {
-      "content": "Generate 18 full-depth Cursor agent &#96;.md&#96; files from v2 sources + shared contract preamble",
+      "content": "Generate 18 full-depth Cursor agent `.md` files from v2 sources + shared contract preamble",
       "id": "generate-18",
       "status": "in_progress"
     },
@@ -1711,34 +1315,19 @@ Result:
 ```
 Status: **completed**
 
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="unknown" data-tool-name="todo_write"><details>
-<summary>Tool use: **todo_write**</summary>
-
 </details></tool-use>
 
 _**Agent (default)**_
-
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.gitignore</summary>
-
-</details>
-</tool-use>
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.gitignore</summary>
 
 </details></tool-use>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="unknown" data-tool-name="read_lints">
-<details>
+<tool-use data-tool-type="unknown" data-tool-name="read_lints"><details>
 <summary>Tool use: **read_lints**</summary>
-
 
 Parameters:
 
@@ -1762,21 +1351,12 @@ Result:
 ```
 Status: **completed**
 
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="unknown" data-tool-name="read_lints"><details>
-<summary>Tool use: **read_lints**</summary>
-
 </details></tool-use>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
-<details>
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
 <summary>Tool use: **ripgrep_raw_search**</summary>
-
 
 Parameters:
 
@@ -1877,21 +1457,12 @@ Additional data:
 ```
 Status: **completed**
 
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
-<summary>Tool use: **ripgrep_raw_search**</summary>
-
 </details></tool-use>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
-<details>
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
 <summary>Tool use: **ripgrep_raw_search**</summary>
-
 
 Parameters:
 
@@ -1992,20 +1563,12 @@ Additional data:
 ```
 Status: **completed**
 
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
-<summary>Tool use: **ripgrep_raw_search**</summary>
-
 </details></tool-use>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
-<details><summary>Tool use: **run_terminal_command_v2** • Run command: bun -e 'import { readdir, readFile } from "node:fs/promises"; import { join } from "node:path"; import { parse } from "yaml"; const dir = ".cursor/agents"; const files = (await readdir(dir)).filter((file) => file.endsWith(".md") && file !== "README.md").sort(); if (files.length !== 18) throw new Error(`Expected 18 agents, found ${files.length}`); const names = []; for (const file of files) { const source = await readFile(join(dir, file), "utf8"); const match = source.match(/^---\n([\s\S]*?)\n---\n/); if (!match) throw new Error(`${file}: invalid frontmatter`); const metadata = parse(match[1]); if (!metadata.name || !metadata.description) throw new Error(`${file}: missing name or description`); if (!/^[a-z-]+$/.test(metadata.name)) throw new Error(`${file}: invalid name ${metadata.name}`); const required = ["## Shared Operating Contract", "## Structured Mandate", "## Cursor Tool Binding", "## System Prompt", "## Operating Procedure", "## Tool Contract", "## Input Contract", "## Output Contract", "## Handoff Rules", "## Failure Modes to Guard Against", "## Evaluation Criteria", "## Repository Grounding"]; for (const section of required) if (!source.includes(section)) throw new Error(`${file}: missing ${section}`); names.push(metadata.name); } if (new Set(names).size !== 18) throw new Error("Duplicate agent names"); if (names.some((name) => name.includes("doty"))) throw new Error("DOTY profile must be excluded"); console.log(`Validated ${files.length} agents: unique frontmatter, complete sections, DOTY excluded`);'</summary>
-
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2** • Run command: bun -e &#39;import { readdir, readFile } from &#34;node:fs/promises&#34;; import { join } from &#34;node:path&#34;; import { parse } from &#34;yaml&#34;; const dir = &#34;.cursor/agents&#34;; const files = (await readdir(dir)).filter((file) =&gt; file.endsWith(&#34;.md&#34;) &amp;&amp; file !== &#34;README.md&#34;).sort(); if (files.length !== 18) throw new Error(`Expected 18 agents, found ${files.length}`); const names = []; for (const file of files) { const source = await readFile(join(dir, file), &#34;utf8&#34;); const match = source.match(/^---\n([\s\S]*?)\n---\n/); if (!match) throw new Error(`${file}: invalid frontmatter`); const metadata = parse(match[1]); if (!metadata.name || !metadata.description) throw new Error(`${file}: missing name or description`); if (!/^[a-z-]+$/.test(metadata.name)) throw new Error(`${file}: invalid name ${metadata.name}`); const required = [&#34;## Shared Operating Contract&#34;, &#34;## Structured Mandate&#34;, &#34;## Cursor Tool Binding&#34;, &#34;## System Prompt&#34;, &#34;## Operating Procedure&#34;, &#34;## Tool Contract&#34;, &#34;## Input Contract&#34;, &#34;## Output Contract&#34;, &#34;## Handoff Rules&#34;, &#34;## Failure Modes to Guard Against&#34;, &#34;## Evaluation Criteria&#34;, &#34;## Repository Grounding&#34;]; for (const section of required) if (!source.includes(section)) throw new Error(`${file}: missing ${section}`); names.push(metadata.name); } if (new Set(names).size !== 18) throw new Error(&#34;Duplicate agent names&#34;); if (names.some((name) =&gt; name.includes(&#34;doty&#34;))) throw new Error(&#34;DOTY profile must be excluded&#34;); console.log(`Validated ${files.length} agents: unique frontmatter, complete sections, DOTY excluded`);&#39;</summary>
 ```bash
 bun -e 'import { readdir, readFile } from "node:fs/promises"; import { join } from "node:path"; import { parse } from "yaml"; const dir = ".cursor/agents"; const files = (await readdir(dir)).filter((file) => file.endsWith(".md") && file !== "README.md").sort(); if (files.length !== 18) throw new Error(`Expected 18 agents, found ${files.length}`); const names = []; for (const file of files) { const source = await readFile(join(dir, file), "utf8"); const match = source.match(/^---\n([\s\S]*?)\n---\n/); if (!match) throw new Error(`${file}: invalid frontmatter`); const metadata = parse(match[1]); if (!metadata.name || !metadata.description) throw new Error(`${file}: missing name or description`); if (!/^[a-z-]+$/.test(metadata.name)) throw new Error(`${file}: invalid name ${metadata.name}`); const required = ["## Shared Operating Contract", "## Structured Mandate", "## Cursor Tool Binding", "## System Prompt", "## Operating Procedure", "## Tool Contract", "## Input Contract", "## Output Contract", "## Handoff Rules", "## Failure Modes to Guard Against", "## Evaluation Criteria", "## Repository Grounding"]; for (const section of required) if (!source.includes(section)) throw new Error(`${file}: missing ${section}`); names.push(metadata.name); } if (new Set(names).size !== 18) throw new Error("Duplicate agent names"); if (names.some((name) => name.includes("doty"))) throw new Error("DOTY profile must be excluded"); console.log(`Validated ${files.length} agents: unique frontmatter, complete sections, DOTY excluded`);'
 ```
@@ -2014,19 +1577,12 @@ bun -e 'import { readdir, readFile } from "node:fs/promises"; import { join } fr
 Validated 18 agents: unique frontmatter, complete sections, DOTY excluded
 
 ```
-</details>
-</tool-use>
-
-<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
-<summary>Tool use: **run_terminal_command_v2**</summary>
-
 </details></tool-use>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
-<details><summary>Tool use: **run_terminal_command_v2** • Run command: git status --short -- .cursor</summary>
-
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2** • Run command: git status --short -- .cursor</summary>
 ```bash
 git status --short -- .cursor
 ```
@@ -2053,77 +1609,42 @@ git status --short -- .cursor
 ?? .cursor/generate-research-agents.mjs
 
 ```
-</details>
-</tool-use>
-
-<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
-<summary>Tool use: **run_terminal_command_v2**</summary>
-
 </details></tool-use>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
-<details><summary>Tool use: **run_terminal_command_v2** • Run command: git diff --check -- .cursor</summary>
-
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2** • Run command: git diff --check -- .cursor</summary>
 ```bash
 git diff --check -- .cursor
 ```
-</details>
-</tool-use>
-
-<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
-<summary>Tool use: **run_terminal_command_v2**</summary>
-
 </details></tool-use>
 
 _**Agent (default)**_
-
-<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
-
-<details><summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/openmemory.md</summary>
-
-</details>
-
-</tool-use>
 
 <tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
-<summary>Tool use: **edit_file_v2**</summary>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/openmemory.md</summary>
 
 </details></tool-use>
 
 _**Agent (default)**_
-
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/DAILY_WORK_PLAN.md</summary>
-
-</details>
-</tool-use>
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/DAILY_WORK_PLAN.md</summary>
 
 </details></tool-use>
 
 _**Agent (default)**_
-
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/openmemory.md</summary>
-
-</details>
-</tool-use>
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/openmemory.md</summary>
 
 </details></tool-use>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="unknown" data-tool-name="read_lints">
-<details>
+<tool-use data-tool-type="unknown" data-tool-name="read_lints"><details>
 <summary>Tool use: **read_lints**</summary>
-
 
 Parameters:
 
@@ -2147,35 +1668,19 @@ Result:
 ```
 Status: **completed**
 
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="unknown" data-tool-name="read_lints"><details>
-<summary>Tool use: **read_lints**</summary>
-
 </details></tool-use>
 
 _**Agent (default)**_
-
-<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
-
-<details><summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/DAILY_WORK_PLAN.md</summary>
-
-</details>
-
-</tool-use>
 
 <tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
-<summary>Tool use: **edit_file_v2**</summary>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/DAILY_WORK_PLAN.md</summary>
 
 </details></tool-use>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
-<details><summary>Tool use: **run_terminal_command_v2** • Run command: bun -e 'import { readdir, readFile } from "node:fs/promises"; import { join } from "node:path"; const sourceDir = "ultraterrestrial-agent-definitions-v2 3/agents"; const outputDir = ".cursor/agents"; const sources = (await readdir(sourceDir)).filter((file) => /^\d{2}-.*\.md$/.test(file)).sort(); if (sources.length !== 18) throw new Error(`Expected 18 trusted sources, found ${sources.length}`); for (const sourceFile of sources) { const source = await readFile(join(sourceDir, sourceFile), "utf8"); const body = source.match(/^---\n[\s\S]*?\n---\n([\s\S]*)$/)?.[1].trim(); const codename = source.match(/\n  codename: ([A-Z_]+)\n/)?.[1]; if (!body || !codename) throw new Error(`${sourceFile}: source parse failure`); const outputFile = `${codename.toLowerCase().replaceAll("_", "-")}.md`; const output = await readFile(join(outputDir, outputFile), "utf8"); if (!output.includes(body)) throw new Error(`${outputFile}: canonical body is not preserved verbatim`); } console.log("Spot-check generalized: all 18 canonical role bodies preserved verbatim");'</summary>
-
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2** • Run command: bun -e &#39;import { readdir, readFile } from &#34;node:fs/promises&#34;; import { join } from &#34;node:path&#34;; const sourceDir = &#34;ultraterrestrial-agent-definitions-v2 3/agents&#34;; const outputDir = &#34;.cursor/agents&#34;; const sources = (await readdir(sourceDir)).filter((file) =&gt; /^\d{2}-.*\.md$/.test(file)).sort(); if (sources.length !== 18) throw new Error(`Expected 18 trusted sources, found ${sources.length}`); for (const sourceFile of sources) { const source = await readFile(join(sourceDir, sourceFile), &#34;utf8&#34;); const body = source.match(/^---\n[\s\S]*?\n---\n([\s\S]*)$/)?.[1].trim(); const codename = source.match(/\n  codename: ([A-Z_]+)\n/)?.[1]; if (!body || !codename) throw new Error(`${sourceFile}: source parse failure`); const outputFile = `${codename.toLowerCase().replaceAll(&#34;_&#34;, &#34;-&#34;)}.md`; const output = await readFile(join(outputDir, outputFile), &#34;utf8&#34;); if (!output.includes(body)) throw new Error(`${outputFile}: canonical body is not preserved verbatim`); } console.log(&#34;Spot-check generalized: all 18 canonical role bodies preserved verbatim&#34;);&#39;</summary>
 ```bash
 bun -e 'import { readdir, readFile } from "node:fs/promises"; import { join } from "node:path"; const sourceDir = "ultraterrestrial-agent-definitions-v2 3/agents"; const outputDir = ".cursor/agents"; const sources = (await readdir(sourceDir)).filter((file) => /^\d{2}-.*\.md$/.test(file)).sort(); if (sources.length !== 18) throw new Error(`Expected 18 trusted sources, found ${sources.length}`); for (const sourceFile of sources) { const source = await readFile(join(sourceDir, sourceFile), "utf8"); const body = source.match(/^---\n[\s\S]*?\n---\n([\s\S]*)$/)?.[1].trim(); const codename = source.match(/\n  codename: ([A-Z_]+)\n/)?.[1]; if (!body || !codename) throw new Error(`${sourceFile}: source parse failure`); const outputFile = `${codename.toLowerCase().replaceAll("_", "-")}.md`; const output = await readFile(join(outputDir, outputFile), "utf8"); if (!output.includes(body)) throw new Error(`${outputFile}: canonical body is not preserved verbatim`); } console.log("Spot-check generalized: all 18 canonical role bodies preserved verbatim");'
 ```
@@ -2184,19 +1689,12 @@ bun -e 'import { readdir, readFile } from "node:fs/promises"; import { join } fr
 Spot-check generalized: all 18 canonical role bodies preserved verbatim
 
 ```
-</details>
-</tool-use>
-
-<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
-<summary>Tool use: **run_terminal_command_v2**</summary>
-
 </details></tool-use>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
-<details><summary>Tool use: **run_terminal_command_v2** • Run command: git diff --check -- .cursor openmemory.md DAILY_WORK_PLAN.md</summary>
-
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2** • Run command: git diff --check -- .cursor openmemory.md DAILY_WORK_PLAN.md</summary>
 ```bash
 git diff --check -- .cursor openmemory.md DAILY_WORK_PLAN.md
 ```
@@ -2261,42 +1759,15 @@ DAILY_WORK_PLAN.md:85: trailing whitespace.
 DAILY_WORK_PLAN.md:88: trailing whitespace.
 +_Last agent session: 
 DAILY_WORK_PLAN.md:91: trailing whitespace.
-+_Last agent session: 
-DAILY_WORK_PLAN.md:94: trailing whitespace.
-+_Last agent session: 
-DAILY_WORK_PLAN.md:97: trailing whitespace.
-+_Last agent session: 
-DAILY_WORK_PLAN.md:100: trailing whitespace.
-+_Last agent session: 
-DAILY_WORK_PLAN.md:103: trailing whitespace.
-+_Last agent session: 
-DAILY_WORK_PLAN.md:106: trailing whitespace.
-+_Last agent session: 
-DAILY_WORK_PLAN.md:109: trailing whitespace.
-+_Last agent session: 
-DAILY_WORK_PLAN.md:112: trailing whitespace.
-+_Last agent session: 
-DAILY_WORK_PLAN.md:115: trailing whitespace.
-+_Last agent session: 
-DAILY_WORK_PLAN.md:118: trailing whitespace.
-+_Last agent session: 
-DAILY_WORK_PLAN.md:120: trailing whitespace.
-+_Last agent session: 
-
++_Last agent se
+… (output truncated)
 ```
-</details>
-</tool-use>
-
-<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
-<summary>Tool use: **run_terminal_command_v2**</summary>
-
 </details></tool-use>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
-<details><summary>Tool use: **run_terminal_command_v2** • Run command: git status --short -- .cursor openmemory.md DAILY_WORK_PLAN.md</summary>
-
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2** • Run command: git status --short -- .cursor openmemory.md DAILY_WORK_PLAN.md</summary>
 ```bash
 git status --short -- .cursor openmemory.md DAILY_WORK_PLAN.md
 ```
@@ -2325,12 +1796,6 @@ git status --short -- .cursor openmemory.md DAILY_WORK_PLAN.md
 ?? .cursor/generate-research-agents.mjs
 
 ```
-</details>
-</tool-use>
-
-<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
-<summary>Tool use: **run_terminal_command_v2**</summary>
-
 </details></tool-use>
 
 _**Agent (default)**_
@@ -2339,52 +1804,31 @@ Validation passed for all 18 generated profiles, including a source-to-output co
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
-<details><summary>Tool use: **run_terminal_command_v2** • Run command: git diff --check -- .cursor openmemory.md</summary>
-
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2** • Run command: git diff --check -- .cursor openmemory.md</summary>
 ```bash
 git diff --check -- .cursor openmemory.md
 ```
-</details>
-</tool-use>
-
-<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
-<summary>Tool use: **run_terminal_command_v2**</summary>
-
 </details></tool-use>
 
 _**Agent (default)**_
-
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/DAILY_WORK_PLAN.md</summary>
-
-</details>
-</tool-use>
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/DAILY_WORK_PLAN.md</summary>
 
 </details></tool-use>
 
 _**Agent (default)**_
-
-<tool-use data-tool-type="read" data-tool-name="read_file_v2">
-<details><summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.cursor/agents/keel.md</summary>
-
-</details>
-</tool-use>
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2**</summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.cursor/agents/keel.md</summary>
 
 </details></tool-use>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="unknown" data-tool-name="todo_write">
-<details>
+<tool-use data-tool-type="unknown" data-tool-name="todo_write"><details>
 <summary>Tool use: **todo_write**</summary>
-
 
 Parameters:
 
@@ -2399,12 +1843,12 @@ Result:
 {
   "finalTodos": [
     {
-      "content": "Create &#96;.cursor/agents/&#96; and README with roster + honesty note",
+      "content": "Create `.cursor/agents/` and README with roster + honesty note",
       "id": "scaffold-dir",
       "status": "completed"
     },
     {
-      "content": "Generate 18 full-depth Cursor agent &#96;.md&#96; files from v2 sources + shared contract preamble",
+      "content": "Generate 18 full-depth Cursor agent `.md` files from v2 sources + shared contract preamble",
       "id": "generate-18",
       "status": "completed"
     },
@@ -2416,12 +1860,12 @@ Result:
   ],
   "initialTodos": [
     {
-      "content": "Create &#96;.cursor/agents/&#96; and README with roster + honesty note",
+      "content": "Create `.cursor/agents/` and README with roster + honesty note",
       "id": "scaffold-dir",
       "status": "completed"
     },
     {
-      "content": "Generate 18 full-depth Cursor agent &#96;.md&#96; files from v2 sources + shared contract preamble",
+      "content": "Generate 18 full-depth Cursor agent `.md` files from v2 sources + shared contract preamble",
       "id": "generate-18",
       "status": "completed"
     },
@@ -2436,13 +1880,6 @@ Result:
 }
 ```
 Status: **completed**
-
-
-</details>
-</tool-use>
-
-<tool-use data-tool-type="unknown" data-tool-name="todo_write"><details>
-<summary>Tool use: **todo_write**</summary>
 
 </details></tool-use>
 

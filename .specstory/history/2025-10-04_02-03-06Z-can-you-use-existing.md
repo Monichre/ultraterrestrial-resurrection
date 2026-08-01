@@ -278,7 +278,7 @@ Output:
         "mcp-search-linkup"
       ],
       "env": {
-        "LINKUP_API_KEY": "8564787f-b5a5-4278-8ac4-21078ac0b75b"
+        "LINKUP_API_KEY": "[REDACTED:generic-api-key]"
       }
     }
   }
@@ -329,7 +329,7 @@ Path: `/Users/liamellis/Library/Application Support/Claude/claude_desktop_config
 -        "mcp-search-linkup"
 -      ],
 -      "env": {
--        "LINKUP_API_KEY": "8564787f-b5a5-4278-8ac4-21078ac0b75b"
+-        "LINKUP_API_KEY": "[REDACTED:generic-api-key]"
 -      }
 -    }
 -  }
@@ -343,7 +343,7 @@ Path: `/Users/liamellis/Library/Application Support/Claude/claude_desktop_config
 +        "mcp-search-linkup"
 +      ],
 +      "env": {
-+        "LINKUP_API_KEY": "8564787f-b5a5-4278-8ac4-21078ac0b75b"
++        "LINKUP_API_KEY": "[REDACTED:generic-api-key]"
 +      }
 +    },
 +    "honcho": {
@@ -355,7 +355,7 @@ Path: `/Users/liamellis/Library/Application Support/Claude/claude_desktop_config
 
 ```diff
        "env": {
-         "LINKUP_API_KEY": "8564787f-b5a5-4278-8ac4-21078ac0b75b"
+         "LINKUP_API_KEY": "[REDACTED:generic-api-key]"
        }
 +    },
 +    "honcho": {
@@ -1210,7 +1210,7 @@ Let me know your thoughts on these, and I'll help architect a solution that fits
 
 _**User (2025-10-04 02:18:52Z)**_
 
-use this api key hch-v2-pl9qe8szkbtht0e0tsr80hter2j4logyar050vtgw40bsceatz8capiclp33jbas
+use this api key [REDACTED:generic-api-key]
 
 ---
 
@@ -1284,69 +1284,69 @@ Output:
 
 XATA_DATABASE_URL=https://UltraTerrestrial-kgubvq.us-east-1.xata.sh/db/ultraterrestrial
 # XATA_DATABASE_URL=https://UltraTerrestrial-kgubvq.us-east-1.xata.sh/db/ultraterrestrial-postgres
-XATA_API_KEY=xau_LKJxzxjzXasEUXxjmhCBACdTCvi5Ed2v1
+XATA_API_KEY=[REDACTED:generic-api-key]
 # XATA_ENDPOINT=https://UltraTerrestrial-kgubvq.us-east-1.xata.sh/db/ultraterrestrial
 XATA_BRANCH=main
 
 # OPENAI
-OPENAI_API_KEY=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
+OPENAI_API_KEY=[REDACTED:openai-api-key]
 OPENAI_ASSISTANT_ID=asst_sdNxYC9p05iGpeKXtL496cyh 
 OPENAI_VECTOR_STORE_ID=vs_meWOEnUiUxtQWf0W6NBsNpCG #UFO Data Store
 DISCLOSURE_ASSISTANT_ID=asst_sdNxYC9p05iGpeKXtL496cyh  #Party Martian Assistant
 DISCLOSURE__VECTOR_STORE_ID=vs_meWOEnUiUxtQWf0W6NBsNpCG
 
 # Dedicated API Key for Ultraterrestrial Agentic RAG
-ANTHROPIC_API_KEY=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
+ANTHROPIC_API_KEY=[REDACTED:anthropic-api-key]
 
 KNOWLEDGE_BASE_DIRECTORY_PATH="/Users/liamellis/Desktop/ultraterrestrial-resurrection/packages/knowledge-base"
 DIRECTORY_PATH="/Users/liamellis/Desktop/ultraterrestrial-resurrection/packages/knowledge-base/transcripts"
 TRANSCRIPT_DIRECTORY_PATH="/Users/liamellis/Desktop/ultraterrestrial-resurrection/packages/knowledge-base/transcripts"
 CASE_FILES_DIRECTORY_PATH="/Users/liamellis/Desktop/ultraterrestrial-resurrection/packages/knowledge-base/case_files"
 UFO_DATA_STORE_ID="vs_meWOEnUiUxtQWf0W6NBsNpCG"
-PHI_API_KEY=phi-fwZT79tWUGvCq_gChG22peq0jBgf0wBMPdTfrg4u5cM
-TAVILY_API_KEY='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'
-SEARCH1API_KEY=C758D027-BA59-46D4-88EA-11F43C5E97A7
-SCRAPEGRAPH_API_KEY=sgai-130e8849-fdfe-4215-8e1b-ae00a14f3816
+PHI_API_KEY=[REDACTED:generic-api-key]
+TAVILY_API_KEY='[REDACTED:generic-api-key]'
+SEARCH1API_KEY=[REDACTED:generic-api-key]
+SCRAPEGRAPH_API_KEY=[REDACTED:generic-api-key]
 ROOT_DIRECTORY_PATH="/Users/liamellis/Desktop/ultraterrestrial-resurrection/apps/disclosure-rag"
-GROQ_API_KEY=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
+GROQ_API_KEY=[REDACTED:groq-api-key]
 
-DEEPGRAM_API_KEY=58db455a6f531c825827cdafb597ab39c098bf1f
-TOGETHERAI_API_KEY=bc3acfa53172fc75ee41981b19770aa4ba3f63873128567d9b31d65f0e043640
+DEEPGRAM_API_KEY=[REDACTED:deepgram-api-key]
+TOGETHERAI_API_KEY=[REDACTED:generic-api-key]
 
-SERPER_API_KEY=773974adedf733ee3ecf9f4c7690ab609e2b70c5
+SERPER_API_KEY=[REDACTED:sourcegraph-access-token]
 
-MEM0_API_KEY=m0-exXYaSswwfcZfneu7BZqr0DFOwoL9Rn4tyYXDenP
-FIRECRAWL_API_KEY=fc-e271f58f93fe4b3fa4885b3234dfa8fb
+MEM0_API_KEY=[REDACTED:generic-api-key]
+FIRECRAWL_API_KEY=[REDACTED:generic-api-key]
 
-COMPOSIO_API_KEY=mfcv0l300os9b2bl03dm9
-MULTIONAI_API_KEY=602e191c75d649fdb109f2a56329f6ee
-PERIGNON_API_KEY=065efe41-6c22-4886-9a25-442791659604
+COMPOSIO_API_KEY=[REDACTED:generic-api-key]
+MULTIONAI_API_KEY=[REDACTED:generic-api-key]
+PERIGNON_API_KEY=[REDACTED:generic-api-key]
 
 LANGCHAIN_TRACING_V2=true
 LANGCHAIN_ENDPOINT="https://api.smith.langchain.com"
-LANGCHAIN_API_KEY=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
+LANGCHAIN_API_KEY=[REDACTED:generic-api-key]
 LANGCHAIN_PROJECT="ultraterrestrial"
-DEEPSEEK_API_KEY="sk-c1a7ee02dea4491e85433b0978f254b2"
+DEEPSEEK_API_KEY="[REDACTED:deepseek-api-key]"
 # Required for sending
 QSTASH_URL="https://qstash.upstash.io"
 QSTASH_TOKEN="eyJVc2VySUQiOiJmMTFlYTRiOS02OTBiLTQ3Y2EtODJiMi04ZDcwNGQ2ZTJlYTkiLCJQYXNzd29yZCI6ImZkNDY1MjJjMTNmMDRlNWY5MDI1MGRlMjBiZjQ0MGNkIn0="
 
 # Required for receiving
-QSTASH_CURRENT_SIGNING_KEY="sig_7qgKiSZMcyazUuCyG2jUPmz8r4Mx"
-QSTASH_NEXT_SIGNING_KEY="sig_5vZwWNJDiRcAFNb4XPKUFFCyyjvb"
+QSTASH_CURRENT_SIGNING_KEY="[REDACTED:generic-api-key]"
+QSTASH_NEXT_SIGNING_KEY="[REDACTED:generic-api-key]"
 QSTASH_QUEUE_NAME='knowledge-base-data-processing'
 
 # Required for vector database
 UPSTASH_VECTOR_DATABASE_NAME="ultraterrestrial-agentic-rag-knowledge-base"
 UPSTASH_VECTOR_DATABASE_URL="https://known-bobcat-28794-us1-vector.upstash.io"
-UPSTASH_VECTOR_DATABASE_TOKEN="ABYFMGtub3duLWJvYmNhdC0yODc5NC11czFhZG1pbllUZ3daREJqT1RRdFpUTmtZUzAwWTJGaExUZzNNelV0WlRGaE9USmxZelJpWXpnMg=="
+UPSTASH_VECTOR_DATABASE_TOKEN="[REDACTED:generic-api-key]"
 UPSTASH_VECTOR_DATABASE_DIMENSION_COUNT=1024
 UPSTASH_VECTOR_DATABASE_METRIC="cosine"
 UPSTASH_VECTOR_REST_URL="https://known-bobcat-28794-us1-vector.upstash.io"
-UPSTASH_VECTOR_REST_TOKEN="ABYFMGtub3duLWJvYmNhdC0yODc5NC11czFhZG1pbllUZ3daREJqT1RRdFpUTmtZUzAwWTJGaExUZzNNelV0WlRGaE9USmxZelJpWXpnMg=="
+UPSTASH_VECTOR_REST_TOKEN="[REDACTED:generic-api-key]"
 
-PERPLEXITY_API_KEY=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
-GEMINI_API_KEY=AIzaSyD_fv79HeoDIc13WomINVuoAG6_6sr9m0g
+PERPLEXITY_API_KEY=[REDACTED:perplexity-api-key]
+GEMINI_API_KEY=[REDACTED:gcp-api-key]
 
 # Optional - defaults shown
 MODEL=claude-3-7-sonnet-20250219 
@@ -1355,7 +1355,7 @@ PERPLEXITY_MODEL=sonar-pro
 
 #UPSTASH REDIS
 UPSTASH_REDIS_REST_URL="https://ultimate-doe-11414.upstash.io"
-UPSTASH_REDIS_REST_TOKEN="ASyWAAIjcDFiM2I5MGVhNGJkNzc0MmJmYTE2MzQwMmI3YmI3ODNlZXAxMA"
+UPSTASH_REDIS_REST_TOKEN="[REDACTED:generic-api-key]"
 
 #UPSTASH QSTASH
 # Required for sending
@@ -1363,15 +1363,15 @@ QSTASH_URL="https://qstash.upstash.io"
 QSTASH_TOKEN="eyJVc2VySUQiOiJmMTFlYTRiOS02OTBiLTQ3Y2EtODJiMi04ZDcwNGQ2ZTJlYTkiLCJQYXNzd29yZCI6ImZkNDY1MjJjMTNmMDRlNWY5MDI1MGRlMjBiZjQ0MGNkIn0="
 
 # Required for receiving
-QSTASH_CURRENT_SIGNING_KEY="sig_7qgKiSZMcyazUuCyG2jUPmz8r4Mx"
-QSTASH_NEXT_SIGNING_KEY="sig_5vZwWNJDiRcAFNb4XPKUFFCyyjvb"
+QSTASH_CURRENT_SIGNING_KEY="[REDACTED:generic-api-key]"
+QSTASH_NEXT_SIGNING_KEY="[REDACTED:generic-api-key]"
 # redis-cli --tls -u redis://default:AYZ7AAIjcDEwODQwOTEyNmQ5Njc0NjE4ODljODM4Y2U5YWY5YmMxZHAxMA@teaching-pug-34427.upstash.io:6379
 
 NEON_DATABASE_URL="postgresql://ultraterrestrial_owner:8bG1keYsHCfz@ep-billowing-salad-a5m9dnhh.us-east-2.aws.neon.tech/ultraterrestrial?sslmode=require"
 # postgresql://ultraterrestrial_owner:8bG1keYsHCfz@ep-billowing-salad-a5m9dnhh.us-east-2.aws.neon.tech/ultraterrestrial?sslmode=require
 
 RAILWAY_PROJECT_ID=96a751f7-89b7-44b9-b4d3-eac4c8ed4c13
-RAILWAY_TOKEN=024bf2bd-4c80-474f-abf7-cc2ce267d0e1
+RAILWAY_TOKEN=[REDACTED:generic-api-key]
 
 RAILWAY_DATABASE_PRIVATE_URL=postgres://railway:0c_Hr!*BvGNCWxeCt
 
@@ -1412,29 +1412,29 @@ DB_PORT=5432
 CONVEX_HTTP_ACTIONS_URL=https://vivid-koala-93.convex.site
 CONVEX_DEPLOYMENT_URL=https://vivid-koala-93.convex.cloud
 
-NUCLIA_API_KEY=eyJhbGciOiJSUzI1NiIsImtpZCI6InNhIiwidHlwIjoiSldUIn0.eyJpc3MiOiJodHRwczovL2F3cy11cy1lYXN0LTItMS5udWNsaWEuY2xvdWQvIiwiaWF0IjoxNzMwNTM4NDU2LCJzdWIiOiI3NzhmY2VlNi03M2ZmLTRiNGQtODBhYy02MGI1NDVmMmFjMDMiLCJqdGkiOiIyNGE4ZGRiNy00ZWI4LTQwOTctOWQwNy05YzQzNmEyMDQ2Y2YiLCJleHAiOjE3NjIwNzgwNTYsImtleSI6ImRiOTJhMzA4LTE2MGItNDIzMy1iNDJkLWU5ZWMxYzdiMmU2YyIsImtpZCI6ImNjMTRhZjIxLTg0YmMtNDYxZi1iODk5LTcwMDVkNDgzMDkxOCJ9.h_rIIwynRS2Nzb3ada2t7aMbLWEXJy53W0PwmG7CwI6eN-UpcbOM2VjoEA5UuSenMM3v6YH7L69RIgdc6lFV4yZ3khBH9bmo8ZSG5RlgSl165ktTr4nEzKb_3l15B3CkS20GzeGReS_Lcro4hCWE5D-OUiT2M3jl0bmlH_kbbIiXFJuC_BazbFaEMj1_8goQQjgFsgiVwbpRG6eZNPnZn_edTRqo-qK4LCAHb3_xx-3TZ8g4kZoQP5wevXHg4NWZ5pPbyyOTq9gTcg2kOd0C0re_GkJa_LSTiPHsTY_TcU1-HYo-eqF1I8LFpesOwR1ggxgNU-D4r1dxLo3C-vAzHihlLSBBOO-il-uLbZF5ChxfalaBIEZclwJBmlegEcjbylX2ic1jPcAYSxovxOmvBtG5Jj6UBejThG3jQj7UznEGsgLOchuz5xaVrz0QzuyGY8VceiaKMap-4bEOupcnNlkmGxuww4HE2G-PmKjbpqrXIA_x2X9NChvrIAHzXtNjDMfOt8sg6f-G3N36WJ73BKcBMe-2Ih_LX_vPFFI-LWCV4K15OkQ6dDlgazQtRgkV-ufSBwyRxN-7qrjFYUWYv4oXYXJdqRBvfHwgSKr8O0CltiHsRaNuT6mfJS-92xCXr8puEjDxDierYwB2U32XbWNFkV5WA3YFqI39_MI9X-A
+NUCLIA_API_KEY=[REDACTED:jwt]
 NUCLIA_DB_API_ENDPOINT=https://aws-us-east-2-1.nuclia.cloud/api/v1/kb/c9dcd42d-10c0-486e-aacd-c39430fcc79f
 NUCLIA_KNOWLEDGE_BOX_ID=c9dcd42d-10c0-486e-aacd-c39430fcc79f
 MATERIALIZE_HOST_URL=cvlz7lsodrp2t0xx4alctmp5n.lb.us-east-1.aws.materialize.cloud
 MATERIALIZE_PORT=6875
 MATERIALIZE_USER=liamhellis@gmail.com
-MATERIALIZE_PASSWORD=mzp_fca85dd810f943198739f81a8922c1e9a173b707240945768b712ec4e61d080c
+MATERIALIZE_PASSWORD=[REDACTED:generic-api-key]
 MATERIALIZE_WEBHOOK_URL=https://cvlz7lsodrp2t0xx4alctmp5n.lb.us-east-1.aws.materialize.cloud/api/webhook/materialize/public/xata_cloudflare_worker
 # psql "postgres://liamhellis%40gmail.com@cvlz7lsodrp2t0xx4alctmp5n.lb.us-east-1.aws.materialize.cloud:6875/materialize?sslmode=require"
 
-CARTESIAN_API_KEY=29848cc2-5a27-4c5c-a2ee-e09615be9d0b
+CARTESIAN_API_KEY=[REDACTED:generic-api-key]
 CLOUDFLARE_ACCOUNT_ID=008959b639e9295c4c2fac92f1c81ea8
 
 NEON_ROLE_PW=aKSPWuX9yn4E
 
-LANGBASE_UT_LEAD_ENGINEER_PIPE_KEY=pipe_3biQQKbf7QdPoGiWszdBWgEHPGXyAaXpGMYBAsQn5sqRbcL6UdpDiUuH8hGGk3w5NLKV6KXoT7HF71gP4ruyCq2J
+LANGBASE_UT_LEAD_ENGINEER_PIPE_KEY=[REDACTED:generic-api-key]
 LANGBASE_PIPE_BASE_URL=https://api.langbase.com/beta/pipes/run
-LANGBASE_UT_DB_ENGINEER_PIPE_KEY=pipe_41ErRmqeyq2agtP9eEdqUVpBpG8j2UaDKi9hT37u6EQAJi8ua7XJ858zxRfje6UYJVPQV1t4bhELnWachnxf2c3t
-LANGBASE_UT_REACT_DEV_PIPE_KEY=pipe_3o6fXYNDfzweQyszNaqktCJLNC4AUm9BRfpN2xUEfCgfe4NXcvvzZnagNc7AdtL7fn2B2Y2xeR8nEpzMi76SUWLG
+LANGBASE_UT_DB_ENGINEER_PIPE_KEY=[REDACTED:generic-api-key]
+LANGBASE_UT_REACT_DEV_PIPE_KEY=[REDACTED:generic-api-key]
 PAYLOAD_CMS_POSTGRES_DB_PSQL='PGPASSWORD=oZCMdOWCzbQsVgKYhIRgTOdSycblzJIt psql -h junction.proxy.rlwy.net -U postgres -p 20851 -d railway'
 PAYLOAD_CMS_POSTGRES_URL='postgresql://postgres:oZCMdOWCzbQsVgKYhIRgTOdSycblzJIt@junction.proxy.rlwy.net:20851/railway'
 AITABLE_API_KEY=uskAyPIuIXkftQBcAjJwxTS
-TAVILY_API_KEY=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
+TAVILY_API_KEY=[REDACTED:generic-api-key]
 
 
 # Deployment used by `npx convex dev`
@@ -1448,31 +1448,31 @@ NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
 
 
 # Anthropic
-ANTHROPIC_API_KEY=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
+ANTHROPIC_API_KEY=[REDACTED:anthropic-api-key]
 ANTHROPIC_MODEL=claude-3-7-sonnet-2025021
 
 # OPENAI
-OPENAI_API_KEY=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
+OPENAI_API_KEY=[REDACTED:openai-api-key]
 OPENAI_ASSISTANT_ID=asst_sdNxYC9p05iGpeKXtL496cyh  #Party Martian Assistant
 OPENAI_VECTOR_STORE_ID=vs_meWOEnUiUxtQWf0W6NBsNpCG #UFO Data Store
 
 
-GROQ_API_KEY=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
-DEEPGRAM_API_KEY=58db455a6f531c825827cdafb597ab39c098bf1f
-TOGETHERAI_API_KEY=bc3acfa53172fc75ee41981b19770aa4ba3f63873128567d9b31d65f0e043640
-SERPER_API_KEY=773974adedf733ee3ecf9f4c7690ab609e2b70c5
+GROQ_API_KEY=[REDACTED:groq-api-key]
+DEEPGRAM_API_KEY=[REDACTED:deepgram-api-key]
+TOGETHERAI_API_KEY=[REDACTED:generic-api-key]
+SERPER_API_KEY=[REDACTED:sourcegraph-access-token]
 
-E2B_API_KEY=e2b_2b02a7a26a265be0680ce0466f5c7e8e365c0a55
-FIRECRAWL_API_KEY=fc-1533e8a7d36f4d478dc5637dbb89c9a5
-NEXT_PUBLIC_FIRECRAWL_API_KEY=fc-1533e8a7d36f4d478dc5637dbb89c9a5
+E2B_API_KEY=[REDACTED:generic-api-key]
+FIRECRAWL_API_KEY=[REDACTED:generic-api-key]
+NEXT_PUBLIC_FIRECRAWL_API_KEY=[REDACTED:generic-api-key]
 
-COMPOSIO_API_KEY=mfcv0l300os9b2bl03dm9
-MULTIONAI_API_KEY=602e191c75d649fdb109f2a56329f6ee
-PERIGNON_API_KEY=065efe41-6c22-4886-9a25-442791659604
-SEARCH1API_KEY=C758D027-BA59-46D4-88EA-11F43C5E97A7
-SCRAPEGRAPH_API_KEY=sgai-130e8849-fdfe-4215-8e1b-ae00a14f3816
-PERPLEXITY_API_KEY=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
-GEMINI_API_KEY=AIzaSyD_fv79HeoDIc13WomINVuoAG6_6sr9m0g
+COMPOSIO_API_KEY=[REDACTED:generic-api-key]
+MULTIONAI_API_KEY=[REDACTED:generic-api-key]
+PERIGNON_API_KEY=[REDACTED:generic-api-key]
+SEARCH1API_KEY=[REDACTED:generic-api-key]
+SCRAPEGRAPH_API_KEY=[REDACTED:generic-api-key]
+PERPLEXITY_API_KEY=[REDACTED:perplexity-api-key]
+GEMINI_API_KEY=[REDACTED:gcp-api-key]
 
 
 # Optional - defaults shown
@@ -1500,16 +1500,16 @@ PROJECT_NAME="Ultraterrestrial Resurrection"      # Project name for tasks.json 
 # NEXT_PUBLIC_ASSISTANT_BASE_URL="https://..."
 NEXT_PUBLIC_ASSISTANT_API_URL=https://proj-0fve3erp9cc2.assistant-api.com
 NEXT_PUBLIC_ASSISTANT_PROJECT_SLUG=cloud.assistant-ui.com/dmg/ultraterrestrial
-CLOUD_ASSISTANT_API_KEY=sk_aui_proj_0fve3erp9cc2_0KkQ7WfeQVkJkFi4dK79j4DCtR7Qz5Aq
+CLOUD_ASSISTANT_API_KEY=[REDACTED:generic-api-key]
 
 #Tiemscale variables
 TIMESCALE_USERNAME=tsdbadmin
-TIMESCALE_PASSWORD=c17edc97h5ry7jg2
+TIMESCALE_PASSWORD=[REDACTED:generic-api-key]
 TIMESCALE_DATABASE=tsdb
 TIMESCALE_HOST=ec72vrlz0s.mleyd0g5xi.tsdb.cloud.timescale.com
 TIMESCALE_PORT=36205
-TIMESCALE_URL=postgres://tsdbadmin:c17edc97h5ry7jg2@ec72vrlz0s.mleyd0g5xi.tsdb.cloud.timescale.com:36205/tsdb?sslmode=require
-TIMESCALE_CONNECTION_STRING=postgres://tsdbadmin:c17edc97h5ry7jg2@ec72vrlz0s.mleyd0g5xi.tsdb.cloud.timescale.com:36205/tsdb?sslmode=require
+TIMESCALE_URL=postgres://tsdbadmin:[REDACTED:generic-api-key]@ec72vrlz0s.mleyd0g5xi.tsdb.cloud.timescale.com:36205/tsdb?sslmode=require
+TIMESCALE_CONNECTION_STRING=postgres://tsdbadmin:[REDACTED:generic-api-key]@ec72vrlz0s.mleyd0g5xi.tsdb.cloud.timescale.com:36205/tsdb?sslmode=require
 
 
 # Required for sending
@@ -1517,40 +1517,40 @@ QSTASH_URL="https://qstash.upstash.io"
 QSTASH_TOKEN="eyJVc2VySUQiOiJmMTFlYTRiOS02OTBiLTQ3Y2EtODJiMi04ZDcwNGQ2ZTJlYTkiLCJQYXNzd29yZCI6ImZkNDY1MjJjMTNmMDRlNWY5MDI1MGRlMjBiZjQ0MGNkIn0="
 
 # Required for receiving
-QSTASH_CURRENT_SIGNING_KEY="sig_7qgKiSZMcyazUuCyG2jUPmz8r4Mx"
-QSTASH_NEXT_SIGNING_KEY="sig_5vZwWNJDiRcAFNb4XPKUFFCyyjvb"
+QSTASH_CURRENT_SIGNING_KEY="[REDACTED:generic-api-key]"
+QSTASH_NEXT_SIGNING_KEY="[REDACTED:generic-api-key]"
 
 
 
 UPSTASH_VECTOR_REST_URL="https://known-bobcat-28794-us1-vector.upstash.io"
-UPSTASH_VECTOR_REST_TOKEN="ABYFMGtub3duLWJvYmNhdC0yODc5NC11czFhZG1pbllUZ3daREJqT1RRdFpUTmtZUzAwWTJGaExUZzNNelV0WlRGaE9USmxZelJpWXpnMg=="
+UPSTASH_VECTOR_REST_TOKEN="[REDACTED:generic-api-key]"
 
-BLOB_READ_WRITE_TOKEN="vercel_blob_rw_s3Rs8TONjyrzYp0T_PQojFYLCEBmTKBqquXPUUv9XB7FrTU"
+BLOB_READ_WRITE_TOKEN="[REDACTED:generic-api-key]"
 BLOB_STORE_ID="store_s3Rs8TONjyrzYp0T"
 BLOB_BASE_URL="https://s3rs8tonjyrzyp0t.public.blob.vercel-storage.com"
 
-XAI_API_KEY="xai-R6M1lBjioebiq2jvgcJ6yaDLIJezqqj6zVd3nf5lnu5paZJZxWvNikp09dMVFfDx32nOjYXMekxWxeB9"
+XAI_API_KEY="[REDACTED:xai-api-key]"
 
 R2R_PUBLIC_KEY=pk_ha5j2miWYzMnB5tt
-R2R_SECRET_KEY=pk_ha5j2miWYzMnB5tt.sk_DZYhU5XMm9xhx9t3qXc2mwZECd8gqNZ3
+R2R_SECRET_KEY=[REDACTED:generic-api-key]
 
 
-LLAMA_INDEX_API_KEY=llx-AUTtWMvUC9vsTXZUgoJrmUy7EoKPoiXQ3GTYL1phwp1BeJW6
-SOURCE_GRAPH_API_KEY=sgp_e3cb05880bc40429_3eb4603c3f34ad17761d376315465f1823fcec0b
-ARCADE_API_KEY=arc_o1GxJyCeTdPiCHZoNSGg3tpc8i4kp4eckTPLrXPjkUzg1664t7gM
+LLAMA_INDEX_API_KEY=[REDACTED:generic-api-key]
+SOURCE_GRAPH_API_KEY=[REDACTED:sourcegraph-access-token]
+ARCADE_API_KEY=[REDACTED:generic-api-key]
 
-GOOGLE_API_KEY=AIzaSyBcRuc_fvtrVAge9P6MppMgybEPzOprlQc
+GOOGLE_API_KEY=[REDACTED:gcp-api-key]
 
-POSTHOG_API_KEY=phx_yBlMAjQ0MnNettlZ9rOhh5RHc6OA6I5CzejUxgWqv1ES24
+POSTHOG_API_KEY=[REDACTED:generic-api-key]
 
 BASEROW_DATABASE_TOKEN=TTae1YclquFvh8Tx60oeXKNLMKaarcHV
 
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_bmljZS1iYXNzLTU3LmNsZXJrLmFjY291bnRzLmRldiQ
-CLERK_SECRET_KEY=sk_test_zYZbrxXY0CbdlFRUzbwn35UjnvaTFY5a9AsbAqPTuF
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=[REDACTED:generic-api-key]
+CLERK_SECRET_KEY=[REDACTED:stripe-access-token]
 CLERK_WEBHOOK_SIGNING_SECRET=whsec_123
 
 
-PERPLEXITY_API_KEY=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
+PERPLEXITY_API_KEY=[REDACTED:perplexity-api-key]
 MODEL=claude-3-7-sonnet-20250219
 PERPLEXITY_MODEL=sonar-pro
 MAX_TOKENS=64000
@@ -1559,7 +1559,7 @@ DEFAULT_SUBTASKS=5
 DEFAULT_PRIORITY=medium
 
 
-PORTKEY_API_KEY=y8qbFleW7rQea3/6fRq1Xv9DMeJ1
+PORTKEY_API_KEY=[REDACTED:generic-api-key]
 
 # Local Database Configuration
 DATABASE_URL=postgresql://liamellis@localhost:5432/ultraterrestrial
@@ -1592,37 +1592,37 @@ QSTASH_URL="https://qstash.upstash.io"
 QSTASH_TOKEN="eyJVc2VySUQiOiJmMTFlYTRiOS02OTBiLTQ3Y2EtODJiMi04ZDcwNGQ2ZTJlYTkiLCJQYXNzd29yZCI6ImZkNDY1MjJjMTNmMDRlNWY5MDI1MGRlMjBiZjQ0MGNkIn0="
 
 # Required for receiving
-QSTASH_CURRENT_SIGNING_KEY="sig_7qgKiSZMcyazUuCyG2jUPmz8r4Mx"
-QSTASH_NEXT_SIGNING_KEY="sig_5vZwWNJDiRcAFNb4XPKUFFCyyjvb"
+QSTASH_CURRENT_SIGNING_KEY="[REDACTED:generic-api-key]"
+QSTASH_NEXT_SIGNING_KEY="[REDACTED:generic-api-key]"
 
 
 
 UPSTASH_VECTOR_REST_URL="https://known-bobcat-28794-us1-vector.upstash.io"
-UPSTASH_VECTOR_REST_TOKEN="ABYFMGtub3duLWJvYmNhdC0yODc5NC11czFhZG1pbllUZ3daREJqT1RRdFpUTmtZUzAwWTJGaExUZzNNelV0WlRGaE9USmxZelJpWXpnMg=="
+UPSTASH_VECTOR_REST_TOKEN="[REDACTED:generic-api-key]"
 
-BLOB_READ_WRITE_TOKEN="vercel_blob_rw_s3Rs8TONjyrzYp0T_PQojFYLCEBmTKBqquXPUUv9XB7FrTU"
+BLOB_READ_WRITE_TOKEN="[REDACTED:generic-api-key]"
 BLOB_STORE_ID="store_s3Rs8TONjyrzYp0T"
 BLOB_BASE_URL="https://s3rs8tonjyrzyp0t.public.blob.vercel-storage.com"
 
 # Upstash Document Library 
 UPSTASH_SEARCH_REST_URL="https://devoted-crow-28500-gcp-usc1-search.upstash.io"
-UPSTASH_SEARCH_REST_TOKEN="ABsFMGRldm90ZWQtY3Jvdy0yODUwMC1nY3AtdXNjMWFkbWluWkdJM09UWmhOREF0T1RobE5TMDBabVV3TFdFd05tTXRaRFJqT0RVeU16UmhZbVEw"
+UPSTASH_SEARCH_REST_TOKEN="[REDACTED:generic-api-key]"
 # CocoIndex Configuration
 COCOINDEX_ENABLED=false
 COCOINDEX_FLOW_NAME=UFOResearch
-RAGIE_API_KEY=tnt_KgH8k3C2Ncz_aA3k5BpEDu1X30MNuOhHIPMS6B5uueKvzJyDZKDlWF4
+RAGIE_API_KEY=[REDACTED:generic-api-key]
 
 
-ONE_NODE_API_KEY=EXa2KoA3ovpVU6a2PZ1pXkiXjqgZf3s6934zGDN4lRAMee23EXa2KoA3ovpVU6a2PZ1pXkiXjqgZf3s6934zGDN4lRAMee23
+ONE_NODE_API_KEY=[REDACTED:generic-api-key]
 
-MEM0_API_KEY=m0-exXYaSswwfcZfneu7BZqr0DFOwoL9Rn4tyYXDenP
+MEM0_API_KEY=[REDACTED:generic-api-key]
 # Entity creation mode: off|staging|auto
 ENTITY_WRITE_MODE=auto
 ENTITY_WRITE_MIN_CONFIDENCE=0.7
 ENTITY_WRITE_RATE_LIMIT=30
 
-AI_GATEWAY_API_KEY=vck_1kzUjsUCAvl7KpORCRBPzdHZ2VVyQOMlEEhOiU3fQuWk6TLnDl2yQ7G3
-HONCHO_APIKEY=hch-v2-yeavyp4hsomcuac56p19pbcdij083wg4j7omyd24kobs3ou8e5jjrn67v8x8cci9
+AI_GATEWAY_API_KEY=[REDACTED:vercel-ai-gateway-key]
+HONCHO_APIKEY=[REDACTED:generic-api-key]
 ```
 </details></tool-use>
 
@@ -1631,8 +1631,8 @@ _**Agent (2025-10-04 02:19:18Z)**_
 <think><details><summary>Thought Process</summary>
 I can see they already have a HONCHO_APIKEY in the .env file! But the user just provided a different one. Let me update it with the new API key they provided. I should replace the existing one.
 
-The existing key is: hch-v2-yeavyp4hsomcuac56p19pbcdij083wg4j7omyd24kobs3ou8e5jjrn67v8x8cci9
-The new key is: hch-v2-pl9qe8szkbtht0e0tsr80hter2j4logyar050vtgw40bsceatz8capiclp33jbas
+The existing key is: [REDACTED:generic-api-key]
+The new key is: [REDACTED:generic-api-key]
 
 I'll update it.
 </details></think>
@@ -1644,16 +1644,16 @@ _**Agent (2025-10-04 02:19:18Z)**_
 Path: `/Users/liamellis/Desktop/ultraterrestrial-resurrection/apps/disclosure-rag/.env`
 
 ```diff
--HONCHO_APIKEY=hch-v2-yeavyp4hsomcuac56p19pbcdij083wg4j7omyd24kobs3ou8e5jjrn67v8x8cci9
-+HONCHO_API_KEY=hch-v2-pl9qe8szkbtht0e0tsr80hter2j4logyar050vtgw40bsceatz8capiclp33jbas
+-HONCHO_APIKEY=[REDACTED:generic-api-key]
++HONCHO_API_KEY=[REDACTED:generic-api-key]
 ```
 
 ```diff
  ENTITY_WRITE_RATE_LIMIT=30
  
- AI_GATEWAY_API_KEY=vck_1kzUjsUCAvl7KpORCRBPzdHZ2VVyQOMlEEhOiU3fQuWk6TLnDl2yQ7G3
--HONCHO_APIKEY=hch-v2-yeavyp4hsomcuac56p19pbcdij083wg4j7omyd24kobs3ou8e5jjrn67v8x8cci9
-+HONCHO_API_KEY=hch-v2-pl9qe8szkbtht0e0tsr80hter2j4logyar050vtgw40bsceatz8capiclp33jbas
+ AI_GATEWAY_API_KEY=[REDACTED:vercel-ai-gateway-key]
+-HONCHO_APIKEY=[REDACTED:generic-api-key]
++HONCHO_API_KEY=[REDACTED:generic-api-key]
 ```
 </details></tool-use>
 
@@ -1731,10 +1731,10 @@ Lines: offset 355, limit 10
 
 Output:
 ```text
-ONE_NODE_API_KEY=hryx2AixNRZ4RgBkFEKmkJyuev3ydHEO3LciZ4tg5xyYzEeq
+ONE_NODE_API_KEY=[REDACTED:generic-api-key]
 
-AI_GATEWAY_API_KEY=vck_1kzUjsUCAvl7KpORCRBPzdHZ2VVyQOMlEEhOiU3fQuWk6TLnDl2yQ7G3
-HONCHO_APIKEY=hch-v2-yeavyp4hsomcuac56p19pbcdij083wg4j7omyd24kobs3ou8e5jjrn67v8x8cci9
+AI_GATEWAY_API_KEY=[REDACTED:vercel-ai-gateway-key]
+HONCHO_APIKEY=[REDACTED:generic-api-key]
 
 
 <system-reminder>[Showing lines 356-360 of 360 total lines]</system-reminder>
@@ -1754,16 +1754,16 @@ _**Agent (2025-10-04 02:19:45Z)**_
 Path: `/Users/liamellis/Desktop/ultraterrestrial-resurrection/.env`
 
 ```diff
--HONCHO_APIKEY=hch-v2-yeavyp4hsomcuac56p19pbcdij083wg4j7omyd24kobs3ou8e5jjrn67v8x8cci9
-+HONCHO_API_KEY=hch-v2-pl9qe8szkbtht0e0tsr80hter2j4logyar050vtgw40bsceatz8capiclp33jbas
+-HONCHO_APIKEY=[REDACTED:generic-api-key]
++HONCHO_API_KEY=[REDACTED:generic-api-key]
 ```
 
 ```diff
- ONE_NODE_API_KEY=hryx2AixNRZ4RgBkFEKmkJyuev3ydHEO3LciZ4tg5xyYzEeq
+ ONE_NODE_API_KEY=[REDACTED:generic-api-key]
  
- AI_GATEWAY_API_KEY=vck_1kzUjsUCAvl7KpORCRBPzdHZ2VVyQOMlEEhOiU3fQuWk6TLnDl2yQ7G3
--HONCHO_APIKEY=hch-v2-yeavyp4hsomcuac56p19pbcdij083wg4j7omyd24kobs3ou8e5jjrn67v8x8cci9
-+HONCHO_API_KEY=hch-v2-pl9qe8szkbtht0e0tsr80hter2j4logyar050vtgw40bsceatz8capiclp33jbas
+ AI_GATEWAY_API_KEY=[REDACTED:vercel-ai-gateway-key]
+-HONCHO_APIKEY=[REDACTED:generic-api-key]
++HONCHO_API_KEY=[REDACTED:generic-api-key]
 ```
 </details></tool-use>
 
@@ -1779,7 +1779,7 @@ Output:
 # Optional - defaults shown
 MODEL=claude-3-7-sonnet-20250219 
 PERPLEXITY_MODEL=sonar-pro
-HONCHO_APIKEY=hch-v2-yeavyp4hsomcuac56p19pbcdij083wg4j7omyd24kobs3ou8e5jjrn67v8x8cci9
+HONCHO_APIKEY=[REDACTED:generic-api-key]
 
 
 <system-reminder>[Showing lines 66-71 of 71 total lines]</system-reminder>
@@ -1797,8 +1797,8 @@ Output:
 ```text
 CLERK_WEBHOOK_SIGNING_SECRET=whsec_123
 
-CULT_PRO_TOKEN=cult_CQ_hpxpJZOoBeKSz4ltU1rbr0FF5ju8v
-HONCHO_APIKEY=hch-v2-yeavyp4hsomcuac56p19pbcdij083wg4j7omyd24kobs3ou8e5jjrn67v8x8cci9
+CULT_PRO_TOKEN=[REDACTED:generic-api-key]
+HONCHO_APIKEY=[REDACTED:generic-api-key]
 
 
 <system-reminder>[Showing lines 306-310 of 310 total lines]</system-reminder>
@@ -1818,16 +1818,16 @@ _**Agent (2025-10-04 02:19:53Z)**_
 Path: `/Users/liamellis/Desktop/ultraterrestrial-resurrection/packages/db/.env`
 
 ```diff
--HONCHO_APIKEY=hch-v2-yeavyp4hsomcuac56p19pbcdij083wg4j7omyd24kobs3ou8e5jjrn67v8x8cci9
-+HONCHO_API_KEY=hch-v2-pl9qe8szkbtht0e0tsr80hter2j4logyar050vtgw40bsceatz8capiclp33jbas
+-HONCHO_APIKEY=[REDACTED:generic-api-key]
++HONCHO_API_KEY=[REDACTED:generic-api-key]
 ```
 
 ```diff
  # Optional - defaults shown
  MODEL=claude-3-7-sonnet-20250219 
  PERPLEXITY_MODEL=sonar-pro
--HONCHO_APIKEY=hch-v2-yeavyp4hsomcuac56p19pbcdij083wg4j7omyd24kobs3ou8e5jjrn67v8x8cci9
-+HONCHO_API_KEY=hch-v2-pl9qe8szkbtht0e0tsr80hter2j4logyar050vtgw40bsceatz8capiclp33jbas
+-HONCHO_APIKEY=[REDACTED:generic-api-key]
++HONCHO_API_KEY=[REDACTED:generic-api-key]
 ```
 </details></tool-use>
 
@@ -1838,16 +1838,16 @@ _**Agent (2025-10-04 02:19:53Z)**_
 Path: `/Users/liamellis/Desktop/ultraterrestrial-resurrection/apps/app/.env`
 
 ```diff
--HONCHO_APIKEY=hch-v2-yeavyp4hsomcuac56p19pbcdij083wg4j7omyd24kobs3ou8e5jjrn67v8x8cci9
-+HONCHO_API_KEY=hch-v2-pl9qe8szkbtht0e0tsr80hter2j4logyar050vtgw40bsceatz8capiclp33jbas
+-HONCHO_APIKEY=[REDACTED:generic-api-key]
++HONCHO_API_KEY=[REDACTED:generic-api-key]
 ```
 
 ```diff
  CLERK_WEBHOOK_SIGNING_SECRET=whsec_123
  
- CULT_PRO_TOKEN=cult_CQ_hpxpJZOoBeKSz4ltU1rbr0FF5ju8v
--HONCHO_APIKEY=hch-v2-yeavyp4hsomcuac56p19pbcdij083wg4j7omyd24kobs3ou8e5jjrn67v8x8cci9
-+HONCHO_API_KEY=hch-v2-pl9qe8szkbtht0e0tsr80hter2j4logyar050vtgw40bsceatz8capiclp33jbas
+ CULT_PRO_TOKEN=[REDACTED:generic-api-key]
+-HONCHO_APIKEY=[REDACTED:generic-api-key]
++HONCHO_API_KEY=[REDACTED:generic-api-key]
 ```
 </details></tool-use>
 
@@ -2897,7 +2897,7 @@ cd apps/disclosure-rag
 pip install honcho-ai
 
 # Ensure HONCHO_API_KEY is set in .env
-# Already configured: hch-v2-pl9qe8szkbtht0e0tsr80hter2j4logyar050vtgw40bsceatz8capiclp33jbas
+# Already configured: [REDACTED:generic-api-key]
 \```
 
 ### 2. Basic Usage
@@ -3166,7 +3166,7 @@ Required environment variables in `.env`:
 
 \```bash
 # Honcho API Key (already configured)
-HONCHO_API_KEY=hch-v2-pl9qe8szkbtht0e0tsr80hter2j4logyar050vtgw40bsceatz8capiclp33jbas
+HONCHO_API_KEY=[REDACTED:generic-api-key]
 
 # OpenAI for LLM responses
 OPENAI_API_KEY=sk-...
@@ -3780,7 +3780,7 @@ Command failed (exit code: 1)
 ============================================================
 
 1️⃣  Checking Honcho API Key...
-   ✅ API key found: hch-v2-pl9qe8szkbtht...
+   ✅ API key found: [REDACTED:generic-api-key]
 
 2️⃣  Testing Honcho SDK import...
 🧪 Testing Honcho Integration
@@ -3788,7 +3788,7 @@ Command failed (exit code: 1)
 ============================================================
 
 1️⃣  Checking Honcho API Key...
-   ✅ API key found: hch-v2-pl9qe8szkbtht...
+   ✅ API key found: [REDACTED:generic-api-key]
 
 2️⃣  Testing Honcho SDK import...
    ✅ Honcho SDK imported successfully
@@ -3799,7 +3799,7 @@ Command failed (exit code: 1)
 ============================================================
 
 1️⃣  Checking Honcho API Key...
-   ✅ API key found: hch-v2-pl9qe8szkbtht...
+   ✅ API key found: [REDACTED:generic-api-key]
 
 2️⃣  Testing Honcho SDK import...
    ✅ Honcho SDK imported successfully
@@ -3813,7 +3813,7 @@ Command failed (exit code: 1)
 ============================================================
 
 1️⃣  Checking Honcho API Key...
-   ✅ API key found: hch-v2-pl9qe8szkbtht...
+   ✅ API key found: [REDACTED:generic-api-key]
 
 2️⃣  Testing Honcho SDK import...
    ✅ Honcho SDK imported successfully
@@ -3830,7 +3830,7 @@ Command failed (exit code: 1)
 ============================================================
 
 1️⃣  Checking Honcho API Key...
-   ✅ API key found: hch-v2-pl9qe8szkbtht...
+   ✅ API key found: [REDACTED:generic-api-key]
 
 2️⃣  Testing Honcho SDK import...
    ✅ Honcho SDK imported successfully
@@ -3850,7 +3850,7 @@ Command failed (exit code: 1)
 ============================================================
 
 1️⃣  Checking Honcho API Key...
-   ✅ API key found: hch-v2-pl9qe8szkbtht...
+   ✅ API key found: [REDACTED:generic-api-key]
 
 2️⃣  Testing Honcho SDK import...
    ✅ Honcho SDK imported successfully
@@ -4034,7 +4034,7 @@ Output:
 ============================================================
 
 1️⃣  Checking Honcho API Key...
-   ✅ API key found: hch-v2-pl9qe8szkbtht...
+   ✅ API key found: [REDACTED:generic-api-key]
 
 2️⃣  Testing Honcho SDK import...
 🧪 Testing Honcho Integration
@@ -4042,7 +4042,7 @@ Output:
 ============================================================
 
 1️⃣  Checking Honcho API Key...
-   ✅ API key found: hch-v2-pl9qe8szkbtht...
+   ✅ API key found: [REDACTED:generic-api-key]
 
 2️⃣  Testing Honcho SDK import...
    ✅ Honcho SDK imported successfully
@@ -4053,7 +4053,7 @@ Output:
 ============================================================
 
 1️⃣  Checking Honcho API Key...
-   ✅ API key found: hch-v2-pl9qe8szkbtht...
+   ✅ API key found: [REDACTED:generic-api-key]
 
 2️⃣  Testing Honcho SDK import...
    ✅ Honcho SDK imported successfully
@@ -4067,7 +4067,7 @@ Output:
 ============================================================
 
 1️⃣  Checking Honcho API Key...
-   ✅ API key found: hch-v2-pl9qe8szkbtht...
+   ✅ API key found: [REDACTED:generic-api-key]
 
 2️⃣  Testing Honcho SDK import...
    ✅ Honcho SDK imported successfully
@@ -4087,7 +4087,7 @@ Output:
 ============================================================
 
 1️⃣  Checking Honcho API Key...
-   ✅ API key found: hch-v2-pl9qe8szkbtht...
+   ✅ API key found: [REDACTED:generic-api-key]
 
 2️⃣  Testing Honcho SDK import...
    ✅ Honcho SDK imported successfully
@@ -4110,7 +4110,7 @@ Output:
 ============================================================
 
 1️⃣  Checking Honcho API Key...
-   ✅ API key found: hch-v2-pl9qe8szkbtht...
+   ✅ API key found: [REDACTED:generic-api-key]
 
 2️⃣  Testing Honcho SDK import...
    ✅ Honcho SDK imported successfully
@@ -4136,7 +4136,7 @@ Output:
 ============================================================
 
 1️⃣  Checking Honcho API Key...
-   ✅ API key found: hch-v2-pl9qe8szkbtht...
+   ✅ API key found: [REDACTED:generic-api-key]
 
 2️⃣  Testing Honcho SDK import...
    ✅ Honcho SDK imported successfully
@@ -4574,7 +4574,7 @@ class UFOYouTubeAgent:
 
 Already configured in your `.env` files:
 \```bash
-HONCHO_API_KEY=hch-v2-pl9qe8szkbtht0e0tsr80hter2j4logyar050vtgw40bsceatz8capiclp33jbas
+HONCHO_API_KEY=[REDACTED:generic-api-key]
 \```
 
 Updated in:
@@ -4802,7 +4802,7 @@ API key configured in all `.env` files:
 - ✅ Root `.env`
 
 \```bash
-HONCHO_API_KEY=hch-v2-pl9qe8szkbtht0e0tsr80hter2j4logyar050vtgw40bsceatz8capiclp33jbas
+HONCHO_API_KEY=[REDACTED:generic-api-key]
 \```
 
 ### Dependencies Installed
