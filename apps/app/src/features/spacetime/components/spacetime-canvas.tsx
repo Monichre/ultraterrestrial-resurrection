@@ -6,7 +6,9 @@ import {
   type LoadSpacetimeEventsResult,
 } from '../actions/load-spacetime-events'
 import {useSpacetimeStore} from '../state/spacetime-store'
+import {filterSpacetimeEvents} from '../lib/filter-events'
 import {stationAtProgress} from '../lib/temporal-stations'
+import {EvidenceLayersPanel} from './evidence-layers-panel'
 import {SpacetimeCanvasShell} from './spacetime-canvas-shell'
 import {SpacetimeGlobe} from './spacetime-globe'
 import {TemporalDial} from './temporal-dial'
@@ -15,10 +17,19 @@ import {cn} from '@/lib/utils'
 function EventInspector() {
   const selectedEventId = useSpacetimeStore((s) => s.selectedEventId)
   const events = useSpacetimeStore((s) => s.events)
+  const layers = useSpacetimeStore((s) => s.layers)
+  const filters = useSpacetimeStore((s) => s.filters)
   const selectEvent = useSpacetimeStore((s) => s.selectEvent)
   const event = events.find((e) => e.id === selectedEventId)
+  const stillVisible =
+    event != null &&
+    filterSpacetimeEvents([event], layers, filters).length > 0
 
-  if (!event) return null
+  useEffect(() => {
+    if (selectedEventId && event && !stillVisible) selectEvent(null)
+  }, [selectedEventId, event, stillVisible, selectEvent])
+
+  if (!event || !stillVisible) return null
 
   return (
     <div className='pointer-events-auto absolute right-4 bottom-4 w-full max-w-sm rounded-2xl border border-white/10 bg-black/70 p-4 text-white shadow-2xl backdrop-blur'>
@@ -50,7 +61,11 @@ function EventInspector() {
       {event.summary ? (
         <p className='mt-3 line-clamp-4 text-sm text-neutral-200'>{event.summary}</p>
       ) : null}
-      <p className='mt-4 text-[10px] tracking-wide text-neutral-500 uppercase'>
+      <p className='mt-3 font-mono text-[10px] tracking-wide text-neutral-500 uppercase'>
+        Provenance · {event.sourceTable ?? 'unknown'}
+        {event.sourceRecordId ? ` · ${event.sourceRecordId.slice(0, 8)}` : ''}
+      </p>
+      <p className='mt-2 text-[10px] tracking-wide text-neutral-500 uppercase'>
         Reconstruction requires the lever — scroll is not intent
       </p>
     </div>
@@ -60,14 +75,29 @@ function EventInspector() {
 function GuidedNarrative() {
   const stations = useSpacetimeStore((s) => s.stations)
   const events = useSpacetimeStore((s) => s.events)
+  const layers = useSpacetimeStore((s) => s.layers)
+  const filters = useSpacetimeStore((s) => s.filters)
   const setScrollProgress = useSpacetimeStore((s) => s.setScrollProgress)
   const setTemporalCursor = useSpacetimeStore((s) => s.setTemporalCursor)
   const interactionMode = useSpacetimeStore((s) => s.interactionMode)
   const selectEvent = useSpacetimeStore((s) => s.selectEvent)
 
+  const visibleEvents = useMemo(
+    () => filterSpacetimeEvents(events, layers, filters),
+    [events, layers, filters],
+  )
+  const visibleIds = useMemo(
+    () => new Set(visibleEvents.map((e) => e.id)),
+    [visibleEvents],
+  )
+
   const eventStations = useMemo(
-    () => stations.filter((s) => s.kind === 'event').slice(0, 16),
-    [stations],
+    () =>
+      stations
+        .filter((s) => s.kind === 'event')
+        .filter((s) => (s.eventIds ?? []).some((id) => visibleIds.has(id)))
+        .slice(0, 16),
+    [stations, visibleIds],
   )
 
   useEffect(() => {
@@ -115,7 +145,7 @@ function GuidedNarrative() {
 
       {eventStations.map((station, i) => {
         const linked = (station.eventIds ?? [])
-          .map((id) => events.find((e) => e.id === id))
+          .map((id) => visibleEvents.find((e) => e.id === id))
           .filter(Boolean)
           .slice(0, 3)
 
@@ -219,6 +249,7 @@ function CanvasChrome({
         </div>
       </div>
 
+      <EvidenceLayersPanel />
       <EventInspector />
     </>
   )
@@ -256,7 +287,8 @@ export function SpacetimeCanvas({
   const didHydrate = useRef(false)
 
   // Synchronous first-paint hydrate so SSR/CSR narrative isn't empty.
-  if (initialData && !didHydrate.current) {
+  // Zustand module state does not cross the RSC/client boundary — re-run on client.
+  if (initialData?.events?.length && !didHydrate.current) {
     useSpacetimeStore.setState({
       events: initialData.events,
       stations: initialData.stations,
@@ -264,9 +296,16 @@ export function SpacetimeCanvas({
     didHydrate.current = true
   }
 
-  // Client-only fallback when the server didn't preload.
+  // Effect hydrate covers Strict Mode remounts + client navigations where the
+  // render-time seed did not stick; falls back to a bounded fetch if needed.
   useEffect(() => {
-    if (initialData) return
+    if (initialData?.events?.length) {
+      setEvents(initialData.events)
+      setStations(initialData.stations)
+      setMeta(metaFromResult(initialData))
+      setError(null)
+      return
+    }
 
     startTransition(async () => {
       try {

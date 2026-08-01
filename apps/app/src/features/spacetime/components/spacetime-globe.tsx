@@ -3,6 +3,7 @@
 import {useEffect, useMemo, useRef} from 'react'
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
+import {filterSpacetimeEvents} from '../lib/filter-events'
 import {useSpacetimeStore} from '../state/spacetime-store'
 import type {SpacetimeEvent} from '../types/spacetime'
 
@@ -39,11 +40,17 @@ export function SpacetimeGlobe() {
   const containerRef = useRef<HTMLDivElement>(null)
   const mapRef = useRef<mapboxgl.Map | null>(null)
   const events = useSpacetimeStore((s) => s.events)
+  const layers = useSpacetimeStore((s) => s.layers)
+  const filters = useSpacetimeStore((s) => s.filters)
   const cursor = useSpacetimeStore((s) => s.temporalCursor)
   const selectEvent = useSpacetimeStore((s) => s.selectEvent)
   const setViewport = useSpacetimeStore((s) => s.setViewport)
 
-  const geojson = useMemo(() => eventsToGeoJSON(events), [events])
+  const visibleEvents = useMemo(
+    () => filterSpacetimeEvents(events, layers, filters),
+    [events, layers, filters],
+  )
+  const geojson = useMemo(() => eventsToGeoJSON(visibleEvents), [visibleEvents])
 
   // Boot map once
   useEffect(() => {
@@ -132,7 +139,7 @@ export function SpacetimeGlobe() {
   // Cursor → soft camera nudge toward geolocated events near that time
   useEffect(() => {
     const map = mapRef.current
-    if (!map || events.length === 0) return
+    if (!map || visibleEvents.length === 0) return
 
     const ts =
       cursor.mode === 'range'
@@ -140,7 +147,7 @@ export function SpacetimeGlobe() {
         : new Date(cursor.timestamp).getTime()
     if (!Number.isFinite(ts)) return
 
-    const nearby = events
+    const nearby = visibleEvents
       .filter((e) => e.coordinates)
       .map((e) => ({
         e,
@@ -161,7 +168,7 @@ export function SpacetimeGlobe() {
       duration: 900,
       essential: true,
     })
-  }, [cursor, events])
+  }, [cursor, visibleEvents])
 
   if (!process.env.NEXT_PUBLIC_MAPBOX_PUBLIC_TOKEN) {
     return (

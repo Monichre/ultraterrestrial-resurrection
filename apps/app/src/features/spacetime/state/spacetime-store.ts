@@ -1,7 +1,12 @@
 'use client'
 
 import {create} from 'zustand'
+import {
+  DEFAULT_EVIDENCE_FILTERS,
+  type SpacetimeEvidenceFilters,
+} from '../lib/filter-events'
 import type {
+  EpistemicStatus,
   SpacetimeEvent,
   SpacetimeInteractionMode,
   SpacetimeLayerVisibility,
@@ -34,8 +39,9 @@ const DEFAULT_VIEWPORT: SpacetimeViewport = {
 
 const DEFAULT_LAYERS: SpacetimeLayerVisibility = {
   sightings: true,
-  historicalEvents: true,
-  nuclear: true,
+  // Other rails stay off until their data paths land (M1+).
+  historicalEvents: false,
+  nuclear: false,
   military: false,
   infrastructure: false,
   testimony: false,
@@ -57,6 +63,7 @@ export interface SpacetimeState {
   events: SpacetimeEvent[]
   stations: TemporalStation[]
   layers: SpacetimeLayerVisibility
+  filters: SpacetimeEvidenceFilters
   /** Scroll progress 0–1 in guided mode; derived UI only — cursor stays SoT */
   scrollProgress: number
   /** Spike / perf: last measured frame ms under preserve-3d (M0.1) */
@@ -69,6 +76,8 @@ export interface SpacetimeState {
   setEvents: (events: SpacetimeEvent[]) => void
   setStations: (stations: TemporalStation[]) => void
   setLayerVisibility: (patch: Partial<SpacetimeLayerVisibility>) => void
+  setCredibilityMin: (min: number) => void
+  setEpistemicFilter: (status: EpistemicStatus, enabled: boolean) => void
   setScrollProgress: (progress: number) => void
   setLastFrameMs: (ms: number | null) => void
   reset: () => void
@@ -82,6 +91,7 @@ const initialState = {
   events: [] as SpacetimeEvent[],
   stations: [] as TemporalStation[],
   layers: DEFAULT_LAYERS,
+  filters: DEFAULT_EVIDENCE_FILTERS,
   scrollProgress: 0,
   lastFrameMs: null as number | null,
 }
@@ -107,6 +117,22 @@ export const useSpacetimeStore = create<SpacetimeState>((set) => ({
   setLayerVisibility: (patch) =>
     set((state) => ({
       layers: {...state.layers, ...patch},
+    })),
+
+  setCredibilityMin: (min) =>
+    set((state) => ({
+      filters: {
+        ...state.filters,
+        credibilityMin: Math.min(1, Math.max(0, min)),
+      },
+    })),
+
+  setEpistemicFilter: (status, enabled) =>
+    set((state) => ({
+      filters: {
+        ...state.filters,
+        epistemic: {...state.filters.epistemic, [status]: enabled},
+      },
     })),
 
   setScrollProgress: (scrollProgress) =>

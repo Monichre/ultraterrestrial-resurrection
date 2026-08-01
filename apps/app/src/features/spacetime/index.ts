@@ -21,6 +21,14 @@ export {Preserve3dGlobeSpike} from './components/preserve3d-globe-spike'
 export {SpacetimeCanvas} from './components/spacetime-canvas'
 export {SpacetimeGlobe} from './components/spacetime-globe'
 export {TemporalDial} from './components/temporal-dial'
+export {EvidenceLayersPanel} from './components/evidence-layers-panel'
+
+export {
+  DEFAULT_EVIDENCE_FILTERS,
+  eventLayerKey,
+  filterSpacetimeEvents,
+} from './lib/filter-events'
+export type {SpacetimeEvidenceFilters} from './lib/filter-events'
 
 export {loadSpacetimeEvents} from './actions/load-spacetime-events'
 export type {
