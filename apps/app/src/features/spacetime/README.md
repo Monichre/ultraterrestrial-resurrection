@@ -9,7 +9,11 @@ Sibling surface to **Research Canvas**.
 
 ## Status
 
-**M0 in progress** — types + store + two-layer shell + M0.1 frame-timing spike.
+**M0 scaffolded** — types, store, stations, bounded Postgres loader, globe,
+temporal dial, guided narrative shell on `/spacetime`.
+
+- Product: `/spacetime`
+- M0.1 spike: `/spacetime?spike=1`
 
 ## Canon
 

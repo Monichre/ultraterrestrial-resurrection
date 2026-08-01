@@ -249,13 +249,10 @@ Landed in ADR 0002; repeated here so this plan is self-contained.
 
 ---
 
-## 7. Open decisions
+## 7. Decisions (locked 2026-08-01 — resume defaults)
 
-| # | Decision | Owner | Blocks |
+| # | Decision | Resolution | Unblocks |
 |---|---|---|---|
-| D1 | Cursor authority — confirm bidirectional model in §2/R2 | product | M0.3 |
-| D2 | R1 fallback — if globe janks under `preserve-3d`, accept static plates per waypoint? | product | M0.6 |
-| D3 | Does `/spacetime` replace `/sightings` + `/timeline`, or sit beside them? | product | M0.8 |
-
-D3 note: `ADR-2026-06-19-viewswitcher-peer-surfaces.md` already reasoned about
-demote-vs-cut for peer surfaces. Read it before answering.
+| D1 | Cursor authority | **Bidirectional.** `temporalCursor` is SoT; scroll writes in `guided`, dial writes in `free`. | M0.3 |
+| D2 | R1 fallback | **Accept static plates per waypoint** if median frame > ~20ms under scroll; live globe retained for `free` mode. Measure via M0.1 spike before locking plates in. | M0.6 |
+| D3 | Route destiny | **Sit beside** `/sightings` + `/timeline` for M0. Demote/cut deferred to a later ViewSwitcher pass (`ADR-2026-06-19-viewswitcher-peer-surfaces.md`). | M0.8 |

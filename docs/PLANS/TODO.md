@@ -411,25 +411,21 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 
 ### T-047: Temporal Observatory — Foundation milestone (Spacetime Canvas M0)
 
-- **Status:** IN PROGRESS — plan landed 2026-08-01 (`3b00dae`); scaffold next
+- **Status:** IN PROGRESS — M0.1–M0.8 scaffolded on `/spacetime` (2026-08-01)
 - **Size:** L (Foundation / M0 only; full feature is M0–M4)
-- **What:** Build the **Spacetime Canvas** — sibling surface to Research Canvas — by dropping the live Mapbox/deck.gl globe into the fixed background slot of the scroll-driven Guided Investigation UI (v0 timeline-explorer pattern: Next + GSAP + Lenis, CSS `preserve-3d`, **zero** WebGL in the narrative layer).
-  1. **M0.1** Frame-timing spike: globe under `preserve-3d` sibling (risk R1).
-  2. **M0.2** Shared types — `TemporalCursor`, `SpacetimeEvent`, `TemporalLayerFeature`.
-  3. **M0.3** Zustand store — cursor as single source of truth; `mode: 'guided' | 'free'` (pending D1 confirm).
-  4. **M0.4** Adaptive temporal stations from event density.
-  5. **M0.5** Repoint `sightings-globe.tsx:22` off static `/sightings.geojson` onto `/api/disclosure/uap-sightings` (already bounded).
-  6. **M0.6** `SpacetimeCanvas` shell — fixed globe + scroll narrative layers.
-  7. **M0.7** Bidirectional `TemporalDial`.
-  8. **M0.8** `/spacetime` route (pending D3: replace vs sit beside `/sightings`+`/timeline`).
-- **Why:** Research Canvas organizes ideas; Spacetime Canvas organizes evidence across space + time. Same verb, orthogonal axis. No shared temporal cursor exists today — every later milestone depends on it.
-- **Open decisions (block specific tasks):**
-  - **D1** Cursor authority — bidirectional recommended (blocks M0.3)
-  - **D2** R1 fallback — static plates per waypoint if globe janks (blocks M0.6)
-  - **D3** Does `/spacetime` replace `/sightings`+`/timeline`, or sit beside? (blocks M0.8)
-- **Files:** `apps/app/src/features/spacetime/` (greenfield), `apps/app/src/features/sightings/sightings-globe.tsx`, `apps/app/src/app/(site)/spacetime/`
-- **Reuse:** GSAP + Lenis already in `apps/app/package.json`; `useTimeSeriesAnimation.tsx`; `animated-arc-layer.tsx`; bounded uap-sightings API
-- **Blocked-by (for any GL4SS source reuse only):** AGPL-3.0 licensing determination — see ADR 0002. Concept-level porting is unblocked.
+- **What:** Build the **Spacetime Canvas** — sibling surface to Research Canvas — by dropping the live Mapbox globe into the fixed background slot of the scroll-driven Guided Investigation UI (v0 timeline-explorer pattern: CSS `preserve-3d`, **zero** WebGL in the narrative layer).
+  1. **M0.1** ✅ Frame-timing spike at `/spacetime?spike=1`
+  2. **M0.2** ✅ Shared types — `TemporalCursor`, `SpacetimeEvent`, `TemporalLayerFeature`
+  3. **M0.3** ✅ Zustand store — cursor SoT; `interactionMode: guided | free` (**D1 locked**)
+  4. **M0.4** ✅ `buildTemporalStations` from event density
+  5. **M0.5** ✅ Bounded load via `loadSpacetimeEvents` server action → Postgres `getSightingsByTimeChunk` (no static geojson; no INTERNAL_API_KEY)
+  6. **M0.6** ✅ `SpacetimeCanvas` shell — fixed globe + scroll narrative (**D2 fallback accepted if spike janks**)
+  7. **M0.7** ✅ Bidirectional `TemporalDial`
+  8. **M0.8** ✅ `/spacetime` route (**D3 locked: sit beside** `/sightings`+`/timeline`)
+- **Remaining for M0 exit:** dogfood `/spacetime` with real DB + Mapbox token; confirm frame timing; optionally retire static geojson path inside legacy `sightings-globe.tsx` (new canvas already bypasses it).
+- **Why:** Research Canvas organizes ideas; Spacetime Canvas organizes evidence across space + time. Same verb, orthogonal axis.
+- **Decisions locked 2026-08-01:** D1 bidirectional · D2 static-plate fallback if jank · D3 sit beside
+- **Files:** `apps/app/src/features/spacetime/`, `apps/app/src/app/(site)/spacetime/`
 - **Reference:** `docs/PLANS/2026-08-01-spacetime-canvas-implementation.md`, `docs/vision/TEMPORAL_OBSERVATORY.md`, `docs/adr/0002-temporal-observatory-gl4ss-integration.md`, storyboards in `docs/design/design-lab/storyboards/`
 
 ### T-044: Fix CRITICAL findings from disclosure-rag/main.py contract review
