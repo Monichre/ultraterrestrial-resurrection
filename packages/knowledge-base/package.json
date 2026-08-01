@@ -15,17 +15,15 @@
     "./files": "./sources/files",
     "./transcripts": "./sources/transcripts",
     "./web": "./sources/web",
-    "./metadata": "./metadata",
-    "./python": "./python"
+    "./metadata": "./metadata"
   },
   "files": [
     "index.ts",
-    "external_resources.json",
+    "types.d.ts",
     "sources",
+    "derived",
     "metadata",
-    "docs",
-    "cases",
-    "python"
+    "docs"
   ],
   "scripts": {
     "build": "tsc"

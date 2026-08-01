@@ -1,13 +1,18 @@
-// Export knowledge resources and data
-import externalResources from './external_resources.json';
+// Shared knowledge base for UFO/UAP research materials.
+//
+// This package has no runtime data exports: metadata/index.json is a
+// 400KB+ document index, not something to import into a JS bundle at
+// module load time. Consumers should read it directly (fs, a build-time
+// script, or a future typed loader) when they need the document index —
+// see types.d.ts for its shape.
 
-// Case files data can be imported directly
-// Vector storage data is available in vector_storage/
+export const KNOWLEDGE_BASE_PATHS = {
+	sources: "./sources",
+	files: "./sources/files",
+	transcripts: "./sources/transcripts",
+	web: "./sources/web",
+	derived: "./derived",
+	metadataIndex: "./metadata/index.json",
+} as const;
 
-// Default export for easy importing
-export default {
-	externalResources
-};
-
-// Named exports for specific imports
-export { externalResources };
+export default KNOWLEDGE_BASE_PATHS;
