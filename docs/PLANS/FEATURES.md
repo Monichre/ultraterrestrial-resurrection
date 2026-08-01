@@ -59,12 +59,12 @@ updated: 2026-07-19
 
 What was actually done (SP1–SP4):
 
-- **SP1**: Schema DDL (`0001_init.sql`) — 29 tables, vector(1536), FTS, trgm indexes — loaded and verified on Neon
-- **SP2**: Re-ingestion pipeline — 189 docs / 4,946 document chunks / 1,405 entity embeddings live (text-embedding-3-small @ 1536 dims)
+- **SP1**: Schema DDL (`0001_init.sql`) — 30 tables (incl. runtime-added `agent_inferences`), vector(1536), FTS, trgm indexes — loaded and verified on Neon
+- **SP2**: Re-ingestion pipeline — 189 docs / 4,946 document chunks / 1,594 entity embeddings live (text-embedding-3-small @ 1536 dims; 6,540 total vectors, all entity embeddings 100% populated)
 - **SP3**: App `@db` data-layer cutover — ~25 call sites migrated from `@db/xata` to `@db/postgres`. `@db/xata` is now **retired**.
 - **SP4**: ufo-ui cherry-pick (`NetworkTimelineExplorer`) complete
 
-**Live state**: 230,998 records across 29 tables. Neon Postgres 17.10 + pgvector 0.8.0 is the sole database. `DATABASE_URL` lives in `packages/db/.env`.
+**Live state**: 126,483 records across 30 tables (live `count(*)` 2026-07-24). Neon Postgres 17.10 + pgvector 0.8.0 is the sole database. `DATABASE_URL` lives in `packages/db/.env`.
 
 **`@db/postgres`** is the ONLY import to use. `@db/xata` is retired — do not reference it.
 
@@ -206,6 +206,36 @@ packages/prompts/
 
 ---
 
+### **8. File-Based Storage & Data Layer (Source-of-Truth Files)** 🔎 **Strategic — Tracking**
+
+**Vision**: Give `packages/knowledge-base`'s 950 raw source files (31 case PDFs, 833 transcripts, 68 web scrapes) a managed, URL-addressable home with presigned access — instead of raw disk + `metadata/index.json` path strings. Wire first-class file tools into the Prometheus/mindmap agents alongside the existing `searchDatabase`/`searchExternalResources` tools.
+
+**Why now**: Reviewed Neon **Files SDK** (`files-sdk` v2.2.0, https://files-sdk.dev) and the `with-files-sdk` Neon example (https://github.com/neondatabase/examples/tree/main/with-files-sdk). Three things line up with this codebase:
+
+1. **Branchable object storage** — Neon buckets are copy-on-write per DB branch; an experiment branch gets its own isolated file state. Matches the "research canvas / experiment with a corpus" ethos.
+2. **Native Vercel AI SDK tools** — `createFileTools({ files })` from `files-sdk/ai-sdk` drops straight into `generateText`/`streamText`, which is exactly what `/api/prometheus/chat` already uses. Read tools need no approval; writes gated by default; `readOnly: true` strips writes. ~5 lines to give agents file browsing.
+3. **Fills a real gap** — the raw source files currently have no managed home. `documents` (189 rows) + `document_chunks` (4,946 rows) hold *processed* artifacts in Postgres; the *raw* sources sit on disk with only `index.json` referencing them by path.
+
+**Catch — region blocker (decisive for timing)**: Neon object storage is a **preview feature, only on *new* projects in `us-east-2`**. The live project (`ep-red-sky-…`, `us-east-1`, 126,483 records) **cannot** enable it. Adopting it means either (a) migrating to a new `us-east-2` project, or (b) running a separate storage-only project alongside — both non-trivial given the data volume and live agent paths.
+
+**Other notes**:
+- v2.2.0 just shipped (too fresh to pin in production per the >=7-days dependency guidance; watch it for a week or two).
+- Pulls AWS SDK v3 peer deps (`@aws-sdk/client-s3` + presigners) — fine for server routes, avoid the client bundle.
+- Clean credential story depends on the Neon CLI (`neon deploy` / `neon env pull` injecting `AWS_*` vars); the repo doesn't currently use the Neon CLI.
+
+**Proposed architecture** (see "Proposal: Official file-based storage + data layer" below for the full version):
+
+- **Two layers, complementary** — object storage for *raw* source files; Postgres + pgvector for *processed* chunks/embeddings. Do not move chunks out of Postgres.
+- **Adapter pattern** — `files-sdk` adapter behind a thin `@repo/files` package, so the provider is swappable (Neon / R2 / S3) without touching call sites.
+- **Agent file tools** — `createFileTools({ files, readOnly: true })` added to Prometheus as a new `browseFiles` tool alongside existing `searchNeonDatabase`/`searchExternalResources`.
+- **Phased adoption** — (1) abstract today behind an interface; (2) spike on a throwaway `us-east-2` project when bandwidth allows; (3) adopt when GA or `us-east-1` opens.
+
+**Status**: 🟡 STRATEGIC / TRACKING — not actionable until the region constraint clears or a deliberate migration is approved.
+**Decision**: Log as a strategic option. Do not adopt on the current project. Re-evaluate when Neon object storage GA's or expands to `us-east-1`.
+**Reference**: Full proposal in "Proposal: Official file-based storage + data layer" section below. Review notes in this session (2026-07-24).
+
+---
+
 ## 🌟 Emerging Ideas & Future Concepts
 
 ### **Natural Language Tours (Agentic Tours)** 🎙️ **Post-MVP**
@@ -317,6 +347,117 @@ packages/prompts/
 
 ---
 
+## 📦 Proposal: Official file-based storage + data layer
+
+**Authored**: 2026-07-24 (post-review of Neon Files SDK v2.2.0 + `with-files-sdk` example)
+**Status**: Proposal — awaiting decision. Tracked as Focus Area #8 above.
+
+### The problem, precisely
+
+`packages/knowledge-base` holds **950 raw source files** on disk (31 case PDFs, 833 transcripts across 50 day-folders, 68 web scrapes). The only index is `metadata/index.json` (564 docs) referencing them by **absolute filesystem path**. Consequences:
+
+- No presigned URLs — agents and UI can't address a file by URL.
+- No branchable state — a corpus experiment means copying files on disk.
+- No lifecycle — no versioning, no soft-delete, no audit of who uploaded what.
+- `documents` (189 rows) + `document_chunks` (4,946 rows) in Postgres hold the *processed* artifacts (summaries, chunks, embeddings), but the *raw* source-of-truth files have no managed home. Re-processing means re-finding the file on disk.
+- Agents (`/api/prometheus/chat`, `/api/disclosure/mindmap`) have `searchDatabase` (FTS+pgvector) and `searchExternalResources` (Exa) but **no file-browsing tool** — they can't list or read a raw source PDF.
+
+### The two-layer model (the core architectural decision)
+
+Keep the **retrieval layer** in Postgres; add a **file layer** for raw sources. They are complementary, not competing.
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  FILE LAYER  (new)  — raw source-of-truth files             │
+│  object storage (Neon / R2 / S3) via files-sdk adapter      │
+│  upload · download · url(presigned) · list · search · head   │
+│  keys:  case-files/<id>.pdf · transcripts/<date>/<slug>.txt │
+│         web/<date>/<slug>.<ext>                             │
+└───────────────┬─────────────────────────────────────────────┘
+                │  ingest pipeline (existing, extended)
+                │  PDF/txt → extract → chunk → embed
+                ▼
+┌─────────────────────────────────────────────────────────────┐
+│  RETRIEVAL LAYER  (existing, keep)  — Postgres + pgvector   │
+│  documents (189) · document_chunks (4,946) · embeddings     │
+│  FTS (search_vector) + vector(1536) cosine + trgm fallback  │
+│  searchDatabase() in both active AI routes                  │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**Rule**: object storage never holds embeddings or chunks. Postgres never holds raw file bytes. The `documents` row stores the object key (replacing the current `url`/path string) and links to its chunks.
+
+### The adapter seam — `packages/files` (new workspace package)
+
+A thin package so the provider is swappable without touching call sites. Mirrors how `@db/postgres` abstracts the DB driver.
+
+```
+packages/files/
+├── src/
+│   ├── index.ts            # public API: upload/download/url/list/search/head
+│   ├── adapter.ts          # interface + factory
+│   ├── adapters/
+│   │   ├── neon.ts         # files-sdk neon adapter (target)
+│   │   ├── r2.ts           # files-sdk r2 adapter (fallback)
+│   │   └── fs.ts           # filesystem adapter (local dev / today)
+│   └── tools.ts            # createFileTools wrapper for the AI SDK
+├── package.json            # files-sdk as optional peer
+└── README.md
+```
+
+Public surface (provider-agnostic):
+
+```typescript
+import { files } from '@repo/files'
+await files.upload('case-files/roswell.pdf', body)
+const url = await files.url('case-files/roswell.pdf', { expiresIn: 3600 })
+for await (const f of files.search('transcripts/2024-11-*/**')) { ... }
+```
+
+**Today (no Neon object storage)**: ship the `fs` adapter backed by `packages/knowledge-base/sources/`. Every call site uses the interface; the interface works against local disk. Zero new infra, zero region dependency, zero new deps in the client bundle. This is the low-risk first step that unblocks the agent file tool and URL-addressability *now*.
+
+**When Neon object storage is available**: swap `adapter: neon({ bucket })` in one place. Call sites don't change.
+
+### Agent integration — the `browseFiles` tool
+
+Add to the Prometheus route (`apps/app/src/app/api/prometheus/chat/route.ts`) and the mindmap route, alongside the existing tools:
+
+```typescript
+import { createFileTools } from 'files-sdk/ai-sdk'   // or @repo/files wrapper
+const fileTools = createFileTools({ files, readOnly: true })
+// → { listFiles, getFileMetadata, downloadFile, getFileUrl }
+
+tools: {
+  ...existingTools,          // searchNeonDatabase, searchExternalResources, …
+  ...fileTools,              // browseFiles family — read-only, no approval gate
+}
+```
+
+Read-only by default — agents can browse and read raw sources but not mutate the corpus. This is the missing piece: today an agent can *search* the processed chunks but can't *open* the original PDF a chunk came from. With this, a researcher asking "show me the source for that claim" gets a presigned URL to the actual case file.
+
+### Phased adoption
+
+| Phase | What | Infra | Risk | When |
+|---|---|---|---|---|
+| **1 — Abstract** | `@repo/files` package with `fs` adapter; point at `knowledge-base/sources/`. Add `browseFiles` (read-only) to Prometheus. Store object *keys* (not absolute paths) in `documents.url`. | none (local disk) | low | can start now |
+| **2 — Spike** | Throwaway `us-east-2` Neon project. Upload the 31 case PDFs. Validate branchable-corpus story + `createFileTools` end-to-end. | new us-east-2 project | low (throwaway) | when bandwidth allows |
+| **3 — Adopt** | Migrate `@repo/files` to `neon` adapter (or R2 if Neon region constraint persists). Move all 950 sources. Wire `neon deploy` into the flow. | production object store | medium | when Neon GA's / opens us-east-1, OR a deliberate R2/S3 decision is made |
+
+### What NOT to do
+
+- **Do not** move `document_chunks` or embeddings into object storage. pgvector retrieval stays in Postgres — that's the working layer both AI routes depend on.
+- **Do not** adopt `files-sdk` v2.2.0 on the current `us-east-1` Neon project — object storage can't be enabled there.
+- **Do not** pin `files-sdk` in production until it's ≥7 days old (per dependency guidance) and GA-rated, not preview.
+- **Do not** put `files-sdk` or AWS SDK v3 in the client bundle — keep it server-side.
+
+### Open decisions (for Liam)
+
+1. **Provider preference when the time comes**: Neon native (branchable, but region-locked), Cloudflare R2 (no egress fees, no branch story), or plain S3? The `@repo/files` seam makes this reversible.
+2. **Phase 1 now?** The `fs` adapter + `browseFiles` tool is low-risk and unblocks agent file access without waiting on Neon. Worth doing as a TODO.md ticket, or hold the whole track until the storage decision is made?
+3. **Migration of the 950 existing files**: one-shot bulk upload vs. lazy migration (upload on first access)? Affects the ingest pipeline shape.
+
+---
+
 ## 🏗️ Architectural Decisions Log
 
 ### **Decision 1: Tool-Based Architecture Approach**
@@ -378,7 +519,7 @@ packages/prompts/
 
 **Date**: June 2026
 **Decision**: Full migration from Xata to Neon Postgres 17.10 + pgvector 0.8.0. @db/xata retired.
-**Status**: ✅ COMPLETE — 230,998 records, 29 tables, 1,405 entity embeddings + 4,946 doc chunks live.
+**Status**: ✅ COMPLETE — 126,483 records, 30 tables, 1,594 entity embeddings + 4,946 doc chunks live (count(*) 2026-07-24).
 
 ### Decision 8: Docs six-question spine + aggressive prune (2026-07-19)
 
@@ -387,6 +528,14 @@ packages/prompts/
 **Decision**: Restructure around six navigation questions (exists → where → how → want → do → start). Living canon ~22 files. `docs/README.md` is the only index. Agent intake moves to `docs/ops/`. Prototypes/binaries → `docs/archive/` or deleted. Prompts/personas stay in `packages/ai/`.
 **Impact**: ~85% size reduction (24MB → ~3.5MB). CLAUDE/AGENTS paths fixed. Canvas: `docs-root-and-prune`.
 **Status**: ✅ Implemented on branch `docs/root-and-prune`
+
+### Decision 9: File layer as a separate concern from the retrieval layer (2026-07-24)
+
+**Date**: 2026-07-24
+**Context**: Reviewed Neon Files SDK v2.2.0 + the `with-files-sdk` example for giving `packages/knowledge-base`'s 950 raw source files a managed home. Neon object storage is preview-only on new `us-east-2` projects; the live project is `us-east-1` and can't enable it.
+**Decision**: Adopt a **two-layer model** — object storage for *raw* source files (behind a swappable `@repo/files` adapter seam), Postgres + pgvector for *processed* chunks/embeddings (unchanged). Do not move retrieval out of Postgres. Do not adopt `files-sdk` on the current Neon project. Log as strategic/tracking; re-evaluate when Neon object storage GA's or expands to `us-east-1`. Phase 1 (an `fs` adapter against local disk + a read-only `browseFiles` agent tool) is low-risk and can start now without waiting on the storage decision.
+**Impact**: Captures the file-layer track without a premature infra commitment. The adapter seam keeps the provider choice (Neon / R2 / S3) reversible.
+**Status**: 🟡 Proposal — awaiting decision on Phase 1 timing and provider preference. See Focus Area #8 + the "Proposal: Official file-based storage + data layer" section above.
 
 ---
 
