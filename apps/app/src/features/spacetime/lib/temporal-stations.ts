@@ -44,7 +44,8 @@ export function buildTemporalStations(
     }
   }
 
-  // Bucket events by UTC day for event stations
+  // Bucket events by UTC day, then pick top days per decade so the
+  // guided narrative spans history instead of collapsing into one flap.
   const byDay = new Map<string, SpacetimeEvent[]>()
   for (const event of events) {
     const day = event.timestamp.slice(0, 10)
@@ -54,12 +55,25 @@ export function buildTemporalStations(
     byDay.set(day, bucket)
   }
 
-  const rankedDays = [...byDay.entries()]
-    .map(([day, dayEvents]) => ({
-      day,
-      dayEvents,
-      score: dayEvents.length + dayEvents.reduce((s, e) => s + (e.credibilityScore ?? 0.5), 0),
-    }))
+  const scoredDays = [...byDay.entries()].map(([day, dayEvents]) => ({
+    day,
+    dayEvents,
+    decade: Math.floor(Number(day.slice(0, 4)) / 10) * 10,
+    score: dayEvents.length + dayEvents.reduce((s, e) => s + (e.credibilityScore ?? 0.5), 0),
+  }))
+
+  const byDecade = new Map<number, typeof scoredDays>()
+  for (const entry of scoredDays) {
+    const bucket = byDecade.get(entry.decade) ?? []
+    bucket.push(entry)
+    byDecade.set(entry.decade, bucket)
+  }
+
+  const perDecade = Math.max(1, Math.ceil(maxEventStations / Math.max(1, byDecade.size)))
+  const rankedDays = [...byDecade.values()]
+    .flatMap((entries) =>
+      [...entries].sort((a, b) => b.score - a.score).slice(0, perDecade),
+    )
     .sort((a, b) => b.score - a.score)
     .slice(0, maxEventStations)
 

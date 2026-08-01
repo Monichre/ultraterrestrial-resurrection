@@ -1,7 +1,10 @@
 'use client'
 
-import {useEffect, useMemo, useState, useTransition} from 'react'
-import {loadSpacetimeEvents} from '../actions/load-spacetime-events'
+import {useEffect, useMemo, useRef, useState, useTransition} from 'react'
+import {
+  loadSpacetimeEvents,
+  type LoadSpacetimeEventsResult,
+} from '../actions/load-spacetime-events'
 import {useSpacetimeStore} from '../state/spacetime-store'
 import {stationAtProgress} from '../lib/temporal-stations'
 import {SpacetimeCanvasShell} from './spacetime-canvas-shell'
@@ -221,22 +224,50 @@ function CanvasChrome({
   )
 }
 
+function metaFromResult(result: LoadSpacetimeEventsResult) {
+  return {
+    geolocatedCount: result.geolocatedCount,
+    total: result.events.length,
+    range: `${result.timeRange.startYear}–${result.timeRange.endYear}`,
+  }
+}
+
 /**
  * Product Spacetime Canvas — M0 shell.
  * Globe in the fixed slot; guided narrative as CSS 3D descent; dial beside.
+ *
+ * Prefer `initialData` from the server page so first paint isn't empty.
+ * Falls back to a client fetch if omitted.
  */
-export function SpacetimeCanvas() {
+export function SpacetimeCanvas({
+  initialData,
+}: {
+  initialData?: LoadSpacetimeEventsResult
+}) {
   const setEvents = useSpacetimeStore((s) => s.setEvents)
   const setStations = useSpacetimeStore((s) => s.setStations)
   const [meta, setMeta] = useState<{
     geolocatedCount: number
     total: number
     range: string
-  } | null>(null)
+  } | null>(initialData ? metaFromResult(initialData) : null)
   const [error, setError] = useState<string | null>(null)
   const [pending, startTransition] = useTransition()
+  const didHydrate = useRef(false)
 
+  // Synchronous first-paint hydrate so SSR/CSR narrative isn't empty.
+  if (initialData && !didHydrate.current) {
+    useSpacetimeStore.setState({
+      events: initialData.events,
+      stations: initialData.stations,
+    })
+    didHydrate.current = true
+  }
+
+  // Client-only fallback when the server didn't preload.
   useEffect(() => {
+    if (initialData) return
+
     startTransition(async () => {
       try {
         const result = await loadSpacetimeEvents({
@@ -246,18 +277,14 @@ export function SpacetimeCanvas() {
         })
         setEvents(result.events)
         setStations(result.stations)
-        setMeta({
-          geolocatedCount: result.geolocatedCount,
-          total: result.events.length,
-          range: `${result.timeRange.startYear}–${result.timeRange.endYear}`,
-        })
+        setMeta(metaFromResult(result))
         setError(null)
       } catch (err) {
         console.error(err)
         setError(err instanceof Error ? err.message : 'Failed to load spacetime events')
       }
     })
-  }, [setEvents, setStations])
+  }, [initialData, setEvents, setStations])
 
   return (
     <>
