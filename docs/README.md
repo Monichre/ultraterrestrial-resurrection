@@ -51,12 +51,14 @@ docs/
 | [architecture/API_ROUTES.md](./architecture/API_ROUTES.md) | eng | how |
 | [architecture/RUNBOOK.md](./architecture/RUNBOOK.md) | eng | how / do |
 | [adr/0001-agent-inferences-excluded-from-retrieval.md](./adr/0001-agent-inferences-excluded-from-retrieval.md) | eng | how |
+| [adr/0002-temporal-observatory-gl4ss-integration.md](./adr/0002-temporal-observatory-gl4ss-integration.md) | eng | how |
 | [plans/FEATURES.md](./plans/FEATURES.md) | product | want |
 | [plans/TODO.md](./plans/TODO.md) | eng | do |
 | [vision/AGENT_ARCHITECTURE_BRIEF.md](./vision/AGENT_ARCHITECTURE_BRIEF.md) | identity | want / how |
 | [vision/DESIGN_REGISTERS.md](./vision/DESIGN_REGISTERS.md) | identity | want |
 | [vision/IMPLEMENTATION_SPEC.md](./vision/IMPLEMENTATION_SPEC.md) | identity | how |
 | [vision/RESEARCH_NARRATIVE_RUBRIC.md](./vision/RESEARCH_NARRATIVE_RUBRIC.md) | identity | want |
+| [vision/TEMPORAL_OBSERVATORY.md](./vision/TEMPORAL_OBSERVATORY.md) | product + eng | want |
 | [vision/UX_LANGUAGE_GUIDE.md](./vision/UX_LANGUAGE_GUIDE.md) | identity | want |
 | [vision/UI_INSPIRATION.md](./vision/UI_INSPIRATION.md) | design | want |
 | [vision/2026-07-09-canonicalization-audit.md](./vision/2026-07-09-canonicalization-audit.md) | identity | where |

@@ -392,7 +392,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 
 ### T-043: Write per-context CONTEXT.md files (domain model follow-up)
 
-- **Status:** OPEN
+- **Status:** OPEN — synced to Linear 2026-07-24 ([DMGD-204](https://linear.app/digital-mischief-group/issue/DMGD-204/t-043-write-per-context-contextmd-files-domain-model-follow-up))
 - **Size:** S (2-3 hours total)
 - **Dependencies:** CONTEXT-MAP.md + root CONTEXT.md (done 2026-07-10)
 - **What:** Create the three context-specific glossary files mapped in `CONTEXT-MAP.md`:
@@ -404,10 +404,26 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 
 ### T-046: Docs maintenance automation (future)
 
-- **Status:** OPEN
+- **Status:** OPEN (backlog) — synced to Linear 2026-07-24 ([DMGD-206](https://linear.app/digital-mischief-group/issue/DMGD-206/t-046-docs-maintenance-automation-link-check-stale-status-audit-auto))
 - **Size:** M
 - **What:** Optional CI: markdown link check, stale `status: live` audit, archive dated drafts after 14 days. Not in scope for 2026-07-19 prune pass.
 - **Reference:** `docs/ops/DOC_MAINTENANCE.md`, FEATURES Decision 8
+
+### T-047: Temporal Observatory — Foundation milestone
+
+- **Status:** OPEN — spec landed 2026-08-01
+- **Size:** L (Foundation milestone only; full feature is multi-milestone)
+- **What:** Stand up the unified space-time state model behind the sightings globe:
+  1. Shared `SpacetimeEvent` normalization across sightings + historical events.
+  2. Generalize `/api/disclosure/uap-sightings` (already does year-range + `limit` + 10-year batching via `getSightingsByTimeChunk`) into `/api/spacetime/events` with bounding-box, type, and credibility filters.
+  3. Repoint `sightings-globe.tsx` off static `/sightings.geojson` (line 22) onto the bounded API.
+  4. Synchronized viewport + temporal cursor + selected-event Zustand store (`features/spacetime/state/`).
+  5. Adaptive temporal dial (historical / event / investigation stations).
+- **Why:** The ingredients exist and are disconnected — there is no shared temporal cursor. This is the substrate every later milestone (reconstruction, compare, flap playback, guided investigations) depends on.
+- **Files:** `apps/app/src/features/spacetime/` (greenfield, verified absent), `apps/app/src/features/sightings/sightings-globe.tsx`, `apps/app/src/app/api/spacetime/`
+- **Reuse:** `features/sightings/useTimeSeriesAnimation.tsx` (→ flap player), `animated-arc-layer.tsx` + `animated-arc-group-layer.tsx` (→ trajectories layer)
+- **Blocked-by (for any GL4SS source reuse only):** AGPL-3.0 licensing determination — see ADR 0002. Concept-level porting is unblocked.
+- **Reference:** `docs/vision/TEMPORAL_OBSERVATORY.md`, `docs/adr/0002-temporal-observatory-gl4ss-integration.md`
 
 ### T-044: Fix CRITICAL findings from disclosure-rag/main.py contract review
 
@@ -419,7 +435,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 
 ### T-045: Remaining HIGH/MEDIUM findings from disclosure-rag/main.py review
 
-- **Status:** OPEN
+- **Status:** OPEN — synced to Linear 2026-07-24 ([DMGD-205](https://linear.app/digital-mischief-group/issue/DMGD-205/t-045-fix-remaining-highmedium-findings-from-disclosure-rag-mainpy))
 - **Size:** M (review lists concrete fix directions per item; no design work needed)
 - **What:** H2 (queue relocation can overwrite an existing file), H3 (relocation leaves persisted provenance stale), H4 (extracted PDF temp files never deleted), H5 (`--status` overstates CocoIndex readiness), H6 (substring-based YouTube URL detection accepts hostile URLs), H7 (completion output doesn't reflect real per-stage success/failure), M1 (eager heavy imports before arg parsing), M2 (no `main.py` regression tests), M3 (broad exception handling collapses distinct failures to `None`), M4 (no file size/type/resource limits on ingestion).
 - **Why:** Review verdict is still FAIL pending these; T-044 only cleared the three CRITICAL blockers plus H1.
