@@ -409,21 +409,28 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **What:** Optional CI: markdown link check, stale `status: live` audit, archive dated drafts after 14 days. Not in scope for 2026-07-19 prune pass.
 - **Reference:** `docs/ops/DOC_MAINTENANCE.md`, FEATURES Decision 8
 
-### T-047: Temporal Observatory — Foundation milestone
+### T-047: Temporal Observatory — Foundation milestone (Spacetime Canvas M0)
 
-- **Status:** OPEN — spec landed 2026-08-01
-- **Size:** L (Foundation milestone only; full feature is multi-milestone)
-- **What:** Stand up the unified space-time state model behind the sightings globe:
-  1. Shared `SpacetimeEvent` normalization across sightings + historical events.
-  2. Generalize `/api/disclosure/uap-sightings` (already does year-range + `limit` + 10-year batching via `getSightingsByTimeChunk`) into `/api/spacetime/events` with bounding-box, type, and credibility filters.
-  3. Repoint `sightings-globe.tsx` off static `/sightings.geojson` (line 22) onto the bounded API.
-  4. Synchronized viewport + temporal cursor + selected-event Zustand store (`features/spacetime/state/`).
-  5. Adaptive temporal dial (historical / event / investigation stations).
-- **Why:** The ingredients exist and are disconnected — there is no shared temporal cursor. This is the substrate every later milestone (reconstruction, compare, flap playback, guided investigations) depends on.
-- **Files:** `apps/app/src/features/spacetime/` (greenfield, verified absent), `apps/app/src/features/sightings/sightings-globe.tsx`, `apps/app/src/app/api/spacetime/`
-- **Reuse:** `features/sightings/useTimeSeriesAnimation.tsx` (→ flap player), `animated-arc-layer.tsx` + `animated-arc-group-layer.tsx` (→ trajectories layer)
+- **Status:** IN PROGRESS — plan landed 2026-08-01 (`3b00dae`); scaffold next
+- **Size:** L (Foundation / M0 only; full feature is M0–M4)
+- **What:** Build the **Spacetime Canvas** — sibling surface to Research Canvas — by dropping the live Mapbox/deck.gl globe into the fixed background slot of the scroll-driven Guided Investigation UI (v0 timeline-explorer pattern: Next + GSAP + Lenis, CSS `preserve-3d`, **zero** WebGL in the narrative layer).
+  1. **M0.1** Frame-timing spike: globe under `preserve-3d` sibling (risk R1).
+  2. **M0.2** Shared types — `TemporalCursor`, `SpacetimeEvent`, `TemporalLayerFeature`.
+  3. **M0.3** Zustand store — cursor as single source of truth; `mode: 'guided' | 'free'` (pending D1 confirm).
+  4. **M0.4** Adaptive temporal stations from event density.
+  5. **M0.5** Repoint `sightings-globe.tsx:22` off static `/sightings.geojson` onto `/api/disclosure/uap-sightings` (already bounded).
+  6. **M0.6** `SpacetimeCanvas` shell — fixed globe + scroll narrative layers.
+  7. **M0.7** Bidirectional `TemporalDial`.
+  8. **M0.8** `/spacetime` route (pending D3: replace vs sit beside `/sightings`+`/timeline`).
+- **Why:** Research Canvas organizes ideas; Spacetime Canvas organizes evidence across space + time. Same verb, orthogonal axis. No shared temporal cursor exists today — every later milestone depends on it.
+- **Open decisions (block specific tasks):**
+  - **D1** Cursor authority — bidirectional recommended (blocks M0.3)
+  - **D2** R1 fallback — static plates per waypoint if globe janks (blocks M0.6)
+  - **D3** Does `/spacetime` replace `/sightings`+`/timeline`, or sit beside? (blocks M0.8)
+- **Files:** `apps/app/src/features/spacetime/` (greenfield), `apps/app/src/features/sightings/sightings-globe.tsx`, `apps/app/src/app/(site)/spacetime/`
+- **Reuse:** GSAP + Lenis already in `apps/app/package.json`; `useTimeSeriesAnimation.tsx`; `animated-arc-layer.tsx`; bounded uap-sightings API
 - **Blocked-by (for any GL4SS source reuse only):** AGPL-3.0 licensing determination — see ADR 0002. Concept-level porting is unblocked.
-- **Reference:** `docs/vision/TEMPORAL_OBSERVATORY.md`, `docs/adr/0002-temporal-observatory-gl4ss-integration.md`
+- **Reference:** `docs/PLANS/2026-08-01-spacetime-canvas-implementation.md`, `docs/vision/TEMPORAL_OBSERVATORY.md`, `docs/adr/0002-temporal-observatory-gl4ss-integration.md`, storyboards in `docs/design/design-lab/storyboards/`
 
 ### T-044: Fix CRITICAL findings from disclosure-rag/main.py contract review
 
