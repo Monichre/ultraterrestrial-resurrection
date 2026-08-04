@@ -138,6 +138,11 @@ use_parentheses = true
 ensure_newline_before_comments = true
 line_length = 88
 
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
+pythonVersion = "3.12"
+
 [tool.mypy]
 python_version = "3.9"
 warn_return_any = true

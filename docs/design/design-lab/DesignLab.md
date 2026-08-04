@@ -1,14 +1,15 @@
 # DesignLab
 
-**Package:** `packages/design-lab`  
-**Updated:** 2026-07-24  
+**Package / path:** `docs/design/design-lab/` (historical note: once mirrored under `packages/design-lab`)  
+**Updated:** 2026-08-01  
 **Role:** Visual sandbox + reference archive for Ultraterrestrial research surfaces (not a publishable app).
 
 ## Architecture
 
 ```
-packages/design-lab/
-├── prototypes/          # Interactive HTML surface concepts
+docs/design/design-lab/
+├── document-system/     # ⚠ UNFINISHED — paper register specimen + CSS (needs work)
+├── prototypes/          # Interactive HTML surface concepts (if present locally)
 ├── ui-mockups/          # Product UI screenshots & component specs
 ├── visual-language/     # Style guides / archive territory maps
 ├── dossier-art/         # Generated classified folder / document stills
@@ -23,6 +24,8 @@ packages/design-lab/
 └── DesignLabUiBrief_PSUEDOCODE.md
 ```
 
+> **⚠ `document-system/` is unfinished.** See [`document-system/README.md`](./document-system/README.md). Do not treat it as shipping canon until status flips to `live`.
+
 ## Naming contract
 
 - **kebab-case**, no spaces / parentheses / generator IDs
@@ -34,7 +37,8 @@ packages/design-lab/
 
 | Folder | Process | Data flow |
 |---|---|---|
-| `prototypes/` | Static HTML artboards for four instruments | Read → brief → port IA into `apps/app` |
+| `document-system/` | **UNFINISHED** — paper register specimen + shared CSS | Needs wiring to prototypes + React handoff; see README |
+| `prototypes/` | Static HTML artboards for four instruments | Read → brief → port IA into `apps/app` (also mirrored under `docs/vision/prototypes/`) |
 | `ui-mockups/` | High-fidelity product UI captures | Compare against live Research Canvas |
 | `visual-language/` | Canon visual DNA boards | Token / motif source for design system |
 | `dossier-art/` | Archival materiality stills | Paper/folder texture + composition refs |
@@ -44,6 +48,17 @@ packages/design-lab/
 | `process-refs/` | Agent / 3D / tooling stills | Meta process, not product UI |
 
 ## Inventory
+
+### document-system/ — UNFINISHED / NEEDS WORK
+
+| File | Contents | Status |
+|---|---|---|
+| [`README.md`](./document-system/README.md) | Status flag + needed-work checklist | **unfinished** |
+| `index.html` | Paper Document System specimen | unfinished (stale nav) |
+| `ut-document-system.css` | Shared paper / register stylesheet | unfinished (consumers broken) |
+| `assets/*` | Paper textures | present |
+
+Canon status file: [`document-system/README.md`](./document-system/README.md).
 
 ### prototypes/
 
@@ -138,4 +153,4 @@ packages/design-lab/
 
 Live design-lab route (separate from this package): `apps/app/src/app/design-lab/` → `/design-lab`
 
-Canon: `DESIGN.md`, `PRODUCT.md`, `docs/vision/`.
+Living design ambition: `PRODUCT.md`, `docs/vision/`, this design-lab tree. Root `DESIGN.md` is **not canonical** (limited Research Canvas chrome sketch only).

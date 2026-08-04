@@ -9,11 +9,39 @@ updated: 2026-08-01
 
 **Decision record:** [`../adr/0002-temporal-observatory-gl4ss-integration.md`](../adr/0002-temporal-observatory-gl4ss-integration.md)
 **Reference implementation (concepts only):** [gl4ss.ai](https://gl4ss.ai) · [GL4SS repo](https://github.com/elder-plinius/GL4SS) — AGPL-3.0-or-later, see licensing gate in the ADR.
-**Design surfaces:** `docs/design/design-lab/UiDesignBrief.md` §3 "Temporal–Geospatial Observatory" · prototype `docs/design/design-lab/prototypes/03-temporal-geospatial-observatory.html`
+**Design brief:** [`../design/design-lab/UiDesignBrief.md`](../design/design-lab/UiDesignBrief.md) §3 "Temporal–Geospatial Observatory"
+**Storyboards:** [`./storyboards/`](./storyboards/) · **Prototypes:** [`./prototypes/`](./prototypes/)
 
 > **Read the ADR first.** It corrects several factual claims carried over from the originating design
 > conversation (framework versions, which libraries are actually installed, and what the sightings API already
 > does). The Foundation milestone below is smaller than it looks because bounded querying partly exists.
+
+---
+
+## Visual references
+
+### Storyboards — [`storyboards/`](./storyboards/)
+
+Concept boards for the four primary interaction modes (PNG):
+
+| # | Board | Maps to |
+|---|---|---|
+| 01 | [Spacetime Canvas](./storyboards/concept-01-spacetime-canvas.png) | §3.1 Canvas · §3.2 Dial · §3.5 Looking Glass preview |
+| 02 | [Guided Investigation](./storyboards/concept-02-guided-investigation.png) | §3.10 Guided Investigations |
+| 03 | [Temporal Compare](./storyboards/concept-03-temporal-compare.png) | §3.8 Temporal Compare |
+| 04 | [Flap Playback](./storyboards/concept-04-flap-playback.png) | §3.9 Flap Playback |
+
+### Prototypes — [`prototypes/`](./prototypes/)
+
+Static HTML interface studies (open in a browser):
+
+| # | Prototype | Role |
+|---|---|---|
+| 01 | [`01-living-research-canvas.html`](./prototypes/01-living-research-canvas.html) | Living research canvas shell |
+| 02 | [`02-evidence-ledger.html`](./prototypes/02-evidence-ledger.html) | Evidence ledger / provenance surface |
+| 03 | [`03-temporal-geospatial-observatory.html`](./prototypes/03-temporal-geospatial-observatory.html) | **Primary** Temporal–Geospatial Observatory study |
+| 04 | [`04-hypothesis-lab.html`](./prototypes/04-hypothesis-lab.html) | Hypothesis lab |
+| — | [`interface-gallery-overview.png`](./prototypes/interface-gallery-overview.png) | Gallery overview of the four studies |
 
 ---
 

@@ -1,6 +1,53 @@
-# DESIGN.md — Ultraterrestrial Research Canvas (Microfilm Dark)
+---
+status: not-canonical
+role: design
+scope: research-canvas-chrome-only
+updated: 2026-08-01
+---
 
-Codified 2026-07-08 from `apps/app/src/components/design-system/{ARCHIVAL_DYSTOPIAN_AESTHETIC,RESEARCH_CANVAS_AESTHETIC,DESIGN_SYSTEM}.md` plus the live canvas chrome. Register: **product**.
+# DESIGN.md — NOT CANONICAL
+
+> **⚠ NOT CANONICAL. Deeply limited in scope.**
+>
+> This file is a **narrow, historically useful contract for Research Canvas chrome**
+> ("Microfilm Dark" tokens / signature elements), codified 2026-07-08 from live canvas
+> work. It is **not** the design system for Ultraterrestrial, **not** the product design
+> source of truth, and **not** adequate coverage of the project's design ambitions.
+>
+> Do **not** cite this file as "the design language," "design canon," or "canonical
+> product & design context." Prefer the broader corpus below. Treat everything after the
+> banner as a **partial sketch** of one surface register — useful until superseded, never
+> authoritative for the whole application.
+
+## What this file actually covers (and stops)
+
+| In scope (thin) | Explicitly out of scope |
+|---|---|
+| Night Research Canvas chrome tokens (`--ut-*`) | Full product visual identity / brand bible |
+| A few signature dossier motifs (clip, badges, redaction skeletons) | Temporal Observatory, guided tours, document system, marketing/home, 3D instruments |
+| Provenance border rule (solid vs dashed) for canvas panels | Dual-register theory, IA for four research instruments, motion systems, print/paper register |
+| Bans inherited from early canvas polish | Completeness of type, texture, layout, or component libraries |
+
+## Where design ambition actually lives
+
+Read these instead (or in addition) before UI / brand / product-facing work:
+
+| Surface | Path | Role |
+|---|---|---|
+| Product narrative | [`PRODUCT.md`](./PRODUCT.md) | Product register (still product-facing; not a visual system) |
+| Dual registers | [`docs/vision/DESIGN_REGISTERS.md`](./docs/vision/DESIGN_REGISTERS.md) | Techno-analytical ↔ archival-material reframe |
+| Vision / identity | [`docs/vision/`](./docs/vision/) | Rubric, UX language, implementation map, UI inspiration, Temporal Observatory |
+| Design lab | [`docs/design/design-lab/`](./docs/design/design-lab/) | Briefs, mockups, visual language boards, unfinished document-system |
+| Brand bible | [`docs/design/brand-bible/`](./docs/design/brand-bible/) | Broader identity package (ingest carefully — mixed currency) |
+| Document system | [`docs/design/design-lab/document-system/`](./docs/design/design-lab/document-system/) | Paper register specimen — **unfinished** |
+
+Agents: `AGENTS.md` § Identity & Design Canon lists the living vision set. This root file is demoted.
+
+---
+
+# Appendix — Microfilm Dark canvas chrome (historical sketch)
+
+Codified 2026-07-08 from `apps/app/src/components/design-system/{ARCHIVAL_DYSTOPIAN_AESTHETIC,RESEARCH_CANVAS_AESTHETIC,DESIGN_SYSTEM}.md` plus the live canvas chrome. Register: **partial product chrome**, not full design.
 
 ## Scene
 
@@ -9,6 +56,8 @@ A researcher at 23:00 in a dim room, arranging declassified records on a large m
 ## Concept
 
 **Microfilm Dark**: the archival dossier aesthetic (manila, typewriter, stamps, redaction) photographed at night. Not neon cyberpunk; HUD elements are digital ghosts at low opacity. Institutional, clinical, slightly ominous.
+
+This is **one lighting condition / register moment** for the Research Canvas — not the whole Ultraterrestrial design ambition (see `DESIGN_REGISTERS.md`).
 
 ## Color (OKLCH, warm-tinted toward manila hue ≈85)
 

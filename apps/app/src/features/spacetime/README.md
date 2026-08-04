@@ -20,7 +20,8 @@ temporal dial, guided narrative shell on `/spacetime`.
 - Plan: `docs/PLANS/2026-08-01-spacetime-canvas-implementation.md`
 - Vision: `docs/vision/TEMPORAL_OBSERVATORY.md`
 - ADR: `docs/adr/0002-temporal-observatory-gl4ss-integration.md`
-- Storyboards: `docs/design/design-lab/storyboards/`
+- Storyboards: `docs/vision/storyboards/`
+- Prototypes: `docs/vision/prototypes/`
 - Ticket: T-047
 
 ## Architecture seam

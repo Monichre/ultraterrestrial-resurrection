@@ -29,6 +29,7 @@ export const TICKETS: Ticket[] = [
   { id: 'T-038', title: 'Design language & domain vocabulary canonicalization', lane: 'B', status: 'blocked', note: 'implementation done; external Figma review blocked' },
   { id: 'T-043', title: 'Write per-context CONTEXT.md files', lane: 'B', status: 'open' },
   { id: 'T-046', title: 'Docs maintenance automation (future)', lane: 'B', status: 'open', note: 'backlog' },
+  { id: 'T-049', title: 'Board — live agent/session activity view', lane: 'B', status: 'open', note: 'data source found (.specstory/history mtimes); not yet built' },
 
   // ---- unlaned / pre-officiation, kept for the record ----
   { id: 'T-028', title: 'Mindmap Agent Consolidation (ai-sdk-tools)', lane: null, status: 'done', note: 'in review' },

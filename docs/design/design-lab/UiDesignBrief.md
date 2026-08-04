@@ -2,7 +2,7 @@
 
 **Package:** `packages/design-lab`  
 **Date:** 2026-07-24  
-**Canon:** `DESIGN.md` (Microfilm Dark), `PRODUCT.md`, `docs/vision/{DESIGN_REGISTERS,UX_LANGUAGE_GUIDE,RESEARCH_NARRATIVE_RUBRIC}`  
+**Living design context:** `PRODUCT.md`, `docs/vision/{DESIGN_REGISTERS,UX_LANGUAGE_GUIDE,RESEARCH_NARRATIVE_RUBRIC,UI_INSPIRATION}`, this brief + design-lab assets. Root `DESIGN.md` is **not canonical** — a limited Microfilm Dark *canvas chrome* sketch; useful for token names / bans, not the full ambition.  
 **Sources:** `prototypes/01–04` HTML surfaces + `dossier-art/` / `ui-mockups/` / `textures/`  
 **Sibling docs:** `DesignLabUiBrief.md` (architecture), `DesignLab.md` (asset inventory)
 
@@ -45,7 +45,7 @@ One-line: **paperwork left behind after reality got breached** — paper objects
 3. **Epistemic states are first-class** — bracketed badges `[ CORROBORATED ]`, solid vs dashed borders for deterministic vs AI.
 4. **Plural readings over single thesis** — Hypothesis Lab and ledger lanes encode counter-readings structurally.
 5. **Refuse premature closure** — synthesis ends on open questions / next trace, never “solved.”
-6. **Correct the prototypes toward canon** — HTML mocks use Inter, heavy radius, side-stripes, and glow; production follows `DESIGN.md` bans and tokens.
+6. **Correct the prototypes toward living design context** — HTML mocks use Inter, heavy radius, side-stripes, and glow; production follows vision + design-lab direction (use root `DESIGN.md` only as a partial canvas-chrome token/ban checklist — it is not canonical).
 7. **One composition per surface** — not a wall of identical metric cards.
 
 ---
@@ -195,7 +195,7 @@ App shell
 
 ## Visual Direction
 
-### Locked (from `DESIGN.md`)
+### Partial canvas chrome checklist (from non-canonical `DESIGN.md` — not full ambition)
 
 - Void / surface / paper / stamp OKLCH tokens (warm manila ~hue 85)
 - Martian Mono for labels/badges; Special Elite once per surface title
@@ -211,7 +211,7 @@ App shell
 | Soft 14px radii, shadows, glows | Flat hairlines, clipped panels, low-opacity HUD |
 | Side-stripe source cards | Badge + lane semantics |
 | Numeric “credibility” hero | Evidentiary Weight, inspectable, non-triumphal |
-| Missing `document-system/` CSS | Either restore shared paper CSS or drop the link |
+| `document-system/` unfinished | Specimen + CSS exist under `design-lab/document-system/` but are **not live** — broken consumer links, stale nav, no React handoff. See [`document-system/README.md`](./document-system/README.md) |
 
 ### Dual register on one surface
 
@@ -271,7 +271,7 @@ Create a high-fidelity UI concept screenshot for Ultraterrestrial. Platform: des
 
 **Strong-fit — Microfilm Dark investigation instruments.**
 
-Ship the four lab surfaces as a coherent instrument set under one quiet shell: **paper evidence objects on a void canvas**, clinical HUD at low opacity, dual register (archival + techno-analytical) without a mode switch. Correct prototype chrome toward `DESIGN.md` (tokens, mono/typewriter, clipped dossiers, redaction loading, solid/dashed provenance). Prefer on-canvas progressive disclosure over card-wall dashboards. Treat Hypothesis Lab and Ledger as the structural home of counter-readings; Canvas as constellation; Observatory as space–time filter.
+Ship the four lab surfaces as a coherent instrument set under one quiet shell: **paper evidence objects on a void canvas**, clinical HUD at low opacity, dual register (archival + techno-analytical) without a mode switch. Correct prototype chrome toward living vision + design-lab direction (dossier materiality, mono/typewriter moments, solid/dashed provenance); root `DESIGN.md` is only a partial token/ban checklist, not the design SoT. Prefer on-canvas progressive disclosure over card-wall dashboards. Treat Hypothesis Lab and Ledger as the structural home of counter-readings; Canvas as constellation; Observatory as space–time filter.
 
 Conservative is acceptable only as an interim engineering scaffold. Divergent (literal desk photo) is reserved for marketing/mood, not primary product chrome.
 
@@ -283,7 +283,7 @@ Conservative is acceptable only as an interim engineering scaffold. Divergent (l
 2. **Scoring language:** Keep numeric fit / weight meters, or demote numbers in favor of badge + prose Evidentiary Weight?
 3. **Paper rotation:** Keep corkboard tilt on cards in production, or flatten to dossier panels for density/a11y?
 4. **Surface shipping order:** Canvas-first only, or Ledger / Observatory / Hypothesis as first-class views in the same milestone?
-5. **document-system CSS:** Restore shared paper stylesheet for lab HTML, or treat HTML as throwaway once React ports exist?
+5. **document-system (UNFINISHED):** Finish and wire [`document-system/`](./document-system/) (fix prototype CSS links, specimen nav, Microfilm Dark alignment, React handoff) — or explicitly archive it once React document primitives own the register?
 6. **Hypothesis vocabulary:** “Hypothesis” in lab titles vs product “Reading / Counter-reading” — which wins in UI chrome?
 7. **Credibility radar:** Keep the ledger spider/radar viz, or is it too “dashboard metric” for the brand?
 
@@ -291,7 +291,7 @@ Conservative is acceptable only as an interim engineering scaffold. Divergent (l
 
 ## Handoff Notes for Implementation
 
-1. **Do not treat lab HTML as pixel-perfect source of truth** — treat this brief + `DESIGN.md` as truth; HTML is interaction/IA reference.
+1. **Do not treat lab HTML as pixel-perfect source of truth** — treat this brief + `docs/vision/` as the living design context; root `DESIGN.md` is not canonical. HTML is interaction/IA reference.
 2. **Port order (suggested):** shared paper/dossier primitives → Living Research Canvas inspector/layers → Evidence Ledger lanes → Hypothesis Lab comparison → Observatory map/timeline.
 3. **Reuse live substrate** where it exists: research-canvas views, evidentiary badges, CommandK, Zustand `setActiveView()`, document reference-prototype components under `research-ui/documents/`.
 4. **Map lab rail icons** to existing or planned views; do not add ghost routes.

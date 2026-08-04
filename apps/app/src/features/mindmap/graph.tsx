@@ -1,7 +1,8 @@
 'use client'
 import {ReactFlow, type Edge, type Node} from '@xyflow/react'
 import {useCallback, useEffect, useMemo} from 'react'
-import {Sparkles, Search, Plus} from 'lucide-react'
+import {useRouter} from 'next/navigation'
+import {Sparkles, Search, Plus, Radiation} from 'lucide-react'
 
 import {edgeTypes} from '@/features/mindmap/config/edge-types'
 
@@ -15,7 +16,6 @@ import {
 import {AssetLibraryPanel} from '@/features/mindmap/components/menus/mindmap-side-menu/hover-panels/AssetLibraryPanel'
 import {EmptyCanvas} from '@/features/mindmap/research-canvas/EmptyCanvas'
 import {ActionChip} from '@/features/mindmap/research-canvas/ActionChip'
-
 
 import {useContextMenu} from '@/hooks/useContextMenu'
 
@@ -114,6 +114,7 @@ export function Graph() {
   } = useMindMap()
 
   const {runAgentQuery, status: agentStatus, analysis, toolEvents} = useMindMapAgent()
+  const router = useRouter()
   const {startTour: startGuidedTour} = useGuidedTour()
 
   const {
@@ -186,7 +187,9 @@ export function Graph() {
       try {
         const agentResult = await runAgentQuery({
           message,
-          contextRules: table ? `Prioritize ${table} entities when strong evidence is available.` : undefined,
+          contextRules: table
+            ? `Prioritize ${table} entities when strong evidence is available.`
+            : undefined,
           researchFocus: table ? `Investigate ${table} relationships for: ${message}` : message,
           graphState: buildAgentGraphState(),
         })
@@ -234,9 +237,7 @@ export function Graph() {
                 ...(node.data || {}),
                 label,
                 title:
-                  typeof node.data?.title === 'string' && node.data.title
-                    ? node.data.title
-                    : label,
+                  typeof node.data?.title === 'string' && node.data.title ? node.data.title : label,
               },
             }
           })
@@ -367,9 +368,7 @@ export function Graph() {
 
   const handleTimelineRequest = useCallback(
     async ({year, era, dateRange}: TimelineRequestPayload) => {
-      const dateLabel = dateRange
-        ? `${dateRange.startYear}-${dateRange.endYear}`
-        : `${year}`
+      const dateLabel = dateRange ? `${dateRange.startYear}-${dateRange.endYear}` : `${year}`
       const eraLabel = era ? ` during the ${era} era` : ''
       const message = `Search the events table for notable UFO/UAP incidents${eraLabel} (${dateLabel}). Include witnesses, organizations, and documents connected to those events.`
 
@@ -449,16 +448,24 @@ export function Graph() {
     ]
   )
 
-  const handleEmptyCanvasSubmit = useCallback(
-    async (input: string) => {
-      await runAgentQueryAndAddNodes({message: input})
-    },
-    [runAgentQueryAndAddNodes]
-  )
-
   const handleStartTour = useCallback(() => {
     void startGuidedTour(FAMOUS_EVENTS_TOUR)
   }, [startGuidedTour])
+
+  const handleStartNuclearShadow = useCallback(() => {
+    router.push('/tours/nuclear-shadow')
+  }, [router])
+
+  const handleEmptyCanvasSubmit = useCallback(
+    async (input: string) => {
+      if (/nuclear.?shadow|architecture of secrecy/i.test(input)) {
+        router.push('/tours/nuclear-shadow')
+        return
+      }
+      await runAgentQueryAndAddNodes({message: input})
+    },
+    [router, runAgentQueryAndAddNodes]
+  )
 
   const handleSearchDatabase = useCallback(() => {
     setCommandMenuOpen(true)
@@ -487,8 +494,14 @@ export function Graph() {
     }, 300)
 
     return () => clearTimeout(timeoutId)
-  }, [autoLayout, layoutDirection, layoutSettings.edgeLength, layoutSettings.nodeSpacing, nodes.length, organizeLayout])
-
+  }, [
+    autoLayout,
+    layoutDirection,
+    layoutSettings.edgeLength,
+    layoutSettings.nodeSpacing,
+    nodes.length,
+    organizeLayout,
+  ])
 
   const {ref} = useContextMenu()
 
@@ -554,9 +567,12 @@ export function Graph() {
               agentToolEvents={toolEvents}
             />
           </div>
-          <div className='absolute inset-x-0 bottom-6 z-20 flex justify-center'>
+          <div className='absolute inset-x-0 bottom-6 z-20 flex justify-center gap-2'>
+            <ActionChip icon={<Radiation className='size-4' />} onClick={handleStartNuclearShadow}>
+              Nuclear Shadow
+            </ActionChip>
             <ActionChip icon={<Sparkles className='size-4' />} onClick={handleStartTour}>
-              Take the guided tour
+              Modern UFO Era
             </ActionChip>
           </div>
           <FloatingToolbar panels={panels} />
@@ -575,8 +591,13 @@ export function Graph() {
           {(tourStatus === 'idle' || tourStatus === 'completed') && (
             <div className='absolute inset-x-0 bottom-6 z-20 flex flex-col items-center gap-3 px-4'>
               <div className='flex items-center gap-2'>
+                <ActionChip
+                  icon={<Radiation className='size-4' />}
+                  onClick={handleStartNuclearShadow}>
+                  Nuclear Shadow
+                </ActionChip>
                 <ActionChip icon={<Sparkles className='size-4' />} onClick={handleStartTour}>
-                  Start Tour
+                  Modern UFO Era
                 </ActionChip>
                 <ActionChip icon={<Search className='size-4' />} onClick={handleSearchDatabase}>
                   Search Database

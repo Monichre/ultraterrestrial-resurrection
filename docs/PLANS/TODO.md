@@ -24,6 +24,45 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 
 ---
 
+## Worklanes (officiated 2026-08-01)
+
+All work belongs to exactly one lane. Every ticket carries a **Lane:** field. Plans,
+roadmaps, and agent assignments are framed per lane; the three-tier system
+(FEATURES → TODO → DAILY_WORK_PLAN) still applies *within* each lane.
+
+### Lane A — Corpus & Ingestion
+
+**Owns:** `apps/disclosure-rag/`, `packages/knowledge-base/`, `packages/db/scripts/rebuild/`
+**Question it answers:** *is the evidence correct, complete, traceable, and durable?*
+**Roadmap:** `docs/plans/2026-08-01-ingestion-hardening.md` (H0 → H5)
+**Agents:** `disclosure-rag-agent`, `knowledge-base-agent`, `db-agent`
+
+Lane A is upstream. Its output — a trustworthy, queryable, provenance-bearing corpus —
+is the input Lane B renders. A defect here is invisible in the UI and corrupts every
+surface downstream, which is why it gets its own lane rather than living as a backlog
+tail behind product work.
+
+### Lane B — Platform & Experience
+
+**Owns:** `apps/app/`, `packages/ai/`, the research/spacetime canvases, agent chat paths
+**Question it answers:** *can a researcher see, traverse, and reason about the evidence?*
+**Roadmap:** `docs/plans/2026-08-01-spacetime-canvas-implementation.md` (M0 → M4)
+**Agents:** `app-agent`, `research-ui-agent`
+
+### Lane assignment
+
+| Lane | Active | Open / backlog | Done |
+|---|---|---|---|
+| **A — Corpus & Ingestion** | T-048 | T-045 | T-044 |
+| **B — Platform & Experience** | T-047 | T-030, T-031, T-036, T-037, T-043, T-046 | T-001 … T-029, T-038 … T-042 |
+
+**Cross-lane dependency (the one that matters):** Lane B's M1 "Evidence instrument"
+milestone — credibility and provenance filtering, source-cited event inspection — cannot
+be built before Lane A ships **H4 (provenance backfill)**. There is no provenance on 99%
+of archive records today. Lane B M0 does not depend on Lane A and can proceed in parallel.
+
+---
+
 ## Phase 0 — Emergency Fixes (Day 1)
 
 ### T-001: Remove Edge runtime from Prometheus chat route
@@ -426,7 +465,7 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **Why:** Research Canvas organizes ideas; Spacetime Canvas organizes evidence across space + time. Same verb, orthogonal axis.
 - **Decisions locked 2026-08-01:** D1 bidirectional · D2 static-plate fallback if jank · D3 sit beside
 - **Files:** `apps/app/src/features/spacetime/`, `apps/app/src/app/(site)/spacetime/`
-- **Reference:** `docs/PLANS/2026-08-01-spacetime-canvas-implementation.md`, `docs/vision/TEMPORAL_OBSERVATORY.md`, `docs/adr/0002-temporal-observatory-gl4ss-integration.md`, storyboards in `docs/design/design-lab/storyboards/`
+- **Reference:** `docs/PLANS/2026-08-01-spacetime-canvas-implementation.md`, `docs/vision/TEMPORAL_OBSERVATORY.md`, `docs/adr/0002-temporal-observatory-gl4ss-integration.md`, storyboards in `docs/vision/storyboards/` · prototypes in `docs/vision/prototypes/`
 
 ### T-044: Fix CRITICAL findings from disclosure-rag/main.py contract review
 
@@ -443,7 +482,54 @@ Pick a task. Check its status and dependencies. If status is `OPEN` and dependen
 - **What:** H2 (queue relocation can overwrite an existing file), H3 (relocation leaves persisted provenance stale), H4 (extracted PDF temp files never deleted), H5 (`--status` overstates CocoIndex readiness), H6 (substring-based YouTube URL detection accepts hostile URLs), H7 (completion output doesn't reflect real per-stage success/failure), M1 (eager heavy imports before arg parsing), M2 (no `main.py` regression tests), M3 (broad exception handling collapses distinct failures to `None`), M4 (no file size/type/resource limits on ingestion).
 - **Why:** Review verdict is still FAIL pending these; T-044 only cleared the three CRITICAL blockers plus H1.
 - **Depends on:** none blocking; M2 (tests) is worth doing first since it would catch regressions in the rest of this list.
+- **Lane:** A — Corpus & Ingestion
+- **2026-08-01 re-verification:** all ten items CONFIRMED still present in current `main.py`. Lint is now **26 ruff errors** (was 27) — `json` cleared, 5×F401 + 21×F541 remain. H2/H3/H4/M4 are **absorbed into T-048**; H5, H6, H7, M1, M2, M3 remain here. Note `scripts/playlist_ingestion.py:200` funnels every playlist episode through the same unfixed `process_url()`, so all items apply to bulk ingestion too.
+- **2026-08-01 (later same day) — remaining six items closed, pending review:** commit `d5c69fb` (landed after the re-verification above, same day) had already closed H4, H6, H7 (the per-stage truthful reporting half), and M1 as a side effect of unrelated H0 work — that commit's own message explicitly flagged one piece of H7 as still open: `main()`'s top-line banner/exit code used `if result:` truthiness only, so a run with a failed required stage still printed "✅ Processing complete!" and exited 0. This session closed the rest: **H5** (`--status` now reads `cocoindex_processor.cocoindex_available`, the real "did `import cocoindex` succeed" signal, instead of `COCOINDEX_KG_AVAILABLE`, which only means the wrapper module imported); **H7 remainder** (`main()` now computes success from `stage_report` — any `status: "failed"` stage flips the banner to "⚠️ Processing completed with failures" and exits 1); **M3** (`process_file`'s `add_to_knowledge_base()` call and outer catch-all no longer discard already-collected `stage_report` data on failure — traceback preserved via `logger.exception`; `process_url`'s previously-unguarded extraction call now reports a failed stage instead of raising past `process_url` entirely, which also benefits `scripts/playlist_ingestion.py`'s per-episode error records); **M2** (added `tests/test_main.py`, 37 tests, isolated — no live OpenAI/Upstash/QStash/Mem0/Postgres — covering H5/H6/H7/M1/M3 regressions plus credential validation and dry-run planning). `python -m pytest tests/test_postgres_client.py tests/test_main.py` — 48/48 pass. `main.py --help` still ~0.12s (M1 intact). Six pre-existing collection failures in `tests/test_end_to_end_entity_pipeline.py`, `test_entity_creation.py`, `test_entity_creator.py`, `test_entity_extraction.py`, `test_extraction_direct.py`, `test_extraction_isolated.py` (Xata creds / stale hardcoded paths / renamed import) are unrelated to this ticket and were not touched. Not yet re-run: ruff (not installed in `.venv`). Changes are uncommitted, pending review.
 - **Reference:** `docs/PLANS/2026-07-16-disclosure-rag-main-review.md`
+
+### T-048: Ingestion hardening — corpus integrity, identity, and provenance
+
+- **Status:** IN PROGRESS — audit complete + plan landed 2026-08-01; H0 next
+- **Size:** XL (H0–H5; H0 and H1 are independently shippable)
+- **Lane:** A — Corpus & Ingestion
+- **What:** Close the four load-bearing gaps found by the 2026-08-01 five-agent audit:
+  1. **H0 — Stop the bleeding.** Purge `graphify-out/` tool cache from `sources/` (348 of 950 files, 36.6%); drop the 47 phantom `index.json` entries it created; fix the 6 YouTube records whose absolute paths are dead on this machine (missing `apps/` segment); make all 564 `path` fields relative; delete the dead `index.ts`/`package.json` module surface; reconcile the 390-vs-139 unindexed-file discrepancy between audits.
+  2. **H1 — Identity.** Persist sha256 on every archive record + add column and unique constraint DB-side; backfill across all 946 files. Add the read-before-write dedup guard to `create_document()` (`knowledge_base_crud.py:133-197`) and make `_save_index()` atomic via temp-file + `os.replace()` (`:75-79`).
+  3. **H2 — The bridge.** Wire `lib/db/postgres_client.py` (built, merged, called only by its own test) into the live write path; write chunks + 1536-dim `text-embedding-3-small` vectors to Neon; deprecate Upstash Search.
+  4. **H3 — Runs.** `ingestion_run` table; resumable batches; per-run manifest. Model on `scripts/playlist_ingestion.py`'s already-correct atomic state + `write_run_report()` pattern.
+  5. **H4 — Provenance.** Backfill source/agency/retrieval/license; enforce on new intake. **Blocks Lane B's M1 evidence instrument.**
+  6. **H5 — Remote mirror.** Object-storage mirror of the archive, verified by manifest.
+- **Why:** Source material can be ingested today with no guarantee it lands once, lands completely, lands anywhere the platform queries, or can be traced to its origin. Archive and database share **no join key**; web/article content has no reconciliation path at all.
+- **Critical bug found (not previously tracked):** re-ingesting identical content on a *different calendar day* produces the same `doc_id` but a new date-stamped directory, and the index entry is unconditionally overwritten — **silently orphaning the previous directory's files forever, with no operator warning** (`knowledge_base_crud.py:117-131,174-183`). Same-day re-ingest overwrites in place, i.e. accidentally idempotent, not by design. No file locking exists anywhere, so concurrent runs lose updates on `index.json`.
+- **Also found:** `processing/rag_prompt_pipeline.py` correctly enforces ADR-0001 (chunk bodies Evidence-only, never Inference) and produces curated `embeddable_texts` — but `upload_file_to_openai()` uploads the **raw file** instead, so those chunks are never embedded by anything. Half-finished integration.
+- **Absorbs from T-045:** H2 (relocation overwrite), H3 (stale provenance), H4 (temp-file leak), M4 (no ingestion limits).
+- **Decisions landed in the plan (override there):** D1 Neon pgvector as single canonical store, OpenAI vector store retained only for Assistants `file_search`; D2 filesystem is truth / Postgres is a rebuildable derived index; D3 content-hash dedup + resumable runs; D4 `sources/` is intake-only and immutable.
+- **Traps:** `eisenhower_briefing (1).pdf` is a **genuinely different document** from its base file — filename-pattern dedup would destroy it; only hash-based dedup is safe. Ingestion has no relevance gate (Rick Astley's "Never Gonna Give You Up" sits in the corpus at `sources/transcripts/2025-08-31/dQw4w9WgXcQ/`, fully transcribed and summarized).
+- **Corrects:** documented "1,594 entity rows embedded" → actual **1,405** across six tables; `document_entities` exists but is empty with no embedding column. `CLAUDE.md`'s "Database Work" section still says "update Xata schema through dashboard / run `xata codegen`" — stale, Xata is retired.
+- **Files:** `apps/disclosure-rag/lib/knowledge_base_crud.py`, `lib/knowledge_base_service.py`, `lib/db/postgres_client.py`, `main.py`, `packages/knowledge-base/{metadata,sources,index.ts,package.json}`, `packages/db/scripts/rebuild/`
+- **Reference:** `docs/plans/2026-08-01-ingestion-hardening.md`
+
+### T-049: Board — live agent/session activity view
+
+- **Status:** OPEN — scoped 2026-08-01 (research complete, not yet built)
+- **Size:** M (data source exists; needs a polling route + a new board column/row shape)
+- **Lane:** B — Platform & Experience
+- **What:** Extend `/board` (`apps/app/src/app/board/`, shipped 2026-08-01 as a static ticket-status kanban) with a live view of "who/what is actively working" alongside the existing ticket columns. Today `data.ts`'s `Ticket` type has no owner, agent, or timestamp field — activity is invisible.
+- **Data source (found, not built):** `.specstory/history/` — 524 existing per-session transcript files with ISO-timestamped, slugged filenames (e.g. `2026-08-01_21-17-31Z-pull-up-project-to.md`), mtimes updating live as sessions run. This requires **zero new instrumentation** — build a small polling API route that stats the directory and surfaces recent files as activity rows.
+- **Dead ends already ruled out (do not re-investigate):**
+  - **Liveblocks** — a dependency, but `apps/app/liveblocks.config.ts` is all-commented-out boilerplate; no `RoomProvider`/`useOthers` anywhere in the app. Its only live import is a hashed internal dist path (`@liveblocks/react/dist/suspense-fYGGJ3D9`) in `components/backgrounds/backgrounds.tsx` — likely a bad auto-import, worth its own cleanup ticket, unrelated to this one.
+  - **PartySocket** — `apps/app/src/hooks/useBackendChat.ts` is a working `usePartySocket` hook with zero consumers and a required `NEXT_PUBLIC_PARTY_KIT_URL` env var. Viable later if push/real-time is ever needed; polling is sufficient for v1.
+  - **`agent_inferences` (`packages/db/src/postgres/agent-inferences.ts`)** — wrong "agent." It stores the in-product mindmap AI's research-domain edge reasoning (`inference_text`, `evidentiary_state`), not coding-session activity. Its own file header bans it from feeding retrieval/derived views — do not repurpose it here.
+  - `AdminDashboard.tsx` (static counts only), `agent-execution-pipeline/` (demo UI, local state only), `.claude/hooks/memory-persistence/session-end.sh` (dead — `hooks.json` points at a script path that doesn't exist, never runs).
+- **Visual grammar to port (from `docs/design/design-lab/`, verified against actual files):**
+  - `docs/vision/prototypes/02-evidence-ledger.html` (the real source behind `ui-mockups/evidence-ledger-claim-detail.png`) — its `.sourcecard` footer meta-row (label left / metric right) is the shape for an owner+last-touched row; its numbered provenance-lineage list is the shape for an activity feed.
+  - `ui-mockups/research-desk-nuclear-thread-v2.png` — facepile with `+N` overflow and a `SYNCED ⌄` + identity chip pattern, portable into the board header beside the existing `RoadmapStrip`.
+  - Both already use the board's real design-system dependency: `--ut-*` tokens + `.ut-mono`/`.ut-typewriter` defined in `apps/app/src/features/mindmap/research-canvas/canvas-animations.css` — do not introduce a second token set.
+- **Hard constraints (design canon, binding):** no left accent side-stripes (the ledger mockup itself violates this — the design brief explicitly corrects it, use badge/color instead); no glow blooms or soft-SaaS radii; use redaction-bar skeletons for any loading state.
+- **Open IA tension to resolve before building:** the design brief states "intelligence lives in records, waypoints, and connections — not extra sidebars of insight cards" — this argues against a bolted-on activity panel. Prefer folding activity into the existing ticket-card/column grammar (e.g. an owner+timestamp row per card) over a separate feed sidebar.
+- **Why:** User asked directly for visibility into "what everyone is doing and what tasks are on the table" — the tasks half already exists (`/board`); the activity half does not.
+- **Files:** `apps/app/src/app/board/page.tsx`, `apps/app/src/app/board/data.ts`, new polling API route (e.g. `apps/app/src/app/api/board/activity/route.ts`)
+- **Reference:** research synthesized 2026-08-01 across three parallel passes (board code read, mockup inventory, live-source gap analysis) in the session that authored this ticket.
 
 ---
 

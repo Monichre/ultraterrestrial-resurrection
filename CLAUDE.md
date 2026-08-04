@@ -10,7 +10,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 2. [AGENTS.md](AGENTS.md) - **COMPREHENSIVE DEVELOPMENT GUIDELINES**
 3. [docs/ops/AGENT_ONBOARDING_CHECKLIST.md](docs/ops/AGENT_ONBOARDING_CHECKLIST.md) - **MANDATORY FIRST READ** - Validation checklist
 4. [docs/README.md](docs/README.md) - Documentation spine (what exists / where / how / want / do / start)
-5. [PRODUCT.md](PRODUCT.md) + [DESIGN.md](DESIGN.md) - **CANONICAL PRODUCT & DESIGN CONTEXT**. Repo-root product narrative and the "Microfilm Dark" design language. Read before any UI or product-facing work.
+5. [PRODUCT.md](PRODUCT.md) — product narrative. [DESIGN.md](DESIGN.md) — **NOT CANONICAL**; a deeply limited Microfilm Dark *canvas chrome sketch* only. For design ambition / identity / UX, read [`docs/vision/`](docs/vision/) (especially `DESIGN_REGISTERS.md`, `UX_LANGUAGE_GUIDE.md`, `UI_INSPIRATION.md`, `TEMPORAL_OBSERVATORY.md`) and [`docs/design/design-lab/`](docs/design/design-lab/) before any UI or brand work.
 
 ## Agent Configuration System
 
@@ -159,14 +159,14 @@ bun run analyze         # Database state analysis
 1. **Disclosure Mindmap Agent** — primary end-to-end AI path
    - Route: `/api/disclosure/mindmap` (OpenAI Assistants API + custom SSE bridge)
    - Tools: `file_search` (OpenAI vector store) + `searchDatabase` (FTS + pgvector cosine via `@db/postgres`) + `searchExternalResources` (Exa)
-   - **pgvector**: `embedQuery(text-embedding-3-small)` runs before every `searchDatabase` call — FTS and vector search run in parallel, deduped by id, ranked by score
+   - **pgvector**: `embedQuery(text-embedding-3-small)` runs before every `searchDatabase` call — FTS and vector search run in parallel over a deeper candidate pool (`limit * 3`) and are fused with **Reciprocal Rank Fusion** (rank agreement across signals, not raw score magnitude)
    - Client: `useMindMapAgent` hook → `transformStreamResponse` → graph nodes/edges
    - Files: `apps/app/src/app/api/disclosure/mindmap/route.ts`, `apps/app/src/features/mindmap/hooks/use-mindmap-agent.ts`
 
 2. **Prometheus Chat** — standalone conversational chat (separate protocol)
    - Route: `/api/prometheus/chat` (Vercel AI SDK `streamText`)
    - Tools: `searchUAP` (OpenAI Assistants vector store), `searchNeonDatabase` (FTS + pgvector via `@db/postgres`), `searchExternalResources`, `researchExternalTopic`, `processDocument`
-   - **pgvector**: `searchNeonDatabase` tool generates embedding then calls `searchDatabase({ embedding })` — same parallel FTS+vector pattern as mindmap agent
+   - **pgvector**: `searchNeonDatabase` tool generates embedding then calls `searchDatabase({ embedding })` — same parallel FTS+vector RRF fusion pattern as mindmap agent
    - File: `apps/app/src/app/api/prometheus/chat/route.ts`
 
 **What does NOT exist in the Next.js app (corrected myths):**

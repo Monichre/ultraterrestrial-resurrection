@@ -7,6 +7,7 @@ import type React from 'react'
 import {Suspense, memo, useRef, Component} from 'react'
 import * as THREE from 'three'
 import {TextureLoader} from 'three'
+import {damp, sampleStops, type JourneyProgressRef, type JourneyStop} from '@/lib/animations/scroll-journey'
 
 const EARTH_GLB_URL = '/assets/earth2/TERRA.glb'
 const EARTH_SPIN_RATE = 0.1
@@ -103,8 +104,10 @@ const EarthSceneLights: React.FC<{
 }> = ({lightRef}) => {
   return (
     <>
-      <ambientLight intensity={0.1} />
-      <directionalLight ref={lightRef} intensity={1.5} position={[1, 0, -0.25]} />
+      <ambientLight intensity={0.45} />
+      <directionalLight ref={lightRef} intensity={2.2} position={[1, 0, -0.25]} />
+      {/* Cool fill from camera side so the night side stays legible */}
+      <directionalLight intensity={0.55} position={[-2, 1, 4]} color='#9db8ff' />
     </>
   )
 }
@@ -121,22 +124,71 @@ const EarthGLB: React.FC<EarthIdleProps> = memo(({isIdle = false, reduceMotion =
 
   useEarthIdleMotion(earthRef, lightRef, isIdle, reduceMotion)
 
+  // DEBUG: verify the GLB scene contents
+  if (process.env.NODE_ENV === 'development') {
+    console.info('[Earth] GLB scene children:', scene.children.length, scene.children.map(c => c.constructor.name))
+  }
+
   return (
     <>
       <EarthSceneLights lightRef={lightRef} />
       <primitive ref={earthRef} object={scene} scale={2.5} rotation-y={0.5} />
+      {/* DEBUG: test mesh to verify the render loop works */}
+      <mesh position={[0, 0, 0]} scale={1}>
+        <boxGeometry args={[1, 1, 1]} />
+        <meshBasicMaterial color='red' />
+      </mesh>
     </>
   )
 })
 EarthGLB.displayName = 'EarthGLB'
 
+/**
+ * Scroll-journey camera stops (home Act 2).
+ * Push toward the surface during departure, then recede as the Moon takes the frame.
+ */
+const EARTH_CAM_Z: JourneyStop[] = [
+  [0, 5],
+  [0.3, 3.4],
+  [0.62, 4.6],
+  [1, 7.2],
+]
+const EARTH_CAM_Y: JourneyStop[] = [
+  [0, 0],
+  [0.3, 0],
+  [1, 1.1],
+]
+
+/** Damps the default camera along the journey stops each frame. Inert when no ref is passed. */
+const EarthJourneyRig: React.FC<{journeyRef: JourneyProgressRef}> = ({journeyRef}) => {
+  const {camera} = useThree()
+  const frameCount = useRef(0)
+
+  useFrame((_, delta) => {
+    if (process.env.NODE_ENV === 'development' && frameCount.current === 0) {
+      console.info('[EarthJourneyRig] useFrame is running, camera:', camera.position.x, camera.position.y, camera.position.z)
+    }
+    frameCount.current = (frameCount.current + 1) % 60
+
+    const t = journeyRef.current
+    camera.position.z = damp(camera.position.z, sampleStops(EARTH_CAM_Z, t), 4, delta)
+    camera.position.y = damp(camera.position.y, sampleStops(EARTH_CAM_Y, t), 4, delta)
+    camera.lookAt(0, 0, 0)
+  })
+
+  return null
+}
+
 interface EarthProps {
   activeLocation: unknown
   isIdle?: boolean
   reduceMotion?: boolean
+  /** Home scroll journey progress (0..1) — enables the camera rig when present */
+  journeyRef?: JourneyProgressRef
 }
 
-export const Earth: React.FC<EarthProps> = memo(({isIdle = false, reduceMotion = false}) => {
+export const Earth: React.FC<EarthProps> = memo(
+  ({isIdle = false, reduceMotion = false, journeyRef}) => {
   return (
     <div
       className='h-[80vh] w-[80vw] m-auto bg-black'
@@ -157,11 +209,16 @@ export const Earth: React.FC<EarthProps> = memo(({isIdle = false, reduceMotion =
           <Canvas
             gl={{alpha: false}}
             style={{background: '#000'}}
-            onCreated={({gl}) => {
+            onCreated={({gl, scene, camera, invalidate, frameloop, set}) => {
               gl.setClearColor('#000000', 1)
+              if (process.env.NODE_ENV === 'development') {
+                window.__earthR3f = {gl, scene, camera, invalidate, frameloop, set}
+                console.info('[Earth] Canvas onCreated — renderer:', gl.constructor.name, 'scene children:', scene.children.length, 'camera:', camera.type, 'frameloop:', frameloop)
+              }
             }}>
             <color attach='background' args={['#000000']} />
             <EarthGLB isIdle={isIdle} reduceMotion={reduceMotion} />
+            {journeyRef ? <EarthJourneyRig journeyRef={journeyRef} /> : null}
           </Canvas>
         </Suspense>
       </EarthErrorBoundary>

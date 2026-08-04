@@ -1,10 +1,11 @@
 'use client'
 
 import {PerspectiveCamera, useGLTF} from '@react-three/drei'
-import {Canvas, useFrame} from '@react-three/fiber'
+import {Canvas, useFrame, useThree} from '@react-three/fiber'
 import {Bloom, EffectComposer, TiltShift2} from '@react-three/postprocessing'
 import {Suspense, useRef, useMemo} from 'react'
 import * as THREE from 'three'
+import {damp, sampleStops, type JourneyProgressRef, type JourneyStop} from '@/lib/animations/scroll-journey'
 
 useGLTF.preload('/assets/moon/moon.glb')
 
@@ -34,7 +35,7 @@ const shaderMaterial = {
 		}
 		
 		void main() {
-			vec2 FC = vUv * r;
+			vec3 FC = vec3(vUv * r, 0.0);
 			float o = 0.0;
 			float i = 0.0;
 			float d = 0.0;
@@ -109,8 +110,38 @@ export const MoonScene = () => {
   )
 }
 
+/**
+ * Scroll-journey camera stops (home Act 2).
+ * Holds during departure, pushes in through the flyby, eases back for the arrival.
+ */
+const MOON_CAM_Z: JourneyStop[] = [
+  [0, 5],
+  [0.22, 5],
+  [0.62, 3.1],
+  [1, 4.4],
+]
+const MOON_CAM_Y: JourneyStop[] = [
+  [0, -0.5],
+  [0.62, -0.15],
+  [1, 0.1],
+]
+
+/** Damps the journey camera along its stops each frame. Inert when no ref is passed. */
+const MoonJourneyRig: React.FC<{journeyRef: JourneyProgressRef}> = ({journeyRef}) => {
+  const {camera} = useThree()
+
+  useFrame((_, delta) => {
+    const t = journeyRef.current
+    camera.position.z = damp(camera.position.z, sampleStops(MOON_CAM_Z, t), 4, delta)
+    camera.position.y = damp(camera.position.y, sampleStops(MOON_CAM_Y, t), 4, delta)
+    camera.lookAt(0, 0, 0)
+  })
+
+  return null
+}
+
 // Start of Selection
-export const Moon = () => {
+export const Moon = ({journeyRef}: {journeyRef?: JourneyProgressRef}) => {
   return (
     <div
       className='h-[60vh] w-[60vw] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black'
@@ -129,6 +160,7 @@ export const Moon = () => {
         <Suspense fallback={null}>
           <MoonScene />
         </Suspense>
+        {journeyRef ? <MoonJourneyRig journeyRef={journeyRef} /> : null}
         <EffectComposer enableNormalPass={false}>
           <Bloom mipmapBlur luminanceThreshold={0.5} />
           <TiltShift2 blur={0.35} />

@@ -18,7 +18,7 @@ A **prototype + reference archive**, not a publishable app package:
 |---|---|---|
 | Surface HTML | `prototypes/01`–`04` | Fixed artboard concepts for four research instruments |
 | Gallery / refs | `prototypes/`, `dossier-art/`, `textures/`, `ui-mockups/` | Materiality + product mock mood board |
-| Missing link | `./document-system/ut-document-system.css` | Referenced by HTML but absent — gap |
+| Unfinished | `document-system/` | Specimen + CSS exist but **unfinished** — broken consumer links / no React handoff. See [`document-system/README.md`](./document-system/README.md) |
 
 There is no `package.json`, Storybook, or build. Consumption path is: **read → brief → port into `apps/app`**.
 

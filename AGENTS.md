@@ -220,10 +220,11 @@ UX-adjacent work should read `docs/vision/` before proposing anything:
 - `docs/vision/IMPLEMENTATION_SPEC.md` - identity → real code map + gap list
 - `docs/vision/DESIGN_REGISTERS.md` - the techno-analytical vs. archival-material reframe (not two product lines)
 - `docs/vision/UI_INSPIRATION.md` - curated external UI reference links (Fable Showcase, etc.) with steal-notes
-- `DESIGN.md` (repo root) - the shipped Microfilm Dark canvas contract
+- `DESIGN.md` (repo root) — **NOT CANONICAL.** Deeply limited Microfilm Dark *Research Canvas chrome* sketch (tokens / a few signature motifs). Do not treat as the design system or product design SoT.
 - `PRODUCT.md` (repo root) - product manifesto register
+- `docs/design/design-lab/` - briefs, mockups, visual-language boards, unfinished `document-system/`
 
-This index is expected to grow; check `docs/vision/` for new files even if this list is stale.
+This index is expected to grow; check `docs/vision/` and `docs/design/` for new files even if this list is stale. Prefer vision + design-lab over root `DESIGN.md` for any ambitious UI work.
 
 ## 📝 Work Log Command
 

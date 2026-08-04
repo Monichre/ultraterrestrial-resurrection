@@ -39,22 +39,48 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 # them (T-045 M1). The names below are module globals populated on first
 # call; declared here so static readers can see what process_url/process_file
 # depend on.
-WebContentProcessor = None
-ContentAnalysisEngine = None
-upload_file_to_openai = None
-kb_service = None
-process_youtube_url_enhanced = None
-process_web_url_enhanced = None
-add_to_knowledge_base = None
-display = None
-web_processor = None
-ENHANCED_COCOINDEX_AVAILABLE = False
-COCOINDEX_KG_AVAILABLE = False
-cocoindex_processor = None
-UPSTASH_QUEUE_AVAILABLE = False
-add_processed_content_to_queue = None
+# Typed `Any`, not left for pyright to infer: each of these is reassigned
+# inside _import_heavy_dependencies() to a real imported class/function/
+# instance, but that reassignment happens through a `global` statement in a
+# function pyright doesn't trace into call sites - without an explicit
+# annotation, pyright infers each symbol's declared type from every
+# assignment it can see (the `None` here plus the real import), lands on an
+# Optional[<inferred type>], and then flags every use across the file
+# (display.print_stage(...), kb_service.kb_crud, cocoindex_processor.*, the
+# nested add_processed_content_to_queue() fallback def, etc.) as a possible
+# None access. `Any` is also the honest type here: what actually gets bound
+# is whatever processing.web_content_processor/lib.knowledge_base_service/
+# lib.terminal_display/lib.cocoindex_integration/lib.upstash.queue happen to
+# export, which this module treats as opaque runtime-loaded dependencies.
+WebContentProcessor: Any = None
+ContentAnalysisEngine: Any = None
+upload_file_to_openai: Any = None
+kb_service: Any = None
+process_youtube_url_enhanced: Any = None
+process_web_url_enhanced: Any = None
+add_to_knowledge_base: Any = None
+display: Any = None
+web_processor: Any = None
+ENHANCED_COCOINDEX_AVAILABLE: bool = False
+COCOINDEX_KG_AVAILABLE: bool = False
+cocoindex_processor: Any = None
+UPSTASH_QUEUE_AVAILABLE: bool = False
+add_processed_content_to_queue: Any = None
 
 _deps_loaded = False
+
+
+def _queue_not_configured(*args: Any, **kwargs: Any) -> Dict[str, bool]:
+    """Fallback for add_processed_content_to_queue when Upstash isn't
+    configured. A plain module-level function (not a nested `def` inside
+    _import_heavy_dependencies) so assigning it to the `add_processed_
+    content_to_queue` global is a normal expression assignment - a nested
+    `def` reassigning that name creates a second, conflicting declaration
+    for pyright (reportRedeclaration) alongside the `Any`-typed global
+    above.
+    """
+    logger.warning("Skipping Upstash queue - not configured")
+    return {"success": False, "skipped": True}
 
 
 def _import_heavy_dependencies() -> None:
@@ -113,10 +139,7 @@ def _import_heavy_dependencies() -> None:
     except (ImportError, RuntimeError) as e:
         UPSTASH_QUEUE_AVAILABLE = False
         logger.warning(f"Upstash queue not available: {e}")
-
-        def add_processed_content_to_queue(*args, **kwargs):
-            logger.warning("Skipping Upstash queue - not configured")
-            return {"success": False, "skipped": True}
+        add_processed_content_to_queue = _queue_not_configured
 
     # Initialize processors (kept as-is: constructed but unused elsewhere in
     # this module today - preserved rather than removed, out of scope here)
@@ -169,8 +192,13 @@ def trigger_cocoindex_processing(doc_id: str, force_update: bool = False) -> Opt
 
         return result
 
-    except Exception as e:
-        logger.error(f"Error triggering CocoIndex processing: {e}")
+    except Exception:
+        # logger.exception (not .error) so the traceback survives in debug
+        # logs even though the caller only ever sees None here (T-045 M3) -
+        # the caller can't distinguish credential/network/malformed-content
+        # failures from this return value alone, so the traceback is the
+        # only place that distinction is preserved.
+        logger.exception(f"Error triggering CocoIndex processing for document: {doc_id}")
         return None
 
 
@@ -273,7 +301,7 @@ def _print_stage_report(stages: List[Dict[str, str]]) -> None:
         return
     print("\n📋 \033[1mPipeline stages:\033[0m")
     for stage in stages:
-        icon = _STAGE_ICONS.get(stage.get("status"), "❔")
+        icon = _STAGE_ICONS.get(stage.get("status", ""), "❔")
         line = f"   {icon} {stage.get('name', 'unknown stage')}"
         detail = stage.get("detail")
         if detail:
@@ -287,15 +315,28 @@ def process_url(url: str, upload: bool = False, add_to_kb: bool = True) -> Optio
     logger.info(f"Processing URL: {url}")
     stages: List[Dict[str, str]] = []
     youtube = is_youtube_url(url)
+    content_type = "youtube_video" if youtube else "web_article"
+    extraction_stage_name = (
+        "YouTube transcript extraction" if youtube else "Web content extraction")
 
-    if youtube:
-        result = process_youtube_url_enhanced(url, upload, add_to_kb)
-        content_type = "youtube_video"
-        stages.append(_stage("YouTube transcript extraction", result is not None))
-    else:
-        result = process_web_url_enhanced(url, upload, add_to_kb)
-        content_type = "web_article"
-        stages.append(_stage("Web content extraction", result is not None))
+    # process_youtube_url_enhanced/process_web_url_enhanced were previously
+    # called unguarded here, so any exception they raised (network error,
+    # malformed response, etc.) propagated out of process_url entirely -
+    # main.py's CLI would crash with a raw traceback instead of an honest
+    # "❌ Processing failed" report, and playlist_ingestion.py (which calls
+    # process_url directly for every playlist episode) would only learn
+    # `str(e)` with no stage_report at all (T-045 M3).
+    try:
+        if youtube:
+            result = process_youtube_url_enhanced(url, upload, add_to_kb)
+        else:
+            result = process_web_url_enhanced(url, upload, add_to_kb)
+    except Exception as e:
+        logger.exception(f"Error processing URL: {url}")
+        stages.append(_stage(extraction_stage_name, False, str(e)))
+        return {"source": url, "title": url, "stage_report": stages}
+
+    stages.append(_stage(extraction_stage_name, result is not None))
 
     if result is None:
         return None
@@ -395,6 +436,7 @@ def process_file(file_path: str, upload: bool = False, add_to_kb: bool = True) -
     _import_heavy_dependencies()
     logger.info(f"Processing file: {file_path}")
     stages: List[Dict[str, str]] = []
+    data: Optional[Dict[str, Any]] = None
 
     if not os.path.exists(file_path):
         logger.error(f"File not found: {file_path}")
@@ -547,9 +589,21 @@ def process_file(file_path: str, upload: bool = False, add_to_kb: bool = True) -
         # Add to knowledge base
         if add_to_kb:
             doc_type = 'research' if is_pdf else 'case_file'
-            doc_id = add_to_knowledge_base(data, doc_type)
+            # Previously unguarded: a raised exception here (e.g. a Postgres/
+            # Xata write failure) was caught only by the broad except at the
+            # bottom of this function, which discarded every stage already
+            # collected above (file extraction, RAG pipeline, upload, queue)
+            # and returned bare None - the caller learned nothing about what
+            # had actually succeeded (T-045 M3).
+            try:
+                doc_id = add_to_knowledge_base(data, doc_type)
+            except Exception as e:
+                logger.exception(f"Knowledge base storage failed for {file_path}")
+                doc_id = None
+                stages.append(_stage("Knowledge base storage", False, str(e)))
+            else:
+                stages.append(_stage("Knowledge base storage", bool(doc_id)))
             data['doc_id'] = doc_id
-            stages.append(_stage("Knowledge base storage", bool(doc_id)))
 
             # Add file content to mem0 memory
             try:
@@ -766,7 +820,18 @@ def process_file(file_path: str, upload: bool = False, add_to_kb: bool = True) -
         return data
 
     except Exception as e:
-        logger.error(f"Error processing file: {e}")
+        # logger.exception (not .error) preserves the traceback in debug
+        # logs. If `data` already exists, some stages ran successfully
+        # before this failure (e.g. file extraction, RAG pipeline) - return
+        # it with the crash recorded as a stage instead of discarding that
+        # partial progress and everyone's diagnostic evidence along with it
+        # (T-045 M3). Only truly early failures (before `data` exists) still
+        # fall back to bare None.
+        logger.exception(f"Error processing file: {file_path}")
+        if data is not None:
+            stages.append(_stage("File processing", False, str(e)))
+            data['stage_report'] = stages
+            return data
         return None
 
 
@@ -922,7 +987,24 @@ def main():
         print(f"   Search Sync: {'✅' if status['search_sync'] else '❌'}")
         print(f"   Search URL: {'✅' if status['search_url'] else '❌'}")
         print(f"   Search Token: {'✅' if status['search_token'] else '❌'}")
-        print(f"   CocoIndex KG: {'✅' if COCOINDEX_KG_AVAILABLE else '❌'}")
+
+        # COCOINDEX_KG_AVAILABLE only means lib.cocoindex_integration imported
+        # cleanly - that module can import fine while the underlying
+        # `cocoindex` package itself is missing, which is exactly the T-045
+        # H5 bug: this used to report "CocoIndex KG: ✅" in the same run that
+        # logged "CocoIndex not available - install with: pip install
+        # cocoindex". cocoindex_processor.cocoindex_available reflects
+        # whether `import cocoindex` actually succeeded (see
+        # lib/cocoindex_integration.py:_check_cocoindex_availability) - that
+        # is the real operational signal.
+        coco_operational = (
+            COCOINDEX_KG_AVAILABLE
+            and bool(getattr(cocoindex_processor, "cocoindex_available", False))
+        )
+        print(f"   CocoIndex KG: {'✅' if coco_operational else '❌'}")
+        if COCOINDEX_KG_AVAILABLE and not coco_operational:
+            print(f"   CocoIndex KG module: ✅ imported, but the `cocoindex` "
+                  f"package is not installed/available - graph writes will fail")
 
         # Check Mem0 integration status
         try:
@@ -934,7 +1016,7 @@ def main():
         except Exception:
             print(f"   Mem0 Integration: ❌ (Module not available)")
 
-        if COCOINDEX_KG_AVAILABLE:
+        if coco_operational:
             try:
                 # Get CocoIndex processor status
                 kg_status = cocoindex_processor.get_processing_status()
@@ -953,7 +1035,7 @@ def main():
             print(f"   export UPSTASH_SEARCH_URL=your_url")
             print(f"   export UPSTASH_SEARCH_TOKEN=your_token")
 
-        if not COCOINDEX_KG_AVAILABLE:
+        if not coco_operational:
             print(f"\n💡 To enable CocoIndex knowledge graph:")
             print(f"   pip install cocoindex")
             print(f"   Configure PostgreSQL and Neo4j connections")
@@ -1005,20 +1087,36 @@ def main():
         display.print_url_detected(input_path, "file")
         result = process_file(input_path, args.upload, add_to_kb)
 
-    if result:
-        print(f"\n✅ Processing complete!")
-        print(f"   Title: {result.get('title', 'Unknown')}")
-        print(f"   Source: {result.get('source', 'Unknown')}")
-
-        if result.get('doc_id'):
-            print(f"   Document ID: {result['doc_id']}")
-
-        # Every stage below reports what actually happened - success,
-        # skipped, or failed - rather than presence-checking a key and
-        # printing ✅ regardless of outcome (T-045 H7).
-        _print_stage_report(result.get('stage_report', []))
-    else:
+    if not result:
         print(f"\n❌ Processing failed!")
+        sys.exit(1)
+
+    # `if result:` alone used to decide the top-line banner and exit code,
+    # so a run whose extraction succeeded but whose knowledge-base write (or
+    # any other required stage) failed still printed "✅ Processing
+    # complete!" and exited 0 - the exact overstatement the per-stage
+    # tracking below was built to prevent, just one layer up (T-045 H7's
+    # explicitly-flagged remaining half). A failed stage now flips both the
+    # banner and the exit code.
+    stage_report = result.get('stage_report', [])
+    failed_stages = [s for s in stage_report if s.get('status') == 'failed']
+
+    if failed_stages:
+        print(f"\n⚠️  \033[1mProcessing completed with failures\033[0m")
+    else:
+        print(f"\n✅ Processing complete!")
+    print(f"   Title: {result.get('title', 'Unknown')}")
+    print(f"   Source: {result.get('source', 'Unknown')}")
+
+    if result.get('doc_id'):
+        print(f"   Document ID: {result['doc_id']}")
+
+    # Every stage below reports what actually happened - success,
+    # skipped, or failed - rather than presence-checking a key and
+    # printing ✅ regardless of outcome (T-045 H7).
+    _print_stage_report(stage_report)
+
+    if failed_stages:
         sys.exit(1)
 
 

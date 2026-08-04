@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ---
 status: live
 role: eng
@@ -6,8 +5,6 @@ spine: how
 updated: 2026-07-19
 ---
 
-=======
->>>>>>> fix/disclosure-rag-hardening
 # Agent inferences are excluded from all retrieval, search, and suggestion pathways
 
 The `agent_inferences` table stores the analytical layer — reasoning strings, evidentiary-state labels, and edge rationale produced by the mindmap agent. It is write-only from the product's perspective: it is never queried by `searchDatabase`, never fed into pgvector similarity searches, and never used as a source for the deterministic suggestion engine (`related.ts`).

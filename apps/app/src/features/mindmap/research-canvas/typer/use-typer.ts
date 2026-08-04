@@ -4,62 +4,68 @@ import { TYPER_ITEMS } from "./constants"
 
 interface UseTyperProps {
   input: string
-  handleInputChange: (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => void
-  onSubmit?: (message: string) => void
+  handleInputChange: ( e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement> ) => void
+  onSubmit?: ( message: string ) => void
 }
 
-export function useTyper({ input, handleInputChange, onSubmit }: UseTyperProps) {
-  const [active, setActive] = useState(false)
-  const [isHovering, setIsHovering] = useState(false)
-  const [showEnhancedChat, setShowEnhancedChat] = useState(false)
-  const [pinnedCard, setPinnedCard] = useState<number | null>(null)
-  const [chatState, setChatState] = useState(0)
+export function useTyper( { input, handleInputChange, onSubmit }: UseTyperProps ) {
+  const [active, setActive] = useState( false )
+  const [isHovering, setIsHovering] = useState( false )
+  const [showEnhancedChat, setShowEnhancedChat] = useState( false )
+  const [pinnedCard, setPinnedCard] = useState<number | null>( null )
+  const [chatState, setChatState] = useState( 0 )
 
-  useEffect(() => {
-    setActive(input.length > 0)
+  useEffect( () => {
+    setActive( input.length > 0 )
     // showEnhancedChat is only set by card click or explicit submit — not on keystroke
-  }, [input])
+  }, [input] )
 
   const animationState = active ? "active" : isHovering ? "hover" : "initial"
 
-  const createSyntheticEvent = useCallback((value: string) => {
+  const createSyntheticEvent = useCallback( ( value: string ) => {
     return { target: { value } } as ChangeEvent<HTMLInputElement>
-  }, [])
+  }, [] )
 
   const handleCardClick = useCallback(
-    (command: string, index: number) => {
-      setPinnedCard(index)
+    ( command: string, index: number ) => {
+      const item = TYPER_ITEMS[index]
+      if ( item && 'href' in item && item.href ) {
+        window.location.assign( item.href )
+        return
+      }
 
-      setTimeout(() => {
-        handleInputChange(createSyntheticEvent(command))
-        setShowEnhancedChat(true)
-        setChatState(0)
-      }, 600)
+      setPinnedCard( index )
+
+      setTimeout( () => {
+        handleInputChange( createSyntheticEvent( command ) )
+        setShowEnhancedChat( true )
+        setChatState( 0 )
+      }, 600 )
     },
     [handleInputChange, createSyntheticEvent]
   )
 
-  const handleUnpin = useCallback(() => {
-    setPinnedCard(null)
-    setShowEnhancedChat(false)
-    setActive(false)
-    handleInputChange(createSyntheticEvent(""))
-  }, [handleInputChange, createSyntheticEvent])
+  const handleUnpin = useCallback( () => {
+    setPinnedCard( null )
+    setShowEnhancedChat( false )
+    setActive( false )
+    handleInputChange( createSyntheticEvent( "" ) )
+  }, [handleInputChange, createSyntheticEvent] )
 
   const handleMessageClick = useCallback(
-    (message: { title: string }) => {
+    ( message: { title: string } ) => {
       const formattedMessage = `Tell me about ${message.title.toLowerCase()}`
-      handleInputChange(createSyntheticEvent(formattedMessage))
-      if (onSubmit) {
-        onSubmit(formattedMessage)
+      handleInputChange( createSyntheticEvent( formattedMessage ) )
+      if ( onSubmit ) {
+        onSubmit( formattedMessage )
       }
     },
     [handleInputChange, createSyntheticEvent, onSubmit]
   )
 
   const handleInputChangeWrapper = useCallback(
-    (value: string) => {
-      handleInputChange(createSyntheticEvent(value))
+    ( value: string ) => {
+      handleInputChange( createSyntheticEvent( value ) )
     },
     [handleInputChange, createSyntheticEvent]
   )

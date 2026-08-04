@@ -28,7 +28,7 @@ subject matter itself is both:
 - **Archival-material register** — paper, grain, aged edges, stamps, redaction, typewriter
   text. Historical, academic, archival, because the subject matter (declassified files,
   testimony, case records) demands it. Shipped today as Microfilm Dark on the Research
-  Canvas (`DESIGN.md`).
+  Canvas (partial chrome sketch in non-canonical root `DESIGN.md`).
 
 A single surface can and often should carry both — e.g. a sighting report is an archival
 *document* (register 2) about a spatial/physical *event* (register 1). Don't force a
