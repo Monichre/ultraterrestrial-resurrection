@@ -13,6 +13,25 @@
 - When a review or planning outcome materially improves future agent performance, also update the nearest relevant agent memory/config file (`CLAUDE.md`, `AGENTS.md`, or feature-local `CLAUDE.md`) with concise durable guidance.
 - Canonical review and plan docs should be treated as the source of truth for multi-perspective analysis; chat alone is not sufficient for substantial review outcomes.
 
+## Canonical Render Path (Research Canvas)
+
+*(Moved from root `CLAUDE.md` 2026-08-05 — applies only to this app.)*
+
+```
+(site)/research-canvas/page.tsx
+  -> MindMap (features/mindmap/index.tsx -> mind-map.tsx)  [16 lines, only live shell]
+    -> ReactFlowProvider + MindMapProvider
+      -> ViewSwitcher (canvasContent=<Graph />)
+        -> Graph | TimelineView | SightingsView | SearchView | DetailView
+        -> always mounts <FullScreenMenu />
+```
+
+## State Management
+
+- **Zustand `mindmap-ui-store.ts`** — healthy, well-typed slices (navigation, tour, filter, timeline, layout, assets). Use this for UI state.
+- **`mindmap-context.tsx`** — 1,363-line god-object. Do NOT add more logic here. Scheduled for decomposition.
+- **Navigation** goes through Zustand `setActiveView()`, NOT `router.push()`. Path fields in FullScreenMenu are decorative.
+
 <claude-mem-context>
 # Recent Activity
 

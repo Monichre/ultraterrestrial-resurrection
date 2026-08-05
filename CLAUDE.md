@@ -8,7 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 1. [README.md](README.md)
 2. [AGENTS.md](AGENTS.md) - **COMPREHENSIVE DEVELOPMENT GUIDELINES**
-3. [docs/ops/AGENT_ONBOARDING_CHECKLIST.md](docs/ops/AGENT_ONBOARDING_CHECKLIST.md) - **MANDATORY FIRST READ** - Validation checklist
+3. [docs/agents/ops/AGENT_ONBOARDING_CHECKLIST.md](docs/agents/ops/AGENT_ONBOARDING_CHECKLIST.md) - **MANDATORY FIRST READ** - Validation checklist
 4. [docs/README.md](docs/README.md) - Documentation spine (what exists / where / how / want / do / start)
 5. [PRODUCT.md](PRODUCT.md) — product narrative. [DESIGN.md](DESIGN.md) — **NOT CANONICAL**; a deeply limited Microfilm Dark *canvas chrome sketch* only. For design ambition / identity / UX, read [`docs/vision/`](docs/vision/) (especially `DESIGN_REGISTERS.md`, `UX_LANGUAGE_GUIDE.md`, `UI_INSPIRATION.md`, `TEMPORAL_OBSERVATORY.md`) and [`docs/design/design-lab/`](docs/design/design-lab/) before any UI or brand work.
 
@@ -20,13 +20,15 @@ All development guidelines consolidated into:
 
 - Single source of truth for development guidelines, stack, and AI architecture
 - Three-tier project management details live here (do not duplicate elsewhere)
+- Worklane definitions (Lane A Corpus & Ingestion / Lane B Platform & Experience) live here
+- **Never `git stash` on the shared working tree** — see `AGENTS.md` for the full rule and the incident that produced it
 
-### Ops / agent intake - `docs/ops/`
+### Ops / agent intake - `docs/agents/ops/`
 
-- `docs/ops/AGENT_ONBOARDING_CHECKLIST.md` - Mandatory validation checklist
-- `docs/ops/issue-tracker.md` / `triage-labels.md` / `domain.md` - Skills meta
-- `docs/ops/CONTRIB.md` - Contribution and import conventions
-- Platform IDE rules live in `.cursor/`, `.claude/`, etc. — not under `docs/ops/`
+- `docs/agents/ops/AGENT_ONBOARDING_CHECKLIST.md` - Mandatory validation checklist
+- `docs/agents/ops/issue-tracker.md` / `triage-labels.md` / `domain.md` - Skills meta
+- `docs/agents/ops/CONTRIB.md` - Contribution and import conventions
+- Platform IDE rules live in `.cursor/`, `.claude/`, etc. — not under `docs/agents/ops/`
 
 ### Project Management System
 
@@ -36,28 +38,7 @@ All development guidelines consolidated into:
 
 ## Three-Tier Project Management System (MANDATORY FOR ALL AGENTS)
 
-**CRITICAL**: All agents MUST use this standardized three-tier approach for project management:
-
-### Tier 1: Strategic Planning - `docs/plans/FEATURES.md`
-
-- **Purpose**: High-level feature concepts, architectural decisions, strategic vision
-- **Scope**: Long-term features, complex architectural changes, research ideas
-- **Update Frequency**: Weekly reviews, major planning sessions
-- **Content**: Concepts → Requirements → Technical approach → Architectural decisions
-
-### Tier 2: Actionable Tickets - `docs/plans/TODO.md`
-
-- **Purpose**: Ready-to-implement tasks with clear success criteria
-- **Scope**: Features that have completed strategic planning and are ready for execution
-- **Update Frequency**: Sprint planning, daily reviews
-- **Content**: Specific tasks → Files → Timeline → Success metrics
-
-### Tier 3: Daily Execution - `DAILY_WORK_PLAN.md`
-
-- **Purpose**: Current sprint execution, tactical implementation
-- **Scope**: Active development, immediate priorities, current session work
-- **Update Frequency**: Daily updates, session tracking
-- **Content**: Current tasks → Progress → Blockers → Next steps
+**CRITICAL**: All agents MUST use this standardized three-tier approach for project management. Tier definitions, scope, and update cadence live in [AGENTS.md](AGENTS.md) — do not restate them here.
 
 ### Project Management Rules for All Agents
 
@@ -68,89 +49,25 @@ All development guidelines consolidated into:
 5. **Track progress** in TODO.md with realistic timelines
 6. **Report status** in DAILY_WORK_PLAN.md with specific accomplishments
 
-### Feature Maturation Flow
-
-```
-docs/plans/FEATURES.md (strategic concept) 
-    → docs/plans/TODO.md (actionable ticket) 
-    → DAILY_WORK_PLAN.md (active implementation)
-    → Documentation updates → Completion
-```
-
 **No other project management files should be created or used.** This three-tier system is the single source of truth for all project tracking and planning.
 
 ## Development Commands
 
-### Main Application (Next.js)
+Standard commands live in each workspace's `package.json` scripts (`bun run <script>` in `apps/app`, `packages/db`). The following are **not** manifest scripts and are easy to miss:
 
 ```bash
-# Development
-cd apps/app
-bun run dev              # Start dev server
-bun run build           # Production build
-bun run start           # Start production server
-bun run lint            # Run ESLint
-bun run storybook       # Component development
-
-# Component generation
-bun run new             # Generate new component with Plop
-bun run bun:new         # Alternative Bun-based generator
-
-# Storybook
-bun run build-storybook  # Build static Storybook
-```
-
-### Tests
-
-```bash
-bun run test:app                    # Frontend (Vitest) from repo root if scripted
-cd apps/app && bun run lint         # ESLint
-cd packages/db && bun run test:db   # DB connection smoke test
-cd apps/disclosure-rag && python -m pytest tests/  # Python RAG tests (when present)
-```
-
-### RAG System (Python)
-
-```bash
-# Development
-cd apps/disclosure-rag
-python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-
-# Run applications
-python streamlit_app.py    # Interactive dashboard
-python api_server.py       # FastAPI server
-python cli.py             # Interactive CLI
-
-# Data processing
-python process_entities.py  # Entity extraction
-python main.py              # Main processing pipeline
-```
-
-### Database Operations
-
-```bash
-# Postgres rebuild scripts (packages/db/scripts/rebuild/)
+# Postgres rebuild scripts — loose .py files, run from packages/db/scripts/rebuild/
 python embed_entities.py   # Batch-embed 6 entity tables via OpenAI
 python ingest.py           # Ingest transcripts/PDFs → documents + chunks
 python load_csv.py         # Load CSV exports into Postgres
-
-# packages/db npm scripts
-cd packages/db
-bun run seed            # Seed database
-bun run query           # Quick database query
-bun run analyze         # Database state analysis
 ```
+
+Python work uses Python 3 and a `.venv` (`apps/disclosure-rag/` has its own).
 
 ## Architecture Overview
 
-### Monorepo Structure
-
-- `apps/app/` - Main Next.js 15 application (research platform, mindmap, AI agents)
-- `apps/disclosure-rag/` - Python RAG system (completely disconnected from Next.js app)
-- `packages/db/` - Neon Postgres+pgvector layer (`@db/postgres`), 30 tables, 126,483 records (live count 2026-07-24; includes runtime-added `agent_inferences`)
-- `packages/ai/` - AI processing components
-- `packages/knowledge-base/` - Research source materials (under `sources/files/`)
+- **Spacetime Canvas** (`apps/app/src/features/spacetime/`, route `(site)/spacetime`) — Temporal Observatory. Requires `NEXT_PUBLIC_MAPBOX_PUBLIC_TOKEN`; **without it the globe silently renders a placeholder instead of erroring** (`spacetime-globe.tsx`).
+- **Database package guidance**: `packages/db/README.md` and `packages/db/QUICK_REFERENCE.md` (there is no `packages/db/CLAUDE.md`).
 
 ### Core AI Architecture (Grounded 2026-03-29)
 
@@ -184,37 +101,6 @@ bun run analyze         # Database state analysis
 
 **Reference:** `docs/plans/2026-03-29-roundtable-unified-action-plan.md` for full audit and hardening plan
 
-## Key Import Patterns
-
-### Database (SP3 — use `@db/postgres` for ALL database access)
-
-```typescript
-// Typed queries — replace any legacy @db/xata imports with these
-import { getAllEvents, getAllPersonnel, getAllTopics, loadEntityGraph } from '@db/postgres'
-import { searchXata, searchAll, searchTable, searchDatabase } from '@db/postgres'
-import { getSql } from '@db/postgres'           // raw tagged-template SQL for writes/custom queries
-import { readById, getPaginatedRecords } from '@db/postgres'
-import type { EventsRecord, PersonnelRecord, TopicsRecord } from '@db/postgres'
-
-// NEVER import from @db/xata — that package is retired
-import { getGraphContext } from '@/features/mindmap/utils/contextual-intelligence'
-```
-
-### Core AI Features
-
-```typescript
-import { EnhancedEntityNodePOC } from '@/features/mindmap/nodes/enhanced-node-poc'
-import { useSpatialGrouping } from '@/features/mindmap/hooks/use-spatial-grouping'
-import { Prometheus } from '@/features/agents/prometheus'
-```
-
-### Cross-Package
-
-```typescript
-import { AIComponent } from '@repo/ai'
-import { DataVizComponent } from '@/features/data-viz'
-```
-
 ## Critical Development Principles
 
 ### "Orchestration over Replacement"
@@ -233,23 +119,6 @@ import { DataVizComponent } from '@/features/data-viz'
 - Using `router.push()` for canvas navigation — use Zustand `setActiveView()`
 - Treating the Python RAG system as connected to the Next.js app
 
-### Canonical Render Path (Research Canvas)
-
-```
-(site)/research-canvas/page.tsx
-  -> MindMap (features/mindmap/index.tsx -> mind-map.tsx)  [16 lines, only live shell]
-    -> ReactFlowProvider + MindMapProvider
-      -> ViewSwitcher (canvasContent=<Graph />)
-        -> Graph | TimelineView | SightingsView | SearchView | DetailView
-        -> always mounts <FullScreenMenu />
-```
-
-### State Management
-
-- **Zustand `mindmap-ui-store.ts`** — healthy, well-typed slices (navigation, tour, filter, timeline, layout, assets). Use this for UI state.
-- **`mindmap-context.tsx`** — 1,363-line god-object. Do NOT add more logic here. Scheduled for decomposition.
-- **Navigation** goes through Zustand `setActiveView()`, NOT `router.push()`. Path fields in FullScreenMenu are decorative.
-
 ### Dead Code — Do Not Extend
 
 - `smart-mindmap.tsx`, `smart-mindmap-with-auto-connections.tsx`, `smart-mindmap-with-shared-context.tsx`, `smart-graph.tsx` — zero production consumers
@@ -259,21 +128,16 @@ import { DataVizComponent } from '@/features/data-viz'
 
 - **Feature-first structure** - group related functionality together
 - Use `@/` imports for apps/app paths, `@db/` for database package, `workspace:*` for packages
+- Prometheus agent lives at `@/services/ai/prometheus` (there is no `@/features/agents/`)
 
 ## Technology Stack
 
-### Frontend
-
-- **Next.js 15.3.5** with App Router, React 19.1.0
-- **Tailwind CSS 4.1.11** + Radix UI components
-- **Three.js** + React Three Fiber for 3D visualizations
-- **Zustand** + React Context for state management
-- **Liveblocks** + PartySocket for real-time collaboration
+Frontend framework and library versions are pinned in `apps/app/package.json` — read it rather than trusting a copy here.
 
 ### Backend & Data
 
 - **Neon Postgres 17.10 + pgvector 0.8.0** — primary database, 30 tables, 126,483 records (live `count(*)` 2026-07-24). Connection in `packages/db/.env` as `DATABASE_URL` — never commit.
-- **`@db/postgres`** — the ONLY live database layer (`packages/db/src/postgres/`). Exports typed queries, search, and `getSql()` tagged-template client via `@neondatabase/serverless`. Package-local guidance: `packages/db/CLAUDE.md`.
+- **`@db/postgres`** — the ONLY live database layer (`packages/db/src/postgres/`). Exports typed queries, search, and `getSql()` tagged-template client via `@neondatabase/serverless`.
 - **Embeddings**: `text-embedding-3-small` @ 1536 dims (locked). 1,594 entity rows + 4,946 document chunks embedded = 6,540 total vectors. All entity embeddings 100% populated (live 2026-07-24).
 - **OpenAI Assistants API** — disclosure mindmap agent (file_search + threads)
 - **Vercel AI SDK** — Prometheus chat route (streamText)
@@ -283,57 +147,16 @@ import { DataVizComponent } from '@/features/data-viz'
 
 ### Python RAG System (disconnected)
 
-- **FastAPI** + Streamlit for APIs and dashboards
-- **LangChain** + sentence-transformers for AI/ML
 - **Note**: This system does NOT share data or vector stores with the Next.js app
 
 ## Development Guidelines
 
-### Component Development
-
-1. Use `bun run new` for component generation
-2. Create Storybook stories for UI components
-3. Follow PascalCase for components, kebab-case for files
-4. Leverage Enhanced Nodes for consistency across features
-
-### AI Integration
-
-1. Build on Contextual Intelligence foundation
-2. Use existing Prometheus AI for conversations
-3. Leverage Enhanced Nodes for UI consistency
-4. Follow established spatial intelligence patterns
-
 ### Database Work
 
-1. Update Xata schema through dashboard first
-2. Run `xata codegen` to update types
-3. Test integration with existing contextual intelligence
+1. Schema and types live under `packages/db/src/postgres/` and are exported by `@db/postgres`
+2. Prefer the typed helpers; use `getSql()` tagged-template for writes and custom SQL
+3. `DATABASE_URL` lives in `packages/db/.env` — never commit it
 4. Maintain compatibility with 126,483 existing records (live count 2026-07-24)
-
-## Work Log Command
-
-When you receive the command "/worklog", automatically:
-
-1. **ANALYZE** recent work to determine:
-
-   - Primary focus area (frontend-ui, backend-api, database, testing, docs, deployment, research, bugfix, feature, refactor, integration, security)
-   - Files modified/created/deleted
-   - Time spent (estimate if needed)
-   - Key accomplishments
-
-2. **GENERATE** session ID using format: \[focus-area\]-\[YYYYMMDD\]-\[HHMMSS\]
-
-3. **AUTO-POPULATE** header with:
-
-   - Current date/time
-   - Generated session ID
-   - Detected focus area
-   - Your agent identifier
-   - Current branch/context
-
-4. **WRITE** comprehensive work log following template structure
-
-5. **ENSURE** all sections filled with specific, actionable information
 
 ## Documentation Standards
 
@@ -370,20 +193,20 @@ When you receive the command "/worklog", automatically:
 
 For agent intake and ops docs, see:
 
-- `docs/ops/` - Onboarding, triage, issue tracker, contrib
-- `docs/ops/AGENT_ONBOARDING_CHECKLIST.md` - Mandatory validation checklist
+- `docs/agents/ops/` - Onboarding, triage, issue tracker, contrib
+- `docs/agents/ops/AGENT_ONBOARDING_CHECKLIST.md` - Mandatory validation checklist
 - `docs/README.md` - Full documentation spine
 
 ## Agent skills
 
 ### Issue tracker
 
-Issues live as markdown files under `.scratch/<feature>/` in this repo (local-markdown convention). See `docs/ops/issue-tracker.md`.
+Issues live as markdown files under `.scratch/<feature>/` in this repo (local-markdown convention). See `docs/agents/ops/issue-tracker.md`.
 
 ### Triage labels
 
-Five canonical labels used as-is: needs-triage, needs-info, ready-for-agent, ready-for-human, wontfix. See `docs/ops/triage-labels.md`.
+Five canonical labels used as-is: needs-triage, needs-info, ready-for-agent, ready-for-human, wontfix. See `docs/agents/ops/triage-labels.md`.
 
 ### Domain docs
 
-Multi-context — root `CONTEXT-MAP.md` points to per-context `CONTEXT.md` files. See `docs/ops/domain.md`.
+Multi-context — root `CONTEXT-MAP.md` points to per-context `CONTEXT.md` files. See `docs/agents/ops/domain.md`.
