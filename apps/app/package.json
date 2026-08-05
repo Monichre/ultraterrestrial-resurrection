@@ -8,6 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "test": "bun test src",
+    "test:watch": "bun test --watch src",
     "storybook": "cross-env NEXT_FONT_GOOGLE_MOCKED_RESPONSES=$PWD/.storybook/mocked-google-fonts.cjs storybook dev -p 6006",
     "build-storybook": "cross-env NEXT_FONT_GOOGLE_MOCKED_RESPONSES=$PWD/.storybook/mocked-google-fonts.cjs storybook build",
     "new": "plop",

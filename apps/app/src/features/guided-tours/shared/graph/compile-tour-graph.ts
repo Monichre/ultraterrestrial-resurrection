@@ -1,15 +1,15 @@
-import type { TourDefinition } from '../types/tour-definition';
-import type { TourRuntimeState } from '../types/tour-runtime';
-import type { NuclearTourEdge, NuclearTourNode } from '../types/flow-model';
-import { deriveWaypointStatus } from './derive-node-status';
-import { deriveEdgeStatus } from './derive-edge-status';
+import type { TourDefinition } from '../types/tour-definition'
+import type { TourRuntimeState } from '../types/tour-runtime'
+import type { NuclearTourEdge, NuclearTourNode } from '../types/flow-model'
+import { deriveWaypointStatus } from './derive-node-status'
+import { deriveEdgeStatus } from './derive-edge-status'
 
 export function compileTourGraph(
   definition: TourDefinition,
   runtime: TourRuntimeState,
 ): { nodes: NuclearTourNode[]; edges: NuclearTourEdge[] } {
-  const nodes = definition.waypoints.map<NuclearTourNode>((waypoint) => {
-    const status = deriveWaypointStatus(waypoint.id, definition, runtime);
+  const nodes = definition.waypoints.map<NuclearTourNode>( ( waypoint ) => {
+    const status = deriveWaypointStatus( waypoint.id, definition, runtime )
 
     return {
       id: waypoint.id,
@@ -30,15 +30,16 @@ export function compileTourGraph(
         progress: runtime.progressByWaypoint[waypoint.id],
         interactionsLocked: runtime.interactionsLocked,
       },
+      hidden: status === 'hidden',
       style: {
-        opacity: status === 'hidden' ? 0 : undefined,
+        opacity: status === 'hidden' ? 0 : status === 'ghost' ? 0.55 : 1,
         pointerEvents: status === 'hidden' ? 'none' : undefined,
       },
       ariaLabel: `${waypoint.ordinal}. ${waypoint.title}, ${status}`,
-    };
-  });
+    }
+  } )
 
-  const edges = definition.transitions.map<NuclearTourEdge>((transition) => ({
+  const edges = definition.transitions.map<NuclearTourEdge>( ( transition ) => ( {
     id: transition.id,
     type: 'narrative-edge',
     source: transition.sourceWaypointId,
@@ -47,12 +48,12 @@ export function compileTourGraph(
     focusable: false,
     data: {
       kind: transition.kind,
-      status: deriveEdgeStatus(transition, runtime),
+      status: deriveEdgeStatus( transition, runtime ),
       durationMs: transition.durationMs,
       label: transition.label,
       reducedMotion: runtime.reducedMotion,
     },
-  }));
+  } ) )
 
-  return { nodes, edges };
+  return { nodes, edges }
 }

@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import {useEffect, useRef} from 'react'
+import {useEffect} from 'react'
 
 import {TourFlowCanvas} from '../shared/components/TourFlowCanvas'
 import {tourProgressRepository} from '../shared/persistence/tour-progress.repository'
@@ -15,19 +15,24 @@ import './nuclear-shadow-tour.css'
 export function NuclearShadowTour() {
   const loadDefinition = useTourStore((state) => state.loadDefinition)
   const runtime = useTourStore((state) => state.runtime)
-  const initialized = useRef(false)
+  const dispatch = useTourStore((state) => state.dispatch)
 
   useEffect(() => {
-    if (initialized.current) return
-    initialized.current = true
-
     const validation = validateTourDefinition(nuclearShadowDefinition)
     if (!validation.valid) {
       throw new Error(`Invalid Nuclear Shadow definition:\n${validation.errors.join('\n')}`)
     }
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const persisted = tourProgressRepository.load(nuclearShadowDefinition.id)
+    // Fresh session each mount unless ?resume=1 — avoids stuck empty overview from bad localStorage.
+    const params = new URLSearchParams(window.location.search)
+    const shouldResume = params.get('resume') === '1'
+    const persisted = shouldResume
+      ? tourProgressRepository.load(nuclearShadowDefinition.id)
+      : undefined
+    if (!shouldResume) {
+      tourProgressRepository.clear(nuclearShadowDefinition.id)
+    }
     loadDefinition(nuclearShadowDefinition, persisted, reducedMotion)
   }, [loadDefinition])
 
@@ -39,9 +44,21 @@ export function NuclearShadowTour() {
 
   return (
     <>
-      <Link href='/research-canvas' className='ut-button ut-button--quiet ut-tour-back'>
-        ← Research Canvas
-      </Link>
+      <div className='ut-tour-back'>
+        <Link href='/research-canvas' className='ut-button ut-button--quiet'>
+          ← Research Canvas
+        </Link>
+        <button
+          type='button'
+          className='ut-button ut-button--quiet'
+          onClick={() => {
+            tourProgressRepository.clear(nuclearShadowDefinition.id)
+            dispatch({type: 'TOUR_RESET'})
+            loadDefinition(nuclearShadowDefinition, undefined, runtime?.reducedMotion ?? false)
+          }}>
+          Restart
+        </button>
+      </div>
       <TourFlowCanvas definition={nuclearShadowDefinition} />
     </>
   )

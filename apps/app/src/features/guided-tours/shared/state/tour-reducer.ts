@@ -5,18 +5,18 @@ import type {
   TourDefinition,
   TourWaypointDefinition,
   WaypointId,
-} from '../types/tour-definition';
+} from '../types/tour-definition'
 import type {
   GateKey,
   PersistedTourProgress,
   TourRuntimeState,
   WaypointProgress,
-} from '../types/tour-runtime';
-import type { TourEvent } from './tour-events';
+} from '../types/tour-runtime'
+import type { TourEvent } from './tour-events'
 
-const gateKeys: GateKey[] = ['claim', 'evidence', 'challenge', 'residue'];
+const gateKeys: GateKey[] = ['claim', 'evidence', 'challenge', 'residue']
 
-export function createWaypointProgress(waypointId: WaypointId): WaypointProgress {
+export function createWaypointProgress( waypointId: WaypointId ): WaypointProgress {
   return {
     waypointId,
     narrationCompleted: false,
@@ -29,7 +29,7 @@ export function createWaypointProgress(waypointId: WaypointId): WaypointProgress
       challenge: false,
       residue: false,
     },
-  };
+  }
 }
 
 export function createInitialRuntimeState(
@@ -37,8 +37,8 @@ export function createInitialRuntimeState(
   reducedMotion = false,
 ): TourRuntimeState {
   const progressByWaypoint = Object.fromEntries(
-    definition.waypoints.map((waypoint) => [waypoint.id, createWaypointProgress(waypoint.id)]),
-  ) as Record<WaypointId, WaypointProgress>;
+    definition.waypoints.map( ( waypoint ) => [waypoint.id, createWaypointProgress( waypoint.id )] ),
+  ) as Record<WaypointId, WaypointProgress>
 
   return {
     tourId: definition.id,
@@ -63,7 +63,7 @@ export function createInitialRuntimeState(
     reducedMotion,
     hydrated: false,
     error: null,
-  };
+  }
 }
 
 export function hydrateRuntimeState(
@@ -71,25 +71,25 @@ export function hydrateRuntimeState(
   persisted?: PersistedTourProgress,
   reducedMotion = false,
 ): TourRuntimeState {
-  const base = createInitialRuntimeState(definition, reducedMotion);
+  const base = createInitialRuntimeState( definition, reducedMotion )
 
-  if (!persisted || persisted.tourId !== definition.id) {
+  if ( !persisted || persisted.tourId !== definition.id ) {
     return {
       ...base,
       phase: 'overview',
       hydrated: true,
-    };
+    }
   }
 
-  const validIds = new Set(definition.route);
-  const activeWaypointId = validIds.has(persisted.activeWaypointId)
+  const validIds = new Set( definition.route )
+  const activeWaypointId = validIds.has( persisted.activeWaypointId )
     ? persisted.activeWaypointId
-    : definition.entryWaypointId;
+    : definition.entryWaypointId
 
-  const progressByWaypoint = { ...base.progressByWaypoint };
-  for (const waypoint of definition.waypoints) {
-    const saved = persisted.progressByWaypoint[waypoint.id];
-    if (saved) progressByWaypoint[waypoint.id] = saved;
+  const progressByWaypoint = { ...base.progressByWaypoint }
+  for ( const waypoint of definition.waypoints ) {
+    const saved = persisted.progressByWaypoint[waypoint.id]
+    if ( saved ) progressByWaypoint[waypoint.id] = saved
   }
 
   return recalculateAllGates(
@@ -97,8 +97,8 @@ export function hydrateRuntimeState(
       ...base,
       phase: 'investigating',
       activeWaypointId,
-      visitedWaypointIds: persisted.visitedWaypointIds.filter((id) => validIds.has(id)),
-      completedWaypointIds: persisted.completedWaypointIds.filter((id) => validIds.has(id)),
+      visitedWaypointIds: persisted.visitedWaypointIds.filter( ( id ) => validIds.has( id ) ),
+      completedWaypointIds: persisted.completedWaypointIds.filter( ( id ) => validIds.has( id ) ),
       progressByWaypoint,
       evidenceThreshold: persisted.evidenceThreshold,
       hypothesisLens: persisted.hypothesisLens,
@@ -107,7 +107,7 @@ export function hydrateRuntimeState(
       viewportOwnership: 'system',
     },
     definition,
-  );
+  )
 }
 
 export function evaluateGateRule(
@@ -115,17 +115,17 @@ export function evaluateGateRule(
   visibleEvidence: EvidenceReference[],
   openedIds: string[],
 ): boolean {
-  switch (rule.kind) {
+  switch ( rule.kind ) {
     case 'automatic':
-      return true;
+      return true
     case 'acknowledge':
-      return false;
+      return false
     case 'open-any':
-      return visibleEvidence.filter((item) => openedIds.includes(item.id)).length >= rule.minimum;
+      return visibleEvidence.filter( ( item ) => openedIds.includes( item.id ) ).length >= rule.minimum
     case 'open-all-required':
-      return visibleEvidence.length > 0 && visibleEvidence.every((item) => openedIds.includes(item.id));
+      return visibleEvidence.length > 0 && visibleEvidence.every( ( item ) => openedIds.includes( item.id ) )
     case 'open-specific':
-      return rule.evidenceIds.every((id) => openedIds.includes(id));
+      return rule.evidenceIds.every( ( id ) => openedIds.includes( id ) )
   }
 }
 
@@ -133,7 +133,7 @@ function visibleForThreshold(
   evidence: EvidenceReference[],
   threshold: EvidenceThreshold,
 ): EvidenceReference[] {
-  return evidence.filter((item) => item.requiredForThresholds.includes(threshold));
+  return evidence.filter( ( item ) => item.requiredForThresholds.includes( threshold ) )
 }
 
 export function evaluateWaypointGates(
@@ -141,8 +141,8 @@ export function evaluateWaypointGates(
   progress: WaypointProgress,
   threshold: EvidenceThreshold,
 ): WaypointProgress['gates'] {
-  const supporting = visibleForThreshold(waypoint.evidence.supporting, threshold);
-  const challenges = visibleForThreshold(waypoint.evidence.counterpoints, threshold);
+  const supporting = visibleForThreshold( waypoint.evidence.supporting, threshold )
+  const challenges = visibleForThreshold( waypoint.evidence.counterpoints, threshold )
 
   return {
     claim:
@@ -163,15 +163,15 @@ export function evaluateWaypointGates(
       waypoint.gates.residue.kind === 'automatic'
         ? true
         : progress.acknowledgedResidue,
-  };
+  }
 }
 
 export function canDepartWaypoint(
   state: TourRuntimeState,
   waypointId: WaypointId,
 ): boolean {
-  const progress = state.progressByWaypoint[waypointId];
-  return progress ? gateKeys.every((gate) => progress.gates[gate]) : false;
+  const progress = state.progressByWaypoint[waypointId]
+  return progress ? gateKeys.every( ( gate ) => progress.gates[gate] ) : false
 }
 
 function recalculateWaypoint(
@@ -179,15 +179,15 @@ function recalculateWaypoint(
   definition: TourDefinition,
   waypointId: WaypointId,
 ): TourRuntimeState {
-  const waypoint = definition.waypoints.find((item) => item.id === waypointId);
-  const current = state.progressByWaypoint[waypointId];
-  if (!waypoint || !current) return state;
+  const waypoint = definition.waypoints.find( ( item ) => item.id === waypointId )
+  const current = state.progressByWaypoint[waypointId]
+  if ( !waypoint || !current ) return state
 
-  const gates = evaluateWaypointGates(waypoint, current, state.evidenceThreshold);
-  const complete = gateKeys.every((gate) => gates[gate]);
+  const gates = evaluateWaypointGates( waypoint, current, state.evidenceThreshold )
+  const complete = gateKeys.every( ( gate ) => gates[gate] )
   const completedWaypointIds = complete
-    ? Array.from(new Set([...state.completedWaypointIds, waypointId]))
-    : state.completedWaypointIds.filter((id) => id !== waypointId);
+    ? Array.from( new Set( [...state.completedWaypointIds, waypointId] ) )
+    : state.completedWaypointIds.filter( ( id ) => id !== waypointId )
 
   return {
     ...state,
@@ -206,7 +206,7 @@ function recalculateWaypoint(
         completedAt: complete ? current.completedAt ?? new Date().toISOString() : undefined,
       },
     },
-  };
+  }
 }
 
 function recalculateAllGates(
@@ -214,26 +214,26 @@ function recalculateAllGates(
   definition: TourDefinition,
 ): TourRuntimeState {
   return definition.waypoints.reduce(
-    (next, waypoint) => recalculateWaypoint(next, definition, waypoint.id),
+    ( next, waypoint ) => recalculateWaypoint( next, definition, waypoint.id ),
     state,
-  );
+  )
 }
 
 function updateProgress(
   state: TourRuntimeState,
   waypointId: WaypointId,
-  updater: (progress: WaypointProgress) => WaypointProgress,
+  updater: ( progress: WaypointProgress ) => WaypointProgress,
 ): TourRuntimeState {
-  const progress = state.progressByWaypoint[waypointId];
-  if (!progress) return state;
+  const progress = state.progressByWaypoint[waypointId]
+  if ( !progress ) return state
 
   return {
     ...state,
     progressByWaypoint: {
       ...state.progressByWaypoint,
-      [waypointId]: updater(progress),
+      [waypointId]: updater( progress ),
     },
-  };
+  }
 }
 
 export function reduceTourRuntime(
@@ -241,9 +241,9 @@ export function reduceTourRuntime(
   event: TourEvent,
   definition: TourDefinition,
 ): TourRuntimeState {
-  switch (event.type) {
+  switch ( event.type ) {
     case 'TOUR_HYDRATED':
-      return hydrateRuntimeState(definition, event.progress, state.reducedMotion);
+      return hydrateRuntimeState( definition, event.progress, state.reducedMotion )
 
     case 'OVERVIEW_COMPLETED':
       return {
@@ -252,7 +252,7 @@ export function reduceTourRuntime(
         activeWaypointId: definition.entryWaypointId,
         pendingWaypointId: definition.entryWaypointId,
         interactionsLocked: true,
-      };
+      }
 
     case 'WAYPOINT_ARRIVAL_STARTED':
       return {
@@ -261,17 +261,17 @@ export function reduceTourRuntime(
         activeWaypointId: event.waypointId,
         pendingWaypointId: event.waypointId,
         interactionsLocked: true,
-      };
+      }
 
     case 'WAYPOINT_ARRIVAL_COMPLETED': {
       const visitedWaypointIds = Array.from(
-        new Set([...state.visitedWaypointIds, event.waypointId]),
-      );
-      const next = updateProgress(state, event.waypointId, (progress) => ({
+        new Set( [...state.visitedWaypointIds, event.waypointId] ),
+      )
+      const next = updateProgress( state, event.waypointId, ( progress ) => ( {
         ...progress,
         firstEnteredAt: progress.firstEnteredAt ?? new Date().toISOString(),
-      }));
-      const complete = canDepartWaypoint(next, event.waypointId);
+      } ) )
+      const complete = canDepartWaypoint( next, event.waypointId )
       return {
         ...next,
         phase: complete ? 'ready-to-depart' : 'investigating',
@@ -280,42 +280,42 @@ export function reduceTourRuntime(
         visitedWaypointIds,
         viewportOwnership: 'user',
         interactionsLocked: false,
-      };
+      }
     }
 
     case 'NARRATION_COMPLETED':
       return recalculateWaypoint(
-        updateProgress(state, event.waypointId, (progress) => ({
+        updateProgress( state, event.waypointId, ( progress ) => ( {
           ...progress,
           narrationCompleted: true,
-        })),
+        } ) ),
         definition,
         event.waypointId,
-      );
+      )
 
     case 'EVIDENCE_OPENED': {
-      const isCounterpoint = event.role === 'challenge' || event.role === 'contradiction';
-      const next = updateProgress(state, event.waypointId, (progress) => ({
+      const isCounterpoint = event.role === 'challenge' || event.role === 'contradiction'
+      const next = updateProgress( state, event.waypointId, ( progress ) => ( {
         ...progress,
         openedEvidenceIds: isCounterpoint
           ? progress.openedEvidenceIds
-          : Array.from(new Set([...progress.openedEvidenceIds, event.evidenceId])),
+          : Array.from( new Set( [...progress.openedEvidenceIds, event.evidenceId] ) ),
         openedCounterpointIds: isCounterpoint
-          ? Array.from(new Set([...progress.openedCounterpointIds, event.evidenceId]))
+          ? Array.from( new Set( [...progress.openedCounterpointIds, event.evidenceId] ) )
           : progress.openedCounterpointIds,
-      }));
-      return recalculateWaypoint(next, definition, event.waypointId);
+      } ) )
+      return recalculateWaypoint( next, definition, event.waypointId )
     }
 
     case 'RESIDUE_ACKNOWLEDGED':
       return recalculateWaypoint(
-        updateProgress(state, event.waypointId, (progress) => ({
+        updateProgress( state, event.waypointId, ( progress ) => ( {
           ...progress,
           acknowledgedResidue: true,
-        })),
+        } ) ),
         definition,
         event.waypointId,
-      );
+      )
 
     case 'NEXT_REQUESTED': {
       if (
@@ -323,22 +323,22 @@ export function reduceTourRuntime(
         !state.activeWaypointId ||
         state.transitionToken ||
         state.interactionsLocked ||
-        !canDepartWaypoint(state, state.activeWaypointId)
+        !canDepartWaypoint( state, state.activeWaypointId )
       ) {
-        return state;
+        return state
       }
 
       const current = definition.waypoints.find(
-        (waypoint) => waypoint.id === state.activeWaypointId,
-      );
-      const target = current?.transition?.targetWaypointId;
+        ( waypoint ) => waypoint.id === state.activeWaypointId,
+      )
+      const target = current?.transition?.targetWaypointId
 
-      if (!target) {
+      if ( !target ) {
         return {
           ...state,
           phase: 'complete',
           interactionsLocked: false,
-        };
+        }
       }
 
       return {
@@ -349,11 +349,11 @@ export function reduceTourRuntime(
         viewportOwnership: 'system',
         transitionToken: crypto.randomUUID(),
         evidenceDrawer: { ...state.evidenceDrawer, open: false },
-      };
+      }
     }
 
     case 'DEPARTURE_COMPLETED':
-      if (state.transitionToken !== event.transitionToken) return state;
+      if ( state.transitionToken !== event.transitionToken ) return state
       return {
         ...state,
         phase: 'arriving',
@@ -361,30 +361,30 @@ export function reduceTourRuntime(
         activeWaypointId: event.to,
         pendingWaypointId: event.to,
         transitionToken: null,
-      };
+      }
 
     case 'VISITED_WAYPOINT_REQUESTED':
-      if (state.interactionsLocked || !state.visitedWaypointIds.includes(event.waypointId)) {
-        return state;
+      if ( state.interactionsLocked || !state.visitedWaypointIds.includes( event.waypointId ) ) {
+        return state
       }
       return {
         ...state,
         previousWaypointId: state.activeWaypointId,
         activeWaypointId: event.waypointId,
-        phase: canDepartWaypoint(state, event.waypointId)
+        phase: canDepartWaypoint( state, event.waypointId )
           ? 'ready-to-depart'
           : 'investigating',
         viewportOwnership: 'system',
-      };
+      }
 
     case 'EVIDENCE_THRESHOLD_CHANGED':
       return recalculateAllGates(
         { ...state, evidenceThreshold: event.value },
         definition,
-      );
+      )
 
     case 'HYPOTHESIS_LENS_CHANGED':
-      return { ...state, hypothesisLens: event.lens };
+      return { ...state, hypothesisLens: event.lens }
 
     case 'EVIDENCE_DRAWER_OPENED':
       return {
@@ -395,7 +395,7 @@ export function reduceTourRuntime(
           evidenceId: event.evidenceId,
           tab: 'source',
         },
-      };
+      }
 
     case 'EVIDENCE_DRAWER_CLOSED':
       return {
@@ -405,38 +405,40 @@ export function reduceTourRuntime(
           open: false,
           evidenceId: null,
         },
-      };
+      }
 
     case 'USER_VIEWPORT_INTERACTION_STARTED':
-      return { ...state, viewportOwnership: 'user' };
+      return { ...state, viewportOwnership: 'user' }
 
     case 'SYSTEM_VIEWPORT_CONTROL_REQUESTED':
-      return { ...state, viewportOwnership: 'system' };
+      return { ...state, viewportOwnership: 'system' }
 
     case 'REDUCED_MOTION_CHANGED':
-      return { ...state, reducedMotion: event.value };
+      return { ...state, reducedMotion: event.value }
 
     case 'TOUR_PAUSED':
       return state.phase === 'departing' || state.phase === 'arriving'
         ? state
-        : { ...state, phase: 'paused' };
+        : { ...state, phase: 'paused' }
 
     case 'TOUR_RESUMED':
       return state.phase === 'paused'
         ? {
-            ...state,
-            phase: state.activeWaypointId && canDepartWaypoint(state, state.activeWaypointId)
-              ? 'ready-to-depart'
-              : 'investigating',
-          }
-        : state;
+          ...state,
+          phase: state.activeWaypointId && canDepartWaypoint( state, state.activeWaypointId )
+            ? 'ready-to-depart'
+            : 'investigating',
+        }
+        : state
 
     case 'TOUR_RESET':
       return {
-        ...createInitialRuntimeState(definition, state.reducedMotion),
+        ...createInitialRuntimeState( definition, state.reducedMotion ),
         phase: 'overview',
+        activeWaypointId: definition.entryWaypointId,
         hydrated: true,
-      };
+        interactionsLocked: true,
+      }
 
     case 'TOUR_FAILED':
       return {
@@ -444,6 +446,6 @@ export function reduceTourRuntime(
         phase: 'error',
         interactionsLocked: false,
         error: { code: event.code, message: event.message },
-      };
+      }
   }
 }

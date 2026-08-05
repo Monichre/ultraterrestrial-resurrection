@@ -25,8 +25,8 @@
     radial-gradient(ellipse 120% 90% at 50% 42%, transparent 55%, oklch(0.1 0.005 85 / 0.55) 100%),
     radial-gradient(circle at 20% 10%, rgba(161, 35, 30, 0.08), transparent 28%),
     linear-gradient(135deg, #0b0e0c, #131914 55%, #090b0a);
-  font-family: var(--font-martian-mono, ui-monospace), SFMono-Regular, Menlo, Monaco, Consolas,
-    monospace;
+  font-family:
+    var(--font-martian-mono, ui-monospace), SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
 .ut-tour-shell * {
@@ -183,7 +183,9 @@
 
 .ut-waypoint--active .ut-waypoint__body,
 .ut-waypoint--complete .ut-waypoint__body {
-  box-shadow: 0 0 0 1px var(--signal-amber), 0 20px 70px rgba(0, 0, 0, 0.6);
+  box-shadow:
+    0 0 0 1px var(--signal-amber),
+    0 20px 70px rgba(0, 0, 0, 0.6);
 }
 
 .ut-waypoint__header {
@@ -550,6 +552,8 @@
   z-index: 30;
   left: 20px;
   bottom: 20px;
+  display: flex;
+  gap: 8px;
   pointer-events: auto;
 }
 

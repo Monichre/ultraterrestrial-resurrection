@@ -22,11 +22,13 @@ export function wait(durationMs: number, signal: AbortSignal): Promise<void> {
       return;
     }
 
-    const timeoutId = window.setTimeout(resolve, durationMs);
+    // Global timers, not `window.*` — this module is pure enough to unit-test
+    // outside a DOM, and `window` is undefined in the test runtime.
+    const timeoutId = setTimeout(resolve, durationMs);
     signal.addEventListener(
       'abort',
       () => {
-        window.clearTimeout(timeoutId);
+        clearTimeout(timeoutId);
         reject(new DOMException('Tour transition aborted', 'AbortError'));
       },
       { once: true },
