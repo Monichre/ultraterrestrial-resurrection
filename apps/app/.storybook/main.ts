@@ -7,7 +7,6 @@ const appRoot = process.cwd()
 const storybookDir = path.join( appRoot, '.storybook' )
 const repoRoot = path.resolve( appRoot, '../..' )
 const brandBibleRoot = path.join( repoRoot, 'docs/design/brand-bible' )
-const referencePrototypeRoot = path.join( repoRoot, 'docs/design/reference-prototype' )
 
 process.env.NEXT_FONT_GOOGLE_MOCKED_RESPONSES ??= path.join( storybookDir, 'mocked-google-fonts.cjs' )
 
@@ -32,7 +31,6 @@ const config: StorybookConfig = {
   staticDirs: [
     '../public',
     { from: brandBibleRoot, to: '/brand-bible' },
-    { from: path.join( referencePrototypeRoot, 'public/images' ), to: '/images' },
   ],
 
   // Enable docs generation for better documentation (uses default autodocs from preview tags)
@@ -59,7 +57,6 @@ const config: StorybookConfig = {
     ]
     config.resolve.alias = {
       ...( config.resolve.alias || {} ),
-      '@reference': referencePrototypeRoot,
       '@ai-sdk/react': path.join( storybookDir, 'stubs/ai-sdk-react.ts' ),
       '@ai-sdk/rsc': path.join( storybookDir, 'stubs/ai-sdk-rsc.ts' ),
       'next/font/google': path.join( storybookDir, 'stubs/next-font.ts' ),
@@ -112,19 +109,6 @@ const config: StorybookConfig = {
 
     config.plugins = [
       ...( config.plugins || [] ),
-      new webpack.NormalModuleReplacementPlugin( /^@\//, ( resource ) => {
-        const moduleContext = path.resolve( resource.context || '' )
-        const isReferenceModule =
-          moduleContext === referencePrototypeRoot ||
-          moduleContext.startsWith( `${referencePrototypeRoot}${path.sep}` )
-
-        if ( !isReferenceModule ) return
-
-        const referenceRequest =
-          resource.request === '@/types/document' ? 'types/documents' : resource.request.slice( 2 )
-
-        resource.request = path.join( referencePrototypeRoot, referenceRequest )
-      } ),
       new webpack.NormalModuleReplacementPlugin(
         /[\\/]features[\\/]mindmap[\\/]actions[\\/]xata-to-xyflow$/,
         path.join( storybookDir, 'stubs/xata-to-xyflow.ts' )
