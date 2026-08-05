@@ -13,6 +13,18 @@ import {SpacetimeCanvasShell} from './spacetime-canvas-shell'
 import {SpacetimeGlobe} from './spacetime-globe'
 import {TemporalDial} from './temporal-dial'
 import {cn} from '@/lib/utils'
+import type {EpistemicStatus} from '../types/spacetime'
+
+/**
+ * Sightings carry no verification/corroboration signal — avoid dressing that
+ * up as a precise "Credibility 55%" figure. Say plainly what we actually
+ * know: whether a real account was captured, and that it's one source.
+ */
+const EPISTEMIC_STATUS_COPY: Record<EpistemicStatus, string> = {
+  documented: 'Documented report',
+  inferred: 'Thin record',
+  disputed: 'Disputed report',
+}
 
 function EventInspector() {
   const selectedEventId = useSpacetimeStore((s) => s.selectedEventId)
@@ -52,10 +64,10 @@ function EventInspector() {
         {event.timestamp.slice(0, 10)}
         {event.locationDescription ? ` · ${event.locationDescription}` : ''}
       </p>
-      {event.credibilityScore != null ? (
+      {event.epistemicStatus ? (
         <p className='mt-2 text-xs text-neutral-300'>
-          Credibility {(event.credibilityScore * 100).toFixed(0)}%
-          {event.epistemicStatus ? ` · ${event.epistemicStatus}` : ''}
+          {EPISTEMIC_STATUS_COPY[event.epistemicStatus]}
+          {' · single-source, uncorroborated'}
         </p>
       ) : null}
       {event.summary ? (
@@ -174,9 +186,7 @@ function GuidedNarrative() {
                       <span className='block font-medium'>{event.title}</span>
                       <span className='block text-xs text-neutral-400'>
                         {event.locationDescription || 'Unknown location'}
-                        {event.credibilityScore != null
-                          ? ` · ${(event.credibilityScore * 100).toFixed(0)}%`
-                          : ''}
+                        {event.epistemicStatus === 'inferred' ? ' · thin record' : ''}
                       </span>
                     </button>
                   </li>

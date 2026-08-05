@@ -28,6 +28,14 @@ const EPISTEMIC_ROWS: Array<{status: EpistemicStatus; label: string; swatch: str
   {status: 'disputed', label: 'Disputed', swatch: 'bg-rose-300'},
 ]
 
+/** Mirrors the honest score bands in lib/normalize.ts — see CONFIDENCE_TO_SCORE. */
+const CREDIBILITY_TIERS: Array<{value: number; label: string}> = [
+  {value: 0, label: 'Any'},
+  {value: 0.2, label: 'Thin+'},
+  {value: 0.4, label: 'Docmt+'},
+  {value: 0.7, label: 'Corrob+'},
+]
+
 /**
  * M1 evidence instrument — layer mixer + credibility / provenance filters.
  * Does not trigger reconstruction (the lever is later).
@@ -44,6 +52,20 @@ export function EvidenceLayersPanel() {
   const visibleCount = useMemo(
     () => filterSpacetimeEvents(events, layers, filters).length,
     [events, layers, filters],
+  )
+
+  // Which statuses/scores the loaded corpus can actually produce right now —
+  // a filter stop no loaded event can satisfy is a dead control, not a
+  // precise one. Derived from the live corpus so this self-corrects the
+  // moment a richer ingestion path (testimonies, corroborated reports) lands,
+  // instead of staying a hardcoded flag someone has to remember to flip.
+  const presentStatuses = useMemo(
+    () => new Set(events.map((e) => e.epistemicStatus ?? 'inferred')),
+    [events],
+  )
+  const maxCredibility = useMemo(
+    () => events.reduce((max, e) => Math.max(max, e.credibilityScore ?? 0), 0),
+    [events],
   )
 
   return (
@@ -98,21 +120,40 @@ export function EvidenceLayersPanel() {
           </section>
 
           <section>
-            <div className='mb-2 flex items-center justify-between font-mono text-[10px] tracking-[0.2em] text-neutral-500 uppercase'>
-              <span>Credibility</span>
-              <span className='text-neutral-300'>
-                ≥ {(filters.credibilityMin * 100).toFixed(0)}%
-              </span>
+            <p className='mb-2 font-mono text-[10px] tracking-[0.2em] text-neutral-500 uppercase'>
+              Min. evidentiary tier
+            </p>
+            {/*
+             * Stepped, not continuous — the scored corpus only actually
+             * occupies a handful of tiers (see normalize.ts). A smooth 0–100
+             * slider over that implies precision the source data doesn't
+             * have, and reads as broken once a drag crosses a tier boundary
+             * with nothing in between. Snap to the tiers that are real.
+             */}
+            <div className='flex gap-1'>
+              {CREDIBILITY_TIERS.map((tier) => {
+                const reachable = tier.value <= maxCredibility
+                return (
+                  <button
+                    key={tier.value}
+                    type='button'
+                    disabled={!reachable}
+                    title={reachable ? undefined : 'No loaded event reaches this tier yet'}
+                    onClick={() => setCredibilityMin(tier.value)}
+                    className={cn(
+                      'flex-1 rounded-md border px-1.5 py-1 text-[10px] tracking-wide uppercase transition',
+                      !reachable
+                        ? 'cursor-not-allowed border-white/5 text-neutral-600'
+                        : filters.credibilityMin === tier.value
+                          ? 'border-amber-200/50 bg-amber-300/20 text-amber-100'
+                          : 'border-white/10 text-neutral-400 hover:bg-white/5 hover:text-neutral-200',
+                    )}
+                  >
+                    {tier.label}
+                  </button>
+                )
+              })}
             </div>
-            <input
-              type='range'
-              min={0}
-              max={100}
-              step={5}
-              value={Math.round(filters.credibilityMin * 100)}
-              onChange={(e) => setCredibilityMin(Number(e.target.value) / 100)}
-              className='w-full accent-amber-300'
-            />
           </section>
 
           <section>
@@ -120,12 +161,21 @@ export function EvidenceLayersPanel() {
               Provenance
             </p>
             <ul className='space-y-1.5'>
-              {EPISTEMIC_ROWS.map((row) => (
+              {EPISTEMIC_ROWS.map((row) => {
+                const reachable = presentStatuses.has(row.status)
+                return (
                 <li key={row.status}>
-                  <label className='flex items-center gap-2 text-xs'>
+                  <label
+                    className={cn(
+                      'flex items-center justify-between gap-2 text-xs',
+                      !reachable && 'opacity-40',
+                    )}
+                  >
+                    <span className='flex items-center gap-2'>
                     <input
                       type='checkbox'
                       checked={filters.epistemic[row.status]}
+                      disabled={!reachable}
                       onChange={(e) =>
                         setEpistemicFilter(row.status, e.target.checked)
                       }
@@ -133,9 +183,16 @@ export function EvidenceLayersPanel() {
                     />
                     <span className={cn('h-2 w-2 rounded-full', row.swatch)} />
                     {row.label}
+                    </span>
+                    {!reachable ? (
+                      <span className='font-mono text-[9px] tracking-wider text-neutral-500 uppercase'>
+                        none loaded
+                      </span>
+                    ) : null}
                   </label>
                 </li>
-              ))}
+                )
+              })}
             </ul>
           </section>
         </div>

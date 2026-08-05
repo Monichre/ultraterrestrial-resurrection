@@ -25,7 +25,7 @@ function eventsToGeoJSON(events: SpacetimeEvent[]): GeoJSON.FeatureCollection {
           id: e.id,
           title: e.title,
           timestamp: e.timestamp,
-          credibility: e.credibilityScore ?? 0.5,
+          credibility: e.credibilityScore ?? 0.2,
           epistemic: e.epistemicStatus ?? 'inferred',
         },
       })),
@@ -43,6 +43,7 @@ export function SpacetimeGlobe() {
   const layers = useSpacetimeStore((s) => s.layers)
   const filters = useSpacetimeStore((s) => s.filters)
   const cursor = useSpacetimeStore((s) => s.temporalCursor)
+  const selectedEventId = useSpacetimeStore((s) => s.selectedEventId)
   const selectEvent = useSpacetimeStore((s) => s.selectEvent)
   const setViewport = useSpacetimeStore((s) => s.setViewport)
 
@@ -51,6 +52,10 @@ export function SpacetimeGlobe() {
     [events, layers, filters],
   )
   const geojson = useMemo(() => eventsToGeoJSON(visibleEvents), [visibleEvents])
+  const selectedEvent = useMemo(
+    () => visibleEvents.find((e) => e.id === selectedEventId && e.coordinates) ?? null,
+    [visibleEvents, selectedEventId],
+  )
 
   // Boot map once
   useEffect(() => {
@@ -68,6 +73,24 @@ export function SpacetimeGlobe() {
     })
 
     map.on('load', () => {
+      // Real elevation data, not a pitched-but-flat illusion — so "descend
+      // toward an event" actually shows terrain relief at the destination.
+      map.addSource('mapbox-dem', {
+        type: 'raster-dem',
+        url: 'mapbox://mapbox.mapbox-terrain-dem-v1',
+        tileSize: 512,
+        maxzoom: 14,
+      })
+      map.setTerrain({source: 'mapbox-dem', exaggeration: 1.4})
+      map.addLayer({
+        id: 'sky',
+        type: 'sky',
+        paint: {
+          'sky-type': 'atmosphere',
+          'sky-atmosphere-sun-intensity': 8,
+        },
+      })
+
       map.addSource(SOURCE_ID, {type: 'geojson', data: geojson})
       map.addLayer({
         id: LAYER_ID,
@@ -78,10 +101,10 @@ export function SpacetimeGlobe() {
             'interpolate',
             ['linear'],
             ['get', 'credibility'],
-            0.3,
+            0.2,
             3,
-            0.85,
-            7,
+            0.7,
+            6,
           ],
           'circle-color': [
             'match',
@@ -136,10 +159,27 @@ export function SpacetimeGlobe() {
     else map.once('load', apply)
   }, [geojson])
 
-  // Cursor → soft camera nudge toward geolocated events near that time
+  // Selecting an event commits the camera to an on-terrain view of its exact
+  // coordinates — close, pitched, looking at the ground where it happened.
   useEffect(() => {
     const map = mapRef.current
-    if (!map || visibleEvents.length === 0) return
+    if (!map || !selectedEvent?.coordinates) return
+
+    map.flyTo({
+      center: [selectedEvent.coordinates.longitude, selectedEvent.coordinates.latitude],
+      zoom: 15.5,
+      pitch: 70,
+      duration: 2200,
+      essential: true,
+    })
+  }, [selectedEvent])
+
+  // Absent a selection, the cursor (scroll/dial) drives a regional descent
+  // toward the timestamp's nearby events — orbit-to-region, not ground level;
+  // that precision is reserved for an actual selected event, above.
+  useEffect(() => {
+    const map = mapRef.current
+    if (!map || visibleEvents.length === 0 || selectedEvent) return
 
     const ts =
       cursor.mode === 'range'
@@ -163,12 +203,14 @@ export function SpacetimeGlobe() {
     const avgLat =
       nearby.reduce((s, n) => s + n.e.coordinates!.latitude, 0) / nearby.length
 
-    map.easeTo({
+    map.flyTo({
       center: [avgLng, avgLat],
-      duration: 900,
+      zoom: 8.5,
+      pitch: 45,
+      duration: 1400,
       essential: true,
     })
-  }, [cursor, visibleEvents])
+  }, [cursor, visibleEvents, selectedEvent])
 
   if (!process.env.NEXT_PUBLIC_MAPBOX_PUBLIC_TOKEN) {
     return (

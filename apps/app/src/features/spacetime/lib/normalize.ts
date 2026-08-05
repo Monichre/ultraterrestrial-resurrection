@@ -1,16 +1,33 @@
 import type {ValidatedUAPSighting} from '@/services/sightings/uap-sighting'
+import {truncateAtWordBoundary} from '@/lib/utils'
 import type {EpistemicStatus, SpacetimeEvent, TimePrecision} from '../types/spacetime'
 
+/**
+ * `sightings` rows carry no verification/corroboration signal — every
+ * record here is a single, uncorroborated report by construction. These
+ * scores stay deliberately low and narrow-banded so the UI never implies
+ * evidentiary weight the source data doesn't support. `high` is reserved
+ * for a future ingestion path that actually carries corroboration signal
+ * (independent witnesses, media, official record) — nothing here emits it.
+ */
 const CONFIDENCE_TO_SCORE: Record<ValidatedUAPSighting['confidence'], number> = {
-  high: 0.85,
-  medium: 0.55,
-  low: 0.3,
+  high: 0.7,
+  medium: 0.4,
+  low: 0.2,
 }
 
+/**
+ * `medium` = the record captured a real, substantive witness account — a
+ * documented report, in the sense the platform already uses ("documented
+ * sightings", TEMPORAL_OBSERVATORY.md §1). `low` = the row is a thin or
+ * placeholder record with no real narrative — closer to inferred-at-best
+ * than to a genuine documented account. Never `disputed`: nothing in this
+ * data path carries a contradiction signal, so we don't claim one.
+ */
 const CONFIDENCE_TO_STATUS: Record<ValidatedUAPSighting['confidence'], EpistemicStatus> = {
   high: 'documented',
-  medium: 'inferred',
-  low: 'disputed',
+  medium: 'documented',
+  low: 'inferred',
 }
 
 function inferPrecision(timestamp: Date): TimePrecision {
@@ -43,7 +60,8 @@ export function sightingToSpacetimeEvent(sighting: ValidatedUAPSighting): Spacet
   return {
     id: `sighting:${sighting.id}`,
     type: 'sighting',
-    title: sighting.title || sighting.content.slice(0, 80) || 'UAP Sighting',
+    title:
+      sighting.title || truncateAtWordBoundary(sighting.content, 70) || 'UAP Sighting',
     timestamp: timestamp.toISOString(),
     timePrecision: inferPrecision(timestamp),
     coordinates: coords

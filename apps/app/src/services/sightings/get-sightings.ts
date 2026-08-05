@@ -5,6 +5,21 @@ import {
   sightingsTimeSeries,
 } from '@db/postgres';
 import { ValidatedUAPSighting, UAPSightingSchema } from './uap-sighting';
+import { truncateAtWordBoundary } from '@/lib/utils/text';
+
+/**
+ * NUFORC/MUFON `sightings` rows carry no verification or corroboration
+ * signal (no witness count, no media, no cross-reference) — every record is
+ * a single, uncorroborated report by construction. The only honest thing we
+ * can differentiate is whether a real narrative was actually captured:
+ * `'medium'` = the record has substantive reported content, `'low'` = it's a
+ * thin/placeholder row. `'high'` is intentionally never emitted here — this
+ * ingestion path has no signal that would justify it.
+ */
+function inferConfidence(comments: string | null): ValidatedUAPSighting['confidence'] {
+  const length = comments?.trim().length ?? 0;
+  return length >= 15 ? 'medium' : 'low';
+}
 
 /**
  * Fetch sightings within a specified time range
@@ -29,7 +44,9 @@ export async function getSightingsByTimeChunk(
       const transformed = {
         id: record.id,
         source: 'news', // Default source
-        title: record.comments?.substring(0, 50) || 'UAP Sighting',
+        title: record.comments
+          ? truncateAtWordBoundary(record.comments, 70)
+          : 'UAP Sighting',
         content: record.comments || '',
         location: {
           city: record.city || undefined,
@@ -47,7 +64,7 @@ export async function getSightingsByTimeChunk(
         category: record.shape
           ? [record.shape]
           : [],
-        confidence: 'medium', // Default confidence
+        confidence: inferConfidence(record.comments),
         type: 'sighting' // Default type
       };
 

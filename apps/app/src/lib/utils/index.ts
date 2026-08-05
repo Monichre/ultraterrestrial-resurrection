@@ -8,3 +8,4 @@ export function cn(...inputs: ClassValue[]) {
 
 // Re-export any utilities in this folder that should be available via '@/lib/utils'
 export * from "./card-transforms"
+export * from "./text"

@@ -1,3 +1,4 @@
+import {truncateAtWordBoundary} from '@/lib/utils'
 import type {SpacetimeEvent, TemporalStation} from '../types/spacetime'
 
 export interface BuildStationsOptions {
@@ -59,7 +60,7 @@ export function buildTemporalStations(
     day,
     dayEvents,
     decade: Math.floor(Number(day.slice(0, 4)) / 10) * 10,
-    score: dayEvents.length + dayEvents.reduce((s, e) => s + (e.credibilityScore ?? 0.5), 0),
+    score: dayEvents.length + dayEvents.reduce((s, e) => s + (e.credibilityScore ?? 0.2), 0),
   }))
 
   const byDecade = new Map<number, typeof scoredDays>()
@@ -83,7 +84,7 @@ export function buildTemporalStations(
     const year = day.slice(0, 4)
     const label =
       dayEvents.length === 1
-        ? dayEvents[0]?.title.slice(0, 42) || day
+        ? (dayEvents[0]?.title ? truncateAtWordBoundary(dayEvents[0].title, 42) : day)
         : `${dayEvents.length} events · ${year}`
 
     stations.push({

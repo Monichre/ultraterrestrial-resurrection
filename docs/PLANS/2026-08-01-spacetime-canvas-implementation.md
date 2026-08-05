@@ -2,7 +2,7 @@
 status: live
 role: eng
 spine: do
-updated: 2026-08-01
+updated: 2026-08-04
 supersedes: none
 depends-on:
   - docs/vision/TEMPORAL_OBSERVATORY.md
@@ -114,6 +114,16 @@ record frame timing before building anything on top. If it janks, the fallback
 is a **static globe plate per waypoint** (render-to-texture / prerendered
 frames) with the live globe reserved for the free-exploration mode.
 
+**RESOLVED 2026-08-03** — measured on both the M0.1 spike *and* the built
+product surface (the spike alone is not sufficient: it runs a non-interactive
+map with zero pins, while `/spacetime` runs the live 384-point geojson circle
+layer plus a 900ms `easeTo` camera animation per cursor change — the actual
+contention this risk is about). Product measurement (rAF delta sampling over
+6s / 361 frames of scroll): **median 16.70ms, p95 17.50ms, max 34.0ms**
+(single outlier, not sustained) — comfortably under the ~20ms D2 threshold. A
+DevTools trace over the same scroll reported **CLS 0.00**. No jank. Live globe
+retained per D2 — the static-plate fallback is not needed for M0.
+
 ### R2 — Is the temporal cursor driven, or driving?
 
 Concept 01 shows the user **scrubbing** the adaptive dial. The scroll UI has
@@ -198,9 +208,58 @@ Goal: **one surface, one state model, one temporal cursor, live data.**
 visible evidence field change with the cursor, select an event, see its sources
 and credibility. No reconstruction, no compare, no playback.
 
+**MET 2026-08-03** — dogfooded live in Chrome against the real Neon DB and a
+real Mapbox token. 384/387 events geolocated (1940–2026) rendered as real pins;
+scroll drove the temporal dial, cursor readout, and camera easing toward the
+nearby cluster; clicking an event card opened the inspector with
+timestamp/location/credibility/provenance; clicking a dial station directly
+(scroll held fixed) wrote the cursor and flipped `interactionMode` to `free`,
+confirming D1's second direction. R1 measured and cleared on the product
+surface, not just the spike (see §2 R1). M0 is closed; next up is M1.
+
 ### M1 — Evidence instrument
 Layer panel · credibility + provenance filtering · event inspector ·
 relationship arcs · precision/uncertainty rendering.
+
+**Partially landed 2026-08-04**, opportunistically, while hardening M0's data
+honesty (full detail in `DAILY_WORK_PLAN.md` "Session 2026-08-04"). **Closed at
+this scope 2026-08-05**: the two remaining items (relationship arcs,
+precision/uncertainty rendering) are hard-gated on Lane A's T-048 H4
+(provenance backfill), confirmed still unlanded — T-048 is only past H0.
+Re-open this milestone once H4 ships; do not build arcs/uncertainty against
+the current sightings-only corpus in the meantime, it has no corroboration or
+precision signal to render them from.
+
+- Layer panel (`evidence-layers-panel.tsx`) and event inspector (`EventInspector`
+  in `spacetime-canvas.tsx`) exist and are live. Credibility filtering moved from
+  a continuous 0–100 slider to four discrete tiers (`Any/Thin+/Docmt+/Corrob+`)
+  matching the score bands the `sightings` corpus can actually produce — a
+  continuous control over a handful of real tiers reads as broken, not precise.
+  The tier stops themselves (`Corrob+` = 0.7, and the `Disputed` provenance
+  checkbox) initially included two the sightings-only pipeline can never satisfy
+  (nothing here emits `high` confidence or a `disputed` status); both now derive
+  reachability from the loaded corpus and render disabled with an explanation
+  rather than silently doing nothing when clicked.
+- Root-caused and fixed the credibility score itself: it was a hardcoded
+  `'medium'` default for every event (`get-sightings.ts`), not a real signal.
+  Now derives honestly from whether a record has substantive content vs. is a
+  thin/placeholder row, verified against 508 live DB rows. Score bands narrowed
+  to `0.2/0.4/0.7` (was `0.3/0.55/0.85`) — `sightings` rows carry no
+  corroboration signal, so nothing here should read as high-confidence.
+- Title truncation (three separate call sites, one per render surface) was
+  cutting mid-word; fixed and consolidated into one shared
+  `truncateAtWordBoundary` (`src/lib/utils/text.ts`).
+- Still open for M1: relationship arcs, precision/uncertainty rendering. These
+  are gated on Lane A's provenance/corroboration backfill (H4) — there is no
+  real signal to render arcs or uncertainty *from* until that lands; building
+  them against the current `sightings`-only corpus would reintroduce the same
+  false-precision problem just fixed.
+- **User-requested, same session:** event selection now flies the globe camera
+  to a real on-terrain view of the event's exact coordinates (Mapbox DEM
+  terrain + sky layer, `zoom 15.5 / pitch 70`), replacing the flat pan. Cursor
+  movement without a selection does a lower, regional descent toward nearby
+  events (`zoom 8.5 / pitch 45`). Re-verified R1 after adding terrain — no
+  regression (still ~16.7ms median frame time).
 
 ### M2 — Reconstruction
 Event Evidence Packet · staged scene planning · one still-image mode ·
