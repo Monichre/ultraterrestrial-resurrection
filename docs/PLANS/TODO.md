@@ -540,7 +540,7 @@ of archive records today. Lane B M0 does not depend on Lane A and can proceed in
 
 ### T-050: Guided Tours — converge the two tour engines onto the research canvas
 
-- **Status:** OPEN — scoped 2026-08-05. Both engines exist and work; neither is tracked anywhere until this ticket.
+- **Status:** IN PROGRESS — scoped 2026-08-05; **subtasks 1 (schema) + 2 (store) landed same day** in `7fe46f0`. Subtasks 3–5 open.
 - **Size:** L (schema + store + render + launch; the "real merge", not a launch-chip alias)
 - **Lane:** B — Platform & Experience
 - **What:** The repo has **two unrelated things both called "tour"**, verified 2026-08-05:
@@ -548,8 +548,8 @@ of archive records today. Lane B M0 does not depend on Lane A and can proceed in
   2. **Nuclear Shadow** (`features/guided-tours/`) — a *self-contained evidence-graph runtime* on its own route. Zod-validated `TourDefinition`; epistemic gates (`GateKey = claim | evidence | challenge | residue`); five typed narrative edges (`chronological | evidentiary | hypothesis | institutional-inheritance | contradiction`); private XYFlow (`WaypointNode`/`NarrativeEdge`/`TourFlowCanvas`), HUD + `WaypointInspector` + `EvidenceDrawer`; choreographed arrive/depart; localStorage progress. **Zero `@db/postgres` imports** — static definition + source URLs, no live corpus binding. Launches via `router.push('/tours/nuclear-shadow')` (`graph.tsx:456`/`462`, `research-canvas/typer/constants.ts:10`).
 - **Why:** Nuclear Shadow has the epistemics the product identity demands (evidence tiers, challenge-before-residue, falsifiability) but leaves the research canvas entirely. Mindmap tours are on-canvas and bound to live records but say nothing about evidence. Neither alone is the "integrated research narrative engine for anomalous knowledge."
 - **Subtasks:**
-  1. **Schema** — one definition type with discriminated modes (`spine` | `evidence-graph`), or `GuidedTourDef` wrapping `TourDefinition` + optional resolve bindings. Zod validation applies to both.
-  2. **Store** — collapse `useTourStore` and `useGuidedTourStore` into one (or an adapter): phases, gates, `activeWaypointId`, evidence drawer — not just `stepIndex`.
+  1. ✅ **Schema** — DONE `7fe46f0`. `anyTourDefinitionSchema` is a Zod discriminated union on `mode` (`spine` | `evidence-graph`); spine shapes live in `guided-tours/shared/types/tour-definition.ts` and `mindmap/tours/guided-tour-store.ts` re-exports them as aliases. Every evidence-graph waypoint carries a **required** `corpusAnchor` (`query` | `record` | `none` + required `reason`) with no unset member, so "no record exists" can never be read as "not resolved yet".
+  2. ✅ **Store** — DONE `7fe46f0`. `useUnifiedTourStore` holds the union of both runtimes; `useTourStore` and `useGuidedTourStore` are exact aliases of it. Field names don't collide, so all existing selectors and `getState()` calls read a superset unchanged.
   3. **Render** — evidence-graph tours mount **on the mindmap canvas**, not a second `ReactFlow`. Replace `TourOverlay` with the `WaypointInspector` pattern; microfilm HUD as a canvas overlay, not page-owned CSS.
   4. **Resolve** — map Nuclear Shadow anchors to Neon `searchQuery`/`recordId` where real records exist (Manhattan, Trinity, Roswell). Waypoints with no corpus anchor (R&D / SAP) stay narrative-only and must be **visibly** marked as such — do not imply a record exists.
   5. **Launch** — `startTour(NUCLEAR_SHADOW_TOUR)` from the graph chips / typer; `GUIDED_TOURS` becomes the single registry. Keep `/tours/nuclear-shadow` only as a deep-link alias.
