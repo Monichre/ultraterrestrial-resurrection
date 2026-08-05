@@ -450,7 +450,7 @@ of archive records today. Lane B M0 does not depend on Lane A and can proceed in
 
 ### T-047: Temporal Observatory — Foundation milestone (Spacetime Canvas M0)
 
-- **Status:** IN PROGRESS — M0.1–M0.8 scaffolded on `/spacetime` (2026-08-01)
+- **Status:** M0 DONE (met + dogfooded live 2026-08-03) — M1 partially landed 2026-08-04, **closed at honest scope**; remainder blocked on T-048 H4
 - **Size:** L (Foundation / M0 only; full feature is M0–M4)
 - **What:** Build the **Spacetime Canvas** — sibling surface to Research Canvas — by dropping the live Mapbox globe into the fixed background slot of the scroll-driven Guided Investigation UI (v0 timeline-explorer pattern: CSS `preserve-3d`, **zero** WebGL in the narrative layer).
   1. **M0.1** ✅ Frame-timing spike at `/spacetime?spike=1`
@@ -461,10 +461,17 @@ of archive records today. Lane B M0 does not depend on Lane A and can proceed in
   6. **M0.6** ✅ `SpacetimeCanvas` shell — fixed globe + scroll narrative (**D2 fallback accepted if spike janks**)
   7. **M0.7** ✅ Bidirectional `TemporalDial`
   8. **M0.8** ✅ `/spacetime` route (**D3 locked: sit beside** `/sightings`+`/timeline`)
-- **Remaining for M0 exit:** dogfood `/spacetime` with real DB + Mapbox token; confirm frame timing; optionally retire static geojson path inside legacy `sightings-globe.tsx` (new canvas already bypasses it).
+- **M0 exit — MET 2026-08-03:** dogfooded live against real Neon DB + real Mapbox token (384/387 events geolocated); R1 frame-timing measured on the product surface (median 16.7ms, p95 17.5ms, CLS 0.00) and cleared per D2 — live globe retained, no static-plate fallback needed. Full detail in `docs/PLANS/2026-08-01-spacetime-canvas-implementation.md` §4 and `DAILY_WORK_PLAN.md` "Session 2026-08-03".
+- **M1 (evidence instrument) — partially landed 2026-08-04, closed at honest scope:**
+  - ✅ Layer panel (`evidence-layers-panel.tsx`) + event inspector (`spacetime-canvas.tsx`), credibility/provenance filtering with tier stops (`Any/Thin+/Docmt+/Corrob+`) that derive reachability from the live corpus instead of exposing unreachable tiers.
+  - ✅ Root-caused and fixed a real data-honesty bug: `confidence` was hardcoded `'medium'` for every sighting (`get-sightings.ts`) — now derives from real vs. thin/placeholder record content, verified against 508 live DB rows. Score bands narrowed (`0.2/0.4/0.7`) so nothing implies evidentiary weight this corpus can't support.
+  - ✅ Word-boundary-safe title truncation, consolidated to one shared `truncateAtWordBoundary` (`src/lib/utils/text.ts`) across all three render call sites (verified by direct unit check of the single-event dial-station label path, the one call site not exercised live).
+  - ✅ Event selection now flies the globe camera to a real on-terrain view (Mapbox DEM terrain + sky layer, zoom 15.5/pitch 70); cursor-only movement does a regional descent (zoom 8.5/pitch 45) — closes the "rendered as descent" language in the implementation plan's §1 that the original flat pan wasn't delivering.
+  - ⛔ **Blocked, not skipped:** relationship arcs and precision/uncertainty rendering are gated on Lane A's **T-048 H4 (provenance backfill)** — confirmed still unlanded (T-048 is only past H0 as of this check; H1–H4 remain). There is no corroboration/precision signal in the live `sightings`-only corpus to render arcs or uncertainty *from* yet — building them now would reintroduce the same false-precision problem M1 just spent two sessions removing. Re-check T-048's status before resuming this half of M1.
+  - Full detail: `DAILY_WORK_PLAN.md` "Session 2026-08-04".
 - **Why:** Research Canvas organizes ideas; Spacetime Canvas organizes evidence across space + time. Same verb, orthogonal axis.
-- **Decisions locked 2026-08-01:** D1 bidirectional · D2 static-plate fallback if jank · D3 sit beside
-- **Files:** `apps/app/src/features/spacetime/`, `apps/app/src/app/(site)/spacetime/`
+- **Decisions locked 2026-08-01:** D1 bidirectional · D2 static-plate fallback if jank (not needed, see M0 exit) · D3 sit beside
+- **Files:** `apps/app/src/features/spacetime/`, `apps/app/src/app/(site)/spacetime/`, `apps/app/src/services/sightings/get-sightings.ts`, `apps/app/src/lib/utils/text.ts`
 - **Reference:** `docs/PLANS/2026-08-01-spacetime-canvas-implementation.md`, `docs/vision/TEMPORAL_OBSERVATORY.md`, `docs/adr/0002-temporal-observatory-gl4ss-integration.md`, storyboards in `docs/vision/storyboards/` · prototypes in `docs/vision/prototypes/`
 
 ### T-044: Fix CRITICAL findings from disclosure-rag/main.py contract review
@@ -489,7 +496,7 @@ of archive records today. Lane B M0 does not depend on Lane A and can proceed in
 
 ### T-048: Ingestion hardening — corpus integrity, identity, and provenance
 
-- **Status:** IN PROGRESS — audit complete + plan landed 2026-08-01; H0 next
+- **Status:** IN PROGRESS — audit + plan landed 2026-08-01; **H0 landed** (commits `cd77135` disclosure-rag/db, `b6d1d5a` knowledge-base archive hygiene). **H1–H5 remain; H1 (identity) is next.** Note H4 (provenance) is the hard gate on Lane B's T-047 M1 evidence instrument — do not confuse it with T-045's separate H4 (temp-file leak, closed by `d5c69fb`).
 - **Size:** XL (H0–H5; H0 and H1 are independently shippable)
 - **Lane:** A — Corpus & Ingestion
 - **What:** Close the four load-bearing gaps found by the 2026-08-01 five-agent audit:
