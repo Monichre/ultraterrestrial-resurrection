@@ -5,6 +5,7 @@ import type { GuidedTourDef } from './guided-tour-store'
  * Each waypoint is resolved against the live events table at tour start.
  */
 export const FAMOUS_EVENTS_TOUR: GuidedTourDef = {
+  mode: 'spine',
   id: 'famous-events-chronological',
   title: 'The Modern UFO Era',
   subtitle: 'A chronological journey through the events that shaped Disclosure',

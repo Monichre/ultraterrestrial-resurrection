@@ -23,6 +23,7 @@ const waypoints: TourWaypointDefinition[] = [
   {
     id: ids.secretMachine,
     ordinal: 1,
+    corpusAnchor: {kind: 'query', table: 'events', searchQuery: 'Manhattan Project'},
     title: 'The Secret Machine',
     subtitle: 'The Manhattan Engineer District',
     shortLabel: 'Manhattan Project',
@@ -82,6 +83,7 @@ const waypoints: TourWaypointDefinition[] = [
   {
     id: ids.trinity,
     ordinal: 2,
+    corpusAnchor: {kind: 'query', table: 'events', searchQuery: 'Trinity test Alamogordo'},
     title: 'Trinity',
     subtitle: 'The Threshold Event',
     shortLabel: 'Trinity',
@@ -138,6 +140,7 @@ const waypoints: TourWaypointDefinition[] = [
   {
     id: ids.controlledRevelation,
     ordinal: 3,
+    corpusAnchor: {kind: 'query', table: 'documents', searchQuery: 'Smyth Report atomic energy'},
     title: 'Controlled Revelation',
     subtitle: 'The Smyth Report',
     shortLabel: 'Smyth Report',
@@ -198,6 +201,11 @@ const waypoints: TourWaypointDefinition[] = [
   {
     id: ids.bornSecret,
     ordinal: 4,
+    corpusAnchor: {
+      kind: 'none',
+      reason:
+        'Restricted Data is a statutory classification category, not an event the archive holds a record of.',
+    },
     title: 'Born Secret',
     subtitle: 'Restricted Data and the Atomic Energy Acts',
     shortLabel: 'Restricted Data',
@@ -255,6 +263,11 @@ const waypoints: TourWaypointDefinition[] = [
   {
     id: ids.twoSecrecyUniverses,
     ordinal: 5,
+    corpusAnchor: {
+      kind: 'none',
+      reason:
+        'The RD / National Security Information split is a legal structure; no single archive record corresponds to it.',
+    },
     title: 'Two Secrecy Universes',
     subtitle: 'Atomic Statute and Executive Classification',
     shortLabel: 'RD / NSI',
@@ -314,6 +327,11 @@ const waypoints: TourWaypointDefinition[] = [
   {
     id: ids.blackArchitecture,
     ordinal: 6,
+    corpusAnchor: {
+      kind: 'none',
+      reason:
+        'Special Access Programs are, by construction, unenumerated — the corpus holds no record naming them.',
+    },
     title: 'The Black Architecture',
     subtitle: 'Special Access and Classified Programs',
     shortLabel: 'SAPs',
@@ -375,6 +393,11 @@ const waypoints: TourWaypointDefinition[] = [
   {
     id: ids.propulsionFork,
     ordinal: 7,
+    corpusAnchor: {
+      kind: 'none',
+      reason:
+        'This fork is an interpretive bridge drawn by this tour, not a documented event in the archive.',
+    },
     title: 'The Propulsion Fork',
     subtitle: 'Nuclear, Non-Nuclear, and Fundamental Physics',
     shortLabel: 'Propulsion Fork',
@@ -435,6 +458,7 @@ const waypoints: TourWaypointDefinition[] = [
   {
     id: ids.roswell,
     ordinal: 8,
+    corpusAnchor: {kind: 'query', table: 'events', searchQuery: 'Roswell incident crash debris'},
     title: 'Roswell',
     subtitle: 'The Secrecy Machine Meets the Anomaly',
     shortLabel: 'Roswell',
@@ -506,6 +530,7 @@ const transitions: TourTransitionDefinition[] = waypoints
   })) as TourTransitionDefinition[];
 
 export const nuclearShadowDefinition: TourDefinition = {
+  mode: 'evidence-graph',
   id: 'ut.tour.nuclear-shadow',
   slug: 'nuclear-shadow',
   title: 'The Nuclear Shadow',

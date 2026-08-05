@@ -52,7 +52,30 @@ const evidenceReference = z.object({
   requiredForThresholds: z.array(evidenceThreshold).min(1),
 });
 
+/**
+ * A waypoint must state its relationship to the corpus explicitly. `none`
+ * carries a required non-empty `reason` so a narrative-only stop can never be
+ * mistaken for one whose record simply has not resolved yet.
+ */
+const corpusAnchor = z.discriminatedUnion('kind', [
+  z.object({
+    kind: z.literal('query'),
+    table: z.string().min(1),
+    searchQuery: z.string().min(1),
+  }),
+  z.object({
+    kind: z.literal('record'),
+    table: z.string().min(1),
+    recordId: z.string().min(1),
+  }),
+  z.object({
+    kind: z.literal('none'),
+    reason: z.string().min(1),
+  }),
+]);
+
 export const tourDefinitionSchema = z.object({
+  mode: z.literal('evidence-graph'),
   id: z.string().startsWith('ut.tour.'),
   slug: z.string().min(1),
   title: z.string().min(1),
@@ -70,6 +93,7 @@ export const tourDefinitionSchema = z.object({
     z.object({
       id: z.string(),
       ordinal: z.number().int().positive(),
+      corpusAnchor,
       title: z.string().min(1),
       subtitle: z.string().optional(),
       shortLabel: z.string().min(1),
@@ -139,3 +163,37 @@ export const tourDefinitionSchema = z.object({
     }),
   ),
 });
+
+/**
+ * The chronological-spine tour. Stops are resolved against live Neon at tour
+ * start; the definition itself carries only narrative, never evidence claims.
+ * `.strict()` keeps an evidence-graph definition from validating here just
+ * because it happens to satisfy the looser field set.
+ */
+export const spineTourDefinitionSchema = z
+  .object({
+    mode: z.literal('spine'),
+    id: z.string().min(1),
+    title: z.string().min(1),
+    subtitle: z.string().min(1),
+    waypoints: z
+      .array(
+        z
+          .object({
+            searchQuery: z.string().min(1),
+            table: z.string().min(1),
+            title: z.string().min(1),
+            year: z.string().min(1),
+            narrative: z.string().min(1),
+          })
+          .strict(),
+      )
+      .min(1),
+  })
+  .strict();
+
+/** Either tour shape, discriminated on `mode`. */
+export const anyTourDefinitionSchema = z.discriminatedUnion('mode', [
+  tourDefinitionSchema,
+  spineTourDefinitionSchema,
+]);

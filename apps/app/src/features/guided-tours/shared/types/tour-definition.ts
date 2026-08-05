@@ -50,7 +50,40 @@ export type GateRule =
   | { kind: 'open-specific'; evidenceIds: EvidenceId[] }
   | { kind: 'acknowledge' };
 
+/**
+ * How a waypoint connects (or explicitly does not connect) to the live corpus.
+ *
+ * This is deliberately a required, non-defaulting field with no "unset" member.
+ * A waypoint that has no record in the archive must say so — and say WHY — so
+ * the UI can mark it narrative-only. Silence would be read as "not resolved
+ * yet", which would let a program with no declassified record render as though
+ * one exists. That is precisely the false-precision failure the Spacetime
+ * Canvas spent two sessions removing; do not reintroduce it here.
+ */
+export type CorpusAnchor =
+  /** Resolve against Neon FTS at tour start (the spine engine's existing path). */
+  | { kind: 'query'; table: string; searchQuery: string }
+  /** A record already known by id — no resolution round-trip needed. */
+  | { kind: 'record'; table: string; recordId: string }
+  /** No corpus record exists. `reason` is shown to the reader, not swallowed. */
+  | { kind: 'none'; reason: string };
+
+/** True when this waypoint can be bound to a real record. */
+export function hasCorpusAnchor(anchor: CorpusAnchor): boolean {
+  return anchor.kind !== 'none';
+}
+
+/** True when the archive holds nothing for this waypoint and the UI must say so. */
+export function isNarrativeOnly(anchor: CorpusAnchor): boolean {
+  return anchor.kind === 'none';
+}
+
+/**
+ * The evidence-graph tour: claims, evidence, gates, typed edges, choreography.
+ * Nuclear Shadow is the reference implementation.
+ */
 export interface TourDefinition {
+  mode: 'evidence-graph';
   id: TourId;
   slug: string;
   title: string;
@@ -68,9 +101,47 @@ export interface TourDefinition {
   };
 }
 
+/**
+ * The spine tour: a chronological walk whose stops are resolved against live
+ * Neon data at tour start. Carries narrative but makes no evidentiary claim —
+ * which is exactly why it stays a separate mode rather than a degenerate
+ * evidence-graph with empty gates.
+ */
+export interface SpineTourDefinition {
+  mode: 'spine';
+  id: string;
+  title: string;
+  subtitle: string;
+  waypoints: SpineWaypointDefinition[];
+}
+
+export interface SpineWaypointDefinition {
+  /** FTS query used to resolve the real record at tour start */
+  searchQuery: string;
+  table: string;
+  /** Display title (overridden by the resolved record's own title if found) */
+  title: string;
+  year: string;
+  /** Narrative shown on the tour card — the story of this stop */
+  narrative: string;
+}
+
+/** Either tour shape, discriminated by `mode`. */
+export type AnyTourDefinition = TourDefinition | SpineTourDefinition;
+
+export function isEvidenceGraphTour(tour: AnyTourDefinition): tour is TourDefinition {
+  return tour.mode === 'evidence-graph';
+}
+
+export function isSpineTour(tour: AnyTourDefinition): tour is SpineTourDefinition {
+  return tour.mode === 'spine';
+}
+
 export interface TourWaypointDefinition {
   id: WaypointId;
   ordinal: number;
+  /** Required — see {@link CorpusAnchor}. There is no implicit default. */
+  corpusAnchor: CorpusAnchor;
   title: string;
   subtitle?: string;
   shortLabel: string;
