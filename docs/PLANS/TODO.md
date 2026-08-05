@@ -538,6 +538,27 @@ of archive records today. Lane B M0 does not depend on Lane A and can proceed in
 - **Files:** `apps/app/src/app/board/page.tsx`, `apps/app/src/app/board/data.ts`, new polling API route (e.g. `apps/app/src/app/api/board/activity/route.ts`)
 - **Reference:** research synthesized 2026-08-01 across three parallel passes (board code read, mockup inventory, live-source gap analysis) in the session that authored this ticket.
 
+### T-050: Guided Tours — converge the two tour engines onto the research canvas
+
+- **Status:** OPEN — scoped 2026-08-05. Both engines exist and work; neither is tracked anywhere until this ticket.
+- **Size:** L (schema + store + render + launch; the "real merge", not a launch-chip alias)
+- **Lane:** B — Platform & Experience
+- **What:** The repo has **two unrelated things both called "tour"**, verified 2026-08-05:
+  1. **Mindmap tours** (`features/mindmap/tours/`) — a thin *chronological spine*. `GuidedTourDef` is `searchQuery` + `narrative`; `resolveTourWaypoints` (`actions/tour-actions.ts`) resolves each waypoint against live Neon via `searchTable` at tour start; `use-guided-tour.ts` places `addRecordNode` nodes on the real mindmap canvas and flies `setCenter` along a fixed spine. Progress is `stepIndex` + `placedNodeIds`. Every edge is hardcoded `'Chronological tour path'`. Launches via `startGuidedTour(FAMOUS_EVENTS_TOUR)` at `graph.tsx:452`. Registry: `GUIDED_TOURS` (`famous-events-tour.ts:79`). Wired into `useMindMapUiStore.startTour/endTour`, session events, and `useActiveTourSeed` → suggestions dock.
+  2. **Nuclear Shadow** (`features/guided-tours/`) — a *self-contained evidence-graph runtime* on its own route. Zod-validated `TourDefinition`; epistemic gates (`GateKey = claim | evidence | challenge | residue`); five typed narrative edges (`chronological | evidentiary | hypothesis | institutional-inheritance | contradiction`); private XYFlow (`WaypointNode`/`NarrativeEdge`/`TourFlowCanvas`), HUD + `WaypointInspector` + `EvidenceDrawer`; choreographed arrive/depart; localStorage progress. **Zero `@db/postgres` imports** — static definition + source URLs, no live corpus binding. Launches via `router.push('/tours/nuclear-shadow')` (`graph.tsx:456`/`462`, `research-canvas/typer/constants.ts:10`).
+- **Why:** Nuclear Shadow has the epistemics the product identity demands (evidence tiers, challenge-before-residue, falsifiability) but leaves the research canvas entirely. Mindmap tours are on-canvas and bound to live records but say nothing about evidence. Neither alone is the "integrated research narrative engine for anomalous knowledge."
+- **Subtasks:**
+  1. **Schema** — one definition type with discriminated modes (`spine` | `evidence-graph`), or `GuidedTourDef` wrapping `TourDefinition` + optional resolve bindings. Zod validation applies to both.
+  2. **Store** — collapse `useTourStore` and `useGuidedTourStore` into one (or an adapter): phases, gates, `activeWaypointId`, evidence drawer — not just `stepIndex`.
+  3. **Render** — evidence-graph tours mount **on the mindmap canvas**, not a second `ReactFlow`. Replace `TourOverlay` with the `WaypointInspector` pattern; microfilm HUD as a canvas overlay, not page-owned CSS.
+  4. **Resolve** — map Nuclear Shadow anchors to Neon `searchQuery`/`recordId` where real records exist (Manhattan, Trinity, Roswell). Waypoints with no corpus anchor (R&D / SAP) stay narrative-only and must be **visibly** marked as such — do not imply a record exists.
+  5. **Launch** — `startTour(NUCLEAR_SHADOW_TOUR)` from the graph chips / typer; `GUIDED_TOURS` becomes the single registry. Keep `/tours/nuclear-shadow` only as a deep-link alias.
+- **Pass bar:** `bun test src` green (suite is the 4 files under `guided-tours/tests/`); `eslint` exit 0 on touched paths; **no new** `tsc` errors in touched files (repo carries ~1,712 pre-existing — do not chase them).
+- **TDD seam:** `shared/state/tour-reducer.ts`, `shared/graph/compile-tour-graph.ts`, `shared/graph/derive-node-status.ts`, `shared/schemas/tour-definition.schema.ts` are pure and already covered. Extend those tests first.
+- **Do not:** fork a second canvas; add state to `mindmap-context.tsx` (1,363-line god-object); use `router.push()` for canvas navigation (use Zustand `setActiveView()`).
+- **Files:** `apps/app/src/features/guided-tours/`, `apps/app/src/features/mindmap/tours/`, `features/mindmap/graph.tsx`, `features/mindmap/actions/tour-actions.ts`, `app/(site)/tours/nuclear-shadow/page.tsx`
+- **Reference:** engine-delta analysis 2026-08-05 (this session); `features/guided-tours/NuclearShadowTour.md`
+
 ---
 
 ## Follow-Up: T-016 Phase 2 (Discovered 2026-06-17)
