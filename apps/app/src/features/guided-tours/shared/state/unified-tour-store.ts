@@ -60,6 +60,14 @@ export interface UnifiedTourState {
     progress?: PersistedTourProgress,
     reducedMotion?: boolean,
   ) => void
+  /**
+   * Clears the evidence-graph half. Required once both engines share a store:
+   * TourHUD, WaypointInspector, EvidenceDrawer and TourFlowCanvas all read
+   * `runtime` unconditionally, so a definition left loaded from a previous tour
+   * would render evidence overlays over an unrelated spine tour the moment
+   * subtask 3 mounts them on the shared canvas.
+   */
+  unloadDefinition: () => void
   dispatch: (event: TourEvent) => void
 }
 
@@ -123,6 +131,8 @@ export const useUnifiedTourStore = create<UnifiedTourState>()((set, get) => ({
           },
     })
   },
+
+  unloadDefinition: () => set({ definition: null, runtime: null }),
 
   dispatch(event) {
     const { definition, runtime } = get()

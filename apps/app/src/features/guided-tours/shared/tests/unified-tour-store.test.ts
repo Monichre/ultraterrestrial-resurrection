@@ -14,7 +14,7 @@ const resolved = (index: number): SpineWaypoint => ({
 describe('unified tour store', () => {
   beforeEach(() => {
     useUnifiedTourStore.getState().reset();
-    useUnifiedTourStore.setState({ definition: null, runtime: null });
+    useUnifiedTourStore.getState().unloadDefinition();
   });
 
   it('is one store — both legacy hooks are the same instance', () => {
@@ -64,6 +64,20 @@ describe('unified tour store', () => {
     expect(state.status, 'spine half advanced').toBe('running');
     expect(state.definition, 'evidence-graph half survived').not.toBeNull();
     expect(state.runtime?.activeWaypointId).toBe(nuclearShadowDefinition.entryWaypointId);
+  });
+
+  it('unloads the evidence-graph half without disturbing spine progress', () => {
+    useUnifiedTourStore.getState().loadDefinition(nuclearShadowDefinition);
+    useUnifiedTourStore.getState().beginResolving(FAMOUS_EVENTS_TOUR);
+    useUnifiedTourStore.getState().beginRunning([resolved(0)]);
+
+    useUnifiedTourStore.getState().unloadDefinition();
+
+    const state = useUnifiedTourStore.getState();
+    expect(state.definition, 'a stale definition would render evidence overlays').toBeNull();
+    expect(state.runtime).toBeNull();
+    expect(state.status, 'unload is evidence-graph-scoped').toBe('running');
+    expect(state.waypoints).toHaveLength(1);
   });
 
   it('ignores dispatch when no evidence-graph tour is loaded', () => {
