@@ -1,9 +1,33 @@
-import type { TourDefinition } from '../types/tour-definition';
-import { tourDefinitionSchema } from '../schemas/tour-definition.schema';
+import type { AnyTourDefinition, TourDefinition } from '../types/tour-definition';
+import {
+  anyTourDefinitionSchema,
+  tourDefinitionSchema,
+} from '../schemas/tour-definition.schema';
 
 export interface DefinitionValidationResult {
   valid: boolean;
   errors: string[];
+}
+
+/**
+ * Runtime validation for either tour mode. Evidence-graph tours additionally
+ * get the referential checks below; spine tours have no route, transitions or
+ * evidence graph to cross-check, so schema conformance is the whole contract.
+ */
+export function validateAnyTourDefinition(
+  definition: AnyTourDefinition,
+): DefinitionValidationResult {
+  const parsed = anyTourDefinitionSchema.safeParse(definition);
+  if (!parsed.success) {
+    return {
+      valid: false,
+      errors: parsed.error.issues.map((issue) => `${issue.path.join('.')}: ${issue.message}`),
+    };
+  }
+
+  return definition.mode === 'evidence-graph'
+    ? validateTourDefinition(definition)
+    : { valid: true, errors: [] };
 }
 
 export function validateTourDefinition(

@@ -9,6 +9,7 @@ import { useCallback } from 'react'
 import { useReactFlow } from '@xyflow/react'
 
 import { useMindMapUiStore } from '@/features/mindmap/store/mindmap-ui-store'
+import { validateAnyTourDefinition } from '@/features/guided-tours/shared/graph/validate-tour-definition'
 import { resolveTourWaypoints } from '@/features/mindmap/actions/tour-actions'
 import { useAddRecordNode } from '@/features/mindmap/hooks/use-add-record-node'
 import {
@@ -90,6 +91,15 @@ export function useGuidedTour() {
 
   const startTour = useCallback(
     async (def: GuidedTourDef) => {
+      // Spine tours are Zod-validated at start too, not just type-checked —
+      // a malformed definition should fail loudly here rather than surface as
+      // an empty canvas after resolution.
+      const { valid, errors } = validateAnyTourDefinition(def)
+      if (!valid) {
+        console.error(`Refusing to start malformed tour "${def.id}":`, errors)
+        return
+      }
+
       const store = useGuidedTourStore.getState()
       store.beginResolving(def)
       uiStartTour(def.id, 'guided')
@@ -127,7 +137,13 @@ export function useGuidedTour() {
   }, [goToStep])
 
   const endTour = useCallback(() => {
-    useGuidedTourStore.getState().reset()
+    const store = useGuidedTourStore.getState()
+    store.reset()
+    // `reset()` is spine-scoped. Both engines now share a store, and the
+    // evidence-graph overlays read `runtime` unconditionally — so ending a tour
+    // has to clear that half too, or a stale definition survives into whatever
+    // is shown next.
+    store.unloadDefinition()
     uiEndTour()
     addSessionEvent({ type: 'tour', label: 'Tour ended' })
   }, [addSessionEvent, uiEndTour])
