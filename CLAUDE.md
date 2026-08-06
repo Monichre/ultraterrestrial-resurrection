@@ -158,6 +158,12 @@ Frontend framework and library versions are pinned in `apps/app/package.json` �
 3. `DATABASE_URL` lives in `packages/db/.env` — never commit it
 4. Maintain compatibility with 126,483 existing records (live count 2026-07-24)
 
+## Definition of Done (binding — read before claiming any work complete)
+
+No feature is done on green tests alone. Two gates, both required: a **completion report with evidence** (every claim shows its command and that command's actual output; scope every number; name what you did NOT do) and a **dogfood visual audit** (every user path and spec requirement walked through in the running app by a reviewer and visually confirmed). Cannot run the audit? Report **UNVERIFIED**, not done.
+
+Full protocol: [docs/agents/ops/DEFINITION_OF_DONE.md](docs/agents/ops/DEFINITION_OF_DONE.md). Short binding form is at the top of [AGENTS.md](AGENTS.md).
+
 ## Documentation Standards
 
 - **Always timestamp** documentation updates (EXACT DATE AND TIME)

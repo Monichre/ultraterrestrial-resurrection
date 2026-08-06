@@ -311,6 +311,17 @@ Ask clarifying questions if:
 - [ ] You need to understand specific implementation details in `apps/app/src/`
 - [ ] You're unclear about monorepo package boundaries
 
+## 🚦 BEFORE YOU REPORT ANYTHING COMPLETE
+
+Read [`DEFINITION_OF_DONE.md`](DEFINITION_OF_DONE.md). It is binding, and it has two gates:
+
+- [ ] **Completion report with evidence** — every claim shows the command that proves it and that command's actual output. Scope every number. List what you did NOT do.
+- [ ] **Dogfood visual audit** — every user path and spec requirement walked through in the running app by a reviewer and visually confirmed. Screenshots or a per-path written account.
+
+Green tests are not sufficient. A passing typecheck is not sufficient. If you cannot run the audit, report the feature **UNVERIFIED**, not done.
+
+---
+
 ## ✨ SUCCESS INDICATORS
 
 You're on the right track if:

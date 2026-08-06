@@ -2,6 +2,17 @@
 
 This file provides comprehensive guidance for AI agents and developers working with the Ultraterrestrial Resurrection codebase.
 
+## 🚦 THE DEFINITION OF DONE (binding on every agent, no exceptions)
+
+**You may not call a feature complete, done, shipped, or closed without BOTH of the following. Green tests are not sufficient. Neither is a passing typecheck.**
+
+1. **A completion report with evidence.** Every claim states the command that proves it and shows its actual output — never "verified" or "works" on your word. Name what you did NOT do and what remains open.
+2. **A dogfood visual audit.** Every user path and spec requirement is walked through **in the running app** by a reviewer who confirms it visually. A feature nobody has looked at is not done.
+
+Full protocol, required report shape, and the honesty rules: **[`docs/agents/ops/DEFINITION_OF_DONE.md`](docs/agents/ops/DEFINITION_OF_DONE.md)** — read it before reporting any work complete.
+
+If you cannot run the audit (no dev server, no credentials, no token), say so explicitly and report the feature as **UNVERIFIED**, not done. "Blocked on X" is an honest answer; silence that reads as completion is not.
+
 ## 📁 Project Structure
 
 ### Monorepo Architecture
@@ -198,6 +209,8 @@ const rows = await sql`SELECT * FROM events WHERE date > ${cutoff}`
 - **E2E tests**: Critical user workflows
 - **Visual tests**: Storybook stories with Chromatic
 - **Accessibility**: Automated a11y testing
+
+> **None of the above lets you call a feature done.** Passing tests prove the code does what the tests say — not that the feature works on screen. See [THE DEFINITION OF DONE](#-the-definition-of-done-binding-on-every-agent-no-exceptions) at the top of this file and [`docs/agents/ops/DEFINITION_OF_DONE.md`](docs/agents/ops/DEFINITION_OF_DONE.md).
 
 ## 🔗 Agent-Specific Configuration
 
