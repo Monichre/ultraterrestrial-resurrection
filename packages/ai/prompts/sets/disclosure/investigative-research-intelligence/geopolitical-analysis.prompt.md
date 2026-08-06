@@ -97,13 +97,13 @@ YT video  geopolitic analysis
 
 **Search Strategy**
 
-1. Broad Initial Search (Tavily)
+1. Broad Initial Search (TO DO: Primary AI Research Tool - Parallel, Exa, Firecrawl)
 2. Identifying Primary Sources
 3. Deeper Extraction If Needed
 4. Follow-up Following interesting tips
 
 **Direction of Retrieval (Extraction)**
-- Static HTML → Tavily extraction
+- Static HTML → Primary AI Research Tool extraction
 - JavaScript content → Dramaturg
 - Technical documentation → Context7
 - Local context → Local tools

@@ -973,3 +973,3587 @@ _**Agent (grok-4.5)**_
 Got it — Beautiful UI is already vendored at `apps/app/src/components/beautiful-ui-components/` (all 17 copy-paste components from the Turbo showcase).
 
 `thinking-orbs` is the only one that needed an npm install, and that’s already in `@app`.
+
+---
+
+_**User**_
+
+are there storybook stories for Beautiful UI ? if not add them. also add stories for all attached components@/Users/liamellis/Desktop/lab/Dev UI/_archive/embeds/synthesis-autonomous-ui-showcase-section.tsx @/Users/liamellis/Desktop/lab/Dev UI/_archive/embeds/quantum-node-ui-showcase-section.tsx @/Users/liamellis/Desktop/lab/Dev UI/_archive/embeds/futuristic-lab-landing-and-dashboard-layout.tsx @/Users/liamellis/Desktop/lab/Dev UI/_archive/embeds/full-page-aura-background-embed.tsx @/Users/liamellis/Desktop/lab/Dev UI/_archive/embeds/background-aura-animation-container.tsx 
+
+---
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+Checking for existing Storybook stories for Beautiful UI. Adding stories for the attached components from the lab archive if none exist.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+I'll check existing Storybook coverage for Beautiful UI, then add stories for those components and the attached lab embeds.
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="todo_write"><details>
+<summary>Tool use: **todo_write**</summary>
+
+Parameters:
+
+```json
+{
+  "merge": true
+}
+```
+Result:
+
+```json
+{
+  "finalTodos": [
+    {
+      "content": "Audit existing Storybook + Beautiful UI stories",
+      "id": "1",
+      "status": "in_progress"
+    },
+    {
+      "content": "Inspect attached lab embed components",
+      "id": "2",
+      "status": "pending"
+    },
+    {
+      "content": "Bring embeds into app if needed + add all stories",
+      "id": "3",
+      "status": "pending"
+    }
+  ],
+  "success": true
+}
+```
+Status: **completed**
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="search" data-tool-name="glob_file_search"><details>
+<summary>Tool use: **glob_file_search** • Searched codebase "" • **313** results in **1** directory</summary>
+
+Directory: **`/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app`** (313 files)
+
+| File |
+|------|
+| `src/stories/design-sources/reference-prototype/reference-document-library.stories.tsx` |
+| `src/components/timelines/timeline/Timeline.stories.tsx` |
+| `src/components/timelines/draggable-timeline/draggable-timeline.stories.tsx` |
+| `src/components/timelines/3d-timeline/ThreeDTimeline.stories.tsx` |
+| `src/components/sci-fi/rotating-globe.stories.tsx` |
+| `src/components/sci-fi/holographic-file-stack.stories.tsx` |
+| `src/components/sci-fi/formation/formation.stories.tsx` |
+| `src/components/design-system/research-ui/documents/reference-prototype/paper-document/paper-document.stories.tsx` |
+| `src/components/design-system/lab-prototypes/monolith-engine/MonolithEngine.stories.tsx` |
+| `src/components/design-system/lab-prototypes/diagnostic-architecture/DiagnosticArchitecture.stories.tsx` |
+| `src/components/design-system/lab-prototypes/cognitive-routing-framework/CognitiveRoutingFramework.stories.tsx` |
+| `src/components/command-palette/command-k.stories.tsx` |
+| `src/features/mindmap/nodes/enhanced-nodes.stories.tsx` |
+| `src/stories/design-sources/brand-bible/brand-bible-archive.stories.tsx` |
+| `src/layouts/home/TitleAlt.stories.tsx` |
+| `src/features/sightings/components/rocket-telemetry-hud/RocketHud.stories.tsx` |
+| `src/components/writers-desk/note-letter/NoteLetter.stories.tsx` |
+| `src/components/writers-desk/note-app/NoteApp.stories.tsx` |
+| `src/components/writers-desk/PaperTextures.stories.tsx` |
+| `src/components/paper-document/PaperDocument.stories.tsx` |
+| `src/components/oryzae-timeline/OryzaeTimeline.stories.tsx` |
+| `src/components/oracle-panel/OraclePanel.stories.tsx` |
+| `src/components/little-book/LittleBook.stories.tsx` |
+| `src/components/design-system/research-ui/documents/VintageDocumentCard.stories.tsx` |
+| `src/components/design-system/research-ui/documents/ClassifiedDocument.stories.tsx` |
+| `src/components/design-system/lab-prototypes/symbolon-archive/SymbolonArchive.stories.tsx` |
+| `src/features/mindmap/components/menus/mindmap-side-menu/EmptyCanvas.stories.tsx` |
+| `src/app/(site)/timeline/timeline-views.stories.tsx` |
+| `src/lib/animations/text-scramble.stories.tsx` |
+| `src/lib/animations/hooks/use-split-text-hover.stories.tsx` |
+| `src/lib/animations/hooks/use-scramble-text.stories.tsx` |
+| `src/lib/animations/hooks/use-gsap-timeline.stories.tsx` |
+| `src/lib/animations/Introduction.stories.mdx` |
+| `src/layouts/historical-events-timeline/world-map.stories.tsx` |
+| `src/layouts/historical-events-timeline/view-selector.stories.tsx` |
+| `src/features/sightings/uap-dashboard/TimeRangeSelector.stories.tsx` |
+| `src/features/sightings/uap-dashboard/SightingsStatsDisplay.stories.tsx` |
+| `src/features/sightings/uap-dashboard/HudUapInterface.stories.tsx` |
+| `src/features/sightings/uap-dashboard/Globe.stories.tsx` |
+| `src/features/sightings/uap-dashboard/FilterPanel.stories.tsx` |
+| `src/features/sightings/sightings.stories.tsx` |
+| `src/features/sightings/sightings-loader.stories.tsx` |
+| `src/features/sightings/components/sightings-timeseries/SightingsTimeSeries.stories.tsx` |
+| `src/features/sightings/components/hud-interface/SpaceCard.stories.tsx` |
+| `src/features/sightings/components/hud-interface/HudDash.stories.tsx` |
+| `src/features/sightings/components/hud-interface/HudCard2.stories.tsx` |
+| `src/features/sightings/components/hud-interface/HudCard.stories.tsx` |
+| `src/features/sightings/components/hud-interface/Dashboard2.stories.tsx` |
+| `src/features/sightings/components/hud-interface/Dashboard1.stories.tsx` |
+| `src/features/sightings/components/hud-interface/CirclesHud3.stories.tsx` |
+| `src/features/sightings/components/hud-interface/CirclesHud2.stories.tsx` |
+| `src/features/sightings/components/hud-interface/CardsPlayerHolo2.stories.tsx` |
+| `src/features/sightings/components/hud-interface/CardsPlayerHolo.stories.tsx` |
+| `src/features/sightings/animated-arc-layer.stories.tsx` |
+| `src/features/sightings/animated-arc-group-layer.stories.tsx` |
+| `src/features/mindmap/components/status-ui/graph-status-log.stories.tsx` |
+| `src/features/mindmap/components/menus/shader-orbs.stories.tsx` |
+| `src/features/3d/globe-connections/GlobeConnectionsExample.stories.tsx` |
+| `src/features/3d/dna-visualization/DnaVisualization.stories.tsx` |
+| `src/components/marketing/TestimonialsBand.stories.tsx` |
+| `src/components/marketing/SplitBuildTools.stories.tsx` |
+| `src/components/marketing/MarketingShowcase.stories.tsx` |
+| `src/components/marketing/MarketingHero.stories.tsx` |
+| `src/components/command-palette/CommandPalette.stories.tsx` |
+| `src/components/animations/terminal-preloader.stories.tsx` |
+| `src/components/animations/animated-menu.stories.tsx` |
+| `src/components/3d/planet-journey/PlanetJourney.stories.tsx` |
+| `src/components/3d/planet-journey/PlanetJourney.overview.stories.mdx` |
+| `src/components/3d/planet-journey/EnhancedPlanetJourney.stories.tsx` |
+| `src/app/(site)/prometheus/agent.stories.tsx` |
+| `src/components/design-system/research-ui/documents/IncidentReportCard.stories.tsx` |
+| `src/components/design-system/typography/TypographyFonts.stories.tsx` |
+| `src/components/design-system/typography/Typography.stories.tsx` |
+| `src/components/design-system/research-ui/photography/distressed/DistressedPhoto.stories.tsx` |
+| `src/features/research-canvas/space-hud/space-hud.stories.tsx` |
+| `src/features/research-canvas/case-files/canvas/canvas-drawer/canvas-drawer.stories.tsx` |
+| `src/hooks/use-text-annotation.stories.tsx` |
+| `src/layouts/historical-events-timeline/historical-events-timeline.stories.tsx` |
+| `src/layouts/home/HomeComparison.stories.tsx` |
+| `src/layouts/home/SiteTitle.stories.tsx` |
+| `src/layouts/home/TitleAltGSAP.stories.tsx` |
+| `src/layouts/home/home-animated.stories.tsx` |
+| `src/layouts/home/SceneRenderer.stories.tsx` |
+| `src/layouts/home/DoubleHelix.stories.tsx` |
+| `src/layouts/home/home.stories.tsx` |
+| `src/layouts/home/astronaut/astronaut.stories.tsx` |
+| `src/layouts/home/LovecraftQuote.stories.tsx` |
+| `src/layouts/home/Scene3D.stories.tsx` |
+| `src/layouts/home/home-gsap.stories.tsx` |
+| `src/components/glitch-fx/GlitchFx.stories.tsx` |
+| `src/components/animated/lamp-effect/lamp-effect.stories.tsx` |
+| `src/components/design-system/LogoGallery.stories.tsx` |
+| `src/components/design-system/typography/FontShowcase.stories.tsx` |
+| `src/components/design-system/colors/Colors.stories.tsx` |
+| `src/components/design-system/research-ui/documents/TypedParagraph.stories.tsx` |
+| `src/components/design-system/research-ui/documents/TopSecretUfoDocument.stories.tsx` |
+| `src/components/design-system/research-ui/documents/TechnicalDiagramDocument.stories.tsx` |
+| `src/components/design-system/research-ui/documents/report-files/ufo-sightings-report/UfoSightingsReport.stories.tsx` |
+| `src/components/design-system/research-ui/documents/report-files/ReportArchiveFile.stories.tsx` |
+| `src/components/design-system/research-ui/documents/report-files/IncidentReportGeometics.stories.tsx` |
+| `src/components/design-system/research-ui/documents/report-files/EventReport.stories.tsx` |
+| `src/components/design-system/research-ui/documents/report-files/RoswellIncident2Document.stories.tsx` |
+| `src/components/design-system/research-ui/documents/report-files/RoswellIncidentCard.stories.tsx` |
+| `src/components/design-system/research-ui/documents/VintageDocumentsDemo.stories.tsx` |
+| `src/components/design-system/research-ui/documents/document-library.stories.tsx` |
+| `src/components/design-system/research-ui/documents/MoreVintageDocuments.stories.tsx` |
+| `src/components/design-system/research-ui/documents/PolaroidCard.stories.tsx` |
+| `src/components/design-system/research-ui/documents/crash-retrievals/CrashRetrievalPhotoReport.stories.tsx` |
+| `src/components/design-system/research-ui/documents/crash-retrievals/EventDispatchDoc.stories.tsx` |
+| `src/components/design-system/research-ui/documents/crash-retrievals/CrashRetrievals.stories.tsx` |
+| `src/components/design-system/research-ui/documents/PersonnelFileCard.stories.tsx` |
+| `src/components/design-system/research-ui/documents/SpyFilesArchiveViewer.stories.tsx` |
+| `src/components/design-system/research-ui/documents/TopSecretBanner.stories.tsx` |
+| `src/components/design-system/research-ui/documents/ModelDropdown.stories.tsx` |
+| `src/components/design-system/research-ui/documents/NewlyDeclassifiedDocs.stories.tsx` |
+| `src/components/design-system/research-ui/documents/Experimental.stories.tsx` |
+| `src/components/design-system/research-ui/documents/NationalSecurityActDocument.stories.tsx` |
+| `src/components/design-system/research-ui/documents/HandwrittenNote.stories.tsx` |
+| `src/components/design-system/research-ui/documents/DynamicToolbar.stories.tsx` |
+| `src/components/design-system/research-ui/documents/NodeDropdown.stories.tsx` |
+| `src/components/design-system/research-ui/documents/RoswellIncident1Document.stories.tsx` |
+| `src/components/design-system/research-ui/documents/case-files/case-file-folder/CaseFileFolder.stories.tsx` |
+| `src/components/design-system/research-ui/documents/case-files/EventMagazineCoverFile.stories.tsx` |
+| `src/components/design-system/research-ui/documents/case-files/classified-composition/ClassifiedComposition.stories.tsx` |
+| `src/components/design-system/research-ui/documents/Recon.stories.tsx` |
+| `src/components/design-system/research-ui/documents/KeyFigureCaseFile.stories.tsx` |
+| `src/components/design-system/research-ui/photography/polaroid/Polaroid.stories.tsx` |
+| `src/components/design-system/research-ui/military-collage/MilitaryCollage.stories.tsx` |
+| `src/components/design-system/layout/Spacing.stories.tsx` |
+| `src/components/drawers/drawer-underlay.stories.tsx` |
+| `src/components/graph-paper/graph-paper.stories.tsx` |
+| `src/components/toolbars/animated-toolbar.stories.tsx` |
+| `src/components/toolbars/dynamic-toolbar/DynamicToolbar.stories.tsx` |
+| `src/components/toolbars/mini-toolbar/MiniToolbar.stories.tsx` |
+| `src/components/toolbars/toolbar-expandable.stories.tsx` |
+| `src/components/toolbars/motion-dynamic-toolbar.stories.tsx` |
+| `src/components/toolbars/transition-panel.stories.tsx` |
+| `src/components/toolbars/ModelActionToolbar.stories.tsx` |
+| `src/components/toolbars/ui-lab-toolbar.stories.tsx` |
+| `src/components/multistep-loader/multistep-loader.stories.tsx` |
+| `src/components/tiptap/classified-document-viewer.stories.tsx` |
+| `src/components/vertical-progress-ui/VerticalProgressUi.stories.tsx` |
+| `src/components/sci-fi/visualization.stories.tsx` |
+| `src/components/sci-fi/arrow-ui.stories.tsx` |
+| `src/components/sci-fi/skull-scan.stories.tsx` |
+| `src/components/sci-fi/comparison.stories.tsx` |
+| `src/components/sci-fi/view-labels.stories.tsx` |
+| `src/components/sci-fi/brain-visualization.stories.tsx` |
+| `src/components/sci-fi/scanner.stories.tsx` |
+| `src/components/sci-fi/brain-scanner.stories.tsx` |
+| `src/components/sci-fi/scan.stories.tsx` |
+| `src/components/sci-fi/minimal-vertical-menu.stories.tsx` |
+| `src/components/sci-fi/brain-comparison.stories.tsx` |
+| `src/components/bottom-drawer/BottomDrawer.stories.tsx` |
+| `src/components/ui/command/command-search-menu.stories.tsx` |
+| `src/components/ui/command/command-mind-map-menu.stories.tsx` |
+| `src/components/ui/annotation-menu.stories.tsx` |
+| `src/components/ui/button/divider-buttons/divider-button.stories.tsx` |
+| `src/components/ui/button/button.stories.tsx` |
+| `src/components/ui/card/card-stack/card-stack.stories.tsx` |
+| `src/components/ui/card/stars-card.stories.tsx` |
+| `src/components/ui/card/ExpandableCard.stories.tsx` |
+| `src/components/ui/card/text-reveal-card.stories.tsx` |
+| `src/components/ui/card/shift-card.stories.tsx` |
+| `src/components/ui/card/bento/bento-cards.stories.tsx` |
+| `src/components/ui/card/pill-card.stories.tsx` |
+| `src/components/ui/card/hover-card/hover-card.stories.tsx` |
+| `src/components/ui/card/data-card/data-card.stories.tsx` |
+| `src/components/draggable-stack/DraggableStack.stories.tsx` |
+| `src/features/research-canvas/animated-folder.stories.tsx` |
+| `src/features/research-canvas/terminal/terminal.stories.tsx` |
+| `src/features/research-canvas/admin/rag-settings.stories.tsx` |
+| `src/features/research-canvas/case-files/canvas/canvas-annotations/canvas-annotations.stories.tsx` |
+| `src/features/research-canvas/case-files/canvas/canvas-grid/canvas-grid.stories.tsx` |
+| `src/features/research-canvas/case-files/folder/folder-tabs.stories.tsx` |
+| `src/features/research-canvas/case-files/folder/folder-open.stories.tsx` |
+| `src/features/research-canvas/case-files/case-file/case-file-evidence/animated-folder.stories.tsx` |
+| `src/features/research-canvas/case-files/case-file/case-file-evidence/evidence.stories.tsx` |
+| `src/features/research-canvas/case-files/easel-tabs/EaselTabs.stories.tsx` |
+| `src/features/research-canvas/case-files/stacked-cards/exploding-stack.stories.tsx` |
+| `src/features/research-canvas/case-files/stacked-cards/stacked-cards.stories.tsx` |
+| `src/features/research-canvas/case-files/connections-ui/ConnectionsUi.stories.tsx` |
+| `src/features/research-canvas/case-files/connections-ui/ConnectionsFlow.stories.tsx` |
+| `src/features/mindmap/components/node-status-indicator.stories.tsx` |
+| `src/features/mindmap/components/labeled-handle.stories.tsx` |
+| `src/features/mindmap/components/button-handle.stories.tsx` |
+| `src/features/mindmap/components/menus/mindmap-animated-click-menu.stories.tsx` |
+| `src/features/mindmap/components/menus/model-action-toolbar.stories.tsx` |
+| `src/features/mindmap/components/menus/floating-node-menu.stories.tsx` |
+| `src/features/mindmap/components/menus/NodeMenu.stories.tsx` |
+| `src/features/mindmap/components/menus/mindmap-ai-chat.stories.tsx` |
+| `src/features/mindmap/components/menus/core/useCoreMenu.stories.tsx` |
+| `src/features/mindmap/components/menus/mindmap-side-menu/MindMapSideMenu.stories.tsx` |
+| `src/features/mindmap/components/menus/mindmap-side-menu/FloatingToolbar.stories.tsx` |
+| `src/features/mindmap/components/menus/mindmap-side-menu/ActionChip.stories.tsx` |
+| `src/features/mindmap/components/menus/mindmap-side-menu/AssetPanel.stories.tsx` |
+| `src/features/mindmap/components/menus/mindmap-side-menu/ToolbarButton.stories.tsx` |
+| `src/features/mindmap/components/menus/mindmap-utility-cursor.stories.tsx` |
+| `src/features/mindmap/components/ask-ai.stories.tsx` |
+| `src/features/mindmap/components/status-ui/thread-board.stories.tsx` |
+| `src/features/mindmap/components/status-ui/case-files-and-evidence-board.stories.tsx` |
+| `src/features/mindmap/components/status-ui/session-notes.stories.tsx` |
+| `src/features/mindmap/components/status-ui/agent-notifications-log.stories.tsx` |
+| `src/features/mindmap/components/proximity/proximity-analyzer.stories.tsx` |
+| `src/features/mindmap/components/proximity/proximity-enhanced-mindmap.stories.tsx` |
+| `src/features/mindmap/components/node-connection-overlay.stories.tsx` |
+| `src/features/mindmap/components/connection-list.stories.tsx` |
+| `src/features/mindmap/components/cards/card-stack/card-stack.stories.tsx` |
+| `src/features/mindmap/components/cards/card-stack/animated-mini-card.stories.tsx` |
+| `src/features/mindmap/components/cards/card-stack/card-stack-multiview.stories.tsx` |
+| `src/features/mindmap/components/cards/card-stack/cards.stories.tsx` |
+| `src/features/mindmap/components/cards/connection-card/connection-card.stories.tsx` |
+| `src/features/mindmap/components/cards/event/photo-carousel.stories.tsx` |
+| `src/features/mindmap/components/cards/event/bonsai-card.stories.tsx` |
+| `src/features/mindmap/components/cards/event/grid-card.stories.tsx` |
+| `src/features/mindmap/components/cards/event/event-globe-card.stories.tsx` |
+| `src/features/mindmap/components/cards/root-node-card/search-input-spotlight.stories.tsx` |
+| `src/features/mindmap/components/cards/root-node-card/RootNodeToolbar.stories.tsx` |
+| `src/features/mindmap/components/cards/root-node-card/root-node-card.stories.tsx` |
+| `src/features/mindmap/components/cards/topic-card/topic-card.stories.tsx` |
+| `src/features/mindmap/components/cards/layer-zero-card.stories.tsx` |
+| `src/features/mindmap/components/cards/testimony-card.stories.tsx` |
+| `src/features/mindmap/components/cards/render-entity-card.stories.tsx` |
+| `src/features/mindmap/components/cards/subject-matter-expert-card/SubjectMatterExpertCard.stories.tsx` |
+| `src/features/mindmap/components/cards/entity-card/entity-card.stories.tsx` |
+| `src/features/mindmap/components/cards/entity-card/entity-card-tooltip.stories.tsx` |
+| `src/features/mindmap/components/cards/entity-card/entity-card-utility-menu.stories.tsx` |
+| `src/features/mindmap/components/cards/luxe-card.stories.tsx` |
+| `src/features/mindmap/components/cards/basic-mindmap-cards.stories.tsx` |
+| `src/features/mindmap/components/cards/topic-card.stories.tsx` |
+| `src/features/mindmap/components/cards/mini-card.stories.tsx` |
+| `src/features/mindmap/components/cards/entity-group-card/sections.stories.tsx` |
+| `src/features/mindmap/components/cards/entity-group-card/testimonies-group-card.stories.tsx` |
+| `src/features/mindmap/components/cards/entity-group-card/events-group-card.stories.tsx` |
+| `src/features/mindmap/components/cards/entity-group-card/entity-group-card-bg.stories.tsx` |
+| `src/features/mindmap/components/cards/entity-group-card/topic-group-card.stories.tsx` |
+| `src/features/mindmap/components/cards/entity-group-card/lights-background.stories.tsx` |
+| `src/features/mindmap/components/cards/entity-group-card/organizations-group-card.stories.tsx` |
+| `src/features/mindmap/components/cards/entity-group-card/entity-group-card.stories.tsx` |
+| `src/features/mindmap/components/cards/graph-card/graph-card.stories.tsx` |
+| `src/features/mindmap/components/cards/graph-card/graph-card-bg.stories.tsx` |
+| `src/features/mindmap/components/grouping/enhanced-mindmap-with-grouping.stories.tsx` |
+| `src/features/mindmap/components/grouping/group-boundary.stories.tsx` |
+| `src/features/mindmap/components/grouping/spatial-grouping.stories.tsx` |
+| `src/features/mindmap/components/grouping/spatial-grouping-overlay.stories.tsx` |
+| `src/features/mindmap/components/ai-integration.stories.tsx` |
+| `src/features/mindmap/components/base-handle.stories.tsx` |
+| `src/features/mindmap/components/clones/clone-node.stories.tsx` |
+| `src/features/mindmap/components/note/BlockEditor/types.stories.tsx` |
+| `src/features/mindmap/components/note/BlockEditor/components/EditorHeader.stories.tsx` |
+| `src/features/mindmap/components/note/BlockEditor/components/EditorInfo.stories.tsx` |
+| `src/features/mindmap/components/note/BlockEditor/BlockEditor.stories.tsx` |
+| `src/features/mindmap/components/note/TableOfContents/TableOfContents.stories.tsx` |
+| `src/features/mindmap/components/note/menus/ContentItemMenu/hooks/useData.stories.tsx` |
+| `src/features/mindmap/components/note/menus/ContentItemMenu/hooks/useContentItemActions.stories.tsx` |
+| `src/features/mindmap/components/note/menus/ContentItemMenu/ContentItemMenu.stories.tsx` |
+| `src/features/mindmap/components/note/menus/LinkMenu/LinkMenu.stories.tsx` |
+| `src/features/mindmap/components/note/menus/TextMenu/components/FontSizePicker.stories.tsx` |
+| `src/features/mindmap/components/note/menus/TextMenu/components/FontFamilyPicker.stories.tsx` |
+| `src/features/mindmap/components/note/menus/TextMenu/components/EditLinkPopover.stories.tsx` |
+| `src/features/mindmap/components/note/menus/TextMenu/components/ContentTypePicker.stories.tsx` |
+| `src/features/mindmap/components/note/menus/TextMenu/components/AIDropdown.stories.tsx` |
+| `src/features/mindmap/components/note/menus/TextMenu/TextMenu.stories.tsx` |
+| `src/features/mindmap/components/note/lib/constants.stories.tsx` |
+| `src/features/mindmap/components/note/hooks/useSidebar.stories.tsx` |
+| `src/features/mindmap/components/note/hooks/useAIState.stories.tsx` |
+| `src/features/mindmap/components/note/Note.stories.tsx` |
+| `src/features/mindmap/components/note/extensions/EmojiSuggestion/components/EmojiList.stories.tsx` |
+| `src/features/mindmap/components/note/extensions/ImageUpload/view/ImageUploader.stories.tsx` |
+| `src/features/mindmap/components/note/extensions/ImageUpload/view/ImageUpload.stories.tsx` |
+| `src/features/mindmap/components/note/extensions/ImageBlock/components/ImageBlockWidth.stories.tsx` |
+| `src/features/mindmap/components/note/extensions/ImageBlock/components/ImageBlockMenu.stories.tsx` |
+| `src/features/mindmap/components/note/extensions/ImageBlock/components/ImageBlockView.stories.tsx` |
+| `src/features/mindmap/components/note/extensions/AiImage/components/AiImageView.stories.tsx` |
+| `src/features/mindmap/components/note/extensions/AiImage/AiImage.stories.tsx` |
+| `src/features/mindmap/components/note/extensions/MultiColumn/menus/ColumnsMenu.stories.tsx` |
+| `src/features/mindmap/components/note/extensions/TableOfContentsNode/TableOfContentsNode.stories.tsx` |
+| `src/features/mindmap/components/note/extensions/SlashCommand/CommandButton.stories.tsx` |
+| `src/features/mindmap/components/note/extensions/SlashCommand/MenuList.stories.tsx` |
+| `src/features/mindmap/components/note/extensions/AiWriter/AiWriter.stories.tsx` |
+| `src/features/mindmap/components/note/extensions/AiWriter/components/AiWriterView.stories.tsx` |
+| `src/features/mindmap/components/note/panels/Colorpicker/Colorpicker.stories.tsx` |
+| `src/features/mindmap/components/note/panels/Colorpicker/ColorButton.stories.tsx` |
+| `src/features/mindmap/components/note/panels/LinkPreviewPanel/LinkPreviewPanel.stories.tsx` |
+| `src/features/mindmap/components/note/panels/LinkEditorPanel/LinkEditorPanel.stories.tsx` |
+| `src/features/mindmap/components/note/ui/PopoverMenu.stories.tsx` |
+| `src/features/mindmap/components/note/ui/Loader/Loader.stories.tsx` |
+| `src/features/mindmap/components/note/ui/Toolbar.stories.tsx` |
+| `src/features/mindmap/components/note/ui/Button/shiny-button.stories.tsx` |
+| `src/features/mindmap/components/note/ui/Button/hover-expand-button.stories.tsx` |
+| `src/features/mindmap/components/note/ui/Button/Button.stories.tsx` |
+| `src/features/mindmap/components/note/ui/Textarea/Textarea.stories.tsx` |
+| `src/features/mindmap/components/note/ui/Surface.stories.tsx` |
+| `src/features/mindmap/components/note/ui/Toggle/Toggle.stories.tsx` |
+| `src/features/mindmap/components/note/ui/Spinner/Spinner.stories.tsx` |
+| `src/features/mindmap/components/note/ui/Icon.stories.tsx` |
+| `src/features/mindmap/components/note/ui/Dropdown/Dropdown.stories.tsx` |
+| `src/features/mindmap/components/note/Sidebar/Sidebar.stories.tsx` |
+| `src/features/mindmap/nodes/core-node-ui.stories.tsx` |
+| `src/features/mindmap/nodes/entity-node.stories.tsx` |
+| `src/features/mindmap/nodes/user-input-node/user-input-node.stories.tsx` |
+| `src/features/mindmap/nodes/root-node.stories.tsx` |
+| `src/features/mindmap/nodes/document-node.stories.tsx` |
+| `src/features/mindmap/nodes/ai-annotation-node.stories.tsx` |
+| `src/features/mindmap/nodes/enhanced-entity-node.stories.tsx` |
+| `src/features/mindmap/nodes/AnnotationNode.stories.tsx` |
+| `src/features/ai/pipelines/agent-execution-pipeline/AgentExecutionPipeline.stories.tsx` |
+| `src/features/ai/pipelines/web-processing-pipeline/WebProcessingPipeline.stories.tsx` |
+| `src/features/ai/pipelines/document-processing-pipeline/DocumentProcessingPipeline.stories.tsx` |
+| `src/features/3d/globe-connections/Globe.stories.tsx` |
+| `src/features/3d/3d-timeline-journey/stories/3d-timeline-journey.stories.tsx` |
+| `src/features/3d/scroll-through-3d/ScrollTriggerScene.stories.tsx` |
+| `src/features/3d/ufos/ufo/ufo.stories.tsx` |
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="search" data-tool-name="glob_file_search"><details>
+<summary>Tool use: **glob_file_search** • Searched codebase "" • **18** results in **1** directory</summary>
+
+Directory: **`/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app`** (18 files)
+
+| File |
+|------|
+| `src/components/beautiful-ui-components/FilterTable.tsx` |
+| `src/components/beautiful-ui-components/ContextCards.tsx` |
+| `src/components/beautiful-ui-components/ChatComposer.tsx` |
+| `src/components/beautiful-ui-components/CodeBlock.tsx` |
+| `src/components/beautiful-ui-components/DiffTable.tsx` |
+| `src/components/beautiful-ui-components/README.md` |
+| `src/components/beautiful-ui-components/ApprovalCard.tsx` |
+| `src/components/beautiful-ui-components/RecommendationCard.tsx` |
+| `src/components/beautiful-ui-components/TaskRows.tsx` |
+| `src/components/beautiful-ui-components/FineTuneCard.tsx` |
+| `src/components/beautiful-ui-components/SidebarNav.tsx` |
+| `src/components/beautiful-ui-components/SearchList.tsx` |
+| `src/components/beautiful-ui-components/InsightCards.tsx` |
+| `src/components/beautiful-ui-components/RecordsTable.tsx` |
+| `src/components/beautiful-ui-components/ThinkingState.tsx` |
+| `src/components/beautiful-ui-components/ToolChips.tsx` |
+| `src/components/beautiful-ui-components/StreamingText.tsx` |
+| `src/components/beautiful-ui-components/LoadingState.tsx` |
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2** • Run command: export PATH=&#34;/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:/Users/liamellis/.bun/bin:$PATH&#34;
+pwd
+ls -la &#34;/Users/liamellis/Desktop/lab/Dev UI/_archive/embeds/&#34; 2&gt;&amp;1 | head -40
+ls apps/app/.storybook 2&gt;&amp;1
+ls apps/app/src/components/beautiful-ui-components 2&gt;&amp;1
+</summary>
+```bash
+export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:/Users/liamellis/.bun/bin:$PATH"
+pwd
+ls -la "/Users/liamellis/Desktop/lab/Dev UI/_archive/embeds/" 2>&1 | head -40
+ls apps/app/.storybook 2>&1
+ls apps/app/src/components/beautiful-ui-components 2>&1
+
+```
+
+```
+/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection
+total 192
+drwxr-xr-x   7 liamellis  staff    224 Aug  5 19:46 .
+drwxr-xr-x  10 liamellis  staff    320 Jun  9 16:34 ..
+-rw-r--r--@  1 liamellis  staff   5253 Mar 11 16:47 background-aura-animation-container.tsx
+-rw-r--r--@  1 liamellis  staff   5239 Mar 11 19:07 full-page-aura-background-embed.tsx
+-rw-r--r--@  1 liamellis  staff  34950 Mar 17 14:40 futuristic-lab-landing-and-dashboard-layout.tsx
+-rw-r--r--@  1 liamellis  staff  19973 Mar 26 21:37 quantum-node-ui-showcase-section.tsx
+-rw-r--r--@  1 liamellis  staff  23616 Mar 26 21:37 synthesis-autonomous-ui-showcase-section.tsx
+addons
+decorators
+main.ts
+manager.ts
+mocked-google-fonts.cjs
+preview.tsx
+reference-prototype.css
+stubs
+theme.tsx
+ApprovalCard.tsx
+ChatComposer.tsx
+CodeBlock.tsx
+ContextCards.tsx
+DiffTable.tsx
+FilterTable.tsx
+FineTuneCard.tsx
+InsightCards.tsx
+LoadingState.tsx
+README.md
+RecommendationCard.tsx
+RecordsTable.tsx
+SearchList.tsx
+SidebarNav.tsx
+StreamingText.tsx
+TaskRows.tsx
+ThinkingState.tsx
+ToolChips.tsx
+
+```
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+No Beautiful UI stories exist yet. I'll review existing story patterns and component exports first. Then I'll examine the attached embed files and check whether they already exist in the app.
+
+I'll follow existing story patterns and check the PSEUDOCODE.md documentation rule.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "glob": "**/*.{stories,story}.{tsx,ts,mdx}",
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app",
+  "pattern": "beautiful-ui|BeautifulUI|LoadingState|ThinkingState"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app",
+  "pattern": "beautiful-ui|BeautifulUI|LoadingState|ThinkingState",
+  "topFiles": [
+    {
+      "matchCount": 1,
+      "uri": "apps/app/src/components/design-system/research-ui/documents/document-library.stories.tsx"
+    }
+  ],
+  "totalFiles": 1,
+  "totalMatches": 1
+}
+```
+Status: **completed**
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app",
+  "pattern": "synthesis-autonomous|quantum-node-ui|futuristic-lab-landing|full-page-aura|background-aura-animation"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app",
+  "pattern": "synthesis-autonomous|quantum-node-ui|futuristic-lab-landing|full-page-aura|background-aura-animation",
+  "topFiles": [],
+  "totalFiles": 0,
+  "totalMatches": 0
+}
+```
+Status: **completed**
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/sci-fi/holographic-file-stack.stories.tsx</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/.storybook/main.ts</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/beautiful-ui-components/LoadingState.tsx</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/beautiful-ui-components/ThinkingState.tsx</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+I'll examine the Beautiful UI component exports and the attached embed files to understand their structure and dependencies. Then I'll copy those embeds into the app and create Storybook stories for them.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/beautiful-ui-components",
+  "pattern": "^export (default )?function|^export default|^export \\{"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/beautiful-ui-components",
+  "pattern": "^export (default )?function|^export default|^export \\{",
+  "topFiles": [
+    {
+      "matchCount": 1,
+      "uri": "apps/app/src/components/beautiful-ui-components/ChatComposer.tsx"
+    },
+    {
+      "matchCount": 1,
+      "uri": "apps/app/src/components/beautiful-ui-components/CodeBlock.tsx"
+    },
+    {
+      "matchCount": 1,
+      "uri": "apps/app/src/components/beautiful-ui-components/TaskRows.tsx"
+    },
+    {
+      "matchCount": 1,
+      "uri": "apps/app/src/components/beautiful-ui-components/FilterTable.tsx"
+    },
+    {
+      "matchCount": 1,
+      "uri": "apps/app/src/components/beautiful-ui-components/SidebarNav.tsx"
+    },
+    {
+      "matchCount": 1,
+      "uri": "apps/app/src/components/beautiful-ui-components/LoadingState.tsx"
+    },
+    {
+      "matchCount": 1,
+      "uri": "apps/app/src/components/beautiful-ui-components/ToolChips.tsx"
+    },
+    {
+      "matchCount": 1,
+      "uri": "apps/app/src/components/beautiful-ui-components/SearchList.tsx"
+    },
+    {
+      "matchCount": 1,
+      "uri": "apps/app/src/components/beautiful-ui-components/RecommendationCard.tsx"
+    },
+    {
+      "matchCount": 1,
+      "uri": "apps/app/src/components/beautiful-ui-components/RecordsTable.tsx"
+    },
+    {
+      "matchCount": 1,
+      "uri": "apps/app/src/components/beautiful-ui-components/ThinkingState.tsx"
+    },
+    {
+      "matchCount": 1,
+      "uri": "apps/app/src/components/beautiful-ui-components/ContextCards.tsx"
+    },
+    {
+      "matchCount": 1,
+      "uri": "apps/app/src/components/beautiful-ui-components/FineTuneCard.tsx"
+    },
+    {
+      "matchCount": 1,
+      "uri": "apps/app/src/components/beautiful-ui-components/StreamingText.tsx"
+    },
+    {
+      "matchCount": 1,
+      "uri": "apps/app/src/components/beautiful-ui-components/DiffTable.tsx"
+    },
+    {
+      "matchCount": 1,
+      "uri": "apps/app/src/components/beautiful-ui-components/InsightCards.tsx"
+    },
+    {
+      "matchCount": 1,
+      "uri": "apps/app/src/components/beautiful-ui-components/ApprovalCard.tsx"
+    }
+  ],
+  "totalFiles": 17,
+  "totalMatches": 17
+}
+```
+Status: **completed**
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/lab/Dev UI/_archive/embeds/background-aura-animation-container.tsx</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/lab/Dev UI/_archive/embeds/full-page-aura-background-embed.tsx</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/lab/Dev UI/_archive/embeds/quantum-node-ui-showcase-section.tsx</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/lab/Dev UI/_archive/embeds/synthesis-autonomous-ui-showcase-section.tsx</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/lab/Dev UI/_archive/embeds/futuristic-lab-landing-and-dashboard-layout.tsx</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/marketing/MarketingShowcase.stories.tsx</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="search" data-tool-name="glob_file_search"><details>
+<summary>Tool use: **glob_file_search** • Searched codebase "" • **23** results in **1** directory</summary>
+
+Directory: **`/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components`** (23 files)
+
+| File |
+|------|
+| `backgrounds/shooting-stars/stars-background.tsx` |
+| `backgrounds/paper/paper-backgrounds.tsx` |
+| `backgrounds/stars-background.tsx` |
+| `backgrounds/shooting-stars/shooting-stars-background.tsx` |
+| `backgrounds/shooting-stars/index.tsx` |
+| `backgrounds/shooting-stars/ShootingStars.tsx` |
+| `backgrounds/shader-bg.tsx` |
+| `backgrounds/meteors.tsx` |
+| `backgrounds/matrix-background/index.tsx` |
+| `backgrounds/matrix-background/MatrixBackground.tsx` |
+| `backgrounds/index.tsx` |
+| `backgrounds/grid-background.tsx` |
+| `backgrounds/graph-paper/index.tsx` |
+| `backgrounds/graph-paper/graph-paper-bg.tsx` |
+| `backgrounds/grain.tsx` |
+| `backgrounds/dot-pattern.tsx` |
+| `backgrounds/dot-grid-background.tsx` |
+| `backgrounds/dot-gradient/dot-gradient.tsx` |
+| `backgrounds/backgrounds.tsx` |
+| `backgrounds/background-static/index.tsx` |
+| `backgrounds/background-static/BackgroundStatic.tsx` |
+| `backgrounds/animated-grid-pattern/index.tsx` |
+| `backgrounds/animated-grid-pattern/AnimatedGridPattern.tsx` |
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+No Beautiful UI stories exist yet. The attached embeds are iframe wrappers containing full HTML demos.
+
+Existing design lab prototype stories will provide the pattern for these iframe wrappers. Heavy documentation will be skipped to focus on the stories themselves.
+
+Documentation will be created after all, following the user's explicit preference. Minimal PascalCase and PSEUDOCODE files will be generated alongside the stories. The embeds will be copied into the dev UI embeds directory, with individual stories for each component plus a gallery story.
+
+Seventeen components call for a pragmatic catalog structure. A single gallery story will showcase all items together. Individual stories will target components with variant props such as LoadingState, ThinkingState, and TaskRows.
+
+Colocated stories will live next to each component file, following the existing `Component.stories.tsx` convention. Embeds will be copied unchanged to the dev UI embeds directory with kebab-case filenames. LoadingState props and any required CSS or fonts still need verification.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/beautiful-ui-components/LoadingState.tsx</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/design-system/lab-prototypes/monolith-engine/MonolithEngine.stories.tsx</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "glob": "*.tsx",
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/beautiful-ui-components",
+  "pattern": "font-|@keyframes|style jsx|globals"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/beautiful-ui-components",
+  "pattern": "font-|@keyframes|style jsx|globals",
+  "topFiles": [
+    {
+      "matchCount": 4,
+      "uri": "apps/app/src/components/beautiful-ui-components/FineTuneCard.tsx"
+    },
+    {
+      "matchCount": 3,
+      "uri": "apps/app/src/components/beautiful-ui-components/StreamingText.tsx"
+    },
+    {
+      "matchCount": 1,
+      "uri": "apps/app/src/components/beautiful-ui-components/ChatComposer.tsx"
+    },
+    {
+      "matchCount": 5,
+      "uri": "apps/app/src/components/beautiful-ui-components/ContextCards.tsx"
+    },
+    {
+      "matchCount": 4,
+      "uri": "apps/app/src/components/beautiful-ui-components/FilterTable.tsx"
+    },
+    {
+      "matchCount": 13,
+      "uri": "apps/app/src/components/beautiful-ui-components/InsightCards.tsx"
+    }
+  ],
+  "totalFiles": 6,
+  "totalMatches": 79
+}
+```
+Status: **completed**
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/.storybook/preview.tsx</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="todo_write"><details>
+<summary>Tool use: **todo_write**</summary>
+
+Parameters:
+
+```json
+{
+  "merge": true
+}
+```
+Result:
+
+```json
+{
+  "finalTodos": [
+    {
+      "content": "Audit existing Storybook + Beautiful UI stories",
+      "id": "1",
+      "status": "completed"
+    },
+    {
+      "content": "Inspect attached lab embed components",
+      "id": "2",
+      "status": "completed"
+    },
+    {
+      "content": "Bring embeds into app if needed + add all stories",
+      "id": "3",
+      "status": "in_progress"
+    }
+  ],
+  "initialTodos": [
+    {
+      "content": "Audit existing Storybook + Beautiful UI stories",
+      "id": "1",
+      "status": "in_progress"
+    },
+    {
+      "content": "Inspect attached lab embed components",
+      "id": "2",
+      "status": "pending"
+    },
+    {
+      "content": "Bring embeds into app if needed + add all stories",
+      "id": "3",
+      "status": "pending"
+    }
+  ],
+  "success": true,
+  "wasMerge": true
+}
+```
+Status: **completed**
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+Noted that Beautiful UI relies on custom CSS variables such as `--ink`, `text-ink`, `bg-inset`, and `shadow-hairline`.
+
+Checking whether those CSS variables are globally defined or need a Storybook decorator.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "glob": "*.{css,tsx,ts}",
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src",
+  "pattern": "--ink\\b|text-ink|shadow-hairline|pixel-on|shimmer-text"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src",
+  "pattern": "--ink\\b|text-ink|shadow-hairline|pixel-on|shimmer-text",
+  "topFiles": [
+    {
+      "matchCount": 11,
+      "uri": "apps/app/src/components/beautiful-ui-components/ChatComposer.tsx"
+    },
+    {
+      "matchCount": 4,
+      "uri": "apps/app/src/components/beautiful-ui-components/LoadingState.tsx"
+    },
+    {
+      "matchCount": 7,
+      "uri": "apps/app/src/components/beautiful-ui-components/CodeBlock.tsx"
+    },
+    {
+      "matchCount": 13,
+      "uri": "apps/app/src/components/beautiful-ui-components/SidebarNav.tsx"
+    },
+    {
+      "matchCount": 5,
+      "uri": "apps/app/src/components/writers-desk/note-letter/NoteLetterContent.tsx"
+    }
+  ],
+  "totalFiles": 5,
+  "totalMatches": 223
+}
+```
+Status: **completed**
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/beautiful-ui-components/README.md</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+Checking the Tailwind config for Beautiful UI CSS tokens like `--ink:` and `text-ink`.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "glob": "*.{css,ts,js}",
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app",
+  "pattern": "--ink:|ink-3|--surface:|pixel-on|shimmer-text|rounded-control|shadow-hairline|bg-field|bg-inset"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app",
+  "pattern": "--ink:|ink-3|--surface:|pixel-on|shimmer-text|rounded-control|shadow-hairline|bg-field|bg-inset",
+  "topFiles": [
+    {
+      "matchCount": 1,
+      "uri": "apps/app/src/styles/document-panel.css"
+    },
+    {
+      "matchCount": 1,
+      "uri": "apps/app/src/features/guided-tours/nuclear-shadow/nuclear-shadow-tour.css"
+    },
+    {
+      "matchCount": 1,
+      "uri": "apps/app/.storybook/reference-prototype.css"
+    }
+  ],
+  "totalFiles": 3,
+  "totalMatches": 3
+}
+```
+Status: **completed**
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="search" data-tool-name="glob_file_search"><details>
+<summary>Tool use: **glob_file_search** • Searched codebase "" • **18** results in **1** directory</summary>
+
+Directory: **`/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src`** (18 files)
+
+| File |
+|------|
+| `components/beautiful-ui-components/DiffTable.tsx` |
+| `components/beautiful-ui-components/SidebarNav.tsx` |
+| `components/beautiful-ui-components/SearchList.tsx` |
+| `components/beautiful-ui-components/RecommendationCard.tsx` |
+| `components/beautiful-ui-components/ApprovalCard.tsx` |
+| `components/beautiful-ui-components/StreamingText.tsx` |
+| `components/beautiful-ui-components/ContextCards.tsx` |
+| `components/beautiful-ui-components/InsightCards.tsx` |
+| `components/beautiful-ui-components/ToolChips.tsx` |
+| `components/beautiful-ui-components/LoadingState.tsx` |
+| `components/beautiful-ui-components/ChatComposer.tsx` |
+| `components/beautiful-ui-components/README.md` |
+| `components/beautiful-ui-components/TaskRows.tsx` |
+| `components/beautiful-ui-components/FineTuneCard.tsx` |
+| `components/beautiful-ui-components/RecordsTable.tsx` |
+| `components/beautiful-ui-components/CodeBlock.tsx` |
+| `components/beautiful-ui-components/FilterTable.tsx` |
+| `components/beautiful-ui-components/ThinkingState.tsx` |
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2** • Run command: export PATH=&#34;/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:/Users/liamellis/.bun/bin:$PATH&#34;
+# Check if beautiful-ui CSS was added anywhere
+rg -l &#34;pixel-on|beautiful-ui|--ink:&#34; apps/app/src --glob &#39;*.css&#39; 2&gt;/dev/null | head
+ls apps/app/src/components/beautiful-ui-components/
+# Check writers-desk for ink token pattern (might be different)
+rg -n &#34;--ink&#34; apps/app/src/app --glob &#39;*.css&#39; | head -30
+</summary>
+```bash
+export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:/Users/liamellis/.bun/bin:$PATH"
+# Check if beautiful-ui CSS was added anywhere
+rg -l "pixel-on|beautiful-ui|--ink:" apps/app/src --glob '*.css' 2>/dev/null | head
+ls apps/app/src/components/beautiful-ui-components/
+# Check writers-desk for ink token pattern (might be different)
+rg -n "--ink" apps/app/src/app --glob '*.css' | head -30
+
+```
+
+```
+apps/app/src/styles/document-panel.css
+apps/app/src/features/guided-tours/nuclear-shadow/nuclear-shadow-tour.css
+ApprovalCard.tsx
+ChatComposer.tsx
+CodeBlock.tsx
+ContextCards.tsx
+DiffTable.tsx
+FilterTable.tsx
+FineTuneCard.tsx
+InsightCards.tsx
+LoadingState.tsx
+README.md
+RecommendationCard.tsx
+RecordsTable.tsx
+SearchList.tsx
+SidebarNav.tsx
+StreamingText.tsx
+TaskRows.tsx
+ThinkingState.tsx
+ToolChips.tsx
+rg: unrecognized flag --ink
+
+```
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+The Beautiful UI components use custom Tailwind classes like `text-ink` and `bg-field`. A theme CSS file appears to be missing, which may prevent Storybook from rendering them correctly.
+
+I'll create a Storybook decorator CSS to map those custom tokens. I'll check the original site and Tailwind config for the color definitions.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "glob": "**/tailwind*.{ts,js,css}",
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app",
+  "pattern": "ink|hairline|field|inset|line-strong|accent-tint"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app",
+  "pattern": "ink|hairline|field|inset|line-strong|accent-tint",
+  "topFiles": [],
+  "totalFiles": 0,
+  "totalMatches": 0
+}
+```
+Status: **completed**
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="search" data-tool-name="glob_file_search"><details>
+<summary>Tool use: **glob_file_search** • Searched codebase "" • **617** results in **1** directory</summary>
+
+Directory: **`/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app`** (617 files)
+
+| File |
+|------|
+| `src/app/globals.css` |
+| `src/components/design-system/research-ui/military-collage/military-collage.css` |
+| `src/features/mindmap/components/note/extensions/extension-kit.ts` |
+| `src/features/mindmap/components/note/styles/partials/collab.css` |
+| `src/layouts/historical-events-timeline/types.ts` |
+| `src/components/timelines/3d-timeline/styles.css` |
+| `src/components/animations/index.ts` |
+| `src/features/spacetime/index.ts` |
+| `src/components/tiptap-ui/text-align-button/use-text-align.ts` |
+| `src/features/mindmap/components/note/lib/utils/isTextSelected.ts` |
+| `src/components/design-system/lab-prototypes/diagnostic-architecture/fixtures.ts` |
+| `src/features/mindmap/components/note/lib/utils/getConnectionText.ts` |
+| `src/components/writers-desk/note-app/fixtures.ts` |
+| `src/components/design-system/research-ui/documents/reference-prototype/paper-document/paper-document-motion.css` |
+| `src/features/ai/pipelines/document-processing-pipeline/index.ts` |
+| `src/features/mindmap/components/note/extensions/MultiColumn/Columns.ts` |
+| `src/services/ai/integrations/twilio/index.ts` |
+| `.storybook/stubs/tiptap-pro/extension-ai.ts` |
+| `src/app/api/documents/browse/route.ts` |
+| `src/services/ai/integrations/firecrawl.ts` |
+| `src/services/ai/openai/index.ts` |
+| `src/services/ai/prompts/summarize.prompt.ts` |
+| `src/features/sightings/components/sightings-timeseries/SightingsTimeSeries.css` |
+| `src/services/ai/integrations/schema/tavily.ts` |
+| `src/features/mindmap/components/note/styles/partials/typography.css` |
+| `src/features/mindmap/components/note/extensions/HorizontalRule/HorizontalRule.ts` |
+| `src/services/ai/prompts/index.ts` |
+| `.storybook/stubs/tiptap/extension-font-family.ts` |
+| `.storybook/stubs/tiptap/extension-focus.ts` |
+| `src/hooks/use-mobile.ts` |
+| `src/app/board/data.ts` |
+| `src/features/mindmap/components/note/styles/partials/placeholder.css` |
+| `.storybook/stubs/app-fonts.ts` |
+| `src/components/document-panel/index.ts` |
+| `src/services/knowledge-layer/memory.ts` |
+| `src/services/ai/tools/index.ts` |
+| `src/features/sightings/utils/sighting-filters.ts` |
+| `src/features/ai/pipelines/helpers/index.ts` |
+| `src/services/ai/openai/functions/generate-resource.ts` |
+| `src/features/mindmap/components/note/extensions/AiWriter/index.ts` |
+| `src/hooks/useBackendChat.ts` |
+| `src/features/spacetime/state/spacetime-store.ts` |
+| `src/app/api/processing/testimony/route.ts` |
+| `src/services/ai/openai/config.ts` |
+| `src/features/mindmap/utils/node.utils.ts` |
+| `src/app/api/documents/[id]/route.ts` |
+| `src/features/guided-tours/shared/types/tour-definition.ts` |
+| `src/features/mindmap/components/note/extensions/Table/utils.ts` |
+| `src/features/mindmap/components/note/extensions/TableOfContentsNode/index.ts` |
+| `src/services/ai/integrations/schema/exa-research.ts` |
+| `src/types/testimony.ts` |
+| `src/services/sightings/get-sightings.ts` |
+| `src/app/api/webhooks/xata/route.ts` |
+| `src/components/animated/animated-wrappers/config.animations.ts` |
+| `src/components/design-system/research-ui/documents/types.ts` |
+| `src/services/ai/components/index.ts` |
+| `src/features/3d/visualizations/zrnzevic-collection/particle-system/shaders/fragmentShader.ts` |
+| `src/app/research-ui.css` |
+| `src/lib/utils/card-transforms.ts` |
+| `src/utils/file-processing.ts` |
+| `src/components/oracle-panel/index.ts` |
+| `src/services/ai/prometheus/api/agent/route.ts` |
+| `.storybook/stubs/tiptap/extension-color.ts` |
+| `src/components/tiptap-ui/color-highlight-button/use-color-highlight.ts` |
+| `src/features/3d/visualizations/zrnzevic-collection/wave-effect/shaders/vertexShader.ts` |
+| `src/lib/animations/scroll-journey.ts` |
+| `src/features/mindmap/hooks/use-add-record-node.ts` |
+| `src/utils/index.ts` |
+| `src/app/api/mindmap/records/route.ts` |
+| `src/features/3d/visualizations/zrnzevic-collection/fluid-simulation/shaders/vertexShader.ts` |
+| `src/components/design-system/lab-prototypes/cognitive-routing-framework/cognitive-routing-framework.css` |
+| `src/features/mindmap/components/note/extensions/Image/Image.ts` |
+| `src/app/api/cron/process-testimonies/route.ts` |
+| `src/components/design-system/lab-prototypes/use-symbolon-fonts.ts` |
+| `src/services/ai/context/index.ts` |
+| `src/services/ai/tools/tavily/tavily.ts` |
+| `src/features/sightings/components/rocket-telemetry-hud/fixtures.ts` |
+| `.storybook/stubs/tiptap/extension-table-row.ts` |
+| `src/features/sightings/components/rocket-telemetry-hud/map-sightings-to-hud.ts` |
+| `src/features/ai/components/prompt-kit/ai-markdown-message/index.ts` |
+| `src/components/design-system/research-ui/documents/reference-prototype/paper-document/documents.data.ts` |
+| `src/features/guided-tours/shared/graph/validate-tour-definition.ts` |
+| `src/services/ai/openai/prometheus-agent.ts` |
+| `src/contexts/mindmap/mindmap.interface.ts` |
+| `src/components/oracle-panel/fixtures.ts` |
+| `src/lib/tavily/client.ts` |
+| `src/utils/constants/resources.ts` |
+| `src/components/graph-paper/graph-paper.css` |
+| `src/lib/tavily/index.ts` |
+| `src/hooks/use-scrolling.ts` |
+| `src/features/sightings/uap-dashboard/graph-paper-background/graph-paper-animation.ts` |
+| `src/features/record-stack/index.ts` |
+| `src/features/mindmap/components/note/extensions/index.ts` |
+| `src/stories/design-sources/reference-prototype/reference-prototype.modules.d.ts` |
+| `src/features/mindmap/types.ts` |
+| `next.config.ts` |
+| `src/features/research-canvas/space-hud/space-hud.css` |
+| `src/lib/animations/hooks/use-scramble-text.ts` |
+| `src/services/sightings/get-events.ts` |
+| `src/components/little-book/index.ts` |
+| `src/features/mindmap/tours/use-guided-tour.ts` |
+| `src/services/ranking/types.ts` |
+| `src/components/backgrounds/graph-paper/graph-paper.css` |
+| `src/features/mindmap/components/note/extensions/ImageUpload/index.ts` |
+| `src/hooks/use-unmount.ts` |
+| `src/services/ai/openai/stream-handler.ts` |
+| `src/features/guided-tours/shared/types/flow-model.ts` |
+| `src/features/spacetime/lib/temporal-stations.ts` |
+| `src/features/research-canvas/research-base/fonts.ts` |
+| `src/layouts/historical-events-timeline/timeline.css` |
+| `src/app/(site)/prometheus/prometheus.css` |
+| `src/layouts/home/useHomeAnimations.ts` |
+| `src/services/ai/prometheus/lib/ner-response-structure.prompt.ts` |
+| `src/features/mindmap/utils/evidentiary-state.ts` |
+| `src/services/ai/embeddings/index.ts` |
+| `src/components/ui/card/data-card/data-card.css` |
+| `src/features/ai/ai.ts` |
+| `src/features/mindmap/components/note/lib/initialContent.ts` |
+| `src/app/api/prometheus/chat/route.ts` |
+| `src/features/ai/pipelines/lib/index.ts` |
+| `shader.d.ts` |
+| `.storybook/stubs/ai-sdk-react.ts` |
+| `src/features/ai/knowledge/types.ts` |
+| `src/features/ai/pipelines/helpers/extract.ts` |
+| `src/components/tiptap-ui/heading-dropdown-menu/use-heading-dropdown-menu.ts` |
+| `src/services/processing/process-resource.ts` |
+| `src/features/mindmap/layouts/organizeNodeLayout.ts` |
+| `src/hooks/flow/use-workflow.ts` |
+| `src/services/sightings/utils.ts` |
+| `src/services/ai/prometheus/styles/prometheus.css` |
+| `src/components/marketing/index.ts` |
+| `src/services/ai/prompts/knowledge-graph.prompt.ts` |
+| `src/features/ai/components/index.ts` |
+| `src/features/ai/knowledge/index.ts` |
+| `src/features/mindmap/components/note/extensions/Table/Table.ts` |
+| `src/features/guided-tours/nuclear-shadow/tests/choreography.test.ts` |
+| `src/services/ai/integrations/index.ts` |
+| `src/features/3d/3d-timeline-journey/stories/data.ts` |
+| `src/features/mindmap/research-canvas/data/ufo-sightings.ts` |
+| `.storybook/stubs/tiptap/extension-table.ts` |
+| `src/features/guided-tours/shared/tests/tour-schema.test.ts` |
+| `src/components/ui/button/divider-buttons/index.ts` |
+| `src/components/writers-desk/note-app/index.ts` |
+| `src/services/ai/tools/research-search.ts` |
+| `src/components/marketing/marketing.css` |
+| `src/components/video/video.css` |
+| `src/services/processing/testimony-processor.ts` |
+| `src/services/ai/prompts/daedalus.prompt.ts` |
+| `src/features/guided-tours/shared/schemas/tour-definition.schema.ts` |
+| `src/features/mindmap/components/note/extensions/Heading/index.ts` |
+| `.storybook/stubs/tiptap/extension-character-count.ts` |
+| `src/lib/tavily/extract.ts` |
+| `src/services/sightings/uap-sighting.ts` |
+| `src/components/tiptap/tiptap-extension/trailing-node-extension.ts` |
+| `src/components/design-system/research-ui/documents/reference-prototype/vintage-posters/index.ts` |
+| `src/components/sci-fi/formation/perlin.ts` |
+| `src/features/mindmap/components/note/menus/index.ts` |
+| `src/features/3d/3d-timeline-journey/utils/progressPromise.ts` |
+| `src/services/sightings/uap-monitor.ts` |
+| `src/features/mindmap/utils/node-factories.ts` |
+| `src/features/mindmap/components/note/extensions/SlashCommand/SlashCommand.ts` |
+| `src/utils/location-analysis.ts` |
+| `src/features/3d/visualizations/zrnzevic-collection/ray-marching/shaders/fragmentShader.ts` |
+| `src/app/api/processing/scrape/batch/route.ts` |
+| `src/services/ai/prometheus/lib/external-resources.ts` |
+| `src/components/design-system/research-ui/documents/reference-prototype/paper-document/index.ts` |
+| `src/features/3d/visualizations/zrnzevic-collection/wave-effect/shaders/fragmentShader.ts` |
+| `src/features/mindmap/tours/famous-events-tour.ts` |
+| `src/features/mindmap/components/note/extensions/BlockquoteFigure/index.ts` |
+| `src/layouts/home/astronaut/astronaut.module.css` |
+| `src/features/guided-tours/shared/choreography/transition-sequence.ts` |
+| `src/hooks/intersection-observer.ts` |
+| `src/features/guided-tours/shared/state/tour-store.ts` |
+| `src/services/ai/tools/exa/exa-ai.ts` |
+| `src/features/mindmap/components/note/lib/api.ts` |
+| `src/components/writers-desk/note-letter/types.ts` |
+| `src/features/mindmap/types/index.ts` |
+| `src/features/ai/pipelines/lib/types.ts` |
+| `src/components/ui/use-toast.ts` |
+| `src/components/document-panel/lib/utils.ts` |
+| `src/components/writers-desk/note-app/types.ts` |
+| `src/features/ai/pipelines/agent-execution-pipeline/index.ts` |
+| `src/components/design-system/research-ui/documents/reference-prototype/paper-document/generate-redacted-text.ts` |
+| `src/features/mindmap/components/note/extensions/MultiColumn/Column.ts` |
+| `src/features/mindmap/components/note/extensions/MultiColumn/index.ts` |
+| `src/features/mindmap/components/note/lib/utils/getRenderContainer.ts` |
+| `src/components/design-system/research-ui/documents/reference-prototype/index.ts` |
+| `src/features/mindmap/components/note/extensions/BlockquoteFigure/QuoteCaption/index.ts` |
+| `src/utils/animations.ts` |
+| `src/features/mindmap/components/note/ui/Loader/types.ts` |
+| `src/components/oryzae-timeline/use-oryzae-fonts.ts` |
+| `src/utils/constants/index.ts` |
+| `src/components/tiptap-node/horizontal-rule-node/horizontal-rule-node-extension.ts` |
+| `src/components/design-system/research-ui/documents/report-files/ufo-sightings-report/sightings-report.css` |
+| `src/features/guided-tours/shared/persistence/tour-progress.serializer.ts` |
+| `src/components/design-system/lab-prototypes/index.ts` |
+| `.storybook/reference-prototype.css` |
+| `src/features/mindmap/nodes/nodes.css` |
+| `src/services/ai/prometheus/index.ts` |
+| `src/features/mindmap/hooks/use-graph-init.ts` |
+| `src/lib/schema.ts` |
+| `src/services/ai/prompts/prometheus.prompt.ts` |
+| `src/components/design-system/lab-prototypes/monolith-engine/index.ts` |
+| `src/features/sightings/components/rocket-telemetry-hud/index.ts` |
+| `src/services/ai/integrations/schema/firecrawl.ts` |
+| `src/features/mindmap/components/note/extensions/TrailingNode/index.ts` |
+| `src/features/sightings/uap-dashboard/terminal/terminal.css` |
+| `src/features/mindmap/utils/contextual-intelligence.ts` |
+| `src/components/writers-desk/index.ts` |
+| `src/features/guided-tours/shared/state/unified-tour-store.ts` |
+| `src/lib/animations/gsap-utils.ts` |
+| `src/components/command-palette/command-palette-store.ts` |
+| `src/features/ai/pipelines/helpers/analyze.ts` |
+| `src/components/sci-fi/formation/formation-ui.css` |
+| `src/features/mindmap/components/note/lib/utils/isCustomNodeSelected.ts` |
+| `src/features/ai/pipelines/unified/index.ts` |
+| `src/features/mindmap/components/note/extensions/EmojiSuggestion/suggestion.ts` |
+| `src/features/mindmap/config/index.config.ts` |
+| `src/hooks/use-composed-ref.ts` |
+| `src/features/sightings/components/GridAnimation/index.ts` |
+| `src/features/mindmap/components/note/styles/partials/animations.css` |
+| `src/app/api/documents/route.ts` |
+| `src/features/ai/pipelines/audio-processing-pipeline/index.ts` |
+| `src/features/mindmap/components/note/menus/TextMenu/hooks/useTextmenuStates.ts` |
+| `src/components/tiptap/tiptap-node/image-upload-node/image-upload-node-extension.ts` |
+| `src/utils/model.utils.ts` |
+| `src/components/design-system/research-ui/documents/reference-prototype/types/paper-document.ts` |
+| `src/features/research-canvas/case-files/stacked-cards/exploding-stack/stack.css` |
+| `src/features/guided-tours/shared/graph/derive-edge-status.ts` |
+| `src/components/tiptap-ui/undo-redo-button/use-undo-redo.ts` |
+| `src/hooks/use-scroll-to-bottom.ts` |
+| `src/features/sightings/uap-dashboard/space-hud/space-hud.css` |
+| `src/components/animated/text-effect/sparkle.css` |
+| `src/services/ai/prompts/text-to-db-prompt.ts` |
+| `src/services/ai/integrations/screenshot/screenshot.api.ts` |
+| `src/features/ai/components/prompt-kit/index.ts` |
+| `src/features/guided-tours/nuclear-shadow/nuclear-shadow-tour.css` |
+| `src/features/guided-tours/shared/graph/resolve-anchor.ts` |
+| `src/components/oryzae-timeline/index.ts` |
+| `src/hooks/use-text-annotation.ts` |
+| `src/lib/ai/prompt-cache.ts` |
+| `src/components/dock/hooks/useMousePosition.ts` |
+| `src/features/ai/pipelines/types.ts` |
+| `src/features/research-canvas/terminal/terminal.css` |
+| `src/services/ai/prompts/build-prompt.ts` |
+| `src/app/api/cron/update-rankings/route.ts` |
+| `.storybook/main.ts` |
+| `src/services/ai/claude/get-claude-response.ts` |
+| `src/services/ai/prometheus/api/index.ts` |
+| `src/services/ai/prometheus/docs/index.ts` |
+| `src/hooks/use-custom-cursor.ts` |
+| `src/components/paper-document/paper-document.css` |
+| `src/components/ui/card/card-stack/card-stack.css` |
+| `src/services/ai/prometheus/lib/analyze-content.ts` |
+| `src/features/mindmap/components/note/styles/partials/table.css` |
+| `src/features/mindmap/components/note/extensions/Link/index.ts` |
+| `src/services/ai/integrations/serper.ts` |
+| `src/components/design-system/typography/typography.css` |
+| `src/features/mindmap/components/note/extensions/FontSize/FontSize.ts` |
+| `src/features/mindmap/components/note/extensions/Table/menus/TableRow/utils.ts` |
+| `src/features/mindmap/components/note/extensions/Document/Document.ts` |
+| `src/features/mindmap/components/note/extensions/FontSize/index.ts` |
+| `src/services/ai/prometheus/lib/index.ts` |
+| `src/app/api/admin/test-ranking-system/route.ts` |
+| `src/features/research-canvas/graph-paper-background/graph-paper.css` |
+| `src/features/mindmap/research-canvas/typer/use-typer.ts` |
+| `src/features/mindmap/components/note/extensions/ImageUpload/view/hooks.ts` |
+| `src/services/ai/prompts/yaml-loader.ts` |
+| `src/features/guided-tours/shared/tests/validate-any-tour.test.ts` |
+| `src/features/mindmap/components/note/extensions/TrailingNode/trailing-node.ts` |
+| `src/features/guided-tours/index.ts` |
+| `src/features/ai/actions/web-extractions.actions.ts` |
+| `src/services/ai/openai/functions/summarize.ts` |
+| `src/app/api/disclosure/mindmap/route.ts` |
+| `src/features/guided-tours/shared/state/tour-events.ts` |
+| `src/components/sci-fi/formation/surfaces.ts` |
+| `src/services/ai/prompts/structure-the-unstructured.prompt.ts` |
+| `src/services/ai/claude/index.ts` |
+| `src/types/modules.d.ts` |
+| `src/features/guided-tours/shared/tests/resolve-anchor.test.ts` |
+| `src/components/glitch-fx/GlitchFx.css` |
+| `src/services/ai/integrations/schema/intelligence-enrichment.ts` |
+| `src/lib/tiptap-utils.ts` |
+| `src/app/api/processing/scrape/route.ts` |
+| `src/features/mindmap/actions/ai-actions.ts` |
+| `src/services/ai/openai/functions/functions.ts` |
+| `src/services/ai/prometheus/lib/daedalus.prompt.ts` |
+| `src/features/mindmap/components/note/extensions/Selection/index.ts` |
+| `src/features/sightings/use-batched-processing.ts` |
+| `src/features/mindmap/components/note/extensions/ImageBlock/ImageBlock.ts` |
+| `src/features/mindmap/components/note/extensions/EmojiSuggestion/types.ts` |
+| `src/features/ai/knowledge/utilities.ts` |
+| `global.d.ts` |
+| `src/utils/constants/nodes.ts` |
+| `src/app/api/disclosure/uap-sightings/route.ts` |
+| `liveblocks.config.ts` |
+| `src/components/tiptap-ui/link-popover/use-link-popover.ts` |
+| `src/services/ai/context/build-agent-context.ts` |
+| `src/services/ai/integrations/exa/index.ts` |
+| `src/features/3d/visualizations/zrnzevic-collection/ray-marching/shaders/vertexShader.ts` |
+| `src/features/mindmap/actions/xata-to-xyflow.ts` |
+| `src/components/command-palette/index.ts` |
+| `.storybook/stubs/react-hot-toast.ts` |
+| `src/features/mindmap/components/note/ui/Loader/index.ts` |
+| `src/app/api/admin/trigger-ranking-update/route.ts` |
+| `src/components/tiptap-ui/code-block-button/use-code-block.ts` |
+| `src/lib/geo/geocode.ts` |
+| `src/features/3d/3d-timeline-journey/config/months.ts` |
+| `src/features/mindmap/tools/ultraterrestrial-agent-tools.ts` |
+| `src/hooks/use-throttled-callback.ts` |
+| `src/components/animated/animated-wrappers/functions.animations.ts` |
+| `src/features/mindmap/store/mindmap-store.ts` |
+| `src/components/design-system/research-ui/documents/reference-prototype/types/documents.ts` |
+| `src/components/sci-fi/formation/index.ts` |
+| `src/features/mindmap/components/note/extensions/ImageUpload/ImageUpload.ts` |
+| `src/features/sightings/utils/map-utils.ts` |
+| `src/features/research-canvas/graph-paper-background/graph-paper-animation.ts` |
+| `src/lib/animations/hooks/use-gsap-timeline.ts` |
+| `src/components/design-system/lab-prototypes/symbolon-archive/fixtures.ts` |
+| `src/features/ai/pipelines/web-processing-pipeline/index.ts` |
+| `tailwind.config.ts` |
+| `.storybook/stubs/tiptap-pro/extension-emoji.ts` |
+| `src/components/animated/animated-wrappers/animations.types.d.ts` |
+| `src/components/writers-desk/note-letter/index.ts` |
+| `src/styles/document-panel.css` |
+| `src/lib/utils/index.ts` |
+| `src/hooks/useSessionPersistence.ts` |
+| `src/services/ai/integrations/schema/index.ts` |
+| `src/services/ai/prompts/researchers.prompt.ts` |
+| `.storybook/stubs/tiptap-pro/extension-drag-handle-react.ts` |
+| `src/components/command-palette/types.ts` |
+| `src/features/guided-tours/nuclear-shadow/tests/graph-compiler.test.ts` |
+| `scripts/smoke-model-fallback.ts` |
+| `src/hooks/use-sightings-data.ts` |
+| `src/components/command-palette/use-command-palette.ts` |
+| `src/hooks/use-menu-navigation.ts` |
+| `src/features/mindmap/components/note/extensions/Table/Cell.ts` |
+| `src/layouts/historical-events-timeline/events-timeline.css` |
+| `src/features/ai/knowledge/adapters/xata-adapter.ts` |
+| `src/services/cloudflare/worker.ts` |
+| `src/components/prometheus/index.ts` |
+| `.storybook/stubs/tiptap-pro/extension-toc.ts` |
+| `src/lib/animations/hooks/use-gsap-timeline.stories.css` |
+| `src/components/animated/entrance-preloader/utils.ts` |
+| `src/features/ai/pipelines/video-processing-pipeline/index.ts` |
+| `src/services/ai/integrations/schema/serper.ts` |
+| `src/features/mindmap/components/note/styles/partials/blocks.css` |
+| `src/features/3d/visualizations/zrnzevic-collection/interactive-terrain/shaders/fragmentShader.ts` |
+| `src/components/tiptap-ui/image-upload-button/use-image-upload.ts` |
+| `src/lib/anthropic/client.ts` |
+| `src/features/mindmap/components/note/extensions/Figure/Figure.ts` |
+| `src/features/mindmap/config/nodes.config.ts` |
+| `src/features/mindmap/components/note/extensions/BlockquoteFigure/Quote/index.ts` |
+| `src/components/design-system/lab-prototypes/cognitive-routing-framework/index.ts` |
+| `src/lib/tavily/search.ts` |
+| `src/services/ai/integrations/types.ts` |
+| `src/features/sightings/uap-dashboard/graph-paper-background/graph-paper.css` |
+| `src/features/ai/knowledge/adapters/r2r-adapter.ts` |
+| `src/utils/debounce.ts` |
+| `src/features/sightings/components/rocket-telemetry-hud/types.ts` |
+| `src/services/ai/prompts/ner-response-structure.prompt.ts` |
+| `src/utils/constants/colors.ts` |
+| `src/features/mindmap/components/note/styles/partials/code.css` |
+| `src/features/mindmap/components/note/menus/TextMenu/hooks/useTextmenuCommands.ts` |
+| `src/services/ai/openai/embed-query.ts` |
+| `src/features/spacetime/types/spacetime.ts` |
+| `src/services/ai/integrations/tavily.ts` |
+| `src/features/mindmap/components/note/extensions/Table/Row.ts` |
+| `src/features/ai/actions/document-processing.actions.ts` |
+| `src/features/mindmap/components/note/extensions/Selection/Selection.ts` |
+| `src/services/ai/integrations/schema/exa.ts` |
+| `src/components/demo-landing/index.ts` |
+| `src/features/ai/knowledge/adapters/index.ts` |
+| `src/services/ai/openai/sse.ts` |
+| `src/components/design-system/research-ui/documents/case-files/case-file-docs.css` |
+| `src/services/ai/prometheus/styles/index.ts` |
+| `src/features/record-stack/record-stack.css` |
+| `src/app/api/client-logs/route.ts` |
+| `src/services/ai/prometheus/components/ui/index.ts` |
+| `src/features/guided-tours/shared/state/tour-reducer.ts` |
+| `src/features/mindmap/components/note/extensions/Document/index.ts` |
+| `src/services/ai/tools/postgres.ts` |
+| `src/features/3d/dna-visualization/index.ts` |
+| `src/features/ai/components/mindmap-search-ui/index.ts` |
+| `src/features/mindmap/components/note/extensions/Figcaption/Figcaption.ts` |
+| `src/types/xata-extensions.d.ts` |
+| `src/hooks/use-element-rect.ts` |
+| `src/lib/utils/text.ts` |
+| `src/utils/cn.ts` |
+| `src/features/mindmap/research-canvas/typer/constants.ts` |
+| `src/lib/ai/model-fallback.ts` |
+| `src/services/ai/tools/exa/index.ts` |
+| `src/lib/actions.ts` |
+| `src/features/record-stack/data/nimitz-case.ts` |
+| `src/features/mindmap/components/note/extensions/ImageBlock/index.ts` |
+| `src/features/mindmap/components/note/extensions/MultiColumn/menus/index.ts` |
+| `src/services/ai/prometheus/lib/build-prompt.ts` |
+| `src/features/spacetime/lib/normalize.ts` |
+| `src/features/sightings/components/rocket-telemetry-hud/rocket-telemetry-hud.css` |
+| `src/features/mindmap/actions/tour-actions.ts` |
+| `src/hooks/use-cursor-visibility.ts` |
+| `src/components/tiptap/tiptap-extension/link-extension.ts` |
+| `src/features/mindmap/components/note/extensions/Table/Header.ts` |
+| `src/features/mindmap/actions/related-records.ts` |
+| `src/hooks/use-textarea-resize.ts` |
+| `.storybook/stubs/tiptap/extension-table-header.ts` |
+| `src/components/design-system/lab-prototypes/symbolon-archive/symbolon-archive.css` |
+| `src/features/mindmap/components/note/ui/Tooltip/types.ts` |
+| `.storybook/stubs/next-font.ts` |
+| `src/features/mindmap/components/note/lib/utils/index.ts` |
+| `src/lib/upstash/upstash.vector.ts` |
+| `src/lib/openai/index.ts` |
+| `src/features/timeline/get-timeline-events.ts` |
+| `src/app/design-lab/fixtures.ts` |
+| `src/lib/animations/index.ts` |
+| `src/hooks/use-debounce.ts` |
+| `src/app/api/admin/rag-settings/route.ts` |
+| `src/features/guided-tours/shared/persistence/tour-progress.repository.ts` |
+| `src/components/design-system/research-ui/documents/crash-retrievals/crash-retrievals.css` |
+| `src/features/mindmap/components/note/extensions/BlockquoteFigure/BlockquoteFigure.ts` |
+| `src/features/mindmap/actions/tour-validation-server-actions.ts` |
+| `src/features/record-stack/types.ts` |
+| `src/features/guided-tours/nuclear-shadow/nuclear-shadow.definition.ts` |
+| `src/features/user/api/save-event.ts` |
+| `src/features/mindmap/components/cards/event/event-globe-card.css` |
+| `src/features/mindmap/components/note/extensions/Link/Link.ts` |
+| `src/features/sightings/types.ts` |
+| `src/features/ai/ai-app-assistant/full-chat-interface/index.ts` |
+| `src/components/tiptap-node/image-upload-node/image-upload-node-extension.ts` |
+| `src/features/ai/knowledge/unified-knowledge-api.ts` |
+| `src/features/guided-tours/shared/state/tour-selectors.ts` |
+| `src/lib/mem0/client.ts` |
+| `src/hooks/useRemoteImage.ts` |
+| `src/services/ai/openai/functions/embeddings.ts` |
+| `src/components/sci-fi/index.ts` |
+| `src/components/little-book/LittleBook.css` |
+| `src/services/ai/prometheus/lib/vectorize.ts` |
+| `src/features/mindmap/components/note/extensions/Heading/Heading.ts` |
+| `src/components/bottom-drawer/BottomSheet.css` |
+| `src/features/3d/3d-timeline-journey/config/index.ts` |
+| `src/services/sightings/actions/sightings-time-chunk.ts` |
+| `src/features/guided-tours/nuclear-shadow/index.ts` |
+| `src/features/mindmap/components/note/styles/index.css` |
+| `src/components/cursor-ui/index.ts` |
+| `src/features/mindmap/components/note/context/EditorContext.ts` |
+| `src/services/ai/prometheus/api/chat/index.ts` |
+| `src/components/cursor-ui/cursor.css` |
+| `src/lib/composio/client.ts` |
+| `src/features/ai/ai-app-assistant/index.ts` |
+| `src/services/sightings/actions/sightings-ai-analysis.ts` |
+| `src/utils/write-log.ts` |
+| `src/features/ai/pipelines/lib/animations.ts` |
+| `src/features/mindmap/hooks/use-spatial-grouping.ts` |
+| `src/services/ai/prometheus/lib/prometheus-file-handler.ts` |
+| `src/services/ai/integrations/twilio/sms.ts` |
+| `test-import.ts` |
+| `src/features/mindmap/components/note/extensions/Image/index.ts` |
+| `src/features/3d/3d-timeline-journey/config/assetData.ts` |
+| `src/lib/openai/embeddings/index.ts` |
+| `src/services/ai/openai/extract-search-terms.ts` |
+| `src/components/design-system/research-ui/documents/vintage-document.css` |
+| `src/features/sightings/utils/location-analysis.ts` |
+| `src/components/tiptap-ui/blockquote-button/use-blockquote.ts` |
+| `src/lib/firecrawl/index.ts` |
+| `src/services/ai/prometheus/lib/utils.ts` |
+| `src/services/ai/integrations/exa/exa.ts` |
+| `src/utils/serialization.ts` |
+| `src/components/design-system/lab-prototypes/symbolon-archive/index.ts` |
+| `src/features/mindmap/components/note/styles/partials/lists.css` |
+| `src/lib/openai/client.ts` |
+| `src/features/ai/actions/agent-patterns.actions.ts` |
+| `.storybook/stubs/tiptap-pro/extension-file-handler.ts` |
+| `src/components/backgrounds/dot-gradient/dot-gradient.css` |
+| `src/services/ai/prometheus/components/index.ts` |
+| `src/features/ai/knowledge/components/index.ts` |
+| `src/features/mindmap/components/note/extensions/SlashCommand/index.ts` |
+| `src/features/mindmap/components/note/extensions/BlockquoteFigure/QuoteCaption/QuoteCaption.ts` |
+| `src/features/mindmap/components/note/menus/TextMenu/hooks/useTextmenuContentTypes.ts` |
+| `src/features/mindmap/actions/addNextEntitiesToMindMap.ts` |
+| `src/features/mindmap/hooks/use-card-selection.ts` |
+| `src/features/mindmap/components/note/hooks/useBlockEditor.ts` |
+| `src/services/ai/integrations/screenshot/screenshot.ts` |
+| `src/features/mindmap/components/note/extensions/SlashCommand/types.ts` |
+| `src/lib/rag/rag-llm-handler.ts` |
+| `src/features/mindmap/hooks/use-ai-loading.ts` |
+| `.storybook/stubs/tiptap/extension-code-block-lowlight.ts` |
+| `src/components/dock/hooks/useWindowResize.ts` |
+| `.storybook/stubs/lowlight.ts` |
+| `src/components/dock/Dock/DockContext.ts` |
+| `src/features/mindmap/components/note/extensions/HorizontalRule/index.ts` |
+| `src/components/animated/entrance-preloader/index.ts` |
+| `.storybook/stubs/ai-sdk-rsc.ts` |
+| `src/services/ai/prometheus/api/chat/route.ts` |
+| `src/middleware.ts` |
+| `src/utils/image.utils.ts` |
+| `src/features/guided-tours/shared/graph/compile-tour-graph.ts` |
+| `src/features/sightings/loader.css` |
+| `src/features/guided-tours/shared/graph/derive-node-status.ts` |
+| `src/lib/anthropic/claude.ts` |
+| `src/features/mindmap/components/note/extensions/Table/index.ts` |
+| `src/features/ai/knowledge/adapters/local-files-adapter.ts` |
+| `src/features/sightings/utils/performance-optimizations.ts` |
+| `src/features/3d/visualizations/zrnzevic-collection/fluid-simulation/shaders/fragmentShader.ts` |
+| `.storybook/stubs/tiptap/extension-collaboration-cursor.ts` |
+| `src/layouts/home/useHomeHeroSequence.ts` |
+| `src/lib/upstash/queue.ts` |
+| `src/components/animated/entrance-preloader/useEntrancePreloader.ts` |
+| `src/features/mindmap/components/note/extensions/Figure/index.ts` |
+| `src/components/oryzae-timeline/types.ts` |
+| `src/components/writers-desk/paper-textures.ts` |
+| `src/features/ai/knowledge/adapters/openai-vector-adapter.ts` |
+| `src/components/design-system/lab-prototypes/diagnostic-architecture/diagnostic-architecture.css` |
+| `src/utils/logger.ts` |
+| `src/features/mindmap/components/note/extensions/Figcaption/index.ts` |
+| `src/app/api/sightings/realtime/route.ts` |
+| `src/lib/upstash/clients/index.ts` |
+| `src/features/guided-tours/nuclear-shadow/nuclear-shadow.sources.ts` |
+| `src/features/mindmap/research-canvas/canvas-animations.css` |
+| `src/components/cursors/cursor.css` |
+| `src/components/animated/entrance-preloader/types.ts` |
+| `src/utils/worker.ts` |
+| `src/services/ai/index.ts` |
+| `src/services/ai/openai/helpers.ts` |
+| `src/features/mindmap/store/mindmap-ui-store.ts` |
+| `src/hooks/geolocation.ts` |
+| `src/utils/colors.ts` |
+| `src/features/guided-tours/nuclear-shadow/nuclear-shadow.layout.ts` |
+| `src/features/spacetime/lib/filter-events.ts` |
+| `src/services/ai/integrations/screenshot/index.ts` |
+| `src/features/mindmap/components/note/extensions/BlockquoteFigure/Quote/Quote.ts` |
+| `src/components/animated/entrance-preloader/default-lines.ts` |
+| `src/lib/animations/hooks/index.ts` |
+| `src/components/glitch-fx/GlitchFx.module.css` |
+| `src/features/guided-tours/nuclear-shadow/tests/reducer.test.ts` |
+| `src/features/mindmap/actions/get-entity-network-graph-data.ts` |
+| `src/features/ai/actions/index.ts` |
+| `src/services/ai/prometheus/lib/prometheus.prompts.ts` |
+| `src/services/ai/prompts/disclosure-assistant.prompt.ts` |
+| `src/components/oracle-panel/types.ts` |
+| `src/features/mindmap/hooks/use-proximity-analysis.ts` |
+| `src/components/tiptap-ui/mark-button/use-mark.ts` |
+| `src/lib/animations/hooks/use-progress-bar.ts` |
+| `src/features/guided-tours/nuclear-shadow/tests/definition.test.ts` |
+| `src/features/3d/visualizations/spatial-gallery/events.ts` |
+| `src/services/ai/prometheus/api/agent/index.ts` |
+| `src/features/3d/visualizations/zrnzevic-collection/particle-system/shaders/vertexShader.ts` |
+| `src/features/mindmap/store/index.ts` |
+| `src/utils/rate-limit.ts` |
+| `src/features/mindmap/components/note/lib/utils/cssVar.ts` |
+| `src/components/timelines/timeline/timeline.css` |
+| `src/features/mindmap/actions/enrich-hypothesis.ts` |
+| `src/components/design-system/lab-prototypes/monolith-engine/monolith-engine.css` |
+| `src/features/guided-tours/shared/types/tour-runtime.ts` |
+| `src/hooks/use-tiptap-editor.ts` |
+| `src/services/ai/prompts/ner-extraction-prompt.ts` |
+| `src/features/ai/ai-app-assistant/assistant-ui/index.ts` |
+| `src/utils/constants/core-resources.ts` |
+| `src/features/mindmap/research-canvas/typer/index.ts` |
+| `src/components/tiptap-ui/list-dropdown-menu/use-list-dropdown-menu.ts` |
+| `src/services/ai/tools/tavily/index.ts` |
+| `src/layouts/historical-events-timeline/geo-spatial-functions.ts` |
+| `src/components/timelines/draggable-timeline/types.ts` |
+| `src/components/design-system/lab-prototypes/diagnostic-architecture/index.ts` |
+| `src/features/3d/3d-timeline-journey/config/assetOrder.ts` |
+| `src/components/tiptap-ui/heading-button/use-heading.ts` |
+| `src/components/design-system/research-ui/documents/reference-prototype/classified-documents/index.ts` |
+| `src/features/mindmap/hooks/use-mindmap-agent.ts` |
+| `src/components/writers-desk/writers-desk-notes.css` |
+| `src/features/ai/pipelines/helpers/vectorize.ts` |
+| `src/components/tiptap-ui/list-button/use-list.ts` |
+| `src/features/mindmap/actions/smart-connection-analysis.ts` |
+| `src/services/ai/tools/exa/agent.ts` |
+| `src/components/design-system/lab-prototypes/symbolon-archive/types.ts` |
+| `src/features/mindmap/components/note/menus/types.ts` |
+| `scripts/workers/testimony-queue-worker.ts` |
+| `.storybook/manager.ts` |
+| `src/hooks/use-window-size.ts` |
+| `src/components/little-book/fixtures.ts` |
+| `src/services/ranking/personnel-ranking.service.ts` |
+| `src/services/sightings/get-famous-events.ts` |
+| `src/features/3d/visualizations/zrnzevic-collection/interactive-terrain/shaders/vertexShader.ts` |
+| `src/hooks/useChatActions.ts` |
+| `src/services/ai/tools/tavily/agent.ts` |
+| `src/features/mindmap/components/note/extensions/Table/menus/TableColumn/utils.ts` |
+| `src/components/design-system/research-ui/documents/index.ts` |
+| `src/components/tiptap/tiptap-extension/selection-extension.ts` |
+| `src/components/ui/card/cards.css` |
+| `src/features/mindmap/tours/guided-tour-store.ts` |
+| `src/app/api/processing/status/route.ts` |
+| `src/features/mindmap/research-canvas/actions/get-sightings.ts` |
+| `src/features/mindmap/components/note/extensions/AiImage/index.ts` |
+| `src/lib/animations/hooks/use-split-text-hover.ts` |
+| `.storybook/stubs/xata-to-xyflow.ts` |
+| `src/services/ai/prometheus/lib/analyze.ts` |
+| `src/features/mindmap/components/note/extensions/SlashCommand/groups.ts` |
+| `src/features/mindmap/components/note/extensions/EmojiSuggestion/index.ts` |
+| `src/features/spacetime/actions/load-spacetime-events.ts` |
+| `src/features/guided-tours/shared/tests/unified-tour-store.test.ts` |
+| `src/services/ai/openai/functions/index.ts` |
+| `src/features/guided-tours/shared/choreography/use-tour-choreographer.ts` |
+| `src/utils/functions.ts` |
+| `src/features/mindmap/hooks/use-smart-auto-connection.ts` |
+| `src/services/ai/prometheus/components/ui/use-toast.ts` |
+| `src/lib/mem0/index.ts` |
+| `src/components/dock/hooks/useCallbackRef.ts` |
+| `src/components/writers-desk/note-letter/fixtures.ts` |
+| `src/features/sightings/actions/fetch-time-series-data.ts` |
+| `src/components/ui/sidebar.ts` |
+| `src/lib/firecrawl/firecrawl.ts` |
+| `.storybook/stubs/db-xata-client.ts` |
+| `src/features/ai/pipelines/lib/utils.ts` |
+| `src/features/mindmap/actions/synthesize-investigation.ts` |
+| `src/utils/analysis/component-audit.ts` |
+| `src/services/sightings/actions/events-time-chunk.ts` |
+| `src/lib/rate-limit.ts` |
+| `src/services/ai/integrations/exa/exa-research.ts` |
+| `src/services/ai/prometheus/lib/tools.ts` |
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2** • Run command: export PATH=&#34;/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:/Users/liamellis/.bun/bin:$PATH&#34;
+# Extract unique token/class patterns from BUI components for theme CSS
+rg -oN &#39;var\(--[a-z0-9-]+\)|text-ink(-[0-9])?|bg-(ink|field|inset|surface|hover|line|accent[^&#34;&#39;\&#39;&#39; ]*)|shadow-[a-z-]+|border-line|text-(green|red|orange|accent[^&#34;&#39;\&#39;&#39; ]*)|rounded-control|bg-accent-tint&#39; apps/app/src/components/beautiful-ui-components --glob &#39;*.tsx&#39; | sort -u | head -80
+# Check if @theme or @utility defines these in globals
+rg -n &#34;text-ink|shadow-hairline|--ink-3|@theme&#34; apps/app/src/app/globals.css | head -40
+</summary>
+```bash
+export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:/Users/liamellis/.bun/bin:$PATH"
+# Extract unique token/class patterns from BUI components for theme CSS
+rg -oN 'var\(--[a-z0-9-]+\)|text-ink(-[0-9])?|bg-(ink|field|inset|surface|hover|line|accent[^"'\'' ]*)|shadow-[a-z-]+|border-line|text-(green|red|orange|accent[^"'\'' ]*)|rounded-control|bg-accent-tint' apps/app/src/components/beautiful-ui-components --glob '*.tsx' | sort -u | head -80
+# Check if @theme or @utility defines these in globals
+rg -n "text-ink|shadow-hairline|--ink-3|@theme" apps/app/src/app/globals.css | head -40
+
+```
+
+```
+apps/app/src/components/beautiful-ui-components/ApprovalCard.tsx:bg-hover
+apps/app/src/components/beautiful-ui-components/ApprovalCard.tsx:bg-ink
+apps/app/src/components/beautiful-ui-components/ApprovalCard.tsx:bg-surface
+apps/app/src/components/beautiful-ui-components/ApprovalCard.tsx:rounded-control
+apps/app/src/components/beautiful-ui-components/ApprovalCard.tsx:shadow-btn
+apps/app/src/components/beautiful-ui-components/ApprovalCard.tsx:shadow-card
+apps/app/src/components/beautiful-ui-components/ApprovalCard.tsx:text-accent-ink
+apps/app/src/components/beautiful-ui-components/ApprovalCard.tsx:text-ink
+apps/app/src/components/beautiful-ui-components/ApprovalCard.tsx:text-ink-2
+apps/app/src/components/beautiful-ui-components/ApprovalCard.tsx:text-ink-3
+apps/app/src/components/beautiful-ui-components/ApprovalCard.tsx:var(--field)
+apps/app/src/components/beautiful-ui-components/ApprovalCard.tsx:var(--ink)
+apps/app/src/components/beautiful-ui-components/ApprovalCard.tsx:var(--ink-3)
+apps/app/src/components/beautiful-ui-components/ApprovalCard.tsx:var(--line-strong)
+apps/app/src/components/beautiful-ui-components/ApprovalCard.tsx:var(--shadow-btn)
+apps/app/src/components/beautiful-ui-components/ApprovalCard.tsx:var(--surface)
+apps/app/src/components/beautiful-ui-components/ChatComposer.tsx:bg-field
+apps/app/src/components/beautiful-ui-components/ChatComposer.tsx:bg-hover
+apps/app/src/components/beautiful-ui-components/ChatComposer.tsx:bg-surface
+apps/app/src/components/beautiful-ui-components/ChatComposer.tsx:border-line
+apps/app/src/components/beautiful-ui-components/ChatComposer.tsx:rounded-control
+apps/app/src/components/beautiful-ui-components/ChatComposer.tsx:shadow-card
+apps/app/src/components/beautiful-ui-components/ChatComposer.tsx:text-ink
+apps/app/src/components/beautiful-ui-components/ChatComposer.tsx:text-ink-2
+apps/app/src/components/beautiful-ui-components/ChatComposer.tsx:text-ink-3
+apps/app/src/components/beautiful-ui-components/ChatComposer.tsx:var(--in
+… (output truncated)
+```
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+The Beautiful UI components rely on custom Tailwind theme tokens missing from the app. A dedicated CSS file with CSS variables and @theme mappings is needed before adding Storybook stories.
+
+An alternative approach is wrapping stories with inline styles or a theme provider. The next step is inspecting the Beautiful UI site CSS and globals.css @theme section for token values.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/app/globals.css</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2** • Run command: export PATH=&#34;/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:/Users/liamellis/.bun/bin:$PATH&#34;
+# Pull CSS vars from beautiful-ui site stylesheet
+/usr/bin/curl -sL &#34;https://beautiful-ui-five.vercel.app/_next/static/css/f1ec5af2bc2127ab.css&#34; -o /tmp/bui.css 2&gt;/dev/null || /usr/bin/curl -sL &#34;https://beautiful-ui-five.vercel.app/&#34; | rg -o &#39;/_next/static/css/[^&#34;]+\.css&#39; | head -3
+# Get current CSS file name from HTML
+CSS=$(/usr/bin/curl -sL &#34;https://beautiful-ui-five.vercel.app/&#34; | /usr/bin/rg -o &#39;/_next/static/css/[^&#34;]+\.css&#39; | head -1)
+echo &#34;CSS=$CSS&#34;
+/usr/bin/curl -sL &#34;https://beautiful-ui-five.vercel.app$CSS&#34; -o /tmp/bui.css
+/usr/bin/wc -c /tmp/bui.css
+/usr/bin/rg -o &#39;--[a-z0-9-]+:[^;]+&#39; /tmp/bui.css | head -80
+echo &#39;====&#39;
+/usr/bin/rg -n &#39;pixel-on|shimmer-text|@keyframes&#39; /tmp/bui.css | head -40
+</summary>
+```bash
+export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:/Users/liamellis/.bun/bin:$PATH"
+# Pull CSS vars from beautiful-ui site stylesheet
+/usr/bin/curl -sL "https://beautiful-ui-five.vercel.app/_next/static/css/f1ec5af2bc2127ab.css" -o /tmp/bui.css 2>/dev/null || /usr/bin/curl -sL "https://beautiful-ui-five.vercel.app/" | rg -o '/_next/static/css/[^"]+\.css' | head -3
+# Get current CSS file name from HTML
+CSS=$(/usr/bin/curl -sL "https://beautiful-ui-five.vercel.app/" | /usr/bin/rg -o '/_next/static/css/[^"]+\.css' | head -1)
+echo "CSS=$CSS"
+/usr/bin/curl -sL "https://beautiful-ui-five.vercel.app$CSS" -o /tmp/bui.css
+/usr/bin/wc -c /tmp/bui.css
+/usr/bin/rg -o '--[a-z0-9-]+:[^;]+' /tmp/bui.css | head -80
+echo '===='
+/usr/bin/rg -n 'pixel-on|shimmer-text|@keyframes' /tmp/bui.css | head -40
+
+```
+
+```
+(eval):5: no such file or directory: /usr/bin/rg
+CSS=
+  315138 /tmp/bui.css
+(eval):9: no such file or directory: /usr/bin/rg
+====
+(eval):11: no such file or directory: /usr/bin/rg
+
+```
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+The ripgrep binary is missing from /usr/bin/rg. I need to locate it via the shell or another path. The CSS URL was empty and needs to be fixed.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2** • Run command: export PATH=&#34;/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:/Users/liamellis/.bun/bin:$HOME/.local/bin:$PATH&#34;
+which rg; which curl
+HTML=$(curl -sL &#34;https://beautiful-ui-five.vercel.app/&#34;)
+echo &#34;$HTML&#34; | rg -o &#39;/_next/static/css/[^&#34;]+\.css&#39; | head -5
+CSS=$(echo &#34;$HTML&#34; | rg -o &#39;/_next/static/css/[^&#34;]+\.css&#39; | head -1)
+echo &#34;CSS PATH: $CSS&#34;
+curl -sL &#34;https://beautiful-ui-five.vercel.app$CSS&#34; -o /tmp/bui.css
+wc -c /tmp/bui.css
+# Extract CSS custom properties from :root
+python3 - &lt;&lt;&#39;PY&#39;
+import re
+css=open(&#39;/tmp/bui.css&#39;).read()
+# find :root blocks and --vars
+vars=re.findall(r&#39;--([a-zA-Z0-9-]+)\s*:\s*([^;}{]+)&#39;, css)
+# prioritize theme-like
+keys=[&#39;ink&#39;,&#39;surface&#39;,&#39;field&#39;,&#39;line&#39;,&#39;hover&#39;,&#39;inset&#39;,&#39;accent&#39;,&#39;green&#39;,&#39;red&#39;,&#39;orange&#39;,&#39;shadow&#39;,&#39;radius&#39;]
+for k,v in vars:
+    if any(x in k for x in keys):
+        print(f&#39;--{k}: {v.strip()[:120]}&#39;)
+print(&#39;---keyframes---&#39;)
+for m in re.finditer(r&#39;@keyframes\s+([a-zA-Z0-9_-]+)&#39;, css):
+    name=m.group(1)
+    if any(x in name for x in [&#39;pixel&#39;,&#39;shimmer&#39;,&#39;orbit&#39;,&#39;drive&#39;]):
+        print(name)
+# also print color-ink theme mappings
+for m in re.finditer(r&#39;--color-[a-zA-Z0-9-]+:\s*[^;}{]+&#39;, css):
+    s=m.group(0)
+    if any(x in s for x in [&#39;ink&#39;,&#39;surface&#39;,&#39;field&#39;,&#39;line&#39;,&#39;hover&#39;,&#39;inset&#39;,&#39;accent&#39;,&#39;green&#39;,&#39;red&#39;,&#39;orange&#39;,&#39;hairline&#39;]):
+        print(s[:160])
+PY
+</summary>
+```bash
+export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:/Users/liamellis/.bun/bin:$HOME/.local/bin:$PATH"
+which rg; which curl
+HTML=$(curl -sL "https://beautiful-ui-five.vercel.app/")
+echo "$HTML" | rg -o '/_next/static/css/[^"]+\.css' | head -5
+CSS=$(echo "$HTML" | rg -o '/_next/static/css/[^"]+\.css' | head -1)
+echo "CSS PATH: $CSS"
+curl -sL "https://beautiful-ui-five.vercel.app$CSS" -o /tmp/bui.css
+wc -c /tmp/bui.css
+# Extract CSS custom properties from :root
+python3 - <<'PY'
+import re
+css=open('/tmp/bui.css').read()
+# find :root blocks and --vars
+vars=re.findall(r'--([a-zA-Z0-9-]+)\s*:\s*([^;}{]+)', css)
+# prioritize theme-like
+keys=['ink','surface','field','line','hover','inset','accent','green','red','orange','shadow','radius']
+for k,v in vars:
+    if any(x in k for x in keys):
+        print(f'--{k}: {v.strip()[:120]}')
+print('---keyframes---')
+for m in re.finditer(r'@keyframes\s+([a-zA-Z0-9_-]+)', css):
+    name=m.group(1)
+    if any(x in name for x in ['pixel','shimmer','orbit','drive']):
+        print(name)
+# also print color-ink theme mappings
+for m in re.finditer(r'--color-[a-zA-Z0-9-]+:\s*[^;}{]+', css):
+    s=m.group(0)
+    if any(x in s for x in ['ink','surface','field','line','hover','inset','accent','green','red','orange','hairline']):
+        print(s[:160])
+PY
+
+```
+
+```
+/opt/homebrew/bin/rg
+/usr/bin/curl
+/_next/static/css/f1ec5af2bc2127ab.css
+/_next/static/css/f1ec5af2bc2127ab.css
+/_next/static/css/f1ec5af2bc2127ab.css
+CSS PATH: /_next/static/css/f1ec5af2bc2127ab.css
+   70427 /tmp/bui.css
+--tw-shadow: 0 0 #0000
+--tw-shadow-color: initial
+--tw-shadow-alpha: 100%
+--tw-inset-shadow: 0 0 #0000
+--tw-inset-shadow-color: initial
+--tw-inset-shadow-alpha: 100%
+--tw-ring-shadow: 0 0 #0000
+--tw-inset-ring-color: initial
+--tw-inset-ring-shadow: 0 0 #0000
+--tw-ring-inset: initial
+--tw-ring-offset-shadow: 0 0 #0000
+--tw-drop-shadow: initial
+--tw-drop-shadow-color: initial
+--tw-drop-shadow-alpha: 100%
+--tw-drop-shadow-size: initial
+--text-xs--line-height: calc(1 / .75)
+--text-sm--line-height: calc(1.25 / .875)
+--text-2xl--line-height: calc(2 / 1.5)
+--radius-sm: .25rem
+--radius-md: .375rem
+--radius-lg: .5rem
+--radius-xl: .75rem
+--shadow-hairline: var(--shadow-hairline)
+--shadow-btn: var(--shadow-btn)
+--shadow-inset-field: var(--shadow-inset-field)
+--shadow-card: var(--shadow-card)
+--shadow-raised: var(--shadow-raised)
+--shadow-overlay: var(--shadow-overlay)
+--radius-chip: 6px
+--radius-control: 8px
+--radius-card: 10px
+--ease-link: cubic-bezier(.16,1,.3,1)
+--tw-shadow: 0 1px 3px 0 var(--tw-shadow-color,#0000001a),0 1px 2px -1px var(--tw-shadow-color,#0000001a)
+--tw-shadow: 0 0 0 1.5px var(--tw-shadow-color,var(--canvas))
+--tw-shadow: 0 0 0 1px var(--tw-shadow-color,var(--line))
+--tw-shadow: 0 0 0 3px var(--tw-shadow-color,var(--surface))
+--tw-shadow: 0 1px 2px var(--tw-shadow-color,#0003)
+--tw-shadow: 0 1px 2px var(--tw-shadow-color,#00000009)
+--tw-shadow: inset 0 0 0 1.5px var(--tw-shadow-color,var(--line-strong))
+--tw-shadow: inset 0 1px 0 var(--tw-shadow-color,#ffffff24),0 0 0 1px var(--tw-shadow-color,#1018281f),0 1px 2px var(--tw-shadow-colo
+--tw-shadow: inset 0 1px 0 var(--tw-shadow-color,#ffffff24),0 1px 2px var(--tw-shadow-color,#1018281a)
+--tw-shadow: var(--shadow-btn)
+--tw-shadow: var(--shadow-card)
+--tw-shadow: var(--shadow-hairline)
+--tw
+… (output truncated)
+```
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+Creating a `beautiful-ui-theme.css` file with light and dark tokens, keyframes, and scoped `@theme` utilities for colors, shadows, and radii.
+
+Planning Storybook stories with decorators that apply the theme class. Need to support both `--ink` and `--color-ink` CSS variables for Tailwind v4 compatibility. Will use a scoped `.beautiful-ui` wrapper to set CSS variables and define radius and shadow utilities.
+
+The existing `--color-ink` global conflicts with the Beautiful UI palette. A scoped decorator will override those CSS variables instead of rewriting components.
+
+The decorator will wrap stories in a `.beautiful-ui-root` class that redefines `--ink`, `--color-ink`, and `--shadow-hairline` CSS variables. This avoids prefixing utilities or rewriting components. Verifying whether Tailwind v4 utilities like `text-ink` will correctly resolve against these wrapper-level custom properties.
+
+Tailwind v4 utilities like `text-ink` resolve `var(--color-ink)` at computed style time. Overriding that variable on the decorator wrapper will correctly cascade to all child elements. This confirms the scoped decorator approach will work without rewriting component styles.
+
+Several CSS variables are missing from the current theme, including `--color-ink-2`, `--color-field`, `--color-surface`, and `--shadow-hairline`. Tailwind v4 will not generate utilities like `bg-field` unless those variables are explicitly declared in `@theme`. I will add these missing tokens to `beautiful-ui-theme.css` so the utilities resolve correctly.
+
+Checking existing global CSS variables before adding new ones to avoid collisions. `--color-ink` already exists globally, so `--color-ink-2` is safe to introduce. `--color-surface` and `--color-line` are still missing and must be added to the theme. The `.beautiful-ui-root` wrapper will handle light and dark mode variables. This wrapper is required for production use too, not just stories.
+
+Extracting all utility color names needed for the scoped CSS file. Adding `@keyframes pixel-on` and `shimmer-text` from the site tokens. The `bg-surface` utility is also being considered.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2** • Run command: export PATH=&#34;/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:/Users/liamellis/.bun/bin:$PATH&#34;
+python3 - &lt;&lt;&#39;PY&#39;
+import re
+css=open(&#39;/tmp/bui.css&#39;).read()
+for name in [&#39;pixel-on&#39;,&#39;shimmer-text&#39;]:
+    m=re.search(rf&#39;@keyframes {name}\{{([^}}]+)\}}&#39;, css)
+    if m:
+        print(f&#39;@keyframes {name} {{{m.group(1)}}}&#39;)
+        print(&#39;---&#39;)
+# also check canvas color
+for m in re.finditer(r&#39;--canvas:\s*([^;]+)&#39;, css):
+    print(&#39;canvas&#39;, m.group(1))
+PY
+# Check which BUI color utilities already exist in globals @theme
+rg -n &#34;color-ink|color-field|color-surface|color-line|color-inset|color-hover|color-accent|color-green|shadow-hairline|radius-control&#34; apps/app/src/app/globals.css | head -40
+</summary>
+```bash
+export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:/Users/liamellis/.bun/bin:$PATH"
+python3 - <<'PY'
+import re
+css=open('/tmp/bui.css').read()
+for name in ['pixel-on','shimmer-text']:
+    m=re.search(rf'@keyframes {name}\{{([^}}]+)\}}', css)
+    if m:
+        print(f'@keyframes {name} {{{m.group(1)}}}')
+        print('---')
+# also check canvas color
+for m in re.finditer(r'--canvas:\s*([^;]+)', css):
+    print('canvas', m.group(1))
+PY
+# Check which BUI color utilities already exist in globals @theme
+rg -n "color-ink|color-field|color-surface|color-line|color-inset|color-hover|color-accent|color-green|shadow-hairline|radius-control" apps/app/src/app/globals.css | head -40
+
+```
+
+```
+@keyframes pixel-on {0%,to{opacity:.15}
+---
+@keyframes shimmer-text {0%{background-position:150%}
+---
+canvas #f1f2f3
+canvas #1c1d1f
+31:  --color-ink: #a1a8b3;
+32:  --color-ink-strong: #f1f3f5;
+33:  --color-ink-muted: #6b7280;
+
+```
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+Keyframes were truncated by nested braces. Retrieving them properly now.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2** • Run command: export PATH=&#34;/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:/Users/liamellis/.bun/bin:$PATH&#34;
+python3 - &lt;&lt;&#39;PY&#39;
+import re
+css=open(&#39;/tmp/bui.css&#39;).read()
+for name in [&#39;pixel-on&#39;,&#39;shimmer-text&#39;]:
+    i=css.find(f&#39;@keyframes {name}&#39;)
+    if i&lt;0:
+        print(name,&#39;not found&#39;); continue
+    # brace match
+    j=css.find(&#39;{&#39;, i)
+    depth=0
+    k=j
+    while k &lt; len(css):
+        if css[k]==&#39;{&#39;: depth+=1
+        elif css[k]==&#39;}&#39;:
+            depth-=1
+            if depth==0:
+                print(css[i:k+1])
+                print(&#39;---&#39;)
+                break
+        k+=1
+PY
+</summary>
+```bash
+export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:/Users/liamellis/.bun/bin:$PATH"
+python3 - <<'PY'
+import re
+css=open('/tmp/bui.css').read()
+for name in ['pixel-on','shimmer-text']:
+    i=css.find(f'@keyframes {name}')
+    if i<0:
+        print(name,'not found'); continue
+    # brace match
+    j=css.find('{', i)
+    depth=0
+    k=j
+    while k < len(css):
+        if css[k]=='{': depth+=1
+        elif css[k]=='}':
+            depth-=1
+            if depth==0:
+                print(css[i:k+1])
+                print('---')
+                break
+        k+=1
+PY
+
+```
+
+```
+@keyframes pixel-on{0%,to{opacity:.15}18%,42%{opacity:1}62%{opacity:.15}}
+---
+@keyframes shimmer-text{0%{background-position:150%}to{background-position:-50%}}
+---
+
+```
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+Creating theme CSS and copying embed files. A single Beautiful UI stories file will contain a gallery plus variant stories. Embed stories will follow.
+
+One gallery story file will cover all 17 components. Each embed will get its own named export story.
+
+Colocating stories by component. LoadingState, ThinkingState, and TaskRows will each get their own variant stories. All embeds will also get dedicated files.
+
+Embeds will be copied to the dev UI embeds directory. A decorator will wrap stories, and CSS will be imported directly into the stories files. Components will remain untouched unless absolutely necessary.
+
+Theme CSS will be imported locally in stories rather than globally. Missing color variables like `--color-field` and `--color-accent-ink` will be added to the theme file. The existing `--color-ink` conflict will be resolved with a root-level override.
+
+Tailwind v4 radius variables like `--radius-control` will be added to the theme CSS. A generator script will create the many story files efficiently. The decorator will wrap stories in a `beautiful-ui-root` container with padding and minimum height.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+No Beautiful UI stories yet. I'll add the theme tokens the components need, copy the lab embeds in, then create Storybook stories for both.
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/beautiful-ui-components/BeautifulUiStories_PSUEDOCODE.md</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/beautiful-ui-components/beautiful-ui-theme.css</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+Creating a shared decorator helper and generating Storybook stories for the specified embed components.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2** • Run command: export PATH=&#34;/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:/Users/liamellis/.bun/bin:$PATH&#34;
+DEST=&#34;/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/design-system/lab-prototypes/dev-ui-embeds&#34;
+SRC=&#34;/Users/liamellis/Desktop/lab/Dev UI/_archive/embeds&#34;
+mkdir -p &#34;$DEST&#34;
+cp &#34;$SRC/background-aura-animation-container.tsx&#34; &#34;$DEST/&#34;
+cp &#34;$SRC/full-page-aura-background-embed.tsx&#34; &#34;$DEST/&#34;
+cp &#34;$SRC/futuristic-lab-landing-and-dashboard-layout.tsx&#34; &#34;$DEST/&#34;
+cp &#34;$SRC/quantum-node-ui-showcase-section.tsx&#34; &#34;$DEST/&#34;
+cp &#34;$SRC/synthesis-autonomous-ui-showcase-section.tsx&#34; &#34;$DEST/&#34;
+ls -la &#34;$DEST&#34;
+</summary>
+```bash
+export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:/Users/liamellis/.bun/bin:$PATH"
+DEST="/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/design-system/lab-prototypes/dev-ui-embeds"
+SRC="/Users/liamellis/Desktop/lab/Dev UI/_archive/embeds"
+mkdir -p "$DEST"
+cp "$SRC/background-aura-animation-container.tsx" "$DEST/"
+cp "$SRC/full-page-aura-background-embed.tsx" "$DEST/"
+cp "$SRC/futuristic-lab-landing-and-dashboard-layout.tsx" "$DEST/"
+cp "$SRC/quantum-node-ui-showcase-section.tsx" "$DEST/"
+cp "$SRC/synthesis-autonomous-ui-showcase-section.tsx" "$DEST/"
+ls -la "$DEST"
+
+```
+
+```
+total 192
+drwxr-xr-x@  7 liamellis  staff    224 Aug  5 19:55 .
+drwxr-xr-x@ 13 liamellis  staff    416 Aug  5 19:55 ..
+-rw-r--r--@  1 liamellis  staff   5253 Aug  5 19:55 background-aura-animation-container.tsx
+-rw-r--r--@  1 liamellis  staff   5239 Aug  5 19:55 full-page-aura-background-embed.tsx
+-rw-r--r--@  1 liamellis  staff  34950 Aug  5 19:55 futuristic-lab-landing-and-dashboard-layout.tsx
+-rw-r--r--@  1 liamellis  staff  19973 Aug  5 19:55 quantum-node-ui-showcase-section.tsx
+-rw-r--r--@  1 liamellis  staff  23616 Aug  5 19:55 synthesis-autonomous-ui-showcase-section.tsx
+
+```
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/beautiful-ui-components/story-decorators.tsx</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+The CSS contains a circular reference where `@theme` defines `--shadow-hairline` using itself. The actual value lives on `:root`. This needs fixing before adding Storybook stories.
+
+Tailwind v4 `@theme` requires literal shadow values rather than `var()` references. I'm restructuring the theme to use actual hex values so light and dark modes can still switch properly.
+
+The theme now uses `var(--line)` for shadows and `var(--field)` for colors, both defined on `.beautiful-ui-root`. This removes circular references and keeps variables scoped to the root element.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+Fixing circular shadow token refs, then generating the story files.
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/beautiful-ui-components/beautiful-ui-theme.css</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/beautiful-ui-components/BeautifulUiGallery.stories.tsx</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+Creating Storybook stories for each component and embed. A shell script will generate basic Default stories. Variant stories will be written manually.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2** • Run command: export PATH=&#34;/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:/Users/liamellis/.bun/bin:$PATH&#34;
+BUI=&#34;/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/beautiful-ui-components&#34;
+
+# Simple default-export stories (no variants)
+python3 - &lt;&lt;&#39;PY&#39;
+from pathlib import Path
+bui = Path(&#34;/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/beautiful-ui-components&#34;)
+
+simple = [
+  (&#34;ApprovalCard&#34;, &#34;Approval Card&#34;),
+  (&#34;ChatComposer&#34;, &#34;Chat&#34;),
+  (&#34;CodeBlock&#34;, &#34;Code Block&#34;),
+  (&#34;ContextCards&#34;, &#34;Context Cards&#34;),
+  (&#34;DiffTable&#34;, &#34;Diff Table&#34;),
+  (&#34;FilterTable&#34;, &#34;Filter Table&#34;),
+  (&#34;FineTuneCard&#34;, &#34;Fine-tune Card&#34;),
+  (&#34;InsightCards&#34;, &#34;Insight Cards&#34;),
+  (&#34;RecommendationCard&#34;, &#34;Recommendation Card&#34;),
+  (&#34;RecordsTable&#34;, &#34;Records Table&#34;),
+  (&#34;SearchList&#34;, &#34;Search&#34;),
+  (&#34;SidebarNav&#34;, &#34;Sidebar Nav&#34;),
+  (&#34;StreamingText&#34;, &#34;Streaming Text&#34;),
+  (&#34;ToolChips&#34;, &#34;Tool Chips&#34;),
+]
+
+for name, label in simple:
+    width = &#34;max-w-[280px] h-[420px] overflow-hidden&#34; if name == &#34;SidebarNav&#34; else &#34;max-w-[640px]&#34;
+    content = f&#39;&#39;&#39;import type {{ Meta, StoryObj }} from &#39;@storybook/nextjs&#39;
+import {name} from &#39;./{name}&#39;
+import {{ beautifulUiParameters, withBeautifulUiTheme }} from &#39;./story-decorators&#39;
+
+const meta = {{
+  title: &#39;Design System/Beautiful UI/{label}&#39;,
+  component: {name},
+  decorators: [
+    withBeautifulUiTheme,
+    (Story) =&gt; (
+      &lt;div className=&#39;{width}&#39;&gt;
+        &lt;Story /&gt;
+      &lt;/div&gt;
+    ),
+  ],
+  parameters: beautifulUiParameters,
+  tags: [&#39;autodocs&#39;],
+}} satisfies Meta&lt;typeof {name}&gt;
+
+export default meta
+type Story = StoryObj&lt;typeof meta&gt;
+
+export const Default: Story = {{}}
+
+export const Dark: Story = {{
+  parameters: {{
+    beautifulUiTheme: &#39;dark&#39;,
+    backgrounds: {{ default: &#39;dark-canvas&#39; }},
+  }},
+}}
+&#39;&#39;&#39;
+    (bui / f&#39;{name}.stories.tsx&#39;).write_text(content)
+    print(&#39;wrote&#39;, name)
+
+# Variant stories
+(bui / &#39;LoadingState.stories.tsx&#39;).write_text(&#39;&#39;&#39;import type { Meta, StoryObj } from &#39;@storybook/nextjs&#39;
+import LoadingState from &#39;./LoadingState&#39;
+import { beautifulUiParameters, withBeautifulUiTheme } from &#39;./story-decorators&#39;
+
+const meta = {
+  title: &#39;Design System/Beautiful UI/Loading State&#39;,
+  component: LoadingState,
+  decorators: [withBeautifulUiTheme],
+  parameters: beautifulUiParameters,
+  argTypes: {
+    variant: { control: &#39;select&#39;, options: [&#39;Drive&#39;, &#39;Dots&#39;, &#39;Orbit&#39;] },
+    label: { control: &#39;text&#39; },
+  },
+  tags: [&#39;autodocs&#39;],
+} satisfies Meta&lt;typeof LoadingState&gt;
+
+export default meta
+type Story = StoryObj&lt;typeof meta&gt;
+
+export const Drive: Story = {
+  args: { variant: &#39;Drive&#39;, label: &#39;Churning&#39; },
+}
+
+export const Dots: Story = {
+  args: { variant: &#39;Dots&#39;, label: &#39;Churning&#39; },
+}
+
+export const Orbit: Story = {
+  args: { variant: &#39;Orbit&#39;, label: &#39;Churning&#39; },
+}
+
+export const Dark: Story = {
+  args: { variant: &#39;Drive&#39;, label: &#39;Churning&#39; },
+  parameters: {
+    beautifulUiTheme: &#39;dark&#39;,
+    backgrounds: { default: &#39;dark-canvas&#39; },
+  },
+}
+&#39;&#39;&#39;)
+
+(bui / &#39;ThinkingState.stories.tsx&#39;).write_text(&#39;&#39;&#39;import type { Meta, StoryObj } from &#39;@storybook/nextjs&#39;
+import ThinkingState from &#39;./ThinkingState&#39;
+import { beautifulUiParameters, withBeautifulUiTheme } from &#39;./story-decorators&#39;
+
+const meta = {
+  title: &#39;Design System/Beautiful UI/Thinking&#39;,
+  component: ThinkingState,
+  decorators: [
+    withBeautifulUiTheme,
+    (Story) =&gt; (
+      &lt;div className=&#39;w-[min(28rem,90vw)]&#39;&gt;
+        &lt;Story /&gt;
+      &lt;/div&gt;
+    ),
+  ],
+  parameters: beautifulUiParameters,
+  argTypes: {
+    variant: { control: &#39;select&#39;, options: [&#39;Steps&#39;, &#39;Reasoning&#39;, &#39;Search&#39;, &#39;Coding&#39;] },
+  },
+  tags: [&#39;autodocs&#39;],
+} satisfies Meta&lt;typeof ThinkingState&gt;
+
+export default meta
+type Story = StoryObj&lt;typeof meta&gt;
+
+export const Steps: Story = { args: { variant: &#39;Steps&#39; } }
+export const Reasoning: Story = { args: { variant: &#39;Reasoning&#39; } }
+export const Search: Story = { args: { variant: &#39;Search&#39; } }
+export const Coding: Story = { args: { variant: &#39;Coding&#39; } }
+
+export const Dark: Story = {
+  args: { variant: &#39;Steps&#39; },
+  parameters: {
+    beautifulUiTheme: &#39;dark&#39;,
+    backgrounds: { default: &#39;dark-canvas&#39; },
+  },
+}
+&#39;&#39;&#39;)
+
+(bui / &#39;TaskRows.stories.tsx&#39;).write_text(&#39;&#39;&#39;import type { Meta, StoryObj } from &#39;@storybook/nextjs&#39;
+import TaskRows from &#39;./TaskRows&#39;
+import { beautifulUiParameters, withBeautifulUiTheme } from &#39;./story-decorators&#39;
+
+const meta = {
+  title: &#39;Design System/Beautiful UI/Task Rows&#39;,
+  component: TaskRows,
+  decorators: [
+    withBeautifulUiTheme,
+    (Story) =&gt; (
+      &lt;div className=&#39;w-[min(28rem,90vw)]&#39;&gt;
+        &lt;Story /&gt;
+      &lt;/div&gt;
+    ),
+  ],
+  parameters: beautifulUiParameters,
+  argTypes: {
+    variant: { control: &#39;select&#39;, options: [&#39;Capsules&#39;, &#39;List&#39;] },
+  },
+  tags: [&#39;autodocs&#39;],
+} satisfies Meta&lt;typeof TaskRows&gt;
+
+export default meta
+type Story = StoryObj&lt;typeof meta&gt;
+
+export const Capsules: Story = { args: { variant: &#39;Capsules&#39; } }
+export const List: Story = { args: { variant: &#39;List&#39; } }
+
+export const Dark: Story = {
+  args: { variant: &#39;Capsules&#39; },
+  parameters: {
+    beautifulUiTheme: &#39;dark&#39;,
+    backgrounds: { default: &#39;dark-canvas&#39; },
+  },
+}
+&#39;&#39;&#39;)
+print(&#39;variants ok&#39;)
+PY
+
+# Index + embed stories
+EMBEDS=&#34;/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/design-system/lab-prototypes/dev-ui-embeds&#34;
+python3 - &lt;&lt;&#39;PY&#39;
+from pathlib import Path
+embeds = Path(&#34;/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/design-system/lab-prototypes/dev-ui-embeds&#34;)
+
+# barrel
+(embeds / &#39;index.ts&#39;).write_text(&#39;&#39;&#39;export { default as BackgroundAuraAnimationContainer } from &#39;./background-aura-animation-container&#39;
+export { default as FullPageAuraBackgroundEmbed } from &#39;./full-page-aura-background-embed&#39;
+export { default as FuturisticLabLandingAndDashboardLayout } from &#39;./futuristic-lab-landing-and-dashboard-layout&#39;
+export { default as QuantumNodeUIShowcaseSection } from &#39;./quantum-node-ui-showcase-section&#39;
+export { default as SynthesisAutonomousUIShowcaseSection } from &#39;./synthesis-autonomous-ui-showcase-section&#39;
+&#39;&#39;&#39;)
+
+items = [
+  (&#39;background-aura-animation-container&#39;, &#39;BackgroundAuraAnimationContainer&#39;, &#39;Background Aura Animation&#39;),
+  (&#39;full-page-aura-background-embed&#39;, &#39;FullPageAuraBackgroundEmbed&#39;, &#39;Full-Page Aura Background&#39;),
+  (&#39;futuristic-lab-landing-and-dashboard-layout&#39;, &#39;FuturisticLabLandingAndDashboardLayout&#39;, &#39;Futuristic Lab Landing + Dashboard&#39;),
+  (&#39;quantum-node-ui-showcase-section&#39;, &#39;QuantumNodeUIShowcaseSection&#39;, &#39;Quantum Node UI Showcase&#39;),
+  (&#39;synthesis-autonomous-ui-showcase-section&#39;, &#39;SynthesisAutonomousUIShowcaseSection&#39;, &#39;Synthesis Autonomous UI Showcase&#39;),
+]
+
+for file, export, label in items:
+    content = f&#39;&#39;&#39;import type {{ Meta, StoryObj }} from &#39;@storybook/nextjs&#39;
+import {export} from &#39;./{file}&#39;
+
+const meta = {{
+  title: &#39;Design System/Lab Prototypes/Dev UI Embeds/{label}&#39;,
+  component: {export},
+  parameters: {{
+    layout: &#39;fullscreen&#39;,
+  }},
+  tags: [&#39;autodocs&#39;],
+}} satisfies Meta&lt;typeof {export}&gt;
+
+export default meta
+type Story = StoryObj&lt;typeof meta&gt;
+
+export const Default: Story = {{
+  decorators: [
+    (Story) =&gt; (
+      &lt;div className=&#39;h-screen w-screen&#39;&gt;
+        &lt;Story /&gt;
+      &lt;/div&gt;
+    ),
+  ],
+}}
+&#39;&#39;&#39;
+    (embeds / f&#39;{file}.stories.tsx&#39;).write_text(content)
+    print(&#39;wrote embed story&#39;, file)
+PY
+
+ls &#34;$BUI&#34;/*.stories.tsx | wc -l
+ls &#34;$EMBEDS&#34;/*.stories.tsx | wc -l
+</summary>
+```bash
+export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:/Users/liamellis/.bun/bin:$PATH"
+BUI="/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/beautiful-ui-components"
+
+# Simple default-export stories (no variants)
+python3 - <<'PY'
+from pathlib import Path
+bui = Path("/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/beautiful-ui-components")
+
+simple = [
+  ("ApprovalCard", "Approval Card"),
+  ("ChatComposer", "Chat"),
+  ("CodeBlock", "Code Block"),
+  ("ContextCards", "Context Cards"),
+  ("DiffTable", "Diff Table"),
+  ("FilterTable", "Filter Table"),
+  ("FineTuneCard", "Fine-tune Card"),
+  ("InsightCards", "Insight Cards"),
+  ("RecommendationCard", "Recommendation Card"),
+  ("RecordsTable", "Records Table"),
+  ("SearchList", "Search"),
+  ("SidebarNav", "Sidebar Nav"),
+  ("StreamingText", "Streaming Text"),
+  ("ToolChips", "Tool Chips"),
+]
+
+for name, label in simple:
+    width = "max-w-[280px] h-[420px] overflow-hidden" if name == "SidebarNav" else "max-w-[640px]"
+    content = f'''import type {{ Meta, StoryObj }} from '@storybook/nextjs'
+import {name} from './{name}'
+import {{ beautifulUiParameters, withBeautifulUiTheme }} from './story-decorators'
+
+const meta = {{
+  title: 'Design System/Beautiful UI/{label}',
+  component: {name},
+  decorators: [
+    withBeautifulUiTheme,
+    (Story) => (
+      <div className='{width}'>
+        <Story />
+      </div>
+    ),
+  ],
+  parameters: beautifulUiParameters,
+  tags: ['autodocs'],
+}} satisfies Meta<typeof {name}>
+
+export default meta
+type Story = StoryObj<typeof meta>
+
+export const Default: Story = {{}}
+
+export const Dark: Story = {{
+  parameters: {{
+    beautifulUiTheme: 'dark',
+    backgrounds: {{ default: 'dark-canvas' }},
+  }},
+}}
+'''
+    (bui / f'{name}.stories.tsx').write_text(content)
+    print('wrote', name)
+
+# Variant stories
+(bui / 'LoadingState.stories.tsx').write_text('''import type { Meta, StoryObj } from '@storybook/nextjs'
+import LoadingState from './LoadingState'
+import { beautifulUiParameters, withBeautifulUiTheme } from './story-decorators'
+
+const meta = {
+  title: 'Design System/Beautiful UI/Loading State',
+  component: LoadingState,
+  decorators: [withBeautifulUiTheme],
+  parameters: beautifulUiParameters,
+  argTypes: {
+    variant: { control: 'select', options: ['Drive', 'Dots', 'Orbit'] },
+    label: { control: 'text' },
+  },
+  tags: ['autodocs'],
+} satisfies Meta<typeof LoadingState>
+
+export default meta
+type Story = StoryObj<typeof meta>
+
+export const Drive: Story = {
+  args: { variant: 'Drive', label: 'Churning' },
+}
+
+export const Dots: Story = {
+  args: { variant: 'Dots', label: 'Churning' },
+}
+
+export const Orbit: Story = {
+  args: { variant: 'Orbit', label: 'Churning' },
+}
+
+export const Dark: Story = {
+  args: { variant: 'Drive', label: 'Churning' },
+  parameters: {
+    beautifulUiTheme: 'dark',
+    backgrounds: { default: 'dark-canvas' },
+  },
+}
+''')
+
+(bui / 'ThinkingState.stories.tsx').write_text('''import type { Meta, StoryObj } from '@storybook/nextjs'
+import ThinkingState from './ThinkingState'
+import { beautifulUiParameters, withBeautifulUiTheme } from './story-decorators'
+
+const meta = {
+  title: 'Design System/Beautiful UI/Thinking',
+  component: ThinkingState,
+  decorators: [
+    withBeautifulUiTheme,
+    (Story) => (
+      <div className='w-[min(28rem,90vw)]'>
+        <Story />
+      </div>
+    ),
+  ],
+  parameters: beautifulUiParameters,
+  argTypes: {
+    variant: { control: 'select', options: ['Steps', 'Reasoning', 'Search', 'Coding'] },
+  },
+  tags: ['autodocs'],
+} satisfies Meta<typeof ThinkingState>
+
+export default meta
+type Story = StoryObj<typeof meta>
+
+export const Steps: Story = { args: { variant: 'Steps' } }
+export const Reasoning: Story = { args: { variant: 'Reasoning' } }
+export const Search: Story = { args: { variant: 'Search' } }
+export const Coding: Story = { args: { variant: 'Coding' } }
+
+export const Dark: Story = {
+  args: { variant: 'Steps' },
+  parameters: {
+    beautifulUiTheme: 'dark',
+    backgrounds: { default: 'dark-canvas' },
+  },
+}
+''')
+
+(bui / 'TaskRows.stories.tsx').write_text('''import type { Meta, StoryObj } from '@storybook/nextjs'
+import TaskRows from './TaskRows'
+import { beautifulUiParameters, withBeautifulUiTheme } from './story-decorators'
+
+const meta = {
+  title: 'Design System/Beautiful UI/Task Rows',
+  component: TaskRows,
+  decorators: [
+    withBeautifulUiTheme,
+    (Story) => (
+      <div className='w-[min(28rem,90vw)]'>
+        <Story />
+      </div>
+    ),
+  ],
+  parameters: beautifulUiParameters,
+  argTypes: {
+    variant: { control: 'select', options: ['Capsules', 'List'] },
+  },
+  tags: ['autodocs'],
+} satisfies Meta<typeof TaskRows>
+
+export default meta
+type Story = StoryObj<typeof meta>
+
+export const Capsules: Story = { args: { variant: 'Capsules' } }
+export const List: Story = { args: { variant: 'List' } }
+
+export const Dark: Story = {
+  args: { variant: 'Capsules' },
+  parameters: {
+    beautifulUiTheme: 'dark',
+    backgrounds: { default: 'dark-canvas' },
+  },
+}
+''')
+print('variants ok')
+PY
+
+# Index + embed stories
+EMBEDS="/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/design-system/lab-prototypes/dev-ui-embeds"
+python3 - <<'PY'
+from pathlib import Path
+embeds = Path("/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/design-system/lab-prototypes/dev-ui-embeds")
+
+# barrel
+(embeds / 'index.ts').write_text('''export { default as BackgroundAuraAnimationContainer } from './background-aura-animation-container'
+export { default as FullPageAuraBackgroundEmbed } from './full-page-aura-background-embed'
+export { default as FuturisticLabLandingAndDashboardLayout } from './futuristic-lab-landing-and-dashboard-layout'
+export { default as QuantumNodeUIShowcaseSection } from './quantum-node-ui-showcase-section'
+export { default as SynthesisAutonomousUIShowcaseSection } from './synthesis-autonomous-ui-showcase-section'
+''')
+
+items = [
+  ('background-aura-animation-container', 'BackgroundAuraAnimationContainer', 'Background Aura Animation'),
+  ('full-page-aura-background-embed', 'FullPageAuraBackgroundEmbed', 'Full-Page Aura Background'),
+  ('futuristic-lab-landing-and-dashboard-layout', 'FuturisticLabLandingAndDashboardLayout', 'Futuristic Lab Landing + Dashboard'),
+  ('quantum-node-ui-showcase-section', 'QuantumNodeUIShowcaseSection', 'Quantum Node UI Showcase'),
+  ('synthesis-autonomous-ui-showcase-section', 'SynthesisAutonomousUIShowcaseSection', 'Synthesis Autonomous UI Showcase'),
+]
+
+for file, export, label in items:
+    content = f'''import type {{ Meta, StoryObj }} from '@storybook/nextjs'
+import {export} from './{file}'
+
+const meta = {{
+  title: 'Design System/Lab Prototypes/Dev UI Embeds/{label}',
+  component: {export},
+  parameters: {{
+    layout: 'fullscreen',
+  }},
+  tags: ['autodocs'],
+}} satisfies Meta<typeof {export}>
+
+export default meta
+type Story = StoryObj<typeof meta>
+
+export const Default: Story = {{
+  decorators: [
+    (Story) => (
+      <div className='h-screen w-screen'>
+        <Story />
+      </div>
+    ),
+  ],
+}}
+'''
+    (embeds / f'{file}.stories.tsx').write_text(content)
+    print('wrote embed story', file)
+PY
+
+ls "$BUI"/*.stories.tsx | wc -l
+ls "$EMBEDS"/*.stories.tsx | wc -l
+
+```
+
+```
+wrote ApprovalCard
+wrote ChatComposer
+wrote CodeBlock
+wrote ContextCards
+wrote DiffTable
+wrote FilterTable
+wrote FineTuneCard
+wrote InsightCards
+wrote RecommendationCard
+wrote RecordsTable
+wrote SearchList
+wrote SidebarNav
+wrote StreamingText
+wrote ToolChips
+variants ok
+wrote embed story background-aura-animation-container
+wrote embed story full-page-aura-background-embed
+wrote embed story futuristic-lab-landing-and-dashboard-layout
+wrote embed story quantum-node-ui-showcase-section
+wrote embed story synthesis-autonomous-ui-showcase-section
+      18
+       5
+
+```
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+Fixing a missing React import in BeautifulUiGallery.stories.tsx.
+
+Checking Storybook framework compatibility between @storybook/nextjs and @storybook/react. Embed components will keep their original React.FC signatures without 'use client' since they serve as iframe wrappers. Writing BeautifulUiStories.md documentation and updating the README to reference the new stories. Verifying TaskRows variant prop values against the original website.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/beautiful-ui-components/TaskRows.tsx",
+  "pattern": "variant|Capsules|List"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/beautiful-ui-components/TaskRows.tsx",
+  "pattern": "variant|Capsules|List",
+  "topFiles": [
+    {
+      "matchCount": 2,
+      "uri": "apps/app/src/components/beautiful-ui-components/TaskRows.tsx"
+    }
+  ],
+  "totalFiles": 1,
+  "totalMatches": 2
+}
+```
+Status: **completed**
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/beautiful-ui-components/BeautifulUiGallery.stories.tsx</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/beautiful-ui-components/BeautifulUiGallery.stories.tsx</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+Adding 'use client' directives to the embed components for Next.js compatibility. Writing the documentation file and updating the README.
+
+Fixing `@theme` color references by adding default fallback values at `:root` for variables like `--line`. This prevents invalid utility definitions when stories mount without root-level CSS variables.
+
+Adding a hairline shadow fallback with a light gray default to `--shadow-hairline` for robustness. Verified the generated stories correctly import default exports. Will check Storybook compilation and verify the stories load properly.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+The model provided an ambiguous search string to replace
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/beautiful-ui-components/BeautifulUiStories.md</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/beautiful-ui-components/README.md</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2** • Run command: export PATH=&#34;/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:/Users/liamellis/.bun/bin:$PATH&#34;
+# Ensure embeds are client-safe named exports style - add use client to top if missing
+for f in background-aura-animation-container full-page-aura-background-embed futuristic-lab-landing-and-dashboard-layout quantum-node-ui-showcase-section synthesis-autonomous-ui-showcase-section; do
+  FILE=&#34;/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/design-system/lab-prototypes/dev-ui-embeds/$f.tsx&#34;
+  if ! head -1 &#34;$FILE&#34; | rg -q &#34;use client&#34;; then
+    printf &#39;%s\n\n%s\n&#39; &#34;&#39;use client&#39;&#34; &#34;$(cat &#34;$FILE&#34;)&#34; &gt; &#34;$FILE.tmp&#34; &amp;&amp; mv &#34;$FILE.tmp&#34; &#34;$FILE&#34;
+  fi
+done
+head -3 &#34;/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/design-system/lab-prototypes/dev-ui-embeds/background-aura-animation-container.tsx&#34;
+# Quick syntax check on a few story files via tsc/node parse
+cd /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app
+bunx tsc --noEmit --pretty false 2&gt;&amp;1 | rg -i &#34;beautiful-ui|dev-ui-embeds|story-decorators|BeautifulUi&#34; | head -40
+</summary>
+```bash
+export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:/Users/liamellis/.bun/bin:$PATH"
+# Ensure embeds are client-safe named exports style - add use client to top if missing
+for f in background-aura-animation-container full-page-aura-background-embed futuristic-lab-landing-and-dashboard-layout quantum-node-ui-showcase-section synthesis-autonomous-ui-showcase-section; do
+  FILE="/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/design-system/lab-prototypes/dev-ui-embeds/$f.tsx"
+  if ! head -1 "$FILE" | rg -q "use client"; then
+    printf '%s\n\n%s\n' "'use client'" "$(cat "$FILE")" > "$FILE.tmp" && mv "$FILE.tmp" "$FILE"
+  fi
+done
+head -3 "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/design-system/lab-prototypes/dev-ui-embeds/background-aura-animation-container.tsx"
+# Quick syntax check on a few story files via tsc/node parse
+cd /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app
+bunx tsc --noEmit --pretty false 2>&1 | rg -i "beautiful-ui|dev-ui-embeds|story-decorators|BeautifulUi" | head -40
+
+```
+
+```
+'use client'
+
+import React from "react";
+src/components/beautiful-ui-components/InsightCards.tsx(3,67): error TS2307: Cannot find module 'liveline' or its corresponding type declarations.
+
+```
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+InsightCards imports `liveline`, which may cause a dependency issue. Checking whether it needs installation.
+
+Also fixing the CSS replacement to include more context.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/beautiful-ui-components/InsightCards.tsx</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/beautiful-ui-components/beautiful-ui-theme.css</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/package.json",
+  "pattern": "liveline"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/package.json",
+  "pattern": "liveline",
+  "topFiles": [],
+  "totalFiles": 0,
+  "totalMatches": 0
+}
+```
+Status: **completed**
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2** • Run command: export PATH=&#34;/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:/Users/liamellis/.bun/bin:$PATH&#34;
+npm view liveline name version description homepage 2&gt;&amp;1 | head -20
+# Check other BUI deps
+rg -n &#34;^import &#34; apps/app/src/components/beautiful-ui-components --glob &#39;*.tsx&#39; | rg -v &#34;react|story|liveline|\./&#34; | head -30
+</summary>
+```bash
+export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:/Users/liamellis/.bun/bin:$PATH"
+npm view liveline name version description homepage 2>&1 | head -20
+# Check other BUI deps
+rg -n "^import " apps/app/src/components/beautiful-ui-components --glob '*.tsx' | rg -v "react|story|liveline|\./" | head -30
+
+```
+
+```
+npm warn Ignoring workspaces for specified package(s)
+name = 'liveline'
+version = '0.0.7'
+description = 'Real-time animated charts for React — line, candlestick, and multi-series modes'
+homepage = 'https://github.com/benjitaylor/liveline#readme'
+rg: apps/app/src/components/beautiful-ui-components: IO error for operation on apps/app/src/components/beautiful-ui-components: No such file or directory (os error 2)
+
+```
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+The `liveline` package is required for InsightCards stories. CSS shadows need fixing too.
+
+A path issue with ripgrep appears to be caused by the current working directory.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/beautiful-ui-components/beautiful-ui-theme.css</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2** • Run command: export PATH=&#34;/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:/Users/liamellis/.bun/bin:$PATH&#34;
+cd /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app &amp;&amp; bun add liveline
+# Verify story file counts
+ls src/components/beautiful-ui-components/*.stories.tsx | wc -l
+ls src/components/design-system/lab-prototypes/dev-ui-embeds/*.stories.tsx | wc -l
+</summary>
+```bash
+export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:/Users/liamellis/.bun/bin:$PATH"
+cd /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app && bun add liveline
+# Verify story file counts
+ls src/components/beautiful-ui-components/*.stories.tsx | wc -l
+ls src/components/design-system/lab-prototypes/dev-ui-embeds/*.stories.tsx | wc -l
+
+```
+
+```
+[0.51ms] ".env"
+bun add v1.2.17 (282dda62)
+Resolving dependencies
+Resolved, downloaded and extracted [321]
+Saved lockfile
+
+installed liveline@0.0.7
+
+1 package installed [17.04s]
+      18
+       5
+
+```
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/design-system/lab-prototypes/dev-ui-embeds/DevUiEmbeds.md</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+Considering whether to add a brief DevUiEmbeds_PSUEDOCODE file, since the user rule requires it and a BeautifulUiStories_PSUEDOCODE already exists.
+
+Verifying a generated story file looks correct. Checking Decorator type compatibility with Next.js. Fixing CSS import side effects in decorators. Running a dry-run story list to verify imports without a full build. Confirming ThinkingState variants match.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/beautiful-ui-components/ApprovalCard.stories.tsx</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2** • Run command: export PATH=&#34;/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:/Users/liamellis/.bun/bin:$PATH&#34;
+cd /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app
+# Confirm liveline resolves; re-check InsightCards type error
+bunx tsc --noEmit --pretty false 2&gt;&amp;1 | rg -i &#34;beautiful-ui|dev-ui-embeds|liveline|story-decorators|BeautifulUi&#34; | head -40
+# List story titles via filename inventory
+echo &#39;--- BUI stories ---&#39;
+ls src/components/beautiful-ui-components/*.stories.tsx
+echo &#39;--- Embed stories ---&#39;
+ls src/components/design-system/lab-prototypes/dev-ui-embeds/*.stories.tsx
+</summary>
+```bash
+export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:/Users/liamellis/.bun/bin:$PATH"
+cd /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app
+# Confirm liveline resolves; re-check InsightCards type error
+bunx tsc --noEmit --pretty false 2>&1 | rg -i "beautiful-ui|dev-ui-embeds|liveline|story-decorators|BeautifulUi" | head -40
+# List story titles via filename inventory
+echo '--- BUI stories ---'
+ls src/components/beautiful-ui-components/*.stories.tsx
+echo '--- Embed stories ---'
+ls src/components/design-system/lab-prototypes/dev-ui-embeds/*.stories.tsx
+
+```
+
+```
+]633;P;Cwd=/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app]633;P;HasRichCommandDetection=True]633;A$ ]633;B]633;E;export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:/Users/liamellis/.bun/bin:$PATH"\x0acd /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app\x0a# Confirm liveline resolves\x3b re-check InsightCards type error\x0abunx tsc --noEmit --pretty false 2>&1 | rg -i "beautiful-ui|dev-ui-embeds|liveline|story-decorators|BeautifulUi" | head -40\x0a# List story titles via filename inventory\x0aecho '--- BUI stories ---'\x0als src/components/beautiful-ui-components/*.stories.tsx\x0aecho '--- Embed stories ---'\x0als src/components/design-system/lab-prototypes/dev-ui-embeds/*.stories.tsx\x0aexport PATH="/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:/Users/liamellis/.bun/bin:$PATH"
+cd /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app
+# Confirm liveline resolves; re-check InsightCards type error
+bunx tsc --noEmit --pretty false 2>&1 | rg -i "beautiful-ui|dev-ui-embeds|liveline|story-decorators|BeautifulUi" | head -40
+# List story titles via filename inventory
+echo '--- BUI stories ---'
+ls src/components/beautiful-ui-components/*.stories.tsx
+echo '--- Embed stories ---'
+ls src/components/design-system/lab-prototypes/dev-ui-embeds/*.stories.tsx
+
+]633;C--- BUI stories ---
+src/components/beautiful-ui-components/ApprovalCard.stories.tsx
+src/components/beautiful-ui-components/BeautifulUiGallery.stories.tsx
+src/components/beautiful-ui-components/ChatComposer.stories.tsx
+src/components/beautiful-ui-components/CodeBlock.stories.tsx
+src/components/beautiful-ui-components/ContextCards.stories.tsx
+src/components/beautiful-ui-components/DiffTable.stories.tsx
+src/components/beautiful-ui-components/FilterTable.stories.tsx
+src/components/beautiful-ui-components/FineTuneCard.stories.tsx
+src/components/beautiful-ui-components/InsightCards.stories.tsx
+src/components/beautiful-ui-components/LoadingState.stor
+… (output truncated)
+```
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/design-system/lab-prototypes/dev-ui-embeds/DevUiEmbeds_PSUEDOCODE.md</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+Waiting for TypeScript compilation to finish.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="await"><details>
+<summary>Tool use: **await**</summary>
+Status: **completed**
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+Reading the output.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/.cursor/projects/Users-liamellis-Desktop-apps-ultraterrestrial-resurrection/terminals/348563.txt</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="todo_write"><details>
+<summary>Tool use: **todo_write**</summary>
+
+Parameters:
+
+```json
+{
+  "merge": true
+}
+```
+Result:
+
+```json
+{
+  "finalTodos": [
+    {
+      "content": "Audit existing Storybook + Beautiful UI stories",
+      "id": "1",
+      "status": "completed"
+    },
+    {
+      "content": "Inspect attached lab embed components",
+      "id": "2",
+      "status": "completed"
+    },
+    {
+      "content": "Bring embeds into app if needed + add all stories",
+      "id": "3",
+      "status": "completed"
+    }
+  ],
+  "initialTodos": [
+    {
+      "content": "Audit existing Storybook + Beautiful UI stories",
+      "id": "1",
+      "status": "completed"
+    },
+    {
+      "content": "Inspect attached lab embed components",
+      "id": "2",
+      "status": "completed"
+    },
+    {
+      "content": "Bring embeds into app if needed + add all stories",
+      "id": "3",
+      "status": "in_progress"
+    }
+  ],
+  "success": true,
+  "wasMerge": true
+}
+```
+Status: **completed**
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+No TypeScript errors were found for Beautiful UI. Storybook stories have been added for all five requested embed components.
+
+Embeds were copied and stories created. Visual verification in Storybook remains pending.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+There were **no** Beautiful UI Storybook stories. They’re in place now, plus the five lab embeds.
+
+### Beautiful UI → `Design System/Beautiful UI/*`
+- Gallery (`BeautifulUiGallery.stories.tsx`) + 17 per-component stories (Default/Dark; variants for Loading / Thinking / Task Rows)
+- Theme: `beautiful-ui-theme.css` + `withBeautifulUiTheme` decorator
+- Installed missing `liveline` (needed by `InsightCards`)
+
+### Dev UI embeds → `Design System/Lab Prototypes/Dev UI Embeds/*`
+Copied into `apps/app/src/components/design-system/lab-prototypes/dev-ui-embeds/` with fullscreen stories:
+- Background Aura Animation
+- Full-Page Aura Background
+- Futuristic Lab Landing + Dashboard
+- Quantum Node UI Showcase
+- Synthesis Autonomous UI Showcase
+
+```bash
+cd apps/app && bun run storybook
+```
+
+**UNVERIFIED** visually in the running Storybook browser — open those two sidebar groups to dogfood.
+
+---
+
+_**User**_
+
+add this folder UI:
+"use client";
+import { motion } from "motion/react";
+import { useState } from "react";
+
+function FolderInteraction() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const pageVariants = {
+    spring: { type: "spring" as const, duration: 0.6 },
+  };
+
+  return (
+    <div className="w-full  flex justify-center items-center">
+      <div
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-80 h-52 relative wrapper"
+      >
+        <div
+          className="folder relative w-[87.5%] mx-auto items-center h-full flex justify-center "
+          style={{
+            background: "#18151B",
+            boxShadow:
+              "0px 0px 15.699999809265137px 16px rgba(79, 73, 85, 0.30) inset",
+            borderRadius: 10,
+          }}
+        >
+          {[
+            {
+              initial: { rotate: -3, x: -38, y: 2 },
+              open: { rotate: -8, x: -70, y: -55 },
+              transition: {
+                ...pageVariants.spring,
+                bounce: 0.15,
+                stiffness: 160,
+                damping: 22,
+              },
+              className: "z-10 shadow-md",
+            },
+            {
+              initial: { rotate: 0, x: 0, y: 0 },
+              open: { rotate: 1, x: 2, y: -75 },
+              transition: {
+                ...pageVariants.spring,
+                duration: 0.55,
+                bounce: 0.12,
+                stiffness: 190,
+                damping: 24,
+              },
+              className: "z-20 shadow-lg",
+            },
+            {
+              initial: { rotate: 3.5, x: 42, y: 1 },
+              open: { rotate: 9, x: 75, y: -60 },
+              transition: {
+                ...pageVariants.spring,
+                duration: 0.58,
+                bounce: 0.17,
+                stiffness: 170,
+                damping: 21,
+              },
+              className: "z-10 shadow-md",
+            },
+          ].map((page, i) => (
+            <motion.div
+              key={i}
+              initial={page.initial}
+              animate={isOpen ? page.open : page.initial}
+              transition={page.transition}
+              className={`absolute top-2 w-32 h-fit rounded-xl ${page.className}`}
+            >
+              <Page />
+            </motion.div>
+          ))}
+        </div>
+
+        <motion.div
+          animate={{ rotateX: isOpen ? -40 : 0 }}
+          transition={{ type: "spring", duration: 0.5, bounce: 0.2 }}
+          className="absolute -left-[1px] -right-[1px] -bottom-[1px] z-20 h-44 rounded-3xl origin-bottom flex justify-center items-center overflow-visible"
+        >
+          <svg
+            className="w-full h-full overflow-visible"
+            viewBox="0 0 235 121"
+            fill="none"
+            preserveAspectRatio="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <foreignObject x="-13" y="-13" width="262.4" height="148.4">
+              <div
+                style={{
+                  backdropFilter: "blur(6.5px)",
+                  clipPath: "url(#bgblur_0_1_106_clip_path)",
+                  height: "100%",
+                  width: "100%",
+                }}
+              ></div>
+            </foreignObject>
+            <path
+              id="Vector"
+              data-figma-bg-blur-radius="13"
+              d="M104.615 0.350494L33.1297 0.838776C32.7542 0.841362 32.3825 0.881463 32.032 0.918854C31.6754 0.956907 31.3392 0.992086 31.0057 0.992096H31.0047C30.6871 0.99235 30.3673 0.962051 30.0272 0.929596C29.6927 0.897686 29.3384 0.863802 28.9803 0.866119L13.2693 0.967682H13.2527L13.2352 0.969635C13.1239 0.981406 13.0121 0.986674 12.9002 0.986237H9.91388C8.33299 0.958599 6.76052 1.22345 5.27423 1.76651H5.27325C4.33579 2.11246 3.48761 2.66213 2.7879 3.37393L2.49689 3.68839L2.492 3.69424C1.62667 4.73882 1.00023 5.96217 0.656067 7.27725C0.653324 7.28773 0.654065 7.29886 0.652161 7.30948C0.3098 8.62705 0.257231 10.0048 0.499817 11.3446L12.2147 114.399L12.2156 114.411L12.2176 114.423C12.6046 116.568 13.7287 118.508 15.3934 119.902C17.058 121.297 19.1572 122.056 21.3231 122.049V122.05H215.379C217.76 122.02 220.064 121.192 221.926 119.698V119.697C223.657 118.384 224.857 116.485 225.305 114.35L225.307 114.339L235.914 53.3798L235.968 53.1093L235.97 53.0985L235.971 53.0888C236.134 51.8978 236.044 50.685 235.705 49.5321C235.307 48.1669 234.63 46.9005 233.717 45.8144L233.383 45.4296C232.58 44.5553 231.614 43.8449 230.539 43.3398C229.311 42.7628 227.971 42.4685 226.616 42.4774H146.746C144.063 42.4705 141.423 41.8004 139.056 40.5263C136.691 39.2522 134.671 37.4127 133.175 35.1689L113.548 5.05948L113.544 5.05362L113.539 5.04776C112.545 3.65165 111.238 2.51062 109.722 1.72061C108.266 0.886502 106.627 0.422235 104.952 0.365143V0.364166L104.633 0.350494H104.615Z"
+              fill="url(#paint0_linear_1_106)"
+              fillOpacity="0.3"
+              stroke="url(#paint1_linear_1_106)"
+              strokeWidth="0.7"
+            />
+            <defs>
+              <clipPath
+                id="bgblur_0_1_106_clip_path"
+                transform="translate(13 13)"
+              >
+                <path d="M104.615 0.350494L33.1297 0.838776C32.7542 0.841362 32.3825 0.881463 32.032 0.918854C31.6754 0.956907 31.3392 0.992086 31.0057 0.992096H31.0047C30.6871 0.99235 30.3673 0.962051 30.0272 0.929596C29.6927 0.897686 29.3384 0.863802 28.9803 0.866119L13.2693 0.967682H13.2527L13.2352 0.969635C13.1239 0.981406 13.0121 0.986674 12.9002 0.986237H9.91388C8.33299 0.958599 6.76052 1.22345 5.27423 1.76651H5.27325C4.33579 2.11246 3.48761 2.66213 2.7879 3.37393L2.49689 3.68839L2.492 3.69424C1.62667 4.73882 1.00023 5.96217 0.656067 7.27725C0.653324 7.28773 0.654065 7.29886 0.652161 7.30948C0.3098 8.62705 0.257231 10.0048 0.499817 11.3446L12.2147 114.399L12.2156 114.411L12.2176 114.423C12.6046 116.568 13.7287 118.508 15.3934 119.902C17.058 121.297 19.1572 122.056 21.3231 122.049V122.05H215.379C217.76 122.02 220.064 121.192 221.926 119.698V119.697C223.657 118.384 224.857 116.485 225.305 114.35L225.307 114.339L235.914 53.3798L235.968 53.1093L235.97 53.0985L235.971 53.0888C236.134 51.8978 236.044 50.685 235.705 49.5321C235.307 48.1669 234.63 46.9005 233.717 45.8144L233.383 45.4296C232.58 44.5553 231.614 43.8449 230.539 43.3398C229.311 42.7628 227.971 42.4685 226.616 42.4774H146.746C144.063 42.4705 141.423 41.8004 139.056 40.5263C136.691 39.2522 134.671 37.4127 133.175 35.1689L113.548 5.05948L113.544 5.05362L113.539 5.04776C112.545 3.65165 111.238 2.51062 109.722 1.72061C108.266 0.886502 106.627 0.422235 104.952 0.365143V0.364166L104.633 0.350494H104.615Z" />
+              </clipPath>
+              <linearGradient
+                id="paint0_linear_1_106"
+                x1="114.7"
+                y1="0.700104"
+                x2="114.7"
+                y2="121.7"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stopColor="#2D2535" />
+                <stop offset="1" stopColor="#2A2A2A" />
+              </linearGradient>
+              <linearGradient
+                id="paint1_linear_1_106"
+                x1="114.7"
+                y1="0.700104"
+                x2="114.7"
+                y2="121.7"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stopColor="#424242" stopOpacity="0.04" />
+                <stop offset="1" stopColor="#212121" stopOpacity="0.3" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </motion.div>
+      </div>
+    </div>
+  );
+}
+
+export default FolderInteraction;
+
+const Page = () => (
+  <div className="w-full h-full bg-gradient-to-b from-[#E8E7F0] to-[#DCDAE8] rounded-xl shadow-lg p-3 sm:p-4">
+    <div className="flex flex-col gap-1.5 sm:gap-2">
+      <div className="w-full h-1 sm:h-1.5 bg-[#CFCDE0] rounded-full" />
+      {Array.from({ length: 8 }).map((_, i) => (
+        <div key={i} className="flex gap-1.5 sm:gap-2">
+          <div className="flex-1 h-1 sm:h-1.5 bg-[#CFCDE0] rounded-full" />
+          <div className="flex-1 h-1 sm:h-1.5 bg-[#CFCDE0] rounded-full" />
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+
+---
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+Integrating the FolderInteraction component into the app. This fits the existing Beautiful UI and Storybook pattern.
+
+Checking if motion/react is installed. Will add a Storybook story and follow PascalCase/kebab-case conventions. Planning to write pseudocode and documentation.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+I'll add the folder interaction component into the app (with a Storybook story) and check that `motion` is available.
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/package.json",
+  "pattern": "\"motion\"|\"framer-motion\""
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/package.json",
+  "pattern": "\"motion\"|\"framer-motion\"",
+  "topFiles": [
+    {
+      "matchCount": 2,
+      "uri": "apps/app/package.json"
+    }
+  ],
+  "totalFiles": 1,
+  "totalMatches": 2
+}
+```
+Status: **completed**
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="search" data-tool-name="glob_file_search"><details>
+<summary>Tool use: **glob_file_search** • Searched codebase "" • **5** results in **1** directory</summary>
+
+Directory: **`/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src`** (5 files)
+
+| File |
+|------|
+| `features/research-canvas/case-files/folder/folder-tabs.tsx` |
+| `features/research-canvas/case-files/folder/folder-flyout.tsx` |
+| `features/research-canvas/case-files/folder/folder-open.stories.tsx` |
+| `features/research-canvas/case-files/folder/folder-open.tsx` |
+| `features/research-canvas/case-files/folder/folder-tabs.stories.tsx` |
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2** • Run command: export PATH=&#34;/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:/Users/liamellis/.bun/bin:$PATH&#34;
+pwd
+rg -n &#39;&#34;motion&#34;|framer-motion&#39; apps/app/package.json
+ls apps/app/src/components/sci-fi apps/app/src/components/animated 2&gt;/dev/null | head -40
+</summary>
+```bash
+export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:/Users/liamellis/.bun/bin:$PATH"
+pwd
+rg -n '"motion"|framer-motion' apps/app/package.json
+ls apps/app/src/components/sci-fi apps/app/src/components/animated 2>/dev/null | head -40
+
+```
+
+```
+/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app
+rg: apps/app/package.json: IO error for operation on apps/app/package.json: No such file or directory (os error 2)
+
+```
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+A folder system already exists in research-canvas. The FolderInteraction UI will be added as a new component with a story.
+
+The component will live at `apps/app/src/components/folder-interaction/FolderInteraction.tsx`. It will include a story, pseudocode, and documentation. Unique SVG IDs will be generated with `useId()` to prevent collisions when multiple instances are rendered.
+
+The 3D flip animation needs `transformStyle: 'preserve-3d'` and a parent `perspective` for `rotateX` to render correctly. The component will follow repository conventions using single quotes and no semicolons.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+`motion` is already installed. Adding `FolderInteraction` as a reusable component with a Storybook story, and unique SVG IDs so multiple instances don't clash.
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/folder-interaction/FolderInteraction_PSUEDOCODE.md</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/folder-interaction/FolderInteraction.tsx</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/folder-interaction/index.ts</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/folder-interaction/FolderInteraction.stories.tsx</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/folder-interaction/FolderInteraction.md</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+Running a quick lint check on the new files.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="read_lints"><details>
+<summary>Tool use: **read_lints**</summary>
+
+Parameters:
+
+```json
+{
+  "paths": [
+    "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/folder-interaction/FolderInteraction.tsx",
+    "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/folder-interaction/FolderInteraction.stories.tsx"
+  ]
+}
+```
+Result:
+
+```json
+{
+  "linterErrorsByFile": [
+    {
+      "relativeWorkspacePath": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/folder-interaction/FolderInteraction.tsx"
+    },
+    {
+      "relativeWorkspacePath": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/components/folder-interaction/FolderInteraction.stories.tsx"
+    }
+  ]
+}
+```
+Status: **completed**
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+The folder UI component is ready.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+Added at `apps/app/src/components/folder-interaction/`.
+
+- **Component:** click toggles open/closed; three spring pages + SVG flap (`rotateX`)
+- **Extras:** controlled props (`open` / `onOpenChange`), keyboard a11y, unique SVG IDs, perspective for the flap
+- **Storybook:** `Components/FolderInteraction` — Default / Open / Controlled
+
+```tsx
+import { FolderInteraction } from '@/components/folder-interaction'
+```

@@ -2,6 +2,8 @@
 
 Source: https://beautiful-ui-five.vercel.app/ (Built by Turbo). Code taken from each component’s built-in "Copy code" panel.
 
+**Storybook:** `Design System/Beautiful UI/*` (gallery + per-component). Theme tokens live in `beautiful-ui-theme.css`; wrap app usage in `.beautiful-ui-root` or import the story decorator pattern.
+
 | # | Component | File | Lines |
 |---|---|---|---|
 | 01 | Loading State | `LoadingState.tsx` | 90 |

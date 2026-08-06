@@ -96,7 +96,7 @@ Python work uses Python 3 and a `.venv` (`apps/disclosure-rag/` has its own).
 **Foundation utilities (these do exist and work):**
 
 - **Contextual Intelligence** (`features/mindmap/utils/contextual-intelligence.ts`) — graph context, relationship filtering
-- **Spatial Intelligence** (`features/mindmap/hooks/use-spatial-grouping.ts`) — R-Tree proximity queries
+- **Spatial Intelligence** (`features/mindmap/hooks/use-spatial-grouping.ts`) — bounding-box proximity grouping via `useProximityAnalysis` (not R-Tree/rbush — no such dependency exists in this repo)
 - **Enhanced Nodes** (`features/mindmap/nodes/enhanced-node-poc.tsx`) — one node type in React Flow
 
 **Reference:** `docs/plans/2026-03-29-roundtable-unified-action-plan.md` for full audit and hardening plan
@@ -114,15 +114,9 @@ Python work uses Python 3 and a `.venv` (`apps/disclosure-rag/` has its own).
 - **Importing from `@db/xata` or `@db`** — that package is retired. Use `@db/postgres` for ALL database operations.
 - Using `xata.db.*` patterns — Xata SDK is dead. Use typed helpers or `getSql()` tagged-template.
 - Assuming "Triple RAG" or multi-agent tours exist — they do not (see myths corrected in roundtable audit)
-- Extending dead code: 4 ghost routes + 4 smart-mindmap shell variants have zero consumers
-- Adding state to `mindmap-context.tsx` (1,363-line god-object) — use Zustand store instead
+- Adding state to `mindmap-context.tsx` (`apps/app/src/contexts/mindmap/mindmap-context.tsx`, 1,270-line god-object) — use Zustand store instead
 - Using `router.push()` for canvas navigation — use Zustand `setActiveView()`
 - Treating the Python RAG system as connected to the Next.js app
-
-### Dead Code — Do Not Extend
-
-- `smart-mindmap.tsx`, `smart-mindmap-with-auto-connections.tsx`, `smart-mindmap-with-shared-context.tsx`, `smart-graph.tsx` — zero production consumers
-- Ghost routes: `(site)/disclosure/`, `(site)/search-and-discovery-interface/`, `(site)/content-card-detail-view/`, `(site)/ufo-sightings/`
 
 ### File Organization Rules
 
@@ -207,7 +201,7 @@ For agent intake and ops docs, see:
 
 ### Issue tracker
 
-Issues live as markdown files under `.scratch/<feature>/` in this repo (local-markdown convention). See `docs/agents/ops/issue-tracker.md`.
+Linear owns implementation tickets (project "Ultraterrestrial Resurrection", team DMGD), per the cutover documented in `docs/agents/ops/issue-tracker.md`. `docs/plans/TODO.md` is a migration ledger for historical `T-*` IDs only — do not add new tickets there. `.scratch/` may hold temporary research notes but is not the issue tracker.
 
 ### Triage labels
 

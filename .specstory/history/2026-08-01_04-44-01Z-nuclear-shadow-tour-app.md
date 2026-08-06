@@ -288,3 +288,258 @@ Research canvas launches into it (`router.push('/tours/nuclear-shadow')` from Ac
 That’s distinct from the older in-canvas tour system under `features/mindmap/tours/`, which overlays the research-canvas graph.
 
 So: research-canvas is the launchpad; `/tours/nuclear-shadow` is the destination. It stays out of `activeView` so it doesn’t fight MindMapProvider / ViewSwitcher / the god-context graph, and can run as a full-screen evidence-graph experience (ported from the nuclear-shadow-xyflow prototype).
+
+---
+
+_**User**_
+
+review it again
+
+---
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+Re-examining the Nuclear Shadow guided tour architecture. Likely focusing on its absence from the research-canvas state-rendered UI.
+
+A careful re-examination of the current wiring and architecture is needed. Recent changes may have altered the integration.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+Re-examining the tour wiring and research-canvas integration as they stand now.
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/guided-tours/nuclear-shadow/NuclearShadowTour.tsx</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/app/(site)/tours/nuclear-shadow/page.tsx</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="search" data-tool-name="glob_file_search"><details>
+<summary>Tool use: **glob_file_search** • Searched codebase "" • **41** results in **1** directory</summary>
+
+Directory: **`/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features`** (41 files)
+
+| File |
+|------|
+| `guided-tours/shared/state/tour-reducer.ts` |
+| `guided-tours/shared/edges/NarrativeEdge.tsx` |
+| `guided-tours/shared/choreography/transition-sequence.ts` |
+| `guided-tours/shared/choreography/use-tour-choreographer.ts` |
+| `guided-tours/shared/components/TourHUD.tsx` |
+| `guided-tours/shared/persistence/tour-progress.serializer.ts` |
+| `guided-tours/NuclearShadowTour_PSUEDOCODE.md` |
+| `guided-tours/shared/nodes/WaypointNode.tsx` |
+| `guided-tours/shared/types/tour-runtime.ts` |
+| `guided-tours/shared/graph/derive-edge-status.ts` |
+| `guided-tours/shared/state/tour-events.ts` |
+| `guided-tours/shared/graph/derive-node-status.ts` |
+| `guided-tours/shared/graph/compile-tour-graph.ts` |
+| `guided-tours/shared/state/tour-store.ts` |
+| `guided-tours/shared/components/TourFlowCanvas.tsx` |
+| `guided-tours/nuclear-shadow/tests/choreography.test.ts` |
+| `guided-tours/shared/tests/tour-schema.test.ts` |
+| `guided-tours/shared/tests/unified-tour-store.test.ts` |
+| `guided-tours/shared/schemas/tour-definition.schema.ts` |
+| `guided-tours/nuclear-shadow/nuclear-shadow.layout.ts` |
+| `guided-tours/shared/choreography/TourChoreographer.tsx` |
+| `guided-tours/shared/persistence/tour-progress.repository.ts` |
+| `guided-tours/shared/tests/validate-any-tour.test.ts` |
+| `guided-tours/shared/tests/resolve-anchor.test.ts` |
+| `guided-tours/shared/components/EvidenceDrawer.tsx` |
+| `guided-tours/shared/components/WaypointInspector.tsx` |
+| `guided-tours/shared/state/tour-selectors.ts` |
+| `guided-tours/NuclearShadowTour.md` |
+| `guided-tours/nuclear-shadow/nuclear-shadow.sources.ts` |
+| `guided-tours/nuclear-shadow/tests/definition.test.ts` |
+| `guided-tours/nuclear-shadow/nuclear-shadow.definition.ts` |
+| `guided-tours/nuclear-shadow/NuclearShadowTour.tsx` |
+| `guided-tours/nuclear-shadow/index.ts` |
+| `guided-tours/nuclear-shadow/tests/graph-compiler.test.ts` |
+| `guided-tours/shared/graph/validate-tour-definition.ts` |
+| `guided-tours/shared/state/unified-tour-store.ts` |
+| `guided-tours/shared/types/tour-definition.ts` |
+| `guided-tours/shared/types/flow-model.ts` |
+| `guided-tours/nuclear-shadow/tests/reducer.test.ts` |
+| `guided-tours/index.ts` |
+| `guided-tours/shared/graph/resolve-anchor.ts` |
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "glob": "*.{tsx,ts}",
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/mindmap",
+  "pattern": "nuclear-shadow|NuclearShadow|activeView|ActiveView|setActiveView"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/mindmap",
+  "pattern": "nuclear-shadow|NuclearShadow|activeView|ActiveView|setActiveView",
+  "topFiles": [
+    {
+      "matchCount": 6,
+      "uri": "apps/app/src/features/mindmap/graph.tsx"
+    },
+    {
+      "matchCount": 3,
+      "uri": "apps/app/src/features/mindmap/components/menus/mindmap-side-menu/hover-panels/SavedViewsPanel.tsx"
+    },
+    {
+      "matchCount": 1,
+      "uri": "apps/app/src/features/mindmap/hooks/use-mindmap-agent.ts"
+    },
+    {
+      "matchCount": 1,
+      "uri": "apps/app/src/features/mindmap/research-canvas/ViewSwitcher.tsx"
+    },
+    {
+      "matchCount": 1,
+      "uri": "apps/app/src/features/mindmap/research-canvas/typer/constants.ts"
+    },
+    {
+      "matchCount": 7,
+      "uri": "apps/app/src/features/mindmap/store/mindmap-ui-store.ts"
+    },
+    {
+      "matchCount": 16,
+      "uri": "apps/app/src/features/mindmap/navigation/FullScreenMenu.tsx"
+    }
+  ],
+  "totalFiles": 7,
+  "totalMatches": 35
+}
+```
+Status: **completed**
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "contextAfter": 5,
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/mindmap/store/mindmap-ui-store.ts",
+  "pattern": "ActiveView|type ActiveView|activeView:"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/mindmap/store/mindmap-ui-store.ts",
+  "pattern": "ActiveView|type ActiveView|activeView:",
+  "topFiles": [
+    {
+      "matchCount": 40,
+      "uri": "apps/app/src/features/mindmap/store/mindmap-ui-store.ts"
+    }
+  ],
+  "totalFiles": 1,
+  "totalMatches": 7
+}
+```
+Status: **completed**
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+Digging deeper into the architectural differences between TourFlowCanvas and Graph/MindMap. Assessing whether folding them into research-canvas makes sense now.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/guided-tours/NuclearShadowTour.md</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/mindmap/research-canvas/ViewSwitcher.tsx</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/guided-tours/shared/components/TourFlowCanvas.tsx</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/mindmap/graph.tsx</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+I have a clear picture for the re-review. The focus is why Nuclear Shadow is not a state-rendered UI in research-canvas.
+
+The re-review will be sharper and more expert-level, grounded in the current code.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+Re-checked. Verdict still stands: **deliberate isolation, not an oversight.**
+
+**What research-canvas actually switches**
+
+`ActiveView` is only:
+
+`'canvas' | 'timeline' | 'globe' | 'search' | 'detail'`
+
+`ViewSwitcher` swaps those under `MindMapProvider` / the research graph. Nuclear Shadow is not in that union and never was.
+
+**What Nuclear Shadow actually is**
+
+A second React Flow app:
+
+- Own route: `/tours/nuclear-shadow`
+- Own store: `useTourStore` (phase, waypoints, choreography, persistence)
+- Own graph compile: definition → `TourFlowCanvas` → waypoint/evidence nodes
+- Own shell CSS / HUD / inspector / drawer
+
+Research canvas only **launches** it (`router.push`), then links back. Fresh mount unless `?resume=1`.
+
+**Why that split is correct**
+
+Folding it into `activeView: 'tour'` would mean nesting a second ReactFlowProvider + tour runtime inside MindMapProvider/context — two graphs, two stores, two keyboard/camera systems fighting. The in-canvas guided tour (`features/mindmap/tours/`) is the overlay model; Nuclear Shadow is authored narrative + evidence graph, not a filter on the entity mindmap.
+
+So: research-canvas views = modes of one shell. Nuclear Shadow = destination product surface.

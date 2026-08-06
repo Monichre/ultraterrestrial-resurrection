@@ -5378,3 +5378,1152 @@ Typecheck errors were found in graph.tsx, likely pre-existing. No errors were fo
 _**Agent (grok-4.5)**_
 
 Typecheck finished: **no errors in `guided-tours` / Nuclear Shadow**. The hits that did show up are pre-existing elsewhere (`3d` viz, `reagraph`, and older `mindmap/graph.tsx` typing issues) — not from the Act I port.
+
+---
+
+_**User**_
+
+theres no data or anything interesting rendeirng
+
+---
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+Investigating why the Nuclear Shadow tour renders no data. Checking for runtime errors, graph compilation issues, and store hydration problems.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+Checking why the Nuclear Shadow tour isn't rendering content — starting with the route, store hydration, and graph compile path.
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2** • Run command: head -n 15 /Users/liamellis/.cursor/projects/Users-liamellis-Desktop-apps-ultraterrestrial-resurrection/terminals/*.txt 2&gt;/dev/null | head -80; ls apps/app/src/features/guided-tours/nuclear-shadow/; ls apps/app/src/app/\(site\)/tours/nuclear-shadow/ 2&gt;/dev/null</summary>
+```bash
+head -n 15 /Users/liamellis/.cursor/projects/Users-liamellis-Desktop-apps-ultraterrestrial-resurrection/terminals/*.txt 2>/dev/null | head -80; ls apps/app/src/features/guided-tours/nuclear-shadow/; ls apps/app/src/app/\(site\)/tours/nuclear-shadow/ 2>/dev/null
+```
+
+```
+---
+pid: 3280
+cwd: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection
+---
+(base) liamellis@Liams-MacBook-Pro-2021 ultraterrestrial-resurrection % NuclearShadowTour.tsx
+index.ts
+nuclear-shadow-tour.css
+nuclear-shadow.definition.ts
+nuclear-shadow.layout.ts
+nuclear-shadow.sources.ts
+tests
+page.tsx
+
+```
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/guided-tours/shared/components/TourFlowCanvas.tsx</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/guided-tours/shared/state/tour-store.ts</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/guided-tours/shared/graph/compile-tour-graph.ts</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/app/(site)/tours/nuclear-shadow/page.tsx</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+The camera might be aimed incorrectly, causing nodes to render off-screen.
+
+Other suspects include hidden nodes, React Strict Mode double-mounting, and WaypointNode coordinates that prevent fitView.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/guided-tours/nuclear-shadow/nuclear-shadow.layout.ts</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/guided-tours/shared/choreography/TourChoreographer.tsx</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/guided-tours/shared/graph/derive-node-status.ts</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/guided-tours/shared/nodes/WaypointNode.tsx</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/guided-tours/shared/state/tour-reducer.ts</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="get_mcp_tools"><details>
+<summary>Tool use: **get_mcp_tools**</summary>
+
+Parameters:
+
+```json
+{
+  "server": "cursor-ide-browser"
+}
+```
+Result:
+
+```json
+{
+  "content": "{\n  \"note\": \"Large output has been written to: /Users/liamellis/.cursor/projects/Users-liamellis-Desktop-apps-ultraterrestrial-resurrection/agent-tools/b54157cd-142e-430d-8e4e-f4f704c65939.txt (23.7 KB, 581 lines)\",\n  \"filePath\": \"/Users/liamellis/.cursor/projects/Users-liamellis-Desktop-apps-ultraterrestrial-resurrection/agent-tools/b54157cd-142e-430d-8e4e-f4f704c65939.txt\"\n}",
+  "outputFilePath": "/Users/liamellis/.cursor/projects/Users-liamellis-Desktop-apps-ultraterrestrial-resurrection/agent-tools/b54157cd-142e-430d-8e4e-f4f704c65939.txt"
+}
+```
+Status: **completed**
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+A critical bug was identified in `loadDefinition`. When called without progress, the runtime state initialization appears broken.
+
+The missing active waypoint causes every node to render at zero opacity. The choreographer likely cannot fly the camera without one. Need to verify repository.load behavior with empty progress. Need to confirm whether phase 'overview' triggers entry into the first waypoint.
+
+Reading the tour choreographer and reducer to trace how the overview phase transitions to the first waypoint.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/guided-tours/shared/choreography/use-tour-choreographer.ts</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "glob": "*.{ts,tsx}",
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/guided-tours",
+  "pattern": "overview|TOUR_STARTED|entryWaypoint|ARRIVAL|activeWaypointId"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/guided-tours",
+  "pattern": "overview|TOUR_STARTED|entryWaypoint|ARRIVAL|activeWaypointId",
+  "topFiles": [
+    {
+      "matchCount": 2,
+      "uri": "apps/app/src/features/guided-tours/nuclear-shadow/nuclear-shadow.definition.ts"
+    },
+    {
+      "matchCount": 2,
+      "uri": "apps/app/src/features/guided-tours/nuclear-shadow/tests/graph-compiler.test.ts"
+    },
+    {
+      "matchCount": 2,
+      "uri": "apps/app/src/features/guided-tours/nuclear-shadow/tests/reducer.test.ts"
+    },
+    {
+      "matchCount": 5,
+      "uri": "apps/app/src/features/guided-tours/shared/choreography/transition-sequence.ts"
+    },
+    {
+      "matchCount": 9,
+      "uri": "apps/app/src/features/guided-tours/shared/choreography/use-tour-choreographer.ts"
+    },
+    {
+      "matchCount": 2,
+      "uri": "apps/app/src/features/guided-tours/shared/persistence/tour-progress.serializer.ts"
+    },
+    {
+      "matchCount": 4,
+      "uri": "apps/app/src/features/guided-tours/shared/components/TourFlowCanvas.tsx"
+    },
+    {
+      "matchCount": 2,
+      "uri": "apps/app/src/features/guided-tours/shared/schemas/tour-definition.schema.ts"
+    },
+    {
+      "matchCount": 1,
+      "uri": "apps/app/src/features/guided-tours/shared/state/tour-store.ts"
+    },
+    {
+      "matchCount": 2,
+      "uri": "apps/app/src/features/guided-tours/shared/state/tour-events.ts"
+    },
+    {
+      "matchCount": 1,
+      "uri": "apps/app/src/features/guided-tours/shared/state/tour-selectors.ts"
+    },
+    {
+      "matchCount": 18,
+      "uri": "apps/app/src/features/guided-tours/shared/state/tour-reducer.ts"
+    }
+  ],
+  "totalFiles": 12,
+  "totalMatches": 64
+}
+```
+Status: **completed**
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/guided-tours/shared/components/WaypointInspector.tsx</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/docs/archive/prototypes/nuclear-shadow-xyflow/app/page.tsx</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+The empty render likely stems from `nodesInitialized` never becoming true. Nodes may be hidden or positioned too far for `fitView` to work.
+
+All nodes are hidden because `activeWaypointId` is null, so `deriveWaypointStatus` returns `'hidden'` for every node. React Flow may still initialize them despite zero opacity. The opening sequence should fit the view and dispatch `WAYPOINT_ARRIVAL_COMPLETED`. `NuclearShadowTour` uses a ref guard that loads the definition once; in Strict Mode, the effect runs twice, but the ref prevents duplicate loading.
+
+Strict Mode remounts create fresh `useRef` values, so the initialization flag resets each time. The definition loads correctly on both mounts without duplicate execution.
+
+React Flow initializes nodes even when their style opacity is zero. The `hidden` property is not set on nodes, so they should register as initialized despite being invisible.
+
+CSS might be missing, causing a white-on-white render. The initialization sequence appears correct: the tour loads its definition, the canvas renders nodes, and the choreographer waits for `nodesInitialized`. This suggests the problem lies elsewhere.
+
+The CSS import might be failing, or the parent container could lack a proper containing block, leaving React Flow with zero height. A Framer Motion issue is another possibility. Alternatively, the user might be viewing the research-canvas or design-lab page instead of the tour route.
+
+The tour might actually be running but feel sparse or empty. Waypoints could sit off-screen. The `includeHiddenNodes` option might not exist in this xyflow version and throw an error. The `/tours/nuclear-shadow` route may also be protected or redirected.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/guided-tours/shared/choreography/transition-sequence.ts</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/middleware.ts",
+  "pattern": "tours|research-canvas"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/middleware.ts",
+  "pattern": "tours|research-canvas",
+  "topFiles": [],
+  "totalFiles": 0,
+  "totalMatches": 0
+}
+```
+Status: **completed**
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2** • Run command: rg -n &#34;useNodesInitialized&#34; apps/app/node_modules/@xyflow/react/dist/esm/index.js 2&gt;/dev/null | head -5; rg -n &#34;includeHiddenNodes&#34; apps/app/node_modules/@xyflow/react/dist/esm/*.js 2&gt;/dev/null | head -10; ls apps/app/node_modules/@xyflow/react/dist/esm/hooks 2&gt;/dev/null | head</summary>
+```bash
+rg -n "useNodesInitialized" apps/app/node_modules/@xyflow/react/dist/esm/index.js 2>/dev/null | head -5; rg -n "includeHiddenNodes" apps/app/node_modules/@xyflow/react/dist/esm/*.js 2>/dev/null | head -10; ls apps/app/node_modules/@xyflow/react/dist/esm/hooks 2>/dev/null | head
+```
+
+```
+(eval):1: no matches found: apps/app/node_modules/@xyflow/react/dist/esm/*.js
+
+```
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/guided-tours/nuclear-shadow/NuclearShadowTour.tsx</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/guided-tours/shared/state/tour-reducer.ts</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+A critical Strict Mode bug was found in the opening sequence. The effect aborts the active execution when hydration or node initialization is incomplete, which likely prevents any data from rendering.
+
+The effect should restart automatically on the second Strict Mode render. The missing data suggests the abort happens before the phase changes, blocking the sequence from ever completing.
+
+A corrupted `tourProgressRepository.load` result may be hydrating into an investigating state with empty progress. The repository code needs inspection.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/guided-tours/shared/persistence/tour-progress.repository.ts</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/guided-tours/shared/persistence/tour-progress.serializer.ts</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="mcp-cursor-ide-browser-browser_tabs"><details>
+<summary>Tool use: **mcp-cursor-ide-browser-browser_tabs**</summary>
+
+Parameters:
+
+```json
+{
+  "tools": [
+    {
+      "name": "browser_tabs",
+      "parameters": "{\"action\":\"list\"}",
+      "serverName": "cursor-ide-browser"
+    }
+  ]
+}
+```
+Additional data:
+
+```json
+{
+  "status": "success"
+}
+```
+Result:
+
+```json
+{
+  "result": "{\"content\":[{\"type\":\"text\",\"text\":\"Open tabs:\\n[0] \\\"New Tab\\\" - about:blank (viewId: canvas-5ee4f02b72ff)\\n[1] \\\"The Nuclear Shadow — Architecture of Secrecy\\\" - http://localhost:3000/tours/nuclear-shadow (viewId: 74cea3)\\n[2] \\\"New Tab\\\" - about:blank (viewId: e9793a)\\n[3] \\\"Document Panel — Component Specification\\\" - http://localhost:3000/document-panel (viewId: 75c736)\\n[4] \\\"The Nuclear Shadow — Architecture of Secrecy\\\" - http://localhost:3000/tours/nuclear-shadow (viewId: 4c8182)\"}]}"
+}
+```
+Status: **completed**
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "glob": "*.{js,mjs,ts}",
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/node_modules/@xyflow/react",
+  "pattern": "useNodesInitialized"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/node_modules/@xyflow/react",
+  "pattern": "useNodesInitialized",
+  "topFiles": [],
+  "totalFiles": 0,
+  "totalMatches": 0
+}
+```
+Status: **completed**
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+The `useNodesInitialized` hook is missing from `@xyflow/react`. This likely explains why nothing is rendering.
+
+Checking whether xyflow is installed at the monorepo root or inside apps/app.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+`useNodesInitialized` may be missing from this xyflow version — checking that and the live page.
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2** • Run command: find node_modules/@xyflow apps/app/node_modules/@xyflow -name &#39;*.d.ts&#39; 2&gt;/dev/null | head -20; rg -l &#34;useNodesInitialized&#34; node_modules/@xyflow 2&gt;/dev/null | head -10; rg &#34;useNodesInitialized&#34; node_modules/@xyflow/react/dist -g &#39;*.mjs&#39; 2&gt;/dev/null | head -5; cat apps/app/package.json | rg xyflow; ls node_modules/@xyflow/react/dist 2&gt;/dev/null | head</summary>
+```bash
+find node_modules/@xyflow apps/app/node_modules/@xyflow -name '*.d.ts' 2>/dev/null | head -20; rg -l "useNodesInitialized" node_modules/@xyflow 2>/dev/null | head -10; rg "useNodesInitialized" node_modules/@xyflow/react/dist -g '*.mjs' 2>/dev/null | head -5; cat apps/app/package.json | rg xyflow; ls node_modules/@xyflow/react/dist 2>/dev/null | head
+```
+
+```
+node_modules/@xyflow/system/dist/esm/constants.d.ts
+node_modules/@xyflow/system/dist/esm/types/general.d.ts
+node_modules/@xyflow/system/dist/esm/types/edges.d.ts
+node_modules/@xyflow/system/dist/esm/types/panzoom.d.ts
+node_modules/@xyflow/system/dist/esm/types/utils.d.ts
+node_modules/@xyflow/system/dist/esm/types/changes.d.ts
+node_modules/@xyflow/system/dist/esm/types/index.d.ts
+node_modules/@xyflow/system/dist/esm/types/nodes.d.ts
+node_modules/@xyflow/system/dist/esm/types/handles.d.ts
+node_modules/@xyflow/system/dist/esm/xyresizer/types.d.ts
+node_modules/@xyflow/system/dist/esm/xyresizer/utils.d.ts
+node_modules/@xyflow/system/dist/esm/xyresizer/index.d.ts
+node_modules/@xyflow/system/dist/esm/xyresizer/XYResizer.d.ts
+node_modules/@xyflow/system/dist/esm/utils/connections.d.ts
+node_modules/@xyflow/system/dist/esm/utils/node-toolbar.d.ts
+node_modules/@xyflow/system/dist/esm/utils/general.d.ts
+node_modules/@xyflow/system/dist/esm/utils/marker.d.ts
+node_modules/@xyflow/system/dist/esm/utils/store.d.ts
+node_modules/@xyflow/system/dist/esm/utils/types.d.ts
+node_modules/@xyflow/system/dist/esm/utils/dom.d.ts
+node_modules/@xyflow/react/dist/esm/index.mjs: *import { useReactFlow, useNodesInitialized } from '@xyflow/react';
+node_modules/@xyflow/react/dist/esm/index.mjs: *  const nodesInitialized = useNodesInitialized(options);
+node_modules/@xyflow/react/dist/esm/index.mjs:function useNodesInitialized(options = {
+node_modules/@xyflow/react/dist/esm/index.mjs:export { Background, BackgroundVariant, BaseEdge, BezierEdge, ControlButton, Controls, EdgeLabelRenderer, EdgeText, Handle, MiniMap, MiniMapNode, NodeResizeControl, NodeResizer, NodeToolbar, Panel, index as ReactFlow, ReactFlowProvider, SimpleBezierEdge, SmoothStepEdge, StepEdge, StraightEdge, ViewportPortal, applyEdgeChanges, applyNodeChanges, getSimpleBezierPath, isEdge, isNode, useConnection, useEdges, useEdgesState, useHandleConnections, useInternalNode, useKeyPress, useNodeConnections, useNodeId, useNodes, useNodesDa
+… (output truncated)
+```
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="mcp-cursor-ide-browser-browser_navigate"><details>
+<summary>Tool use: **mcp-cursor-ide-browser-browser_navigate**</summary>
+
+Parameters:
+
+```json
+{
+  "tools": [
+    {
+      "name": "browser_navigate",
+      "parameters": "{\"url\":\"http://localhost:3000/tours/nuclear-shadow\",\"take_screenshot_afterwards\":true}",
+      "serverName": "cursor-ide-browser"
+    }
+  ]
+}
+```
+Additional data:
+
+```json
+{
+  "status": "success"
+}
+```
+Result:
+
+````json
+{
+  "result": "{\"content\":[{\"type\":\"text\",\"text\":\"### Action: snapshot\\n- Total refs: 59\\n- Interactive refs: 34\\n- Browser View ID: canvas-5ee4f02b72ff\\n\\n### Page state\\n- Page URL: http://localhost:3000/tours/nuclear-shadow\\n- Page Title: The Nuclear Shadow — Architecture of Secrecy\\n- Page Snapshot:\\n```yaml\\n- role: document\\n  name: The Nuclear Shadow — Architecture of Secrecy\\n  ref: root\\n  children:\\n    - role: link\\n      name: Ultraterrestrial home\\n      ref: e0\\n    - role: button\\n      name: Open navigation menu\\n      ref: e1\\n    - role: link\\n      name: ← Research Canvas\\n      ref: e2\\n    - role: combobox\\n      name: Evidence threshold Broad archive Corroborated Official record Multimodal only\\n      ref: e3\\n      value: Official record\\n      options: \\\"Broad archive (value: broad-archive), Corroborated (value: corroborated), Official record (value: official-record), Multimodal only (value: multimodal-only)\\\"\\n    - role: button\\n      name: Recenter\\n      ref: e4\\n    - role: button\\n      name: Open Next.js Dev Tools\\n      ref: e5\\n      states: [collapsed]\\n    - role: button\\n      name: v 3.0.2 Output Detail Standard React Components Hide Until Restart Marker Color Clear on copy/send Block page interactions Manage MCP \u0026 Webhooks Manage MCP \u0026 Webhooks MCP Connection MCP connection all\\n      ref: e6\\n    - role: button\\n      ref: e7\\n    - role: button\\n      ref: e8\\n      nth: 1\\n    - role: button\\n      ref: e9\\n      nth: 2\\n      states: [disabled]\\n    - role: button\\n      ref: e10\\n      nth: 3\\n      states: [disabled]\\n    - role: button\\n      ref: e11\\n      nth: 4\\n      states: [disabled]\\n    - role: button\\n      ref: e12\\n      nth: 5\\n      states: [disabled]\\n    - role: button\\n      ref: e13\\n      nth: 6\\n    - role: button\\n      ref: e14\\n      nth: 7\\n    - role: link\\n      ref: e15\\n    - role: button\\n      name: Swi
+… (output truncated)
+````
+Status: **completed**
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+All 8 waypoint headings are present in the DOM. The screenshot still shows an empty dark canvas.
+
+The nodes are likely invisible due to zero opacity or off-screen placement. The inspector also shows nothing, meaning `selectActiveWaypoint` returns null and `activeWaypointId` is null. This prevents the opening sequence from completing. The root cause may be `nodesInitialized` failing to become true, a silent abort, or the phase not being set to overview.
+
+Definition loading is confirmed working. The plan is to bypass the opening sequence entirely by immediately setting the active waypoint to the entry point and rendering the first three waypoints as ghosts. The overview phase will no longer hide all nodes. A timeout fallback will force entry if the sequence hangs. Console errors will be checked via CDP.
+
+The site chrome may be squeezing the React Flow viewport to zero height. That would prevent node measurement and leave `nodesInitialized` stuck. The screenshot shows the shell has height, so the viewport itself might be collapsing.
+
+The entry waypoint will be marked as active or available during the overview phase. The next waypoint will render as a ghost. The tour choreographer will receive a timeout fallback to dispatch the completion events if the opening sequence stalls. Strict Mode issues in NuclearShadowTour will also be fixed to guarantee landing.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+Nodes are in the DOM but invisible: stuck in `overview` with `activeWaypointId: null`, so every waypoint is `hidden` (opacity 0). Opening choreography never finishes. Fixing visibility during overview and adding a hard entry into waypoint 01.
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="mcp--"><details>
+<summary>Tool use: **mcp--**</summary>
+Tool cursor-ide-browser-browser_console_messages was not found. Use GetMcpTools to discover available servers and their tools.
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/guided-tours/shared/graph/derive-node-status.ts</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/guided-tours/shared/graph/derive-edge-status.ts</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+Fixing `deriveWaypointStatus` to show the entry waypoint as active during overview or booting. The next waypoint will appear as a ghost. The first three waypoints may be marked as available to create an overview feel.
+
+`loadDefinition` will default to the entry waypoint when no progress exists so the inspector renders immediately. The choreographer will use a fallback timeout and check node readiness instead of relying solely on `nodesInitialized`. CSS for hidden waypoints needs fixing to ensure they remain measured. The opening sequence will focus on the entry waypoint before committing arrival.
+
+A 1.5-second fallback will force entry waypoint activation if the overview persists. During overview, the opening spine is revealed so the canvas does not render as a black void.
+
+The fallback timeout is now 2 seconds. The opening sequence will use a ready state with an 800 ms fallback when nodes are not yet initialized.
+
+`loadDefinition` will initialize `activeWaypointId` to the entry waypoint during overview. This lets the inspector render immediately without waiting for node initialization. Interactions stay locked until arrival completes. The `createInitial` path in `tour-store` also needs updating.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/guided-tours/shared/graph/derive-node-status.ts</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/guided-tours/shared/state/tour-store.ts</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/guided-tours/shared/choreography/use-tour-choreographer.ts</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/guided-tours/shared/graph/compile-tour-graph.ts</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/guided-tours/nuclear-shadow/NuclearShadowTour.tsx</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+Checking whether TOUR_RESET properly resets state in the reducer. TOUR_FAILED might be leaving an error state that blocks the UI.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "contextAfter": 15,
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/guided-tours/shared/state/tour-reducer.ts",
+  "pattern": "TOUR_FAILED|TOUR_RESET"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/guided-tours/shared/state/tour-reducer.ts",
+  "pattern": "TOUR_FAILED|TOUR_RESET",
+  "topFiles": [
+    {
+      "matchCount": 16,
+      "uri": "apps/app/src/features/guided-tours/shared/state/tour-reducer.ts"
+    }
+  ],
+  "totalFiles": 1,
+  "totalMatches": 2
+}
+```
+Status: **completed**
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/guided-tours/nuclear-shadow/nuclear-shadow-tour.css</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+Tour reset isn't setting the active waypoint ID. The catch block also incorrectly triggers a failed tour after a successful forced entry. The reset logic needs to seed the entry waypoint like the definition loader does.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/guided-tours/shared/choreography/use-tour-choreographer.ts</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/guided-tours/shared/state/tour-reducer.ts</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/guided-tours/nuclear-shadow/tests/graph-compiler.test.ts</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/guided-tours/nuclear-shadow/NuclearShadowTour.tsx</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+Removing an unused `useRef` import from `NuclearShadowTour`. Updating the `graph-compiler` test to verify the ghost appears next when entry is active. Adding a test for the overview phase that shows the spine.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/guided-tours/nuclear-shadow/NuclearShadowTour.tsx</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/guided-tours/nuclear-shadow/tests/graph-compiler.test.ts</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="mcp-cursor-ide-browser-browser_navigate"><details>
+<summary>Tool use: **mcp-cursor-ide-browser-browser_navigate**</summary>
+
+Parameters:
+
+```json
+{
+  "tools": [
+    {
+      "name": "browser_navigate",
+      "parameters": "{\"url\":\"http://localhost:3000/tours/nuclear-shadow\",\"take_screenshot_afterwards\":true}",
+      "serverName": "cursor-ide-browser"
+    }
+  ]
+}
+```
+Additional data:
+
+```json
+{
+  "status": "success"
+}
+```
+Result:
+
+````json
+{
+  "result": "{\"content\":[{\"type\":\"text\",\"text\":\"### Action: snapshot\\n- Total refs: 65\\n- Interactive refs: 41\\n- Browser View ID: canvas-5ee4f02b72ff\\n\\n### Page state\\n- Page URL: http://localhost:3000/tours/nuclear-shadow\\n- Page Title: The Nuclear Shadow — Architecture of Secrecy\\n- Page Snapshot:\\n```yaml\\n- role: document\\n  name: The Nuclear Shadow — Architecture of Secrecy\\n  ref: root\\n  children:\\n    - role: link\\n      name: Ultraterrestrial home\\n      ref: e0\\n    - role: button\\n      name: Open navigation menu\\n      ref: e1\\n    - role: link\\n      name: ← Research Canvas\\n      ref: e2\\n    - role: button\\n      name: Restart\\n      ref: e3\\n    - role: combobox\\n      name: Evidence threshold Broad archive Corroborated Official record Multimodal only\\n      ref: e4\\n      value: Official record\\n      options: \\\"Broad archive (value: broad-archive), Corroborated (value: corroborated), Official record (value: official-record), Multimodal only (value: multimodal-only)\\\"\\n    - role: button\\n      name: Recenter\\n      ref: e5\\n    - role: button\\n      name: Acknowledge core claim\\n      ref: e6\\n    - role: button\\n      name: support Manhattan Project secrecy and compartmentalization National Park Service - Manhattan Project National Historical Park\\n      ref: e7\\n    - role: button\\n      name: support The Manhattan Project institutional history U.S. Department of Energy - Office of History and Heritage Resources\\n      ref: e8\\n    - role: button\\n      name: challenge The secrecy system was powerful but not impermeable Atomic Heritage Foundation - Manhattan Project espionage history\\n      ref: e9\\n    - role: button\\n      name: Preserve as unresolved\\n      ref: e10\\n    - role: button\\n      name: Animate to next marker\\n      ref: e11\\n      states: [disabled]\\n    - role: button\\n      name: Open Next.js Dev Tools\\n      ref: e12\\n      states: [collapsed]\\n    - role
+… (output truncated)
+````
+Status: **completed**
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+The fix worked. Waypoints, inspector evidence, and gates are now rendering.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+**Fixed.** The tour was stuck in `overview` with every waypoint at `opacity: 0`, so the canvas looked empty even though the nodes existed.
+
+What changed:
+- Opening spine (WP 01–03) stays visible during boot
+- Entry waypoint seeds immediately so the inspector renders
+- Choreography has a fallback if camera init stalls
+- Fresh load clears bad `localStorage` (use `?resume=1` to continue)
+
+Hard-refresh `/tours/nuclear-shadow` — you should see **The Secret Machine**, Trinity, and the right-rail claim/evidence/challenge flow.
+
+---
+
+_**User**_
+
+how composable, modular, data driven and component prop driven is this feature?
+
+---
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+Evaluating the Nuclear Shadow guided tours feature against four design principles: composable, modular, data-driven, and component prop-driven.
+
+Reviewing the key architecture files to identify concrete strengths and gaps in the implementation.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+Assessing the guided-tours architecture against those four axes from the actual modules.
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/guided-tours/shared/types/tour-definition.ts</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/guided-tours/shared/components/TourFlowCanvas.tsx</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/guided-tours/nuclear-shadow/NuclearShadowTour.tsx</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "glob": "*.{ts,tsx}",
+  "outputMode": "count",
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/guided-tours",
+  "pattern": "nuclear-shadow|NuclearShadow|nuclearShadow"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "count",
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/guided-tours",
+  "pattern": "nuclear-shadow|NuclearShadow|nuclearShadow",
+  "topFiles": [
+    {
+      "matchCount": 1,
+      "uri": "apps/app/src/features/guided-tours/shared/choreography/use-tour-choreographer.ts"
+    },
+    {
+      "matchCount": 6,
+      "uri": "apps/app/src/features/guided-tours/nuclear-shadow/tests/definition.test.ts"
+    },
+    {
+      "matchCount": 1,
+      "uri": "apps/app/src/features/guided-tours/shared/graph/compile-tour-graph.ts"
+    },
+    {
+      "matchCount": 1,
+      "uri": "apps/app/src/features/guided-tours/shared/components/TourFlowCanvas.tsx"
+    },
+    {
+      "matchCount": 9,
+      "uri": "apps/app/src/features/guided-tours/nuclear-shadow/nuclear-shadow.definition.ts"
+    },
+    {
+      "matchCount": 10,
+      "uri": "apps/app/src/features/guided-tours/nuclear-shadow/tests/reducer.test.ts"
+    },
+    {
+      "matchCount": 4,
+      "uri": "apps/app/src/features/guided-tours/nuclear-shadow/index.ts"
+    },
+    {
+      "matchCount": 1,
+      "uri": "apps/app/src/features/guided-tours/shared/types/flow-model.ts"
+    },
+    {
+      "matchCount": 11,
+      "uri": "apps/app/src/features/guided-tours/nuclear-shadow/NuclearShadowTour.tsx"
+    },
+    {
+      "matchCount": 9,
+      "uri": "apps/app/src/features/guided-tours/nuclear-shadow/tests/graph-compiler.test.ts"
+    },
+    {
+      "matchCount": 18,
+      "uri": "apps/app/src/features/guided-tours/nuclear-shadow/nuclear-shadow.layout.ts"
+    },
+    {
+      "matchCount": 3,
+      "uri": "apps/app/src/features/guided-tours/index.ts"
+    }
+  ],
+  "totalFiles": 12,
+  "totalMatches": 74
+}
+```
+Status: **completed**
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/guided-tours/shared/schemas/tour-definition.schema.ts</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/guided-tours/index.ts</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+I'll score the feature across composability, modularity, data-driven design, and prop-driven architecture. I'll flag gaps that prevent true composability.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+**Verdict:** Strong on **data-driven** and **modular runtime**. Weaker on **composable mounts** and **prop-driven UI**. It’s a good tour *engine* with one hard-wired product shell.
+
+### Scores (1–5)
+
+| Axis | Score | Reality |
+|---|---|---|
+| Data-driven | **4.5** | Tour content is a validated `TourDefinition` (waypoints, claims, evidence, gates, transitions, camera). Zod schema + `compileTourGraph(definition, runtime)`. New Act II is mostly a new definition file. |
+| Modular | **4** | Clean split: `shared/{types,state,graph,choreography,components,nodes,edges,persistence}` vs `nuclear-shadow/{definition,sources,layout}`. Reducer/selectors are tour-agnostic. |
+| Composable | **2.5** | Runtime is reusable; the mount is not. `NuclearShadowTour` hardcodes definition, CSS, localStorage key policy, back-link, restart. Public export is only Nuclear Shadow. Node type id is `'nuclear-shadow-waypoint'`. |
+| Prop-driven | **2** | Outer surface takes almost no props. Inner pieces take `definition` and pull everything else from a **singleton Zustand store**. You can’t mount two tours, inject progress, or swap inspector/HUD via props. |
+
+### What’s actually data-driven (good)
+
+```text
+TourDefinition (YAML-shaped TS)
+  → validateTourDefinition
+  → useTourStore.loadDefinition
+  → compileTourGraph → XYFlow nodes/edges
+  → gates / evidence thresholds / edge kinds drive behavior
+```
+
+Narrative, evidence, epistemic lists, camera timings, and transition kinds are content — not JSX. That’s the right core.
+
+### Where it stops being composable
+
+1. **Singleton store** — `useTourStore` is global. Not instance-scoped; not injectable.
+2. **Shell = product** — CSS class names (`ut-*`), Microfilm chrome, Research Canvas link, resume query param live in the Nuclear Shadow wrapper, not a generic `<GuidedTour definition={} />`.
+3. **Type leakage** — `NuclearTourNode` / `'nuclear-shadow-waypoint'` name the brand into shared graph types.
+4. **No slot API** — can’t pass `renderInspector`, `nodeTypes`, `onComplete`, `persistence`, etc.
+5. **Disconnected from mindmap tours** — parallel system to `GuidedTourDef` / `useGuidedTour` (search-resolved Neon spine). Two tour models, not one composition layer.
+
+### What “more prop-driven” would look like
+
+```tsx
+<GuidedTour
+  definition={nuclearShadowDefinition}
+  persistence={localStorageAdapter}
+  nodeTypes={{ waypoint: WaypointNode }}
+  slots={{ hud: TourHUD, inspector: WaypointInspector }}
+  onComplete={...}
+  resume={false}
+/>
+```
+
+Today you’re closer to:
+
+```tsx
+<NuclearShadowTour /> // definition/CSS/store policy closed over
+```
+
+**Bottom line:** Content and state machine are modular and data-driven; the React surface is a single-product assembly. Easy to author another Act as data; harder to drop the runtime into research-canvas, Storybook, or a second concurrent tour without a thin generic shell refactor.
+
+---
+
+_**User**_
+
+100% needs to be a partg of the mindmap tours. Whats the delta there?
+
+---
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+Determining the delta between Nuclear Shadow guided tours and the existing mindmap tours system.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+Comparing both tour systems to map the integration delta.
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/mindmap/tours/guided-tour-store.ts</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/mindmap/tours/use-guided-tour.ts</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/mindmap/tours/famous-events-tour.ts</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/mindmap/tours/tour-overlay.tsx</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "glob": "*.{ts,tsx}",
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/mindmap",
+  "pattern": "startTour|tourStatus|FAMOUS_EVENTS|GuidedTour|TourOverlay|nuclear-shadow|/tours/"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/mindmap",
+  "pattern": "startTour|tourStatus|FAMOUS_EVENTS|GuidedTour|TourOverlay|nuclear-shadow|/tours/",
+  "topFiles": [
+    {
+      "matchCount": 6,
+      "uri": "apps/app/src/features/mindmap/actions/tour-actions.ts"
+    },
+    {
+      "matchCount": 1,
+      "uri": "apps/app/src/features/mindmap/components/research-suggestions-dock.tsx"
+    },
+    {
+      "matchCount": 15,
+      "uri": "apps/app/src/features/mindmap/graph.tsx"
+    },
+    {
+      "matchCount": 4,
+      "uri": "apps/app/src/features/mindmap/tours/tour-overlay.tsx"
+    },
+    {
+      "matchCount": 3,
+      "uri": "apps/app/src/features/mindmap/tours/famous-events-tour.ts"
+    },
+    {
+      "matchCount": 2,
+      "uri": "apps/app/src/features/mindmap/store/mindmap-ui-store.ts"
+    },
+    {
+      "matchCount": 3,
+      "uri": "apps/app/src/features/mindmap/components/menus/mindmap-side-menu/hover-panels/SavedViewsPanel.tsx"
+    },
+    {
+      "matchCount": 6,
+      "uri": "apps/app/src/features/mindmap/tours/use-guided-tour.ts"
+    }
+  ],
+  "totalFiles": 8,
+  "totalMatches": 73
+}
+```
+Status: **completed**
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/mindmap/store/mindmap-ui-store.ts</summary>
+
+</details></tool-use>
+
+_**Agent (grok-4.5)**_
+
+<think><details><summary>Thought Process</summary>
+The two systems are now clear. A sharp delta analysis will show how to integrate Nuclear Shadow into mindmap tours.
+</details></think>
+
+_**Agent (grok-4.5)**_
+
+**Delta:** mindmap tours are a thin **Neon-resolved chronological spine** inside the research canvas. Nuclear Shadow is a **self-contained evidence-graph runtime** on its own route. Same word (“tour”), different products.
+
+### Side-by-side
+
+| | Mindmap tours | Nuclear Shadow |
+|---|---|---|
+| **Home** | `features/mindmap/tours/` + `graph.tsx` | `features/guided-tours/` + `/tours/nuclear-shadow` |
+| **Def shape** | `GuidedTourDef`: `searchQuery` + `narrative` | `TourDefinition`: claims, evidence, gates, epistemic, typed edges, camera |
+| **Graph** | Live mindmap (`addRecordNode`, entity nodes) | Private XYFlow (`WaypointNode` / `NarrativeEdge`) |
+| **Data** | Resolve waypoints via Neon FTS at start | Static definition + source URLs (no Neon bind) |
+| **UI** | Top `TourOverlay` card (Back/Continue) | HUD + inspector + evidence drawer + completion gates |
+| **Progress** | `stepIndex` only | claim → evidence → challenge → residue + localStorage |
+| **Edges** | Always “chronological tour path” | chronological / evidentiary / hypothesis / institutional-inheritance / contradiction |
+| **Canvas coupling** | Shares mindmap store, suggestions dock seed, session events | Isolated Zustand; leaves research-canvas entirely |
+| **Launch today** | `startGuidedTour(FAMOUS_EVENTS_TOUR)` | `router.push('/tours/nuclear-shadow')` |
+
+### What mindmap has that Nuclear Shadow must keep
+
+1. Run **on the research canvas** (same React Flow / mindmap providers) — not a fork route.
+2. **Live record binding** via `resolveTourWaypoints` / `addRecordNode` where anchors exist.
+3. Wire into `useMindMapUiStore.startTour/endTour`, session events, `useActiveTourSeed` → suggestions dock.
+4. Registry in `GUIDED_TOURS` + same launch chips as Modern UFO Era.
+
+### What Nuclear Shadow has that mindmap lacks
+
+1. Epistemic unit (claim / basis / challenge / residue) with completion gates.
+2. Typed narrative edges + progressive reveal (ghost / available / hidden).
+3. Rich waypoint payload (evidence cards, thresholds, not-established, open questions).
+4. Choreographed arrive/depart (mindmap only `setCenter` on a fixed spine).
+5. Validated definition schema (Zod) vs ad-hoc `GuidedTourDef`.
+
+### Integration delta (work to merge)
+
+```text
+1. SCHEMA
+   Extend GuidedTourDef → discriminated modes:
+     mode: 'spine' | 'evidence-graph'
+   Or: GuidedTourDef wraps TourDefinition + optional resolve bindings.
+
+2. STORE
+   Collapse useTourStore into useGuidedTourStore (or adapter):
+   phases, gates, evidence drawer, activeWaypointId — not just stepIndex.
+
+3. RENDER
+   On evidence-graph tours:
+     - place/bind nodes on mindmap canvas (not second ReactFlow)
+     - OR mount TourFlowCanvas as a mindmap view mode
+   Replace TourOverlay with WaypointInspector pattern (baked into record/edges per Variant F).
+
+4. RESOLVE
+   Map Nuclear Shadow anchors → Neon searchQueries / recordIds
+   (Manhattan, Trinity, Roswell exist; RD/SAP waypoints may stay narrative-only).
+
+5. LAUNCH
+   Delete router.push('/tours/nuclear-shadow') as primary path.
+   startTour(NUCLEAR_SHADOW_TOUR) from graph chips / typer.
+   Keep dedicated route only as deep-link alias if needed.
+
+6. CHROME
+   Microfilm inspector/HUD as mindmap overlays, not page-owned CSS shell.
+```
+
+### Smallest honest merge vs full merge
+
+- **Thin merge (1–2 days):** Register Nuclear Shadow as a mindmap tour that still navigates to `/tours/nuclear-shadow`. Shared launch only — not “part of” the mindmap tour engine.
+- **Real merge (the 100% ask):** One store, one launch path, nodes on the research canvas, gates + typed edges + Neon binding where possible. That’s a schema + store + overlay rewrite, not a chip change.
+
+**Bottom line:** Mindmap tours = *resolve → place entities → flip cards*. Nuclear Shadow = *validated evidence graph with gates*. The delta is almost the entire Nuclear Shadow runtime (definition, gates, inspector, edge semantics, choreography) lifted onto the mindmap canvas and store — while dropping the standalone page as the primary surface.
