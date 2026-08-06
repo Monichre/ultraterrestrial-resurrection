@@ -62,11 +62,30 @@ export type GateRule =
  */
 export type CorpusAnchor =
   /** Resolve against Neon FTS at tour start (the spine engine's existing path). */
-  | { kind: 'query'; table: string; searchQuery: string }
+  | { kind: 'query'; table: CorpusTable; searchQuery: string }
   /** A record already known by id — no resolution round-trip needed. */
-  | { kind: 'record'; table: string; recordId: string }
+  | { kind: 'record'; table: CorpusTable; recordId: string }
   /** No corpus record exists. `reason` is shown to the reader, not swallowed. */
   | { kind: 'none'; reason: string };
+
+/**
+ * The tables `searchTable` will actually search — mirrors `FTS_TABLES` in
+ * `packages/db/src/postgres/search.ts`. A bare `string` here lets a typo'd
+ * table name validate and then resolve to nothing at runtime, which is the same
+ * indistinguishable-failure problem `CorpusAnchor` exists to prevent.
+ */
+export const CORPUS_TABLES = [
+  'topics',
+  'key_figures',
+  'events',
+  'organizations',
+  'sightings',
+  'testimonies',
+  'documents',
+  'artifacts',
+] as const;
+
+export type CorpusTable = (typeof CORPUS_TABLES)[number];
 
 /** True when this waypoint can be bound to a real record. */
 export function hasCorpusAnchor(anchor: CorpusAnchor): boolean {
@@ -76,6 +95,27 @@ export function hasCorpusAnchor(anchor: CorpusAnchor): boolean {
 /** True when the archive holds nothing for this waypoint and the UI must say so. */
 export function isNarrativeOnly(anchor: CorpusAnchor): boolean {
   return anchor.kind === 'none';
+}
+
+/**
+ * What resolution actually produced. The definition-time guarantee in
+ * {@link CorpusAnchor} is only half the job: once a `query` anchor has been run,
+ * a bare `recordId: string | null` collapses "the archive holds nothing for this
+ * waypoint" back into "the lookup came up empty", which is exactly the
+ * distinction the anchor was introduced to keep. Resolution therefore reports
+ * which of the three happened, and `unresolved` carries the query it tried so
+ * the UI can say what was searched for rather than showing a silent blank.
+ */
+export type ResolvedAnchor =
+  | { state: 'resolved'; table: CorpusTable; recordId: string; record: Record<string, unknown> }
+  | { state: 'unresolved'; table: CorpusTable; searchQuery: string }
+  | { state: 'narrative-only'; reason: string };
+
+/** True when a real record was found and may be rendered as evidence. */
+export function isResolved(
+  resolved: ResolvedAnchor,
+): resolved is Extract<ResolvedAnchor, { state: 'resolved' }> {
+  return resolved.state === 'resolved';
 }
 
 /**

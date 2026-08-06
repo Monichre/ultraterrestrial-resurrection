@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { CORPUS_TABLES } from '../types/tour-definition';
+
 const evidenceThreshold = z.enum([
   'broad-archive',
   'corroborated',
@@ -57,15 +59,17 @@ const evidenceReference = z.object({
  * carries a required non-empty `reason` so a narrative-only stop can never be
  * mistaken for one whose record simply has not resolved yet.
  */
+const corpusTable = z.enum(CORPUS_TABLES);
+
 const corpusAnchor = z.discriminatedUnion('kind', [
   z.object({
     kind: z.literal('query'),
-    table: z.string().min(1),
+    table: corpusTable,
     searchQuery: z.string().min(1),
   }),
   z.object({
     kind: z.literal('record'),
-    table: z.string().min(1),
+    table: corpusTable,
     recordId: z.string().min(1),
   }),
   z.object({
