@@ -1,3 +1,12 @@
+> **UNVERIFIED-EXTERNAL — do not treat the numbers below as ground truth.**
+> Roughly 30 quantitative claims in this file (database sizes, percentage increases, per-100k rates,
+> multipliers, case-study figures) were never checked against any source. Do not cite them, promote
+> them into agent prompts or product copy, or render them as Temporal Observatory captions without
+> independent verification. The keep/cut ruling for this file, and a summary of the unverified claims,
+> are in `docs/PLANS/2026-08-05-methodology-templates-deep-review.md` under "Findings (extracted
+> 2026-08-06 from the review workspace)"; the claims themselves are the numbered assertions below. The
+> spatial-statistics method menu here is reusable; the findings are not.
+
 # Global UFO Sighting Patterns: Temporal and Geographical Analysis Framework
 
 ## Key Research Sources

@@ -92,6 +92,10 @@ Python work uses Python 3 and a `.venv` (`apps/disclosure-rag/` has its own).
 - ~~FAISS, Upstash Vector, CocoIndex~~ — Python-only or completely unimplemented
 - ~~Multi-agent tour orchestrator~~ — 6 agent classes specced (July 2025), zero code written, scrapped
 - ~~85% AI connectivity~~ — Two live AI paths (mindmap agent + Prometheus chat); the rest are broken or dead
+- ~~Neo4j / Amazon Neptune knowledge graph as product persistence~~ — Postgres entity tables + five junction tables via `loadEntityGraph`; no graph database anywhere (methodology templates review, `docs/PLANS/2026-08-05-methodology-templates-deep-review.md`)
+- ~~Kafka / Flink / Spark streaming topic-tracking pipeline~~ — No streaming runtime on either live AI path; realtime-monitor personas are conceptual grammar, not services (same review)
+- ~~OWL / RDFS ontologies + Apache Jena SPARQL~~ — Zod/TS types + Postgres schema under `@db/postgres`, queried with typed helpers and `getSql()`; no triplestore, no SPARQL endpoint (same review)
+- ~~Docker Compose / Kubernetes "ufo-research-system", with `packages/ai/agents/*.md` as deployable microservices~~ — Those 18 files are markdown persona grammar, not routes or processes; there is no orchestrated research platform to deploy (same review)
 
 **Foundation utilities (these do exist and work):**
 
