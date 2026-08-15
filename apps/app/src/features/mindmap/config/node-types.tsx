@@ -17,9 +17,15 @@ import {AIAnnotationNode} from '@/features/mindmap/nodes/ai-annotation-node'
 import {EnhancedEntityNodePOC} from '@/features/mindmap/nodes/enhanced-node-poc'
 import {EnhancedEntityNode} from '@/features/mindmap/nodes/enhanced-entity-node'
 
+// Drop-to-Canvas (T-060) — the user's own dropped file, not a corpus record
+import {DroppedArtifactNode} from '@/features/mindmap/nodes/dropped-artifact-node'
+
 export const nodeTypes: any = {
   // Utilities Nodes
   annotationNode: AnnotationNode,
+  // Dropped artifact (T-060). Key is `ut`-namespaced so it cannot collide
+  // with the existing entity/group/document keys below.
+  utDroppedArtifactNode: DroppedArtifactNode,
   // Enhanced Entity Nodes (POC)
   enhancedEntityNodePOC: EnhancedEntityNodePOC,
   // Enhanced Entity Nodes (Production)

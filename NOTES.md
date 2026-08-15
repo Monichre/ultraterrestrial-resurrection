@@ -2,107 +2,6 @@
 
 Personal notes and to-do items for the Ultraterrestrial project.
 
-⸻
-
-Curated List of Tools & Links
-
-AI Tools & Platforms
- • AgentOps Dashboard
- • Llama Coder – AI Coding Assistant
- • Genspark
- • Ada | The World's First AI
- • Bika.ai – AI Organizer
- • Indy AI by Contra
- • Genie 3 by DeepMind
- • Veltos AI
- • Sailhouse
- • Kreatli – All-in-One AI Tool
- • Prompthance
- • Origin UI
- • Koncile – AI OCR
- • Mnemosphere
- • AgentSea – Private AI
- • Compuser.ai
- • Reweb
-
-Developer / Design Utilities
- • Nutlope / csvtochat (GitHub)
- • Upstash Repositories (GitHub)
- • Automazeio / ccpm (GitHub)
- • Machadop1407 / nextjs-starter (GitHub)
- • Machadop1407 / fullstack-template (GitHub)
- • Developer Portfolio Generator
- • Profile Card Blocks
-
-Work & Productivity
- • Morningmate – Work OS
- • Save (Google Search Shortcut)
- • Download Incerto
- • VisionStory – AI Video
- • Graphy – Create Presentations
- • Clado – Ground Truth Data
- • Ninja AI
- • SuperPrompt
- • WebDev Squad
-
-Content / Writing / Docs
- • Self.so – Resume Tools
- • FileAI – AI Data Prep
- • DeskribAI – AI Document Generator
- • Ghost – AI Agent Framework
- • Ghost.org – Publishing Platform
- • Koncile – AI OCR
- • SciSpace – AI Research Assistant
-
-Visualization & UI
- • Anime.js Scrollbar
- • BlinkShot – Real-Time Capture
- • Situational Awareness – Introduction
- • Offlight – AI Scheduling
- • Offlight App
-
-Registries & References
- • Platform Vectorize
- • AI Tools Registry
- • Open SDK Strategy (Vercel Blog)
-
-Here is a list of all books currently open in your uap.gg tabs:
-
-- **In Plain Sight** - Ross Coulthart
-- **Identified Flying Objects: A Multidisciplinary Scientific Approach to the UFO Phenomenon** - Michael P. Masters
-- **The Day After Roswell** - Philip Corso, William J. Birnes
-- **Psychic Exploration: Psychic Research and Modern Physics** - Harold Puthoff, Russell Targ
-- **UFOs and the National Security State: The Cover-Up Exposed, 1973-1991** - Richard M. Dolan
-- **Need to Know: UFOs, the Military, and Intelligence** - Timothy Good
-- **A.D., After Disclosure** - Richard Dolan, Bryce Zabel
-- **Encounters: Experiences with Nonhuman Intelligences** - Diana Walsh Pasulka
-- **Operation Trojan Horse: The Classic Breakthrough Study of UFOs** - John A. Keel
-- **The Hunt for Zero Point** - Nick Cook
-- **Dimensions: A Casebook of Alien Contact** - Jacques Vallee
-- **Abduction: Human Encounters with Aliens** - John Mack
-- **The Invisible College** - Jacques Vallee
-
-[1](https://uap.gg/sources/publications/LHjfIuY71n/in-plain-sight-ross-coulthart)
-[2](https://uap.gg/sources/publications/LHjfIuY71n/in-plain-sight-ross-coulthart)
-[3](https://uap.gg/sources/publications/QyPgXY2Rix/identified-flying-objects-a-multidisciplinary-scientific-approach-to-the-ufo-phenomenon-michael-p-masters)
-[4](https://uap.gg/sources/publications/67zemTAOIJ/the-day-after-roswell-philip-corso-william-j-birnes)
-[5](https://uap.gg/sources/publications/hJcQBRC7NJ/psychic-exploration-psychic-research-and-modern-physics-harold-puthoff-russell-targ)
-[6](https://uap.gg/sources/publications/bQwU4H1kkG/ufos-and-the-national-security-state-the-cover-up-exposed-1973-1991-richard-m-dolan)
-[7](https://uap.gg/sources/publications/1mALHWWOBA/need-to-know-ufos-the-military-and-intelligence-timothy-good)
-[8](https://uap.gg/sources/publications/6xZyJbBxhk/a-d-after-disclosure-richard-dolan-bryce-zabel)
-[9](https://uap.gg/sources/publications/NrDUfIa4BQ/encounters-experiences-with-nonhuman-intelligences-diana-walsh-pasulka)
-[10](https://uap.gg/sources/publications/izXbudc8Je/operation-trojan-horse-the-classic-breakthrough-study-of-ufos-john-a-keel)
-[11](https://uap.gg/sources/publications/hkUvqst6xX/the-hunt-for-zero-point-nick-cook)
-[12](https://uap.gg/sources/publications/KMPuqDX6L0/dimensions-a-casebook-of-alien-contact-jacques-vallee)
-[13](https://uap.gg/sources/publications/UQutFPTE60/abduction-human-encounters-with-aliens-john-mack)
-[14](https://uap.gg/sources/publications/VEPlIVUFpj/the-invisible-college-jacques-vallee)
-
-<https://platform.vectorize.io/organization/7cffc8fe-09d5-4213-bfae-83dd576695fb>
-
-<https://app.contextual.ai/digital-mischief-group/agents/create?section=prompts>
-
----
-
 ## Note [2025-09-19 17:46:42]
 
 Introducing Ultraterrestrial, an AI integrated collaborative research canvas, and document archive. An entirely novel ontology corpus for tracking the past, present and future of the Disclosure Topic
@@ -328,7 +227,7 @@ Let me know your priorities or if you want to go deeper on any feature!
 Among the names listed, the strongest contributors to the *process, methodology, and pedagogy* of UFO research are:
 
 | Researcher | Main Contribution | Why It Was Fundamental |
-|---|---|---|
+| --- | --- | --- |
 | **J. Allen Hynek** | Classification systems, witness evaluation, scientific framing | Helped turn UFO reports into something that could be categorized, compared, and taught systematically |
 | **Jacques Vallée** | Pattern analysis, database-driven research, sociocultural interpretation | Expanded UFO research beyond “is it extraterrestrial?” into broader analytical and interdisciplinary methods |
 | **Peter A. Sturrock** | Scientific review standards and peer-style evaluation | Tried to bring UFO research closer to mainstream scientific procedure |
@@ -460,7 +359,7 @@ Dolan’s work is useful pedagogically because it gives students of the subject 
 The following researchers are important, but their contributions are less foundational to general UFO methodology:
 
 | Researcher | Main Area | Methodological Status |
-|---|---|---|
+| --- | --- | --- |
 | **John E. Mack** | Abduction psychology | Important but focused on experiencer testimony and consciousness studies |
 | **Budd Hopkins** | Abduction narratives | Influential, but controversial due to hypnosis-heavy methods |
 | **David M. Jacobs** | Abduction research | Influential but highly controversial methodologically |
@@ -468,3 +367,46 @@ The following researchers are important, but their contributions are less founda
 | **Donald Keyhoe** | Early disclosure advocacy | Historically important, but more journalistic and activist than methodological |
 | **Nick Pope** | Government files and public explanation | Important communicator, but not a major methodological innovator |
 | **George Knapp** | Investigative journalism | Influential reporter, especially on Area 51 and UAP topics, but not primarily a methodology theorist |
+
+## FONTS
+
+| Font              | Official source                                       | Used by                                          |
+| ----------------- | ----------------------------------------------------- | ------------------------------------------------ |
+| Anton             | Google Fonts specimen · Google Fonts repository       | FONT_ANTON                                       |
+| Just Another Hand | Google Fonts specimen · repository                    | FONT_JUST_ANOTHER_HAND                           |
+| Special Elite     | Google Fonts specimen · repository                    | FONT_SPECIAL_ELITE                               |
+| Caveat            | Google Fonts specimen · repository                    | FONT_CAVEAT                                      |
+| JetBrains Mono    | Google Fonts specimen · upstream JetBrains repository | FONT_MONUMENT_GROTESK_MONO, FONT_JET_BRAINS_MONO |
+| Martian Mono      | Google Fonts specimen · repository                    | FONT_MARTIAN_MONO                                |
+| Noto Sans         | Google Fonts specimen · Noto project                  | FONT_NOTO_SANS                                   |
+| League Spartan    | Google Fonts specimen · upstream repository           | FONT_LEAGUE_SPARTAN                              |
+| Space Grotesk     | Google Fonts specimen · upstream repository           | FONT_LUKAS_SANS, FONT_SPACE_GROTESK              |
+| Inter             | Google Fonts specimen · upstream repository           | FONT_NEUE_HAAS_GROTESK                           |
+| Plus Jakarta Sans | Google Fonts specimen · upstream repository           | FONT_MONUMENT_GROTESK                            |
+
+Anton’s Google Fonts repository includes the actual `Anton-Regular.ttf` file, and JetBrains Mono’s official upstream project is the source referenced by Google Fonts.  Plus Jakarta Sans is also explicitly published to Google Fonts as an open-source project. [github](https://github.com/google/fonts/blob/main/ofl/anton/Anton-Regular.ttf)
+
+## PP Neue Montreal source
+
+`PPNeueMontreal-Regular.ttf` and `PPNeueMontreal-Medium.ttf` should come from Pangram Pangram’s official PP Neue Montreal licensing/download channel:
+
+- [PP Neue Montreal — Pangram Pangram](https://neuemontreal.com/)
+
+PP Neue Montreal is a commercial Pangram Pangram typeface, rather than a Google Font; avoid relying on “free download” mirrors for a production project unless your existing license explicitly permits that use. [neuemontreal](https://neuemontreal.com/)
+
+## Source mapping notes
+
+- `FONT_LUKAS_SANS` is actually **Space Grotesk**, retaining the old `--font-lukas-sans` variable only for CSS compatibility.
+- `FONT_NEUE_HAAS_GROTESK` is actually **Inter**.
+- `FONT_MONUMENT_GROTESK_MONO` is actually **JetBrains Mono**.
+- `FONT_MONUMENT_GROTESK` is actually **Plus Jakarta Sans**.
+- `FONT_JET_BRAINS_MONO` duplicates the JetBrains Mono source used for `FONT_MONUMENT_GROTESK_MONO`.
+
+## IMAGE GEN
+
+My proposed visual stack:
+Need Best approach
+Production SVG icons and diagram assets Recraft V4.1 Pro Vector
+Fast visual exploration Recraft V4.1 Vector
+Atmospheric research-canvas imagery A strong raster model, then curate hard
+Final evidence diagrams AI-assisted draft, then human layout/editing

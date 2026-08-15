@@ -3,7 +3,6 @@
 import {useEffect, useRef, useState} from 'react'
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
-import {SpacetimeCanvasShell} from './spacetime-canvas-shell'
 import {useSpacetimeStore} from '../state/spacetime-store'
 
 /**
@@ -203,11 +202,38 @@ export function Preserve3dGlobeSpike() {
   useFrameTiming()
   useScrollProgressBridge()
 
+  /*
+   * The two-layer markup is inlined here rather than imported from
+   * `SpacetimeCanvasShell`. The shell is now the docked observatory layout the
+   * storyboards specify, in which the map is an interactive foreground — but
+   * this harness exists precisely to measure the *other* arrangement: WebGL
+   * repainting behind a full-viewport preserve-3d scroll sibling. Reusing the
+   * product shell would mean the spike no longer measures what it claims to.
+   */
   return (
-    <SpacetimeCanvasShell
-      background={<SpikeBackgroundMap />}
-      narrative={<SpikeNarrative />}
-      chrome={<SpikeChrome />}
-    />
+    <div className='relative h-dvh w-full overflow-hidden bg-neutral-950'>
+      <div
+        data-spacetime-layer='background'
+        className='pointer-events-none fixed inset-0 z-0 overflow-hidden bg-neutral-950'
+      >
+        <SpikeBackgroundMap />
+      </div>
+
+      <div
+        data-spacetime-layer='narrative'
+        className='absolute inset-0 z-10 overflow-y-auto overscroll-contain'
+        style={{perspective: '900px'}}
+      >
+        <div className='relative min-h-[400vh] w-full' style={{transformStyle: 'preserve-3d'}}>
+          <SpikeNarrative />
+        </div>
+      </div>
+
+      <div className='pointer-events-none absolute inset-0 z-20'>
+        <div className='pointer-events-auto'>
+          <SpikeChrome />
+        </div>
+      </div>
+    </div>
   )
 }

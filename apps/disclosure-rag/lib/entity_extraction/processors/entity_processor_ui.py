@@ -792,7 +792,9 @@ class EntityProcessorApp(App):
                 "video_id": self.video_id,
                 "summary_file": self.summary_file,
                 "entities": self.extracted_entities,
-                "xata_search_results": self.search_results,
+                # See interactive_entity_processor: Xata is retired, so new
+                # files no longer carry its name. Readers accept both.
+                "entity_search_results": self.search_results,
                 "entity_creation_results": self.creation_results,
                 "research_queue_stats": self.research_queue.get_queue_stats() if self.research_queue else {},
                 "total_entities": sum(len(entities) for entities in self.extracted_entities.values()),

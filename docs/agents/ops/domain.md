@@ -2,7 +2,7 @@
 status: live
 role: ops
 spine: start
-updated: 2026-07-19
+updated: 2026-08-06
 ---
 
 # Domain Docs
@@ -35,15 +35,14 @@ Multi-context repo (this repo):
     │   ├── CONTEXT.md
     │   └── docs/adr/                  ← db-specific decisions
     ├── knowledge-base/
-    │   ├── CONTEXT.md
+    │   ├── CONTEXT.md                 ← optional / create lazily
     │   └── docs/adr/
-    ├── prompts/
-    │   ├── CONTEXT.md
-    │   └── docs/adr/
-    └── services/
-        ├── CONTEXT.md
-        └── docs/adr/
+    └── ai/
+        └── prompts/
+            └── CONTEXT.md             ← AI / Prompts (canonical; @repo/prompts)
 ```
+
+`packages/prompts/CONTEXT.md` is a redirect stub only. Vendor research clients live at `packages/ai/services/` (`@repo/ai/services`) — not a separate domain context (see `docs/plans/AiServicesMerge.md`).
 
 `CONTEXT-MAP.md` lists each context and the path to its `CONTEXT.md`, so a skill can find the right glossary without scanning the whole tree.
 

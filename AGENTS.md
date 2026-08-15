@@ -302,10 +302,11 @@ This app has a closed development loop.
 - Prefer aggressive pruning of bulk/archive docs that do not matter; navigate docs via the six-question spine (what exists / where / how it works / what we want / how to do it / where to start).
 - Treat large agent persona packs as overkill — cannibalize distinctive methodology into a smaller cohesive research suite wired to `packages/ai/prompts`.
 - Research-canvas intelligence belongs in records, waypoints, or visual connections — not separate cards, sidebars, or drawers.
-- Guided tours should be traversable evidence graphs with a waypoint contract (claim → basis → counterpoint → unresolved → next), not scrolling articles with decorative timeline dots.
+- Guided tours should be traversable evidence graphs with a waypoint contract (claim → basis → counterpoint → unresolved → next), rendered as research-canvas/mindmap state — not scrolling articles, decorative timeline dots, or separate app-level routes.
 - Prefer archival/dossier plus clinical HUD / low-opacity ghosts; inline/on-canvas progressive disclosure over modal/card-heavy chrome; unused tour chrome should hide.
 - Follow authored animation/spec documents exactly (e.g. `ANIMATION_SEQUENCE.md`); do not arbitrarily remove cinematic beats.
 - When migrating design/reference sources into the app, migrate only the components unless explicitly asked to move scaffolding or docs.
+- New UI components should be composable, modular, and prop-driven, and should ship with Storybook stories.
 
 ## Learned Workspace Facts
 
@@ -315,3 +316,7 @@ This app has a closed development loop.
 - Research agent role definitions live under `packages/ai/agents/`; prompt library and orchestration material live under `packages/ai/prompts/`.
 - Sci-fi canvas components (`HolographicFileStack`, `RotatingGlobe`) and Command Palette (`CommandK`) live under `apps/app/src/components/`.
 - Data architecture centers on Neon Postgres + pgvector with graph relationships as first-class schema citizens (hybrid retrieval: vector + FTS + graph traversal).
+- Spacetime Canvas lives at `/spacetime` (`apps/app/src/features/spacetime/`) as the geographic/temporal corollary to Research Canvas.
+- `apps/disclosure-lab` (port 3010) is the Neon admin/DX console: human confirms every write, no deletes in v1, agent is read-only assistance — not Research Canvas.
+- Internal packages: `@repo/disclosure-ui` (tokens/components kit) and `@repo/openai-vector-store-mcp` (OpenAI Vector Store search/fetch MCP). `packages/services` was merged into `packages/ai`.
+- Prefer `apps/disclosure-rag/disclosure-rag-processor/` over the global `~/.claude` skill copy for playlist + `dy` routing.

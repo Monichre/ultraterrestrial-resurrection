@@ -143,6 +143,9 @@ export const FluidShaderOrbs: React.FC<FluidShaderOrbsProps> = ({
   const mouseVelocityRef = useRef<THREE.Vector2>(new THREE.Vector2(0, 0))
   const lastMousePositionRef = useRef<THREE.Vector2>(new THREE.Vector2(0.5, 0.5))
   const fadeOpacityRef = useRef<number>(1.0)
+  // Until the user moves the pointer, the orbs fly themselves (UFO drift) so the
+  // autorun intro actually shows them instead of a blob that fades to nothing.
+  const hasUserInteractedRef = useRef<boolean>(false)
 
   const FADE_DELAY = 1000
   const FADE_DURATION = 1500
@@ -171,8 +174,9 @@ export const FluidShaderOrbs: React.FC<FluidShaderOrbsProps> = ({
     mousePositionRef.current.y = newMouseY
     lastMousePositionRef.current.copy(mousePositionRef.current)
 
-    // Mark as moving
+    // Mark as moving; real pointer input takes over from the autonomous drift
     isMouseMovingRef.current = true
+    hasUserInteractedRef.current = true
     lastMouseMoveTimeRef.current = Date.now()
 
     // Fade in if needed
@@ -268,11 +272,24 @@ export const FluidShaderOrbs: React.FC<FluidShaderOrbsProps> = ({
   const animate = useCallback(() => {
     if (!isVisible) return
 
+    const elapsedTime = (Date.now() - startTimeRef.current) / 1000
+
+    // Autonomous UFO drift on autorun — a slow Lissajous glide (with the comet
+    // trail from updateTrailPositions) until the user grabs it with the pointer.
+    if (!hasUserInteractedRef.current && fluidMaterialRef.current) {
+      const ax = 0.5 + 0.3 * Math.sin(elapsedTime * 0.8)
+      const ay = 0.5 + 0.22 * Math.sin(elapsedTime * 1.27 + 1.1)
+      mousePositionRef.current.set(ax, ay)
+      fadeOpacityRef.current = 1.0
+      fluidMaterialRef.current.uniforms.iMouse.value.copy(mousePositionRef.current)
+      fluidMaterialRef.current.uniforms.iOpacity.value = 1.0
+    }
+
     updateTrailPositions()
-    updateFadeEffect()
+    // Only the user-driven blob fades on idle; the autonomous drift stays lit.
+    if (hasUserInteractedRef.current) updateFadeEffect()
 
     // Update time
-    const elapsedTime = (Date.now() - startTimeRef.current) / 1000
     if (fluidMaterialRef.current) {
       fluidMaterialRef.current.uniforms.iTime.value = elapsedTime
     }

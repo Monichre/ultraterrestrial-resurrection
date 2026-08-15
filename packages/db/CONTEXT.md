@@ -100,3 +100,23 @@ _Avoid_: adding `agent_inferences` to any table whitelist; naming a future sourc
 **`EvidentiaryState` (local encoding)**:
 The eight states, **lowercase** in this package (`'observed' | 'corroborated' | … | 'disconfirmed'`, `agent-inferences.ts`). The canvas uses TitleCase on the wire and UPPERCASE when rendered. The mindmap route is the conversion site: it parses the `[State]` bracket off an edge reasoning string, lowercases it, validates against its own allowed set, and falls back to `'unverified'` on no match.
 _Avoid_: writing TitleCase into `evidentiary_state`; defaulting the column to anything but `'unverified'` when the caller omits it
+
+---
+
+## Disclosure Lab (admin surface)
+
+**Disclosure Lab**:
+The operator admin console over this Neon store (planned app `apps/disclosure-lab`). Not an Investigation surface and not the Research Canvas. Used to inspect, analyze, and — as a human operator — INSERT/UPDATE allowlisted entity tables.
+_Avoid_: "workspace", "Investigation", treating Lab as a second Canvas; implying the Lab assistant writes entity rows in v1
+
+**Operator edit**:
+A human-confirmed INSERT or UPDATE to an allowlisted entity table performed in Disclosure Lab. Distinct from an Inference (agent analytical output) and from Canvas synthesis writes.
+_Avoid_: calling operator edits "agent writes"; routing Lab entity mutations through `insertAgentInference`
+
+**Lab assistant**:
+The read/analyze agent pane in Disclosure Lab (schema, search, aggregates, read-only SQL). Does not mutate entity tables in v1.
+_Avoid_: "workspace agent"; giving the assistant write tools without a later HITL decision
+
+**Writable entity allowlist (Lab v1)**:
+`events`, `key_figures`, `topics`, `organizations`, `sightings`, `testimonies`, `documents`, `artifacts`, `locations`. DELETE is out of scope for v1. `document_chunks` and `agent_inferences` write channels are deferred.
+_Avoid_: treating chunks or inferences as ordinary Lab upsert targets until ontology is settled

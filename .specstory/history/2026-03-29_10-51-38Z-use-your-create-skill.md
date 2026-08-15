@@ -1657,7 +1657,7 @@ _**Agent (claude-opus-4-6 2026-03-29 11:32:38Z)**_
 <tool-use data-tool-type="write" data-tool-name="Write"><details>
 <summary>Tool use: **Write**</summary>
 
-```md
+````md
 ---
 name: disclosure-rag-processor
 description: Process UFO/UAP research content (URLs, YouTube videos, local files) through the Disclosure RAG pipeline. Use when: (1) ingesting web articles, YouTube videos, or local documents into the knowledge base, (2) running the disclosure-rag CLI (main.py, main.sh, run.sh, cli.py), (3) bulk folder ingestion, (4) checking integration status (Upstash, CocoIndex, Mem0), (5) searching the knowledge base, (6) entity extraction from processed content, (7) syncing to Upstash Search, (8) any work in apps/disclosure-rag/ involving the processing pipeline.
@@ -1671,11 +1671,11 @@ All commands run from: `apps/disclosure-rag/`
 
 ## Environment Setup
 
-\```bash
+```bash
 cd apps/disclosure-rag
 source .venv/bin/activate   # Python venv required
 source .env                 # Load API keys
-\```
+```
 
 Required env vars: `OPENAI_API_KEY`, `UFO_DATA_STORE_ID`. Optional: `UPSTASH_SEARCH_URL`, `UPSTASH_SEARCH_TOKEN`, `MEM0_API_KEY`, `MEM0_USER_ID`.
 
@@ -1683,9 +1683,9 @@ Required env vars: `OPENAI_API_KEY`, `UFO_DATA_STORE_ID`. Optional: `UPSTASH_SEA
 
 ### main.py (Primary processor)
 
-\```bash
+```bash
 python main.py <URL_OR_FILE> [--upload] [--no-kb] [--status]
-\```
+```
 
 - Auto-detects YouTube URLs vs web URLs vs local files
 - `--upload`: Upload to OpenAI vector store
@@ -1694,7 +1694,7 @@ python main.py <URL_OR_FILE> [--upload] [--no-kb] [--status]
 
 ### main.sh (Shell wrapper with subcommands)
 
-\```bash
+```bash
 ./main.sh process-url <URL> [--upload]
 ./main.sh process-file <FILE> [--upload]
 ./main.sh process-urls <FILE_OF_URLS> [--upload]
@@ -1704,25 +1704,25 @@ python main.py <URL_OR_FILE> [--upload] [--no-kb] [--status]
 ./main.sh chat        # Chat interface
 ./main.sh setup       # Install deps
 ./main.sh sync-rag    # Sync KB to local RAG
-\```
+```
 
 Auto-creates `.venv` if missing, loads `.env`, validates env vars.
 
 ### run.sh (Alternative runner)
 
-\```bash
+```bash
 ./run.sh chat              # Local chat
 ./run.sh agno-chat         # Agno chat interface
 ./run.sh process-url --url <URL> --upload
 ./run.sh process-yt --url <YOUTUBE_URL> --upload
 ./run.sh test / lint / format / clean
-\```
+```
 
 ### cli.py (Interactive TUI via Charm tools)
 
-\```bash
+```bash
 python cli.py
-\```
+```
 
 Interactive menu: Search KB, Bulk Ingestion, Research Chat, Entity Analysis, Geospatial Analysis, Report Generation. Uses `gum`/`glow`/`glamour` if installed, falls back to plain input.
 
@@ -1730,7 +1730,7 @@ Interactive menu: Search KB, Bulk Ingestion, Research Chat, Entity Analysis, Geo
 
 Content flows through these stages in order:
 
-\```
+```
 Input (URL/File)
   -> Content Extraction (YouTube transcript OR web scrape OR file read)
   -> Knowledge Base Storage (KnowledgeBaseCRUD)
@@ -1739,7 +1739,7 @@ Input (URL/File)
   -> CocoIndex Knowledge Graph (if available)
   -> Mem0 Contextual Memory (if configured)
   -> Upstash Queue (QStash for async processing)
-\```
+```
 
 Each stage is fault-tolerant -- failures don't block subsequent stages.
 
@@ -1763,17 +1763,17 @@ Each stage is fault-tolerant -- failures don't block subsequent stages.
 
 ## Content Type Detection
 
-\```python
+```python
 # YouTube: contains 'youtube.com' or 'youtu.be'
 # Web: starts with 'http://' or 'https://' (non-YouTube)
 # File: everything else (checked with os.path.exists)
-\```
+```
 
 ## Extending the Pipeline
 
 Add new processing stages by following the existing pattern:
 
-\```python
+```python
 # In process_url() or process_file():
 if result and result.get('doc_id'):
     try:
@@ -1782,15 +1782,15 @@ if result and result.get('doc_id'):
     except Exception as e:
         logger.warning(f"New stage skipped: {e}")
         # Never fail the pipeline for optional stages
-\```
+```
 
 ## Bulk Ingestion
 
-\```python
+```python
 from scripts.bulk_folder_ingestion import BulkFolderIngestion
 ingester = BulkFolderIngestion()
 ingester.process_folder("/path/to/folder")
-\```
+```
 
 Also available via `cli.py` interactive menu.
 
@@ -1806,7 +1806,7 @@ Also available via `cli.py` interactive menu.
 
 Successfully processed files from `data/processing_queue/` are auto-moved to `packages/knowledge-base/sources/files/`.
 
-```
+````
 
 ```text
 <tool_use_error>File has not been read yet. Read it first before writing to it.</tool_use_error>
@@ -1914,7 +1914,7 @@ _**Agent (claude-opus-4-6 2026-03-29 11:34:45Z)**_
 <tool-use data-tool-type="write" data-tool-name="Write"><details>
 <summary>Tool use: **Write**</summary>
 
-```md
+````md
 ---
 name: disclosure-rag-processor
 description: Process UFO/UAP research content (URLs, YouTube videos, local files) through the Disclosure RAG pipeline. Use when: (1) ingesting web articles, YouTube videos, or local documents into the knowledge base, (2) running the disclosure-rag CLI (main.py, main.sh, run.sh, cli.py), (3) bulk folder ingestion, (4) checking integration status (Upstash, CocoIndex, Mem0), (5) searching the knowledge base, (6) entity extraction from processed content, (7) syncing to Upstash Search, (8) any work in apps/disclosure-rag/ involving the processing pipeline.
@@ -1928,9 +1928,9 @@ Process UFO/UAP research content through a multi-stage pipeline: content extract
 
 All commands run from `apps/disclosure-rag/`. Activate venv and load env first:
 
-\```bash
+```bash
 cd apps/disclosure-rag && source .venv/bin/activate && source .env
-\```
+```
 
 Required: `OPENAI_API_KEY`, `UFO_DATA_STORE_ID`. Optional: `UPSTASH_SEARCH_URL`/`UPSTASH_SEARCH_TOKEN`, `MEM0_API_KEY`, `MEM0_USER_ID`.
 
@@ -1938,15 +1938,15 @@ Required: `OPENAI_API_KEY`, `UFO_DATA_STORE_ID`. Optional: `UPSTASH_SEARCH_URL`/
 
 ### main.py -- Primary Processor
 
-\```bash
+```bash
 python main.py <URL_OR_FILE> [--upload] [--no-kb] [--status]
-\```
+```
 
 Auto-detects content type (YouTube / web / file). `--upload` sends to OpenAI vector store. `--status` shows all integration backends.
 
 ### main.sh -- Shell Wrapper
 
-\```bash
+```bash
 ./main.sh process-url <URL> [--upload]    # Single URL
 ./main.sh process-file <FILE> [--upload]  # Single file
 ./main.sh process-urls <URL_FILE>         # Batch from file
@@ -1956,30 +1956,30 @@ Auto-detects content type (YouTube / web / file). `--upload` sends to OpenAI vec
 ./main.sh chat                            # Chat interface
 ./main.sh setup                           # Install dependencies
 ./main.sh sync-rag                        # Sync to local RAG
-\```
+```
 
 Auto-creates `.venv` if missing, loads `.env`, validates env vars.
 
 ### cli.py -- Interactive TUI
 
-\```bash
+```bash
 python cli.py
-\```
+```
 
 Menu-driven interface using Charm tools (gum/glow/glamour). Supports: Search, Bulk Ingestion, Research Chat, Entity Analysis, Geospatial Analysis, Reports. Falls back to plain input if Charm tools not installed.
 
 ### run.sh -- Alternative Runner
 
-\```bash
+```bash
 ./run.sh chat | agno-chat | agno-chat-files
 ./run.sh process-url --url <URL> --upload
 ./run.sh process-yt --url <YT_URL> --upload
 ./run.sh test | lint | format | clean
-\```
+```
 
 ## Processing Pipeline
 
-\```
+```
 Input (URL/YouTube/File)
   |-> Content Extraction
   |     YouTube: lib/youtube.py transcript extraction
@@ -2004,7 +2004,7 @@ Input (URL/YouTube/File)
   |
   |-> Upstash Queue (lib/upstash/queue.py)
        QStash async processing for downstream consumers
-\```
+```
 
 Each stage is fault-tolerant -- failures log warnings but never block the pipeline.
 
@@ -2030,14 +2030,14 @@ YouTube: URL contains `youtube.com` or `youtu.be`. Web: starts with `http(s)://`
 
 Add stages in `process_url()` or `process_file()` following this pattern:
 
-\```python
+```python
 if result and result.get('doc_id'):
     try:
         processing_steps.append("New stage")
         # ... processing logic ...
     except Exception as e:
         logger.warning(f"New stage skipped: {e}")
-\```
+```
 
 ## File Relocation
 
@@ -2055,7 +2055,7 @@ Processed files from `data/processing_queue/` auto-move to `packages/knowledge-b
 
 - [Pipeline architecture details](references/pipeline-architecture.md) -- module relationships, data flow, and integration points
 
-```
+````
 
 ```text
 The file /Users/liamellis/.claude/skills/disclosure-rag-processor/SKILL.md has been updated successfully.
@@ -2071,12 +2071,12 @@ _**Agent (claude-opus-4-6 2026-03-29 11:35:30Z)**_
 <tool-use data-tool-type="write" data-tool-name="Write"><details>
 <summary>Tool use: **Write**</summary>
 
-```md
+````md
 # Pipeline Architecture Reference
 
 ## Directory Structure
 
-\```
+```
 apps/disclosure-rag/
 ├── main.py                    # Primary CLI entry point
 ├── main.sh                    # Shell wrapper with subcommands
@@ -2147,13 +2147,13 @@ apps/disclosure-rag/
 ├── data/                           # Processing data
 │   └── processing_queue/           # Incoming files queue
 └── vector_storage/                 # Local vector indices
-\```
+```
 
 ## Data Flow Details
 
 ### YouTube Processing Path
 
-\```
+```
 URL -> is_youtube_url() check
   -> process_youtube_url_enhanced() [lib/knowledge_base_service.py]
     -> YouTube transcript extraction [lib/youtube.py]
@@ -2163,11 +2163,11 @@ URL -> is_youtube_url() check
   -> Mem0: add_web_article_memory() [skipped for YT, handled in transcript]
   -> CocoIndex: trigger_cocoindex_processing(doc_id)
   -> Mem0: add_processing_summary_memory()
-\```
+```
 
 ### Web URL Processing Path
 
-\```
+```
 URL -> process_web_url_enhanced() [lib/knowledge_base_service.py]
   -> WebContentProcessor.process() [processing/web_content_processor.py]
   -> Content analysis + classification
@@ -2176,11 +2176,11 @@ URL -> process_web_url_enhanced() [lib/knowledge_base_service.py]
 -> Mem0: add_web_article_memory(title, url, content, summary, tags)
 -> CocoIndex: trigger_cocoindex_processing(doc_id)
 -> Mem0: add_processing_summary_memory()
-\```
+```
 
 ### File Processing Path
 
-\```
+```
 File -> process_file() [main.py]
   -> Read file content
   -> Extract title from filename or markdown header
@@ -2192,7 +2192,7 @@ File -> process_file() [main.py]
   -> CocoIndex: trigger_cocoindex_processing(doc_id)
   -> File relocation: processing_queue/ -> packages/knowledge-base/sources/files/
   -> Mem0: add_processing_summary_memory()
-\```
+```
 
 ## Integration Status Check
 
@@ -2230,15 +2230,15 @@ Located in `lib/entity_extraction/`:
 - **85-95% extraction accuracy** on UAP research content
 
 Key function:
-\```python
+```python
 from lib.entity_extraction.processors.interactive_entity_processor import process_summary_file_interactive
 results = process_summary_file_interactive(summary_path, doc_id, interactive=False)
 # Returns: { total_entities, total_matches, entities: [...], status }
-\```
+```
 
 ## Knowledge Base CRUD API
 
-\```python
+```python
 from lib.knowledge_base_crud import KnowledgeBaseCRUD
 kb = KnowledgeBaseCRUD()
 
@@ -2247,11 +2247,11 @@ doc_id = kb.add_document(data, doc_type)    # doc_type: 'research', 'case_file',
 doc = kb.get_document(doc_id)
 results = kb.search_documents(query)         # Returns: [{ title, score, doc_type, snippet }]
 stats = kb.get_statistics()                  # Returns: { total_documents, total_tags, documents_by_type, popular_tags, last_updated }
-\```
+```
 
 ## Mem0 Memory Functions
 
-\```python
+```python
 from lib.mem0_integration import (
     add_web_article_memory,          # title, url, content, summary, tags
     add_file_content_memory,         # title, file_path, content, file_type, tags
@@ -2261,19 +2261,19 @@ from lib.mem0_integration import (
     _is_enabled,                     # Check if Mem0 is active
     _get_api_key,                    # Get configured API key
 )
-\```
+```
 
 ## Bulk Ingestion
 
-\```python
+```python
 from scripts.bulk_folder_ingestion import BulkFolderIngestion
 ingester = BulkFolderIngestion()
 ingester.process_folder("/path/to/folder")
-\```
+```
 
 Also accessible via `cli.py` interactive menu under "Bulk Document Ingestion".
 
-```
+````
 
 ```text
 File created successfully at: /Users/liamellis/.claude/skills/disclosure-rag-processor/references/pipeline-architecture.md
@@ -2362,19 +2362,27 @@ _**User (2026-03-29 11:55:57Z)**_
 
 <local-command-caveat>Caveat: The messages below were generated by the user while running local commands. DO NOT respond to these messages or otherwise consider them in your response unless the user explicitly asks you to.</local-command-caveat>
 
+---
+
 _**User (2026-03-29 11:55:57Z)**_
 
 <command-name>/model</command-name>
             <command-message>model</command-message>
             <command-args>claude-sonnet-4-6</command-args>
 
+---
+
 _**User (2026-03-29 11:55:57Z)**_
 
 <local-command-stdout>Set model to claude-sonnet-4-6</local-command-stdout>
 
+---
+
 _**User (2026-03-29 11:55:57Z)**_
 
 <local-command-caveat>Caveat: The messages below were generated by the user while running local commands. DO NOT respond to these messages or otherwise consider them in your response unless the user explicitly asks you to.</local-command-caveat>
+
+---
 
 _**User (2026-03-29 11:55:57Z)**_
 
@@ -2382,9 +2390,13 @@ _**User (2026-03-29 11:55:57Z)**_
             <command-message>create-agent-skills</command-message>
             <command-args>review @apps/disclosure-rag functionality and then audit @disclosure-rag-processor.skill . use several sub agents</command-args>
 
+---
+
 _**User (2026-03-29 11:55:57Z)**_
 
 <local-command-stderr>Error: Shell command permission check failed for pattern "!`command`": This command requires approval</local-command-stderr>
+
+---
 
 _**User (2026-03-29 15:58:45Z)**_
 
@@ -3554,6 +3566,8 @@ Skill audited, updated, and repackaged. Here's what the audit found and added:
 _**User (2026-03-29 17:22:28Z)**_
 
 now use /auto-research to improve  disclosure-rag-processor
+
+---
 
 _**User (2026-03-29 17:23:24Z)**_
 
@@ -36655,7 +36669,7 @@ _**Agent (claude-sonnet-4-6 2026-05-08 03:36:58Z)**_
 <tool-use data-tool-type="write" data-tool-name="Write"><details>
 <summary>Tool use: **Write**</summary>
 
-```md
+````md
 # Skill Audit: `disclosure-rag-processor`
 
 **Date:** 2026-05-07  
@@ -36693,25 +36707,25 @@ Env var names (`UPSTASH_SEARCH_URL` / `UPSTASH_SEARCH_TOKEN`) match correctly be
 #### 1. Wrong `doc_type` values
 
 **Skill documents:**
-\```
+```
 'case_file', 'transcript', 'article', 'research'
-\```
+```
 
 **`_get_doc_path` routing table in `lib/knowledge_base_crud.py` actually uses:**
-\```python
+```python
 base_paths = {
     "file":       self.files_path,       # sources/files/
     "transcript": self.transcripts_path, # sources/transcripts/
     "web":        self.articles_path,    # sources/web/
     "research":   self.research_path,    # research/
 }
-\```
+```
 
 **What `main.py` actually calls:**
-\```python
+```python
 doc_type = 'research' if file_path.endswith('.pdf') else 'case_file'
 doc_id = add_to_knowledge_base(data, doc_type)
-\```
+```
 
 `'case_file'` is not in the routing dict. Python falls through to `kb_path` as the default — documents land at the knowledge-base root instead of `sources/files/`. The skill is wrong about the values, and the code calling with `'case_file'` is also broken. Both need fixing.
 
@@ -36729,11 +36743,11 @@ doc_id = add_to_knowledge_base(data, doc_type)
 **Skill claims:** "Processed files from `data/processing_queue/` auto-move to `packages/knowledge-base/sources/files/`"
 
 **Reality:** The code in `main.py` (~line 386) checks:
-\```python
+```python
 if doc_id and file_path.startswith(
     '/Users/liamellis/Desktop/ultraterrestrial-resurrection/apps/disclosure-rag/data/processing_queue/'
 ):
-\```
+```
 
 The actual repo path includes `01_ACTIVE/` — `startswith()` never matches, the block silently never executes, and no files are ever relocated on this machine.
 
@@ -36744,24 +36758,24 @@ The actual repo path includes `01_ACTIVE/` — `startswith()` never matches, the
 #### 3. `main.sh sync-rag` is broken
 
 The skill documents:
-\```bash
+```bash
 ./main.sh sync-rag    # Sync to local RAG
-\```
+```
 
 `main.sh`'s `sync_rag()` function calls:
-\```bash
+```bash
 python3 "$SCRIPT_DIR/main.py" --sync-rag
-\```
+```
 
 `main.py` argparse has no `--sync-rag` flag. The command fails. The skill presents it as working.
 
 #### 4. `run.sh agno-chat` / `agno-chat-files` are broken
 
 The skill documents:
-\```bash
+```bash
 ./run.sh agno-chat          # Launch Agno chat interface
 ./run.sh agno-chat-files    # Launch Agno chat with file upload
-\```
+```
 
 Both reference files that do not exist in the repo:
 - `agno_disclosure_chat.py` — missing
@@ -36776,22 +36790,22 @@ Both commands crash immediately on invocation.
 #### 5. `process_summary_file_interactive` example is inverted
 
 **Skill shows:**
-\```python
+```python
 results = process_summary_file_interactive(
     summary_file_path,
     video_id,
     interactive=False    # True for human review mode
 )
-\```
+```
 
 **Actual signature** (`processors/interactive_entity_processor.py` line 768):
-\```python
+```python
 def process_summary_file_interactive(
     summary_file_path: str,
     video_id: str,
     interactive: bool = True  # default is True
 ) -> Dict[str, Any]:
-\```
+```
 
 The example passes `interactive=False` while the comment says "True for human review mode" — suggesting the default is `False`. It's the opposite: the default is `True` (interactive). The example demonstrates the non-default, non-standard path without explaining why.
 
@@ -36852,7 +36866,7 @@ These are real code bugs discovered while verifying skill claims. They are flagg
 | Broken file relocation path | `apps/disclosure-rag/main.py` ~line 386 | `startswith()` check uses wrong absolute path (missing `01_ACTIVE/`). Replace with `Path(__file__).parent`-relative logic. |
 | `doc_type='case_file'` routing failure | `apps/disclosure-rag/main.py` ~line 251 | Passes `'case_file'` to `create_document`; `_get_doc_path` has no mapping for it, so files land at KB root. Change to `'file'`. |
 
-```
+````
 
 ```text
 File created successfully at: /Users/liamellis/Desktop/01_ACTIVE/ultraterrestrial-resurrection/SKILL_AUDIT_disclosure-rag-processor.md (file state is current in your context — no need to Read it back)

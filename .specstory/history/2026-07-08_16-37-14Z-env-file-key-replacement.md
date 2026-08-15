@@ -25,7 +25,7 @@ MERGE_DEV_API_KEY=[REDACTED:generic-api-key]
 # Default model to use (OpenRouter format: provider/model)
 # Examples: anthropic/claude-opus-4.6, openai/gpt-4o, google/gemini-3-flash-preview, zhipuai/glm-4-plus
 # LLM_MODEL=openai/gpt-5.3-codex
-RUNPOD_API_KEY=[REDACTED:generic-api-key]
+RUNPOD_API_KEY=[REDACTED:runpod-api-key.1]
 DAYTONA_API_KEY=[REDACTED:generic-api-key]
 DAYTONA_API_URL=https://app.daytona.io/api
 
@@ -388,7 +388,7 @@ from pathlib import Path
 user_content = r&#39;&#39;&#39;
 OPENAI_API_KEY=&#34;[REDACTED:openai-api-key]&#34;
 MERGE_DEV_API_KEY=[REDACTED:generic-api-key]
-RUNPOD_API_KEY=[REDACTED:generic-api-key]
+RUNPOD_API_KEY=[REDACTED:runpod-api-key.1]
 DAYTONA_API_KEY=[REDACTED:generic-api-key]
 DAYTONA_API_URL=https://app.daytona.io/api
 GLM_API_KEY=[REDACTED:zai-api-key]
@@ -520,7 +520,7 @@ from pathlib import Path
 user_content = r'''
 OPENAI_API_KEY="[REDACTED:openai-api-key]"
 MERGE_DEV_API_KEY=[REDACTED:generic-api-key]
-RUNPOD_API_KEY=[REDACTED:generic-api-key]
+RUNPOD_API_KEY=[REDACTED:runpod-api-key.1]
 DAYTONA_API_KEY=[REDACTED:generic-api-key]
 DAYTONA_API_URL=https://app.daytona.io/api
 GLM_API_KEY=[REDACTED:zai-api-key]

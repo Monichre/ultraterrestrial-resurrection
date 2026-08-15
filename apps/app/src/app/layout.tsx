@@ -2,6 +2,7 @@
 // import "@/styles/flowith/reactflow.css";
 
 import {ThemeProvider} from '@/contexts/theme-provider'
+import {ToastProvider} from '@/components/feedback'
 import {ClerkProvider} from '@clerk/nextjs'
 import {CommandPaletteProvider} from '@/components/command-palette'
 import {
@@ -22,10 +23,11 @@ import {
 } from './fonts'
 import {CustomCursor} from '@/components/cursor-ui/CustomCursor'
 import BrowserEchoScript from '@browser-echo/next/BrowserEchoScript'
-import {Agentation} from 'agentation'
+import {Agentation} from '@/components/Agentation'
 
-import '@xyflow/react/dist/style.css'
+import '@/styles/tokens.css'
 import './globals.css'
+import '@xyflow/react/dist/style.css'
 import './research-ui.css'
 import {MenuTrigger} from '@/features/mindmap/navigation/MenuTrigger'
 
@@ -48,27 +50,29 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
         <body
           className={`${FONT_NEUE_HAAS_GROTESK.variable} ${FONT_MONUMENT_GROTESK.variable} ${FONT_MONUMENT_GROTESK_MONO.variable} ${FONT_LUKAS_SANS.variable} ${FONT_JUST_ANOTHER_HAND.variable} ${FONT_JET_BRAINS_MONO.variable} ${FONT_MARTIAN_MONO.variable} ${FONT_NOTO_SANS.variable} ${FONT_SPACE_GROTESK.variable} ${FONT_LEAGUE_SPARTAN.variable} ${FONT_SPECIAL_ELITE.variable} ${FONT_ANTON.variable} ${FONT_CAVEAT.variable} ${FONT_PP_NEUE_MONTREAL.variable} dark`}>
           <ThemeProvider
-            attribute='class'
+            attribute={['class', 'data-theme']}
             forcedTheme='dark'
             defaultTheme='dark'
             enableSystem={false}
             // enableSystem
             // disableTransitionOnChange
           >
-            <CommandPaletteProvider>
-              {/* <DataLayer> */}
+            <ToastProvider>
+              <CommandPaletteProvider>
+                {/* <DataLayer> */}
 
-              {/* Global navigation — wordmark + hamburger that opens FullScreenMenu */}
-              <MenuTrigger />
+                {/* Global navigation — wordmark + hamburger that opens FullScreenMenu */}
+                <MenuTrigger />
 
-              <CustomCursor />
-              <main
-                className='min-h-[100vh] min-w-screen relative site dark'
-                style={{backgroundColor: '#000'}}>
-                {children}
-              </main>
-              {process.env.NODE_ENV === 'development' && <Agentation />}
-            </CommandPaletteProvider>
+                <CustomCursor />
+                <main
+                  className='min-h-[100vh] min-w-screen relative site dark'
+                  style={{backgroundColor: 'var(--color-bg-primary)'}}>
+                  {children}
+                </main>
+                {process.env.NODE_ENV === 'development' && <Agentation />}
+              </CommandPaletteProvider>
+            </ToastProvider>
           </ThemeProvider>
           {/* impeccable-live-start */}
           <script src='http://localhost:8400/live.js'></script>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <defs>
+    <pattern id="hud" width="16" height="16" patternUnits="userSpaceOnUse">
+      <path d="M16 0H0V16" fill="none" stroke="oklch(0.72 0.1 195)" stroke-width="0.5" opacity="0.45"/>
+    </pattern>
+  </defs>
+  <rect width="64" height="64" fill="url(#hud)"/>
+  <path d="M0 32H64M32 0V64" stroke="oklch(0.78 0.14 75)" stroke-width="0.4" opacity="0.35"/>
+</svg>

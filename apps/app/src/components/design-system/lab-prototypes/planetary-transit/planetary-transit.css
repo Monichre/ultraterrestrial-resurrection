@@ -1,0 +1,260 @@
+.pt-stage {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #000;
+  padding: 24px 0;
+}
+
+.pt-root {
+  --pt-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --pt-serif: 'Cormorant Garamond', ui-serif, Georgia, serif;
+  --pt-mono: 'JetBrains Mono', ui-monospace, monospace;
+  background-color: #000;
+  color: #fff;
+  font-family: var(--pt-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+  width: 400px;
+  height: 867px;
+  margin: 0 auto;
+  position: relative;
+  user-select: none;
+  box-sizing: border-box;
+}
+
+.pt-root *,
+.pt-root *::before,
+.pt-root *::after {
+  box-sizing: border-box;
+}
+
+.pt-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.pt-ui {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  pointer-events: none;
+}
+
+.pt-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1px dotted rgba(255, 255, 255, 0.15);
+  padding-bottom: 12px;
+  margin-bottom: 24px;
+}
+
+.pt-meta {
+  font-family: var(--pt-mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  line-height: 1.4;
+}
+
+.pt-meta-right {
+  text-align: right;
+}
+
+.pt-meta-label {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.pt-meta-val {
+  color: #fff;
+  display: block;
+}
+
+.pt-title-block {
+  margin-bottom: 20px;
+}
+
+.pt-title {
+  font-family: var(--pt-serif);
+  font-weight: 300;
+  font-size: 32px;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  margin: 0 0 4px;
+}
+
+.pt-subtitle {
+  font-family: var(--pt-mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: rgba(255, 255, 255, 0.4);
+  margin: 0;
+}
+
+.pt-transit {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  perspective: 1000px;
+}
+
+.pt-wheel {
+  position: relative;
+  width: 320px;
+  height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pt-ring {
+  position: absolute;
+  border: 1px dotted rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  opacity: 0.6;
+}
+
+.pt-ring-1 {
+  width: 100%;
+  height: 100%;
+}
+
+.pt-ring-2 {
+  width: 70%;
+  height: 70%;
+}
+
+.pt-ring-3 {
+  width: 40%;
+  height: 40%;
+}
+
+.pt-house {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 60px;
+  transform-origin: center;
+}
+
+.pt-house-dot {
+  width: 4px;
+  height: 4px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+  margin-bottom: 8px;
+}
+
+.pt-house-label {
+  font-family: var(--pt-serif);
+  font-style: italic;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.4);
+  white-space: nowrap;
+}
+
+.pt-planet {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 15px #fff;
+  z-index: 5;
+  top: 50%;
+  left: 50%;
+  margin-top: -4px;
+  margin-left: -4px;
+  will-change: transform;
+}
+
+.pt-zenith {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 180px;
+  width: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 100;
+}
+
+.pt-zenith-line {
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(255, 255, 255, 0.15),
+    transparent
+  );
+  position: absolute;
+  left: 15px;
+  z-index: -1;
+}
+
+.pt-zenith-node {
+  width: 4px;
+  height: 4px;
+  background: #fff;
+  border-radius: 50%;
+  opacity: 0.4;
+}
+
+.pt-zenith-node-active {
+  opacity: 1;
+  transform: scale(2.5);
+  box-shadow: 0 0 10px white;
+}
+
+.pt-details {
+  border-top: 1px dotted rgba(255, 255, 255, 0.15);
+  padding-top: 20px;
+  margin-top: 20px;
+}
+
+.pt-detail-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.pt-detail-label {
+  font-family: var(--pt-mono);
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.pt-detail-val {
+  font-family: var(--pt-serif);
+  font-style: italic;
+  font-size: 14px;
+}
+
+.pt-stream {
+  position: absolute;
+  left: 24px;
+  bottom: 24px;
+  font-family: var(--pt-mono);
+  font-size: 8px;
+  color: rgba(255, 255, 255, 0.4);
+  line-height: 1.6;
+}

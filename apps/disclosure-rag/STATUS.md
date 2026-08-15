@@ -13,9 +13,8 @@ The Disclosure RAG system is a comprehensive UAP research platform operating on 
 
 **Core Statistics**:
 - **448 documents** in knowledge base (fully indexed)
-- **230,998+ structured records** in Xata database
 - **130,445+ UFO sightings** with geographic coordinates
-- **5-layer vector search** across OpenAI, Xata, Upstash, FAISS, and CocoIndex
+- **5-layer vector search** across OpenAI, Neon Postgres, Upstash, FAISS, and CocoIndex
 - **Multiple interfaces**: Web dashboard, API, CLI, and Next.js frontend
 
 ---
@@ -36,7 +35,7 @@ The Disclosure RAG system is a comprehensive UAP research platform operating on 
 | Layer | System | Status | Records/Files |
 |-------|--------|---------|---------------|
 | **1** | OpenAI Vector Store | ✅ Active | 2,426 files |
-| **2** | Xata Database | ✅ Active | 230,998+ records |
+| **2** | Neon Postgres + pgvector | ✅ Active | via `@db/postgres` |
 | **3** | Upstash Vector | ✅ Available | Weight: 30% |
 | **4** | Local FAISS | ✅ Available | Weight: 20% |
 | **5** | CocoIndex PostgreSQL | ✅ Enhanced | Weight: 20% |
@@ -143,7 +142,7 @@ OPENAI_API_KEY=configured ✅
 ANTHROPIC_API_KEY=configured ✅
 
 # Database Systems (Active)
-XATA_DATABASE_URL=operational ✅
+DATABASE_URL=operational ✅          # Neon Postgres
 UPSTASH_VECTOR_REST_URL=available ✅
 UPSTASH_VECTOR_REST_TOKEN=configured ✅
 

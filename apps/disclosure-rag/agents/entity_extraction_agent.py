@@ -167,38 +167,38 @@ class AIEntityExtractor:
     """AI-powered entity extraction using structured output"""
 
     def __init__(self, provider: str = "openai", model: str = None):
-        self.provider = provider.lower()
-        self.model = model or self._get_default_model()
-        self.client = self._initialize_client()
+        # `provider`/`model` are accepted for call-site compatibility and
+        # deliberately ignored. This class used to build its own OpenAI client
+        # from OPENAI_API_KEY and hardcode `gpt-4.1` / `claude-sonnet-4.5` —
+        # both off the frontier-only list, and that credential 401s live, which
+        # is how a run wrote seven empty entity buckets and called itself
+        # "completed". Routing through the shared chain means one credential
+        # policy, one dead-tier cache, and one model list for the whole app.
+        if provider or model:
+            logger.debug(
+                "AIEntityExtractor(provider=%r, model=%r) ignored — routing "
+                "through lib.llm_fallback's frontier chain", provider, model)
+        from lib.llm_fallback import get_fallback
 
-    def _get_default_model(self) -> str:
-        """Get default model for provider"""
-        defaults = {
-            "openai": "gpt-4.1",
-            "anthropic": "claude-sonnet-4.5-20250514"
-        }
-        return defaults.get(self.provider, "gpt-4.1")
-
-    def _initialize_client(self):
-        """Initialize AI client based on provider"""
-        if self.provider == "anthropic" and ANTHROPIC_AVAILABLE:
-            api_key = os.getenv("ANTHROPIC_API_KEY")
-            if not api_key:
-                raise ValueError(
-                    "ANTHROPIC_API_KEY environment variable required")
-            return Anthropic(api_key=api_key)
-        elif self.provider == "openai" and OPENAI_AVAILABLE:
-            api_key = os.getenv("OPENAI_API_KEY")
-            if not api_key:
-                raise ValueError(
-                    "OPENAI_API_KEY environment variable required")
-            return OpenAI(api_key=api_key)
-        else:
-            raise ValueError(
-                f"Provider {self.provider} not available or not supported")
+        self._llm = get_fallback()
+        self.provider = "llm_fallback"
+        self.model = self._llm.describe()
 
     def _create_entity_schema(self) -> Dict[str, Any]:
-        """Create the structured schema for entity extraction"""
+        """Legacy ten-bucket wire shape for this class only.
+
+        NOT the canonical entity definition. That is
+        `packages/ai/prompts/schemas/output/entity.schema.json`, which
+        RagPromptPipeline stage 4 (`disclosure.ner`) emits and which the
+        interactive processor now reads — see
+        lib/entity_extraction/processors/interactive_entity_processor.py.
+
+        This shape survives only because `_convert_to_structured_result` below
+        is written against it. Nothing in the `dy` ingest path reaches this
+        method any more; collapsing the two definitions means porting that
+        converter to the `{entities: [{type, name, ...}]}` shape, which is
+        tracked separately rather than done here.
+        """
         return {
             "type": "object",
             "properties": {
@@ -411,48 +411,25 @@ Maintain high precision - only extract entities that are clearly identifiable.""
 Return a structured JSON object with all identified entities organized by type."""
 
         try:
-            if self.provider == "openai":
-                response = self.client.chat.completions.create(
-                    model=self.model,
-                    messages=[
-                        {"role": "system", "content": system_prompt},
-                        {"role": "user", "content": user_prompt}
-                    ],
-                    functions=[{
-                        "name": "extract_entities",
-                        "description": "Extract structured entities from text",
-                        "parameters": self._create_entity_schema()
-                    }],
-                    function_call={"name": "extract_entities"},
-                    temperature=0.1
-                )
+            # One request shape for every tier: the chain is all OpenAI-shaped
+            # endpoints, and the schema goes over the wire as an actual
+            # constraint rather than pasted into the prompt as prose.
+            raw = self._llm.complete(
+                system_prompt,
+                user_prompt,
+                temperature=0.1,
+                max_tokens=4000,
+                schema=self._create_entity_schema(),
+                schema_name="extract_entities",
+            ).text
 
-                function_call = response.choices[0].message.function_call
-                if function_call:
-                    extracted_data = json.loads(function_call.arguments)
-                else:
-                    raise ValueError("No function call in response")
-
-            elif self.provider == "anthropic":
-                # For Anthropic, we'll use a structured prompt and parse JSON
-                full_prompt = f"{system_prompt}\n\n{user_prompt}\n\nRespond with a valid JSON object matching this schema:\n{json.dumps(self._create_entity_schema(), indent=2)}"
-
-                response = self.client.messages.create(
-                    model=self.model,
-                    max_tokens=4000,
-                    temperature=0.1,
-                    messages=[{"role": "user", "content": full_prompt}]
-                )
-
-                content = response.content[0].text if response.content else ""
-                # Extract JSON from response
-                json_start = content.find('{')
-                json_end = content.rfind('}') + 1
-                if json_start >= 0 and json_end > json_start:
-                    json_str = content[json_start:json_end]
-                    extracted_data = json.loads(json_str)
-                else:
-                    raise ValueError("No valid JSON found in response")
+            content = raw.strip()
+            json_start = content.find('{')
+            json_end = content.rfind('}') + 1
+            if json_start >= 0 and json_end > json_start:
+                extracted_data = json.loads(content[json_start:json_end])
+            else:
+                raise ValueError("No valid JSON found in response")
 
             # Convert to structured result
             result = self._convert_to_structured_result(extracted_data, text)
@@ -622,17 +599,37 @@ class EntityExtractionAgent:
         Returns:
             List of dictionaries containing entity and its embedding vector
         """
-        if not self.ai_available or self.ai_extractor.provider != "openai":
-            logger.warning("Embedding generation requires OpenAI provider")
+        # ═══ YT-CHAIN-A5 · OpenAI embeddings — NOT ON THE YOUTUBE CHAIN ═══
+        # Reachable in principle, but not from a YouTube ingest:
+        #   - main.py runs entity extraction on the FILE path (process_file)
+        #     only. process_url()'s YouTube branch never calls it.
+        #   - The only caller of this method anywhere is the
+        #     "# Demonstrate embedding generation" block under __main__.
+        # Entity EXTRACTION was already moved onto llm_fallback (see this
+        # class's __init__); only this embeddings method stayed on OpenAI,
+        # deliberately, for the dimension-compatibility reason below.
+        # See YT-CHAIN-A4 (lib/openai_client/upload.py) for the other site.
+        # ═══════════════════════════════════════════════════════════════════
+        # Embeddings deliberately stay on OpenAI and are NOT routed through
+        # llm_fallback. That chain governs completions only: 6,540 vectors are
+        # already stored against text-embedding-3-small @ 1536 dims, and
+        # re-providering them does not error — it silently returns incoherent
+        # rankings. See lib/llm_fallback.py's module docstring.
+        api_key = os.getenv("OPENAI_API_KEY")
+        if not self.ai_available or not OPENAI_AVAILABLE or not api_key:
+            logger.warning(
+                "Embedding generation requires OPENAI_API_KEY (embeddings are "
+                "pinned to text-embedding-3-small @ 1536 dims)")
             return []
 
         try:
+            embedding_client = OpenAI(api_key=api_key)
             embeddings = []
             for entity in entities:
                 # Combine name and context for richer embedding
                 text_to_embed = f"{entity.name} - {entity.context}"
 
-                response = self.ai_extractor.client.embeddings.create(
+                response = embedding_client.embeddings.create(
                     input=text_to_embed,
                     model=model
                 )

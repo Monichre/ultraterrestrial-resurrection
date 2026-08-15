@@ -156,7 +156,7 @@ These are implementation names allowed at system boundaries; prefer domain terms
 - **Theory** (legacy prompts) vs **Hypothesis** / **Hunch**. Use Hunch for provisional; Hypothesis for structured models.
 - **case_file / case_files** — legacy bucket and `doc_type`. Migrate language to Raw Source / Document.
 - **Triple / Dual / Quad / Quinuple RAG** — marketing debt for fragmented adapters. Canonical: **Hybrid Retrieval**.
-- **Xata** — retired for the Next.js app; still appears in prompts and disclosure-rag. Say **Neon** / **Domain Graph** storage.
+- **Xata** — retired platform-wide. Neither the Next.js app nor disclosure-rag uses it; remaining `xata_*` modules are dead code behind guarded imports. Say **Neon** / **Domain Graph** storage.
 - **Epistemic Status** — three live dialects (CORPUS enum, mindmap brackets, liturgy UX). CORPUS enum is canon; others must map or retire.
 - **Knowledge base** — package name vs compiled research model. Prefer **Raw Source archive** for `packages/knowledge-base` and **research model** for ledger+graph+compiled layers.
 - **Pin vs Node** — React Flow nodes are UI; Pins are domain. A node may *render* a Pin.

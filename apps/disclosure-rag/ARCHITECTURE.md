@@ -27,12 +27,13 @@ The Disclosure RAG system operates on a **Quinuple RAG architecture** - a sophis
 - **Integration**: Powers Prometheus AI in Next.js app
 - **Status**: ✅ **Fully Operational**
 
-#### **Layer 2: Xata Database (Structured Data)**
-- **System**: Xata PostgreSQL with built-in vector search
-- **Records**: 230,998+ structured entities
-- **Models**: 29 data models (entities, documents, events, personnel)
-- **Features**: Full-text search, vector similarity, relationships
-- **Status**: ✅ **Fully Operational**
+#### **Layer 2: Neon Postgres (Structured Data)**
+- **System**: Neon Postgres 17 + pgvector, accessed via `@db/postgres`
+- **Features**: Full-text search (tsvector), vector similarity (pgvector), entity relationships
+- **Status**: ✅ **Operational** — the platform database
+- **Note**: Xata is **retired**. Remaining `xata_*` modules in this app are dead code:
+  the import in `agents/entity_extraction_agent.py` is guarded and falls back to a stub
+  returning `{"error": "XATA search not configured"}`. Do not treat Xata as a datastore.
 
 #### **Layer 3: Upstash Vector (Cloud Storage)**
 - **System**: Cloud-based vector database
@@ -63,7 +64,7 @@ The Disclosure RAG system operates on a **Quinuple RAG architecture** - a sophis
 ```yaml
 Primary_Systems:
   openai_vector_store: Primary (2,426 files)
-  xata_database: Primary (230,998+ records)
+  neon_postgres: Primary (via @db/postgres)
 
 Weighted_Systems:
   upstash_vector: 30%      # Cloud reliability
@@ -84,7 +85,7 @@ Total_Weight: 70% (plus two primary systems)
 ### **Performance Metrics**
 - **Unified Search**: 10-30 seconds comprehensive results
 - **OpenAI Response**: 5-15 seconds
-- **Xata Queries**: <1 second  
+- **Postgres Queries**: <1 second  
 - **Local Systems**: Variable (dependency-based)
 - **Entity Extraction**: 85-95% accuracy
 
@@ -100,10 +101,10 @@ const response = await openai.beta.threads.runs.create(threadId, {
   tools: [{ type: "file_search" }] // Uses OpenAI vector store
 });
 
-// Secondary: Xata database queries via tool calls
-const searchResults = await searchXata({
+// Secondary: Neon Postgres queries via tool calls
+const searchResults = await searchDatabase({
   query,
-  table: "all" // Searches 230,998+ records
+  table: "all" // Hybrid FTS + pgvector, fused with RRF
 });
 ```
 
@@ -114,7 +115,7 @@ search = QuinupleRAGUnifiedSearch()
 
 # Layer 1 & 2: Primary systems
 openai_results = await search.search_openai(query)
-xata_results = await search.search_xata(query)
+postgres_results = await search.search_postgres(query)
 
 # Layers 3-5: Weighted systems
 unified_results = await search.search_unified(query)
@@ -128,7 +129,6 @@ unified_results = await search.search_unified(query)
 ```python
 # Core AI/ML Stack
 openai>=1.93.3                    # OpenAI API
-xata>=0.10.0                      # Xata database client
 asyncpg>=0.29.0                   # PostgreSQL async
 pgvector>=0.1.0                   # Vector similarity
 upstash-vector>=0.4.0             # Cloud vector storage
@@ -145,9 +145,7 @@ youtube-transcript-api           # YouTube processing
 ```bash
 # Required environment variables
 OPENAI_API_KEY=your_openai_key
-XATA_API_KEY=your_xata_key
-XATA_DATABASE_URL=your_xata_db_url
-POSTGRES_CONNECTION_STRING=your_postgres_url
+DATABASE_URL=your_neon_postgres_url   # falls back to packages/db/.env
 UPSTASH_VECTOR_URL=your_upstash_url
 UPSTASH_VECTOR_REST_TOKEN=your_upstash_token
 
@@ -192,7 +190,7 @@ Health:
 ## 📈 Data Architecture
 
 ### **Database Schema**
-- **Primary**: Xata PostgreSQL (230,998+ records, 29 models)
+- **Primary**: Neon Postgres 17 + pgvector via `@db/postgres`
 - **Vector Storage**: Multi-backend with different specializations
 - **Geographic**: PostgreSQL with 130K+ sighting coordinates
 - **Local Files**: Knowledge base with 448 indexed documents

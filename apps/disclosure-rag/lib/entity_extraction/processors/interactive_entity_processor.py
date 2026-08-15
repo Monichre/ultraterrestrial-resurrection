@@ -60,6 +60,18 @@ except Exception as e:
     OptimizedEntitySearch = None
 
 
+def _search_results_of(results: Dict[str, Any]) -> Dict[str, Any]:
+    """Entity search results under either the current or the legacy key.
+
+    New files use `entity_search_results`; files written before 2026-08-10 use
+    `xata_search_results`, named for a backend that is retired (CLAUDE.md — use
+    @db/postgres). Read both so the ~97 existing result files stay usable.
+    """
+    return (results.get("entity_search_results")
+            or results.get("xata_search_results")
+            or {})
+
+
 class InteractiveEntityProcessor:
     """Interactive entity extraction and Xata search after knowledge base save"""
 
@@ -101,14 +113,33 @@ class InteractiveEntityProcessor:
                 border_style="blue"
             ))
 
-            # Step 2: Extract entities
+            # Step 2: Load entities from the pipeline's NER stage
             extracted_entities = self._extract_entities_with_feedback(
-                summary_content)
+                summary_content, summary_file_path)
 
-            if not extracted_entities:
+            # `extracted_entities` is a dict with seven fixed keys, so it is
+            # truthy even when every bucket is empty — which is how a failed
+            # extraction was recorded as `"status": "completed"` with
+            # `total_entities: 0`. Grade the contents, not the container.
+            if extracted_entities is None:
                 console.print(
-                    "⚠️ No entities extracted. Skipping Xata search.")
-                return {"status": "no_entities", "entities": {}}
+                    "❌ [red]Entity extraction failed — recording as error, "
+                    "not as an empty result.[/red]")
+                return {
+                    "status": "error",
+                    "error": "entity extraction produced no usable result",
+                    "entities": {},
+                    "total_entities": 0,
+                }
+
+            if not any(extracted_entities.values()):
+                console.print(
+                    "⚠️ No entities found in this document. Skipping search.")
+                return {
+                    "status": "no_entities",
+                    "entities": extracted_entities,
+                    "total_entities": 0,
+                }
 
             # Step 3: Display extracted entities
             self._display_extracted_entities(extracted_entities)
@@ -140,8 +171,13 @@ class InteractiveEntityProcessor:
                 "video_id": video_id,
                 "summary_file": summary_file_path,
                 "entities": extracted_entities,
-                "xata_search_results": search_results,
+                # Renamed from `xata_search_results`: Xata is retired (CLAUDE.md
+                # — use @db/postgres), so the old name stamped a dead backend on
+                # every new file. Readers accept both; see
+                # entity_creator.read_search_results().
+                "entity_search_results": search_results,
                 "entity_creation_results": creation_results,
+                "entity_source": "rag_pipeline.ner_results",
                 "total_entities": sum(len(entities) for entities in extracted_entities.values()),
                 "total_matches": sum(len(results) for results in search_results.values()),
                 "total_created": creation_results.get("statistics", {}).get("total_created", 0)
@@ -159,9 +195,98 @@ class InteractiveEntityProcessor:
             console.print(f"❌ [red]Entity processing failed: {e}[/red]")
             return {"status": "error", "error": str(e)}
 
-    def _extract_entities_with_feedback(self, summary_content: str) -> Dict[str, List[str]]:
-        """Extract entities with user feedback"""
+    #: disclosure.ner emits five wire types (entity.schema.json). These are the
+    #: buckets this processor searches and creates records against.
+    #:
+    #: `topics` and `sightings` have no NER wire type and stay empty here — the
+    #: pipeline surfaces those through analysis.extracted_data, not NER. An
+    #: empty bucket is honest; inventing a sixth wire type to fill it would not
+    #: be.
+    _NER_TYPE_TO_BUCKET = {
+        "PERSONNEL": "personnel",
+        "EVENT": "events",
+        "ORGANIZATION": "organizations",
+        "LOCATION": "locations",
+        "EVIDENCE": "artifacts",
+    }
 
+    def _load_pipeline_ner(self, summary_file_path: str) -> Optional[Dict[str, List[str]]]:
+        """Read entities from the RAG pipeline's NER stage, if it ran.
+
+        NER used to be specified twice: RagPromptPipeline stage 4 runs
+        `disclosure.ner` per chunk through the frontier fallback chain, and this
+        processor ran a second, whole-document pass through a separate OpenAI
+        client with a different schema, different provider, and different
+        confidence semantics. Two subsystems disagreeing about what an entity is
+        is worse than either alone, so stage 4 is now the single source and this
+        reads its output.
+
+        Returns None when no pipeline NER is available, so the caller can tell
+        "nothing ran" from "ran and found nothing".
+        """
+        pipeline_path = None
+        summary_dir = Path(summary_file_path).parent
+        for candidate in sorted(summary_dir.glob("*_rag_pipeline.json")):
+            pipeline_path = candidate
+            break
+
+        if pipeline_path is None:
+            logger.warning("No *_rag_pipeline.json beside %s — pipeline NER unavailable",
+                           summary_file_path)
+            return None
+
+        try:
+            with open(pipeline_path, 'r', encoding='utf-8') as f:
+                pipeline = json.load(f)
+        except Exception as e:
+            logger.error("Could not read %s: %s", pipeline_path, e)
+            return None
+
+        ner_results = pipeline.get("ner_results") or []
+        if not ner_results:
+            logger.warning(
+                "%s has no ner_results (pipeline status=%s) — nothing to converge on",
+                pipeline_path.name, pipeline.get("status"))
+            return None
+
+        buckets: Dict[str, List[str]] = {key: [] for key in self.entity_types}
+        seen: Dict[str, set] = {key: set() for key in self.entity_types}
+
+        for entry in ner_results:
+            ner = entry.get("ner") if isinstance(entry, dict) else None
+            if not isinstance(ner, dict):
+                continue
+            for entity in ner.get("entities") or []:
+                if not isinstance(entity, dict):
+                    continue
+                bucket = self._NER_TYPE_TO_BUCKET.get(
+                    str(entity.get("type") or "").upper())
+                name = (entity.get("name") or "").strip()
+                if not bucket or not name:
+                    continue
+                # Chunk-level NER sees the same figure in many chunks; dedupe
+                # case-insensitively so a record is searched for once.
+                key = name.lower()
+                if key in seen[bucket]:
+                    continue
+                seen[bucket].add(key)
+                buckets[bucket].append(name)
+
+        console.print(
+            f"📥 Loaded NER from [cyan]{pipeline_path.name}[/cyan] "
+            f"({len(ner_results)} chunk results)")
+        return buckets
+
+    def _extract_entities_with_feedback(
+        self, summary_content: str, summary_file_path: str
+    ) -> Optional[Dict[str, List[str]]]:
+        """Load this document's entities, reporting failure as failure.
+
+        Returns None when extraction could not be performed at all. The old
+        behaviour returned seven empty buckets in that case, which the caller
+        could not distinguish from a document that genuinely contained no
+        entities — so a 401 wrote `"status": "completed"`.
+        """
         with Progress(
             SpinnerColumn(),
             TextColumn("[progress.description]{task.description}"),
@@ -169,26 +294,23 @@ class InteractiveEntityProcessor:
         ) as progress:
 
             task = progress.add_task(
-                "🧠 Extracting entities with AI...", total=None)
+                "🧠 Loading entities from pipeline NER...", total=None)
 
             try:
-                if self.entity_extractor:
-                    entities = self.entity_extractor.extract_entities(
-                        summary_content)
+                entities = self._load_pipeline_ner(summary_file_path)
+                if entities is None:
                     progress.update(
-                        task, description="✅ Entity extraction complete")
-                    return entities
-                else:
-                    progress.update(
-                        task, description="⚠️ Entity extractor not available")
-                    logger.warning(
-                        "EntityExtractionAgent not available, returning empty results")
-                    return {}
+                        task, description="❌ No pipeline NER available")
+                    return None
+                total = sum(len(v) for v in entities.values())
+                progress.update(
+                    task, description=f"✅ Loaded {total} entities from pipeline NER")
+                return entities
 
             except Exception as e:
-                progress.update(task, description="❌ Entity extraction failed")
-                logger.error(f"Entity extraction failed: {e}")
-                return {}
+                progress.update(task, description="❌ Entity load failed")
+                logger.error(f"Entity load failed: {e}")
+                return None
 
     def _display_extracted_entities(self, entities: Dict[str, List[str]]) -> None:
         """Display extracted entities in rich table format"""
@@ -700,7 +822,7 @@ class InteractiveEntityProcessor:
                 "processed_date": str(datetime.now()),
                 "status": results["status"],
                 "entities": results["entities"],
-                "xata_matches": results["xata_search_results"],
+                "entity_matches": _search_results_of(results),
                 "creation_results": results["entity_creation_results"],
                 "statistics": {
                     "total_entities": results["total_entities"],
@@ -723,7 +845,7 @@ class InteractiveEntityProcessor:
                         entity_list)
 
                     # Count matches for this entity type
-                    matches = results["xata_search_results"].get(
+                    matches = _search_results_of(results).get(
                         entity_type, [])
                     matched_count = len(
                         [m for m in matches if m.get("status") == "found"])

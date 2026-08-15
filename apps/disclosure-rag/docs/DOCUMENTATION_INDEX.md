@@ -51,7 +51,7 @@ These are the **4 primary documents** that provide complete system coverage. Sta
 |----------|---------|----------|
 | **Entity Schema** | Entity types and relationship definitions | Data architects |
 | **Vector Configuration** | Vector system setup and optimization | ML engineers |
-| **Database Schema** | Xata and PostgreSQL table structures | Database developers |
+| **Database Schema** | Neon Postgres table structures | Database developers |
 | **Performance Benchmarks** | System performance metrics and targets | Performance engineers |
 
 ### **User Guides**
@@ -73,11 +73,11 @@ The following files have been consolidated into the main documents but are prese
 - ~~`AGNO_INTEGRATION_ROADMAP.md`~~ → Merged into AGNO_ROADMAP.md
 - ~~`AGNO_NEXT_ACTIONS.md`~~ → Merged into AGNO_ROADMAP.md  
 - ~~`PHASE_1_IMPLEMENTATION_PLAN.md`~~ → Merged into AGNO_ROADMAP.md
-- ~~`AGNO_XATA_INTEGRATION.md`~~ → Merged into AGNO_ROADMAP.md
+- ~~`AGNO_XATA_INTEGRATION.md`~~ → Merged into AGNO_ROADMAP.md; **file deleted 2026-08-08** (premised on retired Xata)
 - ~~`CLAUDE.md`~~ → Analysis integrated into AGNO_ROADMAP.md
 
 #### **Architecture Documentation (Consolidated → ARCHITECTURE.md)**
-- ~~`QUINUPLE_RAG_ARCHITECTURE_DOCUMENTATION.md`~~ → Superseded by ARCHITECTURE.md
+- ~~`QUINUPLE_RAG_ARCHITECTURE_DOCUMENTATION.md`~~ → Superseded by ARCHITECTURE.md; **file deleted 2026-08-08** (premised on retired Xata)
 - ~~`COMPREHENSIVE_RAG_DOCUMENTATION.md`~~ → Key content moved to ARCHITECTURE.md
 - ~~Architecture sections in STATUS.md~~ → Moved to ARCHITECTURE.md
 

@@ -1,0 +1,52 @@
+@import 'tailwindcss';
+@source "../../../../packages/disclosure-ui/src";
+
+:root {
+  --lab-bg: #0e1114;
+  --lab-panel: #161b20;
+  --lab-border: #2a323a;
+  --lab-text: #e6ebe8;
+  --lab-muted: #8b969e;
+  --lab-accent: #7eb8a8;
+  --lab-warn: #d4a574;
+  --lab-danger: #c77b7b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  background: var(--lab-bg);
+  color: var(--lab-text);
+  font-family:
+    'IBM Plex Sans',
+    ui-sans-serif,
+    system-ui,
+    sans-serif;
+  font-size: 13px;
+}
+
+a {
+  color: var(--lab-accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+.lab-mono {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+}

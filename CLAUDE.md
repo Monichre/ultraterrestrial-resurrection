@@ -68,6 +68,8 @@ Python work uses Python 3 and a `.venv` (`apps/disclosure-rag/` has its own).
 
 - **Spacetime Canvas** (`apps/app/src/features/spacetime/`, route `(site)/spacetime`) — Temporal Observatory. Requires `NEXT_PUBLIC_MAPBOX_PUBLIC_TOKEN`; **without it the globe silently renders a placeholder instead of erroring** (`spacetime-globe.tsx`).
 - **Database package guidance**: `packages/db/README.md` and `packages/db/QUICK_REFERENCE.md` (there is no `packages/db/CLAUDE.md`).
+- **`packages/openai-vector-store-mcp/`** (added 2026-08-09, T-051) — FastMCP server exposing `search`/`fetch` over the same OpenAI Vector Store the live AI paths use. **Code-complete and verified live over stdio, but uncommitted (untracked in git) and registered only in `.cursor/mcp.json` — not in root `.mcp.json`, so Claude Code sessions in this repo cannot reach it today.** Do not assume it's wired in; check `.mcp.json` before relying on it.
+- **`apps/disclosure-lab/`** (planned, not built — T-052, [DMGD-216](https://linear.app/digital-mischief-group/issue/DMGD-216)) — decision-locked plan for a Neon admin/DX console (split-pane record browser + read-only assistant, human-only confirm-every-write, no deletes). Zero code exists; the directory does not exist. Plan lives at `.cursor/plans/neon_lab_next_app_133476f6.plan.md` (itself untracked in git).
 
 ### Core AI Architecture (Grounded 2026-03-29)
 
@@ -205,7 +207,7 @@ For agent intake and ops docs, see:
 
 ### Issue tracker
 
-Linear owns implementation tickets (project "Ultraterrestrial Resurrection", team DMGD), per the cutover documented in `docs/agents/ops/issue-tracker.md`. `docs/plans/TODO.md` is a migration ledger for historical `T-*` IDs only — do not add new tickets there. `.scratch/` may hold temporary research notes but is not the issue tracker.
+Linear owns implementation tickets (project "Ultraterrestrial Resurrection", team DMGD). `docs/plans/TODO.md` is kept in parity with Linear — new/updated/closed tickets get mirrored into both in the same pass, not written to Linear alone. Full parity rule in `docs/agents/ops/issue-tracker.md`. `.scratch/` may hold temporary research notes but is not the issue tracker.
 
 ### Triage labels
 

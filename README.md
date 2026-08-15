@@ -15,9 +15,8 @@ Shared packages:
 
 - `packages/db/` — Neon Postgres data layer. Live application code imports
   `@db/postgres`; the Xata SDK is retired migration-era code.
-- `packages/services/` — external research and ingestion services.
+- `packages/ai/` — `@repo/ai`: agent suite grammar, `@repo/prompts` (under `prompts/`), and vendor research adapters (`services/` → Exa / Firecrawl / deep-research).
 - `packages/knowledge-base/` — source documents and research material.
-- `packages/prompts/` — prompt assets and validation tooling.
 
 The Next.js app has two live AI paths:
 

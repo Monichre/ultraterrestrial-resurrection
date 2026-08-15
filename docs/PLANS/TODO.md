@@ -2,15 +2,25 @@
 status: live
 role: eng
 spine: do
-updated: 2026-07-19
+updated: 2026-08-13
 ---
 
 # TODO — Ultraterrestrial Resurrection
 
-**Last Updated:** 2026-07-19
+**Last Updated:** 2026-08-13
 **Source:** Roundtable audit (4 specialists) + agent-native remediation audit
 **Reference:** `docs/plans/2026-03-29-roundtable-unified-action-plan.md`
 **Branch:** dev
+
+> **🔴 2026-08-13 — READ THIS BEFORE TRUSTING ANY COMMIT HASH IN THIS FILE.** A history rewrite (the `399dd678 lots` / `6d5d10e6 lotgs` / `76b1127a lots and lots` squashes) invalidated most recorded hashes. Spot-check on 2026-08-13: **6 of 7 sampled hashes do not exist in this repo** — `7fe46f0` (T-050), `cd77135` + `b6d1d5a` (T-048 H0), `d5c69fb` (T-045), `aefc21b` (T-044), `ad87c45b`. Only `bbb32339` (T-047) resolved. **The underlying work generally did land** — it is the hashes that are dead, not the commits' content. T-050 and T-048 H0 have been repaired below with verified hashes; **T-044 and T-045 have not been checked and should be verified by artifact before anyone relies on them.** The 2026-08-06 spacetime review flagged this as process item 10; this is the first partial repair. Rule going forward: **verify by artifact, not by hash.**
+
+> **2026-08-13 — handoff grooming pass on T-047 and T-050** (no code changed). T-050 is now pickup-ready: dead hash corrected to `e58eccfe`, test pass bar corrected to the real suite (8 files / 38 tests, measured green), and subtask 3 (Render) specified down to the mount point and the node/edge-registry collision. **T-047 is NOT pickup-ready** — the 2026-08-07 storyboard rebuild that replaced its architecture is entirely uncommitted (10 untracked + 10 modified files), and the ticket predated both the 08-06 review and that rebuild. See the blocker block on T-047.
+
+> **2026-08-12:** Reviewed external n8n YouTube RAG workflows + UAP podcast playlist catalog. Opened **T-057** (playlist bulk-ingest manifest), **T-058** (grouped video retrieval + timestamp citations in live AI paths), **T-059** (playlist-id corpus index). Rejected parallel n8n+Qdrant stack — patterns only; see FEATURES Decision 12. Reference workflows archived under `packages/ai/prompts/*youtube*workflow*.json`.
+
+> **2026-08-10:** Shipped **T-054** — Trace Map provenance graph per processed source (`apps/disclosure-rag/lib/trace_map.py`, deterministic layer). Opened **T-055** (interpretive layer: Readings/Counter-readings/Next Traces + evidence→claim linkage) and **T-056** (web-article path).
+
+> **2026-08-09:** Opened **T-053 / DMGD-219** — Research Canvas Gen-UI upgrade. Spec: `docs/plans/2026-08-09-research-canvas-genui.md`. FEATURES Decision 11.
 
 > **2026-07-10 session note:** Scaffolded Matt Pocock engineering-skills config (`docs/ops/issue-tracker.md`, `triage-labels.md`, `domain.md`; `## Agent skills` block in `CLAUDE.md`). Built first-pass system-wide domain model: `CONTEXT-MAP.md` (4 contexts), `CONTEXT.md` (full glossary — reserved words, adopted vocabulary, 8 evidentiary states, all record types, classification taxonomy, Phase 2 reserved names). First ADR: `docs/adr/0001-agent-inferences-excluded-from-retrieval.md`. New ticket created for follow-up context files (see T-043 below).
 
@@ -46,15 +56,17 @@ tail behind product work.
 
 **Owns:** `apps/app/`, `packages/ai/`, the research/spacetime canvases, agent chat paths
 **Question it answers:** *can a researcher see, traverse, and reason about the evidence?*
-**Roadmap:** `docs/plans/2026-08-01-spacetime-canvas-implementation.md` (M0 → M4)
+**Roadmap:** `docs/plans/2026-08-01-spacetime-canvas-implementation.md` (M0 → M4) · Research Canvas Gen-UI: `docs/plans/2026-08-09-research-canvas-genui.md` (T-053)
 **Agents:** `app-agent`, `research-ui-agent`
 
 ### Lane assignment
 
 | Lane | Active | Open / backlog | Done |
-|---|---|---|---|
-| **A — Corpus & Ingestion** | T-048 | T-045 | T-044 |
-| **B — Platform & Experience** | T-047 | T-030, T-031, T-036, T-037, T-043, T-046 | T-001 … T-029, T-038 … T-042 |
+| --- | --- | --- | --- |
+| **A — Corpus & Ingestion** | T-048 | T-045, **T-055**, **T-056**, **T-057**, **T-059** | T-044, **T-054** |
+| **B — Platform & Experience** | T-050, T-052 | T-036, T-037, T-043, T-046, T-049, T-051, **T-053**, **T-058** | T-001 … T-029, T-030, T-031, T-038 … T-042 |
+
+**T-047 is deliberately absent from the Active column as of 2026-08-13.** It is not backlog either — it is **held**: its current surface is uncommitted (10 untracked + 10 modified files), so it cannot be assigned until the repo owner decides how that work lands. See the blocker block on T-047 before moving it back.
 
 **Cross-lane dependency (the one that matters):** Lane B's M1 "Evidence instrument"
 milestone — credibility and provenance filtering, source-cited event inspection — cannot
@@ -410,8 +422,9 @@ of archive records today. Lane B M0 does not depend on Lane A and can proceed in
 
 - **Status:** DONE / IN REVIEW — 2026-07-12 ([DMGD-186](https://linear.app/dmg-dev/issue/DMGD-186))
 - **Size:** M
-- **Cutover:** Linear owns actionable tickets and status. `FEATURES.md` remains strategic, `DAILY_WORK_PLAN.md` is a session log, and this file is the historical `T-*` migration ledger. New implementation tickets go to Linear; do not extend this ledger.
-- **Why:** User's own words: "integrate Linear so that task tracking just seems completely fucking invisible to me right now."
+- **Cutover:** Linear owns actionable ticket status/priority/review-state. `FEATURES.md` remains strategic, `DAILY_WORK_PLAN.md` is a session log.
+- **Parity correction (2026-08-09, user-directed):** this file is **not** a frozen historical ledger — TODO.md and Linear are kept in parity going forward. New/updated/closed tickets get mirrored into both in the same pass. See `docs/agents/ops/issue-tracker.md` for the full rule.
+- **Why:** User's own words: "integrate Linear so that task tracking just seems completely fucking invisible to me right now." (original cutover); "Everything should persist to Linear yes but I think we've been using the TODO file rather substantially so they should be in parity with one another" (2026-08-09 correction).
 - **Depends on:** T-039 (docs cleanup) should land first so migration maps cleanly.
 
 ### T-041: Roundtable UX/UI review
@@ -450,18 +463,48 @@ of archive records today. Lane B M0 does not depend on Lane A and can proceed in
 
 ### T-047: Temporal Observatory — Foundation milestone (Spacetime Canvas M0)
 
-- **Status:** M0 DONE (met + dogfooded live 2026-08-03) — M1 partially landed 2026-08-04, **closed at honest scope**; remainder blocked on T-048 H4
+- **Status:** ⛔ **NOT HANDOFF-READY — the current surface is uncommitted.** Read the two blocks immediately below before doing anything else with this ticket. The M0/M1 narrative further down is **preserved for history but superseded**; it describes an architecture that was replaced on 2026-08-07.
 - **Size:** L (Foundation / M0 only; full feature is M0–M4)
+
+#### ⚠️ T-047 handoff blocker (audited 2026-08-13) — resolve before assigning this to anyone
+
+**The 2026-08-07 storyboard rebuild of `/spacetime` exists only in the working tree.** It is not committed. A fresh clone does not have it, and would instead get the two-layer scroll shell that the 08-06 review browser-confirmed as broken.
+
+- **10 untracked files:** `components/{event-inspector,evidence-legend,map-controls,playback-transport,spacetime-rail,spacetime-topbar,viewport-readout,waypoint-narrative}.tsx`, `lib/{map-controller,spacetime-theme}.ts`
+- **10 modified, uncommitted files:** `actions/load-spacetime-events.ts`, `components/{evidence-layers-panel,preserve3d-globe-spike,spacetime-canvas-shell,spacetime-canvas,spacetime-globe,temporal-dial}.tsx`, `index.ts`, `lib/{normalize,temporal-stations}.ts`
+- **Last commit touching the feature is `bbb32339`** (M1 close, 08-05 era) — i.e. everything after the multi-agent review is uncommitted.
+
+Committing 20 files spanning an architecture change is a call for the repo owner, not a passing cleanup. **Until it is made, this ticket cannot be handed to another team** — they would be reading a ticket, cloning a third state, and seeing a fourth on the local disk.
+
+#### T-047 real current state (audited 2026-08-13) — two events the older ticket text predates
+
+The ticket below was last updated 2026-08-05. Two significant things happened after it, **neither recorded in `TODO.md` nor in `DAILY_WORK_PLAN.md`** (which has no 08-06 or 08-07 session entry at all):
+
+1. **2026-08-06 — multi-agent review returned UNVERIFIED, not done** ([`docs/plans/2026-08-06-spacetime-canvas-multi-agent-review.md`](./2026-08-06-spacetime-canvas-multi-agent-review.md)). It **browser-confirmed** two shipped breaks at `localhost:3010/spacetime`: the globe could not be clicked, panned or zoomed (Break 1), and scroll mapped to the wrong station — **M0's own literal exit criterion** (Break 2). Its verdict: the code was real, clean and honestly labelled, but *"the feature has never been genuinely dogfooded"*; recorded M0 "MET" and M1 "closed at honest scope" both overstated. It also flagged the dead-commit-hash problem across the trackers (item 10) — still unrepaired elsewhere in this file.
+2. **2026-08-07 — the architecture was replaced, and both breaks were fixed** ([`docs/plans/2026-08-07-spacetime-canvas-storyboard-realignment.md`](./2026-08-07-spacetime-canvas-storyboard-realignment.md)). Triggered by the product owner on seeing the running canvas — *"The spacetime canvas looks nothing like the provided mock ups I gave you"*. The two-layer scroll shell (globe in a `pointer-events-none .fixed.inset-0` slot under a `z-10` full-viewport `preserve-3d` narrative) was **replaced by the docked observatory layout** from spec §9 and the four storyboards: 72px header / 72px rail / **map as interactive foreground** / docked adaptive temporal instrument, with chrome docked *inside* the map region.
+
+**Do not re-open Breaks 1 and 2 as work items.** Both were defects *of the retired scroll shell* and are fixed in the working tree, with real browser evidence in the 08-07 doc §5 — pin click (`El Indio-Guerrero UFO Crash`, 6 attempts), 12-step pan (`51.98°N,57.02°W → 56.45°N,4.54°E`), wheel zoom (`ALT 15,451 KM → 11,009 KM`), and chapter/cursor/camera agreement at 12/12. The fixes are also self-documented in source: `spacetime-canvas-shell.tsx:19-26` explains the layout change against Break 1, and `waypoint-narrative.tsx:55-95` documents the station-list mismatch that caused Break 2 and the bucketing fix. **The catch is only that none of it is committed** (see blocker above).
+
+**What is genuinely open on T-047, once the commit question is settled:**
+
+- **Nothing in M1's blocked half has moved.** Relationship arcs, credibility ring, source count and claims list still need **Lane A T-048 H4 (provenance)** — re-confirmed by 08-07 §7 items 2–3. This remains a real block, not a deferral.
+- **`Analytics` and `Settings` rail slots render visibly inert** — no surface exists behind them (08-07 §7 item 4). Cheapest honest fix is to mark them unavailable rather than ship dead affordances.
+- **Temporal precision rendering** — the 08-06 review called this *unblocked, value already computed* (§9 item 5): encode `timePrecision` into the globe paint. This is the most concrete unblocked slice on the ticket.
+- **A navigation entry point to `/spacetime` still does not exist** (08-06 §9 item 4) — the route is reachable only by typing the URL.
+- **The seam question the review raised is now answered by the rebuild** (08-06 §9 item 7 asked whether the globe should stay behind a scroll layer; 08-07 decided no). But **08-06 §9 item 8 is still open and still matters**: Concept 02's device is a *horizontal waypoint navigator with auto-advance*, not vertical scroll cards — settle this **before M4** builds Guided Investigations on the scroll assumption.
+- **M2–M4 have no ticket-level scope.** Only plan §4 sketches them (`M2 Reconstruction`, `M3 Comparative analysis`, `M4 Narrative`), and 08-07 §7 item 1 notes M3/Concept 03 needs reconstructions that do not exist. **Anyone picking up beyond M1 needs a grooming pass first — do not treat plan §4 as an implementable spec.**
+
+**Not verified in this audit:** no build, no dev server, no browser run was performed on 2026-08-13. The break-fix evidence above is quoted from the 08-07 document, not independently re-observed. 08-07 itself records: no production build (dev only), no browser other than automation Chrome, no mobile/touch/keyboard/screen-reader pass.
 - **What:** Build the **Spacetime Canvas** — sibling surface to Research Canvas — by dropping the live Mapbox globe into the fixed background slot of the scroll-driven Guided Investigation UI (v0 timeline-explorer pattern: CSS `preserve-3d`, **zero** WebGL in the narrative layer).
   1. **M0.1** ✅ Frame-timing spike at `/spacetime?spike=1`
   2. **M0.2** ✅ Shared types — `TemporalCursor`, `SpacetimeEvent`, `TemporalLayerFeature`
   3. **M0.3** ✅ Zustand store — cursor SoT; `interactionMode: guided | free` (**D1 locked**)
   4. **M0.4** ✅ `buildTemporalStations` from event density
   5. **M0.5** ✅ Bounded load via `loadSpacetimeEvents` server action → Postgres `getSightingsByTimeChunk` (no static geojson; no INTERNAL_API_KEY)
-  6. **M0.6** ✅ `SpacetimeCanvas` shell — fixed globe + scroll narrative (**D2 fallback accepted if spike janks**)
+  6. **M0.6** ~~`SpacetimeCanvas` shell — fixed globe + scroll narrative~~ — **SUPERSEDED 2026-08-07.** This describes the retired two-layer scroll shell. The shell is now the docked observatory layout (header / rail / interactive map foreground / docked instrument); see the "real current state" block above.
   7. **M0.7** ✅ Bidirectional `TemporalDial`
   8. **M0.8** ✅ `/spacetime` route (**D3 locked: sit beside** `/sightings`+`/timeline`)
-- **M0 exit — MET 2026-08-03:** dogfooded live against real Neon DB + real Mapbox token (384/387 events geolocated); R1 frame-timing measured on the product surface (median 16.7ms, p95 17.5ms, CLS 0.00) and cleared per D2 — live globe retained, no static-plate fallback needed. Full detail in `docs/PLANS/2026-08-01-spacetime-canvas-implementation.md` §4 and `DAILY_WORK_PLAN.md` "Session 2026-08-03".
+- **M0 exit — recorded MET 2026-08-03, ⚠️ CONTESTED by the 08-06 review, then re-satisfied on a different architecture 08-07:** the original claim was live dogfood against real Neon + real Mapbox (384/387 events geolocated) with R1 frame-timing on the product surface (median 16.7ms, p95 17.5ms, CLS 0.00), cleared per D2. The 08-06 review found the exit criterion **did not hold** (Break 2) and that "dogfooded" meant only that the page loaded and rendered — no globe interaction was ever performed, so the geolocated count and the instrument claims were not backed by that session. Chapter/cursor/camera agreement was demonstrated on 2026-08-07 against the rebuilt layout. **Treat `384/387` as unre-measured** (08-06 §9 item 13 asked for it to be struck or re-measured; that was never done). Full detail in `docs/plans/2026-08-01-spacetime-canvas-implementation.md` §4, `DAILY_WORK_PLAN.md` "Session 2026-08-03", and the 08-06 / 08-07 plan docs.
 - **M1 (evidence instrument) — partially landed 2026-08-04, closed at honest scope:**
   - ✅ Layer panel (`evidence-layers-panel.tsx`) + event inspector (`spacetime-canvas.tsx`), credibility/provenance filtering with tier stops (`Any/Thin+/Docmt+/Corrob+`) that derive reachability from the live corpus instead of exposing unreachable tiers.
   - ✅ Root-caused and fixed a real data-honesty bug: `confidence` was hardcoded `'medium'` for every sighting (`get-sightings.ts`) — now derives from real vs. thin/placeholder record content, verified against 508 live DB rows. Score bands narrowed (`0.2/0.4/0.7`) so nothing implies evidentiary weight this corpus can't support.
@@ -476,8 +519,14 @@ of archive records today. Lane B M0 does not depend on Lane A and can proceed in
   - `getSightingsGeoJSON` (`services/sightings/uap-sighting.ts:84`) is also dead (its only other mention is a commented-out import in `sightings-ai-analysis.ts:3`). **Worth noting before anything ever revives it:** it silently falls back to `mock-sightings.geojson` / `mock-ufo-posts.geojson` / `mock-military-bases.geojson` when the real files are absent, logging only `console.log("Using mock data files…")`. That is precisely the fabricate-on-failure pattern M1 spent two sessions removing. If this function is ever brought back, it must fail loudly instead.
 - **Proposed cleanup, NOT executed (needs a call — deletion of 70MB of assets + a 78KB component):** delete `sightings-globe.tsx`, `getSightingsGeoJSON`, and the six `public/*.geojson` files (`sightings.geojson` 46MB + `military-bases.geojson` 27MB dominate; 70MB total shipped in `public/`). Also dead alongside them: `features/sightings/old.tsx`, `chatgpt-version.tsx` (both fully commented out). Verify `sightings-globe-refactored.tsx`'s status before removing the shared `types.ts`.
 - **Decisions locked 2026-08-01:** D1 bidirectional · D2 static-plate fallback if jank (not needed, see M0 exit) · D3 sit beside
-- **Files:** `apps/app/src/features/spacetime/`, `apps/app/src/app/(site)/spacetime/`, `apps/app/src/services/sightings/get-sightings.ts`, `apps/app/src/lib/utils/text.ts`
-- **Reference:** `docs/PLANS/2026-08-01-spacetime-canvas-implementation.md`, `docs/vision/TEMPORAL_OBSERVATORY.md`, `docs/adr/0002-temporal-observatory-gl4ss-integration.md`, storyboards in `docs/vision/storyboards/` · prototypes in `docs/vision/prototypes/`
+- **Files:** `apps/app/src/features/spacetime/`, `apps/app/src/app/(site)/spacetime/`, `apps/app/src/services/sightings/get-sightings.ts`, `apps/app/src/services/sightings/get-events.ts`, `apps/app/src/lib/utils/text.ts`
+- **Reference (paths corrected 2026-08-13 — the directory is `docs/plans/` lowercase; the old `docs/PLANS/` spelling resolves on macOS but breaks on case-sensitive Linux CI and for any agent running there):**
+  - [`docs/plans/2026-08-01-spacetime-canvas-implementation.md`](./2026-08-01-spacetime-canvas-implementation.md) — original plan; §4 is the M0–M4 delivery sequence, §3 the lever rules, §7 the locked decisions
+  - [`docs/plans/2026-08-06-spacetime-canvas-multi-agent-review.md`](./2026-08-06-spacetime-canvas-multi-agent-review.md) — **read before resuming**; the UNVERIFIED verdict and the two confirmed breaks
+  - [`docs/plans/2026-08-07-spacetime-canvas-storyboard-realignment.md`](./2026-08-07-spacetime-canvas-storyboard-realignment.md) — **the current architecture of record**; §5 is the break-fix evidence, §7 the open list
+  - `docs/vision/TEMPORAL_OBSERVATORY.md` (§9 is the primary interaction layout), `docs/adr/0002-temporal-observatory-gl4ss-integration.md`
+  - Storyboards `docs/vision/storyboards/` (four concept boards, all tracked) · prototypes `docs/vision/prototypes/` — `03-temporal-geospatial-observatory.html` is spec-marked **Primary** and drove the rebuilt proportions
+  - Dogfood screenshots: `docs/dogfood-output/spacetime-canvas-2026-08-07/` (`00-before.png` is the pre-rebuild state)
 
 ### T-044: Fix CRITICAL findings from disclosure-rag/main.py contract review
 
@@ -501,7 +550,13 @@ of archive records today. Lane B M0 does not depend on Lane A and can proceed in
 
 ### T-048: Ingestion hardening — corpus integrity, identity, and provenance
 
-- **Status:** IN PROGRESS — audit + plan landed 2026-08-01; **H0 landed** (commits `cd77135` disclosure-rag/db, `b6d1d5a` knowledge-base archive hygiene). **H1–H5 remain; H1 (identity) is next.** Note H4 (provenance) is the hard gate on Lane B's T-047 M1 evidence instrument — do not confuse it with T-045's separate H4 (temp-file leak, closed by `d5c69fb`).
+- **Status:** IN PROGRESS — audit + plan landed 2026-08-01; **H0 landed** (real commits **`64edf9b5`** disclosure-rag/db "H0 P0s — restore process_for_rag, dedup guard, chunk search", **`25357789`** knowledge-base "H0 archive hygiene — derived zone, dead module surface"). **H1–H5 remain; H1 (identity) is next.**
+- **⚠️ H0 re-verified by artifact 2026-08-13 — two corrections and one regression.** The previously recorded hashes `cd77135` and `b6d1d5a` **do not exist in this repo** (`git cat-file -t` → missing on both); they were invalidated by the same history rewrite that killed T-050's `7fe46f0`. The work did land, under the hashes above. Verify by artifact, never by hash. What the artifacts actually show:
+  - ✅ **graphify-out purged** — `find packages/knowledge-base/sources -name "graphify-out*"` returns nothing.
+  - ⚠️ **"delete the dead `index.ts`/`package.json` module surface" is inaccurate as written** — both files still exist. `25357789` *neutered* rather than deleted them: `index.ts` is now 18 lines exporting only a `KNOWLEDGE_BASE_PATHS` constant, with a comment stating the package has no runtime data exports. Effect achieved, wording wrong — do not go looking for files to delete.
+  - 🔴 **The relative-path fix has REGRESSED, and this is H1's problem.** `metadata/index.json` now holds **568 documents (not the 564 in the audit), 51 of which carry absolute machine-specific paths again** — e.g. `/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/sources/transcripts/2026-08-06/K4gYHs84BIc`. **Every regressed record sits under a `2026-08-06` or `2026-08-07` ingest directory, while both H0 commits landed 2026-08-01** (`git log -1 --format=%ci 25357789` → `2026-08-01 12:20:10 -0500`; `64edf9b5` → `12:10:03` same day). So these are records written *five and six days after* H0 normalized the archive — a genuine regression, not records H0 missed. H0 normalized the existing data but never fixed the *writer*, so each new ingest reintroduces the defect. Fixing the write path belongs in H1 alongside identity; re-normalizing the data without it just resets a counter.
+  - 🔴 **H1 has not started, and it collides with an existing hash choice the plan does not address.** Zero of the 568 records carry any sha/hash field. Meanwhile `lib/knowledge_base_crud.py:180-181` already computes **md5** and labels it "dedup key / integrity check". H1 says persist **sha256**. Decide explicitly — migrate md5→sha256, or run both — before writing the column and the unique constraint; a silent second hash identity is worse than either one. **There is exactly one call site to change: `create_document()` at `knowledge_base_crud.py:235`.**
+  - **Not verified:** the "6 YouTube records with dead absolute paths (missing `apps/` segment)", the 47 phantom `index.json` entries, and the 390-vs-139 unindexed-file reconciliation were not re-checked in this pass. Note H4 (provenance) is the hard gate on Lane B's T-047 M1 evidence instrument — do not confuse it with T-045's separate H4 (temp-file leak, closed by `d5c69fb`).
 - **Size:** XL (H0–H5; H0 and H1 are independently shippable)
 - **Lane:** A — Corpus & Ingestion
 - **What:** Close the four load-bearing gaps found by the 2026-08-01 five-agent audit:
@@ -545,7 +600,9 @@ of archive records today. Lane B M0 does not depend on Lane A and can proceed in
 
 ### T-050: Guided Tours — converge the two tour engines onto the research canvas
 
-- **Status:** IN PROGRESS — scoped 2026-08-05; **subtasks 1 (schema) + 2 (store) landed same day** in `7fe46f0`. Subtasks 3–5 open.
+- **Status:** IN PROGRESS — scoped 2026-08-05; **subtasks 1 (schema) + 2 (store) landed** in **`e58eccfe`** ("T-050 subtasks 1-2 — one Zod schema, one store, explicit corpus anchors"), with follow-ups `7d12de2c` (anchor resolution) and `409da1d9` (invariant enforcement). Subtasks 3–5 open.
+- **Handoff state (re-verified 2026-08-13):** pickup-ready. All subtask 1–2 code is **committed and present in a fresh clone** — no untracked work, no dirty files under `features/guided-tours/` or `features/mindmap/tours/` (`git status --porcelain` on both paths returns empty). The test suite is **green at baseline**: `cd apps/app && bun test src/features/guided-tours` → **38 pass, 0 fail, 94 expect() calls, 8 files, 3.82s**. An inheriting team can trust a red suite means *their* breakage.
+  - **Hash correction:** the previously recorded `7fe46f0` **does not exist in this repo** (`git cat-file -t 7fe46f0` → missing). The work did land; the hash was invalidated by a history rewrite (see the `399dd678 lots` / `6d5d10e6 lotgs` squash commits). This is the same dead-hash class the 08-06 spacetime review flagged as process item 10 — **verify by artifact, not by hash**, anywhere in this file.
 - **Size:** L (schema + store + render + launch; the "real merge", not a launch-chip alias)
 - **Lane:** B — Platform & Experience
 - **What:** The repo has **two unrelated things both called "tour"**, verified 2026-08-05:
@@ -553,18 +610,204 @@ of archive records today. Lane B M0 does not depend on Lane A and can proceed in
   2. **Nuclear Shadow** (`features/guided-tours/`) — a *self-contained evidence-graph runtime* on its own route. Zod-validated `TourDefinition`; epistemic gates (`GateKey = claim | evidence | challenge | residue`); five typed narrative edges (`chronological | evidentiary | hypothesis | institutional-inheritance | contradiction`); private XYFlow (`WaypointNode`/`NarrativeEdge`/`TourFlowCanvas`), HUD + `WaypointInspector` + `EvidenceDrawer`; choreographed arrive/depart; localStorage progress. **Zero `@db/postgres` imports** — static definition + source URLs, no live corpus binding. Launches via `router.push('/tours/nuclear-shadow')` (`graph.tsx:456`/`462`, `research-canvas/typer/constants.ts:10`).
 - **Why:** Nuclear Shadow has the epistemics the product identity demands (evidence tiers, challenge-before-residue, falsifiability) but leaves the research canvas entirely. Mindmap tours are on-canvas and bound to live records but say nothing about evidence. Neither alone is the "integrated research narrative engine for anomalous knowledge."
 - **Subtasks:**
-  1. ✅ **Schema** — DONE `7fe46f0`. `anyTourDefinitionSchema` is a Zod discriminated union on `mode` (`spine` | `evidence-graph`); spine shapes live in `guided-tours/shared/types/tour-definition.ts` and `mindmap/tours/guided-tour-store.ts` re-exports them as aliases. Every evidence-graph waypoint carries a **required** `corpusAnchor` (`query` | `record` | `none` + required `reason`) with no unset member, so "no record exists" can never be read as "not resolved yet".
-  2. ✅ **Store** — DONE `7fe46f0`. `useUnifiedTourStore` holds the union of both runtimes; `useTourStore` and `useGuidedTourStore` are exact aliases of it. Field names don't collide, so all existing selectors and `getState()` calls read a superset unchanged.
-  3. **Render** — evidence-graph tours mount **on the mindmap canvas**, not a second `ReactFlow`. Replace `TourOverlay` with the `WaypointInspector` pattern; microfilm HUD as a canvas overlay, not page-owned CSS.
+  1. ✅ **Schema** — DONE `e58eccfe`. `anyTourDefinitionSchema` is a Zod discriminated union on `mode` (`spine` | `evidence-graph`); spine shapes live in `guided-tours/shared/types/tour-definition.ts` and `mindmap/tours/guided-tour-store.ts` re-exports them as aliases. Every evidence-graph waypoint carries a **required** `corpusAnchor` (`query` | `record` | `none` + required `reason`) with no unset member, so "no record exists" can never be read as "not resolved yet".
+  2. ✅ **Store** — DONE `e58eccfe`. `useUnifiedTourStore` holds the union of both runtimes; `useTourStore` and `useGuidedTourStore` are exact aliases of it. Field names don't collide, so all existing selectors and `getState()` calls read a superset unchanged.
+  3. **Render** — evidence-graph tours mount **on the mindmap canvas**, not a second `ReactFlow`. This is the largest open subtask; the seam is fully located, so it can be picked up cold:
+     - **What to delete, precisely.** `TourFlowCanvas` (`shared/components/TourFlowCanvas.tsx`) is the only thing that must not survive the port. It composes: `ReactFlowProvider` → `ReactFlow` (its own `nodeTypes`/`edgeTypes` + `Background`) → `TourChoreographer`, then `TourHUD` / `WaypointInspector` / `EvidenceDrawer` as siblings (`:35-125`). **Only the `ReactFlowProvider` + `ReactFlow` + `Background` shell is the second canvas.** Everything else in that file is portable as-is.
+     - **Where it goes.** `graph.tsx:558` currently mounts `<TourOverlay />` (imported at `:35`) inside the existing mindmap `ReactFlow` (`:537-538`). That mount point is the target slot: `TourHUD` / `WaypointInspector` / `EvidenceDrawer` / `TourChoreographer` mount there, reading `useUnifiedTourStore` — which subtask 2 already made a superset of both runtimes, so no new state is needed.
+     - **The one real integration cost.** `WaypointNode` and `NarrativeEdge` are registered as node/edge types on the private `ReactFlow`. Porting means registering them in the mindmap's shared registries — `features/mindmap/config/node-types.tsx` and `features/mindmap/config/edge-types.tsx` (consumed at `graph.tsx:7,9`). Namespace the keys (e.g. `tour-waypoint`, `tour-narrative`) so they cannot collide with existing mindmap node types.
+     - **Graph compilation stays.** `compileTourGraph` already produces the node/edge arrays; feed its output into the mindmap's existing node/edge state instead of a private `ReactFlow`'s props. Do not reimplement it.
+     - **`TourOverlay` disposition.** It is the *spine* runtime's narrative UI (`tours/tour-overlay.tsx`), still driven by `useGuidedTour`, and spine tours still need it. Do not delete it in this subtask — mount the evidence-graph overlays alongside it and let `mode` decide which renders. Deleting it is only correct if/when spine tours are folded into the evidence-graph runtime, which is **not** in T-050's scope.
+     - **Acceptance:** launching Nuclear Shadow puts waypoint nodes on the *mindmap* canvas with the HUD/inspector/drawer functioning, `/tours/nuclear-shadow` still resolves (subtask 5 keeps it as a deep-link alias), exactly one `ReactFlow` instance exists in the React tree, and the 8-file suite stays green.
   4. **Resolve** — map Nuclear Shadow anchors to Neon `searchQuery`/`recordId` where real records exist. Waypoints with no corpus anchor (R&D / SAP) stay narrative-only and must be **visibly** marked as such — do not imply a record exists.
      - **Four** anchors now need live verification, not the three originally enumerated: Manhattan Project, Trinity, Roswell (`table: 'events'`) **and Smyth Report** (`table: 'documents'`), added when subtask 1 made `corpusAnchor` required. The Smyth anchor is an unverified assertion — a real published document, but nobody has confirmed the corpus holds a matching record. If it does not resolve, demote it to `kind: 'none'` rather than leaving a query that silently returns nothing.
      - `resolveAnchor()` (`shared/graph/resolve-anchor.ts`, landed with subtask 1) already holds the rule: use it rather than reimplementing resolution, so a failed lookup reports `unresolved` with the attempted query instead of collapsing into narrative-only.
   5. **Launch** — `startTour(NUCLEAR_SHADOW_TOUR)` from the graph chips / typer; `GUIDED_TOURS` becomes the single registry. Keep `/tours/nuclear-shadow` only as a deep-link alias.
-- **Pass bar:** `bun test src` green (suite is the 4 files under `guided-tours/tests/`); `eslint` exit 0 on touched paths; **no new** `tsc` errors in touched files (repo carries ~1,712 pre-existing — do not chase them).
+- **Related (opened 2026-08-09):** **T-053 / DMGD-219** (Research Canvas Gen-UI) soft-depends on subtask 3 for RC-P4 plan→waypoint projection. T-050 does not block T-053 RC-P0–P3.
+- **Pass bar:** `cd apps/app && bun test src/features/guided-tours` green — **measured baseline 2026-08-13: 38 pass / 0 fail across 8 files**, which are `shared/tests/{tour-schema,unified-tour-store,resolve-anchor,validate-any-tour}.test.ts` and `nuclear-shadow/tests/{definition,reducer,graph-compiler,choreography}.test.ts`. (The previous wording — "the 4 files under `guided-tours/tests/`" — named a directory that does not exist; there is no `guided-tours/tests/`.) Plus: `eslint` exit 0 on touched paths; **no new** `tsc` errors in touched files (repo carries a large pre-existing count — do not chase them). Definition of Done applies: the render subtask needs a dogfood visual audit, not just a green suite.
 - **TDD seam:** `shared/state/tour-reducer.ts`, `shared/graph/compile-tour-graph.ts`, `shared/graph/derive-node-status.ts`, `shared/schemas/tour-definition.schema.ts` are pure and already covered. Extend those tests first.
 - **Do not:** fork a second canvas; add state to `mindmap-context.tsx` (1,363-line god-object); use `router.push()` for canvas navigation (use Zustand `setActiveView()`).
 - **Files:** `apps/app/src/features/guided-tours/`, `apps/app/src/features/mindmap/tours/`, `features/mindmap/graph.tsx`, `features/mindmap/actions/tour-actions.ts`, `app/(site)/tours/nuclear-shadow/page.tsx`
 - **Reference:** engine-delta analysis 2026-08-05 (this session); `features/guided-tours/NuclearShadowTour.md`
+
+### T-051: OpenAI Vector Store MCP server (`packages/openai-vector-store-mcp`)
+
+- **Status:** BUILT, UNCOMMITTED — code-complete and **verified live over stdio 2026-08-09**; **not reachable from Claude Code** ([DMGD-218](https://linear.app/digital-mischief-group/issue/DMGD-218/lane-b-packagesopenai-vector-store-mcp-mcp-server-exposing-openai), Linear state **Backlog**). `git status` shows `?? packages/openai-vector-store-mcp/` — the whole workspace is untracked, zero commits, absent from a fresh clone. "Finished" means runnable, not landed.
+- **Size:** S (register in root `.mcp.json`, pin the FastMCP floor, commit; the server itself is written)
+- **Lane:** B — Platform & Experience. It exposes the **retrieval surface external agents traverse** ("can a researcher/agent see and traverse the evidence"), even though Lane A's disclosure-rag ingestion is what populates the underlying store. Same rationale recorded on DMGD-218 — if that call is reversed, reverse it in both places.
+- **What:** A FastMCP server (`src/openai_vector_store_mcp/server.py`, console script `openai-vector-store-mcp`) exposing ChatGPT deep-research-compatible `search` and `fetch` tools over the **same OpenAI Vector Store** the app's Prometheus chat and disclosure mindmap agent use for `file_search` — verified, not assumed: `api/prometheus/chat/route.ts:76` reads `process.env.OPENAI_VECTOR_STORE_ID` directly, and `services/ai/openai/config.ts:26` derives `PROMETHEUS_VECTOR_STORE_ID` from the same variable for the mindmap route (`api/disclosure/mindmap/route.ts:178`). The MCP server resolves that same variable (as a fallback behind `VECTOR_STORE_ID`) and even mirrors the app's `cleanOpenAIId` sanitizer as `clean_openai_id`. `search(query)` → `{ results: [{ id, title, url }] }` via `vector_stores.search`; `fetch(id)` → `{ id, title, text, url, metadata? }` via `vector_stores.files.content` + `files.retrieve`. Citation URLs are `https://platform.openai.com/storage/files/{file_id}`. Transports: `stdio` (Cursor/local), `sse` (remote/ChatGPT), `http`, selected by `MCP_TRANSPORT`.
+- **Evidence (2026-08-09, this session):**
+  - `ls packages/openai-vector-store-mcp/.venv` → `bin include lib pyvenv.cfg`, and `.venv/bin/openai-vector-store-mcp` exists. `bun run setup` **has** been run; this is installed, not just scaffolded.
+  - `timeout 15 .venv/bin/openai-vector-store-mcp < /dev/null` → exit 0, `Starting MCP server with transport=stdio`, FastMCP **3.4.6** banner, clean EOF shutdown.
+  - In-process tool call through the FastMCP server object: `list_tools()` → `['fetch', 'search']`; `search("Roswell")` → **10 results**, first title `AARO_Historical_Record_Report_Vol_1_2024.pdf`; `fetch(<that id>)` → **168,636 chars** of text, correct citation-URL prefix. **The tools work end-to-end against the live vector store.**
+- **Gaps / action items:**
+  1. **Not in root `.mcp.json`.** That file registers only `context7`, `chrome-devtools`, `DeepGraph Next.js MCP`, `open-knowledge`. `.cursor/mcp.json` **does** register it as `openai-vector-store` pointing at the absolute `.venv/bin/openai-vector-store-mcp` path — so **Cursor can reach this server and Claude Code sessions in this repo cannot.** Adding it changes the tool surface for every future session here, so it is left as a deliberate action item, not done in passing.
+  2. **The workspace is untracked.** Decide whether it gets committed (see open questions).
+  3. **`pyproject.toml` floors `fastmcp>=2.0`, but the code is FastMCP-3-only** — `output_schema=` on `@mcp.tool`, and host/port passed as `run()` transport kwargs (the source comment says so in as many words). The installed venv happens to hold 3.4.6, so a fresh `bun run setup` that resolves 2.x is a plausible break. Floor it at `fastmcp>=3`. (Verified the code *requires* 3.x, not that it breaks on 2.x — nobody ran it against 2.x.)
+- **Env, useful to know:** there is **no `.env` in the package** and it works anyway — `load_env_files()` walks `__file__`-relative to the package `.env`, then repo-root `.env`, `.env.local`, and `apps/app/.env.local` with `override=False`, and root `.env` already carries `OPENAI_API_KEY` + `OPENAI_VECTOR_STORE_ID`. The README's `cp .env.example .env` step was never run and does not need to be. `.cursor/mcp.json` accordingly sets only `MCP_TRANSPORT` and pastes no secrets.
+- **Dependencies:** none blocking. Corpus quality is inherited from whatever Lane A (T-048) has pushed into the OpenAI vector store — this server does not ingest, it only reads.
+- **Not verified — do not assume:** only **stdio** was exercised. The `sse` and `http` transports are untested here; the README lists three transports and that should not be read as three verified ones. No test suite exists in the package (`scripts/` is empty, no tests).
+- **Files:** `packages/openai-vector-store-mcp/` (`src/openai_vector_store_mcp/server.py`, `pyproject.toml`, `package.json`, `README.md`, `OpenAIVectorStoreMcp.md`, `.env.example`), `.cursor/mcp.json`, root `.mcp.json` (pending)
+
+### T-052: Disclosure Lab — Neon admin/DX explorer (`apps/disclosure-lab`)
+
+- **Status:** IN PROGRESS — 2026-08-09 — claimed against [DMGD-216](https://linear.app/digital-mischief-group/issue/DMGD-216/lane-b-build-appsdisclosure-lab-neon-admin-console-read-only-assistant) (Linear **In Progress**). Canonical spec: [`docs/plans/2026-08-09-disclosure-lab.md`](./2026-08-09-disclosure-lab.md) (copied from grilling plan; domain-docs landed in `CONTEXT-MAP.md` + `packages/db/CONTEXT.md`).
+- **Size:** L (new app in `apps/`, write-policy layer, agent tool surface, six routes)
+- **Lane:** B — Platform & Experience. Explicitly **not** Research Canvas: it is a database-context admin console, and the Canvas "inference-only write" rule scopes to `apps/app` only.
+- **What:** A separate Next.js 15 app (`@disclosure-lab`) giving internal visibility/DX into Neon data fidelity. Home `/` is a **split pane** — record browser left, read-only AI assistant right, with the selected row auto-attached to the assistant as a clearable context chip. Plus `/overview` (counts + embedding coverage), `/sql`, `/charts` (Recharts), `/search` (FTS/vector smoke), `/audit`.
+  - **Writes are human-only.** The agent (`/api/agent`, Vercel AI SDK `streamText`) gets read/analyze tools only — `listTables`, `describeSchema`, `searchDatabase`, `runSqlRead` (SELECT/WITH/EXPLAIN), `getRecord`/`listRecords`, `aggregate`. No agent mutation in v1.
+  - **INSERT/UPDATE only, on an entity-table allowlist**, with **confirm-every-write** (including single-field saves) → confirm card → execute → JSONL audit trail. `document_chunks`, `agent_inferences`, join tables, and DDL are not writable. UPDATE without `WHERE` is rejected.
+  - **No deletes anywhere in v1** — `DELETE`/`TRUNCATE` hard-blocked in both GUI and `/sql`, alongside `DROP|ALTER|GRANT|REVOKE|CREATE`.
+  - Stack: Next.js 15 App Router + TypeScript + Tailwind + Recharts + Vercel AI SDK; data access via `@db/postgres` only (never `@db/xata`). No Clerk, no public deploy assumed.
+- **Why:** There is no internal surface for inspecting or correcting Neon record fidelity today. Lane A ingestion writes the corpus; nothing lets a human see what actually landed or fix a bad row without hand-writing SQL.
+- **Dependencies:** None blocking, but it **reads and writes the same live shared `DATABASE_URL` that Lane A's ingestion work (T-048) populates** — intentional per grilling Q4. Coordinate before either lane assumes exclusive control of schema changes.
+- **Open questions resolved:** writable table is `key_figures` (alias `personnel` via `resolveTable`); CONTEXT-MAP now scopes inference-only writes to Research Canvas.
+- **Files:** `apps/disclosure-lab/` (in progress), `docs/plans/2026-08-09-disclosure-lab.md`
+- **Reference:** Linear DMGD-216; FEATURES Decision 10
+
+### T-053: Research Canvas Gen-UI upgrade — Deep Research loop + agentic session
+
+- **Status:** OPEN / Backlog — 2026-08-09 — opened against [DMGD-219](https://linear.app/digital-mischief-group/issue/DMGD-219/lane-b-research-canvas-gen-ui-upgrade-deep-research-loop-agentic) (Linear **Backlog**, label Feature). Canonical spec: [`docs/plans/2026-08-09-research-canvas-genui.md`](./2026-08-09-research-canvas-genui.md). FEATURES Decision 11.
+- **Size:** L (console Gen-UI + session slice + mindmap route mode + dossier bridge; RC-P4 soft-blocked on T-050)
+- **Lane:** B — Platform & Experience
+- **What:** Feature upgrade for the live `/research-canvas` mindmap shell. Steal interaction models from two Gen-UI reference apps — **not** their stacks:
+  1. [ai-deep-research-agent](https://github.com/Shubhamsaboo/awesome-llm-apps/tree/main/generative_ui_agents/ai-deep-research-agent) — plan → multi-hop research → durable report + ToolCards.
+  2. [ai-dashboard-canvas-agent](https://github.com/Shubhamsaboo/awesome-llm-apps/tree/main/generative_ui_agents/ai-dashboard-canvas-agent) — thin chat; agent mutates shared AgentState onto a primary canvas.
+  - **Already true today:** Graph is the product surface; `ResearchCanvasConsole` is the rail; `useMindMapAgent` → `runAgentQueryAndAddNodes` already writes nodes/edges; T-027 `researchSession` exists but is underused; `deepResearchEnabled` + typer “Deep Research” card are dead chrome.
+  - **Missing:** inspectable ToolCards; `plan`/`sources`/`artifacts` on `researchSession`; session injected into turn context; Deep Research mode that changes prompt/tool policy; mid-run dossier → `SynthesisPanel`; plan→waypoints (after T-050).
+- **Subtasks (RC-P0 → RC-P4):**
+  1. **RC-P0 — Tool cards** — `EnhancedAnimatedChat` renders `AgentToolEvent` as expandable cards (no backend change).
+  2. **RC-P1 — AgentState** — Extend `ResearchSessionState` with `plan[]`, `sources[]`, `artifacts[]`; mirror tool completes; serialize into `runAgentQuery` turn context.
+  3. **RC-P2 — Wire Deep Research mode** — Typer card + `deepResearchEnabled` → `activeMode` + `researchFocus: 'deep-research'` on `/api/disclosure/mindmap` (plan-first prompt).
+  4. **RC-P3 — Dossier bridge** — Artifacts → `SynthesisPanelHost`; optional `agent_inferences` persist (ADR-0001 — never retrieval).
+  5. **RC-P4 — Plan → waypoints** — Project plan onto on-canvas waypoints after T-050 render (same React Flow; no second canvas).
+- **Do not:** CopilotKit / ADK / LangGraph product path; Workspace sidecar; KPI Recharts agent dashboard; Gen-UI in `features/research-canvas/*` Storybook islands; new state in `mindmap-context.tsx`.
+- **Dependencies:** Soft-deps **T-050** for RC-P4 only. Related to **T-027** (`researchSession`). Not blocked on T-048 H4.
+- **Pass bar:** Dogfood Deep Research mode on `/research-canvas` — plan visible, multi-tool cards, liturgy-tagged dossier, no sidecar Workspace. Definition of Done applies.
+- **Files:** `features/mindmap/research-canvas/EnhancedAnimatedChat.tsx`, `research-canvas-console.tsx`, `hooks/use-mindmap-agent.ts`, `graph.tsx`, `store/mindmap-ui-store.ts`, `components/synthesis-panel.tsx`, `app/api/disclosure/mindmap/route.ts`
+- **Reference:** Linear DMGD-219; FEATURES Decision 11; fit canvases `research-canvas-genui-fit` / `deep-research-agent-fit`
+
+---
+
+### T-054: Trace Map — provenance graph per processed source
+
+- **Status:** DONE (deterministic layer) — 2026-08-10
+- **Lane:** A — Corpus & Ingestion
+- **Size:** M
+- **What shipped:** `apps/disclosure-rag/lib/trace_map.py` builds a `trace-map.v1` graph
+  (`docs/TRACE_MAP_OUTPUT_SPEC.md`) from the RAG pipeline result plus the timed transcript
+  sidecar, and writes `<stem>_trace_map.json` + `<stem>_trace_map.md` into the bundle. Wired
+  into the YouTube path (`lib/youtube.py:generate_transcript`) and the local-file path
+  (`main.py:process_file`), graded as a `Trace map` stage in the run summary.
+- **Why it matters:** every extracted claim and entity is now citable to a character span and a
+  timestamp. Before this, nothing downstream of the chunker could point back at the moment in
+  the source that supported it.
+- **Deliberately deterministic:** no LLM call. Node typing is decided by whether the text
+  anchors in the source — an assertion that does not locate is an `inference` carrying
+  `[Inferred]`, never a Claim. `validate_trace_map()` returns `errors` (artefact is wrong) and
+  `gaps` (spec asks for something no stage produces) as separate lists, so a thin map can never
+  be made to look complete by fabricating the missing nodes.
+- **Tests:** `apps/disclosure-rag/tests/test_trace_map.py` (29).
+- **Files:** `lib/trace_map.py`, `lib/youtube.py`, `lib/knowledge_base_service.py`, `main.py`,
+  `docs/TRACE_MAP_OUTPUT_SPEC.md`, `tests/test_trace_map.py`
+
+### T-055: Trace Map — interpretive layer (Readings, Counter-readings, Next Traces)
+
+- **Status:** OPEN
+- **Lane:** A — Corpus & Ingestion
+- **Size:** M
+- **Depends on:** T-054
+- **Problem:** the spec's frontier requires Readings paired with Counter-readings and Next
+  Traces naming concrete records to pull. Nothing in the chain produces them, so every map
+  reports them as gaps. `open_question` only appears when `content_assessment.follow_up_needed`
+  happens to be populated, which varies run to run.
+- **Scope:** one new registry prompt run after `validation`, taking the anchored claim/evidence
+  set and returning Readings + required Counter-readings, Open Questions, and Next Traces with
+  targets and rationale. Output merges into the existing graph; the deterministic layer stays
+  untouched and remains the fallback when the prompt fails.
+- **Also in scope:** evidence→claim linkage. Today `supporting_evidence` /
+  `contradictory_evidence` arrive as flat lists with no target claim, so evidence carries a
+  stance but names no claim it bears on. Guessing the target by lexical overlap was rejected —
+  it invents an epistemic relationship. The prompt should emit the linkage explicitly.
+- **Pass bar:** a map whose Readings each have a Counter-reading and whose Next Traces each name
+  a target and a rationale, with `validate_trace_map` reporting zero errors and the gap list
+  shrinking to speaker attribution only.
+
+### T-056: Trace Map on the web-article path
+
+- **Status:** OPEN
+- **Lane:** A — Corpus & Ingestion
+- **Size:** S
+- **Depends on:** T-054
+- **Problem:** `processing/web_content_processor.py` produces a `rag_pipeline` result but no
+  trace map, because its bundle is assembled downstream in `knowledge_base_service` and the
+  output directory is not available where the pipeline result is. A web-article run therefore
+  reports `Trace map: skipped — not built on this path`. Deliberate deferral, not an oversight.
+- **Scope:** thread the bundle directory to the pipeline result, or build the map at the
+  assembly point. Web articles have no timed segments, so the map anchors by character offset
+  and reports `coverage.timed: false` — that path already works and is tested.
+
+### T-057: UAP podcast playlist bulk-ingest manifest
+
+- **Status:** OPEN
+- **Lane:** A — Corpus & Ingestion
+- **Size:** S
+- **Depends on:** T-048 **H1** (sha256 + dedup) — do not bulk-run 52 playlists before identity is stable
+- **Problem:** Curated catalog of **52** YouTube podcast playlists (21 UAP-relevant channels) exists outside the repo; no prioritized ingest manifest wired to `scripts/playlist_ingestion.py`.
+- **Scope:**
+  1. Add a versioned manifest under `apps/disclosure-rag/` (e.g. `data/playlist_manifests/uap-podcasts-tiered.txt`) sourced from the user's playlist catalog — tier **P0** (core UAP: That UFO Podcast, Elizondo, Sol Foundation, Disclosure Team, Corbell, Area52, Jesse Michels, Curt Jaimungal, etc.), **P1** (adjacent: Rogan archive, Shawn Ryan, Why Files), **P2** (defer: general news/Tom Bilyeu unless explicitly wanted).
+  2. Document run command: `python scripts/playlist_ingestion.py --from-file <manifest> [--upload]` with checkpoint/resume expectations.
+  3. Pilot **one P0 playlist** end-to-end (transcript → trace map → KB bundle) before full batch.
+- **Do not:** Stand up n8n or Apify as the ingest path — use existing `playlist_ingestion.py` + `lib/youtube.py`.
+- **Pass bar:** Manifest in repo; pilot playlist produces valid `trace-map.v1` sidecar + ingested bundle; run report lists per-episode outcomes.
+
+### T-058: Grouped video transcript retrieval + timestamp citations (live AI paths)
+
+- **Status:** OPEN
+- **Lane:** B — Platform & Experience
+- **Size:** M
+- **Depends on:** T-054 (trace maps with timed segments); soft-deps T-057 for corpus volume
+- **Problem:** Mindmap and Prometheus retrieval return document/entity hits but not **breadth-across-videos** grouped results or **YouTube deep links with `&t=`** timestamps — patterns demonstrated in `packages/ai/prompts/youtube-rag-search-with-apify-qdrant-and-ai-frontend-workflow.json` (Qdrant search groups + LLM extract + `video_ts`).
+- **Scope:** Port the *behavior*, not the stack:
+  1. When `searchDatabase` (or a dedicated tool) hits `document_chunks` sourced from YouTube transcripts, group results by `video_id` / source URL (max N chunks per video).
+  2. Surface timestamp + excerpt in tool/SSE payload (from trace-map segment metadata or chunk offsets).
+  3. Render in Research Canvas / Prometheus as clickable timestamp links (no HTMX/n8n UI).
+- **Do not:** Add Qdrant, Redis rate-limit webhooks, or Apify — Neon pgvector + existing FTS/RRF fusion only; locked `text-embedding-3-small` @ 1536.
+- **Pass bar:** Dogfood query across ≥2 ingested podcast episodes returns grouped excerpts with working `youtube.com/watch?v=…&t=` links in the running app.
+
+### T-059: Playlist-id corpus index (skip already-ingested)
+
+- **Status:** OPEN
+- **Lane:** A — Corpus & Ingestion
+- **Size:** S
+- **Depends on:** T-048 **H1**; soft-deps T-057
+- **Problem:** The n8n playlist analyst workflow checks Qdrant for an existing collection before re-processing; we have per-episode checkpoint state in `playlist_ingestion.py` but no **playlist-level** lookup for agents ("has playlist `PL…` been ingested? how many episodes?").
+- **Scope:**
+  1. Record `playlist_id` (+ channel, title, episode count) on ingest manifests / run reports.
+  2. Expose lookup helper (Python CLI flag or thin `@db/postgres` query if episodes land in `documents` metadata) so Lane B agents can skip re-fetch when corpus is warm.
+  3. Pattern reference: `packages/ai/prompts/ai-youtube-playlist-video-analyst-chatbot-workflow.json` intent routing + "already processed?" branch — implement against KB index, not ephemeral Qdrant collections.
+- **Do not:** Per-session Redis context or Gemini `text-embedding-004` collections.
+- **Pass bar:** Given a playlist URL/ID, operator or agent gets `{ingested, total, last_run}` without re-running transcript fetch.
+
+### T-060: Drop-to-Canvas — drop a file, see it connect to the corpus
+
+- **Status:** IN PROGRESS — opened 2026-08-13, delegated to two parallel agents (server + canvas)
+- **Lane:** B — Platform & Experience
+- **Size:** M
+- **Canonical contract:** `docs/plans/2026-08-13-canvas-drop-ingest-contract.md` — **the fixed interface between the two halves. Read it before touching either side.**
+- **Problem:** A researcher holding a document has no way to ask this corpus "what does this connect to?" They must manually guess search terms for something they are already holding. The corpus has 6,540 embedded vectors and an RRF fan-out (`searchDatabase`) that can answer that question directly.
+- **Scope:**
+  1. `POST /api/processing/drop` — multipart → extract (utf8 / pdf / vision-caption) → `embedQuery` → `searchDatabase({embedding})` fan-out → ranked matches. Raw file to `@vercel/blob`.
+  2. Canvas drop target on `graph.tsx`, a namespaced dropped-artifact node type, staged progress, edges to matches, match inspector. Zustand state only.
+- **Route placement is load-bearing:** `/api/processing/*` is the **only** Clerk-gated API prefix (`middleware.ts:9-11`). Anywhere else = public unauthenticated file upload calling paid OpenAI embeddings.
+- **Do not:**
+  - **`INSERT` anything into `documents` / `document_chunks` / entity tables.** `grep -rn "INSERT INTO" packages/db/src` = exactly one hit (`agent-inferences.ts:54`); corpus writing is Python-only and sits on top of the **still-open T-048 H1 md5-vs-sha256 decision**. Dropped vectors are session-scoped. Persisting a dropped artifact into the corpus is a separate gated action and is explicitly **out of scope for T-060** — see open question below.
+  - **Use CLIP or any image-native embedding.** `text-embedding-3-small` @ 1536 is locked corpus-wide; foreign vectors compare to nothing and the fan-out would silently return noise. Images → caption/OCR → text → `embedQuery`.
+  - **Add a fourth upload component.** Three exist (`UploadZone.tsx` 750L, `services/ai/components/upload-zone.tsx` 803L, `components/file-upload/index.tsx` 177L — first two appear dead or icon-only). Same mistake as the two tour engines (T-050).
+  - **Render `_rrfScore` as a percentage or confidence bar.** It is a rank-agreement number, not a similarity. Fake precision violates the evidence-tier identity.
+  - Add state to `mindmap-context.tsx` (frozen god-object).
+- **Open question (needs a human call, does not block):** should a dropped artifact ever be *persisted* into the corpus? That requires a second TS corpus writer and is gated on T-048 H1 landing a hash column + unique constraint. Read-only is the complete T-060 deliverable.
+- **Pass bar:** Drag a real text file, a real PDF, and a real image onto the research canvas in the running app. Each produces an artifact node with edges to corpus records within one interaction, with no page reload. `matches: []` renders as "no connections found" — a legitimate result, not an error toast. Image drops visibly disclose that matching ran against a generated caption. Evidence + dogfood visual audit per `AGENTS.md`, or reported **UNVERIFIED**.
 
 ---
 
@@ -597,7 +840,7 @@ of archive records today. Lane B M0 does not depend on Lane A and can proceed in
 ## Completed
 
 | ID | Task | Completed |
-|----|------|-----------|
+| ---- | ------ | ----------- |
 | T-001 | Remove Edge runtime from Prometheus chat route | 2026-03-29 |
 | T-002 | Fix 3 broken API routes | 2026-03-29 |
 | T-014 | Split processDocument into granular tools | 2026-04-05 |

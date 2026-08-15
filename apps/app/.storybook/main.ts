@@ -31,6 +31,10 @@ const config: StorybookConfig = {
   staticDirs: [
     '../public',
     { from: brandBibleRoot, to: '/brand-bible' },
+    {
+      from: path.join( repoRoot, 'packages/disclosure-ui/assets' ),
+      to: '/disclosure-ui',
+    },
   ],
 
   // Enable docs generation for better documentation (uses default autodocs from preview tags)

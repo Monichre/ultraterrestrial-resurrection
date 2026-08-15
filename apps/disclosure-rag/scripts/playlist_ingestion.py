@@ -51,34 +51,79 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 OUTPUT_DIR = BASE_DIR / "data" / "playlist_ingestion"
 DEFAULT_STATE_FILE = OUTPUT_DIR / "state.json"
 
-# Terminal states that --force is required to reprocess
-DONE_STATUSES = {"ingested", "quarantined"}
+# Terminal states that --force is required to reprocess. `unavailable` is here
+# because a private/deleted video does not come back: re-listing it on every run
+# spends a request that counts against the same quota that gets us IP-blocked.
+DONE_STATUSES = {"ingested", "quarantined", "unavailable"}
+
+# Transcript failure reason -> episode status. Anything unmapped (missing
+# captions, disabled captions) stays `no_transcript`, which is retryable.
+REASON_STATUS = {
+    "blocked": "blocked",
+    "private": "unavailable",
+    "unavailable": "unavailable",
+    "age_restricted": "unavailable",
+}
+
+# Consecutive `blocked` episodes after which the run aborts. YouTube blocks an
+# IP, not a video, so once it starts every remaining episode fails too — the
+# previous behaviour marched through 104 videos and recorded 55 of them as
+# `no_transcript`, which reads as "these podcasts have no captions" forever.
+BLOCKED_ABORT_THRESHOLD = int(os.getenv("YT_BLOCKED_ABORT_THRESHOLD", "3"))
 
 
 # ---------------------------------------------------------------- enumeration
 
+# YouTube video IDs are exactly 11 chars of [A-Za-z0-9_-]. Playlist/channel IDs
+# (PL…, UU…, OL…, RD…, LL…, FL…, UC…) are longer, so length alone separates
+# them — this is the guard that catches a container ID leaking into a video slot.
+VIDEO_ID_RE = re.compile(r"^[\w-]{11}$")
+
+
+def is_video_id(value: Any) -> bool:
+    return isinstance(value, str) and bool(VIDEO_ID_RE.match(value))
+
+
 def enumerate_playlist(playlist_url: str) -> Dict[str, Any]:
     """Return {playlist_id, title, videos: [{video_id, url, title, duration}]}.
 
-    Tries yt-dlp flat extraction first (fast, no downloads, includes per-entry
-    durations), then falls back to pytube. A plain video URL is treated as a
-    single-episode playlist.
+    Tries yt-dlp flat extraction first (fast, no per-video downloads), then
+    falls back to pytube. A plain video URL is treated as a single-episode
+    playlist.
     """
     try:
         import yt_dlp
-        opts = {"quiet": True, "no_warnings": True, "extract_flat": "in_playlist", "skip_download": True}
+        opts = {
+            "quiet": True, "no_warnings": True,
+            "extract_flat": "in_playlist",   # flatten entries; still resolve the container
+            "skip_download": True,
+            # We only ever want metadata. Without these, processing a bare video
+            # URL aborts on format selection ("Requested format is not
+            # available") before any metadata comes back.
+            "ignore_no_formats_error": True,
+            "format": None,
+        }
         with yt_dlp.YoutubeDL(opts) as ydl:
-            # process=False skips format resolution entirely — metadata only,
-            # works for playlists AND single videos even on older yt-dlp
-            info = ydl.extract_info(playlist_url, download=False, process=False)
-        entries = info.get("entries")
-        entries = list(entries) if entries is not None else [info]  # generator when process=False
+            # NOTE: process=False must NOT be used here. For a playlist URL it
+            # returns an unresolved {_type: "url", id: <PLAYLIST_ID>} stub with
+            # no "entries" key, which the single-video fallback below then
+            # mistakes for a video — sending the playlist ID down the pipeline
+            # as a video ID. Processing resolves the stub into real entries;
+            # extract_flat keeps it cheap (no per-video format resolution).
+            info = ydl.extract_info(playlist_url, download=False)
+        if info.get("_type") == "playlist":
+            entries = list(info.get("entries") or [])
+        elif info.get("_type") in (None, "video"):
+            entries = [info]  # genuine single video
+        else:
+            raise ValueError(f"unresolved yt-dlp result: _type={info.get('_type')!r}")
         videos = []
         for e in entries:
             if not e:
                 continue
             vid = e.get("id")
-            if not vid:
+            if not is_video_id(vid):
+                logger.warning(f"Skipping entry with non-video id {vid!r} ({e.get('title')!r})")
                 continue
             videos.append({
                 "video_id": vid,
@@ -100,8 +145,8 @@ def enumerate_playlist(playlist_url: str) -> Dict[str, Any]:
         pl = Playlist(playlist_url)
         videos = []
         for url in pl.video_urls:
-            m = re.search(r"[?&]v=([\w-]{6,})", url)
-            if m:
+            m = re.search(r"[?&]v=([\w-]+)", url)
+            if m and is_video_id(m.group(1)):
                 videos.append({"video_id": m.group(1), "url": url, "title": m.group(1), "duration": None,
                                "uploader": None})
         return {"playlist_id": getattr(pl, "playlist_id", "unknown"),
@@ -129,8 +174,17 @@ def save_state(state: Dict[str, Any], state_file: Path) -> None:
     tmp.replace(state_file)
 
 
+#: Per-attempt outcome keys. Cleared before each write so a later failed
+#: attempt can't inherit an earlier success's fields — a `no_transcript` retry
+#: was leaving the prior run's `fidelity` and `doc_id` in place, which reads as
+#: though a fetch that never happened had produced a document.
+_OUTCOME_KEYS = ("fidelity", "fidelity_verdict", "doc_id", "rag_status", "error", "issues")
+
+
 def record(state: Dict[str, Any], video: Dict[str, Any], playlist_id: str, **fields) -> None:
     entry = state["videos"].setdefault(video["video_id"], {})
+    for key in _OUTCOME_KEYS:
+        entry.pop(key, None)
     entry.update({
         "title": video.get("title"),
         "url": video.get("url"),
@@ -142,17 +196,33 @@ def record(state: Dict[str, Any], video: Dict[str, Any], playlist_id: str, **fie
 
 # ---------------------------------------------------------------- per-episode
 
-def fetch_transcript(url: str) -> Optional[Dict[str, Any]]:
-    """Fetch transcript + metadata via the cookie-free transcript-api path."""
+def fetch_transcript(url: str) -> tuple:
+    """Fetch transcript + metadata via the cookie-free transcript-api path.
+
+    Returns (result | None, reason). The reason is what lets the caller tell an
+    episode with no captions from an IP block, which is a run-level condition.
+    """
     try:
         from lib.youtube_transcript_enhanced import get_metadata_and_transcript_api_first
         result = get_metadata_and_transcript_api_first(url)
         if result.get("ok") and result.get("transcript"):
-            return result
-        return None
+            return result, "ok"
+        return None, result.get("reason") or "no_captions"
     except Exception as e:
         logger.warning(f"Transcript fetch failed for {url}: {e}")
-        return None
+        return None, "error"
+
+
+def _enrichment_outcome(result: Dict[str, Any]) -> tuple:
+    """Grade LLM enrichment from a process_url result: (status, error_detail).
+
+    Thin alias kept so this module's existing call sites read unchanged. The
+    definition moved to lib/enrichment_status.py when main.py's direct path
+    needed the same gate — one search order, two callers.
+    """
+    from lib.enrichment_status import enrichment_outcome
+
+    return enrichment_outcome(result)
 
 
 def process_episode(video: Dict[str, Any], playlist_id: str, state: Dict[str, Any],
@@ -163,10 +233,11 @@ def process_episode(video: Dict[str, Any], playlist_id: str, state: Dict[str, An
     """
     vid, url = video["video_id"], video["url"]
 
-    fetched = fetch_transcript(url)
+    fetched, reason = fetch_transcript(url)
     if not fetched:
-        record(state, video, playlist_id, status="no_transcript")
-        return "no_transcript"
+        status = REASON_STATUS.get(reason, "no_transcript")
+        record(state, video, playlist_id, status=status, error=f"transcript {reason}")
+        return status
 
     raw_transcript = fetched["transcript"]
     cleaned = clean_transcript(raw_transcript)
@@ -203,9 +274,28 @@ def process_episode(video: Dict[str, Any], playlist_id: str, state: Dict[str, An
         from main import process_url
         result = process_url(url, upload=args.upload, add_to_kb=not args.no_kb)
         if result and result.get("doc_id"):
+            # A doc_id only proves the transcript was stored. LLM enrichment
+            # (classification, NER, embeddable texts) can fail independently —
+            # and did, silently, for a whole run when OPENAI_API_KEY was
+            # revoked. main.py already grades that as ok|hold|rejected|error;
+            # surface it rather than reporting every stored transcript as a
+            # successful ingestion.
+            rag_status, enrich_errors = _enrichment_outcome(result)
+            if rag_status not in ("ok", "unknown"):
+                logger.warning(
+                    "  enrichment %s for %s — %s", rag_status, vid, enrich_errors or "no detail")
+                record(state, video, playlist_id, status="enrichment_failed",
+                       fidelity=fidelity.score, fidelity_verdict=fidelity.verdict,
+                       doc_id=result["doc_id"], rag_status=rag_status,
+                       error=enrich_errors or f"rag_pipeline status={rag_status}")
+                return "enrichment_failed"
+            if rag_status == "unknown":
+                logger.warning(
+                    "  enrichment status not reported by the pipeline for %s — "
+                    "recording rag_status=unknown, not treating as enriched", vid)
             record(state, video, playlist_id, status="ingested",
                    fidelity=fidelity.score, fidelity_verdict=fidelity.verdict,
-                   doc_id=result["doc_id"])
+                   doc_id=result["doc_id"], rag_status=rag_status)
             return "ingested"
         record(state, video, playlist_id, status="failed",
                fidelity=fidelity.score, error="pipeline returned no doc_id")
@@ -230,10 +320,12 @@ def write_run_report(runs: List[Dict[str, Any]], counts: Dict[str, int], reports
     for run in runs:
         lines.append(f"## {run['title']} (`{run['playlist_id']}`)")
         lines.append("")
-        lines.append("| Episode | Status | Fidelity | Doc ID |")
-        lines.append("|---------|--------|----------|--------|")
+        lines.append("| Episode | Status | Fidelity | Enrichment | Doc ID |")
+        lines.append("|---------|--------|----------|------------|--------|")
         for ep in run["episodes"]:
-            lines.append(f"| {ep['title'][:60]} | {ep['status']} | {ep.get('fidelity', '—')} | {ep.get('doc_id', '—')} |")
+            lines.append(
+                f"| {ep['title'][:60]} | {ep['status']} | {ep.get('fidelity', '—')} "
+                f"| {ep.get('rag_status', '—')} | {ep.get('doc_id', '—')} |")
         lines.append("")
     reports_dir.mkdir(parents=True, exist_ok=True)
     path = reports_dir / f"run-{ts}.md"
@@ -255,7 +347,8 @@ def main() -> int:
     parser.add_argument("--min-fidelity", type=float, default=0.45,
                         help="Minimum fidelity score to ingest (default 0.45; below -> quarantined)")
     parser.add_argument("--llm-review", action="store_true",
-                        help="Add LLM coherence pass to fidelity review (uses FIDELITY_REVIEW_MODEL)")
+                        help="Add LLM coherence pass to fidelity review (routed through the "
+                             "shared fallback chain; pin a tier with FIDELITY_REVIEW_PROVIDER)")
     parser.add_argument("--delay", type=float, default=2.0, help="Seconds between episodes (default 2)")
     parser.add_argument("--state-file", default=str(DEFAULT_STATE_FILE), help="Checkpoint state file path")
     args = parser.parse_args()
@@ -276,8 +369,12 @@ def main() -> int:
 
     counts: Dict[str, int] = {}
     runs: List[Dict[str, Any]] = []
+    consecutive_blocked = 0
+    aborted = False
 
     for playlist_url in urls:
+        if aborted:
+            break
         logger.info(f"Enumerating playlist: {playlist_url}")
         playlist = enumerate_playlist(playlist_url)
         videos = playlist["videos"]
@@ -308,6 +405,29 @@ def main() -> int:
             entry = state["videos"].get(vid, {})
             run["episodes"].append({"title": video["title"], "status": status,
                                     "fidelity": entry.get("fidelity"), "doc_id": entry.get("doc_id")})
+
+            # Only a status that required YouTube to actually serve us caption
+            # data clears the counter. `unavailable` must not: a private video
+            # fails before any transcript request, so treating it as evidence
+            # that egress works lets a playlist with private episodes sprinkled
+            # through it reset the breaker forever while every real fetch fails.
+            if status == "blocked":
+                consecutive_blocked += 1
+            elif status != "unavailable":
+                consecutive_blocked = 0
+            if consecutive_blocked >= BLOCKED_ABORT_THRESHOLD:
+                from lib.youtube_transcript_enhanced import proxy_configured
+                logger.error(
+                    "Aborting: YouTube blocked %d consecutive transcript requests. This is an "
+                    "IP-level block, not a property of these videos — continuing would record "
+                    "the rest of the playlist as failures. Remedy: %s, then re-run (blocked "
+                    "episodes are not terminal and will be retried).",
+                    consecutive_blocked,
+                    "rotate the proxy / wait out the block" if proxy_configured()
+                    else "set YT_WEBSHARE_PROXY_USERNAME + YT_WEBSHARE_PROXY_PASSWORD (or YT_PROXY_URL)")
+                aborted = True
+                break
+
             if args.delay and i < len(videos):
                 time.sleep(args.delay)
         runs.append(run)
@@ -315,6 +435,8 @@ def main() -> int:
     report_path = write_run_report(runs, counts, reports_dir)
     logger.info(f"Run report: {report_path}")
     logger.info(f"Summary: {json.dumps(counts)}")
+    if aborted:
+        return 2
     return 0 if not counts.get("failed") else 1
 
 

@@ -4,11 +4,12 @@ description: >
   Process UFO/UAP research content (URLs, YouTube videos, playlists, local files) through the Disclosure RAG pipeline.
   Use when ingesting web articles, YouTube videos, or local documents into the knowledge base,
   batch-ingesting entire YouTube podcast playlists (episode enumeration, transcript fetch,
-  fidelity review, NER, vectorization, knowledge graph), running the disclosure-rag CLI
-  (main.py, main.sh, run.sh, cli.py, scripts/playlist_ingestion.py), bulk folder ingestion,
-  checking integration status (Upstash, CocoIndex, Mem0), searching the knowledge base,
-  entity extraction from processed content, syncing to Upstash Search,
+  fidelity review, RagPromptPipeline / ADR-0001 Evidence chunks, NER, vectorization),
+  running the disclosure-rag CLI (main.py, main.sh / dy, run.sh, cli.py, scripts/playlist_ingestion.py),
+  bulk folder ingestion, checking integration status (Upstash, optional CocoIndex/Mem0),
+  searching the knowledge base, entity extraction from processed content,
   or any work in apps/disclosure-rag/ involving the processing pipeline.
+  Prefer this skill over product Next.js AI paths — Python ingest is Lane A and disconnected from apps/app.
 ---
 
 # Disclosure RAG Processor
@@ -17,38 +18,41 @@ Process UFO/UAP research content through a multi-stage pipeline: content extract
 
 ## Working Directory
 
-All commands run from `apps/disclosure-rag/`. Activate venv and load env first:
+All commands run from `apps/disclosure-rag/`. Prefer `./main.sh` / `dy` (they export `.venv` + `source .env` correctly). If invoking Python directly:
 
 ```bash
-cd apps/disclosure-rag && source .venv/bin/activate && source .env
+cd apps/disclosure-rag && set -a && source .env && set +a
+.venv/bin/python main.py --status
 ```
 
-Required: `OPENAI_API_KEY`, `UFO_DATA_STORE_ID`. Optional: `UPSTASH_SEARCH_URL`/`UPSTASH_SEARCH_TOKEN`, `MEM0_API_KEY`, `MEM0_USER_ID`.
+Do **not** rely on `source .venv/bin/activate` alone — `main.py` imports Upstash modules that require env vars already in the process. Required: `OPENAI_API_KEY`, `UFO_DATA_STORE_ID`. Optional: `UPSTASH_SEARCH_URL`/`UPSTASH_SEARCH_TOKEN`, `MEM0_API_KEY`, `MEM0_USER_ID`.
+
+**Canonical skill copy:** this directory (`apps/disclosure-rag/disclosure-rag-processor/`). Keep `~/.claude/skills/disclosure-rag-processor/` in sync with it.
 
 ## CLI Entry Points
 
 ### main.py -- Primary Processor
 
 ```bash
-python main.py <URL_OR_FILE> [--upload] [--no-kb] [--status]
+.venv/bin/python main.py <URL_OR_FILE> [--upload] [--no-kb] [--status] [--dry-run]
 ```
 
-Auto-detects content type (YouTube / web / file). `--upload` sends to OpenAI vector store. `--status` shows all integration backends.
+Auto-detects content type (YouTube / web / file). `--upload` sends to OpenAI vector store. `--status` shows all integration backends. `--dry-run` prints the plan without writing.
 
-### main.sh -- Shell Wrapper
+### main.sh -- Shell Wrapper (preferred; `dy` alias)
 
 ```bash
 ./main.sh process-url <URL> [--upload]    # Single URL
 ./main.sh process-file <FILE> [--upload]  # Single file
 ./main.sh process-urls <URL_FILE>         # Batch from file (loops main.py per URL)
 ./main.sh process-playlist <PL_URL> [...] # YouTube playlist(s) → playlist_ingestion.py
-./main.sh search "Phoenix Lights"         # Search KB
-./main.sh stats                           # KB statistics
-./main.sh ui                              # Streamlit (port 8501)
-./main.sh chat                            # Chat interface
+./main.sh search "Phoenix Lights"         # Search KB (heredoc → KnowledgeBaseCRUD)
+./main.sh stats                           # KB statistics (heredoc → KnowledgeBaseCRUD)
+./main.sh chat                            # disclosure_chat.py
 ./main.sh setup                           # Install dependencies
-./main.sh sync-rag                        # Sync to local RAG
 ```
+
+**Dead branches (do not use):** `./main.sh ui` and `./main.sh sync-rag` call `main.py --ui` / `--sync-rag`, which argparse does not define → exit 2. For Streamlit use `.venv/bin/python -m streamlit run streamlit_app.py` instead. Trace: `docs/DY_COMMAND_CALL_CHAIN.md`.
 
 Auto-creates `.venv` if missing, loads `.env`, validates env vars. The user's global `dy` alias points at this script, so `dy process-playlist <URL>` works anywhere; bare playlist URLs (`dy "https://youtube.com/playlist?list=..."`) auto-route to the playlist pipeline (any URL containing `/playlist` or `list=`, including watch URLs inside a playlist).
 
@@ -74,48 +78,85 @@ Menu: **Search KB** | **Bulk Ingestion** (folder → all PDFs/DOCX/TXT/MD) | **R
 ```
 Input (URL/YouTube/File)
   |-> Content Extraction
-  |     YouTube: lib/youtube.py transcript extraction
+  |     YouTube: lib/youtube.py / youtube_transcript_enhanced
   |     Web: processing/web_content_processor.py scraping
   |     File: direct read (supports .md, .pdf, .txt — NOT .docx; use bulk ingestion for docx)
   |
+  |-> RagPromptPipeline (processing/rag_prompt_pipeline.py via content_analysis.py)
+  |     document_classification → content_analysis → rag_ingestion
+  |     → disclosure.ner → validation
+  |     Writes *_rag_pipeline.json; Evidence-only chunks (ADR-0001)
+  |
   |-> Knowledge Base Storage (lib/knowledge_base_crud.py)
-  |     Indexes content, assigns doc_id
+  |     Indexes content, assigns doc_id (filesystem + index.json — not Neon yet)
   |
   |-> Upstash Search Sync (lib/sync_to_upstash_search_integrated.py)
-  |     Syncs to frontend search index (if configured)
+  |     Optional; if UPSTASH_SEARCH_* configured
   |
   |-> Entity Extraction (lib/entity_extraction/)
-  |     NER + Xata database matching (85-95% accuracy)
-  |     Extracts: personnel, organizations, locations, events
+  |     NER + entity matching (platform DB is Neon via @db/postgres — T-048 H2 bridge)
   |
-  |-> CocoIndex Knowledge Graph (lib/cocoindex_integration.py)
-  |     Builds entity relationships (requires PostgreSQL + Neo4j)
+  |-> CocoIndex Knowledge Graph (lib/cocoindex_integration.py)  [OPTIONAL]
+  |     Fault-tolerant; skip if cocoindex / Neo4j unavailable
   |
-  |-> Mem0 Contextual Memory (lib/mem0_integration.py)
-  |     Stores processing summaries, entity memories
+  |-> Mem0 Contextual Memory (lib/mem0_integration.py)  [OPTIONAL]
   |
-  |-> Upstash Queue (lib/upstash/queue.py)
+  |-> Upstash Queue (lib/upstash/queue.py)  [OPTIONAL]
        QStash async processing for downstream consumers
 ```
 
-Each stage is fault-tolerant -- failures log warnings but never block the pipeline.
+Each optional stage is fault-tolerant — failures log warnings but never block the pipeline. Live writes today: **filesystem archive + `metadata/index.json` + optional Upstash Search**. Neon writes are T-048 H2 work, not this skill's default path. This Python pipeline does **not** feed the Next.js mindmap/Prometheus routes.
 
 ## Key Modules
 
 | Module | Purpose |
-|--------|---------|
+| -------- | --------- |
 | `lib/knowledge_base_service.py` | Orchestrates KB indexing + Upstash sync |
 | `lib/knowledge_base_crud.py` | Full CRUD -- see API section below |
 | `lib/terminal_display.py` | Animated spinners, styled headers, progress output |
+| `processing/rag_prompt_pipeline.py` | Registry-backed classify → chunk → NER → validate (ADR-0001) |
+| `processing/content_analysis.py` | `ContentAnalysisEngine.process_for_rag()` wraps RagPromptPipeline |
 | `lib/entity_extraction/processors/interactive_entity_processor.py` | NER with `process_summary_file_interactive()` |
-| `lib/cocoindex_integration.py` | `cocoindex_processor.process_document_knowledge_graph()` |
-| `lib/mem0_integration.py` | Memory functions -- see API section below |
-| `lib/unified_rag_orchestrator.py` | `UnifiedRAGOrchestrator` -- async multi-backend search |
+| `lib/cocoindex_integration.py` | Optional KG; `process_document_knowledge_graph()` |
+| `lib/mem0_integration.py` | Optional memory functions -- see API section below |
+| `lib/unified_rag_orchestrator.py` | `UnifiedRAGOrchestrator` -- multi-backend search (local/OpenAI) |
+| `lib/transcript_fidelity.py` | Playlist fidelity scoring + quarantine gate |
 | `processing/web_content_processor.py` | `WebContentProcessor` for web scraping |
-| `processing/content_analysis.py` | Content classification and topic detection |
 | `scripts/bulk_folder_ingestion.py` | `BulkFolderIngestion` -- multi-format batch processing |
-| `agents/` | 14 specialized research agents (see Agents section) |
+| `scripts/playlist_ingestion.py` | Playlist enumerate → fidelity → `main.process_url` |
+| `agents/` | Specialized research agents (see Agents section) |
 | `api_server.py` | FastAPI REST server with RAG search endpoints |
+
+## RagPromptPipeline (ADR-0001)
+
+Wired into YouTube (`lib/youtube.py`), web (`web_content_processor` / knowledge_base_service), and file (`main.process_file` → `ContentAnalysisEngine.process_for_rag`). Prompts resolve from `packages/ai/prompts` via `lib/prompt_loader.py`.
+
+```
+source text
+  → document_classification
+  → disclosure.content_analysis
+  → rag_ingestion                 (Evidence chunks only)
+  → disclosure.ner (per chunk)
+  → validation
+  → embeddable_texts              (safe_for_rag_index only)
+```
+
+```python
+from processing.rag_prompt_pipeline import process_document_for_rag
+from processing.content_analysis import ContentAnalysisEngine
+
+result = process_document_for_rag(text, provenance="https://example.com/doc")
+# or
+result = ContentAnalysisEngine().process_for_rag(text, provenance="file.pdf")
+# result: { status, classification, analysis, chunks, ner_results, embeddable_texts, ... }
+# status: ok | hold | rejected | error
+```
+
+Artifacts land as `<stem>_rag_pipeline.json` beside the transcript/summary. Chunk bodies must remain Evidence-only — never embed agent Inference (ADR-0001).
+
+**Known gap:** `upload_file_to_openai()` still uploads the raw file in some paths; curated `embeddable_texts` are not always what gets vectorized. Prefer inspecting `*_rag_pipeline.json` after ingest. Smoke (no LLM): `python -m pytest tests/test_rag_prompt_pipeline_wiring.py -q`.
+
+Env: `RAG_PIPELINE_PROVIDER`, `RAG_PIPELINE_MAX_NER_CHUNKS` (8), `RAG_PIPELINE_MAX_SOURCE_CHARS` (24000), `RAG_PIPELINE_CHUNK_TOKENS` (512).
 
 ## KnowledgeBaseCRUD Full API
 
@@ -162,7 +203,7 @@ Env: `MEM0_API_KEY` or `NEXT_PUBLIC_MEM0_API_KEY`. Disable with `MEM0_ENABLE=fal
 9 entity types extracted from UAP content:
 
 | Type | Key Fields |
-|------|-----------|
+| ------ | ----------- |
 | `PERSON` | role, credibility(1-10), authority(1-10), bio |
 | `EVENT` | title, datetime, location(coordinates), metadata |
 | `ORGANIZATION` | title, specialization, image |
@@ -174,6 +215,8 @@ Env: `MEM0_API_KEY` or `NEXT_PUBLIC_MEM0_API_KEY`. Disable with `MEM0_ENABLE=fal
 | `SIGHTING` | shape, duration_seconds, media_link, location |
 
 Confidence levels: High (0.9-1.0) → direct DB insert, Medium (0.6-0.8) → flag for review, Low (0.3-0.5) → archive.
+
+Treat entity→platform DB writes as partial until T-048 H2 lands. Some matcher code still imports retired **Xata** modules, but those paths are dead — the guarded import degrades to a stub and performs no lookups. Do not invent Neo4j/Xata as required for a successful ingest.
 
 ```python
 from lib.entity_extraction.processors.interactive_entity_processor import process_summary_file_interactive
@@ -190,7 +233,7 @@ results = process_summary_file_interactive(
 14 agents in `agents/` directory, built on Agno framework:
 
 | Agent | File | Purpose |
-|-------|------|---------|
+| ------- | ------ | --------- |
 | `UFOYouTubeAgent` | `ufo_youtube_agent.py` | Timestamp-based UFO event extraction from video |
 | `UAPDeepResearchAgent` | `uap_deep_research_agent.py` | Multi-source cross-referencing |
 | `DisclosureAssistant` | `disclosure_assistant.py` | General Q&A over KB |
@@ -215,7 +258,7 @@ python api_server.py  # default port 8000
 REST endpoints:
 
 | Method | Path | Purpose |
-|--------|------|---------|
+| -------- | ------ | --------- |
 | GET | `/` | Root info |
 | GET | `/health` | Health check |
 | GET | `/stats` | KB statistics |
@@ -246,21 +289,21 @@ status = rag.get_system_status()   # { openai: RAGSystemStatus, local: RAGSystem
 
 ## Bulk Ingestion (`scripts/bulk_folder_ingestion.py`)
 
-Supports PDF, DOCX, TXT, MD files. Extracts text, creates triple-RAG documents.
+Supports PDF, DOCX, TXT, MD files. Extracts text and creates multi-backend documents for local indexing (historically labeled "triple-RAG" in this script — treat as local batch ingest, not a product retrieval architecture).
 
 **CLI entry point — choose one:**
 
 ```bash
 # Option A: Interactive TUI (recommended for first use)
-python cli.py
+.venv/bin/python cli.py
 # → Select "Bulk Ingestion" from menu → enter folder path when prompted
 
 # Option B: Run script directly (non-interactive)
-python scripts/bulk_folder_ingestion.py
+.venv/bin/python scripts/bulk_folder_ingestion.py
 # Note: no built-in CLI flags — configure folder_path in the script or use Option C
 
 # Option C: Python one-liner
-python -c "
+.venv/bin/python -c "
 from scripts.bulk_folder_ingestion import BulkFolderIngestion
 b = BulkFolderIngestion('/path/to/folder')
 docs = b.discover_documents()
@@ -283,25 +326,25 @@ for doc in docs:
 
 ## Playlist Ingestion (`scripts/playlist_ingestion.py`)
 
-Batch-ingest one or more YouTube podcast playlists end-to-end. Each episode flows through: enumeration → transcript fetch → parse/clean → **fidelity review** (quality gate) → full pipeline (KB storage, NER entity extraction, vectorization, CocoIndex knowledge graph, Mem0).
+Batch-ingest one or more YouTube podcast playlists end-to-end. Each episode flows through: enumeration → transcript fetch → parse/clean → **fidelity review** (quality gate) → `main.process_url()` (KB storage, RagPromptPipeline sidecars, NER, optional vectorization / CocoIndex / Mem0).
 
 ```bash
 # One or more playlist URLs (plain video URLs also accepted)
-python scripts/playlist_ingestion.py "https://www.youtube.com/playlist?list=PL..." [MORE_URLS...]
+.venv/bin/python scripts/playlist_ingestion.py "https://www.youtube.com/playlist?list=PL..." [MORE_URLS...]
 
 # From a file (one URL per line, # comments allowed), with vector store upload
-python scripts/playlist_ingestion.py --from-file playlists.txt --upload
+.venv/bin/python scripts/playlist_ingestion.py --from-file playlists.txt --upload
 
 # Preview a new playlist's caption quality without ingesting
-python scripts/playlist_ingestion.py <URL> --limit 5 --dry-run
+.venv/bin/python scripts/playlist_ingestion.py <URL> --limit 5 --dry-run
 
 # Stricter gate + LLM coherence pass (FIDELITY_REVIEW_MODEL, default gpt-5.5)
-python scripts/playlist_ingestion.py <URL> --min-fidelity 0.6 --llm-review
+.venv/bin/python scripts/playlist_ingestion.py <URL> --min-fidelity 0.6 --llm-review
 ```
 
 Flags: `--upload` (OpenAI vector store), `--no-kb`, `--limit N` (per playlist), `--force` (reprocess done episodes), `--dry-run`, `--min-fidelity 0.45`, `--llm-review`, `--delay 2.0` (seconds between episodes), `--state-file PATH`.
 
-**Resume is automatic**: state is checkpointed to `data/playlist_ingestion/state.json` after every episode; re-runs skip `ingested`/`quarantined` episodes and retry `failed`/`no_transcript` ones.
+**Resume is automatic**: state is checkpointed to `data/playlist_ingestion/state.json` after every episode; re-runs skip `ingested`/`quarantined`/`unavailable` episodes and retry `failed`/`no_transcript`/`blocked` ones. After `YT_BLOCKED_ABORT_THRESHOLD` consecutive IP blocks (default 3), the run aborts.
 
 **Fidelity review** (`lib/transcript_fidelity.py`) scores each transcript 0–1 from coverage, speech density (wpm), caption gaps, artifact ratio, and repetition; verdicts: `pass` ≥ 0.7, `review` ≥ 0.45, `fail` < 0.45. Failing/below-threshold episodes are **quarantined** (transcript + fidelity JSON kept on disk, not ingested). Artifacts: cleaned transcripts in `data/playlist_ingestion/transcripts/`, per-episode fidelity reports and per-run markdown summaries in `data/playlist_ingestion/reports/`.
 
@@ -330,13 +373,18 @@ Processed files from `data/processing_queue/` auto-move to `packages/knowledge-b
 
 ## Troubleshooting
 
-- **Module not found**: Activate `.venv`, run `pip install -r requirements.txt`
-- **API key errors**: Source `.env` or export `OPENAI_API_KEY` manually
-- **CocoIndex unavailable**: `pip install cocoindex` + configure PostgreSQL/Neo4j
-- **Mem0 disabled**: Set `MEM0_API_KEY` env var
+- **Module not found**: Use `.venv/bin/python`, run `pip install -r requirements.txt` inside the venv
+- **API key / Upstash import errors**: Prefer `./main.sh` / `dy`, or `set -a; source .env; set +a` before bare Python
+- **`dy ui` / `dy sync-rag` exit 2**: Dead — `main.py` has no `--ui`/`--sync-rag`. Streamlit: `.venv/bin/python -m streamlit run streamlit_app.py`
+- **CocoIndex unavailable**: Optional stage; install only if you need KG. Pipeline continues without it
+- **Mem0 disabled**: Set `MEM0_API_KEY` or leave unset (stage skipped)
 - **Upstash sync skipped**: Set `UPSTASH_SEARCH_URL` + `UPSTASH_SEARCH_TOKEN`
+- **Playlist IP blocks**: State marks `blocked`; run aborts after consecutive threshold — wait / rotate network, then re-run (resume skips terminal statuses)
 
 ## References
 
 - [Pipeline architecture details](references/pipeline-architecture.md) -- module relationships, data flow, and integration points
 - [Playlist ingestion details](references/playlist-ingestion.md) -- playlist pipeline stages, fidelity scoring, state/resume, quarantine workflow
+- `docs/DY_COMMAND_CALL_CHAIN.md` -- verified `dy` → main.sh → main.py / playlist nesting
+- `processing/RagPromptPipeline.md` -- ADR-0001 pipeline wiring notes
+- Lane A roadmap: `docs/plans/2026-08-01-ingestion-hardening.md` (T-048)

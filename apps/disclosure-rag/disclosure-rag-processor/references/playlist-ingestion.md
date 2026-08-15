@@ -14,7 +14,10 @@ playlist URL(s)
   |-> Transcript Fetch (per episode)
   |     lib/youtube_transcript_enhanced.get_metadata_and_transcript_api_first()
   |     Cookie-free youtube-transcript-api + oEmbed metadata
-  |     No transcript available -> status `no_transcript`, move on
+  |     Returns a `reason` code, mapped to a status:
+  |       no captions / captions disabled -> `no_transcript`  (retried next run)
+  |       private / deleted / age-gated   -> `unavailable`     (terminal)
+  |       YouTube blocked this IP         -> `blocked`         (retried; see below)
   |
   |-> Parse + Clean
   |     lib/transcript_fidelity.clean_transcript()
@@ -63,11 +66,35 @@ State lives in `data/playlist_ingestion/state.json`, keyed by video ID:
 
 - State is written after **every** episode (atomic tmp-file swap), so a crash
   or Ctrl-C loses at most the in-flight episode.
-- Re-running the same playlist skips episodes whose status is `ingested` or
-  `quarantined`. `no_transcript` and `failed` episodes are retried
-  automatically. Use `--force` to reprocess everything.
-- Statuses: `ingested`, `quarantined`, `no_transcript`, `failed`, `dry_run`,
-  `skipped` (counted per run, not stored).
+- Re-running the same playlist skips episodes whose status is `ingested`,
+  `quarantined`, or `unavailable` (terminal). `no_transcript`, `blocked`,
+  `enrichment_failed`, and `failed` episodes are retried automatically. Use
+  `--force` to reprocess everything.
+- Statuses: `ingested`, `quarantined`, `unavailable`, `no_transcript`,
+  `blocked`, `enrichment_failed`, `failed`, `dry_run`, `skipped` (counted per
+  run, not stored).
+
+## IP Blocks
+
+YouTube rate-limits the caption endpoint per IP. A block is a property of the
+**run**, not of a video, so after `YT_BLOCKED_ABORT_THRESHOLD` consecutive
+`blocked` episodes (default 3) the run aborts with exit code 2 rather than
+walking the rest of the playlist and recording every episode as a failure.
+Blocked episodes are not terminal — fix egress and re-run.
+
+Remedies, in `.env` or the environment:
+
+```bash
+YT_WEBSHARE_PROXY_USERNAME=...   # Webshare rotating residential (preferred)
+YT_WEBSHARE_PROXY_PASSWORD=...
+YT_PROXY_URL=http://user:pass@host:port   # or any single HTTP(S) proxy
+YT_TRANSCRIPT_MAX_RETRIES=2      # per-video retries when blocked (proxy only)
+YT_TRANSCRIPT_BACKOFF=5          # seconds before the first retry
+YT_BLOCKED_ABORT_THRESHOLD=3     # consecutive blocks before aborting the run
+```
+
+Without a proxy the fetcher does **not** retry: the same blocked IP would fail
+every attempt, so retrying only slows the run down before it aborts.
 
 ## Output Artifacts
 

@@ -1,6 +1,7 @@
 import type {Preview} from '@storybook/react'
-import {Agentation} from 'agentation'
+import {Agentation} from '../src/components/Agentation'
 import React from 'react'
+import '../src/styles/tokens.css'
 import '../src/app/globals.css'
 import '../src/app/research-ui.css'
 import '@xyflow/react/dist/style.css'
@@ -196,7 +197,7 @@ const preview: Preview = {
       return (
         <>
           <ThemeProvider
-            attribute='class'
+            attribute={['class', 'data-theme']}
             forcedTheme='dark'
             defaultTheme='dark'
             enableSystem={false}

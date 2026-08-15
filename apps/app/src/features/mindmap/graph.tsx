@@ -1,6 +1,6 @@
 'use client'
 import {ReactFlow, type Edge, type Node} from '@xyflow/react'
-import {useCallback, useEffect, useMemo} from 'react'
+import {useCallback, useEffect, useMemo, useRef} from 'react'
 import {useRouter} from 'next/navigation'
 import {Sparkles, Search, Plus, Radiation} from 'lucide-react'
 
@@ -37,6 +37,13 @@ import {useGuidedTour} from '@/features/mindmap/tours/use-guided-tour'
 import {useGuidedTourStore} from '@/features/mindmap/tours/guided-tour-store'
 import {FAMOUS_EVENTS_TOUR} from '@/features/mindmap/tours/famous-events-tour'
 import ResearchCanvasConsole from '@/features/mindmap/research-canvas/research-canvas-console'
+import {useCanvasDrop} from '@/features/mindmap/drop/use-canvas-drop'
+import {
+  CanvasDropAffordance,
+  CanvasDropNotice,
+} from '@/features/mindmap/drop/canvas-drop-layer'
+import {DroppedMatchInspector} from '@/features/mindmap/drop/dropped-match-inspector'
+import {isAcceptedMime} from '@/features/mindmap/drop/drop-contract'
 import '@/features/mindmap/research-canvas/canvas-animations.css'
 
 const LAYOUT_DIRECTION_MAP: Record<string, 'horizontal' | 'vertical' | 'radial' | 'grid'> = {
@@ -448,6 +455,81 @@ export function Graph() {
     ]
   )
 
+  // --- Drop-to-Canvas (T-060) ---
+  // Handlers live on the canvas wrapper div rather than on <ReactFlow>: the
+  // wrapper spans the full viewport including the overlays, so a file
+  // released over the console or the toolbar still lands on the canvas.
+  //
+  // These are HTML5 drag-and-drop events (dragenter/dragover/drop), which is
+  // a different event stream from the pointer events React Flow uses for
+  // panning, node dragging and selection — the two do not contend.
+  const {handleFile} = useCanvasDrop()
+  const setDropDragActive = useMindMapUiStore((s) => s.setDropDragActive)
+  const setInspectedMatchNodeId = useMindMapUiStore((s) => s.setInspectedMatchNodeId)
+  // dragleave fires when the pointer crosses into a CHILD element, which
+  // makes a naive show/hide flicker constantly. Counting enter/leave pairs
+  // is the standard fix.
+  const dragDepth = useRef(0)
+
+  const dragCarriesFile = (event: React.DragEvent) =>
+    Array.from(event.dataTransfer?.types ?? []).includes('Files')
+
+  const handleCanvasDragEnter = useCallback(
+    (event: React.DragEvent) => {
+      if (!dragCarriesFile(event)) return
+      event.preventDefault()
+      dragDepth.current += 1
+      // `dataTransfer.files` is EMPTY during drag (protected mode) — only
+      // `items` exposes the type before release, so the rejection preview
+      // has to read from there.
+      const item = event.dataTransfer.items?.[0]
+      const rejected = Boolean(item?.type) && !isAcceptedMime(item.type)
+      setDropDragActive(true, rejected)
+    },
+    [setDropDragActive]
+  )
+
+  const handleCanvasDragOver = useCallback((event: React.DragEvent) => {
+    if (!dragCarriesFile(event)) return
+    // Must preventDefault on EVERY dragover or the browser navigates away
+    // to the dropped file and the canvas is simply gone.
+    event.preventDefault()
+    event.dataTransfer.dropEffect = 'copy'
+  }, [])
+
+  const handleCanvasDragLeave = useCallback(
+    (event: React.DragEvent) => {
+      if (!dragCarriesFile(event)) return
+      dragDepth.current = Math.max(0, dragDepth.current - 1)
+      if (dragDepth.current === 0) setDropDragActive(false)
+    },
+    [setDropDragActive]
+  )
+
+  const handleCanvasDrop = useCallback(
+    (event: React.DragEvent) => {
+      if (!dragCarriesFile(event)) return
+      event.preventDefault()
+      dragDepth.current = 0
+      setDropDragActive(false)
+
+      const file = event.dataTransfer.files?.[0]
+      if (!file) return
+      void handleFile(file, {x: event.clientX, y: event.clientY})
+    },
+    [handleFile, setDropDragActive]
+  )
+
+  // Clicking a fan-out match opens the inspector; clicking anything else
+  // closes it. Match nodes are the only ones carrying `matchOfArtifact`.
+  const handleNodeClick = useCallback(
+    (_event: React.MouseEvent, node: Node) => {
+      const isDropMatch = Boolean((node.data as Record<string, unknown>)?.matchOfArtifact)
+      setInspectedMatchNodeId(isDropMatch ? node.id : null)
+    },
+    [setInspectedMatchNodeId]
+  )
+
   const handleStartTour = useCallback(() => {
     void startGuidedTour(FAMOUS_EVENTS_TOUR)
   }, [startGuidedTour])
@@ -529,7 +611,12 @@ export function Graph() {
   }, [nodes, hiddenNodeTypes, activeTourNodeId])
 
   return (
-    <div className='ut-canvas relative z-0 h-dvh w-full overflow-hidden'>
+    <div
+      className='ut-canvas relative z-0 h-dvh w-full overflow-hidden'
+      onDragEnter={handleCanvasDragEnter}
+      onDragOver={handleCanvasDragOver}
+      onDragLeave={handleCanvasDragLeave}
+      onDrop={handleCanvasDrop}>
       <ReactFlow
         ref={ref}
         colorMode='dark'
@@ -543,6 +630,7 @@ export function Graph() {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         onNodesDelete={onNodesDelete}
+        onNodeClick={handleNodeClick}
         connectionRadius={36}
         elevateNodesOnSelect={true}
         fitView
@@ -556,6 +644,19 @@ export function Graph() {
       <div className='ut-grain' aria-hidden />
 
       <TourOverlay />
+
+      {/* Drop-to-Canvas (T-060). The affordance is pointer-events:none and
+          renders above the graph; the inspector and failure notice sit in
+          the top-right stack, clear of the bottom console cluster. */}
+      <CanvasDropAffordance />
+
+      {/* right-20, not right-6: SessionNotes renders a `fixed right-0` 48px
+          pull-tab (session-notes.tsx:166) that this stack would otherwise
+          cover. z-30 keeps it under that tab's z-40 drawer. */}
+      <div className='pointer-events-none absolute right-20 top-6 z-30 flex flex-col items-end gap-3'>
+        <CanvasDropNotice />
+        <DroppedMatchInspector />
+      </div>
 
       {isEmpty ? (
         <>

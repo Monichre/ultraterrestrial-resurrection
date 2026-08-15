@@ -304,6 +304,20 @@ class KnowledgeBaseService:
         """
         Enhanced YouTube processing that includes Search sync
         This can replace process_youtube_url in main.py
+
+        ═══ YT-CHAIN-05 · KnowledgeBaseService :: process_youtube_with_enhanced_workflow()
+        The orchestrator. Two halves:
+          - Phase 3-5 (download → analysis → artifacts) is delegated wholesale
+            to generate_transcript() and comes back as a file_paths dict.
+          - Phase 6 (the sinks) happens inline below: OpenAI upload, QStash
+            queue, local KB write, Upstash search sync.
+        Its imports a few lines down pull in generate_transcript, the queue
+        adapter, upload_file_to_openai (§A2 — constructs an OpenAI client at
+        import time, unconditionally), and display.
+        PREV ← YT-CHAIN-04  process_youtube_url_enhanced()
+        NEXT → YT-CHAIN-06  lib/youtube.py :: generate_transcript()
+        THEN → YT-CHAIN-14  (Phase 6 sinks, further down this same function)
+        ═══════════════════════════════════════════════════════════════════
         """
         try:
             # Import YouTube processing functions and display
@@ -363,6 +377,13 @@ class KnowledgeBaseService:
 
             display.print_success(f"📺 Processing: {title}")
 
+            # Enrichment status, preferred from generate_transcript's return
+            # value (the full dict, with errors) and falling back to the
+            # summary it files in the metadata JSON. Callers grade LLM
+            # enrichment off this; without it a 401'd run is indistinguishable
+            # from a clean one and every episode records as ingested.
+            _rag_block = file_paths.get('rag_pipeline') or metadata.get('rag_pipeline') or {}
+
             # Prepare data structure
             data = {
                 'content': transcript_content,
@@ -378,11 +399,35 @@ class KnowledgeBaseService:
                     'categories': metadata.get('categories', []),
                     'tags': metadata.get('tags', []),
                     'description': metadata.get('description', ''),
-                    'chapters': metadata.get('chapters', [])
+                    'chapters': metadata.get('chapters', []),
+                    'rag_pipeline': _rag_block
                 },
+                # Surfaced top-level so callers can grade LLM enrichment without
+                # knowing which extraction path ran. The web path
+                # (web_content_processor.py:600) and the local-file path
+                # (main.py:503) already do this; YouTube did not, so
+                # playlist_ingestion's enrichment gate graded every episode
+                # "unknown" and recorded it as ingested regardless.
+                'rag_pipeline': _rag_block,
+                # Same reasoning as rag_pipeline above: the trace map is
+                # written best-effort inside generate_transcript, so the only
+                # way a caller can tell a real graph from a skipped one is if
+                # the writer's summary is surfaced here.
+                'trace_map': file_paths.get('trace_map'),
                 'file_paths': file_paths
             }
 
+            # ═══ YT-CHAIN-14 · KnowledgeBaseService :: Phase 6, the sinks ══
+            # Everything below is where the processed artifacts land. In order:
+            #   1. upload_file_to_openai()          → YT-CHAIN-15  (--upload only)
+            #   2. add_processed_content_to_queue() → lib/upstash/queue.py, QStash
+            #   3. add_youtube_to_knowledge_base()  → lib/knowledge_base_crud.py
+            #                                         → index.json
+            #   4. search_syncer.sync_document_to_search() → Upstash Search
+            # PREV ← YT-CHAIN-13  lib/trace_map.py
+            # NEXT → YT-CHAIN-15  lib/openai_client/upload.py
+            # THEN → YT-CHAIN-16  main.py :: trigger_cocoindex_processing()
+            # ═══════════════════════════════════════════════════════════════
             # Upload to OpenAI if requested (existing functionality)
             if upload:
                 display.print_stage("☁️  UPLOADING TO OPENAI", "☁️")
@@ -578,9 +623,10 @@ class KnowledgeBaseService:
                 domain = urlparse(url).netloc.replace('www.', '')
                 safe_title = f"{domain.replace('.', '-')}"
 
-            # Create meaningful directory name in correct location
-            base_dir = Path(__file__).parent.parent.parent.parent  # Go up to project root
-            web_dir = base_dir / "packages" / "knowledge-base" / "sources" / "web" / date_folder / f"{safe_title}_{url_hash}"
+            # Create meaningful directory name in correct location. Routed through
+            # lib/kb_root so DISCLOSURE_RAG_KB_PATH moves every writer together.
+            from .kb_root import sources_root
+            web_dir = sources_root() / "web" / date_folder / f"{safe_title}_{url_hash}"
             web_dir.mkdir(parents=True, exist_ok=True)
 
             # Generate comprehensive summary file
@@ -1118,10 +1164,36 @@ def add_to_knowledge_base(data: Dict[str, Any], doc_type: str = 'transcript') ->
 
 
 def process_youtube_url_enhanced(url: str, upload: bool = False, add_to_kb: bool = True) -> Optional[Dict[str, Any]]:
-    """Enhanced YouTube processing with Search sync"""
+    """Enhanced YouTube processing with Search sync
+
+    ═══ YT-CHAIN-04 · knowledge_base_service.py :: process_youtube_url_enhanced()
+    A one-line passthrough onto the module-level `kb_service` singleton.
+    This is the name main.py imports; the work is one hop down.
+    PREV ← YT-CHAIN-03  main.py :: process_url()
+    NEXT → YT-CHAIN-05  KnowledgeBaseService :: process_youtube_with_enhanced_workflow()
+    ═══════════════════════════════════════════════════════════════════════
+    """
     return kb_service.process_youtube_with_enhanced_workflow(url, upload, add_to_kb)
 
 
 def process_web_url_enhanced(url: str, upload: bool = False, add_to_kb: bool = True) -> Optional[Dict[str, Any]]:
-    """Enhanced web processing with Search sync"""
-    return kb_service.process_web_with_enhanced_workflow(url, upload)
+    """Enhanced web processing with Search sync
+
+    ═══ WEB-CHAIN-02 · knowledge_base_service.py :: process_web_url_enhanced()
+    A one-line passthrough onto the module-level `kb_service` singleton —
+    the web mirror of YT-CHAIN-04. This is the name main.py imports; the
+    work is one hop down.
+
+    FIXED 2026-08-13 (found while tracing WEB-CHAIN): this call was
+    `process_web_with_enhanced_workflow(url, upload)` — it accepted
+    `add_to_kb` and then silently dropped it. The callee's parameter
+    defaults to True and it really does gate its knowledge-base write on
+    that flag, so `dy <web-url> --no-kb` wrote to the knowledge base
+    anyway. The YouTube passthrough at YT-CHAIN-04 forwards all three
+    arguments correctly; only this path lost one.
+
+    PREV ← WEB-CHAIN-01  main.py :: process_url(), web arm
+    NEXT → WEB-CHAIN-03  KnowledgeBaseService :: process_web_with_enhanced_workflow()
+    ═══════════════════════════════════════════════════════════════════════
+    """
+    return kb_service.process_web_with_enhanced_workflow(url, upload, add_to_kb)

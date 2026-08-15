@@ -25,7 +25,7 @@ apps/disclosure-rag/
 │   ├── mem0_integration.py         # Mem0 contextual memory
 │   ├── cocoindex_integration.py    # Knowledge graph builder
 │   ├── cocoindex_flows.py          # CocoIndex flow definitions
-│   ├── xata_search.py              # Xata PostgreSQL search
+│   ├── xata_search.py              # DEAD — retired Xata client, non-functional
 │   ├── youtube.py                  # YouTube processing
 │   ├── youtube_handler.py          # YouTube download handler
 │   ├── youtube_transcript_enhanced.py # Enhanced transcript extraction
@@ -83,12 +83,11 @@ apps/disclosure-rag/
 URL -> is_youtube_url() check
   -> process_youtube_url_enhanced() [lib/knowledge_base_service.py]
     -> YouTube transcript extraction [lib/youtube.py]
-    -> Content analysis + summarization
+    -> ContentAnalysisEngine / RagPromptPipeline (writes *_rag_pipeline.json)
     -> add_youtube_to_knowledge_base() -> doc_id
-    -> Upstash Search sync (IntegratedUpstashSyncer)
-  -> Mem0: add_web_article_memory() [skipped for YT, handled in transcript]
-  -> CocoIndex: trigger_cocoindex_processing(doc_id)
-  -> Mem0: add_processing_summary_memory()
+    -> Upstash Search sync (IntegratedUpstashSyncer) [optional]
+  -> CocoIndex: trigger_cocoindex_processing(doc_id) [optional; YouTube branch only here]
+  -> Mem0: add_processing_summary_memory() [optional]
 ```
 
 ### Web URL Processing Path
@@ -96,12 +95,12 @@ URL -> is_youtube_url() check
 ```
 URL -> process_web_url_enhanced() [lib/knowledge_base_service.py]
   -> WebContentProcessor.process() [processing/web_content_processor.py]
-  -> Content analysis + classification
+  -> RagPromptPipeline via content analysis (sidecar JSON)
   -> add_to_knowledge_base() -> doc_id
-  -> Upstash Search sync
--> Mem0: add_web_article_memory(title, url, content, summary, tags)
--> CocoIndex: trigger_cocoindex_processing(doc_id)
--> Mem0: add_processing_summary_memory()
+  -> Upstash Search sync [optional]
+-> Mem0: add_web_article_memory(...) [optional]
+-> CocoIndex already may run inside web workflow — do not double-trigger in process_url
+-> Mem0: add_processing_summary_memory() [optional]
 ```
 
 ### File Processing Path
@@ -109,15 +108,16 @@ URL -> process_web_url_enhanced() [lib/knowledge_base_service.py]
 ```
 File -> process_file() [main.py]
   -> Read file content
+  -> ContentAnalysisEngine.process_for_rag(...) -> *_rag_pipeline.json
   -> Extract title from filename or markdown header
-  -> OpenAI upload (if --upload)
-  -> Upstash queue (add_processed_content_to_queue)
+  -> OpenAI upload (if --upload)  # note: may upload raw file, not only embeddable_texts
+  -> Upstash queue (add_processed_content_to_queue) [optional]
   -> add_to_knowledge_base() -> doc_id
-  -> Mem0: add_file_content_memory()
+  -> Mem0: add_file_content_memory() [optional]
   -> Entity extraction: process_summary_file_interactive(path, doc_id, interactive=False)
-  -> CocoIndex: trigger_cocoindex_processing(doc_id)
+  -> CocoIndex: trigger_cocoindex_processing(doc_id) [optional]
   -> File relocation: processing_queue/ -> packages/knowledge-base/sources/files/
-  -> Mem0: add_processing_summary_memory()
+  -> Mem0: add_processing_summary_memory() [optional]
 ```
 
 ## Integration Status Check
@@ -125,7 +125,7 @@ File -> process_file() [main.py]
 `python main.py --status` reports on:
 
 | Backend | Check |
-|---------|-------|
+| --------- | ------- |
 | Local KB | KnowledgeBaseCRUD initialized |
 | Search Sync | IntegratedUpstashSyncer available |
 | Search URL | UPSTASH_SEARCH_URL env var set |
@@ -134,28 +134,30 @@ File -> process_file() [main.py]
 | KG Statistics | Documents, entities, relationships counts |
 | Mem0 | MEM0_API_KEY set and module available |
 
-## Triple RAG Architecture
+## Triple RAG / multi-backend search (legacy framing)
 
-The system uses three vector backends with weighted scoring:
-
-| Backend | Weight | Package | Purpose |
-|---------|--------|---------|---------|
-| Upstash Vector | 40% | lib/upstash/vector.py | Cloud vector search |
-| FAISS (LocalRAG) | 40% | vector_storage/ | Local vector indices |
-| CocoIndex PostgreSQL | 20% | lib/cocoindex_integration.py | Knowledge graph analytics |
+Older docs describe weighted Upstash (40%) + FAISS (40%) + CocoIndex (20%). Treat this as **inventory of optional local backends**, not as the Next.js product retrieval architecture (that is Postgres FTS + pgvector via `@db/postgres`). `UnifiedRAGOrchestrator` can still search OpenAI / local stores when configured; do not require all three for a successful ingest.
 
 Orchestrated by `lib/unified_rag_orchestrator.py`.
+
+## RagPromptPipeline (live)
+
+`processing/rag_prompt_pipeline.py` runs registry prompts from `packages/ai/prompts`:
+
+classification → content_analysis → rag_ingestion → ner → validation → `embeddable_texts`
+
+Entry: `ContentAnalysisEngine.process_for_rag()` / `process_document_for_rag()`. Wired from YouTube, web, and file paths; writes `*_rag_pipeline.json`. Evidence-only chunks per ADR-0001.
 
 ## Entity Extraction System
 
 Located in `lib/entity_extraction/`:
 
 - **Schemas**: Define entity types (personnel, organizations, locations, events, technologies, documents)
-- **Processors**: `interactive_entity_processor.py` -- extracts entities and matches against 230,998+ Xata database records
+- **Processors**: `interactive_entity_processor.py` -- extracts entities; some matchers still import retired Xata modules, but those code paths are dead and perform no lookups
 - **Tools**: Utilities for entity normalization, deduplication
-- **85-95% extraction accuracy** on UAP research content
 
 Key function:
+
 ```python
 from lib.entity_extraction.processors.interactive_entity_processor import process_summary_file_interactive
 results = process_summary_file_interactive(summary_path, doc_id, interactive=False)

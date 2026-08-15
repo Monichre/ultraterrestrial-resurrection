@@ -19,6 +19,7 @@ from typing import Any, Dict, List, Optional
 
 from dotenv import load_dotenv
 
+from lib.llm_fallback import AllProvidersFailed, get_fallback
 from lib.prompt_loader import get_prompt, get_prompt_with_schema
 
 load_dotenv()
@@ -28,6 +29,41 @@ logger = logging.getLogger(__name__)
 MAX_NER_CHUNKS = int(os.getenv("RAG_PIPELINE_MAX_NER_CHUNKS", "8"))
 MAX_SOURCE_CHARS = int(os.getenv("RAG_PIPELINE_MAX_SOURCE_CHARS", "24000"))
 DEFAULT_CHUNK_TOKENS = os.getenv("RAG_PIPELINE_CHUNK_TOKENS", "512")
+
+#: Prompts that send their registry schema over the wire as a constraint.
+#:
+#: Deliberately NOT "every prompt that has a schema". Only `rag_ingestion` is
+#: enabled, because it is the stage that was failing to parse and its schema
+#: was written from that prompt's own OUTPUT JSON SHAPE block, field for field.
+#: The others stay unconstrained until someone confirms their schema describes
+#: everything the prompt can actually return — a schema and the prompt text it
+#: belongs to drift apart independently, and the schema is the older artifact.
+#:
+#: Caution, measured but NOT explained (2026-08-10, video q0N33jb7Bhk):
+#: `disclosure.content_analysis` output varies a lot run to run at
+#: temperature 0.1 on a 60KB transcript. Across three single runs —
+#:
+#:     field                     08-09    schema on   schema off
+#:     primary_claims               16            8            5
+#:     key_findings                  7            0            4
+#:     follow_up_needed              5            3            0
+#:     entities_mentioned           17            0            0
+#:     temporal_markers              8            0            0
+#:     anomalous_claims_flagged      4            0            0
+#:
+#: Attaching the schema was first suspected as the cause; removing it did not
+#: restore the three fields that are empty in both recent runs, so that
+#: hypothesis is unsupported. Every condition here is n=1, including the
+#: baseline. Something is suppressing those three fields relative to 08-09 and
+#: it is not known what — do not read this table as evidence about schemas in
+#: either direction.
+SCHEMA_ENABLED_PROMPTS = {"rag_ingestion"}
+
+#: Of those, the ones whose schema is also audited against OpenAI strict mode's
+#: narrower dialect (additionalProperties:false everywhere, every property in
+#: required) and may be sent with strict=True. Enforced by
+#: tests/test_schema_strict_mode.py — add here and to STRICT_SCHEMAS together.
+STRICT_SCHEMA_PROMPTS = {"rag_ingestion"}
 
 
 @dataclass
@@ -87,87 +123,55 @@ class RagPromptPipeline:
         self.run_validation = run_validation
         self.prefer_provider = (prefer_provider or os.getenv(
             "RAG_PIPELINE_PROVIDER") or "").lower()
-        self._openai = None
-        self._anthropic = None
-        self._init_clients()
-
-    def _init_clients(self) -> None:
-        openai_key = os.environ.get("OPENAI_API_KEY")
-        anthropic_key = os.environ.get("ANTHROPIC_API_KEY")
-        if openai_key:
-            try:
-                from openai import OpenAI
-
-                self._openai = OpenAI(api_key=openai_key)
-            except Exception as exc:  # pragma: no cover
-                logger.warning("OpenAI client unavailable: %s", exc)
-        if anthropic_key:
-            try:
-                from anthropic import Anthropic
-
-                self._anthropic = Anthropic(api_key=anthropic_key)
-            except Exception as exc:  # pragma: no cover
-                logger.warning("Anthropic client unavailable: %s", exc)
+        self._llm = get_fallback(self.prefer_provider or None)
+        # Provenance of the tiers that actually served this run, so callers can
+        # tell real enrichment from silent degradation.
+        self.tiers_used: List[str] = []
+        self.degraded = False
+        #: Prompts that asked for schema enforcement and did not get it.
+        self.unenforced_prompts: List[str] = []
+        #: Prompts that needed a parse-repair round trip to return valid JSON.
+        self.repaired_prompts: List[str] = []
+        logger.info("LLM fallback chain: %s", self._llm.describe())
 
     def _truncate(self, text: str) -> str:
         if len(text) <= MAX_SOURCE_CHARS:
             return text
         return text[:MAX_SOURCE_CHARS] + "\n\n[TRUNCATED_FOR_PIPELINE]"
 
-    def _call_llm(
+    def _complete_text(
         self,
         system_prompt: str,
         user_content: str,
         *,
         temperature: float = 0.1,
         max_tokens: int = 1200,
+        schema: Optional[Dict[str, Any]] = None,
+        schema_name: str = "response",
+        strict: bool = False,
     ) -> str:
-        providers = []
-        if self.prefer_provider == "openai":
-            providers = ["openai", "anthropic"]
-        elif self.prefer_provider == "anthropic":
-            providers = ["anthropic", "openai"]
-        else:
-            # Prefer Anthropic for structured extraction when available (matches ContentAnalysisEngine)
-            providers = ["anthropic", "openai"]
-
-        last_error: Optional[Exception] = None
-        for provider in providers:
-            try:
-                if provider == "anthropic" and self._anthropic:
-                    message = self._anthropic.messages.create(
-                        model=os.getenv(
-                            "RAG_PIPELINE_ANTHROPIC_MODEL", "claude-3-5-sonnet-20241022"),
-                        max_tokens=max_tokens,
-                        temperature=temperature,
-                        system=system_prompt,
-                        messages=[{"role": "user", "content": user_content}],
-                    )
-                    return message.content[0].text
-                if provider == "openai" and self._openai:
-                    response = self._openai.chat.completions.create(
-                        model=os.getenv(
-                            "RAG_PIPELINE_OPENAI_MODEL", "gpt-4o-mini"),
-                        temperature=temperature,
-                        max_tokens=max_tokens,
-                        messages=[
-                            {"role": "system", "content": system_prompt},
-                            {"role": "user", "content": user_content},
-                        ],
-                    )
-                    return response.choices[0].message.content or ""
-            except Exception as exc:
-                last_error = exc
-                logger.warning("LLM provider %s failed: %s", provider, exc)
-
-        if last_error:
-            raise RuntimeError(
-                f"All LLM providers failed: {last_error}") from last_error
-        raise RuntimeError(
-            "No LLM provider available. Set ANTHROPIC_API_KEY or OPENAI_API_KEY."
+        result = self._llm.complete(
+            system_prompt,
+            user_content,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            schema=schema,
+            schema_name=schema_name,
+            strict=strict,
         )
+        if result.tier_id not in self.tiers_used:
+            self.tiers_used.append(result.tier_id)
+        if result.degraded:
+            self.degraded = True
+        # A schema was asked for and the tier could not honour it. The answer
+        # is real but unenforced, which is worth recording separately from a
+        # routing fallback — it is the difference between "another tier served
+        # this" and "this JSON came back on good behaviour".
+        if schema is not None and not result.schema_enforced:
+            self.unenforced_prompts.append(schema_name)
+        return result.text
 
-    def _run_prompt_json(
+    def _run_registry_prompt(
         self,
         prompt_id: str,
         params: Dict[str, Any],
@@ -180,16 +184,62 @@ class RagPromptPipeline:
         temperature = float(runtime.get("temperature", 0.1))
         max_tokens = int(runtime.get("max_tokens", 1200))
 
+        # load_prompt has always returned the resolved schema as its own payload
+        # key; nothing read it, so every prompt was sent with the schema pasted
+        # into the system text as prose and json.loads called on hope. Passing
+        # it here is what makes the shape a requirement of the request — but
+        # only for prompts whose schema is known to be complete enough to
+        # constrain by. See SCHEMA_ENABLED_PROMPTS for what that cost when it
+        # was applied indiscriminately.
+        schema = payload.get("schema") if prompt_id in SCHEMA_ENABLED_PROMPTS else None
+        strict = schema is not None and prompt_id in STRICT_SCHEMA_PROMPTS
+
         user_content = user_fallback or (
             "Return valid JSON only, conforming to the instructions and schema."
         )
-        raw = self._call_llm(
+
+        raw = self._complete_text(
             system_prompt,
             user_content,
             temperature=temperature,
             max_tokens=max_tokens,
+            schema=schema,
+            schema_name=prompt_id.replace(".", "_"),
+            strict=strict,
         )
-        parsed = _extract_json_payload(raw)
+
+        try:
+            parsed = _extract_json_payload(raw)
+        except (ValueError, json.JSONDecodeError) as exc:
+            # Second line of defence, and the one that would have saved the
+            # 2026-08-09 run: schema enforcement is a request the provider may
+            # decline, so malformed JSON is still reachable. One bad comma at
+            # char 8455 of 12,052 was terminal — it emptied chunks, which
+            # emptied the NER loop, which emptied embeddable_texts, and the run
+            # still exited 0. Hand the parser's own complaint back and let the
+            # model repair it once before giving up.
+            logger.warning(
+                "%s returned unparseable JSON (%s) — retrying once with the "
+                "parser error fed back", prompt_id, exc,
+            )
+            repair = (
+                f"{user_content}\n\n"
+                f"Your previous response could not be parsed as JSON.\n"
+                f"Parser error: {exc}\n"
+                f"Return the corrected JSON only — no prose, no markdown fences."
+            )
+            raw = self._complete_text(
+                system_prompt,
+                repair,
+                temperature=temperature,
+                max_tokens=max_tokens,
+                schema=schema,
+                schema_name=prompt_id.replace(".", "_"),
+                strict=strict,
+            )
+            parsed = _extract_json_payload(raw)
+            self.repaired_prompts.append(prompt_id)
+
         if not isinstance(parsed, dict):
             return {"_raw_list": parsed, "_raw_text": raw}
         parsed["_raw_text"] = raw
@@ -224,7 +274,7 @@ class RagPromptPipeline:
         try:
             # --- Stage 1: classification ---
             result.prompts_used.append("document_classification")
-            classification = self._run_prompt_json(
+            classification = self._run_registry_prompt(
                 "document_classification",
                 {
                     "source_text": text,
@@ -248,7 +298,7 @@ class RagPromptPipeline:
 
             # --- Stage 2: content analysis ---
             result.prompts_used.append("disclosure.content_analysis")
-            analysis = self._run_prompt_json(
+            analysis = self._run_registry_prompt(
                 "disclosure.content_analysis",
                 {
                     "content_type": content_type,
@@ -261,7 +311,7 @@ class RagPromptPipeline:
 
             # --- Stage 3: rag ingestion / chunking ---
             result.prompts_used.append("rag_ingestion")
-            ingestion = self._run_prompt_json(
+            ingestion = self._run_registry_prompt(
                 "rag_ingestion",
                 {
                     "source_text": text,
@@ -297,7 +347,7 @@ class RagPromptPipeline:
 
                     try:
                         result.prompts_used.append("disclosure.ner")
-                        ner = self._run_prompt_json(
+                        ner = self._run_registry_prompt(
                             "disclosure.ner",
                             {
                                 "source_text": chunk.get("text") or "",
@@ -313,7 +363,7 @@ class RagPromptPipeline:
                     if self.run_validation and "ner" in entry:
                         try:
                             result.prompts_used.append("validation")
-                            qa = self._run_prompt_json(
+                            qa = self._run_registry_prompt(
                                 "validation",
                                 {
                                     "target": json.dumps(entry["ner"], ensure_ascii=False),
@@ -365,6 +415,15 @@ class RagPromptPipeline:
                     "embeddable_count": len(result.embeddable_texts),
                     "ner_chunk_count": len(result.ner_results),
                     "prompts_used": sorted(set(result.prompts_used)),
+                    # Enrichment provenance. A caller grading this run needs to
+                    # know not just that JSON came back but under what
+                    # guarantee: which tiers served it, whether any prompt fell
+                    # back to unenforced output, and whether any needed a
+                    # parse-repair round trip.
+                    "tiers_used": list(self.tiers_used),
+                    "degraded": self.degraded,
+                    "schema_unenforced_prompts": sorted(set(self.unenforced_prompts)),
+                    "repaired_prompts": sorted(set(self.repaired_prompts)),
                 }
             )
             return result

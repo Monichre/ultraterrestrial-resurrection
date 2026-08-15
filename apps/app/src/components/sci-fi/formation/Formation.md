@@ -17,6 +17,7 @@ Generative flow-field particle trails via R3F + FBO accumulation. Seven surfaces
 | `Formation.tsx` | Canvas-only component |
 | `FormationUI.tsx` | Site chrome (nav / title / orb) |
 | `formation-ui.css` | Chrome styles |
+| `ui.html` | Vanilla Formation° donor (2026-08-06) |
 
 ## Usage
 

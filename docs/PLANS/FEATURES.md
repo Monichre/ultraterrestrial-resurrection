@@ -2,14 +2,14 @@
 status: live
 role: product
 spine: want
-updated: 2026-07-19
+updated: 2026-08-13
 ---
 
 # Feature Planning & High-Level Ideas
 
 **Purpose**: Collaborative space for high-level feature concepts, architectural decisions, and strategic planning before they become actionable tickets.
 
-**Last Updated**: 2026-06-20  
+**Last Updated**: 2026-08-09  
 **Contributors**: Liam Ellis, Claude Code  
 **Project**: Ultraterrestrial Resurrection - UFO/UAP Research Platform
 
@@ -146,6 +146,19 @@ What was actually done (SP1–SP4):
 **User Journey**: Mindmap Discovery → Contextual Research Panel → Session Documentation → Evidence Validation
 **Reference**: Extracted from Todo2 integration concept (T-11)
 
+**Superseding upgrade (2026-08-09):** The live shell is already `/research-canvas` → mindmap `Graph`. Strategic follow-on is **Decision 11 / T-053** — Gen-UI Deep Research loop + agentic `researchSession` on that shell (not a TipTap sidecar revival). See [`2026-08-09-research-canvas-genui.md`](./2026-08-09-research-canvas-genui.md).
+
+---
+
+### **5b. Research Canvas Gen-UI upgrade** ⭐ **Priority — Lane B feature upgrade**
+
+**Vision**: Make `/research-canvas` an agentic investigation surface: thin command rail, Graph as the durable canvas, explicit plan → multi-hop retrieve → liturgy dossier — with inspectable tool cards during the run.
+
+**Status**: 🟡 Specced 2026-08-09 — **T-053 / [DMGD-219](https://linear.app/digital-mischief-group/issue/DMGD-219/lane-b-research-canvas-gen-ui-upgrade-deep-research-loop-agentic)** · Backlog
+**Decision**: Decision 11 (below)
+**Canonical plan**: [`docs/plans/2026-08-09-research-canvas-genui.md`](./2026-08-09-research-canvas-genui.md)
+**Phases**: RC-P0 ToolCards → RC-P1 expand `researchSession` → RC-P2 wire Deep Research mode → RC-P3 dossier bridge → RC-P4 plan→waypoints (soft-deps T-050)
+
 ---
 
 ### **6. 3D Visualization Spatial Integration** 🌐 **Priority 6**
@@ -210,7 +223,7 @@ packages/prompts/
 
 **Vision**: Give `packages/knowledge-base`'s 950 raw source files (31 case PDFs, 833 transcripts, 68 web scrapes) a managed, URL-addressable home with presigned access — instead of raw disk + `metadata/index.json` path strings. Wire first-class file tools into the Prometheus/mindmap agents alongside the existing `searchDatabase`/`searchExternalResources` tools.
 
-**Why now**: Reviewed Neon **Files SDK** (`files-sdk` v2.2.0, https://files-sdk.dev) and the `with-files-sdk` Neon example (https://github.com/neondatabase/examples/tree/main/with-files-sdk). Three things line up with this codebase:
+**Why now**: Reviewed Neon **Files SDK** (`files-sdk` v2.2.0, <https://files-sdk.dev>) and the `with-files-sdk` Neon example (<https://github.com/neondatabase/examples/tree/main/with-files-sdk>). Three things line up with this codebase:
 
 1. **Branchable object storage** — Neon buckets are copy-on-write per DB branch; an experiment branch gets its own isolated file state. Matches the "research canvas / experiment with a corpus" ethos.
 2. **Native Vercel AI SDK tools** — `createFileTools({ files })` from `files-sdk/ai-sdk` drops straight into `generateText`/`streamText`, which is exactly what `/api/prometheus/chat` already uses. Read tools need no approval; writes gated by default; `readOnly: true` strips writes. ~5 lines to give agents file browsing.
@@ -219,6 +232,7 @@ packages/prompts/
 **Catch — region blocker (decisive for timing)**: Neon object storage is a **preview feature, only on *new* projects in `us-east-2`**. The live project (`ep-red-sky-…`, `us-east-1`, 126,483 records) **cannot** enable it. Adopting it means either (a) migrating to a new `us-east-2` project, or (b) running a separate storage-only project alongside — both non-trivial given the data volume and live agent paths.
 
 **Other notes**:
+
 - v2.2.0 just shipped (too fresh to pin in production per the >=7-days dependency guidance; watch it for a week or two).
 - Pulls AWS SDK v3 peer deps (`@aws-sdk/client-s3` + presigners) — fine for server routes, avoid the client bundle.
 - Clean credential story depends on the Neon CLI (`neon deploy` / `neon env pull` injecting `AWS_*` vars); the repo doesn't currently use the Neon CLI.
@@ -438,7 +452,7 @@ Read-only by default — agents can browse and read raw sources but not mutate t
 ### Phased adoption
 
 | Phase | What | Infra | Risk | When |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | **1 — Abstract** | `@repo/files` package with `fs` adapter; point at `knowledge-base/sources/`. Add `browseFiles` (read-only) to Prometheus. Store object *keys* (not absolute paths) in `documents.url`. | none (local disk) | low | can start now |
 | **2 — Spike** | Throwaway `us-east-2` Neon project. Upload the 31 case PDFs. Validate branchable-corpus story + `createFileTools` end-to-end. | new us-east-2 project | low (throwaway) | when bandwidth allows |
 | **3 — Adopt** | Migrate `@repo/files` to `neon` adapter (or R2 if Neon region constraint persists). Move all 950 sources. Wire `neon deploy` into the flow. | production object store | medium | when Neon GA's / opens us-east-1, OR a deliberate R2/S3 decision is made |
@@ -529,13 +543,54 @@ Read-only by default — agents can browse and read raw sources but not mutate t
 **Impact**: ~85% size reduction (24MB → ~3.5MB). CLAUDE/AGENTS paths fixed. Canvas: `docs-root-and-prune`.
 **Status**: ✅ Implemented on branch `docs/root-and-prune`
 
-### Decision 9: File layer as a separate concern from the retrieval layer (2026-07-24)
+### Decision 10: Disclosure Lab as Neon admin console (2026-08-09)
 
-**Date**: 2026-07-24
-**Context**: Reviewed Neon Files SDK v2.2.0 + the `with-files-sdk` example for giving `packages/knowledge-base`'s 950 raw source files a managed home. Neon object storage is preview-only on new `us-east-2` projects; the live project is `us-east-1` and can't enable it.
-**Decision**: Adopt a **two-layer model** — object storage for *raw* source files (behind a swappable `@repo/files` adapter seam), Postgres + pgvector for *processed* chunks/embeddings (unchanged). Do not move retrieval out of Postgres. Do not adopt `files-sdk` on the current Neon project. Log as strategic/tracking; re-evaluate when Neon object storage GA's or expands to `us-east-1`. Phase 1 (an `fs` adapter against local disk + a read-only `browseFiles` agent tool) is low-risk and can start now without waiting on the storage decision.
-**Impact**: Captures the file-layer track without a premature infra commitment. The adapter seam keeps the provider choice (Neon / R2 / S3) reversible.
-**Status**: 🟡 Proposal — awaiting decision on Phase 1 timing and provider preference. See Focus Area #8 + the "Proposal: Official file-based storage + data layer" section above.
+**Date**: 2026-08-09
+**Context**: Need an internal surface to inspect and correct Neon entity fidelity without treating admin tooling as Research Canvas. Grilling closed on DMGD-216 / T-052.
+**Decision**: Ship `apps/disclosure-lab` as a Database-context **admin layer** over `@db/postgres` (live `DATABASE_URL`). Human INSERT/UPDATE on entity allowlist with confirm-every-write; Lab assistant is read/analyze only in v1; no DELETE. Canvas inference-only write rule remains scoped to Research Canvas (`apps/app`).
+**Impact**: Separates operator corpus edits from Investigation/Inference semantics. Spec: [`docs/plans/2026-08-09-disclosure-lab.md`](./2026-08-09-disclosure-lab.md). Linear: DMGD-216.
+**Status**: 🟡 In progress — implementation started 2026-08-09
+
+### Decision 11: Research Canvas Gen-UI = Deep Research loop on agentic canvas (2026-08-09)
+
+**Date**: 2026-08-09
+**Context**: Fit analysis of awesome-llm-apps Gen-UI demos ([deep research](https://github.com/Shubhamsaboo/awesome-llm-apps/tree/main/generative_ui_agents/ai-deep-research-agent), [dashboard canvas](https://github.com/Shubhamsaboo/awesome-llm-apps/tree/main/generative_ui_agents/ai-dashboard-canvas-agent)) against the live `/research-canvas` mindmap shell.
+**Decision**:
+
+1. Steal Deep Research’s **plan → multi-hop → dossier + ToolCards** interaction model.
+2. Steal Dashboard Canvas’s **thin chat + shared AgentState the agent mutates** geometry (already mostly true of Graph + console).
+3. Host on the **existing disclosure mindmap path** (`useMindMapAgent` + `/api/disclosure/mindmap`); expand T-027 `researchSession` as AgentState.
+4. **Reject** CopilotKit / ADK / LangGraph dual runtimes, Tavily-as-primary, SaaS KPI dashboard grammar, and a Deep Research Workspace sidecar as the long-term UX.
+5. Project intelligence into Graph / waypoints / SynthesisPanel — not insight-card sidebars.
+**Impact**: Feature upgrade tracked as T-053 / DMGD-219. Soft-deps T-050 only for plan→waypoint projection (RC-P4). Spec: [`docs/plans/2026-08-09-research-canvas-genui.md`](./2026-08-09-research-canvas-genui.md).
+**Status**: 🟡 Specced — Backlog (ready to claim)
+
+### Decision 12: YouTube podcast ingest — enhance disclosure-rag, reject parallel n8n+Qdrant stack (2026-08-12)
+
+**Context**: Reviewed external n8n templates (Apify→Qdrant RAG search; playlist analyst chatbot) plus a 52-playlist UAP podcast catalog. Templates solve transcript RAG + timestamp citations well but run on n8n + Qdrant + Redis (+ Apify/Gemini embeddings), disconnected from Neon pgvector, trace maps, and live mindmap/Prometheus paths.
+
+**Decision**:
+
+1. **Ingest** UAP podcast playlists through existing `apps/disclosure-rag/scripts/playlist_ingestion.py` after T-048 H1 — ticketed **T-057**, **T-059**.
+2. **Port patterns only** — grouped multi-video retrieval and `&t=` timestamp citations into live AI tools — ticketed **T-058**. No second vector database.
+3. **Reject** adopting n8n workflows as production ingest or search surfaces; archive JSON references under `packages/ai/prompts/` for pattern study.
+4. **Reject** Psynalytics research-proposal Telegram workflow for YouTube corpus work (wrong domain); multi-agent outline→JSON→artifact pattern may inform T-055/T-029 later.
+
+**Impact**: T-057, T-058, T-059 in `docs/plans/TODO.md`.
+
+### Decision 13: Assembling-components wires into existing Next.js + disclosure-ui (2026-08-13)
+
+**Context**: assembling-components was customized as a vault in `disclosure-design-references`. The assembly target is this monorepo's Next.js 15 app, which already has `@repo/disclosure-ui` (`--du-*` registers), next-themes (`class` + forced dark), and shadcn/Radix primitives.
+
+**Decision**:
+
+1. **Do not** generate a Vite/FastAPI/Axum scaffold.
+2. Map assembling token names (`--color-*`, `--spacing-*`, …) as **aliases** on `--du-*` in `packages/disclosure-ui/styles/tokens.css`.
+3. Dual-write `data-theme` beside Tailwind `class`; keep `forcedTheme='dark'`.
+4. Mount `ToastProvider` at root; add skill-chain barrels that re-export existing chrome (`ResearchDeskShell` as Dashboard, `ResearchAppChrome` as Header).
+5. Token-validate **new** assembling CSS only. Legacy `globals.css` / feature hex remains an open migration.
+
+**Impact**: `docs/plans/AssemblingComponentsApply.md`.
 
 ---
 
@@ -567,13 +622,14 @@ Read-only by default — agents can browse and read raw sources but not mutate t
 - **External Web RAG**: ✅ Live through the shared Exa research tool; further work belongs in Linear
 - **API Consolidation**: ✅ Two live paths with shared DB/Exa tools; OpenAI Assistants boundary documented
 - **Prompts System**: ✅ Shared epistemic guidance and frontier fallback implemented; further work belongs in Linear
-- **Deep Research**: 🔄 Needs technical approach refinement
-- **Natural Language Tours**: ⛔ SCRAPPED — multi-agent tour orchestrator was specced July 2025, zero code written, scrapped at 2026-03-29 roundtable. Do not pursue.
+- **Deep Research / Research Canvas Gen-UI**: ✅ Approach decided (Decision 11) — ticketed as T-053 / DMGD-219; RC-P0–P4 in `docs/plans/2026-08-09-research-canvas-genui.md`
+- **Natural Language Tours**: ⛔ SCRAPPED — multi-agent tour orchestrator was specced July 2025, zero code written, scrapped at 2026-03-29 roundtable. Do not pursue. (Guided-tours convergence is **T-050**, a different ticket.)
 - **TipTap Integration**: ✅ Ready for TODO.md (detailed plan exists)
 
 ### **Current Development Pipeline**
 
 - **Active tracker**: Linear project `Ultraterrestrial Resurrection` (DMG Dev)
+- **Backlog (ready to claim)**: Research Canvas Gen-UI **DMGD-219 / T-053**
 - **In review**: agent consolidation, provider fallback, design canon, documentation cleanup, and Linear cutover
 - **Blocked**: screenshot-grounded UX audit until a browser backend is available
 - **Planning**: 10-source LLM-wiki provenance pilot decision; local-agent definition refresh
@@ -585,21 +641,21 @@ Read-only by default — agents can browse and read raw sources but not mutate t
 ### **Current Sprint Readiness**
 
 | Feature | Technical Complexity | Business Value | Implementation Risk | Priority Score |
-|---------|---------------------|----------------|-------------------|---------------|
+| --------- | --------------------- | ---------------- | ------------------- | --------------- |
 | External Web RAG | Medium | Very High | Low | ⭐⭐⭐⭐⭐ |
 | API Consolidation | Low | High | Low | ⭐⭐⭐⭐ |
 | Prompts System | Medium | Medium | Low | ⭐⭐⭐ |
 | ~~Smart Tours Integration~~ | ~~Low~~ | ~~High~~ | ~~Very Low~~ | ⛔ SCRAPPED |
 | TipTap RAG Integration | Medium | High | Medium | ⭐⭐⭐ |
-| Deep Research | High | Very High | Medium | ⭐⭐ |
+| Research Canvas Gen-UI (T-053) | Medium–High | Very High | Medium | ⭐⭐⭐⭐ |
 
 ### **Resource Allocation Recommendations**
 
-- **Immediate Focus**: Research Canvas integration (TODO.md Focus 1) — Smart Tours was scrapped
-- **Next Sprint**: External Web RAG (highest ROI, low risk)
-- **Parallel Development**: API Consolidation (low complexity, can run alongside)
-- **Following Sprint**: Prompts System + TipTap Integration
-- **Research Phase**: Deep Research technical approach refinement
+- **Immediate Focus**: Research Canvas Gen-UI RC-P0–P2 when claimed (T-053 / DMGD-219) — Smart Tours orchestrator was scrapped; T-050 is the live tour path
+- **Parallel**: Disclosure Lab (T-052), T-050 render, Lane A T-048 H1
+- **Next Sprint**: External Web RAG pre-ingest (still aspirational; Exa live today)
+- **Following Sprint**: TipTap Integration if still desired after Gen-UI dossier lands
+- **Research Phase**: Closed for Gen-UI fit — Decision 11 is the SoT
 
 ---
 

@@ -30,7 +30,12 @@
     "db:cmd:ufo-geographic": "cd ./packages/db && bun run cmd:ufo-geographic",
     "db:cmd:multi-table": "cd ./packages/db && bun run cmd:multi-table",
     "prompts:list": "cd ./packages/ai/prompts && bun run list",
-    "prompts:validate": "cd ./packages/ai/prompts && bun run validate"
+    "prompts:validate": "cd ./packages/ai/prompts && bun run validate",
+    "mcp:vector-store": "cd ./packages/openai-vector-store-mcp && bun run start",
+    "mcp:vector-store:sse": "cd ./packages/openai-vector-store-mcp && bun run dev:sse",
+    "dev:disclosure-lab": "cd ./apps/disclosure-lab && bun run dev",
+    "build:disclosure-lab": "cd ./apps/disclosure-lab && bun run build",
+    "disclosure-ui:type-check": "cd ./packages/disclosure-ui && bun run type-check"
   },
   "devDependencies": {
     "@types/bun": "latest",
@@ -46,6 +51,7 @@
   "workspaces": [
     "apps/*",
     "packages/*",
+    "packages/ai",
     "packages/ai/prompts"
   ],
   "dependencies": {

@@ -1,0 +1,17 @@
+{
+  "name": "@repo/openai-vector-store-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "MCP server exposing OpenAI Vector Store search + fetch tools (ChatGPT deep research compatible)",
+  "type": "module",
+  "scripts": {
+    "setup": "python3 -m venv .venv && .venv/bin/pip install -U pip && .venv/bin/pip install -e .",
+    "start": ".venv/bin/openai-vector-store-mcp",
+    "dev": "MCP_TRANSPORT=stdio .venv/bin/openai-vector-store-mcp",
+    "dev:sse": "MCP_TRANSPORT=sse .venv/bin/openai-vector-store-mcp",
+    "dev:http": "MCP_TRANSPORT=http .venv/bin/openai-vector-store-mcp"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

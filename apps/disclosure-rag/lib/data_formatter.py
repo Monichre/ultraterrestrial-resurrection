@@ -23,8 +23,10 @@ class StandardizedDataFormatter:
         if base_storage_dir:
             self.base_storage_dir = Path(base_storage_dir)
         else:
-            # Default to packages/knowledge-base/sources/
-            self.base_storage_dir = Path(__file__).parent.parent.parent.parent / "packages" / "knowledge-base" / "sources"
+            # Default to packages/knowledge-base/sources/, honouring
+            # DISCLOSURE_RAG_KB_PATH so the archive root is overridable.
+            from .kb_root import sources_root
+            self.base_storage_dir = sources_root()
         
         # Ensure base directory exists
         self.base_storage_dir.mkdir(parents=True, exist_ok=True)

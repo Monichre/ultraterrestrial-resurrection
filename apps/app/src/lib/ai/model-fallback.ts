@@ -7,19 +7,33 @@
  * being down never takes the feature down. Callers get the first success
  * plus which tier produced it.
  *
- * Verified model IDs (2026-07-07):
- *   OpenAI     gpt-5.5             (flagship, Apr 2026)
- *   Anthropic  claude-opus-4-8     (top Opus)
- *   Anthropic  claude-sonnet-5     (fast frontier)
- *   Google     gemini-3.5-flash    (I/O 2026)
- *   Zhipu      glm-5.2             (open flagship, via z.ai OpenAI-compatible API)
- *   Groq       openai/gpt-oss-120b (top Groq-hosted; kimi-k2 deprecated 2026-03)
+ * Gateway policy (2026-08-07): first-party OpenAI and Anthropic tiers are
+ * REMOVED, not demoted. A trailing tier is still a reachable tier — leaving
+ * one in place means the first time every gateway above it fails, the request
+ * silently bills a vendor we have chosen to stop paying. Absence is the only
+ * enforcement that survives an outage. Mirrors
+ * `apps/disclosure-rag/lib/llm_fallback.py`, which is the batch counterpart.
+ *
+ * Scope: this governs *completions only*. It does not touch embeddings
+ * (`text-embedding-3-small` @ 1536 dims, 6,540 vectors already stored) or the
+ * disclosure mindmap agent, which runs on the OpenAI Assistants API —
+ * threads + file_search over a vector store is a proprietary surface with no
+ * chat/completions equivalent, so it cannot be routed through a gateway
+ * without rearchitecting it. Both still consume OpenAI credit by design.
+ *
+ * Verified model IDs (2026-08-07):
+ *   OpenRouter    z-ai/glm-5.2        (live — served a real completion)
+ *   HuggingFace   zai-org/GLM-5.2     (endpoint 200, completion 402: credits depleted)
+ *   Ollama Cloud  glm-5.2             (endpoint 200, completion 403: rejected)
+ *   Google        gemini-3.5-flash    (I/O 2026)
+ *   Zhipu         glm-5.2             (open flagship, via z.ai OpenAI-compatible API)
+ *   Groq          openai/gpt-oss-120b (open-weight model on a Groq credential —
+ *                                      bills Groq, not OpenAI, despite the name)
  */
 import {generateText, generateObject, type LanguageModel} from 'ai'
 import type {LanguageModelV2, LanguageModelV2CallOptions} from '@ai-sdk/provider'
 import type {z} from 'zod'
-import {openai, createOpenAI} from '@ai-sdk/openai'
-import {anthropic} from '@ai-sdk/anthropic'
+import {createOpenAI} from '@ai-sdk/openai'
 import {createGoogleGenerativeAI} from '@ai-sdk/google'
 import {groq} from '@ai-sdk/groq'
 
@@ -35,6 +49,19 @@ export type FallbackTier = {
    */
   envKeys: string[]
   getModel: () => LanguageModel
+  /**
+   * Model emits chain-of-thought billed against the same output budget as the
+   * answer. When true, callers' `maxOutputTokens` is treated as sizing the
+   * ANSWER and reasoning headroom is added on top — see
+   * REASONING_HEADROOM_TOKENS.
+   *
+   * Verified 2026-08-07 against GLM-5.2 on OpenRouter: at 500 tokens (what
+   * enrich-hypothesis.ts asks for) `generateObject` returned "the model did
+   * not return a response" and the whole chain fell through to null. The same
+   * call at 500 + 4096 succeeded. Without this flag the switch to GLM-5.2
+   * silently breaks every caller with a small budget.
+   */
+  reasoning?: boolean
   /**
    * Per-tier retry count (default 0 — the chain itself is the retry
    * mechanism). Set to 1 for providers that shed load with transient 503s
@@ -53,6 +80,18 @@ export type FallbackTier = {
 const firstEnv = (...keys: string[]) =>
   keys.map((k) => process.env[k]).find((v) => v && v.length > 0)
 
+/**
+ * Extra output budget granted to reasoning tiers, ADDED to the caller's
+ * `maxOutputTokens` rather than max()'d against it. A floor would make
+ * chain-of-thought and answer share one ceiling, which is the failure this
+ * exists to prevent. Mirrors REASONING_HEADROOM_TOKENS in
+ * `apps/disclosure-rag/lib/llm_fallback.py`.
+ */
+export const REASONING_HEADROOM_TOKENS = 4096
+
+const budgetFor = (tier: FallbackTier, maxOutputTokens: number) =>
+  tier.reasoning ? maxOutputTokens + REASONING_HEADROOM_TOKENS : maxOutputTokens
+
 const googleProvider = () =>
   createGoogleGenerativeAI({
     // GOOGLE_API_KEY before GEMINI_API_KEY: the GEMINI_API_KEY in this
@@ -66,24 +105,66 @@ const zhipu = () =>
     apiKey: firstEnv('ZHIPU_API_KEY', 'GLM_API_KEY'),
   })
 
+/**
+ * The three gateways. All expose OpenAI's chat/completions shape, so one
+ * factory helper covers them and no new SDK dependency is needed.
+ */
+const openrouter = () =>
+  createOpenAI({
+    baseURL: 'https://openrouter.ai/api/v1',
+    apiKey: firstEnv('OPENROUTER_API_KEY'),
+  })
+
+const huggingface = () =>
+  createOpenAI({
+    baseURL: 'https://router.huggingface.co/v1',
+    apiKey: firstEnv('HUGGINGFACE_ACCESS_TOKEN', 'HF_TOKEN', 'HUGGINGFACE_API_KEY'),
+  })
+
+const ollamaCloud = () =>
+  createOpenAI({
+    baseURL: 'https://ollama.com/v1',
+    apiKey: firstEnv('OLLAMA_API_KEY'),
+  })
+
+/**
+ * Gateway tiers 1–3 all serve the SAME model (GLM-5.2 — the one entry on the
+ * frontier-only list that is neither OpenAI nor Anthropic). Descending the
+ * chain therefore changes the route, not the capability: output quality does
+ * not silently degrade as tiers fail, which is what a mixed-capability chain
+ * would do.
+ */
 export const FRONTIER_FALLBACK_CHAIN: FallbackTier[] = [
   {
-    id: 'openai/gpt-5.5',
-    provider: 'GPT-5.5',
-    envKeys: ['OPENAI_API_KEY'],
-    getModel: () => openai('gpt-5.5'),
+    id: 'openrouter/glm-5.2',
+    provider: 'GLM-5.2 (OpenRouter)',
+    envKeys: ['OPENROUTER_API_KEY'],
+    // .chat() for the same reason as z.ai: gateways serve chat/completions,
+    // not OpenAI's Responses API.
+    getModel: () => openrouter().chat('z-ai/glm-5.2'),
+    reasoning: true,
+    maxRetries: 1,
   },
   {
-    id: 'anthropic/claude-opus-4-8',
-    provider: 'Claude Opus 4.8',
-    envKeys: ['ANTHROPIC_API_KEY'],
-    getModel: () => anthropic('claude-opus-4-8'),
+    // Verified 2026-08-07: endpoint lists models, but a real completion
+    // returns 402 "depleted your monthly included credits". Retained so it
+    // reactivates the moment credit is added — costs one attempt.
+    id: 'huggingface/glm-5.2',
+    provider: 'GLM-5.2 (HuggingFace Router)',
+    envKeys: ['HUGGINGFACE_ACCESS_TOKEN', 'HF_TOKEN', 'HUGGINGFACE_API_KEY'],
+    getModel: () => huggingface().chat('zai-org/GLM-5.2'),
+    reasoning: true,
+    maxRetries: 1,
   },
   {
-    id: 'anthropic/claude-sonnet-5',
-    provider: 'Claude Sonnet 5',
-    envKeys: ['ANTHROPIC_API_KEY'],
-    getModel: () => anthropic('claude-sonnet-5'),
+    // Verified 2026-08-07: endpoint lists models, real completion returns 403.
+    // The key authenticates for listing but is not entitled to inference.
+    id: 'ollama-cloud/glm-5.2',
+    provider: 'GLM-5.2 (Ollama Cloud)',
+    envKeys: ['OLLAMA_API_KEY'],
+    getModel: () => ollamaCloud().chat('glm-5.2'),
+    reasoning: true,
+    maxRetries: 1,
   },
   {
     id: 'google/gemini-3.5-flash',
@@ -109,6 +190,7 @@ export const FRONTIER_FALLBACK_CHAIN: FallbackTier[] = [
     envKeys: ['ZHIPU_API_KEY', 'GLM_API_KEY'],
     // .chat() — z.ai only serves chat/completions, not OpenAI's Responses API
     getModel: () => zhipu().chat('glm-5.2'),
+    reasoning: true,
   },
   {
     id: 'groq/gpt-oss-120b',
@@ -146,6 +228,12 @@ export function createStreamingFallbackModel(
           const model = tier.getModel() as LanguageModelV2
           const tierOptions = {
             ...options,
+            // Same additive headroom as the non-streaming paths. Without it a
+            // reasoning tier spends the caller's whole budget on
+            // chain-of-thought and the stream ends having emitted nothing.
+            ...(tier.reasoning && typeof options.maxOutputTokens === 'number'
+              ? {maxOutputTokens: budgetFor(tier, options.maxOutputTokens)}
+              : {}),
             providerOptions: {
               ...(options.providerOptions || {}),
               ...(tier.providerOptions || {}),
@@ -204,7 +292,9 @@ export async function generateWithFallback({
         model: tier.getModel(),
         system,
         prompt,
-        maxOutputTokens,
+        // Reasoning tiers get headroom ON TOP of the caller's budget — the
+        // caller's number sizes the answer, not the model's thinking.
+        maxOutputTokens: budgetFor(tier, maxOutputTokens),
         // The chain IS the retry mechanism — fail fast to the next tier
         // instead of re-hammering a provider that just refused.
         maxRetries: tier.maxRetries ?? 0,
@@ -263,7 +353,7 @@ export async function generateObjectWithFallback<T>({
         schema: schema as z.ZodTypeAny,
         system,
         prompt,
-        maxOutputTokens,
+        maxOutputTokens: budgetFor(tier, maxOutputTokens),
         maxRetries: tier.maxRetries ?? 0,
         providerOptions: tier.providerOptions,
         abortSignal: AbortSignal.timeout(timeoutMsPerTier),

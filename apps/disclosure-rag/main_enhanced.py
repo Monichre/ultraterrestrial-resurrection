@@ -1,5 +1,15 @@
 #!/usr/bin/env python3
 """
+DEAD CODE — MARKED FOR DELETION (2026-08-09). DO NOT EDIT, EXTEND, OR IMPORT.
+
+Unreachable from `dy`: main.sh only ever invokes "$SCRIPT_DIR/main.py"
+(main.sh:147, 167, 195, 365, 368, 371). Nothing in the repo imports this module
+(only its own usage docstring mentions its name). Last touched 2025-09-19.
+
+The live entry point is main.py. See docs/DEAD_CODE.md.
+
+---
+
 Enhanced Main Processor for Disclosure RAG
 Combines clean async architecture with comprehensive feature integration
 

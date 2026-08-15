@@ -383,6 +383,8 @@ Seems like one way to go is to explain:
 - how to do it
 - where to start
 
+---
+
 _**User**_
 
 /subagent-driven-development /docs-canvas /docs-maintenance use several sub-agents to read, consume and understand every file in @docs and identify, categorize, organize  and consolidate them according to their content, role and pertinence in regard to the ultraterrestrial platform and tag them. rearrange all documentation intuitiively and best-in-class engineering standards.  

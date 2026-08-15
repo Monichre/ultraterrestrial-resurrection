@@ -1,21 +1,102 @@
 # Daily Work Plan — Ultraterrestrial Resurrection
 
-**Last updated:** 2026-08-05
+**Last updated:** 2026-08-13
 **Branch:** `dev`
-**Focus:** Lane A ingestion hardening (T-048) · Lane B Spacetime Canvas M0/M1 (T-047)
-**Reference:** `docs/plans/TODO.md` is the source of truth for ticket detail.
+**Focus:** Lane B assembling-components apply (token aliases + root providers) · Lane B Disclosure Lab (DMGD-216 / T-052) · Research Canvas Gen-UI (DMGD-219 / T-053, backlog) · Lane A ingestion hardening (T-048) · Spacetime M0/M1 (T-047)
+**Reference:** Linear owns implementation tickets; `docs/plans/TODO.md` kept in parity. Canonical specs: `docs/plans/2026-08-09-disclosure-lab.md`, `docs/plans/2026-08-09-research-canvas-genui.md`. Assembling apply: `docs/plans/AssemblingComponentsApply.md`.
 
-## Current state — 2026-08-05
+## Session 2026-08-13 — assembling-components apply (gap-fill, not a scaffold)
+
+- Applied assembling-components to the existing Next.js 15 app. Plan: `docs/plans/AssemblingComponentsApply_PSUEDOCODE.md`. Architecture: `docs/plans/AssemblingComponentsApply.md`. FEATURES Decision 13.
+- Wired `--color-*` / `--spacing-*` / `--font-size-*` / `--radius-*` / `--shadow-*` / `--chart-color-*` / `--z-*` / `--duration-*` as aliases on `@repo/disclosure-ui` `--du-*`.
+- Root layout: tokens → globals import order; `data-theme` + `class`; `ToastProvider`; `prefers-reduced-motion` in `globals.css`.
+- `validate_tokens.py` errors = 0 on disclosure-ui tokens + new feedback/dashboard CSS. Full-app hex migration remains open.
+- **UNVERIFIED**: `next build` / visual dogfood not run this session.
+
+## Current state — 2026-08-10
 
 | Ticket | Lane | Status | Next step |
-|--------|------|--------|-----------|
-| **T-047** — Temporal Observatory / Spacetime Canvas | B — Platform & Experience | **M0 done; M1 closed at honest scope** — layer panel, event inspector, credibility/provenance tiers, terrain camera all live | M1's remainder (relationship arcs, precision/uncertainty) is blocked on Lane A's T-048 H4 (provenance backfill) — re-open once H4 ships. Do not start M2 (reconstruction) as a substitute; it is a separate milestone. |
-| **T-048** — Ingestion hardening | A — Corpus & Ingestion | IN PROGRESS — H0 landed (commits `cd77135`, `b6d1d5a`); H1–H4 remain | **H1 — Identity:** sha256 on every archive record + dedup guard, per T-048's own sequencing. |
-| **T-050** — Guided Tours convergence | B — Platform & Experience | IN PROGRESS — opened 2026-08-05. Subtasks **1 (schema) + 2 (store) landed** (`7fe46f0`) | **Subtask 3 — Render:** mount evidence-graph tours on the mindmap canvas instead of the private second `ReactFlow`. Then 4 (bind anchors to Neon) and 5 (single launch path). |
+| -------- | ------ | -------- | ----------- |
+| **DMGD-216 / T-052** — Disclosure Lab (`apps/disclosure-lab`) | B — Platform & Experience | **IN PROGRESS** — grilling closed; canonical plan in `docs/plans/`; build started | Scaffold app + write-policy + split-pane home; smoke against live Neon |
+| **DMGD-219 / T-053** — Research Canvas Gen-UI upgrade | B — Platform & Experience | **OPEN / Backlog** — spec + Decision 11 + Linear filed 2026-08-09 | Claim → RC-P0 ToolCards on `EnhancedAnimatedChat` (RC-P4 soft-deps T-050) |
+| **T-047** — Temporal Observatory / Spacetime Canvas | B — Platform & Experience | **M0 done; M1 closed at honest scope** | M1 remainder blocked on T-048 H4 |
+| **T-048** — Ingestion hardening | A — Corpus & Ingestion | IN PROGRESS — H0 landed; H1–H4 remain | **H1 — Identity:** sha256 + dedup |
+| **T-050** — Guided Tours convergence | B — Platform & Experience | IN PROGRESS — subtasks 1–2 landed | Subtask 3 — Render on mindmap canvas (unblocks T-053 RC-P4) |
+| **T-054** — Trace Map provenance graph | A — Corpus & Ingestion | **DONE (deterministic layer)** — 2026-08-10 | T-055 interpretive layer; T-056 web path |
+| **T-057** — UAP podcast playlist ingest manifest | A — Corpus & Ingestion | **OPEN** — filed 2026-08-12 | Blocked on T-048 H1; pilot one P0 playlist |
+| **T-058** — Grouped video retrieval + timestamp citations | B — Platform & Experience | **OPEN** — filed 2026-08-12 | Port n8n workflow patterns to mindmap/Prometheus |
+| **T-059** — Playlist-id corpus index | A — Corpus & Ingestion | **OPEN** — filed 2026-08-12 | Playlist-level "already ingested?" lookup |
 
-**Cross-lane dependency:** Lane B's M1 evidence instrument cannot be built before Lane A ships H4 (provenance backfill). M0 does not depend on Lane A and proceeds in parallel.
+### Session 2026-08-12 — YouTube workflow fit review → T-057/058/059
 
-**Blockers:** none recorded for either ticket.
+- Reviewed n8n templates in `packages/ai/prompts/*youtube*workflow*.json` + 52-playlist UAP podcast catalog.
+- **Decision 12** (FEATURES): enhance `playlist_ingestion.py` + live AI paths; reject parallel n8n+Qdrant production stack.
+- Opened **T-057** (tiered manifest + pilot ingest), **T-058** (grouped retrieval + `&t=` citations), **T-059** (playlist-level index).
+
+### Session 2026-08-10 — T-054 shipped: Trace Map provenance graph in the ingest flow
+
+- **What it is.** Every processed source now produces `<stem>_trace_map.json` and
+  `<stem>_trace_map.md` beside its transcript, chunks, and NER — a `trace-map.v1` graph
+  (`apps/disclosure-rag/docs/TRACE_MAP_OUTPUT_SPEC.md`) of one source: segments in source order,
+  topics, claims, entities, evidence, agent inferences, and open questions.
+- **The thing that was missing before.** Nothing downstream of the chunker could point back at
+  the moment in the source that supported it. The map aligns chunk text and NER `span_quote`s
+  against the timed segment sidecar, so a claim now carries a character span, a segment range,
+  and a timestamp. On the live evidence run 16 of 17 chunks anchored exactly and one was
+  interpolated between its neighbours — labelled `interpolated`, never passed off as exact.
+- **Deterministic on purpose — no LLM call.** Node typing is decided by whether text anchors in
+  the source: an assertion that does not locate is an `inference` carrying `[Inferred]`, never a
+  Claim. `supporting_evidence` keeps only its quoted span; the analyst's wrapper prose around it
+  is not Evidence.
+- **Two-list validator.** `errors` mean the artefact is wrong (a Claim with no anchor, an
+  Inference typed as a Claim, a state outside the canonical eight) and fail the run. `gaps` mean
+  the spec asks for something no pipeline stage produces — Readings, Counter-readings, Next
+  Traces, speaker attribution, evidence→claim linkage, partial coverage — and are printed rather
+  than hidden. A gap cannot be closed by fabricating the missing nodes, which is the point.
+- **Coverage is the honest headline.** The evidence run anchored **35% of the source** (21,480 of
+  60,574 chars, 697 of 2,030 timed segments) because `RAG_PIPELINE_MAX_SOURCE_CHARS=24000`
+  truncates the chunker's input. That number was invisible before; it is now in the artefact, the
+  Markdown, and the run summary.
+- **Follow-ups opened:** **T-055** (interpretive layer + evidence→claim linkage), **T-056**
+  (web-article path, deliberately deferred — its bundle directory is not available where the
+  pipeline result is).
+
+### Session 2026-08-09 — T-053 / DMGD-219 opened: Research Canvas Gen-UI feature upgrade
+
+- **Canonicalized** the dual Gen-UI fit analysis (Deep Research agent + Dashboard Canvas agent → research-canvas shell) into living tier docs:
+  - Spec: `docs/plans/2026-08-09-research-canvas-genui.md`
+  - FEATURES Decision 11 + Current Focus §5b
+  - TODO **T-053** (Lane B backlog)
+  - Linear **[DMGD-219](https://linear.app/digital-mischief-group/issue/DMGD-219/lane-b-research-canvas-gen-ui-upgrade-deep-research-loop-agentic)** (Backlog, Feature)
+- **Verdict locked:** steal plan→multi-hop→dossier + ToolCards and agentic shared-state canvas geometry; reject CopilotKit/ADK/LangGraph dual runtimes and Workspace sidecars; expand T-027 `researchSession` on the live mindmap shell.
+- **Phases:** RC-P0 ToolCards → RC-P1 session AgentState → RC-P2 wire Deep Research mode → RC-P3 SynthesisPanel bridge → RC-P4 plan→waypoints (soft-deps T-050).
+- **Not done:** no implementation this pass — documentation + tracking only. Scratch notes under `.scratch/deep-research-genui-fit/` remain analysis residue; canon is the `docs/plans/` spec.
+
+### Session 2026-08-09 — Disclosure Lab build kickoff (DMGD-216 / T-052)
+
+- Canonicalized grilling plan → `docs/plans/2026-08-09-disclosure-lab.md`; FEATURES Decision 10; TODO T-052 → IN PROGRESS; Linear DMGD-216 → In Progress.
+- Domain docs already applied (`CONTEXT-MAP.md`, `packages/db/CONTEXT.md`).
+- Implementation of `apps/disclosure-lab` started this session.
+
+### Session 2026-08-09 — T-051 opened: `packages/openai-vector-store-mcp` verified live, but unreachable from Claude Code
+
+- **Verified the tools actually work — did not take "finished" on trust.** Booted the console script over stdio (`timeout 15 .venv/bin/openai-vector-store-mcp < /dev/null` → exit 0, FastMCP **3.4.6**, clean shutdown), then called both tools in-process: `list_tools()` → `['fetch', 'search']`; `search("Roswell")` → **10 results**, first `AARO_Historical_Record_Report_Vol_1_2024.pdf`; `fetch(<that id>)` → **168,636 chars** with the correct `platform.openai.com/storage/files/` citation prefix. This is a working retrieval surface over the same OpenAI Vector Store the app's two live AI paths use for `file_search` — confirmed by reading them, not inferred: `api/prometheus/chat/route.ts:76` and `services/ai/openai/config.ts:26` both resolve `process.env.OPENAI_VECTOR_STORE_ID`, which is the variable this server falls back to. Not a scaffold, and not a separate store.
+- **`bun run setup` has been run.** `.venv/` exists with `bin/openai-vector-store-mcp` installed, so "finished" means installed and runnable.
+- **The gap that matters: it is registered in `.cursor/mcp.json` but not in root `.mcp.json`.** Root registers only `context7`, `chrome-devtools`, `DeepGraph Next.js MCP`, `open-knowledge`. **Cursor can reach this server; Claude Code sessions in this repo cannot.** Left as T-051's first action item rather than done in passing — registering a server changes the tool surface for every future session in this repo, which is the user's call.
+- **The whole workspace is untracked.** `git status` → `?? packages/openai-vector-store-mcp/`, zero commits, absent from a fresh clone. Not `git add`ed — it is the user's uncommitted work.
+- **Linear checked, not duplicated.** [DMGD-218](https://linear.app/digital-mischief-group/issue/DMGD-218/lane-b-packagesopenai-vector-store-mcp-mcp-server-exposing-openai) already covers this workspace (state **Backlog**, created earlier today). No new issue filed; the live-verification evidence was appended to it as a comment, since its description still said "functionally unverified / no smoke test run recorded" — which this session falsified.
+- **Found a latent break:** `pyproject.toml` floors `fastmcp>=2.0` while the code is FastMCP-3-only (`output_schema=` on `@mcp.tool`; host/port as `run()` transport kwargs, which the source comment states outright). The venv holds 3.4.6, so it works today, but a fresh `bun run setup` resolving 2.x would plausibly break. Recorded in T-051, not fixed — and stated as "requires 3.x", since nobody actually ran it against 2.x.
+- **Not done / not verified:** only **stdio** was exercised — `sse` and `http` are untested despite the README advertising all three; no test suite exists in the package (`scripts/` is empty). Root `.mcp.json` untouched. No row added to the "Current state" table above — T-051 is a backlog item with no in-flight next step, and that table tracks in-flight work.
+- **Open question flagged rather than resolved:** should this workspace be committed, and should root `CLAUDE.md`'s architecture section name it? Right now a future agent scanning tracked files concludes this tool does not exist.
+
+### Session 2026-08-09 — T-052 opened: `apps/disclosure-lab` verified as plan-only, zero code
+
+- **Verified the workspace does not exist.** `ls apps/disclosure-lab` fails; `apps/` contains only `app` and `disclosure-rag`. All **six** todos in the plan's frontmatter (`scaffold-app`, `write-policy-gui`, `agent-read-assist`, `gui-parity`, `monorepo-wire`, `domain-docs`) are `status: pending`. This is a plan, not a partial build — future agents should not assume any scaffold exists.
+- **Confirmed the plan is decision-locked but not formally closed.** `.cursor/plans/neon_lab_next_app_133476f6.plan.md` records three grilling rounds settling Q1–Q10 (admin-layer context, human-only writer, entity-table allowlist, live shared `DATABASE_URL`, split-pane home, confirm-every-write, `runSqlRead` + typed read tools, no deletes in v1, auto-attached selection chip, hard-blocked SQL `DELETE`/`TRUNCATE`). **Q11 ("Close") is still marked `Pending`** in the file itself — the "Decision lock" section is the working resolution, and the entry says so rather than overstating it.
+- **Linear checked, not duplicated.** [DMGD-216](https://linear.app/digital-mischief-group/issue/DMGD-216/lane-b-build-appsdisclosure-lab-ai-native-neon-explorer-with-writeedit) already exists — "Lane B — Build apps/disclosure-lab (AI-native Neon explorer with write/edit)", state **Todo** (unstarted), priority 2, created 2026-08-08. No new issue filed.
+- **Opened T-052** in `docs/plans/TODO.md` under "Backlog (Not Sequenced)", Lane B. Flagged the cross-lane hazard explicitly: the Lab reads/writes the **same live Neon DB** that Lane A's T-048 ingestion populates, so a T-048 migration and the Lab's write allowlist can diverge silently — neither lane should assume exclusive control of schema changes.
+- **Flagged rather than resolved:** (1) the plan's writable allowlist lists `key_figures` with `personnel` parenthesized — the real table name is unverified against `packages/db/src/postgres/`; (2) `CONTEXT-MAP.md` still doesn't scope the inference-only write rule to Research Canvas (the plan's own `domain-docs` todo covers it, pending); (3) **the plan file is untracked in git** — not ignored, just never `git add`ed — so a tracked ticket currently points at a file absent from a fresh clone.
+- **Not done:** no code scaffolded (documentation-only pass by design); the malformed YAML list item in the plan's frontmatter (`-   - id: agent-read-assist`, double dash) was left as-is; no row added to the "Current state" table above, which tracks in-flight tickets with a next step — a zero-implementation backlog item doesn't belong there.
 
 ### Session 2026-08-05 (later) — Doc-claim verification, tour test baseline, T-050 opened + subtasks 1–2
 
@@ -143,7 +224,7 @@ User called the feature not-yet-excellent after dogfooding; two concrete, verifi
 ## Sub-project status
 
 | # | Sub-project | Status |
-|---|-------------|--------|
+| --- | ------------- | -------- |
 | **SP1** | Schema + relational load | ✅ DONE — 29 tables loaded + verified on Neon (2026-06-15) |
 | **SP2** | Library + ingestion pipeline (re-ingest ~960 files, embeddings, edge extraction) | ✅ DONE — 189 docs / 4,946 chunks / 1,405 entity embeddings live (2026-06-15) |
 | **SP3** | App `@db` data-layer cutover (~25 call sites) | ✅ DONE — all call sites migrated to `@db/postgres`, `@db/xata` retired |
@@ -154,7 +235,7 @@ User called the feature not-yet-excellent after dogfooding; two concrete, verifi
 ## Board CLEARED — supervised waves complete (2026-06-20)
 
 | Ticket | Description | Wave | Result |
-|--------|-------------|------|--------|
+| -------- | ------------- | ------ | -------- |
 | **T-030+T-031** | Migrate 6 `disclosure/chat` consumers → `disclosure/mindmap`, delete legacy chat route + dead historical-query chain | 1 | ✅ DONE (633216d) |
 | **T-008** | Paginate graph — bound initial load to 200-500 nodes, O(1) edge resolution | 1 | ✅ DONE (43b276a) |
 | **T-023+T-029** | Docs — clean stale refs from FEATURES.md; author UFO research methodology framework | 1 | ✅ DONE (2c23a02) |
@@ -177,7 +258,7 @@ Verification gate held throughout: `bunx tsc --noEmit` = 48 errors, all in the
 ## Wave 2026-07-05 — State-of-Union audit + T-028 Phase A + syntax-debt fixes
 
 | Item | Result |
-|------|--------|
+| ------ | -------- |
 | Syntax-corrupt files (47 parse errors) | ✅ FIXED — `NewLogo.tsx` (raw SVG→JSX), `hud-sightings-terminal.tsx` (unescaped braces), `tailwind.config.ts` (theme never closed — plugins was nested inside it), 3 `components/blocks/*` files (markdown fences pasted into .tsx), stray `hooks\use-mobile.ts` file (backslash in filename), duplicate `use-mobile.ts/.tsx` merged |
 | **T-028 Phase A** | ✅ DONE — deleted `/api/sse/xata/ask` + `/send` + `/api/sse/test`; deleted dead consumers (`useSSE`, `useAskXata`, `XataAskComponent`, `useXataAsk`, `ask-example*`, `features/mindmap/debug/`); `AskAIStreaming` rewired to `useMindMapAgent` (canonical route); `xata-to-xyflow.ts` fetchRecords→`readById`, AI fallbacks→`searchTable`; `process-resource.ts`→`searchTable`; Clerk webhook rewritten on `@db/postgres` (URL kept); all `@db`/`@db/xata`/`@db/src` value imports purged from live code |
 | **CORRECTED BASELINE** | ⚠️ The "48 tsc errors" gate was a stale-incremental artifact (`tsconfig.tsbuildinfo`). A clean `bunx tsc --noEmit` shows **~2,100+ errors** project-wide (build passes only because `next.config.ts` sets `ignoreBuildErrors: true`). Biggest buckets: features/mindmap (~500), components/ui (~190), features/ai (~180), stories (~130). Wave reduced total by ~70 with zero new-error files. Fixing this debt is now tracked honestly — do not quote "48 baseline errors" again. |
@@ -187,7 +268,7 @@ Verification gate held throughout: `bunx tsc --noEmit` = 48 errors, all in the
 ### Wave 2026-07-05 (later session) — T-028 Phase B + runtime smoke + Prometheus v6 fix
 
 | Item | Result |
-|------|--------|
+| ------ | -------- |
 | **T-028 Phase B** | ✅ DONE — shared search core already existed in `@db/postgres` (`searchDatabase` = FTS + pgvector + RRF); extracted the last duplication: shared `embedQuery` → `services/ai/openai/embed-query.ts` (both live routes import it); deleted one-line `tools/search-database.ts` wrapper + orphan `tools/index.ts` barrel; 4 importers repointed to `@db/postgres` |
 | **Runtime smoke — mindmap** | ✅ mechanics verified — `/api/disclosure/mindmap` SSE streams end-to-end (thread create, run start); run fails ONLY on **OpenAI quota exhausted** (billing blocker, not code) |
 | **Prometheus chat v6 bugs** | 🐛→✅ FIXED — route was 100% broken at runtime from AI SDK v4→v6 drift: `toDataStreamResponse()` (removed in v6) → `toUIMessageStreamResponse()` in 5 files; `tool({ parameters })` → `tool({ inputSchema })` for all 10 tools. Route now streams the correct v6 UI-message protocol (start/start-step/finish); final error is the same OpenAI quota blocker |
@@ -202,7 +283,7 @@ Verification gate held throughout: `bunx tsc --noEmit` = 48 errors, all in the
 **Product-owner directive:** feature/UX focus, not type debt. Delivered and verified live in Chrome:
 
 | Piece | What shipped |
-|-------|--------------|
+| ------- | -------------- |
 | **Suggestion engine** (`packages/db/src/postgres/related.ts`, `getRelatedRecords`) | 3 data-native signals, NO LLM required: (1) join-table adjacency (event/topic SMEs, org members, topic testimonies), (2) pgvector nearest-neighbors of the canvas-centroid using STORED embeddings (works while OpenAI quota is dead), (3) temporal event clustering. Reason-diverse ranking, title dedupe (281 junk `dateText:` event names handled), per-seed attribution. ~1.8s for 12 suggestions. |
 | **Server actions** | `actions/related-records.ts` (suggestions + deterministic hypothesis synthesis), `actions/tour-actions.ts` (waypoints resolved against live Neon via FTS at tour start — no hardcoded ids). |
 | **Research Suggestions dock** (`components/research-suggestions-dock.tsx`) | Replaces ConnectedRecordsPanel (which was 100% dependent on the quota-blocked agent + string parsing). Framer-motion cards grouped by signal (emerald=documented, violet=semantic, amber=temporal), hypothesis header, click-to-add places node + reasoned edge. Tour-aware: locks onto active waypoint ("Tour Intelligence"). |
@@ -216,7 +297,7 @@ Verification gate held throughout: `bunx tsc --noEmit` = 48 errors, all in the
 ### Wave 2026-07-08 — Fallback chain hardening + Microfilm Dark canvas (T-037)
 
 | Item | Result |
-|------|--------|
+| ------ | -------- |
 | **Model fallback chain hardened** (commit 37d9a6c) | ✅ `src/lib/ai/model-fallback.ts` made resilient to real-world provider failures: env-alias gating (tiers skipped unless their key is actually set), z.ai `.chat()` call fix, Gemini `thinkingBudget: 0`, per-tier retries, and a `gemini-3-flash-preview` backup tier added. New smoke script `apps/app/scripts/smoke-model-fallback.ts`. `generateText`/`generateObject` fallback chain verified live end-to-end: with only the Google tier currently funded, the first live **Synthesize Investigation** dossier was served by Gemini 3 Flash in the UI. |
 | **Microfilm Dark canvas** (commit 0ce78d6) | ✅ Repo-root `PRODUCT.md` + `DESIGN.md` authored as canonical product/design context ("Microfilm Dark" design language). Research canvas retinted to archival-dystopian dark tokens. Synthesis panel reworked into an **A–I Case Synthesis** dossier with redaction-skeleton loading state and a **NO CARRIER** failure stamp. Provenance rule applied (dashed edge = AI inference). Record-ID leak fixed in `synthesize-investigation.ts` prompt. |
 | **Typecheck** | ✅ Baseline 1901 maintained — zero new errors. |
@@ -228,7 +309,7 @@ Verification gate held throughout: `bunx tsc --noEmit` = 48 errors, all in the
 ### Wave 2026-07-12 — Open-ticket swarm + Linear cutover
 
 | Ticket | Result |
-|--------|--------|
+| -------- | -------- |
 | **T-028** | ✅ Phase C implemented: shared Postgres/Exa research tools across both live routes. Linear: DMGD-183. |
 | **T-036** | 📋 Decision ready: full build NO-GO; 10-source provenance pilot proposed. Linear: DMGD-184. |
 | **T-037** | ✅ Prometheus and all six document actions use retry-aware pre-stream provider fallback; UT voice pass complete. OpenAI Assistant verification remains externally blocked. |

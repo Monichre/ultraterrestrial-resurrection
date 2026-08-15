@@ -25,16 +25,16 @@ const fonts = {
 
 const weights = {
   Anton: ['400'],
-  Caveat: ['400'],
+  Caveat: ['400..700'],
   'IBM+Plex+Mono': ['400'],
-  Inter: ['300;400;500', '400;500;700'],
-  'JetBrains+Mono': ['400;500;700'],
+  Inter: ['100..900'],
+  'JetBrains+Mono': ['100..800'],
   'Just+Another+Hand': ['400'],
-  'League+Spartan': ['400;600;700'],
-  'Martian+Mono': ['400;600;700'],
-  'Noto+Sans': ['400;600;700'],
-  'Plus+Jakarta+Sans': ['400;500;700;800'],
-  'Space+Grotesk': ['400;500;700', '400;600;700'],
+  'League+Spartan': ['100..900'],
+  'Martian+Mono': ['100..800'],
+  'Noto+Sans': ['100..900'],
+  'Plus+Jakarta+Sans': ['200..800'],
+  'Space+Grotesk': ['300..700'],
   'Special+Elite': ['400'],
 }
 

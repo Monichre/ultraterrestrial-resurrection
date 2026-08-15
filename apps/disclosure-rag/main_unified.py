@@ -1,5 +1,17 @@
 #!/usr/bin/env python3
 """
+DEAD CODE — MARKED FOR DELETION (2026-08-09). DO NOT EDIT, EXTEND, OR IMPORT.
+
+Unreachable from `dy`: main.sh only ever invokes "$SCRIPT_DIR/main.py"
+(main.sh:147, 167, 195, 365, 368, 371). Despite the docstring below claiming to
+"implement the dy command functionality", `dy` has never routed here.
+
+BLOCKER before deletion: tests/test_dimension_consistency.py:140 does
+`from main_unified import UnifiedVectorStorage`. That class must be relocated or
+the test retired first. See docs/DEAD_CODE.md.
+
+---
+
 Unified Data Ingestion System for Disclosure RAG
 Implements the dy command functionality with multi-backend vector storage
 

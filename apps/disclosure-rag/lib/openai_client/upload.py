@@ -4,6 +4,13 @@ from dotenv import load_dotenv
 import os
 load_dotenv()
 
+# ═══ YT-CHAIN-A2 · OpenAI contact point #2 (module scope, unconditional) ═══
+# knowledge_base_service.py imports upload_file_to_openai at YT-CHAIN-05,
+# which executes this module body — so this client is constructed on EVERY
+# YouTube run, including runs without --upload and including --dry-run.
+# Pair with YT-CHAIN-A1 (content_analysis.py __init__): two OpenAI clients
+# built per run, at most one of which is ever used.
+# ═══════════════════════════════════════════════════════════════════════════
 client = OpenAI(
     api_key=os.environ.get("OPENAI_API_KEY"),
 )
@@ -43,6 +50,17 @@ def upload_file_to_openai(file_path):
     1. Uploads the file to OpenAI Files API
     2. Adds the file to the specified vector store
     3. Returns both file and vector store information
+
+    ═══ YT-CHAIN-15 · upload.py :: upload_file_to_openai() ════════════════
+    ✅ THE ONE LEGITIMATE OpenAI CALL ON THIS CHAIN. `files.create` +
+    `vector_stores.files.create` — vector STORAGE only. It contains no
+    embeddings call; OpenAI embeds server-side inside the vector store.
+    Runs only under --upload (YT-CHAIN-14 step 1).
+    Contrast with YT-CHAIN-A4 immediately below, which is the embeddings
+    call people expect to find here — and which is dead.
+    PREV ← YT-CHAIN-14  knowledge_base_service.py Phase 6 sinks
+    NEXT → back to YT-CHAIN-14 step 2 (QStash queue)
+    ═══════════════════════════════════════════════════════════════════════
     """
     try:
         # First, upload the file to OpenAI
@@ -99,6 +117,19 @@ def upload_file_to_openai(file_path):
 def generate_embeddings(text):
     """
     Generates embeddings for the given text using OpenAI's embedding model.
+
+    ═══ YT-CHAIN-A4 · OpenAI embeddings — DEAD CODE, NOT ON ANY CHAIN ═════
+    This is the call people go looking for when they ask "why is the ingest
+    still embedding against OpenAI?". It is not. Nothing invokes it:
+      - Its only caller is process_and_upload_document() below.
+      - process_and_upload_document() has ZERO callers repo-wide.
+    It would also fail if called. Two defects:
+      - `response['data'][0]['embedding']` is the pre-1.0 SDK response shape;
+        the modern client returns an object, so this raises TypeError.
+      - process_and_upload_document() references an undefined `file_path`.
+    See YT-CHAIN-A5 (agents/entity_extraction_agent.py) for the other
+    embeddings site, which is likewise off the YouTube path.
+    ═══════════════════════════════════════════════════════════════════════
     """
     try:
         response = client.embeddings.create(

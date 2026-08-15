@@ -1313,7 +1313,7 @@ GROQ_API_KEY=[REDACTED:groq-api-key]
 DEEPGRAM_API_KEY=[REDACTED:deepgram-api-key]
 TOGETHERAI_API_KEY=[REDACTED:generic-api-key]
 
-SERPER_API_KEY=[REDACTED:sourcegraph-access-token]
+SERPER_API_KEY=[REDACTED:generic-api-key]
 
 MEM0_API_KEY=[REDACTED:generic-api-key]
 FIRECRAWL_API_KEY=[REDACTED:generic-api-key]
@@ -1324,7 +1324,7 @@ PERIGNON_API_KEY=[REDACTED:generic-api-key]
 
 LANGCHAIN_TRACING_V2=true
 LANGCHAIN_ENDPOINT="https://api.smith.langchain.com"
-LANGCHAIN_API_KEY=[REDACTED:generic-api-key]
+LANGCHAIN_API_KEY=[REDACTED:langchain-langsmith-personal-access-token]
 LANGCHAIN_PROJECT="ultraterrestrial"
 DEEPSEEK_API_KEY="[REDACTED:deepseek-api-key]"
 # Required for sending
@@ -1460,7 +1460,7 @@ OPENAI_VECTOR_STORE_ID=vs_meWOEnUiUxtQWf0W6NBsNpCG #UFO Data Store
 GROQ_API_KEY=[REDACTED:groq-api-key]
 DEEPGRAM_API_KEY=[REDACTED:deepgram-api-key]
 TOGETHERAI_API_KEY=[REDACTED:generic-api-key]
-SERPER_API_KEY=[REDACTED:sourcegraph-access-token]
+SERPER_API_KEY=[REDACTED:generic-api-key]
 
 E2B_API_KEY=[REDACTED:generic-api-key]
 FIRECRAWL_API_KEY=[REDACTED:generic-api-key]
@@ -1541,11 +1541,11 @@ ARCADE_API_KEY=[REDACTED:generic-api-key]
 
 GOOGLE_API_KEY=[REDACTED:gcp-api-key]
 
-POSTHOG_API_KEY=[REDACTED:generic-api-key]
+POSTHOG_API_KEY=[REDACTED:posthog-personal-api-key]
 
 BASEROW_DATABASE_TOKEN=TTae1YclquFvh8Tx60oeXKNLMKaarcHV
 
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=[REDACTED:generic-api-key]
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_bmljZS1iYXNzLTU3LmNsZXJrLmFjY291bnRzLmRldiQ
 CLERK_SECRET_KEY=[REDACTED:stripe-access-token]
 CLERK_WEBHOOK_SIGNING_SECRET=whsec_123
 
@@ -2822,7 +2822,7 @@ _**Agent (2025-10-04 02:22:37Z)**_
 <summary>Tool use: **Create**</summary>
 Path: `/Users/liamellis/Desktop/ultraterrestrial-resurrection/apps/disclosure-rag/HONCHO_INTEGRATION.md`
 
-```markdown
+````markdown
 # Honcho Memory Integration for Disclosure RAG
 
 This document explains how Honcho memory and personalization is integrated into the Disclosure RAG system.
@@ -2840,7 +2840,7 @@ Honcho provides persistent memory and personalization capabilities that enable t
 
 ## Architecture
 
-\```
+```
 ┌─────────────────────────────────────────────────────────┐
 │                  Disclosure Chat Bot                     │
 │                   (disclosure_chat_with_memory.py)       │
@@ -2861,7 +2861,7 @@ Honcho provides persistent memory and personalization capabilities that enable t
                             Automatic Learning
                          (Topics, Preferences, 
                           Patterns, Psychology)
-\```
+```
 
 ## Key Components
 
@@ -2891,18 +2891,18 @@ The main chat interface enhanced with memory:
 
 ### 1. Prerequisites
 
-\```bash
+```bash
 # Install dependencies
 cd apps/disclosure-rag
 pip install honcho-ai
 
 # Ensure HONCHO_API_KEY is set in .env
 # Already configured: [REDACTED:generic-api-key]
-\```
+```
 
 ### 2. Basic Usage
 
-\```python
+```python
 from lib.honcho_client import HonchoMemoryClient
 
 # Initialize memory
@@ -2928,11 +2928,11 @@ insights = memory.query_peer_insights(
     "What UFO cases is this researcher investigating?"
 )
 print(insights)
-\```
+```
 
 ### 3. Run Chat with Memory
 
-\```bash
+```bash
 # Interactive mode
 python disclosure_chat_with_memory.py
 
@@ -2941,7 +2941,7 @@ python disclosure_chat_with_memory.py --researcher-id="john_doe"
 
 # Quick test
 python disclosure_chat_with_memory.py --test
-\```
+```
 
 ## Features
 
@@ -2949,7 +2949,7 @@ python disclosure_chat_with_memory.py --test
 
 Honcho learns from every interaction:
 
-\```python
+```python
 # After several conversations about Roswell...
 bot.show_research_insights()
 
@@ -2961,13 +2961,13 @@ bot.show_research_insights()
 #   "credibility": "Values official documents and first-hand accounts",
 #   "focus_areas": "Roswell incident, Jesse Marcel testimony"
 # }
-\```
+```
 
 ### Smart Context Management
 
 Honcho automatically handles token limits:
 
-\```python
+```python
 # Retrieves most relevant context within budget
 context = memory.get_session_context(
     session_id,
@@ -2978,13 +2978,13 @@ context = memory.get_session_context(
 # - Recent messages
 # - Relevant older messages
 # - Intelligent summaries
-\```
+```
 
 ### Historical Search
 
 Search across all past research:
 
-\```python
+```python
 # Find all discussions about a specific case
 results = memory.search_memories(
     "researcher_001",
@@ -2992,13 +2992,13 @@ results = memory.search_memories(
 )
 
 # Returns matching messages with context
-\```
+```
 
 ### Research Activity Tracking
 
 Track what researchers investigate:
 
-\```python
+```python
 # Track when researcher views a document
 memory.track_research_activity(
     "researcher_001",
@@ -3015,13 +3015,13 @@ insights = memory.query_peer_insights(
     "researcher_001",
     "What documents has this researcher spent most time on?"
 )
-\```
+```
 
 ## Integration with Agents
 
 ### Example: YouTube Agent with Memory
 
-\```python
+```python
 from agents.ufo_youtube_agent import UFOYouTubeAgent
 from lib.honcho_client import HonchoMemoryClient
 
@@ -3055,11 +3055,11 @@ class MemoryEnhancedYouTubeAgent(UFOYouTubeAgent):
         )
         
         return analysis
-\```
+```
 
 ### Example: Deep Research Agent with Memory
 
-\```python
+```python
 from agents.uap_deep_research_agent import UAPDeepResearchAgent
 from lib.honcho_client import HonchoMemoryClient
 
@@ -3088,7 +3088,7 @@ class MemoryEnhancedResearchAgent(UAPDeepResearchAgent):
         )
         
         return findings
-\```
+```
 
 ## Chat Commands
 
@@ -3105,7 +3105,7 @@ When running `disclosure_chat_with_memory.py`:
 
 Track multiple agents collaborating on research:
 
-\```python
+```python
 # Create session with researcher + agents
 session = memory.create_session(
     "multi_agent_roswell",
@@ -3132,13 +3132,13 @@ synthesis = memory.query_peer_insights(
     "researcher_001",
     "Synthesize what our agents have discovered about Roswell debris"
 )
-\```
+```
 
 ### Theory of Mind for Witnesses
 
 Build profiles of UFO witnesses/researchers:
 
-\```python
+```python
 # Create peer for famous researcher
 jesse_marcel = memory.get_or_create_peer(
     "jesse_marcel",
@@ -3158,13 +3158,13 @@ profile = memory.query_peer_insights(
     "jesse_marcel",
     "What can you tell me about Jesse Marcel's credibility and testimony style?"
 )
-\```
+```
 
 ## Environment Configuration
 
 Required environment variables in `.env`:
 
-\```bash
+```bash
 # Honcho API Key (already configured)
 HONCHO_API_KEY=[REDACTED:generic-api-key]
 
@@ -3173,7 +3173,7 @@ OPENAI_API_KEY=sk-...
 
 # Optional: Honcho environment (default: production)
 HONCHO_ENVIRONMENT=production
-\```
+```
 
 ## Best Practices
 
@@ -3181,19 +3181,19 @@ HONCHO_ENVIRONMENT=production
 
 Use stable identifiers for researchers:
 
-\```python
+```python
 # Good: Stable identifier
 researcher_id = "john_doe" 
 
 # Bad: Random each time
 researcher_id = f"user_{random.randint(1000, 9999)}"
-\```
+```
 
 ### 2. Meaningful Session Metadata
 
 Add rich metadata to sessions:
 
-\```python
+```python
 session = memory.create_session(
     "roswell_2024_01_15",
     ["researcher_001"],
@@ -3204,13 +3204,13 @@ session = memory.create_session(
         "investigation_phase": "initial_review"
     }
 )
-\```
+```
 
 ### 3. Track Activities Separately from Chat
 
 Use `track_research_activity()` for non-conversational actions:
 
-\```python
+```python
 # Track document views
 memory.track_research_activity(
     researcher_id,
@@ -3224,13 +3224,13 @@ memory.track_research_activity(
     "entity_search",
     {"entity": "Jesse Marcel", "relationship": "witness"}
 )
-\```
+```
 
 ### 4. Use Dialectic API for Insights
 
 Query natural language for rich insights:
 
-\```python
+```python
 # Instead of retrieving raw messages
 results = memory.search_memories(peer_id, "Roswell")
 
@@ -3239,7 +3239,7 @@ insights = memory.query_peer_insights(
     peer_id,
     "Based on my Roswell research, what are the key unresolved questions?"
 )
-\```
+```
 
 ## Troubleshooting
 
@@ -3247,7 +3247,7 @@ insights = memory.query_peer_insights(
 
 If you see "Memory system not available":
 
-\```bash
+```bash
 # Check API key is set
 echo $HONCHO_API_KEY
 
@@ -3256,7 +3256,7 @@ grep HONCHO_API_KEY apps/disclosure-rag/.env
 
 # Test connection
 python -c "from honcho import Honcho; c = Honcho(api_key='hch-v2-...'); print('✅ Connected')"
-\```
+```
 
 ### Empty Insights
 
@@ -3270,13 +3270,13 @@ If `query_peer_insights()` returns empty results:
 
 If context is too large:
 
-\```python
+```python
 # Reduce token budget
 context = memory.get_session_context(session_id, max_tokens=1000)
 
 # Or only get recent messages
 # Honcho automatically handles this
-\```
+```
 
 ## Next Steps
 
@@ -3301,7 +3301,7 @@ For issues with Honcho integration:
 3. Join Honcho Discord: http://discord.gg/plasticlabs
 4. Check GitHub issues: https://github.com/plastic-labs/honcho
 
-```
+````
 
 Output: File created successfully
 </details></tool-use>
@@ -4321,7 +4321,7 @@ _**Agent (2025-10-04 02:25:14Z)**_
 <summary>Tool use: **Create**</summary>
 Path: `/Users/liamellis/Desktop/ultraterrestrial-resurrection/apps/disclosure-rag/HONCHO_QUICK_START.md`
 
-```markdown
+````markdown
 # 🛸 Honcho Memory Integration - Quick Start
 
 ## What We Built
@@ -4363,13 +4363,13 @@ Memory-enabled chat interface with:
 
 Run this to verify everything works:
 
-\```bash
+```bash
 cd apps/disclosure-rag
 .venv/bin/python test_honcho_integration.py
-\```
+```
 
 Expected output:
-\```
+```
 ✅ API key found
 ✅ Honcho SDK imported successfully  
 ✅ Honcho client initialized
@@ -4378,13 +4378,13 @@ Expected output:
 ✅ Session created
 ✅ Message added
 ✅ All core tests passed!
-\```
+```
 
 ## Try It Out - 3 Simple Examples
 
 ### Example 1: Basic Memory (30 seconds)
 
-\```python
+```python
 from lib.honcho_client import HonchoMemoryClient
 
 # Initialize
@@ -4411,11 +4411,11 @@ print(insights)
 # Output: "This researcher is investigating the Roswell crash 
 #          of 1947, with particular interest in Jesse Marcel's 
 #          testimony..."
-\```
+```
 
 ### Example 2: Chat with Memory
 
-\```bash
+```bash
 # Run interactive chat
 .venv/bin/python disclosure_chat_with_memory.py
 
@@ -4435,11 +4435,11 @@ Bot: [Remembers context from previous session!]
 /search phoenix  # Find past discussions
 /new  # Start fresh session
 /quit  # Exit
-\```
+```
 
 ### Example 3: Agent with Memory
 
-\```python
+```python
 from lib.honcho_client import HonchoMemoryClient
 
 class MemoryEnabledAgent:
@@ -4468,11 +4468,11 @@ class MemoryEnabledAgent:
 # Use it
 agent = MemoryEnabledAgent("researcher_001")
 agent.process_document("blue_book_47", "session_123")
-\```
+```
 
 ## Architecture
 
-\```
+```
 Your Disclosure RAG
        ↓
 HonchoMemoryClient (lib/honcho_client.py)
@@ -4482,13 +4482,13 @@ Honcho SDK (honcho-ai)
 Honcho Production Server
        ↓
 Persistent Storage (PostgreSQL + Vector DB)
-\```
+```
 
 ## Key Features Explained
 
 ### 1. Automatic Personalization
 Honcho learns from every interaction:
-\```python
+```python
 # After several conversations...
 prefs = memory.get_research_preferences("researcher_001")
 # Returns:
@@ -4497,11 +4497,11 @@ prefs = memory.get_research_preferences("researcher_001")
 #   "sources": "Prefers first-hand testimony over speculation",
 #   "style": "Wants technical details and evidence citations"
 # }
-\```
+```
 
 ### 2. Theory of Mind
 Build psychological models:
-\```python
+```python
 # Create profile of a witness
 witness = memory.get_or_create_peer("jesse_marcel")
 session = memory.create_session("marcel_profile", ["jesse_marcel"])
@@ -4513,34 +4513,34 @@ memory.add_message("marcel_profile", "jesse_marcel",
 # Query personality
 profile = memory.query_peer_insights("jesse_marcel",
     "What can you tell me about Jesse Marcel's credibility?")
-\```
+```
 
 ### 3. Smart Context
 No more token limit headaches:
-\```python
+```python
 # Automatically manages context window
 context = memory.get_session_context(
     session_id="long_conversation",
     max_tokens=4000  # Fits in your LLM
 )
 # Returns: Mix of recent messages + intelligent summaries
-\```
+```
 
 ### 4. Historical Search
 Find anything from past research:
-\```python
+```python
 results = memory.search_memories(
     "researcher_001",
     "military witnesses in Roswell case"
 )
 # Returns: All relevant past discussions
-\```
+```
 
 ## Integration with Your Agents
 
 Add to any of your existing agents:
 
-\```python
+```python
 # agents/ufo_youtube_agent.py
 from lib.honcho_client import HonchoMemoryClient
 
@@ -4568,14 +4568,14 @@ class UFOYouTubeAgent:
         )
         
         return analysis
-\```
+```
 
 ## Environment Setup
 
 Already configured in your `.env` files:
-\```bash
+```bash
 HONCHO_API_KEY=[REDACTED:generic-api-key]
-\```
+```
 
 Updated in:
 - ✅ `apps/disclosure-rag/.env`
@@ -4610,7 +4610,7 @@ Updated in:
 ## Common Use Cases
 
 ### Use Case 1: Personalized Research Assistant
-\```python
+```python
 # Chat adapts to your style
 chat = DisclosureBotWithMemory("researcher_001")
 chat.chat("Explain the Nimitz encounter")  
@@ -4618,10 +4618,10 @@ chat.chat("Explain the Nimitz encounter")
 
 chat.chat("Compare with Phoenix Lights")
 # Remembers previous context about Nimitz
-\```
+```
 
 ### Use Case 2: Witness Profile Building
-\```python
+```python
 # Build psychological profiles
 memory.create_session("fravor_profile", ["david_fravor"])
 memory.add_message("fravor_profile", "david_fravor",
@@ -4630,10 +4630,10 @@ memory.add_message("fravor_profile", "david_fravor",
 # Later query
 credibility = memory.query_peer_insights("david_fravor",
     "Assess this witness's credibility based on background")
-\```
+```
 
 ### Use Case 3: Cross-Case Pattern Detection
-\```python
+```python
 # Track research across cases
 memory.track_research_activity("researcher_001", 
     "case_analysis", {"case": "roswell", "focus": "debris"})
@@ -4643,19 +4643,19 @@ memory.track_research_activity("researcher_001",
 # Query patterns
 patterns = memory.query_peer_insights("researcher_001",
     "What common elements is this researcher finding across cases?")
-\```
+```
 
 ## Troubleshooting
 
 **Q: "Memory system not available"**
-\```bash
+```bash
 # Check API key
 echo $HONCHO_API_KEY  
 grep HONCHO_API_KEY apps/disclosure-rag/.env
 
 # Test connection
 .venv/bin/python -c "from honcho import Honcho; Honcho(api_key='hch-v2-...'); print('OK')"
-\```
+```
 
 **Q: "Empty insights returned"**
 - Need at least 2-3 messages before meaningful insights
@@ -4707,7 +4707,7 @@ You now have the foundation for truly intelligent, personalized UAP research ass
 
 **Go build something amazing!** 🛸
 
-```
+````
 
 Output: File created successfully
 </details></tool-use>
@@ -4762,7 +4762,7 @@ _**Agent (2025-10-04 02:26:16Z)**_
 <summary>Tool use: **Create**</summary>
 Path: `/Users/liamellis/Desktop/ultraterrestrial-resurrection/apps/disclosure-rag/HONCHO_SETUP_COMPLETE.md`
 
-```markdown
+````markdown
 # ✅ Honcho Integration Complete!
 
 ## What You Have Now
@@ -4782,7 +4782,7 @@ Your Disclosure RAG system now has **persistent memory and personalization** pow
 
 ### Files Created
 
-\```
+```
 apps/disclosure-rag/
 ├── lib/
 │   └── honcho_client.py              # Core Honcho wrapper
@@ -4791,7 +4791,7 @@ apps/disclosure-rag/
 ├── HONCHO_INTEGRATION.md              # Complete guide
 ├── HONCHO_QUICK_START.md              # Quick reference  
 └── HONCHO_SETUP_COMPLETE.md           # This file
-\```
+```
 
 ### Environment Configuration
 
@@ -4801,20 +4801,20 @@ API key configured in all `.env` files:
 - ✅ `packages/db/.env`
 - ✅ Root `.env`
 
-\```bash
+```bash
 HONCHO_API_KEY=[REDACTED:generic-api-key]
-\```
+```
 
 ### Dependencies Installed
 
-\```bash
+```bash
 honcho-ai==1.4.1
 honcho-core==1.4.1a0
-\```
+```
 
 ## ✅ Test Results
 
-\```
+```
 ✅ API key found and valid
 ✅ Honcho SDK imported successfully
 ✅ Client initialized  
@@ -4823,24 +4823,24 @@ honcho-core==1.4.1a0
 ✅ Session management functional
 ✅ Message storage working
 ✅ Context retrieval operational
-\```
+```
 
 ## 🚀 Try It Now (< 2 minutes)
 
 ### Option 1: Quick Test
-\```bash
+```bash
 cd apps/disclosure-rag
 .venv/bin/python test_honcho_integration.py
-\```
+```
 
 ### Option 2: Interactive Chat
-\```bash
+```bash
 cd apps/disclosure-rag
 .venv/bin/python disclosure_chat_with_memory.py
-\```
+```
 
 Then try:
-\```
+```
 You: Tell me about the Roswell incident
 Bot: [Detailed response about Roswell]
 
@@ -4851,10 +4851,10 @@ Bot: [Response with context from previous message]
 /insights   # See what bot learned about you
 /search roswell  # Find past conversations
 /quit       # Exit
-\```
+```
 
 ### Option 3: Programmatic Use
-\```python
+```python
 from lib.honcho_client import HonchoMemoryClient
 
 # Initialize
@@ -4874,7 +4874,7 @@ memory.add_message("research_001", "your_id",
 insights = memory.query_peer_insights("your_id",
     "What topics am I interested in?")
 print(insights)
-\```
+```
 
 ## 📚 Documentation
 
@@ -4892,25 +4892,25 @@ print(insights)
 
 ### Short-term (Today/Tomorrow)
 5. **Add to YouTube Agent** - Make video analysis remember patterns
-   \```python
+   ```python
    # In agents/ufo_youtube_agent.py
    from lib.honcho_client import HonchoMemoryClient
    self.memory = HonchoMemoryClient()
-   \```
+   ```
 
 6. **Build Witness Profiles** - Create theory-of-mind models
-   \```python
+   ```python
    # Profile famous witnesses
    marcel = memory.get_or_create_peer("jesse_marcel")
    fravor = memory.get_or_create_peer("david_fravor")
    lazar = memory.get_or_create_peer("bob_lazar")
-   \```
+   ```
 
 7. **Track Research Sessions** - Organize investigations by case
-   \```python
+   ```python
    session_roswell = memory.create_session("roswell_investigation", 
        ["researcher_001"], metadata={"case": "roswell", "year": 1947})
-   \```
+   ```
 
 ### Medium-term (This Week)
 8. **Multi-Agent Collaboration** - Enable agents to share memory
@@ -4943,7 +4943,7 @@ print(insights)
 ## 🔥 Power Features
 
 ### Personalization in Action
-\```python
+```python
 # After a few conversations, the bot adapts:
 chat = DisclosureBotWithMemory("researcher_001")
 
@@ -4954,10 +4954,10 @@ chat = DisclosureBotWithMemory("researcher_001")
 # - Military witness testimonies
 
 # Future responses automatically match your style!
-\```
+```
 
 ### Cross-Session Memory
-\```python
+```python
 # Day 1
 memory.add_message(session1, user, "I'm investigating Roswell")
 
@@ -4965,16 +4965,16 @@ memory.add_message(session1, user, "I'm investigating Roswell")
 insights = memory.query_peer_insights(user, 
     "What was I researching yesterday?")
 # Returns: "You were investigating Roswell..."
-\```
+```
 
 ### Pattern Detection
-\```python
+```python
 # After analyzing multiple cases
 patterns = memory.query_peer_insights(researcher,
     "What common elements have I found across UFO crash cases?")
 # Returns synthesized insights about debris characteristics,
 # military response patterns, witness testimonies, etc.
-\```
+```
 
 ## 🎨 Use Case Examples
 
@@ -5026,7 +5026,7 @@ Add Honcho to your existing agents:
 
 ## 📊 Architecture
 
-\```
+```
 ┌─────────────────────────────────────────────────────┐
 │         Your Disclosure RAG Application              │
 │  (Chat, Agents, Streamlit, API)                     │
@@ -5042,7 +5042,7 @@ Add Honcho to your existing agents:
                         ├─ Witness models
                         ├─ Research patterns
                         └─ Historical search
-\```
+```
 
 ## 🎉 Success!
 
@@ -5075,14 +5075,14 @@ The foundation is built. Now you can:
 
 **Start with the interactive chat and see the magic happen!**
 
-\```bash
+```bash
 cd apps/disclosure-rag
 .venv/bin/python disclosure_chat_with_memory.py
-\```
+```
 
 **Happy investigating!** 🛸👽🔍
 
-```
+````
 
 Output: File created successfully
 </details></tool-use>

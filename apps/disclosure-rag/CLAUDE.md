@@ -65,7 +65,7 @@
 
   |------------------------------------------|------------------------------
   ---------|---------------------------------------------|
-  | Quinuple RAG (OpenAI + Xata + Upstash + FAISS + CocoIndex) | Deep Knowledge Agent
+  | Multi-backend RAG (OpenAI + Neon Postgres + Upstash + FAISS + CocoIndex) | Deep Knowledge Agent
   iterative search | ✅ Perfect - enhances existing vector search |
   | 448 Documents indexed                    | Research Agent structured
   analysis    | ✅ Perfect - leverages your knowledge base   |
@@ -124,7 +124,7 @@
 
   6. Cross-System Knowledge Bridge:
 
-- Connect your Xata database with Agno's LanceDB patterns
+- Connect the Neon Postgres database with Agno's LanceDB patterns
 - Implement hybrid search across all your vector stores
 - Real-time knowledge graph updates
 

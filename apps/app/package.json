@@ -13,7 +13,8 @@
     "storybook": "cross-env NEXT_FONT_GOOGLE_MOCKED_RESPONSES=$PWD/.storybook/mocked-google-fonts.cjs storybook dev -p 6006",
     "build-storybook": "cross-env NEXT_FONT_GOOGLE_MOCKED_RESPONSES=$PWD/.storybook/mocked-google-fonts.cjs storybook build",
     "new": "plop",
-    "bun:new": "chmod +x bunplop.js && bun bunplop.js"
+    "bun:new": "chmod +x bunplop.js && bun bunplop.js",
+    "validate:tokens": "python3 ../../packages/disclosure-ui/scripts/validate_tokens.py src/components/feedback --fix-suggestions && python3 ../../packages/disclosure-ui/scripts/validate_tokens.py src/components/features/dashboard --fix-suggestions && python3 ../../packages/disclosure-ui/scripts/validate_tokens.py ../../packages/disclosure-ui/styles --fix-suggestions"
   },
   "dependencies": {
     "@ai-sdk-tools/agents": "^1.2.0",
@@ -78,6 +79,7 @@
     "@react-three/drei": "^10.7.4",
     "@react-three/fiber": "^9.3.0",
     "@react-three/postprocessing": "^3.0.4",
+    "@repo/disclosure-ui": "workspace:*",
     "@repo/prompts": "workspace:*",
     "@shikijs/transformers": "^3.11.0",
     "@silk-hq/components": "^0.9.11",

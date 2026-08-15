@@ -47,8 +47,8 @@ _Avoid_: "note", "comment", "annotation" in user-facing copy
 ### The epistemic layers
 
 **Reading**:
-A single interpretive frame applied to a body of evidence — e.g. the anomalous reading, the prosaic reading, the institutional reading. Always paired with a Counter-reading. The unit of interpretation.
-_Avoid_: "hypothesis" in synthesis output (reserved for the deterministic pre-enrichment floor); "conclusion"; "finding"
+A single interpretive frame applied to a body of evidence — e.g. the anomalous reading, the prosaic reading, the institutional reading. Always paired with a Counter-reading. The unit of interpretation. A prosaic Reading is not the same as Prosaic Attribution (an origin judgment about an observed object under UAPDA language — see Disclosure discourse).
+_Avoid_: "hypothesis" in synthesis output (reserved for the deterministic pre-enrichment floor); "conclusion"; "finding"; collapsing prosaic Reading with Prosaic Attribution
 
 **Counter-reading**:
 The structural rival to a Reading — the strongest alternative interpretation of the same evidence. Required; absence makes output an echo chamber artifact.
@@ -130,10 +130,14 @@ L2 in the event-type hierarchy — physical proximity with effects (electromagne
 _Avoid_: "encounter" for an ordinary Sighting with no proximity effects
 
 **Contact**:
-L3 in the event-type hierarchy — claimed communication or interaction with non-human intelligence. Always "claimed" in prose; the classification records the claim, not its truth.
+L3 in the event-type hierarchy — claimed communication or interaction with Non-Human Intelligence (NHI). Always "claimed" in prose; the classification records the claim, not its truth.
 
-**Disclosure** (classification level):
-L4 in the event-type hierarchy — government, military, or institutional acknowledgment of events. Note the overload: "disclosure" also appears in product/route naming (disclosure mindmap agent, `apps/disclosure-rag`), where it names the broader disclosure-history subject matter. In classification contexts it means only L4.
+**Disclosure** (three senses — always disambiguate in prose):
+
+1. **Classification (L4)** — government, military, or institutional acknowledgment of specific events in the event-type hierarchy. In classification contexts, Disclosure means only L4.
+2. **Discourse process** — the broader historical/political process of making Non-Human Intelligence–related facts known to the public (the sense used in disclosure-movement writing and the UAP Disclosure Act of 2023). May include institutional admission that humanity is not alone; not the same as L4 acknowledgment of one Event.
+3. **Product/route naming** — `disclosure` mindmap agent, `apps/disclosure-rag`, etc. Subject-matter naming only; not a domain object.
+_Avoid_: collapsing L4 with discourse Disclosure; using "disclosure" unqualified when L4 vs. discourse process matters
 
 **Close Encounter Classification (NL, DD, RV, CE1–CE7)**:
 Hynek's observational classes plus extensions: Nocturnal Light, Daylight Disc, Radar Visual, and Close Encounters 1–7 (proximity → effects → occupants → abduction → human-initiated → injury/death → hybrid claims). Applied to Sightings and Testimonies as structured metadata.
@@ -161,6 +165,78 @@ How reliable the source chain is for a Report. C1 = single anonymous witness; C5
 
 **Source Tier (T1–T6)**:
 Provenance grade for a Document or the source of a Testimony. T1 = primary official (FOIA-provenance established); T6 = anonymous, undated, no corroboration path.
+
+### Disclosure discourse (UAPDA / public-interest vocabulary)
+
+Legislative and disclosure-movement terms drawn primarily from the UAP Disclosure Act of 2023 (Senate Amdt. 797 to the FY2024 NDAA) as curated by Disclosure Diaries (definitions marked \* below follow that Act's language). These are domain vocabulary for the subject matter — not record types and not UI chrome.
+
+**Unidentified Anomalous Phenomena (UAP)\***:
+An object operating (or judged capable of operating) in outer space, the atmosphere, ocean surfaces, or undersea that lacks Prosaic Attribution because its performance characteristics were not previously known to be achievable under commonly accepted physical principles. Differentiated from Temporarily Non-Attributed Objects by observables such as instantaneous acceleration without apparent inertia, hypersonic velocity without thermal signature/sonic boom, Transmedium travel, positive lift contrary to known aerodynamics, multispectral signature control, or physical/biological effects on Close Observers and the environment. Includes the historical labels flying disc/saucer, UFO, unidentified aerial phenomena, and unidentified submerged object (USO).
+_Avoid_: treating UAP as a synonym for every unidentified sighting; UAP excludes objects with accepted Prosaic Attribution
+
+**Non-Human Intelligence (NHI)\***:
+Any sentient intelligent non-human lifeform, regardless of nature or ultimate origin, that may be presumed responsible for UAP or of which a government has become aware.
+_Avoid_: "alien", "ET", "extraterrestrial" as the default domain term when NHI is meant (those name origin hypotheses; NHI does not)
+
+**Close Observer\***:
+Anyone who has come into close proximity to UAP or Non-Human Intelligence. Related to, but not the same as, Encounter (L2 classification) or Hynek Close Encounter classes — those classify the report; Close Observer names the person.
+_Avoid_: "witness" when proximity (not merely observation) is the point
+
+**Prosaic Attribution\***:
+Having a human origin and operating according to current, proven, generally understood scientific and engineering principles and established laws of nature — not attributable to Non-Human Intelligence. Covers balloons, drones, satellites, secret military platforms, radar clutter, etc. Distinct from a prosaic Reading (an interpretive frame applied in synthesis): Attribution is an origin judgment about an object; a Reading is an epistemic frame over assembled evidence.
+_Avoid_: "prosaic" unqualified when Attribution vs. Reading must be distinguished
+
+**Temporarily Non-Attributed Object\***:
+An object that initially resists Prosaic Attribution because of environmental or system limits on observation, but that ultimately has an accepted human origin or known physical cause (celestial/meteorological phenomena, mundane clutter, known aerospace/ocean platforms, known foreign systems). Explicitly not UAP under the Act's framing.
+_Avoid_: calling these UAP once prosaic origin is accepted
+
+**Technologies of Unknown Origin (TUO)\***:
+Materials or meta-materials, ejecta, crash debris, mechanisms, machinery, equipment, assemblies, engineering models or processes, and damaged or intact aerospace or ocean/undersea craft associated with UAP or incorporating science/technology that lacks Prosaic Attribution or known means of human manufacture. Distinct from Artifact (our record type for a physical object of claimed anomalous origin): TUO is the legislative/category term; Artifact is the database/UI record.
+_Avoid_: using TUO as a table or record-type name; using Artifact when the legislative category is meant
+
+**Transmedium Object**:
+An object or device observed to transition between space and atmosphere, or between atmosphere and bodies of water, that is not immediately identifiable. Transmedium travel is also one of the UAP observables under the Act.
+_Avoid_: "transmedium" as a vague intensifier for any unusual craft claim
+
+**Legacy Program\***:
+Federal, state, local, commercial, academic, or private-sector endeavors to collect, exploit, or reverse-engineer Technologies of Unknown Origin, or to examine biological evidence of living or deceased Non-Human Intelligence, that pre-date enactment of the UAP Disclosure Act of 2023.
+_Avoid_: "legacy" for code shims or deprecated APIs in this glossary (different sense; keep that in package CONTEXT files)
+
+**Controlled Disclosure Campaign Plan\***:
+The official phased public-disclosure plan as proposed and described in the UAP Disclosure Act of 2023.
+_Avoid_: "disclosure plan" unqualified when the Act's named instrument is meant
+
+**Review Board\***:
+The Unidentified Anomalous Phenomena Records Review Board contemplated by the UAP Disclosure Act of 2023 — nine presidentially appointed citizens (Senate advice and consent), without regard to political affiliation, charged with reviewing, transmitting to the Archivist, and publicly disclosing government UAP records.
+_Avoid_: "review board" for arbitrary internal product review panels
+
+**Public Interest\***:
+The compelling interest in prompt public disclosure of UAP records for historical and governmental purposes and for fully informing the public about governmental knowledge and involvement surrounding UAP. UAPDA text is US-centric; in this product the term extends to the global public unless a US-legal context is explicit.
+_Avoid_: "public interest" as a vague PR phrase when the disclosure-duty sense is meant
+
+**Independent Research and Development (IRAD)**:
+R&D conducted by private companies with potential interest to the U.S. Department of Defense that is not directly sponsored by, or explicitly required under, a specific contract. Relevant when discussing contractor-held UAP/TUO work outside prime-contract lines.
+_Avoid_: "IR&D" / "IRAD" for in-house product research
+
+**Eminent Domain**:
+The government's right to seize private property for public use with fair compensation. In disclosure discourse, the contested mechanism by which material or Technologies of Unknown Origin held by private parties might be compelled into government/public custody.
+_Avoid_: metaphorical use for product data ownership
+
+**Special Access Program (SAP)**:
+A U.S. federal security protocol that protects highly classified information with safeguards and access restrictions beyond ordinary classification. Includes acknowledged sensitive operations and unacknowledged "black" projects.
+_Avoid_: "SAP" for software/product jargon in domain prose
+
+**Sensitive Compartmented Information Facility (SCIF)**:
+An enclosed facility used to process Sensitive Compartmented Information (SCI); access limited to appropriately cleared personnel, with constant escort for uncleared persons and classified material kept from view.
+_Avoid_: "SCIF" as decoration for any locked room in UI copy
+
+**Ontological Shock**:
+The state of being forced to question one's worldview — named as a risk and a social consequence of abrupt Disclosure (discourse sense), not as an evidentiary state.
+_Avoid_: treating Ontological Shock as an evidentiary badge or record type
+
+**Overton Window**:
+The range of policies or discourse positions politically acceptable to the mainstream at a given time. Used to describe how NHI/UAP discussion moved from fringe to legislative mainstream.
+_Avoid_: "Overton Window" as a synonym for what the evidence supports — acceptability ≠ truth
 
 ### The surface
 

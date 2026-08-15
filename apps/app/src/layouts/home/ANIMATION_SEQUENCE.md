@@ -43,8 +43,10 @@ Scroll stays locked (`body overflow hidden`) until Act 1 completes. Any wheel/to
 - **Prometheus** fades in ethereally (4.2s, 2.2s → opacity 0.85)
 - **Earth** reveals (4.2s, 1.6s)
 - **Moon** orbits in from behind left shoulder (5.4s, 2.4s, `cosmic` ease)
-  - Lands at x: 25vw, y: -15vh, scale 0.6, blur 50→0
+  - Lands at x: 25vw, y: -15vh (DOM translate only — **no DOM scale/blur** on WebGL layers)
+  - Visual size is mesh-scaled inside `MoonScene` via `journeyProgress`
 - Earth floats continuously *inside* its R3F scene (`useEarthIdleMotion`) — the old wrapper float tween was removed to avoid fighting the journey scrub
+- Earth uses 8K PBR maps from `public/assets/scenes/earth/textures/` (not the compressed TERRA.glb embed)
 
 ### Phase 6: Typography (5.8–9.7s)
 
@@ -70,22 +72,22 @@ The stage is `sticky top-0` inside a 380vh track; a ScrollTrigger (`start: top t
 - Wordmark chars exit up through their masks (`yPercent → -118`, blur 10px, 0.03 stagger) — mirrored path of the entrance
 - Tagline / quote lines / author exit upward through the same masks (blur + rise)
 - Scroll cue fades (0–0.4)
-- Earth wrapper pushes in: scale 1→1.14, y →+4vh; **camera rig** dollies z 5→3.4
+- Earth wrapper pushes in (y only); **camera rig** dollies z 6.8→4.2
 - Prometheus dims 0.85→0.3
 
 ### J2 — Lunar Flyby (2.2–6.2)
 
-- **Z-swap**: moon layer 10→30 (opaque canvas must stack above Earth to pass in front; restored to 10 when scrubbed back)
-- Moon sweeps x 25vw→0, y -15vh→0, scale 0.6→2.35 — owns the frame
-- **Moon camera rig** pushes z 5→3.1, y -0.5→-0.15
-- Earth recedes x →-22vw, y →+14vh, scale →0.8, opacity →0.45; camera eases back z →4.6
+- **Z-swap**: moon layer 10→30 (transparent canvas; z-order for occlusion only)
+- Moon sweeps x 25vw→0, y -15vh→0 — owns the frame; **mesh scale** 1→3.9 (not DOM scale)
+- **Moon camera rig** pushes z 5→3.05, y -0.5→-0.12
+- Earth recedes x →-22vw, y →+14vh, opacity →0.45; camera eases back z →4.8
 - Prometheus fades to 0; stars parallax y →-5vh, scale →1.06
 - **Flyby caption** (2.8 in / 5.4 out): "LUNAR PROXIMITY" kicker + "WHAT THE FAR SIDE KEEPS" — masked line rise/scrub-out
 
 ### J3 — Arrival (6.2–10)
 
-- Moon settles x →10vw, y →-4vh, scale →1.55; moon camera eases z →4.4
-- Earth dims to 0.15, scale 0.7; camera pulls to z 7.2, y 1.1
+- Moon settles x →10vw, y →-4vh; mesh scale →2.55; moon camera eases z →4.3
+- Earth dims to 0.15; camera pulls to z 7.4, y 1.15
 - Stars drift to -8vh
 - **Arrival block**: kicker "THE ARCHIVE IS OPEN" (6.9), line (7.5), CTA "Enter the Research Canvas" → `/research-canvas` (8.2, `pointer-events: auto` at 9.8)
 

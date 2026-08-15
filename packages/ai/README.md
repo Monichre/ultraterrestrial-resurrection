@@ -3,17 +3,39 @@ schema_version: '1.0'
 kind: documentation
 id: ut.agent-suite.readme
 suite_version: 2.0.0
+updated: '2026-08-06'
 ---
-# Ultraterrestrial Canonical Agent Suite
+# `@repo/ai` — Ultraterrestrial AI Workspace
 
-This directory contains the completed agent definitions for the Ultraterrestrial research system.
+Owns three layers under one package:
+
+| Layer | Path | Role |
+|---|---|---|
+| Agent suite grammar | `agents/`, `adversaries/`, `shared/`, `MANIFEST.md` | Development-time research personas (not product runtime agents) |
+| Prompt registry | `prompts/` → `@repo/prompts` | Versioned YAML corpus + loaders |
+| Vendor service adapters | `services/` → `@repo/ai/services` | Exa, Firecrawl, deep-research clients |
+
+Domain vocabulary: [`prompts/CONTEXT.md`](./prompts/CONTEXT.md). Merge plan: [`docs/plans/AiServicesMerge.md`](../../docs/plans/AiServicesMerge.md).
+
+```ts
+import { exaSearch, scrape, enhancedDeepResearch } from '@repo/ai/services'
+```
+
+---
+
+# Canonical Agent Suite
+
+Completed agent definitions for the Ultraterrestrial research system.
 
 ## Contents
 
 ```text
-ultraterrestrial-agent-definitions-v2/   # Cursor adapters: .cursor/agents/ via generate-research-agents.mjs
+packages/ai/
 ├── README.md
 ├── MANIFEST.md
+├── package.json                 # @repo/ai
+├── services/                    # @repo/ai/services (Exa / Firecrawl / deep-research)
+├── prompts/                     # @repo/prompts workspace
 ├── agents/
 │   ├── 01-majestic-master-controller.md
 │   ├── 02-lone-gunmen-realtime-monitor.md

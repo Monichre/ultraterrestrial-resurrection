@@ -98,6 +98,13 @@ export interface SpacetimeViewport {
   zoom: number
   bearing?: number
   pitch?: number
+  /**
+   * Camera altitude above the ellipsoid, metres. Read from Mapbox's free-camera
+   * position rather than derived from zoom — the boards print a literal
+   * `ALT 35,786 KM` readout, and a zoom-derived figure would be a plausible
+   * number that is not the camera's actual height.
+   */
+  altitudeMeters?: number
 }
 
 export interface SpacetimeLayerVisibility {

@@ -13,7 +13,7 @@ from pathlib import Path
 from typing import List, Optional, Dict, Any, Union, Tuple
 from datetime import datetime
 import hashlib
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass, asdict, fields
 
 logger = logging.getLogger(__name__)
 
@@ -42,15 +42,47 @@ class Document:
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any]):
-        return cls(**data)
+        """Build a Document from a sidecar record, ignoring unknown keys.
+
+        Two writers produce sidecars with different schemas: this class's own
+        `metadata.json`, and the YouTube path's `<slug>_metadata.json`
+        (`lib/knowledge_base_service.py`), which carries `url`, `categories`,
+        `chapters`, `rag_pipeline` and no `content`. `cls(**data)` raised
+        TypeError on the latter, so every YouTube document was unreadable.
+        Unknown keys are preserved under `metadata` rather than discarded.
+        """
+        known = {f.name for f in fields(cls)}
+        kwargs = {k: v for k, v in data.items() if k in known}
+        extra = {k: v for k, v in data.items() if k not in known}
+        if extra:
+            merged = dict(kwargs.get("metadata") or {})
+            merged.update(extra)
+            kwargs["metadata"] = merged
+        kwargs.setdefault("id", str(data.get("id", "")))
+        kwargs.setdefault("title", str(data.get("title", "")))
+        kwargs.setdefault("content", "")
+        kwargs.setdefault("source", str(data.get("url", "")))
+        kwargs.setdefault("doc_type", "")
+        kwargs.setdefault("created_at", "")
+        kwargs.setdefault("updated_at", "")
+        kwargs.setdefault("metadata", {})
+        kwargs.setdefault("tags", [])
+        return cls(**kwargs)
 
 
 class KnowledgeBaseCRUD:
     """Enhanced CRUD operations for the knowledge base"""
 
     def __init__(self, kb_path: Optional[str] = None):
-        # Use the packages/knowledge-base workspace, not a local knowledge-base directory
-        self.kb_path = Path(kb_path or os.path.join(
+        # Use the packages/knowledge-base workspace, not a local knowledge-base directory.
+        #
+        # DISCLOSURE_RAG_KB_PATH overrides the root for the whole process. Without it
+        # there is no way to exercise the real write path without mutating the
+        # production archive, because kb_service constructs its CRUD with no argument
+        # (lib/knowledge_base_service.py:50). The benchmark harness
+        # (scripts/benchmark_pipeline.py) sets it to a temp dir so ingest checks run
+        # against a sandbox archive. Explicit kb_path still wins over the env var.
+        self.kb_path = Path(kb_path or os.environ.get("DISCLOSURE_RAG_KB_PATH") or os.path.join(
             os.path.dirname(os.path.dirname(
                 os.path.dirname(os.path.dirname(__file__)))),
             "packages", "knowledge-base"
@@ -126,6 +158,23 @@ class KnowledgeBaseCRUD:
                 fcntl.flock(lock_file.fileno(), fcntl.LOCK_UN)
             finally:
                 lock_file.close()
+
+    def _resolve_doc_dir(self, stored_path: str) -> Path:
+        """Resolve an index `path` field to a directory on disk.
+
+        Index entries carry a mix of forms, written by different code paths over
+        time: absolute paths (the YouTube writer) and paths relative to the
+        archive root (the CRUD writer). The relative ones were previously passed
+        straight to `Path(...)`, which resolves against the *current working
+        directory* — so `get_document()` returned None for every relative entry
+        unless the process happened to be running from the archive root, which
+        nothing does. Resolving against `self.kb_path` fixes that and keeps the
+        archive relocatable.
+        """
+        p = Path(stored_path)
+        if p.is_absolute():
+            return p
+        return self.kb_path / p
 
     def _content_hash(self, content: str) -> str:
         """Full md5 hex digest of document content (dedup key / integrity check)."""
@@ -329,16 +378,98 @@ class KnowledgeBaseCRUD:
             return None
 
         doc_info = self.index["documents"][doc_id]
-        meta_file = Path(doc_info["path"]) / "metadata.json"
+        doc_dir = self._resolve_doc_dir(doc_info["path"])
 
+        # The sidecar is optional enrichment, not the record of truth. Three
+        # writers produce three shapes: the CRUD path writes `metadata.json`, the
+        # YouTube path writes `<slug>_metadata.json`, and the bulk/file paths
+        # write no sidecar at all — for those the index entry (title, doc_type,
+        # timestamps, tags, metadata.original_path) is the complete record.
+        # Treating a missing sidecar as "document not found" made 436 of 567
+        # documents unreadable and `dy search` return nothing.
+        doc_data: Dict[str, Any] = {}
+        meta_file = doc_dir / "metadata.json"
         if not meta_file.exists():
-            logger.error(f"Metadata file not found for document {doc_id}")
-            return None
+            sidecars = sorted(doc_dir.glob("*_metadata.json")) if doc_dir.is_dir() else []
+            meta_file = sidecars[0] if sidecars else None
+        if meta_file is not None and meta_file.exists():
+            try:
+                with open(meta_file, 'r', encoding='utf-8') as f:
+                    doc_data = json.load(f)
+            except (OSError, json.JSONDecodeError) as e:
+                logger.warning(f"Unreadable sidecar for {doc_id} at {meta_file}: {e}")
+                doc_data = {}
 
-        with open(meta_file, 'r', encoding='utf-8') as f:
-            doc_data = json.load(f)
+        doc = Document.from_dict(doc_data)
+        doc.metadata = {**(doc_info.get("metadata") or {}), **(doc.metadata or {})}
+        doc.source = doc.source or str(doc.metadata.get("original_path") or "")
 
-        return Document.from_dict(doc_data)
+        # The index is authoritative for the fields it tracks — the YouTube
+        # sidecar carries none of them, so without this every such document came
+        # back with an empty doc_type/created_at and was invisible to filtering.
+        doc.id = doc.id or doc_id
+        doc.title = doc.title or doc_info.get("title", "")
+        doc.doc_type = doc.doc_type or doc_info.get("doc_type", "")
+        doc.created_at = doc.created_at or doc_info.get("created_at", "")
+        doc.updated_at = doc.updated_at or doc_info.get("updated_at", "")
+        doc.tags = doc.tags or list(doc_info.get("tags") or [])
+
+        if not doc.content:
+            doc.content = self._read_document_body(
+                doc_dir, original_path=doc.metadata.get("original_path"))
+
+        return doc
+
+    # Sidecars and derived artifacts that are not the document's own text.
+    _NON_BODY_SUFFIXES = ("_metadata.json", "_rag_pipeline.json")
+    _NON_BODY_NAMES = ("metadata.json", "entity_processing_results.json")
+
+    def _read_document_body(self, doc_dir: Path,
+                            original_path: Optional[str] = None) -> str:
+        """Read a document's text from its directory.
+
+        Only the CRUD writer stores `content` inside the sidecar. The YouTube and
+        web writers leave the body in a sibling `.txt`/`.md` file, so a document
+        read through the sidecar alone had empty content — which is why
+        `search_documents()` (which scans `doc.content`) matched nothing.
+        Summary files are excluded: they are derived analysis, not the source
+        text, and are frequently empty stubs.
+
+        `original_path` wins when it names a readable text file. Documents whose
+        `path` is a *shared* directory (`sources/files`, which holds every
+        ingested PDF) have no per-document folder to scan, so the index's
+        original_path is the only thing identifying which file is theirs.
+        Binary sources (PDFs) are not extracted here — that is ingest's job, and
+        doing it per read would make listing the corpus arbitrarily expensive.
+        """
+        if original_path:
+            op = Path(original_path)
+            if not op.is_absolute():
+                op = self.kb_path / op
+            if op.is_file() and op.suffix.lower() in (".txt", ".md"):
+                try:
+                    return op.read_text(encoding="utf-8", errors="replace")
+                except OSError as e:
+                    logger.warning(f"Could not read document body {op}: {e}")
+
+        if not doc_dir.is_dir():
+            return ""
+        candidates = [
+            p for p in doc_dir.iterdir()
+            if p.is_file() and p.suffix.lower() in (".txt", ".md")
+            and p.name not in self._NON_BODY_NAMES
+            and not p.name.endswith(self._NON_BODY_SUFFIXES)
+            and "summary" not in p.name.lower()
+        ]
+        if not candidates:
+            return ""
+        # Largest remaining text file is the transcript/article body.
+        best = max(candidates, key=lambda p: p.stat().st_size)
+        try:
+            return best.read_text(encoding="utf-8", errors="replace")
+        except OSError as e:
+            logger.warning(f"Could not read document body {best}: {e}")
+            return ""
 
     def list_documents(self,
                        doc_type: Optional[str] = None,
@@ -492,7 +623,10 @@ class KnowledgeBaseCRUD:
                 return False
 
             doc_info = self.index["documents"][doc_id]
-            doc_path = Path(doc_info["path"])
+            # Same CWD-relative hazard as get_document(): an unresolved relative
+            # path here would rmtree whatever happens to sit at that name under
+            # the current working directory, or silently delete nothing.
+            doc_path = self._resolve_doc_dir(doc_info["path"])
 
             # Remove from tag index
             for tag in doc_info["tags"]:

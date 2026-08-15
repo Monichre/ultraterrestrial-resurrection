@@ -29,7 +29,7 @@ docs/
   architecture/             API_ROUTES, RUNBOOK
   vision/                   identity canon (flat markdown)
   design/brand-bible/       design text + tokens (no bulk binaries)
-  plans/                    FEATURES.md + TODO.md only
+  plans/                    FEATURES.md + TODO.md + dated canonical specs
   research/methodology/     platform research doctrine
   research/domain/          UFO subject deep-dives (when present)
   ops/                      agent onboarding, triage, contrib
@@ -54,6 +54,8 @@ docs/
 | [adr/0002-temporal-observatory-gl4ss-integration.md](./adr/0002-temporal-observatory-gl4ss-integration.md) | eng | how |
 | [plans/FEATURES.md](./plans/FEATURES.md) | product | want |
 | [plans/TODO.md](./plans/TODO.md) | eng | do |
+| [plans/2026-08-09-disclosure-lab.md](./plans/2026-08-09-disclosure-lab.md) | eng | do |
+| [plans/2026-08-09-research-canvas-genui.md](./plans/2026-08-09-research-canvas-genui.md) | eng | do |
 | [vision/AGENT_ARCHITECTURE_BRIEF.md](./vision/AGENT_ARCHITECTURE_BRIEF.md) | identity | want / how |
 | [vision/DESIGN_REGISTERS.md](./vision/DESIGN_REGISTERS.md) | identity | want |
 | [vision/IMPLEMENTATION_SPEC.md](./vision/IMPLEMENTATION_SPEC.md) | identity | how |

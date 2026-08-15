@@ -1,0 +1,334 @@
+/* Ultraterrestrial Research Platform — Evidence Ledger
+ * Extracted from docs/design/mock-ups/02-evidence-ledger.html
+ * View-specific styles for the three-column ledger layout.
+ */
+
+/* === Three-column ledger layout === */
+
+.el-ledger {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: 248px 1fr 320px;
+  gap: 0;
+  background: linear-gradient(180deg, #101314, #0c0f10);
+}
+
+/* === Left sidebar (Research index) === */
+
+.el-side {
+  border-right: 1px solid #293031;
+  padding: 18px;
+  background: #111516;
+}
+
+.el-side h3,
+.el-right h3 {
+  font-family: Georgia, serif;
+  font-size: 18px;
+  margin: 6px 0 14px;
+}
+
+.el-tree {
+  font-size: 11px;
+  color: #9da5a1;
+}
+
+.el-tree-item {
+  padding: 9px 8px;
+  border-radius: 8px;
+  margin: 3px 0;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  cursor: pointer;
+}
+
+.el-tree-item.active {
+  background: #1b2122;
+  color: #e6dfd1;
+  border: 1px solid #343c3d;
+}
+
+.el-tree-count {
+  margin-left: auto;
+  color: #656e6b;
+  font-size: 9px;
+}
+
+.el-tree-divider {
+  height: 1px;
+  background: #293031;
+  margin: 14px 0;
+}
+
+.el-filters {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+/* === Right sidebar (Provenance inspector) === */
+
+.el-right {
+  border-left: 1px solid #293031;
+  padding: 18px;
+  background: #101415;
+}
+
+/* === Center column === */
+
+.el-center {
+  padding: 18px;
+  overflow: hidden;
+}
+
+.el-headrow {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.el-headrow .el-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+}
+
+/* === Claim card === */
+
+.el-claim {
+  border: 1px solid #3a4243;
+  background: linear-gradient(145deg, #1b2021, #121617);
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.24);
+}
+
+.el-claim h2 {
+  font-family: Georgia, serif;
+  font-size: 22px;
+  line-height: 1.35;
+  margin: 5px 0 10px;
+}
+
+.el-claimmeta {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.el-claim-body {
+  font-size: 11px;
+  line-height: 1.55;
+  color: #aab0ac;
+  margin: 8px 0 0;
+}
+
+/* === Evidence lanes === */
+
+.el-lanes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.el-lane {
+  border: 1px solid #2e3536;
+  border-radius: 14px;
+  padding: 12px;
+  background: #111516;
+}
+
+.el-lanehead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.el-lanehead b {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.el-lane.support b {
+  color: #84a48a;
+}
+
+.el-lane.challenge b {
+  color: #c2766d;
+}
+
+/* === Source card === */
+
+.el-sourcecard {
+  border: 1px solid #303738;
+  border-radius: 11px;
+  padding: 11px;
+  margin-top: 9px;
+  background: linear-gradient(145deg, #191e1f, #131718);
+  position: relative;
+}
+
+.el-sourcecard::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  width: 3px;
+  border-radius: 3px;
+  background: var(--el-accent);
+}
+
+.el-sourcecard h4 {
+  font-size: 12px;
+  margin: 0 0 5px;
+  color: #dedad1;
+}
+
+.el-sourcecard p {
+  font-size: 10px;
+  line-height: 1.45;
+  margin: 0;
+  color: #929a97;
+}
+
+.el-sourcecard .el-foot {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  color: #68716e;
+  font-size: 8px;
+}
+
+/* === Source comparison table === */
+
+.el-compare {
+  margin-top: 14px;
+  border: 1px solid #343b3c;
+  border-radius: 14px;
+  background: #111516;
+  padding: 13px;
+}
+
+.el-comparegrid {
+  display: grid;
+  grid-template-columns: 92px 1fr 1fr;
+  gap: 0;
+  font-size: 9px;
+}
+
+.el-comparegrid > div {
+  padding: 8px;
+  border-bottom: 1px solid #293031;
+}
+
+.el-comparegrid .el-label {
+  color: #69726f;
+}
+
+.el-comparegrid .el-good {
+  color: #89a98e;
+}
+
+.el-comparegrid .el-bad {
+  color: #c27a71;
+}
+
+/* === Provenance lineage === */
+
+.el-prov {
+  border: 1px solid #303738;
+  border-radius: 12px;
+  padding: 12px;
+  background: #141819;
+  margin-top: 12px;
+}
+
+.el-provline {
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  gap: 9px;
+  padding: 9px 0;
+  border-bottom: 1px solid #272e2f;
+}
+
+.el-provline:last-child {
+  border-bottom: 0;
+}
+
+.el-provline .el-n {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #202728;
+  display: grid;
+  place-items: center;
+  color: #b6bcb8;
+  font-size: 9px;
+}
+
+.el-provline b {
+  display: block;
+  font-size: 10px;
+  color: #d4d0c7;
+}
+
+.el-provline span {
+  font-size: 9px;
+  color: #747d7a;
+}
+
+/* === Radar chart === */
+
+.el-radar {
+  height: 190px;
+  position: relative;
+  margin-top: 8px;
+  background: radial-gradient(circle, #273030 1px, transparent 1px);
+  background-size: 22px 22px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.el-radar svg {
+  position: absolute;
+  inset: 0;
+}
+
+/* === Metric bar === */
+
+.el-metric {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 9px;
+}
+
+.el-metric span {
+  font-size: 9px;
+  width: 104px;
+  color: #78817e;
+}
+
+.el-metric i {
+  height: 5px;
+  flex: 1;
+  background: #252b2c;
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.el-metric i::after {
+  content: '';
+  display: block;
+  height: 100%;
+  width: var(--el-w);
+  background: linear-gradient(90deg, #6d775f, #b79458);
+}

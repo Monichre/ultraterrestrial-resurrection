@@ -100,6 +100,55 @@ export type ResearchSessionState = {
   canvasNotes: string
 }
 
+// --- Drop-to-Canvas (T-060) ---
+// Contract: docs/plans/2026-08-13-canvas-drop-ingest-contract.md
+//
+// Deliberately NOT in `partialize` below: contract §2.1 makes dropped
+// artifacts session-scoped and in-memory. Persisting them to localStorage
+// would resurrect artifact nodes whose blob URLs and session ids no longer
+// mean anything, and would imply a durability the feature does not have.
+//
+// The status values are ONLY things the client can actually observe. There
+// is deliberately no 'extracting' or 'embedding' state: contract §4 is a
+// single non-streaming POST, so the client cannot know when one server-side
+// phase ends and the next begins. Naming those phases on a timer would be
+// invented telemetry on a product whose identity is rigor about evidence.
+export type DropStatus =
+  | 'idle'
+  | 'validating'
+  | 'uploading'
+  | 'awaiting'
+  | 'resolved'
+  | 'failed'
+
+export type DropFailure = {
+  code: string
+  title: string
+  detail: string
+  filename: string
+}
+
+export type DropState = {
+  /** True while a file drag is over the canvas — drives the drop affordance. */
+  isDragActive: boolean
+  /** True when the dragged item is known to be an unacceptable type. */
+  dragRejected: boolean
+  status: DropStatus
+  /** Node id of the artifact currently being resolved, if any. */
+  pendingArtifactNodeId: string | null
+  pendingFilename: string | null
+  /** Epoch ms when the request began — the elapsed counter is derived, not faked. */
+  startedAt: number | null
+  failure: DropFailure | null
+  /**
+   * React Flow node id of the match currently open in the inspector. The
+   * node itself carries the record payload (title/snippet/table/url), so
+   * storing the id avoids duplicating that data into this store where it
+   * could drift from the graph.
+   */
+  inspectedMatchNodeId: string | null
+}
+
 export interface MindMapUiState {
   activeTool: string | null
   pinnedPanel: string | null
@@ -122,6 +171,9 @@ export interface MindMapUiState {
 
   // Unified research session state (T-027)
   researchSession: ResearchSessionState
+
+  // Drop-to-canvas state (T-060)
+  drop: DropState
 
   // Session history actions
   addSessionEvent: (event: Omit<SessionEvent, 'id' | 'timestamp'>) => void
@@ -208,6 +260,26 @@ export interface MindMapUiState {
   updateResearchCardNotes: (cardId: string, notes: string) => void
   setResearchCanvasNotes: (notes: string) => void
   resetResearchSession: () => void
+
+  // Drop-to-canvas actions (T-060)
+  setDropDragActive: (active: boolean, rejected?: boolean) => void
+  beginDrop: (payload: {artifactNodeId: string; filename: string}) => void
+  setDropStatus: (status: DropStatus) => void
+  resolveDrop: () => void
+  failDrop: (failure: DropFailure) => void
+  clearDropFailure: () => void
+  setInspectedMatchNodeId: (nodeId: string | null) => void
+}
+
+const INITIAL_DROP_STATE: DropState = {
+  isDragActive: false,
+  dragRejected: false,
+  status: 'idle',
+  pendingArtifactNodeId: null,
+  pendingFilename: null,
+  startedAt: null,
+  failure: null,
+  inspectedMatchNodeId: null,
 }
 
 export const useMindMapUiStore = create<MindMapUiState>()(
@@ -260,6 +332,7 @@ export const useMindMapUiStore = create<MindMapUiState>()(
         backgroundProcessing: false,
         currentProcessingType: '',
       },
+      drop: INITIAL_DROP_STATE,
       sessionEvents: [],
       hiddenNodeTypes: [],
 
@@ -692,6 +765,57 @@ export const useMindMapUiStore = create<MindMapUiState>()(
             canvasNotes: '',
           },
         }),
+
+      // --- Drop-to-canvas actions (T-060) ---
+      setDropDragActive: (active, rejected = false) =>
+        set({
+          drop: {
+            ...get().drop,
+            isDragActive: active,
+            dragRejected: active ? rejected : false,
+          },
+        }),
+      beginDrop: ({artifactNodeId, filename}) =>
+        set({
+          drop: {
+            ...get().drop,
+            isDragActive: false,
+            dragRejected: false,
+            status: 'uploading',
+            pendingArtifactNodeId: artifactNodeId,
+            pendingFilename: filename,
+            // Real wall-clock anchor. The elapsed readout is computed from
+            // this, so it reports actual time, never a scripted progression.
+            startedAt: Date.now(),
+            failure: null,
+          },
+        }),
+      setDropStatus: (status) => set({drop: {...get().drop, status}}),
+      resolveDrop: () =>
+        set({
+          drop: {
+            ...get().drop,
+            status: 'resolved',
+            pendingArtifactNodeId: null,
+            pendingFilename: null,
+            startedAt: null,
+          },
+        }),
+      failDrop: (failure) =>
+        set({
+          drop: {
+            ...get().drop,
+            status: 'failed',
+            pendingArtifactNodeId: null,
+            pendingFilename: null,
+            startedAt: null,
+            failure,
+          },
+        }),
+      clearDropFailure: () =>
+        set({drop: {...get().drop, failure: null, status: 'idle'}}),
+      setInspectedMatchNodeId: (nodeId) =>
+        set({drop: {...get().drop, inspectedMatchNodeId: nodeId}}),
     }),
     {
       name: 'mindmap-ui-storage',

@@ -8,6 +8,7 @@
 | `monolith-engine-DESIGN.md` | `lab-prototypes/monolith-engine` |
 | `diagnostic-architecture-model-teardown-DESIGN.md` | `lab-prototypes/diagnostic-architecture` |
 | `cognitive-routing-framework-DESIGN.md` | `lab-prototypes/cognitive-routing-framework` |
+| `technical-brand-geometry-1-DESIGN.md` | `lab-prototypes/technical-brand-geometry` (iframe shell) |
 | `AeroNet-Visualization-DESIGN.md` | tokens only — no HTML in ingest |
 | `aether-node-dashboard-DESIGN.md` | tokens only |
 | `strategic-roadmap-2-DESIGN.md` | tokens only |

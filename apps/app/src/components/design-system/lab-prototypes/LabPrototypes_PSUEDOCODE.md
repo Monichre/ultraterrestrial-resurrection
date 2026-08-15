@@ -11,11 +11,11 @@ Port six design prototypes into `apps/app` as Storybook-ready, Next.js client co
 
 | Source | Component | Status |
 |--------|-----------|--------|
-| `react-app.js` | `SymbolonArchive` | NEW — archival doc shell (spine + nav + data panel) |
+| `react-app.js` | `SymbolonArchive` | DONE — archival doc shell (spine + nav + data panel) |
 | `react-app (1).js` | `SemioticVoid` | NEW — WebGL nebula landing + semiotic rail |
-| `react-app (2).js` | `PlanetaryTransit` | NEW — mobile orbital transit HUD |
-| `react-app (3).js` | `OryzaeTimeline` | EXISTS — re-export in gallery only |
-| `react-app (4).js` | `EnergyInputHub` | NEW — glass synth input + template cards |
+| `react-app (2).js` | `PlanetaryTransit` | DONE — 2026-08-07 — mobile orbital transit HUD |
+| `react-app (3).js` | `OryzaeTimeline` | EXISTS — `@/components/oryzae-timeline` + stories |
+| `react-app (4).js` | `EnergyInputHub` | DONE — 2026-08-07 — glass synth input + template cards |
 | `diagnostic-architecture-model-teardown.html` | `DiagnosticArchitecture` | DONE — exploded wireframe teardown |
 
 ## Structure (per new component)
@@ -32,6 +32,7 @@ component-name/
 ```
 
 Shared:
+
 - `use-symbolon-fonts.ts` — Cormorant Garamond + JetBrains Mono
 - `index.ts` — barrel exports
 - `LabPrototypes.md` — architecture doc

@@ -7,8 +7,16 @@ const nextConfig = {
 		"@react-three/drei",
 		"gsap",
 		"@db",
+		"@repo/disclosure-ui",
 	],
 	crossOrigin: "anonymous",
+
+	// pdfjs-dist must not be bundled for the server. The PDF text extraction on
+	// POST /api/processing/drop imports pdfjs-dist/legacy/build/pdf.mjs, and
+	// webpack's transform of that file breaks it at runtime with
+	// "Object.defineProperty called on non-object" (verified 2026-08-13 — the
+	// same PDF extracts fine when the module is loaded natively).
+	serverExternalPackages: ["pdfjs-dist"],
 
 	typescript: {
 		ignoreBuildErrors: true,
@@ -54,6 +62,6 @@ const nextConfig = {
 			"@react-three/fiber",
 		],
 	},
-};
+}
 
-module.exports = nextConfig;
+module.exports = nextConfig

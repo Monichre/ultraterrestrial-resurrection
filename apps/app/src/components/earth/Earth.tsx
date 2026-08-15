@@ -1,28 +1,47 @@
 'use client'
 
-import {Canvas, useFrame, useLoader, useThree} from '@react-three/fiber'
-import {useGLTF} from '@react-three/drei'
-import {motion} from 'framer-motion-3d'
+/**
+ * Earth — home hero celestial.
+ *
+ * Production reference (ultraterrestrial.app): grayscale PBR sphere using
+ * `/assets/earth2/{color,normal,occlusion}` with a hard crescent key light.
+ * Local upgrades keep that look while restoring render sharpness (DPR, AA,
+ * ACES, anisotropy, higher tessellation) and the scroll-journey camera rig.
+ */
+
+import {Canvas, useFrame, useThree} from '@react-three/fiber'
+import {useTexture} from '@react-three/drei'
 import type React from 'react'
-import {Suspense, memo, useRef, Component} from 'react'
+import {Suspense, memo, useEffect, useRef, Component} from 'react'
 import * as THREE from 'three'
-import {TextureLoader} from 'three'
-import {damp, sampleStops, type JourneyProgressRef, type JourneyStop} from '@/lib/animations/scroll-journey'
+import {
+  damp,
+  sampleStops,
+  type JourneyProgressRef,
+  type JourneyStop,
+} from '@/lib/animations/scroll-journey'
+import {configureHeroRenderer} from '@/lib/three/harden-gltf-materials'
+import {createOrbitShot, type ShotState} from '@/lib/animations/cinematic-shot'
+import {applyOrbitState} from '@/lib/animations/apply-orbit-state'
 
-const EARTH_GLB_URL = '/assets/earth2/TERRA.glb'
+/** Match production spin rate (`delta / 10`) */
 const EARTH_SPIN_RATE = 0.1
-const EARTH_FLOAT_FREQ = 0.4
-const EARTH_FLOAT_AMP = 0.08
-const LIGHT_DRIFT_SPEED = 0.15
-const LIGHT_RADIUS = 1.2
-const PARALLAX_STRENGTH = 0.12
-const PARALLAX_DAMP = 0.06
+const EARTH_FLOAT_FREQ = 0.35
+const EARTH_FLOAT_AMP = 0.05
+const LIGHT_DRIFT_SPEED = 0.1
+const LIGHT_RADIUS = 1.25
+const PARALLAX_STRENGTH = 0.08
+const PARALLAX_DAMP = 0.05
 
-if (typeof window !== 'undefined') {
-  useGLTF.preload(EARTH_GLB_URL)
-}
+/** Production asset stack — grayscale archival look (not the colorful 8K day/night set) */
+const EARTH_TEXTURES = [
+  '/assets/earth2/color.jpg',
+  '/assets/earth2/normal.png',
+  '/assets/earth2/occlusion.jpg',
+] as const
 
-// Error Boundary for texture loading failures
+const EARTH_NORMAL_SCALE = new THREE.Vector2(1.25, 1.25)
+
 class EarthErrorBoundary extends Component<{children: React.ReactNode}, {hasError: boolean}> {
   constructor(props: {children: React.ReactNode}) {
     super(props)
@@ -70,7 +89,6 @@ const useEarthIdleMotion = (
     const earth = earthRef.current
     if (!earth) return
 
-    // Gentle spin always — comprehension cue, not a flourish
     earth.rotation.y += delta * (reduceMotion ? EARTH_SPIN_RATE * 0.35 : EARTH_SPIN_RATE)
 
     if (reduceMotion) {
@@ -85,95 +103,164 @@ const useEarthIdleMotion = (
         (pointer.x * PARALLAX_STRENGTH - parallaxTarget.current.x) * PARALLAX_DAMP
       parallaxTarget.current.y +=
         (pointer.y * PARALLAX_STRENGTH - parallaxTarget.current.y) * PARALLAX_DAMP
-      earth.rotation.x = parallaxTarget.current.y * 0.35
-      earth.rotation.z = -parallaxTarget.current.x * 0.2
+      earth.rotation.x = parallaxTarget.current.y * 0.28
+      earth.rotation.z = -parallaxTarget.current.x * 0.16
 
       const light = lightRef.current
       if (light) {
         const t = state.clock.elapsedTime * LIGHT_DRIFT_SPEED
-        light.position.x = Math.cos(t) * LIGHT_RADIUS
-        light.position.z = Math.sin(t) * LIGHT_RADIUS * 0.6 - 0.25
-        light.position.y = Math.sin(t * 0.7) * 0.35
+        // Keep the crescent character — drift around the production key position
+        light.position.x = 1 + Math.cos(t) * 0.15
+        light.position.y = Math.sin(t * 0.7) * 0.2
+        light.position.z = -0.25 + Math.sin(t) * 0.12
       }
     }
   })
 }
 
+/** Production lighting: near-black ambient + hard side key → archival crescent */
 const EarthSceneLights: React.FC<{
   lightRef: React.RefObject<THREE.DirectionalLight | null>
 }> = ({lightRef}) => {
   return (
     <>
-      <ambientLight intensity={0.45} />
-      <directionalLight ref={lightRef} intensity={2.2} position={[1, 0, -0.25]} />
-      {/* Cool fill from camera side so the night side stays legible */}
-      <directionalLight intensity={0.55} position={[-2, 1, 4]} color='#9db8ff' />
+      {/* Production crescent: near-black ambient + hard side key */}
+      <ambientLight intensity={0.1} />
+      <directionalLight
+        ref={lightRef}
+        intensity={2.4}
+        position={[1.15, 0.1, -0.2]}
+        color='#ffffff'
+      />
+      <directionalLight intensity={0.18} position={[-2.5, 0.4, 3]} color='#c8d0dc' />
     </>
   )
 }
 
-const EarthGLB: React.FC<EarthIdleProps> = memo(({isIdle = false, reduceMotion = false}) => {
-  const earthRef = useRef<THREE.Object3D>(null)
+const EarthGlobe: React.FC<EarthIdleProps> = memo(({isIdle = false, reduceMotion = false}) => {
+  const earthRef = useRef<THREE.Group>(null)
   const lightRef = useRef<THREE.DirectionalLight>(null)
-  const {scene, animations} = useGLTF(EARTH_GLB_URL)
+  const {gl} = useThree()
+  const [colorMap, normalMap, aoMap] = useTexture([...EARTH_TEXTURES])
 
-  // TERRA.glb ships without clips — skip AnimationMixer (threejs-animation)
-  if (process.env.NODE_ENV === 'development' && animations.length > 0) {
-    console.info('[Earth] GLB reports clips; mixer not wired in this pass', animations.length)
-  }
+  useEffect(() => {
+    const maxAniso = Math.min(gl.capabilities.getMaxAnisotropy(), 16)
+    for (const tex of [colorMap, normalMap, aoMap]) {
+      tex.anisotropy = maxAniso
+      tex.generateMipmaps = true
+      tex.minFilter = THREE.LinearMipmapLinearFilter
+      tex.magFilter = THREE.LinearFilter
+      tex.needsUpdate = true
+    }
+    colorMap.colorSpace = THREE.SRGBColorSpace
+    normalMap.colorSpace = THREE.NoColorSpace
+    aoMap.colorSpace = THREE.NoColorSpace
+  }, [gl, colorMap, normalMap, aoMap])
 
   useEarthIdleMotion(earthRef, lightRef, isIdle, reduceMotion)
-
-  // DEBUG: verify the GLB scene contents
-  if (process.env.NODE_ENV === 'development') {
-    console.info('[Earth] GLB scene children:', scene.children.length, scene.children.map(c => c.constructor.name))
-  }
 
   return (
     <>
       <EarthSceneLights lightRef={lightRef} />
-      <primitive ref={earthRef} object={scene} scale={2.5} rotation-y={0.5} />
-      {/* DEBUG: test mesh to verify the render loop works */}
-      <mesh position={[0, 0, 0]} scale={1}>
-        <boxGeometry args={[1, 1, 1]} />
-        <meshBasicMaterial color='red' />
-      </mesh>
+      <group ref={earthRef} rotation-y={0.5}>
+        <mesh scale={2.5}>
+          {/* 96 segs — production used 32; sharper limb without 8K memory cost */}
+          <sphereGeometry
+            args={[1, 96, 96]}
+            onUpdate={(geometry) => {
+              // aoMap samples uv2 — sphere ships with uv only
+              if (!geometry.attributes.uv2 && geometry.attributes.uv) {
+                geometry.setAttribute('uv2', geometry.attributes.uv.clone())
+              }
+            }}
+          />
+          <meshStandardMaterial
+            map={colorMap}
+            normalMap={normalMap}
+            normalScale={EARTH_NORMAL_SCALE}
+            aoMap={aoMap}
+            aoMapIntensity={0.85}
+            roughness={0.92}
+            metalness={0.04}
+          />
+        </mesh>
+      </group>
     </>
   )
 })
-EarthGLB.displayName = 'EarthGLB'
+EarthGlobe.displayName = 'EarthGlobe'
 
 /**
  * Scroll-journey camera stops (home Act 2).
- * Push toward the surface during departure, then recede as the Moon takes the frame.
+ * Visual scale is camera-driven — never DOM-scale the WebGL canvas.
+ */
+/**
+ * Long-lens (telephoto) baseline. The Act-1 Hyperzoom holds this framing as the
+ * resting hero, so the Act-2 journey lives on the same 15.5u / 20° baseline —
+ * the stops keep the original push/pull ratios, just scaled to the new standoff.
  */
 const EARTH_CAM_Z: JourneyStop[] = [
-  [0, 5],
-  [0.3, 3.4],
-  [0.62, 4.6],
-  [1, 7.2],
+  [0, 15.5],
+  [0.3, 9.6],
+  [0.62, 12.8],
+  [1, 18.7],
 ]
 const EARTH_CAM_Y: JourneyStop[] = [
   [0, 0],
   [0.3, 0],
-  [1, 1.1],
+  [1, 1.15],
 ]
 
-/** Damps the default camera along the journey stops each frame. Inert when no ref is passed. */
+/** Rest framing the Act-1 fall lands on and the Act-2 journey begins from. */
+const EARTH_REST_DISTANCE = 15.5
+const EARTH_REST_FOV = 20
+
 const EarthJourneyRig: React.FC<{journeyRef: JourneyProgressRef}> = ({journeyRef}) => {
   const {camera} = useThree()
-  const frameCount = useRef(0)
 
   useFrame((_, delta) => {
-    if (process.env.NODE_ENV === 'development' && frameCount.current === 0) {
-      console.info('[EarthJourneyRig] useFrame is running, camera:', camera.position.x, camera.position.y, camera.position.z)
-    }
-    frameCount.current = (frameCount.current + 1) % 60
-
     const t = journeyRef.current
-    camera.position.z = damp(camera.position.z, sampleStops(EARTH_CAM_Z, t), 4, delta)
-    camera.position.y = damp(camera.position.y, sampleStops(EARTH_CAM_Y, t), 4, delta)
+    camera.position.z = damp(camera.position.z, sampleStops(EARTH_CAM_Z, t), 5, delta)
+    camera.position.y = damp(camera.position.y, sampleStops(EARTH_CAM_Y, t), 5, delta)
+    // Normalise FOV back to rest after the cinematic fall hands off (Descent
+    // lands ~46°); harmless once already at rest.
+    // Hold the telephoto rest FOV the Hyperzoom lands on; harmless once at rest.
+    const perspective = camera as THREE.PerspectiveCamera
+    const nextFov = damp(perspective.fov, EARTH_REST_FOV, 5, delta)
+    if (Math.abs(nextFov - perspective.fov) > 1e-3) {
+      perspective.fov = nextFov
+      perspective.updateProjectionMatrix()
+    }
     camera.lookAt(0, 0, 0)
+  })
+
+  return null
+}
+
+/**
+ * Act-1 cinematic fall-from-orbit. Samples the Hyperzoom-derived `homeIntro`
+ * shot by `introRef` (0..1, driven by the intro timeline) and resolves it onto
+ * the camera. It opens wide at 62° from far out, compresses to a long-lens 20°
+ * and dollies in to land exactly on the rest framing (distance 15.5, azimuth 0,
+ * pitch 0, fov 20) so the hand-off to {@link EarthJourneyRig} is seamless — the
+ * azimuth sweep is back-solved (`startAzimuthDeg = -sweep`) to finish
+ * origin-facing, and EarthJourneyRig then *holds* this telephoto framing.
+ */
+const EarthIntroRig: React.FC<{introRef: JourneyProgressRef}> = ({introRef}) => {
+  const {camera} = useThree()
+  const shot = useRef(
+    createOrbitShot({
+      preset: 'homeIntro',
+      startDistance: 155,
+      endDistance: EARTH_REST_DISTANCE,
+      startAzimuthDeg: -10,
+    })
+  )
+  const state = useRef<ShotState>({} as ShotState)
+
+  useFrame(() => {
+    shot.current.sampleAtProgress(introRef.current, state.current)
+    applyOrbitState(camera as THREE.PerspectiveCamera, state.current)
   })
 
   return null
@@ -185,71 +272,72 @@ interface EarthProps {
   reduceMotion?: boolean
   /** Home scroll journey progress (0..1) — enables the camera rig when present */
   journeyRef?: JourneyProgressRef
+  /** Act-1 intro fall progress (0..1) — drives the cinematic Descent */
+  introRef?: JourneyProgressRef
+  /** True while the Act-1 fall owns the camera (before the intro completes) */
+  introActive?: boolean
 }
 
 export const Earth: React.FC<EarthProps> = memo(
-  ({isIdle = false, reduceMotion = false, journeyRef}) => {
-  return (
-    <div
-      className='h-[80vh] w-[80vw] m-auto bg-black'
-      id='earth-canvas'
-      style={{background: '#000'}}>
-      <EarthErrorBoundary>
-        <Suspense
-          fallback={
-            <img
-              alt='Earth placeholder'
-              src='/assets/earth2/placeholder.png'
-              width={1000}
-              height={1000}
-              loading='lazy'
-              className='bg-black'
-            />
-          }>
-          <Canvas
-            gl={{alpha: false}}
-            style={{background: '#000'}}
-            onCreated={({gl, scene, camera, invalidate, frameloop, set}) => {
-              gl.setClearColor('#000000', 1)
-              if (process.env.NODE_ENV === 'development') {
-                window.__earthR3f = {gl, scene, camera, invalidate, frameloop, set}
-                console.info('[Earth] Canvas onCreated — renderer:', gl.constructor.name, 'scene children:', scene.children.length, 'camera:', camera.type, 'frameloop:', frameloop)
-              }
-            }}>
-            <color attach='background' args={['#000000']} />
-            <EarthGLB isIdle={isIdle} reduceMotion={reduceMotion} />
-            {journeyRef ? <EarthJourneyRig journeyRef={journeyRef} /> : null}
-          </Canvas>
-        </Suspense>
-      </EarthErrorBoundary>
-    </div>
-  )
-})
+  ({isIdle = false, reduceMotion = false, journeyRef, introRef, introActive = false}) => {
+    return (
+      <div className='absolute inset-0 h-full w-full' id='earth-canvas'>
+        <EarthErrorBoundary>
+          <Suspense
+            fallback={
+              <img
+                alt='Earth placeholder'
+                src='/assets/earth2/placeholder.png'
+                width={1000}
+                height={1000}
+                loading='lazy'
+                className='h-full w-full object-contain bg-black opacity-40'
+              />
+            }>
+            <Canvas
+              dpr={[1, 2]}
+              camera={{position: [0, 0, 15.5], fov: 20, near: 0.1, far: 500}}
+              gl={{
+                antialias: true,
+                alpha: true,
+                premultipliedAlpha: true,
+                powerPreference: 'high-performance',
+                stencil: false,
+              }}
+              style={{width: '100%', height: '100%', background: 'transparent'}}
+              onCreated={({gl}) => {
+                // Transparent clear (alpha 0) so the Earth composites over the
+                // stars / orbs / Moon / Prometheus layers beneath it instead of
+                // painting an opaque black plate. Exposure slightly above 1 —
+                // ACES otherwise crushes the production crescent.
+                configureHeroRenderer(gl, 1.25, 0)
+              }}>
+              <EarthGlobe isIdle={isIdle} reduceMotion={reduceMotion} />
+              {/* One rig owns the camera at a time: the fall during Act 1, the
+                  scroll journey after. */}
+              {introActive && introRef ? (
+                <EarthIntroRig introRef={introRef} />
+              ) : journeyRef ? (
+                <EarthJourneyRig journeyRef={journeyRef} />
+              ) : null}
+            </Canvas>
+          </Suspense>
+        </EarthErrorBoundary>
+      </div>
+    )
+  }
+)
 
-export const EN: React.FC<{ref?: React.Ref<THREE.Mesh>}> = memo(() => {
-  const [color, normal, aoMap] = useLoader(TextureLoader, [
-    '/8k_earth_nightmap.jpeg',
-  ]) as THREE.Texture[]
-
-  return (
-    <Suspense
-      fallback={
-        <img
-          alt='Earth at night placeholder'
-          src='/assets/earth2/placeholder.png'
-          width={1000}
-          height={1000}
-          loading='lazy'
-        />
-      }>
-      <Canvas style={{width: '100%', height: '100%'}}>
-        <ambientLight intensity={0.1} />
-        <directionalLight intensity={1.5} position={[1, 0, -0.25]} />
-        <motion.mesh scale={2.5}>
-          <sphereGeometry args={[1, 32, 32]} />
-          <meshStandardMaterial map={color} normalMap={normal} aoMap={aoMap} />
-        </motion.mesh>
-      </Canvas>
+/** Legacy night-map export */
+export const EN: React.FC = memo(() => (
+  <Canvas style={{width: '100%', height: '100%'}} dpr={[1, 2]}>
+    <ambientLight intensity={0.1} />
+    <directionalLight intensity={1.5} position={[1, 0, -0.25]} />
+    <Suspense fallback={null}>
+      <mesh scale={2.5}>
+        <sphereGeometry args={[1, 64, 64]} />
+        <meshStandardMaterial color='#1a1a1a' roughness={0.95} />
+      </mesh>
     </Suspense>
-  )
-})
+  </Canvas>
+))

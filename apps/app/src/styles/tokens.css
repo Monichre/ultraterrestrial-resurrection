@@ -1,0 +1,5 @@
+/**
+ * App assembling entry. Definitions live in @repo/disclosure-ui/styles/tokens.css.
+ * Import this file first in layout.tsx (before globals.css).
+ */
+@import '@repo/disclosure-ui/styles/tokens.css';

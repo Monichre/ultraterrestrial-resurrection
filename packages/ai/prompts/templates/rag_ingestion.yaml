@@ -3,7 +3,7 @@ version: "1.0.0"
 description: "Chunk + metadata plan for RAG embedding of UAP source documents."
 owner: "ai-platform"
 tags: ["rag", "ingestion", "documents", "chunking"]
-schema_ref: null
+schema_ref: "schemas/output/ingestion.schema.json"
 runtime:
   max_tokens: 1400
   temperature: 0.1

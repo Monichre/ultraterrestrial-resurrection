@@ -84,7 +84,7 @@ Input (URL/YouTube/File)
   |     Syncs to frontend search index (if configured)
   |
   |-> Entity Extraction (lib/entity_extraction/)
-  |     NER + Xata database matching (85-95% accuracy)
+  |     NER + entity matching (85-95% accuracy)
   |     Extracts: personnel, organizations, locations, events
   |
   |-> CocoIndex Knowledge Graph (lib/cocoindex_integration.py)

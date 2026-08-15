@@ -49,6 +49,9 @@ export const CINEMATIC_TIMING = {
   NAV: 9.2,
   SCROLL_CUE: 9.4,
   READY_FALLBACK_MS: 6000,
+  /** Act-1 cinematic fall-from-orbit (Earth camera Hyperzoom + dolly) */
+  EARTH_FALL_START: 4.0,
+  EARTH_FALL_DURATION: 4.0,
 } as const
 
 /** Act 2 beat anchors (journey timeline units — scrubbed, total 10) */
@@ -121,6 +124,9 @@ export const useUltraterrestrialAnimation = () => {
   /** Written by the journey ScrollTrigger, read by the R3F camera rigs */
   const journeyProgress = useRef(0)
 
+  /** Written by the Act-1 intro timeline, read by EarthIntroRig (0..1 fall) */
+  const introProgress = useRef(0)
+
   const refs: AnimationRefs = {
     track,
     container,
@@ -164,6 +170,8 @@ export const useUltraterrestrialAnimation = () => {
     setQuoteVisible(true)
     setNavVisible(true)
     setIntroComplete(true)
+    // Land the cinematic fall at rest — no orbit descent when revealed instantly
+    introProgress.current = 1
 
     const visibleTargets = [
       stars.current,
@@ -189,7 +197,8 @@ export const useUltraterrestrialAnimation = () => {
     })
 
     if (moon.current) {
-      gsap.set(moon.current, {x: '25vw', y: '-15vh', scale: 0.6, opacity: 1})
+      // Position only — never DOM-scale WebGL canvases (destroys pixel density)
+      gsap.set(moon.current, {x: '25vw', y: '-15vh', scale: 1, opacity: 1})
     }
     if (prometheus.current) gsap.set(prometheus.current, {opacity: 0.85})
   }, [])
@@ -301,10 +310,10 @@ export const useUltraterrestrialAnimation = () => {
       if (refs.moon.current) {
         gsap.set(refs.moon.current, {
           opacity: 0,
-          scale: 0.3,
-          filter: 'blur(50px)',
-          x: '-50vw',
-          y: '-50vh',
+          scale: 1,
+          filter: 'none',
+          x: '-45vw',
+          y: '-40vh',
           transformOrigin: 'center center',
           visibility: 'hidden',
         })
@@ -363,6 +372,12 @@ export const useUltraterrestrialAnimation = () => {
       })
       animationRef.current = intro
 
+      // Dev-only handle so tooling can deterministically seek intro beats
+      // (e.g. `__homeIntro.pause(); __homeIntro.time(2, false)` for the orbs).
+      if (process.env.NODE_ENV !== 'production') {
+        ;(window as unknown as Record<string, unknown>).__homeIntro = intro
+      }
+
       // Phase 1: Quick flashes
       intro
         .to(flashOverlay, {
@@ -406,6 +421,21 @@ export const useUltraterrestrialAnimation = () => {
       if (refs.earth.current) {
         intro.to(refs.earth.current, {opacity: 1, duration: 1.6, ease: 'power2.out'}, T.EARTH)
       }
+      // Cinematic fall-from-orbit: drive the Earth camera Hyperzoom (0..1). The
+      // shot owns its own easing, so this proxy tween is linear.
+      const earthFall = {p: 0}
+      intro.to(
+        earthFall,
+        {
+          p: 1,
+          duration: T.EARTH_FALL_DURATION,
+          ease: 'none',
+          onUpdate: () => {
+            introProgress.current = earthFall.p
+          },
+        },
+        T.EARTH_FALL_START
+      )
       if (refs.moon.current) {
         intro
           .set(refs.moon.current, {visibility: 'visible'}, T.MOON_START)
@@ -415,8 +445,8 @@ export const useUltraterrestrialAnimation = () => {
               opacity: 1,
               x: '25vw',
               y: '-15vh',
-              scale: 0.6,
-              filter: 'blur(0px)',
+              scale: 1,
+              filter: 'none',
               duration: T.MOON_DURATION,
               ease: 'cosmic',
             },
@@ -535,10 +565,11 @@ export const useUltraterrestrialAnimation = () => {
         journey.to(refs.scrollCue.current, {opacity: 0, duration: 0.4}, J.DEPART)
       }
       if (refs.earth.current) {
+        // Translate/fade only — Earth push-in is camera-driven (EarthJourneyRig)
         journey.fromTo(
           refs.earth.current,
           {scale: 1, x: '0vw', y: '0vh', opacity: 1},
-          {scale: 1.14, y: '4vh', duration: J.FLYBY - J.DEPART},
+          {scale: 1, y: '3vh', duration: J.FLYBY - J.DEPART},
           J.DEPART
         )
       }
@@ -547,21 +578,22 @@ export const useUltraterrestrialAnimation = () => {
       }
 
       // J2 — Lunar flyby: the Moon sweeps across frame and owns it.
-      // Z-swap: the moon canvas is opaque, so it must stack above Earth to pass in front.
+      // Z-swap: moon layer rises above Earth for the flyby (canvas is transparent now).
       if (refs.moon.current) {
         journey.set(refs.moon.current, {zIndex: 10}, J.DEPART)
         journey.set(refs.moon.current, {zIndex: 30}, J.FLYBY)
+        // Flyby size is mesh-scaled inside MoonScene — DOM stays scale:1 for sharp pixels
         journey.fromTo(
           refs.moon.current,
-          {x: '25vw', y: '-15vh', scale: 0.6, opacity: 1},
-          {x: '0vw', y: '0vh', scale: 2.35, duration: 4},
+          {x: '25vw', y: '-15vh', scale: 1, opacity: 1},
+          {x: '0vw', y: '0vh', scale: 1, duration: 4},
           J.FLYBY
         )
       }
       if (refs.earth.current) {
         journey.to(
           refs.earth.current,
-          {x: '-22vw', y: '14vh', scale: 0.8, opacity: 0.45, duration: 4},
+          {x: '-22vw', y: '14vh', scale: 1, opacity: 0.45, duration: 4},
           J.FLYBY
         )
       }
@@ -588,10 +620,10 @@ export const useUltraterrestrialAnimation = () => {
 
       // J3 — Arrival: Moon settles, the archive opens
       if (refs.moon.current) {
-        journey.to(refs.moon.current, {x: '10vw', y: '-4vh', scale: 1.55, duration: 1.8}, J.ARRIVAL)
+        journey.to(refs.moon.current, {x: '10vw', y: '-4vh', scale: 1, duration: 1.8}, J.ARRIVAL)
       }
       if (refs.earth.current) {
-        journey.to(refs.earth.current, {opacity: 0.15, scale: 0.7, duration: 1.8}, J.ARRIVAL)
+        journey.to(refs.earth.current, {opacity: 0.15, scale: 1, duration: 1.8}, J.ARRIVAL)
       }
       if (refs.stars.current) {
         journey.to(refs.stars.current, {y: '-8vh', duration: 1.8}, J.ARRIVAL)
@@ -625,6 +657,7 @@ export const useUltraterrestrialAnimation = () => {
       // Interruptibility: any scroll intent during the intro fast-forwards it
       const fastForward = () => {
         if (intro.progress() < 1) intro.progress(1)
+        introProgress.current = 1
       }
       window.addEventListener('wheel', fastForward, {passive: true})
       window.addEventListener('touchmove', fastForward, {passive: true})
@@ -659,6 +692,7 @@ export const useUltraterrestrialAnimation = () => {
     setShowFluidOrbs(false)
     setIntroComplete(false)
     journeyProgress.current = 0
+    introProgress.current = 0
     window.scrollTo(0, 0)
     if (!animationRef.current) {
       revealSceneImmediately()
@@ -674,6 +708,7 @@ export const useUltraterrestrialAnimation = () => {
       return
     }
     animationRef.current.progress(1)
+    introProgress.current = 1
     setShowFluidOrbs(false)
     setTitleVisible(true)
     setQuoteVisible(true)
@@ -693,6 +728,7 @@ export const useUltraterrestrialAnimation = () => {
     quoteVisible,
     navVisible,
     journeyProgress: journeyProgress as JourneyProgressRef,
+    introProgress: introProgress as JourneyProgressRef,
     refs,
   }
 }

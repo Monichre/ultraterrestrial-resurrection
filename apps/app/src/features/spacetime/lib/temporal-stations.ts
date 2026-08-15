@@ -2,12 +2,33 @@ import {truncateAtWordBoundary} from '@/lib/utils'
 import type {SpacetimeEvent, TemporalStation} from '../types/spacetime'
 
 export interface BuildStationsOptions {
-  /** Coarse historical decades always present on the dial */
+  /** Coarse historical ticks always present on the dial */
   includeHistoricalDecades?: boolean
   historicalStartYear?: number
   historicalEndYear?: number
   /** Cap event stations so the dial stays legible */
   maxEventStations?: number
+  /** Roughly how many coarse ticks the dial should carry. See `niceYearStep`. */
+  historicalTickTarget?: number
+}
+
+/**
+ * Pick a round year interval that yields ~`target` ticks across `span`.
+ *
+ * A fixed decade was fine while the corpus started at 1940 (9 ticks). The
+ * events corpus reaches back to 196 CE, and a decade step over that span emits
+ * **193 ticks** — which is what shipped: a dial rendering "120 130 140 …" as an
+ * unreadable ladder down the left edge. Step up through 1/2/5×10ⁿ instead so
+ * the ticks stay round numbers (…, 50, 100, 200, 500) at any span.
+ */
+export function niceYearStep(span: number, target: number): number {
+  const raw = Math.max(1, span / Math.max(1, target))
+  const magnitude = 10 ** Math.floor(Math.log10(raw))
+  for (const multiple of [1, 2, 5]) {
+    const step = magnitude * multiple
+    if (raw <= step) return step
+  }
+  return magnitude * 10
 }
 
 /**
@@ -27,20 +48,47 @@ export function buildTemporalStations(
     historicalStartYear = 1940,
     historicalEndYear = new Date().getUTCFullYear(),
     maxEventStations = 24,
+    historicalTickTarget = 12,
   } = options
 
   const stations: TemporalStation[] = []
 
+  // Year histogram first — the coarse ticks need it to carry density, and
+  // computing it here avoids the old second pass that re-parsed the tick id.
+  const byYear = new Map<number, number>()
+  for (const event of events) {
+    const year = Number(event.timestamp.slice(0, 4))
+    if (!Number.isFinite(year)) continue
+    byYear.set(year, (byYear.get(year) ?? 0) + 1)
+  }
+
   if (includeHistoricalDecades) {
-    const startDecade = Math.floor(historicalStartYear / 10) * 10
-    const endDecade = Math.floor(historicalEndYear / 10) * 10
-    for (let year = startDecade; year <= endDecade; year += 10) {
+    const step = niceYearStep(
+      Math.max(1, historicalEndYear - historicalStartYear),
+      historicalTickTarget,
+    )
+    const firstTick = Math.floor(historicalStartYear / step) * step
+    // Density is per-tick-window occupancy relative to the busiest window, so a
+    // 500-year tick and a 10-year tick are each read against their own peers.
+    const windows: Array<{year: number; count: number}> = []
+    for (let year = firstTick; year <= historicalEndYear; year += step) {
+      let count = 0
+      for (const [eventYear, n] of byYear) {
+        if (eventYear >= year && eventYear < year + step) count += n
+      }
+      windows.push({year, count})
+    }
+    const peak = Math.max(1, ...windows.map((w) => w.count))
+
+    for (const {year, count} of windows) {
       stations.push({
         id: `historical-${year}`,
         kind: 'historical',
-        label: `${year}s`,
-        timestamp: `${year}-01-01T00:00:00.000Z`,
-        density: 0,
+        // A 10-year window is "1940s"; a 200-year window is not — calling it
+        // "1800s" would claim a century it does not cover.
+        label: step === 10 ? `${year}s` : `${year}`,
+        timestamp: `${String(Math.max(1, year)).padStart(4, '0')}-01-01T00:00:00.000Z`,
+        density: count / peak,
       })
     }
   }
@@ -97,22 +145,9 @@ export function buildTemporalStations(
     })
   }
 
-  // Stamp historical densities from year counts
-  const byYear = new Map<number, number>()
-  for (const event of events) {
-    const year = Number(event.timestamp.slice(0, 4))
-    if (!Number.isFinite(year)) continue
-    byYear.set(year, (byYear.get(year) ?? 0) + 1)
-  }
-  const maxYearCount = Math.max(1, ...byYear.values())
-
-  for (const station of stations) {
-    if (station.kind !== 'historical') continue
-    const decade = Number(station.id.replace('historical-', ''))
-    let count = 0
-    for (let y = decade; y < decade + 10; y++) count += byYear.get(y) ?? 0
-    station.density = count / maxYearCount
-  }
+  // Historical densities are stamped above, inside the tick loop — that loop
+  // knows the tick's actual width. A second pass here (as there used to be)
+  // could only assume a fixed decade, which is wrong for every other step.
 
   return stations.sort(
     (a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime(),

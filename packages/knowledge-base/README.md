@@ -114,7 +114,7 @@ This package integrates with:
 
 - **disclosure-rag**: Primary RAG system and vector search
 - **TipTap Editor**: Knowledge search and citation features  
-- **Xata Database**: Main application database with 230,998+ records
+- **Neon Postgres**: Main application database, accessed via `@db/postgres` (Xata is retired)
 - **Vector Stores**: Multiple vector backends for semantic search
 
 ## Architecture Notes

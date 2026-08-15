@@ -66,6 +66,21 @@ def clean_transcript(text: str) -> str:
     return re.sub(r"\s{2,}", " ", text).strip()
 
 
+def _seg_field(seg: Any, name: str, default: float = 0.0) -> float:
+    """Read a timing field from a transcript segment.
+
+    youtube-transcript-api >= 1.0 yields FetchedTranscriptSnippet objects with
+    attributes; older versions (and our cached fixtures) yield plain dicts.
+    Support both — an AttributeError here silently zeroed every coverage metric
+    and left the fidelity gate passing everything on its fallback score.
+    """
+    value = seg.get(name, default) if hasattr(seg, "get") else getattr(seg, name, default)
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        raise ValueError(f"non-numeric {name}: {value!r}")
+
+
 def _segment_stats(segments: List[Dict[str, Any]]) -> Dict[str, float]:
     """Coverage and gap metrics from timed transcript segments."""
     covered_end = 0.0
@@ -73,8 +88,8 @@ def _segment_stats(segments: List[Dict[str, Any]]) -> Dict[str, float]:
     prev_end = 0.0
     for seg in segments:
         try:
-            start = float(seg.get("start", 0.0))
-            duration = float(seg.get("duration", 0.0))
+            start = _seg_field(seg, "start")
+            duration = _seg_field(seg, "duration")
         except (TypeError, ValueError):
             continue
         if prev_end and start - prev_end > max_gap:
@@ -112,33 +127,43 @@ def llm_coherence_review(text: str, video_id: str, model: Optional[str] = None,
                          samples: int = 3, sample_chars: int = 1500) -> Optional[Dict[str, Any]]:
     """Optional LLM pass: rate coherence of sampled transcript chunks 0-1.
 
-    Requires OPENAI_API_KEY. Returns None on any failure.
+    Routed through the shared fallback chain (`lib.llm_fallback`), not a direct
+    client. Until 2026-08-07 this constructed its own `OpenAI()` and defaulted
+    to `gpt-5.5`, which meant fidelity review kept billing OpenAI directly
+    after the enrichment chain had been moved off it, and inherited none of the
+    chain's retry, dead-tier caching, or provider attribution.
+
+    `model` is now an optional *tier hint* (matched against tier ids), not a
+    raw model name. Returns None on any failure — fidelity scoring degrades to
+    its deterministic heuristics rather than blocking ingestion.
     """
     try:
-        from openai import OpenAI
-        client = OpenAI()
-        model = model or os.getenv("FIDELITY_REVIEW_MODEL", "gpt-5.5")
+        from lib.llm_fallback import LLMFallback
 
         step = max(1, (len(text) - sample_chars) // max(1, samples - 1)) if len(text) > sample_chars else len(text)
         chunks = [text[i:i + sample_chars] for i in range(0, len(text), step)][:samples]
 
-        prompt = (
+        system_prompt = (
             "You are reviewing machine-generated podcast transcript excerpts for fidelity. "
             "Rate overall coherence from 0.0 (garbled, unusable) to 1.0 (clean, fully readable), "
             "and list concrete issues (garbled phrases, mid-sentence truncation, wrong-language text, "
             "caption artifacts). Respond ONLY with JSON: "
-            '{"coherence": <float>, "issues": [<strings>]}\n\n'
-            + "\n---\n".join(chunks)
+            '{"coherence": <float>, "issues": [<strings>]}'
         )
-        response = client.chat.completions.create(
-            model=model,
-            messages=[{"role": "user", "content": prompt}],
+        hint = model or os.getenv("FIDELITY_REVIEW_PROVIDER") or None
+        result = LLMFallback(prefer_provider=hint).complete(
+            system_prompt=system_prompt,
+            user_content="\n---\n".join(chunks),
         )
-        raw = response.choices[0].message.content.strip()
-        raw = re.sub(r"^```(?:json)?|```$", "", raw, flags=re.MULTILINE).strip()
+
+        raw = re.sub(r"^```(?:json)?|```$", "", result.text.strip(), flags=re.MULTILINE).strip()
         data = json.loads(raw)
         return {
-            "model": model,
+            # Record the tier that actually served it, not the one requested —
+            # attribution has to survive a silent fallback.
+            "model": result.tier_id,
+            "provider": result.provider,
+            "degraded": result.degraded,
             "coherence": max(0.0, min(1.0, float(data.get("coherence", 0.5)))),
             "issues": [str(i) for i in data.get("issues", [])][:10],
         }

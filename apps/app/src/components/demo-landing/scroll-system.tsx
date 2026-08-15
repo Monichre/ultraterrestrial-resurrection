@@ -90,7 +90,7 @@ export function ScrollSystem({children}: ScrollSystemProps) {
   return (
     <div ref={containerRef} className='relative'>
       <GeometricBackground scrollProgress={scrollProgress} />
-      <SoundSystem currentSection={currentSection} />
+      {/* <SoundSystem currentSection={currentSection} /> */}
       <ScrollText scrollProgress={scrollProgress} />
 
       {/* Main content sections */}

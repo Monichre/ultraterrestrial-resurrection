@@ -4661,6 +4661,8 @@ output_path: /Users/liamellis/.cursor/projects/Users-liamellis-Desktop-apps-ultr
 </system_notification>
 <user_query>Briefly inform the user about the task result and perform any follow-up actions (if needed). If there's no follow-ups needed, don't explicitly say that.</user_query>
 
+---
+
 _**User**_
 
 <timestamp>Saturday, Jul 18, 2026, 7:31 PM (UTC-5)</timestamp>
@@ -4679,6 +4681,8 @@ output_path: /Users/liamellis/.cursor/projects/Users-liamellis-Desktop-apps-ultr
 </task>
 </system_notification>
 <user_query>Briefly inform the user about the task result and perform any follow-up actions (if needed). If there's no follow-ups needed, don't explicitly say that.</user_query>
+
+---
 
 _**User**_
 

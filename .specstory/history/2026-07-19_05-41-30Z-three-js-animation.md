@@ -1623,6 +1623,8 @@ _**User**_
 
 @/Users/liamellis/Desktop/lab/writers-desk/app/research @/Users/liamellis/Desktop/lab/writers-desk/app/note @/Users/liamellis/Desktop/lab/writers-desk/components/note-app @/Users/liamellis/Desktop/lab/writers-desk/components/note-letter 
 
+---
+
 _**User**_
 
 ## Error Type

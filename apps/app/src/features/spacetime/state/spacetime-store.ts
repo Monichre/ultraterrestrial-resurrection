@@ -38,9 +38,14 @@ const DEFAULT_VIEWPORT: SpacetimeViewport = {
 }
 
 const DEFAULT_LAYERS: SpacetimeLayerVisibility = {
-  sightings: true,
+  // The canvas loads the curated `events` corpus, which normalizes to
+  // type `historical_event` — so this rail, not `sightings`, is what the loaded
+  // records map to. Leaving `sightings` on and this off (as it was) filtered
+  // every single loaded record out: the instrument read "0/142" and the globe
+  // rendered no pins at all.
+  sightings: false,
+  historicalEvents: true,
   // Other rails stay off until their data paths land (M1+).
-  historicalEvents: false,
   nuclear: false,
   military: false,
   infrastructure: false,

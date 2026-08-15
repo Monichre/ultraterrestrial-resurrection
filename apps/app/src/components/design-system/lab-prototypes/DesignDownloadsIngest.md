@@ -24,6 +24,10 @@ All four tracks ingested into `apps/app` / `docs/design` without overwriting pro
 | `DiagnosticArchitecture` | Design System / Lab Prototypes / DiagnosticArchitecture |
 | `CognitiveRoutingFramework` | …/CognitiveRoutingFramework |
 | `MonolithEngine` | …/MonolithEngine |
+| `TechnicalBrandGeometry` | …/TechnicalBrandGeometry (iframe shell, 2026-08-06) |
+
+Raw HTML donors: `lab-prototypes/html-sources/` → mirrored at `public/lab-prototypes/`.  
+See `HtmlSourcesIngest.md` for the 2026-08-06 Downloads drop.
 
 Barrel: `@/components/design-system/lab-prototypes`
 

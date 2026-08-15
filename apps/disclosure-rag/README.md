@@ -31,7 +31,7 @@ OPENAI_API_KEY=sk-proj-...
 ANTHROPIC_API_KEY=sk-ant-...
 
 # Database Systems
-XATA_DATABASE_URL=https://...
+DATABASE_URL=postgresql://...        # Neon; falls back to packages/db/.env
 UPSTASH_VECTOR_REST_URL=https://...
 UPSTASH_VECTOR_REST_TOKEN=...
 
@@ -76,7 +76,7 @@ python main.py --status
 
 **Primary Systems** (Always Active):
 - **🧠 OpenAI Vector Store**: 2,426 research files - foundational knowledge
-- **🗄️ Xata Database**: 230,998+ structured records - entities and relationships
+- **🗄️ Neon Postgres + pgvector**: structured entities and relationships via `@db/postgres`
 
 **Weighted Systems** (Intelligent Load Balancing):
 - **☁️ Upstash Vector (30%)**: Cloud scalability and backup
@@ -227,7 +227,7 @@ python main.py "/path/to/documents/" --batch --upload
 # Multi-system search with filtering
 results = await search_system.unified_search(
     query="Commander David Fravor Nimitz encounter",
-    systems=["openai", "xata", "upstash"],
+    systems=["openai", "postgres", "upstash"],
     filters={
         "content_type": "testimony",
         "date_range": "2000-2010",

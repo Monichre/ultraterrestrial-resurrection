@@ -36,7 +36,7 @@ qstash
 xata
 
 # YouTube processing
-youtube-transcript-api
+youtube-transcript-api>=1.2  # 1.x exception classes + proxies module are required
 faster-whisper
 yt-dlp  # playlist enumeration (scripts/playlist_ingestion.py)
 

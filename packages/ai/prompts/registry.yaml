@@ -42,6 +42,7 @@ prompts:
   - id: rag_ingestion
     version: "1.0.0"
     file: templates/rag_ingestion.yaml
+    schema: schemas/output/ingestion.schema.json
     tags: [rag, ingestion, documents, chunking]
     owner: ai-platform
 

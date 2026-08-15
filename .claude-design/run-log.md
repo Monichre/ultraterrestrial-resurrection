@@ -1,19 +1,25 @@
-# Design Lab Run Log — GuidedTourCanvasSurface
+# Design Lab run log — HomeCelestialHero
 
-**Restored:** 2026-07-17 (after accidental cleanup on "restart")
-**Route:** <http://localhost:3000/design-lab>
+**Started:** 2026-08-07  
+**Package manager:** bun  
+**Framework:** Next.js App Router  
+**Styling:** Tailwind + UT tokens  
 
-## 2026-07-19 — Synthesis F
+## Preflight
 
-**Feedback parsed:**
+- Assets found as zips in Downloads (`neptune.zip`, `mars (1).zip`, `moon.zip`)
+- Unpacked → `apps/app/public/assets/planets/{neptune,mars,moon-2}/`
+- Existing guided-tour lab at `/design-lab` left intact
+- New lab route: `/design-lab/home-celestial`
 
-- A: keep hierarchy HUD; remove intelligence as card/sidebar/drawer → bake into record or waypoint edges
-- D: keep path-as-tour
-- Side nav (G): hide/show when unused
-- Overall: review apossible.com (constellation + chrome-minimal)
+## Brief
 
-**Actions:**
+Prefill from conversation + production SoT (skip full interview — constraints already established).
 
-- Extended `CanvasChrome` with `navMode=auto-hide`, `showEdgeLabels`, `bakeIntelIntoRecord`
-- Added `VariantF` (A+D+apossible)
-- Lab page: F primary; A+D comparison; B/C/E demoted off page
+## Variants shipped
+
+- A baseline Earth + moon-2
+- B elite Mars + moon-2
+- C elite Neptune + moon-2
+- D cinematic scrub
+- E Mars + Neptune ghost

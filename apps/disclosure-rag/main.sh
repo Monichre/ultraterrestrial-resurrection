@@ -3,12 +3,17 @@
 # Disclosure RAG Main Script
 # Enhanced functionality for processing various content types
 
-# Color codes for output
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+# Color codes for output.
+#
+# $'...' makes bash interpret the escapes at assignment time, so these hold real
+# ESC bytes. With plain '...' they held the 7 literal characters \033[0;34m, which
+# `echo -e` re-interpreted but the show_help heredoc did not — help output printed
+# raw escape text (DY-BENCH B1.1). Real ESC bytes render correctly in both.
+RED=$'\033[0;31m'
+GREEN=$'\033[0;32m'
+YELLOW=$'\033[1;33m'
+BLUE=$'\033[0;34m'
+NC=$'\033[0m' # No Color
 
 # Script directory
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -40,11 +45,22 @@ fi
 export VIRTUAL_ENV="$VENV_DIR"
 export PATH="$VENV_DIR/bin:$PATH"
 
-# Load environment variables
+# Load environment variables.
+#
+# .env supplies DEFAULTS, not overrides. Previously this sourced .env with
+# `set -a` and nothing else, so every value in the file clobbered whatever the
+# caller had exported — `OPENAI_API_KEY=... dy <url>` silently ran with the .env
+# key instead, and no per-invocation override of any credential or setting was
+# possible. This snapshots the caller's exported environment first and re-applies
+# it after sourcing, so explicit caller values win (python-dotenv's own default
+# is override=False for the same reason).
 if [ -f "$SCRIPT_DIR/.env" ]; then
+    _CALLER_ENV="$(export -p)"
     set -a  # Enable auto-export
     source "$SCRIPT_DIR/.env"
     set +a  # Disable auto-export
+    eval "$_CALLER_ENV" 2>/dev/null
+    unset _CALLER_ENV
 else
     echo -e "${YELLOW}Warning: .env file not found. Some features may not work.${NC}"
     echo -e "${YELLOW}Create a .env file with your API keys:${NC}"
@@ -74,11 +90,13 @@ ${GREEN}Commands:${NC}
   process-file       Process a local file
   process-urls       Process multiple URLs from a file
   process-playlist   Ingest every episode of YouTube playlist(s) (fidelity-gated)
+  playlist           Alias for process-playlist
   ui                 Launch the Knowledge Base UI
   chat               Launch the chat interface
-  sync-rag          Sync knowledge base to local RAG
-  search            Search the knowledge base
-  stats             Show knowledge base statistics
+  sync-rag           Sync knowledge base to local RAG
+  search             Search the knowledge base
+  stats              Show knowledge base statistics
+  help               Show this help message
 
 ${GREEN}Examples:${NC}
   $0 process-url https://example.com/ufo-article
@@ -191,10 +209,24 @@ process_playlist() {
 }
 
 # Function to launch UI
+#
+# Previously called `main.py --ui`, a flag main.py's argparse never defined, so
+# this printed "Access the UI at ..." and then died on argument parsing without
+# ever starting a server (DY-BENCH B1.7). The UI is a Streamlit app; launch it.
 launch_ui() {
+    if [ ! -f "$SCRIPT_DIR/knowledge_base_ui.py" ]; then
+        echo -e "${RED}Error: knowledge_base_ui.py not found${NC}" >&2
+        return 1
+    fi
+    if ! "$VENV_PYTHON" -c "import streamlit" 2>/dev/null; then
+        echo -e "${RED}Error: streamlit is not installed in the venv.${NC}" >&2
+        echo -e "${YELLOW}Install it with: $0 setup${NC}" >&2
+        return 1
+    fi
     echo -e "${BLUE}Launching Knowledge Base UI...${NC}"
     echo -e "${YELLOW}Access the UI at: http://localhost:8501${NC}"
-    "$VENV_PYTHON" "$SCRIPT_DIR/main.py" --ui
+    "$VENV_PYTHON" -m streamlit run "$SCRIPT_DIR/knowledge_base_ui.py" \
+        --server.port 8501 "$@"
 }
 
 # Function to launch chat
@@ -211,9 +243,13 @@ launch_chat() {
 }
 
 # Function to sync RAG
+#
+# Previously called `main.py --sync-rag`, a flag main.py never defined, so this
+# always died on argument parsing (DY-BENCH B1.7). The real implementation is
+# lib/sync_to_upstash_search_integrated.py, which has its own argparse main().
 sync_rag() {
-    echo -e "${BLUE}Syncing knowledge base to local RAG...${NC}"
-    "$VENV_PYTHON" "$SCRIPT_DIR/main.py" --sync-rag
+    echo -e "${BLUE}Syncing knowledge base to search index...${NC}"
+    "$VENV_PYTHON" -m lib.sync_to_upstash_search_integrated "$@"
 }
 
 # Function to search knowledge base
@@ -297,13 +333,15 @@ case "$1" in
         process_playlist "$@"
         ;;
     ui)
-        launch_ui
+        shift
+        launch_ui "$@"
         ;;
     chat)
         launch_chat
         ;;
     sync-rag)
-        sync_rag
+        shift
+        sync_rag "$@"
         ;;
     search)
         shift
@@ -316,6 +354,11 @@ case "$1" in
         show_help
         ;;
     *)
+        # ═══ YT-CHAIN-01 · main.sh :: case fallback arm ════════════════════
+        # Entry point for `dy <youtube-url>`. Matches http*, no `list=`, so
+        # it is a single video and routes straight to main.py.
+        # NEXT → YT-CHAIN-02  main.py :: main()
+        # ═══════════════════════════════════════════════════════════════════
         # Auto-detect URL or file path for direct processing
         if [[ "$1" == http* && ( "$1" == *"/playlist"* || "$1" == *"list="* ) ]]; then
             # Playlist URLs would be treated as a single (id-less) video by
@@ -325,6 +368,13 @@ case "$1" in
         elif [[ "$1" == http* ]]; then
             echo -e "${BLUE}Auto-detected URL: $1${NC}"
             "$VENV_PYTHON" "$SCRIPT_DIR/main.py" "$@"
+        # ═══ FILE-CHAIN-01 · main.sh :: case fallback arm, file branch ═════
+        # Entry point for `dy <path>`. Sibling of YT-CHAIN-01 in the same
+        # case arm: that branch matches http*, this one matches an existing
+        # file on disk. Note the ordering — the http* tests run FIRST, so a
+        # local file whose name looks like a URL can never reach here.
+        # NEXT → FILE-CHAIN-02  main.py :: main(), file arm
+        # ═══════════════════════════════════════════════════════════════════
         elif [[ -f "$1" ]]; then
             echo -e "${BLUE}Auto-detected file: $1${NC}"
             "$VENV_PYTHON" "$SCRIPT_DIR/main.py" "$@"

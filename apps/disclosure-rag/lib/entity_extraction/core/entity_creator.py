@@ -792,7 +792,13 @@ async def create_entities_from_results(entity_results_file: str) -> Dict[str, An
         with open(entity_results_file, 'r', encoding='utf-8') as f:
             results_data = json.load(f)
 
-        search_results = results_data.get("xata_search_results", {})
+        # `entity_search_results` is the current key. `xata_search_results` is
+        # the pre-2026-08-10 name, kept readable so the ~97 already-written
+        # result files stay usable — Xata itself is retired (CLAUDE.md), the
+        # data under that key is not.
+        search_results = (results_data.get("entity_search_results")
+                          or results_data.get("xata_search_results")
+                          or {})
 
         if not search_results:
             return {

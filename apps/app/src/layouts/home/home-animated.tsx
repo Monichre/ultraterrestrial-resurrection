@@ -66,6 +66,8 @@ export const HomeAnimated: React.FC<HomeProps> = () => {
     showFluidOrbs,
     navVisible,
     journeyProgress,
+    introProgress,
+    introComplete,
     pauseAnimation,
     resumeAnimation,
     restartAnimation,
@@ -190,36 +192,37 @@ export const HomeAnimated: React.FC<HomeProps> = () => {
         <ShootingStars />
       </div>
 
-      {/* Act 1 — Fluid Shader Orbs (z-[3] when visible) */}
-      <div
-        ref={refs.orbs}
-        className='pointer-events-none absolute inset-0 z-[3] bg-black'
-        style={{backgroundColor: '#000'}}>
+      {/* Act 1 — Fluid Shader Orbs (z-[3] when visible); transparent so it
+          composites over the stars instead of masking them */}
+      <div ref={refs.orbs} className='pointer-events-none absolute inset-0 z-[3]'>
         <FluidShaderOrbs isVisible={showFluidOrbs} />
       </div>
 
-      {/* Act 1 — Prometheus (z-[5]) */}
+      {/* Act 1 — Prometheus (z-[5]); transparent layer over the starfield */}
       <div
         ref={refs.prometheus}
-        className='hero-layer absolute inset-0 z-[5] pointer-events-none bg-black'
-        style={{backgroundColor: '#000'}}>
+        className='hero-layer absolute inset-0 z-[5] pointer-events-none'>
         <Prometheus />
       </div>
 
-      {/* Celestial — Moon (z-[10]); journey scrubs sweep + scale */}
-      <div
-        ref={refs.moon}
-        className='hero-layer absolute top-0 left-0 h-[100vh] w-[100vw] z-[10] bg-black'
-        style={{backgroundColor: '#000'}}>
+      {/* Celestial — Moon (z-[10]); transparent canvas so Earth shows through */}
+      <div ref={refs.moon} className='hero-layer absolute inset-0 h-full w-full z-[10]'>
         <Moon journeyRef={journeyProgress} />
       </div>
 
-      {/* Celestial — Earth (z-[20]); journey scrubs push-in + recede */}
+      {/* Celestial — Earth (z-[20]); transparent canvas so the Moon / Prometheus
+          / orbs / stars beneath composite through. Push-in/recede via camera
+          rig, not DOM scale. */}
       <div
         ref={refs.earth}
-        className='hero-layer absolute top-0 left-0 right-0 bottom-0 h-full w-full z-[20] flex flex-col justify-center items-center bg-black pointer-events-none'
-        style={{backgroundColor: '#000'}}>
-        <Earth activeLocation={null} journeyRef={journeyProgress} />
+        className='hero-layer absolute inset-0 h-full w-full z-[20] pointer-events-none'>
+        <Earth
+          activeLocation={null}
+          journeyRef={journeyProgress}
+          introRef={introProgress}
+          introActive={!staticMode && !introComplete}
+          isIdle
+        />
       </div>
 
       <div ref={refs.cursor}>
