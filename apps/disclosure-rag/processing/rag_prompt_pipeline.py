@@ -10,6 +10,7 @@ Chunk bodies remain Evidence-only (ADR-0001): never embed agent Inference.
 """
 from __future__ import annotations
 
+import datetime
 import json
 import logging
 import os
@@ -25,6 +26,41 @@ from lib.prompt_loader import get_prompt, get_prompt_with_schema
 load_dotenv()
 
 logger = logging.getLogger(__name__)
+
+#: Where unparseable model responses get written. The 2026-08-09 postmortem
+#: named this the single highest-leverage debuggability fix: without the actual
+#: bytes, a JSONDecodeError at "char 24799" is undiagnosable — it cannot
+#: distinguish a truncated completion from a badly escaped one from the model
+#: echoing the source transcript back, and each has a different fix. Set
+#: RAG_PIPELINE_DEBUG_DIR="" to disable.
+RAW_DUMP_DIR = os.getenv(
+    "RAG_PIPELINE_DEBUG_DIR",
+    os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), ".rag_debug"),
+)
+
+
+def _dump_raw_response(prompt_id: str, attempt: str, raw: str, exc: Exception) -> None:
+    """Persist a response that failed to parse. Never raises."""
+    if not RAW_DUMP_DIR:
+        return
+    try:
+        os.makedirs(RAW_DUMP_DIR, exist_ok=True)
+        stamp = datetime.datetime.now().strftime("%Y%m%dT%H%M%S%f")
+        safe_id = re.sub(r"[^A-Za-z0-9_.-]", "_", prompt_id)
+        path = os.path.join(RAW_DUMP_DIR, f"{stamp}-{safe_id}-{attempt}.txt")
+        with open(path, "w", encoding="utf-8") as fh:
+            fh.write(f"# prompt_id : {prompt_id}\n")
+            fh.write(f"# attempt   : {attempt}\n")
+            fh.write(f"# error     : {exc}\n")
+            fh.write(f"# raw_chars : {len(raw)}\n")
+            fh.write("# ---8<--- raw response follows ---8<---\n")
+            fh.write(raw)
+        logger.warning(
+            "%s (%s) unparseable — raw response (%d chars) written to %s",
+            prompt_id, attempt, len(raw), path,
+        )
+    except Exception:  # pragma: no cover - diagnostics must never mask the real error
+        logger.exception("failed to write raw-response dump for %s", prompt_id)
 
 MAX_NER_CHUNKS = int(os.getenv("RAG_PIPELINE_MAX_NER_CHUNKS", "8"))
 MAX_SOURCE_CHARS = int(os.getenv("RAG_PIPELINE_MAX_SOURCE_CHARS", "24000"))
@@ -96,14 +132,20 @@ def _extract_json_payload(text: str) -> Any:
     try:
         return json.loads(stripped)
     except json.JSONDecodeError:
-        start = stripped.find("{")
-        end = stripped.rfind("}")
-        if start >= 0 and end > start:
-            return json.loads(stripped[start: end + 1])
-        start = stripped.find("[")
-        end = stripped.rfind("]")
-        if start >= 0 and end > start:
-            return json.loads(stripped[start: end + 1])
+        # raw_decode stops at the end of the FIRST complete value. The previous
+        # first-`{`-to-last-`}` slice spanned a trailing second object or prose
+        # containing braces, so json.loads then choked on the leftover and
+        # reported "Extra data" — 6 episodes of the 2026-08-07 run died there.
+        decoder = json.JSONDecoder()
+        for opener in ("{", "["):
+            start = stripped.find(opener)
+            if start < 0:
+                continue
+            try:
+                value, _end = decoder.raw_decode(stripped[start:])
+                return value
+            except json.JSONDecodeError:
+                continue
         raise
 
 
@@ -132,6 +174,9 @@ class RagPromptPipeline:
         self.unenforced_prompts: List[str] = []
         #: Prompts that needed a parse-repair round trip to return valid JSON.
         self.repaired_prompts: List[str] = []
+        #: Prompts a repair was ATTEMPTED for, successful or not. A prompt in
+        #: this list but absent from repaired_prompts failed twice.
+        self.repair_attempted_prompts: List[str] = []
         logger.info("LLM fallback chain: %s", self._llm.describe())
 
     def _truncate(self, text: str) -> str:
@@ -211,6 +256,7 @@ class RagPromptPipeline:
         try:
             parsed = _extract_json_payload(raw)
         except (ValueError, json.JSONDecodeError) as exc:
+            _dump_raw_response(prompt_id, "attempt1", raw, exc)
             # Second line of defence, and the one that would have saved the
             # 2026-08-09 run: schema enforcement is a request the provider may
             # decline, so malformed JSON is still reachable. One bad comma at
@@ -237,7 +283,24 @@ class RagPromptPipeline:
                 schema_name=prompt_id.replace(".", "_"),
                 strict=strict,
             )
-            parsed = _extract_json_payload(raw)
+            # Record the attempt BEFORE re-parsing. This append used to sit
+            # after the parse, so a repair that ran and then failed again left
+            # repaired_prompts empty — indistinguishable from a repair that
+            # never fired at all, which is exactly the wrong signal when the
+            # only symptom is "0 chunks". The retry is a fact about the run
+            # whether or not it worked; only its success is conditional.
+            self.repair_attempted_prompts.append(prompt_id)
+            try:
+                parsed = _extract_json_payload(raw)
+            except (ValueError, json.JSONDecodeError) as exc2:
+                _dump_raw_response(prompt_id, "attempt2", raw, exc2)
+                # Name the stage. The blanket handler in process() stringifies
+                # whatever reaches it, so an unattributed JSONDecodeError makes
+                # every one of the five stages a suspect.
+                raise ValueError(
+                    f"{prompt_id}: JSON unparseable after one repair retry "
+                    f"({exc2}); raw response was {len(raw)} chars"
+                ) from exc2
             self.repaired_prompts.append(prompt_id)
 
         if not isinstance(parsed, dict):
@@ -424,6 +487,9 @@ class RagPromptPipeline:
                     "degraded": self.degraded,
                     "schema_unenforced_prompts": sorted(set(self.unenforced_prompts)),
                     "repaired_prompts": sorted(set(self.repaired_prompts)),
+                    "repair_attempted_prompts": sorted(
+                        set(self.repair_attempted_prompts)
+                    ),
                 }
             )
             return result

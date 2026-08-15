@@ -26811,6 +26811,20 @@
           "total_created": 0
         }
       }
+    },
+    "1ad6559564d2": {
+      "title": "Zjpvfdfc4Fg",
+      "doc_type": "case_file",
+      "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/2026-08-15/zjpvfdfc4fg-1ad65595",
+      "date_folder": "2026-08-15",
+      "meaningful_dir_name": "zjpvfdfc4fg-1ad65595",
+      "content_hash": "1ad6559564d23f9c086aeaab77bd3b2f",
+      "created_at": "2026-08-15T06:13:16.790140",
+      "updated_at": "2026-08-15T06:13:16.790140",
+      "tags": [
+        "file",
+        "case_file"
+      ]
     }
   },
   "tags": {
@@ -26845,7 +26859,8 @@
       "f3a45173bf9a",
       "e22c07deb055",
       "c002dbd159e2",
-      "b19220cc6a29"
+      "b19220cc6a29",
+      "1ad6559564d2"
     ],
     "ufo": [
       "83e7c176a402",
@@ -28105,7 +28120,10 @@
       "q0N33jb7Bhk",
       "q0N33jb7Bhk",
       "q0N33jb7Bhk"
+    ],
+    "file": [
+      "1ad6559564d2"
     ]
   },
-  "last_updated": "2026-08-10T12:03:53.922155"
+  "last_updated": "2026-08-15T06:13:16.805357"
 }
