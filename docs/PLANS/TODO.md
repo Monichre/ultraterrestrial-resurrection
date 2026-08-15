@@ -2,21 +2,23 @@
 status: live
 role: eng
 spine: do
-updated: 2026-08-14
+updated: 2026-08-15
 ---
 
 # TODO — Ultraterrestrial Resurrection
 
-**Last Updated:** 2026-08-14
+**Last Updated:** 2026-08-15
 **Source:** Roundtable audit (4 specialists) + agent-native remediation audit
 **Reference:** `docs/plans/2026-03-29-roundtable-unified-action-plan.md`
 **Branch:** dev
 
 > **🔴 2026-08-13 — READ THIS BEFORE TRUSTING ANY COMMIT HASH IN THIS FILE.** A history rewrite (the `399dd678 lots` / `6d5d10e6 lotgs` / `76b1127a lots and lots` squashes) invalidated most recorded hashes. Spot-check on 2026-08-13: **6 of 7 sampled hashes do not exist in this repo** — `7fe46f0` (T-050), `cd77135` + `b6d1d5a` (T-048 H0), `d5c69fb` (T-045), `aefc21b` (T-044), `ad87c45b`. Only `bbb32339` (T-047) resolved. **The underlying work generally did land** — it is the hashes that are dead, not the commits' content. T-050 and T-048 H0 have been repaired below with verified hashes; **T-044 and T-045 have not been checked and should be verified by artifact before anyone relies on them.** The 2026-08-06 spacetime review flagged this as process item 10; this is the first partial repair. Rule going forward: **verify by artifact, not by hash.**
 
+> **2026-08-15 — hash-repair follow-up.** T-044's `aefc21b` and T-045's `d5c69fb` were checked and are **dead** (same rewrite; `e58eccfe` and all post-rewrite commits resolve). Artifact checks confirm both tickets' work did land: T-044's fixes are present in `main.py` (Upstash import guard, deferred heavy imports), and T-045's `tests/test_main.py` (37 tests) plus the `stage_report`-driven exit logic exist. **Also settled: the T-047 commit question** — `51e63500` ("here goes", 2026-08-14 19:01, 1,392 files) landed the spacetime rebuild and the T-060 drop route; T-047's hold is lifted (see its block).
+
 > **2026-08-14 — T-053 grooming gate:** Research Canvas Gen-UI (DMGD-219) stays **OPEN / needs grooming**. The 2026-08-09 epic and 2026-08-10 RC-P0 MVP plans exist; **the idea and feature need grooming and review from the agent team before implementation.** RC-P0 is the proposed first slice, not started, and **not locked-to-build** until that review.
 
-> **2026-08-13 — handoff grooming pass on T-047 and T-050** (no code changed). T-050 is now pickup-ready: dead hash corrected to `e58eccfe`, test pass bar corrected to the real suite (8 files / 38 tests, measured green), and subtask 3 (Render) specified down to the mount point and the node/edge-registry collision. **T-047 is NOT pickup-ready** — the 2026-08-07 storyboard rebuild that replaced its architecture is entirely uncommitted (10 untracked + 10 modified files), and the ticket predated both the 08-06 review and that rebuild. See the blocker block on T-047.
+> **2026-08-13 — handoff grooming pass on T-047 and T-050** (no code changed; the T-047 half of this note is **superseded 2026-08-15** — the rebuild landed in `51e63500`, hold lifted). T-050 is now pickup-ready: dead hash corrected to `e58eccfe`, test pass bar corrected to the real suite (8 files / 38 tests, measured green), and subtask 3 (Render) specified down to the mount point and the node/edge-registry collision. **T-047 is NOT pickup-ready** — the 2026-08-07 storyboard rebuild that replaced its architecture is entirely uncommitted (10 untracked + 10 modified files), and the ticket predated both the 08-06 review and that rebuild. See the blocker block on T-047.
 
 > **2026-08-12:** Reviewed external n8n YouTube RAG workflows + UAP podcast playlist catalog. Opened **T-057** (playlist bulk-ingest manifest), **T-058** (grouped video retrieval + timestamp citations in live AI paths), **T-059** (playlist-id corpus index). Rejected parallel n8n+Qdrant stack — patterns only; see FEATURES Decision 12. Reference workflows archived under `packages/ai/prompts/*youtube*workflow*.json`.
 
@@ -65,10 +67,10 @@ tail behind product work.
 
 | Lane | Active | Open / backlog | Done |
 | --- | --- | --- | --- |
-| **A — Corpus & Ingestion** | T-048 | T-045, **T-055**, **T-056**, **T-057**, **T-059** | T-044, **T-054** |
-| **B — Platform & Experience** | T-050, T-052 | T-036, T-037, T-043, T-046, T-049, T-051, **T-053** (needs grooming), **T-058** | T-001 … T-029, T-030, T-031, T-038 … T-042 |
+| **A — Corpus & Ingestion** | T-048 | T-045 (in review), **T-055**, **T-056**, **T-057**, **T-059** | T-044, **T-054** |
+| **B — Platform & Experience** | T-050, T-052, **T-060** | T-036, T-037, T-041 (blocked), T-042, T-043, T-046, T-049, T-051, **T-053** (needs grooming), **T-058**, **T-047** (M1 half gated on T-048 H4) | T-001 … T-031, T-038, T-039, T-040 |
 
-**T-047 is deliberately absent from the Active column as of 2026-08-13.** It is not backlog either — it is **held**: its current surface is uncommitted (10 untracked + 10 modified files), so it cannot be assigned until the repo owner decides how that work lands. See the blocker block on T-047 before moving it back.
+**T-047 returned to the B backlog 2026-08-15** — the commit question is settled (`51e63500` landed the rebuild 2026-08-14; all 20 files verified tracked). It is not Active: M0/M1 shipped, M1's blocked half still waits on Lane A's T-048 H4, and M2–M4 need a grooming pass. See the T-047 block before assigning.
 
 **Cross-lane dependency (the one that matters):** Lane B's M1 "Evidence instrument"
 milestone — credibility and provenance filtering, source-cited event inspection — cannot
@@ -465,12 +467,12 @@ of archive records today. Lane B M0 does not depend on Lane A and can proceed in
 
 ### T-047: Temporal Observatory — Foundation milestone (Spacetime Canvas M0)
 
-- **Status:** ⛔ **NOT HANDOFF-READY — the current surface is uncommitted.** Read the two blocks immediately below before doing anything else with this ticket. The M0/M1 narrative further down is **preserved for history but superseded**; it describes an architecture that was replaced on 2026-08-07.
+- **Status:** OPEN / backlog — **hold lifted 2026-08-15**: the rebuild landed in `51e63500` (2026-08-14 19:01, "here goes"; all 20 files verified tracked). The blocker block below is **historical**; the "real current state" block is current. M0/M1 shipped; M1's blocked half still gated on T-048 H4; M2–M4 need grooming before any pick-up.
 - **Size:** L (Foundation / M0 only; full feature is M0–M4)
 
-#### ⚠️ T-047 handoff blocker (audited 2026-08-13) — resolve before assigning this to anyone
+#### T-047 handoff blocker (audited 2026-08-13) — ⚠️ RESOLVED 2026-08-15
 
-**The 2026-08-07 storyboard rebuild of `/spacetime` exists only in the working tree.** It is not committed. A fresh clone does not have it, and would instead get the two-layer scroll shell that the 08-06 review browser-confirmed as broken.
+**RESOLVED — the rebuild is committed.** The repo owner's bulk commit `51e63500` ("here goes", 2026-08-14 19:01, 1,392 files) landed all 20 spacetime files (verified via `git ls-files`); a fresh clone now has the docked observatory layout, not the broken scroll shell. The bullets below are preserved as the audit record that led to the resolution.
 
 - **10 untracked files:** `components/{event-inspector,evidence-legend,map-controls,playback-transport,spacetime-rail,spacetime-topbar,viewport-readout,waypoint-narrative}.tsx`, `lib/{map-controller,spacetime-theme}.ts`
 - **10 modified, uncommitted files:** `actions/load-spacetime-events.ts`, `components/{evidence-layers-panel,preserve3d-globe-spike,spacetime-canvas-shell,spacetime-canvas,spacetime-globe,temporal-dial}.tsx`, `index.ts`, `lib/{normalize,temporal-stations}.ts`
@@ -532,7 +534,7 @@ The ticket below was last updated 2026-08-05. Two significant things happened af
 
 ### T-044: Fix CRITICAL findings from disclosure-rag/main.py contract review
 
-- **Status:** DONE — 2026-07-16 (commit `aefc21b`)
+- **Status:** DONE — 2026-07-16 (recorded commit `aefc21b` is **dead** — invalidated by the 08-06 rewrite, verified 2026-08-15; artifacts confirm the work: `main.py` Upstash guard + deferred heavy imports, `tests/test_postgres_client.py` 8/8)
 - **What:** Resolved C1 (Upstash import guard didn't cover actual URL ingestion), C2 (`--no-kb` ignored for YouTube/web URLs), C3 (entity processing read a stale second `KnowledgeBaseCRUD` instance), and H1 (web ingestion ran CocoIndex twice).
 - **Why:** `docs/PLANS/2026-07-16-disclosure-rag-main-review.md` gave `main.py` a FAIL verdict; these four were the load-bearing correctness bugs blocking merge.
 - **Verified:** `tests/test_postgres_client.py` 8/8, `main.py --help` imports cleanly without Upstash, C1 repro case no longer crashes at import time.
@@ -540,7 +542,7 @@ The ticket below was last updated 2026-08-05. Two significant things happened af
 
 ### T-045: Remaining HIGH/MEDIUM findings from disclosure-rag/main.py review
 
-- **Status:** OPEN — synced to Linear 2026-07-24 ([DMGD-205](https://linear.app/digital-mischief-group/issue/DMGD-205/t-045-fix-remaining-highmedium-findings-from-disclosure-rag-mainpy))
+- **Status:** IN REVIEW — all ten items closed 2026-08-01 (H5/H6/H7/M1/M2/M3 by `d5c69fb` + same-day session; H2/H3/H4/M4 absorbed into T-048); awaiting final review before DONE. Recorded hash `d5c69fb` is **dead** (verified 2026-08-15) — verify by artifact: `tests/test_main.py` (37 tests) exists, `main.py` has the deferred-import guard, `stage_report`-driven banner/exit code, and `--status` reads `cocoindex_available`. Six pre-existing collection failures in unrelated entity tests remain untouched. Ruff: 26 errors at last count. Synced to Linear 2026-07-24 ([DMGD-205](https://linear.app/digital-mischief-group/issue/DMGD-205/t-045-fix-remaining-highmedium-findings-from-disclosure-rag-mainpy))
 - **Size:** M (review lists concrete fix directions per item; no design work needed)
 - **What:** H2 (queue relocation can overwrite an existing file), H3 (relocation leaves persisted provenance stale), H4 (extracted PDF temp files never deleted), H5 (`--status` overstates CocoIndex readiness), H6 (substring-based YouTube URL detection accepts hostile URLs), H7 (completion output doesn't reflect real per-stage success/failure), M1 (eager heavy imports before arg parsing), M2 (no `main.py` regression tests), M3 (broad exception handling collapses distinct failures to `None`), M4 (no file size/type/resource limits on ingestion).
 - **Why:** Review verdict is still FAIL pending these; T-044 only cleared the three CRITICAL blockers plus H1.
@@ -861,6 +863,16 @@ The ticket below was last updated 2026-08-05. Two significant things happened af
 | T-021 | Create .env.example | 2026-06-17 |
 | T-022 | Create docs/archive/ and move obsolete files | 2026-06-17 |
 | T-024 | Create docs/API_ROUTES.md | 2026-06-17 |
+| T-025 | Implement rate limiting | 2026-06-20 |
+| T-027 | ResearchSession unified state slice | 2026-06-20 |
+| T-028 | Mindmap Agent Consolidation (ai-sdk-tools) | 2026-07-12 |
+| T-029 | UFO Research Methodology Framework | 2026-06-20 |
+| T-030 | Migrate disclosure/chat consumers | 2026-06-20 |
+| T-031 | Delete broken historical-query chain | 2026-06-20 |
+| T-039 | Documentation cleanup & simplification | 2026-07-12 |
+| T-040 | Linear integration for task tracking | 2026-07-12 |
+| T-044 | Fix CRITICAL findings from disclosure-rag main.py review | 2026-07-16 |
+| T-054 | Trace Map — provenance graph per processed source | 2026-08-10 |
 | — | Ground CLAUDE.md, AGENTS.md, CORE_APP_AI_ARCHITECTURE_OVERVIEW.md, AGENT_ONBOARDING_CHECKLIST.md | 2026-03-29 |
 | — | Generate docs/CONTRIB.md | 2026-03-29 |
 | — | Generate docs/RUNBOOK.md | 2026-03-29 |
@@ -868,36 +880,25 @@ The ticket below was last updated 2026-08-05. Two significant things happened af
 
 ---
 
-## Dependency Graph
+## Dependency Graph (current — 2026-08-15)
 
 ```
-Phase 0 (emergency)
-  T-001 ✅ done
-  T-002 ✅ done
-  T-003 (auth middleware) ─────────────────────┐
-                                                ▼
-Phase 1 (delete dead code)          T-025 (rate limiting)
-  T-004 (ghost routes)
-  T-005 (dead shells)
-  T-006 (prune index) ◄── T-005
-  T-007 (consolidate xata-to-xyflow)
-                    │
-Phase 2 (core UX)   ▼
-  T-008 (paginate graph) ◄── T-007
-  T-009 (fix EmptyCanvas)
-  T-010 (wire chips)
-  T-011 (real sightings data)
-  T-012 (Zod validation) ◄── T-002
+Legacy phases 0-4 (T-001…T-031): all DONE — see Completed table.
 
-Phase 3 (agent hardening)
-  T-013 ✅ done (graph-write tools) ◄── T-015 ideally
-  T-014 (split processDocument)
-  T-015 ✅ done (standardize context)
-  T-016 (unify routes) ◄── T-014, T-015
-  T-017 (testimony cron)
+Lane A — Corpus & Ingestion
+  T-048 (IN PROGRESS, H0 ✅)
+    ├─ H1 (identity, next) ── gates ──► T-057 (playlist manifest)
+    │                                  └─► T-059 (playlist-id index)
+    └─ H4 (provenance) ── gates ──► T-047 M1 blocked half (Lane B)
+                                   └─► T-058 (timestamp citations, Lane B)
+  T-054 ✅ ──► T-055 (interpretive layer)
+           └─► T-056 (web-article path)
+  T-045 (IN REVIEW) — H2/H3/H4/M4 absorbed into T-048
 
-Phase 4 (state management)
-  T-018 (extract factories)
-  T-019 (graph init effect) ◄── T-018
-  T-020 (UI state to Zustand) ◄── T-018
+Lane B — Platform & Experience
+  T-050 (IN PROGRESS, subtasks 1-2 ✅) ── subtask 3 (render) soft-deps ──► T-053 RC-P4
+  T-053 (grooming gate: not locked-to-build) — RC-P0 proposed first slice
+  T-052 (IN PROGRESS) · T-060 (IN PROGRESS; contract doc is the interface)
+  T-047 (backlog; M1 half gated on T-048 H4)
+  External blockers: T-041 (browser backend) · T-037/T-038 (billing/Figma)
 ```
