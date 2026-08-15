@@ -45,7 +45,7 @@ tiers:
     base_url: null
     capabilities:
       structured_output: true
-      reasoning: false
+      reasoning: true  # Gemini 3 Flash is a reasoning model (returns thoughtSignature)
       streaming: true
       vision: true
       pdf_input: true

@@ -438,6 +438,11 @@ class LLMFallback:
         config_kwargs: Dict[str, Any] = {
             "temperature": temperature,
             "max_output_tokens": max_tokens,
+            # Gemini 3 Flash/Pro are reasoning models — they think by
+            # default, consuming tokens from max_output_tokens. Disable
+            # thinking for pipeline tasks: they need reliable structured
+            # output, not chain-of-thought that eats the token budget.
+            "thinking_config": {"thinking_budget": 0},
         }
         if schema is not None:
             config_kwargs["response_mime_type"] = "application/json"
@@ -493,6 +498,12 @@ class LLMFallback:
             "generationConfig": {
                 "temperature": temperature,
                 "maxOutputTokens": max_tokens,
+                # Gemini 3 Flash/Pro are reasoning models — they think by
+                # default, consuming tokens from maxOutputTokens. A 700-token
+                # budget for document_classification yields ~80 chars of JSON
+                # because thinking ate the rest. Disable thinking for pipeline
+                # tasks: they need reliable structured output, not CoT.
+                "thinkingConfig": {"thinkingBudget": 0},
             },
         }
         if schema is not None:
