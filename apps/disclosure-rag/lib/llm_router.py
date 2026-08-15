@@ -61,6 +61,8 @@ class TierConfig:
     auto_router_excluded_models: Sequence[str] = ()
     # PDF input capability
     pdf_input: bool = False
+    # OpenRouter Preset config (only for kind=openrouter_preset)
+    preset_slug: str = ""
 
     def api_key(self) -> Optional[str]:
         for key in self.env_keys:
@@ -263,6 +265,7 @@ class LLMRouter:
                 auto_router_allowed_models=tuple(auto_router.get("allowed_models", [])),
                 auto_router_excluded_models=tuple(auto_router.get("excluded_models", [])),
                 pdf_input=caps.get("pdf_input", False),
+                preset_slug=tier_data.get("preset_slug", ""),
             )
             self._tiers[tier.id] = tier
 

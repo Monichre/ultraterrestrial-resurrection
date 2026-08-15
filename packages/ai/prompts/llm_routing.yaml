@@ -19,10 +19,11 @@
 # ── Tier Declarations ─────────────────────────────────────────────────
 #
 # `kind` selects the wire protocol:
-#   openai_compat    — OpenAI chat/completions shape (OpenAI, DeepSeek, Together, Groq, xAI, etc.)
-#   anthropic        — Anthropic Messages API (forced tool calls for structured output)
-#   google           — Google Generative AI API (native structured output)
-#   openrouter_auto  — OpenRouter Auto Router (market-based model selection)
+#   openai_compat       — OpenAI chat/completions shape (OpenAI, DeepSeek, Together, Groq, xAI, etc.)
+#   anthropic           — Anthropic Messages API (forced tool calls for structured output)
+#   google              — Google Generative AI API (native structured output)
+#   openrouter_auto     — OpenRouter Auto Router (market-based model selection)
+#   openrouter_preset   — OpenRouter Preset (server-side config referenced by @preset/slug)
 #
 # `capabilities`:
 #   structured_output — can enforce JSON schema via response_format or equivalent
@@ -537,6 +538,141 @@ tiers:
     latency_tier: 2
     max_retries: 1
     notes: "Auto Router beta track. New routing behaviors land here before openrouter/auto. Use plugin_id auto-beta-router."
+
+  # ═══════════════════════════════════════════════════════════════════
+  # OpenRouter Presets (server-side LLM configurations)
+  # https://openrouter.ai/docs/guides/features/presets
+  #
+  # Presets encapsulate model + system prompt + params + provider routing
+  # into a named slug (@preset/slug). They can be updated server-side
+  # without code changes, keep version history, and can bundle server
+  # tools (web_search, advisor, subagent).
+  #
+  # Create from any request body:
+  #   POST /api/v1/presets/{slug}/chat/completions
+  #
+  # Reference in requests:
+  #   model: "@preset/disclosure-classification"
+  #
+  # Request fields override preset fields (shallow merge).
+  #
+  # These tiers are placeholders — create the presets on OpenRouter and
+  # they activate automatically. See scripts/sync_presets.py for a helper.
+  # ═══════════════════════════════════════════════════════════════════
+
+  # ── Tier 28: Preset — disclosure-classification ──
+  - id: openrouter/preset-classification
+    provider: OpenRouter
+    kind: openrouter_preset
+    model: "@preset/disclosure-classification"
+    env_keys: [OPENROUTER_API_KEY]
+    base_url: https://openrouter.ai/api/v1
+    preset_slug: disclosure-classification
+    capabilities:
+      structured_output: true
+      reasoning: false
+      streaming: true
+      vision: false
+      pdf_input: true
+    cost_tier: 1
+    latency_tier: 1
+    max_retries: 1
+    notes: "Preset for document_classification task. Create via scripts/sync_presets.py. Encapsulates model + system prompt + params server-side."
+
+  # ── Tier 29: Preset — disclosure-content-analysis ──
+  - id: openrouter/preset-content-analysis
+    provider: OpenRouter
+    kind: openrouter_preset
+    model: "@preset/disclosure-content-analysis"
+    env_keys: [OPENROUTER_API_KEY]
+    base_url: https://openrouter.ai/api/v1
+    preset_slug: disclosure-content-analysis
+    capabilities:
+      structured_output: true
+      reasoning: true
+      streaming: true
+      vision: false
+      pdf_input: true
+    cost_tier: 2
+    latency_tier: 2
+    max_retries: 1
+    notes: "Preset for disclosure.content_analysis task. Epistemic analysis + claim extraction."
+
+  # ── Tier 30: Preset — disclosure-rag-ingestion ──
+  - id: openrouter/preset-rag-ingestion
+    provider: OpenRouter
+    kind: openrouter_preset
+    model: "@preset/disclosure-rag-ingestion"
+    env_keys: [OPENROUTER_API_KEY]
+    base_url: https://openrouter.ai/api/v1
+    preset_slug: disclosure-rag-ingestion
+    capabilities:
+      structured_output: true
+      reasoning: true
+      streaming: true
+      vision: false
+      pdf_input: true
+    cost_tier: 3
+    latency_tier: 3
+    max_retries: 1
+    notes: "Preset for rag_ingestion task. High-budget chunking + structured output. Strict schema."
+
+  # ── Tier 31: Preset — disclosure-ner ──
+  - id: openrouter/preset-ner
+    provider: OpenRouter
+    kind: openrouter_preset
+    model: "@preset/disclosure-ner"
+    env_keys: [OPENROUTER_API_KEY]
+    base_url: https://openrouter.ai/api/v1
+    preset_slug: disclosure-ner
+    capabilities:
+      structured_output: true
+      reasoning: true
+      streaming: true
+      vision: false
+      pdf_input: true
+    cost_tier: 1
+    latency_tier: 2
+    max_retries: 1
+    notes: "Preset for disclosure.ner task. Per-chunk entity extraction. Cost-sensitive."
+
+  # ── Tier 32: Preset — disclosure-validation ──
+  - id: openrouter/preset-validation
+    provider: OpenRouter
+    kind: openrouter_preset
+    model: "@preset/disclosure-validation"
+    env_keys: [OPENROUTER_API_KEY]
+    base_url: https://openrouter.ai/api/v1
+    preset_slug: disclosure-validation
+    capabilities:
+      structured_output: true
+      reasoning: false
+      streaming: true
+      vision: false
+      pdf_input: true
+    cost_tier: 1
+    latency_tier: 1
+    max_retries: 1
+    notes: "Preset for validation task. Quality gate check."
+
+  # ── Tier 33: Preset — disclosure-narrative-summary ──
+  - id: openrouter/preset-narrative-summary
+    provider: OpenRouter
+    kind: openrouter_preset
+    model: "@preset/disclosure-narrative-summary"
+    env_keys: [OPENROUTER_API_KEY]
+    base_url: https://openrouter.ai/api/v1
+    preset_slug: disclosure-narrative-summary
+    capabilities:
+      structured_output: false
+      reasoning: true
+      streaming: true
+      vision: false
+      pdf_input: true
+    cost_tier: 2
+    latency_tier: 2
+    max_retries: 1
+    notes: "Preset for narrative_summary task. Free-text research summary."
 
   # ── Tier 11: Perplexity (search-augmented, free-text only) ──
   - id: perplexity/sonar

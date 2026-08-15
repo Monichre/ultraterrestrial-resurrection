@@ -514,6 +514,77 @@ class LLMFallback:
         text = "".join(p.get("text", "") for p in parts)
         return text
 
+    def _call_openrouter_preset(
+        self,
+        client: Any,
+        tier: Tier,
+        system_prompt: str,
+        user_content: str,
+        temperature: float,
+        max_tokens: int,
+        schema: Optional[Dict[str, Any]] = None,
+        schema_name: str = "response",
+        strict: bool = False,
+    ) -> str:
+        """Call an OpenRouter Preset.
+
+        Presets encapsulate model + system prompt + params server-side.
+        The model field is "@preset/{slug}". Request fields override
+        preset fields (shallow merge), so we can still send schema and
+        params that override the preset's defaults.
+
+        If the preset doesn't exist yet, this will 404 — the tier gets
+        marked dead and we fall through to the next tier.
+        """
+        request: Dict[str, Any] = dict(
+            model=tier.model,  # "@preset/disclosure-classification" etc.
+            messages=[
+                {"role": "user", "content": user_content},
+            ],
+        )
+        # Override preset defaults with task-specific params
+        if temperature is not None:
+            request["temperature"] = temperature
+        if max_tokens:
+            request["max_tokens"] = max_tokens
+        if system_prompt:
+            request["messages"] = [
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_content},
+            ]
+        if schema is not None:
+            request["response_format"] = {
+                "type": "json_schema",
+                "json_schema": {
+                    "name": schema_name,
+                    "strict": strict,
+                    "schema": schema,
+                },
+            }
+        try:
+            response = client.chat.completions.create(**request)
+        except Exception as exc:
+            exc_str = str(exc).lower()
+            # Preset not found — mark dead so we don't retry
+            if "404" in exc_str or "not found" in exc_str or "preset" in exc_str:
+                raise RuntimeError(f"{tier.id}: preset not found: {exc}") from exc
+            if schema is not None and _is_schema_rejection(exc):
+                raise SchemaUnsupported(f"{tier.id}: {exc}") from exc
+            raise
+        choice = response.choices[0]
+        text = choice.message.content or ""
+        selected_model = getattr(response, "model", None)
+        if selected_model:
+            logger.info(
+                "Preset %s (@preset/%s) resolved to model: %s",
+                tier.id, getattr(tier, "preset_slug", ""), selected_model,
+            )
+        if not text.strip() and choice.finish_reason == "length":
+            raise BudgetExhausted(
+                f"{tier.id}: max_tokens={max_tokens} consumed before any answer"
+            )
+        return text
+
     def _call_openrouter_auto(
         self,
         client: Any,
@@ -602,6 +673,11 @@ class LLMFallback:
             )
         if tier.kind == "openrouter_auto":
             return self._call_openrouter_auto(
+                client, tier, system_prompt, user_content,
+                temperature, max_tokens, schema, schema_name, strict,
+            )
+        if tier.kind == "openrouter_preset":
+            return self._call_openrouter_preset(
                 client, tier, system_prompt, user_content,
                 temperature, max_tokens, schema, schema_name, strict,
             )
