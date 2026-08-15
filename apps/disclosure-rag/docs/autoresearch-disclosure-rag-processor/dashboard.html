@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Autoresearch — disclosure-rag-processor</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<style>
+  :root { --bg:#fff; --ink:#2d3142; --soft:#8d99ae; --line:#e8ecf1;
+          --green:#b5ead7; --red:#fcbad3; --blue:#a8d8ea; --accent:#aa96da; }
+  * { box-sizing:border-box; margin:0; }
+  body { background:var(--bg); color:var(--ink);
+         font:15px/1.5 -apple-system, "Segoe UI", Helvetica, sans-serif; padding:32px; }
+  h1 { font-size:22px; font-weight:650; }
+  .sub { color:var(--soft); margin:4px 0 24px; }
+  .grid { display:grid; grid-template-columns:2fr 1fr; gap:24px; align-items:start; }
+  .card { border:1px solid var(--line); border-radius:12px; padding:20px; margin-bottom:24px; }
+  .stats { display:flex; gap:32px; flex-wrap:wrap; }
+  .stat b { display:block; font-size:26px; font-weight:650; }
+  .stat span { color:var(--soft); font-size:13px; }
+  .status-pill { display:inline-block; padding:3px 12px; border-radius:999px;
+                 background:var(--blue); font-size:13px; font-weight:600; }
+  .status-pill.done { background:var(--green); }
+  table { width:100%; border-collapse:collapse; font-size:14px; }
+  th { text-align:left; color:var(--soft); font-weight:600; padding:6px 10px;
+       border-bottom:1px solid var(--line); }
+  td { padding:6px 10px; border-bottom:1px solid var(--line); }
+  tr.keep td:first-child, tr.baseline td:first-child, tr.discard td:first-child { font-weight:650; }
+  .tag { padding:2px 10px; border-radius:999px; font-size:12px; font-weight:600; }
+  .tag.keep { background:var(--green); } .tag.discard { background:var(--red); }
+  .tag.baseline { background:var(--blue); }
+  .bar-row { display:flex; align-items:center; gap:10px; margin:8px 0; font-size:13px; }
+  .bar-label { width:170px; color:var(--soft); }
+  .bar-track { flex:1; height:12px; background:var(--line); border-radius:6px; overflow:hidden; }
+  .bar-fill { height:100%; background:var(--accent); border-radius:6px; }
+  .bar-num { width:52px; text-align:right; color:var(--soft); }
+  #expbars { display:flex; gap:6px; align-items:flex-end; height:90px; margin-top:8px; }
+  .ebar { flex:1; border-radius:4px 4px 0 0; min-width:14px; position:relative; }
+  .ebar span { position:absolute; top:-20px; left:50%; transform:translateX(-50%);
+               font-size:11px; color:var(--soft); }
+</style>
+</head>
+<body>
+<h1>Autoresearch — disclosure-rag-processor</h1>
+<div class="sub">Plan-only evaluation &middot; 5 evals &times; 5 runs (max 25) &middot; auto-refreshes every 10s</div>
+
+<div class="card">
+  <div class="stats">
+    <div class="stat"><b id="st-status"><span class="status-pill" id="pill">loading…</span></b><span>Status</span></div>
+    <div class="stat"><b id="st-baseline">—</b><span>Baseline</span></div>
+    <div class="stat"><b id="st-best">—</b><span>Best score</span></div>
+    <div class="stat"><b id="st-count">—</b><span>Experiments</span></div>
+    <div class="stat"><b id="st-keep">—</b><span>Kept</span></div>
+  </div>
+</div>
+
+<div class="grid">
+  <div>
+    <div class="card"><canvas id="chart" height="220"></canvas>
+      <div id="expbars"></div>
+    </div>
+    <div class="card">
+      <table>
+        <thead><tr><th>#</th><th>Score</th><th>Pass rate</th><th>Status</th><th>Description</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card">
+    <h1 style="font-size:16px;margin-bottom:12px">Per-eval breakdown</h1>
+    <div id="evals"></div>
+  </div>
+</div>
+
+<script>
+let chart;
+const COLORS = { keep:"#b5ead7", discard:"#fcbad3", baseline:"#a8d8ea", dry_run:"#ffffd2" };
+
+async function refresh() {
+  let d;
+  try { d = await (await fetch("results.json?t=" + Date.now())).json(); }
+  catch (e) { return; }
+
+  const pill = document.getElementById("pill");
+  pill.textContent = d.status === "complete" ? "Done"
+    : "Running experiment " + (d.current_experiment ?? "…");
+  pill.className = "status-pill" + (d.status === "complete" ? " done" : "");
+
+  const fmt = v => v == null ? "—" : v.toFixed(1) + "%";
+  document.getElementById("st-baseline").textContent = fmt(d.baseline_score);
+  document.getElementById("st-best").textContent = fmt(d.best_score);
+  document.getElementById("st-count").textContent = d.experiments.length;
+  document.getElementById("st-keep").textContent =
+    d.experiments.filter(e => e.status === "keep").length;
+
+  document.getElementById("rows").innerHTML = d.experiments.map(e =>
+    `<tr class="${e.status}"><td>${e.id}</td><td>${e.score}/${e.max_score}</td>
+     <td>${e.pass_rate.toFixed(1)}%</td>
+     <td><span class="tag ${e.status}">${e.status}</span></td>
+     <td>${e.description}</td></tr>`).join("");
+
+  document.getElementById("expbars").innerHTML = d.experiments.map(e =>
+    `<div class="ebar" style="height:${Math.max(6, e.pass_rate * 0.9)}%;
+       background:${COLORS[e.status] || "#e8ecf1"}"><span>${e.id}</span></div>`).join("");
+
+  document.getElementById("evals").innerHTML = (d.eval_breakdown || []).map(ev => {
+    const pct = ev.total ? (ev.pass_count / ev.total * 100) : 0;
+    return `<div class="bar-row"><div class="bar-label">${ev.name}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div>
+      <div class="bar-num">${ev.pass_count}/${ev.total}</div></div>`;
+  }).join("");
+
+  const labels = d.experiments.map(e => "#" + e.id);
+  const data = d.experiments.map(e => e.pass_rate);
+  if (!chart) {
+    chart = new Chart(document.getElementById("chart"), {
+      type: "line",
+      data: { labels, datasets: [{ label: "Pass rate %", data,
+        borderColor: "#aa96da", backgroundColor: "rgba(170,150,218,.15)",
+        fill: true, tension: .25, pointRadius: 5,
+        pointBackgroundColor: d.experiments.map(e => COLORS[e.status] || "#ccc") }] },
+      options: { scales: { y: { min: 0, max: 100, ticks: { callback: v => v + "%" } } },
+                 plugins: { legend: { display: false } } }
+    });
+  } else {
+    chart.data.labels = labels;
+    chart.data.datasets[0].data = data;
+    chart.data.datasets[0].pointBackgroundColor = d.experiments.map(e => COLORS[e.status] || "#ccc");
+    chart.update();
+  }
+}
+refresh();
+setInterval(refresh, 10000);
+</script>
+</body>
+</html>

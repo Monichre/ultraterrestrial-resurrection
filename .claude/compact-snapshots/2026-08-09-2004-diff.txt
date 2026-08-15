@@ -1,0 +1,194 @@
+ .claude-design/run-log.md                          |    32 +-
+ .commandcode/taste/taste.md                        |     4 +-
+ .env.example                                       |     8 +
+ .../2026-07-08_00-32-10Z-yes-proceed-but-i.md      |  2786 +++
+ ...2026-08-05_21-17-10Z-remove-unused-mcps-walk.md | 21194 ++++++++++++++++++
+ CLAUDE.md                                          |     4 +-
+ CONTEXT-MAP.md                                     |    12 +-
+ CONTEXT.md                                         |    86 +-
+ DAILY_WORK_PLAN.md                                 |    57 +-
+ NOTES.md                                           |   148 +-
+ README.md                                          |     3 +-
+ UBIQUITOUS_LANGUAGE.md                             |     2 +-
+ apps/app/.storybook/preview.tsx                    |     2 +-
+ apps/app/public/textures/debut-light.png           |   Bin 19521 -> 0 bytes
+ apps/app/public/textures/fabric-of-squares.png     |   Bin 56492 -> 0 bytes
+ apps/app/public/textures/grid-noise.png            |   Bin 4607 -> 0 bytes
+ apps/app/public/textures/groovepaper.png           |   Bin 36340 -> 0 bytes
+ apps/app/public/textures/inflicted.png             |   Bin 27878 -> 0 bytes
+ apps/app/public/textures/paper/debut-twill.png     |   Bin 19521 -> 0 bytes
+ .../public/textures/paper/fabric-of-squares.png    |   Bin 56492 -> 0 bytes
+ apps/app/public/textures/paper/grid-noise.png      |   Bin 4607 -> 0 bytes
+ apps/app/public/textures/paper/groove-paper.png    |   Bin 36340 -> 0 bytes
+ apps/app/public/textures/paper/inflicted-grid.png  |   Bin 27878 -> 0 bytes
+ apps/app/src/app/(site)/spacetime/page.tsx         |    10 +-
+ apps/app/src/app/api/admin/rag-settings/route.ts   |    75 -
+ .../src/app/api/admin/test-ranking-system/route.ts |    17 -
+ .../app/api/admin/trigger-ranking-update/route.ts  |    72 -
+ apps/app/src/app/fonts.tsx                         |    26 +-
+ apps/app/src/app/layout.tsx                        |     2 +-
+ apps/app/src/components/admin/rag-settings.tsx     |   226 -
+ .../src/components/demo-landing/scroll-system.tsx  |     2 +-
+ .../lab-prototypes/DesignDownloadsIngest.md        |     4 +
+ .../design-system/lab-prototypes/LabPrototypes.md  |    25 +-
+ .../lab-prototypes/LabPrototypes_PSUEDOCODE.md     |     9 +-
+ .../design-system/lab-prototypes/index.ts          |     6 +
+ apps/app/src/components/earth/Earth.tsx            |   277 +-
+ apps/app/src/components/moon/Moon.tsx              |   210 +-
+ .../src/components/sci-fi/formation/Formation.md   |     1 +
+ .../spacetime/actions/load-spacetime-events.ts     |    83 +-
+ .../spacetime/components/evidence-layers-panel.tsx |   361 +-
+ .../components/preserve3d-globe-spike.tsx          |    38 +-
+ .../components/spacetime-canvas-shell.tsx          |    90 +-
+ .../spacetime/components/spacetime-canvas.tsx      |   385 +-
+ .../spacetime/components/spacetime-globe.tsx       |   266 +-
+ .../spacetime/components/temporal-dial.tsx         |   335 +-
+ apps/app/src/features/spacetime/index.ts           |    29 +-
+ apps/app/src/features/spacetime/lib/normalize.ts   |    75 +
+ .../features/spacetime/lib/temporal-stations.ts    |    81 +-
+ .../features/spacetime/state/spacetime-store.ts    |     9 +-
+ apps/app/src/features/spacetime/types/spacetime.ts |     7 +
+ .../app/src/hooks/useUltraterrestrialAnimation.tsx |    31 +-
+ apps/app/src/layouts/home/ANIMATION_SEQUENCE.md    |    18 +-
+ apps/app/src/layouts/home/home-animated.tsx        |    13 +-
+ apps/app/src/lib/ai/model-fallback.ts              |   136 +-
+ apps/app/src/services/sightings/get-events.ts      |    45 +-
+ .../worktrees/compassionate-lovelace-e35750        |     0
+ apps/disclosure-rag/AGNO_XATA_INTEGRATION.md       |   329 -
+ apps/disclosure-rag/ARCHITECTURE.md                |    32 +-
+ apps/disclosure-rag/CLAUDE.md                      |     4 +-
+ .../QUINUPLE_RAG_ARCHITECTURE_DOCUMENTATION.md     |   271 -
+ apps/disclosure-rag/README.md                      |     6 +-
+ apps/disclosure-rag/STATUS.md                      |     7 +-
+ apps/disclosure-rag/agents/README.md               |     2 +-
+ .../reports/run-20260801-165547.md                 |    11 -
+ .../playlist_ingestion/transcripts/dQw4w9WgXcQ.txt |     4 -
+ .../disclosure-rag-processor/SKILL.md              |   146 +-
+ .../references/pipeline-architecture.md            |    56 +-
+ .../references/playlist-ingestion.md               |    39 +-
+ apps/disclosure-rag/docs/DOCUMENTATION_INDEX.md    |     6 +-
+ .../docs/ENTITY_CREATION_IMPLEMENTATION_STATUS.md  |   228 -
+ .../docs/ENTITY_EXTRACTION_PRESERVATION_PLAN.md    |   445 -
+ .../docs/ENTITY_EXTRACTION_WORKFLOW_ANALYSIS.md    |   258 -
+ .../disclosure-rag-processor-v2.md                 |     2 +-
+ apps/disclosure-rag/lib/data_formatter.py          |     6 +-
+ apps/disclosure-rag/lib/knowledge_base_crud.py     |   158 +-
+ apps/disclosure-rag/lib/knowledge_base_service.py  |    24 +-
+ apps/disclosure-rag/lib/transcript_fidelity.py     |    55 +-
+ apps/disclosure-rag/lib/youtube.py                 |     4 +
+ .../lib/youtube_transcript_enhanced.py             |   378 +-
+ apps/disclosure-rag/main.py                        |    37 +-
+ apps/disclosure-rag/main.sh                        |    68 +-
+ apps/disclosure-rag/main_enhanced.py               |    10 +
+ apps/disclosure-rag/main_fixed.py                  |    10 +
+ apps/disclosure-rag/main_unified.py                |    12 +
+ apps/disclosure-rag/processing/content_analysis.py |   106 +-
+ .../processing/rag_prompt_pipeline.py              |    81 +-
+ apps/disclosure-rag/requirements.txt               |     2 +-
+ apps/disclosure-rag/scripts/playlist_ingestion.py  |   189 +-
+ bun.lock                                           |   257 +-
+ docs/PLANS/FEATURES.md                             |    59 +-
+ docs/PLANS/TODO.md                                 |    73 +-
+ docs/README.md                                     |     4 +-
+ .../agent-suite-implementation-tickets.md          |   280 -
+ docs/agents/ops/domain.md                          |    15 +-
+ docs/agents/ops/issue-tracker.md                   |    28 +-
+ ...2026-06-26-apossible-reference-ux-brainstorm.md |   185 -
+ .../American Alchemy Transcript Topology/LICENSE   |    38 -
+ .../American Alchemy Transcript Topology/README.md |   288 -
+ .../American Alchemy Transcript Topology/app.html  |  3674 ---
+ .../index.html                                     |  3674 ---
+ .../screenshot_decentral.png                       |   Bin 611606 -> 0 bytes
+ .../screenshot_distrib.png                         |   Bin 813062 -> 0 bytes
+ .../screenshot_main.png                            |   Bin 377422 -> 0 bytes
+ .../screenshot_missing.png                         |   Bin 506427 -> 0 bytes
+ .../screenshot_missing2.png                        |   Bin 515189 -> 0 bytes
+ .../screenshot_missing3.png                        |   Bin 136344 -> 0 bytes
+ .../screenshot_topic_detail.png                    |   Bin 466363 -> 0 bytes
+ .../scripts/build_topology.py                      |   830 -
+ docs/brainstorms/harness-engineering/SKILL.md      |   141 -
+ docs/brainstorms/ufo-knowledge-tour/.gitignore     |    24 -
+ docs/brainstorms/ufo-knowledge-tour/.npmrc         |     2 -
+ docs/brainstorms/ufo-knowledge-tour/README.md      |    50 -
+ docs/brainstorms/ufo-knowledge-tour/SPEC.md        |   233 -
+ .../ufo-knowledge-tour/eslint.config.js            |    30 -
+ docs/brainstorms/ufo-knowledge-tour/index.html     |    14 -
+ docs/brainstorms/ufo-knowledge-tour/package.json   |    90 -
+ .../ufo-knowledge-tour/postcss.config.js           |     6 -
+ docs/brainstorms/ufo-knowledge-tour/public/use.txt |     1 -
+ docs/brainstorms/ufo-knowledge-tour/src/App.css    |    42 -
+ docs/brainstorms/ufo-knowledge-tour/src/App.tsx    |    29 -
+ .../ufo-knowledge-tour/src/agents/prompts.ts       |   349 -
+ .../ufo-knowledge-tour/src/agents/system.ts        |   388 -
+ .../ufo-knowledge-tour/src/agents/types.ts         |   138 -
+ .../ufo-knowledge-tour/src/components/App.tsx      |   356 -
+ .../src/components/DataInsightsPanel.tsx           |   331 -
+ .../src/components/ErrorBoundary.tsx               |    35 -
+ .../ufo-knowledge-tour/src/components/Header.tsx   |   215 -
+ .../src/components/KnowledgeGraph.tsx              |   393 -
+ .../src/components/NavigationPanel.tsx             |   396 -
+ .../src/components/TourGuidePanel.tsx              |   190 -
+ .../src/contexts/AgentContext.tsx                  |   147 -
+ .../ufo-knowledge-tour/src/data/ufoData.ts         |   437 -
+ .../ufo-knowledge-tour/src/hooks/use-mobile.tsx    |    19 -
+ docs/brainstorms/ufo-knowledge-tour/src/index.css  |   223 -
+ .../ufo-knowledge-tour/src/lib/utils.ts            |     6 -
+ docs/brainstorms/ufo-knowledge-tour/src/main.tsx   |    13 -
+ .../ufo-knowledge-tour/src/types/graph.ts          |    72 -
+ .../ufo-knowledge-tour/src/vite-env.d.ts           |     1 -
+ .../ufo-knowledge-tour/tailwind.config.js          |    76 -
+ .../ufo-knowledge-tour/tsconfig.app.json           |    42 -
+ docs/brainstorms/ufo-knowledge-tour/tsconfig.json  |    17 -
+ .../ufo-knowledge-tour/tsconfig.node.json          |    24 -
+ docs/brainstorms/ufo-knowledge-tour/vite.config.ts |    21 -
+ docs/design/neuform-sources/README.md              |     1 +
+ .../2026-07-09-apossible-library-design-audit.md   |    42 -
+ docs/research/llm-wiki-pattern.md                  |    71 -
+ .../2026-07-09-apossible-library-design-audit.md   |    42 -
+ docs/research/methodology/llm-wiki-pattern.md      |    71 -
+ .../methodology/ufo-research-methodology.md        |   294 -
+ .../screenshots/apossible-library-detail-view.png  |   Bin 720913 -> 0 bytes
+ .../screenshots/apossible-library-overview.png     |   Bin 490198 -> 0 bytes
+ docs/review/youtube_podcast_playlists.md           |   105 -
+ package.json                                       |     9 +-
+ packages/{services => ai}/.gitignore               |     0
+ packages/ai/README.md                              |    28 +-
+ packages/ai/prompts/CONTEXT.md                     |   104 +-
+ packages/ai/services/deep-research/README.md       |    13 +
+ .../deep-research/src/enhanced-research.ts         |     0
+ .../{ => ai}/services/deep-research/src/index.ts   |     0
+ .../services/deep-research/src/types/index.ts      |     0
+ .../deep-research/src/utils/content-processor.ts   |     0
+ .../services/deep-research/src/utils/summarizer.ts |     0
+ packages/{ => ai}/services/exa/answer.ts           |     0
+ packages/{ => ai}/services/exa/client.ts           |     0
+ packages/{ => ai}/services/exa/contents.ts         |     0
+ packages/{ => ai}/services/exa/index.ts            |     0
+ packages/{ => ai}/services/exa/search.ts           |     0
+ packages/{ => ai}/services/exa/similar.ts          |     0
+ packages/{ => ai}/services/firecrawl/extract.ts    |     0
+ .../services/firecrawl/firecrawl.client.ts         |     0
+ packages/ai/services/firecrawl/index.ts            |    78 +
+ packages/{ => ai}/services/firecrawl/scrape.ts     |     0
+ packages/ai/services/firecrawl/types.ts            |   228 +
+ packages/ai/services/index.ts                      |    47 +
+ packages/{services => ai}/tsconfig.json            |     0
+ packages/db/CONTEXT.md                             |    20 +
+ packages/knowledge-base/README.md                  |     2 +-
+ packages/knowledge-base/metadata/index.json        | 12722 ++++++++++-
+ packages/prompts/CONTEXT.md                        |    99 -
+ packages/services/README.md                        |    15 -
+ packages/services/deep-research/README.md          |    90 -
+ packages/services/deep-research/package.json       |    37 -
+ packages/services/deep-research/src/exa/answer.ts  |    95 -
+ .../services/deep-research/src/exa/contents.ts     |   106 -
+ packages/services/deep-research/src/exa/search.ts  |    95 -
+ packages/services/deep-research/src/exa/similar.ts |    73 -
+ .../deep-research/src/firecrawl/extractor.ts       |    88 -
+ .../deep-research/src/firecrawl/scraper.ts         |   174 -
+ packages/services/document-library/client.ts       |    28 -
+ packages/services/firecrawl/index.ts               |    66 -
+ packages/services/firecrawl/types.ts               |   228 -
+ packages/services/index.ts                         |    56 -
+ packages/services/package.json                     |    26 -
+ 193 files changed, 40455 insertions(+), 18942 deletions(-)

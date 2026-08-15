@@ -1,0 +1,87 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "noEmit": true,
+    "incremental": true,
+    "module": "esnext",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@/components/ui/Button": ["./src/ui/button.tsx"],
+      "@/components/ui/Textarea": ["./src/ui/textarea.tsx"],
+      "@/components/ui/Icon": ["./src/features/mindmap/components/note/ui/Icon.tsx"],
+      "@/components/ui/Surface": ["./src/features/mindmap/components/note/ui/Surface.tsx"],
+      "@/components/ui/Panel": ["./src/features/mindmap/components/note/ui/Panel/index.tsx"],
+      "@/components/ui/Dropdown": [
+        "./src/features/mindmap/components/note/ui/Dropdown/Dropdown.tsx"
+      ],
+      "@/components/ui/PopoverMenu": ["./src/features/mindmap/components/note/ui/PopoverMenu.tsx"],
+      "@/components/ui/Loader": ["./src/features/mindmap/components/note/ui/Loader/Loader.tsx"],
+      "@/components/9-ui/toolbar": ["./src/features/mindmap/components/note/ui/Toolbar.tsx"],
+      "@/components/menus": ["./src/features/mindmap/components/note/menus/index.ts"],
+      "@/components/Sidebar": ["./src/features/mindmap/components/note/Sidebar/Sidebar.tsx"],
+      "@/components/panels": ["./src/features/mindmap/components/note/panels/index.tsx"],
+      "@/components/panels/LinkPreviewPanel": [
+        "./src/features/mindmap/components/note/panels/LinkPreviewPanel/LinkPreviewPanel.tsx"
+      ],
+      "@/components/TableOfContents": [
+        "./src/features/mindmap/components/note/TableOfContents/TableOfContents.tsx"
+      ],
+      "@/extensions/*": ["./src/features/mindmap/components/note/extensions/*"],
+      "@/hooks/useBlockEditor": ["./src/features/mindmap/components/note/hooks/useBlockEditor.ts"],
+      "@/hooks/useAIState": ["./src/features/mindmap/components/note/hooks/useAIState.tsx"],
+      "@/styles/index.css": ["./src/features/mindmap/components/note/styles/index.css"],
+      "@/context/EditorContext": [
+        "./src/features/mindmap/components/note/context/EditorContext.ts"
+      ],
+      "@/services/api": ["./src/features/mindmap/components/note/lib/api.ts"],
+      "@/services/constants": ["./src/features/mindmap/components/note/lib/constants.tsx"],
+      "@/services/utils": ["./src/features/mindmap/components/note/lib/utils/index.ts"],
+      "@/services/utils/getRenderContainer": [
+        "./src/features/mindmap/components/note/lib/utils/getRenderContainer.ts"
+      ],
+      "@/services/data/initialContent": [
+        "./src/features/mindmap/components/note/lib/initialContent.ts"
+      ],
+      "@/extensions": ["./src/features/mindmap/components/note/extensions/index.ts"],
+
+      "@/components/ui/Spinner": ["./src/features/mindmap/components/note/ui/Loader/Loader.tsx"],
+      "@/db/xata/client": ["./.storybook/stubs/db-xata-client.ts"],
+      "@/features/case-files/case-file/case-file-evidence/evidence-card": [
+        "./.storybook/stubs/evidence-card.tsx"
+      ],
+
+      "@db": ["../../packages/db/index.ts"],
+      "@db/postgres": ["../../packages/db/src/postgres/index.ts"],
+      "@db/*": ["../../packages/db/*"],
+      "@db/xata": ["../../packages/db/src/xata-typescript-sdk/index.ts"],
+      "@db/xata/*": ["../../packages/db/src/xata-typescript-sdk/*"],
+      "@db/xata/client": ["../../packages/db/src/xata-typescript-sdk/client.ts"],
+      "@db/xata/xata": ["../../packages/db/src/xata-typescript-sdk/xata.ts"],
+      "@db/xata/models": ["../../packages/db/src/xata-typescript-sdk/models/index.ts"],
+      "@db/xata/models/*": ["../../packages/db/src/xata-typescript-sdk/models/*"],
+      "@db/xata/api": ["../../packages/db/src/xata-typescript-sdk/api/index.ts"],
+      "@db/xata/api/*": ["../../packages/db/src/xata-typescript-sdk/api/*"],
+      "@db/src/xata-typescript-sdk/api": ["../../packages/db/src/xata-typescript-sdk/api/index.ts"],
+      "@db/types": ["../../packages/db/types/index.ts"],
+      "@db/registry": ["../../packages/db/registry.ts"]
+    }
+  },
+  "include": ["next-env.d.ts", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx", "src/types/**/*.d.ts"],
+  "exclude": ["node_modules"]
+}

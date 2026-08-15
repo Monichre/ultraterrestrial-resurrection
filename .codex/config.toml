@@ -1,0 +1,14 @@
+[shell_environment_policy]
+inherit = "core"
+
+[shell_environment_policy.set]
+CLAUDE_CODE_MAX_OUTPUT_TOKENS = "8000"
+DISABLE_NON_ESSENTIAL_MODEL_CALLS = "1"
+DISABLE_COST_WARNINGS = "1"
+USE_BUILTIN_RIPGREP = "1"
+CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR = "1"
+CLAUDE_CODE_DISABLE_TERMINAL_TITLE = "0"
+
+[mcp_servers.open-knowledge]
+command = "/bin/sh"
+args = ["-l", "-c", "# ok-mcp-v2\nUSER_BUNDLE=\"$HOME/Applications/OpenKnowledge.app/Contents/Resources/cli/bin/ok.sh\"\n[ -f \"$USER_BUNDLE\" ] && [ -x \"$USER_BUNDLE\" ] && exec \"$USER_BUNDLE\" mcp\nBUNDLE=\"/Applications/OpenKnowledge.app/Contents/Resources/cli/bin/ok.sh\"\n[ -f \"$BUNDLE\" ] && [ -x \"$BUNDLE\" ] && exec \"$BUNDLE\" mcp\nDEB_BUNDLE=\"/opt/OpenKnowledge/resources/cli/bin/ok.sh\"\n[ -f \"$DEB_BUNDLE\" ] && [ -x \"$DEB_BUNDLE\" ] && exec \"$DEB_BUNDLE\" mcp\ncommand -v npx >/dev/null 2>&1 && exec npx -y @inkeep/open-knowledge@latest mcp\nfor d in \"$HOME/.nvm/versions/node\"/*/bin \"$HOME/.fnm/node-versions\"/*/installation/bin \"$HOME/.asdf/installs/nodejs\"/*/bin /opt/homebrew/bin /usr/local/bin \"$HOME/.local/bin\" \"$HOME/.volta/bin\"; do\n  [ -f \"$d/npx\" ] && [ -x \"$d/npx\" ] && exec \"$d/npx\" -y @inkeep/open-knowledge@latest mcp\ndone\necho \"OpenKnowledge: install OK Desktop or Node.js 24+, then restart your editor\" >&2\nexit 127"]

@@ -1,0 +1,203 @@
+/* Drop-to-Canvas (T-060) — Microfilm Dark.
+   Every class is `ut-drop-` prefixed: this app's globals.css clobbers
+   generic names (.content, .layer-body), so feature CSS must namespace.
+   Tokens (--ut-*) come from research-canvas/canvas-animations.css. */
+
+/* ---------- Drop affordance ---------- */
+
+/* The whole canvas accepts the file, so the affordance is a frame around the
+   viewport rather than a target box — it says "here", not "aim at this".
+   pointer-events:none throughout; the wrapper div owns the DOM drag events
+   and this layer must never intercept a click after the drag ends. */
+.ut-drop-affordance {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 140ms ease-out;
+}
+
+.ut-drop-affordance[data-active='true'] {
+  opacity: 1;
+}
+
+/* Inset hairline in the parchment ink — the "place the document here" bed. */
+.ut-drop-affordance::before {
+  content: '';
+  position: absolute;
+  inset: 14px;
+  border: 1px dashed var(--ut-line-strong, oklch(0.87 0.02 85 / 0.26));
+  border-radius: 3px;
+  background: radial-gradient(
+    ellipse 70% 55% at 50% 50%,
+    oklch(0.93 0.015 90 / 0.045) 0%,
+    transparent 70%
+  );
+}
+
+.ut-drop-affordance[data-rejected='true']::before {
+  border-color: var(--ut-stamp, oklch(0.58 0.19 27));
+  background: radial-gradient(
+    ellipse 70% 55% at 50% 50%,
+    oklch(0.58 0.19 27 / 0.07) 0%,
+    transparent 70%
+  );
+}
+
+/* Corner registration marks — the archival "align the plate here" idiom. */
+.ut-drop-corner {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-color: var(--ut-paper, oklch(0.93 0.015 90));
+  opacity: 0.5;
+}
+
+.ut-drop-affordance[data-rejected='true'] .ut-drop-corner {
+  border-color: var(--ut-stamp, oklch(0.58 0.19 27));
+  opacity: 0.9;
+}
+
+.ut-drop-corner-tl { top: 14px; left: 14px; border-top: 1.5px solid; border-left: 1.5px solid; }
+.ut-drop-corner-tr { top: 14px; right: 14px; border-top: 1.5px solid; border-right: 1.5px solid; }
+.ut-drop-corner-bl { bottom: 14px; left: 14px; border-bottom: 1.5px solid; border-left: 1.5px solid; }
+.ut-drop-corner-br { bottom: 14px; right: 14px; border-bottom: 1.5px solid; border-right: 1.5px solid; }
+
+.ut-drop-affordance-label {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: var(--ut-paper, oklch(0.93 0.015 90));
+}
+
+/* ---------- Artifact node ---------- */
+
+/* Visually distinct from every corpus node: corpus records are dark manila
+   panels; the dropped artifact is a PALE sheet — the user's own page laid on
+   the archivist's table. That inversion is the whole tell, and it survives
+   at any zoom where colour is all you can read. */
+.ut-drop-artifact {
+  width: 300px;
+  background: linear-gradient(
+    177deg,
+    oklch(0.9 0.018 92) 0%,
+    oklch(0.85 0.022 88) 100%
+  );
+  color: oklch(0.2 0.01 60);
+  border: 1px solid oklch(0.7 0.03 80);
+  /* Secret-file corner cut, matching .ut-panel's idiom but on light stock. */
+  clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
+  box-shadow:
+    0 1px 0 oklch(1 0 0 / 0.5) inset,
+    0 14px 34px oklch(0 0 0 / 0.55);
+}
+
+.ut-drop-artifact[data-status='failed'] {
+  background: linear-gradient(177deg, oklch(0.88 0.03 40) 0%, oklch(0.82 0.04 35) 100%);
+  border-color: var(--ut-stamp, oklch(0.58 0.19 27));
+}
+
+/* Torn top edge — the sheet was pulled from somewhere else, not filed. */
+.ut-drop-artifact-edge {
+  height: 3px;
+  background-image: repeating-linear-gradient(
+    90deg,
+    oklch(0.55 0.02 70 / 0.55) 0 2px,
+    transparent 2px 5px
+  );
+}
+
+.ut-drop-artifact-label {
+  font-family: var(--font-martian-mono), var(--font-jetbrains-mono), monospace;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 8.5px;
+  color: oklch(0.38 0.02 60);
+}
+
+.ut-drop-artifact-filename {
+  font-family: var(--font-special-elite), var(--font-martian-mono), monospace;
+  letter-spacing: 0.02em;
+  line-height: 1.25;
+  word-break: break-word;
+}
+
+.ut-drop-artifact-excerpt {
+  font-size: 11px;
+  line-height: 1.5;
+  color: oklch(0.34 0.015 60);
+  max-height: 84px;
+  overflow: hidden;
+  /* Fades rather than truncating with an ellipsis: the text continues, the
+     node simply is not where you read it all. */
+  mask-image: linear-gradient(to bottom, #000 58%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 58%, transparent 100%);
+}
+
+/* Stamp — the one red moment, reserved for the caption provenance warning
+   and the "no connections" result. */
+.ut-drop-stamp {
+  font-family: var(--font-martian-mono), var(--font-jetbrains-mono), monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  font-size: 8px;
+  border: 1px solid currentColor;
+  border-radius: 2px;
+  padding: 2px 5px;
+}
+
+/* Pending: redaction bars waiting to be declassified. Reuses the shimmer
+   grammar already established in canvas-animations.css. */
+.ut-drop-redaction {
+  height: 9px;
+  border-radius: 1px;
+  background-color: oklch(0.66 0.02 75);
+  background-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    oklch(0.78 0.02 75 / 0.8) 50%,
+    transparent 100%
+  );
+  background-size: 160px 100%;
+  background-repeat: no-repeat;
+  animation: ut-drop-redact-shimmer 1.6s ease-in-out infinite;
+}
+
+@keyframes ut-drop-redact-shimmer {
+  from { background-position: -160px 0; }
+  to { background-position: 160px 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ut-drop-redaction { animation: none; }
+  .ut-drop-affordance { transition: none; }
+}
+
+/* ---------- Inspector ---------- */
+
+.ut-drop-inspector {
+  width: 360px;
+  max-height: min(70vh, 620px);
+  background: var(--ut-surface, oklch(0.21 0.008 85 / 0.88));
+  border: 1px solid var(--ut-line, oklch(0.87 0.02 85 / 0.14));
+  backdrop-filter: blur(14px);
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
+}
+
+.ut-drop-inspector-snippet {
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--ut-paper, oklch(0.93 0.015 90));
+}
+
+/* ---------- Failure notice ---------- */
+
+.ut-drop-notice {
+  background: var(--ut-surface, oklch(0.21 0.008 85 / 0.88));
+  border: 1px solid oklch(0.58 0.19 27 / 0.5);
+  backdrop-filter: blur(14px);
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+}

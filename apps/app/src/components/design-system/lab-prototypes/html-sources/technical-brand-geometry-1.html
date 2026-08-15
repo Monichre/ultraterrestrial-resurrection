@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Brand Geometry</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #EFEFF5;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Skeuomorphic Gradient Overlay + Subtle Diagonal Grid Overlay */
+        .bg-blueprint {
+            background-image:
+                /* Soft vertical highlight simulating light from above */
+                linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 100%),
+                /* Blueprint Diagonal Grid */
+                linear-gradient(45deg, rgba(0,0,0,0.02) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.02) 75%, rgba(0,0,0,0.02)),
+                linear-gradient(45deg, rgba(0,0,0,0.02) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.02) 75%, rgba(0,0,0,0.02));
+            background-size: 100% 100%, 20px 20px, 20px 20px;
+            background-position: 0 0, 0 0, 10px 10px;
+        }
+
+        /* Skeuomorphic Gradient Border Treatment */
+        .gradient-border-wrapper {
+            position: relative;
+            background: #EFEFF5;
+            z-index: 10;
+        }
+        .gradient-border-wrapper::before {
+            content: "";
+            position: absolute;
+            inset: -1px;
+            border-radius: inherit;
+            padding: 1px;
+            /* Simulates a physical edge with a top highlight and bottom shadow */
+            background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(0,0,0,0.02) 50%, rgba(0,0,0,0.15) 100%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Embossed text shadow for premium tactile feel */
+        .text-embossed {
+            text-shadow: 0 1px 1px rgba(255,255,255,0.8);
+        }
+
+        /* SVG Inner Geometry Drop Shadow */
+        .svg-drop-shadow {
+            filter: drop-shadow(0px 2px 3px rgba(0,0,0,0.06)) drop-shadow(0px 6px 10px rgba(0,0,0,0.04));
+        }
+
+        /* L-Shaped Corner Brackets - Moved inward to sit inside the rounded corners */
+        .corner-bracket {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border-color: rgba(0,0,0,0.25);
+            pointer-events: none;
+        }
+        .corner-tl { top: 20px; left: 20px; border-top: 1px solid; border-left: 1px solid; }
+        .corner-tr { top: 20px; right: 20px; border-top: 1px solid; border-right: 1px solid; }
+        .corner-bl { bottom: 20px; left: 20px; border-bottom: 1px solid; border-left: 1px solid; }
+        .corner-br { bottom: 20px; right: 20px; border-bottom: 1px solid; border-right: 1px solid; }
+
+        /* Masked Reveal Setup */
+        .reveal-mask {
+            overflow: hidden;
+            display: inline-block;
+            vertical-align: top;
+        }
+        .reveal-text {
+            display: inline-block;
+            transform: translateY(100%);
+            will-change: transform;
+        }
+
+        /* SVG Specific Styling */
+        .svg-stroke {
+            stroke: #8A8A93;
+            stroke-width: 0.5;
+            fill: none;
+            vector-effect: non-scaling-stroke;
+        }
+        .svg-stroke-dashed {
+            stroke: #8A8A93;
+            stroke-width: 0.5;
+            stroke-dasharray: 4 4;
+            fill: none;
+            vector-effect: non-scaling-stroke;
+        }
+        .svg-fill-light {
+            fill: #E5E5EB;
+            stroke: #8A8A93;
+            stroke-width: 0.5;
+        }
+        .svg-fill-dark {
+            fill: #D1D1D4;
+        }
+        .svg-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 8px;
+            fill: #111;
+            font-weight: 400; /* Font weight reduced as requested */
+        }
+        .svg-dimension-line {
+            stroke: #8A8A93;
+            stroke-width: 0.5;
+        }
+        .svg-tick {
+            stroke: #8A8A93;
+            stroke-width: 0.5;
+        }
+
+        #webgl-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.4;
+        }
+    </style>
+</head>
+<body class="text-slate-900 antialiased min-h-screen flex flex-col justify-center items-center selection:bg-slate-200">
+
+    <!-- WebGL Background -->
+    <div id="webgl-container"></div>
+
+    <!-- Main Layout Grid lines extending outside frame -->
+    <div class="fixed inset-0 z-0 pointer-events-none flex justify-center items-center opacity-20">
+        <div class="h-full w-px bg-slate-400 absolute left-1/3"></div>
+        <div class="h-full w-px bg-slate-400 absolute right-1/3"></div>
+        <div class="w-full h-px bg-slate-400 absolute top-1/2"></div>
+    </div>
+
+    <!-- Main Content Frame -->
+    <main class="relative z-10 w-full max-w-[90vw] lg:max-w-4xl aspect-[4/5] lg:aspect-video flex items-center justify-center p-4 lg:p-8">
+
+        <!-- Framed Area with Skeuomorphic Details & Beautiful Large Shadow -->
+        <div class="gradient-border-wrapper w-full h-full relative flex items-center justify-center bg-blueprint rounded-3xl shadow-[0_2.8px_2.2px_rgba(0,_0,_0,_0.034),_0_6.7px_5.3px_rgba(0,_0,_0,_0.048),_0_12.5px_10px_rgba(0,_0,_0,_0.06),_0_22.3px_17.9px_rgba(0,_0,_0,_0.072),_0_41.8px_33.4px_rgba(0,_0,_0,_0.086),_0_100px_80px_rgba(0,_0,_0,_0.12)] after:absolute after:inset-0 after:rounded-[inherit] after:pointer-events-none after:shadow-[inset_0_1px_1px_rgba(255,255,255,1),inset_0_-1px_2px_rgba(0,0,0,0.1)] transition-transform duration-500 hover:scale-[1.005]">
+
+            <!-- Inset Corner Brackets for structural aesthetic -->
+            <div class="corner-bracket corner-tl"></div>
+            <div class="corner-bracket corner-tr"></div>
+            <div class="corner-bracket corner-bl"></div>
+            <div class="corner-bracket corner-br"></div>
+
+            <!-- Internal Grid Guides -->
+            <div class="absolute inset-0 pointer-events-none opacity-10 rounded-[inherit] overflow-hidden">
+                <div class="absolute top-0 bottom-0 left-[30%] border-l border-slate-900"></div>
+                <div class="absolute top-0 bottom-0 right-[30%] border-r border-slate-900"></div>
+                <div class="absolute left-0 right-0 top-[40%] border-t border-slate-900"></div>
+            </div>
+
+            <!-- Top Left Metadata -->
+            <div class="absolute top-8 left-8 flex flex-col gap-0.5">
+                <div class="reveal-mask">
+                    <span class="reveal-text text-xs tracking-tight font-normal text-slate-800 text-embossed uppercase">Core Framework</span>
+                </div>
+                <div class="reveal-mask">
+                    <span class="reveal-text text-xs tracking-tight text-slate-500 uppercase">Quantum Grid*</span>
+                </div>
+            </div>
+
+            <!-- Center Geometric Diagram (The 'N') -->
+            <div class="relative w-[80%] max-w-[500px] aspect-square flex items-center justify-center">
+                <svg viewBox="-250 -250 500 500" class="w-full h-full overflow-visible" id="geometry-svg">
+                    <!-- Long diagonal background lines -->
+                    <line x1="-400" y1="-300" x2="300" y2="400" class="svg-stroke opacity-30" />
+                    <line x1="-350" y1="-350" x2="400" y2="400" class="svg-stroke opacity-30" />
+                    <line x1="-200" y1="-350" x2="400" y2="250" class="svg-stroke opacity-30" />
+
+                    <line x1="-300" y1="-100" x2="100" y2="300" class="svg-stroke opacity-30" />
+                    <line x1="-100" y1="-300" x2="300" y2="100" class="svg-stroke opacity-30" />
+
+                    <!-- Base Grid within the shape area -->
+                    <g class="svg-stroke opacity-20">
+                        <line x1="-120" y1="-50" x2="120" y2="-50" />
+                        <line x1="-120" y1="50" x2="120" y2="50" />
+                        <line x1="-50" y1="-120" x2="-50" y2="120" />
+                        <line x1="50" y1="-120" x2="50" y2="120" />
+                    </g>
+
+                    <!-- The Geometric 'N' Shape Construction (with drop shadow for lift) -->
+                    <g id="main-shape" class="svg-drop-shadow">
+                        <!-- Center Vertical Column -->
+                        <rect x="-24" y="-120" width="48" height="240" class="svg-fill-light" />
+
+                        <!-- Left Diagonal Wing -->
+                        <polygon points="-120,-20 -120,60 -24,120 -24,-20" class="svg-fill-light" />
+
+                        <!-- Right Diagonal Wing -->
+                        <polygon points="24,-120 24,20 120,-40 120,-120" class="svg-fill-light" />
+
+                        <!-- Left Inner Square (Dark - acts as a carved inset visually) -->
+                        <rect x="-110" y="-10" width="50" height="50" class="svg-fill-dark svg-stroke" />
+
+                        <!-- Right Inner Square (Dark - acts as a carved inset visually) -->
+                        <rect x="60" y="-40" width="50" height="50" class="svg-fill-dark svg-stroke" />
+
+                        <!-- Internal grid lines of the shape -->
+                        <line x1="-120" y1="20" x2="-24" y2="20" class="svg-stroke opacity-40" />
+                        <line x1="-72" y1="-20" x2="-72" y2="90" class="svg-stroke opacity-40" />
+
+                        <line x1="24" y1="-40" x2="120" y2="-40" class="svg-stroke opacity-40" />
+                        <line x1="72" y1="-120" x2="72" y2="0" class="svg-stroke opacity-40" />
+                    </g>
+
+                    <!-- Dimension Lines and Text -->
+                    <g class="dimensions">
+                        <!-- Top right 78px -->
+                        <line x1="24" y1="-140" x2="102" y2="-140" class="svg-dimension-line" />
+                        <line x1="24" y1="-143" x2="24" y2="-137" class="svg-tick" />
+                        <line x1="102" y1="-143" x2="102" y2="-137" class="svg-tick" />
+                        <text x="63" y="-145" text-anchor="middle" class="svg-text">78px</text>
+                        <line x1="102" y1="-140" x2="102" y2="-120" class="svg-stroke-dashed" />
+
+                        <!-- Bottom left 68px -->
+                        <line x1="-120" y1="-40" x2="-52" y2="-40" class="svg-dimension-line" />
+                        <line x1="-120" y1="-43" x2="-120" y2="-37" class="svg-tick" />
+                        <line x1="-52" y1="-43" x2="-52" y2="-37" class="svg-tick" />
+                        <text x="-86" y="-45" text-anchor="middle" class="svg-text">68px</text>
+                        <line x1="-120" y1="-40" x2="-120" y2="-20" class="svg-stroke-dashed" />
+
+                        <!-- Bottom right 98px -->
+                        <line x1="24" y1="140" x2="122" y2="140" class="svg-dimension-line" />
+                        <line x1="24" y1="137" x2="24" y2="143" class="svg-tick" />
+                        <line x1="122" y1="137" x2="122" y2="143" class="svg-tick" />
+                        <text x="73" y="152" text-anchor="middle" class="svg-text">98px</text>
+                        <line x1="122" y1="140" x2="122" y2="-40" class="svg-stroke-dashed" />
+
+                        <!-- Center vertical 240px -->
+                        <line x1="-40" y1="-120" x2="-40" y2="120" class="svg-dimension-line" />
+                        <line x1="-43" y1="-120" x2="-37" y2="-120" class="svg-tick" />
+                        <line x1="-43" y1="120" x2="-37" y2="120" class="svg-tick" />
+                        <text x="-45" y="0" text-anchor="end" class="svg-text" transform="rotate(-90, -45, 0)">240px</text>
+
+                        <!-- Center horizontal 48px -->
+                        <line x1="-24" y1="160" x2="24" y2="160" class="svg-dimension-line" />
+                        <line x1="-24" y1="157" x2="-24" y2="163" class="svg-tick" />
+                        <line x1="24" y1="157" x2="24" y2="163" class="svg-tick" />
+                        <text x="0" y="172" text-anchor="middle" class="svg-text">48px</text>
+                    </g>
+                </svg>
+            </div>
+
+            <!-- Bottom Right Metadata -->
+            <div class="absolute bottom-8 right-8 flex flex-col items-end gap-0.5 text-right">
+                <div class="reveal-mask">
+                    <span class="reveal-text text-xs tracking-tight font-normal text-slate-800 text-embossed">DEVELOPED</span>
+                </div>
+                <div class="reveal-mask flex items-center gap-1">
+                    <span class="reveal-text text-xs tracking-tight text-slate-500">BY</span>
+                    <span class="reveal-text text-xs tracking-tight font-normal text-slate-800 text-embossed">NEXUS<span class="text-xs align-top">.LABS</span></span>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // --- WebGL Background Animation (Subtle Grid) ---
+        const initWebGL = () => {
+            const container = document.getElementById('webgl-container');
+            const scene = new THREE.Scene();
+
+            // Fog to fade out edges smoothly
+            scene.fog = new THREE.FogExp2(0xEFEFF5, 0.0015);
+
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 200;
+            camera.position.y = 50;
+            camera.lookAt(0, 0, 0);
+
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            container.appendChild(renderer.domElement);
+
+            // Create a custom grid of lines that moves slowly
+            const material = new THREE.LineBasicMaterial({
+                color: 0x8A8A93,
+                transparent: true,
+                opacity: 0.15
+            });
+
+            const points = [];
+            const size = 1000;
+            const step = 40;
+
+            for (let i = -size; i <= size; i += step) {
+                // Diagonal lines direction 1
+                points.push(new THREE.Vector3(-size, 0, i));
+                points.push(new THREE.Vector3(size, 0, i + size));
+
+                // Diagonal lines direction 2
+                points.push(new THREE.Vector3(i, 0, -size));
+                points.push(new THREE.Vector3(i + size, 0, size));
+            }
+
+            const geometry = new THREE.BufferGeometry().setFromPoints(points);
+            const grid = new THREE.LineSegments(geometry, material);
+
+            // Tilt grid to match 2D diagonal aesthetic somewhat
+            grid.rotation.x = Math.PI / 4;
+            scene.add(grid);
+
+            let time = 0;
+            const animate = () => {
+                requestAnimationFrame(animate);
+                time += 0.001;
+
+                // Extremely slow, subtle panning to give life without distraction
+                grid.position.x = Math.sin(time) * 10;
+                grid.position.z = (time * 10) % step; // infinite scroll effect
+
+                renderer.render(scene, camera);
+            };
+
+            animate();
+
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        };
+
+        // --- GSAP Animations ---
+        const initGSAP = () => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Masked Text Reveal
+            const revealTexts = document.querySelectorAll('.reveal-text');
+            gsap.to(revealTexts, {
+                y: "0%",
+                duration: 0.8,
+                ease: "power3.out",
+                stagger: 0.1,
+                delay: 0.2
+            });
+
+            // SVG Drawing Animation
+            const svgPaths = document.querySelectorAll('#geometry-svg polygon, #geometry-svg rect, #geometry-svg line.svg-dimension-line, #geometry-svg line.svg-stroke-dashed');
+
+            // Set initial state for SVG elements to create drawing effect
+            gsap.set(svgPaths, { opacity: 0 });
+            gsap.set('.svg-fill-light, .svg-fill-dark', { fillOpacity: 0 });
+            gsap.set('.svg-text, .svg-tick', { opacity: 0 });
+
+            const tl = gsap.timeline({ delay: 0.5 });
+
+            // Fade in paths and geometry outlines
+            tl.to(svgPaths, {
+                opacity: 1,
+                duration: 0.5,
+                stagger: 0.02,
+                ease: "power2.inOut"
+            })
+            // Fade in fills
+            .to('.svg-fill-light, .svg-fill-dark', {
+                fillOpacity: 1,
+                duration: 0.8,
+                ease: "power2.out"
+            }, "-=0.2")
+            // Reveal text and ticks last
+            .to('.svg-text, .svg-tick', {
+                opacity: 1,
+                duration: 0.4,
+                ease: "power1.inOut"
+            }, "-=0.4");
+
+            // Subtle hover effect on the entire diagram
+            const svgContainer = document.getElementById('geometry-svg');
+            svgContainer.addEventListener('mouseenter', () => {
+                gsap.to(svgContainer, { scale: 1.02, duration: 0.4, ease: "power2.out" });
+            });
+            svgContainer.addEventListener('mouseleave', () => {
+                gsap.to(svgContainer, { scale: 1, duration: 0.4, ease: "power2.out" });
+            });
+        };
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', () => {
+            initWebGL();
+            initGSAP();
+        });
+    </script>
+</body>
+</html>

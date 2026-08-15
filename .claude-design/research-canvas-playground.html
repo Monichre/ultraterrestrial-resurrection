@@ -1,0 +1,1535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Research Canvas Design Playground</title>
+<style>
+  :root {
+    --bg: #121110;
+    --panel: #1a1917;
+    --panel-2: #22201d;
+    --line: rgba(232, 220, 196, 0.14);
+    --paper: #ebe4d4;
+    --ink-dim: rgba(235, 228, 212, 0.62);
+    --ink-faint: rgba(235, 228, 212, 0.4);
+    --stamp: #c45a3a;
+    --accent: #6bbf7a;
+    --amber: #d4a017;
+    --violet: #9b7bb8;
+    --void: oklch(0.16 0.006 85);
+    --surface: oklch(0.21 0.008 85 / 0.92);
+    --control-w: 320px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif;
+    background: var(--bg);
+    color: var(--paper);
+    height: 100vh;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: var(--control-w) 1fr;
+    grid-template-rows: 1fr auto;
+  }
+
+  /* —— Controls —— */
+  #controls {
+    grid-row: 1 / 3;
+    border-right: 1px solid var(--line);
+    background: var(--panel);
+    overflow-y: auto;
+    padding: 16px 14px 24px;
+  }
+
+  .brand {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 6px;
+  }
+
+  h1 {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 4px;
+  }
+
+  .sub {
+    font-size: 11px;
+    color: var(--ink-dim);
+    line-height: 1.45;
+    margin-bottom: 16px;
+  }
+
+  .presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 18px;
+  }
+
+  .preset {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 6px 8px;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--ink-dim);
+    cursor: pointer;
+    border-radius: 2px;
+  }
+  .preset:hover { color: var(--paper); border-color: var(--ink-faint); }
+  .preset.active {
+    background: oklch(0.58 0.19 27 / 0.18);
+    border-color: oklch(0.58 0.19 27 / 0.55);
+    color: var(--paper);
+  }
+
+  .group {
+    margin-bottom: 16px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--line);
+  }
+  .group:last-child { border-bottom: none; }
+
+  .group-title {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 10px;
+  }
+
+  label.row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-size: 12px;
+    color: var(--ink-dim);
+  }
+
+  label.row span.name { flex: 1; min-width: 0; }
+
+  label.row .val {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 10px;
+    color: var(--ink-faint);
+    min-width: 36px;
+    text-align: right;
+  }
+
+  input[type="range"] {
+    width: 110px;
+    accent-color: var(--stamp);
+  }
+
+  select, .seg {
+    font: inherit;
+    font-size: 11px;
+    background: var(--panel-2);
+    color: var(--paper);
+    border: 1px solid var(--line);
+    padding: 4px 6px;
+    border-radius: 2px;
+    max-width: 160px;
+  }
+
+  .seg {
+    display: flex;
+    padding: 0;
+    overflow: hidden;
+  }
+  .seg button {
+    flex: 1;
+    border: none;
+    background: transparent;
+    color: var(--ink-dim);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 9px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 6px 4px;
+    cursor: pointer;
+  }
+  .seg button + button { border-left: 1px solid var(--line); }
+  .seg button.on {
+    background: oklch(0.93 0.015 90 / 0.12);
+    color: var(--paper);
+  }
+
+  .toggle {
+    width: 36px;
+    height: 20px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: var(--panel-2);
+    position: relative;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .toggle::after {
+    content: '';
+    position: absolute;
+    top: 2px; left: 2px;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--ink-faint);
+    transition: transform 0.15s ease-out, background 0.15s;
+  }
+  .toggle.on { background: oklch(0.58 0.19 27 / 0.35); border-color: oklch(0.58 0.19 27 / 0.6); }
+  .toggle.on::after { transform: translateX(16px); background: var(--paper); }
+
+  details.advanced {
+    margin-top: 4px;
+  }
+  details.advanced summary {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    cursor: pointer;
+    margin-bottom: 10px;
+  }
+
+  /* —— Preview —— */
+  #preview-wrap {
+    position: relative;
+    overflow: hidden;
+    background: #0c0b0a;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .preview-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px;
+    border-bottom: 1px solid var(--line);
+    background: var(--panel);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .preview-bar .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 2px oklch(0.72 0.14 150 / 0.25);
+  }
+
+  #stage {
+    flex: 1;
+    position: relative;
+    margin: 16px;
+    border: 1px solid var(--line);
+    background: var(--void);
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  /* Shared stage texture */
+  #stage::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+      radial-gradient(ellipse 120% 90% at 50% 42%, transparent 55%, oklch(0.1 0.005 85 / 0.55) 100%),
+      radial-gradient(circle, oklch(0.3 0.012 85 / 0.45) 0.55px, transparent 1px);
+    background-size: 100% 100%, var(--grid, 10px) var(--grid, 10px);
+    opacity: var(--grid-op, 0.9);
+  }
+
+  .layer { position: absolute; inset: 0; z-index: 1; }
+
+  /* —— Empty canvas —— */
+  .empty-shell {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 24px 100px;
+    text-align: center;
+  }
+
+  .meta-line {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 10px;
+  }
+
+  .hero-title {
+    font-family: 'Special Elite', 'Courier New', Courier, monospace;
+    font-size: var(--title-px, 42px);
+    font-weight: 400;
+    color: var(--paper);
+    letter-spacing: 0.02em;
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+
+  .hero-sub {
+    font-size: 12px;
+    color: var(--ink-dim);
+    max-width: 360px;
+    line-height: 1.5;
+    margin-bottom: 28px;
+  }
+
+  .console {
+    position: absolute;
+    left: 50%;
+    bottom: 28px;
+    transform: translateX(-50%);
+    width: min(520px, calc(100% - 48px));
+    border: 1px solid var(--line);
+    background: var(--surface);
+    padding: 10px 12px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    z-index: 5;
+  }
+  .console.clipped {
+    clip-path: polygon(0 0, calc(100% - var(--clip, 12px)) 0, 100% var(--clip, 12px), 100% 100%, 0 100%);
+  }
+  .console input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--paper);
+    font-size: 12px;
+    outline: none;
+  }
+  .console input::placeholder { color: var(--ink-faint); }
+  .console .go {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: 1px solid oklch(0.72 0.14 150 / 0.45);
+    background: oklch(0.72 0.14 150 / 0.12);
+    color: #9fd4a8;
+    padding: 6px 10px;
+    cursor: default;
+  }
+
+  /* Registration Field extras */
+  .reg-tray {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: 140px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    padding: 8px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    text-align: left;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+  }
+  .reg-tray strong { display: block; color: var(--ink-dim); margin-bottom: 4px; }
+
+  /* Breach Desk */
+  .breach-split {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: var(--index-w, 28%) 1fr;
+  }
+  .breach-index {
+    border-right: 1px dashed var(--line);
+    padding: 20px 14px;
+    background: oklch(0.18 0.006 85 / 0.7);
+    text-align: left;
+  }
+  .breach-index .stamp {
+    display: inline-block;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 8px;
+    letter-spacing: 0.12em;
+    border: 1px solid oklch(0.58 0.19 27 / 0.55);
+    color: var(--stamp);
+    padding: 2px 6px;
+    margin-bottom: 12px;
+  }
+  .breach-index ul {
+    list-style: none;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .breach-index li {
+    padding: 6px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .breach-index li.active { color: var(--paper); }
+  .breach-field {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .reticle {
+    position: absolute;
+    width: 160px; height: 160px;
+    border: 1px solid oklch(0.87 0.02 85 / 0.12);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .reticle::before, .reticle::after {
+    content: '';
+    position: absolute;
+    background: oklch(0.87 0.02 85 / 0.2);
+  }
+  .reticle::before { left: 50%; top: -8px; bottom: -8px; width: 1px; transform: translateX(-50%); }
+  .reticle::after { top: 50%; left: -8px; right: -8px; height: 1px; transform: translateY(-50%); }
+  .annot {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--amber);
+    border: 1px dashed oklch(0.75 0.12 85 / 0.4);
+    padding: 4px 8px;
+  }
+
+  /* Microfilm Gate */
+  .gate-aperture {
+    position: absolute;
+    left: 50%; top: 42%;
+    transform: translate(-50%, -50%);
+    width: var(--aperture, 220px);
+    height: var(--aperture, 220px);
+    border-radius: 50%;
+    border: 1px solid oklch(0.72 0.14 150 / 0.35);
+    box-shadow:
+      0 0 0 2000px oklch(0.1 0.005 85 / var(--gate-vignette, 0.55)),
+      inset 0 0 40px oklch(0.1 0.005 85 / 0.4);
+    pointer-events: none;
+    z-index: 2;
+  }
+  .gate-content {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 80px;
+    text-align: center;
+  }
+
+  /* Card stacks */
+  .card-zone {
+    position: absolute;
+    left: 50%;
+    bottom: 100px;
+    transform: translateX(-50%);
+    z-index: 4;
+    width: min(480px, calc(100% - 40px));
+  }
+
+  .folder-stack {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    height: 88px;
+    position: relative;
+  }
+  .folder {
+    position: absolute;
+    width: 120px;
+    height: 72px;
+    border: 1px solid var(--line);
+    background: oklch(0.24 0.012 85 / 0.95);
+    clip-path: polygon(0 10px, 28px 10px, 36px 0, 100% 0, 100% 100%, 0 100%);
+    padding: 18px 8px 8px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 8px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    transition: transform 0.18s ease-out;
+    cursor: pointer;
+  }
+  .folder .tab {
+    position: absolute;
+    top: -1px; left: 4px;
+    font-size: 7px;
+    color: var(--ink-faint);
+  }
+  .folder:hover { transform: translateY(-8px) !important; border-color: oklch(0.87 0.02 85 / 0.35); }
+
+  .contact-sheet {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+  .contact-cell {
+    border: 1px solid var(--line);
+    background: oklch(0.2 0.008 85 / 0.9);
+    padding: 10px 8px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%);
+    cursor: pointer;
+  }
+  .contact-cell:hover { border-color: oklch(0.87 0.02 85 / 0.35); color: var(--paper); }
+  .contact-cell .ref { color: var(--ink-faint); margin-bottom: 4px; display: block; }
+
+  .index-rail {
+    display: flex;
+    align-items: flex-end;
+    height: 80px;
+    position: relative;
+    overflow: visible;
+  }
+  .rail-folder {
+    width: 100px;
+    height: 64px;
+    margin-left: -28px;
+    border: 1px solid var(--line);
+    background: oklch(0.23 0.01 85 / 0.95);
+    clip-path: polygon(0 8px, 22px 8px, 28px 0, 100% 0, 100% 100%, 0 100%);
+    padding: 14px 6px 6px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 8px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    cursor: pointer;
+    transition: transform 0.15s ease-out, z-index 0s;
+  }
+  .rail-folder:first-child { margin-left: 0; }
+  .rail-folder:hover {
+    transform: translateY(-10px);
+    z-index: 10;
+    color: var(--paper);
+  }
+
+  /* —— Tour chrome (Variant F floor) —— */
+  .tour-layer { position: absolute; inset: 0; }
+
+  .graph-svg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; }
+
+  .node {
+    position: absolute;
+    z-index: 2;
+    width: var(--node-w, 128px);
+    min-height: var(--node-h, 56px);
+    border: 1px solid var(--line);
+    background: var(--surface);
+    padding: 8px 10px;
+    font-size: 11px;
+    color: var(--paper);
+    transform: translate(-50%, -50%);
+    transition: opacity 0.2s ease-out;
+  }
+  .node.clipped {
+    clip-path: polygon(0 0, calc(100% - var(--clip, 12px)) 0, 100% var(--clip, 12px), 100% 100%, 0 100%);
+  }
+  .node.dim { opacity: var(--dim-op, 0.35); }
+  .node.active {
+    border-color: oklch(0.72 0.14 150 / 0.55);
+    box-shadow: 0 0 0 1px oklch(0.72 0.14 150 / 0.15);
+  }
+  .node .n-meta {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 7px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 3px;
+  }
+  .node .stamps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 6px;
+  }
+  .badge {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 7px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 1px 5px;
+    border: 1px solid oklch(0.72 0.14 150 / 0.45);
+    color: #9fd4a8;
+  }
+  .badge.dashed {
+    border-style: dashed;
+    border-color: oklch(0.62 0.14 300 / 0.55);
+    color: #c4a8d8;
+  }
+  .badge.amber {
+    border-color: oklch(0.75 0.12 85 / 0.5);
+    color: var(--amber);
+  }
+  .intel-block {
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px dashed var(--line);
+    font-size: 9px;
+    line-height: 1.35;
+    color: var(--ink-dim);
+  }
+
+  .tour-hud {
+    position: absolute;
+    left: 50%;
+    top: 12px;
+    transform: translateX(-50%);
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: min(480px, calc(100% - 48px));
+    border: 1px solid var(--line);
+    background: oklch(0.21 0.008 85 / var(--hud-op, 0.9));
+    padding: 7px 12px;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+  }
+  .tour-hud .title-bit {
+    font-size: 11px;
+    color: var(--paper);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .tour-hud .meta {
+    margin-left: auto;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 9px;
+    color: #9fd4a8;
+  }
+
+  .path-narrator {
+    position: absolute;
+    z-index: 18;
+    left: 58%;
+    top: 56%;
+    max-width: 210px;
+    border: 1px dashed oklch(0.75 0.12 85 / 0.45);
+    background: oklch(0.16 0.006 85 / 0.85);
+    padding: 8px 10px;
+  }
+  .path-narrator p {
+    font-size: 10px;
+    line-height: 1.4;
+    color: var(--ink-dim);
+    margin: 6px 0 8px;
+  }
+  .path-narrator .btns { display: flex; gap: 6px; }
+  .path-narrator button {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 8px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--ink-dim);
+    cursor: default;
+  }
+  .path-narrator button.primary {
+    border-color: oklch(0.72 0.14 150 / 0.45);
+    background: oklch(0.72 0.14 150 / 0.12);
+    color: #9fd4a8;
+  }
+
+  .side-nav {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 25;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 6px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--surface);
+    transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+  }
+  .side-nav.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-12px, -50%);
+  }
+  .side-nav .nav-dot {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 8px;
+    color: var(--ink-faint);
+  }
+  .side-nav .nav-dot.on {
+    background: var(--paper);
+    color: var(--void);
+  }
+  .side-nav .pin {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 7px;
+    letter-spacing: 0.08em;
+    color: var(--ink-faint);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 2px;
+  }
+  .side-nav .pin.on { color: #9fd4a8; }
+
+  .nav-peek {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 24;
+    width: 10px;
+    height: 56px;
+    border: 1px solid var(--line);
+    border-left: none;
+    border-radius: 0 2px 2px 0;
+    background: var(--surface);
+    writing-mode: vertical-rl;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 7px;
+    letter-spacing: 0.1em;
+    color: var(--ink-faint);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .nav-hotzone {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 12px;
+    z-index: 23;
+  }
+
+  .focus-ring {
+    position: absolute;
+    z-index: 1;
+    width: 190px; height: 190px;
+    border-radius: 50%;
+    border: 1px solid oklch(0.72 0.14 150 / 0.28);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .foot-note {
+    position: absolute;
+    right: 12px;
+    bottom: 10px;
+    z-index: 10;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 7px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    text-align: right;
+    max-width: 200px;
+    line-height: 1.4;
+  }
+
+  /* —— Prompt —— */
+  #prompt-panel {
+    border-top: 1px solid var(--line);
+    background: var(--panel);
+    padding: 12px 14px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 180px;
+  }
+  .prompt-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .prompt-head span {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  #copy-btn {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--ink-dim);
+    cursor: pointer;
+  }
+  #copy-btn:hover { color: var(--paper); border-color: var(--ink-faint); }
+  #copy-btn.copied {
+    border-color: oklch(0.72 0.14 150 / 0.5);
+    color: #9fd4a8;
+  }
+  #prompt {
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--ink-dim);
+    overflow-y: auto;
+    flex: 1;
+    white-space: pre-wrap;
+  }
+
+  .hidden { display: none !important; }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<aside id="controls">
+  <div class="brand">UT · Design Lab · Microfilm Dark</div>
+  <h1>Research Canvas Playground</h1>
+  <p class="sub">Explore empty-state directions + Variant F tour chrome from the Jul 19 vision docs. Copy a prompt when it feels right.</p>
+
+  <div class="presets" id="presets"></div>
+
+  <div class="group">
+    <div class="group-title">Surface</div>
+    <label class="row">
+      <span class="name">Mode</span>
+      <div class="seg" id="mode-seg">
+        <button type="button" data-v="empty">Empty</button>
+        <button type="button" data-v="tour">Tour</button>
+      </div>
+    </label>
+  </div>
+
+  <div class="group" id="g-empty">
+    <div class="group-title">Empty shell</div>
+    <label class="row">
+      <span class="name">Direction</span>
+      <select id="emptyDir">
+        <option value="registration">Registration Field</option>
+        <option value="breach">Breach Desk</option>
+        <option value="gate">Microfilm Gate</option>
+      </select>
+    </label>
+    <label class="row">
+      <span class="name">Title scale</span>
+      <input type="range" id="titleScale" min="28" max="64" value="42" />
+      <span class="val" id="titleScaleVal">42px</span>
+    </label>
+    <label class="row">
+      <span class="name">Dot grid</span>
+      <input type="range" id="gridSize" min="6" max="18" value="10" />
+      <span class="val" id="gridSizeVal">10px</span>
+    </label>
+    <label class="row">
+      <span class="name">Index width</span>
+      <input type="range" id="indexW" min="20" max="40" value="28" />
+      <span class="val" id="indexWVal">28%</span>
+    </label>
+    <label class="row">
+      <span class="name">Registration annotations</span>
+      <button type="button" class="toggle" id="annotations" aria-pressed="false"></button>
+    </label>
+    <label class="row">
+      <span class="name">Aperture</span>
+      <input type="range" id="aperture" min="140" max="320" value="220" />
+      <span class="val" id="apertureVal">220px</span>
+    </label>
+  </div>
+
+  <div class="group" id="g-cards">
+    <div class="group-title">Topic cards</div>
+    <label class="row">
+      <span class="name">Stack</span>
+      <select id="cardStack">
+        <option value="folder">Evidence Folder</option>
+        <option value="contact">Contact Sheet</option>
+        <option value="rail">Case Index Rail</option>
+        <option value="none">Hidden</option>
+      </select>
+    </label>
+  </div>
+
+  <div class="group" id="g-tour">
+    <div class="group-title">Tour chrome · Variant F</div>
+    <label class="row">
+      <span class="name">Side nav</span>
+      <select id="navMode">
+        <option value="auto-hide">Auto-hide (apossible)</option>
+        <option value="always">Always visible</option>
+      </select>
+    </label>
+    <label class="row">
+      <span class="name">Edge labels</span>
+      <button type="button" class="toggle on" id="edgeLabels" aria-pressed="true"></button>
+    </label>
+    <label class="row">
+      <span class="name">Bake intel into record</span>
+      <button type="button" class="toggle on" id="bakeIntel" aria-pressed="true"></button>
+    </label>
+    <label class="row">
+      <span class="name">Dim inactive nodes</span>
+      <button type="button" class="toggle on" id="dimInactive" aria-pressed="true"></button>
+    </label>
+    <label class="row">
+      <span class="name">Show tour path</span>
+      <button type="button" class="toggle on" id="tourPath" aria-pressed="true"></button>
+    </label>
+    <label class="row">
+      <span class="name">Path narrator</span>
+      <button type="button" class="toggle on" id="narrator" aria-pressed="true"></button>
+    </label>
+  </div>
+
+  <details class="advanced group">
+    <summary>Advanced · identity knobs</summary>
+    <label class="row">
+      <span class="name">Clip corner</span>
+      <input type="range" id="clip" min="0" max="20" value="12" />
+      <span class="val" id="clipVal">12px</span>
+    </label>
+    <label class="row">
+      <span class="name">HUD opacity</span>
+      <input type="range" id="hudOp" min="40" max="100" value="90" />
+      <span class="val" id="hudOpVal">90%</span>
+    </label>
+    <label class="row">
+      <span class="name">Node height</span>
+      <input type="range" id="nodeH" min="44" max="120" value="72" />
+      <span class="val" id="nodeHVal">72px</span>
+    </label>
+    <label class="row">
+      <span class="name">Inactive dim</span>
+      <input type="range" id="dimOp" min="15" max="70" value="35" />
+      <span class="val" id="dimOpVal">35%</span>
+    </label>
+    <label class="row">
+      <span class="name">Gate vignette</span>
+      <input type="range" id="gateVig" min="20" max="80" value="55" />
+      <span class="val" id="gateVigVal">55%</span>
+    </label>
+  </details>
+</aside>
+
+<section id="preview-wrap">
+  <div class="preview-bar">
+    <span class="dot"></span>
+    <span id="preview-label">Live preview</span>
+  </div>
+  <div id="stage"></div>
+</section>
+
+<footer id="prompt-panel">
+  <div class="prompt-head">
+    <span>Prompt · non-defaults only</span>
+    <button type="button" id="copy-btn">Copy prompt</button>
+  </div>
+  <div id="prompt"></div>
+</footer>
+
+<script>
+const TOPICS = [
+  { id: 'manhattan', label: 'Manhattan Project', ref: 'UT·NS // W:01' },
+  { id: 'roswell', label: 'Roswell handoff', ref: 'UT·NS // W:04' },
+  { id: 'secrecy', label: 'Secrecy machinery', ref: 'UT·NS // W:02' },
+  { id: 'physics', label: 'Revolutionary physics', ref: 'UT·NS // W:03' },
+];
+
+const NODES = [
+  { id: 'oak-ridge', label: 'Oak Ridge', x: 22, y: 38, year: '1943' },
+  { id: 'manhattan', label: 'Manhattan Eng.', x: 42, y: 48, year: '1942', active: true },
+  { id: 'trinity', label: 'Trinity', x: 62, y: 36, year: '1945' },
+  { id: 'roswell', label: 'Roswell', x: 78, y: 58, year: '1947' },
+];
+
+const EDGES = [
+  { from: 'oak-ridge', to: 'manhattan', kind: 'affinity', label: 'site · staff' },
+  { from: 'manhattan', to: 'trinity', kind: 'tour', label: 'waypoint' },
+  { from: 'trinity', to: 'roswell', kind: 'tour', label: 'handoff' },
+  { from: 'manhattan', to: 'roswell', kind: 'dashed', label: 'inference' },
+];
+
+const DEFAULTS = {
+  mode: 'empty',
+  emptyDir: 'registration',
+  titleScale: 42,
+  gridSize: 10,
+  indexW: 28,
+  annotations: false,
+  aperture: 220,
+  cardStack: 'folder',
+  navMode: 'auto-hide',
+  edgeLabels: true,
+  bakeIntel: true,
+  dimInactive: true,
+  tourPath: true,
+  narrator: true,
+  clip: 12,
+  hudOp: 90,
+  nodeH: 72,
+  dimOp: 35,
+  gateVig: 55,
+};
+
+const PRESETS = [
+  {
+    id: 'reg-folder',
+    name: 'Reg + Folders',
+    state: { mode: 'empty', emptyDir: 'registration', cardStack: 'folder', titleScale: 48, gridSize: 9, annotations: false },
+  },
+  {
+    id: 'breach-contact',
+    name: 'Breach + Sheet',
+    state: { mode: 'empty', emptyDir: 'breach', cardStack: 'contact', indexW: 30, annotations: true, titleScale: 36 },
+  },
+  {
+    id: 'gate-rail',
+    name: 'Gate + Rail',
+    state: { mode: 'empty', emptyDir: 'gate', cardStack: 'rail', aperture: 200, gateVig: 62, titleScale: 34 },
+  },
+  {
+    id: 'variant-f',
+    name: 'Variant F',
+    state: {
+      mode: 'tour',
+      navMode: 'auto-hide',
+      edgeLabels: true,
+      bakeIntel: true,
+      dimInactive: true,
+      tourPath: true,
+      narrator: true,
+      nodeH: 78,
+      hudOp: 90,
+      clip: 12,
+    },
+  },
+  {
+    id: 'edges-only',
+    name: 'Edges only',
+    state: {
+      mode: 'tour',
+      navMode: 'auto-hide',
+      edgeLabels: true,
+      bakeIntel: false,
+      dimInactive: true,
+      tourPath: true,
+      narrator: true,
+      nodeH: 56,
+    },
+  },
+];
+
+const state = { ...DEFAULTS };
+let navPinned = false;
+let navOpen = false;
+let activePreset = 'reg-folder';
+
+const $ = (id) => document.getElementById(id);
+
+function setToggle(el, on) {
+  el.classList.toggle('on', on);
+  el.setAttribute('aria-pressed', on ? 'true' : 'false');
+}
+
+function bindToggle(id, key) {
+  const el = $(id);
+  el.addEventListener('click', () => {
+    state[key] = !state[key];
+    setToggle(el, state[key]);
+    activePreset = null;
+    updatePresets();
+    updateAll();
+  });
+}
+
+function bindRange(id, key, fmt) {
+  const el = $(id);
+  const val = $(id + 'Val');
+  el.addEventListener('input', () => {
+    state[key] = Number(el.value);
+    val.textContent = fmt(state[key]);
+    activePreset = null;
+    updatePresets();
+    updateAll();
+  });
+}
+
+function bindSelect(id, key) {
+  $(id).addEventListener('change', (e) => {
+    state[key] = e.target.value;
+    activePreset = null;
+    updatePresets();
+    updateAll();
+  });
+}
+
+function applyPreset(p) {
+  Object.assign(state, DEFAULTS, p.state);
+  activePreset = p.id;
+  syncControls();
+  updatePresets();
+  updateAll();
+}
+
+function syncControls() {
+  $('emptyDir').value = state.emptyDir;
+  $('titleScale').value = state.titleScale;
+  $('titleScaleVal').textContent = state.titleScale + 'px';
+  $('gridSize').value = state.gridSize;
+  $('gridSizeVal').textContent = state.gridSize + 'px';
+  $('indexW').value = state.indexW;
+  $('indexWVal').textContent = state.indexW + '%';
+  setToggle($('annotations'), state.annotations);
+  $('aperture').value = state.aperture;
+  $('apertureVal').textContent = state.aperture + 'px';
+  $('cardStack').value = state.cardStack;
+  $('navMode').value = state.navMode;
+  setToggle($('edgeLabels'), state.edgeLabels);
+  setToggle($('bakeIntel'), state.bakeIntel);
+  setToggle($('dimInactive'), state.dimInactive);
+  setToggle($('tourPath'), state.tourPath);
+  setToggle($('narrator'), state.narrator);
+  $('clip').value = state.clip;
+  $('clipVal').textContent = state.clip + 'px';
+  $('hudOp').value = state.hudOp;
+  $('hudOpVal').textContent = state.hudOp + '%';
+  $('nodeH').value = state.nodeH;
+  $('nodeHVal').textContent = state.nodeH + 'px';
+  $('dimOp').value = state.dimOp;
+  $('dimOpVal').textContent = state.dimOp + '%';
+  $('gateVig').value = state.gateVig;
+  $('gateVigVal').textContent = state.gateVig + '%';
+
+  document.querySelectorAll('#mode-seg button').forEach((b) => {
+    b.classList.toggle('on', b.dataset.v === state.mode);
+  });
+
+  navOpen = state.navMode === 'always' || navPinned;
+}
+
+function updatePresets() {
+  document.querySelectorAll('.preset').forEach((b) => {
+    b.classList.toggle('active', b.dataset.id === activePreset);
+  });
+}
+
+function dirLabel(d) {
+  return ({ registration: 'Registration Field', breach: 'Breach Desk', gate: 'Microfilm Gate' })[d];
+}
+function stackLabel(s) {
+  return ({ folder: 'Evidence Folder Stack', contact: 'Archival Contact Sheet', rail: 'Case Index Rail', none: 'hidden' })[s];
+}
+
+function renderCards() {
+  if (state.cardStack === 'none' || state.mode !== 'empty') return '';
+
+  if (state.cardStack === 'folder') {
+    return `<div class="card-zone"><div class="folder-stack">${TOPICS.map((t, i) => `
+      <div class="folder" style="left:calc(50% - 60px + ${(i - 1.5) * 36}px); z-index:${i}; transform:translateY(${i * 2}px) rotate(${(i - 1.5) * 1.5}deg)">
+        <span class="tab">${t.ref}</span>${t.label}
+      </div>`).join('')}</div></div>`;
+  }
+
+  if (state.cardStack === 'contact') {
+    return `<div class="card-zone"><div class="contact-sheet">${TOPICS.map((t) => `
+      <div class="contact-cell"><span class="ref">${t.ref}</span>${t.label}</div>`).join('')}</div></div>`;
+  }
+
+  return `<div class="card-zone"><div class="index-rail">${TOPICS.map((t, i) => `
+    <div class="rail-folder" style="z-index:${i}">${t.label}</div>`).join('')}</div></div>`;
+}
+
+function renderEmpty() {
+  const clip = state.clip;
+  const consoleHtml = `
+    <div class="console clipped" style="--clip:${clip}px">
+      <span class="meta-line" style="margin:0">inquire</span>
+      <input readonly placeholder="Ask the archive…" />
+      <span class="go">Submit</span>
+    </div>`;
+
+  if (state.emptyDir === 'breach') {
+    return `
+      <div class="breach-split" style="--index-w:${state.indexW}%">
+        <aside class="breach-index">
+          <span class="stamp">[ Index ]</span>
+          <ul>
+            <li class="active">Inquiry · open</li>
+            <li>Case intake</li>
+            <li>Registration</li>
+            <li>Prior traces</li>
+          </ul>
+          ${state.annotations ? '<div class="annot" style="position:relative;top:auto;left:auto;margin-top:16px">Annot · declass desk</div>' : ''}
+        </aside>
+        <div class="breach-field">
+          ${state.annotations ? '<div class="annot">Datum · 35.08N / 106.65W</div>' : ''}
+          <div class="reticle"></div>
+          <div class="meta-line">UT · RC // empty</div>
+          <div class="hero-title" style="--title-px:${state.titleScale}px">Research Canvas</div>
+          <p class="hero-sub">Asymmetric datum desk. Console sits on a measured intersection — instrument, not hero metric.</p>
+          ${renderCards()}
+        </div>
+      </div>
+      ${consoleHtml}`;
+  }
+
+  if (state.emptyDir === 'gate') {
+    return `
+      <div class="gate-aperture" style="--aperture:${state.aperture}px; --gate-vignette:${state.gateVig / 100}"></div>
+      <div class="gate-content">
+        <div class="meta-line">Microfilm · registration gate</div>
+        <div class="hero-title" style="--title-px:${state.titleScale}px">Research Canvas</div>
+        <p class="hero-sub">Focus tightens the aperture. One wordmark moment; HUD ghosts stay low-opacity.</p>
+        ${renderCards()}
+      </div>
+      ${consoleHtml}`;
+  }
+
+  // Registration Field
+  return `
+    <div class="empty-shell">
+      <div class="reg-tray"><strong>Dossier tray</strong>N:00 · E:00<br/>idle · ready</div>
+      <div class="meta-line">UT · RC // registration field</div>
+      <div class="hero-title" style="--title-px:${state.titleScale}px">Research Canvas</div>
+      <p class="hero-sub">Oversized Special Elite title, Martian Mono meta, clipped dossier tray for the console, warm dot grid.</p>
+      ${renderCards()}
+    </div>
+    ${consoleHtml}`;
+}
+
+function pct(n) { return n + '%'; }
+
+function renderTour() {
+  const active = NODES.find((n) => n.active);
+  const lines = EDGES.map((e) => {
+    const a = NODES.find((n) => n.id === e.from);
+    const b = NODES.find((n) => n.id === e.to);
+    if (!a || !b) return '';
+    if (e.kind === 'tour' && !state.tourPath) return '';
+    const stroke =
+      e.kind === 'tour' ? 'oklch(0.72 0.12 55 / 0.85)'
+      : e.kind === 'dashed' ? 'oklch(0.62 0.18 300 / 0.7)'
+      : 'oklch(0.55 0.14 300 / 0.75)';
+    const dash = e.kind === 'dashed' ? '6 4' : e.kind === 'tour' ? '' : '2 3';
+    const mx = (a.x + b.x) / 2;
+    const my = (a.y + b.y) / 2;
+    const label = state.edgeLabels
+      ? `<text x="${mx}%" y="${my - 1.5}%" text-anchor="middle" fill="oklch(0.93 0.015 90 / 0.55)" font-size="9" font-family="ui-monospace,monospace" letter-spacing="1">${e.label}</text>`
+      : '';
+    return `<line x1="${a.x}%" y1="${a.y}%" x2="${b.x}%" y2="${b.y}%" stroke="${stroke}" stroke-width="${e.kind === 'tour' ? 2 : 1.2}" stroke-dasharray="${dash}" />${label}`;
+  }).join('');
+
+  const nodes = NODES.map((n) => {
+    const isActive = !!n.active;
+    const dim = state.dimInactive && !isActive ? 'dim' : '';
+    const intel = state.bakeIntel && isActive
+      ? `<div class="stamps">
+           <span class="badge">[ Corroborated ]</span>
+           <span class="badge dashed">[ Inference ]</span>
+           <span class="badge amber">[ Contested ]</span>
+         </div>
+         <div class="intel-block">Secrecy machinery precedes Roswell. Field reading + affinity live on the active record — never a side drawer.</div>`
+      : (isActive
+        ? `<div class="stamps"><span class="badge">[ Active ]</span></div>`
+        : '');
+    return `
+      <div class="node clipped ${dim} ${isActive ? 'active' : ''}"
+           style="left:${n.x}%; top:${n.y}%; --node-h:${state.nodeH}px; --clip:${state.clip}px; --dim-op:${state.dimOp / 100}">
+        <div class="n-meta">${n.year} · waypoint</div>
+        ${n.label}
+        ${intel}
+      </div>`;
+  }).join('');
+
+  const showNav = state.navMode === 'always' || navOpen || navPinned;
+  const showPeek = state.navMode === 'auto-hide' && !showNav;
+
+  return `
+    <div class="tour-layer">
+      <svg class="graph-svg" aria-hidden>${lines}</svg>
+      ${active ? `<div class="focus-ring" style="left:${active.x}%; top:${active.y}%"></div>` : ''}
+      ${nodes}
+
+      <div class="tour-hud" style="--hud-op:${state.hudOp / 100}">
+        <span class="badge">Guided tour</span>
+        <span class="meta-line" style="margin:0;color:var(--ink-dim)">Nuclear Shadow · Act I</span>
+        <span class="title-bit"><span class="meta" style="margin:0 6px 0 0">1942</span>Manhattan Engineering District</span>
+        <span class="meta">02 / 08</span>
+      </div>
+
+      ${state.narrator ? `
+      <div class="path-narrator">
+        <span class="badge amber">Waypoint</span>
+        <span class="meta-line" style="display:inline;margin-left:6px">path · live</span>
+        <p>Continue steps the camera along the amber path. Affinity / evidentiary labels sit on the edges.</p>
+        <div class="btns">
+          <button type="button">Back</button>
+          <button type="button" class="primary">Continue</button>
+        </div>
+      </div>` : ''}
+
+      ${state.navMode === 'auto-hide' ? `<div class="nav-hotzone" id="nav-hotzone"></div>` : ''}
+      ${showPeek ? `<button type="button" class="nav-peek" id="nav-peek">NAV</button>` : ''}
+
+      <nav class="side-nav ${showNav ? '' : 'hidden'}" id="side-nav">
+        ${['G','T','F','B','O','D'].map((c, i) => `<span class="nav-dot ${i === 0 ? 'on' : ''}">${c}</span>`).join('')}
+        ${state.navMode === 'auto-hide' ? `<button type="button" class="pin ${navPinned ? 'on' : ''}" id="nav-pin">${navPinned ? 'PIN' : '·'}</button>` : ''}
+      </nav>
+
+      <p class="foot-note">${state.navMode === 'auto-hide' ? 'Nav peeks from left · pin to keep · ' : ''}no intel sidebar</p>
+    </div>`;
+}
+
+function bindTourNav() {
+  const hot = $('nav-hotzone');
+  const peek = $('nav-peek');
+  const pin = $('nav-pin');
+  const nav = $('side-nav');
+
+  const open = () => {
+    navOpen = true;
+    renderPreview();
+  };
+  const scheduleClose = () => {
+    if (state.navMode !== 'auto-hide' || navPinned) return;
+    setTimeout(() => {
+      if (!navPinned) {
+        navOpen = false;
+        renderPreview();
+      }
+    }, 380);
+  };
+
+  if (hot) {
+    hot.addEventListener('mouseenter', open);
+  }
+  if (peek) {
+    peek.addEventListener('mouseenter', open);
+    peek.addEventListener('click', open);
+  }
+  if (nav) {
+    nav.addEventListener('mouseenter', open);
+    nav.addEventListener('mouseleave', scheduleClose);
+  }
+  if (pin) {
+    pin.addEventListener('click', () => {
+      navPinned = !navPinned;
+      navOpen = navPinned || navOpen;
+      renderPreview();
+    });
+  }
+}
+
+function renderPreview() {
+  const stage = $('stage');
+  stage.style.setProperty('--grid', state.gridSize + 'px');
+  stage.style.setProperty('--clip', state.clip + 'px');
+
+  if (state.mode === 'empty') {
+    stage.innerHTML = renderEmpty();
+    $('preview-label').textContent = `Empty · ${dirLabel(state.emptyDir)} · ${stackLabel(state.cardStack)}`;
+  } else {
+    stage.innerHTML = renderTour();
+    $('preview-label').textContent = `Tour · Variant F · nav ${state.navMode}`;
+    bindTourNav();
+  }
+
+  // Mode-specific control visibility
+  $('g-empty').classList.toggle('hidden', state.mode !== 'empty');
+  $('g-cards').classList.toggle('hidden', state.mode !== 'empty');
+  $('g-tour').classList.toggle('hidden', state.mode !== 'tour');
+}
+
+function updatePrompt() {
+  const parts = [];
+  const isTour = state.mode === 'tour';
+
+  if (isTour) {
+    parts.push('Resume the GuidedTourCanvasSurface design-lab toward Variant F (hierarchy HUD + live path + apossible chrome-minimal)');
+    parts.push('Keep the graph primary — no intelligence card, sidebar, or drawer');
+
+    if (state.navMode !== DEFAULTS.navMode) {
+      parts.push(state.navMode === 'auto-hide'
+        ? 'side nav auto-hides with left hotzone + peek tab (pin to keep)'
+        : 'side nav always visible');
+    } else {
+      parts.push('side nav auto-hides (left hotzone + peek; pin optional)');
+    }
+
+    if (state.edgeLabels) parts.push('waypoint / affinity labels live mid-edge');
+    else parts.push('hide mid-edge labels');
+
+    if (state.bakeIntel) parts.push('bake field reading + evidentiary stamps into the active record');
+    else parts.push('edges-only intelligence — stamps/labels on edges, keep the active record compact');
+
+    if (!state.dimInactive) parts.push('do not dim inactive nodes');
+    if (!state.tourPath) parts.push('hide the amber tour path');
+    if (!state.narrator) parts.push('omit the path narrator; Back/Continue only in the slim top HUD');
+    else parts.push('slim top tour HUD + path narrator with Back / Continue only');
+
+    if (state.nodeH !== DEFAULTS.nodeH) {
+      parts.push(state.nodeH > 90
+        ? `taller active records (~${state.nodeH}px) so baked intel can breathe`
+        : `compact node height (~${state.nodeH}px) to reduce edge-label noise`);
+    }
+    if (state.hudOp !== DEFAULTS.hudOp) parts.push(`tour HUD at ${state.hudOp}% opacity (HUD ghosts stay low)`);
+    if (state.clip !== DEFAULTS.clip) parts.push(`${state.clip}px clipped dossier corners`);
+    if (state.dimOp !== DEFAULTS.dimOp && state.dimInactive) parts.push(`inactive nodes at ${state.dimOp}% opacity`);
+
+    parts.push('Canon lock: Microfilm Dark — warm-black void, Special Elite wordmark once, Martian Mono OCR voice, solid = sourced / dashed = inference; no neon, glass, or hero-metric theater');
+  } else {
+    parts.push(`Port the Research Canvas empty state as ${dirLabel(state.emptyDir)} (visual shell only — keep ResearchCanvasConsole + submit contract)`);
+
+    if (state.emptyDir === 'registration') {
+      parts.push('oversized Special Elite title, Martian Mono meta, clipped dossier tray for the console, warm dot grid');
+    } else if (state.emptyDir === 'breach') {
+      parts.push(`split index/inquiry desk with index rail at ~${state.indexW}% width`);
+      if (state.annotations) parts.push('optional registration annotations on the measured field');
+      else parts.push('no registration annotations');
+    } else {
+      parts.push(`circular Microfilm Gate / registration aperture (~${state.aperture}px) with focus vignette at ${state.gateVig}%`);
+      parts.push('prefer this only if it stays archival — Gate is easiest to overdo as HUD');
+    }
+
+    if (state.titleScale !== DEFAULTS.titleScale) {
+      parts.push(state.titleScale >= 48
+        ? `hero title around ${state.titleScale}px (Registration Field scale)`
+        : `restrained title scale ~${state.titleScale}px`);
+    }
+    if (state.gridSize !== DEFAULTS.gridSize) parts.push(`warm dot grid at ${state.gridSize}px`);
+
+    if (state.cardStack !== 'none') {
+      parts.push(`topic cards as ${stackLabel(state.cardStack)}`);
+      if (state.cardStack === 'folder') parts.push('layered clipped folders with file tabs; raise-on-hover like pulling a record');
+      if (state.cardStack === 'contact') parts.push('2×2 accession sheet with file refs + clipped corners');
+      if (state.cardStack === 'rail') parts.push('overlapping cabinet folders on a horizontal evidence rail');
+      parts.push('each topic remains a button; preserve onCardClick(command, index); paper texture without glow');
+    } else {
+      parts.push('omit the topic card stack for this pass');
+    }
+
+    if (state.clip !== DEFAULTS.clip) parts.push(`${state.clip}px dossier corner clips`);
+
+    parts.push('Idle / loading / error states; prefers-reduced-motion; solid borders for sourced UI');
+    parts.push('Identity lock: warm-black void, paper text, one Special Elite wordmark, Martian Mono OCR — no scanlines, glassmorphism, or purple SaaS gradients');
+    parts.push('Implement under apps/app/src/app/design-lab/ or a Storybook story — not live injection into EmptyCanvas');
+  }
+
+  $('prompt').textContent = parts.map((p, i) => (i === 0 ? p + '.' : p.charAt(0).toUpperCase() + p.slice(1) + (p.endsWith('.') ? '' : '.'))).join(' ');
+}
+
+function updateAll() {
+  renderPreview();
+  updatePrompt();
+}
+
+/* Init */
+PRESETS.forEach((p) => {
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.className = 'preset';
+  b.dataset.id = p.id;
+  b.textContent = p.name;
+  b.addEventListener('click', () => applyPreset(p));
+  $('presets').appendChild(b);
+});
+
+document.querySelectorAll('#mode-seg button').forEach((b) => {
+  b.addEventListener('click', () => {
+    state.mode = b.dataset.v;
+    activePreset = null;
+    syncControls();
+    updatePresets();
+    updateAll();
+  });
+});
+
+bindSelect('emptyDir', 'emptyDir');
+bindSelect('cardStack', 'cardStack');
+bindSelect('navMode', 'navMode');
+bindRange('titleScale', 'titleScale', (v) => v + 'px');
+bindRange('gridSize', 'gridSize', (v) => v + 'px');
+bindRange('indexW', 'indexW', (v) => v + '%');
+bindRange('aperture', 'aperture', (v) => v + 'px');
+bindRange('clip', 'clip', (v) => v + 'px');
+bindRange('hudOp', 'hudOp', (v) => v + '%');
+bindRange('nodeH', 'nodeH', (v) => v + 'px');
+bindRange('dimOp', 'dimOp', (v) => v + '%');
+bindRange('gateVig', 'gateVig', (v) => v + '%');
+bindToggle('annotations', 'annotations');
+bindToggle('edgeLabels', 'edgeLabels');
+bindToggle('bakeIntel', 'bakeIntel');
+bindToggle('dimInactive', 'dimInactive');
+bindToggle('tourPath', 'tourPath');
+bindToggle('narrator', 'narrator');
+
+$('copy-btn').addEventListener('click', async () => {
+  const text = $('prompt').textContent;
+  try {
+    await navigator.clipboard.writeText(text);
+  } catch {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    ta.remove();
+  }
+  const btn = $('copy-btn');
+  btn.textContent = 'Copied!';
+  btn.classList.add('copied');
+  setTimeout(() => {
+    btn.textContent = 'Copy prompt';
+    btn.classList.remove('copied');
+  }, 1400);
+});
+
+applyPreset(PRESETS[0]);
+</script>
+</body>
+</html>

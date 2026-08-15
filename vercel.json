@@ -1,8 +1,12 @@
 {
+  "framework": "nextjs",
+  "buildCommand": "cd apps/app && next build",
+  "outputDirectory": "apps/app/.next",
+  "installCommand": "bun install",
   "crons": [
     {
-      "path": "/api/cron/update-rankings",
-      "schedule": "0 2 * * *"
+      "path": "/api/cron/process-testimonies",
+      "schedule": "0 */6 * * *"
     }
   ]
 }
