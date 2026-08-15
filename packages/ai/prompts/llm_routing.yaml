@@ -1,0 +1,424 @@
+# ═══════════════════════════════════════════════════════════════════════
+# Enterprise LLM Routing Config — disclosure-rag
+# ═══════════════════════════════════════════════════════════════════════
+#
+# Single source of truth for:
+#   1. Tier declarations — which models are available and what they can do
+#   2. Task declarations — what each pipeline stage needs
+#   3. Routing rules — which tiers serve which tasks, in what order
+#
+# This file drives lib/llm_router.py and lib/llm_fallback.py.
+# Code reads this config; it does not hardcode tier lists or task params.
+#
+# Model rankings reference (2026-08-15):
+#   GPT-5.5 6.7% · GPT-5.6 Sol 6.2% · Claude Sonnet 4.6 5.1%
+#   Gemini 3.1 Pro 5.0% · Claude Opus 4.8 4.6% · Claude Opus 4.7 4.4%
+#   Claude Opus 5 3.9% · Claude Sonnet 5 3.7% · Gemini 3 Flash 3.0%
+# ═══════════════════════════════════════════════════════════════════════
+
+# ── Tier Declarations ─────────────────────────────────────────────────
+#
+# `kind` selects the wire protocol:
+#   openai_compat  — OpenAI chat/completions shape (OpenAI, DeepSeek, Together, Groq, xAI, etc.)
+#   anthropic      — Anthropic Messages API (forced tool calls for structured output)
+#   google         — Google Generative AI API (native structured output)
+#
+# `capabilities`:
+#   structured_output — can enforce JSON schema via response_format or equivalent
+#   reasoning         — model emits chain-of-thought (needs token headroom)
+#   streaming         — supports streaming responses
+#   vision            — can process image inputs
+#
+# `cost_tier`: 1 = cheapest, 5 = most expensive (relative, not absolute)
+# `latency_tier`: 1 = fastest, 5 = slowest (relative)
+
+tiers:
+  # ── Tier 1: Google Gemini 3 Flash (fast classification, confirmed working) ──
+  - id: google/gemini-3-flash
+    provider: Google
+    kind: google
+    model: gemini-3-flash-preview
+    env_keys: [GEMINI_API_KEY, GOOGLE_API_KEY]
+    base_url: null
+    capabilities:
+      structured_output: true
+      reasoning: false
+      streaming: true
+      vision: true
+    cost_tier: 1
+    latency_tier: 1
+    max_retries: 1
+    notes: "Confirmed working 2026-08-15. Fastest + cheapest. Ideal for classification, validation, coherence review."
+
+  # ── Tier 2: Google Gemini 3.1 Pro (structured extraction, confirmed working) ──
+  - id: google/gemini-3.1-pro
+    provider: Google
+    kind: google
+    model: gemini-3.1-pro-preview
+    env_keys: [GEMINI_API_KEY, GOOGLE_API_KEY]
+    base_url: null
+    capabilities:
+      structured_output: true
+      reasoning: true
+      streaming: true
+      vision: true
+    cost_tier: 2
+    latency_tier: 2
+    max_retries: 1
+    reasoning_headroom_tokens: 2048
+    notes: "Confirmed working 2026-08-15. Good price/performance for NER and structured extraction."
+
+  # ── Tier 3: Anthropic Claude Sonnet 4.6 (analysis & reasoning) ──
+  # KEY INVALID as of 2026-08-15 — will activate when key is refreshed.
+  - id: anthropic/claude-sonnet-4.6
+    provider: Anthropic
+    kind: anthropic
+    model: claude-sonnet-4-6
+    env_keys: [ANTHROPIC_API_KEY]
+    base_url: null
+    capabilities:
+      structured_output: true  # via forced tool calls
+      reasoning: true
+      streaming: true
+      vision: true
+    cost_tier: 3
+    latency_tier: 3
+    max_retries: 1
+    reasoning_headroom_tokens: 4096
+    notes: "5.1% share. Best for epistemic analysis and claim extraction. KEY INVALID 2026-08-15."
+
+  # ── Tier 4: OpenAI GPT-5.5 (frontier general-purpose) ──
+  # KEY INVALID as of 2026-08-15 — will activate when key is refreshed.
+  - id: openai/gpt-5.5
+    provider: OpenAI
+    kind: openai_compat
+    model: gpt-5.5
+    env_keys: [OPENAI_API_KEY]
+    base_url: null  # null = use SDK default endpoint
+    capabilities:
+      structured_output: true
+      reasoning: false
+      streaming: true
+      vision: true
+    cost_tier: 4
+    latency_tier: 3
+    max_retries: 1
+    notes: "Top-ranked general model (6.7% share). KEY INVALID 2026-08-15."
+
+  # ── Tier 5: Anthropic Claude Opus 5 (deep reasoning, high-budget) ──
+  # KEY INVALID as of 2026-08-15 — will activate when key is refreshed.
+  - id: anthropic/claude-opus-5
+    provider: Anthropic
+    kind: anthropic
+    model: claude-opus-5
+    env_keys: [ANTHROPIC_API_KEY]
+    base_url: null
+    capabilities:
+      structured_output: true
+      reasoning: true
+      streaming: true
+      vision: true
+    cost_tier: 5
+    latency_tier: 5
+    max_retries: 1
+    reasoning_headroom_tokens: 4096
+    notes: "3.9% share. Most capable reasoning model. KEY INVALID 2026-08-15."
+
+  # ── Tier 6: xAI Grok 4 (alternative frontier) ──
+  # OUT OF CREDITS as of 2026-08-15 — will activate when credits restored.
+  - id: xai/grok-4
+    provider: xAI
+    kind: openai_compat
+    model: grok-4
+    env_keys: [XAI_API_KEY]
+    base_url: https://api.x.ai/v1
+    capabilities:
+      structured_output: true
+      reasoning: false
+      streaming: true
+      vision: false
+    cost_tier: 3
+    latency_tier: 3
+    max_retries: 1
+    notes: "OUT OF CREDITS 2026-08-15. Alternative frontier model."
+
+  # ── Tier 7: DeepSeek V4 Pro (budget reasoning, no structured output) ──
+  # Confirmed working 2026-08-15. Model identifier is deepseek-chat.
+  - id: deepseek/deepseek-v4-pro
+    provider: DeepSeek
+    kind: openai_compat
+    model: deepseek-chat
+    env_keys: [DEEPSEEK_API_KEY]
+    base_url: https://api.deepseek.com
+    capabilities:
+      structured_output: false  # confirmed: rejects response_format
+      reasoning: true
+      streaming: true
+      vision: false
+    cost_tier: 1
+    latency_tier: 4
+    max_retries: 1
+    reasoning_headroom_tokens: 4096
+    notes: "Confirmed working 2026-08-15. No structured output support. Use for free-text tasks or last-resort fallback."
+
+  # ── Tier 8: Groq GPT-OSS 120B (fast, cheap, non-reasoning) ──
+  # KEY INVALID as of 2026-08-15.
+  - id: groq/gpt-oss-120b
+    provider: Groq
+    kind: openai_compat
+    model: openai/gpt-oss-120b
+    env_keys: [GROQ_API_KEY]
+    base_url: https://api.groq.com/openai/v1
+    capabilities:
+      structured_output: true
+      reasoning: false
+      streaming: true
+      vision: false
+    cost_tier: 1
+    latency_tier: 1
+    max_retries: 0
+    notes: "KEY INVALID 2026-08-15. Ultra-low latency when active."
+
+  # ── Tier 9: Together Kimi K3 (budget reasoning fallback) ──
+  - id: together/kimi-k3
+    provider: Together
+    kind: openai_compat
+    model: moonshotai/Kimi-K3
+    env_keys: [TOGETHERAI_API_KEY, TOGETHER_API_KEY]
+    base_url: https://api.together.xyz/v1
+    capabilities:
+      structured_output: false  # unverified — assume no until tested
+      reasoning: true
+      streaming: true
+      vision: false
+    cost_tier: 2
+    latency_tier: 3
+    max_retries: 1
+    reasoning_headroom_tokens: 4096
+    notes: "Budget reasoning fallback. No key in app .env currently."
+
+  # ── Tier 10: OpenRouter GLM-5.2 (gateway, currently 402) ──
+  - id: openrouter/glm-5.2
+    provider: OpenRouter
+    kind: openai_compat
+    model: z-ai/glm-5.2
+    env_keys: [OPENROUTER_API_KEY]
+    base_url: https://openrouter.ai/api/v1
+    capabilities:
+      structured_output: true
+      reasoning: true
+      streaming: true
+      vision: false
+    cost_tier: 2
+    latency_tier: 3
+    max_retries: 1
+    reasoning_headroom_tokens: 4096
+    notes: "Currently returning 402 (depleted credits). Retained — activates when credits restored."
+
+  # ── Tier 11: Perplexity (search-augmented, free-text only) ──
+  - id: perplexity/sonar
+    provider: Perplexity
+    kind: openai_compat
+    model: sonar
+    env_keys: [PERPLEXITY_API_KEY]
+    base_url: https://api.perplexity.ai
+    capabilities:
+      structured_output: false
+      reasoning: false
+      streaming: true
+      vision: false
+    cost_tier: 2
+    latency_tier: 2
+    max_retries: 0
+    notes: "Search-augmented model. Use only for research/free-text tasks, not structured extraction."
+
+  # ── Tier 12: Cohere Command R+ (budget fallback) ──
+  - id: cohere/command-r-plus
+    provider: Cohere
+    kind: openai_compat
+    model: command-r-plus
+    env_keys: [COHERE_API_KEY]
+    base_url: https://api.cohere.com/v1
+    capabilities:
+      structured_output: false
+      reasoning: false
+      streaming: true
+      vision: false
+    cost_tier: 1
+    latency_tier: 2
+    max_retries: 0
+    notes: "Budget free-text fallback. No structured output."
+
+
+# ── Task Declarations ─────────────────────────────────────────────────
+#
+# Each task declares its requirements. The router matches tasks to tiers
+# by capability, then orders by the task's `preferred_tiers` list.
+#
+# `requires`:
+#   structured_output — task will send a JSON schema and needs it enforced
+#   reasoning         — task benefits from or requires chain-of-thought
+#   vision            — task processes images
+#
+# `schema_strict` — send schema with strict=True (schema must be audited clean)
+# `reasoning_headroom_tokens` — extra tokens added to max_tokens for reasoning tiers
+
+tasks:
+  # ── Classification: cheap, fast, no reasoning ──
+  - id: document_classification
+    prompt_id: document_classification
+    requires:
+      structured_output: false  # expects JSON but doesn't enforce schema
+      reasoning: false
+    max_tokens: 700
+    temperature: 0.0
+    preferred_tiers:
+      - google/gemini-3-flash
+      - groq/gpt-oss-120b
+      - openai/gpt-5.5
+      - anthropic/claude-sonnet-4.6
+    fallback_tiers:
+      - deepseek/deepseek-v4-pro
+      - together/kimi-k3
+
+  # ── Content Analysis: reasoning, structured, epistemic ──
+  - id: disclosure.content_analysis
+    prompt_id: disclosure.content_analysis
+    requires:
+      structured_output: true
+      reasoning: true
+    max_tokens: 1100
+    temperature: 0.15
+    schema_strict: false
+    preferred_tiers:
+      - google/gemini-3.1-pro
+      - anthropic/claude-sonnet-4.6
+      - openai/gpt-5.5
+      - anthropic/claude-opus-5
+    fallback_tiers:
+      - google/gemini-3-flash
+      - deepseek/deepseek-v4-pro
+
+  # ── RAG Ingestion: high budget, structured, strict ──
+  - id: rag_ingestion
+    prompt_id: rag_ingestion
+    requires:
+      structured_output: true
+      reasoning: true
+    max_tokens: 16000
+    temperature: 0.1
+    schema_strict: true
+    preferred_tiers:
+      - google/gemini-3.1-pro
+      - openai/gpt-5.5
+      - anthropic/claude-opus-5
+      - anthropic/claude-sonnet-4.6
+    fallback_tiers:
+      - google/gemini-3-flash
+      - deepseek/deepseek-v4-pro
+
+  # ── NER: structured, per-chunk (cost-sensitive) ──
+  - id: disclosure.ner
+    prompt_id: disclosure.ner
+    requires:
+      structured_output: true
+      reasoning: true
+    max_tokens: 1200
+    temperature: 0.1
+    schema_strict: false
+    preferred_tiers:
+      - google/gemini-3.1-pro
+      - google/gemini-3-flash
+      - anthropic/claude-sonnet-4.6
+      - openai/gpt-5.5
+    fallback_tiers:
+      - groq/gpt-oss-120b
+      - deepseek/deepseek-v4-pro
+
+  # ── Validation: cheap, fast, structured JSON expected ──
+  - id: validation
+    prompt_id: validation
+    requires:
+      structured_output: false  # expects JSON but doesn't enforce schema
+      reasoning: false
+    max_tokens: 900
+    temperature: 0.0
+    preferred_tiers:
+      - google/gemini-3-flash
+      - groq/gpt-oss-120b
+      - openai/gpt-5.5
+    fallback_tiers:
+      - deepseek/deepseek-v4-pro
+      - together/kimi-k3
+
+  # ── Narrative Summary: free text, reasoning helpful ──
+  - id: narrative_summary
+    prompt_id: disclosure.research
+    requires:
+      structured_output: false
+      reasoning: true
+    max_tokens: 4000
+    temperature: 0.1
+    preferred_tiers:
+      - google/gemini-3.1-pro
+      - anthropic/claude-sonnet-4.6
+      - openai/gpt-5.5
+    fallback_tiers:
+      - google/gemini-3-flash
+      - deepseek/deepseek-v4-pro
+      - perplexity/sonar
+
+  # ── Coherence Review: cheap, fast ──
+  - id: coherence_review
+    prompt_id: null  # uses inline prompt, not registry
+    requires:
+      structured_output: false
+      reasoning: false
+    max_tokens: 1200
+    temperature: 0.1
+    preferred_tiers:
+      - google/gemini-3-flash
+      - groq/gpt-oss-120b
+    fallback_tiers:
+      - deepseek/deepseek-v4-pro
+
+  # ── Parse Repair: same requirements as parent task ──
+  - id: parse_repair
+    prompt_id: null  # inherits from parent
+    requires:
+      structured_output: false  # repair runs unconstrained
+      reasoning: false
+    max_tokens: null  # inherits from parent
+    temperature: null  # inherits from parent
+    preferred_tiers: []  # inherits from parent
+    fallback_tiers: []
+
+
+# ── Caching Configuration ─────────────────────────────────────────────
+
+cache:
+  # Dead-tier cache: persisted to disk so new process invocations skip
+  # known-dead endpoints instead of re-probing them.
+  dead_tier_ttl_seconds: 3600  # 1 hour — re-probe dead tiers after this
+  dead_tier_path: ".cache/llm_dead_tiers.json"
+
+  # Schema capability cache: once a tier rejects structured output, skip
+  # the schema attempt on every subsequent call to that tier.
+  schema_capability_ttl_seconds: 86400  # 24 hours — re-test after this
+  schema_capability_path: ".cache/llm_schema_capabilities.json"
+
+
+# ── Global Defaults ───────────────────────────────────────────────────
+
+defaults:
+  temperature: 0.1
+  max_tokens: 1200
+  reasoning_headroom_tokens: 4096
+  backoff_base_seconds: 0.75
+  # When a task's preferred tiers are all dead/unavailable, fall through
+  # to fallback_tiers. When those are also exhausted, use the global
+  # last-resort chain below (any tier, regardless of capability match).
+  last_resort_tiers:
+    - deepseek/deepseek-v4-pro
+    - together/kimi-k3
+    - cohere/command-r-plus

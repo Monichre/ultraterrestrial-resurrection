@@ -329,7 +329,12 @@ def _is_transient(exc: Exception) -> bool:
 
 
 class LLMFallback:
-    """Ordered frontier chain with per-tier retry and dead-tier caching."""
+    """Ordered frontier chain with per-tier retry and dead-tier caching.
+
+    When a `task_id` is passed to `complete()`, the router determines tier
+    order from `llm_routing.yaml` and caches schema capabilities per-tier.
+    Without a `task_id`, falls back to the legacy hardcoded chain.
+    """
 
     def __init__(
         self,
@@ -347,6 +352,19 @@ class LLMFallback:
         self.backoff_base = backoff_base
         self._dead: Dict[str, str] = {}
         self._clients: Dict[str, Any] = {}
+
+        # Router integration — lazy-loaded to avoid circular imports at module level
+        self._router = None
+
+    def _get_router(self):
+        """Lazy-load the router singleton."""
+        if self._router is None:
+            try:
+                from lib.llm_router import get_router
+                self._router = get_router()
+            except Exception as e:
+                logger.debug("Router not available, using legacy chain: %s", e)
+        return self._router
 
     # -- introspection ----------------------------------------------------
 
@@ -370,12 +388,126 @@ class LLMFallback:
             from anthropic import Anthropic
 
             client = Anthropic(api_key=key)
+        elif tier.kind == "google":
+            # Google Generative AI API — we use the google-genai SDK which
+            # provides a unified client. Fall back to raw httpx if the SDK
+            # is not installed.
+            try:
+                from google import genai
+                client = genai.Client(api_key=key)
+            except ImportError:
+                client = {"_raw": True, "key": key}
         else:
             from openai import OpenAI
 
             client = OpenAI(api_key=key, base_url=tier.base_url) if tier.base_url else OpenAI(api_key=key)
         self._clients[tier.id] = client
         return client
+
+    def _call_google(
+        self,
+        client: Any,
+        tier: Tier,
+        system_prompt: str,
+        user_content: str,
+        temperature: float,
+        max_tokens: int,
+        schema: Optional[Dict[str, Any]] = None,
+        schema_name: str = "response",
+        strict: bool = False,
+    ) -> str:
+        """Call Google Generative AI API (gemini models).
+
+        Uses the google-genai SDK when available, falls back to raw httpx.
+        Structured output via response_schema (JSON mode).
+        """
+        # If the SDK wasn't available, client is a dict with the key — use httpx
+        if isinstance(client, dict) and client.get("_raw"):
+            return self._call_google_raw(
+                client["key"], tier, system_prompt, user_content,
+                temperature, max_tokens, schema, schema_name, strict,
+            )
+
+        from google.genai import types
+
+        config_kwargs: Dict[str, Any] = {
+            "temperature": temperature,
+            "max_output_tokens": max_tokens,
+        }
+        if schema is not None:
+            config_kwargs["response_mime_type"] = "application/json"
+            config_kwargs["response_schema"] = schema
+
+        config = types.GenerateContentConfig(
+            system_instruction=system_prompt,
+            **config_kwargs,
+        )
+
+        try:
+            response = client.models.generate_content(
+                model=tier.model,
+                contents=user_content,
+                config=config,
+            )
+        except Exception as exc:
+            # Check for schema rejection
+            exc_str = str(exc).lower()
+            if schema is not None and any(s in exc_str for s in ["schema", "response_format", "json", "unsupported"]):
+                raise SchemaUnsupported(f"{tier.id}: {exc}") from exc
+            raise
+
+        text = response.text or ""
+        if not text.strip():
+            # Check for budget exhaustion
+            finish = getattr(response, "finish_reason", None)
+            if finish and "length" in str(finish).lower():
+                raise BudgetExhausted(
+                    f"{tier.id}: max_tokens={max_tokens} consumed before any answer"
+                )
+        return text
+
+    def _call_google_raw(
+        self,
+        api_key: str,
+        tier: Tier,
+        system_prompt: str,
+        user_content: str,
+        temperature: float,
+        max_tokens: int,
+        schema: Optional[Dict[str, Any]] = None,
+        schema_name: str = "response",
+        strict: bool = False,
+    ) -> str:
+        """Raw httpx fallback for Google API when SDK is not installed."""
+        import httpx
+
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{tier.model}:generateContent?key={api_key}"
+        body: Dict[str, Any] = {
+            "contents": [{"parts": [{"text": user_content}]}],
+            "systemInstruction": {"parts": [{"text": system_prompt}]},
+            "generationConfig": {
+                "temperature": temperature,
+                "maxOutputTokens": max_tokens,
+            },
+        }
+        if schema is not None:
+            body["generationConfig"]["responseMimeType"] = "application/json"
+            body["generationConfig"]["responseSchema"] = schema
+
+        resp = httpx.post(url, json=body, headers={"Content-Type": "application/json"}, timeout=120)
+        if resp.status_code >= 400:
+            exc_str = resp.text.lower()
+            if schema is not None and any(s in exc_str for s in ["schema", "response_format", "json", "unsupported"]):
+                raise SchemaUnsupported(f"{tier.id}: HTTP {resp.status_code}: {resp.text[:200]}")
+            raise RuntimeError(f"{tier.id}: HTTP {resp.status_code}: {resp.text[:200]}")
+
+        data = resp.json()
+        candidates = data.get("candidates", [])
+        if not candidates:
+            return ""
+        parts = candidates[0].get("content", {}).get("parts", [])
+        text = "".join(p.get("text", "") for p in parts)
+        return text
 
     def _call_provider(
         self,
@@ -389,6 +521,11 @@ class LLMFallback:
         strict: bool = False,
     ) -> str:
         client = self._client(tier)
+        if tier.kind == "google":
+            return self._call_google(
+                client, tier, system_prompt, user_content,
+                temperature, max_tokens, schema, schema_name, strict,
+            )
         if tier.kind == "anthropic":
             kwargs: Dict[str, Any] = {}
             if schema is not None:
@@ -488,8 +625,13 @@ class LLMFallback:
         schema: Optional[Dict[str, Any]] = None,
         schema_name: str = "response",
         strict: bool = False,
+        task_id: Optional[str] = None,
     ) -> LLMResult:
         """Run the chain, returning the first success and its provenance.
+
+        When `task_id` is given, the router determines tier order from
+        ``llm_routing.yaml`` and caches schema capabilities per-tier. Without
+        it, the legacy hardcoded chain is used.
 
         When `schema` is given, the provider is required to emit JSON matching
         it rather than merely asked to in prose. This is what separates a
@@ -511,7 +653,35 @@ class LLMFallback:
         attempts = 0
         first_enabled = None
 
-        for tier in self.tiers:
+        # When task_id is given, use the router to determine tier order.
+        # The router filters dead tiers (persisted to disk) and orders by
+        # the task's preferred → fallback → last-resort chain.
+        router = self._get_router() if task_id else None
+        if router and task_id:
+            routed = router.get_ordered_tiers_for_task(task_id)
+            # Convert TierConfig objects to the legacy Tier shape that
+            # _call_provider expects. We build ad-hoc Tier instances so
+            # the rest of the loop is unchanged.
+            chain = [
+                Tier(
+                    id=t.id,
+                    provider=t.provider,
+                    env_keys=t.env_keys,
+                    model=t.model,
+                    kind=t.kind,
+                    base_url=t.base_url,
+                    max_retries=t.max_retries,
+                    reasoning=t.reasoning,
+                )
+                for t in routed
+            ]
+            # Use per-task reasoning headroom from config if available
+            tier_configs = {t.id: t for t in routed}
+        else:
+            chain = self.tiers
+            tier_configs = {}
+
+        for tier in chain:
             if not tier.api_key():
                 continue  # credential absent — free skip, not a failure
             if first_enabled is None:
@@ -531,12 +701,22 @@ class LLMFallback:
             for attempt in range(1, tier.max_retries + 2):
                 attempts += 1
                 try:
+                    # Check if this tier is known to not support structured
+                    # output (from config or cached rejection). If so, skip
+                    # the schema attempt entirely — no wasted round trip.
+                    send_schema = schema
+                    if send_schema is not None and router:
+                        if not router.should_send_schema(tier.id, task_id or "", send_schema):
+                            send_schema = None
                     try:
                         text = self._call_provider(
                             tier, system_prompt, user_content, temperature, tier_max_tokens,
-                            schema=schema, schema_name=schema_name, strict=strict,
+                            schema=send_schema, schema_name=schema_name, strict=strict,
                         )
-                        enforced = schema is not None
+                        enforced = send_schema is not None
+                        # Cache successful schema enforcement
+                        if send_schema is not None and router:
+                            router.set_tier_schema_capability(tier.id, True)
                     except SchemaUnsupported as exc:
                         # The tier is healthy and its credential is good — it
                         # just does not implement structured output. Retry it
@@ -547,6 +727,11 @@ class LLMFallback:
                         # False and _is_transient says True for this exception —
                         # so falling through would retry the same tier with the
                         # same schema and then burn the rest of the chain.
+                        #
+                        # Cache the capability so we skip the schema attempt
+                        # on every subsequent call to this tier.
+                        if router:
+                            router.set_tier_schema_capability(tier.id, False)
                         logger.warning(
                             "LLM tier %s does not support structured output (%s) — "
                             "retrying unconstrained on the same tier", tier.id, exc,
@@ -574,6 +759,9 @@ class LLMFallback:
                     if _is_permanent(exc):
                         status = _status_of(exc)
                         self._dead[tier.id] = f"HTTP {status}" if status else type(exc).__name__
+                        # Persist to disk via router so new invocations skip this tier
+                        if router:
+                            router.mark_tier_dead(tier.id, self._dead[tier.id])
                         logger.warning(
                             "LLM tier %s permanently unavailable (%s) — skipping for the rest of this run",
                             tier.id, self._dead[tier.id],

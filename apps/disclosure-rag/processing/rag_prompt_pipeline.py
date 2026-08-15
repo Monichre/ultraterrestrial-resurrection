@@ -170,6 +170,8 @@ class RagPromptPipeline:
         # tell real enrichment from silent degradation.
         self.tiers_used: List[str] = []
         self.degraded = False
+        #: Current task ID for router-aware tier selection (set per prompt).
+        self._current_task_id: Optional[str] = None
         #: Prompts that asked for schema enforcement and did not get it.
         self.unenforced_prompts: List[str] = []
         #: Prompts that needed a parse-repair round trip to return valid JSON.
@@ -203,6 +205,7 @@ class RagPromptPipeline:
             schema=schema,
             schema_name=schema_name,
             strict=strict,
+            task_id=self._current_task_id,
         )
         if result.tier_id not in self.tiers_used:
             self.tiers_used.append(result.tier_id)
@@ -238,6 +241,10 @@ class RagPromptPipeline:
         # was applied indiscriminately.
         schema = payload.get("schema") if prompt_id in SCHEMA_ENABLED_PROMPTS else None
         strict = schema is not None and prompt_id in STRICT_SCHEMA_PROMPTS
+
+        # Set the task ID for router-aware tier selection. The prompt_id
+        # matches the task ID in llm_routing.yaml for registry-backed prompts.
+        self._current_task_id = prompt_id
 
         user_content = user_fallback or (
             "Return valid JSON only, conforming to the instructions and schema."
