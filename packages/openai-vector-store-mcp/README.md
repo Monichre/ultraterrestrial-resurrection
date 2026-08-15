@@ -13,21 +13,26 @@ Based on: <https://developers.openai.com/api/docs/mcp>
 
 Citation-ready `url` values point at `https://platform.openai.com/storage/files/{file_id}`.
 
+> **Full operations & fidelity-check guide: [`USAGE.md`](./USAGE.md)** — tool
+> contracts, corpus-integrity workflows, known defects, and the additions backlog.
+> Read it before relying on this server for data-driven work.
+
 ## Setup
 
 ```bash
 cd packages/openai-vector-store-mcp
 bun run setup
-cp .env.example .env
-# fill OPENAI_API_KEY + VECTOR_STORE_ID (or OPENAI_VECTOR_STORE_ID)
 ```
 
-`VECTOR_STORE_ID` / `OPENAI_VECTOR_STORE_ID` should be the same store the app uses for Prometheus / disclosure file_search (`OPENAI_VECTOR_STORE_ID` in the monorepo root env).
+No package-level `.env` is needed: the server loads the repo-root `.env` itself
+(`OPENAI_API_KEY` + `OPENAI_VECTOR_STORE_ID` — the same store the app's Prometheus /
+disclosure `file_search` uses). See `USAGE.md` §2 for the precedence gotcha
+(`VECTOR_STORE_ID` wins over `OPENAI_VECTOR_STORE_ID`).
 
 ## Run
 
 ```bash
-# Cursor / local MCP clients (default)
+# Cursor / local MCP clients (default) — VERIFIED LIVE (2026-08-09, 2026-08-15)
 bun run start
 
 # Remote SSE (ChatGPT plugins / Responses API mcp tool) — endpoint ends with /sse/
@@ -36,6 +41,9 @@ bun run dev:sse
 # Streamable HTTP
 bun run dev:http
 ```
+
+⚠️ `sse` and `http` are **implemented but never verified** — treat as experimental
+until a round-trip is recorded in `USAGE.md` §8.
 
 ## Cursor
 

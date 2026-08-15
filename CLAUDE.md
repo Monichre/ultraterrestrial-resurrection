@@ -1,133 +1,151 @@
-# [CLAUDE.md](http://CLAUDE.md)
+# CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+How to work in this repo. Not an explanation of Ultraterrestrial.
 
-## Required Architecture Reading (MANDATORY FIRST)
+## Execution contract
 
-**CRITICAL**: Before starting any work, read these documents in order:
+The user's current explicit task is the active scope.
 
-1. [README.md](README.md)
-2. [AGENTS.md](AGENTS.md) - **COMPREHENSIVE DEVELOPMENT GUIDELINES**
-3. [docs/agents/ops/AGENT_ONBOARDING_CHECKLIST.md](docs/agents/ops/AGENT_ONBOARDING_CHECKLIST.md) - **MANDATORY FIRST READ** - Validation checklist
-4. [docs/README.md](docs/README.md) - Documentation spine (what exists / where / how / want / do / start)
-5. [PRODUCT.md](PRODUCT.md) — product narrative. [DESIGN.md](DESIGN.md) — **NOT CANONICAL**; a deeply limited Microfilm Dark *canvas chrome sketch* only. For design ambition / identity / UX, read [`docs/vision/`](docs/vision/) (especially `DESIGN_REGISTERS.md`, `UX_LANGUAGE_GUIDE.md`, `UI_INSPIRATION.md`, `TEMPORAL_OBSERVATORY.md`) and [`docs/design/design-lab/`](docs/design/design-lab/) before any UI or brand work.
+Execute that task as narrowly as possible. Do not expand it based on
+roadmaps, TODOs, architecture documents, adjacent problems, or ideas
+discovered during implementation.
 
-## Agent Configuration System
+Repository documentation provides constraints and context. It does not
+create additional work unless the user explicitly asks for that work.
 
-All development guidelines consolidated into:
+### Default execution loop
 
-### Master Guidelines - `AGENTS.md`
+For ordinary implementation tasks:
 
-- Single source of truth for development guidelines, stack, and AI architecture
-- Three-tier project management details live here (do not duplicate elsewhere)
-- Worklane definitions (Lane A Corpus & Ingestion / Lane B Platform & Experience) live here
-- **Never `git stash` on the shared working tree** — see `AGENTS.md` for the full rule and the incident that produced it
+1. Identify the narrow requested outcome.
+2. Inspect only the relevant edit path.
+3. Make the smallest coherent change.
+4. Run the narrowest relevant verification.
+5. Report the result briefly.
+6. Stop.
 
-### Ops / agent intake - `docs/agents/ops/`
+### Context discipline
 
-- `docs/agents/ops/AGENT_ONBOARDING_CHECKLIST.md` - Mandatory validation checklist
-- `docs/agents/ops/issue-tracker.md` / `triage-labels.md` / `domain.md` - Skills meta
-- `docs/agents/ops/CONTRIB.md` - Contribution and import conventions
-- Platform IDE rules live in `.cursor/`, `.claude/`, etc. — not under `docs/agents/ops/`
+Do not perform repository onboarding before ordinary tasks.
 
-### Project Management System
+Before opening a file, it should be:
 
-- `docs/plans/FEATURES.md` - Strategic planning (Tier 1)
-- `docs/plans/TODO.md` - Actionable tickets (Tier 2)
-- `DAILY_WORK_PLAN.md` - Daily execution (Tier 3)
+- named by the user;
+- on the active import/dependency path;
+- necessary to understand an interface being changed;
+- needed for targeted verification; or
+- necessary because implementation is otherwise blocked.
 
-## Three-Tier Project Management System (MANDATORY FOR ALL AGENTS)
+Do not browse files for general understanding.
 
-**CRITICAL**: All agents MUST use this standardized three-tier approach for project management. Tier definitions, scope, and update cadence live in [AGENTS.md](AGENTS.md) — do not restate them here.
+README files, AGENTS.md, FEATURES.md, TODO.md, DAILY_WORK_PLAN.md,
+product documents, vision documents, research notes, and historical plans
+are on-demand references only.
 
-Python work uses Python 3 and a `.venv` (`apps/disclosure-rag/` has its own).
+Do not proactively explore directories to discover additional instructions.
+Nested CLAUDE.md files encountered on the active edit path may provide
+local constraints but do not expand task scope.
 
-## Architecture Overview
+### Documentation is passive
 
-**What does NOT exist in the Next.js app (corrected myths):**
+The existence of documentation, TODOs, plans, or architectural proposals
+is NOT an instruction to:
 
-- ~~Triple RAG with 40/40/20 weighting~~ — FTS + pgvector (2 paths), not 3
-- ~~FAISS, Upstash Vector, CocoIndex~~ — Python-only or completely unimplemented
-- ~~Multi-agent tour orchestrator~~ — 6 agent classes specced (July 2025), zero code written, scrapped
-- ~~85% AI connectivity~~ — Two live AI paths (mindmap agent + Prometheus chat); the rest are broken or dead
-- ~~Neo4j / Amazon Neptune knowledge graph as product persistence~~ — Postgres entity tables + five junction tables via `loadEntityGraph`; no graph database anywhere (methodology templates review, `docs/PLANS/2026-08-05-methodology-templates-deep-review.md`)
-- ~~Kafka / Flink / Spark streaming topic-tracking pipeline~~ — No streaming runtime on either live AI path; realtime-monitor personas are conceptual grammar, not services (same review)
-- ~~OWL / RDFS ontologies + Apache Jena SPARQL~~ — Zod/TS types + Postgres schema under `@db/postgres`, queried with typed helpers and `getSql()`; no triplestore, no SPARQL endpoint (same review)
-- ~~Docker Compose / Kubernetes "ufo-research-system", with `packages/ai/agents/*.md` as deployable microservices~~ — Those 18 files are markdown persona grammar, not routes or processes; there is no orchestrated research platform to deploy (same review)
+- implement them;
+- reconcile them;
+- update them;
+- audit against them;
+- summarize them;
+- create tickets from them; or
+- suggest additional work derived from them.
 
-## Critical Development Principles
+Only the user's task activates work.
 
-### "Orchestration over Replacement"
+### Scope lock
 
-- Enhance the one working agent path (disclosure/mindmap) rather than building new ones
-- Contextual Intelligence utilities are the foundation — other features depend on them
-- The Python RAG system (`apps/disclosure-rag/`) is completely disconnected from the Next.js app
+Unless explicitly requested, do not:
 
-### Common Mistakes to Avoid
+- perform adjacent refactors;
+- create tickets or worklogs;
+- create markdown documentation;
+- update project-management files;
+- perform architecture audits;
+- conduct repository-wide searches for improvement opportunities;
+- spawn subagents, agents, teams, or parallel explorers;
+- turn discoveries into new workstreams.
 
-- **Importing from `@db/xata` or `@db`** — that package is retired. Use `@db/postgres` for ALL database operations.
-- Using `xata.db.*` patterns — Xata SDK is dead. Use typed helpers or `getSql()` tagged-template.
-- Assuming "Triple RAG" or multi-agent tours exist — they do not (see myths corrected in roundtable audit)
-- Adding state to `mindmap-context.tsx` (`apps/app/src/contexts/mindmap/mindmap-context.tsx`, 1,270-line god-object) — use Zustand store instead
-- Using `router.push()` for canvas navigation — use Zustand `setActiveView()`
-- Treating the Python RAG system as connected to the Next.js app
+Delegation is opt-in. Do not spawn subagents unless the user explicitly
+requests delegation or the task clearly requires independent parallel work.
 
-### File Organization Rules
+If an unrelated issue is important enough to mention, include one short
+note after completing the requested task. Do not act on it.
 
-- **Feature-first structure** - group related functionality together
-- Use `@/` imports for apps/app paths, `@db/` for database package, `workspace:*` for packages
-- Prometheus agent lives at `@/services/ai/prometheus` (there is no `@/features/agents/`)
+### Course correction
 
-## Technology Stack
+A new user instruction immediately supersedes the current implementation
+plan.
 
-Frontend framework and library versions are pinned in `apps/app/package.json` — read it rather than trusting a copy here.
+If the user says stop, no, not that, too much, or otherwise redirects the
+task, stop the abandoned approach immediately. Do not finish pending
+exploration first.
 
-### Backend & Data
+### Clarification
 
-- **Neon Postgres 17.10 + pgvector 0.8.0** — primary database, 30 tables, 126,483 records (live `count(*)` 2026-07-24). Connection in `packages/db/.env` as `DATABASE_URL` — never commit.
-- **`@db/postgres`** — the ONLY live database layer (`packages/db/src/postgres/`). Exports typed queries, search, and `getSql()` tagged-template client via `@neondatabase/serverless`.
-- **Embeddings**: `text-embedding-3-small` @ 1536 dims (locked). 1,594 entity rows + 4,946 document chunks embedded = 6,540 total vectors. All entity embeddings 100% populated (live 2026-07-24).
-- **OpenAI Assistants API** — disclosure mindmap agent (file_search + threads)
-- **Vercel AI SDK** — Prometheus chat route (streamText)
-- **AI providers**: OpenAI, Anthropic, Groq
-- **Authentication**: Clerk middleware exists (`apps/app/src/middleware.ts`) — `/admin` and `/api/processing` gated; most AI read routes (`/api/disclosure/*`, `/api/prometheus/chat`) remain public until canvas sign-in exists
-- **Search**: OpenAI file_search (vector store) + Postgres FTS (`search_vector @@ plainto_tsquery`) + trgm fallback. No Xata full-text in the Next.js app.
+Ask a question only when ambiguity would materially change the
+implementation and cannot be resolved from the active code path.
 
-## Definition of Done (binding — read before claiming any work complete)
+Otherwise make the narrowest reasonable assumption and proceed.
 
-No feature is done on green tests alone. Two gates, both required: a **completion report with evidence** (every claim shows its command and that command's actual output; scope every number; name what you did NOT do) and a **dogfood visual audit** (every user path and spec requirement walked through in the running app by a reviewer and visually confirmed). Cannot run the audit? Report **UNVERIFIED**, not done.
+### Response discipline
 
-Full protocol: [docs/agents/ops/DEFINITION_OF_DONE.md](docs/agents/ops/DEFINITION_OF_DONE.md). Short binding form is at the top of [AGENTS.md](AGENTS.md).
+Default completion response:
 
-## Documentation Standards
+1. What changed.
+2. Verification performed.
+3. Any blocker or directly relevant discovery.
 
-- **Always timestamp** documentation updates (EXACT DATE AND TIME)
-- **Always include** summary of work, files touched, components affected, next steps
-- **Use Python 3** and `.venv` for Python development
-- **Update this file** when finishing incremental tasks
-- **Prefer editing** existing files over creating new ones
-- **Never create** documentation files unless explicitly requested
+Do not include repository tours, architecture recaps, unsolicited
+recommendations, lengthy rationale, or summaries of files merely inspected.
 
-## Agent Review Procedures
+Straightforward task responses should usually fit within 3-8 lines.
 
-### @apps/app/ Review Process
+## Commands
 
-- Always review `.claude/agents/apps/app-agent.md` when working in `@apps/app/` directory
+From repo root (`bun`):
 
-- Ensure full compliance with agent-specific guidelines and context
+| Command | Description |
+| --------- | ------------- |
+| `bun run dev:app` | Next.js app (`apps/app`) |
+| `bun run build:app` | Production build |
+| `bun run test:app` | App tests (Vitest/bun in `apps/app`) |
+| `bun run storybook` | Storybook on port 6006 |
+| `bun run dev:disclosure-lab` | Disclosure Lab on port 3010 |
+| `bun run db:test:db` | `@db/postgres` tests |
+| `cd apps/disclosure-rag && python -m pytest tests/` | Python RAG tests (use that app's `.venv`) |
 
-- always show and report all effected files
+Frontend lint: `cd apps/app && bun run lint`. Token check: `cd apps/app && bun run validate:tokens`.
 
-## Agent skills
+## Project-specific gotchas
 
-### Issue tracker
+- **`@db/xata` / `@db` / `xata.db.*` are dead.** All live DB work is `@db/postgres` (`getSql()`, typed helpers). `personnel` aliases to `key_figures`.
+- **`DATABASE_URL` lives in `packages/db/.env`.** Never commit it.
+- **Never `git stash` on this working tree.** Concurrent agent sessions share disk; stash is destructive to other sessions' uncommitted work. Stage your paths only.
+- **Do not add state to `mindmap-context.tsx`.** Use Zustand `mindmap-ui-store`. Canvas navigation is `setActiveView()`, not `router.push()`.
+- **Prometheus lives at `@/services/ai/prometheus`.** There is no `@/features/agents/`.
+- **Python RAG (`apps/disclosure-rag/`) does not share data or vectors with the Next.js app.** Do not wire them together unless asked.
+- **OpenAI Vector Store MCP (`packages/openai-vector-store-mcp/`)** exposes the app's shared vector store as read-only `search`/`fetch` tools — the fidelity-check surface for the corpus. Usage, workflows, and known defects: `packages/openai-vector-store-mcp/USAGE.md`. Not yet registered in root `.mcp.json` (T-051).
+- **Do not invent Triple RAG, FAISS-in-Next, Neo4j, or a multi-agent tour orchestrator.** Those are myths. Live Next.js AI: disclosure mindmap (`/api/disclosure/mindmap`) and Prometheus chat (`/api/prometheus/chat`).
+- **Do not call a feature done on green tests alone.** If you claim complete: evidence (command + output) and a visual pass in the running app, or say **UNVERIFIED**. Protocol: `docs/agents/ops/DEFINITION_OF_DONE.md` — open only when claiming done.
+- Prettier in the app: no semicolons, single quotes, 100 char width, 2 spaces. Imports: `@/` app, `@db/` database, `workspace:*` packages.
 
-Linear owns implementation tickets (project "Ultraterrestrial Resurrection", team DMGD). `docs/plans/TODO.md` is kept in parity with Linear — new/updated/closed tickets get mirrored into both in the same pass, not written to Linear alone. Full parity rule in `docs/agents/ops/issue-tracker.md`. `.scratch/` may hold temporary research notes but is not the issue tracker.
+## References — open only when required
 
-### Triage labels
-
-Five canonical labels used as-is: needs-triage, needs-info, ready-for-agent, ready-for-human, wontfix. See `docs/agents/ops/triage-labels.md`.
-
-### Domain docs
-
-Multi-context — root `CONTEXT-MAP.md` points to per-context `CONTEXT.md` files. See `docs/agents/ops/domain.md`.
+- `AGENTS.md` — full development guidelines (stack, DoD short form, lanes)
+- `docs/agents/ops/AGENT_ONBOARDING_CHECKLIST.md` — onboarding only
+- `docs/README.md` — docs spine
+- `docs/plans/FEATURES.md` / `TODO.md` / `DAILY_WORK_PLAN.md` — planning files; passive unless the task is planning
+- `docs/vision/` — identity/UX; open only for brand/UX work
+- `apps/app/CLAUDE.md` — Next.js app local constraints (loaded when working in that tree)
+- `apps/app/src/features/mindmap/CLAUDE.md` — mindmap/canvas local constraints
+- `apps/disclosure-rag/CLAUDE.md` — Python RAG local constraints
+- Personal overrides: `CLAUDE.local.md` (project) or `~/.claude/CLAUDE.md` (global)
