@@ -215,6 +215,199 @@ tiers:
     reasoning_headroom_tokens: 4096
     notes: "Currently returning 402 (depleted credits). Retained — activates when credits restored."
 
+  # ═══════════════════════════════════════════════════════════════════
+  # OpenRouter discounted models (2026-08-15 catalog)
+  # All route through https://openrouter.ai/api/v1 with OPENROUTER_API_KEY.
+  # Activate when OpenRouter credits are restored.
+  # ═══════════════════════════════════════════════════════════════════
+
+  # ── Tier 13: DeepSeek V4 Flash 0731 (best discounted agent/coding) ──
+  # 25% off · 1.05M context · $0.0675/$0.135 per 1M · reasoning + tool calling
+  - id: openrouter/deepseek-v4-flash-0731
+    provider: OpenRouter
+    kind: openai_compat
+    model: deepseek/deepseek-v4-flash-0731
+    env_keys: [OPENROUTER_API_KEY]
+    base_url: https://openrouter.ai/api/v1
+    capabilities:
+      structured_output: true
+      reasoning: true
+      streaming: true
+      vision: false
+    cost_tier: 1
+    latency_tier: 2
+    max_retries: 1
+    reasoning_headroom_tokens: 2048
+    notes: "25% off. 284B/13B-active MoE. Code Arena Elo 1253-1263. Best discounted agent/coding pick. 1.05M context handles rag_ingestion's 24K source re-emit with room to spare."
+
+  # ── Tier 14: OpenAI GPT-5.6 Luna (cheap high-volume classification) ──
+  # 50% off · 1.05M context · $0.10/$0.60 per 1M
+  - id: openrouter/gpt-5.6-luna
+    provider: OpenRouter
+    kind: openai_compat
+    model: openai/gpt-5.6-luna
+    env_keys: [OPENROUTER_API_KEY]
+    base_url: https://openrouter.ai/api/v1
+    capabilities:
+      structured_output: true
+      reasoning: false
+      streaming: true
+      vision: false
+    cost_tier: 1
+    latency_tier: 1
+    max_retries: 1
+    notes: "50% off. Legal #3, Academia #4, Health #4, Finance #5. Best cheap high-volume routing tier for classification, triage, and validation."
+
+  # ── Tier 15: OpenAI GPT-5.6 Luna Pro (reasoning mode) ──
+  # 50% off · 1.05M context · $0.10/$0.60 per 1M · reasoning.mode: "pro"
+  - id: openrouter/gpt-5.6-luna-pro
+    provider: OpenRouter
+    kind: openai_compat
+    model: openai/gpt-5.6-luna-pro
+    env_keys: [OPENROUTER_API_KEY]
+    base_url: https://openrouter.ai/api/v1
+    capabilities:
+      structured_output: true
+      reasoning: true
+      streaming: true
+      vision: false
+    cost_tier: 1
+    latency_tier: 2
+    max_retries: 1
+    reasoning_headroom_tokens: 2048
+    notes: "50% off. Luna with reasoning.mode=pro. Use when Luna's standard mode is insufficient for complex classification."
+
+  # ── Tier 16: OpenAI GPT-5.6 Terra (balanced coding/reasoning) ──
+  # 50% off · 1.05M context · $1.00/$6.00 per 1M
+  - id: openrouter/gpt-5.6-terra
+    provider: OpenRouter
+    kind: openai_compat
+    model: openai/gpt-5.6-terra
+    env_keys: [OPENROUTER_API_KEY]
+    base_url: https://openrouter.ai/api/v1
+    capabilities:
+      structured_output: true
+      reasoning: true
+      streaming: true
+      vision: false
+    cost_tier: 3
+    latency_tier: 3
+    max_retries: 1
+    reasoning_headroom_tokens: 4096
+    notes: "50% off. Between Sol and Luna at half Sol's cost. Balanced coding/reasoning/agentic work."
+
+  # ── Tier 17: Google Gemini 3.7 Flash (multimodal agentic) ──
+  # 50% off · 1.05M context · $0.375/$1.875 per 1M
+  - id: openrouter/gemini-3.7-flash
+    provider: OpenRouter
+    kind: openai_compat
+    model: google/gemini-3.7-flash
+    env_keys: [OPENROUTER_API_KEY]
+    base_url: https://openrouter.ai/api/v1
+    capabilities:
+      structured_output: true
+      reasoning: true
+      streaming: true
+      vision: true
+    cost_tier: 2
+    latency_tier: 2
+    max_retries: 1
+    reasoning_headroom_tokens: 2048
+    notes: "50% off. Multimodal, agentic, coding, multi-step reasoning. Science #28, Tech #37, Programming #42. Batch route available at half cost."
+
+  # ── Tier 18: Upstage Solar Pro 4 (ultra-cheap long-context) ──
+  # 90% off · 524K context · $0.03/$0.12 per 1M
+  - id: openrouter/solar-pro4
+    provider: OpenRouter
+    kind: openai_compat
+    model: upstage/solar-pro4
+    env_keys: [OPENROUTER_API_KEY]
+    base_url: https://openrouter.ai/api/v1
+    capabilities:
+      structured_output: true
+      reasoning: false
+      streaming: true
+      vision: false
+    cost_tier: 1
+    latency_tier: 2
+    max_retries: 1
+    notes: "90% off. 524K context. Ultra-cheap for document processing, extraction, summarization, and low-stakes subagent work. $0.03/$0.12 per 1M."
+
+  # ── Tier 19: Poolside Laguna S 2.1 (dedicated SWE agent) ──
+  # 10% off · 1.05M context · $0.09/$0.18 per 1M
+  - id: openrouter/laguna-s-2.1
+    provider: OpenRouter
+    kind: openai_compat
+    model: poolside/laguna-s-2.1
+    env_keys: [OPENROUTER_API_KEY]
+    base_url: https://openrouter.ai/api/v1
+    capabilities:
+      structured_output: true
+      reasoning: true
+      streaming: true
+      vision: false
+    cost_tier: 1
+    latency_tier: 2
+    max_retries: 1
+    reasoning_headroom_tokens: 2048
+    notes: "10% off. 70.2% Terminal-Bench 2.1, 40.4% DeepSWE. Purpose-built SWE agent. Use for code-generation and terminal-driven tasks."
+
+  # ── Tier 20: Tencent Hy3 (configurable reasoning modes) ──
+  # 5% off · 262K context · $0.1254/$0.5016 per 1M
+  - id: openrouter/tencent-hy3
+    provider: OpenRouter
+    kind: openai_compat
+    model: tencent/hy3
+    env_keys: [OPENROUTER_API_KEY]
+    base_url: https://openrouter.ai/api/v1
+    capabilities:
+      structured_output: true
+      reasoning: true
+      streaming: true
+      vision: false
+    cost_tier: 2
+    latency_tier: 3
+    max_retries: 1
+    reasoning_headroom_tokens: 2048
+    notes: "5% off. 295B/21B MoE. Configurable no-think/low/high reasoning modes. Academia #3, Finance #3, Marketing #3, Legal #8. Tool calling."
+
+  # ── Tier 21: Meituan LongCat 2.0 (repo-level coding, 1.05M context) ──
+  # 60% off · 1.05M context · $0.30/$1.20 per 1M
+  - id: openrouter/longcat-2.0
+    provider: OpenRouter
+    kind: openai_compat
+    model: meituan/longcat-2.0
+    env_keys: [OPENROUTER_API_KEY]
+    base_url: https://openrouter.ai/api/v1
+    capabilities:
+      structured_output: true
+      reasoning: true
+      streaming: true
+      vision: false
+    cost_tier: 2
+    latency_tier: 3
+    max_retries: 1
+    reasoning_headroom_tokens: 4096
+    notes: "60% off. 1.6T/48B MoE. Coding, repo-level changes, long-horizon problem-solving, agentic workflows."
+
+  # ── Tier 22: InclusionAI Ling-3.0 Flash (token-efficient agent) ──
+  # 65% off · 262K context · $0.021/$0.063 per 1M
+  - id: openrouter/ling-3.0-flash
+    provider: OpenRouter
+    kind: openai_compat
+    model: inclusionai/ling-3.0-flash
+    env_keys: [OPENROUTER_API_KEY]
+    base_url: https://openrouter.ai/api/v1
+    capabilities:
+      structured_output: true
+      reasoning: false
+      streaming: true
+      vision: false
+    cost_tier: 1
+    latency_tier: 1
+    max_retries: 1
+    notes: "65% off. 124B MoE / 5.1B active. Token-efficient production-scale agent inference. Translation #34. Cheapest structured-output tier."
+
   # ── Tier 11: Perplexity (search-augmented, free-text only) ──
   - id: perplexity/sonar
     provider: Perplexity
@@ -274,10 +467,13 @@ tasks:
     temperature: 0.0
     preferred_tiers:
       - google/gemini-3-flash
+      - openrouter/gpt-5.6-luna
+      - openrouter/ling-3.0-flash
       - groq/gpt-oss-120b
       - openai/gpt-5.5
       - anthropic/claude-sonnet-4.6
     fallback_tiers:
+      - openrouter/solar-pro4
       - deepseek/deepseek-v4-pro
       - together/kimi-k3
 
@@ -292,10 +488,13 @@ tasks:
     schema_strict: false
     preferred_tiers:
       - google/gemini-3.1-pro
+      - openrouter/deepseek-v4-flash-0731
       - anthropic/claude-sonnet-4.6
       - openai/gpt-5.5
       - anthropic/claude-opus-5
     fallback_tiers:
+      - openrouter/gemini-3.7-flash
+      - openrouter/tencent-hy3
       - google/gemini-3-flash
       - deepseek/deepseek-v4-pro
 
@@ -309,11 +508,14 @@ tasks:
     temperature: 0.1
     schema_strict: true
     preferred_tiers:
+      - openrouter/deepseek-v4-flash-0731
       - google/gemini-3.1-pro
       - openai/gpt-5.5
       - anthropic/claude-opus-5
       - anthropic/claude-sonnet-4.6
     fallback_tiers:
+      - openrouter/gemini-3.7-flash
+      - openrouter/longcat-2.0
       - google/gemini-3-flash
       - deepseek/deepseek-v4-pro
 
@@ -327,11 +529,14 @@ tasks:
     temperature: 0.1
     schema_strict: false
     preferred_tiers:
+      - openrouter/deepseek-v4-flash-0731
       - google/gemini-3.1-pro
       - google/gemini-3-flash
+      - openrouter/ling-3.0-flash
       - anthropic/claude-sonnet-4.6
       - openai/gpt-5.5
     fallback_tiers:
+      - openrouter/solar-pro4
       - groq/gpt-oss-120b
       - deepseek/deepseek-v4-pro
 
@@ -345,9 +550,12 @@ tasks:
     temperature: 0.0
     preferred_tiers:
       - google/gemini-3-flash
+      - openrouter/gpt-5.6-luna
+      - openrouter/ling-3.0-flash
       - groq/gpt-oss-120b
       - openai/gpt-5.5
     fallback_tiers:
+      - openrouter/solar-pro4
       - deepseek/deepseek-v4-pro
       - together/kimi-k3
 
@@ -360,10 +568,13 @@ tasks:
     max_tokens: 4000
     temperature: 0.1
     preferred_tiers:
+      - openrouter/deepseek-v4-flash-0731
       - google/gemini-3.1-pro
+      - openrouter/gemini-3.7-flash
       - anthropic/claude-sonnet-4.6
       - openai/gpt-5.5
     fallback_tiers:
+      - openrouter/solar-pro4
       - google/gemini-3-flash
       - deepseek/deepseek-v4-pro
       - perplexity/sonar
@@ -378,6 +589,8 @@ tasks:
     temperature: 0.1
     preferred_tiers:
       - google/gemini-3-flash
+      - openrouter/solar-pro4
+      - openrouter/gpt-5.6-luna
       - groq/gpt-oss-120b
     fallback_tiers:
       - deepseek/deepseek-v4-pro
@@ -419,6 +632,7 @@ defaults:
   # to fallback_tiers. When those are also exhausted, use the global
   # last-resort chain below (any tier, regardless of capability match).
   last_resort_tiers:
+    - openrouter/solar-pro4
     - deepseek/deepseek-v4-pro
     - together/kimi-k3
     - cohere/command-r-plus
