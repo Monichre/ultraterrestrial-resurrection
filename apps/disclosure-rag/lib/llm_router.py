@@ -41,7 +41,7 @@ class TierConfig:
     """One tier declaration from llm_routing.yaml."""
     id: str
     provider: str
-    kind: str  # openai_compat | anthropic | google
+    kind: str  # openai_compat | anthropic | google | openrouter_auto
     model: str
     env_keys: Sequence[str]
     base_url: Optional[str]
@@ -54,6 +54,13 @@ class TierConfig:
     max_retries: int
     reasoning_headroom_tokens: int
     notes: str = ""
+    # OpenRouter Auto Router config (only for kind=openrouter_auto)
+    auto_router_plugin_id: str = "auto-router"
+    auto_router_cost_tier: str = "medium"
+    auto_router_allowed_models: Sequence[str] = ()
+    auto_router_excluded_models: Sequence[str] = ()
+    # PDF input capability
+    pdf_input: bool = False
 
     def api_key(self) -> Optional[str]:
         for key in self.env_keys:
@@ -234,6 +241,7 @@ class LLMRouter:
 
         for tier_data in config.get("tiers", []):
             caps = tier_data.get("capabilities", {})
+            auto_router = tier_data.get("auto_router", {})
             tier = TierConfig(
                 id=tier_data["id"],
                 provider=tier_data.get("provider", ""),
@@ -250,6 +258,11 @@ class LLMRouter:
                 max_retries=tier_data.get("max_retries", 1),
                 reasoning_headroom_tokens=tier_data.get("reasoning_headroom_tokens", 4096),
                 notes=tier_data.get("notes", ""),
+                auto_router_plugin_id=auto_router.get("plugin_id", "auto-router"),
+                auto_router_cost_tier=auto_router.get("cost_tier", "medium"),
+                auto_router_allowed_models=tuple(auto_router.get("allowed_models", [])),
+                auto_router_excluded_models=tuple(auto_router.get("excluded_models", [])),
+                pdf_input=caps.get("pdf_input", False),
             )
             self._tiers[tier.id] = tier
 

@@ -95,6 +95,11 @@ class Tier:
     #: a floor this looks exactly like a broken provider. (Same class of trap
     #: as Gemini's thinkingBudget in the TS chain.)
     reasoning: bool = False
+    # OpenRouter Auto Router config (only for kind=openrouter_auto)
+    auto_router_plugin_id: str = "auto-router"
+    auto_router_cost_tier: str = "medium"
+    auto_router_allowed_models: tuple = ()
+    auto_router_excluded_models: tuple = ()
 
     def api_key(self) -> Optional[str]:
         for key in self.env_keys:
@@ -509,6 +514,75 @@ class LLMFallback:
         text = "".join(p.get("text", "") for p in parts)
         return text
 
+    def _call_openrouter_auto(
+        self,
+        client: Any,
+        tier: Tier,
+        system_prompt: str,
+        user_content: str,
+        temperature: float,
+        max_tokens: int,
+        schema: Optional[Dict[str, Any]] = None,
+        schema_name: str = "response",
+        strict: bool = False,
+    ) -> str:
+        """Call OpenRouter Auto Router.
+
+        Uses the OpenAI-compatible endpoint with the auto-router plugin.
+        OpenRouter classifies the prompt and selects the best model based
+        on trailing 7-day community spend share for the task type.
+
+        The response includes a `model` field showing which model was
+        actually selected — we log it for discovery/benchmarking.
+        """
+        request: Dict[str, Any] = dict(
+            model=tier.model,  # "openrouter/auto" or "openrouter/auto-beta"
+            temperature=temperature,
+            max_tokens=max_tokens,
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_content},
+            ],
+        )
+        if schema is not None:
+            request["response_format"] = {
+                "type": "json_schema",
+                "json_schema": {
+                    "name": schema_name,
+                    "strict": strict,
+                    "schema": schema,
+                },
+            }
+        # Auto Router plugin config
+        plugin: Dict[str, Any] = {"id": tier.auto_router_plugin_id}
+        if tier.auto_router_cost_tier:
+            plugin["cost_tier"] = tier.auto_router_cost_tier
+        if tier.auto_router_allowed_models:
+            plugin["allowed_models"] = list(tier.auto_router_allowed_models)
+        if tier.auto_router_excluded_models:
+            plugin["excluded_models"] = list(tier.auto_router_excluded_models)
+        request["plugins"] = [plugin]
+        try:
+            response = client.chat.completions.create(**request)
+        except Exception as exc:
+            if schema is not None and _is_schema_rejection(exc):
+                raise SchemaUnsupported(f"{tier.id}: {exc}") from exc
+            raise
+        choice = response.choices[0]
+        text = choice.message.content or ""
+        # Log which model the Auto Router actually selected (discovery signal)
+        selected_model = getattr(response, "model", None)
+        if selected_model:
+            logger.info(
+                "Auto Router %s selected model: %s (cost_tier=%s)",
+                tier.id, selected_model, tier.auto_router_cost_tier,
+            )
+        if not text.strip() and choice.finish_reason == "length":
+            raise BudgetExhausted(
+                f"{tier.id}: max_tokens={max_tokens} consumed before any answer"
+            )
+        return text
+
     def _call_provider(
         self,
         tier: Tier,
@@ -523,6 +597,11 @@ class LLMFallback:
         client = self._client(tier)
         if tier.kind == "google":
             return self._call_google(
+                client, tier, system_prompt, user_content,
+                temperature, max_tokens, schema, schema_name, strict,
+            )
+        if tier.kind == "openrouter_auto":
+            return self._call_openrouter_auto(
                 client, tier, system_prompt, user_content,
                 temperature, max_tokens, schema, schema_name, strict,
             )
@@ -672,6 +751,10 @@ class LLMFallback:
                     base_url=t.base_url,
                     max_retries=t.max_retries,
                     reasoning=t.reasoning,
+                    auto_router_plugin_id=t.auto_router_plugin_id,
+                    auto_router_cost_tier=t.auto_router_cost_tier,
+                    auto_router_allowed_models=t.auto_router_allowed_models,
+                    auto_router_excluded_models=t.auto_router_excluded_models,
                 )
                 for t in routed
             ]

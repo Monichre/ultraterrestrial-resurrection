@@ -19,15 +19,17 @@
 # ── Tier Declarations ─────────────────────────────────────────────────
 #
 # `kind` selects the wire protocol:
-#   openai_compat  — OpenAI chat/completions shape (OpenAI, DeepSeek, Together, Groq, xAI, etc.)
-#   anthropic      — Anthropic Messages API (forced tool calls for structured output)
-#   google         — Google Generative AI API (native structured output)
+#   openai_compat    — OpenAI chat/completions shape (OpenAI, DeepSeek, Together, Groq, xAI, etc.)
+#   anthropic        — Anthropic Messages API (forced tool calls for structured output)
+#   google           — Google Generative AI API (native structured output)
+#   openrouter_auto  — OpenRouter Auto Router (market-based model selection)
 #
 # `capabilities`:
 #   structured_output — can enforce JSON schema via response_format or equivalent
 #   reasoning         — model emits chain-of-thought (needs token headroom)
 #   streaming         — supports streaming responses
 #   vision            — can process image inputs
+#   pdf_input         — can accept PDF files directly (native or via OpenRouter plugin)
 #
 # `cost_tier`: 1 = cheapest, 5 = most expensive (relative, not absolute)
 # `latency_tier`: 1 = fastest, 5 = slowest (relative)
@@ -45,10 +47,11 @@ tiers:
       reasoning: false
       streaming: true
       vision: true
+      pdf_input: true
     cost_tier: 1
     latency_tier: 1
     max_retries: 1
-    notes: "Confirmed working 2026-08-15. Fastest + cheapest. Ideal for classification, validation, coherence review."
+    notes: "Confirmed working 2026-08-15. Fastest + cheapest. Ideal for classification, validation, coherence review. Native PDF support."
 
   # ── Tier 2: Google Gemini 3.1 Pro (structured extraction, confirmed working) ──
   - id: google/gemini-3.1-pro
@@ -62,11 +65,12 @@ tiers:
       reasoning: true
       streaming: true
       vision: true
+      pdf_input: true
     cost_tier: 2
     latency_tier: 2
     max_retries: 1
     reasoning_headroom_tokens: 2048
-    notes: "Confirmed working 2026-08-15. Good price/performance for NER and structured extraction."
+    notes: "Confirmed working 2026-08-15. Good price/performance for NER and structured extraction. Native PDF support."
 
   # ── Tier 3: Anthropic Claude Sonnet 4.6 (analysis & reasoning) ──
   # KEY INVALID as of 2026-08-15 — will activate when key is refreshed.
@@ -219,6 +223,11 @@ tiers:
   # OpenRouter discounted models (2026-08-15 catalog)
   # All route through https://openrouter.ai/api/v1 with OPENROUTER_API_KEY.
   # Activate when OpenRouter credits are restored.
+  #
+  # PDF INPUT: All OpenRouter tiers support PDF input via the file-parser
+  # plugin (see pdf_processing config below). OpenRouter parses the PDF
+  # and passes text/images to any model, even ones without native file
+  # support. Tiers with vision: true also receive extracted images.
   # ═══════════════════════════════════════════════════════════════════
 
   # ── Tier 13: DeepSeek V4 Flash 0731 (best discounted agent/coding) ──
@@ -407,6 +416,127 @@ tiers:
     latency_tier: 1
     max_retries: 1
     notes: "65% off. 124B MoE / 5.1B active. Token-efficient production-scale agent inference. Translation #34. Cheapest structured-output tier."
+
+  # ═══════════════════════════════════════════════════════════════════
+  # OpenRouter Auto Router (market-based model selection)
+  # https://openrouter.ai/docs/guides/routing/routers/auto-router
+  #
+  # Delegates model selection to OpenRouter's market intelligence:
+  #   1. Classifies prompt into ~30 task types (code:debugging, agent:multi_step_planning, etc.)
+  #   2. Ranks models by trailing 7-day community spend share for that task type
+  #   3. Applies cost_tier band (low/medium/high/xhigh/max)
+  #   4. Routes with built-in fallbacks
+  #
+  # No additional fee — you pay standard rate for whichever model is selected.
+  # Response includes `model` field showing which model was actually used.
+  # Use as a discovery tier: route through auto, log which model won, then
+  # update explicit routing config with the winners.
+  # ═══════════════════════════════════════════════════════════════════
+
+  # ── Tier 23: OpenRouter Auto (market-based, low cost band) ──
+  - id: openrouter/auto-low
+    provider: OpenRouter
+    kind: openrouter_auto
+    model: openrouter/auto
+    env_keys: [OPENROUTER_API_KEY]
+    base_url: https://openrouter.ai/api/v1
+    auto_router:
+      plugin_id: auto-router
+      cost_tier: low
+    capabilities:
+      structured_output: true
+      reasoning: true
+      streaming: true
+      vision: true
+      pdf_input: true
+    cost_tier: 1
+    latency_tier: 2
+    max_retries: 1
+    notes: "Market-based routing, low cost band. Favors cheapest capable models. Good for classification, validation, coherence_review."
+
+  # ── Tier 24: OpenRouter Auto (market-based, medium cost band) ──
+  - id: openrouter/auto-medium
+    provider: OpenRouter
+    kind: openrouter_auto
+    model: openrouter/auto
+    env_keys: [OPENROUTER_API_KEY]
+    base_url: https://openrouter.ai/api/v1
+    auto_router:
+      plugin_id: auto-router
+      cost_tier: medium
+    capabilities:
+      structured_output: true
+      reasoning: true
+      streaming: true
+      vision: true
+      pdf_input: true
+    cost_tier: 2
+    latency_tier: 2
+    max_retries: 1
+    notes: "Market-based routing, medium cost band. Balanced quality/cost. Good for content_analysis, NER, narrative_summary."
+
+  # ── Tier 25: OpenRouter Auto (market-based, high cost band) ──
+  - id: openrouter/auto-high
+    provider: OpenRouter
+    kind: openrouter_auto
+    model: openrouter/auto
+    env_keys: [OPENROUTER_API_KEY]
+    base_url: https://openrouter.ai/api/v1
+    auto_router:
+      plugin_id: auto-router
+      cost_tier: high
+    capabilities:
+      structured_output: true
+      reasoning: true
+      streaming: true
+      vision: true
+      pdf_input: true
+    cost_tier: 3
+    latency_tier: 3
+    max_retries: 1
+    notes: "Market-based routing, high cost band. Favors most capable models. Good for rag_ingestion, complex analysis."
+
+  # ── Tier 26: OpenRouter Auto (market-based, xhigh cost band) ──
+  - id: openrouter/auto-xhigh
+    provider: OpenRouter
+    kind: openrouter_auto
+    model: openrouter/auto
+    env_keys: [OPENROUTER_API_KEY]
+    base_url: https://openrouter.ai/api/v1
+    auto_router:
+      plugin_id: auto-router
+      cost_tier: xhigh
+    capabilities:
+      structured_output: true
+      reasoning: true
+      streaming: true
+      vision: true
+      pdf_input: true
+    cost_tier: 4
+    latency_tier: 4
+    max_retries: 1
+    notes: "Market-based routing, xhigh cost band. Top-tier models only. Reserve for highest-stakes tasks."
+
+  # ── Tier 27: OpenRouter Auto Beta (early-access routing behaviors) ──
+  - id: openrouter/auto-beta
+    provider: OpenRouter
+    kind: openrouter_auto
+    model: openrouter/auto-beta
+    env_keys: [OPENROUTER_API_KEY]
+    base_url: https://openrouter.ai/api/v1
+    auto_router:
+      plugin_id: auto-beta-router
+      cost_tier: medium
+    capabilities:
+      structured_output: true
+      reasoning: true
+      streaming: true
+      vision: true
+      pdf_input: true
+    cost_tier: 2
+    latency_tier: 2
+    max_retries: 1
+    notes: "Auto Router beta track. New routing behaviors land here before openrouter/auto. Use plugin_id auto-beta-router."
 
   # ── Tier 11: Perplexity (search-augmented, free-text only) ──
   - id: perplexity/sonar
@@ -619,6 +749,39 @@ cache:
   # the schema attempt on every subsequent call to that tier.
   schema_capability_ttl_seconds: 86400  # 24 hours — re-test after this
   schema_capability_path: ".cache/llm_schema_capabilities.json"
+
+
+# ── PDF Processing (OpenRouter file-parser plugin) ────────────────────
+# https://openrouter.ai/docs/guides/overview/multimodal/pdfs
+#
+# OpenRouter supports PDF input on ANY model via the file-parser plugin.
+# The PDF is parsed and text/images are passed to the model. Models with
+# vision: true also receive extracted images (capped at 8 per request).
+#
+# Engines:
+#   mistral-ocr   — Best for scanned docs / PDFs with images ($2/1000 pages)
+#   cloudflare-ai — Converts PDFs to markdown (FREE)
+#   native        — Only for models with native file support (charged as input tokens)
+#
+# If no engine is specified, OpenRouter defaults to the model's native
+# file processing, then falls back to mistral-ocr.
+pdf_processing:
+  default_engine: cloudflare-ai  # free, good for text-based PDFs
+  engines:
+    cloudflare-ai:
+      cost: 0.0
+      best_for: "Text-based PDFs, government documents, research papers"
+    mistral-ocr:
+      cost_per_1000_pages: 2.0
+      best_for: "Scanned documents, PDFs with images, handwritten testimony"
+      image_limit: 8  # OpenRouter caps at 8 images per request
+    native:
+      cost: "input tokens"
+      best_for: "Models with built-in PDF support (Gemini, Claude)"
+  # Which tier kinds support PDF input via the file-parser plugin
+  plugin_supported_kinds:
+    - openai_compat  # when provider is OpenRouter
+    - openrouter_auto
 
 
 # ── Global Defaults ───────────────────────────────────────────────────
