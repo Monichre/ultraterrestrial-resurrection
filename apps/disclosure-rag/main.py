@@ -361,6 +361,8 @@ def process_url(url: str, upload: bool = False, add_to_kb: bool = True) -> Optio
     ═══════════════════════════════════════════════════════════════════════
     """
     _import_heavy_dependencies()
+    from lib.phase_tracker import tracker
+
     logger.info(f"Processing URL: {url}")
     stages: List[Dict[str, str]] = []
     youtube = is_youtube_url(url)
@@ -375,41 +377,55 @@ def process_url(url: str, upload: bool = False, add_to_kb: bool = True) -> Optio
     # "❌ Processing failed" report, and playlist_ingestion.py (which calls
     # process_url directly for every playlist episode) would only learn
     # `str(e)` with no stage_report at all (T-045 M3).
+    chain = "YT-CHAIN-03" if youtube else "WEB-CHAIN-01"
+    icon = "📹" if youtube else "🌐"
     try:
-        if youtube:
-            result = process_youtube_url_enhanced(url, upload, add_to_kb)
-        else:
-            # ═══ WEB-CHAIN-01 · main.py :: process_url(), web arm ═══════════
-            # Third ingest path. Shares its whole prefix with the YouTube
-            # chain — main.sh (YT-CHAIN-01) → main() (YT-CHAIN-02) →
-            # process_url() (YT-CHAIN-03) — and diverges only at this else.
-            #
-            # It is the THINNEST of the three paths, and the difference is not
-            # cosmetic. Compared against FILE-CHAIN and YT-CHAIN:
-            #
-            #   analyze_content()   YES — knowledge_base_service.py, ~line 642
-            #                       (the shared node, YT-CHAIN-10)
-            #   process_for_rag()   NO  — so a web article produces NO Evidence
-            #                       chunks, NO NER, NO embeddable_texts
-            #   trace map           NO  — so a web article has NO provenance
-            #                       graph; nothing it asserts can be anchored
-            #                       back to a location in the source
-            #
-            # Both absences are reported honestly downstream rather than
-            # papered over: the enrichment gate below grades the missing RAG
-            # pipeline, and _trace_map_stage() returns a _skipped for the
-            # missing map (see its docstring). A web ingest is therefore a
-            # SUMMARISED source, not a citable one — treat its output
-            # accordingly, and do not assume parity with the other two paths
-            # because the run printed green.
-            #
-            # Closing this gap is T-056 (Trace Map on the web-article path).
-            #
-            # PREV ← YT-CHAIN-03  main.py :: process_url()  (shared prefix)
-            # NEXT → WEB-CHAIN-02  knowledge_base_service.py ::
-            #        process_web_url_enhanced()
-            # ═══════════════════════════════════════════════════════════════
-            result = process_web_url_enhanced(url, upload, add_to_kb)
+        with tracker.phase(extraction_stage_name, chain=chain, icon=icon):
+            if youtube:
+                result = process_youtube_url_enhanced(url, upload, add_to_kb)
+            else:
+                # ═══ WEB-CHAIN-01 · main.py :: process_url(), web arm ═══════════
+                # Third ingest path. Shares its whole prefix with the YouTube
+                # chain — main.sh (YT-CHAIN-01) → main() (YT-CHAIN-02) →
+                # process_url() (YT-CHAIN-03) — and diverges only at this else.
+                #
+                # It is the THINNEST of the three paths, and the difference is not
+                # cosmetic. Compared against FILE-CHAIN and YT-CHAIN:
+                #
+                #   analyze_content()   YES — knowledge_base_service.py, ~line 642
+                #                       (the shared node, YT-CHAIN-10)
+                #   process_for_rag()   NO  — so a web article produces NO Evidence
+                #                       chunks, NO NER, NO embeddable_texts
+                #   trace map           NO  — so a web article has NO provenance
+                #                       graph; nothing it asserts can be anchored
+                #                       back to a location in the source
+                #
+                # Both absences are reported honestly downstream rather than
+                # papered over: the enrichment gate below grades the missing RAG
+                # pipeline, and _trace_map_stage() returns a _skipped for the
+                # missing map (see its docstring). A web ingest is therefore a
+                # SUMMARISED source, not a citable one — treat its output
+                # accordingly, and do not assume parity with the other two paths
+                # because the run printed green.
+                #
+                # Closing this gap is T-056 (Trace Map on the web-article path).
+                #
+                # PREV ← YT-CHAIN-03  main.py :: process_url()  (shared prefix)
+                # NEXT → WEB-CHAIN-02  knowledge_base_service.py ::
+                #        process_web_url_enhanced()
+                # ═══════════════════════════════════════════════════════════════
+                result = process_web_url_enhanced(url, upload, add_to_kb)
+            if result is not None:
+                rag = result.get("rag_pipeline") or {}
+                embeddable = rag.get("embeddable_texts") or []
+                if embeddable:
+                    tracker.stat("embeddable", str(len(embeddable)))
+                claims = rag.get("claims") or rag.get("extracted_claims") or []
+                if claims:
+                    tracker.stat("claims", str(len(claims)))
+                entities = rag.get("entities") or []
+                if entities:
+                    tracker.stat("entities", str(len(entities)))
     except Exception as e:
         logger.exception(f"Error processing URL: {url}")
         stages.append(_stage(extraction_stage_name, False, str(e)))
@@ -502,7 +518,18 @@ def process_url(url: str, upload: bool = False, add_to_kb: bool = True) -> Optio
             display.start_spinner(
                 "📊 Building knowledge graph with CocoIndex...")
 
-            cocoindex_result = trigger_cocoindex_processing(result['doc_id'])
+            with tracker.phase(
+                "CocoIndex knowledge graph",
+                chain="YT-CHAIN-16", icon="🕸️"):
+                cocoindex_result = trigger_cocoindex_processing(result['doc_id'])
+                if cocoindex_result:
+                    tracker.stat(
+                        "entities",
+                        str(cocoindex_result.get('entities_processed', 0)))
+                    tracker.stat(
+                        "relationships",
+                        str(cocoindex_result.get('relationships_processed', 0)))
+                    tracker.stat("status", cocoindex_result.get('status', '?'))
             if cocoindex_result and cocoindex_result.get('status') == 'success':
                 entities_count = cocoindex_result.get('entities_processed', 0)
                 relationships_count = cocoindex_result.get(
@@ -590,6 +617,8 @@ def process_file(file_path: str, upload: bool = False, add_to_kb: bool = True) -
     ═══════════════════════════════════════════════════════════════════════
     """
     _import_heavy_dependencies()
+    from lib.phase_tracker import tracker
+
     logger.info(f"Processing file: {file_path}")
     stages: List[Dict[str, str]] = []
     data: Optional[Dict[str, Any]] = None
@@ -605,46 +634,51 @@ def process_file(file_path: str, upload: bool = False, add_to_kb: bool = True) -
         # read as text (main.py's docstring advertises PDF support, but this
         # used to unconditionally open() in text mode, which raises
         # UnicodeDecodeError on any real PDF).
-        if is_pdf:
-            from PyPDF2 import PdfReader
-            reader = PdfReader(file_path)
-            content = "\n\n".join(
-                page.extract_text() or "" for page in reader.pages)
-            if not content.strip():
-                logger.error(f"No extractable text in PDF: {file_path}")
-                return None
-        else:
-            try:
-                with open(file_path, 'r', encoding='utf-8') as f:
-                    content = f.read()
-            except UnicodeDecodeError:
-                logger.error(
-                    f"File is not valid UTF-8 text and not a .pdf: {file_path}")
-                return None
+        with tracker.phase(
+            "PDF text extraction" if is_pdf else "File content read",
+            chain="FILE-CHAIN-03", icon="📄"):
+            if is_pdf:
+                from PyPDF2 import PdfReader
+                reader = PdfReader(file_path)
+                content = "\n\n".join(
+                    page.extract_text() or "" for page in reader.pages)
+                if not content.strip():
+                    logger.error(f"No extractable text in PDF: {file_path}")
+                    return None
+            else:
+                try:
+                    with open(file_path, 'r', encoding='utf-8') as f:
+                        content = f.read()
+                except UnicodeDecodeError:
+                    logger.error(
+                        f"File is not valid UTF-8 text and not a .pdf: {file_path}")
+                    return None
 
-        # Extract title from filename
-        title = Path(file_path).stem.replace(
-            '_', ' ').replace('-', ' ').title()
+            # Extract title from filename
+            title = Path(file_path).stem.replace(
+                '_', ' ').replace('-', ' ').title()
 
-        # If it's a markdown file and starts with #, use that as title
-        if file_path.endswith('.md') and content.startswith('#'):
-            first_line = content.split('\n')[0]
-            title = first_line.strip('#').strip()
+            # If it's a markdown file and starts with #, use that as title
+            if file_path.endswith('.md') and content.startswith('#'):
+                first_line = content.split('\n')[0]
+                title = first_line.strip('#').strip()
 
-        # Create data structure
-        data = {
-            'content': content,
-            'title': title,
-            'source': file_path,
-            'file_path': file_path,
-            'metadata': {
+            # Create data structure
+            data = {
+                'content': content,
                 'title': title,
                 'source': file_path,
-                'type': 'file',
-                'file_type': Path(file_path).suffix
+                'file_path': file_path,
+                'metadata': {
+                    'title': title,
+                    'source': file_path,
+                    'type': 'file',
+                    'file_type': Path(file_path).suffix
+                }
             }
-        }
-        stages.append(_stage("File content extraction", True))
+            stages.append(_stage("File content extraction", True))
+            tracker.stat("chars", str(len(content)))
+            tracker.stat("title", title[:48])
 
         # ═══ FILE-CHAIN-04 · content_analysis.py :: process_for_rag() ══════
         # SHARED NODE — this is YT-CHAIN-11. Same function, same contract;
@@ -668,11 +702,19 @@ def process_file(file_path: str, upload: bool = False, add_to_kb: bool = True) -
             display.print_stage("🧬 RAG PROMPT PIPELINE", "🧬")
             display.start_spinner(
                 "Running classification → chunk → NER → validation...")
-            rag_pipeline = ContentAnalysisEngine().process_for_rag(
-                content,
-                provenance=file_path,
-                filename_hint=title,
-            )
+            with tracker.phase(
+                "RAG prompt pipeline", chain="FILE-CHAIN-04", icon="🧬"):
+                rag_pipeline = ContentAnalysisEngine().process_for_rag(
+                    content,
+                    provenance=file_path,
+                    filename_hint=title,
+                )
+                rag_meta = rag_pipeline.get('metadata') or {}
+                tracker.stat("status", rag_pipeline.get('status', '?'))
+                tracker.stat("chunks", str(rag_meta.get('chunk_count', '?')))
+                tracker.stat(
+                    "embeddable",
+                    str(rag_meta.get('embeddable_count', '?')))
             data['rag_pipeline'] = rag_pipeline
             data['embeddable_texts'] = rag_pipeline.get(
                 'embeddable_texts') or []
@@ -715,15 +757,25 @@ def process_file(file_path: str, upload: bool = False, add_to_kb: bool = True) -
             try:
                 from lib.trace_map import build_and_write_trace_map
 
-                data['trace_map'] = build_and_write_trace_map(
-                    pipeline_result=rag_pipeline,
-                    directory=str(Path(file_path).parent),
-                    stem=Path(file_path).stem,
-                    source_url=file_path,
-                    source_title=title,
-                    source_type="document",
-                    transcript_text=content,
-                )
+                with tracker.phase(
+                    "Trace map (document anchors)",
+                    chain="FILE-CHAIN-05", icon="🗺️"):
+                    data['trace_map'] = build_and_write_trace_map(
+                        pipeline_result=rag_pipeline,
+                        directory=str(Path(file_path).parent),
+                        stem=Path(file_path).stem,
+                        source_url=file_path,
+                        source_title=title,
+                        source_type="document",
+                        transcript_text=content,
+                    )
+                    tm = data['trace_map'] or {}
+                    nodes = tm.get('source_spine') or tm.get('nodes') or []
+                    claims = tm.get('claims') or []
+                    tracker.stat("nodes", str(len(nodes)))
+                    tracker.stat("claims", str(len(claims)))
+                    tracker.stat(
+                        "timed", str(tm.get('timed', False)))
             except Exception as e:
                 logger.warning(f"Trace map skipped: {e}")
                 data['trace_map'] = {"error": str(e)}
@@ -775,10 +827,14 @@ def process_file(file_path: str, upload: bool = False, add_to_kb: bool = True) -
         # ═══════════════════════════════════════════════════════════════════
         # Upload if requested
         if upload:
-            upload_result = upload_file_to_openai(file_path)
+            with tracker.phase(
+                "OpenAI vector store upload",
+                chain="FILE-CHAIN-06", icon="☁️"):
+                upload_result = upload_file_to_openai(file_path)
+                upload_status = isinstance(
+                    upload_result, dict) and upload_result.get('status')
+                tracker.stat("status", upload_status or '?')
             data['upload_results'] = upload_result
-            upload_status = isinstance(
-                upload_result, dict) and upload_result.get('status')
             if upload_status in ('uploaded_and_indexed', 'uploaded_only'):
                 stages.append(
                     _stage("OpenAI vector store upload", True, upload_status))
@@ -836,7 +892,11 @@ def process_file(file_path: str, upload: bool = False, add_to_kb: bool = True) -
             # and returned bare None - the caller learned nothing about what
             # had actually succeeded (T-045 M3).
             try:
-                doc_id = add_to_knowledge_base(data, doc_type)
+                with tracker.phase(
+                    "Knowledge base write",
+                    chain="FILE-CHAIN-06", icon="💾"):
+                    doc_id = add_to_knowledge_base(data, doc_type)
+                    tracker.stat("doc_id", doc_id or 'none')
             except Exception as e:
                 logger.exception(
                     f"Knowledge base storage failed for {file_path}")
@@ -1404,7 +1464,8 @@ def main():
     # Every stage below reports what actually happened - success,
     # skipped, or failed - rather than presence-checking a key and
     # printing ✅ regardless of outcome (T-045 H7).
-    _print_stage_report(stage_report)
+    from lib.phase_tracker import tracker
+    tracker.render_stage_report(stage_report)
 
     if failed_stages:
         sys.exit(1)
