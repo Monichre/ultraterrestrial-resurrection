@@ -467,7 +467,7 @@ of archive records today. Lane B M0 does not depend on Lane A and can proceed in
 
 ### T-047: Temporal Observatory — Foundation milestone (Spacetime Canvas M0)
 
-- **Status:** OPEN / backlog — **hold lifted 2026-08-15**: the rebuild landed in `51e63500` (2026-08-14 19:01, "here goes"; all 20 files verified tracked). The blocker block below is **historical**; the "real current state" block is current. M0/M1 shipped; M1's blocked half still gated on T-048 H4; M2–M4 need grooming before any pick-up.
+- **Status:** OPEN / backlog — synced to Linear 2026-08-15 ([DMGD-220](https://linear.app/digital-mischief-group/issue/DMGD-220)) — **hold lifted 2026-08-15**: the rebuild landed in `51e63500` (2026-08-14 19:01, "here goes"; all 20 files verified tracked). The blocker block below is **historical**; the "real current state" block is current. M0/M1 shipped; M1's blocked half still gated on T-048 H4; M2–M4 need grooming before any pick-up.
 - **Size:** L (Foundation / M0 only; full feature is M0–M4)
 
 #### T-047 handoff blocker (audited 2026-08-13) — ⚠️ RESOLVED 2026-08-15
@@ -554,7 +554,7 @@ The ticket below was last updated 2026-08-05. Two significant things happened af
 
 ### T-048: Ingestion hardening — corpus integrity, identity, and provenance
 
-- **Status:** IN PROGRESS — audit + plan landed 2026-08-01; **H0 landed** (real commits **`64edf9b5`** disclosure-rag/db "H0 P0s — restore process_for_rag, dedup guard, chunk search", **`25357789`** knowledge-base "H0 archive hygiene — derived zone, dead module surface"). **H1–H5 remain; H1 (identity) is next.**
+- **Status:** IN PROGRESS — audit + plan landed 2026-08-01 (synced to Linear 2026-08-15, [DMGD-221](https://linear.app/digital-mischief-group/issue/DMGD-221)); **H0 landed** (real commits **`64edf9b5`** disclosure-rag/db "H0 P0s — restore process_for_rag, dedup guard, chunk search", **`25357789`** knowledge-base "H0 archive hygiene — derived zone, dead module surface"). **H1–H5 remain; H1 (identity) is next.**
 - **⚠️ H0 re-verified by artifact 2026-08-13 — two corrections and one regression.** The previously recorded hashes `cd77135` and `b6d1d5a` **do not exist in this repo** (`git cat-file -t` → missing on both); they were invalidated by the same history rewrite that killed T-050's `7fe46f0`. The work did land, under the hashes above. Verify by artifact, never by hash. What the artifacts actually show:
   - ✅ **graphify-out purged** — `find packages/knowledge-base/sources -name "graphify-out*"` returns nothing.
   - ⚠️ **"delete the dead `index.ts`/`package.json` module surface" is inaccurate as written** — both files still exist. `25357789` *neutered* rather than deleted them: `index.ts` is now 18 lines exporting only a `KNOWLEDGE_BASE_PATHS` constant, with a comment stating the package has no runtime data exports. Effect achieved, wording wrong — do not go looking for files to delete.
@@ -582,7 +582,7 @@ The ticket below was last updated 2026-08-05. Two significant things happened af
 
 ### T-049: Board — live agent/session activity view
 
-- **Status:** OPEN — scoped 2026-08-01 (research complete, not yet built)
+- **Status:** OPEN — scoped 2026-08-01 (research complete, not yet built) — synced to Linear 2026-08-15 ([DMGD-222](https://linear.app/digital-mischief-group/issue/DMGD-222))
 - **Size:** M (data source exists; needs a polling route + a new board column/row shape)
 - **Lane:** B — Platform & Experience
 - **What:** Extend `/board` (`apps/app/src/app/board/`, shipped 2026-08-01 as a static ticket-status kanban) with a live view of "who/what is actively working" alongside the existing ticket columns. Today `data.ts`'s `Ticket` type has no owner, agent, or timestamp field — activity is invisible.
@@ -604,7 +604,7 @@ The ticket below was last updated 2026-08-05. Two significant things happened af
 
 ### T-050: Guided Tours — converge the two tour engines onto the research canvas
 
-- **Status:** IN PROGRESS — scoped 2026-08-05; **subtasks 1 (schema) + 2 (store) landed** in **`e58eccfe`** ("T-050 subtasks 1-2 — one Zod schema, one store, explicit corpus anchors"), with follow-ups `7d12de2c` (anchor resolution) and `409da1d9` (invariant enforcement). Subtasks 3–5 open.
+- **Status:** IN PROGRESS — scoped 2026-08-05 (synced to Linear 2026-08-15, [DMGD-223](https://linear.app/digital-mischief-group/issue/DMGD-223)); **subtasks 1 (schema) + 2 (store) landed** in **`e58eccfe`** ("T-050 subtasks 1-2 — one Zod schema, one store, explicit corpus anchors"), with follow-ups `7d12de2c` (anchor resolution) and `409da1d9` (invariant enforcement). Subtasks 3–5 open.
 - **Handoff state (re-verified 2026-08-13):** pickup-ready. All subtask 1–2 code is **committed and present in a fresh clone** — no untracked work, no dirty files under `features/guided-tours/` or `features/mindmap/tours/` (`git status --porcelain` on both paths returns empty). The test suite is **green at baseline**: `cd apps/app && bun test src/features/guided-tours` → **38 pass, 0 fail, 94 expect() calls, 8 files, 3.82s**. An inheriting team can trust a red suite means *their* breakage.
   - **Hash correction:** the previously recorded `7fe46f0` **does not exist in this repo** (`git cat-file -t 7fe46f0` → missing). The work did land; the hash was invalidated by a history rewrite (see the `399dd678 lots` / `6d5d10e6 lotgs` squash commits). This is the same dead-hash class the 08-06 spacetime review flagged as process item 10 — **verify by artifact, not by hash**, anywhere in this file.
 - **Size:** L (schema + store + render + launch; the "real merge", not a launch-chip alias)
@@ -636,7 +636,7 @@ The ticket below was last updated 2026-08-05. Two significant things happened af
 
 ### T-051: OpenAI Vector Store MCP server (`packages/openai-vector-store-mcp`)
 
-- **Status:** BUILT, UNCOMMITTED — code-complete and **verified live over stdio 2026-08-09**; **not reachable from Claude Code** ([DMGD-218](https://linear.app/digital-mischief-group/issue/DMGD-218/lane-b-packagesopenai-vector-store-mcp-mcp-server-exposing-openai), Linear state **Backlog**). `git status` shows `?? packages/openai-vector-store-mcp/` — the whole workspace is untracked, zero commits, absent from a fresh clone. "Finished" means runnable, not landed.
+- **Status:** BUILT, UNCOMMITTED — code-complete and **verified live over stdio 2026-08-09**; **not reachable from Claude Code** ([DMGD-218](https://linear.app/digital-mischief-group/issue/DMGD-218), Linear state **Backlog**). `git status` shows `?? packages/openai-vector-store-mcp/` — the whole workspace is untracked, zero commits, absent from a fresh clone. "Finished" means runnable, not landed.
 - **Size:** S (register in root `.mcp.json`, pin the FastMCP floor, commit; the server itself is written)
 - **Lane:** B — Platform & Experience. It exposes the **retrieval surface external agents traverse** ("can a researcher/agent see and traverse the evidence"), even though Lane A's disclosure-rag ingestion is what populates the underlying store. Same rationale recorded on DMGD-218 — if that call is reversed, reverse it in both places.
 - **What:** A FastMCP server (`src/openai_vector_store_mcp/server.py`, console script `openai-vector-store-mcp`) exposing ChatGPT deep-research-compatible `search` and `fetch` tools over the **same OpenAI Vector Store** the app's Prometheus chat and disclosure mindmap agent use for `file_search` — verified, not assumed: `api/prometheus/chat/route.ts:76` reads `process.env.OPENAI_VECTOR_STORE_ID` directly, and `services/ai/openai/config.ts:26` derives `PROMETHEUS_VECTOR_STORE_ID` from the same variable for the mindmap route (`api/disclosure/mindmap/route.ts:178`). The MCP server resolves that same variable (as a fallback behind `VECTOR_STORE_ID`) and even mirrors the app's `cleanOpenAIId` sanitizer as `clean_openai_id`. `search(query)` → `{ results: [{ id, title, url }] }` via `vector_stores.search`; `fetch(id)` → `{ id, title, text, url, metadata? }` via `vector_stores.files.content` + `files.retrieve`. Citation URLs are `https://platform.openai.com/storage/files/{file_id}`. Transports: `stdio` (Cursor/local), `sse` (remote/ChatGPT), `http`, selected by `MCP_TRANSPORT`.
@@ -655,7 +655,7 @@ The ticket below was last updated 2026-08-05. Two significant things happened af
 
 ### T-052: Disclosure Lab — Neon admin/DX explorer (`apps/disclosure-lab`)
 
-- **Status:** IN PROGRESS — 2026-08-09 — claimed against [DMGD-216](https://linear.app/digital-mischief-group/issue/DMGD-216/lane-b-build-appsdisclosure-lab-neon-admin-console-read-only-assistant) (Linear **In Progress**). Canonical spec: [`docs/plans/2026-08-09-disclosure-lab.md`](./2026-08-09-disclosure-lab.md) (copied from grilling plan; domain-docs landed in `CONTEXT-MAP.md` + `packages/db/CONTEXT.md`).
+- **Status:** IN PROGRESS — 2026-08-09 — claimed against [DMGD-216](https://linear.app/digital-mischief-group/issue/DMGD-216) (Linear **In Progress**). Canonical spec: [`docs/plans/2026-08-09-disclosure-lab.md`](./2026-08-09-disclosure-lab.md) (copied from grilling plan; domain-docs landed in `CONTEXT-MAP.md` + `packages/db/CONTEXT.md`).
 - **Size:** L (new app in `apps/`, write-policy layer, agent tool surface, six routes)
 - **Lane:** B — Platform & Experience. Explicitly **not** Research Canvas: it is a database-context admin console, and the Canvas "inference-only write" rule scopes to `apps/app` only.
 - **What:** A separate Next.js 15 app (`@disclosure-lab`) giving internal visibility/DX into Neon data fidelity. Home `/` is a **split pane** — record browser left, read-only AI assistant right, with the selected row auto-attached to the assistant as a clearable context chip. Plus `/overview` (counts + embedding coverage), `/sql`, `/charts` (Recharts), `/search` (FTS/vector smoke), `/audit`.
@@ -671,7 +671,7 @@ The ticket below was last updated 2026-08-05. Two significant things happened af
 
 ### T-053: Research Canvas Gen-UI upgrade — Deep Research loop + agentic session
 
-- **Status:** OPEN / needs grooming — 2026-08-14 — **idea and feature need grooming and review from the agent team before implementation.** Not claimed; do not start product code. Opened 2026-08-09 against [DMGD-219](https://linear.app/digital-mischief-group/issue/DMGD-219/lane-b-research-canvas-gen-ui-upgrade-deep-research-loop-agentic) (Linear **Backlog**, label Feature). FEATURES Decision 11.
+- **Status:** OPEN / needs grooming — 2026-08-14 — **idea and feature need grooming and review from the agent team before implementation.** Not claimed; do not start product code. Opened 2026-08-09 against [DMGD-219](https://linear.app/digital-mischief-group/issue/DMGD-219) (Linear **Backlog**, label Feature). FEATURES Decision 11.
 - **Size:** L (epic: console Gen-UI + session slice + mindmap route mode + dossier bridge; RC-P4 soft-blocked on T-050). Proposed first slice **RC-P0** is S (≤ 0.5 day) if/when approved.
 - **Lane:** B — Platform & Experience
 - **Canonical plans (both):**
@@ -721,7 +721,7 @@ The ticket below was last updated 2026-08-05. Two significant things happened af
 
 ### T-055: Trace Map — interpretive layer (Readings, Counter-readings, Next Traces)
 
-- **Status:** OPEN
+- **Status:** OPEN — synced to Linear 2026-08-15 ([DMGD-224](https://linear.app/digital-mischief-group/issue/DMGD-224))
 - **Lane:** A — Corpus & Ingestion
 - **Size:** M
 - **Depends on:** T-054
@@ -743,7 +743,7 @@ The ticket below was last updated 2026-08-05. Two significant things happened af
 
 ### T-056: Trace Map on the web-article path
 
-- **Status:** OPEN
+- **Status:** OPEN — synced to Linear 2026-08-15 ([DMGD-225](https://linear.app/digital-mischief-group/issue/DMGD-225))
 - **Lane:** A — Corpus & Ingestion
 - **Size:** S
 - **Depends on:** T-054
@@ -757,7 +757,7 @@ The ticket below was last updated 2026-08-05. Two significant things happened af
 
 ### T-057: UAP podcast playlist bulk-ingest manifest
 
-- **Status:** OPEN
+- **Status:** OPEN — synced to Linear 2026-08-15 ([DMGD-226](https://linear.app/digital-mischief-group/issue/DMGD-226))
 - **Lane:** A — Corpus & Ingestion
 - **Size:** S
 - **Depends on:** T-048 **H1** (sha256 + dedup) — do not bulk-run 52 playlists before identity is stable
@@ -771,7 +771,7 @@ The ticket below was last updated 2026-08-05. Two significant things happened af
 
 ### T-058: Grouped video transcript retrieval + timestamp citations (live AI paths)
 
-- **Status:** OPEN
+- **Status:** OPEN — synced to Linear 2026-08-15 ([DMGD-227](https://linear.app/digital-mischief-group/issue/DMGD-227))
 - **Lane:** B — Platform & Experience
 - **Size:** M
 - **Depends on:** T-054 (trace maps with timed segments); soft-deps T-057 for corpus volume
@@ -785,7 +785,7 @@ The ticket below was last updated 2026-08-05. Two significant things happened af
 
 ### T-059: Playlist-id corpus index (skip already-ingested)
 
-- **Status:** OPEN
+- **Status:** OPEN — synced to Linear 2026-08-15 ([DMGD-228](https://linear.app/digital-mischief-group/issue/DMGD-228))
 - **Lane:** A — Corpus & Ingestion
 - **Size:** S
 - **Depends on:** T-048 **H1**; soft-deps T-057
@@ -799,7 +799,7 @@ The ticket below was last updated 2026-08-05. Two significant things happened af
 
 ### T-060: Drop-to-Canvas — drop a file, see it connect to the corpus
 
-- **Status:** IN PROGRESS — opened 2026-08-13, delegated to two parallel agents (server + canvas)
+- **Status:** IN PROGRESS — opened 2026-08-13 (synced to Linear 2026-08-15, [DMGD-229](https://linear.app/digital-mischief-group/issue/DMGD-229)), delegated to two parallel agents (server + canvas)
 - **Lane:** B — Platform & Experience
 - **Size:** M
 - **Canonical contract:** `docs/plans/2026-08-13-canvas-drop-ingest-contract.md` — **the fixed interface between the two halves. Read it before touching either side.**
