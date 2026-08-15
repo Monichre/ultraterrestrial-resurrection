@@ -718,6 +718,11 @@ The ticket below was last updated 2026-08-05. Two significant things happened af
 - **Tests:** `apps/disclosure-rag/tests/test_trace_map.py` (29).
 - **Files:** `lib/trace_map.py`, `lib/youtube.py`, `lib/knowledge_base_service.py`, `main.py`,
   `docs/TRACE_MAP_OUTPUT_SPEC.md`, `tests/test_trace_map.py`
+- **Layer relationship:** this is **Layer 1** (deterministic citation) of the trace map
+  architecture. Layer 2 (interpretive) is T-055; together they compose the full output spec
+  ([`apps/disclosure-rag/docs/TRACE_MAP_OUTPUT_SPEC.md`](../../apps/disclosure-rag/docs/TRACE_MAP_OUTPUT_SPEC.md)).
+  The user-facing visualization (topic tree + source spine on the Research Canvas) is a separate
+  Lane B surface described in [`docs/vision/trace-map-user-surface.md`](../vision/trace-map-user-surface.md).
 
 ### T-055: Trace Map — interpretive layer (Readings, Counter-readings, Next Traces)
 
@@ -740,6 +745,12 @@ The ticket below was last updated 2026-08-05. Two significant things happened af
 - **Pass bar:** a map whose Readings each have a Counter-reading and whose Next Traces each name
   a target and a rationale, with `validate_trace_map` reporting zero errors and the gap list
   shrinking to speaker attribution only.
+- **Layer relationship:** this is **Layer 2** (interpretive) of the trace map architecture.
+  Layer 1 (deterministic citation, shipped) is T-054. The full output spec lives at
+  [`apps/disclosure-rag/docs/TRACE_MAP_OUTPUT_SPEC.md`](../../apps/disclosure-rag/docs/TRACE_MAP_OUTPUT_SPEC.md)
+  — read the layering table at the top before implementing. Do not build Layer 2 until T-054's
+  gap list is confirmed: a Layer 2 prompt that feeds on fabricated Layer 1 data amplifies the
+  fabrication.
 
 ### T-056: Trace Map on the web-article path
 

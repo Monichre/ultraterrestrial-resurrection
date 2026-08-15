@@ -1,18 +1,45 @@
 # Trace Map Output Specification
 
-**Status:** Implemented, deterministic subset  
+**Status:** Layer 1 shipped (deterministic citation); Layer 2 open (interpretive).  
 **Written:** 2026-08-08 21:39:59 CDT  
-**Implemented:** 2026-08-10  
+**Implemented (Layer 1):** 2026-08-10  
 **Scope:** Add a source-bounded visual reasoning artifact to the `dy` processing chain.
 
-**Implementation status:** Implemented in `apps/disclosure-rag/lib/trace_map.py`, wired into
-both ingest paths (`lib/youtube.py:generate_transcript` for URLs, `main.py:process_file` for
-documents) and graded as a `Trace map` stage in the run summary. Tests:
-`apps/disclosure-rag/tests/test_trace_map.py`.
+## Implementation layering — read this first
 
-The build is **deterministic** — it projects artifacts the RAG prompt pipeline already produces
-and aligns them against the timed transcript sidecar. No LLM call is made. Consequently the
-interpretive node types below (`reading`, `counter_reading`, `next_trace`) and `speaker` are
+The trace map is a **two-layer architecture**. The spec below describes the full artifact.
+What shipped and what is still open are different layers, and confusing them is the single
+most common misreading of this document.
+
+| Layer | What it does | LLM? | Ticket | Status |
+|---|---|---|---|---|
+| **1 — Deterministic citation** | Projects the RAG pipeline output (claims, entities, segments) onto the timed transcript sidecar, producing character-span and timestamp anchors for every claim/entity. Produces `trace-map.json` + `trace-map.md` (with Mermaid source-spine and topic-tree diagrams). | No | T-054 | **Shipped 2026-08-10** |
+| **2 — Interpretive** | Runs one registry prompt after validation to produce Readings paired with Counter-readings, Open Questions, Next Traces (with targets and rationale), and explicit evidence→claim linkage. Merges into the existing graph; Layer 1 stays untouched as the fallback. | Yes (one call) | T-055 | **Open** |
+| **User-facing visualization** | Renders a trace map's topic tree and source spine as interactive components on the Research Canvas (not just static Mermaid in a Markdown file). Consumes `trace-map.json` per source. | No | Not yet tracked | See [`docs/vision/trace-map-user-surface.md`](../../docs/vision/trace-map-user-surface.md) |
+
+**What Layer 1 actually answers today** (per the six questions in §"What the map must answer"):
+
+| # | Question | Answered? |
+|---|---|---|
+| 1 | What was discussed, and in what order? | ✅ Source spine + topic tree |
+| 2 | Where did each topic begin, branch, recur, and end? | ✅ Topic list with introducing segments |
+| 3 | Which exact source segment contains each claim? | ✅ Every claim carries char span + timestamp |
+| 4 | What evidence supports, qualifies, challenges, contradicts a claim? | ❌ **Gap** — evidence exists as flat nodes; no evidence→claim linkage |
+| 5 | Which connections are source-derived and which are inferences? | ❌ **Gap** — no readings, no inferences produced |
+| 6 | What remains unresolved, and what should be checked next? | ❌ **Gap** — open questions only when `content_assessment.follow_up_needed` happens to fire; no Next Traces |
+
+**What Layer 2 will add:** questions 4, 5, and 6 become answerable. Every Reading gets a
+Counter-reading; every Open Question gets a Next Trace with a concrete target and rationale;
+evidence nodes link explicitly to the claims they bear on rather than floating with just a stance
+label.
+
+Implementation: `apps/disclosure-rag/lib/trace_map.py`, wired into both ingest paths
+(`lib/youtube.py:generate_transcript` for URLs, `main.py:process_file` for documents) and graded
+as a `Trace map` stage in the run summary. Tests: `apps/disclosure-rag/tests/test_trace_map.py`.
+
+The Layer 1 build is **deterministic** — it projects artifacts the RAG prompt pipeline already
+produces and aligns them against the timed transcript sidecar. No LLM call is made. Consequently
+the interpretive node types below (`reading`, `counter_reading`, `next_trace`) and `speaker` are
 **not produced**; nothing in the current chain emits them. `validate_trace_map()` reports their
 absence as *gaps* rather than errors, because a map that fabricated them to satisfy a gate would
 defeat the artifact's purpose. See "Validation gates" below for the two-list split.
