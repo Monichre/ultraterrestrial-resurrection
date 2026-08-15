@@ -2,7 +2,7 @@
 status: live
 role: ops
 spine: do
-updated: 2026-08-09
+updated: 2026-08-14
 ---
 
 # Issue tracker: Linear + TODO.md (kept in parity)
@@ -48,4 +48,4 @@ then executes the bounded objective on an isolated branch.
 
 Use the DMG Dev workflow states directly: **Backlog**, **Todo**, **In Progress**, **In Review**,
 **Done**, **Canceled**, and **Duplicate**. Repository-specific label guidance remains in
-`docs/ops/triage-labels.md`.
+`docs/agents/ops/triage-labels.md`.

@@ -195,6 +195,8 @@ out/
 *.feather
 *.avro
 *.json
+
+!state.json
 # Include package.json files
 !package.json
 !package-lock.json
@@ -295,3 +297,7 @@ apps/app/storybook-static/
 .github/skills/open-knowledge/
 .opencode/skills/open-knowledge/
 .pi/skills/open-knowledge/
+
+# Agent-Native local plan bridge URL — contains a bearer token, never commit
+.plan-url
+plans/**/.plan-url

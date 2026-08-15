@@ -1,0 +1,123 @@
+ .gitignore                                                                  |    6 +
+ DAILY_WORK_PLAN.md                                                          |   12 +-
+ apps/disclosure-rag/.claude/worktrees/compassionate-lovelace-e35750         |    0
+ .../corpus/intake/ListGPT - The best GPT Store to find new GPTs.md          | 1314 ---------------
+ .../American High-Profile UFO Witnesses Research.md                         |  145 --
+ .../US Astronauts and UFO Testimonies_ Comprehensive Research (4)/App.css   |  120 --
+ .../US Astronauts and UFO Testimonies_ Comprehensive Research (4)/App.jsx   |  336 ----
+ .../Astronaut UFO/UAP Research Findings.md                                  |  156 --
+ .../Comprehensive Database of American High-Authority UFO Witnesses.md      |  383 -----
+ .../Comprehensive Database of US Astronauts with UFO/UAP Testimonies.md     |  517 ------
+ .../Comprehensive International UFO Witness Database.md                     |  438 -----
+ .../International High-Profile UFO Witnesses Research.md                    |  137 --
+ .../UAPResearchFindings.md                                                  |  156 --
+ .../Verification Analysis of American UFO Witnesses.md                      |   98 --
+ .../Verification Analysis of Astronaut UFO Claims.md                        |   69 -
+ .../Verification Analysis of International UFO Witnesses.md                 |  140 --
+ .../al_worden_apollo15_nasa.jpg                                             |  Bin 70819 -> 0 bytes
+ .../astronauts.js                                                           |  226 ---
+ .../buzz_aldrin_apollo11_nasa.jpg                                           |  Bin 305335 -> 0 bytes
+ .../christopher_mellon.jpg                                                  |  Bin 25091 -> 0 bytes
+ .../david_fravor.jpg                                                        |  Bin 400911 -> 0 bytes
+ .../david_grusch.png                                                        |  Bin 2326012 -> 0 bytes
+ .../edgar_mitchell_apollo14_nasa.jpg                                        |  Bin 138124 -> 0 bytes
+ .../gordon_cooper_mercury_nasa.jpg                                          |  Bin 155330 -> 0 bytes
+ .../haim_eshed_official.jpg                                                 |  Bin 158086 -> 0 bytes
+ .../index.html                                                              |   13 -
+ .../james_mcdivitt_gemini4_nasa.jpg                                         |  Bin 361649 -> 0 bytes
+ .../jerry_linenger_nasa.jpg                                                 |  Bin 275187 -> 0 bytes
+ .../karl_nell.jpg                                                           |  Bin 50456 -> 0 bytes
+ .../leroy_chiao_nasa.jpg                                                    |  Bin 190541 -> 0 bytes
+ .../luis_elizondo.jpg                                                       |  Bin 488211 -> 0 bytes
+ .../nasa-astonaut.png                                                       |  Bin 1912946 -> 0 bytes
+ .../nick_pope.jpg                                                           |  Bin 703536 -> 0 bytes
+ .../paul_hellyer_official.jpg                                               |  Bin 197561 -> 0 bytes
+ .../polaroid_al_worden.png                                                  |  Bin 1902973 -> 0 bytes
+ .../polaroid_buzz_aldrin.png                                                |  Bin 1796508 -> 0 bytes
+ .../polaroid_edgar_mitchell.png                                             |  Bin 1806119 -> 0 bytes
+ .../polaroid_gordon_cooper.png                                              |  Bin 1986494 -> 0 bytes
+ .../polaroid_james_mcdivitt.png                                             |  Bin 1952073 -> 0 bytes
+ .../polaroid_jerry_linenger.png                                             |  Bin 2270488 -> 0 bytes
+ .../polaroid_leroy_chiao.png                                                |  Bin 2023594 -> 0 bytes
+ .../polaroid_scott_kelly.png                                                |  Bin 1937556 -> 0 bytes
+ .../ryan_graves.jpg                                                         |  Bin 52831 -> 0 bytes
+ .../scott_kelly_nasa.jpg                                                    |  Bin 289367 -> 0 bytes
+ .../sergio_gutierrez_luna.jpg                                               |  Bin 53205 -> 0 bytes
+ .../tim_gallaudet.jpg                                                       |  Bin 62337 -> 0 bytes
+ .../US Astronauts and UFO Testimonies_ Comprehensive Research (4)/todo.md   |   42 -
+ ...d3xA_httpss.mj.runbPCsrT4C1do_944948e4-a8be-47d6-9a8b-4c26d38dcbae_0.png |  Bin 1932207 -> 0 bytes
+ ...d3xA_httpss.mj.runbPCsrT4C1do_944948e4-a8be-47d6-9a8b-4c26d38dcbae_3.png |  Bin 623817 -> 0 bytes
+ .../wilfried_de_brouwer.jpg                                                 |  Bin 27443 -> 0 bytes
+ .../witnessDatabase.js                                                      |  257 ---
+ .../Charlie Kirk Assassination Research.md                                  |  306 ----
+ .../corpus/intake/charlie-kirk-assassination-research/INDEX.md              |   88 -
+ .../corpus/intake/charlie-kirk-assassination-research/README.md             |   68 -
+ .../corpus/intake/charlie-kirk-assassination-research/claims/CLAIMS.md      |   34 -
+ .../corpus/intake/charlie-kirk-assassination-research/evidence/EVIDENCE.md  |   20 -
+ .../corpus/intake/charlie-kirk-assassination-research/notes/NOTES.md        |   32 -
+ .../corpus/intake/charlie-kirk-assassination-research/sources/SOURCES.md    |   20 -
+ apps/disclosure-rag/corpus/intake/drstevengreer.com/Clinton-Docs.pdf.1      |  Bin 327817 -> 0 bytes
+ apps/disclosure-rag/corpus/intake/drstevengreer.com/Hope.pdf.1              |  Bin 8341 -> 0 bytes
+ apps/disclosure-rag/corpus/intake/drstevengreer.com/NRO-Doc.pdf.1           |  Bin 2047693 -> 0 bytes
+ apps/disclosure-rag/corpus/intake/drstevengreer.com/PI40.pdf.1              |  Bin 20886 -> 0 bytes
+ apps/disclosure-rag/corpus/intake/drstevengreer.com/Petaluma-Slides.pdf.1   |  Bin 412438 -> 0 bytes
+ .../corpus/intake/drstevengreer.com/obama-briefing-introduction.pdf.1       |  Bin 101324 -> 0 bytes
+ apps/disclosure-rag/corpus/intake/epstein-case-files/README.md              |   14 -
+ apps/disclosure-rag/corpus/intake/epstein-case-files/claims/CLAIMS.md       |   15 -
+ apps/disclosure-rag/corpus/intake/queue/UFO Files/README.md                 |  851 ----------
+ apps/disclosure-rag/corpus/intake/queue/UFO Files/UFOsandIntelligence-1.md  | 3044 ----------------------------------
+ apps/disclosure-rag/corpus/intake/queue/UFO Files/UFOsandIntelligence-10.md | 1258 --------------
+ apps/disclosure-rag/corpus/intake/queue/UFO Files/UFOsandIntelligence-11.md | 1238 --------------
+ apps/disclosure-rag/corpus/intake/queue/UFO Files/UFOsandIntelligence-12.md |  516 ------
+ apps/disclosure-rag/corpus/intake/queue/UFO Files/UFOsandIntelligence-2.md  | 1497 -----------------
+ apps/disclosure-rag/corpus/intake/queue/UFO Files/UFOsandIntelligence-3.md  | 1203 --------------
+ apps/disclosure-rag/corpus/intake/queue/UFO Files/UFOsandIntelligence-4.md  | 1237 --------------
+ apps/disclosure-rag/corpus/intake/queue/UFO Files/UFOsandIntelligence-5.md  | 1298 ---------------
+ apps/disclosure-rag/corpus/intake/queue/UFO Files/UFOsandIntelligence-6.md  | 1320 ---------------
+ apps/disclosure-rag/corpus/intake/queue/UFO Files/UFOsandIntelligence-7.md  | 1301 ---------------
+ apps/disclosure-rag/corpus/intake/queue/UFO Files/UFOsandIntelligence-8.md  | 1448 ----------------
+ apps/disclosure-rag/corpus/intake/queue/UFO Files/UFOsandIntelligence-9.md  | 1218 --------------
+ apps/disclosure-rag/corpus/intake/queue/UFO Files/doc1042.md                |   19 -
+ apps/disclosure-rag/corpus/intake/queue/UFO Files/doc1746.md                |   33 -
+ apps/disclosure-rag/corpus/intake/queue/UFO Files/doc576.md                 |   28 -
+ apps/disclosure-rag/corpus/intake/queue/UFO Files/doc581.md                 |   63 -
+ apps/disclosure-rag/corpus/intake/queue/UFO Files/doc891.md                 |  114 --
+ apps/disclosure-rag/corpus/intake/queue/UFO Files/oescsler.md               |  203 ---
+ .../American High-Profile UFO Witnesses Research.md                         |  145 --
+ .../Astronaut UFO/UAP Research Findings.md                                  |  156 --
+ .../Comprehensive Database of American High-Authority UFO Witnesses.md      |  383 -----
+ .../Comprehensive Database of US Astronauts with UFO/UAP Testimonies.md     |  517 ------
+ .../Comprehensive International UFO Witness Database.md                     |  438 -----
+ .../International High-Profile UFO Witnesses Research.md                    |  137 --
+ .../UAPResearchFindings.md                                                  |  156 --
+ .../Verification Analysis of American UFO Witnesses.md                      |   98 --
+ .../Verification Analysis of Astronaut UFO Claims.md                        |   69 -
+ .../Verification Analysis of International UFO Witnesses.md                 |  140 --
+ .../US Astronauts and UFO Testimonies_ Comprehensive Research (4)/todo.md   |   42 -
+ .../Astronaut UFO/UAP Research Findings.md                                  |  156 --
+ .../Comprehensive Database of US Astronauts with UFO/UAP Testimonies.md     |  517 ------
+ .../Verification Analysis of Astronaut UFO Claims.md                        |   69 -
+ .../queue/US Astronauts and UFO Testimonies_ Comprehensive Research/todo.md |   42 -
+ .../Charlie Kirk Assassination Research.md                                  |  306 ----
+ .../corpus/intake/queue/charlie-kirk-assassination-research/INDEX.md        |   88 -
+ .../corpus/intake/queue/charlie-kirk-assassination-research/README.md       |   68 -
+ .../intake/queue/charlie-kirk-assassination-research/claims/CLAIMS.md       |   34 -
+ .../intake/queue/charlie-kirk-assassination-research/evidence/EVIDENCE.md   |   20 -
+ .../corpus/intake/queue/charlie-kirk-assassination-research/notes/NOTES.md  |   32 -
+ .../intake/queue/charlie-kirk-assassination-research/sources/SOURCES.md     |   20 -
+ apps/disclosure-rag/corpus/intake/queue/epstein-case-files/README.md        |   14 -
+ apps/disclosure-rag/corpus/intake/queue/epstein-case-files/claims/CLAIMS.md |   15 -
+ apps/disclosure-rag/corpus/intake/ufohackers/SOURCE.md                      |    9 +-
+ apps/disclosure-rag/processing/rag_prompt_pipeline.py                       |   22 +-
+ docs/PLANS/TODO.md                                                          |   42 +-
+ docs/agents/ops/issue-tracker.md                                            |    4 +-
+ docs/agents/ops/triage-labels.md                                            |    4 +-
+ docs/design/data-platform-rebuild-spec.md                                   |  295 ----
+ docs/design/neuform-sources/AeroNet-Visualization-DESIGN.md                 |  157 --
+ docs/design/neuform-sources/aether-node-dashboard-DESIGN.md                 |   76 -
+ docs/design/neuform-sources/cognitive-routing-framework-DESIGN.md           |   76 -
+ .../design/neuform-sources/diagnostic-architecture-model-teardown-DESIGN.md |   76 -
+ docs/design/neuform-sources/futuristic-interface-section-DESIGN.md          |   76 -
+ docs/design/neuform-sources/monolith-engine-DESIGN.md                       |   76 -
+ packages/knowledge-base/metadata/index.json                                 |   22 +-
+ 122 files changed, 79 insertions(+), 27569 deletions(-)

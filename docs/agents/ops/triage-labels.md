@@ -2,7 +2,7 @@
 status: live
 role: ops
 spine: do
-updated: 2026-07-19
+updated: 2026-08-14
 ---
 
 # Triage Labels
@@ -19,6 +19,6 @@ The skills speak in terms of five canonical triage roles. This file maps those r
 
 When a skill mentions a role (e.g. "apply the AFK-ready triage label"), use the corresponding label string from this table.
 
-This repo uses the local-markdown issue tracker (see `issue-tracker.md`), so triage state is recorded as a `Status:` line near the top of each issue file using these label strings as the status values.
+This repo's issue tracker is Linear (see `issue-tracker.md`); apply these label strings when a skill references a triage role, and use the DMG Dev workflow states (Backlog → Done) for lifecycle status.
 
 Edit the right-hand column to match whatever vocabulary you actually use.

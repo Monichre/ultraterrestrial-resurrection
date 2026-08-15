@@ -2,17 +2,19 @@
 status: live
 role: eng
 spine: do
-updated: 2026-08-13
+updated: 2026-08-14
 ---
 
 # TODO — Ultraterrestrial Resurrection
 
-**Last Updated:** 2026-08-13
+**Last Updated:** 2026-08-14
 **Source:** Roundtable audit (4 specialists) + agent-native remediation audit
 **Reference:** `docs/plans/2026-03-29-roundtable-unified-action-plan.md`
 **Branch:** dev
 
 > **🔴 2026-08-13 — READ THIS BEFORE TRUSTING ANY COMMIT HASH IN THIS FILE.** A history rewrite (the `399dd678 lots` / `6d5d10e6 lotgs` / `76b1127a lots and lots` squashes) invalidated most recorded hashes. Spot-check on 2026-08-13: **6 of 7 sampled hashes do not exist in this repo** — `7fe46f0` (T-050), `cd77135` + `b6d1d5a` (T-048 H0), `d5c69fb` (T-045), `aefc21b` (T-044), `ad87c45b`. Only `bbb32339` (T-047) resolved. **The underlying work generally did land** — it is the hashes that are dead, not the commits' content. T-050 and T-048 H0 have been repaired below with verified hashes; **T-044 and T-045 have not been checked and should be verified by artifact before anyone relies on them.** The 2026-08-06 spacetime review flagged this as process item 10; this is the first partial repair. Rule going forward: **verify by artifact, not by hash.**
+
+> **2026-08-14 — T-053 grooming gate:** Research Canvas Gen-UI (DMGD-219) stays **OPEN / needs grooming**. The 2026-08-09 epic and 2026-08-10 RC-P0 MVP plans exist; **the idea and feature need grooming and review from the agent team before implementation.** RC-P0 is the proposed first slice, not started, and **not locked-to-build** until that review.
 
 > **2026-08-13 — handoff grooming pass on T-047 and T-050** (no code changed). T-050 is now pickup-ready: dead hash corrected to `e58eccfe`, test pass bar corrected to the real suite (8 files / 38 tests, measured green), and subtask 3 (Render) specified down to the mount point and the node/edge-registry collision. **T-047 is NOT pickup-ready** — the 2026-08-07 storyboard rebuild that replaced its architecture is entirely uncommitted (10 untracked + 10 modified files), and the ticket predated both the 08-06 review and that rebuild. See the blocker block on T-047.
 
@@ -20,7 +22,7 @@ updated: 2026-08-13
 
 > **2026-08-10:** Shipped **T-054** — Trace Map provenance graph per processed source (`apps/disclosure-rag/lib/trace_map.py`, deterministic layer). Opened **T-055** (interpretive layer: Readings/Counter-readings/Next Traces + evidence→claim linkage) and **T-056** (web-article path).
 
-> **2026-08-09:** Opened **T-053 / DMGD-219** — Research Canvas Gen-UI upgrade. Spec: `docs/plans/2026-08-09-research-canvas-genui.md`. FEATURES Decision 11.
+> **2026-08-09:** Opened **T-053 / DMGD-219** — Research Canvas Gen-UI upgrade. Spec: `docs/plans/2026-08-09-research-canvas-genui.md`. FEATURES Decision 11. RC-P0 MVP plan added 2026-08-10 (`docs/plans/2026-08-10-rc-p0-tool-cards.md`).
 
 > **2026-07-10 session note:** Scaffolded Matt Pocock engineering-skills config (`docs/ops/issue-tracker.md`, `triage-labels.md`, `domain.md`; `## Agent skills` block in `CLAUDE.md`). Built first-pass system-wide domain model: `CONTEXT-MAP.md` (4 contexts), `CONTEXT.md` (full glossary — reserved words, adopted vocabulary, 8 evidentiary states, all record types, classification taxonomy, Phase 2 reserved names). First ADR: `docs/adr/0001-agent-inferences-excluded-from-retrieval.md`. New ticket created for follow-up context files (see T-043 below).
 
@@ -56,7 +58,7 @@ tail behind product work.
 
 **Owns:** `apps/app/`, `packages/ai/`, the research/spacetime canvases, agent chat paths
 **Question it answers:** *can a researcher see, traverse, and reason about the evidence?*
-**Roadmap:** `docs/plans/2026-08-01-spacetime-canvas-implementation.md` (M0 → M4) · Research Canvas Gen-UI: `docs/plans/2026-08-09-research-canvas-genui.md` (T-053)
+**Roadmap:** `docs/plans/2026-08-01-spacetime-canvas-implementation.md` (M0 → M4) · Research Canvas Gen-UI: `docs/plans/2026-08-09-research-canvas-genui.md` (T-053 epic) · proposed first slice: `docs/plans/2026-08-10-rc-p0-tool-cards.md` (RC-P0; **needs agent-team grooming/review before build**)
 **Agents:** `app-agent`, `research-ui-agent`
 
 ### Lane assignment
@@ -64,7 +66,7 @@ tail behind product work.
 | Lane | Active | Open / backlog | Done |
 | --- | --- | --- | --- |
 | **A — Corpus & Ingestion** | T-048 | T-045, **T-055**, **T-056**, **T-057**, **T-059** | T-044, **T-054** |
-| **B — Platform & Experience** | T-050, T-052 | T-036, T-037, T-043, T-046, T-049, T-051, **T-053**, **T-058** | T-001 … T-029, T-030, T-031, T-038 … T-042 |
+| **B — Platform & Experience** | T-050, T-052 | T-036, T-037, T-043, T-046, T-049, T-051, **T-053** (needs grooming), **T-058** | T-001 … T-029, T-030, T-031, T-038 … T-042 |
 
 **T-047 is deliberately absent from the Active column as of 2026-08-13.** It is not backlog either — it is **held**: its current surface is uncommitted (10 untracked + 10 modified files), so it cannot be assigned until the repo owner decides how that work lands. See the blocker block on T-047 before moving it back.
 
@@ -623,7 +625,7 @@ The ticket below was last updated 2026-08-05. Two significant things happened af
      - **Four** anchors now need live verification, not the three originally enumerated: Manhattan Project, Trinity, Roswell (`table: 'events'`) **and Smyth Report** (`table: 'documents'`), added when subtask 1 made `corpusAnchor` required. The Smyth anchor is an unverified assertion — a real published document, but nobody has confirmed the corpus holds a matching record. If it does not resolve, demote it to `kind: 'none'` rather than leaving a query that silently returns nothing.
      - `resolveAnchor()` (`shared/graph/resolve-anchor.ts`, landed with subtask 1) already holds the rule: use it rather than reimplementing resolution, so a failed lookup reports `unresolved` with the attempted query instead of collapsing into narrative-only.
   5. **Launch** — `startTour(NUCLEAR_SHADOW_TOUR)` from the graph chips / typer; `GUIDED_TOURS` becomes the single registry. Keep `/tours/nuclear-shadow` only as a deep-link alias.
-- **Related (opened 2026-08-09):** **T-053 / DMGD-219** (Research Canvas Gen-UI) soft-depends on subtask 3 for RC-P4 plan→waypoint projection. T-050 does not block T-053 RC-P0–P3.
+- **Related (opened 2026-08-09):** **T-053 / DMGD-219** (Research Canvas Gen-UI) still soft-depends on subtask 3 (Render) for **RC-P4** plan→waypoint projection. T-050 does not block proposed **RC-P0–P3**; T-053 itself is **not pickup-ready** until agent-team grooming/review.
 - **Pass bar:** `cd apps/app && bun test src/features/guided-tours` green — **measured baseline 2026-08-13: 38 pass / 0 fail across 8 files**, which are `shared/tests/{tour-schema,unified-tour-store,resolve-anchor,validate-any-tour}.test.ts` and `nuclear-shadow/tests/{definition,reducer,graph-compiler,choreography}.test.ts`. (The previous wording — "the 4 files under `guided-tours/tests/`" — named a directory that does not exist; there is no `guided-tours/tests/`.) Plus: `eslint` exit 0 on touched paths; **no new** `tsc` errors in touched files (repo carries a large pre-existing count — do not chase them). Definition of Done applies: the render subtask needs a dogfood visual audit, not just a green suite.
 - **TDD seam:** `shared/state/tour-reducer.ts`, `shared/graph/compile-tour-graph.ts`, `shared/graph/derive-node-status.ts`, `shared/schemas/tour-definition.schema.ts` are pure and already covered. Extend those tests first.
 - **Do not:** fork a second canvas; add state to `mindmap-context.tsx` (1,363-line god-object); use `router.push()` for canvas navigation (use Zustand `setActiveView()`).
@@ -667,25 +669,29 @@ The ticket below was last updated 2026-08-05. Two significant things happened af
 
 ### T-053: Research Canvas Gen-UI upgrade — Deep Research loop + agentic session
 
-- **Status:** OPEN / Backlog — 2026-08-09 — opened against [DMGD-219](https://linear.app/digital-mischief-group/issue/DMGD-219/lane-b-research-canvas-gen-ui-upgrade-deep-research-loop-agentic) (Linear **Backlog**, label Feature). Canonical spec: [`docs/plans/2026-08-09-research-canvas-genui.md`](./2026-08-09-research-canvas-genui.md). FEATURES Decision 11.
-- **Size:** L (console Gen-UI + session slice + mindmap route mode + dossier bridge; RC-P4 soft-blocked on T-050)
+- **Status:** OPEN / needs grooming — 2026-08-14 — **idea and feature need grooming and review from the agent team before implementation.** Not claimed; do not start product code. Opened 2026-08-09 against [DMGD-219](https://linear.app/digital-mischief-group/issue/DMGD-219/lane-b-research-canvas-gen-ui-upgrade-deep-research-loop-agentic) (Linear **Backlog**, label Feature). FEATURES Decision 11.
+- **Size:** L (epic: console Gen-UI + session slice + mindmap route mode + dossier bridge; RC-P4 soft-blocked on T-050). Proposed first slice **RC-P0** is S (≤ 0.5 day) if/when approved.
 - **Lane:** B — Platform & Experience
+- **Canonical plans (both):**
+  1. Epic: [`docs/plans/2026-08-09-research-canvas-genui.md`](./2026-08-09-research-canvas-genui.md) — compose Deep Research loop + Dashboard Canvas AgentState onto the live `/research-canvas` mindmap shell (steal interaction models, not stacks).
+  2. Proposed MVP: [`docs/plans/2026-08-10-rc-p0-tool-cards.md`](./2026-08-10-rc-p0-tool-cards.md) — smallest dogfoodable slice. Scratch: `.scratch/RcP0ToolCards.md`, `.scratch/RcP0ToolCards_PSUEDOCODE.md`. Dual-app fit analysis lives in the epic (Deep Research agent + Dashboard Canvas agent); research-canvas-specific remapping is in that spec, not a third ticket.
+- **Grooming / review (blocking claim):** Treat Decision 11 and the two plans as **drafts for the agent team**, not a locked build order. Review should confirm: scope vs research-canvas identity (intelligence in records / waypoints / connections / dossier, not sidecars); whether RC-P0 is the right first slice; DoD / dogfood path; conflicts with T-050 render and T-027 `researchSession`. **RC-P0 is proposed, not started, and not locked-to-build until that review.**
 - **What:** Feature upgrade for the live `/research-canvas` mindmap shell. Steal interaction models from two Gen-UI reference apps — **not** their stacks:
   1. [ai-deep-research-agent](https://github.com/Shubhamsaboo/awesome-llm-apps/tree/main/generative_ui_agents/ai-deep-research-agent) — plan → multi-hop research → durable report + ToolCards.
   2. [ai-dashboard-canvas-agent](https://github.com/Shubhamsaboo/awesome-llm-apps/tree/main/generative_ui_agents/ai-dashboard-canvas-agent) — thin chat; agent mutates shared AgentState onto a primary canvas.
-  - **Already true today:** Graph is the product surface; `ResearchCanvasConsole` is the rail; `useMindMapAgent` → `runAgentQueryAndAddNodes` already writes nodes/edges; T-027 `researchSession` exists but is underused; `deepResearchEnabled` + typer “Deep Research” card are dead chrome.
-  - **Missing:** inspectable ToolCards; `plan`/`sources`/`artifacts` on `researchSession`; session injected into turn context; Deep Research mode that changes prompt/tool policy; mid-run dossier → `SynthesisPanel`; plan→waypoints (after T-050).
-- **Subtasks (RC-P0 → RC-P4):**
-  1. **RC-P0 — Tool cards** — `EnhancedAnimatedChat` renders `AgentToolEvent` as expandable cards (no backend change).
+  - **Already true today:** Graph is the product surface; `ResearchCanvasConsole` is the rail; `useMindMapAgent` → `runAgentQueryAndAddNodes` already writes nodes/edges; T-027 `researchSession` exists but is underused; `deepResearchEnabled` + typer “Deep Research” card are dead chrome. SSE → `AgentToolEvent[]` already streams; console still shows ephemeral “Searching…” pills for `processing` only.
+  - **Missing (epic):** inspectable ToolCards; `plan`/`sources`/`artifacts` on `researchSession`; session injected into turn context; Deep Research mode that changes prompt/tool policy; mid-run dossier → `SynthesisPanel`; plan→waypoints (after T-050).
+- **Subtasks (RC-P0 → RC-P4) — proposed sequence, not a committed sprint:**
+  1. **RC-P0 — Tool cards (proposed first slice, not started)** — `EnhancedAnimatedChat` renders `AgentToolEvent` as expandable cards (tool label, processing | complete | error, query/params, result summary). Front-end only; no backend / protocol change. Plan: `2026-08-10-rc-p0-tool-cards.md`. **Do not implement until agent-team grooming/review.**
   2. **RC-P1 — AgentState** — Extend `ResearchSessionState` with `plan[]`, `sources[]`, `artifacts[]`; mirror tool completes; serialize into `runAgentQuery` turn context.
   3. **RC-P2 — Wire Deep Research mode** — Typer card + `deepResearchEnabled` → `activeMode` + `researchFocus: 'deep-research'` on `/api/disclosure/mindmap` (plan-first prompt).
   4. **RC-P3 — Dossier bridge** — Artifacts → `SynthesisPanelHost`; optional `agent_inferences` persist (ADR-0001 — never retrieval).
-  5. **RC-P4 — Plan → waypoints** — Project plan onto on-canvas waypoints after T-050 render (same React Flow; no second canvas).
-- **Do not:** CopilotKit / ADK / LangGraph product path; Workspace sidecar; KPI Recharts agent dashboard; Gen-UI in `features/research-canvas/*` Storybook islands; new state in `mindmap-context.tsx`.
-- **Dependencies:** Soft-deps **T-050** for RC-P4 only. Related to **T-027** (`researchSession`). Not blocked on T-048 H4.
-- **Pass bar:** Dogfood Deep Research mode on `/research-canvas` — plan visible, multi-tool cards, liturgy-tagged dossier, no sidecar Workspace. Definition of Done applies.
-- **Files:** `features/mindmap/research-canvas/EnhancedAnimatedChat.tsx`, `research-canvas-console.tsx`, `hooks/use-mindmap-agent.ts`, `graph.tsx`, `store/mindmap-ui-store.ts`, `components/synthesis-panel.tsx`, `app/api/disclosure/mindmap/route.ts`
-- **Reference:** Linear DMGD-219; FEATURES Decision 11; fit canvases `research-canvas-genui-fit` / `deep-research-agent-fit`
+  5. **RC-P4 — Plan → waypoints** — Project plan onto on-canvas waypoints after T-050 render (same React Flow; no second canvas). Soft-deps T-050 subtask 3.
+- **Do not:** CopilotKit / ADK / LangGraph product path; Workspace sidecar; KPI Recharts agent dashboard; Gen-UI in `features/research-canvas/*` Storybook islands; new state in `mindmap-context.tsx`; claim IN PROGRESS or start RC-P0 before grooming/review; fold RC-P1 into the first PR unless review explicitly says so.
+- **Dependencies:** Soft-deps **T-050** for RC-P4 only (tour render). Related to **T-027** (`researchSession`). Not blocked on T-048 H4. **Hard process dep:** agent-team grooming/review of the idea and feature before any implementation.
+- **Pass bar (epic, after review):** Dogfood Deep Research mode on `/research-canvas` — plan visible, multi-tool cards, liturgy-tagged dossier, no sidecar Workspace. Definition of Done applies. **RC-P0 pass bar (if approved):** live stream on `/research-canvas` shows expandable ToolCards for tool events (not pills-only); graph writes still work. UNVERIFIED if no credentials / no stream.
+- **Files:** `features/mindmap/research-canvas/EnhancedAnimatedChat.tsx` (RC-P0 host); proposed new `tool-card.tsx`, `agent-tool-event-list.tsx`, `tool-event-summary.ts`; later: `research-canvas-console.tsx`, `hooks/use-mindmap-agent.ts`, `graph.tsx`, `store/mindmap-ui-store.ts`, `components/synthesis-panel.tsx`, `app/api/disclosure/mindmap/route.ts`
+- **Reference:** Linear DMGD-219; FEATURES Decision 11; epic `2026-08-09-research-canvas-genui.md`; RC-P0 `2026-08-10-rc-p0-tool-cards.md`; fit canvases `research-canvas-genui-fit` / `deep-research-agent-fit`
 
 ---
 

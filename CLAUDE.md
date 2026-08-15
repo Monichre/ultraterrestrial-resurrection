@@ -40,53 +40,9 @@ All development guidelines consolidated into:
 
 **CRITICAL**: All agents MUST use this standardized three-tier approach for project management. Tier definitions, scope, and update cadence live in [AGENTS.md](AGENTS.md) — do not restate them here.
 
-### Project Management Rules for All Agents
-
-1. **Always check all three tiers** before starting any work
-2. **Update appropriate tier** when completing tasks or discovering new requirements
-3. **Maintain consistency** - ensure tasks flow from FEATURES.md → TODO.md → DAILY_WORK_PLAN.md
-4. **Document decisions** in FEATURES.md architectural decisions log
-5. **Track progress** in TODO.md with realistic timelines
-6. **Report status** in DAILY_WORK_PLAN.md with specific accomplishments
-
-**No other project management files should be created or used.** This three-tier system is the single source of truth for all project tracking and planning.
-
-## Development Commands
-
-Standard commands live in each workspace's `package.json` scripts (`bun run <script>` in `apps/app`, `packages/db`). The following are **not** manifest scripts and are easy to miss:
-
-```bash
-# Postgres rebuild scripts — loose .py files, run from packages/db/scripts/rebuild/
-python embed_entities.py   # Batch-embed 6 entity tables via OpenAI
-python ingest.py           # Ingest transcripts/PDFs → documents + chunks
-python load_csv.py         # Load CSV exports into Postgres
-```
-
 Python work uses Python 3 and a `.venv` (`apps/disclosure-rag/` has its own).
 
 ## Architecture Overview
-
-- **Spacetime Canvas** (`apps/app/src/features/spacetime/`, route `(site)/spacetime`) — Temporal Observatory. Requires `NEXT_PUBLIC_MAPBOX_PUBLIC_TOKEN`; **without it the globe silently renders a placeholder instead of erroring** (`spacetime-globe.tsx`).
-- **Database package guidance**: `packages/db/README.md` and `packages/db/QUICK_REFERENCE.md` (there is no `packages/db/CLAUDE.md`).
-- **`packages/openai-vector-store-mcp/`** (added 2026-08-09, T-051) — FastMCP server exposing `search`/`fetch` over the same OpenAI Vector Store the live AI paths use. **Code-complete and verified live over stdio, but uncommitted (untracked in git) and registered only in `.cursor/mcp.json` — not in root `.mcp.json`, so Claude Code sessions in this repo cannot reach it today.** Do not assume it's wired in; check `.mcp.json` before relying on it.
-- **`apps/disclosure-lab/`** (planned, not built — T-052, [DMGD-216](https://linear.app/digital-mischief-group/issue/DMGD-216)) — decision-locked plan for a Neon admin/DX console (split-pane record browser + read-only assistant, human-only confirm-every-write, no deletes). Zero code exists; the directory does not exist. Plan lives at `.cursor/plans/neon_lab_next_app_133476f6.plan.md` (itself untracked in git).
-
-### Core AI Architecture (Grounded 2026-03-29)
-
-**Working AI Paths (SP1–SP4 complete, 2026-06-16):**
-
-1. **Disclosure Mindmap Agent** — primary end-to-end AI path
-   - Route: `/api/disclosure/mindmap` (OpenAI Assistants API + custom SSE bridge)
-   - Tools: `file_search` (OpenAI vector store) + `searchDatabase` (FTS + pgvector cosine via `@db/postgres`) + `searchExternalResources` (Exa)
-   - **pgvector**: `embedQuery(text-embedding-3-small)` runs before every `searchDatabase` call — FTS and vector search run in parallel over a deeper candidate pool (`limit * 3`) and are fused with **Reciprocal Rank Fusion** (rank agreement across signals, not raw score magnitude)
-   - Client: `useMindMapAgent` hook → `transformStreamResponse` → graph nodes/edges
-   - Files: `apps/app/src/app/api/disclosure/mindmap/route.ts`, `apps/app/src/features/mindmap/hooks/use-mindmap-agent.ts`
-
-2. **Prometheus Chat** — standalone conversational chat (separate protocol)
-   - Route: `/api/prometheus/chat` (Vercel AI SDK `streamText`)
-   - Tools: `searchUAP` (OpenAI Assistants vector store), `searchNeonDatabase` (FTS + pgvector via `@db/postgres`), `searchExternalResources`, `researchExternalTopic`, `processDocument`
-   - **pgvector**: `searchNeonDatabase` tool generates embedding then calls `searchDatabase({ embedding })` — same parallel FTS+vector RRF fusion pattern as mindmap agent
-   - File: `apps/app/src/app/api/prometheus/chat/route.ts`
 
 **What does NOT exist in the Next.js app (corrected myths):**
 
@@ -98,14 +54,6 @@ Python work uses Python 3 and a `.venv` (`apps/disclosure-rag/` has its own).
 - ~~Kafka / Flink / Spark streaming topic-tracking pipeline~~ — No streaming runtime on either live AI path; realtime-monitor personas are conceptual grammar, not services (same review)
 - ~~OWL / RDFS ontologies + Apache Jena SPARQL~~ — Zod/TS types + Postgres schema under `@db/postgres`, queried with typed helpers and `getSql()`; no triplestore, no SPARQL endpoint (same review)
 - ~~Docker Compose / Kubernetes "ufo-research-system", with `packages/ai/agents/*.md` as deployable microservices~~ — Those 18 files are markdown persona grammar, not routes or processes; there is no orchestrated research platform to deploy (same review)
-
-**Foundation utilities (these do exist and work):**
-
-- **Contextual Intelligence** (`features/mindmap/utils/contextual-intelligence.ts`) — graph context, relationship filtering
-- **Spatial Intelligence** (`features/mindmap/hooks/use-spatial-grouping.ts`) — bounding-box proximity grouping via `useProximityAnalysis` (not R-Tree/rbush — no such dependency exists in this repo)
-- **Enhanced Nodes** (`features/mindmap/nodes/enhanced-node-poc.tsx`) — one node type in React Flow
-
-**Reference:** `docs/plans/2026-03-29-roundtable-unified-action-plan.md` for full audit and hardening plan
 
 ## Critical Development Principles
 
@@ -145,19 +93,6 @@ Frontend framework and library versions are pinned in `apps/app/package.json` �
 - **Authentication**: Clerk middleware exists (`apps/app/src/middleware.ts`) — `/admin` and `/api/processing` gated; most AI read routes (`/api/disclosure/*`, `/api/prometheus/chat`) remain public until canvas sign-in exists
 - **Search**: OpenAI file_search (vector store) + Postgres FTS (`search_vector @@ plainto_tsquery`) + trgm fallback. No Xata full-text in the Next.js app.
 
-### Python RAG System (disconnected)
-
-- **Note**: This system does NOT share data or vector stores with the Next.js app
-
-## Development Guidelines
-
-### Database Work
-
-1. Schema and types live under `packages/db/src/postgres/` and are exported by `@db/postgres`
-2. Prefer the typed helpers; use `getSql()` tagged-template for writes and custom SQL
-3. `DATABASE_URL` lives in `packages/db/.env` — never commit it
-4. Maintain compatibility with 126,483 existing records (live count 2026-07-24)
-
 ## Definition of Done (binding — read before claiming any work complete)
 
 No feature is done on green tests alone. Two gates, both required: a **completion report with evidence** (every claim shows its command and that command's actual output; scope every number; name what you did NOT do) and a **dogfood visual audit** (every user path and spec requirement walked through in the running app by a reviewer and visually confirmed). Cannot run the audit? Report **UNVERIFIED**, not done.
@@ -181,27 +116,7 @@ Full protocol: [docs/agents/ops/DEFINITION_OF_DONE.md](docs/agents/ops/DEFINITIO
 
 - Ensure full compliance with agent-specific guidelines and context
 
-- we've updated the @packages/knowledge-base/ directory names changing case_files to files. @packages/knowledge-base/files/
-
-- **IMPORTANT:** All former content in [@packages/knowledge-base](@packages/knowledge-base) are now nested under [@packages/knowledge-base/sources](@packages/knowledge-base/sources)
-
-- AND we've changed `case_files` to `files` so [@.packages/knowledge-base/sources/files](@.packages/knowledge-base/sources/files)
-
 - always show and report all effected files
-
-- **IMPORTANT:**
-
-- make a note to develop a framework, system or theoretical paradigm to approach data analysis, investigations or any sort of historical review or content ingestion according to "famous UFO researchers" methodology. Ex: Jacques Valle, Diana Pasulka Walksh etc
-
-### Agent Configuration Reference
-
-**CRITICAL**: Read [AGENTS.md](AGENTS.md) for comprehensive development guidelines before starting any work.
-
-For agent intake and ops docs, see:
-
-- `docs/agents/ops/` - Onboarding, triage, issue tracker, contrib
-- `docs/agents/ops/AGENT_ONBOARDING_CHECKLIST.md` - Mandatory validation checklist
-- `docs/README.md` - Full documentation spine
 
 ## Agent skills
 

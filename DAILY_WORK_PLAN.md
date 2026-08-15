@@ -1,9 +1,13 @@
 # Daily Work Plan — Ultraterrestrial Resurrection
 
-**Last updated:** 2026-08-13
+**Last updated:** 2026-08-14
 **Branch:** `dev`
-**Focus:** Lane B assembling-components apply (token aliases + root providers) · Lane B Disclosure Lab (DMGD-216 / T-052) · Research Canvas Gen-UI (DMGD-219 / T-053, backlog) · Lane A ingestion hardening (T-048) · Spacetime M0/M1 (T-047)
-**Reference:** Linear owns implementation tickets; `docs/plans/TODO.md` kept in parity. Canonical specs: `docs/plans/2026-08-09-disclosure-lab.md`, `docs/plans/2026-08-09-research-canvas-genui.md`. Assembling apply: `docs/plans/AssemblingComponentsApply.md`.
+**Focus:** Lane B assembling-components apply (token aliases + root providers) · Lane B Disclosure Lab (DMGD-216 / T-052) · Research Canvas Gen-UI (DMGD-219 / T-053, **needs grooming/review**) · Lane A ingestion hardening (T-048) · Spacetime M0/M1 (T-047)
+**Reference:** Linear owns implementation tickets; `docs/plans/TODO.md` kept in parity. Canonical specs: `docs/plans/2026-08-09-disclosure-lab.md`, `docs/plans/2026-08-09-research-canvas-genui.md`, proposed MVP `docs/plans/2026-08-10-rc-p0-tool-cards.md`. Assembling apply: `docs/plans/AssemblingComponentsApply.md`.
+
+## Session 2026-08-14 — T-053 tracking: grooming/review required (no product code)
+
+T-053 / DMGD-219 remains **OPEN / needs grooming**. The epic (`2026-08-09-research-canvas-genui.md`) and RC-P0 ToolCards MVP (`2026-08-10-rc-p0-tool-cards.md`) are the canonical plans; **the idea and feature need grooming and review from the agent team before implementation.** RC-P0 is the proposed first slice, not started, and not locked-to-build until that review.
 
 ## Session 2026-08-13 — assembling-components apply (gap-fill, not a scaffold)
 
@@ -18,7 +22,7 @@
 | Ticket | Lane | Status | Next step |
 | -------- | ------ | -------- | ----------- |
 | **DMGD-216 / T-052** — Disclosure Lab (`apps/disclosure-lab`) | B — Platform & Experience | **IN PROGRESS** — grilling closed; canonical plan in `docs/plans/`; build started | Scaffold app + write-policy + split-pane home; smoke against live Neon |
-| **DMGD-219 / T-053** — Research Canvas Gen-UI upgrade | B — Platform & Experience | **OPEN / Backlog** — spec + Decision 11 + Linear filed 2026-08-09 | Claim → RC-P0 ToolCards on `EnhancedAnimatedChat` (RC-P4 soft-deps T-050) |
+| **DMGD-219 / T-053** — Research Canvas Gen-UI upgrade | B — Platform & Experience | **OPEN / needs grooming** — epic + RC-P0 plans exist; **agent-team review required before implementation** | Groom/review with agent team; do not claim RC-P0 until then (RC-P4 still soft-deps T-050 render) |
 | **T-047** — Temporal Observatory / Spacetime Canvas | B — Platform & Experience | **M0 done; M1 closed at honest scope** | M1 remainder blocked on T-048 H4 |
 | **T-048** — Ingestion hardening | A — Corpus & Ingestion | IN PROGRESS — H0 landed; H1–H4 remain | **H1 — Identity:** sha256 + dedup |
 | **T-050** — Guided Tours convergence | B — Platform & Experience | IN PROGRESS — subtasks 1–2 landed | Subtask 3 — Render on mindmap canvas (unblocks T-053 RC-P4) |

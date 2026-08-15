@@ -32,6 +32,33 @@
 - **`mindmap-context.tsx`** — 1,363-line god-object. Do NOT add more logic here. Scheduled for decomposition.
 - **Navigation** goes through Zustand `setActiveView()`, NOT `router.push()`. Path fields in FullScreenMenu are decorative.
 
+## Core AI Architecture
+
+*(Moved from root `CLAUDE.md` 2026-08-15 — applies only to this app.)*
+
+**Working AI Paths (SP1–SP4 complete, 2026-06-16):**
+
+1. **Disclosure Mindmap Agent** — primary end-to-end AI path
+   - Route: `/api/disclosure/mindmap` (OpenAI Assistants API + custom SSE bridge)
+   - Tools: `file_search` (OpenAI vector store) + `searchDatabase` (FTS + pgvector cosine via `@db/postgres`) + `searchExternalResources` (Exa)
+   - **pgvector**: `embedQuery(text-embedding-3-small)` runs before every `searchDatabase` call — FTS and vector search run in parallel over a deeper candidate pool (`limit * 3`) and are fused with **Reciprocal Rank Fusion** (rank agreement across signals, not raw score magnitude)
+   - Client: `useMindMapAgent` hook → `transformStreamResponse` → graph nodes/edges
+   - Files: `apps/app/src/app/api/disclosure/mindmap/route.ts`, `apps/app/src/features/mindmap/hooks/use-mindmap-agent.ts`
+
+2. **Prometheus Chat** — standalone conversational chat (separate protocol)
+   - Route: `/api/prometheus/chat` (Vercel AI SDK `streamText`)
+   - Tools: `searchUAP` (OpenAI Assistants vector store), `searchNeonDatabase` (FTS + pgvector via `@db/postgres`), `searchExternalResources`, `researchExternalTopic`, `processDocument`
+   - **pgvector**: `searchNeonDatabase` tool generates embedding then calls `searchDatabase({ embedding })` — same parallel FTS+vector RRF fusion pattern as mindmap agent
+   - File: `apps/app/src/app/api/prometheus/chat/route.ts`
+
+**Foundation utilities (these do exist and work):**
+
+- **Contextual Intelligence** (`features/mindmap/utils/contextual-intelligence.ts`) — graph context, relationship filtering
+- **Spatial Intelligence** (`features/mindmap/hooks/use-spatial-grouping.ts`) — bounding-box proximity grouping via `useProximityAnalysis` (not R-Tree/rbush — no such dependency exists in this repo)
+- **Enhanced Nodes** (`features/mindmap/nodes/enhanced-node-poc.tsx`) — one node type in React Flow
+
+**Reference:** `docs/plans/2026-03-29-roundtable-unified-action-plan.md` for full audit and hardening plan
+
 <claude-mem-context>
 # Recent Activity
 
