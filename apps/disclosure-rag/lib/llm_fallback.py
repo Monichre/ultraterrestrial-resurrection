@@ -274,6 +274,95 @@ _SCHEMA_REJECTION_MARKERS = (
 )
 
 
+# ── JSON Schema → Google schema converter ─────────────────────────────
+# Google's Generative AI API uses a Protocol Buffer-style schema, not
+# JSON Schema draft-07. Fields like $schema, additionalProperties, and
+# lowercase type values are rejected with HTTP 400. This converter
+# strips unsupported fields and translates type names to Google's
+# uppercase enum format.
+
+_JSON_TYPE_TO_GOOGLE = {
+    "string": "STRING",
+    "number": "NUMBER",
+    "integer": "INTEGER",
+    "boolean": "BOOLEAN",
+    "array": "ARRAY",
+    "object": "OBJECT",
+    "null": "NULL",
+}
+
+# Fields that Google's responseSchema does not understand
+_GOOGLE_UNSUPPORTED_FIELDS = {
+    "$schema", "additionalProperties", "description", "title",
+    "default", "examples", "format", "pattern",
+    "exclusiveMinimum", "exclusiveMaximum",
+    "minItems", "maxItems", "minLength", "maxLength",
+    "multipleOf", "uniqueItems",
+}
+
+
+def _json_schema_to_google(schema: Dict[str, Any]) -> Dict[str, Any]:
+    """Convert a JSON Schema dict to Google's responseSchema format.
+
+    Google expects:
+    - type as uppercase STRING/NUMBER/INTEGER/BOOLEAN/ARRAY/OBJECT
+    - properties as a map of name→schema
+    - items as a single schema (not an array)
+    - enum as a list of strings
+    - required as a list of property names
+    - No $schema, additionalProperties, description, etc.
+    """
+    if not isinstance(schema, dict):
+        return schema
+
+    result: Dict[str, Any] = {}
+
+    # Convert type (can be a string or array of strings for nullable)
+    type_val = schema.get("type")
+    if type_val is not None:
+        if isinstance(type_val, list):
+            # JSON Schema allows ["string", "null"] for nullable fields.
+            # Google doesn't support union types — pick the non-null type.
+            non_null = [t for t in type_val if t != "null"]
+            if non_null:
+                result["type"] = _JSON_TYPE_TO_GOOGLE.get(non_null[0], non_null[0].upper())
+            # If only "null", use NULL
+            if not non_null and "null" in type_val:
+                result["type"] = "NULL"
+        elif isinstance(type_val, str):
+            result["type"] = _JSON_TYPE_TO_GOOGLE.get(type_val, type_val.upper())
+
+    # Convert enum (Google accepts enum as-is)
+    if "enum" in schema:
+        result["enum"] = schema["enum"]
+
+    # Convert properties
+    props = schema.get("properties")
+    if props and isinstance(props, dict):
+        result["properties"] = {
+            name: _json_schema_to_google(prop)
+            for name, prop in props.items()
+            if isinstance(prop, dict)
+        }
+
+    # Convert items (Google expects a single schema, not an array)
+    items = schema.get("items")
+    if items is not None:
+        if isinstance(items, list):
+            # JSON Schema allows array of schemas; Google doesn't.
+            # Use the first item schema.
+            if items:
+                result["items"] = _json_schema_to_google(items[0])
+        else:
+            result["items"] = _json_schema_to_google(items)
+
+    # Convert required (Google accepts required as-is)
+    if "required" in schema:
+        result["required"] = schema["required"]
+
+    return result
+
+
 def _is_schema_rejection(exc: Exception) -> bool:
     """True when a 4xx names structured output as the thing it refused.
 
@@ -446,7 +535,7 @@ class LLMFallback:
         }
         if schema is not None:
             config_kwargs["response_mime_type"] = "application/json"
-            config_kwargs["response_schema"] = schema
+            config_kwargs["response_schema"] = _json_schema_to_google(schema)
 
         config = types.GenerateContentConfig(
             system_instruction=system_prompt,
@@ -508,7 +597,7 @@ class LLMFallback:
         }
         if schema is not None:
             body["generationConfig"]["responseMimeType"] = "application/json"
-            body["generationConfig"]["responseSchema"] = schema
+            body["generationConfig"]["responseSchema"] = _json_schema_to_google(schema)
 
         resp = httpx.post(url, json=body, headers={"Content-Type": "application/json"}, timeout=120)
         if resp.status_code >= 400:
