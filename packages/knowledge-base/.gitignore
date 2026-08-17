@@ -177,3 +177,5 @@ dist
 # T-061 OCR: commit the .txt sidecars (small, searchable, the RAG-usable value);
 # keep the regenerated .ocr.pdf binaries out — 26MB and reproducible from source.
 derived/ocr/*.ocr.pdf
+
+derived/ocr/gap/*.ocr.pdf
