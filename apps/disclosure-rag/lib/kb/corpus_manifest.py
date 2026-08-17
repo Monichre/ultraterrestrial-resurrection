@@ -17,6 +17,16 @@ Three identity kinds, in order of preference:
     sha256    Content hash. The fallback for files that carry no external
               identity at all.
 
+Coverage: `corpus-manifest.json` indexes `packages/knowledge-base/sources/`
+(the curated archive). `corpus-manifest-intake.json`, a sibling file loaded
+and merged in here transparently, indexes `apps/disclosure-rag/corpus/intake/`
+(the raw intake dump — 14k+ PDFs, ~29GB, mostly no videoId/URL, so by_sha256
+only). Split into two files because the intake index alone runs ~14k entries;
+keeping it out of corpus-manifest.json keeps that file's diffs reviewable.
+Callers never need to know about the split — `already_have()` and `stats()`
+see one merged view. On sha256 collision between the two files, the curated
+archive's entry wins (it is the canonical location).
+
 Usage from an ingest path::
 
     from lib.kb.corpus_manifest import already_have
@@ -44,20 +54,22 @@ from typing import Any, Optional
 from .kb_root import kb_root
 
 MANIFEST_NAME = "corpus-manifest.json"
+INTAKE_MANIFEST_NAME = "corpus-manifest-intake.json"
 
 
 def manifest_path() -> Path:
     return kb_root() / "metadata" / MANIFEST_NAME
 
 
-@lru_cache(maxsize=1)
-def _load() -> dict:
-    """Load the manifest once per process.
+def intake_manifest_path() -> Path:
+    return kb_root() / "metadata" / INTAKE_MANIFEST_NAME
 
-    Missing or corrupt manifest is not fatal: it degrades to "we have nothing",
-    so a broken index can never block an ingest. It can only fail to dedupe.
+
+def _load_json(p: Path) -> dict:
+    """Missing or corrupt file degrades to `{}`, never raises.
+
+    A broken index can only fail to dedupe — it must never block an ingest.
     """
-    p = manifest_path()
     try:
         with open(p, encoding="utf-8") as fh:
             return json.load(fh)
@@ -65,6 +77,25 @@ def _load() -> dict:
         return {}
     except (json.JSONDecodeError, OSError):
         return {}
+
+
+@lru_cache(maxsize=1)
+def _load() -> dict:
+    """Load and merge the manifest + intake-manifest once per process.
+
+    `by_youtube_id` and `by_url` come from the curated archive only (the
+    intake dump carries neither). `by_sha256` is the union of both files;
+    on a hash collision the curated archive's entry wins, since it names the
+    canonical location and the intake copy is the one worth flagging as
+    redundant, not the one worth pointing ingest at.
+    """
+    m = dict(_load_json(manifest_path()))
+    intake = _load_json(intake_manifest_path())
+
+    merged_sha = dict(intake.get("by_sha256", {}))
+    merged_sha.update(m.get("by_sha256", {}))
+    m["by_sha256"] = merged_sha
+    return m
 
 
 def sha256_file(path: str | Path, chunk: int = 1 << 20) -> str:
@@ -125,11 +156,19 @@ def already_have(
 
 
 def stats() -> dict[str, int]:
+    """`file_hashes` is the merged curated-archive + intake total; the two
+    per-tree counts are broken out separately since intake dwarfs the
+    curated archive (thousands of PDFs vs. dozens of files) and collapsing
+    them would hide that the corpus is mostly unreviewed intake."""
     m = _load()
+    curated = _load_json(manifest_path())
+    intake = _load_json(intake_manifest_path())
     return {
         "youtube_ids": len(m.get("by_youtube_id", {})),
         "urls": len(m.get("by_url", {})),
         "file_hashes": len(m.get("by_sha256", {})),
+        "file_hashes_curated": len(curated.get("by_sha256", {})),
+        "file_hashes_intake": len(intake.get("by_sha256", {})),
     }
 
 

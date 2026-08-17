@@ -220,6 +220,11 @@ out/
 !packages/knowledge-base/metadata/ocr-manifest.json
 # Corpus identity index (T-061/T-059) — the pre-ingest dedupe check.
 !packages/knowledge-base/metadata/corpus-manifest.json
+# Sibling sha256 index for apps/disclosure-rag/corpus/intake/ (the raw intake
+# dump) — split out because it runs ~14k entries; see corpus_manifest.py docstring.
+!packages/knowledge-base/metadata/corpus-manifest-intake.json
+!packages/knowledge-base/metadata/duplicate-report-cross-tree.json
+!packages/knowledge-base/metadata/duplicate-report-intra-intake.json
 !packages/knowledge-base/metadata/source-resolution.jsonl
 
 # Vector store files
