@@ -208,6 +208,11 @@ out/
 # Canonical archive metadata — not a large data file, it's the source of truth
 !packages/knowledge-base/metadata/index.json
 !packages/knowledge-base/metadata/redirect.json
+# T-061 source registry. The YouTube snapshot is PERISHABLE — videoId -> channel
+# only resolves while a video is public, so this capture is not reproducible.
+!packages/knowledge-base/metadata/source-registry.json
+!packages/knowledge-base/metadata/tier-a-youtube-snapshot.json
+!packages/knowledge-base/metadata/tier-c-youtube-snapshot.json
 
 # Vector store files
 packages/knowledge-base/vector-store-files/

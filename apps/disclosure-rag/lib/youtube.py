@@ -69,18 +69,128 @@ def detect_transcript_language(text):
 
 
 def get_folder_path_from_metadata(metadata):
-    """Helper function to get the correct folder path based on metadata"""
-    current_date = datetime.datetime.now().astimezone().strftime("%Y-%m-%d")
-    base_folder = os.path.join(directory, current_date) if directory else os.path.join(
-        os.getcwd(), current_date)
+    """Helper function to get the correct folder path based on metadata.
+
+    T-061 §3 P3 / D1 / D2: previously composed
+    `<TRANSCRIPT_DIRECTORY_PATH or cwd>/<YYYY-MM-DD>/<id>` -- ignoring
+    DISCLOSURE_RAG_KB_PATH entirely (this was the one writer that escaped the
+    kb_root consolidation, so the benchmark sandbox override could not
+    redirect it) and falling back to the process's current working directory
+    when the env var was unset (a transcript could land wherever the process
+    happened to be started from). Now routed through resolve_entry_dir(), so
+    DISCLOSURE_RAG_KB_PATH redirects this writer along with every other one.
+
+    source_key is the video's channel_id, populated by fetch_channel_metadata()
+    (T-061 D5) before this function is called. When the lookup itself failed
+    (no GOOGLE_API_KEY, quota, network, or a deleted/private video), metadata
+    simply carries no channel_id -- this still resolves to None and the entry
+    lands under "unresolved/", the same soft-fallback behavior as before D5
+    was closed, never a crash.
+    """
+    if directory:
+        print(
+            "⚠️ TRANSCRIPT_DIRECTORY_PATH is set but no longer used as the "
+            "archive root; transcripts are written under kb_root()'s "
+            "sources/transcripts/ tree. Set DISCLOSURE_RAG_KB_PATH instead "
+            "to redirect the archive root."
+        )
+
+    from .kb.kb_root import resolve_entry_dir
+    source_key = (metadata or {}).get('channel_id') or None
 
     if metadata and metadata.get('id'):
-        return os.path.join(base_folder, metadata['id'])
+        entry_id = metadata['id']
+    elif metadata and metadata.get('title'):
+        entry_id = clean_string(metadata['title'])
+    else:
+        entry_id = 'unknown'
 
-    if metadata and metadata.get('title'):
-        return os.path.join(base_folder, clean_string(metadata['title']))
+    return str(resolve_entry_dir("transcripts", source_key, entry_id))
 
-    return os.path.join(base_folder, 'unknown')
+
+YOUTUBE_DATA_API_VIDEOS_URL = "https://www.googleapis.com/youtube/v3/videos"
+# YouTube Data API v3's own limit for a single videos.list `id` parameter.
+YOUTUBE_DATA_API_BATCH_SIZE = 50
+
+
+def fetch_channel_metadata(video_ids):
+    """Look up channel_id, channel_title, and published_at for YouTube video
+    ids via the YouTube Data API v3 (T-061 D5 -- youtube-transcript-api alone
+    returns no channel info at all, so before this every transcript resolved
+    to sources/transcripts/unresolved/, transcripts being the largest tree).
+
+    Batches up to YOUTUBE_DATA_API_BATCH_SIZE ids per call.
+
+    Fails soft in every direction -- no GOOGLE_API_KEY, quota exhaustion, a
+    network error, or a deleted/private video (simply absent from the
+    response's `items`) all degrade to that id being missing from the
+    returned dict. This function never raises. Callers must treat a missing
+    id exactly like "no channel info available" (source_key=None ->
+    "unresolved/"), never abort an ingest or lose a transcript over a failed
+    metadata lookup.
+
+    Never logs the API key: exceptions are reported by type only
+    (`type(e).__name__`), never by str(e) -- `requests`' own exception
+    messages (e.g. HTTPError, ConnectionError) embed the full request URL,
+    which carries `key=<GOOGLE_API_KEY>` as a query param.
+
+    Returns {video_id: {"channel_id": str, "channel_title": str,
+    "published_at": str}}, one entry per id YouTube actually returned data
+    for.
+    """
+    api_key = os.environ.get("GOOGLE_API_KEY")
+    if not api_key:
+        print(
+            "⚠️ GOOGLE_API_KEY not set; channel metadata lookup skipped -- "
+            "source resolves to 'unresolved/'."
+        )
+        return {}
+
+    ids = [vid for vid in dict.fromkeys(video_ids) if vid]
+    if not ids:
+        return {}
+
+    results = {}
+    for i in range(0, len(ids), YOUTUBE_DATA_API_BATCH_SIZE):
+        batch = ids[i:i + YOUTUBE_DATA_API_BATCH_SIZE]
+        try:
+            resp = requests.get(
+                YOUTUBE_DATA_API_VIDEOS_URL,
+                params={"part": "snippet", "id": ",".join(batch), "key": api_key},
+                timeout=15,
+            )
+            resp.raise_for_status()
+            payload = resp.json()
+        except requests.RequestException as e:
+            print(
+                f"⚠️ YouTube Data API channel lookup failed for a batch of "
+                f"{len(batch)} video(s) ({type(e).__name__}); those entries "
+                f"resolve to 'unresolved/'."
+            )
+            continue
+        except ValueError as e:
+            # resp.json() failed to parse -- treat like any other soft failure.
+            print(
+                f"⚠️ YouTube Data API returned an unparseable response "
+                f"({type(e).__name__}); batch resolves to 'unresolved/'."
+            )
+            continue
+
+        for item in (payload.get("items") or []):
+            vid = item.get("id")
+            if not vid:
+                continue
+            snippet = item.get("snippet") or {}
+            results[vid] = {
+                "channel_id": snippet.get("channelId"),
+                "channel_title": snippet.get("channelTitle"),
+                "published_at": snippet.get("publishedAt"),
+            }
+        # Any id absent from `items` (deleted/private video, or a partial
+        # response) is simply missing from `results` -- same "unresolved"
+        # fallback as a hard failure, not a special case to handle here.
+
+    return results
 
 
 def to_camel_case(snake_str):
@@ -290,6 +400,24 @@ def generate_transcript(url):
         print("❌ Failed to generate transcript")
         return None
 
+    # T-061 D5: channel lookup, merged into `metadata` before anything below
+    # reads it for path resolution (get_folder_path_from_metadata(), called
+    # by write_transcript_to_file() a few lines down, is the first reader).
+    # fetch_channel_metadata() fails soft -- a failed lookup just leaves
+    # metadata without a channel_id, which resolves to "unresolved/" exactly
+    # as before D5 was closed. Never blocks or fails the transcript itself.
+    video_id = metadata.get('id')
+    if video_id:
+        channel_info = fetch_channel_metadata([video_id]).get(video_id, {})
+        if channel_info.get('channel_id'):
+            print(
+                f"✅ Channel resolved: "
+                f"{channel_info.get('channel_title') or channel_info['channel_id']}"
+            )
+        else:
+            print("⚠️ No channel metadata resolved for this video; source resolves to 'unresolved/'.")
+        metadata.update({k: v for k, v in channel_info.items() if v})
+
     analyzer = get_analyzer()
     try:
         analysis = analyzer.analyze_content(metadata['transcript'])
@@ -326,6 +454,12 @@ def generate_transcript(url):
         'title': name,
         'url': metadata.get('webpage_url', url),
         'id': metadata.get('id'),
+        # T-061 D5: from fetch_channel_metadata() above (None when the
+        # lookup failed or wasn't attempted -- the corpus has never had
+        # published_at before, worth capturing now that it's available).
+        'channel_id': metadata.get('channel_id'),
+        'channel_title': metadata.get('channel_title'),
+        'published_at': metadata.get('published_at'),
         'categories': metadata.get('categories', []),
         'tags': metadata.get('tags', []),
         'description': metadata.get('description'),

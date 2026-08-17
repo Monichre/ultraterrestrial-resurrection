@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
 """
-Knowledge Base Service
-Handles document indexing, entity extraction, and search synchronization
-Integrates with Upstash Search and Xata for comprehensive data management
+Ingest orchestration for the knowledge-base archive (dy / main.py path).
+
+Coordinates YouTube and web workflows, then writes via KnowledgeBaseCRUD and
+optionally syncs Upstash Search / queue. Does not replace CRUD or the
+in-memory FAISS/Agno KnowledgeBase. Layer map:
+apps/disclosure-rag/docs/KNOWLEDGE_BASE_LAYERS.md
+
 Date: June 20, 2025
-Updated: June 25, 2025
+Updated: 2026-08-16
 """
 
 import os
@@ -15,8 +19,8 @@ from typing import Optional, Dict, Any
 from pathlib import Path
 from datetime import datetime
 from .knowledge_base_crud import KnowledgeBaseCRUD
-from .sync_to_upstash_search_integrated import IntegratedUpstashSyncer
-from .terminal_display import TerminalDisplay
+from ..sync_to_upstash_search_integrated import IntegratedUpstashSyncer
+from ..terminal_display import TerminalDisplay
 
 logger = logging.getLogger(__name__)
 display = TerminalDisplay()
@@ -32,7 +36,7 @@ def _get_queue_adapter():
     whenever Upstash wasn't configured.
     """
     try:
-        from .upstash.queue import add_processed_content_to_queue
+        from ..upstash.queue import add_processed_content_to_queue
         return add_processed_content_to_queue
     except (ImportError, RuntimeError) as e:
         logger.warning(f"Upstash queue not available: {e}")
@@ -118,9 +122,16 @@ class KnowledgeBaseService:
                 # Limit to avoid too many tags
                 tags.extend(metadata['tags'][:5])
 
-            # Update the KB index to track existing YouTube files
+            # Update the KB index to track existing YouTube files.
+            #
+            # Class M (T-061 §4 M1): this labels the index entry, it does not
+            # compose a path -- keep it. `ingested_at` (full ISO-8601
+            # timestamp) is the new canonical field; `date_folder` is left
+            # exactly as before and written alongside it so existing readers
+            # of the old key do not break.
             from datetime import datetime
             date_folder = datetime.now().strftime("%Y-%m-%d")
+            ingested_at = datetime.now().isoformat()
 
             # Get the actual path where YouTube saved files
             youtube_path = Path(file_paths.get(
@@ -148,6 +159,7 @@ class KnowledgeBaseService:
                     "doc_type": "transcript",
                     "path": str(youtube_path),
                     "date_folder": date_folder,
+                    "ingested_at": ingested_at,
                     "created_at": datetime.now().isoformat(),
                     "updated_at": datetime.now().isoformat(),
                     "tags": tags,
@@ -202,7 +214,7 @@ class KnowledgeBaseService:
             if summary_file and os.path.exists(summary_file):
                 display.print_stage("🧠 ENTITY PROCESSING", "🧠")
                 try:
-                    from .entity_extraction.processors.interactive_entity_processor import process_summary_file_interactive
+                    from ..entity_extraction.processors.interactive_entity_processor import process_summary_file_interactive
                     display.start_spinner(
                         "🔍 Extracting entities and searching Xata database...")
                     logger.info("Starting entity processing...")
@@ -321,10 +333,10 @@ class KnowledgeBaseService:
         """
         try:
             # Import YouTube processing functions and display
-            from .youtube import generate_transcript
+            from ..youtube import generate_transcript
             add_processed_content_to_queue = _get_queue_adapter()
-            from .openai_client.upload import upload_file_to_openai
-            from .terminal_display import display
+            from ..openai_client.upload import upload_file_to_openai
+            from ..terminal_display import display
 
             # Show cool processing animation
             display.print_stage("🎬 YOUTUBE PROCESSING", "📹")
@@ -391,9 +403,16 @@ class KnowledgeBaseService:
                 'source': url,
                 'metadata': {
                     'video_id': metadata.get('id', ''),
-                    'channel': '',  # Not in current metadata structure
+                    # T-061 D5: from lib/youtube.py's fetch_channel_metadata()
+                    # (YouTube Data API v3), read back here from the metadata
+                    # JSON sidecar. Blank when the lookup failed or wasn't
+                    # attempted -- same soft fallback as before D5, not a
+                    # crash. channel_id also feeds add_youtube_to_knowledge_base's
+                    # index write below, not just this dict.
+                    'channel': metadata.get('channel_title', ''),
+                    'channel_id': metadata.get('channel_id', ''),
                     'duration': '',  # Not in current metadata structure
-                    'upload_date': '',  # Not in current metadata structure
+                    'upload_date': metadata.get('published_at', ''),
                     'url': url,
                     'type': 'youtube_transcript',
                     'categories': metadata.get('categories', []),
@@ -421,7 +440,7 @@ class KnowledgeBaseService:
             # Everything below is where the processed artifacts land. In order:
             #   1. upload_file_to_openai()          → YT-CHAIN-15  (--upload only)
             #   2. add_processed_content_to_queue() → lib/upstash/queue.py, QStash
-            #   3. add_youtube_to_knowledge_base()  → lib/knowledge_base_crud.py
+            #   3. add_youtube_to_knowledge_base()  → lib/kb/knowledge_base_crud.py
             #                                         → index.json
             #   4. search_syncer.sync_document_to_search() → Upstash Search
             # PREV ← YT-CHAIN-13  lib/trace_map.py
@@ -434,7 +453,8 @@ class KnowledgeBaseService:
                 try:
                     upload_results = {}
                     files_to_upload = [
-                        (k, v) for k, v in file_paths.items() if os.path.exists(v)]
+                        (k, v) for k, v in file_paths.items()
+                        if isinstance(v, str) and os.path.exists(v)]
 
                     for i, (file_type, file_path) in enumerate(files_to_upload, 1):
                         filename = file_path.split("/")[-1]
@@ -558,8 +578,8 @@ class KnowledgeBaseService:
             sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
             from processing.web_content_processor import WebContentProcessor
             add_processed_content_to_queue = _get_queue_adapter()
-            from .openai_client.upload import upload_file_to_openai
-            from .terminal_display import display
+            from ..openai_client.upload import upload_file_to_openai
+            from ..terminal_display import display
 
             # Show cool processing animation
             display.print_stage("🌐 WEB PROCESSING", "🌐")
@@ -610,7 +630,6 @@ class KnowledgeBaseService:
             }
 
             # Create directories for web content files (similar to YouTube structure)
-            date_folder = datetime.now().strftime("%Y-%m-%d")
             url_hash = hashlib.md5(url.encode()).hexdigest()[:8]
             safe_title = "".join(c for c in title if c.isalnum() or c in (
                 ' ', '-', '_')).rstrip()[:50]
@@ -623,10 +642,14 @@ class KnowledgeBaseService:
                 domain = urlparse(url).netloc.replace('www.', '')
                 safe_title = f"{domain.replace('.', '-')}"
 
-            # Create meaningful directory name in correct location. Routed through
-            # lib/kb_root so DISCLOSURE_RAG_KB_PATH moves every writer together.
-            from .kb_root import sources_root
-            web_dir = sources_root() / "web" / date_folder / f"{safe_title}_{url_hash}"
+            # T-061 §3 P2: directory keyed by canonical source, not a date
+            # folder. source_key is the registrable domain of `url` -- routed
+            # through the registry (rather than used bare) so aliases of the
+            # same domain resolve to one slug.
+            from urllib.parse import urlparse as _urlparse
+            from .kb_root import resolve_entry_dir
+            source_key = _urlparse(url).netloc.replace('www.', '') or None
+            web_dir = resolve_entry_dir("web", source_key, f"{safe_title}_{url_hash}")
             web_dir.mkdir(parents=True, exist_ok=True)
 
             # Generate comprehensive summary file

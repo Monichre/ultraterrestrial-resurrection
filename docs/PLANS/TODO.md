@@ -67,7 +67,7 @@ tail behind product work.
 
 | Lane | Active | Open / backlog | Done |
 | --- | --- | --- | --- |
-| **A — Corpus & Ingestion** | T-048 | T-045 (in review), **T-055**, **T-056**, **T-057**, **T-059** | T-044, **T-054** |
+| **A — Corpus & Ingestion** | T-048 | T-045 (in review), **T-055**, **T-056**, **T-057**, **T-059**, **T-061** | T-044, **T-054** |
 | **B — Platform & Experience** | T-050, T-052, **T-060** | T-036, T-037, T-041 (blocked), T-042, T-043, T-046, T-049, T-051, **T-053** (needs grooming), **T-058**, **T-047** (M1 half gated on T-048 H4) | T-001 … T-031, T-038, T-039, T-040 |
 
 **T-047 returned to the B backlog 2026-08-15** — the commit question is settled (`51e63500` landed the rebuild 2026-08-14; all 20 files verified tracked). It is not Active: M0/M1 shipped, M1's blocked half still waits on Lane A's T-048 H4, and M2–M4 need a grooming pass. See the T-047 block before assigning.
@@ -389,9 +389,10 @@ of archive records today. Lane B M0 does not depend on Lane A and can proceed in
 
 ### T-037: AI prompt & model audit — frontier-models-only policy + fallback-chain adoption
 
-- **Status:** IMPLEMENTATION DONE / EXTERNAL VERIFICATION BLOCKED — 2026-07-12 (DMGD-152 and DMGD-158 in review)
+- **Status:** IMPLEMENTATION DONE / EXTERNAL VERIFICATION BLOCKED — 2026-07-12 (DMGD-152 and DMGD-158 in review). **2026-08-16 update:** disclosure-rag fallback chain fully consolidated — 33 mixed-vendor tiers → 8 discounted OpenRouter models + 5 presets. See `apps/disclosure-rag/docs/LLM_ROUTING_2026-08-16.md`.
 - **Size:** M (1-2 days)
 - **Policy (user-stated, 2026-07-07):** Only current frontier models by top providers are acceptable anywhere in the app — GPT-5.5, Claude Opus 4.8 / Sonnet 5, Gemini 3.5 Flash, GLM-5.2. No legacy tiers (gpt-4-turbo, gpt-4o-mini, etc.), ever.
+- **2026-08-16 — disclosure-rag routing consolidation (this session):** Replaced all 33 tiers in `packages/ai/prompts/llm_routing.yaml` and the `FRONTIER_FALLBACK_CHAIN` in `lib/llm_fallback.py` with 8 discounted OpenRouter-only models in user-specified priority order: gemini-3.7-flash:batch, gemini-3.7-flash, gpt-5.6-luna-pro, gpt-5.6-luna, gpt-5.6-terra-pro, gpt-5.6-terra, glm-5.2, deepseek-v4-pro. All native Google API tiers removed (were hitting 429 quota on free-tier GEMINI_API_KEY; OpenRouter gives 70% off). All dead-key tiers removed (Anthropic 401, OpenAI 401, Groq 401, xAI out of credits). All auto-router/custom-preset tiers removed. 5 OpenRouter presets added (@preset/discounted, @preset/free-models, @preset/media-gen, @preset/opensource, @preset/design-agents). Also fixed: OpenAI vector-store upload crash where dict values from trace_map/rag_pipeline were passed to `os.path.exists()` — added `isinstance(v, str)` guard in `lib/kb/knowledge_base_service.py:436-438`.
 - **Done in this pass (2026-07-07):** `src/lib/ai/model-fallback.ts` created (6-tier frontier chain, env-key gated); hypothesis enrichment (`enrich-hypothesis.ts`) runs through it; Prometheus `MODEL_NAME` upgraded `gpt-4-turbo` → `gpt-5.5`.
 - **Vision Phase 0 done (2026-07-08)** per `docs/plans/2026-07-08-memory-first-vision-review.md`: both live prompts rewritten with UT identity + operating principles (Prometheus `SYSTEM_PROMPTS.main`, mindmap `additional_instructions` with `[Observed]…[Unverified]` evidentiary-state edge labeling); `enrich-hypothesis.ts` upgraded to liturgy schema `{reading, counterReading, whatRemainsWeird, nextTrace}` via new `generateObjectWithFallback`; dock renders four-part reading; voice contract + rubric added to `features/mindmap/CLAUDE.md`. Remaining prompt audit items below still open; Vision Phase 1 (evidentiary-state badges, claims table, Synthesize action) tracked in the review doc.
 - **Stale-model sweep DONE — 2026-07-08 (delegated audit):** 8 strings upgraded in 7 live files (claude-3-opus→opus-4-8 in scrape route/firecrawl/process-resource; claude-3-5-sonnet→sonnet-5 in get-claude-response; gpt-4o-mini→gpt-5.5 in agent-patterns + agent-states; gpt-4-turbo-preview→gpt-5.5 in sightings-ai-analysis) + 4 held-back files fixed after agent merge window (ai-actions.ts, smart-connection-analysis.ts, extract-search-terms.ts → gpt-5.5; model-selector.tsx cleaned). ~16 dead/orphaned files with stale models cataloged (deletion candidates, not upgraded — includes orphaned `services/ai/prometheus/` vendored tree). 61 hits in disconnected apps/disclosure-rag report-only. `text-embedding-3-small` confirmed untouched (locked).
@@ -427,7 +428,7 @@ of archive records today. Lane B M0 does not depend on Lane A and can proceed in
 - **Status:** DONE / IN REVIEW — 2026-07-12 ([DMGD-186](https://linear.app/dmg-dev/issue/DMGD-186))
 - **Size:** M
 - **Cutover:** Linear owns actionable ticket status/priority/review-state. `FEATURES.md` remains strategic, `DAILY_WORK_PLAN.md` is a session log.
-- **Parity correction (2026-08-09, user-directed):** this file is **not** a frozen historical ledger — TODO.md and Linear are kept in parity going forward. New/updated/closed tickets get mirrored into both in the same pass. See `docs/agents/ops/issue-tracker.md` for the full rule.
+- **Parity correction (2026-08-09, user-directed):** this file is **not** a frozen historical ledger — TODO.md and Linear are kept in parity going forward. New/updated/closed tickets get mirrored into both in the same pass. See [`.agents/rules/issue-tracker.md`](.agents/rules/issue-tracker.md) for the full rule.
 - **Why:** User's own words: "integrate Linear so that task tracking just seems completely fucking invisible to me right now." (original cutover); "Everything should persist to Linear yes but I think we've been using the TODO file rather substantially so they should be in parity with one another" (2026-08-09 correction).
 - **Depends on:** T-039 (docs cleanup) should land first so migration maps cleanly.
 
@@ -499,6 +500,7 @@ The ticket below was last updated 2026-08-05. Two significant things happened af
 - **M2–M4 have no ticket-level scope.** Only plan §4 sketches them (`M2 Reconstruction`, `M3 Comparative analysis`, `M4 Narrative`), and 08-07 §7 item 1 notes M3/Concept 03 needs reconstructions that do not exist. **Anyone picking up beyond M1 needs a grooming pass first — do not treat plan §4 as an implementable spec.**
 
 **Not verified in this audit:** no build, no dev server, no browser run was performed on 2026-08-13. The break-fix evidence above is quoted from the 08-07 document, not independently re-observed. 08-07 itself records: no production build (dev only), no browser other than automation Chrome, no mobile/touch/keyboard/screen-reader pass.
+
 - **What:** Build the **Spacetime Canvas** — sibling surface to Research Canvas — by dropping the live Mapbox globe into the fixed background slot of the scroll-driven Guided Investigation UI (v0 timeline-explorer pattern: CSS `preserve-3d`, **zero** WebGL in the narrative layer).
   1. **M0.1** ✅ Frame-timing spike at `/spacetime?spike=1`
   2. **M0.2** ✅ Shared types — `TemporalCursor`, `SpacetimeEvent`, `TemporalLayerFeature`
@@ -554,12 +556,12 @@ The ticket below was last updated 2026-08-05. Two significant things happened af
 
 ### T-048: Ingestion hardening — corpus integrity, identity, and provenance
 
-- **Status:** IN PROGRESS — audit + plan landed 2026-08-01 (synced to Linear 2026-08-15, [DMGD-221](https://linear.app/digital-mischief-group/issue/DMGD-221)); **H0 landed** (real commits **`64edf9b5`** disclosure-rag/db "H0 P0s — restore process_for_rag, dedup guard, chunk search", **`25357789`** knowledge-base "H0 archive hygiene — derived zone, dead module surface"). **H1–H5 remain; H1 (identity) is next.**
+- **Status:** IN PROGRESS — audit + plan landed 2026-08-01 (synced to Linear 2026-08-15, [DMGD-221](https://linear.app/digital-mischief-group/issue/DMGD-221)); **H0 landed** (real commits **`64edf9b5`** disclosure-rag/db "H0 P0s — restore process_for_rag, dedup guard, chunk search", **`25357789`** knowledge-base "H0 archive hygiene — derived zone, dead module surface"). **H1–H5 remain; H1 (identity) is next.** **2026-08-16:** OpenAI vector-store upload crash fixed — `file_paths` dict values (trace_map, rag_pipeline) were being passed to `os.path.exists()`, crashing with `stat: path should be string, bytes, os.PathLike or integer, not dict`. Added `isinstance(v, str)` guard in `lib/kb/knowledge_base_service.py:436-438`. This was blocking `--upload` runs from depositing to the vector store.
 - **⚠️ H0 re-verified by artifact 2026-08-13 — two corrections and one regression.** The previously recorded hashes `cd77135` and `b6d1d5a` **do not exist in this repo** (`git cat-file -t` → missing on both); they were invalidated by the same history rewrite that killed T-050's `7fe46f0`. The work did land, under the hashes above. Verify by artifact, never by hash. What the artifacts actually show:
   - ✅ **graphify-out purged** — `find packages/knowledge-base/sources -name "graphify-out*"` returns nothing.
   - ⚠️ **"delete the dead `index.ts`/`package.json` module surface" is inaccurate as written** — both files still exist. `25357789` *neutered* rather than deleted them: `index.ts` is now 18 lines exporting only a `KNOWLEDGE_BASE_PATHS` constant, with a comment stating the package has no runtime data exports. Effect achieved, wording wrong — do not go looking for files to delete.
   - 🔴 **The relative-path fix has REGRESSED, and this is H1's problem.** `metadata/index.json` now holds **568 documents (not the 564 in the audit), 51 of which carry absolute machine-specific paths again** — e.g. `/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/sources/transcripts/2026-08-06/K4gYHs84BIc`. **Every regressed record sits under a `2026-08-06` or `2026-08-07` ingest directory, while both H0 commits landed 2026-08-01** (`git log -1 --format=%ci 25357789` → `2026-08-01 12:20:10 -0500`; `64edf9b5` → `12:10:03` same day). So these are records written *five and six days after* H0 normalized the archive — a genuine regression, not records H0 missed. H0 normalized the existing data but never fixed the *writer*, so each new ingest reintroduces the defect. Fixing the write path belongs in H1 alongside identity; re-normalizing the data without it just resets a counter.
-  - 🔴 **H1 has not started, and it collides with an existing hash choice the plan does not address.** Zero of the 568 records carry any sha/hash field. Meanwhile `lib/knowledge_base_crud.py:180-181` already computes **md5** and labels it "dedup key / integrity check". H1 says persist **sha256**. Decide explicitly — migrate md5→sha256, or run both — before writing the column and the unique constraint; a silent second hash identity is worse than either one. **There is exactly one call site to change: `create_document()` at `knowledge_base_crud.py:235`.**
+  - 🔴 **H1 has not started, and it collides with an existing hash choice the plan does not address.** Zero of the 568 records carry any sha/hash field. Meanwhile `lib/kb/knowledge_base_crud.py:180-181` already computes **md5** and labels it "dedup key / integrity check". H1 says persist **sha256**. Decide explicitly — migrate md5→sha256, or run both — before writing the column and the unique constraint; a silent second hash identity is worse than either one. **There is exactly one call site to change: `create_document()` at `knowledge_base_crud.py:235`.**
   - **Not verified:** the "6 YouTube records with dead absolute paths (missing `apps/` segment)", the 47 phantom `index.json` entries, and the 390-vs-139 unindexed-file reconciliation were not re-checked in this pass. Note H4 (provenance) is the hard gate on Lane B's T-047 M1 evidence instrument — do not confuse it with T-045's separate H4 (temp-file leak, closed by `d5c69fb`).
 - **Size:** XL (H0–H5; H0 and H1 are independently shippable)
 - **Lane:** A — Corpus & Ingestion
@@ -577,7 +579,7 @@ The ticket below was last updated 2026-08-05. Two significant things happened af
 - **Decisions landed in the plan (override there):** D1 Neon pgvector as single canonical store, OpenAI vector store retained only for Assistants `file_search`; D2 filesystem is truth / Postgres is a rebuildable derived index; D3 content-hash dedup + resumable runs; D4 `sources/` is intake-only and immutable.
 - **Traps:** `eisenhower_briefing (1).pdf` is a **genuinely different document** from its base file — filename-pattern dedup would destroy it; only hash-based dedup is safe. Ingestion has no relevance gate (Rick Astley's "Never Gonna Give You Up" sits in the corpus at `sources/transcripts/2025-08-31/dQw4w9WgXcQ/`, fully transcribed and summarized).
 - **Corrects:** documented "1,594 entity rows embedded" → actual **1,405** across six tables; `document_entities` exists but is empty with no embedding column. `CLAUDE.md`'s "Database Work" section still says "update Xata schema through dashboard / run `xata codegen`" — stale, Xata is retired.
-- **Files:** `apps/disclosure-rag/lib/knowledge_base_crud.py`, `lib/knowledge_base_service.py`, `lib/db/postgres_client.py`, `main.py`, `packages/knowledge-base/{metadata,sources,index.ts,package.json}`, `packages/db/scripts/rebuild/`
+- **Files:** `apps/disclosure-rag/lib/kb/knowledge_base_crud.py`, `lib/kb/knowledge_base_service.py`, `lib/db/postgres_client.py`, `main.py`, `packages/knowledge-base/{metadata,sources,index.ts,package.json}`, `packages/db/scripts/rebuild/`
 - **Reference:** `docs/plans/2026-08-01-ingestion-hardening.md`
 
 ### T-049: Board — live agent/session activity view
@@ -716,7 +718,7 @@ The ticket below was last updated 2026-08-05. Two significant things happened af
   `gaps` (spec asks for something no stage produces) as separate lists, so a thin map can never
   be made to look complete by fabricating the missing nodes.
 - **Tests:** `apps/disclosure-rag/tests/test_trace_map.py` (29).
-- **Files:** `lib/trace_map.py`, `lib/youtube.py`, `lib/knowledge_base_service.py`, `main.py`,
+- **Files:** `lib/trace_map.py`, `lib/youtube.py`, `lib/kb/knowledge_base_service.py`, `main.py`,
   `docs/TRACE_MAP_OUTPUT_SPEC.md`, `tests/test_trace_map.py`
 - **Layer relationship:** this is **Layer 1** (deterministic citation) of the trace map
   architecture. Layer 2 (interpretive) is T-055; together they compose the full output spec
@@ -827,6 +829,88 @@ The ticket below was last updated 2026-08-05. Two significant things happened af
   - Add state to `mindmap-context.tsx` (frozen god-object).
 - **Open question (needs a human call, does not block):** should a dropped artifact ever be *persisted* into the corpus? That requires a second TS corpus writer and is gated on T-048 H1 landing a hash column + unique constraint. Read-only is the complete T-060 deliverable.
 - **Pass bar:** Drag a real text file, a real PDF, and a real image onto the research canvas in the running app. Each produces an artifact node with edges to corpus records within one interaction, with no page reload. `matches: []` renders as "no connections found" — a legitimate result, not an error toast. Image drops visibly disclose that matching ran against a generated caption. Evidence + dogfood visual audit per `AGENTS.md`, or reported **UNVERIFIED**.
+
+### T-061: Source-canonical reorganization of packages/knowledge-base/sources
+
+- **Status:** OPEN — plan landed 2026-08-16; nothing executed
+- **Lane:** A — Corpus & Ingestion
+- **Size:** L
+- **Plan:** [`docs/plans/2026-08-16-source-canonical-reorg.md`](docs/plans/2026-08-16-source-canonical-reorg.md)
+- **Phase 2 (delegable, fully specified):** [`docs/plans/2026-08-16-t061-path-callsite-remediation.md`](docs/plans/2026-08-16-t061-path-callsite-remediation.md)
+- **Depends on:** nothing blocking. **Feeds T-048 H4** (its source registry is the input H4 needs to backfill `source`/`source_tier` consistently); **shares duplicate-detection surface with T-048 H1**; **unblocks channel data for T-057 / T-059**.
+- **Problem:** [`packages/knowledge-base/sources/`](packages/knowledge-base/sources) is keyed by **ingest date** — 57 date dirs in `transcripts/` alone — which carries no research meaning. Worse: **no artifact in the corpus records the channel, show, or publisher.** All 83 transcript `_metadata.json` files carry the same seven keys (`title`, `url`, `id`, `categories`, `tags`, `description`, `chapters`) with the last four empty, because [`apps/disclosure-rag/lib/youtube.py:136`](apps/disclosure-rag/lib/youtube.py#L136) dropped the yt-dlp path and `youtube-transcript-api` returns transcript text only. So canonical source must be **derived by external lookup**, and is still not being captured on new ingests.
+- **Measured 2026-08-16:** `transcripts/` 887 files (156 legacy flat `.txt` with slug-only provenance, 197 videoId dirs of which only 83 have metadata, 4 `unknown/`); `web/` 68 files / 18 entries across **two metadata schemas** (10 use `url`, 8 use `source`); `files/` 58. `metadata/index.json` holds 571 docs — 449 transcripts, 37 web, 31 files, **54 with leaked `/Users/...` absolute paths**.
+- **Scope (phased; Phase 1 is a hard gate):**
+  1. **Phase 0 — registry, read-only.** Emit `metadata/source-registry.json` + `metadata/source-resolution.jsonl` with tiered evidence: **A** = YouTube Data API on the 197 videoIds (~4 calls; also yields the `publishedAt` the corpus entirely lacks), **B** = registrable domain for all 18 web entries, **C** = slug fingerprints for the 156 legacy files. Key on `channel_id`, never `channelTitle`. Tier A is **perishable** — deleted/private videos never resolve again, so run and commit it early.
+  2. **Phase 1 — approval gate.** Operator reviews the registry and every Tier C assignment. No file moves until sign-off. Unmatched entries go to `unresolved/`; **never guess a source.**
+  3. **Phase 2 — fix the writers first.** Four path composers still bake `datetime.now().strftime("%Y-%m-%d")` into output dirs; two further sites only record a `date_folder` **index field** and must be *preserved and renamed to `ingested_at`*, not deleted. Full per-call-site spec in the Phase 2 doc.
+  4. **Phase 3 — move**, per tree independently (`transcripts` / `web` / `files` are cleanly separable).
+  5. **Phase 4 — verify** (see pass bar).
+- **Do not:** move any file before Phase 2 lands — new ingests keep re-creating date dirs and the migration never converges. Do not guess a canonical source. Do not touch `index.json` **document IDs**: they are `md5(content)[:12]` ([`apps/disclosure-rag/lib/knowledge_base_crud.py:183`](apps/disclosure-rag/lib/knowledge_base_crud.py#L183)), content-derived not path-derived, so moves change no IDs.
+- **Defects confirmed while planning (D1–D3 fixed inside Phase 2):** `youtube.py` ignores `DISCLOSURE_RAG_KB_PATH` (reads its own `TRANSCRIPT_DIRECTORY_PATH`), so the benchmark sandbox cannot redirect transcript writes; its `os.getcwd()` fallback wrote the stray `apps/disclosure-rag/zjpvfDFc4fg_summary.txt`; and `base_paths.get(doc_type, self.kb_path)` in `_get_doc_path` silently falls back to the archive root for unknown `doc_type` — the confirmed cause of the stray `packages/knowledge-base/2026-08-15/zjpvfdfc4fg-1ad65595` (doc_type `case_file` is not a key). Also flagged, not fixed: 54 absolute index paths, and `StandardizedDataFormatter` is dead code with no production caller.
+- **Pass bar:** Every entry resolves to a canonical source dir or `unresolved/`; per-tree file counts conserved with zero orphans left in any `<date>/` dir; all 571 index paths resolve **and are repo-relative**; `check-delta.py` and `delta-comparison.py` return identical counts; every moved entry carries `ingested_at`; collision report empty or each item explicitly adjudicated. Evidence + dogfood per `AGENTS.md`, or reported **UNVERIFIED**.
+
+### T-062: Migrate to OpenAI Responses API
+
+- **Status:** OPEN — scoped 2026-08-17 from [OpenAI migration guide](https://developers.openai.com/api/docs/guides/migrate-to-responses)
+- **Lane:** B — Platform & Experience (primary); A — Corpus & Ingestion (Python RAG secondary)
+- **Size:** XL (three independent migration tracks; can be phased)
+- **What:** Migrate all OpenAI API usage from Chat Completions / Assistants API to the [Responses API](https://developers.openai.com/api/reference/resources/responses). Responses is OpenAI's recommended primitive for all new projects — Chat Completions remains supported but is not the forward path. Benefits: 3% better reasoning model intelligence (SWE-bench), 40-80% cache utilization improvement, built-in tools (web_search, file_search, code_interpreter, MCP), stateful context via `previous_response_id`, encrypted reasoning.
+- **Related:** T-037 (frontier-models-only policy — this is the API-surface half of that ticket). T-051 (OpenAI Vector Store MCP — `file_search` built-in tool may change the integration surface).
+- **Migration guide:** <https://developers.openai.com/api/docs/guides/migrate-to-responses>
+- **Key API shape changes:**
+  - Endpoint: `POST /v1/chat/completions` → `POST /v1/responses`
+  - Input: `messages: [...]` → `input: [...]` (or `input: "string"` + `instructions: "system"`)
+  - Output: `choices[0].message.content` → `output` array of typed Items (message, reasoning, function_call, function_call_output)
+  - Structured output: `response_format` → `text.format`
+  - Function calling: different request and response shape (see [function calling guide](https://developers.openai.com/api/docs/guides/function-calling))
+  - State: `previous_response_id` replaces manual message-array management
+  - `store: true` preserves reasoning + tool context turn-to-turn
+
+- **Three migration tracks (independent, can be phased separately):**
+
+  **Track 1 — Assistants API → Responses API with built-in `file_search` (highest impact, highest risk):**
+  The two live AI routes use the OpenAI Assistants API (`openai.beta.threads.*`) with a shared vector store. The Responses API has a built-in `file_search` tool that does the same thing natively — no threads, no runs, no polling.
+  - [`apps/app/src/app/api/prometheus/chat/route.ts`](apps/app/src/app/api/prometheus/chat/route.ts) — `searchUAP` tool uses `openai.beta.threads.create` + `openai.beta.threads.runs.create` + `openai.beta.threads.runs.retrieve` + `openai.beta.threads.messages.list` (lines 570-601). Migrate to `client.responses.create({ tools: [{ type: 'file_search', vector_store_ids: [...] }] })`.
+  - [`apps/app/src/app/api/disclosure/mindmap/route.ts`](apps/app/src/app/api/disclosure/mindmap/route.ts) — entire route is Assistants API streaming: `openai.beta.threads.create` (175), `openai.beta.threads.messages.create` (184), `openai.beta.threads.runs.stream` (196), `openai.beta.threads.runs.submitToolOutputsStream` (717). Migrate to `client.responses.stream({ tools: [{ type: 'file_search', ... }, { type: 'function', ... }] })`.
+  - **Blocker:** The disclosure/mindmap route uses custom function tools (`addGraphNodes`, `addGraphEdges`, `searchExternalResources`) alongside file_search. The Responses API supports custom function tools, but the streaming + tool-output submission pattern is different. Study [Responses streaming docs](https://developers.openai.com/api/docs/guides/streaming) before starting.
+  - **T-051 interaction:** The OpenAI Vector Store MCP (`packages/openai-vector-store-mcp/`) reads from the same vector store. The `file_search` tool in Responses API is the write-side consumer. No change to the MCP package itself, but the vector store ID configuration should be consolidated.
+
+  **Track 2 — Raw OpenAI SDK Chat Completions → Responses (Python disclosure-rag):**
+  The Python RAG app calls `client.chat.completions.create()` directly in 8 files. These need migration to `client.responses.create()`.
+  - [`apps/disclosure-rag/lib/llm_fallback.py`](apps/disclosure-rag/lib/llm_fallback.py) — 3 `chat.completions.create` call sites (lines 650, 722, 833) + 1 Anthropic `messages.create` (line 781, separate provider, not affected). This is the fallback chain that serves every LLM call in the Python app.
+  - [`apps/disclosure-rag/processing/content_analysis.py`](apps/disclosure-rag/processing/content_analysis.py) — 6 `chat.completions` matches (lines 69, 87, 114, 148, 219, 235)
+  - [`apps/disclosure-rag/processing/enhanced_content_analysis.py`](apps/disclosure-rag/processing/enhanced_content_analysis.py) — 3 matches (lines 226, 246, 264)
+  - [`apps/disclosure-rag/agents/content_analysis_agent.py`](apps/disclosure-rag/agents/content_analysis_agent.py) — 1 match (line 250)
+  - [`apps/disclosure-rag/agents/disclosure_assistant.py`](apps/disclosure-rag/agents/disclosure_assistant.py) — 3 matches (lines 125, 277, 316)
+  - [`apps/disclosure-rag/disclosure_chat_with_memory.py`](apps/disclosure-rag/disclosure_chat_with_memory.py) — 1 match (line 196)
+  - [`apps/disclosure-rag/disclosure_chat.py`](apps/disclosure-rag/disclosure_chat.py) — 2 matches (lines 141, 150)
+  - [`apps/disclosure-rag/activate_agno.py`](apps/disclosure-rag/activate_agno.py) — 6 matches (lines 170, 177, 240, 247, 385, 392)
+  - **OpenRouter caveat:** Most of these calls route through OpenRouter (`base_url: https://openrouter.ai/api/v1`). OpenRouter may not support the Responses API endpoint (`/v1/responses`). Verify OpenRouter Responses API support before migrating the OpenRouter-routed calls. The `llm_fallback.py` chain uses `kind: openai_compat` with OpenRouter base URL — if OpenRouter doesn't support Responses, these calls stay on Chat Completions until OR adds support. Only calls that hit OpenAI directly (`base_url: null` or `api.openai.com`) can be migrated immediately.
+  - **Structured output shape change:** `response_format` → `text.format`. The Python app uses structured output for content_analysis, NER, RAG ingestion, and validation. Each schema enforcement site needs the new shape.
+
+  **Track 3 — Vercel AI SDK `.chat()` → `.responses()` (blocked on gateway support):**
+  The Next.js app uses the Vercel AI SDK (`ai@^6.0.42`, `@ai-sdk/openai@^2.0.27`). AI SDK 5+ defaults to the Responses API when using `openai('model-id')` — but the model-fallback chain explicitly uses `.chat()` for all gateway providers because OpenRouter/HuggingFace/Ollama/z.ai don't serve the Responses API.
+  - [`apps/app/src/lib/ai/model-fallback.ts`](apps/app/src/lib/ai/model-fallback.ts) — all gateway tiers use `.chat()`: `openrouter().chat('z-ai/glm-5.2')` (144), `huggingface().chat('zai-org/GLM-5.2')` (155), `ollamaCloud().chat('glm-5.2')` (165), `zhipu().chat('glm-5.2')` (192). Comment at line 142: "gateways serve chat/completions, not OpenAI's Responses API."
+  - [`apps/app/src/lib/ai/vision-fallback.ts`](apps/app/src/lib/ai/vision-fallback.ts) — `openrouter().chat('openai/gpt-5.5')` (85)
+  - **Already on Responses API:** [`apps/app/src/services/ai/openai/extract-search-terms.ts`](apps/app/src/services/ai/openai/extract-search-terms.ts) uses `openai('gpt-5.5')` (line 71, no `.chat()`) — AI SDK 5+ routes this to Responses API by default. [`apps/app/src/services/ai/openai/functions/summarize.ts`](apps/app/src/services/ai/openai/functions/summarize.ts) uses `openai('gpt-4o')` (line 32) — also on Responses, but the model is stale (should be `gpt-5.5` per T-037 policy).
+  - **Blocked on:** OpenRouter adding Responses API support. Check [OpenRouter docs](https://openrouter.ai/docs) for `/v1/responses` endpoint availability. When unblocked, change `.chat()` → `.responses()` (or just `openai('model')` which defaults to Responses) in model-fallback.ts and vision-fallback.ts. The `streamText`/`generateText`/`generateObject` calls themselves need no change — the AI SDK abstracts the wire protocol.
+  - **Prometheus chat route (streamText consumers):** [`apps/app/src/app/api/prometheus/chat/route.ts`](apps/app/src/app/api/prometheus/chat/route.ts) uses `streamText` with `createStreamingFallbackModel()` (lines 215, 250, 277, 308, 339, 370, 547). These inherit whatever the model-fallback chain uses — currently Chat Completions via `.chat()`. When Track 3 unblocks, these automatically move to Responses.
+  - **Enrich hypothesis:** [`apps/app/src/features/mindmap/actions/enrich-hypothesis.ts`](apps/app/src/features/mindmap/actions/enrich-hypothesis.ts) uses `generateObjectWithFallback` (line 102) → same inheritance.
+  - **Agent patterns:** [`apps/app/src/features/ai/actions/agent-patterns.actions.ts`](apps/app/src/features/ai/actions/agent-patterns.actions.ts) — 10 streamText/generateText matches. Same inheritance.
+
+- **Phasing recommendation:**
+  1. **Phase 1 (unblocked now):** Track 2 — Python disclosure-rag, but only the calls that hit OpenAI directly (not OpenRouter-routed). Verify which calls use `base_url: null` vs `base_url: openrouter.ai`.
+  2. **Phase 2 (unblocked now, highest value):** Track 1 — Assistants API → Responses `file_search` for the two live routes. This eliminates thread/run polling complexity and gains the Responses API's native streaming + built-in tools.
+  3. **Phase 3 (blocked):** Track 3 — AI SDK `.chat()` → `.responses()` for OpenRouter-routed calls. Blocked on OpenRouter Responses API support. No code change needed to `streamText`/`generateText`/`generateObject` call sites — only the model factory in model-fallback.ts.
+
+- **Do not:**
+  - Migrate OpenRouter-routed calls to Responses API before confirming OpenRouter supports `/v1/responses`. The gateway will 404.
+  - Migrate the Anthropic `messages.create` call in `llm_fallback.py:781` — that's a different provider with its own API shape.
+  - Migrate `text-embedding-3-small` calls — embeddings are a separate API surface, not part of this migration.
+  - Change `streamText`/`generateText`/`generateObject` call sites in Track 3 — the AI SDK abstracts the wire protocol. Only the model factory changes.
+
+- **Pass bar:** Both live routes (`/api/prometheus/chat`, `/api/disclosure/mindmap`) serve a real query using `client.responses.create` with `file_search` tool, returning vector-store-grounded results with no Assistants API calls. Python `llm_fallback.py` uses `client.responses.create` for all OpenAI-direct calls. No `openai.beta.threads.*` calls remain in the codebase. Evidence + dogfood per `AGENTS.md`, or reported **UNVERIFIED**.
 
 ---
 

@@ -132,7 +132,7 @@ def tree_fingerprint(root: Path) -> str:
 
 
 def kb_root_path() -> Path:
-    from lib.kb_root import kb_root
+    from lib.kb.kb_root import kb_root
     return kb_root()
 
 
@@ -498,7 +498,7 @@ def b3_5():
 
 @check("B4.3", "v1", "every index.json entry resolves to a file that exists")
 def b4_3():
-    from lib.knowledge_base_crud import KnowledgeBaseCRUD
+    from lib.kb.knowledge_base_crud import KnowledgeBaseCRUD
     kb = KnowledgeBaseCRUD()
     docs = kb.index["documents"]
     missing = []
@@ -519,7 +519,7 @@ def b4_3b():
     Separated from B4.3 because these diverge: 567/567 entries point at a
     directory that exists, while get_document() reads 0 of them.
     """
-    from lib.knowledge_base_crud import KnowledgeBaseCRUD
+    from lib.kb.knowledge_base_crud import KnowledgeBaseCRUD
     kb = KnowledgeBaseCRUD()
     docs = kb.index["documents"]
     unreadable = [did for did in docs if kb.get_document(did) is None]
@@ -544,8 +544,8 @@ def b4_4():
     sandbox = SANDBOX / "rootcheck"
     code, out, _ = run([str(VENV_PY), "-c",
         "import sys; sys.path.insert(0,'.');"
-        "from lib.kb_root import kb_root, sources_root;"
-        "from lib.knowledge_base_crud import KnowledgeBaseCRUD;"
+        "from lib.kb.kb_root import kb_root, sources_root;"
+        "from lib.kb.knowledge_base_crud import KnowledgeBaseCRUD;"
         "from lib.data_formatter import StandardizedDataFormatter;"
         "print('ROOT', kb_root());"
         "print('CRUD', KnowledgeBaseCRUD().kb_path);"
@@ -703,7 +703,7 @@ def b8_1():
 def b8_2():
     code, out, _ = run([str(VENV_PY), "-c",
         "import sys; sys.path.insert(0,'.');"
-        "from lib.knowledge_base_crud import KnowledgeBaseCRUD as K;"
+        "from lib.kb.knowledge_base_crud import KnowledgeBaseCRUD as K;"
         "k = K(); t = 'Phoenix Lights, 13 March 1997.';"
         "print('H', k._content_hash(t), k._content_hash(t), k._generate_id(t))"],
         env={"DISCLOSURE_RAG_KB_PATH": str(SANDBOX / "hashcheck")}, timeout=180)

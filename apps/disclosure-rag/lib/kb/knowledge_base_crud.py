@@ -1,6 +1,9 @@
 """
-Enhanced Knowledge Base CRUD Operations
-Provides Create, Read, Update, Delete functionality for the knowledge base
+Filesystem archive CRUD — source of truth for stored documents.
+
+Create / read / update / delete under packages/knowledge-base (files +
+metadata/index.json). Not the dy ingest orchestrator and not the in-memory
+vector store. Layer map: apps/disclosure-rag/docs/KNOWLEDGE_BASE_LAYERS.md
 """
 
 import os
@@ -46,7 +49,7 @@ class Document:
 
         Two writers produce sidecars with different schemas: this class's own
         `metadata.json`, and the YouTube path's `<slug>_metadata.json`
-        (`lib/knowledge_base_service.py`), which carries `url`, `categories`,
+        (`lib/kb/knowledge_base_service.py`), which carries `url`, `categories`,
         `chapters`, `rag_pipeline` and no `content`. `cls(**data)` raised
         TypeError on the latter, so every YouTube document was unreadable.
         Unknown keys are preserved under `metadata` rather than discarded.
@@ -79,12 +82,12 @@ class KnowledgeBaseCRUD:
         # DISCLOSURE_RAG_KB_PATH overrides the root for the whole process. Without it
         # there is no way to exercise the real write path without mutating the
         # production archive, because kb_service constructs its CRUD with no argument
-        # (lib/knowledge_base_service.py:50). The benchmark harness
+        # (lib/kb/knowledge_base_service.py:50). The benchmark harness
         # (scripts/benchmark_pipeline.py) sets it to a temp dir so ingest checks run
         # against a sandbox archive. Explicit kb_path still wins over the env var.
         self.kb_path = Path(kb_path or os.environ.get("DISCLOSURE_RAG_KB_PATH") or os.path.join(
-            os.path.dirname(os.path.dirname(
-                os.path.dirname(os.path.dirname(__file__)))),
+            os.path.dirname(os.path.dirname(os.path.dirname(
+                os.path.dirname(os.path.dirname(__file__))))),
             "packages", "knowledge-base"
         ))
         self.metadata_path = self.kb_path / "metadata"
@@ -138,7 +141,7 @@ class KnowledgeBaseCRUD:
         do all of their index reads *and* writes inside this context.
 
         Only the methods in this file that perform create/update/delete use
-        this. lib/knowledge_base_service.py's YouTube ingest path calls
+        this. lib/kb/knowledge_base_service.py's YouTube ingest path calls
         self.kb_crud._save_index() directly without holding this lock; that
         file is owned elsewhere and out of scope here, so its writes remain
         unlocked (still atomic per-write, just not race-free end-to-end).
@@ -207,21 +210,85 @@ class KnowledgeBaseCRUD:
         short_id = doc_id[:8]
         return f"{dir_name.lower()}-{short_id}"
 
-    def _get_doc_path(self, doc_type: str, doc_id: str, filename: str, title: str = None) -> Path:
-        """Get the file path for a document with date-based organization"""
-        from datetime import datetime
+    # CRUD doc_type -> sources/ tree, for the doc_types that live under
+    # sources/ at all. "research" is deliberately absent: self.research_path
+    # is kb_path/research, outside sources/, so it never goes through
+    # resolve_entry_dir (which only knows the three sources/ trees).
+    #
+    # T-061 follow-up (found during Phase 2 verification, fixed same phase
+    # per team lead): the live CRUD vocabulary is NOT {file, transcript,
+    # web, research} -- that was this dict's original assumption (inherited
+    # from the pre-T-061 `base_paths` dict) and it was never actually used
+    # anywhere. Confirmed against four independent live call sites --
+    # main.py:887 (`'research' if is_pdf else 'case_file'`),
+    # knowledge_base_service.py:766 (`add_to_knowledge_base(data, 'article')`),
+    # the knowledge_base_ui.py bulk-import selectbox
+    # (`["case_file", "transcript", "article", "research"]`), and
+    # sync_to_upstash*.py's `["case_file", "transcript", "article",
+    # "research"]` iteration -- the real vocabulary is {case_file,
+    # transcript, article, research}. "file" and "web" never appear as a
+    # literal doc_type anywhere in the codebase (grepped clean). Mapping
+    # both the real and the originally-assumed strings so the live web path
+    # (`article`) resolves to the `web` tree instead of falling through to
+    # the unknown-doc_type branch, while not removing support for "file"/
+    # "web" in case some untested caller does pass them.
+    _DOC_TYPE_TREES = {
+        "case_file": "files",
+        "file": "files",
+        "transcript": "transcripts",
+        "article": "web",
+        "web": "web",
+    }
 
-        base_paths = {
-            "file": self.files_path,
-            "transcript": self.transcripts_path,
-            "web": self.articles_path,
-            "research": self.research_path
-        }
-        base_path = base_paths.get(doc_type, self.kb_path)
+    def _derive_source_key(self, doc_type: str, source: str,
+                           metadata: Optional[Dict[str, Any]]) -> Optional[str]:
+        """Best-effort raw identifier for resolve_entry_dir's registry lookup.
 
-        # Use date-based organization: YYYY-MM-DD/meaningful-dir-name/
-        date_folder = datetime.now().strftime("%Y-%m-%d")
+        Not a guess at a slug -- resolve_entry_dir does that lookup itself.
+        This only surfaces whatever raw identifier (channel_id / domain) is
+        already sitting in the document's own data. None is a legitimate,
+        expected result (it routes to "unresolved/"), not a failure.
+        """
+        metadata = metadata or {}
+        if doc_type == "transcript":
+            return metadata.get("channel_id") or None
+        if doc_type in ("article", "web"):
+            url = metadata.get("url") or source
+            if url:
+                from urllib.parse import urlparse
+                domain = urlparse(url).netloc.replace("www.", "")
+                return domain or None
+        return None
 
+    def _get_doc_path(self, doc_type: str, doc_id: str, filename: str,
+                      title: str = None, source_key: Optional[str] = None) -> Path:
+        """Get the file path for a document, organized by canonical source.
+
+        T-061 §3 P1: this is the single choke point for all CRUD writes
+        (content file and metadata sidecar both route through it), so this
+        one change covers both. Previously organized by
+        `<tree>/<YYYY-MM-DD>/<dir_name>/`; now `<tree>/<source-slug>/<dir_name>/`.
+
+        `doc_type` here is the CRUD vocabulary ("transcript"), not
+        data_formatter's ("youtube_transcript") -- do not conflate the two.
+        The real live vocabulary is {case_file, transcript, article,
+        research} -- see `_DOC_TYPE_TREES` for how each maps.
+
+        D3: an unknown doc_type used to fall through to `self.kb_path`
+        (base_paths.get(doc_type, self.kb_path)) and write outside sources/
+        entirely -- originally confirmed live via doc_type "case_file"
+        (main.py's local-file path) before it was added to
+        `_DOC_TYPE_TREES`; any doc_type genuinely absent from that map is
+        still routed to sources/files/unresolved/ instead of `self.kb_path`:
+        a warning, not a crash, and no path outside sources/.
+
+        `research` is deliberately outside the tree/slug scheme entirely
+        (self.research_path is kb_path/research, not under sources/), so it
+        keeps its own pre-T-061 date-folder layout unchanged -- T-061 only
+        re-keys the three sources/ trees, and main.py:887 routes every PDF
+        through this doc_type, so nothing about its on-disk layout should
+        move as a side effect of this ticket.
+        """
         if title:
             # Use meaningful directory name based on title
             dir_name = self._generate_dir_name(title, doc_id)
@@ -229,7 +296,25 @@ class KnowledgeBaseCRUD:
             # Fallback to doc_id for backward compatibility
             dir_name = doc_id
 
-        return base_path / date_folder / dir_name / filename
+        if doc_type == "research":
+            # Outside sources/ entirely; not part of the tree/slug scheme.
+            # Unlike the sources/ trees, this keeps its original
+            # date-folder layout -- out of T-061's scope to change.
+            date_folder = datetime.now().strftime("%Y-%m-%d")
+            return self.research_path / date_folder / dir_name / filename
+
+        tree = self._DOC_TYPE_TREES.get(doc_type)
+        if tree is None:
+            logger.warning(
+                f"Unknown doc_type {doc_type!r} for document {doc_id} "
+                f"({dir_name!r}); routing to sources/files/unresolved/ "
+                f"instead of guessing a tree."
+            )
+            tree = "files"
+            source_key = None
+
+        from .kb_root import resolve_entry_dir
+        return resolve_entry_dir(tree, source_key, dir_name) / filename
 
     # CREATE
     def create_document(self,
@@ -248,18 +333,21 @@ class KnowledgeBaseCRUD:
         force=True to deliberately overwrite the existing record's content
         and metadata in place.
 
-        Paths are date-stamped (YYYY-MM-DD/...), so the same content
-        ingested on a later day would, without this guard, compute a new
-        directory while sharing the old doc_id — silently repointing the
-        index and stranding the original files with nothing referencing
-        them ("orphaning"). That case is always refused and reported,
-        regardless of `force`: this method never deletes or abandons a
-        directory another index entry still points at. Use
-        update_document() to edit a record's content in place instead.
+        Paths are organized by canonical source (sources/<tree>/<source-slug>/),
+        not by ingest date, so the same content ingested later still resolves
+        to the same directory (the source doesn't change between runs) — the
+        orphaning guard below is a defense against `_derive_source_key`
+        resolving differently across runs (e.g. the registry gains an alias
+        for a previously-unresolved domain), not the routine case. That case
+        is always refused and reported, regardless of `force`: this method
+        never deletes or abandons a directory another index entry still
+        points at. Use update_document() to edit a record's content in place
+        instead.
         """
         content_hash = self._content_hash(content)
         doc_id = content_hash[:12]
         now = datetime.now().isoformat()
+        source_key = self._derive_source_key(doc_type, source, metadata)
 
         with self._locked_index():
             existing_info = self.index["documents"].get(doc_id)
@@ -267,7 +355,7 @@ class KnowledgeBaseCRUD:
 
             content_filename = self._generate_filename(title)
             doc_dir = self._get_doc_path(
-                doc_type, doc_id, content_filename, title).parent
+                doc_type, doc_id, content_filename, title, source_key).parent
 
             created_at = now
 
@@ -282,8 +370,8 @@ class KnowledgeBaseCRUD:
                     logger.warning(
                         f"Refusing to re-ingest document {doc_id} ({title!r}): "
                         f"existing record lives at {existing_path} but this "
-                        f"content would now write to {doc_dir} (date-folder "
-                        f"drift). This would orphan the original files. "
+                        f"content would now write to {doc_dir} (source "
+                        f"resolution drift). This would orphan the original files. "
                         f"Returning the existing record unchanged; nothing "
                         f"at {existing_path} was touched. Use "
                         f"update_document({doc_id!r}, ...) to edit it in place."
@@ -334,24 +422,35 @@ class KnowledgeBaseCRUD:
 
             # Save content with descriptive filename
             content_file = self._get_doc_path(
-                doc_type, doc_id, content_filename, title)
+                doc_type, doc_id, content_filename, title, source_key)
             with open(content_file, 'w', encoding='utf-8') as f:
                 f.write(content)
 
             # Save metadata
             meta_file = self._get_doc_path(
-                doc_type, doc_id, "metadata.json", title)
+                doc_type, doc_id, "metadata.json", title, source_key)
             with open(meta_file, 'w', encoding='utf-8') as f:
                 json.dump(doc.to_dict(), f, indent=2)
 
-            # Update index with meaningful directory path
+            # Update index with meaningful directory path.
+            #
+            # Class M (T-061 §4 M2): this labels the index entry, it does not
+            # compose a path -- keep it. `ingested_at` (full ISO-8601
+            # timestamp) is the new canonical field; `date_folder` is left
+            # exactly as before and written alongside it so existing readers
+            # of the old key do not break. 449 existing indexed transcript
+            # docs already carry metadata.date_folder -- this is their only
+            # surviving ingest date, so it must never be dropped, only
+            # supplemented.
             date_folder = datetime.now().strftime("%Y-%m-%d")
+            ingested_at = now
             meaningful_dir_name = self._generate_dir_name(title, doc_id)
             self.index["documents"][doc_id] = {
                 "title": title,
                 "doc_type": doc_type,
                 "path": str(doc_dir),
                 "date_folder": date_folder,
+                "ingested_at": ingested_at,
                 "meaningful_dir_name": meaningful_dir_name,
                 "content_hash": content_hash,
                 "created_at": created_at,
@@ -558,6 +657,11 @@ class KnowledgeBaseCRUD:
             if not doc:
                 return None
 
+            # Derived from the record's existing source/metadata, before the
+            # `metadata` update param below is applied, so an in-place update
+            # never relocates the document.
+            source_key = self._derive_source_key(doc.doc_type, doc.source, doc.metadata)
+
             # Update fields
             if title:
                 doc.title = title
@@ -566,7 +670,7 @@ class KnowledgeBaseCRUD:
                 doc.content_hash = self._content_hash(content)
                 # Find existing content file or create new one with meaningful name
                 doc_dir = self._get_doc_path(
-                    doc.doc_type, doc_id, "metadata.json", doc.title).parent
+                    doc.doc_type, doc_id, "metadata.json", doc.title, source_key).parent
                 content_files = list(doc_dir.glob("*.md"))
 
                 if content_files:
@@ -576,7 +680,7 @@ class KnowledgeBaseCRUD:
                     # Create new file with meaningful name
                     content_filename = self._generate_filename(doc.title)
                     content_file = self._get_doc_path(
-                        doc.doc_type, doc_id, content_filename, doc.title)
+                        doc.doc_type, doc_id, content_filename, doc.title, source_key)
 
                 with open(content_file, 'w', encoding='utf-8') as f:
                     f.write(content)
@@ -599,7 +703,7 @@ class KnowledgeBaseCRUD:
 
             # Save updated metadata
             meta_file = self._get_doc_path(
-                doc.doc_type, doc_id, "metadata.json", doc.title)
+                doc.doc_type, doc_id, "metadata.json", doc.title, source_key)
             with open(meta_file, 'w', encoding='utf-8') as f:
                 json.dump(doc.to_dict(), f, indent=2)
 

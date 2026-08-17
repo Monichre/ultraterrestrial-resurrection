@@ -1,3 +1,9 @@
+"""In-memory vector retrieval over the on-disk archive (agent / tool read path).
+
+Not the ingest writer and not the filesystem CRUD. Layer map:
+apps/disclosure-rag/docs/KNOWLEDGE_BASE_LAYERS.md
+"""
+
 import os
 import logging
 from pathlib import Path
@@ -7,6 +13,7 @@ from typing import List, Optional, Dict, Any, Union
 logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
+
 
 # Try to use Agno's vectorstore if available, otherwise use LangChain
 try:
@@ -35,7 +42,7 @@ class KnowledgeBase:
         if kb_path is None:
             # Navigate to the packages/knowledge-base directory
             # Go up from apps/disclosure-rag/lib/
-            current_dir = Path(__file__).parent.parent.parent.parent
+            current_dir = Path(__file__).parent.parent.parent.parent.parent
             self.kb_path = current_dir / "packages" / "knowledge-base"
         else:
             self.kb_path = Path(kb_path)
