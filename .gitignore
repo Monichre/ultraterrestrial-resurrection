@@ -218,6 +218,9 @@ out/
 # the ONLY undo path — it must stay tracked.
 !packages/knowledge-base/metadata/files-rename-manifest.json
 !packages/knowledge-base/metadata/ocr-manifest.json
+# Corpus identity index (T-061/T-059) — the pre-ingest dedupe check.
+!packages/knowledge-base/metadata/corpus-manifest.json
+!packages/knowledge-base/metadata/source-resolution.jsonl
 
 # Vector store files
 packages/knowledge-base/vector-store-files/
