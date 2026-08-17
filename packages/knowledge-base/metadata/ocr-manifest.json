@@ -1,71 +1,229 @@
 {
- "note": "T-061 OCR provenance. Sidecars are tesseract output via ocrmypdf --force-ocr. The .ocr.pdf companions are gitignored and regenerable from source_pdf.",
+ "note": "T-061 OCR provenance and per-file text preference. `preferred_text` says which text to feed the vector store: \"ocr\" for scans with no/weak layer, \"original\" where a fresh pass was noisier. Quality = ratio of common English words, NOT char count (char count gave false positives on scan-stamp noise). .ocr.pdf companions are gitignored and regenerable.",
  "generated": "2026-08-17",
  "entries": [
   {
-   "sidecar": "derived/ocr/CIA-RDP96-00788R001800230001-8 (1).txt",
+   "name": "CIA-RDP96-00788R001800230001-8 (1)",
    "source_pdf": "sources/files/_superseded/CIA-RDP96-00788R001800230001-8 (1).pdf",
-   "chars": 75833,
+   "sidecar": "derived/ocr/CIA-RDP96-00788R001800230001-8 (1).txt",
+   "original": {
+    "valid_pct": 0.0,
+    "words": 0
+   },
+   "ocr": {
+    "valid_pct": 38.5,
+    "words": 10460
+   },
+   "preferred_text": "ocr",
+   "reason": "original had no extractable text layer",
    "sha256": "5f44a501eac51acd"
   },
   {
-   "sidecar": "derived/ocr/cia-rdp96-00788r001700210016-5.txt",
+   "name": "cia-rdp96-00788r001700210016-5",
    "source_pdf": "sources/files/cia-crest/cia-rdp96-00788r001700210016-5.pdf",
-   "chars": 93131,
+   "sidecar": "derived/ocr/cia-rdp96-00788r001700210016-5.txt",
+   "original": {
+    "valid_pct": 0.0,
+    "words": 0
+   },
+   "ocr": {
+    "valid_pct": 43.7,
+    "words": 14285
+   },
+   "preferred_text": "ocr",
+   "reason": "original had no extractable text layer",
    "sha256": "a7dfd7361cc0d20b"
   },
   {
-   "sidecar": "derived/ocr/cia-rdp96-00788r001800230001-8.txt",
+   "name": "cia-rdp96-00788r001800230001-8",
    "source_pdf": "sources/files/cia-crest/cia-rdp96-00788r001800230001-8.pdf",
-   "chars": 75833,
+   "sidecar": "derived/ocr/cia-rdp96-00788r001800230001-8.txt",
+   "original": {
+    "valid_pct": 0.0,
+    "words": 0
+   },
+   "ocr": {
+    "valid_pct": 38.5,
+    "words": 10460
+   },
+   "preferred_text": "ocr",
+   "reason": "original had no extractable text layer",
    "sha256": "5f44a501eac51acd"
   },
   {
-   "sidecar": "derived/ocr/cia-rdp96-00788r001900760001-9.txt",
+   "name": "cia-rdp96-00788r001900760001-9",
    "source_pdf": "sources/files/cia-crest/cia-rdp96-00788r001900760001-9.pdf",
-   "chars": 12095,
+   "sidecar": "derived/ocr/cia-rdp96-00788r001900760001-9.txt",
+   "original": {
+    "valid_pct": 0.0,
+    "words": 0
+   },
+   "ocr": {
+    "valid_pct": 40.9,
+    "words": 1898
+   },
+   "preferred_text": "ocr",
+   "reason": "original had no extractable text layer",
    "sha256": "86c70c52cd4a444f"
   },
   {
-   "sidecar": "derived/ocr/cia-rdp96-00789r002100220001-4.txt",
+   "name": "cia-rdp96-00789r002100220001-4",
    "source_pdf": "sources/files/cia-crest/cia-rdp96-00789r002100220001-4.pdf",
-   "chars": 5173,
+   "sidecar": "derived/ocr/cia-rdp96-00789r002100220001-4.txt",
+   "original": {
+    "valid_pct": 0.0,
+    "words": 0
+   },
+   "ocr": {
+    "valid_pct": 19.3,
+    "words": 410
+   },
+   "preferred_text": "ocr",
+   "reason": "original had no extractable text layer",
    "sha256": "60b3b97015ce6b4d"
   },
   {
-   "sidecar": "derived/ocr/cia-rdp96-00789r002200070001-0.txt",
+   "name": "cia-rdp96-00789r002200070001-0",
    "source_pdf": "sources/files/cia-crest/cia-rdp96-00789r002200070001-0.pdf",
-   "chars": 81261,
+   "sidecar": "derived/ocr/cia-rdp96-00789r002200070001-0.txt",
+   "original": {
+    "valid_pct": 0.0,
+    "words": 0
+   },
+   "ocr": {
+    "valid_pct": 38.2,
+    "words": 10971
+   },
+   "preferred_text": "ocr",
+   "reason": "original had no extractable text layer",
    "sha256": "5eec9de40f60020f"
   },
   {
-   "sidecar": "derived/ocr/cia-rdp96-00789r003800200001-8.txt",
+   "name": "cia-rdp96-00789r003800200001-8",
    "source_pdf": "sources/files/cia-crest/cia-rdp96-00789r003800200001-8.pdf",
-   "chars": 5067,
+   "sidecar": "derived/ocr/cia-rdp96-00789r003800200001-8.txt",
+   "original": {
+    "valid_pct": 0.0,
+    "words": 0
+   },
+   "ocr": {
+    "valid_pct": 17.0,
+    "words": 670
+   },
+   "preferred_text": "ocr",
+   "reason": "original had no extractable text layer",
    "sha256": "3f49bbdbefae8d87"
   },
   {
-   "sidecar": "derived/ocr/cia-rdp96-00792r000300330001-8.txt",
+   "name": "cia-rdp96-00792r000300330001-8",
    "source_pdf": "sources/files/cia-crest/cia-rdp96-00792r000300330001-8.pdf",
-   "chars": 260484,
+   "sidecar": "derived/ocr/cia-rdp96-00792r000300330001-8.txt",
+   "original": {
+    "valid_pct": 0.0,
+    "words": 0
+   },
+   "ocr": {
+    "valid_pct": 43.5,
+    "words": 40335
+   },
+   "preferred_text": "ocr",
+   "reason": "original had no extractable text layer",
    "sha256": "7d2679ad9cdf9e12"
   },
   {
-   "sidecar": "derived/ocr/eisenhower_briefing (1).txt",
+   "name": "eisenhower-briefing-document",
+   "source_pdf": "sources/files/majestic-12/eisenhower-briefing-document.pdf",
+   "sidecar": "derived/ocr/eisenhower-briefing-document.txt",
+   "original": {
+    "valid_pct": 31.4,
+    "words": 873
+   },
+   "ocr": {
+    "valid_pct": 35.4,
+    "words": 1617
+   },
+   "preferred_text": "ocr",
+   "reason": "higher validity (35.4% vs 31.4%) and more words",
+   "sha256": "bca7887f1476ca12"
+  },
+  {
+   "name": "eisenhower_briefing (1)",
    "source_pdf": "sources/files/_superseded/eisenhower_briefing (1).pdf",
-   "chars": 11097,
+   "sidecar": "derived/ocr/eisenhower_briefing (1).txt",
+   "original": {
+    "valid_pct": 0.0,
+    "words": 0
+   },
+   "ocr": {
+    "valid_pct": 35.1,
+    "words": 1622
+   },
+   "preferred_text": "ocr",
+   "reason": "original had no extractable text layer",
    "sha256": "a50e9432550e7cf1"
   },
   {
-   "sidecar": "derived/ocr/mars-exploration-1984.txt",
+   "name": "fbi-roswell-ufo-part-01-of-01",
+   "source_pdf": "sources/files/fbi-vault/fbi-roswell-ufo-part-01-of-01.pdf",
+   "sidecar": "derived/ocr/fbi-roswell-ufo-part-01-of-01.txt",
+   "original": {
+    "valid_pct": 8.6,
+    "words": 140
+   },
+   "ocr": {
+    "valid_pct": 25.4,
+    "words": 173
+   },
+   "preferred_text": "ocr",
+   "reason": "higher validity (25.4% vs 8.6%) and more words",
+   "sha256": "84c6d15cb7d7fe14"
+  },
+  {
+   "name": "fbi-ufo-part-05-of-16",
+   "source_pdf": "sources/files/fbi-vault/fbi-ufo-part-05-of-16.pdf",
+   "sidecar": "derived/ocr/fbi-ufo-part-05-of-16.txt",
+   "original": {
+    "valid_pct": 35.1,
+    "words": 14681
+   },
+   "ocr": {
+    "valid_pct": 29.8,
+    "words": 25729
+   },
+   "preferred_text": "original",
+   "reason": "original has higher validity (35.1% vs 29.8%); OCR captured more raw text but noisier",
+   "sha256": "459b6759482bbb7f"
+  },
+  {
+   "name": "mars-exploration-1984",
    "source_pdf": "sources/files/research-papers/mars-exploration-1984.pdf",
-   "chars": 12092,
+   "sidecar": "derived/ocr/mars-exploration-1984.txt",
+   "original": {
+    "valid_pct": 0.0,
+    "words": 0
+   },
+   "ocr": {
+    "valid_pct": 40.8,
+    "words": 1900
+   },
+   "preferred_text": "ocr",
+   "reason": "original had no extractable text layer",
    "sha256": "c411b727a5aabef0"
   },
   {
-   "sidecar": "derived/ocr/uap-origin-theories-diagram.txt",
+   "name": "uap-origin-theories-diagram",
    "source_pdf": "sources/files/research-papers/uap-origin-theories-diagram.pdf",
-   "chars": 3550,
+   "sidecar": "derived/ocr/uap-origin-theories-diagram.txt",
+   "original": {
+    "valid_pct": 0.0,
+    "words": 0
+   },
+   "ocr": {
+    "valid_pct": 26.3,
+    "words": 482
+   },
+   "preferred_text": "ocr",
+   "reason": "original had no extractable text layer",
    "sha256": "d9300a1b05d9b248"
   }
  ]
