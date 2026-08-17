@@ -1,0 +1,72 @@
+{
+ "note": "T-061 OCR provenance. Sidecars are tesseract output via ocrmypdf --force-ocr. The .ocr.pdf companions are gitignored and regenerable from source_pdf.",
+ "generated": "2026-08-17",
+ "entries": [
+  {
+   "sidecar": "derived/ocr/CIA-RDP96-00788R001800230001-8 (1).txt",
+   "source_pdf": "sources/files/_superseded/CIA-RDP96-00788R001800230001-8 (1).pdf",
+   "chars": 75833,
+   "sha256": "5f44a501eac51acd"
+  },
+  {
+   "sidecar": "derived/ocr/cia-rdp96-00788r001700210016-5.txt",
+   "source_pdf": "sources/files/cia-crest/cia-rdp96-00788r001700210016-5.pdf",
+   "chars": 93131,
+   "sha256": "a7dfd7361cc0d20b"
+  },
+  {
+   "sidecar": "derived/ocr/cia-rdp96-00788r001800230001-8.txt",
+   "source_pdf": "sources/files/cia-crest/cia-rdp96-00788r001800230001-8.pdf",
+   "chars": 75833,
+   "sha256": "5f44a501eac51acd"
+  },
+  {
+   "sidecar": "derived/ocr/cia-rdp96-00788r001900760001-9.txt",
+   "source_pdf": "sources/files/cia-crest/cia-rdp96-00788r001900760001-9.pdf",
+   "chars": 12095,
+   "sha256": "86c70c52cd4a444f"
+  },
+  {
+   "sidecar": "derived/ocr/cia-rdp96-00789r002100220001-4.txt",
+   "source_pdf": "sources/files/cia-crest/cia-rdp96-00789r002100220001-4.pdf",
+   "chars": 5173,
+   "sha256": "60b3b97015ce6b4d"
+  },
+  {
+   "sidecar": "derived/ocr/cia-rdp96-00789r002200070001-0.txt",
+   "source_pdf": "sources/files/cia-crest/cia-rdp96-00789r002200070001-0.pdf",
+   "chars": 81261,
+   "sha256": "5eec9de40f60020f"
+  },
+  {
+   "sidecar": "derived/ocr/cia-rdp96-00789r003800200001-8.txt",
+   "source_pdf": "sources/files/cia-crest/cia-rdp96-00789r003800200001-8.pdf",
+   "chars": 5067,
+   "sha256": "3f49bbdbefae8d87"
+  },
+  {
+   "sidecar": "derived/ocr/cia-rdp96-00792r000300330001-8.txt",
+   "source_pdf": "sources/files/cia-crest/cia-rdp96-00792r000300330001-8.pdf",
+   "chars": 260484,
+   "sha256": "7d2679ad9cdf9e12"
+  },
+  {
+   "sidecar": "derived/ocr/eisenhower_briefing (1).txt",
+   "source_pdf": "sources/files/_superseded/eisenhower_briefing (1).pdf",
+   "chars": 11097,
+   "sha256": "a50e9432550e7cf1"
+  },
+  {
+   "sidecar": "derived/ocr/mars-exploration-1984.txt",
+   "source_pdf": "sources/files/research-papers/mars-exploration-1984.pdf",
+   "chars": 12092,
+   "sha256": "c411b727a5aabef0"
+  },
+  {
+   "sidecar": "derived/ocr/uap-origin-theories-diagram.txt",
+   "source_pdf": "sources/files/research-papers/uap-origin-theories-diagram.pdf",
+   "chars": 3550,
+   "sha256": "d9300a1b05d9b248"
+  }
+ ]
+}

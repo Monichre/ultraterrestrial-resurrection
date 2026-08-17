@@ -213,6 +213,11 @@ out/
 !packages/knowledge-base/metadata/source-registry.json
 !packages/knowledge-base/metadata/tier-a-youtube-snapshot.json
 !packages/knowledge-base/metadata/tier-c-youtube-snapshot.json
+# The PDFs under sources/files/ are gitignored, so git holds no record of the
+# T-061 taxonomy renames. This manifest (md5 + original filename for all 31) is
+# the ONLY undo path — it must stay tracked.
+!packages/knowledge-base/metadata/files-rename-manifest.json
+!packages/knowledge-base/metadata/ocr-manifest.json
 
 # Vector store files
 packages/knowledge-base/vector-store-files/

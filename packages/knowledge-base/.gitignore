@@ -173,3 +173,7 @@ dist
 
 # Finder (MacOS) folder config
 .DS_Store
+
+# T-061 OCR: commit the .txt sidecars (small, searchable, the RAG-usable value);
+# keep the regenerated .ocr.pdf binaries out — 26MB and reproducible from source.
+derived/ocr/*.ocr.pdf
