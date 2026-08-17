@@ -1,0 +1,219 @@
+{
+ "note": "Documents in the OpenAI vector store that FAILED indexing and have NO working copy under the same filename. These are real retrieval gaps: the app cannot find them. 13 other failures were duplicate uploads of files that DO have a completed copy and are harmless.",
+ "generated": "2026-08-17",
+ "store": "vs_meWOEnUiUxtQWf0W6NBsNpCG",
+ "genuinely_missing": 30,
+ "harmless_duplicate_failures": 13,
+ "entries": [
+  {
+   "filename": "368137295-THE-SECRET-LIFE-OF-DONALD-H-MENZEL-by-Stanton-T-Friedman.pdf",
+   "found_on_disk": true,
+   "path": "../../apps/disclosure-rag/corpus/intake/UFO Files/368137295-THE-SECRET-LIFE-OF-DONALD-H-MENZEL-by-Stanton-T-Friedman.pdf",
+   "extractable_chars": 0,
+   "likely_cause": "no text layer \u2014 needs OCR"
+  },
+  {
+   "filename": "540416 Letter from Gerald Light to Meade Layne, with comments.pdf",
+   "found_on_disk": true,
+   "path": "../../apps/disclosure-rag/corpus/intake/UFO Files/540416 Letter from Gerald Light to Meade Layne, with comments.pdf",
+   "extractable_chars": 0,
+   "likely_cause": "no text layer \u2014 needs OCR"
+  },
+  {
+   "filename": "540801 Letter from Edward W Hermann to Frank Edwards437.pdf",
+   "found_on_disk": true,
+   "path": "../../apps/disclosure-rag/corpus/intake/UFO Files/540801 Letter from Edward W Hermann to Frank Edwards437.pdf",
+   "extractable_chars": 0,
+   "likely_cause": "no text layer \u2014 needs OCR"
+  },
+  {
+   "filename": "600118 Letter from Riley Crabb to Evna Edmundson.pdf",
+   "found_on_disk": true,
+   "path": "../../apps/disclosure-rag/corpus/intake/UFO Files/gerald_light_bsra/600118 Letter from Riley Crabb to Evna Edmundson.pdf",
+   "extractable_chars": 0,
+   "likely_cause": "no text layer \u2014 needs OCR"
+  },
+  {
+   "filename": "900402 Letter to BSRF on Alien treaty.pdf",
+   "found_on_disk": true,
+   "path": "../../apps/disclosure-rag/corpus/intake/UFO Files/gerald_light_bsra/900402 Letter to BSRF on Alien treaty.pdf",
+   "extractable_chars": 0,
+   "likely_cause": "no text layer \u2014 needs OCR"
+  },
+  {
+   "filename": "BSRA Release 1950, 11-A-50.pdf",
+   "found_on_disk": true,
+   "path": "../../apps/disclosure-rag/corpus/intake/UFO Files/gerald_light_bsra/BSRA Release 1950, 11-A-50.pdf",
+   "extractable_chars": 0,
+   "likely_cause": "no text layer \u2014 needs OCR"
+  },
+  {
+   "filename": "BSRA info 1951, Dr Kappa.pdf",
+   "found_on_disk": true,
+   "path": "../../apps/disclosure-rag/corpus/intake/UFO Files/gerald_light_bsra/BSRA info 1951, Dr Kappa.pdf",
+   "extractable_chars": 0,
+   "likely_cause": "no text layer \u2014 needs OCR"
+  },
+  {
+   "filename": "Bulletin no 2, April 15, 1954, Lodge of Light.pdf",
+   "found_on_disk": true,
+   "path": "../../apps/disclosure-rag/corpus/intake/UFO Files/gerald_light_bsra/Bulletin no 2, April 15, 1954, Lodge of Light.pdf",
+   "extractable_chars": 0,
+   "likely_cause": "no text layer \u2014 needs OCR"
+  },
+  {
+   "filename": "Cannon 212_20241113_154539.pdf",
+   "found_on_disk": true,
+   "path": "../../apps/disclosure-rag/corpus/intake/UFO Files/Cannon 212_20241113_154539.pdf",
+   "extractable_chars": 0,
+   "likely_cause": "no text layer \u2014 needs OCR"
+  },
+  {
+   "filename": "Davidson telegram.pdf",
+   "found_on_disk": true,
+   "path": "../../apps/disclosure-rag/corpus/intake/UFO Files/Davidson telegram.pdf",
+   "extractable_chars": 0,
+   "likely_cause": "no text layer \u2014 needs OCR"
+  },
+  {
+   "filename": "Envelope in Gerald Light folder, BSRA.pdf",
+   "found_on_disk": true,
+   "path": "../../apps/disclosure-rag/corpus/intake/UFO Files/gerald_light_bsra/Envelope in Gerald Light folder, BSRA.pdf",
+   "extractable_chars": 0,
+   "likely_cause": "no text layer \u2014 needs OCR"
+  },
+  {
+   "filename": "Eric Davis meeting with Adm Wilson.pdf",
+   "found_on_disk": false,
+   "path": null,
+   "extractable_chars": null,
+   "likely_cause": "not on disk locally"
+  },
+  {
+   "filename": "Eric-Davis-meeting-with-Adm-Wilson.pdf",
+   "found_on_disk": true,
+   "path": "../../apps/disclosure-rag/corpus/intake/Eric-Davis-meeting-with-Adm-Wilson.pdf",
+   "extractable_chars": 0,
+   "likely_cause": "no text layer \u2014 needs OCR"
+  },
+  {
+   "filename": "Gerald Light, Signs in the Skies.pdf",
+   "found_on_disk": true,
+   "path": "../../apps/disclosure-rag/corpus/intake/UFO Files/gerald_light_bsra/Gerald Light, Signs in the Skies.pdf",
+   "extractable_chars": 0,
+   "likely_cause": "no text layer \u2014 needs OCR"
+  },
+  {
+   "filename": "Gerald Light, biography in Tempels of Healing.pdf",
+   "found_on_disk": true,
+   "path": "../../apps/disclosure-rag/corpus/intake/UFO Files/gerald_light_bsra/Gerald Light, biography in Tempels of Healing.pdf",
+   "extractable_chars": 0,
+   "likely_cause": "no text layer \u2014 needs OCR"
+  },
+  {
+   "filename": "Gerald_Light_Kaneko,Retrievals third kind,FSR1982V28N2.pdf",
+   "found_on_disk": true,
+   "path": "../../apps/disclosure-rag/corpus/intake/UFO Files/gerald_light_bsra/Gerald_Light_Kaneko,Retrievals third kind,FSR1982V28N2.pdf",
+   "extractable_chars": 0,
+   "likely_cause": "no text layer \u2014 needs OCR"
+  },
+  {
+   "filename": "HHRG-118-GO12-20241113-SD003 (1).pdf",
+   "found_on_disk": true,
+   "path": "../../apps/disclosure-rag/corpus/intake/UFO Files/HHRG-118-GO12-20241113-SD003 (1).pdf",
+   "extractable_chars": 0,
+   "likely_cause": "no text layer \u2014 needs OCR"
+  },
+  {
+   "filename": "HHRG-118-GO12-20241113-SD003.pdf",
+   "found_on_disk": true,
+   "path": "../../apps/disclosure-rag/corpus/intake/UFO Files/HHRG-118-GO12-20241113-SD003.pdf",
+   "extractable_chars": 0,
+   "likely_cause": "no text layer \u2014 needs OCR"
+  },
+  {
+   "filename": "Undated letter from Evna Edmundson to Riley Crabb.pdf",
+   "found_on_disk": true,
+   "path": "../../apps/disclosure-rag/corpus/intake/UFO Files/gerald_light_bsra/Undated letter from Evna Edmundson to Riley Crabb.pdf",
+   "extractable_chars": 0,
+   "likely_cause": "no text layer \u2014 needs OCR"
+  },
+  {
+   "filename": "Undated letter from Gerald Light to Meade Layne.pdf",
+   "found_on_disk": true,
+   "path": "../../apps/disclosure-rag/corpus/intake/UFO Files/gerald_light_bsra/Undated letter from Gerald Light to Meade Layne.pdf",
+   "extractable_chars": 0,
+   "likely_cause": "no text layer \u2014 needs OCR"
+  },
+  {
+   "filename": "William Moore, Ike and the Aliens,Focus, vol 1, no 2, April 30, 1985.pdf",
+   "found_on_disk": true,
+   "path": "../../apps/disclosure-rag/corpus/intake/UFO Files/gerald_light_bsra/William Moore, Ike and the Aliens,Focus, vol 1, no 2, April 30, 1985.pdf",
+   "extractable_chars": 0,
+   "likely_cause": "no text layer \u2014 needs OCR"
+  },
+  {
+   "filename": "WilsonMemo.pdf",
+   "found_on_disk": false,
+   "path": null,
+   "extractable_chars": null,
+   "likely_cause": "not on disk locally"
+  },
+  {
+   "filename": "bsra_jan_1950_afu_archives.pdf",
+   "found_on_disk": true,
+   "path": "../../apps/disclosure-rag/corpus/intake/UFO Files/bsra_jan_1950_afu_archives.pdf",
+   "extractable_chars": 0,
+   "likely_cause": "no text layer \u2014 needs OCR"
+  },
+  {
+   "filename": "charles fort ny times 1926 119064405.pdf",
+   "found_on_disk": true,
+   "path": "../../apps/disclosure-rag/corpus/intake/UFO Files/charles fort ny times 1926 119064405.pdf",
+   "extractable_chars": 56,
+   "likely_cause": "has text; upload failed for another reason"
+  },
+  {
+   "filename": "fdr_22feb44.pdf",
+   "found_on_disk": true,
+   "path": "../../apps/disclosure-rag/corpus/intake/UFO Files/fdr_22feb44.pdf",
+   "extractable_chars": 0,
+   "likely_cause": "no text layer \u2014 needs OCR"
+  },
+  {
+   "filename": "lodge_of_light_april_15_1954.pdf",
+   "found_on_disk": true,
+   "path": "../../apps/disclosure-rag/corpus/intake/UFO Files/gerald_light_bsra/lodge_of_light_april_15_1954.pdf",
+   "extractable_chars": 0,
+   "likely_cause": "no text layer \u2014 needs OCR"
+  },
+  {
+   "filename": "majestic_timeline_1_31_2023.pdf",
+   "found_on_disk": true,
+   "path": "../../apps/disclosure-rag/corpus/intake/UFO Files/majestic_timeline_1_31_2023.pdf",
+   "extractable_chars": 27084,
+   "likely_cause": "has text; upload failed for another reason"
+  },
+  {
+   "filename": "twining_whitehotreport.pdf",
+   "found_on_disk": true,
+   "path": "../../apps/disclosure-rag/corpus/intake/UFO Files/twining_whitehotreport.pdf",
+   "extractable_chars": 0,
+   "likely_cause": "no text layer \u2014 needs OCR"
+  },
+  {
+   "filename": "uap-origin-theories-diagram.pdf",
+   "found_on_disk": true,
+   "path": "./sources/files/research-papers/uap-origin-theories-diagram.pdf",
+   "extractable_chars": 0,
+   "likely_cause": "no text layer \u2014 needs OCR"
+  },
+  {
+   "filename": "ufo_timeline_v1_03.pdf",
+   "found_on_disk": true,
+   "path": "../../apps/disclosure-rag/corpus/intake/UFO Files/ufo_timeline_v1_03.pdf",
+   "extractable_chars": 22168,
+   "likely_cause": "has text; upload failed for another reason"
+  }
+ ]
+}

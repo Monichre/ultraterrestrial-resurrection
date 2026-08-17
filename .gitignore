@@ -225,6 +225,8 @@ out/
 !packages/knowledge-base/metadata/corpus-manifest-intake.json
 !packages/knowledge-base/metadata/duplicate-report-cross-tree.json
 !packages/knowledge-base/metadata/duplicate-report-intra-intake.json
+!packages/knowledge-base/metadata/vector-store-gap-report.json
+!packages/knowledge-base/metadata/intake-ocr-census.jsonl
 !packages/knowledge-base/metadata/source-resolution.jsonl
 
 # Vector store files
