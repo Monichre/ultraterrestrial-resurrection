@@ -13,6 +13,7 @@ stream:
    dead for the life of the process and skipped thereafter, so a revoked key
    costs one wasted round-trip per run instead of one per call. A 429/5xx/
    timeout is transient and gets a bounded retry with backoff.
+   
 2. **Attribution.** `complete()` returns which tier served the request, so
    callers can record truthfully whether enrichment actually happened. Silent
    degradation is how a whole ingestion run once recorded `status: ingested`
@@ -32,7 +33,7 @@ quietly costing money. That is the trade the policy asks for.
 Note this governs *completions only*. Embeddings remain on OpenAI
 `text-embedding-3-small` @ 1536 dims — 6,540 vectors are already stored in
 Postgres against that model, and re-providering them does not error, it
-silently returns incoherent rankings. See `lib/knowledge_base.py:127,172`.
+silently returns incoherent rankings. See `lib/kb/knowledge_base.py:127,172`.
 
 Credential liveness verified 2026-08-07 against each provider's models
 endpoint (see CHAIN comments). A 200 there proves only that the endpoint
@@ -122,20 +123,99 @@ class Tier:
 REASONING_HEADROOM_TOKENS = 4096
 
 
-# Ordering rationale: three gateways first, then direct-vendor tiers as a
-# long tail. The gateways all serve **the same model** (GLM-5.2, the one entry
-# on the frontier-only list that is neither OpenAI nor Anthropic), so falling
-# from tier 1 to tier 3 is a change of *route*, not a change of capability —
-# enrichment quality does not silently degrade as the chain descends, which is
-# what a mixed-capability chain would do.
+# Priority order (user directive 2026-08-16): discounted models first.
+# This is the emergency chain used when the yaml router isn't loaded.
 #
-# All three speak OpenAI's chat/completions shape, so this needs no new SDK.
+# 2026-08-18 — the chain was 8 tiers and all 8 were OpenRouter. The docstring
+# above promises "one provider being down never takes enrichment down", but a
+# single gateway behind every tier makes that promise unkeepable: when the
+# OpenRouter account hit zero credits, all 8 tiers returned 402 within 1.2s and
+# enrichment was dead. Probing the other credentials in .env found OpenAI and
+# DeepSeek both live on a real completion (Anthropic, Groq, and Google keys all
+# 401/400 — a key being present says nothing about it working).
+#
+# Direct-provider tiers now lead the chain, so a gateway outage costs nothing.
+# The OpenRouter tiers stay as trailing fallback: 402 is classified permanent,
+# so a dead gateway costs one skipped call per process, not one per document.
 FRONTIER_FALLBACK_CHAIN: List[Tier] = [
     Tier(
-        # Endpoint verified 200 on 2026-08-07. Serves `z-ai/glm-5.2`.
-        # Key lives in the repo-root .env and was invisible here until it was
-        # copied into apps/disclosure-rag/.env — this app calls bare
-        # load_dotenv(), whose find_dotenv() stops at the first .env going up.
+        id="deepseek/deepseek-chat",
+        provider="DeepSeek Chat (direct)",
+        env_keys=("DEEPSEEK_API_KEY",),
+        model="deepseek-chat",
+        base_url="https://api.deepseek.com",
+        max_retries=1,
+    ),
+    Tier(
+        id="openai/gpt-5.6",
+        provider="GPT-5.6 (direct)",
+        env_keys=("OPENAI_API_KEY",),
+        model="gpt-5.6",
+        max_retries=1,
+        reasoning=True,
+    ),
+    Tier(
+        id="openai/gpt-5.5",
+        provider="GPT-5.5 (direct)",
+        env_keys=("OPENAI_API_KEY",),
+        model="gpt-5.5",
+        max_retries=1,
+        reasoning=True,
+    ),
+    Tier(
+        id="openrouter/gemini-3.7-flash-batch",
+        provider="Gemini 3.7 Flash (Batch, OpenRouter)",
+        env_keys=("OPENROUTER_API_KEY",),
+        model="google/gemini-3.7-flash:batch",
+        base_url="https://openrouter.ai/api/v1",
+        max_retries=1,
+        reasoning=True,
+    ),
+    Tier(
+        id="openrouter/gemini-3.7-flash",
+        provider="Gemini 3.7 Flash (OpenRouter)",
+        env_keys=("OPENROUTER_API_KEY",),
+        model="google/gemini-3.7-flash",
+        base_url="https://openrouter.ai/api/v1",
+        max_retries=1,
+        reasoning=True,
+    ),
+    Tier(
+        id="openrouter/gpt-5.6-luna-pro",
+        provider="GPT-5.6 Luna Pro (OpenRouter)",
+        env_keys=("OPENROUTER_API_KEY",),
+        model="openai/gpt-5.6-luna-pro",
+        base_url="https://openrouter.ai/api/v1",
+        max_retries=1,
+        reasoning=True,
+    ),
+    Tier(
+        id="openrouter/gpt-5.6-luna",
+        provider="GPT-5.6 Luna (OpenRouter)",
+        env_keys=("OPENROUTER_API_KEY",),
+        model="openai/gpt-5.6-luna",
+        base_url="https://openrouter.ai/api/v1",
+        max_retries=1,
+    ),
+    Tier(
+        id="openrouter/gpt-5.6-terra-pro",
+        provider="GPT-5.6 Terra Pro (OpenRouter)",
+        env_keys=("OPENROUTER_API_KEY",),
+        model="openai/gpt-5.6-terra-pro",
+        base_url="https://openrouter.ai/api/v1",
+        max_retries=1,
+        reasoning=True,
+    ),
+    Tier(
+        id="openrouter/gpt-5.6-terra",
+        provider="GPT-5.6 Terra (OpenRouter)",
+        env_keys=("OPENROUTER_API_KEY",),
+        model="openai/gpt-5.6-terra",
+        base_url="https://openrouter.ai/api/v1",
+        max_retries=1,
+        reasoning=True,
+    ),
+    Tier(
         id="openrouter/glm-5.2",
         provider="GLM-5.2 (OpenRouter)",
         env_keys=("OPENROUTER_API_KEY",),
@@ -145,73 +225,13 @@ FRONTIER_FALLBACK_CHAIN: List[Tier] = [
         reasoning=True,
     ),
     Tier(
-        # Endpoint verified 200 on 2026-08-07. Serves `zai-org/GLM-5.2`.
-        # Credential is currently **ambient shell state only** — exported in
-        # the user's profile, absent from every .env in the repo. That means
-        # this tier is live for an interactive `dy` run and silently skipped
-        # under cron/CI, which is exactly the kind of environment-dependent
-        # behaviour that makes a fallback chain untrustworthy. Move it into
-        # apps/disclosure-rag/.env to make it real everywhere.
-        id="huggingface/glm-5.2",
-        provider="GLM-5.2 (HuggingFace Router)",
-        env_keys=("HUGGINGFACE_ACCESS_TOKEN", "HF_TOKEN", "HUGGINGFACE_API_KEY"),
-        model="zai-org/GLM-5.2",
-        base_url="https://router.huggingface.co/v1",
+        id="openrouter/deepseek-v4-pro",
+        provider="DeepSeek V4 Pro (OpenRouter)",
+        env_keys=("OPENROUTER_API_KEY",),
+        model="deepseek/deepseek-v4-pro",
+        base_url="https://openrouter.ai/api/v1",
         max_retries=1,
         reasoning=True,
-    ),
-    Tier(
-        # Endpoint verified 200 on 2026-08-07. Serves bare `glm-5.2`.
-        # Same ambient-only caveat as the HuggingFace tier: exported from
-        # ~/.zshrc, not present in any .env.
-        id="ollama-cloud/glm-5.2",
-        provider="GLM-5.2 (Ollama Cloud)",
-        env_keys=("OLLAMA_API_KEY",),
-        model="glm-5.2",
-        base_url="https://ollama.com/v1",
-        max_retries=1,
-        reasoning=True,
-    ),
-    Tier(
-        # Live 2026-08-07. First tier on a different vendor + credential.
-        id="deepseek/deepseek-v4-pro",
-        provider="DeepSeek V4 Pro",
-        env_keys=("DEEPSEEK_API_KEY",),
-        model="deepseek-v4-pro",
-        base_url="https://api.deepseek.com",
-        max_retries=1,
-        reasoning=True,
-    ),
-    Tier(
-        # Live 2026-08-07. Third distinct vendor.
-        id="together/kimi-k3",
-        provider="Kimi K3 (Together)",
-        env_keys=("TOGETHERAI_API_KEY", "TOGETHER_API_KEY"),
-        model="moonshotai/Kimi-K3",
-        base_url="https://api.together.xyz/v1",
-        max_retries=1,
-        reasoning=True,
-    ),
-    Tier(
-        # Key returned 401 on 2026-08-07. Retained: costs one attempt per
-        # process, activates when fixed. `openai/gpt-oss-120b` is an
-        # open-weight model served by Groq — it uses a Groq credential and
-        # bills Groq, so it is not OpenAI API usage despite the model name.
-        id="groq/gpt-oss-120b",
-        provider="GPT-OSS 120B (Groq)",
-        env_keys=("GROQ_API_KEY",),
-        model="openai/gpt-oss-120b",
-        base_url="https://api.groq.com/openai/v1",
-    ),
-    Tier(
-        # No ZHIPU_API_KEY/GLM_API_KEY in this app's env — skipped for free,
-        # present so parity with the TS chain is explicit rather than an
-        # oversight.
-        id="zhipu/glm-5.2",
-        provider="GLM-5.2",
-        env_keys=("ZHIPU_API_KEY", "GLM_API_KEY"),
-        model="glm-5.2",
-        base_url="https://api.z.ai/api/paas/v4",
     ),
 ]
 
