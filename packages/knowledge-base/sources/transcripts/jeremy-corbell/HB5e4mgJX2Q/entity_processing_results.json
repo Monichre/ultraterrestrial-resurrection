@@ -1,0 +1,576 @@
+{
+  "status": "completed",
+  "video_id": "HB5e4mgJX2Q",
+  "summary_file": "/Users/liamellis/Desktop/ultraterrestrial-resurrection/packages/knowledge-base/transcripts/2025-09-09/HB5e4mgJX2Q/jayStrattonTheMostImportantGovernmentUfoInvestigatorEverWeaponizedFlashbackSummary.txt",
+  "entities": {
+    "topics": [
+      "Government UFO investigation programs",
+      "Technical analysis of UFO incidents",
+      "Health effects documentation",
+      "Cross-agency coordination",
+      "Internal resistance and religious objections",
+      "Destigmatization of UFO research"
+    ],
+    "personnel": [
+      "Jay Stratton",
+      "Dr. James Lacatski",
+      "Lou Elizondo"
+    ],
+    "events": [
+      "Creation of AAWSAP Program",
+      "NY Times AATIP Disclosure",
+      "Formation of UAP Task Force"
+    ],
+    "organizations": [
+      "DIA",
+      "AAWSAP",
+      "AATIP",
+      "UAP Task Force"
+    ],
+    "locations": [
+      "DIA/Pentagon",
+      "Washington DC",
+      "Pentagon"
+    ],
+    "artifacts": [],
+    "sightings": []
+  },
+  "xata_search_results": {
+    "topics": [
+      {
+        "entity_name": "Government UFO investigation programs",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Technical analysis of UFO incidents",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Health effects documentation",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Cross-agency coordination",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Internal resistance and religious objections",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Destigmatization of UFO research",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Government UFO investigation programs",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Technical analysis of UFO incidents",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Health effects documentation",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Cross-agency coordination",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Internal resistance and religious objections",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Destigmatization of UFO research",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": "create_new",
+        "error": null
+      }
+    ],
+    "personnel": [
+      {
+        "entity_name": "Jay Stratton",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "personnel",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Dr. James Lacatski",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "personnel",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Lou Elizondo",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "personnel",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Jay Stratton",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "personnel",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Dr. James Lacatski",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "personnel",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Lou Elizondo",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "personnel",
+        "action_needed": "create_new",
+        "error": null
+      }
+    ],
+    "events": [
+      {
+        "entity_name": "Creation of AAWSAP Program",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "events",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "NY Times AATIP Disclosure",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "events",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Formation of UAP Task Force",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "events",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Creation of AAWSAP Program",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "events",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "NY Times AATIP Disclosure",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "events",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Formation of UAP Task Force",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "events",
+        "action_needed": "create_new",
+        "error": null
+      }
+    ],
+    "organizations": [
+      {
+        "entity_name": "DIA",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "AAWSAP",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "AATIP",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "UAP Task Force",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "DIA",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "AAWSAP",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "AATIP",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "UAP Task Force",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      }
+    ],
+    "locations": [
+      {
+        "entity_name": "DIA/Pentagon",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "locations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Washington DC",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "locations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Pentagon",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "locations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "DIA/Pentagon",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "locations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Washington DC",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "locations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Pentagon",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "locations",
+        "action_needed": "create_new",
+        "error": null
+      }
+    ],
+    "artifacts": [],
+    "sightings": []
+  },
+  "entity_creation_results": {
+    "created_entities": {
+      "topics": [],
+      "personnel": [],
+      "events": [],
+      "organizations": [],
+      "locations": []
+    },
+    "failed_creations": {
+      "topics": [
+        {
+          "entity_name": "Government UFO investigation programs",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Technical analysis of UFO incidents",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Health effects documentation",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Cross-agency coordination",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Internal resistance and religious objections",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Destigmatization of UFO research",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Government UFO investigation programs",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Technical analysis of UFO incidents",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Health effects documentation",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Cross-agency coordination",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Internal resistance and religious objections",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Destigmatization of UFO research",
+          "error": "Batch creation failed"
+        }
+      ],
+      "personnel": [
+        {
+          "entity_name": "Jay Stratton",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Dr. James Lacatski",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Lou Elizondo",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Jay Stratton",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Dr. James Lacatski",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Lou Elizondo",
+          "error": "Batch creation failed"
+        }
+      ],
+      "events": [
+        {
+          "entity_name": "Creation of AAWSAP Program",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "NY Times AATIP Disclosure",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Formation of UAP Task Force",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Creation of AAWSAP Program",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "NY Times AATIP Disclosure",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Formation of UAP Task Force",
+          "error": "Batch creation failed"
+        }
+      ],
+      "organizations": [
+        {
+          "entity_name": "DIA",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "AAWSAP",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "AATIP",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "UAP Task Force",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "DIA",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "AAWSAP",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "AATIP",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "UAP Task Force",
+          "error": "Batch creation failed"
+        }
+      ],
+      "locations": [
+        {
+          "entity_name": "DIA/Pentagon",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Washington DC",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Pentagon",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "DIA/Pentagon",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Washington DC",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Pentagon",
+          "error": "Batch creation failed"
+        }
+      ]
+    },
+    "statistics": {
+      "total_processed": 38,
+      "total_created": 0,
+      "total_failed": 38
+    },
+    "errors": []
+  },
+  "total_entities": 19,
+  "total_matches": 38,
+  "total_created": 0
+}

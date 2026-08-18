@@ -1,0 +1,28 @@
+{
+  "url": "https://oversight.house.gov/wp-content/uploads/2024/11/Written-Testimony-Shellenberger.pdf",
+  "title": "Web Article",
+  "author": "",
+  "publish_date": "",
+  "type": "web_article",
+  "content_length": 0,
+  "word_count": 0,
+  "extraction_timestamp": "2025-09-05T09:23:17.029641",
+  "processing_status": {
+    "content_extracted": true,
+    "summary_generated": false,
+    "entities_extracted": false,
+    "kb_indexed": false,
+    "kg_processed": false
+  },
+  "files": {
+    "summary": "/Users/liamellis/Desktop/ultraterrestrial-resurrection/packages/knowledge-base/sources/web/2025-09-05/oversight-house-gov_b4c0a112/oversight-house-gov_summary.txt",
+    "content": "/Users/liamellis/Desktop/ultraterrestrial-resurrection/packages/knowledge-base/sources/web/2025-09-05/oversight-house-gov_b4c0a112/oversight-house-gov_content.txt",
+    "metadata": "/Users/liamellis/Desktop/ultraterrestrial-resurrection/packages/knowledge-base/sources/web/2025-09-05/oversight-house-gov_b4c0a112/oversight-house-gov_metadata.json"
+  },
+  "analysis": {
+    "content_type": "empty",
+    "key_topics": [],
+    "reading_time_minutes": 1,
+    "complexity_score": 0
+  }
+}

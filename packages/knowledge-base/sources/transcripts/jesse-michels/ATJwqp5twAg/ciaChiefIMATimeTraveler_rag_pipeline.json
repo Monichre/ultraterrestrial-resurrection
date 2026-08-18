@@ -1,0 +1,145 @@
+{
+  "status": "error",
+  "classification": {
+    "content_type": "media",
+    "primary_record_hints": [
+      "KeyFigure",
+      "Testimony"
+    ],
+    "hynek_scaffold": null,
+    "classification_marks_detected": [],
+    "language": "english",
+    "ocr_quality": "n/a",
+    "sensitivity": "public",
+    "ingestion_recommendation": "proceed_with_caution",
+    "rationale": "Media podcast interview transcript with extraordinary claims (time travel, CIA secrets). No classification markings. Public source, but content is unverified and potentially sensational; ingest with caution for downstream analysis.",
+    "confidence": 0.92
+  },
+  "analysis": {
+    "content_assessment": {
+      "content_type": "Media",
+      "credibility": "low",
+      "authenticity_notes": "Source is a podcast interview transcript. Host (Jesse) claims the guest is former CIA/DOE officer, but provides no independent verification. Guest's narrative contains self-reported extraordinary claims (time travel, direct divine communication) with no physical evidence. Guest references classified details but does not reveal them, which could be a deliberate authenticity marker or obfuscation. The transcript is truncated, omitting the UFO-related portion and other parts.",
+      "provenance": {
+        "origin": "Podcast 'Alchemy' (likely host Jesse Michels), YouTube URL https://www.youtube.com/watch?v=ATJwqp5twAg provided as optional context. No further chain of custody.",
+        "status": "Unverified"
+      },
+      "redaction_issues": "No redactions; transcript includes '[music]' placeholders from audio, no illegible text.",
+      "duplicate_risk": "No evidence of recycling from known cases; the time-travel narrative appears unique to this source.",
+      "admissibility": "UNVERIFIED",
+      "next_trace": "Verify Ralph Moat Larson's CIA employment history and role as Moscow station chief, WMD department head, and briefing to President Bush through official records, FOIA, or multiple independent witnesses."
+    },
+    "extracted_data": {
+      "persons": [
+        "Ralph Moat Larson (guest, claimed former CIA officer, time traveler)",
+        "Jesse (host, podcast interviewer)",
+        "George Tenet (former CIA Director)",
+        "George W. Bush (former US President)",
+        "Dick Cheney (former Vice President)",
+        "Tony Blair (former UK Prime Minister)",
+        "Robert Mueller (former FBI Director)",
+        "Mike Hayden (former NSA Director)",
+        "Abu Musab Zarqawi (terrorist)",
+        "David Grush (UFO whistleblower, mentioned by host)",
+        "UAP Gerb (YouTuber, mentioned by host)",
+        "Robert Hastings (author, mentioned by host)",
+        "George HW Bush (former President)"
+      ],
+      "organizations": [
+        "CIA",
+        "Department of Energy (DOE)",
+        "FBI",
+        "NSA",
+        "al-Qaeda",
+        "National Security Council",
+        "Counterterrorism Center (CIA)",
+        "Weapons of Mass Destruction Department (CIA)"
+      ],
+      "dates": [
+        "1983 (Larson joined CIA)",
+        "1991 (pilgrimage/time travel to Mount Athos)",
+        "9/11/2001 (terrorist attacks)",
+        "2003 (briefing on Zarqawi three weeks before Iraq invasion)",
+        "2011-2016 (Larson's service in Middle East)"
+      ],
+      "events": [
+        "Larson's CIA career spanning Europe, Moscow, Middle East",
+        "Briefing President Bush on Zarqawi's location and advising to bomb",
+        "Hosting podcast interview with Ralph Moat Larson",
+        "Larson's claim of time travel to 14th century Mount Athos in physical body",
+        "Larson's childhood awareness of God's presence",
+        "CIA headquarters inscription 'John 8:32'"
+      ],
+      "locations": [
+        "Mount Athos, Greece",
+        "Oval Office, White House",
+        "CIA headquarters, Virginia",
+        "Moscow, Russia (station chief)",
+        "Middle East (2011-2016)"
+      ]
+    },
+    "primary_claims": [
+      "Ralph Moat Larson worked for the CIA for over two decades, served as Moscow station chief, and also ran intelligence/counterintelligence for the Department of Energy.",
+      "He worked directly with NSA Director Michael Hayden, CIA Director George Tenet, and briefed President George W. Bush, Vice President Dick Cheney, and UK Prime Minister Tony Blair.",
+      "In 1991, during a pilgrimage to Mount Athos, Greece, he experienced time travel to the 14th century in his physical body, not as a metaphorical or astral experience; the reality was indistinguishable from waking life.",
+      "He learned to fly, burned his hut, and lived as a recluse during that medieval period.",
+      "He became head of the Weapons of Mass Destruction Department in the CIA's Counterterrorism Center after 9/11, tasked with stopping terrorists from acquiring biological or nuclear weapons.",
+      "He briefed President Bush in the Oval Office (with George HW Bush present) about Abu Musab Zarqawi's location three weeks before the Iraq invasion and advised bombing the camp.",
+      "When asked by the President what he would do, he said, 'I'd bomb it,' contrary to the official recommendation to do nothing.",
+      "He considered resigning over the invasion of Iraq, which he was against philosophically.",
+      "He has had a continuous personal relationship with God since childhood, seeing God as a creator and personal being with whom he communicates.",
+      "He believes that 'hell is not a place, it's a state of mind of being separated from God.'",
+      "CIA headquarters has the biblical verse John 8:32 ('You shall know the truth, and the truth shall set you free') inscribed on its wall.",
+      "He sometimes found that the CIA did not always seek truth.",
+      "His wife also worked for CIA and wrote a book 'Story of a CIA Wife.'",
+      "The host (Jesse) claims he coordinated questions with UFO whistleblower David Grush, YouTuber UAP Gerb, and author Robert Hastings regarding UFO programs and DOE involvement.",
+      "The host states that the guest's experiences are 'indistinguishable from his current waking reality' and not remote viewing or astral projection."
+    ],
+    "key_findings": [
+      "Narrative includes specific dates (1991 time travel, 2003 briefing) and named high-level officials (Bush, Tenet, Mueller).",
+      "Guest describes the Zarqawi briefing in detail, including the presence of George HW Bush in a wheelchair.",
+      "He claims to have been 'obsessed' with Zarqawi and that the President overrode official advice based on his personal recommendation.",
+      "Host frames the interview as highly credible due to guest's alleged intelligence background, but acknowledges the extraordinary nature of claims.",
+      "Guest states some details remain classified, which restricts verification.",
+      "No physical evidence, documents, or third-party testimony are presented to support any of the claims.",
+      "The transcript is incomplete; the portion containing answers about UFOs and crash retrieval is missing."
+    ],
+    "supporting_evidence": [
+      "The guest provides a self-consistent narrative with many fine-grained details (e.g., the layout of the Oval Office, the wording of the CIA inscription).",
+      "The host asserts that the guest's identity was known to him and that he prepared questions with notable figures in the UFO field (David Grush, Robert Hastings), implying some vetting.",
+      "The guest mentions writing a book ('A State of Mind, Faith in the CIA'), which may contain a more detailed account."
+    ],
+    "contradictory_evidence": [
+      "Time travel in a physical body to the past contradicts known physics (causality, relativity) and lacks any scientific mechanism.",
+      "No contemporaneous records, witnesses, or artifacts from the claimed 14th-century experience are provided.",
+      "The host's pre-interview promotion and framing indicate he may be seeking sensational content, which could bias the presentation.",
+      "The guest's claim of 'learning to fly' during the medieval stint is not elaborated and sounds like a trope of mystical or fictional narratives.",
+      "The truncated transcript does not show the actual UFO-related answers, so the central UFO/DOE claims cannot be assessed from this source segment."
+    ],
+    "follow_up_needed": [
+      "Verify Ralph Moat Larson's CIA and DOE employment records (years, roles, assignments) through official sources, FOIA, or corroborating witnesses.",
+      "Locate and review his book 'A State of Mind, Faith in the CIA' for any additional details, corroborating elements, or admissions of allegorical intent.",
+      "Attempt to independently confirm the Zarqawi briefing anecdote with participants (e.g., George Tenet, Robert Mueller).",
+      "Investigate whether Larson's time travel claim has any precedent in psychological, neurological, or hoax patterns; consult experts on anomalous experiences.",
+      "Request the full, unedited interview recording to examine the missing segments and assess consistency.",
+      "Cross-reference the host's claim of coordination with David Grush and Robert Hastings – check if they publicly acknowledge involvement."
+    ]
+  },
+  "ingestion": {},
+  "chunks": [],
+  "ner_results": [],
+  "embeddable_texts": [],
+  "metadata": {
+    "provenance": "https://www.youtube.com/watch?v=ATJwqp5twAg",
+    "filename_hint": "CIA Chief: “I’m a Time Traveler!” ",
+    "prompts_dir": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/ai/prompts"
+  },
+  "errors": [
+    "All LLM providers failed (anthropic/claude-sonnet-5: skipped (HTTP 400); anthropic/claude-opus-4-8: skipped (HTTP 400); deepseek/deepseek-v4-pro: BudgetExhausted: deepseek/deepseek-v4-pro: max_tokens=4096 consumed before any answer was emitted (reasoning=True); raise max_tokens; together/kimi-k3: BudgetExhausted: together/kimi-k3: max_tokens=4096 consumed before any answer was emitted (reasoning=True); raise max_tokens; openai/gpt-5.5: skipped (HTTP 401); groq/gpt-oss-120b: skipped (HTTP 401))"
+  ],
+  "prompts_used": [
+    "document_classification",
+    "disclosure.content_analysis",
+    "rag_ingestion"
+  ]
+}

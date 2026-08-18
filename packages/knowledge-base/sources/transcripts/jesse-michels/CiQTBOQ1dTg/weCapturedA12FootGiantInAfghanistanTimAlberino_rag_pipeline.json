@@ -1,0 +1,36 @@
+{
+  "status": "error",
+  "classification": {
+    "content_type": "mixed",
+    "primary_record_hints": [
+      "Testimony",
+      "KeyFigure",
+      "Topic"
+    ],
+    "hynek_scaffold": null,
+    "classification_marks_detected": [],
+    "language": "en",
+    "ocr_quality": "n/a",
+    "sensitivity": "public",
+    "ingestion_recommendation": "proceed",
+    "rationale": "Podcast transcript combining theological/ancient astronaut discourse, a secondhand anecdote about a giant corpse, and media interview. No classified markings or sensitive custody chain; claims are narrative rather than documentary evidence.",
+    "confidence": 0.7
+  },
+  "analysis": {},
+  "ingestion": {},
+  "chunks": [],
+  "ner_results": [],
+  "embeddable_texts": [],
+  "metadata": {
+    "provenance": "https://www.youtube.com/watch?v=CiQTBOQ1dTg",
+    "filename_hint": "“We Captured a 12 Foot Giant in Afghanistan!” -Tim Alberino",
+    "prompts_dir": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/ai/prompts"
+  },
+  "errors": [
+    "Unterminated string starting at: line 4 column 29 (char 95)"
+  ],
+  "prompts_used": [
+    "document_classification",
+    "disclosure.content_analysis"
+  ]
+}

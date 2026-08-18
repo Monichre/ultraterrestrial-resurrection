@@ -1,0 +1,17 @@
+{
+  "title": "Why America’s Top Scientists Are Going Missing",
+  "url": "https://www.youtube.com/watch?v=wlsQIbpEKSM",
+  "id": "wlsQIbpEKSM",
+  "categories": [],
+  "tags": [],
+  "description": "",
+  "chapters": [],
+  "rag_pipeline": {
+    "status": "error",
+    "embeddable_count": 0,
+    "prompts_used": null,
+    "errors": [
+      "All LLM providers failed (anthropic/claude-sonnet-5: skipped (HTTP 400); anthropic/claude-opus-4-8: skipped (HTTP 400); deepseek/deepseek-v4-pro: BudgetExhausted: deepseek/deepseek-v4-pro: max_tokens=4096 consumed before any answer was emitted (reasoning=True); raise max_tokens; together/kimi-k3: BudgetExhausted: together/kimi-k3: max_tokens=4096 consumed before any answer was emitted (reasoning=True); raise max_tokens; openai/gpt-5.5: skipped (HTTP 401); groq/gpt-oss-120b: skipped (HTTP 401))"
+    ]
+  }
+}

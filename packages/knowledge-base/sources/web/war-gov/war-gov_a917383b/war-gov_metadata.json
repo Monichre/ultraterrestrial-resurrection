@@ -1,0 +1,28 @@
+{
+  "url": "https://www.war.gov/ufo/",
+  "title": "Web Article",
+  "author": "",
+  "publish_date": "",
+  "type": "web_article",
+  "content_length": 0,
+  "word_count": 0,
+  "extraction_timestamp": "2026-07-09T16:18:08.237448",
+  "processing_status": {
+    "content_extracted": true,
+    "summary_generated": false,
+    "entities_extracted": false,
+    "kb_indexed": false,
+    "kg_processed": false
+  },
+  "files": {
+    "summary": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/sources/web/2026-07-09/war-gov_a917383b/war-gov_summary.txt",
+    "content": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/sources/web/2026-07-09/war-gov_a917383b/war-gov_content.txt",
+    "metadata": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/sources/web/2026-07-09/war-gov_a917383b/war-gov_metadata.json"
+  },
+  "analysis": {
+    "content_type": "empty",
+    "key_topics": [],
+    "reading_time_minutes": 1,
+    "complexity_score": 0
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "title": "MIT Scientist: “Your Brain Evolved To Ignore Aliens – They’re Everywhere!”",
+  "url": "https://www.youtube.com/watch?v=6bqaHVSlVeU",
+  "id": "6bqaHVSlVeU",
+  "categories": [],
+  "tags": [],
+  "description": "",
+  "chapters": [],
+  "rag_pipeline": {
+    "status": "error",
+    "embeddable_count": 0,
+    "prompts_used": null,
+    "errors": [
+      "Expecting ',' delimiter: line 21 column 4 (char 2578)"
+    ]
+  }
+}

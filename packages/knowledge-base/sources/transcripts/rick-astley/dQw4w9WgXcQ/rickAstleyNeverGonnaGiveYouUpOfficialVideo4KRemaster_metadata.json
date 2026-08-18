@@ -1,0 +1,32 @@
+{
+  "title": "Rick Astley - Never Gonna Give You Up (Official Video) (4K Remaster)",
+  "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+  "id": "dQw4w9WgXcQ",
+  "categories": [],
+  "tags": [],
+  "description": "",
+  "chapters": [],
+  "transcript_segment_count": 61,
+  "rag_pipeline": {
+    "status": "ok",
+    "embeddable_count": 1,
+    "prompts_used": [
+      "disclosure.content_analysis",
+      "document_classification",
+      "rag_ingestion"
+    ],
+    "errors": [
+      "ingestion_produced_no_chunks; fell_back_to_full_text"
+    ]
+  },
+  "trace_map": {
+    "json_path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/sources/transcripts/2026-08-15/dQw4w9WgXcQ/rickAstleyNeverGonnaGiveYouUpOfficialVideo4KRemaster_trace_map.json",
+    "md_path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/sources/transcripts/2026-08-15/dQw4w9WgXcQ/rickAstleyNeverGonnaGiveYouUpOfficialVideo4KRemaster_trace_map.md",
+    "node_count": 1,
+    "edge_count": 0,
+    "coverage_fraction": 0.0,
+    "valid": true,
+    "error_count": 0,
+    "gap_count": 9
+  }
+}

@@ -1,0 +1,1067 @@
+{
+  "schemaVersion": "trace-map.v1",
+  "sourceId": "src:911ba513e9ff855d",
+  "sourceType": "video",
+  "sourceUrl": "https://www.youtube.com/watch?v=4N_DcI0s_-U",
+  "sourceHash": "sha256:c0183d931d6634a126f3ab83355590c718371dbc5e9612b030211ecd9961f543",
+  "contentVersion": 1,
+  "reviewState": "unreviewed",
+  "nodes": [
+    {
+      "id": "src:911ba513e9ff855d",
+      "type": "source",
+      "label": "Gravity Physicist on DARPA Anti-Gravity, Dark Energy, & God | Claudia de Rham",
+      "url": "https://www.youtube.com/watch?v=4N_DcI0s_-U",
+      "sourceType": "video",
+      "contentType": "media transcript",
+      "integrityFlags": [
+        "transcript_artifacts",
+        "conversational_filler"
+      ],
+      "classificationMarks": [],
+      "ingestionRecommendation": "proceed"
+    },
+    {
+      "id": "seg:911ba513e9ff855d:c01",
+      "type": "segment",
+      "label": "c01",
+      "chunkId": "c01",
+      "headingPath": "Theoretical Physics / Black Holes and Dualities",
+      "evidentiaryDensity": "medium",
+      "overlapNote": "Starts at beginning of provided text.",
+      "temporalAnchors": [],
+      "spatialAnchors": [
+        "black hole center",
+        "surface projection"
+      ],
+      "anchor": {
+        "charStart": 16,
+        "charEnd": 1570,
+        "segmentStart": 1,
+        "segmentEnd": 44,
+        "startSeconds": 2.6,
+        "endSeconds": 100.76,
+        "method": "prefix_suffix",
+        "excerpt": "but in fact, those are speculations. if you ask me, i would say we have no evidence of anything at all. all we know is that um things get very complicated. but assuming that you can trust your theory and then start to bridge it to something"
+      },
+      "excerpt": "But in fact, those are speculations. If you ask me, I would say we have no evidence of anything at all. All we know is that um things get very complicated. But assuming that you can trust your theory and then start to bridge it to something"
+    },
+    {
+      "id": "seg:911ba513e9ff855d:c02",
+      "type": "segment",
+      "label": "c02",
+      "chunkId": "c02",
+      "headingPath": "Cosmology / Surface of Last Scattering",
+      "evidentiaryDensity": "high",
+      "overlapNote": "Covers the transition from particle soup to photon freedom.",
+      "temporalAnchors": [
+        "380,000 years after the Big Bang"
+      ],
+      "spatialAnchors": [
+        "early universe",
+        "surface of last scattering"
+      ],
+      "anchor": {
+        "charStart": 2650,
+        "charEnd": 5015,
+        "segmentStart": 78,
+        "segmentEnd": 146,
+        "startSeconds": 165.16,
+        "endSeconds": 325.2,
+        "method": "prefix_suffix",
+        "excerpt": "so, when universe was really really young, it was very hot, very dense, and rather than being beautiful as it is now, it was more like a a soup of fundamental particles all mixed in together. and so, if you imagine you are a photon and you'"
+      },
+      "excerpt": "So, when universe was really really young, it was very hot, very dense, and rather than being beautiful as it is now, it was more like a a soup of fundamental particles all mixed in together. And so, if you imagine you are a photon and you'"
+    },
+    {
+      "id": "seg:911ba513e9ff855d:c03",
+      "type": "segment",
+      "label": "c03",
+      "chunkId": "c03",
+      "headingPath": "Cosmology / Cosmic Microwave Background and Quantum Fluctuations",
+      "evidentiaryDensity": "high",
+      "overlapNote": "Discusses CMB and the missions that measured it.",
+      "temporalAnchors": [
+        "end of the last century"
+      ],
+      "spatialAnchors": [
+        "sky",
+        "universe"
+      ],
+      "anchor": {
+        "charStart": 5016,
+        "charEnd": 7594,
+        "segmentStart": 146,
+        "segmentEnd": 228,
+        "startSeconds": 321.2,
+        "endSeconds": 489.20000000000005,
+        "method": "prefix_suffix",
+        "excerpt": "this surface is the origin of the cosmic microwave background, which is what we observe today as the faint microwave radiation permeating the universe. okay. [snorts] >> so looking at that in fact tells us a lot about how the universe was w"
+      },
+      "excerpt": "This surface is the origin of the cosmic microwave background, which is what we observe today as the faint microwave radiation permeating the universe. ... In what we can see is that the surface the temperature of the sky on that surface is"
+    },
+    {
+      "id": "seg:911ba513e9ff855d:c04",
+      "type": "segment",
+      "label": "c04",
+      "chunkId": "c04",
+      "headingPath": "Cosmology / Age of the Universe Debate",
+      "evidentiaryDensity": "medium",
+      "overlapNote": "Discusses the 13.8 vs 26.7 billion year age debate.",
+      "temporalAnchors": [
+        "2023",
+        "13.8 billion years",
+        "26.7 billion years"
+      ],
+      "spatialAnchors": [],
+      "excerpt": "Now, wasn't there an argument... back in 2023... about whether or not the universe was around 13 billion years old versus 26 billion? ... typically nowadays we say it's 13.8 billion, something like that. ... Rajendra Gupta of the University",
+      "anchor": {
+        "charStart": 7594,
+        "charEnd": 13628,
+        "segmentStart": 228,
+        "segmentEnd": 431,
+        "startSeconds": 486.04,
+        "endSeconds": 850.9200000000001,
+        "method": "interpolated",
+        "excerpt": " and before we had that, there were all the possibilities out there, like cosmic strings and other kind of models that could potentially have explained observation. and since the first satellite measurements of the temperature of the sky, w"
+      }
+    },
+    {
+      "id": "seg:911ba513e9ff855d:c05",
+      "type": "segment",
+      "label": "c05",
+      "chunkId": "c05",
+      "headingPath": "Philosophy / Purpose and Creation",
+      "evidentiaryDensity": "low",
+      "overlapNote": "Philosophical discussion on the lack of inherent purpose in the universe.",
+      "temporalAnchors": [],
+      "spatialAnchors": [
+        "Earth",
+        "Galaxy"
+      ],
+      "anchor": {
+        "charStart": 13628,
+        "charEnd": 19404,
+        "segmentStart": 431,
+        "segmentEnd": 609,
+        "startSeconds": 846.2,
+        "endSeconds": 1187.8400000000001,
+        "method": "prefix_suffix",
+        "excerpt": "i believe in physics. so i believe that something something must have happened. no, the the the curious question is it's much more natural than nothing was there. if if you ask me, what is what is uh the highest probability of the outcome? "
+      },
+      "excerpt": "I believe in physics. So I believe that something something must have happened. ... the curious question is it's much more natural than nothing was there. ... I don't need to have something with its own intelligence or its own being to expl"
+    },
+    {
+      "id": "top:a9c7890d06f9",
+      "type": "topic",
+      "label": "Theoretical Physics / Black Holes and Dualities"
+    },
+    {
+      "id": "top:f7e608744982",
+      "type": "topic",
+      "label": "Cosmology / Surface of Last Scattering"
+    },
+    {
+      "id": "top:cc6811299619",
+      "type": "topic",
+      "label": "Cosmology / Cosmic Microwave Background and Quantum Fluctuations"
+    },
+    {
+      "id": "top:764a03c55727",
+      "type": "topic",
+      "label": "Cosmology / Age of the Universe Debate"
+    },
+    {
+      "id": "top:b70c725bd4d9",
+      "type": "topic",
+      "label": "Philosophy / Purpose and Creation"
+    },
+    {
+      "id": "clm:911ba513e9ff855d:9a6ae4e919d1",
+      "type": "claim",
+      "label": "Bridging theories requires unknown unstable energy",
+      "anchor": {
+        "charStart": 16,
+        "charEnd": 1570,
+        "segmentStart": 1,
+        "segmentEnd": 44,
+        "startSeconds": 2.6,
+        "endSeconds": 100.76,
+        "method": "prefix_suffix",
+        "excerpt": "but in fact, those are speculations. if you ask me, i would say we have no evidence of anything at all. all we know is that um things get very complicated. but assuming that you can trust your theory and then start to bridge it to something"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:911ba513e9ff855d:986f904d34a5",
+      "type": "claim",
+      "label": "Black holes are equivalent to projections on surfaces without gravity",
+      "anchor": {
+        "charStart": 16,
+        "charEnd": 1570,
+        "segmentStart": 1,
+        "segmentEnd": 44,
+        "startSeconds": 2.6,
+        "endSeconds": 100.76,
+        "method": "prefix_suffix",
+        "excerpt": "but in fact, those are speculations. if you ask me, i would say we have no evidence of anything at all. all we know is that um things get very complicated. but assuming that you can trust your theory and then start to bridge it to something"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:911ba513e9ff855d:45adf49c667a",
+      "type": "claim",
+      "label": "Early universe was a soup of fundamental particles",
+      "anchor": {
+        "charStart": 2650,
+        "charEnd": 5015,
+        "segmentStart": 78,
+        "segmentEnd": 146,
+        "startSeconds": 165.16,
+        "endSeconds": 325.2,
+        "method": "prefix_suffix",
+        "excerpt": "so, when universe was really really young, it was very hot, very dense, and rather than being beautiful as it is now, it was more like a a soup of fundamental particles all mixed in together. and so, if you imagine you are a photon and you'"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:911ba513e9ff855d:e6caa7a704a7",
+      "type": "claim",
+      "label": "Photons became free approximately 380,000 years after the Big Bang",
+      "anchor": {
+        "charStart": 2650,
+        "charEnd": 5015,
+        "segmentStart": 78,
+        "segmentEnd": 146,
+        "startSeconds": 165.16,
+        "endSeconds": 325.2,
+        "method": "prefix_suffix",
+        "excerpt": "so, when universe was really really young, it was very hot, very dense, and rather than being beautiful as it is now, it was more like a a soup of fundamental particles all mixed in together. and so, if you imagine you are a photon and you'"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:911ba513e9ff855d:85fc12e5bde2",
+      "type": "claim",
+      "label": "Surface of last scattering marks transition from opaque to transparent universe",
+      "anchor": {
+        "charStart": 2650,
+        "charEnd": 5015,
+        "segmentStart": 78,
+        "segmentEnd": 146,
+        "startSeconds": 165.16,
+        "endSeconds": 325.2,
+        "method": "prefix_suffix",
+        "excerpt": "so, when universe was really really young, it was very hot, very dense, and rather than being beautiful as it is now, it was more like a a soup of fundamental particles all mixed in together. and so, if you imagine you are a photon and you'"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:911ba513e9ff855d:3427e471326d",
+      "type": "claim",
+      "label": "CMB temperature is uniform within one part in 100,000",
+      "anchor": {
+        "charStart": 5016,
+        "charEnd": 7594,
+        "segmentStart": 146,
+        "segmentEnd": 228,
+        "startSeconds": 321.2,
+        "endSeconds": 489.20000000000005,
+        "method": "prefix_suffix",
+        "excerpt": "this surface is the origin of the cosmic microwave background, which is what we observe today as the faint microwave radiation permeating the universe. okay. [snorts] >> so looking at that in fact tells us a lot about how the universe was w"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:911ba513e9ff855d:ff00a736fd82",
+      "type": "claim",
+      "label": "Sky temperature fluctuations originate from quantum fluctuations after the Big Bang",
+      "anchor": {
+        "charStart": 5016,
+        "charEnd": 7594,
+        "segmentStart": 146,
+        "segmentEnd": 228,
+        "startSeconds": 321.2,
+        "endSeconds": 489.20000000000005,
+        "method": "prefix_suffix",
+        "excerpt": "this surface is the origin of the cosmic microwave background, which is what we observe today as the faint microwave radiation permeating the universe. okay. [snorts] >> so looking at that in fact tells us a lot about how the universe was w"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:911ba513e9ff855d:8d734c581cbc",
+      "type": "claim",
+      "label": "COBE, WMAP, and Planck missions measured sky temperature",
+      "anchor": {
+        "charStart": 5016,
+        "charEnd": 7594,
+        "segmentStart": 146,
+        "segmentEnd": 228,
+        "startSeconds": 321.2,
+        "endSeconds": 489.20000000000005,
+        "method": "prefix_suffix",
+        "excerpt": "this surface is the origin of the cosmic microwave background, which is what we observe today as the faint microwave radiation permeating the universe. okay. [snorts] >> so looking at that in fact tells us a lot about how the universe was w"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:911ba513e9ff855d:fc9ca592e3f0",
+      "type": "claim",
+      "label": "Standard age of universe is 13.8 billion years",
+      "anchor": {
+        "charStart": 7594,
+        "charEnd": 13628,
+        "segmentStart": 228,
+        "segmentEnd": 431,
+        "startSeconds": 486.04,
+        "endSeconds": 850.9200000000001,
+        "method": "interpolated",
+        "excerpt": " and before we had that, there were all the possibilities out there, like cosmic strings and other kind of models that could potentially have explained observation. and since the first satellite measurements of the temperature of the sky, w"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:911ba513e9ff855d:5a3799de653e",
+      "type": "claim",
+      "label": "Rajendra Gupta suggests universe may be 26.7 billion years old",
+      "anchor": {
+        "charStart": 7594,
+        "charEnd": 13628,
+        "segmentStart": 228,
+        "segmentEnd": 431,
+        "startSeconds": 486.04,
+        "endSeconds": 850.9200000000001,
+        "method": "interpolated",
+        "excerpt": " and before we had that, there were all the possibilities out there, like cosmic strings and other kind of models that could potentially have explained observation. and since the first satellite measurements of the temperature of the sky, w"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:911ba513e9ff855d:b6641d817d9c",
+      "type": "claim",
+      "label": "JWST observed mature galaxies earlier than expected",
+      "anchor": {
+        "charStart": 7594,
+        "charEnd": 13628,
+        "segmentStart": 228,
+        "segmentEnd": 431,
+        "startSeconds": 486.04,
+        "endSeconds": 850.9200000000001,
+        "method": "interpolated",
+        "excerpt": " and before we had that, there were all the possibilities out there, like cosmic strings and other kind of models that could potentially have explained observation. and since the first satellite measurements of the temperature of the sky, w"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:911ba513e9ff855d:2c6f8f8ada7f",
+      "type": "claim",
+      "label": "Speaker believes the universe is a random anomaly without inherent purpose",
+      "anchor": {
+        "charStart": 13628,
+        "charEnd": 19404,
+        "segmentStart": 431,
+        "segmentEnd": 609,
+        "startSeconds": 846.2,
+        "endSeconds": 1187.8400000000001,
+        "method": "prefix_suffix",
+        "excerpt": "i believe in physics. so i believe that something something must have happened. no, the the the curious question is it's much more natural than nothing was there. if if you ask me, what is what is uh the highest probability of the outcome? "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:911ba513e9ff855d:7e09228d3d20",
+      "type": "claim",
+      "label": "Science is viewed as more creative than intelligence-based creation theories",
+      "anchor": {
+        "charStart": 13628,
+        "charEnd": 19404,
+        "segmentStart": 431,
+        "segmentEnd": 609,
+        "startSeconds": 846.2,
+        "endSeconds": 1187.8400000000001,
+        "method": "prefix_suffix",
+        "excerpt": "i believe in physics. so i believe that something something must have happened. no, the the the curious question is it's much more natural than nothing was there. if if you ask me, what is what is uh the highest probability of the outcome? "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:911ba513e9ff855d:0dd1fa83b602",
+      "type": "claim",
+      "label": "Human purpose is self-inflicted/constructed",
+      "anchor": {
+        "charStart": 13628,
+        "charEnd": 19404,
+        "segmentStart": 431,
+        "segmentEnd": 609,
+        "startSeconds": 846.2,
+        "endSeconds": 1187.8400000000001,
+        "method": "prefix_suffix",
+        "excerpt": "i believe in physics. so i believe that something something must have happened. no, the the the curious question is it's much more natural than nothing was there. if if you ask me, what is what is uh the highest probability of the outcome? "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "ent:911ba513e9ff855d:topic:574914a1c748",
+      "type": "entity",
+      "label": "Surface of Last Scattering",
+      "entityType": "TOPIC",
+      "state": "Corroborated",
+      "excerpt": "The surface of last scattering is the point in the early universe approximately 380,000 years after the Big Bang when photons became free streaming after decoupling from matter marking the transition from an opaque to a transparent universe",
+      "anchor": {
+        "charStart": 4755,
+        "charEnd": 5015,
+        "segmentStart": 139,
+        "segmentEnd": 146,
+        "startSeconds": 307.36,
+        "endSeconds": 325.2,
+        "method": "prefix_suffix",
+        "excerpt": "the surface of last scattering is the point in the early universe approximately 380,000 years after the big bang when photos became when photons became free streaming after decoupling from matter marking the transition from an opaque to a t"
+      }
+    },
+    {
+      "id": "ent:911ba513e9ff855d:event:e54f7ba616c2",
+      "type": "entity",
+      "label": "Decoupling of photons from matter",
+      "entityType": "EVENT",
+      "state": "Corroborated",
+      "excerpt": "as the universe cooled down, it relaxed a little bit, it became not as hot, and the electrons got trapped around nuclei, and so those created neutral structure. And when that happened, the photons could all of a sudden go freely.",
+      "anchor": {
+        "charStart": 3035,
+        "charEnd": 3264,
+        "segmentStart": 88,
+        "segmentEnd": 96,
+        "startSeconds": 187.959,
+        "endSeconds": 209.12,
+        "method": "exact",
+        "excerpt": "as the universe cooled down, it relaxed a little bit, it became not as hot, and the electrons got trapped around nuclei, and so those created neutral structure. and when that happened, the photons could all of a sudden go freely."
+      }
+    },
+    {
+      "id": "ent:911ba513e9ff855d:location:d874b26a9132",
+      "type": "entity",
+      "label": "Early Universe",
+      "entityType": "LOCATION",
+      "state": "Corroborated",
+      "excerpt": "when universe was really really young, it was very hot, very dense, and rather than being beautiful as it is now, it was more like a a soup of fundamental particles all mixed in together.",
+      "anchor": {
+        "charStart": 2654,
+        "charEnd": 2841,
+        "segmentStart": 78,
+        "segmentEnd": 83,
+        "startSeconds": 165.16,
+        "endSeconds": 183.08,
+        "method": "exact",
+        "excerpt": "when universe was really really young, it was very hot, very dense, and rather than being beautiful as it is now, it was more like a a soup of fundamental particles all mixed in together."
+      }
+    },
+    {
+      "id": "ent:911ba513e9ff855d:evidence:3b8e2f037cb4",
+      "type": "entity",
+      "label": "Cosmic Microwave Background",
+      "entityType": "EVIDENCE"
+    },
+    {
+      "id": "ent:911ba513e9ff855d:evidence:3196a7e48741",
+      "type": "entity",
+      "label": "Planck",
+      "entityType": "EVIDENCE"
+    },
+    {
+      "id": "ent:911ba513e9ff855d:evidence:44c8cdb0b8d1",
+      "type": "entity",
+      "label": "WMAP",
+      "entityType": "EVIDENCE"
+    },
+    {
+      "id": "ent:911ba513e9ff855d:evidence:82390f91b58f",
+      "type": "entity",
+      "label": "COBE",
+      "entityType": "EVIDENCE"
+    },
+    {
+      "id": "ent:911ba513e9ff855d:event:97d81fbe0ba1",
+      "type": "entity",
+      "label": "Big Bang",
+      "entityType": "EVENT"
+    },
+    {
+      "id": "ent:911ba513e9ff855d:location:574914a1c748",
+      "type": "entity",
+      "label": "Surface of last scattering",
+      "entityType": "LOCATION"
+    },
+    {
+      "id": "ent:911ba513e9ff855d:topic:adec6614cb9e",
+      "type": "entity",
+      "label": "Quantum fluctuations",
+      "entityType": "TOPIC"
+    },
+    {
+      "id": "ent:911ba513e9ff855d:personnel:3ca9e6cfc965",
+      "type": "entity",
+      "label": "Rajendra Gupta",
+      "entityType": "PERSONNEL",
+      "role": "researcher",
+      "credibilityTier": 7,
+      "state": "Corroborated",
+      "excerpt": "Rajendra Gupta of the University of Ottawa, in a study published in the Monthly Notices of the Royal Astronomical Society, suggests a much older age of 26.7 billion years.",
+      "anchor": {
+        "charStart": 11702,
+        "charEnd": 11886,
+        "segmentStart": 368,
+        "segmentEnd": 373,
+        "startSeconds": 728.12,
+        "endSeconds": 741.76,
+        "method": "prefix_suffix",
+        "excerpt": "rajendra gupta of the university of ottawa, in a study published in the monthly notices of the royal astronomical astronomical society, suggests a much older age of 26.7 billion years."
+      }
+    },
+    {
+      "id": "ent:911ba513e9ff855d:organization:a49e75ace15c",
+      "type": "entity",
+      "label": "University of Ottawa",
+      "entityType": "ORGANIZATION",
+      "state": "Observed",
+      "excerpt": "Rajendra Gupta of the University of Ottawa",
+      "anchor": {
+        "charStart": 11702,
+        "charEnd": 11744,
+        "segmentStart": 368,
+        "segmentEnd": 369,
+        "startSeconds": 728.12,
+        "endSeconds": 733.24,
+        "method": "exact",
+        "excerpt": "rajendra gupta of the university of ottawa"
+      }
+    },
+    {
+      "id": "ent:911ba513e9ff855d:organization:680bc16c79c9",
+      "type": "entity",
+      "label": "Monthly Notices of the Royal Astronomical Society",
+      "entityType": "ORGANIZATION",
+      "state": "Observed",
+      "excerpt": "a study published in the Monthly Notices of the Royal Astronomical Society",
+      "anchor": {
+        "charStart": 11749,
+        "charEnd": 11823,
+        "segmentStart": 369,
+        "segmentEnd": 372,
+        "startSeconds": 730.48,
+        "endSeconds": 739.36,
+        "method": "prefix_only",
+        "excerpt": "a study published in the monthly notices of the royal astronomical astrono"
+      }
+    },
+    {
+      "id": "ent:911ba513e9ff855d:organization:1ac23fcbdbe6",
+      "type": "entity",
+      "label": "James Webb Space Telescope",
+      "entityType": "ORGANIZATION",
+      "aliases": [
+        "JWST"
+      ],
+      "state": "Observed",
+      "excerpt": "observations of early mature galaxies by the James Webb Space Telescope",
+      "anchor": {
+        "charStart": 11913,
+        "charEnd": 11984,
+        "segmentStart": 374,
+        "segmentEnd": 376,
+        "startSeconds": 739.36,
+        "endSeconds": 748.0,
+        "method": "exact",
+        "excerpt": "observations of early mature galaxies by the james webb space telescope"
+      }
+    },
+    {
+      "id": "ent:911ba513e9ff855d:evidence:4a2865ac6f06",
+      "type": "entity",
+      "label": "JWST observations of early mature galaxies",
+      "entityType": "EVIDENCE",
+      "state": "Corroborated",
+      "excerpt": "observations of early mature galaxies by the James Webb Space Telescope, which seems to contradict the standard age of the universe",
+      "anchor": {
+        "charStart": 11913,
+        "charEnd": 12044,
+        "segmentStart": 374,
+        "segmentEnd": 378,
+        "startSeconds": 739.36,
+        "endSeconds": 750.68,
+        "method": "exact",
+        "excerpt": "observations of early mature galaxies by the james webb space telescope, which seems to contradict the standard age of the universe"
+      }
+    },
+    {
+      "id": "ent:911ba513e9ff855d:event:bdc5b242abd6",
+      "type": "entity",
+      "label": "2023 debate on universe age",
+      "entityType": "EVENT",
+      "state": "Observed",
+      "excerpt": "back in 2023... about whether or not the universe was around 13 billion years old versus 26 billion?"
+    },
+    {
+      "id": "ent:911ba513e9ff855d:topic:c0eb4fd7bd99",
+      "type": "entity",
+      "label": "Age of the universe",
+      "entityType": "TOPIC",
+      "state": "Observed",
+      "excerpt": "whether or not the universe was around 13 billion years old versus 26 billion",
+      "anchor": {
+        "charStart": 10136,
+        "charEnd": 10213,
+        "segmentStart": 313,
+        "segmentEnd": 315,
+        "startSeconds": 639.6,
+        "endSeconds": 648.76,
+        "method": "exact",
+        "excerpt": "whether or not the universe was around 13 billion years old versus 26 billion"
+      }
+    },
+    {
+      "id": "oq:911ba513e9ff855d:73ba515a3a52",
+      "type": "open_question",
+      "label": "Verify the identity and credentials of the speaker (physicist) from the YouTube video metadata.",
+      "basis": "analysis.content_assessment.follow_up_needed"
+    },
+    {
+      "id": "oq:911ba513e9ff855d:a87981db8200",
+      "type": "open_question",
+      "label": "Verify the exact publication details of Rajendra Gupta's study in Monthly Notices of the Royal Astronomical Society (2023).",
+      "basis": "analysis.content_assessment.follow_up_needed"
+    },
+    {
+      "id": "oq:911ba513e9ff855d:667210e49b32",
+      "type": "open_question",
+      "label": "Verify the claim about the uniformity of CMB temperature to one part in 100,000 against Planck mission results.",
+      "basis": "analysis.content_assessment.follow_up_needed"
+    },
+    {
+      "id": "oq:911ba513e9ff855d:eb79a935f382",
+      "type": "open_question",
+      "label": "Check if the transcript is complete and accurate; note any truncation or missing segments.",
+      "basis": "analysis.content_assessment.follow_up_needed"
+    }
+  ],
+  "edges": [
+    {
+      "from": "src:911ba513e9ff855d",
+      "to": "seg:911ba513e9ff855d:c01",
+      "type": "contains"
+    },
+    {
+      "from": "src:911ba513e9ff855d",
+      "to": "seg:911ba513e9ff855d:c02",
+      "type": "contains"
+    },
+    {
+      "from": "src:911ba513e9ff855d",
+      "to": "seg:911ba513e9ff855d:c03",
+      "type": "contains"
+    },
+    {
+      "from": "src:911ba513e9ff855d",
+      "to": "seg:911ba513e9ff855d:c04",
+      "type": "contains"
+    },
+    {
+      "from": "src:911ba513e9ff855d",
+      "to": "seg:911ba513e9ff855d:c05",
+      "type": "contains"
+    },
+    {
+      "from": "seg:911ba513e9ff855d:c01",
+      "to": "seg:911ba513e9ff855d:c02",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:911ba513e9ff855d:c02",
+      "to": "seg:911ba513e9ff855d:c03",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:911ba513e9ff855d:c03",
+      "to": "seg:911ba513e9ff855d:c04",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:911ba513e9ff855d:c04",
+      "to": "seg:911ba513e9ff855d:c05",
+      "type": "precedes"
+    },
+    {
+      "from": "top:a9c7890d06f9",
+      "to": "seg:911ba513e9ff855d:c01",
+      "type": "contains"
+    },
+    {
+      "from": "top:a9c7890d06f9",
+      "to": "seg:911ba513e9ff855d:c01",
+      "type": "introduced_by"
+    },
+    {
+      "from": "top:f7e608744982",
+      "to": "seg:911ba513e9ff855d:c02",
+      "type": "contains"
+    },
+    {
+      "from": "top:f7e608744982",
+      "to": "seg:911ba513e9ff855d:c02",
+      "type": "introduced_by"
+    },
+    {
+      "from": "top:cc6811299619",
+      "to": "seg:911ba513e9ff855d:c03",
+      "type": "contains"
+    },
+    {
+      "from": "top:cc6811299619",
+      "to": "seg:911ba513e9ff855d:c03",
+      "type": "introduced_by"
+    },
+    {
+      "from": "top:764a03c55727",
+      "to": "seg:911ba513e9ff855d:c04",
+      "type": "contains"
+    },
+    {
+      "from": "top:764a03c55727",
+      "to": "seg:911ba513e9ff855d:c04",
+      "type": "introduced_by"
+    },
+    {
+      "from": "top:b70c725bd4d9",
+      "to": "seg:911ba513e9ff855d:c05",
+      "type": "contains"
+    },
+    {
+      "from": "top:b70c725bd4d9",
+      "to": "seg:911ba513e9ff855d:c05",
+      "type": "introduced_by"
+    },
+    {
+      "from": "seg:911ba513e9ff855d:c01",
+      "to": "clm:911ba513e9ff855d:9a6ae4e919d1",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:911ba513e9ff855d:9a6ae4e919d1",
+      "to": "top:a9c7890d06f9",
+      "type": "about"
+    },
+    {
+      "from": "seg:911ba513e9ff855d:c01",
+      "to": "clm:911ba513e9ff855d:986f904d34a5",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:911ba513e9ff855d:986f904d34a5",
+      "to": "top:a9c7890d06f9",
+      "type": "about"
+    },
+    {
+      "from": "seg:911ba513e9ff855d:c02",
+      "to": "clm:911ba513e9ff855d:45adf49c667a",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:911ba513e9ff855d:45adf49c667a",
+      "to": "top:f7e608744982",
+      "type": "about"
+    },
+    {
+      "from": "seg:911ba513e9ff855d:c02",
+      "to": "clm:911ba513e9ff855d:e6caa7a704a7",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:911ba513e9ff855d:e6caa7a704a7",
+      "to": "top:f7e608744982",
+      "type": "about"
+    },
+    {
+      "from": "seg:911ba513e9ff855d:c02",
+      "to": "clm:911ba513e9ff855d:85fc12e5bde2",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:911ba513e9ff855d:85fc12e5bde2",
+      "to": "top:f7e608744982",
+      "type": "about"
+    },
+    {
+      "from": "seg:911ba513e9ff855d:c03",
+      "to": "clm:911ba513e9ff855d:3427e471326d",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:911ba513e9ff855d:3427e471326d",
+      "to": "top:cc6811299619",
+      "type": "about"
+    },
+    {
+      "from": "seg:911ba513e9ff855d:c03",
+      "to": "clm:911ba513e9ff855d:ff00a736fd82",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:911ba513e9ff855d:ff00a736fd82",
+      "to": "top:cc6811299619",
+      "type": "about"
+    },
+    {
+      "from": "seg:911ba513e9ff855d:c03",
+      "to": "clm:911ba513e9ff855d:8d734c581cbc",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:911ba513e9ff855d:8d734c581cbc",
+      "to": "top:cc6811299619",
+      "type": "about"
+    },
+    {
+      "from": "seg:911ba513e9ff855d:c04",
+      "to": "clm:911ba513e9ff855d:fc9ca592e3f0",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:911ba513e9ff855d:fc9ca592e3f0",
+      "to": "top:764a03c55727",
+      "type": "about"
+    },
+    {
+      "from": "seg:911ba513e9ff855d:c04",
+      "to": "clm:911ba513e9ff855d:5a3799de653e",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:911ba513e9ff855d:5a3799de653e",
+      "to": "top:764a03c55727",
+      "type": "about"
+    },
+    {
+      "from": "seg:911ba513e9ff855d:c04",
+      "to": "clm:911ba513e9ff855d:b6641d817d9c",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:911ba513e9ff855d:b6641d817d9c",
+      "to": "top:764a03c55727",
+      "type": "about"
+    },
+    {
+      "from": "seg:911ba513e9ff855d:c05",
+      "to": "clm:911ba513e9ff855d:2c6f8f8ada7f",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:911ba513e9ff855d:2c6f8f8ada7f",
+      "to": "top:b70c725bd4d9",
+      "type": "about"
+    },
+    {
+      "from": "seg:911ba513e9ff855d:c05",
+      "to": "clm:911ba513e9ff855d:7e09228d3d20",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:911ba513e9ff855d:7e09228d3d20",
+      "to": "top:b70c725bd4d9",
+      "type": "about"
+    },
+    {
+      "from": "seg:911ba513e9ff855d:c05",
+      "to": "clm:911ba513e9ff855d:0dd1fa83b602",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:911ba513e9ff855d:0dd1fa83b602",
+      "to": "top:b70c725bd4d9",
+      "type": "about"
+    },
+    {
+      "from": "seg:911ba513e9ff855d:c02",
+      "to": "ent:911ba513e9ff855d:topic:574914a1c748",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:911ba513e9ff855d:c02",
+      "to": "ent:911ba513e9ff855d:event:e54f7ba616c2",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:911ba513e9ff855d:c02",
+      "to": "ent:911ba513e9ff855d:location:d874b26a9132",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:911ba513e9ff855d:c03",
+      "to": "ent:911ba513e9ff855d:evidence:3b8e2f037cb4",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:911ba513e9ff855d:c03",
+      "to": "ent:911ba513e9ff855d:evidence:3196a7e48741",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:911ba513e9ff855d:c03",
+      "to": "ent:911ba513e9ff855d:evidence:44c8cdb0b8d1",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:911ba513e9ff855d:c03",
+      "to": "ent:911ba513e9ff855d:evidence:82390f91b58f",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:911ba513e9ff855d:c03",
+      "to": "ent:911ba513e9ff855d:event:97d81fbe0ba1",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:911ba513e9ff855d:c03",
+      "to": "ent:911ba513e9ff855d:location:574914a1c748",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:911ba513e9ff855d:c03",
+      "to": "ent:911ba513e9ff855d:topic:adec6614cb9e",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:911ba513e9ff855d:c04",
+      "to": "ent:911ba513e9ff855d:personnel:3ca9e6cfc965",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:911ba513e9ff855d:c04",
+      "to": "ent:911ba513e9ff855d:organization:a49e75ace15c",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:911ba513e9ff855d:c04",
+      "to": "ent:911ba513e9ff855d:organization:680bc16c79c9",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:911ba513e9ff855d:c04",
+      "to": "ent:911ba513e9ff855d:organization:1ac23fcbdbe6",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:911ba513e9ff855d:c04",
+      "to": "ent:911ba513e9ff855d:evidence:4a2865ac6f06",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:911ba513e9ff855d:c04",
+      "to": "ent:911ba513e9ff855d:event:bdc5b242abd6",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:911ba513e9ff855d:c04",
+      "to": "ent:911ba513e9ff855d:topic:c0eb4fd7bd99",
+      "type": "mentions"
+    },
+    {
+      "from": "src:911ba513e9ff855d",
+      "to": "oq:911ba513e9ff855d:73ba515a3a52",
+      "type": "raises"
+    },
+    {
+      "from": "src:911ba513e9ff855d",
+      "to": "oq:911ba513e9ff855d:a87981db8200",
+      "type": "raises"
+    },
+    {
+      "from": "src:911ba513e9ff855d",
+      "to": "oq:911ba513e9ff855d:667210e49b32",
+      "type": "raises"
+    },
+    {
+      "from": "src:911ba513e9ff855d",
+      "to": "oq:911ba513e9ff855d:eb79a935f382",
+      "type": "raises"
+    }
+  ],
+  "views": {
+    "sourceSpine": [
+      "seg:911ba513e9ff855d:c01",
+      "seg:911ba513e9ff855d:c02",
+      "seg:911ba513e9ff855d:c03",
+      "seg:911ba513e9ff855d:c04",
+      "seg:911ba513e9ff855d:c05"
+    ],
+    "topicRoots": [
+      "top:a9c7890d06f9",
+      "top:f7e608744982",
+      "top:cc6811299619",
+      "top:764a03c55727",
+      "top:b70c725bd4d9"
+    ],
+    "claimRoots": [
+      "clm:911ba513e9ff855d:9a6ae4e919d1",
+      "clm:911ba513e9ff855d:986f904d34a5",
+      "clm:911ba513e9ff855d:45adf49c667a",
+      "clm:911ba513e9ff855d:e6caa7a704a7",
+      "clm:911ba513e9ff855d:85fc12e5bde2",
+      "clm:911ba513e9ff855d:3427e471326d",
+      "clm:911ba513e9ff855d:ff00a736fd82",
+      "clm:911ba513e9ff855d:8d734c581cbc",
+      "clm:911ba513e9ff855d:fc9ca592e3f0",
+      "clm:911ba513e9ff855d:5a3799de653e",
+      "clm:911ba513e9ff855d:b6641d817d9c",
+      "clm:911ba513e9ff855d:2c6f8f8ada7f",
+      "clm:911ba513e9ff855d:7e09228d3d20",
+      "clm:911ba513e9ff855d:0dd1fa83b602"
+    ],
+    "openQuestionRoots": [
+      "oq:911ba513e9ff855d:73ba515a3a52",
+      "oq:911ba513e9ff855d:a87981db8200",
+      "oq:911ba513e9ff855d:667210e49b32",
+      "oq:911ba513e9ff855d:eb79a935f382"
+    ]
+  },
+  "coverage": {
+    "timed": true,
+    "charsAnchored": 18307,
+    "charsTotal": 59125,
+    "fraction": 0.3096,
+    "segmentsCovered": 576,
+    "segmentsTotal": 1838,
+    "pipelineTruncatedAtChars": 24000,
+    "chunkAnchorMethods": {
+      "prefix_suffix": 4,
+      "interpolated": 1
+    }
+  },
+  "generation": {
+    "createdAt": "2026-08-16T03:37:45.327686+00:00",
+    "models": [
+      "deepseek/deepseek-v4-pro",
+      "google/gemini-3-flash"
+    ],
+    "promptsUsed": [
+      "disclosure.content_analysis",
+      "disclosure.ner",
+      "document_classification",
+      "rag_ingestion",
+      "validation"
+    ],
+    "methodologyVersion": "rag-prompt-pipeline/ADR-0001",
+    "pipelineStatus": "ok",
+    "degraded": true
+  },
+  "validation": {
+    "valid": true,
+    "errors": [],
+    "gaps": [
+      "no next_trace nodes — no pipeline stage proposes concrete next sources",
+      "no reading nodes — no interpretive stage exists; readings are never inferred here",
+      "no counter_reading nodes — paired with reading; unproduced for the same reason",
+      "no speaker nodes — diarisation is unavailable — the transcript carries '>>' turn markers but no speaker identities",
+      "no evidence→claim edges — the analysis prompt emits supporting and contradictory evidence as flat lists with no target claim, so evidence carries a stance but names no claim it bears on",
+      "chunk coverage is 31% of the source (18307 of 59125 chars); the pipeline truncates at 24000 chars"
+    ]
+  }
+}

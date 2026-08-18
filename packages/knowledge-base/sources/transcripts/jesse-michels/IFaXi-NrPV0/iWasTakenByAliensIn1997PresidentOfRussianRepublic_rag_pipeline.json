@@ -1,0 +1,172 @@
+{
+  "status": "error",
+  "classification": {
+    "content_type": "witness",
+    "primary_record_hints": [
+      "Testimony",
+      "Sighting",
+      "KeyFigure"
+    ],
+    "hynek_scaffold": "CE4",
+    "classification_marks_detected": [],
+    "language": "english",
+    "ocr_quality": "n/a",
+    "sensitivity": "public",
+    "ingestion_recommendation": "proceed_with_caution",
+    "rationale": "Audio/video podcast transcript of a first-person testimony from a former Russian republic president claiming an alien abduction experience in 1997, corroborated by a witness account. Contains detailed observational narrative but lacks official verification; ingestion recommended with caution due to extraordinary claims.",
+    "confidence": 0.9
+  },
+  "analysis": {
+    "content_assessment": {
+      "source_description": "Transcript of a video interview from the 'American Alchemy' YouTube channel, featuring Kiran Ilum Xenov, former president of the Republic of Kalmykia and FIDE president, recounting an alleged alien abduction in 1997. The interviewer is the channel host; the episode includes a sponsorship segment.",
+      "content_type": "Media / Primary Witness",
+      "provenance": "YouTube video (link provided by user). Transcript origin unverified; likely auto-generated. Chain of custody: Unverified. Mark: UNVERIFIED.",
+      "primary_claims": [
+        "On a night in late September 1997, while president of Kalmykia, Xenov was at his Moscow apartment when a translucent, glowing tube-like structure appeared at the window, through which he was taken aboard a large spacecraft.",
+        "Inside the craft, he saw many beings resembling humans, dressed in yellow garments, who communicated telepathically.",
+        "He requested the beings broadcast their presence to Earth via television, but they refused, stating humanity is at an 'embryonic' civilisational level, citing pollution, deforestation, and 117 armed conflicts.",
+        "The beings told him that intelligent life on Earth, including animals, was created by them, and that humanity's only advance is cooking animals before eating them.",
+        "He traveled to a 'fiery planet' through a porthole and observed beings loading cylinders or boxes onto the ship.",
+        "After returning, three individuals (driver, assistant, friend) had been searching his apartment for over an hour and could not find him; he re-emerged from a bedroom they had checked multiple times.",
+        "He later had meetings with NASA representatives who claimed they officially record about 4,000 UFO cases per year.",
+        "Other world leaders, including Mikhail Gorbachev and an unnamed sitting G7 president, have confided in him about their own extraterrestrial encounters.",
+        "He was debriefed by Russian President Boris Yeltsin and later discussed the event with Vladimir Putin.",
+        "Henry Kissinger, a friend, was present at a conversation where Gorbachev urged Kissinger to 'tell him' something related to UFOs."
+      ],
+      "key_findings": [
+        "Event date: late September 1997.",
+        "Xenov held prominent official positions: President of Kalmykia, President of FIDE (World Chess Federation), member of Russian Parliament, president of the Russian Chamber of Businessmen and Entrepreneurs.",
+        "Three named/semi-named witnesses: Vasili (chief of staff), the driver, and a mutual friend. Vasili provided on-camera corroboration of the search and Xenov's disappearance/reappearance.",
+        "Xenov claims the apartment building had video surveillance at the entrance/exit; no footage of him leaving was found.",
+        "He attended the Artek summer camp as a child and reported seeing a saucer over a football field, plus a military sighting.",
+        "References to Baba Vanga, Constantine Tsiolkovsky, Albert Einstein, Charles Darwin, and Buddhist cosmology in his narrative.",
+        "Interview is on a channel that mixes UFO content with promotional material; tone is credulous."
+      ],
+      "supporting_evidence": [
+        "Witness Vasili's statement corroborates the logistics: arrival, search, surprise reappearance, and Xenov immediately saying 'aliens took me'.",
+        "Xenov's recounting is detailed and consistent throughout the interview.",
+        "He mentions specific locations (Moscow apartment, Kalmykian office) and personal paraphernalia (slippers, phones) that remain in place."
+      ],
+      "contradictory_evidence": [
+        "No independent verification of the NASA meetings or the claimed 4,000 cases statistic; no names, dates, or documents provided.",
+        "The unnamed G7 president's encounter is hearsay; no country or timeframe identified.",
+        "No physical or sensor evidence of the spacecraft or tube, despite its alleged visibility from an open window in a city.",
+        "The 'creation' narrative and 'embryonic civilization' criticism closely mirror common alien contact tropes in science fiction and New Age literature.",
+        "Vasili's testimony is limited to the disappearance, not the alien encounter itself; he was not present for the event.",
+        "The apartment video surveillance claim is unsubstantiated; no footage is shown.",
+        "The source is a monetized YouTube channel (Incogni sponsorship), which may incentivize sensational content."
+      ],
+      "authenticity_notes": "Transcript of a spoken, unsworn interview. No official documents, medical reports, or law enforcement records presented. The assistant's corroboration is on-camera but could be influenced by prior relationship. The narrative shows dream-like qualities (e.g., half-sleep state, telepathic speech, air quality). The claim of missing time aligns with common abduction reports but lacks objective time-stamped evidence.",
+      "redaction_risk": "N/A – spoken-word transcript. No redacted text. Risk of transcription errors or omitted segments.",
+      "duplicate_flag": "No direct duplication detected; appears to be a unique interview. The narrative structure conforms to the classic ‘bedroom window abduction’ subtype, but with a high-profile political witness.",
+      "admissibility": "UNVERIFIED",
+      "follow_up_needed": [
+        "Request from NASA (or National Archives) any record of a meeting with Kiran Ilum Xenov circa 1997–2000, or internal correspondence referencing him.",
+        "Attempt to locate and independently interview the driver and the mutual friend who were present that morning.",
+        "Search Russian government archives and media for any mention of Xenov's debriefing by Yeltsin or discussion with Putin.",
+        "Cross-verify the G7 president claim by identifying heads of state on ocean holidays in the late 1990s and checking their public statements on UFOs."
+      ],
+      "inference_notes": "Inference: The core experience is likely a vivid dream or sleep hallucination, given the description of being in bed, the half-dream state, and the ease of movement from the window. The missing-hour report could be explained by the subject remaining in the apartment unnoticed (e.g., sleeping deeply in a closet or on a balcony) or by witness misperception. The elaborate political network claims serve to bolster credibility but remain unverifiable. The environmentalist and anti-war messages are a recurrent feature of abduction narratives, often reflecting contemporary anxieties. The mention of being 'invited' rather than 'abducted' and the specific detail of pressing a chest button to breathe normally are notable but do not elevate the account beyond psychologically interesting anecdote. No prosaic explanation is exhausted, nor is any anomalous frame required."
+    },
+    "extracted_data": {
+      "persons": [
+        {
+          "name": "Kiran Ilum Xenov",
+          "role": "Former President of Kalmykia (1993–2005?), FIDE President 1995–2018, Russian Senator",
+          "claim": "Alien abduction with telepathic contact in 1997"
+        },
+        {
+          "name": "Vasili",
+          "role": "Chief of Staff / Assistant to Xenov",
+          "claim": "Witnessed Xenov's disappearance and reappearance; corroborates search"
+        },
+        {
+          "name": "Boris Yeltsin",
+          "role": "President of Russia (1991–1999)",
+          "claim": "Allegedly debriefed Xenov after the event"
+        },
+        {
+          "name": "Vladimir Putin",
+          "role": "President/Prime Minister of Russia",
+          "claim": "Allegedly discussed the incident with Xenov"
+        },
+        {
+          "name": "Mikhail Gorbachev",
+          "role": "Former President of the Soviet Union",
+          "claim": "Believed in extraterrestrial contact and urged Kissinger to speak"
+        },
+        {
+          "name": "Henry Kissinger",
+          "role": "Former U.S. Secretary of State",
+          "claim": "Friend of Xenov; present at a conversation with Gorbachev about UFOs"
+        },
+        {
+          "name": "Unnamed G7 President",
+          "role": "President of a G7 nation",
+          "claim": "Had an alien encounter on a fishing/ocean trip; confided in Xenov"
+        },
+        {
+          "name": "Baba Vanga",
+          "role": "Blind Bulgarian prophetess",
+          "claim": "Xenov met her; she answered before questions were fully translated"
+        },
+        {
+          "name": "Dalai Lama",
+          "role": "Spiritual leader of Tibetan Buddhism",
+          "claim": "Close friend of Xenov; discussed aliens and UFOs"
+        },
+        {
+          "name": "NASA representatives",
+          "role": "Unnamed officials",
+          "claim": "Invited Xenov for lunch; stated 4,000 UFO cases recorded annually"
+        },
+        {
+          "name": "Yuri Gagarin",
+          "role": "Cosmonaut",
+          "claim": "Referenced for his 'Let's go!' quote at launch"
+        }
+      ],
+      "organizations": [
+        "NASA (National Aeronautics and Space Administration)",
+        "FIDE (Fédération Internationale des Échecs)",
+        "Russian Parliament",
+        "United States Congress",
+        "Russian Chamber of Businessmen and Entrepreneurs",
+        "Kalmyk Republic Government"
+      ],
+      "dates": [
+        "September 1997 (exact date flexible)",
+        "12 April 1961",
+        "1990s (NASA meetings)",
+        "1997-1998 (interview about 4,000 cases)"
+      ],
+      "topics": [
+        "Alien abduction and telepathic contact",
+        "Critique of human civilization and environmental destruction",
+        "Governmental and political knowledge of UFOs",
+        "Interdimensional travel and multiple dimensions",
+        "Buddhist cosmology and extraterrestrial life",
+        "High-profile conspiracy and elite secrecy",
+        "Witness credibility and political stigma"
+      ],
+      "claims_summary": "A sitting president of a Russian republic claims physical transportation onto a giant alien spacecraft where telepathic beings told him humanity is an inferior created species, and that his experience is known at the highest levels of world governments, including NASA and the U.S. Congress, yet remains undisclosed due to political caution."
+    }
+  },
+  "ingestion": {},
+  "chunks": [],
+  "ner_results": [],
+  "embeddable_texts": [],
+  "metadata": {
+    "provenance": "https://www.youtube.com/watch?v=IFaXi-NrPV0",
+    "filename_hint": "“I Was Taken By Aliens In 1997!” -President of Russian Republic",
+    "prompts_dir": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/ai/prompts"
+  },
+  "errors": [
+    "All LLM providers failed (anthropic/claude-sonnet-5: skipped (HTTP 400); anthropic/claude-opus-4-8: skipped (HTTP 400); deepseek/deepseek-v4-pro: BudgetExhausted: deepseek/deepseek-v4-pro: max_tokens=4096 consumed before any answer was emitted (reasoning=True); raise max_tokens; together/kimi-k3: BudgetExhausted: together/kimi-k3: max_tokens=4096 consumed before any answer was emitted (reasoning=True); raise max_tokens; openai/gpt-5.5: skipped (HTTP 401); groq/gpt-oss-120b: skipped (HTTP 401))"
+  ],
+  "prompts_used": [
+    "document_classification",
+    "disclosure.content_analysis",
+    "rag_ingestion"
+  ]
+}

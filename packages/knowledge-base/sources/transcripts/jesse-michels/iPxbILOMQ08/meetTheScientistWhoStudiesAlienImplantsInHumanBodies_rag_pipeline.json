@@ -1,0 +1,37 @@
+{
+  "status": "error",
+  "classification": {
+    "content_type": "mixed",
+    "primary_record_hints": [
+      "Testimony",
+      "KeyFigure",
+      "Sighting",
+      "Topic"
+    ],
+    "hynek_scaffold": "CE3",
+    "classification_marks_detected": [],
+    "language": "English",
+    "ocr_quality": "n/a",
+    "sensitivity": "public",
+    "ingestion_recommendation": "proceed_with_caution",
+    "rationale": "Interview transcript containing personal abduction testimony, descriptions of alien implant analysis, and discussion of scientific/technical topics. Extraordinary claims warrant caution but no custody issues.",
+    "confidence": 0.8
+  },
+  "analysis": {},
+  "ingestion": {},
+  "chunks": [],
+  "ner_results": [],
+  "embeddable_texts": [],
+  "metadata": {
+    "provenance": "https://www.youtube.com/watch?v=iPxbILOMQ08",
+    "filename_hint": "Meet The Scientist Who Studies Alien Implants in Human Bodies",
+    "prompts_dir": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/ai/prompts"
+  },
+  "errors": [
+    "Expecting ',' delimiter: line 9 column 6 (char 410)"
+  ],
+  "prompts_used": [
+    "document_classification",
+    "disclosure.content_analysis"
+  ]
+}

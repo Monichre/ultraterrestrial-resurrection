@@ -1,0 +1,333 @@
+{
+  "status": "completed",
+  "video_id": "9d30f999d3f1",
+  "summary_file": "/Users/liamellis/Desktop/ultraterrestrial-resurrection/packages/knowledge-base/sources/web/2025-09-05/medium-com_2ddb91e9/medium-com_summary.txt",
+  "entities": {
+    "topics": [
+      "Majestic 12 (MJ-12)",
+      "Roswell Incident (1947)"
+    ],
+    "personnel": [
+      "Dr. Vannevar Bush",
+      "David Grusch"
+    ],
+    "events": [
+      "Roswell Incident (1947)"
+    ],
+    "organizations": [
+      "Majestic 12 Committee",
+      "CIA",
+      "Air Force",
+      "Pentagon"
+    ],
+    "locations": [
+      "Roswell, New Mexico"
+    ],
+    "artifacts": [],
+    "sightings": []
+  },
+  "xata_search_results": {
+    "topics": [
+      {
+        "entity_name": "Majestic 12 (MJ-12)",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Roswell Incident (1947)",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Majestic 12 (MJ-12)",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Roswell Incident (1947)",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": "create_new",
+        "error": null
+      }
+    ],
+    "personnel": [
+      {
+        "entity_name": "Dr. Vannevar Bush",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "personnel",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "David Grusch",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "personnel",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Dr. Vannevar Bush",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "personnel",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "David Grusch",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "personnel",
+        "action_needed": "create_new",
+        "error": null
+      }
+    ],
+    "events": [
+      {
+        "entity_name": "Roswell Incident (1947)",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "events",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Roswell Incident (1947)",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "events",
+        "action_needed": "create_new",
+        "error": null
+      }
+    ],
+    "organizations": [
+      {
+        "entity_name": "Majestic 12 Committee",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "CIA",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Air Force",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Pentagon",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Majestic 12 Committee",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "CIA",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Air Force",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Pentagon",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      }
+    ],
+    "locations": [
+      {
+        "entity_name": "Roswell, New Mexico",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "locations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Roswell, New Mexico",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "locations",
+        "action_needed": "create_new",
+        "error": null
+      }
+    ],
+    "artifacts": [],
+    "sightings": []
+  },
+  "entity_creation_results": {
+    "created_entities": {},
+    "failed_creations": {
+      "topics": [
+        {
+          "entity_name": "Majestic 12 (MJ-12)",
+          "error": "'Records' object has no attribute 'create_many_async'"
+        },
+        {
+          "entity_name": "Roswell Incident (1947)",
+          "error": "'Records' object has no attribute 'create_many_async'"
+        },
+        {
+          "entity_name": "Majestic 12 (MJ-12)",
+          "error": "'Records' object has no attribute 'create_many_async'"
+        },
+        {
+          "entity_name": "Roswell Incident (1947)",
+          "error": "'Records' object has no attribute 'create_many_async'"
+        }
+      ],
+      "personnel": [
+        {
+          "entity_name": "Dr. Vannevar Bush",
+          "error": "'Records' object has no attribute 'create_many_async'"
+        },
+        {
+          "entity_name": "David Grusch",
+          "error": "'Records' object has no attribute 'create_many_async'"
+        },
+        {
+          "entity_name": "Dr. Vannevar Bush",
+          "error": "'Records' object has no attribute 'create_many_async'"
+        },
+        {
+          "entity_name": "David Grusch",
+          "error": "'Records' object has no attribute 'create_many_async'"
+        }
+      ],
+      "events": [
+        {
+          "entity_name": "Roswell Incident (1947)",
+          "error": "'Records' object has no attribute 'create_many_async'"
+        },
+        {
+          "entity_name": "Roswell Incident (1947)",
+          "error": "'Records' object has no attribute 'create_many_async'"
+        }
+      ],
+      "organizations": [
+        {
+          "entity_name": "Majestic 12 Committee",
+          "error": "'Records' object has no attribute 'create_many_async'"
+        },
+        {
+          "entity_name": "CIA",
+          "error": "'Records' object has no attribute 'create_many_async'"
+        },
+        {
+          "entity_name": "Air Force",
+          "error": "'Records' object has no attribute 'create_many_async'"
+        },
+        {
+          "entity_name": "Pentagon",
+          "error": "'Records' object has no attribute 'create_many_async'"
+        },
+        {
+          "entity_name": "Majestic 12 Committee",
+          "error": "'Records' object has no attribute 'create_many_async'"
+        },
+        {
+          "entity_name": "CIA",
+          "error": "'Records' object has no attribute 'create_many_async'"
+        },
+        {
+          "entity_name": "Air Force",
+          "error": "'Records' object has no attribute 'create_many_async'"
+        },
+        {
+          "entity_name": "Pentagon",
+          "error": "'Records' object has no attribute 'create_many_async'"
+        }
+      ],
+      "locations": [
+        {
+          "entity_name": "Roswell, New Mexico",
+          "error": "'Records' object has no attribute 'create_many_async'"
+        },
+        {
+          "entity_name": "Roswell, New Mexico",
+          "error": "'Records' object has no attribute 'create_many_async'"
+        }
+      ]
+    },
+    "statistics": {
+      "total_processed": 0,
+      "total_created": 0,
+      "total_failed": 20
+    },
+    "errors": [
+      "Batch creation failed for topics: 'Records' object has no attribute 'create_many_async'",
+      "Batch creation failed for personnel: 'Records' object has no attribute 'create_many_async'",
+      "Batch creation failed for events: 'Records' object has no attribute 'create_many_async'",
+      "Batch creation failed for organizations: 'Records' object has no attribute 'create_many_async'",
+      "Batch creation failed for locations: 'Records' object has no attribute 'create_many_async'"
+    ]
+  },
+  "total_entities": 10,
+  "total_matches": 20,
+  "total_created": 0
+}

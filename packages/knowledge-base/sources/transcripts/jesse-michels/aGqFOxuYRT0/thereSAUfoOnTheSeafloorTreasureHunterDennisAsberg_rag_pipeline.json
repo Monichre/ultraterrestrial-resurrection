@@ -1,0 +1,37 @@
+{
+  "status": "error",
+  "classification": {
+    "content_type": "media",
+    "primary_record_hints": [
+      "Testimony",
+      "Sighting",
+      "KeyFigure",
+      "Artifact"
+    ],
+    "hynek_scaffold": null,
+    "classification_marks_detected": [],
+    "language": "en",
+    "ocr_quality": "n/a",
+    "sensitivity": "public",
+    "ingestion_recommendation": "proceed",
+    "rationale": "Media interview transcript featuring witness testimony and anomalous event descriptions, no classification marks, public source.",
+    "confidence": 0.9
+  },
+  "analysis": {},
+  "ingestion": {},
+  "chunks": [],
+  "ner_results": [],
+  "embeddable_texts": [],
+  "metadata": {
+    "provenance": "https://www.youtube.com/watch?v=aGqFOxuYRT0",
+    "filename_hint": "“There's A UFO On The Seafloor!” -Treasure Hunter Dennis Asberg",
+    "prompts_dir": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/ai/prompts"
+  },
+  "errors": [
+    "Unterminated string starting at: line 7 column 7 (char 496)"
+  ],
+  "prompts_used": [
+    "document_classification",
+    "disclosure.content_analysis"
+  ]
+}

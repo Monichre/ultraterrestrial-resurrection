@@ -1,0 +1,37 @@
+{
+  "status": "error",
+  "classification": {
+    "content_type": "media",
+    "primary_record_hints": [
+      "Testimony",
+      "Sighting",
+      "Event",
+      "KeyFigure"
+    ],
+    "hynek_scaffold": "CE3",
+    "classification_marks_detected": [],
+    "language": "English",
+    "ocr_quality": "n/a",
+    "sensitivity": "public",
+    "ingestion_recommendation": "proceed",
+    "rationale": "Transcript of a media interview with multiple witnesses describing a classic CE3 abduction event and other anomalous experiences. No custody or classification concerns.",
+    "confidence": 0.8
+  },
+  "analysis": {},
+  "ingestion": {},
+  "chunks": [],
+  "ner_results": [],
+  "embeddable_texts": [],
+  "metadata": {
+    "provenance": "https://www.youtube.com/watch?v=QkuDvTFN7ms",
+    "filename_hint": "The Bizarre Alien Abduction Details The Government Will Never Disclose",
+    "prompts_dir": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/ai/prompts"
+  },
+  "errors": [
+    "Extra data: line 20 column 6 (char 2081)"
+  ],
+  "prompts_used": [
+    "document_classification",
+    "disclosure.content_analysis"
+  ]
+}

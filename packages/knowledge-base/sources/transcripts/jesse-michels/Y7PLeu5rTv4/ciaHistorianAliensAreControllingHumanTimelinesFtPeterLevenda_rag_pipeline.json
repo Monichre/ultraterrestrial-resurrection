@@ -1,0 +1,44 @@
+{
+  "status": "error",
+  "classification": {
+    "content_type": "media",
+    "primary_record_hints": [
+      "KeyFigure",
+      "Testimony",
+      "Topic",
+      "Event"
+    ],
+    "hynek_scaffold": null,
+    "classification_marks_detected": [
+      "government secrecy",
+      "conspiracy",
+      "occult",
+      "UFO",
+      "JFK assassination",
+      "synchronicity"
+    ],
+    "language": "English",
+    "ocr_quality": "n/a",
+    "sensitivity": "public",
+    "ingestion_recommendation": "proceed",
+    "rationale": "Transcript from a public podcast interview discussing historical conspiracies, government involvement, and UFO/occult connections. No controlled information detected. Source is media commentary, not primary government/witness document. Proceed with standard NER/RAG.",
+    "confidence": 0.95
+  },
+  "analysis": {},
+  "ingestion": {},
+  "chunks": [],
+  "ner_results": [],
+  "embeddable_texts": [],
+  "metadata": {
+    "provenance": "https://www.youtube.com/watch?v=Y7PLeu5rTv4",
+    "filename_hint": "CIA Historian: “Aliens Are Controlling Human Timelines!” (ft. Peter Levenda)",
+    "prompts_dir": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/ai/prompts"
+  },
+  "errors": [
+    "Expecting ',' delimiter: line 44 column 4 (char 5154)"
+  ],
+  "prompts_used": [
+    "document_classification",
+    "disclosure.content_analysis"
+  ]
+}

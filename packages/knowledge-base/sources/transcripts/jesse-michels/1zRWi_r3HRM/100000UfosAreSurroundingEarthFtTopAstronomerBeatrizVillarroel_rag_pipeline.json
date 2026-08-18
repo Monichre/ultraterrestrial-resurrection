@@ -1,0 +1,46 @@
+{
+  "status": "error",
+  "classification": {
+    "content_type": "mixed",
+    "primary_record_hints": [
+      "Document",
+      "Testimony",
+      "Event",
+      "Sighting",
+      "KeyFigure",
+      "Organization"
+    ],
+    "hynek_scaffold": null,
+    "classification_marks_detected": [
+      "UFO",
+      "transients",
+      "uncorrelated targets",
+      "nuclear connection",
+      "cover-up",
+      "plate defects"
+    ],
+    "language": "en",
+    "ocr_quality": "n/a",
+    "sensitivity": "public",
+    "ingestion_recommendation": "proceed_with_caution",
+    "rationale": "The source is a public podcast transcript featuring a scientist discussing peer-reviewed research on anomalous transients observed pre-satellite era. It contains scientific analysis, witness narrative, and historical context with claims of a UFO cover-up. While the content is extraordinary, the source's public and credible nature suggests proceed_with_caution, not hold.",
+    "confidence": 0.85
+  },
+  "analysis": {},
+  "ingestion": {},
+  "chunks": [],
+  "ner_results": [],
+  "embeddable_texts": [],
+  "metadata": {
+    "provenance": "https://www.youtube.com/watch?v=1zRWi_r3HRM",
+    "filename_hint": "\"100,000 UFOs Are Surrounding Earth!\" ft. Top Astronomer Beatriz Villarroel",
+    "prompts_dir": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/ai/prompts"
+  },
+  "errors": [
+    "Unterminated string starting at: line 13 column 7 (char 1551)"
+  ],
+  "prompts_used": [
+    "document_classification",
+    "disclosure.content_analysis"
+  ]
+}

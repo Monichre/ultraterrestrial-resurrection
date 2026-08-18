@@ -1,0 +1,37 @@
+{
+  "status": "error",
+  "classification": {
+    "content_type": "witness",
+    "primary_record_hints": [
+      "Testimony",
+      "Sighting",
+      "Event",
+      "KeyFigure"
+    ],
+    "hynek_scaffold": "CE3",
+    "classification_marks_detected": [],
+    "language": "english",
+    "ocr_quality": "n/a",
+    "sensitivity": "public",
+    "ingestion_recommendation": "proceed",
+    "rationale": "Public interview transcript discussing the Varginha UFO incident with multiple eyewitness accounts, including close encounters with beings. No government classification or custody concerns.",
+    "confidence": 0.85
+  },
+  "analysis": {},
+  "ingestion": {},
+  "chunks": [],
+  "ner_results": [],
+  "embeddable_texts": [],
+  "metadata": {
+    "provenance": "https://www.youtube.com/watch?v=hBrfe4hFuM0",
+    "filename_hint": "Army Captures Live Alien (Hospital Report Revealed!)",
+    "prompts_dir": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/ai/prompts"
+  },
+  "errors": [
+    "Expecting ',' delimiter: line 65 column 8 (char 5651)"
+  ],
+  "prompts_used": [
+    "document_classification",
+    "disclosure.content_analysis"
+  ]
+}

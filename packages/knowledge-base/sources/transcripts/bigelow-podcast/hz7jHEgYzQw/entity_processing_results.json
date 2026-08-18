@@ -1,0 +1,58 @@
+{
+  "status": "completed",
+  "video_id": "hz7jHEgYzQw",
+  "summary_file": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/sources/transcripts/2026-08-16/hz7jHEgYzQw/theEvolutionOfAawsapBigelowPodcastEp2Summary.txt",
+  "entities": {
+    "personnel": [
+      "Jim McCaskey",
+      "The President",
+      "Laurence Rockefeller",
+      "Linda Howe",
+      "John Mack",
+      "Bruce Maccabee",
+      "Bill Clinton",
+      "Harry Reid",
+      "Edgar Mitchell",
+      "Jack Schmitt",
+      "Luis Elizondo",
+      "Kathleen Hicks",
+      "Sean Kirkpatrick",
+      "Jeffrey Mishlove",
+      "Leo Ruickbie",
+      "Wim Lom Pummell"
+    ],
+    "organizations": [
+      "The Pentagon",
+      "AARO",
+      "National Institute for Discovery Science",
+      "Office of the Director of National Intelligence",
+      "All-domain Anomaly Resolution Office",
+      "Airborne Object Identification and Management Synchronization Group",
+      "Bigelow Institute for Consciousness Studies"
+    ],
+    "topics": [],
+    "events": [
+      "Disclosure Advisory",
+      "Rockefeller Ranch Meeting",
+      "ODNI UAP Announcement",
+      "AARO Rebranding",
+      "Bigelow Institute for Consciousness Studies Contest on Survival of Bodily Death"
+    ],
+    "locations": [
+      "Rockefeller Ranch",
+      "Los Alamos"
+    ],
+    "artifacts": [
+      "McCaskey Book (2023)",
+      "Unnamed Book",
+      "Contest submissions on survival of bodily death"
+    ],
+    "sightings": []
+  },
+  "entity_search_results": {},
+  "entity_creation_results": {},
+  "entity_source": "rag_pipeline.ner_results",
+  "total_entities": 33,
+  "total_matches": 0,
+  "total_created": 0
+}

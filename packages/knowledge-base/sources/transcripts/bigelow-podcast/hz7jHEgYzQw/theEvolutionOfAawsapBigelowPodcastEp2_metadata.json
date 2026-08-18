@@ -1,0 +1,32 @@
+{
+  "title": "The Evolution of AAWSAP | Bigelow Podcast, Ep. 2",
+  "url": "https://www.youtube.com/watch?v=hz7jHEgYzQw&t=3s",
+  "id": "hz7jHEgYzQw",
+  "categories": [],
+  "tags": [],
+  "description": "",
+  "chapters": [],
+  "transcript_segment_count": 2035,
+  "rag_pipeline": {
+    "status": "ok",
+    "embeddable_count": 3,
+    "prompts_used": [
+      "disclosure.content_analysis",
+      "disclosure.ner",
+      "document_classification",
+      "rag_ingestion",
+      "validation"
+    ],
+    "errors": []
+  },
+  "trace_map": {
+    "json_path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/sources/transcripts/2026-08-16/hz7jHEgYzQw/theEvolutionOfAawsapBigelowPodcastEp2_trace_map.json",
+    "md_path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/sources/transcripts/2026-08-16/hz7jHEgYzQw/theEvolutionOfAawsapBigelowPodcastEp2_trace_map.md",
+    "node_count": 72,
+    "edge_count": 89,
+    "coverage_fraction": 0.0602,
+    "valid": true,
+    "error_count": 0,
+    "gap_count": 7
+  }
+}

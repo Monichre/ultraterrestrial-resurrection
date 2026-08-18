@@ -179,3 +179,18 @@ dist
 derived/ocr/*.ocr.pdf
 
 derived/ocr/gap/*.ocr.pdf
+
+# T-061 (2026-08-18) — the per-video provenance layer.
+# The root .gitignore's blanket `*.json` was silently excluding 340 small JSON
+# files under sources/: _ingest.json, _metadata.json, entity_processing_results
+# .json, _rag_pipeline.json, _segments.json. That is the pipeline's own record
+# of what it did to each transcript — a few KB each, diffs meaningfully, and a
+# fresh clone was getting transcripts with zero provenance. Same class of bug
+# as the gitignored PDFs, but these are text and belong in git.
+!sources/**/*.json
+
+# ...except two generated-artifact dirs that live in sources/ but are derived,
+# not source (2.5MB of the 5.6MB). They move to derived/ — see
+# 2026-08-17-t061-files-taxonomy-and-corpus-storage.md §4 open question 3.
+sources/files/2025-07-25/**
+sources/files/xata-era-events/**

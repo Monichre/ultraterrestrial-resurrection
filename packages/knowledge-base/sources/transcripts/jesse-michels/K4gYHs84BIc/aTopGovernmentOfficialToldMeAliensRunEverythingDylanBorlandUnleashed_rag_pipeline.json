@@ -1,0 +1,49 @@
+{
+  "status": "error",
+  "classification": {
+    "content_type": "media",
+    "primary_record_hints": [
+      "Testimony",
+      "Sighting",
+      "KeyFigure",
+      "Organization"
+    ],
+    "hynek_scaffold": "CE1: structured triangular craft observed at close range, rapid vertical ascent",
+    "classification_marks_detected": [],
+    "language": "English",
+    "ocr_quality": "n/a",
+    "sensitivity": "public",
+    "ingestion_recommendation": "proceed",
+    "rationale": "Public media interview with identified former intelligence specialist; no classification markings; first-hand sighting account and second-hand claims about programs; suitable for standard processing.",
+    "confidence": 0.85
+  },
+  "analysis": {
+    "_raw_list": [
+      "Dylan Borland, a former 1N1 geospatial intelligence specialist for the USAF, witnessed a 100 ft equilateral triangle UAP take off from near the NASA hangar at Langley AFB in summer 2012 at approximately 0130 hours.",
+      "The object ascended from approximately 100 ft off the ground to at least 30,000 ft (commercial jet elevation) in 2 to 3 seconds.",
+      "After this sighting, while working at BAE, someone in the government who was read into a secret UAP program mistakenly believed Borland was also read in and disclosed knowledge about a 'very specific program' to him.",
+      "Borland asserts 'I am sure there are crafts that were not made by humanity at this current time and place when we recovered them.'",
+      "The Intelligence Community Inspector General (ICIG) 'extremely hinted at' the idea that humans are not in charge.",
+      "An ODNI agent told journalist Jeremy Corbell that a UFO reverse-engineering program is called 'Rubik's Cube', and Borland implies Corbell's account is accurate without confirming it directly.",
+      "Borland was subjected to administrative reprisals, including a polygraph with flashing images and air horns while counting backwards by 7, which he describes as part of retaliation.",
+      "The Office of the Director of National Intelligence (ODNI) allegedly committed a felony by disclosing whistleblower testimony to a journalist."
+    ]
+  },
+  "ingestion": {},
+  "chunks": [],
+  "ner_results": [],
+  "embeddable_texts": [],
+  "metadata": {
+    "provenance": "https://www.youtube.com/watch?v=K4gYHs84BIc",
+    "filename_hint": "“A Top Government Official Told Me Aliens Run Everything!” -Dylan Borland UNLEASHED",
+    "prompts_dir": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/ai/prompts"
+  },
+  "errors": [
+    "All LLM providers failed (anthropic/claude-sonnet-5: skipped (HTTP 400); anthropic/claude-opus-4-8: skipped (HTTP 400); deepseek/deepseek-v4-pro: BudgetExhausted: deepseek/deepseek-v4-pro: max_tokens=4096 consumed before any answer was emitted (reasoning=True); raise max_tokens; together/kimi-k3: BudgetExhausted: together/kimi-k3: max_tokens=4096 consumed before any answer was emitted (reasoning=True); raise max_tokens; openai/gpt-5.5: AuthenticationError: Error code: 401 - {'error': {'message': 'Incorrect API key provided: sk-proj-********************************************************************************************************************************************************TDgA. You can find your API key at https://platform.openai.com/account/api-keys.', 'type': 'invalid_request_error', 'code': 'invalid_api_key', 'param': None}, 'status': 401}; groq/gpt-oss-120b: AuthenticationError: Error code: 401 - {'error': {'message': 'Invalid API Key', 'type': 'invalid_request_error', 'code': 'invalid_api_key'}})"
+  ],
+  "prompts_used": [
+    "document_classification",
+    "disclosure.content_analysis",
+    "rag_ingestion"
+  ]
+}
