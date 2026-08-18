@@ -18,7 +18,13 @@
     "chars": 30439,
     "sha256": "1ce4cbb27bfef6d1"
    },
-   "ocr_status": "ready_for_reupload"
+   "ocr_status": "uploaded",
+   "upload": {
+    "openai_file_id": "file-NWNqJgt7wsfFN5upZ5dgRi",
+    "vector_store_file_id": "file-NWNqJgt7wsfFN5upZ5dgRi",
+    "uploaded_at": "2026-08-18T01:28:39-0500",
+    "status": "uploaded_and_indexed"
+   }
   },
   {
    "filename": "540416 Letter from Gerald Light to Meade Layne, with comments.pdf",
@@ -33,7 +39,13 @@
     "chars": 3213,
     "sha256": "ec9ba8208bb6337f"
    },
-   "ocr_status": "ready_for_reupload"
+   "ocr_status": "uploaded",
+   "upload": {
+    "openai_file_id": "file-NrigQtTyJG4zuRP2zTSpJs",
+    "vector_store_file_id": "file-NrigQtTyJG4zuRP2zTSpJs",
+    "uploaded_at": "2026-08-18T01:28:39-0500",
+    "status": "uploaded_and_indexed"
+   }
   },
   {
    "filename": "540801 Letter from Edward W Hermann to Frank Edwards437.pdf",
@@ -48,7 +60,13 @@
     "chars": 6207,
     "sha256": "d94e0873db5f73db"
    },
-   "ocr_status": "ready_for_reupload"
+   "ocr_status": "uploaded",
+   "upload": {
+    "openai_file_id": "file-NDYVpCiMSKkbVC1a86wzba",
+    "vector_store_file_id": "file-NDYVpCiMSKkbVC1a86wzba",
+    "uploaded_at": "2026-08-18T01:28:39-0500",
+    "status": "uploaded_and_indexed"
+   }
   },
   {
    "filename": "600118 Letter from Riley Crabb to Evna Edmundson.pdf",
@@ -63,7 +81,13 @@
     "chars": 4869,
     "sha256": "aa3981c17cf81f1d"
    },
-   "ocr_status": "ready_for_reupload"
+   "ocr_status": "uploaded",
+   "upload": {
+    "openai_file_id": "file-HFee75rqmJEXh7QyYFGa13",
+    "vector_store_file_id": "file-HFee75rqmJEXh7QyYFGa13",
+    "uploaded_at": "2026-08-18T01:28:39-0500",
+    "status": "uploaded_and_indexed"
+   }
   },
   {
    "filename": "900402 Letter to BSRF on Alien treaty.pdf",
@@ -78,7 +102,13 @@
     "chars": 8318,
     "sha256": "6710ba28b58a40f4"
    },
-   "ocr_status": "ready_for_reupload"
+   "ocr_status": "uploaded",
+   "upload": {
+    "openai_file_id": "file-59qZF7R1Qcd2c5YzMKxs7U",
+    "vector_store_file_id": "file-59qZF7R1Qcd2c5YzMKxs7U",
+    "uploaded_at": "2026-08-18T01:28:39-0500",
+    "status": "uploaded_and_indexed"
+   }
   },
   {
    "filename": "BSRA Release 1950, 11-A-50.pdf",
@@ -93,7 +123,13 @@
     "chars": 18816,
     "sha256": "aad356c263f84120"
    },
-   "ocr_status": "ready_for_reupload"
+   "ocr_status": "uploaded",
+   "upload": {
+    "openai_file_id": "file-Uu9zKDYf5iYR6ZUDntWRjy",
+    "vector_store_file_id": "file-Uu9zKDYf5iYR6ZUDntWRjy",
+    "uploaded_at": "2026-08-18T01:28:39-0500",
+    "status": "uploaded_and_indexed"
+   }
   },
   {
    "filename": "BSRA info 1951, Dr Kappa.pdf",
@@ -108,7 +144,13 @@
     "chars": 3106,
     "sha256": "e384525c7a33197b"
    },
-   "ocr_status": "ready_for_reupload"
+   "ocr_status": "uploaded",
+   "upload": {
+    "openai_file_id": "file-5CcpZATo1AEEYg29UoKaZf",
+    "vector_store_file_id": "file-5CcpZATo1AEEYg29UoKaZf",
+    "uploaded_at": "2026-08-18T01:28:39-0500",
+    "status": "uploaded_and_indexed"
+   }
   },
   {
    "filename": "Bulletin no 2, April 15, 1954, Lodge of Light.pdf",
@@ -123,7 +165,13 @@
     "chars": 11516,
     "sha256": "a323f14513274b45"
    },
-   "ocr_status": "ready_for_reupload"
+   "ocr_status": "uploaded",
+   "upload": {
+    "openai_file_id": "file-T1GZp6NfFLwuA1oxqPGQaj",
+    "vector_store_file_id": "file-T1GZp6NfFLwuA1oxqPGQaj",
+    "uploaded_at": "2026-08-18T01:28:39-0500",
+    "status": "uploaded_and_indexed"
+   }
   },
   {
    "filename": "Cannon 212_20241113_154539.pdf",
@@ -138,7 +186,13 @@
     "chars": 34010,
     "sha256": "f57198d78d41f3e1"
    },
-   "ocr_status": "ready_for_reupload"
+   "ocr_status": "uploaded",
+   "upload": {
+    "openai_file_id": "file-GWUuMELEvw2VztaCWVz7TR",
+    "vector_store_file_id": "file-GWUuMELEvw2VztaCWVz7TR",
+    "uploaded_at": "2026-08-18T01:28:39-0500",
+    "status": "uploaded_and_indexed"
+   }
   },
   {
    "filename": "Davidson telegram.pdf",
@@ -153,7 +207,13 @@
     "chars": 1155,
     "sha256": "a434fb36116eff75"
    },
-   "ocr_status": "ready_for_reupload"
+   "ocr_status": "uploaded",
+   "upload": {
+    "openai_file_id": "file-7gKoE3KPUayPNuRnu3mmG7",
+    "vector_store_file_id": "file-7gKoE3KPUayPNuRnu3mmG7",
+    "uploaded_at": "2026-08-18T01:28:39-0500",
+    "status": "uploaded_and_indexed"
+   }
   },
   {
    "filename": "Envelope in Gerald Light folder, BSRA.pdf",
@@ -183,7 +243,13 @@
     "chars": 26761,
     "sha256": "bc3ac94ca5978eb7"
    },
-   "ocr_status": "ready_for_reupload"
+   "ocr_status": "uploaded",
+   "upload": {
+    "openai_file_id": "file-NA3HQuZ8SMP5mGyBjvyX3d",
+    "vector_store_file_id": "file-NA3HQuZ8SMP5mGyBjvyX3d",
+    "uploaded_at": "2026-08-18T01:28:39-0500",
+    "status": "uploaded_and_indexed"
+   }
   },
   {
    "filename": "Eric-Davis-meeting-with-Adm-Wilson.pdf",
@@ -198,7 +264,13 @@
     "chars": 26761,
     "sha256": "bc3ac94ca5978eb7"
    },
-   "ocr_status": "ready_for_reupload"
+   "ocr_status": "uploaded",
+   "upload": {
+    "openai_file_id": "file-NA3HQuZ8SMP5mGyBjvyX3d",
+    "vector_store_file_id": "file-NA3HQuZ8SMP5mGyBjvyX3d",
+    "uploaded_at": "2026-08-18T01:28:39-0500",
+    "status": "uploaded_and_indexed"
+   }
   },
   {
    "filename": "Gerald Light, Signs in the Skies.pdf",
@@ -213,7 +285,13 @@
     "chars": 84074,
     "sha256": "a7cd61573a070233"
    },
-   "ocr_status": "ready_for_reupload"
+   "ocr_status": "uploaded",
+   "upload": {
+    "openai_file_id": "file-22LPWnuHJKyJe9WXtczbF5",
+    "vector_store_file_id": "file-22LPWnuHJKyJe9WXtczbF5",
+    "uploaded_at": "2026-08-18T01:28:39-0500",
+    "status": "uploaded_and_indexed"
+   }
   },
   {
    "filename": "Gerald Light, biography in Tempels of Healing.pdf",
@@ -228,7 +306,13 @@
     "chars": 1806,
     "sha256": "6494fc8a34db2e1c"
    },
-   "ocr_status": "ready_for_reupload"
+   "ocr_status": "uploaded",
+   "upload": {
+    "openai_file_id": "file-L2WVnsQ185o1zQEGrduPwC",
+    "vector_store_file_id": "file-L2WVnsQ185o1zQEGrduPwC",
+    "uploaded_at": "2026-08-18T01:28:39-0500",
+    "status": "uploaded_and_indexed"
+   }
   },
   {
    "filename": "Gerald_Light_Kaneko,Retrievals third kind,FSR1982V28N2.pdf",
@@ -243,7 +327,13 @@
     "chars": 27891,
     "sha256": "353cc6a1d0ffaa18"
    },
-   "ocr_status": "ready_for_reupload"
+   "ocr_status": "uploaded",
+   "upload": {
+    "openai_file_id": "file-JQtA67WYvKnCHB5t9HFYS5",
+    "vector_store_file_id": "file-JQtA67WYvKnCHB5t9HFYS5",
+    "uploaded_at": "2026-08-18T01:28:39-0500",
+    "status": "uploaded_and_indexed"
+   }
   },
   {
    "filename": "HHRG-118-GO12-20241113-SD003 (1).pdf",
@@ -258,7 +348,13 @@
     "chars": 33650,
     "sha256": "18a47e7ce2e3d5da"
    },
-   "ocr_status": "ready_for_reupload"
+   "ocr_status": "uploaded",
+   "upload": {
+    "openai_file_id": "file-Tb4u2rNzLvcrwtZfu9ttfG",
+    "vector_store_file_id": "file-Tb4u2rNzLvcrwtZfu9ttfG",
+    "uploaded_at": "2026-08-18T01:28:39-0500",
+    "status": "uploaded_and_indexed"
+   }
   },
   {
    "filename": "HHRG-118-GO12-20241113-SD003.pdf",
@@ -273,7 +369,13 @@
     "chars": 33650,
     "sha256": "18a47e7ce2e3d5da"
    },
-   "ocr_status": "ready_for_reupload"
+   "ocr_status": "uploaded",
+   "upload": {
+    "openai_file_id": "file-Tb4u2rNzLvcrwtZfu9ttfG",
+    "vector_store_file_id": "file-Tb4u2rNzLvcrwtZfu9ttfG",
+    "uploaded_at": "2026-08-18T01:28:39-0500",
+    "status": "uploaded_and_indexed"
+   }
   },
   {
    "filename": "Undated letter from Evna Edmundson to Riley Crabb.pdf",
@@ -288,7 +390,13 @@
     "chars": 4028,
     "sha256": "da6dbb38f03ad343"
    },
-   "ocr_status": "ready_for_reupload"
+   "ocr_status": "uploaded",
+   "upload": {
+    "openai_file_id": "file-GyzmUW3cjzgDht93jMi4a5",
+    "vector_store_file_id": "file-GyzmUW3cjzgDht93jMi4a5",
+    "uploaded_at": "2026-08-18T01:28:39-0500",
+    "status": "uploaded_and_indexed"
+   }
   },
   {
    "filename": "Undated letter from Gerald Light to Meade Layne.pdf",
@@ -303,7 +411,13 @@
     "chars": 2369,
     "sha256": "60be5da4bc28246c"
    },
-   "ocr_status": "ready_for_reupload"
+   "ocr_status": "uploaded",
+   "upload": {
+    "openai_file_id": "file-PF4j5jiRSbpHx3pdkfAZhu",
+    "vector_store_file_id": "file-PF4j5jiRSbpHx3pdkfAZhu",
+    "uploaded_at": "2026-08-18T01:28:39-0500",
+    "status": "uploaded_and_indexed"
+   }
   },
   {
    "filename": "William Moore, Ike and the Aliens,Focus, vol 1, no 2, April 30, 1985.pdf",
@@ -318,7 +432,13 @@
     "chars": 9088,
     "sha256": "51bd5fceefbbb83e"
    },
-   "ocr_status": "ready_for_reupload"
+   "ocr_status": "uploaded",
+   "upload": {
+    "openai_file_id": "file-2hyNNSBMKf69GQd8zj45cw",
+    "vector_store_file_id": "file-2hyNNSBMKf69GQd8zj45cw",
+    "uploaded_at": "2026-08-18T01:28:39-0500",
+    "status": "uploaded_and_indexed"
+   }
   },
   {
    "filename": "WilsonMemo.pdf",
@@ -340,7 +460,13 @@
     "chars": 21262,
     "sha256": "14453b639a64bc46"
    },
-   "ocr_status": "ready_for_reupload"
+   "ocr_status": "uploaded",
+   "upload": {
+    "openai_file_id": "file-8ygUQZKrHxx8TkwwjgTwzk",
+    "vector_store_file_id": "file-8ygUQZKrHxx8TkwwjgTwzk",
+    "uploaded_at": "2026-08-18T01:28:39-0500",
+    "status": "uploaded_and_indexed"
+   }
   },
   {
    "filename": "charles fort ny times 1926 119064405.pdf",
@@ -362,7 +488,13 @@
     "chars": 4866,
     "sha256": "3b7a7fffe548a515"
    },
-   "ocr_status": "ready_for_reupload"
+   "ocr_status": "uploaded",
+   "upload": {
+    "openai_file_id": "file-BYF6qx89WjBPhPi8UmirYx",
+    "vector_store_file_id": "file-BYF6qx89WjBPhPi8UmirYx",
+    "uploaded_at": "2026-08-18T01:28:39-0500",
+    "status": "uploaded_and_indexed"
+   }
   },
   {
    "filename": "lodge_of_light_april_15_1954.pdf",
@@ -377,7 +509,13 @@
     "chars": 11516,
     "sha256": "a323f14513274b45"
    },
-   "ocr_status": "ready_for_reupload"
+   "ocr_status": "uploaded",
+   "upload": {
+    "openai_file_id": "file-T1GZp6NfFLwuA1oxqPGQaj",
+    "vector_store_file_id": "file-T1GZp6NfFLwuA1oxqPGQaj",
+    "uploaded_at": "2026-08-18T01:28:39-0500",
+    "status": "uploaded_and_indexed"
+   }
   },
   {
    "filename": "majestic_timeline_1_31_2023.pdf",
@@ -399,7 +537,13 @@
     "chars": 22280,
     "sha256": "4f996d5c6cba75e9"
    },
-   "ocr_status": "ready_for_reupload"
+   "ocr_status": "uploaded",
+   "upload": {
+    "openai_file_id": "file-JMRw47pBXTi8QKfchxSWyr",
+    "vector_store_file_id": "file-JMRw47pBXTi8QKfchxSWyr",
+    "uploaded_at": "2026-08-18T01:28:39-0500",
+    "status": "uploaded_and_indexed"
+   }
   },
   {
    "filename": "uap-origin-theories-diagram.pdf",
@@ -414,7 +558,13 @@
     "chars": 3550,
     "sha256": "d9300a1b05d9b248"
    },
-   "ocr_status": "ready_for_reupload"
+   "ocr_status": "uploaded",
+   "upload": {
+    "openai_file_id": "file-RhFXV9Dx21JeCWkniB3krm",
+    "vector_store_file_id": "file-RhFXV9Dx21JeCWkniB3krm",
+    "uploaded_at": "2026-08-18T01:28:39-0500",
+    "status": "uploaded_and_indexed"
+   }
   },
   {
    "filename": "ufo_timeline_v1_03.pdf",
@@ -425,5 +575,8 @@
   }
  ],
  "ocr_completed": 26,
- "ocr_note": "OCR run 2026-08-17 via ocrmypdf --force-ocr; sidecars in derived/ocr/gap/. 24/25 rate >=15% valid words. The one exception (Envelope in Gerald Light folder) is a photograph of an envelope with almost no text \u2014 a correct result, not a failure. NEXT STEP, NOT YET DONE: upload these sidecars to the vector store to close the retrieval gap."
+ "ocr_note": "OCR run 2026-08-17 via ocrmypdf --force-ocr; sidecars in derived/ocr/gap/. 24/25 rate >=15% valid words. The one exception (Envelope in Gerald Light folder) is a photograph of an envelope with almost no text \u2014 a correct result, not a failure. Sidecars uploaded 2026-08-18; see upload_note.",
+ "upload_completed": 25,
+ "upload_failed": 0,
+ "upload_note": "Upload run 2026-08-18T01:28:39-0500: 25 gap entries covered via 22 unique files (sha256-deduped from 25 entries -> 22 uploads). All 22 verified completed in store vs_meWOEnUiUxtQWf0W6NBsNpCG. Retrieval smoke test: Wilson/Davis memo and Signs in the Skies both return as top hits."
 }
