@@ -1,0 +1,435 @@
+{
+ "identical": [],
+ "differ": [
+  {
+   "dst": "sources/transcripts/jesse-michels/dfPfPB601hw/grahamHancockAliensAtlantisTheApocalypse.txt",
+   "srcs": {
+    "sources/transcripts/2024-09-27/grahamHancockAliensAtlantisTheApocalypse.txt": "69318a4ae3798ce56f06975dc6018706",
+    "sources/transcripts/2024-12-26/grahamHancockAliensAtlantisTheApocalypse.txt": "c6495a216d1e1aa2c2bb4e608a8cc581"
+   }
+  },
+  {
+   "dst": "sources/transcripts/powerfuljre/3yrKVu35uSE/joeRoganExperience2246JamesFox.txt",
+   "srcs": {
+    "sources/transcripts/2024-12-26/joeRoganExperience2246JamesFox.txt": "64bc49770c4cd5b2919a0ed372a12b66",
+    "sources/transcripts/2025-01-13/joeRoganExperience2246JamesFox.txt": "01bbfa66ddd33728283e959b516ff6b1"
+   }
+  },
+  {
+   "dst": "sources/transcripts/newsnation/3dtA9w5ldHw/whistleblowerRevealsUapRetrievalProgramObjectCaughtOnVideoNewsnation.txt",
+   "srcs": {
+    "sources/transcripts/2025-01-20/whistleblowerRevealsUapRetrievalProgramObjectCaughtOnVideoNewsnation.txt": "1e2ab609c394447f281b348d08ed624d",
+    "sources/transcripts/2025-01-21/whistleblowerRevealsUapRetrievalProgramObjectCaughtOnVideoNewsnation.txt": "e4762e1597c8adac936951bc31ebfdcc"
+   }
+  },
+  {
+   "dst": "sources/transcripts/unresolved/whistleblowerRevealsUapRetrievalProgramObjectCaughtOnVideoNewsnation/whistleblowerRevealsUapRetrievalProgramObjectCaughtOnVideoNewsnationSummary.txt",
+   "srcs": {
+    "sources/transcripts/2025-01-20/whistleblowerRevealsUapRetrievalProgramObjectCaughtOnVideoNewsnationSummary.txt": "5bffeeb79eeacb6ce32816bf956ed23d",
+    "sources/transcripts/2025-01-21/whistleblowerRevealsUapRetrievalProgramObjectCaughtOnVideoNewsnationSummary.txt": "82e11f63b126635dccb7a48d09b51edc"
+   }
+  },
+  {
+   "dst": "sources/transcripts/jesse-michels/8TYMQOUDQBo",
+   "srcs": {
+    "sources/transcripts/2025-01-30/8TYMQOUDQBo": "4d626bf32de67e46c07edfa0f30334ac",
+    "sources/transcripts/2025-01-31/8TYMQOUDQBo": "f419cbf151b26acf13ea227aafc6b9b9"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/0WZyDglNi5Y",
+   "srcs": {
+    "sources/transcripts/2025-01-31/0WZyDglNi5Y": "d7d8071b33f64a4747918c20117bf392",
+    "sources/transcripts/2025-04-10/0WZyDglNi5Y": "f91c0d459d01e913a3e0ac1efc738f69"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/1GnGGCaC6P4",
+   "srcs": {
+    "sources/transcripts/2025-01-31/1GnGGCaC6P4": "36e83d718dddb37dea301a56a483dc9d",
+    "sources/transcripts/2025-04-10/1GnGGCaC6P4": "426e0e37439ced585280d057f845b1ab"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/7MTRqq8w008",
+   "srcs": {
+    "sources/transcripts/2025-01-31/7MTRqq8w008": "ea9a73fef25e42927da3d715a6c22b9e",
+    "sources/transcripts/2025-04-10/7MTRqq8w008": "004db48d98fd54f8557f3427ddd9670c"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/8QAlezjhOls",
+   "srcs": {
+    "sources/transcripts/2025-01-31/8QAlezjhOls": "839253789310d074497e70ac276d8c52",
+    "sources/transcripts/2025-04-10/8QAlezjhOls": "8dd1a6506315b23666eb1bff4f89989f"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/9caqm346Bqs",
+   "srcs": {
+    "sources/transcripts/2025-01-31/9caqm346Bqs": "4e6af2e2f66feb1c8ba39ee35eac8b0e",
+    "sources/transcripts/2025-04-10/9caqm346Bqs": "3794be01cd07687a14f00be4f96ad009"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/AICm8RjnUjs",
+   "srcs": {
+    "sources/transcripts/2025-01-31/AICm8RjnUjs": "680a42372c8e305ed16169ba7a4014d6",
+    "sources/transcripts/2025-04-10/AICm8RjnUjs": "23041f26a9596a68cf78cf936ceeb9bb"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/DHgG8el5n5M",
+   "srcs": {
+    "sources/transcripts/2025-01-31/DHgG8el5n5M": "9ec8077179a683ffa7f6108fbe6a5145",
+    "sources/transcripts/2025-04-10/DHgG8el5n5M": "8f4ea34bfb59a3c57d122c71c822abef"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/E2JUqfI1ICA",
+   "srcs": {
+    "sources/transcripts/2025-01-31/E2JUqfI1ICA": "cee2755777adba71c50141a2ec6321d2",
+    "sources/transcripts/2025-04-10/E2JUqfI1ICA": "f41429615f53f627db3d9485473daf98"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/HedqKNTt6AA",
+   "srcs": {
+    "sources/transcripts/2025-01-31/HedqKNTt6AA": "952f90907e57efd6caa5dd7e1805b6d5",
+    "sources/transcripts/2025-04-10/HedqKNTt6AA": "84328567cfc1cc727868c530b4c84082"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/IB_itwvRo9k",
+   "srcs": {
+    "sources/transcripts/2025-01-31/IB_itwvRo9k": "53ac7f7ec7b033799fd59a0759fcda54",
+    "sources/transcripts/2025-04-10/IB_itwvRo9k": "ea04cd10d249520fa238251a15215309"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/JW6cJuKDUsU",
+   "srcs": {
+    "sources/transcripts/2025-01-31/JW6cJuKDUsU": "6be2d40535b611a174f8ca545737e56e",
+    "sources/transcripts/2025-04-10/JW6cJuKDUsU": "4c5083819cccf9d96a6fc816fde3a39c"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/KkZWHpP17Rc",
+   "srcs": {
+    "sources/transcripts/2025-01-31/KkZWHpP17Rc": "a44f147d176004084e21958fde0a501c",
+    "sources/transcripts/2025-04-10/KkZWHpP17Rc": "f30e584ebc46619a55e9b755aa6e5c0a"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/KyJXWWJrOvo",
+   "srcs": {
+    "sources/transcripts/2025-01-31/KyJXWWJrOvo": "3a452b34d4bf327d0b4fc290fbd1a3c3",
+    "sources/transcripts/2025-04-10/KyJXWWJrOvo": "ac85d909b8574eda0be0519250a2231b"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/LOHv1twCOqQ",
+   "srcs": {
+    "sources/transcripts/2025-01-31/LOHv1twCOqQ": "5bca145c85e15573c38d0ac21f563a63",
+    "sources/transcripts/2025-04-10/LOHv1twCOqQ": "033c783f8c13f8e947dbe15086dc5a7e"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/N7-a-_gx_yU",
+   "srcs": {
+    "sources/transcripts/2025-01-31/N7-a-_gx_yU": "e469377ed8621666b8a586dda3530c06",
+    "sources/transcripts/2025-04-10/N7-a-_gx_yU": "4a0bd1f529800f77263427d5063e83a5"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/NEsOQCwt4yw",
+   "srcs": {
+    "sources/transcripts/2025-01-31/NEsOQCwt4yw": "d045f0b95d3498edbe00481044d83c25",
+    "sources/transcripts/2025-04-10/NEsOQCwt4yw": "2b9c56efdb8656acd64e9036a1d707ce"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/PaK5WOz3Mf4",
+   "srcs": {
+    "sources/transcripts/2025-01-31/PaK5WOz3Mf4": "92250c9b33c746c0bd406446e1c6fc79",
+    "sources/transcripts/2025-04-10/PaK5WOz3Mf4": "6f8598344df92e34c4fed165421bd232"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/PgAEoNbfjT4",
+   "srcs": {
+    "sources/transcripts/2025-01-31/PgAEoNbfjT4": "8cbda197fd8f05495572019a346605e0",
+    "sources/transcripts/2025-04-10/PgAEoNbfjT4": "c44f551b9de241979bb89be4152609a1"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/QYhRu2_nJ6c",
+   "srcs": {
+    "sources/transcripts/2025-01-31/QYhRu2_nJ6c": "69222665332ffcd238e25fb0a9ceff94",
+    "sources/transcripts/2025-04-10/QYhRu2_nJ6c": "295d2c9afac76eae47435409257d44a8"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/Rg-pp2BuKKk",
+   "srcs": {
+    "sources/transcripts/2025-01-31/Rg-pp2BuKKk": "fd58af4b56108740fff204cd2df0fcf1",
+    "sources/transcripts/2025-04-10/Rg-pp2BuKKk": "dff5f3f88dff961ceba263d5aa2cb20b"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/U-8XJvHRuzY",
+   "srcs": {
+    "sources/transcripts/2025-01-31/U-8XJvHRuzY": "b59da8dbe48897d266718ec27e5a8e78",
+    "sources/transcripts/2025-04-10/U-8XJvHRuzY": "ffef8ebdb39e69e9cf97825ed6e5b149"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/V4WTid3O0VE",
+   "srcs": {
+    "sources/transcripts/2025-01-31/V4WTid3O0VE": "39be962dc634bcf39cc7d638af5b91b6",
+    "sources/transcripts/2025-04-10/V4WTid3O0VE": "06d0554147f1b5bf9cf1b834b76b4930"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/VxA-Y4enohQ",
+   "srcs": {
+    "sources/transcripts/2025-01-31/VxA-Y4enohQ": "6de6a73c462d000a123b548b864e75cf",
+    "sources/transcripts/2025-04-10/VxA-Y4enohQ": "fce858d5f23344f868155a6dc0a31c94"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/WaKzTR29Qn8",
+   "srcs": {
+    "sources/transcripts/2025-01-31/WaKzTR29Qn8": "b5932d29c20b021c3a6375044044f271",
+    "sources/transcripts/2025-04-10/WaKzTR29Qn8": "1893cba387f1140158dae25cb98a75f8"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/Xl4hoAMXtoU",
+   "srcs": {
+    "sources/transcripts/2025-01-31/Xl4hoAMXtoU": "8c50dcead4c30f747e9fc5a10951c2f6",
+    "sources/transcripts/2025-04-10/Xl4hoAMXtoU": "bd0904d32b80e351f6f50437ac82b3da"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/_4hycqDNnPE",
+   "srcs": {
+    "sources/transcripts/2025-01-31/_4hycqDNnPE": "2def3af0ea5055cf9adcda2db7ade2b1",
+    "sources/transcripts/2025-04-10/_4hycqDNnPE": "197dc12028639f0fb796ffeae1b36cef"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/ccFtnp31xIc",
+   "srcs": {
+    "sources/transcripts/2025-01-31/ccFtnp31xIc": "3f0d96d3536fa2eff3659ca7cc19db75",
+    "sources/transcripts/2025-04-10/ccFtnp31xIc": "34e39f500cab87a47747cf9f503e3e3c"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/d0H-Pn8RKKo",
+   "srcs": {
+    "sources/transcripts/2025-01-31/d0H-Pn8RKKo": "05ce7dd5aa8a21efea9086deddd1c7ba",
+    "sources/transcripts/2025-04-10/d0H-Pn8RKKo": "acb32e87f09e89ff986ff8e38208f736"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/fU6LOfiUJ6Q",
+   "srcs": {
+    "sources/transcripts/2025-01-31/fU6LOfiUJ6Q": "4e87e0d9dd70220fbf92855eb73092df",
+    "sources/transcripts/2025-04-10/fU6LOfiUJ6Q": "5904cee19a6d380dbb0300899f06b22f"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/g6dw7kP0sBY",
+   "srcs": {
+    "sources/transcripts/2025-01-31/g6dw7kP0sBY": "f0c0d686782f4a2a347d023793f07388",
+    "sources/transcripts/2025-04-10/g6dw7kP0sBY": "484d847878135c49f37fa2993e2dee7c"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/gP8ftWzFYI4",
+   "srcs": {
+    "sources/transcripts/2025-01-31/gP8ftWzFYI4": "42d4797bcc61e247a496e9e059734ee2",
+    "sources/transcripts/2025-04-10/gP8ftWzFYI4": "e8c802cc4b7fa834985c724bf42a6e66"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/jAfTY7NuceQ",
+   "srcs": {
+    "sources/transcripts/2025-01-31/jAfTY7NuceQ": "66a1c3c31938be21f5ff3d528626f566",
+    "sources/transcripts/2025-04-10/jAfTY7NuceQ": "fd0111685414bf5e729e56c28a047025"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/k4qQv7RasRw",
+   "srcs": {
+    "sources/transcripts/2025-01-31/k4qQv7RasRw": "31b7fa3b829deefb214cec0480cb9be2",
+    "sources/transcripts/2025-04-10/k4qQv7RasRw": "756641fa044ce84dac7963f2e0d25f37"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/nLdaBcOr_kU",
+   "srcs": {
+    "sources/transcripts/2025-01-31/nLdaBcOr_kU": "14b133288bf4fd5a27b394372f1b6fe7",
+    "sources/transcripts/2025-04-10/nLdaBcOr_kU": "d4f5714fbb072222d1f2a977016d934b"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/oUqsU76GRq4",
+   "srcs": {
+    "sources/transcripts/2025-01-31/oUqsU76GRq4": "016a18fe9ef089ea8d970431a872a14e",
+    "sources/transcripts/2025-04-10/oUqsU76GRq4": "52c89f195ea452f2119f06e18f34a011"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/qBOY5jrOGwA",
+   "srcs": {
+    "sources/transcripts/2025-01-31/qBOY5jrOGwA": "16657d2ecc00a5ba90957d721f938fd3",
+    "sources/transcripts/2025-04-10/qBOY5jrOGwA": "f92ac5b4a59e24f7552a317e487bafc5"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/qIys3ZT6NL8",
+   "srcs": {
+    "sources/transcripts/2025-01-31/qIys3ZT6NL8": "144ea054a01fbb434026ac80b0239097",
+    "sources/transcripts/2025-04-10/qIys3ZT6NL8": "1d88d4f555022aac626d8d524d417cf3"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/rBO8z9pHAuA",
+   "srcs": {
+    "sources/transcripts/2025-01-31/rBO8z9pHAuA": "8892e4ddf4a8299ed96179a732803a2a",
+    "sources/transcripts/2025-04-10/rBO8z9pHAuA": "37b051b4934ec844dedfe8d626663070"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/tEBLmWhx1K0",
+   "srcs": {
+    "sources/transcripts/2025-01-31/tEBLmWhx1K0": "62fe871604e953ed4ec4637d227ea5df",
+    "sources/transcripts/2025-04-10/tEBLmWhx1K0": "b40105c321737f3f404a19777aa28013"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/tYU_tr5K5ws",
+   "srcs": {
+    "sources/transcripts/2025-01-31/tYU_tr5K5ws": "aa2e6704bbfb309e3db9906d36c40305",
+    "sources/transcripts/2025-04-10/tYU_tr5K5ws": "2a601bea67f446cdd5a5ed2655ee5394"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/thLGknsJ2Qg",
+   "srcs": {
+    "sources/transcripts/2025-01-31/thLGknsJ2Qg": "c585f34200fb9d4bdf891b1515fead14",
+    "sources/transcripts/2025-04-10/thLGknsJ2Qg": "50b86394a6f2297239de2e3a48a7f83e"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/u7mEnmx1HIo",
+   "srcs": {
+    "sources/transcripts/2025-01-31/u7mEnmx1HIo": "f1bbec29704027620bd5d9092bd8c38d",
+    "sources/transcripts/2025-04-10/u7mEnmx1HIo": "96888ddb6d99c38186c3126a6fdd4812"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/wAY1Erm-el8",
+   "srcs": {
+    "sources/transcripts/2025-01-31/wAY1Erm-el8": "5511002bd2f03aeb61890fa3e8ec5d42",
+    "sources/transcripts/2025-04-10/wAY1Erm-el8": "f3c464a633a2201518d6d3f2a0e7b8e4"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/wsEd_b1C8DY",
+   "srcs": {
+    "sources/transcripts/2025-01-31/wsEd_b1C8DY": "fd5ccdaca67f93df444462baa389546a",
+    "sources/transcripts/2025-04-10/wsEd_b1C8DY": "986cbd2b895d14d34967224637ba1b22"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/x4wL4lbwwNU",
+   "srcs": {
+    "sources/transcripts/2025-01-31/x4wL4lbwwNU": "6c16f75b37259af958eadf055aebd516",
+    "sources/transcripts/2025-04-10/x4wL4lbwwNU": "25e74a1138677d7caa87b32448f5bc24"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/xWBBjv-jIVw",
+   "srcs": {
+    "sources/transcripts/2025-01-31/xWBBjv-jIVw": "6798b582cc4f9c813be6a55f3a071de1",
+    "sources/transcripts/2025-04-10/xWBBjv-jIVw": "32804cd42c67799575103268b721179d"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/zRDLK74UD3I",
+   "srcs": {
+    "sources/transcripts/2025-01-31/zRDLK74UD3I": "4f285094e515c0683fe2af5f49b840d1",
+    "sources/transcripts/2025-04-10/zRDLK74UD3I": "ed2a757ca062a955abaf3f853d3c2536"
+   }
+  },
+  {
+   "dst": "sources/transcripts/dr-steven-greer/zWpI4Z_GItU",
+   "srcs": {
+    "sources/transcripts/2025-01-31/zWpI4Z_GItU": "964c537616f4a24dc12ffacd1ece7fbf",
+    "sources/transcripts/2025-04-10/zWpI4Z_GItU": "153c2e9a381eab572cff844f58c2d664"
+   }
+  },
+  {
+   "dst": "sources/transcripts/unresolved/unknown",
+   "srcs": {
+    "sources/transcripts/2025-02-11/unknown": "4bd8874e9e2a2f5f6628546fb5551ff9",
+    "sources/transcripts/2025-04-10/unknown": "fa3db6fa9282024f672b9846fdb1f4e9",
+    "sources/transcripts/2025-04-26/unknown": "c3160d8bb5476342e933c0d6339320d9",
+    "sources/transcripts/2025-04-29/unknown": "87ea65df46cadafcb48587a657f708d8"
+   }
+  },
+  {
+   "dst": "sources/transcripts/jesse-michels/h0hAit-KH9A",
+   "srcs": {
+    "sources/transcripts/2025-06-20/h0hAit-KH9A": "19900e211b3bb9e7894e2f530df8dbe9",
+    "sources/transcripts/2025-06-25/h0hAit-KH9A": "6d525ecfefcca7c19d00655a6c072c3b"
+   }
+  },
+  {
+   "dst": "sources/transcripts/motorhead-garage/PmclCzGFotM",
+   "srcs": {
+    "sources/transcripts/2025-06-24/PmclCzGFotM": "419fb63c129dafe4d282687a07629467",
+    "sources/transcripts/2025-07-12/PmclCzGFotM": "299228ebb74a099005f547b6970283d0"
+   }
+  },
+  {
+   "dst": "sources/transcripts/jesse-michels/TNtlzEnl8rA",
+   "srcs": {
+    "sources/transcripts/2025-08-31/TNtlzEnl8rA": "54d8592fd4696967f0832220203b080e",
+    "sources/transcripts/2025-09-18/TNtlzEnl8rA": "0f4e7b5904aac317b64ba865075b76b3",
+    "sources/transcripts/2026-08-07/TNtlzEnl8rA": "ba9db7fff0d6224e13ac2db08728ffa8"
+   }
+  },
+  {
+   "dst": "sources/transcripts/rick-astley/dQw4w9WgXcQ",
+   "srcs": {
+    "sources/transcripts/2025-08-31/dQw4w9WgXcQ": "386129025b29037250a0836e4bdf2d52",
+    "sources/transcripts/2026-08-15/dQw4w9WgXcQ": "b0e3348303eec18744263e89568e34b6"
+   }
+  },
+  {
+   "dst": "sources/transcripts/area52/HFLBDi87888",
+   "srcs": {
+    "sources/transcripts/2026-07-24/HFLBDi87888": "3e3b93a7f5b0bd5f4cc1d05815803a9e",
+    "sources/transcripts/2026-08-01/HFLBDi87888": "6366a14f5af1aefa3fc919b4b6390a19"
+   }
+  },
+  {
+   "dst": "sources/transcripts/jesse-michels/uYyXpx7ADJQ",
+   "srcs": {
+    "sources/transcripts/2026-08-06/uYyXpx7ADJQ": "f5d3f1b982dbaf8e257294d29ed974c7",
+    "sources/transcripts/2026-08-07/uYyXpx7ADJQ": "3034a9bbfc6c4121f1db0f98627ad98c"
+   }
+  },
+  {
+   "dst": "sources/transcripts/8-news-now-las-vegas/q0N33jb7Bhk",
+   "srcs": {
+    "sources/transcripts/2026-08-09/q0N33jb7Bhk": "8d8d739354400f15eacf620dd3a3b665",
+    "sources/transcripts/2026-08-10/q0N33jb7Bhk": "1038d20a259606676e5036bf840ad863"
+   }
+  }
+ ]
+}

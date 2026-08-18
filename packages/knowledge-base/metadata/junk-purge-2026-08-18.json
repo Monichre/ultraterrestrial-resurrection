@@ -1,0 +1,400 @@
+{
+ "note": "T-061 junk purge 2026-08-18. Every transcript was scored for UAP-domain term density; each zero-hit entry was then classified by reading its opening text rather than trusting the score. Scoring uses the RAW transcript only \u2014 including the LLM-written Summary.txt polluted it, e.g. the rickroll scored in-domain because its generated summary mentioned UFOs. Two entries are marked JUDGMENT CALL: off-domain content from otherwise in-domain channels. Removed with `git rm -r`, so every file listed here is recoverable from git history.",
+ "date": "2026-08-18",
+ "removed": 22,
+ "bytes_freed": 501655,
+ "entries": [
+  {
+   "path": "sources/transcripts/abc-7-chicago/iLUpBRv5Us8",
+   "reason": "drone footage of Santa Cruz Wharf collapse \u2014 \"drone\" is not UAP",
+   "entry": "iLUpBRv5Us8",
+   "channel": "abc-7-chicago",
+   "file_count": 1,
+   "bytes": 97,
+   "files": [
+    {
+     "path": "droneShowsAftermathOfSantaCruzWharfCollapse.txt",
+     "bytes": 97
+    }
+   ]
+  },
+  {
+   "path": "sources/transcripts/abc7/tVI7S_pqG2Q",
+   "reason": "Russian attack on Ukraine power grid",
+   "entry": "tVI7S_pqG2Q",
+   "channel": "abc7",
+   "file_count": 1,
+   "bytes": 112,
+   "files": [
+    {
+     "path": "russianAttackTargetsUkraineSPowerGridOnChristmasDay.txt",
+     "bytes": 112
+    }
+   ]
+  },
+  {
+   "path": "sources/transcripts/protoofsnagem/ZZ5LpwO-An4",
+   "reason": "HEYYEYAAEYAAAEYAEYAA \u2014 He-Man meme video",
+   "entry": "ZZ5LpwO-An4",
+   "channel": "protoofsnagem",
+   "file_count": 4,
+   "bytes": 1125,
+   "files": [
+    {
+     "path": "_ingest.json",
+     "bytes": 129
+    },
+    {
+     "path": "heyyeyaaeyaaaeyaeyaa.txt",
+     "bytes": 183
+    },
+    {
+     "path": "heyyeyaaeyaaaeyaeyaaSummary.txt",
+     "bytes": 156
+    },
+    {
+     "path": "heyyeyaaeyaaaeyaeyaa_metadata.json",
+     "bytes": 657
+    }
+   ]
+  },
+  {
+   "path": "sources/transcripts/searchlightpictures/8grClYwMXqw",
+   "reason": "\"A Complete Unknown\" movie trailer",
+   "entry": "8grClYwMXqw",
+   "channel": "searchlightpictures",
+   "file_count": 1,
+   "bytes": 216,
+   "files": [
+    {
+     "path": "aCompleteUnknownNowPlayingEverywhereSearchlightPictures.txt",
+     "bytes": 216
+    }
+   ]
+  },
+  {
+   "path": "sources/transcripts/denver7/kDOoSbohEG4",
+   "reason": "Biden signs bald-eagle national-bird bill",
+   "entry": "kDOoSbohEG4",
+   "channel": "denver7",
+   "file_count": 1,
+   "bytes": 454,
+   "files": [
+    {
+     "path": "bidenSignsABillOfficiallyMakingTheBaldEagleTheNationalBirdOfTheUs.txt",
+     "bytes": 454
+    }
+   ]
+  },
+  {
+   "path": "sources/transcripts/kinocheck-com/SIAG8mCnIMs",
+   "reason": "\"The Gorge\" movie trailer",
+   "entry": "SIAG8mCnIMs",
+   "channel": "kinocheck-com",
+   "file_count": 1,
+   "bytes": 980,
+   "files": [
+    {
+     "path": "theGorgeTrailer2025AppleTv.txt",
+     "bytes": 980
+    }
+   ]
+  },
+  {
+   "path": "sources/transcripts/ap-archive/HBveOuw51Tg",
+   "reason": "foreign students urged to return before inauguration",
+   "entry": "HBveOuw51Tg",
+   "channel": "ap-archive",
+   "file_count": 1,
+   "bytes": 1103,
+   "files": [
+    {
+     "path": "foreignStudentsUrgedToReturnToUsCampusesBeforeTrumpInauguration.txt",
+     "bytes": 1103
+    }
+   ]
+  },
+  {
+   "path": "sources/transcripts/cbs-news/nPs16gmLjDI",
+   "reason": "Assad forces clash in Syria",
+   "entry": "nPs16gmLjDI",
+   "channel": "cbs-news",
+   "file_count": 1,
+   "bytes": 1322,
+   "files": [
+    {
+     "path": "formerAssadForcesInSyriaClashWithMembersOfNewGovernment.txt",
+     "bytes": 1322
+    }
+   ]
+  },
+  {
+   "path": "sources/transcripts/wfmy-news-2/jYqMah2b0oU",
+   "reason": "kidney transplant human-interest segment",
+   "entry": "jYqMah2b0oU",
+   "channel": "wfmy-news-2",
+   "file_count": 1,
+   "bytes": 1293,
+   "files": [
+    {
+     "path": "vaultVisitLifeSavingKidneyTransplant.txt",
+     "bytes": 1293
+    }
+   ]
+  },
+  {
+   "path": "sources/transcripts/wfxr-news/19KThUx3lo4",
+   "reason": "Biden/Trump Christmas messages",
+   "entry": "19KThUx3lo4",
+   "channel": "wfxr-news",
+   "file_count": 1,
+   "bytes": 1379,
+   "files": [
+    {
+     "path": "bidenTrumpShareChristmasDayMessages.txt",
+     "bytes": 1379
+    }
+   ]
+  },
+  {
+   "path": "sources/transcripts/motion/PPWxofGr2RQ",
+   "reason": "VEED productivity ad",
+   "entry": "PPWxofGr2RQ",
+   "channel": "motion",
+   "file_count": 1,
+   "bytes": 1374,
+   "files": [
+    {
+     "path": "2B2c22Veed.txt",
+     "bytes": 1374
+    }
+   ]
+  },
+  {
+   "path": "sources/transcripts/the-press-democrat/yjtHBFX_Wmk",
+   "reason": "Phoenix airport shooting",
+   "entry": "yjtHBFX_Wmk",
+   "channel": "the-press-democrat",
+   "file_count": 1,
+   "bytes": 1760,
+   "files": [
+    {
+     "path": "christmasShootingAtPhoenixAirportLeavesSeveralPeopleWounded.txt",
+     "bytes": 1760
+    }
+   ]
+  },
+  {
+   "path": "sources/transcripts/cbs-news/v3jozXi5mDU",
+   "reason": "atmospheric river weather report",
+   "entry": "v3jozXi5mDU",
+   "channel": "cbs-news",
+   "file_count": 1,
+   "bytes": 2619,
+   "files": [
+    {
+     "path": "atmosphericRiverSendingBadWeatherToPacificNorthwestSevereStormsExpectedInSouth.txt",
+     "bytes": 2619
+    }
+   ]
+  },
+  {
+   "path": "sources/transcripts/rick-astley/dQw4w9WgXcQ",
+   "reason": "Never Gonna Give You Up \u2014 rickroll",
+   "entry": "dQw4w9WgXcQ",
+   "channel": "rick-astley",
+   "file_count": 8,
+   "bytes": 28392,
+   "files": [
+    {
+     "path": "rickAstleyNeverGonnaGiveYouUpOfficialVideo4KRemaster.txt",
+     "bytes": 2450
+    },
+    {
+     "path": "rickAstleyNeverGonnaGiveYouUpOfficialVideo4KRemasterSummary.md",
+     "bytes": 1559
+    },
+    {
+     "path": "rickAstleyNeverGonnaGiveYouUpOfficialVideo4KRemasterSummary.txt",
+     "bytes": 1559
+    },
+    {
+     "path": "rickAstleyNeverGonnaGiveYouUpOfficialVideo4KRemaster_metadata.json",
+     "bytes": 1127
+    },
+    {
+     "path": "rickAstleyNeverGonnaGiveYouUpOfficialVideo4KRemaster_rag_pipeline.json",
+     "bytes": 7597
+    },
+    {
+     "path": "rickAstleyNeverGonnaGiveYouUpOfficialVideo4KRemaster_segments.json",
+     "bytes": 8291
+    },
+    {
+     "path": "rickAstleyNeverGonnaGiveYouUpOfficialVideo4KRemaster_trace_map.json",
+     "bytes": 2528
+    },
+    {
+     "path": "rickAstleyNeverGonnaGiveYouUpOfficialVideo4KRemaster_trace_map.md",
+     "bytes": 3281
+    }
+   ]
+  },
+  {
+   "path": "sources/transcripts/livenow-from-fox/YkFGcwTbXDU",
+   "reason": "NY taxi hits pedestrians",
+   "entry": "YkFGcwTbXDU",
+   "channel": "livenow-from-fox",
+   "file_count": 1,
+   "bytes": 2797,
+   "files": [
+    {
+     "path": "newYorkTaxiDriverHits6Pedestrians3TakenToHospitalPoliceSayLivenowFromFox.txt",
+     "bytes": 2797
+    }
+   ]
+  },
+  {
+   "path": "sources/transcripts/face-the-nation/z9at1BQtO24",
+   "reason": "Trump on Panama Canal / Canada",
+   "entry": "z9at1BQtO24",
+   "channel": "face-the-nation",
+   "file_count": 1,
+   "bytes": 3672,
+   "files": [
+    {
+     "path": "whyTrumpIsFloatingTheIdeaOfUSTakingControlOfPanamaCanalCanada.txt",
+     "bytes": 3672
+    }
+   ]
+  },
+  {
+   "path": "sources/transcripts/nbc-news/N2QgGsoGsX0",
+   "reason": "tsunami survivors, 20 years later",
+   "entry": "N2QgGsoGsX0",
+   "channel": "nbc-news",
+   "file_count": 1,
+   "bytes": 6197,
+   "files": [
+    {
+     "path": "iHadALifeToLiveSurvivorsRecallTsunami20YearsLater.txt",
+     "bytes": 6197
+    }
+   ]
+  },
+  {
+   "path": "sources/transcripts/tool-use-ai-conversations/npLq3eeG2Lk",
+   "reason": "\"Modernize Your Business With LLMs\" podcast",
+   "entry": "npLq3eeG2Lk",
+   "channel": "tool-use-ai-conversations",
+   "file_count": 1,
+   "bytes": 49629,
+   "files": [
+    {
+     "path": "modernizeYourBusinessWithLlmsFtFranciscoInghamEp19.txt",
+     "bytes": 49629
+    }
+   ]
+  },
+  {
+   "path": "sources/transcripts/usman-abdur-rehman/rk_WSjrmHp8",
+   "reason": "react-flow coding tutorial",
+   "entry": "rk_WSjrmHp8",
+   "channel": "usman-abdur-rehman",
+   "file_count": 1,
+   "bytes": 130855,
+   "files": [
+    {
+     "path": "reactFlowTutorial.txt",
+     "bytes": 130855
+    }
+   ]
+  },
+  {
+   "path": "sources/web/httpbin-org/httpbin-org_9ce121ce",
+   "reason": "httpbin.org test artifact, empty content",
+   "entry": "httpbin-org_9ce121ce",
+   "channel": "httpbin-org",
+   "file_count": 6,
+   "bytes": 2095,
+   "files": [
+    {
+     "path": "_ingest.json",
+     "bytes": 130
+    },
+    {
+     "path": "entity_processing_results.json",
+     "bytes": 756
+    },
+    {
+     "path": "httpbin-org_content.txt",
+     "bytes": 0
+    },
+    {
+     "path": "httpbin-org_metadata.json",
+     "bytes": 1047
+    },
+    {
+     "path": "httpbin-org_summary.md",
+     "bytes": 81
+    },
+    {
+     "path": "httpbin-org_summary.txt",
+     "bytes": 81
+    }
+   ]
+  },
+  {
+   "path": "sources/transcripts/julian-dorey/4KcNRwNntcs",
+   "reason": "Charlie Kirk investigator vs forensics expert \u2014 political, not UAP [JUDGMENT CALL]",
+   "entry": "4KcNRwNntcs",
+   "channel": "julian-dorey",
+   "file_count": 7,
+   "bytes": 259363,
+   "files": [
+    {
+     "path": "_ingest.json",
+     "bytes": 129
+    },
+    {
+     "path": "entity_processing_results.json",
+     "bytes": 820
+    },
+    {
+     "path": "proofTheyLiedCharlieKirkInvestigatorVsForensicsExpertOnCoverupBaronJsm459.txt",
+     "bytes": 256457
+    },
+    {
+     "path": "proofTheyLiedCharlieKirkInvestigatorVsForensicsExpertOnCoverupBaronJsm459Summary.md",
+     "bytes": 246
+    },
+    {
+     "path": "proofTheyLiedCharlieKirkInvestigatorVsForensicsExpertOnCoverupBaronJsm459Summary.txt",
+     "bytes": 246
+    },
+    {
+     "path": "proofTheyLiedCharlieKirkInvestigatorVsForensicsExpertOnCoverupBaronJsm459_metadata.json",
+     "bytes": 400
+    },
+    {
+     "path": "proofTheyLiedCharlieKirkInvestigatorVsForensicsExpertOnCoverupBaronJsm459_rag_pipeline.json",
+     "bytes": 1065
+    }
+   ]
+  },
+  {
+   "path": "sources/transcripts/shawn-ryan-show/S0D0tbdRgWM",
+   "reason": "\"CIA Targeter: Upcoming Attack in America\" \u2014 counterterrorism, not UAP [JUDGMENT CALL]",
+   "entry": "S0D0tbdRgWM",
+   "channel": "shawn-ryan-show",
+   "file_count": 1,
+   "bytes": 4821,
+   "files": [
+    {
+     "path": "ciaTargeterTheUpcomingAttackInAmericaOfficialPreview.txt",
+     "bytes": 4821
+    }
+   ]
+  }
+ ]
+}

@@ -194,3 +194,11 @@ derived/ocr/gap/*.ocr.pdf
 # 2026-08-17-t061-files-taxonomy-and-corpus-storage.md §4 open question 3.
 sources/files/2025-07-25/**
 sources/files/xata-era-events/**
+
+# metadata/ is the archive's index and audit trail, not bulk data — every file
+# in it is a few hundred KB of text that must survive a clone. The root
+# .gitignore lists these one by one and the list kept going stale as new
+# reports were added; this covers the directory so new ones are tracked by
+# default. Anything genuinely large belongs in derived/, not here.
+!metadata/*.json
+!metadata/*.jsonl
