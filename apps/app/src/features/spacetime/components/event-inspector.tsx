@@ -99,15 +99,15 @@ export function EventInspector() {
         </h2>
 
         {event.locationDescription ? (
-          <p className='mt-1.5 flex items-center gap-1.5 text-[11px] text-[#8b9ba1]'>
+          <div className='mt-1.5 flex items-center gap-1.5 text-[11px] text-[#8b9ba1]'>
             <MapPin size={11} strokeWidth={1.6} className='shrink-0' />
             {event.locationDescription}
-          </p>
+          </div>
         ) : (
-          <p className='mt-1.5 flex items-center gap-1.5 text-[11px] text-[#707f86]'>
+          <div className='mt-1.5 flex items-center gap-1.5 text-[11px] text-[#707f86]'>
             <MapPin size={11} strokeWidth={1.6} className='shrink-0' />
             No location recorded
-          </p>
+          </div>
         )}
 
         <dl className='mt-3.5 grid grid-cols-2 gap-x-3 gap-y-3 border-y border-[rgba(125,190,210,0.12)] py-3'>
@@ -132,40 +132,40 @@ export function EventInspector() {
         </dl>
 
         <div className='mt-3.5'>
-          <p className='font-mono text-[8px] tracking-[0.24em] text-[#7d8f95] uppercase'>
+          <div className='font-mono text-[8px] tracking-[0.24em] text-[#7d8f95] uppercase'>
             Attestation
-          </p>
-          <p className='mt-1.5 flex items-start gap-2 text-[11px] leading-relaxed text-[#b6c6cb]'>
+          </div>
+          <div className='mt-1.5 flex items-start gap-2 text-[11px] leading-relaxed text-[#b6c6cb]'>
             <span
               aria-hidden
               className='mt-[5px] h-1.5 w-1.5 shrink-0 rounded-full'
               style={{backgroundColor: STC_EPISTEMIC_COLOR[status]}}
             />
             {EPISTEMIC_COPY[status]}
-          </p>
+          </div>
         </div>
 
         {event.summary ? (
           <div className='mt-3.5'>
-            <p className='font-mono text-[8px] tracking-[0.24em] text-[#7d8f95] uppercase'>
+            <div className='font-mono text-[8px] tracking-[0.24em] text-[#7d8f95] uppercase'>
               Account
-            </p>
-            <p className='mt-1.5 text-[12px] leading-relaxed text-[#c3d3d8]'>
+            </div>
+            <div className='mt-1.5 text-[12px] leading-relaxed text-[#c3d3d8]'>
               {event.summary}
-            </p>
+            </div>
           </div>
         ) : null}
       </div>
 
       <footer className='border-t border-[rgba(125,190,210,0.14)] px-3.5 py-2.5'>
-        <p className='font-mono text-[8px] tracking-[0.2em] text-[#707f86] uppercase'>
+        <div className='font-mono text-[8px] tracking-[0.2em] text-[#707f86] uppercase'>
           Provenance · {event.sourceTable ?? 'unknown'}
           {event.sourceRecordId ? ` · ${event.sourceRecordId.slice(0, 8)}` : ''}
-        </p>
+        </div>
         {/* Plan §3, the lever principle: browsing is free, generation is not. */}
-        <p className='mt-1 font-mono text-[8px] tracking-[0.2em] text-[#707f86] uppercase'>
+        <div className='mt-1 font-mono text-[8px] tracking-[0.2em] text-[#707f86] uppercase'>
           Reconstruction requires the lever — scroll is not intent
-        </p>
+        </div>
       </footer>
     </aside>
   )

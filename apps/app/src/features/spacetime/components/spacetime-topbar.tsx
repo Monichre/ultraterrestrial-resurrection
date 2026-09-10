@@ -35,12 +35,12 @@ export function SpacetimeTopbar({meta, visibleCount}: SpacetimeTopbarProps) {
       <span aria-hidden className='h-6 w-px bg-[rgba(125,190,210,0.22)]' />
 
       <div className='min-w-0'>
-        <p className='font-mono text-[10px] tracking-[0.3em] text-[#4fd8e8] uppercase'>
+        <div className='font-mono text-[10px] tracking-[0.3em] text-[#4fd8e8] uppercase'>
           Temporal Observatory
-        </p>
-        <p className='mt-0.5 truncate font-mono text-[9px] tracking-[0.16em] text-[#707f86] uppercase'>
+        </div>
+        <div className='mt-0.5 truncate font-mono text-[9px] tracking-[0.16em] text-[#707f86] uppercase'>
           Spacetime Canvas · curated events corpus
-        </p>
+        </div>
       </div>
 
       <div className='ml-auto flex items-center gap-2'>

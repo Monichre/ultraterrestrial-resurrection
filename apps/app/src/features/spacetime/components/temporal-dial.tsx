@@ -112,7 +112,7 @@ export function TemporalDial({className}: {className?: string}) {
           </button>
         ) : null}
 
-        <p className='ml-auto flex items-baseline gap-2'>
+        <div className='ml-auto flex items-baseline gap-2'>
           <span className='font-mono text-[8px] tracking-[0.22em] text-[#707f86] uppercase'>
             Cursor
           </span>
@@ -121,7 +121,7 @@ export function TemporalDial({className}: {className?: string}) {
               ? `${cursor.start.slice(0, 10)} → ${cursor.end.slice(0, 10)}`
               : cursor.timestamp.slice(0, 10)}
           </span>
-        </p>
+        </div>
 
         {/*
          * `LIVE ▶` on the boards streams present-day activity; nothing streams
@@ -233,9 +233,9 @@ export function TemporalDial({className}: {className?: string}) {
       </div>
 
       {!hasData ? (
-        <p className='absolute inset-x-0 bottom-8 text-center font-mono text-[9px] tracking-[0.2em] text-[#707f86] uppercase'>
+        <div className='absolute inset-x-0 bottom-8 text-center font-mono text-[9px] tracking-[0.2em] text-[#707f86] uppercase'>
           Awaiting corpus…
-        </p>
+        </div>
       ) : null}
     </section>
   )

@@ -129,9 +129,9 @@ export function EvidenceLayersPanel() {
         // simply unreachable.
         <div className='pointer-events-auto mt-2 min-h-0 space-y-4 overflow-y-auto rounded-xl border border-[rgba(125,190,210,0.16)] bg-[rgba(8,13,17,0.9)] p-3 backdrop-blur-md'>
           <section>
-            <p className='mb-2 font-mono text-[8px] tracking-[0.22em] text-[#7d8f95] uppercase'>
+            <div className='mb-2 font-mono text-[8px] tracking-[0.22em] text-[#7d8f95] uppercase'>
               Layer visibility
-            </p>
+            </div>
             <ul className='space-y-0.5'>
               {LAYER_ROWS.map((row) => {
                 const count = countsByLayer.get(row.key) ?? 0
@@ -199,9 +199,9 @@ export function EvidenceLayersPanel() {
           </section>
 
           <section>
-            <p className='mb-2 font-mono text-[8px] tracking-[0.22em] text-[#7d8f95] uppercase'>
+            <div className='mb-2 font-mono text-[8px] tracking-[0.22em] text-[#7d8f95] uppercase'>
               Density
-            </p>
+            </div>
             <ul className='space-y-1.5'>
               {DENSITY_SAMPLES.map((sample) => (
                 <li key={sample.label} className='flex items-center gap-2'>
@@ -214,15 +214,15 @@ export function EvidenceLayersPanel() {
                 </li>
               ))}
             </ul>
-            <p className='mt-1.5 font-mono text-[8px] leading-relaxed text-[#707f86]'>
+            <div className='mt-1.5 font-mono text-[8px] leading-relaxed text-[#707f86]'>
               Bar weight on the dial track = records per bin.
-            </p>
+            </div>
           </section>
 
           <section>
-            <p className='mb-2 font-mono text-[8px] tracking-[0.22em] text-[#7d8f95] uppercase'>
+            <div className='mb-2 font-mono text-[8px] tracking-[0.22em] text-[#7d8f95] uppercase'>
               Attestation
-            </p>
+            </div>
             <ul className='space-y-0.5'>
               {EPISTEMIC_ROWS.map((row) => {
                 const reachable = presentStatuses.has(row.status)
@@ -270,9 +270,9 @@ export function EvidenceLayersPanel() {
           </section>
 
           <section>
-            <p className='mb-2 font-mono text-[8px] tracking-[0.22em] text-[#7d8f95] uppercase'>
+            <div className='mb-2 font-mono text-[8px] tracking-[0.22em] text-[#7d8f95] uppercase'>
               Min. evidentiary tier
-            </p>
+            </div>
             {maxCredibility <= 0 ? (
               /*
                * The curated `events` table carries no corroboration, provenance
@@ -282,11 +282,11 @@ export function EvidenceLayersPanel() {
                * — say why instead. Returns automatically once Lane A's
                * provenance backfill (H4) gives these records a real score.
                */
-              <p className='font-mono text-[9px] leading-relaxed text-[#707f86]'>
+              <div className='font-mono text-[9px] leading-relaxed text-[#707f86]'>
                 No loaded record carries a credibility score — the curated events
                 corpus has no provenance tier yet, so this filter stays inert
                 rather than inventing one.
-              </p>
+              </div>
             ) : (
               <div className='flex gap-1'>
                 {CREDIBILITY_TIERS.map((tier) => {

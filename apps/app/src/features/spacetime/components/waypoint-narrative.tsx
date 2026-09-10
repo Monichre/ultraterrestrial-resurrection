@@ -181,12 +181,12 @@ export function WaypointNarrative() {
       className='pointer-events-auto absolute top-4 bottom-12 left-4 z-20 flex w-[19rem] flex-col overflow-hidden rounded-xl border border-[rgba(125,190,210,0.16)] bg-[rgba(8,13,17,0.86)] backdrop-blur-md'
     >
       <header className='border-b border-[rgba(125,190,210,0.14)] px-3.5 py-2.5'>
-        <p className='font-mono text-[8px] tracking-[0.24em] text-[#7d8f95] uppercase'>
+        <div className='font-mono text-[8px] tracking-[0.24em] text-[#7d8f95] uppercase'>
           Guided investigation
-        </p>
-        <p className='mt-1 text-[12px] leading-snug text-[#c3d3d8]'>
+        </div>
+        <div className='mt-1 text-[12px] leading-snug text-[#c3d3d8]'>
           A flight through the unexplained
-        </p>
+        </div>
 
         {/* Explicit chapter control — concept-02 frame 4's `‹ … ›`. */}
         <div className='mt-2.5 flex items-center gap-2'>
@@ -231,11 +231,11 @@ export function WaypointNarrative() {
       </div>
 
       <footer className='border-t border-[rgba(125,190,210,0.14)] px-3.5 py-2'>
-        <p className='font-mono text-[8px] leading-relaxed tracking-[0.14em] text-[#707f86] uppercase'>
+        <div className='font-mono text-[8px] leading-relaxed tracking-[0.14em] text-[#707f86] uppercase'>
           {interactionMode === 'guided'
             ? 'Guided · scroll advances the chapter'
             : 'Free · the dial owns the cursor'}
-        </p>
+        </div>
       </footer>
     </aside>
   )

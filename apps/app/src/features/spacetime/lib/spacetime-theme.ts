@@ -28,8 +28,30 @@
  * `text-[var(--stc-faint)]`, which is static enough for the scanner and makes
  * the swap genuinely one file. Still not done, but no longer blocked — the
  * reason given here previously (an "unexplained Tailwind emission failure")
- * was wrong: it was never an emission problem. Doing the custom-property
- * migration is now just unscheduled work.
+ * was wrong on both counts. See the note below; it was never an emission
+ * problem. Doing the custom-property migration is now just unscheduled work.
+ *
+ * ## Why this feature has no `<p>` elements (2026-09-10)
+ *
+ * `apps/app/src/app/globals.css:578` carries a bare, **unlayered** rule:
+ *
+ * ```css
+ * p { letter-spacing: 1px; font-weight: 300; font-size: 15px; }
+ * ```
+ *
+ * Tailwind v4 emits utilities into `@layer utilities`, and in the cascade
+ * *unlayered author styles beat every layer* regardless of specificity. So on
+ * a `<p>`, that one rule silently overrode `text-[9px]`, `tracking-[0.3em]`
+ * and `font-mono`'s weight — all three at once. Measured on `/spacetime`:
+ * `text-[10px] tracking-[0.3em]` computed to `15px` / `1px`.
+ *
+ * All 24 `<p>` elements in this feature are now `<div>`, which makes the
+ * rule stop matching. Do not reintroduce `<p>` here: the labels are 8–12px
+ * mono HUD captions, and a `<p>` will silently render at 15px with 1px
+ * tracking. This is an app-wide trap — **660** `<p>` sites across `apps/app`
+ * carry a text-size utility that is currently being ignored. The systemic fix
+ * is to wrap `globals.css`'s element rules in `@layer base`; that is its own
+ * ticket, not this file's problem.
  *
  * `STC_LAYER_COLOR` / `STC_EPISTEMIC_COLOR` below ARE genuinely single-sourced
  * (24 references) — they are passed to Mapbox as JS values, never as classes,

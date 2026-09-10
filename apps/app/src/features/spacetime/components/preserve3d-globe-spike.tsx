@@ -93,12 +93,12 @@ function SpikeNarrative() {
             transformStyle: 'preserve-3d',
           }}
         >
-          <p className='font-mono text-xs tracking-[0.2em] text-amber-200/80'>{wp.year}</p>
+          <div className='font-mono text-xs tracking-[0.2em] text-amber-200/80'>{wp.year}</div>
           <h2 className='mt-2 text-2xl font-semibold tracking-tight'>{wp.title}</h2>
-          <p className='mt-1 text-sm text-neutral-300'>{wp.subtitle}</p>
-          <p className='mt-4 text-xs text-neutral-500'>
+          <div className='mt-1 text-sm text-neutral-300'>{wp.subtitle}</div>
+          <div className='mt-4 text-xs text-neutral-500'>
             Spike card {i + 1}/{SAMPLE_WAYPOINTS.length} — scroll to stress the compositor.
-          </p>
+          </div>
         </article>
       ))}
     </div>
