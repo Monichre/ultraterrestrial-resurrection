@@ -38,7 +38,7 @@ export function SpacetimeTopbar({meta, visibleCount}: SpacetimeTopbarProps) {
         <p className='font-mono text-[10px] tracking-[0.3em] text-[#4fd8e8] uppercase'>
           Temporal Observatory
         </p>
-        <p className='mt-0.5 truncate font-mono text-[9px] tracking-[0.16em] text-[#4d5c62] uppercase'>
+        <p className='mt-0.5 truncate font-mono text-[9px] tracking-[0.16em] text-[#707f86] uppercase'>
           Spacetime Canvas · curated events corpus
         </p>
       </div>
@@ -68,7 +68,7 @@ export function SpacetimeTopbar({meta, visibleCount}: SpacetimeTopbarProps) {
                 'px-2.5 py-1.5 font-mono text-[9px] tracking-[0.18em] uppercase transition-colors',
                 mode === m
                   ? 'bg-[rgba(79,216,232,0.14)] text-[#4fd8e8]'
-                  : 'bg-[rgba(8,13,17,0.7)] text-[#5d6d74] hover:text-[#a8b8be]',
+                  : 'bg-[rgba(8,13,17,0.7)] text-[#707f86] hover:text-[#a8b8be]',
               )}
               aria-pressed={mode === m}
             >
@@ -88,7 +88,7 @@ export function SpacetimeTopbar({meta, visibleCount}: SpacetimeTopbarProps) {
 function Readout({label, value}: {label: string; value: string}) {
   return (
     <span className='flex flex-col leading-tight'>
-      <span className='font-mono text-[8px] tracking-[0.2em] text-[#4d5c62] uppercase'>
+      <span className='font-mono text-[8px] tracking-[0.2em] text-[#707f86] uppercase'>
         {label}
       </span>
       <span className='font-mono text-[10px] text-[#c3d3d8]'>{value}</span>
@@ -156,7 +156,7 @@ function IconButton({
       onClick={onClick}
       title={label}
       aria-label={label}
-      className='flex h-8 w-8 items-center justify-center rounded-lg border border-[rgba(125,190,210,0.16)] bg-[rgba(8,13,17,0.7)] text-[#6b7c83] transition-colors hover:border-[rgba(79,216,232,0.4)] hover:text-[#4fd8e8]'
+      className='flex h-8 w-8 items-center justify-center rounded-lg border border-[rgba(125,190,210,0.16)] bg-[rgba(8,13,17,0.7)] text-[#707f86] transition-colors hover:border-[rgba(79,216,232,0.4)] hover:text-[#4fd8e8]'
     >
       <Icon size={14} strokeWidth={1.6} />
     </button>

@@ -45,13 +45,13 @@ export function SpacetimeRail() {
               strokeWidth={1.5}
               className={cn(
                 'transition-colors',
-                item.active ? 'text-[#4fd8e8]' : 'text-[#6b7c83] group-hover:text-[#b6c6cb]',
+                item.active ? 'text-[#4fd8e8]' : 'text-[#707f86] group-hover:text-[#b6c6cb]',
               )}
             />
             <span
               className={cn(
                 'font-mono text-[7px] tracking-[0.16em] uppercase transition-colors',
-                item.active ? 'text-[#4fd8e8]' : 'text-[#4d5c62] group-hover:text-[#8b9ba1]',
+                item.active ? 'text-[#4fd8e8]' : 'text-[#707f86] group-hover:text-[#8b9ba1]',
               )}
             >
               {item.label}

@@ -175,7 +175,7 @@ export function PlaybackTransport({className}: {className?: string}) {
             'rounded px-1 font-mono text-[9px] tracking-wide transition-colors',
             speed === s
               ? 'bg-[rgba(79,216,232,0.16)] text-[#4fd8e8]'
-              : 'text-[#5d6d74] hover:text-[#a8b8be]',
+              : 'text-[#707f86] hover:text-[#a8b8be]',
           )}
           aria-pressed={speed === s}
         >

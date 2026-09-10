@@ -9,8 +9,31 @@
  * The warmer microfilm study at `docs/vision/prototypes/03-temporal-geospatial-
  * observatory.html` shares this *layout* (72px rail · ~68px topbar · docked
  * bottom instrument) but not this palette. Layout was taken from both; colour
- * from the boards. Swapping registers should be a change to this file only —
- * that is why these are constants rather than hex scattered across components.
+ * from the boards.
+ *
+ * ## Read this before trusting the constants below
+ *
+ * **The neutrals are NOT single-sourced, and a register swap is NOT one file.**
+ * An earlier version of this comment claimed it was. It was not true then and
+ * is not true now: the `STC` neutrals are referenced **zero** times by the 14
+ * components (audit 2026-09-09). Every panel, label and hairline carries the
+ * hex inline as a Tailwind arbitrary value.
+ *
+ * That is not laziness — Tailwind's scanner only sees *static* class strings,
+ * so `text-[${STC.faint}]` never emits a rule. The constants here and the
+ * literals in components are a hand-maintained mirror. Change one, grep the
+ * other.
+ *
+ * The real fix is to declare these as CSS custom properties and use
+ * `text-[var(--stc-faint)]`, which is static enough for the scanner and makes
+ * the swap genuinely one file. Still not done, but no longer blocked — the
+ * reason given here previously (an "unexplained Tailwind emission failure")
+ * was wrong: it was never an emission problem. Doing the custom-property
+ * migration is now just unscheduled work.
+ *
+ * `STC_LAYER_COLOR` / `STC_EPISTEMIC_COLOR` below ARE genuinely single-sourced
+ * (24 references) — they are passed to Mapbox as JS values, never as classes,
+ * which is exactly why they escaped the problem.
  */
 
 export const STC = {
@@ -24,7 +47,37 @@ export const STC = {
   lineStrong: 'rgba(125,190,210,0.32)',
   text: '#dbe7ea',
   muted: '#7d8f95',
-  faint: '#4d5c62',
+  /**
+   * Third de-emphasis tier. Was `#4d5c62` until 2026-09-09, which failed WCAG
+   * AA at **2.81:1** on `panelSolid` and accounted for all 36 contrast failures
+   * on the surface — one value, 18 call sites.
+   *
+   * `#707f86` is the *lowest* value that clears 4.5:1 on both grounds
+   * (4.85 on `ground`, 4.71 on `panelSolid`). Chosen deliberately over simply
+   * reusing `muted`: these labels are 8–10px, so they need small-text AA, but
+   * collapsing `faint` into `muted` would erase the two-tier hierarchy the
+   * chrome depends on to keep captions behind values. Staying just over the
+   * line preserves the step while passing.
+   *
+   * If you lower this, re-check it: 8–10px mono is small text, 4.5:1, not 3:1.
+   *
+   * It also absorbed `#6b7c83` (4.49 — missed by 0.01) and `#5d6d74` (3.63) on
+   * 2026-09-09. Those were three near-identical greys doing the same job at
+   * three different contrast ratios, two of them failing. One tier, one value.
+   */
+  faint: '#707f86',
+  /**
+   * Inactive controls only — layer rows with no records, unreachable
+   * credibility tiers. Always paired with `cursor-not-allowed` +
+   * `aria-disabled`.
+   *
+   * 2.17:1, and deliberately left failing: WCAG 1.4.3 exempts text that is
+   * part of an inactive user interface component, and here the dimness *is*
+   * the affordance — it is how "there is nothing behind this control" is
+   * communicated before the user clicks. Raising it to AA would make disabled
+   * rows read as available. Never use this for text the user can act on.
+   */
+  inactive: '#3f4b50',
 } as const
 
 /**

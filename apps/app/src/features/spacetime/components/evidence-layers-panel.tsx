@@ -154,7 +154,7 @@ export function EvidenceLayersPanel() {
                           ? 'cursor-not-allowed text-[#3f4b50]'
                           : on
                             ? 'text-[#dbe7ea] hover:bg-white/[0.05]'
-                            : 'text-[#6b7c83] hover:bg-white/[0.05]',
+                            : 'text-[#707f86] hover:bg-white/[0.05]',
                       )}
                     >
                       <span
@@ -177,13 +177,13 @@ export function EvidenceLayersPanel() {
                       <span className='flex-1 truncate'>{row.label}</span>
                       {available ? (
                         <>
-                          <span className='font-mono text-[9px] tabular-nums text-[#5d6d74]'>
+                          <span className='font-mono text-[9px] tabular-nums text-[#707f86]'>
                             {count}
                           </span>
                           {on ? (
                             <Eye size={12} strokeWidth={1.6} className='text-[#4fd8e8]' />
                           ) : (
-                            <EyeOff size={12} strokeWidth={1.6} className='text-[#4d5c62]' />
+                            <EyeOff size={12} strokeWidth={1.6} className='text-[#707f86]' />
                           )}
                         </>
                       ) : (
@@ -214,7 +214,7 @@ export function EvidenceLayersPanel() {
                 </li>
               ))}
             </ul>
-            <p className='mt-1.5 font-mono text-[8px] leading-relaxed text-[#4d5c62]'>
+            <p className='mt-1.5 font-mono text-[8px] leading-relaxed text-[#707f86]'>
               Bar weight on the dial track = records per bin.
             </p>
           </section>
@@ -239,7 +239,7 @@ export function EvidenceLayersPanel() {
                           ? 'cursor-not-allowed text-[#3f4b50]'
                           : on
                             ? 'text-[#dbe7ea] hover:bg-white/[0.05]'
-                            : 'text-[#6b7c83] hover:bg-white/[0.05]',
+                            : 'text-[#707f86] hover:bg-white/[0.05]',
                       )}
                     >
                       <span
@@ -260,7 +260,7 @@ export function EvidenceLayersPanel() {
                       ) : on ? (
                         <Eye size={12} strokeWidth={1.6} className='text-[#4fd8e8]' />
                       ) : (
-                        <EyeOff size={12} strokeWidth={1.6} className='text-[#4d5c62]' />
+                        <EyeOff size={12} strokeWidth={1.6} className='text-[#707f86]' />
                       )}
                     </button>
                   </li>
@@ -282,7 +282,7 @@ export function EvidenceLayersPanel() {
                * — say why instead. Returns automatically once Lane A's
                * provenance backfill (H4) gives these records a real score.
                */
-              <p className='font-mono text-[9px] leading-relaxed text-[#4d5c62]'>
+              <p className='font-mono text-[9px] leading-relaxed text-[#707f86]'>
                 No loaded record carries a credibility score — the curated events
                 corpus has no provenance tier yet, so this filter stays inert
                 rather than inventing one.

@@ -87,7 +87,7 @@ export function EventInspector() {
           type='button'
           onClick={() => selectEvent(null)}
           aria-label='Close inspector'
-          className='ml-auto text-[#5d6d74] transition-colors hover:text-[#dbe7ea]'
+          className='ml-auto text-[#707f86] transition-colors hover:text-[#dbe7ea]'
         >
           <X size={14} strokeWidth={1.6} />
         </button>
@@ -104,7 +104,7 @@ export function EventInspector() {
             {event.locationDescription}
           </p>
         ) : (
-          <p className='mt-1.5 flex items-center gap-1.5 text-[11px] text-[#4d5c62]'>
+          <p className='mt-1.5 flex items-center gap-1.5 text-[11px] text-[#707f86]'>
             <MapPin size={11} strokeWidth={1.6} className='shrink-0' />
             No location recorded
           </p>
@@ -158,12 +158,12 @@ export function EventInspector() {
       </div>
 
       <footer className='border-t border-[rgba(125,190,210,0.14)] px-3.5 py-2.5'>
-        <p className='font-mono text-[8px] tracking-[0.2em] text-[#4d5c62] uppercase'>
+        <p className='font-mono text-[8px] tracking-[0.2em] text-[#707f86] uppercase'>
           Provenance · {event.sourceTable ?? 'unknown'}
           {event.sourceRecordId ? ` · ${event.sourceRecordId.slice(0, 8)}` : ''}
         </p>
         {/* Plan §3, the lever principle: browsing is free, generation is not. */}
-        <p className='mt-1 font-mono text-[8px] tracking-[0.2em] text-[#4d5c62] uppercase'>
+        <p className='mt-1 font-mono text-[8px] tracking-[0.2em] text-[#707f86] uppercase'>
           Reconstruction requires the lever — scroll is not intent
         </p>
       </footer>
@@ -174,12 +174,12 @@ export function EventInspector() {
 function Stat({label, value, hint}: {label: string; value: string; hint?: string}) {
   return (
     <div>
-      <dt className='font-mono text-[8px] tracking-[0.22em] text-[#4d5c62] uppercase'>
+      <dt className='font-mono text-[8px] tracking-[0.22em] text-[#707f86] uppercase'>
         {label}
       </dt>
       <dd className='mt-0.5 font-mono text-[12px] text-[#dbe7ea]'>{value}</dd>
       {hint ? (
-        <dd className='mt-0.5 text-[9px] leading-tight text-[#4d5c62] italic'>{hint}</dd>
+        <dd className='mt-0.5 text-[9px] leading-tight text-[#707f86] italic'>{hint}</dd>
       ) : null}
     </div>
   )

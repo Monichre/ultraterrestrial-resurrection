@@ -113,7 +113,7 @@ export function TemporalDial({className}: {className?: string}) {
         ) : null}
 
         <p className='ml-auto flex items-baseline gap-2'>
-          <span className='font-mono text-[8px] tracking-[0.22em] text-[#4d5c62] uppercase'>
+          <span className='font-mono text-[8px] tracking-[0.22em] text-[#707f86] uppercase'>
             Cursor
           </span>
           <span className='font-mono text-[12px] tracking-wide text-[#4fd8e8]'>
@@ -214,7 +214,7 @@ export function TemporalDial({className}: {className?: string}) {
               aria-hidden
               className='mx-auto block h-[5px] w-px bg-[rgba(125,190,210,0.4)]'
             />
-            <span className='mt-1 block font-mono text-[8px] tracking-wider text-[#4d5c62] whitespace-nowrap'>
+            <span className='mt-1 block font-mono text-[8px] tracking-wider text-[#707f86] whitespace-nowrap'>
               {tick.year}
             </span>
           </div>
@@ -233,7 +233,7 @@ export function TemporalDial({className}: {className?: string}) {
       </div>
 
       {!hasData ? (
-        <p className='absolute inset-x-0 bottom-8 text-center font-mono text-[9px] tracking-[0.2em] text-[#4d5c62] uppercase'>
+        <p className='absolute inset-x-0 bottom-8 text-center font-mono text-[9px] tracking-[0.2em] text-[#707f86] uppercase'>
           Awaiting corpus…
         </p>
       ) : null}

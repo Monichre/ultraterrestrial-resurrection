@@ -324,7 +324,7 @@ export function SpacetimeGlobe() {
 
   if (!process.env.NEXT_PUBLIC_MAPBOX_PUBLIC_TOKEN) {
     return (
-      <div className='flex h-full w-full items-center justify-center bg-[#05080b] font-mono text-[10px] tracking-[0.24em] text-[#4d5c62] uppercase'>
+      <div className='flex h-full w-full items-center justify-center bg-[#05080b] font-mono text-[10px] tracking-[0.24em] text-[#707f86] uppercase'>
         Set NEXT_PUBLIC_MAPBOX_PUBLIC_TOKEN for live globe
       </div>
     )

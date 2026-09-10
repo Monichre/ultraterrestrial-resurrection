@@ -56,7 +56,7 @@ export function EvidenceLegend() {
             key={row.key}
             className={cn(
               'flex items-center gap-1.5 font-mono text-[9px] tracking-wide whitespace-nowrap',
-              live ? 'text-[#c3d3d8]' : 'text-[#4d5c62]',
+              live ? 'text-[#c3d3d8]' : 'text-[#707f86]',
             )}
           >
             {/* Ring-with-core marker, matching the globe's pin construction. */}

@@ -231,7 +231,7 @@ export function WaypointNarrative() {
       </div>
 
       <footer className='border-t border-[rgba(125,190,210,0.14)] px-3.5 py-2'>
-        <p className='font-mono text-[8px] leading-relaxed tracking-[0.14em] text-[#4d5c62] uppercase'>
+        <p className='font-mono text-[8px] leading-relaxed tracking-[0.14em] text-[#707f86] uppercase'>
           {interactionMode === 'guided'
             ? 'Guided · scroll advances the chapter'
             : 'Free · the dial owns the cursor'}
@@ -269,7 +269,7 @@ function ChapterRow({
             'mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full border font-mono text-[8px]',
             active
               ? 'border-[#4fd8e8] bg-[rgba(79,216,232,0.2)] text-[#dff8fb]'
-              : 'border-[rgba(125,190,210,0.3)] text-[#6b7c83]',
+              : 'border-[rgba(125,190,210,0.3)] text-[#707f86]',
           )}
         >
           {index + 1}
@@ -278,7 +278,7 @@ function ChapterRow({
           <span
             className={cn(
               'block font-mono text-[9px] tracking-[0.16em]',
-              active ? 'text-[#4fd8e8]' : 'text-[#5d6d74]',
+              active ? 'text-[#4fd8e8]' : 'text-[#707f86]',
             )}
           >
             {station.timestamp.slice(0, 10)}
