@@ -869,7 +869,7 @@ import asyncio
 from dataclasses import dataclass
 
 from lib.cocoindex_integration import cocoindex_processor
-from lib.knowledge_base_service import kb_service
+from lib.kb.knowledge_base_service import kb_service
 
 logger = logging.getLogger(__name__)
 

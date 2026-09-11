@@ -77,7 +77,7 @@ Input (URL/YouTube/File)
   |     Web: processing/web_content_processor.py scraping
   |     File: direct read (supports .md, .pdf, .txt — NOT .docx; use bulk ingestion for docx)
   |
-  |-> Knowledge Base Storage (lib/knowledge_base_crud.py)
+  |-> Knowledge Base Storage (lib/kb/knowledge_base_crud.py)
   |     Indexes content, assigns doc_id
   |
   |-> Upstash Search Sync (lib/sync_to_upstash_search_integrated.py)
@@ -103,8 +103,8 @@ Each stage is fault-tolerant -- failures log warnings but never block the pipeli
 
 | Module | Purpose |
 |--------|---------|
-| `lib/knowledge_base_service.py` | Orchestrates KB indexing + Upstash sync |
-| `lib/knowledge_base_crud.py` | Full CRUD -- see API section below |
+| `lib/kb/knowledge_base_service.py` | Orchestrates KB indexing + Upstash sync |
+| `lib/kb/knowledge_base_crud.py` | Full CRUD -- see API section below |
 | `lib/terminal_display.py` | Animated spinners, styled headers, progress output |
 | `lib/entity_extraction/processors/interactive_entity_processor.py` | NER with `process_summary_file_interactive()` |
 | `lib/cocoindex_integration.py` | `cocoindex_processor.process_document_knowledge_graph()` |
@@ -119,7 +119,7 @@ Each stage is fault-tolerant -- failures log warnings but never block the pipeli
 ## KnowledgeBaseCRUD Full API
 
 ```python
-from lib.knowledge_base_crud import KnowledgeBaseCRUD
+from lib.kb.knowledge_base_crud import KnowledgeBaseCRUD
 kb = KnowledgeBaseCRUD()
 
 kb.create_document(title, content, source, doc_type, metadata, tags)  # returns Document

@@ -1,0 +1,13 @@
+Found 3 batch files (3 logical batches, 0 multi-part):
+  batch-1.json: 20 nodes, 17 edges
+  batch-2.json: 4 nodes, 20 edges
+  batch-3.json: 1 nodes, 0 edges
+
+Input: 25 nodes, 37 edges
+
+Output: 25 nodes, 37 edges
+
+Imports edge recovery:
+  Recovered 0 `imports` edges from importMap (25 entries scanned)
+
+Written to /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/docs/plans/.understand-anything/intermediate/assembled-graph.json (22 KB)

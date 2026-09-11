@@ -5,7 +5,7 @@ Handles processing of URLs, files, and various content types
 """
 
 from lib.local_rag import LocalRAG, LocalRAGIntegration
-from lib.knowledge_base_crud import KnowledgeBaseCRUD
+from lib.kb.knowledge_base_crud import KnowledgeBaseCRUD
 from lib.upstash.queue import add_processed_content_to_queue
 from lib.youtube import (
     generate_transcript,

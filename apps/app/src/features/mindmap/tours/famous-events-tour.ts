@@ -1,4 +1,9 @@
 import type { GuidedTourDef } from './guided-tour-store'
+import type {
+  AnyTourDefinition,
+  TourDefinition,
+} from '@/features/guided-tours/shared/types/tour-definition'
+import { nuclearShadowDefinition } from '@/features/guided-tours/nuclear-shadow/nuclear-shadow.definition'
 
 /**
  * The flagship guided tour — the chronological spine of the modern UFO era.
@@ -77,4 +82,16 @@ export const FAMOUS_EVENTS_TOUR: GuidedTourDef = {
   ],
 }
 
-export const GUIDED_TOURS: GuidedTourDef[] = [FAMOUS_EVENTS_TOUR]
+/** The evidence-graph flagship, registered under the same roof (T-050 s5). */
+export const NUCLEAR_SHADOW_TOUR: TourDefinition = nuclearShadowDefinition
+
+/**
+ * The single tour registry. Both engines' tours live here so the canvas chips,
+ * the console typer and `?tour=` deep links all read one list. Order = order
+ * of the chips on the canvas.
+ */
+export const GUIDED_TOURS: AnyTourDefinition[] = [NUCLEAR_SHADOW_TOUR, FAMOUS_EVENTS_TOUR]
+
+/** Stable handle for deep links: the evidence-graph `slug` or the tour `id`. */
+export const tourHandle = (tour: AnyTourDefinition): string =>
+  tour.mode === 'evidence-graph' ? tour.slug : tour.id

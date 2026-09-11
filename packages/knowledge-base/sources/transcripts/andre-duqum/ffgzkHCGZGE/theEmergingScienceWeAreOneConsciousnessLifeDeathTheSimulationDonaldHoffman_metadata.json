@@ -1,0 +1,36 @@
+{
+  "title": "The Emerging Science: “We Are ONE Consciousness” - Life, Death & The Simulation | Donald Hoffman",
+  "url": "https://www.youtube.com/watch?v=ffgzkHCGZGE",
+  "id": "ffgzkHCGZGE",
+  "channel_id": "UCOFr2M0innfMCzpMeMQ7zNw",
+  "channel_title": "André Duqum",
+  "published_at": "2024-07-23T13:00:41Z",
+  "categories": [],
+  "tags": [],
+  "description": "",
+  "chapters": [],
+  "transcript_segment_count": 3587,
+  "rag_pipeline": {
+    "status": "ok",
+    "embeddable_count": 1,
+    "prompts_used": [
+      "disclosure.content_analysis",
+      "disclosure.ner",
+      "document_classification",
+      "rag_ingestion"
+    ],
+    "errors": [
+      "ner:c01:disclosure.ner: JSON unparseable after one repair retry (Expecting value: line 1 column 1 (char 0)); raw response was 4451 chars"
+    ]
+  },
+  "trace_map": {
+    "json_path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/sources/transcripts/andre-duqum/ffgzkHCGZGE/theEmergingScienceWeAreOneConsciousnessLifeDeathTheSimulationDonaldHoffman_trace_map.json",
+    "md_path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/sources/transcripts/andre-duqum/ffgzkHCGZGE/theEmergingScienceWeAreOneConsciousnessLifeDeathTheSimulationDonaldHoffman_trace_map.md",
+    "node_count": 12,
+    "edge_count": 11,
+    "coverage_fraction": 0.1842,
+    "valid": true,
+    "error_count": 0,
+    "gap_count": 7
+  }
+}

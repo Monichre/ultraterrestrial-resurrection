@@ -43,7 +43,7 @@ from agno.agent import Agent
 import streamlit as st
 
 # 3. Local imports
-from lib.knowledge_base_service import kb_service
+from lib.kb.knowledge_base_service import kb_service
 from agents.base_research_agent import BaseResearchAgent
 ```
 

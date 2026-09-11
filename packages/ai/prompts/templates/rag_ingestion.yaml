@@ -5,7 +5,29 @@ owner: "ai-platform"
 tags: ["rag", "ingestion", "documents", "chunking"]
 schema_ref: "schemas/output/ingestion.schema.json"
 runtime:
-  max_tokens: 1400
+  # Unlike every other stage in the pipeline, this one's output CONTAINS its
+  # input: rule 1 requires each chunk.text be a contiguous source excerpt, so
+  # the response must re-emit essentially the whole source plus per-chunk
+  # metadata. Output size therefore scales with MAX_SOURCE_CHARS (24,000), not
+  # with any summary budget.
+  #
+  # Measured 2026-08-15 on a 24,026-char source (video K4gYHs84BIc):
+  #   max_tokens=1400  -> EVERY tier raised BudgetExhausted -> AllProvidersFailed
+  #   max_tokens=16000 -> tier 1 (openrouter/glm-5.2) succeeded first try,
+  #                       34,149-char response, 10 chunks, 23,861 chars of
+  #                       chunk text (~8,500 tokens of actual output)
+  #
+  # 1400 was not a tuning miss, it was structurally impossible by ~6x — and it
+  # failed in two different disguises depending on which tier answered: a
+  # truncated body ("Unterminated string ... char 24799") from one, a bare JSON
+  # array from another. Both surfaced as "0 chunks", which then emptied NER and
+  # embeddable_texts downstream while the run still exited 0.
+  #
+  # Note the chain adds REASONING_HEADROOM_TOKENS (4096) on top of this for
+  # reasoning tiers, and doubles it on BudgetExhausted — so the effective
+  # ceiling here is ~20k on tier 1. Raise MAX_SOURCE_CHARS and this must rise
+  # with it, at roughly 0.35 tokens per source char plus 40% metadata overhead.
+  max_tokens: 16000
   temperature: 0.1
 variables:
   - name: "source_text"

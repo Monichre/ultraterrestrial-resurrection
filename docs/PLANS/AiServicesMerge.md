@@ -11,7 +11,7 @@
 ## 1. Current state (grounded)
 
 | Surface | What it actually is | In scope? |
-|---|---|---|
+| --- | --- | --- |
 | `packages/ai/` | Agent-suite markdown + nested `@repo/prompts` | Yes |
 | `packages/ai/prompts/` | Live workspace `@repo/prompts` | Yes |
 | `packages/services/` | Orphaned `@ultraterrestrial/services` (Exa / Firecrawl / deep-research / document-library) | Yes — merge target |
@@ -47,7 +47,7 @@ packages/ai/                         # @repo/ai  (new root package)
 **Package names**
 
 | Today | After |
-|---|---|
+| --- | --- |
 | `@repo/prompts` | unchanged path + name |
 | `@ultraterrestrial/services` | `@repo/ai/services` (subpath export) |
 | `@ultraterrestrial/deep-research` | drop nested package; export `@repo/ai/services/deep-research` or fold into barrel |
@@ -64,7 +64,7 @@ Earlier A/B/C assumed rewiring or pruning against `apps/app`. **That fork is clo
 > Do not touch anything in `apps/`. Job is solely `packages/`.
 
 | Option | Status | Meaning under constraint |
-|---|---|---|
+| --- | --- | --- |
 | **A. Package becomes product SoT** | Deferred / out of scope | Would require migrating `apps/` routes onto the package |
 | **B. Leave app clients; prune services** | Deferred / out of scope for *this* job if it means deciding app ownership | Would be a delete-without-merge story, still packages-only if we only delete `packages/services` — but owner asked to **merge into AI**, not prune |
 | **C′. Packages-only merge (active)** | **Selected** | Physically move `packages/services` → `packages/ai/services`, promote `@repo/ai`, dedupe *inside* the moved tree, retire `packages/services`. Do not import from or edit `apps/`. Future app adoption is a separate ticket owned elsewhere. |
@@ -117,7 +117,7 @@ Earlier A/B/C assumed rewiring or pruning against `apps/app`. **That fork is clo
 Two files both claimed "AI / Prompts" context:
 
 | File | Role | Flaw |
-|---|---|---|
+| --- | --- | --- |
 | `packages/prompts/CONTEXT.md` | Product voice: roles, liturgy, persistence | Stale: claims `packages/prompts/` is not a package; CONTEXT-MAP pointed here |
 | `packages/ai/prompts/CONTEXT.md` | Corpus glossary: registry IDs, templates, legacy shims | Missing operational voice / role definitions |
 
@@ -127,7 +127,7 @@ Two files both claimed "AI / Prompts" context:
 2. **Merged content:** voice contract + five roles + liturgy + persistence (from stub) **plus** corpus terms + register distinctions + legacy vocab (from ai/prompts).
 3. **Truth fix:** document that code lives at `packages/ai/prompts` (`@repo/prompts`), while Canvas liturgy schemas still live in `apps/app` server actions until extracted.
 4. **`packages/prompts/CONTEXT.md` → redirect stub** so old links don't 404.
-5. **`CONTEXT-MAP.md` + `docs/agents/ops/domain.md`** updated to the canonical path.
+5. **`CONTEXT-MAP.md` + [`.agents/rules/domain.md`](.agents/rules/domain.md)** updated to the canonical path.
 
 No second AI context under `packages/services` — services become a **module inside AI**, not a domain context of their own. Vendor client vocabulary stays under AI/Prompts (tool adapters) or system CONTEXT reserved words.
 
@@ -136,7 +136,7 @@ No second AI context under `packages/services` — services become a **module in
 ## 6. Risks
 
 | Risk | Mitigation |
-|---|---|
+| --- | --- |
 | Moving unused code looks like progress | Phase 3 requires one live consumer or explicit prune (Option B) |
 | Zod 3 vs 4 split | Don't drag zod schemas into package until majors align |
 | Secret in git history | Redact file; rotate token; history still dirty — rotate is mandatory |
@@ -167,11 +167,11 @@ No second AI context under `packages/services` — services become a **module in
 ## 9. Files touched this session
 
 | File | Action |
-|---|---|
+| --- | --- |
 | `packages/ai/prompts/CONTEXT.md` | Merged canonical CONTEXT |
 | `packages/prompts/CONTEXT.md` | Redirect stub |
 | `CONTEXT-MAP.md` | Point to canonical path |
-| `docs/agents/ops/domain.md` | Tree + path fix |
+| [`.agents/rules/domain.md`](.agents/rules/domain.md) | Tree + path fix |
 | `docs/plans/AiServicesMerge.md` | This plan |
 | `docs/plans/AiServicesMerge_PSEUDOCODE.md` | Pseudocode |
 | `packages/services/document-library/client.ts` | Secret redacted (rotate still required) |

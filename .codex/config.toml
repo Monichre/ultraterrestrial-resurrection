@@ -8,7 +8,47 @@ DISABLE_COST_WARNINGS = "1"
 USE_BUILTIN_RIPGREP = "1"
 CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR = "1"
 CLAUDE_CODE_DISABLE_TERMINAL_TITLE = "0"
+CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "1"
 
 [mcp_servers.open-knowledge]
 command = "/bin/sh"
-args = ["-l", "-c", "# ok-mcp-v2\nUSER_BUNDLE=\"$HOME/Applications/OpenKnowledge.app/Contents/Resources/cli/bin/ok.sh\"\n[ -f \"$USER_BUNDLE\" ] && [ -x \"$USER_BUNDLE\" ] && exec \"$USER_BUNDLE\" mcp\nBUNDLE=\"/Applications/OpenKnowledge.app/Contents/Resources/cli/bin/ok.sh\"\n[ -f \"$BUNDLE\" ] && [ -x \"$BUNDLE\" ] && exec \"$BUNDLE\" mcp\nDEB_BUNDLE=\"/opt/OpenKnowledge/resources/cli/bin/ok.sh\"\n[ -f \"$DEB_BUNDLE\" ] && [ -x \"$DEB_BUNDLE\" ] && exec \"$DEB_BUNDLE\" mcp\ncommand -v npx >/dev/null 2>&1 && exec npx -y @inkeep/open-knowledge@latest mcp\nfor d in \"$HOME/.nvm/versions/node\"/*/bin \"$HOME/.fnm/node-versions\"/*/installation/bin \"$HOME/.asdf/installs/nodejs\"/*/bin /opt/homebrew/bin /usr/local/bin \"$HOME/.local/bin\" \"$HOME/.volta/bin\"; do\n  [ -f \"$d/npx\" ] && [ -x \"$d/npx\" ] && exec \"$d/npx\" -y @inkeep/open-knowledge@latest mcp\ndone\necho \"OpenKnowledge: install OK Desktop or Node.js 24+, then restart your editor\" >&2\nexit 127"]
+args = [
+    "-l",
+    "-c",
+    """
+# ok-mcp-v2
+USER_BUNDLE="$HOME/Applications/OpenKnowledge.app/Contents/Resources/cli/bin/ok.sh"
+[ -f "$USER_BUNDLE" ] && [ -x "$USER_BUNDLE" ] && exec "$USER_BUNDLE" mcp
+BUNDLE="/Applications/OpenKnowledge.app/Contents/Resources/cli/bin/ok.sh"
+[ -f "$BUNDLE" ] && [ -x "$BUNDLE" ] && exec "$BUNDLE" mcp
+DEB_BUNDLE="/opt/OpenKnowledge/resources/cli/bin/ok.sh"
+[ -f "$DEB_BUNDLE" ] && [ -x "$DEB_BUNDLE" ] && exec "$DEB_BUNDLE" mcp
+command -v npx >/dev/null 2>&1 && exec npx -y @inkeep/open-knowledge@latest mcp
+for d in "$HOME/.nvm/versions/node"/*/bin "$HOME/.fnm/node-versions"/*/installation/bin "$HOME/.asdf/installs/nodejs"/*/bin /opt/homebrew/bin /usr/local/bin "$HOME/.local/bin" "$HOME/.volta/bin"; do
+  [ -f "$d/npx" ] && [ -x "$d/npx" ] && exec "$d/npx" -y @inkeep/open-knowledge@latest mcp
+done
+echo "OpenKnowledge: install OK Desktop or Node.js 24+, then restart your editor" >&2
+exit 127""",
+]
+
+[mcp_servers."DeepGraph Next.js MCP"]
+command = "npx"
+args = [
+    "-y",
+    "mcp-code-graph@latest",
+    "vercel/next.js",
+]
+
+[mcp_servers.chrome-devtools]
+command = "npx"
+args = [
+    "-y",
+    "chrome-devtools-mcp@latest",
+]
+
+[mcp_servers.context7]
+command = "npx"
+args = [
+    "-y",
+    "@upstash/context7-mcp",
+]

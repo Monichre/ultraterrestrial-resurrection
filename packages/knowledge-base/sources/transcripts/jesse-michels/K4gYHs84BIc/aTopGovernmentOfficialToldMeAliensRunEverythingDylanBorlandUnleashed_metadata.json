@@ -2,13 +2,35 @@
   "title": "“A Top Government Official Told Me Aliens Run Everything!” -Dylan Borland UNLEASHED",
   "url": "https://www.youtube.com/watch?v=K4gYHs84BIc",
   "id": "K4gYHs84BIc",
+  "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+  "channel_title": "Jesse Michels",
+  "published_at": "2026-08-05T19:31:05Z",
   "categories": [],
   "tags": [],
   "description": "",
   "chapters": [],
+  "transcript_segment_count": 5443,
   "rag_pipeline": {
-    "status": "error",
-    "embeddable_count": 0,
-    "prompts_used": null
+    "status": "ok",
+    "embeddable_count": 1,
+    "prompts_used": [
+      "disclosure.content_analysis",
+      "disclosure.ner",
+      "document_classification",
+      "rag_ingestion"
+    ],
+    "errors": [
+      "ner:c01:disclosure.ner: JSON unparseable after one repair retry (Unterminated string starting at: line 95 column 17 (char 4771)); raw response was 4827 chars"
+    ]
+  },
+  "trace_map": {
+    "json_path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/sources/transcripts/jesse-michels/K4gYHs84BIc/aTopGovernmentOfficialToldMeAliensRunEverythingDylanBorlandUnleashed_trace_map.json",
+    "md_path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/sources/transcripts/jesse-michels/K4gYHs84BIc/aTopGovernmentOfficialToldMeAliensRunEverythingDylanBorlandUnleashed_trace_map.md",
+    "node_count": 23,
+    "edge_count": 22,
+    "coverage_fraction": 0.1262,
+    "valid": true,
+    "error_count": 0,
+    "gap_count": 7
   }
 }

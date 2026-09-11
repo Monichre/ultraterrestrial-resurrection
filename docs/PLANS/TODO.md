@@ -604,37 +604,58 @@ The ticket below was last updated 2026-08-05. Two significant things happened af
 - **Files:** `apps/app/src/app/board/page.tsx`, `apps/app/src/app/board/data.ts`, new polling API route (e.g. `apps/app/src/app/api/board/activity/route.ts`)
 - **Reference:** research synthesized 2026-08-01 across three parallel passes (board code read, mockup inventory, live-source gap analysis) in the session that authored this ticket.
 
-### T-050: Guided Tours — converge the two tour engines onto the research canvas
+### T-050: Research Canvas Narrative Engine — merge guided tours + Gen-UI Deep Research (was T-050 + T-053)
 
-- **Status:** IN PROGRESS — scoped 2026-08-05 (synced to Linear 2026-08-15, [DMGD-223](https://linear.app/digital-mischief-group/issue/DMGD-223)); **subtasks 1 (schema) + 2 (store) landed** in **`e58eccfe`** ("T-050 subtasks 1-2 — one Zod schema, one store, explicit corpus anchors"), with follow-ups `7d12de2c` (anchor resolution) and `409da1d9` (invariant enforcement). Subtasks 3–5 open.
-- **Handoff state (re-verified 2026-08-13):** pickup-ready. All subtask 1–2 code is **committed and present in a fresh clone** — no untracked work, no dirty files under `features/guided-tours/` or `features/mindmap/tours/` (`git status --porcelain` on both paths returns empty). The test suite is **green at baseline**: `cd apps/app && bun test src/features/guided-tours` → **38 pass, 0 fail, 94 expect() calls, 8 files, 3.82s**. An inheriting team can trust a red suite means *their* breakage.
-  - **Hash correction:** the previously recorded `7fe46f0` **does not exist in this repo** (`git cat-file -t 7fe46f0` → missing). The work did land; the hash was invalidated by a history rewrite (see the `399dd678 lots` / `6d5d10e6 lotgs` squash commits). This is the same dead-hash class the 08-06 spacetime review flagged as process item 10 — **verify by artifact, not by hash**, anywhere in this file.
-- **Size:** L (schema + store + render + launch; the "real merge", not a launch-chip alias)
+- **Status:** IN PROGRESS — merged 2026-08-17 from T-050 (Guided Tours) + T-053 (Research Canvas Gen-UI). Subtasks 1–2 (schema + store) landed in `e58eccfe` + `7d12de2c` + `409da1d9`. Subtasks 3–8 open. Linear: [DMGD-223](https://linear.app/digital-mischief-group/issue/DMGD-223) (tours) + [DMGD-219](https://linear.app/digital-mischief-group/issue/DMGD-219) (Gen-UI).
+- **Merged 2026-08-17 because T-050 and T-053 are the same thing.** Both project structured narrative nodes (waypoints) onto the single mindmap ReactFlow. Both bind claims to live Neon records or mark them narrative-only. Both use epistemic tiers (T-050: `GateKey = claim/evidence/challenge/residue`; T-053: liturgy tags from the voice contract). Both reject a second canvas. The only difference was entry point — T-050 authored static tour definitions, T-053 generated them dynamically from a Deep Research agent loop. That is a mode distinction, not a separate feature. T-053 RC-P4 ("plan → waypoints after T-050 render") was literally the integration point. Merged into one ticket with a unified subtask sequence.
+- **Handoff state (re-verified 2026-08-13):** pickup-ready. All subtask 1–2 code is **committed and present in a fresh clone** — no untracked work, no dirty files under `features/guided-tours/` or `features/mindmap/tours/`. Test suite **green at baseline**: `cd apps/app && bun test src/features/guided-tours` → **38 pass, 0 fail, 94 expect() calls, 8 files, 3.82s**.
+  - **Hash correction:** the previously recorded `7fe46f0` **does not exist in this repo**. The work did land; the hash was invalidated by a history rewrite. **Verify by artifact, not by hash.**
+- **Size:** XL (schema + store + render + resolve + launch + tool cards + agent state + agentic mode)
 - **Lane:** B — Platform & Experience
-- **What:** The repo has **two unrelated things both called "tour"**, verified 2026-08-05:
-  1. **Mindmap tours** (`features/mindmap/tours/`) — a thin *chronological spine*. `GuidedTourDef` is `searchQuery` + `narrative`; `resolveTourWaypoints` (`actions/tour-actions.ts`) resolves each waypoint against live Neon via `searchTable` at tour start; `use-guided-tour.ts` places `addRecordNode` nodes on the real mindmap canvas and flies `setCenter` along a fixed spine. Progress is `stepIndex` + `placedNodeIds`. Every edge is hardcoded `'Chronological tour path'`. Launches via `startGuidedTour(FAMOUS_EVENTS_TOUR)` at `graph.tsx:452`. Registry: `GUIDED_TOURS` (`famous-events-tour.ts:79`). Wired into `useMindMapUiStore.startTour/endTour`, session events, and `useActiveTourSeed` → suggestions dock.
-  2. **Nuclear Shadow** (`features/guided-tours/`) — a *self-contained evidence-graph runtime* on its own route. Zod-validated `TourDefinition`; epistemic gates (`GateKey = claim | evidence | challenge | residue`); five typed narrative edges (`chronological | evidentiary | hypothesis | institutional-inheritance | contradiction`); private XYFlow (`WaypointNode`/`NarrativeEdge`/`TourFlowCanvas`), HUD + `WaypointInspector` + `EvidenceDrawer`; choreographed arrive/depart; localStorage progress. **Zero `@db/postgres` imports** — static definition + source URLs, no live corpus binding. Launches via `router.push('/tours/nuclear-shadow')` (`graph.tsx:456`/`462`, `research-canvas/typer/constants.ts:10`).
-- **Why:** Nuclear Shadow has the epistemics the product identity demands (evidence tiers, challenge-before-residue, falsifiability) but leaves the research canvas entirely. Mindmap tours are on-canvas and bound to live records but say nothing about evidence. Neither alone is the "integrated research narrative engine for anomalous knowledge."
-- **Subtasks:**
+- **What:** The repo has **two unrelated things both called "tour"**, plus a **Gen-UI Deep Research** proposal that projects agent plans onto the same canvas:
+  1. **Mindmap tours** (`features/mindmap/tours/`) — a thin *chronological spine*. `GuidedTourDef` is `searchQuery` + `narrative`; `resolveTourWaypoints` (`actions/tour-actions.ts`) resolves each waypoint against live Neon via `searchTable` at tour start; `use-guided-tour.ts` places `addRecordNode` nodes on the real mindmap canvas and flies `setCenter` along a fixed spine. Progress is `stepIndex` + `placedNodeIds`. Every edge is hardcoded `'Chronological tour path'`. Launches via `startGuidedTour(FAMOUS_EVENTS_TOUR)` at `graph.tsx:452`. Registry: `GUIDED_TOURS` (`famous-events-tour.ts:79`).
+  2. **Nuclear Shadow** (`features/guided-tours/`) — a *self-contained evidence-graph runtime* on its own route. Zod-validated `TourDefinition`; epistemic gates (`GateKey = claim | evidence | challenge | residue`); five typed narrative edges (`chronological | evidentiary | hypothesis | institutional-inheritance | contradiction`); private XYFlow (`WaypointNode`/`NarrativeEdge`/`TourFlowCanvas`), HUD + `WaypointInspector` + `EvidenceDrawer`; choreographed arrive/depart; localStorage progress. **Zero `@db/postgres` imports** — static definition + source URLs, no live corpus binding. Launches via `router.push('/tours/nuclear-shadow')` (`graph.tsx:456`/`462`).
+  3. **Deep Research Gen-UI** (was T-053) — proposed agent loop that generates a research plan, executes multi-hop corpus + external searches, and projects the plan as waypoints on the mindmap canvas. ToolCards render `AgentToolEvent` streams; `researchSession` (T-027) holds `plan[]`, `sources[]`, `artifacts[]`; Deep Research mode changes prompt/tool policy on `/api/disclosure/mindmap`. RC-P4 was "project plan onto on-canvas waypoints after T-050 render" — now subtask 8 of this ticket.
+- **Why:** Nuclear Shadow has the epistemics the product identity demands (evidence tiers, challenge-before-residue, falsifiability) but leaves the research canvas entirely. Mindmap tours are on-canvas and bound to live records but say nothing about evidence. Deep Research generates plans dynamically but had no waypoint render target. None alone is the "integrated research narrative engine for anomalous knowledge." All three are modes of the same runtime: authored spine, authored evidence-graph, agentic evidence-graph.
+- **Canonical plans:**
+  1. Epic (was T-053): [`docs/plans/2026-08-09-research-canvas-genui.md`](./2026-08-09-research-canvas-genui.md) — Deep Research loop + AgentState composition onto research-canvas shell.
+  2. MVP (was T-053 RC-P0): [`docs/plans/2026-08-10-rc-p0-tool-cards.md`](./2026-08-10-rc-p0-tool-cards.md) — ToolCards slice.
+  3. Tour engine delta: `features/guided-tours/NuclearShadowTour.md` — Nuclear Shadow reference implementation.
+- **Subtasks (unified sequence):**
   1. ✅ **Schema** — DONE `e58eccfe`. `anyTourDefinitionSchema` is a Zod discriminated union on `mode` (`spine` | `evidence-graph`); spine shapes live in `guided-tours/shared/types/tour-definition.ts` and `mindmap/tours/guided-tour-store.ts` re-exports them as aliases. Every evidence-graph waypoint carries a **required** `corpusAnchor` (`query` | `record` | `none` + required `reason`) with no unset member, so "no record exists" can never be read as "not resolved yet".
   2. ✅ **Store** — DONE `e58eccfe`. `useUnifiedTourStore` holds the union of both runtimes; `useTourStore` and `useGuidedTourStore` are exact aliases of it. Field names don't collide, so all existing selectors and `getState()` calls read a superset unchanged.
-  3. **Render** — evidence-graph tours mount **on the mindmap canvas**, not a second `ReactFlow`. This is the largest open subtask; the seam is fully located, so it can be picked up cold:
+  3. **Render — evidence-graph tours on the mindmap canvas** (was T-050 subtask 3; the load-bearing piece for the whole merged ticket):
      - **What to delete, precisely.** `TourFlowCanvas` (`shared/components/TourFlowCanvas.tsx`) is the only thing that must not survive the port. It composes: `ReactFlowProvider` → `ReactFlow` (its own `nodeTypes`/`edgeTypes` + `Background`) → `TourChoreographer`, then `TourHUD` / `WaypointInspector` / `EvidenceDrawer` as siblings (`:35-125`). **Only the `ReactFlowProvider` + `ReactFlow` + `Background` shell is the second canvas.** Everything else in that file is portable as-is.
      - **Where it goes.** `graph.tsx:558` currently mounts `<TourOverlay />` (imported at `:35`) inside the existing mindmap `ReactFlow` (`:537-538`). That mount point is the target slot: `TourHUD` / `WaypointInspector` / `EvidenceDrawer` / `TourChoreographer` mount there, reading `useUnifiedTourStore` — which subtask 2 already made a superset of both runtimes, so no new state is needed.
      - **The one real integration cost.** `WaypointNode` and `NarrativeEdge` are registered as node/edge types on the private `ReactFlow`. Porting means registering them in the mindmap's shared registries — `features/mindmap/config/node-types.tsx` and `features/mindmap/config/edge-types.tsx` (consumed at `graph.tsx:7,9`). Namespace the keys (e.g. `tour-waypoint`, `tour-narrative`) so they cannot collide with existing mindmap node types.
      - **Graph compilation stays.** `compileTourGraph` already produces the node/edge arrays; feed its output into the mindmap's existing node/edge state instead of a private `ReactFlow`'s props. Do not reimplement it.
-     - **`TourOverlay` disposition.** It is the *spine* runtime's narrative UI (`tours/tour-overlay.tsx`), still driven by `useGuidedTour`, and spine tours still need it. Do not delete it in this subtask — mount the evidence-graph overlays alongside it and let `mode` decide which renders. Deleting it is only correct if/when spine tours are folded into the evidence-graph runtime, which is **not** in T-050's scope.
+     - **`TourOverlay` disposition.** It is the *spine* runtime's narrative UI (`tours/tour-overlay.tsx`), still driven by `useGuidedTour`, and spine tours still need it. Do not delete it in this subtask — mount the evidence-graph overlays alongside it and let `mode` decide which renders.
      - **Acceptance:** launching Nuclear Shadow puts waypoint nodes on the *mindmap* canvas with the HUD/inspector/drawer functioning, `/tours/nuclear-shadow` still resolves (subtask 5 keeps it as a deep-link alias), exactly one `ReactFlow` instance exists in the React tree, and the 8-file suite stays green.
-  4. **Resolve** — map Nuclear Shadow anchors to Neon `searchQuery`/`recordId` where real records exist. Waypoints with no corpus anchor (R&D / SAP) stay narrative-only and must be **visibly** marked as such — do not imply a record exists.
-     - **Four** anchors now need live verification, not the three originally enumerated: Manhattan Project, Trinity, Roswell (`table: 'events'`) **and Smyth Report** (`table: 'documents'`), added when subtask 1 made `corpusAnchor` required. The Smyth anchor is an unverified assertion — a real published document, but nobody has confirmed the corpus holds a matching record. If it does not resolve, demote it to `kind: 'none'` rather than leaving a query that silently returns nothing.
-     - `resolveAnchor()` (`shared/graph/resolve-anchor.ts`, landed with subtask 1) already holds the rule: use it rather than reimplementing resolution, so a failed lookup reports `unresolved` with the attempted query instead of collapsing into narrative-only.
-  5. **Launch** — `startTour(NUCLEAR_SHADOW_TOUR)` from the graph chips / typer; `GUIDED_TOURS` becomes the single registry. Keep `/tours/nuclear-shadow` only as a deep-link alias.
-- **Related (opened 2026-08-09):** **T-053 / DMGD-219** (Research Canvas Gen-UI) still soft-depends on subtask 3 (Render) for **RC-P4** plan→waypoint projection. T-050 does not block proposed **RC-P0–P3**; T-053 itself is **not pickup-ready** until agent-team grooming/review.
-- **Pass bar:** `cd apps/app && bun test src/features/guided-tours` green — **measured baseline 2026-08-13: 38 pass / 0 fail across 8 files**, which are `shared/tests/{tour-schema,unified-tour-store,resolve-anchor,validate-any-tour}.test.ts` and `nuclear-shadow/tests/{definition,reducer,graph-compiler,choreography}.test.ts`. (The previous wording — "the 4 files under `guided-tours/tests/`" — named a directory that does not exist; there is no `guided-tours/tests/`.) Plus: `eslint` exit 0 on touched paths; **no new** `tsc` errors in touched files (repo carries a large pre-existing count — do not chase them). Definition of Done applies: the render subtask needs a dogfood visual audit, not just a green suite.
+  4. **Resolve — map Nuclear Shadow anchors to live Neon records.** Waypoints with no corpus anchor (R&D / SAP) stay narrative-only and must be **visibly** marked as such — do not imply a record exists.
+     - **Four** anchors need live verification: Manhattan Project, Trinity, Roswell (`table: 'events'`) **and Smyth Report** (`table: 'documents'`). The Smyth anchor is an unverified assertion — a real published document, but nobody has confirmed the corpus holds a matching record. If it does not resolve, demote it to `kind: 'none'` rather than leaving a query that silently returns nothing.
+     - `resolveAnchor()` (`shared/graph/resolve-anchor.ts`, landed with subtask 1) already holds the rule: use it rather than reimplementing resolution.
+  5. **Launch — single tour registry.** `startTour(NUCLEAR_SHADOW_TOUR)` from the graph chips / typer; `GUIDED_TOURS` becomes the single registry. Keep `/tours/nuclear-shadow` only as a deep-link alias.
+  6. **ToolCards (was T-053 RC-P0)** — `EnhancedAnimatedChat` renders `AgentToolEvent` as expandable cards (tool label, processing | complete | error, query/params, result summary). Front-end only; no backend / protocol change. Plan: `2026-08-10-rc-p0-tool-cards.md`. **Independently shippable — does not block on subtask 3.**
+  7. **AgentState (was T-053 RC-P1)** — Extend `ResearchSessionState` with `plan[]`, `sources[]`, `artifacts[]`; mirror tool completes from `useMindMapAgent` / `graph.tsx`; serialize into `runAgentQuery` turn context (Dashboard Canvas pattern). **Independently shippable.**
+  8. **Agentic mode (was T-053 RC-P2 + RC-P3 + RC-P4)** — The merge point. A Deep Research run is a third tour mode: `mode: 'agentic'`, where the tour definition is generated live by the agent instead of authored statically. The `corpusAnchor`, epistemic gates, waypoint nodes, and single-canvas render from subtasks 1–5 all apply unchanged.
+     - **RC-P2 (Deep Research mode):** Typer "Deep Research" card + `deepResearchEnabled` → `activeMode` + `researchFocus: 'deep-research'` on `/api/disclosure/mindmap` (plan-first prompt: plan → corpus → external → dossier).
+     - **RC-P3 (Dossier bridge):** `writeResearchDossier` → `researchSession.artifacts` + open/update `SynthesisPanelHost`. Epistemic badges required. AI-authored text is **inference**, never a "claim"; persist via `agent_inferences` only; ADR-0001 — never into retrieval.
+     - **RC-P4 (Plan → waypoints):** Project `researchSession.plan` onto on-canvas waypoints using the same render machinery from subtask 3. The agent's plan steps become `TourWaypointDefinition` objects with `corpusAnchor: { kind: 'query', ... }` for each search step, resolved via `resolveAnchor()`. Unresolved steps render as narrative-only with visible "no record found" marking.
+     - **Blocked on:** subtask 3 (Render) must land first — agentic waypoints need the same on-canvas render as authored ones.
+- **Design constraints (binding — from both original tickets):**
+  - Intelligence lands in **records, waypoints, connections**, and the **synthesis dossier** — not insight-card sidebars or a peer Workspace pane.
+  - AI-authored text is **inference**, never a "claim"; persist via `agent_inferences` only; **ADR-0001** — never into retrieval.
+  - Orchestration over replacement: enhance the disclosure mindmap path; no third AI protocol.
+  - Do not add Gen-UI or tour state to `mindmap-context.tsx` (1,363-line god-object). Use Zustand.
+  - Do not host Gen-UI in `features/research-canvas/*` Storybook islands.
+  - Do not fork a second canvas. One `ReactFlow` instance in the React tree.
+  - Do not use `router.push()` for canvas navigation (use Zustand `setActiveView()`).
+  - No CopilotKit / ADK / LangGraph product path. No Tavily as primary retrieval (Exa + Neon stay).
+- **Related:** T-027 (`researchSession` slice already exists; underused — subtask 7 extends it). T-048 H4 (provenance) is the hard gate on Lane B's evidence instrument but does not block this ticket.
+- **Pass bar:** `cd apps/app && bun test src/features/guided-tours` green — **measured baseline 2026-08-13: 38 pass / 0 fail across 8 files** (`shared/tests/{tour-schema,unified-tour-store,resolve-anchor,validate-any-tour}.test.ts` and `nuclear-shadow/tests/{definition,reducer,graph-compiler,choreography}.test.ts`). Plus: `eslint` exit 0 on touched paths; **no new** `tsc` errors in touched files. Definition of Done applies: subtask 3 needs a dogfood visual audit, not just a green suite. Full epic pass bar: dogfood Deep Research mode on `/research-canvas` — plan visible, multi-tool cards, liturgy-tagged dossier, no sidecar Workspace.
 - **TDD seam:** `shared/state/tour-reducer.ts`, `shared/graph/compile-tour-graph.ts`, `shared/graph/derive-node-status.ts`, `shared/schemas/tour-definition.schema.ts` are pure and already covered. Extend those tests first.
-- **Do not:** fork a second canvas; add state to `mindmap-context.tsx` (1,363-line god-object); use `router.push()` for canvas navigation (use Zustand `setActiveView()`).
-- **Files:** `apps/app/src/features/guided-tours/`, `apps/app/src/features/mindmap/tours/`, `features/mindmap/graph.tsx`, `features/mindmap/actions/tour-actions.ts`, `app/(site)/tours/nuclear-shadow/page.tsx`
-- **Reference:** engine-delta analysis 2026-08-05 (this session); `features/guided-tours/NuclearShadowTour.md`
+- **Files:** `apps/app/src/features/guided-tours/`, `apps/app/src/features/mindmap/tours/`, `features/mindmap/graph.tsx`, `features/mindmap/actions/tour-actions.ts`, `app/(site)/tours/nuclear-shadow/page.tsx`, `features/mindmap/research-canvas/EnhancedAnimatedChat.tsx`, `features/mindmap/store/mindmap-ui-store.ts`, `features/mindmap/hooks/use-mindmap-agent.ts`, `components/synthesis-panel.tsx`, `app/api/disclosure/mindmap/route.ts`
+- **Reference:** engine-delta analysis 2026-08-05; `features/guided-tours/NuclearShadowTour.md`; epic `2026-08-09-research-canvas-genui.md`; RC-P0 `2026-08-10-rc-p0-tool-cards.md`; FEATURES Decision 11
 
 ### T-051: OpenAI Vector Store MCP server (`packages/openai-vector-store-mcp`)
 
@@ -671,31 +692,9 @@ The ticket below was last updated 2026-08-05. Two significant things happened af
 - **Files:** `apps/disclosure-lab/` (in progress), `docs/plans/2026-08-09-disclosure-lab.md`
 - **Reference:** Linear DMGD-216; FEATURES Decision 10
 
-### T-053: Research Canvas Gen-UI upgrade — Deep Research loop + agentic session
+### T-053: MERGED into T-050 — 2026-08-17
 
-- **Status:** OPEN / needs grooming — 2026-08-14 — **idea and feature need grooming and review from the agent team before implementation.** Not claimed; do not start product code. Opened 2026-08-09 against [DMGD-219](https://linear.app/digital-mischief-group/issue/DMGD-219) (Linear **Backlog**, label Feature). FEATURES Decision 11.
-- **Size:** L (epic: console Gen-UI + session slice + mindmap route mode + dossier bridge; RC-P4 soft-blocked on T-050). Proposed first slice **RC-P0** is S (≤ 0.5 day) if/when approved.
-- **Lane:** B — Platform & Experience
-- **Canonical plans (both):**
-  1. Epic: [`docs/plans/2026-08-09-research-canvas-genui.md`](./2026-08-09-research-canvas-genui.md) — compose Deep Research loop + Dashboard Canvas AgentState onto the live `/research-canvas` mindmap shell (steal interaction models, not stacks).
-  2. Proposed MVP: [`docs/plans/2026-08-10-rc-p0-tool-cards.md`](./2026-08-10-rc-p0-tool-cards.md) — smallest dogfoodable slice. Scratch: `.scratch/RcP0ToolCards.md`, `.scratch/RcP0ToolCards_PSUEDOCODE.md`. Dual-app fit analysis lives in the epic (Deep Research agent + Dashboard Canvas agent); research-canvas-specific remapping is in that spec, not a third ticket.
-- **Grooming / review (blocking claim):** Treat Decision 11 and the two plans as **drafts for the agent team**, not a locked build order. Review should confirm: scope vs research-canvas identity (intelligence in records / waypoints / connections / dossier, not sidecars); whether RC-P0 is the right first slice; DoD / dogfood path; conflicts with T-050 render and T-027 `researchSession`. **RC-P0 is proposed, not started, and not locked-to-build until that review.**
-- **What:** Feature upgrade for the live `/research-canvas` mindmap shell. Steal interaction models from two Gen-UI reference apps — **not** their stacks:
-  1. [ai-deep-research-agent](https://github.com/Shubhamsaboo/awesome-llm-apps/tree/main/generative_ui_agents/ai-deep-research-agent) — plan → multi-hop research → durable report + ToolCards.
-  2. [ai-dashboard-canvas-agent](https://github.com/Shubhamsaboo/awesome-llm-apps/tree/main/generative_ui_agents/ai-dashboard-canvas-agent) — thin chat; agent mutates shared AgentState onto a primary canvas.
-  - **Already true today:** Graph is the product surface; `ResearchCanvasConsole` is the rail; `useMindMapAgent` → `runAgentQueryAndAddNodes` already writes nodes/edges; T-027 `researchSession` exists but is underused; `deepResearchEnabled` + typer “Deep Research” card are dead chrome. SSE → `AgentToolEvent[]` already streams; console still shows ephemeral “Searching…” pills for `processing` only.
-  - **Missing (epic):** inspectable ToolCards; `plan`/`sources`/`artifacts` on `researchSession`; session injected into turn context; Deep Research mode that changes prompt/tool policy; mid-run dossier → `SynthesisPanel`; plan→waypoints (after T-050).
-- **Subtasks (RC-P0 → RC-P4) — proposed sequence, not a committed sprint:**
-  1. **RC-P0 — Tool cards (proposed first slice, not started)** — `EnhancedAnimatedChat` renders `AgentToolEvent` as expandable cards (tool label, processing | complete | error, query/params, result summary). Front-end only; no backend / protocol change. Plan: `2026-08-10-rc-p0-tool-cards.md`. **Do not implement until agent-team grooming/review.**
-  2. **RC-P1 — AgentState** — Extend `ResearchSessionState` with `plan[]`, `sources[]`, `artifacts[]`; mirror tool completes; serialize into `runAgentQuery` turn context.
-  3. **RC-P2 — Wire Deep Research mode** — Typer card + `deepResearchEnabled` → `activeMode` + `researchFocus: 'deep-research'` on `/api/disclosure/mindmap` (plan-first prompt).
-  4. **RC-P3 — Dossier bridge** — Artifacts → `SynthesisPanelHost`; optional `agent_inferences` persist (ADR-0001 — never retrieval).
-  5. **RC-P4 — Plan → waypoints** — Project plan onto on-canvas waypoints after T-050 render (same React Flow; no second canvas). Soft-deps T-050 subtask 3.
-- **Do not:** CopilotKit / ADK / LangGraph product path; Workspace sidecar; KPI Recharts agent dashboard; Gen-UI in `features/research-canvas/*` Storybook islands; new state in `mindmap-context.tsx`; claim IN PROGRESS or start RC-P0 before grooming/review; fold RC-P1 into the first PR unless review explicitly says so.
-- **Dependencies:** Soft-deps **T-050** for RC-P4 only (tour render). Related to **T-027** (`researchSession`). Not blocked on T-048 H4. **Hard process dep:** agent-team grooming/review of the idea and feature before any implementation.
-- **Pass bar (epic, after review):** Dogfood Deep Research mode on `/research-canvas` — plan visible, multi-tool cards, liturgy-tagged dossier, no sidecar Workspace. Definition of Done applies. **RC-P0 pass bar (if approved):** live stream on `/research-canvas` shows expandable ToolCards for tool events (not pills-only); graph writes still work. UNVERIFIED if no credentials / no stream.
-- **Files:** `features/mindmap/research-canvas/EnhancedAnimatedChat.tsx` (RC-P0 host); proposed new `tool-card.tsx`, `agent-tool-event-list.tsx`, `tool-event-summary.ts`; later: `research-canvas-console.tsx`, `hooks/use-mindmap-agent.ts`, `graph.tsx`, `store/mindmap-ui-store.ts`, `components/synthesis-panel.tsx`, `app/api/disclosure/mindmap/route.ts`
-- **Reference:** Linear DMGD-219; FEATURES Decision 11; epic `2026-08-09-research-canvas-genui.md`; RC-P0 `2026-08-10-rc-p0-tool-cards.md`; fit canvases `research-canvas-genui-fit` / `deep-research-agent-fit`
+- **Status:** MERGED — T-053 (Research Canvas Gen-UI) was merged into [T-050](#t-050-research-canvas-narrative-engine--merge-guided-tours--gen-ui-deep-research-was-t-050--t-053) on 2026-08-17. Both tickets project structured narrative nodes onto the same mindmap canvas with the same epistemic tiers and corpus binding. The only difference was static-authored vs agent-generated tour definitions — a mode distinction, not a separate feature. See T-050 subtasks 6–8 for the former T-053 work (ToolCards, AgentState, Agentic mode). Linear [DMGD-219](https://linear.app/digital-mischief-group/issue/DMGD-219) remains the tracking issue.
 
 ---
 
@@ -832,7 +831,7 @@ The ticket below was last updated 2026-08-05. Two significant things happened af
 
 ### T-061: Source-canonical reorganization of packages/knowledge-base/sources
 
-- **Status:** OPEN — plan landed 2026-08-16; nothing executed
+- **Status:** IN PROGRESS — **status corrected 2026-09-10 by artifact check; the old "nothing executed" wording was stale by ~18 commits.** Phases 0–3 have substantially landed: `git log --oneline | grep T-061` returns 18+ commits (`c57bab49` web tree re-keyed by domain, `c89da150` transcripts + web fully source-keyed, `b61de8b0` files/ taxonomy + OCR, `15f48b41` corpus identity index, `b730f92b` purge 22 junk entries). `ls packages/knowledge-base/sources/transcripts | grep -cE '^20[0-9]{2}-[0-9]{2}-[0-9]{2}$'` = **0** — zero date dirs remain (was 57). **Phase 4 (verify) is the open work.** Measured 2026-09-10 against `packages/knowledge-base/metadata/index.json`: **580 docs** (511 transcript / 37 article / 32 case_file); **9 leaked absolute `/Users/…` paths** remain (was 54); **26 index entries do not resolve on disk**. Those two numbers are the remaining pass-bar gap. Tier A (YouTube Data API) is still viable — the `GOOGLE_API_KEY` in [`apps/disclosure-rag/.env`](apps/disclosure-rag/.env) returns a valid `youtube#videoListResponse` from `youtube/v3/videos` (verified 2026-09-10), so the perishable `publishedAt` / `channel_id` capture has not lapsed.
 - **Lane:** A — Corpus & Ingestion
 - **Size:** L
 - **Plan:** [`docs/plans/2026-08-16-source-canonical-reorg.md`](docs/plans/2026-08-16-source-canonical-reorg.md)
@@ -911,6 +910,16 @@ The ticket below was last updated 2026-08-05. Two significant things happened af
   - Change `streamText`/`generateText`/`generateObject` call sites in Track 3 — the AI SDK abstracts the wire protocol. Only the model factory changes.
 
 - **Pass bar:** Both live routes (`/api/prometheus/chat`, `/api/disclosure/mindmap`) serve a real query using `client.responses.create` with `file_search` tool, returning vector-store-grounded results with no Assistants API calls. Python `llm_fallback.py` uses `client.responses.create` for all OpenAI-direct calls. No `openai.beta.threads.*` calls remain in the codebase. Evidence + dogfood per `AGENTS.md`, or reported **UNVERIFIED**.
+
+### T-063: Evaluate and place Agentvis (agent observability dashboard)
+
+- **Status:** DEFERRED — 2026-08-17 (Liam deciding placement and priority)
+- **Lane:** B — Platform & Experience
+- **Size:** S (clone, run, evaluate fit)
+- **What:** [Agentvis](https://github.com/IAmUnbounded/Agentvis) is a zero-dependency Node.js dashboard that turns local agent CLI JSONL transcripts (Claude Code `~/.claude/projects`, Codex `~/.codex/sessions`, OpenClaw `~/.openclaw`, Hermes `~/.hermes`) into cross-agent cost, code-impact, and workflow intelligence. Runs at `127.0.0.1:4477`. Prices token usage at public API rates, reconstructs code edits, detects rework loops/churn/abandoned sessions/corrections, and compares agents head-to-head (edits per session, tokens per edit, tool error rate, cache efficiency, cost per edit).
+- **Why relevant:** Liam runs Claude Code, Codex, and Devin sessions against this repo. Agentvis would give a cross-agent view of plan ROI, which files keep getting reworked, and which agent is more efficient on the actual workload.
+- **Decision needed:** Where to place it (standalone vs `packages/` vs `apps/`) and what priority relative to T-062 (Responses API migration) and T-061 (source-canonical reorg).
+- **When to surface:** Next planning session, or when agent cost/efficiency questions come up.
 
 ---
 
@@ -997,3 +1006,185 @@ Lane B — Platform & Experience
   T-047 (backlog; M1 half gated on T-048 H4)
   External blockers: T-041 (browser backend) · T-037/T-038 (billing/Figma)
 ```
+
+
+## T-047 follow-on proposal — 2026-09-10 01:31:55 CDT
+
+God’s Eye View integration plan: [docs/plans/2026-09-10-gods-eye-view-integration.md](docs/plans/2026-09-10-gods-eye-view-integration.md). GEV-0 through GEV-5 are proposed slices, not newly issued tickets. Next: visually inspect donor and execute the build spike when implementation is requested. Runtime UNVERIFIED; no completion status changed.
+
+
+**Scope refinement / session memory — 2026-09-10 01:35:57 CDT:** User requires extremely lean, Ultraterrestrial-specific or customizable imports. The [docs/plans/2026-09-10-gods-eye-view-integration.md](docs/plans/2026-09-10-gods-eye-view-integration.md) now makes minimal extraction, typed configuration, excluded donor subsystems, and import/bundle auditing explicit. Feed integrations remain optional; full donor parity is not a requirement. Planning only.
+
+## Ingestion re-entry audit — 2026-09-10 (playlist recovery, `apps/disclosure-rag`)
+
+Measured, not recalled. Plan under audit: [`docs/plans/playlist-ingestion-recovery/plan.mdx`](docs/plans/playlist-ingestion-recovery/plan.mdx) (American Alchemy, 104 episodes).
+
+**Step status — 1 of 5 landed since 2026-08-14:**
+
+| Step | State | Evidence |
+| --- | --- | --- |
+| 0 — write target | **OPEN, gates everything** | see the three-database table below |
+| 1 — grade `unknown` as `enrichment_unverified` | **OPEN** | `grep -rn enrichment_unverified scripts/playlist_ingestion.py` → no hits |
+| 2 — `--reuse-transcripts` | **OPEN** | `grep -rn reuse_transcripts scripts/playlist_ingestion.py` → no hits |
+| 3 — `raw_decode` JSON extraction | **DONE** | [`processing/rag_prompt_pipeline.py:145`](apps/disclosure-rag/processing/rag_prompt_pipeline.py#L145) |
+| 4 — constrain `disclosure.content_analysis` | **OPEN, precondition unmet** | `SCHEMA_ENABLED_PROMPTS = {"rag_ingestion"}` ([`:96`](apps/disclosure-rag/processing/rag_prompt_pipeline.py#L96)); the block above it records unexplained run-to-run field variance at n=1, so enabling it is a schema-completeness audit, not a one-line edit |
+
+**Corpus state — 104 episodes, `corpus/intake/playlist_ingestion/state.json`, read 2026-09-10:**
+`enrichment_failed` 49 (all `rag_status: error`) · `deferred_blocked` 51 · `unavailable` 4 · **`ingested` 0**. Unchanged from the plan's premise; the 49 is up from the plan's 47.
+
+**Three databases, live row counts read 2026-09-10 via `.venv/bin/python` + `psycopg`:**
+
+| Config | Endpoint | documents | document_chunks |
+| --- | --- | --- | --- |
+| `apps/disclosure-rag/.env` `DATABASE_URL` | `localhost:5432/ultraterrestrial` | **0** | **0** |
+| `apps/disclosure-rag/.env` `NEON_DATABASE_URL` | `ep-billowing-salad-a5m9dnhh` | **dead** — `No route to host` | — |
+| `packages/db/.env` `DATABASE_URL` (**the app reads this**) | `ep-red-sky-ah7swer1-pooler/neondb` | **189** | **4,946** |
+
+This **resolves the plan's open `third-neon` checklist item**: `NEON_DATABASE_URL` is dead config, not a live target. Ingestion still writes to the empty local database.
+
+**Two live defects found during this audit (recorded, not fixed):**
+
+1. **`OUTPUT_DIR` points at a directory that does not exist.** [`scripts/playlist_ingestion.py:51`](apps/disclosure-rag/scripts/playlist_ingestion.py#L51) is `BASE_DIR/data/playlist_ingestion` — **absent on disk**. The artifacts are at `corpus/intake/playlist_ingestion` (49 `.txt`, 49 `.fidelity.json`, 1 `_rag_pipeline.json`). Step 2's `--reuse-transcripts` would find nothing and silently no-op against the current constant. **Fix this before writing Step 2.**
+2. **The CRUD writer still records absolute index paths.** [`lib/kb/knowledge_base_crud.py:451`](apps/disclosure-rag/lib/kb/knowledge_base_crud.py#L451) writes `"path": str(doc_dir)`. `metadata/index.json` at HEAD has 571 docs / **0** absolute paths; the working tree has 580 / **9** — the 9 new docs are exactly the 9 leaks. T-061 Phase 2 re-keyed the composer but not this field. Every new ingest re-leaks.
+
+**Not blocked by the missing proxy:** `YT_WEBSHARE_PROXY_USERNAME` / `YT_PROXY_URL` are unset, which gates only Step 5's 51-episode `batch51` refetch. The `smoke` (3) and `batch47` (49) stages run `--reuse-transcripts` with zero downloads and need no proxy.
+
+### Smoke gate result — 2026-09-10: the plan's Step 0 premise is wrong
+
+**Steps applied this session (code landed, uncommitted):**
+
+| Step | Change | Verification |
+| --- | --- | --- |
+| 0a | `apps/disclosure-rag/.env` `DATABASE_URL` retargeted from `localhost` onto the shared Neon `neondb` that `packages/db` owns | `get_database_url()` resolves to `ep-red-sky-…/neondb`; `documents`=189, `document_chunks`=4,946. Both env files now byte-identical. Backup at `.env.bak-20260910-124409` |
+| 0b | [`scripts/playlist_ingestion.py:51`](apps/disclosure-rag/scripts/playlist_ingestion.py#L51) `OUTPUT_DIR` → `corpus/intake/playlist_ingestion` | Module import shows `exists=True`, 49 transcripts, 49 fidelity reports, `state.json` found |
+| 0c | `OPENAI_API_KEY` liveness | `GET /v1/models` → **200** |
+| 1 | `rag_status == "unknown"` now records `enrichment_unverified` and returns, instead of falling through to `status="ingested"` | `grep -n enrichment_unverified scripts/playlist_ingestion.py` → 3 hits; the status is absent from `DONE_STATUSES`, so it retries |
+| 2 | `--reuse-transcripts` flag + `FidelityReport.from_dict` | **PARTIAL / branch UNVERIFIED.** `--help` shows the flag and `from_dict` round-trips a real report exactly (`to_dict() == source JSON` → True), but the reuse branch has **never been observed executing**: zsh does not word-split an unquoted `$IDS`, so the smoke run received one malformed URL and processed **1 episode, not 3**, and `grep -c "reusing transcript"` on the run log returned **0**. Re-run with the three URLs passed literally before trusting the flag. |
+| 4 | **NOT APPLIED — precondition unmet** | `SCHEMA_ENABLED_PROMPTS` stays `{"rag_ingestion"}`. The comment block above it records unexplained n=1 run-to-run field variance and warns against reading it as schema evidence in either direction. Enabling `disclosure.content_analysis` is a schema-completeness audit, not a one-line edit |
+
+**Correction to Step 2's stated value.** The plan's `batch47` gate says "No downloads, no fidelity re-run." That is false. `--reuse-transcripts` skips only the fidelity-gate fetch; `process_url` → [`generate_transcript()`](apps/disclosure-rag/lib/youtube.py#L376) → `get_video_info_and_transcript()` still downloads unconditionally — there is no skip-if-exists anywhere in `lib/youtube.py`. Worse, the skipped `fetch_transcript()` is what feeds `BLOCKED_ABORT_THRESHOLD`, so the remaining pipeline-internal downloads run with **no consecutive-block abort guard**. Do not run the 49-episode batch on this flag until a pipeline-level transcript cache exists.
+
+**THE FINDING — ingestion is a two-stage pipeline and stage 2 has not been run.**
+
+Smoke run, 1 episode (`K4gYHs84BIc` — the plan's own false-ingested example), `--reuse-transcripts`, isolated state file:
+
+```
+Summary: {"ingested": 1}
+BASELINE  documents=189  document_chunks=4946
+AFTER     documents=189  document_chunks=4946
+```
+
+The episode reported `ingested` — the pipeline returned `rag_status: ok`, so Step 1's fail-closed grading correctly did not fire — and wrote **zero rows** to the database the app reads. It wrote to the file knowledge base instead (`Updated index.json with 10 files for K4gYHs84BIc`).
+
+That is not a defect. It is the architecture, and the plan's done-condition never named it:
+
+1. **Stage 1** — `apps/disclosure-rag` ingests a URL and writes to `packages/knowledge-base/sources/` plus `metadata/index.json`. It never touches Postgres. The only `INSERT INTO documents` in the whole app, [`lib/storage/pgvector_library.py:669`](apps/disclosure-rag/lib/storage/pgvector_library.py#L669), has no production caller and targets a schema (`doc_id, content, content_hash, word_count…`) that does not match the live table anyway.
+2. **Stage 2** — [`packages/db/scripts/rebuild/ingest.py`](packages/db/scripts/rebuild/ingest.py) reads that file tree and writes `documents` / `document_chunks` / embeddings. This is what populated the existing 189 documents and 4,946 chunks. It is idempotent (`INSERT INTO documents … ON CONFLICT url DO NOTHING`).
+
+**Stage 2 still discovers correctly after the T-061 re-key, and the backlog is already on disk.** Its docstring describes the old `transcripts/{date}/{yt_id}/` layout, but the walk is two levels deep either way, so the channel-slug re-key did not break it. Verified 2026-09-10:
+
+```
+python ingest.py --dry-run --limit 5   ->  5 docs, 117 chunks
+discover_transcripts()                 ->  237 transcripts discovered
+smoke episode K4gYHs84BIc discovered   ->  True
+```
+
+**237 discoverable vs 189 in Neon.** The gap is ingested-but-not-promoted material, including the smoke episode. Running stage 2 is the step that makes it retrievable — no new writer required, and the plan's Step 0 database retarget is orthogonal to it (stage 2 reads `packages/db/.env` directly).
+
+**Correction to an earlier claim in this session:** the first pass concluded "there is no Python writer for the corpus tables." That was wrong — the grep was scoped to `apps/disclosure-rag` only. The writer exists in `packages/db/scripts/rebuild/`, which AGENTS.md assigns to Lane A alongside disclosure-rag.
+
+**What this means for the plan.** The verification SQL is still the right gate, but it must be run *after* stage 2, not after stage 1 — and the plan's "Done means" needs the promotion step named explicitly, or every future run will repeat this confusion. The 49-episode batch does not need a new integration; it needs stage 1 to succeed, then one stage-2 run.
+
+**Still open, unchanged:** the `--reuse-transcripts` branch is unverified (see the table above); Step 4's schema audit; the missing proxy for the 51 `deferred_blocked` episodes.
+
+### `disclosure.ner` truncation — new evidence 2026-09-10
+
+A live `dy … --upload` run on `_mWPuffi_hc` (8 News Now Las Vegas) failed `disclosure.ner` JSON parsing **four times** — both attempts on two separate calls — each with `Unterminated string starting at:` around char 4,942–5,110:
+
+```
+disclosure.ner (attempt1) unparseable — raw response (4943 chars)
+disclosure.ner (attempt2) unparseable — raw response (5039 chars)
+disclosure.ner (attempt1) unparseable — raw response (5110 chars)
+disclosure.ner (attempt2) unparseable — raw response (5016 chars)
+```
+
+Four failures clustered at ~5 KB with unterminated strings is a **max_tokens truncation signature**, not a schema-shape problem. The plan says to "leave `disclosure.ner` alone until it demonstrates a failure" — **it just has.** The raw bodies are preserved under `apps/disclosure-rag/.rag_debug/` (the plan's raw-persist callout has landed), so this is diagnosable: compare the byte length against the prompt's `runtime.max_tokens` before deciding between raising the ceiling and constraining the schema.
+
+### NER pipeline — two defects found and fixed 2026-09-10 (from a live `dy` run)
+
+Source run: `dy "https://www.youtube.com/watch?v=_mWPuffi_hc" --upload` (Jacques Vallée / 8 News Now Las Vegas). It reported `✅ Processing complete!` with `embeddable=6` while **6 of 8 chunks lost their entity extraction entirely** and the 2 that survived contributed **zero** entities downstream.
+
+**Defect 1 — `disclosure.ner` `max_tokens` was half what the prompt needs.** FIXED.
+
+Every failure was `Unterminated string` / `Expecting property name`, and every raw response preserved under `apps/disclosure-rag/.rag_debug/` measured 4,981–5,212 chars (~1,245–1,303 tokens) and ended mid-string. That is the ceiling cutting the JSON in half, not a schema-shape problem.
+
+- **The value that matters is [`packages/ai/prompts/sets/disclosure/ner.v1.yaml:8`](packages/ai/prompts/sets/disclosure/ner.v1.yaml#L8)**, not the `max_tokens` in [`llm_routing.yaml`](packages/ai/prompts/llm_routing.yaml). `rag_prompt_pipeline.py`'s `_run_registry_prompt` reads `payload["meta"]["runtime"]["max_tokens"]` from the prompt file, defaulting to 1200. Editing `llm_routing.yaml` changes nothing on this path — that was tried first and had no effect, confirmed by re-run.
+- Raised `1200 → 4000`. Verified by re-running chunk `c02` (2,845 chars), which had failed:
+
+```
+before: ValueError disclosure.ner: JSON unparseable after one repair retry
+        (Unterminated string ... char 5202); raw response was 5212 chars
+after : PARSED OK · raw response 13,558 chars · 19 entities extracted
+        (Robert Bigelow, NIDS, OSAP, Defense Intelligence Agency, Bigelow Aerospace, …)
+```
+
+The real output needs ~3,400 tokens — nearly 3× the old ceiling. NER over a dense transcript chunk emits ~9–19 entities each carrying a `span_quote`; 1200 was never enough.
+
+**Defect 2 — the entity loader silently dropped every array-shaped NER result.** FIXED.
+
+[`rag_prompt_pipeline.py:314`](apps/disclosure-rag/processing/rag_prompt_pipeline.py#L314) emits `{"_raw_list": [...]}` when the model returns a bare JSON array instead of an object with an `entities` key. Both shapes are normal. But [`interactive_entity_processor.py`](apps/disclosure-rag/lib/entity_extraction/processors/interactive_entity_processor.py) read only `ner.get("entities")`, so array-shaped results vanished — which is why the run printed `Loaded NER … (8 chunk results)` and then `✅ Loaded 0 entities from pipeline NER`. The loader now accepts either shape. Measured against the same artifact:
+
+```
+entities visible to OLD loader (entities only): 0
+entities visible to NEW loader (+_raw_list)   : 17
+```
+
+**Still open, not fixed — the validation gate is advisory only.** Both chunks that parsed came back from the `validation` stage with `verdict: "fail"`, `safe_for_rag_index: false`, `safe_for_db_write: false` (critical `HALLUCINATION_UNSUPPORTED_CLAIM` and `SCHEMA_MISMATCH` issues). The pipeline wrote them to the knowledge base anyway and reported success. Nothing reads those two booleans. This is the same class of defect as the plan's Step 1 — a stage grades honestly and the caller ignores the grade.
+
+**Also observed, not chased:** `tiers_used: ['deepseek/deepseek-chat']` although `disclosure.ner`'s `preferred_tiers` list gemini/gpt first — the chain fell through to the last tier for every call. QStash returned `429 Exceeded daily message limit: Limit: 1`. The Upstash vector `upsert-data` endpoint returned `404`.
+
+### Model routing — why every call was landing on the cheapest model, 2026-09-10
+
+**Question asked:** "Are we using CocoIndex? Why is that in the pipeline?" and "update the models we're preferring — we need the best possible models."
+
+#### CocoIndex: no. It is a dead stage that skips on every run.
+
+- The package is **not installed**: `python -c "import cocoindex"` → `ModuleNotFoundError`.
+- `COCOINDEX_ENABLED` is set **twice** in [`apps/disclosure-rag/.env`](apps/disclosure-rag/.env) — `true` then `false`. Last wins, so it is off regardless.
+- Its backing store is **Neo4j**, and there is not a single `NEO4J_*` variable in that `.env` (`grep -ci neo4j` → 0). The graph store it was written against was never provisioned.
+- It runs as `YT-CHAIN-16` ([`main.py:485`](apps/disclosure-rag/main.py#L485), the last hop of the YouTube chain) and every run produces `entities 0 · relationships 0 · status skipped`.
+
+It is a knowledge-graph-in-Neo4j plan that never got wired, still occupying a pipeline stage and a warning line in every log. Meanwhile graph relationships are first-class in Neon Postgres. **Recommend deleting the stage** — it is not a dependency of anything that works. Not done here; it is a separate decision from the routing work below.
+
+#### Three stacked defects kept the two best models from ever serving a request
+
+The 2026-08-16 directive in [`llm_routing.yaml`](packages/ai/prompts/llm_routing.yaml) was explicitly cheapest-first. That is now reversed to best-first, but reordering alone would have changed nothing, because:
+
+**1. OpenRouter credit is exhausted.** `GET /api/v1/credits` → `total_credits: 351, total_usage: 351.16`. All eight OpenRouter tiers were marked dead in `.cache/llm_dead_tiers.json` at 12:48:34–12:48:37, **forty seconds before** the `_mWPuffi_hc` ingest started at 12:49:19. Live calls now return `HTTP 402` on most of those tiers. TTL is 3600s, so the chain re-probes and re-fails hourly.
+
+**2. `google/gemini-3.7-flash:batch` 404s by design** — `"This model is only available through the Batch API. Use the /api/beta/batches endpoint"`. It was **tier 1 of every single task**, so every call in the system burned an attempt on a guaranteed failure. Removed from all chat paths; restore only behind `/api/beta/batches`.
+
+**3. The two frontier tiers 400'd on every call — this was the real blocker.** `openai/gpt-5.6` and `openai/gpt-5.5` are live on a direct key (probed: both 200), need no gateway, and declare `structured_output` + `reasoning`. They had never served a request because [`lib/llm_fallback.py`](apps/disclosure-rag/lib/llm_fallback.py) sent two parameters the gpt-5.x family rejects:
+
+```
+400 Unsupported parameter: 'max_tokens' is not supported with this model.
+    Use 'max_completion_tokens' instead.
+400 Unsupported value: 'temperature' does not support 0.1 with this model.
+    Only the default (1) value is supported.
+```
+
+A 400 is not a 402, so the tier was never marked dead — it just failed silently on every call, forever, and the chain fell through to whatever was cheapest and still answering. Fixed by switching on the endpoint: direct OpenAI gets `max_completion_tokens` and no `temperature`; every gateway (OpenRouter, DeepSeek, Together, Groq, Ollama) keeps the classic fields.
+
+**Verified end-to-end** — same NER chunk (`c02`) that failed in the original run:
+
+```
+before the fixes : tiers_used ['deepseek/deepseek-chat'] · schema NOT enforced · JSON unparseable
+after max_tokens : tiers_used ['openrouter/gpt-5.6-luna'] · 17 entities
+after temperature: tiers_used ['openai/gpt-5.6']          · schema enforced · 18 entities
+```
+
+Also probed for completeness: `ANTHROPIC_API_KEY` returns **401 invalid**, and the Google key resolves no `gemini-3-pro` model. DeepSeek is live. So OpenAI-direct is currently the only frontier path that does not depend on topping up OpenRouter.
+
+**New order, every task:** `openai/gpt-5.6` → `openai/gpt-5.5` → the OpenRouter tiers in their previous relative order → `deepseek/deepseek-chat` last (its schema-capability cache records `structured_output: false`, so it is a genuine last resort, not a peer).
+
+**Open:** OpenRouter needs a top-up before its tiers contribute anything; until then the chain is effectively OpenAI-direct with a DeepSeek floor. The Anthropic key needs rotating if Claude tiers are wanted.

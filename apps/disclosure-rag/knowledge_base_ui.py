@@ -1,6 +1,9 @@
 """
 Interactive Knowledge Base UI
-Built with Streamlit for easy navigation and CRUD operations
+Built with Streamlit for easy navigation and CRUD operations.
+
+Uses KnowledgeBaseCRUD for archive mutations; optional KnowledgeBase for
+vector retrieval. Layer map: apps/disclosure-rag/docs/KNOWLEDGE_BASE_LAYERS.md
 """
 
 # Fix for PyTorch/Streamlit compatibility issue
@@ -22,7 +25,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 # Import with error handling for PyTorch conflicts
 try:
-    from lib.knowledge_base_crud import KnowledgeBaseCRUD, Document
+    from lib.kb.knowledge_base_crud import KnowledgeBaseCRUD, Document
     KB_CRUD_AVAILABLE = True
 except ImportError as e:
     st.warning(f"Knowledge Base CRUD not available: {e}")
@@ -43,7 +46,7 @@ except ImportError as e:
         def export_document(self, doc_id, export_dir): return None
 
 try:
-    from lib.knowledge_base import KnowledgeBase
+    from lib.kb.knowledge_base import KnowledgeBase
     KB_AVAILABLE = True
 except ImportError as e:
     st.warning(f"Knowledge Base not available: {e}")

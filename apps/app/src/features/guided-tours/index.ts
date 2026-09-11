@@ -1,1 +1,1 @@
-export { NuclearShadowTour, nuclearShadowDefinition } from './nuclear-shadow'
+export { nuclearShadowDefinition } from './nuclear-shadow'

@@ -10,16 +10,33 @@
 # This file drives lib/llm_router.py and lib/llm_fallback.py.
 # Code reads this config; it does not hardcode tier lists or task params.
 #
-# All models route through OpenRouter with OPENROUTER_API_KEY.
-# Priority order (user directive 2026-08-16):
-#   1. gemini-3.7-flash:batch  (cheapest, batch mode)
-#   2. gemini-3.7-flash        (cheap, fast, multimodal)
-#   3. gpt-5.6-luna-pro        (reasoning mode)
-#   4. gpt-5.6-luna            (cheap classification)
-#   5. gpt-5.6-terra-pro       (reasoning, higher cost)
-#   6. gpt-5.6-terra           (balanced)
-#   7. glm-5.2                 (reasoning)
-#   8. deepseek-v4-pro         (last resort, no structured output)
+# Priority order (user directive 2026-09-10): BEST MODEL FIRST.
+# This replaces the 2026-08-16 cheapest-first directive. Measured that day:
+#
+#   * OpenRouter credit is EXHAUSTED -- /api/v1/credits reports
+#     total_credits 351, total_usage 351.16. All eight OpenRouter tiers were
+#     marked dead at 12:48:34-12:48:37 within three seconds of each other,
+#     forty seconds before a real ingest run, so every LLM call in that run
+#     fell through to deepseek/deepseek-chat -- which the schema-capability
+#     cache records as structured_output: false. Unconstrained output is what
+#     let disclosure.ner free-write past its token ceiling on 6 of 8 chunks.
+#   * google/gemini-3.7-flash:batch 404s on /chat/completions by design
+#     ("This model is only available through the Batch API"). It was tier 1
+#     of EVERY task, so every call burned an attempt on a certain failure.
+#     Removed from all chat paths; restore only behind /api/beta/batches.
+#   * Direct-provider probe: openai/gpt-5.6 LIVE, openai/gpt-5.5 LIVE,
+#     deepseek LIVE, ANTHROPIC_API_KEY 401 invalid, Google model id 404.
+#
+# So the two frontier tiers that are actually reachable -- and reachable
+# WITHOUT the gateway that just died -- now lead every task. The OpenRouter
+# tiers stay in place beneath them and cost nothing while dead (402 is
+# classified permanent, one skipped call per process).
+#
+# Order:
+#   1. openai/gpt-5.6          (frontier, direct, live)
+#   2. openai/gpt-5.5          (frontier, direct, live)
+#   3+ OpenRouter tiers        (unchanged relative order; blocked on credit)
+#   last. deepseek-chat        (no structured output -- genuine last resort)
 # ═══════════════════════════════════════════════════════════════════════
 
 # ── Tier Declarations ─────────────────────────────────────────────────
@@ -367,7 +384,8 @@ tasks:
     max_tokens: 700
     temperature: 0.0
     preferred_tiers:
-      - openrouter/gemini-3.7-flash-batch
+      - openai/gpt-5.6
+      - openai/gpt-5.5
       - openrouter/gemini-3.7-flash
       - openrouter/gpt-5.6-luna
     fallback_tiers:
@@ -390,7 +408,8 @@ tasks:
     temperature: 0.15
     schema_strict: false
     preferred_tiers:
-      - openrouter/gemini-3.7-flash-batch
+      - openai/gpt-5.6
+      - openai/gpt-5.5
       - openrouter/gemini-3.7-flash
       - openrouter/gpt-5.6-luna-pro
       - openrouter/gpt-5.6-terra-pro
@@ -412,7 +431,8 @@ tasks:
     temperature: 0.1
     schema_strict: true
     preferred_tiers:
-      - openrouter/gemini-3.7-flash-batch
+      - openai/gpt-5.6
+      - openai/gpt-5.5
       - openrouter/gemini-3.7-flash
       - openrouter/gpt-5.6-terra-pro
       - openrouter/gpt-5.6-terra
@@ -434,7 +454,8 @@ tasks:
     temperature: 0.1
     schema_strict: false
     preferred_tiers:
-      - openrouter/gemini-3.7-flash-batch
+      - openai/gpt-5.6
+      - openai/gpt-5.5
       - openrouter/gemini-3.7-flash
       - openrouter/gpt-5.6-luna-pro
       - openrouter/gpt-5.6-luna
@@ -455,7 +476,8 @@ tasks:
     max_tokens: 900
     temperature: 0.0
     preferred_tiers:
-      - openrouter/gemini-3.7-flash-batch
+      - openai/gpt-5.6
+      - openai/gpt-5.5
       - openrouter/gemini-3.7-flash
       - openrouter/gpt-5.6-luna
     fallback_tiers:
@@ -477,7 +499,8 @@ tasks:
     max_tokens: 4000
     temperature: 0.1
     preferred_tiers:
-      - openrouter/gemini-3.7-flash-batch
+      - openai/gpt-5.6
+      - openai/gpt-5.5
       - openrouter/gemini-3.7-flash
       - openrouter/gpt-5.6-luna-pro
       - openrouter/gpt-5.6-terra
@@ -499,7 +522,8 @@ tasks:
     max_tokens: 1200
     temperature: 0.1
     preferred_tiers:
-      - openrouter/gemini-3.7-flash-batch
+      - openai/gpt-5.6
+      - openai/gpt-5.5
       - openrouter/gemini-3.7-flash
       - openrouter/gpt-5.6-luna
     fallback_tiers:

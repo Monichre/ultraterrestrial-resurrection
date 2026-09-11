@@ -1,0 +1,864 @@
+{
+  "schemaVersion": "trace-map.v1",
+  "sourceId": "src:9d6cf70e3325a42d",
+  "sourceType": "video",
+  "sourceUrl": "https://www.youtube.com/watch?v=aQhikls5Ye8",
+  "sourceHash": "sha256:71a2b48598d70349f624294ab2bb0a36763cc19aee99ee4ddac83574231eb6f7",
+  "contentVersion": 1,
+  "reviewState": "unreviewed",
+  "nodes": [
+    {
+      "id": "src:9d6cf70e3325a42d",
+      "type": "source",
+      "label": "Top Aerospace Scientists Suspect UFOs are Biblical Time Machines | Diana Walsh Pasulka",
+      "url": "https://www.youtube.com/watch?v=aQhikls5Ye8",
+      "sourceType": "video",
+      "contentType": "media",
+      "integrityFlags": [
+        "transcript_auto_generated",
+        "truncated"
+      ],
+      "classificationMarks": [],
+      "ingestionRecommendation": "proceed"
+    },
+    {
+      "id": "seg:9d6cf70e3325a42d:c01",
+      "type": "segment",
+      "label": "c01",
+      "chunkId": "c01",
+      "evidentiaryDensity": "high",
+      "temporalAnchors": [
+        "late 90s"
+      ],
+      "spatialAnchors": [
+        "California",
+        "Northern California"
+      ],
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 4606,
+        "segmentStart": 0,
+        "segmentEnd": 130,
+        "startSeconds": 0.0,
+        "endSeconds": 328.61999999999995,
+        "method": "exact",
+        "excerpt": "foreign [music] you are a professor of religion and religious studies but do you personally believe in god okay so let me talk a little bit about what we do in my field in religious studies it's a multi-disciplinary field and some a little "
+      },
+      "excerpt": "foreign [Music] you are a professor of religion and religious studies but do you personally believe in God okay so let me talk a little bit about what we do in my field in religious studies it's a multi-disciplinary field and some a little "
+    },
+    {
+      "id": "seg:9d6cf70e3325a42d:c02",
+      "type": "segment",
+      "label": "c02",
+      "chunkId": "c02",
+      "evidentiaryDensity": "high",
+      "temporalAnchors": [
+        "late 2011",
+        "2012",
+        "1400",
+        "1600",
+        "1700"
+      ],
+      "spatialAnchors": [],
+      "anchor": {
+        "charStart": 4607,
+        "charEnd": 8924,
+        "segmentStart": 131,
+        "segmentEnd": 249,
+        "startSeconds": 326.88,
+        "endSeconds": 617.399,
+        "method": "exact",
+        "excerpt": "you know i'm sure you studied religion and on belief for a long time before you ever even thought of the ufo phenomenon yes what was it that introduced you to this like what was that what was the moment like when you first got introduced to"
+      },
+      "excerpt": "you know I'm sure you studied religion and on belief for a long time before you ever even thought of the UFO phenomenon yes what was it that introduced you to this like what was that what was the moment like when you first got introduced to"
+    },
+    {
+      "id": "seg:9d6cf70e3325a42d:c03",
+      "type": "segment",
+      "label": "c03",
+      "chunkId": "c03",
+      "evidentiaryDensity": "high",
+      "overlapNote": "This chunk is long; consider splitting further if needed.",
+      "temporalAnchors": [
+        "1500s",
+        "2013",
+        "2014",
+        "late 1940s",
+        "1950s",
+        "2021"
+      ],
+      "spatialAnchors": [
+        "Spain",
+        "Rome",
+        "Vatican",
+        "New Mexico",
+        "Roswell"
+      ],
+      "anchor": {
+        "charStart": 8925,
+        "charEnd": 19537,
+        "segmentStart": 250,
+        "segmentEnd": 556,
+        "startSeconds": 615.42,
+        "endSeconds": 1373.22,
+        "method": "exact",
+        "excerpt": "now when you say these experiences that you met with their experiences were an exact match of what you were reading in some of these old texts can you give me some like specific examples of like what what was the thing that stood out to you"
+      },
+      "excerpt": "now when you say these experiences that you met with their experiences were an exact match of what you were reading in some of these old texts can you give me some like specific examples of like what what was the thing that stood out to you"
+    },
+    {
+      "id": "seg:9d6cf70e3325a42d:c04",
+      "type": "segment",
+      "label": "c04",
+      "chunkId": "c04",
+      "evidentiaryDensity": "high",
+      "temporalAnchors": [
+        "fourth century",
+        "first 300 years",
+        "first century"
+      ],
+      "spatialAnchors": [
+        "Roman Empire"
+      ],
+      "anchor": {
+        "charStart": 19538,
+        "charEnd": 23999,
+        "segmentStart": 556,
+        "segmentEnd": 681,
+        "startSeconds": 1366.159,
+        "endSeconds": 1673.5800000000002,
+        "method": "exact",
+        "excerpt": "how do you explain what's going on now like in in the public media like the the public-facing media with like the pentagon reports and the new york times talking about and declassifying all these radar encounters with these navy pilots are "
+      },
+      "excerpt": "how do you explain what's going on now like in in the public media like the the public-facing media with like the Pentagon reports and the New York Times talking about and declassifying all these radar encounters with these Navy Pilots are "
+    },
+    {
+      "id": "clm:9d6cf70e3325a42d:b79f2f3752e4",
+      "type": "claim",
+      "label": "Religious studies is a multi-disciplinary field that studies belief and its impact, not advocating religion.",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 4606,
+        "segmentStart": 0,
+        "segmentEnd": 130,
+        "startSeconds": 0.0,
+        "endSeconds": 328.61999999999995,
+        "method": "exact",
+        "excerpt": "foreign [music] you are a professor of religion and religious studies but do you personally believe in god okay so let me talk a little bit about what we do in my field in religious studies it's a multi-disciplinary field and some a little "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:9d6cf70e3325a42d:6d07f949e057",
+      "type": "claim",
+      "label": "Pasulka personally believes in God but keeps it separate from her academic work.",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 4606,
+        "segmentStart": 0,
+        "segmentEnd": 130,
+        "startSeconds": 0.0,
+        "endSeconds": 328.61999999999995,
+        "method": "exact",
+        "excerpt": "foreign [music] you are a professor of religion and religious studies but do you personally believe in god okay so let me talk a little bit about what we do in my field in religious studies it's a multi-disciplinary field and some a little "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:9d6cf70e3325a42d:b4b0add43ac4",
+      "type": "claim",
+      "label": "She has a master's from Jesuit School of Theology and a PhD from Syracuse University.",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 4606,
+        "segmentStart": 0,
+        "segmentEnd": 130,
+        "startSeconds": 0.0,
+        "endSeconds": 328.61999999999995,
+        "method": "exact",
+        "excerpt": "foreign [music] you are a professor of religion and religious studies but do you personally believe in god okay so let me talk a little bit about what we do in my field in religious studies it's a multi-disciplinary field and some a little "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:9d6cf70e3325a42d:9d304fc33704",
+      "type": "claim",
+      "label": "She applies the same method to study UFO belief as she did to Catholic history.",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 4606,
+        "segmentStart": 0,
+        "segmentEnd": 130,
+        "startSeconds": 0.0,
+        "endSeconds": 328.61999999999995,
+        "method": "exact",
+        "excerpt": "foreign [music] you are a professor of religion and religious studies but do you personally believe in god okay so let me talk a little bit about what we do in my field in religious studies it's a multi-disciplinary field and some a little "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:9d6cf70e3325a42d:bcf6c3fb1f53",
+      "type": "claim",
+      "label": "She is not seeking government disclosure but studying the impact of UFO belief on populations.",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 4606,
+        "segmentStart": 0,
+        "segmentEnd": 130,
+        "startSeconds": 0.0,
+        "endSeconds": 328.61999999999995,
+        "method": "exact",
+        "excerpt": "foreign [music] you are a professor of religion and religious studies but do you personally believe in god okay so let me talk a little bit about what we do in my field in religious studies it's a multi-disciplinary field and some a little "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:9d6cf70e3325a42d:790a4152ba34",
+      "type": "claim",
+      "label": "Her upbringing in Northern California was eclectic, with parents interested in philosophy.",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 4606,
+        "segmentStart": 0,
+        "segmentEnd": 130,
+        "startSeconds": 0.0,
+        "endSeconds": 328.61999999999995,
+        "method": "exact",
+        "excerpt": "foreign [music] you are a professor of religion and religious studies but do you personally believe in god okay so let me talk a little bit about what we do in my field in religious studies it's a multi-disciplinary field and some a little "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:9d6cf70e3325a42d:e8161e576ef8",
+      "type": "claim",
+      "label": "She was influenced by the tech boom and media like Star Wars in studying technology and religious belief.",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 4606,
+        "segmentStart": 0,
+        "segmentEnd": 130,
+        "startSeconds": 0.0,
+        "endSeconds": 328.61999999999995,
+        "method": "exact",
+        "excerpt": "foreign [music] you are a professor of religion and religious studies but do you personally believe in god okay so let me talk a little bit about what we do in my field in religious studies it's a multi-disciplinary field and some a little "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:9d6cf70e3325a42d:68d8ad8ff1d9",
+      "type": "claim",
+      "label": "Pasulka's interest in UFOs began in late 2011-2012 after finishing a book on purgatory.",
+      "anchor": {
+        "charStart": 4607,
+        "charEnd": 8924,
+        "segmentStart": 131,
+        "segmentEnd": 249,
+        "startSeconds": 326.88,
+        "endSeconds": 617.399,
+        "method": "exact",
+        "excerpt": "you know i'm sure you studied religion and on belief for a long time before you ever even thought of the ufo phenomenon yes what was it that introduced you to this like what was that what was the moment like when you first got introduced to"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:9d6cf70e3325a42d:7277316b3c10",
+      "type": "claim",
+      "label": "She had cataloged reports of aerial phenomena from 1400-1700 European Catholicism.",
+      "anchor": {
+        "charStart": 4607,
+        "charEnd": 8924,
+        "segmentStart": 131,
+        "segmentEnd": 249,
+        "startSeconds": 326.88,
+        "endSeconds": 617.399,
+        "method": "exact",
+        "excerpt": "you know i'm sure you studied religion and on belief for a long time before you ever even thought of the ufo phenomenon yes what was it that introduced you to this like what was that what was the moment like when you first got introduced to"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:9d6cf70e3325a42d:11fb70fed0b3",
+      "type": "claim",
+      "label": "A friend compared her catalog to UFO reports, which she initially dismissed.",
+      "anchor": {
+        "charStart": 4607,
+        "charEnd": 8924,
+        "segmentStart": 131,
+        "segmentEnd": 249,
+        "startSeconds": 326.88,
+        "endSeconds": 617.399,
+        "method": "exact",
+        "excerpt": "you know i'm sure you studied religion and on belief for a long time before you ever even thought of the ufo phenomenon yes what was it that introduced you to this like what was that what was the moment like when you first got introduced to"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:9d6cf70e3325a42d:4037c857bd35",
+      "type": "claim",
+      "label": "She attended a UFO experiencer conference and found exact matches with her historical catalog.",
+      "anchor": {
+        "charStart": 4607,
+        "charEnd": 8924,
+        "segmentStart": 131,
+        "segmentEnd": 249,
+        "startSeconds": 326.88,
+        "endSeconds": 617.399,
+        "method": "exact",
+        "excerpt": "you know i'm sure you studied religion and on belief for a long time before you ever even thought of the ufo phenomenon yes what was it that introduced you to this like what was that what was the moment like when you first got introduced to"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:9d6cf70e3325a42d:e7a307ac9083",
+      "type": "claim",
+      "label": "She found similarities between Catholic saints' experiences and John Mack's abduction accounts.",
+      "anchor": {
+        "charStart": 4607,
+        "charEnd": 8924,
+        "segmentStart": 131,
+        "segmentEnd": 249,
+        "startSeconds": 326.88,
+        "endSeconds": 617.399,
+        "method": "exact",
+        "excerpt": "you know i'm sure you studied religion and on belief for a long time before you ever even thought of the ufo phenomenon yes what was it that introduced you to this like what was that what was the moment like when you first got introduced to"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:9d6cf70e3325a42d:7c4672413505",
+      "type": "claim",
+      "label": "She contacted Jeff Kripal, who was initially skeptical but later convinced.",
+      "anchor": {
+        "charStart": 4607,
+        "charEnd": 8924,
+        "segmentStart": 131,
+        "segmentEnd": 249,
+        "startSeconds": 326.88,
+        "endSeconds": 617.399,
+        "method": "exact",
+        "excerpt": "you know i'm sure you studied religion and on belief for a long time before you ever even thought of the ufo phenomenon yes what was it that introduced you to this like what was that what was the moment like when you first got introduced to"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:9d6cf70e3325a42d:91575fcfc6cd",
+      "type": "claim",
+      "label": "She entered the UFO community and found government information and high-level scientists interested in her field.",
+      "anchor": {
+        "charStart": 4607,
+        "charEnd": 8924,
+        "segmentStart": 131,
+        "segmentEnd": 249,
+        "startSeconds": 326.88,
+        "endSeconds": 617.399,
+        "method": "exact",
+        "excerpt": "you know i'm sure you studied religion and on belief for a long time before you ever even thought of the ufo phenomenon yes what was it that introduced you to this like what was that what was the moment like when you first got introduced to"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:9d6cf70e3325a42d:2af0e372b6b1",
+      "type": "claim",
+      "label": "Teresa of Avila described an encounter with a three-foot-tall shiny being she thought was a cherub.",
+      "anchor": {
+        "charStart": 8925,
+        "charEnd": 19537,
+        "segmentStart": 250,
+        "segmentEnd": 556,
+        "startSeconds": 615.42,
+        "endSeconds": 1373.22,
+        "method": "exact",
+        "excerpt": "now when you say these experiences that you met with their experiences were an exact match of what you were reading in some of these old texts can you give me some like specific examples of like what what was the thing that stood out to you"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:9d6cf70e3325a42d:6f845aacc537",
+      "type": "claim",
+      "label": "The being thrust a dart into her entrails, similar to John Mack's accounts of examination.",
+      "anchor": {
+        "charStart": 8925,
+        "charEnd": 19537,
+        "segmentStart": 250,
+        "segmentEnd": 556,
+        "startSeconds": 615.42,
+        "endSeconds": 1373.22,
+        "method": "exact",
+        "excerpt": "now when you say these experiences that you met with their experiences were an exact match of what you were reading in some of these old texts can you give me some like specific examples of like what what was the thing that stood out to you"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:9d6cf70e3325a42d:cc9dcb73a409",
+      "type": "claim",
+      "label": "Pasulka visited the Vatican archives and found many similar accounts in old manuscripts.",
+      "anchor": {
+        "charStart": 8925,
+        "charEnd": 19537,
+        "segmentStart": 250,
+        "segmentEnd": 556,
+        "startSeconds": 615.42,
+        "endSeconds": 1373.22,
+        "method": "exact",
+        "excerpt": "now when you say these experiences that you met with their experiences were an exact match of what you were reading in some of these old texts can you give me some like specific examples of like what what was the thing that stood out to you"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:9d6cf70e3325a42d:0adb93be2ee1",
+      "type": "claim",
+      "label": "Tyler D, a pseudonymous mission controller, reached out to Pasulka and connected her to the invisible college.",
+      "anchor": {
+        "charStart": 8925,
+        "charEnd": 19537,
+        "segmentStart": 250,
+        "segmentEnd": 556,
+        "startSeconds": 615.42,
+        "endSeconds": 1373.22,
+        "method": "exact",
+        "excerpt": "now when you say these experiences that you met with their experiences were an exact match of what you were reading in some of these old texts can you give me some like specific examples of like what what was the thing that stood out to you"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:9d6cf70e3325a42d:1f82a13be8bc",
+      "type": "claim",
+      "label": "Pasulka traveled to a New Mexico crash site with Gary Nolan and Tyler D, blindfolded.",
+      "anchor": {
+        "charStart": 8925,
+        "charEnd": 19537,
+        "segmentStart": 250,
+        "segmentEnd": 556,
+        "startSeconds": 615.42,
+        "endSeconds": 1373.22,
+        "method": "exact",
+        "excerpt": "now when you say these experiences that you met with their experiences were an exact match of what you were reading in some of these old texts can you give me some like specific examples of like what what was the thing that stood out to you"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:9d6cf70e3325a42d:9e22886f2342",
+      "type": "claim",
+      "label": "They found metallic frog-skin-like parts and other strange debris, but Pasulka remained skeptical.",
+      "anchor": {
+        "charStart": 8925,
+        "charEnd": 19537,
+        "segmentStart": 250,
+        "segmentEnd": 556,
+        "startSeconds": 615.42,
+        "endSeconds": 1373.22,
+        "method": "exact",
+        "excerpt": "now when you say these experiences that you met with their experiences were an exact match of what you were reading in some of these old texts can you give me some like specific examples of like what what was the thing that stood out to you"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:9d6cf70e3325a42d:77f2d746a659",
+      "type": "claim",
+      "label": "She viewed the belief in extraterrestrial technology as a modern Promethean myth.",
+      "anchor": {
+        "charStart": 8925,
+        "charEnd": 19537,
+        "segmentStart": 250,
+        "segmentEnd": 556,
+        "startSeconds": 615.42,
+        "endSeconds": 1373.22,
+        "method": "exact",
+        "excerpt": "now when you say these experiences that you met with their experiences were an exact match of what you were reading in some of these old texts can you give me some like specific examples of like what what was the thing that stood out to you"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:9d6cf70e3325a42d:3ce8e438d4af",
+      "type": "claim",
+      "label": "She wrote 'American Cosmic' as a journey, not a typical academic book, published by Oxford.",
+      "anchor": {
+        "charStart": 8925,
+        "charEnd": 19537,
+        "segmentStart": 250,
+        "segmentEnd": 556,
+        "startSeconds": 615.42,
+        "endSeconds": 1373.22,
+        "method": "exact",
+        "excerpt": "now when you say these experiences that you met with their experiences were an exact match of what you were reading in some of these old texts can you give me some like specific examples of like what what was the thing that stood out to you"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:9d6cf70e3325a42d:0e0b0b9585c9",
+      "type": "claim",
+      "label": "Pasulka compares the institutionalization of UFO belief to the institutionalization of Christianity.",
+      "anchor": {
+        "charStart": 19538,
+        "charEnd": 23999,
+        "segmentStart": 556,
+        "segmentEnd": 681,
+        "startSeconds": 1366.159,
+        "endSeconds": 1673.5800000000002,
+        "method": "exact",
+        "excerpt": "how do you explain what's going on now like in in the public media like the the public-facing media with like the pentagon reports and the new york times talking about and declassifying all these radar encounters with these navy pilots are "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:9d6cf70e3325a42d:c7901fec234c",
+      "type": "claim",
+      "label": "The early Christian Church was radically different from later institutionalized forms.",
+      "anchor": {
+        "charStart": 19538,
+        "charEnd": 23999,
+        "segmentStart": 556,
+        "segmentEnd": 681,
+        "startSeconds": 1366.159,
+        "endSeconds": 1673.5800000000002,
+        "method": "exact",
+        "excerpt": "how do you explain what's going on now like in in the public media like the the public-facing media with like the pentagon reports and the new york times talking about and declassifying all these radar encounters with these navy pilots are "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:9d6cf70e3325a42d:f1047635f2d1",
+      "type": "claim",
+      "label": "Institutionalization involves suppression of voices and control of information.",
+      "anchor": {
+        "charStart": 19538,
+        "charEnd": 23999,
+        "segmentStart": 556,
+        "segmentEnd": 681,
+        "startSeconds": 1366.159,
+        "endSeconds": 1673.5800000000002,
+        "method": "exact",
+        "excerpt": "how do you explain what's going on now like in in the public media like the the public-facing media with like the pentagon reports and the new york times talking about and declassifying all these radar encounters with these navy pilots are "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:9d6cf70e3325a42d:c86fe2fc8a32",
+      "type": "claim",
+      "label": "Gnosticism, an experiential form of Christianity, was suppressed or submerged.",
+      "anchor": {
+        "charStart": 19538,
+        "charEnd": 23999,
+        "segmentStart": 556,
+        "segmentEnd": 681,
+        "startSeconds": 1366.159,
+        "endSeconds": 1673.5800000000002,
+        "method": "exact",
+        "excerpt": "how do you explain what's going on now like in in the public media like the the public-facing media with like the pentagon reports and the new york times talking about and declassifying all these radar encounters with these navy pilots are "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:9d6cf70e3325a42d:9b229a70088f",
+      "type": "claim",
+      "label": "Jesus's movement was one of several Jewish groups in the first century.",
+      "anchor": {
+        "charStart": 19538,
+        "charEnd": 23999,
+        "segmentStart": 556,
+        "segmentEnd": 681,
+        "startSeconds": 1366.159,
+        "endSeconds": 1673.5800000000002,
+        "method": "exact",
+        "excerpt": "how do you explain what's going on now like in in the public media like the the public-facing media with like the pentagon reports and the new york times talking about and declassifying all these radar encounters with these navy pilots are "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:9d6cf70e3325a42d:a1c7ef68ec14",
+      "type": "claim",
+      "label": "Jesus was crucified for treason because his followers called him Son of God, challenging Caesar.",
+      "anchor": {
+        "charStart": 19538,
+        "charEnd": 23999,
+        "segmentStart": 556,
+        "segmentEnd": 681,
+        "startSeconds": 1366.159,
+        "endSeconds": 1673.5800000000002,
+        "method": "exact",
+        "excerpt": "how do you explain what's going on now like in in the public media like the the public-facing media with like the pentagon reports and the new york times talking about and declassifying all these radar encounters with these navy pilots are "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:9d6cf70e3325a42d:38973fa5396d",
+      "type": "claim",
+      "label": "Pasulka sees current UFO disclosure as a process of institutionalization with misinformation.",
+      "anchor": {
+        "charStart": 19538,
+        "charEnd": 23999,
+        "segmentStart": 556,
+        "segmentEnd": 681,
+        "startSeconds": 1366.159,
+        "endSeconds": 1673.5800000000002,
+        "method": "exact",
+        "excerpt": "how do you explain what's going on now like in in the public media like the the public-facing media with like the pentagon reports and the new york times talking about and declassifying all these radar encounters with these navy pilots are "
+      },
+      "claimSource": "chunk.claims_hint"
+    }
+  ],
+  "edges": [
+    {
+      "from": "src:9d6cf70e3325a42d",
+      "to": "seg:9d6cf70e3325a42d:c01",
+      "type": "contains"
+    },
+    {
+      "from": "src:9d6cf70e3325a42d",
+      "to": "seg:9d6cf70e3325a42d:c02",
+      "type": "contains"
+    },
+    {
+      "from": "src:9d6cf70e3325a42d",
+      "to": "seg:9d6cf70e3325a42d:c03",
+      "type": "contains"
+    },
+    {
+      "from": "src:9d6cf70e3325a42d",
+      "to": "seg:9d6cf70e3325a42d:c04",
+      "type": "contains"
+    },
+    {
+      "from": "seg:9d6cf70e3325a42d:c01",
+      "to": "seg:9d6cf70e3325a42d:c02",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:9d6cf70e3325a42d:c02",
+      "to": "seg:9d6cf70e3325a42d:c03",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:9d6cf70e3325a42d:c03",
+      "to": "seg:9d6cf70e3325a42d:c04",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:9d6cf70e3325a42d:c01",
+      "to": "clm:9d6cf70e3325a42d:b79f2f3752e4",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:9d6cf70e3325a42d:c01",
+      "to": "clm:9d6cf70e3325a42d:6d07f949e057",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:9d6cf70e3325a42d:c01",
+      "to": "clm:9d6cf70e3325a42d:b4b0add43ac4",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:9d6cf70e3325a42d:c01",
+      "to": "clm:9d6cf70e3325a42d:9d304fc33704",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:9d6cf70e3325a42d:c01",
+      "to": "clm:9d6cf70e3325a42d:bcf6c3fb1f53",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:9d6cf70e3325a42d:c01",
+      "to": "clm:9d6cf70e3325a42d:790a4152ba34",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:9d6cf70e3325a42d:c01",
+      "to": "clm:9d6cf70e3325a42d:e8161e576ef8",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:9d6cf70e3325a42d:c02",
+      "to": "clm:9d6cf70e3325a42d:68d8ad8ff1d9",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:9d6cf70e3325a42d:c02",
+      "to": "clm:9d6cf70e3325a42d:7277316b3c10",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:9d6cf70e3325a42d:c02",
+      "to": "clm:9d6cf70e3325a42d:11fb70fed0b3",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:9d6cf70e3325a42d:c02",
+      "to": "clm:9d6cf70e3325a42d:4037c857bd35",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:9d6cf70e3325a42d:c02",
+      "to": "clm:9d6cf70e3325a42d:e7a307ac9083",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:9d6cf70e3325a42d:c02",
+      "to": "clm:9d6cf70e3325a42d:7c4672413505",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:9d6cf70e3325a42d:c02",
+      "to": "clm:9d6cf70e3325a42d:91575fcfc6cd",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:9d6cf70e3325a42d:c03",
+      "to": "clm:9d6cf70e3325a42d:2af0e372b6b1",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:9d6cf70e3325a42d:c03",
+      "to": "clm:9d6cf70e3325a42d:6f845aacc537",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:9d6cf70e3325a42d:c03",
+      "to": "clm:9d6cf70e3325a42d:cc9dcb73a409",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:9d6cf70e3325a42d:c03",
+      "to": "clm:9d6cf70e3325a42d:0adb93be2ee1",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:9d6cf70e3325a42d:c03",
+      "to": "clm:9d6cf70e3325a42d:1f82a13be8bc",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:9d6cf70e3325a42d:c03",
+      "to": "clm:9d6cf70e3325a42d:9e22886f2342",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:9d6cf70e3325a42d:c03",
+      "to": "clm:9d6cf70e3325a42d:77f2d746a659",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:9d6cf70e3325a42d:c03",
+      "to": "clm:9d6cf70e3325a42d:3ce8e438d4af",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:9d6cf70e3325a42d:c04",
+      "to": "clm:9d6cf70e3325a42d:0e0b0b9585c9",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:9d6cf70e3325a42d:c04",
+      "to": "clm:9d6cf70e3325a42d:c7901fec234c",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:9d6cf70e3325a42d:c04",
+      "to": "clm:9d6cf70e3325a42d:f1047635f2d1",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:9d6cf70e3325a42d:c04",
+      "to": "clm:9d6cf70e3325a42d:c86fe2fc8a32",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:9d6cf70e3325a42d:c04",
+      "to": "clm:9d6cf70e3325a42d:9b229a70088f",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:9d6cf70e3325a42d:c04",
+      "to": "clm:9d6cf70e3325a42d:a1c7ef68ec14",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:9d6cf70e3325a42d:c04",
+      "to": "clm:9d6cf70e3325a42d:38973fa5396d",
+      "type": "asserts"
+    }
+  ],
+  "views": {
+    "sourceSpine": [
+      "seg:9d6cf70e3325a42d:c01",
+      "seg:9d6cf70e3325a42d:c02",
+      "seg:9d6cf70e3325a42d:c03",
+      "seg:9d6cf70e3325a42d:c04"
+    ],
+    "topicRoots": [],
+    "claimRoots": [
+      "clm:9d6cf70e3325a42d:b79f2f3752e4",
+      "clm:9d6cf70e3325a42d:6d07f949e057",
+      "clm:9d6cf70e3325a42d:b4b0add43ac4",
+      "clm:9d6cf70e3325a42d:9d304fc33704",
+      "clm:9d6cf70e3325a42d:bcf6c3fb1f53",
+      "clm:9d6cf70e3325a42d:790a4152ba34",
+      "clm:9d6cf70e3325a42d:e8161e576ef8",
+      "clm:9d6cf70e3325a42d:68d8ad8ff1d9",
+      "clm:9d6cf70e3325a42d:7277316b3c10",
+      "clm:9d6cf70e3325a42d:11fb70fed0b3",
+      "clm:9d6cf70e3325a42d:4037c857bd35",
+      "clm:9d6cf70e3325a42d:e7a307ac9083",
+      "clm:9d6cf70e3325a42d:7c4672413505",
+      "clm:9d6cf70e3325a42d:91575fcfc6cd",
+      "clm:9d6cf70e3325a42d:2af0e372b6b1",
+      "clm:9d6cf70e3325a42d:6f845aacc537",
+      "clm:9d6cf70e3325a42d:cc9dcb73a409",
+      "clm:9d6cf70e3325a42d:0adb93be2ee1",
+      "clm:9d6cf70e3325a42d:1f82a13be8bc",
+      "clm:9d6cf70e3325a42d:9e22886f2342",
+      "clm:9d6cf70e3325a42d:77f2d746a659",
+      "clm:9d6cf70e3325a42d:3ce8e438d4af",
+      "clm:9d6cf70e3325a42d:0e0b0b9585c9",
+      "clm:9d6cf70e3325a42d:c7901fec234c",
+      "clm:9d6cf70e3325a42d:f1047635f2d1",
+      "clm:9d6cf70e3325a42d:c86fe2fc8a32",
+      "clm:9d6cf70e3325a42d:9b229a70088f",
+      "clm:9d6cf70e3325a42d:a1c7ef68ec14",
+      "clm:9d6cf70e3325a42d:38973fa5396d"
+    ],
+    "openQuestionRoots": []
+  },
+  "coverage": {
+    "timed": true,
+    "charsAnchored": 23996,
+    "charsTotal": 139568,
+    "fraction": 0.1719,
+    "segmentsCovered": 682,
+    "segmentsTotal": 3951,
+    "pipelineTruncatedAtChars": 24000,
+    "chunkAnchorMethods": {
+      "exact": 4
+    }
+  },
+  "generation": {
+    "createdAt": "2026-08-18T07:10:55.190490+00:00",
+    "models": [
+      "deepseek/deepseek-chat"
+    ],
+    "promptsUsed": [
+      "disclosure.content_analysis",
+      "disclosure.ner",
+      "document_classification",
+      "rag_ingestion",
+      "validation"
+    ],
+    "methodologyVersion": "rag-prompt-pipeline/ADR-0001",
+    "pipelineStatus": "ok",
+    "degraded": false
+  },
+  "validation": {
+    "valid": true,
+    "errors": [],
+    "gaps": [
+      "no next_trace nodes — no pipeline stage proposes concrete next sources",
+      "no reading nodes — no interpretive stage exists; readings are never inferred here",
+      "no counter_reading nodes — paired with reading; unproduced for the same reason",
+      "no speaker nodes — diarisation is unavailable — the transcript carries '>>' turn markers but no speaker identities",
+      "no open questions — the map manufactures closure it has no basis for",
+      "no evidence→claim edges — the analysis prompt emits supporting and contradictory evidence as flat lists with no target claim, so evidence carries a stance but names no claim it bears on",
+      "chunk coverage is 17% of the source (23996 of 139568 chars); the pipeline truncates at 24000 chars"
+    ]
+  }
+}

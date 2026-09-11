@@ -256,7 +256,17 @@ class InteractiveEntityProcessor:
             ner = entry.get("ner") if isinstance(entry, dict) else None
             if not isinstance(ner, dict):
                 continue
-            for entity in ner.get("entities") or []:
+            # `_raw_list` is what rag_prompt_pipeline.py:314 emits when the
+            # model returns a bare JSON array instead of an object with an
+            # "entities" key — both shapes are normal and neither is an error.
+            # Reading only "entities" silently dropped every array-shaped
+            # result: on video _mWPuffi_hc the pipeline extracted entities for
+            # 2 of 8 chunks and this loader reported "Loaded 0 entities",
+            # because both were `_raw_list`. Accept either shape.
+            entities = ner.get("entities")
+            if not entities:
+                entities = ner.get("_raw_list")
+            for entity in entities or []:
                 if not isinstance(entity, dict):
                     continue
                 bucket = self._NER_TYPE_TO_BUCKET.get(

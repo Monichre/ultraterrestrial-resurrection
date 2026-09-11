@@ -43,7 +43,7 @@ Starting comprehensive whiteboard session to analyze every component of:
 ### Core Processing
 
 - [x] `main.py` - Main entry point and processing orchestration
-- [ ] `lib/knowledge_base_service.py` - Enhanced processing methods
+- [ ] `lib/kb/knowledge_base_service.py` - Enhanced processing methods
 - [ ] `lib/entity_extraction/processors/interactive_entity_processor.py` - Entity processing workflow
 
 ### Entity Extraction Components
@@ -227,10 +227,10 @@ Starting comprehensive whiteboard session to analyze every component of:
 
 **Internal Modules:**
 
-- `lib.knowledge_base_service` - Enhanced processing methods
+- `lib.kb.knowledge_base_service` - Enhanced processing methods
 - `lib.entity_extraction` - Entity processing workflow
 - `lib.terminal_display` - UI components
-- `lib.knowledge_base_crud` - Database operations
+- `lib.kb.knowledge_base_crud` - Database operations
 
 ### 8. DATA FLOW PATTERNS
 

@@ -287,14 +287,14 @@ Corpus switcher, per-corpus canvas scoping, charter display. Needs design work i
 | 4 — App surface | Phase 3 + design | — |
 
 Phases 0–2 deliver the stated goal. Tickets belong in Linear (project "Ultraterrestrial
-Resurrection", team DMGD) per `docs/agents/ops/issue-tracker.md` — not in `docs/plans/TODO.md`,
+Resurrection", team DMGD) per [`.agents/rules/issue-tracker.md`](.agents/rules/issue-tracker.md) — not in `docs/plans/TODO.md`,
 which is a historical `T-*` migration ledger only.
 
 ---
 
 ## 8. Definition of Done
 
-Per `docs/agents/ops/DEFINITION_OF_DONE.md`, green tests are not sufficient. Each phase needs:
+Per [`.agents/rules/DEFINITION_OF_DONE.md`](.agents/rules/DEFINITION_OF_DONE.md), green tests are not sufficient. Each phase needs:
 
 1. **Completion report with evidence** — every claim shows its command and that command's
    actual output; numbers scoped; explicit statement of what was not done.

@@ -1,4 +1,0 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/antinomyhq/forge/refs/heads/main/forge.schema.json
-variables:
-  operating_agent: muse
-model: o3-pro

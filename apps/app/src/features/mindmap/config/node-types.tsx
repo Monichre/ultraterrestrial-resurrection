@@ -20,12 +20,19 @@ import {EnhancedEntityNode} from '@/features/mindmap/nodes/enhanced-entity-node'
 // Drop-to-Canvas (T-060) — the user's own dropped file, not a corpus record
 import {DroppedArtifactNode} from '@/features/mindmap/nodes/dropped-artifact-node'
 
+// Evidence-graph tour waypoint (T-050 s3) — narrative marker, not a record
+import {WaypointNode} from '@/features/guided-tours/shared/nodes/WaypointNode'
+import {TOUR_WAYPOINT_NODE_TYPE} from '@/features/guided-tours/shared/types/flow-model'
+
 export const nodeTypes: any = {
   // Utilities Nodes
   annotationNode: AnnotationNode,
   // Dropped artifact (T-060). Key is `ut`-namespaced so it cannot collide
   // with the existing entity/group/document keys below.
   utDroppedArtifactNode: DroppedArtifactNode,
+  // Guided-tour waypoint (T-050). Projected onto this canvas by
+  // `use-tour-graph-projection.ts`; never persisted with the graph.
+  [TOUR_WAYPOINT_NODE_TYPE]: WaypointNode,
   // Enhanced Entity Nodes (POC)
   enhancedEntityNodePOC: EnhancedEntityNodePOC,
   // Enhanced Entity Nodes (Production)

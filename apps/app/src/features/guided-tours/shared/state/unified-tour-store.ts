@@ -17,9 +17,11 @@
 import { create } from 'zustand'
 
 import type {
+  ResolvedAnchor,
   SpineTourDefinition,
   SpineWaypointDefinition,
   TourDefinition,
+  WaypointId,
 } from '../types/tour-definition'
 import type { PersistedTourProgress, TourRuntimeState } from '../types/tour-runtime'
 import type { TourEvent } from './tour-events'
@@ -54,6 +56,13 @@ export interface UnifiedTourState {
   // ---- evidence-graph engine (features/guided-tours) ----
   definition: TourDefinition | null
   runtime: TourRuntimeState | null
+  /**
+   * What resolving each waypoint's `corpusAnchor` against live Neon produced
+   * (T-050 subtask 4). Absent key = not yet resolved. Kept beside `runtime`
+   * rather than inside it so the pure reducer stays ignorant of I/O.
+   */
+  resolvedAnchors: Partial<Record<WaypointId, ResolvedAnchor>>
+  setResolvedAnchors: (anchors: Partial<Record<WaypointId, ResolvedAnchor>>) => void
 
   loadDefinition: (
     definition: TourDefinition,
@@ -88,6 +97,9 @@ export const useUnifiedTourStore = create<UnifiedTourState>()((set, get) => ({
   ...idleSpineState,
   definition: null,
   runtime: null,
+  resolvedAnchors: {},
+
+  setResolvedAnchors: (anchors) => set({ resolvedAnchors: anchors }),
 
   beginResolving: (tour) =>
     set({
@@ -118,6 +130,7 @@ export const useUnifiedTourStore = create<UnifiedTourState>()((set, get) => ({
   loadDefinition(definition, progress, reducedMotion = false) {
     set({
       definition,
+      resolvedAnchors: {},
       runtime: progress
         ? hydrateRuntimeState(definition, progress, reducedMotion)
         : {
@@ -132,7 +145,7 @@ export const useUnifiedTourStore = create<UnifiedTourState>()((set, get) => ({
     })
   },
 
-  unloadDefinition: () => set({ definition: null, runtime: null }),
+  unloadDefinition: () => set({ definition: null, runtime: null, resolvedAnchors: {} }),
 
   dispatch(event) {
     const { definition, runtime } = get()

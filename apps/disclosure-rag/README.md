@@ -307,7 +307,7 @@ rag_results = requests.post(
 
 ### **Python SDK Usage**
 ```python
-from lib.knowledge_base_service import KnowledgeBaseService
+from lib.kb.knowledge_base_service import KnowledgeBaseService
 from lib.quinuple_rag_adapter import QuinupleRAGAdapter
 
 # Initialize services

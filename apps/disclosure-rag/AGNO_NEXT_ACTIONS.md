@@ -79,7 +79,7 @@ python main.py --status
 1. **`main.py`** - Review `process_youtube_url_enhanced()` function
 2. **`agents/base.py`** - Understand base Agent class structure
 3. **`agents/entity_extraction_agent.py`** - Review existing 85-95% accuracy system
-4. **`lib/knowledge_base_service.py`** - Understand 448-document knowledge base
+4. **`lib/kb/knowledge_base_service.py`** - Understand 448-document knowledge base
 
 ### Integration Points
 - **YouTube Processing**: Enhance existing `process_youtube_url_enhanced()`
@@ -151,7 +151,7 @@ python main.py --status
 
 ### Key System Files
 - **`main.py`** - Core processing logic
-- **`lib/knowledge_base_service.py`** - Knowledge base management
+- **`lib/kb/knowledge_base_service.py`** - Knowledge base management
 - **`agents/entity_extraction_agent.py`** - Existing entity extraction
 - **`streamlit_app.py`** - Web dashboard interface
 

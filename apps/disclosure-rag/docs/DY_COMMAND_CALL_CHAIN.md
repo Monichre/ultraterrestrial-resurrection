@@ -1,7 +1,9 @@
 # `dy` — Call Chain Explainer
 
 **What this documents:** every code path reached when the shell command `dy` is run, across
-`apps/disclosure-rag/main.sh`, `main.py`, and `scripts/playlist_ingestion.py`.
+[`apps/disclosure-rag/main.sh`](apps/disclosure-rag/main.sh), [`apps/disclosure-rag/main.py`](apps/disclosure-rag/main.py), and [`apps/disclosure-rag/scripts/playlist_ingestion.py`](apps/disclosure-rag/scripts/playlist_ingestion.py).
+
+**KB layers** (service vs CRUD vs vector store): [`apps/disclosure-rag/docs/KNOWLEDGE_BASE_LAYERS.md`](apps/disclosure-rag/docs/KNOWLEDGE_BASE_LAYERS.md).
 
 **Written:** 2026-08-08 · **Lane:** A — Corpus & Ingestion · **Method:** static trace. No `dy`
 invocation was executed (it ingests, writes the KB, uploads to OpenAI, POSTs to QStash, and
@@ -48,7 +50,7 @@ The citation that this nesting is deliberate is `main.py:86–93`:
 ## 2. Pre-flight — runs on *every* `dy`, before any dispatch
 
 | Step | Lines | Behaviour |
-|---|---|---|
+| --- | --- | --- |
 | Resolve script dir | `main.sh:14` | `SCRIPT_DIR` via `BASH_SOURCE` |
 | Require `python3` | `main.sh:17–20` | hard exit 1 if absent |
 | Bootstrap venv if missing | `main.sh:26–35` | creates `.venv`, upgrades pip, installs `requirements.txt` |
@@ -67,7 +69,7 @@ is routed through `$VENV_PYTHON` directly so shell aliases / conda cannot hijack
 Dispatch is the `case "$1"` at `main.sh:279–339`.
 
 | `dy` invocation | Branch | Lands in |
-|---|---|---|
+| --- | --- | --- |
 | *(no args)* | `*)` — all tests fail | `show_help` + **exit 1** (`main.sh:335–337`) |
 | `setup` | `main.sh:280` | pip install loop (`main.sh:102–115`) |
 | `process-url <url>` | `main.sh:283` | `main.py <url>` (`main.sh:129`) |
@@ -140,7 +142,7 @@ Reached by `dy <url>`, `dy <file>`, `dy process-url …`, `dy process-file …`,
 ### 5.1 `main()` — `main.py:960–1121`
 
 | Order | Step | Lines |
-|---|---|---|
+| --- | --- | --- |
 | 1 | `argparse` — accepts only `input`, `--upload`, `--no-kb`, `--status`, `--dry-run` | `main.py:962–976` |
 | 2 | `_import_heavy_dependencies()` — deferred so `--help`/bad args cost nothing (`main.py:975`) | `main.py:978` |
 | 3 | `display.print_header()` | `main.py:981` |
@@ -187,7 +189,7 @@ different stage lists.** This is the single most commonly misread part of the ch
 ### 5.3 Into `lib/` — the YouTube branch
 
 ```
-process_youtube_url_enhanced()                 lib/knowledge_base_service.py:1135
+process_youtube_url_enhanced()                 lib/kb/knowledge_base_service.py:1135
 └─ KnowledgeBaseService.process_youtube_with_enhanced_workflow()   :303-508
    ├─ generate_transcript(url)                 lib/youtube.py:200      (:310 in workflow)
    │   ├─ get_video_info_and_transcript(url)   lib/youtube.py:132
@@ -207,7 +209,7 @@ process_youtube_url_enhanced()                 lib/knowledge_base_service.py:113
 Reached by `dy <path>` / `dy process-file`. Never reached from a playlist run.
 
 | Stage | Lines |
-|---|---|
+| --- | --- |
 | PDF text extraction (`PyPDF2`) or UTF-8 read | `main.py:452–467` |
 | Title from filename, or first `#` heading for `.md` | `main.py:470–476` |
 | `ContentAnalysisEngine().process_for_rag(...)` → writes `<stem>_rag_pipeline.json` | `main.py:498–518` |
@@ -307,7 +309,7 @@ write_run_report(runs, counts, reports_dir)                        :448 → :325
 ### 7.3 `process_episode()` — `playlist_ingestion.py:241–320`
 
 | Step | Call | Lines |
-|---|---|---|
+| --- | --- | --- |
 | 1 | `fetch_transcript(url)` → `get_metadata_and_transcript_api_first` (`lib/youtube_transcript_enhanced.py:433`) | `:199–213` |
 | 2 | on failure → `REASON_STATUS` map → `blocked` / `unavailable` / `no_transcript` | `:250–253` |
 | 3 | `clean_transcript(raw)` (`lib/transcript_fidelity.py:48`) → write `transcripts/<vid>.txt` | `:256–259` |
@@ -447,7 +449,7 @@ invalid OpenAI key surfaces there as `no_entities` rather than as an exception
 ## 10. Dead and half-dead branches (verified, not inferred)
 
 | Branch | Status | Evidence |
-|---|---|---|
+| --- | --- | --- |
 | `dy ui` → `main.py --ui` (`main.sh:197`) | **DEAD** | `main.py` argparse defines no `--ui` (`main.py:962–973`). `.venv/bin/python main.py --ui` → `error: unrecognized arguments: --ui`, **exit 2** |
 | `dy sync-rag` → `main.py --sync-rag` (`main.sh:216`) | **DEAD** | same; `error: unrecognized arguments: --sync-rag`, **exit 2** |
 | `dy chat` fallback → `launch_ui` (`main.sh:208–209`) | dead *fallback* | only reached if `disclosure_chat.py` is missing; it exists today, so the live path is fine |
@@ -461,7 +463,7 @@ failures are instant and cost nothing — and why they were easy to miss.
 ## 11. Exit codes
 
 | Code | From | Meaning |
-|---|---|---|
+| --- | --- | --- |
 | `1` | `main.sh:19` | `python3` not on PATH |
 | `1` | `main.sh:337` | unknown command |
 | `1` | `main.sh:125/139/145/160/166/187` | required argument missing / file not found |
@@ -501,14 +503,14 @@ exit status, so the command's overall status is that of the **last** URL only.
 ## 13. Evidence
 
 | Claim | Command | Output |
-|---|---|---|
+| --- | --- | --- |
 | `dy` is a zsh alias to `main.sh` | `grep -n "\bdy\b" ~/.zshrc` | `135:alias dy='…/apps/disclosure-rag/main.sh'` |
 | `main.py --ui` is dead | `.venv/bin/python main.py --ui; echo $?` | `main.py: error: unrecognized arguments: --ui` / `2` |
 | `main.py --sync-rag` is dead | `.venv/bin/python main.py --sync-rag; echo $?` | `main.py: error: unrecognized arguments: --sync-rag` / `2` |
 | File sizes traced | `wc -l main.py scripts/playlist_ingestion.py` | `1124` / `457` |
 
 **Not done:** no `dy` run was executed end-to-end, so no runtime trace confirms the deeper
-`lib/knowledge_base_service.py` → `lib/youtube.py` arrows — those are read from source. The
+`lib/kb/knowledge_base_service.py` → `lib/youtube.py` arrows — those are read from source. The
 `--ui`/`--sync-rag` findings above are the only claims here backed by execution. Diagrams were
 authored but not visually reviewed in a renderer; treat their layout (not their content, which is
 line-anchored) as **UNVERIFIED**.

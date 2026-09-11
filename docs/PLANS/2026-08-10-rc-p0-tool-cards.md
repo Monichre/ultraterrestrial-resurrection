@@ -36,7 +36,7 @@ On `/research-canvas`, while (and after) a disclosure mindmap agent run streams,
 - result summary (hit counts or short message)
 - error message when `status === 'error'`
 
-**Success = visual dogfood**, not green tests alone ([DEFINITION_OF_DONE](../agents/ops/DEFINITION_OF_DONE.md)).
+**Success = visual dogfood**, not green tests alone ([DEFINITION_OF_DONE](.agents/rules/DEFINITION_OF_DONE.md)).
 
 ---
 

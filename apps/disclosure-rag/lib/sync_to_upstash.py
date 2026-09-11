@@ -14,7 +14,7 @@ from typing import List, Dict, Any
 import logging
 
 from upstash_vector import Index, Vector
-from knowledge_base_crud import KnowledgeBaseCRUD, Document
+from lib.kb.knowledge_base_crud import KnowledgeBaseCRUD, Document
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

@@ -20,7 +20,7 @@ from agents.geospatial_agent import GeospatialAnalysisAgent
 from agents.network_agent import NetworkAnalysisAgent
 from agents.historical_timeline_agent import HistoricalTimelineAgent
 from agents.claims_evidence_agent import ClaimsEvidenceAgent
-from lib.knowledge_base_crud import KnowledgeBaseCRUD
+from lib.kb.knowledge_base_crud import KnowledgeBaseCRUD
 from lib.visualization.geographic_visualizer import GeographicUFOVisualizer
 
 class QueryComplexity(Enum):

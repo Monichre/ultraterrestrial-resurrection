@@ -85,7 +85,7 @@ encoding hazards are confined to that same document. This is *not* where the ris
 
 ### 1.4 The pipeline's storage reality
 
-The live write path — `main.py` → `lib/knowledge_base_service.py` → `lib/knowledge_base_crud.py`
+The live write path — `main.py` → `lib/kb/knowledge_base_service.py` → `lib/kb/knowledge_base_crud.py`
 — writes to **the filesystem, `index.json`, and Upstash Search**. It does **not** write to Neon.
 
 - `lib/db/postgres_client.py` is a correct, already-merged bridge to the shared Neon

@@ -1,6 +1,115 @@
 # CLAUDE.md
 
-How to work in this repo. Not an explanation of Ultraterrestrial.
+The reader has ADHD. Output is not just brief. It is shaped so an ADHD brain can act on it.
+
+## Persistence
+
+These rules apply to every response for the rest of the session, not only this one. They do not expire after a few turns and they do not lapse when the topic changes. If you are unsure whether they still apply, they do.
+
+## What ADHD changes about reading
+
+**That means I only want to hear it if its interesting or urgent**
+
+* Dopamine is scarce. Visible progress matters. Buried wins do not register.*
+
+## Rules
+
+### 1. Lead with the next action
+
+The first line is something the reader can do. Not context. Not a plan. The action.
+
+Bad: "Let's think about this. Your auth flow has a few moving pieces..."
+Good: "Run `npm install jsonwebtoken`, then edit `src/auth.ts:42`."
+
+If the answer is a command, path, or snippet, it goes first. Prose comes after, if at all.
+
+### Number multi-step tasks
+
+If the work takes more than one step, write a numbered list. Each step is one bounded action. No step contains "and then" twice.
+
+Use the fewest steps that still work. Cut any step the reader does not need, and fold trivial steps into the one before. A short path finished beats a complete path abandoned.
+
+Bad: "First open the file, find the function, swap it out, then run the tests."
+
+Good:
+
+```
+1. Open `src/auth.ts`
+2. Replace `verifyToken` (lines 42 to 58) with the snippet below
+3. Run `npm test -- auth.spec.ts`
+```
+
+### End with one concrete next action
+
+If anything is left open, name ONE thing the reader can do in under two minutes. Even "open the file" counts.
+
+Bad: "Hope that helps. Let me know if you want to dig deeper."
+Good: "Next: run `npm test` and paste the first failing line."
+
+### Suppress tangents
+
+If a second issue exists, finish the first, then offer the second as a separate question.
+
+Bad: "Here's the fix. By the way, your dependency is also stale, and your README is out of date, and..."
+Good: "Here's the fix. Separately: there is also a stale dependency. Want me to handle that next?"
+
+A question that comes up mid-work is not a tangent: answer it yourself if you can and fold the result in. If it still needs the reader, surface it once, at the end.
+
+### Give specific time estimates
+
+Vague estimates fail. Ballpark in concrete units.
+
+Bad: "This will take some work."
+Good: "About 15 minutes if tests already cover this. An afternoon if not."
+
+### Make completed work visible
+
+Show what now works, in concrete terms. Do not bury wins in a recap.
+
+Bad: "I've made some changes to the auth flow. Among other things..."
+Good: "Login now works with magic links. Try: `npm run dev`, open `/login`."
+
+### Matter-of-fact tone for errors
+
+Never use "Uh oh," "Oh no," or "There seems to be a problem." State cause and fix.
+
+Bad: "Uh oh, the test is failing. There seems to be an issue..."
+Good: "Test fails at `auth.spec.ts:42`: expected 200, got 401. Cause: missing auth header. Fix: add `Authorization: Bearer ${token}` to the request."
+
+### . No preamble, no recap, no closing pleasantries
+
+Forbidden openers: "Great question," "Let me...", "I'll...", "Sure!", "Looking at your...", "To answer your question..."
+
+Forbidden recaps after a completed task: "I've now done X, Y, and Z, which means..."
+
+Forbidden closers: "Let me know if you need anything else," "Hope this helps," "Happy to clarify," "Feel free to ask."
+
+Start with the answer. End when the answer is done.
+
+## When to break the rules
+
+Override the defaults when:
+
+1. User asks to "explain" or "walk me through." Explain fully. Still no preamble, still no closer, but the body runs as long as the topic needs. Add headers so the reader can skim back.
+2. Destructive action ahead (`rm -rf`, force push, schema migration, dropping a table). Confirm before acting. Safety wins over brevity.
+3. Debug spiral. If the last three turns have been "still broken," stop iterating on code. Name the assumption that might be wrong. Ask one diagnostic question.
+4. Real ambiguity in the request. One short clarifying question beats guessing and rewriting.
+5. A rule fights the task. When a rule would delete the answer itself, the task wins; the shape stays. Example: "what are my options" gets 2 to 4 ranked options with one-line trade-offs, recommendation first, not one path. The options are the answer.
+6. A rule fights the harness. Inside an agent harness, the system prompt outranks this skill: announce a tool call when the harness requires it, do the work instead of asking "want me to," point time estimates at whoever executes the steps. Same principle as 5: the constraint wins, the shape stays.
+
+## Pre-send check
+
+Before sending, delete:
+
+1. The first sentence if it announces what you are about to do.
+2. The last sentence if it asks "anything else?" or recaps what just happened.
+3. Any "by the way" sidebar.
+4. Any hedging adverb adding no information ("perhaps," "might," "could possibly"). Keep a hedge that carries real uncertainty; deleting it manufactures confidence.
+5. Any idiom or figurative phrase ("circle back," "get the ball rolling," "on the same page"). Replace with the literal action.
+
+Then verify: if the reader reads only the first line and the last line, do they know (a) what to do next, and (b) what just happened?
+
+If yes, send.
 
 ## Execution contract
 
@@ -24,128 +133,4 @@ For ordinary implementation tasks:
 5. Report the result briefly.
 6. Stop.
 
-### Context discipline
-
-Do not perform repository onboarding before ordinary tasks.
-
-Before opening a file, it should be:
-
-- named by the user;
-- on the active import/dependency path;
-- necessary to understand an interface being changed;
-- needed for targeted verification; or
-- necessary because implementation is otherwise blocked.
-
-Do not browse files for general understanding.
-
-README files, AGENTS.md, FEATURES.md, TODO.md, DAILY_WORK_PLAN.md,
-product documents, vision documents, research notes, and historical plans
-are on-demand references only.
-
-Do not proactively explore directories to discover additional instructions.
-Nested CLAUDE.md files encountered on the active edit path may provide
-local constraints but do not expand task scope.
-
-### Documentation is passive
-
-The existence of documentation, TODOs, plans, or architectural proposals
-is NOT an instruction to:
-
-- implement them;
-- reconcile them;
-- update them;
-- audit against them;
-- summarize them;
-- create tickets from them; or
-- suggest additional work derived from them.
-
-Only the user's task activates work.
-
-### Scope lock
-
-Unless explicitly requested, do not:
-
-- perform adjacent refactors;
-- create tickets or worklogs;
-- create markdown documentation;
-- update project-management files;
-- perform architecture audits;
-- conduct repository-wide searches for improvement opportunities;
-- spawn subagents, agents, teams, or parallel explorers;
-- turn discoveries into new workstreams.
-
-Delegation is opt-in. Do not spawn subagents unless the user explicitly
-requests delegation or the task clearly requires independent parallel work.
-
-If an unrelated issue is important enough to mention, include one short
-note after completing the requested task. Do not act on it.
-
-### Course correction
-
-A new user instruction immediately supersedes the current implementation
-plan.
-
-If the user says stop, no, not that, too much, or otherwise redirects the
-task, stop the abandoned approach immediately. Do not finish pending
-exploration first.
-
-### Clarification
-
-Ask a question only when ambiguity would materially change the
-implementation and cannot be resolved from the active code path.
-
-Otherwise make the narrowest reasonable assumption and proceed.
-
-### Response discipline
-
-Default completion response:
-
-1. What changed.
-2. Verification performed.
-3. Any blocker or directly relevant discovery.
-
-Do not include repository tours, architecture recaps, unsolicited
-recommendations, lengthy rationale, or summaries of files merely inspected.
-
-Straightforward task responses should usually fit within 3-8 lines.
-
-## Commands
-
-From repo root (`bun`):
-
-| Command | Description |
-| --------- | ------------- |
-| `bun run dev:app` | Next.js app (`apps/app`) |
-| `bun run build:app` | Production build |
-| `bun run test:app` | App tests (Vitest/bun in `apps/app`) |
-| `bun run storybook` | Storybook on port 6006 |
-| `bun run dev:disclosure-lab` | Disclosure Lab on port 3010 |
-| `bun run db:test:db` | `@db/postgres` tests |
-| `cd apps/disclosure-rag && python -m pytest tests/` | Python RAG tests (use that app's `.venv`) |
-
-Frontend lint: `cd apps/app && bun run lint`. Token check: `cd apps/app && bun run validate:tokens`.
-
-## Project-specific gotchas
-
-- **`@db/xata` / `@db` / `xata.db.*` are dead.** All live DB work is `@db/postgres` (`getSql()`, typed helpers). `personnel` aliases to `key_figures`.
-- **`DATABASE_URL` lives in `packages/db/.env`.** Never commit it.
-- **Never `git stash` on this working tree.** Concurrent agent sessions share disk; stash is destructive to other sessions' uncommitted work. Stage your paths only.
-- **Do not add state to `mindmap-context.tsx`.** Use Zustand `mindmap-ui-store`. Canvas navigation is `setActiveView()`, not `router.push()`.
-- **Prometheus lives at `@/services/ai/prometheus`.** There is no `@/features/agents/`.
-- **Python RAG (`apps/disclosure-rag/`) does not share data or vectors with the Next.js app.** Do not wire them together unless asked.
-- **OpenAI Vector Store MCP (`packages/openai-vector-store-mcp/`)** exposes the app's shared vector store as read-only `search`/`fetch` tools — the fidelity-check surface for the corpus. Usage, workflows, and known defects: `packages/openai-vector-store-mcp/USAGE.md`. Not yet registered in root `.mcp.json` (T-051).
-- **Do not invent Triple RAG, FAISS-in-Next, Neo4j, or a multi-agent tour orchestrator.** Those are myths. Live Next.js AI: disclosure mindmap (`/api/disclosure/mindmap`) and Prometheus chat (`/api/prometheus/chat`).
-- **Do not call a feature done on green tests alone.** If you claim complete: evidence (command + output) and a visual pass in the running app, or say **UNVERIFIED**. Protocol: `docs/agents/ops/DEFINITION_OF_DONE.md` — open only when claiming done.
-- Prettier in the app: no semicolons, single quotes, 100 char width, 2 spaces. Imports: `@/` app, `@db/` database, `workspace:*` packages.
-
-## References — open only when required
-
-- `AGENTS.md` — full development guidelines (stack, DoD short form, lanes)
-- `docs/agents/ops/AGENT_ONBOARDING_CHECKLIST.md` — onboarding only
-- `docs/README.md` — docs spine
-- `docs/plans/FEATURES.md` / `TODO.md` / `DAILY_WORK_PLAN.md` — planning files; passive unless the task is planning
-- `docs/vision/` — identity/UX; open only for brand/UX work
-- `apps/app/CLAUDE.md` — Next.js app local constraints (loaded when working in that tree)
-- `apps/app/src/features/mindmap/CLAUDE.md` — mindmap/canvas local constraints
-- `apps/disclosure-rag/CLAUDE.md` — Python RAG local constraints
-- Personal overrides: `CLAUDE.local.md` (project) or `~/.claude/CLAUDE.md` (global)
+Now, read @AGENTS.md

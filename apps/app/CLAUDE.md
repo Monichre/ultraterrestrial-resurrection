@@ -1,68 +1,38 @@
-- File search is a tool available in the Responses API. It enables models to retrieve information in a knowledge base of previously uploaded files through semantic and keyword search. By creating vector stores and uploading files to them, you can augment the models' inherent knowledge by giving them access to these knowledge bases or vector_stores.
+# apps/app
 
-## Mindmap Architecture Notes
+Local constraints for the Next.js app. Nested guidance does not expand task scope.
 
-- Treat wrapper routes in `src/app/(site)/` as potentially thin aliases only; do not assume the wrapper itself is the source of UI behavior.
-- For mindmap or research-canvas regressions, trace the full render chain before editing anything: route page -> provider -> shell component -> view switcher -> final rendered view.
-- In this app, `research-canvas/page.tsx` and `disclosure/page.tsx` can point into the same `MindMap` shell, while `ViewSwitcher.tsx` decides whether users actually see `Graph`, search/discovery, timeline, globe, or detail views.
-- When debugging unexpected default UI, inspect both current render wiring and git history of the route page plus `features/mindmap/research-canvas/ViewSwitcher.tsx` before concluding a route wrapper introduced the behavior.
+File references in this file must be markdown links whose href is the workspace path from repo root (see [`AGENTS.md`](AGENTS.md#markdown-file-links-binding)). No `../` climbs and no `@/` hrefs.
 
-## Review And Planning Persistence
+## Mindmap / research canvas
 
-- Persist meaningful reviews, multi-agent analyses, architecture discussions, and group problem-solving outputs to a canonical markdown document in `docs/plans/` before implementation begins.
-- When a review or planning outcome materially improves future agent performance, also update the nearest relevant agent memory/config file (`CLAUDE.md`, `AGENTS.md`, or feature-local `CLAUDE.md`) with concise durable guidance.
-- Canonical review and plan docs should be treated as the source of truth for multi-perspective analysis; chat alone is not sufficient for substantial review outcomes.
-
-## Canonical Render Path (Research Canvas)
-
-*(Moved from root `CLAUDE.md` 2026-08-05 — applies only to this app.)*
+- Wrapper routes in [`apps/app/src/app/(site)/`](apps/app/src/app/(site)/) may be thin route aliases. Do not assume the wrapper is the UI.
+- For canvas regressions, trace: route page → provider → shell → [`ViewSwitcher`](apps/app/src/features/mindmap/research-canvas/ViewSwitcher.tsx) → rendered view.
+- [`apps/app/src/app/(site)/research-canvas/page.tsx`](apps/app/src/app/(site)/research-canvas/page.tsx) can share the `MindMap` shell. [`ViewSwitcher.tsx`](apps/app/src/features/mindmap/research-canvas/ViewSwitcher.tsx) decides Graph / search / timeline / globe / detail.
+- Unexpected default UI: check current wiring and git history of the route page plus [`ViewSwitcher.tsx`](apps/app/src/features/mindmap/research-canvas/ViewSwitcher.tsx).
 
 ```
 (site)/research-canvas/page.tsx
-  -> MindMap (features/mindmap/index.tsx -> mind-map.tsx)  [16 lines, only live shell]
+  -> MindMap (features/mindmap/index.tsx -> mind-map.tsx)
     -> ReactFlowProvider + MindMapProvider
       -> ViewSwitcher (canvasContent=<Graph />)
         -> Graph | TimelineView | SightingsView | SearchView | DetailView
         -> always mounts <FullScreenMenu />
 ```
 
-## State Management
+Prose map: [`research-canvas/page.tsx`](apps/app/src/app/(site)/research-canvas/page.tsx) → [`MindMap`](apps/app/src/features/mindmap/index.tsx) / [`mind-map.tsx`](apps/app/src/features/mindmap/mind-map.tsx) → [`ViewSwitcher`](apps/app/src/features/mindmap/research-canvas/ViewSwitcher.tsx).
 
-- **Zustand `mindmap-ui-store.ts`** — healthy, well-typed slices (navigation, tour, filter, timeline, layout, assets). Use this for UI state.
-- **`mindmap-context.tsx`** — 1,363-line god-object. Do NOT add more logic here. Scheduled for decomposition.
-- **Navigation** goes through Zustand `setActiveView()`, NOT `router.push()`. Path fields in FullScreenMenu are decorative.
+## State
 
-## Core AI Architecture
+- UI state: Zustand [`mindmap-ui-store.ts`](apps/app/src/features/mindmap/store/mindmap-ui-store.ts).
+- Do not add logic to [`mindmap-context.tsx`](apps/app/src/contexts/mindmap/mindmap-context.tsx).
+- Navigation: Zustand `setActiveView()`, not `router.push()`. FullScreenMenu `path` fields are decorative.
 
-*(Moved from root `CLAUDE.md` 2026-08-15 — applies only to this app.)*
+## Live AI paths (do not invent others)
 
-**Working AI Paths (SP1–SP4 complete, 2026-06-16):**
+1. Disclosure mindmap — `/api/disclosure/mindmap` (Assistants API + SSE). Client: `useMindMapAgent`.
+2. Prometheus chat — `/api/prometheus/chat` (`streamText`). Prometheus code: [`apps/app/src/services/ai/prometheus`](apps/app/src/services/ai/prometheus).
 
-1. **Disclosure Mindmap Agent** — primary end-to-end AI path
-   - Route: `/api/disclosure/mindmap` (OpenAI Assistants API + custom SSE bridge)
-   - Tools: `file_search` (OpenAI vector store) + `searchDatabase` (FTS + pgvector cosine via `@db/postgres`) + `searchExternalResources` (Exa)
-   - **pgvector**: `embedQuery(text-embedding-3-small)` runs before every `searchDatabase` call — FTS and vector search run in parallel over a deeper candidate pool (`limit * 3`) and are fused with **Reciprocal Rank Fusion** (rank agreement across signals, not raw score magnitude)
-   - Client: `useMindMapAgent` hook → `transformStreamResponse` → graph nodes/edges
-   - Files: `apps/app/src/app/api/disclosure/mindmap/route.ts`, `apps/app/src/features/mindmap/hooks/use-mindmap-agent.ts`
+Search in both uses Postgres FTS + pgvector via `@db/postgres` (RRF fusion). Spatial grouping is bounding-box via `useProximityAnalysis`, not R-Tree/rbush.
 
-2. **Prometheus Chat** — standalone conversational chat (separate protocol)
-   - Route: `/api/prometheus/chat` (Vercel AI SDK `streamText`)
-   - Tools: `searchUAP` (OpenAI Assistants vector store), `searchNeonDatabase` (FTS + pgvector via `@db/postgres`), `searchExternalResources`, `researchExternalTopic`, `processDocument`
-   - **pgvector**: `searchNeonDatabase` tool generates embedding then calls `searchDatabase({ embedding })` — same parallel FTS+vector RRF fusion pattern as mindmap agent
-   - File: `apps/app/src/app/api/prometheus/chat/route.ts`
-
-**Foundation utilities (these do exist and work):**
-
-- **Contextual Intelligence** (`features/mindmap/utils/contextual-intelligence.ts`) — graph context, relationship filtering
-- **Spatial Intelligence** (`features/mindmap/hooks/use-spatial-grouping.ts`) — bounding-box proximity grouping via `useProximityAnalysis` (not R-Tree/rbush — no such dependency exists in this repo)
-- **Enhanced Nodes** (`features/mindmap/nodes/enhanced-node-poc.tsx`) — one node type in React Flow
-
-**Reference:** `docs/plans/2026-03-29-roundtable-unified-action-plan.md` for full audit and hardening plan
-
-<claude-mem-context>
-# Recent Activity
-
-<!-- This section is auto-generated by claude-mem. Edit content outside the tags. -->
-
-*No recent activity*
-</claude-mem-context>
+Clerk middleware gates `/admin` and `/api/processing`; most `/api/disclosure/*` and `/api/prometheus/chat` remain public.

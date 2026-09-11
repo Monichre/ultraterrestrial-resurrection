@@ -74,7 +74,7 @@ export function AssistantPane({ selection, onClearSelection }: Props) {
       <div style={{ flex: 1, overflow: 'auto', padding: 12 }}>
         {messages.length === 0 ? (
           <p style={{ color: 'var(--lab-muted)' }}>
-            Ask about schema, search the corpus, or run read-only SQL. Writes stay in the tables pane.
+            Ask about schema, search Neon / the local archive / the OpenAI vector store, or run read-only SQL.
           </p>
         ) : null}
         {messages.map((m) => (

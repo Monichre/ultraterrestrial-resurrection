@@ -305,9 +305,29 @@ class WebContentProcessor:
                 for chunk in pdf_response.iter_content(chunk_size=8192):
                     f.write(chunk)
 
-            # Convert the PDF to markdown using convert_pdf_to_markdown from document_converter
-            from .document_converter import convert_pdf_to_markdown
-            markdown_content = convert_pdf_to_markdown(str(pdf_filepath))
+            # Convert the PDF to markdown. Try Firecrawl v2 parse() first
+            # (hosted, no local deps); fall back to docling if Firecrawl is
+            # unavailable so the legacy path still works offline.
+            markdown_content = ''
+            parser = self._get_firecrawl_parser()
+            if parser is not None:
+                try:
+                    from firecrawl.v2.types import ScrapeOptions
+                    doc = parser.parse(
+                        str(pdf_filepath),
+                        options=ScrapeOptions(
+                            only_main_content=True,
+                            formats=['markdown'],
+                        ),
+                    )
+                    markdown_content = doc.markdown or ''
+                except Exception as fc_err:
+                    print(f"[firecrawl] PDF parse failed, trying docling: {fc_err}")
+                    markdown_content = ''
+
+            if not markdown_content:
+                from .document_converter import convert_pdf_to_markdown
+                markdown_content = convert_pdf_to_markdown(str(pdf_filepath))
 
             # Analyze PDF content for additional insights
             pdf_analysis = get_analysis_engine().analyze_content(
@@ -381,13 +401,215 @@ class WebContentProcessor:
                     raise
             raise
 
+    # ── Firecrawl integration (v2 SDK) ─────────────────────────────────────
+    # Firecrawl handles JS-rendered SPAs, bot-protected sites, and deep link
+    # discovery (map) far better than the requests+BS4 path below. We try
+    # Firecrawl first; the legacy path remains as a fallback so a missing key
+    # or network issue never breaks ingestion.
+    #
+    # Two v2 entry points:
+    #   FirecrawlClient — scrape(), map(), crawl(), search() for URLs
+    #   Firecrawl       — parse() for local files (PDFs, docs) — replaces docling
+    _firecrawl_client = None   # FirecrawlClient singleton (URL ops)
+    _firecrawl_parser = None   # Firecrawl facade singleton (file parse)
+
+    @classmethod
+    def _get_firecrawl_client(cls):
+        """Return a cached v2 FirecrawlClient, or None if missing key/init fails."""
+        if cls._firecrawl_client is not None:
+            return cls._firecrawl_client
+        api_key = os.environ.get('FIRECRAWL_API_KEY')
+        if not api_key:
+            return None
+        try:
+            from firecrawl.v2 import FirecrawlClient
+            cls._firecrawl_client = FirecrawlClient(api_key=api_key)
+            return cls._firecrawl_client
+        except Exception as e:
+            print(f"[firecrawl] client init failed, falling back to requests: {e}")
+            return None
+
+    @classmethod
+    def _get_firecrawl_parser(cls):
+        """Return a cached v2 Firecrawl facade for parse(), or None on failure."""
+        if cls._firecrawl_parser is not None:
+            return cls._firecrawl_parser
+        api_key = os.environ.get('FIRECRAWL_API_KEY')
+        if not api_key:
+            return None
+        try:
+            from firecrawl import Firecrawl
+            cls._firecrawl_parser = Firecrawl(api_key=api_key)
+            return cls._firecrawl_parser
+        except Exception as e:
+            print(f"[firecrawl] parser init failed: {e}")
+            return None
+
+    # Keywords mirrored from extract_links_from_soup() so related-page
+    # classification stays consistent across both paths.
+    _RELATED_KEYWORDS = (
+        'ufo', 'alien', 'extraterrestrial', 'disclosure', 'classified',
+        'military', 'government', 'sighting', 'encounter', 'phenomenon',
+    )
+
+    @staticmethod
+    def _is_pdf_url(u: str) -> bool:
+        return bool(re.search(r'\.pdf(\?.*)?$', u, re.I))
+
+    @staticmethod
+    def _is_image_url(u: str) -> bool:
+        return bool(re.search(
+            r'\.(jpe?g|png|gif|webp|bmp|tiff?|svg)(\?.*)?$', u, re.I))
+
+    def _categorize_firecrawl_links(
+        self, links: List[str], base_url: str
+    ) -> Dict[str, List[Any]]:
+        """Categorize Firecrawl's flat link list into the extract_links shape."""
+        out: Dict[str, List[Any]] = {
+            'pdfs': [], 'images': [],
+            'external_links': [], 'related_pages': [],
+        }
+        base_host = (urllib.parse.urlparse(base_url).hostname or '').lower()
+        seen: set = set()
+        for raw in links or []:
+            if not raw or raw.startswith(('#', 'mailto:')):
+                continue
+            full = urllib.parse.urljoin(base_url, raw)
+            if full in seen:
+                continue
+            seen.add(full)
+            host = (urllib.parse.urlparse(full).hostname or '').lower()
+            href_lower = full.lower()
+            if self._is_pdf_url(full):
+                out['pdfs'].append(full)
+            elif self._is_image_url(full) and len(out['images']) < self.max_images:
+                out['images'].append(full)
+            elif any(k in href_lower for k in self._RELATED_KEYWORDS):
+                out['related_pages'].append({'url': full, 'text': '', 'title': ''})
+            elif host != base_host and len(out['external_links']) < 20:
+                out['external_links'].append({'url': full, 'text': '', 'title': ''})
+        return out
+
+    def _firecrawl_scrape(self, url: str) -> Dict[str, Any]:
+        """Scrape via Firecrawl v2. Returns the same dict shape as scrape_url()."""
+        client = self._get_firecrawl_client()
+        if client is None:
+            raise RuntimeError('firecrawl unavailable (no API key or init failed)')
+
+        # v2 scrape() returns a Document with markdown, html, links, metadata.
+        doc = client.scrape(
+            url,
+            formats=['markdown', 'html', 'links'],
+            only_main_content=True,
+            timeout=45000,
+        )
+        if not doc:
+            raise RuntimeError('firecrawl scrape returned empty document')
+
+        markdown_content = doc.markdown or ''
+        html_output = doc.html or ''
+        # Derive plain text from the returned HTML so downstream analysis
+        # (ContentAnalysisEngine.analyze_content) receives clean text, matching
+        # the legacy path's main_content.get_text() output.
+        content = ''
+        if html_output:
+            soup = BeautifulSoup(html_output, 'html.parser')
+            for el in soup.find_all(['script', 'style', 'nav', 'header',
+                                     'footer', 'iframe']):
+                el.decompose()
+            content = soup.get_text(separator='\n', strip=True)
+        elif markdown_content:
+            content = re.sub(r'[#*`>\-\[\]()]', '', markdown_content)
+            content = re.sub(r'\n{3,}', '\n\n', content).strip()
+
+        meta = doc.metadata or {}
+        title = getattr(meta, 'title', '') or ''
+        if not title and html_output:
+            t = BeautifulSoup(html_output, 'html.parser').find('title')
+            title = t.string.strip() if t and t.string else ''
+        meta_description = (getattr(meta, 'description', None)
+                            or getattr(meta, 'meta_description', None) or '')
+
+        extracted_links = self._categorize_firecrawl_links(
+            doc.links or [], url)
+
+        # Deep nested-resource discovery: ask Firecrawl to map the site for
+        # PDFs the main scrape may have missed (linked from sub-pages, image
+        # lightboxes, etc.). Merge any new PDF URLs into extracted_links.
+        # v2 map() returns List[LinkResult] (objects with .url), not strings.
+        try:
+            parsed = urllib.parse.urlparse(url)
+            base = f"{parsed.scheme}://{parsed.hostname}"
+            mapped = client.map(base, search='pdf', limit=30, timeout=30000)
+            if mapped and getattr(mapped, 'links', None):
+                existing = set(extracted_links['pdfs'])
+                for link in mapped.links:
+                    link_url = link if isinstance(link, str) else getattr(link, 'url', '')
+                    if link_url and self._is_pdf_url(link_url) and link_url not in existing:
+                        extracted_links['pdfs'].append(link_url)
+                        existing.add(link_url)
+        except Exception as e:
+            print(f"[firecrawl] map for PDFs failed (non-fatal): {e}")
+
+        # Download media using the same handlers as the legacy path so local
+        # files, AI descriptions, and PDF conversions stay consistent.
+        downloaded_media: Dict[str, List[Any]] = {'images': [], 'pdfs': []}
+        if self.enable_media_extraction:
+            for img_url in extracted_links.get('images', [])[:self.max_images]:
+                img_info = self.download_and_analyze_image(img_url, url)
+                if img_info:
+                    downloaded_media['images'].append(img_info)
+            for pdf_url in extracted_links.get('pdfs', [])[:5]:
+                try:
+                    pdf_info = self.handle_pdf(pdf_url)
+                    if pdf_info and 'error' not in pdf_info:
+                        downloaded_media['pdfs'].append(pdf_info)
+                except Exception as e:
+                    print(f"Error processing linked PDF {pdf_url}: {e}")
+
+        metadata = {
+            'url': url,
+            'title': title,
+            'meta_description': meta_description,
+            'timestamp': datetime.now().isoformat(),
+            'content_length': len(content),
+            'media_extraction_enabled': self.enable_media_extraction,
+            'extracted_media_counts': {
+                'images_found': len(extracted_links.get('images', [])),
+                'images_downloaded': len(downloaded_media['images']),
+                'pdfs_found': len(extracted_links.get('pdfs', [])),
+                'pdfs_downloaded': len(downloaded_media['pdfs']),
+                'related_links': len(extracted_links.get('related_pages', [])),
+            },
+            'extractor': 'firecrawl',
+        }
+
+        return {
+            'metadata': metadata,
+            'content': content,
+            'markdown': markdown_content,
+            'html': html_output,
+            'media_type': 'webpage',
+            'extracted_links': extracted_links,
+            'downloaded_media': downloaded_media,
+        }
+
     def scrape_url(self, url: str) -> Dict[str, Any]:
         try:
-            # Handle PDF URLs
+            # Handle PDF URLs directly (Firecrawl can parse PDFs too, but the
+            # legacy handle_pdf saves the file locally and converts it — keep
+            # that behavior for parity with the file-ingest path).
             if url.lower().endswith('.pdf') or 'application/pdf' in url.lower():
                 return self.handle_pdf(url)
 
-            # Handle regular web pages (with bot-protection fallback)
+            # Try Firecrawl first — handles JS-rendered SPAs, bot protection,
+            # and deep nested-link discovery that requests+BS4 cannot.
+            try:
+                return self._firecrawl_scrape(url)
+            except Exception as fc_err:
+                print(f"[firecrawl] scrape fell back to requests: {fc_err}")
+
+            # Legacy path: requests + BeautifulSoup + curl_cffi fallback.
             response = self._fetch_with_fallback(url, timeout=30)
             soup = BeautifulSoup(response.text, 'html.parser')
 

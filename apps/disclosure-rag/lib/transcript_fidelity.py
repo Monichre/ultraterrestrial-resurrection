@@ -14,7 +14,7 @@ import json
 import logging
 import os
 import re
-from dataclasses import dataclass, field, asdict
+from dataclasses import asdict, dataclass, field, fields
 from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
@@ -43,6 +43,18 @@ class FidelityReport:
 
     def to_dict(self) -> Dict[str, Any]:
         return asdict(self)
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "FidelityReport":
+        """Rebuild a report from a `*.fidelity.json` artifact on disk.
+
+        `to_dict` is a plain `asdict` over a flat dataclass whose every field
+        is JSON-native, so this round-trips exactly. Unknown keys are dropped
+        rather than raising, so a report written by an older revision that has
+        since lost a field still loads instead of failing the whole reuse path.
+        """
+        known = {f.name for f in fields(cls)}
+        return cls(**{k: v for k, v in data.items() if k in known})
 
 
 def clean_transcript(text: str) -> str:

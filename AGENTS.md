@@ -4,14 +4,26 @@ This file provides comprehensive guidance for AI agents and developers working w
 
 ## 🚦 THE DEFINITION OF DONE (binding on every agent, no exceptions)
 
-**You may not call a feature complete, done, shipped, or closed without BOTH of the following. Green tests are not sufficient. Neither is a passing typecheck.**
+**You may not call a feature complete, done, shipped, or closed without BOTH of the following. Green tests are not sufficient. The user says its done Neither is a passing typecheck.**
 
 1. **A completion report with evidence.** Every claim states the command that proves it and shows its actual output — never "verified" or "works" on your word. Name what you did NOT do and what remains open.
 2. **A dogfood visual audit.** Every user path and spec requirement is walked through **in the running app** by a reviewer who confirms it visually. A feature nobody has looked at is not done.
 
-Full protocol, required report shape, and the honesty rules: **[`docs/agents/ops/DEFINITION_OF_DONE.md`](docs/agents/ops/DEFINITION_OF_DONE.md)** — read it before reporting any work complete.
+Full protocol, required report shape, and the honesty rules: **[`.agents/rules/DEFINITION_OF_DONE.md`](.agents/rules/DEFINITION_OF_DONE.md)** — read it before reporting any work complete.
 
 If you cannot run the audit (no dev server, no credentials, no token), say so explicitly and report the feature as **UNVERIFIED**, not done. "Blocked on X" is an honest answer; silence that reads as completion is not.
+
+## Markdown file links (binding)
+
+Any documentation file (`.md`, `.mdc`, skills, [`CLAUDE.md`](CLAUDE.md), this file) that names a repo file, directory, or `path:line` a reader should open **must be a markdown link**. Bare backticks are not Cmd-clickable in Cursor.
+
+**Href is the workspace path from repo root.** Same string in the label and the target. No `../` climbs, no `/Users/...` paths, no import/path/module aliases (`@/`, `@db/`, `workspace:*`) as the href.
+
+- File: [`apps/disclosure-rag/docs/CALL_CHAIN.md`](apps/disclosure-rag/docs/CALL_CHAIN.md)
+- Line: [`apps/disclosure-rag/main.py:354`](apps/disclosure-rag/main.py#L354)
+- Same-folder only: [`mind-map.tsx`](mind-map.tsx) is allowed when the target sits next to the documenting file.
+
+Navigation targets do not belong only inside fenced code blocks. Same rule for every documentation file, not only `docs/`.
 
 ## 📁 Project Structure
 
@@ -19,22 +31,28 @@ If you cannot run the audit (no dev server, no credentials, no token), say so ex
 
 ```
 ultraterrestrial-resurrection/
-├── apps/                   # Applications
-│   ├── app/               # Next.js 15 main application
-│   ├── disclosure-rag/    # Python RAG system
-
-├── packages/              # Shared packages
-│   ├── db/               # Xata database integration
-│   ├── ai/               # AI processing components
-│   ├── services/         # External service clients
-│   └── knowledge-base/   # Document management
-├── docs/                  # Documentation
-│   ├── agents/           # Agent configuration files
-│   ├── plans/            # Project planning (lowercase)
-│   ├── research/         # Research documentation
-│   ├── work_logs/        # Development logs
-│   └── prompts/          # AI prompts and templates
-└── *.md                  # Root documentation files
+├── apps/
+│   ├── app/                      # Next.js 15 main application
+│   ├── disclosure-lab/           # Neon admin/DX console (port 3010)
+│   └── disclosure-rag/           # Python RAG system (disconnected from Next.js)
+├── packages/
+│   ├── db/                       # Neon Postgres via @db/postgres (Xata retired)
+│   ├── ai/                       # Agents, prompts, research service adapters
+│   ├── disclosure-ui/            # Design tokens + components (@repo/disclosure-ui)
+│   ├── knowledge-base/           # Shared knowledge-base package
+│   └── openai-vector-store-mcp/  # OpenAI Vector Store MCP (@repo/openai-vector-store-mcp)
+├── .agents/                      # Cross-harness rules, skills, suite source
+├── .cursor/ / .claude/           # Platform IDE rules and generated subagents
+├── docs/
+│   ├── plans/                    # Actionable tickets + feature plans
+│   ├── vision/                   # Identity / UX canon
+│   ├── design/                   # Design lab + reference prototypes
+│   ├── architecture/             # Architecture notes
+│   ├── adr/                      # Architecture decision records
+│   ├── issues/                   # Issue tracking artifacts
+│   ├── dogfood-output/           # Dogfood audit outputs
+│   └── archive/                  # Historical bulk
+└── *.md                          # Root docs (AGENTS, GOAL, PRODUCT, …)
 ```
 
 ## 🛠 Technology Stack
@@ -103,9 +121,9 @@ ultraterrestrial-resurrection/
 
 ### Foundation Utilities
 
-- **Contextual Intelligence** (`features/mindmap/utils/contextual-intelligence.ts`) — graph context, relationship filtering
-- **Spatial Intelligence** (`features/mindmap/hooks/use-spatial-grouping.ts`) — R-Tree proximity queries
-- **Enhanced Nodes** (`features/mindmap/nodes/enhanced-node-poc.tsx`) — React Flow node type
+- **Contextual Intelligence** ([`features/mindmap/utils/contextual-intelligence.ts`](apps/app/src/features/mindmap/utils/contextual-intelligence.ts)) — graph context, relationship filtering
+- **Spatial Intelligence** ([`features/mindmap/hooks/use-spatial-grouping.ts`](apps/app/src/features/mindmap/hooks/use-spatial-grouping.ts)) — R-Tree proximity queries
+- **Enhanced Nodes** ([`features/mindmap/nodes/enhanced-node-poc.tsx`](apps/app/src/features/mindmap/nodes/enhanced-node-poc.tsx)) — React Flow node type
 
 ### What Does NOT Exist (corrected myths)
 
@@ -113,27 +131,27 @@ ultraterrestrial-resurrection/
 - ~~Multi-agent tour orchestrator~~ — 6 agent classes specced July 2025, zero code written, scrapped
 - ~~85% AI connectivity~~ — One end-to-end path works; the rest are broken or dead
 - ~~`@db/xata` / Xata SDK~~ — **Retired (SP3)**. All live call sites migrated to `@db/postgres`.
-- The Python RAG system (`apps/disclosure-rag/`) is completely disconnected from the Next.js app
+- The Python RAG system ([`apps/disclosure-rag/`](apps/disclosure-rag/)) is completely disconnected from the Next.js app. `dy` hop index: [`apps/disclosure-rag/docs/CALL_CHAIN.md`](apps/disclosure-rag/docs/CALL_CHAIN.md). KB module roles: [`apps/disclosure-rag/docs/KNOWLEDGE_BASE_LAYERS.md`](apps/disclosure-rag/docs/KNOWLEDGE_BASE_LAYERS.md).
 
-**Reference:** `docs/plans/2026-03-29-roundtable-unified-action-plan.md`
+**Reference:** [`docs/plans/2026-03-29-roundtable-unified-action-plan.md`](docs/plans/2026-03-29-roundtable-unified-action-plan.md)
 
 ## 📖 Three-Tier Project Management System
 
 **CRITICAL**: All agents MUST use this standardized approach:
 
-### Tier 1: Strategic Planning - `docs/plans/FEATURES.md`
+### Tier 1: Strategic Planning - [`docs/plans/FEATURES.md`](docs/plans/FEATURES.md)
 
 - **Purpose**: High-level feature concepts, architectural decisions, strategic vision
 - **Scope**: Long-term features, complex architectural changes, research ideas
 - **Update Frequency**: Weekly reviews, major planning sessions
 
-### Tier 2: Actionable Tickets - `docs/plans/TODO.md`
+### Tier 2: Actionable Tickets - [`docs/plans/TODO.md`](docs/plans/TODO.md)
 
 - **Purpose**: Ready-to-implement tasks with clear success criteria
 - **Scope**: Features that have completed strategic planning and are ready for execution
 - **Update Frequency**: Sprint planning, daily reviews
 
-### Tier 3: Daily Execution - `DAILY_WORK_PLAN.md`
+### Tier 3: Daily Execution - [`DAILY_WORK_PLAN.md`](DAILY_WORK_PLAN.md)
 
 - **Purpose**: Current sprint execution, tactical implementation
 - **Scope**: Active development, immediate priorities, current session work
@@ -165,7 +183,7 @@ const sql = getSql()
 const rows = await sql`SELECT * FROM events WHERE date > ${cutoff}`
 ```
 
-- **Connection**: `DATABASE_URL` in `packages/db/.env` (gitignored, never commit)
+- **Connection**: `DATABASE_URL` in [`packages/db/.env`](packages/db/.env) (gitignored, never commit)
 - **Driver**: `@neondatabase/serverless` neon() tagged-template client
 - **Write pattern**: `getSql()` + tagged-template SQL; use `autocommit=True` + `conn.transaction()` in Python scripts
 - **Pagination**: `getPaginatedRecords(table, size, offset)` — cursor field removed, offset-based
@@ -210,34 +228,36 @@ const rows = await sql`SELECT * FROM events WHERE date > ${cutoff}`
 - **Visual tests**: Storybook stories with Chromatic
 - **Accessibility**: Automated a11y testing
 
-> **None of the above lets you call a feature done.** Passing tests prove the code does what the tests say — not that the feature works on screen. See [THE DEFINITION OF DONE](#-the-definition-of-done-binding-on-every-agent-no-exceptions) at the top of this file and [`docs/agents/ops/DEFINITION_OF_DONE.md`](docs/agents/ops/DEFINITION_OF_DONE.md).
+> **None of the above lets you call a feature done.** Passing tests prove the code does what the tests say — not that the feature works on screen. See [THE DEFINITION OF DONE](#-the-definition-of-done-binding-on-every-agent-no-exceptions) at the top of this file and [`.agents/rules/DEFINITION_OF_DONE.md`](.agents/rules/DEFINITION_OF_DONE.md).
 
 ## 🔗 Agent-Specific Configuration
 
-For agent intake and ops docs, see:
+For agent intake and shared rules, see:
 
-- **`docs/ops/`** - Onboarding checklist, triage, issue tracker, contrib
-- **`docs/README.md`** - Documentation spine navigator
-- **`.cursorrules` / `.cursor/` / `.claude/`** - Platform IDE rules
-- Platform-specific files reference this core AGENTS.md file
+- **[`.agents/rules/`](.agents/rules/)** — glob `.agents/rules/**` (DoD, onboarding, triage, contrib)
+- **[`.agents/skills/`](.agents/skills/)** — Cross-harness skills (`/goal`, `/loop`)
+- **[`.cursor/agents/`](.cursor/agents/)** / **[`.claude/agents/`](.claude/agents/)** — Platform subagents
+- **[`.cursor/rules/`](.cursor/rules/)** — Cursor-only `.mdc` rules
+- **[`docs/README.md`](docs/README.md)** — Documentation spine navigator
+- Platform-specific files reference this core [`AGENTS.md`](AGENTS.md) file
 
 ## 🪞 Identity & Design Canon (read before any brand/UX/UI/voice work)
 
 Any agent, on any platform, waking into this repo for design-, identity-, or
-UX-adjacent work should read `docs/vision/` before proposing anything:
+UX-adjacent work should read [`docs/vision/`](docs/vision/) before proposing anything:
 
-- `docs/vision/2026-07-09-canonicalization-audit.md` - source-of-truth audit + placement rulings
-- `docs/vision/RESEARCH_NARRATIVE_RUBRIC.md` - judging checklist for "does this feel Ultraterrestrial"
-- `docs/vision/UX_LANGUAGE_GUIDE.md` - reserved words, adopted vocabulary, badge grammar
-- `docs/vision/AGENT_ARCHITECTURE_BRIEF.md` - investigative-role framing (honest about what's actually live)
-- `docs/vision/IMPLEMENTATION_SPEC.md` - identity → real code map + gap list
-- `docs/vision/DESIGN_REGISTERS.md` - the techno-analytical vs. archival-material reframe (not two product lines)
-- `docs/vision/UI_INSPIRATION.md` - curated external UI reference links (Fable Showcase, etc.) with steal-notes
-- `DESIGN.md` (repo root) — **NOT CANONICAL.** Deeply limited Microfilm Dark *Research Canvas chrome* sketch (tokens / a few signature motifs). Do not treat as the design system or product design SoT.
-- `PRODUCT.md` (repo root) - product manifesto register
-- `docs/design/design-lab/` - briefs, mockups, visual-language boards, unfinished `document-system/`
+- [`docs/vision/2026-07-09-canonicalization-audit.md`](docs/vision/2026-07-09-canonicalization-audit.md) — source-of-truth audit + placement rulings
+- [`docs/vision/RESEARCH_NARRATIVE_RUBRIC.md`](docs/vision/RESEARCH_NARRATIVE_RUBRIC.md) — judging checklist for "does this feel Ultraterrestrial"
+- [`docs/vision/UX_LANGUAGE_GUIDE.md`](docs/vision/UX_LANGUAGE_GUIDE.md) — reserved words, adopted vocabulary, badge grammar
+- [`docs/vision/AGENT_ARCHITECTURE_BRIEF.md`](docs/vision/AGENT_ARCHITECTURE_BRIEF.md) — investigative-role framing (honest about what's actually live)
+- [`docs/vision/IMPLEMENTATION_SPEC.md`](docs/vision/IMPLEMENTATION_SPEC.md) — identity → real code map + gap list
+- [`docs/vision/DESIGN_REGISTERS.md`](docs/vision/DESIGN_REGISTERS.md) — the techno-analytical vs. archival-material reframe (not two product lines)
+- [`docs/vision/UI_INSPIRATION.md`](docs/vision/UI_INSPIRATION.md) — curated external UI reference links (Fable Showcase, etc.) with steal-notes
+- [`DESIGN.md`](DESIGN.md) (repo root) — **NOT CANONICAL.** Deeply limited Microfilm Dark *Research Canvas chrome* sketch (tokens / a few signature motifs). Do not treat as the design system or product design SoT.
+- [`PRODUCT.md`](PRODUCT.md) (repo root) — product manifesto register
+- [`docs/design/design-lab/`](docs/design/design-lab/) — briefs, mockups, visual-language boards, unfinished `document-system/`
 
-This index is expected to grow; check `docs/vision/` and `docs/design/` for new files even if this list is stale. Prefer vision + design-lab over root `DESIGN.md` for any ambitious UI work.
+This index is expected to grow; check [`docs/vision/`](docs/vision/) and [`docs/design/`](docs/design/) for new files even if this list is stale. Prefer vision + design-lab over root [`DESIGN.md`](DESIGN.md) for any ambitious UI work.
 
 ## 📝 Work Log Command
 
@@ -278,24 +298,25 @@ import { DataVizComponent } from '@/features/data-viz'
 
 ## ⚠️ Important Notes
 
-- **Check README.md, docs/README.md, and docs/ops/AGENT_ONBOARDING_CHECKLIST.md** when onboarding
+- **Check [`README.md`](README.md), [`docs/README.md`](docs/README.md), and [`.agents/rules/AGENT_ONBOARDING_CHECKLIST.md`](.agents/rules/AGENT_ONBOARDING_CHECKLIST.md)** when onboarding
 - **Existing AI infrastructure is sophisticated and well-integrated** - enhance, don't replace
 - **Never create documentation files unless explicitly requested** by the user
 - **Always timestamp documentation updates** with exact date and time
-- **Never `git stash` on the shared working tree.** Multiple agent sessions run concurrently in this repo. Stashing removes other sessions' uncommitted work from disk — it is a destructive mutation of shared state, not a filing cabinet. To exclude foreign changes from your commit, stage selectively (`git add <your paths>`) and list the foreign paths in your work log for their owner. (Added 2026-07-12 after a ticket-swarm stash reverted four files of a live concurrent session — see `docs/archive/sessions/` for session logs.)
+- **File references in any documentation file must be relative markdown links** (see [Markdown file links](#markdown-file-links-binding))
+- **Never `git stash` on the shared working tree.** Multiple agent sessions run concurrently in this repo. Stashing removes other sessions' uncommitted work from disk — it is a destructive mutation of shared state, not a filing cabinet. To exclude foreign changes from your commit, stage selectively (`git add <your paths>`) and list the foreign paths in your work log for their owner. (Added 2026-07-12 after a ticket-swarm stash reverted four files of a live concurrent session — see [`docs/archive/sessions/`](docs/archive/sessions/) for session logs.)
 
 ---
 
-*This file serves as the single source of truth for development guidelines. Platform ops docs in `docs/ops/` and IDE configs under `.cursor/` / `.claude/` should reference this file rather than duplicate information.*
+*This file serves as the single source of truth for development guidelines. Shared rules live in [`.agents/rules/`](.agents/rules/). IDE configs under [`.cursor/`](.cursor/) / [`.claude/`](.claude/) should reference this file rather than duplicate information.*
 
 ## Autonomous Loop Protocol
 
 This app has a closed development loop.
 
-- `GOAL.md` (app root) — the current objective, done condition, and constraints. One goal at a time.
-- `/goal` (`.agents/skills/goal/SKILL.md`) — set or update the goal. Accepts a Linear ticket ID or inline text.
-- `/loop` (`.agents/skills/loop/SKILL.md`) — run the closed loop: plan → execute → verify → iterate → PR for human review.
-- Platforms without skill support: read `.agents/skills/loop/SKILL.md` and follow it manually.
+- [`GOAL.md`](GOAL.md) (app root) — the current objective, done condition, and constraints. One goal at a time.
+- `/goal` ([`.agents/skills/goal/SKILL.md`](.agents/skills/goal/SKILL.md)) — set or update the goal. Accepts a Linear ticket ID or inline text.
+- `/loop` ([`.agents/skills/loop/SKILL.md`](.agents/skills/loop/SKILL.md)) — run the closed loop: plan → execute → verify → iterate → PR for human review.
+- Platforms without skill support: read [`.agents/skills/loop/SKILL.md`](.agents/skills/loop/SKILL.md) and follow it manually.
 
 ## Learned User Preferences
 
@@ -310,13 +331,13 @@ This app has a closed development loop.
 
 ## Learned Workspace Facts
 
-- Docs spine and living-canon index live in `docs/README.md`; historical bulk belongs under `docs/archive/`.
-- Reference-prototype document UI is migrating into `apps/app/src/components/design-system/research-ui/documents/reference-prototype/` from `docs/design/reference-prototype`.
-- Guided-tour / research-canvas design-lab notes live at `docs/2026-07-19-guided-tour-canvas-design-lab.md` and `docs/2026-07-19-impeccable-live-research-canvas.md`.
-- Research agent role definitions live under `packages/ai/agents/`; prompt library and orchestration material live under `packages/ai/prompts/`.
-- Sci-fi canvas components (`HolographicFileStack`, `RotatingGlobe`) and Command Palette (`CommandK`) live under `apps/app/src/components/`.
+- Docs spine and living-canon index live in [`docs/README.md`](docs/README.md); historical bulk belongs under [`docs/archive/`](docs/archive/).
+- Reference-prototype document UI is migrating into [`apps/app/src/components/design-system/research-ui/documents/reference-prototype/`](apps/app/src/components/design-system/research-ui/documents/reference-prototype/) from [`docs/design/reference-prototype`](docs/design/reference-prototype).
+- Guided-tour / research-canvas design-lab notes live at [`docs/2026-07-19-guided-tour-canvas-design-lab.md`](docs/2026-07-19-guided-tour-canvas-design-lab.md) and [`docs/2026-07-19-impeccable-live-research-canvas.md`](docs/2026-07-19-impeccable-live-research-canvas.md).
+- Research agent role definitions live under [`packages/ai/agents/`](packages/ai/agents/); prompt library and orchestration material live under [`packages/ai/prompts/`](packages/ai/prompts/).
+- Sci-fi canvas components (`HolographicFileStack`, `RotatingGlobe`) and Command Palette (`CommandK`) live under [`apps/app/src/components/`](apps/app/src/components/).
 - Data architecture centers on Neon Postgres + pgvector with graph relationships as first-class schema citizens (hybrid retrieval: vector + FTS + graph traversal).
-- Spacetime Canvas lives at `/spacetime` (`apps/app/src/features/spacetime/`) as the geographic/temporal corollary to Research Canvas.
-- `apps/disclosure-lab` (port 3010) is the Neon admin/DX console: human confirms every write, no deletes in v1, agent is read-only assistance — not Research Canvas.
-- Internal packages: `@repo/disclosure-ui` (tokens/components kit) and `@repo/openai-vector-store-mcp` (OpenAI Vector Store search/fetch MCP). `packages/services` was merged into `packages/ai`.
-- Prefer `apps/disclosure-rag/disclosure-rag-processor/` over the global `~/.claude` skill copy for playlist + `dy` routing.
+- Spacetime Canvas lives at `/spacetime` ([`apps/app/src/features/spacetime/`](apps/app/src/features/spacetime/)) as the geographic/temporal corollary to Research Canvas.
+- [`apps/disclosure-lab`](apps/disclosure-lab) (port 3010) is the Neon admin/DX console: human confirms every write, no deletes in v1, agent is read-only assistance — not Research Canvas.
+- Internal packages: `@repo/disclosure-ui` (tokens/components kit) and `@repo/openai-vector-store-mcp` (OpenAI Vector Store search/fetch MCP). `packages/services` was merged into [`packages/ai`](packages/ai).
+- Prefer [`apps/disclosure-rag/disclosure-rag-processor/`](apps/disclosure-rag/disclosure-rag-processor/) over the global `~/.claude` skill copy for playlist + `dy` routing. `dy` hops: [`apps/disclosure-rag/docs/CALL_CHAIN.md`](apps/disclosure-rag/docs/CALL_CHAIN.md). KB module roles: [`apps/disclosure-rag/docs/KNOWLEDGE_BASE_LAYERS.md`](apps/disclosure-rag/docs/KNOWLEDGE_BASE_LAYERS.md).

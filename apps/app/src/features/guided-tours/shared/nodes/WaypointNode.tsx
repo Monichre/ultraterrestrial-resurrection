@@ -8,8 +8,25 @@ import type { NuclearTourNode } from '../types/flow-model';
 
 const gateOrder: GateKey[] = ['claim', 'evidence', 'challenge', 'residue'];
 
+/**
+ * The anchor stamp says, on the node itself, whether this waypoint is bound to
+ * a live archive record. Solid = a record exists; dashed = the archive holds
+ * nothing (narrative-only) or the lookup found nothing (unresolved). "No
+ * record" must never read as "not loaded yet", so each state has its own copy.
+ */
+const ANCHOR_COPY: Record<NuclearTourNode['data']['anchorState'], string> = {
+  resolving: 'Resolving record…',
+  resolved: 'Archive record',
+  unresolved: 'Searched · no record found',
+  'narrative-only': 'Narrative only · no record',
+};
+
 export const WaypointNode = memo(function WaypointNode({ data }: NodeProps<NuclearTourNode>) {
   const active = data.status === 'active' || data.status === 'complete';
+  const anchorLabel =
+    data.anchorState === 'resolved' && data.anchorTable
+      ? `${ANCHOR_COPY.resolved} · ${data.anchorTable.replace(/_/g, ' ')}`
+      : ANCHOR_COPY[data.anchorState];
 
   return (
     <article
@@ -36,6 +53,14 @@ export const WaypointNode = memo(function WaypointNode({ data }: NodeProps<Nucle
 
         <h3>{data.title}</h3>
         {data.subtitle ? <p>{data.subtitle}</p> : null}
+
+        <span
+          className="ut-waypoint__anchor"
+          data-anchor-state={data.anchorState}
+          title={anchorLabel}
+        >
+          {anchorLabel}
+        </span>
 
         <div
           className="ut-completion-ring"

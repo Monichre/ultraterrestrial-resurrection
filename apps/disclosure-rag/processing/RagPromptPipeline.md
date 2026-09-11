@@ -35,7 +35,7 @@ Prompt resolution: `lib/prompt_loader.py` → `packages/ai/prompts` (not the rem
 | `rag_prompt_pipeline.py` | Orchestrator + LLM JSON calls |
 | `content_analysis.py` | `process_for_rag()` / `analyze_content_with_rag_pipeline()` |
 | `web_content_processor.py` | Attaches `rag_pipeline` + `embeddable_texts` on URL process |
-| `lib/knowledge_base_service.py` | Writes `*_rag_pipeline.json` for web ingest |
+| `lib/kb/knowledge_base_service.py` | Writes `*_rag_pipeline.json` for web ingest |
 | `lib/youtube.py` | Writes YouTube `*_rag_pipeline.json` |
 | `main.py` | File ingest runs pipeline before KB/upload |
 | `enhanced_content_analysis.py` | Includes pipeline in comprehensive results |

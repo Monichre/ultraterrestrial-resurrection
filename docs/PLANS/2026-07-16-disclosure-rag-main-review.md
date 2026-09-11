@@ -51,8 +51,8 @@ The review checked the contract implied by `main.py` and the two hardening commi
 
 Neighbouring modules were inspected only where needed to trace behavior:
 
-- `apps/disclosure-rag/lib/knowledge_base_service.py`
-- `apps/disclosure-rag/lib/knowledge_base_crud.py`
+- `apps/disclosure-rag/lib/kb/knowledge_base_service.py`
+- `apps/disclosure-rag/lib/kb/knowledge_base_crud.py`
 - `apps/disclosure-rag/lib/upstash/queue.py`
 - `apps/disclosure-rag/lib/upstash/vector.py`
 - `apps/disclosure-rag/lib/cocoindex_integration.py`
@@ -75,8 +75,8 @@ This review also cross-checked:
 
 - `apps/disclosure-rag/main.py:69-81`
 - `apps/disclosure-rag/main.py:129-138`
-- `apps/disclosure-rag/lib/knowledge_base_service.py:282-292`
-- `apps/disclosure-rag/lib/knowledge_base_service.py:469-492`
+- `apps/disclosure-rag/lib/kb/knowledge_base_service.py:282-292`
+- `apps/disclosure-rag/lib/kb/knowledge_base_service.py:469-492`
 
 **Problem**
 
@@ -109,9 +109,9 @@ Inject one optional queue adapter into the service, or centralize queue acquisit
 - `apps/disclosure-rag/main.py:124-138`
 - `apps/disclosure-rag/main.py:155-156`
 - `apps/disclosure-rag/main.py:567-578`
-- `apps/disclosure-rag/lib/knowledge_base_service.py:421-437`
-- `apps/disclosure-rag/lib/knowledge_base_service.py:673-690`
-- `apps/disclosure-rag/lib/knowledge_base_service.py:1091-1098`
+- `apps/disclosure-rag/lib/kb/knowledge_base_service.py:421-437`
+- `apps/disclosure-rag/lib/kb/knowledge_base_service.py:673-690`
+- `apps/disclosure-rag/lib/kb/knowledge_base_service.py:1091-1098`
 
 **Problem**
 
@@ -138,7 +138,7 @@ Add an explicit options object or keyword-only stage controls to both enhanced w
 - `apps/disclosure-rag/main.py:17-21`
 - `apps/disclosure-rag/main.py:83-85`
 - `apps/disclosure-rag/main.py:292-321`
-- `apps/disclosure-rag/lib/knowledge_base_service.py:1080-1088`
+- `apps/disclosure-rag/lib/kb/knowledge_base_service.py:1080-1088`
 
 **Problem**
 
@@ -168,7 +168,7 @@ Use one service-owned repository instance throughout. Prefer having the write op
 **Locations**
 
 - `apps/disclosure-rag/main.py:155-194`
-- `apps/disclosure-rag/lib/knowledge_base_service.py:730-783`
+- `apps/disclosure-rag/lib/kb/knowledge_base_service.py:730-783`
 
 **Problem**
 
@@ -210,7 +210,7 @@ Use a content hash/document ID directory, reject collisions, or generate an atom
 - `apps/disclosure-rag/main.py:256-267`
 - `apps/disclosure-rag/main.py:292-297`
 - `apps/disclosure-rag/main.py:428-456`
-- `apps/disclosure-rag/lib/knowledge_base_service.py:226-276`
+- `apps/disclosure-rag/lib/kb/knowledge_base_service.py:226-276`
 
 **Problem**
 
@@ -314,8 +314,8 @@ Use the already-imported `urlparse`. Normalize the hostname and accept an explic
 
 - `apps/disclosure-rag/main.py:270-297`
 - `apps/disclosure-rag/main.py:580-618`
-- `apps/disclosure-rag/lib/knowledge_base_service.py:399-437`
-- `apps/disclosure-rag/lib/knowledge_base_service.py:648-690`
+- `apps/disclosure-rag/lib/kb/knowledge_base_service.py:399-437`
+- `apps/disclosure-rag/lib/kb/knowledge_base_service.py:648-690`
 
 **Problems**
 

@@ -368,3 +368,11 @@ Verification gate held throughout: `bunx tsc --noEmit` = 48 errors, all in the
   while canvas/observatory retain deliberate horizontal pan surfaces. No console errors.
 - Verified HTML structure, PostCSS parsing, Prettier formatting, local asset responses, and
   `git diff --check`.
+
+
+## Session memory — 2026-09-10 01:31:55 CDT — God’s Eye View planning
+
+Inspected donor source and current Spacetime code; saved phased proposal at [docs/plans/2026-09-10-gods-eye-view-integration.md](docs/plans/2026-09-10-gods-eye-view-integration.md). Key finding: Cesium renderer extraction and feed backend migration are separate work. User supplied an Esri/tactical preset. Browser connection returned `No browser is available`; visual fidelity remains UNVERIFIED. Planning only; no product code changed.
+
+
+**Scope refinement / session memory — 2026-09-10 01:35:57 CDT:** User requires extremely lean, Ultraterrestrial-specific or customizable imports. The [docs/plans/2026-09-10-gods-eye-view-integration.md](docs/plans/2026-09-10-gods-eye-view-integration.md) now makes minimal extraction, typed configuration, excluded donor subsystems, and import/bundle auditing explicit. Feed integrations remain optional; full donor parity is not a requirement. Planning only.

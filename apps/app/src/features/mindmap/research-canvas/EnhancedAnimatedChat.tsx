@@ -4,6 +4,7 @@ import { animate, AnimatePresence, motion, useMotionValue, useTransform } from "
 import { AlertCircle, ArrowUp, Sparkles, FileText, ImageIcon, Camera } from "lucide-react"
 
 import type { AgentToolEvent } from '@/features/mindmap/hooks/use-mindmap-agent'
+import { AgentToolEventList } from './agent-tool-event-list'
 
 // Message item interface
 export interface MessageItem {
@@ -279,20 +280,9 @@ const EnhancedAnimatedChat = (props: EnhancedAnimatedChatProps) => {
                   </div>
                 </div>
 
-                {/* Agent tool event status pills */}
-                {agentToolEvents && agentToolEvents.filter(e => e.status === 'processing').length > 0 && (
-                  <div className="flex items-center gap-2 px-4 pb-2">
-                    {agentToolEvents.filter(e => e.status === 'processing').map((event, idx) => (
-                      <motion.span
-                        key={`${event.tool}-${idx}`}
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        className="text-xs text-blue-400 bg-blue-400/10 px-2 py-0.5 rounded-full"
-                      >
-                        {event.tool === 'searchDatabase' ? 'Searching database...' : 'Searching web...'}
-                      </motion.span>
-                    ))}
-                  </div>
+                {/* Agent tool calls — inspectable cards that persist after the stream (T-050 s6) */}
+                {agentToolEvents && agentToolEvents.length > 0 && (
+                  <AgentToolEventList events={agentToolEvents} />
                 )}
 
                 {/* Animated content area */}

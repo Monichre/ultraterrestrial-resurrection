@@ -51,8 +51,8 @@ logger = logging.getLogger(__name__)
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 # Import core processors (using existing sync implementations)
-from lib.knowledge_base_crud import KnowledgeBaseCRUD
-from lib.knowledge_base_service import (
+from lib.kb.knowledge_base_crud import KnowledgeBaseCRUD
+from lib.kb.knowledge_base_service import (
     kb_service,
     process_youtube_url_enhanced,
     process_web_url_enhanced,
@@ -417,7 +417,7 @@ def process_file_enhanced_fixed(file_path: str, upload: bool = False, add_to_kb:
             if doc_id and config and config.enable_entity_extraction:
                 try:
                     from lib.terminal_display import display
-                    from lib.knowledge_base_crud import KnowledgeBaseCRUD
+                    from lib.kb.knowledge_base_crud import KnowledgeBaseCRUD
                     
                     kb_crud = KnowledgeBaseCRUD()
                     doc_info = kb_crud.get_document_by_id(doc_id)

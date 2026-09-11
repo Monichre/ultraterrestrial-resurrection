@@ -36,13 +36,41 @@ export function wait(durationMs: number, signal: AbortSignal): Promise<void> {
   });
 }
 
+/** Slack added to a camera move's duration before we stop waiting on xyflow. */
+const CAMERA_SETTLE_SLACK_MS = 120;
+
+/**
+ * xyflow resolves `fitView` / `setCenter` only on the d3 transition's `end`
+ * event. An interrupted transition (a re-bound zoom handler when the pane's
+ * `panOnDrag` flips, a wheel tick, another programmatic move) never fires
+ * `end`, so the promise hangs and the tour would sit in `departing` forever.
+ * Race the camera against its own duration so the semantic transition always
+ * commits; the camera still lands wherever the last transform put it.
+ */
+export function settleCamera(
+  camera: Promise<unknown>,
+  durationMs: number,
+  signal: AbortSignal,
+): Promise<void> {
+  const settled = camera.then(() => undefined);
+  if (durationMs <= 0) return settled;
+  return Promise.race([settled, wait(durationMs + CAMERA_SETTLE_SLACK_MS, signal)]);
+}
+
+/** A frame normally lands in ~16ms; a throttled/background tab may never paint one. */
+const FRAME_FALLBACK_MS = 64;
+
 export function nextAnimationFrame(signal: AbortSignal): Promise<void> {
   return new Promise((resolve, reject) => {
     if (signal.aborted) {
       reject(new DOMException('Tour transition aborted', 'AbortError'));
       return;
     }
-    requestAnimationFrame(() => resolve());
+    const fallback = setTimeout(resolve, FRAME_FALLBACK_MS);
+    requestAnimationFrame(() => {
+      clearTimeout(fallback);
+      resolve();
+    });
   });
 }
 
@@ -81,22 +109,32 @@ export async function runOpeningSequence({
   throwIfAborted(signal);
   dispatch({ type: 'SYSTEM_VIEWPORT_CONTROL_REQUESTED' });
 
-  await flow.fitView({
-    nodes: definition.waypoints.slice(0, 3).map(({ id }) => ({ id })),
-    padding: definition.viewport.overviewPadding,
-    duration: reducedMotion ? 0 : 900,
-    interpolate: 'smooth',
-  });
+  const overviewMs = reducedMotion ? 0 : 900;
+  await settleCamera(
+    flow.fitView({
+      nodes: definition.waypoints.slice(0, 3).map(({ id }) => ({ id })),
+      padding: definition.viewport.overviewPadding,
+      duration: overviewMs,
+      interpolate: 'smooth',
+    }),
+    overviewMs,
+    signal,
+  );
 
   throwIfAborted(signal);
   await wait(reducedMotion ? 0 : 500, signal);
   await nextAnimationFrame(signal);
-  await focusWaypoint({
-    flow,
-    definition,
-    waypointId: definition.entryWaypointId,
-    duration: reducedMotion ? 0 : 850,
-  });
+  const entryMs = reducedMotion ? 0 : 850;
+  await settleCamera(
+    focusWaypoint({
+      flow,
+      definition,
+      waypointId: definition.entryWaypointId,
+      duration: entryMs,
+    }),
+    entryMs,
+    signal,
+  );
 
   throwIfAborted(signal);
   // Both semantic state changes occur after camera work so the effect cannot
@@ -138,22 +176,32 @@ export async function runWaypointTransition({
 
   const duration = reducedMotion ? 0 : target.camera.departureDurationMs;
 
-  await flow.fitView({
-    nodes: [{ id: fromId }, { id: toId }],
-    padding: 0.28,
-    duration: Math.round(duration * 0.55),
-    interpolate: 'smooth',
-  });
+  const pairMs = Math.round(duration * 0.55);
+  await settleCamera(
+    flow.fitView({
+      nodes: [{ id: fromId }, { id: toId }],
+      padding: 0.28,
+      duration: pairMs,
+      interpolate: 'smooth',
+    }),
+    pairMs,
+    signal,
+  );
 
   throwIfAborted(signal);
   await wait(reducedMotion ? 0 : Math.round(duration * 0.32), signal);
 
-  await focusWaypoint({
-    flow,
-    definition,
-    waypointId: toId,
-    duration: reducedMotion ? 0 : Math.round(duration * 0.65),
-  });
+  const focusMs = reducedMotion ? 0 : Math.round(duration * 0.65);
+  await settleCamera(
+    focusWaypoint({
+      flow,
+      definition,
+      waypointId: toId,
+      duration: focusMs,
+    }),
+    focusMs,
+    signal,
+  );
 
   throwIfAborted(signal);
   await wait(reducedMotion ? 0 : target.camera.arrivalDurationMs, signal);

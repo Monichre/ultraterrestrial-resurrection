@@ -194,3 +194,115 @@ ecosystem depth — reverse that if there is no Cloudflare account.
 3. **The remaining ~750 OCR candidates** (~1.2 h) — run or stop at the 25.
 4. **Quarantine `Deprecated - CIA Declassified Documents/`** — 377.6 MiB, 703
    byte-identical duplicate groups. Recommendation: quarantine, do not `rm`.
+
+---
+
+## 5. Corpus survey and re-enrichment — 2026-08-18 session
+
+### 5.1 The provenance layer was gitignored
+
+The root [`.gitignore`](.gitignore)'s blanket `*.json` was excluding 350 files
+under `sources/` — `_ingest.json`, `_metadata.json`, `_rag_pipeline.json`,
+`_segments.json`, `entity_processing_results.json`. That is the pipeline's own
+record of what it did to each transcript. A fresh clone got 431 transcripts and
+no provenance at all. 2.5 MB of text, scanned clean for secrets, now tracked via
+[`packages/knowledge-base/.gitignore`](packages/knowledge-base/.gitignore).
+
+`metadata/*.json` is now covered wholesale rather than negated file-by-file —
+the per-file list in the root ignore had gone stale and six existing audit
+artifacts (`phase3-*`, `vector-store-upload-results`) were sitting untracked.
+
+### 5.2 Ingest completeness census
+
+257 videos, **15 distinct completeness profiles**:
+
+| marker | coverage |
+| --- | --- |
+| transcript | 252/257 (98%) |
+| summary | 151/257 (58%) |
+| metadata | 75/257 (29%) |
+| entities | 68/257 (26%) |
+| rag_pipeline | 60/257 (23%) |
+| segments | 4/257 (1%) |
+
+The largest single bucket is **106 videos (41%) that are transcript-only**.
+Only 67 (26%) are fully processed. `jesse-michels` is split across both eras —
+50 full, 29 bare — making it the cleanest re-ingest target.
+
+Per-entry: [`packages/knowledge-base/metadata/transcript-completeness-census.jsonl`](packages/knowledge-base/metadata/transcript-completeness-census.jsonl)
+
+### 5.3 Junk purge — and why keyword scoring alone would have been a disaster
+
+22 entries removed (43 files, 502 KB): a rickroll, the He-Man meme, two movie
+trailers, a react-flow **coding tutorial**, an LLM-business podcast, a VEED ad,
+an httpbin.org test artifact, and 11 unrelated news segments.
+
+Two method notes worth keeping:
+
+1. **Score the RAW transcript, never the summary.** Including the LLM-written
+   `Summary.txt` rated the rickroll as in-domain, because its generated summary
+   mentioned UFOs. Excluding summaries dropped it to 0 hits / 500 words.
+2. **Zero keyword hits is a prompt to read the file, not a verdict.** Six
+   entries scored at or near zero and are core material: Greer's "Cold Fusion
+   and Beyond", the Colares case, the Bob Lazar 1989 originals, Phil Schneider's
+   testimony, Col. Karl Nell at SALT, Jim Semivan on Hannibal TV. Automated
+   pruning would have destroyed all six.
+
+Record: [`packages/knowledge-base/metadata/junk-purge-2026-08-18.json`](packages/knowledge-base/metadata/junk-purge-2026-08-18.json).
+Removed with `git rm`, so all of it is recoverable.
+
+### 5.4 The enrichment pipeline had a single point of failure
+
+Re-ingestion was dead on arrival. All 8 tiers of `FRONTIER_FALLBACK_CHAIN` and
+all 13 in [`packages/ai/prompts/llm_routing.yaml`](packages/ai/prompts/llm_routing.yaml)
+declared exactly one credential: `OPENROUTER_API_KEY`. When that account hit
+zero credits, every tier returned 402 within 1.2 s. The fallback module's
+docstring promises "one provider being down never takes enrichment down" —
+unkeepable when every tier is the same provider.
+
+Probed every credential in `.env` with a real completion, not a `/models` call:
+
+| provider | result |
+| --- | --- |
+| `openai/gpt-5.6`, `gpt-5.5` | **live** |
+| `deepseek-chat` | **live** |
+| anthropic | 401 invalid key |
+| groq | 401 invalid key |
+| google | 400 invalid key |
+| openrouter | 402 no credits; presets 404 "not found for this account" |
+
+The three live ones are now direct-provider tiers in both chains and in
+`defaults.last_resort_tiers`. The dead three are deliberately not declared —
+a key being present says nothing about it working.
+
+Verified end-to-end on a previously transcript-only entry: 1 file to 10,
+~2 min/entry, all stages green except CocoIndex.
+
+### 5.5 `unresolved/` was never unresolvable
+
+All 13 entries carry their source URL in their own text. 6 are web articles
+(disclosurediaries, howandwhys ×2, sundayworld, twz) and 7 are YouTube — which
+also answers the standing "is Reality Check its own source or NewsNation?"
+question, since both Reality Check entries resolve to real video IDs. Re-running
+ingestion on the URLs files and enriches them in one step.
+
+---
+
+## 6. Still open
+
+1. **`OPENROUTER_API_KEY` in [`apps/disclosure-rag/.env`](apps/disclosure-rag/.env)
+   is the old account's.** The presets configured on the new account return 404
+   "not found for this account". One env swap revives 13 tiers and the preset
+   chain. Enrichment runs without it now, on OpenAI/DeepSeek direct.
+2. **`cocoindex` is not installed** — knowledge-graph writes are skipped on
+   every run (`cocoindex_not_available`). Needs the package plus Postgres/Neo4j
+   config before graph enrichment means anything.
+3. **`llm_routing.yaml` was referenced but bypassed.** Two docstrings in
+   `llm_fallback.py` describe the yaml router as the thing that *replaces* the
+   hardcoded chain, while the hardcoded chain stayed live.
+4. **Re-ingest creates a second transcript file** rather than replacing, when
+   the video title has changed since the first ingest. Accepted for now —
+   duplicates surface in retrieval citations and get pruned there.
+5. Decisions carried over from §4: R2 vs S3, uploading the 25 OCR'd sidecars,
+   the remaining ~750 OCR candidates, quarantining the 377.6 MiB CIA duplicate
+   mirror.

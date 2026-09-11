@@ -59,7 +59,7 @@ from lib.youtube import (
     parse_file_and_generate_transcript,
     write_transcript_to_file
 )
-from lib.knowledge_base_crud import KnowledgeBaseCRUD
+from lib.kb.knowledge_base_crud import KnowledgeBaseCRUD
 
 # Import vector storage backends
 from upstash_vector import Index as UpstashIndex

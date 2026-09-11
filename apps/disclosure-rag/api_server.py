@@ -18,7 +18,7 @@ import logging
 
 # Import our knowledge base components
 try:
-    from lib.knowledge_base_crud import KnowledgeBaseCRUD, Document
+    from lib.kb.knowledge_base_crud import KnowledgeBaseCRUD, Document
 except ImportError:
     print("Warning: KnowledgeBaseCRUD not available")
     KnowledgeBaseCRUD = None

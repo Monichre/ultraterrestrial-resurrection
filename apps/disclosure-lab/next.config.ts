@@ -7,8 +7,10 @@ const rootDir = path.dirname( fileURLToPath( import.meta.url ) )
 const repoRoot = path.resolve( rootDir, '../..' )
 const dbPkg = path.join( repoRoot, 'packages/db' )
 
-loadEnv( { path: path.join( repoRoot, 'packages/db/.env' ) } )
 loadEnv( { path: path.join( repoRoot, '.env' ) } )
+loadEnv( { path: path.join( repoRoot, '.env.local' ) } )
+loadEnv( { path: path.join( repoRoot, 'apps/app/.env.local' ) } )
+loadEnv( { path: path.join( repoRoot, 'packages/db/.env' ) } )
 loadEnv( { path: path.join( rootDir, '.env.local' ), override: true } )
 
 const nextConfig: NextConfig = {

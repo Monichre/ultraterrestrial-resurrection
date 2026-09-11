@@ -1,0 +1,31 @@
+{
+  "status": "completed",
+  "video_id": "B6WFLOIkyho",
+  "summary_file": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/sources/transcripts/area52/B6WFLOIkyho/alienEncountersWithTheRealLifeXFilesAgentNickPopeDebriefedEp34Summary.txt",
+  "entities": {
+    "personnel": [
+      "Nicholas Pope"
+    ],
+    "organizations": [
+      "Ministry of Defence",
+      "UFO desk"
+    ],
+    "topics": [],
+    "events": [
+      "Rendlesham case"
+    ],
+    "locations": [
+      "United Kingdom"
+    ],
+    "artifacts": [
+      "Nicholas Pope's testimony on MoD UFO desk work"
+    ],
+    "sightings": []
+  },
+  "entity_search_results": {},
+  "entity_creation_results": {},
+  "entity_source": "rag_pipeline.ner_results",
+  "total_entities": 6,
+  "total_matches": 0,
+  "total_created": 0
+}

@@ -4,7 +4,7 @@ Simplified Disclosure RAG main entry point
 Only does what's needed: extract, save locally, upload to OpenAI
 """
 
-from lib.knowledge_base_crud import KnowledgeBaseCRUD
+from lib.kb.knowledge_base_crud import KnowledgeBaseCRUD
 from lib.openai_client.upload import upload_file_to_openai
 from processing.document_converter import convert_pdf_to_markdown
 from processing.web_content_processor import WebContentProcessor

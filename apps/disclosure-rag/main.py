@@ -86,7 +86,7 @@ def _import_heavy_dependencies() -> None:
     from processing.web_content_processor import WebContentProcessor
     from processing.content_analysis import ContentAnalysisEngine
     from lib.openai_client.upload import upload_file_to_openai
-    from lib.knowledge_base_service import (
+    from lib.kb.knowledge_base_service import (
         kb_service,
         process_youtube_url_enhanced,
         process_web_url_enhanced,
@@ -357,7 +357,7 @@ def process_url(url: str, upload: bool = False, add_to_kb: bool = True) -> Optio
     Also owns the LAST hop of the chain — see YT-CHAIN-16 (CocoIndex),
     which runs on the YouTube path only.
     PREV ← YT-CHAIN-02  main.py :: main()
-    NEXT → YT-CHAIN-04  lib/knowledge_base_service.py :: process_youtube_url_enhanced()
+    NEXT → YT-CHAIN-04  lib/kb/knowledge_base_service.py :: process_youtube_url_enhanced()
     ═══════════════════════════════════════════════════════════════════════
     """
     _import_heavy_dependencies()
@@ -813,7 +813,7 @@ def process_file(file_path: str, upload: bool = False, add_to_kb: bool = True) -
         #      uploads a generated summary artifact instead, because there is
         #      no original document to send. Same sink, different payload.
         #   2. add_processed_content_to_queue() → lib/upstash/queue.py, QStash
-        #   3. add_to_knowledge_base()          → lib/knowledge_base_crud.py
+        #   3. add_to_knowledge_base()          → lib/kb/knowledge_base_crud.py
         #                                         → index.json
         #   4. add_file_content_memory()        → lib/mem0_integration.py
         #
@@ -1085,7 +1085,7 @@ def process_file(file_path: str, upload: bool = False, add_to_kb: bool = True) -
             if doc_id and resolved_source.is_relative_to(processing_queue_dir):
                 try:
                     import shutil
-                    from lib.kb_root import sources_root
+                    from lib.kb.kb_root import sources_root
                     files_dir = str(sources_root() / "files")
 
                     # Create files directory if it doesn't exist

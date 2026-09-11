@@ -8,14 +8,14 @@ Shared prompt corpus for the Ultraterrestrial monorepo. Consumed by **disclosure
 - `sets/disclosure/` — versioned UFO/UAP prompts (`*.v1.yaml`)
 - `templates/` — general-purpose + RAG pipeline templates
 - `methodology/` — research frameworks that inform prompt authors (not runtime prompts)
-- `schemas/` — JSON Schemas for structured model outputs
+- `schemas/` — JSON Schemas. [`packages/ai/prompts/schemas/prompt.schema.json`](packages/ai/prompts/schemas/prompt.schema.json) is the YAML prompt-file contract (`id` / `version` / `prompt` plus a few optional fields). **It is woefully incomplete** — it does not describe real registry entries (`kind`, `status`, `name`, `source`, structured `output`, most `runtime` keys, or the shapes behind `schema_ref`). Treat it as a stub, not a source of truth. Structured model-output schemas belong under `schema_ref` / `schemas/output/`, and those are also under-specified. In particular [`packages/ai/prompts/schemas/output/entity.schema.json`](packages/ai/prompts/schemas/output/entity.schema.json) is missing several core domain/database models: its `type` enum is only `PERSONNEL` / `EVENT` / `ORGANIZATION` / `EVIDENCE` / `LOCATION`, and it does not cover the primary record tables `sightings`, `testimonies`, `topics`, `documents`, or `artifacts` (nor `key_figures` except as the legacy `PERSONNEL` wire name).
 - `yaml_loader.py` / `yaml-loader.ts` — cross-language loaders with alias support
 - `scripts/promptctl.ts` — CLI: `list | validate | render | bump`
 
 ## Registry IDs
 
 | ID | Aliases | File |
-|----|---------|------|
+| ---- | --------- | ------ |
 | `disclosure.ner` | `enhanced_ner`, `ner` | `sets/disclosure/ner.v1.yaml` |
 | `disclosure.content_analysis` | `content_analysis`, `specialized_analysis` | `sets/disclosure/specialized-analysis.v1.yaml` |
 | `disclosure.research` | `research` | `sets/disclosure/research.v1.yaml` |
@@ -72,7 +72,7 @@ cd packages/ai/prompts && bun run render disclosure.ner context_hint="Roswell 19
 ## Notes
 
 - Keep templates compact; push procedural logic into code.
-- Attach JSON Schema via `schema_ref` for structured outputs.
+- Attach JSON Schema via `schema_ref` for structured outputs. Do not infer the prompt-file contract from [`packages/ai/prompts/schemas/prompt.schema.json`](packages/ai/prompts/schemas/prompt.schema.json); that schema is woefully incomplete. [`packages/ai/prompts/schemas/output/entity.schema.json`](packages/ai/prompts/schemas/output/entity.schema.json) is not a domain model: it is missing several core Postgres record types (`sightings`, `testimonies`, `topics`, `documents`, `artifacts`).
 - Wire fields like `PERSONNEL` / `key_findings` are legacy schema names — prompts map them to KeyFigure / source-grounded signals.
 - Never index agent Inference as RAG Evidence (ADR-0001).
 - `config.yaml` expects `OPENROUTER_API_KEY` in the environment (never commit secrets).

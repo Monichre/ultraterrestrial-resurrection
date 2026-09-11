@@ -1,8 +1,8 @@
 'use client'
 import {ReactFlow, type Edge, type Node} from '@xyflow/react'
 import {useCallback, useEffect, useMemo, useRef} from 'react'
-import {useRouter} from 'next/navigation'
-import {Sparkles, Search, Plus, Radiation} from 'lucide-react'
+import {useSearchParams} from 'next/navigation'
+import {Search, Plus} from 'lucide-react'
 
 import {edgeTypes} from '@/features/mindmap/config/edge-types'
 
@@ -33,9 +33,12 @@ import {extractTextFromFile} from '@/utils/file-processing'
 import {SessionNotes} from '@/features/mindmap/components/status-ui/session-notes'
 import {ResearchSuggestionsDock} from '@/features/mindmap/components/research-suggestions-dock'
 import {TourOverlay} from '@/features/mindmap/tours/tour-overlay'
-import {useGuidedTour} from '@/features/mindmap/tours/use-guided-tour'
+import {EvidenceTourOverlay} from '@/features/mindmap/tours/evidence-tour-overlay'
+import {TourChips} from '@/features/mindmap/tours/tour-chips'
 import {useGuidedTourStore} from '@/features/mindmap/tours/guided-tour-store'
-import {FAMOUS_EVENTS_TOUR} from '@/features/mindmap/tours/famous-events-tour'
+import {useEvidenceTour} from '@/features/mindmap/tours/use-evidence-tour'
+import {useTourGraphProjection} from '@/features/mindmap/tours/use-tour-graph-projection'
+import {matchTourFromInput, useTourLauncher} from '@/features/mindmap/tours/use-tour-launcher'
 import ResearchCanvasConsole from '@/features/mindmap/research-canvas/research-canvas-console'
 import {useCanvasDrop} from '@/features/mindmap/drop/use-canvas-drop'
 import {
@@ -121,8 +124,24 @@ export function Graph() {
   } = useMindMap()
 
   const {runAgentQuery, status: agentStatus, analysis, toolEvents} = useMindMapAgent()
-  const router = useRouter()
-  const {startTour: startGuidedTour} = useGuidedTour()
+
+  // --- Guided tours (T-050). Both engines render on THIS canvas: the spine
+  // engine places resolved records, the evidence-graph engine projects its
+  // waypoints/edges into the same node state via useTourGraphProjection.
+  const {startTour, startTourById} = useTourLauncher()
+  const evidenceTour = useEvidenceTour()
+  useTourGraphProjection()
+
+  // Deep link: /research-canvas?tour=nuclear-shadow (the old /tours/* route
+  // redirects here). Fires once per mount; `resume=1` restores saved progress.
+  const searchParams = useSearchParams()
+  const deepLinkHandled = useRef(false)
+  useEffect(() => {
+    const handle = searchParams?.get('tour')
+    if (!handle || deepLinkHandled.current) return
+    deepLinkHandled.current = true
+    void startTourById(handle, {resume: searchParams?.get('resume') === '1'})
+  }, [searchParams, startTourById])
 
   const {
     autoLayout,
@@ -520,33 +539,29 @@ export function Graph() {
     [handleFile, setDropDragActive]
   )
 
-  // Clicking a fan-out match opens the inspector; clicking anything else
-  // closes it. Match nodes are the only ones carrying `matchOfArtifact`.
+  // Clicking a tour waypoint is the tour's business; clicking a fan-out match
+  // opens the drop inspector; clicking anything else closes it. Match nodes
+  // are the only ones carrying `matchOfArtifact`.
+  const {handleWaypointNodeClick} = evidenceTour
   const handleNodeClick = useCallback(
     (_event: React.MouseEvent, node: Node) => {
+      if (handleWaypointNodeClick(node)) return
       const isDropMatch = Boolean((node.data as Record<string, unknown>)?.matchOfArtifact)
       setInspectedMatchNodeId(isDropMatch ? node.id : null)
     },
-    [setInspectedMatchNodeId]
+    [handleWaypointNodeClick, setInspectedMatchNodeId]
   )
-
-  const handleStartTour = useCallback(() => {
-    void startGuidedTour(FAMOUS_EVENTS_TOUR)
-  }, [startGuidedTour])
-
-  const handleStartNuclearShadow = useCallback(() => {
-    router.push('/tours/nuclear-shadow')
-  }, [router])
 
   const handleEmptyCanvasSubmit = useCallback(
     async (input: string) => {
-      if (/nuclear.?shadow|architecture of secrecy/i.test(input)) {
-        router.push('/tours/nuclear-shadow')
+      const tour = matchTourFromInput(input)
+      if (tour) {
+        await startTour(tour)
         return
       }
       await runAgentQueryAndAddNodes({message: input})
     },
-    [router, runAgentQueryAndAddNodes]
+    [runAgentQueryAndAddNodes, startTour]
   )
 
   const handleSearchDatabase = useCallback(() => {
@@ -561,9 +576,11 @@ export function Graph() {
     })
   }, [addUserInputNode, getCenteredPosition])
 
-  // Automatically apply layout when nodes change
+  // Automatically apply layout when nodes change. Never while an evidence
+  // tour owns the canvas — its waypoints are laid out by the definition.
+  const evidenceTourActive = evidenceTour.isActive
   useEffect(() => {
-    if (!autoLayout || nodes.length === 0) return
+    if (!autoLayout || nodes.length === 0 || evidenceTourActive) return
 
     const timeoutId = setTimeout(() => {
       organizeLayout({
@@ -578,6 +595,7 @@ export function Graph() {
     return () => clearTimeout(timeoutId)
   }, [
     autoLayout,
+    evidenceTourActive,
     layoutDirection,
     layoutSettings.edgeLength,
     layoutSettings.nodeSpacing,
@@ -610,9 +628,16 @@ export function Graph() {
     })
   }, [nodes, hiddenNodeTypes, activeTourNodeId])
 
+  // A tour (either engine) owns the bottom of the screen while it runs — the
+  // console cluster and the notes drawer step aside for the narrative chrome.
+  const spineTourOwnsCanvas = tourStatus !== 'idle' && tourStatus !== 'completed'
+  const tourOwnsCanvas = spineTourOwnsCanvas || evidenceTourActive
+
   return (
     <div
-      className='ut-canvas relative z-0 h-dvh w-full overflow-hidden'
+      className={`ut-canvas relative z-0 h-dvh w-full overflow-hidden${
+        evidenceTourActive ? ' ut-evidence-tour' : ''
+      }`}
       onDragEnter={handleCanvasDragEnter}
       onDragOver={handleCanvasDragOver}
       onDragLeave={handleCanvasDragLeave}
@@ -631,6 +656,14 @@ export function Graph() {
         onConnect={onConnect}
         onNodesDelete={onNodesDelete}
         onNodeClick={handleNodeClick}
+        onMoveStart={evidenceTour.handleUserViewportInteraction}
+        // While the tour choreographer flies the camera the pane must not
+        // fight it; the reducer unlocks on arrival.
+        panOnDrag={!evidenceTour.canvasLocked}
+        zoomOnScroll={!evidenceTour.canvasLocked}
+        zoomOnPinch={!evidenceTour.canvasLocked}
+        elementsSelectable={!evidenceTour.canvasLocked}
+        minZoom={0.2}
         connectionRadius={36}
         elevateNodesOnSelect={true}
         fitView
@@ -644,6 +677,7 @@ export function Graph() {
       <div className='ut-grain' aria-hidden />
 
       <TourOverlay />
+      <EvidenceTourOverlay />
 
       {/* Drop-to-Canvas (T-060). The affordance is pointer-events:none and
           renders above the graph; the inspector and failure notice sit in
@@ -669,12 +703,7 @@ export function Graph() {
             />
           </div>
           <div className='absolute inset-x-0 bottom-6 z-20 flex justify-center gap-2'>
-            <ActionChip icon={<Radiation className='size-4' />} onClick={handleStartNuclearShadow}>
-              Nuclear Shadow
-            </ActionChip>
-            <ActionChip icon={<Sparkles className='size-4' />} onClick={handleStartTour}>
-              Modern UFO Era
-            </ActionChip>
+            <TourChips onStart={(tour) => void startTour(tour)} />
           </div>
           <FloatingToolbar panels={panels} />
         </>
@@ -682,24 +711,16 @@ export function Graph() {
         <>
           <FloatingToolbar panels={panels} />
 
-          <div className='absolute top-6 right-6 z-20'>
-            <SessionNotes />
-          </div>
+          {!evidenceTourActive && (
+            <div className='absolute top-6 right-6 z-20'>
+              <SessionNotes />
+            </div>
+          )}
 
-          {/* Tour mode owns the bottom of the screen — hide the console
-              cluster while a tour is resolving/running to keep focus on
-              the narrative and the suggestion dock. */}
-          {(tourStatus === 'idle' || tourStatus === 'completed') && (
+          {!tourOwnsCanvas && (
             <div className='absolute inset-x-0 bottom-6 z-20 flex flex-col items-center gap-3 px-4'>
               <div className='flex items-center gap-2'>
-                <ActionChip
-                  icon={<Radiation className='size-4' />}
-                  onClick={handleStartNuclearShadow}>
-                  Nuclear Shadow
-                </ActionChip>
-                <ActionChip icon={<Sparkles className='size-4' />} onClick={handleStartTour}>
-                  Modern UFO Era
-                </ActionChip>
+                <TourChips onStart={(tour) => void startTour(tour)} />
                 <ActionChip icon={<Search className='size-4' />} onClick={handleSearchDatabase}>
                   Search Database
                 </ActionChip>
@@ -718,7 +739,7 @@ export function Graph() {
             </div>
           )}
 
-          <ResearchSuggestionsDock />
+          {!evidenceTourActive && <ResearchSuggestionsDock />}
         </>
       )}
     </div>

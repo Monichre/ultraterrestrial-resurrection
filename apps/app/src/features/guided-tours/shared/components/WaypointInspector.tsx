@@ -1,9 +1,97 @@
 'use client';
 
-import type { EvidenceReference, TourDefinition } from '../types/tour-definition';
+import type {
+  CorpusAnchor,
+  EvidenceReference,
+  ResolvedAnchor,
+  TourDefinition,
+} from '../types/tour-definition';
 import { useTourStore } from '../state/tour-store';
 import { canDepartWaypoint } from '../state/tour-reducer';
 import { selectActiveWaypoint } from '../state/tour-selectors';
+
+export type PlaceRecordHandler = (
+  resolved: Extract<ResolvedAnchor, { state: 'resolved' }>,
+  waypointTitle: string,
+) => void;
+
+const recordTitle = (record: Record<string, unknown>): string => {
+  for (const key of ['name', 'title', 'label']) {
+    const value = record[key];
+    if (typeof value === 'string' && value.trim()) return value.replace(/\s+/g, ' ').trim();
+  }
+  return String(record.id ?? 'record');
+};
+
+/**
+ * Says, in words, what binding this waypoint has to the live archive. The
+ * three outcomes are deliberately distinct sentences: "no record exists",
+ * "we searched and found nothing", and "here is the record" must never blur.
+ */
+function AnchorNote({
+  anchor,
+  resolved,
+  waypointTitle,
+  onPlaceRecord,
+}: {
+  anchor: CorpusAnchor;
+  resolved: ResolvedAnchor | undefined;
+  waypointTitle: string;
+  onPlaceRecord?: PlaceRecordHandler;
+}) {
+  if (anchor.kind === 'none') {
+    return (
+      <p className="ut-anchor-note" data-anchor-state="narrative-only">
+        <strong>Narrative only — no record in corpus</strong>
+        {anchor.reason}
+      </p>
+    );
+  }
+
+  if (!resolved) {
+    return (
+      <p className="ut-anchor-note" data-anchor-state="resolving">
+        <strong>Resolving archive record…</strong>
+        Searching {anchor.table.replace(/_/g, ' ')}.
+      </p>
+    );
+  }
+
+  if (resolved.state === 'unresolved') {
+    return (
+      <p className="ut-anchor-note" data-anchor-state="unresolved">
+        <strong>Searched · no record found</strong>
+        Looked in {resolved.table.replace(/_/g, ' ')} for “{resolved.searchQuery}”. The archive may
+        hold this under another name, or not at all.
+      </p>
+    );
+  }
+
+  if (resolved.state === 'narrative-only') {
+    return (
+      <p className="ut-anchor-note" data-anchor-state="narrative-only">
+        <strong>Narrative only — no record in corpus</strong>
+        {resolved.reason}
+      </p>
+    );
+  }
+
+  return (
+    <div className="ut-anchor-note" data-anchor-state="resolved">
+      <strong>Archive record · {resolved.table.replace(/_/g, ' ')}</strong>
+      {recordTitle(resolved.record)}
+      {onPlaceRecord ? (
+        <button
+          type="button"
+          className="ut-button ut-button--quiet"
+          onClick={() => onPlaceRecord(resolved, waypointTitle)}
+        >
+          Place record on canvas
+        </button>
+      ) : null}
+    </div>
+  );
+}
 
 function EvidenceButton({
   item,
@@ -27,9 +115,17 @@ function EvidenceButton({
   );
 }
 
-export function WaypointInspector({ definition }: { definition: TourDefinition }) {
+export function WaypointInspector({
+  definition,
+  onPlaceRecord,
+}: {
+  definition: TourDefinition;
+  /** Supplied by the canvas host; absent = the button is not offered. */
+  onPlaceRecord?: PlaceRecordHandler;
+}) {
   const runtime = useTourStore((state) => state.runtime);
   const dispatch = useTourStore((state) => state.dispatch);
+  const resolvedAnchors = useTourStore((state) => state.resolvedAnchors);
   if (!runtime) return null;
 
   const waypoint = selectActiveWaypoint(definition, runtime);
@@ -63,6 +159,12 @@ export function WaypointInspector({ definition }: { definition: TourDefinition }
 
       <div className="ut-inspector-scroll">
         <blockquote>{waypoint.narrative.entryClaim}</blockquote>
+        <AnchorNote
+          anchor={waypoint.corpusAnchor}
+          resolved={resolvedAnchors[waypoint.id]}
+          waypointTitle={waypoint.title}
+          onPlaceRecord={onPlaceRecord}
+        />
         <h3>{waypoint.narrative.question}</h3>
 
         {!progress.narrationCompleted ? (

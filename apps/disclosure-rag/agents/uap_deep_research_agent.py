@@ -34,7 +34,7 @@ from agno.models.anthropic import Claude as AnthropicChat
 
 # Import existing knowledge base and entity systems
 try:
-    from lib.knowledge_base_service import KnowledgeBaseService, kb_service
+    from lib.kb.knowledge_base_service import KnowledgeBaseService, kb_service
     KB_AVAILABLE = True
 except ImportError as e:
     logging.warning(f"Knowledge base service not available: {e}")

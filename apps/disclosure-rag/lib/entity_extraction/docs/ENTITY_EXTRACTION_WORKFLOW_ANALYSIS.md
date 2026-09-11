@@ -44,7 +44,7 @@ generate_transcript(url) →
 
 **Critical Detail**: The `analyzer.analyze_content()` creates a structured summary that becomes the input for entity extraction.
 
-### 3. Knowledge Base Integration: `lib/knowledge_base_service.py`
+### 3. Knowledge Base Integration: `lib/kb/knowledge_base_service.py`
 
 **Triggered by**: Enhanced YouTube processing in main.py
 

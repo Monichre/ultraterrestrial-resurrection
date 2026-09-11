@@ -18,9 +18,11 @@ apps/disclosure-rag/
 │   ├── onenode_config.yaml    # OneNode integration
 │   └── yt-dlp.conf            # YouTube download config
 ├── lib/
-│   ├── knowledge_base_service.py   # KB orchestration layer
-│   ├── knowledge_base_crud.py      # Document CRUD operations
-│   ├── knowledge_base.py           # Base KB class
+│   ├── kb/                         # Archive package — see docs/KNOWLEDGE_BASE_LAYERS.md
+│   │   ├── knowledge_base_service.py   # Ingest orchestration (dy / main.py)
+│   │   ├── knowledge_base_crud.py      # Filesystem archive CRUD (SoT)
+│   │   ├── knowledge_base.py           # In-memory vector retrieve (agents)
+│   │   └── kb_root.py                  # DISCLOSURE_RAG_KB_PATH + archive root
 │   ├── terminal_display.py         # Terminal UI (spinners, headers)
 │   ├── mem0_integration.py         # Mem0 contextual memory
 │   ├── cocoindex_integration.py    # Knowledge graph builder
@@ -81,7 +83,7 @@ apps/disclosure-rag/
 
 ```
 URL -> is_youtube_url() check
-  -> process_youtube_url_enhanced() [lib/knowledge_base_service.py]
+  -> process_youtube_url_enhanced() [lib/kb/knowledge_base_service.py]
     -> YouTube transcript extraction [lib/youtube.py]
     -> ContentAnalysisEngine / RagPromptPipeline (writes *_rag_pipeline.json)
     -> add_youtube_to_knowledge_base() -> doc_id
@@ -93,7 +95,7 @@ URL -> is_youtube_url() check
 ### Web URL Processing Path
 
 ```
-URL -> process_web_url_enhanced() [lib/knowledge_base_service.py]
+URL -> process_web_url_enhanced() [lib/kb/knowledge_base_service.py]
   -> WebContentProcessor.process() [processing/web_content_processor.py]
   -> RagPromptPipeline via content analysis (sidecar JSON)
   -> add_to_knowledge_base() -> doc_id
@@ -167,7 +169,7 @@ results = process_summary_file_interactive(summary_path, doc_id, interactive=Fal
 ## Knowledge Base CRUD API
 
 ```python
-from lib.knowledge_base_crud import KnowledgeBaseCRUD
+from lib.kb.knowledge_base_crud import KnowledgeBaseCRUD
 kb = KnowledgeBaseCRUD()
 
 # Core operations

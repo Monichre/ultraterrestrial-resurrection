@@ -52,7 +52,7 @@ Auto-detects content type (YouTube / web / file). `--upload` sends to OpenAI vec
 ./main.sh setup                           # Install dependencies
 ```
 
-**Dead branches (do not use):** `./main.sh ui` and `./main.sh sync-rag` call `main.py --ui` / `--sync-rag`, which argparse does not define → exit 2. For Streamlit use `.venv/bin/python -m streamlit run streamlit_app.py` instead. Trace: `docs/DY_COMMAND_CALL_CHAIN.md`.
+**Dead branches (do not use):** [`apps/disclosure-rag/main.sh`](apps/disclosure-rag/main.sh) `ui` and [`apps/disclosure-rag/main.sh`](apps/disclosure-rag/main.sh) `sync-rag` call [`apps/disclosure-rag/main.py`](apps/disclosure-rag/main.py) `--ui` / `--sync-rag`, which argparse does not define → exit 2. For Streamlit use `.venv/bin/python -m streamlit run streamlit_app.py` instead. Trace: [`apps/disclosure-rag/docs/DY_COMMAND_CALL_CHAIN.md`](apps/disclosure-rag/docs/DY_COMMAND_CALL_CHAIN.md). Hop index: [`apps/disclosure-rag/docs/CALL_CHAIN.md`](apps/disclosure-rag/docs/CALL_CHAIN.md).
 
 Auto-creates `.venv` if missing, loads `.env`, validates env vars. The user's global `dy` alias points at this script, so `dy process-playlist <URL>` works anywhere; bare playlist URLs (`dy "https://youtube.com/playlist?list=..."`) auto-route to the playlist pipeline (any URL containing `/playlist` or `list=`, including watch URLs inside a playlist).
 
@@ -87,7 +87,7 @@ Input (URL/YouTube/File)
   |     → disclosure.ner → validation
   |     Writes *_rag_pipeline.json; Evidence-only chunks (ADR-0001)
   |
-  |-> Knowledge Base Storage (lib/knowledge_base_crud.py)
+  |-> Knowledge Base Storage (lib/kb/knowledge_base_crud.py)
   |     Indexes content, assigns doc_id (filesystem + index.json — not Neon yet)
   |
   |-> Upstash Search Sync (lib/sync_to_upstash_search_integrated.py)
@@ -109,10 +109,13 @@ Each optional stage is fault-tolerant — failures log warnings but never block 
 
 ## Key Modules
 
+**Do not conflate the three KB modules** — layer map: [`apps/disclosure-rag/docs/KNOWLEDGE_BASE_LAYERS.md`](apps/disclosure-rag/docs/KNOWLEDGE_BASE_LAYERS.md).
+
 | Module | Purpose |
 | -------- | --------- |
-| `lib/knowledge_base_service.py` | Orchestrates KB indexing + Upstash sync |
-| `lib/knowledge_base_crud.py` | Full CRUD -- see API section below |
+| [`lib/kb/knowledge_base_service.py`](apps/disclosure-rag/lib/kb/knowledge_base_service.py) | Orchestrates KB indexing + Upstash sync (ingest glue) |
+| [`lib/kb/knowledge_base_crud.py`](apps/disclosure-rag/lib/kb/knowledge_base_crud.py) | Filesystem archive CRUD -- see API section below |
+| [`lib/kb/knowledge_base.py`](apps/disclosure-rag/lib/kb/knowledge_base.py) | In-memory FAISS/Agno retrieval for agents — not the `dy` writer |
 | `lib/terminal_display.py` | Animated spinners, styled headers, progress output |
 | `processing/rag_prompt_pipeline.py` | Registry-backed classify → chunk → NER → validate (ADR-0001) |
 | `processing/content_analysis.py` | `ContentAnalysisEngine.process_for_rag()` wraps RagPromptPipeline |
@@ -161,7 +164,7 @@ Env: `RAG_PIPELINE_PROVIDER`, `RAG_PIPELINE_MAX_NER_CHUNKS` (8), `RAG_PIPELINE_M
 ## KnowledgeBaseCRUD Full API
 
 ```python
-from lib.knowledge_base_crud import KnowledgeBaseCRUD
+from lib.kb.knowledge_base_crud import KnowledgeBaseCRUD
 kb = KnowledgeBaseCRUD()
 
 kb.create_document(title, content, source, doc_type, metadata, tags)  # returns Document
@@ -385,6 +388,7 @@ Processed files from `data/processing_queue/` auto-move to `packages/knowledge-b
 
 - [Pipeline architecture details](references/pipeline-architecture.md) -- module relationships, data flow, and integration points
 - [Playlist ingestion details](references/playlist-ingestion.md) -- playlist pipeline stages, fidelity scoring, state/resume, quarantine workflow
-- `docs/DY_COMMAND_CALL_CHAIN.md` -- verified `dy` → main.sh → main.py / playlist nesting
-- `processing/RagPromptPipeline.md` -- ADR-0001 pipeline wiring notes
-- Lane A roadmap: `docs/plans/2026-08-01-ingestion-hardening.md` (T-048)
+- [`apps/disclosure-rag/docs/CALL_CHAIN.md`](apps/disclosure-rag/docs/CALL_CHAIN.md) -- `dy` hop index (`file:line`)
+- [`apps/disclosure-rag/docs/DY_COMMAND_CALL_CHAIN.md`](apps/disclosure-rag/docs/DY_COMMAND_CALL_CHAIN.md) -- verified `dy` → [`apps/disclosure-rag/main.sh`](apps/disclosure-rag/main.sh) → [`apps/disclosure-rag/main.py`](apps/disclosure-rag/main.py) / playlist nesting
+- [`apps/disclosure-rag/processing/RagPromptPipeline.md`](apps/disclosure-rag/processing/RagPromptPipeline.md) -- ADR-0001 pipeline wiring notes
+- Lane A roadmap: [`docs/PLANS/2026-08-01-ingestion-hardening.md`](docs/PLANS/2026-08-01-ingestion-hardening.md) (T-048)

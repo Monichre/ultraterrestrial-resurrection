@@ -831,13 +831,31 @@ class LLMFallback:
 
         request: Dict[str, Any] = dict(
             model=tier.model,
-            temperature=temperature,
-            max_tokens=max_tokens,
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_content},
             ],
         )
+        # OpenAI's own endpoint rejects `max_tokens` outright for the gpt-5.x
+        # family: 400 "Unsupported parameter: 'max_tokens' is not supported
+        # with this model. Use 'max_completion_tokens' instead." Because that
+        # is a 400 and not a 402, both openai/gpt-5.6 and openai/gpt-5.5 --
+        # the only frontier tiers reachable without the OpenRouter gateway --
+        # failed on EVERY call and the chain silently fell through to a
+        # cheaper model. Measured 2026-09-10. Gateways (OpenRouter, DeepSeek,
+        # Together, Groq, Ollama) still take the classic field, so switch on
+        # the endpoint rather than sending both.
+        _openai_direct = not tier.base_url or "api.openai.com" in (tier.base_url or "")
+        # The gpt-5.x family also rejects any temperature but the default:
+        # 400 "Unsupported value: 'temperature' does not support 0.1 with this
+        # model. Only the default (1) value is supported." Omit the field
+        # rather than sending 1, so the request carries no claim about
+        # sampling that the model would have to override.
+        if _openai_direct:
+            request["max_completion_tokens"] = max_tokens
+        else:
+            request["max_tokens"] = max_tokens
+            request["temperature"] = temperature
         if schema is not None:
             # OpenAI-compatible structured output. Every tier in the chain is
             # reached through an OpenAI-shaped endpoint (OpenRouter, DeepSeek,

@@ -42,13 +42,20 @@ from typing import Any, Dict, List, Optional
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from lib.transcript_fidelity import clean_transcript, review_transcript
+from lib.transcript_fidelity import FidelityReport, clean_transcript, review_transcript
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
 logger = logging.getLogger("playlist_ingestion")
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-OUTPUT_DIR = BASE_DIR / "data" / "playlist_ingestion"
+# 2026-09-10: the artifacts were moved to corpus/intake/playlist_ingestion
+# but this constant still pointed at BASE_DIR/data/playlist_ingestion, which
+# does not exist on disk. A run against the old value writes its state and
+# transcripts somewhere other than where the 49 existing transcripts and
+# fidelity reports sit, so --reuse-transcripts would find nothing and
+# silently re-download everything. Point it at the tree that holds the
+# evidence.
+OUTPUT_DIR = BASE_DIR / "corpus" / "intake" / "playlist_ingestion"
 DEFAULT_STATE_FILE = OUTPUT_DIR / "state.json"
 
 # Terminal states that --force is required to reprocess. `unavailable` is here
@@ -233,28 +240,59 @@ def process_episode(video: Dict[str, Any], playlist_id: str, state: Dict[str, An
     """
     vid, url = video["video_id"], video["url"]
 
-    fetched, reason = fetch_transcript(url)
-    if not fetched:
-        status = REASON_STATUS.get(reason, "no_transcript")
-        record(state, video, playlist_id, status=status, error=f"transcript {reason}")
-        return status
+    # --reuse-transcripts: retry the stage that failed, not the two that worked.
+    # The 49 `enrichment_failed` episodes all have a transcript and a fidelity
+    # report on disk that already passed the gate at ~0.92; re-fetching them
+    # spends a request each against the same quota that produced the IP block,
+    # and only then reaches the LLM stage that actually broke.
+    #
+    # Opt-in only — with the flag off this is byte-for-byte the old path, so a
+    # fresh playlist still fetches everything.
+    #
+    # SCOPE, measured 2026-09-10: this skips the fidelity-gate download only.
+    # `process_url` below still calls generate_transcript() ->
+    # get_video_info_and_transcript(), which re-downloads unconditionally (no
+    # skip-if-exists anywhere in lib/youtube.py). So this halves the requests
+    # per episode, it does not eliminate them — and because the skipped
+    # fetch_transcript() is what feeds BLOCKED_ABORT_THRESHOLD, the remaining
+    # pipeline-internal downloads run with NO consecutive-block abort guard.
+    # Safe for the 3-episode smoke gate; do not run the 49-episode batch on it
+    # until a pipeline-level transcript cache exists.
+    existing_txt = transcripts_dir / f"{vid}.txt"
+    existing_report = reports_dir / f"{vid}.fidelity.json"
+    reuse = bool(getattr(args, "reuse_transcripts", False)
+                 and existing_txt.is_file() and existing_report.is_file())
 
-    raw_transcript = fetched["transcript"]
-    cleaned = clean_transcript(raw_transcript)
-    transcripts_dir.mkdir(parents=True, exist_ok=True)
-    (transcripts_dir / f"{vid}.txt").write_text(
-        f"{fetched.get('title') or video['title']}\n{url}\n\n{cleaned}", encoding="utf-8")
+    if reuse:
+        # Only `fidelity` is needed downstream. The cleaned transcript is used
+        # solely for the file write that already happened, and review_transcript
+        # runs off the raw text, so nothing here needs to read the .txt back.
+        fidelity = FidelityReport.from_dict(
+            json.loads(existing_report.read_text(encoding="utf-8")))
+        logger.info("  reusing transcript + fidelity on disk for %s", vid)
+    else:
+        fetched, reason = fetch_transcript(url)
+        if not fetched:
+            status = REASON_STATUS.get(reason, "no_transcript")
+            record(state, video, playlist_id, status=status, error=f"transcript {reason}")
+            return status
 
-    fidelity = review_transcript(
-        transcript=raw_transcript,
-        video_id=vid,
-        segments=fetched.get("transcript_segments"),
-        expected_duration_seconds=video.get("duration"),
-        use_llm=args.llm_review,
-    )
-    reports_dir.mkdir(parents=True, exist_ok=True)
-    (reports_dir / f"{vid}.fidelity.json").write_text(
-        json.dumps(fidelity.to_dict(), indent=2, ensure_ascii=False))
+        raw_transcript = fetched["transcript"]
+        cleaned = clean_transcript(raw_transcript)
+        transcripts_dir.mkdir(parents=True, exist_ok=True)
+        (transcripts_dir / f"{vid}.txt").write_text(
+            f"{fetched.get('title') or video['title']}\n{url}\n\n{cleaned}", encoding="utf-8")
+
+        fidelity = review_transcript(
+            transcript=raw_transcript,
+            video_id=vid,
+            segments=fetched.get("transcript_segments"),
+            expected_duration_seconds=video.get("duration"),
+            use_llm=args.llm_review,
+        )
+        reports_dir.mkdir(parents=True, exist_ok=True)
+        (reports_dir / f"{vid}.fidelity.json").write_text(
+            json.dumps(fidelity.to_dict(), indent=2, ensure_ascii=False))
 
     logger.info(f"  fidelity {fidelity.score:.2f} ({fidelity.verdict}) — {video['title'][:70]}")
 
@@ -290,9 +328,26 @@ def process_episode(video: Dict[str, Any], playlist_id: str, state: Dict[str, An
                        error=enrich_errors or f"rag_pipeline status={rag_status}")
                 return "enrichment_failed"
             if rag_status == "unknown":
+                # An ungraded pipeline is not an ingestion. This branch used to
+                # log "not treating as enriched" and then record status
+                # "ingested" anyway — the gap that recorded K4gYHs84BIc as
+                # ingested while its own artifact carried "status": "error" with
+                # zero chunks. Fail closed instead: `enrichment_unverified` is
+                # deliberately absent from DONE_STATUSES, so a bare re-run picks
+                # it up again rather than treating it as finished.
+                #
+                # Kept distinct from `enrichment_failed` on purpose: that means
+                # the pipeline told us it failed, this means the pipeline told
+                # us nothing, which is a reporting defect worth seeing on its own
+                # line in the run report.
                 logger.warning(
                     "  enrichment status not reported by the pipeline for %s — "
-                    "recording rag_status=unknown, not treating as enriched", vid)
+                    "grading as unverified", vid)
+                record(state, video, playlist_id, status="enrichment_unverified",
+                       fidelity=fidelity.score, fidelity_verdict=fidelity.verdict,
+                       doc_id=result["doc_id"], rag_status=rag_status,
+                       error="pipeline reported no rag_pipeline status")
+                return "enrichment_unverified"
             record(state, video, playlist_id, status="ingested",
                    fidelity=fidelity.score, fidelity_verdict=fidelity.verdict,
                    doc_id=result["doc_id"], rag_status=rag_status)
@@ -344,6 +399,12 @@ def main() -> int:
     parser.add_argument("--limit", type=int, default=0, help="Max new episodes to process per playlist")
     parser.add_argument("--force", action="store_true", help="Reprocess episodes already in the state file")
     parser.add_argument("--dry-run", action="store_true", help="Fetch + fidelity-review only; no ingestion")
+    parser.add_argument("--reuse-transcripts", action="store_true",
+                        help="Reuse the transcript and fidelity report already on disk "
+                             "instead of re-fetching, when both exist. Skips the "
+                             "fidelity-gate download only — the pipeline still fetches "
+                             "internally, and skipping fetch_transcript() also skips the "
+                             "consecutive-block abort guard. Use for small gated runs.")
     parser.add_argument("--min-fidelity", type=float, default=0.45,
                         help="Minimum fidelity score to ingest (default 0.45; below -> quarantined)")
     parser.add_argument("--llm-review", action="store_true",

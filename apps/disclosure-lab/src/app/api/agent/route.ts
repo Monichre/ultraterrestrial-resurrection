@@ -10,6 +10,8 @@ import {
   runSearch,
   runSqlRead,
 } from '@/lib/lab-tools'
+import { getKnowledgeBaseDocument, searchKnowledgeBase } from '@/lib/knowledge-base'
+import { fetchVectorStoreFile, searchVectorStore } from '@/lib/vector-store'
 import { ensureDbEnv } from '@/lib/db'
 
 ensureDbEnv()
@@ -28,9 +30,14 @@ export async function POST(req: Request) {
 
   const result = streamText({
     model: openai(process.env.OPENAI_MODEL ?? 'gpt-4.1-mini'),
-    system: `You are the Disclosure Lab assistant — a read-only Neon Postgres analyst for the Ultraterrestrial corpus.
-You help the human operator inspect schema, search records, run read-only SQL, and summarize aggregates.
+    system: `You are the Disclosure Lab assistant — a read-only analyst over three retrieval surfaces:
+1. Neon Postgres entity tables (schema, SQL, FTS/pgvector)
+2. Local knowledge-base archive (packages/knowledge-base metadata/index.json + source files)
+3. OpenAI Vector Store (same search/fetch contract as openai-vector-store-mcp; this is what Prometheus file_search sees)
+
 You MUST NOT mutate data. You have no write tools. If asked to write/delete, explain that only the human GUI can INSERT/UPDATE (DELETE is blocked in v1).
+When checking whether a source exists, search knowledge-base AND vector-store — they can diverge.
+One vector-store search, then fetch only the top hit unless corroboration needs more. Fetch text may be truncated.
 ${selectionHint}
 Be concise and factual. Prefer tool results over speculation.`,
     messages: await convertToModelMessages(body.messages),
@@ -79,6 +86,29 @@ Be concise and factual. Prefer tool results over speculation.`,
         description: 'Table counts, embedding coverage, events-by-year',
         inputSchema: z.object({}),
         execute: async () => runAggregate(),
+      }),
+      searchKnowledgeBase: tool({
+        description: 'Search the local knowledge-base archive (titles, tags, paths). Disk corpus, not Neon.',
+        inputSchema: z.object({
+          query: z.string(),
+          limit: z.number().optional(),
+        }),
+        execute: async ({ query, limit }) => searchKnowledgeBase(query, limit ?? 20),
+      }),
+      getKnowledgeBaseDocument: tool({
+        description: 'Fetch one knowledge-base document by id, including a text preview when the source is readable',
+        inputSchema: z.object({ id: z.string() }),
+        execute: async ({ id }) => getKnowledgeBaseDocument(id),
+      }),
+      searchVectorStore: tool({
+        description: 'Search the OpenAI Vector Store (same surface as openai-vector-store-mcp search / Prometheus file_search)',
+        inputSchema: z.object({ query: z.string() }),
+        execute: async ({ query }) => searchVectorStore(query),
+      }),
+      fetchVectorStoreFile: tool({
+        description: 'Fetch full text of a vector-store file by id returned from searchVectorStore',
+        inputSchema: z.object({ id: z.string() }),
+        execute: async ({ id }) => fetchVectorStoreFile(id, 12_000),
       }),
     },
   })

@@ -1,19 +1,46 @@
-import type { TourDefinition } from '../types/tour-definition'
+import type { ResolvedAnchor, TourDefinition, WaypointId } from '../types/tour-definition'
 import type { TourRuntimeState } from '../types/tour-runtime'
-import type { NuclearTourEdge, NuclearTourNode } from '../types/flow-model'
+import {
+  TOUR_NARRATIVE_EDGE_TYPE,
+  TOUR_WAYPOINT_NODE_TYPE,
+  type NuclearTourEdge,
+  type NuclearTourNode,
+  type WaypointAnchorState,
+} from '../types/flow-model'
 import { deriveWaypointStatus } from './derive-node-status'
 import { deriveEdgeStatus } from './derive-edge-status'
+
+export type ResolvedAnchorMap = Partial<Record<WaypointId, ResolvedAnchor>>
+
+const anchorStateFor = (
+  waypointId: WaypointId,
+  resolved: ResolvedAnchorMap | undefined,
+): { anchorState: WaypointAnchorState; anchorTable?: string } => {
+  const entry = resolved?.[waypointId]
+  if (!entry) return { anchorState: 'resolving' }
+  return {
+    anchorState: entry.state,
+    anchorTable: entry.state === 'narrative-only' ? undefined : entry.table,
+  }
+}
 
 export function compileTourGraph(
   definition: TourDefinition,
   runtime: TourRuntimeState,
+  resolvedAnchors?: ResolvedAnchorMap,
 ): { nodes: NuclearTourNode[]; edges: NuclearTourEdge[] } {
   const nodes = definition.waypoints.map<NuclearTourNode>( ( waypoint ) => {
     const status = deriveWaypointStatus( waypoint.id, definition, runtime )
+    // A `none` anchor never enters resolution — it is narrative-only by
+    // definition, and must read that way before any round-trip completes.
+    const anchor =
+      waypoint.corpusAnchor.kind === 'none'
+        ? { anchorState: 'narrative-only' as const }
+        : anchorStateFor( waypoint.id, resolvedAnchors )
 
     return {
       id: waypoint.id,
-      type: 'nuclear-shadow-waypoint',
+      type: TOUR_WAYPOINT_NODE_TYPE,
       position: { x: waypoint.layout.x, y: waypoint.layout.y },
       draggable: false,
       selectable: status !== 'hidden',
@@ -29,6 +56,8 @@ export function compileTourGraph(
         status,
         progress: runtime.progressByWaypoint[waypoint.id],
         interactionsLocked: runtime.interactionsLocked,
+        anchorKind: waypoint.corpusAnchor.kind,
+        ...anchor,
       },
       hidden: status === 'hidden',
       style: {
@@ -41,7 +70,7 @@ export function compileTourGraph(
 
   const edges = definition.transitions.map<NuclearTourEdge>( ( transition ) => ( {
     id: transition.id,
-    type: 'narrative-edge',
+    type: TOUR_NARRATIVE_EDGE_TYPE,
     source: transition.sourceWaypointId,
     target: transition.targetWaypointId,
     selectable: false,

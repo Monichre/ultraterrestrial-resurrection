@@ -268,7 +268,7 @@ search_kb() {
     "$VENV_PYTHON" << EOF
 import sys
 sys.path.append("$SCRIPT_DIR")
-from lib.knowledge_base_crud import KnowledgeBaseCRUD
+from lib.kb.knowledge_base_crud import KnowledgeBaseCRUD
 
 kb = KnowledgeBaseCRUD()
 results = kb.search_documents("$query")
@@ -291,7 +291,7 @@ show_stats() {
     "$VENV_PYTHON" << EOF
 import sys
 sys.path.append("$SCRIPT_DIR")
-from lib.knowledge_base_crud import KnowledgeBaseCRUD
+from lib.kb.knowledge_base_crud import KnowledgeBaseCRUD
 
 kb = KnowledgeBaseCRUD()
 stats = kb.get_statistics()

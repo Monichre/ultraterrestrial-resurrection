@@ -12,7 +12,7 @@ from pathlib import Path
 from datetime import datetime
 from typing import List, Dict, Any, Optional
 import logging
-from knowledge_base_crud import KnowledgeBaseCRUD, Document
+from lib.kb.knowledge_base_crud import KnowledgeBaseCRUD, Document
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

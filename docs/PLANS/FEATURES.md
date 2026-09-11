@@ -716,3 +716,11 @@ Read-only by default — agents can browse and read raw sources but not mutate t
 ---
 
 *This document serves as the strategic foundation for tactical implementation. Features mature here through collaborative refinement before becoming actionable tickets in TODO.md and detailed execution plans in DAILY_WORK_PLAN.md.*
+
+
+## Proposed Spacetime Cesium integration — 2026-09-10 01:31:55 CDT
+
+Source-reviewed God’s Eye View integration proposal: [docs/plans/2026-09-10-gods-eye-view-integration.md](docs/plans/2026-09-10-gods-eye-view-integration.md). Preserve the temporal/evidence model; introduce Cesium and tactical presentation in stages. Proposed only; no engine replacement approved or implemented.
+
+
+**Scope refinement / session memory — 2026-09-10 01:35:57 CDT:** User requires extremely lean, Ultraterrestrial-specific or customizable imports. The [docs/plans/2026-09-10-gods-eye-view-integration.md](docs/plans/2026-09-10-gods-eye-view-integration.md) now makes minimal extraction, typed configuration, excluded donor subsystems, and import/bundle auditing explicit. Feed integrations remain optional; full donor parity is not a requirement. Planning only.

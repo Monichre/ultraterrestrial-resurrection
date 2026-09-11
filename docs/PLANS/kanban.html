@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UR Plan Kanban — docs/plans/TODO.md</title>
+<style>
+  :root{
+    --bg:#0d1520;
+    --bg-2:#0a111c;
+    --panel:#13202f;
+    --panel-2:#172738;
+    --line:#1f3247;
+    --line-2:#2a4361;
+    --ink:#d7e3f1;
+    --ink-dim:#8aa3bd;
+    --ink-faint:#5b7390;
+    --accent:#5fb4d4;
+    --amber:#e0a64e;
+    --cyan:#5fb4d4;
+    --green:#6fbf8b;
+    --red:#d97a7a;
+    --violet:#a78bd4;
+    --slate:#6b8199;
+    --grid:rgba(95,180,212,.05);
+    --mono:'JetBrains Mono','SF Mono',ui-monospace,Menlo,Consolas,monospace;
+    --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:
+      linear-gradient(var(--grid) 1px,transparent 1px) 0 0/32px 32px,
+      linear-gradient(90deg,var(--grid) 1px,transparent 1px) 0 0/32px 32px,
+      radial-gradient(1200px 800px at 80% -10%,#16324a 0%,transparent 60%),
+      var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:14px;
+    line-height:1.5;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  header{
+    border-bottom:1px solid var(--line);
+    padding:18px 28px;
+    background:rgba(10,17,28,.7);
+    backdrop-filter:blur(8px);
+    position:sticky;top:0;z-index:10;
+  }
+  .head-row{display:flex;align-items:baseline;justify-content:space-between;gap:24px;flex-wrap:wrap}
+  h1{
+    font-family:var(--mono);
+    font-size:15px;
+    font-weight:600;
+    letter-spacing:.04em;
+    margin:0;
+    color:var(--ink);
+    text-transform:uppercase;
+  }
+  h1 .dim{color:var(--ink-faint);font-weight:400}
+  .meta{font-family:var(--mono);font-size:11px;color:var(--ink-faint);letter-spacing:.04em}
+  .meta b{color:var(--ink-dim);font-weight:500}
+
+  .toolbar{
+    display:flex;gap:8px;align-items:center;flex-wrap:wrap;
+    margin-top:14px;
+  }
+  .filter-btn{
+    font-family:var(--mono);font-size:11px;letter-spacing:.06em;
+    text-transform:uppercase;
+    background:transparent;
+    color:var(--ink-dim);
+    border:1px solid var(--line-2);
+    padding:5px 10px;border-radius:3px;cursor:pointer;
+    transition:all .15s;
+  }
+  .filter-btn:hover{color:var(--ink);border-color:var(--accent)}
+  .filter-btn.active{background:var(--accent);color:#0a111c;border-color:var(--accent);font-weight:600}
+  .filter-btn .count{opacity:.6;margin-left:4px}
+  .spacer{flex:1}
+  .legend{display:flex;gap:14px;font-family:var(--mono);font-size:10px;color:var(--ink-faint);letter-spacing:.05em;text-transform:uppercase}
+  .legend span{display:inline-flex;align-items:center;gap:5px}
+  .dot{width:8px;height:8px;border-radius:2px;display:inline-block}
+
+  .board{
+    display:grid;
+    grid-template-columns:repeat(5,minmax(260px,1fr));
+    gap:14px;
+    padding:24px 28px 60px;
+    align-items:start;
+  }
+  .col{
+    background:rgba(19,32,47,.4);
+    border:1px solid var(--line);
+    border-radius:6px;
+    min-height:200px;
+    display:flex;flex-direction:column;
+  }
+  .col-head{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:11px 14px;
+    border-bottom:1px solid var(--line);
+    font-family:var(--mono);
+    font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--ink-dim);
+    position:sticky;top:74px;z-index:2;
+    background:var(--panel);
+  }
+  .col-head .n{
+    font-size:10px;color:var(--ink-faint);
+    background:var(--bg-2);border:1px solid var(--line);
+    padding:1px 6px;border-radius:8px;
+  }
+  .col-head .bar{width:24px;height:2px;border-radius:1px;margin-right:8px}
+  .col-head .title{display:flex;align-items:center}
+  .col[data-col="backlog"]    .bar{background:var(--slate)}
+  .col[data-col="progress"]   .bar{background:var(--amber)}
+  .col[data-col="review"]     .bar{background:var(--violet)}
+  .col[data-col="blocked"]    .bar{background:var(--red)}
+  .col[data-col="done"]       .bar{background:var(--green)}
+
+  .col-body{padding:10px;display:flex;flex-direction:column;gap:9px}
+
+  .card{
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    border-left:3px solid var(--line-2);
+    border-radius:4px;
+    padding:10px 12px;
+    cursor:default;
+    transition:border-color .15s,transform .1s;
+  }
+  .card:hover{border-color:var(--line-2);transform:translateY(-1px)}
+  .card.lane-A{border-left-color:var(--amber)}
+  .card.lane-B{border-left-color:var(--cyan)}
+
+  .card-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
+  .tid{
+    font-family:var(--mono);font-size:11px;font-weight:600;
+    color:var(--ink);letter-spacing:.04em;
+  }
+  .lane-badge{
+    font-family:var(--mono);font-size:9px;letter-spacing:.1em;
+    text-transform:uppercase;
+    padding:1px 5px;border-radius:2px;
+    border:1px solid;
+  }
+  .lane-A .lane-badge{color:var(--amber);border-color:rgba(224,166,78,.4);background:rgba(224,166,78,.08)}
+  .lane-B .lane-badge{color:var(--cyan);border-color:rgba(95,180,212,.4);background:rgba(95,180,212,.08)}
+
+  .card-title{
+    font-size:12.5px;color:var(--ink);
+    line-height:1.4;margin:0 0 7px;
+  }
+  .card-foot{
+    font-family:var(--mono);font-size:10px;color:var(--ink-faint);
+    line-height:1.45;letter-spacing:.02em;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+  }
+  .card-foot a{color:var(--accent);text-decoration:none}
+  .card-foot a:hover{text-decoration:underline}
+  .card-foot .sep{color:var(--line-2);margin:0 4px}
+
+  .card.hidden{display:none}
+
+  .empty{
+    text-align:center;padding:24px 8px;
+    font-family:var(--mono);font-size:10px;color:var(--ink-faint);
+    letter-spacing:.06em;text-transform:uppercase;
+  }
+
+  /* responsive */
+  @media (max-width:1100px){
+    .board{grid-template-columns:repeat(2,1fr)}
+    .col-head{position:static}
+  }
+  @media (max-width:640px){
+    .board{grid-template-columns:1fr;padding:16px}
+    header{padding:14px 16px}
+  }
+
+  /* footer note */
+  .footnote{
+    padding:18px 28px 40px;
+    font-family:var(--mono);font-size:10px;color:var(--ink-faint);
+    letter-spacing:.04em;line-height:1.6;
+    border-top:1px solid var(--line);
+    margin-top:20px;
+  }
+  .footnote a{color:var(--ink-dim)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="head-row">
+    <h1>UR Plan Kanban <span class="dim">— docs/plans/TODO.md</span></h1>
+    <div class="meta">Source: <b>docs/plans/TODO.md</b> · Updated <b>2026-08-15</b> · <b>55</b> tickets · <b>2</b> worklanes</div>
+  </div>
+  <div class="toolbar">
+    <button class="filter-btn active" data-filter="all">All <span class="count">55</span></button>
+    <button class="filter-btn" data-filter="A">Lane A · Corpus <span class="count">9</span></button>
+    <button class="filter-btn" data-filter="B">Lane B · Platform <span class="count">46</span></button>
+    <div class="spacer"></div>
+    <div class="legend">
+      <span><i class="dot" style="background:var(--amber)"></i>Lane A</span>
+      <span><i class="dot" style="background:var(--cyan)"></i>Lane B</span>
+    </div>
+  </div>
+</header>
+
+<div class="board">
+
+  <div class="col" data-col="backlog">
+    <div class="col-head"><div class="title"><i class="bar"></i>Backlog</div><span class="n">10</span></div>
+    <div class="col-body" id="col-backlog"></div>
+  </div>
+
+  <div class="col" data-col="progress">
+    <div class="col-head"><div class="title"><i class="bar"></i>In Progress</div><span class="n">5</span></div>
+    <div class="col-body" id="col-progress"></div>
+  </div>
+
+  <div class="col" data-col="review">
+    <div class="col-head"><div class="title"><i class="bar"></i>In Review</div><span class="n">6</span></div>
+    <div class="col-body" id="col-review"></div>
+  </div>
+
+  <div class="col" data-col="blocked">
+    <div class="col-head"><div class="title"><i class="bar"></i>Blocked</div><span class="n">3</span></div>
+    <div class="col-body" id="col-blocked"></div>
+  </div>
+
+  <div class="col" data-col="done">
+    <div class="col-head"><div class="title"><i class="bar"></i>Done</div><span class="n">31</span></div>
+    <div class="col-body" id="col-done"></div>
+  </div>
+
+</div>
+
+<div class="footnote">
+  Columns normalized from TODO.md status strings. "DONE / IN REVIEW" and "DECISION READY" → In Review.
+  "EXTERNAL … BLOCKED" → Blocked. "BUILT, COMMITTED" → In Progress (registration work outstanding).
+  "OPEN / backlog" and "OPEN / needs grooming" → Backlog. Lane assignment per the Worklanes table (2026-08-01).
+  Source of truth: <a href="TODO.md">docs/plans/TODO.md</a>.
+</div>
+
+<script>
+const tickets = [
+  // DONE (31)
+  {id:"T-001",lane:"B",col:"done",title:"Remove Edge runtime from Prometheus chat route",foot:"DONE · 2026-03-29"},
+  {id:"T-002",lane:"B",col:"done",title:"Fix 3 broken API routes",foot:"DONE · 2026-03-29"},
+  {id:"T-003",lane:"B",col:"done",title:"Add Clerk authentication middleware",foot:"DONE · 2026-04-05"},
+  {id:"T-004",lane:"B",col:"done",title:"Delete 4 ghost route wrappers",foot:"DONE · 2026-03-29"},
+  {id:"T-005",lane:"B",col:"done",title:"Delete 4 dead shell variants",foot:"DONE · 2026-03-29"},
+  {id:"T-006",lane:"B",col:"done",title:"Prune index.tsx",foot:"DONE · 2026-03-29"},
+  {id:"T-007",lane:"B",col:"done",title:"Consolidate xata-to-xyflow files",foot:"DONE · 2026-04-05"},
+  {id:"T-008",lane:"B",col:"done",title:"Paginate initial graph data load",foot:"DONE · 2026-06-20 · ~210 nodes, O(1) edges"},
+  {id:"T-009",lane:"B",col:"done",title:"Fix EmptyCanvas",foot:"DONE · 2026-04-05"},
+  {id:"T-010",lane:"B",col:"done",title:"Wire suggestion chips to agent",foot:"DONE · 2026-04-05"},
+  {id:"T-011",lane:"B",col:"done",title:"Replace local sightings dataset with Xata query",foot:"DONE · 2026-06-17"},
+  {id:"T-012",lane:"B",col:"done",title:"Add Zod validation to remaining API routes",foot:"DONE · 2026-06-17"},
+  {id:"T-013",lane:"B",col:"done",title:"Add graph-write tools to disclosure mindmap route",foot:"DONE · 2026-04-05"},
+  {id:"T-014",lane:"B",col:"done",title:"Split processDocument into granular tools",foot:"DONE · 2026-04-05"},
+  {id:"T-015",lane:"B",col:"done",title:"Standardize context injection",foot:"DONE · 2026-04-05"},
+  {id:"T-016",lane:"B",col:"done",title:"Unify or clearly separate chat routes",foot:"DONE (phase 1) · 2026-06-17 · phase 2 → T-030"},
+  {id:"T-017",lane:"B",col:"done",title:"Wire testimony queue worker as cron",foot:"DONE · 2026-06-17"},
+  {id:"T-018",lane:"B",col:"done",title:"Extract pure factories from mindmap-context",foot:"DONE · 2026-06-17"},
+  {id:"T-019",lane:"B",col:"done",title:"Move graph init effect out of context",foot:"DONE · 2026-06-17"},
+  {id:"T-020",lane:"B",col:"done",title:"Move UI-local state to Zustand",foot:"DONE · 2026-06-20 · canvas slice"},
+  {id:"T-021",lane:"B",col:"done",title:"Create .env.example",foot:"DONE · 2026-06-20"},
+  {id:"T-022",lane:"B",col:"done",title:"Create docs/archive/ and move obsolete files",foot:"DONE · 2026-06-17"},
+  {id:"T-023",lane:"B",col:"done",title:"Refresh FEATURES.md for Q1 2026",foot:"DONE · 2026-06-20 · 2c23a02"},
+  {id:"T-024",lane:"B",col:"done",title:"Create API_ROUTES.md",foot:"DONE · 2026-06-17"},
+  {id:"T-025",lane:"B",col:"done",title:"Implement rate limiting",foot:"DONE · 2026-06-20 · 30 req/60s"},
+  {id:"T-027",lane:"B",col:"done",title:"Create ResearchSession unified state slice",foot:"DONE · 2026-06-20 · Zustand slice"},
+  {id:"T-029",lane:"B",col:"done",title:"UFO Research Methodology Framework",foot:"DONE · 2026-06-20 · 2c23a02"},
+  {id:"T-030",lane:"B",col:"done",title:"Migrate 6 /api/disclosure/chat consumers",foot:"DONE · 2026-06-20 · 633216d"},
+  {id:"T-031",lane:"B",col:"done",title:"Delete broken historical-query chain",foot:"DONE · 2026-06-20 · 633216d"},
+  {id:"T-044",lane:"A",col:"done",title:"Fix CRITICAL findings from disclosure-rag/main.py review",foot:"DONE · 2026-07-16 · hash dead, artifacts confirm"},
+  {id:"T-054",lane:"A",col:"done",title:"Trace Map — provenance graph per processed source",foot:"DONE (deterministic layer) · 2026-08-10"},
+
+  // IN REVIEW (6)
+  {id:"T-028",lane:"B",col:"review",title:"Mindmap Agent Consolidation (ai-sdk-tools)",foot:"DONE / IN REVIEW · 2026-07-12 · <a href=\"https://linear.app/dmg-dev/issue/DMGD-183\" target=\"_blank\">DMGD-183</a>"},
+  {id:"T-036",lane:"B",col:"review",title:"LLM Wiki — compounding knowledge layer (Karpathy-style)",foot:"DECISION READY · 2026-07-12 · full build NO-GO, 10-source pilot · <a href=\"https://linear.app/dmg-dev/issue/DMGD-184\" target=\"_blank\">DMGD-184</a>"},
+  {id:"T-039",lane:"B",col:"review",title:"Documentation cleanup & simplification (all docs)",foot:"DONE / IN REVIEW · 2026-07-12 · <a href=\"https://linear.app/dmg-dev/issue/DMGD-185\" target=\"_blank\">DMGD-185</a>"},
+  {id:"T-040",lane:"B",col:"review",title:"Linear integration for task tracking",foot:"DONE / IN REVIEW · 2026-07-12 · <a href=\"https://linear.app/dmg-dev/issue/DMGD-186\" target=\"_blank\">DMGD-186</a>"},
+  {id:"T-042",lane:"B",col:"review",title:"Custom agent architecture brainstorm",foot:"DECISION READY · 2026-07-12 · local-first scoped specialists · <a href=\"https://linear.app/dmg-dev/issue/DMGD-188\" target=\"_blank\">DMGD-188</a>"},
+  {id:"T-045",lane:"A",col:"review",title:"Remaining HIGH/MEDIUM findings from main.py review",foot:"IN REVIEW · all 10 closed 2026-08-01 · hash dead, verify by artifact · <a href=\"https://linear.app/digital-mischief-group/issue/DMGD-205\" target=\"_blank\">DMGD-205</a>"},
+
+  // IN PROGRESS (5)
+  {id:"T-048",lane:"A",col:"progress",title:"Ingestion hardening — corpus integrity, identity, provenance",foot:"IN PROGRESS · H0 landed (64edf9b5, 25357789) · H1–H5 remain, H1 next · <a href=\"https://linear.app/digital-mischief-group/issue/DMGD-221\" target=\"_blank\">DMGD-221</a>"},
+  {id:"T-050",lane:"B",col:"progress",title:"Guided Tours — converge the two tour engines onto the canvas",foot:"IN PROGRESS · subtasks 1-2 landed (e58eccfe) · 3-5 open · <a href=\"https://linear.app/digital-mischief-group/issue/DMGD-223\" target=\"_blank\">DMGD-223</a>"},
+  {id:"T-051",lane:"B",col:"progress",title:"OpenAI Vector Store MCP server",foot:"BUILT, COMMITTED · verified live over stdio 2026-08-15 · .mcp.json registration pending · <a href=\"https://linear.app/digital-mischief-group/issue/DMGD-218\" target=\"_blank\">DMGD-218</a>"},
+  {id:"T-052",lane:"B",col:"progress",title:"Disclosure Lab — Neon admin/DX explorer",foot:"IN PROGRESS · 2026-08-09 · <a href=\"https://linear.app/digital-mischief-group/issue/DMGD-216\" target=\"_blank\">DMGD-216</a>"},
+  {id:"T-060",lane:"B",col:"progress",title:"Drop-to-Canvas — drop a file, see it connect to the corpus",foot:"IN PROGRESS · opened 2026-08-13 · delegated to 2 parallel agents · <a href=\"https://linear.app/digital-mischief-group/issue/DMGD-229\" target=\"_blank\">DMGD-229</a>"},
+
+  // BLOCKED (3)
+  {id:"T-037",lane:"B",col:"blocked",title:"AI prompt & model audit — frontier-models-only policy",foot:"IMPL DONE / EXT VERIFICATION BLOCKED · 2026-07-12 · DMGD-152, DMGD-158 in review"},
+  {id:"T-038",lane:"B",col:"blocked",title:"Design language & domain vocabulary canonicalization",foot:"IMPL DONE / FIGMA REVIEW BLOCKED · 2026-07-12 · DMGD-154, DMGD-155 in review"},
+  {id:"T-041",lane:"B",col:"blocked",title:"Roundtable UX/UI review",foot:"BLOCKED · 2026-07-12 · no browser backend for screenshot evidence · <a href=\"https://linear.app/dmg-dev/issue/DMGD-187\" target=\"_blank\">DMGD-187</a>"},
+
+  // BACKLOG (10)
+  {id:"T-043",lane:"B",col:"backlog",title:"Write per-context CONTEXT.md files (domain model follow-up)",foot:"OPEN · synced 2026-07-24 · <a href=\"https://linear.app/digital-mischief-group/issue/DMGD-204\" target=\"_blank\">DMGD-204</a>"},
+  {id:"T-046",lane:"B",col:"backlog",title:"Docs maintenance automation (future)",foot:"OPEN (backlog) · synced 2026-07-24 · <a href=\"https://linear.app/digital-mischief-group/issue/DMGD-206\" target=\"_blank\">DMGD-206</a>"},
+  {id:"T-047",lane:"B",col:"backlog",title:"Temporal Observatory — Foundation milestone (Spacetime Canvas M0)",foot:"OPEN / backlog · hold lifted 2026-08-15 · M0/M1 shipped, M2-M4 need grooming · <a href=\"https://linear.app/digital-mischief-group/issue/DMGD-220\" target=\"_blank\">DMGD-220</a>"},
+  {id:"T-049",lane:"B",col:"backlog",title:"Board — live agent/session activity view",foot:"OPEN · scoped 2026-08-01, research complete, not built · <a href=\"https://linear.app/digital-mischief-group/issue/DMGD-222\" target=\"_blank\">DMGD-222</a>"},
+  {id:"T-053",lane:"B",col:"backlog",title:"Research Canvas Gen-UI upgrade — Deep Research loop",foot:"OPEN / needs grooming · 2026-08-14 · do not start product code · <a href=\"https://linear.app/digital-mischief-group/issue/DMGD-219\" target=\"_blank\">DMGD-219</a>"},
+  {id:"T-055",lane:"A",col:"backlog",title:"Trace Map — interpretive layer (Readings, Counter-readings)",foot:"OPEN · synced 2026-08-15 · <a href=\"https://linear.app/digital-mischief-group/issue/DMGD-224\" target=\"_blank\">DMGD-224</a>"},
+  {id:"T-056",lane:"A",col:"backlog",title:"Trace Map on the web-article path",foot:"OPEN · synced 2026-08-15 · <a href=\"https://linear.app/digital-mischief-group/issue/DMGD-225\" target=\"_blank\">DMGD-225</a>"},
+  {id:"T-057",lane:"A",col:"backlog",title:"UAP podcast playlist bulk-ingest manifest",foot:"OPEN · synced 2026-08-15 · <a href=\"https://linear.app/digital-mischief-group/issue/DMGD-226\" target=\"_blank\">DMGD-226</a>"},
+  {id:"T-058",lane:"B",col:"backlog",title:"Grouped video transcript retrieval + timestamp citations",foot:"OPEN · synced 2026-08-15 · <a href=\"https://linear.app/digital-mischief-group/issue/DMGD-227\" target=\"_blank\">DMGD-227</a>"},
+  {id:"T-059",lane:"A",col:"backlog",title:"Playlist-id corpus index (skip already-ingested)",foot:"OPEN · synced 2026-08-15 · <a href=\"https://linear.app/digital-mischief-group/issue/DMGD-228\" target=\"_blank\">DMGD-228</a>"},
+];
+
+const cols = ["backlog","progress","review","blocked","done"];
+cols.forEach(c => {
+  const body = document.getElementById("col-"+c);
+  const items = tickets.filter(t => t.col === c);
+  if(items.length === 0){
+    body.innerHTML = '<div class="empty">— empty —</div>';
+    return;
+  }
+  body.innerHTML = items.map(t => `
+    <div class="card lane-${t.lane}" data-lane="${t.lane}">
+      <div class="card-top">
+        <span class="tid">${t.id}</span>
+        <span class="lane-badge">Lane ${t.lane}</span>
+      </div>
+      <div class="card-title">${t.title}</div>
+      <div class="card-foot">${t.foot}</div>
+    </div>
+  `).join("");
+});
+
+// lane filter
+const btns = document.querySelectorAll(".filter-btn");
+btns.forEach(b => b.addEventListener("click", () => {
+  btns.forEach(x => x.classList.remove("active"));
+  b.classList.add("active");
+  const f = b.dataset.filter;
+  document.querySelectorAll(".card").forEach(card => {
+    if(f === "all" || card.dataset.lane === f){
+      card.classList.remove("hidden");
+    } else {
+      card.classList.add("hidden");
+    }
+  });
+  // update column counts
+  cols.forEach(c => {
+    const body = document.getElementById("col-"+c);
+    const visible = body.querySelectorAll(".card:not(.hidden)").length;
+    body.parentElement.querySelector(".n").textContent = visible;
+  });
+}));
+</script>
+</body>
+</html>

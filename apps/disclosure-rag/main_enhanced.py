@@ -54,8 +54,8 @@ logger = logging.getLogger(__name__)
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 # Import core processors
-from lib.knowledge_base_crud import KnowledgeBaseCRUD
-from lib.knowledge_base_service import (
+from lib.kb.knowledge_base_crud import KnowledgeBaseCRUD
+from lib.kb.knowledge_base_service import (
     kb_service,
     process_youtube_url_enhanced,
     process_web_url_enhanced,

@@ -60,7 +60,7 @@ The goal was "literally almost any source." Reality:
 | **PDF** | `processing/document_converter.py` (docling) + `scripts/bulk_folder_ingestion.py` (PyPDF2/PyMuPDF) | WORKING (code) / UNREACHABLE (from CLI) | docling converter is not wired into cli.py; bulk ingestion is broken (C1) |
 | **TXT** | `scripts/bulk_folder_ingestion.py` | WORKING (code) / UNREACHABLE | Same — blocked by C1 |
 | **DOCX** | `scripts/bulk_folder_ingestion.py` (python-docx) | WORKING (code) / UNREACHABLE | Blocked by C1 |
-| **MD** | `scripts/bulk_folder_ingestion.py` + `lib/knowledge_base.py` | WORKING (code) / UNREACHABLE | Blocked by C1 |
+| **MD** | `scripts/bulk_folder_ingestion.py` + `lib/kb/knowledge_base.py` | WORKING (code) / UNREACHABLE | Blocked by C1 |
 | **RTF** | `scripts/bulk_folder_ingestion.py` (basic text extraction) | WORKING (code) / UNREACHABLE | Blocked by C1 |
 | **.doc (legacy)** | — | **BROKEN** | Listed in SUPPORTED_EXTENSIONS, no handler (H2) |
 | **CSV** | `lib/connectors/ultraterrestrial_db.py`, `scripts/csv_integration.py`, `scripts/bulk-import.py` | WORKING | Migration tools only (CSV → Postgres), not general ingestion |

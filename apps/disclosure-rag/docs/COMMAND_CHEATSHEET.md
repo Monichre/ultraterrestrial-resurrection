@@ -114,7 +114,7 @@ python disclosure_chat.py
 ./main.sh search "search query"
 
 # Direct Python search
-python -c "from lib.knowledge_base_crud import KnowledgeBaseCRUD; kb = KnowledgeBaseCRUD(); print(kb.search_documents('query'))"
+python -c "from lib.kb.knowledge_base_crud import KnowledgeBaseCRUD; kb = KnowledgeBaseCRUD(); print(kb.search_documents('query'))"
 ```
 
 ### Database Queries
@@ -135,7 +135,7 @@ python -c "from lib.connectors.ultraterrestrial_db import UltraterrestrialDataba
 ./main.sh stats
 
 # Knowledge base statistics
-python -c "from lib.knowledge_base_crud import KnowledgeBaseCRUD; kb = KnowledgeBaseCRUD(); print(kb.get_statistics())"
+python -c "from lib.kb.knowledge_base_crud import KnowledgeBaseCRUD; kb = KnowledgeBaseCRUD(); print(kb.get_statistics())"
 ```
 
 ### Geographic Analysis
@@ -245,13 +245,13 @@ python agents/research_crew.py
 
 ```bash
 # Export documents
-python -c "from lib.knowledge_base_crud import KnowledgeBaseCRUD; kb = KnowledgeBaseCRUD(); kb.export_document('DOC_ID', '/export/path')"
+python -c "from lib.kb.knowledge_base_crud import KnowledgeBaseCRUD; kb = KnowledgeBaseCRUD(); kb.export_document('DOC_ID', '/export/path')"
 
 # Bulk import
-python -c "from lib.knowledge_base_crud import KnowledgeBaseCRUD; kb = KnowledgeBaseCRUD(); kb.bulk_import('/import/path', 'article')"
+python -c "from lib.kb.knowledge_base_crud import KnowledgeBaseCRUD; kb = KnowledgeBaseCRUD(); kb.bulk_import('/import/path', 'article')"
 
 # List documents
-python -c "from lib.knowledge_base_crud import KnowledgeBaseCRUD; kb = KnowledgeBaseCRUD(); print(kb.list_documents())"
+python -c "from lib.kb.knowledge_base_crud import KnowledgeBaseCRUD; kb = KnowledgeBaseCRUD(); print(kb.list_documents())"
 ```
 
 ### Database Synchronization
@@ -309,7 +309,7 @@ python -c "from lib.terminal_display import display; display.print_header()"
 python main.py --status
 
 # Test individual components
-python -c "from lib.knowledge_base_service import kb_service; print(kb_service.get_integration_status())"
+python -c "from lib.kb.knowledge_base_service import kb_service; print(kb_service.get_integration_status())"
 ```
 
 ### File Structure Check
@@ -367,7 +367,7 @@ python -c "from lib.openai_client.upload import upload_file_to_openai; print('Op
 python -c "from anthropic import Anthropic; client = Anthropic(); print('Anthropic connection OK')"
 
 # Check knowledge base integrity
-python -c "from lib.knowledge_base_crud import KnowledgeBaseCRUD; kb = KnowledgeBaseCRUD(); print('KB Status:', len(kb.list_documents()), 'documents')"
+python -c "from lib.kb.knowledge_base_crud import KnowledgeBaseCRUD; kb = KnowledgeBaseCRUD(); print('KB Status:', len(kb.list_documents()), 'documents')"
 ```
 
 ### Reset Commands
@@ -375,7 +375,7 @@ python -c "from lib.knowledge_base_crud import KnowledgeBaseCRUD; kb = Knowledge
 ```bash
 # Reset knowledge base (careful!)
 rm -rf packages/knowledge-base/metadata/index.json
-python -c "from lib.knowledge_base_crud import KnowledgeBaseCRUD; KnowledgeBaseCRUD()"
+python -c "from lib.kb.knowledge_base_crud import KnowledgeBaseCRUD; KnowledgeBaseCRUD()"
 
 # Clear cache/temp files
 rm -rf __pycache__/

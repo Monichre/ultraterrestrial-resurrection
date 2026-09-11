@@ -9,7 +9,7 @@ from agno.tools.web import WebBrowserTools
 from agno.tools.mcp import MCPTools
 
 # Import the knowledge base
-from lib.knowledge_base import KnowledgeBase, create_kb_retrieval_tool
+from lib.kb.knowledge_base import KnowledgeBase, create_kb_retrieval_tool
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')

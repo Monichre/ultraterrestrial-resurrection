@@ -5,7 +5,17 @@ owner: "ai-platform"
 tags: ["ufo", "ner", "extraction", "rag"]
 schema_ref: "schemas/output/entity.schema.json"
 runtime:
-  max_tokens: 1200
+  # 2026-09-10: was 1200, which every real NER call overran. This value --
+  # not the one in llm_routing.yaml -- is what rag_prompt_pipeline.py reads
+  # (_run_registry_prompt: runtime.get("max_tokens", 1200)). Measured on
+  # video _mWPuffi_hc: 6 of 8 chunks failed to parse, and all six raw
+  # responses preserved under apps/disclosure-rag/.rag_debug/ land at
+  # 4,981-5,212 chars (~1,245-1,303 tokens) and end mid-string --
+  # "Unterminated string" / "Expecting property name", i.e. the ceiling
+  # cutting the JSON in half, not a schema-shape problem. NER over a
+  # ~2,800-char chunk emits ~9 entities each carrying a span_quote, so
+  # 1200 was never enough for a dense transcript.
+  max_tokens: 4000
   temperature: 0.1
 variables:
   - name: "context_hint"

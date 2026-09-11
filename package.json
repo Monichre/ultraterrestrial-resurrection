@@ -35,7 +35,8 @@
     "mcp:vector-store:sse": "cd ./packages/openai-vector-store-mcp && bun run dev:sse",
     "dev:disclosure-lab": "cd ./apps/disclosure-lab && bun run dev",
     "build:disclosure-lab": "cd ./apps/disclosure-lab && bun run build",
-    "disclosure-ui:type-check": "cd ./packages/disclosure-ui && bun run type-check"
+    "disclosure-ui:type-check": "cd ./packages/disclosure-ui && bun run type-check",
+    "storybook:ui": "cd ./packages/disclosure-ui && pnpm run storybook"
   },
   "devDependencies": {
     "@types/bun": "latest",

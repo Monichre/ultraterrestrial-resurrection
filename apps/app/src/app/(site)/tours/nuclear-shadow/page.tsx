@@ -1,17 +1,16 @@
-import type {Metadata} from 'next'
+import {redirect} from 'next/navigation'
 
-import {NuclearShadowTour} from '@/features/guided-tours'
-
-export const metadata: Metadata = {
-  title: 'The Nuclear Shadow — Architecture of Secrecy',
-  description:
-    'Act I guided tour: Manhattan Project secrecy machinery to Roswell as a traversable evidence graph.',
-}
-
-export default function NuclearShadowTourPage() {
-  return (
-    <div className='dark fixed inset-0 z-50 bg-[var(--ut-void,#0b0e0c)]'>
-      <NuclearShadowTour />
-    </div>
-  )
+/**
+ * Deep-link alias (T-050 subtask 3). The Nuclear Shadow tour no longer has a
+ * canvas of its own — it renders on the research canvas' single ReactFlow.
+ * `?resume=1` is forwarded so saved progress still restores.
+ */
+export default async function NuclearShadowTourPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>
+}) {
+  const params = await searchParams
+  const resume = params.resume === '1' ? '&resume=1' : ''
+  redirect(`/research-canvas?tour=nuclear-shadow${resume}`)
 }

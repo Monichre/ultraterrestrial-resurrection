@@ -6,6 +6,7 @@ import './globals.css'
 const NAV = [
   { href: '/', label: 'Lab' },
   { href: '/overview', label: 'Overview' },
+  { href: '/corpus', label: 'Corpus' },
   { href: '/sql', label: 'SQL' },
   { href: '/charts', label: 'Charts' },
   { href: '/search', label: 'Search' },
@@ -35,7 +36,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             DISCLOSURE LAB
           </strong>
           <span style={{ color: 'var(--lab-muted)', fontSize: 11 }}>
-            Neon admin · live DATABASE_URL · no DELETE
+            Neon · knowledge-base · vector store · no DELETE
           </span>
           <nav style={{ marginLeft: 'auto', display: 'flex', gap: 12 }}>
             {NAV.map((item) => (

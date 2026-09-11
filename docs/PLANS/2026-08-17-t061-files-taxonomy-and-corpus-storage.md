@@ -42,7 +42,7 @@ names replaced with what they actually are (`fbi-ufo-part-03-of-16.pdf`).
 ### Reversibility — read this before touching it
 
 **These PDFs are gitignored, so git cannot undo any of this.**
-[`packages/knowledge-base/sources/files/_RENAME-MANIFEST.json`](packages/knowledge-base/sources/files/_RENAME-MANIFEST.json)
+[`packages/knowledge-base/metadata/files-rename-manifest.json`](packages/knowledge-base/metadata/files-rename-manifest.json)
 is the **only** undo path. It records `restore_to`, `now_at`, and an md5 for
 every one of the 31 moves. Do not delete it until the corpus has a durable
 mirror (§3).
@@ -116,13 +116,21 @@ Early results — from files that previously extracted **zero** characters:
 | `cia-rdp96-00788r001900760001-9` | 12,095 chars |
 | `cia-rdp96-00789r002100220001-4` | 5,173 chars |
 
-**Next step after OCR completes:** re-upload the `.ocr.pdf` (or the `.txt`
+**Next step after OCR completes** (now specced as a pipeline stage — see
+[`docs/plans/2026-08-18-ingest-ocr-stage-and-storage-endpoint.md`](docs/plans/2026-08-18-ingest-ocr-stage-and-storage-endpoint.md) §2)**:** re-upload the `.ocr.pdf` (or the `.txt`
 sidecar) for the 11 scans, then re-run the store audit and confirm the
 empty-parse failures drop.
 
 ---
 
 ## 3. The corpus-in-git question
+
+> **Superseded in part, 2026-08-18.** A fourth candidate (Neon Object Storage)
+> was evaluated and deferred, and the recommendation below was refined to
+> "endpoint-agnostic mirror tool, R2 for now." See
+> [`docs/plans/2026-08-18-ingest-ocr-stage-and-storage-endpoint.md`](docs/plans/2026-08-18-ingest-ocr-stage-and-storage-endpoint.md) §3.
+> Options A/B/C below still stand as written.
+
 
 ### Measured facts first
 
@@ -192,7 +200,7 @@ mechanism. Concretely:
    verifiable, which is the part that is missing today.
 2. Add `scripts/corpus_mirror.py {push,pull,verify}` against R2/S3.
 3. Keep `.gitignore` as-is for binaries; keep transcripts in git as text.
-4. Retire `_RENAME-MANIFEST.json` only once `verify` passes against the mirror.
+4. Retire `files-rename-manifest.json` only once `verify` passes against the mirror.
 
 Do **not** run Option B and Option A together — two sources of truth for the
 same bytes is worse than either.

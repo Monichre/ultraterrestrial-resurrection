@@ -392,7 +392,7 @@ class ResearchSynthesizer:
 **Integration Code**:
 ```python
 # Integration with existing systems
-from lib.knowledge_base_service import KnowledgeBaseService
+from lib.kb.knowledge_base_service import KnowledgeBaseService
 from agents.entity_extraction_agent import EntityExtractionAgent
 
 class UAPDeepResearchAgent(Agent):

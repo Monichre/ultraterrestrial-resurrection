@@ -16,6 +16,206 @@ _**Agent (default)**_
 I will follow the CLAUDE.md improver skill.
 
 I will audit CLAUDE.md to add strict behavioral constraints. Opus must listen to the user and stop rambling. I will output a quality report first. I will wait for confirmation before editing.
+
+I will skip the PSUEDOCODE.md file. I found a recent backup of CLAUDE.md. I am now reading the skill references and locating all CLAUDE.md files.
+
+AGENTS.md is already verbose. CLAUDE.md likely duplicates it. This redundancy causes the rabbitholes. The skill demands conciseness. I will remove obvious restatements and focus strictly on behavioral constraints.
+</details></think>
+
+_**Agent (default)**_
+
+I’ll audit every `CLAUDE.md` in the repo, then propose a hard “listen first, no rabbit holes” contract for Opus—report first, then the exact patch.
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="todo_write"><details>
+<summary>Tool use: **todo_write**</summary>
+
+Parameters:
+
+```json
+{
+  "merge": true
+}
+```
+Result:
+
+```json
+{
+  "finalTodos": [
+    {
+      "content": "Discover all CLAUDE.md files + read quality criteria",
+      "id": "1",
+      "status": "in_progress"
+    },
+    {
+      "content": "Assess current CLAUDE.md vs codebase + user intent",
+      "id": "2",
+      "status": "pending"
+    },
+    {
+      "content": "Output quality report + proposed listen/no-rabbithole diffs",
+      "id": "3",
+      "status": "pending"
+    }
+  ],
+  "success": true
+}
+```
+Status: **completed**
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/.cursor/plugins/cache/claude-plugins-official/claude-md-management/99f484f42e4ada2ec9523cd6f87e423014637cf6/skills/claude-md-improver/references/quality-criteria.md</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/CLAUDE.md</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="search" data-tool-name="glob_file_search"><details>
+<summary>Tool use: **glob_file_search** • Searched codebase "" • **5** results in **1** directory</summary>
+
+Directory: **`/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection`** (5 files)
+
+| File |
+|------|
+| `CLAUDE.md` |
+| `apps/app/CLAUDE.md` |
+| `apps/disclosure-rag/CLAUDE.md` |
+| `apps/app/src/features/mindmap/CLAUDE.md` |
+| `apps/app/src/features/mindmap/store/CLAUDE.md` |
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="search" data-tool-name="glob_file_search"><details>
+<summary>Tool use: **glob_file_search** • Searched codebase "" • **0** results in **1** directory</summary>
+
+Directory: **`/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection`** (0 files)
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/.cursor/plugins/cache/claude-plugins-official/claude-md-management/99f484f42e4ada2ec9523cd6f87e423014637cf6/skills/claude-md-improver/references/templates.md</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+Checking nested CLAUDE.md files and package.json scripts to score commands accurately.
+
+The root cause is the mandatory five-document reading list at the top of CLAUDE.md. This forces extra reading and documentation before any actual work. The fix is a hard user-authority override at the top that forbids extra reading, extra docs, extra tickets, extra architecture, and unnecessary refactors.
+
+Scope lock and user-message override rules are being drafted. Mandatory five-document reading will be restricted to onboarding tasks only. The session contract will be placed first in the document. Nested CLAUDE.md files and backup versions are being checked.
+</details></think>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/CLAUDE.md</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/disclosure-rag/CLAUDE.md</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/mindmap/CLAUDE.md</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/mindmap/store/CLAUDE.md</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "glob": "package.json",
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/package.json",
+  "pattern": "\"scripts\""
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/package.json",
+  "pattern": "\"scripts\"",
+  "topFiles": [
+    {
+      "matchCount": 1,
+      "uri": "package.json"
+    }
+  ],
+  "totalFiles": 1,
+  "totalMatches": 1
+}
+```
+Status: **completed**
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/package.json</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/CLAUDE.md.bak-doctor-20260815</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+The skill requires a pre-update quality report and confirmation before any changes.
+
+The current CLAUDE.md generates rabbit holes through mandatory multi-document reads, tiered PM approval, and UI vision packs. A hard session-authority section will be placed first. The user's last message overrides all other documents. Extra reads, tickets, or plans without explicit request are forbidden. Only files strictly required for the current task may be accessed.
+
+Subagent spawning, recap of AGENTS.md, and unsolicited updates to FEATURES, TODO, or DAILY are forbidden. The mandatory first-reading list is the disease and will be replaced with onboarding-only instructions. I will grade the current CLAUDE.md as the opposite of what the user wants. The skill requires asking before applying changes, so I will present the proposed section for confirmation rather than editing directly.
+
+I will grade nested files too, but the root @CLAUDE.md is the priority. The proposed section will be inserted at the very top, and the "Required Architecture Reading" will lose its "MANDATORY FIRST" label. I will also suggest the `/#` shortcut and `.claude.local.md`. I am weighing whether to wait for an explicit "apply" reply or proceed directly, since the user's tone suggests immediate action is warranted.
+
+I will strictly follow the skill and present the quality report with proposed diffs now. I will ask for confirmation before applying any changes.
+
+The user's tone will be mirrored directly, with no lectures. The phrase "autistic rabbitholes" will be replaced with professional "rabbit holes" inside the file itself to avoid repeating the slur. The proposed text will use short imperatives, a strict conflict-resolution order, and explicit prohibitions. It will also include a hard stop rule: halt immediately if the agent is about to read more than N files before making the requested change.
+
+apps/app/CLAUDE also contains irrelevant garbage about Responses API file search. I will finish todos..md.
 </details></think>
 
 _**Agent (default)**_
@@ -30,43 +230,1053 @@ Parameters:
   "merge": true
 }
 ```
-Status: **loading**
+Result:
+
+```json
+{
+  "finalTodos": [
+    {
+      "content": "Discover all CLAUDE.md files + read quality criteria",
+      "id": "1",
+      "status": "completed"
+    },
+    {
+      "content": "Assess current CLAUDE.md vs codebase + user intent",
+      "id": "2",
+      "status": "completed"
+    },
+    {
+      "content": "Output quality report + proposed listen/no-rabbithole diffs",
+      "id": "3",
+      "status": "completed"
+    }
+  ],
+  "initialTodos": [
+    {
+      "content": "Discover all CLAUDE.md files + read quality criteria",
+      "id": "1",
+      "status": "in_progress"
+    },
+    {
+      "content": "Assess current CLAUDE.md vs codebase + user intent",
+      "id": "2",
+      "status": "pending"
+    },
+    {
+      "content": "Output quality report + proposed listen/no-rabbithole diffs",
+      "id": "3",
+      "status": "pending"
+    }
+  ],
+  "success": true,
+  "wasMerge": true
+}
+```
+Status: **completed**
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+Preparing a thorough quality report.
+
+The current file itself is the problem.
+</details></think>
+
+_**Agent (default)**_
+
+## CLAUDE.md Quality Report
+
+### Summary
+- Files found: **5** (`CLAUDE.md`, `apps/app/CLAUDE.md`, `apps/disclosure-rag/CLAUDE.md`, `apps/app/src/features/mindmap/CLAUDE.md`, `apps/app/src/features/mindmap/store/CLAUDE.md`)
+- Average score: **41/100**
+- Files needing update: **5** (root is the one that actually matters for Opus)
+
+The rabbit holes are not a personality bug. **This file trains them.** Line 5 is `Required Architecture Reading (MANDATORY FIRST)` and then five documents plus vision packs. Opus does what you wrote: it starts every session by ingesting the corpus instead of your last sentence.
+
+---
+
+### File-by-File Assessment
+
+#### 1. `./CLAUDE.md` (Project Root)
+**Score: 48/100 (Grade: D)**
+
+| Criterion | Score | Notes |
+|-----------|-------|-------|
+| Commands/workflows | 2/20 | Zero copy-paste commands. Root `package.json` has `dev:app`, `test:app`, `build:app`, `storybook`, db scripts. None appear here. |
+| Architecture clarity | 10/20 | Myths list is useful. No tree, no entry points, no “where to actually work.” |
+| Non-obvious patterns | 12/15 | Real gotchas: `@db/xata` dead, no stash, mindmap-context god-object, Zustand vs `router.push()`. |
+| Conciseness | 4/15 | Duplicates `AGENTS.md`. “Read everything first” is the opposite of dense. |
+| Currency | 10/15 | Stack is roughly right. Counts dated 2026-07-24. `docs/PLANS/...` path is wrong (`docs/plans/`). |
+| Actionability | 10/15 | Gotchas are executable. Onboarding list is a ritual, not a task. |
+
+**Issues:**
+- **User last-message does not win.** Nothing says Liam’s instruction beats AGENTS, FEATURES, TODO, vision, or “mandatory first reads.”
+- **Mandatory 5-doc ingest before any work** — this is the rabbit-hole compiler.
+- **Three-tier PM “before starting any work”** — Opus will open FEATURES/TODO/DAILY even if you said “change this one file.”
+- **No commands table.**
+- **No scope lock.** No ban on “while I’m here,” extra tickets, extra docs, extra subagents.
+- **“Update this file when finishing incremental tasks”** invites more CLAUDE.md sprawl.
+
+**Recommended additions:**
+- A **session authority block at line 1** that Opus cannot skip.
+- Kill “MANDATORY FIRST” reading. Pointers only, on demand.
+- Commands table from root `package.json`.
+- Explicit forbidden list: extra reads, extra plans, extra tickets, unsolicited refactors.
+
+---
+
+#### 2. `./apps/app/CLAUDE.md`
+**Score: 62/100 (Grade: C)**
+
+Render path + Zustand vs context is actually useful. File **opens with a pasted Responses API / file-search blurb** that does not belong in this repo. “Persist every review to `docs/plans/` before implementation” fights the listen-to-me contract.
+
+---
+
+#### 3. `./apps/disclosure-rag/CLAUDE.md`
+**Score: 8/100 (Grade: F)**
+
+This is not project guidance. It is a dumped Agno sales pitch with fake checkmarks and a 6-week fantasy roadmap. **Delete or replace.** It will send Opus into a week of “strategic synergy.”
+
+---
+
+#### 4. `./apps/app/src/features/mindmap/CLAUDE.md`
+**Score: 72/100 (Grade: B)**
+
+Dead-code list, dual FloatingToolbar, render path — good. Voice-contract section is long; fine *inside this feature*, not as a session-start ritual.
+
+---
+
+#### 5. `./apps/app/src/features/mindmap/store/CLAUDE.md`
+**Score: 15/100 (Grade: F)**
+
+Empty except a claude-mem stub. Harmless, useless.
+
+---
+
+## What I will put at the top of root `CLAUDE.md`
+
+Not a pep talk. A conflict-resolution order plus a kill list. Professional wording in the file; same force as what you asked for.
+
+```markdown
+# CLAUDE.md
+
+This file is binding on Claude Code in this repo. If anything else
+(AGENTS.md, FEATURES.md, TODO.md, vision docs, nested CLAUDE.md, skills)
+conflicts with the user's latest message, the user's latest message wins.
+
+## Session contract (read this; do not read the rest of the canon first)
+
+You are here to execute the user's current instruction. You are not here
+to onboard yourself, audit the monorepo, or demonstrate thoroughness.
+
+1. **Authority.** Liam's last message is the spec. Do not "improve" the
+   ask, expand the ask, or substitute a more interesting task.
+2. **Do not ingest the library.** Do not read README, AGENTS.md, the
+   onboarding checklist, docs/README.md, PRODUCT.md, DESIGN.md,
+   docs/vision/, docs/design/, FEATURES.md, TODO.md, or DAILY_WORK_PLAN.md
+   unless the user named that file or the task is literally onboarding /
+   ticket grooming. Opening those "just in case" is a failure.
+3. **Minimum reads.** Open only the files required to do the asked change.
+   If you are about to open a fifth file that is not on the edit path, stop
+   and do the work instead.
+4. **No rabbit holes.** Forbidden unless the user explicitly asked:
+   - extra tickets, plans, worklogs, or "while I'm here" refactors
+   - new markdown files
+   - reading nested CLAUDE.md / agent personas / vision packs
+   - spawning subagents or parallel explorers
+   - updating FEATURES.md / TODO.md / DAILY_WORK_PLAN.md
+   - three-tier project-management ritual at session start
+   - architecture tours, myth lists, or stack recaps in the reply
+5. **Course-correct immediately.** If the user says stop, no, not that,
+   too much, or listen — halt the current plan, discard unread queues, and
+   follow the new instruction. Do not finish "one more" exploration.
+6. **Talk like a pair, not a briefing.** Short. Answer first. No preamble
+   about what you are about to do across the whole codebase. No restating
+   AGENTS.md. No "as an AI". If you are unsure, ask one question; do not
+   research for ten minutes instead.
+7. **Scope lock.** Touch only paths implied by the ask. Adjacent cleanup
+   is out of scope. Discoveries go in one bullet at the end, not a new
+   workstream.
+```
+
+Then I would **demote** the current “MANDATORY FIRST” block to “Pointers (on demand only)” and add a real commands table. I would **not** paste AGENTS.md again.
+
+I am not touching the nested files unless you say so. `apps/disclosure-rag/CLAUDE.md` should be deleted; it is a rabbit hole in a file.
+
+---
+
+**Tips that actually stick:** press `#` in a Claude Code session to dump a learning into CLAUDE.md; keep personal rants in `.claude.local.md` (gitignored); put user-wide defaults in `~/.claude/CLAUDE.md`.
+
+Reply **apply** and I write this into `./CLAUDE.md` only. Say **apply + gut nested** if you also want the Agno dump deleted and the Responses API junk stripped from `apps/app/CLAUDE.md`.
+
+---
+
+_**User**_
+
+## Verdict
+
+**The diagnosis is basically correct, and the proposed fix is directionally strong.** Your existing root `CLAUDE.md` sounds like it has accidentally turned Opus into a **research analyst cosplaying as a software engineer**.
+
+The biggest issue is exactly what the report identified: you have told it that *thoroughness = compliance*. So when you say “change this component,” it sees a competing persistent instruction saying “first understand civilization from the Bronze Age onward.”
+
+Anthropic’s current guidance backs the underlying idea: root `CLAUDE.md` is injected into context throughout the session, longer files reduce adherence, and they explicitly recommend concise, specific instructions rather than large bodies of background material. They suggest staying under roughly 200 lines. 
+
+But I would **change several parts of the proposed fix.**
+
+### 1. Make the top rule about the **current task**, not “Liam’s last message”
+
+This:
+
+> Liam's last message is the spec.
+
+is emotionally satisfying but slightly brittle.
+
+You want:
+
+> **The user's current explicit task is the active scope.**
+
+Why? Because sometimes your last message is:
+
+> “yeah”
+
+or
+
+> “also don't touch the DB”
+
+The *task* consists of the current instruction plus constraints established immediately around it.
+
+I'd use:
+
+```md
+## Execution Priority
+
+The user's current explicit task is the active scope.
+
+Execute that task as narrowly as possible. Do not expand it based on
+roadmaps, TODOs, architecture documents, adjacent problems, or ideas
+discovered during implementation.
+
+Repository documentation provides constraints and context. It does not
+create additional work unless the user explicitly asks for that work.
+```
+
+That last sentence is **extremely important** for Ultraterrestrial.
+
+Your docs should inform implementation, not manufacture backlog.
+
+---
+
+## 2. Don't say “do not read nested CLAUDE.md”
+
+That's one place where the proposed report is technically fighting Claude Code itself.
+
+Claude Code automatically discovers nested `CLAUDE.md` files **when it starts reading files in those directories**. They are deliberately on-demand rather than startup-loaded. 
+
+So:
+
+```md
+- reading nested CLAUDE.md
+```
+
+isn't a great rule.
+
+Instead:
+
+```md
+Do not proactively explore directories to discover additional instructions.
+Nested instructions encountered as part of the requested edit path may be
+used as local constraints, but they do not expand task scope.
+```
+
+That preserves the useful feature.
+
+And then **gut the garbage nested files separately.**
+
+The `disclosure-rag` Agno manifesto should absolutely die if your assessment is accurate.
+
+---
+
+## 3. Drop the “fifth file” rule
+
+I understand what you're trying to accomplish here:
+
+> If you are about to open a fifth file...
+
+But hard file-count heuristics will create dumb behavior.
+
+A bug might legitimately require:
+
+```text
+component
+hook
+store
+API handler
+schema
+test
+```
+
+Now Opus thinks reading the test is forbidden.
+
+Use a **relevance gate**, not a token economy:
+
+```md
+### Context discipline
+
+Before opening a file, it must satisfy at least one condition:
+
+- it is directly named by the user;
+- it is imported by or imports a file on the active edit path;
+- it is required to understand an interface being changed;
+- it contains the targeted test or verification path;
+- the current implementation cannot proceed without it.
+
+Do not browse files for general understanding.
+```
+
+That gives Opus an actual decision procedure.
+
+---
+
+## 4. Your strongest rule is buried: **documentation doesn't create tasks**
+
+I'd promote that concept above almost everything else.
+
+Ultraterrestrial is unusually dangerous for an agent because you've built a rich conceptual universe around it: ontology, Pins/Threads/Hunches, evidence systems, RAG, maps, narratives, claims, visualization, ingestion, agents, research paradigms, etc.
+
+A capable model sees all of that and thinks:
+
+> “Oh hell yes, I can connect these.”
+
+And you're thinking:
+
+> “Change the fucking button.”
+
+So I would explicitly state:
+
+```md
+## Documentation is passive
+
+Architecture docs, roadmaps, TODOs, FEATURES.md, research notes, vision
+documents, and historical plans are reference material only.
+
+Their existence is NOT an instruction to:
+- implement them;
+- reconcile them;
+- update them;
+- mention them;
+- identify gaps against them;
+- suggest work derived from them.
+
+Only the user's task activates work.
+```
+
+**That may be the highest-value paragraph in the entire file.**
+
+---
+
+## 5. Separate **scope control** from **verbosity control**
+
+Right now they're mixed together.
+
+Those are two different failure modes:
+
+**Agentic scope explosion**
+
+> “I discovered the authentication abstraction could benefit from…”
+
+**Conversational scope explosion**
+
+> “Here is a 1,700-word explanation of why I changed six characters.”
+
+Control both independently.
+
+I'd add:
+
+```md
+## Response discipline
+
+Default completion response:
+
+1. What changed.
+2. Verification performed.
+3. Any blocker or important discovery directly affecting the requested task.
+
+Keep each item brief.
+
+Do not include:
+- architecture summaries;
+- repository tours;
+- rationale the user did not ask for;
+- lists of unrelated improvements;
+- restatements of the task;
+- summaries of files merely read during investigation.
+
+If the change is straightforward, the final response should usually fit
+within 3-8 lines.
+```
+
+Opus needs an **output shape**.
+
+“Be concise” is weak.
+
+“Your answer contains these three things” is much stronger.
+
+---
+
+## 6. Give it a tiny positive execution loop
+
+Your kill list is good, but models generally behave better when you tell them what to do **instead**, rather than constructing the entire prompt as a minefield.
+
+I'd make the default loop:
+
+```md
+## Default execution loop
+
+For ordinary implementation tasks:
+
+1. Identify the narrow requested outcome.
+2. Inspect only the relevant edit path.
+3. Make the smallest coherent change.
+4. Run the narrowest relevant verification.
+5. Report the result briefly.
+6. Stop.
+```
+
+That final word matters:
+
+> **Stop.**
+
+You don't want:
+
+```text
+task → inspect → implement → verify → discover → inspect →
+refactor → document → update roadmap → summon three agents
+```
+
+You want:
+
+```text
+task → inspect → implement → verify → report → STOP
+```
+
+That's the behavioral primitive you're actually trying to install.
+
+---
+
+## 7. I'd keep the subagent prohibition
+
+Normally I'd argue that subagents are useful. Anthropic explicitly positions them as a way to isolate work and keep the main context cleaner. 
+
+**But not here.**
+
+Your problem isn't insufficient agent capacity.
+
+Your problem is **Opus finding more things to do than you asked it to do.**
+
+So this is good:
+
+```md
+Do not spawn subagents, agents, teams, or parallel exploration unless
+the user explicitly requests delegation or the task clearly requires
+independent parallel work.
+```
+
+The distinction matters.
+
+Not:
+
+> never use agents
+
+but:
+
+> **delegation is opt-in rather than a default expression of enthusiasm.**
+
+---
+
+## 8. I'd weaken “ask one question”
+
+This:
+
+> If you are unsure, ask one question
+
+can train another irritating behavior:
+
+> “Before I proceed, would you prefer…”
+
+You don't want Opus becoming a project manager in the opposite direction.
+
+I'd use:
+
+```md
+Do not ask a clarifying question unless ambiguity would materially change
+the implementation and cannot be resolved from the active code path.
+
+Otherwise make the narrowest reasonable assumption and proceed.
+```
+
+Much better.
+
+---
+
+# The version I'd actually install
+
+Something closer to this:
+
+```md
+# CLAUDE.md
+
+## Execution contract
+
+The user's current explicit task is the active scope.
+
+Execute that task as narrowly as possible. Do not expand it based on
+roadmaps, TODOs, architecture documents, adjacent problems, or ideas
+discovered during implementation.
+
+Repository documentation provides constraints and context. It does not
+create additional work unless the user explicitly asks for that work.
+
+### Default execution loop
+
+For ordinary implementation tasks:
+
+1. Identify the narrow requested outcome.
+2. Inspect only the relevant edit path.
+3. Make the smallest coherent change.
+4. Run the narrowest relevant verification.
+5. Report the result briefly.
+6. Stop.
+
+### Context discipline
+
+Do not perform repository onboarding before ordinary tasks.
+
+Before opening a file, it should be:
+- named by the user;
+- on the active import/dependency path;
+- necessary to understand an interface being changed;
+- needed for targeted verification; or
+- necessary because implementation is otherwise blocked.
+
+Do not browse files for general understanding.
+
+README files, AGENTS.md, FEATURES.md, TODO.md, DAILY_WORK_PLAN.md,
+product documents, vision documents, research notes, and historical plans
+are on-demand references only.
+
+Do not proactively explore directories to discover additional instructions.
+Nested CLAUDE.md files encountered on the active edit path may provide
+local constraints but do not expand task scope.
+
+### Documentation is passive
+
+The existence of documentation, TODOs, plans, or architectural proposals
+is NOT an instruction to:
+- implement them;
+- reconcile them;
+- update them;
+- audit against them;
+- summarize them;
+- create tickets from them; or
+- suggest additional work derived from them.
+
+Only the user's task activates work.
+
+### Scope lock
+
+Unless explicitly requested, do not:
+- perform adjacent refactors;
+- create tickets or worklogs;
+- create markdown documentation;
+- update project-management files;
+- perform architecture audits;
+- conduct repository-wide searches for improvement opportunities;
+- spawn subagents or parallel explorers;
+- turn discoveries into new workstreams.
+
+If an unrelated issue is important enough to mention, include one short
+note after completing the requested task. Do not act on it.
+
+### Course correction
+
+A new user instruction immediately supersedes the current implementation
+plan.
+
+If the user says stop, no, not that, too much, or otherwise redirects the
+task, stop the abandoned approach immediately. Do not finish pending
+exploration first.
+
+### Clarification
+
+Ask a question only when ambiguity would materially change the
+implementation and cannot be resolved from the active code path.
+
+Otherwise make the narrowest reasonable assumption and proceed.
+
+### Response discipline
+
+Default completion response:
+
+1. What changed.
+2. Verification performed.
+3. Any blocker or directly relevant discovery.
+
+Do not include repository tours, architecture recaps, unsolicited
+recommendations, lengthy rationale, or summaries of files merely inspected.
+
+Straightforward task responses should usually fit within 3-8 lines.
+```
+
+Then underneath that:
+
+```md
+## Commands
+```
+
+with your actual commands.
+
+Then:
+
+```md
+## Project-specific gotchas
+```
+
+with only genuinely non-obvious things like:
+
+- `@db/xata` is dead
+- mindmap context ownership
+- Zustand/router interaction
+- actual build/test quirks
+
+Then:
+
+```md
+## References — open only when required
+```
+
+No **MANDATORY FIRST** anything.
+
+---
+
+# One conceptual change I would make
+
+I wouldn't describe this as a **session authority block**.
+
+I'd call it an **execution contract**.
+
+Because `CLAUDE.md` isn't actually an enforcement/security layer. Anthropic explicitly describes it as context; specific and concise instructions improve adherence, but it is not deterministic configuration. 
+
+That's important psychologically when you maintain this thing.
+
+Don't try to write constitutional law for Opus.
+
+Write a **small operating policy that strongly biases its next action**.
+
+Otherwise you'll end up with 150 lines governing the 400 lines you wrote to prevent it from reading the other 3,000 lines, and congratulations: you've invented bureaucracy.
+
+---
+
+## Two factual corrections to that report
+
+The personal project file is currently documented as:
+
+```text
+./CLAUDE.local.md
+```
+
+not:
+
+```text
+.claude.local.md
+```
+
+while global personal instructions live at:
+
+```text
+~/.claude/CLAUDE.md
+``` 
+
+
+And I would **not propagate the `#` shortcut advice** from that report without checking your installed Claude Code version. Current Anthropic documentation specifically recommends `/memory` or asking Claude to “remember” a rule. 
+
+---
+
+## My priority order
+
+I would do exactly this:
+
+1. **Replace the root opening with the execution contract.**
+2. **Delete the mandatory-reading ritual.**
+3. **Make all long-form architecture/vision docs passive references.**
+4. **Delete the `disclosure-rag` Agno manifesto.**
+5. **Strip irrelevant API documentation from `apps/app/CLAUDE.md`.**
+6. **Leave the useful mindmap-local guidance local.**
+7. **Delete the empty store CLAUDE unless there's an actual local rule to put there.**
+
+The important shift is:
+
+> **CLAUDE.md should describe how to work in Ultraterrestrial, not explain Ultraterrestrial.**
+
+That distinction is exactly where I think your current Opus-control problem lives. 
+
+---
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+Applying the refined CLAUDE.md guidance now.
+
+Reading nested files fully to prepare for deletion and stripping. The new root CLAUDE.md will become an execution contract with commands, gotchas, and references.
+
+Skipping extra documentation files. The store CLAUDE.md is empty and will be deleted. The disclosure-rag manifesto needs a useful replacement rather than removal.
+
+Decided to delete the disclosure-rag CLAUDE.md entirely. Nested files are on-demand, so removing it is acceptable.
+
+Replacing the disclosure-rag manifesto with a minimal how-to CLAUDE.md instead of deleting it entirely. Reading apps/app/CLAUDE.md fully to strip API documentation while preserving useful guidance. Checking .gitignore for CLAUDE.local.md. Creating a todo list and executing the planned changes.
+</details></think>
+
+_**Agent (default)**_
+
+Installing the execution contract as specified: root rewrite, kill the Agno dump, strip the app file’s junk, drop the empty store file.
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="todo_write"><details>
+<summary>Tool use: **todo_write**</summary>
+
+Parameters:
+
+```json
+{
+  "merge": true
+}
+```
+Result:
+
+```json
+{
+  "finalTodos": [
+    {
+      "content": "Rewrite root CLAUDE.md: execution contract + commands + gotchas + references",
+      "id": "1",
+      "status": "in_progress"
+    },
+    {
+      "content": "Replace disclosure-rag Agno manifesto with minimal how-to-work file",
+      "id": "2",
+      "status": "pending"
+    },
+    {
+      "content": "Strip Responses API junk from apps/app/CLAUDE.md",
+      "id": "3",
+      "status": "pending"
+    },
+    {
+      "content": "Delete empty mindmap/store/CLAUDE.md",
+      "id": "4",
+      "status": "pending"
+    }
+  ],
+  "initialTodos": [
+    {
+      "content": "Discover all CLAUDE.md files + read quality criteria",
+      "id": "1",
+      "status": "completed"
+    },
+    {
+      "content": "Assess current CLAUDE.md vs codebase + user intent",
+      "id": "2",
+      "status": "completed"
+    },
+    {
+      "content": "Output quality report + proposed listen/no-rabbithole diffs",
+      "id": "3",
+      "status": "completed"
+    }
+  ],
+  "success": true
+}
+```
+Status: **completed**
 
 </details></tool-use>
 
 _**Agent (default)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2** • Read file: </summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/CLAUDE.md</summary>
 
 </details></tool-use>
 
 _**Agent (default)**_
 
 <tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2** • Read file: </summary>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/src/features/mindmap/CLAUDE.md</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2** • Read file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/package.json</summary>
 
 </details></tool-use>
 
 _**Agent (default)**_
 
 <tool-use data-tool-type="search" data-tool-name="glob_file_search"><details>
-<summary>Tool use: **glob_file_search** • Searched codebase "" • **0** results in **0** directories</summary>
+<summary>Tool use: **glob_file_search** • Searched codebase "" • **0** results in **1** directory</summary>
 
-No results found
+Directory: **`/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection`** (0 files)
 </details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "glob": ".gitignore",
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection",
+  "pattern": "CLAUDE\\.local"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection",
+  "pattern": "CLAUDE\\.local",
+  "topFiles": [],
+  "totalFiles": 0,
+  "totalMatches": 0
+}
+```
+Status: **completed**
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+I will draft a tight root CLAUDE.md around the user's exact execution contract, commands, gotchas, and references.
+
+The root CLAUDE.md will stay under 200 lines. For apps/app/CLAUDE.md, I will cut the Responses API introduction and the "Review And Planning Persistence" section that fights the execution contract. I will keep the mindmap notes, render path, and state management guidance. I will trim Core AI Architecture to gotchas only, dropping the triple RAG invention and the 2026-03-29 plan audit invitation. I may also delete the empty claude-mem stub.
+
+The claude-mem stub stays because it is auto-generated. The disclosure-rag manifesto becomes a short how-to-work guide covering pytest, .venv, disconnection from Next.js, and Python 3. The store CLAUDE file is deleted. Disclosure-rag is checked for real commands.
+</details></think>
 
 _**Agent (default)**_
 
 <tool-use data-tool-type="search" data-tool-name="glob_file_search"><details>
-<summary>Tool use: **glob_file_search** • Searched codebase "" • **0** results in **0** directories</summary>
+<summary>Tool use: **glob_file_search** • Searched codebase "" • **1** result in **1** directory</summary>
 
-No results found
+Directory: **`/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/disclosure-rag`** (1 file)
+
+| File |
+|------|
+| `pyproject.toml` |
 </details></tool-use>
 
 _**Agent (default)**_
 
-<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
-<summary>Tool use: **read_file_v2** • Read file: </summary>
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "glob": "{package.json,Makefile,pyproject.toml,README.md}",
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/disclosure-rag",
+  "pattern": "\"scripts\"|pytest"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/disclosure-rag",
+  "pattern": "\"scripts\"|pytest",
+  "topFiles": [
+    {
+      "matchCount": 4,
+      "uri": "apps/disclosure-rag/pyproject.toml"
+    },
+    {
+      "matchCount": 1,
+      "uri": "apps/disclosure-rag/.claude/worktrees/compassionate-lovelace-e35750/package.json"
+    },
+    {
+      "matchCount": 1,
+      "uri": "apps/disclosure-rag/.claude/worktrees/compassionate-lovelace-e35750/cli/package.json"
+    },
+    {
+      "matchCount": 3,
+      "uri": "apps/disclosure-rag/.pytest_cache/README.md"
+    }
+  ],
+  "totalFiles": 4,
+  "totalMatches": 9
+}
+```
+Status: **completed**
 
 </details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+Writing all files now. The root CLAUDE.md will stay under 200 lines.
+
+Removing "update this file when finishing tasks" and three-tier mandatory from the root CLAUDE.md. Definition of done becomes a one-liner constraint: claim completion only with evidence and a visual audit. Python .venv stays in disclosure-rag. Prometheus lives at @/services/ai/prometheus. Some Clerk routes are public. Git stash is kept as an operational gotcha.
+</details></think>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/CLAUDE.md</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/disclosure-rag/CLAUDE.md</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2** • Edit file: /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/apps/app/CLAUDE.md</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="write" data-tool-name="delete_file"><details>
+<summary>Tool use: **delete_file**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+Checking line counts. The mindmap CLAUDE file will remain unchanged.
+
+Marking todos complete. Root CLAUDE.md should stay under 200 lines.
+</details></think>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2** • Run command: wc -l CLAUDE.md apps/app/CLAUDE.md apps/disclosure-rag/CLAUDE.md apps/app/src/features/mindmap/CLAUDE.md</summary>
+```bash
+wc -l CLAUDE.md apps/app/CLAUDE.md apps/disclosure-rag/CLAUDE.md apps/app/src/features/mindmap/CLAUDE.md
+```
+
+```
+     147 CLAUDE.md
+      34 apps/app/CLAUDE.md
+      18 apps/disclosure-rag/CLAUDE.md
+      59 apps/app/src/features/mindmap/CLAUDE.md
+     258 total
+
+```
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="todo_write"><details>
+<summary>Tool use: **todo_write**</summary>
+
+Parameters:
+
+```json
+{
+  "merge": true
+}
+```
+Result:
+
+```json
+{
+  "finalTodos": [
+    {
+      "content": "Rewrite root CLAUDE.md: execution contract + commands + gotchas + references",
+      "id": "1",
+      "status": "completed"
+    },
+    {
+      "content": "Replace disclosure-rag Agno manifesto with minimal how-to-work file",
+      "id": "2",
+      "status": "completed"
+    },
+    {
+      "content": "Strip Responses API junk from apps/app/CLAUDE.md",
+      "id": "3",
+      "status": "completed"
+    },
+    {
+      "content": "Delete empty mindmap/store/CLAUDE.md",
+      "id": "4",
+      "status": "completed"
+    }
+  ],
+  "initialTodos": [
+    {
+      "content": "Rewrite root CLAUDE.md: execution contract + commands + gotchas + references",
+      "id": "1",
+      "status": "in_progress"
+    },
+    {
+      "content": "Replace disclosure-rag Agno manifesto with minimal how-to-work file",
+      "id": "2",
+      "status": "pending"
+    },
+    {
+      "content": "Strip Responses API junk from apps/app/CLAUDE.md",
+      "id": "3",
+      "status": "pending"
+    },
+    {
+      "content": "Delete empty mindmap/store/CLAUDE.md",
+      "id": "4",
+      "status": "pending"
+    }
+  ],
+  "success": true,
+  "wasMerge": true
+}
+```
+Status: **completed**
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+Preparing a brief completion response under the new contract. It will cover what changed, verification steps, and relevant discovery.
+
+The response will be longer than three to eight lines because this is a multi-file policy installation. The user requested it specifically, so they want to know exactly what landed.
+</details></think>
+
+_**Agent (default)**_
+
+Root `CLAUDE.md` is now an **execution contract** (147 lines), not an onboarding ritual. Mandatory-first reading is gone. Docs are passive. Loop ends at **Stop.**
+
+Also: Agno dump replaced with an 18-line how-to-work file in `apps/disclosure-rag/CLAUDE.md`; Responses API junk and “persist reviews to docs/plans first” removed from `apps/app/CLAUDE.md`; empty `mindmap/store/CLAUDE.md` deleted. Mindmap-local file left as-is.
+
+Verified with `wc -l` on those paths. No tests (docs only). Personal overrides: `CLAUDE.local.md` / `~/.claude/CLAUDE.md` — I did not add `/memory` or `#` advice.

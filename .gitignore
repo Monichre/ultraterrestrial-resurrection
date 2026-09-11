@@ -19,6 +19,10 @@ thumbs.db
 
 # Claude local worktrees
 .claude/worktrees/
+# Same pattern anchored at any depth. The line above contains a separator in the
+# middle, so it only matches <root>/.claude/worktrees/ — the nested
+# apps/disclosure-rag/.claude/worktrees/ was uncovered and a gitlink got committed.
+**/.claude/worktrees/
 
 # Node.js
 node_modules/
@@ -321,3 +325,7 @@ apps/app/storybook-static/
 # Agent-Native local plan bridge URL — contains a bearer token, never commit
 .plan-url
 plans/**/.plan-url
+
+# Local secret files — untracked, never commit
+.document-server-secret
+.npmrc

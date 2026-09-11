@@ -59,6 +59,69 @@ export default function OverviewPage() {
               </tbody>
             </table>
           </section>
+          <section>
+            <h2 style={{ fontSize: 13 }}>Knowledge base</h2>
+            {data.knowledgeBase?.error ? (
+              <p style={{ color: 'var(--lab-danger)' }}>{data.knowledgeBase.error}</p>
+            ) : (
+              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                <tbody>
+                  <tr>
+                    <td className="lab-mono" style={{ padding: '4px 0', borderBottom: '1px solid var(--lab-border)' }}>
+                      documents
+                    </td>
+                    <td style={{ textAlign: 'right', borderBottom: '1px solid var(--lab-border)' }}>
+                      {data.knowledgeBase?.documentCount}
+                    </td>
+                  </tr>
+                  {Object.entries(data.knowledgeBase?.byType ?? {}).map(([type, count]) => (
+                    <tr key={type}>
+                      <td className="lab-mono" style={{ padding: '4px 0', borderBottom: '1px solid var(--lab-border)' }}>
+                        {type}
+                      </td>
+                      <td style={{ textAlign: 'right', borderBottom: '1px solid var(--lab-border)' }}>{String(count)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </section>
+          <section>
+            <h2 style={{ fontSize: 13 }}>Vector store</h2>
+            {data.vectorStore?.error ? (
+              <p style={{ color: 'var(--lab-danger)' }}>{data.vectorStore.error}</p>
+            ) : (
+              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                <tbody>
+                  <tr>
+                    <td className="lab-mono" style={{ padding: '4px 0', borderBottom: '1px solid var(--lab-border)' }}>
+                      name
+                    </td>
+                    <td style={{ textAlign: 'right', borderBottom: '1px solid var(--lab-border)' }}>
+                      {data.vectorStore?.name}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="lab-mono" style={{ padding: '4px 0', borderBottom: '1px solid var(--lab-border)' }}>
+                      files
+                    </td>
+                    <td style={{ textAlign: 'right', borderBottom: '1px solid var(--lab-border)' }}>
+                      {data.vectorStore?.fileCounts?.completed ?? '—'}/
+                      {data.vectorStore?.fileCounts?.total ?? '—'}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="lab-mono" style={{ padding: '4px 0', borderBottom: '1px solid var(--lab-border)' }}>
+                      id suffix
+                    </td>
+                    <td style={{ textAlign: 'right', borderBottom: '1px solid var(--lab-border)' }}>
+                      …{data.vectorStore?.idSuffix}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            )}
+          </section>
         </div>
       ) : null}
     </div>

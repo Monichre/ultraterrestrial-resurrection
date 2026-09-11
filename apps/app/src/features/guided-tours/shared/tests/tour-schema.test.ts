@@ -76,14 +76,26 @@ describe('corpus anchors', () => {
     ).toThrow();
   });
 
-  it('anchors the three waypoints with real records in the corpus', () => {
+  // Resolved against live Neon 2026-09-09 (T-050 s4): only Trinity and Roswell
+  // have records; Manhattan Project and the Smyth Report were demoted to
+  // narrative-only with a reason rather than left as queries that find nothing.
+  it('anchors exactly the waypoints that resolve to real records in the corpus', () => {
     const anchored = nuclearShadowDefinition.waypoints
       .filter((waypoint) => hasCorpusAnchor(waypoint.corpusAnchor))
       .map((waypoint) => waypoint.shortLabel);
 
-    expect(anchored).toEqual(
-      expect.arrayContaining(['Manhattan Project', 'Trinity', 'Roswell']),
+    expect(anchored).toEqual(['Trinity', 'Roswell']);
+  });
+
+  it('demotes unresolvable anchors to narrative-only with a stated reason', () => {
+    const byLabel = new Map(
+      nuclearShadowDefinition.waypoints.map((waypoint) => [waypoint.shortLabel, waypoint]),
     );
+    for (const label of ['Manhattan Project', 'Smyth Report']) {
+      const anchor = byLabel.get(label)?.corpusAnchor;
+      expect(isNarrativeOnly(anchor!), `${label} should be narrative-only`).toBe(true);
+      expect(anchor).toHaveProperty('reason');
+    }
   });
 
   it('marks the black-budget waypoints narrative-only rather than implying a record', () => {

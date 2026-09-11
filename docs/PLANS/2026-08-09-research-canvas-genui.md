@@ -144,4 +144,4 @@ Project `researchSession.plan` onto on-canvas waypoints after T-050 render lands
 
 ## Pass bar / Definition of Done
 
-Dogfood on `/research-canvas`: Deep Research mode produces plan visibility, multi-tool cards, and a liturgy-tagged dossier without a sidecar Workspace. Completion requires evidence report + visual audit per [`docs/agents/ops/DEFINITION_OF_DONE.md`](../agents/ops/DEFINITION_OF_DONE.md).
+Dogfood on `/research-canvas`: Deep Research mode produces plan visibility, multi-tool cards, and a liturgy-tagged dossier without a sidecar Workspace. Completion requires evidence report + visual audit per [`.agents/rules/DEFINITION_OF_DONE.md`](.agents/rules/DEFINITION_OF_DONE.md).

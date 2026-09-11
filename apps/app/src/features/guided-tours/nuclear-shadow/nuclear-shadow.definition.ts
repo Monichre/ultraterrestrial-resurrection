@@ -23,7 +23,14 @@ const waypoints: TourWaypointDefinition[] = [
   {
     id: ids.secretMachine,
     ordinal: 1,
-    corpusAnchor: {kind: 'query', table: 'events', searchQuery: 'Manhattan Project'},
+    // Resolved against live Neon 2026-09-09: `events.name ILIKE '%manhattan%'`
+    // returns nothing and FTS falls through to unrelated records ("Project
+    // Gemini UFO"). The archive holds no Manhattan Project record — say so.
+    corpusAnchor: {
+      kind: 'none',
+      reason:
+        'The archive holds no record of the Manhattan Project itself; it enters the corpus only through what it later touched (Trinity, Roswell).',
+    },
     title: 'The Secret Machine',
     subtitle: 'The Manhattan Engineer District',
     shortLabel: 'Manhattan Project',
@@ -83,7 +90,11 @@ const waypoints: TourWaypointDefinition[] = [
   {
     id: ids.trinity,
     ordinal: 2,
-    corpusAnchor: {kind: 'query', table: 'events', searchQuery: 'Trinity test Alamogordo'},
+    // Resolved 2026-09-09 → `Trinity UFO Case` (rec_cobdg3tbjt595h637740): the
+    // corpus record is the anomaly report at the test site, not the test.
+    // A bare "Trinity" resolves to it deterministically; the longer query did
+    // too, but only by falling through FTS.
+    corpusAnchor: {kind: 'query', table: 'events', searchQuery: 'Trinity'},
     title: 'Trinity',
     subtitle: 'The Threshold Event',
     shortLabel: 'Trinity',
@@ -140,7 +151,13 @@ const waypoints: TourWaypointDefinition[] = [
   {
     id: ids.controlledRevelation,
     ordinal: 3,
-    corpusAnchor: {kind: 'query', table: 'documents', searchQuery: 'Smyth Report atomic energy'},
+    // Resolved 2026-09-09: `documents.title ILIKE '%smyth%'` is empty and FTS
+    // returns unrelated Area 51 transcripts. Demoted per T-050 s4.
+    corpusAnchor: {
+      kind: 'none',
+      reason:
+        'The Smyth Report is not in the document corpus; this waypoint rests on the cited public sources alone.',
+    },
     title: 'Controlled Revelation',
     subtitle: 'The Smyth Report',
     shortLabel: 'Smyth Report',
@@ -458,6 +475,7 @@ const waypoints: TourWaypointDefinition[] = [
   {
     id: ids.roswell,
     ordinal: 8,
+    // Resolved 2026-09-09 → `The Roswell Incident` (rec_cobdg3tbjt595h637700).
     corpusAnchor: {kind: 'query', table: 'events', searchQuery: 'Roswell incident crash debris'},
     title: 'Roswell',
     subtitle: 'The Secrecy Machine Meets the Anomaly',

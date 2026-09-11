@@ -1,0 +1,1886 @@
+{
+  "schemaVersion": "trace-map.v1",
+  "sourceId": "src:1038c3089e3136ea",
+  "sourceType": "video",
+  "sourceUrl": "https://www.youtube.com/watch?v=5neRAsS0nrY",
+  "sourceHash": "sha256:c74eb3a13eab92f7eb4dbe6b17fd7ea612563d71a4fb36eed43968a8dde2c0af",
+  "contentVersion": 1,
+  "reviewState": "unreviewed",
+  "nodes": [
+    {
+      "id": "src:1038c3089e3136ea",
+      "type": "source",
+      "label": "The \"Horrible Truth\" about The Alien Deal - DEBRIEFED ep. 20",
+      "url": "https://www.youtube.com/watch?v=5neRAsS0nrY",
+      "sourceType": "video",
+      "contentType": "media",
+      "integrityFlags": [
+        "secondary_repost",
+        "transcript_noise"
+      ],
+      "classificationMarks": [],
+      "ingestionRecommendation": "proceed"
+    },
+    {
+      "id": "seg:1038c3089e3136ea:c01",
+      "type": "segment",
+      "label": "c01",
+      "chunkId": "c01",
+      "evidentiaryDensity": "low",
+      "temporalAnchors": [
+        "2024-12-12",
+        "1987"
+      ],
+      "spatialAnchors": [
+        "Newark, NJ",
+        "Newark FBI office"
+      ],
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 1656,
+        "segmentStart": 0,
+        "segmentEnd": 43,
+        "startSeconds": 2.12,
+        "endSeconds": 119.52,
+        "method": "exact",
+        "excerpt": "on december 12th 2024 around 6:05 p.m. eastern i walk right past my balcony window i live right across the the river from the newark fbi office and i saw a massive 50 foot approximately vont black boomerang go right past my window thailand "
+      },
+      "excerpt": "on December 12th 2024 around 6:05 p.m. Eastern I walk right past my balcony window I live right across the the River from the Newark FBI office and I saw a massive 50 foot approximately vont black Boomerang go right past my window Thailand "
+    },
+    {
+      "id": "seg:1038c3089e3136ea:c02",
+      "type": "segment",
+      "label": "c02",
+      "chunkId": "c02",
+      "evidentiaryDensity": "medium",
+      "temporalAnchors": [
+        "1987"
+      ],
+      "spatialAnchors": [
+        "Area 51",
+        "S4"
+      ],
+      "anchor": {
+        "charStart": 1657,
+        "charEnd": 4158,
+        "segmentStart": 43,
+        "segmentEnd": 109,
+        "startSeconds": 115.28,
+        "endSeconds": 284.759,
+        "method": "exact",
+        "excerpt": "okay before i read these out i will give you a brief history on mr lear himself so john leer is a former aviation captain a commercial pilot but also happens to be the son of lejet inventor bill lear john leer until he passed away a few yea"
+      },
+      "excerpt": "okay before I read these out I will give you a brief history on Mr Lear himself so John leer is a former Aviation Captain a commercial pilot but also happens to be the son of lejet inventor Bill Lear John leer until he passed away a few yea"
+    },
+    {
+      "id": "seg:1038c3089e3136ea:c03",
+      "type": "segment",
+      "label": "c03",
+      "chunkId": "c03",
+      "evidentiaryDensity": "medium",
+      "temporalAnchors": [
+        "1987"
+      ],
+      "spatialAnchors": [
+        "Arizona"
+      ],
+      "anchor": {
+        "charStart": 4159,
+        "charEnd": 5585,
+        "segmentStart": 109,
+        "segmentEnd": 147,
+        "startSeconds": 280.0,
+        "endSeconds": 383.599,
+        "method": "exact",
+        "excerpt": "this all begins with a nice cover letter this is from john w white if i'm not mistaken john white is also a ufo researcher and he is just forwarding this document that was put up on their version of reddit essentially and he's saying he's s"
+      },
+      "excerpt": "this all begins with a nice cover letter this is from John W white if I'm not mistaken John White is also a UFO researcher and he is just forwarding this document that was put up on their version of Reddit essentially and he's saying he's s"
+    },
+    {
+      "id": "seg:1038c3089e3136ea:c04",
+      "type": "segment",
+      "label": "c04",
+      "chunkId": "c04",
+      "evidentiaryDensity": "high",
+      "temporalAnchors": [
+        "1987-12-29"
+      ],
+      "spatialAnchors": [
+        "Bentwaters Air Force Base",
+        "London"
+      ],
+      "anchor": {
+        "charStart": 5586,
+        "charEnd": 7299,
+        "segmentStart": 147,
+        "segmentEnd": 191,
+        "startSeconds": 377.88,
+        "endSeconds": 499.23999999999995,
+        "method": "exact",
+        "excerpt": "let's get into his document it starts by saying uh john leer has requested that the following file be published on paranet it is our philosophy to encourage debate on paranormal issues no matter how controversial and we welcome his input th"
+      },
+      "excerpt": "let's get into his document it starts by saying uh John leer has requested that the following file be published on paranet it is our philosophy to encourage debate on paranormal issues no matter how controversial and we welcome his input th"
+    },
+    {
+      "id": "seg:1038c3089e3136ea:c05",
+      "type": "segment",
+      "label": "c05",
+      "chunkId": "c05",
+      "evidentiaryDensity": "high",
+      "temporalAnchors": [
+        "1956-08-13",
+        "1956-08-14"
+      ],
+      "spatialAnchors": [
+        "Lakenheath",
+        "Bentwaters",
+        "Eastern England"
+      ],
+      "anchor": {
+        "charStart": 7300,
+        "charEnd": 8600,
+        "segmentStart": 191,
+        "segmentEnd": 225,
+        "startSeconds": 493.28,
+        "endSeconds": 584.0,
+        "method": "exact",
+        "excerpt": "so the lacken heath bentwaters incident now when saying is it lacken heath lake and heath i'm not sure but that does sound familiar isn't that the current air force base that is being incurred by a lot of these uh unexplainable drone activi"
+      },
+      "excerpt": "so the lacken heath bentwaters incident now when saying is it lacken Heath Lake and Heath I'm not sure but that does sound familiar isn't that the current Air Force Base that is being incurred by a lot of these uh unexplainable drone activi"
+    },
+    {
+      "id": "seg:1038c3089e3136ea:c06",
+      "type": "segment",
+      "label": "c06",
+      "chunkId": "c06",
+      "evidentiaryDensity": "high",
+      "temporalAnchors": [
+        "1600",
+        "1800s"
+      ],
+      "spatialAnchors": [],
+      "anchor": {
+        "charStart": 8601,
+        "charEnd": 10123,
+        "segmentStart": 226,
+        "segmentEnd": 267,
+        "startSeconds": 582.32,
+        "endSeconds": 684.2790000000001,
+        "method": "exact",
+        "excerpt": "all right we carry on here note to the press the government of the united states continues to rely on your personal and professional gullibility to suppress the information contained herein your cooperation over the past 40 years has exceed"
+      },
+      "excerpt": "all right we carry on here note to the press the government of the United States continues to rely on your personal and professional gullibility to suppress the information contained herein your cooperation over the past 40 years has exceed"
+    },
+    {
+      "id": "seg:1038c3089e3136ea:c07",
+      "type": "segment",
+      "label": "c07",
+      "chunkId": "c07",
+      "evidentiaryDensity": "high",
+      "temporalAnchors": [
+        "1939",
+        "1946",
+        "1947",
+        "1984"
+      ],
+      "spatialAnchors": [
+        "Germany",
+        "Sweden",
+        "Spitsbergen",
+        "Roswell, NM",
+        "Aztec, NM",
+        "Laredo, TX"
+      ],
+      "anchor": {
+        "charStart": 10124,
+        "charEnd": 11028,
+        "segmentStart": 267,
+        "segmentEnd": 293,
+        "startSeconds": 679.839,
+        "endSeconds": 751.8,
+        "method": "exact",
+        "excerpt": "germany may have recovered a flying saucer as early as 1939 general james h dittle went to sweden in 1946 to inspect a flying saucer that had crashed there in spitsbergen in 1947 president truman established a group of 12 of the top militar"
+      },
+      "excerpt": "Germany may have recovered a flying saucer as early as 1939 General James H dittle went to Sweden in 1946 to inspect a flying saucer that had crashed there in spitsbergen in 1947 President Truman established a group of 12 of the top militar"
+    },
+    {
+      "id": "seg:1038c3089e3136ea:c08",
+      "type": "segment",
+      "label": "c08",
+      "chunkId": "c08",
+      "evidentiaryDensity": "medium",
+      "temporalAnchors": [],
+      "spatialAnchors": [
+        "Aztec, NM",
+        "Los Alamos",
+        "New Mexico"
+      ],
+      "anchor": {
+        "charStart": 11029,
+        "charEnd": 12537,
+        "segmentStart": 294,
+        "segmentEnd": 334,
+        "startSeconds": 749.68,
+        "endSeconds": 839.36,
+        "method": "exact",
+        "excerpt": "consider if you will the position of the united states government at the time there are several crashes reported here one of which is mentioned is aztec new mexico and this is one i'm currently looking into as i'm reading a book on it and t"
+      },
+      "excerpt": "consider if you will the position of the United States government at the time there are several crashes reported here one of which is mentioned is Aztec New Mexico and this is one I'm currently looking into as I'm reading a book on it and t"
+    },
+    {
+      "id": "seg:1038c3089e3136ea:c09",
+      "type": "segment",
+      "label": "c09",
+      "chunkId": "c09",
+      "evidentiaryDensity": "medium",
+      "temporalAnchors": [
+        "Cold War"
+      ],
+      "spatialAnchors": [],
+      "anchor": {
+        "charStart": 12538,
+        "charEnd": 13875,
+        "segmentStart": 334,
+        "segmentEnd": 371,
+        "startSeconds": 835.279,
+        "endSeconds": 918.68,
+        "method": "exact",
+        "excerpt": "so think about this the government we know that during the cold war when they even heard about psychics or russia's sort of psychic activity into m reading and mind control and all that they started their own branches of the very same work "
+      },
+      "excerpt": "so think about this the government we know that during the Cold War when they even heard about psychics or Russia's sort of psychic activity into M reading and mind control and all that they started their own branches of the very same work "
+    },
+    {
+      "id": "seg:1038c3089e3136ea:c10",
+      "type": "segment",
+      "label": "c10",
+      "chunkId": "c10",
+      "evidentiaryDensity": "high",
+      "temporalAnchors": [
+        "1938",
+        "1940s"
+      ],
+      "spatialAnchors": [
+        "Grover's Mill, NJ"
+      ],
+      "anchor": {
+        "charStart": 13876,
+        "charEnd": 15425,
+        "segmentStart": 371,
+        "segmentEnd": 413,
+        "startSeconds": 913.88,
+        "endSeconds": 1019.399,
+        "method": "exact",
+        "excerpt": "now imagine what it was like for those same leaders all of whom had witnessed the panic of orson wells radio broadcast the war of the worlds in 1938 we are bringing you an eyewitness account of what's happening on the wilmouth farm grovers "
+      },
+      "excerpt": "now imagine what it was like for those same leaders all of whom had witnessed the Panic of Orson Wells radio broadcast the War of the Worlds in 1938 we are bringing you an eyewitness account of what's happening on the wilmouth farm Grovers "
+    },
+    {
+      "id": "seg:1038c3089e3136ea:c11",
+      "type": "segment",
+      "label": "c11",
+      "chunkId": "c11",
+      "evidentiaryDensity": "high",
+      "temporalAnchors": [
+        "1985",
+        "1952-07"
+      ],
+      "spatialAnchors": [
+        "Pasadena, CA",
+        "Washington DC"
+      ],
+      "anchor": {
+        "charStart": 15426,
+        "charEnd": 16445,
+        "segmentStart": 413,
+        "segmentEnd": 441,
+        "startSeconds": 1013.959,
+        "endSeconds": 1085.039,
+        "method": "exact",
+        "excerpt": "the cover up was so successful that as late as 1985 a senior scientist with the jet propulsion laboratory in pasadena california dr al hibbs would look at a videotape of an enormous flying saucer and state the record i'm not going to assign"
+      },
+      "excerpt": "the cover up was so successful that as late as 1985 a senior scientist with the jet propulsion laboratory in Pasadena California Dr Al Hibbs would look at a videotape of an enormous Flying Saucer and state the record I'm not going to assign"
+    },
+    {
+      "id": "seg:1038c3089e3136ea:c12",
+      "type": "segment",
+      "label": "c12",
+      "chunkId": "c12",
+      "evidentiaryDensity": "high",
+      "temporalAnchors": [
+        "Korean War"
+      ],
+      "spatialAnchors": [
+        "Wright-Patterson AFB"
+      ],
+      "anchor": {
+        "charStart": 16446,
+        "charEnd": 17647,
+        "segmentStart": 441,
+        "segmentEnd": 472,
+        "startSeconds": 1081.48,
+        "endSeconds": 1161.2,
+        "method": "exact",
+        "excerpt": "thousands of sightings occurred during the korean war and several more saucers were retrieved by the air force some were stored at right patterson air force base some were stored at air force bases near the location of the crash site what i"
+      },
+      "excerpt": "thousands of sightings occurred during the Korean War and several more saucers were retrieved by the Air Force some were stored at right Patterson Air Force Base some were stored at Air Force bases near the location of the crash site what I"
+    },
+    {
+      "id": "seg:1038c3089e3136ea:c13",
+      "type": "segment",
+      "label": "c13",
+      "chunkId": "c13",
+      "evidentiaryDensity": "high",
+      "temporalAnchors": [
+        "1964-04-30",
+        "1971-05",
+        "1973"
+      ],
+      "spatialAnchors": [
+        "Holloman AFB, NM",
+        "Norton AFB",
+        "Los Angeles"
+      ],
+      "anchor": {
+        "charStart": 17648,
+        "charEnd": 20267,
+        "segmentStart": 472,
+        "segmentEnd": 542,
+        "startSeconds": 1154.679,
+        "endSeconds": 1331.6,
+        "method": "exact",
+        "excerpt": "on april 30th 1964 the first communication between these aliens and the us government took place at hollowman air force base in new mexico three saucers had landed at a pre-arranged air area and a meeting was held between the aliens and int"
+      },
+      "excerpt": "on April 30th 1964 the first communication between these aliens and the US government took place at Hollowman Air Force Base in New Mexico three saucers had landed at a pre-arranged air area and a meeting was held between the aliens and Int"
+    },
+    {
+      "id": "seg:1038c3089e3136ea:c14",
+      "type": "segment",
+      "label": "c14",
+      "chunkId": "c14",
+      "evidentiaryDensity": "high",
+      "temporalAnchors": [
+        "1969",
+        "1971",
+        "1988"
+      ],
+      "spatialAnchors": [],
+      "anchor": {
+        "charStart": 20268,
+        "charEnd": 21211,
+        "segmentStart": 542,
+        "segmentEnd": 568,
+        "startSeconds": 1325.559,
+        "endSeconds": 1415.08,
+        "method": "exact",
+        "excerpt": "so during the period of 1969 to 1971 mj12 representing the us government made a deal with these creatures called ebees or extraterrestrial biological entities named by de live bron he was an original mj12 member and sixth president of john "
+      },
+      "excerpt": "so During the period of 1969 to 1971 mj12 representing the US government made a deal with these creatures called ebees or extraterrestrial biological entities named by De live Bron he was an original mj12 member and sixth President of John "
+    },
+    {
+      "id": "seg:1038c3089e3136ea:c15",
+      "type": "segment",
+      "label": "c15",
+      "chunkId": "c15",
+      "evidentiaryDensity": "high",
+      "temporalAnchors": [],
+      "spatialAnchors": [],
+      "anchor": {
+        "charStart": 21212,
+        "charEnd": 22202,
+        "segmentStart": 568,
+        "segmentEnd": 594,
+        "startSeconds": 1409.96,
+        "endSeconds": 1482.64,
+        "method": "exact",
+        "excerpt": "the ebees assured mj12 that the abductions usually lasting about 2 hours were merely the ongoing monitoring of developing civilizations and here john lists out the purposes for the abductions and what they turned out to be number one the in"
+      },
+      "excerpt": "the ebees assured mj12 that the abductions usually lasting about 2 hours were merely the ongoing monitoring of developing civilizations and here John lists out the purposes for the abductions and what they turned out to be number one the in"
+    },
+    {
+      "id": "seg:1038c3089e3136ea:c16",
+      "type": "segment",
+      "label": "c16",
+      "chunkId": "c16",
+      "evidentiaryDensity": "high",
+      "temporalAnchors": [
+        "1987",
+        "1992"
+      ],
+      "spatialAnchors": [],
+      "anchor": {
+        "charStart": 22203,
+        "charEnd": 23240,
+        "segmentStart": 594,
+        "segmentEnd": 622,
+        "startSeconds": 1477.76,
+        "endSeconds": 1549.76,
+        "method": "exact",
+        "excerpt": "number two implementation of post hypnotic suggestion to carry out a specific activity during a specific time period the actuation of which will occur within the next 2 to 5 years well there's that i mean this was 1987 that would make it 19"
+      },
+      "excerpt": "number two implementation of post hypnotic suggestion to carry out a specific activity during a specific time period the actuation of which will occur within the next 2 to 5 years well there's that I mean this was 1987 that would make it 19"
+    },
+    {
+      "id": "seg:1038c3089e3136ea:c17",
+      "type": "segment",
+      "label": "c17",
+      "chunkId": "c17",
+      "evidentiaryDensity": "high",
+      "temporalAnchors": [],
+      "spatialAnchors": [],
+      "anchor": {
+        "charStart": 23241,
+        "charEnd": 24000,
+        "segmentStart": 622,
+        "segmentEnd": 643,
+        "startSeconds": 1544.08,
+        "endSeconds": 1604.52,
+        "method": "exact",
+        "excerpt": "number five effect genetic engineering experiments number six impregnation of human females and early termination of pregnancies to secure the cross breed infant seems like the craziest but honestly this is the most widely reported among ab"
+      },
+      "excerpt": "number five effect genetic engineering experiments number six impregnation of human females and early termination of pregnancies to secure the cross breed infant seems like the craziest but honestly this is the most widely reported among ab"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:d235de41f3f1",
+      "type": "claim",
+      "label": "Host describes a personal UFO sighting over Newark on Dec 12, 2024.",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 1656,
+        "segmentStart": 0,
+        "segmentEnd": 43,
+        "startSeconds": 2.12,
+        "endSeconds": 119.52,
+        "method": "exact",
+        "excerpt": "on december 12th 2024 around 6:05 p.m. eastern i walk right past my balcony window i live right across the the river from the newark fbi office and i saw a massive 50 foot approximately vont black boomerang go right past my window thailand "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:f00a13e35b58",
+      "type": "claim",
+      "label": "Episode focuses on a 1987 document submitted to Paranet by John Lear.",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 1656,
+        "segmentStart": 0,
+        "segmentEnd": 43,
+        "startSeconds": 2.12,
+        "endSeconds": 119.52,
+        "method": "exact",
+        "excerpt": "on december 12th 2024 around 6:05 p.m. eastern i walk right past my balcony window i live right across the the river from the newark fbi office and i saw a massive 50 foot approximately vont black boomerang go right past my window thailand "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:e11ab1a652df",
+      "type": "claim",
+      "label": "John Lear was a commercial pilot and CIA mission flyer.",
+      "anchor": {
+        "charStart": 1657,
+        "charEnd": 4158,
+        "segmentStart": 43,
+        "segmentEnd": 109,
+        "startSeconds": 115.28,
+        "endSeconds": 284.759,
+        "method": "exact",
+        "excerpt": "okay before i read these out i will give you a brief history on mr lear himself so john leer is a former aviation captain a commercial pilot but also happens to be the son of lejet inventor bill lear john leer until he passed away a few yea"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:5a8332daaba7",
+      "type": "claim",
+      "label": "Lear introduced Bob Lazar to the public.",
+      "anchor": {
+        "charStart": 1657,
+        "charEnd": 4158,
+        "segmentStart": 43,
+        "segmentEnd": 109,
+        "startSeconds": 115.28,
+        "endSeconds": 284.759,
+        "method": "exact",
+        "excerpt": "okay before i read these out i will give you a brief history on mr lear himself so john leer is a former aviation captain a commercial pilot but also happens to be the son of lejet inventor bill lear john leer until he passed away a few yea"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:f4c544883a4b",
+      "type": "claim",
+      "label": "Lear's credibility waned due to extreme claims.",
+      "anchor": {
+        "charStart": 1657,
+        "charEnd": 4158,
+        "segmentStart": 43,
+        "segmentEnd": 109,
+        "startSeconds": 115.28,
+        "endSeconds": 284.759,
+        "method": "exact",
+        "excerpt": "okay before i read these out i will give you a brief history on mr lear himself so john leer is a former aviation captain a commercial pilot but also happens to be the son of lejet inventor bill lear john leer until he passed away a few yea"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:7298644e3749",
+      "type": "claim",
+      "label": "Lear may have been used in a disinformation campaign.",
+      "anchor": {
+        "charStart": 1657,
+        "charEnd": 4158,
+        "segmentStart": 43,
+        "segmentEnd": 109,
+        "startSeconds": 115.28,
+        "endSeconds": 284.759,
+        "method": "exact",
+        "excerpt": "okay before i read these out i will give you a brief history on mr lear himself so john leer is a former aviation captain a commercial pilot but also happens to be the son of lejet inventor bill lear john leer until he passed away a few yea"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:b672d2c3d42b",
+      "type": "claim",
+      "label": "A cover letter from John White forwards the Lear document.",
+      "anchor": {
+        "charStart": 4159,
+        "charEnd": 5585,
+        "segmentStart": 109,
+        "segmentEnd": 147,
+        "startSeconds": 280.0,
+        "endSeconds": 383.599,
+        "method": "exact",
+        "excerpt": "this all begins with a nice cover letter this is from john w white if i'm not mistaken john white is also a ufo researcher and he is just forwarding this document that was put up on their version of reddit essentially and he's saying he's s"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:f2148224d2bf",
+      "type": "claim",
+      "label": "Paranet was a free electronic bulletin board for paranormal topics.",
+      "anchor": {
+        "charStart": 4159,
+        "charEnd": 5585,
+        "segmentStart": 109,
+        "segmentEnd": 147,
+        "startSeconds": 280.0,
+        "endSeconds": 383.599,
+        "method": "exact",
+        "excerpt": "this all begins with a nice cover letter this is from john w white if i'm not mistaken john white is also a ufo researcher and he is just forwarding this document that was put up on their version of reddit essentially and he's saying he's s"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:60c41984b9c5",
+      "type": "claim",
+      "label": "The recipient suspected federal disinformation ('I smell Federal deceit').",
+      "anchor": {
+        "charStart": 4159,
+        "charEnd": 5585,
+        "segmentStart": 109,
+        "segmentEnd": 147,
+        "startSeconds": 280.0,
+        "endSeconds": 383.599,
+        "method": "exact",
+        "excerpt": "this all begins with a nice cover letter this is from john w white if i'm not mistaken john white is also a ufo researcher and he is just forwarding this document that was put up on their version of reddit essentially and he's saying he's s"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:72a5e5a37dc8",
+      "type": "claim",
+      "label": "Paranet published Lear's file with a disclaimer of non-verification.",
+      "anchor": {
+        "charStart": 5586,
+        "charEnd": 7299,
+        "segmentStart": 147,
+        "segmentEnd": 191,
+        "startSeconds": 377.88,
+        "endSeconds": 499.23999999999995,
+        "method": "exact",
+        "excerpt": "let's get into his document it starts by saying uh john leer has requested that the following file be published on paranet it is our philosophy to encourage debate on paranormal issues no matter how controversial and we welcome his input th"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:4bcf194dfd7b",
+      "type": "claim",
+      "label": "Lear's credentials include being a captain, record-holder, and CIA flyer.",
+      "anchor": {
+        "charStart": 5586,
+        "charEnd": 7299,
+        "segmentStart": 147,
+        "segmentEnd": 191,
+        "startSeconds": 377.88,
+        "endSeconds": 499.23999999999995,
+        "method": "exact",
+        "excerpt": "let's get into his document it starts by saying uh john leer has requested that the following file be published on paranet it is our philosophy to encourage debate on paranormal issues no matter how controversial and we welcome his input th"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:9d2df2fad6a5",
+      "type": "claim",
+      "label": "Lear became interested in UFOs after hearing about the Bentwaters incident.",
+      "anchor": {
+        "charStart": 5586,
+        "charEnd": 7299,
+        "segmentStart": 147,
+        "segmentEnd": 191,
+        "startSeconds": 377.88,
+        "endSeconds": 499.23999999999995,
+        "method": "exact",
+        "excerpt": "let's get into his document it starts by saying uh john leer has requested that the following file be published on paranet it is our philosophy to encourage debate on paranormal issues no matter how controversial and we welcome his input th"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:aebfdad37d2e",
+      "type": "claim",
+      "label": "The Lakenheath-Bentwaters incident involved radar and visual UFO contacts in 1956.",
+      "anchor": {
+        "charStart": 7300,
+        "charEnd": 8600,
+        "segmentStart": 191,
+        "segmentEnd": 225,
+        "startSeconds": 493.28,
+        "endSeconds": 584.0,
+        "method": "exact",
+        "excerpt": "so the lacken heath bentwaters incident now when saying is it lacken heath lake and heath i'm not sure but that does sound familiar isn't that the current air force base that is being incurred by a lot of these uh unexplainable drone activi"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:c94f71d95c91",
+      "type": "claim",
+      "label": "UFOs were detected at high speeds and merged in flight.",
+      "anchor": {
+        "charStart": 7300,
+        "charEnd": 8600,
+        "segmentStart": 191,
+        "segmentEnd": 225,
+        "startSeconds": 493.28,
+        "endSeconds": 584.0,
+        "method": "exact",
+        "excerpt": "so the lacken heath bentwaters incident now when saying is it lacken heath lake and heath i'm not sure but that does sound familiar isn't that the current air force base that is being incurred by a lot of these uh unexplainable drone activi"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:93070a0a368c",
+      "type": "claim",
+      "label": "Lear's account includes aliens walking up to a wing commander.",
+      "anchor": {
+        "charStart": 7300,
+        "charEnd": 8600,
+        "segmentStart": 191,
+        "segmentEnd": 225,
+        "startSeconds": 493.28,
+        "endSeconds": 584.0,
+        "method": "exact",
+        "excerpt": "so the lacken heath bentwaters incident now when saying is it lacken heath lake and heath i'm not sure but that does sound familiar isn't that the current air force base that is being incurred by a lot of these uh unexplainable drone activi"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:8a0003c2730b",
+      "type": "claim",
+      "label": "The document claims the US government suppressed UFO truth for 40 years.",
+      "anchor": {
+        "charStart": 8601,
+        "charEnd": 10123,
+        "segmentStart": 226,
+        "segmentEnd": 267,
+        "startSeconds": 582.32,
+        "endSeconds": 684.2790000000001,
+        "method": "exact",
+        "excerpt": "all right we carry on here note to the press the government of the united states continues to rely on your personal and professional gullibility to suppress the information contained herein your cooperation over the past 40 years has exceed"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:08333afa0629",
+      "type": "claim",
+      "label": "It claims the government made a deal with extraterrestrials.",
+      "anchor": {
+        "charStart": 8601,
+        "charEnd": 10123,
+        "segmentStart": 226,
+        "segmentEnd": 267,
+        "startSeconds": 582.32,
+        "endSeconds": 684.2790000000001,
+        "method": "exact",
+        "excerpt": "all right we carry on here note to the press the government of the united states continues to rely on your personal and professional gullibility to suppress the information contained herein your cooperation over the past 40 years has exceed"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:4aebd7ee7de6",
+      "type": "claim",
+      "label": "It compares suppression of heliocentrism to UFO suppression.",
+      "anchor": {
+        "charStart": 8601,
+        "charEnd": 10123,
+        "segmentStart": 226,
+        "segmentEnd": 267,
+        "startSeconds": 582.32,
+        "endSeconds": 684.2790000000001,
+        "method": "exact",
+        "excerpt": "all right we carry on here note to the press the government of the united states continues to rely on your personal and professional gullibility to suppress the information contained herein your cooperation over the past 40 years has exceed"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:6118b4ec6518",
+      "type": "claim",
+      "label": "Germany may have recovered a saucer in 1939.",
+      "anchor": {
+        "charStart": 10124,
+        "charEnd": 11028,
+        "segmentStart": 267,
+        "segmentEnd": 293,
+        "startSeconds": 679.839,
+        "endSeconds": 751.8,
+        "method": "exact",
+        "excerpt": "germany may have recovered a flying saucer as early as 1939 general james h dittle went to sweden in 1946 to inspect a flying saucer that had crashed there in spitsbergen in 1947 president truman established a group of 12 of the top militar"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:cfd058844a5b",
+      "type": "claim",
+      "label": "Doolittle inspected a crashed saucer in Sweden in 1946.",
+      "anchor": {
+        "charStart": 10124,
+        "charEnd": 11028,
+        "segmentStart": 267,
+        "segmentEnd": 293,
+        "startSeconds": 679.839,
+        "endSeconds": 751.8,
+        "method": "exact",
+        "excerpt": "germany may have recovered a flying saucer as early as 1939 general james h dittle went to sweden in 1946 to inspect a flying saucer that had crashed there in spitsbergen in 1947 president truman established a group of 12 of the top militar"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:853891498f10",
+      "type": "claim",
+      "label": "Truman established MJ-12 in 1947.",
+      "anchor": {
+        "charStart": 10124,
+        "charEnd": 11028,
+        "segmentStart": 267,
+        "segmentEnd": 293,
+        "startSeconds": 679.839,
+        "endSeconds": 751.8,
+        "method": "exact",
+        "excerpt": "germany may have recovered a flying saucer as early as 1939 general james h dittle went to sweden in 1946 to inspect a flying saucer that had crashed there in spitsbergen in 1947 president truman established a group of 12 of the top militar"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:80c9fa7e2d72",
+      "type": "claim",
+      "label": "MJ-12 still exists with new members.",
+      "anchor": {
+        "charStart": 10124,
+        "charEnd": 11028,
+        "segmentStart": 267,
+        "segmentEnd": 293,
+        "startSeconds": 679.839,
+        "endSeconds": 751.8,
+        "method": "exact",
+        "excerpt": "germany may have recovered a flying saucer as early as 1939 general james h dittle went to sweden in 1946 to inspect a flying saucer that had crashed there in spitsbergen in 1947 president truman established a group of 12 of the top militar"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:ee4244232df5",
+      "type": "claim",
+      "label": "Multiple saucer crashes occurred in the late 1940s in the US Southwest.",
+      "anchor": {
+        "charStart": 10124,
+        "charEnd": 11028,
+        "segmentStart": 267,
+        "segmentEnd": 293,
+        "startSeconds": 679.839,
+        "endSeconds": 751.8,
+        "method": "exact",
+        "excerpt": "germany may have recovered a flying saucer as early as 1939 general james h dittle went to sweden in 1946 to inspect a flying saucer that had crashed there in spitsbergen in 1947 president truman established a group of 12 of the top militar"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:ba2b1d63b09d",
+      "type": "claim",
+      "label": "Host claims evidence of a crash retrieval near Aztec, NM.",
+      "anchor": {
+        "charStart": 11029,
+        "charEnd": 12537,
+        "segmentStart": 294,
+        "segmentEnd": 334,
+        "startSeconds": 749.68,
+        "endSeconds": 839.36,
+        "method": "exact",
+        "excerpt": "consider if you will the position of the united states government at the time there are several crashes reported here one of which is mentioned is aztec new mexico and this is one i'm currently looking into as i'm reading a book on it and t"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:f739bc063c4f",
+      "type": "claim",
+      "label": "Craft may have been brought to Los Alamos.",
+      "anchor": {
+        "charStart": 11029,
+        "charEnd": 12537,
+        "segmentStart": 294,
+        "segmentEnd": 334,
+        "startSeconds": 749.68,
+        "endSeconds": 839.36,
+        "method": "exact",
+        "excerpt": "consider if you will the position of the united states government at the time there are several crashes reported here one of which is mentioned is aztec new mexico and this is one i'm currently looking into as i'm reading a book on it and t"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:caa995a05fe3",
+      "type": "claim",
+      "label": "UFO incursions correlated with nuclear work during the Manhattan Project.",
+      "anchor": {
+        "charStart": 11029,
+        "charEnd": 12537,
+        "segmentStart": 294,
+        "segmentEnd": 334,
+        "startSeconds": 749.68,
+        "endSeconds": 839.36,
+        "method": "exact",
+        "excerpt": "consider if you will the position of the united states government at the time there are several crashes reported here one of which is mentioned is aztec new mexico and this is one i'm currently looking into as i'm reading a book on it and t"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:32562837bf6e",
+      "type": "claim",
+      "label": "Cold War psychic research mirrored UFO research.",
+      "anchor": {
+        "charStart": 12538,
+        "charEnd": 13875,
+        "segmentStart": 334,
+        "segmentEnd": 371,
+        "startSeconds": 835.279,
+        "endSeconds": 918.68,
+        "method": "exact",
+        "excerpt": "so think about this the government we know that during the cold war when they even heard about psychics or russia's sort of psychic activity into m reading and mind control and all that they started their own branches of the very same work "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:784f774211fe",
+      "type": "claim",
+      "label": "Both Axis and Allies likely researched UFOs during WWII.",
+      "anchor": {
+        "charStart": 12538,
+        "charEnd": 13875,
+        "segmentStart": 334,
+        "segmentEnd": 371,
+        "startSeconds": 835.279,
+        "endSeconds": 918.68,
+        "method": "exact",
+        "excerpt": "so think about this the government we know that during the cold war when they even heard about psychics or russia's sort of psychic activity into m reading and mind control and all that they started their own branches of the very same work "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:bf168011afef",
+      "type": "claim",
+      "label": "US post-war power included atomic bomb and jet bombers.",
+      "anchor": {
+        "charStart": 12538,
+        "charEnd": 13875,
+        "segmentStart": 334,
+        "segmentEnd": 371,
+        "startSeconds": 835.279,
+        "endSeconds": 918.68,
+        "method": "exact",
+        "excerpt": "so think about this the government we know that during the cold war when they even heard about psychics or russia's sort of psychic activity into m reading and mind control and all that they started their own branches of the very same work "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:e2d5855fa18b",
+      "type": "claim",
+      "label": "Leaders remembered the War of the Worlds panic.",
+      "anchor": {
+        "charStart": 13876,
+        "charEnd": 15425,
+        "segmentStart": 371,
+        "segmentEnd": 413,
+        "startSeconds": 913.88,
+        "endSeconds": 1019.399,
+        "method": "exact",
+        "excerpt": "now imagine what it was like for those same leaders all of whom had witnessed the panic of orson wells radio broadcast the war of the worlds in 1938 we are bringing you an eyewitness account of what's happening on the wilmouth farm grovers "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:aef40152e241",
+      "type": "claim",
+      "label": "Alien bodies were described as reptilian with claw-like fingers.",
+      "anchor": {
+        "charStart": 13876,
+        "charEnd": 15425,
+        "segmentStart": 371,
+        "segmentEnd": 413,
+        "startSeconds": 913.88,
+        "endSeconds": 1019.399,
+        "method": "exact",
+        "excerpt": "now imagine what it was like for those same leaders all of whom had witnessed the panic of orson wells radio broadcast the war of the worlds in 1938 we are bringing you an eyewitness account of what's happening on the wilmouth farm grovers "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:96f2c50cc1d5",
+      "type": "claim",
+      "label": "The government's cover-up included deadly force.",
+      "anchor": {
+        "charStart": 13876,
+        "charEnd": 15425,
+        "segmentStart": 371,
+        "segmentEnd": 413,
+        "startSeconds": 913.88,
+        "endSeconds": 1019.399,
+        "method": "exact",
+        "excerpt": "now imagine what it was like for those same leaders all of whom had witnessed the panic of orson wells radio broadcast the war of the worlds in 1938 we are bringing you an eyewitness account of what's happening on the wilmouth farm grovers "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:be6edc310393",
+      "type": "claim",
+      "label": "Dr. Al Hibbs in 1985 refused to assign UFO phenomena without more data.",
+      "anchor": {
+        "charStart": 15426,
+        "charEnd": 16445,
+        "segmentStart": 413,
+        "segmentEnd": 441,
+        "startSeconds": 1013.959,
+        "endSeconds": 1085.039,
+        "method": "exact",
+        "excerpt": "the cover up was so successful that as late as 1985 a senior scientist with the jet propulsion laboratory in pasadena california dr al hibbs would look at a videotape of an enormous flying saucer and state the record i'm not going to assign"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:727b77827f24",
+      "type": "claim",
+      "label": "In July 1952, UFOs flew over Washington DC and buzzed key buildings.",
+      "anchor": {
+        "charStart": 15426,
+        "charEnd": 16445,
+        "segmentStart": 413,
+        "segmentEnd": 441,
+        "startSeconds": 1013.959,
+        "endSeconds": 1085.039,
+        "method": "exact",
+        "excerpt": "the cover up was so successful that as late as 1985 a senior scientist with the jet propulsion laboratory in pasadena california dr al hibbs would look at a videotape of an enormous flying saucer and state the record i'm not going to assign"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:096a6a6a87d5",
+      "type": "claim",
+      "label": "Government denied any connection to secret US developments.",
+      "anchor": {
+        "charStart": 15426,
+        "charEnd": 16445,
+        "segmentStart": 413,
+        "segmentEnd": 441,
+        "startSeconds": 1013.959,
+        "endSeconds": 1085.039,
+        "method": "exact",
+        "excerpt": "the cover up was so successful that as late as 1985 a senior scientist with the jet propulsion laboratory in pasadena california dr al hibbs would look at a videotape of an enormous flying saucer and state the record i'm not going to assign"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:d4761027bf4c",
+      "type": "claim",
+      "label": "Saucers were retrieved during the Korean War and stored at Wright-Patterson.",
+      "anchor": {
+        "charStart": 16446,
+        "charEnd": 17647,
+        "segmentStart": 441,
+        "segmentEnd": 472,
+        "startSeconds": 1081.48,
+        "endSeconds": 1161.2,
+        "method": "exact",
+        "excerpt": "thousands of sightings occurred during the korean war and several more saucers were retrieved by the air force some were stored at right patterson air force base some were stored at air force bases near the location of the crash site what i"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:643f8dc193f5",
+      "type": "claim",
+      "label": "One saucer was too large to move and was buried at the crash site.",
+      "anchor": {
+        "charStart": 16446,
+        "charEnd": 17647,
+        "segmentStart": 441,
+        "segmentEnd": 472,
+        "startSeconds": 1081.48,
+        "endSeconds": 1161.2,
+        "method": "exact",
+        "excerpt": "thousands of sightings occurred during the korean war and several more saucers were retrieved by the air force some were stored at right patterson air force base some were stored at air force bases near the location of the crash site what i"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:30ffcecc3d99",
+      "type": "claim",
+      "label": "Transport of crashed saucers involved elaborate logistics.",
+      "anchor": {
+        "charStart": 16446,
+        "charEnd": 17647,
+        "segmentStart": 441,
+        "segmentEnd": 472,
+        "startSeconds": 1081.48,
+        "endSeconds": 1161.2,
+        "method": "exact",
+        "excerpt": "thousands of sightings occurred during the korean war and several more saucers were retrieved by the air force some were stored at right patterson air force base some were stored at air force bases near the location of the crash site what i"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:bff59ee5d352",
+      "type": "claim",
+      "label": "First alien-US government communication occurred at Holloman AFB on April 30, 1964.",
+      "anchor": {
+        "charStart": 17648,
+        "charEnd": 20267,
+        "segmentStart": 472,
+        "segmentEnd": 542,
+        "startSeconds": 1154.679,
+        "endSeconds": 1331.6,
+        "method": "exact",
+        "excerpt": "on april 30th 1964 the first communication between these aliens and the us government took place at hollowman air force base in new mexico three saucers had landed at a pre-arranged air area and a meeting was held between the aliens and int"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:c58a54022f59",
+      "type": "claim",
+      "label": "A CIA documentary contained an 8-second clip of a saucer landing.",
+      "anchor": {
+        "charStart": 17648,
+        "charEnd": 20267,
+        "segmentStart": 472,
+        "segmentEnd": 542,
+        "startSeconds": 1154.679,
+        "endSeconds": 1331.6,
+        "method": "exact",
+        "excerpt": "on april 30th 1964 the first communication between these aliens and the us government took place at hollowman air force base in new mexico three saucers had landed at a pre-arranged air area and a meeting was held between the aliens and int"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:ca0df218ad2d",
+      "type": "claim",
+      "label": "Producers were told of a 1971 filmed landing at Holloman from three vantage points.",
+      "anchor": {
+        "charStart": 17648,
+        "charEnd": 20267,
+        "segmentStart": 472,
+        "segmentEnd": 542,
+        "startSeconds": 1154.679,
+        "endSeconds": 1331.6,
+        "method": "exact",
+        "excerpt": "on april 30th 1964 the first communication between these aliens and the us government took place at hollowman air force base in new mexico three saucers had landed at a pre-arranged air area and a meeting was held between the aliens and int"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:7f116c0e60d7",
+      "type": "claim",
+      "label": "The full film was pulled due to Watergate timing.",
+      "anchor": {
+        "charStart": 17648,
+        "charEnd": 20267,
+        "segmentStart": 472,
+        "segmentEnd": 542,
+        "startSeconds": 1154.679,
+        "endSeconds": 1331.6,
+        "method": "exact",
+        "excerpt": "on april 30th 1964 the first communication between these aliens and the us government took place at hollowman air force base in new mexico three saucers had landed at a pre-arranged air area and a meeting was held between the aliens and int"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:c6242a723e34",
+      "type": "claim",
+      "label": "MJ-12 made a deal with EBEs between 1969-1971.",
+      "anchor": {
+        "charStart": 20268,
+        "charEnd": 21211,
+        "segmentStart": 542,
+        "segmentEnd": 568,
+        "startSeconds": 1325.559,
+        "endSeconds": 1415.08,
+        "method": "exact",
+        "excerpt": "so during the period of 1969 to 1971 mj12 representing the us government made a deal with these creatures called ebees or extraterrestrial biological entities named by de live bron he was an original mj12 member and sixth president of john "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:f0d8b18fac27",
+      "type": "claim",
+      "label": "Deal traded technology for ignoring abductions and suppressing cattle mutilation info.",
+      "anchor": {
+        "charStart": 20268,
+        "charEnd": 21211,
+        "segmentStart": 542,
+        "segmentEnd": 568,
+        "startSeconds": 1325.559,
+        "endSeconds": 1415.08,
+        "method": "exact",
+        "excerpt": "so during the period of 1969 to 1971 mj12 representing the us government made a deal with these creatures called ebees or extraterrestrial biological entities named by de live bron he was an original mj12 member and sixth president of john "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:5f6fbe7b1be9",
+      "type": "claim",
+      "label": "A 1988 Gumby episode illustrated the EBE narrative.",
+      "anchor": {
+        "charStart": 20268,
+        "charEnd": 21211,
+        "segmentStart": 542,
+        "segmentEnd": 568,
+        "startSeconds": 1325.559,
+        "endSeconds": 1415.08,
+        "method": "exact",
+        "excerpt": "so during the period of 1969 to 1971 mj12 representing the us government made a deal with these creatures called ebees or extraterrestrial biological entities named by de live bron he was an original mj12 member and sixth president of john "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:0659f0d9a3a0",
+      "type": "claim",
+      "label": "Abductions were claimed to be monitoring of civilizations.",
+      "anchor": {
+        "charStart": 21212,
+        "charEnd": 22202,
+        "segmentStart": 568,
+        "segmentEnd": 594,
+        "startSeconds": 1409.96,
+        "endSeconds": 1482.64,
+        "method": "exact",
+        "excerpt": "the ebees assured mj12 that the abductions usually lasting about 2 hours were merely the ongoing monitoring of developing civilizations and here john lists out the purposes for the abductions and what they turned out to be number one the in"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:0793f51acc27",
+      "type": "claim",
+      "label": "Purpose 1: Insertion of a 3mm spherical device into the brain via nasal cavity for monitoring/control.",
+      "anchor": {
+        "charStart": 21212,
+        "charEnd": 22202,
+        "segmentStart": 568,
+        "segmentEnd": 594,
+        "startSeconds": 1409.96,
+        "endSeconds": 1482.64,
+        "method": "exact",
+        "excerpt": "the ebees assured mj12 that the abductions usually lasting about 2 hours were merely the ongoing monitoring of developing civilizations and here john lists out the purposes for the abductions and what they turned out to be number one the in"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:83d97ab7610e",
+      "type": "claim",
+      "label": "This matches accounts in abduction literature.",
+      "anchor": {
+        "charStart": 21212,
+        "charEnd": 22202,
+        "segmentStart": 568,
+        "segmentEnd": 594,
+        "startSeconds": 1409.96,
+        "endSeconds": 1482.64,
+        "method": "exact",
+        "excerpt": "the ebees assured mj12 that the abductions usually lasting about 2 hours were merely the ongoing monitoring of developing civilizations and here john lists out the purposes for the abductions and what they turned out to be number one the in"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:f9f05afc9890",
+      "type": "claim",
+      "label": "Purpose 2: Post-hypnotic suggestion for future activities.",
+      "anchor": {
+        "charStart": 22203,
+        "charEnd": 23240,
+        "segmentStart": 594,
+        "segmentEnd": 622,
+        "startSeconds": 1477.76,
+        "endSeconds": 1549.76,
+        "method": "exact",
+        "excerpt": "number two implementation of post hypnotic suggestion to carry out a specific activity during a specific time period the actuation of which will occur within the next 2 to 5 years well there's that i mean this was 1987 that would make it 19"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:b406013604a3",
+      "type": "claim",
+      "label": "Purpose 3: Termination of people as living biological sources.",
+      "anchor": {
+        "charStart": 22203,
+        "charEnd": 23240,
+        "segmentStart": 594,
+        "segmentEnd": 622,
+        "startSeconds": 1477.76,
+        "endSeconds": 1549.76,
+        "method": "exact",
+        "excerpt": "number two implementation of post hypnotic suggestion to carry out a specific activity during a specific time period the actuation of which will occur within the next 2 to 5 years well there's that i mean this was 1987 that would make it 19"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:0c4d50643e1b",
+      "type": "claim",
+      "label": "Purpose 4: Termination of individuals threatening their activity.",
+      "anchor": {
+        "charStart": 22203,
+        "charEnd": 23240,
+        "segmentStart": 594,
+        "segmentEnd": 622,
+        "startSeconds": 1477.76,
+        "endSeconds": 1549.76,
+        "method": "exact",
+        "excerpt": "number two implementation of post hypnotic suggestion to carry out a specific activity during a specific time period the actuation of which will occur within the next 2 to 5 years well there's that i mean this was 1987 that would make it 19"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:ee47df02be80",
+      "type": "claim",
+      "label": "Host notes Lear came forward in fear of his life.",
+      "anchor": {
+        "charStart": 22203,
+        "charEnd": 23240,
+        "segmentStart": 594,
+        "segmentEnd": 622,
+        "startSeconds": 1477.76,
+        "endSeconds": 1549.76,
+        "method": "exact",
+        "excerpt": "number two implementation of post hypnotic suggestion to carry out a specific activity during a specific time period the actuation of which will occur within the next 2 to 5 years well there's that i mean this was 1987 that would make it 19"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:9ab30e9babe0",
+      "type": "claim",
+      "label": "Purpose 5: Genetic engineering experiments.",
+      "anchor": {
+        "charStart": 23241,
+        "charEnd": 24000,
+        "segmentStart": 622,
+        "segmentEnd": 643,
+        "startSeconds": 1544.08,
+        "endSeconds": 1604.52,
+        "method": "exact",
+        "excerpt": "number five effect genetic engineering experiments number six impregnation of human females and early termination of pregnancies to secure the cross breed infant seems like the craziest but honestly this is the most widely reported among ab"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:33fc34f16c65",
+      "type": "claim",
+      "label": "Purpose 6: Impregnation and early termination for cross-breed infants.",
+      "anchor": {
+        "charStart": 23241,
+        "charEnd": 24000,
+        "segmentStart": 622,
+        "segmentEnd": 643,
+        "startSeconds": 1544.08,
+        "endSeconds": 1604.52,
+        "method": "exact",
+        "excerpt": "number five effect genetic engineering experiments number six impregnation of human females and early termination of pregnancies to secure the cross breed infant seems like the craziest but honestly this is the most widely reported among ab"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:1038c3089e3136ea:eb317522aa77",
+      "type": "claim",
+      "label": "Hybridization program is widely reported among abductees.",
+      "anchor": {
+        "charStart": 23241,
+        "charEnd": 24000,
+        "segmentStart": 622,
+        "segmentEnd": 643,
+        "startSeconds": 1544.08,
+        "endSeconds": 1604.52,
+        "method": "exact",
+        "excerpt": "number five effect genetic engineering experiments number six impregnation of human females and early termination of pregnancies to secure the cross breed infant seems like the craziest but honestly this is the most widely reported among ab"
+      },
+      "claimSource": "chunk.claims_hint"
+    }
+  ],
+  "edges": [
+    {
+      "from": "src:1038c3089e3136ea",
+      "to": "seg:1038c3089e3136ea:c01",
+      "type": "contains"
+    },
+    {
+      "from": "src:1038c3089e3136ea",
+      "to": "seg:1038c3089e3136ea:c02",
+      "type": "contains"
+    },
+    {
+      "from": "src:1038c3089e3136ea",
+      "to": "seg:1038c3089e3136ea:c03",
+      "type": "contains"
+    },
+    {
+      "from": "src:1038c3089e3136ea",
+      "to": "seg:1038c3089e3136ea:c04",
+      "type": "contains"
+    },
+    {
+      "from": "src:1038c3089e3136ea",
+      "to": "seg:1038c3089e3136ea:c05",
+      "type": "contains"
+    },
+    {
+      "from": "src:1038c3089e3136ea",
+      "to": "seg:1038c3089e3136ea:c06",
+      "type": "contains"
+    },
+    {
+      "from": "src:1038c3089e3136ea",
+      "to": "seg:1038c3089e3136ea:c07",
+      "type": "contains"
+    },
+    {
+      "from": "src:1038c3089e3136ea",
+      "to": "seg:1038c3089e3136ea:c08",
+      "type": "contains"
+    },
+    {
+      "from": "src:1038c3089e3136ea",
+      "to": "seg:1038c3089e3136ea:c09",
+      "type": "contains"
+    },
+    {
+      "from": "src:1038c3089e3136ea",
+      "to": "seg:1038c3089e3136ea:c10",
+      "type": "contains"
+    },
+    {
+      "from": "src:1038c3089e3136ea",
+      "to": "seg:1038c3089e3136ea:c11",
+      "type": "contains"
+    },
+    {
+      "from": "src:1038c3089e3136ea",
+      "to": "seg:1038c3089e3136ea:c12",
+      "type": "contains"
+    },
+    {
+      "from": "src:1038c3089e3136ea",
+      "to": "seg:1038c3089e3136ea:c13",
+      "type": "contains"
+    },
+    {
+      "from": "src:1038c3089e3136ea",
+      "to": "seg:1038c3089e3136ea:c14",
+      "type": "contains"
+    },
+    {
+      "from": "src:1038c3089e3136ea",
+      "to": "seg:1038c3089e3136ea:c15",
+      "type": "contains"
+    },
+    {
+      "from": "src:1038c3089e3136ea",
+      "to": "seg:1038c3089e3136ea:c16",
+      "type": "contains"
+    },
+    {
+      "from": "src:1038c3089e3136ea",
+      "to": "seg:1038c3089e3136ea:c17",
+      "type": "contains"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c01",
+      "to": "seg:1038c3089e3136ea:c02",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c02",
+      "to": "seg:1038c3089e3136ea:c03",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c03",
+      "to": "seg:1038c3089e3136ea:c04",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c04",
+      "to": "seg:1038c3089e3136ea:c05",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c05",
+      "to": "seg:1038c3089e3136ea:c06",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c06",
+      "to": "seg:1038c3089e3136ea:c07",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c07",
+      "to": "seg:1038c3089e3136ea:c08",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c08",
+      "to": "seg:1038c3089e3136ea:c09",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c09",
+      "to": "seg:1038c3089e3136ea:c10",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c10",
+      "to": "seg:1038c3089e3136ea:c11",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c11",
+      "to": "seg:1038c3089e3136ea:c12",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c12",
+      "to": "seg:1038c3089e3136ea:c13",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c13",
+      "to": "seg:1038c3089e3136ea:c14",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c14",
+      "to": "seg:1038c3089e3136ea:c15",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c15",
+      "to": "seg:1038c3089e3136ea:c16",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c16",
+      "to": "seg:1038c3089e3136ea:c17",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c01",
+      "to": "clm:1038c3089e3136ea:d235de41f3f1",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c01",
+      "to": "clm:1038c3089e3136ea:f00a13e35b58",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c02",
+      "to": "clm:1038c3089e3136ea:e11ab1a652df",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c02",
+      "to": "clm:1038c3089e3136ea:5a8332daaba7",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c02",
+      "to": "clm:1038c3089e3136ea:f4c544883a4b",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c02",
+      "to": "clm:1038c3089e3136ea:7298644e3749",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c03",
+      "to": "clm:1038c3089e3136ea:b672d2c3d42b",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c03",
+      "to": "clm:1038c3089e3136ea:f2148224d2bf",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c03",
+      "to": "clm:1038c3089e3136ea:60c41984b9c5",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c04",
+      "to": "clm:1038c3089e3136ea:72a5e5a37dc8",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c04",
+      "to": "clm:1038c3089e3136ea:4bcf194dfd7b",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c04",
+      "to": "clm:1038c3089e3136ea:9d2df2fad6a5",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c05",
+      "to": "clm:1038c3089e3136ea:aebfdad37d2e",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c05",
+      "to": "clm:1038c3089e3136ea:c94f71d95c91",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c05",
+      "to": "clm:1038c3089e3136ea:93070a0a368c",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c06",
+      "to": "clm:1038c3089e3136ea:8a0003c2730b",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c06",
+      "to": "clm:1038c3089e3136ea:08333afa0629",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c06",
+      "to": "clm:1038c3089e3136ea:4aebd7ee7de6",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c07",
+      "to": "clm:1038c3089e3136ea:6118b4ec6518",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c07",
+      "to": "clm:1038c3089e3136ea:cfd058844a5b",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c07",
+      "to": "clm:1038c3089e3136ea:853891498f10",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c07",
+      "to": "clm:1038c3089e3136ea:80c9fa7e2d72",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c07",
+      "to": "clm:1038c3089e3136ea:ee4244232df5",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c08",
+      "to": "clm:1038c3089e3136ea:ba2b1d63b09d",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c08",
+      "to": "clm:1038c3089e3136ea:f739bc063c4f",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c08",
+      "to": "clm:1038c3089e3136ea:caa995a05fe3",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c09",
+      "to": "clm:1038c3089e3136ea:32562837bf6e",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c09",
+      "to": "clm:1038c3089e3136ea:784f774211fe",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c09",
+      "to": "clm:1038c3089e3136ea:bf168011afef",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c10",
+      "to": "clm:1038c3089e3136ea:e2d5855fa18b",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c10",
+      "to": "clm:1038c3089e3136ea:aef40152e241",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c10",
+      "to": "clm:1038c3089e3136ea:96f2c50cc1d5",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c11",
+      "to": "clm:1038c3089e3136ea:be6edc310393",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c11",
+      "to": "clm:1038c3089e3136ea:727b77827f24",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c11",
+      "to": "clm:1038c3089e3136ea:096a6a6a87d5",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c12",
+      "to": "clm:1038c3089e3136ea:d4761027bf4c",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c12",
+      "to": "clm:1038c3089e3136ea:643f8dc193f5",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c12",
+      "to": "clm:1038c3089e3136ea:30ffcecc3d99",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c13",
+      "to": "clm:1038c3089e3136ea:bff59ee5d352",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c13",
+      "to": "clm:1038c3089e3136ea:c58a54022f59",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c13",
+      "to": "clm:1038c3089e3136ea:ca0df218ad2d",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c13",
+      "to": "clm:1038c3089e3136ea:7f116c0e60d7",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c14",
+      "to": "clm:1038c3089e3136ea:c6242a723e34",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c14",
+      "to": "clm:1038c3089e3136ea:f0d8b18fac27",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c14",
+      "to": "clm:1038c3089e3136ea:5f6fbe7b1be9",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c15",
+      "to": "clm:1038c3089e3136ea:0659f0d9a3a0",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c15",
+      "to": "clm:1038c3089e3136ea:0793f51acc27",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c15",
+      "to": "clm:1038c3089e3136ea:83d97ab7610e",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c16",
+      "to": "clm:1038c3089e3136ea:f9f05afc9890",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c16",
+      "to": "clm:1038c3089e3136ea:b406013604a3",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c16",
+      "to": "clm:1038c3089e3136ea:0c4d50643e1b",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c16",
+      "to": "clm:1038c3089e3136ea:ee47df02be80",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c17",
+      "to": "clm:1038c3089e3136ea:9ab30e9babe0",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c17",
+      "to": "clm:1038c3089e3136ea:33fc34f16c65",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:1038c3089e3136ea:c17",
+      "to": "clm:1038c3089e3136ea:eb317522aa77",
+      "type": "asserts"
+    }
+  ],
+  "views": {
+    "sourceSpine": [
+      "seg:1038c3089e3136ea:c01",
+      "seg:1038c3089e3136ea:c02",
+      "seg:1038c3089e3136ea:c03",
+      "seg:1038c3089e3136ea:c04",
+      "seg:1038c3089e3136ea:c05",
+      "seg:1038c3089e3136ea:c06",
+      "seg:1038c3089e3136ea:c07",
+      "seg:1038c3089e3136ea:c08",
+      "seg:1038c3089e3136ea:c09",
+      "seg:1038c3089e3136ea:c10",
+      "seg:1038c3089e3136ea:c11",
+      "seg:1038c3089e3136ea:c12",
+      "seg:1038c3089e3136ea:c13",
+      "seg:1038c3089e3136ea:c14",
+      "seg:1038c3089e3136ea:c15",
+      "seg:1038c3089e3136ea:c16",
+      "seg:1038c3089e3136ea:c17"
+    ],
+    "topicRoots": [],
+    "claimRoots": [
+      "clm:1038c3089e3136ea:d235de41f3f1",
+      "clm:1038c3089e3136ea:f00a13e35b58",
+      "clm:1038c3089e3136ea:e11ab1a652df",
+      "clm:1038c3089e3136ea:5a8332daaba7",
+      "clm:1038c3089e3136ea:f4c544883a4b",
+      "clm:1038c3089e3136ea:7298644e3749",
+      "clm:1038c3089e3136ea:b672d2c3d42b",
+      "clm:1038c3089e3136ea:f2148224d2bf",
+      "clm:1038c3089e3136ea:60c41984b9c5",
+      "clm:1038c3089e3136ea:72a5e5a37dc8",
+      "clm:1038c3089e3136ea:4bcf194dfd7b",
+      "clm:1038c3089e3136ea:9d2df2fad6a5",
+      "clm:1038c3089e3136ea:aebfdad37d2e",
+      "clm:1038c3089e3136ea:c94f71d95c91",
+      "clm:1038c3089e3136ea:93070a0a368c",
+      "clm:1038c3089e3136ea:8a0003c2730b",
+      "clm:1038c3089e3136ea:08333afa0629",
+      "clm:1038c3089e3136ea:4aebd7ee7de6",
+      "clm:1038c3089e3136ea:6118b4ec6518",
+      "clm:1038c3089e3136ea:cfd058844a5b",
+      "clm:1038c3089e3136ea:853891498f10",
+      "clm:1038c3089e3136ea:80c9fa7e2d72",
+      "clm:1038c3089e3136ea:ee4244232df5",
+      "clm:1038c3089e3136ea:ba2b1d63b09d",
+      "clm:1038c3089e3136ea:f739bc063c4f",
+      "clm:1038c3089e3136ea:caa995a05fe3",
+      "clm:1038c3089e3136ea:32562837bf6e",
+      "clm:1038c3089e3136ea:784f774211fe",
+      "clm:1038c3089e3136ea:bf168011afef",
+      "clm:1038c3089e3136ea:e2d5855fa18b",
+      "clm:1038c3089e3136ea:aef40152e241",
+      "clm:1038c3089e3136ea:96f2c50cc1d5",
+      "clm:1038c3089e3136ea:be6edc310393",
+      "clm:1038c3089e3136ea:727b77827f24",
+      "clm:1038c3089e3136ea:096a6a6a87d5",
+      "clm:1038c3089e3136ea:d4761027bf4c",
+      "clm:1038c3089e3136ea:643f8dc193f5",
+      "clm:1038c3089e3136ea:30ffcecc3d99",
+      "clm:1038c3089e3136ea:bff59ee5d352",
+      "clm:1038c3089e3136ea:c58a54022f59",
+      "clm:1038c3089e3136ea:ca0df218ad2d",
+      "clm:1038c3089e3136ea:7f116c0e60d7",
+      "clm:1038c3089e3136ea:c6242a723e34",
+      "clm:1038c3089e3136ea:f0d8b18fac27",
+      "clm:1038c3089e3136ea:5f6fbe7b1be9",
+      "clm:1038c3089e3136ea:0659f0d9a3a0",
+      "clm:1038c3089e3136ea:0793f51acc27",
+      "clm:1038c3089e3136ea:83d97ab7610e",
+      "clm:1038c3089e3136ea:f9f05afc9890",
+      "clm:1038c3089e3136ea:b406013604a3",
+      "clm:1038c3089e3136ea:0c4d50643e1b",
+      "clm:1038c3089e3136ea:ee47df02be80",
+      "clm:1038c3089e3136ea:9ab30e9babe0",
+      "clm:1038c3089e3136ea:33fc34f16c65",
+      "clm:1038c3089e3136ea:eb317522aa77"
+    ],
+    "openQuestionRoots": []
+  },
+  "coverage": {
+    "timed": true,
+    "charsAnchored": 23984,
+    "charsTotal": 57379,
+    "fraction": 0.418,
+    "segmentsCovered": 644,
+    "segmentsTotal": 1543,
+    "pipelineTruncatedAtChars": 24000,
+    "chunkAnchorMethods": {
+      "exact": 17
+    }
+  },
+  "generation": {
+    "createdAt": "2026-08-18T06:55:56.014811+00:00",
+    "models": [
+      "deepseek/deepseek-chat"
+    ],
+    "promptsUsed": [
+      "disclosure.content_analysis",
+      "disclosure.ner",
+      "document_classification",
+      "rag_ingestion",
+      "validation"
+    ],
+    "methodologyVersion": "rag-prompt-pipeline/ADR-0001",
+    "pipelineStatus": "ok",
+    "degraded": false
+  },
+  "validation": {
+    "valid": true,
+    "errors": [],
+    "gaps": [
+      "no next_trace nodes — no pipeline stage proposes concrete next sources",
+      "no reading nodes — no interpretive stage exists; readings are never inferred here",
+      "no counter_reading nodes — paired with reading; unproduced for the same reason",
+      "no speaker nodes — diarisation is unavailable — the transcript carries '>>' turn markers but no speaker identities",
+      "no open questions — the map manufactures closure it has no basis for",
+      "no evidence→claim edges — the analysis prompt emits supporting and contradictory evidence as flat lists with no target claim, so evidence carries a stance but names no claim it bears on",
+      "chunk coverage is 42% of the source (23984 of 57379 chars); the pipeline truncates at 24000 chars"
+    ]
+  }
+}

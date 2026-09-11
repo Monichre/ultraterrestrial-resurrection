@@ -1,6 +1,8 @@
 # Mindmap Feature — Agent Guidance
 
-**Full architecture audit:** `docs/plans/2026-03-29-research-canvas-frontend-architecture-audit.md`
+**Full architecture audit:** [`docs/archive/2026-03-29-research-canvas-frontend-architecture-audit.md`](docs/archive/2026-03-29-research-canvas-frontend-architecture-audit.md)
+
+File references in this file must be markdown links whose href is the workspace path from repo root (see [`AGENTS.md`](AGENTS.md#markdown-file-links-binding)). No `../` climbs and no `@/` hrefs.
 
 ## Canonical Render Path
 
@@ -13,32 +15,37 @@
         -> always mounts <FullScreenMenu />
 ```
 
+Cmd-click: [`apps/app/src/app/(site)/research-canvas/page.tsx`](apps/app/src/app/(site)/research-canvas/page.tsx) → [`index.tsx`](index.tsx) / [`mind-map.tsx`](mind-map.tsx) → [`ViewSwitcher`](research-canvas/ViewSwitcher.tsx).
+
 ## Dead Code — Do Not Extend or Debug
 
-These files have zero production consumers. Scheduled for deletion (Phase 1 of audit plan):
+These files have zero production consumers (names only — they are not in the tree to open):
+
 - `smart-mindmap.tsx`, `smart-mindmap-with-auto-connections.tsx`, `smart-mindmap-with-shared-context.tsx`
 - `smart-graph.tsx` (feature root — `components/smart-graph/` is separate)
 - Ghost routes: `(site)/disclosure/`, `(site)/search-and-discovery-interface/`, `(site)/content-card-detail-view/`, `(site)/ufo-sightings/`
 
 ## State Management
 
-- `store/mindmap-ui-store.ts` — healthy Zustand store, no changes needed to structure
-- `contexts/mindmap/mindmap-context.tsx` — 1,363-line god-object; contains pure factory functions, layout helpers, UI useState, and data-fetch effects that all belong elsewhere. Do not add more logic here. See audit plan for decomposition steps.
+- [`store/mindmap-ui-store.ts`](store/mindmap-ui-store.ts) — healthy Zustand store, no changes needed to structure
+- [`apps/app/src/contexts/mindmap/mindmap-context.tsx`](apps/app/src/contexts/mindmap/mindmap-context.tsx) — 1,363-line god-object; contains pure factory functions, layout helpers, UI useState, and data-fetch effects that all belong elsewhere. Do not add more logic here. See audit plan for decomposition steps.
 - Navigation goes through Zustand `setActiveView()`, NOT `router.push()`. The `path` fields in `FullScreenMenu.VIEWS` are stale/decorative.
 
 ## FloatingToolbar Duplication
 
 Two unrelated implementations exist:
-- `research-canvas/FloatingToolbar.tsx` — LIVE (imported by graph.tsx)
-- `components/menus/mindmap-side-menu/FloatingToolbar.tsx` — Storybook only, not in main render path
+
+- [`research-canvas/FloatingToolbar.tsx`](research-canvas/FloatingToolbar.tsx) — LIVE (imported by [`graph.tsx`](graph.tsx))
+- [`components/menus/mindmap-side-menu/FloatingToolbar.tsx`](components/menus/mindmap-side-menu/FloatingToolbar.tsx) — Storybook only, not in main render path
 
 Always import from `research-canvas/FloatingToolbar` when working with the canvas.
 
 ## Voice Contract — Ultraterrestrial Identity (2026-07-08)
 
-North star: **"an integrated research narrative engine for anomalous knowledge."** Full vision: `docs/plans/2026-07-08-memory-first-vision-capture.md`; implementation review: `...-vision-review.md`.
+North star: **"an integrated research narrative engine for anomalous knowledge."** Full vision: [`docs/archive/vision/2026-07-08-memory-first-vision-capture.md`](docs/archive/vision/2026-07-08-memory-first-vision-capture.md); implementation review: `...-vision-review.md`.
 
 Every prompt, tour narrative, hypothesis, and UI copy string in this feature MUST:
+
 1. **Label the epistemic tier** — sourced evidence / claim / inference / speculation / mythic resonance. Evidentiary states: `[Observed] [Corroborated] [Contested] [Inferred] [Speculative] [Resonant] [Unverified] [Disconfirmed]`.
 2. **Never say "proves"** — say "is consistent with", "was claimed", "remains unexplained".
 3. **Pair every reading with a counter-reading** — the anti-echo-chamber mechanism.
@@ -49,7 +56,7 @@ Rubric for review — does the output: respect the strangeness / protect the evi
 
 **Terminology ruling (Liam, 2026-07-08) — "claim" is RESERVED.** A claim is a discrete assertion extracted from SOURCE material (human testimony, documents). AI output is never a claim — it is an **inference**, part of the analytical layer. Persisted agent analysis lives in the `agent_inferences` table (`@db/postgres`: `insertAgentInference`/`getInferencesForRecord`) and must NEVER feed retrieval, search, or suggestions. Its legitimate roles: auditable analytical trail, and (Phase 2) support attached to a user-owned `theory`. Never name a table, type, or UI surface "claim(s)" unless its content is source-extracted.
 
-Reference implementations: `actions/enrich-hypothesis.ts` (liturgy schema), the Improbable Moon tour narrative (extracted to `docs/design/tour-narrative-canon.md` when the dead tour-generation system was deleted 2026-07-23), the two live route prompts.
+Reference implementations: [`actions/enrich-hypothesis.ts`](actions/enrich-hypothesis.ts) (liturgy schema), the Improbable Moon tour narrative (extracted to [`docs/design/tour-narrative-canon.md`](docs/design/tour-narrative-canon.md) when the dead tour-generation system was deleted 2026-07-23), the two live route prompts.
 
 <claude-mem-context>
 # Recent Activity
