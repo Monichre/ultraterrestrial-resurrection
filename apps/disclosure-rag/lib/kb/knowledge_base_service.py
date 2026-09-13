@@ -154,7 +154,22 @@ class KnowledgeBaseService:
                 metadata['processing_status']['kb_indexed'] = True
                 metadata['processing_status']['last_step'] = 'kb_indexed'
 
-                self.kb_crud.index["documents"][doc_id] = {
+                # T-048 H1: routed through KnowledgeBaseCRUD.put_index_entry()
+                # instead of mutating `kb_crud.index` and calling `_save_index()`
+                # directly. That gets this path three things it never had: the
+                # index lock (a concurrent ingest's entry could previously be
+                # lost between this read and its write), an archive-relative
+                # `path` (all 10 remaining absolute paths in index.json were
+                # written here), and a `content_hash`.
+                #
+                # D6: `doc_id` stays `video_id`, not the hash. A YouTube
+                # transcript is *regenerated*, not retrieved -- re-scraping the
+                # same video 8 days later measured 95,001 -> 95,839 bytes -- so
+                # hashing the identity would mint a new record every run
+                # forever. Here the hash is a **version marker** on a stable
+                # source identity: same video_id + same hash means the
+                # transcript did not change.
+                self.kb_crud.put_index_entry(doc_id, {
                     "title": title,
                     "doc_type": "transcript",
                     "path": str(youtube_path),
@@ -165,18 +180,17 @@ class KnowledgeBaseService:
                     "tags": tags,
                     "youtube_id": video_id,
                     "uses_original_structure": True,
+                    # Empty content would hash to md5("") -- one constant
+                    # digest shared by every content-less record, which is
+                    # worse than no hash at all. Omit it and let
+                    # put_index_entry() log the gap.
+                    "content_hash": (
+                        self.kb_crud._content_hash(content) if content else ""
+                    ),
                     "files": file_list,
                     "source": data.get('source', ''),
                     "metadata": metadata
-                }
-
-                # Update tag index
-                for tag in tags:
-                    if tag not in self.kb_crud.index["tags"]:
-                        self.kb_crud.index["tags"][tag] = []
-                    self.kb_crud.index["tags"][tag].append(doc_id)
-
-                self.kb_crud._save_index()
+                }, tags)
                 logger.info(
                     f"Updated index.json with {len(file_list)} files for {doc_id}")
             else:
@@ -228,9 +242,11 @@ class KnowledgeBaseService:
                     metadata['processing_status']['last_step'] = 'entity_processed'
 
                     # Update the KB entry with entity results
-                    if doc_id in self.kb_crud.index["documents"]:
-                        self.kb_crud.index["documents"][doc_id]["metadata"] = metadata
-                        self.kb_crud._save_index()
+                    # T-048 H1: locked partial update. This used to be a bare
+                    # read-modify-write on kb_crud.index with no lock held,
+                    # three lines after the entry it patches was written
+                    # correctly — a concurrent ingest's entry could be lost here.
+                    self.kb_crud.patch_index_entry(doc_id, metadata=metadata)
 
                     total_entities = entity_results.get('total_entities', 0)
                     total_matches = entity_results.get('total_matches', 0)
@@ -445,7 +461,6 @@ class KnowledgeBaseService:
             #   4. search_syncer.sync_document_to_search() → Upstash Search
             # PREV ← YT-CHAIN-13  lib/trace_map.py
             # NEXT → YT-CHAIN-15  lib/openai_client/upload.py
-            # THEN → YT-CHAIN-16  main.py :: trigger_cocoindex_processing()
             # ═══════════════════════════════════════════════════════════════
             # Upload to OpenAI if requested (existing functionality)
             if upload:
@@ -562,7 +577,6 @@ class KnowledgeBaseService:
         - Content extraction and analysis
         - Summary file generation  
         - Entity extraction and Xata matching
-        - Knowledge graph processing (CocoIndex)
         - Comprehensive metadata creation
         - Research methodology analysis
         """
@@ -824,61 +838,6 @@ class KnowledgeBaseService:
                     display.stop_spinner("❌ Entity processing failed")
                     logger.error(f"Entity processing failed: {e}")
                     # Don't fail the entire process if entity extraction fails
-
-            # KNOWLEDGE GRAPH PROCESSING (CocoIndex - matching file processing)
-            if data.get('doc_id'):
-                try:
-                    display.print_stage("🕸️ KNOWLEDGE GRAPH", "🕸️")
-                    display.start_spinner(
-                        "📊 Building knowledge graph with CocoIndex...")
-
-                    # Import CocoIndex integration
-                    try:
-                        from lib.cocoindex_integration import cocoindex_processor
-
-                        # Trigger CocoIndex knowledge graph processing
-                        cocoindex_result = cocoindex_processor.process_document_knowledge_graph(
-                            doc_id,
-                            force_update=False
-                        )
-
-                        if cocoindex_result and cocoindex_result.get('status') == 'success':
-                            entities_count = cocoindex_result.get(
-                                'entities_processed', 0)
-                            relationships_count = cocoindex_result.get(
-                                'relationships_processed', 0)
-
-                            display.stop_spinner(
-                                f"✅ Knowledge graph built: {entities_count} entities, {relationships_count} relationships")
-                            data['cocoindex_processing'] = cocoindex_result
-                            data['metadata']['processing_status']['kg_processed'] = True
-                            logger.info(
-                                f"CocoIndex processing completed: {entities_count} entities, {relationships_count} relationships")
-
-                        elif cocoindex_result and cocoindex_result.get('status') == 'skipped':
-                            display.stop_spinner(
-                                f"⚠️ Knowledge graph skipped: {cocoindex_result.get('reason', 'unknown')}")
-                            data['cocoindex_processing'] = cocoindex_result
-                            logger.info(
-                                f"CocoIndex processing skipped: {cocoindex_result.get('reason', 'unknown')}")
-
-                        else:
-                            display.stop_spinner(
-                                "❌ Knowledge graph processing failed")
-                            if cocoindex_result:
-                                data['cocoindex_processing'] = cocoindex_result
-                                logger.warning(
-                                    f"CocoIndex processing failed: {cocoindex_result.get('error', 'unknown error')}")
-
-                    except ImportError:
-                        display.stop_spinner("⚠️ CocoIndex not available")
-                        logger.info(
-                            "CocoIndex knowledge graph integration not available")
-
-                except Exception as e:
-                    display.stop_spinner("❌ Knowledge graph processing failed")
-                    logger.error(f"CocoIndex processing failed: {e}")
-                    # Don't fail the entire process if CocoIndex processing fails
 
             # Search sync (if available)
             if self.search_syncer and data.get('doc_id'):

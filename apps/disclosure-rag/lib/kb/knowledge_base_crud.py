@@ -179,8 +179,124 @@ class KnowledgeBaseCRUD:
             return p
         return self.kb_path / p
 
+    def _relative_index_path(self, doc_dir: Union[str, Path]) -> str:
+        """Archive-root-relative form of a directory, for an index `path` field.
+
+        T-048 H1. The audit found 51 index records carrying absolute
+        machine-specific paths written *after* H0 normalized the data, and
+        diagnosed it correctly: H0 fixed the data and never fixed the writer,
+        so every ingest reintroduced the defect. Both writers compose their
+        path from an absolute root -- `resolve_entry_dir()` is absolute by
+        design, and the YouTube path is a real on-disk directory -- so the
+        normalization has to happen here, at the single point where a path
+        becomes an index field.
+
+        A directory outside the archive root keeps its absolute form rather
+        than growing a `../` climb; that is a genuine anomaly and should stay
+        visible in the index. `_resolve_doc_dir()` already reads both forms,
+        so nothing downstream needs to change.
+        """
+        p = Path(doc_dir)
+        if not p.is_absolute():
+            return str(p)
+        try:
+            return str(p.relative_to(self.kb_path))
+        except ValueError:
+            logger.warning(
+                f"Index path {p} is outside the archive root {self.kb_path}; "
+                f"storing it absolute. This record is not relocatable."
+            )
+            return str(p)
+
+    def _put_index_entry(self, doc_id: str, entry: Dict[str, Any],
+                         tags: Optional[List[str]] = None) -> Dict[str, Any]:
+        """Write one index entry + its tag links. Caller must hold the lock.
+
+        Normalizes `path` to archive-relative and requires `content_hash`.
+        Use `put_index_entry()` from outside a `_locked_index()` block.
+        """
+        entry = dict(entry)
+        if "path" in entry:
+            entry["path"] = self._relative_index_path(entry["path"])
+        if not entry.get("content_hash"):
+            logger.warning(
+                f"Index entry {doc_id} written with no content_hash; it will "
+                f"be invisible to hash-based dedup and to the H2 Neon bridge."
+            )
+        self.index["documents"][doc_id] = entry
+        for tag in (tags or []):
+            tag_docs = self.index["tags"].setdefault(tag, [])
+            if doc_id not in tag_docs:
+                tag_docs.append(doc_id)
+        return entry
+
+    def put_index_entry(self, doc_id: str, entry: Dict[str, Any],
+                        tags: Optional[List[str]] = None) -> Dict[str, Any]:
+        """Locked, atomic write of one index entry — the only supported entry point.
+
+        T-048 H1. `lib/kb/knowledge_base_service.py`'s YouTube path used to
+        hand-build `self.kb_crud.index["documents"][doc_id]` and then call
+        `_save_index()` directly: no lock (so a concurrent ingest's entry could
+        be lost), no `content_hash` (so 580 of 581 records carried none), and
+        an absolute `path`. Routing it through here fixes all three at once
+        without moving the YouTube writer's own file layout, which is correct
+        and is not this milestone's business.
+
+        The entry dict is the caller's own shape -- YouTube records carry
+        `files`/`youtube_id`/`uses_original_structure`, CRUD records do not --
+        this only enforces the two fields every record must have.
+        """
+        with self._locked_index():
+            entry = self._put_index_entry(doc_id, entry, tags)
+            self._save_index()
+        return entry
+
+    def patch_index_entry(self, doc_id: str, **fields) -> bool:
+        """Locked, atomic partial update of one existing index entry.
+
+        For the callers that only want to amend a field or two on a record
+        that already exists (the YouTube path patches `metadata` after entity
+        extraction). Doing that as a bare
+        `crud.index["documents"][doc_id][k] = v` + `_save_index()` is a
+        read-modify-write with no lock held: a concurrent ingest that wrote
+        between this process's last index load and its save loses its entry
+        entirely. Returns False if the record is gone.
+        """
+        with self._locked_index():
+            rec = self.index["documents"].get(doc_id)
+            if rec is None:
+                logger.warning(
+                    f"patch_index_entry: {doc_id} is not in the index; "
+                    f"nothing patched."
+                )
+                return False
+            rec.update(fields)
+            self._save_index()
+        return True
+
     def _content_hash(self, content: str) -> str:
-        """Full md5 hex digest of document content (dedup key / integrity check)."""
+        """Full md5 hex digest of document content (dedup key / integrity check).
+
+        **md5, deliberately, and not the sha256 the H1 plan text names.**
+        `_generate_id()` is this digest's first 12 chars, so `doc_id` *is* this
+        hash, and `_generate_dir_name()` embeds `doc_id[:8]` in every directory
+        name on disk. Switching the digest would re-key all 581 records and
+        rename every archive directory -- and adding sha256 *alongside* md5
+        would create exactly the "silent second hash identity" the 2026-08-13
+        audit banned. md5 is already the dedup key of record
+        (`create_document()` looks up `index["documents"][doc_id]`), so one
+        hash, kept. The only live sha256 `content_hash` in the tree is
+        `lib/storage/pgvector_library.py:112`, which has no importers and
+        `CREATE TABLE IF NOT EXISTS documents` against a schema that conflicts
+        with the live `packages/db/migrations/001_create_tables.sql:166` --
+        one of the plan's "abandoned migrations, frozen at step one", not a
+        constraint on this decision.
+
+        The input is raw content, not normalized text. Normalization would
+        change `doc_id` for the same reason above; if normalization-insensitive
+        matching is ever wanted it is an additive second field, never a
+        redefinition of this one.
+        """
         return hashlib.md5(content.encode()).hexdigest()
 
     def _generate_id(self, content: str) -> str:
@@ -360,7 +476,12 @@ class KnowledgeBaseCRUD:
             created_at = now
 
             if existing_info and existing_doc:
-                existing_path = Path(existing_info["path"])
+                # `_resolve_doc_dir`, not `Path(...)`: index paths are stored
+                # archive-relative since T-048 H1, and `doc_dir` is absolute.
+                # Comparing the two forms directly would make every re-ingest
+                # look like source-resolution drift and trip the orphaning
+                # refusal below.
+                existing_path = self._resolve_doc_dir(existing_info["path"])
 
                 if existing_path != doc_dir:
                     # Orphaning case: writing here would repoint the index
@@ -445,7 +566,12 @@ class KnowledgeBaseCRUD:
             date_folder = datetime.now().strftime("%Y-%m-%d")
             ingested_at = now
             meaningful_dir_name = self._generate_dir_name(title, doc_id)
-            self.index["documents"][doc_id] = {
+            # `_put_index_entry` (not `put_index_entry`) because this block
+            # already holds the index lock — flock is per-open-file-description,
+            # so re-acquiring it here would deadlock against ourselves.
+            # It also relativizes `path`; `doc_dir` is absolute because
+            # `resolve_entry_dir()` is.
+            self._put_index_entry(doc_id, {
                 "title": title,
                 "doc_type": doc_type,
                 "path": str(doc_dir),
@@ -456,14 +582,7 @@ class KnowledgeBaseCRUD:
                 "created_at": created_at,
                 "updated_at": now,
                 "tags": tags or []
-            }
-
-            # Update tag index (deduped — re-ingests must not pile up
-            # repeated doc_id entries under the same tag)
-            for tag in (tags or []):
-                tag_docs = self.index["tags"].setdefault(tag, [])
-                if doc_id not in tag_docs:
-                    tag_docs.append(doc_id)
+            }, tags)
 
             self._save_index()
 
