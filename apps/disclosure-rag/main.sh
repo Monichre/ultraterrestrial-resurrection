@@ -96,6 +96,10 @@ ${GREEN}Commands:${NC}
   sync-rag           Sync knowledge base to local RAG
   search             Search the knowledge base
   stats              Show knowledge base statistics
+  load-mentions      Queue NER mentions from *_rag_pipeline.json (dry run unless --commit)
+  resolve            Auto-match exact aliases, queue the rest (dry run unless --commit)
+  review             Decide queued mentions interactively (commits each decision)
+  apply              Create entities for 'new' decisions (dry run unless --commit)
   help               Show this help message
 
 ${GREEN}Examples:${NC}
@@ -349,6 +353,10 @@ case "$1" in
         ;;
     stats)
         show_stats
+        ;;
+    load-mentions|resolve|review|apply)
+        # Staged entity resolution (packages/db/migrations/003_entity_resolution.sql).
+        "$VENV_PYTHON" "$SCRIPT_DIR/scripts/entity_resolution.py" "$@"
         ;;
     --help|help)
         show_help
