@@ -1,6 +1,16 @@
 # Mindmap Feature — Agent Guidance
 
-**Full architecture audit:** [`docs/archive/2026-03-29-research-canvas-frontend-architecture-audit.md`](docs/archive/2026-03-29-research-canvas-frontend-architecture-audit.md)
+**Guide context updated:** 2026-09-13 16:44:15 CDT (UTC−05:00). **Status:** source-verified; runtime not tested in this documentation pass.
+
+## Research Canvas — purpose and boundaries
+
+Research Canvas is the entity/relationship research workspace at `/research-canvas`, owned by this mindmap feature. For the combined instructional entry point, current Spacetime behavior, donor provenance, design/mockup/source-imagery references, Storybook distinctions and open decisions, start at [`apps/app/src/features/spacetime/README.md`](apps/app/src/features/spacetime/README.md). The requested unified rendered presentation is still pending the user's format decision; the source guide is not that rendered deliverable.
+
+The live nested [`apps/app/src/features/mindmap/research-canvas/`](apps/app/src/features/mindmap/research-canvas/) supplies ViewSwitcher and canvas UI. The separate older [`apps/app/src/features/research-canvas/`](apps/app/src/features/research-canvas/) collection does not own this route. [`apps/app/src/features/research-platform/living-research-canvas/LivingResearchCanvas.stories.tsx`](apps/app/src/features/research-platform/living-research-canvas/LivingResearchCanvas.stories.tsx) is a presentation prototype with story fixtures, not the live MindMap graph. Its sibling Temporal Observatory prototype is not the live `/spacetime` route either.
+
+For feature-local component examples, open [`apps/app/src/features/mindmap/research-canvas/tool-card.stories.tsx`](apps/app/src/features/mindmap/research-canvas/tool-card.stories.tsx) (**Research Canvas/ToolCards**: completed, streaming, zero-match and unknown-tool cases). These stories do not prove full-route behavior. Final UX expectations, prototype consolidation and rendered documentation format remain open; this guide grants no implementation or deletion approval.
+
+**Historical architecture audit (not current runtime acceptance):** [`docs/archive/2026-03-29-research-canvas-frontend-architecture-audit.md`](docs/archive/2026-03-29-research-canvas-frontend-architecture-audit.md)
 
 File references in this file must be markdown links whose href is the workspace path from repo root (see [`AGENTS.md`](AGENTS.md#markdown-file-links-binding)). No `../` climbs and no `@/` hrefs.
 
@@ -12,10 +22,9 @@ File references in this file must be markdown links whose href is the workspace 
     -> ReactFlowProvider + MindMapProvider
       -> ViewSwitcher (canvasContent=<Graph />)
         -> Graph | TimelineView | SightingsView | SearchView | DetailView
-        -> always mounts <FullScreenMenu />
 ```
 
-Cmd-click: [`apps/app/src/app/(site)/research-canvas/page.tsx`](apps/app/src/app/(site)/research-canvas/page.tsx) → [`index.tsx`](index.tsx) / [`mind-map.tsx`](mind-map.tsx) → [`ViewSwitcher`](research-canvas/ViewSwitcher.tsx).
+Cmd-click: [`apps/app/src/app/(site)/research-canvas/page.tsx`](apps/app/src/app/(site)/research-canvas/page.tsx) → [`index.tsx`](index.tsx) / [`mind-map.tsx`](mind-map.tsx) → [`apps/app/src/features/mindmap/research-canvas/ViewSwitcher.tsx`](apps/app/src/features/mindmap/research-canvas/ViewSwitcher.tsx). ViewSwitcher returns only the selected view; its source notes that MenuTrigger is mounted globally. The nested globe case loads the legacy mindmap sightings peer, not `/spacetime` or the standalone sightings routes.
 
 ## Dead Code — Do Not Extend or Debug
 

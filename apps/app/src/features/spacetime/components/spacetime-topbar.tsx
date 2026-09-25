@@ -11,6 +11,8 @@ export interface SpacetimeTopbarProps {
   /** Loaded-corpus readout: what the bounded query actually returned. */
   meta: {geolocatedCount: number; total: number; range: string} | null
   visibleCount: number
+  /** Cesium owns native navigation until the renderer controller lands. */
+  engine?: 'mapbox' | 'cesium'
 }
 
 /**
@@ -26,7 +28,7 @@ export interface SpacetimeTopbarProps {
  *     Two "ULTRATERRESTRIAL" marks 40px apart would read as a bug.
  *   - `pr-[4.5rem]` keeps the action cluster clear of the hamburger.
  */
-export function SpacetimeTopbar({meta, visibleCount}: SpacetimeTopbarProps) {
+export function SpacetimeTopbar({meta, visibleCount, engine = 'mapbox'}: SpacetimeTopbarProps) {
   const mode = useSpacetimeStore((s) => s.interactionMode)
   const setInteractionMode = useSpacetimeStore((s) => s.setInteractionMode)
 
@@ -68,7 +70,7 @@ export function SpacetimeTopbar({meta, visibleCount}: SpacetimeTopbarProps) {
                 'px-2.5 py-1.5 font-mono text-[9px] tracking-[0.18em] uppercase transition-colors',
                 mode === m
                   ? 'bg-[rgba(79,216,232,0.14)] text-[#4fd8e8]'
-                  : 'bg-[rgba(8,13,17,0.7)] text-[#707f86] hover:text-[#a8b8be]',
+                  : 'bg-[rgba(8,13,17,0.7)] text-[#707f86] hover:text-[#a8b8be]'
               )}
               aria-pressed={mode === m}
             >
@@ -77,8 +79,12 @@ export function SpacetimeTopbar({meta, visibleCount}: SpacetimeTopbarProps) {
           ))}
         </div>
 
-        <IconButton label='Reset camera to the whole corpus' icon={Orbit} action='reset' />
-        <IconButton label='Fit the mapped records in view' icon={MoveDiagonal} action='fit' />
+        {engine === 'mapbox' ? (
+          <>
+            <IconButton label='Reset camera to the whole corpus' icon={Orbit} action='reset' />
+            <IconButton label='Fit the mapped records in view' icon={MoveDiagonal} action='fit' />
+          </>
+        ) : null}
         <IconButton label='Toggle full screen' icon={Maximize2} action='fullscreen' />
       </div>
     </header>
@@ -139,9 +145,7 @@ function IconButton({
     // Filtered, not raw. "Fit the mapped records in view" has to mean the
     // records actually painted — fitting bounds over layer- or attestation-
     // filtered-out events frames empty space the user cannot see anything in.
-    const mapped = filterSpacetimeEvents(events, layers, filters).filter(
-      (e) => e.coordinates,
-    )
+    const mapped = filterSpacetimeEvents(events, layers, filters).filter((e) => e.coordinates)
     if (mapped.length === 0) return
     const bounds = new mapboxgl.LngLatBounds()
     for (const e of mapped) {

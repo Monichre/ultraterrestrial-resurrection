@@ -14,7 +14,7 @@ import {SpacetimeSpikeClient} from './spike-client'
 export default async function SpacetimePage({
   searchParams,
 }: {
-  searchParams: Promise<{spike?: string}>
+  searchParams: Promise<{engine?: string; spike?: string}>
 }) {
   const params = await searchParams
   if (params.spike === '1') {
@@ -23,5 +23,10 @@ export default async function SpacetimePage({
 
   const initialData = await loadSpacetimeEvents({limit: 400})
 
-  return <SpacetimeCanvas initialData={initialData} />
+  return (
+    <SpacetimeCanvas
+      initialData={initialData}
+      engine={params.engine === 'cesium' ? 'cesium' : 'mapbox'}
+    />
+  )
 }

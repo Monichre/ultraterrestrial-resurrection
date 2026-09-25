@@ -1,10 +1,8 @@
 'use client'
 
+import dynamic from 'next/dynamic'
 import {useEffect, useMemo, useRef, useState, useTransition} from 'react'
-import {
-  loadSpacetimeEvents,
-  type LoadSpacetimeEventsResult,
-} from '../actions/load-spacetime-events'
+import {loadSpacetimeEvents, type LoadSpacetimeEventsResult} from '../actions/load-spacetime-events'
 import {filterSpacetimeEvents} from '../lib/filter-events'
 import {useSpacetimeStore} from '../state/spacetime-store'
 import {EventInspector} from './event-inspector'
@@ -18,6 +16,11 @@ import {SpacetimeTopbar} from './spacetime-topbar'
 import {TemporalDial} from './temporal-dial'
 import {ViewportReadout} from './viewport-readout'
 import {WaypointNarrative} from './waypoint-narrative'
+
+const CesiumSpacetimeGlobe = dynamic(
+  () => import('./cesium-spacetime-globe').then((module) => module.CesiumSpacetimeGlobe),
+  {ssr: false}
+)
 
 function metaFromResult(result: LoadSpacetimeEventsResult) {
   return {
@@ -40,8 +43,10 @@ function metaFromResult(result: LoadSpacetimeEventsResult) {
  */
 export function SpacetimeCanvas({
   initialData,
+  engine = 'mapbox',
 }: {
   initialData?: LoadSpacetimeEventsResult
+  engine?: 'mapbox' | 'cesium'
 }) {
   const setEvents = useSpacetimeStore((s) => s.setEvents)
   const setStations = useSpacetimeStore((s) => s.setStations)
@@ -102,21 +107,21 @@ export function SpacetimeCanvas({
 
   const visibleCount = useMemo(
     () => filterSpacetimeEvents(events, layers, filters).length,
-    [events, layers, filters],
+    [events, layers, filters]
   )
 
   return (
     <SpacetimeCanvasShell
-      topbar={<SpacetimeTopbar meta={meta} visibleCount={visibleCount} />}
+      topbar={<SpacetimeTopbar meta={meta} visibleCount={visibleCount} engine={engine} />}
       rail={<SpacetimeRail />}
       dial={<TemporalDial />}
       map={
         <>
-          <SpacetimeGlobe />
+          {engine === 'cesium' ? <CesiumSpacetimeGlobe /> : <SpacetimeGlobe />}
           <WaypointNarrative />
           <EvidenceLayersPanel />
           <EvidenceLegend />
-          <MapControls />
+          {engine === 'mapbox' ? <MapControls /> : null}
           <EventInspector />
           <ViewportReadout />
 

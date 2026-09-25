@@ -1,8 +1,16 @@
 # God’s Eye View → Spacetime Canvas integration
 
-Updated: 2026-09-10 01:35:57 CDT · Lane B · Status: proposed, source-reviewed; runtime UNVERIFIED.
+Updated: 2026-09-13 16:44:15 CDT (UTC−05:00) · Lane B · Status: proposal with a source-present experimental adapter; runtime UNVERIFIED in this documentation pass.
 
-## Recommendation
+## Current-state correction — 2026-09-13 16:44:15 CDT
+
+Read [`apps/app/src/features/spacetime/README.md`](apps/app/src/features/spacetime/README.md) first for the source-local instructional guide, ownership map, design references and open decisions. Spacetime predates this donor review. The current `?engine=cesium` branch is a newly written, reference-informed adapter using the Cesium npm dependency and existing Spacetime events/state, **not transplanted God’s Eye View source**. Its component was untracked when inspected: [`apps/app/src/features/spacetime/components/cesium-spacetime-globe.tsx`](apps/app/src/features/spacetime/components/cesium-spacetime-globe.tsx).
+
+The source implements Esri imagery, the supplied camera seed, attribution, event filtering, picking and selection flight. It does not consume `temporalCursor`; timeline-to-camera and time-window parity are open. No donor shell, feed backend, tactical HUD, share/hash parser or typed customization interface was imported or implemented. Mapbox remains the default. The extraction ruling below is an admission policy and reference plan, **not a report that its destinations have landed**.
+
+No product or Storybook test was performed in this docs pass. Prior session browser reports remain historical evidence in [`DAILY_WORK_PLAN.md`](DAILY_WORK_PLAN.md). Final UX expectations, any prototype consolidation, default-engine replacement and the requested unified rendered documentation format remain unresolved; this guide does not approve them.
+
+## Recommendation — remaining proposal, not acceptance
 
 Integrate a Cesium renderer into `/spacetime`, behind an engine flag initially. Retain the existing temporal cursor, normalized evidence, guided navigation, and research workflow. Extract the donor’s engine capabilities and tactical presentation into composable modules. A permanent iframe would preserve the donor quickly but split selection, time, navigation, accessibility, and deployment into two applications. A wholesale import would also carry substantial unrelated backend machinery.
 
@@ -20,11 +28,29 @@ User requirement: imported source and features must be extremely lean and Ultrat
 - **Feeds are optional proposals:** military facilities, aircraft, and satellites require a concrete investigation use case before implementation. They are not committed roadmap scope. Each enabled adapter owns cancellation, freshness, temporal semantics, and attribution; no background polling while disabled.
 - **Lean acceptance gate:** review the actual import graph, production chunk sizes, copied assets, and active requests/timers. Document every new dependency and its consumer. No unused donor modules, duplicate styles/state, or unrelated requests. Keep the Mapbox fallback only for the migration period; decide its retirement after parity and user acceptance rather than maintaining two engines indefinitely.
 
+## Donor extraction ruling — 2026-09-13 12:09:13 CDT
+
+The source is now available in [`apps/gods-eye-view-main/`](apps/gods-eye-view-main/). It is a **donor repository**, not an app to make part of this monorepo. Its checkout is 90 MB, its source tree is 16 MB, and its bundled datasets, runtime providers, and models carry licenses distinct from the MIT source license. Leave its directory untouched and out of the application dependency graph.
+
+The donor is newer and better structured than the first source review indicated: [`apps/gods-eye-view-main/src/main.js`](apps/gods-eye-view-main/src/main.js) is a 17-line standalone entrypoint, while [`apps/gods-eye-view-main/src/app/application.js`](apps/gods-eye-view-main/src/app/application.js) has a clean abort-aware lifecycle and [`apps/gods-eye-view-main/src/app/viewer.js`](apps/gods-eye-view-main/src/app/viewer.js) owns a small Cesium viewer factory. Those are useful reference material. The implementation should reproduce their contracts in TypeScript under [`apps/app/src/features/spacetime/`](apps/app/src/features/spacetime/), not import their application shell.
+
+| Candidate donor material | Decision | Ultraterrestrial destination |
+|---|---|---|
+| Cesium viewer construction | Reimplement, then validate against the donor factory | client-only `CesiumSpacetimeGlobe` |
+| Abort-aware lifecycle order | Adapt the pattern; React owns mount/unmount | renderer controller hook |
+| Explicit idle rendering | Adapt only after the baseline renderer works | Cesium render scheduler |
+| Camera/hash parsing | Extract only camera fields we support; write a new snapshot schema | Spacetime URL adapter |
+| Visual effects / cockpit HUD | Recreate a small prop-driven treatment using UT tokens | optional tactical overlay |
+| Imagery-provider switcher | Reimplement a minimal Esri-first control | map source control |
+| Data layers, detections, voice, panels, scenes, standalone server, bundled datasets/models | Exclude | none |
+
+Do not copy [`apps/gods-eye-view-main/src/data/infrastructure.js`](apps/gods-eye-view-main/src/data/infrastructure.js): it pulls bundled third-party geographical datasets. Do not copy any [`apps/gods-eye-view-main/server/`](apps/gods-eye-view-main/server/) provider by default. The donor's [`apps/gods-eye-view-main/LICENSE`](apps/gods-eye-view-main/LICENSE) permits source adaptation with notice retention, but expressly excludes third-party data, assets, and models from that grant.
+
 ## Grounded findings
 
-- Donor location supplied by the user: Desktop → gods-eye-view. Its package declares vanilla JavaScript, Vite 6, Cesium ^1.124.0, satellite.js, and MIT licensing. Its local LICENSE names Bilawal Sidhu. Preserve the notice with extracted code; separately inventory imagery and dataset attribution requirements.
-- Donor main.js constructs a Cesium Viewer and initializes map stacks, HUD, layer manager, scenes, annotations, voice, and render governor. It directly references document IDs and browser globals. It is not a React component.
-- Donor vite.config.js is **7,798 lines** and contains API middleware, credential handling, and streaming machinery. Copying its client does not deploy those services into Next.js.
+- Donor location supplied by the user: [`apps/gods-eye-view-main/`](apps/gods-eye-view-main/). Its package declares vanilla JavaScript, Vite 6, Cesium ^1.124.0, satellite.js, and MIT licensing. Its local LICENSE names Bilawal Sidhu. Preserve the notice with extracted code; separately inventory imagery and dataset attribution requirements.
+- The current donor is modular: its standalone entrypoint delegates to application, viewer, UI, data, server-provider, and source modules. Its app factory and viewer factory are separable, but the product shell remains DOM-bound and non-React.
+- Its checkout includes 90 MB, including dependencies and third-party data/assets. The source tree alone is 16 MB. That is direct evidence for extraction, not import.
 - Donor sharelink.js owns versioned camera, effects, layer, scope, and panel state. renderGovernor.js owns module-global viewer/hold state: extraction must make lifecycle ownership explicit.
 - Existing [`apps/app/src/features/spacetime/components/spacetime-canvas.tsx`](apps/app/src/features/spacetime/components/spacetime-canvas.tsx) composes the map with research chrome. [`apps/app/src/features/spacetime/components/spacetime-globe.tsx`](apps/app/src/features/spacetime/components/spacetime-globe.tsx) implements Mapbox rendering.
 - [`apps/app/src/features/spacetime/lib/map-controller.ts`](apps/app/src/features/spacetime/lib/map-controller.ts) exposes a Mapbox instance directly. Controls therefore need an engine-neutral interface before switching renderers.
@@ -85,7 +111,8 @@ Mandatory visual paths: exact supplied view; pan/zoom/rotate; event pick and sou
 
 ## Review evidence and open work
 
-- Command: `wc -l` on donor main.js and vite.config.js. Actual output: `338` and `7798` lines respectively.
+- Command: `wc -l apps/gods-eye-view-main/src/{main.js,sharelink.js,renderGovernor.js,mapStackController.js} apps/gods-eye-view-main/vite.config.js`. Actual output: `17`, `617`, `146`, `494`, and `3` lines respectively. This is a newer source layout than the previous external copy reviewed on 2026-09-10.
+- Command: `du -sh apps/gods-eye-view-main` and `du -sh apps/gods-eye-view-main/{public,src,server}`. Actual output: `90M` checkout; `3.2M` public assets; `16M` source; `536K` server.
 - Source reads confirmed the module boundaries and current Mapbox coupling above. No production code changed, no dependencies installed, no database writes, no deployment, no feed runtime test, and no implementation tickets published externally.
 - Browser entry attempt for the supplied localhost URL returned: `No browser is available`. The donor and integrated app therefore remain visually UNVERIFIED in this session. Source analysis is sufficient for this proposed plan, not for a fidelity claim.
 - Existing worktree contains extensive concurrent changes. Implementation must preserve them and avoid stash/reset.
