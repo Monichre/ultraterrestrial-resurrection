@@ -348,3 +348,32 @@ packages/disclosure-design/*.jpg
 packages/disclosure-design/*.jpeg
 packages/disclosure-design/*.webp
 packages/disclosure-design/*.gif
+
+# ── Design-lab source art (2026-09-24) ─────────────────────────────────────
+# Mock-ups, reference stills and texture source live on disk, not in git:
+# 340MB of PNG/GIF against an already-2.4G .git, and git never forgets a blob.
+# The .md/.ts/.css that describe and use them ARE tracked. Promote an image
+# into apps/app/public/ (and force-add it) when a shipped surface needs it.
+packages/disclosure-ui/src/designs/mock-ups/
+packages/disclosure-design/design/mock-ups/
+packages/disclosure-design/document-ui/**/*.png
+packages/disclosure-design/document-ui/**/*.jpg
+packages/disclosure-design/document-ui/**/*.webp
+packages/disclosure-design/research-canvas-ui/**/*.png
+packages/disclosure-design/research-canvas-ui/**/*.jpg
+packages/disclosure-design/3d-space-canvas-references/**/*.png
+packages/disclosure-design/design/design-lab/**/*.png
+packages/disclosure-design/design/design-lab/**/*.jpg
+packages/disclosure-design/design/design-lab/**/*.webp
+apps/gods-eye-view-main/docs/media/
+
+# Scratch output from the brag/dogfood composer — regenerated, never reviewed.
+brag-output/
+
+# Stray capture dropped at repo root
+/*.png
+/*.jpg
+
+# Per-session diff snapshots written by the PreCompact hook (.claude/settings.json).
+# Machine-generated, one file per compaction, never read back.
+.claude/compact-snapshots/
