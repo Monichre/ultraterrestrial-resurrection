@@ -1,0 +1,75 @@
+id: ultraterrestrial
+label: UAP / disclosure research
+parent_kernel: 00-kernel.md
+not_kernel:
+  - Author
+  - MediaAsset
+entity_types:
+  - PERSON
+  - EVENT
+  - ORGANIZATION
+  - LOCATION
+  - TESTIMONY
+  - TOPIC
+  - DOCUMENT
+  - ARTIFACT
+  - SIGHTING
+wire_aliases:
+  PERSONNEL: PERSON
+  KeyFigure: PERSON
+relation_types:
+  - MEMBER_OF
+  - WITNESSED
+  - ABOUT_EVENT
+  - OCCURS_AT
+  - FOUND_AT
+  - REFERENCES
+  - AUTHORED_BY
+  - HAS_TESTIMONY
+  - HAS_EXPERT
+  - INVESTIGATED
+  - REPORTED
+  - CONTAINS
+tables:
+  PERSON: key_figures
+  EVENT: events
+  ORGANIZATION: organizations
+  LOCATION: locations
+  TESTIMONY: testimonies
+  TOPIC: topics
+  DOCUMENT: documents
+  ARTIFACT: artifacts
+  SIGHTING: sightings
+  Chunk: document_chunks
+  Mention: document_entities
+  GraphNode: nodes
+  GraphEdge: edges
+  LayerD: agent_inferences
+content_types:
+  - government
+  - witness
+  - scientific
+  - media
+  - historical
+  - technical
+  - mixed
+  - unknown
+taxonomy:
+  - PRIMARY_DOCUMENT
+  - OFFICIAL_RECORD
+  - ORIGINAL_REPORTING
+  - SECONDARY_REPORTING
+  - COMMENTARY
+  - UNKNOWN
+domain_rules: |
+  Event vs Sighting stay distinct.
+  Never fabricate lat/lon.
+  AUTHORED_BY → PERSON (key_figures), never a kernel Author node.
+  Chunk text is Evidence only (ADR-0001).
+  agent_inferences is Layer D and is not embeddable.
+confidence:
+  auto_accept: 0.9
+  review: 0.6
+  archive: 0.3
+fidelity:
+  min_score: 0.45

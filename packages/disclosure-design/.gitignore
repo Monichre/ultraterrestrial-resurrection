@@ -18,6 +18,8 @@ workers/
 
 # OS / editor noise
 .DS_Store
-Icon
+# macOS custom-folder-icon file is literally "Icon\r" — bare `Icon` never matches it.
+Icon?
+Icon\r
 .specstory/
 .impeccable/
