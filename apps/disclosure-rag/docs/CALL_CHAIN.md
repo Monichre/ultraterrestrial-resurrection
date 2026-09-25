@@ -2,7 +2,7 @@
 
 Every juncture the `dy` CLI passes through, transcribed from the `═══ …-CHAIN-NN ═══` comment blocks that live in the source. The code is the source of truth; this file is a readable index of it.
 
-Generated 2026-08-15 08:21 from the working tree.
+Generated 2026-08-15 08:21 from the working tree. Updated 2026-09-11: CocoIndex hop (`YT-CHAIN-16`) removed with the stage; line anchors for chain markers re-read from source.
 
 Hrefs are workspace paths from repo root (`apps/disclosure-rag/...`). Line anchors use `#L`.
 
@@ -20,7 +20,7 @@ main.sh  →  main()  →  process_url()  ─┬─ YouTube  → YT-CHAIN-04 …
 main.sh  →  main()  →  process_file() ─── local file → FILE-CHAIN-03 …
 ```
 
-Prefix: [`main.sh`](apps/disclosure-rag/main.sh) → [`main.py`](apps/disclosure-rag/main.py) `main()` → [`process_url()`](apps/disclosure-rag/main.py#L354) or [`process_file()`](apps/disclosure-rag/main.py#L574).
+Prefix: [`main.sh`](apps/disclosure-rag/main.sh) → [`main.py`](apps/disclosure-rag/main.py) `main()` → [`process_url()`](apps/disclosure-rag/main.py#L274) or [`process_file()`](apps/disclosure-rag/main.py#L443).
 
 **Tracing a live run:** [`scripts/dy-trace.sh`](apps/disclosure-rag/scripts/dy-trace.sh) runs the same pipeline under [`scripts/trace_dy.py`](apps/disclosure-rag/scripts/trace_dy.py), printing an indented call trace to stderr and writing the full trace to `data/traces/<timestamp>.log`. Playlist URLs (`list=` or `/playlist`) are routed by [`main.sh`](apps/disclosure-rag/main.sh) to [`scripts/playlist_ingestion.py`](apps/disclosure-rag/scripts/playlist_ingestion.py) and are **not** traceable through that wrapper.
 
@@ -29,35 +29,34 @@ Prefix: [`main.sh`](apps/disclosure-rag/main.sh) → [`main.py`](apps/disclosure
 | Marker | Location | Source |
 | --- | --- | --- |
 | `YT-CHAIN-01` | [`main.sh`](apps/disclosure-rag/main.sh) :: case fallback arm | [`main.sh:357`](apps/disclosure-rag/main.sh#L357) |
-| `YT-CHAIN-02` | [`main.py`](apps/disclosure-rag/main.py) :: main() | [`main.py:1234`](apps/disclosure-rag/main.py#L1234) |
-| `YT-CHAIN-03` | [`main.py`](apps/disclosure-rag/main.py) :: process_url() | [`main.py:354`](apps/disclosure-rag/main.py#L354) |
-| `YT-CHAIN-04` | [`knowledge_base_service.py`](apps/disclosure-rag/lib/kb/knowledge_base_service.py) :: process_youtube_url_enhanced() | [`lib/kb/knowledge_base_service.py:1169`](apps/disclosure-rag/lib/kb/knowledge_base_service.py#L1169) |
-| `YT-CHAIN-05` | KnowledgeBaseService :: process_youtube_with_enhanced_workflow() | [`lib/kb/knowledge_base_service.py:308`](apps/disclosure-rag/lib/kb/knowledge_base_service.py#L308) |
-| `YT-CHAIN-06` | [`lib/youtube.py`](apps/disclosure-rag/lib/youtube.py) :: generate_transcript() | [`lib/youtube.py:269`](apps/disclosure-rag/lib/youtube.py#L269) |
-| `YT-CHAIN-07` | [`lib/youtube.py`](apps/disclosure-rag/lib/youtube.py) :: get_video_info_and_transcript() | [`lib/youtube.py:135`](apps/disclosure-rag/lib/youtube.py#L135) |
+| `YT-CHAIN-02` | [`main.py`](apps/disclosure-rag/main.py) :: main() | [`main.py:1067`](apps/disclosure-rag/main.py#L1067) |
+| `YT-CHAIN-03` | [`main.py`](apps/disclosure-rag/main.py) :: process_url() | [`main.py:277`](apps/disclosure-rag/main.py#L277) |
+| `YT-CHAIN-04` | [`knowledge_base_service.py`](apps/disclosure-rag/lib/kb/knowledge_base_service.py) :: process_youtube_url_enhanced() | [`lib/kb/knowledge_base_service.py:1135`](apps/disclosure-rag/lib/kb/knowledge_base_service.py#L1135) |
+| `YT-CHAIN-05` | KnowledgeBaseService :: process_youtube_with_enhanced_workflow() | [`lib/kb/knowledge_base_service.py:320`](apps/disclosure-rag/lib/kb/knowledge_base_service.py#L320) |
+| `YT-CHAIN-06` | [`lib/youtube.py`](apps/disclosure-rag/lib/youtube.py) :: generate_transcript() | [`lib/youtube.py:379`](apps/disclosure-rag/lib/youtube.py#L379) |
+| `YT-CHAIN-07` | [`lib/youtube.py`](apps/disclosure-rag/lib/youtube.py) :: get_video_info_and_transcript() | [`lib/youtube.py:245`](apps/disclosure-rag/lib/youtube.py#L245) |
 | `YT-CHAIN-08` | [`youtube_transcript_enhanced.py`](apps/disclosure-rag/lib/youtube_transcript_enhanced.py) :: get_video_info_and_transcript_enhanced() | [`lib/youtube_transcript_enhanced.py:536`](apps/disclosure-rag/lib/youtube_transcript_enhanced.py#L536) |
 | `YT-CHAIN-09` | [`youtube_transcript_enhanced.py`](apps/disclosure-rag/lib/youtube_transcript_enhanced.py) :: get_metadata_and_transcript_api_first() | [`lib/youtube_transcript_enhanced.py:444`](apps/disclosure-rag/lib/youtube_transcript_enhanced.py#L444) |
 | `YT-CHAIN-10` | [`content_analysis.py`](apps/disclosure-rag/processing/content_analysis.py) :: analyze_content() | [`processing/content_analysis.py:269`](apps/disclosure-rag/processing/content_analysis.py#L269) |
 | `YT-CHAIN-11` | [`content_analysis.py`](apps/disclosure-rag/processing/content_analysis.py) :: process_for_rag() | [`processing/content_analysis.py:319`](apps/disclosure-rag/processing/content_analysis.py#L319) |
-| `YT-CHAIN-12` | [`lib/youtube.py`](apps/disclosure-rag/lib/youtube.py) :: Phase 5, artifact writes | [`lib/youtube.py:348`](apps/disclosure-rag/lib/youtube.py#L348) |
-| `YT-CHAIN-13` | [`lib/trace_map.py`](apps/disclosure-rag/lib/trace_map.py) :: build_and_write_trace_map() | [`lib/youtube.py:394`](apps/disclosure-rag/lib/youtube.py#L394) |
-| `YT-CHAIN-14` | KnowledgeBaseService :: Phase 6, the sinks | [`lib/kb/knowledge_base_service.py:420`](apps/disclosure-rag/lib/kb/knowledge_base_service.py#L420) |
+| `YT-CHAIN-12` | [`lib/youtube.py`](apps/disclosure-rag/lib/youtube.py) :: Phase 5, artifact writes | [`lib/youtube.py:482`](apps/disclosure-rag/lib/youtube.py#L482) |
+| `YT-CHAIN-13` | [`lib/trace_map.py`](apps/disclosure-rag/lib/trace_map.py) :: build_and_write_trace_map() | [`lib/youtube.py:528`](apps/disclosure-rag/lib/youtube.py#L528) |
+| `YT-CHAIN-14` | KnowledgeBaseService :: Phase 6, the sinks | [`lib/kb/knowledge_base_service.py:439`](apps/disclosure-rag/lib/kb/knowledge_base_service.py#L439) |
 | `YT-CHAIN-15` | [`upload.py`](apps/disclosure-rag/lib/openai_client/upload.py) :: upload_file_to_openai() | [`lib/openai_client/upload.py:54`](apps/disclosure-rag/lib/openai_client/upload.py#L54) |
-| `YT-CHAIN-16` | [`main.py`](apps/disclosure-rag/main.py) :: trigger_cocoindex_processing() | [`main.py:485`](apps/disclosure-rag/main.py#L485) |
 | `FILE-CHAIN-01` | [`main.sh`](apps/disclosure-rag/main.sh) :: case fallback arm, file branch | [`main.sh:371`](apps/disclosure-rag/main.sh#L371) |
-| `FILE-CHAIN-02` | [`main.py`](apps/disclosure-rag/main.py) :: main(), file arm | [`main.py:1370`](apps/disclosure-rag/main.py#L1370) |
-| `FILE-CHAIN-03` | [`main.py`](apps/disclosure-rag/main.py) :: process_file() | [`main.py:574`](apps/disclosure-rag/main.py#L574) |
-| `FILE-CHAIN-04` | [`content_analysis.py`](apps/disclosure-rag/processing/content_analysis.py) :: process_for_rag() | [`main.py:649`](apps/disclosure-rag/main.py#L649) |
-| `FILE-CHAIN-05` | [`lib/trace_map.py`](apps/disclosure-rag/lib/trace_map.py) :: build_and_write_trace_map() | [`main.py:693`](apps/disclosure-rag/main.py#L693) |
-| `FILE-CHAIN-06` | [`main.py`](apps/disclosure-rag/main.py) :: process_file, the sinks | [`main.py:755`](apps/disclosure-rag/main.py#L755) |
-| `WEB-CHAIN-01` | [`main.py`](apps/disclosure-rag/main.py) :: process_url(), web arm | [`main.py:382`](apps/disclosure-rag/main.py#L382) |
-| `WEB-CHAIN-02` | [`knowledge_base_service.py`](apps/disclosure-rag/lib/kb/knowledge_base_service.py) :: process_web_url_enhanced() | [`lib/kb/knowledge_base_service.py:1182`](apps/disclosure-rag/lib/kb/knowledge_base_service.py#L1182) |
+| `FILE-CHAIN-02` | [`main.py`](apps/disclosure-rag/main.py) :: main(), file arm | [`main.py:1166`](apps/disclosure-rag/main.py#L1166) |
+| `FILE-CHAIN-03` | [`main.py`](apps/disclosure-rag/main.py) :: process_file() | [`main.py:446`](apps/disclosure-rag/main.py#L446) |
+| `FILE-CHAIN-04` | [`content_analysis.py`](apps/disclosure-rag/processing/content_analysis.py) :: process_for_rag() | [`main.py:528`](apps/disclosure-rag/main.py#L528) |
+| `FILE-CHAIN-05` | [`lib/trace_map.py`](apps/disclosure-rag/lib/trace_map.py) :: build_and_write_trace_map() | [`main.py:580`](apps/disclosure-rag/main.py#L580) |
+| `FILE-CHAIN-06` | [`main.py`](apps/disclosure-rag/main.py) :: process_file, the sinks | [`main.py:652`](apps/disclosure-rag/main.py#L652) |
+| `WEB-CHAIN-01` | [`main.py`](apps/disclosure-rag/main.py) :: process_url(), web arm | [`main.py:308`](apps/disclosure-rag/main.py#L308) |
+| `WEB-CHAIN-02` | [`knowledge_base_service.py`](apps/disclosure-rag/lib/kb/knowledge_base_service.py) :: process_web_url_enhanced() | [`lib/kb/knowledge_base_service.py:1148`](apps/disclosure-rag/lib/kb/knowledge_base_service.py#L1148) |
 
 ---
 
 ## YouTube chain
 
-The full path a YouTube URL travels, from the shell dispatch to the final CocoIndex hop. Sixteen junctures; the longest of the three chains and the only one that ends in a knowledge-graph write.
+The full path a YouTube URL travels, from the shell dispatch to the Phase 6 sinks. Fifteen junctures; the longest of the three chains.
 
 ### `YT-CHAIN-01` · [`main.sh`](apps/disclosure-rag/main.sh) :: case fallback arm
 
@@ -69,7 +68,7 @@ NEXT → `YT-CHAIN-02`  [`main.py`](apps/disclosure-rag/main.py) :: main()
 
 ### `YT-CHAIN-02` · [`main.py`](apps/disclosure-rag/main.py) :: main()
 
-**[`main.py:1234`](apps/disclosure-rag/main.py#L1234)**
+**[`main.py:1067`](apps/disclosure-rag/main.py#L1067)**
 
 CLI entry. Order matters here:
 
@@ -83,16 +82,16 @@ NEXT → `YT-CHAIN-03`  [`main.py`](apps/disclosure-rag/main.py) :: process_url(
 
 ### `YT-CHAIN-03` · [`main.py`](apps/disclosure-rag/main.py) :: process_url()
 
-**[`main.py:354`](apps/disclosure-rag/main.py#L354)**
+**[`main.py:277`](apps/disclosure-rag/main.py#L277)**
 
-Branch point. `is_youtube_url()` decides which extractor runs; everything below this is stage grading on whatever that extractor returned. Also owns the LAST hop of the chain — see `YT-CHAIN-16` (CocoIndex), which runs on the YouTube path only.
+Branch point. `is_youtube_url()` decides which extractor runs; everything below this is stage grading on whatever that extractor returned.
 
 PREV ← `YT-CHAIN-02`  [`main.py`](apps/disclosure-rag/main.py) :: main()
 NEXT → `YT-CHAIN-04`  [`lib/kb/knowledge_base_service.py`](apps/disclosure-rag/lib/kb/knowledge_base_service.py) :: process_youtube_url_enhanced()
 
 ### `YT-CHAIN-04` · [`knowledge_base_service.py`](apps/disclosure-rag/lib/kb/knowledge_base_service.py) :: process_youtube_url_enhanced()
 
-**[`lib/kb/knowledge_base_service.py:1169`](apps/disclosure-rag/lib/kb/knowledge_base_service.py#L1169)**
+**[`lib/kb/knowledge_base_service.py:1135`](apps/disclosure-rag/lib/kb/knowledge_base_service.py#L1135)**
 
 A one-line passthrough onto the module-level `kb_service` singleton. This is the name [`main.py`](apps/disclosure-rag/main.py) imports; the work is one hop down.
 
@@ -101,7 +100,7 @@ NEXT → `YT-CHAIN-05`  KnowledgeBaseService :: process_youtube_with_enhanced_wo
 
 ### `YT-CHAIN-05` · KnowledgeBaseService :: process_youtube_with_enhanced_workflow()
 
-**[`lib/kb/knowledge_base_service.py:308`](apps/disclosure-rag/lib/kb/knowledge_base_service.py#L308)**
+**[`lib/kb/knowledge_base_service.py:320`](apps/disclosure-rag/lib/kb/knowledge_base_service.py#L320)**
 
 The orchestrator. Two halves:
 
@@ -116,7 +115,7 @@ THEN → `YT-CHAIN-14`  (Phase 6 sinks, further down this same function)
 
 ### `YT-CHAIN-06` · [`lib/youtube.py`](apps/disclosure-rag/lib/youtube.py) :: generate_transcript()
 
-**[`lib/youtube.py:269`](apps/disclosure-rag/lib/youtube.py#L269)**
+**[`lib/youtube.py:379`](apps/disclosure-rag/lib/youtube.py#L379)**
 
 Does Phases 3, 4 and 5 of the chain in one function:
 
@@ -131,7 +130,7 @@ NEXT → `YT-CHAIN-07`  [`lib/youtube.py`](apps/disclosure-rag/lib/youtube.py) :
 
 ### `YT-CHAIN-07` · [`lib/youtube.py`](apps/disclosure-rag/lib/youtube.py) :: get_video_info_and_transcript()
 
-**[`lib/youtube.py:135`](apps/disclosure-rag/lib/youtube.py#L135)**
+**[`lib/youtube.py:245`](apps/disclosure-rag/lib/youtube.py#L245)**
 
 A thin wrapper. The yt-dlp path is gone — this is transcript-api only, so an ImportError here means no transcript at all, not a slower route.
 
@@ -185,7 +184,7 @@ NEXT → `YT-CHAIN-12`  [`lib/youtube.py`](apps/disclosure-rag/lib/youtube.py) P
 
 ### `YT-CHAIN-12` · [`lib/youtube.py`](apps/disclosure-rag/lib/youtube.py) :: Phase 5, artifact writes
 
-**[`lib/youtube.py:348`](apps/disclosure-rag/lib/youtube.py#L348)**
+**[`lib/youtube.py:482`](apps/disclosure-rag/lib/youtube.py#L482)**
 
 All local file I/O, no network. In order:
 
@@ -199,7 +198,7 @@ NEXT → `YT-CHAIN-13`  [`lib/trace_map.py`](apps/disclosure-rag/lib/trace_map.p
 
 ### `YT-CHAIN-13` · [`lib/trace_map.py`](apps/disclosure-rag/lib/trace_map.py) :: build_and_write_trace_map()
 
-**[`lib/youtube.py:394`](apps/disclosure-rag/lib/youtube.py#L394)**
+**[`lib/youtube.py:528`](apps/disclosure-rag/lib/youtube.py#L528)**
 
 Needs the `YT-CHAIN-11` pipeline result AND the `YT-CHAIN-12` timed sidecar together — this function is the only place in the chain where both exist. That alignment is what turns an extracted claim back into a citable moment in the source. Definition: [`lib/trace_map.py`](apps/disclosure-rag/lib/trace_map.py) (no chain marker at the definition).
 
@@ -208,7 +207,7 @@ NEXT → `YT-CHAIN-14`  [`knowledge_base_service.py`](apps/disclosure-rag/lib/kb
 
 ### `YT-CHAIN-14` · KnowledgeBaseService :: Phase 6, the sinks
 
-**[`lib/kb/knowledge_base_service.py:420`](apps/disclosure-rag/lib/kb/knowledge_base_service.py#L420)**
+**[`lib/kb/knowledge_base_service.py:439`](apps/disclosure-rag/lib/kb/knowledge_base_service.py#L439)**
 
 Everything below is where the processed artifacts land. In order:
 
@@ -219,7 +218,6 @@ Everything below is where the processed artifacts land. In order:
 
 PREV ← `YT-CHAIN-13`  [`lib/trace_map.py`](apps/disclosure-rag/lib/trace_map.py)
 NEXT → `YT-CHAIN-15`  [`lib/openai_client/upload.py`](apps/disclosure-rag/lib/openai_client/upload.py)
-THEN → `YT-CHAIN-16`  [`main.py`](apps/disclosure-rag/main.py) :: trigger_cocoindex_processing()
 
 ### `YT-CHAIN-15` · [`upload.py`](apps/disclosure-rag/lib/openai_client/upload.py) :: upload_file_to_openai()
 
@@ -228,16 +226,7 @@ THEN → `YT-CHAIN-16`  [`main.py`](apps/disclosure-rag/main.py) :: trigger_coco
 THE ONE LEGITIMATE OpenAI CALL ON THIS CHAIN. `files.create` + `vector_stores.files.create` — vector STORAGE only. It contains no embeddings call; OpenAI embeds server-side inside the vector store. Runs only under `--upload` (`YT-CHAIN-14` step 1). Contrast with YT-CHAIN-A4 immediately below, which is the embeddings call people expect to find here — and which is dead.
 
 PREV ← `YT-CHAIN-14`  [`knowledge_base_service.py`](apps/disclosure-rag/lib/kb/knowledge_base_service.py) Phase 6 sinks
-NEXT → back to `YT-CHAIN-14` step 2 (QStash queue)
-
-### `YT-CHAIN-16` · [`main.py`](apps/disclosure-rag/main.py) :: trigger_cocoindex_processing()
-
-**[`main.py:485`](apps/disclosure-rag/main.py#L485)**
-
-LAST hop of the chain. Runs on the YouTube path ONLY — the web path already ran CocoIndex internally inside its own workflow, and calling it again here fired a second global `cocoindex update` per web ingest.
-
-PREV ← `YT-CHAIN-15` / `YT-CHAIN-14` (returned up through `YT-CHAIN-05`→`04`→`03`)
-NEXT → end of chain; stage_report is assembled and `main()` sets the exit code from it.
+NEXT → back to `YT-CHAIN-14` step 2 (QStash queue). After the sinks, control returns up through `YT-CHAIN-05`→`04`→`03`; `process_url()` assembles `stage_report` and `main()` sets the exit code from it. That is the end of the chain.
 
 ---
 
@@ -255,7 +244,7 @@ NEXT → `FILE-CHAIN-02`  [`main.py`](apps/disclosure-rag/main.py) :: main(), fi
 
 ### `FILE-CHAIN-02` · [`main.py`](apps/disclosure-rag/main.py) :: main(), file arm
 
-**[`main.py:1370`](apps/disclosure-rag/main.py#L1370)**
+**[`main.py:1166`](apps/disclosure-rag/main.py#L1166)**
 
 The other half of this dispatch. Same function as `YT-CHAIN-02` — the split is this if/else, and it is the ONLY thing that decides which of the two chains a run follows. Everything upstream is shared.
 
@@ -264,7 +253,7 @@ NEXT → `FILE-CHAIN-03`  [`main.py`](apps/disclosure-rag/main.py) :: process_fi
 
 ### `FILE-CHAIN-03` · [`main.py`](apps/disclosure-rag/main.py) :: process_file()
 
-**[`main.py:574`](apps/disclosure-rag/main.py#L574)**
+**[`main.py:446`](apps/disclosure-rag/main.py#L446)**
 
 The whole local-file ingest, in one function. Unlike the YouTube path — which fans out across [`knowledge_base_service.py`](apps/disclosure-rag/lib/kb/knowledge_base_service.py) → [`youtube.py`](apps/disclosure-rag/lib/youtube.py) → transcript enhancers before it reaches analysis — this path has no extractor stack: it reads bytes, then goes straight to the shared analysis nodes.
 
@@ -280,7 +269,7 @@ NEXT → `FILE-CHAIN-04`  ContentAnalysisEngine :: process_for_rag()
 
 ### `FILE-CHAIN-04` · [`content_analysis.py`](apps/disclosure-rag/processing/content_analysis.py) :: process_for_rag()
 
-**Call site [`main.py:649`](apps/disclosure-rag/main.py#L649)** · definition [`processing/content_analysis.py:319`](apps/disclosure-rag/processing/content_analysis.py#L319)
+**Call site [`main.py:528`](apps/disclosure-rag/main.py#L528)** · definition [`processing/content_analysis.py:319`](apps/disclosure-rag/processing/content_analysis.py#L319)
 
 SHARED NODE — this is `YT-CHAIN-11`. Same function, same contract; documented there, not duplicated here.
 
@@ -293,7 +282,7 @@ NEXT → `FILE-CHAIN-05`  trace map, ~25 lines below
 
 ### `FILE-CHAIN-05` · [`lib/trace_map.py`](apps/disclosure-rag/lib/trace_map.py) :: build_and_write_trace_map()
 
-**Call site [`main.py:693`](apps/disclosure-rag/main.py#L693)** · definition [`lib/trace_map.py`](apps/disclosure-rag/lib/trace_map.py)
+**Call site [`main.py:580`](apps/disclosure-rag/main.py#L580)** · definition [`lib/trace_map.py`](apps/disclosure-rag/lib/trace_map.py)
 
 SHARED NODE — this is `YT-CHAIN-13`. Same builder, one structural difference, and it is the reason this node is worth marking separately at all:
 
@@ -307,7 +296,7 @@ NEXT → `FILE-CHAIN-06`  the sinks, below
 
 ### `FILE-CHAIN-06` · [`main.py`](apps/disclosure-rag/main.py) :: process_file, the sinks
 
-**[`main.py:755`](apps/disclosure-rag/main.py#L755)**
+**[`main.py:652`](apps/disclosure-rag/main.py#L652)**
 
 Where the processed artifacts land. Mirrors `YT-CHAIN-14`, with one asymmetry worth knowing before you compare the two paths:
 
@@ -315,8 +304,6 @@ Where the processed artifacts land. Mirrors `YT-CHAIN-14`, with one asymmetry wo
 2. `add_processed_content_to_queue()` → [`lib/upstash/queue.py`](apps/disclosure-rag/lib/upstash/queue.py), QStash
 3. `add_to_knowledge_base()` → [`lib/kb/knowledge_base_crud.py`](apps/disclosure-rag/lib/kb/knowledge_base_crud.py) → index.json
 4. `add_file_content_memory()` → [`lib/mem0_integration.py`](apps/disclosure-rag/lib/mem0_integration.py)
-
-No CocoIndex hop. `YT-CHAIN-16` runs on the YouTube path only; a local file never reaches it, so this chain ENDS here rather than returning up for one more stage.
 
 PREV ← `FILE-CHAIN-05`  trace map
 NEXT → end of chain; stage_report is assembled and `main()` sets the exit code from it.
@@ -329,7 +316,7 @@ A web article. Shares the first three junctures with the YouTube chain and diver
 
 ### `WEB-CHAIN-01` · [`main.py`](apps/disclosure-rag/main.py) :: process_url(), web arm
 
-**[`main.py:382`](apps/disclosure-rag/main.py#L382)**
+**[`main.py:308`](apps/disclosure-rag/main.py#L308)**
 
 Third ingest path. Shares its whole prefix with the YouTube chain — [`main.sh`](apps/disclosure-rag/main.sh) (`YT-CHAIN-01`) → `main()` (`YT-CHAIN-02`) → `process_url()` (`YT-CHAIN-03`) — and diverges only at this else.
 
@@ -348,7 +335,7 @@ NEXT → `WEB-CHAIN-02`  [`knowledge_base_service.py`](apps/disclosure-rag/lib/k
 
 ### `WEB-CHAIN-02` · [`knowledge_base_service.py`](apps/disclosure-rag/lib/kb/knowledge_base_service.py) :: process_web_url_enhanced()
 
-**[`lib/kb/knowledge_base_service.py:1182`](apps/disclosure-rag/lib/kb/knowledge_base_service.py#L1182)**
+**[`lib/kb/knowledge_base_service.py:1148`](apps/disclosure-rag/lib/kb/knowledge_base_service.py#L1148)**
 
 A one-line passthrough onto the module-level `kb_service` singleton — the web mirror of `YT-CHAIN-04`. This is the name [`main.py`](apps/disclosure-rag/main.py) imports; the work is one hop down.
 

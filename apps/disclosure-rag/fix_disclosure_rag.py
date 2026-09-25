@@ -4,7 +4,6 @@ Fix script for disclosure-rag issues:
 1. Xata entity creation failures
 2. yt-dlp metadata extraction issues
 3. Mem0 authentication issues
-4. CocoIndex installation
 """
 
 import os
@@ -208,26 +207,6 @@ def fix_mem0():
             print_status("Installing mem0ai package...", "INFO")
             subprocess.run([sys.executable, "-m", "pip", "install", "mem0ai"])
 
-def install_cocoindex():
-    """Install CocoIndex for knowledge graph support"""
-    print_status("Checking CocoIndex installation...")
-    
-    try:
-        import cocoindex
-        print_status("CocoIndex already installed", "SUCCESS")
-    except ImportError:
-        print_status("CocoIndex not found - this is optional for knowledge graphs", "WARNING")
-        response = input("Would you like to install CocoIndex? (y/n): ")
-        if response.lower() == 'y':
-            # CocoIndex might be a custom package - check if it's in requirements
-            req_file = Path("requirements.txt")
-            if req_file.exists():
-                with open(req_file) as f:
-                    if "cocoindex" in f.read():
-                        subprocess.run([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"])
-                    else:
-                        print_status("CocoIndex not in requirements.txt - skipping", "WARNING")
-
 def update_entity_write_mode():
     """Update entity write mode to 'auto' for immediate writes"""
     print_status("Updating entity write mode for automatic database writes...")
@@ -266,7 +245,6 @@ def main():
     fix_xata_connection()
     fix_ytdlp()
     fix_mem0()
-    install_cocoindex()
     update_entity_write_mode()
     
     print("\n" + "="*60)

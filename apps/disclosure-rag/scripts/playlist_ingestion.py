@@ -12,8 +12,7 @@ and drives each one through the full Disclosure RAG pipeline:
     -> fidelity review (lib/transcript_fidelity.review_transcript, optional LLM pass)
     -> quality gate (fail/below threshold -> quarantined for human review)
     -> main.process_url() -> KB storage, Upstash sync, NER entity extraction,
-       vectorization (--upload -> OpenAI vector store), CocoIndex knowledge
-       graph, Mem0 memory
+       vectorization (--upload -> OpenAI vector store), Mem0 memory
 
 Every episode outcome is checkpointed to a state file, so re-running the same
 playlist resumes where it left off. Per-episode transcripts and fidelity
@@ -307,7 +306,7 @@ def process_episode(video: Dict[str, Any], playlist_id: str, state: Dict[str, An
                fidelity=fidelity.score, fidelity_verdict=fidelity.verdict)
         return "dry_run"
 
-    # Full pipeline: KB storage, Upstash sync, NER, vectorize, CocoIndex KG, Mem0
+    # Full pipeline: KB storage, Upstash sync, NER, vectorize, Mem0
     try:
         from main import process_url
         result = process_url(url, upload=args.upload, add_to_kb=not args.no_kb)

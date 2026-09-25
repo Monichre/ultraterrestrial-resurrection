@@ -388,18 +388,14 @@ def b2_4():
 
 @check("B2.5", "v1", "--status reports ✅ only for operationally available subsystems")
 def b2_5():
+    # CocoIndex was the subsystem this guarded; it was removed 2026-09-11.
+    # Any CocoIndex line in --status now means the removal regressed.
     _, out, _ = run(["bash", str(MAIN_SH), "--status"], timeout=240)
     txt = strip_ansi(out)
-    m = re.search(r"CocoIndex KG:\s*(✅|❌)", txt)
-    if not m:
-        return FAIL, "--status did not report CocoIndex KG", txt[-200:]
-    import importlib
-    ci = importlib.import_module("lib.cocoindex_integration")
-    really = bool(getattr(ci, "cocoindex_available", False))
-    claimed = m.group(1) == "✅"
-    if claimed and not really:
-        return FAIL, "reports ✅ while `import cocoindex` fails", m.group(0)
-    return PASS, f"claimed={m.group(1)} matches operational={really}", ""
+    m = re.search(r"CocoIndex.*", txt)
+    if m:
+        return FAIL, "--status still reports removed CocoIndex subsystem", m.group(0)[:70]
+    return PASS, "no removed subsystem reported", ""
 
 
 # ======================================================== B3 — dry-run purity

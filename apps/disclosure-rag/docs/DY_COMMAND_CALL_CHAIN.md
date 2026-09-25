@@ -171,17 +171,13 @@ process_url(url, upload, add_to_kb)
 │    else    → process_web_url_enhanced(url, upload, add_to_kb)       main.py:333
 │  except → stage(extraction, failed) and return {stage_report}       main.py:334-337
 ├─ [web only] mem0 add_web_article_memory                        main.py:345-357
-├─ [YouTube only] trigger_cocoindex_processing(doc_id)           main.py:365-411
-│    └─ + mem0 add_knowledge_graph_memory                        main.py:383-393
 ├─ mem0 add_processing_summary_memory                            main.py:415-428
 └─ result['stage_report'] = stages ; return result               main.py:430-431
 ```
 
-**The CocoIndex asymmetry** — the knowledge-graph pass at `main.py:365` is gated on `and youtube`.
-Comment at `main.py:360–364`: `process_web_with_enhanced_workflow()` already runs CocoIndex
-internally (`knowledge_base_service.py:~735–785`), so triggering it here for web results ran a
-second, global `cocoindex update` on every web ingestion. **The two branches of `process_url` emit
-different stage lists.** This is the single most commonly misread part of the chain.
+**The two branches of `process_url` emit different stage lists**: only the web branch adds the mem0
+web-article stage. (A CocoIndex knowledge-graph pass used to make this asymmetry much larger; that
+stage was removed 2026-09-11.)
 
 `is_youtube_url` (`main.py:154`) parses the hostname rather than substring-matching, so
 `https://evil.com/?x=youtube.com/watch` is correctly rejected.
@@ -217,7 +213,6 @@ Reached by `dy <path>` / `dy process-file`. Never reached from a playlist run.
 | `add_to_knowledge_base(data, doc_type)` — `research` for PDF, else `case_file` | `main.py:591–606` |
 | mem0 `add_file_content_memory` | `main.py:609–620` |
 | `process_summary_file_interactive(..., interactive=False)` — entity extraction (Xata match path is dead) | `main.py:623–712` |
-| `trigger_cocoindex_processing(doc_id)` — knowledge graph | `main.py:715–764` |
 | **File relocation**: `processing_queue/` → `packages/knowledge-base/sources/files/` | `main.py:766–801` |
 | mem0 `add_processing_summary_memory` | `main.py:803–817` |
 
@@ -227,7 +222,7 @@ queued file.
 
 ---
 
-## 6. Diagram 2 — one input through `main.py` (the CocoIndex asymmetry made visible)
+## 6. Diagram 2 — one input through `main.py`
 
 ```mermaid
 flowchart TD
@@ -245,29 +240,24 @@ flowchart TD
     Y5 --> Y6["QStash enqueue + vector upload"]
     Y6 --> Y7["add_youtube_to_knowledge_base<br/>:71"]
     Y7 --> Y8["search_syncer.sync_document_to_search"]
-    Y8 --> KG["trigger_cocoindex_processing<br/>main.py:365 — GATED ON youtube"]
 
     YT -->|web| W1["process_web_url_enhanced<br/>knowledge_base_service.py:1140"]
     W1 --> W2["web extraction + AI summary + KB write"]
-    W2 --> W3["CocoIndex runs INTERNALLY here<br/>knowledge_base_service.py ~735-785"]
-    W3 --> WM["mem0 add_web_article_memory<br/>main.py:345"]
+    W2 --> WM["mem0 add_web_article_memory<br/>main.py:345"]
 
     PF --> F1["PDF/UTF-8 read → process_for_rag<br/>main.py:452-518"]
     F1 --> F2["upload + QStash<br/>main.py:541-587"]
     F2 --> F3["add_to_knowledge_base<br/>main.py:599"]
     F3 --> F4["entity extraction<br/>main.py:651"]
-    F4 --> F5["trigger_cocoindex_processing<br/>main.py:721"]
-    F5 --> F6["relocate processing_queue → knowledge-base/sources/files<br/>main.py:787"]
+    F4 --> F6["relocate processing_queue → knowledge-base/sources/files<br/>main.py:787"]
 
-    KG --> SR["stage_report attached<br/>main.py:430"]
+    Y8 --> SR["stage_report attached<br/>main.py:430"]
     WM --> SR
     F6 --> SR
     SR --> OUT{"any stage failed?<br/>main.py:1102"}
     OUT -->|yes| X1["'completed with failures' + exit 1"]
     OUT -->|no| X0["'Processing complete!' + exit 0"]
 
-    style KG fill:#4a3a1f,stroke:#e0af68,color:#fff
-    style W3 fill:#4a3a1f,stroke:#e0af68,color:#fff
     style X1 fill:#5f2d2d,stroke:#f7768e,color:#fff
 ```
 

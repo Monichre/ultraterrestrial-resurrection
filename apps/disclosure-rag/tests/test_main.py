@@ -1,7 +1,7 @@
 """Regression tests for main.py (T-045 M2).
 
 Isolated: no live OpenAI, Upstash, QStash, Mem0, Postgres, or the canonical
-knowledge base is touched. Heavy dependencies (FAISS, CocoIndex, OpenAI
+knowledge base is touched. Heavy dependencies (FAISS, OpenAI
 clients, etc.) are never imported - tests either exercise pure functions
 directly, or set `main._deps_loaded = True` and monkeypatch the specific
 module-level globals a given code path reads, so `_import_heavy_dependencies()`
@@ -77,19 +77,15 @@ def test_summarize_queue_result(queue_result, expected_status):
 
 
 # ---------------------------------------------------------------------------
-# H5: --status reports operational CocoIndex readiness, not import success
+# --status: CocoIndex was removed 2026-09-11 and must not be reported
 # ---------------------------------------------------------------------------
 
-def test_status_reports_cocoindex_not_operational_when_package_missing(
-        monkeypatch, capsys):
+def test_status_does_not_report_cocoindex(monkeypatch, capsys):
     monkeypatch.setattr(main, "kb_service", MagicMock(
         get_integration_status=MagicMock(return_value={
             "local_kb": True, "search_sync": False,
             "search_url": False, "search_token": False,
         })))
-    monkeypatch.setattr(main, "COCOINDEX_KG_AVAILABLE", True)
-    monkeypatch.setattr(main, "cocoindex_processor",
-                         MagicMock(cocoindex_available=False))
     monkeypatch.setattr(main, "display", MagicMock())
     monkeypatch.setattr(main, "_import_heavy_dependencies", lambda: None)
     monkeypatch.setattr(sys, "argv", ["main.py", "--status"])
@@ -97,31 +93,8 @@ def test_status_reports_cocoindex_not_operational_when_package_missing(
     main.main()
 
     out = capsys.readouterr().out
-    assert "CocoIndex KG: ❌" in out
-    assert "package is not installed" in out
-
-
-def test_status_reports_cocoindex_operational_when_package_present(
-        monkeypatch, capsys):
-    monkeypatch.setattr(main, "kb_service", MagicMock(
-        get_integration_status=MagicMock(return_value={
-            "local_kb": True, "search_sync": False,
-            "search_url": False, "search_token": False,
-        })))
-    monkeypatch.setattr(main, "COCOINDEX_KG_AVAILABLE", True)
-    monkeypatch.setattr(main, "cocoindex_processor", MagicMock(
-        cocoindex_available=True,
-        get_processing_status=MagicMock(return_value={"status": "success", "statistics": {}}),
-    ))
-    monkeypatch.setattr(main, "display", MagicMock())
-    monkeypatch.setattr(main, "_import_heavy_dependencies", lambda: None)
-    monkeypatch.setattr(sys, "argv", ["main.py", "--status"])
-
-    main.main()
-
-    out = capsys.readouterr().out
-    assert "CocoIndex KG: ✅" in out
-    assert "package is not installed" not in out
+    assert "Local KB: ✅" in out
+    assert "CocoIndex" not in out
 
 
 # ---------------------------------------------------------------------------

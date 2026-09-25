@@ -44,8 +44,7 @@ playlist URL(s)
   |
   |-> Full Pipeline (main.process_url)
         KB storage -> Upstash sync -> NER entity extraction ->
-        vectorization (--upload -> OpenAI vector store) ->
-        CocoIndex knowledge graph -> Mem0 memory
+        vectorization (--upload -> OpenAI vector store) -> Mem0 memory
 ```
 
 ## Checkpointing & Resume

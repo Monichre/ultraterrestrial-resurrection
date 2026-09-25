@@ -6,7 +6,7 @@ description: >
   batch-ingesting entire YouTube podcast playlists (episode enumeration, transcript fetch,
   fidelity review, RagPromptPipeline / ADR-0001 Evidence chunks, NER, vectorization),
   running the disclosure-rag CLI (main.py, main.sh / dy, run.sh, cli.py, scripts/playlist_ingestion.py),
-  bulk folder ingestion, checking integration status (Upstash, optional CocoIndex/Mem0),
+  bulk folder ingestion, checking integration status (Upstash, optional Mem0),
   searching the knowledge base, entity extraction from processed content,
   or any work in apps/disclosure-rag/ involving the processing pipeline.
   Prefer this skill over product Next.js AI paths — Python ingest is Lane A and disconnected from apps/app.
@@ -14,7 +14,7 @@ description: >
 
 # Disclosure RAG Processor
 
-Process UFO/UAP research content through a multi-stage pipeline: content extraction, knowledge base storage, entity extraction, knowledge graph construction, and contextual memory.
+Process UFO/UAP research content through a multi-stage pipeline: content extraction, knowledge base storage, entity extraction, and contextual memory.
 
 ## Working Directory
 
@@ -96,9 +96,6 @@ Input (URL/YouTube/File)
   |-> Entity Extraction (lib/entity_extraction/)
   |     NER + entity matching (platform DB is Neon via @db/postgres — T-048 H2 bridge)
   |
-  |-> CocoIndex Knowledge Graph (lib/cocoindex_integration.py)  [OPTIONAL]
-  |     Fault-tolerant; skip if cocoindex / Neo4j unavailable
-  |
   |-> Mem0 Contextual Memory (lib/mem0_integration.py)  [OPTIONAL]
   |
   |-> Upstash Queue (lib/upstash/queue.py)  [OPTIONAL]
@@ -120,7 +117,6 @@ Each optional stage is fault-tolerant — failures log warnings but never block 
 | `processing/rag_prompt_pipeline.py` | Registry-backed classify → chunk → NER → validate (ADR-0001) |
 | `processing/content_analysis.py` | `ContentAnalysisEngine.process_for_rag()` wraps RagPromptPipeline |
 | `lib/entity_extraction/processors/interactive_entity_processor.py` | NER with `process_summary_file_interactive()` |
-| `lib/cocoindex_integration.py` | Optional KG; `process_document_knowledge_graph()` |
 | `lib/mem0_integration.py` | Optional memory functions -- see API section below |
 | `lib/unified_rag_orchestrator.py` | `UnifiedRAGOrchestrator` -- multi-backend search (local/OpenAI) |
 | `lib/transcript_fidelity.py` | Playlist fidelity scoring + quarantine gate |
@@ -192,7 +188,6 @@ from lib.mem0_integration import (
     add_web_article_memory(title, url, content, summary, tags)
     add_file_content_memory(title, file_path, content, file_type, tags)
     add_entity_extraction_memory(doc_id, entities, total_matches, processing_results)
-    add_knowledge_graph_memory(doc_id, entities_processed, relationships_processed, kg_results)
     add_processing_summary_memory(doc_id, title, content_type, processing_steps, final_status)
     contextual_add(user_id, text, metadata)               # direct contextual storage
     search_context(user_id, query, top_k)                 # retrieve context
@@ -329,7 +324,7 @@ for doc in docs:
 
 ## Playlist Ingestion (`scripts/playlist_ingestion.py`)
 
-Batch-ingest one or more YouTube podcast playlists end-to-end. Each episode flows through: enumeration → transcript fetch → parse/clean → **fidelity review** (quality gate) → `main.process_url()` (KB storage, RagPromptPipeline sidecars, NER, optional vectorization / CocoIndex / Mem0).
+Batch-ingest one or more YouTube podcast playlists end-to-end. Each episode flows through: enumeration → transcript fetch → parse/clean → **fidelity review** (quality gate) → `main.process_url()` (KB storage, RagPromptPipeline sidecars, NER, optional vectorization / Mem0).
 
 ```bash
 # One or more playlist URLs (plain video URLs also accepted)
@@ -379,7 +374,6 @@ Processed files from `data/processing_queue/` auto-move to `packages/knowledge-b
 - **Module not found**: Use `.venv/bin/python`, run `pip install -r requirements.txt` inside the venv
 - **API key / Upstash import errors**: Prefer `./main.sh` / `dy`, or `set -a; source .env; set +a` before bare Python
 - **`dy ui` / `dy sync-rag` exit 2**: Dead — `main.py` has no `--ui`/`--sync-rag`. Streamlit: `.venv/bin/python -m streamlit run streamlit_app.py`
-- **CocoIndex unavailable**: Optional stage; install only if you need KG. Pipeline continues without it
 - **Mem0 disabled**: Set `MEM0_API_KEY` or leave unset (stage skipped)
 - **Upstash sync skipped**: Set `UPSTASH_SEARCH_URL` + `UPSTASH_SEARCH_TOKEN`
 - **Playlist IP blocks**: State marks `blocked`; run aborts after consecutive threshold — wait / rotate network, then re-run (resume skips terminal statuses)

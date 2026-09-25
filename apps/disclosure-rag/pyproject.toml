@@ -57,7 +57,6 @@ dependencies = [
     "upstash-vector",
     "qstash",
     "xata",
-    "cocoindex",
     
     # YouTube processing
     "pytube",

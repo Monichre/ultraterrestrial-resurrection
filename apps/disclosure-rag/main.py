@@ -43,9 +43,6 @@ process_web_url_enhanced: Any = None
 add_to_knowledge_base: Any = None
 display: Any = None
 web_processor: Any = None
-ENHANCED_COCOINDEX_AVAILABLE: bool = False
-COCOINDEX_KG_AVAILABLE: bool = False
-cocoindex_processor: Any = None
 UPSTASH_QUEUE_AVAILABLE: bool = False
 add_processed_content_to_queue: Any = None
 
@@ -80,7 +77,6 @@ def _import_heavy_dependencies() -> None:
     global WebContentProcessor, ContentAnalysisEngine, upload_file_to_openai
     global kb_service, process_youtube_url_enhanced, process_web_url_enhanced
     global add_to_knowledge_base, display, web_processor
-    global ENHANCED_COCOINDEX_AVAILABLE, COCOINDEX_KG_AVAILABLE, cocoindex_processor
     global UPSTASH_QUEUE_AVAILABLE, add_processed_content_to_queue
 
     from processing.web_content_processor import WebContentProcessor
@@ -93,42 +89,6 @@ def _import_heavy_dependencies() -> None:
         add_to_knowledge_base
     )
     from lib.terminal_display import display
-
-    # Import enhanced CocoIndex for enhanced vector search
-    try:
-        from lib.cocoindex import create_live_cocoindex, BackendFactory  # noqa: F401
-        ENHANCED_COCOINDEX_AVAILABLE = True
-        logger.info("Enhanced CocoIndex available")
-    except ImportError:
-        ENHANCED_COCOINDEX_AVAILABLE = False
-        logger.warning("Enhanced CocoIndex not available")
-
-    # Import CocoIndex knowledge graph integration.
-    #
-    # A successful import means only that the wrapper module loaded — the
-    # wrapper imports cleanly even when the `cocoindex` package itself is
-    # absent. Logging "available" on the import alone produced three
-    # consecutive, contradictory lines on every run:
-    #
-    #   INFO    Enhanced CocoIndex available
-    #   WARNING CocoIndex not available - install with: pip install cocoindex
-    #   INFO    CocoIndex knowledge graph integration available
-    #
-    # `cocoindex_processor.cocoindex_available` is the operational signal (the
-    # same one --status reports), so say what is actually true.
-    try:
-        from lib.cocoindex_integration import cocoindex_processor
-        COCOINDEX_KG_AVAILABLE = True
-        if getattr(cocoindex_processor, "cocoindex_available", False):
-            logger.info("CocoIndex knowledge graph integration available")
-        else:
-            logger.warning(
-                "CocoIndex knowledge graph module imported, but the `cocoindex` "
-                "package is not installed - graph writes will fail")
-    except ImportError as e:
-        COCOINDEX_KG_AVAILABLE = False
-        logger.warning(
-            f"CocoIndex knowledge graph integration not available: {e}")
 
     # Import Upstash queue (fails at import time if UPSTASH_VECTOR_REST_URL/TOKEN
     # are unset) - guard it so --status and non-upload runs still work without
@@ -164,43 +124,6 @@ def is_youtube_url(url: str) -> bool:
     if hostname.startswith("www."):
         hostname = hostname[4:]
     return hostname in _YOUTUBE_HOSTNAMES or hostname.endswith(".youtube.com")
-
-
-def trigger_cocoindex_processing(doc_id: str, force_update: bool = False) -> Optional[Dict[str, Any]]:
-    """Trigger CocoIndex knowledge graph processing for a document"""
-    if not COCOINDEX_KG_AVAILABLE:
-        logger.info("CocoIndex KG processing skipped - not available")
-        return None
-
-    try:
-        logger.info(
-            f"Triggering CocoIndex knowledge graph processing for document: {doc_id}")
-        result = cocoindex_processor.process_document_knowledge_graph(
-            doc_id, force_update)
-
-        if result.get('status') == 'success':
-            entities_count = result.get('entities_processed', 0)
-            relationships_count = result.get('relationships_processed', 0)
-            logger.info(
-                f"CocoIndex processing completed: {entities_count} entities, {relationships_count} relationships")
-        elif result.get('status') == 'skipped':
-            logger.info(
-                f"CocoIndex processing skipped: {result.get('reason', 'unknown')}")
-        else:
-            logger.warning(
-                f"CocoIndex processing failed: {result.get('error', 'unknown error')}")
-
-        return result
-
-    except Exception:
-        # logger.exception (not .error) so the traceback survives in debug
-        # logs even though the caller only ever sees None here (T-045 M3) -
-        # the caller can't distinguish credential/network/malformed-content
-        # failures from this return value alone, so the traceback is the
-        # only place that distinction is preserved.
-        logger.exception(
-            f"Error triggering CocoIndex processing for document: {doc_id}")
-        return None
 
 
 def _detail(value: Any, limit: int = 200) -> str:
@@ -354,8 +277,6 @@ def process_url(url: str, upload: bool = False, add_to_kb: bool = True) -> Optio
     ═══ YT-CHAIN-03 · main.py :: process_url() ════════════════════════════
     Branch point. is_youtube_url() decides which extractor runs; everything
     below this is stage grading on whatever that extractor returned.
-    Also owns the LAST hop of the chain — see YT-CHAIN-16 (CocoIndex),
-    which runs on the YouTube path only.
     PREV ← YT-CHAIN-02  main.py :: main()
     NEXT → YT-CHAIN-04  lib/kb/knowledge_base_service.py :: process_youtube_url_enhanced()
     ═══════════════════════════════════════════════════════════════════════
@@ -497,82 +418,6 @@ def process_url(url: str, upload: bool = False, add_to_kb: bool = True) -> Optio
         except ImportError as e:
             stages.append(_skipped("Mem0 web article memory",
                           f"module unavailable: {e}"))
-
-    # ═══ YT-CHAIN-16 · main.py :: trigger_cocoindex_processing() ══════════
-    # LAST hop of the chain. Runs on the YouTube path ONLY — the web path
-    # already ran CocoIndex internally inside its own workflow, and calling
-    # it again here fired a second global `cocoindex update` per web ingest.
-    # PREV ← YT-CHAIN-15 / YT-CHAIN-14  (returned up through YT-CHAIN-05→04→03)
-    # NEXT → end of chain; stage_report is assembled and main() sets the
-    #        exit code from it.
-    # ═══════════════════════════════════════════════════════════════════════
-    # Add CocoIndex knowledge graph processing if result has doc_id.
-    # process_web_with_enhanced_workflow() already runs CocoIndex internally
-    # (knowledge_base_service.py:~735-785); triggering it again here for web
-    # results ran a second, global `cocoindex update` on every web ingestion.
-    # The YouTube workflow has no internal CocoIndex step, so it still needs
-    # this pass.
-    if result.get('doc_id') and add_to_kb and youtube:
-        try:
-            display.print_stage("🕸️ KNOWLEDGE GRAPH", "🕸️")
-            display.start_spinner(
-                "📊 Building knowledge graph with CocoIndex...")
-
-            with tracker.phase(
-                "CocoIndex knowledge graph",
-                chain="YT-CHAIN-16", icon="🕸️"):
-                cocoindex_result = trigger_cocoindex_processing(result['doc_id'])
-                if cocoindex_result:
-                    tracker.stat(
-                        "entities",
-                        str(cocoindex_result.get('entities_processed', 0)))
-                    tracker.stat(
-                        "relationships",
-                        str(cocoindex_result.get('relationships_processed', 0)))
-                    tracker.stat("status", cocoindex_result.get('status', '?'))
-            if cocoindex_result and cocoindex_result.get('status') == 'success':
-                entities_count = cocoindex_result.get('entities_processed', 0)
-                relationships_count = cocoindex_result.get(
-                    'relationships_processed', 0)
-                display.stop_spinner(
-                    f"✅ Knowledge graph built: {entities_count} entities, {relationships_count} relationships")
-                result['cocoindex_processing'] = cocoindex_result
-                stages.append(_stage(
-                    "Knowledge graph construction", True,
-                    f"{entities_count} entities, {relationships_count} relationships"))
-
-                try:
-                    from lib.mem0_integration import add_knowledge_graph_memory
-                    stages.append(_call_mem0(
-                        "Mem0 knowledge graph memory", add_knowledge_graph_memory,
-                        doc_id=result['doc_id'],
-                        entities_processed=entities_count,
-                        relationships_processed=relationships_count,
-                        kg_results=cocoindex_result
-                    ))
-                except ImportError as e:
-                    stages.append(
-                        _skipped("Mem0 knowledge graph memory", f"module unavailable: {e}"))
-            elif cocoindex_result and cocoindex_result.get('status') == 'skipped':
-                display.stop_spinner(
-                    f"⚠️ Knowledge graph processing skipped: {cocoindex_result.get('reason', 'unknown')}")
-                result['cocoindex_processing'] = cocoindex_result
-                stages.append(_skipped(
-                    "Knowledge graph construction", cocoindex_result.get('reason', 'unknown')))
-            else:
-                display.stop_spinner("❌ Knowledge graph processing failed")
-                if cocoindex_result:
-                    result['cocoindex_processing'] = cocoindex_result
-                stages.append(_stage(
-                    "Knowledge graph construction", False,
-                    (cocoindex_result or {}).get('error', 'unknown error')))
-
-        except Exception as e:
-            display.stop_spinner("❌ Knowledge graph processing failed")
-            logger.error(f"CocoIndex processing failed: {e}")
-            stages.append(
-                _stage("Knowledge graph construction", False, str(e)))
-            # Don't fail the entire process if CocoIndex processing fails
 
     # Add comprehensive processing summary to memory
     if result.get('doc_id'):
@@ -817,10 +662,6 @@ def process_file(file_path: str, upload: bool = False, add_to_kb: bool = True) -
         #                                         → index.json
         #   4. add_file_content_memory()        → lib/mem0_integration.py
         #
-        # No CocoIndex hop. YT-CHAIN-16 runs on the YouTube path only; a local
-        # file never reaches it, so this chain ENDS here rather than returning
-        # up for one more stage.
-        #
         # PREV ← FILE-CHAIN-05  trace map
         # NEXT → end of chain; stage_report is assembled and main() sets the
         #        exit code from it.
@@ -1020,61 +861,6 @@ def process_file(file_path: str, upload: bool = False, add_to_kb: bool = True) -
                     logger.error(f"Error setting up entity processing: {e}")
                     stages.append(_stage("Entity extraction", False, str(e)))
 
-            # Trigger CocoIndex knowledge graph processing after entity extraction
-            if doc_id:
-                try:
-                    display.print_stage("🕸️ KNOWLEDGE GRAPH", "🕸️")
-                    display.start_spinner(
-                        "📊 Building knowledge graph with CocoIndex...")
-
-                    cocoindex_result = trigger_cocoindex_processing(doc_id)
-                    if cocoindex_result and cocoindex_result.get('status') == 'success':
-                        entities_count = cocoindex_result.get(
-                            'entities_processed', 0)
-                        relationships_count = cocoindex_result.get(
-                            'relationships_processed', 0)
-                        display.stop_spinner(
-                            f"✅ Knowledge graph built: {entities_count} entities, {relationships_count} relationships")
-                        data['cocoindex_processing'] = cocoindex_result
-                        stages.append(_stage(
-                            "Knowledge graph construction", True,
-                            f"{entities_count} entities, {relationships_count} relationships"))
-
-                        # Add knowledge graph to mem0 memory
-                        try:
-                            from lib.mem0_integration import add_knowledge_graph_memory
-                            stages.append(_call_mem0(
-                                "Mem0 knowledge graph memory", add_knowledge_graph_memory,
-                                doc_id=doc_id,
-                                entities_processed=entities_count,
-                                relationships_processed=relationships_count,
-                                kg_results=cocoindex_result
-                            ))
-                        except ImportError as e:
-                            stages.append(
-                                _skipped("Mem0 knowledge graph memory", f"module unavailable: {e}"))
-                    elif cocoindex_result and cocoindex_result.get('status') == 'skipped':
-                        display.stop_spinner(
-                            f"⚠️ Knowledge graph processing skipped: {cocoindex_result.get('reason', 'unknown')}")
-                        data['cocoindex_processing'] = cocoindex_result
-                        stages.append(_skipped(
-                            "Knowledge graph construction", cocoindex_result.get('reason', 'unknown')))
-                    else:
-                        display.stop_spinner(
-                            "❌ Knowledge graph processing failed")
-                        if cocoindex_result:
-                            data['cocoindex_processing'] = cocoindex_result
-                        stages.append(_stage(
-                            "Knowledge graph construction", False,
-                            (cocoindex_result or {}).get('error', 'unknown error')))
-
-                except Exception as e:
-                    display.stop_spinner("❌ Knowledge graph processing failed")
-                    logger.error(f"CocoIndex processing failed: {e}")
-                    stages.append(
-                        _stage("Knowledge graph construction", False, str(e)))
-                    # Don't fail the entire process if CocoIndex processing fails
-
             # Move successfully processed files from processing_queue to files.
             # Containment is checked on the resolved path, so the move must
             # also operate on the resolved path - moving the raw argument
@@ -1211,16 +997,10 @@ def _build_dry_run_plan(input_path: str, upload: bool, add_to_kb: bool) -> List[
             lines.append("Would write: knowledge base entry + summary/metadata files "
                          "under packages/knowledge-base/")
             lines.append("Would run: entity extraction (OpenAI)")
-            if youtube:
-                lines.append(
-                    "Would run: CocoIndex knowledge graph construction")
-            else:
-                lines.append("CocoIndex knowledge graph: runs internally as part of web "
-                             "content extraction above, not a separate step")
             lines.append(
                 "Would write: mem0 contextual memory entries (if MEM0_API_KEY set)")
         else:
-            lines.append("Knowledge base write, entity extraction, knowledge graph: "
+            lines.append("Knowledge base write, entity extraction: "
                          "SKIPPED (--no-kb)")
         if upload:
             lines.append(
@@ -1260,13 +1040,6 @@ def _build_dry_run_plan(input_path: str, upload: bool, add_to_kb: bool) -> List[
         lines.append(f"Would write: {path.with_name(f'{path.stem}_summary.txt')} "
                      "(entity extraction summary)")
         lines.append("Would run: entity extraction (OpenAI)")
-        # NOT CocoIndex. trigger_cocoindex_processing() has exactly one call
-        # site — inside process_url()'s YouTube arm (YT-CHAIN-16) — so a local
-        # file never reaches it. This line previously promised a knowledge
-        # graph build that cannot happen on this path, which is the specific
-        # kind of overstatement --dry-run exists to prevent.
-        lines.append("CocoIndex knowledge graph: NOT run on the local-file path "
-                     "(YouTube ingests only)")
 
         processing_queue_dir = (
             Path(__file__).parent / "data" / "processing_queue").resolve()
@@ -1282,7 +1055,7 @@ def _build_dry_run_plan(input_path: str, upload: bool, add_to_kb: bool) -> List[
         lines.append(
             "Would write: mem0 contextual memory entries (if MEM0_API_KEY set)")
     else:
-        lines.append("Knowledge base write, entity extraction, knowledge graph, "
+        lines.append("Knowledge base write, entity extraction, "
                      "relocation: SKIPPED (--no-kb)")
 
     return lines
@@ -1330,24 +1103,6 @@ def main():
         print(f"   Search URL: {'✅' if status['search_url'] else '❌'}")
         print(f"   Search Token: {'✅' if status['search_token'] else '❌'}")
 
-        # COCOINDEX_KG_AVAILABLE only means lib.cocoindex_integration imported
-        # cleanly - that module can import fine while the underlying
-        # `cocoindex` package itself is missing, which is exactly the T-045
-        # H5 bug: this used to report "CocoIndex KG: ✅" in the same run that
-        # logged "CocoIndex not available - install with: pip install
-        # cocoindex". cocoindex_processor.cocoindex_available reflects
-        # whether `import cocoindex` actually succeeded (see
-        # lib/cocoindex_integration.py:_check_cocoindex_availability) - that
-        # is the real operational signal.
-        coco_operational = (
-            COCOINDEX_KG_AVAILABLE
-            and bool(getattr(cocoindex_processor, "cocoindex_available", False))
-        )
-        print(f"   CocoIndex KG: {'✅' if coco_operational else '❌'}")
-        if COCOINDEX_KG_AVAILABLE and not coco_operational:
-            print(f"   CocoIndex KG module: ✅ imported, but the `cocoindex` "
-                  f"package is not installed/available - graph writes will fail")
-
         # Check Mem0 integration status
         try:
             from lib.mem0_integration import _is_enabled, _get_api_key
@@ -1358,29 +1113,10 @@ def main():
         except Exception:
             print(f"   Mem0 Integration: ❌ (Module not available)")
 
-        if coco_operational:
-            try:
-                # Get CocoIndex processor status
-                kg_status = cocoindex_processor.get_processing_status()
-                if kg_status.get('status') == 'success' and 'statistics' in kg_status:
-                    stats = kg_status['statistics']
-                    print(
-                        f"   KG Documents: {stats.get('total_documents', 0)}")
-                    print(f"   KG Entities: {stats.get('total_entities', 0)}")
-                    print(
-                        f"   KG Relationships: {stats.get('total_relationships', 0)}")
-            except Exception as e:
-                logger.debug(f"Could not get CocoIndex status: {e}")
-
         if not status['search_sync']:
             print(f"\n💡 To enable Search sync, set environment variables:")
             print(f"   export UPSTASH_SEARCH_URL=your_url")
             print(f"   export UPSTASH_SEARCH_TOKEN=your_token")
-
-        if not coco_operational:
-            print(f"\n💡 To enable CocoIndex knowledge graph:")
-            print(f"   pip install cocoindex")
-            print(f"   Configure PostgreSQL and Neo4j connections")
 
         try:
             from lib.mem0_integration import _is_enabled

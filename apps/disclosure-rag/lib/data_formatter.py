@@ -220,7 +220,7 @@ class StandardizedDataFormatter:
         if step in data['metadata']['processing_status']:
             data['metadata']['processing_status'][step] = success
         
-        if result and step in ['entity_processing', 'cocoindex_processing', 'openai_upload', 
+        if result and step in ['entity_processing', 'openai_upload',
                                'search_sync', 'queue_result']:
             data['processing_results'][step] = result
         

@@ -14,7 +14,6 @@ apps/disclosure-rag/
 ├── process_entities.py        # Standalone entity extraction
 ├── .env                       # API keys and config
 ├── config/
-│   ├── cocoindex_config.py    # CocoIndex settings
 │   ├── onenode_config.yaml    # OneNode integration
 │   └── yt-dlp.conf            # YouTube download config
 ├── lib/
@@ -25,8 +24,6 @@ apps/disclosure-rag/
 │   │   └── kb_root.py                  # DISCLOSURE_RAG_KB_PATH + archive root
 │   ├── terminal_display.py         # Terminal UI (spinners, headers)
 │   ├── mem0_integration.py         # Mem0 contextual memory
-│   ├── cocoindex_integration.py    # Knowledge graph builder
-│   ├── cocoindex_flows.py          # CocoIndex flow definitions
 │   ├── xata_search.py              # DEAD — retired Xata client, non-functional
 │   ├── youtube.py                  # YouTube processing
 │   ├── youtube_handler.py          # YouTube download handler
@@ -88,7 +85,6 @@ URL -> is_youtube_url() check
     -> ContentAnalysisEngine / RagPromptPipeline (writes *_rag_pipeline.json)
     -> add_youtube_to_knowledge_base() -> doc_id
     -> Upstash Search sync (IntegratedUpstashSyncer) [optional]
-  -> CocoIndex: trigger_cocoindex_processing(doc_id) [optional; YouTube branch only here]
   -> Mem0: add_processing_summary_memory() [optional]
 ```
 
@@ -101,7 +97,6 @@ URL -> process_web_url_enhanced() [lib/kb/knowledge_base_service.py]
   -> add_to_knowledge_base() -> doc_id
   -> Upstash Search sync [optional]
 -> Mem0: add_web_article_memory(...) [optional]
--> CocoIndex already may run inside web workflow — do not double-trigger in process_url
 -> Mem0: add_processing_summary_memory() [optional]
 ```
 
@@ -117,7 +112,6 @@ File -> process_file() [main.py]
   -> add_to_knowledge_base() -> doc_id
   -> Mem0: add_file_content_memory() [optional]
   -> Entity extraction: process_summary_file_interactive(path, doc_id, interactive=False)
-  -> CocoIndex: trigger_cocoindex_processing(doc_id) [optional]
   -> File relocation: processing_queue/ -> packages/knowledge-base/sources/files/
   -> Mem0: add_processing_summary_memory() [optional]
 ```
@@ -132,13 +126,11 @@ File -> process_file() [main.py]
 | Search Sync | IntegratedUpstashSyncer available |
 | Search URL | UPSTASH_SEARCH_URL env var set |
 | Search Token | UPSTASH_SEARCH_TOKEN env var set |
-| CocoIndex KG | cocoindex module importable |
-| KG Statistics | Documents, entities, relationships counts |
 | Mem0 | MEM0_API_KEY set and module available |
 
 ## Triple RAG / multi-backend search (legacy framing)
 
-Older docs describe weighted Upstash (40%) + FAISS (40%) + CocoIndex (20%). Treat this as **inventory of optional local backends**, not as the Next.js product retrieval architecture (that is Postgres FTS + pgvector via `@db/postgres`). `UnifiedRAGOrchestrator` can still search OpenAI / local stores when configured; do not require all three for a successful ingest.
+Older docs describe weighted Upstash (40%) + FAISS (40%) + CocoIndex (20%); the CocoIndex stage was removed 2026-09-11. Treat this as **inventory of optional local backends**, not as the Next.js product retrieval architecture (that is Postgres FTS + pgvector via `@db/postgres`). `UnifiedRAGOrchestrator` can still search OpenAI / local stores when configured; do not require all three for a successful ingest.
 
 Orchestrated by `lib/unified_rag_orchestrator.py`.
 
@@ -186,7 +178,6 @@ from lib.mem0_integration import (
     add_web_article_memory,          # title, url, content, summary, tags
     add_file_content_memory,         # title, file_path, content, file_type, tags
     add_entity_extraction_memory,    # doc_id, entities, total_matches, processing_results
-    add_knowledge_graph_memory,      # doc_id, entities_processed, relationships_processed, kg_results
     add_processing_summary_memory,   # doc_id, title, content_type, processing_steps, final_status
     _is_enabled,                     # Check if Mem0 is active
     _get_api_key,                    # Get configured API key
