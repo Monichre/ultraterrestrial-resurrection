@@ -1,0 +1,5 @@
+ ...2026-08-05_21-17-10Z-remove-unused-mcps-walk.md | 21194 ++++++++++++++++++
+ .../worktrees/compassionate-lovelace-e35750        |     0
+ .../reports/run-20260801-165547.md                 |    11 -
+ .../playlist_ingestion/transcripts/dQw4w9WgXcQ.txt |     4 -
+ 4 files changed, 21194 insertions(+), 15 deletions(-)

@@ -1,0 +1,1441 @@
+{
+  "schemaVersion": "trace-map.v1",
+  "sourceId": "src:c1dffeda5c0c51f6",
+  "sourceType": "video",
+  "sourceUrl": "https://www.youtube.com/watch?v=3fkg0uTA3qU",
+  "sourceHash": "sha256:c416bd68193fa84224c2c48fa4ba205e91edae4e6d4aa28e44252aebfbac2b98",
+  "contentVersion": 1,
+  "reviewState": "unreviewed",
+  "nodes": [
+    {
+      "id": "src:c1dffeda5c0c51f6",
+      "type": "source",
+      "label": "Top AI Scientist Unifies Wolfram, Leibniz, & Consciousness | William Hahn",
+      "url": "https://www.youtube.com/watch?v=3fkg0uTA3qU",
+      "sourceType": "video",
+      "contentType": "media",
+      "integrityFlags": [
+        "secondary_repost"
+      ],
+      "classificationMarks": [],
+      "ingestionRecommendation": "proceed"
+    },
+    {
+      "id": "seg:c1dffeda5c0c51f6:c01",
+      "type": "segment",
+      "label": "c01",
+      "chunkId": "c01",
+      "evidentiaryDensity": "high",
+      "temporalAnchors": [
+        "early 2025"
+      ],
+      "spatialAnchors": [
+        "MIT Media Lab"
+      ],
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 2826,
+        "segmentStart": 0,
+        "segmentEnd": 29,
+        "startSeconds": 0.08,
+        "endSeconds": 194.0,
+        "method": "exact",
+        "excerpt": "we're here at the mit media lab. i'm here with professor william hahn. the links to his work are on screen and in the description, as well as the previous time that we spoke, which was a fantastic podcast, and i think people should check it"
+      },
+      "excerpt": "We're here at the MIT Media Lab. I'm here with Professor William Hahn. The links to his work are on screen and in the description, as well as the previous time that we spoke, which was a fantastic podcast, and I think people should check it"
+    },
+    {
+      "id": "seg:c1dffeda5c0c51f6:c02",
+      "type": "segment",
+      "label": "c02",
+      "chunkId": "c02",
+      "evidentiaryDensity": "high",
+      "temporalAnchors": [],
+      "spatialAnchors": [],
+      "anchor": {
+        "charStart": 2827,
+        "charEnd": 6585,
+        "segmentStart": 29,
+        "segmentEnd": 68,
+        "startSeconds": 188.36,
+        "endSeconds": 454.59999999999997,
+        "method": "exact",
+        "excerpt": "so when someone says that consciousness is a continuum, and it's not a binary on or off, i think you can always translate a continuum to an on or off by saying, is it zero or non-zero? so for instance, we say that a photon is chargeless. we"
+      },
+      "excerpt": "So when someone says that consciousness is a continuum, and it's not a binary on or off, I think you can always translate a continuum to an on or off by saying, is it zero or non-zero? So for instance, we say that a photon is chargeless. We"
+    },
+    {
+      "id": "seg:c1dffeda5c0c51f6:c03",
+      "type": "segment",
+      "label": "c03",
+      "chunkId": "c03",
+      "evidentiaryDensity": "high",
+      "temporalAnchors": [],
+      "spatialAnchors": [],
+      "anchor": {
+        "charStart": 6586,
+        "charEnd": 9437,
+        "segmentStart": 68,
+        "segmentEnd": 98,
+        "startSeconds": 447.96,
+        "endSeconds": 646.44,
+        "method": "exact",
+        "excerpt": "are you referring to computational equivalence? exactly, yeah. okay, so in the leibniz case you were referencing representations of representations and you have a hierarchy. right. in the wilfram case it sounds like you have what is not a c"
+      },
+      "excerpt": "Are you referring to computational equivalence? Exactly, yeah. Okay, so in the Leibniz case you were referencing representations of representations and you have a hierarchy. Right. In the Wilfram case it sounds like you have what is not a c"
+    },
+    {
+      "id": "seg:c1dffeda5c0c51f6:c04",
+      "type": "segment",
+      "label": "c04",
+      "chunkId": "c04",
+      "evidentiaryDensity": "high",
+      "temporalAnchors": [],
+      "spatialAnchors": [],
+      "anchor": {
+        "charStart": 9438,
+        "charEnd": 14190,
+        "segmentStart": 98,
+        "segmentEnd": 148,
+        "startSeconds": 639.24,
+        "endSeconds": 936.56,
+        "method": "exact",
+        "excerpt": "is the question of have we hit the upper limit equivalent to the question of are there thoughts that we can't think of? so now what i mean by equivalent to is we can imagine that let's look at this room and there are thoughts everywhere and"
+      },
+      "excerpt": "Is the question of have we hit the upper limit equivalent to the question of are there thoughts that we can't think of? So now what I mean by equivalent to is we can imagine that let's look at this room and there are thoughts everywhere and"
+    },
+    {
+      "id": "seg:c1dffeda5c0c51f6:c05",
+      "type": "segment",
+      "label": "c05",
+      "chunkId": "c05",
+      "evidentiaryDensity": "high",
+      "temporalAnchors": [
+        "this year"
+      ],
+      "spatialAnchors": [
+        "Lego lab upstairs"
+      ],
+      "anchor": {
+        "charStart": 14191,
+        "charEnd": 18047,
+        "segmentStart": 148,
+        "segmentEnd": 188,
+        "startSeconds": 931.0,
+        "endSeconds": 1149.0800000000002,
+        "method": "exact",
+        "excerpt": "okay, this is extremely interesting. so i have two thoughts, and you can take both of them if you like, or choose a direction. so when you said that you thought english was enough, are you saying that you thought there was something like th"
+      },
+      "excerpt": "Okay, this is extremely interesting. So I have two thoughts, and you can take both of them if you like, or choose a direction. So when you said that you thought English was enough, are you saying that you thought there was something like th"
+    },
+    {
+      "id": "seg:c1dffeda5c0c51f6:c06",
+      "type": "segment",
+      "label": "c06",
+      "chunkId": "c06",
+      "evidentiaryDensity": "high",
+      "temporalAnchors": [],
+      "spatialAnchors": [],
+      "anchor": {
+        "charStart": 18048,
+        "charEnd": 20343,
+        "segmentStart": 188,
+        "segmentEnd": 212,
+        "startSeconds": 1143.64,
+        "endSeconds": 1310.08,
+        "method": "exact",
+        "excerpt": "let me have fun with this immune analogy. yeah. is it the case then that there would be autoimmune disorders of the mind? the mind sees something that's actually benign or even salubrious or nourishing. and thinks that it's not. and so it t"
+      },
+      "excerpt": "Let me have fun with this immune analogy. Yeah. Is it the case then that there would be autoimmune disorders of the mind? The mind sees something that's actually benign or even salubrious or nourishing. And thinks that it's not. And so it t"
+    },
+    {
+      "id": "seg:c1dffeda5c0c51f6:c08",
+      "type": "segment",
+      "label": "c08",
+      "chunkId": "c08",
+      "evidentiaryDensity": "high",
+      "overlapNote": "Text truncated at end due to source cutoff.",
+      "temporalAnchors": [],
+      "spatialAnchors": [],
+      "anchor": {
+        "charStart": 21056,
+        "charEnd": 23753,
+        "segmentStart": 219,
+        "segmentEnd": 247,
+        "startSeconds": 1342.84,
+        "endSeconds": 1507.84,
+        "method": "exact",
+        "excerpt": "this is extremely interesting because it relates to the difference between hardware and software. which there may not be as much of a difference as we thought. so when we speak about the brain and even psychological disorders as you alluded"
+      },
+      "excerpt": "This is extremely interesting because it relates to the difference between hardware and software. Which there may not be as much of a difference as we thought. So when we speak about the brain and even psychological disorders as you alluded"
+    },
+    {
+      "id": "clm:c1dffeda5c0c51f6:4449a4a7b2fe",
+      "type": "claim",
+      "label": "Consciousness is a hierarchy of representations, not a binary on/off.",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 2826,
+        "segmentStart": 0,
+        "segmentEnd": 29,
+        "startSeconds": 0.08,
+        "endSeconds": 194.0,
+        "method": "exact",
+        "excerpt": "we're here at the mit media lab. i'm here with professor william hahn. the links to his work are on screen and in the description, as well as the previous time that we spoke, which was a fantastic podcast, and i think people should check it"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c1dffeda5c0c51f6:ce1df0457584",
+      "type": "claim",
+      "label": "Modern AIs are intelligent but may not yet be conscious.",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 2826,
+        "segmentStart": 0,
+        "segmentEnd": 29,
+        "startSeconds": 0.08,
+        "endSeconds": 194.0,
+        "method": "exact",
+        "excerpt": "we're here at the mit media lab. i'm here with professor william hahn. the links to his work are on screen and in the description, as well as the previous time that we spoke, which was a fantastic podcast, and i think people should check it"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c1dffeda5c0c51f6:f677bf14b114",
+      "type": "claim",
+      "label": "Consciousness in machines may be bootstrapped inevitably.",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 2826,
+        "segmentStart": 0,
+        "segmentEnd": 29,
+        "startSeconds": 0.08,
+        "endSeconds": 194.0,
+        "method": "exact",
+        "excerpt": "we're here at the mit media lab. i'm here with professor william hahn. the links to his work are on screen and in the description, as well as the previous time that we spoke, which was a fantastic podcast, and i think people should check it"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c1dffeda5c0c51f6:6f4abe213407",
+      "type": "claim",
+      "label": "Consciousness may be a threshold, not a continuum.",
+      "anchor": {
+        "charStart": 2827,
+        "charEnd": 6585,
+        "segmentStart": 29,
+        "segmentEnd": 68,
+        "startSeconds": 188.36,
+        "endSeconds": 454.59999999999997,
+        "method": "exact",
+        "excerpt": "so when someone says that consciousness is a continuum, and it's not a binary on or off, i think you can always translate a continuum to an on or off by saying, is it zero or non-zero? so for instance, we say that a photon is chargeless. we"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c1dffeda5c0c51f6:40f3a9c3a520",
+      "type": "claim",
+      "label": "GPUs are rock-like objects that may instantiate consciousness.",
+      "anchor": {
+        "charStart": 2827,
+        "charEnd": 6585,
+        "segmentStart": 29,
+        "segmentEnd": 68,
+        "startSeconds": 188.36,
+        "endSeconds": 454.59999999999997,
+        "method": "exact",
+        "excerpt": "so when someone says that consciousness is a continuum, and it's not a binary on or off, i think you can always translate a continuum to an on or off by saying, is it zero or non-zero? so for instance, we say that a photon is chargeless. we"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c1dffeda5c0c51f6:84c7ac6d2a8e",
+      "type": "claim",
+      "label": "Wolfram's computational equivalence suggests natural computers are common.",
+      "anchor": {
+        "charStart": 2827,
+        "charEnd": 6585,
+        "segmentStart": 29,
+        "segmentEnd": 68,
+        "startSeconds": 188.36,
+        "endSeconds": 454.59999999999997,
+        "method": "exact",
+        "excerpt": "so when someone says that consciousness is a continuum, and it's not a binary on or off, i think you can always translate a continuum to an on or off by saying, is it zero or non-zero? so for instance, we say that a photon is chargeless. we"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c1dffeda5c0c51f6:8990ccb962e3",
+      "type": "claim",
+      "label": "Universal computation may be easy to stumble upon.",
+      "anchor": {
+        "charStart": 2827,
+        "charEnd": 6585,
+        "segmentStart": 29,
+        "segmentEnd": 68,
+        "startSeconds": 188.36,
+        "endSeconds": 454.59999999999997,
+        "method": "exact",
+        "excerpt": "so when someone says that consciousness is a continuum, and it's not a binary on or off, i think you can always translate a continuum to an on or off by saying, is it zero or non-zero? so for instance, we say that a photon is chargeless. we"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c1dffeda5c0c51f6:7ad3a0060757",
+      "type": "claim",
+      "label": "Universal computation is a ceiling; nothing more powerful.",
+      "anchor": {
+        "charStart": 6586,
+        "charEnd": 9437,
+        "segmentStart": 68,
+        "segmentEnd": 98,
+        "startSeconds": 447.96,
+        "endSeconds": 646.44,
+        "method": "exact",
+        "excerpt": "are you referring to computational equivalence? exactly, yeah. okay, so in the leibniz case you were referencing representations of representations and you have a hierarchy. right. in the wilfram case it sounds like you have what is not a c"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c1dffeda5c0c51f6:2425b7b737fb",
+      "type": "claim",
+      "label": "Question of whether humans have reached universal representation.",
+      "anchor": {
+        "charStart": 6586,
+        "charEnd": 9437,
+        "segmentStart": 68,
+        "segmentEnd": 98,
+        "startSeconds": 447.96,
+        "endSeconds": 646.44,
+        "method": "exact",
+        "excerpt": "are you referring to computational equivalence? exactly, yeah. okay, so in the leibniz case you were referencing representations of representations and you have a hierarchy. right. in the wilfram case it sounds like you have what is not a c"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c1dffeda5c0c51f6:487468da9b24",
+      "type": "claim",
+      "label": "AI may be the next stage of evolution, bootstrapped by biology.",
+      "anchor": {
+        "charStart": 6586,
+        "charEnd": 9437,
+        "segmentStart": 68,
+        "segmentEnd": 98,
+        "startSeconds": 447.96,
+        "endSeconds": 646.44,
+        "method": "exact",
+        "excerpt": "are you referring to computational equivalence? exactly, yeah. okay, so in the leibniz case you were referencing representations of representations and you have a hierarchy. right. in the wilfram case it sounds like you have what is not a c"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c1dffeda5c0c51f6:7a2082ba6034",
+      "type": "claim",
+      "label": "There are unthinkable thoughts due to bounded umwelt.",
+      "anchor": {
+        "charStart": 9438,
+        "charEnd": 14190,
+        "segmentStart": 98,
+        "segmentEnd": 148,
+        "startSeconds": 639.24,
+        "endSeconds": 936.56,
+        "method": "exact",
+        "excerpt": "is the question of have we hit the upper limit equivalent to the question of are there thoughts that we can't think of? so now what i mean by equivalent to is we can imagine that let's look at this room and there are thoughts everywhere and"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c1dffeda5c0c51f6:6134559cdb44",
+      "type": "claim",
+      "label": "Mind may have an immune system filtering destabilizing thoughts.",
+      "anchor": {
+        "charStart": 9438,
+        "charEnd": 14190,
+        "segmentStart": 98,
+        "segmentEnd": 148,
+        "startSeconds": 639.24,
+        "endSeconds": 936.56,
+        "method": "exact",
+        "excerpt": "is the question of have we hit the upper limit equivalent to the question of are there thoughts that we can't think of? so now what i mean by equivalent to is we can imagine that let's look at this room and there are thoughts everywhere and"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c1dffeda5c0c51f6:cffb3ac302a8",
+      "type": "claim",
+      "label": "Intelligence might be a Fermi-style filter.",
+      "anchor": {
+        "charStart": 9438,
+        "charEnd": 14190,
+        "segmentStart": 98,
+        "segmentEnd": 148,
+        "startSeconds": 639.24,
+        "endSeconds": 936.56,
+        "method": "exact",
+        "excerpt": "is the question of have we hit the upper limit equivalent to the question of are there thoughts that we can't think of? so now what i mean by equivalent to is we can imagine that let's look at this room and there are thoughts everywhere and"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c1dffeda5c0c51f6:116d38fdd331",
+      "type": "claim",
+      "label": "Language models operate on thought vectors independent of specific languages.",
+      "anchor": {
+        "charStart": 9438,
+        "charEnd": 14190,
+        "segmentStart": 98,
+        "segmentEnd": 148,
+        "startSeconds": 639.24,
+        "endSeconds": 936.56,
+        "method": "exact",
+        "excerpt": "is the question of have we hit the upper limit equivalent to the question of are there thoughts that we can't think of? so now what i mean by equivalent to is we can imagine that let's look at this room and there are thoughts everywhere and"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c1dffeda5c0c51f6:0aae5020018d",
+      "type": "claim",
+      "label": "English may not be a universal language for thought.",
+      "anchor": {
+        "charStart": 14191,
+        "charEnd": 18047,
+        "segmentStart": 148,
+        "segmentEnd": 188,
+        "startSeconds": 931.0,
+        "endSeconds": 1149.0800000000002,
+        "method": "exact",
+        "excerpt": "okay, this is extremely interesting. so i have two thoughts, and you can take both of them if you like, or choose a direction. so when you said that you thought english was enough, are you saying that you thought there was something like th"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c1dffeda5c0c51f6:3e3a14f9049e",
+      "type": "claim",
+      "label": "There are no untranslatable words; only uncommunicatable thoughts.",
+      "anchor": {
+        "charStart": 14191,
+        "charEnd": 18047,
+        "segmentStart": 148,
+        "segmentEnd": 188,
+        "startSeconds": 931.0,
+        "endSeconds": 1149.0800000000002,
+        "method": "exact",
+        "excerpt": "okay, this is extremely interesting. so i have two thoughts, and you can take both of them if you like, or choose a direction. so when you said that you thought english was enough, are you saying that you thought there was something like th"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c1dffeda5c0c51f6:1ce42879f819",
+      "type": "claim",
+      "label": "Some ideas cannot be decomposed into sequences (e.g., gnosis).",
+      "anchor": {
+        "charStart": 14191,
+        "charEnd": 18047,
+        "segmentStart": 148,
+        "segmentEnd": 188,
+        "startSeconds": 931.0,
+        "endSeconds": 1149.0800000000002,
+        "method": "exact",
+        "excerpt": "okay, this is extremely interesting. so i have two thoughts, and you can take both of them if you like, or choose a direction. so when you said that you thought english was enough, are you saying that you thought there was something like th"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c1dffeda5c0c51f6:41692ea3b18e",
+      "type": "claim",
+      "label": "Mind may have autoimmune disorders.",
+      "anchor": {
+        "charStart": 18048,
+        "charEnd": 20343,
+        "segmentStart": 188,
+        "segmentEnd": 212,
+        "startSeconds": 1143.64,
+        "endSeconds": 1310.08,
+        "method": "exact",
+        "excerpt": "let me have fun with this immune analogy. yeah. is it the case then that there would be autoimmune disorders of the mind? the mind sees something that's actually benign or even salubrious or nourishing. and thinks that it's not. and so it t"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c1dffeda5c0c51f6:ff9de32c5f06",
+      "type": "claim",
+      "label": "Language is like a divine parasite living on the brain.",
+      "anchor": {
+        "charStart": 18048,
+        "charEnd": 20343,
+        "segmentStart": 188,
+        "segmentEnd": 212,
+        "startSeconds": 1143.64,
+        "endSeconds": 1310.08,
+        "method": "exact",
+        "excerpt": "let me have fun with this immune analogy. yeah. is it the case then that there would be autoimmune disorders of the mind? the mind sees something that's actually benign or even salubrious or nourishing. and thinks that it's not. and so it t"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c1dffeda5c0c51f6:f7c3b7f2927a",
+      "type": "claim",
+      "label": "Multiple personality syndrome suggests multiple software stacks on same hardware.",
+      "anchor": {
+        "charStart": 18048,
+        "charEnd": 20343,
+        "segmentStart": 188,
+        "segmentEnd": 212,
+        "startSeconds": 1143.64,
+        "endSeconds": 1310.08,
+        "method": "exact",
+        "excerpt": "let me have fun with this immune analogy. yeah. is it the case then that there would be autoimmune disorders of the mind? the mind sees something that's actually benign or even salubrious or nourishing. and thinks that it's not. and so it t"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c1dffeda5c0c51f6:31a48082741f",
+      "type": "claim",
+      "label": "Natural language may be a programming language for the brain.",
+      "anchor": {
+        "charStart": 18048,
+        "charEnd": 20343,
+        "segmentStart": 188,
+        "segmentEnd": 212,
+        "startSeconds": 1143.64,
+        "endSeconds": 1310.08,
+        "method": "exact",
+        "excerpt": "let me have fun with this immune analogy. yeah. is it the case then that there would be autoimmune disorders of the mind? the mind sees something that's actually benign or even salubrious or nourishing. and thinks that it's not. and so it t"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c1dffeda5c0c51f6:9ef41b613384",
+      "type": "claim",
+      "label": "Brain may be understood as hardware/software distinction.",
+      "anchor": {
+        "charStart": 21056,
+        "charEnd": 23753,
+        "segmentStart": 219,
+        "segmentEnd": 247,
+        "startSeconds": 1342.84,
+        "endSeconds": 1507.84,
+        "method": "exact",
+        "excerpt": "this is extremely interesting because it relates to the difference between hardware and software. which there may not be as much of a difference as we thought. so when we speak about the brain and even psychological disorders as you alluded"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c1dffeda5c0c51f6:8eb880d1b71a",
+      "type": "claim",
+      "label": "Emulators show software can simulate hardware, leading to virtual machines all the way down.",
+      "anchor": {
+        "charStart": 21056,
+        "charEnd": 23753,
+        "segmentStart": 219,
+        "segmentEnd": 247,
+        "startSeconds": 1342.84,
+        "endSeconds": 1507.84,
+        "method": "exact",
+        "excerpt": "this is extremely interesting because it relates to the difference between hardware and software. which there may not be as much of a difference as we thought. so when we speak about the brain and even psychological disorders as you alluded"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c1dffeda5c0c51f6:45ae4ab8c188",
+      "type": "claim",
+      "label": "Language and self may be understood through virtual machine metaphor.",
+      "anchor": {
+        "charStart": 21056,
+        "charEnd": 23753,
+        "segmentStart": 219,
+        "segmentEnd": 247,
+        "startSeconds": 1342.84,
+        "endSeconds": 1507.84,
+        "method": "exact",
+        "excerpt": "this is extremely interesting because it relates to the difference between hardware and software. which there may not be as much of a difference as we thought. so when we speak about the brain and even psychological disorders as you alluded"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "ent:c1dffeda5c0c51f6:personnel:226a386480f0",
+      "type": "entity",
+      "label": "William Hahn",
+      "entityType": "PERSONNEL",
+      "role": "Professor, interviewee",
+      "aliases": [
+        "Professor William Hahn"
+      ],
+      "credibilityTier": 7,
+      "state": "Observed",
+      "excerpt": "I'm here with Professor William Hahn.",
+      "anchor": {
+        "charStart": 33,
+        "charEnd": 70,
+        "segmentStart": 0,
+        "segmentEnd": 0,
+        "startSeconds": 0.08,
+        "endSeconds": 4.92,
+        "method": "exact",
+        "excerpt": "i'm here with professor william hahn."
+      }
+    },
+    {
+      "id": "ent:c1dffeda5c0c51f6:personnel:b09d01d48518",
+      "type": "entity",
+      "label": "Jacob Barndes",
+      "entityType": "PERSONNEL",
+      "role": "Podcast host (referenced)",
+      "credibilityTier": 5,
+      "state": "Observed",
+      "excerpt": "You were actually there for the Jacob Barndes podcast",
+      "anchor": {
+        "charStart": 419,
+        "charEnd": 472,
+        "segmentStart": 4,
+        "segmentEnd": 4,
+        "startSeconds": 18.88,
+        "endSeconds": 23.4,
+        "method": "exact",
+        "excerpt": "you were actually there for the jacob barndes podcast"
+      }
+    },
+    {
+      "id": "ent:c1dffeda5c0c51f6:organization:273d08bd6b09",
+      "type": "entity",
+      "label": "MIT Media Lab",
+      "entityType": "ORGANIZATION",
+      "state": "Observed",
+      "excerpt": "We're here at the MIT Media Lab.",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 32,
+        "segmentStart": 0,
+        "segmentEnd": 0,
+        "startSeconds": 0.08,
+        "endSeconds": 4.92,
+        "method": "exact",
+        "excerpt": "we're here at the mit media lab."
+      }
+    },
+    {
+      "id": "ent:c1dffeda5c0c51f6:organization:073dc9b05d8a",
+      "type": "entity",
+      "label": "Stephen Wolfram",
+      "entityType": "ORGANIZATION",
+      "state": "Observed",
+      "excerpt": "unify liveness with Stephen Wolfram's work",
+      "anchor": {
+        "charStart": 531,
+        "charEnd": 573,
+        "segmentStart": 5,
+        "segmentEnd": 5,
+        "startSeconds": 23.4,
+        "endSeconds": 30.159999999999997,
+        "method": "exact",
+        "excerpt": "unify liveness with stephen wolfram's work"
+      }
+    },
+    {
+      "id": "ent:c1dffeda5c0c51f6:event:6f1ae3c7eb50",
+      "type": "entity",
+      "label": "Jacob Barndes podcast",
+      "entityType": "EVENT",
+      "state": "Observed",
+      "excerpt": "You were actually there for the Jacob Barndes podcast",
+      "anchor": {
+        "charStart": 419,
+        "charEnd": 472,
+        "segmentStart": 4,
+        "segmentEnd": 4,
+        "startSeconds": 18.88,
+        "endSeconds": 23.4,
+        "method": "exact",
+        "excerpt": "you were actually there for the jacob barndes podcast"
+      }
+    },
+    {
+      "id": "ent:c1dffeda5c0c51f6:topic:c77f5c40a716",
+      "type": "entity",
+      "label": "Consciousness hierarchy",
+      "entityType": "TOPIC",
+      "aliases": [
+        "ladder of different capabilities"
+      ],
+      "state": "Observed",
+      "excerpt": "it's really a hierarchy. It's kind of a ladder of different capabilities.",
+      "anchor": {
+        "charStart": 852,
+        "charEnd": 925,
+        "segmentStart": 8,
+        "segmentEnd": 9,
+        "startSeconds": 45.32,
+        "endSeconds": 59.080000000000005,
+        "method": "exact",
+        "excerpt": "it's really a hierarchy. it's kind of a ladder of different capabilities."
+      }
+    },
+    {
+      "id": "ent:c1dffeda5c0c51f6:topic:a929e49e085e",
+      "type": "entity",
+      "label": "AI consciousness",
+      "entityType": "TOPIC",
+      "aliases": [
+        "intelligent machines",
+        "modern AIs"
+      ],
+      "state": "Observed",
+      "excerpt": "do they instantiate something like consciousness?",
+      "anchor": {
+        "charStart": 1969,
+        "charEnd": 2018,
+        "segmentStart": 20,
+        "segmentEnd": 20,
+        "startSeconds": 129.08,
+        "endSeconds": 135.92000000000002,
+        "method": "exact",
+        "excerpt": "do they instantiate something like consciousness?"
+      }
+    },
+    {
+      "id": "ent:c1dffeda5c0c51f6:personnel:b84744db0cc7",
+      "type": "entity",
+      "label": "Wolfram",
+      "entityType": "PERSONNEL",
+      "role": "theorist referenced for computational equivalence and universality",
+      "aliases": [
+        "Wilfram"
+      ],
+      "credibilityTier": 7,
+      "state": "Corroborated",
+      "excerpt": "Wilfram suggests that it's relatively easy to find computers in the wild.",
+      "anchor": {
+        "charStart": 7547,
+        "charEnd": 7620,
+        "segmentStart": 79,
+        "segmentEnd": 79,
+        "startSeconds": 513.12,
+        "endSeconds": 518.52,
+        "method": "exact",
+        "excerpt": "wilfram suggests that it's relatively easy to find computers in the wild."
+      }
+    },
+    {
+      "id": "ent:c1dffeda5c0c51f6:personnel:6a63d2deee99",
+      "type": "entity",
+      "label": "Leibniz",
+      "entityType": "PERSONNEL",
+      "role": "historical figure referenced for representations of representations",
+      "credibilityTier": 9,
+      "state": "Corroborated",
+      "excerpt": "in the Leibniz case you were referencing representations of representations",
+      "anchor": {
+        "charStart": 6658,
+        "charEnd": 6733,
+        "segmentStart": 69,
+        "segmentEnd": 70,
+        "startSeconds": 454.6,
+        "endSeconds": 464.8,
+        "method": "exact",
+        "excerpt": "in the leibniz case you were referencing representations of representations"
+      }
+    },
+    {
+      "id": "ent:c1dffeda5c0c51f6:event:452986a4fa82",
+      "type": "entity",
+      "label": "Discussion on computational universality and evolution",
+      "entityType": "EVENT",
+      "state": "Speculative",
+      "excerpt": "Are humans already at that universality? Are our intellectual sphere, our language, our culture, have we maxed out?",
+      "anchor": {
+        "charStart": 8032,
+        "charEnd": 8147,
+        "segmentStart": 84,
+        "segmentEnd": 85,
+        "startSeconds": 538.92,
+        "endSeconds": 553.12,
+        "method": "exact",
+        "excerpt": "are humans already at that universality? are our intellectual sphere, our language, our culture, have we maxed out?"
+      }
+    },
+    {
+      "id": "ent:c1dffeda5c0c51f6:evidence:9a742bf5aa7c",
+      "type": "entity",
+      "label": "Quote: 'angels with assholes'",
+      "entityType": "EVIDENCE",
+      "state": "Unverified",
+      "excerpt": "we're angels with assholes",
+      "anchor": {
+        "charStart": 8938,
+        "charEnd": 8964,
+        "segmentStart": 93,
+        "segmentEnd": 93,
+        "startSeconds": 608.4,
+        "endSeconds": 612.52,
+        "method": "exact",
+        "excerpt": "we're angels with assholes"
+      }
+    },
+    {
+      "id": "ent:c1dffeda5c0c51f6:location:f416648f8086",
+      "type": "entity",
+      "label": "Unspecified",
+      "entityType": "LOCATION",
+      "state": "Unverified"
+    },
+    {
+      "id": "ent:c1dffeda5c0c51f6:personnel:e485714e9f9d",
+      "type": "entity",
+      "label": "Richard Hamming",
+      "entityType": "PERSONNEL",
+      "role": "Referenced scientist (mathematician/computer scientist)",
+      "credibilityTier": 9,
+      "state": "Corroborated",
+      "excerpt": "we mentioned last time Richard Hamming. And he talks about this idea. He says there's smells that dogs can smell that we can't smell.",
+      "anchor": {
+        "charStart": 10594,
+        "charEnd": 10727,
+        "segmentStart": 110,
+        "segmentEnd": 112,
+        "startSeconds": 701.24,
+        "endSeconds": 718.56,
+        "method": "exact",
+        "excerpt": "we mentioned last time richard hamming. and he talks about this idea. he says there's smells that dogs can smell that we can't smell."
+      }
+    },
+    {
+      "id": "ent:c1dffeda5c0c51f6:event:13df637bfcb0",
+      "type": "entity",
+      "label": "Discussion on upper limits of thought and unthinkable thoughts",
+      "entityType": "EVENT",
+      "state": "Observed",
+      "excerpt": "Is the question of have we hit the upper limit equivalent to the question of are there thoughts that we can't think of?",
+      "anchor": {
+        "charStart": 9438,
+        "charEnd": 9557,
+        "segmentStart": 98,
+        "segmentEnd": 99,
+        "startSeconds": 639.24,
+        "endSeconds": 651.4000000000001,
+        "method": "exact",
+        "excerpt": "is the question of have we hit the upper limit equivalent to the question of are there thoughts that we can't think of?"
+      }
+    },
+    {
+      "id": "ent:c1dffeda5c0c51f6:location:a8a76b32f4af",
+      "type": "entity",
+      "label": "This room",
+      "entityType": "LOCATION",
+      "state": "Observed",
+      "excerpt": "let's look at this room and there are thoughts everywhere and we have access to them.",
+      "anchor": {
+        "charStart": 9617,
+        "charEnd": 9702,
+        "segmentStart": 100,
+        "segmentEnd": 101,
+        "startSeconds": 651.4,
+        "endSeconds": 659.88,
+        "method": "exact",
+        "excerpt": "let's look at this room and there are thoughts everywhere and we have access to them."
+      }
+    },
+    {
+      "id": "ent:c1dffeda5c0c51f6:evidence:8d4b2f9b0a03",
+      "type": "entity",
+      "label": "Graham's number example",
+      "entityType": "EVIDENCE",
+      "state": "Corroborated",
+      "excerpt": "there are numbers that we can never conceive of. At least we can write them down like Graham's number.",
+      "anchor": {
+        "charStart": 10991,
+        "charEnd": 11093,
+        "segmentStart": 114,
+        "segmentEnd": 115,
+        "startSeconds": 722.92,
+        "endSeconds": 731.3599999999999,
+        "method": "exact",
+        "excerpt": "there are numbers that we can never conceive of. at least we can write them down like graham's number."
+      }
+    },
+    {
+      "id": "ent:c1dffeda5c0c51f6:evidence:45b3af2493cd",
+      "type": "entity",
+      "label": "Animal perceptual window examples",
+      "entityType": "EVIDENCE",
+      "state": "Corroborated",
+      "excerpt": "there's smells that dogs can smell that we can't smell. And they can hear things we can't hear.",
+      "anchor": {
+        "charStart": 10672,
+        "charEnd": 10767,
+        "segmentStart": 111,
+        "segmentEnd": 112,
+        "startSeconds": 708.48,
+        "endSeconds": 718.56,
+        "method": "exact",
+        "excerpt": "there's smells that dogs can smell that we can't smell. and they can hear things we can't hear."
+      }
+    },
+    {
+      "id": "ent:c1dffeda5c0c51f6:evidence:7d7d8ac3dbb3",
+      "type": "entity",
+      "label": "Language model training on human and computer languages",
+      "entityType": "EVIDENCE",
+      "state": "Observed",
+      "excerpt": "we've taught these language models, not just English, but all of the human languages that we could get our hands on.",
+      "anchor": {
+        "charStart": 13704,
+        "charEnd": 13820,
+        "segmentStart": 142,
+        "segmentEnd": 144,
+        "startSeconds": 899.24,
+        "endSeconds": 916.16,
+        "method": "exact",
+        "excerpt": "we've taught these language models, not just english, but all of the human languages that we could get our hands on."
+      }
+    },
+    {
+      "id": "ent:c1dffeda5c0c51f6:personnel:bc66d76f99f0",
+      "type": "entity",
+      "label": "Dr. Behrenholz",
+      "entityType": "PERSONNEL",
+      "role": "colleague of the speaker",
+      "credibilityTier": 7,
+      "state": "Observed",
+      "excerpt": "my colleague, Dr. Behrenholz",
+      "anchor": {
+        "charStart": 19088,
+        "charEnd": 19116,
+        "segmentStart": 199,
+        "segmentEnd": 199,
+        "startSeconds": 1211.96,
+        "endSeconds": 1220.92,
+        "method": "exact",
+        "excerpt": "my colleague, dr. behrenholz"
+      }
+    },
+    {
+      "id": "ent:c1dffeda5c0c51f6:topic:44b191480978",
+      "type": "entity",
+      "label": "Language as organism",
+      "entityType": "TOPIC",
+      "aliases": [
+        "divine parasite",
+        "parasite"
+      ],
+      "state": "Speculative",
+      "excerpt": "I've referred to it as a divine parasite. But it's something that lives on the brain. But it's not the brain.",
+      "anchor": {
+        "charStart": 19349,
+        "charEnd": 19458,
+        "segmentStart": 201,
+        "segmentEnd": 202,
+        "startSeconds": 1231.4,
+        "endSeconds": 1246.04,
+        "method": "exact",
+        "excerpt": "i've referred to it as a divine parasite. but it's something that lives on the brain. but it's not the brain."
+      }
+    },
+    {
+      "id": "ent:c1dffeda5c0c51f6:topic:6676b0052e5f",
+      "type": "entity",
+      "label": "Immune analogy for mind",
+      "entityType": "TOPIC",
+      "aliases": [
+        "autoimmune disorders of the mind"
+      ],
+      "state": "Speculative",
+      "excerpt": "Is it the case then that there would be autoimmune disorders of the mind?",
+      "anchor": {
+        "charStart": 18096,
+        "charEnd": 18169,
+        "segmentStart": 188,
+        "segmentEnd": 189,
+        "startSeconds": 1143.64,
+        "endSeconds": 1154.12,
+        "method": "exact",
+        "excerpt": "is it the case then that there would be autoimmune disorders of the mind?"
+      }
+    },
+    {
+      "id": "ent:c1dffeda5c0c51f6:topic:644a05877da8",
+      "type": "entity",
+      "label": "Multiple personality as evidence of language entity",
+      "entityType": "TOPIC",
+      "aliases": [
+        "split personality syndrome",
+        "multiple personality syndrome"
+      ],
+      "state": "Speculative",
+      "excerpt": "when we see people with multiple personalities, it's clear that they're instantiating more than one operating system, software, stack. On the same hardware.",
+      "anchor": {
+        "charStart": 19745,
+        "charEnd": 19901,
+        "segmentStart": 205,
+        "segmentEnd": 207,
+        "startSeconds": 1257.52,
+        "endSeconds": 1274.8400000000001,
+        "method": "exact",
+        "excerpt": "when we see people with multiple personalities, it's clear that they're instantiating more than one operating system, software, stack. on the same hardware."
+      }
+    },
+    {
+      "id": "ent:c1dffeda5c0c51f6:topic:fa639264d6ab",
+      "type": "entity",
+      "label": "Mind control and programmable brain",
+      "entityType": "TOPIC",
+      "aliases": [
+        "programmable object"
+      ],
+      "state": "Speculative",
+      "excerpt": "Is our brain a programmable object? And if so, is language, is natural language, a programming language?",
+      "anchor": {
+        "charStart": 20239,
+        "charEnd": 20343,
+        "segmentStart": 211,
+        "segmentEnd": 212,
+        "startSeconds": 1297.76,
+        "endSeconds": 1310.08,
+        "method": "exact",
+        "excerpt": "is our brain a programmable object? and if so, is language, is natural language, a programming language?"
+      }
+    },
+    {
+      "id": "oq:c1dffeda5c0c51f6:56c82afaf799",
+      "type": "open_question",
+      "label": "Verify the identity and credentials of Professor William Hahn and his affiliation with MIT Media Lab.",
+      "basis": "analysis.content_assessment.follow_up_needed"
+    },
+    {
+      "id": "oq:c1dffeda5c0c51f6:16cc385e3955",
+      "type": "open_question",
+      "label": "Check the original source of the 'angels with assholes' quote.",
+      "basis": "analysis.content_assessment.follow_up_needed"
+    },
+    {
+      "id": "oq:c1dffeda5c0c51f6:46fb9bd07da1",
+      "type": "open_question",
+      "label": "Investigate the concept of 'divine parasite' and its origins in the work of Dr. Behrenholz.",
+      "basis": "analysis.content_assessment.follow_up_needed"
+    },
+    {
+      "id": "oq:c1dffeda5c0c51f6:a3c86aa5652e",
+      "type": "open_question",
+      "label": "Assess the scientific basis for the 'immune system' of the mind and its evolutionary rationale.",
+      "basis": "analysis.content_assessment.follow_up_needed"
+    },
+    {
+      "id": "oq:c1dffeda5c0c51f6:ea18122ae523",
+      "type": "open_question",
+      "label": "Determine if any of the discussed ideas have been published in peer-reviewed literature.",
+      "basis": "analysis.content_assessment.follow_up_needed"
+    }
+  ],
+  "edges": [
+    {
+      "from": "src:c1dffeda5c0c51f6",
+      "to": "seg:c1dffeda5c0c51f6:c01",
+      "type": "contains"
+    },
+    {
+      "from": "src:c1dffeda5c0c51f6",
+      "to": "seg:c1dffeda5c0c51f6:c02",
+      "type": "contains"
+    },
+    {
+      "from": "src:c1dffeda5c0c51f6",
+      "to": "seg:c1dffeda5c0c51f6:c03",
+      "type": "contains"
+    },
+    {
+      "from": "src:c1dffeda5c0c51f6",
+      "to": "seg:c1dffeda5c0c51f6:c04",
+      "type": "contains"
+    },
+    {
+      "from": "src:c1dffeda5c0c51f6",
+      "to": "seg:c1dffeda5c0c51f6:c05",
+      "type": "contains"
+    },
+    {
+      "from": "src:c1dffeda5c0c51f6",
+      "to": "seg:c1dffeda5c0c51f6:c06",
+      "type": "contains"
+    },
+    {
+      "from": "src:c1dffeda5c0c51f6",
+      "to": "seg:c1dffeda5c0c51f6:c08",
+      "type": "contains"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c01",
+      "to": "seg:c1dffeda5c0c51f6:c02",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c02",
+      "to": "seg:c1dffeda5c0c51f6:c03",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c03",
+      "to": "seg:c1dffeda5c0c51f6:c04",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c04",
+      "to": "seg:c1dffeda5c0c51f6:c05",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c05",
+      "to": "seg:c1dffeda5c0c51f6:c06",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c06",
+      "to": "seg:c1dffeda5c0c51f6:c08",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c01",
+      "to": "clm:c1dffeda5c0c51f6:4449a4a7b2fe",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c01",
+      "to": "clm:c1dffeda5c0c51f6:ce1df0457584",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c01",
+      "to": "clm:c1dffeda5c0c51f6:f677bf14b114",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c02",
+      "to": "clm:c1dffeda5c0c51f6:6f4abe213407",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c02",
+      "to": "clm:c1dffeda5c0c51f6:40f3a9c3a520",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c02",
+      "to": "clm:c1dffeda5c0c51f6:84c7ac6d2a8e",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c02",
+      "to": "clm:c1dffeda5c0c51f6:8990ccb962e3",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c03",
+      "to": "clm:c1dffeda5c0c51f6:7ad3a0060757",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c03",
+      "to": "clm:c1dffeda5c0c51f6:2425b7b737fb",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c03",
+      "to": "clm:c1dffeda5c0c51f6:487468da9b24",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c04",
+      "to": "clm:c1dffeda5c0c51f6:7a2082ba6034",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c04",
+      "to": "clm:c1dffeda5c0c51f6:6134559cdb44",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c04",
+      "to": "clm:c1dffeda5c0c51f6:cffb3ac302a8",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c04",
+      "to": "clm:c1dffeda5c0c51f6:116d38fdd331",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c05",
+      "to": "clm:c1dffeda5c0c51f6:0aae5020018d",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c05",
+      "to": "clm:c1dffeda5c0c51f6:3e3a14f9049e",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c05",
+      "to": "clm:c1dffeda5c0c51f6:1ce42879f819",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c06",
+      "to": "clm:c1dffeda5c0c51f6:41692ea3b18e",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c06",
+      "to": "clm:c1dffeda5c0c51f6:ff9de32c5f06",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c06",
+      "to": "clm:c1dffeda5c0c51f6:f7c3b7f2927a",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c06",
+      "to": "clm:c1dffeda5c0c51f6:31a48082741f",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c08",
+      "to": "clm:c1dffeda5c0c51f6:9ef41b613384",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c08",
+      "to": "clm:c1dffeda5c0c51f6:8eb880d1b71a",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c08",
+      "to": "clm:c1dffeda5c0c51f6:45ae4ab8c188",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c01",
+      "to": "ent:c1dffeda5c0c51f6:personnel:226a386480f0",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c01",
+      "to": "ent:c1dffeda5c0c51f6:personnel:b09d01d48518",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c01",
+      "to": "ent:c1dffeda5c0c51f6:organization:273d08bd6b09",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c01",
+      "to": "ent:c1dffeda5c0c51f6:organization:073dc9b05d8a",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c01",
+      "to": "ent:c1dffeda5c0c51f6:event:6f1ae3c7eb50",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c01",
+      "to": "ent:c1dffeda5c0c51f6:topic:c77f5c40a716",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c01",
+      "to": "ent:c1dffeda5c0c51f6:topic:a929e49e085e",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c03",
+      "to": "ent:c1dffeda5c0c51f6:personnel:b84744db0cc7",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c03",
+      "to": "ent:c1dffeda5c0c51f6:personnel:6a63d2deee99",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c03",
+      "to": "ent:c1dffeda5c0c51f6:event:452986a4fa82",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c03",
+      "to": "ent:c1dffeda5c0c51f6:evidence:9a742bf5aa7c",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c03",
+      "to": "ent:c1dffeda5c0c51f6:location:f416648f8086",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c04",
+      "to": "ent:c1dffeda5c0c51f6:personnel:e485714e9f9d",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c04",
+      "to": "ent:c1dffeda5c0c51f6:event:13df637bfcb0",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c04",
+      "to": "ent:c1dffeda5c0c51f6:location:a8a76b32f4af",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c04",
+      "to": "ent:c1dffeda5c0c51f6:evidence:8d4b2f9b0a03",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c04",
+      "to": "ent:c1dffeda5c0c51f6:evidence:45b3af2493cd",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c04",
+      "to": "ent:c1dffeda5c0c51f6:evidence:7d7d8ac3dbb3",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c06",
+      "to": "ent:c1dffeda5c0c51f6:personnel:bc66d76f99f0",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c06",
+      "to": "ent:c1dffeda5c0c51f6:topic:44b191480978",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c06",
+      "to": "ent:c1dffeda5c0c51f6:topic:6676b0052e5f",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c06",
+      "to": "ent:c1dffeda5c0c51f6:topic:644a05877da8",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c1dffeda5c0c51f6:c06",
+      "to": "ent:c1dffeda5c0c51f6:topic:fa639264d6ab",
+      "type": "mentions"
+    },
+    {
+      "from": "src:c1dffeda5c0c51f6",
+      "to": "oq:c1dffeda5c0c51f6:56c82afaf799",
+      "type": "raises"
+    },
+    {
+      "from": "src:c1dffeda5c0c51f6",
+      "to": "oq:c1dffeda5c0c51f6:16cc385e3955",
+      "type": "raises"
+    },
+    {
+      "from": "src:c1dffeda5c0c51f6",
+      "to": "oq:c1dffeda5c0c51f6:46fb9bd07da1",
+      "type": "raises"
+    },
+    {
+      "from": "src:c1dffeda5c0c51f6",
+      "to": "oq:c1dffeda5c0c51f6:a3c86aa5652e",
+      "type": "raises"
+    },
+    {
+      "from": "src:c1dffeda5c0c51f6",
+      "to": "oq:c1dffeda5c0c51f6:ea18122ae523",
+      "type": "raises"
+    }
+  ],
+  "views": {
+    "sourceSpine": [
+      "seg:c1dffeda5c0c51f6:c01",
+      "seg:c1dffeda5c0c51f6:c02",
+      "seg:c1dffeda5c0c51f6:c03",
+      "seg:c1dffeda5c0c51f6:c04",
+      "seg:c1dffeda5c0c51f6:c05",
+      "seg:c1dffeda5c0c51f6:c06",
+      "seg:c1dffeda5c0c51f6:c08"
+    ],
+    "topicRoots": [],
+    "claimRoots": [
+      "clm:c1dffeda5c0c51f6:4449a4a7b2fe",
+      "clm:c1dffeda5c0c51f6:ce1df0457584",
+      "clm:c1dffeda5c0c51f6:f677bf14b114",
+      "clm:c1dffeda5c0c51f6:6f4abe213407",
+      "clm:c1dffeda5c0c51f6:40f3a9c3a520",
+      "clm:c1dffeda5c0c51f6:84c7ac6d2a8e",
+      "clm:c1dffeda5c0c51f6:8990ccb962e3",
+      "clm:c1dffeda5c0c51f6:7ad3a0060757",
+      "clm:c1dffeda5c0c51f6:2425b7b737fb",
+      "clm:c1dffeda5c0c51f6:487468da9b24",
+      "clm:c1dffeda5c0c51f6:7a2082ba6034",
+      "clm:c1dffeda5c0c51f6:6134559cdb44",
+      "clm:c1dffeda5c0c51f6:cffb3ac302a8",
+      "clm:c1dffeda5c0c51f6:116d38fdd331",
+      "clm:c1dffeda5c0c51f6:0aae5020018d",
+      "clm:c1dffeda5c0c51f6:3e3a14f9049e",
+      "clm:c1dffeda5c0c51f6:1ce42879f819",
+      "clm:c1dffeda5c0c51f6:41692ea3b18e",
+      "clm:c1dffeda5c0c51f6:ff9de32c5f06",
+      "clm:c1dffeda5c0c51f6:f7c3b7f2927a",
+      "clm:c1dffeda5c0c51f6:31a48082741f",
+      "clm:c1dffeda5c0c51f6:9ef41b613384",
+      "clm:c1dffeda5c0c51f6:8eb880d1b71a",
+      "clm:c1dffeda5c0c51f6:45ae4ab8c188"
+    ],
+    "openQuestionRoots": [
+      "oq:c1dffeda5c0c51f6:56c82afaf799",
+      "oq:c1dffeda5c0c51f6:16cc385e3955",
+      "oq:c1dffeda5c0c51f6:46fb9bd07da1",
+      "oq:c1dffeda5c0c51f6:a3c86aa5652e",
+      "oq:c1dffeda5c0c51f6:ea18122ae523"
+    ]
+  },
+  "coverage": {
+    "timed": true,
+    "charsAnchored": 23035,
+    "charsTotal": 57168,
+    "fraction": 0.4029,
+    "segmentsCovered": 242,
+    "segmentsTotal": 594,
+    "pipelineTruncatedAtChars": 24000,
+    "chunkAnchorMethods": {
+      "exact": 7
+    }
+  },
+  "generation": {
+    "createdAt": "2026-08-18T07:07:49.179449+00:00",
+    "models": [
+      "deepseek/deepseek-chat"
+    ],
+    "promptsUsed": [
+      "disclosure.content_analysis",
+      "disclosure.ner",
+      "document_classification",
+      "rag_ingestion",
+      "validation"
+    ],
+    "methodologyVersion": "rag-prompt-pipeline/ADR-0001",
+    "pipelineStatus": "ok",
+    "degraded": false
+  },
+  "validation": {
+    "valid": true,
+    "errors": [],
+    "gaps": [
+      "no next_trace nodes — no pipeline stage proposes concrete next sources",
+      "no reading nodes — no interpretive stage exists; readings are never inferred here",
+      "no counter_reading nodes — paired with reading; unproduced for the same reason",
+      "no speaker nodes — diarisation is unavailable — the transcript carries '>>' turn markers but no speaker identities",
+      "no evidence→claim edges — the analysis prompt emits supporting and contradictory evidence as flat lists with no target claim, so evidence carries a stance but names no claim it bears on",
+      "chunk coverage is 40% of the source (23035 of 57168 chars); the pipeline truncates at 24000 chars"
+    ]
+  }
+}

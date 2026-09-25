@@ -1,0 +1,17 @@
+{
+  "title": "The CIA Scientist That Contacted an Alien Council",
+  "url": "https://www.youtube.com/watch?v=2-GeTxXi670",
+  "id": "2-GeTxXi670",
+  "categories": [],
+  "tags": [],
+  "description": "",
+  "chapters": [],
+  "rag_pipeline": {
+    "status": "error",
+    "embeddable_count": 0,
+    "prompts_used": null,
+    "errors": [
+      "Unterminated string starting at: line 8 column 7 (char 527)"
+    ]
+  }
+}

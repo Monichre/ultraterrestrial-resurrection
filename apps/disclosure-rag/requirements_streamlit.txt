@@ -1,0 +1,28 @@
+# Streamlit Interactive Dashboard Requirements
+streamlit
+plotly
+pandas
+numpy
+
+# Existing project dependencies
+openai
+anthropic
+python-dotenv
+requests
+
+# Optional for enhanced visualizations
+seaborn
+networkx
+matplotlib
+
+# Web processing
+beautifulsoup4
+PyPDF2
+python-docx
+
+# YouTube processing (if needed)
+yt-dlp
+
+# Database integration
+httpx
+asyncpg

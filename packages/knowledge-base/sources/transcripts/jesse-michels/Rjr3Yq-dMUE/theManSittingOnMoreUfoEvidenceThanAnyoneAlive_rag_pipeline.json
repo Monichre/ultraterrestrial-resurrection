@@ -1,0 +1,39 @@
+{
+  "status": "error",
+  "classification": {
+    "content_type": "media",
+    "primary_record_hints": [
+      "KeyFigure",
+      "Testimony",
+      "Sighting",
+      "Artifact",
+      "Organization",
+      "Document"
+    ],
+    "hynek_scaffold": null,
+    "classification_marks_detected": [],
+    "language": "english",
+    "ocr_quality": "n/a",
+    "sensitivity": "public",
+    "ingestion_recommendation": "proceed",
+    "rationale": "Transcript of a podcast interview with UFO researcher Claus von; includes discussions of archives, witness accounts, physical artifacts, and historical incidents. No signs of classified or sensitive information. Straightforward media material suitable for downstream processing.",
+    "confidence": 0.95
+  },
+  "analysis": {},
+  "ingestion": {},
+  "chunks": [],
+  "ner_results": [],
+  "embeddable_texts": [],
+  "metadata": {
+    "provenance": "https://www.youtube.com/watch?v=Rjr3Yq-dMUE",
+    "filename_hint": "The Man Sitting On More UFO Evidence Than Anyone Alive",
+    "prompts_dir": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/ai/prompts"
+  },
+  "errors": [
+    "Expecting ',' delimiter: line 36 column 8 (char 2878)"
+  ],
+  "prompts_used": [
+    "document_classification",
+    "disclosure.content_analysis"
+  ]
+}

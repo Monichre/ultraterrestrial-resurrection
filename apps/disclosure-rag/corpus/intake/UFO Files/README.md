@@ -1,0 +1,851 @@
+# Key OSINT UAP Resources
+At this point in the UAP Disclosure (or "Scheduled Dissemination" - Ramirez) Process, what's been missing is a compilation of the key information from the historical and modern-day people with [Security Clearances](https://en.wikipedia.org/wiki/Security_clearance). This repo aims to fill that gap.
+
+Some of the key UAP related reading/listening materials are from Corso, Crain, Elizondo, Davis, Puthoff, Ramirez, Hastings and Hill, Astronaut Dr. Edgar Mitchell (the 6th person on the Moon), a few 1940's-1950's-era memo/report leaks, the declassified Austrialian report, and at least two NY Times articles (one published during the height of the pandemic in 2020, so it was probably missed by most). 
+
+I believe this key material, taken as a whole using [Bayesian inference](https://en.wikipedia.org/wiki/Bayesian_inference), tells a reasonably coherent picture of UAP C/R's ("crash recoveries" or "crash retrievals" - NY Times, Puthoff/Davis/Corso/Crain/Mitchell) since the late 40's, and an active R&D (NY Times, Corso, Crain) and "Crash Retrieval Program" (NY Times, Davis, Admiral Wilson/Dr. Mitchell leak) that seeded US industry with "exotic materials" (Corso, Crain, Elizondo) or "retrieved materials" (NY Times). 
+
+[Lue Elizondo](https://en.wikipedia.org/wiki/Luis_Elizondo) was right: "Do yourself a favor and arm yourself with knowledge. Be very careful who you listen [to] and the information that comes out...You know, look into their background."
+
+Here's my [Medium account](https://medium.com/@richgel99) containing my latest research, and here's my [Twitter](https://twitter.com/richgel999) which is more like a live feed as we figure this mystery out.
+
+## NY Times Confirmation 7/28/2020
+
+This came out during the height of the pandemic, so we all missed it:
+
+https://www.nytimes.com/2020/07/28/insider/UFO-reporting.html
+![NY Times Article Clip](https://github.com/richgel999/uap_resources/blob/main/nytimes1.png "NY Times 2020 Article Confirming UAP Crash Retrievals and Materials")
+
+Documentary:<br>
+https://www.youtube.com/watch?v=64s8ujoydRM
+
+## Key Personnel/Scientists/Witnesses (all have/had clearances)
+- [Lt. Col. Jesse Marcel](https://en.wikipedia.org/wiki/Jesse_Marcel) - Army Air Force Intelligence Officer, Roswell Incident Witness.
+- Lt. Col. Philip J. Corso - Chief [Foreign Technology Division (FTD) of the US DoD](https://en.wikipedia.org/wiki/National_Air_and_Space_Intelligence_Center#Foreign_Technology_Division), Battalion Commander of European Air Defense, Chief of the US Counterintelligence Corps in Rome ([Wikipedia](https://en.wikipedia.org/wiki/Philip_J._Corso) and [Army Form 66](http://www.cufon.org/cufon/corso_da66.htm))
+- Luis “Lue” Elizondo - Program Manager/Director for [AATIP](https://en.wikipedia.org/wiki/Advanced_Aerospace_Threat_Identification_Program), Career Intelligence Officer US Army and DoD, Counterintelligence Special Agent US Army ([Official Page](https://luiselizondo-official.com/), [Wikipedia](https://en.wikipedia.org/wiki/Luis_Elizondo), [Twitter](https://twitter.com/LueElizondo))
+- Dr. Eric W. Davis PhD - Astrophysicist (University of Arizona) with a background in Quantum Field Theory and Relativity, Consultant to US Air Force (AFRL)/DoD/DoE/NASA, and Senior Science Advisor at the Institute for Advanced Studies in Austin ([EarthTech](https://earthtech.org/pubs/davis/), [LinkedIn](https://www.linkedin.com/in/eric-w-davis/))
+- Dr. Hal E. Puthoff PhD - Electrical Engineer (Stanford), Director of the Institute for Advanced Studies at Austin, Chairman of the Science Advisory Board of [Bigelow Aerospace](https://bigelowaerospace.com/) ([Wikipedia](https://en.wikipedia.org/wiki/Harold_E._Puthoff) and [EarthTech](https://earthtech.org/pubs/puthoff/))
+- June Crain - Clerk/Stenographer [Wright-Patterson AFB](https://en.wikipedia.org/wiki/Wright-Patterson_Air_Force_Base), handled sensitive material, [Top Secret Clearance](https://en.wikipedia.org/wiki/Security_clearance#Top_Secret), interviewed by Police Detective Sergeant and Investigator [James E. Clarkson](https://www.spreaker.com/user/xzoneradiotv/james-e-clarkson-mufon-state-director-fo_3) (or [his site](https://jamesclarksonufo.com/)) before she passed away ([Transcript](https://majesticdocuments.com/pdf/crain_clarksoninterview.pdf), [book](https://www.amazon.com/TELL-MY-STORY-Crain-Force-ebook/dp/B00SRWHNRG)). Here's her [verified background](https://medium.com/@richgel99/where-was-wright-patterson-afb-clerk-stenographer-june-crain-living-the-week-of-roswell-858bdfeca73c). Here's her scanned Wright-Patterson AFB [personnel files and security obligation forms](https://github.com/richgel999/june_crain_files)
+- John F. Ramirez - Intelligence Analyst, GS-15 (equivalent to Colonel) CIA Directorate of Science and Technology, Directorate of Intelligence, and the ODNI National Counterproliferation Center (NCPC) 1984-2009. Chief, ELINT Analysis Branch specializing in Ballistic Missile Defense. Majored in Political Science, graduated George Washington University 1983, recipient of the CIA [Career Intelligence Medal](https://en.wikipedia.org/wiki/Career_Intelligence_Medal) 3/17/2010. ([Twitter](https://twitter.com/JRam_11_11))
+- James Semivan - CIA 25 year (Senior Intelligence Service), co-founder/VP Operations of TTSA, also founded [To The Stars](https://www.linkedin.com/company/to-the-stars-inc-).
+- Donald H. Phillips - USAF. Worked with famous aeronautical engineer Kelly Johnson. Here's his [verified background](https://medium.com/@richgel99/the-background-of-a-real-ex-usaf-cia-lockheed-whistleblower-donald-h-phillips-1941-2007-783175cca190).
+
+Potentially:<br>
+- Professor Avi Loeb (TODO) - He has a security clearance according to [this article](https://medium.com/@davidpaul777/expedition-to-retrieve-alien-device-from-ocean-begins-d429ec1beb6a). He was sworn in as a [PCAST (President's Council of Advisors on Science and Technology) member in 2020](https://en.wikipedia.org/wiki/Avi_Loeb). Pursuant to [Executive Order 12968](https://www.whitehouse.gov/briefing-room/presidential-actions/2021/01/27/executive-order-on-presidents-council-of-advisors-on-science-and-technology/), "In order to allow the PCAST to provide advice and analysis regarding classified matters, the Science Advisor may request that members of the PCAST, its standing subcommittees, or ad hoc groups, who do not hold a current clearance for access to classified information, receive security clearance and access determinations pursuant to Executive Order 12968 of August 2, 1995 (Access to Classified Information), as amended, or any successor order."
+
+## Key Material (All Have/Had Clearances)
+
+_Statements/information from the people with clearances._
+
+### President Obama
+President Obama: "There's footage and records of objects in the skies that we don't know exactly what they are" - 5/20/2021<br>
+https://www.youtube.com/watch?v=u1hNYs55sqs
+
+### Avril Haines (Director of National Intelligence)
+[Director of National Intelligence](https://en.wikipedia.org/wiki/Director_of_National_Intelligence) (DNI) [Avril Haines](https://en.wikipedia.org/wiki/Avril_Haines) on UAP: "there [is] something else that we simply do not understand that might come extraterrestrial/extraterrestrially" - 11/2021<br>
+https://www.youtube.com/watch?v=LsgA0-wxmns
+
+Longer clip:<br>
+https://youtu.be/8DSTpEYYBrc?t=1112
+
+### Dr. Eric W. Davis PhD
+
+Astrophysicist (University of Arizona) with a background in Quantum Field Theory and Relativity, Consultant to US Air Force (AFRL)/DoD/DoE/NASA, and Senior Science Advisor at the Institute for Advanced Studies in Austin. A DoD-deputized advisor to the Nimitz and Roosevelt UAP investigation, under a subcontract to the DoD.
+
+![Davis on UAP Crashes](https://github.com/richgel999/uap_resources/blob/main/davis_crashes.png "Davis on UAP Crashes")
+
+Linkedin resume:<br>
+https://www.linkedin.com/in/eric-w-davis/
+
+Detailed bio:<br>
+https://lifeboat.com/ex/bios.eric.w.davis
+
+Book: "Frontiers of Propulsion Science" by Marc G. Millis and Eric W. Davis:<br>
+https://arc.aiaa.org/doi/book/10.2514/4.479953
+
+Local mirror of his LinkedIn resume as an exported PDF file:<br>
+https://github.com/richgel999/uap_resources/blob/main/Davis_linkedin.pdf
+
+Clip of interview with Eric W. Davis, Ph.D - where he totally spills the beans<br>
+https://pastebin.com/MQHhUgYA<br>
+https://www.youtube.com/watch?v=k2gjPRv4E7s
+
+Clip of Eric W. Davis - Demand UAP Transparency:<br>
+https://www.youtube.com/watch?v=x4-JfM4rkRY
+
+Interview with Dr. Eric Davis - 4/30/19<br>
+https://www.youtube.com/watch?v=IeyBTChcTe4
+
+The key part:<br>
+https://www.youtube.com/watch?v=IeyBTChcTe4&t=4443s
+
+Davis says "SCIF" a couple times in this interview. This means a "Sensitive Compartmented Information Facility":<br>
+https://en.wikipedia.org/wiki/Sensitive_compartmented_information_facility
+
+Dr. Eric Davis: Classified Briefing to the [Senate Armed Services Committee](https://en.wikipedia.org/wiki/United_States_Senate_Committee_on_Armed_Services) - 10/21/19<br>
+https://www.nytimes.com/2020/07/23/us/politics/pentagon-ufo-harry-reid-navy.html
+
+For some verification, Christopher Mellon (former Deputy Assistant Secretary of Defense), when asked on CNN if he believed there are "objects in our possession that are from something other than this Earth", replied "that assertion should be taken seriously" (then later said that again). He also said he knew Davis well, and that Trump was considering declassifying information about Roswell.<br>
+https://www.youtube.com/watch?v=FTdCDfEu6x0
+
+Interview with Eric Davis on working for Pentagon UFO program - New York Post - 5/27/2020<br>
+https://www.youtube.com/watch?v=X3CcaP3yAkc
+
+Dr. Eric Davis - Interview in 2013 at [EarthTech International Inc.](https://earthtech.org/)<br>
+https://www.youtube.com/watch?v=mygOFMH6-Ts
+
+Dr. Eric Davis - Interview on Warp-Drives and FTL (2006)<br>
+https://www.youtube.com/watch?v=lVkTuFf2QsU
+
+Dr. Eric Davis - FTL Drives Low Energy Warp Bubbles<br>
+https://www.youtube.com/watch?v=5V7eoBUplv4
+
+Davis, Admiral Wilson, and Dr. Edgar Mitchell are all strongly linked:<br>
+https://twitter.com/richgel999/status/1511242287875080194
+
+The original security leak seems to be due to Dr. Edgar Mitchell's documents being found somewhat accidently after he passed away:<br>
+https://richarddolanmembers.com/articles/article-ufo-leak-of-the-century-richard-dolan-analyzes-the-admiral-wilson-leak/<br>
+
+The Wilson leak aligns with what Dr. Eric Davis has been saying in public: There have been crashes, there's an R&D program, etc. It mentions Dr. Eric W Davis (NIDS).
+
+"Pentagon Physicist Says Identified UFO's Can't Be Man-Made" - interview conducted after his classified briefing:<br>
+https://nerdist.com/article/pentagon-identified-ufos/
+
+'Ralph Blumenthal on Fade to Black: "Congressional committees were briefed on the issue of materials recovery" including "the Senate Armed Services Committee and the Senate Intelligence Committee with reference in the slides to off-planet vehicles.':<br>
+https://www.reddit.com/r/aliens/comments/o39bi2/ralph_blumenthal_on_fade_to_black_congressional/
+
+Clip of NY Post interview:<br>
+https://twitter.com/MiddleOfMayhem/status/1286675164373987329
+
+Greenstreet interviewed Davis for 50 minutes, but only 27 minutes have been released so far (AFAIK). Why?<br>
+https://www.ufojoe.net/the-lost-interview-eric-davis-on-wilson/
+
+### Dr. Hal E. Puthoff PhD
+Dr. Hal Puthoff Presentation & Q&A - he mentions C/R or the phrase "Crash Retrievals" twice, the new R&D program, DIA DIRD's, also has worked with Davis at EarthTech. Rich Hoffman (SCU) is also in this video, who stated in public at the SCU's AAPC 2022 conference that he had a security clearance and worked for a US Army General.<br>
+https://www.youtube.com/watch?v=UnCjbN7LCCs
+
+"Dr. Hal Puthoff Address to the SSE/IRVA Conference, Las Vegas, 8 June 2018" (from @kentbye):<br>
+
+"The third area, Unidentified Aerial Phenomena, I have not published anything in. Why? Because the program I was involved in, in the Pentagon and in the intelligence community has been Top Secret, behind-the-scenes and only recently has there been release of information about the program.  So this is the first chance that I’ve had a chance to actually appear before the public and speak about details of the program and not go to jail. So I’m going to go along at a rapid clip; I’ve got a lot of information here. So here we go."
+
+https://paradigmresearchgroup.org/2018/06/12/dr-hal-puthoff-presentation-at-the-sse-irva-conference-las-vegas-nv-15-june-2018/
+
+"Dr. Hal Puthoff | IRVA SSE Conference, 2018" - crucial video, lots of info revealed:<br>
+https://youtu.be/pOxcUKzrY_U
+
+That video was deleted (memory holed), but it may be here:  
+https://vimeo.com/ondemand/halputoff2018
+
+### Luis “Lue” Elizondo
+
+- "Why Unidentified Aerial Phenomena Are A National Security Risk And Also An Opportunity For Progress":<br>
+https://medium.com/hackernoon/why-unidentified-aerial-phenomena-are-a-national-security-risk-and-also-an-opportunity-for-progress-5f219768fa8f
+
+- Lue Elizondo, statement during interviews of "exotic materials"<br>
+https://duckduckgo.com/?q=Elizondo+exotic+materials&ia=web
+
+- Lue Elizondo, Disclosure Tonight - on counterintel funding media disinfo<br>
+https://pastebin.com/MFvwFq2W
+
+- List of interviews with Lue Elizondo, others<br>
+https://github.com/noncoding3torus/ReferenceMaterial/
+
+- Luis Elizondo on Unidentified Aerial Phenomena - British GQ<br>
+https://www.youtube.com/watch?v=4yX6ETCKyPo
+
+- Luis Elizondo on Tucker Carlson show 4/6/2022 - biological effects on military personnel of this advanced technology:<br>
+
+Elizondo: "or is it a product of something else, and we think right now, and again let me just preface preliminarily speaking, it's probably just a consequence of the advanced technology", "So no, I think it's fair to say at this point, suffice it to say this is probably not some sort of adversarial technology we're dealing with" Tucker: "Right. It's not human, so we should let that marinate for a minute."<br>
+https://www.youtube.com/watch?v=q-5Rk47ol1c
+
+- Clip on UAP transparency:<br>
+https://www.youtube.com/watch?v=RuPBAAQ3Uiw
+
+- Interview on Fox News 5/31/19, when asked "Do you think the US government has debris from a UFO in its possession right now?" Elizondo replied "simply put yes".<br>
+https://www.youtube.com/watch?v=M_LK6Wu3l4U&t=297s
+
+- "Who is Dr. James T Lacatski, AAWSAP Program Manager?" - Elizondo has mentioned him several times, including by name:<br>
+https://atmosphericlights.com/category/who-is-dr-james-t-lacatski-aawsap-program-manager/
+
+- "Disclosure" has already happened:<br>
+https://www.youtube.com/watch?v=B11EqMRxStA&t=3600s
+
+- "Luis Elizondo Interview: Garry Reid Aftermath, UFO Programs, and Classified UFO Briefings":<br>
+https://www.youtube.com/watch?v=tmi_kGtxZrM
+
+_TODO: More Elizondo interviews (there are so many it's hard for me to boil it down to a small key list)._
+
+### John F. Ramirez
+GS-15 CIA Officer John Ramirez<br>
+
+Slide deck, which was cleared by the CIA for public release:<br>
+https://drive.google.com/file/d/1ma2qEq8Y4lNyTrNoh0_SelgxqqddZkxj/view
+
+11/2/2021 "Navigating the US Intelligence Community"<br>
+https://www.youtube.com/watch?v=cQfySY_2BLc
+
+12/3/2021 Interview:<br>
+https://www.youtube.com/watch?v=zFQtYfOmxxs
+
+12/20/2021 Interview:<br>
+https://www.youtube.com/watch?v=F-b97V-Wkw0
+
+Retired CIA Officer John Ramirez on the Agency, Orbs, Intelligence Gathering, And Much More:<br>
+https://www.youtube.com/watch?v=eXerKPm2-p4
+
+### Lt. Col. Philip J. Corso
+_Pre-disclosure_
+
+Lt. Col. Philip J. Corso - "Dawn of a New Age" ("Golden Age of R&D")<br>
+Searchable:<br>
+https://archive.org/details/PhilipJ.Corso-DawnOfANewAge
+
+Local copy - Searchable (Adobe Acrobad Pro OCR):<br>
+https://github.com/richgel999/uap_resources/blob/main/corso_dawn_of_a_new_age_searchable.pdf
+
+Backup - non-searchable: Lt. Col. Philip J. Corso - "Dawn of a New Age" ("Golden Age of R&D")<br>
+https://www.openminds.tv/pdf/ufo-files/DawnOfANewAge.pdf
+
+Book on Army R&D feeding exotic UAP-sourced materials to US industry, the R area crash recovery (C/R), by Corso and Birnes<br>
+https://www.amazon.com/Day-After-Roswell-William-Birnes-ebook/dp/B000FBJHT4/
+
+### June Crain
+_Pre-disclosure_
+
+TELL MY STORY - June Crain: exotic materials, R C/R, [Paperclip Scientists](https://en.wikipedia.org/wiki/Operation_Paperclip), early [SAP](https://en.wikipedia.org/wiki/Special_access_program) projects, interviewed by [police sergeant James Clarkson](https://jamesclarksonufo.com/about/james-clarkson-biography)<br>
+https://www.amazon.com/TELL-MY-STORY-Crain-Force-ebook/dp/B00SRWHNRG/
+
+Transcript of Clarkson interview with June Crain<br>
+https://majesticdocuments.com/pdf/crain_clarksoninterview.pdf
+
+I personally interviewed over the phone James Clarkson in Washington State on the night of 4/8/2022. He is quite sharp and remembers Crain and her testimony very well. He is available for interviews by media/reporters. Just go to his website and contact him by phone or email:<br>
+https://jamesclarksonufo.com/about/james-clarkson-biography
+
+"Where was Wright-Patterson AFB Clerk-Stenographer June Crain living the week of Roswell?"<br>
+https://medium.com/@richgel99/where-was-wright-patterson-afb-clerk-stenographer-june-crain-living-the-week-of-roswell-858bdfeca73c
+
+"Wright-Patterson AFB Worker June Crain’s Signed “Notice of Security Obligations” Form"<br>
+https://medium.com/@richgel99/wright-patterson-afb-worker-june-crains-signed-notice-of-security-obligations-form-6cc3a36b55c8
+
+Audio interview clips:  
+https://youtu.be/T9VHp3bXQfw  
+https://youtu.be/A07KweQW6bo  
+https://youtu.be/ANsvRO__Yi4
+
+### James Semivan
+
+25 year CIA Officer (Senior Intelligence Service), TTSA VP of Ops, Co-Founder "To The Stars" 
+
+Talks about his close encounter experience, and his personal perspective or best guess on the situation (mass human rights violations):<br>
+https://www.youtube.com/watch?v=7xBVCi_hIa0
+
+## Key Books/Documentaries
+
+_Core information about the topic. The foundation._
+
+### Robert Hastings
+UAP's and Nukes - Robert L. Hastings is the world’s foremost researcher on the subject of UFO activity at nuclear weapons sites.<br>
+https://www.ufohastings.com/<br>
+https://www.amazon.com/UFOs-Nukes-Extraordinary-Encounters-Nuclear/dp/1544822197<br>
+https://www.amazon.com/UFOs-Nukes-Secret-Link-Revealed/dp/B06XWQ2NWX/
+
+### Paul Hill
+Paul R. Hill (mid–twentieth-century American aerodynamicist, leading research and development engineer and manager for NASA/NACA),
+UAP's absolutely follow the laws of physics:<br>
+https://www.amazon.com/Unconventional-Flying-Objects-Scientist-Explains-dp-1571747133/dp/1571747133/
+
+## MJ-12 - It existed, and still does
+
+More “Working Group” (mj12) Corroboration:<br>
+https://medium.com/@richgel99/more-working-group-mj12-corroboration-28dd63a79d42
+
+US Army Col. Philip J. Corso on the “Majestic-12” Working Group:<br>
+https://medium.com/@richgel99/col-philip-j-corso-on-majestic-12-8df8cf612539
+
+The Elephant Still In the Room: MJ-12:<br>
+https://medium.com/@richgel99/the-elephant-still-in-the-room-mj-12-ba7bdbc13b69
+
+## Key Leaked Reports/Memos
+
+_Majestic/MJ-12 Documents. Beware, some of these may be fakes, but earlier researchers (such as Stanton Friedman) were confident in many of them. TODO: This is not a complete list._<br>
+
+A website with an organized collection of most of the Majestic leaks is [here](https://majesticdocuments.com/).
+
+### Authenticity
+
+Mounting Evidence For Authenticity of MJ-12 Documents, by Robert M. Wood<br>
+https://majesticdocuments.com/pdf/rmwood_mufon2001.pdf
+
+The Majestic (MJ-12) Documents - Summary Arguments<br>
+https://majesticdocuments.com/documents/document-authentication/summary-arguments/
+
+Update on Operation Majestic 12 Documents - Friedman:<br>
+http://stantonfriedman.com/index.php?ptp=articles&fdt=2004.04.15
+
+### Reports/Memos:
+
+List of Majestic (MJ-12) Documents Prior to 1948:<br>
+https://majesticdocuments.com/documents/majestic-documents/documents-dated-prior-to-1948/
+
+Oppenheimer-Einstein Draft, June 1947<br>
+https://majesticdocuments.com/pdf/oppenheimer_einstein.pdf
+
+Twining’s “White Hot” Report: Mission Assessment of Recovered Lenticular Aerodyne Objects, 19 September 1947<br>
+https://majesticdocuments.com/pdf/twining_whitehotreport.pdf
+
+Franklin D. Roosevelt Memo on Non-Terrestrial Science and Technology, 22 Feb. 1944<br>
+https://majesticdocuments.com/pdf/fdr_22feb44.pdf
+
+MJ12 Report, Summer 1952 (Fifth Annual Report)<br>
+https://majesticdocuments.com/pdf/mj12_fifthannualreport.pdf
+
+## Key Statement by Astronaut Dr. Edgar Mitchell
+
+Astronaut [Dr. Edgar Mitchell](https://en.wikipedia.org/wiki/Edgar_Mitchell) - Lunar Module Pilot of Apollo 14. He spent nine hours working on the lunar surface in the Fra Mauro Highlands region, making him the sixth person to walk on the Moon.<br>
+https://www.youtube.com/watch?v=yeBtSnRGSus
+
+Transcript: "There have been ET visitation. There have been crashed craft. 
+There have been material and bodies recovered, and there is some group of people
+somewhere that may or may not be associated with government at this point, but
+certainly were at one time, that have this knowledge and have been attempting to
+conceal this knowledge are not permitted to be widely disseminated."
+
+This matches strongly with Corso and Davis, partially with Elizondo, weakly Puthoff, and strongly with the [Admiral Wilson Leak](https://www.theblackvault.com/casefiles/the-admiral-wilson-leak-an-analysis/).
+
+Another set of interviews. I may elevate Edgar Mitchell to a key source:<br>
+https://in5d.com/dr-edgar-mitchell-aliens-are-real-and-are-watching-us/
+
+Mitchell's 1998 Testimony:<br>
+https://medium.com/@richgel99/astronaut-edgar-mitchells-testimony-may-1998-28c520108358
+
+## Vallée: "Pentacle" Memorandum
+
+A key 1953 document found by early researcher and computer scientist [Jacques Vallée](https://www.jacquesvallee.net/), which he pushed to get officially declassified. Vallée stated in [The Phenomenon](https://www.amazon.com/Phenomenon-John-Podesta/dp/B08HR9BVNM/ref=sr_1_1) documentary that this document "changed his life". Document was signed by H.C. Cross (Dr. Howard C. Cross) - Director of Exotic Metallergy - [Battelle Memorial Institute](https://en.wikipedia.org/wiki/Battelle_Memorial_Institute) - US National Labs.
+
+This document demonstrated that the US military took the UAP problem so seriously that they had another independent and secret data collection/analysis program, parallel to the public [Blue Book](https://en.wikipedia.org/wiki/Project_Blue_Book) program.
+
+http://www.greenwoodufoarchive.com/Just_Cause_Greenwood/Just_Cause_1993_03_n35.pdf<br>
+http://nicap.org/papers/Pentacle/pentacle_coppens.pdf<br>
+https://www.theufochronicles.com/2009/06/roswell-metal-scientist-curious-dr.html<br>
+https://www.ufoexplorations.com/roswell-metal-scientist-dr-cross<br>
+https://www.theufochronicles.com/2009/06/roswell-metal-scientist-curious-dr.html
+
+## Begin–Sadat Center for Strategic Studies Report
+
+"The Pentagon’s UAP Task Force Franc Milburn" from the Begin–Sadat Center for Strategic Studies:<br>
+Very good summary of the situation since 2004, with many details.<br>
+https://besacenter.org/wp-content/uploads/2020/11/183-Milburn-study-final.pdf
+
+Presentation about the report:<br>
+https://www.youtube.com/watch?v=t2l_-ixzNKQ
+
+##  Former Legislator Henry W. McElroy, Jr.'s Statement
+
+Here's Former New Hampshire Legislator Henry W. McElroy, Jr.'s [video recorded statement](https://www.youtube.com/watch?v=NNV8-k5UvpY&ab_channel=ufonotebook) made on 5/8/2010, on what he called the "visitor" situation, the Eisenhower 1954 meeting, etc. It was made in Fort Monroe, Virginia, around 10 minutes from Hampton, VA. The event didn't have much impact at the time, but there is a lot of public literature that helps corroborate his statements. There are also a lot of witnesses in history and their accounts are in the literature and books.
+
+Here's enough family background to research him on ancestry.com: "Henry Ward McElroy Jr.", B:2 Apr 1941 Hampton, Virginia. Beware his family tree is somewhat complex, and he was raised by his step father "Carl J. Holler" B:14 September 1924 Goldfield, Wright, Iowa, USA D:6 June 2009 Hampton, Hampton City, Virginia, not his biological father. His biological father was "Henry Ward McElroy Sr", B:26 October 1914 Cuba, Alabama, D:24 April 1983. The legislator was married twice (Quinter and Woodward).
+
+He had a very unusual series of events occur in his life before this very specific statement. He tried to get some ["unusual bills"](https://www.newspapers.com/clip/106585416/rep-henry-mcelroy-unusual-bills/) passed, was outspoken about the Constitution in the newspapers, and other things involving currency matters, which was not a good idea. This occured before his video statement.
+
+You can [Google](https://www.google.com/search?q=mcelroy+et+al+15+iroquois+398-JM) or [DuckDuckGo](https://duckduckgo.com/?q=mcelroy+et+al+15+iroquois+398-JM) this specific phrase without quotes to start your own research or investigation. You can recover the full series of events, all from public records:
+
+mcelroy et al 15 iroquois 398-JM
+ 
+## References, Briefing Documents
+
+DIA DIRD's (Defense Intelligence Agency's _Defense Intelligence Reference Documents_):<br>
+https://www.dropbox.com/sh/95tgfd2lljqrve3/AABKl58mfojoZjNiKEZAz8gMa
+
+Australian Government: "Scientific Intelligence - General - Unidentified Flying Objects" - Pre-Disclosure:<br>
+https://recordsearch.naa.gov.au/SearchNRetrieve/Interface/ViewImage.aspx?B=30030606&S=1
+
+[Laurance Rockefeller](https://en.wikipedia.org/wiki/Laurance_Rockefeller): Established the "UFO Disclosure Initiative" at the Clinton White House. Sponsored this briefing document intended for world leaders (pre-disclosure):<br>
+https://www.openminds.tv/wp-content/uploads/Rockefeller-Briefing-Document.pdf
+
+## Key Technologies
+
+If you have any actual "exotic materials" (say, from a crashed UAP) you should contact the TTSA or [To The Stars](https://www.linkedin.com/company/to-the-stars-inc-/about/) folks ASAP. Be sure to get a contract signed before handing over anything. Also note that you should be careful, because Russian and Chinese intelligence will be wanting to get their hands on this strategically important technological astromaterial. 
+
+Metamaterials and Metamaterial Antennas are a _crucial technology_:<br>
+https://en.wikipedia.org/wiki/Metamaterial<br>
+https://en.wikipedia.org/wiki/Metamaterial_antenna
+
+The laws for meteorite collectors probably apply, until there are specific laws for technological astromaterials:<br>
+https://www.space.com/18009-meteorite-collectors-public-lands-rules.html
+
+## Bigelow Aerospace
+
+- NY Times, 12/16/2017, said that Bigelow modified buildings in Vegas for the "storage of metal alloys and other materials that Mr. Elizondo 
+and program contractors said had been recovered from Unidentified Aerial Phenomena".
+https://www.nytimes.com/2017/12/16/us/politics/pentagon-program-ufo-harry-reid.html
+
+- Video of Bigelow's highly secured vault, apparently showing a strange phenomena around the materials in this vault:<br>
+https://twitter.com/richgel999/status/1513712160710479872
+
+More info:<br>
+https://www.alienbabble.com/threads/the-orb-in-bigelows-vault.756/<br>
+https://silvarecord.com/2019/01/26/metamaterials-not-from-earth/
+
+## NY Times
+
+(Hint: If you press escape during the page load at the right time, the nag screen shouldn't appear.)
+
+"Ralph Blumenthal, a staff reporter for The New York Times from 1964 to 2009, is the author of "The Believer: Alien Encounters, Hard Science, and the Passion of John Mack," to be published by High Road Books of the University of New Mexico Press on March 15, 2021."
+
+- "Do We Believe in U.F.O.s? That’s the Wrong Question", by Ralph Blumenthal and Leslie Kean
+
+"Numerous associates of the Pentagon program, with high security clearances and decades of involvement with official U.F.O. investigations, told us they were convinced such crashes have occurred, based on their access to classified information. But the retrieved materials themselves, and any data about them, are completely off-limits to anyone without clearances and a need to know."<br>
+July 28, 2020, Updated June 3, 2021<br>
+https://www.nytimes.com/2020/07/28/insider/UFO-reporting.html
+
+- Dr. Eric Davis: Classified Briefing to the [Senate Armed Services Committee](https://en.wikipedia.org/wiki/United_States_Senate_Committee_on_Armed_Services) - 10/21/19<br>
+https://www.nytimes.com/2020/07/23/us/politics/pentagon-ufo-harry-reid-navy.html
+
+- "Navy Reports Describe Encounters With Unexplained Flying Objects", by Ralph Blumenthal and Leslie Kean:<br>
+https://www.nytimes.com/2020/05/14/us/politics/navy-ufo-reports.html?action=click&module=RelatedLinks&pgtype=Article
+
+- "‘Wow, What Is That?’ Navy Pilots Report Unexplained Flying Objects", by Helene Cooper, Ralph Blumenthal and Leslie Kean
+https://www.nytimes.com/2019/05/26/us/politics/ufo-sightings-navy-pilots.html
+
+## Stanford Professor Dr. Garry Nolan
+
+"Dr. Garry Nolan is a Professor of Pathology at Stanford University. His research ranges from cancer to systems immunology. Dr. Nolan has also spent the last ten years working with a number of individual analyzing materials from alleged Unidentified Aerial Phenomenon. His robust resume—300 research articles, 40 US patents, founding of eight biotech companies, and honored as one of Stanford’s top 25 inventors—makes him, easily, one of the most accomplished scientists publicly studying UAPs."
+
+- "Stanford Professor Garry Nolan Is Analyzing Anomalous Materials From UFO Crashes":<br>
+https://www.vice.com/en/article/n7nzkq/stanford-professor-garry-nolan-analyzing-anomalous-materials-from-ufo-crashes
+
+- "Garry Nolan: UFOs and Aliens": (Garry Nolan is a professor at Stanford University School of Medicine. His research is in microbiology, immunology, bio-computation, and analysis of UFO artifacts, materials, and reports of UFO encounters.):<br>
+https://www.youtube.com/watch?v=uTCc2-1tbBQ
+
+- "Flow Stars featuring Garry Nolan (Stanford School of Medicine)":<br>
+
+1:04:54: "involved with this for the last 10 years since the basically the CIA showed up in my office and asked me to help them um with some of their pilots and ground personnel who'd gotten too close to what they claimed were UFO's and that they've gotten sick"<br>
+https://www.youtube.com/watch?v=5e4GZ0zOgZs
+
+- "Do aliens want to talk to humans? | Garry Nolan and Lex Fridman":<br>
+https://www.youtube.com/watch?v=76ExSpmO6Gw
+
+- "A look inside people’s brains who say they’ve had a UFO encounter | New York Post":<br>
+https://www.youtube.com/watch?v=GpB4Ng51PQ8
+
+- "Is the US government in possession of UFOs | Garry Nolan and Lex Fridman":<br>
+https://www.youtube.com/watch?v=8zQkXRVTxxo
+
+## Bob Oeschsler (ex-NASA mission specialist and 80's-90's era ufologist):<br>
+
+His group's late-80's analysis of the coverup situation:<br>
+https://github.com/richgel999/uap_resources/blob/main/oescsler.md
+
+Article on his death, with some background info:<br>
+https://www.the-sun.com/news/993616/ex-nasa-man-dies-of-cancer/
+
+Audio interview - BBC Radio:<br>
+https://www.youtube.com/watch?v=Y76yFmr1sjA<br>
+https://versounmondonuovo.wordpress.com/2015/09/12/ufo-ex-nasa-scientist-bob-oechsler-bbc-radio-1-dj-nicky-campbell/
+
+Interview Part 1:<br>
+https://www.youtube.com/watch?v=1E5xHRPNaFo
+
+Interview Part 2:<br>
+https://www.youtube.com/watch?v=aJnwVn8pkkM
+
+Interview Part 3:<br>
+https://www.youtube.com/watch?v=er0BcRQShIY
+
+MJ-12:<br>
+http://www.cufon.org/cufon/inmanpr.htm
+
+Admiral Bob R. Inman on Crash Retrievals:<br>
+https://www.youtube.com/watch?v=LsPXbrIwb8c
+
+"CHESAPEAKE CONNECTION An Implication of Corporate Involvement in the UFO Cover-up - Part 1":<br>
+https://files.afu.se/Downloads/Books/Digitized_by_AFU/Quest_Publications/Oechsler,%20Bob%20-%20The%20Chesapeake%20Connection%20-%20Part%201%20of%202.pdf#page=1
+
+"CHESAPEAKE CONNECTION An Implication of Corporate Involvement in the UFO Cover-up - Part 2":<br>
+https://files.afu.se/Downloads/Books/Digitized_by_AFU/Quest_Publications/Oechsler,%20Bob%20-%20The%20Chesapeake%20Connection%20-%20Part%202%20of%202.pdf#page=1
+
+## Christopher Mellon
+
+Christopher Mellon (20 years in the U.S. Intelligence Community, Minority Staff Director of the Senate Intelligence Committee, Deputy Assistant Secretary of Defense for Intelligence)<br>
+https://www.christophermellon.net/
+
+'The intelligence official described another faction inside military and intel agencies “that … takes this subject very seriously” and is protective of UAP-related data.
+
+“They fetishize their secret society,” the official said. “It’s kind of a Skull and Bones-type vibe. They take it seriously but they have no accountability. Zero. There is a whole group of us that know in great detail this subject, a lot of which has not been reported to Congress because of security issues.”'
+
+https://www.politico.com/news/2022/05/16/intelligence-agencies-congress-ufo-hearing-00032713
+
+## Agent Kewper's (aka Officer Wolff) Anonymous Interview
+
+Ex-CIA/US Army "Agent Kewper" appears to be named Oscar Wayne Wolff, 17 SEP 1935 (or 36?) Park Rapids, MN, to 18 MAR 2015 Menahga, MN. (Thanks to @mrjeffknox for help with this candidate and @JeremyCorbell 's movie hints.) We are still verifying that it's him, but so far he's a good match. His tree is public on ancestry.com. Here's his [obituary](https://www.parkrapidsenterprise.com/obituaries/oscar-w-wolff). More here:<br>
+https://medium.com/@richgel99/deanonymizing-anonymous-agent-kewper-a1284fdab3fe
+
+His audio interview with LMH on June 6, 1998 along with a transcript and other files are [here](https://github.com/richgel999/uap_resources/tree/main/kewper_lmh_interview).
+
+15 years later, he was interviewed by Richard Dolan. The video is on YouTube [here](https://www.youtube.com/watch?v=c--gGcsc4aw&ab_channel=CitizenHearingonUFODisclosure).
+
+There's also a [book](https://www.amazon.com/Former-Agent-comes-Shadows-Brief/dp/1936517841/ref=sr_1_1) interview available.
+
+## Possibly first documented "Havana Syndrome"-like attack
+
+Gerald Light, of the BSRA (Borderlands), made a report in the early 50's:<br>
+https://medium.com/@richgel99/gerald-light-possibly-one-of-the-first-victims-of-a-havana-attack-966a7f00a8d9
+
+All BSRA documents are being scanned and placed here (more are on the way):<br>
+https://github.com/richgel999/uap_resources/tree/main/gerald_light_bsra
+
+## Other Misc. Resources
+
+_Useful/educational material. Not sorted/categorized yet._
+
+- "Congress implies UFOs have non-human origins":<br>
+https://thehill.com/opinion/3610916-congress-implies-ufos-have-non-human-origins/
+
+- "UFO Over White House: Why Govt. Classified This Incident, Witnessed by Thousands Of Americans":<br>
+https://www.howandwhys.com/ufo-over-white-house-witnessed-by-thousands-of-americans/
+
+- "Estimating Flight Characteristics of Anomalous Unidentified Aerial Vehicles":<br>
+https://www.mdpi.com/1099-4300/21/10/939
+
+- "Episode 5: Advanced Aerospace Threat and Identification Program (AATIP)" 
+Forwarded by Nick Madrid: "This presentation shows the slides that were used by Davis in the presentations they were found on a website controlled by Christopher melon"<br>
+https://www.youtube.com/watch?v=l24bPVlX4rI
+
+- "Is UAP Dissemination actually coming?! EX CIA officer says yes- DNI and NASA Directors on board?": - 11/12/21<br>
+https://www.youtube.com/watch?v=8DSTpEYYBrc
+
+- "David Fravor: UFOs, Aliens, Fighter Jets, and Aerospace Engineering", 9/8/2020:<br>
+https://www.youtube.com/watch?v=aB8zcAttP1E
+
+- "In Plain Sight: An Investigation Into UFOs and Impossible Science", 2021/08/01:<br>
+https://www.amazon.com/Plain-Sight-investigation-impossible-science-ebook/dp/B08VYR4DZ6/
+
+- "Skinwalkers at the Pentagon: An Insiders' Account of the Secret Government UFO Program", 2021/10/01:<br>
+https://www.amazon.com/Skinwalkers-Pentagon-Insiders-Account-Government-ebook/dp/B09J484KYD/
+
+- "Theories of Everything with Curt Jaimungal "UFO" playlist", containing in-depth interviews with Luis Elizondo, Jacques Vallée, Avi Loeb, and more:<br>
+https://www.youtube.com/playlist?list=PLZ7ikzmc6zlPd4Y5pg8XtzS_0-ChSTeJ6##
+
+- Ramey Roswell memo photo analysis, which is very useful because we have public photos with Ramey holding the memo in his hand:<br>
+http://kevinrandle.blogspot.com/2018/12/the-ramey-memo-latest-information.html
+
+- Stanton Friedman on the 70+ Year UAP Coverup<br>
+https://www.stantonfriedman.com/index.php?ptp=articles&fdt=2005.05.15
+
+- Admiral Wilson Leak Analysis<br>
+https://www.theblackvault.com/casefiles/the-admiral-wilson-leak-an-analysis/
+
+- US Air Force Foreign Technology Division - 7/24/1981, likely not UAP, sightings over several provinces in China, notice the cover page<br>
+https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/UFOsandUAPs/ADA128307_UFOsandUAPs.pdf?ver=2017-05-22-113419-807
+
+- The FBI-CIA-UFO Connection: The Hidden UFO Activities of USA Intelligence Agencies -  [Dr. Bruce Maccabee](http://brumac.mysite.com/) (Physicist, Naval Surface Warfare Center)<br>
+https://www.amazon.com/FBI-CIA-UFO-Connection-Activities-Intelligence-Agencies/dp/1502317214
+
+- The Children of Roswell: A Seven-Decade Legacy of Fear, Intimidation, and Cover-Ups - by Thomas J. Carey, Donald R. Schmitt<br>
+https://www.amazon.com/Children-Roswell-Seven-Decade-Intimidation-Cover-Ups-ebook/dp/B07J1TCPSG
+
+- Massive Twitter thread by @kentbye with the latest developments<br>
+https://twitter.com/kentbye/status/943238420037431297
+
+- "The White House Role in Crashed UFO Retrievals" - From a paper presented at the Crashed Retrieval Conference, Las Vegas November 16, 2003:<br>
+https://www.bibliotecapleyades.net/exopolitica/esp_exopolitics_ZZL.htm
+
+- "Former Pentagon official discusses UFO sightings in Canada and the United States" - former Pentagon official Chris Mellon, 6/2/2021:<br>
+https://www.youtube.com/watch?v=t8a_wKO-uVs
+
+- Lehto: "Gulf Breeze has the Best Video of a Tic Tac?":<br>
+https://www.youtube.com/watch?v=RC3n29dkrvU
+
+- The Nimitz UFO incident (has a decent detailed early ~2004 timeline):<br>
+http://www.marcellocatalano.com/nimitz.html
+
+- The 2021 USS Kearsarge Sightings, Dave Beaty:<br>
+https://davebeaty.medium.com/the-2021-uss-kearsarge-sightings-fc83076822ef
+
+- "The space force doesn’t talk about ufos, but new legislation may force it to":<br>
+https://thedebrief.org/the-space-force-doesnt-talk-about-ufos-but-new-legislation-may-force-it-to/
+
+- "The Admiral Wilson Leak: Evidence of USAPs (Unacknowledged Special Access Programs) & Reverse Engineering of Extraterrestrial technologies":<br>
+https://metallicman.com/laoban4site/the-admiral-wilson-leak-evidence-of-saps-special-access-programs-reverse-engineering/
+
+- Lue Elizondo's resignation letter, and answering "who else knows?":<br>
+https://blog.adamkehoe.com/answering-who-else-knows/
+
+- "VICE World News obtained nearly 300 pages of documents through freedom of information requests that include strange sightings from pilots, soldiers, and police officers.":<br>
+https://www.vice.com/en/article/z3ngvx/canadian-government-ufo-reports-release
+
+- "That Time an Alien Spaceship Crashed in 1897...":<br>
+https://www.texasufosightings.com/buzz/that-time-an-alien-spaceship-crashed-in-1897
+
+- "Pentagon says UFOs sightings have left witnesses with radiation burns, brain damage and 'perceived time suspension' in newly released report from 2010: States they represent a 'threat to United States interest'":<br>
+https://www.dailymail.co.uk/news/article-10688573/Pentagon-says-UFOs-left-people-radiation-burns-brain-damage-time-suspension.html
+
+- "NIDS Investigations of the Flying Triangle Enigma - August 2004":<br>
+https://web.archive.org/web/20071008195422/http://www.nidsci.org/articles/8_25trireport.php
+
+- "McDonnell Douglas studied UFOs in the 1960s" - An early attempt at reverse engineering UAP's:<br>
+https://documents.theblackvault.com/documents/MUFON/Journals/2008/October_2008.pdf?fbclid=IwAR3H9N3gTyNFuN_p5Gi_xmQ8m0KcDaEqw7KOWm_YLLY2qRTeLg53vkPcdHg
+
+- More on UAP baiting:<br>
+https://thehermeticpenetrator.medium.com/on-baiting-the-ufo-trickster-the-control-system-hypothesis-479bd712e7ef
+
+https://thehermeticpenetrator.medium.com/ufo-coaxing-yes-excerpts-from-a-bombshell-ufotwitter-thread-1cbf8ba38007
+
+https://medium.com/on-the-trail-of-the-saucers/alien-intelligence-and-the-nuclear-connection-6916450b7f9d
+
+https://twitter.com/UFOthinker/status/1504850741135126531
+
+- Ariel school landing:<br>
+https://twitter.com/UFOBreddit/status/1508706215068585985
+
+- "UFOs and the CIA", both Semivan and Ramirez:<br>
+https://www.coasttocoastam.com/show/2022-01-30-show/
+
+- 'Ex-CIA officer Jim Semivan: “There’s a whole other reality that surrounds us that we just simply don’t have the ability to see.”'
+https://americanbuddhist.net/2022/02/01/ex-cia-officer-jim-semivan-theres-a-whole-other-reality-that-surrounds-us-that-we-just-simply-dont-have-the-ability-to-see/
+
+- Astronaut Buzz Aldrin - it's a long documentary and the signal to noise ratio probably isn't very good, but he is interviewed:<br>
+https://youtu.be/wxERd9ImAwY
+
+One (of many) Aldrin clips:<br>
+https://youtu.be/wxERd9ImAwY?t=1907
+
+- Robert (Bob) Dean - passed away:<br>
+https://www.colinandrews.net/Bob-Dean-Passed-Away.html
+
+- Ken Johnson - ex-NASA, censored Moon information:<br>
+https://ufocongress.com/ken-johnston/
+
+- Dr. Roger Leir - implants:<br>
+https://www.youtube.com/watch?v=twmWA9p99go
+
+- "UFOs: Generals, Pilots and Government Officials Go On the Record", by Leslie Kean:<br>
+https://www.amazon.com/UFOs-Generals-Pilots-Government-Officials-ebook/dp/B0036S4C66
+
+- "In Plain Sight: An investigation into UFOs and impossible science", by Ross Coulthart:<br>
+https://www.amazon.com/Plain-Sight-investigation-impossible-science-ebook/dp/B08VYR4DZ6
+
+- "Missile Security Guards at Minot AFB Encounter Huge UFO Near Missile Silo in 1972":<br>
+https://www.youtube.com/watch?v=9v5WNP014Cc
+
+- "Military personnel have been hurt after UFO encounters, expert says":<br>
+https://www.msn.com/en-us/news/world/military-personnel-have-been-hurt-after-ufo-encounters-expert-says/ar-AAVYRbp?cvid=0bbe078e187148d28d23bb185b9a9978&s=09
+
+- "APEC 9/11 4K: Jack Sarfatti’s UAP Warp Drive & Tic Tac Tech"<br>
+https://www.youtube.com/watch?v=Dme-k600Md0
+
+- "Panel discussion of UAP -Tic Tac Tech and the related physics - Drs Jack Sarfatti and Russell Targ"<br>
+https://www.youtube.com/watch?v=UEi--X6avAs
+
+- uaptheory - the web site keeps being taken down:<br>
+https://www.uaptheory.com/
+
+Archived versions:
+http://web.archive.org/web/20220413061214/https://www.uaptheory.com/
+
+http://web.archive.org/web/20210516172803/https://www.uaptheory.com/branchials/
+
+http://web.archive.org/web/20210520160134/https://www.uaptheory.com/habitable-worlds/
+
+- "Five Characteristics Unique to UAP's" - February 16, 2018
+http://web.archive.org/web/20201101030959/https://dpo.tothestarsacademy.com/blog/five-characteristics-unique-to-uaps
+
+- Comprehensive list of interviews/TV shows/literally everything regarding recent events with UFOs:<br>
+https://docs.google.com/spreadsheets/d/1isNhyQJgwzp-Ca3VPoAZrGeEO-1gYdnqKJB4RkCeLlg/htmlview#
+
+- "Christopher Mellon: Why is the Air Force AWOL on the UAP Issue?":<br>
+https://www.youtube.com/watch?v=LQRli5u3EZQ
+
+- "Is There a UFO Cover-up? A Government Insider Speaks Out" (Christopher Mellon):<br>
+https://www.huffpost.com/entry/is-there-a-ufo-coverup-a-_b_9865184
+
+- Nick Madrid's article on "Crash Retrievals":<br>
+https://medium.com/@nickmadrid68/uap-crash-retrievals-49969d75fe42
+
+- "Exo586 - Robert Wood - Leaked Government Documents And UFO Crash Retrievals":<br>
+https://www.youtube.com/watch?v=-K2aa6DJpvw
+
+- "The Covert World of UFO Crash Retrievals":<br>
+https://www.stealthskater.com/Documents/Sherman_06.pdf
+
+- Original IMGUR link to the "Admiral Wilson Leak" documents (should really be called the "EWD" notes):<br>
+https://imgur.com/a/ggIFTfQ
+
+- "FIVE HOUR DEEP DIVE into the Wilson UFO Leak | Richard Dolan Show Special Edition":<br>
+https://www.youtube.com/watch?v=pY1XHQBqIY8
+
+- U.S. Naval Reserve Commander Willard H. Miller - lots of ties to Admiral Wilson Leak (EWD nodes), Leslie Kean, CSETI Disclosure Project, etc.
+http://web.archive.org/web/20200924035931/http://www.ufoupdateslist.com/2000/jun/m02-008.shtml
+
+- May 21, 2000, Boston Globe newspaper article "UFO Theorists Gain Support Abroad, But Repression At Home", by Leslie Kean:<br>
+https://isgp-studies.com/ufo-2000-05-21-boston-globe-ufo-theorists-gain-support-abroad
+
+- NRO document sent by Dr. Steve Greer to Admiral Wilson:<br>
+https://siriusdisclosure.com/wp-content/uploads/2012/12/NRO-Doc.pdf
+
+- "Letter – Commander Will Miller To Admiral Tom Wilson – June 28th, 1995":<br>
+https://www.ufojoe.net/miller-to-wilson-letter-1995/
+
+- "Former Sen. Harry Reid thinks Lockheed Martin may have UFO fragments":<br>
+https://nypost.com/2021/04/30/former-sen-harry-reid-thinks-lockheed-martin-may-have-ufo-fragments/
+
+- Baiting mission:<br>
+https://twitter.com/UFOBreddit/status/1508906284598366222
+
+- "Deathbed Confession by former CIA agent on UFOs / The Anonymous Interview (Official Film Trailer)":<br>
+https://supersoldiertalk.com/deathbed-confession-by-former-cia-agent-on-ufos-the-anonymous-interview-official-film-trailer/
+
+- "We Are Not Alone" documentary (MJ12 documents):<br>
+https://www.bibliotecapleyades.net/sociopolitica/esp_sociopol_mj12_31.htm
+
+- Professor Dr. Shirley Wright, PhD, a student of Albert Einstein at Princeton with a security clearance ("Edith Simpson" in Stringfield's Crash Retrieval 5th status report)
+
+Audio interview:<br>
+https://www.youtube.com/watch?v=v6jBiWcWiEw
+
+https://thepulse.one/2021/10/21/einsteins-student-claims-both-were-taken-to-examine-roswell-craft-beings/<br>
+https://www.planet-today.com/2021/10/albert-einstein-was-flown-to-roswell-in.html<br>
+
+- "Tom DeLonge’s Origin Story For To The Stars Academy Describes A Government UFO Info Operation":<br>
+https://www.thedrive.com/the-war-zone/28377/tom-delonges-origin-story-for-to-the-stars-academy-describes-a-government-info-operation
+
+- AASWAP vs. AATIP, interview with Elizondo:<br>
+https://www.mysterywire.com/ufo/aatip-aawsap-elizondo/
+
+- Former [AFOSI](https://en.wikipedia.org/wiki/United_States_Air_Force_Office_of_Special_Investigations) counterintelligence officer Richard (Rick) Doty - admitted to "disinforming" witnesses:<br>
+https://www.youtube.com/watch?v=iIzVe8ZsyNg
+
+- "Notes on a 2002 meeting between Dr Eric Davis and Admiral Thomas Wilson: the source of the Grant Cameron document speaks out":<br>
+https://ufos-scientificresearch.blogspot.com/2019/06/notes-on-2002-meeting-between-dr-eric.html?m=1
+
+- Dolan on reopening the Aztec UAP crash case:<br>
+https://youtu.be/NEAjBnb_K84?t=921
+
+- TTSA personally deliving retrieved UAP materials to EarthTech in Austin:<br>
+https://t.co/ahq82YdTvG
+
+- "Have UFO's ever attacked Terrestrial Aircraft?":<br>
+https://thedebrief.org/have-ufos-ever-attacked-terrestrial-aircraft/?utm_sq=h1is72ui79
+
+- "The FAA finally admits it documents reports of Unidentified Aerial Phenomena" (John B. Alexander link):<br>
+https://thedebrief.org/the-faa-finally-admits-it-documents-reports-of-unidentified-aerial-phenomena/
+
+- "Technology from Extraterrestrials (Lockheed Skunkworks & More)" - 2013 interview with Don Phillips:<br>
+https://www.youtube.com/watch?v=rBO8z9pHAuA
+
+- "Don Phillips from Lockheed Skunk Works UFO Encounter":<br>
+https://www.youtube.com/watch?v=nuq5klN_R-s
+
+- Testimony by Don Phillips:<br>
+https://www.bibliotecapleyades.net/disclosure/briefing/disclosure12.htm
+
+- 2001 National Press Club Event (Presented by Dr. Steven Greer) (includes Don Phillips):<br>
+https://www.youtube.com/watch?v=4DrcG7VGgQU
+
+- Vasily Yeremenko, Major General of the FIB:<br>
+https://astralcitizens.com/russian-extraterrestrial-experiment-top-secret-project-details-revealed/<br>
+https://where-aliens.blogspot.com/2013/04/vasily-yeremenko-former-kgb-agent.html
+
+- "Larry King: The UFO Cover-Up? Live from Area 51 (1994)":<br>
+https://www.youtube.com/watch?v=Acp_PhbdUoM
+
+- Brig. Gen. Arthur E. Exon - Roswell Event:<br>
+http://www.roswellproof.com/Exon.html
+
+- Roswell timeline:<br>
+https://www.nicap.org/roswell4.htm
+
+- "Science In Default" By Dr. James McDonald:<br>
+https://www.youtube.com/watch?v=a5vTqUyxQhM
+
+- Press release/letter was mailed to several members of the Senate Armed Services Committee about Admiral Bobby Ray Inman:<br>
+http://www.cufon.org/cufon/inmanpr.htm
+
+- ‘A Skull and Bones-type vibe’: Spy agencies grapple with how much to share at UFO hearing:<br>
+https://www.politico.com/news/2022/05/16/intelligence-agencies-congress-ufo-hearing-00032713
+
+- "Who is in charge?":<br>
+https://twitter.com/528vibes/status/1531098676789231617
+
+- "Scully's Scrapbook" - 1949 rumors of a crashed saucer with occupants:<br>
+https://en.wikisource.org/wiki/Scully%27s_Scrapbook_of_October_8,_1949
+
+- "MJ-12, Crashed Saucers, and Admiral Bobby Ray Inman" (mentions ex-NASA and ufo researcher Bob Oechsler):<br>
+https://getpodcast.com/dk/podcast/paranormal-ufo-consciousness-podcast/mj-12-crashed-saucers-and-admiral-bobby-ray-inman_235b82c433
+
+## Documentaries
+
+### "The Phenomenon"
+https://www.amazon.com/Phenomenon-John-Podesta/dp/B08HR9BVNM/ref=sr_1_1
+
+## Key Conferences
+
+### "Making Contact Convergence 2021"
+https://makingcontact.com/convergence-schedule/
+
+### AAPC - June 3-5th 2022, Huntsville AL:
+https://www.explorescu.org/conferences
+
+### Oct. 14, 1988: "UFO Cover-Up?: Live!", aired on 130 stations
+
+A significant two hour live special from Washington DC in 1988. Had a live studio audience in [Gulf Breeze, FL](https://www.youtube.com/watch?v=pJzLKIqp-3w), a hotspot. Included some classified information (for '88) in the White House organization chart shown at 1:08:23. This special seemed to be trying to suppress a panic. The [Cash-Landrum](https://en.wikipedia.org/wiki/Cash%E2%80%93Landrum_incident) witnesses were interviewed. It had a live telephone survey, asking the audience if Congressional Hearings should take place (the audience voted yes).
+
+"The existence of the Parapsychology Research Unit, and in particular the DIA management of the "weird" division of the Intelligence Community, was still classified as SECRET/NOFORN/WNINTEL according to a FOIA CIA-released STAR GATE review of government parapsychology research dated May 10, 1995."
+
+https://www.imdb.com/title/tt0846738/<br>
+https://www.youtube.com/watch?v=Js-gZypx9xc<br>
+http://stargate007.blogspot.com/2009/03/secret-revealed-ufo-cover-up-live-1988.html<br>
+https://tomwhitmoreblog.wordpress.com/2020/05/22/ufo-coverup-live-transcripts/
+
+Oct. 7 1988: "Soviet Experts to Appear on UFO Show":<br>
+https://www.newspapers.com/clip/100682720/soviet-experts-to-appear-on-ufo/
+
+## Recent US Navy Patents 
+
+Note: Pais doesn't like being associated with the UAP topic.<br>
+
+Interview with Salvatore Pais (Physicist and Aerospace Engineer - Naval Air Station):<br>
+https://www.youtube.com/watch?v=5E6QyAhTB3o
+
+"Docs Show Navy Got 'UFO' Patent Granted By Warning Of Similar Chinese Tech Advances" - 6/28/2019:<br>
+https://www.thedrive.com/the-war-zone/28729/docs-show-navy-got-ufo-patent-granted-by-warning-of-similar-chinese-tech-advances
+
+## Wildcards 
+
+_This category is the rough equivalent to Corso's "Nut File". This information seems to fit into the very edges of the puzzle. It may be real, or it may be nuts. Can't tell - currently._
+
+### Leaked Manual: "SOM 1-01: Extraterrestrial Entities and Technology, Recovery and Disposal"
+_Pre-disclosure._
+
+Some researchers [believed it was real](https://www.stealthskater.com/Documents/Sherman_06.pdf). Great [X-COM](https://en.wikipedia.org/wiki/XCOM) material at the minimum.<br>
+
+https://majesticdocuments.com/pdf/som101_part1.pdf<br>
+https://majesticdocuments.com/pdf/som101_part2.pdf
+
+Seems to align with statements made by Corso, Davis, possibly Elizondo.
+
+### "The Messengers: Owls, Synchronicity and the UFO Abductee", by Mike Clelland  (Author), Richard Dolan (Intro):<br>
+This book covers screen or false memories. I'm including it because externally induced screen or false memories seem to be occasionally part of the phenomenon, but this could be unrelated.<br>
+https://www.amazon.com/gp/product/B08J8BSPTC
+
+### Sherman 
+_Pre-disclosure. Claimed to have a clearance._
+
+"ABOVE BLACK - Project Preserve Destiny - An Insider's Account of Alien Contact and Government Coverup", Dan Sherman (USAF, worked for the NSA as an Electronic Intelligence Specialist)<br>
+
+"During his twelve years in service he was recognised for heroism and has been decorated with the AF Commendation Medal, as well as the AF Achievement Medal with two oak leaf clusters and was honoured for service in the Persian Gulf War."
+
+~95% of his book is a vanilla story about working for the USAF/NSA. Very little of the book covers his claimed interactions with NHI's on behalf of the NSA. I have a problem accepting this as "canon" because if it's true the NSA has advanced quite far with NHI communication.
+
+https://www.aboveblack.com/index.html<br>
+https://www.amazon.com/ABOVE-BLACK-Preserve-Insiders-Government-ebook/dp/B003L77MUU/ref=sr_1_1<br>
+https://thinkaboutit.site/ufos/project-preserve-destiny/<br>
+https://unicusmagazine.com/PDF/ABOVE%20BLACK.pdf<br>
+https://www.stealthskater.com/Documents/Sherman_3.pdf
+
+Potentially some corroboration:<br>
+https://exopolitics.org/nsa-document-supports-whistleblower-claim-of-alien-ufo-communication-program/
+
+I researched Dan and found he was living in the right area, at the right time near Offutt AFB:<br>
+https://medium.com/@richgel99/some-public-record-corroboration-of-ex-usaf-sergeant-dan-shermans-story-90dacc6e36dd
+

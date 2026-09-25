@@ -1,0 +1,36 @@
+{
+  "status": "completed",
+  "video_id": "2a01090ef479",
+  "summary_file": "/Users/liamellis/Desktop/ultraterrestrial-resurrection/packages/knowledge-base/articles/2025-08-13/theblackvault-com_4b8fb4b0/theblackvault-com_summary.txt",
+  "entities": {
+    "topics": [],
+    "personnel": [],
+    "events": [],
+    "organizations": [],
+    "locations": [],
+    "technologies": [],
+    "dates": [],
+    "artifacts": [],
+    "sightings": []
+  },
+  "xata_search_results": {
+    "topics": [],
+    "personnel": [],
+    "events": [],
+    "organizations": [],
+    "locations": [],
+    "technologies": [],
+    "dates": [],
+    "artifacts": [],
+    "sightings": []
+  },
+  "entity_creation_results": {
+    "status": "no_creation_needed",
+    "statistics": {
+      "total_created": 0
+    }
+  },
+  "total_entities": 0,
+  "total_matches": 0,
+  "total_created": 0
+}

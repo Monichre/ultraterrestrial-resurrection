@@ -1,0 +1,131 @@
+{
+  "status": "error",
+  "classification": {
+    "content_type": "media",
+    "primary_record_hints": [
+      "Testimony",
+      "Sighting",
+      "Event"
+    ],
+    "hynek_scaffold": "CE2",
+    "classification_marks_detected": [
+      "tic tac shape",
+      "memory metal",
+      "ammonia smell",
+      "military involvement",
+      "men in black",
+      "crash retrieval"
+    ],
+    "language": "en",
+    "ocr_quality": "n/a",
+    "sensitivity": "public",
+    "ingestion_recommendation": "proceed",
+    "rationale": "Podcast transcript of known Varginha UFO case witnesses, with consistent testimony details and no immediate red flags for fabrication in this segment.",
+    "confidence": 0.92
+  },
+  "analysis": {
+    "content_assessment": {
+      "source_metadata": {
+        "title": "American Alchemy episode featuring James Fox, Dr. Italo Ventterelli, Dr. Armando Fortonado, Carlos Dosoza",
+        "url": "https://www.youtube.com/watch?v=UkKwa4jU0fc",
+        "publisher": "YouTube / American Alchemy",
+        "date_published": "unknown",
+        "retrieved_date": "unknown"
+      },
+      "content_type": "media (podcast/video compilation of witness interviews)",
+      "primary_claims": [
+        "Carlos Dosoza observed a cigar/tic-tac shaped object with a tear, smoking, crashing near Varginha, Brazil, in January 1996, approximately 5 days before the Varginha being sighting.",
+        "Upon approach, a military convoy quickly arrived, soldiers pointed a rifle at him and forced him to leave, confiscating a piece of debris.",
+        "The debris he held was extremely light, like aluminum foil, and returned to its original shape after being crumpled (memory metal property).",
+        "Two men in a black car (Opala) without a license plate later intimidated him, knew personal details, and warned him to stay silent.",
+        "The crash site had a tree burned 'to a crisp', and inside an elongated circle on the ground, no vegetation grew; laboratory analysis indicated burning from unknown chemical products.",
+        "A farmer at a nearby house reported that at 5 a.m. his house shook, cattle became agitated, and armed soldiers told him there had been an accident and to stay inside.",
+        "UFO researcher Claudia recorded witness testimonies on Super 8 film, but after his death, his daughter kept part of the material while much was destroyed by his stepmother.",
+        "James Fox states he has spoken to 12–15 witnesses who saw the ship and up to 5 who saw alien bodies; a neurosurgeon spent 3–4 minutes face-to-face with an extraterrestrial being in a hospital; a doctor performed an autopsy on a soldier likely wounded by an alien being; there may be a video of surgery on the being.",
+        "A US Air Force plane allegedly landed without Brazilian authorization, part of a secret mission related to the event.",
+        "The city of Varginha erected a large model UFO statue commemorating the event, and the former mayor acknowledges it happened."
+      ],
+      "key_findings": [
+        "Date: January 1996 (exact day not specified), early morning (~5:15 a.m.).",
+        "Location: Near Varginha, Minas Gerais, Brazil; crash site close to the Huh river.",
+        "Actors: Witness Carlos Dosoza (pilot), UFO researcher Claudia (deceased), James Fox (documentarian), military convoy with officers and soldiers, two men in black suits (MIB), farmer witness.",
+        "Instruments: Super 8 film camera, metal detector (later used), laboratory analysis of soil/tree samples.",
+        "Chain of custody: Material collected by Claudia, partially kept by his daughter; remaining unknown; Dosoza's debris fragment was confiscated by soldier."
+      ],
+      "supporting_evidence": [
+        "Multiple independent witnesses: Dosoza, farmer, others referenced by James Fox (12–15 ship witnesses, up to 5 body witnesses).",
+        "Physical traces: burnt tree, barren soil patch matching described shape, laboratory results showing unknown chemical burning (per Dosoza).",
+        "Audio/video recording of farmer testimony by Claudia.",
+        "Consistent descriptions: tic-tac shape, light weight memory metal, strong ammonia-like smell, immediate military presence, intimidation."
+      ],
+      "contradictory_evidence": [
+        "No physical debris currently available for verification; confiscated or destroyed.",
+        "Media outlet Globo ridiculed the case, calling it false, potentially discouraging witnesses.",
+        "Sensational framing in this media production (podcast description) may exaggerate for entertainment.",
+        "Some claims are hearsay (e.g., US Air Force involvement, surgery video without direct observation by this source)."
+      ],
+      "follow_up_needed": [
+        "Verify the existence and content of Claudia's remaining materials through his daughter; obtain chain of custody.",
+        "Confirm with independent sources the US Air Force plane landing without authorization and its link to the case.",
+        "Locate and interview the neurosurgeon and autopsy doctor directly, outside this podcast.",
+        "Corroborate farmer testimony with other witnesses or official military records from Brazil.",
+        "Cross-reference with James Fox's documentary 'Moment of Contact' for additional evidence and full interviews.",
+        "Investigate whether any official Brazilian military or US document release mentions this event."
+      ],
+      "credibility_assessment": {
+        "witness_credibility": "Carlos Dosoza's account is internally consistent, detailed, and he admits initial misidentification (blimp, government experiment). His emotional description and lack of financial motive (he claims no payment) add to sincerity. However, no independent verification of his identity beyond this media.",
+        "corroboration": "Multiple alleged witnesses, but most accounts come through a deceased researcher or this podcast; risk of social contagion cannot be ruled out.",
+        "physical_evidence": "Claims of memory metal, burnt tree, soil anomalies, but all physical evidence is either missing, destroyed, or in private hands without public access.",
+        "media_framing": "The source is a promotional podcast description with sensational language ('mind blown', 'historic'), which may prime viewer belief. Primary interviews within may be more sober.",
+        "overall": "Moderate credibility as an aggregation of testimonies; individual witness credibility cannot be fully assessed without primary interview recordings and cross-examination. The case deserves serious investigation due to the number of witnesses, but no definitive evidence is presented here."
+      },
+      "admissibility": "UNVERIFIED"
+    },
+    "extracted_data": {
+      "dates": [
+        "January 1996 (crash around 5 a.m.)",
+        "Five or six days later: Varginha creature sighting by girls",
+        "Eight or nine months later: Varginha case appears in media",
+        "2013: James Fox and Dosoza revisited site"
+      ],
+      "locations": [
+        "Varginha, Minas Gerais, Brazil",
+        "Crash site near highway, close to Huh river",
+        "Town of A (possibly nearby)"
+      ],
+      "actors": [
+        "Carlos Dosoza (ultralight pilot, crash witness)",
+        "Claudia (UFO researcher, deceased)",
+        "Claudia's daughter (psychologist, holds materials)",
+        "James Fox (documentary filmmaker)",
+        "Dr. Italo Ventterelli (neurosurgeon, only named)",
+        "Dr. Armando Fortonado (autopsy doctor, only named)",
+        "Unnamed military officers and soldiers",
+        "Unnamed 'men in black' (two individuals, black suit, white shirt, dark glasses)"
+      ],
+      "instruments": [
+        "Super 8 film camera (used by Claudia)",
+        "Metal detector (later search)",
+        "Laboratory analysis (unknown methods)"
+      ],
+      "classification_marks": []
+    }
+  },
+  "ingestion": {},
+  "chunks": [],
+  "ner_results": [],
+  "embeddable_texts": [],
+  "metadata": {
+    "provenance": "https://www.youtube.com/watch?v=UkKwa4jU0fc",
+    "filename_hint": "“My Hospital Operated On An Alien!” -Top Surgeon [Exclusive Interview]",
+    "prompts_dir": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/ai/prompts"
+  },
+  "errors": [
+    "Expecting ',' delimiter: line 22 column 6 (char 4703)"
+  ],
+  "prompts_used": [
+    "document_classification",
+    "disclosure.content_analysis",
+    "rag_ingestion"
+  ]
+}

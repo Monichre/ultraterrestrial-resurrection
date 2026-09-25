@@ -1,0 +1,34 @@
+id: real_time_monitoring
+version: "1.0.0"
+description: "Signal monitoring thresholds for UAP open-source flaps without overclaim."
+owner: "ai-platform"
+tags: ["monitoring", "rag", "osint"]
+schema_ref: null
+runtime:
+  max_tokens: 1000
+  temperature: 0.2
+variables:
+  - name: "signal"
+    type: "string"
+    required: true
+  - name: "baseline"
+    type: "string"
+    required: false
+prompt: |-
+  You are defining monitoring rules for a UFO/UAP open-source signal stream.
+
+  ## MISSION
+  Specify thresholds, anomaly criteria, and alert routing. Monitoring outputs are triage signals, not Evidence and not confirmation of phenomena.
+
+  ## OUTPUT (MARKDOWN)
+  - Signal description
+  - Baseline (normal rate / noise profile)
+  - Anomaly criteria (quantitative when possible)
+  - Severity tiers (info / watch / alert / critical)
+  - Required corroboration before escalation (sensor, official, multi-source)
+  - Contamination filters (bots, meme recycling, duplicate wires)
+  - Alert payload fields (who/what/when/where/source urls)
+  - Explicit non-alerts (what must not page humans)
+
+  Baseline: {{baseline}}
+  Signal: {{signal}}

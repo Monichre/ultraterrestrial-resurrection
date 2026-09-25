@@ -1,0 +1,17 @@
+{
+  "title": "Hollywood, The CIA & UFOs: The History Beyond Spielberg",
+  "url": "https://www.youtube.com/watch?v=yJUBSuPh1pM",
+  "id": "yJUBSuPh1pM",
+  "categories": [],
+  "tags": [],
+  "description": "",
+  "chapters": [],
+  "rag_pipeline": {
+    "status": "error",
+    "embeddable_count": 0,
+    "prompts_used": null,
+    "errors": [
+      "Expecting ',' delimiter: line 86 column 8 (char 8327)"
+    ]
+  }
+}

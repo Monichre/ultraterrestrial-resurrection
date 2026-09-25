@@ -1,0 +1,77 @@
+# Canonical prompt registry — source of truth for @repo/prompts
+# Legacy ids are preserved as aliases for backward compatibility.
+prompts:
+  # --- Disclosure set (versioned, preferred) ---
+  - id: disclosure.ner
+    version: "2.0.0"
+    file: sets/disclosure/ner.v1.yaml
+    schema: schemas/output/entity.schema.json
+    tags: [ufo, ner, extraction, rag]
+    owner: ai-platform
+    aliases: [enhanced_ner, ner]
+
+  - id: disclosure.content_analysis
+    version: "2.0.0"
+    file: sets/disclosure/specialized-analysis.v1.yaml
+    schema: schemas/output/analysis.schema.json
+    tags: [analysis, ufo, documents, rag]
+    owner: ai-platform
+    aliases: [content_analysis, specialized_analysis]
+
+  - id: disclosure.research
+    version: "1.0.0"
+    file: sets/disclosure/research.v1.yaml
+    tags: [research, ufo]
+    owner: ai-platform
+    aliases: [research]
+
+  - id: disclosure.enhanced_research
+    version: "1.0.0"
+    file: sets/disclosure/enhanced-research.v1.yaml
+    tags: [research, ufo, analysis]
+    owner: ai-platform
+    aliases: [enhanced_research]
+
+  # --- Template prompts (general-purpose / RAG pipeline) ---
+  - id: document_classification
+    version: "1.0.0"
+    file: templates/document_classification.yaml
+    tags: [documents, classification, rag, ingestion]
+    owner: ai-platform
+
+  - id: rag_ingestion
+    version: "1.0.0"
+    file: templates/rag_ingestion.yaml
+    schema: schemas/output/ingestion.schema.json
+    tags: [rag, ingestion, documents, chunking]
+    owner: ai-platform
+
+  - id: rag_grounded_answer
+    version: "1.0.0"
+    file: templates/rag_grounded_answer.yaml
+    tags: [rag, retrieval, synthesis, grounding]
+    owner: ai-platform
+
+  - id: deep_research
+    version: "1.0.0"
+    file: templates/deep_research.yaml
+    tags: [research, rag, planning]
+    owner: ai-platform
+
+  - id: real_time_monitoring
+    version: "1.0.0"
+    file: templates/real_time_monitoring.yaml
+    tags: [monitoring, rag, osint]
+    owner: ai-platform
+
+  - id: validation
+    version: "1.0.0"
+    file: templates/validation.yaml
+    tags: [qc, ner, rag, validation]
+    owner: ai-platform
+
+  - id: synthesis
+    version: "1.0.0"
+    file: templates/synthesis.yaml
+    tags: [synthesis, rag, liturgy]
+    owner: ai-platform

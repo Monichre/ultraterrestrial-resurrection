@@ -1,0 +1,32 @@
+# Local Vector Library Requirements
+# For complete local document ownership and vector search
+
+# Core dependencies
+sqlite3  # Built into Python
+numpy>=1.24.0
+pandas>=2.0.0
+
+# Vector storage options (choose one or both)
+chromadb>=0.4.0          # Recommended: Local vector database with DuckDB backend
+faiss-cpu>=1.7.4         # Alternative: Facebook's similarity search library
+
+# Optional: For better text processing
+sentence-transformers>=2.2.0    # For generating embeddings locally
+transformers>=4.30.0             # For advanced NLP
+spacy>=3.6.0                     # For better entity extraction
+
+# Existing dependencies
+python-dotenv>=1.0.0
+requests>=2.31.0
+
+# For advanced entity extraction (optional)
+anthropic>=0.5.0         # Only if you want to keep using Claude for NER
+openai>=1.0.0           # Only if you want hybrid approach
+
+# File processing
+beautifulsoup4>=4.12.0
+PyPDF2>=3.0.0
+python-docx>=0.8.11
+
+# Web content processing
+yt-dlp>=2023.9.24

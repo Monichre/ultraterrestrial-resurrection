@@ -1,0 +1,17 @@
+{
+  "name": "@repo/disclosure-design",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Ultraterrestrial visual lab and design tree — brand bible, design-lab, paper textures. Not a runtime UI kit.",
+  "type": "module",
+  "exports": {
+    "./package.json": "./package.json",
+    "./canon/*": "./canon/*"
+  },
+  "scripts": {
+    "visual-language": "python3 scripts/visual_language.py",
+    "visual-language:list": "python3 scripts/visual_language.py list",
+    "visual-language:validate": "python3 scripts/visual_language.py validate",
+    "visual-language:all": "python3 scripts/visual_language.py all"
+  }
+}

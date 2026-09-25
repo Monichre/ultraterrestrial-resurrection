@@ -1,0 +1,45 @@
+id: validation
+version: "1.0.0"
+description: "QA validation for NER/document-processing JSON before RAG indexing."
+owner: "ai-platform"
+tags: ["qc", "ner", "rag", "validation"]
+schema_ref: null
+runtime:
+  max_tokens: 900
+  temperature: 0.0
+variables:
+  - name: "target"
+    type: "string"
+    required: true
+  - name: "source_excerpt"
+    type: "string"
+    required: false
+  - name: "schema_name"
+    type: "string"
+    required: false
+prompt: |-
+  Validate structured extraction/analysis output before it may enter the Ultraterrestrial knowledge layer or RAG index.
+
+  ## CHECKS
+  1. Schema / shape: required fields present; types sane; JSON parseable if claimed JSON.
+  2. Grounding: every entity/claim must be supportable by source_excerpt when provided.
+  3. Epistemics: Claims not smuggled as Inferences and vice versa; no Evidence fabricated.
+  4. Hallucination: names, dates, coordinates not in source → FAIL.
+  5. Overclaim language: "proves" / absolute "confirmed" → issue severity high.
+  6. Retrieval safety: refuse outputs that would index agent Inference as primary Evidence.
+  7. Completeness: missing required provenance or confidence → issue.
+
+  ## OUTPUT JSON
+  {
+    "verdict": "pass"|"pass_with_warnings"|"fail",
+    "issues": [
+      {"severity": "critical"|"high"|"medium"|"low", "code": string, "message": string, "fix": string}
+    ],
+    "safe_for_rag_index": boolean,
+    "safe_for_db_write": boolean
+  }
+
+  Schema name: {{schema_name}}
+  Source excerpt: {{source_excerpt}}
+  Target output:
+  {{target}}

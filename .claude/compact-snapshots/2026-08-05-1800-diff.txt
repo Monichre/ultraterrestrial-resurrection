@@ -1,0 +1,14 @@
+ ...esearch-canvas-design-review.md | 1005 ++++++++++
+ CLAUDE.md                          |  229 +--
+ apps/app/CLAUDE.md                 |   19 +
+ .../NuclearShadowTour.tsx          |   35 +-
+ .../nuclear-shadow-tour.css        |   10 +-
+ .../tests/graph-compiler.test.ts   |   45 +-
+ .../use-tour-choreographer.ts      |  154 +-
+ .../graph/compile-tour-graph.ts    |   29 +-
+ .../graph/derive-node-status.ts    |   50 +-
+ .../shared/state/tour-reducer.ts   |  206 +-
+ .../shared/state/tour-store.ts     |   52 +-
+ .../compassionate-lovelace-e35750  |    0
+ docs/PLANS/TODO.md                 |   15 +-
+ 13 files changed, 1403 insertions(+), 446 deletions(-)

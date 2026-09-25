@@ -1,0 +1,35 @@
+{
+  "status": "error",
+  "classification": {
+    "content_type": "mixed",
+    "primary_record_hints": [
+      "Topic",
+      "Organization"
+    ],
+    "hynek_scaffold": null,
+    "classification_marks_detected": [],
+    "language": "english",
+    "ocr_quality": "n/a",
+    "sensitivity": "public",
+    "ingestion_recommendation": "proceed_with_caution",
+    "rationale": "Podcast-style transcript covering historical events, UFO topics, and healthcare conspiracies; no official markings, public source, but speculative unverified claims warrant caution.",
+    "confidence": 0.7
+  },
+  "analysis": {},
+  "ingestion": {},
+  "chunks": [],
+  "ner_results": [],
+  "embeddable_texts": [],
+  "metadata": {
+    "provenance": "https://www.youtube.com/watch?v=q7Czo77qhHA",
+    "filename_hint": "UFOs & Human Experiments: Big Pharma's Horrific Past... (ft. Brigham Buhler)",
+    "prompts_dir": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/ai/prompts"
+  },
+  "errors": [
+    "Extra data: line 14 column 6 (char 3098)"
+  ],
+  "prompts_used": [
+    "document_classification",
+    "disclosure.content_analysis"
+  ]
+}

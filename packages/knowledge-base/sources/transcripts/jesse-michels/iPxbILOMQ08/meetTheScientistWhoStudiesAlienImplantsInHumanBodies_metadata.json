@@ -1,0 +1,17 @@
+{
+  "title": "Meet The Scientist Who Studies Alien Implants in Human Bodies",
+  "url": "https://www.youtube.com/watch?v=iPxbILOMQ08",
+  "id": "iPxbILOMQ08",
+  "categories": [],
+  "tags": [],
+  "description": "",
+  "chapters": [],
+  "rag_pipeline": {
+    "status": "error",
+    "embeddable_count": 0,
+    "prompts_used": null,
+    "errors": [
+      "Expecting ',' delimiter: line 9 column 6 (char 410)"
+    ]
+  }
+}

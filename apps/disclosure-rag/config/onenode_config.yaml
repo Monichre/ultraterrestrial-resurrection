@@ -1,0 +1,79 @@
+---
+# OneNode.ai Configuration for Disclosure RAG System
+
+onenode:
+  enabled: false  # Set to true to enable OneNode integration
+  
+  # Authentication - set via environment variables for security
+  # ONENODE_PROJECT_ID and ONENODE_API_KEY
+  project_id: null
+  api_key: null
+  
+  # Database configuration
+  database_name: "disclosure_rag"
+  collection_name: "uap_documents"
+  
+  # Embedding configuration
+  embedding_model: "text-embedding-3-small"  # Options: text-embedding-3-small, text-embedding-3-large, text-embedding-ada-002
+  
+  # Chunking configuration
+  chunk_size: 512
+  chunk_overlap: 50
+  
+  # Vision model for image processing
+  vision_model: "gpt-4o-mini"  # Options: gpt-4o, gpt-4o-mini
+  
+  # Performance settings
+  batch_size: 50
+  max_retries: 3
+  timeout: 30
+  
+  # Integration settings
+  weight: 0.25  # Weight in combined RAG results (0.0-1.0)
+  priority: 3   # Priority order (1=highest)
+  
+  # Filtering and search settings
+  default_top_k: 10
+  max_results: 100
+  
+  # Metadata enrichment
+  auto_tag: true
+  extract_entities: false
+  generate_summaries: false
+
+# Usage modes
+usage:
+  # Primary use cases for OneNode in the system
+  modes:
+    - "multimodal_search"    # Leverage image + text search
+    - "rapid_prototyping"    # Quick testing of new features  
+    - "semantic_enhancement" # Enhanced semantic search
+    - "document_exploration" # Interactive document discovery
+  
+  # Integration patterns
+  patterns:
+    fallback: true      # Use as fallback when other backends fail
+    parallel: false     # Run searches in parallel with other backends
+    primary: false      # Use as primary search backend
+    
+# Feature flags
+features:
+  multimodal_support: true
+  anonymous_mode: false      # Use persistent storage
+  auto_chunking: true
+  smart_filtering: true
+  result_reranking: false
+  
+# Logging and monitoring  
+logging:
+  level: "INFO"
+  log_queries: true
+  log_results: false
+  performance_metrics: true
+  
+# Error handling
+error_handling:
+  retry_failed_inserts: true
+  skip_corrupted_docs: true
+  fallback_on_error: true
+  max_error_rate: 0.1  # 10% error rate threshold

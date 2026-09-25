@@ -1,0 +1,63 @@
+ ...2026-08-05_21-17-10Z-remove-unused-mcps-walk.md | 21194 ++++++++++++++++++
+ NOTES.md                                           |    49 -
+ .../worktrees/compassionate-lovelace-e35750        |     0
+ .../reports/run-20260801-165547.md                 |    11 -
+ .../playlist_ingestion/transcripts/dQw4w9WgXcQ.txt |     4 -
+ .../agent-suite-implementation-tickets.md          |   280 -
+ ...2026-06-26-apossible-reference-ux-brainstorm.md |   185 -
+ .../American Alchemy Transcript Topology/LICENSE   |    38 -
+ .../American Alchemy Transcript Topology/README.md |   288 -
+ .../American Alchemy Transcript Topology/app.html  |  3674 ---
+ .../index.html                                     |  3674 ---
+ .../screenshot_decentral.png                       |   Bin 611606 -> 0 bytes
+ .../screenshot_distrib.png                         |   Bin 813062 -> 0 bytes
+ .../screenshot_main.png                            |   Bin 377422 -> 0 bytes
+ .../screenshot_missing.png                         |   Bin 506427 -> 0 bytes
+ .../screenshot_missing2.png                        |   Bin 515189 -> 0 bytes
+ .../screenshot_missing3.png                        |   Bin 136344 -> 0 bytes
+ .../screenshot_topic_detail.png                    |   Bin 466363 -> 0 bytes
+ .../scripts/build_topology.py                      |   830 -
+ docs/brainstorms/harness-engineering/SKILL.md      |   141 -
+ docs/brainstorms/ufo-knowledge-tour/.gitignore     |    24 -
+ docs/brainstorms/ufo-knowledge-tour/.npmrc         |     2 -
+ docs/brainstorms/ufo-knowledge-tour/README.md      |    50 -
+ docs/brainstorms/ufo-knowledge-tour/SPEC.md        |   233 -
+ .../ufo-knowledge-tour/eslint.config.js            |    30 -
+ docs/brainstorms/ufo-knowledge-tour/index.html     |    14 -
+ docs/brainstorms/ufo-knowledge-tour/package.json   |    90 -
+ .../ufo-knowledge-tour/postcss.config.js           |     6 -
+ docs/brainstorms/ufo-knowledge-tour/public/use.txt |     1 -
+ docs/brainstorms/ufo-knowledge-tour/src/App.css    |    42 -
+ docs/brainstorms/ufo-knowledge-tour/src/App.tsx    |    29 -
+ .../ufo-knowledge-tour/src/agents/prompts.ts       |   349 -
+ .../ufo-knowledge-tour/src/agents/system.ts        |   388 -
+ .../ufo-knowledge-tour/src/agents/types.ts         |   138 -
+ .../ufo-knowledge-tour/src/components/App.tsx      |   356 -
+ .../src/components/DataInsightsPanel.tsx           |   331 -
+ .../src/components/ErrorBoundary.tsx               |    35 -
+ .../ufo-knowledge-tour/src/components/Header.tsx   |   215 -
+ .../src/components/KnowledgeGraph.tsx              |   393 -
+ .../src/components/NavigationPanel.tsx             |   396 -
+ .../src/components/TourGuidePanel.tsx              |   190 -
+ .../src/contexts/AgentContext.tsx                  |   147 -
+ .../ufo-knowledge-tour/src/data/ufoData.ts         |   437 -
+ .../ufo-knowledge-tour/src/hooks/use-mobile.tsx    |    19 -
+ docs/brainstorms/ufo-knowledge-tour/src/index.css  |   223 -
+ .../ufo-knowledge-tour/src/lib/utils.ts            |     6 -
+ docs/brainstorms/ufo-knowledge-tour/src/main.tsx   |    13 -
+ .../ufo-knowledge-tour/src/types/graph.ts          |    72 -
+ .../ufo-knowledge-tour/src/vite-env.d.ts           |     1 -
+ .../ufo-knowledge-tour/tailwind.config.js          |    76 -
+ .../ufo-knowledge-tour/tsconfig.app.json           |    42 -
+ docs/brainstorms/ufo-knowledge-tour/tsconfig.json  |    17 -
+ .../ufo-knowledge-tour/tsconfig.node.json          |    24 -
+ docs/brainstorms/ufo-knowledge-tour/vite.config.ts |    21 -
+ .../2026-07-09-apossible-library-design-audit.md   |    42 -
+ docs/research/llm-wiki-pattern.md                  |    71 -
+ .../2026-07-09-apossible-library-design-audit.md   |    42 -
+ docs/research/methodology/llm-wiki-pattern.md      |    71 -
+ .../methodology/ufo-research-methodology.md        |   294 -
+ .../screenshots/apossible-library-detail-view.png  |   Bin 720913 -> 0 bytes
+ .../screenshots/apossible-library-overview.png     |   Bin 490198 -> 0 bytes
+ docs/review/youtube_podcast_playlists.md           |   105 -
+ 62 files changed, 21194 insertions(+), 14209 deletions(-)

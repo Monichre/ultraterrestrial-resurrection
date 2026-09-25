@@ -1,0 +1,163 @@
+{
+ "note": "T-061 files/ taxonomy. These PDFs are gitignored, so this manifest is the ONLY undo path. restore_to = original filename.",
+ "moves": [
+  {
+   "restore_to": "CIA-RDP96-00788R001700210016-5.pdf",
+   "now_at": "cia-crest/cia-rdp96-00788r001700210016-5.pdf",
+   "md5": "c5585ef0488cc42a9c8a7988c0bdfeca"
+  },
+  {
+   "restore_to": "CIA-RDP96-00788R001800230001-8.pdf",
+   "now_at": "cia-crest/cia-rdp96-00788r001800230001-8.pdf",
+   "md5": "2ff91dbfb7b75f5a0505db1b093cd396"
+  },
+  {
+   "restore_to": "CIA-RDP96-00788R001900760001-9.pdf",
+   "now_at": "cia-crest/cia-rdp96-00788r001900760001-9.pdf",
+   "md5": "e7ee3cfc0122f6fb90ab186f6ed52b47"
+  },
+  {
+   "restore_to": "CIA-RDP96-00789R002100220001-4.pdf",
+   "now_at": "cia-crest/cia-rdp96-00789r002100220001-4.pdf",
+   "md5": "07ef969834adabb2db30ae791bc489e9"
+  },
+  {
+   "restore_to": "CIA-RDP96-00789R002200070001-0.pdf",
+   "now_at": "cia-crest/cia-rdp96-00789r002200070001-0.pdf",
+   "md5": "3a32a43aed1cc53be919826903e790b1"
+  },
+  {
+   "restore_to": "CIA-RDP96-00789R003800200001-8.pdf",
+   "now_at": "cia-crest/cia-rdp96-00789r003800200001-8.pdf",
+   "md5": "c09376720d7d4bd6d7a200a98936aec7"
+  },
+  {
+   "restore_to": "CIA-RDP96-00792R000300330001-8.pdf",
+   "now_at": "cia-crest/cia-rdp96-00792r000300330001-8.pdf",
+   "md5": "1e203bc17a5cf76f3966e90d483bf1e4"
+  },
+  {
+   "restore_to": "sgp.fas.org-CIAs Role in the Study of UFOs 1947-90.pdf",
+   "now_at": "cia-crest/cia-role-in-study-of-ufos-1947-1990.pdf",
+   "md5": "ac60741f1ab20116d09aed9494f18972"
+  },
+  {
+   "restore_to": "ufo3.pdf",
+   "now_at": "fbi-vault/fbi-ufo-part-03-of-16.pdf",
+   "md5": "0e2174bfc38caa201b78a0a513f96a88"
+  },
+  {
+   "restore_to": "ufo5.pdf",
+   "now_at": "fbi-vault/fbi-ufo-part-05-of-16.pdf",
+   "md5": "69664c3c814d88276f6d3421f66792de"
+  },
+  {
+   "restore_to": "ufo6.pdf",
+   "now_at": "fbi-vault/fbi-ufo-part-06-of-16.pdf",
+   "md5": "75b1bf984a5fe4997c71be7fe735d6d5"
+  },
+  {
+   "restore_to": "ufo9.pdf",
+   "now_at": "fbi-vault/fbi-ufo-part-09-of-16.pdf",
+   "md5": "9dd9f63d7ea09d50f30e8558dd8ce99d"
+  },
+  {
+   "restore_to": "ufo13.pdf",
+   "now_at": "fbi-vault/fbi-ufo-part-13-of-16.pdf",
+   "md5": "ec508ef55a397f65bfa489f5c17ad924"
+  },
+  {
+   "restore_to": "roswell.pdf",
+   "now_at": "fbi-vault/fbi-roswell-ufo-part-01-of-01.pdf",
+   "md5": "9982f1d44d2f2335002386e79135759d"
+  },
+  {
+   "restore_to": "July-26th-UAP-Congressional-HEaring.pdf",
+   "now_at": "congressional/2023-07-26-uap-congressional-hearing.pdf",
+   "md5": "1626feebd3cdf8313b93361103edd1de"
+  },
+  {
+   "restore_to": "Written-Testimony-Shellenberger.pdf",
+   "now_at": "congressional/2024-11-13-written-testimony-shellenberger.pdf",
+   "md5": "77759de03822e9716ed5958e8754b36c"
+  },
+  {
+   "restore_to": "DOPSR-CLEARED-508-COMPLIANT.pdf",
+   "now_at": "dod-aaro/2024-03-aaro-historical-record-report-vol-1.pdf",
+   "md5": "67d4bd345fc8509cdc5912ab583569d9"
+  },
+  {
+   "restore_to": "DON-NAVY-2020-012170.pdf",
+   "now_at": "dod-aaro/don-navy-2020-012170-naval-safety-center-foia.pdf",
+   "md5": "ea46ef41b8d77004a98bfc992a8ef7d9"
+  },
+  {
+   "restore_to": "eisenhower_briefing.pdf",
+   "now_at": "majestic-12/eisenhower-briefing-document.pdf",
+   "md5": "b00da014dc7371b48549d7dbe7b9deee"
+  },
+  {
+   "restore_to": "rmwood_mufon2000.pdf",
+   "now_at": "majestic-12/wood-2000-validating-the-new-majestic-documents-mufon.pdf",
+   "md5": "e39f49dc0c93620c102b0b73d882ddd5"
+  },
+  {
+   "restore_to": "UltraterrestrialModels.pdf",
+   "now_at": "research-papers/ultraterrestrial-models.pdf",
+   "md5": "57e3ed82e439ce6323c5a877bfe2fff9"
+  },
+  {
+   "restore_to": "UAP Activity Pattern Study 1945-1975 Military and Public Activities.pdf",
+   "now_at": "research-papers/uap-activity-pattern-study-1945-1975.pdf",
+   "md5": "0534059b768ce7b7fd5deda82380e01f"
+  },
+  {
+   "restore_to": "Crop Circles- \u201cSigns\u201d From Above or Human Artifacts?.pdf",
+   "now_at": "research-papers/crop-circles-signs-from-above-or-human-artifacts.pdf",
+   "md5": "5db18790e311f395450470cd2c85fe7e"
+  },
+  {
+   "restore_to": "Mars Exploration 1984.pdf",
+   "now_at": "research-papers/mars-exploration-1984.pdf",
+   "md5": "0b1841ea51e58afc777d83137a5f4c6e"
+  },
+  {
+   "restore_to": "Project Bluebook Special Report 1955.pdf",
+   "now_at": "research-papers/project-blue-book-special-report-14-1955.pdf",
+   "md5": "861e4ea3b9535fff09222f97bb16e080"
+  },
+  {
+   "restore_to": "uap-origin-theories-diagram.pdf",
+   "now_at": "research-papers/uap-origin-theories-diagram.pdf",
+   "md5": "53ac78d61e908f9da61de3075844a84c"
+  },
+  {
+   "restore_to": "livescience.com-Flying saucers to mind control 24 declassified military  CIA secrets.pdf",
+   "now_at": "secondary-reporting/livescience-24-declassified-military-cia-secrets.pdf",
+   "md5": "31a399a5aafa1e6a6539aa7b5cbeea6e"
+  },
+  {
+   "restore_to": "Transcript of #1510 - George Knapp & ... _ Happy Scribe.pdf",
+   "now_at": "secondary-reporting/jre-1510-george-knapp-transcript.pdf",
+   "md5": "6a300f739bd9e7365a3f1f0e8247353b"
+  },
+  {
+   "restore_to": "CIA-RDP96-00788R001800230001-8 (1).pdf",
+   "now_at": "_superseded/CIA-RDP96-00788R001800230001-8 (1).pdf",
+   "md5": "2ff91dbfb7b75f5a0505db1b093cd396",
+   "reason": "exact md5 dup of CIA-RDP96-00788R001800230001-8.pdf"
+  },
+  {
+   "restore_to": "eisenhower_briefing (1).pdf",
+   "now_at": "_superseded/eisenhower_briefing (1).pdf",
+   "md5": "7ff4c8ca83f0ed9692db44fa77046082",
+   "reason": "scan-only variant; eisenhower_briefing.pdf has a text layer"
+  },
+  {
+   "restore_to": "case_filesCrop Circles- \u201cSigns\u201d From Above or Human Artifacts?.pdf",
+   "now_at": "_superseded/case_filesCrop Circles- \u201cSigns\u201d From Above or Human Artifacts?.pdf",
+   "md5": "5db18790e311f395450470cd2c85fe7e",
+   "reason": "exact md5 dup, mangled prefix"
+  }
+ ]
+}

@@ -1,0 +1,143 @@
+/* Prometheus Page Styles - Clean Full-Screen Layout */
+
+/* Remove default body styling conflicts */
+body.prometheus-page {
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Prevent scrolling */
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+}
+
+/* Main container for the Prometheus page */
+.prometheus-page {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #000;
+}
+
+/* 3D Canvas background - fixed and behind everything */
+.prometheus-page canvas {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 1;
+  pointer-events: auto; /* Allow mouse interaction with shader */
+}
+
+/* Content wrapper - above the canvas */
+.prometheus-content {
+  position: relative;
+  z-index: 10;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  pointer-events: none; /* Allow clicks to pass through to canvas where appropriate */
+}
+
+/* Make interactive elements clickable */
+.prometheus-content > * {
+  pointer-events: auto;
+}
+
+/* Breadcrumb navigation */
+.prometheus-breadcrumb {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 20;
+  pointer-events: auto;
+}
+
+/* Main content area */
+.prometheus-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  text-align: center;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* Top text */
+.prometheus-top-text {
+  font-family: var(--font-monument-mono, monospace);
+  font-size: 0.75rem;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 60px; /* Space for breadcrumb */
+}
+
+/* Center agent container */
+.prometheus-agent-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Bottom text */
+.prometheus-bottom-text {
+  font-family: var(--font-monument-mono, monospace);
+  font-size: 0.75rem;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 40px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .prometheus-breadcrumb {
+    top: 10px;
+    left: 10px;
+  }
+  
+  .prometheus-main {
+    padding: 10px;
+  }
+  
+  .prometheus-top-text,
+  .prometheus-bottom-text {
+    font-size: 0.65rem;
+  }
+  
+  .prometheus-top-text {
+    margin-top: 50px;
+  }
+  
+  .prometheus-bottom-text {
+    margin-bottom: 20px;
+  }
+}
+
+/* Ensure no conflicts with other page styles */
+.prometheus-page * {
+  box-sizing: border-box;
+}
+
+/* Hide any potential overflow from child components */
+.prometheus-page .overflow-auto,
+.prometheus-page .overflow-y-auto {
+  overflow: visible !important;
+}
+
+/* Toast notifications positioning */
+.prometheus-page [data-sonner-toaster] {
+  z-index: 100 !important;
+}

@@ -1,0 +1,3 @@
+# DEPRECATED — use registry.yaml as the canonical catalog.
+# This file re-exports registry entries for backward compatibility with older loaders.
+prompts: []

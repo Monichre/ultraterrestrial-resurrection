@@ -1,0 +1,89 @@
+{
+  "status": "error",
+  "classification": {
+    "content_type": "media",
+    "primary_record_hints": [
+      "Topic",
+      "KeyFigure",
+      "Event"
+    ],
+    "hynek_scaffold": null,
+    "classification_marks_detected": [],
+    "language": "English",
+    "ocr_quality": "n/a",
+    "sensitivity": "public",
+    "ingestion_recommendation": "proceed",
+    "rationale": "This is a transcript from a public podcast discussing ancient pyramid theories, featuring researchers Filippo Biondi and Jeffrey Drum. There are no classification marks, no sensitive data, and no extraordinary claims requiring human review. Content is suitable for downstream processing.",
+    "confidence": 0.95
+  },
+  "analysis": {
+    "content_assessment": {
+      "source_type": "media_transcript",
+      "credibility_grade": "LOW",
+      "verifiable_claims": true,
+      "unverifiable_claims": "Core claims about kilometer-deep cylindrical structures beneath Giza cannot be verified with provided evidence; method is proprietary and unpublished in peer-reviewed venues.",
+      "notes": "Transcript from the 'American Alchemy' podcast, a promotional/monetized YouTube show. Sensational framing ('insane', 'bombshell'). Speakers have vested interests (Biondi's patent, Drum's independent research). Content is truncated."
+    },
+    "extracted_data": {
+      "primary_claims": [
+        "Filippo Biondi and Corrado Malanga, using synthetic aperture radar Doppler tomography, detected eight enormous cylindrical tubular structures extending hundreds of meters below the Giza pyramids, with four plus four cubes descending and connecting to a bottom structure.",
+        "The Biondi method re-processes satellite SAR data to estimate superficial earth vibrations (phonons) and extract tomography, effectively 'seeing' inside structures.",
+        "Biondi states there is 'something' inside the pyramid that he cannot disclose now.",
+        "Jeffrey Drum claims the Great Pyramid was an industrial-scale chemical manufacturing plant, with each pyramid producing a specific chemical in sequence, utilizing hydrogen sulfide gas from a subterranean karst cave system as initial reactant.",
+        "Drum asserts that the Osiris shaft contains brackish water from an independent aquifer not connected to the Nile, and that the Egyptian government has installed pumps to remove water from below the Giza Plateau.",
+        "Biondi has a patent on the method and is submitting a second patent in the United States.",
+        "The detected tubular structures reportedly have coils wrapped around them, go a kilometer deep with a foundation, and speakers claim 'there's no physical way that these could possibly have been built. Period.'",
+        "The 2020 SAR paper on the Great Pyramid was published but received little attention."
+      ],
+      "key_findings": [
+        "Researcher: Filippo Biondi (Italian radar specialist), Corrado Malanga (engineering colleague), Jeffrey Drum (independent Egypt researcher, YouTube channel 'Amazing Land of Khem').",
+        "Method: SAR Doppler tomography using satellite data (e.g., Capella Space, Umbra, IceEye), proprietary Biondi protocol patented, with a second patent pending.",
+        "Conference: International conference in Malta, June 2025, where Biondi's team presented findings and invited Drum.",
+        "Water: Osiris shaft water tested as brackish; pumps installed by Egyptian government to remove subterranean water at Giza for monument preservation.",
+        "Historical paper: 2020 paper by Biondi et al. on scanning the Great Pyramid using SAR.",
+        "Undisclosed feature: Biondi hints at an undisclosed internal pyramid feature."
+      ],
+      "supporting_evidence": [
+        "Biondi references a published 2020 paper on SAR scanning of the Great Pyramid.",
+        "He cites commercial SAR companies (IceEye, Umbra, Capella Space) to establish the legitimacy of base technology.",
+        "Drum mentions having Osiris shaft water samples tested and participating in an archaeological project (Osirion 7).",
+        "Conference presentation in Malta serves as a venue for sharing and discussing the results."
+      ],
+      "contradictory_evidence": [
+        "No contradictory evidence provided within the source. Mainstream Egyptology and archaeological surveys (e.g., ground-penetrating radar, muon tomography) have not corroborated massive, kilometer-deep cylindrical structures beneath Giza. (Inference)"
+      ],
+      "follow_up_needed": [
+        "Independent replication of the SAR Doppler tomography method using publicly available SAR data and open-source algorithms.",
+        "Peer-reviewed publication and full disclosure of the methodology and raw data for verification by the scientific community.",
+        "Ground-truth validation via excavation, coring, or alternative geophysical techniques (e.g., muon tomography, high-resolution gravimetry) at the claimed locations.",
+        "Clarification and disclosure of the undisclosed 'something' Biondi mentioned inside the pyramid.",
+        "Independent hydrological and geological assessments of the Osiris shaft water and alleged independent aquifer system.",
+        "Examination of Biondi's patents to evaluate the method's technical feasibility and prior art."
+      ],
+      "admissibility": "UNVERIFIED",
+      "provenance": "Transcript of a YouTube video ('American Alchemy' podcast) featuring Jesse Michels, Jeffrey Drum, and Filippo Biondi. Recording and publication date unknown. Original URL provided as optional context: https://www.youtube.com/watch?v=NvQXmtcwHA8.",
+      "document_checks": {
+        "redaction_ocr_risk": "Transcript truncated; last portion missing '[TRUNCATED_FOR_PIPELINE]'. Full content unavailable.",
+        "duplicate_recycling": "Claims echo earlier alternative pyramid theories (e.g., Christopher Dunn's energy machine hypothesis) but are presented with new purported SAR data.",
+        "next_trace": "Seek independent peer review and replication of Biondi's SAR Doppler tomography with open data and code."
+      }
+    }
+  },
+  "ingestion": {},
+  "chunks": [],
+  "ner_results": [],
+  "embeddable_texts": [],
+  "metadata": {
+    "provenance": "https://www.youtube.com/watch?v=NvQXmtcwHA8",
+    "filename_hint": "BREAKING: Massive Energy Grid Found Beneath Pyramids of Egypt",
+    "prompts_dir": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/ai/prompts"
+  },
+  "errors": [
+    "All LLM providers failed (anthropic/claude-sonnet-5: skipped (HTTP 400); anthropic/claude-opus-4-8: skipped (HTTP 400); deepseek/deepseek-v4-pro: BudgetExhausted: deepseek/deepseek-v4-pro: max_tokens=4096 consumed before any answer was emitted (reasoning=True); raise max_tokens; together/kimi-k3: BudgetExhausted: together/kimi-k3: max_tokens=4096 consumed before any answer was emitted (reasoning=True); raise max_tokens; openai/gpt-5.5: skipped (HTTP 401); groq/gpt-oss-120b: skipped (HTTP 401))"
+  ],
+  "prompts_used": [
+    "document_classification",
+    "disclosure.content_analysis",
+    "rag_ingestion"
+  ]
+}

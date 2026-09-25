@@ -1,0 +1,272 @@
+{
+  "status": "error",
+  "classification": {
+    "content_type": "media",
+    "primary_record_hints": [
+      "Testimony",
+      "KeyFigure",
+      "Sighting"
+    ],
+    "hynek_scaffold": null,
+    "classification_marks_detected": [],
+    "language": "en",
+    "ocr_quality": "n/a",
+    "sensitivity": "public",
+    "ingestion_recommendation": "proceed",
+    "rationale": "Transcript of a public podcast debate between a host and Michael Shermer, discussing UFO/UAP topics, personal experiences, and scientific skepticism. No classification marks or sensitive custody concerns. Suitable for standard processing.",
+    "confidence": 0.95
+  },
+  "analysis": {
+    "content_assessment": {
+      "source_type": "media_interview",
+      "admissibility": "UNVERIFIED",
+      "document_processing_checks": {
+        "provenance": "https://www.youtube.com/watch?v=8Rr_nE65KkI, YouTube video interview between Michael Shermer and an unnamed host (likely a podcast). Transcript provided, but chain of custody incomplete; no original recording metadata or verification.",
+        "redaction_ocr_risk": "Transcript appears manually transcribed, contains no redactions but is truncated ('[TRUNCATED_FOR_PIPELINE]'). Missing dialogue after 'get your first shot f...' could omit important context.",
+        "duplicate_recycling": "No evidence of recycling. Content appears to be original conversation, though some claims (Malmstrom, Bob Jacobs) are known from other sources.",
+        "admissibility_triage": "UNVERIFIED: The source is a media interview with no primary evidence. All claims are second-hand; credibility rests on witness testimony and interviewer's summaries. Cannot be accepted as verified fact without independent corroboration.",
+        "next_trace": "Cross-check details of Malmstrom 1967 incident, Bob Jacobs Vandenberg case, and Kevin Knuth's radar analysis against official records or peer-reviewed publications. Verify existence and terms of the Shermer-Loeb $1000 bet."
+      },
+      "primary_claims": [
+        {
+          "text": "If we're talking about aliens, I would say they're out there somewhere, but they have not come here.",
+          "speaker": "Michael Shermer",
+          "confidence_note": "Source stated as personal belief, not certainty."
+        },
+        {
+          "text": "The vast majority of these things have a prosaic explanation. We don't give a [ __ ] about those ones. You're picking the winners.",
+          "speaker": "Michael Shermer",
+          "confidence_note": "Claim made about UFO/UAP cases generally."
+        },
+        {
+          "text": "So I need to see the bodies or the spaceships... If Marco Rubio goes there with the camera crew from 60 Minutes... and we all see it.",
+          "speaker": "Michael Shermer",
+          "confidence_note": "Threshold for accepting alien visitation."
+        },
+        {
+          "text": "[Abducted people] are not mentally ill... it's probably sleep paralysis, mainly a sleep disorder.",
+          "speaker": "Michael Shermer",
+          "confidence_note": "Cites Susan Clancy's Harvard study."
+        },
+        {
+          "text": "I think we have an abundance of evidence in the open-source world... I believe that now. So like I've already hit that threshold.",
+          "speaker": "Host (unnamed)",
+          "confidence_note": "Host expresses personal belief based on open-source evidence."
+        },
+        {
+          "text": "Bob Jacobs... reviewing the tape a UFO seemed to wrap around [the warhead] and caused the warhead to tumble out of the sky. a couple of guys in tweed suits... swarmed to secrecy.",
+          "speaker": "Host summarizing Bob Jacobs case",
+          "confidence_note": "Historic claim, with documentation (DD214) mentioned."
+        },
+        {
+          "text": "In Malmstrom in 1967... Bob Salis... topside guards seeing red orb... nine of the ten missiles go into no go status... Bob Hastings independently seeing the thing on radar.",
+          "speaker": "Host summarizing Malmstrom incident",
+          "confidence_note": "Multiple witness types; radar and missile status cited."
+        },
+        {
+          "text": "Kevin Knuth... reviewed the radar... thinks that it indicates a bunch of anomalous objects.",
+          "speaker": "Host citing physicist Kevin Knuth",
+          "confidence_note": "Claim of physicist review, but not independently verified here."
+        },
+        {
+          "text": "I had 134 guys working for me... I have records... my officer efficiency reports are in there.",
+          "speaker": "Host quoting Bob Jacobs (from recording)",
+          "confidence_note": "Jacob's claim of military rank and documentation."
+        },
+        {
+          "text": "We have 167 cases... Robert Hastings book UFOs and nukes.",
+          "speaker": "Host",
+          "confidence_note": "Number of nuclear-site UFO reports."
+        },
+        {
+          "text": "There were two cases in September of 1964 at Vandenberg Air Force Base that seem to dovetail... that was the one off the coast that was like rectangular like football size shape rectangle.",
+          "speaker": "Host mixing 1964 and 2003 cases?",
+          "confidence_note": "Details appear conflated; 2003 Vandenberg rectangular object is separate."
+        },
+        {
+          "text": "Obby and I have a bet... $1000... by December 31st, 2030, one of us is going to get the money... if two of three major scientific institutions... say Yep, aliens are here.",
+          "speaker": "Michael Shermer",
+          "confidence_note": "Bet with Avi Loeb (Gallo project)."
+        }
+      ],
+      "key_findings": [
+        "Shermer acknowledges life likely exists elsewhere in the universe but requires physical evidence (bodies/craft) for visitation.",
+        "Host asserts 167 nuclear-site UFO incidents collected by Robert Hastings, with Malmstrom 1967 cited as strong case (multiple guards, radar, missile shutdowns).",
+        "Bob Jacobs Vandenberg 1964 case involves film of UFO near missile warhead and alleged official secrecy.",
+        "Kevin Knuth, a physicist, reportedly reviewed radar data and found indications of anomalous objects.",
+        "Shermer counters with base rate fallacy: most nights nothing happens; picking anomalous events inflates perceived significance.",
+        "Shermer points to New Jersey drone swarm (2024) as example of public misinterpretation due to increased attention and known air traffic.",
+        "Shermer and Avi Loeb have a public bet (deadline 2030) on formal institutional confirmation of alien visitation.",
+        "The transcript is truncated, missing the conclusion of the conversation."
+      ],
+      "supporting_evidence": [
+        "Source mentions Susan Clancy's Harvard study on alien abductees concluding they are not mentally ill, with sleep paralysis as a possible explanation (supports Shermer's prosaic interpretation).",
+        "Leslie Kean's list of ordinary terrestrial explanations for UFOs is referenced by Shermer as a reference for prosaic causes.",
+        "Host claims Bob Jacobs has a DD214 (military discharge) and efficiency reports, plus confirmation from his former commander Major Floren Mansman (supports existence of Jacobs' military service but not UFO event).",
+        "Host mentions Strategic Air Command report about missile shutdowns 8 days earlier in echoflight incident, providing a potential alternative cause for Malmstrom missile failure."
+      ],
+      "contradictory_evidence": [
+        "Shermer argues that nuclear site anecdotes lack photo/radar records; any recordings would be classified, making independent verification impossible.",
+        "He suggests prosaic explanations for radar blips (satellites, ball lightning) and notes drones were not available in 1967 but other phenomena could produce returns.",
+        "Shermer claims the New Jersey swarm turned out to be normal drones/planes after investigation, undermining the host's pattern of taking reports at face value.",
+        "The host's mention of a 2003 rectangular UFO may be conflated with the 1964 case, introducing uncertainty.",
+        "No primary documents or radar data are presented in the interview; all claims remain anecdotal."
+      ],
+      "follow_up_needed": [
+        {
+          "action": "Obtain and review the Malmstrom 1967 official incident logs, radar tapes, and missile maintenance records to verify the simultaneous UFO sighting and missile shutdowns.",
+          "rationale": "Host claims multiple independent witnesses and radar; without external records, it remains unsupported anecdote."
+        },
+        {
+          "action": "Investigate Bob Jacobs' complete military file and locate the alleged film or any corroborating documentation (e.g., Major Mansman's testimony) to assess the Vandenberg 1964 claim.",
+          "rationale": "The 'tweed suit' secrecy narrative is redolent of intelligence community silencing, but no primary footage or documentary evidence appears in this interview."
+        },
+        {
+          "action": "Clarify the number and nature of the nuclear-site UFO database (Robert Hastings' 167 cases): how were they collected, vetted, and cross-referenced? Determine base rate of anomalies.",
+          "rationale": "Statistical significance depends on denominator; Shermer's base rate neglect argument must be addressed."
+        },
+        {
+          "action": "Check Kevin Knuth's published analysis of the Malmstrom radar data, if any, and verify his conclusion that it indicates anomalous objects.",
+          "rationale": "Physicist endorsement adds weight, but only if peer-reviewed or publicly available."
+        },
+        {
+          "action": "Confirm the existence and terms of the Shermer-Loeb bet (public announcement, escrow details) to assess its epistemic value.",
+          "rationale": "The bet serves as a public mechanism for defining evidence threshold; verifying its terms helps gauge commitment."
+        }
+      ],
+      "credibility_grading": {
+        "shermer_claims": "Generally consistent with skeptical scientific method; source is a known skeptic with academic background; high credibility for his own stated beliefs, moderate for factual claims about prosaic explanations (requires specific examples).",
+        "host_claims": "Host presents specific case details but without providing primary sources. The claims are earnest but may contain inaccuracies (conflation of years). Credibility limited due to lack of documentation in this transcript.",
+        "overall_epistemic_status": "The transcript serves as a record of two contrasting viewpoints, not as evidence for or against UFO/UAP claims. No new verifiable facts emerge."
+      }
+    },
+    "extracted_data": {
+      "people": [
+        {
+          "name": "Michael Shermer",
+          "role": "Skeptic, publisher of Skeptic magazine, author"
+        },
+        {
+          "name": "Avi Loeb (referred to as 'Obby')",
+          "role": "Harvard astrophysicist, Gallo project"
+        },
+        {
+          "name": "Robert Hastings",
+          "role": "Author of 'UFOs and Nukes'"
+        },
+        {
+          "name": "Bob Salis (Salas?)",
+          "role": "Former USAF officer, Malmstrom incident"
+        },
+        {
+          "name": "Bob Hastings (same as Robert?)",
+          "role": "Author/ janitor at Malmstrom in 1967"
+        },
+        {
+          "name": "Bob Jacobs",
+          "role": "Former photo instrumentation specialist, Vandenberg 1964"
+        },
+        {
+          "name": "Floren Mansman",
+          "role": "Major, Bob Jacobs' superior officer"
+        },
+        {
+          "name": "Kevin Knuth",
+          "role": "Physicist, University of Albany"
+        },
+        {
+          "name": "Leslie Kean",
+          "role": "Journalist, author on UFOs"
+        },
+        {
+          "name": "Susan Clancy",
+          "role": "Harvard psychologist, alien abduction study"
+        },
+        {
+          "name": "Carl Sagan",
+          "role": "Scientist, referenced for Contact film"
+        },
+        {
+          "name": "Marco Rubio",
+          "role": "US Senator, mentioned in hypothetical"
+        }
+      ],
+      "organizations": [
+        "Skeptic Magazine",
+        "White House UAP Advisory Board (host mentions Shermer appointed)",
+        "National Aeronautics and Space Administration (NASA)",
+        "National Academy of Sciences",
+        "American Astronomical Society",
+        "Long Now Foundation",
+        "Gallo Project",
+        "Vandenberg Air Force Base",
+        "Malmstrom Air Force Base"
+      ],
+      "events": [
+        {
+          "name": "Malmstrom AFB missile shutdown incident",
+          "date": "1967",
+          "description": "UFO sighting by guards, missiles went to no-go status, radar contact by Bob Hastings"
+        },
+        {
+          "name": "Vandenberg AFB UFO near missile warhead",
+          "date": "September 1964",
+          "description": "Bob Jacobs filmed UFO causing warhead to tumble, then silenced"
+        },
+        {
+          "name": "Vandenberg rectangular UFO sighting",
+          "date": "2003",
+          "description": "Football-sized rectangular object off the coast"
+        },
+        {
+          "name": "Chinese spy balloon incident",
+          "date": "2023",
+          "description": "Object over US airspace, widely confirmed as balloon"
+        },
+        {
+          "name": "New Jersey drone swarm",
+          "date": "2024 (fall)",
+          "description": "Multiple reported drones, later attributed to normal aircraft"
+        },
+        {
+          "name": "Shermer-Loeb bet deadline",
+          "date": "2030-12-31",
+          "description": "Confirmation threshold for alien visitation by scientific bodies"
+        }
+      ],
+      "dates_mentioned": [
+        "1967",
+        "1964",
+        "2003",
+        "2023",
+        "2030",
+        "40 years (mentioned by host, possibly since 1980s disclosure talks)"
+      ],
+      "technical_terms": [
+        "sleep paralysis",
+        "base rate neglect (Bayesian reasoning)",
+        "Drake equation",
+        "Fermi paradox",
+        "personal reliability program (PRP)",
+        "DD214"
+      ]
+    }
+  },
+  "ingestion": {},
+  "chunks": [],
+  "ner_results": [],
+  "embeddable_texts": [],
+  "metadata": {
+    "provenance": "https://www.youtube.com/watch?v=8Rr_nE65KkI",
+    "filename_hint": "I Debated UFOs With America’s Top Skeptic (It Got Ugly...)",
+    "prompts_dir": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/ai/prompts"
+  },
+  "errors": [
+    "All LLM providers failed (anthropic/claude-sonnet-5: skipped (HTTP 400); anthropic/claude-opus-4-8: skipped (HTTP 400); deepseek/deepseek-v4-pro: BudgetExhausted: deepseek/deepseek-v4-pro: max_tokens=4096 consumed before any answer was emitted (reasoning=True); raise max_tokens; together/kimi-k3: BudgetExhausted: together/kimi-k3: max_tokens=4096 consumed before any answer was emitted (reasoning=True); raise max_tokens; openai/gpt-5.5: skipped (HTTP 401); groq/gpt-oss-120b: skipped (HTTP 401))"
+  ],
+  "prompts_used": [
+    "document_classification",
+    "disclosure.content_analysis",
+    "rag_ingestion"
+  ]
+}

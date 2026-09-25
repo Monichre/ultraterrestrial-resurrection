@@ -1,0 +1,35 @@
+{
+  "status": "error",
+  "classification": {
+    "content_type": "media",
+    "primary_record_hints": [
+      "KeyFigure",
+      "Topic"
+    ],
+    "hynek_scaffold": null,
+    "classification_marks_detected": [],
+    "language": "en",
+    "ocr_quality": "n/a",
+    "sensitivity": "public",
+    "ingestion_recommendation": "proceed",
+    "rationale": "Interview transcript with former NSA official discussing speculative UFO hypotheses; no specific sightings or classified markings.",
+    "confidence": 0.85
+  },
+  "analysis": {},
+  "ingestion": {},
+  "chunks": [],
+  "ner_results": [],
+  "embeddable_texts": [],
+  "metadata": {
+    "provenance": "https://www.youtube.com/watch?v=jMCavr3dVP0",
+    "filename_hint": "Former NSA Director Breaks Silence on UFOs",
+    "prompts_dir": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/ai/prompts"
+  },
+  "errors": [
+    "Expecting ',' delimiter: line 9 column 6 (char 402)"
+  ],
+  "prompts_used": [
+    "document_classification",
+    "disclosure.content_analysis"
+  ]
+}

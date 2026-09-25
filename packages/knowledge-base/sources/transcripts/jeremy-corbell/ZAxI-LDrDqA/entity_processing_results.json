@@ -1,0 +1,459 @@
+{
+  "status": "completed",
+  "video_id": "ZAxI-LDrDqA",
+  "summary_file": "/Users/liamellis/Desktop/ultraterrestrial-resurrection/packages/knowledge-base/transcripts/2025-07-25/ZAxI-LDrDqA/part1ImmaculateConstellationUfoWhistleblowerGoesPublicWeaponizedEpisode74Summary.txt",
+  "entities": {
+    "topics": [
+      "Immaculate Constellation UAP Program",
+      "UAP activity monitoring and documentation",
+      "AATIP exposure and aftermath"
+    ],
+    "personnel": [
+      "[Source Redacted - Whistleblower]",
+      "Lou Elizondo"
+    ],
+    "events": [
+      "Pacific Ocean UAP Incident",
+      "Pentagon Server Document Discovery"
+    ],
+    "organizations": [
+      "Immaculate Constellation Program",
+      "AATIP",
+      "US Department of Defense",
+      "Russian military"
+    ],
+    "locations": [
+      "Off coast of Kamchatka in Pacific Ocean",
+      "Pentagon, Washington DC"
+    ],
+    "technologies": [
+      "US submarine surveillance platform",
+      "Military/intelligence sensors",
+      "Multi-sensor data collection"
+    ],
+    "dates": [
+      "2017",
+      "~2018"
+    ],
+    "artifacts": [
+      "Immaculate Constellation Briefing (~2018)",
+      "Classified surveillance photo"
+    ],
+    "sightings": [
+      ""
+    ]
+  },
+  "xata_search_results": {
+    "topics": [
+      {
+        "entity_name": "Immaculate Constellation UAP Program",
+        "status": "found",
+        "xata_record": {
+          "id": "rec_cq5b3i329bhdoikd5bng",
+          "name": "International UAP Back-Engineering Program",
+          "photos": [],
+          "summary": "A program involving the Five Eyes alliance for analyzing and reverse-engineering recovered UAP materials.\n",
+          "xata": {
+            "createdAt": "2024-07-07T15:18:32.143Z",
+            "highlight": {
+              "name": [
+                "International <em>UAP</em> Back-Engineering <em>Program</em>"
+              ]
+            },
+            "score": 6.8442554,
+            "table": "topics",
+            "updatedAt": "2024-07-07T15:18:32.143Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_cq5b3i329bhdoikd5bng",
+        "table": "topics"
+      },
+      {
+        "entity_name": "UAP activity monitoring and documentation",
+        "status": "found",
+        "xata_record": {
+          "id": "rec_cobdesq5ojbselbdqrbg",
+          "name": "Skinwalker Ranch and Its Paranormal Activity",
+          "photos": [],
+          "summary": "A property in Utah reputed to be the site of numerous paranormal and UFO-related phenomena.",
+          "xata": {
+            "createdAt": "2024-04-10T18:16:19.922Z",
+            "highlight": {
+              "name": [
+                "Skinwalker Ranch <em>and</em> Its Paranormal <em>Activity</em>"
+              ]
+            },
+            "score": 5.0048647,
+            "table": "topics",
+            "updatedAt": "2024-04-10T18:16:19.922Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_cobdesq5ojbselbdqrbg",
+        "table": "topics"
+      },
+      {
+        "entity_name": "AATIP exposure and aftermath",
+        "status": "found",
+        "xata_record": {
+          "id": "rec_cobdesq5ojbselbdqrcg",
+          "name": "The AATIP Program",
+          "photos": [],
+          "summary": "A secret investigatory effort funded by the U.S. government to study UFOs and other unexplained aerial phenomena.",
+          "xata": {
+            "createdAt": "2024-04-10T18:16:19.922Z",
+            "highlight": {
+              "name": [
+                "The <em>AATIP</em> Program"
+              ]
+            },
+            "score": 5.0384283,
+            "table": "topics",
+            "updatedAt": "2024-04-10T18:16:19.922Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_cobdesq5ojbselbdqrcg",
+        "table": "topics"
+      }
+    ],
+    "personnel": [
+      {
+        "entity_name": "[Source Redacted - Whistleblower]",
+        "status": "not_found",
+        "table": "personnel",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "Lou Elizondo",
+        "status": "found",
+        "xata_record": {
+          "authority": 2,
+          "bio": "Luis Elizondo is a key figure in UFO research, known for his involvement in investigating unidentified aerial phenomena.",
+          "credibility": 8,
+          "id": "rec_cobdfd4jmvif9dabl19g",
+          "name": "Luis Elizondo",
+          "photo": [
+            {
+              "id": "rt53fe857l3d93cso3fh52a2m0",
+              "name": "luiz.webp",
+              "mediaType": "image/webp",
+              "enablePublicUrl": true,
+              "signedUrlTimeout": 600,
+              "uploadUrlTimeout": 86400,
+              "size": 8432,
+              "version": 0,
+              "url": "https://us-east-1.storage.xata.sh/oqjl5j7gcd6k7d1it26oral2ec",
+              "signedUrl": "https://us-east-1.xata.sh/file/09lmetb2epotpthijj10kg84i1ui0479u7iegpprdulbln6c5nqri6vu01j1dltkieru9t5l9ek57hl7ab6f0oqd8eq35q4dhmla4sspea09e13o8kc8d6cf6mni99713g76i2un9g3jqtvhvpsv187j20?verify=gqoo6q00000017o98ul00oudsv9e0bvhlm14rnua944p3mh8d9qhpvtvgn9fcvot",
+              "uploadUrl": "https://kgubvq.us-east-1.upload.xata.sh/file/0dlmetb2epotpthijj10kg84i1ui0479u7iegpprdulbln6c5nqri6vu01j1dltkieru9t5l9ek56pgtprbbd81uve9gf0e6ceujo9i7sedmcu5a2428553kuegg06gqr9qe41s67gg8a75tk19g?verify=lo08aq00000009pt6a50qhoeq61bvm9v7asmv5dou26vtkm5a5r3sb4pgtfua355"
+            }
+          ],
+          "popularity": 8,
+          "rank": 61,
+          "role": "Former Director of the Pentagon's Advanced Aerospace Threat Identification Program (AATIP)",
+          "xata": {
+            "createdAt": "2024-04-10T18:17:24.661Z",
+            "highlight": {
+              "name": [
+                "Luis <em>Elizondo</em>"
+              ]
+            },
+            "score": 6.043672,
+            "table": "personnel",
+            "updatedAt": "2024-08-17T23:01:42.560Z",
+            "version": 6
+          }
+        },
+        "xata_id": "rec_cobdfd4jmvif9dabl19g",
+        "table": "personnel"
+      }
+    ],
+    "events": [
+      {
+        "entity_name": "Pacific Ocean UAP Incident",
+        "status": "not_found",
+        "table": "events",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "Pentagon Server Document Discovery",
+        "status": "not_found",
+        "table": "events",
+        "action_needed": "create_new"
+      }
+    ],
+    "organizations": [
+      {
+        "entity_name": "Immaculate Constellation Program",
+        "status": "found",
+        "xata_record": {
+          "id": "rec_cobdhj5bjt595h6377g0",
+          "name": "AATIP (Advanced Aerospace Threat Identification Program)",
+          "xata": {
+            "createdAt": "2024-04-10T18:22:04.499Z",
+            "highlight": {
+              "name": [
+                "AATIP (Advanced Aerospace Threat Identification <em>Program</em>)"
+              ]
+            },
+            "score": 2.3729417,
+            "table": "organizations",
+            "updatedAt": "2024-04-10T18:22:04.499Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_cobdhj5bjt595h6377g0",
+        "table": "organizations"
+      },
+      {
+        "entity_name": "AATIP",
+        "status": "found",
+        "xata_record": {
+          "id": "rec_cobdhj5bjt595h6377g0",
+          "name": "AATIP (Advanced Aerospace Threat Identification Program)",
+          "xata": {
+            "createdAt": "2024-04-10T18:22:04.499Z",
+            "highlight": {
+              "name": [
+                "<em>AATIP</em> (Advanced Aerospace Threat Identification Program)"
+              ]
+            },
+            "score": 2.3729417,
+            "table": "organizations",
+            "updatedAt": "2024-04-10T18:22:04.499Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_cobdhj5bjt595h6377g0",
+        "table": "organizations"
+      },
+      {
+        "entity_name": "US Department of Defense",
+        "status": "found",
+        "xata_record": {
+          "description": "In 2007, U.S. Senator Harry Reid and two other influential senators covertly secured $22 million for the Department of Defense (DoD) to study UAP through what became known as the Advanced Aeronautics Weapons System Application Program, or AAWSAP. Running from 2008 to 2010, AAWSAP largely consisted of the work of its sole contractor, Bigelow Aerospace Advanced Space Studies, or BAASS, an organization founded by the hotel-turned-aerospace magnate Robert Bigelow.",
+          "id": "rec_cobdhj5bjt595h6377ng",
+          "name": "The Roots of the Pentagon UAP Program: From AAWSAP/AATIP to UAPTF",
+          "photo": "1a93aa43-aeb5-42e5-aacb-fe49b2f76454.png (https://v5.airtableusercontent.com/v3/u/27/27/1712786400000/kXQCE8xjKARKmWq069cAYA/UhWTJ5KmI8bN2IsvBT0_K1dfv_nQ0BNVoWH1xA0Eoh4FJ15RtAvd0UodJBhqQCOvR9aPikQQtrN3xitsnmoDqZWUq2T8sTC8l1oqUfmlpoG_R4ufeCO1r3PniG1YJ3wzK7qvvThJVA_bK9crNe-clA/IUwaAcDSwv2AaFevzp9L307MmXAB5FZAjtjX08HboCg)",
+          "xata": {
+            "createdAt": "2024-04-10T18:22:04.499Z",
+            "highlight": {
+              "name": [
+                "The Roots <em>of</em> the Pentagon UAP Program: From AAWSAP&#x2F;AATIP to UAPTF"
+              ]
+            },
+            "score": 1.8724365,
+            "table": "organizations",
+            "updatedAt": "2024-04-10T18:22:04.499Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_cobdhj5bjt595h6377ng",
+        "table": "organizations"
+      },
+      {
+        "entity_name": "Russian military",
+        "status": "not_found",
+        "table": "organizations",
+        "action_needed": "create_new"
+      }
+    ],
+    "locations": [
+      {
+        "entity_name": "Off coast of Kamchatka in Pacific Ocean",
+        "status": "found",
+        "xata_record": {
+          "city": "daufuskie island (off coast of)",
+          "coordinates": "32.118854, -80.864449",
+          "id": "rec_cp1v7an6gfslia6uqrfg",
+          "latitude": 32.118854,
+          "longitude": -80.864449,
+          "name": "daufuskie island (off coast of), sc",
+          "state": "sc",
+          "xata": {
+            "createdAt": "2024-05-14T23:28:39.747Z",
+            "highlight": {
+              "name": [
+                "daufuskie island (<em>off</em> <em>coast</em> <em>of</em>), sc"
+              ]
+            },
+            "score": 13.502103,
+            "table": "locations",
+            "updatedAt": "2024-05-14T23:28:39.747Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_cp1v7an6gfslia6uqrfg",
+        "table": "locations"
+      },
+      {
+        "entity_name": "Pentagon, Washington DC",
+        "status": "found",
+        "xata_record": {
+          "city": "washington",
+          "coordinates": "38.895, -77.0366667",
+          "id": "rec_cp1v7ab4f9p514bqa3k0",
+          "latitude": 38.895,
+          "longitude": -77.0366667,
+          "name": "washington, dc",
+          "state": "dc",
+          "xata": {
+            "createdAt": "2024-05-14T23:28:39.672Z",
+            "highlight": {
+              "name": [
+                "<em>washington</em>, <em>dc</em>"
+              ]
+            },
+            "score": 9.484012,
+            "table": "locations",
+            "updatedAt": "2024-05-14T23:28:39.672Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_cp1v7ab4f9p514bqa3k0",
+        "table": "locations"
+      }
+    ],
+    "technologies": [
+      {
+        "entity_name": "US submarine surveillance platform",
+        "status": "not_found",
+        "table": "technologies",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "Military/intelligence sensors",
+        "status": "not_found",
+        "table": "technologies",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "Multi-sensor data collection",
+        "status": "not_found",
+        "table": "technologies",
+        "action_needed": "create_new"
+      }
+    ],
+    "dates": [
+      {
+        "entity_name": "2017",
+        "status": "not_found",
+        "table": "dates",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "~2018",
+        "status": "not_found",
+        "table": "dates",
+        "action_needed": "create_new"
+      }
+    ],
+    "artifacts": [
+      {
+        "entity_name": "Immaculate Constellation Briefing (~2018)",
+        "status": "not_found",
+        "table": "artifacts",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "Classified surveillance photo",
+        "status": "not_found",
+        "table": "artifacts",
+        "action_needed": "create_new"
+      }
+    ],
+    "sightings": [
+      {
+        "entity_name": "",
+        "status": "not_found",
+        "table": "sightings",
+        "action_needed": "create_new"
+      }
+    ]
+  },
+  "entity_creation_results": {
+    "created_entities": {
+      "personnel": [],
+      "events": [],
+      "organizations": [],
+      "technologies": [],
+      "dates": [],
+      "artifacts": [],
+      "sightings": []
+    },
+    "failed_creations": {
+      "personnel": [
+        {
+          "entity_name": "[Source Redacted - Whistleblower]",
+          "error": "Creation returned None"
+        }
+      ],
+      "events": [
+        {
+          "entity_name": "Pacific Ocean UAP Incident",
+          "error": "Creation returned None"
+        },
+        {
+          "entity_name": "Pentagon Server Document Discovery",
+          "error": "Creation returned None"
+        }
+      ],
+      "organizations": [
+        {
+          "entity_name": "Russian military",
+          "error": "Creation returned None"
+        }
+      ],
+      "technologies": [
+        {
+          "entity_name": "US submarine surveillance platform",
+          "error": "Creation returned None"
+        },
+        {
+          "entity_name": "Military/intelligence sensors",
+          "error": "Creation returned None"
+        },
+        {
+          "entity_name": "Multi-sensor data collection",
+          "error": "Creation returned None"
+        }
+      ],
+      "dates": [
+        {
+          "entity_name": "2017",
+          "error": "Creation returned None"
+        },
+        {
+          "entity_name": "~2018",
+          "error": "Creation returned None"
+        }
+      ],
+      "artifacts": [
+        {
+          "entity_name": "Immaculate Constellation Briefing (~2018)",
+          "error": "Creation returned None"
+        },
+        {
+          "entity_name": "Classified surveillance photo",
+          "error": "Creation returned None"
+        }
+      ],
+      "sightings": [
+        {
+          "entity_name": "",
+          "error": "Creation returned None"
+        }
+      ]
+    },
+    "statistics": {
+      "total_processed": 12,
+      "total_created": 0,
+      "total_failed": 12
+    },
+    "errors": []
+  },
+  "total_entities": 21,
+  "total_matches": 21,
+  "total_created": 0
+}

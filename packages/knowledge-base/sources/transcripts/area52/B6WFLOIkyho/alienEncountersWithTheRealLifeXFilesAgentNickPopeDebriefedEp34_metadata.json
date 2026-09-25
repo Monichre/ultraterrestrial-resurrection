@@ -1,0 +1,41 @@
+{
+  "title": "Alien Encounters With The Real Life X-Files Agent - Nick Pope - DEBRIEFED ep. 34",
+  "url": "https://www.youtube.com/watch?v=B6WFLOIkyho",
+  "id": "B6WFLOIkyho",
+  "channel_id": "UCvQ_EDuk8w67a2UkCS1ptbA",
+  "channel_title": "Area52",
+  "published_at": "2025-04-18T16:00:12Z",
+  "categories": [],
+  "tags": [],
+  "description": "",
+  "chapters": [],
+  "transcript_segment_count": 3062,
+  "rag_pipeline": {
+    "status": "ok",
+    "embeddable_count": 6,
+    "prompts_used": [
+      "disclosure.content_analysis",
+      "disclosure.ner",
+      "document_classification",
+      "rag_ingestion",
+      "validation"
+    ],
+    "errors": [
+      "ner:c01:disclosure.ner: JSON unparseable after one repair retry (Expecting ',' delimiter: line 92 column 100 (char 5013)); raw response was 5014 chars",
+      "ner:c05:disclosure.ner: JSON unparseable after one repair retry (Expecting property name enclosed in double quotes: line 126 column 68 (char 4700)); raw response was 4706 chars",
+      "ner:c07:disclosure.ner: JSON unparseable after one repair retry (Unterminated string starting at: line 114 column 7 (char 4640)); raw response was 4641 chars",
+      "validation:c08:validation: JSON unparseable after one repair retry (Unterminated string starting at: line 61 column 18 (char 3212)); raw response was 3435 chars",
+      "ner:c09:disclosure.ner: JSON unparseable after one repair retry (Unterminated string starting at: line 142 column 7 (char 4371)); raw response was 4379 chars"
+    ]
+  },
+  "trace_map": {
+    "json_path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/sources/transcripts/area52/B6WFLOIkyho/alienEncountersWithTheRealLifeXFilesAgentNickPopeDebriefedEp34_trace_map.json",
+    "md_path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/sources/transcripts/area52/B6WFLOIkyho/alienEncountersWithTheRealLifeXFilesAgentNickPopeDebriefedEp34_trace_map.md",
+    "node_count": 45,
+    "edge_count": 52,
+    "coverage_fraction": 0.1966,
+    "valid": true,
+    "error_count": 0,
+    "gap_count": 7
+  }
+}

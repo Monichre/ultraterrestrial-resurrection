@@ -1,0 +1,42 @@
+{
+  "status": "completed",
+  "video_id": "3fkg0uTA3qU",
+  "summary_file": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/sources/transcripts/curt-jaimungal/3fkg0uTA3qU/topAiScientistUnifiesWolframLeibnizConsciousnessWilliamHahnSummary.txt",
+  "entities": {
+    "personnel": [
+      "William Hahn",
+      "Jacob Barndes",
+      "Wolfram",
+      "Leibniz",
+      "Richard Hamming",
+      "Dr. Behrenholz"
+    ],
+    "organizations": [
+      "MIT Media Lab",
+      "Stephen Wolfram"
+    ],
+    "topics": [],
+    "events": [
+      "Jacob Barndes podcast",
+      "Discussion on computational universality and evolution",
+      "Discussion on upper limits of thought and unthinkable thoughts"
+    ],
+    "locations": [
+      "Unspecified",
+      "This room"
+    ],
+    "artifacts": [
+      "Quote: 'angels with assholes'",
+      "Graham's number example",
+      "Animal perceptual window examples",
+      "Language model training on human and computer languages"
+    ],
+    "sightings": []
+  },
+  "entity_search_results": {},
+  "entity_creation_results": {},
+  "entity_source": "rag_pipeline.ner_results",
+  "total_entities": 17,
+  "total_matches": 0,
+  "total_created": 0
+}

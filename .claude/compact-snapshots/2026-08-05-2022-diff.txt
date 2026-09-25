@@ -1,0 +1,20 @@
+ ...7-19_16-23-03Z-research-canvas-design-review.md | 1005 ++++++
+ apps/app/package.json                              |    1 +
+ .../components/beautiful-ui-components/README.md   |    2 +
+ .../worktrees/compassionate-lovelace-e35750        |    0
+ bun.lock                                           |    3 +
+ ...qwm_500-hour-ai-consultant-prompt.prompt (1).md |  103 -
+ ...0uodqwm_500-hour-ai-consultant-prompt.prompt.md |  103 -
+ ..._investigative-research-assistant.prompt (1).md |   62 -
+ ...ign-with-solidworks-and-origin-styles.prompt.md |   47 -
+ .../ai/prompts/disclosure-researcher-prompts.md    | 3263 -------------------
+ ...ocumentation_analysis_comprehensive_research.md |  397 ---
+ ...uj6y8xo2_yt-video-geopolitic-analysis.prompt.md |  187 --
+ ...5q33_investigative-research-assistant.prompt.md |   62 -
+ ...b04d4w2jaz8_source-hunting-osint-mode.prompt.md |   95 -
+ ...3o_pre-interview-intelligence-dossier.prompt.md |  258 --
+ ...sual-media-analysis-expert-agent-role.prompt.md |  274 --
+ ...c_analysis_tracking_knowledge_graph_research.md |  359 --
+ packages/ai/prompts/ufo_analysis_framework.md      |  136 -
+ ...losure-research-and-intelligence-methodology.md | 1320 --------
+ 19 files changed, 1011 insertions(+), 6666 deletions(-)

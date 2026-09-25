@@ -1,0 +1,53 @@
+{
+  "status": "error",
+  "classification": {
+    "content_type": "media",
+    "primary_record_hints": [
+      "KeyFigure",
+      "Event",
+      "Organization",
+      "Topic",
+      "Testimony"
+    ],
+    "hynek_scaffold": null,
+    "classification_marks_detected": [],
+    "language": "english",
+    "ocr_quality": "n/a",
+    "sensitivity": "public",
+    "ingestion_recommendation": "proceed_with_caution",
+    "rationale": "Public podcast transcript covering missing scientists, UFO disclosure, and advanced research programs. Contains speculative, extraordinary claims about sensitive topics. No classification marks, but the content's nature warrants caution.",
+    "confidence": 0.8
+  },
+  "analysis": {
+    "_raw_list": [
+      "Retired Air Force General Neil McCassland vanished from his home in Albuquerque, NM, on February 27, 2026, around midday.",
+      "He left behind his prescription glasses, phone (switched off), smartwatch, but took a red backpack, wallet, and a .38 caliber revolver.",
+      "His wife Susan returned home at 12:04 PM to find him missing and reported him missing at 3:07 PM.",
+      "Susan told police he had been dealing with anxiety, lack of sleep, and short-term memory problems, but a week earlier he cycled 60 miles and was not disoriented.",
+      "Despite extensive searches by multiple agencies (FBI, Air Force OSI, mountain rescue, drones, dogs), no trace of him was found, and no surveillance footage identified his direction.",
+      "McCassland once commanded the Air Force Research Laboratory (AFRL) at Wright-Patterson AFB, a site long linked to Roswell debris and exotic materials research.",
+      "From 2011-2013 he ran AFRL; from 2009-2011 he was Director of Special Programs at the Pentagon, overseeing acquisition special access programs (the 'motherlode' of black projects).",
+      "Wikileaks in 2016 released emails showing Tom Delong discussing McCassland's involvement in UFO disclosure efforts and describing him as 'very aware' of the projects.",
+      "Susan McCassland acknowledged that Neil had contact with Delong, though less after the leak, and a calendar invite shows she accepted a meeting with Delong and Podesta.",
+      "Trump announced on Truth Social on February 19, 2026, that he was directing agencies to release UAP-related files; McCassland vanished eight days later.",
+      "After retirement, McCassland founded DBE Consulting with James Technelia, former deputy of DARPA and director of DTRA, an agency also linked to intelligence on extraterrestrials."
+    ]
+  },
+  "ingestion": {},
+  "chunks": [],
+  "ner_results": [],
+  "embeddable_texts": [],
+  "metadata": {
+    "provenance": "https://www.youtube.com/watch?v=wlsQIbpEKSM",
+    "filename_hint": "Why America’s Top Scientists Are Going Missing",
+    "prompts_dir": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/ai/prompts"
+  },
+  "errors": [
+    "All LLM providers failed (anthropic/claude-sonnet-5: skipped (HTTP 400); anthropic/claude-opus-4-8: skipped (HTTP 400); deepseek/deepseek-v4-pro: BudgetExhausted: deepseek/deepseek-v4-pro: max_tokens=4096 consumed before any answer was emitted (reasoning=True); raise max_tokens; together/kimi-k3: BudgetExhausted: together/kimi-k3: max_tokens=4096 consumed before any answer was emitted (reasoning=True); raise max_tokens; openai/gpt-5.5: skipped (HTTP 401); groq/gpt-oss-120b: skipped (HTTP 401))"
+  ],
+  "prompts_used": [
+    "document_classification",
+    "disclosure.content_analysis",
+    "rag_ingestion"
+  ]
+}

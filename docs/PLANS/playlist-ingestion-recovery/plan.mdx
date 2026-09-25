@@ -1,0 +1,251 @@
+# Playlist Ingestion Recovery
+
+## Objective
+
+Take the American Alchemy playlist (104 episodes, currently **0 retrievable rows**) to a verified corpus in the knowledge base. Four defects survive in the current ingestion path; this plan closes them and re-runs in stages that each prove themselves before the next begins.
+
+**Done means:** `SELECT count(*) FROM document_chunks` returns a non-zero count for every episode whose state says `ingested`, confirmed by query against the database the app actually reads. The state field is not evidence — it has already reported success on a run that produced nothing.
+
+**Scope:** the Python ingestion path under `apps/disclosure-rag`. **Non-goals:** the Next.js AI routes, connecting Python ingest to the app, new playlist sources, and re-architecting the prompt registry.
+
+<Callout id="already-landed" tone="success">
+
+**Most of the transcript-layer hardening already shipped.** The pipeline today already distinguishes a fetch failure from missing captions (`fetch_transcript` returns `(result, reason)`), maps private/age-restricted videos to a terminal `unavailable`, aborts the run after 3 consecutive IP blocks, clears stale per-episode fields on retry, and repairs malformed JSON once before giving up. This plan does **not** rebuild any of that — it closes what those changes left open.
+
+</Callout>
+
+### Where the 104 episodes went
+
+<Diagram id="funnel" caption="Every stage that ran, what survived it, and what fell out. Failure exits on the right.">
+
+```html
+<div class="fn">
+  <div class="fn-col">
+    <div class="diagram-muted lbl">Stage</div>
+    <div class="diagram-box">Playlist enumeration</div>
+    <div class="diagram-box">Transcript fetch</div>
+    <div class="diagram-box">Fidelity gate</div>
+    <div class="diagram-box">Classification <span class="diagram-muted">700 tok</span></div>
+    <div class="diagram-box">Content analysis <span class="diagram-muted">1100 tok</span></div>
+    <div class="diagram-box">RAG ingestion <span class="diagram-muted">1400 tok</span></div>
+    <div class="diagram-box out">Chunks · NER · embeddings</div>
+  </div>
+  <div class="fn-col narrow">
+    <div class="diagram-muted lbl">Survived</div>
+    <div class="diagram-pill">104</div>
+    <div class="diagram-pill">49</div>
+    <div class="diagram-pill">49</div>
+    <div class="diagram-pill">47</div>
+    <div class="diagram-pill">16</div>
+    <div class="diagram-pill zero">0</div>
+    <div class="diagram-pill zero">0</div>
+  </div>
+  <div class="fn-col wide">
+    <div class="diagram-muted lbl">Fell out</div>
+    <div class="diagram-muted">&mdash;</div>
+    <div class="diagram-card warn">55 &mdash; IP block misread as &ldquo;no captions&rdquo;<br><span class="diagram-muted">51 recoverable · 4 genuinely private</span></div>
+    <div class="diagram-muted">none &mdash; 48 of 49 scored 0.90&ndash;0.925</div>
+    <div class="diagram-muted">&mdash;</div>
+    <div class="diagram-card warn">31 &mdash; malformed JSON / provider exhaustion</div>
+    <div class="diagram-card warn">16 &mdash; malformed JSON</div>
+    <div class="diagram-muted">&mdash;</div>
+  </div>
+</div>
+```
+
+```css
+.fn { display: grid; grid-template-columns: 1.1fr 0.4fr 1.3fr; gap: 10px 16px; align-items: start; }
+.fn-col { display: grid; gap: 10px; }
+.fn-col > * { min-height: 38px; display: flex; align-items: center; justify-content: flex-start; }
+.fn-col.narrow > * { justify-content: center; }
+.lbl { min-height: 18px; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; }
+.diagram-box { padding: 8px 12px; gap: 8px; }
+.diagram-box.out { border-style: dashed; }
+.diagram-pill.zero { color: var(--wf-warn); border-color: var(--wf-warn); }
+.diagram-card.warn { border-color: var(--wf-warn); padding: 8px 12px; font-size: 13px; line-height: 1.35; display: block; }
+```
+
+</Diagram>
+
+Failure rate tracks output size — the smallest prompt never failed, the largest went 0-for-16. That is the signature of truncation and unconstrained free-text parsing, not of bad transcripts.
+
+### Defect status
+
+<Table
+  id="defect-status"
+  columns={["Defect", "State today", "This plan"]}
+  rows={[
+    ["Fetch failure read as \"no captions\"", "Fixed — `REASON_STATUS` + `(result, reason)`", "Reuse"],
+    ["Run marches on through an IP block", "Fixed — `BLOCKED_ABORT_THRESHOLD`, default 3", "Reuse"],
+    ["Private videos retried forever", "Fixed — `unavailable` in `DONE_STATUSES`", "Reuse"],
+    ["Ungraded enrichment recorded as `ingested`", "Half-fixed — warns, still writes `ingested`", "Step 1"],
+    ["Retry re-downloads good transcripts", "Open — no skip-if-exists, no flag", "Step 2"],
+    ["`Extra data` from trailing model output", "Open — naive brace slice", "Step 3"],
+    ["4 of 5 prompts unconstrained free-text", "Open — `SCHEMA_ENABLED_PROMPTS` has one entry", "Step 4"],
+    ["Writes target a database nobody reads", "Open — local `.env` overrides to empty local PG", "Step 0"],
+  ]}
+/>
+
+---
+
+### Step 0 — Point the pipeline at the database the app reads
+
+Before any code changes, resolve where ingestion writes. `lib/db/postgres_client.py` reads `DATABASE_URL` from `apps/disclosure-rag/.env`, which resolves to `postgresql://liamellis@localhost:5432/ultraterrestrial` — a local database holding **0 documents and 0 chunks**. The shared Neon `neondb` that the app reads holds 189 documents and 4,946 chunks. The client's own docstring claims it points at the shared endpoint; in practice the local `.env` overrides it.
+
+A successful re-run against the current config would produce rows nobody can retrieve. Settle this first, then confirm `OUTPUT_DIR` — the code writes to `BASE_DIR/data/playlist_ingestion`, but the artifacts now live in `corpus/intake/playlist_ingestion` after an untracked move, so a re-run today writes somewhere other than where the evidence sits.
+
+<Checklist
+  id="step0-checks"
+  items={[
+    { id: "db-target", label: "Decide the write target and make the docstring true", note: "Shared Neon vs local. See Open Questions." },
+    { id: "third-neon", label: "Resolve `NEON_DATABASE_URL` — a third Neon project, unreachable during investigation", note: "Live target or dead config?" },
+    { id: "output-dir", label: "Align `OUTPUT_DIR` with `corpus/intake/playlist_ingestion`, or move the tree back" },
+    { id: "openai-key", label: "Verify `OPENAI_API_KEY` — one run died on `401 Incorrect API key`" },
+    { id: "proxy", label: "Set `YT_WEBSHARE_PROXY_USERNAME` / `YT_PROXY_URL`, currently unset", note: "Without these the 51-episode refetch likely re-triggers the block." }
+  ]}
+/>
+
+---
+
+### Step 1 — An ungraded pipeline is not an ingestion
+
+`enrichment_outcome()` returns `"unknown"` when no `rag_pipeline.status` is found in any of the three containers it searches. The caller logs a warning that explicitly says it is "not treating as enriched" — and then records `status="ingested"` anyway. That single gap is what recorded `K4gYHs84BIc` as ingested while its own artifact on disk carried `"status": "error"` with zero chunks.
+
+<Diff
+  id="unknown-diff"
+  filename="apps/disclosure-rag/scripts/playlist_ingestion.py"
+  language="python"
+  mode="split"
+  before={"            if rag_status == \"unknown\":\n                logger.warning(\n                    \"  enrichment status not reported by the pipeline for %s — \"\n                    \"recording rag_status=unknown, not treating as enriched\", vid)\n            record(state, video, playlist_id, status=\"ingested\",\n                   fidelity=fidelity.score, fidelity_verdict=fidelity.verdict,\n                   doc_id=result[\"doc_id\"], rag_status=rag_status)\n            return \"ingested\"\n"}
+  after={"            if rag_status == \"unknown\":\n                logger.warning(\n                    \"  enrichment status not reported by the pipeline for %s — \"\n                    \"grading as unverified\", vid)\n                record(state, video, playlist_id, status=\"enrichment_unverified\",\n                       fidelity=fidelity.score, fidelity_verdict=fidelity.verdict,\n                       doc_id=result[\"doc_id\"], rag_status=rag_status,\n                       error=\"pipeline reported no rag_pipeline status\")\n                return \"enrichment_unverified\"\n            record(state, video, playlist_id, status=\"ingested\",\n                   fidelity=fidelity.score, fidelity_verdict=fidelity.verdict,\n                   doc_id=result[\"doc_id\"], rag_status=rag_status)\n            return \"ingested\"\n"}
+  annotations={[
+    { side: "after", lines: "5-9", label: "Fail closed", note: "`enrichment_unverified` stays out of `DONE_STATUSES`, so it retries on the next bare run instead of looking finished." }
+  ]}
+/>
+
+**Why not just widen the existing `not in ("ok", "unknown")` test:** collapsing unknown into `enrichment_failed` would lose the distinction between "the pipeline told us it failed" and "the pipeline told us nothing." The second is a reporting defect worth seeing separately in the run report.
+
+---
+
+### Step 2 — Retry the step that failed, not the three that worked
+
+`process_episode()` re-calls `fetch_transcript(url)` unconditionally. The run-loop skip at line 390 only consults the state status, never the artifacts on disk. Retrying the 47 `enrichment_failed` episodes today re-downloads 7.1 MB of transcripts that already passed fidelity at 0.92, spends 47 requests against the quota that produced the IP block in the first place, and only then reaches the LLM stage that actually broke.
+
+<AnnotatedCode
+  id="reuse-code"
+  filename="apps/disclosure-rag/scripts/playlist_ingestion.py"
+  language="python"
+  code={"    existing_txt = transcripts_dir / f\"{vid}.txt\"\n    existing_report = reports_dir / f\"{vid}.fidelity.json\"\n\n    if args.reuse_transcripts and existing_txt.exists() and existing_report.exists():\n        cleaned = existing_txt.read_text()\n        fidelity = FidelityReport.from_dict(json.loads(existing_report.read_text()))\n        logger.info(\"  reusing transcript + fidelity on disk for %s\", vid)\n    else:\n        fetched, reason = fetch_transcript(url)\n        if not fetched:\n            status = REASON_STATUS.get(reason, \"no_transcript\")\n            record(state, video, playlist_id, status=status, error=f\"transcript {reason}\")\n            return status\n        cleaned = clean_transcript(fetched[\"transcript\"])\n        transcripts_dir.mkdir(parents=True, exist_ok=True)\n        (transcripts_dir / f\"{vid}.txt\").write_text(cleaned)\n        fidelity = review_transcript(cleaned, fetched, llm_review=args.llm_review)\n"}
+  annotations={[
+    { lines: "4", label: "Opt-in only", note: "New `--reuse-transcripts` flag. Default behaviour is unchanged, so a fresh playlist still fetches everything." },
+    { lines: "6", label: "Needs a loader", note: "`FidelityReport` (lib/transcript_fidelity.py:29) is a flat dataclass whose `to_dict` is `asdict`, and every field is JSON-native — so `cls(**data)` round-trips cleanly. This is genuinely one classmethod, not a serialization project." },
+    { lines: "8-17", note: "Existing fetch path moves under the else branch untouched; no behaviour change when the flag is off." }
+  ]}
+/>
+
+---
+
+### Step 3 — Stop the parser from swallowing trailing output
+
+`_extract_json_payload` falls back to a slice from the first `{` to the **last** `}` in the whole response. When a model emits a second object or trailing prose containing braces, that slice spans both, and `json.loads` reports `Extra data` — 6 episodes died exactly this way. `json.JSONDecoder().raw_decode` stops cleanly at the end of the first complete value and ignores everything after it, which removes the failure mode rather than repairing it after the fact.
+
+<Diff
+  id="rawdecode-diff"
+  filename="apps/disclosure-rag/processing/rag_prompt_pipeline.py"
+  language="python"
+  mode="split"
+  before={"    try:\n        return json.loads(stripped)\n    except json.JSONDecodeError:\n        start = stripped.find(\"{\")\n        end = stripped.rfind(\"}\")\n        if start >= 0 and end > start:\n            return json.loads(stripped[start: end + 1])\n        start = stripped.find(\"[\")\n        end = stripped.rfind(\"]\")\n        if start >= 0 and end > start:\n            return json.loads(stripped[start: end + 1])\n        raise\n"}
+  after={"    try:\n        return json.loads(stripped)\n    except json.JSONDecodeError:\n        # raw_decode stops at the end of the first complete value, so a second\n        # object or trailing prose no longer widens the slice into `Extra data`.\n        decoder = json.JSONDecoder()\n        for opener in (\"{\", \"[\"):\n            start = stripped.find(opener)\n            if start < 0:\n                continue\n            try:\n                value, _end = decoder.raw_decode(stripped[start:])\n                return value\n            except json.JSONDecodeError:\n                continue\n        raise\n"}
+  annotations={[
+    { side: "after", lines: "6-15", label: "First complete value wins", note: "Fixes the 6 `Extra data` failures outright. The delimiter and unterminated-string failures are truncation and escaping, and are Step 4's problem." }
+  ]}
+/>
+
+---
+
+### Step 4 — Constrain the two prompts that actually failed
+
+`SCHEMA_ENABLED_PROMPTS = {"rag_ingestion"}` — one of five. The stage evidence says exactly which others need it: `disclosure.content_analysis` lost 31 of 47, and `rag_ingestion` lost all 16 that reached it. `document_classification` went 47-for-47 unconstrained and needs nothing.
+
+Add `disclosure.content_analysis` to the set and confirm its registry schema is complete enough to constrain against — the file's own comment notes that schema-completeness for the unconstrained prompts was never verified, which is why they were left out. Leave `disclosure.ner` and `validation` alone until they demonstrate a failure; widening blindly trades one unverified assumption for another.
+
+<Callout id="raw-persist" tone="risk">
+
+**Persist raw model output on parse failure.** `_raw_text` is `.pop()`-ed from every stage result, so all 35 JSON failures can only be inferred from error strings — nobody can see the bytes that broke. Write the raw response into the `*_rag_pipeline.json` artifact on the failure path only. Without this, a second failed run is exactly as undiagnosable as the first.
+
+</Callout>
+
+---
+
+### Step 5 — Re-run in stages, each one gated
+
+<Checklist
+  id="rerun"
+  items={[
+    { id: "smoke", label: "3 episodes with `--reuse-transcripts`", note: "Gate: chunks, NER, and embeddable_texts all non-empty. Stop here if any is empty." },
+    { id: "batch47", label: "The 47 `enrichment_failed` with `--reuse-transcripts`", note: "No downloads, no fidelity re-run. Enrichment only." },
+    { id: "verify47", label: "Query `document_chunks` by doc_id before continuing" },
+    { id: "batch51", label: "The 51 recoverable `no_transcript`, full pipeline", note: "Requires the proxy from Step 0; watch for the blocked-abort to fire." },
+    { id: "private", label: "Confirm the 4 private videos settle as `unavailable`", note: "2gsXjwtIXI0, pFVHnLJPiIs, 8CjwxVE1Vtw, ePdH01pphbk" },
+    { id: "july", label: "Decide the July 24 DEBRIEFED playlist (6 ingested, 94 blocked)", note: "Give it its own `--state-file`; the shared default is why its state was overwritten." }
+  ]}
+/>
+
+### Verification
+
+Green tests do not close this. The end-to-end check is a query against the database chosen in Step 0:
+
+<Code
+  id="verify-sql"
+  filename="verify.sql"
+  language="sql"
+  caption="Run against the database the app reads. Any episode marked ingested with 0 chunks is a Step 1 regression."
+  code={"SELECT d.id,\n       d.title,\n       count(c.id) AS chunks\n  FROM documents d\n  LEFT JOIN document_chunks c ON c.document_id = d.id\n WHERE d.id = ANY($1)\n GROUP BY d.id, d.title\n HAVING count(c.id) = 0;\n"}
+/>
+
+Pair it with a read of one `*_rag_pipeline.json` artifact confirming `status: "ok"` and a non-empty `embeddable_texts`, and a walk of the run report to confirm counts reconcile with `state.json`. Both records disagreeing is the condition Step 1 exists to catch.
+
+### Open Questions
+
+<QuestionForm
+  id="open-questions"
+  questions={[
+    {
+      id: "write-target",
+      title: "Which database should the Python ingestion path write to?",
+      subtitle: "It currently writes to an empty local Postgres while the app reads shared Neon.",
+      mode: "single",
+      options: [
+        { id: "shared-neon", label: "Shared Neon `neondb`", detail: "What the app actually reads (189 docs / 4,946 chunks). Makes the client docstring true and the corpus retrievable. Ingest writes straight to production data.", recommended: true },
+        { id: "local-then-promote", label: "Local Postgres, then promote", detail: "Keeps Lane A isolated while re-running, but needs a promotion step that does not exist yet." },
+        { id: "third-neon", label: "The separate `NEON_DATABASE_URL` project", detail: "Was unreachable during investigation — needs to be confirmed alive before it can be chosen." }
+      ],
+      required: true
+    },
+    {
+      id: "unknown-status",
+      title: "How should an ungraded enrichment be recorded?",
+      mode: "single",
+      options: [
+        { id: "new-status", label: "New `enrichment_unverified` status", detail: "Separates \"pipeline said nothing\" from \"pipeline said it failed\"; retries automatically.", recommended: true },
+        { id: "reuse-failed", label: "Fold into `enrichment_failed`", detail: "Smaller change, no new status to handle in reports — loses the reporting-gap signal." }
+      ]
+    },
+    {
+      id: "schema-scope",
+      title: "How far should schema enforcement widen?",
+      mode: "single",
+      options: [
+        { id: "analysis-only", label: "Add `disclosure.content_analysis` only", detail: "Covers the stage that lost 31 of 47. Leaves ner/validation as-is until they fail.", recommended: true },
+        { id: "all-five", label: "All five prompts", detail: "Maximum constraint, but their registry schemas were never verified complete — risks new failures." }
+      ]
+    },
+    {
+      id: "constraints",
+      title: "Anything else that should gate the re-run?",
+      mode: "freeform",
+      placeholder: "Quota limits, timing, data you don't want touched..."
+    }
+  ]}
+  submitLabel="Send answers"
+/>

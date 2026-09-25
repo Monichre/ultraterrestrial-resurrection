@@ -1,0 +1,7 @@
+interface:
+  display_name: "Signal Geometry"
+  short_description: "Create minimal abstract geometric illustrations"
+  default_prompt: "Use $signal-geometry to turn this concept into a minimal abstract illustration with no text: [concept]."
+
+policy:
+  allow_implicit_invocation: false

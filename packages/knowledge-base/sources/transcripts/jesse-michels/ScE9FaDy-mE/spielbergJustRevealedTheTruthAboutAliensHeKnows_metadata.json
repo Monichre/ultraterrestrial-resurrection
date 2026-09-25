@@ -1,0 +1,17 @@
+{
+  "title": "Spielberg Just Revealed The Truth About Aliens (He Knows!)",
+  "url": "https://www.youtube.com/watch?v=ScE9FaDy-mE",
+  "id": "ScE9FaDy-mE",
+  "categories": [],
+  "tags": [],
+  "description": "",
+  "chapters": [],
+  "rag_pipeline": {
+    "status": "error",
+    "embeddable_count": 0,
+    "prompts_used": null,
+    "errors": [
+      "Expecting ',' delimiter: line 10 column 6 (char 360)"
+    ]
+  }
+}

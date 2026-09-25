@@ -1,0 +1,306 @@
+{
+  "status": "completed",
+  "video_id": "b3b6543238b0",
+  "summary_file": "/Users/liamellis/Desktop/ultraterrestrial-resurrection/packages/knowledge-base/sources/web/2025-09-05/medium-com_797557aa/medium-com_summary.txt",
+  "entities": {
+    "topics": [
+      "Immaculate Constellation Program (ICP)"
+    ],
+    "personnel": [
+      "Matthew Brown",
+      "Jeremy Corbell",
+      "George Knapp",
+      "David Grusch"
+    ],
+    "events": [
+      "Immaculate Constellation Public Disclosure"
+    ],
+    "organizations": [
+      "Weaponized Podcast",
+      "U.S. Department of Defense"
+    ],
+    "locations": [
+      "Weaponized Podcast (virtual)"
+    ],
+    "artifacts": [],
+    "sightings": []
+  },
+  "xata_search_results": {
+    "topics": [
+      {
+        "entity_name": "Immaculate Constellation Program (ICP)",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Immaculate Constellation Program (ICP)",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": "create_new",
+        "error": null
+      }
+    ],
+    "personnel": [
+      {
+        "entity_name": "Matthew Brown",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "personnel",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Jeremy Corbell",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "personnel",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "George Knapp",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "personnel",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "David Grusch",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "personnel",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Matthew Brown",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "personnel",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Jeremy Corbell",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "personnel",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "George Knapp",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "personnel",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "David Grusch",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "personnel",
+        "action_needed": "create_new",
+        "error": null
+      }
+    ],
+    "events": [
+      {
+        "entity_name": "Immaculate Constellation Public Disclosure",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "events",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Immaculate Constellation Public Disclosure",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "events",
+        "action_needed": "create_new",
+        "error": null
+      }
+    ],
+    "organizations": [
+      {
+        "entity_name": "Weaponized Podcast",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "U.S. Department of Defense",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Weaponized Podcast",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "U.S. Department of Defense",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      }
+    ],
+    "locations": [
+      {
+        "entity_name": "Weaponized Podcast (virtual)",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "locations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Weaponized Podcast (virtual)",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "locations",
+        "action_needed": "create_new",
+        "error": null
+      }
+    ],
+    "artifacts": [],
+    "sightings": []
+  },
+  "entity_creation_results": {
+    "created_entities": {
+      "topics": [],
+      "personnel": [],
+      "events": [],
+      "organizations": [],
+      "locations": []
+    },
+    "failed_creations": {
+      "topics": [
+        {
+          "entity_name": "Immaculate Constellation Program (ICP)",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Immaculate Constellation Program (ICP)",
+          "error": "Batch creation failed"
+        }
+      ],
+      "personnel": [
+        {
+          "entity_name": "Matthew Brown",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Jeremy Corbell",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "George Knapp",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "David Grusch",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Matthew Brown",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Jeremy Corbell",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "George Knapp",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "David Grusch",
+          "error": "Batch creation failed"
+        }
+      ],
+      "events": [
+        {
+          "entity_name": "Immaculate Constellation Public Disclosure",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Immaculate Constellation Public Disclosure",
+          "error": "Batch creation failed"
+        }
+      ],
+      "organizations": [
+        {
+          "entity_name": "Weaponized Podcast",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "U.S. Department of Defense",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Weaponized Podcast",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "U.S. Department of Defense",
+          "error": "Batch creation failed"
+        }
+      ],
+      "locations": [
+        {
+          "entity_name": "Weaponized Podcast (virtual)",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Weaponized Podcast (virtual)",
+          "error": "Batch creation failed"
+        }
+      ]
+    },
+    "statistics": {
+      "total_processed": 18,
+      "total_created": 0,
+      "total_failed": 18
+    },
+    "errors": []
+  },
+  "total_entities": 9,
+  "total_matches": 18,
+  "total_created": 0
+}

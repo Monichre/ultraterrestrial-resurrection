@@ -1,0 +1,39 @@
+{
+  "url": "https://medium.com/@richgel99/openai-deep-research-majestic-12-uap-secrecy-and-the-hidden-integration-of-non-human-8812edcd1d1c",
+  "title": "Web Article",
+  "author": "",
+  "publish_date": "",
+  "type": "web_article",
+  "content_length": 125288,
+  "word_count": 19197,
+  "extraction_timestamp": "2025-09-05T17:23:25.169494",
+  "processing_status": {
+    "content_extracted": true,
+    "summary_generated": false,
+    "entities_extracted": false,
+    "kb_indexed": false,
+    "kg_processed": false
+  },
+  "files": {
+    "summary": "/Users/liamellis/Desktop/ultraterrestrial-resurrection/packages/knowledge-base/sources/web/2025-09-05/medium-com_2b9c7db2/medium-com_summary.txt",
+    "content": "/Users/liamellis/Desktop/ultraterrestrial-resurrection/packages/knowledge-base/sources/web/2025-09-05/medium-com_2b9c7db2/medium-com_content.txt",
+    "metadata": "/Users/liamellis/Desktop/ultraterrestrial-resurrection/packages/knowledge-base/sources/web/2025-09-05/medium-com_2b9c7db2/medium-com_metadata.json"
+  },
+  "analysis": {
+    "content_type": "ufo_research",
+    "key_topics": [
+      "Ufo",
+      "Uap",
+      "Alien",
+      "Extraterrestrial",
+      "Roswell",
+      "Area 51",
+      "Majestic 12",
+      "Mj-12",
+      "Disclosure",
+      "Sighting"
+    ],
+    "reading_time_minutes": 95,
+    "complexity_score": 100
+  }
+}

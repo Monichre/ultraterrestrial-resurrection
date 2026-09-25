@@ -1,0 +1,150 @@
+{
+  "status": "error",
+  "classification": {
+    "content_type": "mixed",
+    "primary_record_hints": [
+      "Testimony",
+      "KeyFigure",
+      "Artifact",
+      "Event"
+    ],
+    "hynek_scaffold": null,
+    "classification_marks_detected": [],
+    "language": "English",
+    "ocr_quality": "n/a",
+    "sensitivity": "public",
+    "ingestion_recommendation": "proceed",
+    "rationale": "Public podcast transcript with witness testimony and speculative connections between NASA, anti-gravity research, and UFO metal; no immediate sensitive custody issues.",
+    "confidence": 0.9
+  },
+  "analysis": {
+    "content_assessment": {
+      "provenance": "Source: Transcript from American Alchemy podcast episode, YouTube video (https://www.youtube.com/watch?v=bM18PJY6_Zc). Exact publication date unknown, but appears recent based on references. Interview with Chris Bledsoe. Custody incomplete; transcript may contain OCR/transcription errors (e.g., 'Zanesville' misspelled as 'Zayesville', 'Fateville' for 'Fayetteville'). No chain of custody for raw recording. Marked UNVERIFIED.",
+      "content_summary": "Podcast host Jesse Michels interviews self-proclaimed 'super experiencer' Chris Bledsoe. Bledsoe recounts his 2007 UFO sighting in North Carolina, subsequent healing from Crohn's disease, and encounters with a luminous feminine presence relaying apocalyptic/redemptive messages. He details interactions with NASA mission controller Tim Taylor, including metal testing that allegedly caused a physiological reaction, retrieval of an exotic metal fragment in Zanesville, Ohio (birthplace of anti-gravity researcher Thomas Townsend Brown), connections to a secret time travel group in Nassau, and Taylor's claimed role as an agent of 'the hammer' from the film The Adjustment Bureau. Host interjects extensive research on Townsend Brown, tying him to anti-gravity experiments, CIA, and the Nassau group. Bledsoe mentions sharing metals with Dr. Hal Puthoff, Tom Dong, and Lou Elizondo. Themes of government interest, paranormal phenomena, and metaphysical agency are central.",
+      "primary_claims": [
+        "Bledsoe experienced a series of bright orbs on January 8, 2007, while fishing in North Carolina.",
+        "After the sighting, his Crohn's disease disappeared.",
+        "He has had repeated encounters with a luminous feminine presence that communicates about humanity's moral decay, cycles of collapse, judgment, apocalypse, and renewal.",
+        "NASA and CIA personnel visited his home; one official (Tim Taylor) tested his family with pieces of metal. When Bledsoe held two metals, they created a current that made his eyes roll back; Taylor exclaimed 'Why you?' and said he'd only seen two other reactions, none as strong.",
+        "Taylor gave Bledsoe a gold pin signifying 'being off planet' (astronaut-related) and took him through astronaut crew quarters at Cape Canaveral.",
+        "Taylor arranged a trip to Zanesville, Ohio, where they retrieved a piece of 'glowing' metal that had fallen from a UFO. Bledsoe and Taylor had a piece sawed off at a machine shop; part was given to Dr. Hal Puthoff, Tom Dong, and Lou Elizondo.",
+        "Taylor told Bledsoe that Taylor is part of a secret time travel group, the 'Nassau group', and that Thomas Townsend Brown was the president.",
+        "Taylor told Bledsoe to watch The Adjustment Bureau, saying 'I work for the hammer and the hammer works for God,' referencing an angelic hierarchy.",
+        "Bledsoe says Taylor was helping Linda Brown (Townsend Brown's daughter) write her book.",
+        "Host claims Thomas Townsend Brown discovered anti-gravity in the 1950s, funded by University of North Carolina physics patrons and CIA, and that declassified documents cite UNC's involvement.",
+        "Host connects Zanesville trip, Townsend Brown's birthplace, and the Nassau time travel group, noting Taylor's autobiography Launch Fever mentions time moving differently in Nassau."
+      ],
+      "key_findings": [
+        "Date of initial Bledsoe sighting: January 8, 2007.",
+        "Location: Fayetteville, North Carolina (misspelled as Fateville in transcript).",
+        "Personnel named: Chris Bledsoe, NASA mission controller Tim Taylor (author of Launch Fever), Dr. Hal Puthoff, Tom Dong, Lou Elizondo, Thomas Townsend Brown (born 1905, Zanesville, Ohio), Linda Brown, Prof. Diana Pasulka (author of American Cosmic).",
+        "Locations: Zanesville, Ohio; Indian Serpent Mound area (where metal found); Nassau, Bahamas; Cape Canaveral, Florida.",
+        "Taylor allegedly gave Bledsoe a gold pin signifying 'off-planet' experience.",
+        "Metal piece described: postage-stamp size, thin, dull gray, very light; second piece like aluminum foil that would not crease.",
+        "Taylor claimed to have seen only two other individuals react similarly to the metal.",
+        "Host references FBI document on Townsend Brown describing him as 'foremost radar expert in the Navy' (unavailable in source).",
+        "Host cites deathbed confession of French aerospace rep Jacques Cornion about Townsend Brown's experiments working in Paris in 1956 (unavailable in source).",
+        "Host mentions Charles Beer, ex-NASA scientist starting gravity-based propulsion based on Townsend Brown's work (unavailable in source)."
+      ],
+      "supporting_evidence": [
+        "Bledsoe's personal testimony is the primary support for all experiential claims.",
+        "Host references Taylor's autobiography Launch Fever for time-related comments in Nassau and flying cargo between Florida and Nassau.",
+        "Host mentions Taylor's small YouTube channel showing NASA facility access.",
+        "Host notes Diana Pasulka's encounter with Taylor documented in American Cosmic.",
+        "Host references declassified documents about UNC's anti-gravity research and Harry Turner (Australian nuclear program head), but these are not provided in transcript.",
+        "Bledsoe states he will provide a photo of the metal (not included in transcript).",
+        "Bledsoe says Tom Dong, Lou Elizondo, and Hal Puthoff received pieces of the metal; no verification from those individuals is cited."
+      ],
+      "contradictory_evidence": [
+        "None presented within the transcript. No skeptical or counter-claims from other sources are included; the format is a supportive interview."
+      ],
+      "credibility_assessment": {
+        "source_type": "Media podcast interview (first-person testimony + host commentary).",
+        "admissibility": "UNVERIFIED. Claims are extraordinary and rely entirely on Bledsoe's word. No physical evidence presented in the transcript; references to books, videos, and other individuals are not verifiable within the source. The host shows strong confirmation bias, using his own research to bolster claims rather than critically evaluate them. Potential transcription errors reduce reliability. The narrative aligns with known 'experiencer' tropes but adds specific new elements (Taylor's role, Townsend Brown connection) that would require independent confirmation.",
+        "inference_notes": "The connections drawn between Taylor, Townsend Brown, and the Zanesville metal are speculative and rely heavily on the host's interpretations. The claim about Taylor being part of a time travel group and Townsend Brown's involvement is second-hand from Bledsoe via Taylor, making it a chain of hearsay. The material may be a re-packaging of existing lore (e.g., Townsend Brown's anti-gravity, Nassau as a time travel hub) for this interview, but some novel details (like the exact metal retrieval trip and distribution) appear to be new primary claims that warrant further investigation."
+      },
+      "follow_up_needed": [
+        "Obtain chain of custody for the Zanesville metal piece: laboratory analysis (composition, isotopic ratios, possible thermal history).",
+        "Interview Tim Taylor on the record about his interactions with Bledsoe, the metal testing, the Zanesville trip, and his claimed time travel/angelic role.",
+        "Request statements from Dr. Hal Puthoff, Tom Dong, and Lou Elizondo regarding any metal samples they received from Bledsoe and whether they were analyzed.",
+        "Verify whether NASA astronaut pins of the type described are issued to non-astronauts under any protocol.",
+        "Cross-check Taylor's autobiography Launch Fever for the specific 'time moving differently' passage and for any cryptic references to the Nassau group or Townsend Brown.",
+        "Examine Linda Brown's book for any contributions by Tim Taylor or mention of Zanesville material.",
+        "Corroborate Bledsoe's 2007 healing claim with medical records (if he consents) to rule out spontaneous remission vs. other explanations."
+      ]
+    },
+    "extracted_data": {
+      "dates": [
+        "January 8, 2007: Bledsoe's first UFO sighting.",
+        "1905: Thomas Townsend Brown's birth.",
+        "1950s: Townsend Brown's anti-gravity experiments referenced.",
+        "1956: Claimed successful Townsend Brown experiment in Paris.",
+        "2008: Mentioned as a time when UFO classification was extremely high."
+      ],
+      "persons": [
+        "Chris Bledsoe (experiencer)",
+        "Tim Taylor (NASA mission controller, author of Launch Fever)",
+        "Dr. Hal Puthoff (scientist who received metal piece)",
+        "Tom Dong (received metal piece)",
+        "Lou Elizondo (received metal piece)",
+        "Thomas Townsend Brown (anti-gravity researcher, 1905-1985?)",
+        "Linda Brown (daughter of Townsend Brown, author)",
+        "Diana Pasulka (religious studies professor, author of American Cosmic)",
+        "Jesse Michels (host)",
+        "Jacques Cornion (claimed source of deathbed confession)",
+        "Charles Beer (ex-NASA scientist referenced)",
+        "Curtis LeMay, Bill Lear (mentioned as associates of Townsend Brown)"
+      ],
+      "locations": [
+        "Fayetteville, North Carolina (Bledsoe's home)",
+        "Cape Canaveral, Florida (NASA facilities)",
+        "Zanesville, Ohio (Townsend Brown's birthplace, metal recovery site)",
+        "Indian Serpent Mound, Ohio (near metal fall site)",
+        "Nassau, Bahamas (claimed location of time travel group)",
+        "University of North Carolina, Chapel Hill (anti-gravity research history)"
+      ],
+      "organizations": [
+        "NASA",
+        "CIA",
+        "Army Futures Command",
+        "University of North Carolina at Chapel Hill",
+        "Australian nuclear program (referenced by Harry Turner)",
+        "Area 51 (mentioned on Taylor's credentials)",
+        "Martin Vega (aerospace company mentioned)"
+      ],
+      "items": [
+        "Gold pin signifying 'off-planet' experience (given by Taylor)",
+        "Postage-stamp-size gray metal (used in testing)",
+        "Second metal like aluminum foil that doesn't crease",
+        "Red glowing metal piece from UFO (recovered in Zanesville, later sawed and distributed)"
+      ],
+      "references": [
+        "Book: UFO of God by Chris Bledsoe",
+        "Book: American Cosmic by Diana Pasulka",
+        "Book: Launch Fever by Tim Taylor (autobiography)",
+        "Book by Linda Brown (unspecified title)",
+        "Movie: The Adjustment Bureau (based on Philip K. Dick story)",
+        "YouTube channel of Tim Taylor (showing NASA access)",
+        "FBI document on Townsend Brown (cited by host)",
+        "Declassified documents on UNC anti-gravity research (cited by host)"
+      ]
+    }
+  },
+  "ingestion": {},
+  "chunks": [],
+  "ner_results": [],
+  "embeddable_texts": [],
+  "metadata": {
+    "provenance": "https://www.youtube.com/watch?v=bM18PJY6_Zc",
+    "filename_hint": "Why NASA Studies This Man (He Attracts UFOs!)",
+    "prompts_dir": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/ai/prompts"
+  },
+  "errors": [
+    "All LLM providers failed (anthropic/claude-sonnet-5: skipped (HTTP 400); anthropic/claude-opus-4-8: skipped (HTTP 400); deepseek/deepseek-v4-pro: BudgetExhausted: deepseek/deepseek-v4-pro: max_tokens=4096 consumed before any answer was emitted (reasoning=True); raise max_tokens; together/kimi-k3: BudgetExhausted: together/kimi-k3: max_tokens=4096 consumed before any answer was emitted (reasoning=True); raise max_tokens; openai/gpt-5.5: skipped (HTTP 401); groq/gpt-oss-120b: skipped (HTTP 401))"
+  ],
+  "prompts_used": [
+    "document_classification",
+    "disclosure.content_analysis",
+    "rag_ingestion"
+  ]
+}

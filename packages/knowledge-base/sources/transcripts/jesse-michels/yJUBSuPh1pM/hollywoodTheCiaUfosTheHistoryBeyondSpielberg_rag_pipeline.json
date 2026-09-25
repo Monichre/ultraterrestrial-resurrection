@@ -1,0 +1,36 @@
+{
+  "status": "error",
+  "classification": {
+    "content_type": "media",
+    "primary_record_hints": [
+      "Testimony",
+      "KeyFigure",
+      "Event"
+    ],
+    "hynek_scaffold": null,
+    "classification_marks_detected": [],
+    "language": "en",
+    "ocr_quality": "n/a",
+    "sensitivity": "public",
+    "ingestion_recommendation": "proceed_with_caution",
+    "rationale": "Transcript of a public media interview discussing Hollywood-UFO connections, personal testimonies, and alleged government interactions. Contains extraordinary claims warranting caution but from identifiable sources.",
+    "confidence": 0.9
+  },
+  "analysis": {},
+  "ingestion": {},
+  "chunks": [],
+  "ner_results": [],
+  "embeddable_texts": [],
+  "metadata": {
+    "provenance": "https://www.youtube.com/watch?v=yJUBSuPh1pM",
+    "filename_hint": "Hollywood, The CIA & UFOs: The History Beyond Spielberg",
+    "prompts_dir": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/ai/prompts"
+  },
+  "errors": [
+    "Expecting ',' delimiter: line 86 column 8 (char 8327)"
+  ],
+  "prompts_used": [
+    "document_classification",
+    "disclosure.content_analysis"
+  ]
+}

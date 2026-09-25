@@ -1,0 +1,883 @@
+{
+  "status": "completed",
+  "video_id": "LGQkkHuwm6w",
+  "summary_file": "/Users/liamellis/Desktop/ultraterrestrial-resurrection/packages/knowledge-base/transcripts/2025-09-18/LGQkkHuwm6w/johnLear1987Summary.txt",
+  "entities": {
+    "topics": [
+      "Bentwaters UFO Incident",
+      "Roswell Incident",
+      "MJ-12",
+      "Presidential UFO Sightings",
+      "Official UFO Documentation"
+    ],
+    "personnel": [
+      "John Lear",
+      "Colonel Halt",
+      "General Gordon Williams",
+      "Leonard Stringfield",
+      "President Carter",
+      "President Reagan",
+      "Bruce Maccabee"
+    ],
+    "events": [
+      "Bentwaters UFO Incident",
+      "Roswell Incident",
+      "President Carter's UFO Sighting",
+      "President Reagan's UN Speech (1987)",
+      "Japan Airlines UFO Incident"
+    ],
+    "organizations": [
+      "MJ-12",
+      "US Air Force Academy",
+      "Naval Surface Weapons Laboratory"
+    ],
+    "locations": [
+      "RAF Bentwaters",
+      "Roswell, New Mexico",
+      "United Nations General Assembly"
+    ],
+    "artifacts": [
+      "Colonel Halt memo",
+      "Audio tape recording (Bentwaters)",
+      "Army surgeon's drawings and autopsy report"
+    ],
+    "sightings": [
+      "",
+      "",
+      "",
+      ""
+    ]
+  },
+  "xata_search_results": {
+    "topics": [
+      {
+        "entity_name": "Bentwaters UFO Incident",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Roswell Incident",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "MJ-12",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Presidential UFO Sightings",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Official UFO Documentation",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Bentwaters UFO Incident",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Roswell Incident",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "MJ-12",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Presidential UFO Sightings",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Official UFO Documentation",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": "create_new",
+        "error": null
+      }
+    ],
+    "personnel": [
+      {
+        "entity_name": "John Lear",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "personnel",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Colonel Halt",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "personnel",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "General Gordon Williams",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "personnel",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Leonard Stringfield",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "personnel",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "President Carter",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "personnel",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "President Reagan",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "personnel",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Bruce Maccabee",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "personnel",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "John Lear",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "personnel",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Colonel Halt",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "personnel",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "General Gordon Williams",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "personnel",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Leonard Stringfield",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "personnel",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "President Carter",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "personnel",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "President Reagan",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "personnel",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Bruce Maccabee",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "personnel",
+        "action_needed": "create_new",
+        "error": null
+      }
+    ],
+    "events": [
+      {
+        "entity_name": "Bentwaters UFO Incident",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "events",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Roswell Incident",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "events",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "President Carter's UFO Sighting",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "events",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "President Reagan's UN Speech (1987)",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "events",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Japan Airlines UFO Incident",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "events",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Bentwaters UFO Incident",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "events",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Roswell Incident",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "events",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "President Carter's UFO Sighting",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "events",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "President Reagan's UN Speech (1987)",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "events",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Japan Airlines UFO Incident",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "events",
+        "action_needed": "create_new",
+        "error": null
+      }
+    ],
+    "organizations": [
+      {
+        "entity_name": "MJ-12",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "US Air Force Academy",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Naval Surface Weapons Laboratory",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "MJ-12",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "US Air Force Academy",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Naval Surface Weapons Laboratory",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      }
+    ],
+    "locations": [
+      {
+        "entity_name": "RAF Bentwaters",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "locations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Roswell, New Mexico",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "locations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "United Nations General Assembly",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "locations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "RAF Bentwaters",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "locations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Roswell, New Mexico",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "locations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "United Nations General Assembly",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "locations",
+        "action_needed": "create_new",
+        "error": null
+      }
+    ],
+    "artifacts": [
+      {
+        "entity_name": "Colonel Halt memo",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "artifacts",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Audio tape recording (Bentwaters)",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "artifacts",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Army surgeon's drawings and autopsy report",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "artifacts",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Colonel Halt memo",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "artifacts",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Audio tape recording (Bentwaters)",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "artifacts",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Army surgeon's drawings and autopsy report",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "artifacts",
+        "action_needed": "create_new",
+        "error": null
+      }
+    ],
+    "sightings": [
+      {
+        "entity_name": "",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "sightings",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "sightings",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "sightings",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "sightings",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "sightings",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "sightings",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "sightings",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "sightings",
+        "action_needed": "create_new",
+        "error": null
+      }
+    ]
+  },
+  "entity_creation_results": {
+    "created_entities": {
+      "topics": [],
+      "personnel": [],
+      "events": [],
+      "organizations": [],
+      "locations": [],
+      "artifacts": [],
+      "sightings": []
+    },
+    "failed_creations": {
+      "topics": [
+        {
+          "entity_name": "Bentwaters UFO Incident",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Roswell Incident",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "MJ-12",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Presidential UFO Sightings",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Official UFO Documentation",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Bentwaters UFO Incident",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Roswell Incident",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "MJ-12",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Presidential UFO Sightings",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Official UFO Documentation",
+          "error": "Batch creation failed"
+        }
+      ],
+      "personnel": [
+        {
+          "entity_name": "John Lear",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Colonel Halt",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "General Gordon Williams",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Leonard Stringfield",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "President Carter",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "President Reagan",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Bruce Maccabee",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "John Lear",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Colonel Halt",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "General Gordon Williams",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Leonard Stringfield",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "President Carter",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "President Reagan",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Bruce Maccabee",
+          "error": "Batch creation failed"
+        }
+      ],
+      "events": [
+        {
+          "entity_name": "Bentwaters UFO Incident",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Roswell Incident",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "President Carter's UFO Sighting",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "President Reagan's UN Speech (1987)",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Japan Airlines UFO Incident",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Bentwaters UFO Incident",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Roswell Incident",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "President Carter's UFO Sighting",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "President Reagan's UN Speech (1987)",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Japan Airlines UFO Incident",
+          "error": "Batch creation failed"
+        }
+      ],
+      "organizations": [
+        {
+          "entity_name": "MJ-12",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "US Air Force Academy",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Naval Surface Weapons Laboratory",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "MJ-12",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "US Air Force Academy",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Naval Surface Weapons Laboratory",
+          "error": "Batch creation failed"
+        }
+      ],
+      "locations": [
+        {
+          "entity_name": "RAF Bentwaters",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Roswell, New Mexico",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "United Nations General Assembly",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "RAF Bentwaters",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Roswell, New Mexico",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "United Nations General Assembly",
+          "error": "Batch creation failed"
+        }
+      ],
+      "artifacts": [
+        {
+          "entity_name": "Colonel Halt memo",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Audio tape recording (Bentwaters)",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Army surgeon's drawings and autopsy report",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Colonel Halt memo",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Audio tape recording (Bentwaters)",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Army surgeon's drawings and autopsy report",
+          "error": "Batch creation failed"
+        }
+      ],
+      "sightings": [
+        {
+          "entity_name": "",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "",
+          "error": "Batch creation failed"
+        }
+      ]
+    },
+    "statistics": {
+      "total_processed": 60,
+      "total_created": 0,
+      "total_failed": 60
+    },
+    "errors": []
+  },
+  "total_entities": 30,
+  "total_matches": 60,
+  "total_created": 0
+}

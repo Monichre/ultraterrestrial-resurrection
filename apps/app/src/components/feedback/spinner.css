@@ -1,0 +1,20 @@
+.assembling-spinner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.assembling-spinner__visual {
+  width: var(--icon-size-md);
+  height: var(--icon-size-md);
+  border: 2px solid var(--color-border-primary);
+  border-top-color: var(--color-primary);
+  border-radius: var(--radius-full);
+  animation: assembling-spinner-rotate var(--duration-slow) linear infinite;
+}
+
+@keyframes assembling-spinner-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}

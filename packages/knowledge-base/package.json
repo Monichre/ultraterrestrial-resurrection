@@ -1,0 +1,35 @@
+{
+  "name": "@knowledge-base",
+  "version": "0.1.0",
+  "description": "Shared knowledge base for UFO/UAP data across applications",
+  "main": "./index.ts",
+  "module": "./index.ts",
+  "types": "./index.ts",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": "./index.ts",
+      "types": "./index.ts"
+    },
+    "./files": "./sources/files",
+    "./transcripts": "./sources/transcripts",
+    "./web": "./sources/web",
+    "./metadata": "./metadata"
+  },
+  "files": [
+    "index.ts",
+    "types.d.ts",
+    "sources",
+    "derived",
+    "metadata",
+    "docs"
+  ],
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5.0.0"
+  }
+}

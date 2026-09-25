@@ -1,0 +1,351 @@
+/* Vintage dossier material — Microfilm Dark archival (product register) */
+
+.vd-blotter {
+  position: relative;
+  isolation: isolate;
+  min-height: 100%;
+  background-color: oklch(0.16 0.006 85);
+  background-image:
+    url('/textures/paper/inflicted-grid.png'), url('/textures/paper/fabric-of-squares.png'),
+    linear-gradient(165deg, oklch(0.2 0.008 85) 0%, oklch(0.14 0.006 85) 100%);
+  background-size:
+    240px 240px,
+    400px 400px,
+    auto;
+  background-repeat: repeat, repeat, no-repeat;
+  background-blend-mode: soft-light, overlay, normal;
+}
+
+.vd-blotter::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: url('/textures/paper/debut-twill.png');
+  background-size: 180px 180px;
+  opacity: 0.22;
+  mix-blend-mode: soft-light;
+}
+
+.vd-blotter > * {
+  position: relative;
+  z-index: 1;
+}
+
+.vd-card {
+  --vd-ink: oklch(0.22 0.012 85);
+  --vd-ink-dim: oklch(0.38 0.01 85);
+  --vd-ink-faint: oklch(0.52 0.008 85);
+  --vd-rule: oklch(0.22 0.012 85 / 0.16);
+  --vd-stock: oklch(0.94 0.018 95);
+  --vd-stock-deep: oklch(0.9 0.022 92);
+  --vd-stamp: oklch(0.58 0.19 27);
+  --vd-mono: var(--font-martian-mono, 'Martian Mono', ui-monospace, monospace);
+  --vd-display: var(--font-special-elite, 'Special Elite', 'Courier New', monospace);
+
+  position: relative;
+  width: 100%;
+  max-width: 42rem;
+  margin-inline: auto;
+  padding: 1.75rem 1.5rem 2rem;
+  color: var(--vd-ink);
+  background-color: var(--vd-stock);
+  background-image:
+    url('/textures/paper/debut-twill.png'), url('/textures/paper/groove-paper.png'),
+    linear-gradient(180deg, oklch(0.96 0.016 95) 0%, var(--vd-stock) 40%, var(--vd-stock-deep) 100%);
+  background-size:
+    150px 150px,
+    220px 220px,
+    auto;
+  background-blend-mode: multiply, multiply, normal;
+  border: 1px solid oklch(0.22 0.012 85 / 0.12);
+  border-radius: 2px;
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
+  box-shadow:
+    0 1px 0 oklch(1 0 0 / 0.45) inset,
+    0 2px 4px oklch(0.2 0.02 85 / 0.08),
+    0 18px 36px oklch(0.1 0.01 85 / 0.45);
+}
+
+.vd-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url('/textures/paper/grid-noise.png');
+  background-size: 160px 160px;
+  opacity: 0.06;
+  mix-blend-mode: multiply;
+}
+
+.vd-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+  background: linear-gradient(225deg, transparent 50%, oklch(0.22 0.012 85 / 0.12) 50%);
+}
+
+.vd-file-ref {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 1rem;
+  font-family: var(--vd-mono);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--vd-ink-faint);
+}
+
+.vd-stamp {
+  position: absolute;
+  top: 1rem;
+  right: 1.25rem;
+  z-index: 2;
+  font-family: var(--vd-mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--vd-stamp);
+  border: 1px solid var(--vd-stamp);
+  padding: 0.28rem 0.45rem;
+  background: oklch(0.96 0.02 95 / 0.72);
+  transform: rotate(-2.5deg);
+  box-shadow: 0 1px 0 oklch(0.58 0.19 27 / 0.15);
+}
+
+.vd-stamp[data-level='secret'] {
+  color: oklch(0.52 0.14 55);
+  border-color: oklch(0.52 0.14 55);
+}
+
+.vd-stamp[data-level='confidential'] {
+  color: oklch(0.45 0.08 85);
+  border-color: oklch(0.45 0.08 85);
+}
+
+.vd-stamp[data-level='unclassified'] {
+  color: oklch(0.4 0.06 145);
+  border-color: oklch(0.4 0.06 145);
+}
+
+.vd-header {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--vd-rule);
+}
+
+.vd-title {
+  margin: 0;
+  font-family: var(--vd-display);
+  font-size: 1.65rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  line-height: 1.15;
+  color: var(--vd-ink);
+  text-transform: uppercase;
+}
+
+.vd-meta-line {
+  margin: 0.4rem 0 0;
+  font-family: var(--vd-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--vd-ink-dim);
+}
+
+.vd-location {
+  margin: 0.25rem 0 0;
+  font-family: var(--vd-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--vd-ink-faint);
+}
+
+.vd-body {
+  position: relative;
+  z-index: 1;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: var(--vd-ink);
+}
+
+.vd-body .vd-label {
+  font-family: var(--vd-mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--vd-ink-faint);
+}
+
+.vd-rule {
+  border: 0;
+  border-top: 1px solid var(--vd-rule);
+  margin: 0.85rem 0;
+}
+
+.vd-code-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.65rem 1.25rem;
+  font-family: var(--vd-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--vd-ink);
+}
+
+.vd-diagram {
+  position: relative;
+  margin-top: 0.85rem;
+  min-height: 5.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--vd-rule);
+  background:
+    linear-gradient(180deg, oklch(0.92 0.014 95) 0%, oklch(0.88 0.016 92) 100%),
+    url('/textures/paper/inflicted-grid.png');
+  background-size:
+    auto,
+    180px 180px;
+  background-blend-mode: normal, multiply;
+  color: var(--vd-ink-faint);
+  font-family: var(--vd-mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.vd-diagram-stamp {
+  position: absolute;
+  right: 0.65rem;
+  bottom: 0.55rem;
+  font-family: var(--vd-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: oklch(0.96 0.01 95);
+  background: var(--vd-ink);
+  padding: 0.28rem 0.45rem;
+  transform: rotate(1.5deg);
+}
+
+.vd-insert {
+  border: 1px solid var(--vd-rule);
+  background: oklch(0.93 0.03 95 / 0.65);
+  padding: 0.85rem 1rem;
+  position: relative;
+}
+
+.vd-witness {
+  border: 1px solid var(--vd-rule);
+  background: oklch(0.96 0.012 95 / 0.7);
+  padding: 0.65rem 0.85rem;
+  margin-bottom: 0.65rem;
+}
+
+.vd-witness-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.35rem;
+  font-family: var(--vd-mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--vd-ink-faint);
+}
+
+.vd-mark {
+  display: inline-block;
+  font-family: var(--vd-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: 1px solid currentColor;
+  padding: 0.25rem 0.45rem;
+  background: oklch(0.96 0.01 95 / 0.7);
+}
+
+.vd-mark--priority {
+  color: var(--vd-stamp);
+  transform: rotate(-1.5deg);
+}
+
+.vd-mark--eyes {
+  color: var(--vd-ink);
+  transform: rotate(2deg);
+}
+
+.vd-demo-title {
+  font-family: var(--vd-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: oklch(0.93 0.015 90 / 0.55);
+  margin: 0 0 0.5rem;
+}
+
+.vd-demo-heading {
+  font-family: var(--vd-display);
+  font-size: 1.5rem;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: oklch(0.93 0.015 90);
+  margin: 0 0 2rem;
+}
+
+.vd-demo-section-label {
+  font-family: var(--vd-mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: oklch(0.93 0.015 90 / 0.45);
+  margin: 0 0 0.85rem;
+}
+
+.vd-demo-usage {
+  margin-top: 3rem;
+  border: 1px solid oklch(0.87 0.02 85 / 0.14);
+  background: oklch(0.21 0.008 85 / 0.88);
+  padding: 1.25rem 1.35rem;
+  color: oklch(0.93 0.015 90 / 0.72);
+}
+
+.vd-demo-usage pre {
+  margin: 0.75rem 0 0;
+  overflow-x: auto;
+  font-family: var(--vd-mono);
+  font-size: 11px;
+  line-height: 1.55;
+  color: oklch(0.93 0.015 90 / 0.78);
+}
+
+.vd-mono {
+  font-family: var(--vd-mono);
+}
+
+.vd-ink-dim {
+  color: var(--vd-ink-dim);
+}
+
+.vd-ink-faint {
+  color: var(--vd-ink-faint);
+}
+
+.vd-stamp-color {
+  color: var(--vd-stamp);
+}

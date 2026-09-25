@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnostic Architecture // Model Teardown</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+<body class="bg-black text-zinc-300 w-screen h-screen overflow-hidden font-sans select-none antialiased relative" style="scrollbar-width: none;">
+
+    <!-- Background Structure: Halftone Dither & Technical Grid -->
+    <div class="absolute inset-0 pointer-events-none z-0 opacity-20" style="background-image: radial-gradient(circle at center, #3f3f46 0.5px, transparent 1px); background-size: 4px 4px;"></div>
+    <div class="absolute inset-0 pointer-events-none z-0 opacity-[0.03]" style="background-image: linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px); background-size: 64px 64px;"></div>
+    <div class="absolute inset-0 pointer-events-none z-0 bg-[radial-gradient(circle_at_center,transparent_20%,#000000_100%)]"></div>
+
+    <!-- Diagnostic Framing Lines -->
+    <div class="absolute inset-6 border border-zinc-900 pointer-events-none z-10 rounded-sm"></div>
+    <div class="absolute inset-0 pointer-events-none z-10 flex flex-col justify-between p-6 opacity-40">
+        <!-- Corner Reticles -->
+        <svg class="absolute top-4 left-4 w-6 h-6 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1"><path d="M6 18v-8a2 2 0 012-2h8"></path></svg>
+        <svg class="absolute top-4 right-4 w-6 h-6 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1"><path d="M18 18v-8a2 2 0 00-2-2h-8"></path></svg>
+        <svg class="absolute bottom-4 left-4 w-6 h-6 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1"><path d="M6 6v8a2 2 0 002 2h8"></path></svg>
+        <svg class="absolute bottom-4 right-4 w-6 h-6 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1"><path d="M18 6v8a2 2 0 01-2 2h-8"></path></svg>
+    </div>
+
+    <!-- Global Header -->
+    <header class="absolute top-0 left-0 right-0 z-30 p-10 flex justify-between items-start pointer-events-none">
+        <div class="flex flex-col gap-1.5 pointer-events-auto">
+            <div class="flex items-center gap-2 text-zinc-500">
+                <iconify-icon icon="solar:server-square-linear" width="16" stroke-width="1.5"></iconify-icon>
+                <span class="text-xs font-light tracking-widest uppercase">Kernel.Diagnostic_v4.2</span>
+            </div>
+            <h1 class="text-xl font-medium tracking-tight text-white uppercase">Architecture Teardown</h1>
+        </div>
+
+        <div class="flex gap-12 text-zinc-500 text-xs uppercase tracking-widest font-light pointer-events-auto">
+            <div class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors duration-300">
+                <span class="w-1.5 h-1.5 rounded-full bg-zinc-700"></span>
+                <span>Topology</span>
+            </div>
+            <div class="flex items-center gap-2 text-white">
+                <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+                <span>Wireframe</span>
+            </div>
+            <div class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors duration-300">
+                <span class="w-1.5 h-1.5 rounded-full bg-zinc-700"></span>
+                <span>Metrics</span>
+            </div>
+        </div>
+
+        <div class="flex flex-col items-end gap-2 pointer-events-auto">
+            <div class="flex gap-1">
+                <div class="w-6 h-1 bg-white rounded-full"></div>
+                <div class="w-2 h-1 bg-zinc-700 rounded-full"></div>
+                <div class="w-2 h-1 bg-zinc-700 rounded-full"></div>
+            </div>
+            <span class="text-xs font-light tracking-widest text-zinc-500 uppercase">System Nominal</span>
+        </div>
+    </header>
+
+    <!-- Side Diagnostic Panels -->
+    <!-- Left: Status & Allocation -->
+    <aside class="absolute left-10 top-1/2 -translate-y-1/2 z-20 flex flex-col gap-12 w-48 pointer-events-none">
+        <div class="flex flex-col gap-4 pointer-events-auto">
+            <h2 class="text-xs font-light tracking-widest text-zinc-500 uppercase border-b border-zinc-800 pb-2">Active Nodes</h2>
+            <div class="flex flex-col gap-3">
+                <div class="flex justify-between items-center text-xs">
+                    <span class="font-light text-zinc-400">Primary</span>
+                    <span class="font-mono text-zinc-300">0x8A</span>
+                </div>
+                <div class="flex justify-between items-center text-xs">
+                    <span class="font-light text-zinc-400">Secondary</span>
+                    <span class="font-mono text-zinc-300">0x2F</span>
+                </div>
+                <div class="flex justify-between items-center text-xs">
+                    <span class="font-light text-zinc-600">Auxiliary</span>
+                    <span class="font-mono text-zinc-600">IDLE</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col gap-4 pointer-events-auto">
+            <h2 class="text-xs font-light tracking-widest text-zinc-500 uppercase border-b border-zinc-800 pb-2">Load Dist</h2>
+            <div class="flex flex-col gap-2">
+                <div class="flex flex-col gap-1.5">
+                    <div class="flex justify-between text-[10px] font-light uppercase tracking-widest text-zinc-400">
+                        <span>Core</span>
+                        <span>78%</span>
+                    </div>
+                    <div class="w-full h-[2px] bg-zinc-900 rounded-full overflow-hidden">
+                        <div class="h-full bg-zinc-300 w-[78%]"></div>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-1.5">
+                    <div class="flex justify-between text-[10px] font-light uppercase tracking-widest text-zinc-400">
+                        <span>Memory</span>
+                        <span>42%</span>
+                    </div>
+                    <div class="w-full h-[2px] bg-zinc-900 rounded-full overflow-hidden">
+                        <div class="h-full bg-zinc-500 w-[42%]"></div>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-1.5">
+                    <div class="flex justify-between text-[10px] font-light uppercase tracking-widest text-zinc-400">
+                        <span>Thermal</span>
+                        <span>12%</span>
+                    </div>
+                    <div class="w-full h-[2px] bg-zinc-900 rounded-full overflow-hidden">
+                        <div class="h-full bg-zinc-700 w-[12%]"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Right: Telemetry Log -->
+    <aside class="absolute right-10 top-1/2 -translate-y-1/2 z-20 flex flex-col gap-4 w-56 pointer-events-none">
+        <h2 class="text-xs font-light tracking-widest text-zinc-500 uppercase border-b border-zinc-800 pb-2 text-right pointer-events-auto">Telemetry Stream</h2>
+        <div class="flex flex-col gap-2 text-[10px] font-mono tracking-wider text-right pointer-events-auto opacity-70">
+            <div class="text-zinc-400">T-04:12 <span class="text-zinc-600 ml-2">SYNC_ESTABLISHED</span></div>
+            <div class="text-zinc-400">T-04:13 <span class="text-zinc-600 ml-2">MOUNTING_VOLUMES</span></div>
+            <div class="text-zinc-400">T-04:13 <span class="text-zinc-600 ml-2">VERIFYING_CACHE</span></div>
+            <div class="text-zinc-300">T-04:14 <span class="text-white ml-2 border border-zinc-700 px-1">RENDERING_MESH</span></div>
+            <div class="text-zinc-500">T-04:15 <span class="text-zinc-700 ml-2">AWAITING_INPUT</span></div>
+        </div>
+    </aside>
+
+    <!-- Main Central Wireframe Centerpiece -->
+    <main class="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
+        <div class="relative w-full max-w-[1200px] h-full flex items-center justify-center">
+
+            <svg class="w-full h-[80%] overflow-visible" viewBox="0 0 1000 800" preserveAspectRatio="xMidYMid meet">
+                <defs>
+                    <!-- Precise technical dashed patterns -->
+                    <pattern id="grid-pattern" width="20" height="20" patternUnits="userSpaceOnUse">
+                        <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#27272a" stroke-width="0.5" />
+                    </pattern>
+                </defs>
+
+                <!-- Center Axis Line -->
+                <line x1="500" y1="100" x2="500" y2="720" stroke="#3f3f46" stroke-width="1" stroke-dasharray="4 8" />
+
+                <!-- 3D Exploded Wireframe Layers -->
+                <g id="wireframe-group">
+
+                    <!-- LAYER 4: Base Plate -->
+                    <g class="exploded-layer" data-y="0">
+                        <ellipse cx="500" cy="650" rx="320" ry="100" fill="none" stroke="#52525b" stroke-width="1.5" />
+                        <ellipse cx="500" cy="650" rx="290" ry="90" fill="none" stroke="#3f3f46" stroke-width="1" stroke-dasharray="2 4" />
+                        <ellipse cx="500" cy="650" rx="150" ry="45" fill="none" stroke="#27272a" stroke-width="1" />
+                        <!-- Floor mesh grid -->
+                        <path d="M 180 650 Q 500 750 820 650" fill="none" stroke="#27272a" stroke-width="1" />
+                        <path d="M 210 650 Q 500 720 790 650" fill="none" stroke="#27272a" stroke-width="1" />
+                        <path d="M 350 650 Q 500 680 650 650" fill="none" stroke="#27272a" stroke-width="1" />
+                        <!-- Base Spoke Lines -->
+                        <line x1="180" y1="650" x2="820" y2="650" stroke="#3f3f46" stroke-width="0.5" />
+                        <line x1="500" y1="550" x2="500" y2="750" stroke="#3f3f46" stroke-width="0.5" />
+                    </g>
+
+                    <!-- Vertical Struts L3 to L4 -->
+                    <g class="struts">
+                        <line x1="260" y1="500" x2="180" y2="650" stroke="#3f3f46" stroke-width="1" />
+                        <line x1="740" y1="500" x2="820" y2="650" stroke="#3f3f46" stroke-width="1" />
+                        <line x1="350" y1="500" x2="290" y2="650" stroke="#27272a" stroke-width="1" stroke-dasharray="2 4" />
+                        <line x1="650" y1="500" x2="710" y2="650" stroke="#27272a" stroke-width="1" stroke-dasharray="2 4" />
+                    </g>
+
+                    <!-- LAYER 3: Magnetic Housing -->
+                    <g class="exploded-layer" data-y="0">
+                        <ellipse cx="500" cy="500" rx="240" ry="80" fill="rgba(0,0,0,0.8)" stroke="#71717a" stroke-width="1.5" />
+                        <ellipse cx="500" cy="500" rx="200" ry="66" fill="none" stroke="#52525b" stroke-width="1" stroke-dasharray="4 4" />
+                        <ellipse cx="500" cy="500" rx="100" ry="33" fill="none" stroke="#3f3f46" stroke-width="1" />
+                        <!-- Inner Spokes -->
+                        <line x1="260" y1="500" x2="740" y2="500" stroke="#3f3f46" stroke-width="1" />
+                        <line x1="330" y1="443" x2="670" y2="557" stroke="#3f3f46" stroke-width="0.5" />
+                        <line x1="330" y1="557" x2="670" y2="443" stroke="#3f3f46" stroke-width="0.5" />
+                    </g>
+
+                    <!-- Vertical Struts L2 to L3 -->
+                    <g class="struts">
+                        <line x1="320" y1="350" x2="260" y2="500" stroke="#52525b" stroke-width="1" />
+                        <line x1="680" y1="350" x2="740" y2="500" stroke="#52525b" stroke-width="1" />
+                    </g>
+
+                    <!-- LAYER 2: Resonance Ring -->
+                    <g class="exploded-layer" data-y="0">
+                        <ellipse cx="500" cy="350" rx="180" ry="60" fill="rgba(0,0,0,0.8)" stroke="#a1a1aa" stroke-width="1.5" />
+                        <ellipse cx="500" cy="350" rx="150" ry="50" fill="none" stroke="#71717a" stroke-width="1" />
+                        <ellipse cx="500" cy="350" rx="120" ry="40" fill="none" stroke="#52525b" stroke-width="1" stroke-dasharray="2 4" />
+                        <!-- Core Mesh -->
+                        <path d="M 320 350 A 180 60 0 0 0 680 350" fill="none" stroke="#52525b" stroke-width="1" />
+                        <line x1="320" y1="350" x2="680" y2="350" stroke="#52525b" stroke-width="1" />
+                    </g>
+
+                    <!-- Vertical Struts L1 to L2 -->
+                    <g class="struts">
+                        <line x1="380" y1="200" x2="320" y2="350" stroke="#71717a" stroke-width="1" />
+                        <line x1="620" y1="200" x2="680" y2="350" stroke="#71717a" stroke-width="1" />
+                        <rect x="480" y="200" width="40" height="150" fill="none" stroke="#3f3f46" stroke-width="1" stroke-dasharray="2 4" />
+                    </g>
+
+                    <!-- LAYER 1: Primary Capacitor (Top) -->
+                    <g class="exploded-layer" data-y="0">
+                        <ellipse cx="500" cy="200" rx="120" ry="40" fill="rgba(0,0,0,0.9)" stroke="#e4e4e7" stroke-width="2" />
+                        <ellipse cx="500" cy="200" rx="100" ry="33" fill="none" stroke="#a1a1aa" stroke-width="1" />
+                        <circle cx="500" cy="200" r="15" fill="none" stroke="#ffffff" stroke-width="1" />
+                        <circle cx="500" cy="200" r="5" fill="#ffffff" />
+                        <line x1="380" y1="200" x2="620" y2="200" stroke="#71717a" stroke-width="1" />
+                        <line x1="500" y1="160" x2="500" y2="240" stroke="#71717a" stroke-width="1" />
+                    </g>
+
+                </g>
+
+                <!-- Annotations & Connector Lines -->
+                <g id="annotations-group" class="opacity-0">
+
+                    <!-- A1: Top Capacitor -->
+                    <g class="annotation">
+                        <path class="connector-line" d="M 440 180 L 300 110 L 180 110" fill="none" stroke="#a1a1aa" stroke-width="1" />
+                        <circle cx="440" cy="180" r="2" fill="#ffffff" />
+                        <rect x="180" y="108" width="4" height="4" fill="#a1a1aa" />
+                        <text x="165" y="105" class="text-xs font-light tracking-widest uppercase fill-zinc-300" text-anchor="end">Capacitor Array</text>
+                        <text x="165" y="120" class="text-[9px] font-mono tracking-widest uppercase fill-zinc-500" text-anchor="end">0.004 MS ALLOC</text>
+                    </g>
+
+                    <!-- A2: Resonance Ring -->
+                    <g class="annotation">
+                        <path class="connector-line" d="M 660 330 L 750 260 L 850 260" fill="none" stroke="#71717a" stroke-width="1" />
+                        <circle cx="660" cy="330" r="2" fill="#a1a1aa" />
+                        <rect x="846" y="258" width="4" height="4" fill="#71717a" />
+                        <text x="865" y="255" class="text-xs font-light tracking-widest uppercase fill-zinc-300" text-anchor="start">Resonance Ring</text>
+                        <text x="865" y="270" class="text-[9px] font-mono tracking-widest uppercase fill-zinc-500" text-anchor="start">FREQ: 44.2 THz</text>
+                    </g>
+
+                    <!-- A3: Magnetic Housing -->
+                    <g class="annotation">
+                        <path class="connector-line" d="M 280 480 L 180 430 L 100 430" fill="none" stroke="#71717a" stroke-width="1" />
+                        <circle cx="280" cy="480" r="2" fill="#a1a1aa" />
+                        <rect x="100" y="428" width="4" height="4" fill="#71717a" />
+                        <text x="85" y="425" class="text-xs font-light tracking-widest uppercase fill-zinc-300" text-anchor="end">Magnetic Housing</text>
+                        <text x="85" y="440" class="text-[9px] font-mono tracking-widest uppercase fill-zinc-500" text-anchor="end">TEMP: 2.4K // NOMINAL</text>
+                    </g>
+
+                    <!-- A4: Base Manifold -->
+                    <g class="annotation">
+                        <path class="connector-line" d="M 760 620 L 820 580 L 900 580" fill="none" stroke="#52525b" stroke-width="1" />
+                        <circle cx="760" cy="620" r="2" fill="#71717a" />
+                        <rect x="896" y="578" width="4" height="4" fill="#52525b" />
+                        <text x="915" y="575" class="text-xs font-light tracking-widest uppercase fill-zinc-400" text-anchor="start">Base Manifold</text>
+                        <text x="915" y="590" class="text-[9px] font-mono tracking-widest uppercase fill-zinc-600" text-anchor="start">STRUCTURAL GROUND</text>
+                    </g>
+                </g>
+
+            </svg>
+
+        </div>
+    </main>
+
+    <!-- Bottom Control & Analysis Bar -->
+    <footer class="absolute bottom-10 left-10 right-10 z-30 flex justify-between items-end pointer-events-none">
+
+        <!-- Action sequence toggles -->
+        <div class="flex items-center gap-2 pointer-events-auto">
+            <button class="w-10 h-10 border border-zinc-700 flex items-center justify-center text-zinc-400 hover:text-white hover:border-zinc-400 transition-colors bg-black/50 backdrop-blur-md">
+                <iconify-icon icon="solar:rewind-back-linear" width="18"></iconify-icon>
+            </button>
+            <button class="w-10 h-10 border border-zinc-500 flex items-center justify-center text-white bg-zinc-900/50 backdrop-blur-md transition-colors">
+                <iconify-icon icon="solar:pause-linear" width="18"></iconify-icon>
+            </button>
+            <button class="w-10 h-10 border border-zinc-700 flex items-center justify-center text-zinc-400 hover:text-white hover:border-zinc-400 transition-colors bg-black/50 backdrop-blur-md">
+                <iconify-icon icon="solar:forward-linear" width="18"></iconify-icon>
+            </button>
+
+            <div class="ml-4 pl-4 border-l border-zinc-800 flex flex-col justify-center h-10">
+                <span class="text-[9px] font-mono text-zinc-500">PLAYBACK</span>
+                <span class="text-xs font-light tracking-wider text-zinc-300 uppercase">Step 04.12</span>
+            </div>
+        </div>
+
+        <!-- Central Timeline -->
+        <div class="absolute left-1/2 -translate-x-1/2 bottom-0 w-full max-w-md flex flex-col gap-2 items-center">
+            <div class="flex justify-between w-full text-[9px] font-mono text-zinc-600 px-1">
+                <span>0.0s</span>
+                <span class="text-white">1.2s</span>
+                <span>2.4s</span>
+                <span>3.6s</span>
+            </div>
+            <div class="w-full flex items-center gap-1">
+                <div class="h-[1px] flex-1 bg-zinc-800"></div>
+                <div class="h-[1px] w-8 bg-zinc-500"></div>
+                <div class="h-[2px] w-16 bg-white relative">
+                    <div class="absolute -top-1 left-full w-2 h-2 border border-white bg-black transform -translate-x-1/2"></div>
+                </div>
+                <div class="h-[1px] w-12 bg-zinc-600"></div>
+                <div class="h-[1px] flex-1 bg-zinc-800"></div>
+            </div>
+        </div>
+
+        <!-- Diagnostic Actions -->
+        <div class="flex gap-4 pointer-events-auto">
+            <div class="flex flex-col items-end gap-1">
+                <span class="text-[9px] font-light tracking-widest text-zinc-500 uppercase">Output Node</span>
+                <div class="border border-zinc-800 px-3 py-1.5 flex items-center gap-3 text-xs text-zinc-300 bg-black backdrop-blur-sm hover:border-zinc-600 cursor-pointer transition-colors">
+                    <span class="w-1.5 h-1.5 bg-zinc-400 rounded-full"></span>
+                    <span class="tracking-wider uppercase">Engage Sys</span>
+                </div>
+            </div>
+            <div class="flex flex-col items-end gap-1">
+                <span class="text-[9px] font-light tracking-widest text-zinc-500 uppercase">Render Mode</span>
+                <div class="border border-zinc-800 px-3 py-1.5 flex items-center gap-3 text-xs text-zinc-300 bg-black backdrop-blur-sm hover:border-zinc-600 cursor-pointer transition-colors">
+                    <iconify-icon icon="solar:maximize-square-linear" width="14"></iconify-icon>
+                    <span class="tracking-wider uppercase">Isolate</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- GSAP Animations -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const tl = gsap.timeline();
+
+            // Setup path lengths for line drawing animation
+            const connectorLines = document.querySelectorAll('.connector-line');
+            connectorLines.forEach(line => {
+                const length = line.getTotalLength();
+                line.style.strokeDasharray = length;
+                line.style.strokeDashoffset = length;
+            });
+
+            // 1. Enter structural layers from center compression
+            tl.fromTo(".exploded-layer",
+                { y: 50, scale: 0.95, opacity: 0 },
+                { y: 0, scale: 1, opacity: 1, duration: 1.5, stagger: 0.15, ease: "power3.out" }
+            );
+
+            // 2. Draw vertical struts
+            tl.fromTo(".struts line, .struts rect",
+                { opacity: 0, scaleY: 0, transformOrigin: "bottom center" },
+                { opacity: 1, scaleY: 1, duration: 1, stagger: 0.05, ease: "power2.out" },
+                "-=1"
+            );
+
+            // 3. Reveal Annotations group and draw lines out
+            tl.to("#annotations-group", { opacity: 1, duration: 0.1 }, "-=0.5");
+            tl.to(".connector-line",
+                { strokeDashoffset: 0, duration: 1.2, stagger: 0.1, ease: "power2.inOut" },
+                "-=0.5"
+            );
+
+            // 4. Fade in annotation text and markers
+            tl.fromTo(".annotation text, .annotation circle, .annotation rect",
+                { opacity: 0, x: (i, el) => el.getAttribute('text-anchor') === 'start' ? -5 : 5 },
+                { opacity: 1, x: 0, duration: 0.8, stagger: 0.05, ease: "power2.out" },
+                "-=0.8"
+            );
+
+            // 5. Continuous slow drift of the exploded layers to feel analytical but alive
+            gsap.to(".exploded-layer:nth-child(1)", { y: -4, duration: 3, repeat: -1, yoyo: true, ease: "sine.inOut", delay: 2 });
+            gsap.to(".exploded-layer:nth-child(3)", { y: -2, duration: 4, repeat: -1, yoyo: true, ease: "sine.inOut", delay: 2.5 });
+            gsap.to(".exploded-layer:nth-child(5)", { y: 2, duration: 3.5, repeat: -1, yoyo: true, ease: "sine.inOut", delay: 2.2 });
+        });
+    </script>
+</body>
+</html>

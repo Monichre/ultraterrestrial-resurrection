@@ -1,0 +1,3570 @@
+{
+  "video_id": "3fkg0uTA3qU",
+  "segment_count": 594,
+  "segments": [
+    {
+      "ordinal": 0,
+      "text": "We're here at the MIT Media Lab. I'm here with \nProfessor William Hahn. The links to his work are",
+      "start": 0.08,
+      "duration": 4.84
+    },
+    {
+      "ordinal": 1,
+      "text": "on screen and in the description, as well as the \nprevious time that we spoke, which was a fantastic",
+      "start": 4.92,
+      "duration": 4.96
+    },
+    {
+      "ordinal": 2,
+      "text": "podcast, and I think people should check it out. \nThank you so much. It's really great to speak with",
+      "start": 9.88,
+      "duration": 4.12
+    },
+    {
+      "ordinal": 3,
+      "text": "you again. I've been looking forward to this \nfor some time now. Thank you. We spoke off-air",
+      "start": 14.0,
+      "duration": 4.88
+    },
+    {
+      "ordinal": 4,
+      "text": "yesterday and the day before. You were actually \nthere for the Jacob Barndes podcast, which is also",
+      "start": 18.88,
+      "duration": 4.52
+    },
+    {
+      "ordinal": 5,
+      "text": "on screen. You had some ideas as to how to unify \nliveness with Stephen Wolfram's work. Please talk",
+      "start": 23.4,
+      "duration": 6.76
+    },
+    {
+      "ordinal": 6,
+      "text": "about that. Yeah, so really the idea is bringing \ntogether ideas from consciousness and computation.",
+      "start": 30.16,
+      "duration": 9.48
+    },
+    {
+      "ordinal": 7,
+      "text": "And so typically when we think of consciousness, \nwe have this kind of light switch view that it's",
+      "start": 39.64,
+      "duration": 5.68
+    },
+    {
+      "ordinal": 8,
+      "text": "either on or off. And there's an idea attributed \nto liveness where it's really a hierarchy. It's",
+      "start": 45.32,
+      "duration": 6.88
+    },
+    {
+      "ordinal": 9,
+      "text": "kind of a ladder of different capabilities. And \nit revolves around the ability to represent your",
+      "start": 52.2,
+      "duration": 6.88
+    },
+    {
+      "ordinal": 10,
+      "text": "ideas, to think about your thinking, and then \nto think about that thinking, and so on. It's",
+      "start": 59.08,
+      "duration": 5.88
+    },
+    {
+      "ordinal": 11,
+      "text": "this hierarchy that goes up. And if we think about \nthe simplest animals, they have the first order,",
+      "start": 64.96,
+      "duration": 9.48
+    },
+    {
+      "ordinal": 12,
+      "text": "things like sensation and response to stimulus, \nbut they don't really have any way of representing",
+      "start": 74.44,
+      "duration": 5.2
+    },
+    {
+      "ordinal": 13,
+      "text": "that response. And it seems that by thinking in \nterms of representation, and then representing",
+      "start": 79.64,
+      "duration": 8.36
+    },
+    {
+      "ordinal": 14,
+      "text": "your representation, where we can have things \nlike language, and then we can build, you know,",
+      "start": 88.0,
+      "duration": 5.2
+    },
+    {
+      "ordinal": 15,
+      "text": "philosophies on top of that language. And it's a \nway of modeling the model, and a way of talking",
+      "start": 93.2,
+      "duration": 7.08
+    },
+    {
+      "ordinal": 16,
+      "text": "about the talking and things. And so we get this \nmore analog, or at least a stepwise approach to",
+      "start": 100.28,
+      "duration": 9.24
+    },
+    {
+      "ordinal": 17,
+      "text": "consciousness, where it's not just on or off, but \nit's kind of this discontinuum. And I think this",
+      "start": 109.52,
+      "duration": 7.72
+    },
+    {
+      "ordinal": 18,
+      "text": "is relevant now, because we're in this age where \nwe're building intelligent machines. And I would",
+      "start": 117.24,
+      "duration": 6.08
+    },
+    {
+      "ordinal": 19,
+      "text": "argue that these machines that we have in the form \nof these modern AIs are quite intelligent. And the",
+      "start": 123.32,
+      "duration": 5.76
+    },
+    {
+      "ordinal": 20,
+      "text": "question now is, do they instantiate something \nlike consciousness? And if so, is it like human",
+      "start": 129.08,
+      "duration": 6.84
+    },
+    {
+      "ordinal": 21,
+      "text": "consciousness? Is it something more like a lower \nanimal, where it's just knee jerk reaction,",
+      "start": 135.92,
+      "duration": 5.68
+    },
+    {
+      "ordinal": 22,
+      "text": "you put in the prompt, and it just spits out the \ntokens? Or does it have some way of knowing what",
+      "start": 141.6,
+      "duration": 5.76
+    },
+    {
+      "ordinal": 23,
+      "text": "it knows and thinking about what it's thinking \nabout? And maybe the current versions that we",
+      "start": 147.36,
+      "duration": 6.16
+    },
+    {
+      "ordinal": 24,
+      "text": "see right now in early 2025 don't. But it seems \nto me almost inevitable that if we keep going in",
+      "start": 153.52,
+      "duration": 7.52
+    },
+    {
+      "ordinal": 25,
+      "text": "this direction, that we will kind of close the \nloop on this thing. That the snake is going to",
+      "start": 161.04,
+      "duration": 5.44
+    },
+    {
+      "ordinal": 26,
+      "text": "bite its tail, and we will bootstrap this thing \nwe call consciousness inside these machines.",
+      "start": 166.48,
+      "duration": 6.52
+    },
+    {
+      "ordinal": 27,
+      "text": "But we might need a kind of graded scale to try to \nunderstand that. And then hopefully this will help",
+      "start": 173.0,
+      "duration": 8.76
+    },
+    {
+      "ordinal": 28,
+      "text": "us understand things like animal consciousness, or \neven higher levels that human consciousness might",
+      "start": 181.76,
+      "duration": 6.6
+    },
+    {
+      "ordinal": 29,
+      "text": "achieve. So when someone says that consciousness \nis a continuum, and it's not a binary on or off,",
+      "start": 188.36,
+      "duration": 5.64
+    },
+    {
+      "ordinal": 30,
+      "text": "I think you can always translate a continuum \nto an on or off by saying, is it zero or",
+      "start": 194.0,
+      "duration": 4.12
+    },
+    {
+      "ordinal": 31,
+      "text": "non-zero? So for instance, we say that a photon is \nchargeless. We don't say it has a little charge.",
+      "start": 198.12,
+      "duration": 6.48
+    },
+    {
+      "ordinal": 32,
+      "text": "Or the electron, we say it's a charged particle, \neven though its charge is minuscule. Right. So",
+      "start": 204.6,
+      "duration": 4.6
+    },
+    {
+      "ordinal": 33,
+      "text": "when you say that consciousness is a continuum \nand it's representations of representations,",
+      "start": 209.2,
+      "duration": 3.84
+    },
+    {
+      "ordinal": 34,
+      "text": "do you believe there are entities, or things, \nor objects, or what have you, that are not",
+      "start": 213.04,
+      "duration": 5.16
+    },
+    {
+      "ordinal": 35,
+      "text": "conscious? Or is it just all conscious? Well, \nI think that's a great question. I think that's",
+      "start": 218.2,
+      "duration": 5.68
+    },
+    {
+      "ordinal": 36,
+      "text": "at the heart of it, is trying to figure out \ndoes this have sort of that threshold? Do",
+      "start": 223.88,
+      "duration": 7.32
+    },
+    {
+      "ordinal": 37,
+      "text": "we want to think about things like rocks, for \nexample, as being conscious? And classically,",
+      "start": 231.2,
+      "duration": 6.08
+    },
+    {
+      "ordinal": 38,
+      "text": "that would have been the pinnacle example of, no, \nclearly it's not. But I would argue that things",
+      "start": 237.28,
+      "duration": 6.68
+    },
+    {
+      "ordinal": 39,
+      "text": "like a modern GPU are rock-like objects, right? \nThey're these semiconductor layers, very delicate,",
+      "start": 243.96,
+      "duration": 7.8
+    },
+    {
+      "ordinal": 40,
+      "text": "intricate patterns, but essentially what the \nclassical world would say is a fancy crystal",
+      "start": 251.76,
+      "duration": 5.96
+    },
+    {
+      "ordinal": 41,
+      "text": "of some kind. And now we're instantiating this \nintelligent, possibly ultimately conscious",
+      "start": 257.72,
+      "duration": 6.16
+    },
+    {
+      "ordinal": 42,
+      "text": "behavior out of this rock-like object. So the \nsituation's getting more interesting than it",
+      "start": 263.88,
+      "duration": 6.04
+    },
+    {
+      "ordinal": 43,
+      "text": "was previously. How does this tie into Wolfram? So \nWolfram has this fantastic idea of computational",
+      "start": 269.92,
+      "duration": 11.12
+    },
+    {
+      "ordinal": 44,
+      "text": "equivalence. The idea is that the natural world \nstumbles upon computers quite often. That the idea",
+      "start": 281.04,
+      "duration": 11.4
+    },
+    {
+      "ordinal": 45,
+      "text": "of a universal machine that Turing established, \nwhich is a machine that can simulate any other",
+      "start": 292.44,
+      "duration": 5.12
+    },
+    {
+      "ordinal": 46,
+      "text": "machine. It's a machine that runs software. And \nin that software programming, you can get this",
+      "start": 297.56,
+      "duration": 6.12
+    },
+    {
+      "ordinal": 47,
+      "text": "universal machine to simulate the behavior of any \nother machine. And in the early days of computing,",
+      "start": 303.68,
+      "duration": 5.88
+    },
+    {
+      "ordinal": 48,
+      "text": "it seems like computers were very delicate human \nartifacts that took a lot of engineering work to",
+      "start": 309.56,
+      "duration": 7.84
+    },
+    {
+      "ordinal": 49,
+      "text": "put together. But what Wolfram showed with his \ncellular automata research is that it's relatively",
+      "start": 317.4,
+      "duration": 8.08
+    },
+    {
+      "ordinal": 50,
+      "text": "easy to stumble upon a system that's complex \nenough to support universal computation. That",
+      "start": 325.48,
+      "duration": 9.4
+    },
+    {
+      "ordinal": 51,
+      "text": "he has this breakdown of sort of four different \nclasses of, he uses automata as the case study,",
+      "start": 334.88,
+      "duration": 7.48
+    },
+    {
+      "ordinal": 52,
+      "text": "but he argues that any system that's not obviously \nsimple, any system that's sort of interesting in",
+      "start": 342.36,
+      "duration": 7.32
+    },
+    {
+      "ordinal": 53,
+      "text": "its dynamics, the majority of the time that's \ngoing to support universal computation. So in",
+      "start": 349.68,
+      "duration": 7.96
+    },
+    {
+      "ordinal": 54,
+      "text": "other words, that there's these natural computers \nall throughout nature, and previously we didn't",
+      "start": 357.64,
+      "duration": 7.52
+    },
+    {
+      "ordinal": 55,
+      "text": "recognize them or understand them as computational \nobjects. I think that's what's so interesting",
+      "start": 365.16,
+      "duration": 5.68
+    },
+    {
+      "ordinal": 56,
+      "text": "about this new era of maybe what we might call \nphilosophy, is that we have this new language.",
+      "start": 370.84,
+      "duration": 5.72
+    },
+    {
+      "ordinal": 57,
+      "text": "We can invoke the metaphor of a computer and \nsoftware and program and universality where,",
+      "start": 377.52,
+      "duration": 6.08
+    },
+    {
+      "ordinal": 58,
+      "text": "as we spoke last time, the best minds on the \nplanet didn't have access to those thinking tools.",
+      "start": 383.6,
+      "duration": 6.0
+    },
+    {
+      "ordinal": 59,
+      "text": "And so if that's really true that there's these \ncomputer-like objects all over the place, and",
+      "start": 389.6,
+      "duration": 4.4
+    },
+    {
+      "ordinal": 60,
+      "text": "now we have computer-like objects that might be \ninstantiating consciousness, namely a GPU running",
+      "start": 394.0,
+      "duration": 6.8
+    },
+    {
+      "ordinal": 61,
+      "text": "a large language model, which obviously would be \nhighly debated whether or not that's conscious",
+      "start": 400.8,
+      "duration": 5.16
+    },
+    {
+      "ordinal": 62,
+      "text": "or not. But if we take that in the abstract \nsense and extrapolate that out a decade or so,",
+      "start": 405.96,
+      "duration": 6.72
+    },
+    {
+      "ordinal": 63,
+      "text": "to me it's... it's clear that we will have a hard \ntime, or it might be fruitless to argue whether",
+      "start": 413.2,
+      "duration": 6.44
+    },
+    {
+      "ordinal": 64,
+      "text": "they are or not, because they'll be so similar \nto the kinds of things that we see in humans that",
+      "start": 419.64,
+      "duration": 7.6
+    },
+    {
+      "ordinal": 65,
+      "text": "maybe they're actually all throughout nature. \nMaybe throughout the universe we should expect",
+      "start": 427.24,
+      "duration": 4.4
+    },
+    {
+      "ordinal": 66,
+      "text": "to find objects that are universal machines, \nsort of spontaneous in nature. And we want to",
+      "start": 431.64,
+      "duration": 10.48
+    },
+    {
+      "ordinal": 67,
+      "text": "think about now what's the chance, essentially, \nthat they have a software program that might be",
+      "start": 442.12,
+      "duration": 5.84
+    },
+    {
+      "ordinal": 68,
+      "text": "somewhere on this ladder of consciousness that \nis attributed to Leibniz. Are you referring to",
+      "start": 447.96,
+      "duration": 6.64
+    },
+    {
+      "ordinal": 69,
+      "text": "computational equivalence? Exactly, yeah. Okay, \nso in the Leibniz case you were referencing",
+      "start": 454.6,
+      "duration": 6.16
+    },
+    {
+      "ordinal": 70,
+      "text": "representations of representations and you \nhave a hierarchy. Right. In the Wilfram case",
+      "start": 460.76,
+      "duration": 4.04
+    },
+    {
+      "ordinal": 71,
+      "text": "it sounds like you have what is not a computer, \nand then what exhibits computer-like qualities,",
+      "start": 464.8,
+      "duration": 5.4
+    },
+    {
+      "ordinal": 72,
+      "text": "and then you hit universal computer. Right. \nBut there's nothing above that. Exactly,",
+      "start": 470.2,
+      "duration": 5.88
+    },
+    {
+      "ordinal": 73,
+      "text": "and that's kind of the point, is that you \nsmash into this sort of upper ceiling of",
+      "start": 476.08,
+      "duration": 4.6
+    },
+    {
+      "ordinal": 74,
+      "text": "computation relatively quickly, right? It's sort \nof a low speed limit, and whatever vehicle you're",
+      "start": 480.68,
+      "duration": 5.12
+    },
+    {
+      "ordinal": 75,
+      "text": "in quickly hits that speed limit. Right, right. \nThat's what's so profound about universality, is",
+      "start": 485.8,
+      "duration": 5.84
+    },
+    {
+      "ordinal": 76,
+      "text": "that's the ceiling. There's nothing more powerful \nthan that. And so if that is relatively easy to",
+      "start": 491.64,
+      "duration": 8.64
+    },
+    {
+      "ordinal": 77,
+      "text": "create spontaneously, in some sense, by chance we \nget a computer-like object, a universal machine,",
+      "start": 500.28,
+      "duration": 7.04
+    },
+    {
+      "ordinal": 78,
+      "text": "then we want to think about what's the analogous \npart is the software that would go with it. Right?",
+      "start": 507.32,
+      "duration": 5.8
+    },
+    {
+      "ordinal": 79,
+      "text": "So Wilfram suggests that it's relatively easy \nto find computers in the wild. Well what's the",
+      "start": 513.12,
+      "duration": 5.4
+    },
+    {
+      "ordinal": 80,
+      "text": "chance they have any interesting programming to \ngo with that? So is there a similar ceiling with",
+      "start": 518.52,
+      "duration": 5.48
+    },
+    {
+      "ordinal": 81,
+      "text": "representations? Like is it the case that once you \nhit the fourth representation you've hit them all,",
+      "start": 524.0,
+      "duration": 4.6
+    },
+    {
+      "ordinal": 82,
+      "text": "and is there a universal representation at level \nsix? So I think you hit the nail on the head with",
+      "start": 528.6,
+      "duration": 4.52
+    },
+    {
+      "ordinal": 83,
+      "text": "that one, because that's really kind of what I've \nbeen thinking about. I like how you phrase it.",
+      "start": 533.12,
+      "duration": 5.16
+    },
+    {
+      "ordinal": 84,
+      "text": "Are humans already at that universality? Are our \nintellectual sphere, our language, our culture,",
+      "start": 538.92,
+      "duration": 7.44
+    },
+    {
+      "ordinal": 85,
+      "text": "have we maxed out? Or are we going to transcend \nthis era, reach another level of consciousness,",
+      "start": 546.36,
+      "duration": 6.76
+    },
+    {
+      "ordinal": 86,
+      "text": "maybe called spirituality, whatever that might \nbe, another layer of evolution. Or is this it?",
+      "start": 553.12,
+      "duration": 6.24
+    },
+    {
+      "ordinal": 87,
+      "text": "Right? That we have the ability to represent \nour representations and we can think about our",
+      "start": 559.36,
+      "duration": 4.04
+    },
+    {
+      "ordinal": 88,
+      "text": "thinking and then we can think about that and \nso on. And I don't know. Right? I would like to",
+      "start": 563.4,
+      "duration": 8.32
+    },
+    {
+      "ordinal": 89,
+      "text": "hope that we're not at that universal level yet. \nI think we mentioned last time on the channel this",
+      "start": 571.72,
+      "duration": 7.84
+    },
+    {
+      "ordinal": 90,
+      "text": "sort of path from ape to angel, right? Or from \nrocks to light, you know, kind of thing. Where are",
+      "start": 579.56,
+      "duration": 8.08
+    },
+    {
+      "ordinal": 91,
+      "text": "we on that sort of evolutionary trend in a sense? \nAnd I think that we're not at the angel stage,",
+      "start": 587.64,
+      "duration": 10.84
+    },
+    {
+      "ordinal": 92,
+      "text": "right? We're not quite there yet. And so it \nreminds me of a quote, I think they said,",
+      "start": 598.48,
+      "duration": 9.24
+    },
+    {
+      "ordinal": 93,
+      "text": "I forget who says it, we'll have to look it up, \nbut we're angels with assholes. Right? That we're",
+      "start": 608.4,
+      "duration": 4.12
+    },
+    {
+      "ordinal": 94,
+      "text": "still these corporeal beings that eat sandwiches \nand have to go through our daily lives. We're not",
+      "start": 612.52,
+      "duration": 6.0
+    },
+    {
+      "ordinal": 95,
+      "text": "this ephemeral being that's just pure thought and \nenergy and things. But it seems like the AI is",
+      "start": 618.52,
+      "duration": 6.08
+    },
+    {
+      "ordinal": 96,
+      "text": "on that trajectory. And I wonder if maybe there's \njust a discontinuity and as others have suggested,",
+      "start": 624.6,
+      "duration": 6.8
+    },
+    {
+      "ordinal": 97,
+      "text": "maybe the biological sphere just bootstraps the \nAI and then that's the next stage of evolution.",
+      "start": 631.4,
+      "duration": 7.08
+    },
+    {
+      "ordinal": 98,
+      "text": "Because for lack of a better term, they don't \nhave assholes. Is the question of have we hit",
+      "start": 639.24,
+      "duration": 7.2
+    },
+    {
+      "ordinal": 99,
+      "text": "the upper limit equivalent to the question \nof are there thoughts that we can't think of?",
+      "start": 646.44,
+      "duration": 4.96
+    },
+    {
+      "ordinal": 100,
+      "text": "So now what I mean by equivalent to is we can \nimagine that let's look at this room and there",
+      "start": 651.4,
+      "duration": 4.8
+    },
+    {
+      "ordinal": 101,
+      "text": "are thoughts everywhere and we have access to \nthem. Okay, cool. Then there are thoughts that",
+      "start": 656.2,
+      "duration": 3.68
+    },
+    {
+      "ordinal": 102,
+      "text": "are outside this room. We don't have access to \nthem. And then we'd say, okay, we have not hit",
+      "start": 659.88,
+      "duration": 3.96
+    },
+    {
+      "ordinal": 103,
+      "text": "the upper ceiling. And then we can say that, okay, \nso in that case it was, if there exists a thought",
+      "start": 663.84,
+      "duration": 5.2
+    },
+    {
+      "ordinal": 104,
+      "text": "that's outside this room, then we have not hit \nthe upper ceiling. We can also say, if we have",
+      "start": 669.04,
+      "duration": 5.44
+    },
+    {
+      "ordinal": 105,
+      "text": "not hit the upper ceiling, it implies there is a \nthought that's outside this room. So I'm not sure",
+      "start": 674.48,
+      "duration": 4.32
+    },
+    {
+      "ordinal": 106,
+      "text": "if that's the case because then you would make an \nequivalence between those two. Right. Well, I do",
+      "start": 678.8,
+      "duration": 5.04
+    },
+    {
+      "ordinal": 107,
+      "text": "think it's the case there's unthinkable thoughts. \nAnd the question is are we able to think about",
+      "start": 683.84,
+      "duration": 4.36
+    },
+    {
+      "ordinal": 108,
+      "text": "them in the abstract sense? Maybe not the actual \nthought, but do we really understand or can we",
+      "start": 688.2,
+      "duration": 5.88
+    },
+    {
+      "ordinal": 109,
+      "text": "even appreciate that there's things outside of our \nconceptual and perceptual window? And that's what",
+      "start": 694.08,
+      "duration": 7.16
+    },
+    {
+      "ordinal": 110,
+      "text": "I've been thinking about a lot recently or trying \nto. And, you know, we mentioned last time Richard",
+      "start": 701.24,
+      "duration": 7.24
+    },
+    {
+      "ordinal": 111,
+      "text": "Hamming. And he talks about this idea. He says \nthere's smells that dogs can smell that we can't",
+      "start": 708.48,
+      "duration": 5.4
+    },
+    {
+      "ordinal": 112,
+      "text": "smell. And they can hear things we can't hear. And \nthere's lots of things in the animal kingdom that",
+      "start": 713.88,
+      "duration": 4.68
+    },
+    {
+      "ordinal": 113,
+      "text": "have a larger perceptual window. And he argues \nwhy should we think that there's thoughts we",
+      "start": 718.56,
+      "duration": 4.36
+    },
+    {
+      "ordinal": 114,
+      "text": "can't think? Right. It seems quite clear. And also \neven just arithmetically, there are numbers that",
+      "start": 722.92,
+      "duration": 4.76
+    },
+    {
+      "ordinal": 115,
+      "text": "we can never conceive of. At least we can write \nthem down like Graham's number. But we can say",
+      "start": 727.68,
+      "duration": 3.68
+    },
+    {
+      "ordinal": 116,
+      "text": "Graham's number to the power of Graham's number. \nWe can't actually conceive of it. We actually",
+      "start": 731.36,
+      "duration": 4.4
+    },
+    {
+      "ordinal": 117,
+      "text": "don't understand what it means for a number to \nbe greater than 150 or so. Right. We can't fit",
+      "start": 735.76,
+      "duration": 6.32
+    },
+    {
+      "ordinal": 118,
+      "text": "these things into our mind. We can kind of only \napproximate them. So to someone listening, they're",
+      "start": 742.08,
+      "duration": 4.76
+    },
+    {
+      "ordinal": 119,
+      "text": "like, well, what are you talking about? It's \nquite clear. The philosophical term, I believe,",
+      "start": 746.84,
+      "duration": 3.68
+    },
+    {
+      "ordinal": 120,
+      "text": "is umwelt. It's quite clear our umwelt is bounded \nand has some overlap with other animals. I mean,",
+      "start": 750.52,
+      "duration": 5.2
+    },
+    {
+      "ordinal": 121,
+      "text": "that's not quite clear, but it's not obvious. \nOkay. So then they're thinking, okay, so what's",
+      "start": 755.72,
+      "duration": 8.04
+    },
+    {
+      "ordinal": 122,
+      "text": "so profound about this? Well, so thinking about \nthese sort of unthinkable thoughts has led me in",
+      "start": 763.76,
+      "duration": 7.48
+    },
+    {
+      "ordinal": 123,
+      "text": "a few interesting directions. You know, why can we \nnot get to that space? Right. I think I mentioned",
+      "start": 771.24,
+      "duration": 8.36
+    },
+    {
+      "ordinal": 124,
+      "text": "last time the future is not what we think it is. \nBecause if we knew exactly which direction to go,",
+      "start": 779.6,
+      "duration": 4.88
+    },
+    {
+      "ordinal": 125,
+      "text": "we could just go in that direction. And so there's \nsome kind of barrier. And the question is, is this",
+      "start": 784.48,
+      "duration": 6.88
+    },
+    {
+      "ordinal": 126,
+      "text": "like a natural barrier? You know, we just don't \nhave enough neurons. We don't have enough cortical",
+      "start": 791.36,
+      "duration": 4.76
+    },
+    {
+      "ordinal": 127,
+      "text": "layers to represent the representations and so on. \nAnd then there could just be another hierarchy. Or",
+      "start": 796.12,
+      "duration": 5.6
+    },
+    {
+      "ordinal": 128,
+      "text": "something I've been thinking about more recently \nis that there's a more practical reason why we",
+      "start": 801.72,
+      "duration": 8.04
+    },
+    {
+      "ordinal": 129,
+      "text": "can't think these thoughts. And it's kind of \nan immune system that we mentioned before. That",
+      "start": 809.76,
+      "duration": 7.16
+    },
+    {
+      "ordinal": 130,
+      "text": "our mind itself is trying to protect us from a \nvariety of thought patterns that would essentially",
+      "start": 818.4,
+      "duration": 7.56
+    },
+    {
+      "ordinal": 131,
+      "text": "destabilize. Both our mental patterns and then \nultimately our physical self, if the thoughts",
+      "start": 825.96,
+      "duration": 6.08
+    },
+    {
+      "ordinal": 132,
+      "text": "go into a terrible spiral. So from an evolutionary \npoint of view, there might be this kind of filter,",
+      "start": 832.04,
+      "duration": 9.32
+    },
+    {
+      "ordinal": 133,
+      "text": "this barrier that evolution has instantiated \nto prevent us from going nutty. And that if,",
+      "start": 841.36,
+      "duration": 8.92
+    },
+    {
+      "ordinal": 134,
+      "text": "from a Darwinian evolution perspective, if we \njust want to kind of populate the planet the best",
+      "start": 850.28,
+      "duration": 5.2
+    },
+    {
+      "ordinal": 135,
+      "text": "we can, you don't need this kind of intelligence. \nIntelligence could be kind of a Fermi-style filter",
+      "start": 855.48,
+      "duration": 8.16
+    },
+    {
+      "ordinal": 136,
+      "text": "that's actually preventing a lot of progress. \nIf we think about the rain the dinosaurs",
+      "start": 863.64,
+      "duration": 5.8
+    },
+    {
+      "ordinal": 137,
+      "text": "had on the planet, it was 100 million years, 200 \nmillion years, and humans haven't had that kind",
+      "start": 869.44,
+      "duration": 5.64
+    },
+    {
+      "ordinal": 138,
+      "text": "of longevity on the planet yet. And it's hard \nto imagine us continuing the way we're doing",
+      "start": 875.08,
+      "duration": 5.32
+    },
+    {
+      "ordinal": 139,
+      "text": "for that much time. But you imagine whales and \ndolphins, you could easily imagine them doing the",
+      "start": 880.4,
+      "duration": 5.08
+    },
+    {
+      "ordinal": 140,
+      "text": "same thing they're doing for millions of years \ninto the future and being happy to do it. But",
+      "start": 885.48,
+      "duration": 8.04
+    },
+    {
+      "ordinal": 141,
+      "text": "this also leads me to think about what thoughts \nour language supports. And I used to think that",
+      "start": 893.52,
+      "duration": 5.72
+    },
+    {
+      "ordinal": 142,
+      "text": "English was good enough. But now I'm not so sure. \nAnd I think what's really interesting is we've",
+      "start": 899.24,
+      "duration": 8.6
+    },
+    {
+      "ordinal": 143,
+      "text": "taught these language models, not just English, \nbut all of the human languages that we could",
+      "start": 907.84,
+      "duration": 3.8
+    },
+    {
+      "ordinal": 144,
+      "text": "get our hands on. And I think something that's \nparticularly relevant is the computer languages",
+      "start": 911.64,
+      "duration": 4.52
+    },
+    {
+      "ordinal": 145,
+      "text": "and the mathematical languages that we've also \nput into that system. So it has representations",
+      "start": 916.16,
+      "duration": 5.12
+    },
+    {
+      "ordinal": 146,
+      "text": "that it can map into English, but its mind, so \nto speak, doesn't really operate in English. It",
+      "start": 921.28,
+      "duration": 5.96
+    },
+    {
+      "ordinal": 147,
+      "text": "operates in these thought vectors, these word \nvectors that are independent of any particular",
+      "start": 927.24,
+      "duration": 3.76
+    },
+    {
+      "ordinal": 148,
+      "text": "language. Okay, this is extremely interesting. So \nI have two thoughts, and you can take both of them",
+      "start": 931.0,
+      "duration": 5.56
+    },
+    {
+      "ordinal": 149,
+      "text": "if you like, or choose a direction. So when you \nsaid that you thought English was enough, are you",
+      "start": 936.56,
+      "duration": 4.56
+    },
+    {
+      "ordinal": 150,
+      "text": "saying that you thought there was something like \nthe universal language and English is one of them,",
+      "start": 941.12,
+      "duration": 5.28
+    },
+    {
+      "ordinal": 151,
+      "text": "Chinese may be another. There may be some \nlanguages where they only have 100 words, and",
+      "start": 946.4,
+      "duration": 5.16
+    },
+    {
+      "ordinal": 152,
+      "text": "maybe those are insufficient to represent. So in \nother words, some people say there are some words",
+      "start": 951.56,
+      "duration": 5.2
+    },
+    {
+      "ordinal": 153,
+      "text": "in some languages which you cannot translate, \nuntranslatable words. And technically, they should",
+      "start": 956.76,
+      "duration": 5.88
+    },
+    {
+      "ordinal": 154,
+      "text": "say they're untranslatable into another single \nword. And let's pick one untranslatable word.",
+      "start": 962.64,
+      "duration": 5.28
+    },
+    {
+      "ordinal": 155,
+      "text": "So in Turkish, there's some word for the feeling \nthat you have after you drink coffee with friends,",
+      "start": 967.92,
+      "duration": 4.64
+    },
+    {
+      "ordinal": 156,
+      "text": "something like that. Let's say that. I just \ndescribed it there with a set of 10 words",
+      "start": 972.56,
+      "duration": 3.92
+    },
+    {
+      "ordinal": 157,
+      "text": "or so. And if it was German, you would just smush \nthem all together and make one new word out of it.",
+      "start": 976.48,
+      "duration": 6.0
+    },
+    {
+      "ordinal": 158,
+      "text": "Right, right. Which I think Turkish does actually \nas well. Okay, so is that what you meant when you",
+      "start": 982.48,
+      "duration": 3.6
+    },
+    {
+      "ordinal": 159,
+      "text": "were saying you thought English was enough? \nRight. That it was this, like you mentioned,",
+      "start": 986.08,
+      "duration": 3.92
+    },
+    {
+      "ordinal": 160,
+      "text": "universal software framework. That we have \nthis idea of universal machine, but, you know,",
+      "start": 990.0,
+      "duration": 6.12
+    },
+    {
+      "ordinal": 161,
+      "text": "this idea of a Turing tar pit that just because \neverything's possible doesn't mean anything's",
+      "start": 996.12,
+      "duration": 3.72
+    },
+    {
+      "ordinal": 162,
+      "text": "practical with, say, like a Turing machine or \nsome other abstract computer. And so the idea",
+      "start": 999.84,
+      "duration": 5.52
+    },
+    {
+      "ordinal": 163,
+      "text": "is what computer languages would be sufficient, \nright? So we could, as an analogy, we could say",
+      "start": 1005.36,
+      "duration": 5.04
+    },
+    {
+      "ordinal": 164,
+      "text": "basic is not sufficiently powerful enough of a \ncomputer language to instantiate the internet or",
+      "start": 1010.4,
+      "duration": 5.36
+    },
+    {
+      "ordinal": 165,
+      "text": "something like that. Or it might be, but it would \nrequire orders of magnitude more complexity in",
+      "start": 1015.76,
+      "duration": 4.8
+    },
+    {
+      "ordinal": 166,
+      "text": "the coding. Whereas something like C ended up \nbeing sufficient to kind of create the modern",
+      "start": 1020.56,
+      "duration": 5.04
+    },
+    {
+      "ordinal": 167,
+      "text": "software stack. And so I suspect now that English \nis not quite as universal as I previously thought",
+      "start": 1025.6,
+      "duration": 7.56
+    },
+    {
+      "ordinal": 168,
+      "text": "it was. This is why I've been looking at things \nlike musical languages and conlangs and esoteric",
+      "start": 1033.16,
+      "duration": 6.6
+    },
+    {
+      "ordinal": 169,
+      "text": "languages to get some ideas about where could we \nput these unthinkable thoughts. Because when you",
+      "start": 1039.76,
+      "duration": 7.96
+    },
+    {
+      "ordinal": 170,
+      "text": "learn those new languages, you can suddenly think \nin new, maybe more compact ways. You don't have",
+      "start": 1047.72,
+      "duration": 4.6
+    },
+    {
+      "ordinal": 171,
+      "text": "to have a whole sentence. You can have just sort \nof one neuron. But like you said, I would argue",
+      "start": 1052.32,
+      "duration": 5.28
+    },
+    {
+      "ordinal": 172,
+      "text": "that there are no untranslatable words. And \nif there were, you couldn't talk about them.",
+      "start": 1057.6,
+      "duration": 4.2
+    },
+    {
+      "ordinal": 173,
+      "text": "Like at all. You wouldn't even be able to mention \nthat they were untranslatable in some sense. And",
+      "start": 1061.8,
+      "duration": 4.12
+    },
+    {
+      "ordinal": 174,
+      "text": "so that would be in the space of sort of maybe \nnot unthinkable thoughts, but uncommunicatable",
+      "start": 1065.92,
+      "duration": 3.92
+    },
+    {
+      "ordinal": 175,
+      "text": "thoughts. And one of the ideas I've been thinking \nabout this year is the set of ideas for which you",
+      "start": 1069.84,
+      "duration": 9.08
+    },
+    {
+      "ordinal": 176,
+      "text": "can take it apart. Like Legos, right? They have \nthe Lego lab upstairs. And Legos you can take",
+      "start": 1078.92,
+      "duration": 6.48
+    },
+    {
+      "ordinal": 177,
+      "text": "apart into little bricks. And like language, I \nhave an idea in my head now. And I'm decomposing",
+      "start": 1085.4,
+      "duration": 4.6
+    },
+    {
+      "ordinal": 178,
+      "text": "it into a serial sequence of symbols. And then \nyou're taking those and you're putting them back",
+      "start": 1090.0,
+      "duration": 4.84
+    },
+    {
+      "ordinal": 179,
+      "text": "together. And I hope that you get the same kind of \nmental representation. But you could define a set",
+      "start": 1094.84,
+      "duration": 5.88
+    },
+    {
+      "ordinal": 180,
+      "text": "of ideas for which precisely you cannot do that, \nright? Where if you take any one piece, it's not",
+      "start": 1100.72,
+      "duration": 4.6
+    },
+    {
+      "ordinal": 181,
+      "text": "the same thing anymore. That it doesn't go down \ninto a sequence of things. And that might be, you",
+      "start": 1105.32,
+      "duration": 9.72
+    },
+    {
+      "ordinal": 182,
+      "text": "know, it reminds me of things like gnosis, right? \nKnowing from the inside. Where you can't explain,",
+      "start": 1115.04,
+      "duration": 5.48
+    },
+    {
+      "ordinal": 183,
+      "text": "you know, things like faith and God and all that. \nAnd I think a lot in the modern world, people are",
+      "start": 1120.52,
+      "duration": 4.24
+    },
+    {
+      "ordinal": 184,
+      "text": "like, well, explain it to me. You know, explain \nwhat you mean by faith and God. And it's like,",
+      "start": 1124.76,
+      "duration": 3.16
+    },
+    {
+      "ordinal": 185,
+      "text": "well, that's not how it works. It's precisely \nthe kind of idea that I can't decompose into a",
+      "start": 1127.92,
+      "duration": 5.48
+    },
+    {
+      "ordinal": 186,
+      "text": "sequence and you can put it back together. And we \ntry. And we have religious texts and, you know,",
+      "start": 1133.4,
+      "duration": 4.28
+    },
+    {
+      "ordinal": 187,
+      "text": "services and things that approximate it. But \nreally the ultimate experience is of that kind",
+      "start": 1137.68,
+      "duration": 5.96
+    },
+    {
+      "ordinal": 188,
+      "text": "where you can't do that. Let me have fun with this \nimmune analogy. Yeah. Is it the case then that",
+      "start": 1143.64,
+      "duration": 5.44
+    },
+    {
+      "ordinal": 189,
+      "text": "there would be autoimmune disorders of the mind? \nThe mind sees something that's actually benign",
+      "start": 1149.08,
+      "duration": 5.04
+    },
+    {
+      "ordinal": 190,
+      "text": "or even salubrious or nourishing. And thinks \nthat it's not. And so it tries to remove it.",
+      "start": 1154.12,
+      "duration": 5.36
+    },
+    {
+      "ordinal": 191,
+      "text": "And perhaps it attacks itself in the process. \nIt's a fantastic idea. I'd have to think about",
+      "start": 1159.48,
+      "duration": 5.32
+    },
+    {
+      "ordinal": 192,
+      "text": "that a little more. But I think in some sense, \nabsolutely. That there's going to be. And that",
+      "start": 1164.8,
+      "duration": 6.0
+    },
+    {
+      "ordinal": 193,
+      "text": "might be kind of the basis for mental diversity \nand mental disorders. If we might call them that.",
+      "start": 1170.8,
+      "duration": 7.08
+    },
+    {
+      "ordinal": 194,
+      "text": "Because now we're better understanding language \nthan ever before. By building these machines that",
+      "start": 1179.28,
+      "duration": 6.32
+    },
+    {
+      "ordinal": 195,
+      "text": "instantiate language. It gives us this petri dish, \nthis microscope. And I think when there's a lot of",
+      "start": 1185.6,
+      "duration": 10.24
+    },
+    {
+      "ordinal": 196,
+      "text": "mystery around how these language models operate. \nAnd I think the real mystery is in the words,",
+      "start": 1195.84,
+      "duration": 6.0
+    },
+    {
+      "ordinal": 197,
+      "text": "in the language. We didn't understand what words \nwere. We didn't really understand what language",
+      "start": 1201.84,
+      "duration": 3.92
+    },
+    {
+      "ordinal": 198,
+      "text": "was. And we thought it was this communication \nkind of thing. And I've been thinking about",
+      "start": 1205.76,
+      "duration": 6.2
+    },
+    {
+      "ordinal": 199,
+      "text": "it more with my colleague, Dr. Behrenholz. As an \norganism. Something that's alive. And that we need",
+      "start": 1211.96,
+      "duration": 8.96
+    },
+    {
+      "ordinal": 200,
+      "text": "to invoke the framework from biology to think \nabout it. Not just as communication. But as a,",
+      "start": 1220.92,
+      "duration": 10.48
+    },
+    {
+      "ordinal": 201,
+      "text": "I've referred to it as a parasite in some sense. \nAnd not necessarily pejorative. I've referred to",
+      "start": 1231.4,
+      "duration": 5.72
+    },
+    {
+      "ordinal": 202,
+      "text": "it as a divine parasite. But it's something that \nlives on the brain. But it's not the brain. And",
+      "start": 1237.12,
+      "duration": 8.92
+    },
+    {
+      "ordinal": 203,
+      "text": "one of the ways I've been thinking about this is \nwith things like multiple personality syndrome and",
+      "start": 1246.04,
+      "duration": 4.96
+    },
+    {
+      "ordinal": 204,
+      "text": "split personality syndrome. That I think those \nare evidence that when I'm talking to you now,",
+      "start": 1251.0,
+      "duration": 6.52
+    },
+    {
+      "ordinal": 205,
+      "text": "I'm not talking to your brain. I'm talking to \nthis entity that lives in your brain. And when we",
+      "start": 1257.52,
+      "duration": 6.2
+    },
+    {
+      "ordinal": 206,
+      "text": "see people with multiple personalities, it's clear \nthat they're instantiating more than one operating",
+      "start": 1263.72,
+      "duration": 6.24
+    },
+    {
+      "ordinal": 207,
+      "text": "system, software, stack. On the same hardware. \nAnd they're multiplexed. Like we run more than",
+      "start": 1269.96,
+      "duration": 4.88
+    },
+    {
+      "ordinal": 208,
+      "text": "one app on our phone at a time. That the brain \nis rich enough of a substrate, of a backdrop,",
+      "start": 1274.84,
+      "duration": 6.56
+    },
+    {
+      "ordinal": 209,
+      "text": "to have multiple plays unfolding at the same time. \nAnd then this leads into kind of the other side",
+      "start": 1281.4,
+      "duration": 9.08
+    },
+    {
+      "ordinal": 210,
+      "text": "of unthinkable thoughts and this immune system \nconcept. In areas of things like mind control.",
+      "start": 1290.48,
+      "duration": 7.28
+    },
+    {
+      "ordinal": 211,
+      "text": "And is our brain a programmable object? And if so, \nis language, is natural language, a programming",
+      "start": 1297.76,
+      "duration": 7.28
+    },
+    {
+      "ordinal": 212,
+      "text": "language? Hi everyone. Hope you're enjoying \ntoday's episode. If you're hungry for deeper",
+      "start": 1305.04,
+      "duration": 5.04
+    },
+    {
+      "ordinal": 213,
+      "text": "dives into physics, AI, consciousness, philosophy, \nalong with my personal reflections. You'll find it",
+      "start": 1310.08,
+      "duration": 5.92
+    },
+    {
+      "ordinal": 214,
+      "text": "all on my sub stack. Subscribers get first access \nto new episodes, new posts as well, behind the",
+      "start": 1316.0,
+      "duration": 5.76
+    },
+    {
+      "ordinal": 215,
+      "text": "scenes insights. And the chance to be a part of \na thriving community of like-minded pilgrims. By",
+      "start": 1321.76,
+      "duration": 5.6
+    },
+    {
+      "ordinal": 216,
+      "text": "joining, you'll directly be supporting my work and \nhelping keep these conversations at the cutting",
+      "start": 1327.36,
+      "duration": 5.04
+    },
+    {
+      "ordinal": 217,
+      "text": "edge. So click the link on screen here. Hit \nsubscribe and let's keep pushing the boundaries",
+      "start": 1332.4,
+      "duration": 5.76
+    },
+    {
+      "ordinal": 218,
+      "text": "of knowledge together. Thank you and enjoy the \nshow. Just so you know, if you're listening, it's",
+      "start": 1338.16,
+      "duration": 4.68
+    },
+    {
+      "ordinal": 219,
+      "text": "C-U-R-T-J-A-I-M-U-N-G-A-L.org. CurtJaimungal.org \nThis is extremely interesting because it relates",
+      "start": 1342.84,
+      "duration": 8.6
+    },
+    {
+      "ordinal": 220,
+      "text": "to the difference between hardware and software. \nWhich there may not be as much of a difference",
+      "start": 1351.44,
+      "duration": 3.88
+    },
+    {
+      "ordinal": 221,
+      "text": "as we thought. So when we speak about the brain \nand even psychological disorders as you alluded",
+      "start": 1355.32,
+      "duration": 4.64
+    },
+    {
+      "ordinal": 222,
+      "text": "to. Or directly referenced actually. Some of them \nare neurologically induced. So there's a physical",
+      "start": 1359.96,
+      "duration": 8.12
+    },
+    {
+      "ordinal": 223,
+      "text": "basis to some of them or at least correlations. \nOkay, so when we speak about the brain, are we",
+      "start": 1368.08,
+      "duration": 7.96
+    },
+    {
+      "ordinal": 224,
+      "text": "just speaking about the folds and the neuronal \nconnections? Or are we also speaking about the",
+      "start": 1376.04,
+      "duration": 5.08
+    },
+    {
+      "ordinal": 225,
+      "text": "particular firing patterns at this moment? Because \nthere's you as you would be if you were dead and",
+      "start": 1381.12,
+      "duration": 5.64
+    },
+    {
+      "ordinal": 226,
+      "text": "someone froze you. But there's also you as we \nlook at you and somehow we can quantum clone your",
+      "start": 1386.76,
+      "duration": 5.96
+    },
+    {
+      "ordinal": 227,
+      "text": "brain. Even though there's no cloning theorem, \nbut let's just imagine you can clone every",
+      "start": 1392.72,
+      "duration": 3.8
+    },
+    {
+      "ordinal": 228,
+      "text": "single thing. I would assume the brain's quantum, \nwhich we're not clear. Okay, whatever. It doesn't",
+      "start": 1396.52,
+      "duration": 3.68
+    },
+    {
+      "ordinal": 229,
+      "text": "matter. We get down to the electrical level. \nWe say patterns of firings. So I imagine the",
+      "start": 1400.2,
+      "duration": 3.48
+    },
+    {
+      "ordinal": 230,
+      "text": "patterns of firings along with your brain are the \npersonality. Or could be. I don't know. I would",
+      "start": 1403.68,
+      "duration": 5.08
+    },
+    {
+      "ordinal": 231,
+      "text": "say that's at least an ingredient. Right. So \nlet me know what you think about the distinction",
+      "start": 1408.76,
+      "duration": 4.68
+    },
+    {
+      "ordinal": 232,
+      "text": "between hardware and software as it relates to the \nbrain. Yeah, so one of the things we spoke about",
+      "start": 1413.44,
+      "duration": 3.92
+    },
+    {
+      "ordinal": 233,
+      "text": "last time is this idea of a virtual machine. And \nas I mentioned a minute ago, if we go back into",
+      "start": 1417.36,
+      "duration": 5.48
+    },
+    {
+      "ordinal": 234,
+      "text": "neuroscience 150 years ago or so, they didn't have \nthe computer metaphor. And they didn't have the",
+      "start": 1422.84,
+      "duration": 5.6
+    },
+    {
+      "ordinal": 235,
+      "text": "software metaphor to understand it. Well, now we \ndo and that caused the cognitive revolution. Okay,",
+      "start": 1428.44,
+      "duration": 6.36
+    },
+    {
+      "ordinal": 236,
+      "text": "now we know that there's this thing called program \nand so on. But I think we need to take it a step",
+      "start": 1434.8,
+      "duration": 4.92
+    },
+    {
+      "ordinal": 237,
+      "text": "further and think about machines that themselves \nare made out of software. So the example we gave",
+      "start": 1439.72,
+      "duration": 7.48
+    },
+    {
+      "ordinal": 238,
+      "text": "last time that I like to think about is this idea \nof an emulator, which the listeners who play video",
+      "start": 1447.2,
+      "duration": 6.12
+    },
+    {
+      "ordinal": 239,
+      "text": "games might be aware of. But this is a piece of \nsoftware that you run on a modern computer that",
+      "start": 1453.32,
+      "duration": 6.16
+    },
+    {
+      "ordinal": 240,
+      "text": "simulates an older computer. So if you want to \nplay Super Mario on your MacBook, you can get",
+      "start": 1459.48,
+      "duration": 6.32
+    },
+    {
+      "ordinal": 241,
+      "text": "this program that it doesn't run Mario directly on \nyour Mac chip. The Mac chip simulates, it pretends",
+      "start": 1465.8,
+      "duration": 7.52
+    },
+    {
+      "ordinal": 242,
+      "text": "to be a Nintendo chip. And then the Nintendo \nchip naturally can run the Mario software. And",
+      "start": 1473.32,
+      "duration": 7.04
+    },
+    {
+      "ordinal": 243,
+      "text": "what's really interesting is you can do that \nagain. You can have an emulator running on an",
+      "start": 1480.36,
+      "duration": 4.2
+    },
+    {
+      "ordinal": 244,
+      "text": "emulator. Interesting. Like you could somehow run \nan Atari game on the Nintendo. Yeah, I've never",
+      "start": 1484.56,
+      "duration": 4.56
+    },
+    {
+      "ordinal": 245,
+      "text": "thought about that. And so it could be virtual \nmachines all the way down in some sense. And so",
+      "start": 1489.12,
+      "duration": 5.16
+    },
+    {
+      "ordinal": 246,
+      "text": "I think when we try to understand language and the \nbrain and the self and personality and ego and all",
+      "start": 1494.28,
+      "duration": 5.44
+    },
+    {
+      "ordinal": 247,
+      "text": "that kind of idea, we need to consider that there \ncould be multiple layers between the thing doing",
+      "start": 1499.72,
+      "duration": 8.12
+    },
+    {
+      "ordinal": 248,
+      "text": "the talking and the neurons doing the firing. \nAnd traditional neuroscience would suggest this",
+      "start": 1507.84,
+      "duration": 7.68
+    },
+    {
+      "ordinal": 249,
+      "text": "kind of a one-to-one mapping, right? And I think \nthe reason why we haven't made as much progress",
+      "start": 1515.52,
+      "duration": 6.6
+    },
+    {
+      "ordinal": 250,
+      "text": "in those spaces is because there's multiple \nrepresentations. So when one references these",
+      "start": 1522.12,
+      "duration": 4.96
+    },
+    {
+      "ordinal": 251,
+      "text": "turtles, the turtles all the way down, I take it \nextremely seriously. So when you say it's virtual",
+      "start": 1527.08,
+      "duration": 4.44
+    },
+    {
+      "ordinal": 252,
+      "text": "machines all the way down, do you actually mean \nthat? Or do you mean that it's multiple levels of",
+      "start": 1531.52,
+      "duration": 4.08
+    },
+    {
+      "ordinal": 253,
+      "text": "virtual machines, but there's a finite end? Well, \nthere's a good question. So in the brain, I think",
+      "start": 1535.6,
+      "duration": 5.68
+    },
+    {
+      "ordinal": 254,
+      "text": "there could be multiple layers of this virtual \nmachine more than we think. But it makes me think",
+      "start": 1541.28,
+      "duration": 5.08
+    },
+    {
+      "ordinal": 255,
+      "text": "of a much broader idea in terms of matter, right? \nThat quantum information theory would suggest that",
+      "start": 1546.36,
+      "duration": 9.92
+    },
+    {
+      "ordinal": 256,
+      "text": "matter itself is an information-like process. \nAnd that when we get down below the atoms,",
+      "start": 1556.28,
+      "duration": 8.96
+    },
+    {
+      "ordinal": 257,
+      "text": "there might be software again. And it's sort of \nthis interesting loop where we have information",
+      "start": 1565.24,
+      "duration": 6.84
+    },
+    {
+      "ordinal": 258,
+      "text": "at the bottom, which somehow instantiates \nthe atomic reality. And then on that,",
+      "start": 1572.08,
+      "duration": 4.6
+    },
+    {
+      "ordinal": 259,
+      "text": "we build computers out of the atoms, and then we \nget software again. It would sort of complete the",
+      "start": 1576.68,
+      "duration": 4.8
+    },
+    {
+      "ordinal": 260,
+      "text": "circle. So both in our mind and in the universe, \nit might be sort of these virtual turtles,",
+      "start": 1581.48,
+      "duration": 6.76
+    },
+    {
+      "ordinal": 261,
+      "text": "right? Which I think is an amazing reference. \nWe're in the MIT Media Lab where Seymour Papert",
+      "start": 1589.24,
+      "duration": 5.4
+    },
+    {
+      "ordinal": 262,
+      "text": "developed the turtle programming language. Earlier \nwhen you were talking about representations,",
+      "start": 1594.64,
+      "duration": 5.6
+    },
+    {
+      "ordinal": 263,
+      "text": "and you were saying, okay, we can represent \nrepresentations, etc. At some point at the first",
+      "start": 1600.24,
+      "duration": 6.64
+    },
+    {
+      "ordinal": 264,
+      "text": "representation, you're representing something that \nwas presented in order for you to represent it.",
+      "start": 1606.88,
+      "duration": 5.72
+    },
+    {
+      "ordinal": 265,
+      "text": "Do you believe that's the case? Or also, do you \nbelieve there that it goes infinitely downward?",
+      "start": 1612.6,
+      "duration": 5.88
+    },
+    {
+      "ordinal": 266,
+      "text": "Or do you believe there's some non-represented \nsubstrate that gets represented? I think in the",
+      "start": 1618.48,
+      "duration": 8.04
+    },
+    {
+      "ordinal": 267,
+      "text": "case of humans, there's going to be something \nlike a bottom in some sense, right? We see that",
+      "start": 1626.52,
+      "duration": 4.84
+    },
+    {
+      "ordinal": 268,
+      "text": "with cells and things. But it's not clear where \nthat happens. I think there's all this great work,",
+      "start": 1631.36,
+      "duration": 7.92
+    },
+    {
+      "ordinal": 269,
+      "text": "and you've been following it with Michael Levin, \nlooking at the cell and the electrical activity.",
+      "start": 1639.28,
+      "duration": 4.92
+    },
+    {
+      "ordinal": 270,
+      "text": "And that there's a lot more interesting there that \nclassical biology kind of just glazed over. And",
+      "start": 1644.2,
+      "duration": 5.56
+    },
+    {
+      "ordinal": 271,
+      "text": "now we need to go back and realize, no, there's \nreally interesting software at that layer. And",
+      "start": 1649.76,
+      "duration": 5.84
+    },
+    {
+      "ordinal": 272,
+      "text": "throughout the engineering world, we always \nbuild a virtual machine. And a lot of times,",
+      "start": 1655.6,
+      "duration": 6.0
+    },
+    {
+      "ordinal": 273,
+      "text": "those are just what we call programming languages. \nSo if we think about the electrical activity of",
+      "start": 1661.6,
+      "duration": 4.52
+    },
+    {
+      "ordinal": 274,
+      "text": "the cell, and it has some kind of software, \nit also will have evolved, it seems likely,",
+      "start": 1666.12,
+      "duration": 5.48
+    },
+    {
+      "ordinal": 275,
+      "text": "some kind of other abstraction to make it \noperate more efficiently. Just as an analogy,",
+      "start": 1671.6,
+      "duration": 6.8
+    },
+    {
+      "ordinal": 276,
+      "text": "when we know about NVIDIA GPUs, and we know \nabout these large language models, well,",
+      "start": 1678.4,
+      "duration": 5.2
+    },
+    {
+      "ordinal": 277,
+      "text": "we don't really work directly with the GPU. We \ncreate abstractions like Python, and PyTorch,",
+      "start": 1683.6,
+      "duration": 7.08
+    },
+    {
+      "ordinal": 278,
+      "text": "and intermediates. PyTorch is an imaginary machine \nthat has things like vector operators and matrix",
+      "start": 1690.68,
+      "duration": 6.36
+    },
+    {
+      "ordinal": 279,
+      "text": "multiply that then get mapped to the low-level \ninstructions on the GPU. So in the modern world,",
+      "start": 1697.04,
+      "duration": 7.2
+    },
+    {
+      "ordinal": 280,
+      "text": "we never actually talk to the hardware directly. \nWe build a virtual hardware that's much easier to",
+      "start": 1704.24,
+      "duration": 4.68
+    },
+    {
+      "ordinal": 281,
+      "text": "use. And I would imagine that nature and evolution \nand biology would have done the same thing. So we",
+      "start": 1708.92,
+      "duration": 6.12
+    },
+    {
+      "ordinal": 282,
+      "text": "have an audience here of Professor Barenholtz, \nand I'm sure he's champing at the bit and has",
+      "start": 1715.04,
+      "duration": 5.12
+    },
+    {
+      "ordinal": 283,
+      "text": "some questions. Yeah, I can't wait for you \nto have them on the show. Which I'll field,",
+      "start": 1720.16,
+      "duration": 3.28
+    },
+    {
+      "ordinal": 284,
+      "text": "and also I would like to talk to you at some \npoint. But at least for now, the audience can",
+      "start": 1723.44,
+      "duration": 3.72
+    },
+    {
+      "ordinal": 285,
+      "text": "hear a disembodied voice, at least, or perhaps \njust my voice reiterating the question. Before",
+      "start": 1727.16,
+      "duration": 5.44
+    },
+    {
+      "ordinal": 286,
+      "text": "we get to the audience questions, tell me more \nabout these unthinkable thoughts. Well, one of the",
+      "start": 1732.6,
+      "duration": 5.44
+    },
+    {
+      "ordinal": 287,
+      "text": "directions I've been thinking about in that is the \nthoughts that other beings think about. And the",
+      "start": 1738.6,
+      "duration": 7.6
+    },
+    {
+      "ordinal": 288,
+      "text": "classic example is, what is it like to be a bat? \nA classic paper from 74, I think. And, you know,",
+      "start": 1746.2,
+      "duration": 9.36
+    },
+    {
+      "ordinal": 289,
+      "text": "I wonder if it's anything at all to be a bat. And \nI know Elan has some interesting ideas about sort",
+      "start": 1755.56,
+      "duration": 9.56
+    },
+    {
+      "ordinal": 290,
+      "text": "of the animal layer and things. Elan Barenholtz, \nnot Elon Musk. Elan Barenholtz, my colleague. We",
+      "start": 1765.12,
+      "duration": 6.72
+    },
+    {
+      "ordinal": 291,
+      "text": "were speaking in the car ride over about this. \nBut I don't know. I think I take a strong approach",
+      "start": 1771.84,
+      "duration": 7.2
+    },
+    {
+      "ordinal": 292,
+      "text": "to this that maybe it's not like anything to be a \nbat. So there's this idea in psychology of what's",
+      "start": 1779.04,
+      "duration": 6.76
+    },
+    {
+      "ordinal": 293,
+      "text": "called infant amnesia. And it's that babies don't \nreally have any episodic memory. And I actually",
+      "start": 1785.8,
+      "duration": 7.8
+    },
+    {
+      "ordinal": 294,
+      "text": "encountered this as a child. I remember I was, \nI don't know, seven or eight or something like",
+      "start": 1793.6,
+      "duration": 4.64
+    },
+    {
+      "ordinal": 295,
+      "text": "that. And I asked my mom about her oldest memory. \nAnd I was, I didn't understand at the time how she",
+      "start": 1798.24,
+      "duration": 6.0
+    },
+    {
+      "ordinal": 296,
+      "text": "could remember decades of her childhood. But as \nan eight year old or whatever it was, I couldn't",
+      "start": 1804.24,
+      "duration": 5.36
+    },
+    {
+      "ordinal": 297,
+      "text": "remember being two. And I was saying, well, that's \nonly six years. How is it that after six years,",
+      "start": 1809.6,
+      "duration": 5.36
+    },
+    {
+      "ordinal": 298,
+      "text": "I can't, that's too far back to remember. But my \nmother could remember back multiple decades. How",
+      "start": 1814.96,
+      "duration": 4.16
+    },
+    {
+      "ordinal": 299,
+      "text": "would that sort of thing work? And I think one of \nthe explanations to infant amnesia might be this",
+      "start": 1819.12,
+      "duration": 5.64
+    },
+    {
+      "ordinal": 300,
+      "text": "idea of representation. That without language, \nright, we install language into children between",
+      "start": 1824.76,
+      "duration": 5.88
+    },
+    {
+      "ordinal": 301,
+      "text": "the ages of one and two and so on. And without \nthat framework, it would be nearly impossible",
+      "start": 1830.64,
+      "duration": 7.8
+    },
+    {
+      "ordinal": 302,
+      "text": "to have an episodic memory system without having a \nlabeling system, right? And so when I can say, oh,",
+      "start": 1838.44,
+      "duration": 7.16
+    },
+    {
+      "ordinal": 303,
+      "text": "that nice dinner we had yesterday with Jacob, \nI have a label, right? And with that label,",
+      "start": 1845.6,
+      "duration": 7.52
+    },
+    {
+      "ordinal": 304,
+      "text": "you can reference this experience and we can say, \noh, that was an episode and I remember that. But",
+      "start": 1853.12,
+      "duration": 5.96
+    },
+    {
+      "ordinal": 305,
+      "text": "how would you refer to it in the space of all \npossible mental states without a language system,",
+      "start": 1859.08,
+      "duration": 4.72
+    },
+    {
+      "ordinal": 306,
+      "text": "which is like the Dewey Decimal catalog, without \nhaving this card, I can go, that's the one I mean,",
+      "start": 1863.8,
+      "duration": 6.32
+    },
+    {
+      "ordinal": 307,
+      "text": "what would, there would be no meaning to that \nexperience. And so when we think about what is it",
+      "start": 1870.12,
+      "duration": 4.44
+    },
+    {
+      "ordinal": 308,
+      "text": "like to be a bat, I think they might have a, this \nfleeting ephemeral, you know, sensory loop that it",
+      "start": 1874.56,
+      "duration": 7.84
+    },
+    {
+      "ordinal": 309,
+      "text": "would involve things like pain and pleasure, but \nit can't represent those things. It can't recall",
+      "start": 1882.4,
+      "duration": 6.76
+    },
+    {
+      "ordinal": 310,
+      "text": "them. It has no way of knowing that it went out \nand got fruit that morning because how would it",
+      "start": 1889.16,
+      "duration": 6.8
+    },
+    {
+      "ordinal": 311,
+      "text": "recall that mental state without a language type \nthing. Now, maybe we need to do more research and",
+      "start": 1895.96,
+      "duration": 7.4
+    },
+    {
+      "ordinal": 312,
+      "text": "know and find out, well, they do have a language \ntype system and they're tokenizing the sonar and",
+      "start": 1903.36,
+      "duration": 5.52
+    },
+    {
+      "ordinal": 313,
+      "text": "things like that. I don't know, but it would seem \nto me that we should be skeptical that it's like",
+      "start": 1908.88,
+      "duration": 7.2
+    },
+    {
+      "ordinal": 314,
+      "text": "anything to be those systems. And I take it \nanother extreme and say that it's, you know,",
+      "start": 1916.08,
+      "duration": 6.08
+    },
+    {
+      "ordinal": 315,
+      "text": "what is it like to be a human being and do we \nreally know or is it just this approximation",
+      "start": 1922.16,
+      "duration": 6.4
+    },
+    {
+      "ordinal": 316,
+      "text": "that our language model can reference different \nepisodes and different states and so on. Because",
+      "start": 1928.56,
+      "duration": 5.4
+    },
+    {
+      "ordinal": 317,
+      "text": "the example I like to give is the vast majority \nof our so-called experience is outside this",
+      "start": 1933.96,
+      "duration": 6.4
+    },
+    {
+      "ordinal": 318,
+      "text": "thought window. We don't even know that we have \ngallbladder, let alone what they do, right? Most",
+      "start": 1940.36,
+      "duration": 5.64
+    },
+    {
+      "ordinal": 319,
+      "text": "people can't name the organ. They don't even know \nwhat organs they have, right? So if we don't even",
+      "start": 1946.0,
+      "duration": 4.84
+    },
+    {
+      "ordinal": 320,
+      "text": "have words for them, we don't have representations \nfor them. They don't exist, right? I remember a",
+      "start": 1950.84,
+      "duration": 6.52
+    },
+    {
+      "ordinal": 321,
+      "text": "few years ago, a student was saying they wanted to \nbe hollow and I didn't quite know what that meant",
+      "start": 1957.36,
+      "duration": 3.92
+    },
+    {
+      "ordinal": 322,
+      "text": "at first and not in like the shallow sense in the \nsense of like they didn't want to have to have all",
+      "start": 1961.28,
+      "duration": 4.8
+    },
+    {
+      "ordinal": 323,
+      "text": "of that complexity because from their experience \npoint of view, they don't, right? The thing behind",
+      "start": 1966.08,
+      "duration": 5.96
+    },
+    {
+      "ordinal": 324,
+      "text": "your eyes that's talking doesn't most of the time, \nunless something goes wrong, completely unaware",
+      "start": 1972.04,
+      "duration": 4.64
+    },
+    {
+      "ordinal": 325,
+      "text": "that we even have all those systems operating \nin parallel. We're not thinking about our TOEs,",
+      "start": 1976.68,
+      "duration": 3.64
+    },
+    {
+      "ordinal": 326,
+      "text": "we're not thinking about our ears, and strangely \nenough, we're not usually thinking about thinking.",
+      "start": 1980.32,
+      "duration": 5.8
+    },
+    {
+      "ordinal": 327,
+      "text": "I think most of, this might again be a too strong \na statement, but it seems like most people, most",
+      "start": 1986.12,
+      "duration": 4.44
+    },
+    {
+      "ordinal": 328,
+      "text": "of the time, including myself, are not thinking \nabout thinking. We might be thinking, but we're",
+      "start": 1990.56,
+      "duration": 4.36
+    },
+    {
+      "ordinal": 329,
+      "text": "not thinking about the thinking. And then we take \nit a step further and think about that, but that's",
+      "start": 1994.92,
+      "duration": 3.52
+    },
+    {
+      "ordinal": 330,
+      "text": "when you start to get nutty, right? That's when \nyour mental immune system kicks in and says it's",
+      "start": 1998.44,
+      "duration": 4.44
+    },
+    {
+      "ordinal": 331,
+      "text": "time for lunch. Do you think that getting nutty, \nquote unquote, is reaching that universal language",
+      "start": 2002.88,
+      "duration": 7.96
+    },
+    {
+      "ordinal": 332,
+      "text": "model? If you're thinking these unthinkable \nthoughts, you have to be willing to go crazy.",
+      "start": 2010.84,
+      "duration": 26.88
+    },
+    {
+      "ordinal": 333,
+      "text": "And if you're afraid of going nutty or afraid of \ngoing crazy, you can't get past these barriers",
+      "start": 2039.96,
+      "duration": 7.28
+    },
+    {
+      "ordinal": 334,
+      "text": "that your mind has built. Well, what's the point? \nWhy do you have to be willing to go, to lose your",
+      "start": 2047.24,
+      "duration": 6.24
+    },
+    {
+      "ordinal": 335,
+      "text": "mind? Why do you have to, why would you want to \nat all? I think one way of defining losing your",
+      "start": 2053.48,
+      "duration": 6.36
+    },
+    {
+      "ordinal": 336,
+      "text": "mind is sort of leaving everyone else behind. It's \ngoing off in an abstract vector space direction of",
+      "start": 2059.84,
+      "duration": 6.48
+    },
+    {
+      "ordinal": 337,
+      "text": "thought that there's no one there. There's no one \nelse there. Or you might be in very rare company.",
+      "start": 2066.32,
+      "duration": 5.36
+    },
+    {
+      "ordinal": 338,
+      "text": "And maybe... You could define being human is that \noverlap. The reason why we can communicate and,",
+      "start": 2073.08,
+      "duration": 8.32
+    },
+    {
+      "ordinal": 339,
+      "text": "you know, because we have this shared experience \nand a sort of a common set of beliefs and ideas",
+      "start": 2081.4,
+      "duration": 5.84
+    },
+    {
+      "ordinal": 340,
+      "text": "and languages. And so when you escape that, you're \nnot in the herd anymore. So there's a difference",
+      "start": 2087.24,
+      "duration": 5.56
+    },
+    {
+      "ordinal": 341,
+      "text": "between having thoughts that other people have \nnot had. So you're in uncharted territory and",
+      "start": 2092.8,
+      "duration": 5.08
+    },
+    {
+      "ordinal": 342,
+      "text": "also just having a wrong representation of \nreality. Okay. So Gödel, as we talked about in",
+      "start": 2097.88,
+      "duration": 5.04
+    },
+    {
+      "ordinal": 343,
+      "text": "the car ride, it's not as if he was in uncharted \nterritory where you may have some gold that you",
+      "start": 2102.92,
+      "duration": 4.88
+    },
+    {
+      "ordinal": 344,
+      "text": "can then bring back and you're like Steve Jobs \nand you've invented the iPhone. Supposedly even",
+      "start": 2107.8,
+      "duration": 3.76
+    },
+    {
+      "ordinal": 345,
+      "text": "those engineers also helped with that. It's more \nlike in Gödel's case, he believed the government",
+      "start": 2111.56,
+      "duration": 5.56
+    },
+    {
+      "ordinal": 346,
+      "text": "was poisoning him or someone was poisoning him. \nBut I think that's a perfect example of somebody",
+      "start": 2117.12,
+      "duration": 5.64
+    },
+    {
+      "ordinal": 347,
+      "text": "who went out into the mines, brought back a gold \nnugget with his theorems and lost his, maybe his",
+      "start": 2122.76,
+      "duration": 7.04
+    },
+    {
+      "ordinal": 348,
+      "text": "humanity. I don't want to say lost his mind, but \nbecame too far away to where other humans could",
+      "start": 2129.8,
+      "duration": 6.16
+    },
+    {
+      "ordinal": 349,
+      "text": "no longer, you know, hey, just sit down, have \na bowl of soup. Let's not stress about this. He",
+      "start": 2135.96,
+      "duration": 4.92
+    },
+    {
+      "ordinal": 350,
+      "text": "couldn't take a break for lunch. Literally. Okay. \nI would like to talk to you for so much longer,",
+      "start": 2140.88,
+      "duration": 6.6
+    },
+    {
+      "ordinal": 351,
+      "text": "but I know there are some questions here. I'm \ncurious what you think about whether you were",
+      "start": 2147.48,
+      "duration": 6.92
+    },
+    {
+      "ordinal": 352,
+      "text": "discussing the software-hardware dichotomy and \nin particular language in the case of humans and",
+      "start": 2154.4,
+      "duration": 6.4
+    },
+    {
+      "ordinal": 353,
+      "text": "other species that do not have language. Is there \na completely different level of abstraction that",
+      "start": 2161.52,
+      "duration": 6.16
+    },
+    {
+      "ordinal": 354,
+      "text": "took place at the symbolic level? Because language \nis fundamentally symbolic. Okay. Before you answer",
+      "start": 2167.68,
+      "duration": 5.28
+    },
+    {
+      "ordinal": 355,
+      "text": "the question, can you summarize the question? \nYeah. So, um, Dr. Bernholz is suggesting that",
+      "start": 2172.96,
+      "duration": 6.96
+    },
+    {
+      "ordinal": 356,
+      "text": "when we get this symbolic language layer, did that \ncreate a new, a new layer to reality, right? A new",
+      "start": 2179.92,
+      "duration": 7.64
+    },
+    {
+      "ordinal": 357,
+      "text": "expansion of the universe into this new dimension. \nAnd it seems like it did because I think that",
+      "start": 2188.08,
+      "duration": 7.4
+    },
+    {
+      "ordinal": 358,
+      "text": "might explain this extreme chasm between humans, \nhuman behavior, and then even other obviously",
+      "start": 2195.48,
+      "duration": 7.88
+    },
+    {
+      "ordinal": 359,
+      "text": "intelligent animals, whales and primates and \nthings like that. It seems like we are of a",
+      "start": 2203.36,
+      "duration": 5.72
+    },
+    {
+      "ordinal": 360,
+      "text": "different category. And especially if we go back \nto the ancient world, it was just sort of patently",
+      "start": 2209.08,
+      "duration": 4.48
+    },
+    {
+      "ordinal": 361,
+      "text": "obvious that humans were on this spiritual realm \nthat was just miles above, you know, the plants",
+      "start": 2213.56,
+      "duration": 6.24
+    },
+    {
+      "ordinal": 362,
+      "text": "and animals and the backdrop. And so maybe, maybe \nlanguage did get this universality that we didn't",
+      "start": 2219.8,
+      "duration": 6.92
+    },
+    {
+      "ordinal": 363,
+      "text": "have before. That brains, be it birds and dolphins \nand things, have one kind of universality on the",
+      "start": 2226.72,
+      "duration": 7.96
+    },
+    {
+      "ordinal": 364,
+      "text": "hierarchy, but this language instantiates a whole \nnother. Um, but maybe it's just a virtual machine",
+      "start": 2234.68,
+      "duration": 7.4
+    },
+    {
+      "ordinal": 365,
+      "text": "that's much more efficient and that brains \nare really powerful, but even better is this",
+      "start": 2242.08,
+      "duration": 6.6
+    },
+    {
+      "ordinal": 366,
+      "text": "software brain via language that rides on top of \nbrains. And that just, maybe it's still universal,",
+      "start": 2248.68,
+      "duration": 6.52
+    },
+    {
+      "ordinal": 367,
+      "text": "but like a Mac comes out today versus the Apple \ntwo, it's, they're both universal machines, but",
+      "start": 2255.2,
+      "duration": 6.64
+    },
+    {
+      "ordinal": 368,
+      "text": "they can accomplish more tasks that the others, it \nseems impossible from the point of view of like an",
+      "start": 2261.84,
+      "duration": 4.32
+    },
+    {
+      "ordinal": 369,
+      "text": "Apple two. Do you see that as continuous in some \nways or completely discontinuous? Well, that's,",
+      "start": 2266.16,
+      "duration": 5.4
+    },
+    {
+      "ordinal": 370,
+      "text": "that's a great question. Um, you know, in complex \nsystems, there's this famous thing. I think it",
+      "start": 2271.56,
+      "duration": 5.6
+    },
+    {
+      "ordinal": 371,
+      "text": "was Anderson said more is different. Right. And \nthe idea is that you get like a phase transition.",
+      "start": 2277.16,
+      "duration": 6.6
+    },
+    {
+      "ordinal": 372,
+      "text": "And then the classic example is you have a pot \nof water on the stove with a digital temperature",
+      "start": 2283.76,
+      "duration": 4.96
+    },
+    {
+      "ordinal": 373,
+      "text": "setting. And if you just click up one degree every \nfew minutes and nothing happens, nothing changes",
+      "start": 2288.72,
+      "duration": 4.84
+    },
+    {
+      "ordinal": 374,
+      "text": "about the system. And then suddenly you hit this \ninflection point where you get boiling. Right.",
+      "start": 2293.56,
+      "duration": 4.84
+    },
+    {
+      "ordinal": 375,
+      "text": "So it, it's, it's clear that we see that from \na practical point of view, that while there is",
+      "start": 2298.4,
+      "duration": 4.68
+    },
+    {
+      "ordinal": 376,
+      "text": "this universality, we do get phase transitions and \nkind of capabilities, right? So we had cell phones",
+      "start": 2303.08,
+      "duration": 5.92
+    },
+    {
+      "ordinal": 377,
+      "text": "in the nineties, but they didn't do any of the \nthings that our cell phones can do, even though",
+      "start": 2309.0,
+      "duration": 3.88
+    },
+    {
+      "ordinal": 378,
+      "text": "they had a universal processors inside them, but \nthey couldn't, they hadn't gone through this phase",
+      "start": 2312.88,
+      "duration": 5.28
+    },
+    {
+      "ordinal": 379,
+      "text": "transition of capability. Right. And so it could \nbe that, that language is like that, that it gives",
+      "start": 2318.16,
+      "duration": 5.52
+    },
+    {
+      "ordinal": 380,
+      "text": "us, you know, a whole new set of apps that we \ncan run. But it also reminds me of this idea, uh,",
+      "start": 2323.68,
+      "duration": 11.24
+    },
+    {
+      "ordinal": 381,
+      "text": "that Marvin Minsky talks about the founder of the, \nof the media lab that we're in now. And he talks",
+      "start": 2334.92,
+      "duration": 5.72
+    },
+    {
+      "ordinal": 382,
+      "text": "about a car and when a car is running and we all \nknow what it means when the car is running. Right.",
+      "start": 2340.64,
+      "duration": 6.48
+    },
+    {
+      "ordinal": 383,
+      "text": "And it's, it is, it is sort of this digital thing. \nRight. The car is either running or it's not. Um,",
+      "start": 2347.12,
+      "duration": 5.28
+    },
+    {
+      "ordinal": 384,
+      "text": "maybe you can get into the weird, you know, kind \nof states and stuff, but the first approximation,",
+      "start": 2352.4,
+      "duration": 4.84
+    },
+    {
+      "ordinal": 385,
+      "text": "it's sort of this digital. And he argues \nthat with consciousness is, is like that,",
+      "start": 2357.24,
+      "duration": 5.0
+    },
+    {
+      "ordinal": 386,
+      "text": "that it's this thing, but he argues that it's not \nmysterious, right? It's somehow comes out of this,",
+      "start": 2362.24,
+      "duration": 6.04
+    },
+    {
+      "ordinal": 387,
+      "text": "uh, dynamic of all of the parts and all of \nthose things together instantiate this thing",
+      "start": 2368.28,
+      "duration": 4.48
+    },
+    {
+      "ordinal": 388,
+      "text": "called a running car. And as we know from, from \nauto mechanics and maintenance and stuff, it's,",
+      "start": 2372.76,
+      "duration": 5.92
+    },
+    {
+      "ordinal": 389,
+      "text": "it's subtle. And it's, um, or rather it's fragile. \nAnd if you have like one system and the thing,",
+      "start": 2378.68,
+      "duration": 5.04
+    },
+    {
+      "ordinal": 390,
+      "text": "the car won't start or the car, you know, so it \ndoes seem kind of like this. And I think we need",
+      "start": 2383.72,
+      "duration": 6.88
+    },
+    {
+      "ordinal": 391,
+      "text": "new language and we need to explore this analog \ndigital dichotomy because it, it seems like, like",
+      "start": 2390.6,
+      "duration": 7.24
+    },
+    {
+      "ordinal": 392,
+      "text": "the, the boiling that as we add more complexity, \nuh, you get new behaviors emerging. And this is",
+      "start": 2397.84,
+      "duration": 6.4
+    },
+    {
+      "ordinal": 393,
+      "text": "exactly what we've seen with these large language \nmodels with the so-called scaling laws that we,",
+      "start": 2404.24,
+      "duration": 6.6
+    },
+    {
+      "ordinal": 394,
+      "text": "we took systems that in a few generations ago \ncould, couldn't very well predict the next word.",
+      "start": 2410.84,
+      "duration": 5.4
+    },
+    {
+      "ordinal": 395,
+      "text": "And if they did, it was just word salad. Right. \nAnd, and then suddenly just scaling that system",
+      "start": 2416.24,
+      "duration": 6.32
+    },
+    {
+      "ordinal": 396,
+      "text": "up, just training on a larger data set. And then \nsuddenly it can do arithmetic and then you scale a",
+      "start": 2422.56,
+      "duration": 5.76
+    },
+    {
+      "ordinal": 397,
+      "text": "little more and it can do algebra, scale a little \nmore. It can do a theoretical physics. And what's",
+      "start": 2428.32,
+      "duration": 4.56
+    },
+    {
+      "ordinal": 398,
+      "text": "the limit to that? Um, I think that we're not \nthat far away and we're approximating already,",
+      "start": 2432.88,
+      "duration": 5.28
+    },
+    {
+      "ordinal": 399,
+      "text": "not just artificial general intelligence, but \nartificial superintelligence. And I think that",
+      "start": 2438.16,
+      "duration": 3.96
+    },
+    {
+      "ordinal": 400,
+      "text": "when we start training these things on video, \nfor example, like, so the large language model,",
+      "start": 2442.12,
+      "duration": 5.04
+    },
+    {
+      "ordinal": 401,
+      "text": "like ChatGPT was trained on Wikipedia and \nthe historical archive of books and read it",
+      "start": 2447.16,
+      "duration": 4.76
+    },
+    {
+      "ordinal": 402,
+      "text": "and things like that, but it hasn't watched \nYouTube yet. Right. It hasn't been embodied",
+      "start": 2451.92,
+      "duration": 5.56
+    },
+    {
+      "ordinal": 403,
+      "text": "in a robot where it actually gets to play in a \nsandbox for three years in a row. Like a little",
+      "start": 2457.48,
+      "duration": 4.52
+    },
+    {
+      "ordinal": 404,
+      "text": "kid does. Right. Little kids will slosh water \naround for hours on end, just learning how fluids",
+      "start": 2462.0,
+      "duration": 7.2
+    },
+    {
+      "ordinal": 405,
+      "text": "work and what a container does and all that kind \nof stuff. They don't have any of those tokens,",
+      "start": 2469.2,
+      "duration": 4.48
+    },
+    {
+      "ordinal": 406,
+      "text": "let's call them. Right. And so I think we don't \neven need a new recipe. Right. I don't think it's",
+      "start": 2473.68,
+      "duration": 5.72
+    },
+    {
+      "ordinal": 407,
+      "text": "going to be mysterious how we're going to get to \nmachines that can make real genuine advancements",
+      "start": 2479.4,
+      "duration": 4.72
+    },
+    {
+      "ordinal": 408,
+      "text": "in chemistry and physics. And astronomy, just give \nthem a telescope, right? Give them more data. Um,",
+      "start": 2484.12,
+      "duration": 7.56
+    },
+    {
+      "ordinal": 409,
+      "text": "and give them experience. And I think we'll get \nthose phase transitions to where we have really",
+      "start": 2491.68,
+      "duration": 4.84
+    },
+    {
+      "ordinal": 410,
+      "text": "capable machines. When you talked about animals \nand that they do experience suffering because",
+      "start": 2496.52,
+      "duration": 5.56
+    },
+    {
+      "ordinal": 411,
+      "text": "at first it sounded like what you're saying was \nmore of the Descartes. Well, animals do not have",
+      "start": 2502.08,
+      "duration": 4.28
+    },
+    {
+      "ordinal": 412,
+      "text": "consciousness. That's purely a human phenomena and \nthus you can torture your animals and don't listen",
+      "start": 2506.36,
+      "duration": 4.44
+    },
+    {
+      "ordinal": 413,
+      "text": "to their screaming because that's just the, the \nclanking of a machine. Okay. So you're not saying",
+      "start": 2510.8,
+      "duration": 5.56
+    },
+    {
+      "ordinal": 414,
+      "text": "that, but you were saying that animals don't \nhave a self model, but then do we have a self",
+      "start": 2516.36,
+      "duration": 5.68
+    },
+    {
+      "ordinal": 415,
+      "text": "model that persists that actually persists? Or \nis it more of the Buddhist notion where there's",
+      "start": 2522.04,
+      "duration": 4.8
+    },
+    {
+      "ordinal": 416,
+      "text": "some transient self? You know, I think it's clear \nthat they would experience things like suffering,",
+      "start": 2526.84,
+      "duration": 9.72
+    },
+    {
+      "ordinal": 417,
+      "text": "but I don't know. It's not clear that they have \nthe ability to represent it. Um, and so they don't",
+      "start": 2536.56,
+      "duration": 6.48
+    },
+    {
+      "ordinal": 418,
+      "text": "know that's what's happening to them. And while \nthey'll probably, you know, take actions to try",
+      "start": 2543.04,
+      "duration": 5.44
+    },
+    {
+      "ordinal": 419,
+      "text": "to move into a different environment to reduce \nthat, um, they can't really like lament about it,",
+      "start": 2548.48,
+      "duration": 5.36
+    },
+    {
+      "ordinal": 420,
+      "text": "right? They're not going to write the poetry \nabout it and song and things like that to try",
+      "start": 2553.84,
+      "duration": 4.4
+    },
+    {
+      "ordinal": 421,
+      "text": "to express those internal states because they're \nsort of farther down on that, that ladder. Do",
+      "start": 2558.24,
+      "duration": 6.88
+    },
+    {
+      "ordinal": 422,
+      "text": "you believe that having a self model is also this \nbinary having a self model or is it also somehow",
+      "start": 2565.12,
+      "duration": 7.4
+    },
+    {
+      "ordinal": 423,
+      "text": "continuous? That's a great question. And the first \nthing that comes to mind is, do we have oneself",
+      "start": 2572.52,
+      "duration": 4.6
+    },
+    {
+      "ordinal": 424,
+      "text": "or do we have many selves? And I, I'm of the \nopinion that we, I think we, we all have sort",
+      "start": 2577.8,
+      "duration": 5.64
+    },
+    {
+      "ordinal": 425,
+      "text": "of multiple selves and that when we get to break \ndown in that, that delicate dance, then we can get",
+      "start": 2583.44,
+      "duration": 8.16
+    },
+    {
+      "ordinal": 426,
+      "text": "multiple personalities that suddenly emerge and \nthings. But I think in our subconscious, we have",
+      "start": 2591.6,
+      "duration": 6.08
+    },
+    {
+      "ordinal": 427,
+      "text": "all of those things. Um, we represent other people \nin our, in our mind. That's something we spoke",
+      "start": 2597.68,
+      "duration": 5.84
+    },
+    {
+      "ordinal": 428,
+      "text": "about last time is I have, I carry people in me \nin some sense. Um, and the idea that, and again,",
+      "start": 2603.52,
+      "duration": 7.92
+    },
+    {
+      "ordinal": 429,
+      "text": "this is related to software, you know, there's the \nclassic expression, the ghost in the machine. Um,",
+      "start": 2611.44,
+      "duration": 4.44
+    },
+    {
+      "ordinal": 430,
+      "text": "but I think we are machines made out of \nghosts essentially. And are they, are they",
+      "start": 2615.88,
+      "duration": 6.16
+    },
+    {
+      "ordinal": 431,
+      "text": "like selves? You know, we kind of have this one \nprimary self, but I have a copy of you in me,",
+      "start": 2622.04,
+      "duration": 4.92
+    },
+    {
+      "ordinal": 432,
+      "text": "right? It's how I'm able to communicate with you \nand think about you when you're not in my visual",
+      "start": 2626.96,
+      "duration": 3.36
+    },
+    {
+      "ordinal": 433,
+      "text": "field and things like that. Uh, it's not as rich \nas the self that you have, but it's kind of like",
+      "start": 2630.32,
+      "duration": 5.52
+    },
+    {
+      "ordinal": 434,
+      "text": "a hologram. It's a, it's a lower resolution, but \nit somehow captures the whole thing in some weird",
+      "start": 2635.84,
+      "duration": 4.92
+    },
+    {
+      "ordinal": 435,
+      "text": "sense. That's interesting. So when I speak \nto people on this channel, people ask me, how",
+      "start": 2640.76,
+      "duration": 5.24
+    },
+    {
+      "ordinal": 436,
+      "text": "do I prepare? So I prepare for weeks in advance \nuntil I get to the point where I can emulate the",
+      "start": 2646.0,
+      "duration": 5.8
+    },
+    {
+      "ordinal": 437,
+      "text": "person. And that's when I say, okay, I've, I've \nsufficiently prepared. When I can imagine almost",
+      "start": 2651.8,
+      "duration": 4.92
+    },
+    {
+      "ordinal": 438,
+      "text": "any question that I, when I can answer almost \nany question that I can imagine from the point",
+      "start": 2656.72,
+      "duration": 4.16
+    },
+    {
+      "ordinal": 439,
+      "text": "of view of the other person and be correct. And \nI can test myself by saying, okay, what questions",
+      "start": 2660.88,
+      "duration": 5.28
+    },
+    {
+      "ordinal": 440,
+      "text": "did this person get asked in an interview? You \ncan put that into an LLM and say, don't give me",
+      "start": 2666.16,
+      "duration": 3.6
+    },
+    {
+      "ordinal": 441,
+      "text": "the answers. And then I can say, what would they \nsay? What are they likely to say? So, you know,",
+      "start": 2669.76,
+      "duration": 5.16
+    },
+    {
+      "ordinal": 442,
+      "text": "like the, in the large language models, within the \nneural networks, we have like this weight pruning",
+      "start": 2674.92,
+      "duration": 4.2
+    },
+    {
+      "ordinal": 443,
+      "text": "and we can do like a lower reduced a bit depth \nfor each of the weights. Right? So you have a,",
+      "start": 2679.12,
+      "duration": 4.88
+    },
+    {
+      "ordinal": 444,
+      "text": "a low bit depth representation of me essentially. \nRight. But then we, we need, we need to think",
+      "start": 2684.0,
+      "duration": 6.92
+    },
+    {
+      "ordinal": 445,
+      "text": "of it like an ecosystem because how many \npeople do you have in your mind? How many",
+      "start": 2690.92,
+      "duration": 4.88
+    },
+    {
+      "ordinal": 446,
+      "text": "people have you interviewed? Right. You have \nall of those, those ghosts in your machine,",
+      "start": 2695.8,
+      "duration": 4.28
+    },
+    {
+      "ordinal": 447,
+      "text": "essentially. Yeah. Speaking of unthinkable \nthoughts. Well, I, I had these experiences.",
+      "start": 2700.08,
+      "duration": 10.0
+    },
+    {
+      "ordinal": 448,
+      "text": "I've had an experience. Let's just say that. And \nI'll be somewhat vague about it. And we talked",
+      "start": 2710.08,
+      "duration": 5.32
+    },
+    {
+      "ordinal": 449,
+      "text": "about it off air. So I'll just briefly speak about \nit where I felt like I was losing my mind. And it",
+      "start": 2715.4,
+      "duration": 7.56
+    },
+    {
+      "ordinal": 450,
+      "text": "was one of the most terrifying experiences, if not \nthe most terrifying experience of my life. And as",
+      "start": 2722.96,
+      "duration": 6.8
+    },
+    {
+      "ordinal": 451,
+      "text": "I was processing this, as you go through therapy \nand, and think about it and write about it and",
+      "start": 2729.76,
+      "duration": 5.0
+    },
+    {
+      "ordinal": 452,
+      "text": "so on. One of the large contributing factors is \nthat each week I'm interviewing someone who has",
+      "start": 2734.76,
+      "duration": 6.2
+    },
+    {
+      "ordinal": 453,
+      "text": "an entirely different point of view as to \nsomeone else. And I have to take them on,",
+      "start": 2740.96,
+      "duration": 4.08
+    },
+    {
+      "ordinal": 454,
+      "text": "first emulate them, but also think that they could \nbe correct. Because I can't be dismissive of you",
+      "start": 2745.04,
+      "duration": 5.6
+    },
+    {
+      "ordinal": 455,
+      "text": "or contemptuous of you and think, well, my model \nis, is the right model. And I'm only going to",
+      "start": 2750.64,
+      "duration": 4.96
+    },
+    {
+      "ordinal": 456,
+      "text": "entertain your model as a theoretical fantasy, but \nnot actually treat you as you have an element of,",
+      "start": 2755.6,
+      "duration": 7.12
+    },
+    {
+      "ordinal": 457,
+      "text": "possibly have an element of reality. So it was as \nif I'm running, I'm having all every, every other",
+      "start": 2762.72,
+      "duration": 6.76
+    },
+    {
+      "ordinal": 458,
+      "text": "week, this is how the world works. No, this is \nhow reality is. No, this is what reality is. And",
+      "start": 2769.48,
+      "duration": 4.28
+    },
+    {
+      "ordinal": 459,
+      "text": "it just, and it, it sent me into a spiral. How did \nyou, how did you recover from that? Well, in some",
+      "start": 2773.76,
+      "duration": 10.76
+    },
+    {
+      "ordinal": 460,
+      "text": "ways I'm still recovering. It was quite, quite \ntraumatic. And I do have to distance myself from",
+      "start": 2784.52,
+      "duration": 5.52
+    },
+    {
+      "ordinal": 461,
+      "text": "the thoughts of other people and the arguments. \nWell, I don't distance myself from arguments,",
+      "start": 2790.04,
+      "duration": 4.76
+    },
+    {
+      "ordinal": 462,
+      "text": "but I, I can distance myself from conclusions of \nother people and especially what they asseverate.",
+      "start": 2794.8,
+      "duration": 4.84
+    },
+    {
+      "ordinal": 463,
+      "text": "So what they say with confidence and many people, \nwe confuse when they speak, proclaiming something",
+      "start": 2799.64,
+      "duration": 8.16
+    },
+    {
+      "ordinal": 464,
+      "text": "without diffidence with, okay, they, we give it \nmore credence than when someone's speaking meekly.",
+      "start": 2807.8,
+      "duration": 8.0
+    },
+    {
+      "ordinal": 465,
+      "text": "And so I have to, almost as if they were just \ntyping their, their speech, I have to evaluate",
+      "start": 2815.8,
+      "duration": 5.76
+    },
+    {
+      "ordinal": 466,
+      "text": "their questions as such and not say, okay, well, \nwhat are the accoutrements that come along with",
+      "start": 2821.56,
+      "duration": 4.68
+    },
+    {
+      "ordinal": 467,
+      "text": "their speech? Kind of like a multiple choice \nsentences where they're just sort of sitting",
+      "start": 2826.24,
+      "duration": 4.28
+    },
+    {
+      "ordinal": 468,
+      "text": "there and you haven't assigned a truth statement \nto any of them. And one of the, just if people",
+      "start": 2830.52,
+      "duration": 4.8
+    },
+    {
+      "ordinal": 469,
+      "text": "are listening, I went through ACT therapy. So \nacceptance, commitment therapy, I believe that's",
+      "start": 2835.32,
+      "duration": 6.4
+    },
+    {
+      "ordinal": 470,
+      "text": "what it stands for. And I have an episode on it. I \ninterviewed this lady named Lillian Dindo. And one",
+      "start": 2841.72,
+      "duration": 4.92
+    },
+    {
+      "ordinal": 471,
+      "text": "of the, one of the pieces of advice is if you're \nencountering something that is triggering, you can",
+      "start": 2846.64,
+      "duration": 7.56
+    },
+    {
+      "ordinal": 472,
+      "text": "actually recoil from it. People will say, no, no, \nno, don't face it. You're supposed to face it as",
+      "start": 2854.2,
+      "duration": 5.96
+    },
+    {
+      "ordinal": 473,
+      "text": "much as you can and do so voluntarily. And one of \nthe ways you can do so is let's say someone said",
+      "start": 2860.16,
+      "duration": 4.44
+    },
+    {
+      "ordinal": 474,
+      "text": "something that is triggering. This is just now a \nvague example. You can then look at the words and",
+      "start": 2864.6,
+      "duration": 5.68
+    },
+    {
+      "ordinal": 475,
+      "text": "then just read the words and just say, these are \njust words on a paper. They don't influence me.",
+      "start": 2870.28,
+      "duration": 4.2
+    },
+    {
+      "ordinal": 476,
+      "text": "They don't have to influence me. I don't have to \nbuy into it. This is one model of the world. So it",
+      "start": 2874.48,
+      "duration": 5.72
+    },
+    {
+      "ordinal": 477,
+      "text": "strikes me as sort of reading the code, but not \nrunning the program. That's a brilliant way of",
+      "start": 2880.2,
+      "duration": 5.56
+    },
+    {
+      "ordinal": 478,
+      "text": "phrasing it. Yeah. You know, because, you know, \nbecause I had the same and still have the same",
+      "start": 2885.76,
+      "duration": 5.68
+    },
+    {
+      "ordinal": 479,
+      "text": "kind of challenges myself, particularly in this \nkind of research and in thinking about unthinkable",
+      "start": 2891.44,
+      "duration": 6.8
+    },
+    {
+      "ordinal": 480,
+      "text": "thoughts and this, this concept of lethal text \nand so on. When I first came across that, just the",
+      "start": 2898.24,
+      "duration": 6.04
+    },
+    {
+      "ordinal": 481,
+      "text": "concept of an idea that would do harm, I was very \nhesitant for a long time to even share that idea",
+      "start": 2904.28,
+      "duration": 6.92
+    },
+    {
+      "ordinal": 482,
+      "text": "in the abstract sense, not even any particular \nidea, but just the, the meta idea of that there",
+      "start": 2911.2,
+      "duration": 5.44
+    },
+    {
+      "ordinal": 483,
+      "text": "are harmful ideas. And I had to, you know, in this \nact of climbing the mountain of madness, I had to,",
+      "start": 2916.64,
+      "duration": 8.84
+    },
+    {
+      "ordinal": 484,
+      "text": "I had to retreat because I felt like I was \ngetting too far away from humanity, from myself,",
+      "start": 2925.48,
+      "duration": 7.0
+    },
+    {
+      "ordinal": 485,
+      "text": "from my past. And when we, when we get to sort of \nnew layers of thought, they, they are lethal to",
+      "start": 2932.48,
+      "duration": 10.08
+    },
+    {
+      "ordinal": 486,
+      "text": "our previous self, right? Your adulthood is lethal \nto your childlike self, right? So why were you",
+      "start": 2942.56,
+      "duration": 11.68
+    },
+    {
+      "ordinal": 487,
+      "text": "afraid of sharing even the notion that there are, \nthat there are lethal ideas? Because somewhere in",
+      "start": 2954.24,
+      "duration": 6.72
+    },
+    {
+      "ordinal": 488,
+      "text": "me that idea frightened me. And I was afraid of \ndoing harm to other people. I worried that maybe I",
+      "start": 2960.96,
+      "duration": 9.32
+    },
+    {
+      "ordinal": 489,
+      "text": "would encounter someone who didn't have the right \nconstitution or wasn't in the right place. And",
+      "start": 2970.28,
+      "duration": 5.8
+    },
+    {
+      "ordinal": 490,
+      "text": "that even that idea would, wouldn't, because the \nidea itself, the meta idea is enough of a seed to",
+      "start": 2976.08,
+      "duration": 6.2
+    },
+    {
+      "ordinal": 491,
+      "text": "then either I instantiate a lethal framework or to \nopen your perception where you start to find them",
+      "start": 2982.28,
+      "duration": 6.68
+    },
+    {
+      "ordinal": 492,
+      "text": "because I think they're everywhere. Something that \nwe talked about over dinner with Jacob Barndes.",
+      "start": 2988.96,
+      "duration": 5.92
+    },
+    {
+      "ordinal": 493,
+      "text": "So we just recorded an episode of Jacob Barndes, \nlink on screen, obligatory remarks. I recommend",
+      "start": 2994.88,
+      "duration": 5.48
+    },
+    {
+      "ordinal": 494,
+      "text": "you check it out. Is that I want to make sure \nthat what I'm doing with this channel is good",
+      "start": 3000.36,
+      "duration": 6.64
+    },
+    {
+      "ordinal": 495,
+      "text": "or it is not promulgating harm. And so it's, it's \nextremely tricky because even this, it sounds like",
+      "start": 3007.0,
+      "duration": 11.68
+    },
+    {
+      "ordinal": 496,
+      "text": "what you're saying is it's necessary for the \ncreative endeavor to go out outside the norm",
+      "start": 3018.68,
+      "duration": 5.96
+    },
+    {
+      "ordinal": 497,
+      "text": "and to allow yourself to indulge in some dosage of \nmadness. But then at the same time, there is such",
+      "start": 3024.64,
+      "duration": 8.36
+    },
+    {
+      "ordinal": 498,
+      "text": "a thing as madness. And that hasn't been separated \nin this conversation. So I would like you to make",
+      "start": 3033.0,
+      "duration": 7.52
+    },
+    {
+      "ordinal": 499,
+      "text": "that distinction. What comes to mind is the real \nscary idea is that those that have gone mad are",
+      "start": 3040.52,
+      "duration": 7.12
+    },
+    {
+      "ordinal": 500,
+      "text": "not wrong. We have this tendency and I think it's \nan unfortunate framework that those that suffer",
+      "start": 3047.64,
+      "duration": 6.52
+    },
+    {
+      "ordinal": 501,
+      "text": "from mental illness are broken somehow. There's \na chemical imbalance, their brains wired wrong",
+      "start": 3054.16,
+      "duration": 4.44
+    },
+    {
+      "ordinal": 502,
+      "text": "or they have traumatic experience that sort of \nmessed up their software. But maybe that's not",
+      "start": 3058.6,
+      "duration": 4.6
+    },
+    {
+      "ordinal": 503,
+      "text": "the case at all. Maybe they're sort of astronauts \nthat have been to the moon and the rest of us have",
+      "start": 3063.2,
+      "duration": 5.4
+    },
+    {
+      "ordinal": 504,
+      "text": "just haven't been there. And like you were saying \nbefore with your, with your guests, you have to",
+      "start": 3068.6,
+      "duration": 6.16
+    },
+    {
+      "ordinal": 505,
+      "text": "assume that they have this valid experience. And \nif, if we imagine that we are software, then,",
+      "start": 3074.76,
+      "duration": 7.0
+    },
+    {
+      "ordinal": 506,
+      "text": "then all the experiences are real, right? Because \nthey are, they're just virtual machines anyway.",
+      "start": 3081.76,
+      "duration": 4.32
+    },
+    {
+      "ordinal": 507,
+      "text": "So all of our thoughts are made out of just \npatterns. And so if someone has that experience,",
+      "start": 3086.08,
+      "duration": 3.68
+    },
+    {
+      "ordinal": 508,
+      "text": "it's genuine. It's not, it's not a fallacy. \nIt's, it's what they experienced and they, they,",
+      "start": 3089.76,
+      "duration": 5.8
+    },
+    {
+      "ordinal": 509,
+      "text": "by them instantiating it, it's, it's real. And \nso this idea that the mentally ill aren't broken,",
+      "start": 3095.56,
+      "duration": 7.68
+    },
+    {
+      "ordinal": 510,
+      "text": "but are just at the edge of evolution or the edge \nof these unthinkable thoughts is, I think it's,",
+      "start": 3103.24,
+      "duration": 11.16
+    },
+    {
+      "ordinal": 511,
+      "text": "it's something that stirs me. There could also be \nmisattributions. So for instance, they go to the",
+      "start": 3114.4,
+      "duration": 5.72
+    },
+    {
+      "ordinal": 512,
+      "text": "moon and then they come back and say, I was on a \nballoon made of cheese. And so we then say there",
+      "start": 3120.12,
+      "duration": 6.8
+    },
+    {
+      "ordinal": 513,
+      "text": "are no balloons made of cheese. However, if they \nhad said and incorrectly, correctly identified,",
+      "start": 3126.92,
+      "duration": 5.36
+    },
+    {
+      "ordinal": 514,
+      "text": "there's a rock that orbits the earth and we never \nnoticed it, you understand what orbits are and so",
+      "start": 3132.28,
+      "duration": 4.6
+    },
+    {
+      "ordinal": 515,
+      "text": "on, then we would be like, Oh, that's interesting. \nCan we also, can we go look for that now? And we",
+      "start": 3136.88,
+      "duration": 4.28
+    },
+    {
+      "ordinal": 516,
+      "text": "find it. Now, in this example, it's quite foolish \nbecause we see the moon, but you get the idea.",
+      "start": 3141.16,
+      "duration": 5.36
+    },
+    {
+      "ordinal": 517,
+      "text": "They're thinking about something much richer, but \nthat's sort of the, the token that they were able",
+      "start": 3171.72,
+      "duration": 4.44
+    },
+    {
+      "ordinal": 518,
+      "text": "to, to get out. And then we say, Oh no, that \nperson is nutty because they're talking about",
+      "start": 3176.16,
+      "duration": 5.2
+    },
+    {
+      "ordinal": 519,
+      "text": "balloons of cheese and that's not how we think \nabout it. But if we were to go back, you know,",
+      "start": 3181.36,
+      "duration": 6.04
+    },
+    {
+      "ordinal": 520,
+      "text": "millennia and describe the moon in modern terms \nto, to, to the wisest people we could find, they",
+      "start": 3187.4,
+      "duration": 8.88
+    },
+    {
+      "ordinal": 521,
+      "text": "would say that we're nutty. They would say, no, \nno, no, this is the goddess and this is Luna and",
+      "start": 3196.28,
+      "duration": 5.08
+    },
+    {
+      "ordinal": 522,
+      "text": "this is how it works and this is what it means and \nso on. And so when we describe it as a collection",
+      "start": 3201.36,
+      "duration": 4.6
+    },
+    {
+      "ordinal": 523,
+      "text": "of rocks in an orbit and a gravitational well, \nthat would sound like balloons and cheese to them.",
+      "start": 3205.96,
+      "duration": 6.8
+    },
+    {
+      "ordinal": 524,
+      "text": "So part of me is maybe you felt the same. One of \nthe reasons why I didn't talk about my experience",
+      "start": 3212.76,
+      "duration": 7.56
+    },
+    {
+      "ordinal": 525,
+      "text": "and I, but I do more and more, but I still rarely \ndo relatively compared to how often I have these",
+      "start": 3220.32,
+      "duration": 4.76
+    },
+    {
+      "ordinal": 526,
+      "text": "podcasts or talk to people is that I'm ashamed of \nit. And I also think that it's, I thought that it",
+      "start": 3225.08,
+      "duration": 6.8
+    },
+    {
+      "ordinal": 527,
+      "text": "was much more rare than, than it was. And as \nI speak to people, there's some professors,",
+      "start": 3231.88,
+      "duration": 6.44
+    },
+    {
+      "ordinal": 528,
+      "text": "there's the prominent professor of math who I can \ntalk to you about off air. His name is a household",
+      "start": 3238.32,
+      "duration": 5.0
+    },
+    {
+      "ordinal": 529,
+      "text": "name to mathematicians who told me that I'm, I'm \nso glad you talked about this in the Karl Friston",
+      "start": 3243.32,
+      "duration": 5.4
+    },
+    {
+      "ordinal": 530,
+      "text": "episode because I was experiencing something like \nthis myself. I think it's going to, we'll find out",
+      "start": 3248.72,
+      "duration": 6.16
+    },
+    {
+      "ordinal": 531,
+      "text": "it's a much more universal phenomenon. And this, \nthis immune system concept applies sort of at the",
+      "start": 3254.88,
+      "duration": 5.8
+    },
+    {
+      "ordinal": 532,
+      "text": "cultural level where we don't, we don't share \nthose ideas, um, for, for fear in some sense,",
+      "start": 3260.68,
+      "duration": 8.32
+    },
+    {
+      "ordinal": 533,
+      "text": "because we know that they can be lethal to \nrelationships, to our standing in society,",
+      "start": 3269.0,
+      "duration": 6.08
+    },
+    {
+      "ordinal": 534,
+      "text": "to our financial wellbeing. That really exposing \nthat raw self, even though the experiences are",
+      "start": 3275.08,
+      "duration": 7.48
+    },
+    {
+      "ordinal": 535,
+      "text": "genuine and valid, we don't, we don't share \nthat. And I think that's kind of what we need to",
+      "start": 3282.56,
+      "duration": 5.12
+    },
+    {
+      "ordinal": 536,
+      "text": "overcome as a culture. If we, if we want to make \nit to this next era of evolution and humanity,",
+      "start": 3287.68,
+      "duration": 7.44
+    },
+    {
+      "ordinal": 537,
+      "text": "we have to embrace that. We have to embrace that \ndiversity of thought and people that previously",
+      "start": 3295.12,
+      "duration": 5.28
+    },
+    {
+      "ordinal": 538,
+      "text": "were laughed off the stage, um, that that's \nprecisely where the interesting ideas are going",
+      "start": 3300.4,
+      "duration": 6.2
+    },
+    {
+      "ordinal": 539,
+      "text": "to come from. Right. So, you know, we mentioned \nlike with the moon, but if we take anything out",
+      "start": 3306.6,
+      "duration": 4.68
+    },
+    {
+      "ordinal": 540,
+      "text": "of the modern world, whether it's, uh, you \nknow, quantum physics or information theory,",
+      "start": 3311.28,
+      "duration": 4.64
+    },
+    {
+      "ordinal": 541,
+      "text": "or even just the idea of software. And we go \nback, like we said, if, you know, a hundred years,",
+      "start": 3315.92,
+      "duration": 4.76
+    },
+    {
+      "ordinal": 542,
+      "text": "200 years, 300 years, these ideas were just, they \nwere insane, right? The whole world is just this,",
+      "start": 3320.68,
+      "duration": 6.0
+    },
+    {
+      "ordinal": 543,
+      "text": "this utterly unimaginable creation compared \nto what we, what we thought about before. Um,",
+      "start": 3326.68,
+      "duration": 8.36
+    },
+    {
+      "ordinal": 544,
+      "text": "it reminds me of, I've been traveling recently \nand seeing sort of a modern cities up close. And",
+      "start": 3335.04,
+      "duration": 8.32
+    },
+    {
+      "ordinal": 545,
+      "text": "I think if you took someone from 200 years ago and \nyou brought them into a modern city like Boston,",
+      "start": 3343.36,
+      "duration": 5.16
+    },
+    {
+      "ordinal": 546,
+      "text": "I think they would think we're a million years \ninto the future, not 200 years. And I think it",
+      "start": 3348.52,
+      "duration": 6.36
+    },
+    {
+      "ordinal": 547,
+      "text": "would be overwhelming and unimaginable. They \nwouldn't really even be able to take it in",
+      "start": 3354.88,
+      "duration": 6.16
+    },
+    {
+      "ordinal": 548,
+      "text": "all the lights and little computers and all the \nplethora of cars and all this kind of stuff that",
+      "start": 3361.04,
+      "duration": 4.92
+    },
+    {
+      "ordinal": 549,
+      "text": "we have in the modern world. I think it would be \noverwhelming. And I think they would suspect that,",
+      "start": 3365.96,
+      "duration": 4.96
+    },
+    {
+      "ordinal": 550,
+      "text": "that they had time traveled a million years \nand not 200. And so by the, by the same token,",
+      "start": 3370.92,
+      "duration": 5.12
+    },
+    {
+      "ordinal": 551,
+      "text": "if we think about where the human mental space \nis going to be in say 25 years, I think it's like",
+      "start": 3376.04,
+      "duration": 7.6
+    },
+    {
+      "ordinal": 552,
+      "text": "farther out than just the linear 25 years, right? \nThis, the vistas, uh, the Lovecraft vistas we",
+      "start": 3383.64,
+      "duration": 7.32
+    },
+    {
+      "ordinal": 553,
+      "text": "talked about last time, they're going to get hope \nthat are being opened up by these AI tools, um,",
+      "start": 3390.96,
+      "duration": 5.76
+    },
+    {
+      "ordinal": 554,
+      "text": "are either going to drive us mad or they're going \nto open up a new renaissance. And we have to get",
+      "start": 3396.72,
+      "duration": 5.4
+    },
+    {
+      "ordinal": 555,
+      "text": "going prior to going, the audience comprises \na general audience, but a large audience of",
+      "start": 3402.12,
+      "duration": 6.32
+    },
+    {
+      "ordinal": 556,
+      "text": "researchers. So now you're speaking to researchers \nand then also people who want to become, who want",
+      "start": 3408.44,
+      "duration": 4.88
+    },
+    {
+      "ordinal": 557,
+      "text": "to go into the fields of physics, mathematics, \nphilosophy, computer science. Yeah. Well,",
+      "start": 3413.32,
+      "duration": 5.4
+    },
+    {
+      "ordinal": 558,
+      "text": "you've got such an amazing audience and community, \nand I'd really love to know what unthinkable",
+      "start": 3418.72,
+      "duration": 5.88
+    },
+    {
+      "ordinal": 559,
+      "text": "thoughts they're thinking about, you know, put \ndown in the comments and, and tell us the stories",
+      "start": 3424.6,
+      "duration": 4.8
+    },
+    {
+      "ordinal": 560,
+      "text": "and the experiences that you're having in terms of \nbeing off the map and, uh, where your GPS doesn't",
+      "start": 3429.4,
+      "duration": 6.76
+    },
+    {
+      "ordinal": 561,
+      "text": "get any signal kind of thing. And you, and you \nfind yourself either in ecstasy or despair, um,",
+      "start": 3436.16,
+      "duration": 5.92
+    },
+    {
+      "ordinal": 562,
+      "text": "or discovery. And I'd, I'd be curious to kind \nof mine the, the beautiful minds that you have",
+      "start": 3442.08,
+      "duration": 5.8
+    },
+    {
+      "ordinal": 563,
+      "text": "in your channel and what they think. And I'll \nalso put a link to help if they require help",
+      "start": 3447.88,
+      "duration": 7.52
+    },
+    {
+      "ordinal": 564,
+      "text": "for the various countries. I'll look at the top \n10 countries and just put whatever's the national",
+      "start": 3455.4,
+      "duration": 5.4
+    },
+    {
+      "ordinal": 565,
+      "text": "hotline or what have you. Will, thank you so much. \nThank you, sir. Always a pleasure. Looking forward",
+      "start": 3460.8,
+      "duration": 7.32
+    },
+    {
+      "ordinal": 566,
+      "text": "to speaking with you again. New update started a \nsub stack writings on. There are currently about",
+      "start": 3468.12,
+      "duration": 6.56
+    },
+    {
+      "ordinal": 567,
+      "text": "language and ill-defined concepts, as well as \nsome other mathematical details, much more being",
+      "start": 3474.68,
+      "duration": 4.92
+    },
+    {
+      "ordinal": 568,
+      "text": "written there. This is content that isn't anywhere \nelse. It's not on theories of everything. It's not",
+      "start": 3479.6,
+      "duration": 4.76
+    },
+    {
+      "ordinal": 569,
+      "text": "on Patrion. Also full transcripts will be placed \nthere at some point in the future. Several people",
+      "start": 3484.36,
+      "duration": 5.44
+    },
+    {
+      "ordinal": 570,
+      "text": "ask me, Hey, Curt, you've spoken to so many \npeople in the fields of theoretical physics,",
+      "start": 3489.8,
+      "duration": 4.88
+    },
+    {
+      "ordinal": 571,
+      "text": "philosophy, and consciousness. What are your \nthoughts? While I remain impartial in interviews,",
+      "start": 3494.68,
+      "duration": 5.6
+    },
+    {
+      "ordinal": 572,
+      "text": "this sub stack is a way to peer into my present \ndeliberations on these topics. Also, thank you to",
+      "start": 3500.28,
+      "duration": 7.44
+    },
+    {
+      "ordinal": 573,
+      "text": "our partner, The Economist. Firstly, thank you for \nwatching. Thank you for listening. If you haven't",
+      "start": 3507.72,
+      "duration": 7.8
+    },
+    {
+      "ordinal": 574,
+      "text": "subscribed or clicked that like button, now is \nthe time to do so. Why? Because each subscribe,",
+      "start": 3515.52,
+      "duration": 6.6
+    },
+    {
+      "ordinal": 575,
+      "text": "each like helps YouTube push this content to \nmore people like yourself. Plus it helps out Curt",
+      "start": 3522.12,
+      "duration": 6.16
+    },
+    {
+      "ordinal": 576,
+      "text": "directly, aka me. I also found out last year that \nexternal links count plenty toward the algorithm,",
+      "start": 3528.28,
+      "duration": 6.0
+    },
+    {
+      "ordinal": 577,
+      "text": "which means that whenever you share on Twitter, \nsay on Facebook or even on Reddit, etc.,",
+      "start": 3534.28,
+      "duration": 5.0
+    },
+    {
+      "ordinal": 578,
+      "text": "it shows YouTube, Hey, people are talking about \nthis content outside of YouTube, which in turn",
+      "start": 3539.28,
+      "duration": 6.2
+    },
+    {
+      "ordinal": 579,
+      "text": "greatly aids the distribution on YouTube. Thirdly, \nthere's a remarkably active discord and subreddit",
+      "start": 3545.48,
+      "duration": 5.36
+    },
+    {
+      "ordinal": 580,
+      "text": "for theories of everything where people explicate \nTOEs. They disagree respectfully about theories",
+      "start": 3550.84,
+      "duration": 5.4
+    },
+    {
+      "ordinal": 581,
+      "text": "and build as a community our own TOE links to both \nare in the description. Fourthly, you should know",
+      "start": 3556.24,
+      "duration": 5.92
+    },
+    {
+      "ordinal": 582,
+      "text": "this podcast is on iTunes. It's on Spotify. It's \non all of the audio platforms. All you have to do",
+      "start": 3562.16,
+      "duration": 5.88
+    },
+    {
+      "ordinal": 583,
+      "text": "is type in theories of everything and you'll \nfind it. Personally, I gain from rewatching",
+      "start": 3568.04,
+      "duration": 4.2
+    },
+    {
+      "ordinal": 584,
+      "text": "lectures and podcasts. I also read in the comments \nthat, hey, TOE listeners also gain from replaying.",
+      "start": 3572.24,
+      "duration": 5.6
+    },
+    {
+      "ordinal": 585,
+      "text": "So how about instead you read, listen on those \nplatforms like iTunes, Spotify, Google Podcasts,",
+      "start": 3577.84,
+      "duration": 4.92
+    },
+    {
+      "ordinal": 586,
+      "text": "whichever podcast catcher you use. And finally, \nif you'd like to support more conversations like",
+      "start": 3582.76,
+      "duration": 5.52
+    },
+    {
+      "ordinal": 587,
+      "text": "this, more content like this, then do consider \nvisiting patrion dot com slash Curt Jaimungal",
+      "start": 3588.28,
+      "duration": 5.24
+    },
+    {
+      "ordinal": 588,
+      "text": "and donating with whatever you like. There's also \nPayPal. There's also crypto. There's also just",
+      "start": 3593.52,
+      "duration": 4.88
+    },
+    {
+      "ordinal": 589,
+      "text": "joining on YouTube. Again, keep in mind, it's \nsupport from the sponsors and you that allow",
+      "start": 3598.4,
+      "duration": 5.68
+    },
+    {
+      "ordinal": 590,
+      "text": "me to work on TOE full time. You also get early \naccess to add free episodes, whether it's audio",
+      "start": 3604.08,
+      "duration": 5.28
+    },
+    {
+      "ordinal": 591,
+      "text": "or video. It's audio in the case of Patreon, video \nin the case of YouTube. For instance, this episode",
+      "start": 3609.36,
+      "duration": 4.6
+    },
+    {
+      "ordinal": 592,
+      "text": "that you're listening to right now was released \na few days earlier. Every dollar helps far more",
+      "start": 3613.96,
+      "duration": 5.04
+    },
+    {
+      "ordinal": 593,
+      "text": "than you think. Either way, your viewership \nis generosity enough. Thank you so much.",
+      "start": 3619.0,
+      "duration": 6.96
+    }
+  ]
+}

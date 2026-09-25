@@ -1,0 +1,128 @@
+ ...5_21-17-10Z-remove-unused-mcps-walk.md | 21194 +++++++++++++
+ CONTEXT-MAP.md                            |     7 +-
+ CONTEXT.md                                |    86 +-
+ NOTES.md                                  |    49 -
+ README.md                                 |     3 +-
+ .../app/src/app/(site)/spacetime/page.tsx |    10 +-
+ .../demo-landing/scroll-system.tsx        |     2 +-
+ .../DesignDownloadsIngest.md              |     4 +
+ .../lab-prototypes/LabPrototypes.md       |    11 +-
+ .../design-system/lab-prototypes/index.ts |     2 +
+ apps/app/src/components/earth/Earth.tsx   |   277 +-
+ apps/app/src/components/moon/Moon.tsx     |   210 +-
+ .../sci-fi/formation/Formation.md         |     1 +
+ .../actions/load-spacetime-events.ts      |    83 +-
+ apps/app/src/features/spacetime/index.ts  |     7 +-
+ .../features/spacetime/lib/normalize.ts   |    75 +
+ .../useUltraterrestrialAnimation.tsx      |    31 +-
+ .../layouts/home/ANIMATION_SEQUENCE.md    |    18 +-
+ .../src/layouts/home/home-animated.tsx    |    13 +-
+ .../src/services/sightings/get-events.ts  |    45 +-
+ .../compassionate-lovelace-e35750         |     0
+ .../reports/run-20260801-165547.md        |    11 -
+ .../transcripts/dQw4w9WgXcQ.txt           |     4 -
+ .../lib/knowledge_base_service.py         |    17 +-
+ .../lib/transcript_fidelity.py            |    19 +-
+ apps/disclosure-rag/lib/youtube.py        |     4 +
+ .../processing/rag_prompt_pipeline.py     |    81 +-
+ .../scripts/playlist_ingestion.py         |   115 +-
+ bun.lock                                  |   122 +-
+ .../agent-suite-implementation-tickets.md |   280 -
+ docs/agents/ops/domain.md                 |    15 +-
+ ...6-apossible-reference-ux-brainstorm.md |   185 -
+ .../LICENSE                               |    38 -
+ .../README.md                             |   288 -
+ .../app.html                              |  3674 ---
+ .../index.html                            |  3674 ---
+ .../screenshot_decentral.png              |   Bin 611606 -> 0 bytes
+ .../screenshot_distrib.png                |   Bin 813062 -> 0 bytes
+ .../screenshot_main.png                   |   Bin 377422 -> 0 bytes
+ .../screenshot_missing.png                |   Bin 506427 -> 0 bytes
+ .../screenshot_missing2.png               |   Bin 515189 -> 0 bytes
+ .../screenshot_missing3.png               |   Bin 136344 -> 0 bytes
+ .../screenshot_topic_detail.png           |   Bin 466363 -> 0 bytes
+ .../scripts/build_topology.py             |   830 -
+ .../harness-engineering/SKILL.md          |   141 -
+ .../ufo-knowledge-tour/.gitignore         |    24 -
+ .../brainstorms/ufo-knowledge-tour/.npmrc |     2 -
+ .../ufo-knowledge-tour/README.md          |    50 -
+ .../ufo-knowledge-tour/SPEC.md            |   233 -
+ .../ufo-knowledge-tour/eslint.config.js   |    30 -
+ .../ufo-knowledge-tour/index.html         |    14 -
+ .../ufo-knowledge-tour/package.json       |    90 -
+ .../ufo-knowledge-tour/postcss.config.js  |     6 -
+ .../ufo-knowledge-tour/public/use.txt     |     1 -
+ .../ufo-knowledge-tour/src/App.css        |    42 -
+ .../ufo-knowledge-tour/src/App.tsx        |    29 -
+ .../src/agents/prompts.ts                 |   349 -
+ .../src/agents/system.ts                  |   388 -
+ .../src/agents/types.ts                   |   138 -
+ .../src/components/App.tsx                |   356 -
+ .../src/components/DataInsightsPanel.tsx  |   331 -
+ .../src/components/ErrorBoundary.tsx      |    35 -
+ .../src/components/Header.tsx             |   215 -
+ .../src/components/KnowledgeGraph.tsx     |   393 -
+ .../src/components/NavigationPanel.tsx    |   396 -
+ .../src/components/TourGuidePanel.tsx     |   190 -
+ .../src/contexts/AgentContext.tsx         |   147 -
+ .../src/data/ufoData.ts                   |   437 -
+ .../src/hooks/use-mobile.tsx              |    19 -
+ .../ufo-knowledge-tour/src/index.css      |   223 -
+ .../ufo-knowledge-tour/src/lib/utils.ts   |     6 -
+ .../ufo-knowledge-tour/src/main.tsx       |    13 -
+ .../ufo-knowledge-tour/src/types/graph.ts |    72 -
+ .../ufo-knowledge-tour/src/vite-env.d.ts  |     1 -
+ .../ufo-knowledge-tour/tailwind.config.js |    76 -
+ .../ufo-knowledge-tour/tsconfig.app.json  |    42 -
+ .../ufo-knowledge-tour/tsconfig.json      |    17 -
+ .../ufo-knowledge-tour/tsconfig.node.json |    24 -
+ .../ufo-knowledge-tour/vite.config.ts     |    21 -
+ docs/design/neuform-sources/README.md     |     1 +
+ ...7-09-apossible-library-design-audit.md |    42 -
+ docs/research/llm-wiki-pattern.md         |    71 -
+ ...7-09-apossible-library-design-audit.md |    42 -
+ .../methodology/llm-wiki-pattern.md       |    71 -
+ .../ufo-research-methodology.md           |   294 -
+ .../apossible-library-detail-view.png     |   Bin 720913 -> 0 bytes
+ .../apossible-library-overview.png        |   Bin 490198 -> 0 bytes
+ docs/review/youtube_podcast_playlists.md  |   105 -
+ package.json                              |     1 +
+ packages/{services => ai}/.gitignore      |     0
+ packages/ai/README.md                     |    28 +-
+ packages/ai/prompts/CONTEXT.md            |   104 +-
+ .../ai/services/deep-research/README.md   |    13 +
+ .../src/enhanced-research.ts              |     0
+ .../services/deep-research/src/index.ts   |     0
+ .../deep-research/src/types/index.ts      |     0
+ .../src/utils/content-processor.ts        |     0
+ .../deep-research/src/utils/summarizer.ts |     0
+ packages/{ => ai}/services/exa/answer.ts  |     0
+ packages/{ => ai}/services/exa/client.ts  |     0
+ .../{ => ai}/services/exa/contents.ts     |     0
+ packages/{ => ai}/services/exa/index.ts   |     0
+ packages/{ => ai}/services/exa/search.ts  |     0
+ packages/{ => ai}/services/exa/similar.ts |     0
+ .../services/firecrawl/extract.ts         |     0
+ .../firecrawl/firecrawl.client.ts         |     0
+ packages/ai/services/firecrawl/index.ts   |    78 +
+ .../{ => ai}/services/firecrawl/scrape.ts |     0
+ packages/ai/services/firecrawl/types.ts   |   228 +
+ packages/ai/services/index.ts             |    47 +
+ packages/{services => ai}/tsconfig.json   |     0
+ .../knowledge-base/metadata/index.json    |   442 +-
+ packages/prompts/CONTEXT.md               |   100 +-
+ packages/services/README.md               |    15 -
+ packages/services/deep-research/README.md |    90 -
+ .../services/deep-research/package.json   |    37 -
+ .../deep-research/src/exa/answer.ts       |    95 -
+ .../deep-research/src/exa/contents.ts     |   106 -
+ .../deep-research/src/exa/search.ts       |    95 -
+ .../deep-research/src/exa/similar.ts      |    73 -
+ .../src/firecrawl/extractor.ts            |    88 -
+ .../src/firecrawl/scraper.ts              |   174 -
+ .../services/document-library/client.ts   |    28 -
+ packages/services/firecrawl/index.ts      |    66 -
+ packages/services/firecrawl/types.ts      |   228 -
+ packages/services/index.ts                |    56 -
+ packages/services/package.json            |    26 -
+ 127 files changed, 22906 insertions(+), 15974 deletions(-)

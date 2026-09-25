@@ -1,0 +1,282 @@
+<style>
+  .pc-intro { margin-bottom: 28px; }
+  .rec-banner {
+    border: 1.5px solid rgba(120,230,180,.7);
+    background: rgba(120,230,180,.06);
+    border-radius: 11px;
+    padding: 12px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .rec-badge {
+    background: rgba(120,230,180,.18);
+    color: #7fe6b4;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    border-radius: 6px;
+    padding: 4px 9px;
+    white-space: nowrap;
+  }
+  .rec-text { font-size: 13px; opacity: .85; }
+
+  /* Matrix table */
+  .matrix-wrap { overflow-x: auto; margin-bottom: 32px; }
+  table.matrix {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+  }
+  table.matrix th {
+    text-align: left;
+    padding: 9px 14px;
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    opacity: .55;
+    border-bottom: 1px solid rgba(255,255,255,.1);
+  }
+  table.matrix th.box-col { text-align: center; }
+  table.matrix td {
+    padding: 11px 14px;
+    border-bottom: 1px solid rgba(255,255,255,.06);
+    vertical-align: top;
+  }
+  table.matrix tr:last-child td { border-bottom: none; }
+
+  /* Platform name cell */
+  .plat-name { font-weight: 700; font-size: 13px; }
+  .plat-sub  { font-size: 11px; opacity: .55; margin-top: 2px; }
+
+  /* Fit cell */
+  td.fit { text-align: center; font-size: 18px; }
+
+  /* Row highlights */
+  tr.row-supabase td { background: rgba(120,230,180,.04); }
+  tr.row-supabase .plat-name { color: #7fe6b4; }
+  tr.row-neon td { background: rgba(120,170,255,.025); }
+  tr.row-self td { background: rgba(255,180,120,.02); }
+
+  /* Watch-out / bonus tags inline */
+  .tag-good {
+    display: inline-block;
+    background: rgba(120,230,180,.13);
+    color: #7fe6b4;
+    font-size: 10px;
+    border-radius: 5px;
+    padding: 2px 6px;
+    margin-left: 5px;
+    font-weight: 600;
+    vertical-align: middle;
+  }
+  .tag-warn {
+    display: inline-block;
+    background: rgba(255,180,80,.12);
+    color: #ffb86c;
+    font-size: 10px;
+    border-radius: 5px;
+    padding: 2px 6px;
+    margin-left: 5px;
+    font-weight: 600;
+    vertical-align: middle;
+  }
+  .tag-neutral {
+    display: inline-block;
+    background: rgba(190,160,255,.12);
+    color: #c8b4ff;
+    font-size: 10px;
+    border-radius: 5px;
+    padding: 2px 6px;
+    margin-left: 5px;
+    font-weight: 600;
+    vertical-align: middle;
+  }
+
+  /* Detail cards below matrix */
+  .plat-cards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 32px; }
+  @media (max-width: 800px) { .plat-cards { grid-template-columns: 1fr; } }
+
+  .plat-card {
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 11px;
+    padding: 15px 16px;
+    background: rgba(255,255,255,.025);
+    font-size: 11.5px;
+  }
+  .plat-card.highlighted {
+    border-color: rgba(120,230,180,.5);
+    background: rgba(120,230,180,.04);
+  }
+  .plat-card h4 {
+    font-size: 13px;
+    font-weight: 700;
+    margin: 0 0 4px 0;
+  }
+  .plat-card.highlighted h4 { color: #7fe6b4; }
+  .plat-card .card-sub { font-size: 10.5px; opacity: .52; margin-bottom: 10px; }
+  .plat-card ul { margin: 0; padding-left: 15px; opacity: .8; }
+  .plat-card ul li { margin-bottom: 4px; }
+  .plat-card .watch {
+    margin-top: 10px;
+    padding: 7px 10px;
+    background: rgba(255,180,80,.06);
+    border-left: 2px solid rgba(255,180,80,.5);
+    border-radius: 0 5px 5px 0;
+    font-size: 10.5px;
+    opacity: .8;
+  }
+  .plat-card .bonus {
+    margin-top: 10px;
+    padding: 7px 10px;
+    background: rgba(120,230,180,.05);
+    border-left: 2px solid rgba(120,230,180,.4);
+    border-radius: 0 5px 5px 0;
+    font-size: 10.5px;
+    opacity: .82;
+  }
+
+  /* Decision strip */
+  .decision-q {
+    text-align: center;
+    font-size: 15px;
+    font-weight: 600;
+    opacity: .88;
+    margin-bottom: 18px;
+    letter-spacing: .01em;
+  }
+  .note { font-size: 12px; opacity: .6; text-align: center; margin-top: 18px; line-height: 1.6; }
+</style>
+
+<div class="pc-intro">
+  <h2>Platform Selection — Filling the Three Boxes</h2>
+  <p class="subtitle">Architecture is decided (Option A: Library → own pipeline → single Postgres+pgvector). Now pick the vendor stack that fills: Box 1 = Object store, Box 2 = Postgres+pgvector, Box 3 = Compute for the ingestion workers.</p>
+</div>
+
+<div class="rec-banner">
+  <span class="rec-badge">Recommendation</span>
+  <span class="rec-text"><strong>Supabase</strong> — one platform fills all three boxes natively. A <code>xata-to-supabase.md</code> migration plan already exists in this repo, and Supabase Storage handles the evidence file library without a separate vendor.</span>
+</div>
+
+<!-- FIT MATRIX -->
+<h3>Fit Matrix</h3>
+<div class="matrix-wrap">
+  <table class="matrix">
+    <thead>
+      <tr>
+        <th style="width:22%">Platform</th>
+        <th class="box-col" style="width:22%">Box 1<br><span style="font-weight:400;opacity:.7">Object Store (Library)</span></th>
+        <th class="box-col" style="width:22%">Box 2<br><span style="font-weight:400;opacity:.7">Postgres + pgvector</span></th>
+        <th class="box-col" style="width:22%">Box 3<br><span style="font-weight:400;opacity:.7">Ingestion Compute</span></th>
+        <th style="width:12%">Ops burden</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="row-supabase">
+        <td>
+          <div class="plat-name">A · Supabase <span class="tag-good">RECOMMENDED</span></div>
+          <div class="plat-sub">all-in-one managed platform</div>
+        </td>
+        <td class="fit">✓<br><span style="font-size:10px;opacity:.6">Supabase Storage (S3-compat)</span></td>
+        <td class="fit">✓<br><span style="font-size:10px;opacity:.6">Postgres + pgvector first-class</span></td>
+        <td class="fit">✓<br><span style="font-size:10px;opacity:.6">Edge Fns + pg_cron + Queues</span></td>
+        <td style="text-align:center;font-size:12px">Low <span class="tag-good">one vendor</span></td>
+      </tr>
+      <tr class="row-neon">
+        <td>
+          <div class="plat-name">B · Neon + Vercel Blob</div>
+          <div class="plat-sub">Vercel-native, serverless</div>
+        </td>
+        <td class="fit">✓<br><span style="font-size:10px;opacity:.6">Vercel Blob (separate product)</span></td>
+        <td class="fit">✓<br><span style="font-size:10px;opacity:.6">Neon serverless + pgvector</span></td>
+        <td class="fit">✓<br><span style="font-size:10px;opacity:.6">Vercel Fns + Cron + Queues</span></td>
+        <td style="text-align:center;font-size:12px">Med <span class="tag-neutral">3 products</span></td>
+      </tr>
+      <tr class="row-self">
+        <td>
+          <div class="plat-name">C · Self-host</div>
+          <div class="plat-sub">Railway / Fly + local pgvector</div>
+        </td>
+        <td class="fit">◐<br><span style="font-size:10px;opacity:.6">MinIO / R2 (you wire it)</span></td>
+        <td class="fit">✓<br><span style="font-size:10px;opacity:.6">pgvector container (half-setup)</span></td>
+        <td class="fit">◐<br><span style="font-size:10px;opacity:.6">worker on Railway/Fly/VM</span></td>
+        <td style="text-align:center;font-size:12px">High <span class="tag-warn">you own ops</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- DETAIL CARDS -->
+<div class="plat-cards">
+
+  <div class="plat-card highlighted">
+    <h4>A · Supabase</h4>
+    <div class="card-sub">all-in-one · Storage + Postgres + Edge Functions</div>
+    <ul>
+      <li>Supabase Storage → S3-compatible bucket for PDFs, images, transcripts</li>
+      <li>Postgres + pgvector extension enabled by default, no extra wiring</li>
+      <li>Edge Functions + pg_cron + pg_net + Queues → "file lands → chunk → embed → index" loop native</li>
+      <li>RLS + auth available (Clerk still handles frontend auth)</li>
+      <li><code>xata-to-supabase.md</code> migration plan already in this repo</li>
+    </ul>
+    <div class="bonus">Best fit for solo/small team: one dashboard, one bill, one mental model.</div>
+    <div class="watch">Watch-out: Edge Function execution limits for heavy embed jobs — mitigate with queue batching.</div>
+  </div>
+
+  <div class="plat-card">
+    <h4>B · Neon + Vercel Blob</h4>
+    <div class="card-sub">Vercel-native · serverless economics · DB branching</div>
+    <ul>
+      <li>Vercel Blob → private + public object storage, native Vercel DX</li>
+      <li>Neon serverless Postgres + pgvector; scales to zero; preview-branch per PR</li>
+      <li>Vercel Functions + Cron + Queues for ingestion workers</li>
+      <li>No built-in auth — fine, Clerk already in use</li>
+      <li>Cleanest deploy DX since app already ships to Vercel</li>
+    </ul>
+    <div class="watch">Watch-out: 3 separate products to wire and monitor; slightly more cognitive overhead than an all-in-one.</div>
+  </div>
+
+  <div class="plat-card">
+    <h4>C · Self-host</h4>
+    <div class="card-sub">Railway / Fly / VM · maximum control</div>
+    <ul>
+      <li>MinIO, Cloudflare R2, or S3 — you choose and wire the object store</li>
+      <li>Local <code>utr-pg</code> pgvector container already half-set-up for dev</li>
+      <li>Embedding worker on Railway / Fly / any VM — you control scaling</li>
+      <li>No vendor lock-in; cheapest at scale</li>
+    </ul>
+    <div class="watch">Watch-out: you own backups, uptime, failover, and all glue code. Heaviest ops burden for a research project.</div>
+  </div>
+
+</div>
+
+<!-- DECISION -->
+<div class="decision-q">Which platform fills the three boxes?</div>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Supabase <span style="font-size:11px;font-weight:400;opacity:.65;margin-left:6px">Recommended</span></h3>
+      <p>One platform: Storage (evidence library) + Postgres+pgvector (relational + vectors) + Edge Functions/Queues (ingestion workers). Migration plan already exists. Fewest moving parts.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Neon + Vercel Blob</h3>
+      <p>Best Vercel-native DX: serverless Postgres with DB branching + Vercel Blob object storage + Vercel Functions for workers. Three products but tightest deploy integration.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Self-host (pgvector + Railway/Fly)</h3>
+      <p>Maximum control and lowest long-run cost. Local pgvector container half-done. Trade-off: you own ops, backups, and scaling for every layer.</p>
+    </div>
+  </div>
+</div>
+
+<p class="note">Recommendation rationale: Supabase fills all three boxes with zero additional vendors, its Storage layer is built for large binary files (PDFs, image sets, video transcripts), and a migration playbook from Xata already exists in this repo — reducing the time-to-live considerably.</p>

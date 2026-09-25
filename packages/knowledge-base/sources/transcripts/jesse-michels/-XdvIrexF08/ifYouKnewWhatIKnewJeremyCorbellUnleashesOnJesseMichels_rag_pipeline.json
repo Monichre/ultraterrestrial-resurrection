@@ -1,0 +1,77 @@
+{
+  "status": "error",
+  "classification": {
+    "content_type": "media",
+    "primary_record_hints": [
+      "Testimony",
+      "KeyFigure",
+      "Event",
+      "Organization"
+    ],
+    "hynek_scaffold": null,
+    "classification_marks_detected": [],
+    "language": "English",
+    "ocr_quality": "n/a",
+    "sensitivity": "public",
+    "ingestion_recommendation": "proceed",
+    "rationale": "The text is a transcript of a public podcast interview discussing UFO whistleblowers and government programs. It contains witness accounts but is primarily media content. No classification markings or Hynek classification are present. The source is public and does not require human review.",
+    "confidence": 0.9
+  },
+  "analysis": {
+    "content_assessment": {
+      "content_type": "media",
+      "source_attribution": "Jesse Michels' American Alchemy podcast, interview with Jeremy Corbell. URL: https://www.youtube.com/watch?v=-XdvIrexF08",
+      "provenance": "Transcript provided, likely from YouTube auto-caption or manual transcription. Date not specified in snippet.",
+      "admissibility": "UNVERIFIED",
+      "redaction_ocr_risk": "No redactions; [music] tags indicate audio interruptions; text otherwise clean.",
+      "duplicate_recycling": "No duplication detected; some stories (Lazar, Grusch) have been told elsewhere by Corbell, but the interview is an original conversation.",
+      "next_trace": "Verify David Grusch's ICIG complaint submission and congressional testimony; obtain Jim Lacatski's book for exact phrasing and clearance status; investigate Matthew Sullivan's death via FBI records or obituary."
+    },
+    "extracted_data": {
+      "primary_claims": [
+        "An unnamed individual in a video clip says: 'I know UFOs are real. I was inside one. I know they were made of materials that we can't duplicate, we can't replicate.' (spoken by the host recalling footage)",
+        "David Grusch filed an official Intelligence Community Inspector General (ICIG) complaint regarding UAP programs and told Corbell/Knapp of reverse engineering and biologics (non-human pilots).",
+        "Jim Lacatski, a senior DIA scientist, wrote in his book and confirmed verbally on Weaponized that the U.S. government has a UFO in its possession and he personally accessed the inside.",
+        "Jeremy Corbell and George Knapp were the first to report the Fravor/Tic Tac incident on radio before the 2017 New York Times article.",
+        "Matthew Sullivan was scheduled to testify about a reverse engineering program two weeks before his death; the FBI is investigating his death as suspicious (per Corbell)."
+      ],
+      "key_findings": [
+        "The meeting with Grusch occurred at the SCU conference in Rocket City, Alabama (no exact date).",
+        "Grusch's stated background: combat veteran with PTSD, handler of the presidential daily brief, former National Geospatial-Intelligence Agency employee.",
+        "Grusch reportedly provided hundreds of pages to ICIG Thomas Monheim and identified about 40 first-hand witnesses.",
+        "Lacatski's book 'New Insights' discusses advanced physics concepts (high-frequency gravitational waves, solid-state rotating superconductors).",
+        "Corbell describes the UAP programs as a 'Rubik's Cube' or 'constellation' of isolated efforts, not a single program."
+      ],
+      "supporting_evidence": [
+        "Corbell's first-hand account of the Grusch meeting and vetting process.",
+        "Host Jesse Michels states he has met Grusch's colleagues who spoke highly of him.",
+        "Lacatski's book (referenced) as a written source, though not quoted directly in this transcript."
+      ],
+      "contradictory_evidence": [],
+      "follow_up_needed": [
+        "Validate Grusch's ICIG complaint by obtaining official confirmation (e.g., via FOIA or public acknowledgment).",
+        "Review complete sworn testimony or unredacted documents from Grusch's congressional appearance.",
+        "Acquire Lacatski's book 'New Insights' to verify the exact language regarding entering a UFO and whether the manuscript underwent pre-publication review.",
+        "Investigate the FBI's involvement in Matthew Sullivan's death through public records or agency statements.",
+        "Identify and authenticate the video clip of the individual claiming to have been inside a UFO—source, date, and identity."
+      ]
+    }
+  },
+  "ingestion": {},
+  "chunks": [],
+  "ner_results": [],
+  "embeddable_texts": [],
+  "metadata": {
+    "provenance": "https://www.youtube.com/watch?v=-XdvIrexF08",
+    "filename_hint": "“If You Knew What I Knew!” -Jeremy Corbell UNLEASHES On Jesse Michels",
+    "prompts_dir": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/ai/prompts"
+  },
+  "errors": [
+    "All LLM providers failed (anthropic/claude-sonnet-5: skipped (HTTP 400); anthropic/claude-opus-4-8: skipped (HTTP 400); deepseek/deepseek-v4-pro: BudgetExhausted: deepseek/deepseek-v4-pro: max_tokens=4096 consumed before any answer was emitted (reasoning=True); raise max_tokens; together/kimi-k3: BudgetExhausted: together/kimi-k3: max_tokens=4096 consumed before any answer was emitted (reasoning=True); raise max_tokens; openai/gpt-5.5: skipped (HTTP 401); groq/gpt-oss-120b: skipped (HTTP 401))"
+  ],
+  "prompts_used": [
+    "document_classification",
+    "disclosure.content_analysis",
+    "rag_ingestion"
+  ]
+}

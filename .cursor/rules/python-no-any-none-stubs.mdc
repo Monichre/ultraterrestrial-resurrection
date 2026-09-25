@@ -1,0 +1,54 @@
+---
+description: Don't dump mixed, ungrouped module-level Python stubs. Group related names; one type style per block.
+globs: "**/*.py"
+alwaysApply: false
+---
+
+# Python module stubs: grouping, not a dump
+
+Do not declare a wall of unrelated module names, each on its own line, mixing `Any = None` callables with `bool = False` flags. That read as untyped panic, not an API.
+
+```python
+# ❌ BAD — unsorted, mixed types, one concern per line, no groups
+WebContentProcessor: Any = None
+ContentAnalysisEngine: Any = None
+upload_file_to_openai: Any = None
+kb_service: Any = None
+process_youtube_url_enhanced: Any = None
+process_web_url_enhanced: Any = None
+add_to_knowledge_base: Any = None
+display: Any = None
+web_processor: Any = None
+ENHANCED_COCOINDEX_AVAILABLE: bool = False
+COCOINDEX_KG_AVAILABLE: bool = False
+cocoindex_processor: Any = None
+UPSTASH_QUEUE_AVAILABLE: bool = False
+add_processed_content_to_queue: Any = None
+```
+
+```python
+# ✅ GOOD — grouped by subsystem; flags with their objects; same annotation style in a block
+# processors
+web_processor: WebContentProcessor | None = None
+content_analysis: ContentAnalysisEngine | None = None
+
+# knowledge base
+kb_service: KnowledgeBaseService | None = None
+process_youtube_url_enhanced: ProcessUrl | None = None
+process_web_url_enhanced: ProcessUrl | None = None
+add_to_knowledge_base: AddToKb | None = None
+
+# optional backends
+cocoindex_processor: CocoIndexProcessor | None = None
+ENHANCED_COCOINDEX_AVAILABLE = False
+COCOINDEX_KG_AVAILABLE = False
+UPSTASH_QUEUE_AVAILABLE = False
+add_processed_content_to_queue: QueueFn | None = None
+```
+
+Rules:
+
+- Group by subsystem (blank line + a one-line comment). Never one undifferentiated list.
+- Do not mix `Name: Any = None` with `Name: bool = False` in the same block.
+- Prefer `X | None = None` over `Any = None`. `Any` is not a type for an uninitialized import.
+- Prefer importing at the use site over a page of stubs. If stubs exist, they must be grouped and typed.

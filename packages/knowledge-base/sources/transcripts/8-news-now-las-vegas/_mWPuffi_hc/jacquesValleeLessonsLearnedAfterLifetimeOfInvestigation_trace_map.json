@@ -1,0 +1,3771 @@
+{
+  "schemaVersion": "trace-map.v1",
+  "sourceId": "src:fecc118dcbb46285",
+  "sourceType": "video",
+  "sourceUrl": "https://www.youtube.com/watch?v=_mWPuffi_hc",
+  "sourceHash": "sha256:d794a3f8fba62e77c2e8876c812dd6866fd37ba9f4a6413c325bbccd504de957",
+  "contentVersion": 1,
+  "reviewState": "unreviewed",
+  "nodes": [
+    {
+      "id": "src:fecc118dcbb46285",
+      "type": "source",
+      "label": "Jacques Vallee — Lessons learned after lifetime of investigation",
+      "url": "https://www.youtube.com/watch?v=_mWPuffi_hc",
+      "sourceType": "video",
+      "contentType": "youtube_video_transcript",
+      "integrityFlags": [
+        "automated_transcript_noise",
+        "speaker_labels_incomplete",
+        "proper_name_transcription_variants",
+        "truncated_source",
+        "missing_ending"
+      ],
+      "classificationMarks": [],
+      "ingestionRecommendation": "proceed_with_caution"
+    },
+    {
+      "id": "seg:fecc118dcbb46285:c01",
+      "type": "segment",
+      "label": "c01",
+      "chunkId": "c01",
+      "headingPath": "Introduction and educational foundation",
+      "evidentiaryDensity": "medium",
+      "overlapNote": "The next chunk begins with Dr. Colum Keller responding to this introduction.",
+      "temporalAnchors": [
+        "2 or 3 years ago"
+      ],
+      "spatialAnchors": [],
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 2839,
+        "segmentStart": 0,
+        "segmentEnd": 77,
+        "startSeconds": 11.599,
+        "endSeconds": 205.11999999999998,
+        "method": "exact",
+        "excerpt": "robert, we've got a full house here today. you know, i think people, some people describe the current time as the age of disclosure. it certainly is an age of transition. and we're going to hear from today. you're joined by two of our close"
+      },
+      "excerpt": "Robert, we've got a full house here today. You know, I think people, some people describe the current time as the age of disclosure. It certainly is an age of transition. And we're going to hear from today. You're joined by two of our close"
+    },
+    {
+      "id": "seg:fecc118dcbb46285:c02",
+      "type": "segment",
+      "label": "c02",
+      "chunkId": "c02",
+      "headingPath": "Colum Keller biography, NIDS, Skinwalker Ranch, and OSAP",
+      "evidentiaryDensity": "high",
+      "overlapNote": "Continues from Keller's introduction; the next chunk introduces Jacques Valet and the NIDS science advisory board.",
+      "temporalAnchors": [
+        "August of 1996",
+        "30 years to the month",
+        "over the six years",
+        "two and a half years"
+      ],
+      "spatialAnchors": [
+        "Denver",
+        "Las Vegas",
+        "northeastern Utah",
+        "Skinwalker Ranch",
+        "low earth orbit"
+      ],
+      "anchor": {
+        "charStart": 2840,
+        "charEnd": 5685,
+        "segmentStart": 78,
+        "segmentEnd": 158,
+        "startSeconds": 203.28,
+        "endSeconds": 427.599,
+        "method": "exact",
+        "excerpt": ">> well, thanks for that very very nice introduction. um i was just thinking that it's been exactly 30 years to the month >> since i first joined the national institute for discovery science. it was august of 1996. goes back a long way. but"
+      },
+      "excerpt": ">> Well, thanks for that very very nice introduction. Um I was just thinking that it's been exactly 30 years to the month >> since I first joined the National Institute for Discovery Science. It was August of 1996. Goes back a long way. But"
+    },
+    {
+      "id": "seg:fecc118dcbb46285:c03",
+      "type": "segment",
+      "label": "c03",
+      "chunkId": "c03",
+      "headingPath": "Jacques Vallée, Forbidden Science, and French space agency research",
+      "evidentiaryDensity": "high",
+      "overlapNote": "The next chunk continues Vallée's explanation that he is changing roles rather than leaving the subject.",
+      "temporalAnchors": [
+        "January of 1996",
+        "30 years ago this year",
+        "the last 70 years",
+        "now"
+      ],
+      "spatialAnchors": [
+        "Washington",
+        "France",
+        "United States",
+        "Paris"
+      ],
+      "anchor": {
+        "charStart": 5686,
+        "charEnd": 9141,
+        "segmentStart": 159,
+        "segmentEnd": 255,
+        "startSeconds": 426.0,
+        "endSeconds": 677.12,
+        "method": "exact",
+        "excerpt": ">> we're also joined today by someone else who was there at the beginning of nids 30 years ago this year. january of 1996. the science advisory board had its first meeting here. and i knew the names that were i walked into this room, i knew"
+      },
+      "excerpt": ">> We're also joined today by someone else who was there at the beginning of NIDS 30 years ago this year. January of 1996. The science advisory board had its first meeting here. And I knew the names that were I walked into this room, I knew"
+    },
+    {
+      "id": "seg:fecc118dcbb46285:c04",
+      "type": "segment",
+      "label": "c04",
+      "chunkId": "c04",
+      "headingPath": "New research generation and origins of the Bigelow–Vallée collaboration",
+      "evidentiaryDensity": "medium",
+      "overlapNote": "Ends with a question to Vallée; the next chunk begins his response about the interdisciplinary nature of the problem.",
+      "temporalAnchors": [
+        "around in '95",
+        "in '96",
+        "now"
+      ],
+      "spatialAnchors": [
+        "Stanford",
+        "Harvard",
+        "Colombia",
+        "Silicon Valley"
+      ],
+      "anchor": {
+        "charStart": 9142,
+        "charEnd": 12105,
+        "segmentStart": 256,
+        "segmentEnd": 335,
+        "startSeconds": 675.76,
+        "endSeconds": 904.6389999999999,
+        "method": "exact",
+        "excerpt": ">> and you're not walking away from the topic. you're just entering a different phase. but i you know one mistake that people often make even in science is there is some big discovery and people keep doing whatever they were doing before yo"
+      },
+      "excerpt": ">> And you're not walking away from the topic. You're just entering a different phase. But I you know one mistake that people often make even in science is there is some big discovery and people keep doing whatever they were doing before yo"
+    },
+    {
+      "id": "seg:fecc118dcbb46285:c05",
+      "type": "segment",
+      "label": "c05",
+      "chunkId": "c05",
+      "headingPath": "Interdisciplinary investigation, witness trauma, and biological complexity",
+      "evidentiaryDensity": "medium",
+      "overlapNote": "The next chunk shifts from Vallée's interdisciplinary argument to the claimed institutional legacy of NIDS.",
+      "temporalAnchors": [
+        "10 years ago",
+        "now"
+      ],
+      "spatialAnchors": [
+        "Stanford"
+      ],
+      "anchor": {
+        "charStart": 12106,
+        "charEnd": 15281,
+        "segmentStart": 336,
+        "segmentEnd": 421,
+        "startSeconds": 902.639,
+        "endSeconds": 1149.9189999999999,
+        "method": "exact",
+        "excerpt": ">> you know, i think this was all coming together just at the right time, you know, and uh what what you saw was that the the the problem was not going to be solved by by the government. it was not going to be solved by people in physics or"
+      },
+      "excerpt": ">> You know, I think this was all coming together just at the right time, you know, and uh what what you saw was that the the the problem was not going to be solved by by the government. It was not going to be solved by people in physics or"
+    },
+    {
+      "id": "seg:fecc118dcbb46285:c06",
+      "type": "segment",
+      "label": "c06",
+      "chunkId": "c06",
+      "headingPath": "NIDS legacy, consciousness, and paranormal research",
+      "evidentiaryDensity": "medium",
+      "overlapNote": "The final question cues Keller's account in the next chunk of how NIDS informed OSAP.",
+      "temporalAnchors": [
+        "30 years ago",
+        "now"
+      ],
+      "spatialAnchors": [
+        "the ranch"
+      ],
+      "anchor": {
+        "charStart": 15282,
+        "charEnd": 16972,
+        "segmentStart": 422,
+        "segmentEnd": 466,
+        "startSeconds": 1148.24,
+        "endSeconds": 1267.5200000000002,
+        "method": "exact",
+        "excerpt": ">> i don't i know robert you don't like to pat yourself on the back too much but if you think back to the time when the three of you were part of nids starting this 30 years ago now uh the profound changes that are that can directly be link"
+      },
+      "excerpt": ">> I don't I know Robert you don't like to pat yourself on the back too much but if you think back to the time when the three of you were part of NIDS starting this 30 years ago now uh the profound changes that are that can directly be link"
+    },
+    {
+      "id": "seg:fecc118dcbb46285:c07",
+      "type": "segment",
+      "label": "c07",
+      "chunkId": "c07",
+      "headingPath": "Keller on NIDS experience and OSAP human-effects research",
+      "evidentiaryDensity": "high",
+      "overlapNote": "Transitions from Keller's description of OSAP methodology to a question about disclosure and a Spielberg film; the next chunk contains Vallée's answer.",
+      "temporalAnchors": [
+        "Earlier this year",
+        "as the OSAP program started"
+      ],
+      "spatialAnchors": [],
+      "anchor": {
+        "charStart": 16973,
+        "charEnd": 19030,
+        "segmentStart": 467,
+        "segmentEnd": 521,
+        "startSeconds": 1265.84,
+        "endSeconds": 1405.4399999999998,
+        "method": "exact",
+        "excerpt": ">> yeah, i i think the national institute for discovery science was incredibly valuable in terms of um all of the experience that we gained over time. i mean we were very much influenced by you jacques because you were part of the science a"
+      },
+      "excerpt": ">> Yeah, I I think the National Institute for Discovery Science was incredibly valuable in terms of um all of the experience that we gained over time. I mean we were very much influenced by you Jacques because you were part of the science a"
+    },
+    {
+      "id": "seg:fecc118dcbb46285:c08",
+      "type": "segment",
+      "label": "c08",
+      "chunkId": "c08",
+      "headingPath": "Disclosure, normality, and reassessing the phenomenon",
+      "evidentiaryDensity": "medium",
+      "overlapNote": "The next chunk continues the same discussion of cameras, instruments, and an intelligent phenomenon capable of interfering with observation.",
+      "temporalAnchors": [
+        "now",
+        "billions of years before",
+        "two years"
+      ],
+      "spatialAnchors": [
+        "the universe",
+        "Brazil",
+        "the ranch"
+      ],
+      "anchor": {
+        "charStart": 19031,
+        "charEnd": 21043,
+        "segmentStart": 522,
+        "segmentEnd": 576,
+        "startSeconds": 1402.64,
+        "endSeconds": 1577.12,
+        "method": "exact",
+        "excerpt": "what's what's the most interesting thing to me um in in the new spielberg movie is that there are no ufos. i mean there is a shape of something at the end but it's irrelevant because now we we know they exist and the problem is how do we de"
+      },
+      "excerpt": "What's what's the most interesting thing to me um in in the new Spielberg movie is that there are no UFOs. I mean there is a shape of something at the end but it's irrelevant because now we we know they exist and the problem is how do we de"
+    },
+    {
+      "id": "seg:fecc118dcbb46285:c09",
+      "type": "segment",
+      "label": "c09",
+      "chunkId": "c09",
+      "headingPath": "Instrument interference and intelligent deception",
+      "evidentiaryDensity": "medium",
+      "overlapNote": "Begins by completing Vallée's camera example and ends with a question to Bigelow and Keller about presidential disclosure and public reaction.",
+      "temporalAnchors": [
+        "earlier this year",
+        "now"
+      ],
+      "spatialAnchors": [],
+      "anchor": {
+        "charStart": 21044,
+        "charEnd": 22506,
+        "segmentStart": 576,
+        "segmentEnd": 614,
+        "startSeconds": 1571.039,
+        "endSeconds": 1680.1589999999999,
+        "method": "exact",
+        "excerpt": "i mean in the lab you know you you just need one camera to watch one experiment. who knows you know that experiment could be um changing the camera could be taking control of the camera. how many people you know on your shows uh say i had m"
+      },
+      "excerpt": "I mean in the lab you know you you just need one camera to watch one experiment. Who knows you know that experiment could be um changing the camera could be taking control of the camera. How many people you know on your shows uh say I had m"
+    },
+    {
+      "id": "seg:fecc118dcbb46285:c10",
+      "type": "segment",
+      "label": "c10",
+      "chunkId": "c10",
+      "headingPath": "Bigelow on threat, public acceptance, and ET behavior",
+      "evidentiaryDensity": "medium",
+      "overlapNote": "Source terminates mid-sentence after \"our book\"; no continuation was supplied.",
+      "temporalAnchors": [
+        "80 years",
+        "the modern era",
+        "up to this point in time"
+      ],
+      "spatialAnchors": [],
+      "anchor": {
+        "charStart": 22507,
+        "charEnd": 24000,
+        "segmentStart": 615,
+        "segmentEnd": 654,
+        "startSeconds": 1678.08,
+        "endSeconds": 1788.799,
+        "method": "exact",
+        "excerpt": ">> i think there there has to be a a perceived in order for the public to really be upset [clears throat] after all that's happened. i think there has to be a uh some sort of initiation of threat that would be way beyond anything that has e"
+      },
+      "excerpt": ">> I think there there has to be a a perceived in order for the public to really be upset [clears throat] after all that's happened. I think there has to be a uh some sort of initiation of threat that would be way beyond anything that has e"
+    },
+    {
+      "id": "top:0f9c090dfa52",
+      "type": "topic",
+      "label": "Introduction and educational foundation"
+    },
+    {
+      "id": "top:9125f05511ce",
+      "type": "topic",
+      "label": "Colum Keller biography, NIDS, Skinwalker Ranch, and OSAP"
+    },
+    {
+      "id": "top:dc32cca9ee06",
+      "type": "topic",
+      "label": "Jacques Vallée, Forbidden Science, and French space agency research"
+    },
+    {
+      "id": "top:1c5c329d1b1d",
+      "type": "topic",
+      "label": "New research generation and origins of the Bigelow–Vallée collaboration"
+    },
+    {
+      "id": "top:29f2752ca15c",
+      "type": "topic",
+      "label": "Interdisciplinary investigation, witness trauma, and biological complexity"
+    },
+    {
+      "id": "top:bce8eecc5a52",
+      "type": "topic",
+      "label": "NIDS legacy, consciousness, and paranormal research"
+    },
+    {
+      "id": "top:1b1e55b54619",
+      "type": "topic",
+      "label": "Keller on NIDS experience and OSAP human-effects research"
+    },
+    {
+      "id": "top:e6276eb2bc55",
+      "type": "topic",
+      "label": "Disclosure, normality, and reassessing the phenomenon"
+    },
+    {
+      "id": "top:c7eee0df8544",
+      "type": "topic",
+      "label": "Instrument interference and intelligent deception"
+    },
+    {
+      "id": "top:5851a45bbcdf",
+      "type": "topic",
+      "label": "Bigelow on threat, public acceptance, and ET behavior"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:c4cff66d9ee1",
+      "type": "claim",
+      "label": "Bigelow says he established a revocable trust and two 501(c)(3) foundations.",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 2839,
+        "segmentStart": 0,
+        "segmentEnd": 77,
+        "startSeconds": 11.599,
+        "endSeconds": 205.11999999999998,
+        "method": "exact",
+        "excerpt": "robert, we've got a full house here today. you know, i think people, some people describe the current time as the age of disclosure. it certainly is an age of transition. and we're going to hear from today. you're joined by two of our close"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:f5d437b7a3fc",
+      "type": "claim",
+      "label": "Bigelow says the educational foundation focuses on survival of human consciousness and ET consciousness.",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 2839,
+        "segmentStart": 0,
+        "segmentEnd": 77,
+        "startSeconds": 11.599,
+        "endSeconds": 205.11999999999998,
+        "method": "exact",
+        "excerpt": "robert, we've got a full house here today. you know, i think people, some people describe the current time as the age of disclosure. it certainly is an age of transition. and we're going to hear from today. you're joined by two of our close"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:f2f5e657f4f3",
+      "type": "claim",
+      "label": "Bigelow says the educational foundation could potentially have over one billion dollars in liquidity.",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 2839,
+        "segmentStart": 0,
+        "segmentEnd": 77,
+        "startSeconds": 11.599,
+        "endSeconds": 205.11999999999998,
+        "method": "exact",
+        "excerpt": "robert, we've got a full house here today. you know, i think people, some people describe the current time as the age of disclosure. it certainly is an age of transition. and we're going to hear from today. you're joined by two of our close"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:e14c5ee83517",
+      "type": "claim",
+      "label": "Bigelow says Keller is a director of the trust and both foundations.",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 2839,
+        "segmentStart": 0,
+        "segmentEnd": 77,
+        "startSeconds": 11.599,
+        "endSeconds": 205.11999999999998,
+        "method": "exact",
+        "excerpt": "robert, we've got a full house here today. you know, i think people, some people describe the current time as the age of disclosure. it certainly is an age of transition. and we're going to hear from today. you're joined by two of our close"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:01848b5a8089",
+      "type": "claim",
+      "label": "Keller says he joined NIDS in August 1996 after working as an immunologist in Denver.",
+      "anchor": {
+        "charStart": 2840,
+        "charEnd": 5685,
+        "segmentStart": 78,
+        "segmentEnd": 158,
+        "startSeconds": 203.28,
+        "endSeconds": 427.599,
+        "method": "exact",
+        "excerpt": ">> well, thanks for that very very nice introduction. um i was just thinking that it's been exactly 30 years to the month >> since i first joined the national institute for discovery science. it was august of 1996. goes back a long way. but"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:df85f34ec013",
+      "type": "claim",
+      "label": "Keller says Bigelow had purchased the 500-acre Skinwalker Ranch property in northeastern Utah.",
+      "anchor": {
+        "charStart": 2840,
+        "charEnd": 5685,
+        "segmentStart": 78,
+        "segmentEnd": 158,
+        "startSeconds": 203.28,
+        "endSeconds": 427.599,
+        "method": "exact",
+        "excerpt": ">> well, thanks for that very very nice introduction. um i was just thinking that it's been exactly 30 years to the month >> since i first joined the national institute for discovery science. it was august of 1996. goes back a long way. but"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:5b7d31a0a3ac",
+      "type": "claim",
+      "label": "Keller estimates he spent about 300 days and nights at Skinwalker Ranch over six years.",
+      "anchor": {
+        "charStart": 2840,
+        "charEnd": 5685,
+        "segmentStart": 78,
+        "segmentEnd": 158,
+        "startSeconds": 203.28,
+        "endSeconds": 427.599,
+        "method": "exact",
+        "excerpt": ">> well, thanks for that very very nice introduction. um i was just thinking that it's been exactly 30 years to the month >> since i first joined the national institute for discovery science. it was august of 1996. goes back a long way. but"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:4ab2372f9322",
+      "type": "claim",
+      "label": "Keller says he ran day-to-day OSAP operations and that about 50 personnel investigated UFOs.",
+      "anchor": {
+        "charStart": 2840,
+        "charEnd": 5685,
+        "segmentStart": 78,
+        "segmentEnd": 158,
+        "startSeconds": 203.28,
+        "endSeconds": 427.599,
+        "method": "exact",
+        "excerpt": ">> well, thanks for that very very nice introduction. um i was just thinking that it's been exactly 30 years to the month >> since i first joined the national institute for discovery science. it was august of 1996. goes back a long way. but"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:d81a5ac680e9",
+      "type": "claim",
+      "label": "Keller says OSAP produced about 100 technical documents, of which roughly 35 to 38 were released.",
+      "anchor": {
+        "charStart": 2840,
+        "charEnd": 5685,
+        "segmentStart": 78,
+        "segmentEnd": 158,
+        "startSeconds": 203.28,
+        "endSeconds": 427.599,
+        "method": "exact",
+        "excerpt": ">> well, thanks for that very very nice introduction. um i was just thinking that it's been exactly 30 years to the month >> since i first joined the national institute for discovery science. it was august of 1996. goes back a long way. but"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:79370dac501c",
+      "type": "claim",
+      "label": "Keller says he later managed 11 life-support systems at Bigelow Aerospace.",
+      "anchor": {
+        "charStart": 2840,
+        "charEnd": 5685,
+        "segmentStart": 78,
+        "segmentEnd": 158,
+        "startSeconds": 203.28,
+        "endSeconds": 427.599,
+        "method": "exact",
+        "excerpt": ">> well, thanks for that very very nice introduction. um i was just thinking that it's been exactly 30 years to the month >> since i first joined the national institute for discovery science. it was august of 1996. goes back a long way. but"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:0509d3116c7a",
+      "type": "claim",
+      "label": "The interviewer says the NIDS science advisory board first met in January 1996.",
+      "anchor": {
+        "charStart": 5686,
+        "charEnd": 9141,
+        "segmentStart": 159,
+        "segmentEnd": 255,
+        "startSeconds": 426.0,
+        "endSeconds": 677.12,
+        "method": "exact",
+        "excerpt": ">> we're also joined today by someone else who was there at the beginning of nids 30 years ago this year. january of 1996. the science advisory board had its first meeting here. and i knew the names that were i walked into this room, i knew"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:a15c317c5f6c",
+      "type": "claim",
+      "label": "Vallée says he is ending his writing but not his research.",
+      "anchor": {
+        "charStart": 5686,
+        "charEnd": 9141,
+        "segmentStart": 159,
+        "segmentEnd": 255,
+        "startSeconds": 426.0,
+        "endSeconds": 677.12,
+        "method": "exact",
+        "excerpt": ">> we're also joined today by someone else who was there at the beginning of nids 30 years ago this year. january of 1996. the science advisory board had its first meeting here. and i knew the names that were i walked into this room, i knew"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:f9135f7eee84",
+      "type": "claim",
+      "label": "Vallée says authorities and parts of the university community now recognize the subject as real.",
+      "anchor": {
+        "charStart": 5686,
+        "charEnd": 9141,
+        "segmentStart": 159,
+        "segmentEnd": 255,
+        "startSeconds": 426.0,
+        "endSeconds": 677.12,
+        "method": "exact",
+        "excerpt": ">> we're also joined today by someone else who was there at the beginning of nids 30 years ago this year. january of 1996. the science advisory board had its first meeting here. and i knew the names that were i walked into this room, i knew"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:3651ee357747",
+      "type": "claim",
+      "label": "Vallée says he was asked to rejoin a French space agency committee researching the problem.",
+      "anchor": {
+        "charStart": 5686,
+        "charEnd": 9141,
+        "segmentStart": 159,
+        "segmentEnd": 255,
+        "startSeconds": 426.0,
+        "endSeconds": 677.12,
+        "method": "exact",
+        "excerpt": ">> we're also joined today by someone else who was there at the beginning of nids 30 years ago this year. january of 1996. the science advisory board had its first meeting here. and i knew the names that were i walked into this room, i knew"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:48f61fe8ba0a",
+      "type": "claim",
+      "label": "Vallée says French research is being restaffed and restarted and that he will spend more time in Paris.",
+      "anchor": {
+        "charStart": 5686,
+        "charEnd": 9141,
+        "segmentStart": 159,
+        "segmentEnd": 255,
+        "startSeconds": 426.0,
+        "endSeconds": 677.12,
+        "method": "exact",
+        "excerpt": ">> we're also joined today by someone else who was there at the beginning of nids 30 years ago this year. january of 1996. the science advisory board had its first meeting here. and i knew the names that were i walked into this room, i knew"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:f3f16bc647a5",
+      "type": "claim",
+      "label": "Vallée says he plans to serve as a resource for younger researchers entering the field.",
+      "anchor": {
+        "charStart": 9142,
+        "charEnd": 12105,
+        "segmentStart": 256,
+        "segmentEnd": 335,
+        "startSeconds": 675.76,
+        "endSeconds": 904.6389999999999,
+        "method": "exact",
+        "excerpt": ">> and you're not walking away from the topic. you're just entering a different phase. but i you know one mistake that people often make even in science is there is some big discovery and people keep doing whatever they were doing before yo"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:8b158e7ae5fa",
+      "type": "claim",
+      "label": "Vallée says teams of younger researchers are forming at Stanford, Harvard, and Colombia.",
+      "anchor": {
+        "charStart": 9142,
+        "charEnd": 12105,
+        "segmentStart": 256,
+        "segmentEnd": 335,
+        "startSeconds": 675.76,
+        "endSeconds": 904.6389999999999,
+        "method": "exact",
+        "excerpt": ">> and you're not walking away from the topic. you're just entering a different phase. but i you know one mistake that people often make even in science is there is some big discovery and people keep doing whatever they were doing before yo"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:46418cc6105c",
+      "type": "claim",
+      "label": "Bigelow says his initial interest in Vallée arose from Vallée's close research relationship with J. Allen Hynek.",
+      "anchor": {
+        "charStart": 9142,
+        "charEnd": 12105,
+        "segmentStart": 256,
+        "segmentEnd": 335,
+        "startSeconds": 675.76,
+        "endSeconds": 904.6389999999999,
+        "method": "exact",
+        "excerpt": ">> and you're not walking away from the topic. you're just entering a different phase. but i you know one mistake that people often make even in science is there is some big discovery and people keep doing whatever they were doing before yo"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:ebfdc0e84b18",
+      "type": "claim",
+      "label": "Bigelow says he does not recall exactly how he first contacted Vallée.",
+      "anchor": {
+        "charStart": 9142,
+        "charEnd": 12105,
+        "segmentStart": 256,
+        "segmentEnd": 335,
+        "startSeconds": 675.76,
+        "endSeconds": 904.6389999999999,
+        "method": "exact",
+        "excerpt": ">> and you're not walking away from the topic. you're just entering a different phase. but i you know one mistake that people often make even in science is there is some big discovery and people keep doing whatever they were doing before yo"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:c78240662efd",
+      "type": "claim",
+      "label": "Vallée says the problem requires multiple disciplines, including consciousness research.",
+      "anchor": {
+        "charStart": 12106,
+        "charEnd": 15281,
+        "segmentStart": 336,
+        "segmentEnd": 421,
+        "startSeconds": 902.639,
+        "endSeconds": 1149.9189999999999,
+        "method": "exact",
+        "excerpt": ">> you know, i think this was all coming together just at the right time, you know, and uh what what you saw was that the the the problem was not going to be solved by by the government. it was not going to be solved by people in physics or"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:f35545e2d967",
+      "type": "claim",
+      "label": "Vallée says civilian sighting witnesses may reveal profound trauma when investigators spend time with them and their families.",
+      "anchor": {
+        "charStart": 12106,
+        "charEnd": 15281,
+        "segmentStart": 336,
+        "segmentEnd": 421,
+        "startSeconds": 902.639,
+        "endSeconds": 1149.9189999999999,
+        "method": "exact",
+        "excerpt": ">> you know, i think this was all coming together just at the right time, you know, and uh what what you saw was that the the the problem was not going to be solved by by the government. it was not going to be solved by people in physics or"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:508273fdd540",
+      "type": "claim",
+      "label": "The interviewer characterizes Vallée's approach as addressing long-term human effects in addition to sensor data and materials.",
+      "anchor": {
+        "charStart": 12106,
+        "charEnd": 15281,
+        "segmentStart": 336,
+        "segmentEnd": 421,
+        "startSeconds": 902.639,
+        "endSeconds": 1149.9189999999999,
+        "method": "exact",
+        "excerpt": ">> you know, i think this was all coming together just at the right time, you know, and uh what what you saw was that the the the problem was not going to be solved by by the government. it was not going to be solved by people in physics or"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:ce24394f57d5",
+      "type": "claim",
+      "label": "Vallée says biology has levels beyond the genome, including the proteome.",
+      "anchor": {
+        "charStart": 12106,
+        "charEnd": 15281,
+        "segmentStart": 336,
+        "segmentEnd": 421,
+        "startSeconds": 902.639,
+        "endSeconds": 1149.9189999999999,
+        "method": "exact",
+        "excerpt": ">> you know, i think this was all coming together just at the right time, you know, and uh what what you saw was that the the the problem was not going to be solved by by the government. it was not going to be solved by people in physics or"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:baa4ca941838",
+      "type": "claim",
+      "label": "Vallée says UFO research requires new disciplines and tools and has suffered repeated setbacks.",
+      "anchor": {
+        "charStart": 12106,
+        "charEnd": 15281,
+        "segmentStart": 336,
+        "segmentEnd": 421,
+        "startSeconds": 902.639,
+        "endSeconds": 1149.9189999999999,
+        "method": "exact",
+        "excerpt": ">> you know, i think this was all coming together just at the right time, you know, and uh what what you saw was that the the the problem was not going to be solved by by the government. it was not going to be solved by people in physics or"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:bcb33b7b7b53",
+      "type": "claim",
+      "label": "The interviewer claims NIDS became a model for OSAP and influenced later UFO developments.",
+      "anchor": {
+        "charStart": 15282,
+        "charEnd": 16972,
+        "segmentStart": 422,
+        "segmentEnd": 466,
+        "startSeconds": 1148.24,
+        "endSeconds": 1267.5200000000002,
+        "method": "exact",
+        "excerpt": ">> i don't i know robert you don't like to pat yourself on the back too much but if you think back to the time when the three of you were part of nids starting this 30 years ago now uh the profound changes that are that can directly be link"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:56724d1902df",
+      "type": "claim",
+      "label": "Bigelow says NIDS investigated clairvoyance, precognition, remote viewing, and psychokinesis.",
+      "anchor": {
+        "charStart": 15282,
+        "charEnd": 16972,
+        "segmentStart": 422,
+        "segmentEnd": 466,
+        "startSeconds": 1148.24,
+        "endSeconds": 1267.5200000000002,
+        "method": "exact",
+        "excerpt": ">> i don't i know robert you don't like to pat yourself on the back too much but if you think back to the time when the three of you were part of nids starting this 30 years ago now uh the profound changes that are that can directly be link"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:d5a8227d2c65",
+      "type": "claim",
+      "label": "Bigelow states his belief that foreign-intelligence communication is nearly entirely telepathic.",
+      "anchor": {
+        "charStart": 15282,
+        "charEnd": 16972,
+        "segmentStart": 422,
+        "segmentEnd": 466,
+        "startSeconds": 1148.24,
+        "endSeconds": 1267.5200000000002,
+        "method": "exact",
+        "excerpt": ">> i don't i know robert you don't like to pat yourself on the back too much but if you think back to the time when the three of you were part of nids starting this 30 years ago now uh the profound changes that are that can directly be link"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:113a3de7aba0",
+      "type": "claim",
+      "label": "Bigelow says these subjects are absent from traditional university education.",
+      "anchor": {
+        "charStart": 15282,
+        "charEnd": 16972,
+        "segmentStart": 422,
+        "segmentEnd": 466,
+        "startSeconds": 1148.24,
+        "endSeconds": 1267.5200000000002,
+        "method": "exact",
+        "excerpt": ">> i don't i know robert you don't like to pat yourself on the back too much but if you think back to the time when the three of you were part of nids starting this 30 years ago now uh the profound changes that are that can directly be link"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:298c0cd26f02",
+      "type": "claim",
+      "label": "Keller says NIDS experience directly informed the start of OSAP.",
+      "anchor": {
+        "charStart": 16973,
+        "charEnd": 19030,
+        "segmentStart": 467,
+        "segmentEnd": 521,
+        "startSeconds": 1265.84,
+        "endSeconds": 1405.4399999999998,
+        "method": "exact",
+        "excerpt": ">> yeah, i i think the national institute for discovery science was incredibly valuable in terms of um all of the experience that we gained over time. i mean we were very much influenced by you jacques because you were part of the science a"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:573a1af3657a",
+      "type": "claim",
+      "label": "Keller says OSAP examined physiological, psychological, and paranormal effects of UFOs on people.",
+      "anchor": {
+        "charStart": 16973,
+        "charEnd": 19030,
+        "segmentStart": 467,
+        "segmentEnd": 521,
+        "startSeconds": 1265.84,
+        "endSeconds": 1405.4399999999998,
+        "method": "exact",
+        "excerpt": ">> yeah, i i think the national institute for discovery science was incredibly valuable in terms of um all of the experience that we gained over time. i mean we were very much influenced by you jacques because you were part of the science a"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:41833b94efbb",
+      "type": "claim",
+      "label": "Keller says claimed UFO performance and human effects were treated as a continuum.",
+      "anchor": {
+        "charStart": 16973,
+        "charEnd": 19030,
+        "segmentStart": 467,
+        "segmentEnd": 521,
+        "startSeconds": 1265.84,
+        "endSeconds": 1405.4399999999998,
+        "method": "exact",
+        "excerpt": ">> yeah, i i think the national institute for discovery science was incredibly valuable in terms of um all of the experience that we gained over time. i mean we were very much influenced by you jacques because you were part of the science a"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:a34a12ea7a6d",
+      "type": "claim",
+      "label": "Bigelow credits Bud Hopkins and John Mack as researchers whose work they learned from and sponsored.",
+      "anchor": {
+        "charStart": 16973,
+        "charEnd": 19030,
+        "segmentStart": 467,
+        "segmentEnd": 521,
+        "startSeconds": 1265.84,
+        "endSeconds": 1405.4399999999998,
+        "method": "exact",
+        "excerpt": ">> yeah, i i think the national institute for discovery science was incredibly valuable in terms of um all of the experience that we gained over time. i mean we were very much influenced by you jacques because you were part of the science a"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:08b6e7fc23ae",
+      "type": "claim",
+      "label": "Vallée says the relevant problem is how humans deal with the phenomenon and associated psychic and political effects.",
+      "anchor": {
+        "charStart": 19031,
+        "charEnd": 21043,
+        "segmentStart": 522,
+        "segmentEnd": 576,
+        "startSeconds": 1402.64,
+        "endSeconds": 1577.12,
+        "method": "exact",
+        "excerpt": "what's what's the most interesting thing to me um in in the new spielberg movie is that there are no ufos. i mean there is a shape of something at the end but it's irrelevant because now we we know they exist and the problem is how do we de"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:7fd4dca31a80",
+      "type": "claim",
+      "label": "Vallée argues that nothing in the universe is abnormal, only unrecognized.",
+      "anchor": {
+        "charStart": 19031,
+        "charEnd": 21043,
+        "segmentStart": 522,
+        "segmentEnd": 576,
+        "startSeconds": 1402.64,
+        "endSeconds": 1577.12,
+        "method": "exact",
+        "excerpt": "what's what's the most interesting thing to me um in in the new spielberg movie is that there are no ufos. i mean there is a shape of something at the end but it's irrelevant because now we we know they exist and the problem is how do we de"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:6d20d4500006",
+      "type": "claim",
+      "label": "Vallée says a recruited group of 50 to 60 people took two years to understand the problem.",
+      "anchor": {
+        "charStart": 19031,
+        "charEnd": 21043,
+        "segmentStart": 522,
+        "segmentEnd": 576,
+        "startSeconds": 1402.64,
+        "endSeconds": 1577.12,
+        "method": "exact",
+        "excerpt": "what's what's the most interesting thing to me um in in the new spielberg movie is that there are no ufos. i mean there is a shape of something at the end but it's irrelevant because now we we know they exist and the problem is how do we de"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:d9c2a1df1525",
+      "type": "claim",
+      "label": "Vallée says investigators in Brazil did not understand what they observed.",
+      "anchor": {
+        "charStart": 19031,
+        "charEnd": 21043,
+        "segmentStart": 522,
+        "segmentEnd": 576,
+        "startSeconds": 1402.64,
+        "endSeconds": 1577.12,
+        "method": "exact",
+        "excerpt": "what's what's the most interesting thing to me um in in the new spielberg movie is that there are no ufos. i mean there is a shape of something at the end but it's irrelevant because now we we know they exist and the problem is how do we de"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:7464cede0492",
+      "type": "claim",
+      "label": "Vallée says cameras observing ranch experiments would themselves need to be watched.",
+      "anchor": {
+        "charStart": 19031,
+        "charEnd": 21043,
+        "segmentStart": 522,
+        "segmentEnd": 576,
+        "startSeconds": 1402.64,
+        "endSeconds": 1577.12,
+        "method": "exact",
+        "excerpt": "what's what's the most interesting thing to me um in in the new spielberg movie is that there are no ufos. i mean there is a shape of something at the end but it's irrelevant because now we we know they exist and the problem is how do we de"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:0694be07232b",
+      "type": "claim",
+      "label": "Vallée says witnesses frequently report camera failure or drained power supplies.",
+      "anchor": {
+        "charStart": 21044,
+        "charEnd": 22506,
+        "segmentStart": 576,
+        "segmentEnd": 614,
+        "startSeconds": 1571.039,
+        "endSeconds": 1680.1589999999999,
+        "method": "exact",
+        "excerpt": "i mean in the lab you know you you just need one camera to watch one experiment. who knows you know that experiment could be um changing the camera could be taking control of the camera. how many people you know on your shows uh say i had m"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:c552f1d467ea",
+      "type": "claim",
+      "label": "Vallée says a new generation of instruments is needed to engage an intelligent phenomenon that may fool observers.",
+      "anchor": {
+        "charStart": 21044,
+        "charEnd": 22506,
+        "segmentStart": 576,
+        "segmentEnd": 614,
+        "startSeconds": 1571.039,
+        "endSeconds": 1680.1589999999999,
+        "method": "exact",
+        "excerpt": "i mean in the lab you know you you just need one camera to watch one experiment. who knows you know that experiment could be um changing the camera could be taking control of the camera. how many people you know on your shows uh say i had m"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:e029e5c0c975",
+      "type": "claim",
+      "label": "The interviewer says Bigelow met with the president and provided UFO materials earlier in the year.",
+      "anchor": {
+        "charStart": 21044,
+        "charEnd": 22506,
+        "segmentStart": 576,
+        "segmentEnd": 614,
+        "startSeconds": 1571.039,
+        "endSeconds": 1680.1589999999999,
+        "method": "exact",
+        "excerpt": "i mean in the lab you know you you just need one camera to watch one experiment. who knows you know that experiment could be um changing the camera could be taking control of the camera. how many people you know on your shows uh say i had m"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:8d16c991f089",
+      "type": "claim",
+      "label": "The interviewer suggests public expectations may require bodies, saucers, or crash evidence.",
+      "anchor": {
+        "charStart": 21044,
+        "charEnd": 22506,
+        "segmentStart": 576,
+        "segmentEnd": 614,
+        "startSeconds": 1571.039,
+        "endSeconds": 1680.1589999999999,
+        "method": "exact",
+        "excerpt": "i mean in the lab you know you you just need one camera to watch one experiment. who knows you know that experiment could be um changing the camera could be taking control of the camera. how many people you know on your shows uh say i had m"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:da7dc0ca59f5",
+      "type": "claim",
+      "label": "Bigelow says severe public upset would require a threat beyond anything seen in 80 years.",
+      "anchor": {
+        "charStart": 22507,
+        "charEnd": 24000,
+        "segmentStart": 615,
+        "segmentEnd": 654,
+        "startSeconds": 1678.08,
+        "endSeconds": 1788.799,
+        "method": "exact",
+        "excerpt": ">> i think there there has to be a a perceived in order for the public to really be upset [clears throat] after all that's happened. i think there has to be a uh some sort of initiation of threat that would be way beyond anything that has e"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:a7cda669f391",
+      "type": "claim",
+      "label": "Bigelow says humans currently have more to fear from themselves than from ETs.",
+      "anchor": {
+        "charStart": 22507,
+        "charEnd": 24000,
+        "segmentStart": 615,
+        "segmentEnd": 654,
+        "startSeconds": 1678.08,
+        "endSeconds": 1788.799,
+        "method": "exact",
+        "excerpt": ">> i think there there has to be a a perceived in order for the public to really be upset [clears throat] after all that's happened. i think there has to be a uh some sort of initiation of threat that would be way beyond anything that has e"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:98a44907574b",
+      "type": "claim",
+      "label": "Bigelow argues that a sudden terrifying act would be inconsistent with 80 years of alleged ET behavior.",
+      "anchor": {
+        "charStart": 22507,
+        "charEnd": 24000,
+        "segmentStart": 615,
+        "segmentEnd": 654,
+        "startSeconds": 1678.08,
+        "endSeconds": 1788.799,
+        "method": "exact",
+        "excerpt": ">> i think there there has to be a a perceived in order for the public to really be upset [clears throat] after all that's happened. i think there has to be a uh some sort of initiation of threat that would be way beyond anything that has e"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:fecc118dcbb46285:076240a175b2",
+      "type": "claim",
+      "label": "Bigelow says the public has substantial capacity to accept the situation and become curious.",
+      "anchor": {
+        "charStart": 22507,
+        "charEnd": 24000,
+        "segmentStart": 615,
+        "segmentEnd": 654,
+        "startSeconds": 1678.08,
+        "endSeconds": 1788.799,
+        "method": "exact",
+        "excerpt": ">> i think there there has to be a a perceived in order for the public to really be upset [clears throat] after all that's happened. i think there has to be a uh some sort of initiation of threat that would be way beyond anything that has e"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "inf:fecc118dcbb46285:2a7146d94fd9",
+      "type": "inference",
+      "label": "{\"signal\": \"Date\", \"value\": \"August 1996\", \"context\": \"Kelleher states that he joined NIDS in that month.\"}",
+      "state": "Inferred",
+      "basis": "analysis.key_findings",
+      "detail": {
+        "signal": "Date",
+        "value": "August 1996",
+        "context": "Kelleher states that he joined NIDS in that month."
+      }
+    },
+    {
+      "id": "inf:fecc118dcbb46285:41cf592331b6",
+      "type": "inference",
+      "label": "{\"signal\": \"Date\", \"value\": \"January 1996\", \"context\": \"The host states that the NIDS science advisory board held its fi",
+      "state": "Inferred",
+      "basis": "analysis.key_findings",
+      "detail": {
+        "signal": "Date",
+        "value": "January 1996",
+        "context": "The host states that the NIDS science advisory board held its first meeting then."
+      }
+    },
+    {
+      "id": "inf:fecc118dcbb46285:b7ed8fc49a49",
+      "type": "inference",
+      "label": "{\"signal\": \"Location\", \"value\": \"Northeastern Utah\", \"context\": \"Location of the approximately 500-acre property later k",
+      "state": "Inferred",
+      "basis": "analysis.key_findings",
+      "detail": {
+        "signal": "Location",
+        "value": "Northeastern Utah",
+        "context": "Location of the approximately 500-acre property later known as Skinwalker Ranch."
+      }
+    },
+    {
+      "id": "inf:fecc118dcbb46285:234e257c116e",
+      "type": "inference",
+      "label": "{\"signal\": \"Government actor\", \"value\": \"Defense Intelligence Agency\", \"context\": \"Named as associated with the program ",
+      "state": "Inferred",
+      "basis": "analysis.key_findings",
+      "detail": {
+        "signal": "Government actor",
+        "value": "Defense Intelligence Agency",
+        "context": "Named as associated with the program transcribed as OSAP."
+      }
+    },
+    {
+      "id": "inf:fecc118dcbb46285:70ab9ef5a463",
+      "type": "inference",
+      "label": "{\"signal\": \"Program staffing\", \"value\": \"Approximately 50 personnel\", \"context\": \"Kelleher's estimate covering scientist",
+      "state": "Inferred",
+      "basis": "analysis.key_findings",
+      "detail": {
+        "signal": "Program staffing",
+        "value": "Approximately 50 personnel",
+        "context": "Kelleher's estimate covering scientists, technicians, counterintelligence, and security personnel."
+      }
+    },
+    {
+      "id": "inf:fecc118dcbb46285:3e29e8f0090a",
+      "type": "inference",
+      "label": "{\"signal\": \"Program duration\", \"value\": \"Just under two and a half years\", \"context\": \"Kelleher's estimate for the DIA-a",
+      "state": "Inferred",
+      "basis": "analysis.key_findings",
+      "detail": {
+        "signal": "Program duration",
+        "value": "Just under two and a half years",
+        "context": "Kelleher's estimate for the DIA-associated effort."
+      }
+    },
+    {
+      "id": "inf:fecc118dcbb46285:ca2e7d55b9d6",
+      "type": "inference",
+      "label": "{\"signal\": \"Document corpus\", \"value\": \"Approximately 100 technical documents\", \"context\": \"Claimed program output.\"}",
+      "state": "Inferred",
+      "basis": "analysis.key_findings",
+      "detail": {
+        "signal": "Document corpus",
+        "value": "Approximately 100 technical documents",
+        "context": "Claimed program output."
+      }
+    },
+    {
+      "id": "inf:fecc118dcbb46285:56b2292c9036",
+      "type": "inference",
+      "label": "{\"signal\": \"Public-release count\", \"value\": \"Approximately 35 to 38 documents\", \"context\": \"Kelleher's estimate of relea",
+      "state": "Inferred",
+      "basis": "analysis.key_findings",
+      "detail": {
+        "signal": "Public-release count",
+        "value": "Approximately 35 to 38 documents",
+        "context": "Kelleher's estimate of released program products."
+      }
+    },
+    {
+      "id": "inf:fecc118dcbb46285:96c1ab6fdfa3",
+      "type": "inference",
+      "label": "{\"signal\": \"Institution\", \"value\": \"National Institute for Discovery Science\", \"context\": \"Private organization describe",
+      "state": "Inferred",
+      "basis": "analysis.key_findings",
+      "detail": {
+        "signal": "Institution",
+        "value": "National Institute for Discovery Science",
+        "context": "Private organization described as preceding and informing the later government-associated program."
+      }
+    },
+    {
+      "id": "inf:fecc118dcbb46285:f4a0b3146b6b",
+      "type": "inference",
+      "label": "{\"signal\": \"Institution\", \"value\": \"Bigelow Aerospace\", \"context\": \"Kelleher states that he managed its life-support sys",
+      "state": "Inferred",
+      "basis": "analysis.key_findings",
+      "detail": {
+        "signal": "Institution",
+        "value": "Bigelow Aerospace",
+        "context": "Kelleher states that he managed its life-support systems group."
+      }
+    },
+    {
+      "id": "inf:fecc118dcbb46285:ad2e8ef8020a",
+      "type": "inference",
+      "label": "{\"signal\": \"Institution\", \"value\": \"Bigelow Institute for Consciousness Studies\", \"context\": \"Kelleher identifies it as ",
+      "state": "Inferred",
+      "basis": "analysis.key_findings",
+      "detail": {
+        "signal": "Institution",
+        "value": "Bigelow Institute for Consciousness Studies",
+        "context": "Kelleher identifies it as a later affiliation."
+      }
+    },
+    {
+      "id": "inf:fecc118dcbb46285:8438440ea555",
+      "type": "inference",
+      "label": "{\"signal\": \"Foreign-government-related institution\", \"value\": \"French space agency committee\", \"context\": \"Vallée says h",
+      "state": "Inferred",
+      "basis": "analysis.key_findings",
+      "detail": {
+        "signal": "Foreign-government-related institution",
+        "value": "French space agency committee",
+        "context": "Vallée says he was asked to rejoin a committee researching the issue; the precise committee name is not given in the excerpt."
+      }
+    },
+    {
+      "id": "inf:fecc118dcbb46285:16413ef3163a",
+      "type": "inference",
+      "label": "{\"signal\": \"Sensor modalities\", \"value\": \"Cameras, power supplies, and unspecified instruments\", \"context\": \"Discussed i",
+      "state": "Inferred",
+      "basis": "analysis.key_findings",
+      "detail": {
+        "signal": "Sensor modalities",
+        "value": "Cameras, power supplies, and unspecified instruments",
+        "context": "Discussed in relation to alleged equipment interference and experimental design."
+      }
+    },
+    {
+      "id": "inf:fecc118dcbb46285:7218b6521b64",
+      "type": "inference",
+      "label": "{\"signal\": \"Classification marks\", \"value\": \"None present\", \"context\": \"The supplied excerpt contains no visible classif",
+      "state": "Inferred",
+      "basis": "analysis.key_findings",
+      "detail": {
+        "signal": "Classification marks",
+        "value": "None present",
+        "context": "The supplied excerpt contains no visible classified-document markings."
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:personnel:09b04cad7db8",
+      "type": "entity",
+      "label": "Dr. Colum Keller",
+      "entityType": "PERSONNEL",
+      "aliases": [
+        "Colum Keller",
+        "Colum"
+      ],
+      "state": "Observed",
+      "excerpt": "Well, this is Dr. Colum Keller.",
+      "anchor": {
+        "charStart": 405,
+        "charEnd": 436,
+        "segmentStart": 11,
+        "segmentEnd": 11,
+        "startSeconds": 30.96,
+        "endSeconds": 38.719,
+        "method": "exact",
+        "excerpt": "well, this is dr. colum keller."
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:organization:f5a7cc006ad9",
+      "type": "entity",
+      "label": "Revocable trust",
+      "entityType": "ORGANIZATION",
+      "aliases": [
+        "the trust"
+      ],
+      "state": "Unverified",
+      "excerpt": "2 or 3 years ago I put together a revocable trust which upon my passing becomes irrevocable"
+    },
+    {
+      "id": "ent:fecc118dcbb46285:organization:203706d133a3",
+      "type": "entity",
+      "label": "Medical foundation",
+      "entityType": "ORGANIZATION",
+      "aliases": [
+        "a medical foundation"
+      ],
+      "state": "Unverified",
+      "excerpt": "I formed two 501c3 foundations. One is a medical foundation"
+    },
+    {
+      "id": "ent:fecc118dcbb46285:organization:c82ae14c743d",
+      "type": "entity",
+      "label": "Educational foundation",
+      "entityType": "ORGANIZATION",
+      "aliases": [
+        "the educational foundation"
+      ],
+      "state": "Unverified",
+      "excerpt": "the educational foundation's focus exclusively is on the survival of human consciousness",
+      "anchor": {
+        "charStart": 949,
+        "charEnd": 1037,
+        "segmentStart": 24,
+        "segmentEnd": 28,
+        "startSeconds": 68.64,
+        "endSeconds": 81.60000000000001,
+        "method": "exact",
+        "excerpt": "the educational foundation's focus exclusively is on the survival of human consciousness"
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:event:98e853fe2100",
+      "type": "entity",
+      "label": "Formation of the trust and two foundations",
+      "entityType": "EVENT",
+      "state": "Unverified",
+      "excerpt": "2 or 3 years ago I put together a revocable trust ... and then I formed two 501c3 foundations"
+    },
+    {
+      "id": "ent:fecc118dcbb46285:evidence:10655787ee69",
+      "type": "entity",
+      "label": "Interview testimony about the trust and foundations",
+      "entityType": "EVIDENCE",
+      "state": "Unverified",
+      "excerpt": "Colum is a director. We have three directors of the trust and of each of the foundations. And Colum sits on the board of all three."
+    },
+    {
+      "id": "ent:fecc118dcbb46285:personnel:2cf063267fd7",
+      "type": "entity",
+      "label": "Colum Keller",
+      "entityType": "PERSONNEL",
+      "aliases": [
+        "the speaker"
+      ],
+      "state": "Unverified",
+      "excerpt": "it's been exactly 30 years to the month since I first joined the National Institute for Discovery Science. It was August of 1996."
+    },
+    {
+      "id": "ent:fecc118dcbb46285:personnel:73f6669c3a4f",
+      "type": "entity",
+      "label": "Robert Bigalow",
+      "entityType": "PERSONNEL",
+      "aliases": [
+        "Robert"
+      ],
+      "state": "Observed",
+      "excerpt": "eventually I got talking to Robert Bigalow, flew out to Las Vegas and within a very short period of time I was hired",
+      "anchor": {
+        "charStart": 3588,
+        "charEnd": 3704,
+        "segmentStart": 99,
+        "segmentEnd": 102,
+        "startSeconds": 261.28,
+        "endSeconds": 279.6,
+        "method": "prefix_only",
+        "excerpt": "eventually i got talking to robert bigalow, flew out to las vegas and um within a very short period of time i was hi"
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:organization:d84422dba271",
+      "type": "entity",
+      "label": "National Institute for Discovery Science",
+      "entityType": "ORGANIZATION",
+      "aliases": [
+        "NIDS"
+      ],
+      "state": "Observed",
+      "excerpt": "I first joined the National Institute for Discovery Science. It was August of 1996.",
+      "anchor": {
+        "charStart": 2971,
+        "charEnd": 3054,
+        "segmentStart": 82,
+        "segmentEnd": 84,
+        "startSeconds": 211.599,
+        "endSeconds": 222.48,
+        "method": "exact",
+        "excerpt": "i first joined the national institute for discovery science. it was august of 1996."
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:organization:6801f5ac14c6",
+      "type": "entity",
+      "label": "National Jewish Center",
+      "entityType": "ORGANIZATION",
+      "state": "Observed",
+      "excerpt": "I was working as a mainstream immunologist in in the National Jewish Center in Denver",
+      "anchor": {
+        "charStart": 3081,
+        "charEnd": 3166,
+        "segmentStart": 85,
+        "segmentEnd": 87,
+        "startSeconds": 219.76,
+        "endSeconds": 229.2,
+        "method": "exact",
+        "excerpt": "i was working as a mainstream immunologist in in the national jewish center in denver"
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:organization:6f0b89e05cb0",
+      "type": "entity",
+      "label": "OSAP program",
+      "entityType": "ORGANIZATION",
+      "aliases": [
+        "OSAP"
+      ],
+      "state": "Unverified",
+      "excerpt": "I was running the day-to-day operations reporting to Robert Bigalow of the OSAP program.",
+      "anchor": {
+        "charStart": 17269,
+        "charEnd": 17386,
+        "segmentStart": 474,
+        "segmentEnd": 477,
+        "startSeconds": 1282.72,
+        "endSeconds": 1297.12,
+        "method": "exact",
+        "excerpt": "we started the osap program with a wealth of experience that we learned from national institute for discovery science"
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:organization:fd783868e5c0",
+      "type": "entity",
+      "label": "Defense Intelligence Agency",
+      "entityType": "ORGANIZATION",
+      "aliases": [
+        "DIA"
+      ],
+      "state": "Unverified",
+      "excerpt": "the OSAP program with DIA",
+      "anchor": {
+        "charStart": 4146,
+        "charEnd": 4171,
+        "segmentStart": 113,
+        "segmentEnd": 114,
+        "startSeconds": 307.52,
+        "endSeconds": 317.759,
+        "method": "exact",
+        "excerpt": "the osap program with dia"
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:organization:3a1f531dc538",
+      "type": "entity",
+      "label": "Bigalow Aerospace",
+      "entityType": "ORGANIZATION",
+      "state": "Observed",
+      "excerpt": "I was managing the life support systems group at Bigalow Aerospace"
+    },
+    {
+      "id": "ent:fecc118dcbb46285:organization:683e09e5b52c",
+      "type": "entity",
+      "label": "Bigalow Institute for consciousness studies",
+      "entityType": "ORGANIZATION",
+      "state": "Observed",
+      "excerpt": "since then I've been with the Bigalow Institute for consciousness studies"
+    },
+    {
+      "id": "ent:fecc118dcbb46285:event:63a43c8d5ee8",
+      "type": "entity",
+      "label": "Colum Keller joins the National Institute for Discovery Science",
+      "entityType": "EVENT",
+      "state": "Unverified",
+      "excerpt": "I was hired in August of 1996",
+      "anchor": {
+        "charStart": 3696,
+        "charEnd": 3725,
+        "segmentStart": 101,
+        "segmentEnd": 102,
+        "startSeconds": 268.8,
+        "endSeconds": 279.6,
+        "method": "exact",
+        "excerpt": "i was hired in august of 1996"
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:event:ab3bc0afd0fc",
+      "type": "entity",
+      "label": "Skinwalker Ranch investigation",
+      "entityType": "EVENT",
+      "state": "Unverified",
+      "excerpt": "over the six years I spent about 300 days and nights on Skinwalker Ranch. Saw a lot of stuff that I was not able to explain.",
+      "anchor": {
+        "charStart": 3947,
+        "charEnd": 4071,
+        "segmentStart": 108,
+        "segmentEnd": 111,
+        "startSeconds": 290.72,
+        "endSeconds": 307.52000000000004,
+        "method": "prefix_only",
+        "excerpt": "over the six years i spent about 300 days and nights on skinwalker ranch. saw a lot of stuff that i was not you know i was n"
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:event:3c9ccfb4a7c6",
+      "type": "entity",
+      "label": "OSAP UFO investigation",
+      "entityType": "EVENT",
+      "state": "Unverified",
+      "excerpt": "We had 50 scientists and technicians and counter intelligence people, security people investigating UFOs."
+    },
+    {
+      "id": "ent:fecc118dcbb46285:evidence:680910052d61",
+      "type": "entity",
+      "label": "OSAP technical documents",
+      "entityType": "EVIDENCE",
+      "aliases": [
+        "technical documents",
+        "work product"
+      ],
+      "state": "Unverified",
+      "excerpt": "we produced about a hundred separate technical documents that very few of which have ever been released",
+      "anchor": {
+        "charStart": 4616,
+        "charEnd": 4719,
+        "segmentStart": 126,
+        "segmentEnd": 129,
+        "startSeconds": 347.039,
+        "endSeconds": 363.19899999999996,
+        "method": "prefix_only",
+        "excerpt": "we produced about a hundred separate technical documents that um very few of which have ever been relea"
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:location:88b842fe0285",
+      "type": "entity",
+      "label": "Skinwalker Ranch",
+      "entityType": "LOCATION",
+      "aliases": [
+        "the 500 acre property"
+      ],
+      "state": "Observed",
+      "excerpt": "the 500 acre property in northeastern Utah which became globally renowned as Skinwalker Ranch"
+    },
+    {
+      "id": "ent:fecc118dcbb46285:location:03887adee58d",
+      "type": "entity",
+      "label": "Northeastern Utah",
+      "entityType": "LOCATION",
+      "aliases": [
+        "northeastern Utah"
+      ],
+      "state": "Observed",
+      "excerpt": "the 500 acre property in northeastern Utah"
+    },
+    {
+      "id": "ent:fecc118dcbb46285:location:4c6eb87b502e",
+      "type": "entity",
+      "label": "Denver",
+      "entityType": "LOCATION",
+      "state": "Observed",
+      "excerpt": "the National Jewish Center in Denver",
+      "anchor": {
+        "charStart": 3130,
+        "charEnd": 3166,
+        "segmentStart": 86,
+        "segmentEnd": 87,
+        "startSeconds": 222.48,
+        "endSeconds": 229.2,
+        "method": "exact",
+        "excerpt": "the national jewish center in denver"
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:location:702e1c9fc717",
+      "type": "entity",
+      "label": "Las Vegas",
+      "entityType": "LOCATION",
+      "state": "Observed",
+      "excerpt": "flew out to Las Vegas and within a very short period of time I was hired"
+    },
+    {
+      "id": "ent:fecc118dcbb46285:personnel:ca1b521b8b69",
+      "type": "entity",
+      "label": "Jacques Vallée",
+      "entityType": "PERSONNEL",
+      "aliases": [
+        "Dr. Jacques Valet",
+        "Jacques",
+        "Jank"
+      ],
+      "state": "Observed",
+      "excerpt": "there was only one of the faces I knew and it was Dr. Jacques Valet",
+      "anchor": {
+        "charStart": 5951,
+        "charEnd": 6018,
+        "segmentStart": 165,
+        "segmentEnd": 167,
+        "startSeconds": 440.24,
+        "endSeconds": 449.039,
+        "method": "exact",
+        "excerpt": "there was only one of the faces i knew and it was dr. jacques valet"
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:organization:cee807fc56f2",
+      "type": "entity",
+      "label": "NIDS",
+      "entityType": "ORGANIZATION",
+      "state": "Observed",
+      "excerpt": "someone else who was there at the beginning of NIDS 30 years ago this year",
+      "anchor": {
+        "charStart": 5716,
+        "charEnd": 5790,
+        "segmentStart": 159,
+        "segmentEnd": 161,
+        "startSeconds": 426.0,
+        "endSeconds": 434.96,
+        "method": "exact",
+        "excerpt": "someone else who was there at the beginning of nids 30 years ago this year"
+      },
+      "aliases": [
+        "nids"
+      ]
+    },
+    {
+      "id": "ent:fecc118dcbb46285:organization:87a966aa5f26",
+      "type": "entity",
+      "label": "NIDS Science Advisory Board",
+      "entityType": "ORGANIZATION",
+      "aliases": [
+        "science advisory board of NIDS",
+        "science advisory board"
+      ],
+      "state": "Observed",
+      "excerpt": "This is a photograph of most of the group at one time that we took of the science advisory board of NIDS.",
+      "anchor": {
+        "charStart": 6306,
+        "charEnd": 6411,
+        "segmentStart": 175,
+        "segmentEnd": 177,
+        "startSeconds": 460.0,
+        "endSeconds": 468.96000000000004,
+        "method": "exact",
+        "excerpt": "this is a photograph of most of the group at one time that we took of the science advisory board of nids."
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:event:f2a48cbc2556",
+      "type": "entity",
+      "label": "NIDS Science Advisory Board first meeting",
+      "entityType": "EVENT",
+      "state": "Observed",
+      "excerpt": "January of 1996. The science advisory board had its first meeting here.",
+      "anchor": {
+        "charStart": 5792,
+        "charEnd": 5863,
+        "segmentStart": 161,
+        "segmentEnd": 163,
+        "startSeconds": 429.599,
+        "endSeconds": 440.23999999999995,
+        "method": "exact",
+        "excerpt": "january of 1996. the science advisory board had its first meeting here."
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:event:d2ec28914d95",
+      "type": "entity",
+      "label": "January 1996",
+      "entityType": "EVENT",
+      "aliases": [
+        "January of 1996"
+      ],
+      "state": "Observed",
+      "excerpt": "January of 1996."
+    },
+    {
+      "id": "ent:fecc118dcbb46285:evidence:de149d3e2a7f",
+      "type": "entity",
+      "label": "NIDS Science Advisory Board group photograph",
+      "entityType": "EVIDENCE",
+      "aliases": [
+        "photograph of most of the group"
+      ],
+      "state": "Observed",
+      "excerpt": "This is a photograph of most of the group at one time that we took of the science advisory board of NIDS.",
+      "anchor": {
+        "charStart": 6306,
+        "charEnd": 6411,
+        "segmentStart": 175,
+        "segmentEnd": 177,
+        "startSeconds": 460.0,
+        "endSeconds": 468.96000000000004,
+        "method": "exact",
+        "excerpt": "this is a photograph of most of the group at one time that we took of the science advisory board of nids."
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:evidence:fa4dd17dce20",
+      "type": "entity",
+      "label": "Forbidden Science",
+      "entityType": "EVIDENCE",
+      "state": "Observed",
+      "excerpt": "Forbidden Science is the latest volume of your journals to come out",
+      "anchor": {
+        "charStart": 6828,
+        "charEnd": 6895,
+        "segmentStart": 190,
+        "segmentEnd": 191,
+        "startSeconds": 492.16,
+        "endSeconds": 499.44000000000005,
+        "method": "exact",
+        "excerpt": "forbidden science is the latest volume of your journals to come out"
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:organization:a688817ace0b",
+      "type": "entity",
+      "label": "French space agency",
+      "entityType": "ORGANIZATION",
+      "state": "Observed",
+      "excerpt": "the committee of the French space agency that is in charge"
+    },
+    {
+      "id": "ent:fecc118dcbb46285:organization:d44d997b15a1",
+      "type": "entity",
+      "label": "French space agency UAP research committee",
+      "entityType": "ORGANIZATION",
+      "aliases": [
+        "committee of the French space agency"
+      ],
+      "state": "Unverified",
+      "excerpt": "I've been asked to rejoin in France the committee of the French space agency"
+    },
+    {
+      "id": "ent:fecc118dcbb46285:location:f70e7012ddc0",
+      "type": "entity",
+      "label": "Paris, France",
+      "entityType": "LOCATION",
+      "aliases": [
+        "Paris"
+      ],
+      "state": "Observed",
+      "excerpt": "I will be spending more time in in Paris.",
+      "anchor": {
+        "charStart": 9100,
+        "charEnd": 9141,
+        "segmentStart": 254,
+        "segmentEnd": 255,
+        "startSeconds": 673.04,
+        "endSeconds": 677.12,
+        "method": "exact",
+        "excerpt": "i will be spending more time in in paris."
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:personnel:624dbcf95b06",
+      "type": "entity",
+      "label": "Robert Bigelow",
+      "entityType": "PERSONNEL",
+      "aliases": [
+        "Robert"
+      ],
+      "state": "Observed",
+      "excerpt": "I'm really curious about the origin story of Robert and Jacques getting together.",
+      "anchor": {
+        "charStart": 10745,
+        "charEnd": 10826,
+        "segmentStart": 298,
+        "segmentEnd": 300,
+        "startSeconds": 806.32,
+        "endSeconds": 814.4799999999999,
+        "method": "exact",
+        "excerpt": "i'm really curious about the origin story of robert and jacques getting together."
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:personnel:f2c9a912ec04",
+      "type": "entity",
+      "label": "J. Allen Hynek",
+      "entityType": "PERSONNEL",
+      "aliases": [
+        "Jay Allen Heinik",
+        "Heinik",
+        "Heinek",
+        "Hynek"
+      ],
+      "state": "Observed",
+      "excerpt": "my first interest in Jacques was he was so well placed with Jay Allen Heinik",
+      "anchor": {
+        "charStart": 11809,
+        "charEnd": 11885,
+        "segmentStart": 327,
+        "segmentEnd": 329,
+        "startSeconds": 883.68,
+        "endSeconds": 891.9200000000001,
+        "method": "exact",
+        "excerpt": "my first interest in jacques was he was so well placed with jay allen heinik"
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:personnel:46566fbedfef",
+      "type": "entity",
+      "label": "Dr. Nolan",
+      "entityType": "PERSONNEL",
+      "state": "Observed",
+      "excerpt": "at Stanford around Dr. Nolan there is a whole team now of young people from different disciplines"
+    },
+    {
+      "id": "ent:fecc118dcbb46285:personnel:70d7dbc9dedc",
+      "type": "entity",
+      "label": "Dr. Lo",
+      "entityType": "PERSONNEL",
+      "state": "Unverified",
+      "excerpt": "and certainly at Harvard around Dr. Lo and at Colombia",
+      "anchor": {
+        "charStart": 10144,
+        "charEnd": 10198,
+        "segmentStart": 282,
+        "segmentEnd": 283,
+        "startSeconds": 750.8,
+        "endSeconds": 761.5999999999999,
+        "method": "exact",
+        "excerpt": "and certainly at harvard around dr. lo and at colombia"
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:organization:ac23f5b79054",
+      "type": "entity",
+      "label": "J. Allen Hynek's research team",
+      "entityType": "ORGANIZATION",
+      "aliases": [
+        "Heinik's team",
+        "Hynek's team"
+      ],
+      "state": "Observed",
+      "excerpt": "he was part of Heinik's team. He was so close that he and Heinik were very involved in the research together."
+    },
+    {
+      "id": "ent:fecc118dcbb46285:organization:de19c97d557a",
+      "type": "entity",
+      "label": "Stanford",
+      "entityType": "ORGANIZATION",
+      "state": "Observed",
+      "excerpt": "at Stanford around Dr. Nolan there is a whole team now",
+      "anchor": {
+        "charStart": 14302,
+        "charEnd": 14335,
+        "segmentStart": 395,
+        "segmentEnd": 396,
+        "startSeconds": 1063.039,
+        "endSeconds": 1072.4,
+        "method": "exact",
+        "excerpt": "professor gary noland at stanford"
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:organization:5d84cdf12b52",
+      "type": "entity",
+      "label": "Stanford multidisciplinary research team",
+      "entityType": "ORGANIZATION",
+      "aliases": [
+        "a whole team now of young people from different disciplines"
+      ],
+      "state": "Observed",
+      "excerpt": "around Dr. Nolan there is a whole team now of young people from different disciplines"
+    },
+    {
+      "id": "ent:fecc118dcbb46285:organization:4727010b0ff5",
+      "type": "entity",
+      "label": "Harvard",
+      "entityType": "ORGANIZATION",
+      "state": "Observed",
+      "excerpt": "certainly at Harvard around Dr. Lo",
+      "anchor": {
+        "charStart": 10148,
+        "charEnd": 10182,
+        "segmentStart": 282,
+        "segmentEnd": 283,
+        "startSeconds": 750.8,
+        "endSeconds": 761.5999999999999,
+        "method": "exact",
+        "excerpt": "certainly at harvard around dr. lo"
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:organization:c91bd9c288c0",
+      "type": "entity",
+      "label": "Colombia",
+      "entityType": "ORGANIZATION",
+      "state": "Unverified",
+      "excerpt": "and certainly at Harvard around Dr. Lo and at Colombia",
+      "anchor": {
+        "charStart": 10144,
+        "charEnd": 10198,
+        "segmentStart": 282,
+        "segmentEnd": 283,
+        "startSeconds": 750.8,
+        "endSeconds": 761.5999999999999,
+        "method": "exact",
+        "excerpt": "and certainly at harvard around dr. lo and at colombia"
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:event:e180b9047266",
+      "type": "entity",
+      "label": "NIDS formation and initial operation",
+      "entityType": "EVENT",
+      "state": "Observed",
+      "excerpt": "You're creating nids around in '95 and then it got going in '96",
+      "anchor": {
+        "charStart": 10939,
+        "charEnd": 11002,
+        "segmentStart": 303,
+        "segmentEnd": 305,
+        "startSeconds": 816.56,
+        "endSeconds": 826.2399999999999,
+        "method": "exact",
+        "excerpt": "you're creating nids around in '95 and then it got going in '96"
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:evidence:4337bf6d31e3",
+      "type": "entity",
+      "label": "Interview testimony on the origins of the Bigelow–Vallée collaboration",
+      "entityType": "EVIDENCE",
+      "state": "Observed",
+      "excerpt": "I wish I could tell you I knew exactly how. I have no recollection.",
+      "anchor": {
+        "charStart": 11975,
+        "charEnd": 12042,
+        "segmentStart": 332,
+        "segmentEnd": 333,
+        "startSeconds": 894.48,
+        "endSeconds": 900.959,
+        "method": "exact",
+        "excerpt": "i wish i could tell you i knew exactly how. i have no recollection."
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:evidence:a11365dea1d0",
+      "type": "entity",
+      "label": "Jacques Vallée's unnamed new book",
+      "entityType": "EVIDENCE",
+      "aliases": [
+        "Jacques's new book"
+      ],
+      "state": "Unverified",
+      "excerpt": "that's actually in Jacques's new book about we make mistakes"
+    },
+    {
+      "id": "ent:fecc118dcbb46285:location:b05563f28b69",
+      "type": "entity",
+      "label": "Silicon Valley",
+      "entityType": "LOCATION",
+      "state": "Observed",
+      "excerpt": "that's the moto in Silicon Valley, you know, break it and do something else",
+      "anchor": {
+        "charStart": 10597,
+        "charEnd": 10672,
+        "segmentStart": 294,
+        "segmentEnd": 296,
+        "startSeconds": 796.16,
+        "endSeconds": 806.3199999999999,
+        "method": "exact",
+        "excerpt": "that's the moto in silicon valley, you know, break it and do something else"
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:personnel:c7d22edfb875",
+      "type": "entity",
+      "label": "Gary Noland",
+      "entityType": "PERSONNEL",
+      "state": "Observed",
+      "excerpt": "I talked to professor Gary Noland at Stanford... we work on the... material side of all this but we also talk about the biological side"
+    },
+    {
+      "id": "ent:fecc118dcbb46285:personnel:31c58be6d4de",
+      "type": "entity",
+      "label": "Heinek",
+      "entityType": "PERSONNEL",
+      "state": "Unverified",
+      "excerpt": "as you write in another of your book, the one with Heinek",
+      "anchor": {
+        "charStart": 13536,
+        "charEnd": 13593,
+        "segmentStart": 374,
+        "segmentEnd": 376,
+        "startSeconds": 1007.36,
+        "endSeconds": 1015.6800000000001,
+        "method": "exact",
+        "excerpt": "as you write in another of your book, the one with heinek"
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:evidence:29f2752ca15c",
+      "type": "entity",
+      "label": "Interdisciplinary investigation, witness trauma, and biological complexity",
+      "entityType": "EVIDENCE",
+      "state": "Unverified",
+      "excerpt": "It's not just sensor data, photos, videos, crash materials, whatever. It's how our interaction works, how it affects us over the long run."
+    },
+    {
+      "id": "ent:fecc118dcbb46285:personnel:4007d4629229",
+      "type": "entity",
+      "label": "Robert",
+      "entityType": "PERSONNEL",
+      "state": "Observed",
+      "excerpt": "Robert you don't like to pat yourself on the back too much",
+      "anchor": {
+        "charStart": 15300,
+        "charEnd": 15358,
+        "segmentStart": 422,
+        "segmentEnd": 423,
+        "startSeconds": 1148.24,
+        "endSeconds": 1153.919,
+        "method": "exact",
+        "excerpt": "robert you don't like to pat yourself on the back too much"
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:personnel:881d5fb60090",
+      "type": "entity",
+      "label": "column",
+      "entityType": "PERSONNEL",
+      "state": "Unverified",
+      "excerpt": "and same for you column especially once you once you get to the ranch",
+      "anchor": {
+        "charStart": 16902,
+        "charEnd": 16971,
+        "segmentStart": 465,
+        "segmentEnd": 466,
+        "startSeconds": 1262.4,
+        "endSeconds": 1267.5200000000002,
+        "method": "exact",
+        "excerpt": "and same for you column especially once you once you get to the ranch"
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:organization:88f43328537b",
+      "type": "entity",
+      "label": "Osap",
+      "entityType": "ORGANIZATION",
+      "state": "Unverified",
+      "excerpt": "NIDS becomes a model for Osap",
+      "anchor": {
+        "charStart": 15547,
+        "charEnd": 15576,
+        "segmentStart": 428,
+        "segmentEnd": 429,
+        "startSeconds": 1159.919,
+        "endSeconds": 1168.0,
+        "method": "exact",
+        "excerpt": "nids becomes a model for osap"
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:organization:ad021d369ce0",
+      "type": "entity",
+      "label": "OAP",
+      "entityType": "ORGANIZATION",
+      "state": "Unverified",
+      "excerpt": "with no OAP. There's no ATIP",
+      "anchor": {
+        "charStart": 15580,
+        "charEnd": 15608,
+        "segmentStart": 429,
+        "segmentEnd": 430,
+        "startSeconds": 1161.52,
+        "endSeconds": 1170.1599999999999,
+        "method": "exact",
+        "excerpt": "with no oap. there's no atip"
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:organization:7cd2e9f086f7",
+      "type": "entity",
+      "label": "ATIP",
+      "entityType": "ORGANIZATION",
+      "state": "Observed",
+      "excerpt": "There's no ATIP, there's no New York Times story",
+      "anchor": {
+        "charStart": 15593,
+        "charEnd": 15641,
+        "segmentStart": 430,
+        "segmentEnd": 431,
+        "startSeconds": 1166.32,
+        "endSeconds": 1172.08,
+        "method": "exact",
+        "excerpt": "there's no atip, there's no new york times story"
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:organization:b78877a21275",
+      "type": "entity",
+      "label": "New York Times",
+      "entityType": "ORGANIZATION",
+      "state": "Observed",
+      "excerpt": "there's no New York Times story",
+      "anchor": {
+        "charStart": 15610,
+        "charEnd": 15641,
+        "segmentStart": 430,
+        "segmentEnd": 431,
+        "startSeconds": 1166.32,
+        "endSeconds": 1172.08,
+        "method": "exact",
+        "excerpt": "there's no new york times story"
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:event:4cd7608f53c4",
+      "type": "entity",
+      "label": "NIDS start period",
+      "entityType": "EVENT",
+      "state": "Unverified",
+      "excerpt": "the three of you were part of NIDS starting this 30 years ago",
+      "anchor": {
+        "charStart": 15398,
+        "charEnd": 15459,
+        "segmentStart": 424,
+        "segmentEnd": 426,
+        "startSeconds": 1152.32,
+        "endSeconds": 1159.9189999999999,
+        "method": "exact",
+        "excerpt": "the three of you were part of nids starting this 30 years ago"
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:event:11dfafca5fb4",
+      "type": "entity",
+      "label": "Tic Tac case investigation",
+      "entityType": "EVENT",
+      "state": "Observed",
+      "excerpt": "there's no Tic Tac case investigation",
+      "anchor": {
+        "charStart": 15643,
+        "charEnd": 15680,
+        "segmentStart": 431,
+        "segmentEnd": 432,
+        "startSeconds": 1168.0,
+        "endSeconds": 1173.76,
+        "method": "exact",
+        "excerpt": "there's no tic tac case investigation"
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:evidence:c19c15621df7",
+      "type": "entity",
+      "label": "New York Times story",
+      "entityType": "EVIDENCE",
+      "state": "Unverified",
+      "excerpt": "there's no New York Times story",
+      "anchor": {
+        "charStart": 15610,
+        "charEnd": 15641,
+        "segmentStart": 430,
+        "segmentEnd": 431,
+        "startSeconds": 1166.32,
+        "endSeconds": 1172.08,
+        "method": "exact",
+        "excerpt": "there's no new york times story"
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:evidence:70060526cb56",
+      "type": "entity",
+      "label": "Robert interview testimony",
+      "entityType": "EVIDENCE",
+      "state": "Contested",
+      "excerpt": "We definitely helped. Well, we, you know, it wasn't exclusive.",
+      "anchor": {
+        "charStart": 15829,
+        "charEnd": 15891,
+        "segmentStart": 436,
+        "segmentEnd": 437,
+        "startSeconds": 1177.6,
+        "endSeconds": 1185.84,
+        "method": "exact",
+        "excerpt": "we definitely helped. well, we, you know, it wasn't exclusive."
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:location:a792613c42d4",
+      "type": "entity",
+      "label": "this building",
+      "entityType": "LOCATION",
+      "state": "Unverified",
+      "excerpt": "started with you guys here in this building 30 years ago",
+      "anchor": {
+        "charStart": 15771,
+        "charEnd": 15827,
+        "segmentStart": 434,
+        "segmentEnd": 436,
+        "startSeconds": 1173.76,
+        "endSeconds": 1183.36,
+        "method": "exact",
+        "excerpt": "started with you guys here in this building 30 years ago"
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:location:c1cfa5d69aa2",
+      "type": "entity",
+      "label": "the ranch",
+      "entityType": "LOCATION",
+      "state": "Unverified",
+      "excerpt": "especially once you once you get to the ranch",
+      "anchor": {
+        "charStart": 16926,
+        "charEnd": 16971,
+        "segmentStart": 465,
+        "segmentEnd": 466,
+        "startSeconds": 1262.4,
+        "endSeconds": 1267.5200000000002,
+        "method": "exact",
+        "excerpt": "especially once you once you get to the ranch"
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:personnel:ffa7e158c872",
+      "type": "entity",
+      "label": "Keller",
+      "entityType": "PERSONNEL",
+      "state": "Unverified",
+      "excerpt": "Keller on NIDS experience and OSAP human-effects research"
+    },
+    {
+      "id": "ent:fecc118dcbb46285:personnel:742b9bb2306e",
+      "type": "entity",
+      "label": "Jacques",
+      "entityType": "PERSONNEL",
+      "state": "Observed",
+      "excerpt": "we were very much influenced by you Jacques because you were part of the science advisory board and very regular meetings",
+      "anchor": {
+        "charStart": 17131,
+        "charEnd": 17252,
+        "segmentStart": 471,
+        "segmentEnd": 474,
+        "startSeconds": 1275.919,
+        "endSeconds": 1288.48,
+        "method": "exact",
+        "excerpt": "we were very much influenced by you jacques because you were part of the science advisory board and very regular meetings"
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:personnel:b08717ab95eb",
+      "type": "entity",
+      "label": "Bud Hopkins",
+      "entityType": "PERSONNEL",
+      "state": "Observed",
+      "excerpt": "people not belonging to NIDS like Bud Hopkins and John Mack credit too because we learned a lot from those guys",
+      "anchor": {
+        "charStart": 18076,
+        "charEnd": 18187,
+        "segmentStart": 496,
+        "segmentEnd": 499,
+        "startSeconds": 1342.88,
+        "endSeconds": 1355.28,
+        "method": "exact",
+        "excerpt": "people not belonging to nids like bud hopkins and john mack credit too because we learned a lot from those guys"
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:personnel:b026e7e9ea0f",
+      "type": "entity",
+      "label": "John Mack",
+      "entityType": "PERSONNEL",
+      "state": "Observed",
+      "excerpt": "people not belonging to NIDS like Bud Hopkins and John Mack credit too because we learned a lot from those guys",
+      "anchor": {
+        "charStart": 18076,
+        "charEnd": 18187,
+        "segmentStart": 496,
+        "segmentEnd": 499,
+        "startSeconds": 1342.88,
+        "endSeconds": 1355.28,
+        "method": "exact",
+        "excerpt": "people not belonging to nids like bud hopkins and john mack credit too because we learned a lot from those guys"
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:personnel:9c307db4e836",
+      "type": "entity",
+      "label": "Stephen Spielberg",
+      "entityType": "PERSONNEL",
+      "state": "Unverified",
+      "excerpt": "Earlier this year, Stephen Spielberg came out with his long anticipated uh uh movie Disclosure Day.",
+      "anchor": {
+        "charStart": 18305,
+        "charEnd": 18404,
+        "segmentStart": 503,
+        "segmentEnd": 505,
+        "startSeconds": 1358.159,
+        "endSeconds": 1367.52,
+        "method": "exact",
+        "excerpt": "earlier this year, stephen spielberg came out with his long anticipated uh uh movie disclosure day."
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:evidence:312f2c8c5279",
+      "type": "entity",
+      "label": "Disclosure Day",
+      "entityType": "EVIDENCE",
+      "state": "Unverified",
+      "excerpt": "Stephen Spielberg came out with his long anticipated uh uh movie Disclosure Day. Just the title alone got the UFO world kind of pretty excited.",
+      "anchor": {
+        "charStart": 18324,
+        "charEnd": 18467,
+        "segmentStart": 503,
+        "segmentEnd": 507,
+        "startSeconds": 1358.159,
+        "endSeconds": 1372.32,
+        "method": "exact",
+        "excerpt": "stephen spielberg came out with his long anticipated uh uh movie disclosure day. just the title alone got the ufo world kind of pretty excited."
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:organization:3db20e1df89a",
+      "type": "entity",
+      "label": "Congress",
+      "entityType": "ORGANIZATION",
+      "state": "Unverified",
+      "excerpt": "the public is engaged Congress is asking questions there are programs that we can get into and talk about",
+      "anchor": {
+        "charStart": 18672,
+        "charEnd": 18777,
+        "segmentStart": 512,
+        "segmentEnd": 515,
+        "startSeconds": 1379.679,
+        "endSeconds": 1391.52,
+        "method": "exact",
+        "excerpt": "the public is engaged congress is asking questions there are programs that we can get into and talk about"
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:evidence:722eb10d4186",
+      "type": "entity",
+      "label": "Keller statement on NIDS and OSAP human-effects research",
+      "entityType": "EVIDENCE",
+      "state": "Unverified",
+      "excerpt": "It was not only a machine in the sky that was um performing all outperforming all of our fighter jets. it actually had effects on humans",
+      "anchor": {
+        "charStart": 17740,
+        "charEnd": 17876,
+        "segmentStart": 486,
+        "segmentEnd": 490,
+        "startSeconds": 1318.159,
+        "endSeconds": 1333.52,
+        "method": "exact",
+        "excerpt": "it was not only a machine in the sky that was um performing all outperforming all of our fighter jets. it actually had effects on humans"
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:evidence:26c15dd571d5",
+      "type": "entity",
+      "label": "Disclosure, normality, and reassessing the phenomenon testimony excerpt",
+      "entityType": "EVIDENCE",
+      "state": "Observed",
+      "excerpt": "the problem is one of reassessing what the phenomenon consists of on our terms"
+    },
+    {
+      "id": "ent:fecc118dcbb46285:personnel:7df395e98fb2",
+      "type": "entity",
+      "label": "Spielberg",
+      "entityType": "PERSONNEL",
+      "state": "Observed",
+      "excerpt": "the new Spielberg movie"
+    },
+    {
+      "id": "ent:fecc118dcbb46285:organization:04e027e4990a",
+      "type": "entity",
+      "label": "bus",
+      "entityType": "ORGANIZATION",
+      "state": "Unverified",
+      "excerpt": "the 50 60 people that the two of you recruited okay to work at bus",
+      "anchor": {
+        "charStart": 20468,
+        "charEnd": 20534,
+        "segmentStart": 561,
+        "segmentEnd": 562,
+        "startSeconds": 1527.44,
+        "endSeconds": 1537.52,
+        "method": "exact",
+        "excerpt": "the 50 60 people that the two of you recruited okay to work at bus"
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:event:89b8ca498050",
+      "type": "entity",
+      "label": "Brazil field visit by recruited personnel",
+      "entityType": "EVENT",
+      "state": "Unverified",
+      "excerpt": "they went to Brazil they didn't understand what they saw in Brazil",
+      "anchor": {
+        "charStart": 20600,
+        "charEnd": 20666,
+        "segmentStart": 564,
+        "segmentEnd": 566,
+        "startSeconds": 1537.52,
+        "endSeconds": 1548.8799999999999,
+        "method": "exact",
+        "excerpt": "they went to brazil they didn't understand what they saw in brazil"
+      }
+    },
+    {
+      "id": "ent:fecc118dcbb46285:location:5c8f52ca2896",
+      "type": "entity",
+      "label": "Brazil",
+      "entityType": "LOCATION",
+      "state": "Observed",
+      "excerpt": "they went to Brazil"
+    },
+    {
+      "id": "ent:fecc118dcbb46285:event:e2ace73d0348",
+      "type": "entity",
+      "label": "Ranch camera-instrumentation planning session",
+      "entityType": "EVENT",
+      "state": "Unverified",
+      "excerpt": "that session about putting cameras on the ranch to see what would happen to the animals if something came in"
+    },
+    {
+      "id": "oq:fecc118dcbb46285:bf090c8eeb27",
+      "type": "open_question",
+      "label": "Obtain the complete video, verify speaker identities and the transcript against the audio, and capture the channel name, publication date, description, and any linked primary documents before ingestion.",
+      "basis": "analysis.content_assessment.follow_up_needed"
+    },
+    {
+      "id": "oq:fecc118dcbb46285:99e5fc17d5f1",
+      "type": "open_question",
+      "label": "Verify Kelleher's employment and roles through NIDS records, the relevant DIA contract and task documentation, Bigelow Aerospace records, and contemporaneous biographies.",
+      "basis": "analysis.content_assessment.follow_up_needed"
+    },
+    {
+      "id": "oq:fecc118dcbb46285:e8643edba964",
+      "type": "open_question",
+      "label": "Resolve all acronyms and names, especially whether 'OSAP' means AAWSAP and whether references to AATIP are being used distinctly or interchangeably.",
+      "basis": "analysis.content_assessment.follow_up_needed"
+    },
+    {
+      "id": "oq:fecc118dcbb46285:20ddbb4b1fcf",
+      "type": "open_question",
+      "label": "Create a document-level inventory of the claimed approximately 100 technical products and reconcile it with the claimed 35 to 38 public releases.",
+      "basis": "analysis.content_assessment.follow_up_needed"
+    },
+    {
+      "id": "oq:fecc118dcbb46285:560c0dcb05cf",
+      "type": "open_question",
+      "label": "Verify Vallée's claimed reappointment to the relevant French space-agency committee through CNES or GEIPAN records.",
+      "basis": "analysis.content_assessment.follow_up_needed"
+    },
+    {
+      "id": "oq:fecc118dcbb46285:4708ded6b620",
+      "type": "open_question",
+      "label": "Verify the legal existence, directors, mission statements, tax status, and funding claims of Bigelow's trust and two 501(c)(3) foundations.",
+      "basis": "analysis.content_assessment.follow_up_needed"
+    },
+    {
+      "id": "oq:fecc118dcbb46285:9d6191bdd298",
+      "type": "open_question",
+      "label": "Seek independent documentation of Bigelow's claimed presidential meeting and identify which president, meeting date, attendees, and materials were provided.",
+      "basis": "analysis.content_assessment.follow_up_needed"
+    },
+    {
+      "id": "oq:fecc118dcbb46285:f965258daa3c",
+      "type": "open_question",
+      "label": "For any physiological or psychological-effect claims, require de-identified case records, diagnostic criteria, exposure timelines, comparison groups, and alternative-cause assessments.",
+      "basis": "analysis.content_assessment.follow_up_needed"
+    },
+    {
+      "id": "oq:fecc118dcbb46285:8b31a83bf7db",
+      "type": "open_question",
+      "label": "For any sensor or performance claims, obtain original files, metadata, calibration histories, platform data, environmental conditions, and chain-of-custody records.",
+      "basis": "analysis.content_assessment.follow_up_needed"
+    },
+    {
+      "id": "oq:fecc118dcbb46285:ef6285814cd5",
+      "type": "open_question",
+      "label": "Run duplicate detection against earlier NIDS, Skinwalker Ranch, AAWSAP/AATIP, and Bigelow interviews to isolate genuinely new statements.",
+      "basis": "analysis.content_assessment.follow_up_needed"
+    }
+  ],
+  "edges": [
+    {
+      "from": "src:fecc118dcbb46285",
+      "to": "seg:fecc118dcbb46285:c01",
+      "type": "contains"
+    },
+    {
+      "from": "src:fecc118dcbb46285",
+      "to": "seg:fecc118dcbb46285:c02",
+      "type": "contains"
+    },
+    {
+      "from": "src:fecc118dcbb46285",
+      "to": "seg:fecc118dcbb46285:c03",
+      "type": "contains"
+    },
+    {
+      "from": "src:fecc118dcbb46285",
+      "to": "seg:fecc118dcbb46285:c04",
+      "type": "contains"
+    },
+    {
+      "from": "src:fecc118dcbb46285",
+      "to": "seg:fecc118dcbb46285:c05",
+      "type": "contains"
+    },
+    {
+      "from": "src:fecc118dcbb46285",
+      "to": "seg:fecc118dcbb46285:c06",
+      "type": "contains"
+    },
+    {
+      "from": "src:fecc118dcbb46285",
+      "to": "seg:fecc118dcbb46285:c07",
+      "type": "contains"
+    },
+    {
+      "from": "src:fecc118dcbb46285",
+      "to": "seg:fecc118dcbb46285:c08",
+      "type": "contains"
+    },
+    {
+      "from": "src:fecc118dcbb46285",
+      "to": "seg:fecc118dcbb46285:c09",
+      "type": "contains"
+    },
+    {
+      "from": "src:fecc118dcbb46285",
+      "to": "seg:fecc118dcbb46285:c10",
+      "type": "contains"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c01",
+      "to": "seg:fecc118dcbb46285:c02",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c02",
+      "to": "seg:fecc118dcbb46285:c03",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c03",
+      "to": "seg:fecc118dcbb46285:c04",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c04",
+      "to": "seg:fecc118dcbb46285:c05",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c05",
+      "to": "seg:fecc118dcbb46285:c06",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c06",
+      "to": "seg:fecc118dcbb46285:c07",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c07",
+      "to": "seg:fecc118dcbb46285:c08",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c08",
+      "to": "seg:fecc118dcbb46285:c09",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c09",
+      "to": "seg:fecc118dcbb46285:c10",
+      "type": "precedes"
+    },
+    {
+      "from": "top:0f9c090dfa52",
+      "to": "seg:fecc118dcbb46285:c01",
+      "type": "contains"
+    },
+    {
+      "from": "top:0f9c090dfa52",
+      "to": "seg:fecc118dcbb46285:c01",
+      "type": "introduced_by"
+    },
+    {
+      "from": "top:9125f05511ce",
+      "to": "seg:fecc118dcbb46285:c02",
+      "type": "contains"
+    },
+    {
+      "from": "top:9125f05511ce",
+      "to": "seg:fecc118dcbb46285:c02",
+      "type": "introduced_by"
+    },
+    {
+      "from": "top:dc32cca9ee06",
+      "to": "seg:fecc118dcbb46285:c03",
+      "type": "contains"
+    },
+    {
+      "from": "top:dc32cca9ee06",
+      "to": "seg:fecc118dcbb46285:c03",
+      "type": "introduced_by"
+    },
+    {
+      "from": "top:1c5c329d1b1d",
+      "to": "seg:fecc118dcbb46285:c04",
+      "type": "contains"
+    },
+    {
+      "from": "top:1c5c329d1b1d",
+      "to": "seg:fecc118dcbb46285:c04",
+      "type": "introduced_by"
+    },
+    {
+      "from": "top:29f2752ca15c",
+      "to": "seg:fecc118dcbb46285:c05",
+      "type": "contains"
+    },
+    {
+      "from": "top:29f2752ca15c",
+      "to": "seg:fecc118dcbb46285:c05",
+      "type": "introduced_by"
+    },
+    {
+      "from": "top:bce8eecc5a52",
+      "to": "seg:fecc118dcbb46285:c06",
+      "type": "contains"
+    },
+    {
+      "from": "top:bce8eecc5a52",
+      "to": "seg:fecc118dcbb46285:c06",
+      "type": "introduced_by"
+    },
+    {
+      "from": "top:1b1e55b54619",
+      "to": "seg:fecc118dcbb46285:c07",
+      "type": "contains"
+    },
+    {
+      "from": "top:1b1e55b54619",
+      "to": "seg:fecc118dcbb46285:c07",
+      "type": "introduced_by"
+    },
+    {
+      "from": "top:e6276eb2bc55",
+      "to": "seg:fecc118dcbb46285:c08",
+      "type": "contains"
+    },
+    {
+      "from": "top:e6276eb2bc55",
+      "to": "seg:fecc118dcbb46285:c08",
+      "type": "introduced_by"
+    },
+    {
+      "from": "top:c7eee0df8544",
+      "to": "seg:fecc118dcbb46285:c09",
+      "type": "contains"
+    },
+    {
+      "from": "top:c7eee0df8544",
+      "to": "seg:fecc118dcbb46285:c09",
+      "type": "introduced_by"
+    },
+    {
+      "from": "top:5851a45bbcdf",
+      "to": "seg:fecc118dcbb46285:c10",
+      "type": "contains"
+    },
+    {
+      "from": "top:5851a45bbcdf",
+      "to": "seg:fecc118dcbb46285:c10",
+      "type": "introduced_by"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c01",
+      "to": "clm:fecc118dcbb46285:c4cff66d9ee1",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:c4cff66d9ee1",
+      "to": "top:0f9c090dfa52",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c01",
+      "to": "clm:fecc118dcbb46285:f5d437b7a3fc",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:f5d437b7a3fc",
+      "to": "top:0f9c090dfa52",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c01",
+      "to": "clm:fecc118dcbb46285:f2f5e657f4f3",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:f2f5e657f4f3",
+      "to": "top:0f9c090dfa52",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c01",
+      "to": "clm:fecc118dcbb46285:e14c5ee83517",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:e14c5ee83517",
+      "to": "top:0f9c090dfa52",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c02",
+      "to": "clm:fecc118dcbb46285:01848b5a8089",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:01848b5a8089",
+      "to": "top:9125f05511ce",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c02",
+      "to": "clm:fecc118dcbb46285:df85f34ec013",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:df85f34ec013",
+      "to": "top:9125f05511ce",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c02",
+      "to": "clm:fecc118dcbb46285:5b7d31a0a3ac",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:5b7d31a0a3ac",
+      "to": "top:9125f05511ce",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c02",
+      "to": "clm:fecc118dcbb46285:4ab2372f9322",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:4ab2372f9322",
+      "to": "top:9125f05511ce",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c02",
+      "to": "clm:fecc118dcbb46285:d81a5ac680e9",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:d81a5ac680e9",
+      "to": "top:9125f05511ce",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c02",
+      "to": "clm:fecc118dcbb46285:79370dac501c",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:79370dac501c",
+      "to": "top:9125f05511ce",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c03",
+      "to": "clm:fecc118dcbb46285:0509d3116c7a",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:0509d3116c7a",
+      "to": "top:dc32cca9ee06",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c03",
+      "to": "clm:fecc118dcbb46285:a15c317c5f6c",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:a15c317c5f6c",
+      "to": "top:dc32cca9ee06",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c03",
+      "to": "clm:fecc118dcbb46285:f9135f7eee84",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:f9135f7eee84",
+      "to": "top:dc32cca9ee06",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c03",
+      "to": "clm:fecc118dcbb46285:3651ee357747",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:3651ee357747",
+      "to": "top:dc32cca9ee06",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c03",
+      "to": "clm:fecc118dcbb46285:48f61fe8ba0a",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:48f61fe8ba0a",
+      "to": "top:dc32cca9ee06",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c04",
+      "to": "clm:fecc118dcbb46285:f3f16bc647a5",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:f3f16bc647a5",
+      "to": "top:1c5c329d1b1d",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c04",
+      "to": "clm:fecc118dcbb46285:8b158e7ae5fa",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:8b158e7ae5fa",
+      "to": "top:1c5c329d1b1d",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c04",
+      "to": "clm:fecc118dcbb46285:46418cc6105c",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:46418cc6105c",
+      "to": "top:1c5c329d1b1d",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c04",
+      "to": "clm:fecc118dcbb46285:ebfdc0e84b18",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:ebfdc0e84b18",
+      "to": "top:1c5c329d1b1d",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c05",
+      "to": "clm:fecc118dcbb46285:c78240662efd",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:c78240662efd",
+      "to": "top:29f2752ca15c",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c05",
+      "to": "clm:fecc118dcbb46285:f35545e2d967",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:f35545e2d967",
+      "to": "top:29f2752ca15c",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c05",
+      "to": "clm:fecc118dcbb46285:508273fdd540",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:508273fdd540",
+      "to": "top:29f2752ca15c",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c05",
+      "to": "clm:fecc118dcbb46285:ce24394f57d5",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:ce24394f57d5",
+      "to": "top:29f2752ca15c",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c05",
+      "to": "clm:fecc118dcbb46285:baa4ca941838",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:baa4ca941838",
+      "to": "top:29f2752ca15c",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c06",
+      "to": "clm:fecc118dcbb46285:bcb33b7b7b53",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:bcb33b7b7b53",
+      "to": "top:bce8eecc5a52",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c06",
+      "to": "clm:fecc118dcbb46285:56724d1902df",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:56724d1902df",
+      "to": "top:bce8eecc5a52",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c06",
+      "to": "clm:fecc118dcbb46285:d5a8227d2c65",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:d5a8227d2c65",
+      "to": "top:bce8eecc5a52",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c06",
+      "to": "clm:fecc118dcbb46285:113a3de7aba0",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:113a3de7aba0",
+      "to": "top:bce8eecc5a52",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c07",
+      "to": "clm:fecc118dcbb46285:298c0cd26f02",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:298c0cd26f02",
+      "to": "top:1b1e55b54619",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c07",
+      "to": "clm:fecc118dcbb46285:573a1af3657a",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:573a1af3657a",
+      "to": "top:1b1e55b54619",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c07",
+      "to": "clm:fecc118dcbb46285:41833b94efbb",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:41833b94efbb",
+      "to": "top:1b1e55b54619",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c07",
+      "to": "clm:fecc118dcbb46285:a34a12ea7a6d",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:a34a12ea7a6d",
+      "to": "top:1b1e55b54619",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c08",
+      "to": "clm:fecc118dcbb46285:08b6e7fc23ae",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:08b6e7fc23ae",
+      "to": "top:e6276eb2bc55",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c08",
+      "to": "clm:fecc118dcbb46285:7fd4dca31a80",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:7fd4dca31a80",
+      "to": "top:e6276eb2bc55",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c08",
+      "to": "clm:fecc118dcbb46285:6d20d4500006",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:6d20d4500006",
+      "to": "top:e6276eb2bc55",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c08",
+      "to": "clm:fecc118dcbb46285:d9c2a1df1525",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:d9c2a1df1525",
+      "to": "top:e6276eb2bc55",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c08",
+      "to": "clm:fecc118dcbb46285:7464cede0492",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:7464cede0492",
+      "to": "top:e6276eb2bc55",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c09",
+      "to": "clm:fecc118dcbb46285:0694be07232b",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:0694be07232b",
+      "to": "top:c7eee0df8544",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c09",
+      "to": "clm:fecc118dcbb46285:c552f1d467ea",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:c552f1d467ea",
+      "to": "top:c7eee0df8544",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c09",
+      "to": "clm:fecc118dcbb46285:e029e5c0c975",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:e029e5c0c975",
+      "to": "top:c7eee0df8544",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c09",
+      "to": "clm:fecc118dcbb46285:8d16c991f089",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:8d16c991f089",
+      "to": "top:c7eee0df8544",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c10",
+      "to": "clm:fecc118dcbb46285:da7dc0ca59f5",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:da7dc0ca59f5",
+      "to": "top:5851a45bbcdf",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c10",
+      "to": "clm:fecc118dcbb46285:a7cda669f391",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:a7cda669f391",
+      "to": "top:5851a45bbcdf",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c10",
+      "to": "clm:fecc118dcbb46285:98a44907574b",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:98a44907574b",
+      "to": "top:5851a45bbcdf",
+      "type": "about"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c10",
+      "to": "clm:fecc118dcbb46285:076240a175b2",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:fecc118dcbb46285:076240a175b2",
+      "to": "top:5851a45bbcdf",
+      "type": "about"
+    },
+    {
+      "from": "inf:fecc118dcbb46285:2a7146d94fd9",
+      "to": "src:fecc118dcbb46285",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:fecc118dcbb46285:41cf592331b6",
+      "to": "src:fecc118dcbb46285",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:fecc118dcbb46285:b7ed8fc49a49",
+      "to": "src:fecc118dcbb46285",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:fecc118dcbb46285:234e257c116e",
+      "to": "src:fecc118dcbb46285",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:fecc118dcbb46285:70ab9ef5a463",
+      "to": "src:fecc118dcbb46285",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:fecc118dcbb46285:3e29e8f0090a",
+      "to": "src:fecc118dcbb46285",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:fecc118dcbb46285:ca2e7d55b9d6",
+      "to": "src:fecc118dcbb46285",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:fecc118dcbb46285:56b2292c9036",
+      "to": "src:fecc118dcbb46285",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:fecc118dcbb46285:96c1ab6fdfa3",
+      "to": "src:fecc118dcbb46285",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:fecc118dcbb46285:f4a0b3146b6b",
+      "to": "src:fecc118dcbb46285",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:fecc118dcbb46285:ad2e8ef8020a",
+      "to": "src:fecc118dcbb46285",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:fecc118dcbb46285:8438440ea555",
+      "to": "src:fecc118dcbb46285",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:fecc118dcbb46285:16413ef3163a",
+      "to": "src:fecc118dcbb46285",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:fecc118dcbb46285:7218b6521b64",
+      "to": "src:fecc118dcbb46285",
+      "type": "based_on"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c01",
+      "to": "ent:fecc118dcbb46285:personnel:09b04cad7db8",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c01",
+      "to": "ent:fecc118dcbb46285:organization:f5a7cc006ad9",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c01",
+      "to": "ent:fecc118dcbb46285:organization:203706d133a3",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c01",
+      "to": "ent:fecc118dcbb46285:organization:c82ae14c743d",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c01",
+      "to": "ent:fecc118dcbb46285:event:98e853fe2100",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c01",
+      "to": "ent:fecc118dcbb46285:evidence:10655787ee69",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c02",
+      "to": "ent:fecc118dcbb46285:personnel:2cf063267fd7",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c02",
+      "to": "ent:fecc118dcbb46285:personnel:73f6669c3a4f",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c02",
+      "to": "ent:fecc118dcbb46285:organization:d84422dba271",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c02",
+      "to": "ent:fecc118dcbb46285:organization:6801f5ac14c6",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c02",
+      "to": "ent:fecc118dcbb46285:organization:6f0b89e05cb0",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c02",
+      "to": "ent:fecc118dcbb46285:organization:fd783868e5c0",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c02",
+      "to": "ent:fecc118dcbb46285:organization:3a1f531dc538",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c02",
+      "to": "ent:fecc118dcbb46285:organization:683e09e5b52c",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c02",
+      "to": "ent:fecc118dcbb46285:event:63a43c8d5ee8",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c02",
+      "to": "ent:fecc118dcbb46285:event:ab3bc0afd0fc",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c02",
+      "to": "ent:fecc118dcbb46285:event:3c9ccfb4a7c6",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c02",
+      "to": "ent:fecc118dcbb46285:evidence:680910052d61",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c02",
+      "to": "ent:fecc118dcbb46285:location:88b842fe0285",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c02",
+      "to": "ent:fecc118dcbb46285:location:03887adee58d",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c02",
+      "to": "ent:fecc118dcbb46285:location:4c6eb87b502e",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c02",
+      "to": "ent:fecc118dcbb46285:location:702e1c9fc717",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c03",
+      "to": "ent:fecc118dcbb46285:personnel:ca1b521b8b69",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c03",
+      "to": "ent:fecc118dcbb46285:organization:cee807fc56f2",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c03",
+      "to": "ent:fecc118dcbb46285:organization:87a966aa5f26",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c03",
+      "to": "ent:fecc118dcbb46285:event:f2a48cbc2556",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c03",
+      "to": "ent:fecc118dcbb46285:event:d2ec28914d95",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c03",
+      "to": "ent:fecc118dcbb46285:evidence:de149d3e2a7f",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c03",
+      "to": "ent:fecc118dcbb46285:evidence:fa4dd17dce20",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c03",
+      "to": "ent:fecc118dcbb46285:organization:a688817ace0b",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c03",
+      "to": "ent:fecc118dcbb46285:organization:d44d997b15a1",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c03",
+      "to": "ent:fecc118dcbb46285:location:f70e7012ddc0",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c04",
+      "to": "ent:fecc118dcbb46285:personnel:624dbcf95b06",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c04",
+      "to": "ent:fecc118dcbb46285:personnel:ca1b521b8b69",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c04",
+      "to": "ent:fecc118dcbb46285:personnel:f2c9a912ec04",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c04",
+      "to": "ent:fecc118dcbb46285:personnel:46566fbedfef",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c04",
+      "to": "ent:fecc118dcbb46285:personnel:70d7dbc9dedc",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c04",
+      "to": "ent:fecc118dcbb46285:organization:cee807fc56f2",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c04",
+      "to": "ent:fecc118dcbb46285:organization:ac23f5b79054",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c04",
+      "to": "ent:fecc118dcbb46285:organization:de19c97d557a",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c04",
+      "to": "ent:fecc118dcbb46285:organization:5d84cdf12b52",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c04",
+      "to": "ent:fecc118dcbb46285:organization:4727010b0ff5",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c04",
+      "to": "ent:fecc118dcbb46285:organization:c91bd9c288c0",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c04",
+      "to": "ent:fecc118dcbb46285:event:e180b9047266",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c04",
+      "to": "ent:fecc118dcbb46285:evidence:4337bf6d31e3",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c04",
+      "to": "ent:fecc118dcbb46285:evidence:a11365dea1d0",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c04",
+      "to": "ent:fecc118dcbb46285:location:b05563f28b69",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c05",
+      "to": "ent:fecc118dcbb46285:personnel:c7d22edfb875",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c05",
+      "to": "ent:fecc118dcbb46285:personnel:31c58be6d4de",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c05",
+      "to": "ent:fecc118dcbb46285:organization:de19c97d557a",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c05",
+      "to": "ent:fecc118dcbb46285:evidence:29f2752ca15c",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c06",
+      "to": "ent:fecc118dcbb46285:personnel:4007d4629229",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c06",
+      "to": "ent:fecc118dcbb46285:personnel:881d5fb60090",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c06",
+      "to": "ent:fecc118dcbb46285:organization:cee807fc56f2",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c06",
+      "to": "ent:fecc118dcbb46285:organization:88f43328537b",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c06",
+      "to": "ent:fecc118dcbb46285:organization:ad021d369ce0",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c06",
+      "to": "ent:fecc118dcbb46285:organization:7cd2e9f086f7",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c06",
+      "to": "ent:fecc118dcbb46285:organization:b78877a21275",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c06",
+      "to": "ent:fecc118dcbb46285:event:4cd7608f53c4",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c06",
+      "to": "ent:fecc118dcbb46285:event:11dfafca5fb4",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c06",
+      "to": "ent:fecc118dcbb46285:evidence:c19c15621df7",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c06",
+      "to": "ent:fecc118dcbb46285:evidence:70060526cb56",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c06",
+      "to": "ent:fecc118dcbb46285:location:a792613c42d4",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c06",
+      "to": "ent:fecc118dcbb46285:location:c1cfa5d69aa2",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c07",
+      "to": "ent:fecc118dcbb46285:organization:d84422dba271",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c07",
+      "to": "ent:fecc118dcbb46285:organization:6f0b89e05cb0",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c07",
+      "to": "ent:fecc118dcbb46285:personnel:ffa7e158c872",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c07",
+      "to": "ent:fecc118dcbb46285:personnel:742b9bb2306e",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c07",
+      "to": "ent:fecc118dcbb46285:personnel:4007d4629229",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c07",
+      "to": "ent:fecc118dcbb46285:personnel:b08717ab95eb",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c07",
+      "to": "ent:fecc118dcbb46285:personnel:b026e7e9ea0f",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c07",
+      "to": "ent:fecc118dcbb46285:personnel:9c307db4e836",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c07",
+      "to": "ent:fecc118dcbb46285:evidence:312f2c8c5279",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c07",
+      "to": "ent:fecc118dcbb46285:organization:3db20e1df89a",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c07",
+      "to": "ent:fecc118dcbb46285:evidence:722eb10d4186",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c08",
+      "to": "ent:fecc118dcbb46285:evidence:26c15dd571d5",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c08",
+      "to": "ent:fecc118dcbb46285:personnel:7df395e98fb2",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c08",
+      "to": "ent:fecc118dcbb46285:organization:04e027e4990a",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c08",
+      "to": "ent:fecc118dcbb46285:event:89b8ca498050",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c08",
+      "to": "ent:fecc118dcbb46285:location:5c8f52ca2896",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c08",
+      "to": "ent:fecc118dcbb46285:event:e2ace73d0348",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:fecc118dcbb46285:c08",
+      "to": "ent:fecc118dcbb46285:location:c1cfa5d69aa2",
+      "type": "mentions"
+    },
+    {
+      "from": "src:fecc118dcbb46285",
+      "to": "oq:fecc118dcbb46285:bf090c8eeb27",
+      "type": "raises"
+    },
+    {
+      "from": "src:fecc118dcbb46285",
+      "to": "oq:fecc118dcbb46285:99e5fc17d5f1",
+      "type": "raises"
+    },
+    {
+      "from": "src:fecc118dcbb46285",
+      "to": "oq:fecc118dcbb46285:e8643edba964",
+      "type": "raises"
+    },
+    {
+      "from": "src:fecc118dcbb46285",
+      "to": "oq:fecc118dcbb46285:20ddbb4b1fcf",
+      "type": "raises"
+    },
+    {
+      "from": "src:fecc118dcbb46285",
+      "to": "oq:fecc118dcbb46285:560c0dcb05cf",
+      "type": "raises"
+    },
+    {
+      "from": "src:fecc118dcbb46285",
+      "to": "oq:fecc118dcbb46285:4708ded6b620",
+      "type": "raises"
+    },
+    {
+      "from": "src:fecc118dcbb46285",
+      "to": "oq:fecc118dcbb46285:9d6191bdd298",
+      "type": "raises"
+    },
+    {
+      "from": "src:fecc118dcbb46285",
+      "to": "oq:fecc118dcbb46285:f965258daa3c",
+      "type": "raises"
+    },
+    {
+      "from": "src:fecc118dcbb46285",
+      "to": "oq:fecc118dcbb46285:8b31a83bf7db",
+      "type": "raises"
+    },
+    {
+      "from": "src:fecc118dcbb46285",
+      "to": "oq:fecc118dcbb46285:ef6285814cd5",
+      "type": "raises"
+    }
+  ],
+  "views": {
+    "sourceSpine": [
+      "seg:fecc118dcbb46285:c01",
+      "seg:fecc118dcbb46285:c02",
+      "seg:fecc118dcbb46285:c03",
+      "seg:fecc118dcbb46285:c04",
+      "seg:fecc118dcbb46285:c05",
+      "seg:fecc118dcbb46285:c06",
+      "seg:fecc118dcbb46285:c07",
+      "seg:fecc118dcbb46285:c08",
+      "seg:fecc118dcbb46285:c09",
+      "seg:fecc118dcbb46285:c10"
+    ],
+    "topicRoots": [
+      "top:0f9c090dfa52",
+      "top:9125f05511ce",
+      "top:dc32cca9ee06",
+      "top:1c5c329d1b1d",
+      "top:29f2752ca15c",
+      "top:bce8eecc5a52",
+      "top:1b1e55b54619",
+      "top:e6276eb2bc55",
+      "top:c7eee0df8544",
+      "top:5851a45bbcdf"
+    ],
+    "claimRoots": [
+      "clm:fecc118dcbb46285:c4cff66d9ee1",
+      "clm:fecc118dcbb46285:f5d437b7a3fc",
+      "clm:fecc118dcbb46285:f2f5e657f4f3",
+      "clm:fecc118dcbb46285:e14c5ee83517",
+      "clm:fecc118dcbb46285:01848b5a8089",
+      "clm:fecc118dcbb46285:df85f34ec013",
+      "clm:fecc118dcbb46285:5b7d31a0a3ac",
+      "clm:fecc118dcbb46285:4ab2372f9322",
+      "clm:fecc118dcbb46285:d81a5ac680e9",
+      "clm:fecc118dcbb46285:79370dac501c",
+      "clm:fecc118dcbb46285:0509d3116c7a",
+      "clm:fecc118dcbb46285:a15c317c5f6c",
+      "clm:fecc118dcbb46285:f9135f7eee84",
+      "clm:fecc118dcbb46285:3651ee357747",
+      "clm:fecc118dcbb46285:48f61fe8ba0a",
+      "clm:fecc118dcbb46285:f3f16bc647a5",
+      "clm:fecc118dcbb46285:8b158e7ae5fa",
+      "clm:fecc118dcbb46285:46418cc6105c",
+      "clm:fecc118dcbb46285:ebfdc0e84b18",
+      "clm:fecc118dcbb46285:c78240662efd",
+      "clm:fecc118dcbb46285:f35545e2d967",
+      "clm:fecc118dcbb46285:508273fdd540",
+      "clm:fecc118dcbb46285:ce24394f57d5",
+      "clm:fecc118dcbb46285:baa4ca941838",
+      "clm:fecc118dcbb46285:bcb33b7b7b53",
+      "clm:fecc118dcbb46285:56724d1902df",
+      "clm:fecc118dcbb46285:d5a8227d2c65",
+      "clm:fecc118dcbb46285:113a3de7aba0",
+      "clm:fecc118dcbb46285:298c0cd26f02",
+      "clm:fecc118dcbb46285:573a1af3657a",
+      "clm:fecc118dcbb46285:41833b94efbb",
+      "clm:fecc118dcbb46285:a34a12ea7a6d",
+      "clm:fecc118dcbb46285:08b6e7fc23ae",
+      "clm:fecc118dcbb46285:7fd4dca31a80",
+      "clm:fecc118dcbb46285:6d20d4500006",
+      "clm:fecc118dcbb46285:d9c2a1df1525",
+      "clm:fecc118dcbb46285:7464cede0492",
+      "clm:fecc118dcbb46285:0694be07232b",
+      "clm:fecc118dcbb46285:c552f1d467ea",
+      "clm:fecc118dcbb46285:e029e5c0c975",
+      "clm:fecc118dcbb46285:8d16c991f089",
+      "clm:fecc118dcbb46285:da7dc0ca59f5",
+      "clm:fecc118dcbb46285:a7cda669f391",
+      "clm:fecc118dcbb46285:98a44907574b",
+      "clm:fecc118dcbb46285:076240a175b2"
+    ],
+    "openQuestionRoots": [
+      "oq:fecc118dcbb46285:bf090c8eeb27",
+      "oq:fecc118dcbb46285:99e5fc17d5f1",
+      "oq:fecc118dcbb46285:e8643edba964",
+      "oq:fecc118dcbb46285:20ddbb4b1fcf",
+      "oq:fecc118dcbb46285:560c0dcb05cf",
+      "oq:fecc118dcbb46285:4708ded6b620",
+      "oq:fecc118dcbb46285:9d6191bdd298",
+      "oq:fecc118dcbb46285:f965258daa3c",
+      "oq:fecc118dcbb46285:8b31a83bf7db",
+      "oq:fecc118dcbb46285:ef6285814cd5"
+    ]
+  },
+  "coverage": {
+    "timed": true,
+    "charsAnchored": 23991,
+    "charsTotal": 84136,
+    "fraction": 0.2851,
+    "segmentsCovered": 655,
+    "segmentsTotal": 2326,
+    "pipelineTruncatedAtChars": 24000,
+    "chunkAnchorMethods": {
+      "exact": 10
+    }
+  },
+  "generation": {
+    "createdAt": "2026-09-10T22:15:04.922855+00:00",
+    "models": [
+      "openai/gpt-5.6"
+    ],
+    "promptsUsed": [
+      "disclosure.content_analysis",
+      "disclosure.ner",
+      "document_classification",
+      "rag_ingestion",
+      "validation"
+    ],
+    "methodologyVersion": "rag-prompt-pipeline/ADR-0001",
+    "pipelineStatus": "ok",
+    "degraded": false
+  },
+  "validation": {
+    "valid": true,
+    "errors": [],
+    "gaps": [
+      "no next_trace nodes — no pipeline stage proposes concrete next sources",
+      "no reading nodes — no interpretive stage exists; readings are never inferred here",
+      "no counter_reading nodes — paired with reading; unproduced for the same reason",
+      "no speaker nodes — diarisation is unavailable — the transcript carries '>>' turn markers but no speaker identities",
+      "no evidence→claim edges — the analysis prompt emits supporting and contradictory evidence as flat lists with no target claim, so evidence carries a stance but names no claim it bears on",
+      "chunk coverage is 29% of the source (23991 of 84136 chars); the pipeline truncates at 24000 chars"
+    ]
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "title": "The \"Horrible Truth\" about The Alien Deal - DEBRIEFED ep. 20",
+  "url": "https://www.youtube.com/watch?v=5neRAsS0nrY",
+  "id": "5neRAsS0nrY",
+  "channel_id": "UCvQ_EDuk8w67a2UkCS1ptbA",
+  "channel_title": "Area52",
+  "published_at": "2025-01-03T22:05:57Z",
+  "categories": [],
+  "tags": [],
+  "description": "",
+  "chapters": [],
+  "transcript_segment_count": 1543,
+  "rag_pipeline": {
+    "status": "ok",
+    "embeddable_count": 17,
+    "prompts_used": [
+      "disclosure.content_analysis",
+      "disclosure.ner",
+      "document_classification",
+      "rag_ingestion",
+      "validation"
+    ],
+    "errors": [
+      "ner:c02:disclosure.ner: JSON unparseable after one repair retry (Expecting property name enclosed in double quotes: line 133 column 6 (char 4656)); raw response was 4657 chars",
+      "ner:c04:disclosure.ner: JSON unparseable after one repair retry (Unterminated string starting at: line 120 column 9 (char 4938)); raw response was 4939 chars",
+      "ner:c05:disclosure.ner: JSON unparseable after one repair retry (Unterminated string starting at: line 125 column 21 (char 4524)); raw response was 4620 chars",
+      "ner:c07:disclosure.ner: JSON unparseable after one repair retry (Unterminated string starting at: line 138 column 15 (char 4421)); raw response was 4430 chars",
+      "ner:c08:disclosure.ner: JSON unparseable after one repair retry (Expecting value: line 1 column 1 (char 0)); raw response was 4843 chars"
+    ]
+  },
+  "trace_map": {
+    "json_path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/sources/transcripts/area52/5neRAsS0nrY/theHorribleTruthAboutTheAlienDealDebriefedEp20_trace_map.json",
+    "md_path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/sources/transcripts/area52/5neRAsS0nrY/theHorribleTruthAboutTheAlienDealDebriefedEp20_trace_map.md",
+    "node_count": 73,
+    "edge_count": 88,
+    "coverage_fraction": 0.418,
+    "valid": true,
+    "error_count": 0,
+    "gap_count": 7
+  }
+}
