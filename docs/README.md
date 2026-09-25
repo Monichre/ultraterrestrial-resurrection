@@ -2,7 +2,7 @@
 status: live
 role: ops
 spine: exists
-updated: 2026-08-15
+updated: 2026-09-13
 ---
 
 # Documentation
@@ -16,7 +16,7 @@ Navigation for Ultraterrestrial Resurrection. Living docs only — everything el
 | 1 | **What exists?** | This file + living-canon list below |
 | 2 | **Where is it?** | Paths in the table; root product files stay at repo root |
 | 3 | **How does it work?** | [`architecture/`](./architecture/) · [`adr/`](./adr/) · [`vision/IMPLEMENTATION_SPEC.md`](./vision/IMPLEMENTATION_SPEC.md) |
-| 4 | **What do we want?** | [`PRODUCT.md`](PRODUCT.md) · [`docs/vision/`](docs/vision/) · [`docs/design/design-lab/`](docs/design/design-lab/) · [`docs/plans/FEATURES.md`](docs/plans/FEATURES.md) · [`DESIGN.md`](DESIGN.md) (**not canonical** — canvas chrome sketch only) |
+| 4 | **What do we want?** | [`PRODUCT.md`](PRODUCT.md) · [`docs/vision/`](docs/vision/) · [`packages/disclosure-design/canon/design-lab/`](packages/disclosure-design/canon/design-lab/) · [`docs/plans/FEATURES.md`](docs/plans/FEATURES.md) · [`DESIGN.md`](DESIGN.md) (**not canonical** — canvas chrome sketch only) |
 | 5 | **How do we do it?** | [`docs/plans/TODO.md`](docs/plans/TODO.md) · [`GOAL.md`](GOAL.md) · [`DAILY_WORK_PLAN.md`](DAILY_WORK_PLAN.md) |
 | 6 | **Where do I start?** | [`.agents/rules/AGENT_ONBOARDING_CHECKLIST.md`](.agents/rules/AGENT_ONBOARDING_CHECKLIST.md) · [`README.md`](README.md) · [`AGENTS.md`](AGENTS.md) |
 
@@ -28,7 +28,7 @@ docs/
   adr/                      decisions
   architecture/             API_ROUTES, RUNBOOK
   vision/                   identity canon (flat markdown)
-  design/brand-bible/       design text + tokens (no bulk binaries)
+  design/README.md          pointer → packages/disclosure-design
   plans/                    FEATURES.md + TODO.md + dated canonical specs
   research/methodology/     platform research doctrine
   research/domain/          UFO subject deep-dives (when present)
@@ -85,6 +85,8 @@ Prompts and research personas live in packages, not docs:
 - [`packages/ai/agents/`](packages/ai/agents/)
 
 ### App-local (not under `docs/`)
+
+**Canvas orientation — 2026-09-13 16:44:15 CDT (UTC−05:00):** Start at [`apps/app/src/features/spacetime/README.md`](apps/app/src/features/spacetime/README.md) for Research Canvas + Spacetime Canvas / Temporal Observatory / God's Eye View: purpose, source-verified route ownership, current behavior versus prototypes/proposals, moved design references, source imagery, Storybook and open decisions. Research Canvas details remain in [`apps/app/src/features/mindmap/CLAUDE.md`](apps/app/src/features/mindmap/CLAUDE.md). This is an instructional source guide, **not completion of the requested unified rendered presentation**; format and final UX remain user decisions. No runtime validation was performed for this docs update.
 
 - [`apps/disclosure-rag/docs/CALL_CHAIN.md`](apps/disclosure-rag/docs/CALL_CHAIN.md) — `dy` hop index (Cmd-clickable `file:line`)
 - [`apps/disclosure-rag/docs/DY_COMMAND_CALL_CHAIN.md`](apps/disclosure-rag/docs/DY_COMMAND_CALL_CHAIN.md) — `dy` router / playlist nesting

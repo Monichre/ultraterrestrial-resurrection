@@ -54,6 +54,9 @@ tasks/
 !application/.env.example
 /application/.turbo
 
+# Generated from apps/app's installed Cesium dependency before dev/build.
+/apps/app/public/cesium/
+
 # Monorepo: prevent root-level Next.js build artifacts from being committed
 .next/
 out/
@@ -329,3 +332,19 @@ plans/**/.plan-url
 # Local secret files — untracked, never commit
 .document-server-secret
 .npmrc
+
+# packages/disclosure-design visual lab — never ingest the 2.6G vault
+
+packages/disclosure-design/extractions/**/*.png
+packages/disclosure-design/extractions/**/*.jpg
+packages/disclosure-design/extractions/**/*.jpeg
+packages/disclosure-design/extractions/**/*.webp
+packages/disclosure-design/extractions/**/*.gif
+packages/disclosure-design/design/Archive.zip
+packages/disclosure-design/workers/
+packages/disclosure-design/.git/
+packages/disclosure-design/*.png
+packages/disclosure-design/*.jpg
+packages/disclosure-design/*.jpeg
+packages/disclosure-design/*.webp
+packages/disclosure-design/*.gif

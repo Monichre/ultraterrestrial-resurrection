@@ -2,12 +2,12 @@
 status: live
 role: eng
 spine: do
-updated: 2026-08-15
+updated: 2026-09-13
 ---
 
 # TODO — Ultraterrestrial Resurrection
 
-**Last Updated:** 2026-08-15
+**Last Updated:** 2026-09-13
 **Source:** Roundtable audit (4 specialists) + agent-native remediation audit
 **Reference:** `docs/plans/2026-03-29-roundtable-unified-action-plan.md`
 **Branch:** dev
@@ -19,6 +19,8 @@ updated: 2026-08-15
 > **2026-08-14 — T-053 grooming gate:** Research Canvas Gen-UI (DMGD-219) stays **OPEN / needs grooming**. The 2026-08-09 epic and 2026-08-10 RC-P0 MVP plans exist; **the idea and feature need grooming and review from the agent team before implementation.** RC-P0 is the proposed first slice, not started, and **not locked-to-build** until that review.
 
 > **2026-08-13 — handoff grooming pass on T-047 and T-050** (no code changed; the T-047 half of this note is **superseded 2026-08-15** — the rebuild landed in `51e63500`, hold lifted). T-050 is now pickup-ready: dead hash corrected to `e58eccfe`, test pass bar corrected to the real suite (8 files / 38 tests, measured green), and subtask 3 (Render) specified down to the mount point and the node/edge-registry collision. **T-047 is NOT pickup-ready** — the 2026-08-07 storyboard rebuild that replaced its architecture is entirely uncommitted (10 untracked + 10 modified files), and the ticket predated both the 08-06 review and that rebuild. See the blocker block on T-047.
+
+> **2026-09-13 17:10 CDT — T-064 is a workspace move, not a kit promotion:** [`docs/design`](docs/design) contents live at [`packages/disclosure-design/canon/`](packages/disclosure-design/canon/) (`@repo/disclosure-design`). Vault [`packages/disclosure-design/design/`](packages/disclosure-design/design/) is untouched. Do not promote into [`packages/disclosure-ui`](packages/disclosure-ui). Do not `git add` the 2.6G vault binaries. Workspace notes: [`docs/plans/DisclosureDesignWorkspace.md`](docs/plans/DisclosureDesignWorkspace.md).
 
 > **2026-08-12:** Reviewed external n8n YouTube RAG workflows + UAP podcast playlist catalog. Opened **T-057** (playlist bulk-ingest manifest), **T-058** (grouped video retrieval + timestamp citations in live AI paths), **T-059** (playlist-id corpus index). Rejected parallel n8n+Qdrant stack — patterns only; see FEATURES Decision 12. Reference workflows archived under `packages/ai/prompts/*youtube*workflow*.json`.
 
@@ -467,6 +469,13 @@ of archive records today. Lane B M0 does not depend on Lane A and can proceed in
 - **Reference:** `docs/ops/DOC_MAINTENANCE.md`, FEATURES Decision 8
 
 ### T-047: Temporal Observatory — Foundation milestone (Spacetime Canvas M0)
+
+**Documentation/current-state update — 2026-09-13 16:44:15 CDT (UTC−05:00):** Start at [`apps/app/src/features/spacetime/README.md`](apps/app/src/features/spacetime/README.md) for the source-verified route/prototype map, current docked layout, moved design references, Storybook and donor provenance. The experimental Cesium adapter is reference-informed new code, not donor transplantation; temporal-cursor/camera parity and engine-neutral controls remain open. No runtime verification or ticket closure occurred in this docs pass.
+
+- [ ] **User decision:** select the unified rendered instructional format and clarify design/UX expectations. The source-local guide is established; rendered presentation and prototype consolidation are not approved or complete.
+- [ ] **Before accepting Cesium:** review the remaining parity/customization/performance gates in [`docs/PLANS/2026-09-10-gods-eye-view-integration.md`](docs/PLANS/2026-09-10-gods-eye-view-integration.md) and obtain runtime/visual evidence. Do not infer acceptance from source presence or historical browser reports.
+
+The dated milestone records below are historical context, not fresh verification of the current engine experiment.
 
 - **Status:** OPEN / backlog — synced to Linear 2026-08-15 ([DMGD-220](https://linear.app/digital-mischief-group/issue/DMGD-220)) — **hold lifted 2026-08-15**: the rebuild landed in `51e63500` (2026-08-14 19:01, "here goes"; all 20 files verified tracked). The blocker block below is **historical**; the "real current state" block is current. M0/M1 shipped; M1's blocked half still gated on T-048 H4; M2–M4 need grooming before any pick-up.
 - **Size:** L (Foundation / M0 only; full feature is M0–M4)
@@ -935,6 +944,12 @@ The ticket below was last updated 2026-08-05. Two significant things happened af
 - **Decision needed:** Where to place it (standalone vs `packages/` vs `apps/`) and what priority relative to T-062 (Responses API migration) and T-061 (source-canonical reorg).
 - **When to surface:** Next planning session, or when agent cost/efficiency questions come up.
 
+### T-064: Move docs/design into @repo/disclosure-design (workspace package)
+
+- **Status:** WORKSPACE MOVE ON DISK — 2026-09-13 17:10 CDT. Git-tracked canon is [`packages/disclosure-design/canon/`](packages/disclosure-design/canon/). Vault [`packages/disclosure-design/design/`](packages/disclosure-design/design/) was not overwritten. [`docs/design/README.md`](docs/design/README.md) is a pointer. Staged, not committed. Old gold-component promotion into [`packages/disclosure-ui`](packages/disclosure-ui) stays cancelled.
+- **Pickup / plan:** [`.cursor/plans/vault_to_kit_f70f8cfa.plan.md`](.cursor/plans/vault_to_kit_f70f8cfa.plan.md) · notes: [`docs/plans/DisclosureDesignWorkspace.md`](docs/plans/DisclosureDesignWorkspace.md) · canon: [`packages/disclosure-design/canon/`](packages/disclosure-design/canon/)
+- **Constraint:** Do not `git add` `_corpus/`, `extractions/` stills, `design/Archive.zip`, or nested git objects.
+
 ---
 
 ## Follow-Up: T-016 Phase 2 (Discovered 2026-06-17)
@@ -1021,11 +1036,11 @@ Lane B — Platform & Experience
   External blockers: T-041 (browser backend) · T-037/T-038 (billing/Figma)
 ```
 
-
 ## T-047 follow-on proposal — 2026-09-10 01:31:55 CDT
 
-God’s Eye View integration plan: [docs/plans/2026-09-10-gods-eye-view-integration.md](docs/plans/2026-09-10-gods-eye-view-integration.md). GEV-0 through GEV-5 are proposed slices, not newly issued tickets. Next: visually inspect donor and execute the build spike when implementation is requested. Runtime UNVERIFIED; no completion status changed.
+**Updated 2026-09-13 16:44:15 CDT (UTC−05:00):** God’s Eye View integration plan: [`docs/PLANS/2026-09-10-gods-eye-view-integration.md`](docs/PLANS/2026-09-10-gods-eye-view-integration.md). GEV-0 through GEV-5 remain proposed slices, not newly issued tickets. A narrow reference-informed Cesium adapter is already present; do not restart it from the older proposal. Use the T-047 documentation/current-state update above and [`apps/app/src/features/spacetime/README.md`](apps/app/src/features/spacetime/README.md) for verified boundaries and pending format/UX/parity decisions. Runtime UNVERIFIED in this docs pass; no completion status changed.
 
+**Source availability update — 2026-09-13 12:09:13 CDT:** [`apps/gods-eye-view-main/`](apps/gods-eye-view-main/) is now locally available for focused cannibalization. GEV-0 must inventory every copied/adapted line, retain the source notice where applicable, and exclude the donor's datasets, assets, models, server providers, and app shell. No ticket status changed.
 
 **Scope refinement / session memory — 2026-09-10 01:35:57 CDT:** User requires extremely lean, Ultraterrestrial-specific or customizable imports. The [docs/plans/2026-09-10-gods-eye-view-integration.md](docs/plans/2026-09-10-gods-eye-view-integration.md) now makes minimal extraction, typed configuration, excluded donor subsystems, and import/bundle auditing explicit. Feed integrations remain optional; full donor parity is not a requirement. Planning only.
 
@@ -1161,7 +1176,7 @@ entities visible to NEW loader (+_raw_list)   : 17
 
 **Question asked:** "Are we using CocoIndex? Why is that in the pipeline?" and "update the models we're preferring — we need the best possible models."
 
-#### CocoIndex: no. It is a dead stage that skips on every run.
+#### CocoIndex: no. It is a dead stage that skips on every run
 
 - The package is **not installed**: `python -c "import cocoindex"` → `ModuleNotFoundError`.
 - `COCOINDEX_ENABLED` is set **twice** in [`apps/disclosure-rag/.env`](apps/disclosure-rag/.env) — `true` then `false`. Last wins, so it is off regardless.

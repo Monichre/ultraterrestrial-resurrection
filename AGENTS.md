@@ -25,45 +25,7 @@ Any documentation file (`.md`, `.mdc`, skills, [`CLAUDE.md`](CLAUDE.md), this fi
 
 Navigation targets do not belong only inside fenced code blocks. Same rule for every documentation file, not only `docs/`.
 
-## 📁 Project Structure
-
-### Monorepo Architecture
-
-```
-ultraterrestrial-resurrection/
-├── apps/
-│   ├── app/                      # Next.js 15 main application
-│   ├── disclosure-lab/           # Neon admin/DX console (port 3010)
-│   └── disclosure-rag/           # Python RAG system (disconnected from Next.js)
-├── packages/
-│   ├── db/                       # Neon Postgres via @db/postgres (Xata retired)
-│   ├── ai/                       # Agents, prompts, research service adapters
-│   ├── disclosure-ui/            # Design tokens + components (@repo/disclosure-ui)
-│   ├── knowledge-base/           # Shared knowledge-base package
-│   └── openai-vector-store-mcp/  # OpenAI Vector Store MCP (@repo/openai-vector-store-mcp)
-├── .agents/                      # Cross-harness rules, skills, suite source
-├── .cursor/ / .claude/           # Platform IDE rules and generated subagents
-├── docs/
-│   ├── plans/                    # Actionable tickets + feature plans
-│   ├── vision/                   # Identity / UX canon
-│   ├── design/                   # Design lab + reference prototypes
-│   ├── architecture/             # Architecture notes
-│   ├── adr/                      # Architecture decision records
-│   ├── issues/                   # Issue tracking artifacts
-│   ├── dogfood-output/           # Dogfood audit outputs
-│   └── archive/                  # Historical bulk
-└── *.md                          # Root docs (AGENTS, GOAL, PRODUCT, …)
-```
-
 ## 🛠 Technology Stack
-
-### Frontend
-
-- **Next.js 15** + **React 19** + **TypeScript 5**
-- **Tailwind CSS 4** + **Radix UI** components
-- **Three.js** + **React Three Fiber** for 3D
-- **Zustand** + React Context for state management
-- **Liveblocks** + PartySocket for real-time collaboration
 
 ### Backend & Data
 
@@ -76,12 +38,6 @@ ultraterrestrial-resurrection/
 - **Authentication**: Clerk (middleware NOT YET implemented)
 - **Search**: OpenAI file_search + Postgres FTS/trgm via `@db/postgres`
 
-### Python RAG System (disconnected from Next.js app)
-
-- **FastAPI** + Streamlit for APIs and dashboards
-- **LangChain** + sentence-transformers for AI/ML
-- Does NOT share data or vector stores with the Next.js app
-
 ## 📋 Development Standards
 
 ### Code Style & Formatting
@@ -89,22 +45,6 @@ ultraterrestrial-resurrection/
 - **Prettier**: No semicolons, single quotes, 100 char width, 2 spaces
 - **ESLint**: Next.js config with relaxed rules (no-explicit-any, no-unused-vars as warnings)
 - **TypeScript**: Strict mode disabled, target ES2020
-
-### Naming Conventions
-
-- **Import paths**: `@/` for app code, `@db/` for database package, `workspace:*` for packages
-- **Components**: PascalCase (e.g., `EntityNode.tsx`)
-- **Files**: kebab-case (e.g., `entity-node.tsx`)
-- **Hooks**: camelCase with `use` prefix (e.g., `useSpatialGrouping.ts`)
-- **Types**: PascalCase interfaces, camelCase type aliases
-
-### File Organization
-
-- **Feature-first structure**: Group related functionality together
-- **Enhanced Nodes** serve as common UI layer across ALL features
-- **Contextual Intelligence** powers smart badges, filtering, suggestions
-- **Spatial Intelligence** builds on contextual intelligence foundation
-- Use `@/` imports for apps/app paths, workspace imports for packages
 
 ## 🏗 Core AI Architecture
 
@@ -214,21 +154,7 @@ const rows = await sql`SELECT * FROM events WHERE date > ${cutoff}`
 
 ## 📊 Testing Strategy
 
-### Testing Commands
-
-- **Frontend**: `bun run test:app` (Vitest)
-- **Python**: `cd apps/disclosure-rag && python -m pytest tests/`
-- **Database**: `cd packages/db && bun run test:db`
-
-### Testing Guidelines
-
-- **Unit tests**: Component logic and utilities
-- **Integration tests**: API endpoints and database operations
-- **E2E tests**: Critical user workflows
-- **Visual tests**: Storybook stories with Chromatic
-- **Accessibility**: Automated a11y testing
-
-> **None of the above lets you call a feature done.** Passing tests prove the code does what the tests say — not that the feature works on screen. See [THE DEFINITION OF DONE](#-the-definition-of-done-binding-on-every-agent-no-exceptions) at the top of this file and [`.agents/rules/DEFINITION_OF_DONE.md`](.agents/rules/DEFINITION_OF_DONE.md).
+> **Passing tests never let you call a feature done.** They prove the code does what the tests say — not that the feature works on screen. See [THE DEFINITION OF DONE](#-the-definition-of-done-binding-on-every-agent-no-exceptions) at the top of this file and [`.agents/rules/DEFINITION_OF_DONE.md`](.agents/rules/DEFINITION_OF_DONE.md).
 
 ## 🔗 Agent-Specific Configuration
 
@@ -255,46 +181,10 @@ UX-adjacent work should read [`docs/vision/`](docs/vision/) before proposing any
 - [`docs/vision/UI_INSPIRATION.md`](docs/vision/UI_INSPIRATION.md) — curated external UI reference links (Fable Showcase, etc.) with steal-notes
 - [`DESIGN.md`](DESIGN.md) (repo root) — **NOT CANONICAL.** Deeply limited Microfilm Dark *Research Canvas chrome* sketch (tokens / a few signature motifs). Do not treat as the design system or product design SoT.
 - [`PRODUCT.md`](PRODUCT.md) (repo root) — product manifesto register
-- [`docs/design/design-lab/`](docs/design/design-lab/) — briefs, mockups, visual-language boards, unfinished `document-system/`
+- [`packages/disclosure-design/canon/`](packages/disclosure-design/canon/) — git-tracked brand bible, design-lab, paper (`@repo/disclosure-design`). Pointer: [`docs/design/README.md`](docs/design/README.md)
+- [`packages/disclosure-design/canon/design-lab/`](packages/disclosure-design/canon/design-lab/) — briefs, mockups, visual-language boards, unfinished `document-system/`
 
-This index is expected to grow; check [`docs/vision/`](docs/vision/) and [`docs/design/`](docs/design/) for new files even if this list is stale. Prefer vision + design-lab over root [`DESIGN.md`](DESIGN.md) for any ambitious UI work.
-
-## 📝 Work Log Command
-
-When you receive the command "/worklog", automatically:
-
-1. **ANALYZE** recent work to determine primary focus area and accomplishments
-2. **GENERATE** session ID using format: [focus-area]-[YYYYMMDD]-[HHMMSS]
-3. **AUTO-POPULATE** header with current date/time, session ID, focus area, agent identifier
-4. **WRITE** comprehensive work log following template structure
-5. **ENSURE** all sections filled with specific, actionable information
-
-## 🎯 Key Import Patterns
-
-### Database (SP3 — `@db/xata` retired, use `@db/postgres`)
-
-```typescript
-import { getAllEvents, getAllPersonnel, loadEntityGraph } from '@db/postgres'
-import { searchXata, searchAll, searchDatabase } from '@db/postgres'
-import { getSql, readById, getPaginatedRecords } from '@db/postgres'
-import type { EventsRecord, PersonnelRecord, TopicsRecord } from '@db/postgres'
-import { getGraphContext } from '@/features/mindmap/utils/contextual-intelligence'
-```
-
-### Core AI Features
-
-```typescript
-import { EnhancedEntityNodePOC } from '@/features/mindmap/nodes/enhanced-node-poc'
-import { useSpatialGrouping } from '@/features/mindmap/hooks/use-spatial-grouping'
-import { Prometheus } from '@/features/agents/prometheus'
-```
-
-### Cross-Package
-
-```typescript
-import { AIComponent } from '@repo/ai'
-import { DataVizComponent } from '@/features/data-viz'
-```
+This index is expected to grow; check [`docs/vision/`](docs/vision/) and [`packages/disclosure-design/canon/`](packages/disclosure-design/canon/) for new files even if this list is stale. Prefer vision + design-lab over root [`DESIGN.md`](DESIGN.md) for any ambitious UI work.
 
 ## ⚠️ Important Notes
 
@@ -332,12 +222,12 @@ This app has a closed development loop.
 ## Learned Workspace Facts
 
 - Docs spine and living-canon index live in [`docs/README.md`](docs/README.md); historical bulk belongs under [`docs/archive/`](docs/archive/).
-- Reference-prototype document UI is migrating into [`apps/app/src/components/design-system/research-ui/documents/reference-prototype/`](apps/app/src/components/design-system/research-ui/documents/reference-prototype/) from [`docs/design/reference-prototype`](docs/design/reference-prototype).
+- Reference-prototype document UI lives in [`apps/app/src/components/design-system/research-ui/documents/reference-prototype/`](apps/app/src/components/design-system/research-ui/documents/reference-prototype/). Old [`docs/design/reference-prototype`](docs/design/reference-prototype) is missing on disk; design canon is [`packages/disclosure-design/canon/`](packages/disclosure-design/canon/).
 - Guided-tour / research-canvas design-lab notes live at [`docs/2026-07-19-guided-tour-canvas-design-lab.md`](docs/2026-07-19-guided-tour-canvas-design-lab.md) and [`docs/2026-07-19-impeccable-live-research-canvas.md`](docs/2026-07-19-impeccable-live-research-canvas.md).
 - Research agent role definitions live under [`packages/ai/agents/`](packages/ai/agents/); prompt library and orchestration material live under [`packages/ai/prompts/`](packages/ai/prompts/).
 - Sci-fi canvas components (`HolographicFileStack`, `RotatingGlobe`) and Command Palette (`CommandK`) live under [`apps/app/src/components/`](apps/app/src/components/).
 - Data architecture centers on Neon Postgres + pgvector with graph relationships as first-class schema citizens (hybrid retrieval: vector + FTS + graph traversal).
-- Spacetime Canvas lives at `/spacetime` ([`apps/app/src/features/spacetime/`](apps/app/src/features/spacetime/)) as the geographic/temporal corollary to Research Canvas.
+- For Research Canvas ownership, Spacetime behavior, Temporal Observatory prototypes, God's Eye View reuse, or their design/story references, read [`apps/app/src/features/spacetime/README.md`](apps/app/src/features/spacetime/README.md) first, then [`apps/app/src/features/mindmap/CLAUDE.md`](apps/app/src/features/mindmap/CLAUDE.md) for graph work. The source guide distinguishes live wiring from proposals; rendered unified documentation and final UX/consolidation remain user decisions. Updated 2026-09-13 16:44:15 CDT (UTC−05:00); documentation only, runtime UNVERIFIED in this pass.
 - [`apps/disclosure-lab`](apps/disclosure-lab) (port 3010) is the Neon admin/DX console: human confirms every write, no deletes in v1, agent is read-only assistance — not Research Canvas.
-- Internal packages: `@repo/disclosure-ui` (tokens/components kit) and `@repo/openai-vector-store-mcp` (OpenAI Vector Store search/fetch MCP). `packages/services` was merged into [`packages/ai`](packages/ai).
+- Internal packages: `@repo/disclosure-ui` (tokens/components kit), `@repo/disclosure-design` (visual lab; not an app dependency), and `@repo/openai-vector-store-mcp` (OpenAI Vector Store search/fetch MCP). `packages/services` was merged into [`packages/ai`](packages/ai).
 - Prefer [`apps/disclosure-rag/disclosure-rag-processor/`](apps/disclosure-rag/disclosure-rag-processor/) over the global `~/.claude` skill copy for playlist + `dy` routing. `dy` hops: [`apps/disclosure-rag/docs/CALL_CHAIN.md`](apps/disclosure-rag/docs/CALL_CHAIN.md). KB module roles: [`apps/disclosure-rag/docs/KNOWLEDGE_BASE_LAYERS.md`](apps/disclosure-rag/docs/KNOWLEDGE_BASE_LAYERS.md).

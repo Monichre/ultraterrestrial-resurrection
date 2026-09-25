@@ -277,7 +277,7 @@ UAP research platform monorepo: Next.js app (`apps/app`), disconnected Python RA
 
 - Research canvas → MindMap shell → ViewSwitcher → Graph / Timeline / Sightings / Search / Detail
 - Live AI: disclosure mindmap agent + Prometheus chat
-- Design: vision + design-lab are the ambition set (`docs/vision/`, `docs/design/design-lab/`). Root `DESIGN.md` is **not canonical** — limited Microfilm Dark canvas chrome only.
+- Design: vision + design-lab are the ambition set (`docs/vision/`, [`packages/disclosure-design/canon/design-lab/`](packages/disclosure-design/canon/design-lab/)). Root `DESIGN.md` is **not canonical** — limited Microfilm Dark canvas chrome only.
 
 ## User Defined Namespaces
 

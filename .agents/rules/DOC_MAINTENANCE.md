@@ -2,7 +2,7 @@
 status: live
 role: ops
 spine: do
-updated: 2026-08-15
+updated: 2026-09-13
 ---
 
 # Documentation Maintenance
@@ -32,7 +32,7 @@ updated: YYYY-MM-DD
 
 | Kind | Put it in |
 | ------ | ----------- |
-| Product / identity want | root [`PRODUCT.md`](PRODUCT.md) or [`docs/vision/`](docs/vision/) / [`docs/design/`](docs/design/) (root [`DESIGN.md`](DESIGN.md) is **not canonical** — canvas chrome sketch only) |
+| Product / identity want | root [`PRODUCT.md`](PRODUCT.md) or [`docs/vision/`](docs/vision/) / [`packages/disclosure-design/canon/`](packages/disclosure-design/canon/) (root [`DESIGN.md`](DESIGN.md) is **not canonical** — canvas chrome sketch only) |
 | How the system works | [`docs/architecture/`](docs/architecture/) or [`docs/adr/`](docs/adr/) |
 | Active plan | [`docs/plans/FEATURES.md`](docs/plans/FEATURES.md) or [`docs/plans/TODO.md`](docs/plans/TODO.md) only |
 | Session work log | [`docs/archive/sessions/`](docs/archive/sessions/) |
@@ -47,7 +47,7 @@ updated: YYYY-MM-DD
 - Recreate `docs/prompts/` (use `packages/ai/prompts/`)
 - Recreate `.agents/ops/`, `docs/ops/`, or `docs/agents/` — shared rules live in [`.agents/rules/`](.agents/rules/); suite source in [`.agents/ultraterrestrial-agent-definitions-v2/`](.agents/ultraterrestrial-agent-definitions-v2/)
 - Treat archive Xata / Triple-RAG narratives as live architecture
-- Commit bulk PNG/PDF moodboards into living `docs/design/`
+- Commit bulk PNG/PDF moodboards into [`packages/disclosure-design`](packages/disclosure-design) (gitignore stills / `_corpus/` / `Archive.zip`)
 
 ## After structural moves
 

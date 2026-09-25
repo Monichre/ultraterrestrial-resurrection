@@ -1,0 +1,23 @@
+# Visual lab binaries — never git-add the 2.6G vault
+_corpus/
+extractions/**/*.png
+extractions/**/*.jpg
+extractions/**/*.jpeg
+extractions/**/*.webp
+extractions/**/*.gif
+design/Archive.zip
+workers/
+.git/
+
+# Large stills at package root only (design/ mock-ups and design-lab art may be tracked)
+/*.png
+/*.jpg
+/*.jpeg
+/*.webp
+/*.gif
+
+# OS / editor noise
+.DS_Store
+Icon
+.specstory/
+.impeccable/
