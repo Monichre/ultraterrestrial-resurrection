@@ -267,8 +267,6 @@ A user-owned research hypothesis with attached supporting inferences. Not yet bu
 **Motif**:
 A recurrent symbolic or morphological pattern tracked across Investigations. Not yet built. Reserved. Not a synonym for Morphological Tags (per-record observational attributes — see classification concepts).
 
-# OpenMemory Guide — Ultraterrestrial Resurrection
-
 ## Overview
 
 UAP research platform monorepo: Next.js app (`apps/app`), disconnected Python RAG (`apps/disclosure-rag`), Neon Postgres via `@db/postgres` (`packages/db`).

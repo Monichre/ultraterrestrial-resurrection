@@ -2,6 +2,16 @@
 
 Personal notes and to-do items for the Ultraterrestrial project.
 
+## Note [2026-09-14 03:25:00] — OpenSpace (later reference)
+
+Planetarium-grade NASA/AMNH/LiU astrovisualization. Study copy for Temporal Observatory / Spacetime / Cesium — **not** a Next.js dependency.
+
+- Download: [openspaceproject.com/install/download.html](https://www.openspaceproject.com/install/download.html) (v0.22.0)
+- Durable steal-notes: [`docs/vision/UI_INSPIRATION.md`](docs/vision/UI_INSPIRATION.md) (section **OpenSpace**)
+- Blocker on this Mac: v0.22.0 dropped macOS (OpenGL 4.6 + no Metal `double`)
+
+---
+
 ## Note [2025-09-19 17:46:42]
 
 Introducing Ultraterrestrial, an AI integrated collaborative research canvas, and document archive. An entirely novel ontology corpus for tracking the past, present and future of the Disclosure Topic

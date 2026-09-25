@@ -2,7 +2,7 @@
 status: live
 role: design
 spine: want
-updated: 2026-08-15
+updated: 2026-09-14
 ---
 
 register: inspiration
@@ -46,6 +46,7 @@ techniques that could seed research-canvas backdrops or tour interstitials
 without pulling in a heavy 3D dependency.
 
 ### Infinite Cathedral
+
 <https://elder-plinius.github.io/FABLE-SHOWCASE/infinite-cathedral/index.html>
 
 An endless nave rendered from a **single signed-distance equation** raymarched
@@ -60,6 +61,7 @@ votives you click into the dark drift away down the nave.
 - **Caveat:** fragment-shader cost; needs a reduced-motion / low-power path.
 
 ### Ink Flow
+
 <https://elder-plinius.github.io/FABLE-SHOWCASE/ink-flow/index.html>
 
 A darkroom aquarium: drag to release ink, curl-noise current unspools strokes
@@ -73,6 +75,7 @@ into glowing filaments, caustics shimmer on the floor. Never the same twice.
 - **Steal:** caustic shimmer as a low-cost ambient texture for dark surfaces.
 
 ### Starforge — Stellar Cartography Division
+
 <https://elder-plinius.github.io/FABLE-SHOWCASE/starforge/index.html#Vharil-9>
 
 A deterministic universe from a single 32-bit seed: star, planets, rings,
@@ -88,6 +91,7 @@ system. Hover a planet for telemetry.
   filed report*, not a chat answer. On-voice for synthesis output.
 
 ### Terraform — Cartographer's Table
+
 <https://elder-plinius.github.io/FABLE-SHOWCASE/terraform/index.html>
 
 A procedural cartography engine: seed → fBm noise → domain-warped coastlines →
@@ -107,6 +111,7 @@ print-ready 2× export with cartouche + north arrow + scale bar.
   cool-grey dossier; blend deliberately, don't mix palettes by accident.
 
 ### Biome Globe — Terra Minor
+
 <https://elder-plinius.github.io/FABLE-SHOWCASE/biome-globe/index.html>
 
 A pocket planet observatory: one seed grows continents (3-D noise), biomes by
@@ -143,6 +148,19 @@ typographic, black-and-white. Source:
 - **Caveat:** the source is a light product-marketing page. Keep the mechanic;
   invert the palette into Microfilm Dark / archival folders. Do not import
   Lenis as a new scroll stack unless the existing canvas scroller cannot do it.
+
+---
+
+## OpenSpace — planetarium-grade astrovisualization
+
+<https://www.openspaceproject.com/install/download.html>
+
+Open-source NASA/AMNH/LiU desktop software for flying through real planetary surfaces, spacecraft missions (New Horizons, JWST, Rosetta), heliophysics, and the Digital Universe Atlas. Current release: **v0.22.0**. Windows binaries (full + lightweight); Linux is source-build only. [Release notes](https://github.com/OpenSpace/OpenSpace/releases). [Docs](https://docs.openspaceproject.com/).
+
+- **Goes:** `spacetime` / `3d` — reference for what a serious geographic/temporal observatory looks like at planetarium scale. Not a product dependency. Closest live analog is `/spacetime?engine=cesium`, not a drop-in.
+- **Steal:** globe-browsing of *mission* imagery (not stylized globes); camera-as-spacecraft; scale that holds from planetary surface to catalog/universe; catalogs as layers; dome/multi-display as the "observatory" framing.
+- **Caveat:** desktop OpenGL app, not a web embed — do not try to put this inside Next.js. **v0.22.0 dropped macOS** (OpenGL 4.6 + double-precision shaders; Apple Silicon Metal translation has no `double`). This machine cannot run the current release. Use videos, docs, and the Windows/Linux build as the study copy.
+- **Install notes (when you have a Windows/Linux box):** full download for a new machine; lightweight if updating (copy `sync` + `user` folders). Needs the VS 2022 C++ redistributable on Windows. First launch needs network for UI + live data.
 
 ---
 

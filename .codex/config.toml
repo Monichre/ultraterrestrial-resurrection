@@ -52,3 +52,6 @@ args = [
     "-y",
     "@upstash/context7-mcp",
 ]
+
+[mcp_servers.openai-vector-store]
+command = "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/openai-vector-store-mcp/.venv/bin/openai-vector-store-mcp"

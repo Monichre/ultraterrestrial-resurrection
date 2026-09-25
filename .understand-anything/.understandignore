@@ -216,12 +216,8 @@
 # Go
 # **/*_test.go
 
-# --- Active scope for this run (2026-06-20) ---
-# Analyze only the requested project domains:
-# - apps/app
-# - apps/disclosure-rag
-# - packages/knowledge-base
-# - packages/db
+# --- Active scope (2026-09-11 rebuild) ---
+# Product + live packages. Knowledge-base corpus stays out.
 *
 !README.md
 !package.json
@@ -229,6 +225,7 @@
 !tsconfig.json
 !AGENTS.md
 !CLAUDE.md
+!vercel.json
 !.understand-anything/
 !.understand-anything/**
 !apps/
@@ -236,13 +233,20 @@
 !apps/app/**
 !apps/disclosure-rag/
 !apps/disclosure-rag/**
+!apps/disclosure-lab/
+!apps/disclosure-lab/**
 !packages/
 !packages/knowledge-base/
 !packages/knowledge-base/**
 !packages/db/
 !packages/db/**
+!packages/ai/
+!packages/ai/**
+!packages/disclosure-ui/
+!packages/disclosure-ui/**
+!packages/openai-vector-store-mcp/
+!packages/openai-vector-store-mcp/**
 
-# Keep generated, vendored, cache, and heavy corpus artifacts out of the graph.
 node_modules/
 **/node_modules/
 .next/
@@ -261,39 +265,31 @@ __pycache__/
 **/__pycache__/
 .pytest_cache/
 **/.pytest_cache/
-*.py[cod]
-*.log
-*.lock
-*.sqlite
-*.sqlite3
-*.db
-*.bin
-*.parquet
-*.arrow
-*.feather
-*.avro
-*.onnx
-*.pt
-*.pth
-*.h5
-*.hdf5
-*.pkl
-*.pickle
-*.joblib
-*.model
-*.weights
-*.mlmodel
-*.tfrecord
-*.pdf
-*.docx
-*.xlsx
-*.pptx
-*.zip
-*.tar
-*.tar.gz
-*.7z
-*.rar
+.claude/
+**/.claude/
+.agents/
+.cursor/
+.specstory/
+.scratch/
+.storybook/
+**/.storybook/
 apps/app/.storybook/storybook-static/
 packages/knowledge-base/vector-store-files/
 packages/knowledge-base/vector_storage/
-packages/knowledge-base/sources/files/
+packages/knowledge-base/sources/
+packages/knowledge-base/derived/
+apps/disclosure-rag/corpus/
+apps/disclosure-rag/data/
+apps/disclosure-rag/rag_index/
+*.png
+*.gif
+*.jpeg
+*.jpg
+*.webp
+*.pdf
+*.lock
+bun.lock
+pnpm-lock.yaml
+UltraterrestrialIsometric.html
+UltraterrestrialIsometric.md
+UltraterrestrialIsometric_PSUEDOCODE.md

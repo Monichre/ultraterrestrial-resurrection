@@ -1,0 +1,256 @@
+Found 229 batch files (229 logical batches, 0 multi-part):
+  batch-1.json: 35 nodes, 97 edges
+  batch-2.json: 35 nodes, 48 edges
+  batch-3.json: 35 nodes, 40 edges
+  batch-4.json: 35 nodes, 61 edges
+  batch-5.json: 35 nodes, 90 edges
+  batch-6.json: 35 nodes, 37 edges
+  batch-7.json: 35 nodes, 47 edges
+  batch-8.json: 35 nodes, 74 edges
+  batch-9.json: 35 nodes, 51 edges
+  batch-10.json: 35 nodes, 122 edges
+  batch-11.json: 35 nodes, 115 edges
+  batch-12.json: 35 nodes, 74 edges
+  batch-13.json: 35 nodes, 52 edges
+  batch-14.json: 35 nodes, 76 edges
+  batch-15.json: 35 nodes, 95 edges
+  batch-16.json: 35 nodes, 44 edges
+  batch-17.json: 34 nodes, 61 edges
+  batch-18.json: 34 nodes, 68 edges
+  batch-19.json: 34 nodes, 37 edges
+  batch-20.json: 34 nodes, 96 edges
+  batch-21.json: 34 nodes, 62 edges
+  batch-22.json: 34 nodes, 39 edges
+  batch-23.json: 33 nodes, 85 edges
+  batch-24.json: 33 nodes, 65 edges
+  batch-25.json: 31 nodes, 67 edges
+  batch-26.json: 31 nodes, 51 edges
+  batch-27.json: 31 nodes, 57 edges
+  batch-28.json: 30 nodes, 67 edges
+  batch-29.json: 30 nodes, 48 edges
+  batch-30.json: 30 nodes, 85 edges
+  batch-31.json: 30 nodes, 41 edges
+  batch-32.json: 30 nodes, 79 edges
+  batch-33.json: 30 nodes, 38 edges
+  batch-34.json: 30 nodes, 35 edges
+  batch-35.json: 29 nodes, 67 edges
+  batch-36.json: 29 nodes, 101 edges
+  batch-37.json: 29 nodes, 87 edges
+  batch-38.json: 29 nodes, 28 edges
+  batch-39.json: 28 nodes, 37 edges
+  batch-40.json: 27 nodes, 50 edges
+  batch-41.json: 27 nodes, 64 edges
+  batch-42.json: 26 nodes, 29 edges
+  batch-43.json: 26 nodes, 40 edges
+  batch-44.json: 26 nodes, 26 edges
+  batch-45.json: 25 nodes, 49 edges
+  batch-46.json: 24 nodes, 28 edges
+  batch-47.json: 24 nodes, 43 edges
+  batch-48.json: 22 nodes, 41 edges
+  batch-49.json: 20 nodes, 19 edges
+  batch-50.json: 20 nodes, 45 edges
+  batch-51.json: 19 nodes, 30 edges
+  batch-52.json: 19 nodes, 37 edges
+  batch-53.json: 19 nodes, 19 edges
+  batch-54.json: 18 nodes, 36 edges
+  batch-55.json: 18 nodes, 17 edges
+  batch-56.json: 18 nodes, 17 edges
+  batch-57.json: 18 nodes, 38 edges
+  batch-58.json: 17 nodes, 26 edges
+  batch-59.json: 17 nodes, 23 edges
+  batch-60.json: 15 nodes, 26 edges
+  batch-61.json: 14 nodes, 22 edges
+  batch-62.json: 13 nodes, 15 edges
+  batch-63.json: 13 nodes, 14 edges
+  batch-64.json: 13 nodes, 26 edges
+  batch-65.json: 12 nodes, 18 edges
+  batch-66.json: 11 nodes, 11 edges
+  batch-67.json: 11 nodes, 14 edges
+  batch-68.json: 10 nodes, 18 edges
+  batch-69.json: 10 nodes, 9 edges
+  batch-70.json: 9 nodes, 16 edges
+  batch-71.json: 9 nodes, 10 edges
+  batch-72.json: 8 nodes, 7 edges
+  batch-73.json: 8 nodes, 11 edges
+  batch-74.json: 8 nodes, 15 edges
+  batch-75.json: 7 nodes, 9 edges
+  batch-76.json: 7 nodes, 7 edges
+  batch-77.json: 7 nodes, 14 edges
+  batch-78.json: 7 nodes, 6 edges
+  batch-79.json: 7 nodes, 6 edges
+  batch-80.json: 7 nodes, 8 edges
+  batch-81.json: 6 nodes, 6 edges
+  batch-82.json: 5 nodes, 6 edges
+  batch-83.json: 5 nodes, 4 edges
+  batch-84.json: 5 nodes, 6 edges
+  batch-85.json: 5 nodes, 8 edges
+  batch-86.json: 5 nodes, 4 edges
+  batch-87.json: 5 nodes, 5 edges
+  batch-88.json: 5 nodes, 6 edges
+  batch-89.json: 5 nodes, 7 edges
+  batch-90.json: 5 nodes, 4 edges
+  batch-91.json: 4 nodes, 4 edges
+  batch-92.json: 4 nodes, 4 edges
+  batch-93.json: 4 nodes, 3 edges
+  batch-94.json: 4 nodes, 5 edges
+  batch-95.json: 4 nodes, 3 edges
+  batch-96.json: 4 nodes, 4 edges
+  batch-97.json: 3 nodes, 2 edges
+  batch-98.json: 3 nodes, 3 edges
+  batch-99.json: 3 nodes, 3 edges
+  batch-100.json: 3 nodes, 3 edges
+  batch-101.json: 3 nodes, 2 edges
+  batch-102.json: 3 nodes, 2 edges
+  batch-103.json: 3 nodes, 2 edges
+  batch-104.json: 3 nodes, 2 edges
+  batch-105.json: 3 nodes, 2 edges
+  batch-106.json: 3 nodes, 2 edges
+  batch-107.json: 3 nodes, 2 edges
+  batch-108.json: 3 nodes, 2 edges
+  batch-109.json: 3 nodes, 2 edges
+  batch-110.json: 3 nodes, 2 edges
+  batch-111.json: 3 nodes, 2 edges
+  batch-112.json: 3 nodes, 3 edges
+  batch-113.json: 3 nodes, 2 edges
+  batch-114.json: 3 nodes, 2 edges
+  batch-115.json: 3 nodes, 2 edges
+  batch-116.json: 3 nodes, 2 edges
+  batch-117.json: 3 nodes, 2 edges
+  batch-118.json: 3 nodes, 2 edges
+  batch-119.json: 3 nodes, 3 edges
+  batch-120.json: 3 nodes, 2 edges
+  batch-121.json: 3 nodes, 3 edges
+  batch-122.json: 1 nodes, 0 edges
+  batch-123.json: 6 nodes, 0 edges
+  batch-124.json: 16 nodes, 0 edges
+  batch-125.json: 14 nodes, 0 edges
+  batch-126.json: 6 nodes, 0 edges
+  batch-127.json: 4 nodes, 0 edges
+  batch-128.json: 4 nodes, 0 edges
+  batch-129.json: 5 nodes, 0 edges
+  batch-130.json: 6 nodes, 0 edges
+  batch-131.json: 3 nodes, 0 edges
+  batch-132.json: 4 nodes, 0 edges
+  batch-133.json: 3 nodes, 0 edges
+  batch-134.json: 4 nodes, 0 edges
+  batch-135.json: 4 nodes, 0 edges
+  batch-136.json: 3 nodes, 0 edges
+  batch-137.json: 3 nodes, 0 edges
+  batch-138.json: 5 nodes, 0 edges
+  batch-139.json: 4 nodes, 0 edges
+  batch-140.json: 5 nodes, 0 edges
+  batch-141.json: 4 nodes, 0 edges
+  batch-142.json: 3 nodes, 0 edges
+  batch-143.json: 3 nodes, 0 edges
+  batch-144.json: 4 nodes, 0 edges
+  batch-145.json: 3 nodes, 0 edges
+  batch-146.json: 3 nodes, 0 edges
+  batch-147.json: 3 nodes, 0 edges
+  batch-148.json: 3 nodes, 0 edges
+  batch-149.json: 4 nodes, 0 edges
+  batch-150.json: 3 nodes, 0 edges
+  batch-151.json: 8 nodes, 0 edges
+  batch-152.json: 4 nodes, 0 edges
+  batch-153.json: 3 nodes, 0 edges
+  batch-154.json: 9 nodes, 0 edges
+  batch-155.json: 4 nodes, 0 edges
+  batch-156.json: 8 nodes, 0 edges
+  batch-157.json: 9 nodes, 0 edges
+  batch-158.json: 5 nodes, 0 edges
+  batch-159.json: 3 nodes, 0 edges
+  batch-160.json: 20 nodes, 0 edges
+  batch-161.json: 14 nodes, 0 edges
+  batch-162.json: 20 nodes, 0 edges
+  batch-163.json: 5 nodes, 0 edges
+  batch-164.json: 3 nodes, 0 edges
+  batch-165.json: 8 nodes, 0 edges
+  batch-166.json: 7 nodes, 0 edges
+  batch-167.json: 4 nodes, 0 edges
+  batch-168.json: 20 nodes, 0 edges
+  batch-169.json: 12 nodes, 0 edges
+  batch-170.json: 16 nodes, 0 edges
+  batch-171.json: 4 nodes, 0 edges
+  batch-172.json: 6 nodes, 0 edges
+  batch-173.json: 13 nodes, 0 edges
+  batch-174.json: 3 nodes, 0 edges
+  batch-175.json: 16 nodes, 0 edges
+  batch-176.json: 13 nodes, 0 edges
+  batch-177.json: 3 nodes, 0 edges
+  batch-178.json: 3 nodes, 0 edges
+  batch-179.json: 5 nodes, 0 edges
+  batch-180.json: 20 nodes, 0 edges
+  batch-181.json: 8 nodes, 0 edges
+  batch-182.json: 25 nodes, 0 edges
+  batch-183.json: 25 nodes, 0 edges
+  batch-184.json: 25 nodes, 1 edges
+  batch-185.json: 25 nodes, 8 edges
+  batch-186.json: 25 nodes, 3 edges
+  batch-187.json: 25 nodes, 2 edges
+  batch-188.json: 25 nodes, 10 edges
+  batch-189.json: 25 nodes, 5 edges
+  batch-190.json: 25 nodes, 7 edges
+  batch-191.json: 25 nodes, 7 edges
+  batch-192.json: 25 nodes, 8 edges
+  batch-193.json: 25 nodes, 6 edges
+  batch-194.json: 25 nodes, 7 edges
+  batch-195.json: 25 nodes, 7 edges
+  batch-196.json: 25 nodes, 5 edges
+  batch-197.json: 25 nodes, 7 edges
+  batch-198.json: 25 nodes, 8 edges
+  batch-199.json: 25 nodes, 5 edges
+  batch-200.json: 25 nodes, 2 edges
+  batch-201.json: 25 nodes, 7 edges
+  batch-202.json: 25 nodes, 4 edges
+  batch-203.json: 25 nodes, 2 edges
+  batch-204.json: 25 nodes, 0 edges
+  batch-205.json: 25 nodes, 0 edges
+  batch-206.json: 25 nodes, 6 edges
+  batch-207.json: 25 nodes, 6 edges
+  batch-208.json: 25 nodes, 0 edges
+  batch-209.json: 25 nodes, 3 edges
+  batch-210.json: 25 nodes, 1 edges
+  batch-211.json: 25 nodes, 8 edges
+  batch-212.json: 25 nodes, 5 edges
+  batch-213.json: 25 nodes, 8 edges
+  batch-214.json: 25 nodes, 1 edges
+  batch-215.json: 25 nodes, 0 edges
+  batch-216.json: 25 nodes, 5 edges
+  batch-217.json: 25 nodes, 0 edges
+  batch-218.json: 25 nodes, 1 edges
+  batch-219.json: 25 nodes, 0 edges
+  batch-220.json: 25 nodes, 1 edges
+  batch-221.json: 25 nodes, 1 edges
+  batch-222.json: 25 nodes, 1 edges
+  batch-223.json: 25 nodes, 1 edges
+  batch-224.json: 25 nodes, 2 edges
+  batch-225.json: 25 nodes, 1 edges
+  batch-226.json: 25 nodes, 3 edges
+  batch-227.json: 25 nodes, 2 edges
+  batch-228.json: 25 nodes, 2 edges
+  batch-229.json: 25 nodes, 3 edges
+
+Input: 3672 nodes, 3790 edges
+
+Tested-by linker:
+     4 × tested_by edges produced (path-convention supplement, production → test)
+     4 × production nodes tagged "tested"
+
+Could not fix (10 issues — needs agent review):
+  - Edge file:apps/app/src/components/admin-dashboard/components/data-table.stories.tsx → file:apps/app/src/components/admin-dashboard/data.json (imports): dropped, missing target 'file:apps/app/src/components/admin-dashboard/data.json'
+  - Edge file:apps/app/src/components/admin-dashboard/page.tsx → file:apps/app/src/components/admin-dashboard/data.json (imports): dropped, missing target 'file:apps/app/src/components/admin-dashboard/data.json'
+  - Edge file:apps/app/src/features/sightings/components/optimized-threejs-globe.tsx → file:apps/app/src/features/sightings/components/globes/countries.json (imports): dropped, missing target 'file:apps/app/src/features/sightings/components/globes/countries.json'
+  - Edge file:apps/app/src/components/tiptap-templates/simple/simple-editor.tsx → file:apps/app/src/components/tiptap-templates/simple/data/content.json (imports): dropped, missing target 'file:apps/app/src/components/tiptap-templates/simple/data/content.json'
+  - Edge file:apps/app/src/components/tiptap/tiptap-templates/simple/simple-editor.tsx → file:apps/app/src/components/tiptap-templates/simple/data/content.json (imports): dropped, missing target 'file:apps/app/src/components/tiptap-templates/simple/data/content.json'
+  - Edge file:apps/app/src/features/3d/globe-connections/Globe.tsx → file:apps/app/src/features/3d/globe-connections/countries.geojson.json (imports): dropped, missing target 'file:apps/app/src/features/3d/globe-connections/countries.geojson.json'
+  - Edge file:apps/app/src/features/3d/globe-connections/GlobeConnectionsExample.tsx → file:apps/app/src/features/3d/globe-connections/cities.json (imports): dropped, missing target 'file:apps/app/src/features/3d/globe-connections/cities.json'
+  - Edge file:packages/db/test-implementations.js → file:packages/db/package.json (imports): dropped, missing target 'file:packages/db/package.json'
+  - Edge file:apps/app/src/features/sightings/components/globes/threejs-globe.tsx → file:apps/app/src/features/sightings/components/globes/countries.json (imports): dropped, missing target 'file:apps/app/src/features/sightings/components/globes/countries.json'
+  - Edge file:packages/db/test-db-connection.js → file:packages/db/package.json (imports): dropped, missing target 'file:packages/db/package.json'
+
+Output: 3672 nodes, 3784 edges
+
+Imports edge recovery:
+  Recovered 0 `imports` edges from importMap (3672 entries scanned)
+  Skipped 10 importMap target paths with no `file:` node in graph
+
+Written to /Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/.understand-anything/intermediate/assembled-graph.json (2531 KB)

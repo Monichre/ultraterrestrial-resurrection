@@ -2,7 +2,7 @@
 status: live
 role: product
 spine: want
-updated: 2026-08-13
+updated: 2026-09-13
 ---
 
 # Feature Planning & High-Level Ideas
@@ -720,7 +720,9 @@ Read-only by default — agents can browse and read raw sources but not mutate t
 
 ## Proposed Spacetime Cesium integration — 2026-09-10 01:31:55 CDT
 
-Source-reviewed God’s Eye View integration proposal: [docs/plans/2026-09-10-gods-eye-view-integration.md](docs/plans/2026-09-10-gods-eye-view-integration.md). Preserve the temporal/evidence model; introduce Cesium and tactical presentation in stages. Proposed only; no engine replacement approved or implemented.
+**Current-state correction — 2026-09-13 16:44:15 CDT (UTC−05:00):** Proposal: [`docs/PLANS/2026-09-10-gods-eye-view-integration.md`](docs/PLANS/2026-09-10-gods-eye-view-integration.md). A reference-informed Cesium adapter is now present in the working tree behind `?engine=cesium`; it is not transplanted donor code or full temporal/HUD parity. Mapbox remains default; no replacement or final UX/consolidation decision is recorded. Canonical source-local instruction and reference map: [`apps/app/src/features/spacetime/README.md`](apps/app/src/features/spacetime/README.md). The requested unified rendered presentation is pending the user's format decision, not satisfied by an index of links. Documentation-only correction; no runtime validation or product completion claimed.
 
 
 **Scope refinement / session memory — 2026-09-10 01:35:57 CDT:** User requires extremely lean, Ultraterrestrial-specific or customizable imports. The [docs/plans/2026-09-10-gods-eye-view-integration.md](docs/plans/2026-09-10-gods-eye-view-integration.md) now makes minimal extraction, typed configuration, excluded donor subsystems, and import/bundle auditing explicit. Feed integrations remain optional; full donor parity is not a requirement. Planning only.
+
+**Donor source update — 2026-09-13 12:09:13 CDT:** Source now resides at [`apps/gods-eye-view-main/`](apps/gods-eye-view-main/). It is a 90 MB donor checkout, not a workspace app. The Cesium lifecycle/viewer contracts are reusable reference material; data layers, UI shell, server providers, models, and third-party datasets remain excluded. The extraction ruling is recorded in [docs/plans/2026-09-10-gods-eye-view-integration.md](docs/plans/2026-09-10-gods-eye-view-integration.md).
