@@ -45,6 +45,8 @@ class Mention:
     attributes: dict[str, Any] = field(default_factory=dict)
     aliases: list[str] = field(default_factory=list)
     evidentiary_state: str | None = None
+    quote_grounded: bool | None = None
+    name_grounded: bool | None = None
 
     @property
     def table(self) -> str | None:
@@ -60,7 +62,56 @@ class Mention:
             "attributes": self.attributes,
             "ner_aliases": self.aliases,
             "evidentiary_state": self.evidentiary_state,
+            "quote_grounded": self.quote_grounded,
+            "name_grounded": self.name_grounded,
         }
+
+
+def _squash(text: str | None) -> str:
+    """Lowercase, collapse whitespace. Used only for containment checks."""
+    return " ".join((text or "").lower().split())
+
+
+def chunk_texts_of(pipeline: dict[str, Any]) -> dict[str, str]:
+    """{chunk_id: squashed chunk text} from the pipeline's own `chunks` array.
+
+    The NER stage was shown these texts, so they are the ground truth a quote
+    has to be found in. Keys mirror ner_results[].chunk_id ('c01', 'c02', ...).
+    """
+    out: dict[str, str] = {}
+    for chunk in pipeline.get("chunks") or []:
+        key = chunk.get("chunk_id") or chunk.get("id")
+        if key:
+            out[key] = _squash(chunk.get("text") or chunk.get("content"))
+    return out
+
+
+def grounding_of(quote: str | None, name: str | None, chunk_text: str) -> tuple[bool | None, bool | None]:
+    """Is the span_quote — and the name — literally present in the chunk?
+
+    Deterministic, no model involved. This is the only fabrication signal here
+    that does not come from an LLM: a `span_quote` the NER stage presented as
+    verbatim, which does not occur in the text it was given, was invented.
+
+    Measured over the knowledge base on 2026-09-27: 15% of quotes in the three
+    newest episodes (33 of 217) and 18% in the older 68 are not in their chunk.
+
+    `name_grounded` is reported but deliberately NOT used as a gate — NER
+    normalizes names ("Robert Bigelow" for a transcript's "Bigelow"), so only
+    ~55% of names appear verbatim and a false negative rate that high would
+    send legitimate entities to review.
+
+    Returns (quote_grounded, name_grounded); either is None when the check
+    cannot be made (no quote, or the chunk text is unavailable).
+    """
+    if not chunk_text:
+        return None, None
+    squashed_quote = _squash(quote)
+    squashed_name = _squash(name)
+    return (
+        (squashed_quote in chunk_text) if squashed_quote else None,
+        (squashed_name in chunk_text) if squashed_name else None,
+    )
 
 
 def chunk_index_of(chunk_id: str | None) -> int | None:
@@ -99,16 +150,20 @@ def extract_mentions(
     pipeline = json.loads(Path(path).read_text(encoding="utf-8"))
     kb_path = str(path.relative_to(kb_root)) if kb_root else str(path)
     vid = video_id_of(pipeline, Path(path))
+    chunk_text_by_id = chunk_texts_of(pipeline)
     for result in pipeline.get("ner_results") or []:
         verdict = (result.get("validation") or {}).get("verdict")
         if verdict not in verdicts:
             continue
         chunk_id = result.get("chunk_id")
+        chunk_text = chunk_text_by_id.get(chunk_id or "", "")
         for position, ent in enumerate((result.get("ner") or {}).get("entities") or []):
             etype = (ent.get("type") or "").upper()
             name = (ent.get("name") or "").strip()
             if not etype or not name:
                 continue
+            quote_grounded, name_grounded = grounding_of(
+                ent.get("span_quote"), name, chunk_text)
             yield Mention(
                 entity_type=etype,
                 entity_name=name,
@@ -123,4 +178,6 @@ def extract_mentions(
                 attributes=ent.get("attributes") or {},
                 aliases=list(ent.get("aliases") or []),
                 evidentiary_state=ent.get("evidentiary_state"),
+                quote_grounded=quote_grounded,
+                name_grounded=name_grounded,
             )
