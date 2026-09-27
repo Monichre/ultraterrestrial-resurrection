@@ -38,6 +38,11 @@ These are the **4 primary documents** that provide complete system coverage. Sta
 
 ## 📁 Supporting Documentation (Specialized Reference)
 
+### **Current Work Status (live, verified against Neon)**
+| Document | Purpose | Audience |
+|----------|---------|----------|
+| [`docs/ENTITY_RESOLUTION_STATUS_2026-09-27.md`](apps/disclosure-rag/docs/ENTITY_RESOLUTION_STATUS_2026-09-27.md) | T-048 entity resolution: `entity_aliases`, the mention queue, the four `dy` stages, live counts, open items and owners. **UNVERIFIED** — human review loop never exercised. | Any agent touching ingestion, NER, or the Neon bridge |
+
 ### **Implementation Guides**
 | Document | Purpose | Audience |
 |----------|---------|----------|
