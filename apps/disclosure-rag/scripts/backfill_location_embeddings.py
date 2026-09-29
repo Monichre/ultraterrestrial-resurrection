@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Backfill locations.embedding — text-embedding-3-small @ 1536 dims.
 
-Requires 004_locations_embedding.sql to have been applied (the script checks
-and exits with a clear message if the column is missing).
+DEFERRED 2026-09-27: the column migration was cut from 004 after review (no reader;
+see packages/db/migrations/004_locations_name_trgm.sql). The script checks
+and exits with a clear message if the column is missing.
 
 Resumable by construction: it only ever selects rows WHERE embedding IS NULL,
 so an interrupted run is continued by running it again. Dry run by default.
@@ -13,7 +14,7 @@ so an interrupted run is continued by running it again. Dry run by default.
 
 Embedded text is the place-identity string "name, city, state, country" with
 empty parts dropped — locations carries no description/summary column. See the
-004 migration header for why that composition and not something richer.
+status doc for why this is deferred.
 """
 from __future__ import annotations
 
@@ -57,8 +58,7 @@ def require_column(conn) -> None:
     ).fetchone()
     if not exists:
         sys.exit(
-            "locations.embedding does not exist. Apply the migration first:\n"
-            '  psql "$DATABASE_URL" -f packages/db/migrations/004_locations_embedding.sql'
+            "locations.embedding does not exist (deferred 2026-09-27; no migration adds it yet)."
         )
 
 

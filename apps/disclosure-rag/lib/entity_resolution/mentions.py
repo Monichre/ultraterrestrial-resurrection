@@ -89,12 +89,18 @@ def chunk_texts_of(pipeline: dict[str, Any]) -> dict[str, str]:
 def grounding_of(quote: str | None, name: str | None, chunk_text: str) -> tuple[bool | None, bool | None]:
     """Is the span_quote — and the name — literally present in the chunk?
 
-    Deterministic, no model involved. This is the only fabrication signal here
-    that does not come from an LLM: a `span_quote` the NER stage presented as
-    verbatim, which does not occur in the text it was given, was invented.
+    Deterministic, no model involved — but read the caveat before trusting it as
+    a fabrication signal. Measured over the knowledge base on 2026-09-27: 15% of
+    quotes in the three newest episodes (33 of 217) and 18% in the older 68 are
+    not literal substrings of their chunk.
 
-    Measured over the knowledge base on 2026-09-27: 15% of quotes in the three
-    newest episodes (33 of 217) and 18% in the older 68 are not in their chunk.
+    ⚠️ A failed check is NOT proof of invention. These transcripts are
+    auto-transcribed, so proper nouns arrive mangled ("Zasudra" for Ziusudra,
+    "younger drius" for Younger Dryas, "Shirupac" for Shuruppak). A model that
+    correctly normalizes those will quote the normalized spelling and fail an
+    exact-substring test. So treat `False` as "not verbatim — a human should
+    look", which is exactly how store._auto_outcome uses it, and never as
+    "fabricated".
 
     `name_grounded` is reported but deliberately NOT used as a gate — NER
     normalizes names ("Robert Bigelow" for a transcript's "Bigelow"), so only

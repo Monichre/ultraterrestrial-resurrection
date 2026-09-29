@@ -183,10 +183,16 @@ def test_gate_sends_the_middle_band_to_review():
         assert "ambiguous" in note
 
 
-def test_gate_allows_unknown_grounding():
-    # None means "could not check", which must not block the older 68 episodes
-    # whose pipeline files carry no `chunks` array.
-    assert store._auto_outcome("auto", "pass", None, [])[0] == "new"
+def test_gate_refuses_unknown_grounding():
+    # None means "could not check". Absence of evidence is not a pass: the older
+    # 68 episodes carry no `chunks` array, so their mentions go to review.
+    status, note = store._auto_outcome("auto", "pass", None, [])
+    assert status is None and "grounding unknown" in note
+
+
+def test_gate_refuses_a_missing_verdict():
+    status, note = store._auto_outcome("auto", None, True, _cands(0.99))
+    assert status is None and "verdict=None" in note
 
 
 # ---------------------------------------------------------------------------

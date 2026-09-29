@@ -355,15 +355,15 @@ provide clear validation reports for integrated datasets.
 
 # Agent configuration mapping (tag, name, model_id, agent_type)
 AGENT_CONFIG = {
-    "HA": ("HistoricalTimelineAgent", "anthropic/claude-3-opus-20240229", "historical"),
-    "CE": ("ClaimsEvidenceAgent", "openai/gpt-4o", "claims_evidence"),
-    "GV": ("GeospatialAgent", "anthropic/claude-3-sonnet-20240229", "geospatial"),
-    "RN": ("ResearchNetworkAgent", "openai/gpt-4-turbo", "network"),
-    "DL": ("DocumentationLibrarianAgent", "openai/gpt-4o", "documentation"),
-    "DV": ("DataVizAgent", "openai/gpt-4o", "dataviz"),
-    "TD": ("TheoryDevAgent", "anthropic/claude-3-opus-20240229", "theory"),
-    "OR": ("OrgRelationAgent", "openai/gpt-4-turbo", "organization"),
-    "TV": ("TestimonyValidatorAgent", "anthropic/claude-3-sonnet-20240229", "testimony"),
-    "UE": ("UserEngagementAgent", "openai/gpt-4o", "user_engagement"),
-    "API": ("ApiIntegrationAgent", "openai/gpt-4-turbo", "api_integration")
+    "HA": ("HistoricalTimelineAgent", "anthropic/claude-opus-5-5", "historical"),
+    "CE": ("ClaimsEvidenceAgent", "openai/gpt-6-astra", "claims_evidence"),
+    "GV": ("GeospatialAgent", "anthropic/claude-opus-5-5", "geospatial"),
+    "RN": ("ResearchNetworkAgent", "openai/gpt-6-astra", "network"),
+    "DL": ("DocumentationLibrarianAgent", "openai/gpt-6-astra", "documentation"),
+    "DV": ("DataVizAgent", "openai/gpt-6-astra", "dataviz"),
+    "TD": ("TheoryDevAgent", "anthropic/claude-opus-5-5", "theory"),
+    "OR": ("OrgRelationAgent", "openai/gpt-6-astra", "organization"),
+    "TV": ("TestimonyValidatorAgent", "anthropic/claude-opus-5-5", "testimony"),
+    "UE": ("UserEngagementAgent", "openai/gpt-6-astra", "user_engagement"),
+    "API": ("ApiIntegrationAgent", "openai/gpt-6-astra", "api_integration")
 }

@@ -119,17 +119,26 @@ need re-arguing here.)
 ## Auto-write gate (added 2026-09-27)
 
 `resolve` can now decide `matched` and `new` without a human. What it must **not** gate on is the
-NER stage's own `confidence` field — the three episodes ingested 2026-09-27 produced 148
-validation issues, 24 critical, including `FABRICATED_SOURCE_QUOTE` and entities that occur zero
-times in the transcript (`Ziusudra`, `Younger Dryas`, verified by grep). A fabricator's
-self-assessment cannot authorize a database write.
+NER stage's own `confidence` field: the three episodes ingested 2026-09-27 produced 148 validation
+issues across 22 chunks, 15 of them under a `FABRICATED_*` code. A model's self-assessment cannot
+authorize a database write.
+
+> **Correction (2026-09-27).** An earlier version of this document claimed `Ziusudra`,
+> `Shuruppak` and `Younger Dryas` "occur zero times in the transcript, verified by grep," and
+> called them fabrications. **That was wrong.** The transcripts are auto-transcribed, so the text
+> carries `Zasudra`, `Shirupac`/`Sherupac`, and `younger drius`/`younger dus`/`younger dest` —
+> 9 mentions in total. The NER stage was correctly normalizing garbled ASR output. The validator
+> code for this, `UNSUPPORTED_NAME_NORMALIZATION`, means "not verbatim in the source", not
+> "invented". Of the 148 issues only 15 carry a `FABRICATED_*` code; 58 are `UNSUPPORTED_*` and
+> 19 are normalization/ambiguity. There is **no measured fabrication rate** for this corpus.
+> Commit `5fc904ba`'s message repeats the incorrect claim and cannot be edited.
 
 The gate is a conjunction of three signals the extracting model does not author:
 
 | Signal | Where it comes from | Deterministic? |
 |---|---|---|
 | validation verdict ≠ `fail` | a separate validation pass | no — LLM |
-| `quote_grounded` | `span_quote` is literally in its chunk | **yes** |
+| `quote_grounded` | `span_quote` is literally in its chunk | **yes**, but see below |
 | trigram / alias score | `pg_trgm` against existing rows | **yes** |
 
 Outcomes, all overridable by env var:
@@ -163,28 +172,74 @@ between the floor and 0.92 is where real variants live, so that band stays human
 `apply` is still the only stage that inserts an entity row, so an auto-`new` is reversible until
 it runs.
 
+**What `quote_grounded: false` actually means.** Exact substring matching against ASR text, so a
+correctly normalized proper noun fails it. The check therefore over-holds: it sends good
+extractions to review. That is the safe direction, and it is the only non-LLM signal available,
+but the 15% figure is mostly normalization, not invention. A fuzzy variant (trigram of quote
+against chunk) would separate the two and is not built.
+
 ---
 
-## Locations: vector column (added 2026-09-27)
+## Schema review (2026-09-27)
 
-`locations` was the only entity table with no `embedding` column, so semantic/agentic search
-reached every entity type except places. [`004_locations_embedding.sql`](packages/db/migrations/004_locations_embedding.sql)
-adds it, plus the trigram index the resolver's own location lookup had been running without
-(13,933 rows, primary key only — every candidate search was a sequential scan).
+Three independent reviewers checked the graph/embedding proposal: data-integrity and architecture
+(Claude) against the live database, and a GPT/Codex source review that the user ran themselves
+(the subagent seat got HTTP 400 on the ChatGPT account). All three agreed on the following, and
+each point was re-checked with read-only SQL:
 
-Backfill is separate because it costs API calls:
-[`scripts/backfill_location_embeddings.py`](apps/disclosure-rag/scripts/backfill_location_embeddings.py) —
-resumable (only ever selects `WHERE embedding IS NULL`), dry-run by default, commits per batch.
-Embeds `"name, city, state, country"`; `locations` has no description column.
+- **The join tables are the source of truth. `nodes`/`edges` are a stale, unread copy.** They were
+  seeded once by [`db_ops.py`](packages/db/scripts/rebuild/db_ops.py), nothing reads them, 453
+  event nodes point at deleted events, and `edges.confidence`/`provenance` are 0/1,899 populated.
+  [`006_drop_graph_projection.sql`](packages/db/migrations/006_drop_graph_projection.sql) drops
+  them (**applied 2026-09-27**, snapshot first).
+- **Keep one `embedding` column per table. No `entity_embeddings` table yet.** The live database
+  has **no ANN index at all**, so every vector query is an exact scan (fine at 6,540 vectors).
+  Revisit at around 100k vectors or when a second model arrives.
+- **004 is cut to the trigram index only**:
+  [`004_locations_name_trgm.sql`](packages/db/migrations/004_locations_name_trgm.sql).
+  No reader exists for a `locations` vector, because `locations` is missing from `VECTOR_TABLES`
+  in [`search.ts`](packages/db/src/postgres/search.ts). The backfill script stays in the tree,
+  unused.
+- **Validate the relationship foreign keys before auto-write goes live.** 40 of 49 FKs are
+  `NOT VALID`. The 16 relationship ones have 0 orphans each.
+  [`005_validate_relationship_fks.sql`](packages/db/migrations/005_validate_relationship_fks.sql)
+  (**applied 2026-09-27**).
+- **Merging duplicates must repoint before deleting.** Every join-table FK is
+  `ON DELETE CASCADE`. Deleting a duplicate `key_figures` row would delete its relationships.
 
-**Status: migration NOT APPLIED, backfill NOT RUN.** The script refuses to run until the column
-exists, which is the current state.
+- **Codex caught two defects in the resolver itself, both now fixed (working tree):**
+  - The auto gate let a **missing** verdict and **unknown** grounding through. Auto-write now
+    needs positive evidence from both checks; anything else goes to review. Cost: mentions from
+    the older 68 episodes (no `chunks` array) can no longer auto-write.
+  - 004 indexed raw `name`, but the locations lookup filtered on
+    `similarity(entity_normalize(name), …) >= 0.3`, which no trigram index can serve. The index is
+    now on `entity_normalize(name)`, and the query adds the `%` operator. Measured on a temp copy of
+    `locations`: seq scan 85 ms → bitmap index scan 2 ms, same 46 rows.
 
-One caution for whoever wires agentic search: vectors are right for *discovery* and wrong for
-*resolution*. Cosine similarity cannot separate `Robert Bigelow` from `Bob Bigelow` better than
-trigram already does, and it ranks a different researcher's near-identical bio as a close
-neighbour. Keep alias-exact + trigram for deciding **who this is**; use vectors for **find me
-records about X**.
+### Applied (recorded 2026-09-27 18:59 CDT)
+
+Backups taken before any write, both in `~/db-backups/ultraterrestrial/` (outside the repo):
+`full-2026-09-27-1832.dump` (49 MB, all 40 tables, pg_dump 17.5) and `nodes_edges_2026-09-27.dump`.
+Restore one table with `pg_restore -d "$DATABASE_URL" -t <table> --data-only <dump>`.
+
+| Change | Proof |
+|---|---|
+| 004 trigram index | `indisvalid = t` |
+| 005 FK validation | 0 of 16 still `NOT VALID` |
+| 006 drop `nodes`/`edges` | `to_regclass` null for both; rebuild DDL + seeding removed |
+| 007 `embedding_text_hash` on 6 tables | re-embed wrote 947 rows; a second dry run shows 0 pending |
+| 5 duplicate merges via [`merge_entities.py`](apps/disclosure-rag/scripts/merge_entities.py) | Chop and O'Leary each carry 2 testimonies after merge; D'Antonio renamed to the straight apostrophe |
+
+The embedder ([`embed_entities.py`](packages/db/scripts/rebuild/embed_entities.py)) now re-embeds
+a row when `md5(model|dims|text)` differs from `embedding_text_hash`, not only when the vector is
+NULL. Its `--sightings` path is broken: `sightings` has no embedding column.
+
+[`ultraterrestrial_db.py`](apps/disclosure-rag/lib/connectors/ultraterrestrial_db.py) embedded
+queries with MiniLM (384 dims) and the legacy `openai.Embedding`; it now uses
+`text-embedding-3-small` @ 1536. It still cannot import in the rag venv (`asyncpg` missing).
+
+Vectors still serve *discovery*, not *resolution*. Keep alias-exact + trigram for deciding
+**who this is**.
 
 ---
 
@@ -203,11 +258,9 @@ records about X**.
 |---|---|
 | **Human loop never exercised** | 0 rows have `decided_by = 'human'`. `review` has only been rendered and quit. |
 | **Auto gate never run on live data** | The gate is covered by 15 tests incl. a real-migration DB test, but `resolve` has not been re-run against the 84 queued mentions with `ENTITY_WRITE_MODE=auto`. |
-| **Locations vectors** | 004 not applied, backfill not run. |
 | **No dogfood audit** | No real `dy <url>` ingest has been run end-to-end into the queue. |
 | **No app surface** | Nothing in [`apps/app`](apps/app) or [`apps/disclosure-lab`](apps/disclosure-lab) reads `entity_aliases` or the mention queue. |
 | **Document links** | 84 of 113 mentions have no `documents` row; they carry only `metadata.kb_path`. Closes with T-048 **H2**. |
-| **Duplicate entities** | 5 duplicate rows surfaced by the alias seed (Däniken, Chop, O'Leary, D'Antonio, New Paradigm Institute). **No merge tool exists.** |
 | **NER noise** | The queue contains non-entities: "The President", "Media", "Unnamed staffer". Prompt-side fix, not a resolver fix. |
 | **No LLM tiebreak tier** | Blocked: OpenRouter exhausted, Anthropic 401. `AI_GATEWAY_API_KEY` / `VERCEL_AI_GATEWAY_API_KEY` sit unused in `.env`. |
 | **Ingest not wired** | `dy <url>` does not queue mentions; `load-mentions` is a separate step. |
@@ -223,7 +276,6 @@ path.
 **Operator (human, at the CLI):**
 1. `./main.sh review` over the 84 queued mentions.
 2. `./main.sh apply` (dry run) → `./main.sh apply --commit`.
-3. Decide how the 5 duplicate entity rows should merge.
 
 **Agent-doable without the human:**
 - T-048 **H2**, the Neon bridge: disclosure-rag still writes no chunks or vectors to Neon, and

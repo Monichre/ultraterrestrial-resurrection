@@ -71,7 +71,7 @@ class DisclosureAssistant:
                 3. Evaluate credibility of sources and claims
                 4. Summarize findings in structured format
                 """,
-                "model": "gpt-4.1-2025-04-14",
+                "model": "gpt-6-astra",
                 "tools": [
                     {"type": "code_interpreter"},
                     {"type": "file_search"}

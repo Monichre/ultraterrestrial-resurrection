@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 
 def create_testimony_agent(name="TestimonyValidatorAgent",
-                          model_id="claude-3-sonnet-20240229",
+                          model_id="claude-opus-5-5",
                           storage_path="tmp/research_agents.db"):
     """
     Factory function to create the Testimony Validator Agent.

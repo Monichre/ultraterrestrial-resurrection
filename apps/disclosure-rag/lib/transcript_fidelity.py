@@ -163,9 +163,12 @@ def llm_coherence_review(text: str, video_id: str, model: Optional[str] = None,
             '{"coherence": <float>, "issues": [<strings>]}'
         )
         hint = model or os.getenv("FIDELITY_REVIEW_PROVIDER") or None
+        # A provider hint pins the legacy chain (the router ignores
+        # prefer_provider); otherwise route via llm_routing.yaml.
         result = LLMFallback(prefer_provider=hint).complete(
             system_prompt=system_prompt,
             user_content="\n---\n".join(chunks),
+            task_id=None if hint else "coherence_review",
         )
 
         raw = re.sub(r"^```(?:json)?|```$", "", result.text.strip(), flags=re.MULTILINE).strip()

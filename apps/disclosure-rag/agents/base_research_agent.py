@@ -60,7 +60,7 @@ from agno.models.openai import OpenAIChat
 from agno.tools.exa import ExaTools
 
 # agent = Agent(
-#     model=OpenAIChat(id="gpt-4o"),
+#     model=OpenAIChat(id="gpt-6-astra"),
 #     tools=[ExaTools(research=True, research_model="exa-research-pro")],
 #     instructions=dedent("""
 #         You are an expert research analyst with access to advanced research tools.
@@ -86,7 +86,7 @@ from agno.tools.exa import ExaTools
 # )
 # Initialize the academic research agent with scholarly capabilities
 research_scholar = Agent(
-    model=OpenAIChat(id="gpt-4o"),
+    model=OpenAIChat(id="gpt-6-astra"),
     tools=[
         ExaTools(
             start_published_date=datetime.now().strftime("%Y-%m-%d"), type="keyword"

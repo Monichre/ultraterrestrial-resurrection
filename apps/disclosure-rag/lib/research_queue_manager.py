@@ -23,13 +23,13 @@ except ImportError:
     UPSTASH_AVAILABLE = False
     Redis = None
 
-# AI integration
+# AI integration — routed through lib/llm_fallback + llm_routing.yaml
 try:
-    import openai
+    from lib.llm_fallback import get_fallback
     AI_AVAILABLE = True
 except ImportError:
     AI_AVAILABLE = False
-    openai = None
+    get_fallback = None
 
 logger = logging.getLogger(__name__)
 
@@ -124,13 +124,12 @@ class ResearchQueueManager:
             self.redis = None
         
         # Initialize AI assistant
-        if AI_AVAILABLE and os.getenv("OPENAI_API_KEY"):
-            openai.api_key = os.getenv("OPENAI_API_KEY")
+        if AI_AVAILABLE and get_fallback().enabled_tiers():
             self.ai_available = True
             logger.info("✅ AI assistant available")
         else:
             self.ai_available = False
-            logger.warning("⚠️ AI assistant not available - missing OpenAI API key")
+            logger.warning("⚠️ AI assistant not available - no LLM provider key set")
         
         # Load existing tasks
         self.load_tasks()
@@ -306,17 +305,15 @@ class ResearchQueueManager:
             Be concise but thorough. Focus on disclosure narrative importance.
             """
             
-            response = openai.ChatCompletion.create(
-                model="gpt-4",
-                messages=[
-                    {"role": "system", "content": "You are an AI research assistant specializing in UFO/UAP disclosure narrative analysis. Provide strategic research guidance."},
-                    {"role": "user", "content": prompt}
-                ],
+            response = get_fallback().complete(
+                "You are an AI research assistant specializing in UFO/UAP disclosure narrative analysis. Provide strategic research guidance.",
+                prompt,
                 max_tokens=500,
-                temperature=0.3
+                temperature=0.3,
+                task_id="research_assist",
             )
             
-            task.ai_analysis = response.choices[0].message.content
+            task.ai_analysis = response.text
             task.last_updated = datetime.now().isoformat()
             
             logger.info(f"✅ AI analysis completed for {task.entity_name}")
@@ -437,17 +434,15 @@ class ResearchQueueManager:
             Keep it concise and actionable.
             """
             
-            response = openai.ChatCompletion.create(
-                model="gpt-4",
-                messages=[
-                    {"role": "system", "content": "You are an AI research assistant specializing in UFO/UAP disclosure narrative research. Provide strategic guidance for research prioritization."},
-                    {"role": "user", "content": prompt}
-                ],
+            response = get_fallback().complete(
+                "You are an AI research assistant specializing in UFO/UAP disclosure narrative research. Provide strategic guidance for research prioritization.",
+                prompt,
                 max_tokens=400,
-                temperature=0.3
+                temperature=0.3,
+                task_id="research_assist",
             )
             
-            return response.choices[0].message.content
+            return response.text
             
         except Exception as e:
             logger.error(f"AI recommendations failed: {e}")

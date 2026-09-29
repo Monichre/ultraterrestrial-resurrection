@@ -21,9 +21,18 @@ CANDIDATE_LIMIT = 5
 # `resolve` may decide `matched` or `new` without a human when the evidence is
 # strong. What counts as strong is deliberately NOT the NER stage's own
 # `confidence` field: on 2026-09-27 the three newest episodes produced 148
-# validation issues, 24 of them critical, including FABRICATED_SOURCE_QUOTE and
-# entities ("Ziusudra", "Younger Dryas") that occur zero times in the
-# transcript. A fabricator's self-assessment cannot gate a database write.
+# validation issues across 22 chunks, 15 of them under a FABRICATED_* code
+# (FABRICATED_EVIDENCE, FABRICATED_SOURCE_ATTRIBUTES, FABRICATED_QUOTE_COMPLETION
+# and others). A model's self-assessment cannot gate a database write.
+#
+# ⚠️ What those issues are NOT: proof that named entities were invented. An
+# earlier reading of this data claimed "Ziusudra", "Shuruppak" and "Younger
+# Dryas" occur zero times in the transcript. That was wrong — the transcript is
+# auto-transcribed, so it carries "Zasudra", "Shirupac"/"Sherupac" and "younger
+# drius"/"younger dus". The NER stage was normalizing garbled ASR output, which
+# is correct behaviour. The validator's own code for it, UNSUPPORTED_NAME_
+# NORMALIZATION, means "not verbatim in the source", not "made up". Do not
+# tighten this gate on the assumption that normalization equals fabrication.
 #
 # The gate is a conjunction of three signals the model does not author:
 #   1. validation verdict   — a separate pass, must not be `fail`
@@ -56,7 +65,10 @@ CANDIDATE_LIMIT = 5
 AUTO_MATCH_SCORE = float(os.getenv("ENTITY_AUTO_MATCH_SCORE", "0.92"))
 AUTO_MATCH_MARGIN = float(os.getenv("ENTITY_AUTO_MATCH_MARGIN", "0.15"))
 AUTO_NEW_MAX_SCORE = float(os.getenv("ENTITY_AUTO_NEW_MAX_SCORE", str(TRIGRAM_FLOOR)))
-GATED_VERDICTS = frozenset({"pass", "pass_with_warnings", None})
+# Auto-write needs POSITIVE evidence from both programmatic checks. A missing
+# verdict (no validation ran) or unknown grounding (no chunk text to check) is
+# absence of evidence, so those mentions go to review, not to the database.
+GATED_VERDICTS = frozenset({"pass", "pass_with_warnings"})
 
 
 def write_mode() -> str:
@@ -81,6 +93,8 @@ def _auto_outcome(
         return None, f"verdict={verdict}: not auto-writable"
     if quote_grounded is False:
         return None, "span_quote not found in its chunk"
+    if quote_grounded is None:
+        return None, "grounding unknown: no chunk text to check the quote against"
 
     top = candidates[0]["score"] if candidates else 0.0
     second = candidates[1]["score"] if len(candidates) > 1 else 0.0
@@ -171,10 +185,11 @@ def find_candidates(conn, table: str, name: str, limit: int = CANDIDATE_LIMIT) -
             """
             SELECT id, name, similarity(entity_normalize(name), entity_normalize(%s)) AS s
             FROM locations
-            WHERE similarity(entity_normalize(name), entity_normalize(%s)) >= %s
+            WHERE entity_normalize(name) %% entity_normalize(%s)
+              AND similarity(entity_normalize(name), entity_normalize(%s)) >= %s
             ORDER BY s DESC LIMIT %s
             """,
-            (name, name, TRIGRAM_FLOOR, limit),
+            (name, name, name, TRIGRAM_FLOOR, limit),
         ).fetchall()
     else:
         rows = []

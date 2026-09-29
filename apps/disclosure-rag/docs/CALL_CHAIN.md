@@ -120,7 +120,7 @@ THEN → `YT-CHAIN-14`  (Phase 6 sinks, further down this same function)
 Does Phases 3, 4 and 5 of the chain in one function:
 
 - Phase 3 (download) → `YT-CHAIN-07`  get_video_info_and_transcript()
-- Phase 4 (analysis) → `YT-CHAIN-10`  analyze_content() [OpenRouter] → `YT-CHAIN-11`  process_for_rag() [OpenRouter]
+- Phase 4 (analysis) → `YT-CHAIN-10`  analyze_content() [llm_routing.yaml] → `YT-CHAIN-11`  process_for_rag() [OpenRouter]
 - Phase 5 (artifacts) → `YT-CHAIN-12`  write_transcript_to_file() et al
 
 NO LLM has been called until Phase 4. Returns a file_paths dict.
@@ -166,7 +166,7 @@ NEXT → returns up the stack to `YT-CHAIN-06`, which now holds the raw transcri
 
 LLM CALL #1 of 2. Produces the narrative analysis that becomes the body of Summary.txt back at `YT-CHAIN-12`.
 
-Provider: [`lib/llm_fallback.py`](apps/disclosure-rag/lib/llm_fallback.py) `FRONTIER_FALLBACK_CHAIN`, tier 1 `openrouter/glm-5.2`. OpenRouter — correct, no OpenAI on this path.
+Provider: [`packages/ai/prompts/llm_routing.yaml`](packages/ai/prompts/llm_routing.yaml) task `narrative_summary` via `task_id` (updated 2026-09-28 19:40 CDT; was the hardcoded `FRONTIER_FALLBACK_CHAIN`).
 
 PREV ← `YT-CHAIN-06`  [`lib/youtube.py`](apps/disclosure-rag/lib/youtube.py) :: generate_transcript()
 NEXT → `YT-CHAIN-11`  process_for_rag() (same caller, next statement)

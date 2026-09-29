@@ -66,7 +66,7 @@ class UnifiedRAGOrchestrator:
     
     def __init__(self, openai_api_key: str = None, vector_store_id: str = None):
         self.openai_api_key = openai_api_key or os.getenv('OPENAI_API_KEY')
-        self.vector_store_id = vector_store_id or 'vs_meWOEnUiUxtQWf0W6NBsNpCG'
+        self.vector_store_id = vector_store_id or os.getenv('OPENAI_VECTOR_STORE_ID') or 'vs_meWOEnUiUxtQWf0W6NBsNpCG'
         
         # Initialize systems
         self.openai_client = OpenAI(api_key=self.openai_api_key) if self.openai_api_key else None
@@ -238,64 +238,37 @@ class UnifiedRAGOrchestrator:
         return final_results
     
     async def _search_openai(self, query: str, max_results: int) -> List[SearchResult]:
-        """Search using OpenAI Assistant + Vector Store"""
+        """Search the OpenAI vector store directly.
+
+        2026-09-28: the Assistants API (threads/runs, assistant
+        asst_sdNxYC9p05iGpeKXtL496cyh) was sunset 2026-08-26 and 404s, so this
+        path returned [] on every call. vector_stores.search returns ranked
+        chunks with real scores instead of one synthesized answer.
+        """
         try:
-            # Create a thread for the search
-            thread = await asyncio.to_thread(
-                self.openai_client.beta.threads.create,
-                messages=[{"role": "user", "content": f"Search for: {query}"}]
+            page = await asyncio.to_thread(
+                self.openai_client.vector_stores.search,
+                self.vector_store_id,
+                query=query,
+                max_num_results=min(max_results, 50),
             )
-            
-            # Use the disclosure assistant ID from the working API
-            assistant_id = "asst_sdNxYC9p05iGpeKXtL496cyh"  # From disclosure/chat/route.ts
-            
-            # Create a run with file_search
-            run = await asyncio.to_thread(
-                self.openai_client.beta.threads.runs.create,
-                thread_id=thread.id,
-                assistant_id=assistant_id,
-                tools=[{"type": "file_search"}]
-            )
-            
-            # Wait for completion
-            while run.status in ['queued', 'in_progress']:
-                await asyncio.sleep(1)
-                run = await asyncio.to_thread(
-                    self.openai_client.beta.threads.runs.retrieve,
-                    thread_id=thread.id,
-                    run_id=run.id
-                )
-            
-            if run.status == 'completed':
-                # Get the messages
-                messages = await asyncio.to_thread(
-                    self.openai_client.beta.threads.messages.list,
-                    thread_id=thread.id
-                )
-                
-                results = []
-                for message in messages.data:
-                    if message.role == 'assistant' and message.content:
-                        for content in message.content:
-                            if hasattr(content, 'text'):
-                                results.append(SearchResult(
-                                    content=content.text.value,
-                                    source='OpenAI Vector Store',
-                                    score=0.9,  # High score for OpenAI results
-                                    system='openai',
-                                    metadata={'thread_id': thread.id, 'run_id': run.id}
-                                ))
-                
-                return results[:max_results]
-            
-            else:
-                self.logger.error(f"OpenAI search failed with status: {run.status}")
-                return []
-                
+            results = []
+            for hit in page.data:
+                text = "\n".join(c.text for c in (hit.content or []) if getattr(c, "text", None))
+                if not text:
+                    continue
+                results.append(SearchResult(
+                    content=text,
+                    source=hit.filename or 'OpenAI Vector Store',
+                    score=float(hit.score or 0.0),
+                    system='openai',
+                    metadata={'file_id': hit.file_id, 'vector_store_id': self.vector_store_id},
+                ))
+            return results[:max_results]
         except Exception as e:
             self.logger.error(f"Error searching OpenAI: {e}")
             return []
-    
+
     async def _search_local_systems(self, query: str, max_results: int) -> List[SearchResult]:
         """Search local RAG systems for supplementary content"""
         results = []

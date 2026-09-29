@@ -146,6 +146,26 @@ FRONTIER_FALLBACK_CHAIN: List[Tier] = [
         base_url="https://api.deepseek.com",
         max_retries=1,
     ),
+    # 2026-09-28: Merge Gateway, the one route independent of both OpenAI and
+    # OpenRouter. Mirrors merge/* tiers in packages/ai/prompts/llm_routing.yaml.
+    Tier(
+        id="merge/glm-5.3",
+        provider="GLM-5.3 (Merge Gateway)",
+        env_keys=("MERGE_GATEWAY_API_KEY",),
+        model="zai/glm-5.3",
+        base_url="https://api-gateway.merge.dev/v1",
+        max_retries=1,
+        reasoning=True,
+    ),
+    Tier(
+        id="merge/glm-5.3-flash",
+        provider="GLM-5.3 Flash (Merge Gateway)",
+        env_keys=("MERGE_GATEWAY_API_KEY",),
+        model="zai/glm-5.3-flash",
+        base_url="https://api-gateway.merge.dev/v1",
+        max_retries=1,
+        reasoning=True,
+    ),
     Tier(
         id="openai/gpt-5.6",
         provider="GPT-5.6 (direct)",
@@ -163,19 +183,10 @@ FRONTIER_FALLBACK_CHAIN: List[Tier] = [
         reasoning=True,
     ),
     Tier(
-        id="openrouter/gemini-3.7-flash-batch",
-        provider="Gemini 3.7 Flash (Batch, OpenRouter)",
+        id="openrouter/gemini-3.8-flash",
+        provider="Gemini 3.8 Flash (OpenRouter)",
         env_keys=("OPENROUTER_API_KEY",),
-        model="google/gemini-3.7-flash:batch",
-        base_url="https://openrouter.ai/api/v1",
-        max_retries=1,
-        reasoning=True,
-    ),
-    Tier(
-        id="openrouter/gemini-3.7-flash",
-        provider="Gemini 3.7 Flash (OpenRouter)",
-        env_keys=("OPENROUTER_API_KEY",),
-        model="google/gemini-3.7-flash",
+        model="google/gemini-3.8-flash",
         base_url="https://openrouter.ai/api/v1",
         max_retries=1,
         reasoning=True,
@@ -965,10 +976,6 @@ class LLMFallback:
                     base_url=t.base_url,
                     max_retries=t.max_retries,
                     reasoning=t.reasoning,
-                    auto_router_plugin_id=t.auto_router_plugin_id,
-                    auto_router_cost_tier=t.auto_router_cost_tier,
-                    auto_router_allowed_models=t.auto_router_allowed_models,
-                    auto_router_excluded_models=t.auto_router_excluded_models,
                 )
                 for t in routed
             ]

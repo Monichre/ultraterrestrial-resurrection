@@ -43,15 +43,15 @@ class ResearchCrew:
         
         # Agent configuration mapping (tag, name, model_id, agent_type)
         AGENT_CONFIG = {
-            "HA": ("HistoricalTimelineAgent", "anthropic/claude-4-sonnet-20250115", "historical"),
+            "HA": ("HistoricalTimelineAgent", "anthropic/claude-opus-5-5", "historical"),
             "CE": ("ClaimsEvidenceAgent", "openai/gpt-5", "claims_evidence"),
-            "GV": ("GeospatialAgent", "anthropic/claude-4-sonnet-20250115", "geospatial"),
+            "GV": ("GeospatialAgent", "anthropic/claude-opus-5-5", "geospatial"),
             "RN": ("ResearchNetworkAgent", "openai/gpt-5", "network"),
             "DL": ("DocumentationLibrarianAgent", "openai/gpt-5", "documentation"),
             "DV": ("DataVizAgent", "openai/gpt-5", "dataviz"),
-            "TD": ("TheoryDevAgent", "anthropic/claude-4-sonnet-20250115", "theory"),
+            "TD": ("TheoryDevAgent", "anthropic/claude-opus-5-5", "theory"),
             "OR": ("OrgRelationAgent", "openai/gpt-5", "organization"),
-            "TV": ("TestimonyValidatorAgent", "anthropic/claude-4-sonnet-20250115", "testimony"),
+            "TV": ("TestimonyValidatorAgent", "anthropic/claude-opus-5-5", "testimony"),
             "UE": ("UserEngagementAgent", "openai/gpt-5", "user_engagement"),
             "API": ("ApiIntegrationAgent", "openai/gpt-5", "api_integration")
         }

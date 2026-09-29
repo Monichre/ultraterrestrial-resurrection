@@ -53,7 +53,7 @@ Always maintain a systematic approach to evidence evaluation and provide detaile
 """
 
 def create_claims_evidence_agent(name="ClaimsEvidenceAgent",
-                                model_id="gpt-4.1-2025-04-14",
+                                model_id="gpt-6-astra",
                                 storage_path="tmp/research_agents.db"):
     """
     Factory function to create the Claims Evidence Agent.

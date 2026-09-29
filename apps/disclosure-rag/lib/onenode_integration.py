@@ -29,7 +29,7 @@ class OneNodeConfig:
     embedding_model: str = "text-embedding-3-small"
     chunk_size: int = 512
     chunk_overlap: int = 50
-    vision_model: str = "gpt-4o-mini"
+    vision_model: str = "gpt-6-luna"
 
 class OneNodeRAGAdapter:
     """Adapter for integrating OneNode.ai with the existing RAG system."""

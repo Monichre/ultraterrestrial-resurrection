@@ -28,22 +28,11 @@ except ImportError as e:
     logger.error(f"Required dependencies not available: {e}")
     sys.exit(1)
 
-# AI client setup
-try:
-    from anthropic import Anthropic
-    ANTHROPIC_AVAILABLE = True
-    anthropic_client = Anthropic(api_key=os.getenv('ANTHROPIC_API_KEY'))
-except ImportError:
-    ANTHROPIC_AVAILABLE = False
-    anthropic_client = None
-
-try:
-    from openai import OpenAI
-    OPENAI_AVAILABLE = True
-    openai_client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
-except ImportError:
-    OPENAI_AVAILABLE = False
-    openai_client = None
+# AI calls go through lib/llm_fallback + packages/ai/prompts/llm_routing.yaml.
+# `use_anthropic` is kept for CLI compatibility; tier order comes from the yaml.
+from lib.llm_fallback import get_fallback
+ANTHROPIC_AVAILABLE = True
+OPENAI_AVAILABLE = True
 
 
 class SimplifiedUFOYouTubeAgent:
@@ -166,20 +155,11 @@ Focus on accuracy and evidence-based assessment.
 """
         
         try:
-            if self.use_anthropic:
-                response = anthropic_client.messages.create(
-                    model="claude-3-5-sonnet-20241022",
-                    max_tokens=1000,
-                    messages=[{"role": "user", "content": prompt}]
-                )
-                content = response.content[0].text
-            else:
-                response = openai_client.chat.completions.create(
-                    model="gpt-4",
-                    max_tokens=1000,
-                    messages=[{"role": "user", "content": prompt}]
-                )
-                content = response.choices[0].message.content
+            # Routed via llm_routing.yaml (2026-09-28); was claude-3-5-sonnet / gpt-4.
+            content = get_fallback().complete(
+                "", prompt, max_tokens=1000,
+                task_id="document_classification",
+            ).text
             
             # Parse JSON response
             try:
@@ -236,20 +216,11 @@ Focus on high-confidence extractions only.
 """
         
         try:
-            if self.use_anthropic:
-                response = anthropic_client.messages.create(
-                    model="claude-3-5-sonnet-20241022",
-                    max_tokens=1500,
-                    messages=[{"role": "user", "content": prompt}]
-                )
-                content = response.content[0].text
-            else:
-                response = openai_client.chat.completions.create(
-                    model="gpt-4",
-                    max_tokens=1500,
-                    messages=[{"role": "user", "content": prompt}]
-                )
-                content = response.choices[0].message.content
+            # Routed via llm_routing.yaml (2026-09-28); was claude-3-5-sonnet / gpt-4.
+            content = get_fallback().complete(
+                "", prompt, max_tokens=1500,
+                task_id="document_classification",
+            ).text
             
             # Parse entities and register with shared store
             try:
@@ -381,20 +352,11 @@ Be objective and evidence-based.
 """
         
         try:
-            if self.use_anthropic:
-                response = anthropic_client.messages.create(
-                    model="claude-3-5-sonnet-20241022",
-                    max_tokens=800,
-                    messages=[{"role": "user", "content": prompt}]
-                )
-                summary_text = response.content[0].text
-            else:
-                response = openai_client.chat.completions.create(
-                    model="gpt-4",
-                    max_tokens=800,
-                    messages=[{"role": "user", "content": prompt}]
-                )
-                summary_text = response.choices[0].message.content
+            # Routed via llm_routing.yaml (2026-09-28); was claude-3-5-sonnet / gpt-4.
+            summary_text = get_fallback().complete(
+                "", prompt, max_tokens=800,
+                task_id="document_classification",
+            ).text
             
             return {
                 "executive_summary": summary_text,

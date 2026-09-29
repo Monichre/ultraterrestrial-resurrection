@@ -162,7 +162,7 @@ class EnhancedContentAnalysisEngine:
                 claude_result = await self._get_claude_analysis_enhanced(combined_prompt)
                 results['claude'] = {
                     'analysis': claude_result,
-                    'model': 'claude-3-5-sonnet',
+                    'model': 'claude-opus-5-5',
                     'quality_score': self._assess_response_quality(claude_result)
                 }
             except Exception as e:
@@ -174,7 +174,7 @@ class EnhancedContentAnalysisEngine:
                 openai_result = await self._get_openai_analysis_enhanced(combined_prompt)
                 results['openai'] = {
                     'analysis': openai_result,
-                    'model': 'gpt-4-turbo',
+                    'model': 'gpt-6-astra',
                     'quality_score': self._assess_response_quality(openai_result)
                 }
             except Exception as e:
@@ -204,7 +204,7 @@ class EnhancedContentAnalysisEngine:
             return {
                 'claude': {
                     'analysis': claude_result,
-                    'model': 'claude-3-5-sonnet',
+                    'model': 'claude-opus-5-5',
                     'quality_score': self._assess_response_quality(claude_result)
                 }
             }
@@ -213,7 +213,7 @@ class EnhancedContentAnalysisEngine:
             return {
                 'openai': {
                     'analysis': openai_result,
-                    'model': 'gpt-4-turbo',
+                    'model': 'gpt-6-astra',
                     'quality_score': self._assess_response_quality(openai_result)
                 }
             }
@@ -224,7 +224,7 @@ class EnhancedContentAnalysisEngine:
         """Enhanced Claude analysis with professional parameters"""
         try:
             message = self.anthropic_client.messages.create(
-                model="claude-3-5-sonnet-20241022",
+                model="claude-opus-5-5",
                 max_tokens=8000,
                 temperature=0.1,  # Low temperature for factual analysis
                 system=prompt,
@@ -244,7 +244,7 @@ class EnhancedContentAnalysisEngine:
         """Enhanced OpenAI analysis with professional parameters"""
         try:
             response = self.openai_client.chat.completions.create(
-                model="gpt-4-turbo-preview",
+                model="gpt-6-astra",
                 messages=[
                     {"role": "system", "content": prompt},
                     {"role": "user", "content": "Please provide a comprehensive professional analysis of this content according to the framework provided."}

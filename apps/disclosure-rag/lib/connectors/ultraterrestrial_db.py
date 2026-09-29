@@ -17,18 +17,17 @@ import csv
 from dataclasses import dataclass
 import uuid
 
-# For embeddings
+# Embeddings must match the stored vectors: text-embedding-3-small @ 1536 dims
+# (packages/db/scripts/rebuild/embed_entities.py). A different model returns
+# vectors pgvector can compare but whose similarities are meaningless.
 try:
-    from sentence_transformers import SentenceTransformer
-    HAS_SENTENCE_TRANSFORMERS = True
-except ImportError:
-    HAS_SENTENCE_TRANSFORMERS = False
-
-try:
-    import openai
+    from openai import OpenAI
     HAS_OPENAI = True
 except ImportError:
     HAS_OPENAI = False
+
+EMBED_MODEL = "text-embedding-3-small"
+EMBED_DIMS = 1536
 
 @dataclass
 class SearchResult:
@@ -68,23 +67,9 @@ class UltraterrestrialDB:
             'postgresql://liamellis@localhost:5432/ultraterrestrial'
         )
         
-        # Initialize embedding model
-        self.embedding_model = None
-        if HAS_SENTENCE_TRANSFORMERS:
-            try:
-                self.embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
-                print("✅ Loaded sentence-transformers embedding model")
-            except Exception as e:
-                print(f"⚠️  Failed to load sentence-transformers: {e}")
-        
-        # OpenAI as fallback
-        if not self.embedding_model and HAS_OPENAI:
-            try:
-                openai.api_key = os.getenv('OPENAI_API_KEY')
-                if openai.api_key:
-                    print("✅ Using OpenAI embeddings as fallback")
-            except Exception as e:
-                print(f"⚠️  OpenAI embeddings not available: {e}")
+        self.openai = OpenAI() if HAS_OPENAI and os.getenv('OPENAI_API_KEY') else None
+        if not self.openai:
+            print("⚠️  OPENAI_API_KEY not set - embeddings disabled")
         
         self.pool = None
     
@@ -124,27 +109,16 @@ class UltraterrestrialDB:
         if not text or not text.strip():
             return None
         
-        if self.embedding_model:
-            try:
-                embedding = self.embedding_model.encode(text)
-                return embedding.tolist()
-            except Exception as e:
-                print(f"❌ Embedding generation failed: {e}")
-                return None
-        
-        # OpenAI fallback
-        if HAS_OPENAI and openai.api_key:
-            try:
-                response = openai.Embedding.create(
-                    input=text,
-                    model="text-embedding-3-small"
-                )
-                return response['data'][0]['embedding']
-            except Exception as e:
-                print(f"❌ OpenAI embedding failed: {e}")
-                return None
-        
-        return None
+        if not self.openai:
+            return None
+        try:
+            response = self.openai.embeddings.create(
+                model=EMBED_MODEL, input=text, dimensions=EMBED_DIMS
+            )
+            return response.data[0].embedding
+        except Exception as e:
+            print(f"❌ OpenAI embedding failed: {e}")
+            return None
     
     async def import_csv_data(self, csv_directory: str = "./exports"):
         """Import all CSV data from your exports directory"""

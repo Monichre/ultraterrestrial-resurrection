@@ -42,7 +42,7 @@ class DisclosureBotChat:
     
     def __init__(self):
         self.client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
-        self.model = os.environ.get("OPENAI_MODEL", "gpt-5")
+        self.model = os.environ.get("OPENAI_MODEL", "gpt-6-astra")
         self.conversation_history = []
         self.system_prompt = """You are the Disclosure Bot, an expert AI assistant with deep knowledge of UFO/UAP research material. 
 
@@ -142,7 +142,7 @@ When appropriate, reference specific dates, locations, witnesses, and documentat
                         model=self.model,
                         messages=messages,
                         temperature=0.7,
-                        max_tokens=2000,
+                        max_completion_tokens=2000,
                         stream=False
                     )
             else:
@@ -151,7 +151,7 @@ When appropriate, reference specific dates, locations, witnesses, and documentat
                     model=self.model,
                     messages=messages,
                     temperature=0.7,
-                    max_tokens=2000,
+                    max_completion_tokens=2000,
                     stream=False
                 )
                 print("\r" + " "*20 + "\r", end="")  # Clear thinking message

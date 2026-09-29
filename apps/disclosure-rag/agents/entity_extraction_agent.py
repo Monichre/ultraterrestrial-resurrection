@@ -421,6 +421,7 @@ Return a structured JSON object with all identified entities organized by type."
                 max_tokens=4000,
                 schema=self._create_entity_schema(),
                 schema_name="extract_entities",
+                task_id="entity_extraction",
             ).text
 
             content = raw.strip()

@@ -51,20 +51,13 @@ def _get_mem0_client():
         
     if _mem0_client is None:
         try:
-            from mem0 import Memory
-            
-            config = {
-                "provider": "openai",
-                "config": {
-                    "model": "gpt-4o-mini",
-                }
-            }
-            
-            api_key = _get_api_key()
-            if api_key:
-                config["api_key"] = api_key
-                
-            _mem0_client = Memory(config)
+            # Hosted Mem0 (MEM0_API_KEY). The old code built the local
+            # `Memory(config)` with an OpenAI/gpt-4o-mini dict, which raised
+            # "'dict' object has no attribute 'embedder'" on every run, so
+            # every memory write was silently skipped (fixed 2026-09-28).
+            from mem0 import MemoryClient
+
+            _mem0_client = MemoryClient(api_key=_get_api_key())
             logger.info("Mem0 client initialized successfully")
         except ImportError:
             logger.warning("mem0ai package not installed; skipping mem0 integration")
@@ -85,20 +78,13 @@ async def _get_mem0_async_client():
         
     if _mem0_async_client is None:
         try:
-            from mem0 import AsyncMemory
-            
-            config = {
-                "provider": "openai",
-                "config": {
-                    "model": "gpt-4o-mini",
-                }
-            }
-            
-            api_key = _get_api_key()
-            if api_key:
-                config["api_key"] = api_key
-                
-            _mem0_async_client = AsyncMemory(config)
+            # Hosted Mem0 (MEM0_API_KEY). The old code built the local
+            # `AsyncMemory(config)` with an OpenAI/gpt-4o-mini dict, which raised
+            # "'dict' object has no attribute 'embedder'" on every run, so
+            # every memory write was silently skipped (fixed 2026-09-28).
+            from mem0 import AsyncMemoryClient
+
+            _mem0_async_client = AsyncMemoryClient(api_key=_get_api_key())
             logger.info("Mem0 async client initialized successfully")
         except ImportError:
             logger.warning("mem0ai package not installed; skipping async mem0 integration")
@@ -150,10 +136,10 @@ def add_memory(messages: Union[str, List[Dict[str, str]]], user_id: Optional[str
         messages = [{"role": "user", "content": messages}]
     
     result = client.add(
-        messages=messages,
+        messages,
         user_id=user_id,
+        agent_id=agent_id,
         metadata=metadata or {},
-        agent_id=agent_id
     )
     
     logger.info(f"Memory added successfully for user {user_id}")
@@ -176,10 +162,10 @@ async def add_memory_async(messages: Union[str, List[Dict[str, str]]], user_id: 
         messages = [{"role": "user", "content": messages}]
     
     result = await client.add(
-        messages=messages,
+        messages,
         user_id=user_id,
+        agent_id=agent_id,
         metadata=metadata or {},
-        agent_id=agent_id
     )
     
     logger.info(f"Memory added successfully (async) for user {user_id}")
@@ -198,10 +184,11 @@ def search_memories(query: str, user_id: Optional[str] = None, limit: int = 5,
     agent_id = agent_id or os.getenv("MEM0_AGENT_ID", "disclosure-rag-agent")
     
     results = client.search(
-        query=query,
-        user_id=user_id,
-        limit=limit,
-        agent_id=agent_id
+        query,
+        # Hosted search takes ids only via `filters`; adding agent_id to the
+        # filter returned 0 hits in the 2026-09-28 probe, so scope by user.
+        filters={"user_id": user_id},
+        top_k=limit,
     )
     
     logger.info(f"Memory search completed for query: {query[:50]}...")
@@ -220,10 +207,11 @@ async def search_memories_async(query: str, user_id: Optional[str] = None, limit
     agent_id = agent_id or os.getenv("MEM0_AGENT_ID", "disclosure-rag-agent")
     
     results = await client.search(
-        query=query,
-        user_id=user_id,
-        limit=limit,
-        agent_id=agent_id
+        query,
+        # Hosted search takes ids only via `filters`; adding agent_id to the
+        # filter returned 0 hits in the 2026-09-28 probe, so scope by user.
+        filters={"user_id": user_id},
+        top_k=limit,
     )
     
     logger.info(f"Memory search completed (async) for query: {query[:50]}...")

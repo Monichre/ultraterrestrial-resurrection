@@ -43,7 +43,7 @@ class DisclosureBotWithMemory:
         """
         # OpenAI client
         self.client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
-        self.model = os.environ.get("OPENAI_MODEL", "gpt-4o")
+        self.model = os.environ.get("OPENAI_MODEL", "gpt-6-astra")
         
         # Researcher identity
         self.researcher_id = researcher_id or f"researcher_{uuid.uuid4().hex[:8]}"
@@ -197,7 +197,7 @@ Adapt your responses based on this researcher's established preferences and curr
             model=self.model,
             messages=messages,
             temperature=0.7,
-            max_tokens=1500
+            max_completion_tokens=1500
         )
         
         assistant_message = response.choices[0].message.content

@@ -15,11 +15,11 @@ from dataclasses import dataclass
 
 from .research_queue_manager import ResearchQueueManager, ResearchTask, ResearchPriority, ResearchStatus
 try:
-    import openai
+    from lib.llm_fallback import get_fallback
     AI_AVAILABLE = True
 except ImportError:
     AI_AVAILABLE = False
-    openai = None
+    get_fallback = None
 
 logger = logging.getLogger(__name__)
 
@@ -41,14 +41,13 @@ class ResearchManager:
 
     def __init__(self, queue_manager: ResearchQueueManager):
         self.queue_manager = queue_manager
-        self.ai_available = AI_AVAILABLE and os.getenv("OPENAI_API_KEY")
+        self.ai_available = bool(AI_AVAILABLE and get_fallback().enabled_tiers())
 
         if self.ai_available:
-            openai.api_key = os.getenv("OPENAI_API_KEY")
             logger.info("✅ Research Manager initialized")
         else:
             logger.warning(
-                "⚠️ Research Manager AI not available - missing OpenAI API key")
+                "⚠️ Research Manager AI not available - no LLM provider key set")
 
         # Research Manager persona
         self.system_prompt = """
@@ -326,17 +325,16 @@ class ResearchManager:
     async def _call_openai(self, prompt: str, max_tokens: int = 500) -> str:
         """Call OpenAI API with Research Manager context"""
         try:
-            response = openai.ChatCompletion.create(
-                model="gpt-4",
-                messages=[
-                    {"role": "system", "content": self.system_prompt},
-                    {"role": "user", "content": prompt}
-                ],
+            # Routed via llm_routing.yaml (task research_assist); the old
+            # openai.ChatCompletion call is the pre-1.0 SDK API and raised.
+            result = get_fallback().complete(
+                self.system_prompt,
+                prompt,
                 max_tokens=max_tokens,
-                temperature=0.2  # Lower temperature for administrative precision
+                temperature=0.2,  # Lower temperature for administrative precision
+                task_id="research_assist",
             )
-
-            return response.choices[0].message.content
+            return result.text
 
         except Exception as e:
             logger.error(f"OpenAI API error: {e}")

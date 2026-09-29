@@ -16,13 +16,20 @@
  *
  * Scope: this governs *completions only*. It does not touch embeddings
  * (`text-embedding-3-small` @ 1536 dims, 6,540 vectors already stored) or the
- * disclosure mindmap agent, which runs on the OpenAI Assistants API —
- * threads + file_search over a vector store is a proprietary surface with no
+ * disclosure mindmap agent, which runs on the OpenAI Responses API with
+ * file_search over a vector store — a proprietary surface with no
  * chat/completions equivalent, so it cannot be routed through a gateway
  * without rearchitecting it. Both still consume OpenAI credit by design.
  *
- * Verified model IDs (2026-08-07):
- *   OpenRouter    z-ai/glm-5.2        (live — served a real completion)
+ * 2026-09-28: every tier below Merge failed a live probe (OpenRouter: no
+ * credits; HuggingFace 402; Ollama 403; Google key flagged as leaked; Zhipu no
+ * balance; Groq invalid key), so the whole chain returned null. Merge Gateway
+ * now leads with GLM-5.3 / GLM-5.3 Flash — both served real completions and
+ * honoured strict json_schema. Mirrors `packages/ai/prompts/llm_routing.yaml`.
+ *
+ * Verified model IDs (2026-08-07, GLM ids bumped to 5.3 on 2026-09-28):
+ *   Merge         zai/glm-5.3, zai/glm-5.3-flash (live 2026-09-28)
+ *   OpenRouter    z-ai/glm-5.3        (2026-09-28: account has no credits)
  *   HuggingFace   zai-org/GLM-5.2     (endpoint 200, completion 402: credits depleted)
  *   Ollama Cloud  glm-5.2             (endpoint 200, completion 403: rejected)
  *   Google        gemini-3.5-flash    (I/O 2026)
@@ -105,8 +112,14 @@ const zhipu = () =>
     apiKey: firstEnv('ZHIPU_API_KEY', 'GLM_API_KEY'),
   })
 
+const merge = () =>
+  createOpenAI({
+    baseURL: 'https://api-gateway.merge.dev/v1',
+    apiKey: firstEnv('MERGE_GATEWAY_API_KEY'),
+  })
+
 /**
- * The three gateways. All expose OpenAI's chat/completions shape, so one
+ * The gateways. All expose OpenAI's chat/completions shape, so one
  * factory helper covers them and no new SDK dependency is needed.
  */
 const openrouter = () =>
@@ -136,12 +149,28 @@ const ollamaCloud = () =>
  */
 export const FRONTIER_FALLBACK_CHAIN: FallbackTier[] = [
   {
-    id: 'openrouter/glm-5.2',
-    provider: 'GLM-5.2 (OpenRouter)',
+    id: 'merge/glm-5.3',
+    provider: 'GLM-5.3 (Merge)',
+    envKeys: ['MERGE_GATEWAY_API_KEY'],
+    getModel: () => merge().chat('zai/glm-5.3'),
+    reasoning: true,
+    maxRetries: 1,
+  },
+  {
+    id: 'merge/glm-5.3-flash',
+    provider: 'GLM-5.3 Flash (Merge)',
+    envKeys: ['MERGE_GATEWAY_API_KEY'],
+    getModel: () => merge().chat('zai/glm-5.3-flash'),
+    reasoning: true,
+    maxRetries: 1,
+  },
+  {
+    id: 'openrouter/glm-5.3',
+    provider: 'GLM-5.3 (OpenRouter)',
     envKeys: ['OPENROUTER_API_KEY'],
     // .chat() for the same reason as z.ai: gateways serve chat/completions,
     // not OpenAI's Responses API.
-    getModel: () => openrouter().chat('z-ai/glm-5.2'),
+    getModel: () => openrouter().chat('z-ai/glm-5.3'),
     reasoning: true,
     maxRetries: 1,
   },
