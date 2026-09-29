@@ -98,10 +98,19 @@ export async function executeDatabaseSearch(input: z.infer<typeof databaseSearch
     limit: input.limit ?? 6,
   })
 
+  // Rows carry their 1536-dim vector (~20 KB of text each). Nothing downstream
+  // reads it, and it rides the SSE stream, the model context, and the canvas
+  // server action that posts records back.
+  const slimResults = results.map((row: any) => {
+    if (!row || typeof row !== 'object' || !('embedding' in row)) return row
+    const {embedding: _embedding, ...rest} = row
+    return rest
+  })
+
   return {
     query,
     table: input.table ?? 'all',
-    results,
+    results: slimResults,
     totalResults: results.length,
     embeddingUsed: embedding.length > 0,
   }

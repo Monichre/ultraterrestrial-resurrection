@@ -7,6 +7,8 @@ import type {AgentToolEvent} from '@/features/mindmap/hooks/use-mindmap-agent'
 
 interface EmptyCanvasProps {
   onSubmit?: (input: string) => void
+  /** Forwarded to the console, which renders it directly above the input. */
+  chips?: React.ReactNode
   agentStatus?: 'idle' | 'streaming' | 'complete' | 'error'
   agentAnalysis?: string
   agentToolEvents?: AgentToolEvent[]
@@ -15,6 +17,7 @@ interface EmptyCanvasProps {
 export function EmptyCanvas({
   onSubmit,
   agentStatus = 'idle',
+  chips,
   agentAnalysis,
   agentToolEvents,
 }: EmptyCanvasProps) {
@@ -64,6 +67,7 @@ export function EmptyCanvas({
           onSubmit={onSubmit ?? (() => {})}
           agentStatus={agentStatus}
           agentAnalysis={agentAnalysis}
+          chips={chips}
           agentToolEvents={agentToolEvents}
         />
       </div>

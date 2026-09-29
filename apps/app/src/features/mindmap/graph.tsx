@@ -98,6 +98,27 @@ const resolveNodeTable = (node: Node): string | undefined => {
   return undefined
 }
 
+const nextFrame = () => new Promise<void>((resolve) => requestAnimationFrame(() => resolve()))
+
+/**
+ * Resolve once React Flow's measured size for `nodeId` has held steady for three
+ * frames (max ~1s). Layout that runs right after updateNodeData otherwise reads
+ * the pre-render size and places new nodes inside the answer node.
+ */
+const waitForStableMeasure = async (getNodes: () => Node[], nodeId: string): Promise<Node | undefined> => {
+  let last = ''
+  let stable = 0
+  let node: Node | undefined
+  for (let frame = 0; frame < 60 && stable < 3; frame++) {
+    await nextFrame()
+    node = getNodes().find((candidate) => candidate.id === nodeId)
+    const size = node?.measured ? `${node.measured.width}x${node.measured.height}` : ''
+    stable = size && size === last ? stable + 1 : 0
+    last = size
+  }
+  return node
+}
+
 const createAgentEdgeId = (edge: AgentGraphEdgePayload, index: number): string => {
   const seed = `${edge.source}-${edge.target}-${edge.label || edge.reasoning || index}`
     .toLowerCase()
@@ -229,12 +250,14 @@ export function Graph() {
           table: resolvedTable,
         })
 
+        const measuredSource = await waitForStableMeasure(getNodes, sourceNode.id)
         const existingNodes = getNodes()
         const knownNodeIds = new Set(existingNodes.map((node) => node.id))
         knownNodeIds.add(sourceNode.id)
         const knownEdgeIds = new Set(edges.map((edge) => edge.id))
 
-        const basePosition = sourceNode.position || getCenteredPosition()
+        const basePosition = measuredSource?.position || sourceNode.position || getCenteredPosition()
+        const sourceWidth = measuredSource?.measured?.width ?? 460
 
         const normalizedGraphNodes = (graphWrites?.nodes || [])
           .map((node, index): Node | null => {
@@ -251,8 +274,10 @@ export function Graph() {
                   y: node.position?.y as number,
                 }
               : {
-                  x: basePosition.x + ((index % 4) - 1.5) * 260,
-                  y: basePosition.y + (Math.floor(index / 4) + 1) * 180,
+                  // Agent-named entities sit in rows above the answer; record
+                  // cards are laid out below it, so the two never collide.
+                  x: basePosition.x + sourceWidth / 2 - 90 + ((index % 4) - 1.5) * 260,
+                  y: basePosition.y - (Math.floor(index / 4) + 1) * 160,
                 }
 
             return {
@@ -319,12 +344,17 @@ export function Graph() {
         }
 
         if (searchRecords.length) {
+          // `sourceNode` is the pre-render object with no `measured`; use the
+          // live node once its size has settled (graph nodes were added above).
+          await waitForStableMeasure(getNodes, sourceNode.id)
+          const liveNodes = getNodes()
+          const liveSourceNode = liveNodes.find((node) => node.id === sourceNode.id) ?? sourceNode
           const {nodes: newNodes, edges: newEdges} = await transformStreamResponse(
             agentResult.analysis ?? '',
             searchRecords,
             '',
-            sourceNode,
-            existingNodes,
+            liveSourceNode,
+            liveNodes,
             resolvedTable,
             layoutDirection
           )
@@ -697,13 +727,11 @@ export function Graph() {
           <div className='absolute inset-0 z-10 pointer-events-auto'>
             <EmptyCanvas
               onSubmit={handleEmptyCanvasSubmit}
+              chips={<TourChips onStart={(tour) => void startTour(tour)} />}
               agentStatus={agentStatus}
               agentAnalysis={analysis}
               agentToolEvents={toolEvents}
             />
-          </div>
-          <div className='absolute inset-x-0 bottom-6 z-20 flex justify-center gap-2'>
-            <TourChips onStart={(tour) => void startTour(tour)} />
           </div>
           <FloatingToolbar panels={panels} />
         </>

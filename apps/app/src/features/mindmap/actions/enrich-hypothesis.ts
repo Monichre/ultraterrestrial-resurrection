@@ -104,7 +104,7 @@ export async function enrichHypothesis({
       system: SYSTEM_PROMPT,
       prompt,
       maxOutputTokens: 500,
-      timeoutMsPerTier: 10_000,
+      timeoutMsPerTier: 30_000,
     })
     if (!result) return null
 

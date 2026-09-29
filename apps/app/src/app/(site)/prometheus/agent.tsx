@@ -3,6 +3,8 @@
 import type React from "react"
 import { useState, useRef, useCallback, useEffect } from "react"
 import { Separator } from "@/components/ui/separator"
+import ReactMarkdown from "react-markdown"
+import remarkGfm from "remark-gfm"
 import { toast } from "sonner"
 import {
   Database,
@@ -315,32 +317,46 @@ export function Agent() {
       const reader = apiResponse.body?.getReader()
       const decoder = new TextDecoder()
       let fullResponse = ""
+      let streamError = ""
+      // Lines can split across chunks; keep the unterminated tail for the next read.
+      let buffer = ""
 
       if (reader) {
         while (true) {
           const { done, value } = await reader.read()
           if (done) break
 
-          const chunk = decoder.decode(value, { stream: true })
+          buffer += decoder.decode(value, { stream: true })
+          const lines = buffer.split("\n")
+          buffer = lines.pop() ?? ""
 
-          // Parse streaming data
-          const lines = chunk.split("\n")
           for (const line of lines) {
-            if (line.startsWith("0:")) {
-              try {
-                const jsonStr = line.substring(2)
-                const data = JSON.parse(jsonStr)
-                if (data.type === "text-delta" && data.textDelta) {
-                  fullResponse += data.textDelta
-                  setResponse(fullResponse)
-                }
-              } catch (e) {
-                // Skip invalid JSON
-                console.warn("Failed to parse streaming chunk:", line)
+            // The route returns toUIMessageStreamResponse(): SSE `data: {json}`
+            // parts with `delta`. `0:` + `textDelta` is the retired v4 format.
+            const payload = line.startsWith("data: ")
+              ? line.slice(6)
+              : line.startsWith("0:")
+                ? line.slice(2)
+                : null
+            if (!payload || payload === "[DONE]") continue
+            try {
+              const data = JSON.parse(payload)
+              const delta = data.type === "text-delta" ? data.delta ?? data.textDelta : undefined
+              if (delta) {
+                fullResponse += delta
+                setResponse(fullResponse)
+              } else if (data.type === "error" && data.errorText) {
+                streamError = data.errorText
               }
+            } catch {
+              console.warn("Failed to parse streaming chunk:", line)
             }
           }
         }
+      }
+
+      if (!fullResponse && streamError) {
+        throw new Error(streamError)
       }
 
       if (!fullResponse) {
@@ -905,7 +921,9 @@ export function Agent() {
                   <h2 className="text-xl font-semibold text-white/90">Response</h2>
                 </div>
                 <Separator className="mb-4 bg-white/10" />
-                <div className="text-white/80 whitespace-pre-line text-sm leading-relaxed">{response}</div>
+                <div className="text-white/80 text-sm leading-relaxed [&_strong]:font-semibold [&_strong]:text-white/95 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:my-1 [&_p]:my-2 [&_h1]:text-lg [&_h2]:text-base [&_h3]:text-sm [&_h1,&_h2,&_h3]:font-semibold [&_h1,&_h2,&_h3]:mt-4 [&_a]:underline">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{response}</ReactMarkdown>
+                </div>
               </motion.div>
             )}
           </AnimatePresence>

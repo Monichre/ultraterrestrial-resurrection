@@ -68,6 +68,8 @@ const getNodeDimensions = ( node: ReactFlowNode ): { width: number; height: numb
   const nodeTypeDefaults: Record<string, { width: number; height: number }> = {
     'rootNode': { width: 300, height: 120 },
     'entityNode': { width: 200, height: 100 },
+    // Collapsed record card as rendered on the research canvas (2026-09-29).
+    'enhancedEntityNode': { width: 340, height: 180 },
     'entityGroupNode': { width: 450, height: 200 },
     'personnelGroupNode': { width: 450, height: 150 },
     'groupResultsNode': { width: 800, height: 300 },
@@ -165,7 +167,7 @@ export function organizeNodeLayout(
 
   rootNodes.forEach( ( rootNode, index ) => {
     const nodeIndex = layoutedNodes.findIndex( n => n.id === rootNode.id )
-    if ( nodeIndex !== -1 && ( !preserveExistingLayout || nodesToLayout.includes( rootNode ) ) ) {
+    if ( nodeIndex !== -1 && ( !preserveExistingLayout || nodesToLayoutIdSet.has( rootNode.id ) ) ) {
       layoutedNodes[nodeIndex] = {
         ...layoutedNodes[nodeIndex],
         position: {
@@ -209,7 +211,7 @@ export function organizeNodeLayout(
       let currentX = startX
       sortedChildren.forEach( ( child ) => {
         const childIndex = layoutedNodes.findIndex( n => n.id === child.id )
-        if ( childIndex !== -1 && ( !preserveExistingLayout || nodesToLayout.includes( child ) ) ) {
+        if ( childIndex !== -1 && ( !preserveExistingLayout || nodesToLayoutIdSet.has( child.id ) ) ) {
           const dims = getNodeDimensions( child )
 
           layoutedNodes[childIndex] = {
@@ -240,7 +242,7 @@ export function organizeNodeLayout(
       let currentY = startY
       sortedChildren.forEach( ( child ) => {
         const childIndex = layoutedNodes.findIndex( n => n.id === child.id )
-        if ( childIndex !== -1 && ( !preserveExistingLayout || nodesToLayout.includes( child ) ) ) {
+        if ( childIndex !== -1 && ( !preserveExistingLayout || nodesToLayoutIdSet.has( child.id ) ) ) {
           const dims = getNodeDimensions( child )
 
           layoutedNodes[childIndex] = {
@@ -277,7 +279,7 @@ export function organizeNodeLayout(
 
       sortedChildren.forEach( ( child, index ) => {
         const childIndex = layoutedNodes.findIndex( n => n.id === child.id )
-        if ( childIndex !== -1 && ( !preserveExistingLayout || nodesToLayout.includes( child ) ) ) {
+        if ( childIndex !== -1 && ( !preserveExistingLayout || nodesToLayoutIdSet.has( child.id ) ) ) {
           const angle = ( index / sortedChildren.length ) * 2 * Math.PI
           const x = parent.position.x + ( parentDims.width / 2 ) + Math.cos( angle ) * radius
           const y = parent.position.y + ( parentDims.height / 2 ) + Math.sin( angle ) * radius
@@ -318,7 +320,7 @@ export function organizeNodeLayout(
 
       sortedChildren.forEach( ( child, index ) => {
         const childIndex = layoutedNodes.findIndex( n => n.id === child.id )
-        if ( childIndex !== -1 && ( !preserveExistingLayout || nodesToLayout.includes( child ) ) ) {
+        if ( childIndex !== -1 && ( !preserveExistingLayout || nodesToLayoutIdSet.has( child.id ) ) ) {
           const col = index % cols
           const row = Math.floor( index / cols )
 

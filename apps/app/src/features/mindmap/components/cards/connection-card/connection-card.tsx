@@ -16,8 +16,8 @@ export const ConnectionCard: React.FC<ConnectionCardProps> = (
           fill='none'
           stroke='currentColor'
           strokeWidth='1'
-          stroke-linecap='round'
-          stroke-linejoin='round'
+          strokeLinecap='round'
+          strokeLinejoin='round'
           className='lucide lucide-table2 text-light'
         >
           <path d='M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18'></path>
@@ -34,8 +34,8 @@ export const ConnectionCard: React.FC<ConnectionCardProps> = (
             fill='none'
             stroke='currentColor'
             strokeWidth='1'
-            stroke-linecap='round'
-            stroke-linejoin='round'
+            strokeLinecap='round'
+            strokeLinejoin='round'
             className='lucide lucide-key flex-shrink-0 text-light'
           >
             <circle cx='7.5' cy='15.5' r='5.5'></circle>
@@ -50,8 +50,8 @@ export const ConnectionCard: React.FC<ConnectionCardProps> = (
             fill='currentColor'
             stroke='currentColor'
             strokeWidth='1'
-            stroke-linecap='round'
-            stroke-linejoin='round'
+            strokeLinecap='round'
+            strokeLinejoin='round'
             className='lucide lucide-diamond flex-shrink-0 text-light'
           >
             <path d='M2.7 10.3a2.41 2.41 0 0 0 0 3.41l7.59 7.59a2.41 2.41 0 0 0 3.41 0l7.59-7.59a2.41 2.41 0 0 0 0-3.41l-7.59-7.59a2.41 2.41 0 0 0-3.41 0Z'></path>
@@ -90,8 +90,8 @@ export const ConnectionCard: React.FC<ConnectionCardProps> = (
             fill='none'
             stroke='currentColor'
             strokeWidth='1'
-            stroke-linecap='round'
-            stroke-linejoin='round'
+            strokeLinecap='round'
+            strokeLinejoin='round'
             className='lucide lucide-diamond flex-shrink-0 text-light'
           >
             <path d='M2.7 10.3a2.41 2.41 0 0 0 0 3.41l7.59 7.59a2.41 2.41 0 0 0 3.41 0l7.59-7.59a2.41 2.41 0 0 0 0-3.41l-7.59-7.59a2.41 2.41 0 0 0-3.41 0Z'></path>
@@ -130,8 +130,8 @@ export const ConnectionCard: React.FC<ConnectionCardProps> = (
             fill='none'
             stroke='currentColor'
             strokeWidth='1'
-            stroke-linecap='round'
-            stroke-linejoin='round'
+            strokeLinecap='round'
+            strokeLinejoin='round'
             className='lucide lucide-diamond flex-shrink-0 text-light'
           >
             <path d='M2.7 10.3a2.41 2.41 0 0 0 0 3.41l7.59 7.59a2.41 2.41 0 0 0 3.41 0l7.59-7.59a2.41 2.41 0 0 0 0-3.41l-7.59-7.59a2.41 2.41 0 0 0-3.41 0Z'></path>
@@ -170,8 +170,8 @@ export const ConnectionCard: React.FC<ConnectionCardProps> = (
             fill='none'
             stroke='currentColor'
             strokeWidth='1'
-            stroke-linecap='round'
-            stroke-linejoin='round'
+            strokeLinecap='round'
+            strokeLinejoin='round'
             className='lucide lucide-diamond flex-shrink-0 text-light'
           >
             <path d='M2.7 10.3a2.41 2.41 0 0 0 0 3.41l7.59 7.59a2.41 2.41 0 0 0 3.41 0l7.59-7.59a2.41 2.41 0 0 0 0-3.41l-7.59-7.59a2.41 2.41 0 0 0-3.41 0Z'></path>
@@ -210,8 +210,8 @@ export const ConnectionCard: React.FC<ConnectionCardProps> = (
             fill='none'
             stroke='currentColor'
             strokeWidth='1'
-            stroke-linecap='round'
-            stroke-linejoin='round'
+            strokeLinecap='round'
+            strokeLinejoin='round'
             className='lucide lucide-diamond flex-shrink-0 text-light'
           >
             <path d='M2.7 10.3a2.41 2.41 0 0 0 0 3.41l7.59 7.59a2.41 2.41 0 0 0 3.41 0l7.59-7.59a2.41 2.41 0 0 0 0-3.41l-7.59-7.59a2.41 2.41 0 0 0-3.41 0Z'></path>
@@ -250,8 +250,8 @@ export const ConnectionCard: React.FC<ConnectionCardProps> = (
             fill='none'
             stroke='currentColor'
             strokeWidth='1'
-            stroke-linecap='round'
-            stroke-linejoin='round'
+            strokeLinecap='round'
+            strokeLinejoin='round'
             className='lucide lucide-diamond flex-shrink-0 text-light'
           >
             <path d='M2.7 10.3a2.41 2.41 0 0 0 0 3.41l7.59 7.59a2.41 2.41 0 0 0 3.41 0l7.59-7.59a2.41 2.41 0 0 0 0-3.41l-7.59-7.59a2.41 2.41 0 0 0-3.41 0Z'></path>

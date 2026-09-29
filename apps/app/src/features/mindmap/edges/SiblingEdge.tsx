@@ -28,13 +28,13 @@
 //       d='M113.4 17.361C89.7749 15.4615 65.0241 16.6174 41.5779 13.361C40.5911 13.224 29.0625 12.6854 31.8001 11.3166C33.5007 10.4663 52.3886 3.44264 52.2445 3.31659C50.1253 1.46242 27.3922 8.25769 25.0445 10.6055C24.8923 10.7577 50.8571 26.8896 54.2001 28.561'
 //       stroke={'#fff'}
 //       strokeWidth='3'
-//       stroke-linecap='round'
+//       strokeLinecap='round'
 //     />
 //     <path
 //       d='M3 58.961C35.8611 62.7435 69.5762 69.9485 102.2 71.761C117.812 72.6284 95.7404 64.0866 91 58.161C84.9491 50.5974 106.398 70.7889 115.711 73.4499C119.397 74.5029 88.2736 80.414 86.2001 84.561'
 //       stroke={'#fff'}
 //       strokeWidth='3'
-//       stroke-linecap='round'
+//       strokeLinecap='round'
 //     />
 //     {children}
 //   </svg>
@@ -54,7 +54,7 @@
 //     <path
 //       d='M1.91734 2.01577L25.1499 23.4512L50.0672 0.330973L26.947 25.2483L63.5456 63.644L25.1499 27.0455L0.232543 50.1656L23.3527 25.2483L1.91734 2.01577Z'
 //       fill='currentColor'
-//       fill-opacity='0.2'
+//       fillOpacity='0.2'
 //     />
 //   </svg>
 // )
@@ -147,7 +147,7 @@
 //               d='M23.3444 11.2133C20.964 11.962 18.886 12.6347 17.0401 13.3592M17.0401 13.3592C11.9858 15.343 8.67146 17.715 5.65135 23.0976C3.62937 26.7012 2.44761 30.635 1.43589 34.551C-1.17712 44.665 2.96636 52.0967 9.99994 59.8444C20.3665 71.2635 37.9578 80.4255 54.9578 77.3853C67.3289 75.1729 78.6117 66.5745 83.8442 56.5841C88.4801 47.7327 87.554 38.9366 86.0389 29.5359C82.5493 7.88401 60.2501 -2.82481 37.9275 2.36419C31.4909 3.86043 25.8745 6.47904 20.9026 10.4073C19.6156 11.4241 18.3678 12.4335 17.0401 13.3592ZM17.0401 13.3592C16.2419 13.9157 15.4149 14.4419 14.5332 14.9214C9.07622 17.8885 7.30147 24.5979 5.20592 29.4681'
 //               stroke='currentColor'
 //               strokeWidth='0.8751'
-//               stroke-dasharray='10.59 10.59'
+//               strokeDasharray='10.59 10.59'
 //             />
 //           </svg> */}
 
@@ -161,7 +161,7 @@
 //               d='M19.9069 10.1838C17.928 10.8822 16.2006 11.5097 14.6661 12.1855M14.6661 12.1855C10.4645 14.0361 7.70931 16.2487 5.1987 21.2697C3.51783 24.6312 2.53544 28.3007 1.6944 31.9536C-0.47777 41.3882 2.96668 48.3206 8.81366 55.5478C17.4313 66.1997 32.0549 74.7462 46.1869 71.9102C56.471 69.8465 65.8503 61.8258 70.2 52.5065C74.0539 44.2498 73.2839 36.0446 72.0244 27.2754C69.1235 7.07819 50.5864 -2.9112 32.0297 1.92921C26.679 3.32492 22.0101 5.76761 17.877 9.43193C16.8071 10.3805 15.7698 11.3221 14.6661 12.1855ZM14.6661 12.1855C14.0026 12.7047 13.3151 13.1955 12.5821 13.6428C8.04578 16.4106 6.57043 22.6692 4.82841 27.2122'
 //               stroke='#fff'
 //               strokeWidth='0.2'
-//               stroke-dasharray='1.75 1.75'
+//               strokeDasharray='1.75 1.75'
 //             />
 //           </svg>
 //           <div className='flex flex-col h-full w-full justify-center align-center items-center text-center text-white justify-center '>
@@ -218,13 +218,13 @@ const TwoWayArrows = ({stroke, children}: any) => (
       d='M113.4 17.361C89.7749 15.4615 65.0241 16.6174 41.5779 13.361C40.5911 13.224 29.0625 12.6854 31.8001 11.3166C33.5007 10.4663 52.3886 3.44264 52.2445 3.31659C50.1253 1.46242 27.3922 8.25769 25.0445 10.6055C24.8923 10.7577 50.8571 26.8896 54.2001 28.561'
       stroke={'#fff'}
       strokeWidth='3'
-      stroke-linecap='round'
+      strokeLinecap='round'
     />
     <path
       d='M3 58.961C35.8611 62.7435 69.5762 69.9485 102.2 71.761C117.812 72.6284 95.7404 64.0866 91 58.161C84.9491 50.5974 106.398 70.7889 115.711 73.4499C119.397 74.5029 88.2736 80.414 86.2001 84.561'
       stroke={'#fff'}
       strokeWidth='3'
-      stroke-linecap='round'
+      strokeLinecap='round'
     />
     {children}
   </svg>
@@ -243,12 +243,11 @@ export const MarkerEnd = () => (
     <path
       d='M1.91734 2.01577L25.1499 23.4512L50.0672 0.330973L26.947 25.2483L63.5456 63.644L25.1499 27.0455L0.232543 50.1656L23.3527 25.2483L1.91734 2.01577Z'
       fill='currentColor'
-      fill-opacity='0.2'
+      fillOpacity='0.2'
     />
   </svg>
 )
 export const SiblingEdge = (props: EdgeProps & SiblingEdgeProps) => {
-  console.log('props: ', props)
   const {
     id,
     sourceX,
@@ -268,7 +267,6 @@ export const SiblingEdge = (props: EdgeProps & SiblingEdgeProps) => {
     label = '::',
   } = props
   const {getNodes} = useMindMap()
-  console.log('sourcePosition: ', sourcePosition)
   // const sourceNode = useInternalNode(source)
   // console.log('sourceNode: ', sourceNode)
 
@@ -276,7 +274,6 @@ export const SiblingEdge = (props: EdgeProps & SiblingEdgeProps) => {
   // console.log('targetNode: ', targetNode)
 
   const nodes = getNodes()
-  console.log('nodes: ', nodes)
 
   const getSmartEdgeResponse = getSmartEdge({
     sourcePosition,
@@ -287,14 +284,15 @@ export const SiblingEdge = (props: EdgeProps & SiblingEdgeProps) => {
     targetY,
     nodes,
   })
-  console.log('getSmartEdgeResponse: ', getSmartEdgeResponse)
 
   // Use smart edge path if available, otherwise fallback to bezier
   let edgePath: string
   let labelX: number
   let labelY: number
 
-  if (getSmartEdgeResponse) {
+  // getSmartEdge returns an Error (it does not throw) when it cannot route,
+  // e.g. nodes not yet measured. Treat that like no path.
+  if (getSmartEdgeResponse && !(getSmartEdgeResponse instanceof Error)) {
     const {edgeCenterX, edgeCenterY, svgPathString} = getSmartEdgeResponse
     edgePath = svgPathString
     labelX = edgeCenterX
@@ -499,7 +497,7 @@ export const SiblingEdge = (props: EdgeProps & SiblingEdgeProps) => {
               d='M23.3444 11.2133C20.964 11.962 18.886 12.6347 17.0401 13.3592M17.0401 13.3592C11.9858 15.343 8.67146 17.715 5.65135 23.0976C3.62937 26.7012 2.44761 30.635 1.43589 34.551C-1.17712 44.665 2.96636 52.0967 9.99994 59.8444C20.3665 71.2635 37.9578 80.4255 54.9578 77.3853C67.3289 75.1729 78.6117 66.5745 83.8442 56.5841C88.4801 47.7327 87.554 38.9366 86.0389 29.5359C82.5493 7.88401 60.2501 -2.82481 37.9275 2.36419C31.4909 3.86043 25.8745 6.47904 20.9026 10.4073C19.6156 11.4241 18.3678 12.4335 17.0401 13.3592ZM17.0401 13.3592C16.2419 13.9157 15.4149 14.4419 14.5332 14.9214C9.07622 17.8885 7.30147 24.5979 5.20592 29.4681'
               stroke='currentColor'
               strokeWidth='0.8751'
-              stroke-dasharray='10.59 10.59'
+              strokeDasharray='10.59 10.59'
             />
           </svg> */}
 
@@ -512,7 +510,7 @@ export const SiblingEdge = (props: EdgeProps & SiblingEdgeProps) => {
               d='M19.9069 10.1838C17.928 10.8822 16.2006 11.5097 14.6661 12.1855M14.6661 12.1855C10.4645 14.0361 7.70931 16.2487 5.1987 21.2697C3.51783 24.6312 2.53544 28.3007 1.6944 31.9536C-0.47777 41.3882 2.96668 48.3206 8.81366 55.5478C17.4313 66.1997 32.0549 74.7462 46.1869 71.9102C56.471 69.8465 65.8503 61.8258 70.2 52.5065C74.0539 44.2498 73.2839 36.0446 72.0244 27.2754C69.1235 7.07819 50.5864 -2.9112 32.0297 1.92921C26.679 3.32492 22.0101 5.76761 17.877 9.43193C16.8071 10.3805 15.7698 11.3221 14.6661 12.1855ZM14.6661 12.1855C14.0026 12.7047 13.3151 13.1955 12.5821 13.6428C8.04578 16.4106 6.57043 22.6692 4.82841 27.2122'
               stroke='#fff'
               strokeWidth='0.2'
-              stroke-dasharray='1.75 1.75'
+              strokeDasharray='1.75 1.75'
             />
           </svg>
           <div className='flex flex-col h-full w-full justify-center align-center items-center text-center text-white justify-center '>

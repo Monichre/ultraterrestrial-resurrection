@@ -159,7 +159,7 @@ export async function synthesizeInvestigation({
       system: SYSTEM_PROMPT,
       prompt,
       maxOutputTokens: 1800,
-      timeoutMsPerTier: 25_000,
+      timeoutMsPerTier: 30_000,
     })
     if (!result) return null
 

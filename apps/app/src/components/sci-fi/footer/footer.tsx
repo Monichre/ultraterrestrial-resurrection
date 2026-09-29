@@ -35,9 +35,9 @@ export const Footer = () => {
 						<path
 							d="M1 4L4 1L7 4"
 							stroke="var(--gray-75)"
-							stroke-width="0.5"
-							stroke-linecap="round"
-							stroke-linejoin="round"
+							strokeWidth="0.5"
+							strokeLinecap="round"
+							strokeLinejoin="round"
 						></path>
 						<line
 							x1="4"
@@ -45,9 +45,9 @@ export const Footer = () => {
 							x2="4"
 							y2="100%"
 							stroke="var(--gray-75)"
-							stroke-width="0.5"
-							stroke-linecap="round"
-							stroke-linejoin="round"
+							strokeWidth="0.5"
+							strokeLinecap="round"
+							strokeLinejoin="round"
 						></line>
 					</svg>
 					<svg
@@ -61,9 +61,9 @@ export const Footer = () => {
 						<path
 							d="M1 1L4 4L7 1"
 							stroke="var(--gray-75)"
-							stroke-width="0.5"
-							stroke-linecap="round"
-							stroke-linejoin="round"
+							strokeWidth="0.5"
+							strokeLinecap="round"
+							strokeLinejoin="round"
 						></path>
 					</svg>
 				</div>
@@ -113,9 +113,9 @@ export const Footer = () => {
 						<path
 							d="M1 4L4 1L7 4"
 							stroke="var(--gray-75)"
-							stroke-width="0.5"
-							stroke-linecap="round"
-							stroke-linejoin="round"
+							strokeWidth="0.5"
+							strokeLinecap="round"
+							strokeLinejoin="round"
 						></path>
 						<line
 							x1="4"
@@ -123,9 +123,9 @@ export const Footer = () => {
 							x2="4"
 							y2="100%"
 							stroke="var(--gray-75)"
-							stroke-width="0.5"
-							stroke-linecap="round"
-							stroke-linejoin="round"
+							strokeWidth="0.5"
+							strokeLinecap="round"
+							strokeLinejoin="round"
 						></line>
 					</svg>
 					<svg
@@ -139,9 +139,9 @@ export const Footer = () => {
 						<path
 							d="M1 1L4 4L7 1"
 							stroke="var(--gray-75)"
-							stroke-width="0.5"
-							stroke-linecap="round"
-							stroke-linejoin="round"
+							strokeWidth="0.5"
+							strokeLinecap="round"
+							strokeLinejoin="round"
 						></path>
 					</svg>
 				</div>
@@ -296,9 +296,9 @@ export const Footer = () => {
 						<path
 							d="M1 4L4 1L7 4"
 							stroke="var(--gray-75)"
-							stroke-width="0.5"
-							stroke-linecap="round"
-							stroke-linejoin="round"
+							strokeWidth="0.5"
+							strokeLinecap="round"
+							strokeLinejoin="round"
 						></path>
 						<line
 							x1="4"
@@ -306,9 +306,9 @@ export const Footer = () => {
 							x2="4"
 							y2="100%"
 							stroke="var(--gray-75)"
-							stroke-width="0.5"
-							stroke-linecap="round"
-							stroke-linejoin="round"
+							strokeWidth="0.5"
+							strokeLinecap="round"
+							strokeLinejoin="round"
 						></line>
 					</svg>
 					<svg
@@ -322,9 +322,9 @@ export const Footer = () => {
 						<path
 							d="M1 1L4 4L7 1"
 							stroke="var(--gray-75)"
-							stroke-width="0.5"
-							stroke-linecap="round"
-							stroke-linejoin="round"
+							strokeWidth="0.5"
+							strokeLinecap="round"
+							strokeLinejoin="round"
 						></path>
 					</svg>
 				</div>
@@ -339,16 +339,16 @@ export const Footer = () => {
 								width="4"
 								height="4"
 							>
-								<g clip-path="url(#clip0)">
+								<g clipPath="url(#clip0)">
 									<path
 										d="M1 -1L5 3"
 										stroke="var(--gray-50)"
-										stroke-width="0.5"
+										strokeWidth="0.5"
 									></path>
 									<path
 										d="M-1 1L3 5"
 										stroke="var(--gray-50)"
-										stroke-width="0.5"
+										strokeWidth="0.5"
 									></path>
 								</g>
 							</pattern>
@@ -374,16 +374,16 @@ export const Footer = () => {
 								width="4"
 								height="4"
 							>
-								<g clip-path="url(#clip0)">
+								<g clipPath="url(#clip0)">
 									<path
 										d="M1 -1L5 3"
 										stroke="var(--gray-50)"
-										stroke-width="0.5"
+										strokeWidth="0.5"
 									></path>
 									<path
 										d="M-1 1L3 5"
 										stroke="var(--gray-50)"
-										stroke-width="0.5"
+										strokeWidth="0.5"
 									></path>
 								</g>
 							</pattern>

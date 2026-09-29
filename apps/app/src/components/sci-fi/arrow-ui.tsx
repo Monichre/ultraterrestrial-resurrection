@@ -16,9 +16,9 @@ export const ArrowUI = () => {
 				<path
 					d="M1 4L4 1L7 4"
 					stroke="var(--gray-75)"
-					stroke-width="0.5"
-					stroke-linecap="round"
-					stroke-linejoin="round"
+					strokeWidth="0.5"
+					strokeLinecap="round"
+					strokeLinejoin="round"
 				></path>
 				<line
 					x1="4"
@@ -26,9 +26,9 @@ export const ArrowUI = () => {
 					x2="4"
 					y2="100%"
 					stroke="var(--gray-75)"
-					stroke-width="0.5"
-					stroke-linecap="round"
-					stroke-linejoin="round"
+					strokeWidth="0.5"
+					strokeLinecap="round"
+					strokeLinejoin="round"
 				></line>
 			</svg>
 			<svg
@@ -42,9 +42,9 @@ export const ArrowUI = () => {
 				<path
 					d="M1 1L4 4L7 1"
 					stroke="var(--gray-75)"
-					stroke-width="0.5"
-					stroke-linecap="round"
-					stroke-linejoin="round"
+					strokeWidth="0.5"
+					strokeLinecap="round"
+					strokeLinejoin="round"
 				></path>
 			</svg>
 		</div>
@@ -70,16 +70,16 @@ export const ElegantHeaderDesign = () => {
 										width="4"
 										height="4"
 									>
-										<g clip-path="url(#clip0)">
+										<g clipPath="url(#clip0)">
 											<path
 												d="M1 -1L5 3"
 												stroke="var(--gray-0)"
-												stroke-width="0.5"
+												strokeWidth="0.5"
 											></path>
 											<path
 												d="M-1 1L3 5"
 												stroke="var(--gray-0)"
-												stroke-width="0.5"
+												strokeWidth="0.5"
 											></path>
 										</g>
 									</pattern>
@@ -112,16 +112,16 @@ export const ElegantHeaderDesign = () => {
 										width="4"
 										height="4"
 									>
-										<g clip-path="url(#clip0)">
+										<g clipPath="url(#clip0)">
 											<path
 												d="M1 -1L5 3"
 												stroke="var(--gray-0)"
-												stroke-width="0.5"
+												strokeWidth="0.5"
 											></path>
 											<path
 												d="M-1 1L3 5"
 												stroke="var(--gray-0)"
-												stroke-width="0.5"
+												strokeWidth="0.5"
 											></path>
 										</g>
 									</pattern>
@@ -243,7 +243,7 @@ export const ElegantHeaderDesign = () => {
 								<path
 									d="M7 1L13 4.88889L13 11.1111L7 15L1 11.1111L1 4.88889L7 1Z"
 									stroke="#FFF"
-									stroke-width="0.5"
+									strokeWidth="0.5"
 								></path>
 							</mask>
 						</svg>
@@ -267,7 +267,7 @@ export const ElegantHeaderDesign = () => {
 								<path
 									d="M5 0.5L9 3L9 7L5 9.5L1 7L1 3L5 0.5Z"
 									stroke="#FFF"
-									stroke-width="0.5"
+									strokeWidth="0.5"
 								></path>
 							</mask>
 						</svg>
@@ -291,7 +291,7 @@ export const ElegantHeaderDesign = () => {
 								<path
 									d="M3 1L5 2.11111L5 3.88889L3 5L1 3.88889L1 2.11111L3 1Z"
 									stroke="#FFF"
-									stroke-width="0.5"
+									strokeWidth="0.5"
 								></path>
 							</mask>
 						</svg>
@@ -427,9 +427,9 @@ export const SideArrayTwo = () => {
 				<path
 					d="M1 4L4 1L7 4"
 					stroke="var(--gray-75)"
-					stroke-width="0.5"
-					stroke-linecap="round"
-					stroke-linejoin="round"
+					strokeWidth="0.5"
+					strokeLinecap="round"
+					strokeLinejoin="round"
 				></path>
 				<line
 					x1="4"
@@ -437,9 +437,9 @@ export const SideArrayTwo = () => {
 					x2="4"
 					y2="100%"
 					stroke="var(--gray-75)"
-					stroke-width="0.5"
-					stroke-linecap="round"
-					stroke-linejoin="round"
+					strokeWidth="0.5"
+					strokeLinecap="round"
+					strokeLinejoin="round"
 				></line>
 			</svg>
 			<svg
@@ -453,9 +453,9 @@ export const SideArrayTwo = () => {
 				<path
 					d="M1 1L4 4L7 1"
 					stroke="var(--gray-75)"
-					stroke-width="0.5"
-					stroke-linecap="round"
-					stroke-linejoin="round"
+					strokeWidth="0.5"
+					strokeLinecap="round"
+					strokeLinejoin="round"
 				></path>
 			</svg>
 		</div>

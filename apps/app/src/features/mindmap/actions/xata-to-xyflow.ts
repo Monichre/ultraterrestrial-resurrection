@@ -308,7 +308,9 @@ async function transformForReactflow(
 					type: "enhancedEntityNode", // Use the production enhanced entity node
 					position: { x: 0, y: 0 }, // Initial position will be set by layout
 					data: nodeData,
-					parentId: centralNodeId,
+					// No parentId: React Flow treats a child's position as relative to its
+					// parent's top-left, which stacked every record card on the answer node.
+					// The edge below carries the relationship; layout positions are absolute.
 				}
 
 				nodes.push( newNode )
@@ -399,8 +401,18 @@ async function transformForReactflow(
 		try {
 			console.log( `🚀 Applying ${direction} layout algorithm...` )
 
-			// Apply our layout algorithm to position the nodes
-			layoutedNodes = organizeNodeLayout( nodes, edges, layoutConfig )
+			// Lay the records out around the live, measured source node and keep
+			// every existing node fixed, so new cards neither cover the answer nor
+			// land on nodes already on the canvas. Only the record nodes are returned.
+			const recordIds = new Set( nodes.map( node => node.id ) )
+			const fixedNodes = [
+				sourceNode,
+				...existingNodes.filter( node => node.id !== sourceNode.id && !recordIds.has( node.id ) ),
+			]
+			layoutedNodes = organizeNodeLayout( [...fixedNodes, ...nodes], edges, {
+				...layoutConfig,
+				preserveExistingLayout: true,
+			} ).filter( node => recordIds.has( node.id ) )
 
 			const layoutDuration = performance.now() - layoutStartTime
 			console.log( `✅ Layout algorithm completed successfully in ${layoutDuration.toFixed( 2 )}ms` )

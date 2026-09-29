@@ -3,7 +3,7 @@
 //        researchExternalTopic (Exa Research Pro), processDocument (summarize/topics/sentiment/etc).
 // DO NOT use this for mindmap graph interactions — use /api/disclosure/mindmap instead.
 
-import {streamText, tool} from 'ai'
+import {stepCountIs, streamText, tool} from 'ai'
 import {z} from 'zod'
 import {NextRequest, NextResponse} from 'next/server'
 import OpenAI from 'openai'
@@ -554,6 +554,9 @@ export async function POST(req: NextRequest) {
       // Pins this conversation's requests to one OpenAI cache shard; keyed
       // per user (Clerk id or IP), never per request.
       providerOptions: openaiPromptCacheOptions(rateLimitKey),
+      // AI SDK 6 defaults to one step: the model called searchUAP and the stream
+      // ended with finishReason 'tool-calls' and no answer text.
+      stopWhen: stepCountIs(5),
       onFinish: ({usage}) => logCacheUsage('prometheus/chat', usage),
       tools: {
         searchUAP: tool({

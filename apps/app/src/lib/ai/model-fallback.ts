@@ -332,7 +332,9 @@ export async function generateObjectWithFallback<T>({
   system,
   prompt,
   maxOutputTokens = 512,
-  timeoutMsPerTier = 10_000,
+  // merge/glm-5.3 and -flash each took ~20s for a small object (2026-09-28); at 10s
+  // every object call timed out on both Merge tiers.
+  timeoutMsPerTier = 30_000,
   tiers = FRONTIER_FALLBACK_CHAIN,
 }: {
   schema: z.ZodType<T>

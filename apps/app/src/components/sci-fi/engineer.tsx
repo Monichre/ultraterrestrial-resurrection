@@ -451,7 +451,7 @@
 // 								<div
 // 									className="left-0 absolute top-0 w-full h-full rounded-full"
 // 									style={{
-// 										backgroundImage: "url(\"data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='180' ry='180' stroke='%23595959' stroke-width='1' stroke-dasharray='2, 4, 8, 4' stroke-dashoffset='0' stroke-linecap='round'/%3e%3c/svg%3e\")"
+// 										backgroundImage: "url(\"data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='180' ry='180' stroke='%23595959' strokeWidth='1' strokeDasharray='2, 4, 8, 4' strokeDashoffset='0' strokeLinecap='round'/%3e%3c/svg%3e\")"
 // 									}}
 // 								/>
 // 							</div>
@@ -1753,7 +1753,7 @@
 // 								<div
 // 									className="left-0 absolute top-0 w-full h-full rounded-full"
 // 									style={{
-// 										backgroundImage: "url(\"data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='180' ry='180' stroke='%23595959' stroke-width='1' stroke-dasharray='2, 4, 8, 4' stroke-dashoffset='0' stroke-linecap='round'/%3e%3c/svg%3e\")"
+// 										backgroundImage: "url(\"data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='180' ry='180' stroke='%23595959' strokeWidth='1' strokeDasharray='2, 4, 8, 4' strokeDashoffset='0' strokeLinecap='round'/%3e%3c/svg%3e\")"
 // 									}}
 // 								/>
 // 							</div>
