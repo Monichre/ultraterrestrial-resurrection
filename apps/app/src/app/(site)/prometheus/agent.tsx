@@ -359,6 +359,16 @@ export function Agent() {
         throw new Error(streamError)
       }
 
+      if (fullResponse && streamError) {
+        // Text can arrive before a later step errors. Keep it on screen, say the answer
+        // is incomplete, and keep it out of the history sent with the next turn.
+        toast.error(`Response may be incomplete: ${streamError}`, {
+          closeButton: true,
+          duration: 10000,
+        })
+        return
+      }
+
       if (!fullResponse) {
         fullResponse = "Response received but no text content was found."
         setResponse(fullResponse)

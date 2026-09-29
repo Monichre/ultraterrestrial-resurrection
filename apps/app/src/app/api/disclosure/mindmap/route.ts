@@ -298,9 +298,6 @@ export async function POST(req: Request) {
             Always follow this execution order:
             1. Use file_search to retrieve relevant knowledge-base evidence.
             2. Use searchDatabase with extracted entities and terms.
-            # Final answer format
-            Write the final answer as plain prose (markdown allowed). Never wrap it in JSON or a code block, and never emit keys like "answer" or "analysis_summary". Records, nodes, and edges go through the tools, not the answer text.
-
             3. Optionally use searchExternalResources when corroboration is needed.
             4. Use addGraphNodes and addGraphEdges when you identify important entities/relationships that should be materialized on the graph.
 
@@ -320,6 +317,9 @@ export async function POST(req: Request) {
             What we know -> what we think -> what echoes (labeled resonance) -> what breaks (contradictions) -> what remains open -> next trace. Offer a counter-reading whenever you offer a reading.
 
             Do not call transformXYFlow. The client is responsible for graph rendering.
+
+            # Final answer format
+            Write the final answer as plain prose (markdown allowed). Never wrap it in JSON or a code block, and never emit keys like "answer" or "analysis_summary". Records, nodes, and edges go through the tools, not the answer text.
 
             ${sharedAgentContext}
           `,

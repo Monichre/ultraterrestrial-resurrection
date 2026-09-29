@@ -17,9 +17,9 @@ interface ResearchCanvasConsoleProps {
   /** 'launchpad' shows the topic CardStack (empty-canvas affordance);
    *  'compact' is input-only for a populated canvas where the stack is clutter */
   variant?: 'launchpad' | 'compact'
-}
   /** Rendered directly above the input, in the same flow, so it can never overlap it. */
   chips?: ReactNode
+}
 
 interface EnhancedMessage {
   id: string
@@ -55,9 +55,9 @@ export default function ResearchCanvasConsole({
   agentAnalysis,
   agentToolEvents,
   variant = 'launchpad',
+  chips,
 }: ResearchCanvasConsoleProps) {
   const [input, setInput] = useState('')
-  chips,
   const [hasSubmitted, setHasSubmitted] = useState(false)
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -132,12 +132,12 @@ export default function ResearchCanvasConsole({
           </>
         )}
 
-        <div className="relative z-10 flex w-full justify-center">
-          {showChat ? (
         {chips && (
           <div className='relative z-10 mb-3 flex flex-wrap justify-center gap-2'>{chips}</div>
         )}
 
+        <div className="relative z-10 flex w-full justify-center">
+          {showChat ? (
             <EnhancedAnimatedChat
               input={input}
               handleInputChange={handleInputChange}

@@ -53,3 +53,23 @@ Seven files carry other sessions' uncommitted hunks. They were excluded line by 
 - The `organizeNodeLayout` id fix changes behaviour for its other preserve-mode callers (layout panel, saved views, user-input node, file drop). None checked in the browser.
 - One canvas server action took 69s (dev log line 1059), consistent with both Merge tiers timing out; likely the "Deepening the reading" hypothesis call. Not investigated.
 - Proposed but not adopted: an `AGENTS.md` rule letting agents commit their own verified hunks.
+
+## Post-review correction (2026-09-29 15:45 CDT)
+
+An independent review of `90e6d478` (Codex `gpt-6-astra` at xhigh and Claude Opus 5.5, both read-only, on a clean clone of the commit) found that the commit did not compile. The "What now works" table above was measured on the working tree, which also held other sessions' hunks; the committed snapshot was never built. A parse check of the 27 files confirmed one syntax failure (three errors).
+
+Fixed in the next commit on `dev`:
+
+- [`apps/app/src/features/mindmap/research-canvas/research-canvas-console.tsx`](apps/app/src/features/mindmap/research-canvas/research-canvas-console.tsx): the `chips` prop, its destructuring and its JSX landed outside the props interface, inside the function body and inside the `showChat` ternary when the partial hunks were applied. Now in place. The file-drop `onFileSelected` lines stay uncommitted.
+- [`apps/app/src/app/api/disclosure/mindmap/route.ts`](apps/app/src/app/api/disclosure/mindmap/route.ts): the "Final answer format" block had split the numbered tool-order list. Moved to the end of the instructions.
+- [`apps/app/src/components/beautiful-ui-components/StreamingText.tsx`](apps/app/src/components/beautiful-ui-components/StreamingText.tsx): camelCase SVG attributes had been written inside `data:image/svg+xml` strings, which are raw XML. File reverted, so the rename is 386 attributes across 14 components, not 393 across 15.
+- [`apps/app/src/app/(site)/prometheus/agent.tsx`](apps/app/src/app/(site)/prometheus/agent.tsx): a stream `error` that arrived after partial text was dropped, and the truncated answer was stored as a good turn. Now shown in a toast and not stored.
+
+Still open. The reviewers raised these and they are not fixed; each needs a browser check:
+
+- Agent-named cards sit above the answer on a fixed 160 px row step ([`apps/app/src/features/mindmap/graph.tsx`](apps/app/src/features/mindmap/graph.tsx)); a tall personnel card overlaps the answer.
+- Radial layouts (`thematic`, `force-directed`) put record cards around the answer, not below it.
+- Records already on the canvas are not fixed obstacles for the layout ([`apps/app/src/features/mindmap/actions/xata-to-xyflow.ts`](apps/app/src/features/mindmap/actions/xata-to-xyflow.ts)); a repeat query can place a new card over an existing match.
+- `waitForStableMeasure` counts frames, and browsers pause `requestAnimationFrame` in background tabs.
+- Multi-step Prometheus answers join text from successive steps with no separator. Removing `parentId` means record cards no longer drag with the answer.
+- The committed [`apps/app/src/app/api/disclosure/mindmap/route.ts`](apps/app/src/app/api/disclosure/mindmap/route.ts) and [`apps/app/src/app/api/prometheus/chat/route.ts`](apps/app/src/app/api/prometheus/chat/route.ts) still call the OpenAI Assistants API (`openai.beta.threads`), which [`docs/archive/sessions/WORK_LOG_2026-09-29_disclosure-rag-llm-routing.md`](docs/archive/sessions/WORK_LOG_2026-09-29_disclosure-rag-llm-routing.md) records as sunset. The Responses API and `vectorStores.search` migration exists only as uncommitted working-tree changes, so a checkout of `dev` does not contain it.
