@@ -1,0 +1,128 @@
+@font-face {
+  font-family: 'Folder Study Mono';
+  src: url('/disclosure-ui/fonts/JetBrainsMono-Variable.ttf') format('truetype');
+  font-weight: 100 800;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Folder Study Typewriter';
+  src: url('/disclosure-ui/fonts/SpecialElite-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+}
+#storybook-root > [data-register]:has(.du-folder-study) {
+  padding: 0;
+}
+.du-folder-study {
+  --font-technical: 'Folder Study Mono', monospace;
+  --font-artifact: 'Folder Study Typewriter', monospace;
+  min-height: 100dvh;
+  background: var(--du-desk-base);
+  color: var(--du-desk-ink);
+  font-family: var(--font-ui-body);
+}
+.du-folder-study > header {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-6) var(--space-8);
+  border-bottom: 1px solid var(--du-desk-line);
+  font: 11px/1.5 var(--font-technical);
+  letter-spacing: 0.05em;
+}
+.du-folder-desk {
+  position: relative;
+  width: min(600px, 100%);
+  height: calc(100dvh - 80px);
+  min-height: 540px;
+  background-image: radial-gradient(
+    var(--du-desk-line) 0.8px,
+    transparent 0.8px
+  );
+  background-size: 24px 24px;
+}
+.du-folder-desk > svg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.du-folder-desk > svg path {
+  fill: none;
+  stroke: var(--du-desk-line);
+  stroke-width: 1.5;
+}
+.du-folder-record {
+  position: absolute;
+  width: 240px;
+  padding: var(--space-5);
+  display: grid;
+  gap: var(--space-3);
+  text-align: left;
+  border: 1px solid var(--du-desk-line);
+  background: var(--du-desk-panel);
+  color: var(--du-desk-ink);
+  cursor: pointer;
+}
+.du-folder-record[aria-pressed='true'] {
+  border-color: var(--du-desk-amber);
+}
+.du-folder-record:focus-visible {
+  outline: 2px solid var(--du-desk-amber);
+  outline-offset: 4px;
+}
+.du-folder-record span {
+  font: 10px/1.5 var(--font-technical);
+  color: var(--du-desk-muted);
+}
+.du-folder-record strong {
+  font-size: 18px;
+  font-weight: 500;
+}
+.du-folder-record-0 {
+  top: 20%;
+  left: 10%;
+}
+.du-folder-record-1 {
+  top: 52%;
+  left: 40%;
+}
+.du-folder-desk-note {
+  position: absolute;
+  bottom: 8px;
+  left: 32px;
+  font: 11px/1.8 var(--font-technical);
+  color: var(--du-desk-muted);
+}
+@media (max-width: 640px) {
+  .du-folder-study > header {
+    padding: var(--space-4);
+  }
+  .du-folder-record-1 {
+    left: 25%;
+  }
+}
+
+.du-folder-record-2 {
+  top: 70%;
+  left: 6%;
+  width: 200px;
+}
+@media (max-width: 640px) {
+  .du-folder-record-2 {
+    top: 72%;
+  }
+}
+.du-folder-reload-photos {
+  align-self: flex-start;
+  background: transparent;
+  color: var(--du-reading-ink);
+  border: 1px solid var(--du-reading-edge);
+  padding: var(--space-2) var(--space-3);
+  font: 11px/1.5 var(--font-technical);
+  cursor: pointer;
+}
+.du-folder-reload-photos:focus-visible {
+  outline: 2px solid var(--du-reading-ink);
+  outline-offset: 3px;
+}

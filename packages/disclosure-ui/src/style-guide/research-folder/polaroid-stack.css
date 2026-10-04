@@ -1,0 +1,78 @@
+.du-folder-content:has(.du-polaroid-stack) {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-6);
+}
+.du-folder-content:has(.du-polaroid-stack) > * {
+  flex-shrink: 0;
+}
+.du-polaroid-stack {
+  width: min(220px, 100%);
+  margin: auto var(--space-3) 0 auto;
+  padding-top: var(--space-3);
+  position: relative;
+}
+.du-polaroid-pile {
+  position: relative;
+  height: 218px;
+}
+.du-polaroid {
+  position: absolute;
+  bottom: var(--space-3);
+  right: 0;
+  width: 190px;
+  padding: var(--space-2) var(--space-2) var(--space-4);
+  border: 1px solid var(--du-reading-edge);
+  background: var(--du-reading-paper-raised);
+  color: var(--du-reading-ink);
+  box-shadow: 0 7px 18px
+    color-mix(in srgb, var(--du-reading-ink) 22%, transparent);
+  transform-origin: 50% 75%;
+  cursor: pointer;
+  text-align: left;
+}
+.du-polaroid img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  display: block;
+  background: var(--du-reading-leather);
+  filter: grayscale(1) contrast(1.08) sepia(0.12);
+}
+.du-polaroid span {
+  display: block;
+  margin-top: var(--space-3);
+  font: 11px/1.4 var(--font-artifact);
+}
+.du-polaroid-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  font: 10px/1.5 var(--font-technical);
+}
+.du-polaroid-controls button {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--du-reading-ink);
+  cursor: pointer;
+}
+.du-polaroid-controls button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.du-polaroid:focus-visible,
+.du-polaroid-controls button:focus-visible {
+  outline: 2px solid var(--du-reading-ink);
+  outline-offset: 3px;
+}
+
+.du-folder-content:has(.du-polaroid-stack) > h2 {
+  margin: var(--space-2) 0 var(--space-4);
+}
+.du-folder-content:has(.du-polaroid-stack) > p {
+  margin-bottom: var(--space-3);
+}
