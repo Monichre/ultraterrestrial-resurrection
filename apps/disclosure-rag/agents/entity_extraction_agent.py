@@ -3,7 +3,7 @@ import logging
 import os
 from typing import Any, Dict, List, Optional, Union
 import asyncio
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 
 # Configure logging first
 logger = logging.getLogger(__name__)
@@ -41,6 +41,11 @@ class ExtractedEntity:
     confidence: float
     context: str
     metadata: Dict[str, Any] = None
+
+
+#: The nine record types, in the order the summary extractor returns them.
+ENTITY_TYPES = ("topics", "personnel", "events", "organizations", "locations",
+                "testimonies", "documents", "artifacts", "sightings")
 
 
 @dataclass
@@ -185,19 +190,16 @@ class AIEntityExtractor:
         self.model = self._llm.describe()
 
     def _create_entity_schema(self) -> Dict[str, Any]:
-        """Legacy ten-bucket wire shape for this class only.
+        """Wire schema for extracting the nine record types from a summary.
 
-        NOT the canonical entity definition. That is
-        `packages/ai/prompts/schemas/output/entity.schema.json`, which
-        RagPromptPipeline stage 4 (`disclosure.ner`) emits and which the
-        interactive processor now reads — see
-        lib/entity_extraction/processors/interactive_entity_processor.py.
+        The `dy` ingest path reaches this method: the interactive processor
+        (lib/entity_extraction/processors/interactive_entity_processor.py)
+        extracts entities from the whole-source summary through this class
+        (October 4th, 2026). It is separate from
+        `packages/ai/prompts/schemas/output/entity.schema.json`, which the
+        chunked `disclosure.ner` stage emits.
 
-        This shape survives only because `_convert_to_structured_result` below
-        is written against it. Nothing in the `dy` ingest path reaches this
-        method any more; collapsing the two definitions means porting that
-        converter to the `{entities: [{type, name, ...}]}` shape, which is
-        tracked separately rather than done here.
+        Every item carries a `name` so every record can be matched and stored.
         """
         return {
             "type": "object",
@@ -319,11 +321,56 @@ class AIEntityExtractor:
                         "required": ["name", "confidence", "context"]
                     }
                 },
+                "testimonies": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": {"type": "string", "description": "Short label: who testified and about what"},
+                            "claim": {"type": "string", "description": "The claim or statement made"},
+                            "summary": {"type": "string", "description": "Summary of the testimony"},
+                            "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+                            "context": {"type": "string", "description": "Context where the testimony was mentioned"},
+                            "metadata": {
+                                "type": "object",
+                                "properties": {
+                                    "witness": {"type": "string", "description": "Who gave the testimony"},
+                                    "date": {"type": "string", "description": "When it was given"},
+                                    "venue": {"type": "string", "description": "Hearing, interview, affidavit, etc."}
+                                }
+                            }
+                        },
+                        "required": ["name", "claim", "confidence", "context"]
+                    }
+                },
+                "documents": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": {"type": "string", "description": "Document name as referenced"},
+                            "title": {"type": "string", "description": "Formal title, if given"},
+                            "summary": {"type": "string", "description": "What the document says or is about"},
+                            "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+                            "context": {"type": "string", "description": "Context where the document was mentioned"},
+                            "metadata": {
+                                "type": "object",
+                                "properties": {
+                                    "author": {"type": "string"},
+                                    "date": {"type": "string"},
+                                    "doc_type": {"type": "string", "description": "report, memo, study, FOIA release, etc."}
+                                }
+                            }
+                        },
+                        "required": ["name", "confidence", "context"]
+                    }
+                },
                 "sightings": {
                     "type": "array",
                     "items": {
                         "type": "object",
                         "properties": {
+                            "name": {"type": "string", "description": "Short label for the sighting, e.g. 'Nimitz Tic Tac encounter'"},
                             "description": {"type": "string", "description": "Description of the UAP sighting"},
                             "shape": {"type": "string", "description": "Shape of the observed object"},
                             "duration": {"type": "string", "description": "Duration of the sighting"},
@@ -338,7 +385,7 @@ class AIEntityExtractor:
                                 }
                             }
                         },
-                        "required": ["description", "confidence", "context"]
+                        "required": ["name", "description", "confidence", "context"]
                     }
                 },
                 "relationships": {
@@ -367,7 +414,7 @@ class AIEntityExtractor:
                     }
                 }
             },
-            "required": ["topics", "personnel", "events", "organizations", "locations", "artifacts", "sightings", "relationships", "extraction_metadata"]
+            "required": ["topics", "personnel", "events", "organizations", "locations", "testimonies", "documents", "artifacts", "sightings", "relationships", "extraction_metadata"]
         }
 
     async def extract_entities(self, text: str, domain_context: str = "UAP/UFO research") -> EntityExtractionResult:
@@ -440,27 +487,35 @@ Return a structured JSON object with all identified entities organized by type."
             return result
 
         except Exception as e:
+            # Raise, never return empty buckets: an empty result here is
+            # indistinguishable from a source with no entities, which is how a
+            # dead credential used to be recorded as "completed".
             logger.error(f"Error in entity extraction: {e}")
-            # Return empty result on error
-            return EntityExtractionResult(
-                topics=[], personnel=[], events=[], organizations=[],
-                locations=[], testimonies=[], documents=[], artifacts=[], 
-                sightings=[], relationships=[], raw_analysis=text, 
-                extraction_metadata={"error": str(e)}
-            )
+            raise
 
     def _convert_to_structured_result(self, extracted_data: Dict[str, Any], original_text: str) -> EntityExtractionResult:
         """Convert extracted JSON to structured result objects"""
 
+        core = {"name", "confidence", "context", "metadata"}
+
         def create_entities(entity_list: List[Dict], entity_type: str) -> List[ExtractedEntity]:
             entities = []
             for item in entity_list:
+                # Type-specific fields (description, shape, claim, title, ...)
+                # go into metadata so nothing the model returned is dropped.
+                metadata = dict(item.get("metadata") or {})
+                metadata.update({k: v for k, v in item.items() if k not in core})
+                name = (item.get("name") or item.get("title") or item.get("claim")
+                        or item.get("description") or "").strip()
+                if not name:
+                    logger.warning("Dropping unnamed %s item from extraction", entity_type)
+                    continue
                 entity = ExtractedEntity(
-                    name=item.get("name", ""),
+                    name=name,
                     type=entity_type,
                     confidence=item.get("confidence", 0.5),
                     context=item.get("context", ""),
-                    metadata=item.get("metadata", {})
+                    metadata=metadata
                 )
                 entities.append(entity)
             return entities
@@ -545,10 +600,7 @@ class EntityExtractionAgent:
 
                 # Filter by confidence threshold
                 filtered_entities = []
-                for entity_list in [extraction_result.topics, extraction_result.personnel,
-                                    extraction_result.events, extraction_result.organizations,
-                                    extraction_result.locations, extraction_result.artifacts,
-                                    extraction_result.sightings]:
+                for entity_list in [getattr(extraction_result, t) for t in ENTITY_TYPES]:
                     filtered_entities.extend(
                         [e for e in entity_list if e.confidence >= confidence_threshold])
 
@@ -559,15 +611,8 @@ class EntityExtractionAgent:
 
                 # Step 3: Create summary
                 result["summary"] = {
-                    "total_entities_extracted": sum([
-                        len(extraction_result.topics), len(
-                            extraction_result.personnel),
-                        len(extraction_result.events), len(
-                            extraction_result.organizations),
-                        len(extraction_result.locations), len(
-                            extraction_result.artifacts),
-                        len(extraction_result.sightings)
-                    ]),
+                    "total_entities_extracted": sum(
+                        len(getattr(extraction_result, t)) for t in ENTITY_TYPES),
                     "relationships_extracted": len(extraction_result.relationships),
                     "entities_above_threshold": len(filtered_entities),
                     "entities_found_in_database": sum([len(results) for results in result["search_results"].values()]),
@@ -584,8 +629,8 @@ class EntityExtractionAgent:
 
         except Exception as e:
             error_msg = f"Error in extract_and_search_entities: {e}"
-            result["errors"].append(error_msg)
             logger.error(error_msg)
+            raise
 
         return result
 
@@ -650,15 +695,19 @@ class EntityExtractionAgent:
             logger.error(f"Error generating embeddings: {e}")
             return []
 
-    def extract_entities(self, text: str) -> Dict[str, Any]:
+    def extract_entities(self, text: str, detailed: bool = False) -> Dict[str, Any]:
         """
-        Synchronous wrapper for entity extraction (for backward compatibility).
+        Synchronous wrapper for entity extraction.
 
         Args:
             text: The text to analyze for entities
+            detailed: False returns {type: [name, ...]} for the nine types.
+                True returns {type: [entity dict with confidence, context and
+                metadata], ..., "relationships": [...]}.
 
-        Returns:
-            Dictionary containing extracted entities
+        Raises:
+            Exception: when the model call fails. A failure is never returned
+                as empty lists.
         """
         # Run async method in event loop
         try:
@@ -671,23 +720,16 @@ class EntityExtractionAgent:
             self.extract_and_search_entities(text, search_entities=False)
         )
 
-        # Convert to legacy format for compatibility
-        if result.get("extraction_result"):
-            extraction = result["extraction_result"]
-            return {
-                "topics": [e.name for e in extraction.topics],
-                "personnel": [e.name for e in extraction.personnel],
-                "events": [e.name for e in extraction.events],
-                "organizations": [e.name for e in extraction.organizations],
-                "locations": [e.name for e in extraction.locations],
-                "artifacts": [e.name for e in extraction.artifacts],
-                "sightings": [e.name for e in extraction.sightings]
-            }
-        else:
-            return {
-                "topics": [], "personnel": [], "events": [], "organizations": [],
-                "locations": [], "artifacts": [], "sightings": []
-            }
+        extraction = result.get("extraction_result")
+        if extraction is None:
+            raise RuntimeError(
+                "; ".join(result.get("errors") or []) or "entity extraction produced no result")
+
+        if detailed:
+            out: Dict[str, Any] = {t: [asdict(e) for e in getattr(extraction, t)] for t in ENTITY_TYPES}
+            out["relationships"] = list(extraction.relationships or [])
+            return out
+        return {t: [e.name for e in getattr(extraction, t)] for t in ENTITY_TYPES}
 
     def search_entities(self, structured_payload: Dict[str, Any], table_mapping: Dict[str, str]) -> Dict[str, Any]:
         """

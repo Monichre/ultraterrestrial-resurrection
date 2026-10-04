@@ -36,8 +36,12 @@ def test_entity_source_is_summary(monkeypatch, tmp_path, case, expected_status):
     entities = {key: [] for key in processor.entity_types}
     if case == 'summary':
         entities['personnel'] = ['Jacques Vallée']
+    # The extractor returns full detail; the processor derives the name lists.
+    details = {key: [{'name': n, 'type': key, 'confidence': 0.9, 'context': n, 'metadata': {}}
+                     for n in names] for key, names in entities.items()}
+    details['relationships'] = []
     extractor = Mock()
-    extractor.extract_entities.return_value = [] if case == 'non_dict' else entities
+    extractor.extract_entities.return_value = [] if case == 'non_dict' else details
     if case == 'exception':
         extractor.extract_entities.side_effect = RuntimeError('Extraction failed')
     processor.entity_extractor = None if case == 'unavailable' else extractor
@@ -48,7 +52,7 @@ def test_entity_source_is_summary(monkeypatch, tmp_path, case, expected_status):
     extracted = processor._extract_entities_with_feedback(summary)
     assert extracted == (None if expected_status == 'error' else entities)
     if case != 'unavailable':
-        extractor.extract_entities.assert_called_once_with(summary)
+        extractor.extract_entities.assert_called_once_with(summary, detailed=True)
         extractor.reset_mock()
 
     # Keep the entry path offline and prevent result/index persistence.
@@ -60,10 +64,11 @@ def test_entity_source_is_summary(monkeypatch, tmp_path, case, expected_status):
 
     assert result['status'] == expected_status
     if case != 'unavailable':
-        extractor.extract_entities.assert_called_once_with(summary)
+        extractor.extract_entities.assert_called_once_with(summary, detailed=True)
     if expected_status == 'completed':
         assert result['entity_source'] == 'summary'
         assert result['entities'] == entities
+        assert result['entity_details'] == details
     else:
         assert result['total_entities'] == 0
         processor._batch_xata_search.assert_not_called()

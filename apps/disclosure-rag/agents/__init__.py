@@ -1,6 +1,12 @@
 # Analysis agents module
-from .content_analysis_agent import ContentAnalysisAgent
-from .disclosure_assistant import DisclosureAssistant, analyze_disclosure_content, cross_reference_disclosure_analysis
+# Optional: these need agno.storage, which agno 2.x removed. Importing any
+# submodule (e.g. agents.entity_extraction_agent, used by every `dy` run)
+# executes this file first, so a hard import here disabled entity extraction.
+try:
+    from .content_analysis_agent import ContentAnalysisAgent
+    from .disclosure_assistant import DisclosureAssistant, analyze_disclosure_content, cross_reference_disclosure_analysis
+except ImportError as e:
+    print(f"Warning: Could not import analysis agents: {e}")
 
 
 # Import factory functions for each specialized agent

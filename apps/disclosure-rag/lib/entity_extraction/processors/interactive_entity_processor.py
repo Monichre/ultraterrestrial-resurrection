@@ -94,6 +94,8 @@ class InteractiveEntityProcessor:
             'topics': '📝 Topics/Themes',
             'events': '📅 Events/Incidents',
             'locations': '📍 Locations',
+            'testimonies': '🗣️ Testimonies',
+            'documents': '📄 Documents',
             'artifacts': '🗿 Artifacts',
             'sightings': '👁️ Sightings'
         }
@@ -178,6 +180,7 @@ class InteractiveEntityProcessor:
                 "entity_search_results": search_results,
                 "entity_creation_results": creation_results,
                 "entity_source": "summary",
+                "entity_details": getattr(self, "last_entity_details", None),
                 "total_entities": sum(len(entities) for entities in extracted_entities.values()),
                 "total_matches": sum(len(results) for results in search_results.values()),
                 "total_created": creation_results.get("statistics", {}).get("total_created", 0)
@@ -223,12 +226,19 @@ class InteractiveEntityProcessor:
                 # The summary has already read the whole source, so later remarks
                 # resolve earlier ones. Capped chunk NER (24,000 chars, 8 chunks)
                 # misses most of a long episode.
-                entities = self.entity_extractor.extract_entities(summary_content)
-                if not isinstance(entities, dict):
+                details = self.entity_extractor.extract_entities(
+                    summary_content, detailed=True)
+                if not isinstance(details, dict):
                     progress.update(
                         task, description="❌ Entity extraction returned an invalid result")
                     logger.error("Entity extraction result is not a dict")
                     return None
+                # Full detail (confidence, context, type-specific fields,
+                # relationships) is kept for the results file; the search and
+                # display steps below work on names.
+                self.last_entity_details = details
+                entities = {t: [e["name"] for e in v]
+                            for t, v in details.items() if t != "relationships"}
                 total = sum(len(v) for v in entities.values())
                 progress.update(
                     task, description=f"✅ Extracted {total} entities from summary")
