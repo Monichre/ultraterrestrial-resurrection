@@ -1,19 +1,22 @@
 # ═══════════════════════════════════════════════════════════════════════
-# LLM provider registry — disclosure-rag
+# LLM provider registry
 # ═══════════════════════════════════════════════════════════════════════
 #
 # WHERE each provider lives: base_url + the env var holding its key.
 # Nothing else. Models and chain order live in
-# packages/ai/prompts/llm_routing.yaml, whose tiers name a provider key
+# packages/ai/shared/llm_routing.yaml, whose tiers name a provider key
 # from this file. lib/llm_router.py loads both and refuses to start if a
 # tier names a provider missing here.
 #
 # Adapted from ~/hermes-workspace/llm-platform-config/platforms.yaml
 # (2026-09-29). Its `routes:` block is NOT used here: it put
 # glm-5.3-flash first, which contradicts the best-first order in
-# llm_routing.yaml. Providers without a tier (cheaper-inference,
-# experiential, nvidia, manifest, vercel, kie, kong) are declared but
-# unprobed; add a tier in llm_routing.yaml to use one.
+# llm_routing.yaml. Providers without a tier (nvidia, manifest, vercel,
+# kie, kong) are declared but unprobed; add a tier in llm_routing.yaml
+# to use one. Cheaper Inference tiers live in
+# packages/ai/shared/llm_routing.yaml and read CHEAPER_INFERENCE_API_KEY.
+# Experiential Labs is wired: base_url below, key in EXPLABS_API_KEY,
+# tiers in packages/ai/shared/llm_routing.yaml.
 # ═══════════════════════════════════════════════════════════════════════
 
 providers:
@@ -47,7 +50,7 @@ providers:
   experiential:
     name: Experiential Labs
     base_url: https://api.experientiallabs.ai/v1
-    api_key_env: EXPERIENTIAL_API_KEY
+    api_key_env: EXPLABS_API_KEY
     protocol: openai
   nvidia:
     name: NVIDIA NIM API

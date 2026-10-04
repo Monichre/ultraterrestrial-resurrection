@@ -3,8 +3,11 @@
 # ═══════════════════════════════════════════════════════════════════════
 #
 # The ONLY place models and chain order are declared.
-#   * Endpoints + key env vars:  apps/disclosure-rag/platforms.yaml
-#     (each tier's `provider:` is a key in that file)
+#   * Endpoints + key env vars:  packages/ai/shared/platforms.yaml
+#     (each tier's `provider:` is a key in that file).
+#     Experiential Labs: base_url https://api.experientiallabs.ai/v1,
+#     api_key_env EXPLABS_API_KEY. Jev stays off this chain; the decision
+#     helper posts to /v1/systemone and reads EXPERIENTIAL_API_KEY.
 #   * Loader + validation:       apps/disclosure-rag/lib/llm_router.py
 #   * Execution:                 apps/disclosure-rag/lib/llm_fallback.py
 #     (holds no model ids; a call without task_id uses `defaults.chain`)
@@ -32,8 +35,10 @@
 
 tiers:
   # ── Direct providers (independent of every gateway) ──
+  # [FIXME] OpenAI - we do not use openai provider
   - id: openai/gpt-6-astra
     provider: openai
+    chat: false  # user rule October 4th, 2026: no OpenAI/Anthropic via API keys or OpenRouter
     model: gpt-6-astra
     capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
     cost_tier: 5
@@ -41,16 +46,20 @@ tiers:
     reasoning_headroom_tokens: 4096
     notes: "Flagship. Probed live 2026-09-28."
 
+# [FIXME] OpenAI - we do not use openai provider
   - id: openai/gpt-6-sol
     provider: openai
+    chat: false  # user rule October 4th, 2026: no OpenAI/Anthropic via API keys or OpenRouter
     model: gpt-6-sol
     capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
     cost_tier: 4
     latency_tier: 2
     reasoning_headroom_tokens: 4096
 
+# [FIXME] OpenAI - we do not use openai provider
   - id: openai/gpt-6-luna
     provider: openai
+    chat: false  # user rule October 4th, 2026: no OpenAI/Anthropic via API keys or OpenRouter
     model: gpt-6-luna
     capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
     cost_tier: 1
@@ -58,8 +67,10 @@ tiers:
     reasoning_headroom_tokens: 2048
     notes: "Cheap direct hop."
 
+# [FIXME] OpenAI - we do not use openai provider
   - id: openai/gpt-5.6
     provider: openai
+    chat: false  # user rule October 4th, 2026: no OpenAI/Anthropic via API keys or OpenRouter
     model: gpt-5.6
     capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
     cost_tier: 4
@@ -67,9 +78,11 @@ tiers:
     reasoning_headroom_tokens: 4096
     notes: "Backstop in case GPT-6 ids are not enabled on the key. Probed live 2026-09-10."
 
+# FIXME DeepSeek - we do not use deepseek provider
   - id: deepseek/deepseek-chat
     provider: deepseek
     model: deepseek-chat
+    chat: false  # user note above: we do not use the DeepSeek provider (October 4th, 2026)
     capabilities: {structured_output: true, reasoning: false, streaming: true, vision: false}
     cost_tier: 1
     latency_tier: 2
@@ -98,6 +111,7 @@ tiers:
   # ── OpenRouter ──
   - id: openrouter/claude-opus-5.5
     provider: openrouter
+    chat: false  # user rule October 4th, 2026: no OpenAI/Anthropic via API keys or OpenRouter
     model: anthropic/claude-opus-5.5
     capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
     cost_tier: 4
@@ -106,6 +120,7 @@ tiers:
 
   - id: openrouter/claude-fable-5.1
     provider: openrouter
+    chat: false  # user rule October 4th, 2026: no OpenAI/Anthropic via API keys or OpenRouter
     model: anthropic/claude-fable-5.1
     capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
     cost_tier: 5
@@ -122,6 +137,7 @@ tiers:
 
   - id: openrouter/gpt-6-sol
     provider: openrouter
+    chat: false  # user rule October 4th, 2026: no OpenAI/Anthropic via API keys or OpenRouter
     model: openai/gpt-6-sol
     capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
     cost_tier: 3
@@ -130,6 +146,7 @@ tiers:
 
   - id: openrouter/gpt-6-luna
     provider: openrouter
+    chat: false  # user rule October 4th, 2026: no OpenAI/Anthropic via API keys or OpenRouter
     model: openai/gpt-6-luna
     capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
     cost_tier: 1
@@ -177,28 +194,204 @@ tiers:
   - {id: openrouter/preset-opensource, provider: openrouter, kind: openrouter_preset, model: "@preset/opensource", preset_slug: opensource, chat: false}
   - {id: openrouter/preset-design-agents, provider: openrouter, kind: openrouter_preset, model: "@preset/design-agents", preset_slug: design-agents, chat: false}
 
+  # ── Experiential Labs (model ids from GET /v1/models, October 4th, 2026) ──
+  # Auth and base URL live on provider `experiential` in platforms.yaml.
+  - id: experiential/claude-fable-5.1
+    provider: experiential
+    model: claude-fable-5.1
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
+    cost_tier: 5
+    latency_tier: 3
+    reasoning_headroom_tokens: 4096
+
+  - id: experiential/claude-sonnet-5
+    provider: experiential
+    model: claude-sonnet-5
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
+    cost_tier: 4
+    latency_tier: 2
+    reasoning_headroom_tokens: 4096
+
+  - id: experiential/gpt-6-sol
+    provider: experiential
+    model: gpt-6-sol
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
+    cost_tier: 4
+    latency_tier: 2
+    reasoning_headroom_tokens: 4096
+
+  - id: experiential/gpt-6-luna
+    provider: experiential
+    model: gpt-6-luna
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
+    cost_tier: 1
+    latency_tier: 1
+    reasoning_headroom_tokens: 2048
+
+  - id: experiential/gemini-3.8-flash
+    provider: experiential
+    model: gemini-3.8-flash
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
+    cost_tier: 2
+    latency_tier: 1
+    reasoning_headroom_tokens: 2048
+
+  - id: experiential/kimi-k3
+    provider: experiential
+    model: kimi-k3
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
+    cost_tier: 3
+    latency_tier: 2
+    reasoning_headroom_tokens: 4096
+
+  - id: experiential/glm-5.3
+    provider: experiential
+    model: glm-5.3
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: false}
+    cost_tier: 2
+    latency_tier: 3
+    reasoning_headroom_tokens: 4096
+
+  - id: experiential/glm-5.3-flash
+    provider: experiential
+    model: glm-5.3-flash
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: false}
+    cost_tier: 1
+    latency_tier: 1
+    reasoning_headroom_tokens: 4096
+
+  - id: experiential/glm-5.3-flash-abliterated
+    provider: experiential
+    model: glm-5.3-flash-abliterated
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: false}
+    cost_tier: 1
+    latency_tier: 1
+    reasoning_headroom_tokens: 4096
+    notes: "Listed free on the Experiential picker."
+
+  - id: experiential/deepseek-v4.1-flash
+    provider: experiential
+    model: deepseek-v4.1-flash
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
+    cost_tier: 1
+    latency_tier: 2
+    reasoning_headroom_tokens: 4096
+
+  - id: experiential/deepseek-v4-flash
+    provider: experiential
+    model: deepseek-v4-flash
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
+    cost_tier: 1
+    latency_tier: 2
+    reasoning_headroom_tokens: 4096
+
+  - id: experiential/qwen3.8-27b
+    provider: experiential
+    model: qwen3.8-27b
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: false}
+    cost_tier: 1
+    latency_tier: 2
+    reasoning_headroom_tokens: 4096
+
+  # ── Cheaper Inference (provider key in platforms.yaml) ──
+  - id: cheaper-inference/gpt-5.6-terra
+    provider: cheaper-inference
+    model: gpt-5.6-terra
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
+    cost_tier: 2
+    latency_tier: 2
+    reasoning_headroom_tokens: 4096
+
+  - id: cheaper-inference/gpt-5.6-luna
+    provider: cheaper-inference
+    model: gpt-5.6-luna
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
+    cost_tier: 1
+    latency_tier: 1
+    reasoning_headroom_tokens: 2048
+
+  - id: cheaper-inference/gpt-5.6-sol
+    provider: cheaper-inference
+    model: gpt-5.6-sol
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
+    cost_tier: 2
+    latency_tier: 2
+    reasoning_headroom_tokens: 4096
+
+  - id: cheaper-inference/deepseek-v4.1-flash
+    provider: cheaper-inference
+    model: deepseek-v4.1-flash
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
+    cost_tier: 1
+    latency_tier: 2
+    reasoning_headroom_tokens: 4096
+
+  - id: cheaper-inference/glm-5.3
+    provider: cheaper-inference
+    model: glm-5.3
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: false}
+    cost_tier: 2
+    latency_tier: 3
+    reasoning_headroom_tokens: 4096
+
+  - id: cheaper-inference/glm-5.3-flash
+    provider: cheaper-inference
+    model: glm-5.3-flash
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: false}
+    cost_tier: 1
+    latency_tier: 1
+    reasoning_headroom_tokens: 4096
+
+  - id: cheaper-inference/gemini-3.8-flash
+    provider: cheaper-inference
+    model: gemini-3.8-flash
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
+    cost_tier: 1
+    latency_tier: 1
+    reasoning_headroom_tokens: 2048
+
 
 # ── Chains ────────────────────────────────────────────────────────────
 # Defined once, referenced by every task. Edit here, not per task.
 
 chains:
-  preferred: &preferred
-    - openai/gpt-6-astra
-    - openai/gpt-6-sol
-    - merge/glm-5.3
-    - openrouter/claude-opus-5.5
-    - openrouter/claude-fable-5.1
+  # One sequence, every task: Experiential, then Cheaper Inference, then
+  # OpenRouter. A failed tier is skipped and the next tier is tried. A
+  # missing key skips that provider's tiers. The call fails only after
+  # every tier below has been tried. OpenAI and Anthropic stay off
+  # OpenRouter (user rule, October 4th, 2026). Merge and direct DeepSeek
+  # stay declared and are not on this chain.
+  experiential: &experiential
+    - experiential/claude-fable-5.1
+    - experiential/claude-sonnet-5
+    - experiential/gpt-6-sol
+    - experiential/gpt-6-luna
+    - experiential/gemini-3.8-flash
+    - experiential/kimi-k3
+    - experiential/glm-5.3
+    - experiential/glm-5.3-flash
+    - experiential/deepseek-v4.1-flash
+    - experiential/deepseek-v4-flash
+    - experiential/qwen3.8-27b
+    - experiential/glm-5.3-flash-abliterated
+  cheaper: &cheaper
+    - cheaper-inference/gpt-5.6-terra
+    - cheaper-inference/gpt-5.6-luna
+    - cheaper-inference/gpt-5.6-sol
+    - cheaper-inference/deepseek-v4.1-flash
+    - cheaper-inference/glm-5.3
+    - cheaper-inference/glm-5.3-flash
+    - cheaper-inference/gemini-3.8-flash
+  openrouter: &openrouter
     - openrouter/gemini-3.8-flash
-  fallback: &fallback
-    - merge/glm-5.3-flash
-    - openai/gpt-6-luna
-    - openrouter/gpt-6-sol
     - openrouter/grok-4.7
-    - openrouter/gpt-6-luna
     - openrouter/glm-5.3
     - openrouter/deepseek-v4.1-flash
-    - deepseek/deepseek-chat
-    - openai/gpt-5.6
+  preferred: &preferred
+    - *experiential
+    - *cheaper
+    - *openrouter
+  fallback: &fallback []
 
 
 # ── Tasks ─────────────────────────────────────────────────────────────
@@ -238,7 +431,7 @@ tasks:
   - id: disclosure.ner
     prompt_id: disclosure.ner
     requires: {structured_output: true, reasoning: true}
-    max_tokens: 1200
+    max_tokens: 4000  # 1200 truncated the JSON; matches sets/disclosure/ner.v1.yaml
     temperature: 0.1
     preferred_tiers: *preferred
     fallback_tiers: *fallback

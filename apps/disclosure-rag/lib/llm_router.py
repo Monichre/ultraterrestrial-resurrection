@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """LLM router — the only reader of the two routing config files.
 
-* ``apps/disclosure-rag/platforms.yaml`` — providers: base_url + key env var.
-* ``packages/ai/prompts/llm_routing.yaml`` — tiers (provider + model +
+* ``packages/ai/shared/platforms.yaml`` — providers: base_url + key env var.
+* ``packages/ai/shared/llm_routing.yaml`` — tiers (provider + model +
   capabilities), chains, and tasks.
 
 The router joins them, validates the join at load time (an undeclared tier
@@ -29,8 +29,8 @@ logger = logging.getLogger(__name__)
 
 _APP_DIR = Path(__file__).resolve().parents[1]
 _REPO_ROOT = _APP_DIR.parents[1]
-_CONFIG_PATH = _REPO_ROOT / "packages" / "ai" / "prompts" / "llm_routing.yaml"
-_PLATFORMS_PATH = _APP_DIR / "platforms.yaml"
+_CONFIG_PATH = _REPO_ROOT / "packages" / "ai" / "shared" / "llm_routing.yaml"
+_PLATFORMS_PATH = _REPO_ROOT / "packages" / "ai" / "shared" / "platforms.yaml"
 
 
 class RoutingConfigError(ValueError):

@@ -140,14 +140,9 @@ REASONING_HEADROOM_TOKENS = 4096
 FRONTIER_FALLBACK_CHAIN: List[Tier] = [
     # No OpenAI or Anthropic models via API keys or OpenRouter: OAuth accounts
     # only, else the designated AI gateway (user rule, October 4th, 2026).
-    Tier(
-        id="deepseek/deepseek-chat",
-        provider="DeepSeek Chat (direct)",
-        env_keys=("DEEPSEEK_API_KEY",),
-        model="deepseek-chat",
-        base_url="https://api.deepseek.com",
-        max_retries=1,
-    ),
+    # No direct DeepSeek either. This list is only the offline fallback: with
+    # the router loaded, every call uses llm_routing.yaml (defaults.chain when
+    # no task_id is given).
     # 2026-09-28: Merge Gateway, the one route independent of both OpenAI and
     # OpenRouter. Mirrors merge/* tiers in packages/ai/prompts/llm_routing.yaml.
     Tier(
@@ -409,7 +404,9 @@ class LLMFallback:
 
     When a `task_id` is passed to `complete()`, the router determines tier
     order from `llm_routing.yaml` and caches schema capabilities per-tier.
-    Without a `task_id`, falls back to the legacy hardcoded chain.
+    Without a `task_id`, the router's ``defaults.chain`` is used. The
+    hardcoded chain applies only when explicit `tiers` are passed or the
+    router cannot load.
     """
 
     def __init__(
@@ -419,11 +416,13 @@ class LLMFallback:
         prefer_provider: Optional[str] = None,
         backoff_base: float = 0.75,
     ):
+        self._explicit_tiers = tiers is not None
         chain = list(tiers if tiers is not None else FRONTIER_FALLBACK_CHAIN)
         prefer = (prefer_provider or os.getenv("RAG_PIPELINE_PROVIDER") or "").lower().strip()
         if prefer:
             # Stable partition: preferred vendor's tiers first, order preserved.
             chain.sort(key=lambda t: 0 if prefer in t.id.lower() else 1)
+        self._prefer = prefer
         self.tiers = chain
         self.backoff_base = backoff_base
         self._dead: Dict[str, str] = {}
@@ -886,7 +885,7 @@ class LLMFallback:
 
         When `task_id` is given, the router determines tier order from
         ``llm_routing.yaml`` and caches schema capabilities per-tier. Without
-        it, the legacy hardcoded chain is used.
+        it, the router's ``defaults.chain`` is used.
 
         When `schema` is given, the provider is required to emit JSON matching
         it rather than merely asked to in prose. This is what separates a
@@ -911,9 +910,9 @@ class LLMFallback:
         # When task_id is given, use the router to determine tier order.
         # The router filters dead tiers (persisted to disk) and orders by
         # the task's preferred → fallback → last-resort chain.
-        router = self._get_router() if task_id else None
-        if router and task_id:
-            routed = router.get_ordered_tiers_for_task(task_id)
+        router = self._get_router() if (task_id or not self._explicit_tiers) else None
+        if router:
+            routed = router.get_ordered_tiers_for_task(task_id, prefer_provider=self._prefer)
             # Convert TierConfig objects to the legacy Tier shape that
             # _call_provider expects. We build ad-hoc Tier instances so
             # the rest of the loop is unchanged.
