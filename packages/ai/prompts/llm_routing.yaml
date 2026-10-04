@@ -1,0 +1,617 @@
+# ═══════════════════════════════════════════════════════════════════════
+# Enterprise LLM Routing Config — disclosure-rag
+# ═══════════════════════════════════════════════════════════════════════
+#
+# Single source of truth for:
+#   1. Tier declarations — which models are available and what they can do
+#   2. Task declarations — what each pipeline stage needs
+#   3. Routing rules — which tiers serve which tasks, in what order
+#
+# This file drives lib/llm_router.py and lib/llm_fallback.py.
+# Code reads this config; it does not hardcode tier lists or task params.
+#
+# Priority order (user directive 2026-09-10): BEST MODEL FIRST.
+# This replaces the 2026-08-16 cheapest-first directive. Measured that day:
+#
+#   * OpenRouter credit is EXHAUSTED -- /api/v1/credits reports
+#     total_credits 351, total_usage 351.16. All eight OpenRouter tiers were
+#     marked dead at 12:48:34-12:48:37 within three seconds of each other,
+#     forty seconds before a real ingest run, so every LLM call in that run
+#     fell through to deepseek/deepseek-chat -- which the schema-capability
+#     cache records as structured_output: false. Unconstrained output is what
+#     let disclosure.ner free-write past its token ceiling on 6 of 8 chunks.
+#   * google/gemini-3.7-flash:batch 404s on /chat/completions by design
+#     ("This model is only available through the Batch API"). It was tier 1
+#     of EVERY task, so every call burned an attempt on a certain failure.
+#     Removed from all chat paths; restore only behind /api/beta/batches.
+#   * Direct-provider probe: openai/gpt-5.6 LIVE, openai/gpt-5.5 LIVE,
+#     deepseek LIVE, ANTHROPIC_API_KEY 401 invalid, Google model id 404.
+#
+# So the two frontier tiers that are actually reachable -- and reachable
+# WITHOUT the gateway that just died -- now lead every task. The OpenRouter
+# tiers stay in place beneath them and cost nothing while dead (402 is
+# classified permanent, one skipped call per process).
+#
+# Order:
+#   1. openai/gpt-5.6          (frontier, direct, live)
+#   2. openai/gpt-5.5          (frontier, direct, live)
+#   3+ OpenRouter tiers        (unchanged relative order; blocked on credit)
+#   last. deepseek-chat        (no structured output -- genuine last resort)
+# ═══════════════════════════════════════════════════════════════════════
+
+# ── Tier Declarations ─────────────────────────────────────────────────
+#
+# `kind` selects the wire protocol:
+#   openai_compat       — OpenAI chat/completions shape (all tiers below)
+#   openrouter_preset   — OpenRouter Preset (server-side config via @preset/slug)
+#
+# `capabilities`:
+#   structured_output — can enforce JSON schema via response_format
+#   reasoning         — model emits chain-of-thought (needs token headroom)
+#   streaming         — supports streaming responses
+#   vision            — can process image inputs
+#
+# `cost_tier`: 1 = cheapest, 5 = most expensive (relative, not absolute)
+# `latency_tier`: 1 = fastest, 5 = slowest (relative)
+
+tiers:
+  # ── Tier 1: Gemini 3.7 Flash Batch (cheapest, 50% off via batch) ──
+  - id: openrouter/gemini-3.7-flash-batch
+    provider: OpenRouter
+    kind: openai_compat
+    model: google/gemini-3.7-flash:batch
+    env_keys: [OPENROUTER_API_KEY]
+    base_url: https://openrouter.ai/api/v1
+    capabilities:
+      structured_output: true
+      reasoning: true
+      streaming: false  # batch mode is non-streaming
+      vision: true
+    cost_tier: 1
+    latency_tier: 4  # batch is slower but cheapest
+    max_retries: 1
+    reasoning_headroom_tokens: 2048
+    notes: "Gemini 3.7 Flash batch mode. Half the already-discounted rate. Non-streaming. Use for bulk/batch processing where latency doesn't matter."
+
+  # ── Tier 2: Gemini 3.7 Flash (cheap, fast, multimodal) ──
+  - id: openrouter/gemini-3.7-flash
+    provider: OpenRouter
+    kind: openai_compat
+    model: google/gemini-3.7-flash
+    env_keys: [OPENROUTER_API_KEY]
+    base_url: https://openrouter.ai/api/v1
+    capabilities:
+      structured_output: true
+      reasoning: true
+      streaming: true
+      vision: true
+    cost_tier: 2
+    latency_tier: 1
+    max_retries: 1
+    reasoning_headroom_tokens: 2048
+    notes: "Gemini 3.7 Flash. Multimodal, agentic, multi-step reasoning. Primary workhorse for all task types."
+
+  # ── Tier 3: GPT-5.6 Luna Pro (reasoning mode) ──
+  - id: openrouter/gpt-5.6-luna-pro
+    provider: OpenRouter
+    kind: openai_compat
+    model: openai/gpt-5.6-luna-pro
+    env_keys: [OPENROUTER_API_KEY]
+    base_url: https://openrouter.ai/api/v1
+    capabilities:
+      structured_output: true
+      reasoning: true
+      streaming: true
+      vision: false
+    cost_tier: 1
+    latency_tier: 2
+    max_retries: 1
+    reasoning_headroom_tokens: 2048
+    notes: "Luna with reasoning.mode=pro. Use when Luna's standard mode is insufficient for complex classification."
+
+  # ── Tier 4: GPT-5.6 Luna (cheap high-volume classification) ──
+  - id: openrouter/gpt-5.6-luna
+    provider: OpenRouter
+    kind: openai_compat
+    model: openai/gpt-5.6-luna
+    env_keys: [OPENROUTER_API_KEY]
+    base_url: https://openrouter.ai/api/v1
+    capabilities:
+      structured_output: true
+      reasoning: false
+      streaming: true
+      vision: false
+    cost_tier: 1
+    latency_tier: 1
+    max_retries: 1
+    notes: "Cheap high-volume routing tier for classification, triage, and validation."
+
+  # ── Tier 5: GPT-5.6 Terra Pro (reasoning, higher cost) ──
+  - id: openrouter/gpt-5.6-terra-pro
+    provider: OpenRouter
+    kind: openai_compat
+    model: openai/gpt-5.6-terra-pro
+    env_keys: [OPENROUTER_API_KEY]
+    base_url: https://openrouter.ai/api/v1
+    capabilities:
+      structured_output: true
+      reasoning: true
+      streaming: true
+      vision: false
+    cost_tier: 3
+    latency_tier: 3
+    max_retries: 1
+    reasoning_headroom_tokens: 4096
+    notes: "Terra with pro reasoning. Higher-cost reasoning tier for complex analysis."
+
+  # ── Tier 6: GPT-5.6 Terra (balanced coding/reasoning) ──
+  - id: openrouter/gpt-5.6-terra
+    provider: OpenRouter
+    kind: openai_compat
+    model: openai/gpt-5.6-terra
+    env_keys: [OPENROUTER_API_KEY]
+    base_url: https://openrouter.ai/api/v1
+    capabilities:
+      structured_output: true
+      reasoning: true
+      streaming: true
+      vision: false
+    cost_tier: 3
+    latency_tier: 3
+    max_retries: 1
+    reasoning_headroom_tokens: 4096
+    notes: "Balanced coding/reasoning/agentic work. Between Luna and Terra Pro in cost."
+
+  # ── Tier 7: GLM-5.2 (reasoning) ──
+  - id: openrouter/glm-5.2
+    provider: OpenRouter
+    kind: openai_compat
+    model: z-ai/glm-5.2
+    env_keys: [OPENROUTER_API_KEY]
+    base_url: https://openrouter.ai/api/v1
+    capabilities:
+      structured_output: true
+      reasoning: true
+      streaming: true
+      vision: false
+    cost_tier: 2
+    latency_tier: 3
+    max_retries: 1
+    reasoning_headroom_tokens: 4096
+    notes: "GLM-5.2 via OpenRouter. Reasoning-capable fallback."
+
+  # ── Tier 8: DeepSeek V4 Pro (last resort, no structured output) ──
+  - id: openrouter/deepseek-v4-pro
+    provider: OpenRouter
+    kind: openai_compat
+    model: deepseek/deepseek-v4-pro
+    env_keys: [OPENROUTER_API_KEY]
+    base_url: https://openrouter.ai/api/v1
+    capabilities:
+      structured_output: false  # rejects response_format
+      reasoning: true
+      streaming: true
+      vision: false
+    cost_tier: 1
+    latency_tier: 4
+    max_retries: 1
+    reasoning_headroom_tokens: 4096
+    notes: "Last-resort fallback. No structured output support. Use for free-text tasks only."
+
+  # ═══════════════════════════════════════════════════════════════════
+  # OpenRouter Presets (server-side LLM configurations)
+  # https://openrouter.ai/docs/guides/features/presets
+  #
+  # Presets encapsulate model + system prompt + params + provider routing
+  # into a named slug (@preset/slug). Updated server-side without code changes.
+  # ═══════════════════════════════════════════════════════════════════
+
+  # ── Preset: @preset/discounted ──
+  - id: openrouter/preset-discounted
+    provider: OpenRouter
+    kind: openrouter_preset
+    model: "@preset/discounted"
+    env_keys: [OPENROUTER_API_KEY]
+    base_url: https://openrouter.ai/api/v1
+    preset_slug: discounted
+    capabilities:
+      structured_output: true
+      reasoning: true
+      streaming: true
+      vision: true
+    cost_tier: 1
+    latency_tier: 2
+    max_retries: 1
+    notes: "OpenRouter preset: discounted models. Server-side config controls model selection."
+
+  # ── Preset: @preset/free-models ──
+  - id: openrouter/preset-free-models
+    provider: OpenRouter
+    kind: openrouter_preset
+    model: "@preset/free-models"
+    env_keys: [OPENROUTER_API_KEY]
+    base_url: https://openrouter.ai/api/v1
+    preset_slug: free-models
+    capabilities:
+      structured_output: true
+      reasoning: false
+      streaming: true
+      vision: false
+    cost_tier: 1
+    latency_tier: 2
+    max_retries: 1
+    notes: "OpenRouter preset: free models. Zero-cost tier for low-stakes work."
+
+  # ── Preset: @preset/media-gen ──
+  - id: openrouter/preset-media-gen
+    provider: OpenRouter
+    kind: openrouter_preset
+    model: "@preset/media-gen"
+    env_keys: [OPENROUTER_API_KEY]
+    base_url: https://openrouter.ai/api/v1
+    preset_slug: media-gen
+    capabilities:
+      structured_output: false
+      reasoning: false
+      streaming: true
+      vision: true
+    cost_tier: 3
+    latency_tier: 3
+    max_retries: 1
+    notes: "OpenRouter preset: media generation models."
+
+  # ── Preset: @preset/opensource ──
+  - id: openrouter/preset-opensource
+    provider: OpenRouter
+    kind: openrouter_preset
+    model: "@preset/opensource"
+    env_keys: [OPENROUTER_API_KEY]
+    base_url: https://openrouter.ai/api/v1
+    preset_slug: opensource
+    capabilities:
+      structured_output: true
+      reasoning: true
+      streaming: true
+      vision: false
+    cost_tier: 1
+    latency_tier: 2
+    max_retries: 1
+    notes: "OpenRouter preset: open-source models."
+
+  # ── Preset: @preset/design-agents ──
+  - id: openrouter/preset-design-agents
+    provider: OpenRouter
+    kind: openrouter_preset
+    model: "@preset/design-agents"
+    env_keys: [OPENROUTER_API_KEY]
+    base_url: https://openrouter.ai/api/v1
+    preset_slug: design-agents
+    capabilities:
+      structured_output: true
+      reasoning: true
+      streaming: true
+      vision: true
+    cost_tier: 2
+    latency_tier: 2
+    max_retries: 1
+    notes: "OpenRouter preset: design agent models."
+
+
+# ── Task Declarations ─────────────────────────────────────────────────
+#
+# Each task declares its requirements. The router matches tasks to tiers
+# by capability, then orders by the task's `preferred_tiers` list.
+#
+# `requires`:
+#   structured_output — task will send a JSON schema and needs it enforced
+#   reasoning         — task benefits from or requires chain-of-thought
+#   vision            — task processes images
+#
+# `schema_strict` — send schema with strict=True (schema must be audited clean)
+# `reasoning_headroom_tokens` — extra tokens added to max_tokens for reasoning tiers
+
+
+  # ── Direct-provider tiers (added 2026-08-18) ────────────────────────────
+  # Every tier above routes through OpenRouter. That made OPENROUTER_API_KEY a
+  # single point of failure for the whole enrichment pipeline, and on
+  # 2026-08-18 it failed: the account hit zero credits, all 13 tiers returned
+  # 402 within 1.2s, and re-ingestion was dead. The presets did not help —
+  # they are OpenRouter too, and returned 404 "not found for this account".
+  #
+  # These three speak directly to the provider, so a gateway outage (or a key
+  # pointing at the wrong account) costs nothing. Verified live with a real
+  # completion on 2026-08-18; Anthropic, Groq, and Google keys were present in
+  # .env and all failed auth, so they are deliberately NOT declared here — a
+  # key existing says nothing about it working.
+  - id: deepseek/deepseek-chat
+    provider: DeepSeek
+    kind: openai_compat
+    model: deepseek-chat
+    env_keys: [DEEPSEEK_API_KEY]
+    base_url: https://api.deepseek.com
+    capabilities:
+      structured_output: true
+      reasoning: false
+      streaming: true
+      vision: false
+    cost_tier: 1
+    latency_tier: 2
+    max_retries: 1
+    reasoning_headroom_tokens: 0
+    notes: "DeepSeek direct. Cheapest live tier and independent of OpenRouter."
+
+  - id: openai/gpt-5.6
+    provider: OpenAI
+    kind: openai_compat
+    model: gpt-5.6
+    env_keys: [OPENAI_API_KEY]
+    base_url: null
+    capabilities:
+      structured_output: true
+      reasoning: true
+      streaming: true
+      vision: true
+    cost_tier: 4
+    latency_tier: 2
+    max_retries: 1
+    reasoning_headroom_tokens: 4096
+    notes: "OpenAI direct. The reliable backstop — same key the vector store already uses."
+
+  - id: openai/gpt-5.5
+    provider: OpenAI
+    kind: openai_compat
+    model: gpt-5.5
+    env_keys: [OPENAI_API_KEY]
+    base_url: null
+    capabilities:
+      structured_output: true
+      reasoning: true
+      streaming: true
+      vision: true
+    cost_tier: 3
+    latency_tier: 2
+    max_retries: 1
+    reasoning_headroom_tokens: 4096
+    notes: "OpenAI direct, one step down from gpt-5.6. Last resort before the chain is exhausted."
+
+tasks:
+  # ── Classification: cheap, fast, no reasoning ──
+  - id: document_classification
+    prompt_id: document_classification
+    requires:
+      structured_output: false  # expects JSON but doesn't enforce schema
+      reasoning: false
+    max_tokens: 700
+    temperature: 0.0
+    preferred_tiers:
+      - openai/gpt-5.6
+      - openai/gpt-5.5
+      - openrouter/gemini-3.7-flash
+      - openrouter/gpt-5.6-luna
+    fallback_tiers:
+      - openrouter/gpt-5.6-luna-pro
+      - openrouter/gpt-5.6-terra
+      - openrouter/glm-5.2
+      - openrouter/deepseek-v4-pro
+
+  # ── Content Analysis: reasoning, structured, epistemic ──
+      - deepseek/deepseek-chat
+      - openai/gpt-5.6
+      - openai/gpt-5.5
+
+  - id: disclosure.content_analysis
+    prompt_id: disclosure.content_analysis
+    requires:
+      structured_output: true
+      reasoning: true
+    max_tokens: 1100
+    temperature: 0.15
+    schema_strict: false
+    preferred_tiers:
+      - openai/gpt-5.6
+      - openai/gpt-5.5
+      - openrouter/gemini-3.7-flash
+      - openrouter/gpt-5.6-luna-pro
+      - openrouter/gpt-5.6-terra-pro
+    fallback_tiers:
+      - openrouter/gpt-5.6-terra
+      - openrouter/glm-5.2
+
+  # ── RAG Ingestion: high budget, structured, strict ──
+      - deepseek/deepseek-chat
+      - openai/gpt-5.6
+      - openai/gpt-5.5
+
+  - id: rag_ingestion
+    prompt_id: rag_ingestion
+    requires:
+      structured_output: true
+      reasoning: true
+    max_tokens: 16000
+    temperature: 0.1
+    schema_strict: true
+    preferred_tiers:
+      - openai/gpt-5.6
+      - openai/gpt-5.5
+      - openrouter/gemini-3.7-flash
+      - openrouter/gpt-5.6-terra-pro
+      - openrouter/gpt-5.6-terra
+    fallback_tiers:
+      - openrouter/gpt-5.6-luna-pro
+      - openrouter/glm-5.2
+
+  # ── NER: structured, per-chunk (cost-sensitive) ──
+      - deepseek/deepseek-chat
+      - openai/gpt-5.6
+      - openai/gpt-5.5
+
+  - id: disclosure.ner
+    prompt_id: disclosure.ner
+    requires:
+      structured_output: true
+      reasoning: true
+    max_tokens: 1200
+    temperature: 0.1
+    schema_strict: false
+    preferred_tiers:
+      - openai/gpt-5.6
+      - openai/gpt-5.5
+      - openrouter/gemini-3.7-flash
+      - openrouter/gpt-5.6-luna-pro
+      - openrouter/gpt-5.6-luna
+    fallback_tiers:
+      - openrouter/gpt-5.6-terra
+      - openrouter/glm-5.2
+
+  # ── Validation: cheap, fast, structured JSON expected ──
+      - deepseek/deepseek-chat
+      - openai/gpt-5.6
+      - openai/gpt-5.5
+
+  - id: validation
+    prompt_id: validation
+    requires:
+      structured_output: false  # expects JSON but doesn't enforce schema
+      reasoning: false
+    max_tokens: 900
+    temperature: 0.0
+    preferred_tiers:
+      - openai/gpt-5.6
+      - openai/gpt-5.5
+      - openrouter/gemini-3.7-flash
+      - openrouter/gpt-5.6-luna
+    fallback_tiers:
+      - openrouter/gpt-5.6-luna-pro
+      - openrouter/gpt-5.6-terra
+      - openrouter/glm-5.2
+      - openrouter/deepseek-v4-pro
+
+  # ── Narrative Summary: free text, reasoning helpful ──
+      - deepseek/deepseek-chat
+      - openai/gpt-5.6
+      - openai/gpt-5.5
+
+  - id: narrative_summary
+    prompt_id: disclosure.research
+    requires:
+      structured_output: false
+      reasoning: true
+    max_tokens: 4000
+    temperature: 0.1
+    preferred_tiers:
+      - openai/gpt-5.6
+      - openai/gpt-5.5
+      - openrouter/gemini-3.7-flash
+      - openrouter/gpt-5.6-luna-pro
+      - openrouter/gpt-5.6-terra
+    fallback_tiers:
+      - openrouter/gpt-5.6-terra-pro
+      - openrouter/glm-5.2
+      - openrouter/deepseek-v4-pro
+
+  # ── Coherence Review: cheap, fast ──
+      - deepseek/deepseek-chat
+      - openai/gpt-5.6
+      - openai/gpt-5.5
+
+  - id: coherence_review
+    prompt_id: null  # uses inline prompt, not registry
+    requires:
+      structured_output: false
+      reasoning: false
+    max_tokens: 1200
+    temperature: 0.1
+    preferred_tiers:
+      - openai/gpt-5.6
+      - openai/gpt-5.5
+      - openrouter/gemini-3.7-flash
+      - openrouter/gpt-5.6-luna
+    fallback_tiers:
+      - openrouter/gpt-5.6-luna-pro
+      - openrouter/gpt-5.6-terra
+      - openrouter/glm-5.2
+      - openrouter/deepseek-v4-pro
+
+  # ── Parse Repair: same requirements as parent task ──
+      - deepseek/deepseek-chat
+      - openai/gpt-5.6
+      - openai/gpt-5.5
+
+  - id: parse_repair
+    prompt_id: null  # inherits from parent
+    requires:
+      structured_output: false  # repair runs unconstrained
+      reasoning: false
+    max_tokens: null  # inherits from parent
+    temperature: null  # inherits from parent
+    preferred_tiers: []  # inherits from parent
+    fallback_tiers: []
+
+
+# ── Caching Configuration ─────────────────────────────────────────────
+
+cache:
+  # Dead-tier cache: persisted to disk so new process invocations skip
+  # known-dead endpoints instead of re-probing them.
+  dead_tier_ttl_seconds: 3600  # 1 hour — re-probe dead tiers after this
+  dead_tier_path: ".cache/llm_dead_tiers.json"
+
+  # Schema capability cache: once a tier rejects structured output, skip
+  # the schema attempt on every subsequent call to that tier.
+  schema_capability_ttl_seconds: 86400  # 24 hours — re-test after this
+  schema_capability_path: ".cache/llm_schema_capabilities.json"
+
+
+# ── PDF Processing (OpenRouter file-parser plugin) ────────────────────
+# https://openrouter.ai/docs/guides/overview/multimodal/pdfs
+#
+# OpenRouter supports PDF input on ANY model via the file-parser plugin.
+# The PDF is parsed and text/images are passed to the model. Models with
+# vision: true also receive extracted images (capped at 8 per request).
+#
+# Engines:
+#   mistral-ocr   — Best for scanned docs / PDFs with images ($2/1000 pages)
+#   cloudflare-ai — Converts PDFs to markdown (FREE)
+#   native        — Only for models with native file support (charged as input tokens)
+#
+# If no engine is specified, OpenRouter defaults to the model's native
+# file processing, then falls back to mistral-ocr.
+pdf_processing:
+  default_engine: cloudflare-ai  # free, good for text-based PDFs
+  engines:
+    cloudflare-ai:
+      cost: 0.0
+      best_for: "Text-based PDFs, government documents, research papers"
+    mistral-ocr:
+      cost_per_1000_pages: 2.0
+      best_for: "Scanned documents, PDFs with images, handwritten testimony"
+      image_limit: 8  # OpenRouter caps at 8 images per request
+    native:
+      cost: "input tokens"
+      best_for: "Models with built-in PDF support (Gemini)"
+  # Which tier kinds support PDF input via the file-parser plugin
+  plugin_supported_kinds:
+    - openai_compat  # when provider is OpenRouter
+    - openrouter_preset
+
+
+# ── Global Defaults ───────────────────────────────────────────────────
+
+defaults:
+  temperature: 0.1
+  max_tokens: 1200
+  reasoning_headroom_tokens: 4096
+  backoff_base_seconds: 0.75
+  # When a task's preferred tiers are all dead/unavailable, fall through
+  # to fallback_tiers. When those are also exhausted, use the global
+  # last-resort chain below (any tier, regardless of capability match).
+  last_resort_tiers:
+    - openrouter/glm-5.2
+    - openrouter/deepseek-v4-pro
+    # Direct-provider tail (2026-08-18). The three above all sit behind
+    # OPENROUTER_API_KEY, so a "last resort" that never leaves the failing
+    # gateway is not a last resort at all.
+    - deepseek/deepseek-chat
+    - openai/gpt-5.6
+    - openai/gpt-5.5
+

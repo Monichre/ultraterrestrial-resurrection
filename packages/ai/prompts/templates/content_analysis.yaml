@@ -1,0 +1,57 @@
+id: content_analysis
+version: "2.0.0"
+description: "Document-processing content analysis with Claim extraction and verification status."
+owner: "ai-platform"
+tags: ["analysis", "ufo", "documents", "rag"]
+schema_ref: "schemas/contentAnalysis.schema.json"
+runtime:
+  max_tokens: 1100
+  temperature: 0.15
+variables:
+  - name: "content_type"
+    type: "string"
+    required: false
+  - name: "context_hint"
+    type: "string"
+    required: false
+  - name: "source_text"
+    type: "string"
+    required: false
+prompt: |-
+  You are analyzing {{content_type}} related to UFO/UAP/Disclosure material for document processing prior to NER and RAG indexing.
+
+  ## MISSION
+  Produce a structured assessment that separates source Claims from your Inferences, grades credibility, and flags what must be verified before ingestion.
+
+  ## EPISTEMIC RULES
+  - Wire field `primary_claims` = Claims quoted or closely paraphrased from the source only.
+  - Wire field `key_findings` = short source-grounded signals (dates, actors, instruments, classification marks). Not speculative conclusions.
+  - Wire field `supporting_evidence` / `contradictory_evidence` = source-derived only.
+  - Put analytical judgment in `follow_up_needed` or clearly prefixed notes as Inference — never as Evidence.
+  - Banned: "proves", absolute "confirmed", collapsing unexplained into non-human intelligence.
+  - Exhaust prosaic readings before elevating anomalous frames.
+  - Classification-aware reading: official language may encode bureaucratic caution, not full disclosure.
+
+  ## ANALYSIS FRAMEWORK (by content_type)
+  - Government: authenticity markers, classification/redaction, bureaucratic framing, chain of custody
+  - Witness: role/background as stated, observation conditions, internal consistency, trauma vs fabrication caution
+  - Scientific: methodology, peer review, reproducibility, instrument limits
+  - Media: attribution, circular citation, sensational framing, primary vs secondary
+  - Historical: period context, authentication, precedent value without proof-by-analogy
+  - Technical: sensor modality, performance claims vs physics constraints, metadata integrity
+
+  ## DOCUMENT PROCESSING CHECKS
+  1. Provenance: origin URL/org/date if present; mark Unverified when custody is incomplete.
+  2. Redaction / OCR risk: note illegible or missing spans.
+  3. Duplicate / recycling: flag if text appears to be a remix of a known case narrative without new primary material.
+  4. Admissibility: VERIFIED | PARTIAL | UNVERIFIED | DISPUTED for ingestion triage.
+  5. Next Trace: one decisive verification action in `follow_up_needed[0]` when possible.
+
+  ## OUTPUT
+  Valid JSON only, conforming to schema_ref.
+  Required objects: `content_assessment`, `extracted_data`.
+
+  Optional context: {{context_hint}}
+
+  Source text:
+  {{source_text}}

@@ -1,0 +1,154 @@
+{
+  "status": "error",
+  "classification": {
+    "content_type": "witness",
+    "primary_record_hints": [
+      "KeyFigure",
+      "Sighting",
+      "Testimony",
+      "Organization",
+      "Event"
+    ],
+    "hynek_scaffold": "CE3",
+    "classification_marks_detected": [
+      "missing time",
+      "government records tampering",
+      "physical craft",
+      "beings",
+      "communication"
+    ],
+    "language": "en",
+    "ocr_quality": "n/a",
+    "sensitivity": "public",
+    "ingestion_recommendation": "proceed",
+    "rationale": "The transcript is a firsthand witness account of a close encounter with beings and an abduction at a nuclear missile base in 1964, presented via a podcast interview. Contains clear observational details (CE3) and related claims of government cover-up. Custody is known (published media), so no need for hold.",
+    "confidence": 0.9
+  },
+  "analysis": {
+    "content_assessment": {
+      "primary_claims": [
+        "While on night guard duty at a Minuteman missile, in fog, I saw a shadow, then a man-like figure emerged from the fog. As it got closer, I realized it wasn't human. I could feel it in my mind, and it started grabbing hold of me.",
+        "I had lost time during the event.",
+        "I called into Coast to Coast AM, spoke with Robert Hastings, but the call dropped when he asked about lost time.",
+        "My experience was kept to myself, but reading Whitley Strieber's book made it seem more credible to me.",
+        "I washed out of navigator training due to undiagnosed dyslexia (transposing numbers under pressure), so I opted for guard duty to finish my 13 months.",
+        "I saw a yellow orb track a missile launch (Atlas) in daylight; it tracked it, even after staging, which meant it wasn't a fuel leak."
+      ],
+      "key_findings": [
+        "Witness: Richard Barth, Air Force security guard (air policeman), 4392 Combat Defense Squadron, Vandenberg AFB, 1964.",
+        "Alleged anomalous encounter: non-human figure emerging from fog, mental intrusion, loss of time, and later a separate daytime sighting of a yellow orb tracking a missile.",
+        "The claimed main encounter occurred in September 1964, coincidentally the same month as the Bob Jacobs Atlas missile UFO incident at Vandenberg.",
+        "Witness's background: washed-out navigator, assigned to low-training guard duty, which is corroborated by his detailed missile system knowledge.",
+        "Researcher Robert Hastings vetted Barth by obtaining service records and interviewing three friends who confirmed Barth shared the same details long before public disclosure interest.",
+        "No official military records or reports were presented directly in this source; reliance is on Hastings' verification."
+      ],
+      "supporting_evidence": [
+        "Barth demonstrated extensive technical knowledge of Vandenberg's missile systems (Atlas, Minuteman, Thor, Titan) and launch procedures, consistent with someone stationed there.",
+        "The interviewer claims to have seen Barth's DD-214 service records, and Barth states he provided them to Robert Hastings.",
+        "Hastings, a well-known UFO researcher with a focus on nuclear sites, is described as very thorough and reportedly verified the story with three of Barth's friends.",
+        "Barth states he had no intention of making money from the story, and his initial outreach to researchers was due to perceived credibility."
+      ],
+      "contradictory_evidence": [
+        "No direct, independent sources (e.g., official Air Force records, incident reports) are presented in the transcript; the account relies solely on Barth's testimony and second-hand vetting claims.",
+        "The alleged encounter includes classic abduction elements (lost time, mental contact) that are inherently unverifiable and could be influenced by cultural narratives or memory distortion.",
+        "The coincidence with the Bob Jacobs incident, while noted, is not evidence of the same phenomenon; both incidents require separate rigorous corroboration."
+      ],
+      "follow_up_needed": [
+        "Obtain Richard Barth's official military service records (DD-214) from the National Personnel Records Center or directly from the witness to verify his assignment to Vandenberg AFB as an air policeman in 1964, and to confirm the specific dates of his service.",
+        "Contact Robert Hastings or access his archives to examine the full vetting documentation: service records, interview notes with Barth's friends, and any sworn statements.",
+        "Cross-reference with historical records of UFO incidents at Vandenberg AFB in 1964 (including the Bob Jacobs case) to determine if any official reports, logs, or declassified documents mention similar observations or oddities.",
+        "Interview additional colleagues or superiors from Barth's unit to independently assess his credibility and the likelihood that his account could be fabricated or misremembered over decades."
+      ],
+      "content_type": "witness_interview",
+      "provenance": {
+        "source": "American Alchemist podcast, host Jesse, YouTube video (https://www.youtube.com/watch?v=Qe8br8yYEDM), transcript truncated, date of interview unknown.",
+        "custody": "Original witness account via podcast; no chain of custody for the service records beyond mention of Hastings."
+      },
+      "admissibility": "PARTIAL - Witness account, partially corroborated by a known researcher's vetting process, but lacking direct release of official documents in this source. Extraordinary claims require independent verification before full ingestion."
+    },
+    "extracted_data": {
+      "people": [
+        {
+          "name": "Richard Barth",
+          "role": "Air Force security guard (air policeman), 4392 Combat Defense Squadron, Vandenberg AFB, 1964. Washed out of navigator training (undiagnosed dyslexia)."
+        },
+        {
+          "name": "Robert Hastings",
+          "role": "UFO researcher, author of 'UFOs and Nukes', who vetted Barth's story and recorded it."
+        },
+        {
+          "name": "Bob Jacobs",
+          "role": "Photo instrumentation lead at Vandenberg AFB, September 1964; filmed Atlas missile launch and alleged UFO interaction."
+        },
+        {
+          "name": "Robert Salas",
+          "role": "Former Air Force officer, involved in the 1967 Malmstrom AFB missile shutdown incident."
+        }
+      ],
+      "events": [
+        {
+          "name": "Richard Barth's close encounter",
+          "date": "September 1964",
+          "location": "Vandenberg AFB, California, on guard duty at a Minuteman missile",
+          "description": "Witness saw a non-human figure emerge from fog, felt mental contact, experienced lost time, and later recalled being on a flying saucer over the base receiving a message."
+        },
+        {
+          "name": "Yellow orb tracking missile",
+          "date": "Approximately May 1964",
+          "location": "Vandenberg AFB, California",
+          "description": "Barth observed a yellow orb track an Atlas missile launch in daylight, even after staging."
+        },
+        {
+          "name": "Bob Jacobs Atlas missile UFO incident",
+          "date": "September 1964",
+          "location": "Vandenberg AFB, California (filmed from Big Sur)",
+          "description": "Jacobs filmed a dummy warhead being circled and struck by a light beam from an unidentified object; records of his employment were later denied."
+        }
+      ],
+      "locations": [
+        {
+          "name": "Vandenberg Air Force Base",
+          "description": "US military base in California, used for missile testing, Pacific test range.",
+          "coordinates": null
+        }
+      ],
+      "dates": [
+        "1964",
+        "September 1964",
+        "May 1964 (approximate)"
+      ],
+      "artifacts": [
+        {
+          "type": "Service records",
+          "description": "Richard Barth's DD-214, provided to Robert Hastings, claimed to show his assignment to Vandenberg AFB."
+        },
+        {
+          "type": "Vetting documentation",
+          "description": "Robert Hastings' records of interviews with Barth and three friends, not publicly presented in the source."
+        }
+      ],
+      "narratives": [
+        "A former Air Force guard stationed at Vandenberg AFB in 1964 claims a close encounter with a non-human entity during guard duty, accompanied by lost time and a message related to nuclear weapons.",
+        "The same witness also reports observing a yellow orb tracking a missile launch earlier in 1964.",
+        "The host connects Barth's story to the Bob Jacobs case in the same month, suggesting coordinated UFO surveillance of nuclear testing."
+      ]
+    }
+  },
+  "ingestion": {},
+  "chunks": [],
+  "ner_results": [],
+  "embeddable_texts": [],
+  "metadata": {
+    "provenance": "https://www.youtube.com/watch?v=Qe8br8yYEDM",
+    "filename_hint": "Meet the Nuclear Missile Guard Abducted by Aliens",
+    "prompts_dir": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/ai/prompts"
+  },
+  "errors": [
+    "All LLM providers failed (anthropic/claude-sonnet-5: skipped (HTTP 400); anthropic/claude-opus-4-8: skipped (HTTP 400); deepseek/deepseek-v4-pro: BudgetExhausted: deepseek/deepseek-v4-pro: max_tokens=4096 consumed before any answer was emitted (reasoning=True); raise max_tokens; together/kimi-k3: BudgetExhausted: together/kimi-k3: max_tokens=4096 consumed before any answer was emitted (reasoning=True); raise max_tokens; openai/gpt-5.5: skipped (HTTP 401); groq/gpt-oss-120b: skipped (HTTP 401))"
+  ],
+  "prompts_used": [
+    "document_classification",
+    "disclosure.content_analysis",
+    "rag_ingestion"
+  ]
+}

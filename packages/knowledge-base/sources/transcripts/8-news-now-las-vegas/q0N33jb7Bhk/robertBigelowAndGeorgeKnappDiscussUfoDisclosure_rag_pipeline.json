@@ -1,0 +1,2048 @@
+{
+  "status": "ok",
+  "classification": {
+    "content_type": "mixed",
+    "primary_record_hints": [
+      "Testimony",
+      "KeyFigure",
+      "Event",
+      "Sighting",
+      "Topic"
+    ],
+    "hynek_scaffold": null,
+    "classification_marks_detected": [],
+    "language": "English",
+    "ocr_quality": "n/a",
+    "sensitivity": "public",
+    "ingestion_recommendation": "proceed",
+    "rationale": "Transcript of an interview/conversation between Robert Bigelow and George Knapp discussing UFO disclosure, Bigelow's meeting with President Trump, and historical UFO cases. Contains elements of witness testimony and media interview.",
+    "confidence": 0.95
+  },
+  "analysis": {
+    "content_assessment": {
+      "content_type": "Media",
+      "source_provenance": "Transcript of a recorded interview (optional context: https://youtu.be/q0N33jb7Bhk). Speaker identified as Robert Bigelow based on contextual clues (AATIP, Skinwalker Ranch, DIA clearance).",
+      "credibility_grade": "PARTIAL",
+      "redaction_ocr_risk": "Transcript includes speech disfluencies ([clears throat], [snorts], [music]). No major redactions or illegible spans noted.",
+      "duplicate_recycling": "Contains references to well-known historical cases (Roswell, Phoenix Lights, Belgian UFO wave) but frames them within a new first-hand account of a presidential briefing.",
+      "admissibility": "PARTIAL",
+      "follow_up_needed": [
+        "Verify the date of the Oval Office meeting (stated as Jan- or February 6th) and attendees (William Scharf, Susie Wiles) against White House visitor logs or official schedules.",
+        "Cross-reference Bigelow's account of Harry Reid's conversation with Bill Clinton against Reid's memoir or other public statements.",
+        "Verify the existence and scope of the AATIP/BAS program under DIA and Bigelow's specific role and clearance level."
+      ]
+    },
+    "extracted_data": {
+      "primary_claims": [
+        "I was in the Oval Office with the president... Jan- or February the 6th... there was a staff secretary by the name of William Schärf... who was also there with the president, myself.",
+        "I told him I wanted him to say verbatim... A non-human intelligent presence has been on Earth for a very long time. Using spacecraft and with performances completely beyond our capabilities and our human physics.",
+        "Harry Reid... verified with Bill Clinton that he didn't know about the subject... President Clinton said to him... before I leave office, there are two things I really want to know. What the hell is the UFO subject all about? And who really killed JFK?",
+        "He [Pappy Henderson] was one of the pilots of one of the cargo planes taking from Roswell in the crash retrieval of Roswell in '47.",
+        "I think Bush senior knew quite a bit because he was a head of CIA. I think Nixon did. I think Eisenhower did.",
+        "I related conversations I have had with General De Brouwer who was a chief of the Air Force for Belgium and there was a very interesting flap that it was about 18 months long with triangle triangular craft.",
+        "The one with Fife Symington is in '97 was so interesting because there you had a governor who was an actual witness... Phoenix lights which weren't just lights. It was actually freaking craft.",
+        "It [AATIP/BAS] operated under the DIA... It's the largest accumulation of UFO info of any government-funded UFO program ever.",
+        "They will not know anything about unacknowledged SAPs, for sure. And only on a really serious need-to-know basis would they have anything to do with acknowledged SAPs.",
+        "We have no ability to control anything [regarding UAPs]. We haven't been in control of anything, ever, for this 80 years of modern history."
+      ],
+      "key_findings": [
+        "Meeting date stated as Jan- or February 6th during the Trump administration.",
+        "Meeting attendees: Robert Bigelow, President Trump, William Scharf (Staff Secretary), Susie Wiles (mentioned as advising Bigelow).",
+        "Bigelow presented 7 reports to the President, one specifically on UAP/ET/disclosure.",
+        "Bigelow states he held TS/SCI clearance for the AATIP/BAS program under DIA.",
+        "Bigelow references unacknowledged Special Access Programs (SAPs) and claims presidents are not entitled to know about them.",
+        "Historical figures mentioned in relation to UFO knowledge: Harry Reid, Bill Clinton, George H.W. Bush, Richard Nixon, Dwight Eisenhower.",
+        "Bigelow describes 'gatekeepers' in government and private corporations who hold custody of UFO/ET information and hardware."
+      ],
+      "supporting_evidence": [
+        "Bigelow cites Harry Reid's direct interaction with Bill Clinton regarding Clinton's interest in UFOs and JFK.",
+        "Bigelow cites Sappho Henderson's account of her husband Pappy Henderson's role in the Roswell crash retrieval.",
+        "Bigelow cites General De Brouwer's account of the Belgian UFO wave.",
+        "Bigelow cites Fife Symington's witness status during the Phoenix Lights."
+      ],
+      "contradictory_evidence": [
+        "Bigelow states Clinton didn't know about the subject, but also says 'I think Bush senior knew quite a bit... I think Nixon did. I think Eisenhower did,' indicating varying levels of presidential knowledge across administrations."
+      ]
+    }
+  },
+  "ingestion": {
+    "document": {
+      "title_guess": "Robert Bigelow Interview on UAP Disclosure and Presidential Briefing",
+      "content_type": "interview_transcript",
+      "language": "en",
+      "provenance": "https://youtu.be/q0N33jb7Bhk",
+      "integrity_flags": [
+        "transcript_speaker_tags",
+        "filler_words_present",
+        "truncated_for_pipeline"
+      ]
+    },
+    "chunks": [
+      {
+        "chunk_id": "c01",
+        "heading_path": "Intro and Context of Disclosure",
+        "text": "[music] >> Robert, you've spent I don't know how many years and how many millions of dollars, probably more money than any person in the history of the world pursuing topics of mutual interest. You've been at this even longer than I have, which is an awful long time. >> I think it even started in a past life for me. I don't know, it's been a very long time. >> Uh you know, at the beginning, when I first knew you back in the late '80s, uh the idea of disclosure was such a far-off concept. It really wasn't even >> No, we're trying to figure out what what's real, what do people know, what do we need to know, but the idea of someone announcing disclosure, whether that's the president or the pope or something like that, was just such a far away idea. It's not >> subject was was made fun of. It was a joke. >> Yeah. >> And mostly by the a lot of the media propagated that. >> Right. >> Right? >> Right. I've been on the receiving end of that, and you have, too. >> But now it's not so far away >> anymore. I mean, the idea of disclosure is being discussed earlier this year, the president issued a directive, said start releasing information on these files. Now, it's been a little disappointing what's been released so far, and I don't know who's in charge of what gets released, but at least it's happened, and he's acknowledged that it's something he wants to share with the public. That's an amazing step to come that far.",
+        "token_estimate": 280,
+        "overlap_note": "precedes discussion of Oval Office meeting",
+        "entities_hint": [
+          "Robert Bigelow",
+          "President"
+        ],
+        "claims_hint": [
+          "Disclosure was a far-off concept in the late 80s",
+          "President issued a directive to release information earlier this year",
+          "Releases so far have been disappointing"
+        ],
+        "temporal_anchors": [
+          "late '80s",
+          "earlier this year"
+        ],
+        "spatial_anchors": [],
+        "evidentiary_density": "medium",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c02",
+        "heading_path": "Oval Office Meeting and Proposed Statement",
+        "text": "But you had a chance to speak directly with the president and urged him to go even further earlier this year. When did that happen? >> So, I was uh I was in the process for for um several months putting together a series of reports on seven different topics. And UAPs, ET, and disclosure was one of the topics. And so, um when [clears throat] I was ready, I uh asked to see him. And so, Jan- or February the 6th, I was in the Oval Office with the president, and there was a staff secretary by the name of William Schärf, S C H A R F, who uh was also there with the president, myself, and um I had uh concerns about dumping so much information on him at one time. And I asked Susie, um >> Susie Wiles? >> Susie Wiles, should I really hold shouldn't I hold back and maybe only give him two or three papers? And uh she said, \"No.\" She said, \"Go ahead and and give him everything. Uh I can tell you this, it may take him a while, but he will eventually read it all.\" So, I said, \"Okay, I'll do it.\" >> You don't know how much time you got with him. >> I haven't a clue. I figured it's probably more than 30 minutes, but I don't know. And as it turned out, I I we were finished in about an hour and 15 or 20 minutes. And but I could have taken 2 days, cuz these were complex subjects. And on the um disclosure UAP ET subject, which is always great fun to talk about, uh that's a really important one. It's super important. >> What what was your goal going in? What was the one thing you wanted to convey [clears throat] to him on that topic uh that what that you wanted to come out and have him understand? >> In such a short period of time, I only had an average of like 11 minutes per paper to talk about a paper. Um I wish I had had a lot more, but I let me let me read to you something I I told him I wanted him to say verbatim. And I described where he should say it, not at where a podium existed, and a lot of media existed, but I said, \"I want you to, for example, deliver this statement a- as you're getting onto Air Force Air Force One, and you're about to go through the the hatchway, through the door, uh but you stop and talk to the media, and you might say something like, uh, I just want you to hear something. I want to make a statement. And I would said, And this is what I want you to say, Mr. President. A non-human intelligent presence has been on Earth for a very long time. Using spacecraft and with performances completely beyond our capabilities and our human physics. And that's it. To say nothing else. That's it. That's all. Because what this is is disclosure and and you're it's actually confirmation. And and the two are well welded together. These are wedded together. And and confirmation has not been, uh, officially made by any president that I know of and that is not they've they've had different kinds of contact, conversations, and so forth.",
+        "token_estimate": 530,
+        "overlap_note": "follows intro; precedes Clinton/Reid discussion",
+        "entities_hint": [
+          "Robert Bigelow",
+          "Donald Trump",
+          "William Schärf",
+          "Susie Wiles",
+          "Air Force One",
+          "Oval Office"
+        ],
+        "claims_hint": [
+          "Bigelow met Trump in Oval Office on Feb 6th",
+          "Bigelow gave Trump 7 reports including one on UAPs/ET",
+          "Bigelow suggested Trump say 'A non-human intelligent presence has been on Earth for a very long time'",
+          "Confirmation has not been officially made by any president"
+        ],
+        "temporal_anchors": [
+          "Jan- or February the 6th",
+          "several months"
+        ],
+        "spatial_anchors": [
+          "Oval Office",
+          "Air Force One"
+        ],
+        "evidentiary_density": "high",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c03",
+        "heading_path": "Presidential Knowledge and Harry Reid/Bill Clinton",
+        "text": "And, uh, a really good close friend of mine verified, uh, Harry Reid, who he and I were very good friends for many, many years, verified with Bill Clinton that he didn't know about the subject and this was, I think, in his second term. And, uh, there was a staffer that wrote a book and he referred to a conversation that he and and the Bill Clinton had had President Clinton had and it just it involved, um, when President Clinton said to him, uh, before I leave office, there are two things I really want to know. What the hell is the UFO subject all about? And who really killed JFK? >> Yeah, his aide was Webb Hubble, who got the assignment to go dig into those. >> Yes. >> And he didn't get the answers. >> So, Harry took the book. So, I gave him the book and I showed him where on page was so-and-so had said that. So, he he met with with the President Clinton. He said, \"Did you say this?\" And Clinton said, \"Hell, yes. Would you like to know the the answers to those two things, you know?\" He said, \"Absolutely, you know, I would.\" >> I mean, the sense that we have after digging into this topic for a long time, presidents come and presidents go, and they have varying degrees of interest in the topic, and various varying degrees of knowledge of it, right? If they don't push it, they're not going to find out. Is that your sense of it? >> Absolutely. Absolutely. They have to Somebody [clears throat] has to be the the driving horse to pull that wagon, and it's and it can't let go.",
+        "token_estimate": 280,
+        "overlap_note": "follows Oval Office meeting; precedes SAPs discussion",
+        "entities_hint": [
+          "Harry Reid",
+          "Bill Clinton",
+          "Webb Hubble"
+        ],
+        "claims_hint": [
+          "Harry Reid verified with Bill Clinton that he didn't know about the subject",
+          "Clinton wanted to know about UFOs and who killed JFK before leaving office",
+          "Webb Hubble was assigned to dig into those topics",
+          "Presidents must push to find out about the topic"
+        ],
+        "temporal_anchors": [
+          "Clinton's second term"
+        ],
+        "spatial_anchors": [],
+        "evidentiary_density": "high",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c04",
+        "heading_path": "Unacknowledged SAPs and Clearances",
+        "text": "And I I suppose even if they do press press it and push it, they don't necessarily get briefed. >> Oh, well, they will not have anything to do They will not know anything about unacknowledged SAPs, for sure. And only on a really serious need-to-know basis would they have anything to do with acknowledged SAPs. You know, TS/SCI is nowhere near close enough. You know, that was that was only clearances that we had, top secret special compartmental information. Uh that's not even remotely close enough. >> Well, let's go back to Donald Trump. You know him. I mean, it's not like you're hanging out and going bowling on Saturday nights, but you're friends. You you've supported him over the years, a lot of money, a lot of donations in his campaigns. You know him. You've been to Mar-a-Lago. He calls you from time to time. So, the chance to sit down and talk with him on this topic, this is the first time you've talked to him about it, right? >> Well, it was a big honor to be in the Oval Office on and and being able to brief him on so many different kinds of really sensitive important topics, and including this one. And it was it was a lot of fun. >> We we'll come back to the other topics at some point in the future conversations. I hope this is the first of many that we have. Uh but you you prepare a document for him, and what you want to convey in that time period, and then there's additional material in that document. Like what? What'd you have in there? >> Well, so first I said, \"Okay, we got to clear We we we, you know, the Resolute Desk is a very famous desk, and that's what he was sitting behind. I said, \"We're going to have to clear all half of this stuff off the desk.\" So, William, the other the the the staff secretary there, uh we started we we were grabbing things and and sorry. Uh we were grabbing things and uh so we were we we made room for these seven different stacks of reports that I'm leaving behind. They were more than just one copy.",
+        "token_estimate": 370,
+        "overlap_note": "follows Clinton/Reid; precedes gatekeepers",
+        "entities_hint": [
+          "Donald Trump",
+          "Robert Bigelow",
+          "William Schärf",
+          "Mar-a-Lago",
+          "Oval Office",
+          "Resolute Desk"
+        ],
+        "claims_hint": [
+          "Presidents will not know about unacknowledged SAPs",
+          "TS/SCI clearance is not close enough to access this information",
+          "Bigelow and Trump are friends",
+          "Bigelow has supported Trump with donations",
+          "Bigelow cleared the Resolute Desk to make room for 7 stacks of reports"
+        ],
+        "temporal_anchors": [],
+        "spatial_anchors": [
+          "Mar-a-Lago",
+          "Oval Office",
+          "Resolute Desk"
+        ],
+        "evidentiary_density": "high",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c05",
+        "heading_path": "Gatekeepers and Secrecy",
+        "text": "And so, um so that's how it started and um and we got into to the topic about um >> [snorts] >> the UAP topic and and [clears throat] disclosure and um we had um I remember talking at some time about um the gatekeepers. So, this disclosure is a process and I and I was I was emphasizing that the disclosure process starting [clears throat] with confirmation is a big deal that that you know that really is important for somebody like the President of the United States to say, \"Yeah, they're real. They're here.\" And eliminate all the other nonsense, all the noise that's been going on for 80 years. Um And >> [clears throat] >> so I wanted him to focus on gatekeepers. Um and I emphasized these people because they're the ones that are in government locations and private corporation locations that have spent [clears throat] their substantial lives or or careers um working in in very uh secluded [clears throat] environments um and they have custody of the goods. More information >> [clears throat] >> than they are diamonds in a coal mine. They have um they have obtained information about ET themselves. Uh about hardware. Um other countries are working on this exact same thing. So, you have to be careful not to talk about things that would give other people advantages and so on. And uh the gatekeepers I've I've told people that they're a heroes of a different kind. A lot of people would laugh at that, but it's true. It's true. Um they [snorts] go to their graves taking information that they their spouses uh have never heard. Their children have never heard. They can't talk about it to any any friend. Um so, um they're isolated about that. And and after a while, I think that must be a burden, you know, to to hold those kinds of secrets.",
+        "token_estimate": 330,
+        "overlap_note": "follows Resolute Desk; precedes Henderson story",
+        "entities_hint": [
+          "President of the United States",
+          "gatekeepers"
+        ],
+        "claims_hint": [
+          "Disclosure is a process starting with confirmation",
+          "Gatekeepers in government and private corporations have custody of goods/hardware",
+          "Gatekeepers keep secrets their whole lives, even from spouses",
+          "Other countries are working on this exact same thing"
+        ],
+        "temporal_anchors": [
+          "80 years"
+        ],
+        "spatial_anchors": [
+          "government locations",
+          "private corporation locations"
+        ],
+        "evidentiary_density": "high",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c06",
+        "heading_path": "Sappho Henderson and Roswell",
+        "text": "I remember uh I I I was I was talking to Sappho Henderson one time. And Pat Pappy Henderson was her husband. And she said, \"Well, we were [clears throat] in the grocery store one time. And uh he's and there's an article in there in one of the magazines about it's finally been revealed about ETs and aliens.\" And they're in the line, you know, getting their groceries. And he says, \"Oh my god, Saffi.\" He says, uh \"I can I can I guess it's out now. I can actually tell you what I've been doing all these years.\" He was one of the pilots of uh one of the cargo planes taking uh from Roswell uh in the in the crash retrieval of of Roswell in '47. And so, uh and then um she said to me, \"Well, later uh and her daugh- daughter was there, too, as we were talk- she was relating the story. He had since passed away. But she said it was so funny because uh he says, \"I wasn't I wasn't supposed to know that because the article really wasn't an exposé of a fact and of truth.\" >> It was like the Weekly World News talking about Roswell. >> story to get attention, so you're buying the magazine, you know, uh, where you you check out. And so, and he he said, \"Oh, well.\" He said, \"God.\" He said, \"I probably shouldn't have.\" He said, \"I guess it was just something that that it was out there in the magazine and I shouldn't have told you anything. So, don't say anything to anybody.\" But, that was that was really my first realization about how, um, how private that information [clears throat] is kept with everybody involved, you know, for for unacknowledged and acknowledged SAPs.",
+        "token_estimate": 330,
+        "overlap_note": "follows gatekeepers; precedes advising Trump",
+        "entities_hint": [
+          "Sappho Henderson",
+          "Pappy Henderson",
+          "Roswell",
+          "Weekly World News"
+        ],
+        "claims_hint": [
+          "Pappy Henderson was a pilot for the Roswell crash retrieval in '47",
+          "He told his wife about it after seeing a magazine article",
+          "Information is kept very private for unacknowledged and acknowledged SAPs"
+        ],
+        "temporal_anchors": [
+          "'47"
+        ],
+        "spatial_anchors": [
+          "Roswell",
+          "grocery store"
+        ],
+        "evidentiary_density": "high",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c07",
+        "heading_path": "Advising the President and Information Reliability",
+        "text": "Let's go back to the beginning of this meeting. So, you go in you've got seven papers you issues that you want to discuss with him. UAP, ET disclosure being one of them. You walk into the office, you don't know how much time you're going to have and for purposes of our conversation, you can't tell me and our listeners, you can't say what the president said, right? >> No, I can't. >> So, you can only tell me what you told him, but you you go into it with an idea of not just things in the sky floating around, some mystery. We've got the goods. Somewhere there are crashes. Do you tell him that there are bodies, that there are crash retrieval vehicles from of unknown origin or how specific do you get on that? >> Um, I I basically I focused on him. And how to prepare himself if he's not already prepared. And it's not normal for for a businessman >> [clears throat] >> to be a researcher in these kinds of topics, you know, survival of consciousness beyond permanent bodily death or UFOs and ETs. That's not normal. And so, um, I was advising him to [clears throat] try to be as quick a study as he can because he's going to be getting advice from a lot of different folks. And, um, so he needs to do all that he can to to find responsible material to read. Um, from really good good authors and and reliable reliable uh books that that uh you can trust. >> And government agencies, the people who work for him. >> [clears throat] >> And that's that's tough, yes, because um, because they can be distant from So, it depends on on whether they've heard it second hand, first, second, third, or fourth hand, fifth hand. First hand would be you you've actually experienced it yourself. But are you third hand or fourth hand or what how far down the chain uh are you in terms of the information that's been relayed to you and how much is that conversation changed as it's been passed on and passed on from person to person? Um, and really if you got to just a short glimpse of something going down a hallway looking into a window or somewhere where normally you shouldn't have been maybe, but you were escorted by a friend. And maybe you saw something that um was dramatic, but all you saw was the tip of an iceberg. You really didn't understand the fundamentals of what you saw. You might have saw a being or you might have seen a structure. And so, it's tricky as to when you're talking to to human beings about anything. It's tricky as to as to what they're revealing.",
+        "token_estimate": 430,
+        "overlap_note": "follows Henderson; precedes trust in military",
+        "entities_hint": [
+          "Donald Trump"
+        ],
+        "claims_hint": [
+          "Bigelow advised Trump to be a quick study",
+          "Information can be first-hand or relayed down a chain",
+          "Witnesses may only see the tip of the iceberg",
+          "It is tricky to know what human beings are revealing"
+        ],
+        "temporal_anchors": [],
+        "spatial_anchors": [],
+        "evidentiary_density": "medium",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c08",
+        "heading_path": "Trust in Admirals/Generals vs Politicians",
+        "text": "All right, you you're conveying to him this is real. You need to pay attention to it. You should probably make an announcement at some point, but don't go too far. And you're conveying to him it's serious and that there have been people who've been keeping this secret for a long time, including probably from him. I mean, he's made statements here and there, offhanded remarks about UFOs, etc. >> He's not entitled to know. On unacknowledged SAPs or even unacknowledged SAPs, basically president of the United States and this [clears throat] is this is kind of rough because um this this field has more trust in 30-year admirals and generals. I mean, that's just everybody kind of knows that that's been around. Um politicians come and they go. And um and so 30-year admirals and generals are are much more in the eyes of folks people who will stay the course because they're not running for an election, they're not going to be here just for 4 years or 8 years or if they're a senator for a term of 6 or 12 or 18 or whatever. Um but and they're not their life is not to please the public. It's not their life isn't compromised by being a politician. So admirals and and generals >> and intelligence agency >> officers, of course. Of course. But um they're not trying to please the public all the time. They're not trying to to try to find compromises between very two very diverse uh large groups of folks and trying to make as many people happy as they can.",
+        "token_estimate": 260,
+        "overlap_note": "follows advising Trump; precedes past presidents",
+        "entities_hint": [
+          "President of the United States",
+          "admirals",
+          "generals",
+          "intelligence agency officers"
+        ],
+        "claims_hint": [
+          "President is not entitled to know about unacknowledged SAPs",
+          "The field trusts 30-year admirals and generals more than politicians",
+          "Military officers stay the course and are not compromised by politics"
+        ],
+        "temporal_anchors": [
+          "4 years",
+          "8 years",
+          "6 or 12 or 18"
+        ],
+        "spatial_anchors": [
+          "White House"
+        ],
+        "evidentiary_density": "high",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c09",
+        "heading_path": "Past Presidents' Knowledge and UFO Cases",
+        "text": "So you're conveying to him there are people who know about this stuff that have not told you because you're a a temporary occupant of the White House. I don't think you want to say it that way, but >> Well, it's as as true. >> Do you have a sense that he'd ever been briefed? We've read conflicting reports that there have been briefings for him on this topic. You can't quote what he told you, but did you get a sense that he'd ever been told about the goods? >> I can't comment really on body language or comments that he said or anything like that because it's I don't want to do that to him. >> Right. >> I don't want to I don't want to reveal anything. Maybe it's not my business. I was just a messenger. I was just kind of a person that's uh trying to give him information on a number of different topics. All of them were important and um that's it. And had my 75 minutes and I'm done. >> Would you guess based on what you know about the topic and how it's been handled over the decades, would you guess that he had been briefed or that any other president had been briefed? You know that Bill Clinton was not even though he expressed an interest in it. So, at some point the president has to be told no, we can't tell you. >> I think Bush senior knew quite a bit because he was a head of CIA. I think uh Nixon did. Um I think Eisenhower did. Um >> [clears throat] >> So, it's it's kind of hit and miss over historic over the period of history as to who has and who hasn't. >> Can you tell us what would be in the briefing document that you left behind? Was it cases? Here's a wave of UFOs. Here's a case. Here was a crash. Anything like that? >> Yeah, I yeah, I I uh related [clears throat] uh conversations I have had with General De Brouwer who was a chief of the Air Force for Belgium and there was a very interesting flap that it was about 18 months long with triangle triangular craft. And uh he was in command of all the Air Force and he really chased the heck out of these and and he told me he said, \"Bob, you you just it it I'm just burning fuel and it and it makes no sense.\" He said, \"I we're going to stop because we're not getting anywhere. All we're doing is getting closer, you know, photographs and things, but we're not getting anywhere. We don't we're not we're not getting [clears throat] any information that is really valuable for us to understand anything. You know, and I gave him other examples of where large amounts of witnesses were involved and so that he could read about these particular incidences. Um And and and and of course the one with Fife Symington is in '97 was so interesting because there you had a governor who was an actual witness and he made a joke of it on and brought an alien guy in an alien suit on stage because he was scared to death. >> It's the Phoenix lights case. >> Phoenix lights which weren't just lights. It was actually freaking craft and it came from Northern Arizona. I think it started actually in Southern Nevada is where the craft began and in the Henderson area, I think, somewhere in there. And so you see this huge triangular craft, gigantic craft going slowly and he was scared to death but finally fast forward 10 years later and he confesses that he was an eyewitness but he didn't know what to do. So he was there at a point in time when the dynamic of disclosure could have been forced and and actually confirmation could have been from a governor of the state like that. He was a credible guy. So we've had many incidences like that where they in the early '50s flying over the White House and the Capitol building. We've had so many of those. So I in my report I included a lot of very dramatic beyond a reasonable doubt kind of witnesses of of exhibitions.",
+        "token_estimate": 600,
+        "overlap_note": "follows trust in military; precedes AATIP",
+        "entities_hint": [
+          "Bush senior",
+          "Nixon",
+          "Eisenhower",
+          "General De Brouwer",
+          "Belgium",
+          "Fife Symington",
+          "Phoenix lights",
+          "Northern Arizona",
+          "Southern Nevada",
+          "Henderson",
+          "White House",
+          "Capitol building"
+        ],
+        "claims_hint": [
+          "Bush senior knew quite a bit because he was head of CIA",
+          "Nixon and Eisenhower also knew",
+          "Belgium had an 18-month flap with triangular craft",
+          "General De Brouwer chased them but stopped because it was burning fuel",
+          "Fife Symington was governor during Phoenix Lights and was an eyewitness",
+          "Phoenix lights were a huge triangular craft",
+          "Early 50s had craft flying over White House and Capitol"
+        ],
+        "temporal_anchors": [
+          "'97",
+          "early '50s",
+          "18 months long",
+          "10 years later"
+        ],
+        "spatial_anchors": [
+          "Belgium",
+          "Northern Arizona",
+          "Southern Nevada",
+          "Henderson",
+          "White House",
+          "Capitol building"
+        ],
+        "evidentiary_density": "high",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c10",
+        "heading_path": "AATIP, Skinwalker Ranch, and Non-Human Intelligence",
+        "text": "Did you share with him anything about your knowledge of classified program? You you got a top secret security clearance, right? >> Yeah. >> It was for the AATIP program for BAS. >> Right. >> Operated under the DIA. >> Yeah. >> You learned a lot during that program. It's the largest accumulation of UFO info of any government-funded UFO program ever. >> Yeah. >> You didn't tell him about it. >> It wasn't [clears throat and snorts] credible enough, I felt, for him. Um Uh it's just something pertaining to me. And uh whereas these other examples are historic and they're in a a lot of literature. They're very famous. The witnesses and the the amount of witnesses were huge. Uh we operated under um a private situation with the Skinwalker Ranch. And um he wouldn't relate to well, we all had hitchhikers. We all had took things home with us. You know, we all saw a lot of stuff. Uh whether it was at the ranch or where we lived and it make any make any difference where in the United States we lived. Uh we we we saw a lot of things. And but that wouldn't be relevant for him to be able to relate to that, right? >> Well, >> So, why talk about it? >> Yeah, I mean, you know, you're kind of jumping into the deep end of the pool when you get into hitchhikers and Skinwalker. And maybe for your first big conversation on this topic, that might not be the place to go. >> You know, and I I didn't even I couldn't even say if he said, \"I need a beer.\" I I couldn't even [laughter] give him a something to drink, you know, maybe stronger than that. So, I didn't want to do any you know >> Um you you did you used the term non-human intelligence in the sentence you gave him, \"Hey, try this in the as you're climbing aboard Air Force One, say that to media and then, you know, close the door.\" >> Right. >> You said non-human intelligence, not ET. Are they the same? And and it and did you share anything with him about what you think it is? >> Well, there have been reports of humans on [clears throat] board. Right? But the non-human are more interesting. I mean, if a human's on board and and he or she has free reign of the craft, that's pretty damn interesting, right? But and you don't know where those people are when they're not on board. So, but the other ones uh are some are scary. You you some uh it's not surprising that in the universe everything's going to look like us. Every every intelligent organism is going to look like us. Um but you have to have it's also a matter of respect for any really intelligent animal or or and and creature or whatever it is, right? And the more advanced the more respect because you don't know what they know. And you don't you don't know the future and they may know they may know more than just the now.",
+        "token_estimate": 480,
+        "overlap_note": "follows UFO cases; precedes second conversation",
+        "entities_hint": [
+          "AATIP",
+          "DIA",
+          "Skinwalker Ranch",
+          "Air Force One"
+        ],
+        "claims_hint": [
+          "Bigelow had top secret clearance for AATIP/DIA",
+          "AATIP is largest accumulation of UFO info",
+          "Bigelow didn't share AATIP/Skinwalker info with Trump because it wasn't credible enough for him",
+          "They had hitchhikers and saw things at the ranch and home",
+          "Non-human intelligence is not necessarily ET",
+          "Reports of humans on board craft",
+          "Need to have respect for advanced intelligent creatures"
+        ],
+        "temporal_anchors": [],
+        "spatial_anchors": [
+          "Skinwalker Ranch",
+          "United States",
+          "Air Force One"
+        ],
+        "evidentiary_density": "high",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c11",
+        "heading_path": "Hypothetical Second Conversation and Survival",
+        "text": "If you were to have a second conversation with them, would you explain that ET is one idea, but it's not necessarily the only option for a non-human intelligence that's out there? >> [clears throat] >> You have to tell me first how much time do I have in the second conversation. >> Let's get Let's make it an hour. You have an hour with the president. What would you tell him about who they are, who they might be? >> Um So, >> [clears throat] >> I would try to get into the complexity of the relationship that once you've had confirmation, you know, you've given that that text of that little sentence I I wrote and quoted there and you start to go down the path of disclosure where it's more than than just flares flare videos and um you're not seeing other things are much more crystal clear and you know, in video um or legitimate people in places that you recognize these people and they're around something or with something or somebody that's a holy cow. That's wow, you know. That's a very dramatic kind of disclosure about something landing on the lawn somewhere, you know. Um So, I think the the what I would have spent time doing is talking about how do you establish when you've been in 80 years of denial as a nation in the world. Uh we have countries who are very up front and others that are also in denial. Now, you want to pivot 180°. How do you start that relationship? How do you do that? And it's not as though that we've ever been in control. We haven't been in control of anything, ever, for the for this 80 years of modern history. Nothing. We have no ability to control anything. >> That's a tough thing to tell the president, right? I would think that would be a tough thing for a president to accept. >> Well, you're giving me an hour to talk to him, you said. >> So, I'm using my hour. So, yeah, so uh that's what I I would That's a really intriguing thing is how do you do that? Where do you start? And into a relationship and and and I would say more like well, I would want to start with the biggest question I would ask I would say what I want to get from them is my first question is what are the chances we are going to survive ourselves? That we are not going to annihilate ourselves. Cuz they've already are familiar with a whole lot of other species on a lot of other worlds and other other"
+      }
+    ]
+  },
+  "chunks": [
+    {
+      "chunk_id": "c01",
+      "heading_path": "Intro and Context of Disclosure",
+      "text": "[music] >> Robert, you've spent I don't know how many years and how many millions of dollars, probably more money than any person in the history of the world pursuing topics of mutual interest. You've been at this even longer than I have, which is an awful long time. >> I think it even started in a past life for me. I don't know, it's been a very long time. >> Uh you know, at the beginning, when I first knew you back in the late '80s, uh the idea of disclosure was such a far-off concept. It really wasn't even >> No, we're trying to figure out what what's real, what do people know, what do we need to know, but the idea of someone announcing disclosure, whether that's the president or the pope or something like that, was just such a far away idea. It's not >> subject was was made fun of. It was a joke. >> Yeah. >> And mostly by the a lot of the media propagated that. >> Right. >> Right? >> Right. I've been on the receiving end of that, and you have, too. >> But now it's not so far away >> anymore. I mean, the idea of disclosure is being discussed earlier this year, the president issued a directive, said start releasing information on these files. Now, it's been a little disappointing what's been released so far, and I don't know who's in charge of what gets released, but at least it's happened, and he's acknowledged that it's something he wants to share with the public. That's an amazing step to come that far.",
+      "token_estimate": 280,
+      "overlap_note": "precedes discussion of Oval Office meeting",
+      "entities_hint": [
+        "Robert Bigelow",
+        "President"
+      ],
+      "claims_hint": [
+        "Disclosure was a far-off concept in the late 80s",
+        "President issued a directive to release information earlier this year",
+        "Releases so far have been disappointing"
+      ],
+      "temporal_anchors": [
+        "late '80s",
+        "earlier this year"
+      ],
+      "spatial_anchors": [],
+      "evidentiary_density": "medium",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c02",
+      "heading_path": "Oval Office Meeting and Proposed Statement",
+      "text": "But you had a chance to speak directly with the president and urged him to go even further earlier this year. When did that happen? >> So, I was uh I was in the process for for um several months putting together a series of reports on seven different topics. And UAPs, ET, and disclosure was one of the topics. And so, um when [clears throat] I was ready, I uh asked to see him. And so, Jan- or February the 6th, I was in the Oval Office with the president, and there was a staff secretary by the name of William Schärf, S C H A R F, who uh was also there with the president, myself, and um I had uh concerns about dumping so much information on him at one time. And I asked Susie, um >> Susie Wiles? >> Susie Wiles, should I really hold shouldn't I hold back and maybe only give him two or three papers? And uh she said, \"No.\" She said, \"Go ahead and and give him everything. Uh I can tell you this, it may take him a while, but he will eventually read it all.\" So, I said, \"Okay, I'll do it.\" >> You don't know how much time you got with him. >> I haven't a clue. I figured it's probably more than 30 minutes, but I don't know. And as it turned out, I I we were finished in about an hour and 15 or 20 minutes. And but I could have taken 2 days, cuz these were complex subjects. And on the um disclosure UAP ET subject, which is always great fun to talk about, uh that's a really important one. It's super important. >> What what was your goal going in? What was the one thing you wanted to convey [clears throat] to him on that topic uh that what that you wanted to come out and have him understand? >> In such a short period of time, I only had an average of like 11 minutes per paper to talk about a paper. Um I wish I had had a lot more, but I let me let me read to you something I I told him I wanted him to say verbatim. And I described where he should say it, not at where a podium existed, and a lot of media existed, but I said, \"I want you to, for example, deliver this statement a- as you're getting onto Air Force Air Force One, and you're about to go through the the hatchway, through the door, uh but you stop and talk to the media, and you might say something like, uh, I just want you to hear something. I want to make a statement. And I would said, And this is what I want you to say, Mr. President. A non-human intelligent presence has been on Earth for a very long time. Using spacecraft and with performances completely beyond our capabilities and our human physics. And that's it. To say nothing else. That's it. That's all. Because what this is is disclosure and and you're it's actually confirmation. And and the two are well welded together. These are wedded together. And and confirmation has not been, uh, officially made by any president that I know of and that is not they've they've had different kinds of contact, conversations, and so forth.",
+      "token_estimate": 530,
+      "overlap_note": "follows intro; precedes Clinton/Reid discussion",
+      "entities_hint": [
+        "Robert Bigelow",
+        "Donald Trump",
+        "William Schärf",
+        "Susie Wiles",
+        "Air Force One",
+        "Oval Office"
+      ],
+      "claims_hint": [
+        "Bigelow met Trump in Oval Office on Feb 6th",
+        "Bigelow gave Trump 7 reports including one on UAPs/ET",
+        "Bigelow suggested Trump say 'A non-human intelligent presence has been on Earth for a very long time'",
+        "Confirmation has not been officially made by any president"
+      ],
+      "temporal_anchors": [
+        "Jan- or February the 6th",
+        "several months"
+      ],
+      "spatial_anchors": [
+        "Oval Office",
+        "Air Force One"
+      ],
+      "evidentiary_density": "high",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c03",
+      "heading_path": "Presidential Knowledge and Harry Reid/Bill Clinton",
+      "text": "And, uh, a really good close friend of mine verified, uh, Harry Reid, who he and I were very good friends for many, many years, verified with Bill Clinton that he didn't know about the subject and this was, I think, in his second term. And, uh, there was a staffer that wrote a book and he referred to a conversation that he and and the Bill Clinton had had President Clinton had and it just it involved, um, when President Clinton said to him, uh, before I leave office, there are two things I really want to know. What the hell is the UFO subject all about? And who really killed JFK? >> Yeah, his aide was Webb Hubble, who got the assignment to go dig into those. >> Yes. >> And he didn't get the answers. >> So, Harry took the book. So, I gave him the book and I showed him where on page was so-and-so had said that. So, he he met with with the President Clinton. He said, \"Did you say this?\" And Clinton said, \"Hell, yes. Would you like to know the the answers to those two things, you know?\" He said, \"Absolutely, you know, I would.\" >> I mean, the sense that we have after digging into this topic for a long time, presidents come and presidents go, and they have varying degrees of interest in the topic, and various varying degrees of knowledge of it, right? If they don't push it, they're not going to find out. Is that your sense of it? >> Absolutely. Absolutely. They have to Somebody [clears throat] has to be the the driving horse to pull that wagon, and it's and it can't let go.",
+      "token_estimate": 280,
+      "overlap_note": "follows Oval Office meeting; precedes SAPs discussion",
+      "entities_hint": [
+        "Harry Reid",
+        "Bill Clinton",
+        "Webb Hubble"
+      ],
+      "claims_hint": [
+        "Harry Reid verified with Bill Clinton that he didn't know about the subject",
+        "Clinton wanted to know about UFOs and who killed JFK before leaving office",
+        "Webb Hubble was assigned to dig into those topics",
+        "Presidents must push to find out about the topic"
+      ],
+      "temporal_anchors": [
+        "Clinton's second term"
+      ],
+      "spatial_anchors": [],
+      "evidentiary_density": "high",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c04",
+      "heading_path": "Unacknowledged SAPs and Clearances",
+      "text": "And I I suppose even if they do press press it and push it, they don't necessarily get briefed. >> Oh, well, they will not have anything to do They will not know anything about unacknowledged SAPs, for sure. And only on a really serious need-to-know basis would they have anything to do with acknowledged SAPs. You know, TS/SCI is nowhere near close enough. You know, that was that was only clearances that we had, top secret special compartmental information. Uh that's not even remotely close enough. >> Well, let's go back to Donald Trump. You know him. I mean, it's not like you're hanging out and going bowling on Saturday nights, but you're friends. You you've supported him over the years, a lot of money, a lot of donations in his campaigns. You know him. You've been to Mar-a-Lago. He calls you from time to time. So, the chance to sit down and talk with him on this topic, this is the first time you've talked to him about it, right? >> Well, it was a big honor to be in the Oval Office on and and being able to brief him on so many different kinds of really sensitive important topics, and including this one. And it was it was a lot of fun. >> We we'll come back to the other topics at some point in the future conversations. I hope this is the first of many that we have. Uh but you you prepare a document for him, and what you want to convey in that time period, and then there's additional material in that document. Like what? What'd you have in there? >> Well, so first I said, \"Okay, we got to clear We we we, you know, the Resolute Desk is a very famous desk, and that's what he was sitting behind. I said, \"We're going to have to clear all half of this stuff off the desk.\" So, William, the other the the the staff secretary there, uh we started we we were grabbing things and and sorry. Uh we were grabbing things and uh so we were we we made room for these seven different stacks of reports that I'm leaving behind. They were more than just one copy.",
+      "token_estimate": 370,
+      "overlap_note": "follows Clinton/Reid; precedes gatekeepers",
+      "entities_hint": [
+        "Donald Trump",
+        "Robert Bigelow",
+        "William Schärf",
+        "Mar-a-Lago",
+        "Oval Office",
+        "Resolute Desk"
+      ],
+      "claims_hint": [
+        "Presidents will not know about unacknowledged SAPs",
+        "TS/SCI clearance is not close enough to access this information",
+        "Bigelow and Trump are friends",
+        "Bigelow has supported Trump with donations",
+        "Bigelow cleared the Resolute Desk to make room for 7 stacks of reports"
+      ],
+      "temporal_anchors": [],
+      "spatial_anchors": [
+        "Mar-a-Lago",
+        "Oval Office",
+        "Resolute Desk"
+      ],
+      "evidentiary_density": "high",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c05",
+      "heading_path": "Gatekeepers and Secrecy",
+      "text": "And so, um so that's how it started and um and we got into to the topic about um >> [snorts] >> the UAP topic and and [clears throat] disclosure and um we had um I remember talking at some time about um the gatekeepers. So, this disclosure is a process and I and I was I was emphasizing that the disclosure process starting [clears throat] with confirmation is a big deal that that you know that really is important for somebody like the President of the United States to say, \"Yeah, they're real. They're here.\" And eliminate all the other nonsense, all the noise that's been going on for 80 years. Um And >> [clears throat] >> so I wanted him to focus on gatekeepers. Um and I emphasized these people because they're the ones that are in government locations and private corporation locations that have spent [clears throat] their substantial lives or or careers um working in in very uh secluded [clears throat] environments um and they have custody of the goods. More information >> [clears throat] >> than they are diamonds in a coal mine. They have um they have obtained information about ET themselves. Uh about hardware. Um other countries are working on this exact same thing. So, you have to be careful not to talk about things that would give other people advantages and so on. And uh the gatekeepers I've I've told people that they're a heroes of a different kind. A lot of people would laugh at that, but it's true. It's true. Um they [snorts] go to their graves taking information that they their spouses uh have never heard. Their children have never heard. They can't talk about it to any any friend. Um so, um they're isolated about that. And and after a while, I think that must be a burden, you know, to to hold those kinds of secrets.",
+      "token_estimate": 330,
+      "overlap_note": "follows Resolute Desk; precedes Henderson story",
+      "entities_hint": [
+        "President of the United States",
+        "gatekeepers"
+      ],
+      "claims_hint": [
+        "Disclosure is a process starting with confirmation",
+        "Gatekeepers in government and private corporations have custody of goods/hardware",
+        "Gatekeepers keep secrets their whole lives, even from spouses",
+        "Other countries are working on this exact same thing"
+      ],
+      "temporal_anchors": [
+        "80 years"
+      ],
+      "spatial_anchors": [
+        "government locations",
+        "private corporation locations"
+      ],
+      "evidentiary_density": "high",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c06",
+      "heading_path": "Sappho Henderson and Roswell",
+      "text": "I remember uh I I I was I was talking to Sappho Henderson one time. And Pat Pappy Henderson was her husband. And she said, \"Well, we were [clears throat] in the grocery store one time. And uh he's and there's an article in there in one of the magazines about it's finally been revealed about ETs and aliens.\" And they're in the line, you know, getting their groceries. And he says, \"Oh my god, Saffi.\" He says, uh \"I can I can I guess it's out now. I can actually tell you what I've been doing all these years.\" He was one of the pilots of uh one of the cargo planes taking uh from Roswell uh in the in the crash retrieval of of Roswell in '47. And so, uh and then um she said to me, \"Well, later uh and her daugh- daughter was there, too, as we were talk- she was relating the story. He had since passed away. But she said it was so funny because uh he says, \"I wasn't I wasn't supposed to know that because the article really wasn't an exposé of a fact and of truth.\" >> It was like the Weekly World News talking about Roswell. >> story to get attention, so you're buying the magazine, you know, uh, where you you check out. And so, and he he said, \"Oh, well.\" He said, \"God.\" He said, \"I probably shouldn't have.\" He said, \"I guess it was just something that that it was out there in the magazine and I shouldn't have told you anything. So, don't say anything to anybody.\" But, that was that was really my first realization about how, um, how private that information [clears throat] is kept with everybody involved, you know, for for unacknowledged and acknowledged SAPs.",
+      "token_estimate": 330,
+      "overlap_note": "follows gatekeepers; precedes advising Trump",
+      "entities_hint": [
+        "Sappho Henderson",
+        "Pappy Henderson",
+        "Roswell",
+        "Weekly World News"
+      ],
+      "claims_hint": [
+        "Pappy Henderson was a pilot for the Roswell crash retrieval in '47",
+        "He told his wife about it after seeing a magazine article",
+        "Information is kept very private for unacknowledged and acknowledged SAPs"
+      ],
+      "temporal_anchors": [
+        "'47"
+      ],
+      "spatial_anchors": [
+        "Roswell",
+        "grocery store"
+      ],
+      "evidentiary_density": "high",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c07",
+      "heading_path": "Advising the President and Information Reliability",
+      "text": "Let's go back to the beginning of this meeting. So, you go in you've got seven papers you issues that you want to discuss with him. UAP, ET disclosure being one of them. You walk into the office, you don't know how much time you're going to have and for purposes of our conversation, you can't tell me and our listeners, you can't say what the president said, right? >> No, I can't. >> So, you can only tell me what you told him, but you you go into it with an idea of not just things in the sky floating around, some mystery. We've got the goods. Somewhere there are crashes. Do you tell him that there are bodies, that there are crash retrieval vehicles from of unknown origin or how specific do you get on that? >> Um, I I basically I focused on him. And how to prepare himself if he's not already prepared. And it's not normal for for a businessman >> [clears throat] >> to be a researcher in these kinds of topics, you know, survival of consciousness beyond permanent bodily death or UFOs and ETs. That's not normal. And so, um, I was advising him to [clears throat] try to be as quick a study as he can because he's going to be getting advice from a lot of different folks. And, um, so he needs to do all that he can to to find responsible material to read. Um, from really good good authors and and reliable reliable uh books that that uh you can trust. >> And government agencies, the people who work for him. >> [clears throat] >> And that's that's tough, yes, because um, because they can be distant from So, it depends on on whether they've heard it second hand, first, second, third, or fourth hand, fifth hand. First hand would be you you've actually experienced it yourself. But are you third hand or fourth hand or what how far down the chain uh are you in terms of the information that's been relayed to you and how much is that conversation changed as it's been passed on and passed on from person to person? Um, and really if you got to just a short glimpse of something going down a hallway looking into a window or somewhere where normally you shouldn't have been maybe, but you were escorted by a friend. And maybe you saw something that um was dramatic, but all you saw was the tip of an iceberg. You really didn't understand the fundamentals of what you saw. You might have saw a being or you might have seen a structure. And so, it's tricky as to when you're talking to to human beings about anything. It's tricky as to as to what they're revealing.",
+      "token_estimate": 430,
+      "overlap_note": "follows Henderson; precedes trust in military",
+      "entities_hint": [
+        "Donald Trump"
+      ],
+      "claims_hint": [
+        "Bigelow advised Trump to be a quick study",
+        "Information can be first-hand or relayed down a chain",
+        "Witnesses may only see the tip of the iceberg",
+        "It is tricky to know what human beings are revealing"
+      ],
+      "temporal_anchors": [],
+      "spatial_anchors": [],
+      "evidentiary_density": "medium",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c08",
+      "heading_path": "Trust in Admirals/Generals vs Politicians",
+      "text": "All right, you you're conveying to him this is real. You need to pay attention to it. You should probably make an announcement at some point, but don't go too far. And you're conveying to him it's serious and that there have been people who've been keeping this secret for a long time, including probably from him. I mean, he's made statements here and there, offhanded remarks about UFOs, etc. >> He's not entitled to know. On unacknowledged SAPs or even unacknowledged SAPs, basically president of the United States and this [clears throat] is this is kind of rough because um this this field has more trust in 30-year admirals and generals. I mean, that's just everybody kind of knows that that's been around. Um politicians come and they go. And um and so 30-year admirals and generals are are much more in the eyes of folks people who will stay the course because they're not running for an election, they're not going to be here just for 4 years or 8 years or if they're a senator for a term of 6 or 12 or 18 or whatever. Um but and they're not their life is not to please the public. It's not their life isn't compromised by being a politician. So admirals and and generals >> and intelligence agency >> officers, of course. Of course. But um they're not trying to please the public all the time. They're not trying to to try to find compromises between very two very diverse uh large groups of folks and trying to make as many people happy as they can.",
+      "token_estimate": 260,
+      "overlap_note": "follows advising Trump; precedes past presidents",
+      "entities_hint": [
+        "President of the United States",
+        "admirals",
+        "generals",
+        "intelligence agency officers"
+      ],
+      "claims_hint": [
+        "President is not entitled to know about unacknowledged SAPs",
+        "The field trusts 30-year admirals and generals more than politicians",
+        "Military officers stay the course and are not compromised by politics"
+      ],
+      "temporal_anchors": [
+        "4 years",
+        "8 years",
+        "6 or 12 or 18"
+      ],
+      "spatial_anchors": [
+        "White House"
+      ],
+      "evidentiary_density": "high",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c09",
+      "heading_path": "Past Presidents' Knowledge and UFO Cases",
+      "text": "So you're conveying to him there are people who know about this stuff that have not told you because you're a a temporary occupant of the White House. I don't think you want to say it that way, but >> Well, it's as as true. >> Do you have a sense that he'd ever been briefed? We've read conflicting reports that there have been briefings for him on this topic. You can't quote what he told you, but did you get a sense that he'd ever been told about the goods? >> I can't comment really on body language or comments that he said or anything like that because it's I don't want to do that to him. >> Right. >> I don't want to I don't want to reveal anything. Maybe it's not my business. I was just a messenger. I was just kind of a person that's uh trying to give him information on a number of different topics. All of them were important and um that's it. And had my 75 minutes and I'm done. >> Would you guess based on what you know about the topic and how it's been handled over the decades, would you guess that he had been briefed or that any other president had been briefed? You know that Bill Clinton was not even though he expressed an interest in it. So, at some point the president has to be told no, we can't tell you. >> I think Bush senior knew quite a bit because he was a head of CIA. I think uh Nixon did. Um I think Eisenhower did. Um >> [clears throat] >> So, it's it's kind of hit and miss over historic over the period of history as to who has and who hasn't. >> Can you tell us what would be in the briefing document that you left behind? Was it cases? Here's a wave of UFOs. Here's a case. Here was a crash. Anything like that? >> Yeah, I yeah, I I uh related [clears throat] uh conversations I have had with General De Brouwer who was a chief of the Air Force for Belgium and there was a very interesting flap that it was about 18 months long with triangle triangular craft. And uh he was in command of all the Air Force and he really chased the heck out of these and and he told me he said, \"Bob, you you just it it I'm just burning fuel and it and it makes no sense.\" He said, \"I we're going to stop because we're not getting anywhere. All we're doing is getting closer, you know, photographs and things, but we're not getting anywhere. We don't we're not we're not getting [clears throat] any information that is really valuable for us to understand anything. You know, and I gave him other examples of where large amounts of witnesses were involved and so that he could read about these particular incidences. Um And and and and of course the one with Fife Symington is in '97 was so interesting because there you had a governor who was an actual witness and he made a joke of it on and brought an alien guy in an alien suit on stage because he was scared to death. >> It's the Phoenix lights case. >> Phoenix lights which weren't just lights. It was actually freaking craft and it came from Northern Arizona. I think it started actually in Southern Nevada is where the craft began and in the Henderson area, I think, somewhere in there. And so you see this huge triangular craft, gigantic craft going slowly and he was scared to death but finally fast forward 10 years later and he confesses that he was an eyewitness but he didn't know what to do. So he was there at a point in time when the dynamic of disclosure could have been forced and and actually confirmation could have been from a governor of the state like that. He was a credible guy. So we've had many incidences like that where they in the early '50s flying over the White House and the Capitol building. We've had so many of those. So I in my report I included a lot of very dramatic beyond a reasonable doubt kind of witnesses of of exhibitions.",
+      "token_estimate": 600,
+      "overlap_note": "follows trust in military; precedes AATIP",
+      "entities_hint": [
+        "Bush senior",
+        "Nixon",
+        "Eisenhower",
+        "General De Brouwer",
+        "Belgium",
+        "Fife Symington",
+        "Phoenix lights",
+        "Northern Arizona",
+        "Southern Nevada",
+        "Henderson",
+        "White House",
+        "Capitol building"
+      ],
+      "claims_hint": [
+        "Bush senior knew quite a bit because he was head of CIA",
+        "Nixon and Eisenhower also knew",
+        "Belgium had an 18-month flap with triangular craft",
+        "General De Brouwer chased them but stopped because it was burning fuel",
+        "Fife Symington was governor during Phoenix Lights and was an eyewitness",
+        "Phoenix lights were a huge triangular craft",
+        "Early 50s had craft flying over White House and Capitol"
+      ],
+      "temporal_anchors": [
+        "'97",
+        "early '50s",
+        "18 months long",
+        "10 years later"
+      ],
+      "spatial_anchors": [
+        "Belgium",
+        "Northern Arizona",
+        "Southern Nevada",
+        "Henderson",
+        "White House",
+        "Capitol building"
+      ],
+      "evidentiary_density": "high",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c10",
+      "heading_path": "AATIP, Skinwalker Ranch, and Non-Human Intelligence",
+      "text": "Did you share with him anything about your knowledge of classified program? You you got a top secret security clearance, right? >> Yeah. >> It was for the AATIP program for BAS. >> Right. >> Operated under the DIA. >> Yeah. >> You learned a lot during that program. It's the largest accumulation of UFO info of any government-funded UFO program ever. >> Yeah. >> You didn't tell him about it. >> It wasn't [clears throat and snorts] credible enough, I felt, for him. Um Uh it's just something pertaining to me. And uh whereas these other examples are historic and they're in a a lot of literature. They're very famous. The witnesses and the the amount of witnesses were huge. Uh we operated under um a private situation with the Skinwalker Ranch. And um he wouldn't relate to well, we all had hitchhikers. We all had took things home with us. You know, we all saw a lot of stuff. Uh whether it was at the ranch or where we lived and it make any make any difference where in the United States we lived. Uh we we we saw a lot of things. And but that wouldn't be relevant for him to be able to relate to that, right? >> Well, >> So, why talk about it? >> Yeah, I mean, you know, you're kind of jumping into the deep end of the pool when you get into hitchhikers and Skinwalker. And maybe for your first big conversation on this topic, that might not be the place to go. >> You know, and I I didn't even I couldn't even say if he said, \"I need a beer.\" I I couldn't even [laughter] give him a something to drink, you know, maybe stronger than that. So, I didn't want to do any you know >> Um you you did you used the term non-human intelligence in the sentence you gave him, \"Hey, try this in the as you're climbing aboard Air Force One, say that to media and then, you know, close the door.\" >> Right. >> You said non-human intelligence, not ET. Are they the same? And and it and did you share anything with him about what you think it is? >> Well, there have been reports of humans on [clears throat] board. Right? But the non-human are more interesting. I mean, if a human's on board and and he or she has free reign of the craft, that's pretty damn interesting, right? But and you don't know where those people are when they're not on board. So, but the other ones uh are some are scary. You you some uh it's not surprising that in the universe everything's going to look like us. Every every intelligent organism is going to look like us. Um but you have to have it's also a matter of respect for any really intelligent animal or or and and creature or whatever it is, right? And the more advanced the more respect because you don't know what they know. And you don't you don't know the future and they may know they may know more than just the now.",
+      "token_estimate": 480,
+      "overlap_note": "follows UFO cases; precedes second conversation",
+      "entities_hint": [
+        "AATIP",
+        "DIA",
+        "Skinwalker Ranch",
+        "Air Force One"
+      ],
+      "claims_hint": [
+        "Bigelow had top secret clearance for AATIP/DIA",
+        "AATIP is largest accumulation of UFO info",
+        "Bigelow didn't share AATIP/Skinwalker info with Trump because it wasn't credible enough for him",
+        "They had hitchhikers and saw things at the ranch and home",
+        "Non-human intelligence is not necessarily ET",
+        "Reports of humans on board craft",
+        "Need to have respect for advanced intelligent creatures"
+      ],
+      "temporal_anchors": [],
+      "spatial_anchors": [
+        "Skinwalker Ranch",
+        "United States",
+        "Air Force One"
+      ],
+      "evidentiary_density": "high",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c11",
+      "heading_path": "Hypothetical Second Conversation and Survival",
+      "text": "If you were to have a second conversation with them, would you explain that ET is one idea, but it's not necessarily the only option for a non-human intelligence that's out there? >> [clears throat] >> You have to tell me first how much time do I have in the second conversation. >> Let's get Let's make it an hour. You have an hour with the president. What would you tell him about who they are, who they might be? >> Um So, >> [clears throat] >> I would try to get into the complexity of the relationship that once you've had confirmation, you know, you've given that that text of that little sentence I I wrote and quoted there and you start to go down the path of disclosure where it's more than than just flares flare videos and um you're not seeing other things are much more crystal clear and you know, in video um or legitimate people in places that you recognize these people and they're around something or with something or somebody that's a holy cow. That's wow, you know. That's a very dramatic kind of disclosure about something landing on the lawn somewhere, you know. Um So, I think the the what I would have spent time doing is talking about how do you establish when you've been in 80 years of denial as a nation in the world. Uh we have countries who are very up front and others that are also in denial. Now, you want to pivot 180°. How do you start that relationship? How do you do that? And it's not as though that we've ever been in control. We haven't been in control of anything, ever, for the for this 80 years of modern history. Nothing. We have no ability to control anything. >> That's a tough thing to tell the president, right? I would think that would be a tough thing for a president to accept. >> Well, you're giving me an hour to talk to him, you said. >> So, I'm using my hour. So, yeah, so uh that's what I I would That's a really intriguing thing is how do you do that? Where do you start? And into a relationship and and and I would say more like well, I would want to start with the biggest question I would ask I would say what I want to get from them is my first question is what are the chances we are going to survive ourselves? That we are not going to annihilate ourselves. Cuz they've already are familiar with a whole lot of other species on a lot of other worlds and other other"
+    }
+  ],
+  "ner_results": [
+    {
+      "chunk_id": "c01",
+      "ner": {
+        "entities": [
+          {
+            "type": "PERSONNEL",
+            "name": "Robert",
+            "aliases": [],
+            "role": "researcher/investigator (implied)",
+            "credibility_tier": 3,
+            "span_quote": "Robert, you've spent I don't know how many years and how many millions of dollars, probably more money than any person in the history of the world pursuing topics of mutual interest.",
+            "evidentiary_state": "Unverified",
+            "attributes": {
+              "notes": "First name only. Described as having spent significant personal time and money pursuing UFO/UAP-related topics. Known to the other speaker since the late 1980s. No surname or institutional affiliation provided."
+            }
+          },
+          {
+            "type": "PERSONNEL",
+            "name": "The President",
+            "aliases": [
+              "the president"
+            ],
+            "role": "official (unnamed)",
+            "credibility_tier": null,
+            "span_quote": "the president issued a directive, said start releasing information on these files",
+            "evidentiary_state": "Unverified",
+            "attributes": {
+              "notes": "Referred to only as 'the president' without naming a specific individual. Issued a directive to release information on files, described as occurring 'earlier this year' relative to the conversation. No specific date or name provided."
+            }
+          },
+          {
+            "type": "EVENT",
+            "name": "Presidential directive to release UFO/UAP files",
+            "aliases": [],
+            "date": null,
+            "location": null,
+            "duration": null,
+            "witness_count": null,
+            "span_quote": "the president issued a directive, said start releasing information on these files. Now, it's been a little disappointing what's been released so far",
+            "evidentiary_state": "Unverified",
+            "attributes": {
+              "notes": "Described as occurring 'earlier this year' relative to the conversation. No specific date, location, or witness details provided. Releases so far characterized as 'a little disappointing.' Identity of who controls release content is unknown per the speaker."
+            }
+          },
+          {
+            "type": "ORGANIZATION",
+            "name": "Media",
+            "aliases": [
+              "a lot of the media"
+            ],
+            "category": "media",
+            "span_quote": "mostly by the a lot of the media propagated that",
+            "evidentiary_state": "Observed",
+            "attributes": {
+              "notes": "Described as having propagated ridicule and mockery of the UFO/UAP subject historically. No specific outlets named."
+            }
+          }
+        ],
+        "relationships": [
+          {
+            "source": "Robert",
+            "target": "Presidential directive to release UFO/UAP files",
+            "relation_type": "Attributional",
+            "confidence": 0.2,
+            "notes": "Robert is discussed in context of disclosure topics generally; no direct link to the presidential directive is stated."
+          },
+          {
+            "source": "The President",
+            "target": "Presidential directive to release UFO/UAP files",
+            "relation_type": "Attributional",
+            "confidence": 0.9,
+            "notes": "The president is stated as having issued the directive."
+          },
+          {
+            "source": "Media",
+            "target": "Presidential directive to release UFO/UAP files",
+            "relation_type": "Temporal",
+            "confidence": 0.3,
+            "notes": "Media's role in propagating ridicule is discussed as historical context preceding the current disclosure push; no direct causal link stated."
+          }
+        ],
+        "analysis_summary": {
+          "investigation_priority": "low",
+          "notes": "This is an introductory conversational segment establishing historical context for disclosure. Minimal specific extractable claims: one first-name-only individual (Robert), an unnamed president issuing an undated directive, and a general reference to media. No specific dates, locations, physical evidence, or named organizations beyond general references. The conversation appears to be between two long-time colleagues who have known each other since the late 1980s, but the second speaker is unnamed. The text's value is primarily contextual framing rather than evidentiary. Chain-of-custody: none established. Corroboration: none beyond the speakers' mutual agreement on general historical narrative."
+        }
+      },
+      "validation": {
+        "verdict": "pass_with_warnings",
+        "issues": [
+          {
+            "severity": "low",
+            "code": "ENTITY_GENERICITY",
+            "message": "The 'Media' organization entity is extremely generic with no specific outlets named; indexing it as an ORGANIZATION entity may produce low-value retrieval matches.",
+            "fix": "Consider tagging generic collective references with a sub-type or flagging as 'collective_reference' to distinguish from named organizations."
+          },
+          {
+            "severity": "low",
+            "code": "MISSING_SPEAKER_ENTITY",
+            "message": "The second speaker in the conversation is unnamed but participates actively and makes claims (e.g., about the presidential directive). No entity record captures them even as an unknown/anonymous personnel.",
+            "fix": "Add a PERSONNEL entity with name 'Unknown speaker' or 'Speaker 2' and evidentiary_state 'Unverified' to preserve the provenance of their claims."
+          },
+          {
+            "severity": "low",
+            "code": "RELATION_TYPE_PRECISION",
+            "message": "The relationship between 'Media' and the 'Presidential directive' event is typed 'Temporal' but the notes describe historical context rather than a temporal ordering relationship; the relation_type label is imprecise.",
+            "fix": "Use relation_type 'Contextual' or add a dedicated 'historical_context' relation type to better reflect the nature of the link."
+          }
+        ],
+        "safe_for_rag_index": true,
+        "safe_for_db_write": true
+      }
+    },
+    {
+      "chunk_id": "c02",
+      "ner": {
+        "entities": [
+          {
+            "type": "PERSONNEL",
+            "name": "William Schärf",
+            "aliases": [
+              "Schärf",
+              "S C H A R F"
+            ],
+            "role": "staff secretary",
+            "credibility_tier": 7,
+            "credibility_note": "Named White House staff secretary present in Oval Office meeting; institutional role supports moderate-high credibility for attendance corroboration.",
+            "span_quote": "there was a staff secretary by the name of William Schärf, S C H A R F, who uh was also there with the president, myself",
+            "evidentiary_state": "Observed",
+            "confidence": 0.85
+          },
+          {
+            "type": "PERSONNEL",
+            "name": "Susie Wiles",
+            "aliases": [
+              "Susie"
+            ],
+            "role": "advisor / staff (consulted on briefing approach)",
+            "credibility_tier": 7,
+            "credibility_note": "Named individual providing advice on briefing the president; institutional proximity to executive office supports moderate-high credibility for contextual claims.",
+            "span_quote": "I asked Susie, um >> Susie Wiles? >> Susie Wiles, should I really hold shouldn't I hold back and maybe only give him two or three papers?",
+            "evidentiary_state": "Observed",
+            "confidence": 0.85
+          },
+          {
+            "type": "PERSONNEL",
+            "name": "The President",
+            "aliases": [
+              "the president",
+              "Mr. President"
+            ],
+            "role": "recipient of UAP/ET disclosure briefing; head of state",
+            "credibility_tier": 9,
+            "credibility_note": "Referenced as 'the president' throughout; not named explicitly in this text. Institutional role as head of state supports highest tier for meeting occurrence, but identity is inferred from context (Susie Wiles association).",
+            "span_quote": "February the 6th, I was in the Oval Office with the president",
+            "evidentiary_state": "Observed",
+            "confidence": 0.7,
+            "analysis_note": "Inference: Susie Wiles's presence strongly implies President Trump, but the text does not name him. Confidence reduced for identity; meeting occurrence itself is well-supported."
+          },
+          {
+            "type": "PERSONNEL",
+            "name": "Unnamed Speaker",
+            "aliases": [
+              "I"
+            ],
+            "role": "briefing author and presenter; whistleblower/advocate (self-described)",
+            "credibility_tier": 5,
+            "credibility_note": "Speaker claims direct Oval Office access and authored seven topic reports including UAP/ET disclosure. Identity not stated in this text excerpt. Claims of direct presidential access are unverified within this source alone.",
+            "span_quote": "I was in the Oval Office with the president",
+            "evidentiary_state": "Unverified",
+            "confidence": 0.4,
+            "analysis_note": "Inference: Speaker identity is not provided in this excerpt. Must be resolved from broader source context before database ingestion."
+          },
+          {
+            "type": "EVENT",
+            "name": "Oval Office UAP/ET Disclosure Briefing",
+            "date": "2025-02-06",
+            "date_note": "Speaker says 'February the 6th' in context of 'earlier this year.' Year inferred from interview context as 2025 but not explicitly stated in this excerpt.",
+            "location": "Oval Office",
+            "duration": "approximately 75-80 minutes",
+            "witness_count": 4,
+            "witness_names": [
+              "Unnamed Speaker",
+              "The President",
+              "William Schärf",
+              "Susie Wiles"
+            ],
+            "evidence_quality_note": "Meeting described as covering seven topics with ~11 minutes per paper average. UAP/ET/disclosure was one of seven topics. No physical or sensor evidence presented in this excerpt; meeting itself is the primary evidentiary artifact.",
+            "span_quote": "February the 6th, I was in the Oval Office with the president, and there was a staff secretary by the name of William Schärf",
+            "evidentiary_state": "Unverified",
+            "confidence": 0.6
+          },
+          {
+            "type": "EVIDENCE",
+            "name": "Seven Topic Reports including UAP/ET/Disclosure",
+            "evidence_category": "D",
+            "evidence_subtype": "documentary / briefing papers",
+            "description": "A series of reports on seven different topics prepared by the unnamed speaker over several months, one of which covered UAPs, ET, and disclosure. Delivered to the president during Oval Office meeting.",
+            "span_quote": "I was in the process for for um several months putting together a series of reports on seven different topics. And UAPs, ET, and disclosure was one of the topics.",
+            "evidentiary_state": "Unverified",
+            "confidence": 0.5,
+            "chain_of_custody_note": "Reports authored by unnamed speaker; no independent verification of content, classification level, or distribution beyond speaker's account."
+          },
+          {
+            "type": "EVIDENCE",
+            "name": "Proposed Presidential Disclosure Statement",
+            "evidence_category": "D",
+            "evidence_subtype": "proposed statement / testimony quote",
+            "description": "Verbatim statement the speaker proposed the president deliver, suggesting it be said informally while boarding Air Force One rather than at a formal podium.",
+            "span_quote": "A non-human intelligent presence has been on Earth for a very long time. Using spacecraft and with performances completely beyond our capabilities and our human physics.",
+            "evidentiary_state": "Speculative",
+            "confidence": 0.4,
+            "analysis_note": "This is a proposed/advocated statement, not an executed one. The claim about non-human intelligence is the speaker's assertion, not independently corroborated in this text."
+          },
+          {
+            "type": "LOCATION",
+            "name": "Oval Office",
+            "description": "Executive office of the President of the United States, White House, Washington, D.C.",
+            "span_quote": "I was in the Oval Office with the president",
+            "evidentiary_state": "Observed",
+            "confidence": 0.85
+          },
+          {
+            "type": "LOCATION",
+            "name": "Air Force One",
+            "description": "Referenced as suggested location for delivering proposed disclosure statement.",
+            "span_quote": "deliver this statement a- as you're getting onto Air Force Air Force One",
+            "evidentiary_state": "Speculative",
+            "confidence": 0.4
+          }
+        ],
+        "relationships": [
+          {
+            "relation_type": "Attributional",
+            "source": "Unnamed Speaker",
+            "target": "Seven Topic Reports including UAP/ET/Disclosure",
+            "relation": "authored",
+            "confidence": 0.6
+          },
+          {
+            "relation_type": "Evidential",
+            "source": "Seven Topic Reports including UAP/ET/Disclosure",
+            "target": "Oval Office UAP/ET Disclosure Briefing",
+            "relation": "presented at",
+            "confidence": 0.6
+          },
+          {
+            "relation_type": "Spatial",
+            "source": "Oval Office UAP/ET Disclosure Briefing",
+            "target": "Oval Office",
+            "relation": "occurred at",
+            "confidence": 0.85
+          },
+          {
+            "relation_type": "Temporal",
+            "source": "Oval Office UAP/ET Disclosure Briefing",
+            "target": "The President",
+            "relation": "briefed",
+            "confidence": 0.7
+          },
+          {
+            "relation_type": "Attributional",
+            "source": "Unnamed Speaker",
+            "target": "Proposed Presidential Disclosure Statement",
+            "relation": "proposed",
+            "confidence": 0.7
+          },
+          {
+            "relation_type": "Organizational",
+            "source": "William Schärf",
+            "target": "The President",
+            "relation": "staff secretary to",
+            "confidence": 0.8
+          },
+          {
+            "relation_type": "Attributional",
+            "source": "Susie Wiles",
+            "target": "Oval Office UAP/ET Disclosure Briefing",
+            "relation": "advised on approach for",
+            "confidence": 0.8
+          }
+        ],
+        "analysis_summary": {
+          "investigation_priority": "medium",
+          "key_findings": [
+            "Speaker claims a direct Oval Office meeting with the president on February 6th to discuss UAP/ET disclosure among seven topics. Speaker identity is not established in this excerpt — critical gap for verification.",
+            "Proposed disclosure statement asserts 'non-human intelligent presence on Earth for a very long time' with spacecraft beyond human physics — this is an advocacy claim, not independently corroborated evidence.",
+            "Susie Wiles and William Schärf are named as present/involved, providing potential corroboration vectors if contacted.",
+            "No physical, sensor, or documentary evidence of UAP/NHI is presented in this excerpt; the content is a briefing delivery account and a proposed presidential statement."
+          ],
+          "verification_gaps": [
+            "Speaker identity unknown in this excerpt — must be resolved from full source.",
+            "Year of meeting inferred as 2025 from interview context but not explicitly stated.",
+            "Content of the seven reports not described; no classification or sourcing chain provided.",
+            "No confirmation that the president acted on or agreed to the proposed statement.",
+            "President's identity not explicitly named; inferred from Susie Wiles association."
+          ],
+          "contamination_flags": [
+            "Proposed statement uses absolute language ('has been on Earth for a very long time') without evidentiary support in this text — flag as Speculative.",
+            "Speaker frames disclosure and confirmation as 'wedded together' — advocacy framing, not analytical."
+          ]
+        }
+      },
+      "validation": {
+        "verdict": "fail",
+        "issues": [
+          {
+            "severity": "critical",
+            "code": "HALLUCINATION_SPAN_QUOTE",
+            "message": "The span_quote for the 'Proposed Presidential Disclosure Statement' entity ('A non-human intelligent presence has been on Earth for a very long time. Using spacecraft and with performances completely beyond our capabilities and our human physics.') is not present in the provided source excerpt. The excerpt cuts off before this text is spoken.",
+            "fix": "Remove the 'Proposed Presidential Disclosure Statement' entity or replace the span_quote with the actual text from the source excerpt ('I want you to, for example, deliver this statement a- as you')."
+          },
+          {
+            "severity": "critical",
+            "code": "HALLUCINATION_SPAN_QUOTE",
+            "message": "The span_quote for the 'Air Force One' entity ('deliver this statement a- as you're getting onto Air Force Air Force One') is not present in the provided source excerpt.",
+            "fix": "Remove the 'Air Force One' entity as it is not explicitly mentioned in the provided text."
+          },
+          {
+            "severity": "high",
+            "code": "HALLUCINATION_ANALYSIS_NOTE",
+            "message": "The analysis_summary contamination_flags mention the phrase 'wedded together', which does not appear in the source excerpt.",
+            "fix": "Remove the contamination flag referencing 'wedded together' or replace it with a phrase actually used in the source text."
+          },
+          {
+            "severity": "medium",
+            "code": "UNVERIFIED_DATE_INFERENCE",
+            "message": "The event date '2025-02-06' is inferred and not explicitly stated in the source excerpt. While noted in the date_note, indexing an inferred date as a factual date field can be misleading.",
+            "fix": "Set the date field to null or 'unknown' and retain the inference in the date_note, or clearly mark the date field as inferred."
+          }
+        ],
+        "safe_for_rag_index": false,
+        "safe_for_db_write": false
+      }
+    },
+    {
+      "chunk_id": "c03",
+      "ner": {
+        "entities": [
+          {
+            "type": "PERSONNEL",
+            "name": "Harry Reid",
+            "aliases": [
+              "Harry"
+            ],
+            "role": "U.S. Senator (implied by context); investigator/verifier of presidential UFO knowledge",
+            "credibility_tier": 8,
+            "credibility_rationale": "Named senior government official with direct access to President Clinton; text states he verified Clinton's statement firsthand.",
+            "span_quote": "Harry Reid, who he and I were very good friends for many, many years, verified with Bill Clinton that he didn't know about the subject",
+            "evidentiary_state": "Corroborated",
+            "attributes": {
+              "disclosure_posture": "Interested in UFO subject; sought verification of presidential knowledge",
+              "source_reliability_note": "Speaker claims personal friendship with Reid; chain of custody is speaker→Reid→Clinton"
+            }
+          },
+          {
+            "type": "PERSONNEL",
+            "name": "Bill Clinton",
+            "aliases": [
+              "President Clinton",
+              "Clinton"
+            ],
+            "role": "U.S. President (second term, per text); subject of verification regarding UFO knowledge",
+            "credibility_tier": 9,
+            "credibility_rationale": "Named President of the United States; direct quote attributed in text.",
+            "span_quote": "before I leave office, there are two things I really want to know. What the hell is the UFO subject all about? And who really killed JFK?",
+            "evidentiary_state": "Corroborated",
+            "attributes": {
+              "disclosure_posture": "Expressed desire to know about UFO subject but reportedly did not receive answers",
+              "knowledge_status": "Text states he 'didn't know about the subject'",
+              "source_reliability_note": "Quote corroborated via Reid's direct conversation with Clinton and a staffer's book"
+            }
+          },
+          {
+            "type": "PERSONNEL",
+            "name": "Webb Hubbell",
+            "aliases": [
+              "Webb Hubble"
+            ],
+            "role": "Presidential aide; assigned to investigate UFO subject and JFK assassination",
+            "credibility_tier": 7,
+            "credibility_rationale": "Named government aide with direct presidential assignment; text notes he did not get answers.",
+            "span_quote": "his aide was Webb Hubble, who got the assignment to go dig into those. >> Yes. >> And he didn't get the answers.",
+            "evidentiary_state": "Corroborated",
+            "attributes": {
+              "disclosure_posture": "Assigned to investigate UFO and JFK topics; reportedly unsuccessful",
+              "name_variant_note": "Surface form 'Webb Hubble' in transcript; canonical spelling is Webb Hubbell"
+            }
+          },
+          {
+            "type": "PERSONNEL",
+            "name": "Unnamed staffer / book author",
+            "aliases": [
+              "so-and-so"
+            ],
+            "role": "Staffer who wrote a book referencing conversation with President Clinton",
+            "credibility_tier": 3,
+            "credibility_rationale": "Unnamed individual referenced indirectly; single source mention.",
+            "span_quote": "there was a staffer that wrote a book and he referred to a conversation that he and the Bill Clinton had had",
+            "evidentiary_state": "Unverified",
+            "attributes": {
+              "note": "Identity not specified in text; referred to as 'so-and-so' when citing page reference"
+            }
+          },
+          {
+            "type": "EVENT",
+            "name": "Bill Clinton pre-departure UFO inquiry",
+            "aliases": [],
+            "date": "1997-01-01/2001-01-20",
+            "date_note": "Text references Clinton's 'second term'; exact date unspecified",
+            "location": "Unspecified",
+            "duration": "Unspecified",
+            "witness_count": "2 named (Harry Reid, Bill Clinton)",
+            "witness_names": [
+              "Harry Reid",
+              "Bill Clinton"
+            ],
+            "evidence_quality_note": "Corroborated by staffer's book and Reid's direct verification with Clinton",
+            "span_quote": "before I leave office, there are two things I really want to know. What the hell is the UFO subject all about? And who really killed JFK?",
+            "evidentiary_state": "Corroborated",
+            "attributes": {
+              "topics": [
+                "UFO/UAP",
+                "JFK assassination"
+              ],
+              "outcome": "Clinton reportedly did not receive answers before leaving office"
+            }
+          },
+          {
+            "type": "EVENT",
+            "name": "Webb Hubbell investigation assignment",
+            "aliases": [],
+            "date": "1993-01-01/1997-01-01",
+            "date_note": "Implied during Clinton's first term; exact date unspecified",
+            "location": "Unspecified",
+            "duration": "Unspecified",
+            "witness_count": "0",
+            "witness_names": [],
+            "evidence_quality_note": "Mentioned in conversation; no documentary citation provided in this text",
+            "span_quote": "his aide was Webb Hubble, who got the assignment to go dig into those. >> Yes. >> And he didn't get the answers.",
+            "evidentiary_state": "Unverified",
+            "attributes": {
+              "topics": [
+                "UFO/UAP",
+                "JFK assassination"
+              ],
+              "outcome": "Hubbell reportedly did not obtain answers"
+            }
+          },
+          {
+            "type": "EVIDENCE",
+            "name": "Staffer's book referencing Clinton conversation",
+            "aliases": [],
+            "category": "D",
+            "category_label": "Documentary / archival",
+            "span_quote": "there was a staffer that wrote a book and he referred to a conversation that he and the Bill Clinton had had",
+            "evidentiary_state": "Unverified",
+            "attributes": {
+              "evidence_subtype": "Published book",
+              "page_reference_note": "Speaker states 'I showed him where on page was so-and-so had said that'",
+              "chain_of_custody_note": "Book author unnamed; title not provided; page citation referenced but not specified"
+            }
+          },
+          {
+            "type": "EVIDENCE",
+            "name": "Harry Reid–Bill Clinton verification conversation",
+            "aliases": [],
+            "category": "D",
+            "category_label": "Documentary / archival",
+            "span_quote": "he met with with the President Clinton. He said, 'Did you say this?' And Clinton said, 'Hell, yes.'",
+            "evidentiary_state": "Corroborated",
+            "attributes": {
+              "evidence_subtype": "Testimony of conversation",
+              "corroboration_note": "Clinton confirmed the quote attributed to him in the staffer's book"
+            }
+          }
+        ],
+        "relationships": [
+          {
+            "from": "Harry Reid",
+            "to": "Bill Clinton",
+            "relation_family": "Attributional",
+            "relation_type": "verified_statement_of",
+            "confidence": 0.85,
+            "evidentiary_state": "Corroborated",
+            "note": "Reid verified with Clinton that he made the UFO/JFK inquiry statement"
+          },
+          {
+            "from": "Webb Hubbell",
+            "to": "Bill Clinton",
+            "relation_family": "Organizational",
+            "relation_type": "aide_to",
+            "confidence": 0.8,
+            "evidentiary_state": "Corroborated",
+            "note": "Hubbell described as Clinton's aide assigned to investigate UFO and JFK topics"
+          },
+          {
+            "from": "Unnamed staffer / book author",
+            "to": "Bill Clinton",
+            "relation_family": "Attributional",
+            "relation_type": "documented_conversation_with",
+            "confidence": 0.5,
+            "evidentiary_state": "Unverified",
+            "note": "Staffer's book references a conversation with Clinton about UFOs and JFK"
+          },
+          {
+            "from": "Staffer's book referencing Clinton conversation",
+            "to": "Bill Clinton pre-departure UFO inquiry",
+            "relation_family": "Evidential",
+            "relation_type": "documents",
+            "confidence": 0.6,
+            "evidentiary_state": "Unverified"
+          },
+          {
+            "from": "Harry Reid–Bill Clinton verification conversation",
+            "to": "Staffer's book referencing Clinton conversation",
+            "relation_family": "Evidential",
+            "relation_type": "corroborates",
+            "confidence": 0.8,
+            "evidentiary_state": "Corroborated",
+            "note": "Clinton confirmed the book's quoted statement during conversation with Reid"
+          }
+        ],
+        "analysis_summary": {
+          "investigation_priority": "Medium",
+          "key_findings": [
+            "Text describes a corroborated chain: staffer's book → Harry Reid verification → Clinton confirmation of his desire to know about UFOs and JFK assassination before leaving office.",
+            "Webb Hubbell was assigned to investigate both topics but reportedly received no answers, suggesting potential information barriers within the executive branch.",
+            "Speaker asserts presidents must actively push to obtain UFO-related information; passive interest is insufficient.",
+            "The staffer's book is referenced with a page citation but neither author nor title is identified in this transcript — a significant gap for verification."
+          ],
+          "inferences": [
+            "The consistent theme across Reid, Clinton, and Hubbell accounts suggests a pattern of presidential curiosity met with non-disclosure, which may indicate information compartmentalization outside normal executive channels.",
+            "The unnamed staffer/book represents the weakest evidentiary link; identifying this published source would strengthen the corroboration chain."
+          ],
+          "contamination_flags": [
+            "Speaker claims personal friendship with Harry Reid — potential bias toward validating Reid's account.",
+            "Transcript contains phonetic misspelling 'Webb Hubble' for Webb Hubbell — verify canonical identity.",
+            "No specific dates, book titles, or page numbers are provided despite references to them."
+          ]
+        }
+      },
+      "validation": {
+        "verdict": "pass_with_warnings",
+        "issues": [
+          {
+            "severity": "high",
+            "code": "HALLUCINATION_DATES",
+            "message": "Specific date ranges '1997-01-01/2001-01-20' and '1993-01-01/1997-01-01' are not present in the source excerpt. The source only references Clinton's 'second term' without specifying dates. These dates constitute external factual knowledge injected into the structured output.",
+            "fix": "Replace specific date ranges with source-grounded approximations such as 'Clinton's second term (date unspecified)' or remove the precise date values and rely solely on the date_note field."
+          },
+          {
+            "severity": "medium",
+            "code": "EXTERNAL_NAME_CORRECTION",
+            "message": "Canonical name 'Webb Hubbell' is not in the source; the source contains 'Webb Hubble'. While the correction is factually accurate and the output notes the variant, the canonical spelling is external knowledge not derivable from the source excerpt alone.",
+            "fix": "Retain the surface form 'Webb Hubble' as the primary name with a note indicating likely canonical spelling 'Webb Hubbell' should be verified externally, rather than asserting the corrected name as primary."
+          },
+          {
+            "severity": "low",
+            "code": "INFERRED_ROLE",
+            "message": "Harry Reid's role 'U.S. Senator (implied by context)' is not explicitly stated in the source excerpt. The source only identifies him as a 'close friend' who 'verified with Bill Clinton.' The Senator title is external knowledge.",
+            "fix": "Remove 'U.S. Senator' from the role field or clearly mark it as externally inferred, e.g., 'role': 'Friend of speaker; verifier of Clinton's UFO knowledge statement (publicly known as U.S. Senator, not stated in source)'."
+          },
+          {
+            "severity": "low",
+            "code": "CREDIBILITY_TIER_UNGROUNDED",
+            "message": "Credibility tier values (3, 7, 8, 9) are assigned to entities but are not grounded in or derivable from the source excerpt. These are analytical judgments without a documented rubric reference in the output.",
+            "fix": "Ensure credibility tiers are either explicitly tied to a documented rubric or add a top-level field noting the rubric source/methodology used for tier assignment."
+          }
+        ],
+        "safe_for_rag_index": false,
+        "safe_for_db_write": true
+      }
+    },
+    {
+      "chunk_id": "c04",
+      "ner": {
+        "entities": [
+          {
+            "type": "PERSONNEL",
+            "name": "Donald Trump",
+            "aliases": [
+              "Trump"
+            ],
+            "role": "U.S. President (contextual); briefing recipient",
+            "credibility_tier": null,
+            "span_quote": "Well, let's go back to Donald Trump. You know him. I mean, it's not like you're hanging out and going bowling on Saturday nights, but you're friends.",
+            "evidentiary_state": "Observed",
+            "attributes": {
+              "context": "President at time of Oval Office briefing; recipient of sensitive topic briefing including UAP-related material",
+              "relationship_to_speaker": "friend and political beneficiary of donations"
+            }
+          },
+          {
+            "type": "PERSONNEL",
+            "name": "William",
+            "aliases": [],
+            "role": "Staff Secretary at the White House",
+            "credibility_tier": null,
+            "span_quote": "William, the other the the the staff secretary there, uh we started we we were grabbing things",
+            "evidentiary_state": "Observed",
+            "attributes": {
+              "context": "Assisted in clearing the Resolute Desk area for briefing materials",
+              "note": "Full surname not provided in source text"
+            }
+          },
+          {
+            "type": "PERSONNEL",
+            "name": "Unidentified Interviewee",
+            "aliases": [],
+            "role": "Briefing official; Trump associate and donor; claims TS/SCI clearance",
+            "credibility_tier": 3,
+            "span_quote": "that was only clearances that we had, top secret special compartmental information. Uh that's not even remotely close enough.",
+            "evidentiary_state": "Unverified",
+            "attributes": {
+              "context": "Claims to have held TS/SCI clearance; states this was insufficient for unacknowledged SAPs; claims to have briefed Trump in Oval Office on sensitive topics including UAP-related material; donor to Trump campaigns; visitor to Mar-a-Lago",
+              "note": "Identity not established in this text excerpt. Credibility tier low due to anonymity in this segment and unverified claims."
+            }
+          },
+          {
+            "type": "EVENT",
+            "name": "Oval Office Briefing of President Trump on Sensitive Topics",
+            "aliases": [],
+            "date": null,
+            "location": "Oval Office, White House",
+            "duration": null,
+            "witness_count": null,
+            "evidence_quality_note": "Speaker claims to have delivered seven stacks of reports to the President; no corroboration in this text excerpt.",
+            "span_quote": "it was a big honor to be in the Oval Office on and and being able to brief him on so many different kinds of really sensitive important topics, and including this one.",
+            "evidentiary_state": "Unverified",
+            "attributes": {
+              "topics": "Sensitive topics including UAP-related subject matter (implied by interview context)",
+              "materials_delivered": "Seven different stacks of reports left behind at the Resolute Desk",
+              "note": "Exact date not provided in this excerpt."
+            }
+          },
+          {
+            "type": "ORGANIZATION",
+            "name": "White House",
+            "aliases": [
+              "Oval Office"
+            ],
+            "category": "government",
+            "span_quote": "it was a big honor to be in the Oval Office",
+            "evidentiary_state": "Observed",
+            "attributes": {
+              "context": "Location of the briefing event; staff secretary present"
+            }
+          },
+          {
+            "type": "LOCATION",
+            "name": "Oval Office",
+            "aliases": [],
+            "coordinates": null,
+            "span_quote": "the Resolute Desk is a very famous desk, and that's what he was sitting behind.",
+            "evidentiary_state": "Observed",
+            "attributes": {
+              "sub_location": "Resolute Desk",
+              "context": "Site of the reported briefing; materials were arranged on the desk after clearing space"
+            }
+          },
+          {
+            "type": "LOCATION",
+            "name": "Mar-a-Lago",
+            "aliases": [],
+            "coordinates": null,
+            "span_quote": "You've been to Mar-a-Lago. He calls you from time to time.",
+            "evidentiary_state": "Observed",
+            "attributes": {
+              "context": "Trump residence; interviewee reports having visited"
+            }
+          },
+          {
+            "type": "EVIDENCE",
+            "name": "Seven stacks of reports left at Resolute Desk",
+            "aliases": [],
+            "category": "D",
+            "span_quote": "we we made room for these seven different stacks of reports that I'm leaving behind. They were more than just one copy.",
+            "evidentiary_state": "Unverified",
+            "attributes": {
+              "evidence_subtype": "documentary",
+              "description": "Multiple copies of report stacks reportedly delivered to President Trump during Oval Office briefing",
+              "chain_of_custody_note": "No chain of custody established in this text; claims are single-source and uncorroborated in this excerpt"
+            }
+          },
+          {
+            "type": "EVIDENCE",
+            "name": "Briefing document prepared for Trump",
+            "aliases": [],
+            "category": "D",
+            "span_quote": "you you prepare a document for him, and what you want to convey in that time period, and then there's additional material in that document.",
+            "evidentiary_state": "Unverified",
+            "attributes": {
+              "evidence_subtype": "documentary",
+              "description": "Prepared briefing document with additional material beyond verbal briefing content",
+              "note": "Content specifics not detailed in this excerpt"
+            }
+          }
+        ],
+        "relationships": [
+          {
+            "from": "Unidentified Interviewee",
+            "to": "Donald Trump",
+            "relation_type": "Attributional",
+            "label": "briefed_on_sensitive_topics",
+            "confidence": 0.7,
+            "evidentiary_state": "Unverified"
+          },
+          {
+            "from": "Unidentified Interviewee",
+            "to": "Oval Office Briefing of President Trump on Sensitive Topics",
+            "relation_type": "Attributional",
+            "label": "participant_in",
+            "confidence": 0.7,
+            "evidentiary_state": "Unverified"
+          },
+          {
+            "from": "Donald Trump",
+            "to": "Oval Office Briefing of President Trump on Sensitive Topics",
+            "relation_type": "Attributional",
+            "label": "briefing_recipient",
+            "confidence": 0.7,
+            "evidentiary_state": "Unverified"
+          },
+          {
+            "from": "Seven stacks of reports left at Resolute Desk",
+            "to": "Oval Office Briefing of President Trump on Sensitive Topics",
+            "relation_type": "Evidential",
+            "label": "delivered_during",
+            "confidence": 0.6,
+            "evidentiary_state": "Unverified"
+          },
+          {
+            "from": "William",
+            "to": "Oval Office Briefing of President Trump on Sensitive Topics",
+            "relation_type": "Attributional",
+            "label": "assisted_logistics",
+            "confidence": 0.6,
+            "evidentiary_state": "Observed"
+          },
+          {
+            "from": "Oval Office Briefing of President Trump on Sensitive Topics",
+            "to": "Oval Office",
+            "relation_type": "Spatial",
+            "label": "occurred_at",
+            "confidence": 0.8,
+            "evidentiary_state": "Observed"
+          }
+        ],
+        "analysis_summary": {
+          "investigation_priority": "medium",
+          "key_findings": [
+            "Source text is an interview excerpt discussing security clearance levels (TS/SCI, acknowledged/unacknowledged SAPs) and a claimed Oval Office briefing of President Trump on sensitive topics including UAP-related material.",
+            "The interviewee's identity is not established in this excerpt; credibility is low (tier 3) due to anonymity and uncorroborated claims.",
+            "Claims about unacknowledged SAPs and clearance insufficiency are consistent with known classification frameworks but are presented as personal assertion without independent verification.",
+            "The seven stacks of reports and prepared briefing document are claimed but not described in content detail; no chain of custody is established.",
+            "The Resolute Desk and Oval Office setting are verifiable contextual details; William as staff secretary is named but without full surname."
+          ],
+          "inference_notes": [
+            "The interviewee appears to be a person of means (significant political donations, Mar-a-Lago access) who claims insider knowledge of SAP structures. The video context (YouTube link referencing 'Unacknowledged SAPs and Clearances') suggests this may be part of a longer disclosure-oriented interview, possibly with Robert Bigelow or a similar figure, but this is an inference not supported by the text excerpt alone.",
+            "The phrase 'including this one' implies the UAP topic was one of multiple sensitive subjects briefed, not the sole focus."
+          ],
+          "contamination_flags": [
+            "Single-source claims with no corroboration in this excerpt.",
+            "Interviewee self-reports their own clearance level and briefing activity without independent verification.",
+            "Potential narrative amplification risk if this interviewee's identity and claims are not independently corroborated."
+          ]
+        }
+      },
+      "validation": {
+        "verdict": "fail",
+        "issues": [
+          {
+            "severity": "high",
+            "code": "hallucinated_context",
+            "message": "The analysis_summary.inference_notes introduce external context not present in the source excerpt, specifically mentioning a 'YouTube link' and the name 'Robert Bigelow'. This violates the hallucination check by introducing names and context not found in the source text.",
+            "fix": "Remove the reference to the YouTube link and Robert Bigelow from the inference notes. Inferences must be strictly limited to what can be deduced from the provided source excerpt."
+          }
+        ],
+        "safe_for_rag_index": false,
+        "safe_for_db_write": false
+      }
+    },
+    {
+      "chunk_id": "c05",
+      "ner": {
+        "analysis_summary": {
+          "investigation_priority": "low",
+          "notes": "Source text is a conversational transcript discussing the concept of 'gatekeepers' in UAP disclosure. No specific named individuals, organizations, dates, or locations are provided. The speaker describes gatekeepers as individuals in government and private corporations who hold custody of UAP-related information and hardware. The text is thematic/conceptual rather than evidentiary. No chain-of-custody details, no specific artifacts, and no named witnesses are present. Inference: the speaker appears to be someone with insider framing of the disclosure process, but identity is not established in this excerpt."
+        },
+        "entities": [
+          {
+            "type": "PERSONNEL",
+            "name": "President of the United States",
+            "aliases": [],
+            "role": "hypothetical disclosure authority",
+            "credibility_tier": null,
+            "span_quote": "for somebody like the President of the United States to say, \"Yeah, they're real. They're here.\"",
+            "evidentiary_state": "Speculative",
+            "attributes": {
+              "note": "Referenced as a role, not a specific named individual. Used illustratively in the context of disclosure confirmation."
+            }
+          },
+          {
+            "type": "ORGANIZATION",
+            "name": "government locations",
+            "aliases": [],
+            "category": "government",
+            "span_quote": "these people because they're the ones that are in government locations and private corporation locations",
+            "evidentiary_state": "Unverified",
+            "attributes": {
+              "note": "Generic reference to government facilities housing gatekeepers. No specific agency or department named."
+            }
+          },
+          {
+            "type": "ORGANIZATION",
+            "name": "private corporation locations",
+            "aliases": [],
+            "category": "private",
+            "span_quote": "these people because they're the ones that are in government locations and private corporation locations",
+            "evidentiary_state": "Unverified",
+            "attributes": {
+              "note": "Generic reference to private corporate facilities housing gatekeepers. No specific company named."
+            }
+          },
+          {
+            "type": "EVIDENCE",
+            "name": "gatekeeper-held UAP information and hardware",
+            "aliases": [
+              "the goods",
+              "information about ET",
+              "hardware"
+            ],
+            "category": "A",
+            "span_quote": "they have custody of the goods. More information than they are diamonds in a coal mine. They have um they have obtained information about ET themselves. Uh about hardware.",
+            "evidentiary_state": "Unverified",
+            "attributes": {
+              "evidence_subtype": "physical_traces_and_documentary",
+              "note": "Speaker claims gatekeepers possess physical hardware and information about ET. No specific artifact, document, or sample is described. No chain of custody provided. Claim is uncorroborated in this excerpt."
+            }
+          },
+          {
+            "type": "EVENT",
+            "name": "UAP disclosure process",
+            "aliases": [
+              "disclosure"
+            ],
+            "date": null,
+            "location": null,
+            "duration": null,
+            "witness_count": null,
+            "span_quote": "this disclosure is a process and I and I was I was emphasizing that the disclosure process starting with confirmation is a big deal",
+            "evidentiary_state": "Speculative",
+            "attributes": {
+              "note": "Described as an ongoing process spanning approximately 80 years per the speaker. No specific start date or milestone event identified."
+            }
+          }
+        ],
+        "relationships": [
+          {
+            "relation_family": "Attributional",
+            "source": "gatekeeper-held UAP information and hardware",
+            "target": "government locations",
+            "confidence": 0.6,
+            "note": "Speaker asserts gatekeepers in government locations have custody of UAP information and hardware."
+          },
+          {
+            "relation_family": "Attributional",
+            "source": "gatekeeper-held UAP information and hardware",
+            "target": "private corporation locations",
+            "confidence": 0.6,
+            "note": "Speaker asserts gatekeepers in private corporation locations have custody of UAP information and hardware."
+          },
+          {
+            "relation_family": "Temporal",
+            "source": "UAP disclosure process",
+            "target": "President of the United States",
+            "confidence": 0.5,
+            "note": "Speaker frames presidential confirmation as a potential starting point for the disclosure process."
+          }
+        ],
+        "topics": [
+          "gatekeepers",
+          "UAP disclosure",
+          "government secrecy",
+          "private sector custody of UAP materials",
+          "international competition in UAP research"
+        ]
+      },
+      "validation": {
+        "verdict": "pass",
+        "issues": [],
+        "safe_for_rag_index": true,
+        "safe_for_db_write": true
+      }
+    },
+    {
+      "chunk_id": "c06",
+      "ner": {
+        "entities": [
+          {
+            "type": "PERSONNEL",
+            "name": "Sappho Henderson",
+            "aliases": [
+              "Saffi"
+            ],
+            "role": "witness / spouse of alleged Roswell pilot",
+            "credibility_tier": 5,
+            "span_quote": "I was talking to Sappho Henderson one time. And Pat Pappy Henderson was her husband.",
+            "evidentiary_state": "Unverified",
+            "attributes": {
+              "relationship": "wife of Pat 'Pappy' Henderson",
+              "context": "Recounted a secondhand story about her husband's alleged involvement in Roswell crash retrieval"
+            }
+          },
+          {
+            "type": "PERSONNEL",
+            "name": "Pat Henderson",
+            "aliases": [
+              "Pappy Henderson"
+            ],
+            "role": "alleged cargo plane pilot, Roswell crash retrieval",
+            "credibility_tier": 5,
+            "span_quote": "He was one of the pilots of uh one of the cargo planes taking uh from Roswell uh in the in the crash retrieval of of Roswell in '47.",
+            "evidentiary_state": "Unverified",
+            "attributes": {
+              "alleged_activity": "Piloted cargo plane transporting material from 1947 Roswell crash retrieval",
+              "deceased": true,
+              "source_of_claim": "Secondhand via spouse Sappho Henderson"
+            }
+          },
+          {
+            "type": "PERSONNEL",
+            "name": "Henderson daughter",
+            "aliases": [],
+            "role": "witness to Sappho Henderson's retelling",
+            "credibility_tier": 3,
+            "span_quote": "her daugh- daughter was there, too, as we were talk- she was relating the story.",
+            "evidentiary_state": "Unverified",
+            "attributes": {
+              "context": "Present when Sappho Henderson recounted the grocery store story; no independent statement attributed"
+            }
+          },
+          {
+            "type": "EVENT",
+            "name": "Roswell crash retrieval 1947",
+            "aliases": [
+              "Roswell in '47"
+            ],
+            "date": "1947",
+            "location": "Roswell",
+            "span_quote": "the crash retrieval of of Roswell in '47",
+            "evidentiary_state": "Contested",
+            "attributes": {
+              "description": "Alleged UFO crash retrieval at Roswell, New Mexico, 1947",
+              "witness_count_note": "No direct witnesses in this text; claim is secondhand via Sappho Henderson about her husband"
+            }
+          },
+          {
+            "type": "EVENT",
+            "name": "Henderson grocery store disclosure incident",
+            "aliases": [],
+            "date": null,
+            "location": null,
+            "span_quote": "we were in the grocery store one time. And uh he's and there's an article in there in one of the magazines about it's finally been revealed about ETs and aliens.",
+            "evidentiary_state": "Unverified",
+            "attributes": {
+              "description": "Pat Henderson allegedly told his wife about his Roswell cargo flight after seeing a tabloid magazine article about aliens while in a grocery store checkout line",
+              "trigger": "Tabloid magazine article about ETs/aliens",
+              "outcome": "Henderson retracted and told wife not to repeat after realizing the article was not a factual exposé"
+            }
+          },
+          {
+            "type": "EVIDENCE",
+            "name": "Tabloid magazine article (grocery store)",
+            "aliases": [],
+            "category": "D",
+            "span_quote": "It was like the Weekly World News talking about Roswell.",
+            "evidentiary_state": "Unverified",
+            "attributes": {
+              "subtype": "documentary / print media",
+              "description": "Checkout-aisle tabloid magazine article about aliens/ETs that prompted Henderson's disclosure to his wife; described as sensationalist, not factual",
+              "note": "The article itself is characterized as a attention-grabbing tabloid piece, not a credible disclosure source"
+            }
+          },
+          {
+            "type": "ORGANIZATION",
+            "name": "Weekly World News",
+            "aliases": [],
+            "category": "media",
+            "span_quote": "It was like the Weekly World News talking about Roswell.",
+            "evidentiary_state": "Observed",
+            "attributes": {
+              "description": "Tabloid publication used as a comparative reference for the type of magazine article that triggered Henderson's statement",
+              "disclosure_posture": "Sensationalist / entertainment media"
+            }
+          },
+          {
+            "type": "LOCATION",
+            "name": "Roswell",
+            "aliases": [],
+            "span_quote": "from Roswell uh in the in the crash retrieval of of Roswell in '47",
+            "evidentiary_state": "Observed",
+            "attributes": {
+              "state": "New Mexico",
+              "country": "United States",
+              "coordinates": null,
+              "note": "Coordinates not provided in source text; standard association is Roswell, NM"
+            }
+          }
+        ],
+        "relationships": [
+          {
+            "from": "Pat Henderson",
+            "to": "Roswell crash retrieval 1947",
+            "type": "Attributional",
+            "label": "alleged participant as cargo pilot",
+            "confidence": 0.6
+          },
+          {
+            "from": "Sappho Henderson",
+            "to": "Pat Henderson",
+            "type": "Attributional",
+            "label": "spouse",
+            "confidence": 0.9
+          },
+          {
+            "from": "Sappho Henderson",
+            "to": "Henderson grocery store disclosure incident",
+            "type": "Evidential",
+            "label": "primary narrator of incident",
+            "confidence": 0.8
+          },
+          {
+            "from": "Pat Henderson",
+            "to": "Henderson grocery store disclosure incident",
+            "type": "Temporal",
+            "label": "principal actor in incident",
+            "confidence": 0.7
+          },
+          {
+            "from": "Tabloid magazine article (grocery store)",
+            "to": "Henderson grocery store disclosure incident",
+            "type": "Evidential",
+            "label": "trigger for disclosure",
+            "confidence": 0.8
+          },
+          {
+            "from": "Weekly World News",
+            "to": "Tabloid magazine article (grocery store)",
+            "type": "Attributional",
+            "label": "comparative reference for article type",
+            "confidence": 0.7
+          },
+          {
+            "from": "Henderson daughter",
+            "to": "Henderson grocery store disclosure incident",
+            "type": "Evidential",
+            "label": "present during retelling",
+            "confidence": 0.6
+          }
+        ],
+        "analysis_summary": {
+          "investigation_priority": "low",
+          "key_findings": [
+            "Secondhand anecdote: narrator recounts what Sappho Henderson told them about her husband Pat 'Pappy' Henderson's alleged role as a cargo pilot in the 1947 Roswell crash retrieval.",
+            "The disclosure was triggered by a tabloid magazine article, not a credible source; Henderson himself reportedly retracted after realizing the article was sensationalist.",
+            "No direct testimony from Pat Henderson is present; he was deceased at time of retelling.",
+            "The story is primarily illustrative of secrecy culture around SAPs rather than providing new evidentiary detail about Roswell."
+          ],
+          "inferences": [
+            "The narrative's value is anecdotal and contextual rather than evidentiary. It demonstrates how even peripheral participants in alleged crash retrieval operations maintained silence, and how tabloid media could inadvertently trigger disclosures.",
+            "Pat Henderson's credibility as a pilot is plausible but unverified in this source; no military records, flight logs, or unit assignments are cited."
+          ],
+          "chain_of_custody_gaps": [
+            "No primary source from Pat Henderson; story passes through spouse Sappho Henderson to unnamed narrator.",
+            "No date for the grocery store incident.",
+            "No identification of the specific magazine or article.",
+            "No corroboration of Henderson's alleged Roswell cargo flight from records or other witnesses."
+          ]
+        }
+      },
+      "validation": {
+        "verdict": "pass_with_warnings",
+        "issues": [
+          {
+            "severity": "low",
+            "code": "GROUNDING_GEO_INFERRED",
+            "message": "Roswell location entity includes 'state': 'New Mexico' which is not explicitly stated in the source excerpt. The output does transparently note this as a 'standard association' rather than source-derived, but the field value itself is not grounded in the provided text.",
+            "fix": "Set 'state' to null or 'unspecified' and retain the note that the standard association is Roswell, NM, or move 'New Mexico' into the note attribute only."
+          },
+          {
+            "severity": "low",
+            "code": "ANALYTICAL_JUDGMENT_UNGROUNDED",
+            "message": "credibility_tier values (3, 5) and EVIDENCE category 'D' are assigned without explicit grounding criteria from the source text. These are analytical judgments that may be schema-defined but cannot be verified against this excerpt alone.",
+            "fix": "If tier/category definitions are externally defined, ensure they are referenced in provenance metadata. If not, add a brief rationale for each assignment grounded in source characteristics."
+          },
+          {
+            "severity": "low",
+            "code": "EPISTEMIC_LABEL_BORDERLINE",
+            "message": "Weekly World News and Roswell location are marked evidentiary_state 'Observed'. While these terms appear in the source text, 'Observed' may imply direct empirical observation rather than textual mention. This could be misinterpreted in a RAG context.",
+            "fix": "Consider using 'Mentioned' or 'Referenced' instead of 'Observed' for entities that appear in narrative text but were not directly observed by the speaker."
+          }
+        ],
+        "safe_for_rag_index": true,
+        "safe_for_db_write": true
+      }
+    },
+    {
+      "chunk_id": "c07",
+      "ner": {
+        "analysis_summary": {
+          "investigation_priority": "medium",
+          "notes": "Transcript excerpt from an interview describing a private meeting between an unnamed advisor and an unnamed U.S. president (described as a businessman). The advisor presented seven topics including UAP/ET disclosure. The interviewee refuses to disclose what the president said, only what they told him. Key themes include information reliability (first-hand vs. nth-hand reporting), the challenge of vetting second-hand accounts of anomalous phenomena, and advising the president to seek credible source material. No named individuals, specific dates, or locations are provided in this excerpt. The interviewee references topics such as crash retrievals, bodies, and vehicles of unknown origin, but these are raised by the interviewer as questions, not confirmed as claims by the interviewee. The interviewee's own statements focus on epistemic caution and advising the president to study responsibly.",
+          "inferences": [
+            "The 'businessman' president context strongly suggests Donald Trump, but the text does not name him explicitly; confidence is moderate but not textually grounded.",
+            "The interviewee appears to have had direct access to the president, suggesting an institutional or advisory role, but no specific affiliation is stated.",
+            "The interviewee's mention of 'survival of consciousness beyond permanent bodily death' alongside UFOs/ETs suggests a broader parapsychological/consciousness research background."
+          ]
+        },
+        "entities": [
+          {
+            "type": "PERSONNEL",
+            "name": "Unnamed Presidential Advisor (Interviewee)",
+            "aliases": [],
+            "role": "advisor to the president on UAP/ET disclosure and related topics",
+            "credibility_tier": 5,
+            "credibility_rationale": "Claims direct access to the president and prepared briefing materials, but identity is unnamed in this excerpt; corroboration limited to self-report in interview format.",
+            "span_quote": "I basically I focused on him. And how to prepare himself if he's not already prepared.",
+            "evidentiary_state": "Unverified",
+            "attributes": {
+              "topics_researched": [
+                "UAP",
+                "ET disclosure",
+                "survival of consciousness beyond permanent bodily death",
+                "UFOs and ETs"
+              ],
+              "disclosure_posture": "cautious; emphasizes epistemic reliability and source vetting"
+            }
+          },
+          {
+            "type": "PERSONNEL",
+            "name": "Unnamed President (referred to as businessman)",
+            "aliases": [
+              "him",
+              "the president"
+            ],
+            "role": "U.S. president; recipient of briefing",
+            "credibility_tier": null,
+            "credibility_rationale": "Not a witness or source in the traditional sense; identity not explicitly named in this excerpt.",
+            "span_quote": "It's not normal for for a businessman to be a researcher in these kinds of topics",
+            "evidentiary_state": "Unverified",
+            "attributes": {
+              "background": "businessman",
+              "briefing_received": "seven papers/issues including UAP/ET disclosure"
+            }
+          },
+          {
+            "type": "EVENT",
+            "name": "Presidential briefing meeting on seven topics including UAP/ET disclosure",
+            "aliases": [
+              "the meeting",
+              "this meeting"
+            ],
+            "date": null,
+            "location": null,
+            "duration": "unknown",
+            "witness_count": 2,
+            "witness_names": [
+              "Unnamed Presidential Advisor (Interviewee)",
+              "Unnamed President (referred to as businessman)"
+            ],
+            "evidence_quality_note": "No physical or sensor evidence discussed; meeting content is partially withheld by the interviewee who declines to share the president's responses.",
+            "span_quote": "Let's go back to the beginning of this meeting. So, you go in you've got seven papers you issues that you want to discuss with him. UAP, ET disclosure being one of them.",
+            "evidentiary_state": "Unverified",
+            "attributes": {
+              "topics_presented": [
+                "UAP",
+                "ET disclosure",
+                "five additional unspecified topics"
+              ],
+              "presidential_response": "withheld by interviewee"
+            }
+          },
+          {
+            "type": "ORGANIZATION",
+            "name": "Government agencies (unspecified)",
+            "aliases": [
+              "government agencies",
+              "the people who work for him"
+            ],
+            "category": "government",
+            "authority_context": "Agencies reporting to the president; discussed as potential sources of information with varying reliability.",
+            "disclosure_posture": "not stated; interviewee notes information chain-of-custody concerns",
+            "span_quote": "And government agencies, the people who work for him.",
+            "evidentiary_state": "Unverified",
+            "attributes": {
+              "reliability_concern": "Interviewee emphasizes that agency personnel may be distant from primary sources, receiving information second, third, fourth, or fifth hand."
+            }
+          }
+        ],
+        "relationships": [
+          {
+            "relation_family": "Attributional",
+            "source": "Unnamed Presidential Advisor (Interviewee)",
+            "target": "Presidential briefing meeting on seven topics including UAP/ET disclosure",
+            "relation_type": "briefed_at",
+            "confidence": 0.9
+          },
+          {
+            "relation_family": "Attributional",
+            "source": "Unnamed President (referred to as businessman)",
+            "target": "Presidential briefing meeting on seven topics including UAP/ET disclosure",
+            "relation_type": "received_briefing_at",
+            "confidence": 0.9
+          },
+          {
+            "relation_family": "Organizational",
+            "source": "Government agencies (unspecified)",
+            "target": "Unnamed President (referred to as businessman)",
+            "relation_type": "reports_to",
+            "confidence": 0.85
+          },
+          {
+            "relation_family": "Evidential",
+            "source": "Unnamed Presidential Advisor (Interviewee)",
+            "target": "Government agencies (unspecified)",
+            "relation_type": "cautioned_about_reliability_of",
+            "confidence": 0.8
+          }
+        ],
+        "topics": [
+          {
+            "name": "Information reliability and chain-of-custody",
+            "description": "Interviewee emphasizes the importance of distinguishing first-hand accounts from second, third, fourth, or fifth-hand relayed information, and how accounts degrade through transmission.",
+            "span_quote": "First hand would be you you've experienced it yourself. But are you third hand or fourth hand or what how far down the chain uh are you in terms of the information that's been relayed to you"
+          },
+          {
+            "name": "Crash retrieval and bodies of unknown origin",
+            "description": "Raised by the interviewer as a question about specificity of the briefing; interviewee does not confirm or deny in this excerpt.",
+            "span_quote": "Do you tell him that there are bodies, that there are crash retrieval vehicles from of unknown origin or how specific do you get on that?"
+          },
+          {
+            "name": "Survival of consciousness beyond permanent bodily death",
+            "description": "Listed by the interviewee as one of the non-normative research topics a businessman-turned-president might need to study.",
+            "span_quote": "survival of consciousness beyond permanent bodily death or UFOs and ETs. That's not normal."
+          }
+        ]
+      },
+      "validation": {
+        "verdict": "pass",
+        "issues": [
+          {
+            "severity": "low",
+            "code": "MODELING_NIT",
+            "message": "The EVENT entity lists witness_count as 2 and includes the president as a witness_name. The president is a briefing recipient, not a witness to an anomalous event; this modeling choice is slightly imprecise but does not introduce hallucination or epistemic error.",
+            "fix": "Consider relabeling 'witness_names' to 'participant_names' or excluding the president from witness_count for events that are briefings rather than observations of anomalous phenomena."
+          }
+        ],
+        "safe_for_rag_index": true,
+        "safe_for_db_write": true
+      }
+    },
+    {
+      "chunk_id": "c08",
+      "ner": {
+        "entities": [
+          {
+            "type": "PERSONNEL",
+            "name": "President of the United States",
+            "role": "President",
+            "credibility_tier": 1,
+            "span_quote": "president of the United States",
+            "evidentiary_state": "Observed",
+            "aliases": [
+              "he",
+              "him"
+            ]
+          },
+          {
+            "type": "ORGANIZATION",
+            "name": "Unacknowledged Special Access Programs",
+            "category": "government",
+            "span_quote": "unacknowledged SAPs",
+            "evidentiary_state": "Observed",
+            "aliases": [
+              "unacknowledged SAPs"
+            ]
+          },
+          {
+            "type": "ORGANIZATION",
+            "name": "Intelligence Agency",
+            "category": "government",
+            "span_quote": "intelligence agency",
+            "evidentiary_state": "Observed"
+          }
+        ],
+        "relationships": [
+          {
+            "source": "President of the United States",
+            "target": "Unacknowledged Special Access Programs",
+            "relation_type": "Attributional",
+            "confidence": 0.8,
+            "evidentiary_state": "Observed",
+            "notes": "The text asserts the President is not entitled to know about unacknowledged SAPs."
+          }
+        ],
+        "analysis_summary": {
+          "investigation_priority": "Low",
+          "notes": "The source text discusses the systemic culture of secrecy surrounding UAPs, specifically highlighting the perceived lack of presidential authority over Unacknowledged Special Access Programs (USAPs). It contrasts the transient nature of political office with the perceived permanence and trustworthiness of long-serving military admirals, generals, and intelligence officers in maintaining secrecy."
+        }
+      },
+      "validation": {
+        "verdict": "pass_with_warnings",
+        "issues": [
+          {
+            "severity": "medium",
+            "code": "HALLUCINATION_UNSUPPORTED_TERM",
+            "message": "The analysis_summary mentions 'UAPs', but the source excerpt only mentions 'UFOs'.",
+            "fix": "Replace 'UAPs' with 'UFOs' in the analysis_summary to align with the source text."
+          }
+        ],
+        "safe_for_rag_index": true,
+        "safe_for_db_write": true
+      }
+    }
+  ],
+  "embeddable_texts": [
+    "[music] >> Robert, you've spent I don't know how many years and how many millions of dollars, probably more money than any person in the history of the world pursuing topics of mutual interest. You've been at this even longer than I have, which is an awful long time. >> I think it even started in a past life for me. I don't know, it's been a very long time. >> Uh you know, at the beginning, when I first knew you back in the late '80s, uh the idea of disclosure was such a far-off concept. It really wasn't even >> No, we're trying to figure out what what's real, what do people know, what do we need to know, but the idea of someone announcing disclosure, whether that's the president or the pope or something like that, was just such a far away idea. It's not >> subject was was made fun of. It was a joke. >> Yeah. >> And mostly by the a lot of the media propagated that. >> Right. >> Right? >> Right. I've been on the receiving end of that, and you have, too. >> But now it's not so far away >> anymore. I mean, the idea of disclosure is being discussed earlier this year, the president issued a directive, said start releasing information on these files. Now, it's been a little disappointing what's been released so far, and I don't know who's in charge of what gets released, but at least it's happened, and he's acknowledged that it's something he wants to share with the public. That's an amazing step to come that far.",
+    "And so, um so that's how it started and um and we got into to the topic about um >> [snorts] >> the UAP topic and and [clears throat] disclosure and um we had um I remember talking at some time about um the gatekeepers. So, this disclosure is a process and I and I was I was emphasizing that the disclosure process starting [clears throat] with confirmation is a big deal that that you know that really is important for somebody like the President of the United States to say, \"Yeah, they're real. They're here.\" And eliminate all the other nonsense, all the noise that's been going on for 80 years. Um And >> [clears throat] >> so I wanted him to focus on gatekeepers. Um and I emphasized these people because they're the ones that are in government locations and private corporation locations that have spent [clears throat] their substantial lives or or careers um working in in very uh secluded [clears throat] environments um and they have custody of the goods. More information >> [clears throat] >> than they are diamonds in a coal mine. They have um they have obtained information about ET themselves. Uh about hardware. Um other countries are working on this exact same thing. So, you have to be careful not to talk about things that would give other people advantages and so on. And uh the gatekeepers I've I've told people that they're a heroes of a different kind. A lot of people would laugh at that, but it's true. It's true. Um they [snorts] go to their graves taking information that they their spouses uh have never heard. Their children have never heard. They can't talk about it to any any friend. Um so, um they're isolated about that. And and after a while, I think that must be a burden, you know, to to hold those kinds of secrets.",
+    "I remember uh I I I was I was talking to Sappho Henderson one time. And Pat Pappy Henderson was her husband. And she said, \"Well, we were [clears throat] in the grocery store one time. And uh he's and there's an article in there in one of the magazines about it's finally been revealed about ETs and aliens.\" And they're in the line, you know, getting their groceries. And he says, \"Oh my god, Saffi.\" He says, uh \"I can I can I guess it's out now. I can actually tell you what I've been doing all these years.\" He was one of the pilots of uh one of the cargo planes taking uh from Roswell uh in the in the crash retrieval of of Roswell in '47. And so, uh and then um she said to me, \"Well, later uh and her daugh- daughter was there, too, as we were talk- she was relating the story. He had since passed away. But she said it was so funny because uh he says, \"I wasn't I wasn't supposed to know that because the article really wasn't an exposé of a fact and of truth.\" >> It was like the Weekly World News talking about Roswell. >> story to get attention, so you're buying the magazine, you know, uh, where you you check out. And so, and he he said, \"Oh, well.\" He said, \"God.\" He said, \"I probably shouldn't have.\" He said, \"I guess it was just something that that it was out there in the magazine and I shouldn't have told you anything. So, don't say anything to anybody.\" But, that was that was really my first realization about how, um, how private that information [clears throat] is kept with everybody involved, you know, for for unacknowledged and acknowledged SAPs.",
+    "Let's go back to the beginning of this meeting. So, you go in you've got seven papers you issues that you want to discuss with him. UAP, ET disclosure being one of them. You walk into the office, you don't know how much time you're going to have and for purposes of our conversation, you can't tell me and our listeners, you can't say what the president said, right? >> No, I can't. >> So, you can only tell me what you told him, but you you go into it with an idea of not just things in the sky floating around, some mystery. We've got the goods. Somewhere there are crashes. Do you tell him that there are bodies, that there are crash retrieval vehicles from of unknown origin or how specific do you get on that? >> Um, I I basically I focused on him. And how to prepare himself if he's not already prepared. And it's not normal for for a businessman >> [clears throat] >> to be a researcher in these kinds of topics, you know, survival of consciousness beyond permanent bodily death or UFOs and ETs. That's not normal. And so, um, I was advising him to [clears throat] try to be as quick a study as he can because he's going to be getting advice from a lot of different folks. And, um, so he needs to do all that he can to to find responsible material to read. Um, from really good good authors and and reliable reliable uh books that that uh you can trust. >> And government agencies, the people who work for him. >> [clears throat] >> And that's that's tough, yes, because um, because they can be distant from So, it depends on on whether they've heard it second hand, first, second, third, or fourth hand, fifth hand. First hand would be you you've actually experienced it yourself. But are you third hand or fourth hand or what how far down the chain uh are you in terms of the information that's been relayed to you and how much is that conversation changed as it's been passed on and passed on from person to person? Um, and really if you got to just a short glimpse of something going down a hallway looking into a window or somewhere where normally you shouldn't have been maybe, but you were escorted by a friend. And maybe you saw something that um was dramatic, but all you saw was the tip of an iceberg. You really didn't understand the fundamentals of what you saw. You might have saw a being or you might have seen a structure. And so, it's tricky as to when you're talking to to human beings about anything. It's tricky as to as to what they're revealing.",
+    "All right, you you're conveying to him this is real. You need to pay attention to it. You should probably make an announcement at some point, but don't go too far. And you're conveying to him it's serious and that there have been people who've been keeping this secret for a long time, including probably from him. I mean, he's made statements here and there, offhanded remarks about UFOs, etc. >> He's not entitled to know. On unacknowledged SAPs or even unacknowledged SAPs, basically president of the United States and this [clears throat] is this is kind of rough because um this this field has more trust in 30-year admirals and generals. I mean, that's just everybody kind of knows that that's been around. Um politicians come and they go. And um and so 30-year admirals and generals are are much more in the eyes of folks people who will stay the course because they're not running for an election, they're not going to be here just for 4 years or 8 years or if they're a senator for a term of 6 or 12 or 18 or whatever. Um but and they're not their life is not to please the public. It's not their life isn't compromised by being a politician. So admirals and and generals >> and intelligence agency >> officers, of course. Of course. But um they're not trying to please the public all the time. They're not trying to to try to find compromises between very two very diverse uh large groups of folks and trying to make as many people happy as they can.",
+    "So you're conveying to him there are people who know about this stuff that have not told you because you're a a temporary occupant of the White House. I don't think you want to say it that way, but >> Well, it's as as true. >> Do you have a sense that he'd ever been briefed? We've read conflicting reports that there have been briefings for him on this topic. You can't quote what he told you, but did you get a sense that he'd ever been told about the goods? >> I can't comment really on body language or comments that he said or anything like that because it's I don't want to do that to him. >> Right. >> I don't want to I don't want to reveal anything. Maybe it's not my business. I was just a messenger. I was just kind of a person that's uh trying to give him information on a number of different topics. All of them were important and um that's it. And had my 75 minutes and I'm done. >> Would you guess based on what you know about the topic and how it's been handled over the decades, would you guess that he had been briefed or that any other president had been briefed? You know that Bill Clinton was not even though he expressed an interest in it. So, at some point the president has to be told no, we can't tell you. >> I think Bush senior knew quite a bit because he was a head of CIA. I think uh Nixon did. Um I think Eisenhower did. Um >> [clears throat] >> So, it's it's kind of hit and miss over historic over the period of history as to who has and who hasn't. >> Can you tell us what would be in the briefing document that you left behind? Was it cases? Here's a wave of UFOs. Here's a case. Here was a crash. Anything like that? >> Yeah, I yeah, I I uh related [clears throat] uh conversations I have had with General De Brouwer who was a chief of the Air Force for Belgium and there was a very interesting flap that it was about 18 months long with triangle triangular craft. And uh he was in command of all the Air Force and he really chased the heck out of these and and he told me he said, \"Bob, you you just it it I'm just burning fuel and it and it makes no sense.\" He said, \"I we're going to stop because we're not getting anywhere. All we're doing is getting closer, you know, photographs and things, but we're not getting anywhere. We don't we're not we're not getting [clears throat] any information that is really valuable for us to understand anything. You know, and I gave him other examples of where large amounts of witnesses were involved and so that he could read about these particular incidences. Um And and and and of course the one with Fife Symington is in '97 was so interesting because there you had a governor who was an actual witness and he made a joke of it on and brought an alien guy in an alien suit on stage because he was scared to death. >> It's the Phoenix lights case. >> Phoenix lights which weren't just lights. It was actually freaking craft and it came from Northern Arizona. I think it started actually in Southern Nevada is where the craft began and in the Henderson area, I think, somewhere in there. And so you see this huge triangular craft, gigantic craft going slowly and he was scared to death but finally fast forward 10 years later and he confesses that he was an eyewitness but he didn't know what to do. So he was there at a point in time when the dynamic of disclosure could have been forced and and actually confirmation could have been from a governor of the state like that. He was a credible guy. So we've had many incidences like that where they in the early '50s flying over the White House and the Capitol building. We've had so many of those. So I in my report I included a lot of very dramatic beyond a reasonable doubt kind of witnesses of of exhibitions.",
+    "Did you share with him anything about your knowledge of classified program? You you got a top secret security clearance, right? >> Yeah. >> It was for the AATIP program for BAS. >> Right. >> Operated under the DIA. >> Yeah. >> You learned a lot during that program. It's the largest accumulation of UFO info of any government-funded UFO program ever. >> Yeah. >> You didn't tell him about it. >> It wasn't [clears throat and snorts] credible enough, I felt, for him. Um Uh it's just something pertaining to me. And uh whereas these other examples are historic and they're in a a lot of literature. They're very famous. The witnesses and the the amount of witnesses were huge. Uh we operated under um a private situation with the Skinwalker Ranch. And um he wouldn't relate to well, we all had hitchhikers. We all had took things home with us. You know, we all saw a lot of stuff. Uh whether it was at the ranch or where we lived and it make any make any difference where in the United States we lived. Uh we we we saw a lot of things. And but that wouldn't be relevant for him to be able to relate to that, right? >> Well, >> So, why talk about it? >> Yeah, I mean, you know, you're kind of jumping into the deep end of the pool when you get into hitchhikers and Skinwalker. And maybe for your first big conversation on this topic, that might not be the place to go. >> You know, and I I didn't even I couldn't even say if he said, \"I need a beer.\" I I couldn't even [laughter] give him a something to drink, you know, maybe stronger than that. So, I didn't want to do any you know >> Um you you did you used the term non-human intelligence in the sentence you gave him, \"Hey, try this in the as you're climbing aboard Air Force One, say that to media and then, you know, close the door.\" >> Right. >> You said non-human intelligence, not ET. Are they the same? And and it and did you share anything with him about what you think it is? >> Well, there have been reports of humans on [clears throat] board. Right? But the non-human are more interesting. I mean, if a human's on board and and he or she has free reign of the craft, that's pretty damn interesting, right? But and you don't know where those people are when they're not on board. So, but the other ones uh are some are scary. You you some uh it's not surprising that in the universe everything's going to look like us. Every every intelligent organism is going to look like us. Um but you have to have it's also a matter of respect for any really intelligent animal or or and and creature or whatever it is, right? And the more advanced the more respect because you don't know what they know. And you don't you don't know the future and they may know they may know more than just the now.",
+    "If you were to have a second conversation with them, would you explain that ET is one idea, but it's not necessarily the only option for a non-human intelligence that's out there? >> [clears throat] >> You have to tell me first how much time do I have in the second conversation. >> Let's get Let's make it an hour. You have an hour with the president. What would you tell him about who they are, who they might be? >> Um So, >> [clears throat] >> I would try to get into the complexity of the relationship that once you've had confirmation, you know, you've given that that text of that little sentence I I wrote and quoted there and you start to go down the path of disclosure where it's more than than just flares flare videos and um you're not seeing other things are much more crystal clear and you know, in video um or legitimate people in places that you recognize these people and they're around something or with something or somebody that's a holy cow. That's wow, you know. That's a very dramatic kind of disclosure about something landing on the lawn somewhere, you know. Um So, I think the the what I would have spent time doing is talking about how do you establish when you've been in 80 years of denial as a nation in the world. Uh we have countries who are very up front and others that are also in denial. Now, you want to pivot 180°. How do you start that relationship? How do you do that? And it's not as though that we've ever been in control. We haven't been in control of anything, ever, for the for this 80 years of modern history. Nothing. We have no ability to control anything. >> That's a tough thing to tell the president, right? I would think that would be a tough thing for a president to accept. >> Well, you're giving me an hour to talk to him, you said. >> So, I'm using my hour. So, yeah, so uh that's what I I would That's a really intriguing thing is how do you do that? Where do you start? And into a relationship and and and I would say more like well, I would want to start with the biggest question I would ask I would say what I want to get from them is my first question is what are the chances we are going to survive ourselves? That we are not going to annihilate ourselves. Cuz they've already are familiar with a whole lot of other species on a lot of other worlds and other other"
+  ],
+  "metadata": {
+    "provenance": "https://youtu.be/q0N33jb7Bhk",
+    "filename_hint": "Robert Bigelow and George Knapp discuss UFO disclosure",
+    "prompts_dir": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/ai/prompts",
+    "content_type": "mixed",
+    "ingestion_recommendation": "proceed",
+    "priority": null,
+    "chunk_count": 11,
+    "embeddable_count": 8,
+    "ner_chunk_count": 8,
+    "prompts_used": [
+      "disclosure.content_analysis",
+      "disclosure.ner",
+      "document_classification",
+      "rag_ingestion",
+      "validation"
+    ],
+    "tiers_used": [
+      "openrouter/glm-5.2"
+    ],
+    "degraded": false,
+    "schema_unenforced_prompts": [],
+    "repaired_prompts": []
+  },
+  "errors": [],
+  "prompts_used": [
+    "document_classification",
+    "disclosure.content_analysis",
+    "rag_ingestion",
+    "disclosure.ner",
+    "validation",
+    "disclosure.ner",
+    "validation",
+    "disclosure.ner",
+    "validation",
+    "disclosure.ner",
+    "validation",
+    "disclosure.ner",
+    "validation",
+    "disclosure.ner",
+    "validation",
+    "disclosure.ner",
+    "validation",
+    "disclosure.ner",
+    "validation"
+  ]
+}

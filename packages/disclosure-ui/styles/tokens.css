@@ -1,0 +1,213 @@
+/**
+ * Disclosure UI design tokens — import once in the app root layout.
+ * @repo/disclosure-ui
+ */
+@source "../src";
+
+:root {
+  /*
+   * Pixel-sampled from disclosure-design-references (2026-08-13).
+   * Hex only on these definition lines. Sources: plate_047, document-panel,
+   * visual-language-report-v1, research-desk-nuclear-thread-v2, living-research-canvas,
+   * gateway-hero, Prometheus sketches.
+   */
+  --du-reading-ink: #1c1c1c;
+  --du-reading-paper: #e2dbc7;
+  --du-reading-paper-raised: #f2efe7;
+  --du-reading-oxidized: #d4cbb6;
+  --du-reading-edge: #c9c1b3;
+  --du-reading-leather: #151412;
+  --du-reading-bronze: #d89024;
+  --du-reading-bronze-soft: color-mix(in srgb, var(--du-reading-bronze) 28%, transparent);
+  --du-reading-metal: #6b665c;
+  --du-reading-stamp: #aa5d4f;
+  --du-reading-panel: #242418;
+  --du-reading-line: color-mix(in srgb, #3a3935 45%, transparent);
+
+  --du-desk-base: #0f181c;
+  --du-desk-panel: #191f21;
+  --du-desk-card: #23292b;
+  --du-desk-line: color-mix(in srgb, #e2dbc7 22%, transparent);
+  --du-desk-ink: #e2dbc7;
+  --du-desk-muted: #a9a192;
+  --du-desk-amber: #b49c60;
+  --du-desk-teal: #638b9c;
+  --du-desk-purple: #322d4a;
+  --du-desk-green: #809773;
+
+  --du-hud-bg: #0a0a0a;
+  --du-hud-surface: #121516;
+  --du-hud-grid: #141414;
+  --du-hud-border: #2a2a2a;
+  --du-hud-muted: #6b665c;
+}
+
+[data-register='archival-material'] {
+  color: var(--du-reading-ink);
+  background-color: var(--du-reading-panel);
+}
+
+[data-register='techno-analytical'] {
+  color: var(--du-desk-ink);
+  background-color: var(--du-desk-base);
+}
+
+/*
+ * Assembling-components semantic layer.
+ * Product primitives stay --du-*. Hex/oklch/px appear only on definition lines.
+ * AnyDesign/Vercel names remap here (--motion-duration-* → --duration-*).
+ * MotionViz chroma scarcity: --color-primary is desk brass #b49c60 (research-desk sample).
+ */
+:root {
+  --color-bg-primary: var(--du-desk-base);
+  --color-bg-secondary: var(--du-desk-panel);
+  --color-bg-tertiary: var(--du-desk-card);
+  --color-bg-elevated: var(--du-desk-card);
+  --color-text-primary: var(--du-desk-ink);
+  --color-text-secondary: var(--du-desk-muted);
+  --color-text-tertiary: var(--du-desk-muted);
+  --color-text-inverse: var(--du-desk-base);
+  --color-border-primary: var(--du-desk-line);
+  --color-border-secondary: var(--du-desk-line);
+  --color-border-focus: var(--color-primary);
+  --color-primary: var(--du-desk-amber);
+  --color-success: var(--du-desk-green);
+  --color-warning: var(--du-desk-amber);
+  --color-error: var(--du-reading-stamp);
+  --color-info: var(--du-desk-teal);
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --spacing-xs: var(--space-1);
+  --spacing-sm: var(--space-2);
+  --spacing-md: var(--space-4);
+  --spacing-lg: var(--space-6);
+  --spacing-xl: var(--space-8);
+  --spacing-2xl: var(--space-12);
+
+  --font-sans: var(--font-neue-haas), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --line-height-normal: 1.5;
+
+  --border-width-thin: 1px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.2);
+  --shadow-md: 0 4px 12px oklch(0 0 0 / 0.28);
+  --shadow-lg: 0 12px 24px oklch(0 0 0 / 0.32);
+  --shadow-xl: 0 20px 40px oklch(0 0 0 / 0.4);
+  --shadow-2xl: 0 25px 50px oklch(0 0 0 / 0.45);
+  --shadow-focus: 0 0 0 2px var(--color-bg-primary), 0 0 0 4px var(--color-primary);
+
+  --chart-color-1: var(--du-desk-teal);
+  --chart-color-2: var(--du-desk-amber);
+  --chart-color-3: var(--du-desk-green);
+  --chart-color-4: var(--du-desk-purple);
+  --chart-color-5: var(--du-reading-stamp);
+
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+  --z-toast: 1080;
+
+  --duration-fast: 150ms;
+  --duration-normal: 200ms;
+  --duration-slow: 300ms;
+  --motion-duration-fast: var(--duration-fast);
+  --motion-duration-popover: var(--duration-normal);
+  --motion-duration-overlay: var(--duration-slow);
+  --transition-fast: color var(--duration-fast) ease-out,
+    background-color var(--duration-fast) ease-out, border-color var(--duration-fast) ease-out,
+    box-shadow var(--duration-fast) ease-out, opacity var(--duration-fast) ease-out,
+    transform var(--duration-fast) ease-out;
+  --transition-normal: color var(--duration-normal) ease-out,
+    background-color var(--duration-normal) ease-out, border-color var(--duration-normal) ease-out,
+    box-shadow var(--duration-normal) ease-out, opacity var(--duration-normal) ease-out,
+    transform var(--duration-normal) ease-out;
+
+  --icon-size-sm: 1rem;
+  --icon-size-md: 1.5rem;
+  --icon-size-lg: 2rem;
+  --icon-size-xl: 3rem;
+  --button-height-sm: 2rem;
+  --button-height-md: 2.5rem;
+  --button-height-lg: 3rem;
+  --min-height-card: 140px;
+  --min-height-chart: 200px;
+}
+
+[data-theme='dark'] {
+  --color-bg-primary: var(--du-desk-base);
+  --color-bg-secondary: var(--du-desk-panel);
+  --color-bg-tertiary: var(--du-desk-card);
+  --color-bg-elevated: var(--du-desk-card);
+  --color-text-primary: var(--du-desk-ink);
+  --color-text-secondary: var(--du-desk-muted);
+  --color-text-tertiary: var(--du-desk-muted);
+  --color-text-inverse: var(--du-desk-base);
+  --color-border-primary: var(--du-desk-line);
+  --color-border-secondary: var(--du-desk-line);
+  --color-primary: var(--du-desk-amber);
+  --color-success: var(--du-desk-green);
+  --color-warning: var(--du-desk-amber);
+  --color-error: var(--du-reading-stamp);
+  --color-info: var(--du-desk-teal);
+}
+
+[data-theme='light'] {
+  --color-bg-primary: var(--du-reading-paper);
+  --color-bg-secondary: var(--du-reading-paper);
+  --color-bg-tertiary: var(--du-reading-panel);
+  --color-bg-elevated: var(--du-reading-paper);
+  --color-text-primary: var(--du-reading-ink);
+  --color-text-secondary: var(--du-reading-metal);
+  --color-text-tertiary: var(--du-reading-metal);
+  --color-text-inverse: var(--du-reading-paper);
+  --color-border-primary: var(--du-reading-line);
+  --color-border-secondary: var(--du-reading-line);
+  --color-primary: var(--du-reading-bronze);
+  --color-success: var(--du-desk-green);
+  --color-warning: var(--du-desk-amber);
+  --color-error: var(--du-reading-stamp);
+  --color-info: var(--du-desk-teal);
+}
+
+[data-register='archival-material'] {
+  --color-bg-primary: var(--du-reading-panel);
+  --color-bg-secondary: var(--du-reading-leather);
+  --color-bg-tertiary: var(--du-reading-panel);
+  --color-bg-elevated: var(--du-reading-leather);
+  --color-text-primary: var(--du-reading-paper);
+  --color-text-secondary: var(--du-reading-bronze);
+  --color-text-tertiary: var(--du-reading-metal);
+  --color-border-primary: var(--du-reading-line);
+  --color-primary: var(--du-reading-bronze);
+  --color-error: var(--du-reading-stamp);
+}

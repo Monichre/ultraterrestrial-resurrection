@@ -1,0 +1,17 @@
+/**
+ * Storybook preview styles for @repo/disclosure-ui.
+ *
+ * Tailwind 4 CSS-first setup: `@import "tailwindcss"` pulls in the engine,
+ * then tokens.css provides the design tokens and the `@source "../src"`
+ * directive that tells Tailwind which files to scan for class names.
+ *
+ * tokens.css is resolved relative to this file's location (.storybook/),
+ * so `../styles/tokens.css` points at packages/disclosure-ui/styles/tokens.css.
+ */
+@import 'tailwindcss';
+@import '../styles/tokens.css';
+
+/* Explicit source root so Tailwind scans component + story files from the
+   .storybook entry. tokens.css also declares @source "../src"; duplicate
+   declarations are harmless and this guarantees coverage. */
+@source "../src";

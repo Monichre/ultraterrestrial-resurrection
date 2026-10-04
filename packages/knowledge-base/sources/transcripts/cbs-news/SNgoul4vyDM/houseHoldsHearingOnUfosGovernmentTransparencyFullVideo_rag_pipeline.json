@@ -1,0 +1,666 @@
+{
+  "status": "ok",
+  "classification": {
+    "content_type": "government",
+    "primary_record_hints": [
+      "Event",
+      "Testimony",
+      "KeyFigure",
+      "Organization",
+      "Topic"
+    ],
+    "hynek_scaffold": null,
+    "classification_marks_detected": [],
+    "language": "en",
+    "ocr_quality": "n/a",
+    "sensitivity": "public",
+    "ingestion_recommendation": "proceed",
+    "rationale": "Transcript of a U.S. House subcommittee hearing on UAPs, featuring opening statements from members of Congress and introduction of witnesses. Primary content is official government proceedings, with testimony and organizational references. No extraordinary claims requiring hold; custody is clear (public congressional hearing).",
+    "confidence": 0.95
+  },
+  "analysis": {
+    "_raw_list": [
+      "The lack of transparency regarding UAPs has fueled wild speculation and debate for decades, eroding public trust in institutions.",
+      "AARO's budget remains classified, prohibiting meaningful oversight from Congress.",
+      "The Biden Administration's handling of the Chinese spy balloon shows the government is not prepared for these situations.",
+      "The U.S. government spent $1.5 million in taxpayer dollars on missiles to shoot down the Chinese balloon and two subsequent UAPs, yet little clarity has been provided.",
+      "A poll found that 68% of Americans believe the government is hiding information about UAPs.",
+      "Another poll found that nearly half of Americans believe the federal government is doing a very bad or somewhat bad job of dealing with UFO sighting reports.",
+      "The government has done nothing to assure service members that they will not face retribution for reporting UAP encounters.",
+      "The committee was denied access to a classified briefing (SCIF) prior to the hearing.",
+      "Witnesses will testify that UAPs have posed a serious safety threat.",
+      "The 2017 New York Times report revealed research on UAPs by the Defense Intelligence Agency.",
+      "The Office of the Director of National Intelligence has published public reports documenting UAPs.",
+      "On June 9, 2022, NASA announced it is commissioning a study to examine UAPs.",
+      "The stigma around reporting UAP incidents prevents a complete picture of the situation.",
+      "AARO Director Sean Kirkpatrick testified before the Senate that his unit has found no evidence of extraterrestrial activity.",
+      "NASA has stated they do not have evidence of extraterrestrial life.",
+      "Whistleblowers have reported harassment, intimidation, or stigma.",
+      "The Senate is taking up an amendment to the defense authorization bill to create a commission with broad declassification authority.",
+      "AARO's initial analysis found 171 uncharacterized UAP reports that appear to have demonstrated unusual flight characteristics or performance capabilities.",
+      "Former DNI John Ratcliffe confirmed the U.S. government is aware of many more UAP sightings that have not been made public."
+    ]
+  },
+  "ingestion": {
+    "document": {
+      "title_guess": "House Oversight Subcommittee Hearing on Unidentified Anomalous Phenomena (UAPs) - Opening Statements",
+      "content_type": "government",
+      "language": "en",
+      "provenance": "https://www.youtube.com/watch?v=SNgoul4vyDM",
+      "integrity_flags": [
+        "transcript_auto_generated",
+        "truncated_for_pipeline"
+      ]
+    },
+    "chunks": [
+      {
+        "chunk_id": "c01",
+        "heading_path": "Opening Statements > Chair",
+        "text": "the subcommittee hearing on unidentified anomalous phenomena or uaps will come to order welcome everyone without objection the chair May declare a recess at any time additionally without objection the following members are waived onto the subcommittee for the purpose of participating in today's hearing Mr burchard of Tennessee Miss Luna Florida Mr getza Florida Mr Burleson of Missouri Mrs ocasio-cortez in New York and Mr ogles of Tennessee without objections so ordered for today's subcommittee hearing both the chair and ranking member will have 10 minutes for opening remarks we may both be giving some of those minutes to other members of our party I'm now going to recognize myself for 10 minutes I'm actually going to try to get out of here in about four and then we'll give it to some of my friends over here good morning and welcome to the mostly exciting the most exciting subcommittee in Congress this week the subcommittee on National Security of the board in foreign affairs for discussion of unidentified anomalous phenomenon I'd like to thank the brave military pilots and Personnel such as wit such as the Witnesses on the panel today for sharing their stories on how they've engaged uaps which has brought attention to this matter curiosity and speculation from all walks of life have generated interest in studying what uaps are and what threats they they may pose I will say that when I was younger in school I read a book a 1966 book called flying saucers serious business and for a while when I was a little bit younger I thought it was the most important issue out there the lack of a transparency regarding uaps which was one of the themes of that book um in any event it's led to interest in studying what uaps are and what threats they pose the lack of transparency regarding uaps is fueled wild speculation and debate for decades eroding public trust in the very institutions that are meant to serve and protect them as is evidenced by the large number of people we have here I also want to point out in 1966 President Gerald Ford claimed to have seen a UFO and in 1969 in Georgia Jimmy Carter claimed to have seen a UFO so this has led Congress to establish entities to examine uaps the National Defense authorization Act of 2022 established the all-domain anomaly resolution officer aarro to conduct or to coordinate efforts across the Department of Defense and other federal agents federal agencies to detect identify and investigate uaps however aaro's budget remains classified prohibiting meaningful oversight from Congress in addition to aro's efforts Nassau is leading an independent study and uaps to identify how UAP data is gathered from both civilian and government entities that can be analyzed to shed light on the topic however despite these offices being established their lives of pressing demand for government transparency and accountability that cannot be overlooked and that's been a problem that's been around for 50 years the Biden Administration handling of the Chinese spy balloon that violated U.S airport space is one example how the government is not prepared for these the Biden administration's description of events has shown that the government continues not to be forthright between the Chinese balloon being shot down in two uaps subsequently shut down following the event earlier this year the U.S government spent one and a half million dollars in taxpayer dollars on missiles yet we have seen little Clarity from the Biden Administration we must demand transparency from the Department of Defense our intelligent community and our defense industry on the UAP work we're going to ask some questions about that today Congress recognizes the subject of uaps is multifaceted and requires a careful data-driven approach today we'll see Clarity from these Witnesses testimonies I will see clarity as to what can be done to improve reporting for military and civilians and remain committed to objective inquiry Congress should work to ensure that knowledge is not driven by fear today we are not just obeying the existence of uaps we are deliberating on the principles that Define our Republic which is a commitment to transparency and accountability I look forward to hearing from our Witnesses today about ways we can improve government efficiency and openness when it comes to uaps I thank each of you for your presence here today and for your dedication to safeguarding the interest of the American people I look forward to your testimony and I'm going to turn it over for two and a half or three minutes to representative burchard from Tennessee",
+        "token_estimate": 550,
+        "overlap_note": null,
+        "entities_hint": [
+          "AARO",
+          "NDAA 2022",
+          "NASA",
+          "Gerald Ford",
+          "Jimmy Carter",
+          "Biden Administration",
+          "Department of Defense"
+        ],
+        "claims_hint": [
+          "AARO budget is classified, hindering oversight",
+          "Government lacks transparency on UAPs",
+          "Biden administration not forthright on Chinese spy balloon incident"
+        ],
+        "temporal_anchors": [
+          "1966",
+          "1969",
+          "2022",
+          "earlier this year"
+        ],
+        "spatial_anchors": [
+          "U.S. airspace",
+          "Georgia"
+        ],
+        "evidentiary_density": "high",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c02",
+        "heading_path": "Opening Statements > Rep. Burchett",
+        "text": "thank you Mr chairman thank you all for being here I want to thank everybody for making this happen today and I want to remind everybody this is a nonpartisan issue this has nothing to do with Party politics I think the cover up goes a lot deeper than that I also want to thank my colleagues representative Anna Paulina Luna sitting beside me here Jared Moskowitz my friend across the aisle has an incredible mind and I'm anxious to hear his questions my buddy Eric Burleson and it's not in my notes here but Matt Gates if it hadn't been for Matt Gates myself him and Luna would still be down at Eglin Air Force Base trying to get some answers he's got an incredible legal mind also uh I know I saw it in the crowd there George Knapp my buddy Jeremy Corbell I've they're not Witnesses but they've provided some statements on this subject and I see unanimous consent to enter those statements into the record Mr chairman without objection also would like to enter in I understand now that this is unclassified and it's public record but as we all know that's sometimes difficult for the public to get a hold of a report defense intelligence reference documents Advanced space propulsion based on vacuum space-time metric engineering some light reading for some of our members without objection thank you um you know Mr Knapp wrote since 1969 the position our military has been that UFOs pose no threat to National Security and are not worth worthy of further study I'd say that's the biggest understatement of the decade he also goes on to talk about the dismissive attitude and said odds with what was revealed in documents reports internal memos Mr cabrill says as he writes these words the UFO is emerging as a major topic of global importance um I can state that as a fact out there I met a fella who came in here all the way from Denmark to be here for this this meeting so this is huge this is worldwide I think we we suspect what's going on but I'd also like to thank the members of Congress who supported our efforts to make this hearing happen some have even confided to me that they've had UFO sightings of Their Own those members of course some of them wish to remain anonymous and I'll keep it that way but also finally I'd like to thank these three Brave Witnesses here they took an oath they took a note to uphold the Constitution United States and Dad government they're doing it and we owe them a debt of gratitude [Applause] y'all quit clapping you're cutting in on my time these folks they've got nothing to gain from this and I think you're going to find out that they've endured quite a few slings and arrows we need to remember them in our prayers and their families and I'm thankful them for their honest testimonies they have done interviews and appeared in documentaries like accidental truth to get their stories out there to and and now they are all here to testify under oath for Congress I it's been so difficult to get here today I've said you know in the Baptist Church we'd say that the devil's in our way and um the devil has been in our way through this thing we've we've run into roadblocks from members from the intelligence Community the Pentagon our proposed legislation to go in the FAA reauthorization that just said if uh if an airline pilot has a siding that when he makes that report to the FAA that it would come to Congress but I was told that the intelligence community did not like that and the bill was the amendment was not even heard in committee I think it's time for this country to take back our country we need to tell the folks at the Pentagon they work for us that government we don't work for them and that's exactly the point this is an issue of government transparency we can't trust a government that does not trust its people we're not bringing Little Green Men or flying saucers into the hearing sorry to disappoint about half y'all we're just going to get to the facts we're going to uncover the cover-up and I hope this is just the beginning of many more hearings and more people coming forward about this and I yield back the remainder of my time",
+        "token_estimate": 520,
+        "overlap_note": null,
+        "entities_hint": [
+          "George Knapp",
+          "Jeremy Corbell",
+          "Eglin Air Force Base",
+          "FAA",
+          "DIA",
+          "Matt Gaetz",
+          "Anna Paulina Luna",
+          "Jared Moskowitz"
+        ],
+        "claims_hint": [
+          "UAP issue is nonpartisan",
+          "Intelligence community blocked FAA reporting amendment",
+          "Military position since 1969 that UFOs pose no threat is an understatement"
+        ],
+        "temporal_anchors": [
+          "1969"
+        ],
+        "spatial_anchors": [
+          "Tennessee",
+          "Denmark",
+          "Eglin Air Force Base"
+        ],
+        "evidentiary_density": "high",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c03",
+        "heading_path": "Opening Statements > Rep. Luna",
+        "text": "um I think is it to representative Luna Mr chairman yeah we'll we'll call him Ms Luna for her statement their circumstances surrounding uaps has captivated the intention of the American people for decades ingrained in even the minds of our nation's leaders from Jimmy Carter to Barack Obama Hillary Clinton to Donald Trump Marco Rubio to Chuck Schumer John Radcliffe to National Security Council officials yet from Roswell New Mexico to the coast of Jacksonville Florida the sightings of uaps have rarely been explained by the people who have first-hand accounts of these situations this is largely due to the lack of transparency by our own government and the failure of our elected leaders to make good on their promises to release explanations and footage and mountains of over classified documents that continue to be hidden from the American people this isn't just how I feel in fact the American people largely believe that the government has actively covered up the truth about uaps one poll in particular found that 68 percent of Americans believe that the government is hiding information about uaps and not being honest about what we know about them and from my personal experience I believe the same thing another poll found that nearly half Americans believe that the federal government is doing a very bad or somewhat bad job of dealing with reports of UFO sightings as representative burchett just referenced on the fa bill that just went through you can tell that that's exactly happening considering the thousands of testimonies and videos taken on people's phones and eyewitnesses accounts made by credible Witnesses such as doctors Pilots scientists and active duty service members is unacceptable to continue to Gaslight Americans into thinking that this is not happening or that the potential of intelligence intelligent life forms exists other than humans even more alarming is the fact that these eyewitnesses are many of times service members and have no assurance that their lives will not be negatively impacted or even harmed by their experiences in being an active duty service member working on an Airfield I've had conversations with many Pilots where they were in fear of coming forward for Retribution and or being taken off flight status how do we know this because the government has said nothing to assure us otherwise they have also did nothing to to calm the concerns of over 20 percent of Americans who have reported to have seen UFOs or uaps we are simply told not to question the government and that the government has it under control today is the first hearing of its kind where we'll attempt to get down to the bottom of what is actually happening with uaps but we'll hear from people who have had personal sightings rather than Pentagon bureaucrats who have always been sent to Stonewall investigations just so that the Press knows and the people know we were even denied access to a classified briefing in a skiff prior to this hearing do the amount of Hoops that we had to jump through to Grant temporary clearance to witness Crush who has knowledge of classified information it is time to have an open-minded discussion on this topic to hear the evidence and understand the magnitude of what this means not just for our nation but for Humanity thank you chairman I yield back the rest of my time",
+        "token_estimate": 480,
+        "overlap_note": null,
+        "entities_hint": [
+          "Jimmy Carter",
+          "Barack Obama",
+          "Hillary Clinton",
+          "Donald Trump",
+          "Marco Rubio",
+          "Chuck Schumer",
+          "John Ratcliffe",
+          "Roswell",
+          "Jacksonville"
+        ],
+        "claims_hint": [
+          "68% of Americans believe government hides UAP info",
+          "Pilots fear retribution for reporting",
+          "Committee denied access to classified briefing"
+        ],
+        "temporal_anchors": [
+          "decades"
+        ],
+        "spatial_anchors": [
+          "Roswell, New Mexico",
+          "Jacksonville, Florida"
+        ],
+        "evidentiary_density": "high",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c04",
+        "heading_path": "Opening Statements > Ranking Member Garcia",
+        "text": "thank you very much and I'd like to thank you thank you and Mr burchett for bringing this topic to my attention uh now we'll recognize National Security subcommittee ranking member Garcia for 10 minutes well thank you Mr chairman and I want to thank first our Witnesses for joining us today I want to begin by thanking you all for your service to our country I mean for sharing your voices uh today and your courage uh to be here as well uh to Mr Graves particularly grateful to you to spend some time uh that we had um for you to share with Candor um some of your experiences so I appreciate that as well I do want to thank all the members of our subcommittee today and also those that are here and have waved on for their incredible interest in this issue uh particularly to Congressman birchet I know that your leadership has brought us to this place today and I want to thank you for uh for that as well as everyone else that's been engaged in this work I also want to thank the oversight staff who I know has been working very hard to ensure uh that today's hearing is serious that it's transparent and that it also provides appropriate answers as our oversight body always demands now it's really important that we're here in a bipartisan way to have this conversation which really to the heart of it is about National Security and key to the subcommittee's Core purpose this is the subcommittee on National Security of the oversight committee now our witnesses will testify today that uaps have posed a serious safety threat and we must understand this more broadly we're dealing with real questions that get to the heart of our faith in government faith in our institutions as we all know is at an all-time low partisanship and alternative facts make it too easy to doubt narrative or into or our institutions but this hearing will offer the public unique perspectives building on years of reporting by both federal agencies and the Independent Media now some of the earliest reporting on this issue was a groundbreaking 2017 New York Times report which we which revealed research as we know now on unidentified anomalous phenomena as many call UFOs by the defense intelligence agency Mr Graves and Commander forever's experiences with uaps have also been documented by the public not just by the New York Times but CNN and many other national news outlets now the office of the Director of National Intelligence has published public reports doc committing uaps and on June 9th 2022 NASA announced that the agency is commissioning a study to of course examine unidentified anomalous phenomena now the sheer number of reports whistleblowers and stories of unidentified anomalous phenomena should raise real questions and warrant investigation and oversight and that's why we are here today now Pilots have reported encounters for years now because of the stigma around reporting these incidents we still don't have a complete picture of actually what's going on particularly as our witnesses will testify on the civilian side and that is a real problem that we have today in the country now it's very important that we show that Democrats and Republicans in Congress can come together in a bipartisan way to cut through misinformation and to look at the facts in a serious and thoughtful manner if we are to advance oversight and public disclosure we must also gain the broad support of the public we will succeed getting facts out to the public faster if there is a broad public support as part of the process now I understand fully the Department of Defense is hesitant to share information that could also undermine our national security by revealing information on the capabilities of our own aircraft our sensors and other sensitive material at the same time many people believe that we're withholding information from them and that is dangerous also I believe in openness and transparency that is also the role of Congress and I want to trust that the American people will be able to weigh the evidence and make up their own minds now we have incidents where in sensors sometimes even multiple types of sensors detect things that we cannot explain uaps whatever they may be May pose a serious threat to our military or civilian aircraft and that must be understood now my career in training as a long time and career educator and teacher and researcher tell me that we should never rule anything out we know that our space of course is vast and undiscovered I also want to note that Mr Sean Kirkpatrick director of the all domain anomaly resolution office the component of the dod office that investigates UAP data has testified before the Senate this year that his unit has found no evidence of extra extra activity NASA has also stated that they don't have evidence of extraterrestrial life either and we've heard this of course from some of our government agencies and we should remind viewers and Witnesses which I think is really important that we also cannot share classified information in public settings but questions of course remain that people want to see data and information for themselves the enormous interest in the hearing today underscores the importance of a fair and open look at the evidence from Witnesses who can share their unique perspectives now I know I certainly have a lot of questions I know that all the members of our committee do as well we should come to this hearing with an open mind and we should not let our existing ideas restrict us on either side I hear over and over from many agencies the stigma around reporting and investigating uaps prevents us from getting real answers we know that whistleblowers have reported harassment intimidation or stigma as well and this is not acceptable if people can't report incidents which would have National Security or safety implications then that also has serious consequences for us as ranking member of this subcommittee I know it's my I know my job would be completely impossible if whistleblowers or others feel intimidated to come before this committee we can't be afraid of asking questions and we can't be afraid of the truth I'm proud to say this that's a hearing builds upon bipartisan work by members of the House and Senate dating many years back which is sought to increase awareness within the Department of Defense and more and to mandate more of Congress of uaps we know the Senate is taking up an amendment to their defense authorization bill which will create a commission with broad declassification Authority and we can all should all agree that that is an important step members of both parties and Senior officials in multiple administrations have taken an interest in this issue and we're proud to carry and build that confidence in the American people this hearing will also not be the end of this discussion but a new chapter and start to years and years of work that many folks both in both in the public and within government have been working on we should encourage more reporting not less on uaps the more they under we understand the safer we will be we looked your testimony from Witnesses today with a long record of service to the American people and with subject matter expertise art Witnesses have a unique opportunity to share the prospective insights and their experiences with the American people and I encourage all of my colleagues to engage with these difficult questions with an open mind and to follow the facts on behalf of our country I also just want to say more broadly that we should look at this hearing with and believe that everything is on the table as it relates to uaps I think we an open mind is absolutely the best I want to yield there are two and a half minutes of the remainder of my time to the representative from Florida representative Moskowitz for an opening statement he also has been very much engaged in this issue and I want to thank him for his leadership",
+        "token_estimate": 700,
+        "overlap_note": null,
+        "entities_hint": [
+          "New York Times",
+          "DIA",
+          "ODNI",
+          "NASA",
+          "AARO",
+          "Sean Kirkpatrick",
+          "Senate",
+          "DoD"
+        ],
+        "claims_hint": [
+          "UAPs pose a serious safety threat",
+          "Stigma prevents reporting",
+          "AARO found no evidence of extraterrestrial activity",
+          "Senate considering declassification commission"
+        ],
+        "temporal_anchors": [
+          "2017",
+          "June 9, 2022",
+          "this year"
+        ],
+        "spatial_anchors": [],
+        "evidentiary_density": "high",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c05",
+        "heading_path": "Opening Statements > Rep. Moskowitz",
+        "text": "Congressman uh thank you ranking member Garcia thank you Mr chairman I want to thank uh Tim burchett and Anna Paulina Luna for their leadership in pushing uh this hearing forward I want to thank obviously committee staff and their staff working on this on a bipartisan basis because many Americans are deeply interested uh in this issue and it shouldn't take the potential of non-human origin to bring us together uh additionally I want to thank the witnesses for for coming forward to share your perspectives your thoughts and the sightings of uaps unlike other hearings many times in Congress you're not here to help a political party but you're here to share information with the American people and it's not something that is just going on in this Administration it's something that's uh spanned many administrations for decades many Americans have been fascinated by objects mysterious and unexplained and it's long past time that they got some answers the American public has a right to learn about Technologies of unknown Origins non-human intelligence and unexplainable phenomena those are not the words of a UFO Twitter account though that is a direct quote for majority leader Chuck Schumer that the American public has a right to learn about Technologies of unknown Origins non-human intelligence and unexplainable phenomena in an interview with Fox News recent former Director of National Intelligence John Radcliffe confirmed the U.S government is aware a lot more sightings of uaps and that they have not made that information public I quote there are a lot more sightings that have not been made public Radcliffe said to Fox News for me this hearing is about transparency we unfortunately live in a time in which many people distrust government and our institutions and over classification of information away from the American public or even Congress contributes to today's Politics the American people have regular questions what are uaps how come the media doesn't report more on them are they foreign adversaries are the U.S technology are they something else they ask themselves how come when a Russian jet shoots flares at one of our drones we have perfect pictures and videos to show the American people and the world but when it comes to uaps nothing of course we must always protect our national security to maintain our superiority like when stealth helicopters were only rumored to exist but were used in the Osama Bin Laden raid in 2011. but we can't allow that to be used as a shield to keep the American people completely in the dark from basic truths the American people deserve to hear more about special access programs Congress has a right to know if there's any unsanctioned weapons development satellite imagery that has not been provided to Congress Congress created the all-domain resolution office in the ndaa of 2022. in its initial analysis there are 171 uncharacterized UAP reports and this is the words from the report that appear to have demonstrated unusual flight characteristics or performance capabilities I believe more information is known about the 171 instances it's time for Congress to reinsert ourselves I call on our military leaders and intelligence officials to release more information to the American people about uaps and to our military leaders if there's nothing to conceal let Congress go to write Patterson Air Force Base The dugway Proving Ground or even Groom Lake in Nevada we should have disclosure today we should have disclosure tomorrow the time has come thank you ranking member thank you Mr Moskowitz and I would yield back now to our chairman",
+        "token_estimate": 480,
+        "overlap_note": null,
+        "entities_hint": [
+          "Chuck Schumer",
+          "John Ratcliffe",
+          "Fox News",
+          "AARO",
+          "NDAA 2022",
+          "Wright-Patterson AFB",
+          "Dugway Proving Ground",
+          "Groom Lake",
+          "Osama Bin Laden"
+        ],
+        "claims_hint": [
+          "American public has right to learn about technologies of unknown origins",
+          "171 UAP reports with unusual flight characteristics",
+          "Government aware of more sightings than made public"
+        ],
+        "temporal_anchors": [
+          "2011",
+          "2022"
+        ],
+        "spatial_anchors": [
+          "Wright-Patterson AFB",
+          "Dugway Proving Ground",
+          "Groom Lake, Nevada"
+        ],
+        "evidentiary_density": "high",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c06",
+        "heading_path": "Witness Introduction > Chair",
+        "text": "thank you right now I'd like to introduce our Witnesses our first Witnesses Lieutenant Ryan Graves he's the executive director of Americans for safe Aerospace Lieutenant Graves is also a former U.S Navy F-18 pilot with the Zone UAP experience the next witness David grush is a former senior intelligence officer with the National geospatial Intelligence Agency and was a senior technical advisor for",
+        "token_estimate": 70,
+        "overlap_note": "Truncated at source cut-off",
+        "entities_hint": [
+          "Ryan Graves",
+          "Americans for Safe Aerospace",
+          "U.S. Navy",
+          "F-18",
+          "David Grusch",
+          "NGA"
+        ],
+        "claims_hint": [],
+        "temporal_anchors": [],
+        "spatial_anchors": [],
+        "evidentiary_density": "low",
+        "do_not_embed_reasons": []
+      }
+    ],
+    "index_recommendations": {
+      "priority": "CRITICAL",
+      "filters": [
+        "content_type:government",
+        "language:en",
+        "hearing:uap_oversight_2023"
+      ],
+      "dedupe_keys": [
+        "youtube:SNgoul4vyDM",
+        "hearing:uap_oversight_2023"
+      ]
+    }
+  },
+  "chunks": [
+    {
+      "chunk_id": "c01",
+      "heading_path": "Opening Statements > Chair",
+      "text": "the subcommittee hearing on unidentified anomalous phenomena or uaps will come to order welcome everyone without objection the chair May declare a recess at any time additionally without objection the following members are waived onto the subcommittee for the purpose of participating in today's hearing Mr burchard of Tennessee Miss Luna Florida Mr getza Florida Mr Burleson of Missouri Mrs ocasio-cortez in New York and Mr ogles of Tennessee without objections so ordered for today's subcommittee hearing both the chair and ranking member will have 10 minutes for opening remarks we may both be giving some of those minutes to other members of our party I'm now going to recognize myself for 10 minutes I'm actually going to try to get out of here in about four and then we'll give it to some of my friends over here good morning and welcome to the mostly exciting the most exciting subcommittee in Congress this week the subcommittee on National Security of the board in foreign affairs for discussion of unidentified anomalous phenomenon I'd like to thank the brave military pilots and Personnel such as wit such as the Witnesses on the panel today for sharing their stories on how they've engaged uaps which has brought attention to this matter curiosity and speculation from all walks of life have generated interest in studying what uaps are and what threats they they may pose I will say that when I was younger in school I read a book a 1966 book called flying saucers serious business and for a while when I was a little bit younger I thought it was the most important issue out there the lack of a transparency regarding uaps which was one of the themes of that book um in any event it's led to interest in studying what uaps are and what threats they pose the lack of transparency regarding uaps is fueled wild speculation and debate for decades eroding public trust in the very institutions that are meant to serve and protect them as is evidenced by the large number of people we have here I also want to point out in 1966 President Gerald Ford claimed to have seen a UFO and in 1969 in Georgia Jimmy Carter claimed to have seen a UFO so this has led Congress to establish entities to examine uaps the National Defense authorization Act of 2022 established the all-domain anomaly resolution officer aarro to conduct or to coordinate efforts across the Department of Defense and other federal agents federal agencies to detect identify and investigate uaps however aaro's budget remains classified prohibiting meaningful oversight from Congress in addition to aro's efforts Nassau is leading an independent study and uaps to identify how UAP data is gathered from both civilian and government entities that can be analyzed to shed light on the topic however despite these offices being established their lives of pressing demand for government transparency and accountability that cannot be overlooked and that's been a problem that's been around for 50 years the Biden Administration handling of the Chinese spy balloon that violated U.S airport space is one example how the government is not prepared for these the Biden administration's description of events has shown that the government continues not to be forthright between the Chinese balloon being shot down in two uaps subsequently shut down following the event earlier this year the U.S government spent one and a half million dollars in taxpayer dollars on missiles yet we have seen little Clarity from the Biden Administration we must demand transparency from the Department of Defense our intelligent community and our defense industry on the UAP work we're going to ask some questions about that today Congress recognizes the subject of uaps is multifaceted and requires a careful data-driven approach today we'll see Clarity from these Witnesses testimonies I will see clarity as to what can be done to improve reporting for military and civilians and remain committed to objective inquiry Congress should work to ensure that knowledge is not driven by fear today we are not just obeying the existence of uaps we are deliberating on the principles that Define our Republic which is a commitment to transparency and accountability I look forward to hearing from our Witnesses today about ways we can improve government efficiency and openness when it comes to uaps I thank each of you for your presence here today and for your dedication to safeguarding the interest of the American people I look forward to your testimony and I'm going to turn it over for two and a half or three minutes to representative burchard from Tennessee",
+      "token_estimate": 550,
+      "overlap_note": null,
+      "entities_hint": [
+        "AARO",
+        "NDAA 2022",
+        "NASA",
+        "Gerald Ford",
+        "Jimmy Carter",
+        "Biden Administration",
+        "Department of Defense"
+      ],
+      "claims_hint": [
+        "AARO budget is classified, hindering oversight",
+        "Government lacks transparency on UAPs",
+        "Biden administration not forthright on Chinese spy balloon incident"
+      ],
+      "temporal_anchors": [
+        "1966",
+        "1969",
+        "2022",
+        "earlier this year"
+      ],
+      "spatial_anchors": [
+        "U.S. airspace",
+        "Georgia"
+      ],
+      "evidentiary_density": "high",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c02",
+      "heading_path": "Opening Statements > Rep. Burchett",
+      "text": "thank you Mr chairman thank you all for being here I want to thank everybody for making this happen today and I want to remind everybody this is a nonpartisan issue this has nothing to do with Party politics I think the cover up goes a lot deeper than that I also want to thank my colleagues representative Anna Paulina Luna sitting beside me here Jared Moskowitz my friend across the aisle has an incredible mind and I'm anxious to hear his questions my buddy Eric Burleson and it's not in my notes here but Matt Gates if it hadn't been for Matt Gates myself him and Luna would still be down at Eglin Air Force Base trying to get some answers he's got an incredible legal mind also uh I know I saw it in the crowd there George Knapp my buddy Jeremy Corbell I've they're not Witnesses but they've provided some statements on this subject and I see unanimous consent to enter those statements into the record Mr chairman without objection also would like to enter in I understand now that this is unclassified and it's public record but as we all know that's sometimes difficult for the public to get a hold of a report defense intelligence reference documents Advanced space propulsion based on vacuum space-time metric engineering some light reading for some of our members without objection thank you um you know Mr Knapp wrote since 1969 the position our military has been that UFOs pose no threat to National Security and are not worth worthy of further study I'd say that's the biggest understatement of the decade he also goes on to talk about the dismissive attitude and said odds with what was revealed in documents reports internal memos Mr cabrill says as he writes these words the UFO is emerging as a major topic of global importance um I can state that as a fact out there I met a fella who came in here all the way from Denmark to be here for this this meeting so this is huge this is worldwide I think we we suspect what's going on but I'd also like to thank the members of Congress who supported our efforts to make this hearing happen some have even confided to me that they've had UFO sightings of Their Own those members of course some of them wish to remain anonymous and I'll keep it that way but also finally I'd like to thank these three Brave Witnesses here they took an oath they took a note to uphold the Constitution United States and Dad government they're doing it and we owe them a debt of gratitude [Applause] y'all quit clapping you're cutting in on my time these folks they've got nothing to gain from this and I think you're going to find out that they've endured quite a few slings and arrows we need to remember them in our prayers and their families and I'm thankful them for their honest testimonies they have done interviews and appeared in documentaries like accidental truth to get their stories out there to and and now they are all here to testify under oath for Congress I it's been so difficult to get here today I've said you know in the Baptist Church we'd say that the devil's in our way and um the devil has been in our way through this thing we've we've run into roadblocks from members from the intelligence Community the Pentagon our proposed legislation to go in the FAA reauthorization that just said if uh if an airline pilot has a siding that when he makes that report to the FAA that it would come to Congress but I was told that the intelligence community did not like that and the bill was the amendment was not even heard in committee I think it's time for this country to take back our country we need to tell the folks at the Pentagon they work for us that government we don't work for them and that's exactly the point this is an issue of government transparency we can't trust a government that does not trust its people we're not bringing Little Green Men or flying saucers into the hearing sorry to disappoint about half y'all we're just going to get to the facts we're going to uncover the cover-up and I hope this is just the beginning of many more hearings and more people coming forward about this and I yield back the remainder of my time",
+      "token_estimate": 520,
+      "overlap_note": null,
+      "entities_hint": [
+        "George Knapp",
+        "Jeremy Corbell",
+        "Eglin Air Force Base",
+        "FAA",
+        "DIA",
+        "Matt Gaetz",
+        "Anna Paulina Luna",
+        "Jared Moskowitz"
+      ],
+      "claims_hint": [
+        "UAP issue is nonpartisan",
+        "Intelligence community blocked FAA reporting amendment",
+        "Military position since 1969 that UFOs pose no threat is an understatement"
+      ],
+      "temporal_anchors": [
+        "1969"
+      ],
+      "spatial_anchors": [
+        "Tennessee",
+        "Denmark",
+        "Eglin Air Force Base"
+      ],
+      "evidentiary_density": "high",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c03",
+      "heading_path": "Opening Statements > Rep. Luna",
+      "text": "um I think is it to representative Luna Mr chairman yeah we'll we'll call him Ms Luna for her statement their circumstances surrounding uaps has captivated the intention of the American people for decades ingrained in even the minds of our nation's leaders from Jimmy Carter to Barack Obama Hillary Clinton to Donald Trump Marco Rubio to Chuck Schumer John Radcliffe to National Security Council officials yet from Roswell New Mexico to the coast of Jacksonville Florida the sightings of uaps have rarely been explained by the people who have first-hand accounts of these situations this is largely due to the lack of transparency by our own government and the failure of our elected leaders to make good on their promises to release explanations and footage and mountains of over classified documents that continue to be hidden from the American people this isn't just how I feel in fact the American people largely believe that the government has actively covered up the truth about uaps one poll in particular found that 68 percent of Americans believe that the government is hiding information about uaps and not being honest about what we know about them and from my personal experience I believe the same thing another poll found that nearly half Americans believe that the federal government is doing a very bad or somewhat bad job of dealing with reports of UFO sightings as representative burchett just referenced on the fa bill that just went through you can tell that that's exactly happening considering the thousands of testimonies and videos taken on people's phones and eyewitnesses accounts made by credible Witnesses such as doctors Pilots scientists and active duty service members is unacceptable to continue to Gaslight Americans into thinking that this is not happening or that the potential of intelligence intelligent life forms exists other than humans even more alarming is the fact that these eyewitnesses are many of times service members and have no assurance that their lives will not be negatively impacted or even harmed by their experiences in being an active duty service member working on an Airfield I've had conversations with many Pilots where they were in fear of coming forward for Retribution and or being taken off flight status how do we know this because the government has said nothing to assure us otherwise they have also did nothing to to calm the concerns of over 20 percent of Americans who have reported to have seen UFOs or uaps we are simply told not to question the government and that the government has it under control today is the first hearing of its kind where we'll attempt to get down to the bottom of what is actually happening with uaps but we'll hear from people who have had personal sightings rather than Pentagon bureaucrats who have always been sent to Stonewall investigations just so that the Press knows and the people know we were even denied access to a classified briefing in a skiff prior to this hearing do the amount of Hoops that we had to jump through to Grant temporary clearance to witness Crush who has knowledge of classified information it is time to have an open-minded discussion on this topic to hear the evidence and understand the magnitude of what this means not just for our nation but for Humanity thank you chairman I yield back the rest of my time",
+      "token_estimate": 480,
+      "overlap_note": null,
+      "entities_hint": [
+        "Jimmy Carter",
+        "Barack Obama",
+        "Hillary Clinton",
+        "Donald Trump",
+        "Marco Rubio",
+        "Chuck Schumer",
+        "John Ratcliffe",
+        "Roswell",
+        "Jacksonville"
+      ],
+      "claims_hint": [
+        "68% of Americans believe government hides UAP info",
+        "Pilots fear retribution for reporting",
+        "Committee denied access to classified briefing"
+      ],
+      "temporal_anchors": [
+        "decades"
+      ],
+      "spatial_anchors": [
+        "Roswell, New Mexico",
+        "Jacksonville, Florida"
+      ],
+      "evidentiary_density": "high",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c04",
+      "heading_path": "Opening Statements > Ranking Member Garcia",
+      "text": "thank you very much and I'd like to thank you thank you and Mr burchett for bringing this topic to my attention uh now we'll recognize National Security subcommittee ranking member Garcia for 10 minutes well thank you Mr chairman and I want to thank first our Witnesses for joining us today I want to begin by thanking you all for your service to our country I mean for sharing your voices uh today and your courage uh to be here as well uh to Mr Graves particularly grateful to you to spend some time uh that we had um for you to share with Candor um some of your experiences so I appreciate that as well I do want to thank all the members of our subcommittee today and also those that are here and have waved on for their incredible interest in this issue uh particularly to Congressman birchet I know that your leadership has brought us to this place today and I want to thank you for uh for that as well as everyone else that's been engaged in this work I also want to thank the oversight staff who I know has been working very hard to ensure uh that today's hearing is serious that it's transparent and that it also provides appropriate answers as our oversight body always demands now it's really important that we're here in a bipartisan way to have this conversation which really to the heart of it is about National Security and key to the subcommittee's Core purpose this is the subcommittee on National Security of the oversight committee now our witnesses will testify today that uaps have posed a serious safety threat and we must understand this more broadly we're dealing with real questions that get to the heart of our faith in government faith in our institutions as we all know is at an all-time low partisanship and alternative facts make it too easy to doubt narrative or into or our institutions but this hearing will offer the public unique perspectives building on years of reporting by both federal agencies and the Independent Media now some of the earliest reporting on this issue was a groundbreaking 2017 New York Times report which we which revealed research as we know now on unidentified anomalous phenomena as many call UFOs by the defense intelligence agency Mr Graves and Commander forever's experiences with uaps have also been documented by the public not just by the New York Times but CNN and many other national news outlets now the office of the Director of National Intelligence has published public reports doc committing uaps and on June 9th 2022 NASA announced that the agency is commissioning a study to of course examine unidentified anomalous phenomena now the sheer number of reports whistleblowers and stories of unidentified anomalous phenomena should raise real questions and warrant investigation and oversight and that's why we are here today now Pilots have reported encounters for years now because of the stigma around reporting these incidents we still don't have a complete picture of actually what's going on particularly as our witnesses will testify on the civilian side and that is a real problem that we have today in the country now it's very important that we show that Democrats and Republicans in Congress can come together in a bipartisan way to cut through misinformation and to look at the facts in a serious and thoughtful manner if we are to advance oversight and public disclosure we must also gain the broad support of the public we will succeed getting facts out to the public faster if there is a broad public support as part of the process now I understand fully the Department of Defense is hesitant to share information that could also undermine our national security by revealing information on the capabilities of our own aircraft our sensors and other sensitive material at the same time many people believe that we're withholding information from them and that is dangerous also I believe in openness and transparency that is also the role of Congress and I want to trust that the American people will be able to weigh the evidence and make up their own minds now we have incidents where in sensors sometimes even multiple types of sensors detect things that we cannot explain uaps whatever they may be May pose a serious threat to our military or civilian aircraft and that must be understood now my career in training as a long time and career educator and teacher and researcher tell me that we should never rule anything out we know that our space of course is vast and undiscovered I also want to note that Mr Sean Kirkpatrick director of the all domain anomaly resolution office the component of the dod office that investigates UAP data has testified before the Senate this year that his unit has found no evidence of extra extra activity NASA has also stated that they don't have evidence of extraterrestrial life either and we've heard this of course from some of our government agencies and we should remind viewers and Witnesses which I think is really important that we also cannot share classified information in public settings but questions of course remain that people want to see data and information for themselves the enormous interest in the hearing today underscores the importance of a fair and open look at the evidence from Witnesses who can share their unique perspectives now I know I certainly have a lot of questions I know that all the members of our committee do as well we should come to this hearing with an open mind and we should not let our existing ideas restrict us on either side I hear over and over from many agencies the stigma around reporting and investigating uaps prevents us from getting real answers we know that whistleblowers have reported harassment intimidation or stigma as well and this is not acceptable if people can't report incidents which would have National Security or safety implications then that also has serious consequences for us as ranking member of this subcommittee I know it's my I know my job would be completely impossible if whistleblowers or others feel intimidated to come before this committee we can't be afraid of asking questions and we can't be afraid of the truth I'm proud to say this that's a hearing builds upon bipartisan work by members of the House and Senate dating many years back which is sought to increase awareness within the Department of Defense and more and to mandate more of Congress of uaps we know the Senate is taking up an amendment to their defense authorization bill which will create a commission with broad declassification Authority and we can all should all agree that that is an important step members of both parties and Senior officials in multiple administrations have taken an interest in this issue and we're proud to carry and build that confidence in the American people this hearing will also not be the end of this discussion but a new chapter and start to years and years of work that many folks both in both in the public and within government have been working on we should encourage more reporting not less on uaps the more they under we understand the safer we will be we looked your testimony from Witnesses today with a long record of service to the American people and with subject matter expertise art Witnesses have a unique opportunity to share the prospective insights and their experiences with the American people and I encourage all of my colleagues to engage with these difficult questions with an open mind and to follow the facts on behalf of our country I also just want to say more broadly that we should look at this hearing with and believe that everything is on the table as it relates to uaps I think we an open mind is absolutely the best I want to yield there are two and a half minutes of the remainder of my time to the representative from Florida representative Moskowitz for an opening statement he also has been very much engaged in this issue and I want to thank him for his leadership",
+      "token_estimate": 700,
+      "overlap_note": null,
+      "entities_hint": [
+        "New York Times",
+        "DIA",
+        "ODNI",
+        "NASA",
+        "AARO",
+        "Sean Kirkpatrick",
+        "Senate",
+        "DoD"
+      ],
+      "claims_hint": [
+        "UAPs pose a serious safety threat",
+        "Stigma prevents reporting",
+        "AARO found no evidence of extraterrestrial activity",
+        "Senate considering declassification commission"
+      ],
+      "temporal_anchors": [
+        "2017",
+        "June 9, 2022",
+        "this year"
+      ],
+      "spatial_anchors": [],
+      "evidentiary_density": "high",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c05",
+      "heading_path": "Opening Statements > Rep. Moskowitz",
+      "text": "Congressman uh thank you ranking member Garcia thank you Mr chairman I want to thank uh Tim burchett and Anna Paulina Luna for their leadership in pushing uh this hearing forward I want to thank obviously committee staff and their staff working on this on a bipartisan basis because many Americans are deeply interested uh in this issue and it shouldn't take the potential of non-human origin to bring us together uh additionally I want to thank the witnesses for for coming forward to share your perspectives your thoughts and the sightings of uaps unlike other hearings many times in Congress you're not here to help a political party but you're here to share information with the American people and it's not something that is just going on in this Administration it's something that's uh spanned many administrations for decades many Americans have been fascinated by objects mysterious and unexplained and it's long past time that they got some answers the American public has a right to learn about Technologies of unknown Origins non-human intelligence and unexplainable phenomena those are not the words of a UFO Twitter account though that is a direct quote for majority leader Chuck Schumer that the American public has a right to learn about Technologies of unknown Origins non-human intelligence and unexplainable phenomena in an interview with Fox News recent former Director of National Intelligence John Radcliffe confirmed the U.S government is aware a lot more sightings of uaps and that they have not made that information public I quote there are a lot more sightings that have not been made public Radcliffe said to Fox News for me this hearing is about transparency we unfortunately live in a time in which many people distrust government and our institutions and over classification of information away from the American public or even Congress contributes to today's Politics the American people have regular questions what are uaps how come the media doesn't report more on them are they foreign adversaries are the U.S technology are they something else they ask themselves how come when a Russian jet shoots flares at one of our drones we have perfect pictures and videos to show the American people and the world but when it comes to uaps nothing of course we must always protect our national security to maintain our superiority like when stealth helicopters were only rumored to exist but were used in the Osama Bin Laden raid in 2011. but we can't allow that to be used as a shield to keep the American people completely in the dark from basic truths the American people deserve to hear more about special access programs Congress has a right to know if there's any unsanctioned weapons development satellite imagery that has not been provided to Congress Congress created the all-domain resolution office in the ndaa of 2022. in its initial analysis there are 171 uncharacterized UAP reports and this is the words from the report that appear to have demonstrated unusual flight characteristics or performance capabilities I believe more information is known about the 171 instances it's time for Congress to reinsert ourselves I call on our military leaders and intelligence officials to release more information to the American people about uaps and to our military leaders if there's nothing to conceal let Congress go to write Patterson Air Force Base The dugway Proving Ground or even Groom Lake in Nevada we should have disclosure today we should have disclosure tomorrow the time has come thank you ranking member thank you Mr Moskowitz and I would yield back now to our chairman",
+      "token_estimate": 480,
+      "overlap_note": null,
+      "entities_hint": [
+        "Chuck Schumer",
+        "John Ratcliffe",
+        "Fox News",
+        "AARO",
+        "NDAA 2022",
+        "Wright-Patterson AFB",
+        "Dugway Proving Ground",
+        "Groom Lake",
+        "Osama Bin Laden"
+      ],
+      "claims_hint": [
+        "American public has right to learn about technologies of unknown origins",
+        "171 UAP reports with unusual flight characteristics",
+        "Government aware of more sightings than made public"
+      ],
+      "temporal_anchors": [
+        "2011",
+        "2022"
+      ],
+      "spatial_anchors": [
+        "Wright-Patterson AFB",
+        "Dugway Proving Ground",
+        "Groom Lake, Nevada"
+      ],
+      "evidentiary_density": "high",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c06",
+      "heading_path": "Witness Introduction > Chair",
+      "text": "thank you right now I'd like to introduce our Witnesses our first Witnesses Lieutenant Ryan Graves he's the executive director of Americans for safe Aerospace Lieutenant Graves is also a former U.S Navy F-18 pilot with the Zone UAP experience the next witness David grush is a former senior intelligence officer with the National geospatial Intelligence Agency and was a senior technical advisor for",
+      "token_estimate": 70,
+      "overlap_note": "Truncated at source cut-off",
+      "entities_hint": [
+        "Ryan Graves",
+        "Americans for Safe Aerospace",
+        "U.S. Navy",
+        "F-18",
+        "David Grusch",
+        "NGA"
+      ],
+      "claims_hint": [],
+      "temporal_anchors": [],
+      "spatial_anchors": [],
+      "evidentiary_density": "low",
+      "do_not_embed_reasons": []
+    }
+  ],
+  "ner_results": [
+    {
+      "chunk_id": "c01",
+      "ner_error": "disclosure.ner: JSON unparseable after one repair retry (Unterminated string starting at: line 148 column 7 (char 4442)); raw response was 4445 chars"
+    },
+    {
+      "chunk_id": "c02",
+      "ner_error": "disclosure.ner: JSON unparseable after one repair retry (Unterminated string starting at: line 124 column 7 (char 4390)); raw response was 4391 chars"
+    },
+    {
+      "chunk_id": "c03",
+      "ner_error": "disclosure.ner: JSON unparseable after one repair retry (Unterminated string starting at: line 135 column 28 (char 4445)); raw response was 4449 chars"
+    },
+    {
+      "chunk_id": "c04",
+      "ner_error": "disclosure.ner: JSON unparseable after one repair retry (Unterminated string starting at: line 114 column 7 (char 4797)); raw response was 4803 chars"
+    },
+    {
+      "chunk_id": "c05",
+      "ner_error": "disclosure.ner: JSON unparseable after one repair retry (Unterminated string starting at: line 121 column 15 (char 4685)); raw response was 4690 chars"
+    },
+    {
+      "chunk_id": "c06",
+      "ner": {
+        "entities": [
+          {
+            "type": "PERSONNEL",
+            "name": "Ryan Graves",
+            "aliases": [
+              "Lieutenant Ryan Graves",
+              "Lt. Graves"
+            ],
+            "role": "Witness; Executive Director of Americans for Safe Aerospace; former U.S. Navy F-18 pilot",
+            "credibility_tier": 9,
+            "span_quote": "our first Witnesses Lieutenant Ryan Graves he's the executive director of Americans for safe Aerospace Lieutenant Graves is also a former U.S Navy F-18 pilot with the Zone UAP experience",
+            "evidentiary_state": "Observed",
+            "attributes": {
+              "military_affiliation": "U.S. Navy",
+              "pilot_type": "F-18",
+              "uap_experience": "Zone UAP experience"
+            }
+          },
+          {
+            "type": "PERSONNEL",
+            "name": "David Grusch",
+            "aliases": [
+              "David grush",
+              "Mr. Grusch"
+            ],
+            "role": "Witness; former senior intelligence officer with the National Geospatial Intelligence Agency; senior technical advisor",
+            "credibility_tier": 9,
+            "span_quote": "the next witness David grush is a former senior intelligence officer with the National geospatial Intelligence Agency and was a senior technical advisor",
+            "evidentiary_state": "Observed",
+            "attributes": {
+              "agency": "National Geospatial Intelligence Agency",
+              "former_role": "Senior Intelligence Officer",
+              "advisor_role": "Senior Technical Advisor"
+            }
+          },
+          {
+            "type": "ORGANIZATION",
+            "name": "Americans for Safe Aerospace",
+            "aliases": [],
+            "category": "private",
+            "span_quote": "executive director of Americans for safe Aerospace",
+            "evidentiary_state": "Observed",
+            "attributes": {
+              "leadership_role": "Executive Director",
+              "leader_name": "Ryan Graves"
+            }
+          },
+          {
+            "type": "ORGANIZATION",
+            "name": "National Geospatial Intelligence Agency",
+            "aliases": [
+              "NGA"
+            ],
+            "category": "government",
+            "span_quote": "former senior intelligence officer with the National geospatial Intelligence Agency",
+            "evidentiary_state": "Observed",
+            "attributes": {
+              "employee_name": "David Grusch",
+              "employee_role": "Senior Intelligence Officer"
+            }
+          },
+          {
+            "type": "EVENT",
+            "name": "Witness Introduction",
+            "aliases": [],
+            "date": null,
+            "location": null,
+            "span_quote": "right now I'd like to introduce our Witnesses",
+            "evidentiary_state": "Observed",
+            "attributes": {
+              "witnesses_introduced": [
+                "Ryan Graves",
+                "David Grusch"
+              ],
+              "context": "Congressional hearing introduction"
+            }
+          }
+        ],
+        "relationships": [
+          {
+            "source": "Ryan Graves",
+            "target": "Americans for Safe Aerospace",
+            "type": "Organizational",
+            "confidence": 0.95,
+            "span_quote": "executive director of Americans for safe Aerospace"
+          },
+          {
+            "source": "David Grusch",
+            "target": "National Geospatial Intelligence Agency",
+            "type": "Organizational",
+            "confidence": 0.95,
+            "span_quote": "former senior intelligence officer with the National geospatial Intelligence Agency"
+          },
+          {
+            "source": "Witness Introduction",
+            "target": "Ryan Graves",
+            "type": "Attributional",
+            "confidence": 0.9,
+            "span_quote": "I'd like to introduce our Witnesses our first Witnesses Lieutenant Ryan Graves"
+          },
+          {
+            "source": "Witness Introduction",
+            "target": "David Grusch",
+            "type": "Attributional",
+            "confidence": 0.9,
+            "span_quote": "the next witness David grush"
+          }
+        ],
+        "analysis_summary": {
+          "investigation_priority": "High - Two credentialed military/intelligence witnesses introduced for a formal hearing; both have direct UAP-related experience. Focus on their testimonies and any corroborating evidence.",
+          "notes": [
+            "Both witnesses have high credibility based on institutional roles (Navy pilot, intelligence officer).",
+            "No specific dates, locations, or evidence items mentioned in this introduction segment.",
+            "The event is a formal witness introduction, likely part of a congressional hearing."
+          ]
+        }
+      },
+      "validation": {
+        "verdict": "pass_with_warnings",
+        "issues": [
+          {
+            "severity": "medium",
+            "code": "HALLUCINATION_RISK",
+            "message": "The alias 'NGA' for National Geospatial Intelligence Agency is not present in the source excerpt.",
+            "fix": "Remove the alias 'NGA' or ensure it is supported by the source."
+          },
+          {
+            "severity": "medium",
+            "code": "HALLUCINATION_RISK",
+            "message": "The alias 'Mr. Grusch' for David Grusch is not present in the source excerpt.",
+            "fix": "Remove the alias 'Mr. Grusch' or ensure it is supported by the source."
+          },
+          {
+            "severity": "low",
+            "code": "OVERCLAIM",
+            "message": "The 'context' attribute for the 'Witness Introduction' event states 'Congressional hearing introduction', but the source excerpt does not explicitly mention a congressional hearing.",
+            "fix": "Change the context to 'Formal hearing introduction' or remove the specific reference to 'Congressional'."
+          },
+          {
+            "severity": "low",
+            "code": "OVERCLAIM",
+            "message": "The 'investigation_priority' in analysis_summary states 'formal hearing' and 'congressional hearing' in notes, but the source excerpt does not specify the type of hearing.",
+            "fix": "Adjust the language to 'formal introduction' and avoid assuming it is a congressional hearing."
+          }
+        ],
+        "safe_for_rag_index": true,
+        "safe_for_db_write": true
+      }
+    }
+  ],
+  "embeddable_texts": [
+    "the subcommittee hearing on unidentified anomalous phenomena or uaps will come to order welcome everyone without objection the chair May declare a recess at any time additionally without objection the following members are waived onto the subcommittee for the purpose of participating in today's hearing Mr burchard of Tennessee Miss Luna Florida Mr getza Florida Mr Burleson of Missouri Mrs ocasio-cortez in New York and Mr ogles of Tennessee without objections so ordered for today's subcommittee hearing both the chair and ranking member will have 10 minutes for opening remarks we may both be giving some of those minutes to other members of our party I'm now going to recognize myself for 10 minutes I'm actually going to try to get out of here in about four and then we'll give it to some of my friends over here good morning and welcome to the mostly exciting the most exciting subcommittee in Congress this week the subcommittee on National Security of the board in foreign affairs for discussion of unidentified anomalous phenomenon I'd like to thank the brave military pilots and Personnel such as wit such as the Witnesses on the panel today for sharing their stories on how they've engaged uaps which has brought attention to this matter curiosity and speculation from all walks of life have generated interest in studying what uaps are and what threats they they may pose I will say that when I was younger in school I read a book a 1966 book called flying saucers serious business and for a while when I was a little bit younger I thought it was the most important issue out there the lack of a transparency regarding uaps which was one of the themes of that book um in any event it's led to interest in studying what uaps are and what threats they pose the lack of transparency regarding uaps is fueled wild speculation and debate for decades eroding public trust in the very institutions that are meant to serve and protect them as is evidenced by the large number of people we have here I also want to point out in 1966 President Gerald Ford claimed to have seen a UFO and in 1969 in Georgia Jimmy Carter claimed to have seen a UFO so this has led Congress to establish entities to examine uaps the National Defense authorization Act of 2022 established the all-domain anomaly resolution officer aarro to conduct or to coordinate efforts across the Department of Defense and other federal agents federal agencies to detect identify and investigate uaps however aaro's budget remains classified prohibiting meaningful oversight from Congress in addition to aro's efforts Nassau is leading an independent study and uaps to identify how UAP data is gathered from both civilian and government entities that can be analyzed to shed light on the topic however despite these offices being established their lives of pressing demand for government transparency and accountability that cannot be overlooked and that's been a problem that's been around for 50 years the Biden Administration handling of the Chinese spy balloon that violated U.S airport space is one example how the government is not prepared for these the Biden administration's description of events has shown that the government continues not to be forthright between the Chinese balloon being shot down in two uaps subsequently shut down following the event earlier this year the U.S government spent one and a half million dollars in taxpayer dollars on missiles yet we have seen little Clarity from the Biden Administration we must demand transparency from the Department of Defense our intelligent community and our defense industry on the UAP work we're going to ask some questions about that today Congress recognizes the subject of uaps is multifaceted and requires a careful data-driven approach today we'll see Clarity from these Witnesses testimonies I will see clarity as to what can be done to improve reporting for military and civilians and remain committed to objective inquiry Congress should work to ensure that knowledge is not driven by fear today we are not just obeying the existence of uaps we are deliberating on the principles that Define our Republic which is a commitment to transparency and accountability I look forward to hearing from our Witnesses today about ways we can improve government efficiency and openness when it comes to uaps I thank each of you for your presence here today and for your dedication to safeguarding the interest of the American people I look forward to your testimony and I'm going to turn it over for two and a half or three minutes to representative burchard from Tennessee",
+    "thank you Mr chairman thank you all for being here I want to thank everybody for making this happen today and I want to remind everybody this is a nonpartisan issue this has nothing to do with Party politics I think the cover up goes a lot deeper than that I also want to thank my colleagues representative Anna Paulina Luna sitting beside me here Jared Moskowitz my friend across the aisle has an incredible mind and I'm anxious to hear his questions my buddy Eric Burleson and it's not in my notes here but Matt Gates if it hadn't been for Matt Gates myself him and Luna would still be down at Eglin Air Force Base trying to get some answers he's got an incredible legal mind also uh I know I saw it in the crowd there George Knapp my buddy Jeremy Corbell I've they're not Witnesses but they've provided some statements on this subject and I see unanimous consent to enter those statements into the record Mr chairman without objection also would like to enter in I understand now that this is unclassified and it's public record but as we all know that's sometimes difficult for the public to get a hold of a report defense intelligence reference documents Advanced space propulsion based on vacuum space-time metric engineering some light reading for some of our members without objection thank you um you know Mr Knapp wrote since 1969 the position our military has been that UFOs pose no threat to National Security and are not worth worthy of further study I'd say that's the biggest understatement of the decade he also goes on to talk about the dismissive attitude and said odds with what was revealed in documents reports internal memos Mr cabrill says as he writes these words the UFO is emerging as a major topic of global importance um I can state that as a fact out there I met a fella who came in here all the way from Denmark to be here for this this meeting so this is huge this is worldwide I think we we suspect what's going on but I'd also like to thank the members of Congress who supported our efforts to make this hearing happen some have even confided to me that they've had UFO sightings of Their Own those members of course some of them wish to remain anonymous and I'll keep it that way but also finally I'd like to thank these three Brave Witnesses here they took an oath they took a note to uphold the Constitution United States and Dad government they're doing it and we owe them a debt of gratitude [Applause] y'all quit clapping you're cutting in on my time these folks they've got nothing to gain from this and I think you're going to find out that they've endured quite a few slings and arrows we need to remember them in our prayers and their families and I'm thankful them for their honest testimonies they have done interviews and appeared in documentaries like accidental truth to get their stories out there to and and now they are all here to testify under oath for Congress I it's been so difficult to get here today I've said you know in the Baptist Church we'd say that the devil's in our way and um the devil has been in our way through this thing we've we've run into roadblocks from members from the intelligence Community the Pentagon our proposed legislation to go in the FAA reauthorization that just said if uh if an airline pilot has a siding that when he makes that report to the FAA that it would come to Congress but I was told that the intelligence community did not like that and the bill was the amendment was not even heard in committee I think it's time for this country to take back our country we need to tell the folks at the Pentagon they work for us that government we don't work for them and that's exactly the point this is an issue of government transparency we can't trust a government that does not trust its people we're not bringing Little Green Men or flying saucers into the hearing sorry to disappoint about half y'all we're just going to get to the facts we're going to uncover the cover-up and I hope this is just the beginning of many more hearings and more people coming forward about this and I yield back the remainder of my time",
+    "um I think is it to representative Luna Mr chairman yeah we'll we'll call him Ms Luna for her statement their circumstances surrounding uaps has captivated the intention of the American people for decades ingrained in even the minds of our nation's leaders from Jimmy Carter to Barack Obama Hillary Clinton to Donald Trump Marco Rubio to Chuck Schumer John Radcliffe to National Security Council officials yet from Roswell New Mexico to the coast of Jacksonville Florida the sightings of uaps have rarely been explained by the people who have first-hand accounts of these situations this is largely due to the lack of transparency by our own government and the failure of our elected leaders to make good on their promises to release explanations and footage and mountains of over classified documents that continue to be hidden from the American people this isn't just how I feel in fact the American people largely believe that the government has actively covered up the truth about uaps one poll in particular found that 68 percent of Americans believe that the government is hiding information about uaps and not being honest about what we know about them and from my personal experience I believe the same thing another poll found that nearly half Americans believe that the federal government is doing a very bad or somewhat bad job of dealing with reports of UFO sightings as representative burchett just referenced on the fa bill that just went through you can tell that that's exactly happening considering the thousands of testimonies and videos taken on people's phones and eyewitnesses accounts made by credible Witnesses such as doctors Pilots scientists and active duty service members is unacceptable to continue to Gaslight Americans into thinking that this is not happening or that the potential of intelligence intelligent life forms exists other than humans even more alarming is the fact that these eyewitnesses are many of times service members and have no assurance that their lives will not be negatively impacted or even harmed by their experiences in being an active duty service member working on an Airfield I've had conversations with many Pilots where they were in fear of coming forward for Retribution and or being taken off flight status how do we know this because the government has said nothing to assure us otherwise they have also did nothing to to calm the concerns of over 20 percent of Americans who have reported to have seen UFOs or uaps we are simply told not to question the government and that the government has it under control today is the first hearing of its kind where we'll attempt to get down to the bottom of what is actually happening with uaps but we'll hear from people who have had personal sightings rather than Pentagon bureaucrats who have always been sent to Stonewall investigations just so that the Press knows and the people know we were even denied access to a classified briefing in a skiff prior to this hearing do the amount of Hoops that we had to jump through to Grant temporary clearance to witness Crush who has knowledge of classified information it is time to have an open-minded discussion on this topic to hear the evidence and understand the magnitude of what this means not just for our nation but for Humanity thank you chairman I yield back the rest of my time",
+    "thank you very much and I'd like to thank you thank you and Mr burchett for bringing this topic to my attention uh now we'll recognize National Security subcommittee ranking member Garcia for 10 minutes well thank you Mr chairman and I want to thank first our Witnesses for joining us today I want to begin by thanking you all for your service to our country I mean for sharing your voices uh today and your courage uh to be here as well uh to Mr Graves particularly grateful to you to spend some time uh that we had um for you to share with Candor um some of your experiences so I appreciate that as well I do want to thank all the members of our subcommittee today and also those that are here and have waved on for their incredible interest in this issue uh particularly to Congressman birchet I know that your leadership has brought us to this place today and I want to thank you for uh for that as well as everyone else that's been engaged in this work I also want to thank the oversight staff who I know has been working very hard to ensure uh that today's hearing is serious that it's transparent and that it also provides appropriate answers as our oversight body always demands now it's really important that we're here in a bipartisan way to have this conversation which really to the heart of it is about National Security and key to the subcommittee's Core purpose this is the subcommittee on National Security of the oversight committee now our witnesses will testify today that uaps have posed a serious safety threat and we must understand this more broadly we're dealing with real questions that get to the heart of our faith in government faith in our institutions as we all know is at an all-time low partisanship and alternative facts make it too easy to doubt narrative or into or our institutions but this hearing will offer the public unique perspectives building on years of reporting by both federal agencies and the Independent Media now some of the earliest reporting on this issue was a groundbreaking 2017 New York Times report which we which revealed research as we know now on unidentified anomalous phenomena as many call UFOs by the defense intelligence agency Mr Graves and Commander forever's experiences with uaps have also been documented by the public not just by the New York Times but CNN and many other national news outlets now the office of the Director of National Intelligence has published public reports doc committing uaps and on June 9th 2022 NASA announced that the agency is commissioning a study to of course examine unidentified anomalous phenomena now the sheer number of reports whistleblowers and stories of unidentified anomalous phenomena should raise real questions and warrant investigation and oversight and that's why we are here today now Pilots have reported encounters for years now because of the stigma around reporting these incidents we still don't have a complete picture of actually what's going on particularly as our witnesses will testify on the civilian side and that is a real problem that we have today in the country now it's very important that we show that Democrats and Republicans in Congress can come together in a bipartisan way to cut through misinformation and to look at the facts in a serious and thoughtful manner if we are to advance oversight and public disclosure we must also gain the broad support of the public we will succeed getting facts out to the public faster if there is a broad public support as part of the process now I understand fully the Department of Defense is hesitant to share information that could also undermine our national security by revealing information on the capabilities of our own aircraft our sensors and other sensitive material at the same time many people believe that we're withholding information from them and that is dangerous also I believe in openness and transparency that is also the role of Congress and I want to trust that the American people will be able to weigh the evidence and make up their own minds now we have incidents where in sensors sometimes even multiple types of sensors detect things that we cannot explain uaps whatever they may be May pose a serious threat to our military or civilian aircraft and that must be understood now my career in training as a long time and career educator and teacher and researcher tell me that we should never rule anything out we know that our space of course is vast and undiscovered I also want to note that Mr Sean Kirkpatrick director of the all domain anomaly resolution office the component of the dod office that investigates UAP data has testified before the Senate this year that his unit has found no evidence of extra extra activity NASA has also stated that they don't have evidence of extraterrestrial life either and we've heard this of course from some of our government agencies and we should remind viewers and Witnesses which I think is really important that we also cannot share classified information in public settings but questions of course remain that people want to see data and information for themselves the enormous interest in the hearing today underscores the importance of a fair and open look at the evidence from Witnesses who can share their unique perspectives now I know I certainly have a lot of questions I know that all the members of our committee do as well we should come to this hearing with an open mind and we should not let our existing ideas restrict us on either side I hear over and over from many agencies the stigma around reporting and investigating uaps prevents us from getting real answers we know that whistleblowers have reported harassment intimidation or stigma as well and this is not acceptable if people can't report incidents which would have National Security or safety implications then that also has serious consequences for us as ranking member of this subcommittee I know it's my I know my job would be completely impossible if whistleblowers or others feel intimidated to come before this committee we can't be afraid of asking questions and we can't be afraid of the truth I'm proud to say this that's a hearing builds upon bipartisan work by members of the House and Senate dating many years back which is sought to increase awareness within the Department of Defense and more and to mandate more of Congress of uaps we know the Senate is taking up an amendment to their defense authorization bill which will create a commission with broad declassification Authority and we can all should all agree that that is an important step members of both parties and Senior officials in multiple administrations have taken an interest in this issue and we're proud to carry and build that confidence in the American people this hearing will also not be the end of this discussion but a new chapter and start to years and years of work that many folks both in both in the public and within government have been working on we should encourage more reporting not less on uaps the more they under we understand the safer we will be we looked your testimony from Witnesses today with a long record of service to the American people and with subject matter expertise art Witnesses have a unique opportunity to share the prospective insights and their experiences with the American people and I encourage all of my colleagues to engage with these difficult questions with an open mind and to follow the facts on behalf of our country I also just want to say more broadly that we should look at this hearing with and believe that everything is on the table as it relates to uaps I think we an open mind is absolutely the best I want to yield there are two and a half minutes of the remainder of my time to the representative from Florida representative Moskowitz for an opening statement he also has been very much engaged in this issue and I want to thank him for his leadership",
+    "Congressman uh thank you ranking member Garcia thank you Mr chairman I want to thank uh Tim burchett and Anna Paulina Luna for their leadership in pushing uh this hearing forward I want to thank obviously committee staff and their staff working on this on a bipartisan basis because many Americans are deeply interested uh in this issue and it shouldn't take the potential of non-human origin to bring us together uh additionally I want to thank the witnesses for for coming forward to share your perspectives your thoughts and the sightings of uaps unlike other hearings many times in Congress you're not here to help a political party but you're here to share information with the American people and it's not something that is just going on in this Administration it's something that's uh spanned many administrations for decades many Americans have been fascinated by objects mysterious and unexplained and it's long past time that they got some answers the American public has a right to learn about Technologies of unknown Origins non-human intelligence and unexplainable phenomena those are not the words of a UFO Twitter account though that is a direct quote for majority leader Chuck Schumer that the American public has a right to learn about Technologies of unknown Origins non-human intelligence and unexplainable phenomena in an interview with Fox News recent former Director of National Intelligence John Radcliffe confirmed the U.S government is aware a lot more sightings of uaps and that they have not made that information public I quote there are a lot more sightings that have not been made public Radcliffe said to Fox News for me this hearing is about transparency we unfortunately live in a time in which many people distrust government and our institutions and over classification of information away from the American public or even Congress contributes to today's Politics the American people have regular questions what are uaps how come the media doesn't report more on them are they foreign adversaries are the U.S technology are they something else they ask themselves how come when a Russian jet shoots flares at one of our drones we have perfect pictures and videos to show the American people and the world but when it comes to uaps nothing of course we must always protect our national security to maintain our superiority like when stealth helicopters were only rumored to exist but were used in the Osama Bin Laden raid in 2011. but we can't allow that to be used as a shield to keep the American people completely in the dark from basic truths the American people deserve to hear more about special access programs Congress has a right to know if there's any unsanctioned weapons development satellite imagery that has not been provided to Congress Congress created the all-domain resolution office in the ndaa of 2022. in its initial analysis there are 171 uncharacterized UAP reports and this is the words from the report that appear to have demonstrated unusual flight characteristics or performance capabilities I believe more information is known about the 171 instances it's time for Congress to reinsert ourselves I call on our military leaders and intelligence officials to release more information to the American people about uaps and to our military leaders if there's nothing to conceal let Congress go to write Patterson Air Force Base The dugway Proving Ground or even Groom Lake in Nevada we should have disclosure today we should have disclosure tomorrow the time has come thank you ranking member thank you Mr Moskowitz and I would yield back now to our chairman",
+    "thank you right now I'd like to introduce our Witnesses our first Witnesses Lieutenant Ryan Graves he's the executive director of Americans for safe Aerospace Lieutenant Graves is also a former U.S Navy F-18 pilot with the Zone UAP experience the next witness David grush is a former senior intelligence officer with the National geospatial Intelligence Agency and was a senior technical advisor for"
+  ],
+  "metadata": {
+    "provenance": "https://www.youtube.com/watch?v=SNgoul4vyDM",
+    "filename_hint": "House holds hearing on UFOs, government transparency | full video",
+    "prompts_dir": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/ai/prompts",
+    "content_type": "government",
+    "ingestion_recommendation": "proceed",
+    "priority": "CRITICAL",
+    "chunk_count": 6,
+    "embeddable_count": 6,
+    "ner_chunk_count": 6,
+    "prompts_used": [
+      "disclosure.content_analysis",
+      "disclosure.ner",
+      "document_classification",
+      "rag_ingestion",
+      "validation"
+    ],
+    "tiers_used": [
+      "deepseek/deepseek-chat"
+    ],
+    "degraded": false,
+    "schema_unenforced_prompts": [
+      "rag_ingestion"
+    ],
+    "repaired_prompts": [],
+    "repair_attempted_prompts": [
+      "disclosure.ner"
+    ]
+  },
+  "errors": [
+    "ner:c01:disclosure.ner: JSON unparseable after one repair retry (Unterminated string starting at: line 148 column 7 (char 4442)); raw response was 4445 chars",
+    "ner:c02:disclosure.ner: JSON unparseable after one repair retry (Unterminated string starting at: line 124 column 7 (char 4390)); raw response was 4391 chars",
+    "ner:c03:disclosure.ner: JSON unparseable after one repair retry (Unterminated string starting at: line 135 column 28 (char 4445)); raw response was 4449 chars",
+    "ner:c04:disclosure.ner: JSON unparseable after one repair retry (Unterminated string starting at: line 114 column 7 (char 4797)); raw response was 4803 chars",
+    "ner:c05:disclosure.ner: JSON unparseable after one repair retry (Unterminated string starting at: line 121 column 15 (char 4685)); raw response was 4690 chars"
+  ],
+  "prompts_used": [
+    "document_classification",
+    "disclosure.content_analysis",
+    "rag_ingestion",
+    "disclosure.ner",
+    "disclosure.ner",
+    "disclosure.ner",
+    "disclosure.ner",
+    "disclosure.ner",
+    "disclosure.ner",
+    "validation"
+  ]
+}

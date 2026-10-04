@@ -1,0 +1,9 @@
+ DAILY_WORK_PLAN.md                                                   | 38 ++++++++++++++++++++++++---
+ apps/app/src/features/spacetime/components/evidence-layers-panel.tsx | 48 ++++++++++++++++++++++++----------
+ apps/app/src/features/spacetime/components/spacetime-canvas.tsx      | 22 +++++++++++-----
+ apps/app/src/features/spacetime/components/spacetime-globe.tsx       | 60 ++++++++++++++++++++++++++++++++++++-------
+ apps/app/src/features/spacetime/lib/normalize.ts                     | 39 +++++++++++++++++++++++-----
+ apps/app/src/services/sightings/get-sightings.ts                     | 33 ++++++++++++++++++++++--
+ apps/disclosure-rag/.claude/worktrees/compassionate-lovelace-e35750  |  0
+ docs/PLANS/2026-08-01-spacetime-canvas-implementation.md             | 19 ++++++++++++++
+ 8 files changed, 218 insertions(+), 41 deletions(-)

@@ -1,0 +1,100 @@
+# prompt_id : disclosure.ner
+# attempt   : attempt1
+# error     : Expecting property name enclosed in double quotes: line 94 column 6 (char 5174)
+# raw_chars : 5180
+# ---8<--- raw response follows ---8<---
+{
+  "entities": [
+    {
+      "type": "PERSONNEL",
+      "name": "Robert Bigelow",
+      "aliases": ["Robert Bigalow"],
+      "role": "Founder/funder of NIDS, Skinwalker Ranch owner, OSAP program sponsor, Bigelow Aerospace founder",
+      "credibility_tier": 7,
+      "attributes": {
+        "affiliations": ["National Institute for Discovery Science", "Bigelow Aerospace", "Bigelow Institute for Consciousness Studies"],
+        "notes": "Named as employer and program sponsor; institutional role supports mid-high credibility as a principal, not as a firsthand witness."
+      },
+      "span_quote": "eventually I got talking to Robert Bigalow, flew out to Las Vegas and um within a very short period of time I was hired in August of 1996 and um Robert had just purchased the uh 500 acre property in northeastern Utah",
+      "evidentiary_state": "Corroborated"
+    },
+    {
+      "type": "PERSONNEL",
+      "name": "Unnamed immunologist / NIDS scientist (speaker)",
+      "aliases": ["mainstream immunologist", "NIDS scientist", "OSAP day-to-day operations manager"],
+      "role": "Witness; scientist; NIDS researcher; OSAP operations manager; Bigelow Aerospace life support manager; Bigelow Institute for Consciousness Studies affiliate",
+      "credibility_tier": 7,
+      "attributes": {
+        "background": "Biochemistry, immunology, molecular biology; formerly at National Jewish Center, Denver",
+        "claimed_experience": "~300 days and nights on Skinwalker Ranch over six years; ~2.5 years running OSAP day-to-day operations",
+        "notes": "Speaker name not stated in provided text; identity left as surface description. Credibility tier reflects credentialed scientist role, not independent corroboration of anomalous claims."
+      },
+      "span_quote": "I was working as a mainstream immunologist in in the National Jewish Center in Denver, background in biochemistry, immunology, molecular biology",
+      "evidentiary_state": "Unverified"
+    },
+    {
+      "type": "ORGANIZATION",
+      "name": "National Institute for Discovery Science",
+      "aliases": ["NIDS"],
+      "category": "private research",
+      "attributes": {
+        "founded_context": "Speaker joined August 1996",
+        "authority_context": "Privately funded research organization associated with Robert Bigelow",
+        "disclosure_posture": "Not stated"
+      },
+      "span_quote": "it's been exactly 30 years to the month since I first joined the National Institute for Discovery Science. It was August of 1996.",
+      "evidentiary_state": "Corroborated"
+    },
+    {
+      "type": "ORGANIZATION",
+      "name": "Bigelow Aerospace",
+      "aliases": ["Bigalow Aerospace"],
+      "category": "private",
+      "attributes": {
+        "authority_context": "Aerospace company; speaker managed life support systems group",
+        "disclosure_posture": "Not stated"
+      },
+      "span_quote": "after that I was uh managing the uh life support systems group at Bigalow Aerospace in charge of basically 11 different systems that cumulatively astronauts use to keep alive in low earth orbit",
+      "evidentiary_state": "Corroborated"
+    },
+    {
+      "type": "ORGANIZATION",
+      "name": "Bigelow Institute for Consciousness Studies",
+      "aliases": ["Bigalow Institute for consciousness studies"],
+      "category": "private research",
+      "attributes": {
+        "authority_context": "Consciousness studies institute associated with Robert Bigelow",
+        "disclosure_posture": "Not stated"
+      },
+      "span_quote": "since then I've been with the Bigalow Institute for um consciousness studies",
+      "evidentiary_state": "Corroborated"
+    },
+    {
+      "type": "ORGANIZATION",
+      "name": "Defense Intelligence Agency",
+      "aliases": ["DIA"],
+      "category": "government",
+      "attributes": {
+        "authority_context": "U.S. government intelligence agency named as sponsor of OSAP",
+        "disclosure_posture": "Partial release of program documents per speaker"
+      },
+      "span_quote": "later I think you guys have already discussed the OSAP program with DIA. I was um running the day-to-day operations uh reporting to Robert Bigalow of the OSAP program.",
+      "evidentiary_state": "Corroborated"
+    },
+    {
+      "type": "ORGANIZATION",
+      "name": "OSAP program",
+      "aliases": ["OSAP", "Advanced Aerospace Weapon System Applications Program (implied, not stated)"],
+      "category": "government",
+      "attributes": {
+        "authority_context": "DIA program; speaker reports running day-to-day operations",
+        "scale_claimed": "50 scientists, technicians, counterintelligence and security personnel",
+        "duration_claimed": "just under two and a half years",
+        "output_claimed": "~100 technical documents, 35–38 released",
+        "notes": "Acronym expansion not provided in source text; do not assume."
+      },
+      "span_quote": "We had 50 um scientists and technicians and counter intelligence people, security people um investigating UFOs. It was the largest I think UFO program that has been admitted to in the history of the UFO phenomenon",
+      "evidentiary_state": "Corroborated"
+    },
+    {
+     

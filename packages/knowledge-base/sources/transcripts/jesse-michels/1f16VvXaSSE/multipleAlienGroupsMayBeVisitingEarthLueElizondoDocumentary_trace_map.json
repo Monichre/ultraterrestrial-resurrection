@@ -1,0 +1,379 @@
+{
+  "schemaVersion": "trace-map.v1",
+  "sourceId": "src:ed656a3251499aa7",
+  "sourceType": "video",
+  "sourceUrl": "https://www.youtube.com/watch?v=1f16VvXaSSE",
+  "sourceHash": "sha256:0a2f6f052f15c3fbfed37d7c91f0797a7c20800f52aa63d58cc5adfb6a0a1bb4",
+  "contentVersion": 1,
+  "reviewState": "unreviewed",
+  "nodes": [
+    {
+      "id": "src:ed656a3251499aa7",
+      "type": "source",
+      "label": "“Multiple Alien Groups May Be Visiting Earth!” (Lue Elizondo Documentary)",
+      "url": "https://www.youtube.com/watch?v=1f16VvXaSSE",
+      "sourceType": "video",
+      "contentType": "media",
+      "integrityFlags": [
+        "secondary_repost",
+        "transcript_noise"
+      ],
+      "classificationMarks": [],
+      "ingestionRecommendation": "proceed"
+    },
+    {
+      "id": "seg:ed656a3251499aa7:c01",
+      "type": "segment",
+      "label": "c01",
+      "chunkId": "c01",
+      "evidentiaryDensity": "high",
+      "temporalAnchors": [
+        "1952",
+        "1973-1974",
+        "2017",
+        "2018",
+        "1944-1945",
+        "World War II"
+      ],
+      "spatialAnchors": [
+        "Washington DC",
+        "Wyoming",
+        "Iraq",
+        "Germany",
+        "Tel Aviv",
+        "Guantanamo Bay"
+      ],
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 23999,
+        "segmentStart": 0,
+        "segmentEnd": 654,
+        "startSeconds": 0.199,
+        "endSeconds": 1620.76,
+        "method": "exact",
+        "excerpt": "look here's the bottom line guys it's it's very simple either a the reality is that uap are here or b this is some form of mass hysteria and if it is masseria that means you have admirals generals trained pilots with top secret clearances w"
+      },
+      "excerpt": "look here's the bottom line guys it's it's very simple either a the reality is that UAP are here or B this is some form of mass hysteria and if it is Masseria that means you have Admirals generals trained pilots with top secret clearances w"
+    },
+    {
+      "id": "clm:ed656a3251499aa7:292f7415607f",
+      "type": "claim",
+      "label": "UAP are either real or mass hysteria",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 23999,
+        "segmentStart": 0,
+        "segmentEnd": 654,
+        "startSeconds": 0.199,
+        "endSeconds": 1620.76,
+        "method": "exact",
+        "excerpt": "look here's the bottom line guys it's it's very simple either a the reality is that uap are here or b this is some form of mass hysteria and if it is masseria that means you have admirals generals trained pilots with top secret clearances w"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:ed656a3251499aa7:254bfabcf0af",
+      "type": "claim",
+      "label": "Elizondo is a Pentagon whistleblower",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 23999,
+        "segmentStart": 0,
+        "segmentEnd": 654,
+        "startSeconds": 0.199,
+        "endSeconds": 1620.76,
+        "method": "exact",
+        "excerpt": "look here's the bottom line guys it's it's very simple either a the reality is that uap are here or b this is some form of mass hysteria and if it is masseria that means you have admirals generals trained pilots with top secret clearances w"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:ed656a3251499aa7:284443c45c6c",
+      "type": "claim",
+      "label": "Elizondo was director of ATIP",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 23999,
+        "segmentStart": 0,
+        "segmentEnd": 654,
+        "startSeconds": 0.199,
+        "endSeconds": 1620.76,
+        "method": "exact",
+        "excerpt": "look here's the bottom line guys it's it's very simple either a the reality is that uap are here or b this is some form of mass hysteria and if it is masseria that means you have admirals generals trained pilots with top secret clearances w"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:ed656a3251499aa7:5d59e4cca2ce",
+      "type": "claim",
+      "label": "Elizondo worked with David Grusch",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 23999,
+        "segmentStart": 0,
+        "segmentEnd": 654,
+        "startSeconds": 0.199,
+        "endSeconds": 1620.76,
+        "method": "exact",
+        "excerpt": "look here's the bottom line guys it's it's very simple either a the reality is that uap are here or b this is some form of mass hysteria and if it is masseria that means you have admirals generals trained pilots with top secret clearances w"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:ed656a3251499aa7:c79fc6dcf661",
+      "type": "claim",
+      "label": "UAP are interested in nuclear capabilities",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 23999,
+        "segmentStart": 0,
+        "segmentEnd": 654,
+        "startSeconds": 0.199,
+        "endSeconds": 1620.76,
+        "method": "exact",
+        "excerpt": "look here's the bottom line guys it's it's very simple either a the reality is that uap are here or b this is some form of mass hysteria and if it is masseria that means you have admirals generals trained pilots with top secret clearances w"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:ed656a3251499aa7:cf9c1bd0a85d",
+      "type": "claim",
+      "label": "Elizondo handled an implant that moved under its own metabolism",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 23999,
+        "segmentStart": 0,
+        "segmentEnd": 654,
+        "startSeconds": 0.199,
+        "endSeconds": 1620.76,
+        "method": "exact",
+        "excerpt": "look here's the bottom line guys it's it's very simple either a the reality is that uap are here or b this is some form of mass hysteria and if it is masseria that means you have admirals generals trained pilots with top secret clearances w"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:ed656a3251499aa7:23e00123c849",
+      "type": "claim",
+      "label": "Maurice Hill witnessed 1952 DC flyover and a jellyfish UFO in the 1970s",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 23999,
+        "segmentStart": 0,
+        "segmentEnd": 654,
+        "startSeconds": 0.199,
+        "endSeconds": 1620.76,
+        "method": "exact",
+        "excerpt": "look here's the bottom line guys it's it's very simple either a the reality is that uap are here or b this is some form of mass hysteria and if it is masseria that means you have admirals generals trained pilots with top secret clearances w"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:ed656a3251499aa7:dbe17e7d0e9a",
+      "type": "claim",
+      "label": "Jellyfish UFOs have multiple accounts",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 23999,
+        "segmentStart": 0,
+        "segmentEnd": 654,
+        "startSeconds": 0.199,
+        "endSeconds": 1620.76,
+        "method": "exact",
+        "excerpt": "look here's the bottom line guys it's it's very simple either a the reality is that uap are here or b this is some form of mass hysteria and if it is masseria that means you have admirals generals trained pilots with top secret clearances w"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:ed656a3251499aa7:b5b3accd1c78",
+      "type": "claim",
+      "label": "Craft may have ablative sacrificial outer layer",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 23999,
+        "segmentStart": 0,
+        "segmentEnd": 654,
+        "startSeconds": 0.199,
+        "endSeconds": 1620.76,
+        "method": "exact",
+        "excerpt": "look here's the bottom line guys it's it's very simple either a the reality is that uap are here or b this is some form of mass hysteria and if it is masseria that means you have admirals generals trained pilots with top secret clearances w"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:ed656a3251499aa7:9ff273f6c6ad",
+      "type": "claim",
+      "label": "Edgar Mitchell's UFO footage was confiscated",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 23999,
+        "segmentStart": 0,
+        "segmentEnd": 654,
+        "startSeconds": 0.199,
+        "endSeconds": 1620.76,
+        "method": "exact",
+        "excerpt": "look here's the bottom line guys it's it's very simple either a the reality is that uap are here or b this is some form of mass hysteria and if it is masseria that means you have admirals generals trained pilots with top secret clearances w"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:ed656a3251499aa7:88b27bd8bdf2",
+      "type": "claim",
+      "label": "Senator Stevens encountered Foo Fighters",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 23999,
+        "segmentStart": 0,
+        "segmentEnd": 654,
+        "startSeconds": 0.199,
+        "endSeconds": 1620.76,
+        "method": "exact",
+        "excerpt": "look here's the bottom line guys it's it's very simple either a the reality is that uap are here or b this is some form of mass hysteria and if it is masseria that means you have admirals generals trained pilots with top secret clearances w"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:ed656a3251499aa7:cc9a03c16065",
+      "type": "claim",
+      "label": "Wernher von Braun showed Yuri Gagarin a piece of a crashed UFO",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 23999,
+        "segmentStart": 0,
+        "segmentEnd": 654,
+        "startSeconds": 0.199,
+        "endSeconds": 1620.76,
+        "method": "exact",
+        "excerpt": "look here's the bottom line guys it's it's very simple either a the reality is that uap are here or b this is some form of mass hysteria and if it is masseria that means you have admirals generals trained pilots with top secret clearances w"
+      },
+      "claimSource": "chunk.claims_hint"
+    }
+  ],
+  "edges": [
+    {
+      "from": "src:ed656a3251499aa7",
+      "to": "seg:ed656a3251499aa7:c01",
+      "type": "contains"
+    },
+    {
+      "from": "seg:ed656a3251499aa7:c01",
+      "to": "clm:ed656a3251499aa7:292f7415607f",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:ed656a3251499aa7:c01",
+      "to": "clm:ed656a3251499aa7:254bfabcf0af",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:ed656a3251499aa7:c01",
+      "to": "clm:ed656a3251499aa7:284443c45c6c",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:ed656a3251499aa7:c01",
+      "to": "clm:ed656a3251499aa7:5d59e4cca2ce",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:ed656a3251499aa7:c01",
+      "to": "clm:ed656a3251499aa7:c79fc6dcf661",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:ed656a3251499aa7:c01",
+      "to": "clm:ed656a3251499aa7:cf9c1bd0a85d",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:ed656a3251499aa7:c01",
+      "to": "clm:ed656a3251499aa7:23e00123c849",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:ed656a3251499aa7:c01",
+      "to": "clm:ed656a3251499aa7:dbe17e7d0e9a",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:ed656a3251499aa7:c01",
+      "to": "clm:ed656a3251499aa7:b5b3accd1c78",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:ed656a3251499aa7:c01",
+      "to": "clm:ed656a3251499aa7:9ff273f6c6ad",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:ed656a3251499aa7:c01",
+      "to": "clm:ed656a3251499aa7:88b27bd8bdf2",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:ed656a3251499aa7:c01",
+      "to": "clm:ed656a3251499aa7:cc9a03c16065",
+      "type": "asserts"
+    }
+  ],
+  "views": {
+    "sourceSpine": [
+      "seg:ed656a3251499aa7:c01"
+    ],
+    "topicRoots": [],
+    "claimRoots": [
+      "clm:ed656a3251499aa7:292f7415607f",
+      "clm:ed656a3251499aa7:254bfabcf0af",
+      "clm:ed656a3251499aa7:284443c45c6c",
+      "clm:ed656a3251499aa7:5d59e4cca2ce",
+      "clm:ed656a3251499aa7:c79fc6dcf661",
+      "clm:ed656a3251499aa7:cf9c1bd0a85d",
+      "clm:ed656a3251499aa7:23e00123c849",
+      "clm:ed656a3251499aa7:dbe17e7d0e9a",
+      "clm:ed656a3251499aa7:b5b3accd1c78",
+      "clm:ed656a3251499aa7:9ff273f6c6ad",
+      "clm:ed656a3251499aa7:88b27bd8bdf2",
+      "clm:ed656a3251499aa7:cc9a03c16065"
+    ],
+    "openQuestionRoots": []
+  },
+  "coverage": {
+    "timed": true,
+    "charsAnchored": 23999,
+    "charsTotal": 116144,
+    "fraction": 0.2066,
+    "segmentsCovered": 655,
+    "segmentsTotal": 3149,
+    "pipelineTruncatedAtChars": 24000,
+    "chunkAnchorMethods": {
+      "exact": 1
+    }
+  },
+  "generation": {
+    "createdAt": "2026-08-18T06:46:21.541178+00:00",
+    "models": [
+      "deepseek/deepseek-chat"
+    ],
+    "promptsUsed": [
+      "disclosure.content_analysis",
+      "disclosure.ner",
+      "document_classification",
+      "rag_ingestion"
+    ],
+    "methodologyVersion": "rag-prompt-pipeline/ADR-0001",
+    "pipelineStatus": "ok",
+    "degraded": true
+  },
+  "validation": {
+    "valid": true,
+    "errors": [],
+    "gaps": [
+      "no next_trace nodes — no pipeline stage proposes concrete next sources",
+      "no reading nodes — no interpretive stage exists; readings are never inferred here",
+      "no counter_reading nodes — paired with reading; unproduced for the same reason",
+      "no speaker nodes — diarisation is unavailable — the transcript carries '>>' turn markers but no speaker identities",
+      "no open questions — the map manufactures closure it has no basis for",
+      "no evidence→claim edges — the analysis prompt emits supporting and contradictory evidence as flat lists with no target claim, so evidence carries a stance but names no claim it bears on",
+      "chunk coverage is 21% of the source (23999 of 116144 chars); the pipeline truncates at 24000 chars"
+    ]
+  }
+}

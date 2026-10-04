@@ -1,0 +1,32 @@
+{
+  "title": "Gravity Physicist on DARPA Anti-Gravity, Dark Energy, & God | Claudia de Rham",
+  "url": "https://www.youtube.com/watch?v=4N_DcI0s_-U",
+  "id": "4N_DcI0s_-U",
+  "categories": [],
+  "tags": [],
+  "description": "",
+  "chapters": [],
+  "transcript_segment_count": 1838,
+  "rag_pipeline": {
+    "status": "ok",
+    "embeddable_count": 5,
+    "prompts_used": [
+      "disclosure.content_analysis",
+      "disclosure.ner",
+      "document_classification",
+      "rag_ingestion",
+      "validation"
+    ],
+    "errors": []
+  },
+  "trace_map": {
+    "json_path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/sources/transcripts/2026-08-15/4N_DcI0s_-U/gravityPhysicistOnDarpaAntiGravityDarkEnergyGodClaudiaDeRham_trace_map.json",
+    "md_path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/sources/transcripts/2026-08-15/4N_DcI0s_-U/gravityPhysicistOnDarpaAntiGravityDarkEnergyGodClaudiaDeRham_trace_map.md",
+    "node_count": 46,
+    "edge_count": 68,
+    "coverage_fraction": 0.3096,
+    "valid": true,
+    "error_count": 0,
+    "gap_count": 6
+  }
+}

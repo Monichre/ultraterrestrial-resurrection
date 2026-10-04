@@ -1,0 +1,1326 @@
+{
+ "fetched_at": "2026-08-17",
+ "api": "youtube/v3/videos?part=snippet",
+ "resolved": {
+  "8TYMQOUDQBo": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2025-01-24T19:43:02Z",
+   "title": "Meet the Navy Scientist With UFO Patents (Ft. Salvatore Pais)"
+  },
+  "1GnGGCaC6P4": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-11-04T14:25:29Z",
+   "title": "UFO Crash Recovery - Sgt. Clifford Stone Testifies"
+  },
+  "wAY1Erm-el8": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-10-16T21:50:19Z",
+   "title": "The Ministry's UFO Files with Nick Pope, Former British Ministry of Defense"
+  },
+  "A45mjzh8bfU": {
+   "channel_id": "UCSun6KxKzepTDtvKmwBOYLA",
+   "channel_title": "World President goes viral",
+   "published_at": "2022-03-18T20:53:37Z",
+   "title": "BOB LAZAR MIND BENDING STORY THAT IS REAL ORIGINAL 1989 COMPLETE 🧨"
+  },
+  "qIys3ZT6NL8": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-09-09T13:56:21Z",
+   "title": "Silent Triangle Over Loring Air Force Base in Maine l Lieutenant Colonel Joe Wojtecki"
+  },
+  "rBO8z9pHAuA": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-11-08T15:35:37Z",
+   "title": "Technology from Extraterrestrials (Lockheed Skunkworks & More)"
+  },
+  "Xl4hoAMXtoU": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-11-08T18:50:32Z",
+   "title": "EXPERT Reveals Norton AFB's Darkest UFO Secrets"
+  },
+  "q38SwPmObho": {
+   "channel_id": "UCCjG8NtOig0USdrT5D1FpxQ",
+   "channel_title": "NewsNation",
+   "published_at": "2025-01-26T00:00:06Z",
+   "title": "Former nuclear officer, green beret says he believes UAP whistleblower | Reality Check"
+  },
+  "0WZyDglNi5Y": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-09-30T21:38:18Z",
+   "title": "Project Blue Book Insider Speaks About UFO Technology -- Brigadier General Stephen Lovekin Esq."
+  },
+  "HedqKNTt6AA": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-12-13T20:28:34Z",
+   "title": "The Lost Story of the Roswell UFO Crash Original Report | Disclosure Advocates Series"
+  },
+  "E2JUqfI1ICA": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-10-05T19:08:01Z",
+   "title": "UFO at Navy Atlantic Operational Support Facility l Merle McDow, Special Intelligence"
+  },
+  "zWpI4Z_GItU": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-11-22T23:22:12Z",
+   "title": "Diamond-Shaped UFO in UK l Officer Alan Godfry of West Yorkshire Metropolitan Police"
+  },
+  "U-8XJvHRuzY": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-10-26T20:35:08Z",
+   "title": "UFO Incident at Bentwaters Royal Air Force UK l Captain Lori Rehfeldt"
+  },
+  "u7mEnmx1HIo": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-07-12T21:19:59Z",
+   "title": "Saucer-shaped UFO Over Washington DC l Retired Colonel Dedrickson of US Air Force"
+  },
+  "PaK5WOz3Mf4": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-12-03T22:54:06Z",
+   "title": "Area 51 Technician's Son Discloses Secret Alternative Energy"
+  },
+  "zRDLK74UD3I": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-06-06T15:44:45Z",
+   "title": "UFO Sighting of United Airlines Flight 94 l Air Force Pilot Mr. Daniels"
+  },
+  "_4hycqDNnPE": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-11-29T18:41:32Z",
+   "title": "ET Extraterrestrial Structures on the Moon - Sgt Karl Wolfe"
+  },
+  "dnnpyNuPdXs": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2025-01-30T23:03:44Z",
+   "title": "\"I Retrieved a UFO With My Helicopter!\" -Jake Barber"
+  },
+  "IB_itwvRo9k": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-10-19T22:30:33Z",
+   "title": "Lord Admiral Hill-Norton EXPOSES UFO Secrecy at Bentwaters"
+  },
+  "k4qQv7RasRw": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-06-06T15:44:31Z",
+   "title": "UFO Stories from a Military Electronics Technician (1950s sightings)"
+  },
+  "8QAlezjhOls": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-07-22T13:36:21Z",
+   "title": "UFO over Nuclear Powered Aircraft Carrier USS Roosevelt l Radar Operator Harry Allen Jordan"
+  },
+  "fU6LOfiUJ6Q": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-06-06T15:43:28Z",
+   "title": "Shocking Encounter Over the Atlantic - (Graham Bethune Navy UFO)"
+  },
+  "jAfTY7NuceQ": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-12-07T05:01:15Z",
+   "title": "Roswell UFO & ET Life Revisited -- Colonel Phillip J. Corso"
+  },
+  "LOHv1twCOqQ": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-06-06T15:42:00Z",
+   "title": "ET & UFO Testimony by Astronaut Edgar Mitchell l Disclosure Project"
+  },
+  "gP8ftWzFYI4": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-10-11T22:09:48Z",
+   "title": "Von Braun's Legacy of UFO & Space Tech l Dr. Carol Rosin Corporate Manager of Fairchild Industries"
+  },
+  "NEsOQCwt4yw": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-08-26T14:02:21Z",
+   "title": "Glowing Sphere UFO Over Nuclear Weapons on USS JFK l Mr. Kopf of US Navy"
+  },
+  "QYhRu2_nJ6c": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-12-13T15:50:14Z",
+   "title": "The UFO Secrets That U.S. Presidents Didn’t Know | Disclosure Advocates Series"
+  },
+  "AICm8RjnUjs": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-06-19T14:47:02Z",
+   "title": "UFO Testimony of Air Traffic Controller Michael Smith"
+  },
+  "PgAEoNbfjT4": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-06-06T15:44:59Z",
+   "title": "Unexplained Aerial UFO Phenomena From the AIRCAT Files l Dr. Haines NASA research scientist"
+  },
+  "xWBBjv-jIVw": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-06-14T19:37:43Z",
+   "title": "UFO Tracks Impossibly Fast On Radar l Don Bockelman Testifies"
+  },
+  "ccFtnp31xIc": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-09-13T13:41:20Z",
+   "title": "Top 3 Glittering Boomerang Secrets from Seasoned USAF Veteran Sergeant Stoney Campbell"
+  },
+  "9caqm346Bqs": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-05-28T18:24:39Z",
+   "title": "UFO Close Encounters In Vietnam l Lieutenant Fox of US Navy"
+  },
+  "wsEd_b1C8DY": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-09-20T19:29:46Z",
+   "title": "Astronaut Gordon Cooper's UFO Experience"
+  },
+  "N7-a-_gx_yU": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-06-06T15:42:21Z",
+   "title": "Green Halo Over Rome l Captain Poggi Senior 747 Captain for Alitalia"
+  },
+  "oUqsU76GRq4": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-12-02T19:23:27Z",
+   "title": "The Nike Ajax UFO Crash l Harland Bentley US Army"
+  },
+  "KyJXWWJrOvo": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-12-13T20:29:21Z",
+   "title": "Over 250 Witnesses Pearl Harbor’s Nine Silver Disc Encounter | Disclosure Advocates Series"
+  },
+  "qBOY5jrOGwA": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-12-13T15:49:27Z",
+   "title": "What the Roswell Mortician Wasn't Told About Infant Caskets | Disclosure Advocates Series"
+  },
+  "x4wL4lbwwNU": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-07-06T03:43:06Z",
+   "title": "UFO Destroys Vandenberg Missile l Professor  Robert Jacobs Testifies"
+  },
+  "7MTRqq8w008": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-12-16T22:32:10Z",
+   "title": "Inside Italy’s UFO Files | Disclosure Advocates Series"
+  },
+  "V4WTid3O0VE": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-06-06T15:44:14Z",
+   "title": "UFO Buzzes Japan Airlines l Division Chief of the Accidents at Federal Aviation Administration"
+  },
+  "DHgG8el5n5M": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-12-02T19:19:56Z",
+   "title": "Former Analyst reveals UFO Secrecy l John Maynard Military Analyst at Defense Intelligence Agency"
+  },
+  "KkZWHpP17Rc": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-06-21T14:04:21Z",
+   "title": "ET Shuts Down Nuclear Missile Sites l Captain Robert Salas of Air Force Academy"
+  },
+  "nLdaBcOr_kU": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-11-22T23:21:11Z",
+   "title": "UFO At The Chinese Embassy l Mr. Creighton of British Foreign Service"
+  },
+  "WaKzTR29Qn8": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-06-06T15:45:13Z",
+   "title": "Spacecraft Over Mexico City Airport Tracked by Senior Air Traffic Controller"
+  },
+  "thLGknsJ2Qg": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-12-03T22:56:08Z",
+   "title": "Secret Projects at McDonnell Douglas l Dr Robert Wood Senior Aerospace Engineer at McDonnell Douglas"
+  },
+  "Rg-pp2BuKKk": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-06-28T14:33:34Z",
+   "title": "Reports of UFO Crashed in Spitsbergen Norway l Lieutenant Colonel Arneson of US Airforce"
+  },
+  "g6dw7kP0sBY": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-10-07T13:51:37Z",
+   "title": "Project Grudge is the Tip of the UFO Iceberg l WWII Air Force Hero Lieutenant Colonel Brown"
+  },
+  "JW6cJuKDUsU": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-11-22T23:15:14Z",
+   "title": "Former Boeing Aerospace Employee Reveals the Secrets of Project Red Light"
+  },
+  "WGUb1JKxBDo": {
+   "channel_id": "UCvQ_EDuk8w67a2UkCS1ptbA",
+   "channel_title": "Area52",
+   "published_at": "2025-01-31T17:00:07Z",
+   "title": "Ex-Pentagon Official Confirms Alien Language Exists - Lue Elizondo - DEBRIEFED ep. 24"
+  },
+  "PJ2YwE0R-xM": {
+   "channel_id": "UCzQUP1qoWDoEbmsQxvdjxgQ",
+   "channel_title": "PowerfulJRE",
+   "published_at": "2025-01-29T18:00:16Z",
+   "title": "Joe Rogan Experience #2264 - Lenval Logan & Jason Sands"
+  },
+  "tEBLmWhx1K0": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-11-29T18:42:17Z",
+   "title": "The NASA Photos of the Moon Were Airbrushed l Donna Hare Top Secret Clearance NASA Contractor"
+  },
+  "d0H-Pn8RKKo": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-10-19T22:30:59Z",
+   "title": "ET UFO Shot Down and Extraterrestrial Life Found - MUFON's George Filer Reveals"
+  },
+  "VxA-Y4enohQ": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-11-01T21:09:42Z",
+   "title": "Reverse Engineering an ET UFO Craft l Captain Bill Uhouse, USMC."
+  },
+  "tYU_tr5K5ws": {
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "channel_title": "Dr. Steven Greer",
+   "published_at": "2013-10-25T17:52:26Z",
+   "title": "UFO Bentwaters Incident l Larry Warren Security Officer at Bentwaters Air Force Base in the UK"
+  },
+  "ZRLmTB00zlI": {
+   "channel_id": "UCCjG8NtOig0USdrT5D1FpxQ",
+   "channel_title": "NewsNation",
+   "published_at": "2025-01-27T00:00:06Z",
+   "title": "Why military veteran Don Paul Bales believes UAP whistleblower | Reality Check"
+  },
+  "o72BBZYXm9c": {
+   "channel_id": "UCCjG8NtOig0USdrT5D1FpxQ",
+   "channel_title": "NewsNation",
+   "published_at": "2025-01-25T00:00:06Z",
+   "title": "Air Force veteran on working with UFO whisteblower, UAP experiences"
+  },
+  "3fkg0uTA3qU": {
+   "channel_id": "UCdWIQh9DGG6uhJk8eyIFl1w",
+   "channel_title": "Curt Jaimungal",
+   "published_at": "2025-02-11T18:25:22Z",
+   "title": "Top AI Scientist Unifies Wolfram, Leibniz, & Consciousness | William Hahn"
+  },
+  "5neRAsS0nrY": {
+   "channel_id": "UCvQ_EDuk8w67a2UkCS1ptbA",
+   "channel_title": "Area52",
+   "published_at": "2025-01-03T22:05:57Z",
+   "title": "The \"Horrible Truth\" about The Alien Deal - DEBRIEFED ep. 20"
+  },
+  "BofbLO1BSKc": {
+   "channel_id": "UCHw9Lru3EcpRQyM7AI5TlmA",
+   "channel_title": "That UFO Podcast",
+   "published_at": "2025-02-18T22:00:06Z",
+   "title": "Danny Sheehan: UFO's, Whistleblowers & De-classification || That UFO Podcast"
+  },
+  "nTiFs8LudUo": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2025-02-21T20:32:30Z",
+   "title": "UAPGerb: “The New Area51 Is HERE in Utah!”"
+  },
+  "3zm4nh3S66I": {
+   "channel_id": "UCkoujZQZatbqy4KGcgjpVxQ",
+   "channel_title": "Shawn Ryan Show",
+   "published_at": "2023-07-17T17:30:09Z",
+   "title": "Michael Herrera - US Marine Encounters UFO Black Ops Human Trafficking Operation | SRS #66 (Part 1)"
+  },
+  "ffgzkHCGZGE": {
+   "channel_id": "UCOFr2M0innfMCzpMeMQ7zNw",
+   "channel_title": "André Duqum",
+   "published_at": "2024-07-23T13:00:41Z",
+   "title": "The Emerging Science: “We Are ONE Consciousness” - Life, Death & The Simulation | Donald Hoffman"
+  },
+  "p0S0BfoZy0w": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2025-03-13T19:38:29Z",
+   "title": "Life on Mars Destroyed by Nuclear War! (Ft. Dr. John Brandenburg)"
+  },
+  "IQefdkl8PfY": {
+   "channel_id": "UCnYMOamNKLGVlJgRUbamveA",
+   "channel_title": "Tom Bilyeu",
+   "published_at": "2023-07-11T13:00:29Z",
+   "title": "We Live in a Simulation. The evidence is everywhere. All you have to do is look. | Donald Hoffman"
+  },
+  "B6WFLOIkyho": {
+   "channel_id": "UCvQ_EDuk8w67a2UkCS1ptbA",
+   "channel_title": "Area52",
+   "published_at": "2025-04-18T16:00:12Z",
+   "title": "Alien Encounters With The Real Life X-Files Agent - Nick Pope - DEBRIEFED ep. 34"
+  },
+  "Ody82xEgNV8": {
+   "channel_id": "UCt9Yi-Sr7wQWrqJW5Kx1rTQ",
+   "channel_title": "NIGHT SHIFT",
+   "published_at": "2024-09-25T14:00:25Z",
+   "title": "JWST, \"The Object,\" and  Coming \"Event\" in 2027"
+  },
+  "h0hAit-KH9A": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2025-06-13T17:00:52Z",
+   "title": "The Wall Street Journal Is Lying About UFOs"
+  },
+  "QfP5BgOz97U": {
+   "channel_id": "UC71vsoCXoJm1AvWhWJV_1lw",
+   "channel_title": "THIRD EYE DROPS with Michael Phillip",
+   "published_at": "2025-06-19T00:00:06Z",
+   "title": "Quantum Consciousness and the Illusion of Reality | Federico Faggin"
+  },
+  "hXYdkcv5TtY": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2024-11-30T20:06:59Z",
+   "title": "UFOs, Synchronicities & Prophetic Dreams (Ft. Eric Wargo)"
+  },
+  "PmclCzGFotM": {
+   "channel_id": "UC_lImxJUPNAQhbbgwgk7s-w",
+   "channel_title": "Motorhead Garage",
+   "published_at": "2025-04-08T18:57:42Z",
+   "title": "Bob Lazar UNSEEN Interview with Don Garlits (1997)"
+  },
+  "-JBwH6yHEDo": {
+   "channel_id": "UCSgeCjcPYYZXR62Cykv43sA",
+   "channel_title": "7 News Spotlight",
+   "published_at": "2024-05-13T05:10:11Z",
+   "title": "Rendlesham Forest UFO sighting: Eyewitness Colonel Charles Halt"
+  },
+  "09KP8XVf5nY": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2025-04-22T21:45:37Z",
+   "title": "Presidential Advisor: “I Directly Handled UFO Material” (Ft. Harald Malmgren)"
+  },
+  "o5V3mt_C_ZE": {
+   "channel_id": "UCzlWCeD3J0zVb4KSeaeDNdw",
+   "channel_title": "The Sol Foundation",
+   "published_at": "2025-07-08T19:00:49Z",
+   "title": "Jim Semivan: CIA Veteran on UAP Disclosure, Secrecy, & Non-Human Intelligence | The Sol Forum #2"
+  },
+  "-0g3lLGxNfc": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2025-07-12T18:00:00Z",
+   "title": "“This UFO Shut Down 10 Nukes!” - Air Force Officer Robert Salas"
+  },
+  "ZAxI-LDrDqA": {
+   "channel_id": "UCkgPT7LeB_t1aXTYyMiFVAg",
+   "channel_title": "Jeremy Corbell",
+   "published_at": "2025-04-29T19:00:07Z",
+   "title": "Immaculate Constellation - UFO Whistleblower Goes Public : PART 1 : WEAPONIZED : Episode #74"
+  },
+  "4n_bRtnIP14": {
+   "channel_id": "UCkgPT7LeB_t1aXTYyMiFVAg",
+   "channel_title": "Jeremy Corbell",
+   "published_at": "2025-05-06T19:00:07Z",
+   "title": "Immaculate Constellation - A UFO Whistleblower's Journey : PART 2 : WEAPONIZED : Episode #75"
+  },
+  "TNtlzEnl8rA": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2025-08-31T17:59:41Z",
+   "title": "NASA Doctor: “I Saw This UFO In A Secret Hangar!” (Ft. Greg Rogers)"
+  },
+  "ZZ5LpwO-An4": {
+   "channel_id": "UCJeFpHh_GaNzEGvneb3XNkQ",
+   "channel_title": "ProtoOfSnagem",
+   "published_at": "2010-11-07T21:01:39Z",
+   "title": "HEYYEYAAEYAAAEYAEYAA"
+  },
+  "B7y3qcgSRY8": {
+   "channel_id": "UCzQUP1qoWDoEbmsQxvdjxgQ",
+   "channel_title": "PowerfulJRE",
+   "published_at": "2025-08-28T17:00:24Z",
+   "title": "Joe Rogan Experience #2372 - Garry Nolan"
+  },
+  "dQw4w9WgXcQ": {
+   "channel_id": "UCuAXFkgsw1L7xaCfnd5JJOw",
+   "channel_title": "Rick Astley",
+   "published_at": "2009-10-25T06:57:33Z",
+   "title": "Rick Astley - Never Gonna Give You Up (Official Video) (4K Remaster)"
+  },
+  "HB5e4mgJX2Q": {
+   "channel_id": "UCkgPT7LeB_t1aXTYyMiFVAg",
+   "channel_title": "Jeremy Corbell",
+   "published_at": "2025-05-28T02:00:12Z",
+   "title": "Jay Stratton - The Most Important Government UFO Investigator, Ever : WEAPONIZED FLASHBACK"
+  },
+  "LGQkkHuwm6w": {
+   "channel_id": "UCFuzExfO2fUVmNK5_COvsNg",
+   "channel_title": "8 News Now — Las Vegas",
+   "published_at": "2019-08-30T16:54:05Z",
+   "title": "John Lear 1987"
+  },
+  "5Vk8V-clYLU": {
+   "channel_id": "UCvQ_EDuk8w67a2UkCS1ptbA",
+   "channel_title": "Area52",
+   "published_at": "2026-06-12T16:00:24Z",
+   "title": "Revealing The Nordic Alien Prophecies - Michael Horn | DEBRIEFED ep. 92"
+  },
+  "gNr3PbNmGyY": {
+   "channel_id": "UCvQ_EDuk8w67a2UkCS1ptbA",
+   "channel_title": "Area52",
+   "published_at": "2026-07-10T19:58:19Z",
+   "title": "They Showed Him a REAL UFO - Sedge Masters | ep. 95"
+  },
+  "HFLBDi87888": {
+   "channel_id": "UCvQ_EDuk8w67a2UkCS1ptbA",
+   "channel_title": "Area52",
+   "published_at": "2026-07-17T16:01:42Z",
+   "title": "Jesse Michels, UAPGerb & Chris Ramsay - Flying Saucer Diner"
+  },
+  "Mz3MBWz8R-o": {
+   "channel_id": "UCvQ_EDuk8w67a2UkCS1ptbA",
+   "channel_title": "Area52",
+   "published_at": "2026-06-19T16:00:18Z",
+   "title": "6 Shocking Alien Encounter Stories - Preston Dennett | DEBRIEFED ep 93"
+  },
+  "vxumcYKCt-M": {
+   "channel_id": "UCvQ_EDuk8w67a2UkCS1ptbA",
+   "channel_title": "Area52",
+   "published_at": "2026-06-26T16:00:24Z",
+   "title": "Bob Lazar & Travis Walton FINALLY Meet - The Flying Saucer Diner"
+  },
+  "ua4dNq1vK2A": {
+   "channel_id": "UCvQ_EDuk8w67a2UkCS1ptbA",
+   "channel_title": "Area52",
+   "published_at": "2026-07-03T16:00:30Z",
+   "title": "The Most Convincing Alien Encounter Story - Mario Woods | ep. 94"
+  },
+  "K4gYHs84BIc": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2026-08-05T19:31:05Z",
+   "title": "“A Top Government Official Told Me Aliens Run Everything!” -Dylan Borland UNLEASHED"
+  },
+  "uYyXpx7ADJQ": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2026-07-26T17:00:32Z",
+   "title": "\"There's A UFO Under the Ranch!\" - Skinwalker Owner Breaks Silence"
+  },
+  "uVVqFg2v7ro": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2026-07-20T18:07:36Z",
+   "title": "NASA’s Biggest Secret Just Got Exposed (The Truth About The Moon)"
+  },
+  "6bqaHVSlVeU": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2026-06-02T00:37:59Z",
+   "title": "MIT Scientist: “Your Brain Evolved To Ignore Aliens – They’re Everywhere!”"
+  },
+  "yJUBSuPh1pM": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2026-06-20T21:06:42Z",
+   "title": "Hollywood, The CIA & UFOs: The History Beyond Spielberg"
+  },
+  "aGqFOxuYRT0": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2025-11-15T19:00:27Z",
+   "title": "“There's A UFO On The Seafloor!” -Treasure Hunter Dennis Asberg"
+  },
+  "zjpvfDFc4fg": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2025-09-20T18:01:03Z",
+   "title": "NASA & UFOs: Pagan Rituals, Secret Science & Time Travel"
+  },
+  "-XdvIrexF08": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2026-06-07T18:05:02Z",
+   "title": "“If You Knew What I Knew!” -Jeremy Corbell UNLEASHES On Jesse Michels"
+  },
+  "ScE9FaDy-mE": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2026-06-25T21:06:53Z",
+   "title": "Spielberg Just Revealed The Truth About Aliens (He Knows!)"
+  },
+  "Rjr3Yq-dMUE": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2026-02-21T19:10:56Z",
+   "title": "The Man Sitting On More UFO Evidence Than Anyone Alive"
+  },
+  "1zRWi_r3HRM": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2025-10-25T18:02:09Z",
+   "title": "\"100,000 UFOs Are Surrounding Earth!\" ft. Top Astronomer Beatriz Villarroel"
+  },
+  "EzPmG_7WhXc": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2025-09-27T18:52:04Z",
+   "title": "“Aliens Invented Religion To Control Humanity!” -Top Philosopher Jason Jorjani"
+  },
+  "zrmG2jBckgk": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2025-12-07T19:01:11Z",
+   "title": "Meet the Scientist Who Scanned Beneath the Pyramids"
+  },
+  "HxQN2tkQHs8": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2025-08-12T18:00:24Z",
+   "title": "Peru’s Three Fingered “Aliens” (WTF Are These?!)"
+  },
+  "Qe8br8yYEDM": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2026-02-09T19:36:16Z",
+   "title": "Meet the Nuclear Missile Guard Abducted by Aliens"
+  },
+  "bM18PJY6_Zc": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2026-01-06T19:01:27Z",
+   "title": "Why NASA Studies This Man (He Attracts UFOs!)"
+  },
+  "2ttdlCa5ZCI": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2026-03-01T19:00:02Z",
+   "title": "The Hacker That Found NASA’s Secret Space Fleet [Gary McKinnon Interview]"
+  },
+  "jMCavr3dVP0": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2026-04-26T18:04:26Z",
+   "title": "Former NSA Director Breaks Silence on UFOs"
+  },
+  "1sxmSMzqnmA": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2026-05-28T18:05:34Z",
+   "title": "“I Operated a UFO… It’s Not What You Think” -Army Sergeant Lyn Buchanan"
+  },
+  "nqLnEVcZ8vE": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2026-06-11T18:14:49Z",
+   "title": "Brazil's Most Famous UFO Cases Confirmed Real By Defense Minister"
+  },
+  "u7g5Sn1DJF4": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2026-01-11T19:00:03Z",
+   "title": "The Pentagon’s UFO Program Is Real [Here’s How It Works!] ft. UAPGerb"
+  },
+  "IFaXi-NrPV0": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2025-12-14T19:00:21Z",
+   "title": "“I Was Taken By Aliens In 1997!” -President of Russian Republic"
+  },
+  "Rfmy5oW_r9c": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2025-10-17T18:00:59Z",
+   "title": "“The NSA Hired Me To Speak To Aliens!” -Sergeant Dan Sherman"
+  },
+  "A2-y_HasHEw": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2026-07-02T19:39:57Z",
+   "title": "Congressman Reveals The Alien Brief That Changed The President’s Life"
+  },
+  "iPxbILOMQ08": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2026-03-22T18:34:20Z",
+   "title": "Meet The Scientist Who Studies Alien Implants in Human Bodies"
+  },
+  "ABw7EsWh2Us": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2025-11-01T18:01:49Z",
+   "title": "“I Found Hitler’s Secret UFO Program!” -Jason Jorjani"
+  },
+  "QkuDvTFN7ms": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2026-05-10T18:09:50Z",
+   "title": "The Bizarre Alien Abduction Details The Government Will Never Disclose"
+  },
+  "2-GeTxXi670": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2026-05-01T18:43:37Z",
+   "title": "The CIA Scientist That Contacted an Alien Council"
+  },
+  "kccrkCGGzX4": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2026-07-14T18:08:02Z",
+   "title": "The UFO Cover-Up Leads to One Secret Society — and One Final Event"
+  },
+  "OOr98r51Sj0": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2026-05-21T17:15:20Z",
+   "title": "Why The Pentagon Tried To Censor This UFO Book"
+  },
+  "UkKwa4jU0fc": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2026-01-31T20:01:08Z",
+   "title": "“My Hospital Operated On An Alien!” -Top Surgeon [Exclusive Interview]"
+  },
+  "PiFbeWfA3LM": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2026-06-16T22:09:59Z",
+   "title": "“I Was Taken By The UFO Program As a Kid!” [Exclusive Interview]"
+  },
+  "UrHLTFvdEZk": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2026-03-26T18:02:06Z",
+   "title": "Exposing the CIA's Darkest Mind Control Secrets"
+  },
+  "CiQTBOQ1dTg": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2026-04-05T17:01:44Z",
+   "title": "“We Captured a 12 Foot Giant in Afghanistan!” -Tim Alberino"
+  },
+  "q7Czo77qhHA": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2025-10-08T18:01:02Z",
+   "title": "UFOs & Human Experiments: Big Pharma's Horrific Past... (ft. Brigham Buhler)"
+  },
+  "NvQXmtcwHA8": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2026-03-15T18:03:31Z",
+   "title": "BREAKING: Massive Energy Grid Found Beneath Pyramids of Egypt"
+  },
+  "QgxjtDS2sIQ": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2025-09-11T17:58:49Z",
+   "title": "“I Spent 3 Years With Tall White Aliens At Area 51\" -UFO Whistleblower Charles Hall"
+  },
+  "hBrfe4hFuM0": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2025-12-21T19:01:25Z",
+   "title": "Army Captures Live Alien (Hospital Report Revealed!)"
+  },
+  "8Rr_nE65KkI": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2026-07-09T20:40:07Z",
+   "title": "I Debated UFOs With America’s Top Skeptic (It Got Ugly...)"
+  },
+  "ATJwqp5twAg": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2026-02-14T19:00:21Z",
+   "title": "CIA Chief: “I’m a Time Traveler!” "
+  },
+  "IWui5cBkwoE": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2026-01-18T19:01:05Z",
+   "title": "NASA Whistleblower: “We Systematically Suppress UFO Data!”"
+  },
+  "wlsQIbpEKSM": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2026-04-21T18:12:18Z",
+   "title": "Why America’s Top Scientists Are Going Missing"
+  },
+  "C_Na1tI5qpw": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2025-11-30T18:01:34Z",
+   "title": "Joe Rogan: The Truth About Aliens (He Finally Says It)"
+  },
+  "xnxasfyHtfo": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2026-03-08T17:01:53Z",
+   "title": "Eric Weinstein Demands UFO Secrets From Pentagon Scientist"
+  },
+  "mOWwdIuyaQA": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2026-03-30T18:04:29Z",
+   "title": "NASA Chief: \"We Just Built Antigravity Propulsion!”"
+  },
+  "JE1oM89dpBc": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2025-07-31T18:00:17Z",
+   "title": "Legendary Hip Hop Artist Reveals UFO Obsession (Ft. Flying Lotus)"
+  },
+  "Y7PLeu5rTv4": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2025-11-22T17:00:55Z",
+   "title": "CIA Historian: “Aliens Are Controlling Human Timelines!” (ft. Peter Levenda)"
+  },
+  "d9tdJ2SkBKQ": {
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "channel_title": "Jesse Michels",
+   "published_at": "2026-04-13T18:56:01Z",
+   "title": "A Weekend With Bob Lazar: Inside Area51's UFOs"
+  },
+  "4KcNRwNntcs": {
+   "channel_id": "UC0A-v_DL-h76F75xik8h03Q",
+   "channel_title": "Julian Dorey",
+   "published_at": "2026-08-07T16:00:04Z",
+   "title": "“PROOF They Lied!” - Charlie Kirk Investigator vs. Forensics Expert on COVERUP | Baron & JSM • 459"
+  },
+  "q0N33jb7Bhk": {
+   "channel_id": "UCFuzExfO2fUVmNK5_COvsNg",
+   "channel_title": "8 News Now — Las Vegas",
+   "published_at": "2026-08-03T21:27:38Z",
+   "title": "Robert Bigelow and George Knapp discuss UFO disclosure"
+  },
+  "4N_DcI0s_-U": {
+   "channel_id": "UCnhkK3mHzGUTu-yXfmerRmw",
+   "channel_title": "Julian Dorey Daily",
+   "published_at": "2026-08-12T16:00:36Z",
+   "title": "Gravity Physicist on DARPA Anti-Gravity, Dark Energy, & God | Claudia de Rham"
+  },
+  "hz7jHEgYzQw": {
+   "channel_id": "UCsVcWJzbROaYDCM4fKSJ68w",
+   "channel_title": "Bigelow Podcast",
+   "published_at": "2026-08-11T19:00:06Z",
+   "title": "The Evolution of AAWSAP | Bigelow Podcast, Ep. 2"
+  }
+ },
+ "unresolvable": [],
+ "dir_paths": {
+  "8TYMQOUDQBo": [
+   "sources/transcripts/2025-01-30/8TYMQOUDQBo",
+   "sources/transcripts/2025-01-31/8TYMQOUDQBo"
+  ],
+  "1GnGGCaC6P4": [
+   "sources/transcripts/2025-01-31/1GnGGCaC6P4",
+   "sources/transcripts/2025-04-10/1GnGGCaC6P4"
+  ],
+  "wAY1Erm-el8": [
+   "sources/transcripts/2025-01-31/wAY1Erm-el8",
+   "sources/transcripts/2025-04-10/wAY1Erm-el8"
+  ],
+  "A45mjzh8bfU": [
+   "sources/transcripts/2025-01-31/A45mjzh8bfU"
+  ],
+  "qIys3ZT6NL8": [
+   "sources/transcripts/2025-01-31/qIys3ZT6NL8",
+   "sources/transcripts/2025-04-10/qIys3ZT6NL8"
+  ],
+  "rBO8z9pHAuA": [
+   "sources/transcripts/2025-01-31/rBO8z9pHAuA",
+   "sources/transcripts/2025-04-10/rBO8z9pHAuA"
+  ],
+  "Xl4hoAMXtoU": [
+   "sources/transcripts/2025-01-31/Xl4hoAMXtoU",
+   "sources/transcripts/2025-04-10/Xl4hoAMXtoU"
+  ],
+  "q38SwPmObho": [
+   "sources/transcripts/2025-01-31/q38SwPmObho"
+  ],
+  "0WZyDglNi5Y": [
+   "sources/transcripts/2025-01-31/0WZyDglNi5Y",
+   "sources/transcripts/2025-04-10/0WZyDglNi5Y"
+  ],
+  "HedqKNTt6AA": [
+   "sources/transcripts/2025-01-31/HedqKNTt6AA",
+   "sources/transcripts/2025-04-10/HedqKNTt6AA"
+  ],
+  "E2JUqfI1ICA": [
+   "sources/transcripts/2025-01-31/E2JUqfI1ICA",
+   "sources/transcripts/2025-04-10/E2JUqfI1ICA"
+  ],
+  "zWpI4Z_GItU": [
+   "sources/transcripts/2025-01-31/zWpI4Z_GItU",
+   "sources/transcripts/2025-04-10/zWpI4Z_GItU"
+  ],
+  "U-8XJvHRuzY": [
+   "sources/transcripts/2025-01-31/U-8XJvHRuzY",
+   "sources/transcripts/2025-04-10/U-8XJvHRuzY"
+  ],
+  "u7mEnmx1HIo": [
+   "sources/transcripts/2025-01-31/u7mEnmx1HIo",
+   "sources/transcripts/2025-04-10/u7mEnmx1HIo"
+  ],
+  "PaK5WOz3Mf4": [
+   "sources/transcripts/2025-01-31/PaK5WOz3Mf4",
+   "sources/transcripts/2025-04-10/PaK5WOz3Mf4"
+  ],
+  "zRDLK74UD3I": [
+   "sources/transcripts/2025-01-31/zRDLK74UD3I",
+   "sources/transcripts/2025-04-10/zRDLK74UD3I"
+  ],
+  "_4hycqDNnPE": [
+   "sources/transcripts/2025-01-31/_4hycqDNnPE",
+   "sources/transcripts/2025-04-10/_4hycqDNnPE"
+  ],
+  "dnnpyNuPdXs": [
+   "sources/transcripts/2025-01-31/dnnpyNuPdXs"
+  ],
+  "IB_itwvRo9k": [
+   "sources/transcripts/2025-01-31/IB_itwvRo9k",
+   "sources/transcripts/2025-04-10/IB_itwvRo9k"
+  ],
+  "k4qQv7RasRw": [
+   "sources/transcripts/2025-01-31/k4qQv7RasRw",
+   "sources/transcripts/2025-04-10/k4qQv7RasRw"
+  ],
+  "8QAlezjhOls": [
+   "sources/transcripts/2025-01-31/8QAlezjhOls",
+   "sources/transcripts/2025-04-10/8QAlezjhOls"
+  ],
+  "fU6LOfiUJ6Q": [
+   "sources/transcripts/2025-01-31/fU6LOfiUJ6Q",
+   "sources/transcripts/2025-04-10/fU6LOfiUJ6Q"
+  ],
+  "jAfTY7NuceQ": [
+   "sources/transcripts/2025-01-31/jAfTY7NuceQ",
+   "sources/transcripts/2025-04-10/jAfTY7NuceQ"
+  ],
+  "LOHv1twCOqQ": [
+   "sources/transcripts/2025-01-31/LOHv1twCOqQ",
+   "sources/transcripts/2025-04-10/LOHv1twCOqQ"
+  ],
+  "gP8ftWzFYI4": [
+   "sources/transcripts/2025-01-31/gP8ftWzFYI4",
+   "sources/transcripts/2025-04-10/gP8ftWzFYI4"
+  ],
+  "NEsOQCwt4yw": [
+   "sources/transcripts/2025-01-31/NEsOQCwt4yw",
+   "sources/transcripts/2025-04-10/NEsOQCwt4yw"
+  ],
+  "QYhRu2_nJ6c": [
+   "sources/transcripts/2025-01-31/QYhRu2_nJ6c",
+   "sources/transcripts/2025-04-10/QYhRu2_nJ6c"
+  ],
+  "AICm8RjnUjs": [
+   "sources/transcripts/2025-01-31/AICm8RjnUjs",
+   "sources/transcripts/2025-04-10/AICm8RjnUjs"
+  ],
+  "PgAEoNbfjT4": [
+   "sources/transcripts/2025-01-31/PgAEoNbfjT4",
+   "sources/transcripts/2025-04-10/PgAEoNbfjT4"
+  ],
+  "xWBBjv-jIVw": [
+   "sources/transcripts/2025-01-31/xWBBjv-jIVw",
+   "sources/transcripts/2025-04-10/xWBBjv-jIVw"
+  ],
+  "ccFtnp31xIc": [
+   "sources/transcripts/2025-01-31/ccFtnp31xIc",
+   "sources/transcripts/2025-04-10/ccFtnp31xIc"
+  ],
+  "9caqm346Bqs": [
+   "sources/transcripts/2025-01-31/9caqm346Bqs",
+   "sources/transcripts/2025-04-10/9caqm346Bqs"
+  ],
+  "wsEd_b1C8DY": [
+   "sources/transcripts/2025-01-31/wsEd_b1C8DY",
+   "sources/transcripts/2025-04-10/wsEd_b1C8DY"
+  ],
+  "N7-a-_gx_yU": [
+   "sources/transcripts/2025-01-31/N7-a-_gx_yU",
+   "sources/transcripts/2025-04-10/N7-a-_gx_yU"
+  ],
+  "oUqsU76GRq4": [
+   "sources/transcripts/2025-01-31/oUqsU76GRq4",
+   "sources/transcripts/2025-04-10/oUqsU76GRq4"
+  ],
+  "KyJXWWJrOvo": [
+   "sources/transcripts/2025-01-31/KyJXWWJrOvo",
+   "sources/transcripts/2025-04-10/KyJXWWJrOvo"
+  ],
+  "qBOY5jrOGwA": [
+   "sources/transcripts/2025-01-31/qBOY5jrOGwA",
+   "sources/transcripts/2025-04-10/qBOY5jrOGwA"
+  ],
+  "x4wL4lbwwNU": [
+   "sources/transcripts/2025-01-31/x4wL4lbwwNU",
+   "sources/transcripts/2025-04-10/x4wL4lbwwNU"
+  ],
+  "7MTRqq8w008": [
+   "sources/transcripts/2025-01-31/7MTRqq8w008",
+   "sources/transcripts/2025-04-10/7MTRqq8w008"
+  ],
+  "V4WTid3O0VE": [
+   "sources/transcripts/2025-01-31/V4WTid3O0VE",
+   "sources/transcripts/2025-04-10/V4WTid3O0VE"
+  ],
+  "DHgG8el5n5M": [
+   "sources/transcripts/2025-01-31/DHgG8el5n5M",
+   "sources/transcripts/2025-04-10/DHgG8el5n5M"
+  ],
+  "KkZWHpP17Rc": [
+   "sources/transcripts/2025-01-31/KkZWHpP17Rc",
+   "sources/transcripts/2025-04-10/KkZWHpP17Rc"
+  ],
+  "nLdaBcOr_kU": [
+   "sources/transcripts/2025-01-31/nLdaBcOr_kU",
+   "sources/transcripts/2025-04-10/nLdaBcOr_kU"
+  ],
+  "WaKzTR29Qn8": [
+   "sources/transcripts/2025-01-31/WaKzTR29Qn8",
+   "sources/transcripts/2025-04-10/WaKzTR29Qn8"
+  ],
+  "thLGknsJ2Qg": [
+   "sources/transcripts/2025-01-31/thLGknsJ2Qg",
+   "sources/transcripts/2025-04-10/thLGknsJ2Qg"
+  ],
+  "Rg-pp2BuKKk": [
+   "sources/transcripts/2025-01-31/Rg-pp2BuKKk",
+   "sources/transcripts/2025-04-10/Rg-pp2BuKKk"
+  ],
+  "g6dw7kP0sBY": [
+   "sources/transcripts/2025-01-31/g6dw7kP0sBY",
+   "sources/transcripts/2025-04-10/g6dw7kP0sBY"
+  ],
+  "JW6cJuKDUsU": [
+   "sources/transcripts/2025-01-31/JW6cJuKDUsU",
+   "sources/transcripts/2025-04-10/JW6cJuKDUsU"
+  ],
+  "WGUb1JKxBDo": [
+   "sources/transcripts/2025-01-31/WGUb1JKxBDo"
+  ],
+  "PJ2YwE0R-xM": [
+   "sources/transcripts/2025-01-31/PJ2YwE0R-xM"
+  ],
+  "tEBLmWhx1K0": [
+   "sources/transcripts/2025-01-31/tEBLmWhx1K0",
+   "sources/transcripts/2025-04-10/tEBLmWhx1K0"
+  ],
+  "d0H-Pn8RKKo": [
+   "sources/transcripts/2025-01-31/d0H-Pn8RKKo",
+   "sources/transcripts/2025-04-10/d0H-Pn8RKKo"
+  ],
+  "VxA-Y4enohQ": [
+   "sources/transcripts/2025-01-31/VxA-Y4enohQ",
+   "sources/transcripts/2025-04-10/VxA-Y4enohQ"
+  ],
+  "tYU_tr5K5ws": [
+   "sources/transcripts/2025-01-31/tYU_tr5K5ws",
+   "sources/transcripts/2025-04-10/tYU_tr5K5ws"
+  ],
+  "ZRLmTB00zlI": [
+   "sources/transcripts/2025-02-12/ZRLmTB00zlI"
+  ],
+  "o72BBZYXm9c": [
+   "sources/transcripts/2025-02-12/o72BBZYXm9c"
+  ],
+  "3fkg0uTA3qU": [
+   "sources/transcripts/2025-02-18/3fkg0uTA3qU"
+  ],
+  "5neRAsS0nrY": [
+   "sources/transcripts/2025-02-22/5neRAsS0nrY"
+  ],
+  "BofbLO1BSKc": [
+   "sources/transcripts/2025-02-22/BofbLO1BSKc"
+  ],
+  "nTiFs8LudUo": [
+   "sources/transcripts/2025-02-22/nTiFs8LudUo"
+  ],
+  "3zm4nh3S66I": [
+   "sources/transcripts/2025-02-22/3zm4nh3S66I"
+  ],
+  "ffgzkHCGZGE": [
+   "sources/transcripts/2025-02-22/ffgzkHCGZGE"
+  ],
+  "p0S0BfoZy0w": [
+   "sources/transcripts/2025-04-10/p0S0BfoZy0w"
+  ],
+  "IQefdkl8PfY": [
+   "sources/transcripts/2025-04-12/IQefdkl8PfY"
+  ],
+  "B6WFLOIkyho": [
+   "sources/transcripts/2025-04-19/B6WFLOIkyho"
+  ],
+  "Ody82xEgNV8": [
+   "sources/transcripts/2025-06-07/Ody82xEgNV8"
+  ],
+  "h0hAit-KH9A": [
+   "sources/transcripts/2025-06-20/h0hAit-KH9A",
+   "sources/transcripts/2025-06-25/h0hAit-KH9A"
+  ],
+  "QfP5BgOz97U": [
+   "sources/transcripts/2025-06-20/QfP5BgOz97U"
+  ],
+  "hXYdkcv5TtY": [
+   "sources/transcripts/2025-06-24/hXYdkcv5TtY"
+  ],
+  "PmclCzGFotM": [
+   "sources/transcripts/2025-06-24/PmclCzGFotM",
+   "sources/transcripts/2025-07-12/PmclCzGFotM"
+  ],
+  "-JBwH6yHEDo": [
+   "sources/transcripts/2025-06-28/-JBwH6yHEDo"
+  ],
+  "09KP8XVf5nY": [
+   "sources/transcripts/2025-07-02/09KP8XVf5nY"
+  ],
+  "o5V3mt_C_ZE": [
+   "sources/transcripts/2025-07-09/o5V3mt_C_ZE"
+  ],
+  "-0g3lLGxNfc": [
+   "sources/transcripts/2025-07-25/-0g3lLGxNfc"
+  ],
+  "ZAxI-LDrDqA": [
+   "sources/transcripts/2025-07-25/ZAxI-LDrDqA"
+  ],
+  "4n_bRtnIP14": [
+   "sources/transcripts/2025-07-25/4n_bRtnIP14"
+  ],
+  "TNtlzEnl8rA": [
+   "sources/transcripts/2025-08-31/TNtlzEnl8rA",
+   "sources/transcripts/2025-09-18/TNtlzEnl8rA",
+   "sources/transcripts/2026-08-07/TNtlzEnl8rA"
+  ],
+  "ZZ5LpwO-An4": [
+   "sources/transcripts/2025-08-31/ZZ5LpwO-An4"
+  ],
+  "B7y3qcgSRY8": [
+   "sources/transcripts/2025-08-31/B7y3qcgSRY8"
+  ],
+  "dQw4w9WgXcQ": [
+   "sources/transcripts/2025-08-31/dQw4w9WgXcQ",
+   "sources/transcripts/2026-08-15/dQw4w9WgXcQ"
+  ],
+  "HB5e4mgJX2Q": [
+   "sources/transcripts/2025-09-09/HB5e4mgJX2Q"
+  ],
+  "LGQkkHuwm6w": [
+   "sources/transcripts/2025-09-18/LGQkkHuwm6w"
+  ],
+  "5Vk8V-clYLU": [
+   "sources/transcripts/2026-07-24/5Vk8V-clYLU"
+  ],
+  "gNr3PbNmGyY": [
+   "sources/transcripts/2026-07-24/gNr3PbNmGyY"
+  ],
+  "HFLBDi87888": [
+   "sources/transcripts/2026-07-24/HFLBDi87888",
+   "sources/transcripts/2026-08-01/HFLBDi87888"
+  ],
+  "Mz3MBWz8R-o": [
+   "sources/transcripts/2026-07-24/Mz3MBWz8R-o"
+  ],
+  "vxumcYKCt-M": [
+   "sources/transcripts/2026-07-24/vxumcYKCt-M"
+  ],
+  "ua4dNq1vK2A": [
+   "sources/transcripts/2026-07-24/ua4dNq1vK2A"
+  ],
+  "K4gYHs84BIc": [
+   "sources/transcripts/2026-08-06/K4gYHs84BIc"
+  ],
+  "uYyXpx7ADJQ": [
+   "sources/transcripts/2026-08-06/uYyXpx7ADJQ",
+   "sources/transcripts/2026-08-07/uYyXpx7ADJQ"
+  ],
+  "uVVqFg2v7ro": [
+   "sources/transcripts/2026-08-06/uVVqFg2v7ro"
+  ],
+  "6bqaHVSlVeU": [
+   "sources/transcripts/2026-08-07/6bqaHVSlVeU"
+  ],
+  "yJUBSuPh1pM": [
+   "sources/transcripts/2026-08-07/yJUBSuPh1pM"
+  ],
+  "aGqFOxuYRT0": [
+   "sources/transcripts/2026-08-07/aGqFOxuYRT0"
+  ],
+  "zjpvfDFc4fg": [
+   "sources/transcripts/2026-08-07/zjpvfDFc4fg"
+  ],
+  "-XdvIrexF08": [
+   "sources/transcripts/2026-08-07/-XdvIrexF08"
+  ],
+  "ScE9FaDy-mE": [
+   "sources/transcripts/2026-08-07/ScE9FaDy-mE"
+  ],
+  "Rjr3Yq-dMUE": [
+   "sources/transcripts/2026-08-07/Rjr3Yq-dMUE"
+  ],
+  "1zRWi_r3HRM": [
+   "sources/transcripts/2026-08-07/1zRWi_r3HRM"
+  ],
+  "EzPmG_7WhXc": [
+   "sources/transcripts/2026-08-07/EzPmG_7WhXc"
+  ],
+  "zrmG2jBckgk": [
+   "sources/transcripts/2026-08-07/zrmG2jBckgk"
+  ],
+  "HxQN2tkQHs8": [
+   "sources/transcripts/2026-08-07/HxQN2tkQHs8"
+  ],
+  "Qe8br8yYEDM": [
+   "sources/transcripts/2026-08-07/Qe8br8yYEDM"
+  ],
+  "bM18PJY6_Zc": [
+   "sources/transcripts/2026-08-07/bM18PJY6_Zc"
+  ],
+  "2ttdlCa5ZCI": [
+   "sources/transcripts/2026-08-07/2ttdlCa5ZCI"
+  ],
+  "jMCavr3dVP0": [
+   "sources/transcripts/2026-08-07/jMCavr3dVP0"
+  ],
+  "1sxmSMzqnmA": [
+   "sources/transcripts/2026-08-07/1sxmSMzqnmA"
+  ],
+  "nqLnEVcZ8vE": [
+   "sources/transcripts/2026-08-07/nqLnEVcZ8vE"
+  ],
+  "u7g5Sn1DJF4": [
+   "sources/transcripts/2026-08-07/u7g5Sn1DJF4"
+  ],
+  "IFaXi-NrPV0": [
+   "sources/transcripts/2026-08-07/IFaXi-NrPV0"
+  ],
+  "Rfmy5oW_r9c": [
+   "sources/transcripts/2026-08-07/Rfmy5oW_r9c"
+  ],
+  "A2-y_HasHEw": [
+   "sources/transcripts/2026-08-07/A2-y_HasHEw"
+  ],
+  "iPxbILOMQ08": [
+   "sources/transcripts/2026-08-07/iPxbILOMQ08"
+  ],
+  "ABw7EsWh2Us": [
+   "sources/transcripts/2026-08-07/ABw7EsWh2Us"
+  ],
+  "QkuDvTFN7ms": [
+   "sources/transcripts/2026-08-07/QkuDvTFN7ms"
+  ],
+  "2-GeTxXi670": [
+   "sources/transcripts/2026-08-07/2-GeTxXi670"
+  ],
+  "kccrkCGGzX4": [
+   "sources/transcripts/2026-08-07/kccrkCGGzX4"
+  ],
+  "OOr98r51Sj0": [
+   "sources/transcripts/2026-08-07/OOr98r51Sj0"
+  ],
+  "UkKwa4jU0fc": [
+   "sources/transcripts/2026-08-07/UkKwa4jU0fc"
+  ],
+  "PiFbeWfA3LM": [
+   "sources/transcripts/2026-08-07/PiFbeWfA3LM"
+  ],
+  "UrHLTFvdEZk": [
+   "sources/transcripts/2026-08-07/UrHLTFvdEZk"
+  ],
+  "CiQTBOQ1dTg": [
+   "sources/transcripts/2026-08-07/CiQTBOQ1dTg"
+  ],
+  "q7Czo77qhHA": [
+   "sources/transcripts/2026-08-07/q7Czo77qhHA"
+  ],
+  "NvQXmtcwHA8": [
+   "sources/transcripts/2026-08-07/NvQXmtcwHA8"
+  ],
+  "QgxjtDS2sIQ": [
+   "sources/transcripts/2026-08-07/QgxjtDS2sIQ"
+  ],
+  "hBrfe4hFuM0": [
+   "sources/transcripts/2026-08-07/hBrfe4hFuM0"
+  ],
+  "8Rr_nE65KkI": [
+   "sources/transcripts/2026-08-07/8Rr_nE65KkI"
+  ],
+  "ATJwqp5twAg": [
+   "sources/transcripts/2026-08-07/ATJwqp5twAg"
+  ],
+  "IWui5cBkwoE": [
+   "sources/transcripts/2026-08-07/IWui5cBkwoE"
+  ],
+  "wlsQIbpEKSM": [
+   "sources/transcripts/2026-08-07/wlsQIbpEKSM"
+  ],
+  "C_Na1tI5qpw": [
+   "sources/transcripts/2026-08-07/C_Na1tI5qpw"
+  ],
+  "xnxasfyHtfo": [
+   "sources/transcripts/2026-08-07/xnxasfyHtfo"
+  ],
+  "mOWwdIuyaQA": [
+   "sources/transcripts/2026-08-07/mOWwdIuyaQA"
+  ],
+  "JE1oM89dpBc": [
+   "sources/transcripts/2026-08-07/JE1oM89dpBc"
+  ],
+  "Y7PLeu5rTv4": [
+   "sources/transcripts/2026-08-07/Y7PLeu5rTv4"
+  ],
+  "d9tdJ2SkBKQ": [
+   "sources/transcripts/2026-08-07/d9tdJ2SkBKQ"
+  ],
+  "4KcNRwNntcs": [
+   "sources/transcripts/2026-08-08/4KcNRwNntcs"
+  ],
+  "q0N33jb7Bhk": [
+   "sources/transcripts/2026-08-09/q0N33jb7Bhk",
+   "sources/transcripts/2026-08-10/q0N33jb7Bhk"
+  ],
+  "4N_DcI0s_-U": [
+   "sources/transcripts/2026-08-15/4N_DcI0s_-U"
+  ],
+  "hz7jHEgYzQw": [
+   "sources/transcripts/2026-08-16/hz7jHEgYzQw"
+  ]
+ }
+}

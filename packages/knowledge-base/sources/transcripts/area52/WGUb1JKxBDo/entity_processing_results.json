@@ -1,0 +1,717 @@
+{
+  "status": "completed",
+  "video_id": "WGUb1JKxBDo",
+  "summary_file": "/Users/liamellis/Desktop/ultraterrestrial-resurrection/packages/knowledge-base/transcripts/2025-01-31/WGUb1JKxBDo/exPentagonOfficialConfirmsAlienLanguageExistsLueElizondoDebriefedEp24Summary.txt",
+  "entities": {
+    "topics": [
+      "Underwater UAP Activity",
+      "Interest in nuclear facilities and mining operations",
+      "Show advanced propulsion capabilities",
+      "Large black disc",
+      "Can operate in multiple mediums (air, water, space)",
+      "Both acknowledgment and secrecy around the topic",
+      "Bigger than offshore oil platforms",
+      "Compartmentalized information across organizations",
+      "Display possible intelligent control/behavior",
+      "Multiple agencies involved in research/investigation",
+      "Multiple sensor data collected beyond just visual evidence",
+      "Government/Military Response",
+      "Connection to nuclear",
+      "Project Interloper: Planned trap using nuclear \"lure\"",
+      "Significant Navy/military interest in underwater cases",
+      "UAP Technology & Capabilities"
+    ],
+    "personnel": [
+      "Authority Metrics:",
+      "Lou Elizondo",
+      "David Spergel"
+    ],
+    "events": [
+      "Status: In production",
+      "Expected to contain significant new evidence",
+      "Features new witnesses/testimony",
+      "Upcoming Documentary \"Age of Disclosure\"",
+      "Navy Helicopter/Missile Incident (Late 1990s)",
+      "Multiple witnesses",
+      "Official documentation exists"
+    ],
+    "organizations": [
+      "NASA",
+      "Increasing involvement in topic",
+      "Evidence collection/analysis",
+      "Scientific investigation focus",
+      "Department of Defense",
+      "Multiple classified programs"
+    ],
+    "locations": []
+  },
+  "xata_search_results": {
+    "topics": [
+      {
+        "entity_name": "Underwater UAP Activity",
+        "status": "found",
+        "xata_record": {
+          "id": "rec_cobdet25ojbselbdqrq0",
+          "name": "Underwater UFOs and USOs",
+          "photos": [],
+          "summary": "Observations of unidentified submerged objects, suggesting the presence of underwater alien bases or vehicles capable of operating underwater and in the air.",
+          "xata": {
+            "createdAt": "2024-04-10T18:16:19.922Z",
+            "highlight": {
+              "name": [
+                "<em>Underwater</em> UFOs and USOs"
+              ]
+            },
+            "score": 4.6129313,
+            "table": "topics",
+            "updatedAt": "2024-04-11T00:43:55.716Z",
+            "version": 2
+          }
+        },
+        "xata_id": "rec_cobdet25ojbselbdqrq0",
+        "table": "topics"
+      },
+      {
+        "entity_name": "Interest in nuclear facilities and mining operations",
+        "status": "found",
+        "xata_record": {
+          "id": "rec_cobdet25ojbselbdqrpg",
+          "name": "UFOs and Nuclear Missile Sites: Shutdowns and Interferences",
+          "photos": [],
+          "summary": "Reports from military personnel of UFOs disabling or interfering with nuclear missiles at various sites.",
+          "xata": {
+            "createdAt": "2024-04-10T18:16:19.922Z",
+            "highlight": {
+              "name": [
+                "UFOs <em>and</em> <em>Nuclear</em> Missile Sites: Shutdowns <em>and</em> Interferences"
+              ]
+            },
+            "score": 4.787759,
+            "table": "topics",
+            "updatedAt": "2024-04-10T18:16:19.922Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_cobdet25ojbselbdqrpg",
+        "table": "topics"
+      },
+      {
+        "entity_name": "Show advanced propulsion capabilities",
+        "status": "found",
+        "xata_record": {
+          "id": "rec_cobdesq5ojbselbdqr2g",
+          "name": "Advanced Propulsion Technologies",
+          "photos": [],
+          "summary": "Claims suggest major aviation firms and the military explored gravity control propulsion research, although details and confirmations are sparse. General Relativity and Quantum Physics: Efforts to reconcile these fields and explore the possibilities of negative mass and negative gravitational fields, suggesting theoretical pathways toward anti-gravity effects.",
+          "xata": {
+            "createdAt": "2024-04-10T18:16:19.922Z",
+            "highlight": {
+              "name": [
+                "<em>Advanced</em> <em>Propulsion</em> Technologies"
+              ]
+            },
+            "score": 10.076857,
+            "table": "topics",
+            "updatedAt": "2024-04-11T00:30:40.697Z",
+            "version": 3
+          }
+        },
+        "xata_id": "rec_cobdesq5ojbselbdqr2g",
+        "table": "topics"
+      },
+      {
+        "entity_name": "Large black disc",
+        "status": "found",
+        "xata_record": {
+          "id": "rec_cobdesq5ojbselbdqrig",
+          "name": "Men in Black ",
+          "photo": {
+            "name": "mib.jpeg",
+            "mediaType": "image/jpeg",
+            "enablePublicUrl": true,
+            "signedUrlTimeout": 600,
+            "uploadUrlTimeout": 86400,
+            "size": 32001,
+            "version": 0,
+            "url": "https://us-east-1.storage.xata.sh/kgubvq7ndd4br8da3vjl3c7k20",
+            "signedUrl": "https://us-east-1.xata.sh/file/09lmetb2epotpthijj10kg84i1ui0479u7iegpprdulbln6c5nqri6vq01j1dlrj8n2dfhqldnbeb91snvkfeqq8nmgqk7v7a6of8458ibdiat1nj3khe1dhosrvv496isljebi84imk4n16258epho4ds?verify=d40loq0000001rsrp2abl81h6i3e9jin066foaslsrqvgljlspp0kodgr9hel2q8",
+            "uploadUrl": "https://kgubvq.us-east-1.upload.xata.sh/file/0dlmetb2epotpthijj10kg84i1ui0479u7iegpprdulbln6c5nqri6vq01j1dlrj8n2dfhqldnbeaplkrson6n6c8c88f08iho4f58f9rqk0guui3rj4gg3tkoqou2vgv37s5tnqrberfst8et90?verify=i585qq000000114evlu4574uhu6im01fq9hek4p3p1fpcbn7nclhfibrf4dui4s9",
+            "attributes": {
+              "height": 413,
+              "width": 786
+            }
+          },
+          "photos": [],
+          "summary": "The concept of \"Men in Black\" (MIB) is a prominent element in UFO conspiracy theories and folklore. These mysterious figures are often described as government agents dressed in black suits who allegedly intimidate, threaten, or even erase the memories of UFO witnesses to keep them silent about their experiences[1][2][5].\n\n### Famous Sources and Historical Accounts\n\n- **Harold Dahl (1947)**: One of the earliest accounts involves Harold Dahl, who claimed he was warned by a man in a dark suit not to discuss his UFO sighting on Maury Island[1].\n  \n- **Albert K. Bender (1950s)**: Bender, a ufologist, reported being visited by three men in black who threatened him and advised him to cease his UFO investigations. This incident contributed significantly to the MIB legend[1][5].\n\n- **John Keel**: A prominent ufologist, Keel described encounters with MIB as \"demonic supernaturals\" with exotic features. He explored these themes in his book \"The Mothman Prophecies\"[1][4].\n\n### Connections and Theories\n\n- **Government Agents or Aliens**: Theories about the identity of MIB vary, with some suggesting they are secret government agents, while others propose they might be aliens in disguise or even hybrids of humans and extraterrestrials[3][5].\n\n- **Cultural Impact**: The MIB phenomenon has been incorporated into various media, influencing books, films, and music. The popular \"Men in Black\" film series is inspired by these conspiracy theories[1][5].\n\n### Interesting Testimonies\n\n- **Danny Gordon (1987)**: A radio broadcaster from Virginia, Gordon reported UFO sightings and subsequently claimed to have been visited by MIB, who attempted to silence him[3].\n\n- **John C. Sherwood**: In the late 1960s, Sherwood was involved in a hoax promoted by ufologist Gray Barker, which included tales of \"blackmen\" who silenced UFO witnesses[1].\n\nThe Men in Black continue to be a subject of fascination and speculation, with numerous reports and theories contributing to their enduring presence in UFO folklore.\n\nCitations:\n[1] https://en.wikipedia.org/wiki/Men_in_black\n[2] https://lux.collections.yale.edu/view/concept/5e68d572-1183-47f6-b201-92481a687b7e\n[3] https://www.youtube.com/watch?v=WVBOP4E6Rds\n[4] https://www.jstor.org/stable/540919\n[5] https://science.howstuffworks.com/space/aliens-ufos/men-in-black.htm",
+          "xata": {
+            "createdAt": "2024-04-10T18:16:19.922Z",
+            "highlight": {
+              "name": [
+                "Men in <em>Black</em>"
+              ]
+            },
+            "score": 5.0384283,
+            "table": "topics",
+            "updatedAt": "2024-08-08T15:07:30.053Z",
+            "version": 1
+          }
+        },
+        "xata_id": "rec_cobdesq5ojbselbdqrig",
+        "table": "topics"
+      },
+      {
+        "entity_name": "Can operate in multiple mediums (air, water, space)",
+        "status": "found",
+        "xata_record": {
+          "id": "rec_cobdet25ojbselbdqru0",
+          "name": "UFO Sightings in Space",
+          "photos": [],
+          "xata": {
+            "createdAt": "2024-04-10T18:16:19.922Z",
+            "highlight": {
+              "name": [
+                "UFO Sightings <em>in</em> <em>Space</em>"
+              ]
+            },
+            "score": 6.8498025,
+            "table": "topics",
+            "updatedAt": "2024-04-10T18:16:19.922Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_cobdet25ojbselbdqru0",
+        "table": "topics"
+      },
+      {
+        "entity_name": "Both acknowledgment and secrecy around the topic",
+        "status": "found",
+        "xata_record": {
+          "id": "rec_ct3co7u0g3jbpui8c3v0",
+          "name": "Post-WWII UFO Secrecy Initiative",
+          "photos": [],
+          "summary": "Comprehensive government response to UFO phenomena following the Kenneth Arnold sighting and Roswell incident.\n    Time Period: 1947-1955\n    Key Aspects: Information control, Military involvement, Scientific analysis, Public relations\n    Related Events: Kenneth Arnold Sighting, Roswell Incident",
+          "xata": {
+            "createdAt": "2024-11-27T07:37:03.117Z",
+            "highlight": {
+              "name": [
+                "Post-WWII UFO <em>Secrecy</em> Initiative"
+              ]
+            },
+            "score": 4.253704,
+            "table": "topics",
+            "updatedAt": "2024-11-27T07:37:03.117Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_ct3co7u0g3jbpui8c3v0",
+        "table": "topics"
+      },
+      {
+        "entity_name": "Bigger than offshore oil platforms",
+        "status": "found",
+        "xata_record": {
+          "id": "rec_cqmfo8t5cg2i2qglvm10",
+          "name": "The UFO that was too big to move",
+          "photos": [
+            {
+              "id": "qjp33bh1op4l70b84phq5tcib4",
+              "name": "John Lear Flying Saucer.jpg",
+              "mediaType": "image/jpeg",
+              "enablePublicUrl": true,
+              "signedUrlTimeout": 600,
+              "uploadUrlTimeout": 86400,
+              "size": 0,
+              "version": 0,
+              "url": "https://us-east-1.storage.xata.sh/hqqakqtau12hlb38l347f25ln4",
+              "signedUrl": "https://us-east-1.xata.sh/file/09lmetb2epotpthijj10kg84i1ui0479u7iegpprdulbln6c5nqri6vq01japv13kli0a8ba2nuo53lkl9lqls253am6ha68eu4bbefhitmou15cco8qf92fsj10i96jgl3hg25ck084jcesm44gndbcuc?verify=d80loq0000000apof6nomd88noia7amn8tcinflfmecge7t48mep3dvjajl058ku",
+              "uploadUrl": "https://kgubvq.us-east-1.upload.xata.sh/file/0dlmetb2epotpthijj10kg84i1ui0479u7iegpprdulbln6c5nqri6vq01japv13kli0a8ba2nuo4plcvghqap0545l1bvc3jh5v5lpsceo25e0c1ssfl9f3ocnspbrfm58r5hu70ah7s47e16m0?verify=i985qq0000000ka0750v29nru7br18brfdi2mbgqh1ghm15prjrl4atfrnpdqbk0",
+              "attributes": {
+                "height": 542,
+                "width": 648
+              }
+            },
+            {
+              "id": "pkef938rt91u7co8qhjrdap864",
+              "name": "john lear ufo.jpeg",
+              "mediaType": "image/jpeg",
+              "enablePublicUrl": true,
+              "signedUrlTimeout": 600,
+              "uploadUrlTimeout": 86400,
+              "size": 90893,
+              "version": 0,
+              "url": "https://us-east-1.storage.xata.sh/fqus9gsrud0llbspchb1p67v28",
+              "signedUrl": "https://us-east-1.xata.sh/file/09lmetb2epotpthijj10kg84i1ui0479u7iegpprdulbln6c5nqri6vq01japv13kli0a8ba2nuo4vltoj1pnsq1banpip2m3icfu4lk9o0g72gm76tce52rlc6souritp3bf6l9rbdb9co8vabru9342k?verify=d80loq00000002nveu7dfiihukud8925r4rcq6g1pkb7sn2i1ac6lvrhko1idf3a",
+              "uploadUrl": "https://kgubvq.us-east-1.upload.xata.sh/file/0dlmetb2epotpthijj10kg84i1ui0479u7iegpprdulbln6c5nqri6vq01japv13kli0a8ba2nuo4plcvghqap0545l1bvc4rdmcb9nb1pr65e3i8jetrhpcmqrsi6avbrpell0qcuo8kbm0km70?verify=i985qq0000001k3bucupm1bnlt4imsdvaimgiq1egn0qe5ovt1i6ng2fmvtv1tk6",
+              "attributes": {
+                "height": 680,
+                "width": 643
+              }
+            }
+          ],
+          "summary": "\nOn July 8, 2023, one of the greatest UFO stories was told by Ross Coulthart to Project Unity host Jay Anderson. The investigative journalist claimed that there is a huge UFO in the possession of the United States that could not be moved, and he knows the location of the craft. Coulthart clarified that the immovable craft is not in the US.\n\nIn the interview, Coulthart discussed the potential implications of the new US Senate intelligence bill. He referenced Douglas Dean Johnson’s writings about the bill, which purportedly mandate holders of non-earth origin or exotic UAP (Unidentified Aerial Phenomena) material to make it accessible to the All Domain Anomaly Resolution Office (AARO) within six months.\n\nAnderson raised concerns that this six-month window might offer enough time for those holding such materials to hide or conceal them. Coulthart acknowledged the possibility but suggested that certain UAP materials could be so large that relocating them is not feasible. He mentioned the existence of a building constructed over such a massive object in a foreign country, which might sound implausible to some.\n\nThis revelation left the UFO community curious about the place where the craft might be situated. Interestingly, the late former CIA pilot John Lear previously mentioned the existence of buried crafts too massive to move. In 2018, Lear posted on Facebook, recounting the enigmatic tale of a massive buried UFO near Garrison, Utah. This peculiar incident became a topic of discussion at a UFO conference in Las Vegas, piquing Lear’s curiosity.\n\nThe incident dates back to 1953 when a large UFO, measuring between 150 to 200 feet in diameter, crashed near Garrison, Utah. Lear explained that the UFO was so large that even the United States Air Force Security Forces’ “Blue Berets” could not relocate it. Consequently, a decision was made to bury the UFO on the spot. Lear wrote that a team of hundreds of soldiers dug the ground and managed to bury the craft 50 feet below ground level\nWhile all of the digging to bury the saucer was going on, they also dug a tunnel from the saucer several hundred feet to the south, where they built 2 or 3 houses. The houses were constructed to appear about 75 years old, using old, weathered wood, nails, window frames, and roofing. The only hint that these houses might not be so old were the brand-new padlocks on the doors.\n\nI don’t recall the exact description of the interior, except for a door leading to a stairwell that connected to the tunnel leading to the craft. Everything I’m telling you is from my recollection of the report, likely written by the person who accessed the buildings. My memory isn’t perfect. One of the houses contained a logbook in which visitors from various organizations like Air Force, Navy, Army, and others would inscribe their names.”\n\nLear and his associates intended to visit Garrison to witness this buried craft. They planned to use a helicopter, a fuel truck, and specialized equipment to explore underground. However, the trip never materialized for reasons unknown. Lear maintained his belief that the craft remains in place. He even shared Google Earth images indicating the potential location. He marked the houses on the images, but they no longer appear on Google Earth.\n\n“About 300 yards east from this claim, there was an alleged Spanish treasure location. This treasure spot had been discovered by an individual from the Phoenix area with access to Spanish treasure maps, and this location was marked on one of the maps.\n\nIn a pile of rocks, there was a precisely square cutout approximately 10 inches wide and 16 inches deep. The bottom seemed like concrete. I had the underground radar team scan the area and found only a few potential returns. The area is now in an ACEC (Area of Critical Environmental Concern). Nevertheless, we were all set to convene for the Garrison expedition in 2 weeks, but somehow it never took off.”\n\nLear even provided the coordinates of the location: Latitude 38 degrees 37 minutes 40 seconds North, Longitude 113 degrees 40 minutes 40 seconds West. This further deepens the mystery, leaving people intrigued about the truth surrounding the buried UFO near Garrison, Utah.\n\nMoreover, there is alleged John Lear’s statement on the alien presence, posted to Paranet on December 29, 1987. Here are the paragraphs published by UFOmind.com discussing the buried craft: [this page was first archived on January 31, 1997]\n\n“Moore is also in possession of more Aquarius documents a few pages of which leaked out several years ago and detailed the supersecret NSA project which had been denied by them until just recently. In a letter to Senator John Glenn NSA’s Director of Policy Julia B. Wetzel wrote, “Apparently there is or was an Air Force project by that name Aquarius) which dealt with UFO’s. Coincidentally, there is also an NSA project by that name.”\n\nNSA’s project Aquarius deals specifically with the ‘communications with aliens’ (the EBE’s). Within the Aquarius program was project ‘Snowbird’ a project to test fly A recovered alien aircraft at Groom Lake, Nevada. This project continues today at that location. In the words of an individual who works at Groom Lake ‘our people are much better at taking things apart than they are at putting them back together’. Another saw a saucer being trucked into the Nevada Test Site in March of 1988. Still another informant witnessed a saucer being buried at that location (for God knows whatever reason) during the second week of August 1988.”\n\nThere is another version of this statement: (Source)\n\n“Germany may have recovered a flying saucer as early as 1939. General James H. Doolittle went to Sweden in 1946 to inspect a flying saucer that had crashed there in Spitzbergen…\n\nIn July of 1952, a panicked government watched helplessly as squadron of “flying saucers” flew over Washington, D.C., and buzzed the White House, the Capitol Building, and the Pentagon. It took all the imagination and intimidation the government could muster to force that incident out of the memory of the public.\n\nThousands of sightings occurred during the Korean war and several more saucers were retrieved by the Air Force. Some were stored at Wright-Patterson Air Force Base, some were stored at Air Force bases near the location of the crash sight.\n\nOne saucer was so enormous and the logistic problems in transportation so enormous that it was buried at the crash sight and remains there today. The stories are legendary on transporting crashed saucers over long distances, moving only at night, purchasing complete farms, slashing through forests, blocking major highways, sometimes driving 2 and 3 lo-boys in tandem with an extraterrestrial load a hundred feet in diameter.\n",
+          "xata": {
+            "createdAt": "2024-08-02T15:32:51.528Z",
+            "highlight": {
+              "name": [
+                "The UFO <em>that</em> was too big to move"
+              ]
+            },
+            "score": 2.2651775,
+            "table": "topics",
+            "updatedAt": "2024-08-02T15:32:51.528Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_cqmfo8t5cg2i2qglvm10",
+        "table": "topics"
+      },
+      {
+        "entity_name": "Compartmentalized information across organizations",
+        "status": "not_found",
+        "table": "topics",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "Display possible intelligent control/behavior",
+        "status": "not_found",
+        "table": "topics",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "Multiple agencies involved in research/investigation",
+        "status": "found",
+        "xata_record": {
+          "id": "rec_cobdesq5ojbselbdqrig",
+          "name": "Men in Black ",
+          "photo": {
+            "name": "mib.jpeg",
+            "mediaType": "image/jpeg",
+            "enablePublicUrl": true,
+            "signedUrlTimeout": 600,
+            "uploadUrlTimeout": 86400,
+            "size": 0,
+            "version": 0,
+            "url": "https://us-east-1.storage.xata.sh/kgubvq7ndd4br8da3vjl3c7k20",
+            "signedUrl": "https://us-east-1.xata.sh/file/09lmetb2epotpthijj10kg84i1ui0479u7iegpprdulbln6c5nqri6vq01j1dlrj8n2dfhqldnbeb91snvkfeqq8nmgqk7v7a6of8458ibdiat1nj3khe1dhosrvv496isljebi84imk4n16258epho4ds?verify=d80loq0000001qrnsigbb2mst7up6jrii6gn0qjf6q285fn6eoau09kfghqph0c8",
+            "uploadUrl": "https://kgubvq.us-east-1.upload.xata.sh/file/0dlmetb2epotpthijj10kg84i1ui0479u7iegpprdulbln6c5nqri6vq01j1dlrj8n2dfhqldnbeaplkrson6n6c8c88f08iho4f58f9rqk0guui3rj4gg3tkoqou2vgv37s5tnqrberfst8et90?verify=i985qq0000000i8n2ssjc4ojc6c1tmqarh11tn2g5lmfvb4m6i4djjrij2oddlmu",
+            "attributes": {
+              "height": 413,
+              "width": 786
+            }
+          },
+          "photos": [],
+          "summary": "The concept of \"Men in Black\" (MIB) is a prominent element in UFO conspiracy theories and folklore. These mysterious figures are often described as government agents dressed in black suits who allegedly intimidate, threaten, or even erase the memories of UFO witnesses to keep them silent about their experiences[1][2][5].\n\n### Famous Sources and Historical Accounts\n\n- **Harold Dahl (1947)**: One of the earliest accounts involves Harold Dahl, who claimed he was warned by a man in a dark suit not to discuss his UFO sighting on Maury Island[1].\n  \n- **Albert K. Bender (1950s)**: Bender, a ufologist, reported being visited by three men in black who threatened him and advised him to cease his UFO investigations. This incident contributed significantly to the MIB legend[1][5].\n\n- **John Keel**: A prominent ufologist, Keel described encounters with MIB as \"demonic supernaturals\" with exotic features. He explored these themes in his book \"The Mothman Prophecies\"[1][4].\n\n### Connections and Theories\n\n- **Government Agents or Aliens**: Theories about the identity of MIB vary, with some suggesting they are secret government agents, while others propose they might be aliens in disguise or even hybrids of humans and extraterrestrials[3][5].\n\n- **Cultural Impact**: The MIB phenomenon has been incorporated into various media, influencing books, films, and music. The popular \"Men in Black\" film series is inspired by these conspiracy theories[1][5].\n\n### Interesting Testimonies\n\n- **Danny Gordon (1987)**: A radio broadcaster from Virginia, Gordon reported UFO sightings and subsequently claimed to have been visited by MIB, who attempted to silence him[3].\n\n- **John C. Sherwood**: In the late 1960s, Sherwood was involved in a hoax promoted by ufologist Gray Barker, which included tales of \"blackmen\" who silenced UFO witnesses[1].\n\nThe Men in Black continue to be a subject of fascination and speculation, with numerous reports and theories contributing to their enduring presence in UFO folklore.\n\nCitations:\n[1] https://en.wikipedia.org/wiki/Men_in_black\n[2] https://lux.collections.yale.edu/view/concept/5e68d572-1183-47f6-b201-92481a687b7e\n[3] https://www.youtube.com/watch?v=WVBOP4E6Rds\n[4] https://www.jstor.org/stable/540919\n[5] https://science.howstuffworks.com/space/aliens-ufos/men-in-black.htm",
+          "xata": {
+            "createdAt": "2024-04-10T18:16:19.922Z",
+            "highlight": {
+              "name": [
+                "Men <em>in</em> Black"
+              ]
+            },
+            "score": 3.0684571,
+            "table": "topics",
+            "updatedAt": "2024-08-08T15:07:30.053Z",
+            "version": 1
+          }
+        },
+        "xata_id": "rec_cobdesq5ojbselbdqrig",
+        "table": "topics"
+      },
+      {
+        "entity_name": "Multiple sensor data collected beyond just visual evidence",
+        "status": "not_found",
+        "table": "topics",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "Government/Military Response",
+        "status": "found",
+        "xata_record": {
+          "id": "rec_cobdet25ojbselbdqrrg",
+          "name": "Government UFO Disclosure",
+          "photos": [],
+          "xata": {
+            "createdAt": "2024-04-10T18:16:19.922Z",
+            "highlight": {
+              "name": [
+                "<em>Government</em> UFO Disclosure"
+              ]
+            },
+            "score": 4.413172,
+            "table": "topics",
+            "updatedAt": "2024-04-10T18:16:19.922Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_cobdet25ojbselbdqrrg",
+        "table": "topics"
+      },
+      {
+        "entity_name": "Connection to nuclear",
+        "status": "found",
+        "xata_record": {
+          "id": "rec_cobdesq5ojbselbdqr8g",
+          "name": "Nazca Lines and Their Alleged Connection to Aliens",
+          "photos": [],
+          "summary": "Large geoglyphs in the Nazca Desert of Peru, some believe these lines were created or used by extraterrestrial beings.",
+          "xata": {
+            "createdAt": "2024-04-10T18:16:19.922Z",
+            "highlight": {
+              "name": [
+                "Nazca Lines and Their Alleged <em>Connection</em> <em>to</em> Aliens"
+              ]
+            },
+            "score": 5.7586184,
+            "table": "topics",
+            "updatedAt": "2024-04-10T18:16:19.922Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_cobdesq5ojbselbdqr8g",
+        "table": "topics"
+      },
+      {
+        "entity_name": "Project Interloper: Planned trap using nuclear \"lure\"",
+        "status": "found",
+        "xata_record": {
+          "id": "rec_ct37rib6fvstbp7eg5n0",
+          "name": "Project Sign",
+          "photos": [],
+          "summary": "First official USAF UFO investigation project. Operated from December 1947 to December 1948, evolved into Project Grudge. Notable for producing the Estimate of the Situation concluding some UFOs had extraterrestrial origin.",
+          "xata": {
+            "createdAt": "2024-11-27T02:02:49.903Z",
+            "highlight": {
+              "name": [
+                "<em>Project</em> Sign"
+              ]
+            },
+            "score": 4.0690427,
+            "table": "topics",
+            "updatedAt": "2024-11-27T02:02:49.903Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_ct37rib6fvstbp7eg5n0",
+        "table": "topics"
+      },
+      {
+        "entity_name": "Significant Navy/military interest in underwater cases",
+        "status": "found",
+        "xata_record": {
+          "id": "rec_cobdet25ojbselbdqrq0",
+          "name": "Underwater UFOs and USOs",
+          "photos": [],
+          "summary": "Observations of unidentified submerged objects, suggesting the presence of underwater alien bases or vehicles capable of operating underwater and in the air.",
+          "xata": {
+            "createdAt": "2024-04-10T18:16:19.922Z",
+            "highlight": {
+              "name": [
+                "<em>Underwater</em> UFOs and USOs"
+              ]
+            },
+            "score": 4.6129313,
+            "table": "topics",
+            "updatedAt": "2024-04-11T00:43:55.716Z",
+            "version": 2
+          }
+        },
+        "xata_id": "rec_cobdet25ojbselbdqrq0",
+        "table": "topics"
+      },
+      {
+        "entity_name": "UAP Technology & Capabilities",
+        "status": "found",
+        "xata_record": {
+          "id": "rec_cobdesq5ojbselbdqra0",
+          "name": "Reverse Engineering Alien Technology",
+          "photos": [],
+          "summary": "Reverse engineering involves deducing the design and functionality of a device, system, or software without prior knowledge of its processes. This method, widely used in software engineering, mechanical engineering, and electronic engineering, serves various purposes, including understanding how a product works, repurposing obsolete technology, conducting security analysis, and learning from or competing with other designs. While the primary focus here is on technological aspects, the concept intriguingly applies to the notion of reverse engineering alien technology, an idea often explored in science fiction and speculative discussions. This involves studying extraterrestrial artifacts or systems to understand their advanced technology, potentially leading to significant breakthroughs in human technology.",
+          "xata": {
+            "createdAt": "2024-04-10T18:16:19.922Z",
+            "highlight": {
+              "name": [
+                "Reverse Engineering Alien <em>Technology</em>"
+              ]
+            },
+            "score": 4.0404778,
+            "table": "topics",
+            "updatedAt": "2024-04-11T00:47:26.037Z",
+            "version": 4
+          }
+        },
+        "xata_id": "rec_cobdesq5ojbselbdqra0",
+        "table": "topics"
+      }
+    ],
+    "personnel": [
+      {
+        "entity_name": "Authority Metrics:",
+        "status": "not_found",
+        "table": "personnel",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "Lou Elizondo",
+        "status": "found",
+        "xata_record": {
+          "authority": 2,
+          "bio": "Luis Elizondo is a key figure in UFO research, known for his involvement in investigating unidentified aerial phenomena.",
+          "credibility": 8,
+          "id": "rec_cobdfd4jmvif9dabl19g",
+          "name": "Luis Elizondo",
+          "photo": [
+            {
+              "id": "rt53fe857l3d93cso3fh52a2m0",
+              "name": "luiz.webp",
+              "mediaType": "image/webp",
+              "enablePublicUrl": true,
+              "signedUrlTimeout": 600,
+              "uploadUrlTimeout": 86400,
+              "size": 8432,
+              "version": 0,
+              "url": "https://us-east-1.storage.xata.sh/oqjl5j7gcd6k7d1it26oral2ec",
+              "signedUrl": "https://us-east-1.xata.sh/file/09lmetb2epotpthijj10kg84i1ui0479u7iegpprdulbln6c5nqri6vu01j1dltkieru9t5l9ek57hl7ab6f0oqd8eq35q4dhmla4sspea09e13o8kc8d6cf6mni99713g76i2un9g3jqtvhvpsv187j20?verify=dc0loq0000000me7th0591k40a26283s5lcri3jaophpg6t91ptnm74k1l6fdhr3",
+              "uploadUrl": "https://kgubvq.us-east-1.upload.xata.sh/file/0dlmetb2epotpthijj10kg84i1ui0479u7iegpprdulbln6c5nqri6vu01j1dltkieru9t5l9ek56pgtprbbd81uve9gf0e6ceujo9i7sedmcu5a2428553kuegg06gqr9qe41s67gg8a75tk19g?verify=id85qq0000001gpkkqupqng9o4k3f2c2ihf3ffek5grs2sk03o4gr7nks5uuqt80"
+            }
+          ],
+          "popularity": 8,
+          "rank": 61,
+          "role": "Former Director of the Pentagon's Advanced Aerospace Threat Identification Program (AATIP)",
+          "xata": {
+            "createdAt": "2024-04-10T18:17:24.661Z",
+            "highlight": {
+              "name": [
+                "Luis <em>Elizondo</em>"
+              ]
+            },
+            "score": 6.043672,
+            "table": "personnel",
+            "updatedAt": "2024-08-17T23:01:42.560Z",
+            "version": 6
+          }
+        },
+        "xata_id": "rec_cobdfd4jmvif9dabl19g",
+        "table": "personnel"
+      },
+      {
+        "entity_name": "David Spergel",
+        "status": "found",
+        "xata_record": {
+          "authority": 2,
+          "bio": "David Fravor is known for his encounter with a UFO while serving as a Navy pilot, which gained significant attention in the ufology community.",
+          "credibility": 8,
+          "id": "rec_cobdfd4jmvif9dabl0pg",
+          "name": "David Fravor",
+          "photo": [
+            {
+              "id": "nn9nju0p4t10jd0fmu8licr2v4",
+              "name": "download.jpeg",
+              "mediaType": "image/jpeg",
+              "enablePublicUrl": true,
+              "signedUrlTimeout": 600,
+              "uploadUrlTimeout": 86400,
+              "size": 6538,
+              "version": 0,
+              "url": "https://us-east-1.storage.xata.sh/e328dqa8hh33hbsrb2tu7d2i0c",
+              "signedUrl": "https://us-east-1.xata.sh/file/09lmetb2epotpthijj10kg84i1ui0479u7iegpprdulbln6c5nqri6vu01j1dltkieru9t5l9ek36s64grkkh32672npmm5rseq540ofn384rvln7rfc1cee01149hjam6ge18h9dn30i4le0hdmbpo4dc?verify=dc0loq000000052nqmu3l7n4qvblhi8a4c7jlpleffoocdvcec334hb4c2rqeg6p",
+              "uploadUrl": "https://kgubvq.us-east-1.upload.xata.sh/file/0dlmetb2epotpthijj10kg84i1ui0479u7iegpprdulbln6c5nqri6vu01j1dltkieru9t5l9ek36pgtrs50vufe6kdbs2s972n7ra514jlfkpt16adqmt36amn7t08ufguod7jjd3h63lvt9ib0?verify=id85qq0000001v2t096fev8mmug34smj5b2gr0454blgsabnc2eta9b0i564ujig",
+              "attributes": {
+                "height": 168,
+                "width": 300
+              }
+            }
+          ],
+          "popularity": 8,
+          "rank": 61,
+          "role": "Commander, Pilot in the US Navy ",
+          "xata": {
+            "createdAt": "2024-04-10T18:17:24.661Z",
+            "highlight": {
+              "name": [
+                "<em>David</em> Fravor"
+              ]
+            },
+            "score": 4.103368,
+            "table": "personnel",
+            "updatedAt": "2024-08-17T23:01:42.504Z",
+            "version": 5
+          }
+        },
+        "xata_id": "rec_cobdfd4jmvif9dabl0pg",
+        "table": "personnel"
+      }
+    ],
+    "events": [
+      {
+        "entity_name": "Status: In production",
+        "status": "not_found",
+        "table": "events",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "Expected to contain significant new evidence",
+        "status": "not_found",
+        "table": "events",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "Features new witnesses/testimony",
+        "status": "not_found",
+        "table": "events",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "Upcoming Documentary \"Age of Disclosure\"",
+        "status": "not_found",
+        "table": "events",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "Navy Helicopter/Missile Incident (Late 1990s)",
+        "status": "not_found",
+        "table": "events",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "Multiple witnesses",
+        "status": "not_found",
+        "table": "events",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "Official documentation exists",
+        "status": "not_found",
+        "table": "events",
+        "action_needed": "create_new"
+      }
+    ],
+    "organizations": [
+      {
+        "entity_name": "NASA",
+        "status": "found",
+        "xata_record": {
+          "id": "rec_cobdhj5bjt595h6377eg",
+          "name": "NASA (National Aeronautics and Space Administration)",
+          "xata": {
+            "createdAt": "2024-04-10T18:22:04.499Z",
+            "highlight": {
+              "name": [
+                "<em>NASA</em> (National Aeronautics and Space Administration)"
+              ]
+            },
+            "score": 2.8062763,
+            "table": "organizations",
+            "updatedAt": "2024-04-10T18:22:04.499Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_cobdhj5bjt595h6377eg",
+        "table": "organizations"
+      },
+      {
+        "entity_name": "Increasing involvement in topic",
+        "status": "found",
+        "xata_record": {
+          "description": "The National Investigations Committee on Aerial Phenomena, or NICAP, was a private UAP research and education network in the United States that exercised considerable lobbying power from the late-1950’s through the 1960’s. NICAP not only coordinated investigations of UAP around the US, but sought to move the US government toward an open and vigorous effort to discover what was behind “flying saucers.”",
+          "id": "rec_cobdhj5bjt595h6377hg",
+          "name": "The National Investigations Committee on Aerial Phenomena (NICAP)",
+          "photo": "717b583c-9aad-466a-914b-3acfd9f483b9.png (https://v5.airtableusercontent.com/v3/u/27/27/1712786400000/bqzEbriVLPmBN2d81PAYFA/m85m7du6iFiDyb9fX7mqhAK1RbrE0wASTzeObHsOZFHJoc7xbSO1Nhl0LlP8SNobjei5KigcPzy3y3QGFnTZwGjQayUKeDpjwKaj11uMoUkGFVDfy7ixzNhrTtfXrvG5W9_MCG6jfptlmeRB_NF5tQ/3zl6t6UQCDqWp3Ks8s-WowDogomFKyYQgjXQIA2J6dg)",
+          "xata": {
+            "createdAt": "2024-04-10T18:22:04.499Z",
+            "highlight": {
+              "name": [
+                "The National Investigations Committee <em>on</em> Aerial Phenomena (NICAP)"
+              ]
+            },
+            "score": 1.2031264,
+            "table": "organizations",
+            "updatedAt": "2024-04-10T18:22:04.499Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_cobdhj5bjt595h6377hg",
+        "table": "organizations"
+      },
+      {
+        "entity_name": "Evidence collection/analysis",
+        "status": "not_found",
+        "table": "organizations",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "Scientific investigation focus",
+        "status": "found",
+        "xata_record": {
+          "description": "Scientific case analysis and research think tank for UAP.",
+          "id": "rec_cobdhj5bjt595h6377t0",
+          "name": "Scientific Coalition for UAP Studies",
+          "photo": "aylPGZER4QlyLqzs4N824PH1PCA.png (https://v5.airtableusercontent.com/v3/u/27/27/1712786400000/ldW0WiHScDbazKdzaGKAPw/hNZ7GpWakul1f7pi0_7CJSRu9fML68p4qKYdoG24BIQdZxpKMrNXmL33YB-e5RpvJCJF-h3BL07Qd4aBSki5fMHPZveCGYHaAXhx4Lk-YxGgNAgDilrK-_-rbqZkEdU6hJOU7VTY-MHBzMSUGILRxA/LVx7YdFFHIHEveaD9pozZtRqfvSyllRhN_p0eMmNAUo)",
+          "specialization": "Research & Studies",
+          "xata": {
+            "createdAt": "2024-04-10T18:22:04.499Z",
+            "highlight": {
+              "name": [
+                "<em>Scientific</em> Coalition for UAP Studies"
+              ]
+            },
+            "score": 3.060686,
+            "table": "organizations",
+            "updatedAt": "2024-04-10T18:22:04.499Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_cobdhj5bjt595h6377t0",
+        "table": "organizations"
+      },
+      {
+        "entity_name": "Department of Defense",
+        "status": "found",
+        "xata_record": {
+          "description": "In 2007, U.S. Senator Harry Reid and two other influential senators covertly secured $22 million for the Department of Defense (DoD) to study UAP through what became known as the Advanced Aeronautics Weapons System Application Program, or AAWSAP. Running from 2008 to 2010, AAWSAP largely consisted of the work of its sole contractor, Bigelow Aerospace Advanced Space Studies, or BAASS, an organization founded by the hotel-turned-aerospace magnate Robert Bigelow.",
+          "id": "rec_cobdhj5bjt595h6377ng",
+          "name": "The Roots of the Pentagon UAP Program: From AAWSAP/AATIP to UAPTF",
+          "photo": "1a93aa43-aeb5-42e5-aacb-fe49b2f76454.png (https://v5.airtableusercontent.com/v3/u/27/27/1712786400000/kXQCE8xjKARKmWq069cAYA/UhWTJ5KmI8bN2IsvBT0_K1dfv_nQ0BNVoWH1xA0Eoh4FJ15RtAvd0UodJBhqQCOvR9aPikQQtrN3xitsnmoDqZWUq2T8sTC8l1oqUfmlpoG_R4ufeCO1r3PniG1YJ3wzK7qvvThJVA_bK9crNe-clA/IUwaAcDSwv2AaFevzp9L307MmXAB5FZAjtjX08HboCg)",
+          "xata": {
+            "createdAt": "2024-04-10T18:22:04.499Z",
+            "highlight": {
+              "name": [
+                "The Roots <em>of</em> the Pentagon UAP Program: From AAWSAP&#x2F;AATIP to UAPTF"
+              ]
+            },
+            "score": 1.8724365,
+            "table": "organizations",
+            "updatedAt": "2024-04-10T18:22:04.499Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_cobdhj5bjt595h6377ng",
+        "table": "organizations"
+      },
+      {
+        "entity_name": "Multiple classified programs",
+        "status": "found",
+        "xata_record": {
+          "id": "rec_cobdhj5bjt595h6377g0",
+          "name": "AATIP (Advanced Aerospace Threat Identification Program)",
+          "xata": {
+            "createdAt": "2024-04-10T18:22:04.499Z",
+            "highlight": {
+              "name": [
+                "AATIP (Advanced Aerospace Threat Identification <em>Program</em>)"
+              ]
+            },
+            "score": 2.03395,
+            "table": "organizations",
+            "updatedAt": "2024-04-10T18:22:04.499Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_cobdhj5bjt595h6377g0",
+        "table": "organizations"
+      }
+    ],
+    "locations": []
+  },
+  "total_entities": 32,
+  "total_matches": 32
+}

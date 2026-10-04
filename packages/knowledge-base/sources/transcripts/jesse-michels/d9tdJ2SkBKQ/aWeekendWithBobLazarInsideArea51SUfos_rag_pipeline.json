@@ -1,0 +1,43 @@
+{
+  "status": "error",
+  "classification": {
+    "content_type": "witness",
+    "primary_record_hints": [
+      "Testimony",
+      "KeyFigure",
+      "Sighting"
+    ],
+    "hynek_scaffold": null,
+    "classification_marks_detected": [
+      "UFO",
+      "Area 51",
+      "reverse engineering",
+      "non-human craft",
+      "whistleblower",
+      "Bob Lazar"
+    ],
+    "language": "en",
+    "ocr_quality": "n/a",
+    "sensitivity": "public",
+    "ingestion_recommendation": "proceed_with_caution",
+    "rationale": "First-hand testimony from a self-claimed insider about exotic technology, but extraordinary claims warrant caution. Source is public podcast, custody known.",
+    "confidence": 0.9
+  },
+  "analysis": {},
+  "ingestion": {},
+  "chunks": [],
+  "ner_results": [],
+  "embeddable_texts": [],
+  "metadata": {
+    "provenance": "https://www.youtube.com/watch?v=d9tdJ2SkBKQ",
+    "filename_hint": "A Weekend With Bob Lazar: Inside Area51's UFOs",
+    "prompts_dir": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/ai/prompts"
+  },
+  "errors": [
+    "Extra data: line 13 column 6 (char 1503)"
+  ],
+  "prompts_used": [
+    "document_classification",
+    "disclosure.content_analysis"
+  ]
+}

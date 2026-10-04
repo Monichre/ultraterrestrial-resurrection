@@ -1,0 +1,826 @@
+{
+  "status": "ok",
+  "classification": {
+    "content_type": "media",
+    "primary_record_hints": [
+      "Topic",
+      "KeyFigure"
+    ],
+    "hynek_scaffold": null,
+    "classification_marks_detected": [],
+    "language": "en",
+    "ocr_quality": "n/a",
+    "sensitivity": "public",
+    "ingestion_recommendation": "proceed",
+    "rationale": "The source is a transcribed interview/podcast with a physicist discussing cosmology, black holes, and philosophical questions about purpose and creation. It is not a government document, witness sighting, scientific paper, or historical record. It is media content featuring a key figure (Claudia de Rham) and topics (cosmology, black holes, universe origins). No observational UFO/UAP content is present, so no Hynek scaffold applies. The content is public and non-sensitive.",
+    "confidence": 0.9
+  },
+  "analysis": {
+    "content_assessment": {
+      "content_type": "media",
+      "provenance": {
+        "source": "YouTube interview (URL provided in context)",
+        "date": "Unknown",
+        "custody": "Unverified",
+        "notes": "Source is a video interview; no publication date or original broadcaster identified. Transcript appears to be a verbatim or near-verbatim capture."
+      },
+      "primary_claims": [
+        "We have no evidence of anything at all [regarding exotic physics or UFOs].",
+        "Bridging theories would require an energy unlike anything we know, which is very unstable, and we don't know how to stabilize it.",
+        "Black holes are equivalent to a projection on a surface with no gravity (holographic duality).",
+        "The surface of last scattering is the point in the early universe approximately 380,000 years after the Big Bang when photons became free streaming after decoupling from matter.",
+        "The cosmic microwave background temperature is uniform to one part in 100,000, with tiny fluctuations that match quantum statistics.",
+        "COBE made the first measurement of the temperature of the sky and those fluctuations; WMAP and Planck followed.",
+        "The abundance of elements (e.g., hydrogen, helium) gives a precise handle on the universe's expansion rate.",
+        "The universe is typically estimated to be 13.8 billion years old, but recent studies (e.g., Rajendra Gupta) suggest it could be 26.7 billion years.",
+        "The age of the universe does not change the time from us to the surface of last scattering.",
+        "The universe was not created with a purpose; we are a random anomaly, but we can give ourselves purpose.",
+        "There is no scientific proof that a creator exists or does not exist."
+      ],
+      "key_findings": [
+        "Speaker is a physicist (identity not stated in transcript) discussing cosmology and philosophy.",
+        "Mentions missions: COBE, WMAP, Planck.",
+        "Mentions Rajendra Gupta's study in Monthly Notices of the Royal Astronomical Society (2023) proposing 26.7 billion years.",
+        "Mentions James Webb Space Telescope observations of early mature galaxies.",
+        "Mentions Brian Keating as a previous guest (contextual).",
+        "Discusses the concept of 'surface of last scattering' and cosmic microwave background.",
+        "States that the universe's temperature is uniform to 1 part in 100,000.",
+        "States that the universe is cooling and will become very cold and diluted."
+      ],
+      "supporting_evidence": [
+        "Transcript includes a read-out from a web search: 'The age of the universe is generally estimated 13.8 billion years. However, recent studies suggest that the universe may be significantly older, potentially around 26.7 billion years. The new research, while sparking scientific debate, proposes that the age of the universe may be nearly double the current estimate. So, Rajendra Gupta of the University of Ottawa, in a study published in the Monthly Notices of the Royal Astronomical Society, suggests a much older age of 26.7 billion years. This proposal is based on observations of early mature galaxies by the James Webb Space Telescope, which seems to contradict the standard age of the universe.'"
+      ],
+      "contradictory_evidence": [
+        "The speaker states 'we have no evidence of anything at all' regarding exotic physics, but this is a personal opinion, not a scientific finding.",
+        "The speaker says 'I don't know' regarding the 26.7 billion years claim, indicating uncertainty.",
+        "The speaker says 'I don't have science to prove that' regarding the lack of purpose, acknowledging lack of evidence."
+      ],
+      "follow_up_needed": [
+        "Verify the identity and credentials of the speaker (physicist) from the YouTube video metadata.",
+        "Verify the exact publication details of Rajendra Gupta's study in Monthly Notices of the Royal Astronomical Society (2023).",
+        "Verify the claim about the uniformity of CMB temperature to one part in 100,000 against Planck mission results.",
+        "Check if the transcript is complete and accurate; note any truncation or missing segments."
+      ],
+      "redaction_ocr_risk": {
+        "illegible_spans": [],
+        "missing_spans": [
+          "Transcript is truncated at the end: '[TRUNCATED_FOR_PIPELINE]'."
+        ],
+        "ocr_artifacts": []
+      },
+      "duplicate_recycling": false,
+      "admissibility": "PARTIAL",
+      "notes": "The source is a media interview with a physicist. The primary claims are scientific explanations and personal philosophical views. The scientific claims are consistent with established cosmology, but the speaker's personal opinions on purpose and creation are not scientific evidence. The transcript is unverified for accuracy and completeness. The source does not directly address UFO/UAP topics, but discusses related physics concepts. The claim about 'no evidence of anything at all' is a personal opinion and should not be taken as a scientific conclusion."
+    },
+    "extracted_data": {
+      "dates": [
+        "380,000 years after Big Bang (surface of last scattering)",
+        "13.8 billion years (standard age of universe)",
+        "26.7 billion years (Gupta's proposal)",
+        "2023 (Gupta's study mentioned)"
+      ],
+      "actors": [
+        "Physicist (speaker, unnamed)",
+        "Interviewer (unnamed)",
+        "Brian Keating (mentioned)",
+        "Rajendra Gupta (University of Ottawa)",
+        "COBE, WMAP, Planck missions"
+      ],
+      "instruments": [
+        "COBE",
+        "WMAP",
+        "Planck",
+        "James Webb Space Telescope"
+      ],
+      "classification_marks": [],
+      "organizations": [
+        "University of Ottawa",
+        "Monthly Notices of the Royal Astronomical Society"
+      ],
+      "locations": [],
+      "events": [
+        "Big Bang",
+        "Surface of last scattering",
+        "CMB measurements"
+      ],
+      "sensor_modalities": [
+        "Cosmic microwave background radiation measurements (microwave)"
+      ],
+      "metadata": {
+        "source_url": "https://www.youtube.com/watch?v=4N_DcI0s_-U",
+        "transcript_truncated": true,
+        "speaker_identity": "Unverified"
+      }
+    }
+  },
+  "ingestion": {
+    "document": {
+      "title_guess": "Cosmology, Black Holes, and the Early Universe Discussion",
+      "content_type": "media transcript",
+      "language": "en",
+      "provenance": "https://www.youtube.com/watch?v=4N_DcI0s_-U",
+      "integrity_flags": [
+        "transcript_artifacts",
+        "conversational_filler"
+      ]
+    },
+    "chunks": [
+      {
+        "chunk_id": "c01",
+        "heading_path": "Theoretical Physics / Black Holes and Dualities",
+        "text": "But in fact, those are speculations. If you ask me, I would say we have no evidence of anything at all. All we know is that um things get very complicated. But assuming that you can trust your theory and then start to bridge it to something else, would in itself require some um some type of energy which is unlike anything that we know of and which typically very, very unstable. So if you want to have those kind of bridges, you you need them to stabilize us with some kind of energy and that we don't know how to do. ... So this is why it's so, so cool that um there are these theories that are equivalent to other things. And so that's why it's so cool that if for instance you have black holes which are gravitational things and yet they're completely equivalent to a projection um on a surface which has no gravity. And instead, they behave more like um not necessarily condensed matter system, but but more like other materials in extreme conditions, but other things that we can have more control over.",
+        "token_estimate": 210,
+        "overlap_note": "Starts at beginning of provided text.",
+        "entities_hint": [
+          "black holes",
+          "gravitational things",
+          "condensed matter system"
+        ],
+        "claims_hint": [
+          "Bridging theories requires unknown unstable energy",
+          "Black holes are equivalent to projections on surfaces without gravity"
+        ],
+        "temporal_anchors": [],
+        "spatial_anchors": [
+          "black hole center",
+          "surface projection"
+        ],
+        "evidentiary_density": "medium",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c02",
+        "heading_path": "Cosmology / Surface of Last Scattering",
+        "text": "So, when universe was really really young, it was very hot, very dense, and rather than being beautiful as it is now, it was more like a a soup of fundamental particles all mixed in together. And so, if you imagine you are a photon and you're trying to travel, you're not going to go very far because you're going to be bumping onto lots of people, lots of electrons for instance. But as the universe cooled down, it relaxed a little bit, it became not as hot, and the electrons got trapped around nuclei, and so those created neutral structure. And when that happened, the photons could all of a sudden go freely. ... you can Google the the surface of last scattering. And you can look at the surface and then you see how the universe looked like at the time. It's like looking at the surface of the cloud, but only what you're looking at inside the universe looked like when it was very, very young. ... The surface of last scattering is the point in the early universe approximately 380,000 years after the Big Bang when photons became free streaming after decoupling from matter marking the transition from an opaque to a transparent universe.",
+        "token_estimate": 245,
+        "overlap_note": "Covers the transition from particle soup to photon freedom.",
+        "entities_hint": [
+          "photon",
+          "electrons",
+          "nuclei",
+          "surface of last scattering",
+          "Big Bang"
+        ],
+        "claims_hint": [
+          "Early universe was a soup of fundamental particles",
+          "Photons became free approximately 380,000 years after the Big Bang",
+          "Surface of last scattering marks transition from opaque to transparent universe"
+        ],
+        "temporal_anchors": [
+          "380,000 years after the Big Bang"
+        ],
+        "spatial_anchors": [
+          "early universe",
+          "surface of last scattering"
+        ],
+        "evidentiary_density": "high",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c03",
+        "heading_path": "Cosmology / Cosmic Microwave Background and Quantum Fluctuations",
+        "text": "This surface is the origin of the cosmic microwave background, which is what we observe today as the faint microwave radiation permeating the universe. ... In what we can see is that the surface the temperature of the sky on that surface is exactly the same wherever we look within one part in 100,000. ... these are based on fact in fact from quantum fluctuations at the very beginning of the universe. So, at the very beginning of the universe just after the Big Bang there were fluctuations which are quantum in nature. They're just popping in and out and satisfy some statistics which are not the same kind of the statistics we know classically. They're quantum statistics. ... This is from Planck. Before that, there was WMAP, and before that, there was COBE at the end of the last century, I guess. COBE made the first measurement of the temperature of the sky and those fluctuations.",
+        "token_estimate": 195,
+        "overlap_note": "Discusses CMB and the missions that measured it.",
+        "entities_hint": [
+          "cosmic microwave background",
+          "Planck",
+          "WMAP",
+          "COBE",
+          "quantum fluctuations"
+        ],
+        "claims_hint": [
+          "CMB temperature is uniform within one part in 100,000",
+          "Sky temperature fluctuations originate from quantum fluctuations after the Big Bang",
+          "COBE, WMAP, and Planck missions measured sky temperature"
+        ],
+        "temporal_anchors": [
+          "end of the last century"
+        ],
+        "spatial_anchors": [
+          "sky",
+          "universe"
+        ],
+        "evidentiary_density": "high",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c04",
+        "heading_path": "Cosmology / Age of the Universe Debate",
+        "text": "Now, wasn't there an argument... back in 2023... about whether or not the universe was around 13 billion years old versus 26 billion? ... typically nowadays we say it's 13.8 billion, something like that. ... Rajendra Gupta of the University of Ottawa, in a study published in the Monthly Notices of the Royal Astronomical Society, suggests a much older age of 26.7 billion years. This proposal is based on observations of early mature galaxies by the James Webb Space Telescope, which seems to contradict the standard age of the universe. ... So, what does make sense is indeed there's been observations of formation of galaxies much earlier than we would have anticipated. ... whether the explanation is that the universe is much older or anything else, I don't know.",
+        "token_estimate": 180,
+        "overlap_note": "Discusses the 13.8 vs 26.7 billion year age debate.",
+        "entities_hint": [
+          "Rajendra Gupta",
+          "University of Ottawa",
+          "James Webb Space Telescope",
+          "Monthly Notices of the Royal Astronomical Society"
+        ],
+        "claims_hint": [
+          "Standard age of universe is 13.8 billion years",
+          "Rajendra Gupta suggests universe may be 26.7 billion years old",
+          "JWST observed mature galaxies earlier than expected"
+        ],
+        "temporal_anchors": [
+          "2023",
+          "13.8 billion years",
+          "26.7 billion years"
+        ],
+        "spatial_anchors": [],
+        "evidentiary_density": "medium",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c05",
+        "heading_path": "Philosophy / Purpose and Creation",
+        "text": "I believe in physics. So I believe that something something must have happened. ... the curious question is it's much more natural than nothing was there. ... I don't need to have something with its own intelligence or its own being to explain the creation of the universe. ... I certainly don't think there's any purpose. There's no purpose of of us being there. ... I do I do think we are just a random anomaly. We know us as as individual, we're just we're just an accident. ... No, I don't I don't think I've been I as a human or the earth or the galaxy or the universe has been created with a purpose. Uh but that's why us as human we like to give ourselves purpose. And my purpose my self-inflicted purpose is to try to understand where we come from, try to make sense of all of this.",
+        "token_estimate": 190,
+        "overlap_note": "Philosophical discussion on the lack of inherent purpose in the universe.",
+        "entities_hint": [
+          "physics",
+          "universe",
+          "humanity"
+        ],
+        "claims_hint": [
+          "Speaker believes the universe is a random anomaly without inherent purpose",
+          "Science is viewed as more creative than intelligence-based creation theories",
+          "Human purpose is self-inflicted/constructed"
+        ],
+        "temporal_anchors": [],
+        "spatial_anchors": [
+          "Earth",
+          "Galaxy"
+        ],
+        "evidentiary_density": "low",
+        "do_not_embed_reasons": []
+      }
+    ],
+    "index_recommendations": {
+      "priority": "MEDIUM",
+      "filters": [
+        "cosmology",
+        "theoretical_physics",
+        "philosophy",
+        "CMB"
+      ],
+      "dedupe_keys": [
+        "surface_of_last_scattering",
+        "age_of_universe_debate"
+      ]
+    }
+  },
+  "chunks": [
+    {
+      "chunk_id": "c01",
+      "heading_path": "Theoretical Physics / Black Holes and Dualities",
+      "text": "But in fact, those are speculations. If you ask me, I would say we have no evidence of anything at all. All we know is that um things get very complicated. But assuming that you can trust your theory and then start to bridge it to something else, would in itself require some um some type of energy which is unlike anything that we know of and which typically very, very unstable. So if you want to have those kind of bridges, you you need them to stabilize us with some kind of energy and that we don't know how to do. ... So this is why it's so, so cool that um there are these theories that are equivalent to other things. And so that's why it's so cool that if for instance you have black holes which are gravitational things and yet they're completely equivalent to a projection um on a surface which has no gravity. And instead, they behave more like um not necessarily condensed matter system, but but more like other materials in extreme conditions, but other things that we can have more control over.",
+      "token_estimate": 210,
+      "overlap_note": "Starts at beginning of provided text.",
+      "entities_hint": [
+        "black holes",
+        "gravitational things",
+        "condensed matter system"
+      ],
+      "claims_hint": [
+        "Bridging theories requires unknown unstable energy",
+        "Black holes are equivalent to projections on surfaces without gravity"
+      ],
+      "temporal_anchors": [],
+      "spatial_anchors": [
+        "black hole center",
+        "surface projection"
+      ],
+      "evidentiary_density": "medium",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c02",
+      "heading_path": "Cosmology / Surface of Last Scattering",
+      "text": "So, when universe was really really young, it was very hot, very dense, and rather than being beautiful as it is now, it was more like a a soup of fundamental particles all mixed in together. And so, if you imagine you are a photon and you're trying to travel, you're not going to go very far because you're going to be bumping onto lots of people, lots of electrons for instance. But as the universe cooled down, it relaxed a little bit, it became not as hot, and the electrons got trapped around nuclei, and so those created neutral structure. And when that happened, the photons could all of a sudden go freely. ... you can Google the the surface of last scattering. And you can look at the surface and then you see how the universe looked like at the time. It's like looking at the surface of the cloud, but only what you're looking at inside the universe looked like when it was very, very young. ... The surface of last scattering is the point in the early universe approximately 380,000 years after the Big Bang when photons became free streaming after decoupling from matter marking the transition from an opaque to a transparent universe.",
+      "token_estimate": 245,
+      "overlap_note": "Covers the transition from particle soup to photon freedom.",
+      "entities_hint": [
+        "photon",
+        "electrons",
+        "nuclei",
+        "surface of last scattering",
+        "Big Bang"
+      ],
+      "claims_hint": [
+        "Early universe was a soup of fundamental particles",
+        "Photons became free approximately 380,000 years after the Big Bang",
+        "Surface of last scattering marks transition from opaque to transparent universe"
+      ],
+      "temporal_anchors": [
+        "380,000 years after the Big Bang"
+      ],
+      "spatial_anchors": [
+        "early universe",
+        "surface of last scattering"
+      ],
+      "evidentiary_density": "high",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c03",
+      "heading_path": "Cosmology / Cosmic Microwave Background and Quantum Fluctuations",
+      "text": "This surface is the origin of the cosmic microwave background, which is what we observe today as the faint microwave radiation permeating the universe. ... In what we can see is that the surface the temperature of the sky on that surface is exactly the same wherever we look within one part in 100,000. ... these are based on fact in fact from quantum fluctuations at the very beginning of the universe. So, at the very beginning of the universe just after the Big Bang there were fluctuations which are quantum in nature. They're just popping in and out and satisfy some statistics which are not the same kind of the statistics we know classically. They're quantum statistics. ... This is from Planck. Before that, there was WMAP, and before that, there was COBE at the end of the last century, I guess. COBE made the first measurement of the temperature of the sky and those fluctuations.",
+      "token_estimate": 195,
+      "overlap_note": "Discusses CMB and the missions that measured it.",
+      "entities_hint": [
+        "cosmic microwave background",
+        "Planck",
+        "WMAP",
+        "COBE",
+        "quantum fluctuations"
+      ],
+      "claims_hint": [
+        "CMB temperature is uniform within one part in 100,000",
+        "Sky temperature fluctuations originate from quantum fluctuations after the Big Bang",
+        "COBE, WMAP, and Planck missions measured sky temperature"
+      ],
+      "temporal_anchors": [
+        "end of the last century"
+      ],
+      "spatial_anchors": [
+        "sky",
+        "universe"
+      ],
+      "evidentiary_density": "high",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c04",
+      "heading_path": "Cosmology / Age of the Universe Debate",
+      "text": "Now, wasn't there an argument... back in 2023... about whether or not the universe was around 13 billion years old versus 26 billion? ... typically nowadays we say it's 13.8 billion, something like that. ... Rajendra Gupta of the University of Ottawa, in a study published in the Monthly Notices of the Royal Astronomical Society, suggests a much older age of 26.7 billion years. This proposal is based on observations of early mature galaxies by the James Webb Space Telescope, which seems to contradict the standard age of the universe. ... So, what does make sense is indeed there's been observations of formation of galaxies much earlier than we would have anticipated. ... whether the explanation is that the universe is much older or anything else, I don't know.",
+      "token_estimate": 180,
+      "overlap_note": "Discusses the 13.8 vs 26.7 billion year age debate.",
+      "entities_hint": [
+        "Rajendra Gupta",
+        "University of Ottawa",
+        "James Webb Space Telescope",
+        "Monthly Notices of the Royal Astronomical Society"
+      ],
+      "claims_hint": [
+        "Standard age of universe is 13.8 billion years",
+        "Rajendra Gupta suggests universe may be 26.7 billion years old",
+        "JWST observed mature galaxies earlier than expected"
+      ],
+      "temporal_anchors": [
+        "2023",
+        "13.8 billion years",
+        "26.7 billion years"
+      ],
+      "spatial_anchors": [],
+      "evidentiary_density": "medium",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c05",
+      "heading_path": "Philosophy / Purpose and Creation",
+      "text": "I believe in physics. So I believe that something something must have happened. ... the curious question is it's much more natural than nothing was there. ... I don't need to have something with its own intelligence or its own being to explain the creation of the universe. ... I certainly don't think there's any purpose. There's no purpose of of us being there. ... I do I do think we are just a random anomaly. We know us as as individual, we're just we're just an accident. ... No, I don't I don't think I've been I as a human or the earth or the galaxy or the universe has been created with a purpose. Uh but that's why us as human we like to give ourselves purpose. And my purpose my self-inflicted purpose is to try to understand where we come from, try to make sense of all of this.",
+      "token_estimate": 190,
+      "overlap_note": "Philosophical discussion on the lack of inherent purpose in the universe.",
+      "entities_hint": [
+        "physics",
+        "universe",
+        "humanity"
+      ],
+      "claims_hint": [
+        "Speaker believes the universe is a random anomaly without inherent purpose",
+        "Science is viewed as more creative than intelligence-based creation theories",
+        "Human purpose is self-inflicted/constructed"
+      ],
+      "temporal_anchors": [],
+      "spatial_anchors": [
+        "Earth",
+        "Galaxy"
+      ],
+      "evidentiary_density": "low",
+      "do_not_embed_reasons": []
+    }
+  ],
+  "ner_results": [
+    {
+      "chunk_id": "c01",
+      "ner": {
+        "entities": [],
+        "analysis_summary": {
+          "investigation_priority": "None",
+          "notes": "The source text is a theoretical physics discussion about black holes, dualities, and the speculative nature of wormhole bridges. It contains no UFO/UAP-related entities, no named individuals, organizations, events, locations, or evidence. No extraction is warranted."
+        }
+      },
+      "validation": {
+        "verdict": "pass",
+        "issues": [],
+        "safe_for_rag_index": true,
+        "safe_for_db_write": true
+      }
+    },
+    {
+      "chunk_id": "c02",
+      "ner": {
+        "entities": [
+          {
+            "type": "TOPIC",
+            "name": "Surface of Last Scattering",
+            "attributes": {
+              "description": "The point in the early universe approximately 380,000 years after the Big Bang when photons became free streaming after decoupling from matter, marking the transition from an opaque to a transparent universe.",
+              "category": "cosmology"
+            },
+            "span_quote": "The surface of last scattering is the point in the early universe approximately 380,000 years after the Big Bang when photons became free streaming after decoupling from matter marking the transition from an opaque to a transparent universe.",
+            "evidentiary_state": "Corroborated",
+            "confidence": 0.95
+          },
+          {
+            "type": "EVENT",
+            "name": "Decoupling of photons from matter",
+            "attributes": {
+              "date": "approximately 380,000 years after the Big Bang",
+              "description": "The event when the universe cooled enough for electrons to bind with nuclei, creating neutral structure, allowing photons to travel freely.",
+              "evidence_quality": "Scientific consensus"
+            },
+            "span_quote": "as the universe cooled down, it relaxed a little bit, it became not as hot, and the electrons got trapped around nuclei, and so those created neutral structure. And when that happened, the photons could all of a sudden go freely.",
+            "evidentiary_state": "Corroborated",
+            "confidence": 0.95
+          },
+          {
+            "type": "LOCATION",
+            "name": "Early Universe",
+            "attributes": {
+              "description": "The state of the universe when it was very young, hot, and dense, composed of a soup of fundamental particles.",
+              "temporal_context": "approximately 380,000 years after the Big Bang"
+            },
+            "span_quote": "when universe was really really young, it was very hot, very dense, and rather than being beautiful as it is now, it was more like a a soup of fundamental particles all mixed in together.",
+            "evidentiary_state": "Corroborated",
+            "confidence": 0.9
+          }
+        ],
+        "relationships": [
+          {
+            "source": "Surface of Last Scattering",
+            "target": "Decoupling of photons from matter",
+            "type": "Temporal",
+            "description": "The surface of last scattering is the observable result of the decoupling event.",
+            "confidence": 0.95
+          },
+          {
+            "source": "Early Universe",
+            "target": "Decoupling of photons from matter",
+            "type": "Temporal",
+            "description": "The decoupling event occurred in the early universe.",
+            "confidence": 0.95
+          }
+        ],
+        "analysis_summary": {
+          "investigation_priority": "Low",
+          "notes": "This source text is a general educational explanation of the surface of last scattering in cosmology. No UFO/UAP-related entities are present. The content is scientifically established and not contested."
+        }
+      },
+      "validation": {
+        "verdict": "pass",
+        "issues": [],
+        "safe_for_rag_index": true,
+        "safe_for_db_write": true
+      }
+    },
+    {
+      "chunk_id": "c03",
+      "ner": {
+        "entities": [
+          {
+            "type": "EVIDENCE",
+            "name": "Cosmic Microwave Background",
+            "attributes": {
+              "subtype": "sensor",
+              "category": "C",
+              "description": "Faint microwave radiation permeating the universe, observed as the surface of last scattering.",
+              "span_quote": "This surface is the origin of the cosmic microwave background, which is what we observe today as the faint microwave radiation permeating the universe.",
+              "evidentiary_state": "Observed"
+            }
+          },
+          {
+            "type": "EVIDENCE",
+            "name": "Planck",
+            "attributes": {
+              "subtype": "sensor",
+              "category": "C",
+              "description": "Space observatory that measured the cosmic microwave background and its fluctuations.",
+              "span_quote": "This is from Planck.",
+              "evidentiary_state": "Observed"
+            }
+          },
+          {
+            "type": "EVIDENCE",
+            "name": "WMAP",
+            "attributes": {
+              "subtype": "sensor",
+              "category": "C",
+              "description": "Spacecraft that measured the cosmic microwave background before Planck.",
+              "span_quote": "Before that, there was WMAP",
+              "evidentiary_state": "Observed"
+            }
+          },
+          {
+            "type": "EVIDENCE",
+            "name": "COBE",
+            "attributes": {
+              "subtype": "sensor",
+              "category": "C",
+              "description": "Spacecraft that made the first measurement of the temperature of the sky and its fluctuations.",
+              "span_quote": "COBE made the first measurement of the temperature of the sky and those fluctuations.",
+              "evidentiary_state": "Observed"
+            }
+          },
+          {
+            "type": "EVENT",
+            "name": "Big Bang",
+            "attributes": {
+              "description": "The beginning of the universe, when quantum fluctuations occurred.",
+              "span_quote": "at the very beginning of the universe just after the Big Bang there were fluctuations which are quantum in nature.",
+              "evidentiary_state": "Corroborated"
+            }
+          },
+          {
+            "type": "LOCATION",
+            "name": "Surface of last scattering",
+            "attributes": {
+              "description": "The surface from which the cosmic microwave background originates.",
+              "span_quote": "This surface is the origin of the cosmic microwave background",
+              "evidentiary_state": "Observed"
+            }
+          },
+          {
+            "type": "TOPIC",
+            "name": "Quantum fluctuations",
+            "attributes": {
+              "description": "Quantum statistical fluctuations at the beginning of the universe that seeded the cosmic microwave background temperature variations.",
+              "span_quote": "these are based on fact in fact from quantum fluctuations at the very beginning of the universe.",
+              "evidentiary_state": "Corroborated"
+            }
+          }
+        ],
+        "relationships": [
+          {
+            "source": "COBE",
+            "target": "Cosmic Microwave Background",
+            "type": "Evidential",
+            "confidence": 0.9,
+            "attributes": {
+              "description": "COBE measured the temperature and fluctuations of the CMB."
+            }
+          },
+          {
+            "source": "WMAP",
+            "target": "Cosmic Microwave Background",
+            "type": "Evidential",
+            "confidence": 0.9,
+            "attributes": {
+              "description": "WMAP measured the CMB after COBE."
+            }
+          },
+          {
+            "source": "Planck",
+            "target": "Cosmic Microwave Background",
+            "type": "Evidential",
+            "confidence": 0.9,
+            "attributes": {
+              "description": "Planck measured the CMB after WMAP."
+            }
+          },
+          {
+            "source": "Quantum fluctuations",
+            "target": "Big Bang",
+            "type": "Temporal",
+            "confidence": 0.8,
+            "attributes": {
+              "description": "Quantum fluctuations occurred just after the Big Bang."
+            }
+          },
+          {
+            "source": "Cosmic Microwave Background",
+            "target": "Surface of last scattering",
+            "type": "Spatial",
+            "confidence": 0.9,
+            "attributes": {
+              "description": "The CMB originates from the surface of last scattering."
+            }
+          }
+        ],
+        "analysis_summary": {
+          "investigation_priority": "Low",
+          "notes": "Source discusses established cosmology, not UFO/UAP phenomena. Entities are scientific evidence and events. No personnel or organizations mentioned. No credibility assessments needed."
+        }
+      },
+      "validation": {
+        "verdict": "pass_with_warnings",
+        "issues": [
+          {
+            "severity": "low",
+            "code": "overclaim_language",
+            "message": "The description for 'Quantum fluctuations' states 'seeded the cosmic microwave background temperature variations' which is an interpretation not explicitly stated in the source excerpt.",
+            "fix": "Rephrase to 'associated with the cosmic microwave background temperature variations' or add a qualifier like 'according to the source'."
+          },
+          {
+            "severity": "low",
+            "code": "missing_provenance",
+            "message": "The 'analysis_summary' lacks a 'confidence' field, which is required for completeness.",
+            "fix": "Add a 'confidence' field to 'analysis_summary' with a value between 0 and 1."
+          }
+        ],
+        "safe_for_rag_index": true,
+        "safe_for_db_write": true
+      }
+    },
+    {
+      "chunk_id": "c04",
+      "ner": {
+        "entities": [
+          {
+            "type": "PERSONNEL",
+            "name": "Rajendra Gupta",
+            "aliases": [],
+            "role": "researcher",
+            "credibility_tier": 7,
+            "span_quote": "Rajendra Gupta of the University of Ottawa, in a study published in the Monthly Notices of the Royal Astronomical Society, suggests a much older age of 26.7 billion years.",
+            "evidentiary_state": "Corroborated"
+          },
+          {
+            "type": "ORGANIZATION",
+            "name": "University of Ottawa",
+            "aliases": [],
+            "category": "academic",
+            "span_quote": "Rajendra Gupta of the University of Ottawa",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "type": "ORGANIZATION",
+            "name": "Monthly Notices of the Royal Astronomical Society",
+            "aliases": [],
+            "category": "academic",
+            "span_quote": "a study published in the Monthly Notices of the Royal Astronomical Society",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "type": "ORGANIZATION",
+            "name": "James Webb Space Telescope",
+            "aliases": [
+              "JWST"
+            ],
+            "category": "government",
+            "span_quote": "observations of early mature galaxies by the James Webb Space Telescope",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "type": "EVIDENCE",
+            "name": "JWST observations of early mature galaxies",
+            "aliases": [],
+            "subtype": "sensor",
+            "category": "C",
+            "span_quote": "observations of early mature galaxies by the James Webb Space Telescope, which seems to contradict the standard age of the universe",
+            "evidentiary_state": "Corroborated"
+          },
+          {
+            "type": "EVENT",
+            "name": "2023 debate on universe age",
+            "aliases": [],
+            "date": "2023",
+            "span_quote": "back in 2023... about whether or not the universe was around 13 billion years old versus 26 billion?",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "type": "TOPIC",
+            "name": "Age of the universe",
+            "aliases": [],
+            "span_quote": "whether or not the universe was around 13 billion years old versus 26 billion",
+            "evidentiary_state": "Observed"
+          }
+        ],
+        "relationships": [
+          {
+            "source": "Rajendra Gupta",
+            "target": "University of Ottawa",
+            "type": "Attributional",
+            "confidence": 0.95,
+            "span_quote": "Rajendra Gupta of the University of Ottawa"
+          },
+          {
+            "source": "Rajendra Gupta",
+            "target": "Monthly Notices of the Royal Astronomical Society",
+            "type": "Attributional",
+            "confidence": 0.95,
+            "span_quote": "a study published in the Monthly Notices of the Royal Astronomical Society"
+          },
+          {
+            "source": "JWST observations of early mature galaxies",
+            "target": "James Webb Space Telescope",
+            "type": "Evidential",
+            "confidence": 0.95,
+            "span_quote": "observations of early mature galaxies by the James Webb Space Telescope"
+          },
+          {
+            "source": "JWST observations of early mature galaxies",
+            "target": "2023 debate on universe age",
+            "type": "Evidential",
+            "confidence": 0.8,
+            "span_quote": "observations of early mature galaxies by the James Webb Space Telescope, which seems to contradict the standard age of the universe"
+          }
+        ],
+        "analysis_summary": {
+          "investigation_priority": "Medium",
+          "notes": "The source discusses a scientific debate about the age of the universe, referencing a specific study by Rajendra Gupta. The evidence is based on JWST observations, which are sensor data. The credibility of the researcher is inferred from institutional affiliation and publication in a peer-reviewed journal. The debate is ongoing, and the explanation for the observations is not resolved."
+        }
+      },
+      "validation": {
+        "verdict": "pass_with_warnings",
+        "issues": [
+          {
+            "severity": "medium",
+            "code": "OVERCLAIM",
+            "message": "The entity 'JWST observations of early mature galaxies' is marked as 'Corroborated', but the source only states that these observations 'seem to contradict' the standard age, and the speaker explicitly says 'I don't know' regarding the explanation. This is not corroborated evidence.",
+            "fix": "Change evidentiary_state to 'Observed' or 'Inferred' and adjust the analysis summary to reflect uncertainty."
+          },
+          {
+            "severity": "medium",
+            "code": "OVERCLAIM",
+            "message": "The relationship between 'JWST observations of early mature galaxies' and '2023 debate on universe age' is marked as 'Evidential' with confidence 0.8, but the source does not explicitly link the observations to the 2023 debate; it only mentions the debate and then separately discusses the observations. This relationship is speculative.",
+            "fix": "Either remove this relationship or lower confidence and mark as 'Inferred' with a note."
+          },
+          {
+            "severity": "low",
+            "code": "INFERENCE_AS_FACT",
+            "message": "The credibility_tier of 7 for Rajendra Gupta is inferred from institutional affiliation and publication, but the source does not provide explicit credibility information. This is an inference, not a direct observation.",
+            "fix": "Add a note in the analysis summary that credibility is inferred, or lower the tier to reflect uncertainty."
+          }
+        ],
+        "safe_for_rag_index": true,
+        "safe_for_db_write": true
+      }
+    },
+    {
+      "chunk_id": "c05",
+      "ner": {
+        "entities": [],
+        "analysis_summary": {
+          "investigation_priority": "None",
+          "notes": "The source text is a philosophical statement about the nature of the universe and purpose, containing no named entities, events, organizations, evidence, or locations. It expresses a personal belief in physics and the absence of purpose, but does not assert any factual claims about UFOs, UAPs, or disclosure. No entities are extractable per the epistemic rules."
+        }
+      },
+      "validation": {
+        "verdict": "pass",
+        "issues": [],
+        "safe_for_rag_index": true,
+        "safe_for_db_write": true
+      }
+    }
+  ],
+  "embeddable_texts": [
+    "But in fact, those are speculations. If you ask me, I would say we have no evidence of anything at all. All we know is that um things get very complicated. But assuming that you can trust your theory and then start to bridge it to something else, would in itself require some um some type of energy which is unlike anything that we know of and which typically very, very unstable. So if you want to have those kind of bridges, you you need them to stabilize us with some kind of energy and that we don't know how to do. ... So this is why it's so, so cool that um there are these theories that are equivalent to other things. And so that's why it's so cool that if for instance you have black holes which are gravitational things and yet they're completely equivalent to a projection um on a surface which has no gravity. And instead, they behave more like um not necessarily condensed matter system, but but more like other materials in extreme conditions, but other things that we can have more control over.",
+    "So, when universe was really really young, it was very hot, very dense, and rather than being beautiful as it is now, it was more like a a soup of fundamental particles all mixed in together. And so, if you imagine you are a photon and you're trying to travel, you're not going to go very far because you're going to be bumping onto lots of people, lots of electrons for instance. But as the universe cooled down, it relaxed a little bit, it became not as hot, and the electrons got trapped around nuclei, and so those created neutral structure. And when that happened, the photons could all of a sudden go freely. ... you can Google the the surface of last scattering. And you can look at the surface and then you see how the universe looked like at the time. It's like looking at the surface of the cloud, but only what you're looking at inside the universe looked like when it was very, very young. ... The surface of last scattering is the point in the early universe approximately 380,000 years after the Big Bang when photons became free streaming after decoupling from matter marking the transition from an opaque to a transparent universe.",
+    "This surface is the origin of the cosmic microwave background, which is what we observe today as the faint microwave radiation permeating the universe. ... In what we can see is that the surface the temperature of the sky on that surface is exactly the same wherever we look within one part in 100,000. ... these are based on fact in fact from quantum fluctuations at the very beginning of the universe. So, at the very beginning of the universe just after the Big Bang there were fluctuations which are quantum in nature. They're just popping in and out and satisfy some statistics which are not the same kind of the statistics we know classically. They're quantum statistics. ... This is from Planck. Before that, there was WMAP, and before that, there was COBE at the end of the last century, I guess. COBE made the first measurement of the temperature of the sky and those fluctuations.",
+    "Now, wasn't there an argument... back in 2023... about whether or not the universe was around 13 billion years old versus 26 billion? ... typically nowadays we say it's 13.8 billion, something like that. ... Rajendra Gupta of the University of Ottawa, in a study published in the Monthly Notices of the Royal Astronomical Society, suggests a much older age of 26.7 billion years. This proposal is based on observations of early mature galaxies by the James Webb Space Telescope, which seems to contradict the standard age of the universe. ... So, what does make sense is indeed there's been observations of formation of galaxies much earlier than we would have anticipated. ... whether the explanation is that the universe is much older or anything else, I don't know.",
+    "I believe in physics. So I believe that something something must have happened. ... the curious question is it's much more natural than nothing was there. ... I don't need to have something with its own intelligence or its own being to explain the creation of the universe. ... I certainly don't think there's any purpose. There's no purpose of of us being there. ... I do I do think we are just a random anomaly. We know us as as individual, we're just we're just an accident. ... No, I don't I don't think I've been I as a human or the earth or the galaxy or the universe has been created with a purpose. Uh but that's why us as human we like to give ourselves purpose. And my purpose my self-inflicted purpose is to try to understand where we come from, try to make sense of all of this."
+  ],
+  "metadata": {
+    "provenance": "https://www.youtube.com/watch?v=4N_DcI0s_-U",
+    "filename_hint": "Gravity Physicist on DARPA Anti-Gravity, Dark Energy, & God | Claudia de Rham",
+    "prompts_dir": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/ai/prompts",
+    "content_type": "media",
+    "ingestion_recommendation": "proceed",
+    "priority": "MEDIUM",
+    "chunk_count": 5,
+    "embeddable_count": 5,
+    "ner_chunk_count": 5,
+    "prompts_used": [
+      "disclosure.content_analysis",
+      "disclosure.ner",
+      "document_classification",
+      "rag_ingestion",
+      "validation"
+    ],
+    "tiers_used": [
+      "deepseek/deepseek-v4-pro",
+      "google/gemini-3-flash"
+    ],
+    "degraded": true,
+    "schema_unenforced_prompts": [],
+    "repaired_prompts": [],
+    "repair_attempted_prompts": []
+  },
+  "errors": [],
+  "prompts_used": [
+    "document_classification",
+    "disclosure.content_analysis",
+    "rag_ingestion",
+    "disclosure.ner",
+    "validation",
+    "disclosure.ner",
+    "validation",
+    "disclosure.ner",
+    "validation",
+    "disclosure.ner",
+    "validation",
+    "disclosure.ner",
+    "validation"
+  ]
+}

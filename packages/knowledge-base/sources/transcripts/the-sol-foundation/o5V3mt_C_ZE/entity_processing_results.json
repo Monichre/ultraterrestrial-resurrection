@@ -1,0 +1,110 @@
+{
+  "status": "completed",
+  "video_id": "o5V3mt_C_ZE",
+  "summary_file": "/Users/liamellis/Desktop/ultraterrestrial-resurrection/packages/knowledge-base/transcripts/2025-07-09/o5V3mt_C_ZE/jimSemivanCiaVeteranOnUapDisclosureSecrecyNonHumanIntelligenceTheSolForum2Summary.txt",
+  "entities": {
+    "topics": [
+      "UAP Disclosure"
+    ],
+    "personnel": [
+      "Jim Semivan"
+    ],
+    "events": [],
+    "organizations": [
+      "CIA"
+    ],
+    "locations": [],
+    "technologies": [],
+    "dates": [],
+    "artifacts": [],
+    "sightings": []
+  },
+  "xata_search_results": {
+    "topics": [
+      {
+        "entity_name": "UAP Disclosure",
+        "status": "found",
+        "xata_record": {
+          "id": "rec_cobdet25ojbselbdqrrg",
+          "name": "Government UFO Disclosure",
+          "photos": [],
+          "xata": {
+            "createdAt": "2024-04-10T18:16:19.922Z",
+            "highlight": {
+              "name": [
+                "Government UFO <em>Disclosure</em>"
+              ]
+            },
+            "score": 4.413172,
+            "table": "topics",
+            "updatedAt": "2024-04-10T18:16:19.922Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_cobdet25ojbselbdqrrg",
+        "table": "topics"
+      }
+    ],
+    "personnel": [
+      {
+        "entity_name": "Jim Semivan",
+        "status": "found",
+        "xata_record": {
+          "bio": "Jim Semivan is a former Central Intelligence Agency (CIA) officer who retired in 2007 after a 25-year career in the agency's National Clandestine Service[1]. Since his retirement, Semivan has become known for his involvement in UFO-related research and organizations.\n\nSemivan is a co-founder of To The Stars Academy of Arts and Sciences, an organization that researches UFOs and other unexplained phenomena[4]. In this capacity, he has made some controversial claims about unidentified aerial phenomena (UAPs). For instance, Semivan has stated that some of the recently observed UAPs are not of Chinese, Russian, or American origin, but rather represent non-human technology[2].\n\nIn the UFO research community, Semivan is considered a credible voice due to his background in intelligence. He has been featured in documentaries and interviews discussing UAPs and their potential implications. For example, he appeared in the documentary \"The Phenomenon,\" which explores the global mystery surrounding unidentified aerial phenomena. Semivan called it \"the most important documentary of the year\" regarding the subject[3].\n\nSemivan's statements about UAPs have garnered attention, with him describing the UFO phenomenon as \"the story of the millennium\" that will \"reorder our consensus reality\"[4]. However, it's important to note that while Semivan's CIA background lends weight to his opinions, his claims about non-human technology remain controversial and unverified by mainstream scientific consensus.\nJim Semivan's 25-year career in the CIA's National Clandestine Service has significantly influenced his views on Unidentified Aerial Phenomena (UAPs). His background in intelligence operations has lent credibility to his statements about UAPs in the eyes of many researchers and enthusiasts in the field.\n\nSemivan's CIA experience appears to have shaped his approach to UAP research in several ways:\n\n1. Emphasis on data collection and analysis: As a former intelligence officer, Semivan understands the importance of gathering and analyzing data. He has discussed the challenges of collecting and verifying UFO data due to the subjective nature of encounters, highlighting the need for researchers to be in the field[2].\n\n2. Credibility and disclosure: Semivan's CIA background has made him a prominent voice in the UFO research community. He stresses the importance of honest disclosure about UAPs and considers the potential psychological impact of such information on the public[2].\n\n3. Non-conventional thinking: His intelligence background seems to have made Semivan more open to unconventional explanations for UAPs. He has stated that some recently observed UAPs represent non-human technology, rather than being of Chinese, Russian, or American origin[4].\n\n4. Security implications: Given his intelligence background, Semivan likely considers the potential national security implications of UAPs, which may influence his perspective on the phenomenon.\n\n5. Organizational approach: After retiring from the CIA, Semivan co-founded To The Stars Academy of Arts and Sciences, an organization dedicated to researching UFOs and other unexplained phenomena[5]. This reflects his application of organizational skills and resources to the study of UAPs.\n\n6. Cautious analysis: His intelligence training appears to have instilled a sense of caution in Semivan. He emphasizes the need to understand the phenomenon before attempting any relationship with it, highlighting the potential risks involved[2].\n\nIt's important to note that while Semivan's CIA background adds weight to his opinions in some circles, his claims about non-human technology and other UAP-related statements remain controversial and are not universally accepted by the scientific community.\n",
+          "id": "rec_cqff5k20hn8didc5u610",
+          "name": "Jim Semivan",
+          "photo": [
+            {
+              "id": "jkouo4pi714f78vjbmht9m476s",
+              "name": "1651437900754.jpeg",
+              "mediaType": "image/jpeg",
+              "enablePublicUrl": true,
+              "signedUrlTimeout": 600,
+              "uploadUrlTimeout": 86400,
+              "size": 0,
+              "version": 0,
+              "url": "https://us-east-1.storage.xata.sh/0ktb39tqb924h96g324qoc1aeg",
+              "signedUrl": "https://us-east-1.xata.sh/file/09lmetb2epotpthijj10kg84i1ui0479u7iegpprdulbln6c5nqri6vu01j9tsmg826t1m9lgnoo419qm6jrkmi492id0649lgo2kt2pdtj0ulcsqmhk384e4bs044or1u5mtu02c3gei0ru0kn2k046ug?verify=fcfmuq0000001g1d5il2723bnec0d2ci8okqcnnhi0ieg2ubpac3tbjr707gltid",
+              "uploadUrl": "https://kgubvq.us-east-1.upload.xata.sh/file/0dlmetb2epotpthijj10kg84i1ui0479u7iegpprdulbln6c5nqri6vu01j9tsmg826t1m9lgnoo4pkuub8413egr4qobsc3u41c4tdi017b0uku87q200m5l7kpchot6mj8uoqmpinosj5ph4mg?verify=kdn70q00000013fl8b71ribbra0kbtjpnk81bsbdse6kskebhctqgf7aj5sot4am",
+              "attributes": {
+                "height": 200,
+                "width": 200
+              }
+            }
+          ],
+          "role": "Former CIA Officer, Co-Founder of To The Stars Academy of Arts and Sciences",
+          "xata": {
+            "createdAt": "2024-07-23T00:01:21.028Z",
+            "highlight": {
+              "name": [
+                "<em>Jim</em> <em>Semivan</em>"
+              ]
+            },
+            "score": 10.932501,
+            "table": "personnel",
+            "updatedAt": "2024-07-23T00:01:21.028Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_cqff5k20hn8didc5u610",
+        "table": "personnel"
+      }
+    ],
+    "events": [],
+    "organizations": [
+      {
+        "entity_name": "CIA",
+        "status": "not_found",
+        "table": "organizations",
+        "action_needed": "create_new"
+      }
+    ],
+    "locations": [],
+    "technologies": [],
+    "dates": [],
+    "artifacts": [],
+    "sightings": []
+  },
+  "total_entities": 3,
+  "total_matches": 3
+}

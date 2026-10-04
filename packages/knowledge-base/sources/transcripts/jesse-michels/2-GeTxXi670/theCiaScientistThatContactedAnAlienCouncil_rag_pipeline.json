@@ -1,0 +1,44 @@
+{
+  "status": "error",
+  "classification": {
+    "content_type": "mixed",
+    "primary_record_hints": [
+      "KeyFigure",
+      "Organization",
+      "Topic"
+    ],
+    "hynek_scaffold": null,
+    "classification_marks_detected": [
+      "CIA",
+      "MK Ultra",
+      "remote viewing",
+      "channeling",
+      "extrasensory perception",
+      "Egyptian gods",
+      "alien intelligence"
+    ],
+    "language": "English",
+    "ocr_quality": "n/a",
+    "sensitivity": "public",
+    "ingestion_recommendation": "proceed",
+    "rationale": "The transcript is a media interview covering historical and conspiratorial topics related to Andrija Puharich, mixing government programs, fringe science, and witness accounts. No classification or custody concerns are evident; appropriate for standard ingestion.",
+    "confidence": 0.85
+  },
+  "analysis": {},
+  "ingestion": {},
+  "chunks": [],
+  "ner_results": [],
+  "embeddable_texts": [],
+  "metadata": {
+    "provenance": "https://www.youtube.com/watch?v=2-GeTxXi670",
+    "filename_hint": "The CIA Scientist That Contacted an Alien Council",
+    "prompts_dir": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/ai/prompts"
+  },
+  "errors": [
+    "Unterminated string starting at: line 8 column 7 (char 527)"
+  ],
+  "prompts_used": [
+    "document_classification",
+    "disclosure.content_analysis"
+  ]
+}

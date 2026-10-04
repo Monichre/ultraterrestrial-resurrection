@@ -1,0 +1,477 @@
+.utdb-root {
+  --paper-bg: #eaeae4;
+  --graphite-dark: #1d1e1c;
+  --graphite-med: #5a5b57;
+  --graphite-light: rgba(29, 30, 28, 0.15);
+  --graphite-faint: rgba(29, 30, 28, 0.05);
+  --amber: #c15c1d;
+  --amber-faint: rgba(193, 92, 29, 0.3);
+  --shadow-hard: 5px 10px 15px rgba(15, 20, 25, 0.15);
+  --blue-black-shadow: rgba(15, 25, 35, 0.08);
+
+  position: relative;
+  width: 100%;
+  min-height: 100%;
+  background-color: var(--paper-bg);
+  background-image:
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.4) 0%, rgba(0, 0, 0, 0.05) 100%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+  overflow: hidden;
+  font-family: 'Space Mono', ui-monospace, monospace;
+  color: var(--graphite-dark);
+}
+
+.utdb-root * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.utdb-drafting-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.utdb-line-faint {
+  stroke: var(--graphite-faint);
+  stroke-width: 1px;
+  fill: none;
+}
+
+.utdb-line-light {
+  stroke: var(--graphite-light);
+  stroke-width: 1px;
+  fill: none;
+}
+
+.utdb-line-med {
+  stroke: var(--graphite-med);
+  stroke-width: 1px;
+  fill: none;
+}
+
+.utdb-line-dashed {
+  stroke: var(--graphite-light);
+  stroke-width: 1px;
+  stroke-dasharray: 4 4;
+  fill: none;
+}
+
+.utdb-line-amber-dashed {
+  stroke: var(--amber);
+  stroke-width: 1px;
+  stroke-dasharray: 2 4;
+  fill: none;
+}
+
+.utdb-tick-mark {
+  stroke: var(--graphite-med);
+  stroke-width: 1px;
+}
+
+.utdb-workspace {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+}
+
+.utdb-composition-area {
+  position: relative;
+  width: min(1000px, 100%);
+  height: 600px;
+}
+
+.utdb-title-group {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 10;
+}
+
+.utdb-wordmark {
+  font-family: 'Cormorant Garamond', ui-serif, Georgia, serif;
+  font-weight: 300;
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  line-height: 0.9;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--graphite-dark);
+  position: relative;
+}
+
+.utdb-wordmark span {
+  display: block;
+}
+
+.utdb-wordmark-sub {
+  font-size: clamp(2.5rem, 7vw, 4.8rem);
+  margin-left: 2rem;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.utdb-cal-mark {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+}
+
+.utdb-cal-mark::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--amber);
+}
+
+.utdb-cal-mark::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 1px;
+  height: 100%;
+  background: var(--amber);
+}
+
+.utdb-cal-mark--tl {
+  top: -10px;
+  left: -20px;
+}
+
+.utdb-cal-mark--br {
+  bottom: 20px;
+  right: -30px;
+}
+
+.utdb-annotation {
+  position: absolute;
+  font-family: 'Space Mono', ui-monospace, monospace;
+  font-size: 10px;
+  color: var(--graphite-med);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  line-height: 1.4;
+  white-space: nowrap;
+  z-index: 15;
+}
+
+.utdb-anno-handwritten {
+  position: absolute;
+  font-family: 'Caveat', cursive;
+  font-size: 20px;
+  color: var(--graphite-dark);
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+  z-index: 16;
+  text-transform: none;
+}
+
+.utdb-amber-text {
+  color: var(--amber);
+}
+
+.utdb-bold-tech {
+  font-weight: 700;
+  color: var(--graphite-dark);
+}
+
+.utdb-a-scale {
+  top: 40px;
+  left: 60px;
+}
+
+.utdb-a-orient {
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.utdb-a-vert {
+  top: 150px;
+  left: 80px;
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
+  letter-spacing: 0.2em;
+}
+
+.utdb-h-trace {
+  top: 120px;
+  left: 250px;
+  transform: rotate(-3deg);
+}
+
+.utdb-h-motif {
+  bottom: 180px;
+  right: 200px;
+  transform: rotate(2deg);
+}
+
+.utdb-h-rigor {
+  bottom: 80px;
+  right: 120px;
+  transform: rotate(-5deg);
+  font-size: 24px;
+}
+
+.utdb-t-pressure {
+  top: 220px;
+  right: 80px;
+  text-align: right;
+}
+
+.utdb-t-ambig {
+  top: 80px;
+  right: 100px;
+  border-bottom: 1px solid var(--amber);
+  padding-bottom: 2px;
+}
+
+.utdb-tools-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+  overflow: hidden;
+}
+
+.utdb-redaction-marker {
+  position: absolute;
+  bottom: -80px;
+  left: 5vw;
+  width: 35px;
+  height: 400px;
+  background: linear-gradient(to right, #111 0%, #2a2a2a 20%, #0a0a0a 60%, #1a1a1a 100%);
+  border-radius: 4px;
+  transform: rotate(18deg);
+  box-shadow:
+    15px -10px 25px var(--blue-black-shadow),
+    inset -3px 0 10px rgba(0, 0, 0, 0.8);
+}
+
+.utdb-redaction-cap {
+  position: absolute;
+  top: 0;
+  left: -2px;
+  width: 39px;
+  height: 80px;
+  background: linear-gradient(to right, #222, #333, #111);
+  border-radius: 4px 4px 0 0;
+  border-bottom: 2px solid #000;
+}
+
+.utdb-marker-label {
+  position: absolute;
+  bottom: 120px;
+  left: 50%;
+  transform: translateX(-50%) rotate(90deg);
+  color: rgba(255, 255, 255, 0.3);
+  font-family: sans-serif;
+  font-size: 8px;
+  letter-spacing: 2px;
+  white-space: nowrap;
+}
+
+.utdb-compass-leg {
+  position: absolute;
+  top: -50px;
+  right: 15vw;
+  width: 8px;
+  height: 300px;
+  background: linear-gradient(to right, #a0a0a0, #f0f0f0, #808080);
+  transform: rotate(-35deg);
+  box-shadow: -10px 15px 20px var(--blue-black-shadow);
+  border-radius: 4px;
+}
+
+.utdb-compass-hinge {
+  position: absolute;
+  top: -20px;
+  left: -10px;
+  width: 28px;
+  height: 40px;
+  background: linear-gradient(to right, #777, #bbb, #555);
+  border-radius: 4px;
+}
+
+.utdb-compass-point {
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 25px;
+  background: #444;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+
+.utdb-ruler {
+  position: absolute;
+  bottom: 15vh;
+  right: -5vw;
+  width: 500px;
+  height: 45px;
+  background: rgba(240, 240, 235, 0.4);
+  backdrop-filter: blur(2px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  transform: rotate(-12deg);
+  box-shadow:
+    -5px 15px 25px rgba(0, 0, 0, 0.03),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  display: flex;
+  padding-top: 2px;
+}
+
+.utdb-ruler-marks {
+  width: 100%;
+  height: 15px;
+  background-image:
+    repeating-linear-gradient(
+      to right,
+      var(--graphite-light) 0,
+      var(--graphite-light) 1px,
+      transparent 1px,
+      transparent 10px
+    ),
+    repeating-linear-gradient(
+      to right,
+      var(--graphite-med) 0,
+      var(--graphite-med) 1px,
+      transparent 1px,
+      transparent 50px
+    );
+  background-size:
+    10px 5px,
+    50px 10px;
+  background-repeat: repeat-x;
+  background-position: left top;
+  opacity: 0.6;
+}
+
+.utdb-fragment {
+  position: absolute;
+  top: 8vh;
+  left: 8vw;
+  width: 180px;
+  height: 220px;
+  background: #e5e4de;
+  transform: rotate(4deg);
+  box-shadow: var(--shadow-hard);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.utdb-fragment::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle at 30% 70%, transparent 20%, rgba(0, 0, 0, 0.03) 100%);
+}
+
+.utdb-tape {
+  position: absolute;
+  top: 6vh;
+  left: 12vw;
+  width: 80px;
+  height: 25px;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(1px);
+  transform: rotate(-15deg);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 21;
+}
+
+.utdb-correction-block {
+  position: absolute;
+  background: var(--amber-faint);
+  mix-blend-mode: multiply;
+}
+
+.utdb-correction-block--pressure {
+  top: 250px;
+  right: 75px;
+  width: 140px;
+  height: 12px;
+}
+
+.utdb-correction-block--orient {
+  bottom: 35px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 160px;
+  height: 14px;
+  opacity: 0.5;
+}
+
+.utdb-overlay-circle {
+  position: absolute;
+  bottom: 250px;
+  right: 350px;
+  width: 200px;
+  height: 200px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.utdb-overlay-reticle {
+  position: absolute;
+  top: 150px;
+  left: calc(50% + 200px);
+  width: 40px;
+  height: 40px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.utdb-overlay-curve {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 600px;
+  height: 200px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.utdb-overlay-ticks {
+  position: absolute;
+  bottom: 5vh;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.utdb-fragment-label {
+  bottom: 10px;
+  right: 10px;
+}
+
+.utdb-muted {
+  color: var(--graphite-light);
+}
+
+.utdb-trace-arrow {
+  position: absolute;
+  top: 20px;
+  left: 120px;
+  overflow: visible;
+}

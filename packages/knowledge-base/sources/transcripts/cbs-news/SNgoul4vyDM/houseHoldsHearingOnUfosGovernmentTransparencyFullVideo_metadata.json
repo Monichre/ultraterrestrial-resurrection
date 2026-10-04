@@ -1,0 +1,41 @@
+{
+  "title": "House holds hearing on UFOs, government transparency | full video",
+  "url": "https://www.youtube.com/watch?v=SNgoul4vyDM",
+  "id": "SNgoul4vyDM",
+  "channel_id": "UC8p1vwvWtl6T73JiExfWs1g",
+  "channel_title": "CBS News",
+  "published_at": "2023-07-26T16:34:37Z",
+  "categories": [],
+  "tags": [],
+  "description": "",
+  "chapters": [],
+  "transcript_segment_count": 3750,
+  "rag_pipeline": {
+    "status": "ok",
+    "embeddable_count": 6,
+    "prompts_used": [
+      "disclosure.content_analysis",
+      "disclosure.ner",
+      "document_classification",
+      "rag_ingestion",
+      "validation"
+    ],
+    "errors": [
+      "ner:c01:disclosure.ner: JSON unparseable after one repair retry (Unterminated string starting at: line 148 column 7 (char 4442)); raw response was 4445 chars",
+      "ner:c02:disclosure.ner: JSON unparseable after one repair retry (Unterminated string starting at: line 124 column 7 (char 4390)); raw response was 4391 chars",
+      "ner:c03:disclosure.ner: JSON unparseable after one repair retry (Unterminated string starting at: line 135 column 28 (char 4445)); raw response was 4449 chars",
+      "ner:c04:disclosure.ner: JSON unparseable after one repair retry (Unterminated string starting at: line 114 column 7 (char 4797)); raw response was 4803 chars",
+      "ner:c05:disclosure.ner: JSON unparseable after one repair retry (Unterminated string starting at: line 121 column 15 (char 4685)); raw response was 4690 chars"
+    ]
+  },
+  "trace_map": {
+    "json_path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/sources/transcripts/cbs-news/SNgoul4vyDM/houseHoldsHearingOnUfosGovernmentTransparencyFullVideo_trace_map.json",
+    "md_path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/sources/transcripts/cbs-news/SNgoul4vyDM/houseHoldsHearingOnUfosGovernmentTransparencyFullVideo_trace_map.md",
+    "node_count": 34,
+    "edge_count": 60,
+    "coverage_fraction": 0.1828,
+    "valid": true,
+    "error_count": 0,
+    "gap_count": 7
+  }
+}

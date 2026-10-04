@@ -1,0 +1,166 @@
+{
+  "status": "completed",
+  "video_id": "B7y3qcgSRY8",
+  "summary_file": "/Users/liamellis/Desktop/ultraterrestrial-resurrection/packages/knowledge-base/transcripts/2025-08-31/B7y3qcgSRY8/joeRoganExperience2372GarryNolanSummary.txt",
+  "entities": {
+    "topics": [
+      "UFO/UAP Materials Analysis",
+      "Government Programs & Disclosure",
+      "Scientific Methodology",
+      "AI & Future Technology"
+    ],
+    "personnel": [
+      "Dr. Garry Nolan",
+      "Joe Rogan"
+    ],
+    "events": [
+      "Ubatuba UFO Case (1957)"
+    ],
+    "organizations": [
+      "Stanford University",
+      "Department of Defense"
+    ],
+    "locations": [
+      "Ubatuba, Brazil"
+    ],
+    "artifacts": [
+      "Ubatuba UFO Metal Fragments"
+    ],
+    "sightings": [
+      ""
+    ]
+  },
+  "xata_search_results": {
+    "topics": [
+      {
+        "entity_name": "UFO/UAP Materials Analysis",
+        "status": "error",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": null,
+        "error": "'XataClient' object has no attribute 'search_records'"
+      },
+      {
+        "entity_name": "Government Programs & Disclosure",
+        "status": "error",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": null,
+        "error": "'XataClient' object has no attribute 'search_records'"
+      },
+      {
+        "entity_name": "Scientific Methodology",
+        "status": "error",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": null,
+        "error": "'XataClient' object has no attribute 'search_records'"
+      },
+      {
+        "entity_name": "AI & Future Technology",
+        "status": "error",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": null,
+        "error": "'XataClient' object has no attribute 'search_records'"
+      }
+    ],
+    "personnel": [
+      {
+        "entity_name": "Dr. Garry Nolan",
+        "status": "error",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "personnel",
+        "action_needed": null,
+        "error": "'XataClient' object has no attribute 'search_records'"
+      },
+      {
+        "entity_name": "Joe Rogan",
+        "status": "error",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "personnel",
+        "action_needed": null,
+        "error": "'XataClient' object has no attribute 'search_records'"
+      }
+    ],
+    "events": [
+      {
+        "entity_name": "Ubatuba UFO Case (1957)",
+        "status": "error",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "events",
+        "action_needed": null,
+        "error": "'XataClient' object has no attribute 'search_records'"
+      }
+    ],
+    "organizations": [
+      {
+        "entity_name": "Stanford University",
+        "status": "error",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": null,
+        "error": "'XataClient' object has no attribute 'search_records'"
+      },
+      {
+        "entity_name": "Department of Defense",
+        "status": "error",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": null,
+        "error": "'XataClient' object has no attribute 'search_records'"
+      }
+    ],
+    "locations": [
+      {
+        "entity_name": "Ubatuba, Brazil",
+        "status": "error",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "locations",
+        "action_needed": null,
+        "error": "'XataClient' object has no attribute 'search_records'"
+      }
+    ],
+    "artifacts": [
+      {
+        "entity_name": "Ubatuba UFO Metal Fragments",
+        "status": "error",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "artifacts",
+        "action_needed": null,
+        "error": "'XataClient' object has no attribute 'search_records'"
+      }
+    ],
+    "sightings": [
+      {
+        "entity_name": "",
+        "status": "error",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "sightings",
+        "action_needed": null,
+        "error": "'XataClient' object has no attribute 'search_records'"
+      }
+    ]
+  },
+  "entity_creation_results": {
+    "status": "no_creation_needed",
+    "statistics": {
+      "total_created": 0
+    }
+  },
+  "total_entities": 12,
+  "total_matches": 12,
+  "total_created": 0
+}

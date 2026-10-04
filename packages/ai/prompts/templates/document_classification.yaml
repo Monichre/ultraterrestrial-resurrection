@@ -1,0 +1,46 @@
+id: document_classification
+version: "1.0.0"
+description: "Pre-NER document triage for UAP source ingestion."
+owner: "ai-platform"
+tags: ["documents", "classification", "rag", "ingestion"]
+schema_ref: null
+runtime:
+  max_tokens: 700
+  temperature: 0.0
+variables:
+  - name: "source_text"
+    type: "string"
+    required: true
+  - name: "filename_hint"
+    type: "string"
+    required: false
+prompt: |-
+  Classify UFO/UAP/Disclosure source material before NER and RAG chunking.
+
+  ## MISSION
+  Return a compact JSON triage decision. Prefer under-confident classification over forced certainty.
+
+  ## OUTPUT JSON
+  {
+    "content_type": "government"|"witness"|"scientific"|"media"|"historical"|"technical"|"mixed"|"unknown",
+    "primary_record_hints": ["Document"|"Testimony"|"Event"|"Sighting"|"KeyFigure"|"Organization"|"Topic"|"Artifact"],
+    "hynek_scaffold": string|null,
+    "classification_marks_detected": string[],
+    "language": string,
+    "ocr_quality": "good"|"fair"|"poor"|"n/a",
+    "sensitivity": "public"|"sensitive"|"unknown",
+    "ingestion_recommendation": "proceed"|"proceed_with_caution"|"hold_for_human_review"|"reject",
+    "rationale": string,
+    "confidence": number
+  }
+
+  ## RULES
+  - content_type drives downstream analysis prompts.
+  - primary_record_hints are guesses for extractors, not database writes.
+  - hynek_scaffold only when observational content is clear (e.g. "radar-visual", "CE2"); else null.
+  - Hold for human review when custody is unknown AND claims are extraordinary.
+
+  Filename hint: {{filename_hint}}
+
+  Source text:
+  {{source_text}}

@@ -1,0 +1,36 @@
+{
+  "title": "Ex-Pentagon Official Confirms Alien Language Exists - Lue Elizondo - DEBRIEFED ep. 24",
+  "url": "https://www.youtube.com/watch?v=WGUb1JKxBDo",
+  "id": "WGUb1JKxBDo",
+  "channel_id": "UCvQ_EDuk8w67a2UkCS1ptbA",
+  "channel_title": "Area52",
+  "published_at": "2025-01-31T17:00:07Z",
+  "categories": [],
+  "tags": [],
+  "description": "",
+  "chapters": [],
+  "transcript_segment_count": 4542,
+  "rag_pipeline": {
+    "status": "ok",
+    "embeddable_count": 1,
+    "prompts_used": [
+      "disclosure.content_analysis",
+      "disclosure.ner",
+      "document_classification",
+      "rag_ingestion"
+    ],
+    "errors": [
+      "ner:c01:disclosure.ner: JSON unparseable after one repair retry (Expecting property name enclosed in double quotes: line 120 column 47 (char 4599)); raw response was 4600 chars"
+    ]
+  },
+  "trace_map": {
+    "json_path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/sources/transcripts/area52/WGUb1JKxBDo/exPentagonOfficialConfirmsAlienLanguageExistsLueElizondoDebriefedEp24_trace_map.json",
+    "md_path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/sources/transcripts/area52/WGUb1JKxBDo/exPentagonOfficialConfirmsAlienLanguageExistsLueElizondoDebriefedEp24_trace_map.md",
+    "node_count": 15,
+    "edge_count": 14,
+    "coverage_fraction": 0.1419,
+    "valid": true,
+    "error_count": 0,
+    "gap_count": 7
+  }
+}

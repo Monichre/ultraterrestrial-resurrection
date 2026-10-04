@@ -1,0 +1,54 @@
+{
+  "status": "error",
+  "classification": {
+    "content_type": "mixed",
+    "primary_record_hints": [
+      "Testimony",
+      "KeyFigure",
+      "Organization",
+      "Sighting",
+      "Topic"
+    ],
+    "hynek_scaffold": null,
+    "classification_marks_detected": [
+      "flying saucer",
+      "anti-gravity",
+      "electrogravitics",
+      "UFO",
+      "Bermuda Triangle"
+    ],
+    "language": "en",
+    "ocr_quality": "n/a",
+    "sensitivity": "public",
+    "ingestion_recommendation": "proceed_with_caution",
+    "rationale": "Podcast transcript interviewing NASA lead electrostatic scientist Dr. Charles Bueller, who claims to have replicated Townsend Brown's antigravity experiments and measured anomalous thrust. References historical figures, classified work, and a witness sighting. Content is public, from a credible media source, but claims are extraordinary and unverified; proceed with caution to allow downstream checks.",
+    "confidence": 0.9
+  },
+  "analysis": {
+    "_raw_list": [
+      "When we see about 0.1 g, that corresponds to about 1 mN of thrust.",
+      "I take those lifters and I put them in a plastic box and put on a scale. You turn it on, the thing lifts up, and the weight just flatlines. It does not move at all. Still about 200 micronewtons of force still inside.",
+      "We are close to 2,000 variations [of the experiment].",
+      "If you were to apply that to like a satellite in space in a zero-gravity environment, it would accelerate. With the power off.",
+      "These are very weird things. It's like you create this thrust mode that just keeps going.",
+      "think I'm bending space-time. Maybe I am."
+    ]
+  },
+  "ingestion": {},
+  "chunks": [],
+  "ner_results": [],
+  "embeddable_texts": [],
+  "metadata": {
+    "provenance": "https://www.youtube.com/watch?v=mOWwdIuyaQA",
+    "filename_hint": "NASA Chief: \"We Just Built Antigravity Propulsion!”",
+    "prompts_dir": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/ai/prompts"
+  },
+  "errors": [
+    "Expecting ',' delimiter: line 61 column 6 (char 12139)"
+  ],
+  "prompts_used": [
+    "document_classification",
+    "disclosure.content_analysis",
+    "rag_ingestion"
+  ]
+}

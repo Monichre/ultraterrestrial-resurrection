@@ -1,0 +1,32 @@
+{
+  "title": "Robert Bigelow and George Knapp discuss UFO disclosure",
+  "url": "https://youtu.be/q0N33jb7Bhk",
+  "id": "q0N33jb7Bhk",
+  "categories": [],
+  "tags": [],
+  "description": "",
+  "chapters": [],
+  "transcript_segment_count": 2030,
+  "rag_pipeline": {
+    "status": "ok",
+    "embeddable_count": 8,
+    "prompts_used": [
+      "disclosure.content_analysis",
+      "disclosure.ner",
+      "document_classification",
+      "rag_ingestion",
+      "validation"
+    ],
+    "errors": []
+  },
+  "trace_map": {
+    "json_path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/sources/transcripts/2026-08-10/q0N33jb7Bhk/robertBigelowAndGeorgeKnappDiscussUfoDisclosure_trace_map.json",
+    "md_path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/sources/transcripts/2026-08-10/q0N33jb7Bhk/robertBigelowAndGeorgeKnappDiscussUfoDisclosure_trace_map.md",
+    "node_count": 146,
+    "edge_count": 213,
+    "coverage_fraction": 0.3937,
+    "valid": true,
+    "error_count": 0,
+    "gap_count": 6
+  }
+}

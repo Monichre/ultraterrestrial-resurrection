@@ -1,0 +1,32 @@
+{
+  "status": "completed",
+  "video_id": "d41d8cd98f00",
+  "summary_file": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/sources/web/2026-07-09/war-gov_a917383b/war-gov_summary.txt",
+  "entities": {
+    "topics": [],
+    "personnel": [],
+    "events": [],
+    "organizations": [],
+    "locations": [],
+    "artifacts": [],
+    "sightings": []
+  },
+  "xata_search_results": {
+    "topics": [],
+    "personnel": [],
+    "events": [],
+    "organizations": [],
+    "locations": [],
+    "artifacts": [],
+    "sightings": []
+  },
+  "entity_creation_results": {
+    "status": "no_creation_needed",
+    "statistics": {
+      "total_created": 0
+    }
+  },
+  "total_entities": 0,
+  "total_matches": 0,
+  "total_created": 0
+}

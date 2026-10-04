@@ -1,0 +1,399 @@
+{
+  "schemaVersion": "trace-map.v1",
+  "sourceId": "src:62de7539372ab486",
+  "sourceType": "video",
+  "sourceUrl": "https://www.youtube.com/watch?v=WGUb1JKxBDo",
+  "sourceHash": "sha256:34747f71b77c9f09d682b4408378f673e348d003e2e7ffa47dde5ce345bb8e08",
+  "contentVersion": 1,
+  "reviewState": "unreviewed",
+  "nodes": [
+    {
+      "id": "src:62de7539372ab486",
+      "type": "source",
+      "label": "Ex-Pentagon Official Confirms Alien Language Exists - Lue Elizondo - DEBRIEFED ep. 24",
+      "url": "https://www.youtube.com/watch?v=WGUb1JKxBDo",
+      "sourceType": "video",
+      "contentType": "media",
+      "integrityFlags": [
+        "transcript_auto_generated",
+        "truncated_source"
+      ],
+      "classificationMarks": [],
+      "ingestionRecommendation": "proceed"
+    },
+    {
+      "id": "seg:62de7539372ab486:c01",
+      "type": "segment",
+      "label": "c01",
+      "chunkId": "c01",
+      "evidentiaryDensity": "high",
+      "temporalAnchors": [
+        "World War II",
+        "Cold War",
+        "1960s",
+        "1950s",
+        "decades"
+      ],
+      "spatialAnchors": [
+        "Pentagon",
+        "Guantanamo Bay",
+        "United States",
+        "Soviet Union",
+        "Northern Tier radar systems"
+      ],
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 24000,
+        "segmentStart": 0,
+        "segmentEnd": 635,
+        "startSeconds": 0.08,
+        "endSeconds": 1414.24,
+        "method": "prefix_suffix",
+        "excerpt": "when you calculate the speed that this thing goes by by the way it was bigger than the offshore oil derek it was passing by ass sets to be moving between 450 and 550 knots underwater he reported that they have specific psionic teams taking "
+      },
+      "excerpt": "when you calculate the speed that this thing goes by by the way it was bigger than the offshore oil Derek it was passing by ass sets to be moving between 450 and 550 knots underwater he reported that they have specific psionic teams taking "
+    },
+    {
+      "id": "clm:62de7539372ab486:97220a9b40a6",
+      "type": "claim",
+      "label": "UAPs observed moving 450-550 knots underwater",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 24000,
+        "segmentStart": 0,
+        "segmentEnd": 635,
+        "startSeconds": 0.08,
+        "endSeconds": 1414.24,
+        "method": "prefix_suffix",
+        "excerpt": "when you calculate the speed that this thing goes by by the way it was bigger than the offshore oil derek it was passing by ass sets to be moving between 450 and 550 knots underwater he reported that they have specific psionic teams taking "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:62de7539372ab486:fe5ca72cc9fb",
+      "type": "claim",
+      "label": "Psionic teams used to bring UAPs into range",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 24000,
+        "segmentStart": 0,
+        "segmentEnd": 635,
+        "startSeconds": 0.08,
+        "endSeconds": 1414.24,
+        "method": "prefix_suffix",
+        "excerpt": "when you calculate the speed that this thing goes by by the way it was bigger than the offshore oil derek it was passing by ass sets to be moving between 450 and 550 knots underwater he reported that they have specific psionic teams taking "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:62de7539372ab486:9f1d9fb9be24",
+      "type": "claim",
+      "label": "Egg-shaped crafts exist",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 24000,
+        "segmentStart": 0,
+        "segmentEnd": 635,
+        "startSeconds": 0.08,
+        "endSeconds": 1414.24,
+        "method": "prefix_suffix",
+        "excerpt": "when you calculate the speed that this thing goes by by the way it was bigger than the offshore oil derek it was passing by ass sets to be moving between 450 and 550 knots underwater he reported that they have specific psionic teams taking "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:62de7539372ab486:78c3be951c8c",
+      "type": "claim",
+      "label": "Crafts have engraved script",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 24000,
+        "segmentStart": 0,
+        "segmentEnd": 635,
+        "startSeconds": 0.08,
+        "endSeconds": 1414.24,
+        "method": "prefix_suffix",
+        "excerpt": "when you calculate the speed that this thing goes by by the way it was bigger than the offshore oil derek it was passing by ass sets to be moving between 450 and 550 knots underwater he reported that they have specific psionic teams taking "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:62de7539372ab486:cda01b49f0c8",
+      "type": "claim",
+      "label": "Elizondo researched ancient script at the Pentagon",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 24000,
+        "segmentStart": 0,
+        "segmentEnd": 635,
+        "startSeconds": 0.08,
+        "endSeconds": 1414.24,
+        "method": "prefix_suffix",
+        "excerpt": "when you calculate the speed that this thing goes by by the way it was bigger than the offshore oil derek it was passing by ass sets to be moving between 450 and 550 knots underwater he reported that they have specific psionic teams taking "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:62de7539372ab486:02cf94da47e5",
+      "type": "claim",
+      "label": "Disclosure involves religion, life and death, why we are here",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 24000,
+        "segmentStart": 0,
+        "segmentEnd": 635,
+        "startSeconds": 0.08,
+        "endSeconds": 1414.24,
+        "method": "prefix_suffix",
+        "excerpt": "when you calculate the speed that this thing goes by by the way it was bigger than the offshore oil derek it was passing by ass sets to be moving between 450 and 550 knots underwater he reported that they have specific psionic teams taking "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:62de7539372ab486:0576295fe28f",
+      "type": "claim",
+      "label": "Elizondo does not support leaking classified information",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 24000,
+        "segmentStart": 0,
+        "segmentEnd": 635,
+        "startSeconds": 0.08,
+        "endSeconds": 1414.24,
+        "method": "prefix_suffix",
+        "excerpt": "when you calculate the speed that this thing goes by by the way it was bigger than the offshore oil derek it was passing by ass sets to be moving between 450 and 550 knots underwater he reported that they have specific psionic teams taking "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:62de7539372ab486:63e4845784dc",
+      "type": "claim",
+      "label": "Classification system has been abused to hide truth",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 24000,
+        "segmentStart": 0,
+        "segmentEnd": 635,
+        "startSeconds": 0.08,
+        "endSeconds": 1414.24,
+        "method": "prefix_suffix",
+        "excerpt": "when you calculate the speed that this thing goes by by the way it was bigger than the offshore oil derek it was passing by ass sets to be moving between 450 and 550 knots underwater he reported that they have specific psionic teams taking "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:62de7539372ab486:2990ec4c13ed",
+      "type": "claim",
+      "label": "UAP topic started in high gear after WWII and atomic bomb",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 24000,
+        "segmentStart": 0,
+        "segmentEnd": 635,
+        "startSeconds": 0.08,
+        "endSeconds": 1414.24,
+        "method": "prefix_suffix",
+        "excerpt": "when you calculate the speed that this thing goes by by the way it was bigger than the offshore oil derek it was passing by ass sets to be moving between 450 and 550 knots underwater he reported that they have specific psionic teams taking "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:62de7539372ab486:72c54b6b97c5",
+      "type": "claim",
+      "label": "US and Russia had secret memo to call each other before nuclear strike if UFO seen",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 24000,
+        "segmentStart": 0,
+        "segmentEnd": 635,
+        "startSeconds": 0.08,
+        "endSeconds": 1414.24,
+        "method": "prefix_suffix",
+        "excerpt": "when you calculate the speed that this thing goes by by the way it was bigger than the offshore oil derek it was passing by ass sets to be moving between 450 and 550 knots underwater he reported that they have specific psionic teams taking "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:62de7539372ab486:bff16491a65a",
+      "type": "claim",
+      "label": "Government feared UAP topic would destabilize society",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 24000,
+        "segmentStart": 0,
+        "segmentEnd": 635,
+        "startSeconds": 0.08,
+        "endSeconds": 1414.24,
+        "method": "prefix_suffix",
+        "excerpt": "when you calculate the speed that this thing goes by by the way it was bigger than the offshore oil derek it was passing by ass sets to be moving between 450 and 550 knots underwater he reported that they have specific psionic teams taking "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:62de7539372ab486:3e69050ebef3",
+      "type": "claim",
+      "label": "Secrets are perishable and have a shelf life",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 24000,
+        "segmentStart": 0,
+        "segmentEnd": 635,
+        "startSeconds": 0.08,
+        "endSeconds": 1414.24,
+        "method": "prefix_suffix",
+        "excerpt": "when you calculate the speed that this thing goes by by the way it was bigger than the offshore oil derek it was passing by ass sets to be moving between 450 and 550 knots underwater he reported that they have specific psionic teams taking "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:62de7539372ab486:b88be63f72d4",
+      "type": "claim",
+      "label": "Government trust is at an all-time low",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 24000,
+        "segmentStart": 0,
+        "segmentEnd": 635,
+        "startSeconds": 0.08,
+        "endSeconds": 1414.24,
+        "method": "prefix_suffix",
+        "excerpt": "when you calculate the speed that this thing goes by by the way it was bigger than the offshore oil derek it was passing by ass sets to be moving between 450 and 550 knots underwater he reported that they have specific psionic teams taking "
+      },
+      "claimSource": "chunk.claims_hint"
+    }
+  ],
+  "edges": [
+    {
+      "from": "src:62de7539372ab486",
+      "to": "seg:62de7539372ab486:c01",
+      "type": "contains"
+    },
+    {
+      "from": "seg:62de7539372ab486:c01",
+      "to": "clm:62de7539372ab486:97220a9b40a6",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:62de7539372ab486:c01",
+      "to": "clm:62de7539372ab486:fe5ca72cc9fb",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:62de7539372ab486:c01",
+      "to": "clm:62de7539372ab486:9f1d9fb9be24",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:62de7539372ab486:c01",
+      "to": "clm:62de7539372ab486:78c3be951c8c",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:62de7539372ab486:c01",
+      "to": "clm:62de7539372ab486:cda01b49f0c8",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:62de7539372ab486:c01",
+      "to": "clm:62de7539372ab486:02cf94da47e5",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:62de7539372ab486:c01",
+      "to": "clm:62de7539372ab486:0576295fe28f",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:62de7539372ab486:c01",
+      "to": "clm:62de7539372ab486:63e4845784dc",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:62de7539372ab486:c01",
+      "to": "clm:62de7539372ab486:2990ec4c13ed",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:62de7539372ab486:c01",
+      "to": "clm:62de7539372ab486:72c54b6b97c5",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:62de7539372ab486:c01",
+      "to": "clm:62de7539372ab486:bff16491a65a",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:62de7539372ab486:c01",
+      "to": "clm:62de7539372ab486:3e69050ebef3",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:62de7539372ab486:c01",
+      "to": "clm:62de7539372ab486:b88be63f72d4",
+      "type": "asserts"
+    }
+  ],
+  "views": {
+    "sourceSpine": [
+      "seg:62de7539372ab486:c01"
+    ],
+    "topicRoots": [],
+    "claimRoots": [
+      "clm:62de7539372ab486:97220a9b40a6",
+      "clm:62de7539372ab486:fe5ca72cc9fb",
+      "clm:62de7539372ab486:9f1d9fb9be24",
+      "clm:62de7539372ab486:78c3be951c8c",
+      "clm:62de7539372ab486:cda01b49f0c8",
+      "clm:62de7539372ab486:02cf94da47e5",
+      "clm:62de7539372ab486:0576295fe28f",
+      "clm:62de7539372ab486:63e4845784dc",
+      "clm:62de7539372ab486:2990ec4c13ed",
+      "clm:62de7539372ab486:72c54b6b97c5",
+      "clm:62de7539372ab486:bff16491a65a",
+      "clm:62de7539372ab486:3e69050ebef3",
+      "clm:62de7539372ab486:b88be63f72d4"
+    ],
+    "openQuestionRoots": []
+  },
+  "coverage": {
+    "timed": true,
+    "charsAnchored": 24000,
+    "charsTotal": 169156,
+    "fraction": 0.1419,
+    "segmentsCovered": 636,
+    "segmentsTotal": 4542,
+    "pipelineTruncatedAtChars": 24000,
+    "chunkAnchorMethods": {
+      "prefix_suffix": 1
+    }
+  },
+  "generation": {
+    "createdAt": "2026-08-18T07:01:33.943822+00:00",
+    "models": [
+      "deepseek/deepseek-chat"
+    ],
+    "promptsUsed": [
+      "disclosure.content_analysis",
+      "disclosure.ner",
+      "document_classification",
+      "rag_ingestion"
+    ],
+    "methodologyVersion": "rag-prompt-pipeline/ADR-0001",
+    "pipelineStatus": "ok",
+    "degraded": false
+  },
+  "validation": {
+    "valid": true,
+    "errors": [],
+    "gaps": [
+      "no next_trace nodes — no pipeline stage proposes concrete next sources",
+      "no reading nodes — no interpretive stage exists; readings are never inferred here",
+      "no counter_reading nodes — paired with reading; unproduced for the same reason",
+      "no speaker nodes — diarisation is unavailable — the transcript carries '>>' turn markers but no speaker identities",
+      "no open questions — the map manufactures closure it has no basis for",
+      "no evidence→claim edges — the analysis prompt emits supporting and contradictory evidence as flat lists with no target claim, so evidence carries a stance but names no claim it bears on",
+      "chunk coverage is 14% of the source (24000 of 169156 chars); the pipeline truncates at 24000 chars"
+    ]
+  }
+}

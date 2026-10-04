@@ -1,0 +1,19 @@
+# www.ufohackers.org
+
+## ufohackers.org
+
+- [Hackers & UFOs](https://www.ufohackers.org/hackers/master.md): This is the history of hackers looking for evidence of UFOs.
+- ["Quentin" Overview](https://www.ufohackers.org/hackers/quentin/quentin-overview.md): An unknown hacker with the pseudonym "Quentin" was the first.
+- [1994 UFO Magazines](https://www.ufohackers.org/hackers/quentin/1994-ufo-magazines.md): Columns on Dateline NBC segment with "Quentin"
+- [Bevan Overview](https://www.ufohackers.org/hackers/mathew-bevan/bevan-overview.md): Mathew "Kuji" Bevan was the first UFO hacker to be arrested.
+- [McKinnon Overview](https://www.ufohackers.org/hackers/gary-mckinnon/mckinnon-overview.md): Gary "SOLO" McKinnon's extradition case got the most publicity.
+- [2007 UFO Crash Con](https://www.ufohackers.org/hackers/gary-mckinnon/2007-ufo-crash-con.md): In 2007 Matthew Williams gave a talk on Gary at the 5th UFO Crash Retrieval Conference.
+- [2017 MUFON Symposium](https://www.ufohackers.org/hackers/gary-mckinnon/2017-mufon-symposium.md): In 2017 Gary McKinnon spoke at the MUFON Symposium via Skype.
+- [Thieme Overview](https://www.ufohackers.org/hackers/richard-thieme/thieme-overview.md): Richard "neuralcowboy" Thieme has spoken to hackers on UFOs.
+- [Islands in the Clickstream](https://www.ufohackers.org/hackers/richard-thieme/islands-in-the-clickstream.md): The Dark Side of the Moon and Beyond
+- [Archives & BBSes](https://www.ufohackers.org/hackers/other/archives-and-bbses.md): UFO conversation goes back to the early Internet.
+- [Argentina Hacktivism](https://www.ufohackers.org/hackers/other/argentina-hacktivism.md): UFO Hactivists defaced the Argentina Air Force website in 2011.
+- [WikiLeaks](https://www.ufohackers.org/hackers/other/wikileaks.md): Russian Hackers leaked John Podesta's emails in 2016. Some were about UFO Disclosure.
+- [Astrobiology Notes](https://www.ufohackers.org/hackers/astrobiology-notes.md): Astrobiology is the study of life in the Universe. Here are my notes on it.
+- [Beta: UFO Technology](https://www.ufohackers.org/hackers/ufo-technology.md): This page is under construction, consider it in beta testing.
+- [Philosophy](https://www.ufohackers.org/hackers/philosophy.md): An analogy for the dilemma that compartmentalization causes.

@@ -1,0 +1,277 @@
+/* Temporal–Geospatial Observatory — view-specific styles
+ * Extracted from docs/design/mock-ups/03-temporal-geospatial-observatory.html
+ * Class values are faithful to the mockup; namespaced with `to-` to avoid
+ * collisions with other research-platform views sharing the global stylesheet.
+ */
+
+.to-observatory {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-rows: 1fr 240px;
+  background: #0c1011;
+}
+
+/* === Map area === */
+
+.to-mapwrap {
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle at 55% 40%, rgba(83, 106, 104, 0.16), transparent 38%),
+    linear-gradient(180deg, #0e1415, #0a0d0e);
+}
+
+.to-mapgrid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.55;
+  background-image: linear-gradient(rgba(102, 130, 128, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(102, 130, 128, 0.1) 1px, transparent 1px);
+  background-size: 42px 42px;
+}
+
+.to-land {
+  position: absolute;
+  left: 230px;
+  top: 90px;
+  width: 810px;
+  height: 430px;
+  border: 1px solid rgba(121, 145, 140, 0.18);
+  border-radius: 50% 42% 48% 55%;
+  transform: rotate(-5deg);
+  background: radial-gradient(circle at 35% 40%, rgba(107, 134, 128, 0.18), transparent 35%),
+    linear-gradient(145deg, rgba(49, 70, 67, 0.48), rgba(23, 34, 34, 0.36));
+  clip-path: polygon(
+    2% 40%,
+    15% 18%,
+    34% 10%,
+    50% 18%,
+    62% 8%,
+    80% 19%,
+    98% 35%,
+    91% 55%,
+    76% 60%,
+    65% 86%,
+    42% 90%,
+    27% 74%,
+    12% 68%
+  );
+}
+
+.to-maphead {
+  position: absolute;
+  left: 22px;
+  top: 20px;
+  z-index: 5;
+}
+
+.to-maphead p {
+  margin: 6px 0 0;
+  color: #848e8a;
+  font-size: 11px;
+}
+
+.to-filters {
+  position: absolute;
+  right: 20px;
+  top: 18px;
+  z-index: 5;
+  display: flex;
+  gap: 8px;
+}
+
+/* === Event points === */
+
+.to-point {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 0 0 7px rgba(108, 168, 173, 0.12), 0 0 24px rgba(108, 168, 173, 0.55);
+  z-index: 3;
+}
+
+.to-point.red {
+  box-shadow: 0 0 0 7px rgba(164, 83, 77, 0.12), 0 0 24px rgba(164, 83, 77, 0.55);
+}
+
+.to-point.amber {
+  box-shadow: 0 0 0 7px rgba(201, 143, 70, 0.12), 0 0 24px rgba(201, 143, 70, 0.55);
+}
+
+/* === Connection arcs === */
+
+.to-arc {
+  position: absolute;
+  border-top: 1px solid rgba(108, 168, 173, 0.35);
+  border-radius: 50%;
+  transform-origin: left center;
+}
+
+/* === Event bubbles === */
+
+.to-eventbubble {
+  position: absolute;
+  width: 210px;
+  border: 1px solid #3a4344;
+  border-radius: 12px;
+  background: rgba(17, 22, 23, 0.94);
+  padding: 11px;
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.35);
+  z-index: 4;
+}
+
+.to-eventbubble h4 {
+  font-family: Georgia, serif;
+  font-size: 14px;
+  margin: 5px 0;
+  color: #e4ddcf;
+}
+
+.to-eventbubble p {
+  font-size: 9px;
+  line-height: 1.45;
+  color: #8d9692;
+  margin: 0;
+}
+
+.to-eventbubble .to-bubble-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 9px;
+  font-size: 8px;
+  color: #67706d;
+}
+
+/* === Legend === */
+
+.to-legend {
+  position: absolute;
+  left: 20px;
+  bottom: 18px;
+  display: flex;
+  gap: 16px;
+  padding: 10px 12px;
+  border: 1px solid #303738;
+  border-radius: 11px;
+  background: rgba(15, 20, 21, 0.86);
+  font-size: 9px;
+  color: #9aa29f;
+}
+
+.to-legend span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.to-legend i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+/* === Timeline === */
+
+.to-timeline {
+  border-top: 1px solid #293031;
+  background: linear-gradient(180deg, #121617, #0f1314);
+  padding: 16px 20px;
+  position: relative;
+}
+
+.to-timeline-head {
+  display: flex;
+  align-items: center;
+}
+
+.to-timeline-head .ut-h1 {
+  font-size: 19px;
+}
+
+.to-timeline-head .to-controls {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+}
+
+.to-axis {
+  position: absolute;
+  left: 30px;
+  right: 30px;
+  top: 92px;
+  height: 2px;
+  background: #384142;
+}
+
+.to-tick {
+  position: absolute;
+  top: -5px;
+  width: 1px;
+  height: 12px;
+  background: #606c69;
+}
+
+.to-tick label {
+  position: absolute;
+  top: 18px;
+  left: -14px;
+  font-size: 9px;
+  color: #6e7774;
+}
+
+.to-marker {
+  position: absolute;
+  top: -7px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #c98f46;
+  border: 3px solid #141819;
+  box-shadow: 0 0 0 1px #c98f46;
+}
+
+.to-marker::after {
+  content: attr(data-label);
+  position: absolute;
+  white-space: nowrap;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 9px;
+  color: #b9bfbb;
+  background: #1a2021;
+  border: 1px solid #343c3d;
+  border-radius: 6px;
+  padding: 5px 7px;
+}
+
+.to-brush {
+  position: absolute;
+  left: 36%;
+  right: 13%;
+  top: 130px;
+  height: 48px;
+  border: 1px solid #6f5a3a;
+  background: rgba(201, 143, 70, 0.08);
+  border-radius: 7px;
+}
+
+.to-brush::before,
+.to-brush::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  background: #8a6c43;
+}
+
+.to-brush::before {
+  left: -3px;
+}
+
+.to-brush::after {
+  right: -3px;
+}

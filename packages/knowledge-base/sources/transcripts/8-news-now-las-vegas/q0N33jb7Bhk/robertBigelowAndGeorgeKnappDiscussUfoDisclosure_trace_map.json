@@ -1,0 +1,3420 @@
+{
+  "schemaVersion": "trace-map.v1",
+  "sourceId": "src:c579d55ac7d4273a",
+  "sourceType": "video",
+  "sourceUrl": "https://youtu.be/q0N33jb7Bhk",
+  "sourceHash": "sha256:1fb20c803701db6b2673879afb4c0e12afe1fc558a69190e15723ca5743b04ad",
+  "contentVersion": 1,
+  "reviewState": "unreviewed",
+  "nodes": [
+    {
+      "id": "src:c579d55ac7d4273a",
+      "type": "source",
+      "label": "Robert Bigelow and George Knapp discuss UFO disclosure",
+      "url": "https://youtu.be/q0N33jb7Bhk",
+      "sourceType": "video",
+      "contentType": "interview_transcript",
+      "integrityFlags": [
+        "transcript_speaker_tags",
+        "filler_words_present",
+        "truncated_for_pipeline"
+      ],
+      "classificationMarks": [],
+      "ingestionRecommendation": "proceed"
+    },
+    {
+      "id": "seg:c579d55ac7d4273a:c01",
+      "type": "segment",
+      "label": "c01",
+      "chunkId": "c01",
+      "headingPath": "Intro and Context of Disclosure",
+      "evidentiaryDensity": "medium",
+      "overlapNote": "precedes discussion of Oval Office meeting",
+      "temporalAnchors": [
+        "late '80s",
+        "earlier this year"
+      ],
+      "spatialAnchors": [],
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 1431,
+        "segmentStart": 0,
+        "segmentEnd": 44,
+        "startSeconds": 2.619,
+        "endSeconds": 85.24,
+        "method": "exact",
+        "excerpt": "[music] >> robert, you've spent i don't know how many years and how many millions of dollars, probably more money than any person in the history of the world pursuing topics of mutual interest. you've been at this even longer than i have, w"
+      },
+      "excerpt": "[music] >> Robert, you've spent I don't know how many years and how many millions of dollars, probably more money than any person in the history of the world pursuing topics of mutual interest. You've been at this even longer than I have, w"
+    },
+    {
+      "id": "seg:c579d55ac7d4273a:c02",
+      "type": "segment",
+      "label": "c02",
+      "chunkId": "c02",
+      "headingPath": "Oval Office Meeting and Proposed Statement",
+      "evidentiaryDensity": "high",
+      "overlapNote": "follows intro; precedes Clinton/Reid discussion",
+      "temporalAnchors": [
+        "Jan- or February the 6th",
+        "several months"
+      ],
+      "spatialAnchors": [
+        "Oval Office",
+        "Air Force One"
+      ],
+      "anchor": {
+        "charStart": 1432,
+        "charEnd": 4305,
+        "segmentStart": 45,
+        "segmentEnd": 134,
+        "startSeconds": 82.76,
+        "endSeconds": 289.12,
+        "method": "exact",
+        "excerpt": "but you had a chance to speak directly with the president and urged him to go even further earlier this year. when did that happen? >> so, i was uh i was in the process for for um several months putting together a series of reports on seven"
+      },
+      "excerpt": "But you had a chance to speak directly with the president and urged him to go even further earlier this year. When did that happen? >> So, I was uh I was in the process for for um several months putting together a series of reports on seven"
+    },
+    {
+      "id": "seg:c579d55ac7d4273a:c03",
+      "type": "segment",
+      "label": "c03",
+      "chunkId": "c03",
+      "headingPath": "Presidential Knowledge and Harry Reid/Bill Clinton",
+      "evidentiaryDensity": "high",
+      "overlapNote": "follows Oval Office meeting; precedes SAPs discussion",
+      "temporalAnchors": [
+        "Clinton's second term"
+      ],
+      "spatialAnchors": [],
+      "anchor": {
+        "charStart": 4306,
+        "charEnd": 5799,
+        "segmentStart": 134,
+        "segmentEnd": 178,
+        "startSeconds": 283.68,
+        "endSeconds": 376.56,
+        "method": "exact",
+        "excerpt": "and, uh, a really good close friend of mine verified, uh, harry reid, who he and i were very good friends for many, many years, verified with bill clinton that he didn't know about the subject and this was, i think, in his second term. and,"
+      },
+      "excerpt": "And, uh, a really good close friend of mine verified, uh, Harry Reid, who he and I were very good friends for many, many years, verified with Bill Clinton that he didn't know about the subject and this was, I think, in his second term. And,"
+    },
+    {
+      "id": "seg:c579d55ac7d4273a:c04",
+      "type": "segment",
+      "label": "c04",
+      "chunkId": "c04",
+      "headingPath": "Unacknowledged SAPs and Clearances",
+      "evidentiaryDensity": "high",
+      "overlapNote": "follows Clinton/Reid; precedes gatekeepers",
+      "temporalAnchors": [],
+      "spatialAnchors": [
+        "Mar-a-Lago",
+        "Oval Office",
+        "Resolute Desk"
+      ],
+      "anchor": {
+        "charStart": 5803,
+        "charEnd": 7775,
+        "segmentStart": 179,
+        "segmentEnd": 236,
+        "startSeconds": 374.48,
+        "endSeconds": 487.76,
+        "method": "exact",
+        "excerpt": "and i i suppose even if they do press press it and push it, they don't necessarily get briefed. >> oh, well, they will not have anything to do they will not know anything about unacknowledged saps, for sure. and only on a really serious nee"
+      },
+      "excerpt": "And I I suppose even if they do press press it and push it, they don't necessarily get briefed. >> Oh, well, they will not have anything to do They will not know anything about unacknowledged SAPs, for sure. And only on a really serious nee"
+    },
+    {
+      "id": "seg:c579d55ac7d4273a:c05",
+      "type": "segment",
+      "label": "c05",
+      "chunkId": "c05",
+      "headingPath": "Gatekeepers and Secrecy",
+      "evidentiaryDensity": "high",
+      "overlapNote": "follows Resolute Desk; precedes Henderson story",
+      "temporalAnchors": [
+        "80 years"
+      ],
+      "spatialAnchors": [
+        "government locations",
+        "private corporation locations"
+      ],
+      "anchor": {
+        "charStart": 7776,
+        "charEnd": 9530,
+        "segmentStart": 236,
+        "segmentEnd": 307,
+        "startSeconds": 484.32,
+        "endSeconds": 631.96,
+        "method": "exact",
+        "excerpt": "and so, um so that's how it started and um and we got into to the topic about um >> [snorts] >> the uap topic and and [clears throat] disclosure and um we had um i remember talking at some time about um the gatekeepers. so, this disclosure "
+      },
+      "excerpt": "And so, um so that's how it started and um and we got into to the topic about um >> [snorts] >> the UAP topic and and [clears throat] disclosure and um we had um I remember talking at some time about um the gatekeepers. So, this disclosure "
+    },
+    {
+      "id": "seg:c579d55ac7d4273a:c06",
+      "type": "segment",
+      "label": "c06",
+      "chunkId": "c06",
+      "headingPath": "Sappho Henderson and Roswell",
+      "evidentiaryDensity": "high",
+      "overlapNote": "follows gatekeepers; precedes advising Trump",
+      "temporalAnchors": [
+        "'47"
+      ],
+      "spatialAnchors": [
+        "Roswell",
+        "grocery store"
+      ],
+      "anchor": {
+        "charStart": 9531,
+        "charEnd": 11106,
+        "segmentStart": 307,
+        "segmentEnd": 357,
+        "startSeconds": 627.0,
+        "endSeconds": 735.64,
+        "method": "exact",
+        "excerpt": "i remember uh i i i was i was talking to sappho henderson one time. and pat pappy henderson was her husband. and she said, \"well, we were [clears throat] in the grocery store one time. and uh he's and there's an article in there in one of t"
+      },
+      "excerpt": "I remember uh I I I was I was talking to Sappho Henderson one time. And Pat Pappy Henderson was her husband. And she said, \"Well, we were [clears throat] in the grocery store one time. And uh he's and there's an article in there in one of t"
+    },
+    {
+      "id": "seg:c579d55ac7d4273a:c07",
+      "type": "segment",
+      "label": "c07",
+      "chunkId": "c07",
+      "headingPath": "Advising the President and Information Reliability",
+      "evidentiaryDensity": "medium",
+      "overlapNote": "follows Henderson; precedes trust in military",
+      "temporalAnchors": [],
+      "spatialAnchors": [],
+      "anchor": {
+        "charStart": 11110,
+        "charEnd": 13583,
+        "segmentStart": 358,
+        "segmentEnd": 434,
+        "startSeconds": 734.04,
+        "endSeconds": 907.52,
+        "method": "exact",
+        "excerpt": "let's go back to the beginning of this meeting. so, you go in you've got seven papers you issues that you want to discuss with him. uap, et disclosure being one of them. you walk into the office, you don't know how much time you're going to"
+      },
+      "excerpt": "Let's go back to the beginning of this meeting. So, you go in you've got seven papers you issues that you want to discuss with him. UAP, ET disclosure being one of them. You walk into the office, you don't know how much time you're going to"
+    },
+    {
+      "id": "seg:c579d55ac7d4273a:c08",
+      "type": "segment",
+      "label": "c08",
+      "chunkId": "c08",
+      "headingPath": "Trust in Admirals/Generals vs Politicians",
+      "evidentiaryDensity": "high",
+      "overlapNote": "follows advising Trump; precedes past presidents",
+      "temporalAnchors": [
+        "4 years",
+        "8 years",
+        "6 or 12 or 18"
+      ],
+      "spatialAnchors": [
+        "White House"
+      ],
+      "anchor": {
+        "charStart": 13587,
+        "charEnd": 15047,
+        "segmentStart": 435,
+        "segmentEnd": 484,
+        "startSeconds": 905.56,
+        "endSeconds": 1014.0,
+        "method": "exact",
+        "excerpt": "all right, you you're conveying to him this is real. you need to pay attention to it. you should probably make an announcement at some point, but don't go too far. and you're conveying to him it's serious and that there have been people who"
+      },
+      "excerpt": "All right, you you're conveying to him this is real. You need to pay attention to it. You should probably make an announcement at some point, but don't go too far. And you're conveying to him it's serious and that there have been people who"
+    },
+    {
+      "id": "seg:c579d55ac7d4273a:c09",
+      "type": "segment",
+      "label": "c09",
+      "chunkId": "c09",
+      "headingPath": "Past Presidents' Knowledge and UFO Cases",
+      "evidentiaryDensity": "high",
+      "overlapNote": "follows trust in military; precedes AATIP",
+      "temporalAnchors": [
+        "'97",
+        "early '50s",
+        "18 months long",
+        "10 years later"
+      ],
+      "spatialAnchors": [
+        "Belgium",
+        "Northern Arizona",
+        "Southern Nevada",
+        "Henderson",
+        "White House",
+        "Capitol building"
+      ],
+      "anchor": {
+        "charStart": 15051,
+        "charEnd": 18791,
+        "segmentStart": 485,
+        "segmentEnd": 596,
+        "startSeconds": 1012.72,
+        "endSeconds": 1240.52,
+        "method": "exact",
+        "excerpt": "so you're conveying to him there are people who know about this stuff that have not told you because you're a a temporary occupant of the white house. i don't think you want to say it that way, but >> well, it's as as true. >> do you have a"
+      },
+      "excerpt": "So you're conveying to him there are people who know about this stuff that have not told you because you're a a temporary occupant of the White House. I don't think you want to say it that way, but >> Well, it's as as true. >> Do you have a"
+    },
+    {
+      "id": "seg:c579d55ac7d4273a:c10",
+      "type": "segment",
+      "label": "c10",
+      "chunkId": "c10",
+      "headingPath": "AATIP, Skinwalker Ranch, and Non-Human Intelligence",
+      "evidentiaryDensity": "high",
+      "overlapNote": "follows UFO cases; precedes second conversation",
+      "temporalAnchors": [],
+      "spatialAnchors": [
+        "Skinwalker Ranch",
+        "United States",
+        "Air Force One"
+      ],
+      "anchor": {
+        "charStart": 18795,
+        "charEnd": 21545,
+        "segmentStart": 597,
+        "segmentEnd": 684,
+        "startSeconds": 1238.4,
+        "endSeconds": 1416.24,
+        "method": "exact",
+        "excerpt": "did you share with him anything about your knowledge of classified program? you you got a top secret security clearance, right? >> yeah. >> it was for the aatip program for bas. >> right. >> operated under the dia. >> yeah. >> you learned a"
+      },
+      "excerpt": "Did you share with him anything about your knowledge of classified program? You you got a top secret security clearance, right? >> Yeah. >> It was for the AATIP program for BAS. >> Right. >> Operated under the DIA. >> Yeah. >> You learned a"
+    },
+    {
+      "id": "seg:c579d55ac7d4273a:c11",
+      "type": "segment",
+      "label": "c11",
+      "chunkId": "c11",
+      "headingPath": "Hypothetical Second Conversation and Survival",
+      "temporalAnchors": [],
+      "spatialAnchors": [],
+      "anchor": {
+        "charStart": 21549,
+        "charEnd": 23876,
+        "segmentStart": 685,
+        "segmentEnd": 768,
+        "startSeconds": 1415.28,
+        "endSeconds": 1591.2,
+        "method": "exact",
+        "excerpt": "if you were to have a second conversation with them, would you explain that et is one idea, but it's not necessarily the only option for a non-human intelligence that's out there? >> [clears throat] >> you have to tell me first how much tim"
+      },
+      "excerpt": "If you were to have a second conversation with them, would you explain that ET is one idea, but it's not necessarily the only option for a non-human intelligence that's out there? >> [clears throat] >> You have to tell me first how much tim"
+    },
+    {
+      "id": "top:e0e803485860",
+      "type": "topic",
+      "label": "Intro and Context of Disclosure"
+    },
+    {
+      "id": "top:e47a8ee73209",
+      "type": "topic",
+      "label": "Oval Office Meeting and Proposed Statement"
+    },
+    {
+      "id": "top:485f7f52be7a",
+      "type": "topic",
+      "label": "Presidential Knowledge and Harry Reid/Bill Clinton"
+    },
+    {
+      "id": "top:d10fc3bc2ee8",
+      "type": "topic",
+      "label": "Unacknowledged SAPs and Clearances"
+    },
+    {
+      "id": "top:3b6a5cfc725f",
+      "type": "topic",
+      "label": "Gatekeepers and Secrecy"
+    },
+    {
+      "id": "top:6bebf7264643",
+      "type": "topic",
+      "label": "Sappho Henderson and Roswell"
+    },
+    {
+      "id": "top:eda3b7bcb2de",
+      "type": "topic",
+      "label": "Advising the President and Information Reliability"
+    },
+    {
+      "id": "top:aae493f1abf2",
+      "type": "topic",
+      "label": "Trust in Admirals/Generals vs Politicians"
+    },
+    {
+      "id": "top:519178b2e47e",
+      "type": "topic",
+      "label": "Past Presidents' Knowledge and UFO Cases"
+    },
+    {
+      "id": "top:05564a2c4f24",
+      "type": "topic",
+      "label": "AATIP, Skinwalker Ranch, and Non-Human Intelligence"
+    },
+    {
+      "id": "top:c6ef0e3f12f8",
+      "type": "topic",
+      "label": "Hypothetical Second Conversation and Survival"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:3e353f3a68c0",
+      "type": "claim",
+      "label": "Disclosure was a far-off concept in the late 80s",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 1431,
+        "segmentStart": 0,
+        "segmentEnd": 44,
+        "startSeconds": 2.619,
+        "endSeconds": 85.24,
+        "method": "exact",
+        "excerpt": "[music] >> robert, you've spent i don't know how many years and how many millions of dollars, probably more money than any person in the history of the world pursuing topics of mutual interest. you've been at this even longer than i have, w"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:d137fb1fa4b4",
+      "type": "claim",
+      "label": "President issued a directive to release information earlier this year",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 1431,
+        "segmentStart": 0,
+        "segmentEnd": 44,
+        "startSeconds": 2.619,
+        "endSeconds": 85.24,
+        "method": "exact",
+        "excerpt": "[music] >> robert, you've spent i don't know how many years and how many millions of dollars, probably more money than any person in the history of the world pursuing topics of mutual interest. you've been at this even longer than i have, w"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:fc8600125c75",
+      "type": "claim",
+      "label": "Releases so far have been disappointing",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 1431,
+        "segmentStart": 0,
+        "segmentEnd": 44,
+        "startSeconds": 2.619,
+        "endSeconds": 85.24,
+        "method": "exact",
+        "excerpt": "[music] >> robert, you've spent i don't know how many years and how many millions of dollars, probably more money than any person in the history of the world pursuing topics of mutual interest. you've been at this even longer than i have, w"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:187e45f36c4a",
+      "type": "claim",
+      "label": "Bigelow met Trump in Oval Office on Feb 6th",
+      "anchor": {
+        "charStart": 1432,
+        "charEnd": 4305,
+        "segmentStart": 45,
+        "segmentEnd": 134,
+        "startSeconds": 82.76,
+        "endSeconds": 289.12,
+        "method": "exact",
+        "excerpt": "but you had a chance to speak directly with the president and urged him to go even further earlier this year. when did that happen? >> so, i was uh i was in the process for for um several months putting together a series of reports on seven"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:4a5dfc6d86f7",
+      "type": "claim",
+      "label": "Bigelow gave Trump 7 reports including one on UAPs/ET",
+      "anchor": {
+        "charStart": 1432,
+        "charEnd": 4305,
+        "segmentStart": 45,
+        "segmentEnd": 134,
+        "startSeconds": 82.76,
+        "endSeconds": 289.12,
+        "method": "exact",
+        "excerpt": "but you had a chance to speak directly with the president and urged him to go even further earlier this year. when did that happen? >> so, i was uh i was in the process for for um several months putting together a series of reports on seven"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:5d743fb9f9d2",
+      "type": "claim",
+      "label": "Bigelow suggested Trump say 'A non-human intelligent presence has been on Earth for a very long time'",
+      "anchor": {
+        "charStart": 1432,
+        "charEnd": 4305,
+        "segmentStart": 45,
+        "segmentEnd": 134,
+        "startSeconds": 82.76,
+        "endSeconds": 289.12,
+        "method": "exact",
+        "excerpt": "but you had a chance to speak directly with the president and urged him to go even further earlier this year. when did that happen? >> so, i was uh i was in the process for for um several months putting together a series of reports on seven"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:1704494cb612",
+      "type": "claim",
+      "label": "Confirmation has not been officially made by any president",
+      "anchor": {
+        "charStart": 1432,
+        "charEnd": 4305,
+        "segmentStart": 45,
+        "segmentEnd": 134,
+        "startSeconds": 82.76,
+        "endSeconds": 289.12,
+        "method": "exact",
+        "excerpt": "but you had a chance to speak directly with the president and urged him to go even further earlier this year. when did that happen? >> so, i was uh i was in the process for for um several months putting together a series of reports on seven"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:26f59727c24b",
+      "type": "claim",
+      "label": "Harry Reid verified with Bill Clinton that he didn't know about the subject",
+      "anchor": {
+        "charStart": 4306,
+        "charEnd": 5799,
+        "segmentStart": 134,
+        "segmentEnd": 178,
+        "startSeconds": 283.68,
+        "endSeconds": 376.56,
+        "method": "exact",
+        "excerpt": "and, uh, a really good close friend of mine verified, uh, harry reid, who he and i were very good friends for many, many years, verified with bill clinton that he didn't know about the subject and this was, i think, in his second term. and,"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:a2b4fddd413c",
+      "type": "claim",
+      "label": "Clinton wanted to know about UFOs and who killed JFK before leaving office",
+      "anchor": {
+        "charStart": 4306,
+        "charEnd": 5799,
+        "segmentStart": 134,
+        "segmentEnd": 178,
+        "startSeconds": 283.68,
+        "endSeconds": 376.56,
+        "method": "exact",
+        "excerpt": "and, uh, a really good close friend of mine verified, uh, harry reid, who he and i were very good friends for many, many years, verified with bill clinton that he didn't know about the subject and this was, i think, in his second term. and,"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:a9d06e0bde58",
+      "type": "claim",
+      "label": "Webb Hubble was assigned to dig into those topics",
+      "anchor": {
+        "charStart": 4306,
+        "charEnd": 5799,
+        "segmentStart": 134,
+        "segmentEnd": 178,
+        "startSeconds": 283.68,
+        "endSeconds": 376.56,
+        "method": "exact",
+        "excerpt": "and, uh, a really good close friend of mine verified, uh, harry reid, who he and i were very good friends for many, many years, verified with bill clinton that he didn't know about the subject and this was, i think, in his second term. and,"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:16f331b9db50",
+      "type": "claim",
+      "label": "Presidents must push to find out about the topic",
+      "anchor": {
+        "charStart": 4306,
+        "charEnd": 5799,
+        "segmentStart": 134,
+        "segmentEnd": 178,
+        "startSeconds": 283.68,
+        "endSeconds": 376.56,
+        "method": "exact",
+        "excerpt": "and, uh, a really good close friend of mine verified, uh, harry reid, who he and i were very good friends for many, many years, verified with bill clinton that he didn't know about the subject and this was, i think, in his second term. and,"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:362387b3d725",
+      "type": "claim",
+      "label": "Presidents will not know about unacknowledged SAPs",
+      "anchor": {
+        "charStart": 5803,
+        "charEnd": 7775,
+        "segmentStart": 179,
+        "segmentEnd": 236,
+        "startSeconds": 374.48,
+        "endSeconds": 487.76,
+        "method": "exact",
+        "excerpt": "and i i suppose even if they do press press it and push it, they don't necessarily get briefed. >> oh, well, they will not have anything to do they will not know anything about unacknowledged saps, for sure. and only on a really serious nee"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:6d099fa70702",
+      "type": "claim",
+      "label": "TS/SCI clearance is not close enough to access this information",
+      "anchor": {
+        "charStart": 5803,
+        "charEnd": 7775,
+        "segmentStart": 179,
+        "segmentEnd": 236,
+        "startSeconds": 374.48,
+        "endSeconds": 487.76,
+        "method": "exact",
+        "excerpt": "and i i suppose even if they do press press it and push it, they don't necessarily get briefed. >> oh, well, they will not have anything to do they will not know anything about unacknowledged saps, for sure. and only on a really serious nee"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:dc2c94a34f01",
+      "type": "claim",
+      "label": "Bigelow and Trump are friends",
+      "anchor": {
+        "charStart": 5803,
+        "charEnd": 7775,
+        "segmentStart": 179,
+        "segmentEnd": 236,
+        "startSeconds": 374.48,
+        "endSeconds": 487.76,
+        "method": "exact",
+        "excerpt": "and i i suppose even if they do press press it and push it, they don't necessarily get briefed. >> oh, well, they will not have anything to do they will not know anything about unacknowledged saps, for sure. and only on a really serious nee"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:cff51681f3fb",
+      "type": "claim",
+      "label": "Bigelow has supported Trump with donations",
+      "anchor": {
+        "charStart": 5803,
+        "charEnd": 7775,
+        "segmentStart": 179,
+        "segmentEnd": 236,
+        "startSeconds": 374.48,
+        "endSeconds": 487.76,
+        "method": "exact",
+        "excerpt": "and i i suppose even if they do press press it and push it, they don't necessarily get briefed. >> oh, well, they will not have anything to do they will not know anything about unacknowledged saps, for sure. and only on a really serious nee"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:0249261fce3c",
+      "type": "claim",
+      "label": "Bigelow cleared the Resolute Desk to make room for 7 stacks of reports",
+      "anchor": {
+        "charStart": 5803,
+        "charEnd": 7775,
+        "segmentStart": 179,
+        "segmentEnd": 236,
+        "startSeconds": 374.48,
+        "endSeconds": 487.76,
+        "method": "exact",
+        "excerpt": "and i i suppose even if they do press press it and push it, they don't necessarily get briefed. >> oh, well, they will not have anything to do they will not know anything about unacknowledged saps, for sure. and only on a really serious nee"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:cbe5c0d65c78",
+      "type": "claim",
+      "label": "Disclosure is a process starting with confirmation",
+      "anchor": {
+        "charStart": 7776,
+        "charEnd": 9530,
+        "segmentStart": 236,
+        "segmentEnd": 307,
+        "startSeconds": 484.32,
+        "endSeconds": 631.96,
+        "method": "exact",
+        "excerpt": "and so, um so that's how it started and um and we got into to the topic about um >> [snorts] >> the uap topic and and [clears throat] disclosure and um we had um i remember talking at some time about um the gatekeepers. so, this disclosure "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:b55a4fc328bd",
+      "type": "claim",
+      "label": "Gatekeepers in government and private corporations have custody of goods/hardware",
+      "anchor": {
+        "charStart": 7776,
+        "charEnd": 9530,
+        "segmentStart": 236,
+        "segmentEnd": 307,
+        "startSeconds": 484.32,
+        "endSeconds": 631.96,
+        "method": "exact",
+        "excerpt": "and so, um so that's how it started and um and we got into to the topic about um >> [snorts] >> the uap topic and and [clears throat] disclosure and um we had um i remember talking at some time about um the gatekeepers. so, this disclosure "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:8144511328a9",
+      "type": "claim",
+      "label": "Gatekeepers keep secrets their whole lives, even from spouses",
+      "anchor": {
+        "charStart": 7776,
+        "charEnd": 9530,
+        "segmentStart": 236,
+        "segmentEnd": 307,
+        "startSeconds": 484.32,
+        "endSeconds": 631.96,
+        "method": "exact",
+        "excerpt": "and so, um so that's how it started and um and we got into to the topic about um >> [snorts] >> the uap topic and and [clears throat] disclosure and um we had um i remember talking at some time about um the gatekeepers. so, this disclosure "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:3367c30efed3",
+      "type": "claim",
+      "label": "Other countries are working on this exact same thing",
+      "anchor": {
+        "charStart": 7776,
+        "charEnd": 9530,
+        "segmentStart": 236,
+        "segmentEnd": 307,
+        "startSeconds": 484.32,
+        "endSeconds": 631.96,
+        "method": "exact",
+        "excerpt": "and so, um so that's how it started and um and we got into to the topic about um >> [snorts] >> the uap topic and and [clears throat] disclosure and um we had um i remember talking at some time about um the gatekeepers. so, this disclosure "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:c16592ece74b",
+      "type": "claim",
+      "label": "Pappy Henderson was a pilot for the Roswell crash retrieval in '47",
+      "anchor": {
+        "charStart": 9531,
+        "charEnd": 11106,
+        "segmentStart": 307,
+        "segmentEnd": 357,
+        "startSeconds": 627.0,
+        "endSeconds": 735.64,
+        "method": "exact",
+        "excerpt": "i remember uh i i i was i was talking to sappho henderson one time. and pat pappy henderson was her husband. and she said, \"well, we were [clears throat] in the grocery store one time. and uh he's and there's an article in there in one of t"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:d2c3762bf276",
+      "type": "claim",
+      "label": "He told his wife about it after seeing a magazine article",
+      "anchor": {
+        "charStart": 9531,
+        "charEnd": 11106,
+        "segmentStart": 307,
+        "segmentEnd": 357,
+        "startSeconds": 627.0,
+        "endSeconds": 735.64,
+        "method": "exact",
+        "excerpt": "i remember uh i i i was i was talking to sappho henderson one time. and pat pappy henderson was her husband. and she said, \"well, we were [clears throat] in the grocery store one time. and uh he's and there's an article in there in one of t"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:0da823f9d3a4",
+      "type": "claim",
+      "label": "Information is kept very private for unacknowledged and acknowledged SAPs",
+      "anchor": {
+        "charStart": 9531,
+        "charEnd": 11106,
+        "segmentStart": 307,
+        "segmentEnd": 357,
+        "startSeconds": 627.0,
+        "endSeconds": 735.64,
+        "method": "exact",
+        "excerpt": "i remember uh i i i was i was talking to sappho henderson one time. and pat pappy henderson was her husband. and she said, \"well, we were [clears throat] in the grocery store one time. and uh he's and there's an article in there in one of t"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:1fe454596293",
+      "type": "claim",
+      "label": "Bigelow advised Trump to be a quick study",
+      "anchor": {
+        "charStart": 11110,
+        "charEnd": 13583,
+        "segmentStart": 358,
+        "segmentEnd": 434,
+        "startSeconds": 734.04,
+        "endSeconds": 907.52,
+        "method": "exact",
+        "excerpt": "let's go back to the beginning of this meeting. so, you go in you've got seven papers you issues that you want to discuss with him. uap, et disclosure being one of them. you walk into the office, you don't know how much time you're going to"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:20e3979baab6",
+      "type": "claim",
+      "label": "Information can be first-hand or relayed down a chain",
+      "anchor": {
+        "charStart": 11110,
+        "charEnd": 13583,
+        "segmentStart": 358,
+        "segmentEnd": 434,
+        "startSeconds": 734.04,
+        "endSeconds": 907.52,
+        "method": "exact",
+        "excerpt": "let's go back to the beginning of this meeting. so, you go in you've got seven papers you issues that you want to discuss with him. uap, et disclosure being one of them. you walk into the office, you don't know how much time you're going to"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:13e88cdfdaea",
+      "type": "claim",
+      "label": "Witnesses may only see the tip of the iceberg",
+      "anchor": {
+        "charStart": 11110,
+        "charEnd": 13583,
+        "segmentStart": 358,
+        "segmentEnd": 434,
+        "startSeconds": 734.04,
+        "endSeconds": 907.52,
+        "method": "exact",
+        "excerpt": "let's go back to the beginning of this meeting. so, you go in you've got seven papers you issues that you want to discuss with him. uap, et disclosure being one of them. you walk into the office, you don't know how much time you're going to"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:d148c8820204",
+      "type": "claim",
+      "label": "It is tricky to know what human beings are revealing",
+      "anchor": {
+        "charStart": 11110,
+        "charEnd": 13583,
+        "segmentStart": 358,
+        "segmentEnd": 434,
+        "startSeconds": 734.04,
+        "endSeconds": 907.52,
+        "method": "exact",
+        "excerpt": "let's go back to the beginning of this meeting. so, you go in you've got seven papers you issues that you want to discuss with him. uap, et disclosure being one of them. you walk into the office, you don't know how much time you're going to"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:30e9cc2e6186",
+      "type": "claim",
+      "label": "President is not entitled to know about unacknowledged SAPs",
+      "anchor": {
+        "charStart": 13587,
+        "charEnd": 15047,
+        "segmentStart": 435,
+        "segmentEnd": 484,
+        "startSeconds": 905.56,
+        "endSeconds": 1014.0,
+        "method": "exact",
+        "excerpt": "all right, you you're conveying to him this is real. you need to pay attention to it. you should probably make an announcement at some point, but don't go too far. and you're conveying to him it's serious and that there have been people who"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:7811544b731c",
+      "type": "claim",
+      "label": "The field trusts 30-year admirals and generals more than politicians",
+      "anchor": {
+        "charStart": 13587,
+        "charEnd": 15047,
+        "segmentStart": 435,
+        "segmentEnd": 484,
+        "startSeconds": 905.56,
+        "endSeconds": 1014.0,
+        "method": "exact",
+        "excerpt": "all right, you you're conveying to him this is real. you need to pay attention to it. you should probably make an announcement at some point, but don't go too far. and you're conveying to him it's serious and that there have been people who"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:7c7e97f6769f",
+      "type": "claim",
+      "label": "Military officers stay the course and are not compromised by politics",
+      "anchor": {
+        "charStart": 13587,
+        "charEnd": 15047,
+        "segmentStart": 435,
+        "segmentEnd": 484,
+        "startSeconds": 905.56,
+        "endSeconds": 1014.0,
+        "method": "exact",
+        "excerpt": "all right, you you're conveying to him this is real. you need to pay attention to it. you should probably make an announcement at some point, but don't go too far. and you're conveying to him it's serious and that there have been people who"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:cb120d6772be",
+      "type": "claim",
+      "label": "Bush senior knew quite a bit because he was head of CIA",
+      "anchor": {
+        "charStart": 15051,
+        "charEnd": 18791,
+        "segmentStart": 485,
+        "segmentEnd": 596,
+        "startSeconds": 1012.72,
+        "endSeconds": 1240.52,
+        "method": "exact",
+        "excerpt": "so you're conveying to him there are people who know about this stuff that have not told you because you're a a temporary occupant of the white house. i don't think you want to say it that way, but >> well, it's as as true. >> do you have a"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:8daef79fb60b",
+      "type": "claim",
+      "label": "Nixon and Eisenhower also knew",
+      "anchor": {
+        "charStart": 15051,
+        "charEnd": 18791,
+        "segmentStart": 485,
+        "segmentEnd": 596,
+        "startSeconds": 1012.72,
+        "endSeconds": 1240.52,
+        "method": "exact",
+        "excerpt": "so you're conveying to him there are people who know about this stuff that have not told you because you're a a temporary occupant of the white house. i don't think you want to say it that way, but >> well, it's as as true. >> do you have a"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:22880cfddea5",
+      "type": "claim",
+      "label": "Belgium had an 18-month flap with triangular craft",
+      "anchor": {
+        "charStart": 15051,
+        "charEnd": 18791,
+        "segmentStart": 485,
+        "segmentEnd": 596,
+        "startSeconds": 1012.72,
+        "endSeconds": 1240.52,
+        "method": "exact",
+        "excerpt": "so you're conveying to him there are people who know about this stuff that have not told you because you're a a temporary occupant of the white house. i don't think you want to say it that way, but >> well, it's as as true. >> do you have a"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:43a504da9307",
+      "type": "claim",
+      "label": "General De Brouwer chased them but stopped because it was burning fuel",
+      "anchor": {
+        "charStart": 15051,
+        "charEnd": 18791,
+        "segmentStart": 485,
+        "segmentEnd": 596,
+        "startSeconds": 1012.72,
+        "endSeconds": 1240.52,
+        "method": "exact",
+        "excerpt": "so you're conveying to him there are people who know about this stuff that have not told you because you're a a temporary occupant of the white house. i don't think you want to say it that way, but >> well, it's as as true. >> do you have a"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:2d30c865af74",
+      "type": "claim",
+      "label": "Fife Symington was governor during Phoenix Lights and was an eyewitness",
+      "anchor": {
+        "charStart": 15051,
+        "charEnd": 18791,
+        "segmentStart": 485,
+        "segmentEnd": 596,
+        "startSeconds": 1012.72,
+        "endSeconds": 1240.52,
+        "method": "exact",
+        "excerpt": "so you're conveying to him there are people who know about this stuff that have not told you because you're a a temporary occupant of the white house. i don't think you want to say it that way, but >> well, it's as as true. >> do you have a"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:1a6ee067bb63",
+      "type": "claim",
+      "label": "Phoenix lights were a huge triangular craft",
+      "anchor": {
+        "charStart": 15051,
+        "charEnd": 18791,
+        "segmentStart": 485,
+        "segmentEnd": 596,
+        "startSeconds": 1012.72,
+        "endSeconds": 1240.52,
+        "method": "exact",
+        "excerpt": "so you're conveying to him there are people who know about this stuff that have not told you because you're a a temporary occupant of the white house. i don't think you want to say it that way, but >> well, it's as as true. >> do you have a"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:3dacd5bd4e4e",
+      "type": "claim",
+      "label": "Early 50s had craft flying over White House and Capitol",
+      "anchor": {
+        "charStart": 15051,
+        "charEnd": 18791,
+        "segmentStart": 485,
+        "segmentEnd": 596,
+        "startSeconds": 1012.72,
+        "endSeconds": 1240.52,
+        "method": "exact",
+        "excerpt": "so you're conveying to him there are people who know about this stuff that have not told you because you're a a temporary occupant of the white house. i don't think you want to say it that way, but >> well, it's as as true. >> do you have a"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:1d025c9124d2",
+      "type": "claim",
+      "label": "Bigelow had top secret clearance for AATIP/DIA",
+      "anchor": {
+        "charStart": 18795,
+        "charEnd": 21545,
+        "segmentStart": 597,
+        "segmentEnd": 684,
+        "startSeconds": 1238.4,
+        "endSeconds": 1416.24,
+        "method": "exact",
+        "excerpt": "did you share with him anything about your knowledge of classified program? you you got a top secret security clearance, right? >> yeah. >> it was for the aatip program for bas. >> right. >> operated under the dia. >> yeah. >> you learned a"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:3752df7c897c",
+      "type": "claim",
+      "label": "AATIP is largest accumulation of UFO info",
+      "anchor": {
+        "charStart": 18795,
+        "charEnd": 21545,
+        "segmentStart": 597,
+        "segmentEnd": 684,
+        "startSeconds": 1238.4,
+        "endSeconds": 1416.24,
+        "method": "exact",
+        "excerpt": "did you share with him anything about your knowledge of classified program? you you got a top secret security clearance, right? >> yeah. >> it was for the aatip program for bas. >> right. >> operated under the dia. >> yeah. >> you learned a"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:7286be9aba1f",
+      "type": "claim",
+      "label": "Bigelow didn't share AATIP/Skinwalker info with Trump because it wasn't credible enough for him",
+      "anchor": {
+        "charStart": 18795,
+        "charEnd": 21545,
+        "segmentStart": 597,
+        "segmentEnd": 684,
+        "startSeconds": 1238.4,
+        "endSeconds": 1416.24,
+        "method": "exact",
+        "excerpt": "did you share with him anything about your knowledge of classified program? you you got a top secret security clearance, right? >> yeah. >> it was for the aatip program for bas. >> right. >> operated under the dia. >> yeah. >> you learned a"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:0f2e7cc33d55",
+      "type": "claim",
+      "label": "They had hitchhikers and saw things at the ranch and home",
+      "anchor": {
+        "charStart": 18795,
+        "charEnd": 21545,
+        "segmentStart": 597,
+        "segmentEnd": 684,
+        "startSeconds": 1238.4,
+        "endSeconds": 1416.24,
+        "method": "exact",
+        "excerpt": "did you share with him anything about your knowledge of classified program? you you got a top secret security clearance, right? >> yeah. >> it was for the aatip program for bas. >> right. >> operated under the dia. >> yeah. >> you learned a"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:5e6566c6ee8a",
+      "type": "claim",
+      "label": "Non-human intelligence is not necessarily ET",
+      "anchor": {
+        "charStart": 18795,
+        "charEnd": 21545,
+        "segmentStart": 597,
+        "segmentEnd": 684,
+        "startSeconds": 1238.4,
+        "endSeconds": 1416.24,
+        "method": "exact",
+        "excerpt": "did you share with him anything about your knowledge of classified program? you you got a top secret security clearance, right? >> yeah. >> it was for the aatip program for bas. >> right. >> operated under the dia. >> yeah. >> you learned a"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:aa8ea9f86dd0",
+      "type": "claim",
+      "label": "Reports of humans on board craft",
+      "anchor": {
+        "charStart": 18795,
+        "charEnd": 21545,
+        "segmentStart": 597,
+        "segmentEnd": 684,
+        "startSeconds": 1238.4,
+        "endSeconds": 1416.24,
+        "method": "exact",
+        "excerpt": "did you share with him anything about your knowledge of classified program? you you got a top secret security clearance, right? >> yeah. >> it was for the aatip program for bas. >> right. >> operated under the dia. >> yeah. >> you learned a"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:d4a7f8ce2f67",
+      "type": "claim",
+      "label": "Need to have respect for advanced intelligent creatures",
+      "anchor": {
+        "charStart": 18795,
+        "charEnd": 21545,
+        "segmentStart": 597,
+        "segmentEnd": 684,
+        "startSeconds": 1238.4,
+        "endSeconds": 1416.24,
+        "method": "exact",
+        "excerpt": "did you share with him anything about your knowledge of classified program? you you got a top secret security clearance, right? >> yeah. >> it was for the aatip program for bas. >> right. >> operated under the dia. >> yeah. >> you learned a"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "inf:c579d55ac7d4273a:8622dc25e2f7",
+      "type": "inference",
+      "label": "I was in the Oval Office with the president... Jan- or February the 6th... there was a staff secretary by the name of William Schärf... who was also there with the president, myself.",
+      "state": "Inferred",
+      "basis": "analysis.primary_claims",
+      "note": "Restated by the analysis prompt; no verbatim span located in the source, so it is not a Claim."
+    },
+    {
+      "id": "inf:c579d55ac7d4273a:75b817fae49e",
+      "type": "inference",
+      "label": "I told him I wanted him to say verbatim... A non-human intelligent presence has been on Earth for a very long time. Using spacecraft and with performances completely beyond our capabilities and our human physics.",
+      "state": "Inferred",
+      "basis": "analysis.primary_claims",
+      "note": "Restated by the analysis prompt; no verbatim span located in the source, so it is not a Claim."
+    },
+    {
+      "id": "inf:c579d55ac7d4273a:bf4209cd3eec",
+      "type": "inference",
+      "label": "Harry Reid... verified with Bill Clinton that he didn't know about the subject... President Clinton said to him... before I leave office, there are two things I really want to know. What the hell is the UFO subject all about? And who really killed JFK?",
+      "state": "Inferred",
+      "basis": "analysis.primary_claims",
+      "note": "Restated by the analysis prompt; no verbatim span located in the source, so it is not a Claim."
+    },
+    {
+      "id": "inf:c579d55ac7d4273a:192c85cda07b",
+      "type": "inference",
+      "label": "He [Pappy Henderson] was one of the pilots of one of the cargo planes taking from Roswell in the crash retrieval of Roswell in '47.",
+      "state": "Inferred",
+      "basis": "analysis.primary_claims",
+      "note": "Restated by the analysis prompt; no verbatim span located in the source, so it is not a Claim."
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:80d140d3fc93",
+      "type": "claim",
+      "label": "I think Bush senior knew quite a bit because he was a head of CIA. I think Nixon did. I think Eisenhower did.",
+      "anchor": {
+        "charStart": 16285,
+        "charEnd": 16394,
+        "segmentStart": 521,
+        "segmentEnd": 524,
+        "startSeconds": 1083.24,
+        "endSeconds": 1093.862,
+        "method": "prefix_only",
+        "excerpt": "i think bush senior knew quite a bit because he was a head of cia. i think uh nixon did. um i think eisenhowe"
+      },
+      "claimSource": "analysis.primary_claims"
+    },
+    {
+      "id": "inf:c579d55ac7d4273a:989ac5a39894",
+      "type": "inference",
+      "label": "I related conversations I have had with General De Brouwer who was a chief of the Air Force for Belgium and there was a very interesting flap that it was about 18 months long with triangle triangular craft.",
+      "state": "Inferred",
+      "basis": "analysis.primary_claims",
+      "note": "Restated by the analysis prompt; no verbatim span located in the source, so it is not a Claim."
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:96fa839d119f",
+      "type": "claim",
+      "label": "The one with Fife Symington is in '97 was so interesting because there you had a governor who was an actual witness... Phoenix lights which weren't just lights. It was actually freaking craft.",
+      "anchor": {
+        "charStart": 17618,
+        "charEnd": 17810,
+        "segmentStart": 561,
+        "segmentEnd": 567,
+        "startSeconds": 1162.56,
+        "endSeconds": 1178.68,
+        "method": "prefix_only",
+        "excerpt": "the one with fife symington is in '97 was so interesting because there you had a governor who was an actual witness and he made a joke of it on and brought an alien guy in an alien suit on sta"
+      },
+      "claimSource": "analysis.primary_claims"
+    },
+    {
+      "id": "inf:c579d55ac7d4273a:bcb2a6c120ff",
+      "type": "inference",
+      "label": "It [AATIP/BAS] operated under the DIA... It's the largest accumulation of UFO info of any government-funded UFO program ever.",
+      "state": "Inferred",
+      "basis": "analysis.primary_claims",
+      "note": "Restated by the analysis prompt; no verbatim span located in the source, so it is not a Claim."
+    },
+    {
+      "id": "clm:c579d55ac7d4273a:f67df9cdb853",
+      "type": "claim",
+      "label": "They will not know anything about unacknowledged SAPs, for sure. And only on a really serious need-to-know basis would they have anything to do with acknowledged SAPs.",
+      "anchor": {
+        "charStart": 5946,
+        "charEnd": 6113,
+        "segmentStart": 183,
+        "segmentEnd": 188,
+        "startSeconds": 381.88,
+        "endSeconds": 394.76,
+        "method": "exact",
+        "excerpt": "they will not know anything about unacknowledged saps, for sure. and only on a really serious need-to-know basis would they have anything to do with acknowledged saps."
+      },
+      "claimSource": "analysis.primary_claims"
+    },
+    {
+      "id": "inf:c579d55ac7d4273a:1825ed5830df",
+      "type": "inference",
+      "label": "We have no ability to control anything [regarding UAPs]. We haven't been in control of anything, ever, for this 80 years of modern history.",
+      "state": "Inferred",
+      "basis": "analysis.primary_claims",
+      "note": "Restated by the analysis prompt; no verbatim span located in the source, so it is not a Claim."
+    },
+    {
+      "id": "inf:c579d55ac7d4273a:b7d026afb5d6",
+      "type": "inference",
+      "label": "Meeting date stated as Jan- or February 6th during the Trump administration.",
+      "state": "Inferred",
+      "basis": "analysis.key_findings"
+    },
+    {
+      "id": "inf:c579d55ac7d4273a:703483e2d1a8",
+      "type": "inference",
+      "label": "Meeting attendees: Robert Bigelow, President Trump, William Scharf (Staff Secretary), Susie Wiles (mentioned as advising Bigelow).",
+      "state": "Inferred",
+      "basis": "analysis.key_findings"
+    },
+    {
+      "id": "inf:c579d55ac7d4273a:3f00af1f0fa2",
+      "type": "inference",
+      "label": "Bigelow presented 7 reports to the President, one specifically on UAP/ET/disclosure.",
+      "state": "Inferred",
+      "basis": "analysis.key_findings"
+    },
+    {
+      "id": "inf:c579d55ac7d4273a:0a8e1ed9b10e",
+      "type": "inference",
+      "label": "Bigelow states he held TS/SCI clearance for the AATIP/BAS program under DIA.",
+      "state": "Inferred",
+      "basis": "analysis.key_findings"
+    },
+    {
+      "id": "inf:c579d55ac7d4273a:2aefae3d2916",
+      "type": "inference",
+      "label": "Bigelow references unacknowledged Special Access Programs (SAPs) and claims presidents are not entitled to know about them.",
+      "state": "Inferred",
+      "basis": "analysis.key_findings"
+    },
+    {
+      "id": "inf:c579d55ac7d4273a:367378b869f5",
+      "type": "inference",
+      "label": "Historical figures mentioned in relation to UFO knowledge: Harry Reid, Bill Clinton, George H.W. Bush, Richard Nixon, Dwight Eisenhower.",
+      "state": "Inferred",
+      "basis": "analysis.key_findings"
+    },
+    {
+      "id": "inf:c579d55ac7d4273a:823909fe639f",
+      "type": "inference",
+      "label": "Bigelow describes 'gatekeepers' in government and private corporations who hold custody of UFO/ET information and hardware.",
+      "state": "Inferred",
+      "basis": "analysis.key_findings"
+    },
+    {
+      "id": "inf:c579d55ac7d4273a:2d348e09ee53",
+      "type": "inference",
+      "label": "Bigelow cites Harry Reid's direct interaction with Bill Clinton regarding Clinton's interest in UFOs and JFK.",
+      "state": "Inferred",
+      "basis": "analysis.supporting_evidence",
+      "stance": "supporting",
+      "note": "No quoted span located in the source."
+    },
+    {
+      "id": "inf:c579d55ac7d4273a:cd45689dbb74",
+      "type": "inference",
+      "label": "Bigelow cites Sappho Henderson's account of her husband Pappy Henderson's role in the Roswell crash retrieval.",
+      "state": "Inferred",
+      "basis": "analysis.supporting_evidence",
+      "stance": "supporting",
+      "note": "No quoted span located in the source."
+    },
+    {
+      "id": "inf:c579d55ac7d4273a:624544fc2ee9",
+      "type": "inference",
+      "label": "Bigelow cites General De Brouwer's account of the Belgian UFO wave.",
+      "state": "Inferred",
+      "basis": "analysis.supporting_evidence",
+      "stance": "supporting",
+      "note": "No quoted span located in the source."
+    },
+    {
+      "id": "inf:c579d55ac7d4273a:3925280f3d86",
+      "type": "inference",
+      "label": "Bigelow cites Fife Symington's witness status during the Phoenix Lights.",
+      "state": "Inferred",
+      "basis": "analysis.supporting_evidence",
+      "stance": "supporting",
+      "note": "No quoted span located in the source."
+    },
+    {
+      "id": "inf:c579d55ac7d4273a:ee6cb8ceb291",
+      "type": "inference",
+      "label": "Bigelow states Clinton didn't know about the subject, but also says 'I think Bush senior knew quite a bit... I think Nixon did. I think Eisenhower did,' indicating varying levels of presidential knowledge across administrations.",
+      "state": "Inferred",
+      "basis": "analysis.contradictory_evidence",
+      "stance": "contradictory",
+      "note": "No quoted span located in the source."
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:personnel:4007d4629229",
+      "type": "entity",
+      "label": "Robert",
+      "entityType": "PERSONNEL",
+      "role": "researcher/investigator (implied)",
+      "credibilityTier": 3,
+      "state": "Unverified",
+      "excerpt": "Robert, you've spent I don't know how many years and how many millions of dollars, probably more money than any person in the history of the world pursuing topics of mutual interest.",
+      "anchor": {
+        "charStart": 11,
+        "charEnd": 193,
+        "segmentStart": 1,
+        "segmentEnd": 5,
+        "startSeconds": 11.92,
+        "endSeconds": 21.64,
+        "method": "exact",
+        "excerpt": "robert, you've spent i don't know how many years and how many millions of dollars, probably more money than any person in the history of the world pursuing topics of mutual interest."
+      }
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:personnel:f8d54da16db4",
+      "type": "entity",
+      "label": "The President",
+      "entityType": "PERSONNEL",
+      "role": "official (unnamed)",
+      "aliases": [
+        "the president"
+      ],
+      "state": "Unverified",
+      "excerpt": "the president issued a directive, said start releasing information on these files",
+      "anchor": {
+        "charStart": 1080,
+        "charEnd": 1161,
+        "segmentStart": 35,
+        "segmentEnd": 37,
+        "startSeconds": 64.28,
+        "endSeconds": 71.75999999999999,
+        "method": "exact",
+        "excerpt": "the president issued a directive, said start releasing information on these files"
+      },
+      "credibilityTier": 9,
+      "credibilityNote": "Referenced as 'the president' throughout; not named explicitly in this text. Institutional role as head of state supports highest tier for meeting occurrence, but identity is inferred from context (Susie Wiles association)."
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:event:26b9cb148efa",
+      "type": "entity",
+      "label": "Presidential directive to release UFO/UAP files",
+      "entityType": "EVENT",
+      "state": "Unverified",
+      "excerpt": "the president issued a directive, said start releasing information on these files. Now, it's been a little disappointing what's been released so far",
+      "anchor": {
+        "charStart": 1080,
+        "charEnd": 1228,
+        "segmentStart": 35,
+        "segmentEnd": 39,
+        "startSeconds": 64.28,
+        "endSeconds": 75.96000000000001,
+        "method": "exact",
+        "excerpt": "the president issued a directive, said start releasing information on these files. now, it's been a little disappointing what's been released so far"
+      }
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:organization:721c9525ade2",
+      "type": "entity",
+      "label": "Media",
+      "entityType": "ORGANIZATION",
+      "aliases": [
+        "a lot of the media"
+      ],
+      "state": "Observed",
+      "excerpt": "mostly by the a lot of the media propagated that",
+      "anchor": {
+        "charStart": 828,
+        "charEnd": 876,
+        "segmentStart": 26,
+        "segmentEnd": 27,
+        "startSeconds": 52.4,
+        "endSeconds": 55.52,
+        "method": "exact",
+        "excerpt": "mostly by the a lot of the media propagated that"
+      }
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:personnel:762028ec52fb",
+      "type": "entity",
+      "label": "William Schärf",
+      "entityType": "PERSONNEL",
+      "role": "staff secretary",
+      "aliases": [
+        "Schärf",
+        "S C H A R F"
+      ],
+      "credibilityTier": 7,
+      "credibilityNote": "Named White House staff secretary present in Oval Office meeting; institutional role supports moderate-high credibility for attendance corroboration.",
+      "state": "Observed",
+      "excerpt": "there was a staff secretary by the name of William Schärf, S C H A R F, who uh was also there with the president, myself",
+      "anchor": {
+        "charStart": 1894,
+        "charEnd": 2014,
+        "segmentStart": 62,
+        "segmentEnd": 65,
+        "startSeconds": 119.64,
+        "endSeconds": 135.959,
+        "method": "exact",
+        "excerpt": "there was a staff secretary by the name of william schärf, s c h a r f, who uh was also there with the president, myself"
+      }
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:personnel:1ad9c0a88fc8",
+      "type": "entity",
+      "label": "Susie Wiles",
+      "entityType": "PERSONNEL",
+      "role": "advisor / staff (consulted on briefing approach)",
+      "aliases": [
+        "Susie"
+      ],
+      "credibilityTier": 7,
+      "credibilityNote": "Named individual providing advice on briefing the president; institutional proximity to executive office supports moderate-high credibility for contextual claims.",
+      "state": "Observed",
+      "excerpt": "I asked Susie, um >> Susie Wiles? >> Susie Wiles, should I really hold shouldn't I hold back and maybe only give him two or three papers?",
+      "anchor": {
+        "charStart": 2099,
+        "charEnd": 2236,
+        "segmentStart": 68,
+        "segmentEnd": 74,
+        "startSeconds": 138.32,
+        "endSeconds": 154.35999999999999,
+        "method": "exact",
+        "excerpt": "i asked susie, um >> susie wiles? >> susie wiles, should i really hold shouldn't i hold back and maybe only give him two or three papers?"
+      }
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:personnel:8df6c3b11a37",
+      "type": "entity",
+      "label": "Unnamed Speaker",
+      "entityType": "PERSONNEL",
+      "role": "briefing author and presenter; whistleblower/advocate (self-described)",
+      "aliases": [
+        "I"
+      ],
+      "credibilityTier": 5,
+      "credibilityNote": "Speaker claims direct Oval Office access and authored seven topic reports including UAP/ET disclosure. Identity not stated in this text excerpt. Claims of direct presidential access are unverified within this source alone.",
+      "state": "Unverified",
+      "excerpt": "I was in the Oval Office with the president",
+      "anchor": {
+        "charStart": 1845,
+        "charEnd": 1888,
+        "segmentStart": 61,
+        "segmentEnd": 62,
+        "startSeconds": 117.04,
+        "endSeconds": 126.12,
+        "method": "exact",
+        "excerpt": "i was in the oval office with the president"
+      }
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:event:f6c095f404e2",
+      "type": "entity",
+      "label": "Oval Office UAP/ET Disclosure Briefing",
+      "entityType": "EVENT",
+      "state": "Unverified",
+      "excerpt": "February the 6th, I was in the Oval Office with the president, and there was a staff secretary by the name of William Schärf",
+      "anchor": {
+        "charStart": 1827,
+        "charEnd": 1951,
+        "segmentStart": 61,
+        "segmentEnd": 64,
+        "startSeconds": 117.04,
+        "endSeconds": 134.28,
+        "method": "exact",
+        "excerpt": "february the 6th, i was in the oval office with the president, and there was a staff secretary by the name of william schärf"
+      }
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:evidence:a5ec8c672628",
+      "type": "entity",
+      "label": "Seven Topic Reports including UAP/ET/Disclosure",
+      "entityType": "EVIDENCE",
+      "state": "Unverified",
+      "excerpt": "I was in the process for for um several months putting together a series of reports on seven different topics. And UAPs, ET, and disclosure was one of the topics.",
+      "anchor": {
+        "charStart": 1580,
+        "charEnd": 1742,
+        "segmentStart": 50,
+        "segmentEnd": 57,
+        "startSeconds": 93.92,
+        "endSeconds": 111.88,
+        "method": "exact",
+        "excerpt": "i was in the process for for um several months putting together a series of reports on seven different topics. and uaps, et, and disclosure was one of the topics."
+      }
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:evidence:f174b6258e19",
+      "type": "entity",
+      "label": "Proposed Presidential Disclosure Statement",
+      "entityType": "EVIDENCE",
+      "state": "Speculative",
+      "excerpt": "A non-human intelligent presence has been on Earth for a very long time. Using spacecraft and with performances completely beyond our capabilities and our human physics.",
+      "anchor": {
+        "charStart": 3750,
+        "charEnd": 3919,
+        "segmentStart": 119,
+        "segmentEnd": 123,
+        "startSeconds": 244.64,
+        "endSeconds": 261.239,
+        "method": "exact",
+        "excerpt": "a non-human intelligent presence has been on earth for a very long time. using spacecraft and with performances completely beyond our capabilities and our human physics."
+      }
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:location:7279d4ac28bf",
+      "type": "entity",
+      "label": "Oval Office",
+      "entityType": "LOCATION",
+      "state": "Observed",
+      "excerpt": "I was in the Oval Office with the president",
+      "anchor": {
+        "charStart": 1845,
+        "charEnd": 1888,
+        "segmentStart": 61,
+        "segmentEnd": 62,
+        "startSeconds": 117.04,
+        "endSeconds": 126.12,
+        "method": "exact",
+        "excerpt": "i was in the oval office with the president"
+      }
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:location:d7365df1fa1f",
+      "type": "entity",
+      "label": "Air Force One",
+      "entityType": "LOCATION",
+      "state": "Speculative",
+      "excerpt": "deliver this statement a- as you're getting onto Air Force Air Force One",
+      "anchor": {
+        "charStart": 3400,
+        "charEnd": 3472,
+        "segmentStart": 107,
+        "segmentEnd": 110,
+        "startSeconds": 219.12,
+        "endSeconds": 229.8,
+        "method": "exact",
+        "excerpt": "deliver this statement a- as you're getting onto air force air force one"
+      }
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:personnel:839872963a8e",
+      "type": "entity",
+      "label": "Harry Reid",
+      "entityType": "PERSONNEL",
+      "role": "U.S. Senator (implied by context); investigator/verifier of presidential UFO knowledge",
+      "aliases": [
+        "Harry"
+      ],
+      "credibilityTier": 8,
+      "state": "Corroborated",
+      "excerpt": "Harry Reid, who he and I were very good friends for many, many years, verified with Bill Clinton that he didn't know about the subject",
+      "anchor": {
+        "charStart": 4364,
+        "charEnd": 4498,
+        "segmentStart": 136,
+        "segmentEnd": 139,
+        "startSeconds": 289.12,
+        "endSeconds": 300.52,
+        "method": "exact",
+        "excerpt": "harry reid, who he and i were very good friends for many, many years, verified with bill clinton that he didn't know about the subject"
+      }
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:personnel:605fb1aa4266",
+      "type": "entity",
+      "label": "Bill Clinton",
+      "entityType": "PERSONNEL",
+      "role": "U.S. President (second term, per text); subject of verification regarding UFO knowledge",
+      "aliases": [
+        "President Clinton",
+        "Clinton"
+      ],
+      "credibilityTier": 9,
+      "state": "Corroborated",
+      "excerpt": "before I leave office, there are two things I really want to know. What the hell is the UFO subject all about? And who really killed JFK?",
+      "anchor": {
+        "charStart": 4755,
+        "charEnd": 4892,
+        "segmentStart": 148,
+        "segmentEnd": 152,
+        "startSeconds": 315.64,
+        "endSeconds": 328.40000000000003,
+        "method": "exact",
+        "excerpt": "before i leave office, there are two things i really want to know. what the hell is the ufo subject all about? and who really killed jfk?"
+      }
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:personnel:3ff4f9dcfadb",
+      "type": "entity",
+      "label": "Webb Hubbell",
+      "entityType": "PERSONNEL",
+      "role": "Presidential aide; assigned to investigate UFO subject and JFK assassination",
+      "aliases": [
+        "Webb Hubble"
+      ],
+      "credibilityTier": 7,
+      "state": "Corroborated",
+      "excerpt": "his aide was Webb Hubble, who got the assignment to go dig into those. >> Yes. >> And he didn't get the answers.",
+      "anchor": {
+        "charStart": 4902,
+        "charEnd": 5014,
+        "segmentStart": 153,
+        "segmentEnd": 156,
+        "startSeconds": 326.52,
+        "endSeconds": 333.68,
+        "method": "exact",
+        "excerpt": "his aide was webb hubble, who got the assignment to go dig into those. >> yes. >> and he didn't get the answers."
+      }
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:personnel:7f5b9b605ee7",
+      "type": "entity",
+      "label": "Unnamed staffer / book author",
+      "entityType": "PERSONNEL",
+      "role": "Staffer who wrote a book referencing conversation with President Clinton",
+      "aliases": [
+        "so-and-so"
+      ],
+      "credibilityTier": 3,
+      "state": "Unverified",
+      "excerpt": "there was a staffer that wrote a book and he referred to a conversation that he and the Bill Clinton had had",
+      "anchor": {
+        "charStart": 4551,
+        "charEnd": 4659,
+        "segmentStart": 141,
+        "segmentEnd": 143,
+        "startSeconds": 300.52,
+        "endSeconds": 310.32,
+        "method": "prefix_only",
+        "excerpt": "there was a staffer that wrote a book and he referred to a conversation that he and and the bill clinton had"
+      }
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:event:ce54f438b40b",
+      "type": "entity",
+      "label": "Bill Clinton pre-departure UFO inquiry",
+      "entityType": "EVENT",
+      "state": "Corroborated",
+      "excerpt": "before I leave office, there are two things I really want to know. What the hell is the UFO subject all about? And who really killed JFK?",
+      "anchor": {
+        "charStart": 4755,
+        "charEnd": 4892,
+        "segmentStart": 148,
+        "segmentEnd": 152,
+        "startSeconds": 315.64,
+        "endSeconds": 328.40000000000003,
+        "method": "exact",
+        "excerpt": "before i leave office, there are two things i really want to know. what the hell is the ufo subject all about? and who really killed jfk?"
+      }
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:event:a835d3aa2374",
+      "type": "entity",
+      "label": "Webb Hubbell investigation assignment",
+      "entityType": "EVENT",
+      "state": "Unverified",
+      "excerpt": "his aide was Webb Hubble, who got the assignment to go dig into those. >> Yes. >> And he didn't get the answers.",
+      "anchor": {
+        "charStart": 4902,
+        "charEnd": 5014,
+        "segmentStart": 153,
+        "segmentEnd": 156,
+        "startSeconds": 326.52,
+        "endSeconds": 333.68,
+        "method": "exact",
+        "excerpt": "his aide was webb hubble, who got the assignment to go dig into those. >> yes. >> and he didn't get the answers."
+      }
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:evidence:e5d8090caa12",
+      "type": "entity",
+      "label": "Staffer's book referencing Clinton conversation",
+      "entityType": "EVIDENCE",
+      "state": "Unverified",
+      "excerpt": "there was a staffer that wrote a book and he referred to a conversation that he and the Bill Clinton had had",
+      "anchor": {
+        "charStart": 4551,
+        "charEnd": 4659,
+        "segmentStart": 141,
+        "segmentEnd": 143,
+        "startSeconds": 300.52,
+        "endSeconds": 310.32,
+        "method": "prefix_only",
+        "excerpt": "there was a staffer that wrote a book and he referred to a conversation that he and and the bill clinton had"
+      }
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:evidence:c58cff3b652e",
+      "type": "entity",
+      "label": "Harry Reid–Bill Clinton verification conversation",
+      "entityType": "EVIDENCE",
+      "state": "Corroborated",
+      "excerpt": "he met with with the President Clinton. He said, 'Did you say this?' And Clinton said, 'Hell, yes.'"
+    },
+    {
+      "id": "inf:c579d55ac7d4273a:3862ade3413d",
+      "type": "inference",
+      "label": "The consistent theme across Reid, Clinton, and Hubbell accounts suggests a pattern of presidential curiosity met with non-disclosure, which may indicate information compartmentalization outside normal executive channels.",
+      "state": "Inferred",
+      "basis": "ner.analysis_summary[c03]"
+    },
+    {
+      "id": "inf:c579d55ac7d4273a:22637738f3bf",
+      "type": "inference",
+      "label": "The unnamed staffer/book represents the weakest evidentiary link; identifying this published source would strengthen the corroboration chain.",
+      "state": "Inferred",
+      "basis": "ner.analysis_summary[c03]"
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:personnel:08682370eb8a",
+      "type": "entity",
+      "label": "Donald Trump",
+      "entityType": "PERSONNEL",
+      "role": "U.S. President (contextual); briefing recipient",
+      "aliases": [
+        "Trump"
+      ],
+      "state": "Observed",
+      "excerpt": "Well, let's go back to Donald Trump. You know him. I mean, it's not like you're hanging out and going bowling on Saturday nights, but you're friends.",
+      "anchor": {
+        "charStart": 6309,
+        "charEnd": 6458,
+        "segmentStart": 194,
+        "segmentEnd": 197,
+        "startSeconds": 404.52,
+        "endSeconds": 412.0,
+        "method": "exact",
+        "excerpt": "well, let's go back to donald trump. you know him. i mean, it's not like you're hanging out and going bowling on saturday nights, but you're friends."
+      }
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:personnel:d0784c6b1785",
+      "type": "entity",
+      "label": "William",
+      "entityType": "PERSONNEL",
+      "role": "Staff Secretary at the White House",
+      "state": "Observed",
+      "excerpt": "William, the other the the the staff secretary there, uh we started we we were grabbing things",
+      "anchor": {
+        "charStart": 7501,
+        "charEnd": 7595,
+        "segmentStart": 228,
+        "segmentEnd": 230,
+        "startSeconds": 466.72,
+        "endSeconds": 475.04,
+        "method": "exact",
+        "excerpt": "william, the other the the the staff secretary there, uh we started we we were grabbing things"
+      }
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:personnel:e7cbb589a7b2",
+      "type": "entity",
+      "label": "Unidentified Interviewee",
+      "entityType": "PERSONNEL",
+      "role": "Briefing official; Trump associate and donor; claims TS/SCI clearance",
+      "credibilityTier": 3,
+      "state": "Unverified",
+      "excerpt": "that was only clearances that we had, top secret special compartmental information. Uh that's not even remotely close enough.",
+      "anchor": {
+        "charStart": 6180,
+        "charEnd": 6305,
+        "segmentStart": 190,
+        "segmentEnd": 193,
+        "startSeconds": 394.76,
+        "endSeconds": 406.12,
+        "method": "exact",
+        "excerpt": "that was only clearances that we had, top secret special compartmental information. uh that's not even remotely close enough."
+      }
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:event:def82c5bfc82",
+      "type": "entity",
+      "label": "Oval Office Briefing of President Trump on Sensitive Topics",
+      "entityType": "EVENT",
+      "state": "Unverified",
+      "excerpt": "it was a big honor to be in the Oval Office on and and being able to brief him on so many different kinds of really sensitive important topics, and including this one.",
+      "anchor": {
+        "charStart": 6756,
+        "charEnd": 6923,
+        "segmentStart": 206,
+        "segmentEnd": 210,
+        "startSeconds": 424.28,
+        "endSeconds": 439.08,
+        "method": "exact",
+        "excerpt": "it was a big honor to be in the oval office on and and being able to brief him on so many different kinds of really sensitive important topics, and including this one."
+      }
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:organization:c75bae7088ed",
+      "type": "entity",
+      "label": "White House",
+      "entityType": "ORGANIZATION",
+      "aliases": [
+        "Oval Office"
+      ],
+      "state": "Observed",
+      "excerpt": "it was a big honor to be in the Oval Office",
+      "anchor": {
+        "charStart": 6756,
+        "charEnd": 6799,
+        "segmentStart": 206,
+        "segmentEnd": 207,
+        "startSeconds": 424.28,
+        "endSeconds": 431.12,
+        "method": "exact",
+        "excerpt": "it was a big honor to be in the oval office"
+      }
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:location:d8184317cda3",
+      "type": "entity",
+      "label": "Mar-a-Lago",
+      "entityType": "LOCATION",
+      "state": "Observed",
+      "excerpt": "You've been to Mar-a-Lago. He calls you from time to time.",
+      "anchor": {
+        "charStart": 6567,
+        "charEnd": 6625,
+        "segmentStart": 200,
+        "segmentEnd": 202,
+        "startSeconds": 414.12,
+        "endSeconds": 422.68,
+        "method": "exact",
+        "excerpt": "you've been to mar-a-lago. he calls you from time to time."
+      }
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:evidence:144daa95e485",
+      "type": "entity",
+      "label": "Seven stacks of reports left at Resolute Desk",
+      "entityType": "EVIDENCE",
+      "state": "Unverified",
+      "excerpt": "we we made room for these seven different stacks of reports that I'm leaving behind. They were more than just one copy.",
+      "anchor": {
+        "charStart": 7656,
+        "charEnd": 7775,
+        "segmentStart": 233,
+        "segmentEnd": 236,
+        "startSeconds": 477.68,
+        "endSeconds": 487.76,
+        "method": "exact",
+        "excerpt": "we we made room for these seven different stacks of reports that i'm leaving behind. they were more than just one copy."
+      }
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:evidence:3f29803e9f83",
+      "type": "entity",
+      "label": "Briefing document prepared for Trump",
+      "entityType": "EVIDENCE",
+      "state": "Unverified",
+      "excerpt": "you you prepare a document for him, and what you want to convey in that time period, and then there's additional material in that document.",
+      "anchor": {
+        "charStart": 7095,
+        "charEnd": 7234,
+        "segmentStart": 216,
+        "segmentEnd": 220,
+        "startSeconds": 445.4,
+        "endSeconds": 454.71999999999997,
+        "method": "exact",
+        "excerpt": "you you prepare a document for him, and what you want to convey in that time period, and then there's additional material in that document."
+      }
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:personnel:e07cf77b2c31",
+      "type": "entity",
+      "label": "President of the United States",
+      "entityType": "PERSONNEL",
+      "role": "hypothetical disclosure authority",
+      "state": "Speculative",
+      "excerpt": "for somebody like the President of the United States to say, \"Yeah, they're real. They're here.\"",
+      "anchor": {
+        "charStart": 8192,
+        "charEnd": 8288,
+        "segmentStart": 252,
+        "segmentEnd": 255,
+        "startSeconds": 520.88,
+        "endSeconds": 528.44,
+        "method": "exact",
+        "excerpt": "for somebody like the president of the united states to say, \"yeah, they're real. they're here.\""
+      },
+      "aliases": [
+        "he",
+        "him"
+      ],
+      "credibilityTier": 1
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:organization:c6d23004e73d",
+      "type": "entity",
+      "label": "government locations",
+      "entityType": "ORGANIZATION",
+      "state": "Unverified",
+      "excerpt": "these people because they're the ones that are in government locations and private corporation locations",
+      "anchor": {
+        "charStart": 8466,
+        "charEnd": 8570,
+        "segmentStart": 264,
+        "segmentEnd": 267,
+        "startSeconds": 540.2,
+        "endSeconds": 550.48,
+        "method": "exact",
+        "excerpt": "these people because they're the ones that are in government locations and private corporation locations"
+      }
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:organization:1c90eda2e9a8",
+      "type": "entity",
+      "label": "private corporation locations",
+      "entityType": "ORGANIZATION",
+      "state": "Unverified",
+      "excerpt": "these people because they're the ones that are in government locations and private corporation locations",
+      "anchor": {
+        "charStart": 8466,
+        "charEnd": 8570,
+        "segmentStart": 264,
+        "segmentEnd": 267,
+        "startSeconds": 540.2,
+        "endSeconds": 550.48,
+        "method": "exact",
+        "excerpt": "these people because they're the ones that are in government locations and private corporation locations"
+      }
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:evidence:323e4a68fa6f",
+      "type": "entity",
+      "label": "gatekeeper-held UAP information and hardware",
+      "entityType": "EVIDENCE",
+      "aliases": [
+        "the goods",
+        "information about ET",
+        "hardware"
+      ],
+      "state": "Unverified",
+      "excerpt": "they have custody of the goods. More information than they are diamonds in a coal mine. They have um they have obtained information about ET themselves. Uh about hardware."
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:event:cdcdcc4e0168",
+      "type": "entity",
+      "label": "UAP disclosure process",
+      "entityType": "EVENT",
+      "aliases": [
+        "disclosure"
+      ],
+      "state": "Speculative",
+      "excerpt": "this disclosure is a process and I and I was I was emphasizing that the disclosure process starting with confirmation is a big deal",
+      "anchor": {
+        "charStart": 8000,
+        "charEnd": 8131,
+        "segmentStart": 247,
+        "segmentEnd": 251,
+        "startSeconds": 509.52,
+        "endSeconds": 522.64,
+        "method": "prefix_only",
+        "excerpt": "this disclosure is a process and i and i was i was emphasizing that the disclosure process starting [clears throat] with confirmati"
+      }
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:personnel:eeda826bf4cd",
+      "type": "entity",
+      "label": "Sappho Henderson",
+      "entityType": "PERSONNEL",
+      "role": "witness / spouse of alleged Roswell pilot",
+      "aliases": [
+        "Saffi"
+      ],
+      "credibilityTier": 5,
+      "state": "Unverified",
+      "excerpt": "I was talking to Sappho Henderson one time. And Pat Pappy Henderson was her husband.",
+      "anchor": {
+        "charStart": 9555,
+        "charEnd": 9639,
+        "segmentStart": 308,
+        "segmentEnd": 310,
+        "startSeconds": 629.48,
+        "endSeconds": 638.4,
+        "method": "exact",
+        "excerpt": "i was talking to sappho henderson one time. and pat pappy henderson was her husband."
+      }
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:personnel:4f29de7d12f2",
+      "type": "entity",
+      "label": "Pat Henderson",
+      "entityType": "PERSONNEL",
+      "role": "alleged cargo plane pilot, Roswell crash retrieval",
+      "aliases": [
+        "Pappy Henderson"
+      ],
+      "credibilityTier": 5,
+      "state": "Unverified",
+      "excerpt": "He was one of the pilots of uh one of the cargo planes taking uh from Roswell uh in the in the crash retrieval of of Roswell in '47.",
+      "anchor": {
+        "charStart": 10043,
+        "charEnd": 10175,
+        "segmentStart": 322,
+        "segmentEnd": 327,
+        "startSeconds": 662.08,
+        "endSeconds": 678.56,
+        "method": "exact",
+        "excerpt": "he was one of the pilots of uh one of the cargo planes taking uh from roswell uh in the in the crash retrieval of of roswell in '47."
+      }
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:personnel:32a708b05cf2",
+      "type": "entity",
+      "label": "Henderson daughter",
+      "entityType": "PERSONNEL",
+      "role": "witness to Sappho Henderson's retelling",
+      "credibilityTier": 3,
+      "state": "Unverified",
+      "excerpt": "her daugh- daughter was there, too, as we were talk- she was relating the story.",
+      "anchor": {
+        "charStart": 10235,
+        "charEnd": 10315,
+        "segmentStart": 330,
+        "segmentEnd": 332,
+        "startSeconds": 679.4,
+        "endSeconds": 687.88,
+        "method": "exact",
+        "excerpt": "her daugh- daughter was there, too, as we were talk- she was relating the story."
+      }
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:event:f9998c009d19",
+      "type": "entity",
+      "label": "Roswell crash retrieval 1947",
+      "entityType": "EVENT",
+      "aliases": [
+        "Roswell in '47"
+      ],
+      "state": "Contested",
+      "excerpt": "the crash retrieval of of Roswell in '47",
+      "anchor": {
+        "charStart": 10134,
+        "charEnd": 10174,
+        "segmentStart": 326,
+        "segmentEnd": 327,
+        "startSeconds": 670.96,
+        "endSeconds": 678.56,
+        "method": "exact",
+        "excerpt": "the crash retrieval of of roswell in '47"
+      }
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:event:44a9fe01522f",
+      "type": "entity",
+      "label": "Henderson grocery store disclosure incident",
+      "entityType": "EVENT",
+      "state": "Unverified",
+      "excerpt": "we were in the grocery store one time. And uh he's and there's an article in there in one of the magazines about it's finally been revealed about ETs and aliens."
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:evidence:942341187a21",
+      "type": "entity",
+      "label": "Tabloid magazine article (grocery store)",
+      "entityType": "EVIDENCE",
+      "state": "Unverified",
+      "excerpt": "It was like the Weekly World News talking about Roswell.",
+      "anchor": {
+        "charStart": 10504,
+        "charEnd": 10560,
+        "segmentStart": 340,
+        "segmentEnd": 341,
+        "startSeconds": 697.8,
+        "endSeconds": 702.88,
+        "method": "exact",
+        "excerpt": "it was like the weekly world news talking about roswell."
+      }
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:organization:01a34efc8d4e",
+      "type": "entity",
+      "label": "Weekly World News",
+      "entityType": "ORGANIZATION",
+      "state": "Observed",
+      "excerpt": "It was like the Weekly World News talking about Roswell.",
+      "anchor": {
+        "charStart": 10504,
+        "charEnd": 10560,
+        "segmentStart": 340,
+        "segmentEnd": 341,
+        "startSeconds": 697.8,
+        "endSeconds": 702.88,
+        "method": "exact",
+        "excerpt": "it was like the weekly world news talking about roswell."
+      }
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:location:56046694c3d5",
+      "type": "entity",
+      "label": "Roswell",
+      "entityType": "LOCATION",
+      "state": "Observed",
+      "excerpt": "from Roswell uh in the in the crash retrieval of of Roswell in '47",
+      "anchor": {
+        "charStart": 10108,
+        "charEnd": 10174,
+        "segmentStart": 325,
+        "segmentEnd": 327,
+        "startSeconds": 669.04,
+        "endSeconds": 678.56,
+        "method": "exact",
+        "excerpt": "from roswell uh in the in the crash retrieval of of roswell in '47"
+      }
+    },
+    {
+      "id": "inf:c579d55ac7d4273a:4a9f5e484967",
+      "type": "inference",
+      "label": "The narrative's value is anecdotal and contextual rather than evidentiary. It demonstrates how even peripheral participants in alleged crash retrieval operations maintained silence, and how tabloid media could inadvertently trigger disclosures.",
+      "state": "Inferred",
+      "basis": "ner.analysis_summary[c06]"
+    },
+    {
+      "id": "inf:c579d55ac7d4273a:79ae218d4536",
+      "type": "inference",
+      "label": "Pat Henderson's credibility as a pilot is plausible but unverified in this source; no military records, flight logs, or unit assignments are cited.",
+      "state": "Inferred",
+      "basis": "ner.analysis_summary[c06]"
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:personnel:508aaae07231",
+      "type": "entity",
+      "label": "Unnamed Presidential Advisor (Interviewee)",
+      "entityType": "PERSONNEL",
+      "role": "advisor to the president on UAP/ET disclosure and related topics",
+      "credibilityTier": 5,
+      "state": "Unverified",
+      "excerpt": "I basically I focused on him. And how to prepare himself if he's not already prepared.",
+      "anchor": {
+        "charStart": 11834,
+        "charEnd": 11920,
+        "segmentStart": 380,
+        "segmentEnd": 384,
+        "startSeconds": 777.839,
+        "endSeconds": 793.1999999999999,
+        "method": "exact",
+        "excerpt": "i basically i focused on him. and how to prepare himself if he's not already prepared."
+      }
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:personnel:993e85b7ddc9",
+      "type": "entity",
+      "label": "Unnamed President (referred to as businessman)",
+      "entityType": "PERSONNEL",
+      "role": "U.S. president; recipient of briefing",
+      "aliases": [
+        "him",
+        "the president"
+      ],
+      "state": "Unverified",
+      "excerpt": "It's not normal for for a businessman to be a researcher in these kinds of topics"
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:event:f88eb3cb8600",
+      "type": "entity",
+      "label": "Presidential briefing meeting on seven topics including UAP/ET disclosure",
+      "entityType": "EVENT",
+      "aliases": [
+        "the meeting",
+        "this meeting"
+      ],
+      "state": "Unverified",
+      "excerpt": "Let's go back to the beginning of this meeting. So, you go in you've got seven papers you issues that you want to discuss with him. UAP, ET disclosure being one of them.",
+      "anchor": {
+        "charStart": 11110,
+        "charEnd": 11279,
+        "segmentStart": 358,
+        "segmentEnd": 362,
+        "startSeconds": 734.04,
+        "endSeconds": 745.9200000000001,
+        "method": "exact",
+        "excerpt": "let's go back to the beginning of this meeting. so, you go in you've got seven papers you issues that you want to discuss with him. uap, et disclosure being one of them."
+      }
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:organization:4f3a1cb13356",
+      "type": "entity",
+      "label": "Government agencies (unspecified)",
+      "entityType": "ORGANIZATION",
+      "aliases": [
+        "government agencies",
+        "the people who work for him"
+      ],
+      "state": "Unverified",
+      "excerpt": "And government agencies, the people who work for him.",
+      "anchor": {
+        "charStart": 12474,
+        "charEnd": 12527,
+        "segmentStart": 402,
+        "segmentEnd": 403,
+        "startSeconds": 832.48,
+        "endSeconds": 835.64,
+        "method": "exact",
+        "excerpt": "and government agencies, the people who work for him."
+      }
+    },
+    {
+      "id": "inf:c579d55ac7d4273a:fcf4a8fddf89",
+      "type": "inference",
+      "label": "The 'businessman' president context strongly suggests Donald Trump, but the text does not name him explicitly; confidence is moderate but not textually grounded.",
+      "state": "Inferred",
+      "basis": "ner.analysis_summary[c07]"
+    },
+    {
+      "id": "inf:c579d55ac7d4273a:6078130c5078",
+      "type": "inference",
+      "label": "The interviewee appears to have had direct access to the president, suggesting an institutional or advisory role, but no specific affiliation is stated.",
+      "state": "Inferred",
+      "basis": "ner.analysis_summary[c07]"
+    },
+    {
+      "id": "inf:c579d55ac7d4273a:4afe5fe318c2",
+      "type": "inference",
+      "label": "The interviewee's mention of 'survival of consciousness beyond permanent bodily death' alongside UFOs/ETs suggests a broader parapsychological/consciousness research background.",
+      "state": "Inferred",
+      "basis": "ner.analysis_summary[c07]"
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:organization:e3d932b06cd8",
+      "type": "entity",
+      "label": "Unacknowledged Special Access Programs",
+      "entityType": "ORGANIZATION",
+      "aliases": [
+        "unacknowledged SAPs"
+      ],
+      "state": "Observed",
+      "excerpt": "unacknowledged SAPs"
+    },
+    {
+      "id": "ent:c579d55ac7d4273a:organization:5ff711f055ea",
+      "type": "entity",
+      "label": "Intelligence Agency",
+      "entityType": "ORGANIZATION",
+      "state": "Observed",
+      "excerpt": "intelligence agency"
+    },
+    {
+      "id": "oq:c579d55ac7d4273a:0aa2f7581f24",
+      "type": "open_question",
+      "label": "Verify the date of the Oval Office meeting (stated as Jan- or February 6th) and attendees (William Scharf, Susie Wiles) against White House visitor logs or official schedules.",
+      "basis": "analysis.content_assessment.follow_up_needed"
+    },
+    {
+      "id": "oq:c579d55ac7d4273a:0c1637e79fe0",
+      "type": "open_question",
+      "label": "Cross-reference Bigelow's account of Harry Reid's conversation with Bill Clinton against Reid's memoir or other public statements.",
+      "basis": "analysis.content_assessment.follow_up_needed"
+    },
+    {
+      "id": "oq:c579d55ac7d4273a:ce34c9a25e52",
+      "type": "open_question",
+      "label": "Verify the existence and scope of the AATIP/BAS program under DIA and Bigelow's specific role and clearance level.",
+      "basis": "analysis.content_assessment.follow_up_needed"
+    }
+  ],
+  "edges": [
+    {
+      "from": "src:c579d55ac7d4273a",
+      "to": "seg:c579d55ac7d4273a:c01",
+      "type": "contains"
+    },
+    {
+      "from": "src:c579d55ac7d4273a",
+      "to": "seg:c579d55ac7d4273a:c02",
+      "type": "contains"
+    },
+    {
+      "from": "src:c579d55ac7d4273a",
+      "to": "seg:c579d55ac7d4273a:c03",
+      "type": "contains"
+    },
+    {
+      "from": "src:c579d55ac7d4273a",
+      "to": "seg:c579d55ac7d4273a:c04",
+      "type": "contains"
+    },
+    {
+      "from": "src:c579d55ac7d4273a",
+      "to": "seg:c579d55ac7d4273a:c05",
+      "type": "contains"
+    },
+    {
+      "from": "src:c579d55ac7d4273a",
+      "to": "seg:c579d55ac7d4273a:c06",
+      "type": "contains"
+    },
+    {
+      "from": "src:c579d55ac7d4273a",
+      "to": "seg:c579d55ac7d4273a:c07",
+      "type": "contains"
+    },
+    {
+      "from": "src:c579d55ac7d4273a",
+      "to": "seg:c579d55ac7d4273a:c08",
+      "type": "contains"
+    },
+    {
+      "from": "src:c579d55ac7d4273a",
+      "to": "seg:c579d55ac7d4273a:c09",
+      "type": "contains"
+    },
+    {
+      "from": "src:c579d55ac7d4273a",
+      "to": "seg:c579d55ac7d4273a:c10",
+      "type": "contains"
+    },
+    {
+      "from": "src:c579d55ac7d4273a",
+      "to": "seg:c579d55ac7d4273a:c11",
+      "type": "contains"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c01",
+      "to": "seg:c579d55ac7d4273a:c02",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c02",
+      "to": "seg:c579d55ac7d4273a:c03",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c03",
+      "to": "seg:c579d55ac7d4273a:c04",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c04",
+      "to": "seg:c579d55ac7d4273a:c05",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c05",
+      "to": "seg:c579d55ac7d4273a:c06",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c06",
+      "to": "seg:c579d55ac7d4273a:c07",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c07",
+      "to": "seg:c579d55ac7d4273a:c08",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c08",
+      "to": "seg:c579d55ac7d4273a:c09",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c09",
+      "to": "seg:c579d55ac7d4273a:c10",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c10",
+      "to": "seg:c579d55ac7d4273a:c11",
+      "type": "precedes"
+    },
+    {
+      "from": "top:e0e803485860",
+      "to": "seg:c579d55ac7d4273a:c01",
+      "type": "contains"
+    },
+    {
+      "from": "top:e0e803485860",
+      "to": "seg:c579d55ac7d4273a:c01",
+      "type": "introduced_by"
+    },
+    {
+      "from": "top:e47a8ee73209",
+      "to": "seg:c579d55ac7d4273a:c02",
+      "type": "contains"
+    },
+    {
+      "from": "top:e47a8ee73209",
+      "to": "seg:c579d55ac7d4273a:c02",
+      "type": "introduced_by"
+    },
+    {
+      "from": "top:485f7f52be7a",
+      "to": "seg:c579d55ac7d4273a:c03",
+      "type": "contains"
+    },
+    {
+      "from": "top:485f7f52be7a",
+      "to": "seg:c579d55ac7d4273a:c03",
+      "type": "introduced_by"
+    },
+    {
+      "from": "top:d10fc3bc2ee8",
+      "to": "seg:c579d55ac7d4273a:c04",
+      "type": "contains"
+    },
+    {
+      "from": "top:d10fc3bc2ee8",
+      "to": "seg:c579d55ac7d4273a:c04",
+      "type": "introduced_by"
+    },
+    {
+      "from": "top:3b6a5cfc725f",
+      "to": "seg:c579d55ac7d4273a:c05",
+      "type": "contains"
+    },
+    {
+      "from": "top:3b6a5cfc725f",
+      "to": "seg:c579d55ac7d4273a:c05",
+      "type": "introduced_by"
+    },
+    {
+      "from": "top:6bebf7264643",
+      "to": "seg:c579d55ac7d4273a:c06",
+      "type": "contains"
+    },
+    {
+      "from": "top:6bebf7264643",
+      "to": "seg:c579d55ac7d4273a:c06",
+      "type": "introduced_by"
+    },
+    {
+      "from": "top:eda3b7bcb2de",
+      "to": "seg:c579d55ac7d4273a:c07",
+      "type": "contains"
+    },
+    {
+      "from": "top:eda3b7bcb2de",
+      "to": "seg:c579d55ac7d4273a:c07",
+      "type": "introduced_by"
+    },
+    {
+      "from": "top:aae493f1abf2",
+      "to": "seg:c579d55ac7d4273a:c08",
+      "type": "contains"
+    },
+    {
+      "from": "top:aae493f1abf2",
+      "to": "seg:c579d55ac7d4273a:c08",
+      "type": "introduced_by"
+    },
+    {
+      "from": "top:519178b2e47e",
+      "to": "seg:c579d55ac7d4273a:c09",
+      "type": "contains"
+    },
+    {
+      "from": "top:519178b2e47e",
+      "to": "seg:c579d55ac7d4273a:c09",
+      "type": "introduced_by"
+    },
+    {
+      "from": "top:05564a2c4f24",
+      "to": "seg:c579d55ac7d4273a:c10",
+      "type": "contains"
+    },
+    {
+      "from": "top:05564a2c4f24",
+      "to": "seg:c579d55ac7d4273a:c10",
+      "type": "introduced_by"
+    },
+    {
+      "from": "top:c6ef0e3f12f8",
+      "to": "seg:c579d55ac7d4273a:c11",
+      "type": "contains"
+    },
+    {
+      "from": "top:c6ef0e3f12f8",
+      "to": "seg:c579d55ac7d4273a:c11",
+      "type": "introduced_by"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c01",
+      "to": "clm:c579d55ac7d4273a:3e353f3a68c0",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:3e353f3a68c0",
+      "to": "top:e0e803485860",
+      "type": "about"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c01",
+      "to": "clm:c579d55ac7d4273a:d137fb1fa4b4",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:d137fb1fa4b4",
+      "to": "top:e0e803485860",
+      "type": "about"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c01",
+      "to": "clm:c579d55ac7d4273a:fc8600125c75",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:fc8600125c75",
+      "to": "top:e0e803485860",
+      "type": "about"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c02",
+      "to": "clm:c579d55ac7d4273a:187e45f36c4a",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:187e45f36c4a",
+      "to": "top:e47a8ee73209",
+      "type": "about"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c02",
+      "to": "clm:c579d55ac7d4273a:4a5dfc6d86f7",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:4a5dfc6d86f7",
+      "to": "top:e47a8ee73209",
+      "type": "about"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c02",
+      "to": "clm:c579d55ac7d4273a:5d743fb9f9d2",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:5d743fb9f9d2",
+      "to": "top:e47a8ee73209",
+      "type": "about"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c02",
+      "to": "clm:c579d55ac7d4273a:1704494cb612",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:1704494cb612",
+      "to": "top:e47a8ee73209",
+      "type": "about"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c03",
+      "to": "clm:c579d55ac7d4273a:26f59727c24b",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:26f59727c24b",
+      "to": "top:485f7f52be7a",
+      "type": "about"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c03",
+      "to": "clm:c579d55ac7d4273a:a2b4fddd413c",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:a2b4fddd413c",
+      "to": "top:485f7f52be7a",
+      "type": "about"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c03",
+      "to": "clm:c579d55ac7d4273a:a9d06e0bde58",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:a9d06e0bde58",
+      "to": "top:485f7f52be7a",
+      "type": "about"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c03",
+      "to": "clm:c579d55ac7d4273a:16f331b9db50",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:16f331b9db50",
+      "to": "top:485f7f52be7a",
+      "type": "about"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c04",
+      "to": "clm:c579d55ac7d4273a:362387b3d725",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:362387b3d725",
+      "to": "top:d10fc3bc2ee8",
+      "type": "about"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c04",
+      "to": "clm:c579d55ac7d4273a:6d099fa70702",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:6d099fa70702",
+      "to": "top:d10fc3bc2ee8",
+      "type": "about"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c04",
+      "to": "clm:c579d55ac7d4273a:dc2c94a34f01",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:dc2c94a34f01",
+      "to": "top:d10fc3bc2ee8",
+      "type": "about"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c04",
+      "to": "clm:c579d55ac7d4273a:cff51681f3fb",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:cff51681f3fb",
+      "to": "top:d10fc3bc2ee8",
+      "type": "about"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c04",
+      "to": "clm:c579d55ac7d4273a:0249261fce3c",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:0249261fce3c",
+      "to": "top:d10fc3bc2ee8",
+      "type": "about"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c05",
+      "to": "clm:c579d55ac7d4273a:cbe5c0d65c78",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:cbe5c0d65c78",
+      "to": "top:3b6a5cfc725f",
+      "type": "about"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c05",
+      "to": "clm:c579d55ac7d4273a:b55a4fc328bd",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:b55a4fc328bd",
+      "to": "top:3b6a5cfc725f",
+      "type": "about"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c05",
+      "to": "clm:c579d55ac7d4273a:8144511328a9",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:8144511328a9",
+      "to": "top:3b6a5cfc725f",
+      "type": "about"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c05",
+      "to": "clm:c579d55ac7d4273a:3367c30efed3",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:3367c30efed3",
+      "to": "top:3b6a5cfc725f",
+      "type": "about"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c06",
+      "to": "clm:c579d55ac7d4273a:c16592ece74b",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:c16592ece74b",
+      "to": "top:6bebf7264643",
+      "type": "about"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c06",
+      "to": "clm:c579d55ac7d4273a:d2c3762bf276",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:d2c3762bf276",
+      "to": "top:6bebf7264643",
+      "type": "about"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c06",
+      "to": "clm:c579d55ac7d4273a:0da823f9d3a4",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:0da823f9d3a4",
+      "to": "top:6bebf7264643",
+      "type": "about"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c07",
+      "to": "clm:c579d55ac7d4273a:1fe454596293",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:1fe454596293",
+      "to": "top:eda3b7bcb2de",
+      "type": "about"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c07",
+      "to": "clm:c579d55ac7d4273a:20e3979baab6",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:20e3979baab6",
+      "to": "top:eda3b7bcb2de",
+      "type": "about"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c07",
+      "to": "clm:c579d55ac7d4273a:13e88cdfdaea",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:13e88cdfdaea",
+      "to": "top:eda3b7bcb2de",
+      "type": "about"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c07",
+      "to": "clm:c579d55ac7d4273a:d148c8820204",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:d148c8820204",
+      "to": "top:eda3b7bcb2de",
+      "type": "about"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c08",
+      "to": "clm:c579d55ac7d4273a:30e9cc2e6186",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:30e9cc2e6186",
+      "to": "top:aae493f1abf2",
+      "type": "about"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c08",
+      "to": "clm:c579d55ac7d4273a:7811544b731c",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:7811544b731c",
+      "to": "top:aae493f1abf2",
+      "type": "about"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c08",
+      "to": "clm:c579d55ac7d4273a:7c7e97f6769f",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:7c7e97f6769f",
+      "to": "top:aae493f1abf2",
+      "type": "about"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c09",
+      "to": "clm:c579d55ac7d4273a:cb120d6772be",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:cb120d6772be",
+      "to": "top:519178b2e47e",
+      "type": "about"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c09",
+      "to": "clm:c579d55ac7d4273a:8daef79fb60b",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:8daef79fb60b",
+      "to": "top:519178b2e47e",
+      "type": "about"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c09",
+      "to": "clm:c579d55ac7d4273a:22880cfddea5",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:22880cfddea5",
+      "to": "top:519178b2e47e",
+      "type": "about"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c09",
+      "to": "clm:c579d55ac7d4273a:43a504da9307",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:43a504da9307",
+      "to": "top:519178b2e47e",
+      "type": "about"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c09",
+      "to": "clm:c579d55ac7d4273a:2d30c865af74",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:2d30c865af74",
+      "to": "top:519178b2e47e",
+      "type": "about"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c09",
+      "to": "clm:c579d55ac7d4273a:1a6ee067bb63",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:1a6ee067bb63",
+      "to": "top:519178b2e47e",
+      "type": "about"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c09",
+      "to": "clm:c579d55ac7d4273a:3dacd5bd4e4e",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:3dacd5bd4e4e",
+      "to": "top:519178b2e47e",
+      "type": "about"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c10",
+      "to": "clm:c579d55ac7d4273a:1d025c9124d2",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:1d025c9124d2",
+      "to": "top:05564a2c4f24",
+      "type": "about"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c10",
+      "to": "clm:c579d55ac7d4273a:3752df7c897c",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:3752df7c897c",
+      "to": "top:05564a2c4f24",
+      "type": "about"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c10",
+      "to": "clm:c579d55ac7d4273a:7286be9aba1f",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:7286be9aba1f",
+      "to": "top:05564a2c4f24",
+      "type": "about"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c10",
+      "to": "clm:c579d55ac7d4273a:0f2e7cc33d55",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:0f2e7cc33d55",
+      "to": "top:05564a2c4f24",
+      "type": "about"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c10",
+      "to": "clm:c579d55ac7d4273a:5e6566c6ee8a",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:5e6566c6ee8a",
+      "to": "top:05564a2c4f24",
+      "type": "about"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c10",
+      "to": "clm:c579d55ac7d4273a:aa8ea9f86dd0",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:aa8ea9f86dd0",
+      "to": "top:05564a2c4f24",
+      "type": "about"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c10",
+      "to": "clm:c579d55ac7d4273a:d4a7f8ce2f67",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:c579d55ac7d4273a:d4a7f8ce2f67",
+      "to": "top:05564a2c4f24",
+      "type": "about"
+    },
+    {
+      "from": "inf:c579d55ac7d4273a:8622dc25e2f7",
+      "to": "src:c579d55ac7d4273a",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:c579d55ac7d4273a:75b817fae49e",
+      "to": "src:c579d55ac7d4273a",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:c579d55ac7d4273a:bf4209cd3eec",
+      "to": "src:c579d55ac7d4273a",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:c579d55ac7d4273a:192c85cda07b",
+      "to": "src:c579d55ac7d4273a",
+      "type": "based_on"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c09",
+      "to": "clm:c579d55ac7d4273a:80d140d3fc93",
+      "type": "asserts"
+    },
+    {
+      "from": "inf:c579d55ac7d4273a:989ac5a39894",
+      "to": "src:c579d55ac7d4273a",
+      "type": "based_on"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c09",
+      "to": "clm:c579d55ac7d4273a:96fa839d119f",
+      "type": "asserts"
+    },
+    {
+      "from": "inf:c579d55ac7d4273a:bcb2a6c120ff",
+      "to": "src:c579d55ac7d4273a",
+      "type": "based_on"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c04",
+      "to": "clm:c579d55ac7d4273a:f67df9cdb853",
+      "type": "asserts"
+    },
+    {
+      "from": "inf:c579d55ac7d4273a:1825ed5830df",
+      "to": "src:c579d55ac7d4273a",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:c579d55ac7d4273a:b7d026afb5d6",
+      "to": "src:c579d55ac7d4273a",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:c579d55ac7d4273a:703483e2d1a8",
+      "to": "src:c579d55ac7d4273a",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:c579d55ac7d4273a:3f00af1f0fa2",
+      "to": "src:c579d55ac7d4273a",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:c579d55ac7d4273a:0a8e1ed9b10e",
+      "to": "src:c579d55ac7d4273a",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:c579d55ac7d4273a:2aefae3d2916",
+      "to": "src:c579d55ac7d4273a",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:c579d55ac7d4273a:367378b869f5",
+      "to": "src:c579d55ac7d4273a",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:c579d55ac7d4273a:823909fe639f",
+      "to": "src:c579d55ac7d4273a",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:c579d55ac7d4273a:2d348e09ee53",
+      "to": "src:c579d55ac7d4273a",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:c579d55ac7d4273a:cd45689dbb74",
+      "to": "src:c579d55ac7d4273a",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:c579d55ac7d4273a:624544fc2ee9",
+      "to": "src:c579d55ac7d4273a",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:c579d55ac7d4273a:3925280f3d86",
+      "to": "src:c579d55ac7d4273a",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:c579d55ac7d4273a:ee6cb8ceb291",
+      "to": "src:c579d55ac7d4273a",
+      "type": "based_on"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c01",
+      "to": "ent:c579d55ac7d4273a:personnel:4007d4629229",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c01",
+      "to": "ent:c579d55ac7d4273a:personnel:f8d54da16db4",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c01",
+      "to": "ent:c579d55ac7d4273a:event:26b9cb148efa",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c01",
+      "to": "ent:c579d55ac7d4273a:organization:721c9525ade2",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c02",
+      "to": "ent:c579d55ac7d4273a:personnel:762028ec52fb",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c02",
+      "to": "ent:c579d55ac7d4273a:personnel:1ad9c0a88fc8",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c02",
+      "to": "ent:c579d55ac7d4273a:personnel:f8d54da16db4",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c02",
+      "to": "ent:c579d55ac7d4273a:personnel:8df6c3b11a37",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c02",
+      "to": "ent:c579d55ac7d4273a:event:f6c095f404e2",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c02",
+      "to": "ent:c579d55ac7d4273a:evidence:a5ec8c672628",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c02",
+      "to": "ent:c579d55ac7d4273a:evidence:f174b6258e19",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c02",
+      "to": "ent:c579d55ac7d4273a:location:7279d4ac28bf",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c02",
+      "to": "ent:c579d55ac7d4273a:location:d7365df1fa1f",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c03",
+      "to": "ent:c579d55ac7d4273a:personnel:839872963a8e",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c03",
+      "to": "ent:c579d55ac7d4273a:personnel:605fb1aa4266",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c03",
+      "to": "ent:c579d55ac7d4273a:personnel:3ff4f9dcfadb",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c03",
+      "to": "ent:c579d55ac7d4273a:personnel:7f5b9b605ee7",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c03",
+      "to": "ent:c579d55ac7d4273a:event:ce54f438b40b",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c03",
+      "to": "ent:c579d55ac7d4273a:event:a835d3aa2374",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c03",
+      "to": "ent:c579d55ac7d4273a:evidence:e5d8090caa12",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c03",
+      "to": "ent:c579d55ac7d4273a:evidence:c58cff3b652e",
+      "type": "mentions"
+    },
+    {
+      "from": "inf:c579d55ac7d4273a:3862ade3413d",
+      "to": "seg:c579d55ac7d4273a:c03",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:c579d55ac7d4273a:22637738f3bf",
+      "to": "seg:c579d55ac7d4273a:c03",
+      "type": "based_on"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c04",
+      "to": "ent:c579d55ac7d4273a:personnel:08682370eb8a",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c04",
+      "to": "ent:c579d55ac7d4273a:personnel:d0784c6b1785",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c04",
+      "to": "ent:c579d55ac7d4273a:personnel:e7cbb589a7b2",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c04",
+      "to": "ent:c579d55ac7d4273a:event:def82c5bfc82",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c04",
+      "to": "ent:c579d55ac7d4273a:organization:c75bae7088ed",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c04",
+      "to": "ent:c579d55ac7d4273a:location:7279d4ac28bf",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c04",
+      "to": "ent:c579d55ac7d4273a:location:d8184317cda3",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c04",
+      "to": "ent:c579d55ac7d4273a:evidence:144daa95e485",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c04",
+      "to": "ent:c579d55ac7d4273a:evidence:3f29803e9f83",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c05",
+      "to": "ent:c579d55ac7d4273a:personnel:e07cf77b2c31",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c05",
+      "to": "ent:c579d55ac7d4273a:organization:c6d23004e73d",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c05",
+      "to": "ent:c579d55ac7d4273a:organization:1c90eda2e9a8",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c05",
+      "to": "ent:c579d55ac7d4273a:evidence:323e4a68fa6f",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c05",
+      "to": "ent:c579d55ac7d4273a:event:cdcdcc4e0168",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c06",
+      "to": "ent:c579d55ac7d4273a:personnel:eeda826bf4cd",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c06",
+      "to": "ent:c579d55ac7d4273a:personnel:4f29de7d12f2",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c06",
+      "to": "ent:c579d55ac7d4273a:personnel:32a708b05cf2",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c06",
+      "to": "ent:c579d55ac7d4273a:event:f9998c009d19",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c06",
+      "to": "ent:c579d55ac7d4273a:event:44a9fe01522f",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c06",
+      "to": "ent:c579d55ac7d4273a:evidence:942341187a21",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c06",
+      "to": "ent:c579d55ac7d4273a:organization:01a34efc8d4e",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c06",
+      "to": "ent:c579d55ac7d4273a:location:56046694c3d5",
+      "type": "mentions"
+    },
+    {
+      "from": "inf:c579d55ac7d4273a:4a9f5e484967",
+      "to": "seg:c579d55ac7d4273a:c06",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:c579d55ac7d4273a:79ae218d4536",
+      "to": "seg:c579d55ac7d4273a:c06",
+      "type": "based_on"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c07",
+      "to": "ent:c579d55ac7d4273a:personnel:508aaae07231",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c07",
+      "to": "ent:c579d55ac7d4273a:personnel:993e85b7ddc9",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c07",
+      "to": "ent:c579d55ac7d4273a:event:f88eb3cb8600",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c07",
+      "to": "ent:c579d55ac7d4273a:organization:4f3a1cb13356",
+      "type": "mentions"
+    },
+    {
+      "from": "inf:c579d55ac7d4273a:fcf4a8fddf89",
+      "to": "seg:c579d55ac7d4273a:c07",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:c579d55ac7d4273a:6078130c5078",
+      "to": "seg:c579d55ac7d4273a:c07",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:c579d55ac7d4273a:4afe5fe318c2",
+      "to": "seg:c579d55ac7d4273a:c07",
+      "type": "based_on"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c08",
+      "to": "ent:c579d55ac7d4273a:personnel:e07cf77b2c31",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c08",
+      "to": "ent:c579d55ac7d4273a:organization:e3d932b06cd8",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:c579d55ac7d4273a:c08",
+      "to": "ent:c579d55ac7d4273a:organization:5ff711f055ea",
+      "type": "mentions"
+    },
+    {
+      "from": "src:c579d55ac7d4273a",
+      "to": "oq:c579d55ac7d4273a:0aa2f7581f24",
+      "type": "raises"
+    },
+    {
+      "from": "src:c579d55ac7d4273a",
+      "to": "oq:c579d55ac7d4273a:0c1637e79fe0",
+      "type": "raises"
+    },
+    {
+      "from": "src:c579d55ac7d4273a",
+      "to": "oq:c579d55ac7d4273a:ce34c9a25e52",
+      "type": "raises"
+    }
+  ],
+  "views": {
+    "sourceSpine": [
+      "seg:c579d55ac7d4273a:c01",
+      "seg:c579d55ac7d4273a:c02",
+      "seg:c579d55ac7d4273a:c03",
+      "seg:c579d55ac7d4273a:c04",
+      "seg:c579d55ac7d4273a:c05",
+      "seg:c579d55ac7d4273a:c06",
+      "seg:c579d55ac7d4273a:c07",
+      "seg:c579d55ac7d4273a:c08",
+      "seg:c579d55ac7d4273a:c09",
+      "seg:c579d55ac7d4273a:c10",
+      "seg:c579d55ac7d4273a:c11"
+    ],
+    "topicRoots": [
+      "top:e0e803485860",
+      "top:e47a8ee73209",
+      "top:485f7f52be7a",
+      "top:d10fc3bc2ee8",
+      "top:3b6a5cfc725f",
+      "top:6bebf7264643",
+      "top:eda3b7bcb2de",
+      "top:aae493f1abf2",
+      "top:519178b2e47e",
+      "top:05564a2c4f24",
+      "top:c6ef0e3f12f8"
+    ],
+    "claimRoots": [
+      "clm:c579d55ac7d4273a:3e353f3a68c0",
+      "clm:c579d55ac7d4273a:d137fb1fa4b4",
+      "clm:c579d55ac7d4273a:fc8600125c75",
+      "clm:c579d55ac7d4273a:187e45f36c4a",
+      "clm:c579d55ac7d4273a:4a5dfc6d86f7",
+      "clm:c579d55ac7d4273a:5d743fb9f9d2",
+      "clm:c579d55ac7d4273a:1704494cb612",
+      "clm:c579d55ac7d4273a:26f59727c24b",
+      "clm:c579d55ac7d4273a:a2b4fddd413c",
+      "clm:c579d55ac7d4273a:a9d06e0bde58",
+      "clm:c579d55ac7d4273a:16f331b9db50",
+      "clm:c579d55ac7d4273a:362387b3d725",
+      "clm:c579d55ac7d4273a:6d099fa70702",
+      "clm:c579d55ac7d4273a:dc2c94a34f01",
+      "clm:c579d55ac7d4273a:cff51681f3fb",
+      "clm:c579d55ac7d4273a:0249261fce3c",
+      "clm:c579d55ac7d4273a:cbe5c0d65c78",
+      "clm:c579d55ac7d4273a:b55a4fc328bd",
+      "clm:c579d55ac7d4273a:8144511328a9",
+      "clm:c579d55ac7d4273a:3367c30efed3",
+      "clm:c579d55ac7d4273a:c16592ece74b",
+      "clm:c579d55ac7d4273a:d2c3762bf276",
+      "clm:c579d55ac7d4273a:0da823f9d3a4",
+      "clm:c579d55ac7d4273a:1fe454596293",
+      "clm:c579d55ac7d4273a:20e3979baab6",
+      "clm:c579d55ac7d4273a:13e88cdfdaea",
+      "clm:c579d55ac7d4273a:d148c8820204",
+      "clm:c579d55ac7d4273a:30e9cc2e6186",
+      "clm:c579d55ac7d4273a:7811544b731c",
+      "clm:c579d55ac7d4273a:7c7e97f6769f",
+      "clm:c579d55ac7d4273a:cb120d6772be",
+      "clm:c579d55ac7d4273a:8daef79fb60b",
+      "clm:c579d55ac7d4273a:22880cfddea5",
+      "clm:c579d55ac7d4273a:43a504da9307",
+      "clm:c579d55ac7d4273a:2d30c865af74",
+      "clm:c579d55ac7d4273a:1a6ee067bb63",
+      "clm:c579d55ac7d4273a:3dacd5bd4e4e",
+      "clm:c579d55ac7d4273a:1d025c9124d2",
+      "clm:c579d55ac7d4273a:3752df7c897c",
+      "clm:c579d55ac7d4273a:7286be9aba1f",
+      "clm:c579d55ac7d4273a:0f2e7cc33d55",
+      "clm:c579d55ac7d4273a:5e6566c6ee8a",
+      "clm:c579d55ac7d4273a:aa8ea9f86dd0",
+      "clm:c579d55ac7d4273a:d4a7f8ce2f67",
+      "clm:c579d55ac7d4273a:80d140d3fc93",
+      "clm:c579d55ac7d4273a:96fa839d119f",
+      "clm:c579d55ac7d4273a:f67df9cdb853"
+    ],
+    "openQuestionRoots": [
+      "oq:c579d55ac7d4273a:0aa2f7581f24",
+      "oq:c579d55ac7d4273a:0c1637e79fe0",
+      "oq:c579d55ac7d4273a:ce34c9a25e52"
+    ]
+  },
+  "coverage": {
+    "timed": true,
+    "charsAnchored": 23848,
+    "charsTotal": 60574,
+    "fraction": 0.3937,
+    "segmentsCovered": 769,
+    "segmentsTotal": 2030,
+    "pipelineTruncatedAtChars": 24000,
+    "chunkAnchorMethods": {
+      "exact": 11
+    }
+  },
+  "generation": {
+    "createdAt": "2026-08-10T17:03:45.412364+00:00",
+    "models": [
+      "openrouter/glm-5.2"
+    ],
+    "promptsUsed": [
+      "disclosure.content_analysis",
+      "disclosure.ner",
+      "document_classification",
+      "rag_ingestion",
+      "validation"
+    ],
+    "methodologyVersion": "rag-prompt-pipeline/ADR-0001",
+    "pipelineStatus": "ok",
+    "degraded": false
+  },
+  "validation": {
+    "valid": true,
+    "errors": [],
+    "gaps": [
+      "no next_trace nodes — no pipeline stage proposes concrete next sources",
+      "no reading nodes — no interpretive stage exists; readings are never inferred here",
+      "no counter_reading nodes — paired with reading; unproduced for the same reason",
+      "no speaker nodes — diarisation is unavailable — the transcript carries '>>' turn markers but no speaker identities",
+      "no evidence→claim edges — the analysis prompt emits supporting and contradictory evidence as flat lists with no target claim, so evidence carries a stance but names no claim it bears on",
+      "chunk coverage is 39% of the source (23848 of 60574 chars); the pipeline truncates at 24000 chars"
+    ]
+  }
+}

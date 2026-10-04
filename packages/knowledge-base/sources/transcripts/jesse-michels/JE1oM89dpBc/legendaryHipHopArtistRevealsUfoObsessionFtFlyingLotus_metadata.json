@@ -1,0 +1,17 @@
+{
+  "title": "Legendary Hip Hop Artist Reveals UFO Obsession (Ft. Flying Lotus)",
+  "url": "https://www.youtube.com/watch?v=JE1oM89dpBc",
+  "id": "JE1oM89dpBc",
+  "categories": [],
+  "tags": [],
+  "description": "",
+  "chapters": [],
+  "rag_pipeline": {
+    "status": "error",
+    "embeddable_count": 0,
+    "prompts_used": null,
+    "errors": [
+      "Expecting ',' delimiter: line 49 column 69 (char 4306)"
+    ]
+  }
+}

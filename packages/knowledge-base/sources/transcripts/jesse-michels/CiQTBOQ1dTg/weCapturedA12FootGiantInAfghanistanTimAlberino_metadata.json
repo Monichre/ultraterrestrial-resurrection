@@ -1,0 +1,17 @@
+{
+  "title": "“We Captured a 12 Foot Giant in Afghanistan!” -Tim Alberino",
+  "url": "https://www.youtube.com/watch?v=CiQTBOQ1dTg",
+  "id": "CiQTBOQ1dTg",
+  "categories": [],
+  "tags": [],
+  "description": "",
+  "chapters": [],
+  "rag_pipeline": {
+    "status": "error",
+    "embeddable_count": 0,
+    "prompts_used": null,
+    "errors": [
+      "Unterminated string starting at: line 4 column 29 (char 95)"
+    ]
+  }
+}

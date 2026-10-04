@@ -1,0 +1,31 @@
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "new-york",
+  "rsc": true,
+  "tsx": true,
+  "tailwind": {
+    "config": "tailwind.config.ts",
+    "css": "src/app/globals.css",
+    "baseColor": "gray",
+    "cssVariables": false,
+    "prefix": ""
+  },
+  "iconLibrary": "radix",
+  "aliases": {
+    "components": "@/components",
+    "utils": "@/utils",
+    "ui": "@/components/ui",
+    "hooks": "@/hooks"
+  },
+  "registries": {
+    "@cult-ui-pro": {
+      "url": "https://pro.cult-ui.com/api/registry/{name}",
+      "headers": {
+        "X-API-Key": "${CULT_PRO_TOKEN}"
+      }
+    },
+    "@smoothui": "https://smoothui.dev/r/{name}.json",
+    "@animate-ui": "https://animate-ui.com/r/{name}.json",
+    "@blocks": "https://blocks.so/r/{name}.json"
+  }
+}

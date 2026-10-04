@@ -1,0 +1,350 @@
+ .claude/commands/xata-analyze.md                   |  218 --
+ .claude/commands/xata-ask.md                       |  249 --
+ .claude/commands/xata-create.md                    |  156 -
+ .claude/commands/xata-create.yaml                  |  167 -
+ .claude/commands/xata-delete.md                    |  189 --
+ .claude/commands/xata-read.md                      |  151 -
+ .claude/commands/xata-read.yaml                    |  174 --
+ .claude/commands/xata-research.md                  |  284 --
+ .claude/commands/xata-seed.md                      |  261 --
+ .claude/commands/xata-update.md                    |  163 -
+ .cursor/rules/ai-sdk-5.mdc                         |  123 -
+ .cursor/rules/cursor-rule-creation.mdc             |  307 --
+ .cursor/rules/cursor_rules.mdc                     |   53 -
+ .cursor/rules/date-formatting-and-docs.mdc         |   75 -
+ .cursor/rules/derived-cursor-rules.mdc             |  435 ---
+ .cursor/rules/documents-ui-design.mdc              |  372 ---
+ .cursor/rules/next-coding-standards.mdc            |  108 -
+ .cursor/rules/nextjs-pages-server-components.mdc   |   71 -
+ .cursor/rules/openai-file-search.mdc               |  399 ---
+ .cursor/rules/self_improve.mdc                     |   73 -
+ .cursor/rules/storybook-documentation.mdc          |  593 ----
+ .cursor/rules/structure.mdc                        |  169 -
+ .cursor/rules/tech.mdc                             |  109 -
+ .cursor/rules/xata/ask-xata.mdc                    |  249 --
+ .cursor/rules/xata/import-guide.mdc                |  476 ---
+ .cursor/rules/xata/xata-query.mdc                  |  355 ---
+ .cursor/rules/xata/xata-schema.mdc                 | 1493 ---------
+ ...-11-26_05-08-28Z-proceed-with-the-next-steps.md | 1662 ++--------
+ ...5-08-28Z-refactor-sightings-page-for-ui-dots.md |    2 +-
+ ...review-home-page-animations-and-create-guide.md |    2 +-
+ ...6-07-12_19-16-25Z-domain-modeling-discussion.md |  164 +-
+ .specstory/history/2026-07-13_06-50-56Z.md         |   14 +
+ CONTEXT.md                                         |  112 +-
+ CRUSH.md                                           |   47 -
+ DAILY_WORK_PLAN.md                                 |    9 +
+ GOAL.md                                            |    1 +
+ apps/app/.storybook/decorators/with-mindmap.tsx    |    4 +-
+ apps/app/.storybook/main.ts                        |  252 +-
+ apps/app/.storybook/mocked-google-fonts.cjs        |   35 +-
+ apps/app/.storybook/preview.tsx                    |   60 +-
+ apps/app/package.json                              |    5 +-
+ apps/app/src/app/api/prometheus/chat/route.ts      |   38 +-
+ apps/app/src/app/globals.css                       |   44 +-
+ apps/app/src/app/page.tsx                          |    8 +-
+ apps/app/src/app/research-ui.css                   |   27 +-
+ .../3d/planet-journey/EnhancedPlanetJourney.tsx    |    2 +-
+ .../research-ui/documents/IncidentReportCard.tsx   |  146 +-
+ .../research-ui/documents/PersonnelFileCard.tsx    |  191 +-
+ .../documents/VintageDocumentCard.stories.tsx      |   13 +-
+ .../research-ui/documents/VintageDocumentCard.tsx  |  117 +-
+ .../research-ui/documents/VintageDocumentsDemo.tsx |   54 +-
+ .../design-system/research-ui/documents/index.ts   |    4 +
+ apps/app/src/components/earth/Earth.tsx            |  151 +-
+ apps/app/src/components/moon/Moon.tsx              |   25 +-
+ .../paper-document/PaperDocument.stories.tsx       |  132 +-
+ .../components/paper-document/PaperDocument.tsx    |  198 +-
+ apps/app/src/components/paper-document/index.tsx   |    8 +-
+ apps/app/src/components/prometheus/Prometheus.tsx  |   11 +-
+ apps/app/src/contexts/mindmap/mindmap-context.tsx  |    2 +-
+ apps/app/src/features/mindmap/components/CLAUDE.md |    7 -
+ .../components/menus/mindmap-side-menu/CLAUDE.md   |    7 -
+ apps/app/src/features/mindmap/hooks/CLAUDE.md      |    7 -
+ .../mindmap/research-canvas/EmptyCanvas.tsx        |    2 +
+ .../mindmap/research-canvas/typer/CardStack.tsx    |   58 +-
+ .../research-canvas/views/timeline/page.tsx        |  359 ++-
+ .../src/features/mindmap/utils/node-factories.ts   |    2 +-
+ .../sightings/uap-dashboard/HudUapInterface.tsx    |  270 +-
+ .../app/src/hooks/useUltraterrestrialAnimation.tsx |  380 +--
+ apps/app/src/layouts/home/ANIMATION_SEQUENCE.md    |   89 +-
+ apps/app/src/layouts/home/HomeGSAPAnimation.md     |    2 +
+ apps/app/src/layouts/home/TitleAlt.stories.tsx     |   10 +-
+ apps/app/src/layouts/home/TitleAlt.tsx             |   75 +-
+ apps/app/src/layouts/home/home-animated.tsx        |  217 +-
+ apps/app/src/layouts/home/index.tsx                |    8 +-
+ .../src/services/ai/context/build-agent-context.ts |   41 +
+ apps/app/src/services/ai/prometheus/CLAUDE.md      |  300 --
+ apps/disclosure-rag/lib/knowledge_base_service.py  |   61 +-
+ apps/disclosure-rag/lib/prompt_loader.py           |   34 +-
+ apps/disclosure-rag/lib/youtube.py                 |   76 +-
+ apps/disclosure-rag/main.py                        |   36 +
+ apps/disclosure-rag/processing/content_analysis.py |   53 +
+ .../processing/enhanced_content_analysis.py        |   12 +-
+ .../processing/web_content_processor.py            |   24 +-
+ apps/v0-research-canvas/.gitignore                 |   27 -
+ .../app/content-card-detail-view/loading.tsx       |   25 -
+ .../app/content-card-detail-view/page.tsx          |  419 ---
+ apps/v0-research-canvas/app/globals.css            |  161 -
+ apps/v0-research-canvas/app/layout.tsx             |   44 -
+ apps/v0-research-canvas/app/not-found.tsx          |   59 -
+ apps/v0-research-canvas/app/page.tsx               |   22 -
+ .../app/research-canvas/page.tsx                   |   14 -
+ .../app/search-and-discovery-interface/loading.tsx |    3 -
+ .../app/search-and-discovery-interface/page.tsx    |  629 ----
+ .../app/timeline-explorer/page.tsx                 |   11 -
+ .../app/timeline-explorer/timeline-client.tsx      |   19 -
+ apps/v0-research-canvas/app/timeline/page.tsx      |  492 ---
+ .../app/ufo-sightings/loading.tsx                  |    3 -
+ apps/v0-research-canvas/app/ufo-sightings/page.tsx |  564 ----
+ .../components/hover-panel/AssetLibraryPanel.tsx   |  533 ----
+ .../components/hover-panel/CollaborationPanel.tsx  |  254 --
+ .../components/hover-panel/FilterPanel.tsx         |  288 --
+ .../components/hover-panel/HistoryPanel.tsx        |  183 --
+ .../components/hover-panel/LayersPanel.tsx         |  194 --
+ .../components/hover-panel/LayoutPanel.tsx         |  192 --
+ .../components/hover-panel/NetworkPanel.tsx        |  306 --
+ .../components/hover-panel/QuickActionsPanel.tsx   |  208 --
+ .../components/hover-panel/SavedViewsPanel.tsx     |  280 --
+ .../components/hover-panel/SettingsPanel.tsx       |  195 --
+ .../components/hover-panel/TemplatesPanel.tsx      |  157 -
+ .../components/hover-panel/TimelinePanel.tsx       |  182 --
+ .../components/hover-panels/ArchivePanel.tsx       |  102 -
+ .../components/hover-panels/AssetLibraryPanel.tsx  |  152 -
+ .../components/hover-panels/CollaborationPanel.tsx |  255 --
+ .../components/hover-panels/FilterPanel.tsx        |   56 -
+ .../components/hover-panels/HistoryPanel.tsx       |  184 --
+ .../components/hover-panels/LayersPanel.tsx        |  195 --
+ .../components/hover-panels/LayoutPanel.tsx        |  101 -
+ .../components/hover-panels/NetworkPanel.tsx       |   60 -
+ .../components/hover-panels/PanelWrapper.tsx       |   45 -
+ .../components/hover-panels/QuickActionsPanel.tsx  |   51 -
+ .../components/hover-panels/SavedViewsPanel.tsx    |   48 -
+ .../components/hover-panels/SettingsPanel.tsx      |  199 --
+ .../components/hover-panels/TemplatesPanel.tsx     |  158 -
+ .../components/hover-panels/TimelinePanel.tsx      |  186 --
+ .../components/navigation/FullScreenMenu.tsx       |  362 ---
+ .../components/navigation/MenuTrigger.tsx          |   77 -
+ .../components/pages/NetworkTimelineExplorer.tsx   |  490 ---
+ .../components/research-canvas/ActionChip.tsx      |   24 -
+ .../components/research-canvas/AnimatedChat.tsx    |  161 -
+ .../AnimatedChatWithSuggestions.tsx                |  305 --
+ .../components/research-canvas/AssetPanel.tsx      |   79 -
+ .../components/research-canvas/EmptyCanvas.tsx     |   91 -
+ .../research-canvas/EnhancedAnimatedChat.tsx       |  456 ---
+ .../components/research-canvas/FloatingToolbar.tsx |  219 --
+ .../components/research-canvas/MessageInput.tsx    |   82 -
+ .../research-canvas/ResearchTimeline.tsx           |  101 -
+ .../components/research-canvas/ToolbarButton.tsx   |   41 -
+ .../components/research-canvas/Typer.tsx           |  266 --
+ .../components/theme-provider.tsx                  |   11 -
+ .../components/ui/FloatingHeader.tsx               |  120 -
+ apps/v0-research-canvas/components/ui/UFOGlobe.tsx |  382 ---
+ .../components/ui/ZAxisTimeline.tsx                |  336 --
+ .../v0-research-canvas/components/ui/accordion.tsx |   66 -
+ .../components/ui/alert-dialog.tsx                 |  157 -
+ apps/v0-research-canvas/components/ui/alert.tsx    |   66 -
+ .../components/ui/aspect-ratio.tsx                 |   11 -
+ apps/v0-research-canvas/components/ui/avatar.tsx   |   53 -
+ apps/v0-research-canvas/components/ui/badge.tsx    |   46 -
+ .../components/ui/breadcrumb.tsx                   |  109 -
+ .../components/ui/button-group.tsx                 |   83 -
+ apps/v0-research-canvas/components/ui/button.tsx   |   60 -
+ apps/v0-research-canvas/components/ui/calendar.tsx |  213 --
+ apps/v0-research-canvas/components/ui/card.tsx     |   92 -
+ apps/v0-research-canvas/components/ui/carousel.tsx |  241 --
+ apps/v0-research-canvas/components/ui/chart.tsx    |  351 ---
+ apps/v0-research-canvas/components/ui/checkbox.tsx |   32 -
+ .../components/ui/collapsible.tsx                  |   33 -
+ apps/v0-research-canvas/components/ui/command.tsx  |  184 --
+ .../components/ui/context-menu.tsx                 |  252 --
+ apps/v0-research-canvas/components/ui/dialog.tsx   |  143 -
+ .../components/ui/dot-pattern.tsx                  |   34 -
+ apps/v0-research-canvas/components/ui/drawer.tsx   |  135 -
+ .../components/ui/dropdown-menu.tsx                |  257 --
+ apps/v0-research-canvas/components/ui/empty.tsx    |  104 -
+ apps/v0-research-canvas/components/ui/field.tsx    |  244 --
+ apps/v0-research-canvas/components/ui/form.tsx     |  167 -
+ .../components/ui/hover-card.tsx                   |   44 -
+ .../components/ui/input-group.tsx                  |  169 -
+ .../v0-research-canvas/components/ui/input-otp.tsx |   77 -
+ apps/v0-research-canvas/components/ui/input.tsx    |   21 -
+ apps/v0-research-canvas/components/ui/item.tsx     |  193 --
+ apps/v0-research-canvas/components/ui/kbd.tsx      |   28 -
+ apps/v0-research-canvas/components/ui/label.tsx    |   24 -
+ apps/v0-research-canvas/components/ui/menubar.tsx  |  276 --
+ .../components/ui/navigation-menu.tsx              |  166 -
+ .../components/ui/pagination.tsx                   |  127 -
+ apps/v0-research-canvas/components/ui/popover.tsx  |   48 -
+ apps/v0-research-canvas/components/ui/progress.tsx |   31 -
+ .../components/ui/radio-group.tsx                  |   45 -
+ .../v0-research-canvas/components/ui/resizable.tsx |   56 -
+ .../components/ui/scroll-area.tsx                  |   58 -
+ apps/v0-research-canvas/components/ui/select.tsx   |  185 --
+ .../v0-research-canvas/components/ui/separator.tsx |   28 -
+ apps/v0-research-canvas/components/ui/sheet.tsx    |  139 -
+ apps/v0-research-canvas/components/ui/sidebar.tsx  |  726 -----
+ apps/v0-research-canvas/components/ui/skeleton.tsx |   13 -
+ apps/v0-research-canvas/components/ui/slider.tsx   |   59 -
+ apps/v0-research-canvas/components/ui/sonner.tsx   |   25 -
+ apps/v0-research-canvas/components/ui/spinner.tsx  |   16 -
+ apps/v0-research-canvas/components/ui/switch.tsx   |   29 -
+ apps/v0-research-canvas/components/ui/table.tsx    |  116 -
+ apps/v0-research-canvas/components/ui/tabs.tsx     |   66 -
+ apps/v0-research-canvas/components/ui/textarea.tsx |   18 -
+ apps/v0-research-canvas/components/ui/toast.tsx    |  129 -
+ apps/v0-research-canvas/components/ui/toaster.tsx  |   35 -
+ .../components/ui/toggle-group.tsx                 |   73 -
+ apps/v0-research-canvas/components/ui/toggle.tsx   |   47 -
+ apps/v0-research-canvas/components/ui/tooltip.tsx  |   61 -
+ .../components/ui/use-mobile.tsx                   |   19 -
+ apps/v0-research-canvas/components/ui/use-toast.ts |  191 --
+ apps/v0-research-canvas/contexts/AuthContext.tsx   |   76 -
+ apps/v0-research-canvas/data/events.ts             |  164 -
+ apps/v0-research-canvas/data/key-figures.ts        |  154 -
+ apps/v0-research-canvas/data/testimonies.ts        |  115 -
+ apps/v0-research-canvas/data/ufo-sightings.ts      |  281 --
+ .../v0-research-canvas/data/ufo-timeline-events.ts |  498 ---
+ apps/v0-research-canvas/hooks/use-mobile.ts        |   19 -
+ apps/v0-research-canvas/hooks/use-toast.ts         |  191 --
+ apps/v0-research-canvas/lib/utils.ts               |    6 -
+ apps/v0-research-canvas/next.config.mjs            |   11 -
+ apps/v0-research-canvas/package.json               |   91 -
+ apps/v0-research-canvas/postcss.config.mjs         |    8 -
+ apps/v0-research-canvas/public/0-2.jpg             |  Bin 232736 -> 0 bytes
+ apps/v0-research-canvas/public/22.png              |  Bin 1536624 -> 0 bytes
+ .../public/abstract-disclosure.png                 |  Bin 1536624 -> 0 bytes
+ apps/v0-research-canvas/public/apple-icon.png      |  Bin 2626 -> 0 bytes
+ ...riel-school-zimbabwe-ufo-children-encounter.jpg |  Bin 118055 -> 0 bytes
+ .../public/belgium-ufo-triangle-craft-night.jpg    |  Bin 54078 -> 0 bytes
+ apps/v0-research-canvas/public/colares-beams.png   |  Bin 1535099 -> 0 bytes
+ apps/v0-research-canvas/public/colares-ufo.png     |  Bin 1846348 -> 0 bytes
+ apps/v0-research-canvas/public/colares.png         |  Bin 1846348 -> 0 bytes
+ ...desc-6a52d743-6912-41b9-8a21-4e70cd5de960-0.png |  Bin 1535099 -> 0 bytes
+ ...ssil-4b541827-142d-4281-a215-b88249617eb9-0.png |  Bin 1890926 -> 0 bytes
+ ...ntic-ad66a4d1-55b7-448c-acee-3e4bee70eb1c-0.png |  Bin 1922239 -> 0 bytes
+ ...whit-71a300a8-c2f8-4379-8308-405ce468d9a4-0.png |  Bin 1673037 -> 0 bytes
+ ...whit-71a300a8-c2f8-4379-8308-405ce468d9a4-3.png |  Bin 2034769 -> 0 bytes
+ ...bjec-cdcc13eb-362c-4e86-bd62-b654a886cdb4-3.png |  Bin 1115015 -> 0 bytes
+ ...bjec-e69d6373-ddb1-4125-a56f-095695760e5f-1.png |  Bin 1419312 -> 0 bytes
+ ...bjec-e69d6373-ddb1-4125-a56f-095695760e5f-3.png |  Bin 1755898 -> 0 bytes
+ ...er-m-986f31ce-71d2-43ca-bcd0-ce319ca09cee-2.png |  Bin 1669959 -> 0 bytes
+ ...er-m-986f31ce-71d2-43ca-bcd0-ce319ca09cee-3.png |  Bin 1717298 -> 0 bytes
+ ...alia-b3966552-47c5-4486-b1ec-8188e163247e-3.png |  Bin 1833920 -> 0 bytes
+ ...sibl-a7d6a943-517b-4cad-a6f9-01d3590d1af2-0.png |  Bin 1697649 -> 0 bytes
+ .../public/gimbal-ufo-navy-infrared-footage.jpg    |  Bin 85229 -> 0 bytes
+ apps/v0-research-canvas/public/harbour-mille.png   |  Bin 1890926 -> 0 bytes
+ apps/v0-research-canvas/public/icon-dark-32x32.png |  Bin 585 -> 0 bytes
+ .../v0-research-canvas/public/icon-light-32x32.png |  Bin 566 -> 0 bytes
+ apps/v0-research-canvas/public/icon.svg            |   26 -
+ apps/v0-research-canvas/public/icy-terrain.png     |  Bin 1697649 -> 0 bytes
+ apps/v0-research-canvas/public/images/0-2.jpg      |  Bin 232736 -> 0 bytes
+ apps/v0-research-canvas/public/images/22.png       |  Bin 1536624 -> 0 bytes
+ .../public/images/abstract-disclosure.png          |  Bin 1536624 -> 0 bytes
+ .../public/images/colares-beams.png                |  Bin 1535099 -> 0 bytes
+ .../public/images/colares-ufo.png                  |  Bin 1846348 -> 0 bytes
+ apps/v0-research-canvas/public/images/colares.png  |  Bin 1846348 -> 0 bytes
+ ...ssil-4b541827-142d-4281-a215-b88249617eb9-0.png |  Bin 1890926 -> 0 bytes
+ ...ntic-ad66a4d1-55b7-448c-acee-3e4bee70eb1c-0.png |  Bin 1922239 -> 0 bytes
+ ...whit-71a300a8-c2f8-4379-8308-405ce468d9a4-3.png |  Bin 2034769 -> 0 bytes
+ apps/v0-research-canvas/public/metallic-sphere.png |  Bin 1922239 -> 0 bytes
+ apps/v0-research-canvas/public/nimitz-fleet.png    |  Bin 1419312 -> 0 bytes
+ .../public/nimitz-silhouette.png                   |  Bin 1755898 -> 0 bytes
+ .../v0-research-canvas/public/nimitz-ufo-hover.png |  Bin 1115015 -> 0 bytes
+ .../public/ohare-airport-ufo-saucer-clouds.jpg     |  Bin 132672 -> 0 bytes
+ .../phoenix-lights-ufo-v-shape-night-sky.jpg       |  Bin 78258 -> 0 bytes
+ .../v0-research-canvas/public/placeholder-logo.png |  Bin 568 -> 0 bytes
+ .../v0-research-canvas/public/placeholder-logo.svg |    1 -
+ .../v0-research-canvas/public/placeholder-user.jpg |  Bin 1635 -> 0 bytes
+ apps/v0-research-canvas/public/placeholder.jpg     |  Bin 1064 -> 0 bytes
+ apps/v0-research-canvas/public/placeholder.svg     |    1 -
+ ...lesham-forest-ufo-landing-mysterious-lights.jpg |  Bin 242077 -> 0 bytes
+ apps/v0-research-canvas/public/roosevelt-ocean.png |  Bin 1669959 -> 0 bytes
+ .../public/roosevelt-space-view.png                |  Bin 1717298 -> 0 bytes
+ .../public/roswell-ufo-crash-site-desert.jpg       |  Bin 137942 -> 0 bytes
+ .../shag-harbour-ufo-crash-water-nova-scotia.jpg   |  Bin 191155 -> 0 bytes
+ .../socorro-new-mexico-ufo-egg-shaped-landing.jpg  |  Bin 89304 -> 0 bytes
+ .../stephenville-texas-ufo-lights-night-sky.jpg    |  Bin 86696 -> 0 bytes
+ .../tehran-iran-ufo-fighter-jet-intercept.jpg      |  Bin 87773 -> 0 bytes
+ .../v0-research-canvas/public/tic-tac-aircraft.png |  Bin 1673037 -> 0 bytes
+ .../public/tic-tac-submarine.png                   |  Bin 2034769 -> 0 bytes
+ .../public/tic-tac-ufo-navy-encounter-ocean.jpg    |  Bin 108471 -> 0 bytes
+ .../travis-walton-abduction-forest-ufo-beam.jpg    |  Bin 212886 -> 0 bytes
+ apps/v0-research-canvas/public/ufo-carrier.jpg     |  Bin 232736 -> 0 bytes
+ .../public/vintage-world-map.png                   |  Bin 1616934 -> 0 bytes
+ .../public/washington-dc-capitol-ufo-1952.jpg      |  Bin 89274 -> 0 bytes
+ .../westall-australia-school-ufo-saucer-field.jpg  |  Bin 136656 -> 0 bytes
+ apps/v0-research-canvas/public/westall-school.png  |  Bin 1833920 -> 0 bytes
+ apps/v0-research-canvas/styles/globals.css         |  125 -
+ apps/v0-research-canvas/tsconfig.json              |   41 -
+ apps/v0-research-canvas/types/timeline-scroll.ts   |   29 -
+ bun.lock                                           |  170 +-
+ openmemory.md                                      |   33 +
+ package.json                                       |    9 +-
+ packages/prompts/00_DEEP_RESEARCH_META_PROMPT.md   |  114 -
+ .../01_LEAD_RESEARCH_AGENT_SYSTEM_INSTRUCTIONS.md  |  207 --
+ .../02_SUB_RESEARCH_AGENT_SYSTEM_INSTRUCTIONS.md   |   61 -
+ packages/prompts/CONTEXT.md                        |  127 -
+ .../DEEP_RESEARCH_AGENT_IMPLEMENTATION_SUMMARY.md  |  231 --
+ .../DEEP_RESEARCH_CONTENT_ANALYSIS_REVIEW.md       |  404 ---
+ ...DisclosureResearcherPreSubmissionMethodology.md |  516 ----
+ ...losureResearcherPreSubmissionMethodologyWork.md |   94 -
+ ...esearcherPreSubmissionMethodology_PSEUDOCODE.md |   37 -
+ packages/prompts/NLP.md                            |   36 -
+ packages/prompts/PROMPTING_MULTIAGENT_SYSTEMS.md   |   90 -
+ packages/prompts/PROMPT_INVENTORY.md               |  267 --
+ packages/prompts/PROMPT_INVENTORY_REVIEW.md        |  333 --
+ packages/prompts/README.md                         |   58 -
+ .../alternative_ufo_chronology_perspectives.md     |  172 --
+ packages/prompts/conductor.yaml                    |   79 -
+ packages/prompts/config.yaml                       |   61 -
+ packages/prompts/deep_think.yaml                   |   12 -
+ packages/prompts/disclosure-researcher-prompts.md  | 3263 --------------------
+ packages/prompts/enhanced_research_prompt.py       |    4 -
+ packages/prompts/enhanced_ufo_prompts.py           | 1304 --------
+ ...ocumentation_analysis_comprehensive_research.md |  397 ---
+ packages/prompts/expanded_perspectives.md          |  114 -
+ packages/prompts/extraction-prompt.md              |  138 -
+ packages/prompts/index.ts                          |    2 -
+ packages/prompts/index.yaml                        |    3 -
+ .../methodology/CLASSIFICATION_QUICK_REFERENCE.md  |  234 --
+ .../CONTACT_COGNITION_INTERFACE_FRAMEWORK.md       |  350 ---
+ .../methodology/EVIDENCE_EVALUATION_FRAMEWORK.md   |  437 ---
+ .../methodology/FIELD_SIGNAL_INTERACTION_MODEL.md  |  372 ---
+ .../methodology/PHASE_AWARE_RESEARCH_PROTOCOLS.md  |  385 ---
+ .../methodology/PLATFORM_INTEGRATION_GUIDE.md      |  695 -----
+ packages/prompts/methodology/QUEUE.md              |   86 -
+ packages/prompts/methodology/README.md             |  291 --
+ .../prompts/methodology/RESEARCHER_GUIDELINES.md   |  402 ---
+ .../SECURITY_STATE_ANOMALY_FRAMEWORK.md            |  429 ---
+ .../methodology/UAP_RESEARCH_METHODOLOGY.md        |  274 --
+ .../methodology/ufo-researchers-methodologies.md   |   61 -
+ .../prompts/named_entity_recognition_prompt.py     |    4 -
+ packages/prompts/ner-prompt.py                     |  269 --
+ packages/prompts/ner-response-structure.prompt.md  |  211 --
+ .../prompts/ner_summary_to_xata_table_prompt.py    |  147 -
+ packages/prompts/orchestration.md                  | 1587 ----------
+ packages/prompts/package.json                      |   34 -
+ packages/prompts/prompt_architect.yaml             |  119 -
+ packages/prompts/prompt_helpers.py                 |   31 -
+ packages/prompts/registry.yaml                     |   58 -
+ packages/prompts/research-lead-agent.md            |  196 --
+ .../prompts/research_lead_with_sub_agents.yaml     |   73 -
+ packages/prompts/research_prompt.py                |    4 -
+ packages/prompts/scripts/promptctl.ts              |  161 -
+ .../sets/disclosure/enhanced-research.v1.yaml      |  133 -
+ packages/prompts/sets/disclosure/ner.v1.yaml       |   59 -
+ packages/prompts/sets/disclosure/research.v1.yaml  |  113 -
+ .../sets/disclosure/specialized-analysis.v1.yaml   |   31 -
+ packages/prompts/specialized_analysis_prompts.py   |  222 --
+ packages/prompts/templates/content_analysis.yaml   |   31 -
+ packages/prompts/templates/deep_research.yaml      |   18 -
+ packages/prompts/templates/enhanced_ner.yaml       |   59 -
+ .../prompts/templates/real_time_monitoring.yaml    |   16 -
+ packages/prompts/templates/synthesis.yaml          |   16 -
+ packages/prompts/templates/validation.yaml         |   17 -
+ ...c_analysis_tracking_knowledge_graph_research.md |  359 ---
+ packages/prompts/ufo_analysis_framework.md         |  136 -
+ ...losure-research-and-intelligence-methodology.md | 1320 --------
+ packages/prompts/yaml-loader.ts                    |  169 -
+ packages/prompts/yaml_loader.py                    |  119 -
+ 349 files changed, 2495 insertions(+), 47878 deletions(-)

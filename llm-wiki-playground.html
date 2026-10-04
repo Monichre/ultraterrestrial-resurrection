@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LLM Wiki Playground</title>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --panel: #161b22;
+      --border: #30363d;
+      --text: #e6edf3;
+      --muted: #8b949e;
+      --accent: #58a6ff;
+      --know: #3fb950;
+      --fuzzy: #d29922;
+      --unknown: #f85149;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    header {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    header h1 { font-size: 15px; font-weight: 600; }
+    header p { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .presets { display: flex; gap: 6px; flex-wrap: wrap; }
+    .presets button, .btn {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .presets button:hover, .btn:hover { border-color: var(--accent); color: var(--accent); }
+    main {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      grid-template-rows: 1fr auto;
+      min-height: 0;
+    }
+    .canvas-wrap {
+      position: relative;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: #0b0d12;
+    }
+    canvas { display: block; width: 100%; height: 100%; cursor: default; }
+    .tooltip {
+      position: absolute;
+      pointer-events: none;
+      background: #1c2128;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 12px;
+      max-width: 260px;
+      display: none;
+      z-index: 10;
+      line-height: 1.4;
+    }
+    .tooltip strong { display: block; margin-bottom: 4px; }
+    .sidebar {
+      border-bottom: 1px solid var(--border);
+      padding: 12px;
+      overflow-y: auto;
+      font-size: 12px;
+    }
+    .sidebar h2 {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      margin: 12px 0 8px;
+    }
+    .sidebar h2:first-child { margin-top: 0; }
+    label { display: block; margin-bottom: 6px; color: var(--muted); }
+    select {
+      width: 100%;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 6px;
+      padding: 6px 8px;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+    .legend { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+    .legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+    .node-list { display: flex; flex-direction: column; gap: 6px; max-height: 220px; overflow-y: auto; }
+    .node-row {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 6px;
+      align-items: center;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 6px 8px;
+    }
+    .node-row.hidden-node { opacity: 0.45; }
+    .node-row .name { font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .knowledge-btn {
+      font-size: 10px;
+      padding: 3px 6px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: transparent;
+      cursor: pointer;
+      color: var(--text);
+      min-width: 58px;
+    }
+    .knowledge-btn.know { border-color: var(--know); color: var(--know); }
+    .knowledge-btn.fuzzy { border-color: var(--fuzzy); color: var(--fuzzy); }
+    .knowledge-btn.unknown { border-color: var(--unknown); color: var(--unknown); }
+    .toggle-vis {
+      width: 22px; height: 22px; border-radius: 4px; border: 1px solid var(--border);
+      background: transparent; color: var(--muted); cursor: pointer; font-size: 11px;
+    }
+    .actions { display: flex; flex-wrap: wrap; gap: 6px; }
+    .hint {
+      margin-top: 10px;
+      padding: 8px;
+      background: #12161d;
+      border: 1px dashed var(--border);
+      border-radius: 6px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+    .prompt-panel {
+      grid-column: 1 / -1;
+      border-top: 1px solid var(--border);
+      padding: 12px 16px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: start;
+      background: var(--panel);
+    }
+    .prompt-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    #prompt {
+      font-family: var(--sans);
+      font-size: 13px;
+      line-height: 1.55;
+      color: var(--text);
+      white-space: pre-wrap;
+    }
+    #copyBtn.copied { border-color: var(--know); color: var(--know); }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>LLM Wiki Playground</h1>
+      <p>Map what you know, draw relationships, copy a setup prompt for your agent.</p>
+    </div>
+    <div class="presets">
+      <button data-preset="research">Research wiki</button>
+      <button data-preset="personal">Personal journal</button>
+      <button data-preset="team">Team knowledge</button>
+      <button data-preset="book">Book companion</button>
+      <button data-preset="zoomout">Zoom out</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="canvas-wrap" id="canvasWrap">
+      <canvas id="canvas"></canvas>
+      <div class="tooltip" id="tooltip"></div>
+    </div>
+
+    <aside class="sidebar">
+      <h2>Connection type</h2>
+      <select id="edgeType">
+        <option value="feeds">feeds</option>
+        <option value="maintains">maintains</option>
+        <option value="indexes">indexes</option>
+        <option value="logs">logs</option>
+        <option value="contradicts">contradicts</option>
+        <option value="synthesizes">synthesizes</option>
+        <option value="depends on">depends on</option>
+      </select>
+
+      <div class="legend">
+        <span><span class="dot" style="background:var(--know)"></span>Know</span>
+        <span><span class="dot" style="background:var(--fuzzy)"></span>Fuzzy</span>
+        <span><span class="dot" style="background:var(--unknown)"></span>Unknown</span>
+      </div>
+
+      <h2>Concepts</h2>
+      <div class="node-list" id="nodeList"></div>
+
+      <h2>Actions</h2>
+      <div class="actions">
+        <button class="btn" id="autoLayout">Auto-layout</button>
+        <button class="btn" id="clearEdges">Clear edges</button>
+        <button class="btn" id="resetAll">Reset</button>
+      </div>
+
+      <div class="hint">
+        Drag nodes to arrange your mental model. Click node A, then node B to draw an edge. Hover for details.
+      </div>
+    </aside>
+
+    <section class="prompt-panel">
+      <div>
+        <div class="prompt-label">Generated prompt</div>
+        <div id="prompt"></div>
+      </div>
+      <button class="btn" id="copyBtn">Copy</button>
+    </section>
+  </main>
+
+  <script>
+    const DEFAULTS = {
+      useCase: 'research',
+      edgeType: 'feeds',
+      showAdvanced: true,
+    };
+
+    const KNOWLEDGE = ['know', 'fuzzy', 'unknown'];
+    const KNOWLEDGE_COLORS = { know: '#3fb950', fuzzy: '#d29922', unknown: '#f85149' };
+    const LAYER_COLORS = {
+      raw: '#58a6ff',
+      wiki: '#a371f7',
+      schema: '#f778ba',
+      ops: '#3fb950',
+      tools: '#d29922',
+    };
+
+    const BASE_NODES = [
+      { id: 'raw', label: 'Raw Sources', layer: 'raw', desc: 'Immutable articles, papers, clips, transcripts. Source of truth the LLM reads but never edits.' },
+      { id: 'wiki', label: 'Wiki Layer', layer: 'wiki', desc: 'LLM-generated markdown: entity pages, topic summaries, synthesis. Cross-linked and kept current.' },
+      { id: 'schema', label: 'Schema / AGENTS.md', layer: 'schema', desc: 'Conventions, workflows, page formats. Makes the LLM a disciplined wiki maintainer.' },
+      { id: 'index', label: 'index.md', layer: 'wiki', desc: 'Content catalog — links, one-line summaries, categories. Query entry point at moderate scale.' },
+      { id: 'log', label: 'log.md', layer: 'wiki', desc: 'Append-only timeline of ingests, queries, lint passes. Parseable with grep.' },
+      { id: 'ingest', label: 'Ingest', layer: 'ops', desc: 'Drop source → extract → update entity pages, index, log. One source may touch 10–15 pages.' },
+      { id: 'query', label: 'Query', layer: 'ops', desc: 'Search wiki, synthesize answer with citations. Good answers get filed back as new pages.' },
+      { id: 'lint', label: 'Lint', layer: 'ops', desc: 'Health-check: contradictions, stale claims, orphans, missing cross-refs, data gaps.' },
+      { id: 'obsidian', label: 'Obsidian', layer: 'tools', desc: 'Human IDE for browsing graph view, following links, reviewing LLM edits in real time.' },
+      { id: 'search', label: 'Search CLI / qmd', layer: 'tools', desc: 'Optional hybrid search when index.md outgrows manual navigation. CLI or MCP.' },
+      { id: 'contradictions', label: 'Contradiction Tracking', layer: 'wiki', desc: 'New sources can challenge old claims. Wiki notes conflicts instead of silently overwriting.' },
+      { id: 'synthesis', label: 'Evolving Synthesis', layer: 'wiki', desc: 'Topic summaries that compound over time — not re-derived from scratch each query.' },
+      { id: 'rag', label: 'Classic RAG', layer: 'raw', desc: 'Chunk retrieval at query time. No persistent compiled knowledge — contrast pattern.' },
+      { id: 'git', label: 'Git Versioning', layer: 'tools', desc: 'Wiki as a repo: history, branching, collaboration for free.' },
+    ];
+
+    const BASE_EDGES = [
+      ['raw', 'ingest', 'feeds'],
+      ['ingest', 'wiki', 'maintains'],
+      ['ingest', 'index', 'indexes'],
+      ['ingest', 'log', 'logs'],
+      ['schema', 'ingest', 'depends on'],
+      ['schema', 'query', 'depends on'],
+      ['schema', 'lint', 'depends on'],
+      ['wiki', 'query', 'feeds'],
+      ['index', 'query', 'feeds'],
+      ['query', 'wiki', 'maintains'],
+      ['query', 'log', 'logs'],
+      ['lint', 'wiki', 'maintains'],
+      ['lint', 'contradictions', 'synthesizes'],
+      ['wiki', 'synthesis', 'maintains'],
+      ['contradictions', 'synthesis', 'contradicts'],
+      ['obsidian', 'wiki', 'indexes'],
+      ['search', 'query', 'feeds'],
+      ['git', 'wiki', 'maintains'],
+      ['rag', 'query', 'feeds'],
+      ['wiki', 'rag', 'contradicts'],
+    ];
+
+    const PRESETS = {
+      research: {
+        useCase: 'UAP research',
+        knowledge: { raw: 'know', wiki: 'fuzzy', schema: 'fuzzy', ingest: 'fuzzy', query: 'know', lint: 'unknown', contradictions: 'unknown', synthesis: 'fuzzy', rag: 'know' },
+        hidden: ['obsidian', 'git'],
+        extraPrompt: 'Optimize for long-horizon research with papers, testimonies, and evolving thesis pages.',
+      },
+      personal: {
+        useCase: 'personal knowledge',
+        knowledge: { raw: 'know', wiki: 'fuzzy', schema: 'unknown', ingest: 'fuzzy', query: 'know', lint: 'unknown', obsidian: 'know' },
+        hidden: ['search', 'rag'],
+        extraPrompt: 'Track goals, health, psychology, and journal entries with gentle cross-linking.',
+      },
+      team: {
+        useCase: 'team internal wiki',
+        knowledge: { raw: 'know', wiki: 'fuzzy', schema: 'fuzzy', ingest: 'fuzzy', query: 'know', lint: 'fuzzy', git: 'know', contradictions: 'fuzzy' },
+        hidden: [],
+        extraPrompt: 'Fed by Slack threads, meeting transcripts, and project docs. Humans review LLM updates.',
+      },
+      book: {
+        useCase: 'book companion wiki',
+        knowledge: { raw: 'know', wiki: 'fuzzy', ingest: 'fuzzy', synthesis: 'fuzzy', index: 'fuzzy', query: 'know' },
+        hidden: ['search', 'lint', 'rag'],
+        extraPrompt: 'File each chapter; build character, theme, and plot-thread pages like a fan wiki.',
+      },
+      zoomout: {
+        useCase: 'architecture overview',
+        knowledge: {},
+        hidden: ['index', 'log', 'contradictions', 'synthesis', 'search', 'git', 'obsidian', 'rag'],
+        extraPrompt: 'Explain only the three-layer architecture and core operations at a high level.',
+      },
+    };
+
+    let state = {
+      useCase: DEFAULTS.useCase,
+      edgeType: DEFAULTS.edgeType,
+      extraPrompt: PRESETS.research.extraPrompt,
+      nodes: [],
+      edges: [],
+      selectedNode: null,
+      dragging: null,
+      dragOffset: { x: 0, y: 0 },
+      hoverNode: null,
+    };
+
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const wrap = document.getElementById('canvasWrap');
+    const tooltip = document.getElementById('tooltip');
+    const nodeList = document.getElementById('nodeList');
+    const promptEl = document.getElementById('prompt');
+    const edgeTypeSelect = document.getElementById('edgeType');
+
+    function cloneBase() {
+      const positions = {
+        raw: { x: 0.18, y: 0.22 }, wiki: { x: 0.52, y: 0.28 }, schema: { x: 0.52, y: 0.08 },
+        index: { x: 0.78, y: 0.18 }, log: { x: 0.78, y: 0.42 }, ingest: { x: 0.22, y: 0.52 },
+        query: { x: 0.52, y: 0.58 }, lint: { x: 0.52, y: 0.78 }, obsidian: { x: 0.82, y: 0.62 },
+        search: { x: 0.82, y: 0.78 }, contradictions: { x: 0.32, y: 0.78 }, synthesis: { x: 0.62, y: 0.42 },
+        rag: { x: 0.12, y: 0.78 }, git: { x: 0.82, y: 0.28 },
+      };
+      state.nodes = BASE_NODES.map(n => ({
+        ...n,
+        knowledge: 'fuzzy',
+        visible: true,
+        x: positions[n.id]?.x ?? 0.5,
+        y: positions[n.id]?.y ?? 0.5,
+      }));
+      state.edges = BASE_EDGES.map(([source, target, relation]) => ({ source, target, relation }));
+    }
+
+    function resizeCanvas() {
+      const rect = wrap.getBoundingClientRect();
+      canvas.width = rect.width * devicePixelRatio;
+      canvas.height = rect.height * devicePixelRatio;
+      canvas.style.width = rect.width + 'px';
+      canvas.style.height = rect.height + 'px';
+      ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+      draw();
+    }
+
+    function nodeById(id) { return state.nodes.find(n => n.id === id); }
+
+    function visibleNodes() { return state.nodes.filter(n => n.visible); }
+
+    function toCanvasPos(node) {
+      const w = wrap.clientWidth;
+      const h = wrap.clientHeight;
+      return { x: node.x * w, y: node.y * h, r: 28 };
+    }
+
+    function hitTest(x, y) {
+      const nodes = visibleNodes().slice().reverse();
+      for (const n of nodes) {
+        const p = toCanvasPos(n);
+        const dx = x - p.x;
+        const dy = y - p.y;
+        if (Math.hypot(dx, dy) <= p.r + 4) return n;
+      }
+      return null;
+    }
+
+    function drawEdge(e) {
+      const a = nodeById(e.source);
+      const b = nodeById(e.target);
+      if (!a || !b || !a.visible || !b.visible) return;
+      const pa = toCanvasPos(a);
+      const pb = toCanvasPos(b);
+      const angle = Math.atan2(pb.y - pa.y, pb.x - pa.x);
+      const startX = pa.x + Math.cos(angle) * pa.r;
+      const startY = pa.y + Math.sin(angle) * pa.r;
+      const endX = pb.x - Math.cos(angle) * pb.r;
+      const endY = pb.y - Math.sin(angle) * pb.r;
+      ctx.strokeStyle = '#484f58';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(startX, startY);
+      ctx.lineTo(endX, endY);
+      ctx.stroke();
+      const head = 8;
+      ctx.fillStyle = '#484f58';
+      ctx.beginPath();
+      ctx.moveTo(endX, endY);
+      ctx.lineTo(endX - head * Math.cos(angle - 0.4), endY - head * Math.sin(angle - 0.4));
+      ctx.lineTo(endX - head * Math.cos(angle + 0.4), endY - head * Math.sin(angle + 0.4));
+      ctx.closePath();
+      ctx.fill();
+      const mx = (startX + endX) / 2;
+      const my = (startY + endY) / 2;
+      ctx.fillStyle = '#8b949e';
+      ctx.font = '10px system-ui';
+      ctx.textAlign = 'center';
+      ctx.fillText(e.relation, mx, my - 4);
+    }
+
+    function drawNode(n) {
+      const p = toCanvasPos(n);
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = LAYER_COLORS[n.layer] + '33';
+      ctx.fill();
+      ctx.lineWidth = n.id === state.selectedNode ? 3 : 2;
+      ctx.strokeStyle = n.id === state.selectedNode ? '#fff' : LAYER_COLORS[n.layer];
+      ctx.stroke();
+      ctx.fillStyle = KNOWLEDGE_COLORS[n.knowledge];
+      ctx.beginPath();
+      ctx.arc(p.x + p.r - 6, p.y - p.r + 6, 5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = '#e6edf3';
+      ctx.font = '11px system-ui';
+      ctx.textAlign = 'center';
+      const words = n.label.split(' ');
+      const line1 = words.slice(0, Math.ceil(words.length / 2)).join(' ');
+      const line2 = words.slice(Math.ceil(words.length / 2)).join(' ');
+      ctx.fillText(line1, p.x, p.y - 2);
+      if (line2) ctx.fillText(line2, p.x, p.y + 11);
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, wrap.clientWidth, wrap.clientHeight);
+      state.edges.forEach(drawEdge);
+      visibleNodes().forEach(drawNode);
+    }
+
+    function autoLayout() {
+      const nodes = visibleNodes();
+      const w = wrap.clientWidth;
+      const h = wrap.clientHeight;
+      for (let i = 0; i < 140; i++) {
+        for (const a of nodes) {
+          for (const b of nodes) {
+            if (a.id === b.id) continue;
+            const dx = (b.x - a.x) * w;
+            const dy = (b.y - a.y) * h;
+            const dist = Math.max(Math.hypot(dx, dy), 1);
+            const force = 9000 / (dist * dist);
+            a.x -= (dx / dist) * force / w * 0.02;
+            a.y -= (dy / dist) * force / h * 0.02;
+          }
+        }
+        for (const e of state.edges) {
+          const a = nodeById(e.source);
+          const b = nodeById(e.target);
+          if (!a?.visible || !b?.visible) continue;
+          const dx = (b.x - a.x) * w;
+          const dy = (b.y - a.y) * h;
+          const dist = Math.max(Math.hypot(dx, dy), 1);
+          const force = dist * 0.0008;
+          a.x += (dx / dist) * force;
+          a.y += (dy / dist) * force;
+          b.x -= (dx / dist) * force;
+          b.y -= (dy / dist) * force;
+        }
+        for (const n of nodes) {
+          n.x = Math.min(0.92, Math.max(0.08, n.x));
+          n.y = Math.min(0.92, Math.max(0.08, n.y));
+        }
+      }
+      updateAll();
+    }
+
+    function renderNodeList() {
+      nodeList.innerHTML = '';
+      state.nodes.forEach(n => {
+        const row = document.createElement('div');
+        row.className = 'node-row' + (n.visible ? '' : ' hidden-node');
+        row.innerHTML = `
+          <span class="name" title="${n.label}">${n.label}</span>
+          <button class="knowledge-btn ${n.knowledge}">${n.knowledge}</button>
+          <button class="toggle-vis" title="Toggle visibility">${n.visible ? '👁' : '—'}</button>
+        `;
+        row.querySelector('.knowledge-btn').onclick = () => {
+          const idx = KNOWLEDGE.indexOf(n.knowledge);
+          n.knowledge = KNOWLEDGE[(idx + 1) % KNOWLEDGE.length];
+          updateAll();
+        };
+        row.querySelector('.toggle-vis').onclick = () => {
+          n.visible = !n.visible;
+          updateAll();
+        };
+        nodeList.appendChild(row);
+      });
+    }
+
+    function updatePrompt() {
+      const know = state.nodes.filter(n => n.visible && n.knowledge === 'know').map(n => n.label);
+      const fuzzy = state.nodes.filter(n => n.visible && n.knowledge === 'fuzzy').map(n => n.label);
+      const unknown = state.nodes.filter(n => n.visible && n.knowledge === 'unknown').map(n => n.label);
+      const edgeLines = state.edges
+        .filter(e => {
+          const a = nodeById(e.source);
+          const b = nodeById(e.target);
+          return a?.visible && b?.visible;
+        })
+        .map(e => `${nodeById(e.source).label} ${e.relation} ${nodeById(e.target).label}`);
+
+      const parts = [
+        `Set up an LLM-maintained personal wiki for ${state.useCase}.`,
+        `Use the three-layer pattern: immutable raw sources, an LLM-owned markdown wiki, and a schema file (AGENTS.md or CLAUDE.md) that defines conventions and workflows.`,
+      ];
+
+      if (know.length) parts.push(`I already understand: ${know.join(', ')}.`);
+      if (fuzzy.length) parts.push(`I'm fuzzy on: ${fuzzy.join(', ')} — explain these with concrete examples and directory structure.`);
+      if (unknown.length) parts.push(`I haven't figured out yet: ${unknown.join(', ')} — walk me through how to implement these and when they become necessary.`);
+
+      if (edgeLines.length) {
+        parts.push(`Focus on these relationships:\n${edgeLines.map(l => `- ${l}`).join('\n')}`);
+      }
+
+      parts.push(`Include ingest, query, and lint workflows; maintain index.md and log.md; file good query answers back into the wiki; flag contradictions instead of silently overwriting old claims.`);
+
+      if (state.extraPrompt) parts.push(state.extraPrompt);
+
+      parts.push('Propose a minimal starting directory layout and the first 5 wiki pages to create.');
+
+      promptEl.textContent = parts.join('\n\n');
+    }
+
+    function updateAll() {
+      renderNodeList();
+      draw();
+      updatePrompt();
+    }
+
+    function applyPreset(name) {
+      const preset = PRESETS[name];
+      if (!preset) return;
+      cloneBase();
+      state.useCase = preset.useCase;
+      state.extraPrompt = preset.extraPrompt || '';
+      state.nodes.forEach(n => {
+        if (preset.knowledge?.[n.id]) n.knowledge = preset.knowledge[n.id];
+        if (preset.hidden?.includes(n.id)) n.visible = false;
+      });
+      updateAll();
+    }
+
+    canvas.addEventListener('mousedown', e => {
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const hit = hitTest(x, y);
+      if (!hit) { state.selectedNode = null; draw(); return; }
+      if (state.selectedNode && state.selectedNode !== hit.id) {
+        const exists = state.edges.some(ed => ed.source === state.selectedNode && ed.target === hit.id && ed.relation === state.edgeType);
+        if (!exists) state.edges.push({ source: state.selectedNode, target: hit.id, relation: state.edgeType });
+        state.selectedNode = null;
+        updateAll();
+        return;
+      }
+      state.selectedNode = hit.id;
+      state.dragging = hit.id;
+      const p = toCanvasPos(hit);
+      state.dragOffset = { x: x - p.x, y: y - p.y };
+      draw();
+    });
+
+    canvas.addEventListener('mousemove', e => {
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      if (state.dragging) {
+        const n = nodeById(state.dragging);
+        n.x = Math.min(0.92, Math.max(0.08, (x - state.dragOffset.x) / wrap.clientWidth));
+        n.y = Math.min(0.92, Math.max(0.08, (y - state.dragOffset.y) / wrap.clientHeight));
+        draw();
+        return;
+      }
+      const hit = hitTest(x, y);
+      state.hoverNode = hit;
+      if (hit) {
+        tooltip.style.display = 'block';
+        tooltip.style.left = (x + 14) + 'px';
+        tooltip.style.top = (y + 14) + 'px';
+        tooltip.innerHTML = `<strong>${hit.label}</strong>${hit.desc}`;
+      } else {
+        tooltip.style.display = 'none';
+      }
+    });
+
+    window.addEventListener('mouseup', () => { state.dragging = null; });
+    window.addEventListener('resize', resizeCanvas);
+
+    edgeTypeSelect.addEventListener('change', e => { state.edgeType = e.target.value; });
+    document.getElementById('autoLayout').onclick = autoLayout;
+    document.getElementById('clearEdges').onclick = () => { state.edges = []; updateAll(); };
+    document.getElementById('resetAll').onclick = () => applyPreset('research');
+    document.querySelectorAll('[data-preset]').forEach(btn => btn.addEventListener('click', () => applyPreset(btn.dataset.preset)));
+
+    document.getElementById('copyBtn').onclick = async () => {
+      await navigator.clipboard.writeText(promptEl.textContent);
+      const btn = document.getElementById('copyBtn');
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1400);
+    };
+
+    cloneBase();
+    applyPreset('research');
+    resizeCanvas();
+  </script>
+</body>
+</html>

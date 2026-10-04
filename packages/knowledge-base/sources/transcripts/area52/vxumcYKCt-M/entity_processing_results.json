@@ -1,0 +1,32 @@
+{
+  "status": "completed",
+  "video_id": "vxumcYKCt-M",
+  "summary_file": "/Users/liamellis/Desktop/ultraterrestrial-resurrection/packages/knowledge-base/transcripts/2026-07-24/vxumcYKCt-M/bobLazarTravisWaltonFinallyMeetTheFlyingSaucerDinerSummary.txt",
+  "entities": {
+    "topics": [],
+    "personnel": [],
+    "events": [],
+    "organizations": [],
+    "locations": [],
+    "artifacts": [],
+    "sightings": []
+  },
+  "xata_search_results": {
+    "topics": [],
+    "personnel": [],
+    "events": [],
+    "organizations": [],
+    "locations": [],
+    "artifacts": [],
+    "sightings": []
+  },
+  "entity_creation_results": {
+    "status": "no_creation_needed",
+    "statistics": {
+      "total_created": 0
+    }
+  },
+  "total_entities": 0,
+  "total_matches": 0,
+  "total_created": 0
+}

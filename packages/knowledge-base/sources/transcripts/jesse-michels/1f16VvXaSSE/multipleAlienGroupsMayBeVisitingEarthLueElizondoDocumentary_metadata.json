@@ -1,0 +1,36 @@
+{
+  "title": "“Multiple Alien Groups May Be Visiting Earth!” (Lue Elizondo Documentary)",
+  "url": "https://www.youtube.com/watch?v=1f16VvXaSSE",
+  "id": "1f16VvXaSSE",
+  "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+  "channel_title": "Jesse Michels",
+  "published_at": "2024-10-10T17:56:36Z",
+  "categories": [],
+  "tags": [],
+  "description": "",
+  "chapters": [],
+  "transcript_segment_count": 3149,
+  "rag_pipeline": {
+    "status": "ok",
+    "embeddable_count": 1,
+    "prompts_used": [
+      "disclosure.content_analysis",
+      "disclosure.ner",
+      "document_classification",
+      "rag_ingestion"
+    ],
+    "errors": [
+      "ner:c01:disclosure.ner: JSON unparseable after one repair retry (Unterminated string starting at: line 100 column 28 (char 4490)); raw response was 4545 chars"
+    ]
+  },
+  "trace_map": {
+    "json_path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/sources/transcripts/jesse-michels/1f16VvXaSSE/multipleAlienGroupsMayBeVisitingEarthLueElizondoDocumentary_trace_map.json",
+    "md_path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/sources/transcripts/jesse-michels/1f16VvXaSSE/multipleAlienGroupsMayBeVisitingEarthLueElizondoDocumentary_trace_map.md",
+    "node_count": 14,
+    "edge_count": 13,
+    "coverage_fraction": 0.2066,
+    "valid": true,
+    "error_count": 0,
+    "gap_count": 7
+  }
+}

@@ -1,0 +1,1497 @@
+{
+  "status": "ok",
+  "classification": {
+    "content_type": "media",
+    "primary_record_hints": [
+      "Event",
+      "KeyFigure",
+      "Topic",
+      "Document"
+    ],
+    "hynek_scaffold": null,
+    "classification_marks_detected": [],
+    "language": "en",
+    "ocr_quality": "n/a",
+    "sensitivity": "public",
+    "ingestion_recommendation": "proceed",
+    "rationale": "This is a transcript of a podcast episode (Debriefed ep. 20) that discusses and reads from a 1987 document by John Lear. The primary content is media commentary and analysis, with embedded references to historical events, figures, and documents. No direct observational sighting data is present; the Hynek classification is not applicable. The content is public and suitable for ingestion.",
+    "confidence": 0.9
+  },
+  "analysis": {
+    "_raw_list": [
+      "On December 12, 2024, at ~6:05 PM Eastern, the host (Chris Ramsey) claims to have seen a ~50-foot black boomerang-shaped object with three white lights and two red lights in a line, flying silently past his balcony window across the river from the Newark FBI office, through downtown Newark.",
+      "John Lear, a former commercial pilot and son of Learjet inventor Bill Lear, authored a 1987 document published on Paranet detailing government involvement with extraterrestrial biological entities (EBEs), reverse engineering, and a deal to suppress abductions and cattle mutilations in exchange for technology.",
+      "The 1987 document claims the U.S. government made a deal with EBEs in 1969-1971, exchanging technology for ignoring abductions and suppressing information on cattle mutilations.",
+      "The document lists six purposes for abductions: nasal implant insertion, post-hypnotic suggestion, termination for biological material, termination of threats, genetic engineering, and impregnation/early termination for hybrid breeding.",
+      "The document claims a saucer was buried at a crash site because it was too large to move, and that a meeting between aliens and U.S. intelligence occurred at Holloman Air Force Base on April 30, 1964.",
+      "The document claims MJ-12 was established by President Truman in 1947 and continues to exist, with new members appointed as original members die.",
+      "The document claims Germany may have recovered a flying saucer as early as 1939, and General Doolittle inspected a crashed saucer in Spitsbergen in 1946.",
+      "The document claims crashes occurred at Roswell, Aztec (NM), and near Laredo, Texas, with some craft stored at Wright-Patterson AFB."
+    ]
+  },
+  "ingestion": {
+    "document": {
+      "title_guess": "Debriefed: John Lear's 1987 Paranet Statement on MJ-12, EBE's, and Government UFO Deals",
+      "content_type": "media",
+      "language": "en",
+      "provenance": "https://www.youtube.com/watch?v=5neRAsS0nrY",
+      "integrity_flags": [
+        "secondary_repost",
+        "transcript_noise"
+      ]
+    },
+    "chunks": [
+      {
+        "chunk_id": "c01",
+        "heading_path": null,
+        "text": "on December 12th 2024 around 6:05 p.m. Eastern I walk right past my balcony window I live right across the the River from the Newark FBI office and I saw a massive 50 foot approximately vont black Boomerang go right past my window Thailand floated right across the river right through the buildings downtown Newark three white lights two red uh in a line on the back made no noise ladies and gentlemen welcome back to another episode of debriefed my name is Chris Ramsey and today we're going to take a good hard look at a document submitted to the paranet website 1987 by none other than the Godfather of conspiracy John leer but before we do that I would highly encourage you guys to leave a like subscribe maybe hit the notification Bell if you do enjoy these uploads and if you're listening on audio one thing that you could do that costs absolutely nothing is leave us a five-star review on whatever platform it is you're listening to this episode on and you know maybe a comment on why it is you like these deep Dives it goes a very long way actually in helping us Propel into a favorable algorithm on Spotify and iTunes Etc and if you can't get enough of Area 52 debriefed and the likes head over to our membership you you can do so by joining and becoming a member here on YouTube or going to patreon.com area52 investigations where we upload weekly Vlogs behind the scenes extra episodes extended interviews it is a vastly growing Community where we continuously every day have deep discussions on the Discord which by the way you can also join and I'll leave all the links to that below folks we've paid the bills I think it's time to get into it",
+        "token_estimate": 250,
+        "overlap_note": null,
+        "entities_hint": [
+          "Newark FBI office",
+          "Chris Ramsey",
+          "John Lear",
+          "Paranet"
+        ],
+        "claims_hint": [
+          "Host describes a personal UFO sighting over Newark on Dec 12, 2024.",
+          "Episode focuses on a 1987 document submitted to Paranet by John Lear."
+        ],
+        "temporal_anchors": [
+          "2024-12-12",
+          "1987"
+        ],
+        "spatial_anchors": [
+          "Newark, NJ",
+          "Newark FBI office"
+        ],
+        "evidentiary_density": "low",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c02",
+        "heading_path": null,
+        "text": "okay before I read these out I will give you a brief history on Mr Lear himself so John leer is a former Aviation Captain a commercial pilot but also happens to be the son of lejet inventor Bill Lear John leer until he passed away a few years ago was one of the most prominent figures in the UFO landscape he not only had multiple FAA certifications but also flew on several missions for the CIA which inevitably made him a little bit more credible when he came out with the information that someone he knew worked for a secret facility within the United States government at Area 51 called section 4 otherwise known as S4 Yes folks he introduced the world to Bob Lazar he met with George knap and set up the uh most famous interview in euphology I believe today well there's several uh actually nine uh flying saucers flying discs uh that are out there of extraterrestrial origin however over time Le assertions became increasingly outlandish he would go on rants about lunar bases the Moon being a hologram and mind control projects and while some admired him as a whistleblower others felt his credibility waned as he got into more and more extreme conspiracies and say what you want about the guy but this guy was talking about mind control things before MK Ultra went public he was also talking about underground military bases where they were reverse engineering ing alien craft before we even heard of Area 51 now there is an entire other side to this is that he potentially could be a scop meaning that the government used him uh in an active disinformation Campaign which would not be unheard of and in fact John leer admits to this he says that there is a potential that they fed him false information and that would muddy up the actual correct information that he was able to leak out and that's the way a lot of these disinformation campaigns function is that they will put out a vast majority of Truth and insert only one or two fibs but these fibs sounding so extreme and bizarre in nature that it makes you literally throw the baby out with a bath water and say well I guess they're lying about everything now what those lies are I guess is up to the public to decide and that's something we're going to try to get to the bottom of today as we're going to read through a statement that he put out so many years ago in 1987 detailing the government's involvement with Ebe or extr terrestrial biological entities UFOs the reverse engineering and the government's role in future disclosure",
+        "token_estimate": 350,
+        "overlap_note": null,
+        "entities_hint": [
+          "John Lear",
+          "Bill Lear",
+          "Bob Lazar",
+          "George Knapp",
+          "Area 51",
+          "S4",
+          "MK Ultra",
+          "CIA"
+        ],
+        "claims_hint": [
+          "John Lear was a commercial pilot and CIA mission flyer.",
+          "Lear introduced Bob Lazar to the public.",
+          "Lear's credibility waned due to extreme claims.",
+          "Lear may have been used in a disinformation campaign."
+        ],
+        "temporal_anchors": [
+          "1987"
+        ],
+        "spatial_anchors": [
+          "Area 51",
+          "S4"
+        ],
+        "evidentiary_density": "medium",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c03",
+        "heading_path": null,
+        "text": "this all begins with a nice cover letter this is from John W white if I'm not mistaken John White is also a UFO researcher and he is just forwarding this document that was put up on their version of Reddit essentially and he's saying he's saying the following uh Dear somebody I don't know who that is but it says I'm sending this ounding document about UFOs to you because I feel you will be interested and or have a need to know I obtained it by downloading it from an electronic bulletin board called paranet which is headquartered in Arizona and has Regional nodes paranet is dedicated to disseminating information about paranormal phenomena and acting as a forum for discussion memberships in paranet is free and open to the public all it takes is a computer and a modem you can dial in at 6038 376 2 then find the original node nearest you uh so your phone charges will be minimized sincerely John White and whoever this was directed to wrote underneath a few questions that my guess is he fax back to this person back then and uh underlining paranet and saying who set this up who sustains it financially and why who benefits from those who really know things identifying themselves and their views via this bulletin board I smell Federal deceit so even the person that this was sent to back in 1987 thought that this also was a scop folks we stand on the very shaky shoulders of a lot of conspiracy theorists before us",
+        "token_estimate": 250,
+        "overlap_note": null,
+        "entities_hint": [
+          "John White",
+          "Paranet",
+          "Arizona"
+        ],
+        "claims_hint": [
+          "A cover letter from John White forwards the Lear document.",
+          "Paranet was a free electronic bulletin board for paranormal topics.",
+          "The recipient suspected federal disinformation ('I smell Federal deceit')."
+        ],
+        "temporal_anchors": [
+          "1987"
+        ],
+        "spatial_anchors": [
+          "Arizona"
+        ],
+        "evidentiary_density": "medium",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c04",
+        "heading_path": null,
+        "text": "let's get into his document it starts by saying uh John leer has requested that the following file be published on paranet it is our philosophy to encourage debate on paranormal issues no matter how controversial and we welcome his input the information contained in this file has not been verified by paranet nor do the opinions expressed herein necessarily reflect those of the administrator or other paranet staff members we can State however that Jon is who he says he is and has numerous contacts and sensitive positions that could conceivably allow him to access information of this type and that folks has been known for a very long time is that John was working in the CIA and did say on numerous occasions that he was being fed information by people who were on the inside or otherwise known as people in the program so here is the statement We Begin this is December 29th 1987 folks almost almost 40 years to the day that is insane John leer a captain for a major US airline has flown over 160 different types of aircraft in over 50 different countries he holds 17 world speed record in Lear Jet and is the only pilot ever to hold every Airline certificate issued by the Federal Aviation Administration Lear has flown missions worldwide for the CIA and other government agencies a former Nevada state Senator candidate he is the son of William P Lear designer of the Learjet executive airplane the eight TR stereo and founder of Lear seagler Corporation Lear became interested in the subject of UFOs 13 months ago after talking with United States Air Force personnel who had witnessed a UFO landing at bentwaters Air Force base near London England and three small aliens walking up to the wing Commander",
+        "token_estimate": 300,
+        "overlap_note": null,
+        "entities_hint": [
+          "John Lear",
+          "Paranet",
+          "CIA",
+          "William P Lear",
+          "Bentwaters Air Force Base",
+          "London"
+        ],
+        "claims_hint": [
+          "Paranet published Lear's file with a disclaimer of non-verification.",
+          "Lear's credentials include being a captain, record-holder, and CIA flyer.",
+          "Lear became interested in UFOs after hearing about the Bentwaters incident."
+        ],
+        "temporal_anchors": [
+          "1987-12-29"
+        ],
+        "spatial_anchors": [
+          "Bentwaters Air Force Base",
+          "London"
+        ],
+        "evidentiary_density": "high",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c05",
+        "heading_path": null,
+        "text": "so the lacken heath bentwaters incident now when saying is it lacken Heath Lake and Heath I'm not sure but that does sound familiar isn't that the current Air Force Base that is being incurred by a lot of these uh unexplainable drone activities so the lacken heath bentwaters incident was a series of radar and visual contacts with UFOs over air bases in eastern England on the night of August 13th and 14th in 1956 so it involved a Personnel from the Royal Air Force and the United States Air Force I mean some of these targets were detected approaching bentwaters from the East at a speed estimated from 2 to 4,000 M an hour it passed overhead a rapidly moving White light was observed from the ground while the pilot of a c47 at 4,000 ft overbent Waters reported a similar light had passed beneath his craft at this point bent Waters alerted the US tenanted RAF Lake and Heath base 40 mil to the Northwest to look out for targets and then ground Personnel at Laken Heath made visual sightings of several luminous objects including two which arrived made a sharp changeing course and appeared to merge before moving off and so what Mr Lear is getting to here that it didn't stop with radar and visual sightings of a UFO but that it continued with three small aliens walking up to the wing Commander",
+        "token_estimate": 250,
+        "overlap_note": null,
+        "entities_hint": [
+          "Lakenheath-Bentwaters incident",
+          "Royal Air Force",
+          "United States Air Force",
+          "C-47"
+        ],
+        "claims_hint": [
+          "The Lakenheath-Bentwaters incident involved radar and visual UFO contacts in 1956.",
+          "UFOs were detected at high speeds and merged in flight.",
+          "Lear's account includes aliens walking up to a wing commander."
+        ],
+        "temporal_anchors": [
+          "1956-08-13",
+          "1956-08-14"
+        ],
+        "spatial_anchors": [
+          "Lakenheath",
+          "Bentwaters",
+          "Eastern England"
+        ],
+        "evidentiary_density": "high",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c06",
+        "heading_path": null,
+        "text": "all right we carry on here note to the press the government of the United States continues to rely on your personal and professional gullibility to suppress the information contained herein your cooperation over the past 40 years has exceeded our wildest expectations and We Salute You the sun does not evolve around the earth the United States government has been in business with little gry extraterrestrials for about 20 years the first truth stated here got jordano Bruno burned at the stake in 1600 ad for daring to propose that this was real the second truth has gotten far more people killed trying to State it publicly than will ever be known that is a dark fact right there wow but the truth must be told the fact that the Earth revolves around the Sun was successfully suppressed by the church for over 200 years it eventually caused a major upheaval in the church government and thought a realignment of Social and Traditional Values that was in the 1800s now about 400 years after the first truth was pronounced we must again face the shocking facts the horrible truth the government has been hiding from us for over 40 years unfortunately the horrible truth is far more horrible than the government had ever imagined in its effort to protect democracy our government sold us to the aliens and here's how it happened but before I begin I'd like to offer a word in the defense of those bar who bargained us away they had the best of intentions we know that's saying the road to hell was paved in Good Intentions",
+        "token_estimate": 300,
+        "overlap_note": null,
+        "entities_hint": [
+          "Giordano Bruno",
+          "US Government"
+        ],
+        "claims_hint": [
+          "The document claims the US government suppressed UFO truth for 40 years.",
+          "It claims the government made a deal with extraterrestrials.",
+          "It compares suppression of heliocentrism to UFO suppression."
+        ],
+        "temporal_anchors": [
+          "1600",
+          "1800s"
+        ],
+        "spatial_anchors": [],
+        "evidentiary_density": "high",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c07",
+        "heading_path": null,
+        "text": "Germany may have recovered a flying saucer as early as 1939 General James H dittle went to Sweden in 1946 to inspect a flying saucer that had crashed there in spitsbergen in 1947 President Truman established a group of 12 of the top military scientific Personnel of their time they were known as mj12 or Majestic 12 the people that control this information is a organization that we know of as mj12 although the group exists today none of the original members are still alive the last one to die was Gordon Gray former Secretary of the Army in 1984 as each member passed away the group itself appointed a new member to fill the position there is some speculation that the group known as mj12 expanded to at least several more members there were several more saucer crashes in the late 1940s one in Roswell New Mexico one in Aztec New Mexico and one near Laredo Texas about 30 Mi inside the Mexican border",
+        "token_estimate": 200,
+        "overlap_note": null,
+        "entities_hint": [
+          "Germany",
+          "James H. Doolittle",
+          "Sweden",
+          "Spitsbergen",
+          "Truman",
+          "MJ-12",
+          "Gordon Gray",
+          "Roswell",
+          "Aztec",
+          "Laredo"
+        ],
+        "claims_hint": [
+          "Germany may have recovered a saucer in 1939.",
+          "Doolittle inspected a crashed saucer in Sweden in 1946.",
+          "Truman established MJ-12 in 1947.",
+          "MJ-12 still exists with new members.",
+          "Multiple saucer crashes occurred in the late 1940s in the US Southwest."
+        ],
+        "temporal_anchors": [
+          "1939",
+          "1946",
+          "1947",
+          "1984"
+        ],
+        "spatial_anchors": [
+          "Germany",
+          "Sweden",
+          "Spitsbergen",
+          "Roswell, NM",
+          "Aztec, NM",
+          "Laredo, TX"
+        ],
+        "evidentiary_density": "high",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c08",
+        "heading_path": null,
+        "text": "consider if you will the position of the United States government at the time there are several crashes reported here one of which is mentioned is Aztec New Mexico and this is one I'm currently looking into as I'm reading a book on it and there seems to be a substantial and overwhelming amount of evidence of documentation of this uh retrieval to have happened and that this craft was eventually potentially brought into Los Alamos you know by looking at the forchan Whistleblower if you haven't checked that video out yet I highly recommend but we did a deep dive on this person who said he basically worked for a secret branch of the government that did these crash retrievals um but he would say that yeah near Mexico and New Mexico that's where they would go down they avoid that spot like the plague currently but back then they would find quite a bit of them uh go down in that vicinity it really really makes you ponder that during that time obviously there was the Manhattan Project that came from there this and you know Oppenheimer and all that where the Germans were racing against the Russians and the Americans to try and build a nuke and during that time you know there was a ton of nuclear um work being done and and thus UFO incursions were happening at all these bases and namely if you want to check it out there's an amazingly brilliant video by YouTuber Jesse Michaels American Alchemy who put that out go check that out what a fun Rabbit Hole to jump down he did a brilliant job on that",
+        "token_estimate": 300,
+        "overlap_note": null,
+        "entities_hint": [
+          "Aztec, NM",
+          "Los Alamos",
+          "Manhattan Project",
+          "Oppenheimer",
+          "Jesse Michaels",
+          "American Alchemy"
+        ],
+        "claims_hint": [
+          "Host claims evidence of a crash retrieval near Aztec, NM.",
+          "Craft may have been brought to Los Alamos.",
+          "UFO incursions correlated with nuclear work during the Manhattan Project."
+        ],
+        "temporal_anchors": [],
+        "spatial_anchors": [
+          "Aztec, NM",
+          "Los Alamos",
+          "New Mexico"
+        ],
+        "evidentiary_density": "medium",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c09",
+        "heading_path": null,
+        "text": "so think about this the government we know that during the Cold War when they even heard about psychics or Russia's sort of psychic activity into M reading and mind control and all that they started their own branches of the very same work because they said hey if this stuff is real we can't take a chance and not look into it we have to at least pour some resources into it and look at it you know ourselves the same has to be said about the UFO thing I mean Foo Fighters in the war were avoiding these things because they were almost colliding with them during their Miss there had to be an extreme amount of research into this topic by both the axis and the Allies back then you'd be a fool to think they weren't at least trying to uncover what was going on and militarizing it somehow I digress consider if you will the position of the United States government at that time they proudly thought of themselves as the most powerful Nation on Earth having recently produced the atomic bomb and achievement so stupendous it would take Russia 4 years to catch up and only with the help of traders to democracy they had built a jet aircraft that had exceeded the speed of sound and flight they had built jet bombers with InterContinental range that could carry weapons of enormous destruction the post-war era and the future seemed Bright",
+        "token_estimate": 300,
+        "overlap_note": null,
+        "entities_hint": [
+          "Cold War",
+          "Russia",
+          "Foo Fighters",
+          "Atomic bomb"
+        ],
+        "claims_hint": [
+          "Cold War psychic research mirrored UFO research.",
+          "Both Axis and Allies likely researched UFOs during WWII.",
+          "US post-war power included atomic bomb and jet bombers."
+        ],
+        "temporal_anchors": [
+          "Cold War"
+        ],
+        "spatial_anchors": [],
+        "evidentiary_density": "medium",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c10",
+        "heading_path": null,
+        "text": "now imagine what it was like for those same leaders all of whom had witnessed the Panic of Orson Wells radio broadcast the War of the Worlds in 1938 we are bringing you an eyewitness account of what's happening on the wilmouth farm Grovers Mill New Jersey lord they're turning into flames the whole heel caugh by the woods of bar the the gas tank tank for the automobiles ladies and gentlemen due to circumstances beyond our control we are unable to continue the broadcast from Grover's Mill thousands of Americans panicked at a realistically presented invasion of Earth by beings from another planet imagine their horror as they actually viewed the dead bodies of these frightening looking little creatures with enormous eyes reptilian skin and claw-like fingers imagine their shock as they attempted to determine how these strange saucers were powered and could discover no part even remotely similar to components they were familiar with no cylinders or Pistons no vacuum tubes or turbines or hydraulic actuators it is only when you fully understand the overwhelming helplessness the government was faced with in the late 1940s that you can comprehend their perceived need for a total thorough and sweeping cover up to include the use of deadly force when something this Paradigm shifting on the military Battlefield is encountered you have to acknowledge that putting this in the wrong hands can lead to devastating and obviously world changing consequences so their use of deadly force to Pro protect this secret according to them was justified",
+        "token_estimate": 300,
+        "overlap_note": null,
+        "entities_hint": [
+          "Orson Welles",
+          "War of the Worlds",
+          "Grover's Mill"
+        ],
+        "claims_hint": [
+          "Leaders remembered the War of the Worlds panic.",
+          "Alien bodies were described as reptilian with claw-like fingers.",
+          "The government's cover-up included deadly force."
+        ],
+        "temporal_anchors": [
+          "1938",
+          "1940s"
+        ],
+        "spatial_anchors": [
+          "Grover's Mill, NJ"
+        ],
+        "evidentiary_density": "high",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c11",
+        "heading_path": null,
+        "text": "the cover up was so successful that as late as 1985 a senior scientist with the jet propulsion laboratory in Pasadena California Dr Al Hibbs would look at a videotape of an enormous Flying Saucer and state the record I'm not going to assign anything to that UFO phenomena without a lot more data Dr hibs was looking at the naked Emperor and saying he certainly looks naked but that doesn't prove he's naked sounds a lot like arrow in July of 1952 a panicked government watched helplessly as a squadron of flying saucers flew over Washington DC and buzzed the White House the capol building and the Pentagon it took all the imagination and intimidation the government could muster to force that incident out of the memory of the public I'm am here to discuss the so-called flying saucers we can say that the recent sightings are in no way connected with any secret development by any Department of the United States a pretty incredible incident had that happened today it kind of is happening today if you think about it",
+        "token_estimate": 250,
+        "overlap_note": null,
+        "entities_hint": [
+          "JPL",
+          "Pasadena",
+          "Al Hibbs",
+          "Washington DC",
+          "White House",
+          "Capitol",
+          "Pentagon"
+        ],
+        "claims_hint": [
+          "Dr. Al Hibbs in 1985 refused to assign UFO phenomena without more data.",
+          "In July 1952, UFOs flew over Washington DC and buzzed key buildings.",
+          "Government denied any connection to secret US developments."
+        ],
+        "temporal_anchors": [
+          "1985",
+          "1952-07"
+        ],
+        "spatial_anchors": [
+          "Pasadena, CA",
+          "Washington DC"
+        ],
+        "evidentiary_density": "high",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c12",
+        "heading_path": null,
+        "text": "thousands of sightings occurred during the Korean War and several more saucers were retrieved by the Air Force some were stored at right Patterson Air Force Base some were stored at Air Force bases near the location of the crash site what I'm going to read to you next is interesting because this was actually echoed by Ross colard recently recently as recent as last year Ross had said that there was a giant UFO somewhere that was too big to move so they built the base around it and that really made headlines in the UFO Community people are going to question what I'm about to say what if some of that [ __ ] is so big it can't be moved so big they built a building over it in a country outside of the United States of America but in fact John leer I mean he's got it right here one saucer was so enormous and the logistic problems in transportation so enormous that it was buried at the crash site and remains there today the stories are legendary on transporting crashed saucers over long distances moving only at night purchasing complete Farms slashing through forests blocking major highways sometimes driving two and three low Boys in tandem with an extra terrestrial load 100 ft in diameter",
+        "token_estimate": 250,
+        "overlap_note": null,
+        "entities_hint": [
+          "Korean War",
+          "Wright-Patterson AFB",
+          "Ross Coulthart"
+        ],
+        "claims_hint": [
+          "Saucers were retrieved during the Korean War and stored at Wright-Patterson.",
+          "One saucer was too large to move and was buried at the crash site.",
+          "Transport of crashed saucers involved elaborate logistics."
+        ],
+        "temporal_anchors": [
+          "Korean War"
+        ],
+        "spatial_anchors": [
+          "Wright-Patterson AFB"
+        ],
+        "evidentiary_density": "high",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c13",
+        "heading_path": null,
+        "text": "on April 30th 1964 the first communication between these aliens and the US government took place at Hollowman Air Force Base in New Mexico three saucers had landed at a pre-arranged air area and a meeting was held between the aliens and Intelligence Officers of the US government all right folks Holman the hullman Air Force incident is pretty Infamous in UFO lore and one of the reasons why is because there was a documentary actually put out by the CIA back in the day and at the very end of this documentary is about an 8sec clip this 8-second clip is what seems to be has a flying saucer uh coming down on sort of desert terrain and about to land and the video feed Cuts turns out the I believe director of that very documentary says that that video exists uncut and that as the video goes on this craft comes to the ground lands and exiting from it are multiple alien beings and that's where a meeting happened but hidden in plain sight they decided to keep in footage in this documentary and here's a clip and in 1973 they go to Bob egger and Alan Sandler two producers in Los Angeles and they asked them to do UFO documentary and Bob Egger's a total UFO skeptic said what do you mean this is for real and at that point the security manager Paul shardell at Norton Air Force Base said what would you what would you say if I told you an alien ship landed at hman Air Force Base 6:00 in the morning in May of 1971 and we filmed it from three different Vantage points two on the ground one in a helicopter and we will allow you to use the film for your documentary so he puts his documentary and then what happens at the end of the documentary is they say we can't use the film we can't let it's a Watergate it's bad timing we can't allow you to use the film and they pull the film and then I find out that there's 8 Seconds of the hallan air for space film in the film so Bob's my friend i ph up Bob there's 8 Seconds of film in there and he goes well yeah and I said you told me to hold the film oh no he said it's background and I said background what do you mean it's background and he said it didn't show anything and what it is is you see the hills of Holman and you see this object this brilliantly lit object at 6 o'clock in the morning coming over the hills but it's in a distance so you don't see it close up and you don't see the alien when the alien gets out that's the classified part so they want you to know the Hallman happened and they allowed them to use this the 8 Seconds of the film but the rest of the film to classifi part was pulled make of that what you will but that is one compelling story",
+        "token_estimate": 450,
+        "overlap_note": null,
+        "entities_hint": [
+          "Holloman AFB",
+          "New Mexico",
+          "CIA",
+          "Bob Egger",
+          "Alan Sandler",
+          "Paul Shardell",
+          "Norton AFB",
+          "Los Angeles"
+        ],
+        "claims_hint": [
+          "First alien-US government communication occurred at Holloman AFB on April 30, 1964.",
+          "A CIA documentary contained an 8-second clip of a saucer landing.",
+          "Producers were told of a 1971 filmed landing at Holloman from three vantage points.",
+          "The full film was pulled due to Watergate timing."
+        ],
+        "temporal_anchors": [
+          "1964-04-30",
+          "1971-05",
+          "1973"
+        ],
+        "spatial_anchors": [
+          "Holloman AFB, NM",
+          "Norton AFB",
+          "Los Angeles"
+        ],
+        "evidentiary_density": "high",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c14",
+        "heading_path": null,
+        "text": "so During the period of 1969 to 1971 mj12 representing the US government made a deal with these creatures called ebees or extraterrestrial biological entities named by De live Bron he was an original mj12 member and sixth President of John Hopkins University John's Hopkins University the deal was that an exchange for technology they would provide to us we agreed to ignore the abductions that were going on and suppress information on the cattle mutilations and to further illustrate this point here's a 1988 episode of Gumby [Music] hey what's going on here we need samples of genes and chromosomes from your kind to develop a stronger breed of people because on our planet radiation damaged our DNA so that we are dying off to Extinction we'll help you but you know we need help too what do you need the people on Earth are suffering from many kinds of pollution we need your advanced technology to help us develop a clean source of energy",
+        "token_estimate": 200,
+        "overlap_note": null,
+        "entities_hint": [
+          "MJ-12",
+          "EBEs",
+          "DeLivo Bron",
+          "Johns Hopkins University",
+          "Gumby"
+        ],
+        "claims_hint": [
+          "MJ-12 made a deal with EBEs between 1969-1971.",
+          "Deal traded technology for ignoring abductions and suppressing cattle mutilation info.",
+          "A 1988 Gumby episode illustrated the EBE narrative."
+        ],
+        "temporal_anchors": [
+          "1969",
+          "1971",
+          "1988"
+        ],
+        "spatial_anchors": [],
+        "evidentiary_density": "high",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c15",
+        "heading_path": null,
+        "text": "the ebees assured mj12 that the abductions usually lasting about 2 hours were merely the ongoing monitoring of developing civilizations and here John lists out the purposes for the abductions and what they turned out to be number one the insertion of a 3mm spherical device through the nasal cavity of the abductee into the brain the device is used for the biological monitoring tracking and control of the abductee this is something touched on in several books by thousands of abductees actually which is interesting you know looking at the work of John Mack David Jacobs Bud Hopkins this would come up quite frequently that this Rod which had a very tiny ball on the end of it was inserted into the nasal cavity way far up and then when extracted that ball was gone what's also interesting to me is that it says to control the abductee which makes me think that these gray beings maybe perhaps not the other beings but the gray ones specifically couldn't mind control you maybe without it",
+        "token_estimate": 250,
+        "overlap_note": null,
+        "entities_hint": [
+          "EBEs",
+          "MJ-12",
+          "John Mack",
+          "David Jacobs",
+          "Bud Hopkins"
+        ],
+        "claims_hint": [
+          "Abductions were claimed to be monitoring of civilizations.",
+          "Purpose 1: Insertion of a 3mm spherical device into the brain via nasal cavity for monitoring/control.",
+          "This matches accounts in abduction literature."
+        ],
+        "temporal_anchors": [],
+        "spatial_anchors": [],
+        "evidentiary_density": "high",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c16",
+        "heading_path": null,
+        "text": "number two implementation of post hypnotic suggestion to carry out a specific activity during a specific time period the actuation of which will occur within the next 2 to 5 years well there's that I mean this was 1987 that would make it 1992 at the latest maybe they did I don't know carry out some specific activity that is unbeknownst to us that has perhaps little little or no consequence to our daily lives I don't know but that seems speculatory at best number three termination of some people so that they could function as living sources for biological material and substances okay number four termination of individuals who represent a threat to the continuation of their activity in the last couple of years have you had incidences that have caused you to be in fear for your life for addressing these issues yes personally I just want everyone to note that he's coming forward in fear of his life to put in perspective if they were really not scared about this information coming out why would someone be intimidated like that",
+        "token_estimate": 200,
+        "overlap_note": null,
+        "entities_hint": [],
+        "claims_hint": [
+          "Purpose 2: Post-hypnotic suggestion for future activities.",
+          "Purpose 3: Termination of people as living biological sources.",
+          "Purpose 4: Termination of individuals threatening their activity.",
+          "Host notes Lear came forward in fear of his life."
+        ],
+        "temporal_anchors": [
+          "1987",
+          "1992"
+        ],
+        "spatial_anchors": [],
+        "evidentiary_density": "high",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c17",
+        "heading_path": null,
+        "text": "number five effect genetic engineering experiments number six impregnation of human females and early termination of pregnancies to secure the cross breed infant seems like the craziest but honestly this is the most widely reported among abductees is the genetic engineering that is taking place on board and most of the time has to do with what seems to be some type of hybridization program again this isn't stuff that I'm making up it's stuff that I've read and that's quite expansive in terms of the literature that's out there and the documentation of the like this has been documented extensively uh mainly through post hypnotic regression because for some reason apparently the people who've been abducted they just you know their memories are wiped bu",
+        "token_estimate": 150,
+        "overlap_note": null,
+        "entities_hint": [],
+        "claims_hint": [
+          "Purpose 5: Genetic engineering experiments.",
+          "Purpose 6: Impregnation and early termination for cross-breed infants.",
+          "Hybridization program is widely reported among abductees."
+        ],
+        "temporal_anchors": [],
+        "spatial_anchors": [],
+        "evidentiary_density": "high",
+        "do_not_embed_reasons": []
+      }
+    ],
+    "index_recommendations": {
+      "priority": "HIGH",
+      "filters": [
+        "ufo",
+        "uap",
+        "john_lear",
+        "mj12",
+        "paranet",
+        "1987",
+        "disclosure",
+        "conspiracy"
+      ],
+      "dedupe_keys": [
+        "john_lear_paranet_1987_statement",
+        "mj12_ebe_deal",
+        "holloman_afb_1964"
+      ]
+    }
+  },
+  "chunks": [
+    {
+      "chunk_id": "c01",
+      "heading_path": null,
+      "text": "on December 12th 2024 around 6:05 p.m. Eastern I walk right past my balcony window I live right across the the River from the Newark FBI office and I saw a massive 50 foot approximately vont black Boomerang go right past my window Thailand floated right across the river right through the buildings downtown Newark three white lights two red uh in a line on the back made no noise ladies and gentlemen welcome back to another episode of debriefed my name is Chris Ramsey and today we're going to take a good hard look at a document submitted to the paranet website 1987 by none other than the Godfather of conspiracy John leer but before we do that I would highly encourage you guys to leave a like subscribe maybe hit the notification Bell if you do enjoy these uploads and if you're listening on audio one thing that you could do that costs absolutely nothing is leave us a five-star review on whatever platform it is you're listening to this episode on and you know maybe a comment on why it is you like these deep Dives it goes a very long way actually in helping us Propel into a favorable algorithm on Spotify and iTunes Etc and if you can't get enough of Area 52 debriefed and the likes head over to our membership you you can do so by joining and becoming a member here on YouTube or going to patreon.com area52 investigations where we upload weekly Vlogs behind the scenes extra episodes extended interviews it is a vastly growing Community where we continuously every day have deep discussions on the Discord which by the way you can also join and I'll leave all the links to that below folks we've paid the bills I think it's time to get into it",
+      "token_estimate": 250,
+      "overlap_note": null,
+      "entities_hint": [
+        "Newark FBI office",
+        "Chris Ramsey",
+        "John Lear",
+        "Paranet"
+      ],
+      "claims_hint": [
+        "Host describes a personal UFO sighting over Newark on Dec 12, 2024.",
+        "Episode focuses on a 1987 document submitted to Paranet by John Lear."
+      ],
+      "temporal_anchors": [
+        "2024-12-12",
+        "1987"
+      ],
+      "spatial_anchors": [
+        "Newark, NJ",
+        "Newark FBI office"
+      ],
+      "evidentiary_density": "low",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c02",
+      "heading_path": null,
+      "text": "okay before I read these out I will give you a brief history on Mr Lear himself so John leer is a former Aviation Captain a commercial pilot but also happens to be the son of lejet inventor Bill Lear John leer until he passed away a few years ago was one of the most prominent figures in the UFO landscape he not only had multiple FAA certifications but also flew on several missions for the CIA which inevitably made him a little bit more credible when he came out with the information that someone he knew worked for a secret facility within the United States government at Area 51 called section 4 otherwise known as S4 Yes folks he introduced the world to Bob Lazar he met with George knap and set up the uh most famous interview in euphology I believe today well there's several uh actually nine uh flying saucers flying discs uh that are out there of extraterrestrial origin however over time Le assertions became increasingly outlandish he would go on rants about lunar bases the Moon being a hologram and mind control projects and while some admired him as a whistleblower others felt his credibility waned as he got into more and more extreme conspiracies and say what you want about the guy but this guy was talking about mind control things before MK Ultra went public he was also talking about underground military bases where they were reverse engineering ing alien craft before we even heard of Area 51 now there is an entire other side to this is that he potentially could be a scop meaning that the government used him uh in an active disinformation Campaign which would not be unheard of and in fact John leer admits to this he says that there is a potential that they fed him false information and that would muddy up the actual correct information that he was able to leak out and that's the way a lot of these disinformation campaigns function is that they will put out a vast majority of Truth and insert only one or two fibs but these fibs sounding so extreme and bizarre in nature that it makes you literally throw the baby out with a bath water and say well I guess they're lying about everything now what those lies are I guess is up to the public to decide and that's something we're going to try to get to the bottom of today as we're going to read through a statement that he put out so many years ago in 1987 detailing the government's involvement with Ebe or extr terrestrial biological entities UFOs the reverse engineering and the government's role in future disclosure",
+      "token_estimate": 350,
+      "overlap_note": null,
+      "entities_hint": [
+        "John Lear",
+        "Bill Lear",
+        "Bob Lazar",
+        "George Knapp",
+        "Area 51",
+        "S4",
+        "MK Ultra",
+        "CIA"
+      ],
+      "claims_hint": [
+        "John Lear was a commercial pilot and CIA mission flyer.",
+        "Lear introduced Bob Lazar to the public.",
+        "Lear's credibility waned due to extreme claims.",
+        "Lear may have been used in a disinformation campaign."
+      ],
+      "temporal_anchors": [
+        "1987"
+      ],
+      "spatial_anchors": [
+        "Area 51",
+        "S4"
+      ],
+      "evidentiary_density": "medium",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c03",
+      "heading_path": null,
+      "text": "this all begins with a nice cover letter this is from John W white if I'm not mistaken John White is also a UFO researcher and he is just forwarding this document that was put up on their version of Reddit essentially and he's saying he's saying the following uh Dear somebody I don't know who that is but it says I'm sending this ounding document about UFOs to you because I feel you will be interested and or have a need to know I obtained it by downloading it from an electronic bulletin board called paranet which is headquartered in Arizona and has Regional nodes paranet is dedicated to disseminating information about paranormal phenomena and acting as a forum for discussion memberships in paranet is free and open to the public all it takes is a computer and a modem you can dial in at 6038 376 2 then find the original node nearest you uh so your phone charges will be minimized sincerely John White and whoever this was directed to wrote underneath a few questions that my guess is he fax back to this person back then and uh underlining paranet and saying who set this up who sustains it financially and why who benefits from those who really know things identifying themselves and their views via this bulletin board I smell Federal deceit so even the person that this was sent to back in 1987 thought that this also was a scop folks we stand on the very shaky shoulders of a lot of conspiracy theorists before us",
+      "token_estimate": 250,
+      "overlap_note": null,
+      "entities_hint": [
+        "John White",
+        "Paranet",
+        "Arizona"
+      ],
+      "claims_hint": [
+        "A cover letter from John White forwards the Lear document.",
+        "Paranet was a free electronic bulletin board for paranormal topics.",
+        "The recipient suspected federal disinformation ('I smell Federal deceit')."
+      ],
+      "temporal_anchors": [
+        "1987"
+      ],
+      "spatial_anchors": [
+        "Arizona"
+      ],
+      "evidentiary_density": "medium",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c04",
+      "heading_path": null,
+      "text": "let's get into his document it starts by saying uh John leer has requested that the following file be published on paranet it is our philosophy to encourage debate on paranormal issues no matter how controversial and we welcome his input the information contained in this file has not been verified by paranet nor do the opinions expressed herein necessarily reflect those of the administrator or other paranet staff members we can State however that Jon is who he says he is and has numerous contacts and sensitive positions that could conceivably allow him to access information of this type and that folks has been known for a very long time is that John was working in the CIA and did say on numerous occasions that he was being fed information by people who were on the inside or otherwise known as people in the program so here is the statement We Begin this is December 29th 1987 folks almost almost 40 years to the day that is insane John leer a captain for a major US airline has flown over 160 different types of aircraft in over 50 different countries he holds 17 world speed record in Lear Jet and is the only pilot ever to hold every Airline certificate issued by the Federal Aviation Administration Lear has flown missions worldwide for the CIA and other government agencies a former Nevada state Senator candidate he is the son of William P Lear designer of the Learjet executive airplane the eight TR stereo and founder of Lear seagler Corporation Lear became interested in the subject of UFOs 13 months ago after talking with United States Air Force personnel who had witnessed a UFO landing at bentwaters Air Force base near London England and three small aliens walking up to the wing Commander",
+      "token_estimate": 300,
+      "overlap_note": null,
+      "entities_hint": [
+        "John Lear",
+        "Paranet",
+        "CIA",
+        "William P Lear",
+        "Bentwaters Air Force Base",
+        "London"
+      ],
+      "claims_hint": [
+        "Paranet published Lear's file with a disclaimer of non-verification.",
+        "Lear's credentials include being a captain, record-holder, and CIA flyer.",
+        "Lear became interested in UFOs after hearing about the Bentwaters incident."
+      ],
+      "temporal_anchors": [
+        "1987-12-29"
+      ],
+      "spatial_anchors": [
+        "Bentwaters Air Force Base",
+        "London"
+      ],
+      "evidentiary_density": "high",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c05",
+      "heading_path": null,
+      "text": "so the lacken heath bentwaters incident now when saying is it lacken Heath Lake and Heath I'm not sure but that does sound familiar isn't that the current Air Force Base that is being incurred by a lot of these uh unexplainable drone activities so the lacken heath bentwaters incident was a series of radar and visual contacts with UFOs over air bases in eastern England on the night of August 13th and 14th in 1956 so it involved a Personnel from the Royal Air Force and the United States Air Force I mean some of these targets were detected approaching bentwaters from the East at a speed estimated from 2 to 4,000 M an hour it passed overhead a rapidly moving White light was observed from the ground while the pilot of a c47 at 4,000 ft overbent Waters reported a similar light had passed beneath his craft at this point bent Waters alerted the US tenanted RAF Lake and Heath base 40 mil to the Northwest to look out for targets and then ground Personnel at Laken Heath made visual sightings of several luminous objects including two which arrived made a sharp changeing course and appeared to merge before moving off and so what Mr Lear is getting to here that it didn't stop with radar and visual sightings of a UFO but that it continued with three small aliens walking up to the wing Commander",
+      "token_estimate": 250,
+      "overlap_note": null,
+      "entities_hint": [
+        "Lakenheath-Bentwaters incident",
+        "Royal Air Force",
+        "United States Air Force",
+        "C-47"
+      ],
+      "claims_hint": [
+        "The Lakenheath-Bentwaters incident involved radar and visual UFO contacts in 1956.",
+        "UFOs were detected at high speeds and merged in flight.",
+        "Lear's account includes aliens walking up to a wing commander."
+      ],
+      "temporal_anchors": [
+        "1956-08-13",
+        "1956-08-14"
+      ],
+      "spatial_anchors": [
+        "Lakenheath",
+        "Bentwaters",
+        "Eastern England"
+      ],
+      "evidentiary_density": "high",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c06",
+      "heading_path": null,
+      "text": "all right we carry on here note to the press the government of the United States continues to rely on your personal and professional gullibility to suppress the information contained herein your cooperation over the past 40 years has exceeded our wildest expectations and We Salute You the sun does not evolve around the earth the United States government has been in business with little gry extraterrestrials for about 20 years the first truth stated here got jordano Bruno burned at the stake in 1600 ad for daring to propose that this was real the second truth has gotten far more people killed trying to State it publicly than will ever be known that is a dark fact right there wow but the truth must be told the fact that the Earth revolves around the Sun was successfully suppressed by the church for over 200 years it eventually caused a major upheaval in the church government and thought a realignment of Social and Traditional Values that was in the 1800s now about 400 years after the first truth was pronounced we must again face the shocking facts the horrible truth the government has been hiding from us for over 40 years unfortunately the horrible truth is far more horrible than the government had ever imagined in its effort to protect democracy our government sold us to the aliens and here's how it happened but before I begin I'd like to offer a word in the defense of those bar who bargained us away they had the best of intentions we know that's saying the road to hell was paved in Good Intentions",
+      "token_estimate": 300,
+      "overlap_note": null,
+      "entities_hint": [
+        "Giordano Bruno",
+        "US Government"
+      ],
+      "claims_hint": [
+        "The document claims the US government suppressed UFO truth for 40 years.",
+        "It claims the government made a deal with extraterrestrials.",
+        "It compares suppression of heliocentrism to UFO suppression."
+      ],
+      "temporal_anchors": [
+        "1600",
+        "1800s"
+      ],
+      "spatial_anchors": [],
+      "evidentiary_density": "high",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c07",
+      "heading_path": null,
+      "text": "Germany may have recovered a flying saucer as early as 1939 General James H dittle went to Sweden in 1946 to inspect a flying saucer that had crashed there in spitsbergen in 1947 President Truman established a group of 12 of the top military scientific Personnel of their time they were known as mj12 or Majestic 12 the people that control this information is a organization that we know of as mj12 although the group exists today none of the original members are still alive the last one to die was Gordon Gray former Secretary of the Army in 1984 as each member passed away the group itself appointed a new member to fill the position there is some speculation that the group known as mj12 expanded to at least several more members there were several more saucer crashes in the late 1940s one in Roswell New Mexico one in Aztec New Mexico and one near Laredo Texas about 30 Mi inside the Mexican border",
+      "token_estimate": 200,
+      "overlap_note": null,
+      "entities_hint": [
+        "Germany",
+        "James H. Doolittle",
+        "Sweden",
+        "Spitsbergen",
+        "Truman",
+        "MJ-12",
+        "Gordon Gray",
+        "Roswell",
+        "Aztec",
+        "Laredo"
+      ],
+      "claims_hint": [
+        "Germany may have recovered a saucer in 1939.",
+        "Doolittle inspected a crashed saucer in Sweden in 1946.",
+        "Truman established MJ-12 in 1947.",
+        "MJ-12 still exists with new members.",
+        "Multiple saucer crashes occurred in the late 1940s in the US Southwest."
+      ],
+      "temporal_anchors": [
+        "1939",
+        "1946",
+        "1947",
+        "1984"
+      ],
+      "spatial_anchors": [
+        "Germany",
+        "Sweden",
+        "Spitsbergen",
+        "Roswell, NM",
+        "Aztec, NM",
+        "Laredo, TX"
+      ],
+      "evidentiary_density": "high",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c08",
+      "heading_path": null,
+      "text": "consider if you will the position of the United States government at the time there are several crashes reported here one of which is mentioned is Aztec New Mexico and this is one I'm currently looking into as I'm reading a book on it and there seems to be a substantial and overwhelming amount of evidence of documentation of this uh retrieval to have happened and that this craft was eventually potentially brought into Los Alamos you know by looking at the forchan Whistleblower if you haven't checked that video out yet I highly recommend but we did a deep dive on this person who said he basically worked for a secret branch of the government that did these crash retrievals um but he would say that yeah near Mexico and New Mexico that's where they would go down they avoid that spot like the plague currently but back then they would find quite a bit of them uh go down in that vicinity it really really makes you ponder that during that time obviously there was the Manhattan Project that came from there this and you know Oppenheimer and all that where the Germans were racing against the Russians and the Americans to try and build a nuke and during that time you know there was a ton of nuclear um work being done and and thus UFO incursions were happening at all these bases and namely if you want to check it out there's an amazingly brilliant video by YouTuber Jesse Michaels American Alchemy who put that out go check that out what a fun Rabbit Hole to jump down he did a brilliant job on that",
+      "token_estimate": 300,
+      "overlap_note": null,
+      "entities_hint": [
+        "Aztec, NM",
+        "Los Alamos",
+        "Manhattan Project",
+        "Oppenheimer",
+        "Jesse Michaels",
+        "American Alchemy"
+      ],
+      "claims_hint": [
+        "Host claims evidence of a crash retrieval near Aztec, NM.",
+        "Craft may have been brought to Los Alamos.",
+        "UFO incursions correlated with nuclear work during the Manhattan Project."
+      ],
+      "temporal_anchors": [],
+      "spatial_anchors": [
+        "Aztec, NM",
+        "Los Alamos",
+        "New Mexico"
+      ],
+      "evidentiary_density": "medium",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c09",
+      "heading_path": null,
+      "text": "so think about this the government we know that during the Cold War when they even heard about psychics or Russia's sort of psychic activity into M reading and mind control and all that they started their own branches of the very same work because they said hey if this stuff is real we can't take a chance and not look into it we have to at least pour some resources into it and look at it you know ourselves the same has to be said about the UFO thing I mean Foo Fighters in the war were avoiding these things because they were almost colliding with them during their Miss there had to be an extreme amount of research into this topic by both the axis and the Allies back then you'd be a fool to think they weren't at least trying to uncover what was going on and militarizing it somehow I digress consider if you will the position of the United States government at that time they proudly thought of themselves as the most powerful Nation on Earth having recently produced the atomic bomb and achievement so stupendous it would take Russia 4 years to catch up and only with the help of traders to democracy they had built a jet aircraft that had exceeded the speed of sound and flight they had built jet bombers with InterContinental range that could carry weapons of enormous destruction the post-war era and the future seemed Bright",
+      "token_estimate": 300,
+      "overlap_note": null,
+      "entities_hint": [
+        "Cold War",
+        "Russia",
+        "Foo Fighters",
+        "Atomic bomb"
+      ],
+      "claims_hint": [
+        "Cold War psychic research mirrored UFO research.",
+        "Both Axis and Allies likely researched UFOs during WWII.",
+        "US post-war power included atomic bomb and jet bombers."
+      ],
+      "temporal_anchors": [
+        "Cold War"
+      ],
+      "spatial_anchors": [],
+      "evidentiary_density": "medium",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c10",
+      "heading_path": null,
+      "text": "now imagine what it was like for those same leaders all of whom had witnessed the Panic of Orson Wells radio broadcast the War of the Worlds in 1938 we are bringing you an eyewitness account of what's happening on the wilmouth farm Grovers Mill New Jersey lord they're turning into flames the whole heel caugh by the woods of bar the the gas tank tank for the automobiles ladies and gentlemen due to circumstances beyond our control we are unable to continue the broadcast from Grover's Mill thousands of Americans panicked at a realistically presented invasion of Earth by beings from another planet imagine their horror as they actually viewed the dead bodies of these frightening looking little creatures with enormous eyes reptilian skin and claw-like fingers imagine their shock as they attempted to determine how these strange saucers were powered and could discover no part even remotely similar to components they were familiar with no cylinders or Pistons no vacuum tubes or turbines or hydraulic actuators it is only when you fully understand the overwhelming helplessness the government was faced with in the late 1940s that you can comprehend their perceived need for a total thorough and sweeping cover up to include the use of deadly force when something this Paradigm shifting on the military Battlefield is encountered you have to acknowledge that putting this in the wrong hands can lead to devastating and obviously world changing consequences so their use of deadly force to Pro protect this secret according to them was justified",
+      "token_estimate": 300,
+      "overlap_note": null,
+      "entities_hint": [
+        "Orson Welles",
+        "War of the Worlds",
+        "Grover's Mill"
+      ],
+      "claims_hint": [
+        "Leaders remembered the War of the Worlds panic.",
+        "Alien bodies were described as reptilian with claw-like fingers.",
+        "The government's cover-up included deadly force."
+      ],
+      "temporal_anchors": [
+        "1938",
+        "1940s"
+      ],
+      "spatial_anchors": [
+        "Grover's Mill, NJ"
+      ],
+      "evidentiary_density": "high",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c11",
+      "heading_path": null,
+      "text": "the cover up was so successful that as late as 1985 a senior scientist with the jet propulsion laboratory in Pasadena California Dr Al Hibbs would look at a videotape of an enormous Flying Saucer and state the record I'm not going to assign anything to that UFO phenomena without a lot more data Dr hibs was looking at the naked Emperor and saying he certainly looks naked but that doesn't prove he's naked sounds a lot like arrow in July of 1952 a panicked government watched helplessly as a squadron of flying saucers flew over Washington DC and buzzed the White House the capol building and the Pentagon it took all the imagination and intimidation the government could muster to force that incident out of the memory of the public I'm am here to discuss the so-called flying saucers we can say that the recent sightings are in no way connected with any secret development by any Department of the United States a pretty incredible incident had that happened today it kind of is happening today if you think about it",
+      "token_estimate": 250,
+      "overlap_note": null,
+      "entities_hint": [
+        "JPL",
+        "Pasadena",
+        "Al Hibbs",
+        "Washington DC",
+        "White House",
+        "Capitol",
+        "Pentagon"
+      ],
+      "claims_hint": [
+        "Dr. Al Hibbs in 1985 refused to assign UFO phenomena without more data.",
+        "In July 1952, UFOs flew over Washington DC and buzzed key buildings.",
+        "Government denied any connection to secret US developments."
+      ],
+      "temporal_anchors": [
+        "1985",
+        "1952-07"
+      ],
+      "spatial_anchors": [
+        "Pasadena, CA",
+        "Washington DC"
+      ],
+      "evidentiary_density": "high",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c12",
+      "heading_path": null,
+      "text": "thousands of sightings occurred during the Korean War and several more saucers were retrieved by the Air Force some were stored at right Patterson Air Force Base some were stored at Air Force bases near the location of the crash site what I'm going to read to you next is interesting because this was actually echoed by Ross colard recently recently as recent as last year Ross had said that there was a giant UFO somewhere that was too big to move so they built the base around it and that really made headlines in the UFO Community people are going to question what I'm about to say what if some of that [ __ ] is so big it can't be moved so big they built a building over it in a country outside of the United States of America but in fact John leer I mean he's got it right here one saucer was so enormous and the logistic problems in transportation so enormous that it was buried at the crash site and remains there today the stories are legendary on transporting crashed saucers over long distances moving only at night purchasing complete Farms slashing through forests blocking major highways sometimes driving two and three low Boys in tandem with an extra terrestrial load 100 ft in diameter",
+      "token_estimate": 250,
+      "overlap_note": null,
+      "entities_hint": [
+        "Korean War",
+        "Wright-Patterson AFB",
+        "Ross Coulthart"
+      ],
+      "claims_hint": [
+        "Saucers were retrieved during the Korean War and stored at Wright-Patterson.",
+        "One saucer was too large to move and was buried at the crash site.",
+        "Transport of crashed saucers involved elaborate logistics."
+      ],
+      "temporal_anchors": [
+        "Korean War"
+      ],
+      "spatial_anchors": [
+        "Wright-Patterson AFB"
+      ],
+      "evidentiary_density": "high",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c13",
+      "heading_path": null,
+      "text": "on April 30th 1964 the first communication between these aliens and the US government took place at Hollowman Air Force Base in New Mexico three saucers had landed at a pre-arranged air area and a meeting was held between the aliens and Intelligence Officers of the US government all right folks Holman the hullman Air Force incident is pretty Infamous in UFO lore and one of the reasons why is because there was a documentary actually put out by the CIA back in the day and at the very end of this documentary is about an 8sec clip this 8-second clip is what seems to be has a flying saucer uh coming down on sort of desert terrain and about to land and the video feed Cuts turns out the I believe director of that very documentary says that that video exists uncut and that as the video goes on this craft comes to the ground lands and exiting from it are multiple alien beings and that's where a meeting happened but hidden in plain sight they decided to keep in footage in this documentary and here's a clip and in 1973 they go to Bob egger and Alan Sandler two producers in Los Angeles and they asked them to do UFO documentary and Bob Egger's a total UFO skeptic said what do you mean this is for real and at that point the security manager Paul shardell at Norton Air Force Base said what would you what would you say if I told you an alien ship landed at hman Air Force Base 6:00 in the morning in May of 1971 and we filmed it from three different Vantage points two on the ground one in a helicopter and we will allow you to use the film for your documentary so he puts his documentary and then what happens at the end of the documentary is they say we can't use the film we can't let it's a Watergate it's bad timing we can't allow you to use the film and they pull the film and then I find out that there's 8 Seconds of the hallan air for space film in the film so Bob's my friend i ph up Bob there's 8 Seconds of film in there and he goes well yeah and I said you told me to hold the film oh no he said it's background and I said background what do you mean it's background and he said it didn't show anything and what it is is you see the hills of Holman and you see this object this brilliantly lit object at 6 o'clock in the morning coming over the hills but it's in a distance so you don't see it close up and you don't see the alien when the alien gets out that's the classified part so they want you to know the Hallman happened and they allowed them to use this the 8 Seconds of the film but the rest of the film to classifi part was pulled make of that what you will but that is one compelling story",
+      "token_estimate": 450,
+      "overlap_note": null,
+      "entities_hint": [
+        "Holloman AFB",
+        "New Mexico",
+        "CIA",
+        "Bob Egger",
+        "Alan Sandler",
+        "Paul Shardell",
+        "Norton AFB",
+        "Los Angeles"
+      ],
+      "claims_hint": [
+        "First alien-US government communication occurred at Holloman AFB on April 30, 1964.",
+        "A CIA documentary contained an 8-second clip of a saucer landing.",
+        "Producers were told of a 1971 filmed landing at Holloman from three vantage points.",
+        "The full film was pulled due to Watergate timing."
+      ],
+      "temporal_anchors": [
+        "1964-04-30",
+        "1971-05",
+        "1973"
+      ],
+      "spatial_anchors": [
+        "Holloman AFB, NM",
+        "Norton AFB",
+        "Los Angeles"
+      ],
+      "evidentiary_density": "high",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c14",
+      "heading_path": null,
+      "text": "so During the period of 1969 to 1971 mj12 representing the US government made a deal with these creatures called ebees or extraterrestrial biological entities named by De live Bron he was an original mj12 member and sixth President of John Hopkins University John's Hopkins University the deal was that an exchange for technology they would provide to us we agreed to ignore the abductions that were going on and suppress information on the cattle mutilations and to further illustrate this point here's a 1988 episode of Gumby [Music] hey what's going on here we need samples of genes and chromosomes from your kind to develop a stronger breed of people because on our planet radiation damaged our DNA so that we are dying off to Extinction we'll help you but you know we need help too what do you need the people on Earth are suffering from many kinds of pollution we need your advanced technology to help us develop a clean source of energy",
+      "token_estimate": 200,
+      "overlap_note": null,
+      "entities_hint": [
+        "MJ-12",
+        "EBEs",
+        "DeLivo Bron",
+        "Johns Hopkins University",
+        "Gumby"
+      ],
+      "claims_hint": [
+        "MJ-12 made a deal with EBEs between 1969-1971.",
+        "Deal traded technology for ignoring abductions and suppressing cattle mutilation info.",
+        "A 1988 Gumby episode illustrated the EBE narrative."
+      ],
+      "temporal_anchors": [
+        "1969",
+        "1971",
+        "1988"
+      ],
+      "spatial_anchors": [],
+      "evidentiary_density": "high",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c15",
+      "heading_path": null,
+      "text": "the ebees assured mj12 that the abductions usually lasting about 2 hours were merely the ongoing monitoring of developing civilizations and here John lists out the purposes for the abductions and what they turned out to be number one the insertion of a 3mm spherical device through the nasal cavity of the abductee into the brain the device is used for the biological monitoring tracking and control of the abductee this is something touched on in several books by thousands of abductees actually which is interesting you know looking at the work of John Mack David Jacobs Bud Hopkins this would come up quite frequently that this Rod which had a very tiny ball on the end of it was inserted into the nasal cavity way far up and then when extracted that ball was gone what's also interesting to me is that it says to control the abductee which makes me think that these gray beings maybe perhaps not the other beings but the gray ones specifically couldn't mind control you maybe without it",
+      "token_estimate": 250,
+      "overlap_note": null,
+      "entities_hint": [
+        "EBEs",
+        "MJ-12",
+        "John Mack",
+        "David Jacobs",
+        "Bud Hopkins"
+      ],
+      "claims_hint": [
+        "Abductions were claimed to be monitoring of civilizations.",
+        "Purpose 1: Insertion of a 3mm spherical device into the brain via nasal cavity for monitoring/control.",
+        "This matches accounts in abduction literature."
+      ],
+      "temporal_anchors": [],
+      "spatial_anchors": [],
+      "evidentiary_density": "high",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c16",
+      "heading_path": null,
+      "text": "number two implementation of post hypnotic suggestion to carry out a specific activity during a specific time period the actuation of which will occur within the next 2 to 5 years well there's that I mean this was 1987 that would make it 1992 at the latest maybe they did I don't know carry out some specific activity that is unbeknownst to us that has perhaps little little or no consequence to our daily lives I don't know but that seems speculatory at best number three termination of some people so that they could function as living sources for biological material and substances okay number four termination of individuals who represent a threat to the continuation of their activity in the last couple of years have you had incidences that have caused you to be in fear for your life for addressing these issues yes personally I just want everyone to note that he's coming forward in fear of his life to put in perspective if they were really not scared about this information coming out why would someone be intimidated like that",
+      "token_estimate": 200,
+      "overlap_note": null,
+      "entities_hint": [],
+      "claims_hint": [
+        "Purpose 2: Post-hypnotic suggestion for future activities.",
+        "Purpose 3: Termination of people as living biological sources.",
+        "Purpose 4: Termination of individuals threatening their activity.",
+        "Host notes Lear came forward in fear of his life."
+      ],
+      "temporal_anchors": [
+        "1987",
+        "1992"
+      ],
+      "spatial_anchors": [],
+      "evidentiary_density": "high",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c17",
+      "heading_path": null,
+      "text": "number five effect genetic engineering experiments number six impregnation of human females and early termination of pregnancies to secure the cross breed infant seems like the craziest but honestly this is the most widely reported among abductees is the genetic engineering that is taking place on board and most of the time has to do with what seems to be some type of hybridization program again this isn't stuff that I'm making up it's stuff that I've read and that's quite expansive in terms of the literature that's out there and the documentation of the like this has been documented extensively uh mainly through post hypnotic regression because for some reason apparently the people who've been abducted they just you know their memories are wiped bu",
+      "token_estimate": 150,
+      "overlap_note": null,
+      "entities_hint": [],
+      "claims_hint": [
+        "Purpose 5: Genetic engineering experiments.",
+        "Purpose 6: Impregnation and early termination for cross-breed infants.",
+        "Hybridization program is widely reported among abductees."
+      ],
+      "temporal_anchors": [],
+      "spatial_anchors": [],
+      "evidentiary_density": "high",
+      "do_not_embed_reasons": []
+    }
+  ],
+  "ner_results": [
+    {
+      "chunk_id": "c01",
+      "ner": {
+        "_raw_list": [
+          {
+            "type": "PERSONNEL",
+            "name": "Chris Ramsey",
+            "aliases": [],
+            "role": "Host of The Debriefed podcast",
+            "credibility_tier": 5,
+            "span_quote": "my name is Chris Ramsey and today we're going to take a good hard look at a document submitted to the paranet website 1987 by none other than the Godfather of conspiracy John leer",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "type": "PERSONNEL",
+            "name": "John Leer",
+            "aliases": [
+              "Godfather of conspiracy"
+            ],
+            "role": "Author of the document submitted to Paranet in 1987",
+            "credibility_tier": 3,
+            "span_quote": "a document submitted to the paranet website 1987 by none other than the Godfather of conspiracy John leer",
+            "evidentiary_state": "Corroborated"
+          },
+          {
+            "type": "EVENT",
+            "name": "Sighting of black boomerang over Newark",
+            "aliases": [],
+            "date": "2024-12-12",
+            "time": "18:05 Eastern",
+            "location": "Newark, New Jersey",
+            "duration": "unspecified",
+            "witness_count": 1,
+            "witness_names": [
+              "Chris Ramsey"
+            ],
+            "evidence_quality_note": "Single witness, no corroborating sensor or video evidence",
+            "span_quote": "on December 12th 2024 around 6:05 p.m. Eastern I walk right past my balcony window I live right across the the River from the Newark FBI office and I saw a massive 50 foot approximately vont black Boomerang go right past my window Thailand floated right across the river right through the buildings downtown Newark three white lights two red uh in a line on the back made no noise",
+            "evidentiary_state": "Unverified"
+          },
+          {
+            "type": "EVIDENCE",
+            "name": "Document submitted to Paranet in 1987",
+            "aliases": [],
+            "subtype": "documentary",
+            "category": "D",
+            "description": "Document submitted to the Paranet website in 1987 by John Leer",
+            "span_quote": "a document submitted to the paranet website 1987 by none other than the Godfather of conspiracy John leer",
+            "evidentiary_state": "Corroborated"
+          },
+          {
+            "type": "LOCATION",
+            "name": "Newark, New Jersey",
+            "aliases": [
+              "downtown Newark"
+            ],
+            "coordinates": null,
+            "span_quote": "right through the buildings downtown Newark",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "type": "LOCATION",
+            "name": "Newark FBI office",
+            "aliases": [],
+            "coordinates": null,
+            "span_quote": "I live right across the the River from the Newark FBI office",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "type": "ORGANIZATION",
+            "name": "Paranet",
+            "aliases": [],
+            "category": "private",
+            "authority_context": "Website where the 1987 document was submitted",
+            "disclosure_posture": null,
+            "span_quote": "a document submitted to the paranet website 1987",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "type": "ORGANIZATION",
+            "name": "Area 52 Investigations",
+            "aliases": [],
+            "category": "media",
+            "authority_context": "Media organization associated with The Debriefed podcast",
+            "disclosure_posture": null,
+            "span_quote": "head over to our membership you you can do so by joining and becoming a member here on YouTube or going to patreon.com area52 investigations",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "type": "ORGANIZATION",
+            "name": "The Debriefed",
+            "aliases": [
+              "Debriefed"
+            ],
+            "category": "media",
+            "authority_context": "Podcast hosted by Chris Ramsey",
+            "disclosure_posture": null,
+            "span_quote": "welcome back to another episode of debriefed",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "type": "SIGHTING",
+            "name": "Black boomerang over Newark",
+            "aliases": [],
+            "date": "2024-12-12",
+            "time": "18:05 Eastern",
+            "location": "Newark, New Jersey",
+            "description": "Massive approximately 50-foot black boomerang-shaped object, three white lights and two red lights in a line on the back, no noise, flew past balcony and across river through downtown Newark",
+            "witness_count": 1,
+            "witness_names": [
+              "Chris Ramsey"
+            ],
+            "span_quote": "I saw a massive 50 foot approximately vont black Boomerang go right past my window Thailand floated right across the river right through the buildings downtown Newark three white lights two red uh in a line on the back made no noise",
+            "evidentiary_state": "Unverified"
+          }
+        ]
+      },
+      "validation": {
+        "verdict": "pass_with_warnings",
+        "issues": [
+          {
+            "severity": "medium",
+            "code": "HALLUCINATION_RISK",
+            "message": "The entity 'John Leer' is described as 'Author of the document submitted to Paranet in 1987' and 'Corroborated', but the source only states that John Leer submitted the document, not that he authored it. This is an unsupported inference presented as fact.",
+            "fix": "Change role to 'Submitter of the document' and evidentiary_state to 'Observed' or 'Inferred' with a note."
+          },
+          {
+            "severity": "medium",
+            "code": "OVERCLAIM",
+            "message": "The entity 'Document submitted to Paranet in 1987' is marked as 'Corroborated', but the source only mentions the document's existence; there is no corroboration from other sources. 'Corroborated' implies independent confirmation, which is not present.",
+            "fix": "Change evidentiary_state to 'Observed' or 'Unverified'."
+          },
+          {
+            "severity": "low",
+            "code": "TRANSCRIPTION_ERROR",
+            "message": "The span_quote for the sighting contains 'vont' and 'Thailand' which appear to be transcription errors for 'black' and 'then it' respectively. This may affect accuracy.",
+            "fix": "Correct the quote to 'massive 50 foot approximately black Boomerang' and 'then it floated right across the river'."
+          },
+          {
+            "severity": "low",
+            "code": "INCONSISTENT_EVIDENTIARY_STATE",
+            "message": "The 'Sighting' entity and the 'EVENT' entity both describe the same sighting, but the 'EVENT' has 'evidentiary_state: Unverified' while the 'SIGHTING' also has 'Unverified' - this is consistent, but the 'EVENT' includes 'witness_names' and 'evidence_quality_note' which are not in the 'SIGHTING' entity, causing duplication and potential inconsistency.",
+            "fix": "Merge the EVENT and SIGHTING entities or ensure they are consistent in all fields."
+          }
+        ],
+        "safe_for_rag_index": true,
+        "safe_for_db_write": true
+      }
+    },
+    {
+      "chunk_id": "c02",
+      "ner_error": "disclosure.ner: JSON unparseable after one repair retry (Expecting property name enclosed in double quotes: line 133 column 6 (char 4656)); raw response was 4657 chars"
+    },
+    {
+      "chunk_id": "c03",
+      "ner": {
+        "_raw_list": [
+          {
+            "type": "PERSONNEL",
+            "name": "John W. White",
+            "aliases": [
+              "John White"
+            ],
+            "role": "UFO researcher, forwarding document author",
+            "credibility_tier": 5,
+            "attributes": {
+              "affiliation": "Paranet (forwarder)",
+              "context": "Forwarded a document via cover letter to an unnamed recipient"
+            },
+            "span_quote": "this is from John W white if I'm not mistaken John White is also a UFO researcher and he is just forwarding this document",
+            "evidentiary_state": "Observed",
+            "confidence": 0.9
+          },
+          {
+            "type": "ORGANIZATION",
+            "name": "Paranet",
+            "aliases": [
+              "paranet"
+            ],
+            "category": "private",
+            "attributes": {
+              "purpose": "Disseminating information about paranormal phenomena and acting as a forum for discussion",
+              "headquarters": "Arizona",
+              "membership": "Free and open to the public",
+              "access": "Electronic bulletin board, dial-in at 6038 376 2",
+              "structure": "Regional nodes"
+            },
+            "span_quote": "downloading it from an electronic bulletin board called paranet which is headquartered in Arizona and has Regional nodes paranet is dedicated to disseminating information about paranormal phenomena and acting as a forum for discussion",
+            "evidentiary_state": "Observed",
+            "confidence": 0.95
+          },
+          {
+            "type": "EVIDENCE",
+            "name": "Cover letter from John W. White",
+            "subtype": "Documentary",
+            "category": "D",
+            "attributes": {
+              "format": "Cover letter",
+              "date": "1987 (inferred from context)",
+              "content": "Forwarding a document about UFOs obtained from Paranet",
+              "recipient": "Unnamed individual",
+              "chain_of_custody": "John W. White → unnamed recipient; original source Paranet bulletin board"
+            },
+            "span_quote": "this all begins with a nice cover letter this is from John W white ... I'm sending this ounding document about UFOs to you because I feel you will be interested and or have a need to know",
+            "evidentiary_state": "Observed",
+            "confidence": 0.9
+          },
+          {
+            "type": "EVIDENCE",
+            "name": "Document about UFOs",
+            "subtype": "Documentary",
+            "category": "D",
+            "attributes": {
+              "source": "Paranet electronic bulletin board",
+              "content": "Unspecified UFO-related document",
+              "date": "1987 (inferred from context)",
+              "chain_of_custody": "Paranet → John W. White → unnamed recipient"
+            },
+            "span_quote": "I'm sending this ounding document about UFOs to you because I feel you will be interested and or have a need to know I obtained it by downloading it from an electronic bulletin board called paranet",
+            "evidentiary_state": "Observed",
+            "confidence": 0.85
+          },
+          {
+            "type": "LOCATION",
+            "name": "Arizona",
+            "aliases": [],
+            "attributes": {
+              "role": "Headquarters of Paranet"
+            },
+            "span_quote": "paranet which is headquartered in Arizona",
+            "evidentiary_state": "Observed",
+            "confidence": 0.95
+          },
+          {
+            "type": "EVENT",
+            "name": "Forwarding of UFO document via Paranet (1987)",
+            "aliases": [],
+            "attributes": {
+              "date": "1987",
+              "location": "Arizona (Paranet headquarters)",
+              "description": "John W. White forwarded a UFO document obtained from Paranet to an unnamed recipient",
+              "witnesses": [
+                "John W. White",
+                "Unnamed recipient"
+              ]
+            },
+            "span_quote": "this all begins with a nice cover letter this is from John W white ... I'm sending this ounding document about UFOs to you because I feel you will be interested and or have a need to know",
+            "evidentiary_state": "Observed",
+            "confidence": 0.85
+          },
+          {
+            "type": "PERSONNEL",
+            "name": "Unnamed recipient",
+            "aliases": [
+              "whoever this was directed to"
+            ],
+            "role": "Recipient of forwarded document",
+            "credibility_tier": 1,
+            "attributes": {
+              "context": "Received the document and wrote questions underneath, suspecting federal deceit"
+            },
+            "span_quote": "whoever this was directed to wrote underneath a few questions that my guess is he fax back to this person back then",
+            "evidentiary_state": "Observed",
+            "confidence": 0.8
+          }
+        ]
+      },
+      "validation": {
+        "verdict": "pass_with_warnings",
+        "issues": [
+          {
+            "severity": "medium",
+            "code": "HALLUCINATION_RISK",
+            "message": "The date '1987' is inferred from the source context ('back in 1987') but is presented as an attribute with 'inferred from context' in some places and as a direct value in the EVENT entity without explicit inference marking.",
+            "fix": "Ensure all date fields explicitly note 'inferred' or set confidence lower for date-specific attributes."
+          },
+          {
+            "severity": "medium",
+            "code": "OVERCLAIM",
+            "message": "The EVENT entity states 'John W. White forwarded a UFO document obtained from Paranet to an unnamed recipient' as 'Observed', but the source only says he is forwarding it; the act of forwarding is directly stated, but the event's date and location are inferred.",
+            "fix": "Mark the event's date and location as inferred, or reduce confidence for those attributes."
+          },
+          {
+            "severity": "low",
+            "code": "AMBIGUOUS_ENTITY",
+            "message": "The 'Unnamed recipient' is listed as a PERSONNEL entity with credibility_tier 1, but the source does not provide enough information to assess credibility; this may be misleading.",
+            "fix": "Either omit credibility_tier for unnamed entities or set it to null with a note."
+          }
+        ],
+        "safe_for_rag_index": true,
+        "safe_for_db_write": true
+      }
+    },
+    {
+      "chunk_id": "c04",
+      "ner_error": "disclosure.ner: JSON unparseable after one repair retry (Unterminated string starting at: line 120 column 9 (char 4938)); raw response was 4939 chars"
+    },
+    {
+      "chunk_id": "c05",
+      "ner_error": "disclosure.ner: JSON unparseable after one repair retry (Unterminated string starting at: line 125 column 21 (char 4524)); raw response was 4620 chars"
+    },
+    {
+      "chunk_id": "c06",
+      "ner": {
+        "_raw_list": [
+          {
+            "type": "PERSONNEL",
+            "name": "Giordano Bruno",
+            "aliases": [
+              "jordano Bruno"
+            ],
+            "role": "Historical figure, executed for proposing heliocentrism",
+            "credibility_tier": 9,
+            "span_quote": "the first truth stated here got jordano Bruno burned at the stake in 1600 ad for daring to propose that this was real",
+            "evidentiary_state": "Corroborated",
+            "analysis_note": "Historical figure, well-documented; credibility tier based on established historical record, not current source."
+          },
+          {
+            "type": "ORGANIZATION",
+            "name": "United States government",
+            "aliases": [
+              "the government",
+              "our government"
+            ],
+            "category": "government",
+            "authority_context": "Alleged party to a secret agreement with extraterrestrials",
+            "disclosure_posture": "Suppressive, per source",
+            "span_quote": "the government of the United States continues to rely on your personal and professional gullibility to suppress the information contained herein",
+            "evidentiary_state": "Speculative",
+            "analysis_note": "Claims made by source; no independent corroboration."
+          },
+          {
+            "type": "ORGANIZATION",
+            "name": "The Church",
+            "aliases": [
+              "church"
+            ],
+            "category": "religious",
+            "authority_context": "Historical suppressor of heliocentric theory",
+            "span_quote": "the fact that the Earth revolves around the Sun was successfully suppressed by the church for over 200 years",
+            "evidentiary_state": "Corroborated",
+            "analysis_note": "Historical claim, broadly supported by historical scholarship."
+          },
+          {
+            "type": "EVENT",
+            "name": "Execution of Giordano Bruno",
+            "aliases": [
+              "burned at the stake"
+            ],
+            "date": "1600",
+            "location": "Rome, Italy",
+            "span_quote": "got jordano Bruno burned at the stake in 1600 ad",
+            "evidentiary_state": "Corroborated",
+            "analysis_note": "Historical event, well-documented."
+          },
+          {
+            "type": "EVENT",
+            "name": "Alleged US government-extraterrestrial agreement",
+            "aliases": [
+              "sold us to the aliens",
+              "in business with little gry extraterrestrials"
+            ],
+            "date": "approximately 20 years prior to source (undated)",
+            "span_quote": "the United States government has been in business with little gry extraterrestrials for about 20 years",
+            "evidentiary_state": "Speculative",
+            "analysis_note": "Unverified claim; no dates or corroborating evidence provided."
+          },
+          {
+            "type": "EVIDENCE",
+            "name": "Source testimony of government-alien agreement",
+            "subtype": "testimony",
+            "category": "D",
+            "span_quote": "the horrible truth is far more horrible than the government had ever imagined in its effort to protect democracy our government sold us to the aliens",
+            "evidentiary_state": "Speculative",
+            "analysis_note": "Uncorroborated narrative; no chain of custody."
+          },
+          {
+            "type": "LOCATION",
+            "name": "Earth",
+            "aliases": [
+              "the earth"
+            ],
+            "span_quote": "the sun does not evolve around the earth",
+            "evidentiary_state": "Observed",
+            "analysis_note": "Astronomical fact, not in dispute."
+          },
+          {
+            "type": "LOCATION",
+            "name": "Rome, Italy",
+            "aliases": [],
+            "span_quote": "burned at the stake in 1600 ad",
+            "evidentiary_state": "Corroborated",
+            "analysis_note": "Standard location for Bruno's execution; not explicitly stated in text but historically standard."
+          }
+        ]
+      },
+      "validation": {
+        "verdict": "pass_with_warnings",
+        "issues": [
+          {
+            "severity": "medium",
+            "code": "HALLUCINATION_RISK",
+            "message": "Location 'Rome, Italy' for Bruno's execution is not in the source excerpt; it is inferred from historical knowledge.",
+            "fix": "Either remove the location or mark it as inferred with a note that it is not directly stated in the source."
+          },
+          {
+            "severity": "medium",
+            "code": "OVERCLAIM",
+            "message": "Evidentiary state 'Corroborated' for historical claims (e.g., Bruno's execution, Church suppression) is not directly supported by the source excerpt; it relies on external historical consensus.",
+            "fix": "Change to 'Inferred' or 'Externally corroborated' and clarify that corroboration is not from the source itself."
+          },
+          {
+            "severity": "low",
+            "code": "EPISTEMIC_CLARITY",
+            "message": "The 'credibility_tier' for Giordano Bruno is set to 9, but the basis for this numeric value is not defined in the output; it may be misinterpreted as a source reliability score.",
+            "fix": "Add a note explaining that the tier is based on historical record, not the current source, or remove the field if not required."
+          }
+        ],
+        "safe_for_rag_index": true,
+        "safe_for_db_write": true
+      }
+    },
+    {
+      "chunk_id": "c07",
+      "ner_error": "disclosure.ner: JSON unparseable after one repair retry (Unterminated string starting at: line 138 column 15 (char 4421)); raw response was 4430 chars"
+    },
+    {
+      "chunk_id": "c08",
+      "ner_error": "disclosure.ner: JSON unparseable after one repair retry (Expecting value: line 1 column 1 (char 0)); raw response was 4843 chars"
+    }
+  ],
+  "embeddable_texts": [
+    "on December 12th 2024 around 6:05 p.m. Eastern I walk right past my balcony window I live right across the the River from the Newark FBI office and I saw a massive 50 foot approximately vont black Boomerang go right past my window Thailand floated right across the river right through the buildings downtown Newark three white lights two red uh in a line on the back made no noise ladies and gentlemen welcome back to another episode of debriefed my name is Chris Ramsey and today we're going to take a good hard look at a document submitted to the paranet website 1987 by none other than the Godfather of conspiracy John leer but before we do that I would highly encourage you guys to leave a like subscribe maybe hit the notification Bell if you do enjoy these uploads and if you're listening on audio one thing that you could do that costs absolutely nothing is leave us a five-star review on whatever platform it is you're listening to this episode on and you know maybe a comment on why it is you like these deep Dives it goes a very long way actually in helping us Propel into a favorable algorithm on Spotify and iTunes Etc and if you can't get enough of Area 52 debriefed and the likes head over to our membership you you can do so by joining and becoming a member here on YouTube or going to patreon.com area52 investigations where we upload weekly Vlogs behind the scenes extra episodes extended interviews it is a vastly growing Community where we continuously every day have deep discussions on the Discord which by the way you can also join and I'll leave all the links to that below folks we've paid the bills I think it's time to get into it",
+    "okay before I read these out I will give you a brief history on Mr Lear himself so John leer is a former Aviation Captain a commercial pilot but also happens to be the son of lejet inventor Bill Lear John leer until he passed away a few years ago was one of the most prominent figures in the UFO landscape he not only had multiple FAA certifications but also flew on several missions for the CIA which inevitably made him a little bit more credible when he came out with the information that someone he knew worked for a secret facility within the United States government at Area 51 called section 4 otherwise known as S4 Yes folks he introduced the world to Bob Lazar he met with George knap and set up the uh most famous interview in euphology I believe today well there's several uh actually nine uh flying saucers flying discs uh that are out there of extraterrestrial origin however over time Le assertions became increasingly outlandish he would go on rants about lunar bases the Moon being a hologram and mind control projects and while some admired him as a whistleblower others felt his credibility waned as he got into more and more extreme conspiracies and say what you want about the guy but this guy was talking about mind control things before MK Ultra went public he was also talking about underground military bases where they were reverse engineering ing alien craft before we even heard of Area 51 now there is an entire other side to this is that he potentially could be a scop meaning that the government used him uh in an active disinformation Campaign which would not be unheard of and in fact John leer admits to this he says that there is a potential that they fed him false information and that would muddy up the actual correct information that he was able to leak out and that's the way a lot of these disinformation campaigns function is that they will put out a vast majority of Truth and insert only one or two fibs but these fibs sounding so extreme and bizarre in nature that it makes you literally throw the baby out with a bath water and say well I guess they're lying about everything now what those lies are I guess is up to the public to decide and that's something we're going to try to get to the bottom of today as we're going to read through a statement that he put out so many years ago in 1987 detailing the government's involvement with Ebe or extr terrestrial biological entities UFOs the reverse engineering and the government's role in future disclosure",
+    "this all begins with a nice cover letter this is from John W white if I'm not mistaken John White is also a UFO researcher and he is just forwarding this document that was put up on their version of Reddit essentially and he's saying he's saying the following uh Dear somebody I don't know who that is but it says I'm sending this ounding document about UFOs to you because I feel you will be interested and or have a need to know I obtained it by downloading it from an electronic bulletin board called paranet which is headquartered in Arizona and has Regional nodes paranet is dedicated to disseminating information about paranormal phenomena and acting as a forum for discussion memberships in paranet is free and open to the public all it takes is a computer and a modem you can dial in at 6038 376 2 then find the original node nearest you uh so your phone charges will be minimized sincerely John White and whoever this was directed to wrote underneath a few questions that my guess is he fax back to this person back then and uh underlining paranet and saying who set this up who sustains it financially and why who benefits from those who really know things identifying themselves and their views via this bulletin board I smell Federal deceit so even the person that this was sent to back in 1987 thought that this also was a scop folks we stand on the very shaky shoulders of a lot of conspiracy theorists before us",
+    "let's get into his document it starts by saying uh John leer has requested that the following file be published on paranet it is our philosophy to encourage debate on paranormal issues no matter how controversial and we welcome his input the information contained in this file has not been verified by paranet nor do the opinions expressed herein necessarily reflect those of the administrator or other paranet staff members we can State however that Jon is who he says he is and has numerous contacts and sensitive positions that could conceivably allow him to access information of this type and that folks has been known for a very long time is that John was working in the CIA and did say on numerous occasions that he was being fed information by people who were on the inside or otherwise known as people in the program so here is the statement We Begin this is December 29th 1987 folks almost almost 40 years to the day that is insane John leer a captain for a major US airline has flown over 160 different types of aircraft in over 50 different countries he holds 17 world speed record in Lear Jet and is the only pilot ever to hold every Airline certificate issued by the Federal Aviation Administration Lear has flown missions worldwide for the CIA and other government agencies a former Nevada state Senator candidate he is the son of William P Lear designer of the Learjet executive airplane the eight TR stereo and founder of Lear seagler Corporation Lear became interested in the subject of UFOs 13 months ago after talking with United States Air Force personnel who had witnessed a UFO landing at bentwaters Air Force base near London England and three small aliens walking up to the wing Commander",
+    "so the lacken heath bentwaters incident now when saying is it lacken Heath Lake and Heath I'm not sure but that does sound familiar isn't that the current Air Force Base that is being incurred by a lot of these uh unexplainable drone activities so the lacken heath bentwaters incident was a series of radar and visual contacts with UFOs over air bases in eastern England on the night of August 13th and 14th in 1956 so it involved a Personnel from the Royal Air Force and the United States Air Force I mean some of these targets were detected approaching bentwaters from the East at a speed estimated from 2 to 4,000 M an hour it passed overhead a rapidly moving White light was observed from the ground while the pilot of a c47 at 4,000 ft overbent Waters reported a similar light had passed beneath his craft at this point bent Waters alerted the US tenanted RAF Lake and Heath base 40 mil to the Northwest to look out for targets and then ground Personnel at Laken Heath made visual sightings of several luminous objects including two which arrived made a sharp changeing course and appeared to merge before moving off and so what Mr Lear is getting to here that it didn't stop with radar and visual sightings of a UFO but that it continued with three small aliens walking up to the wing Commander",
+    "all right we carry on here note to the press the government of the United States continues to rely on your personal and professional gullibility to suppress the information contained herein your cooperation over the past 40 years has exceeded our wildest expectations and We Salute You the sun does not evolve around the earth the United States government has been in business with little gry extraterrestrials for about 20 years the first truth stated here got jordano Bruno burned at the stake in 1600 ad for daring to propose that this was real the second truth has gotten far more people killed trying to State it publicly than will ever be known that is a dark fact right there wow but the truth must be told the fact that the Earth revolves around the Sun was successfully suppressed by the church for over 200 years it eventually caused a major upheaval in the church government and thought a realignment of Social and Traditional Values that was in the 1800s now about 400 years after the first truth was pronounced we must again face the shocking facts the horrible truth the government has been hiding from us for over 40 years unfortunately the horrible truth is far more horrible than the government had ever imagined in its effort to protect democracy our government sold us to the aliens and here's how it happened but before I begin I'd like to offer a word in the defense of those bar who bargained us away they had the best of intentions we know that's saying the road to hell was paved in Good Intentions",
+    "Germany may have recovered a flying saucer as early as 1939 General James H dittle went to Sweden in 1946 to inspect a flying saucer that had crashed there in spitsbergen in 1947 President Truman established a group of 12 of the top military scientific Personnel of their time they were known as mj12 or Majestic 12 the people that control this information is a organization that we know of as mj12 although the group exists today none of the original members are still alive the last one to die was Gordon Gray former Secretary of the Army in 1984 as each member passed away the group itself appointed a new member to fill the position there is some speculation that the group known as mj12 expanded to at least several more members there were several more saucer crashes in the late 1940s one in Roswell New Mexico one in Aztec New Mexico and one near Laredo Texas about 30 Mi inside the Mexican border",
+    "consider if you will the position of the United States government at the time there are several crashes reported here one of which is mentioned is Aztec New Mexico and this is one I'm currently looking into as I'm reading a book on it and there seems to be a substantial and overwhelming amount of evidence of documentation of this uh retrieval to have happened and that this craft was eventually potentially brought into Los Alamos you know by looking at the forchan Whistleblower if you haven't checked that video out yet I highly recommend but we did a deep dive on this person who said he basically worked for a secret branch of the government that did these crash retrievals um but he would say that yeah near Mexico and New Mexico that's where they would go down they avoid that spot like the plague currently but back then they would find quite a bit of them uh go down in that vicinity it really really makes you ponder that during that time obviously there was the Manhattan Project that came from there this and you know Oppenheimer and all that where the Germans were racing against the Russians and the Americans to try and build a nuke and during that time you know there was a ton of nuclear um work being done and and thus UFO incursions were happening at all these bases and namely if you want to check it out there's an amazingly brilliant video by YouTuber Jesse Michaels American Alchemy who put that out go check that out what a fun Rabbit Hole to jump down he did a brilliant job on that",
+    "so think about this the government we know that during the Cold War when they even heard about psychics or Russia's sort of psychic activity into M reading and mind control and all that they started their own branches of the very same work because they said hey if this stuff is real we can't take a chance and not look into it we have to at least pour some resources into it and look at it you know ourselves the same has to be said about the UFO thing I mean Foo Fighters in the war were avoiding these things because they were almost colliding with them during their Miss there had to be an extreme amount of research into this topic by both the axis and the Allies back then you'd be a fool to think they weren't at least trying to uncover what was going on and militarizing it somehow I digress consider if you will the position of the United States government at that time they proudly thought of themselves as the most powerful Nation on Earth having recently produced the atomic bomb and achievement so stupendous it would take Russia 4 years to catch up and only with the help of traders to democracy they had built a jet aircraft that had exceeded the speed of sound and flight they had built jet bombers with InterContinental range that could carry weapons of enormous destruction the post-war era and the future seemed Bright",
+    "now imagine what it was like for those same leaders all of whom had witnessed the Panic of Orson Wells radio broadcast the War of the Worlds in 1938 we are bringing you an eyewitness account of what's happening on the wilmouth farm Grovers Mill New Jersey lord they're turning into flames the whole heel caugh by the woods of bar the the gas tank tank for the automobiles ladies and gentlemen due to circumstances beyond our control we are unable to continue the broadcast from Grover's Mill thousands of Americans panicked at a realistically presented invasion of Earth by beings from another planet imagine their horror as they actually viewed the dead bodies of these frightening looking little creatures with enormous eyes reptilian skin and claw-like fingers imagine their shock as they attempted to determine how these strange saucers were powered and could discover no part even remotely similar to components they were familiar with no cylinders or Pistons no vacuum tubes or turbines or hydraulic actuators it is only when you fully understand the overwhelming helplessness the government was faced with in the late 1940s that you can comprehend their perceived need for a total thorough and sweeping cover up to include the use of deadly force when something this Paradigm shifting on the military Battlefield is encountered you have to acknowledge that putting this in the wrong hands can lead to devastating and obviously world changing consequences so their use of deadly force to Pro protect this secret according to them was justified",
+    "the cover up was so successful that as late as 1985 a senior scientist with the jet propulsion laboratory in Pasadena California Dr Al Hibbs would look at a videotape of an enormous Flying Saucer and state the record I'm not going to assign anything to that UFO phenomena without a lot more data Dr hibs was looking at the naked Emperor and saying he certainly looks naked but that doesn't prove he's naked sounds a lot like arrow in July of 1952 a panicked government watched helplessly as a squadron of flying saucers flew over Washington DC and buzzed the White House the capol building and the Pentagon it took all the imagination and intimidation the government could muster to force that incident out of the memory of the public I'm am here to discuss the so-called flying saucers we can say that the recent sightings are in no way connected with any secret development by any Department of the United States a pretty incredible incident had that happened today it kind of is happening today if you think about it",
+    "thousands of sightings occurred during the Korean War and several more saucers were retrieved by the Air Force some were stored at right Patterson Air Force Base some were stored at Air Force bases near the location of the crash site what I'm going to read to you next is interesting because this was actually echoed by Ross colard recently recently as recent as last year Ross had said that there was a giant UFO somewhere that was too big to move so they built the base around it and that really made headlines in the UFO Community people are going to question what I'm about to say what if some of that [ __ ] is so big it can't be moved so big they built a building over it in a country outside of the United States of America but in fact John leer I mean he's got it right here one saucer was so enormous and the logistic problems in transportation so enormous that it was buried at the crash site and remains there today the stories are legendary on transporting crashed saucers over long distances moving only at night purchasing complete Farms slashing through forests blocking major highways sometimes driving two and three low Boys in tandem with an extra terrestrial load 100 ft in diameter",
+    "on April 30th 1964 the first communication between these aliens and the US government took place at Hollowman Air Force Base in New Mexico three saucers had landed at a pre-arranged air area and a meeting was held between the aliens and Intelligence Officers of the US government all right folks Holman the hullman Air Force incident is pretty Infamous in UFO lore and one of the reasons why is because there was a documentary actually put out by the CIA back in the day and at the very end of this documentary is about an 8sec clip this 8-second clip is what seems to be has a flying saucer uh coming down on sort of desert terrain and about to land and the video feed Cuts turns out the I believe director of that very documentary says that that video exists uncut and that as the video goes on this craft comes to the ground lands and exiting from it are multiple alien beings and that's where a meeting happened but hidden in plain sight they decided to keep in footage in this documentary and here's a clip and in 1973 they go to Bob egger and Alan Sandler two producers in Los Angeles and they asked them to do UFO documentary and Bob Egger's a total UFO skeptic said what do you mean this is for real and at that point the security manager Paul shardell at Norton Air Force Base said what would you what would you say if I told you an alien ship landed at hman Air Force Base 6:00 in the morning in May of 1971 and we filmed it from three different Vantage points two on the ground one in a helicopter and we will allow you to use the film for your documentary so he puts his documentary and then what happens at the end of the documentary is they say we can't use the film we can't let it's a Watergate it's bad timing we can't allow you to use the film and they pull the film and then I find out that there's 8 Seconds of the hallan air for space film in the film so Bob's my friend i ph up Bob there's 8 Seconds of film in there and he goes well yeah and I said you told me to hold the film oh no he said it's background and I said background what do you mean it's background and he said it didn't show anything and what it is is you see the hills of Holman and you see this object this brilliantly lit object at 6 o'clock in the morning coming over the hills but it's in a distance so you don't see it close up and you don't see the alien when the alien gets out that's the classified part so they want you to know the Hallman happened and they allowed them to use this the 8 Seconds of the film but the rest of the film to classifi part was pulled make of that what you will but that is one compelling story",
+    "so During the period of 1969 to 1971 mj12 representing the US government made a deal with these creatures called ebees or extraterrestrial biological entities named by De live Bron he was an original mj12 member and sixth President of John Hopkins University John's Hopkins University the deal was that an exchange for technology they would provide to us we agreed to ignore the abductions that were going on and suppress information on the cattle mutilations and to further illustrate this point here's a 1988 episode of Gumby [Music] hey what's going on here we need samples of genes and chromosomes from your kind to develop a stronger breed of people because on our planet radiation damaged our DNA so that we are dying off to Extinction we'll help you but you know we need help too what do you need the people on Earth are suffering from many kinds of pollution we need your advanced technology to help us develop a clean source of energy",
+    "the ebees assured mj12 that the abductions usually lasting about 2 hours were merely the ongoing monitoring of developing civilizations and here John lists out the purposes for the abductions and what they turned out to be number one the insertion of a 3mm spherical device through the nasal cavity of the abductee into the brain the device is used for the biological monitoring tracking and control of the abductee this is something touched on in several books by thousands of abductees actually which is interesting you know looking at the work of John Mack David Jacobs Bud Hopkins this would come up quite frequently that this Rod which had a very tiny ball on the end of it was inserted into the nasal cavity way far up and then when extracted that ball was gone what's also interesting to me is that it says to control the abductee which makes me think that these gray beings maybe perhaps not the other beings but the gray ones specifically couldn't mind control you maybe without it",
+    "number two implementation of post hypnotic suggestion to carry out a specific activity during a specific time period the actuation of which will occur within the next 2 to 5 years well there's that I mean this was 1987 that would make it 1992 at the latest maybe they did I don't know carry out some specific activity that is unbeknownst to us that has perhaps little little or no consequence to our daily lives I don't know but that seems speculatory at best number three termination of some people so that they could function as living sources for biological material and substances okay number four termination of individuals who represent a threat to the continuation of their activity in the last couple of years have you had incidences that have caused you to be in fear for your life for addressing these issues yes personally I just want everyone to note that he's coming forward in fear of his life to put in perspective if they were really not scared about this information coming out why would someone be intimidated like that",
+    "number five effect genetic engineering experiments number six impregnation of human females and early termination of pregnancies to secure the cross breed infant seems like the craziest but honestly this is the most widely reported among abductees is the genetic engineering that is taking place on board and most of the time has to do with what seems to be some type of hybridization program again this isn't stuff that I'm making up it's stuff that I've read and that's quite expansive in terms of the literature that's out there and the documentation of the like this has been documented extensively uh mainly through post hypnotic regression because for some reason apparently the people who've been abducted they just you know their memories are wiped bu"
+  ],
+  "metadata": {
+    "provenance": "https://www.youtube.com/watch?v=5neRAsS0nrY",
+    "filename_hint": "The \"Horrible Truth\" about The Alien Deal - DEBRIEFED ep. 20",
+    "prompts_dir": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/ai/prompts",
+    "content_type": "media",
+    "ingestion_recommendation": "proceed",
+    "priority": "HIGH",
+    "chunk_count": 17,
+    "embeddable_count": 17,
+    "ner_chunk_count": 8,
+    "prompts_used": [
+      "disclosure.content_analysis",
+      "disclosure.ner",
+      "document_classification",
+      "rag_ingestion",
+      "validation"
+    ],
+    "tiers_used": [
+      "deepseek/deepseek-chat"
+    ],
+    "degraded": false,
+    "schema_unenforced_prompts": [
+      "rag_ingestion"
+    ],
+    "repaired_prompts": [],
+    "repair_attempted_prompts": [
+      "disclosure.ner"
+    ]
+  },
+  "errors": [
+    "ner:c02:disclosure.ner: JSON unparseable after one repair retry (Expecting property name enclosed in double quotes: line 133 column 6 (char 4656)); raw response was 4657 chars",
+    "ner:c04:disclosure.ner: JSON unparseable after one repair retry (Unterminated string starting at: line 120 column 9 (char 4938)); raw response was 4939 chars",
+    "ner:c05:disclosure.ner: JSON unparseable after one repair retry (Unterminated string starting at: line 125 column 21 (char 4524)); raw response was 4620 chars",
+    "ner:c07:disclosure.ner: JSON unparseable after one repair retry (Unterminated string starting at: line 138 column 15 (char 4421)); raw response was 4430 chars",
+    "ner:c08:disclosure.ner: JSON unparseable after one repair retry (Expecting value: line 1 column 1 (char 0)); raw response was 4843 chars"
+  ],
+  "prompts_used": [
+    "document_classification",
+    "disclosure.content_analysis",
+    "rag_ingestion",
+    "disclosure.ner",
+    "validation",
+    "disclosure.ner",
+    "disclosure.ner",
+    "validation",
+    "disclosure.ner",
+    "disclosure.ner",
+    "disclosure.ner",
+    "validation",
+    "disclosure.ner",
+    "disclosure.ner"
+  ]
+}

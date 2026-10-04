@@ -1,0 +1,56 @@
+{
+  "status": "error",
+  "classification": {
+    "content_type": "witness",
+    "primary_record_hints": [
+      "Testimony",
+      "KeyFigure",
+      "Organization",
+      "Sighting",
+      "Event"
+    ],
+    "hynek_scaffold": "CE3",
+    "classification_marks_detected": [
+      "UAP",
+      "consciousness",
+      "gate program",
+      "secret program",
+      "Baker Victory Services"
+    ],
+    "language": "english",
+    "ocr_quality": "n/a",
+    "sensitivity": "public",
+    "ingestion_recommendation": "proceed_with_caution",
+    "rationale": "Public interview transcript with extraordinary claims of a secret government program involving psychic abilities and a living artifact. Custody of underlying documents unknown, but source is a media recording.",
+    "confidence": 0.9
+  },
+  "analysis": {
+    "_raw_list": [
+      "In early 2023, I began to unravel … brutal PTSD level of flashbacks … remembering and having nightmares of being in the labs, being surrounded with people.",
+      "I was completely removed from the public school system for multiple years of my life.",
+      "I was in the gate classroom. I drank the pink drink.",
+      "Baker Victory Services … on the inside was supporting a mission for defense contractor research for psychic potential development.",
+      "I would lay in a deep meditation … shift my consciousness into set object or some vehicle and become it. Pilot it up and down, move it left and right.",
+      "From what I understand, what they were trying to do is build a brain neural interface that would reproduce the brain wave signals that I was sending out.",
+      "The people in the program had this thing. They called it a relic. And sitting at the center of the coffee table, it's a literal crystal orb. But the inside of this orb was alive.",
+      "I've briefed [past members of Senate Select Intelligence Committee and three-letter agencies], given them the locations, the names, etc. … nothing has happened."
+    ]
+  },
+  "ingestion": {},
+  "chunks": [],
+  "ner_results": [],
+  "embeddable_texts": [],
+  "metadata": {
+    "provenance": "https://www.youtube.com/watch?v=PiFbeWfA3LM",
+    "filename_hint": "“I Was Taken By The UFO Program As a Kid!” [Exclusive Interview]",
+    "prompts_dir": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/ai/prompts"
+  },
+  "errors": [
+    "Expecting ',' delimiter: line 22 column 6 (char 3232)"
+  ],
+  "prompts_used": [
+    "document_classification",
+    "disclosure.content_analysis",
+    "rag_ingestion"
+  ]
+}

@@ -1,0 +1,122 @@
+<style>
+  .irm-wrap { margin: 12px 0 4px; }
+  .tier { display:grid; grid-template-columns: 120px 1fr; gap:14px; align-items:start;
+    border-radius:12px; padding:14px 16px; margin:11px 0; background:rgba(255,255,255,.035); }
+  .tier .verdict { font-size:12px; font-weight:600; letter-spacing:.02em; line-height:1.4; }
+  .tier h4 { margin:0 0 5px; font-size:14px; }
+  .tier p { margin:4px 0 0; font-size:12px; opacity:.74; line-height:1.55; }
+  .tier code { font-family:ui-monospace,Menlo,monospace; font-size:11px;
+    background:rgba(255,255,255,.06); padding:1px 5px; border-radius:5px; }
+  .tier.live   { border:1px solid rgba(120,230,180,.55); }
+  .tier.discon { border:1px solid rgba(255,180,120,.5); }
+  .tier.ghost  { border:1px dashed rgba(255,180,120,.5); opacity:.85; }
+  .tier.myth   { border:1px dashed rgba(255,154,154,.55); opacity:.85; }
+  .v-live   { color:#7fe6b4; }
+  .v-discon { color:#ffd9a3; }
+  .v-ghost  { color:#ffc08a; }
+  .v-myth   { color:#ff9a9a; }
+  .stage { font-size:11px; text-transform:uppercase; letter-spacing:.12em; opacity:.5; margin:18px 0 4px; }
+  .mini { font-family:ui-monospace,Menlo,monospace; font-size:11.5px; background:rgba(255,255,255,.05);
+    border-radius:8px; padding:10px 12px; opacity:.85; margin:8px 0; line-height:1.7; }
+  .tag { display:inline-block; font-size:10px; padding:1px 7px; border-radius:999px; margin-left:5px; vertical-align:middle; }
+  .tag.live { color:#7fe6b4; border:1px solid rgba(120,230,180,.5); }
+  .tag.dead { color:#ff9a9a; border:1px solid rgba(255,154,154,.5); }
+  .tag.py   { color:#9ec1ff; border:1px solid rgba(158,193,255,.5); }
+  .sec { border:1px solid rgba(255,120,120,.6); background:rgba(255,80,80,.08);
+    border-radius:12px; padding:14px 16px; margin:18px 0; }
+  .sec h3 { margin:0 0 6px; font-size:14px; color:#ff9a9a; }
+  .sec p { margin:5px 0; font-size:12px; opacity:.82; line-height:1.55; }
+  .sec ul { margin:6px 0 0 18px; font-size:11.5px; opacity:.8; line-height:1.7; }
+  .net { font-size:12px; opacity:.66; margin-top:16px; line-height:1.6; }
+  .corr { border:1px solid rgba(190,160,255,.5); background:rgba(190,160,255,.05);
+    border-radius:12px; padding:13px 15px; margin:14px 0; }
+  .corr h4 { margin:0 0 6px; font-size:13px; color:#cdb6ff; }
+  .corr p { margin:5px 0; font-size:11.5px; opacity:.8; line-height:1.6; }
+</style>
+
+<h2>Disclosure-RAG ingestion — reality map <span class="tag py">PYTHON</span></h2>
+<p class="subtitle">What "ingestion" in <code>apps/disclosure-rag/</code> <em>actually</em> is, ranked
+by reality — read firsthand 2026-06-01. The takeaway: one thin live path, the rest disconnected,
+ghost, or myth. This is the <strong>RESOURCE-layer</strong> truth the trace method is meant to surface.</p>
+
+<div class="irm-wrap">
+
+  <div class="tier live">
+    <div class="verdict v-live">✅ LIVE<br/>the only real path</div>
+    <div>
+      <h4><code>knowledge_base_service.py</code> → <code>openai_client/upload.py</code></h4>
+      <p><code>upload_file_to_openai()</code> = <code>files.create(purpose="assistants")</code> +
+      <strong>top-level</strong> <code>client.vector_stores.files.create(...)</code> (current SDK →
+      confirms the store persists despite Assistants-API deprecation). <strong>Per-URL, manual,
+      YouTube/web only</strong>, gated on <code>upload=True</code> (default off). The store
+      chunks + embeds <strong>server-side</strong>. No bulk ingest exists — the live 1,292 files
+      were fed one URL at a time via the now-dead <code>main.py</code> CLI.</p>
+    </div>
+  </div>
+
+  <div class="tier discon">
+    <div class="verdict v-discon">🟡 DISCONNECTED<br/>catalog, not ingest</div>
+    <div>
+      <h4><code>index_knowledge_base.py</code></h4>
+      <p>Builds a local <code>metadata/index.json</code> filename catalog. PDF "content" is
+      literally the string <code>"PDF Document: {name}"</code> — no extraction. No embeddings,
+      no vector store, no DB.</p>
+    </div>
+  </div>
+
+  <div class="tier ghost">
+    <div class="verdict v-ghost">🔴 GHOST<br/>won't even import</div>
+    <div>
+      <h4><code>scripts/bulk_folder_ingestion.py</code> <span class="tag dead">ImportError</span></h4>
+      <p>Has the <strong>good</strong> PDF/docx/text extractors (PyMuPDF / PyPDF2 / python-docx),
+      but line 40 imports <code>integrations.triple_rag_integration.TripleRAGIntegration</code> — a
+      module that <strong>exists nowhere</strong>. Fails on run; the Greer-library bulk pipeline
+      never executed. <em>Salvage the extractor methods only.</em></p>
+    </div>
+  </div>
+
+  <div class="tier myth">
+    <div class="verdict v-myth">🔴 MYTH<br/>half-built, broken</div>
+    <div>
+      <h4><code>lib/adapters/dual_rag_adapter.py</code> — "Quinuple RAG" <span class="tag dead">AttributeError</span></h4>
+      <p>Docstring claims OpenAI + Xata + Upstash + FAISS + CocoIndex; the class wires only
+      <strong>3</strong> (Upstash + FAISS + CocoIndex) — no OpenAI, no Xata. <code>get_status()</code> and
+      the cocoindex branch of <code>index_document()</code> reference attributes never set in
+      <code>__init__</code> → crash. A half-finished <code>cocoindex→enhanced_cocoindex</code> rename
+      left it dead.</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="sec">
+  <h3>🚨 Security — needs action</h3>
+  <p>A <strong>live Upstash REST token is hardcoded as a default fallback</strong> in three files:</p>
+  <ul>
+    <li><code>lib/sync_to_upstash.py</code></li>
+    <li><code>lib/adapters/dual_rag_adapter.py:56-57</code></li>
+    <li><code>lib/upstash/vector.py</code></li>
+  </ul>
+  <p>Unlike the inert <code>xau_</code> Xata key, <strong>Upstash may still be live</strong> — anyone with
+  the repo can read/write that vector index. <strong>Rotate the token + scrub from source &amp; git
+  history</strong>; replace with a required <code>os.environ[...]</code> lookup (no literal fallback).</p>
+</div>
+
+<div class="corr">
+  <h4>Correction: chunking is OUR choice, not inherited</h4>
+  <p><code>upload.py::chunk_text</code> (500/50) and <code>generate_embeddings</code> are vestigial +
+  broken (pre-1.0 SDK syntax → <code>TypeError</code>; <code>process_and_upload_document</code> refs an
+  undefined <code>file_path</code> → <code>NameError</code>). Not on the live path. The live store uses
+  OpenAI's <strong>server-side default</strong> chunking — so neither the 500/50 here nor the 1500/200
+  in the agent config governs it. Our owned pipeline picks its own (plan: 1500/200 recursive).</p>
+</div>
+
+<div class="stage">What disclosure-rag actually gives the rebuild</div>
+<div class="mini">entity-extraction schema + prompt  (port verbatim)
+PDF/docx extractors in bulk_folder_ingestion.py  (salvage the methods)
+upload_file_to_openai()  (reference only — for our pgvector ingest)
+everything labeled "Triple / Quinuple RAG"  →  DEAD. do not port.</div>
+
+<p class="net"><strong>Next:</strong> this is the disclosure-rag RESOURCE-layer truth. The remaining
+traces (#1 mindmap agent, #2 relational seed, #3 Prometheus chat) walk the live <code>apps/app</code>
+stack to finish the system map before any rebuild decisions.</p>

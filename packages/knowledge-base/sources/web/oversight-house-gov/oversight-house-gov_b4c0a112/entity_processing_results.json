@@ -1,0 +1,44 @@
+{
+  "status": "completed",
+  "video_id": "d41d8cd98f00",
+  "summary_file": "/Users/liamellis/Desktop/ultraterrestrial-resurrection/packages/knowledge-base/sources/web/2025-09-05/oversight-house-gov_b4c0a112/oversight-house-gov_summary.txt",
+  "entities": {
+    "topics": [
+      "Applied Research Methodology"
+    ],
+    "personnel": [],
+    "events": [],
+    "organizations": [],
+    "locations": [],
+    "artifacts": [],
+    "sightings": []
+  },
+  "xata_search_results": {
+    "topics": [
+      {
+        "entity_name": "Applied Research Methodology",
+        "status": "error",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": null,
+        "error": "'XataClient' object has no attribute 'search_records'"
+      }
+    ],
+    "personnel": [],
+    "events": [],
+    "organizations": [],
+    "locations": [],
+    "artifacts": [],
+    "sightings": []
+  },
+  "entity_creation_results": {
+    "status": "no_creation_needed",
+    "statistics": {
+      "total_created": 0
+    }
+  },
+  "total_entities": 1,
+  "total_matches": 1,
+  "total_created": 0
+}

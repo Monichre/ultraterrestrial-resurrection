@@ -1,0 +1,606 @@
+ .claude-design/research-canvas-playground.html                                                                                                     |  1535 +++
+ .claude/agents/README.md                                                                                                                           |    88 -
+ .claude/agents/fort.md                                                                                                                             |   151 -
+ .claude/agents/grusch.md                                                                                                                           |   149 -
+ .claude/agents/hynek.md                                                                                                                            |   149 -
+ .claude/agents/keel.md                                                                                                                             |   151 -
+ .claude/agents/knapp.md                                                                                                                            |   150 -
+ .claude/agents/lone-gunmen.md                                                                                                                      |   148 -
+ .claude/agents/mack.md                                                                                                                             |   148 -
+ .claude/agents/majestic.md                                                                                                                         |   157 -
+ .claude/agents/masters.md                                                                                                                          |   145 -
+ .claude/agents/mellon.md                                                                                                                           |   145 -
+ .claude/agents/michel.md                                                                                                                           |   148 -
+ .claude/agents/mulder.md                                                                                                                           |   145 -
+ .claude/agents/pasulka.md                                                                                                                          |   145 -
+ .claude/agents/pilkington.md                                                                                                                       |   147 -
+ .claude/agents/pope.md                                                                                                                             |   144 -
+ .claude/agents/ruppelt.md                                                                                                                          |   150 -
+ .claude/agents/scully.md                                                                                                                           |   151 -
+ .claude/agents/vallee.md                                                                                                                           |   146 -
+ .claude/commands/add-authentication-system.md                                                                                                      |    33 -
+ .claude/commands/add-to-research.md                                                                                                                |   241 -
+ .claude/commands/all-tools.md                                                                                                                      |    31 -
+ .claude/commands/architecture-review.md                                                                                                            |    36 -
+ .claude/commands/business-scenario-explorer.md                                                                                                     |    36 -
+ .claude/commands/code-to-task.md                                                                                                                   |   583 -
+ .claude/commands/create-architecture-documentation.md                                                                                              |    94 -
+ .claude/commands/create-command.md                                                                                                                 |   371 -
+ .claude/commands/create-database-migrations.md                                                                                                     |    34 -
+ .claude/commands/create-feature.md                                                                                                                 |   129 -
+ .claude/commands/create-jtbd.md                                                                                                                    |    36 -
+ .claude/commands/create-prd.md                                                                                                                     |    35 -
+ .claude/commands/decision-quality-analyzer.md                                                                                                      |    36 -
+ .claude/commands/decision-tree-explorer.md                                                                                                         |    36 -
+ .claude/commands/design-database-schema.md                                                                                                         |    36 -
+ .claude/commands/digital-twin-creator.md                                                                                                           |    36 -
+ .claude/commands/directory-deep-dive.md                                                                                                            |    34 -
+ .claude/commands/docs-maintenance.md                                                                                                               |   128 -
+ .claude/commands/drive.md                                                                                                                          |    46 -
+ .claude/commands/estimate-assistant.md                                                                                                             |    36 -
+ .claude/commands/feature.md                                                                                                                        |   195 -
+ .claude/commands/future-scenario-generator.md                                                                                                      |    36 -
+ .claude/commands/gemini-review.md                                                                                                                  |   293 -
+ .claude/commands/init-project.md                                                                                                                   |    79 -
+ .claude/commands/interactive-documentation.md                                                                                                      |   132 -
+ .claude/commands/load-llms-txt.md                                                                                                                  |    38 -
+ .claude/commands/log.md                                                                                                                            |   355 -
+ .claude/commands/market-response-modeler.md                                                                                                        |    36 -
+ .claude/commands/memory-spring-cleaning.md                                                                                                         |    36 -
+ .claude/commands/migration-guide.md                                                                                                                |   249 -
+ .claude/commands/milestone-tracker.md                                                                                                              |    43 -
+ .claude/commands/move.md                                                                                                                           |   220 -
+ .claude/commands/nextjs-component-generator.md                                                                                                     |   488 -
+ .claude/commands/nextjs-scaffold.md                                                                                                                |   236 -
+ .claude/commands/note.md                                                                                                                           |   100 -
+ .claude/commands/optimize.md                                                                                                                       |   375 -
+ .claude/commands/project-timeline-simulator.md                                                                                                     |    36 -
+ .claude/commands/publisher-x.md                                                                                                                    |   132 -
+ .claude/commands/remove.md                                                                                                                         |   301 -
+ .claude/commands/report.md                                                                                                                         |   292 -
+ .claude/commands/resume.md                                                                                                                         |   256 -
+ .claude/commands/session-learning-capture.md                                                                                                       |    36 -
+ .claude/commands/setup-monorepo.md                                                                                                                 |    36 -
+ .claude/commands/sprint-planning.md                                                                                                                |   188 -
+ .claude/commands/standup-report.md                                                                                                                 |    36 -
+ .claude/commands/start.md                                                                                                                          |   169 -
+ .claude/commands/status.md                                                                                                                         |   219 -
+ .claude/commands/sync.md                                                                                                                           |   294 -
+ .claude/commands/system-behavior-simulator.md                                                                                                      |   415 -
+ .claude/commands/system-dynamics-modeler.md                                                                                                        |    36 -
+ .claude/commands/team-knowledge-mapper.md                                                                                                          |    36 -
+ .claude/commands/timeline-compressor.md                                                                                                            |    36 -
+ .claude/commands/todo.md                                                                                                                           |    61 -
+ .claude/commands/ultra-think.md                                                                                                                    |   158 -
+ .claude/commands/update-docs.md                                                                                                                    |   106 -
+ .claude/commands/vercel-env-sync.md                                                                                                                |   665 --
+ .claude/commands/workflow-orchestrator.md                                                                                                          |   575 -
+ .claude/compact-snapshots/2026-07-23-1919-diff.txt                                                                                                 |    65 +
+ .claude/compact-snapshots/2026-07-24-0113-diff.txt                                                                                                 |    60 +
+ .claude/hooks/notify-app.sh                                                                                                                        |    71 -
+ .claude/scheduled_tasks.lock                                                                                                                       |     1 -
+ .claude/skills/disclosure-rag-processor                                                                                                            |     1 -
+ .claude/skills/frontend-design                                                                                                                     |     1 -
+ .claude/skills/goal                                                                                                                                |     1 -
+ .claude/skills/loop                                                                                                                                |     1 -
+ .codex/config.toml                                                                                                                                 |     4 +
+ .cursor/skills/frontend-design                                                                                                                     |     1 -
+ .gitignore                                                                                                                                         |     6 +
+ .ok/.gitignore                                                                                                                                     |    21 +
+ .ok/config.yml                                                                                                                                     |    59 +
+ .okignore                                                                                                                                          |    12 +
+ .pi/extensions/open-knowledge.ts                                                                                                                   |   361 +
+ .specstory/history/2025-10-04_02-03-06Z-can-you-use-existing.md                                                                                    |   260 +-
+ .specstory/history/2025-11-26_05-08-28Z-proceed-with-the-next-steps.md                                                                             |  2455 ++++-
+ .specstory/history/2025-11-26_05-08-28Z-refactor-sightings-page-for-ui-dots.md                                                                     |     2 +-
+ .specstory/history/2025-11-26_18-32-02Z-review-home-page-animations-and-create-guide.md                                                            |     2 +-
+ .specstory/history/2025-11-26_18-32-02Z-where-did-we-leave-off.md                                                                                  |   566 +-
+ .specstory/history/2026-03-29_10-51-38Z-use-your-create-skill.md                                                                                   | 38580 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ .specstory/history/2026-06-26_03-52-21Z-error-type-build-error.md                                                                                  |    20 -
+ .specstory/history/2026-06-26_03-56-53Z-ok-lets-begin-the.md                                                                                       | 25631 ++++++++++++++++++++++++++++++++++++++++++++
+ .specstory/history/2026-06-26_08-58-50Z-subagent-driven-development-integration.md                                                                 |  2360 +++++
+ .specstory/history/2026-06-26_09-00-51Z-explore-mindmap-integration-points.md                                                                      |  2290 ++++
+ .specstory/history/2026-06-26_12-09-56Z-flywheel-mcp-installation.md                                                                               |   467 +-
+ .specstory/history/2026-06-26_20-02-49Z-research-apps-app-ui.md                                                                                    |  1227 +++
+ .specstory/history/2026-07-06_01-33-46Z-go-through-this-entire.md                                                                                  | 14889 ++++++++++++++++++++++++++
+ .specstory/history/2026-07-08_00-32-10Z-yes-proceed-but-i.md                                                                                       | 44186 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ .specstory/history/2026-07-08_16-37-14Z-env-file-key-replacement.md                                                                                |   686 +-
+ .specstory/history/2026-07-09_17-22-08Z-give-me-a-rough.md                                                                                         |   118 +-
+ .specstory/history/2026-07-10_09-25-10Z-interface-gallery.md                                                                                       |  4852 ++++-----
+ .specstory/history/2026-07-10_09-51-35Z-delegate-a-team-of.md                                                                                      |    46 +
+ .specstory/history/2026-07-12_12-03-55Z-i-want-to-ship.md                                                                                          | 12123 +++++++++++++++++++++
+ .specstory/history/2026-07-12_19-16-25Z-domain-modeling-discussion.md                                                                              |   520 +-
+ .specstory/history/2026-07-12_19-32-12Z-ufo-research-prompt-enhancement.md                                                                         |   443 +-
+ .specstory/history/2026-07-13_06-50-56Z-well-isnt-this-fucking.md                                                                                  |    70 +
+ .specstory/history/2026-07-17_00-17-09Z-recap-project-status-for.md                                                                                |  3671 +++++++
+ .specstory/history/2026-07-17_11-12-35Z.md                                                                                                         |    14 +-
+ .specstory/history/2026-07-17_11-17-53Z-at-docs-vision-at.md                                                                                       | 15825 +++++++++++++++++++++++++++
+ .specstory/history/2026-07-18_22-48-00Z-storybook-component-demo.md                                                                                |  4859 ++-------
+ .specstory/history/2026-07-19_00-16-35Z-subagent-creation-for-app.md                                                                               |   835 +-
+ .specstory/history/2026-07-19_01-12-17Z-rocket-telemetry-hud-integration.md                                                                        |  3524 ++----
+ .specstory/history/2026-07-19_01-27-50Z-agent-review-and-improvement.md                                                                            |   589 +-
+ .specstory/history/2026-07-19_02-01-30Z-i-want-to-use.md                                                                                           |   314 +-
+ .specstory/history/2026-07-19_05-22-30Z.md                                                                                                         |     6 +-
+ .specstory/history/2026-07-19_05-32-00Z-rag-document-processing-prompts.md                                                                         |  1744 +--
+ .specstory/history/2026-07-19_05-40-13Z-app-and-storybook-setup.md                                                                                 |  2926 +----
+ .specstory/history/2026-07-19_05-41-30Z-three-js-animation.md                                                                                      |  3023 ++++++
+ .specstory/history/2026-07-19_10-59-03Z-explore-component-patterns.md                                                                              |    24 +
+ .specstory/history/2026-07-19_12-22-15Z-claude-md-improvement.md                                                                                   |   513 +-
+ .specstory/history/2026-07-19_12-24-43Z-terminal-file-reference.md                                                                                 |   152 +-
+ .specstory/history/2026-07-19_12-51-08Z-review-and-improve-a.md                                                                                    |    56 -
+ .specstory/history/2026-07-19_13-58-52Z-animation-sequence-review.md                                                                               |  2477 +----
+ .specstory/history/2026-07-19_16-23-03Z-research-canvas-design-review.md                                                                           |   947 +-
+ .specstory/history/2026-07-20_00-30-44Z-agent-definitions-deconstruction.md                                                                        |  5648 +++++++++-
+ .specstory/history/2026-07-20_00-34-07Z-audit-agent-definitions.md                                                                                 |  1011 ++
+ .specstory/history/2026-07-20_00-34-11Z-audit-prompts-library.md                                                                                   |  1187 +++
+ .specstory/history/2026-07-20_02-08-52Z-audit-docs-top-level.md                                                                                    |  1267 +++
+ .specstory/history/2026-07-20_02-08-52Z-map-docs-by-role.md                                                                                        |  1254 +++
+ .specstory/history/2026-07-23_01-52-05Z-research-canvas-documents.md                                                                               |   294 +
+ .specstory/history/2026-07-23_14-20-11Z-at-users-liamellis-desktop.md                                                                              | 13851 ++++++++++++++++++++++++
+ .specstory/history/2026-07-23_15-11-02Z-1-research-canvas-documents.md                                                                             |   277 +
+ .specstory/history/2026-07-23_17-57-41Z-holographic-file-stack-component.md                                                                        |  2193 ++++
+ .specstory/history/2026-07-23_18-00-24Z-timelines-component-fixes.md                                                                               |  3728 +++++++
+ .specstory/history/2026-07-23_18-24-59Z-review-timeline-repairs.md                                                                                 |     9 +
+ .specstory/history/2026-07-23_18-24-59Z-verify-timeline-normalizers.md                                                                             |  2913 +++++
+ .specstory/history/2026-07-23_21-06-40Z-at-apps-app-src.md                                                                                         |    46 +
+ .specstory/history/2026-07-23_21-06-40Z-reference-prototype-components.md                                                                          |    46 +
+ .specstory/history/2026-07-23_21-12-29Z-1-component-migration-status.md                                                                            |   132 +
+ .specstory/history/2026-07-23_21-12-46Z-at-apps-app-src.md                                                                                         |    46 +
+ .specstory/history/2026-07-23_21-12-46Z-reference-prototype-components.md                                                                          |  1980 ++++
+ .specstory/history/2026-07-23_21-18-44Z-rotating-globe-component-setup.md                                                                          |  2381 +++++
+ .specstory/history/2026-07-23_21-42-37Z-continual-learning-memory-update.md                                                                        |   984 ++
+ .specstory/history/2026-07-23_21-55-38Z-model.md                                                                                                   |    59 +
+ .specstory/history/2026-07-23_23-04-03Z-dynamic-workflow.md                                                                                        |  3007 ++++++
+ .specstory/history/2026-07-23_23-04-03Z.md                                                                                                         |   734 ++
+ .specstory/history/2026-07-23_23-10-26Z-subagent-driven-development-review.md                                                                      |  1825 ++++
+ .specstory/history/2026-07-23_23-13-13Z-audit-core-shell-and.md                                                                                    |   846 ++
+ .specstory/history/2026-07-23_23-13-41Z-audit-research-canvas-views.md                                                                             |  1402 +++
+ .specstory/history/2026-07-23_23-13-53Z-audit-intelligence-and-data.md                                                                             |  1467 +++
+ .specstory/history/2026-07-23_23-14-19Z-audit-tours-and-peripheral.md                                                                              |  1231 +++
+ .specstory/history/2026-07-23_23-34-06Z-task-1-dead-code.md                                                                                        |  6541 ++++++++++++
+ .specstory/history/2026-07-24_00-37-41Z-review-task-1-purge.md                                                                                     |  1083 ++
+ .specstory/history/2026-07-24_00-47-36Z-task-2-ai-path.md                                                                                          |  1579 +++
+ .specstory/history/2026-07-24_02-56-52Z-component-creation-request.md                                                                              |  3509 ++++++
+ .specstory/history/2026-07-24_06-15-05Z-analyze-lab-html-prototypes.md                                                                             |   620 ++
+ .specstory/history/2026-07-24_06-15-05Z-extract-formation-surfaces-perlin.md                                                                       |   601 ++
+ .specstory/history/2026-07-24_06-19-55Z-port-diagnosticarchitecture-lab.md                                                                         |   972 ++
+ .specstory/history/2026-07-24_06-20-03Z-port-cognitiveroutingframework-lab.md                                                                      |   474 +
+ .specstory/history/2026-07-24_06-20-06Z-port-monolithengine-lab-component.md                                                                       |   920 ++
+ .specstory/history/2026-07-24_06-20-07Z-migrate-hardcoded-classified-stack.md                                                                      |   340 +
+ .specstory/history/2026-07-24_09-16-09Z-file-renaming-strategy.md                                                                                  |  1645 +++
+ .specstory/history/2026-07-24_09-16-43Z-ui-design-brief-ideas.md                                                                                   |   152 +
+ .specstory/history/2026-07-24_09-17-11Z-design-lab-ui-brief.md                                                                                     |   727 ++
+ .specstory/history/2026-07-24_12-29-48Z-ultracode-lets-finish-the.md                                                                               |   115 +
+ .specstory/history/2026-07-24_12-29-48Z.md                                                                                                         |   105 +
+ .specstory/history/2026-07-24_17-37-10Z.md                                                                                                         |    25 +
+ .specstory/history/2026-07-25_14-14-36Z-command-review-discussion.md                                                                               |   861 ++
+ AGENTS.md                                                                                                                                          |    29 +-
+ CLAUDE.md                                                                                                                                          |     8 +-
+ DAILY_WORK_PLAN.md                                                                                                                                 |   228 +-
+ NOTES.md                                                                                                                                           |   166 +
+ apps/app/.gitignore                                                                                                                                |    30 +
+ apps/app/docs/design-prompts/QA_CHECKLIST.md                                                                                                       |   237 +
+ apps/app/docs/design-prompts/V0_PROMPT.md                                                                                                          |   440 +
+ apps/app/docs/design-prompts/VISUAL_BUILD_CONTRACT.md                                                                                              |   358 +
+ apps/app/package.json                                                                                                                              |     1 +
+ apps/app/public/fonts/PPNeueMontreal-Medium.ttf                                                                                                    |   Bin 0 -> 154576 bytes
+ apps/app/public/fonts/PPNeueMontreal-Regular.ttf                                                                                                   |   Bin 0 -> 143752 bytes
+ apps/app/src/app/fonts.tsx                                                                                                                         |    18 +
+ apps/app/src/app/layout.tsx                                                                                                                        |     6 +-
+ apps/app/src/app/research-ui.css                                                                                                                   |     2 +-
+ apps/app/src/components/command-palette/CommandK.md                                                                                                |    35 +
+ apps/app/src/components/command-palette/CommandK_PSUEDOCODE.md                                                                                     |    35 +
+ apps/app/src/components/command-palette/command-k.stories.tsx                                                                                      |    55 +
+ apps/app/src/components/command-palette/command-k.tsx                                                                                              |   166 +
+ apps/app/src/components/command-palette/index.ts                                                                                                   |     2 +
+ apps/app/src/components/design-system/lab-prototypes/DesignDownloadsIngest.md                                                                      |    48 +
+ apps/app/src/components/design-system/lab-prototypes/DesignDownloadsIngest_PSUEDOCODE.md                                                           |    65 +
+ apps/app/src/components/design-system/lab-prototypes/LabPrototypes.md                                                                              |    35 +
+ apps/app/src/components/design-system/lab-prototypes/LabPrototypes_PSUEDOCODE.md                                                                   |     2 +-
+ apps/app/src/components/design-system/lab-prototypes/cognitive-routing-framework/CognitiveRoutingFramework.md                                      |    59 +
+ apps/app/src/components/design-system/lab-prototypes/cognitive-routing-framework/CognitiveRoutingFramework.stories.tsx                             |    16 +
+ apps/app/src/components/design-system/lab-prototypes/cognitive-routing-framework/CognitiveRoutingFramework.tsx                                     |   295 +
+ apps/app/src/components/design-system/lab-prototypes/cognitive-routing-framework/CognitiveRoutingFramework_PSUEDOCODE.md                           |    54 +
+ apps/app/src/components/design-system/lab-prototypes/cognitive-routing-framework/cognitive-routing-framework.css                                   |   517 +
+ apps/app/src/components/design-system/lab-prototypes/cognitive-routing-framework/index.ts                                                          |     2 +
+ apps/app/src/components/design-system/lab-prototypes/diagnostic-architecture/DiagnosticArchitecture.md                                             |    57 +
+ apps/app/src/components/design-system/lab-prototypes/diagnostic-architecture/DiagnosticArchitecture.stories.tsx                                    |    24 +
+ apps/app/src/components/design-system/lab-prototypes/diagnostic-architecture/DiagnosticArchitecture.tsx                                            |   586 +
+ apps/app/src/components/design-system/lab-prototypes/diagnostic-architecture/DiagnosticArchitecture_PSUEDOCODE.md                                  |    48 +
+ apps/app/src/components/design-system/lab-prototypes/diagnostic-architecture/diagnostic-architecture.css                                           |   687 ++
+ apps/app/src/components/design-system/lab-prototypes/diagnostic-architecture/fixtures.ts                                                           |    80 +
+ apps/app/src/components/design-system/lab-prototypes/diagnostic-architecture/index.ts                                                              |    20 +
+ apps/app/src/components/design-system/lab-prototypes/index.ts                                                                                      |     5 +
+ apps/app/src/components/design-system/lab-prototypes/monolith-engine/MonolithEngine.md                                                             |    79 +
+ apps/app/src/components/design-system/lab-prototypes/monolith-engine/MonolithEngine.stories.tsx                                                    |    24 +
+ apps/app/src/components/design-system/lab-prototypes/monolith-engine/MonolithEngine.tsx                                                            |   542 +
+ apps/app/src/components/design-system/lab-prototypes/monolith-engine/MonolithEngine_PSUEDOCODE.md                                                  |    98 +
+ apps/app/src/components/design-system/lab-prototypes/monolith-engine/index.ts                                                                      |     2 +
+ apps/app/src/components/design-system/lab-prototypes/monolith-engine/monolith-engine.css                                                           |   605 ++
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/DocumentA.tsx                                                      |   130 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/DocumentB.tsx                                                      |   123 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/DocumentFrame.tsx                                                  |    20 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/DocumentOne.tsx                                                    |   105 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/PaperDocument.md                                                   |    52 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/PaperDocumentMigration_PSUEDOCODE.md                               |    46 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/PhotoCaption.tsx                                                   |    14 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/ReferencePrototypeMigration.md                                     |    80 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/ReferencePrototypeMigration_PSUEDOCODE.md                          |    44 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/classified-documents/ClassifiedDocument.tsx                        |   150 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/classified-documents/HardcodedClassifiedStack.md                   |    30 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/classified-documents/HardcodedClassifiedStack.tsx                  |   249 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/classified-documents/HardcodedClassifiedStack_PSUEDOCODE.md        |    19 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/classified-documents/UFODispatchDocument.tsx                       |   196 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/classified-documents/UFODocument.tsx                               |   150 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/classified-documents/WeatheredClassifiedDocument.tsx               |   223 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/classified-documents/index.ts                                      |     5 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/index.ts                                                           |    39 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/layouts/DocumentShowcase.tsx                                       |   102 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/layouts/MixedDocumentLayout.tsx                                    |    96 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/layouts/ResponsiveDocumentGrid.tsx                                 |    69 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/paper-document/DocFooter.tsx                                       |    50 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/paper-document/DocHeader.tsx                                       |    45 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/paper-document/DocTitle.tsx                                        |    63 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/paper-document/Emblem.tsx                                          |    97 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/paper-document/ImagePlate.tsx                                      |   131 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/paper-document/Marginalia.tsx                                      |    27 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/paper-document/PageAccentMark.tsx                                  |    69 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/paper-document/PaperDocument.tsx                                   |    77 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/paper-document/PaperTexture.tsx                                    |    56 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/paper-document/RedactedText.tsx                                    |    47 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/paper-document/SurveyFrame.tsx                                     |    57 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/paper-document/TextColumns.tsx                                     |    29 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/paper-document/documents.data.ts                                   |   198 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/paper-document/generate-redacted-text.ts                           |    81 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/paper-document/index.ts                                            |    13 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/paper-document/paper-document-motion.css                           |    44 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/paper-document/paper-document.stories.tsx                          |    64 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/types/documents.ts                                                 |   309 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/types/paper-document.ts                                            |   140 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/vintage-posters/VintagePosterA.tsx                                 |    79 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/vintage-posters/VintagePosterB.tsx                                 |    72 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/vintage-posters/VintagePosterC.tsx                                 |    43 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/vintage-posters/VintagePosterD.tsx                                 |    93 +
+ apps/app/src/components/design-system/research-ui/documents/reference-prototype/vintage-posters/index.ts                                           |     4 +
+ apps/app/src/components/sci-fi/HolographicFileStack.md                                                                                             |    53 +
+ apps/app/src/components/sci-fi/HolographicFileStack_PSUEDOCODE.md                                                                                  |    61 +
+ apps/app/src/components/sci-fi/RotatingGlobe.md                                                                                                    |    39 +
+ apps/app/src/components/sci-fi/RotatingGlobe_PSUEDOCODE.md                                                                                         |    44 +
+ apps/app/src/components/sci-fi/formation/Formation.md                                                                                              |    36 +
+ apps/app/src/components/sci-fi/formation/Formation.tsx                                                                                             |   257 +
+ apps/app/src/components/sci-fi/formation/FormationUI.tsx                                                                                           |    96 +
+ apps/app/src/components/sci-fi/formation/formation-ui.css                                                                                          |    96 +
+ apps/app/src/components/sci-fi/formation/formation.stories.tsx                                                                                     |    43 +
+ apps/app/src/components/sci-fi/formation/index.ts                                                                                                  |     4 +
+ apps/app/src/components/sci-fi/formation/perlin.ts                                                                                                 |    79 +
+ apps/app/src/components/sci-fi/formation/surfaces.ts                                                                                               |   176 +
+ apps/app/src/components/sci-fi/holographic-file-stack.stories.tsx                                                                                  |    59 +-
+ apps/app/src/components/sci-fi/holographic-file-stack.tsx                                                                                          |   203 +-
+ apps/app/src/components/sci-fi/index.ts                                                                                                            |    24 +-
+ apps/app/src/components/sci-fi/rotating-globe.stories.tsx                                                                                          |    82 +
+ apps/app/src/components/sci-fi/rotating-globe.tsx                                                                                                  |   680 ++
+ apps/app/src/components/timelines/3d-timeline/ThreeDTimeline.stories.tsx                                                                           |    14 +-
+ apps/app/src/components/timelines/3d-timeline/ThreeDTimeline.tsx                                                                                   |    31 +-
+ apps/app/src/components/timelines/TimelineComponents.md                                                                                            |    79 +
+ apps/app/src/components/timelines/TimelineComponents_PSUEDOCODE.md                                                                                 |    60 +
+ apps/app/src/components/timelines/draggable-timeline/Section.tsx                                                                                   |    20 +-
+ apps/app/src/components/timelines/draggable-timeline/draggable-timeline.stories.tsx                                                                |     7 +-
+ apps/app/src/components/timelines/draggable-timeline/draggable-timeline.tsx                                                                        |    28 +-
+ apps/app/src/components/timelines/draggable-timeline/index.tsx                                                                                     |     2 +
+ apps/app/src/components/timelines/draggable-timeline/types.ts                                                                                      |     6 +
+ apps/app/src/components/timelines/index.tsx                                                                                                        |     1 +
+ apps/app/src/components/timelines/scroll-through-timeline/index.tsx                                                                                |     1 +
+ apps/app/src/components/timelines/scroll-through-timeline/scroll-through-timeline.tsx                                                              |   252 +-
+ apps/app/src/components/timelines/timeline/Timeline.stories.tsx                                                                                    |    14 +-
+ apps/app/src/components/timelines/timeline/Timeline.tsx                                                                                            |    28 +-
+ apps/app/src/features/mindmap/research-canvas/views/content-card-detail-view/page.tsx                                                              |    19 +-
+ apps/app/src/stories/design-sources/reference-prototype/reference-document-library.stories.tsx                                                     |    46 +-
+ apps/disclosure-rag/.claude/worktrees/compassionate-lovelace-e35750                                                                                |     0
+ apps/disclosure-rag/data/government/pursue_war_gov/README.md                                                                                       |    41 -
+ apps/disclosure-rag/data/government/pursue_war_gov/release_01/documents/Release_1/FBI-Photo-A1.png                                                 |   Bin 94513 -> 0 bytes
+ apps/disclosure-rag/data/government/pursue_war_gov/release_01/documents/Release_1/FBI-Photo-A2.png                                                 |   Bin 98192 -> 0 bytes
+ apps/disclosure-rag/data/government/pursue_war_gov/release_01/documents/Release_1/FBI-Photo-A3.png                                                 |   Bin 94807 -> 0 bytes
+ apps/disclosure-rag/data/government/pursue_war_gov/release_01/documents/Release_1/FBI-Photo-A4.png                                                 |   Bin 96879 -> 0 bytes
+ apps/disclosure-rag/data/government/pursue_war_gov/release_01/documents/Release_1/FBI-Photo-A5.png                                                 |   Bin 89225 -> 0 bytes
+ apps/disclosure-rag/data/government/pursue_war_gov/release_01/documents/Release_1/FBI-Photo-A6.png                                                 |   Bin 80159 -> 0 bytes
+ apps/disclosure-rag/data/government/pursue_war_gov/release_01/documents/Release_1/FBI-Photo-A7.png                                                 |   Bin 88727 -> 0 bytes
+ apps/disclosure-rag/data/government/pursue_war_gov/release_01/documents/Release_1/FBI-Photo-A8.png                                                 |   Bin 87292 -> 0 bytes
+ apps/disclosure-rag/data/government/pursue_war_gov/release_01/documents/Release_1/NASA-UAP-VM1-Apollo-12-1969.jpg                                  |   Bin 2526206 -> 0 bytes
+ apps/disclosure-rag/data/government/pursue_war_gov/release_01/documents/Release_1/NASA-UAP-VM2-Apollo-12-1969.jpg                                  |   Bin 2630734 -> 0 bytes
+ apps/disclosure-rag/data/government/pursue_war_gov/release_01/documents/Release_1/NASA-UAP-VM3-Apollo-12-1969.jpg                                  |   Bin 2534744 -> 0 bytes
+ apps/disclosure-rag/data/government/pursue_war_gov/release_01/documents/Release_1/NASA-UAP-VM4-Apollo-12-1969.jpg                                  |   Bin 2444608 -> 0 bytes
+ apps/disclosure-rag/data/government/pursue_war_gov/release_01/documents/Release_1/NASA-UAP-VM5-Apollo-12-1969.jpg                                  |   Bin 2590279 -> 0 bytes
+ apps/disclosure-rag/data/government/pursue_war_gov/release_01/documents/Release_1/NASA-UAP-VM6-Apollo-17-1972.jpg                                  |   Bin 1778754 -> 0 bytes
+ apps/disclosure-rag/data/index.md                                                                                                                  |     0
+ apps/disclosure-rag/data/queue/US Astronauts and UFO Testimonies_ Comprehensive Research/App.css                                                   |   120 -
+ apps/disclosure-rag/data/queue/US Astronauts and UFO Testimonies_ Comprehensive Research/App.jsx                                                   |   336 -
+ apps/disclosure-rag/data/queue/US Astronauts and UFO Testimonies_ Comprehensive Research/Astronaut UFO/UAP Research Findings.md                    |   156 -
+ .../data/queue/US Astronauts and UFO Testimonies_ Comprehensive Research/Comprehensive Database of US Astronauts with UFO/UAP Testimonies.md       |   517 -
+ apps/disclosure-rag/data/queue/US Astronauts and UFO Testimonies_ Comprehensive Research/Verification Analysis of Astronaut UFO Claims.md          |    69 -
+ apps/disclosure-rag/data/queue/US Astronauts and UFO Testimonies_ Comprehensive Research/al_worden_apollo15_nasa.jpg                               |   Bin 70819 -> 0 bytes
+ apps/disclosure-rag/data/queue/US Astronauts and UFO Testimonies_ Comprehensive Research/astronauts.js                                             |   226 -
+ apps/disclosure-rag/data/queue/US Astronauts and UFO Testimonies_ Comprehensive Research/buzz_aldrin_apollo11_nasa.jpg                             |   Bin 305335 -> 0 bytes
+ apps/disclosure-rag/data/queue/US Astronauts and UFO Testimonies_ Comprehensive Research/edgar_mitchell_apollo14_nasa.jpg                          |   Bin 138124 -> 0 bytes
+ apps/disclosure-rag/data/queue/US Astronauts and UFO Testimonies_ Comprehensive Research/gordon_cooper_mercury_nasa.jpg                            |   Bin 155330 -> 0 bytes
+ apps/disclosure-rag/data/queue/US Astronauts and UFO Testimonies_ Comprehensive Research/index.html                                                |    13 -
+ apps/disclosure-rag/data/queue/US Astronauts and UFO Testimonies_ Comprehensive Research/james_mcdivitt_gemini4_nasa.jpg                           |   Bin 361649 -> 0 bytes
+ apps/disclosure-rag/data/queue/US Astronauts and UFO Testimonies_ Comprehensive Research/jerry_linenger_nasa.jpg                                   |   Bin 275187 -> 0 bytes
+ apps/disclosure-rag/data/queue/US Astronauts and UFO Testimonies_ Comprehensive Research/leroy_chiao_nasa.jpg                                      |   Bin 190541 -> 0 bytes
+ apps/disclosure-rag/data/queue/US Astronauts and UFO Testimonies_ Comprehensive Research/scott_kelly_nasa.jpg                                      |   Bin 289367 -> 0 bytes
+ apps/disclosure-rag/data/queue/US Astronauts and UFO Testimonies_ Comprehensive Research/todo.md                                                   |    42 -
+ apps/disclosure-rag/data/queue/compass_artifact_wf-c5bacda7-5722-4d62-bae0-a2eaa61c458f_text_markdown.md                                           |   195 -
+ apps/disclosure-rag/data/queue/documents.md                                                                                                        |     4 -
+ apps/disclosure-rag/data/queue/greer-document-library/Clinton-Docs.pdf.1                                                                           |   Bin 327817 -> 0 bytes
+ apps/disclosure-rag/data/queue/greer-document-library/Hope.pdf.1                                                                                   |   Bin 8341 -> 0 bytes
+ apps/disclosure-rag/data/queue/greer-document-library/NRO-Doc.pdf.1                                                                                |   Bin 2047693 -> 0 bytes
+ apps/disclosure-rag/data/queue/greer-document-library/PI40.pdf.1                                                                                   |   Bin 20886 -> 0 bytes
+ apps/disclosure-rag/data/queue/greer-document-library/Petaluma-Slides.pdf.1                                                                        |   Bin 412438 -> 0 bytes
+ apps/disclosure-rag/data/queue/greer-document-library/obama-briefing-introduction.pdf.1                                                            |   Bin 101324 -> 0 bytes
+ apps/disclosure-rag/data/queue/thomas-campbell.md                                                                                                  |   104 -
+ apps/disclosure-rag/data/queue/tim-taylor.md                                                                                                       |   103 -
+ apps/disclosure-rag/data/queue/whitley-strieber.md                                                                                                 |   106 -
+ apps/disclosure-rag/knowledge/case_files/images/lloydberkner.png                                                                                   |   Bin 5295 -> 0 bytes
+ apps/disclosure-rag/knowledge/case_files/images/mj12.png                                                                                           |   Bin 15843 -> 0 bytes
+ apps/disclosure-rag/knowledge/case_files/images/pdf.gif                                                                                            |   Bin 565 -> 0 bytes
+ apps/disclosure-rag/knowledge/case_files/images/siteheader3.jpg                                                                                    |   Bin 127841 -> 0 bytes
+ apps/disclosure-rag/knowledge/sources/files/images/1_DfG2bj1xXhAkPU4knzqumw.png                                                                    |   Bin 30827 -> 0 bytes
+ apps/disclosure-rag/knowledge/sources/files/images/1_vUnHYgv5h21WwVYT-Y-nzQ.jpeg                                                                   |   Bin 2949 -> 0 bytes
+ apps/disclosure-rag/knowledge/sources/files/images/TWZ-Logo-v1_TWZ_Alt_White.svg                                                                   |     1 -
+ apps/disclosure-rag/knowledge/sources/files/images/USAF-Crash-Nellis-Mystery.jpg                                                                   |   Bin 484333 -> 0 bytes
+ apps/disclosure-rag/knowledge/sources/files/images/clipboard.png                                                                                   |   Bin 3553 -> 0 bytes
+ apps/disclosure-rag/knowledge/sources/files/images/hqdefault.jpg                                                                                   |   Bin 49425 -> 0 bytes
+ apps/disclosure-rag/knowledge/sources/files/images/mq-9-creech-august-2025.jpg                                                                     |   Bin 71320 -> 0 bytes
+ apps/disclosure-rag/knowledge/sources/files/images/national-security-tfr-coords-2025-close.jpg                                                     |   Bin 75198 -> 0 bytes
+ apps/disclosure-rag/knowledge/sources/files/images/national-security-tfr-coords-2025.jpg                                                           |   Bin 111788 -> 0 bytes
+ apps/disclosure-rag/knowledge/sources/files/images/nellis-managed-airspace.jpg                                                                     |   Bin 109371 -> 0 bytes
+ apps/disclosure-rag/knowledge/sources/files/images/rq-170-guam-usaf.jpg                                                                            |   Bin 85767 -> 0 bytes
+ apps/disclosure-rag/lib/agno/.dockerignore                                                                                                         |    32 -
+ apps/disclosure-rag/lib/agno/.editorconfig                                                                                                         |    12 -
+ apps/disclosure-rag/lib/agno/.github/workflows/docker-images.yml                                                                                   |    56 -
+ apps/disclosure-rag/lib/agno/.github/workflows/ecr-images.yml                                                                                      |    53 -
+ apps/disclosure-rag/lib/agno/.github/workflows/validate.yml                                                                                        |    56 -
+ apps/disclosure-rag/lib/agno/.gitignore                                                                                                            |    32 -
+ apps/disclosure-rag/lib/agno/Dockerfile                                                                                                            |    29 -
+ apps/disclosure-rag/lib/agno/README.md                                                                                                             |    69 -
+ apps/disclosure-rag/lib/agno/agents/__init__.py                                                                                                    |     0
+ apps/disclosure-rag/lib/agno/agents/operator.py                                                                                                    |    28 -
+ apps/disclosure-rag/lib/agno/agents/sage.py                                                                                                        |   105 -
+ apps/disclosure-rag/lib/agno/agents/scholar.py                                                                                                     |    94 -
+ apps/disclosure-rag/lib/agno/agents/settings.py                                                                                                    |    17 -
+ apps/disclosure-rag/lib/agno/api/__init__.py                                                                                                       |     0
+ apps/disclosure-rag/lib/agno/api/main.py                                                                                                           |    36 -
+ apps/disclosure-rag/lib/agno/api/routes/__init__.py                                                                                                |     0
+ apps/disclosure-rag/lib/agno/api/routes/agents.py                                                                                                  |    98 -
+ apps/disclosure-rag/lib/agno/api/routes/playground.py                                                                                              |    27 -
+ apps/disclosure-rag/lib/agno/api/routes/status.py                                                                                                  |    21 -
+ apps/disclosure-rag/lib/agno/api/routes/teams.py                                                                                                   |    93 -
+ apps/disclosure-rag/lib/agno/api/routes/v1_router.py                                                                                               |    12 -
+ apps/disclosure-rag/lib/agno/api/settings.py                                                                                                       |    46 -
+ apps/disclosure-rag/lib/agno/db/README.md                                                                                                          |   105 -
+ apps/disclosure-rag/lib/agno/db/__init__.py                                                                                                        |     0
+ apps/disclosure-rag/lib/agno/db/alembic.ini                                                                                                        |   116 -
+ apps/disclosure-rag/lib/agno/db/migrations/env.py                                                                                                  |    88 -
+ apps/disclosure-rag/lib/agno/db/migrations/script.py.mako                                                                                          |    24 -
+ apps/disclosure-rag/lib/agno/db/migrations/versions/.gitkeep                                                                                       |     0
+ apps/disclosure-rag/lib/agno/db/session.py                                                                                                         |    27 -
+ apps/disclosure-rag/lib/agno/db/settings.py                                                                                                        |    48 -
+ apps/disclosure-rag/lib/agno/db/tables/__init__.py                                                                                                 |     1 -
+ apps/disclosure-rag/lib/agno/db/tables/base.py                                                                                                     |    13 -
+ apps/disclosure-rag/lib/agno/example.env                                                                                                           |     4 -
+ apps/disclosure-rag/lib/agno/playground.py                                                                                                         |   209 -
+ apps/disclosure-rag/lib/agno/pyproject.toml                                                                                                        |    66 -
+ apps/disclosure-rag/lib/agno/requirements.txt                                                                                                      |   121 -
+ apps/disclosure-rag/lib/agno/scripts/_utils.sh                                                                                                     |    19 -
+ apps/disclosure-rag/lib/agno/scripts/auth_ecr.sh                                                                                                   |     6 -
+ apps/disclosure-rag/lib/agno/scripts/build_dev_image.sh                                                                                            |    14 -
+ apps/disclosure-rag/lib/agno/scripts/build_prd_image.sh                                                                                            |    14 -
+ apps/disclosure-rag/lib/agno/scripts/dev_setup.sh                                                                                                  |    35 -
+ apps/disclosure-rag/lib/agno/scripts/entrypoint.sh                                                                                                 |    54 -
+ apps/disclosure-rag/lib/agno/scripts/format.sh                                                                                                     |    18 -
+ apps/disclosure-rag/lib/agno/scripts/generate_requirements.sh                                                                                      |    25 -
+ apps/disclosure-rag/lib/agno/scripts/test.sh                                                                                                       |    13 -
+ apps/disclosure-rag/lib/agno/scripts/validate.sh                                                                                                   |    20 -
+ apps/disclosure-rag/lib/agno/teams/__init__.py                                                                                                     |     0
+ apps/disclosure-rag/lib/agno/teams/operator.py                                                                                                     |    30 -
+ apps/disclosure-rag/lib/agno/teams/settings.py                                                                                                     |    18 -
+ apps/disclosure-rag/lib/agno/ui/Home.py                                                                                                            |   128 -
+ apps/disclosure-rag/lib/agno/ui/__init__.py                                                                                                        |     0
+ apps/disclosure-rag/lib/agno/ui/css.py                                                                                                             |    27 -
+ apps/disclosure-rag/lib/agno/ui/pages/1_Sage.py                                                                                                    |   186 -
+ apps/disclosure-rag/lib/agno/ui/pages/2_Scholar.py                                                                                                 |   180 -
+ apps/disclosure-rag/lib/agno/ui/pages/3_Language_team.py                                                                                           |   146 -
+ apps/disclosure-rag/lib/agno/ui/pages/4_Finance_team.py                                                                                            |   145 -
+ apps/disclosure-rag/lib/agno/ui/pages/5_Blog_post_generator.py                                                                                     |   131 -
+ apps/disclosure-rag/lib/agno/ui/pages/6_Investment_report_generator.py                                                                             |   126 -
+ apps/disclosure-rag/lib/agno/ui/pages/__init__.py                                                                                                  |     0
+ apps/disclosure-rag/lib/agno/ui/utils.py                                                                                                           |   404 -
+ apps/disclosure-rag/lib/agno/utils/__init__.py                                                                                                     |     0
+ apps/disclosure-rag/lib/agno/utils/dttm.py                                                                                                         |     9 -
+ apps/disclosure-rag/lib/agno/utils/log.py                                                                                                          |    29 -
+ apps/disclosure-rag/lib/agno/workflows/__init__.py                                                                                                 |     0
+ apps/disclosure-rag/lib/agno/workflows/blog_post_generator.py                                                                                      |   352 -
+ apps/disclosure-rag/lib/agno/workflows/investment_report_generator.py                                                                              |   154 -
+ apps/disclosure-rag/lib/agno/workflows/settings.py                                                                                                 |    17 -
+ apps/disclosure-rag/lib/agno/workspace/.gitignore                                                                                                  |     8 -
+ apps/disclosure-rag/lib/agno/workspace/__init__.py                                                                                                 |     0
+ apps/disclosure-rag/lib/agno/workspace/dev_resources.py                                                                                            |    92 -
+ apps/disclosure-rag/lib/agno/workspace/example_secrets/dev_app_secrets.yml                                                                         |     9 -
+ apps/disclosure-rag/lib/agno/workspace/example_secrets/prd_app_secrets.yml                                                                         |     9 -
+ apps/disclosure-rag/lib/agno/workspace/example_secrets/prd_db_secrets.yml                                                                          |     3 -
+ apps/disclosure-rag/lib/agno/workspace/prd_resources.py                                                                                            |   267 -
+ apps/disclosure-rag/lib/agno/workspace/settings.py                                                                                                 |    43 -
+ bun.lock                                                                                                                                           |  1983 +---
+ database-visualization.html                                                                                                                        |  1081 ++
+ docs/{archive/vision => }/2026-07-19-guided-tour-canvas-design-lab.md                                                                              |     0
+ docs/{archive/vision => }/2026-07-19-impeccable-live-research-canvas.md                                                                            |     0
+ docs/PLANS/FEATURES.md                                                                                                                             |   157 +-
+ docs/PLANS/TODO.md                                                                                                                                 |     6 +-
+ docs/archive/prototypes/brainstorms/2026-06-26-apossible-reference-ux-brainstorm.md                                                                |   185 -
+ docs/archive/prototypes/brainstorms/README.md                                                                                                      |     5 -
+ docs/archive/prototypes/brainstorms/harness-engineering/SKILL.md                                                                                   |   141 -
+ docs/archive/prototypes/brainstorms/ufo-knowledge-tour/.gitignore                                                                                  |    24 -
+ docs/archive/prototypes/brainstorms/ufo-knowledge-tour/.npmrc                                                                                      |     2 -
+ docs/archive/prototypes/brainstorms/ufo-knowledge-tour/README.md                                                                                   |    50 -
+ docs/archive/prototypes/brainstorms/ufo-knowledge-tour/SPEC.md                                                                                     |   233 -
+ docs/archive/prototypes/brainstorms/ufo-knowledge-tour/eslint.config.js                                                                            |    30 -
+ docs/archive/prototypes/brainstorms/ufo-knowledge-tour/index.html                                                                                  |    14 -
+ docs/archive/prototypes/brainstorms/ufo-knowledge-tour/package.json                                                                                |    90 -
+ docs/archive/prototypes/brainstorms/ufo-knowledge-tour/postcss.config.js                                                                           |     6 -
+ docs/archive/prototypes/brainstorms/ufo-knowledge-tour/public/use.txt                                                                              |     1 -
+ docs/archive/prototypes/brainstorms/ufo-knowledge-tour/src/App.css                                                                                 |    42 -
+ docs/archive/prototypes/brainstorms/ufo-knowledge-tour/src/App.tsx                                                                                 |    29 -
+ docs/archive/prototypes/brainstorms/ufo-knowledge-tour/src/agents/prompts.ts                                                                       |   349 -
+ docs/archive/prototypes/brainstorms/ufo-knowledge-tour/src/agents/system.ts                                                                        |   388 -
+ docs/archive/prototypes/brainstorms/ufo-knowledge-tour/src/agents/types.ts                                                                         |   138 -
+ docs/archive/prototypes/brainstorms/ufo-knowledge-tour/src/components/App.tsx                                                                      |   356 -
+ docs/archive/prototypes/brainstorms/ufo-knowledge-tour/src/components/DataInsightsPanel.tsx                                                        |   331 -
+ docs/archive/prototypes/brainstorms/ufo-knowledge-tour/src/components/ErrorBoundary.tsx                                                            |    35 -
+ docs/archive/prototypes/brainstorms/ufo-knowledge-tour/src/components/Header.tsx                                                                   |   215 -
+ docs/archive/prototypes/brainstorms/ufo-knowledge-tour/src/components/KnowledgeGraph.tsx                                                           |   393 -
+ docs/archive/prototypes/brainstorms/ufo-knowledge-tour/src/components/NavigationPanel.tsx                                                          |   396 -
+ docs/archive/prototypes/brainstorms/ufo-knowledge-tour/src/components/TourGuidePanel.tsx                                                           |   190 -
+ docs/archive/prototypes/brainstorms/ufo-knowledge-tour/src/contexts/AgentContext.tsx                                                               |   147 -
+ docs/archive/prototypes/brainstorms/ufo-knowledge-tour/src/data/ufoData.ts                                                                         |   437 -
+ docs/archive/prototypes/brainstorms/ufo-knowledge-tour/src/hooks/use-mobile.tsx                                                                    |    19 -
+ docs/archive/prototypes/brainstorms/ufo-knowledge-tour/src/index.css                                                                               |   223 -
+ docs/archive/prototypes/brainstorms/ufo-knowledge-tour/src/lib/utils.ts                                                                            |     6 -
+ docs/archive/prototypes/brainstorms/ufo-knowledge-tour/src/main.tsx                                                                                |    13 -
+ docs/archive/prototypes/brainstorms/ufo-knowledge-tour/src/types/graph.ts                                                                          |    72 -
+ docs/archive/prototypes/brainstorms/ufo-knowledge-tour/src/vite-env.d.ts                                                                           |     1 -
+ docs/archive/prototypes/brainstorms/ufo-knowledge-tour/tailwind.config.js                                                                          |    76 -
+ docs/archive/prototypes/brainstorms/ufo-knowledge-tour/tsconfig.app.json                                                                           |    42 -
+ docs/archive/prototypes/brainstorms/ufo-knowledge-tour/tsconfig.json                                                                               |    17 -
+ docs/archive/prototypes/brainstorms/ufo-knowledge-tour/tsconfig.node.json                                                                          |    24 -
+ docs/archive/prototypes/brainstorms/ufo-knowledge-tour/vite.config.ts                                                                              |    21 -
+ docs/archive/prototypes/canvas/2026-05-30-data-architecture/INDEX.md                                                                               |    11 -
+ docs/archive/prototypes/canvas/2026-05-30-data-architecture/current-state.html                                                                     |    96 -
+ docs/archive/prototypes/canvas/2026-05-30-data-architecture/library-model.html                                                                     |    62 -
+ docs/archive/prototypes/canvas/2026-05-30-data-architecture/platform-comparison.html                                                               |   282 -
+ docs/archive/prototypes/canvas/2026-05-30-data-architecture/target-architecture.html                                                               |    75 -
+ docs/archive/prototypes/canvas/2026-05-31-system-trace/INDEX.md                                                                                    |    33 -
+ docs/archive/prototypes/canvas/2026-05-31-system-trace/SYNTHESIS-system-map.md                                                                     |    68 -
+ docs/archive/prototypes/canvas/2026-05-31-system-trace/ingestion-reality-map.html                                                                  |   122 -
+ docs/archive/prototypes/canvas/2026-05-31-system-trace/legacy-flow-diagram.html                                                                    |    50 -
+ docs/archive/prototypes/canvas/2026-05-31-system-trace/story-1-ask-the-board.md                                                                    |    85 -
+ docs/archive/prototypes/canvas/2026-05-31-system-trace/story-2-seed-from-record.md                                                                 |    78 -
+ docs/archive/prototypes/canvas/2026-05-31-system-trace/story-3-prometheus-chat.md                                                                  |    58 -
+ docs/archive/prototypes/canvas/2026-05-31-system-trace/viewer.html                                                                                 |    95 -
+ docs/archive/prototypes/canvas/2026-05-31-system-trace/xata-integration-flow-diagram.svg                                                           |   165 -
+ docs/archive/prototypes/canvas/README.md                                                                                                           |    21 -
+ docs/archive/prototypes/canvas/STYLE.md                                                                                                            |    50 -
+ docs/design/design-lab/DesignLab.md                                                                                                                |   141 +
+ docs/design/design-lab/DesignLabRename_PSUEDOCODE.md                                                                                               |    63 +
+ docs/design/design-lab/DesignLabUiBrief.md                                                                                                         |   122 +
+ docs/design/design-lab/DesignLabUiBrief_PSUEDOCODE.md                                                                                              |   142 +
+ docs/design/design-lab/UiDesignBrief.md                                                                                                            |   301 +
+ docs/design/design-lab/document-system/assets/paper-diagonal.png                                                                                   |   Bin 0 -> 19521 bytes
+ docs/design/design-lab/document-system/assets/paper-fibers.png                                                                                     |   Bin 0 -> 27878 bytes
+ docs/design/design-lab/document-system/assets/paper-tooth.png                                                                                      |   Bin 0 -> 36340 bytes
+ docs/design/design-lab/document-system/assets/paper-weave.png                                                                                      |   Bin 0 -> 56492 bytes
+ docs/design/design-lab/document-system/assets/registry-noise.png                                                                                   |   Bin 0 -> 4607 bytes
+ docs/design/design-lab/document-system/index.html                                                                                                  |   320 +
+ docs/design/design-lab/document-system/ut-document-system.css                                                                                      |  1990 ++++
+ docs/design/design-lab/dossier-art/astronaut-secret-dossier.png                                                                                    |   Bin 0 -> 3142102 bytes
+ docs/design/design-lab/dossier-art/astronaut-secret-files-a.png                                                                                    |   Bin 0 -> 2876765 bytes
+ docs/design/design-lab/dossier-art/astronaut-secret-files-b.png                                                                                    |   Bin 0 -> 3217358 bytes
+ docs/design/design-lab/dossier-art/classified-files-noir-light.png                                                                                 |   Bin 0 -> 3147854 bytes
+ docs/design/design-lab/dossier-art/cosmic-dread-existential-angst.png                                                                              |   Bin 0 -> 1722403 bytes
+ docs/design/design-lab/dossier-art/roswell-clauson-page-a.png                                                                                      |   Bin 0 -> 2355569 bytes
+ docs/design/design-lab/dossier-art/roswell-clauson-page-b.png                                                                                      |   Bin 0 -> 2316456 bytes
+ docs/design/design-lab/dossier-art/roswell-clauson-page-c.png                                                                                      |   Bin 0 -> 1509260 bytes
+ docs/design/design-lab/dossier-art/roswell-evidence-folder-a.png                                                                                   |   Bin 0 -> 3169288 bytes
+ docs/design/design-lab/dossier-art/roswell-evidence-folder-b.png                                                                                   |   Bin 0 -> 3315639 bytes
+ docs/design/design-lab/dossier-art/roswell-witness-reports-folder.png                                                                              |   Bin 0 -> 567716 bytes
+ docs/design/design-lab/dossier-art/socorro-incident-details-a.png                                                                                  |   Bin 0 -> 2719490 bytes
+ docs/design/design-lab/dossier-art/socorro-incident-details-b.png                                                                                  |   Bin 0 -> 2758215 bytes
+ docs/design/design-lab/dossier-art/socorro-incident-details-c.png                                                                                  |   Bin 0 -> 2366256 bytes
+ docs/design/design-lab/dossier-art/socorro-incident-folder-a.png                                                                                   |   Bin 0 -> 2763903 bytes
+ docs/design/design-lab/dossier-art/socorro-incident-folder-b.png                                                                                   |   Bin 0 -> 3000150 bytes
+ docs/design/design-lab/dossier-art/ultraterrestrial-vintage-document-cover.png                                                                     |   Bin 0 -> 1948650 bytes
+ docs/design/design-lab/dossier-art/undetect-vintage-document-a.png                                                                                 |   Bin 0 -> 2450604 bytes
+ docs/design/design-lab/dossier-art/undetect-vintage-document-b.png                                                                                 |   Bin 0 -> 1957166 bytes
+ docs/design/design-lab/dossier-art/vertical-manila-folder-icon.png                                                                                 |   Bin 0 -> 589015 bytes
+ docs/design/design-lab/gateway/gateway-hero.png                                                                                                    |   Bin 0 -> 2919753 bytes
+ docs/design/design-lab/gateway/gateway-process-visual-explainer.png                                                                                |   Bin 0 -> 4743277 bytes
+ docs/design/design-lab/mood-references/bird-brief-lightness-collage.jpg                                                                            |   Bin 0 -> 182519 bytes
+ docs/design/design-lab/mood-references/lighthouse-coast-fog.jpg                                                                                    |   Bin 0 -> 173251 bytes
+ docs/design/design-lab/mood-references/rive-vol01-course-cover.jpg                                                                                 |   Bin 0 -> 768373 bytes
+ docs/design/design-lab/mood-references/self-obscured-masked-figure.jpg                                                                             |   Bin 0 -> 677382 bytes
+ docs/design/design-lab/mood-references/seoul-platform-proof-collage.jpg                                                                            |   Bin 0 -> 223399 bytes
+ docs/design/design-lab/mood-references/shore-seashell-dry-wind.jpg                                                                                 |   Bin 0 -> 206726 bytes
+ docs/design/design-lab/mood-references/summer-still-air-bottle.jpg                                                                                 |   Bin 0 -> 502374 bytes
+ docs/design/design-lab/process-refs/antigravity-observatory-globe-hud.png                                                                          |   Bin 0 -> 360806 bytes
+ docs/design/design-lab/process-refs/claude-code-seven-instruction-layers.png                                                                       |   Bin 0 -> 1710400 bytes
+ docs/{archive/prototypes/ui-concepts => design/design-lab/prototypes}/01-living-research-canvas.html                                               |     6 +-
+ docs/{archive/prototypes/ui-concepts => design/design-lab/prototypes}/02-evidence-ledger.html                                                      |     6 +-
+ docs/{archive/prototypes/ui-concepts => design/design-lab/prototypes}/03-temporal-geospatial-observatory.html                                      |     6 +-
+ docs/{archive/prototypes/ui-concepts => design/design-lab/prototypes}/04-hypothesis-lab.html                                                       |     6 +-
+ docs/design/design-lab/prototypes/interface-gallery-overview.png                                                                                   |   Bin 0 -> 548522 bytes
+ docs/design/design-lab/textures/debut-light-paper.png                                                                                              |   Bin 0 -> 19521 bytes
+ docs/design/design-lab/textures/dot-grid-black.png                                                                                                 |   Bin 0 -> 27878 bytes
+ docs/design/design-lab/textures/dot-grid-texture.png                                                                                               |   Bin 0 -> 2488299 bytes
+ docs/design/design-lab/textures/fabric-of-squares.png                                                                                              |   Bin 0 -> 56492 bytes
+ docs/design/design-lab/textures/green-nebula-scanline-shader.png                                                                                   |   Bin 0 -> 2590993 bytes
+ docs/design/design-lab/textures/grid-noise.png                                                                                                     |   Bin 0 -> 4607 bytes
+ docs/design/design-lab/textures/groove-paper.png                                                                                                   |   Bin 0 -> 36340 bytes
+ docs/design/design-lab/textures/twin-moons-monochrome.webp                                                                                         |   Bin 0 -> 357106 bytes
+ docs/design/design-lab/ui-mockups/case-file-socorro-landing.png                                                                                    |   Bin 0 -> 1517656 bytes
+ docs/design/design-lab/ui-mockups/document-panel-component-spec.png                                                                                |   Bin 0 -> 2457646 bytes
+ docs/design/design-lab/ui-mockups/evidence-ledger-claim-detail.png                                                                                 |   Bin 0 -> 169278 bytes
+ docs/design/design-lab/ui-mockups/hypothesis-lab-competing-explanations.png                                                                        |   Bin 0 -> 202392 bytes
+ docs/design/design-lab/ui-mockups/living-research-canvas-nuclear-thread.png                                                                        |   Bin 0 -> 251584 bytes
+ docs/design/design-lab/ui-mockups/research-desk-nuclear-thread-v1.png                                                                              |   Bin 0 -> 2578767 bytes
+ docs/design/design-lab/ui-mockups/research-desk-nuclear-thread-v2.png                                                                              |   Bin 0 -> 2259648 bytes
+ docs/design/design-lab/ui-mockups/research-desk-nuclear-thread-v3.webp                                                                             |   Bin 0 -> 160374 bytes
+ docs/design/design-lab/ui-mockups/research-desk-theory-canvas.png                                                                                  |   Bin 0 -> 1777271 bytes
+ docs/design/design-lab/ui-mockups/research-notebook-document-panel.png                                                                             |   Bin 0 -> 2261804 bytes
+ docs/design/design-lab/visual-language/archive-territory-visual-map-board.png                                                                      |   Bin 0 -> 3607998 bytes
+ docs/design/design-lab/visual-language/archive-territory-visual-map.png                                                                            |   Bin 0 -> 2984220 bytes
+ docs/design/design-lab/visual-language/visual-language-report-v1.png                                                                               |   Bin 0 -> 2890051 bytes
+ docs/design/neuform-sources/AeroNet-Visualization-DESIGN.md                                                                                        |   157 +
+ docs/design/neuform-sources/README.md                                                                                                              |    18 +
+ docs/design/neuform-sources/aether-node-dashboard-DESIGN.md                                                                                        |    76 +
+ docs/design/neuform-sources/cognitive-routing-framework-DESIGN.md                                                                                  |    76 +
+ docs/design/neuform-sources/diagnostic-architecture-model-teardown-DESIGN.md                                                                       |    76 +
+ docs/design/neuform-sources/futuristic-interface-section-DESIGN.md                                                                                 |    76 +
+ docs/design/neuform-sources/monolith-engine-DESIGN.md                                                                                              |    76 +
+ docs/design/neuform-sources/strategic-roadmap-2-DESIGN.md                                                                                          |    76 +
+ docs/design/neuform-sources/system-interface-2-DESIGN.md                                                                                           |    76 +
+ docs/design/neuform-sources/zenith-the-quiet-expanse-DESIGN.md                                                                                     |    76 +
+ packages/ai/prompts/better-prompt.prompt.md                                                                                                        |    26 +
+ packages/ai/prompts/cmj8gs28q0011uh0qd0uodqwm_500-hour-ai-consultant-prompt.prompt (1).md                                                          |   103 +
+ packages/ai/prompts/cmj8gs28q0011uh0qd0uodqwm_500-hour-ai-consultant-prompt.prompt.md                                                              |   103 +
+ packages/ai/prompts/cmkndxt600009ib04wxsx5q33_investigative-research-assistant.prompt (1).md                                                       |    62 +
+ packages/ai/prompts/cmnrb60b5000fl504ucwsl9gz_patent-illustration-design-with-solidworks-and-origin-styles.prompt.md                               |    47 +
+ packages/ai/prompts/sets/disclosure/investigative-research-intelligence/cmj5fwanj0004uo0ruj6y8xo2_yt-video-geopolitic-analysis.prompt.md           |   187 +
+ packages/ai/prompts/sets/disclosure/investigative-research-intelligence/cmkndxt600009ib04wxsx5q33_investigative-research-assistant.prompt.md       |    62 +
+ packages/ai/prompts/sets/disclosure/investigative-research-intelligence/cmkneaj8k000hib04d4w2jaz8_source-hunting-osint-mode.prompt.md              |    95 +
+ packages/ai/prompts/sets/disclosure/investigative-research-intelligence/cmlzhdjsy0004l2041czx0u3o_pre-interview-intelligence-dossier.prompt.md     |   258 +
+ .../ai/prompts/sets/disclosure/investigative-research-intelligence/cmmx3l25d001bil046oqvr24j_visual-media-analysis-expert-agent-role.prompt.md     |   274 +
+ packages/knowledge-base/2025-10-08/web-article-8be00d70/web-article.md                                                                             |   104 -
+ packages/knowledge-base/2026-07-09/unknown-b7f3d12e/unknown.md                                                                                     |    65 -
+ packages/knowledge-base/2026-07-09/unknown-d41d8cd9/unknown.md                                                                                     |     0
+ packages/knowledge-base/2026-07-09/web-article-d41d8cd9/web-article.md                                                                             |     0
+ packages/knowledge-base/bun.lock                                                                                                                   |    27 -
+ packages/knowledge-base/{ => sources}/transcripts/2025-09-18/TNtlzEnl8rA/topNasaDoctorISawAUfoInASecretHangarFtGregRogers.txt                      |     0
+ packages/knowledge-base/{ => sources}/transcripts/2025-09-18/TNtlzEnl8rA/topNasaDoctorISawAUfoInASecretHangarFtGregRogersSummary.md                |     0
+ packages/knowledge-base/{ => sources}/transcripts/2025-09-18/TNtlzEnl8rA/topNasaDoctorISawAUfoInASecretHangarFtGregRogersSummary.txt               |     0
+ packages/knowledge-base/sources/transcripts/2026-07-24/5Vk8V-clYLU/revealingTheNordicAlienPropheciesMichaelHornDebriefedEp92.txt                   |     5 +
+ packages/knowledge-base/sources/transcripts/2026-07-24/5Vk8V-clYLU/revealingTheNordicAlienPropheciesMichaelHornDebriefedEp92Summary.md             |     8 +
+ packages/knowledge-base/sources/transcripts/2026-07-24/5Vk8V-clYLU/revealingTheNordicAlienPropheciesMichaelHornDebriefedEp92Summary.txt            |     8 +
+ packages/knowledge-base/sources/transcripts/2026-07-24/HFLBDi87888/jesseMichelsUapgerbChrisRamsayFlyingSaucerDiner.txt                             |     5 +
+ packages/knowledge-base/sources/transcripts/2026-07-24/HFLBDi87888/jesseMichelsUapgerbChrisRamsayFlyingSaucerDinerSummary.md                       |     8 +
+ packages/knowledge-base/sources/transcripts/2026-07-24/HFLBDi87888/jesseMichelsUapgerbChrisRamsayFlyingSaucerDinerSummary.txt                      |     8 +
+ packages/knowledge-base/sources/transcripts/2026-07-24/Mz3MBWz8R-o/6ShockingAlienEncounterStoriesPrestonDennettDebriefedEp93.txt                   |     5 +
+ packages/knowledge-base/sources/transcripts/2026-07-24/Mz3MBWz8R-o/6ShockingAlienEncounterStoriesPrestonDennettDebriefedEp93Summary.md             |     8 +
+ packages/knowledge-base/sources/transcripts/2026-07-24/Mz3MBWz8R-o/6ShockingAlienEncounterStoriesPrestonDennettDebriefedEp93Summary.txt            |     8 +
+ packages/knowledge-base/sources/transcripts/2026-07-24/gNr3PbNmGyY/theyShowedHimARealUfoSedgeMastersEp95.txt                                       |     5 +
+ packages/knowledge-base/sources/transcripts/2026-07-24/gNr3PbNmGyY/theyShowedHimARealUfoSedgeMastersEp95Summary.md                                 |     8 +
+ packages/knowledge-base/sources/transcripts/2026-07-24/gNr3PbNmGyY/theyShowedHimARealUfoSedgeMastersEp95Summary.txt                                |     8 +
+ packages/knowledge-base/sources/transcripts/2026-07-24/ua4dNq1vK2A/theMostConvincingAlienEncounterStoryMarioWoodsEp94.txt                          |     5 +
+ packages/knowledge-base/sources/transcripts/2026-07-24/ua4dNq1vK2A/theMostConvincingAlienEncounterStoryMarioWoodsEp94Summary.md                    |     8 +
+ packages/knowledge-base/sources/transcripts/2026-07-24/ua4dNq1vK2A/theMostConvincingAlienEncounterStoryMarioWoodsEp94Summary.txt                   |     8 +
+ packages/knowledge-base/sources/transcripts/2026-07-24/vxumcYKCt-M/bobLazarTravisWaltonFinallyMeetTheFlyingSaucerDiner.txt                         |     5 +
+ packages/knowledge-base/sources/transcripts/2026-07-24/vxumcYKCt-M/bobLazarTravisWaltonFinallyMeetTheFlyingSaucerDinerSummary.md                   |     8 +
+ packages/knowledge-base/sources/transcripts/2026-07-24/vxumcYKCt-M/bobLazarTravisWaltonFinallyMeetTheFlyingSaucerDinerSummary.txt                  |     8 +
+ 605 files changed, 264214 insertions(+), 46645 deletions(-)

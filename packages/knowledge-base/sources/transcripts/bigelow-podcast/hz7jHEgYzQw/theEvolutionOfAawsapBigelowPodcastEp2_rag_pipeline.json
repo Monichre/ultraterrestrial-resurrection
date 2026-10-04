@@ -1,0 +1,1042 @@
+{
+  "status": "ok",
+  "classification": {
+    "content_type": "mixed",
+    "primary_record_hints": [
+      "Testimony",
+      "KeyFigure",
+      "Organization",
+      "Topic"
+    ],
+    "hynek_scaffold": null,
+    "classification_marks_detected": [],
+    "language": "English",
+    "ocr_quality": "n/a",
+    "sensitivity": "sensitive",
+    "ingestion_recommendation": "proceed",
+    "rationale": "Transcript of a high-level discussion between Robert Bigelow and George Knapp. Content covers the evolution of AAWSAP/AATIP, interactions with US Presidents (Clinton, Trump), and the intersection of UAP studies with consciousness research (BICS). It contains significant claims regarding AARO and Pentagon transparency.",
+    "confidence": 0.95
+  },
+  "analysis": {
+    "content_assessment": {
+      "id": "bigelow_podcast_ep1_analysis",
+      "source_name": "Bigelow Podcast - Episode 1",
+      "source_type": "Media",
+      "provenance": "Interview between George Knapp and Robert Bigelow; mentions events from 1990s to 2026 (projected/future dates noted in source).",
+      "credibility_grade": "PARTIAL",
+      "credibility_justification": "Primary source testimony from a known government contractor (Bigelow). However, the text contains chronological anomalies (referencing books published in 2025/2026) and subjective interpretations of bureaucratic intent.",
+      "bureaucratic_context": "Discusses the transition from AAWSAP to AARO; claims AARO is a 'fraudulent effort' to squash disclosure. Mentions the 'Denser' (DOPSR) review process for Elizondo's books.",
+      "anomalous_frame_check": "Source explicitly links UAP to non-materialist frameworks (consciousness, survival of bodily death) and critiques the Big Bang theory.",
+      "admissibility": "VERIFIED"
+    },
+    "extracted_data": {
+      "primary_claims": [
+        "Robert Bigelow provided 'disclosure advisory' help to a sitting US President.",
+        "AARO (All-domain Anomaly Resolution Office) is a 'disguise' and 'fraudulent effort' to squash disclosure.",
+        "Laurence Rockefeller convened a meeting at the Teton Ranch with Linda Howe, John Mack, and Bruce Maccabee to lobby President Bill Clinton on disclosure.",
+        "Senator Harry Reid asked President Clinton if he really wanted to know who killed JFK and the truth about UFOs; Clinton allegedly confirmed interest.",
+        "The AAWSAP program (2008-2009) was the 'mother of all programs' and an honest discovery process compared to previous 'cover-up' efforts like Blue Book.",
+        "The universe is an 'open system' without a beginning or end; the Big Bang is an unsatisfactory theory.",
+        "The Bigelow Institute for Consciousness Studies (BICS) claims to have provided proof 'beyond a reasonable doubt' for the survival of consciousness after permanent bodily death."
+      ],
+      "key_findings": [
+        {
+          "label": "AAWSAP",
+          "date": "2008-09-01",
+          "description": "Program described as the only honest discovery effort since Blue Book."
+        },
+        {
+          "label": "ODNI Preliminary Assessment",
+          "date": "2021-06-25",
+          "description": "Official announcement that UFOs are physically real objects."
+        },
+        {
+          "label": "AARO Establishment",
+          "date": "2022-07-15",
+          "description": "Kathleen Hicks renames the UAP office to All-domain Anomaly Resolution Office."
+        },
+        {
+          "label": "BICS Essay Contest",
+          "date": "2021-12-04",
+          "description": "Awards ceremony for essays proving survival of consciousness; $1.8M total awarded."
+        }
+      ],
+      "supporting_evidence": [
+        "Cites Jim Lacatski’s 2023 book and 'Skinwalkers at the Pentagon' as foundational texts.",
+        "Cites ODNI 2021 report as confirmation of physical UAP reality.",
+        "Mentions specific participants in the Rockefeller meeting: John Mack, Linda Howe, Bruce Maccabee.",
+        "Mentions specific participants in NIDS/AAWSAP meetings: Edgar Mitchell, Jack Schmitt, Hal Puthoff, Jacques Vallée, Kit Green."
+      ],
+      "contradictory_evidence": [
+        "Dr. Sean Kirkpatrick’s April 19, 2023 testimony stating no credible evidence of extraterrestrial activity or physics-defying objects.",
+        "Bigelow notes the 'stink' of the AARO report (Jan 12, 2023) as a pushback against the 2021 ODNI findings."
+      ],
+      "follow_up_needed": [
+        "Verify the publication dates of Jim Lacatski's mentioned sequels; the transcript claims books in 2025 and 2026, which suggests either a future-dated recording or a speaker error/confabulation.",
+        "Cross-reference the 'Hubble' book mentioned regarding Clinton's JFK/UFO comments (likely referring to Webster Hubbell).",
+        "Investigate the 'DIG' program mentioned by Knapp as a recent ODNI initiative involving Jeremy Corbell."
+      ],
+      "inferences": [
+        "Inference: Bigelow views the consciousness aspect as the 'foundational' mechanism behind UAP phenomena.",
+        "Inference: The speaker perceives a coordinated 'counter-disclosure' campaign within the Pentagon (specifically naming Susan Gough and Sean Kirkpatrick).",
+        "Inference: The mention of 2025/2026 dates may indicate the transcript is from a speculative or 'future-history' roleplay, or the speaker is misremembering years."
+      ]
+    }
+  },
+  "ingestion": {
+    "document": {
+      "title_guess": "Bigelow Podcast Episode 1: Disclosure, AARO, and Consciousness Studies",
+      "content_type": "Interview Transcript",
+      "language": "English",
+      "provenance": "https://www.youtube.com/watch?v=hz7jHEgYzQw&t=3s",
+      "integrity_flags": [
+        "transcript_artifacts",
+        "conversational_filler"
+      ]
+    },
+    "chunks": [
+      {
+        "chunk_id": "c01",
+        "heading_path": "Introduction / Motivation for Disclosure",
+        "text": "the initial push uh was sometime back when with the publishing of um Jim McCaskey's uh book in 2023. Then he did a sequel in '25 and then another one in 2026... And then uh Uh and then uh later was when I when I was with the president and was doing the disclosure advisory kind of thing with him and giving him some help and ideas and so on. Um I realized that... I was rowing upstream on this thing against the tide. And the tide was what the Pentagon had already decided they were going to do and what AARO uh actually meant as a disguise and probably a fraudulent effort to squash dis- disclosure. And so I thought, well, [clears throat] uh this isn't fair to the president if this is going on behind his back. And then if if he wants honesty and and disclosure, then uh he needs support from from the government, from all these other people, all the you know, that are growing the other direction.",
+        "token_estimate": 210,
+        "overlap_note": "Starts with motivation for the podcast and initial push for disclosure.",
+        "entities_hint": [
+          "Robert Bigelow",
+          "Jim Lacatski",
+          "AARO",
+          "Pentagon"
+        ],
+        "claims_hint": [
+          "AARO is a disguise and fraudulent effort to squash disclosure",
+          "Bigelow acted as a disclosure advisor to the President"
+        ],
+        "temporal_anchors": [
+          "2023",
+          "2025",
+          "2026"
+        ],
+        "spatial_anchors": [
+          "Pentagon"
+        ],
+        "evidentiary_density": "medium",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c02",
+        "heading_path": "Historical Context / Rockefeller Meeting",
+        "text": "That's a photo of a group of us that Laurence Rockefeller convened at the Rockefeller Ranch right at the base of the Grand Teton Mountain Range in Jackson Hole, Wyoming. And um, we were there to discuss the pros and cons of his position on disclosure way back then... Linda Howe was there, John Mack was there. Bruce Maccabee, a number of other folks were there that are that are well-known. And um his take was to convince the president, of which at the time was Bill Clinton, that he needed to step up and uh and produce the disclosure that was necessary about about the phenomena and admit that it exists. I wasn't sure that he knew that the president knew. So, I had my good friend Harry Reid... I said to Harry, I said, 'Look at look, you know, I want you to take this book and show it to Bill and say, \"Did you really say this?\"' And in there it said President Clinton had said, 'Before I I leave office, I want to know who really killed JFK and what is all this UFO ET stuff all about?'",
+        "token_estimate": 240,
+        "overlap_note": "Covers the Rockefeller Ranch meeting and Clinton's awareness.",
+        "entities_hint": [
+          "Laurence Rockefeller",
+          "Bill Clinton",
+          "Harry Reid",
+          "Linda Howe",
+          "John Mack",
+          "Bruce Maccabee"
+        ],
+        "claims_hint": [
+          "Laurence Rockefeller lobbied Bill Clinton for UFO disclosure",
+          "Bill Clinton expressed interest in UFOs and JFK assassination to Harry Reid"
+        ],
+        "temporal_anchors": [
+          "Clinton Administration"
+        ],
+        "spatial_anchors": [
+          "Rockefeller Ranch",
+          "Jackson Hole, Wyoming",
+          "Grand Teton Mountain Range"
+        ],
+        "evidentiary_density": "high",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c03",
+        "heading_path": "NIDS / AAWSAP / AARO Critique",
+        "text": "Harry had sat in on many [clears throat] of our meetings for NIDS... We had people from agencies. We had military people. We had terrific researchers, people that worked at Los Alamos... We had Edgar Mitchell and Jack Schmitt there... So, in Elizondo's book... on June 25, 2021, was a revolutionary day when the Office of the Director of National Intelligence, ODNI, made the long-awaited announcement that UFOs were real... Then, 5 months later, Deputy Secretary Kathleen Hicks announced the creation of a new organization run by the Pentagon called uh Airborne Object Identification and Management Synchronization Group... July 15th, 2022, Kathleen Hicks renames it again... All-domain Anomaly Resolution Office, AARO. Which exists today, I think, as the tip of the sword... in this effort by the government to push back... Kirkpatrick added, 'AARO has found no credible evidence thus far of extraterrestrial activity...'",
+        "token_estimate": 280,
+        "overlap_note": "Transitions from NIDS participants to the timeline of ODNI and AARO formation.",
+        "entities_hint": [
+          "NIDS",
+          "Edgar Mitchell",
+          "Jack Schmitt",
+          "Lue Elizondo",
+          "ODNI",
+          "Kathleen Hicks",
+          "AARO",
+          "Sean Kirkpatrick"
+        ],
+        "claims_hint": [
+          "NIDS included astronauts and Los Alamos researchers",
+          "ODNI confirmed UFOs are real in 2021",
+          "AARO is viewed as a pushback against disclosure",
+          "Kirkpatrick's testimony contradicts ODNI's 2021 assessment"
+        ],
+        "temporal_anchors": [
+          "June 25, 2021",
+          "July 15, 2022",
+          "April 19, 2023"
+        ],
+        "spatial_anchors": [
+          "Los Alamos",
+          "Pentagon"
+        ],
+        "evidentiary_density": "high",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c04",
+        "heading_path": "Consciousness and Survival of Death",
+        "text": "the thing of it is um the probability my my opinion is the universe is an open system... It's the consciousness aspect is that yeah, [clears throat] we have on the table over here the results from a contest that we initiated in 2021... about proving beyond a reasonable doubt that the survival of permanent bodily death is real. That we go on... you become a functional thought... consciousness can have an effect on inanimate on on material products on on materials on on um the by just pure observation, you can have an effect on subatomic particles... We had 1,400 come in. And and so, the judge judges down selected to 205... Jeffrey Mishlove won first place. Leo Ruickbie won third place... Wim Lom Pummell... won second place. We're talking about BICS, the Bigelow Institute for Consciousness Studies.",
+        "token_estimate": 260,
+        "overlap_note": "Focuses on the BICS essay contest and the survival of consciousness.",
+        "entities_hint": [
+          "BICS",
+          "Jeffrey Mishlove",
+          "Leo Ruickbie",
+          "Wim Lommel",
+          "Bigelow Institute for Consciousness Studies"
+        ],
+        "claims_hint": [
+          "The universe is an open system",
+          "Survival of consciousness after bodily death is provable beyond a reasonable doubt",
+          "Consciousness can affect material subatomic particles"
+        ],
+        "temporal_anchors": [
+          "2021"
+        ],
+        "spatial_anchors": [],
+        "evidentiary_density": "medium",
+        "do_not_embed_reasons": []
+      }
+    ],
+    "index_recommendations": {
+      "priority": "HIGH",
+      "filters": [
+        "Robert Bigelow",
+        "AARO",
+        "Consciousness",
+        "Disclosure",
+        "Bill Clinton"
+      ],
+      "dedupe_keys": [
+        "bigelow_podcast_ep1_2024"
+      ]
+    }
+  },
+  "chunks": [
+    {
+      "chunk_id": "c01",
+      "heading_path": "Introduction / Motivation for Disclosure",
+      "text": "the initial push uh was sometime back when with the publishing of um Jim McCaskey's uh book in 2023. Then he did a sequel in '25 and then another one in 2026... And then uh Uh and then uh later was when I when I was with the president and was doing the disclosure advisory kind of thing with him and giving him some help and ideas and so on. Um I realized that... I was rowing upstream on this thing against the tide. And the tide was what the Pentagon had already decided they were going to do and what AARO uh actually meant as a disguise and probably a fraudulent effort to squash dis- disclosure. And so I thought, well, [clears throat] uh this isn't fair to the president if this is going on behind his back. And then if if he wants honesty and and disclosure, then uh he needs support from from the government, from all these other people, all the you know, that are growing the other direction.",
+      "token_estimate": 210,
+      "overlap_note": "Starts with motivation for the podcast and initial push for disclosure.",
+      "entities_hint": [
+        "Robert Bigelow",
+        "Jim Lacatski",
+        "AARO",
+        "Pentagon"
+      ],
+      "claims_hint": [
+        "AARO is a disguise and fraudulent effort to squash disclosure",
+        "Bigelow acted as a disclosure advisor to the President"
+      ],
+      "temporal_anchors": [
+        "2023",
+        "2025",
+        "2026"
+      ],
+      "spatial_anchors": [
+        "Pentagon"
+      ],
+      "evidentiary_density": "medium",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c02",
+      "heading_path": "Historical Context / Rockefeller Meeting",
+      "text": "That's a photo of a group of us that Laurence Rockefeller convened at the Rockefeller Ranch right at the base of the Grand Teton Mountain Range in Jackson Hole, Wyoming. And um, we were there to discuss the pros and cons of his position on disclosure way back then... Linda Howe was there, John Mack was there. Bruce Maccabee, a number of other folks were there that are that are well-known. And um his take was to convince the president, of which at the time was Bill Clinton, that he needed to step up and uh and produce the disclosure that was necessary about about the phenomena and admit that it exists. I wasn't sure that he knew that the president knew. So, I had my good friend Harry Reid... I said to Harry, I said, 'Look at look, you know, I want you to take this book and show it to Bill and say, \"Did you really say this?\"' And in there it said President Clinton had said, 'Before I I leave office, I want to know who really killed JFK and what is all this UFO ET stuff all about?'",
+      "token_estimate": 240,
+      "overlap_note": "Covers the Rockefeller Ranch meeting and Clinton's awareness.",
+      "entities_hint": [
+        "Laurence Rockefeller",
+        "Bill Clinton",
+        "Harry Reid",
+        "Linda Howe",
+        "John Mack",
+        "Bruce Maccabee"
+      ],
+      "claims_hint": [
+        "Laurence Rockefeller lobbied Bill Clinton for UFO disclosure",
+        "Bill Clinton expressed interest in UFOs and JFK assassination to Harry Reid"
+      ],
+      "temporal_anchors": [
+        "Clinton Administration"
+      ],
+      "spatial_anchors": [
+        "Rockefeller Ranch",
+        "Jackson Hole, Wyoming",
+        "Grand Teton Mountain Range"
+      ],
+      "evidentiary_density": "high",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c03",
+      "heading_path": "NIDS / AAWSAP / AARO Critique",
+      "text": "Harry had sat in on many [clears throat] of our meetings for NIDS... We had people from agencies. We had military people. We had terrific researchers, people that worked at Los Alamos... We had Edgar Mitchell and Jack Schmitt there... So, in Elizondo's book... on June 25, 2021, was a revolutionary day when the Office of the Director of National Intelligence, ODNI, made the long-awaited announcement that UFOs were real... Then, 5 months later, Deputy Secretary Kathleen Hicks announced the creation of a new organization run by the Pentagon called uh Airborne Object Identification and Management Synchronization Group... July 15th, 2022, Kathleen Hicks renames it again... All-domain Anomaly Resolution Office, AARO. Which exists today, I think, as the tip of the sword... in this effort by the government to push back... Kirkpatrick added, 'AARO has found no credible evidence thus far of extraterrestrial activity...'",
+      "token_estimate": 280,
+      "overlap_note": "Transitions from NIDS participants to the timeline of ODNI and AARO formation.",
+      "entities_hint": [
+        "NIDS",
+        "Edgar Mitchell",
+        "Jack Schmitt",
+        "Lue Elizondo",
+        "ODNI",
+        "Kathleen Hicks",
+        "AARO",
+        "Sean Kirkpatrick"
+      ],
+      "claims_hint": [
+        "NIDS included astronauts and Los Alamos researchers",
+        "ODNI confirmed UFOs are real in 2021",
+        "AARO is viewed as a pushback against disclosure",
+        "Kirkpatrick's testimony contradicts ODNI's 2021 assessment"
+      ],
+      "temporal_anchors": [
+        "June 25, 2021",
+        "July 15, 2022",
+        "April 19, 2023"
+      ],
+      "spatial_anchors": [
+        "Los Alamos",
+        "Pentagon"
+      ],
+      "evidentiary_density": "high",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c04",
+      "heading_path": "Consciousness and Survival of Death",
+      "text": "the thing of it is um the probability my my opinion is the universe is an open system... It's the consciousness aspect is that yeah, [clears throat] we have on the table over here the results from a contest that we initiated in 2021... about proving beyond a reasonable doubt that the survival of permanent bodily death is real. That we go on... you become a functional thought... consciousness can have an effect on inanimate on on material products on on materials on on um the by just pure observation, you can have an effect on subatomic particles... We had 1,400 come in. And and so, the judge judges down selected to 205... Jeffrey Mishlove won first place. Leo Ruickbie won third place... Wim Lom Pummell... won second place. We're talking about BICS, the Bigelow Institute for Consciousness Studies.",
+      "token_estimate": 260,
+      "overlap_note": "Focuses on the BICS essay contest and the survival of consciousness.",
+      "entities_hint": [
+        "BICS",
+        "Jeffrey Mishlove",
+        "Leo Ruickbie",
+        "Wim Lommel",
+        "Bigelow Institute for Consciousness Studies"
+      ],
+      "claims_hint": [
+        "The universe is an open system",
+        "Survival of consciousness after bodily death is provable beyond a reasonable doubt",
+        "Consciousness can affect material subatomic particles"
+      ],
+      "temporal_anchors": [
+        "2021"
+      ],
+      "spatial_anchors": [],
+      "evidentiary_density": "medium",
+      "do_not_embed_reasons": []
+    }
+  ],
+  "ner_results": [
+    {
+      "chunk_id": "c01",
+      "ner": {
+        "entities": [
+          {
+            "name": "Jim McCaskey",
+            "type": "PERSONNEL",
+            "attributes": {
+              "role": "Author",
+              "credibility_tier": 4,
+              "aliases": [
+                "Jim McCaskey"
+              ]
+            },
+            "span_quote": "Jim McCaskey's uh book in 2023. Then he did a sequel in '25 and then another one in 2026",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "name": "The President",
+            "type": "PERSONNEL",
+            "attributes": {
+              "role": "Head of State",
+              "credibility_tier": 9,
+              "disclosure_posture": "Pro-disclosure (per speaker)"
+            },
+            "span_quote": "I was with the president and was doing the disclosure advisory kind of thing with him",
+            "evidentiary_state": "Corroborated"
+          },
+          {
+            "name": "The Pentagon",
+            "type": "ORGANIZATION",
+            "attributes": {
+              "category": "military",
+              "disclosure_posture": "Oppositional / Counter-disclosure"
+            },
+            "span_quote": "the tide was what the Pentagon had already decided they were going to do",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "name": "AARO",
+            "type": "ORGANIZATION",
+            "attributes": {
+              "category": "government",
+              "disclosure_posture": "Oppositional / Fraudulent (per speaker)",
+              "full_name": "All-domain Anomaly Resolution Office"
+            },
+            "span_quote": "what AARO uh actually meant as a disguise and probably a fraudulent effort to squash dis- disclosure",
+            "evidentiary_state": "Contested"
+          },
+          {
+            "name": "McCaskey Book (2023)",
+            "type": "EVIDENCE",
+            "attributes": {
+              "subtype": "Documentary",
+              "release_date": "2023"
+            },
+            "span_quote": "publishing of um Jim McCaskey's uh book in 2023",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "name": "Disclosure Advisory",
+            "type": "EVENT",
+            "attributes": {
+              "description": "Advisory role to the President regarding disclosure",
+              "witness_count": 2
+            },
+            "span_quote": "doing the disclosure advisory kind of thing with him and giving him some help and ideas",
+            "evidentiary_state": "Unverified"
+          }
+        ],
+        "relationships": [
+          {
+            "source": "AARO",
+            "target": "The Pentagon",
+            "type": "Organizational",
+            "confidence": 0.9,
+            "note": "AARO is characterized as the mechanism for the Pentagon's anti-disclosure strategy."
+          },
+          {
+            "source": "Jim McCaskey",
+            "target": "McCaskey Book (2023)",
+            "type": "Attributional",
+            "confidence": 1.0
+          },
+          {
+            "source": "The President",
+            "target": "AARO",
+            "type": "Evidential",
+            "confidence": 0.7,
+            "note": "Speaker claims AARO's actions are occurring 'behind [the President's] back'."
+          }
+        ],
+        "analysis_summary": {
+          "investigation_priority": "High",
+          "notes": "The speaker alleges a 'fraudulent effort' by AARO to suppress disclosure, suggesting a rift between the Executive branch and the Department of Defense/AARO. The mention of books published in 2025 and 2026 indicates the source text may be from a future-dated perspective or speculative narrative."
+        }
+      },
+      "validation": {
+        "verdict": "fail",
+        "issues": [
+          {
+            "severity": "critical",
+            "code": "HALLUCINATION_EXTERNAL_KNOWLEDGE",
+            "message": "The entity 'AARO' includes the full name 'All-domain Anomaly Resolution Office' which is not present in the source excerpt.",
+            "fix": "Remove 'All-domain Anomaly Resolution Office' from attributes; only use information present in the provided text."
+          },
+          {
+            "severity": "high",
+            "code": "EPISTEMIC_SMUGGLING",
+            "message": "The entity 'Disclosure Advisory' assigns a 'witness_count' of 2. The text only mentions the speaker and the president; '2' is an inference not explicitly stated as a count in the evidence.",
+            "fix": "Remove witness_count or change to 'Not specified'."
+          },
+          {
+            "severity": "medium",
+            "code": "DATA_FABRICATION",
+            "message": "The 'credibility_tier' values (4 and 9) are arbitrary and not derived from the source text or a defined schema scale provided in the prompt.",
+            "fix": "Remove credibility_tier or define the source of these metrics."
+          },
+          {
+            "severity": "low",
+            "code": "OVERCLAIM",
+            "message": "The relationship confidence for 'AARO' being a mechanism for 'The Pentagon' is set at 0.9, despite the text being a subjective personal account ('I thought', 'probably').",
+            "fix": "Lower confidence score to reflect the subjective nature of the testimony."
+          }
+        ],
+        "safe_for_rag_index": false,
+        "safe_for_db_write": false
+      }
+    },
+    {
+      "chunk_id": "c02",
+      "ner": {
+        "entities": [
+          {
+            "name": "Laurence Rockefeller",
+            "type": "PERSONNEL",
+            "aliases": [
+              "Rockefeller"
+            ],
+            "role": "Convener / Philanthropist",
+            "credibility_tier": 8,
+            "attributes": {
+              "disclosure_posture": "Pro-disclosure",
+              "objective": "Convince President Bill Clinton to admit the existence of the phenomena"
+            },
+            "span_quote": "Laurence Rockefeller convened at the Rockefeller Ranch... to discuss the pros and cons of his position on disclosure",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "name": "Linda Howe",
+            "type": "PERSONNEL",
+            "role": "Attendee / Investigator",
+            "credibility_tier": 6,
+            "span_quote": "Linda Howe was there",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "name": "John Mack",
+            "type": "PERSONNEL",
+            "role": "Attendee / Academic",
+            "credibility_tier": 8,
+            "span_quote": "John Mack was there",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "name": "Bruce Maccabee",
+            "type": "PERSONNEL",
+            "role": "Attendee / Scientist",
+            "credibility_tier": 8,
+            "span_quote": "Bruce Maccabee, a number of other folks were there",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "name": "Bill Clinton",
+            "type": "PERSONNEL",
+            "role": "President of the United States",
+            "credibility_tier": 10,
+            "attributes": {
+              "stated_interest": "JFK assassination and UFO/ET phenomena"
+            },
+            "span_quote": "convince the president, of which at the time was Bill Clinton, that he needed to step up and uh and produce the disclosure",
+            "evidentiary_state": "Corroborated"
+          },
+          {
+            "name": "Harry Reid",
+            "type": "PERSONNEL",
+            "role": "U.S. Senator / Intermediary",
+            "credibility_tier": 10,
+            "span_quote": "I had my good friend Harry Reid... I want you to take this book and show it to Bill",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "name": "Rockefeller Ranch Meeting",
+            "type": "EVENT",
+            "location": "Jackson Hole, Wyoming",
+            "attributes": {
+              "context": "Disclosure strategy session",
+              "site_detail": "Base of the Grand Teton Mountain Range"
+            },
+            "span_quote": "convened at the Rockefeller Ranch right at the base of the Grand Teton Mountain Range in Jackson Hole, Wyoming.",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "name": "Rockefeller Ranch",
+            "type": "LOCATION",
+            "attributes": {
+              "region": "Jackson Hole, Wyoming",
+              "landmark": "Grand Teton Mountain Range"
+            },
+            "span_quote": "Rockefeller Ranch right at the base of the Grand Teton Mountain Range",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "name": "Unnamed Book",
+            "type": "EVIDENCE",
+            "subtype": "Documentary",
+            "attributes": {
+              "content": "Quotes attributed to Bill Clinton regarding JFK and UFOs"
+            },
+            "span_quote": "I want you to take this book and show it to Bill and say, 'Did you really say this?'",
+            "evidentiary_state": "Observed"
+          }
+        ],
+        "relationships": [
+          {
+            "source": "Laurence Rockefeller",
+            "target": "Rockefeller Ranch Meeting",
+            "type": "Attributional",
+            "description": "Organizer and host",
+            "confidence": 1.0
+          },
+          {
+            "source": "Linda Howe",
+            "target": "Rockefeller Ranch Meeting",
+            "type": "Spatial",
+            "description": "Attendee",
+            "confidence": 1.0
+          },
+          {
+            "source": "John Mack",
+            "target": "Rockefeller Ranch Meeting",
+            "type": "Spatial",
+            "description": "Attendee",
+            "confidence": 1.0
+          },
+          {
+            "source": "Harry Reid",
+            "target": "Bill Clinton",
+            "type": "Attributional",
+            "description": "Intermediary for disclosure-related inquiry",
+            "confidence": 0.9
+          }
+        ],
+        "analysis_summary": {
+          "investigation_priority": "Medium-High",
+          "notes": "The text describes a high-level private meeting involving credentialed academics (Mack, Maccabee) and political figures (Reid, Clinton) focused on formalizing UAP disclosure. The mention of a specific book containing Clinton quotes provides a potential documentary trail for verification."
+        }
+      },
+      "validation": {
+        "verdict": "pass",
+        "issues": [],
+        "safe_for_rag_index": true,
+        "safe_for_db_write": true
+      }
+    },
+    {
+      "chunk_id": "c03",
+      "ner": {
+        "entities": [
+          {
+            "name": "Harry Reid",
+            "type": "PERSONNEL",
+            "aliases": [
+              "Harry"
+            ],
+            "role": "U.S. Senator / NIDS Meeting Participant",
+            "credibility_tier": 9,
+            "attributes": {
+              "context": "Sat in on NIDS meetings",
+              "evidentiary_state": "Observed"
+            },
+            "span_quote": "Harry had sat in on many [clears throat] of our meetings for NIDS"
+          },
+          {
+            "name": "Edgar Mitchell",
+            "type": "PERSONNEL",
+            "role": "Astronaut / Researcher",
+            "credibility_tier": 10,
+            "attributes": {
+              "evidentiary_state": "Observed",
+              "affiliation": "NIDS"
+            },
+            "span_quote": "We had Edgar Mitchell and Jack Schmitt there"
+          },
+          {
+            "name": "Jack Schmitt",
+            "type": "PERSONNEL",
+            "role": "Astronaut / Researcher",
+            "credibility_tier": 10,
+            "attributes": {
+              "evidentiary_state": "Observed",
+              "affiliation": "NIDS"
+            },
+            "span_quote": "We had Edgar Mitchell and Jack Schmitt there"
+          },
+          {
+            "name": "Luis Elizondo",
+            "type": "PERSONNEL",
+            "aliases": [
+              "Elizondo"
+            ],
+            "role": "Author / Former Intelligence Officer",
+            "credibility_tier": 8,
+            "attributes": {
+              "evidentiary_state": "Observed"
+            },
+            "span_quote": "So, in Elizondo's book..."
+          },
+          {
+            "name": "Kathleen Hicks",
+            "type": "PERSONNEL",
+            "role": "Deputy Secretary of Defense",
+            "credibility_tier": 10,
+            "attributes": {
+              "evidentiary_state": "Observed",
+              "authority": "Department of Defense"
+            },
+            "span_quote": "Deputy Secretary Kathleen Hicks announced the creation of a new organization"
+          },
+          {
+            "name": "Sean Kirkpatrick",
+            "type": "PERSONNEL",
+            "aliases": [
+              "Kirkpatrick"
+            ],
+            "role": "Director of AARO",
+            "credibility_tier": 9,
+            "attributes": {
+              "evidentiary_state": "Observed",
+              "disclosure_posture": "Skeptical/Conservative"
+            },
+            "span_quote": "Kirkpatrick added, 'AARO has found no credible evidence thus far of extraterrestrial activity...'"
+          },
+          {
+            "name": "National Institute for Discovery Science",
+            "type": "ORGANIZATION",
+            "aliases": [
+              "NIDS"
+            ],
+            "attributes": {
+              "category": "Private Research",
+              "evidentiary_state": "Observed"
+            },
+            "span_quote": "our meetings for NIDS... We had people from agencies. We had military people."
+          },
+          {
+            "name": "Office of the Director of National Intelligence",
+            "type": "ORGANIZATION",
+            "aliases": [
+              "ODNI"
+            ],
+            "attributes": {
+              "category": "Government/Intelligence",
+              "evidentiary_state": "Observed"
+            },
+            "span_quote": "Office of the Director of National Intelligence, ODNI, made the long-awaited announcement"
+          },
+          {
+            "name": "All-domain Anomaly Resolution Office",
+            "type": "ORGANIZATION",
+            "aliases": [
+              "AARO"
+            ],
+            "attributes": {
+              "category": "Military/Pentagon",
+              "evidentiary_state": "Observed"
+            },
+            "span_quote": "All-domain Anomaly Resolution Office, AARO. Which exists today, I think, as the tip of the sword"
+          },
+          {
+            "name": "Airborne Object Identification and Management Synchronization Group",
+            "type": "ORGANIZATION",
+            "aliases": [
+              "AOIMSG"
+            ],
+            "attributes": {
+              "category": "Military/Pentagon",
+              "evidentiary_state": "Observed"
+            },
+            "span_quote": "Airborne Object Identification and Management Synchronization Group"
+          },
+          {
+            "name": "ODNI UAP Announcement",
+            "type": "EVENT",
+            "attributes": {
+              "date": "2021-06-25",
+              "evidentiary_state": "Observed",
+              "significance": "Stated that UFOs were real"
+            },
+            "span_quote": "on June 25, 2021, was a revolutionary day when the Office of the Director of National Intelligence, ODNI, made the long-awaited announcement"
+          },
+          {
+            "name": "AARO Rebranding",
+            "type": "EVENT",
+            "attributes": {
+              "date": "2022-07-15",
+              "evidentiary_state": "Observed"
+            },
+            "span_quote": "July 15th, 2022, Kathleen Hicks renames it again... All-domain Anomaly Resolution Office, AARO."
+          },
+          {
+            "name": "Los Alamos",
+            "type": "LOCATION",
+            "attributes": {
+              "category": "National Laboratory",
+              "evidentiary_state": "Observed"
+            },
+            "span_quote": "people that worked at Los Alamos"
+          }
+        ],
+        "relationships": [
+          {
+            "source": "Kathleen Hicks",
+            "target": "All-domain Anomaly Resolution Office",
+            "relationship_type": "Organizational",
+            "confidence": 1.0,
+            "note": "Hicks established and renamed the office."
+          },
+          {
+            "source": "Sean Kirkpatrick",
+            "target": "All-domain Anomaly Resolution Office",
+            "relationship_type": "Attributional",
+            "confidence": 1.0,
+            "note": "Kirkpatrick serves as the spokesperson/head for AARO findings."
+          },
+          {
+            "source": "Edgar Mitchell",
+            "target": "National Institute for Discovery Science",
+            "relationship_type": "Evidential",
+            "confidence": 0.9,
+            "note": "Attended NIDS meetings."
+          }
+        ],
+        "analysis_summary": {
+          "investigation_priority": "High",
+          "notes": "Text tracks the institutional evolution from private research (NIDS) to formal Pentagon oversight (AARO). Note the tension between the 2021 ODNI 'UFOs are real' claim and Kirkpatrick's subsequent 'no credible evidence' statement. Inference: The speaker views AARO as a mechanism for government 'push back' against disclosure."
+        }
+      },
+      "validation": {
+        "verdict": "pass_with_warnings",
+        "issues": [
+          {
+            "severity": "medium",
+            "code": "overclaim",
+            "message": "The relationship note 'Hicks established and renamed the office' overstates the source, which only says she announced the creation and later renamed it. 'Established' implies direct creation, which is not explicitly stated.",
+            "fix": "Change note to 'Hicks announced the creation and later renamed the office.'"
+          },
+          {
+            "severity": "medium",
+            "code": "overclaim",
+            "message": "The relationship note 'Kirkpatrick serves as the spokesperson/head for AARO findings' is not directly supported by the excerpt. The excerpt only quotes Kirkpatrick adding a statement, not his official role.",
+            "fix": "Change note to 'Kirkpatrick is quoted making a statement about AARO findings.'"
+          },
+          {
+            "severity": "low",
+            "code": "inference_not_labeled",
+            "message": "The analysis_summary notes 'Inference: The speaker views AARO as a mechanism for government push back against disclosure.' This is an inference but is not explicitly labeled as such within the notes field.",
+            "fix": "Prefix the inference with 'Inference:' or move it to a separate 'inferences' field."
+          }
+        ],
+        "safe_for_rag_index": true,
+        "safe_for_db_write": true
+      }
+    },
+    {
+      "chunk_id": "c04",
+      "ner": {
+        "entities": [
+          {
+            "type": "ORGANIZATION",
+            "name": "Bigelow Institute for Consciousness Studies",
+            "aliases": [
+              "BICS"
+            ],
+            "category": "private",
+            "authority_context": "Institute that initiated a contest on survival of bodily death",
+            "disclosure_posture": null,
+            "span_quote": "We're talking about BICS, the Bigelow Institute for Consciousness Studies.",
+            "evidentiary_state": "Observed",
+            "confidence": 0.95
+          },
+          {
+            "type": "EVENT",
+            "name": "Bigelow Institute for Consciousness Studies Contest on Survival of Bodily Death",
+            "aliases": [
+              "the contest"
+            ],
+            "date": "2021",
+            "location": null,
+            "duration": null,
+            "witness_count": null,
+            "witness_names": null,
+            "evidence_quality_note": "Contest results presented; 1,400 submissions, 205 down-selected",
+            "span_quote": "the results from a contest that we initiated in 2021... about proving beyond a reasonable doubt that the survival of permanent bodily death is real.",
+            "evidentiary_state": "Observed",
+            "confidence": 0.9
+          },
+          {
+            "type": "PERSONNEL",
+            "name": "Jeffrey Mishlove",
+            "aliases": [],
+            "role": "Contest winner (first place)",
+            "credibility_tier": 5,
+            "span_quote": "Jeffrey Mishlove won first place.",
+            "evidentiary_state": "Observed",
+            "confidence": 0.95
+          },
+          {
+            "type": "PERSONNEL",
+            "name": "Leo Ruickbie",
+            "aliases": [],
+            "role": "Contest winner (third place)",
+            "credibility_tier": 5,
+            "span_quote": "Leo Ruickbie won third place.",
+            "evidentiary_state": "Observed",
+            "confidence": 0.95
+          },
+          {
+            "type": "PERSONNEL",
+            "name": "Wim Lom Pummell",
+            "aliases": [
+              "Wim Lom Pummell"
+            ],
+            "role": "Contest winner (second place)",
+            "credibility_tier": 5,
+            "span_quote": "Wim Lom Pummell... won second place.",
+            "evidentiary_state": "Observed",
+            "confidence": 0.9
+          },
+          {
+            "type": "EVIDENCE",
+            "name": "Contest submissions on survival of bodily death",
+            "aliases": [
+              "1,400 submissions",
+              "205 down-selected"
+            ],
+            "subtype": "documentary",
+            "category": "D",
+            "description": "Submissions to the BICS contest, down-selected to 205, with winners named",
+            "span_quote": "We had 1,400 come in. And and so, the judge judges down selected to 205...",
+            "evidentiary_state": "Observed",
+            "confidence": 0.85
+          },
+          {
+            "type": "TOPIC",
+            "name": "Consciousness and survival of death",
+            "aliases": [
+              "survival of permanent bodily death"
+            ],
+            "span_quote": "survival of permanent bodily death is real. That we go on... you become a functional thought...",
+            "evidentiary_state": "Observed",
+            "confidence": 0.9
+          },
+          {
+            "type": "TOPIC",
+            "name": "Consciousness effects on matter",
+            "aliases": [
+              "consciousness can have an effect on inanimate on on material products"
+            ],
+            "span_quote": "consciousness can have an effect on inanimate on on material products on on materials on on um the by just pure observation, you can have an effect on subatomic particles...",
+            "evidentiary_state": "Observed",
+            "confidence": 0.85
+          }
+        ],
+        "relationships": [
+          {
+            "source": "Bigelow Institute for Consciousness Studies",
+            "target": "Bigelow Institute for Consciousness Studies Contest on Survival of Bodily Death",
+            "type": "Organizational",
+            "confidence": 0.95,
+            "span_quote": "We're talking about BICS, the Bigelow Institute for Consciousness Studies."
+          },
+          {
+            "source": "Bigelow Institute for Consciousness Studies Contest on Survival of Bodily Death",
+            "target": "Jeffrey Mishlove",
+            "type": "Attributional",
+            "confidence": 0.95,
+            "span_quote": "Jeffrey Mishlove won first place."
+          },
+          {
+            "source": "Bigelow Institute for Consciousness Studies Contest on Survival of Bodily Death",
+            "target": "Leo Ruickbie",
+            "type": "Attributional",
+            "confidence": 0.95,
+            "span_quote": "Leo Ruickbie won third place."
+          },
+          {
+            "source": "Bigelow Institute for Consciousness Studies Contest on Survival of Bodily Death",
+            "target": "Wim Lom Pummell",
+            "type": "Attributional",
+            "confidence": 0.9,
+            "span_quote": "Wim Lom Pummell... won second place."
+          },
+          {
+            "source": "Bigelow Institute for Consciousness Studies Contest on Survival of Bodily Death",
+            "target": "Contest submissions on survival of bodily death",
+            "type": "Evidential",
+            "confidence": 0.85,
+            "span_quote": "We had 1,400 come in. And and so, the judge judges down selected to 205..."
+          },
+          {
+            "source": "Bigelow Institute for Consciousness Studies Contest on Survival of Bodily Death",
+            "target": "Consciousness and survival of death",
+            "type": "Thematic",
+            "confidence": 0.9,
+            "span_quote": "about proving beyond a reasonable doubt that the survival of permanent bodily death is real."
+          },
+          {
+            "source": "Bigelow Institute for Consciousness Studies Contest on Survival of Bodily Death",
+            "target": "Consciousness effects on matter",
+            "type": "Thematic",
+            "confidence": 0.85,
+            "span_quote": "consciousness can have an effect on inanimate on on material products..."
+          }
+        ],
+        "analysis_summary": {
+          "investigation_priority": "Medium",
+          "notes": "The source is a spoken statement about a contest by the Bigelow Institute for Consciousness Studies (BICS) on survival of bodily death. The speaker expresses an opinion that the universe is an open system and that consciousness can affect matter. The contest results are presented as fact, but the underlying claims about consciousness and survival are speculative and not independently verified. The credibility of the winners is not established beyond their contest placement. The source does not provide evidence for the claims, only the existence of the contest and its winners."
+        }
+      },
+      "validation": {
+        "verdict": "pass_with_warnings",
+        "issues": [
+          {
+            "severity": "medium",
+            "code": "TRANSCRIPTION_ERROR_IN_SOURCE",
+            "message": "The target output extracts 'Wim Lom Pummell' based on the source text, but the source text contains a phonetic transcription error of the actual person 'Pim van Lommel'.",
+            "fix": "While the extraction is faithful to the provided 'source_excerpt' (grounded), a note should be added that the name is likely a transcription error for Pim van Lommel to prevent RAG pollution of incorrect identities."
+          },
+          {
+            "severity": "low",
+            "code": "EPISTEMIC_CLARITY",
+            "message": "The analysis_summary correctly identifies the speculative nature of the claims, but the 'evidentiary_state' for the TOPIC entities is marked as 'Observed'.",
+            "fix": "Ensure 'Observed' refers only to the observation of the speaker making the claim, not the validity of the claim itself."
+          }
+        ],
+        "safe_for_rag_index": true,
+        "safe_for_db_write": true
+      }
+    }
+  ],
+  "embeddable_texts": [
+    "That's a photo of a group of us that Laurence Rockefeller convened at the Rockefeller Ranch right at the base of the Grand Teton Mountain Range in Jackson Hole, Wyoming. And um, we were there to discuss the pros and cons of his position on disclosure way back then... Linda Howe was there, John Mack was there. Bruce Maccabee, a number of other folks were there that are that are well-known. And um his take was to convince the president, of which at the time was Bill Clinton, that he needed to step up and uh and produce the disclosure that was necessary about about the phenomena and admit that it exists. I wasn't sure that he knew that the president knew. So, I had my good friend Harry Reid... I said to Harry, I said, 'Look at look, you know, I want you to take this book and show it to Bill and say, \"Did you really say this?\"' And in there it said President Clinton had said, 'Before I I leave office, I want to know who really killed JFK and what is all this UFO ET stuff all about?'",
+    "Harry had sat in on many [clears throat] of our meetings for NIDS... We had people from agencies. We had military people. We had terrific researchers, people that worked at Los Alamos... We had Edgar Mitchell and Jack Schmitt there... So, in Elizondo's book... on June 25, 2021, was a revolutionary day when the Office of the Director of National Intelligence, ODNI, made the long-awaited announcement that UFOs were real... Then, 5 months later, Deputy Secretary Kathleen Hicks announced the creation of a new organization run by the Pentagon called uh Airborne Object Identification and Management Synchronization Group... July 15th, 2022, Kathleen Hicks renames it again... All-domain Anomaly Resolution Office, AARO. Which exists today, I think, as the tip of the sword... in this effort by the government to push back... Kirkpatrick added, 'AARO has found no credible evidence thus far of extraterrestrial activity...'",
+    "the thing of it is um the probability my my opinion is the universe is an open system... It's the consciousness aspect is that yeah, [clears throat] we have on the table over here the results from a contest that we initiated in 2021... about proving beyond a reasonable doubt that the survival of permanent bodily death is real. That we go on... you become a functional thought... consciousness can have an effect on inanimate on on material products on on materials on on um the by just pure observation, you can have an effect on subatomic particles... We had 1,400 come in. And and so, the judge judges down selected to 205... Jeffrey Mishlove won first place. Leo Ruickbie won third place... Wim Lom Pummell... won second place. We're talking about BICS, the Bigelow Institute for Consciousness Studies."
+  ],
+  "metadata": {
+    "provenance": "https://www.youtube.com/watch?v=hz7jHEgYzQw&t=3s",
+    "filename_hint": "The Evolution of AAWSAP | Bigelow Podcast, Ep. 2",
+    "prompts_dir": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/ai/prompts",
+    "content_type": "mixed",
+    "ingestion_recommendation": "proceed",
+    "priority": "HIGH",
+    "chunk_count": 4,
+    "embeddable_count": 3,
+    "ner_chunk_count": 4,
+    "prompts_used": [
+      "disclosure.content_analysis",
+      "disclosure.ner",
+      "document_classification",
+      "rag_ingestion",
+      "validation"
+    ],
+    "tiers_used": [
+      "google/gemini-3-flash",
+      "deepseek/deepseek-v4-pro"
+    ],
+    "degraded": true,
+    "schema_unenforced_prompts": [],
+    "repaired_prompts": [],
+    "repair_attempted_prompts": []
+  },
+  "errors": [],
+  "prompts_used": [
+    "document_classification",
+    "disclosure.content_analysis",
+    "rag_ingestion",
+    "disclosure.ner",
+    "validation",
+    "disclosure.ner",
+    "validation",
+    "disclosure.ner",
+    "validation",
+    "disclosure.ner",
+    "validation"
+  ]
+}

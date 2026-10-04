@@ -1,0 +1,35 @@
+{
+  "title": "Jacques Vallee — Lessons learned after lifetime of investigation",
+  "url": "https://www.youtube.com/watch?v=_mWPuffi_hc",
+  "id": "_mWPuffi_hc",
+  "channel_id": "UCFuzExfO2fUVmNK5_COvsNg",
+  "channel_title": "8 News Now — Las Vegas",
+  "published_at": "2026-09-08T22:13:07Z",
+  "categories": [],
+  "tags": [],
+  "description": "",
+  "chapters": [],
+  "transcript_segment_count": 2326,
+  "rag_pipeline": {
+    "status": "ok",
+    "embeddable_count": 2,
+    "prompts_used": [
+      "disclosure.content_analysis",
+      "disclosure.ner",
+      "document_classification",
+      "rag_ingestion",
+      "validation"
+    ],
+    "errors": []
+  },
+  "trace_map": {
+    "json_path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/sources/transcripts/8-news-now-las-vegas/_mWPuffi_hc/jacquesValleeLessonsLearnedAfterLifetimeOfInvestigation_trace_map.json",
+    "md_path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/sources/transcripts/8-news-now-las-vegas/_mWPuffi_hc/jacquesValleeLessonsLearnedAfterLifetimeOfInvestigation_trace_map.md",
+    "node_count": 164,
+    "edge_count": 235,
+    "coverage_fraction": 0.2851,
+    "valid": true,
+    "error_count": 0,
+    "gap_count": 6
+  }
+}

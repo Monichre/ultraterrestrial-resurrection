@@ -1,0 +1,40 @@
+{
+  "status": "error",
+  "classification": {
+    "content_type": "media",
+    "primary_record_hints": [
+      "Document",
+      "Testimony",
+      "Event",
+      "Sighting",
+      "KeyFigure",
+      "Organization",
+      "Topic"
+    ],
+    "hynek_scaffold": null,
+    "classification_marks_detected": [],
+    "language": "english",
+    "ocr_quality": "n/a",
+    "sensitivity": "public",
+    "ingestion_recommendation": "hold_for_human_review",
+    "rationale": "Video transcript from a media channel discussing extraordinary claims about UFO programs, psychic summoning, and clandestine operations. Contains unverified whistleblower testimony and references to classified materials. While the text itself is public, the sensational nature and unclear custodial chain of the underlying evidence warrant human review before ingestion.",
+    "confidence": 0.7
+  },
+  "analysis": {},
+  "ingestion": {},
+  "chunks": [],
+  "ner_results": [],
+  "embeddable_texts": [],
+  "metadata": {
+    "provenance": "https://www.youtube.com/watch?v=OOr98r51Sj0",
+    "filename_hint": "Why The Pentagon Tried To Censor This UFO Book",
+    "prompts_dir": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/ai/prompts"
+  },
+  "errors": [
+    "Unterminated string starting at: line 11 column 7 (char 813)"
+  ],
+  "prompts_used": [
+    "document_classification",
+    "disclosure.content_analysis"
+  ]
+}

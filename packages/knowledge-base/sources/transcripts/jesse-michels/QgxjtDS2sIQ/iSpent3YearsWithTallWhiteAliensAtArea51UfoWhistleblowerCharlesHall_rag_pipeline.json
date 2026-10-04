@@ -1,0 +1,38 @@
+{
+  "status": "error",
+  "classification": {
+    "content_type": "witness",
+    "primary_record_hints": [
+      "Testimony",
+      "Sighting",
+      "KeyFigure",
+      "Organization",
+      "Topic"
+    ],
+    "hynek_scaffold": "CE3",
+    "classification_marks_detected": [],
+    "language": "en",
+    "ocr_quality": "n/a",
+    "sensitivity": "public",
+    "ingestion_recommendation": "hold_for_human_review",
+    "rationale": "Extraordinary claims of prolonged interactions with multiple alien species, no corroborating evidence or official custody; source is a media interview transcript.",
+    "confidence": 0.8
+  },
+  "analysis": {},
+  "ingestion": {},
+  "chunks": [],
+  "ner_results": [],
+  "embeddable_texts": [],
+  "metadata": {
+    "provenance": "https://www.youtube.com/watch?v=QgxjtDS2sIQ",
+    "filename_hint": "“I Spent 3 Years With Tall White Aliens At Area 51\" -UFO Whistleblower Charles Hall",
+    "prompts_dir": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/ai/prompts"
+  },
+  "errors": [
+    "Expecting ',' delimiter: line 8 column 6 (char 454)"
+  ],
+  "prompts_used": [
+    "document_classification",
+    "disclosure.content_analysis"
+  ]
+}

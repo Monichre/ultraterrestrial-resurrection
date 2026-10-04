@@ -1,0 +1,28 @@
+{
+  "status": "completed",
+  "video_id": "SNgoul4vyDM",
+  "summary_file": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/sources/transcripts/cbs-news/SNgoul4vyDM/houseHoldsHearingOnUfosGovernmentTransparencyFullVideoSummary.txt",
+  "entities": {
+    "personnel": [
+      "Ryan Graves",
+      "David Grusch"
+    ],
+    "organizations": [
+      "Americans for Safe Aerospace",
+      "National Geospatial Intelligence Agency"
+    ],
+    "topics": [],
+    "events": [
+      "Witness Introduction"
+    ],
+    "locations": [],
+    "artifacts": [],
+    "sightings": []
+  },
+  "entity_search_results": {},
+  "entity_creation_results": {},
+  "entity_source": "rag_pipeline.ner_results",
+  "total_entities": 5,
+  "total_matches": 0,
+  "total_created": 0
+}

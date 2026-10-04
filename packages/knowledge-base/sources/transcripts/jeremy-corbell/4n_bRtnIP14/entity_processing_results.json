@@ -1,0 +1,545 @@
+{
+  "status": "completed",
+  "video_id": "4n_bRtnIP14",
+  "summary_file": "/Users/liamellis/Desktop/ultraterrestrial-resurrection/packages/knowledge-base/transcripts/2025-07-25/4n_bRtnIP14/part2ImmaculateConstellationAUfoWhistleblowerSJourneyWeaponizedEpisode75Summary.txt",
+  "entities": {
+    "topics": [
+      "Immaculate Constellation Program",
+      "Congressional Oversight Issues",
+      "Whistleblower Protection Processes",
+      "UAP Disclosure Legislation",
+      "AI-driven data filtering system"
+    ],
+    "personnel": [
+      "[Interviewee - Redacted]",
+      "Sean Kirkpatrick"
+    ],
+    "events": [
+      "Discovery of Classified Report",
+      "Congressional Testimony",
+      "State Department Pre-Publication Review"
+    ],
+    "organizations": [
+      "USDI",
+      "State Department",
+      "Congress",
+      "SSCI",
+      "SASC",
+      "HPSCI"
+    ],
+    "locations": [
+      "Pentagon systems",
+      "Senate Office Building SCIF",
+      "Russian vessels and coastal facilities"
+    ],
+    "technologies": [
+      "Sentient"
+    ],
+    "dates": [
+      "August 17, 2023",
+      "Early 2024"
+    ],
+    "artifacts": [
+      "12-page classified briefing on UAP incidents",
+      "Congressional testimony transcripts",
+      "Pre-publication review correspondence",
+      "Witness's written report to Congress"
+    ],
+    "sightings": [
+      ""
+    ]
+  },
+  "xata_search_results": {
+    "topics": [
+      {
+        "entity_name": "Immaculate Constellation Program",
+        "status": "found",
+        "xata_record": {
+          "id": "rec_cobdesq5ojbselbdqrcg",
+          "name": "The AATIP Program",
+          "photos": [],
+          "summary": "A secret investigatory effort funded by the U.S. government to study UFOs and other unexplained aerial phenomena.",
+          "xata": {
+            "createdAt": "2024-04-10T18:16:19.922Z",
+            "highlight": {
+              "name": [
+                "The AATIP <em>Program</em>"
+              ]
+            },
+            "score": 3.693714,
+            "table": "topics",
+            "updatedAt": "2024-04-10T18:16:19.922Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_cobdesq5ojbselbdqrcg",
+        "table": "topics"
+      },
+      {
+        "entity_name": "Congressional Oversight Issues",
+        "status": "not_found",
+        "table": "topics",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "Whistleblower Protection Processes",
+        "status": "not_found",
+        "table": "topics",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "UAP Disclosure Legislation",
+        "status": "found",
+        "xata_record": {
+          "id": "rec_cobdet25ojbselbdqrrg",
+          "name": "Government UFO Disclosure",
+          "photos": [],
+          "xata": {
+            "createdAt": "2024-04-10T18:16:19.922Z",
+            "highlight": {
+              "name": [
+                "Government UFO <em>Disclosure</em>"
+              ]
+            },
+            "score": 4.413172,
+            "table": "topics",
+            "updatedAt": "2024-04-10T18:16:19.922Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_cobdet25ojbselbdqrrg",
+        "table": "topics"
+      },
+      {
+        "entity_name": "AI-driven data filtering system",
+        "status": "found",
+        "xata_record": {
+          "id": "rec_crfon53sejr8r2rhopa0",
+          "name": "Zeta Reticuli Star System",
+          "photos": [
+            {
+              "id": "hcpf1tiv691mp203j5n9s6thoo",
+              "name": "download (11).svg",
+              "mediaType": "image/svg+xml",
+              "enablePublicUrl": true,
+              "signedUrlTimeout": 600,
+              "uploadUrlTimeout": 86400,
+              "size": 0,
+              "version": 0,
+              "url": "https://us-east-1.storage.xata.sh/kgubvqcdcn7sda810t133mr93ckcu6og",
+              "signedUrl": "https://us-east-1.xata.sh/file/0hlmetb2epotpthijj10kg84i1ui0479u7iegpprdulbln6c5nqri6vq01jdv2skfhqfd3cbe735991snvkoqpefoqkg21q267dmi6p8psdh07mnvqq9t57114g74vp3f5nf3rgvfv0euhrqnf7fg95tgc7lavht?verify=4rg86q00000005mupoablgtcq5tobhb166sdah5lmghqeovalp2quv0quuiv2u7o",
+              "uploadUrl": "https://kgubvq.us-east-1.upload.xata.sh/file/0dlmetb2epotpthijj10kg84i1ui0479u7iegpprdulbln6c5nqri6vq01jdv2skfhqfd3cbe7358pmvhea7ot7mhm5n3hiltjmeini5avd83a2182nqunv6j62dg1lih7q62sa0sbqkls3ka8gg?verify=9onoaq0000000vasg09uag8ejr68sf0p8k6rk665pk5kclt2o4gktnmlduu2ch80"
+            }
+          ],
+          "summary": "Binary Star System (WIP)",
+          "xata": {
+            "createdAt": "2024-09-09T23:58:13.115Z",
+            "highlight": {
+              "name": [
+                "Zeta Reticuli Star <em>System</em>"
+              ]
+            },
+            "score": 4.6129313,
+            "table": "topics",
+            "updatedAt": "2024-09-09T23:58:13.115Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_crfon53sejr8r2rhopa0",
+        "table": "topics"
+      }
+    ],
+    "personnel": [
+      {
+        "entity_name": "[Interviewee - Redacted]",
+        "status": "not_found",
+        "table": "personnel",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "Sean Kirkpatrick",
+        "status": "found",
+        "xata_record": {
+          "bio": "Sean Kirkpatrick, the former director of the Pentagon's All-Domain Anomaly Resolution Office (AARO), has provided significant insights into the U.S. government's investigation of unidentified anomalous phenomena (UAPs), commonly known as UFOs. Here are the key points:\n\n1. No evidence of aliens or extraterrestrial technology: Kirkpatrick stated that AARO has found no verifiable evidence of extraterrestrial technology or that the U.S. government is reverse-engineering alien spacecraft[1][2].\n\n2. Scientific approach: Kirkpatrick emphasized the importance of following data and science in investigating UAP cases. The office has reviewed over 800 reported sightings, with the majority being explainable as ordinary objects or phenomena[1].\n\n3. Unexplained cases: A small percentage (2-5%) of cases remain unexplained, including the 2004 \"Tic Tac\" incident[1].\n\n4. Concerns about technological surprises: Kirkpatrick expressed that a top concern is being caught off guard by \"intelligent or extraterrestrial technical surprise\"[1].\n\n5. Debunking conspiracy theories: He refuted claims of government cover-ups regarding alien technology and emphasized that AARO has not been denied access to any information[1][2].\n\n6. Criticism of conspiracy theorists: After stepping down, Kirkpatrick criticized a \"core group\" of government workers for perpetuating UFO myths, leading to unnecessary spending of taxpayer dollars[5].\n\n7. Academic exploration: Kirkpatrick co-authored a paper exploring the theoretical possibility of alien probes, though he maintained the need for empirical evidence and peer-reviewed research[3][4].\n\n8. Ongoing investigations: While Kirkpatrick has left his position, AARO continues to investigate UAP sightings and is expected to release further reports[2].\n\nKirkpatrick's tenure at AARO was marked by efforts to bring scientific rigor and transparency to UAP investigations while dispelling unfounded claims and conspiracy theories.\n\nCitations:\n[1] https://abcnews.go.com/Politics/extraterrestrial-technical-supremacy-top-concern-pentagon-ufo-investigator/story?id=101218299\n[2] https://www.usatoday.com/story/news/politics/2024/03/08/alien-ufo-mothership-none-found-pentagon-report/72897245007/\n[3] https://www.politico.com/news/magazine/2023/11/12/sean-kirkpatrick-ufos-pentagon-00126214\n[4] https://www.politico.com/news/2023/04/14/pentagon-ufo-alien-object-00092108\n[5] https://www.theguardian.com/world/2024/jan/27/sean-kirkpatrick-pentagon-ufo-conspiracy-theory-myths",
+          "id": "rec_cqkqmkvc12dbm3mecl60",
+          "name": "Sean Kirkpatrick",
+          "photo": [
+            {
+              "id": "oij1f6dq6h6pn5oslgi6qhcdpc",
+              "name": "230830_ntl_ufo_1244_hpMain_16x9.jpg",
+              "mediaType": "image/jpeg",
+              "enablePublicUrl": true,
+              "signedUrlTimeout": 600,
+              "uploadUrlTimeout": 86400,
+              "size": 1,
+              "version": 0,
+              "url": "https://us-east-1.storage.xata.sh/padee45ar114b4kdne9euble34",
+              "signedUrl": "https://us-east-1.xata.sh/file/09lmetb2epotpthijj10kg84i1ui0479u7iegpprdulbln6c5nqri6vu01jajaqjtg49leoeppikpikqss8alm228m98resitsnas6absfo5slnj1vtlloedlqk7hegscm2nscmokldjklpbktob4ogmto?verify=4vg86q0000001m7mja3qihi6fogk80hija1vno9v06fh18qluo8bdb8m42bhe421",
+              "uploadUrl": "https://kgubvq.us-east-1.upload.xata.sh/file/0dlmetb2epotpthijj10kg84i1ui0479u7iegpprdulbln6c5nqri6vu01jajaqjtg49leoeppikopl9ld9uo24qnc7cspadphke30rqui45jckorsvhml2fsq6m1dsg0shjp9mmml5f3erg53mg?verify=9snoaq0000001bkvn2q0hstde643iftiulj56oe9m2iifufd57ev6nbl4jvtlg6h",
+              "attributes": {
+                "height": 558,
+                "width": 992
+              }
+            }
+          ],
+          "role": "Director of the Pentagon's All-Domain Anomaly Resolution Office (AARO)",
+          "xata": {
+            "createdAt": "2024-07-31T03:11:15.349Z",
+            "highlight": {
+              "name": [
+                "<em>Sean</em> <em>Kirkpatrick</em>"
+              ]
+            },
+            "score": 11.0134,
+            "table": "personnel",
+            "updatedAt": "2024-08-08T14:28:56.899Z",
+            "version": 1
+          }
+        },
+        "xata_id": "rec_cqkqmkvc12dbm3mecl60",
+        "table": "personnel"
+      }
+    ],
+    "events": [
+      {
+        "entity_name": "Discovery of Classified Report",
+        "status": "not_found",
+        "table": "events",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "Congressional Testimony",
+        "status": "not_found",
+        "table": "events",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "State Department Pre-Publication Review",
+        "status": "not_found",
+        "table": "events",
+        "action_needed": "create_new"
+      }
+    ],
+    "organizations": [
+      {
+        "entity_name": "USDI",
+        "status": "not_found",
+        "table": "organizations",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "State Department",
+        "status": "not_found",
+        "table": "organizations",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "Congress",
+        "status": "not_found",
+        "table": "organizations",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "SSCI",
+        "status": "not_found",
+        "table": "organizations",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "SASC",
+        "status": "not_found",
+        "table": "organizations",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "HPSCI",
+        "status": "not_found",
+        "table": "organizations",
+        "action_needed": "create_new"
+      }
+    ],
+    "locations": [
+      {
+        "entity_name": "Pentagon systems",
+        "status": "not_found",
+        "table": "locations",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "Senate Office Building SCIF",
+        "status": "not_found",
+        "table": "locations",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "Russian vessels and coastal facilities",
+        "status": "found",
+        "xata_record": {
+          "city": "russia",
+          "coordinates": "40.2344444, -84.4094444",
+          "id": "rec_cp1v7af6gfslia6uqm40",
+          "latitude": 40.2344444,
+          "longitude": -84.4094444,
+          "name": "russia, oh",
+          "state": "oh",
+          "xata": {
+            "createdAt": "2024-05-14T23:28:39.747Z",
+            "highlight": {
+              "name": [
+                "<em>russia</em>, oh"
+              ]
+            },
+            "score": 8.588803,
+            "table": "locations",
+            "updatedAt": "2024-05-14T23:28:39.747Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_cp1v7af6gfslia6uqm40",
+        "table": "locations"
+      }
+    ],
+    "technologies": [
+      {
+        "entity_name": "Sentient",
+        "status": "not_found",
+        "table": "technologies",
+        "action_needed": "create_new"
+      }
+    ],
+    "dates": [
+      {
+        "entity_name": "August 17, 2023",
+        "status": "not_found",
+        "table": "dates",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "Early 2024",
+        "status": "not_found",
+        "table": "dates",
+        "action_needed": "create_new"
+      }
+    ],
+    "artifacts": [
+      {
+        "entity_name": "12-page classified briefing on UAP incidents",
+        "status": "found",
+        "xata_record": {
+          "date": "c.1472",
+          "description": "T-O Map in Etymologiae by Isidore, Bishop of Seville.",
+          "id": "rec_crvhduj65k4nsv4tih80",
+          "images": [],
+          "name": "T-O Map",
+          "origin": "Spain",
+          "photos": [
+            "https://cdn.thecollector.com/wp-content/uploads/2024/04/ufo-to-map-isidore.jpg"
+          ],
+          "source": "Library of Congress Rare Book and Special Collections Division",
+          "xata": {
+            "createdAt": "2024-10-03T22:13:14.495Z",
+            "highlight": {
+              "name": [
+                "T-<em>O</em> <em>Map</em>"
+              ]
+            },
+            "score": 2.8631454,
+            "table": "artifacts",
+            "updatedAt": "2024-10-03T22:13:14.495Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_crvhduj65k4nsv4tih80",
+        "table": "artifacts"
+      },
+      {
+        "entity_name": "Congressional testimony transcripts",
+        "status": "not_found",
+        "table": "artifacts",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "Pre-publication review correspondence",
+        "status": "not_found",
+        "table": "artifacts",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "Witness's written report to Congress",
+        "status": "found",
+        "xata_record": {
+          "date": "c.1472",
+          "description": "T-O Map in Etymologiae by Isidore, Bishop of Seville.",
+          "id": "rec_crvhduj65k4nsv4tih80",
+          "images": [],
+          "name": "T-O Map",
+          "origin": "Spain",
+          "photos": [
+            "https://cdn.thecollector.com/wp-content/uploads/2024/04/ufo-to-map-isidore.jpg"
+          ],
+          "source": "Library of Congress Rare Book and Special Collections Division",
+          "xata": {
+            "createdAt": "2024-10-03T22:13:14.495Z",
+            "highlight": {
+              "name": [
+                "<em>T</em>-<em>O</em> Map"
+              ]
+            },
+            "score": 0,
+            "table": "artifacts",
+            "updatedAt": "2024-10-03T22:13:14.495Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_crvhduj65k4nsv4tih80",
+        "table": "artifacts"
+      }
+    ],
+    "sightings": [
+      {
+        "entity_name": "",
+        "status": "not_found",
+        "table": "sightings",
+        "action_needed": "create_new"
+      }
+    ]
+  },
+  "entity_creation_results": {
+    "created_entities": {
+      "topics": [
+        {
+          "entity_name": "Congressional Oversight Issues",
+          "xata_id": "d10ad673-f1df-97d7-9ebc-c4abc3069b7b",
+          "created_at": "2025-07-25T14:41:07.297718"
+        },
+        {
+          "entity_name": "Whistleblower Protection Processes",
+          "xata_id": "3ad5db86-07d0-9a37-b1a6-15a3cfd647b8",
+          "created_at": "2025-07-25T14:41:07.470077"
+        }
+      ],
+      "personnel": [
+        {
+          "entity_name": "[Interviewee - Redacted]",
+          "xata_id": "2016834e-f7d9-9fe3-a226-456839088d2d",
+          "created_at": "2025-07-25T14:41:07.659495"
+        }
+      ],
+      "events": [
+        {
+          "entity_name": "Discovery of Classified Report",
+          "xata_id": "f935c83e-2afc-9905-989a-2dcbc9bdff3f",
+          "created_at": "2025-07-25T14:41:07.829982"
+        },
+        {
+          "entity_name": "Congressional Testimony",
+          "xata_id": "ad10563d-76b6-9669-b668-ce79b437fec3",
+          "created_at": "2025-07-25T14:41:07.925678"
+        },
+        {
+          "entity_name": "State Department Pre-Publication Review",
+          "xata_id": "8e2e0318-d058-922f-8fe2-953b1b3b9367",
+          "created_at": "2025-07-25T14:41:08.028977"
+        }
+      ],
+      "organizations": [
+        {
+          "entity_name": "USDI",
+          "xata_id": "1f3f5422-6022-9ef8-b117-8be2a8be9aeb",
+          "created_at": "2025-07-25T14:41:08.124908"
+        },
+        {
+          "entity_name": "State Department",
+          "xata_id": "ffef98b8-e43e-9b40-a8e6-b8616773863e",
+          "created_at": "2025-07-25T14:41:08.345861"
+        },
+        {
+          "entity_name": "Congress",
+          "xata_id": "ddc9f433-d5b3-9521-b2fc-54ca2f4a7710",
+          "created_at": "2025-07-25T14:41:08.547491"
+        },
+        {
+          "entity_name": "SSCI",
+          "xata_id": "756c1f4e-5a9d-95c1-8f59-07271154c9f8",
+          "created_at": "2025-07-25T14:41:08.719269"
+        },
+        {
+          "entity_name": "SASC",
+          "xata_id": "e0f8b189-768f-9b36-bad5-377174830489",
+          "created_at": "2025-07-25T14:41:08.971232"
+        },
+        {
+          "entity_name": "HPSCI",
+          "xata_id": "1dda4e7a-2cf8-97fd-acca-4ce429d86c40",
+          "created_at": "2025-07-25T14:41:09.071720"
+        }
+      ],
+      "locations": [
+        {
+          "entity_name": "Pentagon systems",
+          "xata_id": "c9da9ddb-63f0-9902-886c-c2f3f9e4acbd",
+          "created_at": "2025-07-25T14:41:09.170113"
+        },
+        {
+          "entity_name": "Senate Office Building SCIF",
+          "xata_id": "55cb380c-a80c-96b0-a07e-60f33ba517b1",
+          "created_at": "2025-07-25T14:41:09.392627"
+        }
+      ],
+      "technologies": [],
+      "dates": [],
+      "artifacts": [
+        {
+          "entity_name": "Congressional testimony transcripts",
+          "xata_id": "fa039e28-53de-9295-83b4-c2d90b0a21c4",
+          "created_at": "2025-07-25T14:41:09.491158"
+        },
+        {
+          "entity_name": "Pre-publication review correspondence",
+          "xata_id": "e846885c-b4dc-9b3a-a126-e6fc8736f39c",
+          "created_at": "2025-07-25T14:41:09.587969"
+        }
+      ],
+      "sightings": []
+    },
+    "failed_creations": {
+      "topics": [],
+      "personnel": [],
+      "events": [],
+      "organizations": [],
+      "locations": [],
+      "technologies": [
+        {
+          "entity_name": "Sentient",
+          "error": "Creation returned None"
+        }
+      ],
+      "dates": [
+        {
+          "entity_name": "August 17, 2023",
+          "error": "Creation returned None"
+        },
+        {
+          "entity_name": "Early 2024",
+          "error": "Creation returned None"
+        }
+      ],
+      "artifacts": [],
+      "sightings": [
+        {
+          "entity_name": "",
+          "error": "Creation returned None"
+        }
+      ]
+    },
+    "statistics": {
+      "total_processed": 20,
+      "total_created": 16,
+      "total_failed": 4
+    },
+    "errors": []
+  },
+  "total_entities": 27,
+  "total_matches": 27,
+  "total_created": 16
+}

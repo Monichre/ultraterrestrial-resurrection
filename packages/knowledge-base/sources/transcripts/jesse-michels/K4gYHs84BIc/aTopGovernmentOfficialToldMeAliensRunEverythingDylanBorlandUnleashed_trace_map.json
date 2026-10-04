@@ -1,0 +1,597 @@
+{
+  "schemaVersion": "trace-map.v1",
+  "sourceId": "src:e3b9802412182630",
+  "sourceType": "video",
+  "sourceUrl": "https://www.youtube.com/watch?v=K4gYHs84BIc",
+  "sourceHash": "sha256:4a70852cbfe6cbc6de8c1c0295effc491d374549e6d9ad5e2f284251f1469cf4",
+  "contentVersion": 1,
+  "reviewState": "unreviewed",
+  "nodes": [
+    {
+      "id": "src:e3b9802412182630",
+      "type": "source",
+      "label": "“A Top Government Official Told Me Aliens Run Everything!” -Dylan Borland UNLEASHED",
+      "url": "https://www.youtube.com/watch?v=K4gYHs84BIc",
+      "sourceType": "video",
+      "contentType": "interview_transcript",
+      "integrityFlags": [
+        "truncated_for_pipeline"
+      ],
+      "classificationMarks": [],
+      "ingestionRecommendation": "proceed_with_caution"
+    },
+    {
+      "id": "seg:e3b9802412182630:c01",
+      "type": "segment",
+      "label": "c01",
+      "chunkId": "c01",
+      "evidentiaryDensity": "high",
+      "temporalAnchors": [
+        "2012",
+        "summer of 2012",
+        "approximately 0130",
+        "September 2025",
+        "2010",
+        "2013",
+        "2006",
+        "9/11",
+        "1947",
+        "1950s",
+        "last 10 years",
+        "next 10 years",
+        "3 years ago",
+        "4-day Panama shift"
+      ],
+      "spatialAnchors": [
+        "Langley Air Force Base",
+        "NASA hanger",
+        "Washington DC",
+        "Pittsburgh, PA",
+        "Palm Springs",
+        "Baker City, Oregon",
+        "Austin",
+        "Bettis research lab",
+        "Kexsburg",
+        "I-81 corridor",
+        "Norfolk",
+        "Winchester",
+        "Harrisburg, PA",
+        "Pax River",
+        "New Fork",
+        "Hampton Roads",
+        "South Hills",
+        "Casty Village",
+        "Spain"
+      ],
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 24000,
+        "segmentStart": 0,
+        "segmentEnd": 683,
+        "startSeconds": 0.08,
+        "endSeconds": 1545.1200000000001,
+        "method": "prefix_suffix",
+        "excerpt": "take me back to langley air force base 2012. what exactly did you see? >> outside smoking a cigarette on the phone bsing and i see a light pop up near the nasa hanger and the light starts to fly to me across the base. and as it flies to me,"
+      },
+      "excerpt": "Take me back to Langley Air Force Base 2012. What exactly did you see? >> Outside smoking a cigarette on the phone bsing and I see a light pop up near the NASA hanger and the light starts to fly to me across the base. And as it flies to me,"
+    },
+    {
+      "id": "clm:e3b9802412182630:a9c83049ea45",
+      "type": "claim",
+      "label": "Dylan Borland witnessed a 100 ft equilateral triangle UAP take off near NASA hanger at Langley AFB in summer 2012 at ~0130.",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 24000,
+        "segmentStart": 0,
+        "segmentEnd": 683,
+        "startSeconds": 0.08,
+        "endSeconds": 1545.1200000000001,
+        "method": "prefix_suffix",
+        "excerpt": "take me back to langley air force base 2012. what exactly did you see? >> outside smoking a cigarette on the phone bsing and i see a light pop up near the nasa hanger and the light starts to fly to me across the base. and as it flies to me,"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e3b9802412182630:17a1c48ffd7c",
+      "type": "claim",
+      "label": "The UAP moved from 100 ft to 30,000 ft in 2-3 seconds.",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 24000,
+        "segmentStart": 0,
+        "segmentEnd": 683,
+        "startSeconds": 0.08,
+        "endSeconds": 1545.1200000000001,
+        "method": "prefix_suffix",
+        "excerpt": "take me back to langley air force base 2012. what exactly did you see? >> outside smoking a cigarette on the phone bsing and i see a light pop up near the nasa hanger and the light starts to fly to me across the base. and as it flies to me,"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e3b9802412182630:a339ac6ba25c",
+      "type": "claim",
+      "label": "Borland was a 1N1 geospatial intelligence specialist in the USAF from 2010-2013.",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 24000,
+        "segmentStart": 0,
+        "segmentEnd": 683,
+        "startSeconds": 0.08,
+        "endSeconds": 1545.1200000000001,
+        "method": "prefix_suffix",
+        "excerpt": "take me back to langley air force base 2012. what exactly did you see? >> outside smoking a cigarette on the phone bsing and i see a light pop up near the nasa hanger and the light starts to fly to me across the base. and as it flies to me,"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e3b9802412182630:41d2475bf575",
+      "type": "claim",
+      "label": "Borland was told by an ODNI agent that a UFO program is called 'Rubik's Cube'.",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 24000,
+        "segmentStart": 0,
+        "segmentEnd": 683,
+        "startSeconds": 0.08,
+        "endSeconds": 1545.1200000000001,
+        "method": "prefix_suffix",
+        "excerpt": "take me back to langley air force base 2012. what exactly did you see? >> outside smoking a cigarette on the phone bsing and i see a light pop up near the nasa hanger and the light starts to fly to me across the base. and as it flies to me,"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e3b9802412182630:6c426d1c02c0",
+      "type": "claim",
+      "label": "ODNI allegedly disclosed whistleblower testimony to journalists Jeremy Corbel and George Knapp.",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 24000,
+        "segmentStart": 0,
+        "segmentEnd": 683,
+        "startSeconds": 0.08,
+        "endSeconds": 1545.1200000000001,
+        "method": "prefix_suffix",
+        "excerpt": "take me back to langley air force base 2012. what exactly did you see? >> outside smoking a cigarette on the phone bsing and i see a light pop up near the nasa hanger and the light starts to fly to me across the base. and as it flies to me,"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e3b9802412182630:025fe8e0b72b",
+      "type": "claim",
+      "label": "Whistleblowers who disclose CIA/DOE secrets to ICIG are protected from espionage prosecution.",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 24000,
+        "segmentStart": 0,
+        "segmentEnd": 683,
+        "startSeconds": 0.08,
+        "endSeconds": 1545.1200000000001,
+        "method": "prefix_suffix",
+        "excerpt": "take me back to langley air force base 2012. what exactly did you see? >> outside smoking a cigarette on the phone bsing and i see a light pop up near the nasa hanger and the light starts to fly to me across the base. and as it flies to me,"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e3b9802412182630:7d40fb7f2fc9",
+      "type": "claim",
+      "label": "Borland experienced reprisals and administrative terrorism, including polygraph with air horns and flashing images.",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 24000,
+        "segmentStart": 0,
+        "segmentEnd": 683,
+        "startSeconds": 0.08,
+        "endSeconds": 1545.1200000000001,
+        "method": "prefix_suffix",
+        "excerpt": "take me back to langley air force base 2012. what exactly did you see? >> outside smoking a cigarette on the phone bsing and i see a light pop up near the nasa hanger and the light starts to fly to me across the base. and as it flies to me,"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e3b9802412182630:cca8f91752b2",
+      "type": "claim",
+      "label": "Borland was medically discharged in 2013.",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 24000,
+        "segmentStart": 0,
+        "segmentEnd": 683,
+        "startSeconds": 0.08,
+        "endSeconds": 1545.1200000000001,
+        "method": "prefix_suffix",
+        "excerpt": "take me back to langley air force base 2012. what exactly did you see? >> outside smoking a cigarette on the phone bsing and i see a light pop up near the nasa hanger and the light starts to fly to me across the base. and as it flies to me,"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e3b9802412182630:0353173540bc",
+      "type": "claim",
+      "label": "Drone program had higher suicide rates than other military units.",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 24000,
+        "segmentStart": 0,
+        "segmentEnd": 683,
+        "startSeconds": 0.08,
+        "endSeconds": 1545.1200000000001,
+        "method": "prefix_suffix",
+        "excerpt": "take me back to langley air force base 2012. what exactly did you see? >> outside smoking a cigarette on the phone bsing and i see a light pop up near the nasa hanger and the light starts to fly to me across the base. and as it flies to me,"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e3b9802412182630:0a0ccca3f9f0",
+      "type": "claim",
+      "label": "Borland worked with special forces and special operations in the drone program.",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 24000,
+        "segmentStart": 0,
+        "segmentEnd": 683,
+        "startSeconds": 0.08,
+        "endSeconds": 1545.1200000000001,
+        "method": "prefix_suffix",
+        "excerpt": "take me back to langley air force base 2012. what exactly did you see? >> outside smoking a cigarette on the phone bsing and i see a light pop up near the nasa hanger and the light starts to fly to me across the base. and as it flies to me,"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e3b9802412182630:9ece27a6136e",
+      "type": "claim",
+      "label": "Borland's father was a Navy vet on nuclear aircraft carriers.",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 24000,
+        "segmentStart": 0,
+        "segmentEnd": 683,
+        "startSeconds": 0.08,
+        "endSeconds": 1545.1200000000001,
+        "method": "prefix_suffix",
+        "excerpt": "take me back to langley air force base 2012. what exactly did you see? >> outside smoking a cigarette on the phone bsing and i see a light pop up near the nasa hanger and the light starts to fly to me across the base. and as it flies to me,"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e3b9802412182630:e1b0262efad5",
+      "type": "claim",
+      "label": "Borland's father worked on museums including the Constitution display.",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 24000,
+        "segmentStart": 0,
+        "segmentEnd": 683,
+        "startSeconds": 0.08,
+        "endSeconds": 1545.1200000000001,
+        "method": "prefix_suffix",
+        "excerpt": "take me back to langley air force base 2012. what exactly did you see? >> outside smoking a cigarette on the phone bsing and i see a light pop up near the nasa hanger and the light starts to fly to me across the base. and as it flies to me,"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e3b9802412182630:4b018264fef1",
+      "type": "claim",
+      "label": "Borland is from Pittsburgh area.",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 24000,
+        "segmentStart": 0,
+        "segmentEnd": 683,
+        "startSeconds": 0.08,
+        "endSeconds": 1545.1200000000001,
+        "method": "prefix_suffix",
+        "excerpt": "take me back to langley air force base 2012. what exactly did you see? >> outside smoking a cigarette on the phone bsing and i see a light pop up near the nasa hanger and the light starts to fly to me across the base. and as it flies to me,"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e3b9802412182630:b5febe12fbe8",
+      "type": "claim",
+      "label": "Bettis research lab developed nuclear power for Navy in 1950s.",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 24000,
+        "segmentStart": 0,
+        "segmentEnd": 683,
+        "startSeconds": 0.08,
+        "endSeconds": 1545.1200000000001,
+        "method": "prefix_suffix",
+        "excerpt": "take me back to langley air force base 2012. what exactly did you see? >> outside smoking a cigarette on the phone bsing and i see a light pop up near the nasa hanger and the light starts to fly to me across the base. and as it flies to me,"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e3b9802412182630:1887a167d97b",
+      "type": "claim",
+      "label": "I-81 corridor has historical UFO flaps.",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 24000,
+        "segmentStart": 0,
+        "segmentEnd": 683,
+        "startSeconds": 0.08,
+        "endSeconds": 1545.1200000000001,
+        "method": "prefix_suffix",
+        "excerpt": "take me back to langley air force base 2012. what exactly did you see? >> outside smoking a cigarette on the phone bsing and i see a light pop up near the nasa hanger and the light starts to fly to me across the base. and as it flies to me,"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e3b9802412182630:7f2a39e4f81f",
+      "type": "claim",
+      "label": "Roscoe Hillenkoetter was first CIA director and on board of New Fork.",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 24000,
+        "segmentStart": 0,
+        "segmentEnd": 683,
+        "startSeconds": 0.08,
+        "endSeconds": 1545.1200000000001,
+        "method": "prefix_suffix",
+        "excerpt": "take me back to langley air force base 2012. what exactly did you see? >> outside smoking a cigarette on the phone bsing and i see a light pop up near the nasa hanger and the light starts to fly to me across the base. and as it flies to me,"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e3b9802412182630:83fff7a5b02e",
+      "type": "claim",
+      "label": "Hillenkoetter was frustrated about not getting proper information about Roswell.",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 24000,
+        "segmentStart": 0,
+        "segmentEnd": 683,
+        "startSeconds": 0.08,
+        "endSeconds": 1545.1200000000001,
+        "method": "prefix_suffix",
+        "excerpt": "take me back to langley air force base 2012. what exactly did you see? >> outside smoking a cigarette on the phone bsing and i see a light pop up near the nasa hanger and the light starts to fly to me across the base. and as it flies to me,"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e3b9802412182630:2d68c69e3256",
+      "type": "claim",
+      "label": "Majestic 12 may be tied to National Security Council.",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 24000,
+        "segmentStart": 0,
+        "segmentEnd": 683,
+        "startSeconds": 0.08,
+        "endSeconds": 1545.1200000000001,
+        "method": "prefix_suffix",
+        "excerpt": "take me back to langley air force base 2012. what exactly did you see? >> outside smoking a cigarette on the phone bsing and i see a light pop up near the nasa hanger and the light starts to fly to me across the base. and as it flies to me,"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e3b9802412182630:9d4f3ea18b4e",
+      "type": "claim",
+      "label": "Borland testified before Congress in September 2025.",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 24000,
+        "segmentStart": 0,
+        "segmentEnd": 683,
+        "startSeconds": 0.08,
+        "endSeconds": 1545.1200000000001,
+        "method": "prefix_suffix",
+        "excerpt": "take me back to langley air force base 2012. what exactly did you see? >> outside smoking a cigarette on the phone bsing and i see a light pop up near the nasa hanger and the light starts to fly to me across the base. and as it flies to me,"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e3b9802412182630:df12c0e5ca8f",
+      "type": "claim",
+      "label": "Borland believes 90-95% of UFO information is already out there.",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 24000,
+        "segmentStart": 0,
+        "segmentEnd": 683,
+        "startSeconds": 0.08,
+        "endSeconds": 1545.1200000000001,
+        "method": "prefix_suffix",
+        "excerpt": "take me back to langley air force base 2012. what exactly did you see? >> outside smoking a cigarette on the phone bsing and i see a light pop up near the nasa hanger and the light starts to fly to me across the base. and as it flies to me,"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e3b9802412182630:947113ec7f18",
+      "type": "claim",
+      "label": "Borland experienced collateral damage in drone operations and thinks about it daily.",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 24000,
+        "segmentStart": 0,
+        "segmentEnd": 683,
+        "startSeconds": 0.08,
+        "endSeconds": 1545.1200000000001,
+        "method": "prefix_suffix",
+        "excerpt": "take me back to langley air force base 2012. what exactly did you see? >> outside smoking a cigarette on the phone bsing and i see a light pop up near the nasa hanger and the light starts to fly to me across the base. and as it flies to me,"
+      },
+      "claimSource": "chunk.claims_hint"
+    }
+  ],
+  "edges": [
+    {
+      "from": "src:e3b9802412182630",
+      "to": "seg:e3b9802412182630:c01",
+      "type": "contains"
+    },
+    {
+      "from": "seg:e3b9802412182630:c01",
+      "to": "clm:e3b9802412182630:a9c83049ea45",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e3b9802412182630:c01",
+      "to": "clm:e3b9802412182630:17a1c48ffd7c",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e3b9802412182630:c01",
+      "to": "clm:e3b9802412182630:a339ac6ba25c",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e3b9802412182630:c01",
+      "to": "clm:e3b9802412182630:41d2475bf575",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e3b9802412182630:c01",
+      "to": "clm:e3b9802412182630:6c426d1c02c0",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e3b9802412182630:c01",
+      "to": "clm:e3b9802412182630:025fe8e0b72b",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e3b9802412182630:c01",
+      "to": "clm:e3b9802412182630:7d40fb7f2fc9",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e3b9802412182630:c01",
+      "to": "clm:e3b9802412182630:cca8f91752b2",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e3b9802412182630:c01",
+      "to": "clm:e3b9802412182630:0353173540bc",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e3b9802412182630:c01",
+      "to": "clm:e3b9802412182630:0a0ccca3f9f0",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e3b9802412182630:c01",
+      "to": "clm:e3b9802412182630:9ece27a6136e",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e3b9802412182630:c01",
+      "to": "clm:e3b9802412182630:e1b0262efad5",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e3b9802412182630:c01",
+      "to": "clm:e3b9802412182630:4b018264fef1",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e3b9802412182630:c01",
+      "to": "clm:e3b9802412182630:b5febe12fbe8",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e3b9802412182630:c01",
+      "to": "clm:e3b9802412182630:1887a167d97b",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e3b9802412182630:c01",
+      "to": "clm:e3b9802412182630:7f2a39e4f81f",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e3b9802412182630:c01",
+      "to": "clm:e3b9802412182630:83fff7a5b02e",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e3b9802412182630:c01",
+      "to": "clm:e3b9802412182630:2d68c69e3256",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e3b9802412182630:c01",
+      "to": "clm:e3b9802412182630:9d4f3ea18b4e",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e3b9802412182630:c01",
+      "to": "clm:e3b9802412182630:df12c0e5ca8f",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e3b9802412182630:c01",
+      "to": "clm:e3b9802412182630:947113ec7f18",
+      "type": "asserts"
+    }
+  ],
+  "views": {
+    "sourceSpine": [
+      "seg:e3b9802412182630:c01"
+    ],
+    "topicRoots": [],
+    "claimRoots": [
+      "clm:e3b9802412182630:a9c83049ea45",
+      "clm:e3b9802412182630:17a1c48ffd7c",
+      "clm:e3b9802412182630:a339ac6ba25c",
+      "clm:e3b9802412182630:41d2475bf575",
+      "clm:e3b9802412182630:6c426d1c02c0",
+      "clm:e3b9802412182630:025fe8e0b72b",
+      "clm:e3b9802412182630:7d40fb7f2fc9",
+      "clm:e3b9802412182630:cca8f91752b2",
+      "clm:e3b9802412182630:0353173540bc",
+      "clm:e3b9802412182630:0a0ccca3f9f0",
+      "clm:e3b9802412182630:9ece27a6136e",
+      "clm:e3b9802412182630:e1b0262efad5",
+      "clm:e3b9802412182630:4b018264fef1",
+      "clm:e3b9802412182630:b5febe12fbe8",
+      "clm:e3b9802412182630:1887a167d97b",
+      "clm:e3b9802412182630:7f2a39e4f81f",
+      "clm:e3b9802412182630:83fff7a5b02e",
+      "clm:e3b9802412182630:2d68c69e3256",
+      "clm:e3b9802412182630:9d4f3ea18b4e",
+      "clm:e3b9802412182630:df12c0e5ca8f",
+      "clm:e3b9802412182630:947113ec7f18"
+    ],
+    "openQuestionRoots": []
+  },
+  "coverage": {
+    "timed": true,
+    "charsAnchored": 24000,
+    "charsTotal": 190203,
+    "fraction": 0.1262,
+    "segmentsCovered": 684,
+    "segmentsTotal": 5443,
+    "pipelineTruncatedAtChars": 24000,
+    "chunkAnchorMethods": {
+      "prefix_suffix": 1
+    }
+  },
+  "generation": {
+    "createdAt": "2026-09-10T17:49:19.713455+00:00",
+    "models": [
+      "deepseek/deepseek-chat"
+    ],
+    "promptsUsed": [
+      "disclosure.content_analysis",
+      "disclosure.ner",
+      "document_classification",
+      "rag_ingestion"
+    ],
+    "methodologyVersion": "rag-prompt-pipeline/ADR-0001",
+    "pipelineStatus": "ok",
+    "degraded": true
+  },
+  "validation": {
+    "valid": true,
+    "errors": [],
+    "gaps": [
+      "no next_trace nodes — no pipeline stage proposes concrete next sources",
+      "no reading nodes — no interpretive stage exists; readings are never inferred here",
+      "no counter_reading nodes — paired with reading; unproduced for the same reason",
+      "no speaker nodes — diarisation is unavailable — the transcript carries '>>' turn markers but no speaker identities",
+      "no open questions — the map manufactures closure it has no basis for",
+      "no evidence→claim edges — the analysis prompt emits supporting and contradictory evidence as flat lists with no target claim, so evidence carries a stance but names no claim it bears on",
+      "chunk coverage is 13% of the source (24000 of 190203 chars); the pipeline truncates at 24000 chars"
+    ]
+  }
+}

@@ -1,0 +1,1291 @@
+{
+  "status": "completed",
+  "video_id": "2a01090ef479",
+  "summary_file": "data/web_articles/2025-08-12/Web Article_4b8fb4b0/Web Article_summary.txt",
+  "entities": {
+    "topics": [
+      "Majestic 12 (MJ-12)",
+      "Roswell Incident",
+      "UFO Conspiracy Theory",
+      "FBI Inquiry into MJ-12 Documents"
+    ],
+    "personnel": [
+      "Harry S. Truman",
+      "Lloyd Viel Berkner",
+      "Detlev Wulf Bronk",
+      "Vannevar Bush",
+      "James Vincent Forrestal",
+      "Gordon Gray",
+      "Roscoe Henry Hillenkoetter"
+    ],
+    "events": [
+      "Formation of Majestic 12",
+      "Roswell Incident",
+      "FBI Inquiry into MJ-12 Document Disclosure"
+    ],
+    "organizations": [
+      "Majestic 12 (MJ-12)",
+      "FBI",
+      "CIA",
+      "Johns Hopkins University",
+      "The Rockefeller University",
+      "National Academy of Sciences",
+      "U.S. Office of Scientific Research and Development (OSRD)",
+      "Raytheon",
+      "United States Department of Energy",
+      "United States Naval Academy",
+      "Princeton University",
+      "Central Intelligence Group (CIG)",
+      "Central Intelligence Agency (CIA)"
+    ],
+    "locations": [
+      "Roswell, New Mexico",
+      "Milwaukee, Wisconsin",
+      "Washington, D.C.",
+      "Plainsboro Township, New Jersey"
+    ],
+    "technologies": [
+      "Measuring device for ionospheric stations",
+      "Short wave radio propagation",
+      "Analog computers",
+      "Memex"
+    ],
+    "dates": [
+      "1947",
+      "July 1947",
+      "February 1, 1905",
+      "June 4, 1967",
+      "August 13, 1897",
+      "November 17, 1975",
+      "March 11, 1890",
+      "June 28, 1974",
+      "February 15, 1892",
+      "May 22, 1949",
+      "May 30, 1909",
+      "November 26, 1982",
+      "May 8, 1897",
+      "June 18, 1982",
+      "1949 to 1953",
+      "1953 to 1968",
+      "1950 and 1962",
+      "April of 1998"
+    ],
+    "artifacts": [
+      "Majestic-12 FBI File",
+      "Berkner, Lloyd FBI File",
+      "Berkner, Lloyd CIA Documents Denial Letter",
+      "Bronk, Detlev FBI File",
+      "Bush, Vannevar FBI File",
+      "Forrestal, James FBI File",
+      "Gray, Gordon FBI Release #1",
+      "Gray, Gordon FBI Release #2",
+      "Gray, Gordon State Department Release",
+      "Hillenkoetter, Adm Roscoe Henry FBI File"
+    ],
+    "sightings": [
+      ""
+    ]
+  },
+  "xata_search_results": {
+    "topics": [
+      {
+        "entity_name": "Majestic 12 (MJ-12)",
+        "status": "found",
+        "xata_record": {
+          "id": "rec_ct37rifrkv8v7ahcvcn0",
+          "name": "Operation Majestic 12",
+          "photos": [],
+          "summary": "Top Secret Research and Development/Intelligence operation responsible directly to the President. Established in 1947 by executive order of President Truman, consisted of 12 high-ranking military and scientific figures tasked with investigating UFO phenomena and related technological implications.",
+          "xata": {
+            "createdAt": "2024-11-27T02:02:49.695Z",
+            "highlight": {
+              "name": [
+                "Operation <em>Majestic</em> <em>12</em>"
+              ]
+            },
+            "score": 13.864772,
+            "table": "topics",
+            "updatedAt": "2024-11-27T02:02:49.695Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_ct37rifrkv8v7ahcvcn0",
+        "table": "topics"
+      },
+      {
+        "entity_name": "Roswell Incident",
+        "status": "found",
+        "xata_record": {
+          "id": "rec_cobdesq5ojbselbdqrag",
+          "name": "Roswell Incident",
+          "photos": [],
+          "summary": "The Roswell incident involves a series of events and myths associated with the crash of a United States Army Air Forces balloon near Roswell, New Mexico, in 1947. Initially, the US Army announced the recovery of a flying disc, which generated international headlines. However, this announcement was quickly retracted, with the Army stating it was only a conventional weather balloon. The incident was part of the top secret Project Mogul, aimed at detecting Soviet nuclear tests. Over the years, speculation suggested that the debris was of extraterrestrial origin, leading to enduring UFO conspiracy theories.",
+          "xata": {
+            "createdAt": "2024-04-10T18:16:19.922Z",
+            "highlight": {
+              "name": [
+                "<em>Roswell</em> <em>Incident</em>"
+              ]
+            },
+            "score": 8.93065,
+            "table": "topics",
+            "updatedAt": "2024-04-11T00:46:58.695Z",
+            "version": 3
+          }
+        },
+        "xata_id": "rec_cobdesq5ojbselbdqrag",
+        "table": "topics"
+      },
+      {
+        "entity_name": "UFO Conspiracy Theory",
+        "status": "found",
+        "xata_record": {
+          "id": "rec_cobdesq5ojbselbdqr3g",
+          "name": "Ancient Aliens Theory and Historical Evidence",
+          "photos": [
+            {
+              "id": "7s7qa95do560b27s3cuvrivm3c",
+              "name": "Antropomorfi_detti_astronauti_(b)_-_R_1_-_Area_di_Zurla_-_Nadro_(ph_Luca_Giarelli).jpg",
+              "mediaType": "image/jpeg",
+              "enablePublicUrl": true,
+              "signedUrlTimeout": 600,
+              "uploadUrlTimeout": 86400,
+              "size": 0,
+              "version": 0,
+              "url": "https://us-east-1.storage.xata.sh/l9qq01k2c93gdcpg644iruc88g",
+              "signedUrl": "https://us-east-1.xata.sh/file/09lmetb2epotpthijj10kg84i1ui0479u7iegpprdulbln6c5nqri6vq01j1dlrj8n2dfhqldnbcfajlk0384oi70qpj0c895nsogh7hbhjh0doomhdvrmfnsnhrl9ssf87s08nle5hg8v5ja5svs9o46s?verify=ljspkq000000199782m8dlliah10d3432uc1l5dulteg6tiebnmr0rahrcov9ab0",
+              "uploadUrl": "https://kgubvq.us-east-1.upload.xata.sh/file/0dlmetb2epotpthijj10kg84i1ui0479u7iegpprdulbln6c5nqri6vq01j1dlrj8n2dfhqldnbcepkg0uruncn1p0kdtefalq9qdki72hn2c83uucd1an4hstecjmrqnpcjlorapl8a84gq9vgg?verify=qh49oq0000000k4pthco3b12go4orllk1gdcmmm2uskorh3ghnc375mhtl9lvuap",
+              "attributes": {
+                "height": 768,
+                "width": 929
+              }
+            },
+            {
+              "id": "0t0mi6iuad5s98dv9u15a840e8",
+              "name": "Abydos Hieroglyphen Tempel Sethos I.jpg",
+              "mediaType": "image/jpeg",
+              "enablePublicUrl": true,
+              "signedUrlTimeout": 600,
+              "uploadUrlTimeout": 86400,
+              "size": 0,
+              "version": 0,
+              "url": "https://us-east-1.storage.xata.sh/f6oh7aclbd19f021omtau8acdo",
+              "signedUrl": "https://us-east-1.xata.sh/file/09lmetb2epotpthijj10kg84i1ui0479u7iegpprdulbln6c5nqri6vq01j1dlrj8n2dfhqldnbceudh2ekpamq2iu043hdqlsgkorn806k15uhhnei7s8e78eadf2str7j3ttfr7ge6vvh4fj3savusf8?verify=ljspkq0000000g2on9ulbki5i215s28js4hj3kblpljq3sgn7did6juesd3jdrd3",
+              "uploadUrl": "https://kgubvq.us-east-1.upload.xata.sh/file/0dlmetb2epotpthijj10kg84i1ui0479u7iegpprdulbln6c5nqri6vq01j1dlrj8n2dfhqldnbcepkg0uruncn1p0kdtefbdaal396u6jnt1u77ho4j9u1g5lvijepvldfnqdjv6vknn7vv513g?verify=qh49oq0000001mjgmr90e2ppm1g7oso2jtp9ur2591dg6ha8fqunn2u8efd3iq0n",
+              "attributes": {
+                "height": 600,
+                "width": 800
+              }
+            }
+          ],
+          "summary": "User avatar\n\n# User avatar\n\n**Interpretations and Controversies**\n\n## moniker\n\n**Misinterpretations**: Mainstream scholars argue that these ancient texts are mythological and symbolic rather than literal accounts of extraterrestrial visits. They emphasize the cultural and religious contexts in which these stories were written.\n**10m**\n**Pseudoscience**: The ancient astronaut theory is widely regarded as pseudoscience. Critics argue that proponents often cherry-pick evidence and rely on speculative interpretations rather than rigorous scientific analysis.\nResearch the topic of ancient aliens and provide a thorough report as to the predominant theories, evidence, and some of the most notable historical oddities that contribute to the topic.\n**Conclusion**\nResearch the topic of ancient aliens and provide a thorough report as to the predominant theories, evidence, and some of the most notable historical oddities that contribute to the topic.\nThe ancient astronaut theory uses references from ancient texts like the Bible, the Enuma Elish, and Sumerian writings to suggest that extraterrestrial beings, such as the Annunaki and the Elohim, visited Earth and influenced early human civilizations. While these interpretations are intriguing and have gained popular interest, they are not supported by mainstream archaeology or historical scholarship. The theory remains controversial and is considered pseudoscientific by the academic community.**How do the stories of the Nephilim in the Bible relate to the Annunaki myths?**\n\n- amazon.com favicon\n- nytimes.com favicon## Sources\n- View 2 more\n- gotquestions.org favicon\n**Answer**- degruyter.com favicon\n- View 2 more\n\n### Ancient astronauts\n\n**Answer**\nAncient astronauts\nBased on the search results, there are some interesting connections and parallels between the biblical Nephilim and the Anunnaki from Mesopotamian mythology, though they are not considered to be exactly the same:\nPseudoscientific beliefs about alien visits in ancient times\n**Both involve supernatural or divine beings interacting with humans**:\n**Definition**\n\n- The Nephilim are described as the offspring of the \"sons of God\" and human women in Genesis 6:1-4.\nAncient astronauts, also known as ancient aliens, refers to the set of beliefs that intelligent extraterrestrial beings visited Earth in antiquity and prehistoric times, influencing human development.- The Anunnaki are mythological deities from ancient Mesopotamia.\n\n**Impact on Human Civilization****Both are associated with stories of a great flood**:\n\nProponents suggest this extraterrestrial contact influenced the development of cultures, technologies, religions, and human biology, interpreting advanced alien technologies as divine.- The Nephilim are mentioned just before the account of Noah's flood in Genesis.\n\n- The Epic of Gilgamesh, which features the Anunnaki, includes a flood story similar to Noah's flood.\n**Origins of Deities**\n**Both are sometimes interpreted as giant beings**:\nA common belief among proponents is that deities from most religions are extraterrestrial in origin.\n- The Nephilim are often thought of as giants, though this interpretation is debated.\nAncient astronaut theories propose that extraterrestrial beings visited Earth in ancient times and influenced human civilization. While these ideas are considered pseudoscientific by mainstream academics, they have gained popularity in certain circles. Here's an overview of the predominant theories, claimed evidence, and notable historical oddities associated with ancient alien hypotheses:- The Anunnaki are sometimes depicted as powerful, god-like beings.\n**Predominant Theories****There are theories that the stories may have common origins**:\n\nAncient astronaut proponents generally claim that:- Some suggest the Nephilim account may be an adaptation of earlier Sumerian stories about the Anunnaki or Apkallu.\n\n- Both may reflect ancient traditions of supernatural beings interacting with humans before a great flood.\n- Extraterrestrial beings visited Earth in prehistory and antiquity.\n- These aliens made contact with and influenced early human civilizations.**However, there are important distinctions**:\n- Ancient deities and religious figures were actually misunderstood extraterrestrials.\n- Aliens provided advanced knowledge and technology to early humans, contributing to the development of agriculture, architecture, and other complex achievements.- The Nephilim are generally viewed in a negative light in biblical and later traditions, often associated with fallen angels or demons.\n- Humans may be descendants or creations of these extraterrestrial visitors.- The Anunnaki were worshipped as gods in Mesopotamian religion.\n**Claimed Evidence****Academic perspective**:\n\nSupporters of ancient astronaut theories point to several types of purported evidence:- Mainstream scholars view these as separate mythological traditions, though they may reflect common ancient Near Eastern motifs.\n\n- The connections made between Nephilim and Anunnaki are often found more in popular theories than in academic biblical scholarship.\n- Archaeological artifacts: Proponents claim certain ancient objects are anachronistic or too advanced for their time period.\n- Ancient artwork: Some interpret ancient cave paintings, carvings, and other artworks as depicting alien beings or advanced technology.In summary, while there are some intriguing parallels between the stories of the Nephilim and Anunnaki, particularly in their association with human-divine interaction and flood narratives, they are distinct mythological traditions. The similarities may reflect common ancient Near Eastern motifs or possibly shared cultural memories, but direct equivalence between the two is not supported by mainstream biblical scholarship.\n- Religious texts: Passages from various religious scriptures are reinterpreted as accounts of alien encounters.\n- Monumental architecture: Structures like the Egyptian pyramids or Easter Island statues are claimed to be beyond the capabilities of ancient humans without extraterrestrial assistance.**Are there any other ancient texts that mention both the Nephilim and the Anunnaki?**\n\n**Notable Historical Oddities**## Sources\n\nSeveral historical artifacts and sites are frequently cited by ancient astronaut theorists:- youtube.com favicon\n\n- amazon.com favicon\n- Egyptian pyramids: The precise construction and alignment of the pyramids are often presented as evidence of alien involvement.- View 2 more\n- Nazca Lines: These large geoglyphs in Peru are sometimes interpreted as landing strips for alien spacecraft.\n- Puma Punku: The precise stonework at this Bolivian site is claimed to be evidence of advanced alien technology.**Answer**\n- Antikythera mechanism: This ancient Greek analog computer is cited as an example of anachronistic technology.\n- Baghdad Battery: This ancient artifact is sometimes presented as evidence of advanced ancient electrical knowledge.Based on the search results provided and my existing knowledge, there don't appear to be any ancient texts that directly mention both the Nephilim and the Anunnaki together. These concepts come from different cultural and religious traditions:\n\nIt's important to note that while these theories have captured public imagination, they are not supported by scientific evidence. Archaeologists and historians have provided well-documented explanations for these artifacts and structures based on the known capabilities and technologies of ancient civilizations. The ancient astronaut hypothesis is considered pseudoscience by the academic community, and many of its claims have been debunked or shown to be based on misinterpretations or fabrications.- The Nephilim are mentioned in the Hebrew Bible, specifically in the Book of Genesis and the Book of Numbers. They are not found in Mesopotamian texts.\n\n- The Anunnaki are deities in ancient Mesopotamian mythology, appearing in Sumerian, Akkadian, Assyrian, and Babylonian texts. They are not mentioned in the Bible.**What are some of the most compelling pieces of evidence presented by proponents of ancient astronauts?**\nHowever, there are some interesting parallels and connections that scholars and theorists have drawn:## Sources\n- Flood narratives: Both the biblical account featuring the Nephilim and the Epic of Gilgamesh featuring the Anunnaki contain stories of a great flood. This suggests a possible shared cultural memory of a significant flood event in the ancient Near East.\n- amazon.com favicon- Divine-human interactions: Both traditions describe interactions between divine or supernatural beings and humans. The Nephilim are described as the offspring of the \"sons of God\" and human women, while the Anunnaki are often portrayed as interacting with humans in Mesopotamian myths.\n- newyorker.com favicon- Interpretations by ancient astronaut theorists: Some proponents of ancient astronaut theories, like Zecharia Sitchin, have attempted to draw connections between the Anunnaki and the Nephilim, suggesting they might represent the same or similar entities. However, these theories are not supported by mainstream scholarship.\n- View 2 more- Shared cultural context: While not mentioning both directly, some texts from the ancient Near East may contain themes or motifs that could be related to both concepts, given the cultural exchanges in the region.\n\n**Answer**It's important to note that direct textual connections between the Nephilim and Anunnaki are not found in ancient sources. The associations often made between them are largely the result of modern interpretations and speculative theories, rather than evidence from ancient texts themselves.\n\nProponents of the ancient astronaut theory present several pieces of evidence they find compelling. Here are some of the most notable examples:**Are there any specific references to flying crafts in the Vedas?**\n\n**Archaeological and Architectural Anomalies****How do the descriptions of flying crafts in the Vedas compare to those in other ancient texts?**\n\n- Egyptian Pyramids: The Great Pyramid of Giza, built over 4,500 years ago, is often cited due to its precise construction and alignment with the stars in Orion’s belt. Proponents argue that the technology and knowledge required to build such structures were beyond the capabilities of ancient Egyptians without extraterrestrial assistance.**What interpretations do scholars give to the references of flying crafts in the Vedas?**\n- Nazca Lines: These large geoglyphs in Peru, depicting various animals and shapes, are visible only from the air. Some theorists suggest they were created as landing strips or messages for alien visitors.\n- Sacsayhuamán: This fortress near Cusco, Peru, features enormous stones fitted together with such precision that not even a knife blade can fit between them. The stones, some weighing up to 360 tons, were transported over long distances, leading some to speculate about alien involvement.**Are there any illustrations or depictions of f\nEngland, some weighing up to 50 tons, were transported from quarries miles away. Theories suggest that the alignment with solstices and eclipses indicates advanced astronomical knowledge possibly imparted by extraterrestrials.\n**Do the Vedas mention any divine beings associated with flying crafts?**\n**Ancient Artifacts and Texts**\n\n## Sources\n\n- Antikythera Mechanism: This ancient Greek analog computer, dating back to around 100 BC, is often cited as evidence of advanced technology that could have been provided by extraterrestrials.\n- Baghdad Battery: This artifact, believed to be from the Parthian or Sassanid period, is thought by some to be an ancient electrical device, suggesting advanced knowledge beyond the period’s known capabilities.- youtube.com favicon\n- Religious Texts: Various passages from religious scriptures, such as the Bible, are reinterpreted by proponents to describe encounters with extraterrestrial beings. For instance, the visions of Ezekiel are sometimes claimed to be descriptions of UFOs.- nationalgeographic.com favicon\n- View 2 more\n**Unexplained Phenomena**\n**Answer**\n- 'Oumuamua: Discovered in 2017, this interstellar object exhibited unusual behavior, such as rapid speed and irregular brightness variations. Some astronomers speculated it could be an alien probe, though this remains highly controversial.\n- Elongated Skulls: In South America, elongated skulls have been found, which some believe to be evidence of alien-human hybrids. However, mainstream archaeology attributes these to deliberate cranial deformation practices by ancient cultures.Ancient Vedic texts, particularly the Sanskrit epics and Puranas, contain some\nad alien implants removed from their bodies. These implants are often cited as physical evidence of extraterrestrial contact, though their origins and purposes rem\naut hypothesis. Most of the claims can be explained through known historical, archaeological, and cultural contexts.\nThe most famous references are to \"vimanas,\" which are described as flying machines or char\nces to aerial vehicles, including a description of a vimana as \"an aerial chariot with sides of iron and clad with wings.\"\n\n- amazon.com favicon**Detailed Descriptions**\n- penguinrandomhouse.com favicon\n- View 2 moreSome texts provide surprisingly detailed descriptnaki, particularly in their association with human-divine interaction and flood narratives, they are distinct mythological traditions. The similarities may reflect common ancient Near Eastern motifs or possibly shared cultural memories, but direct equivalence between the two is not supported by mainstream biblical scholarship.\n\n**Are there any other ancient texts that mention both the Nephilim and the Anunnaki?**\n\n## Sources\n\n- youtube.com favicon\n- amazon.com favicon\n- View 2 more\n\n**Answer**\n\nBased on the search results provided and my existing knowledge, there don't appear to be any ancient texts that directly mention both the Nephilim and the Anunnaki together. These concepts come from different cultural and religious traditions:\n\n- The Nephilim are mentioned in the Hebrew Bible, specifically in the Book of Genesis and the Book of Numbers. They are not found in Mesopotamian texts.\n- The Anunnaki are deities in ancient Mesopotamian mythology, appearing in Sumerian,there are some interesting parallels and connections that scholars and theorists have drawn:\n\n- Flood narratives: Both the biblical account featuring the Nephilim and the Epic of Gilgamesh featuring the Anunnaki contain stories of a great flood. This suggests a possible shared cultural memory of a significant flood event in the ancient Near East.\n- Divine-human interactions: Both traditions describe interactions between divine or supernatural beings and humans. The Nephilim are described as the offspring of the \"sons of God\" and human women, while the Anunnaki are often portrayed as interactiaut theorists: Some proponents of ancient astronaut theories, like Zecharia Sitchin, have attempted to draw connections between the Anunnaki and tm, suggesting they might represent the same or similar entities. However, these theories are not supported by mainstream scholarship.\n- Shared cultural context: While not mentioning both directly, some texts from the ancient Near East may contain themes or motifs that could be related to both concepts, given the cultural exchanges in the region.\n\nIt's important to note that direct textual connections between the Nephilim and Anunnaki are not found in ancient sources. The associations often made between them are largely the result of modern interpretations and speculative theories, rather than evidence from ancient texts themselves.\n\n**Are there any specific references to flying crafts in the Vedas?**\n\n**How do the descriptions of flying crafts in the Vedas compare to those in other ancient texts?**\n\n**What interpretations do scholars give to the references of flying crafts in the Vedas?**\n\n**Are there any illustrations or depictions of flying crafts in ancient Vedic art?**\n\n**Do the Vedas mention any divine beings as\n\n**Do the Vedas mention any divine beings associated with flying crafts?**\n\n## Sources\n\n- youtube.com favicon\nsociated with flying crafts?**\n\n## Sources\n\n- youtube.com favicon\n\n- Stonehenge: The massive stones of this prehistoric monument in England, some weighing up to 50 tons, were transported from quarries miles away. Theories suggest that the alignment with solstices and eclipses indicates advanced astronomical knowledge possibly imparted by extraterrestrials.\n**Do the Vedas mention any divine beings associated with flying crafts?**\n**Ancient Artifacts and Texts**\n\n## Sources\n\n- Antikythera Mechanism: This ancient Greek analog computer, dating back to around 100 BC, is often cited as evidence of advanced technology that could have been provided by extraterrestrials.\n- Baghdad Battery: This artifact, believed to be from the Parthian or Sassanid period, is thought by some to be an ancient electrical device, suggesting advanced knowledge beyond the period’s known capabilities.- youtube.com favicon\n- Religious Texts: Various passages from religious scriptures, such as the Bible, are reinterpreted by proponents to describe encounters with extraterrestrial beings. For instance, the visions of Ezekiel are sometimes claimed to be descriptions of UFOs.- nationalgeographic.com favicon\n- View 2 more\n**Unexplained Phenomena**\n**Answer**\n- 'Oumuamua: Discovered in 2017, this interstellar object exhibited unusual behavior, such as rapid speed and irregular brightness variations. Some astronomers speculated it could be an alien probe, though this remains highly controversial.\n- Elongated Skulls: In South America, elongated skulls have been found, which some believe to be evidence of alien-human hybrids. However, mainstream archaeology attributes these to deliberate cranial deformation practices by ancient cultures.Ancient Vedic texts, particularly the Sanskrit epics and Puranas, contain some intriguing references to flying vehicles and aerial warfare that have caught the attention of ancient astronaut theorists. Here's an overview of these references and how they relate to the ancient astronaut theory:\n- Alleged Alien Implants: Whitley Strieber and others have documented cases of individuals claiming to have had alien implants removed from their bodies. These implants are often cited as physical evidence of extraterrestrial contact, though their origins and purposes remain debated.\n**Vimanas**\nWhile these pieces of evidence are intriguing and have fueled much speculation, it is important to note that mainstream science has not found credible evidence to support the ancient astronaut hypothesis. Most of the claims can be explained through known historical, archaeological, and cultural contexts.\nThe most famous references are to \"vimanas,\" which are described as flying machines or chariots:\n**What are some of the most famous books that support the ancient astronauts theory?**\n- In the Ramayana, there are mentions of flying chariots called vimanas. For example, the demon king Ravana is described as having a flying chariot.\n\n## Sources- The Mahabharata also contains references to aerial vehicles, including a description of a vimana as \"an aerial chariot with sides of iron and clad with wings.\"\n\n- amazon.com favicon**Detailed Descriptions**\n- penguinrandomhouse.com favicon\n- View 2 moreSome texts provide surprisingly detailed descriptions of these craft:\n\n**Answer**the stories of the Nephilim and Anunnaki, particularly in their association with human-divine interaction and flood narratives, they are distinct mythological traditions. The similarities may reflect common ancient Near Eastern motifs or possibly shared cultural memories, but direct equivalence between the two is not supported by mainstream biblical scholarship.\n\n**Are there any other ancient texts that mention both the Nephilim and the Anunnaki?**\n\n## Sources\n\n- youtube.com favicon\n- amazon.com favicon\n- View 2 more\n\n**Answer**\n\nBased on the search results provided and my existing knowledge, there don't appear to be any ancient texts that directly mention both the Nephilim and the Anunnaki together. These concepts come from different cultural and religious traditions:\n\n- The Nephilim are mentioned in the Hebrew Bible, specifically in the Book of Genesis and the Book of Numbers. They are not found in Mesopotamian texts.\n- The Anunnaki are deities in ancient Mesopotamian mythology, appearing in Sumerian, Akkadian, Assyrian, and Babylonian texts. They are not mentioned in the Bible.\n\nHowever, there are some interesting parallels and connections that scholars and theorists have drawn:\n\n- Flood narratives: Both the biblical account featuring the Nephilim and the Epic of Gilgamesh featuring the Anunnaki contain stories of a great flood. This suggests a possible shared cultural memory of a significant flood event in the ancient Near East.\n- Divine-human interactions: Both traditions describe interactions between divine or supernatural beings and humans. The Nephilim are described as the offspring of the \"sons of God\" and human women, while the Anunnaki are often portrayed as interacting with humans in Mesopotamian myths.\n- Interpretations by ancient astronaut theorists: Some proponents of ancient astronaut theories, like Zecharia Sitchin, have attempted to draw connections between the Anunnaki and the Nephilim, suggesting they might represent the same or similar entities. However, these theories are not supported by mainstream scholarship.\n- Shared cultural context: While not mentioning both directly, some texts from the ancient Near East may contain themes or motifs that could be related to both concepts, given the cultural exchanges in the region.\n\nIt's important to note that direct textual connections between the Nephilim and Anunnaki are not found in ancient sources. The associations often made between them are largely the result of modern interpretations and speculative theories, rather than evidence from ancient texts themselves.\n\n**Are there any specific references to flying crafts in the Vedas?**\n\n**How do the descriptions of flying crafts in the Vedas compare to those in other ancient texts?**\n\n**What interpretations do scholars give to the references of flying crafts in the Vedas?**\n\n**Are there any illustrations or depictions of flying crafts in ancient Vedic art?**\n\n**Do the Vedas mention any divine beings associated with flying crafts?**\n\n## Sources\n\n- youtube.com favicon\n- nationalgeographic.com favicon\n- View 2 more\n\n**Answer**\n\nAncient Vedic texts, particularly the Sanskrit epics and Puranas, contain some intriguing references to flying vehicles and aerial warfare that have caught the attention of ancient astronaut theorists. Here's an overview of these references and how they relate to the ancient astronaut theory:\n\n**Vimanas**\n\nThe most famous references are to \"vimanas,\" which are described as flying machines or chariots:\n\n- In the Ramayana, there are mentions of flying chariots called vimanas. For example, the demon king Ravana is described as having a flying chariot.\n- The Mahabharata also contains references to aerial vehicles, including a description of a vimana as \"an aerial chariot with sides of iron and clad with wings.\"\n\n**Detailed Descriptions**\n\nSome texts provide surprisingly detailed descriptions of these craft:\n\n## Notable artifacts and artworks that are often cited in discussions about ancient astronauts and unexplained technologies\n\n## Unusual Ancient Artifacts and Their Interpretations\n\n**Helicopter Hieroglyphs at Abydos, Egypt**\n[Helicopter Hieroglyphs Image](https://commons.wikimedia.org/wiki/File:Abydos-Hieroglyphen_Tempel_Sethos_I._01.jpg)\n\n- **Description:** Carvings in the Temple of Seti I appear to depict modern vehicles like helicopters and submarines.\n- **Mainstream Explanation:** Overlapping hieroglyphs due to re-carving.\n\n**The Astronaut of Palenque**\n[The Astronaut of Palenque Image](https://commons.wikimedia.org/wiki/File:Sarcophagus_of_Pakal_the_Great.jpg)\n\n- **Description:** A carving on the sarcophagus lid of Mayan King K'inich Janaab' Pakal, sometimes interpreted as depicting an astronaut in a spaceship.\n- **Scholarly View:** Representation of Pakal's journey to the underworld.\n\n**The Baghdad Battery**\n[The Baghdad Battery Image](https://commons.wikimedia.org/wiki/File:Baghdad_Battery.jpg)\n\n- **Description:** A clay pot containing an iron rod and copper cylinder, dating to the Parthian period, sometimes theorized to be an ancient electrical device.\n- **Mainstream Explanation:** Likely used for storing sacred scrolls.\n\n**The Antikythera Mechanism**\n[The Antikythera Mechanism Image](https://commons.wikimedia.org/wiki/File:NAMA_Machine_d%27Anticyth%C3%A8re_1.jpg)\n\n- **Description:** An ancient Greek analog computer used to predict astronomical positions, often cited as evidence of advanced ancient technology.\n- **Scholarly View:** Acknowledged as a sophisticated device for its time.\n\n**The Nazca Lines in Peru**\n[The Nazca Lines in Peru Image](https://commons.wikimedia.org/wiki/File:Nazca_Lines_Astronaut.jpg)\n\n- **Description:** Large geoglyphs sometimes interpreted as landing strips for alien spacecraft.\n- **Mainstream Explanation:** Viewed as ritual pathways by archaeologists.\n\n**The Rocket Ships of Ecuador**\n[The Rocket Ships of Ecuador Image](https://commons.wikimedia.org/wiki/File:Quimbaya_aircraft_gold.jpg)\n\n- **Description:** Golden artifacts from the Quimbaya civilization resembling modern aircraft.\n- **Mainstream Explanation:** Considered stylized representations of birds or insects.\n\n**The Saqqara Bird**\n[The Saqqara Bird Image](https://commons.wikimedia.org/wiki/File:Ancient_Egyptian_Saqqara_Bird.jpg)\n\n- **Description:** A wooden object from ancient Egypt resembling a modern airplane.\n- **Mainstream Explanation:** Seen as a ceremonial object representing a bird.\n\n**Alien Astronauts in Cave Paintings**\n[The Saqqara Bird Image](https://commons.wikimedia.org/wiki/File:Ancient_Egyptian_Saqqara_Bird.jpg)\n\n- **Description:** Various prehistoric cave paintings, like those in Val Camonica, Italy, sometimes interpreted as depicting alien beings in spacesuits.\n- **Mainstream Explanation:** Typically viewed as shamanic or religious figures by archaeologists.\n\n**The Piri Reis Map**\n[The Piri Reis Map Image](https://commons.wikimedia.org/wiki/File:Piri_reis_world_map.jpg)\n\n- **Description:** A 16th-century map claimed to show Antarctic coastlines unknown at the time.\n- **Mainstream Explanation:** Accuracy attributed to compilation from earlier sources.\n\n**Pacal's Rocket from Palenque**\n[Pacal's Rocket from Palenque Image](https://commons.wikimedia.org/wiki/File:Pakal_the_Great.jpg)\n\n- **Description:** A carved stone slab some interpret as showing a Mayan king in a spaceship.\n- **Scholarly View:** Seen as depicting the king's descent into the underworld by archaeologists.\n",
+          "xata": {
+            "createdAt": "2024-04-10T18:16:19.922Z",
+            "highlight": {
+              "name": [
+                "Ancient Aliens <em>Theory</em> and Historical Evidence"
+              ]
+            },
+            "score": 3.9463835,
+            "table": "topics",
+            "updatedAt": "2024-07-11T16:26:32.260Z",
+            "version": 1
+          }
+        },
+        "xata_id": "rec_cobdesq5ojbselbdqr3g",
+        "table": "topics"
+      },
+      {
+        "entity_name": "FBI Inquiry into MJ-12 Documents",
+        "status": "found",
+        "xata_record": {
+          "id": "rec_ct3co7r6fvstbp7ela3g",
+          "name": "MJ-12 Document Authentication Studies",
+          "photos": [],
+          "summary": "Scientific and historical analysis of MJ-12 related documents, focusing on forensic evidence and historical consistency.\n    Time Period: 1984-present\n    Key Documents: Eisenhower Briefing Document",
+          "xata": {
+            "createdAt": "2024-11-27T07:37:03.227Z",
+            "highlight": {
+              "name": [
+                "<em>MJ</em>-<em>12</em> <em>Document</em> Authentication Studies"
+              ]
+            },
+            "score": 11.2396345,
+            "table": "topics",
+            "updatedAt": "2024-11-27T07:37:03.227Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_ct3co7r6fvstbp7ela3g",
+        "table": "topics"
+      }
+    ],
+    "personnel": [
+      {
+        "entity_name": "Harry S. Truman",
+        "status": "found",
+        "xata_record": {
+          "authority": 0,
+          "bio": "Former U. S. President. Serving as President of the United States at the time of the time of the Roswell Incident in 1947, there are unconfirmed reports that Truman visited the site.\n\nReferenced 1 times in UFO testimonies. Statements recorded between Apr 4, 1950 and Apr 4, 1950. Sample statement: \"I can assure you that flying saucers, given that they exist, are not constructed by any power on ear...\"",
+          "credibility": 0,
+          "id": "rec_csndc34mk4vaqi3gb6m0",
+          "name": "Harry Truman",
+          "photo": [
+            {
+              "id": "df8mhclbg55of353irviqro0c0",
+              "name": "Harry Truman.jpg",
+              "mediaType": "image/jpeg",
+              "enablePublicUrl": true,
+              "signedUrlTimeout": 300,
+              "uploadUrlTimeout": 86400,
+              "size": 39830,
+              "version": 0,
+              "url": "https://us-east-1.storage.xata.sh/kgubvqarvnjsf2o14e70poeithobmp7g",
+              "signedUrl": "https://us-east-1.xata.sh/file/0hlmetb2epotpthijj10kg84i1ui0479u7iegpprdulbln6c5nqri6vu01jitlgciqgjtba8e1cqp91snvklnvf7ou5g28se1jgt5r3gndif1auf7efggtfric236sr9p92h0dojvo94m497ckbffrt8o7a5boup?verify=g7s9kq00000000c5de994dv1cvoh2n0uq99oifmpcvhcu17hve9b4ic3d0f623t4",
+              "uploadUrl": "https://kgubvq.us-east-1.upload.xata.sh/file/0dlmetb2epotpthijj10kg84i1ui0479u7iegpprdulbln6c5nqri6vu01jitlgciqgjtba8e1cqoppeqo69d89ull470mddk25c1crbicgkldl05gescve06u1db5m6pahm86ud0gs98t3cnsr0?verify=ql49oq00000018imedostpsloqa0usm70dc25fhc5o03auvi2curt33noj46i2kc",
+              "attributes": {
+                "height": 800,
+                "width": 600
+              }
+            }
+          ],
+          "popularity": 0,
+          "rank": 0,
+          "role": "Former U.S. President",
+          "xata": {
+            "createdAt": "2024-11-09T03:25:01.141Z",
+            "highlight": {
+              "name": [
+                "<em>Harry</em> <em>Truman</em>"
+              ]
+            },
+            "score": 10.932501,
+            "table": "personnel",
+            "updatedAt": "2025-01-13T10:10:02.713Z",
+            "version": 1
+          }
+        },
+        "xata_id": "rec_csndc34mk4vaqi3gb6m0",
+        "table": "personnel"
+      },
+      {
+        "entity_name": "Lloyd Viel Berkner",
+        "status": "found",
+        "xata_record": {
+          "authority": 6,
+          "credibility": 42,
+          "id": "rec_cobdfd4jmvif9dabl1kg",
+          "name": "Seth Lloyd",
+          "photo": [],
+          "popularity": 42,
+          "rank": 26,
+          "xata": {
+            "createdAt": "2024-04-10T18:17:24.661Z",
+            "highlight": {
+              "name": [
+                "Seth <em>Lloyd</em>"
+              ]
+            },
+            "score": 5.5067,
+            "table": "personnel",
+            "updatedAt": "2024-08-17T23:01:43.366Z",
+            "version": 2
+          }
+        },
+        "xata_id": "rec_cobdfd4jmvif9dabl1kg",
+        "table": "personnel"
+      },
+      {
+        "entity_name": "Detlev Wulf Bronk",
+        "status": "not_found",
+        "table": "personnel",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "Vannevar Bush",
+        "status": "not_found",
+        "table": "personnel",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "James Vincent Forrestal",
+        "status": "found",
+        "xata_record": {
+          "bio": "Became Director of GEIPAN, the French UFO study organization, in 2021.",
+          "id": "rec_crvbchb65k4nsv4th2h0",
+          "name": "Vincent Costes",
+          "photo": [],
+          "role": "Optical Engineer",
+          "xata": {
+            "createdAt": "2024-10-03T15:20:37.814Z",
+            "highlight": {
+              "name": [
+                "<em>Vincent</em> Costes"
+              ]
+            },
+            "score": 6.043672,
+            "table": "personnel",
+            "updatedAt": "2024-10-03T15:20:37.814Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_crvbchb65k4nsv4th2h0",
+        "table": "personnel"
+      },
+      {
+        "entity_name": "Gordon Gray",
+        "status": "found",
+        "xata_record": {
+          "authority": 2,
+          "bio": "Gordon Cooper was one of the original Mercury Seven astronauts and claimed to have witnessed UFOs during his career., Leroy Gordon Cooper Jr. (March 6, 1927 – October 4, 2004) was one of the original seven astronauts in NASA's Mercury program and later spoke publicly about his UFO sightings.",
+          "credibility": 8,
+          "id": "rec_cobdfd4jmvif9dabl110",
+          "name": "Gordon Cooper",
+          "photo": [
+            {
+              "id": "gq62suo7u91qvdu10b3152ekvc",
+              "name": "gordon.jpeg",
+              "mediaType": "image/jpeg",
+              "enablePublicUrl": true,
+              "signedUrlTimeout": 600,
+              "uploadUrlTimeout": 86400,
+              "size": 3,
+              "version": 0,
+              "url": "https://us-east-1.storage.xata.sh/i575nv6gs92q7eda1mmlot3gp0",
+              "signedUrl": "https://us-east-1.xata.sh/file/09lmetb2epotpthijj10kg84i1ui0479u7iegpprdulbln6c5nqri6vu01j1dltkieru9t5l9ek454aebfud1oi5kesqk3ddbhq71i1njp1b2rmnf27gc2ob8u7onvip8p237k1r4r10igpp2531ni8pn0?verify=lrspkq0000001eh03kak6m7v36slsqo0rinop20ukhl5uvsknro7pp64esp0jl7j",
+              "uploadUrl": "https://kgubvq.us-east-1.upload.xata.sh/file/0dlmetb2epotpthijj10kg84i1ui0479u7iegpprdulbln6c5nqri6vu01j1dltkieru9t5l9ek44phf9ah0gk8fn3s7l84k1ncppm586dskocbeq1i23gdid3alieat4uavansjeuo0riep9if0?verify=qp49oq0000000c68vpi7hvp9ok13handqoin7qpn6v1i9odje7pem7qd8s66v86v",
+              "attributes": {
+                "height": 251,
+                "width": 201
+              }
+            },
+            {
+              "id": "vage66csg916n0ianoq3gpnfv8",
+              "name": "GordonCooperUfoTestimony.mp4",
+              "mediaType": "video/mp4",
+              "enablePublicUrl": true,
+              "signedUrlTimeout": 600,
+              "uploadUrlTimeout": 86400,
+              "size": 1,
+              "version": 0,
+              "url": "https://us-east-1.storage.xata.sh/kgubvqjqkeicv3ll6o99ffs5mf8vj2f4",
+              "signedUrl": "https://us-east-1.xata.sh/file/0hlmetb2epotpthijj10kg84i1ui0479u7iegpprdulbln6c5nqri6vu01j1dltkieru9t5l9ek4591snvl7l8t4pu7badgiiuvobcuhv64u9h9dmr8aba9842nqpqvpobgcovlvucdojp8c6ol1a3s14ilq7r8n?verify=lrspkq0000000eppsvfuusimhdsnsqlqeff2jtd43kfmb1183ro1nkobr86so61a",
+              "uploadUrl": "https://kgubvq.us-east-1.upload.xata.sh/file/0dlmetb2epotpthijj10kg84i1ui0479u7iegpprdulbln6c5nqri6vu01j1dltkieru9t5l9ek44q0i8k1u9lm4hhlgna7vecetgr0bspjs3bidmrmtpf58bs4to1jse03ktq0hpgk104jrtn50?verify=qp49oq0000001pt3ui1kdtt10fs0i3em71lrb5htodoig1k27erhkg9b8mmj42g7"
+            }
+          ],
+          "popularity": 8,
+          "rank": 61,
+          "role": "Mercury astronaut",
+          "xata": {
+            "createdAt": "2024-04-10T18:17:24.661Z",
+            "highlight": {
+              "name": [
+                "<em>Gordon</em> Cooper"
+              ]
+            },
+            "score": 4.8888283,
+            "table": "personnel",
+            "updatedAt": "2025-04-30T15:43:08.699Z",
+            "version": 7
+          }
+        },
+        "xata_id": "rec_cobdfd4jmvif9dabl110",
+        "table": "personnel"
+      },
+      {
+        "entity_name": "Roscoe Henry Hillenkoetter",
+        "status": "found",
+        "xata_record": {
+          "bio": "Referenced 1 times in UFO testimonies. Statements recorded between Jan 1, 1960 and Jan 1, 1960. Sample statement: \"Unknown objects are operating under intelligent control… It is imperative that we learn where UFOs c...\"",
+          "id": "rec_csucbig759l45v77pug0",
+          "name": "Roscoe Hillenkoetter",
+          "photo": [],
+          "role": "First CIA Director, Director of the Central Intelligence Agency, Vice Admiral US Navy",
+          "xata": {
+            "createdAt": "2024-11-19T17:07:22.388Z",
+            "highlight": {
+              "name": [
+                "<em>Roscoe</em> <em>Hillenkoetter</em>"
+              ]
+            },
+            "score": 11.0134,
+            "table": "personnel",
+            "updatedAt": "2024-12-03T08:48:35.952Z",
+            "version": 1
+          }
+        },
+        "xata_id": "rec_csucbig759l45v77pug0",
+        "table": "personnel"
+      }
+    ],
+    "events": [
+      {
+        "entity_name": "Formation of Majestic 12",
+        "status": "not_found",
+        "table": "events",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "Roswell Incident",
+        "status": "not_found",
+        "table": "events",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "FBI Inquiry into MJ-12 Document Disclosure",
+        "status": "not_found",
+        "table": "events",
+        "action_needed": "create_new"
+      }
+    ],
+    "organizations": [
+      {
+        "entity_name": "Majestic 12 (MJ-12)",
+        "status": "found",
+        "xata_record": {
+          "description": "In 1953, a team of researchers finished a statistical analysis of 3,201 UAP reports from the files of the U.S. Air Force’s Aerial Phenomenon Group, which went by the codename Project Blue Book. The analysis remains among the largest studies of its kind and represents the height of the U.S. Air Force’s effort to investigate the post-WWII “UFO” mystery.",
+          "id": "rec_cobdhj5bjt595h6377jg",
+          "name": "Blue Book Special Report 14 and the Robertson Panel",
+          "photo": "aaadd0d4-fb53-4c27-b323-e6ed5793b2dc.png (https://v5.airtableusercontent.com/v3/u/27/27/1712786400000/TVz7bac9GGFbueGjXxgt6g/-1PGPIsI2CczA_4fie0cJqdLZfRwC2podlLwTihTB9xJbz3GHTZhazm64JmtKYG1mCVjTEPT94CLX2DTIGM3HMvai6CYlCkfO_R_SVIRXaIBA1OsfU-Exbg4Y_YWmn6D_xYmHXzvwmsXgjI78TsmWw/6rv-WLxiC54-5voJCoHQe4X5K7F7mLJNbXsQEtYA2OA)",
+          "xata": {
+            "createdAt": "2024-04-10T18:22:04.499Z",
+            "highlight": {
+              "name": [
+                "Blue Book Special Report <em>14</em> and the Robertson Panel"
+              ]
+            },
+            "score": 2.2461624,
+            "table": "organizations",
+            "updatedAt": "2024-04-10T18:22:04.499Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_cobdhj5bjt595h6377jg",
+        "table": "organizations"
+      },
+      {
+        "entity_name": "FBI",
+        "status": "not_found",
+        "table": "organizations",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "CIA",
+        "status": "not_found",
+        "table": "organizations",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "Johns Hopkins University",
+        "status": "not_found",
+        "table": "organizations",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "The Rockefeller University",
+        "status": "found",
+        "xata_record": {
+          "id": "rec_cobdhj5bjt595h6377e0",
+          "name": "The Disclosure Project",
+          "xata": {
+            "createdAt": "2024-04-10T18:22:04.499Z",
+            "highlight": {
+              "name": [
+                "<em>The</em> Disclosure Project"
+              ]
+            },
+            "score": 1.4366289,
+            "table": "organizations",
+            "updatedAt": "2024-04-10T18:22:04.499Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_cobdhj5bjt595h6377e0",
+        "table": "organizations"
+      },
+      {
+        "entity_name": "National Academy of Sciences",
+        "status": "found",
+        "xata_record": {
+          "description": "The National Institute for Discovery Science (NIDSci) was a privately financed research organization based in Las Vegas, Nevada, USA, and operated from 1995 to 2004. It was founded in 1995 by real-estate developer Robert Bigelow, who set it up to research and advance serious study of various fringe science and paranormal topics, most notably ufology.[1][2] Deputy Administrator Colm Kelleher was quoted as saying the organization was not designed to study UFOs only. \"We don't study aliens, we study anomalies. They're the same thing in a lot of people's minds, but not in our minds.\"[3] NIDSci was disbanded in October 2004.\n\nThe National Institute for Discovery Science, known also as NIDS, was founded by Robert Bigelow serving as a way to channel funds into the scientific study of paranormal phenomena. The NIDS performed research in the area of cattle mutilation and black triangle reports.[1]\n\nThe NIDSci bought Skinwalker Ranch after journalist George Knapp first wrote about it in 1996, and Deputy Administrator Colm Kelleher led the investigation for a number of years.[4][5]\n\nA hotline was established in 1999 to receive reports of odd occurrences. Over 5,000 calls and e-mails were received by the organization.[citation needed][vague] Officials say many were explained as missile test launches and meteors.[3]",
+          "id": "rec_cqvbi40lcojovqh6jao0",
+          "image": {
+            "name": "nids.png",
+            "mediaType": "image/png",
+            "enablePublicUrl": true,
+            "signedUrlTimeout": 600,
+            "uploadUrlTimeout": 86400,
+            "size": 0,
+            "version": 0,
+            "url": "https://us-east-1.storage.xata.sh/kgubvqh7h21hp2i57b7eea32se3usbh0",
+            "signedUrl": "https://us-east-1.xata.sh/file/0hlmetb2epotpthijj10kg84i1ui0479u7iegpprdulrln6c5nqri70601jbte8g2lj2f3va4qdb191snvl2f2433i54aemessk65os7ton20k60347cd6pt13s49ti5relv72untghp9ab8rl5osebnfvefu7kh?verify=m7spkq0000000ecfc6reivr12jr8uh102eseuqm4lcaens4mdiecdouqlans4iug",
+            "uploadUrl": "https://kgubvq.us-east-1.upload.xata.sh/file/0dlmetb2epotpthijj10kg84i1ui0479u7iegpprdulrln6c5nqri70601jbte8g2lj2f3va4qdb0plun481aph7hvl2d6lhio7rnvd565u1r5gi85ll31kfg105okasmqp0878k4eus36d0sgvg?verify=r549oq0000000r1hseh6b1k5fn42gas5logr7dfa1ds2bq9qc8tlinlt2nbh8teo",
+            "attributes": {
+              "height": 47,
+              "width": 379
+            }
+          },
+          "name": "National Institute for Discovery Science (NIDS)",
+          "specialization": "Paranormal Phenomenon",
+          "xata": {
+            "createdAt": "2024-08-16T02:27:28.518Z",
+            "highlight": {
+              "name": [
+                "<em>National</em> Institute for Discovery <em>Science</em> (NIDS)"
+              ]
+            },
+            "score": 4.109471,
+            "table": "organizations",
+            "updatedAt": "2024-08-16T02:27:28.518Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_cqvbi40lcojovqh6jao0",
+        "table": "organizations"
+      },
+      {
+        "entity_name": "U.S. Office of Scientific Research and Development (OSRD)",
+        "status": "found",
+        "xata_record": {
+          "id": "rec_cobdhj5bjt595h6377fg",
+          "name": "SOBEPS (Belgian UFO research organization)",
+          "xata": {
+            "createdAt": "2024-04-10T18:22:04.499Z",
+            "highlight": {
+              "name": [
+                "SOBEPS (Belgian UFO <em>research</em> organization)"
+              ]
+            },
+            "score": 3.060686,
+            "table": "organizations",
+            "updatedAt": "2024-04-10T18:22:04.499Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_cobdhj5bjt595h6377fg",
+        "table": "organizations"
+      },
+      {
+        "entity_name": "Raytheon",
+        "status": "not_found",
+        "table": "organizations",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "United States Department of Energy",
+        "status": "found",
+        "xata_record": {
+          "description": "In 2007, U.S. Senator Harry Reid and two other influential senators covertly secured $22 million for the Department of Defense (DoD) to study UAP through what became known as the Advanced Aeronautics Weapons System Application Program, or AAWSAP. Running from 2008 to 2010, AAWSAP largely consisted of the work of its sole contractor, Bigelow Aerospace Advanced Space Studies, or BAASS, an organization founded by the hotel-turned-aerospace magnate Robert Bigelow.",
+          "id": "rec_cobdhj5bjt595h6377ng",
+          "name": "The Roots of the Pentagon UAP Program: From AAWSAP/AATIP to UAPTF",
+          "photo": "1a93aa43-aeb5-42e5-aacb-fe49b2f76454.png (https://v5.airtableusercontent.com/v3/u/27/27/1712786400000/kXQCE8xjKARKmWq069cAYA/UhWTJ5KmI8bN2IsvBT0_K1dfv_nQ0BNVoWH1xA0Eoh4FJ15RtAvd0UodJBhqQCOvR9aPikQQtrN3xitsnmoDqZWUq2T8sTC8l1oqUfmlpoG_R4ufeCO1r3PniG1YJ3wzK7qvvThJVA_bK9crNe-clA/IUwaAcDSwv2AaFevzp9L307MmXAB5FZAjtjX08HboCg)",
+          "xata": {
+            "createdAt": "2024-04-10T18:22:04.499Z",
+            "highlight": {
+              "name": [
+                "The Roots <em>of</em> the Pentagon UAP Program: From AAWSAP&#x2F;AATIP to UAPTF"
+              ]
+            },
+            "score": 1.8724365,
+            "table": "organizations",
+            "updatedAt": "2024-04-10T18:22:04.499Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_cobdhj5bjt595h6377ng",
+        "table": "organizations"
+      },
+      {
+        "entity_name": "United States Naval Academy",
+        "status": "found",
+        "xata_record": {
+          "id": "rec_cobdhj5bjt595h6377u0",
+          "name": "To The Stars Academy",
+          "xata": {
+            "createdAt": "2024-04-10T18:22:04.499Z",
+            "highlight": {
+              "name": [
+                "To The Stars <em>Academy</em>"
+              ]
+            },
+            "score": 3.3658226,
+            "table": "organizations",
+            "updatedAt": "2024-04-10T18:22:04.499Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_cobdhj5bjt595h6377u0",
+        "table": "organizations"
+      },
+      {
+        "entity_name": "Princeton University",
+        "status": "not_found",
+        "table": "organizations",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "Central Intelligence Group (CIG)",
+        "status": "found",
+        "xata_record": {
+          "description": "## Central Intelligence Agency (CIA): A Comprehensive Profile\n\n### **Introduction**\n\nThe Central Intelligence Agency (CIA) is the principal foreign intelligence and counterintelligence agency of the United States government. Formally established in 1947, the CIA evolved from the World War II Office of Strategic Services (OSS) and has since played a crucial role in gathering, processing, and analyzing national security information from around the world.\n\n### **History and Formation**\n\nThe CIA was created by the National Security Act of 1947, signed into law by President Harry S. Truman. The impetus for its creation included the unforeseen attack on Pearl Harbor and the need for a centralized intelligence organization to coordinate efforts across various government agencies, including the FBI, State Department, and War Department[1][2][6].\n\n### **Purpose and Mission**\n\nInitially, the CIA was intended to serve as a clearinghouse for foreign policy intelligence and analysis. Its primary functions include:\n\n- Collecting, analyzing, evaluating, and disseminating foreign intelligence.\n- Conducting covert operations.\n- Providing national security information to U.S. policymakers, including the President[1][2][5].\n\n### **Organizational Structure**\n\nThe CIA is organized into several key directorates and offices, each with specific responsibilities:\n\n#### **Executive Office**\n\n- **Director of the CIA (D/CIA)**: Appointed by the President and confirmed by the Senate, the D/CIA reports directly to the Director of National Intelligence (DNI) and interfaces with Congress and the White House.\n- **Deputy Director (DD/CIA)**: Appointed by the D/CIA, the Deputy Director oversees internal operations.\n- **Chief Operating Officer (COO/CIA)**: Manages day-to-day activities and is the highest non-political position within the agency[1][3].\n\n#### **Directorates**\n\n1. **Directorate of Analysis**: Provides intelligence analysis to inform U.S. officials on key foreign issues. Analysts produce reports and brief policymakers to aid in decision-making[1][3].\n\n2. **Directorate of Operations**: Responsible for clandestine human intelligence (HUMINT) collection and covert actions. This directorate coordinates espionage activities and special operations[1][2].\n\n3. **Directorate of Science and Technology**: Focuses on scientific and technological advancements, technical operations, and the monitoring of foreign media. It plays a crucial role in designing spy satellites and intercepting communications[2].\n\n4. **Directorate of Support**: Manages the agency's finances, personnel, security, and logistical support[1][2].\n\n5. **Directorate of Digital Innovation**: The newest directorate, responsible for cyber operations and integrating digital technology into CIA activities[1].\n\n### **Activities and Responsibilities**\n\nThe CIA conducts a wide range of activities, including:\n\n- **Intelligence Gathering**: Collecting information through various means, including satellite reconnaissance, interception of communications, and human intelligence.\n- **Covert Operations**: Engaging in clandestine activities to influence foreign governments and events. These operations can include subversion, sabotage, and propaganda.\n- **Counterintelligence**: Protecting U.S. intelligence operations from foreign espionage and uncovering spies within the agency[1][2][5].\n\n### **Controversies and Criticisms**\n\nThe CIA has been involved in several controversies over the years, including:\n\n- **Use of Torture**: The agency has faced criticism for its use of enhanced interrogation techniques.\n- **Domestic Surveillance**: In 2022, a CIA domestic surveillance program was uncovered that had not been subject to congressional oversight.\n- **Alleged Human Rights Violations**: The agency has been accused of involvement in human rights abuses and drug trafficking[1].\n\n### **Legacy and Impact**\n\nDespite controversies, the CIA remains a vital component of U.S. national security. It has played significant roles in major historical events, including the Cold War, counterterrorism efforts, and the fight against the proliferation of weapons of mass destruction. The agency continues to adapt to new challenges, such as cyber threats and evolving geopolitical dynamics[1][2][5].\n\n### **Conclusion**\n\nThe CIA's mission to protect U.S. national security through intelligence gathering and covert operations is critical to the country's defense strategy. While its activities have sometimes sparked debate and controversy, the agency's contributions to global intelligence and security remain indispensable.\n\nCitations:\n[1] https://en.wikipedia.org/wiki/Central_Intelligence_Agency\n[2] https://www.britannica.com/topic/Central-Intelligence-Agency\n[3] https://www.cia.gov/about/organization/\n[4] https://www.trumanlibrary.gov/education/presidential-inquiries/establishment-cia\n[5] https://www.cia.gov\n[6] https://en.wikipedia.org/wiki/History_of_the_Central_Intelligence_Agency\n[7] https://www.usa.gov/agencies/central-intelligence-agency\n[8] https://irp.fas.org/cia/product/facttell/keyevent.htm",
+          "id": "rec_cqopeb94e2oatj0cco2g",
+          "image": {
+            "name": "CIA-Seal-BW@2x@2x-bd6f6da4ab65dc1fe7aeb76fe043f66f.png",
+            "mediaType": "image/png",
+            "enablePublicUrl": true,
+            "signedUrlTimeout": 600,
+            "uploadUrlTimeout": 86400,
+            "size": 13426,
+            "version": 0,
+            "url": "https://us-east-1.storage.xata.sh/b5al2oqgnt5ah8g5i78r6ft6a8",
+            "signedUrl": "https://us-east-1.xata.sh/file/09lmetb2epotpthijj10kg84i1ui0479u7iegpprdulrln6c5nqri70601jb35pd4hob1bmc1hj0amala5hl1fqal2h0b4ehmcvqckmfr9do44itkrj0jdmgt5otg3g4jenj41q34niv8oqelarcj1cduk?verify=mbspkq0000001f666o97gpvejlmp158t2n8jatbookmhch6q5ruagpmtu7u2ugla",
+            "uploadUrl": "https://kgubvq.us-east-1.upload.xata.sh/file/0dlmetb2epotpthijj10kg84i1ui0479u7iegpprdulrln6c5nqri70601jb35pd4hob1bmc1hj0aplhismi8s5glr60opg6ujatm1oohoeoroon19av74mh43fp5riordql8pt27l9ic9pq953g?verify=r949oq0000000n5capleoc5qbidfcnf66m67qk8vap098r69akupcfoprb3qpib4",
+            "attributes": {
+              "height": 120,
+              "width": 120
+            }
+          },
+          "name": "Central Intelligence Agency",
+          "specialization": "Intelligence Gathering, Covert Operations, CounterIntelligence",
+          "xata": {
+            "createdAt": "2024-08-06T03:23:25.725Z",
+            "highlight": {
+              "name": [
+                "<em>Central</em> <em>Intelligence</em> Agency"
+              ]
+            },
+            "score": 7.4770746,
+            "table": "organizations",
+            "updatedAt": "2024-08-06T03:23:25.725Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_cqopeb94e2oatj0cco2g",
+        "table": "organizations"
+      },
+      {
+        "entity_name": "Central Intelligence Agency (CIA)",
+        "status": "found",
+        "xata_record": {
+          "description": "## Central Intelligence Agency (CIA): A Comprehensive Profile\n\n### **Introduction**\n\nThe Central Intelligence Agency (CIA) is the principal foreign intelligence and counterintelligence agency of the United States government. Formally established in 1947, the CIA evolved from the World War II Office of Strategic Services (OSS) and has since played a crucial role in gathering, processing, and analyzing national security information from around the world.\n\n### **History and Formation**\n\nThe CIA was created by the National Security Act of 1947, signed into law by President Harry S. Truman. The impetus for its creation included the unforeseen attack on Pearl Harbor and the need for a centralized intelligence organization to coordinate efforts across various government agencies, including the FBI, State Department, and War Department[1][2][6].\n\n### **Purpose and Mission**\n\nInitially, the CIA was intended to serve as a clearinghouse for foreign policy intelligence and analysis. Its primary functions include:\n\n- Collecting, analyzing, evaluating, and disseminating foreign intelligence.\n- Conducting covert operations.\n- Providing national security information to U.S. policymakers, including the President[1][2][5].\n\n### **Organizational Structure**\n\nThe CIA is organized into several key directorates and offices, each with specific responsibilities:\n\n#### **Executive Office**\n\n- **Director of the CIA (D/CIA)**: Appointed by the President and confirmed by the Senate, the D/CIA reports directly to the Director of National Intelligence (DNI) and interfaces with Congress and the White House.\n- **Deputy Director (DD/CIA)**: Appointed by the D/CIA, the Deputy Director oversees internal operations.\n- **Chief Operating Officer (COO/CIA)**: Manages day-to-day activities and is the highest non-political position within the agency[1][3].\n\n#### **Directorates**\n\n1. **Directorate of Analysis**: Provides intelligence analysis to inform U.S. officials on key foreign issues. Analysts produce reports and brief policymakers to aid in decision-making[1][3].\n\n2. **Directorate of Operations**: Responsible for clandestine human intelligence (HUMINT) collection and covert actions. This directorate coordinates espionage activities and special operations[1][2].\n\n3. **Directorate of Science and Technology**: Focuses on scientific and technological advancements, technical operations, and the monitoring of foreign media. It plays a crucial role in designing spy satellites and intercepting communications[2].\n\n4. **Directorate of Support**: Manages the agency's finances, personnel, security, and logistical support[1][2].\n\n5. **Directorate of Digital Innovation**: The newest directorate, responsible for cyber operations and integrating digital technology into CIA activities[1].\n\n### **Activities and Responsibilities**\n\nThe CIA conducts a wide range of activities, including:\n\n- **Intelligence Gathering**: Collecting information through various means, including satellite reconnaissance, interception of communications, and human intelligence.\n- **Covert Operations**: Engaging in clandestine activities to influence foreign governments and events. These operations can include subversion, sabotage, and propaganda.\n- **Counterintelligence**: Protecting U.S. intelligence operations from foreign espionage and uncovering spies within the agency[1][2][5].\n\n### **Controversies and Criticisms**\n\nThe CIA has been involved in several controversies over the years, including:\n\n- **Use of Torture**: The agency has faced criticism for its use of enhanced interrogation techniques.\n- **Domestic Surveillance**: In 2022, a CIA domestic surveillance program was uncovered that had not been subject to congressional oversight.\n- **Alleged Human Rights Violations**: The agency has been accused of involvement in human rights abuses and drug trafficking[1].\n\n### **Legacy and Impact**\n\nDespite controversies, the CIA remains a vital component of U.S. national security. It has played significant roles in major historical events, including the Cold War, counterterrorism efforts, and the fight against the proliferation of weapons of mass destruction. The agency continues to adapt to new challenges, such as cyber threats and evolving geopolitical dynamics[1][2][5].\n\n### **Conclusion**\n\nThe CIA's mission to protect U.S. national security through intelligence gathering and covert operations is critical to the country's defense strategy. While its activities have sometimes sparked debate and controversy, the agency's contributions to global intelligence and security remain indispensable.\n\nCitations:\n[1] https://en.wikipedia.org/wiki/Central_Intelligence_Agency\n[2] https://www.britannica.com/topic/Central-Intelligence-Agency\n[3] https://www.cia.gov/about/organization/\n[4] https://www.trumanlibrary.gov/education/presidential-inquiries/establishment-cia\n[5] https://www.cia.gov\n[6] https://en.wikipedia.org/wiki/History_of_the_Central_Intelligence_Agency\n[7] https://www.usa.gov/agencies/central-intelligence-agency\n[8] https://irp.fas.org/cia/product/facttell/keyevent.htm",
+          "id": "rec_cqopeb94e2oatj0cco2g",
+          "image": {
+            "name": "CIA-Seal-BW@2x@2x-bd6f6da4ab65dc1fe7aeb76fe043f66f.png",
+            "mediaType": "image/png",
+            "enablePublicUrl": true,
+            "signedUrlTimeout": 600,
+            "uploadUrlTimeout": 86400,
+            "size": 0,
+            "version": 0,
+            "url": "https://us-east-1.storage.xata.sh/b5al2oqgnt5ah8g5i78r6ft6a8",
+            "signedUrl": "https://us-east-1.xata.sh/file/09lmetb2epotpthijj10kg84i1ui0479u7iegpprdulrln6c5nqri70601jb35pd4hob1bmc1hj0amala5hl1fqal2h0b4ehmcvqckmfr9do44itkrj0jdmgt5otg3g4jenj41q34niv8oqelarcj1cduk?verify=mbspkq0000001f666o97gpvejlmp158t2n8jatbookmhch6q5ruagpmtu7u2ugla",
+            "uploadUrl": "https://kgubvq.us-east-1.upload.xata.sh/file/0dlmetb2epotpthijj10kg84i1ui0479u7iegpprdulrln6c5nqri70601jb35pd4hob1bmc1hj0aplhismi8s5glr60opg6ujatm1oohoeoroon19av74mh43fp5riordql8pt27l9ic9pq953g?verify=r949oq0000000n5capleoc5qbidfcnf66m67qk8vap098r69akupcfoprb3qpib4",
+            "attributes": {
+              "height": 120,
+              "width": 120
+            }
+          },
+          "name": "Central Intelligence Agency",
+          "specialization": "Intelligence Gathering, Covert Operations, CounterIntelligence",
+          "xata": {
+            "createdAt": "2024-08-06T03:23:25.725Z",
+            "highlight": {
+              "name": [
+                "<em>Central</em> <em>Intelligence</em> <em>Agency</em>"
+              ]
+            },
+            "score": 10.638321,
+            "table": "organizations",
+            "updatedAt": "2024-08-06T03:23:25.725Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_cqopeb94e2oatj0cco2g",
+        "table": "organizations"
+      }
+    ],
+    "locations": [
+      {
+        "entity_name": "Roswell, New Mexico",
+        "status": "found",
+        "xata_record": {
+          "city": "Roswell",
+          "coordinates": "33.3941667, -104.5225",
+          "id": "rec_cp1v79b4f9p514bq7hjg",
+          "latitude": 33.3941667,
+          "longitude": -104.5225,
+          "name": "Roswell, New Mexico",
+          "state": "New Mexico",
+          "xata": {
+            "createdAt": "2024-05-14T23:28:36.135Z",
+            "highlight": {
+              "name": [
+                "<em>Roswell</em>, <em>New</em> <em>Mexico</em>"
+              ]
+            },
+            "score": 16.160904,
+            "table": "locations",
+            "updatedAt": "2024-05-14T23:28:36.135Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_cp1v79b4f9p514bq7hjg",
+        "table": "locations"
+      },
+      {
+        "entity_name": "Milwaukee, Wisconsin",
+        "status": "found",
+        "xata_record": {
+          "city": "Milwaukee",
+          "coordinates": "43.0388889, -87.9063889",
+          "google-maps-location-id": "eyJpIjoiNDMuMDM4ODg4OSwgLTg3LjkwNjM4ODkiLCJvIjp7InN0YXR1cyI6Ik9LIiwibGF0Ijo0My4wMzg4ODksImxuZyI6LTg3LjkwNjM4OSwiYmxvY2tJbnN0YWxsYXRpb25JZHMiOlsiYmxpcEtGcTJkdWVld1dSbDQiXSwibG9jYXRpb25GaWVsZElkIjoiZmxkWWM5YWprT0NQSWV0MVAifSwiZSI6MH0=",
+          "id": "rec_cp1v7934f9p514bq6eg0",
+          "latitude": 43.0388889,
+          "longitude": -87.9063889,
+          "name": "Milwaukee, Wisconsin",
+          "state": "Wisconsin",
+          "xata": {
+            "createdAt": "2024-05-14T23:28:36.284Z",
+            "highlight": {
+              "name": [
+                "<em>Milwaukee</em>, <em>Wisconsin</em>"
+              ]
+            },
+            "score": 14.208178,
+            "table": "locations",
+            "updatedAt": "2024-05-14T23:28:36.284Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_cp1v7934f9p514bq6eg0",
+        "table": "locations"
+      },
+      {
+        "entity_name": "Washington, D.C.",
+        "status": "found",
+        "xata_record": {
+          "city": "washington",
+          "coordinates": "38.895, -77.0366667",
+          "id": "rec_cp1v7ab4f9p514bqa3k0",
+          "latitude": 38.895,
+          "longitude": -77.0366667,
+          "name": "washington, dc",
+          "state": "dc",
+          "xata": {
+            "createdAt": "2024-05-14T23:28:39.672Z",
+            "highlight": {
+              "name": [
+                "<em>washington</em>, <em>dc</em>"
+              ]
+            },
+            "score": 9.2035675,
+            "table": "locations",
+            "updatedAt": "2024-05-14T23:28:39.672Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_cp1v7ab4f9p514bqa3k0",
+        "table": "locations"
+      },
+      {
+        "entity_name": "Plainsboro Township, New Jersey",
+        "status": "found",
+        "xata_record": {
+          "city": "Millstone Township",
+          "coordinates": "40.209444, -74.4375",
+          "id": "rec_cp1v79j4f9p514bq8ccg",
+          "latitude": 40.209444,
+          "longitude": -74.4375,
+          "name": "Millstone Township, New Jersey",
+          "state": "New Jersey",
+          "xata": {
+            "createdAt": "2024-05-14T23:28:37.835Z",
+            "highlight": {
+              "name": [
+                "Millstone <em>Township</em>, <em>New</em> <em>Jersey</em>"
+              ]
+            },
+            "score": 11.403902,
+            "table": "locations",
+            "updatedAt": "2024-05-14T23:28:37.835Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_cp1v79j4f9p514bq8ccg",
+        "table": "locations"
+      }
+    ],
+    "technologies": [
+      {
+        "entity_name": "Measuring device for ionospheric stations",
+        "status": "not_found",
+        "table": "technologies",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "Short wave radio propagation",
+        "status": "not_found",
+        "table": "technologies",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "Analog computers",
+        "status": "not_found",
+        "table": "technologies",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "Memex",
+        "status": "not_found",
+        "table": "technologies",
+        "action_needed": "create_new"
+      }
+    ],
+    "dates": [
+      {
+        "entity_name": "1947",
+        "status": "not_found",
+        "table": "dates",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "July 1947",
+        "status": "not_found",
+        "table": "dates",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "February 1, 1905",
+        "status": "not_found",
+        "table": "dates",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "June 4, 1967",
+        "status": "not_found",
+        "table": "dates",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "August 13, 1897",
+        "status": "not_found",
+        "table": "dates",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "November 17, 1975",
+        "status": "not_found",
+        "table": "dates",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "March 11, 1890",
+        "status": "not_found",
+        "table": "dates",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "June 28, 1974",
+        "status": "not_found",
+        "table": "dates",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "February 15, 1892",
+        "status": "not_found",
+        "table": "dates",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "May 22, 1949",
+        "status": "not_found",
+        "table": "dates",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "May 30, 1909",
+        "status": "not_found",
+        "table": "dates",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "November 26, 1982",
+        "status": "not_found",
+        "table": "dates",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "May 8, 1897",
+        "status": "not_found",
+        "table": "dates",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "June 18, 1982",
+        "status": "not_found",
+        "table": "dates",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "1949 to 1953",
+        "status": "not_found",
+        "table": "dates",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "1953 to 1968",
+        "status": "not_found",
+        "table": "dates",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "1950 and 1962",
+        "status": "not_found",
+        "table": "dates",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "April of 1998",
+        "status": "not_found",
+        "table": "dates",
+        "action_needed": "create_new"
+      }
+    ],
+    "artifacts": [
+      {
+        "entity_name": "Majestic-12 FBI File",
+        "status": "not_found",
+        "table": "artifacts",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "Berkner, Lloyd FBI File",
+        "status": "not_found",
+        "table": "artifacts",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "Berkner, Lloyd CIA Documents Denial Letter",
+        "status": "not_found",
+        "table": "artifacts",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "Bronk, Detlev FBI File",
+        "status": "not_found",
+        "table": "artifacts",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "Bush, Vannevar FBI File",
+        "status": "not_found",
+        "table": "artifacts",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "Forrestal, James FBI File",
+        "status": "not_found",
+        "table": "artifacts",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "Gray, Gordon FBI Release #1",
+        "status": "found",
+        "xata_record": {
+          "date": "c.1472",
+          "description": "T-O Map in Etymologiae by Isidore, Bishop of Seville.",
+          "id": "rec_crvhduj65k4nsv4tih80",
+          "images": [],
+          "name": "T-O Map",
+          "origin": "Spain",
+          "photos": [
+            "https://cdn.thecollector.com/wp-content/uploads/2024/04/ufo-to-map-isidore.jpg"
+          ],
+          "source": "Library of Congress Rare Book and Special Collections Division",
+          "xata": {
+            "createdAt": "2024-10-03T22:13:14.495Z",
+            "highlight": {
+              "name": [
+                "<em>T</em>-<em>O</em> Map"
+              ]
+            },
+            "score": 0,
+            "table": "artifacts",
+            "updatedAt": "2024-10-03T22:13:14.495Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_crvhduj65k4nsv4tih80",
+        "table": "artifacts"
+      },
+      {
+        "entity_name": "Gray, Gordon FBI Release #2",
+        "status": "found",
+        "xata_record": {
+          "date": "c.1472",
+          "description": "T-O Map in Etymologiae by Isidore, Bishop of Seville.",
+          "id": "rec_crvhduj65k4nsv4tih80",
+          "images": [],
+          "name": "T-O Map",
+          "origin": "Spain",
+          "photos": [
+            "https://cdn.thecollector.com/wp-content/uploads/2024/04/ufo-to-map-isidore.jpg"
+          ],
+          "source": "Library of Congress Rare Book and Special Collections Division",
+          "xata": {
+            "createdAt": "2024-10-03T22:13:14.495Z",
+            "highlight": {
+              "name": [
+                "<em>T</em>-<em>O</em> Map"
+              ]
+            },
+            "score": 0,
+            "table": "artifacts",
+            "updatedAt": "2024-10-03T22:13:14.495Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_crvhduj65k4nsv4tih80",
+        "table": "artifacts"
+      },
+      {
+        "entity_name": "Gray, Gordon State Department Release",
+        "status": "not_found",
+        "table": "artifacts",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "Hillenkoetter, Adm Roscoe Henry FBI File",
+        "status": "not_found",
+        "table": "artifacts",
+        "action_needed": "create_new"
+      }
+    ],
+    "sightings": [
+      {
+        "entity_name": "",
+        "status": "not_found",
+        "table": "sightings",
+        "action_needed": "create_new"
+      }
+    ]
+  },
+  "entity_creation_results": {
+    "created_entities": {
+      "personnel": [
+        {
+          "entity_name": "Detlev Wulf Bronk",
+          "xata_id": "54c5afa1-691b-930f-a4cf-654ed9703d0b",
+          "created_at": "2025-08-12T03:12:22.028530"
+        },
+        {
+          "entity_name": "Vannevar Bush",
+          "xata_id": "705f2949-9d15-9fc3-a7df-01018ccac0c1",
+          "created_at": "2025-08-12T03:12:22.223845"
+        }
+      ],
+      "events": [
+        {
+          "entity_name": "Formation of Majestic 12",
+          "xata_id": "ede2de12-077e-9cfd-8d22-9ba8f419ff7a",
+          "created_at": "2025-08-12T03:12:22.437275"
+        },
+        {
+          "entity_name": "Roswell Incident",
+          "xata_id": "4ced8ebd-76a2-9645-b3bb-5029eca77d3c",
+          "created_at": "2025-08-12T03:12:22.641471"
+        },
+        {
+          "entity_name": "FBI Inquiry into MJ-12 Document Disclosure",
+          "xata_id": "4d041880-6220-9393-8e13-57b0084c51b1",
+          "created_at": "2025-08-12T03:12:22.845134"
+        }
+      ],
+      "organizations": [
+        {
+          "entity_name": "FBI",
+          "xata_id": "52fb5359-3a27-93d8-8721-2022fab14873",
+          "created_at": "2025-08-12T03:12:23.019033"
+        },
+        {
+          "entity_name": "CIA",
+          "xata_id": "6ab7665e-7ec9-93b2-9ee2-bfd694eb4f00",
+          "created_at": "2025-08-12T03:12:23.107041"
+        },
+        {
+          "entity_name": "Johns Hopkins University",
+          "xata_id": "f02b9003-985c-98f9-93df-58507b53d682",
+          "created_at": "2025-08-12T03:12:23.279907"
+        },
+        {
+          "entity_name": "Raytheon",
+          "xata_id": "a69a8889-4090-9846-8ee5-02af303c570d",
+          "created_at": "2025-08-12T03:12:23.423688"
+        },
+        {
+          "entity_name": "Princeton University",
+          "xata_id": "707ba891-b943-94a8-a1b6-0c5e7f68f0ec",
+          "created_at": "2025-08-12T03:12:23.561901"
+        }
+      ],
+      "technologies": [],
+      "dates": [],
+      "artifacts": [
+        {
+          "entity_name": "Majestic-12 FBI File",
+          "xata_id": "a0f62752-3df5-9d50-8962-05448fbedf93",
+          "created_at": "2025-08-12T03:12:23.726482"
+        },
+        {
+          "entity_name": "Berkner, Lloyd FBI File",
+          "xata_id": "6d6448bb-a8d6-94cd-aeaa-2040223a952b",
+          "created_at": "2025-08-12T03:12:23.878318"
+        },
+        {
+          "entity_name": "Berkner, Lloyd CIA Documents Denial Letter",
+          "xata_id": "ffca47fc-4ec8-9fa9-a4d1-b1aa3c387d4e",
+          "created_at": "2025-08-12T03:12:23.999712"
+        },
+        {
+          "entity_name": "Bronk, Detlev FBI File",
+          "xata_id": "bc741f72-6c75-9688-ac7c-591a5f5092a9",
+          "created_at": "2025-08-12T03:12:24.101430"
+        },
+        {
+          "entity_name": "Bush, Vannevar FBI File",
+          "xata_id": "bb3687b1-a9a9-9fdf-a38d-dc813eb5c60d",
+          "created_at": "2025-08-12T03:12:24.261899"
+        },
+        {
+          "entity_name": "Forrestal, James FBI File",
+          "xata_id": "6f48b171-6e2e-9d52-bde3-3272c7f2b472",
+          "created_at": "2025-08-12T03:12:24.428007"
+        },
+        {
+          "entity_name": "Gray, Gordon State Department Release",
+          "xata_id": "3808ad8e-9521-96c6-8be1-f3e401c35305",
+          "created_at": "2025-08-12T03:12:24.580757"
+        },
+        {
+          "entity_name": "Hillenkoetter, Adm Roscoe Henry FBI File",
+          "xata_id": "e07ff4b3-0a03-9dd9-a848-8d4841768f6e",
+          "created_at": "2025-08-12T03:12:24.714356"
+        }
+      ],
+      "sightings": []
+    },
+    "failed_creations": {
+      "personnel": [],
+      "events": [],
+      "organizations": [],
+      "technologies": [
+        {
+          "entity_name": "Measuring device for ionospheric stations",
+          "error": "Creation returned None"
+        },
+        {
+          "entity_name": "Short wave radio propagation",
+          "error": "Creation returned None"
+        },
+        {
+          "entity_name": "Analog computers",
+          "error": "Creation returned None"
+        },
+        {
+          "entity_name": "Memex",
+          "error": "Creation returned None"
+        }
+      ],
+      "dates": [
+        {
+          "entity_name": "1947",
+          "error": "Creation returned None"
+        },
+        {
+          "entity_name": "July 1947",
+          "error": "Creation returned None"
+        },
+        {
+          "entity_name": "February 1, 1905",
+          "error": "Creation returned None"
+        },
+        {
+          "entity_name": "June 4, 1967",
+          "error": "Creation returned None"
+        },
+        {
+          "entity_name": "August 13, 1897",
+          "error": "Creation returned None"
+        },
+        {
+          "entity_name": "November 17, 1975",
+          "error": "Creation returned None"
+        },
+        {
+          "entity_name": "March 11, 1890",
+          "error": "Creation returned None"
+        },
+        {
+          "entity_name": "June 28, 1974",
+          "error": "Creation returned None"
+        },
+        {
+          "entity_name": "February 15, 1892",
+          "error": "Creation returned None"
+        },
+        {
+          "entity_name": "May 22, 1949",
+          "error": "Creation returned None"
+        },
+        {
+          "entity_name": "May 30, 1909",
+          "error": "Creation returned None"
+        },
+        {
+          "entity_name": "November 26, 1982",
+          "error": "Creation returned None"
+        },
+        {
+          "entity_name": "May 8, 1897",
+          "error": "Creation returned None"
+        },
+        {
+          "entity_name": "June 18, 1982",
+          "error": "Creation returned None"
+        },
+        {
+          "entity_name": "1949 to 1953",
+          "error": "Creation returned None"
+        },
+        {
+          "entity_name": "1953 to 1968",
+          "error": "Creation returned None"
+        },
+        {
+          "entity_name": "1950 and 1962",
+          "error": "Creation returned None"
+        },
+        {
+          "entity_name": "April of 1998",
+          "error": "Creation returned None"
+        }
+      ],
+      "artifacts": [],
+      "sightings": [
+        {
+          "entity_name": "",
+          "error": "Creation returned None"
+        }
+      ]
+    },
+    "statistics": {
+      "total_processed": 41,
+      "total_created": 18,
+      "total_failed": 23
+    },
+    "errors": []
+  },
+  "total_entities": 64,
+  "total_matches": 64,
+  "total_created": 18
+}

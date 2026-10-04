@@ -1,0 +1,137 @@
+/* Scoped Rocket Telemetry HUD tokens + motion (from v0 chat tzMkXRdlZmx) */
+
+.rocket-telemetry-hud {
+  --hud-bg: #000000;
+  --hud-surface: #0a0a0a;
+  --hud-grid: #141414;
+  --hud-border-faint: #1f1f1f;
+  --hud-border: #2a2a2a;
+  --hud-text-primary: #e5e5e5;
+  --hud-text-secondary: #7a7a7a;
+  --hud-text-muted: #4d4d4d;
+  --hud-accent: #e11d2a;
+  --hud-accent-dim: #7a1218;
+  --hud-marker: #ff1f2d;
+
+  color: var(--hud-text-primary);
+  background: var(--hud-bg);
+  font-family: var(--font-mono, 'JetBrains Mono', ui-monospace, monospace);
+}
+
+.rocket-telemetry-hud .hud-grid-bg {
+  background-image:
+    linear-gradient(to right, var(--hud-grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--hud-grid) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+@keyframes hud-radar-sweep {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes hud-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes hud-bracket-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+@keyframes hud-bar-jitter {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.96);
+  }
+}
+
+.rocket-telemetry-hud .hud-anim-sweep {
+  animation: hud-radar-sweep 4s linear infinite;
+  transform-origin: center;
+}
+
+.rocket-telemetry-hud .hud-anim-pulse {
+  animation: hud-pulse 1.2s ease-in-out infinite;
+}
+
+.rocket-telemetry-hud .hud-anim-bracket {
+  animation: hud-bracket-pulse 2.4s ease-in-out infinite;
+}
+
+.rocket-telemetry-hud .hud-anim-bar {
+  animation: hud-bar-jitter 1.8s ease-in-out infinite;
+  transform-origin: bottom;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rocket-telemetry-hud .hud-anim-sweep,
+  .rocket-telemetry-hud .hud-anim-pulse,
+  .rocket-telemetry-hud .hud-anim-bracket,
+  .rocket-telemetry-hud .hud-anim-bar {
+    animation: none !important;
+  }
+}
+
+.rocket-telemetry-hud :where(a, button, [role='button'], [tabindex]):focus-visible {
+  outline: 2px solid var(--hud-accent);
+  outline-offset: 2px;
+}
+
+/* Desktop reference layout */
+.rocket-telemetry-hud__grid {
+  grid-template-columns: 440px 1fr 360px;
+  gap: 20px;
+  padding: 28px 28px 56px 28px;
+}
+
+/* Tablet: collapse right rail under center */
+@media (max-width: 1280px) {
+  .rocket-telemetry-hud__grid {
+    grid-template-columns: 320px 1fr;
+    grid-template-rows: 1fr auto;
+    padding: 20px 20px 48px 20px;
+  }
+
+  .rocket-telemetry-hud__grid > aside {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+  }
+}
+
+/* Narrow: stack rails, keep map stage primary */
+@media (max-width: 900px) {
+  .rocket-telemetry-hud__grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+    padding: 12px 12px 40px 12px;
+  }
+
+  .rocket-telemetry-hud__left {
+    max-height: 36vh;
+  }
+
+  .rocket-telemetry-hud__grid > aside {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
