@@ -138,6 +138,8 @@ REASONING_HEADROOM_TOKENS = 4096
 # The OpenRouter tiers stay as trailing fallback: 402 is classified permanent,
 # so a dead gateway costs one skipped call per process, not one per document.
 FRONTIER_FALLBACK_CHAIN: List[Tier] = [
+    # No OpenAI or Anthropic models via API keys or OpenRouter: OAuth accounts
+    # only, else the designated AI gateway (user rule, October 4th, 2026).
     Tier(
         id="deepseek/deepseek-chat",
         provider="DeepSeek Chat (direct)",
@@ -167,61 +169,10 @@ FRONTIER_FALLBACK_CHAIN: List[Tier] = [
         reasoning=True,
     ),
     Tier(
-        id="openai/gpt-5.6",
-        provider="GPT-5.6 (direct)",
-        env_keys=("OPENAI_API_KEY",),
-        model="gpt-5.6",
-        max_retries=1,
-        reasoning=True,
-    ),
-    Tier(
-        id="openai/gpt-5.5",
-        provider="GPT-5.5 (direct)",
-        env_keys=("OPENAI_API_KEY",),
-        model="gpt-5.5",
-        max_retries=1,
-        reasoning=True,
-    ),
-    Tier(
         id="openrouter/gemini-3.8-flash",
         provider="Gemini 3.8 Flash (OpenRouter)",
         env_keys=("OPENROUTER_API_KEY",),
         model="google/gemini-3.8-flash",
-        base_url="https://openrouter.ai/api/v1",
-        max_retries=1,
-        reasoning=True,
-    ),
-    Tier(
-        id="openrouter/gpt-5.6-luna-pro",
-        provider="GPT-5.6 Luna Pro (OpenRouter)",
-        env_keys=("OPENROUTER_API_KEY",),
-        model="openai/gpt-5.6-luna-pro",
-        base_url="https://openrouter.ai/api/v1",
-        max_retries=1,
-        reasoning=True,
-    ),
-    Tier(
-        id="openrouter/gpt-5.6-luna",
-        provider="GPT-5.6 Luna (OpenRouter)",
-        env_keys=("OPENROUTER_API_KEY",),
-        model="openai/gpt-5.6-luna",
-        base_url="https://openrouter.ai/api/v1",
-        max_retries=1,
-    ),
-    Tier(
-        id="openrouter/gpt-5.6-terra-pro",
-        provider="GPT-5.6 Terra Pro (OpenRouter)",
-        env_keys=("OPENROUTER_API_KEY",),
-        model="openai/gpt-5.6-terra-pro",
-        base_url="https://openrouter.ai/api/v1",
-        max_retries=1,
-        reasoning=True,
-    ),
-    Tier(
-        id="openrouter/gpt-5.6-terra",
-        provider="GPT-5.6 Terra (OpenRouter)",
-        env_keys=("OPENROUTER_API_KEY",),
-        model="openai/gpt-5.6-terra",
         base_url="https://openrouter.ai/api/v1",
         max_retries=1,
         reasoning=True,

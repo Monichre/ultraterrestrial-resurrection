@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Entity Extraction Walkthrough</title>
+<style>
+:root{--bg:#f7f5f0;--panel:#fff;--ink:#1d1d1b;--muted:#5d5a52;--line:#ddd8cc;--accent:#8a4b12;--ok:#2f6b3a;--bad:#9b2c2c;--warn:#8a6a12;--code:#efebe2}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15140f;--panel:#1e1d18;--ink:#ebe7dc;--muted:#a59f90;--line:#36332b;--accent:#e0a463;--ok:#7fc28c;--bad:#e58a8a;--warn:#e2c46a;--code:#29271f}}
+:root[data-theme="dark"]{--bg:#15140f;--panel:#1e1d18;--ink:#ebe7dc;--muted:#a59f90;--line:#36332b;--accent:#e0a463;--ok:#7fc28c;--bad:#e58a8a;--warn:#e2c46a;--code:#29271f}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 Georgia,"Iowan Old Style",serif}
+main{max-width:860px;margin:0 auto;padding:40px 16px 96px}
+h1{font-size:2rem;line-height:1.2;margin:0 0 6px}
+h2{font-size:1.4rem;margin:56px 0 12px;padding-top:16px;border-top:1px solid var(--line)}
+h3{font-size:1.1rem;margin:28px 0 8px}
+.sub{color:var(--muted);margin:0 0 28px}
+code{font:0.85em ui-monospace,Menlo,monospace;background:var(--code);padding:1px 5px;border-radius:4px;word-break:break-word}
+.box{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin:16px 0}
+.box.key{border-color:var(--accent)}
+.label{font:600 0.72rem/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+table{width:100%;border-collapse:collapse;font-size:0.92rem;margin:12px 0}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--line)}
+th{font:600 0.78rem ui-sans-serif,system-ui,sans-serif;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.wrap{overflow-x:auto}
+.tag{display:inline-block;font:600 0.72rem ui-sans-serif,system-ui,sans-serif;padding:2px 8px;border-radius:999px;border:1px solid currentColor;white-space:nowrap}
+.ok{color:var(--ok)}.bad{color:var(--bad)}.warn{color:var(--warn)}.mut{color:var(--muted)}
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:12px 0}
+.step{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:0.9rem;flex:1 1 160px}
+.arrow{color:var(--muted)}
+ol li,ul li{margin:6px 0}
+.timeline{border-left:2px solid var(--line);margin:16px 0 16px 6px;padding-left:18px}
+.timeline div{margin:0 0 16px;position:relative}
+.timeline div::before{content:"";position:absolute;left:-25px;top:8px;width:12px;height:12px;border-radius:50%;background:var(--accent)}
+.timeline b{display:block}
+nav{font:0.9rem ui-sans-serif,system-ui,sans-serif;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 18px}
+nav a{color:var(--accent)}
+</style>
+</head>
+<body>
+<main>
+<h1>What broke entity extraction, and how to fix it</h1>
+<p class="sub">Walkthrough written October 2nd, 2026, for a reader who wasn't in the code. Nothing described as a fix below has been done yet. Every number was checked against the files on disk or git history.</p>
+
+<nav><b>Sections:</b> <a href="#short">The short version</a> · <a href="#design">Your design</a> · <a href="#timeline">What happened, in order</a> · <a href="#evidence">The evidence</a> · <a href="#chunks">Why 8-minute pieces were wrong</a> · <a href="#files">What's what: the files</a> · <a href="#roundtable">The roundtable</a> · <a href="#plan">The proposed fix</a> · <a href="#decide">What you need to decide</a> · <a href="#terms">Terms</a></nav>
+
+<h2 id="short">1. The short version</h2>
+<div class="box key">
+<div class="label">In four sentences</div>
+<p>Your ingestion design was: one model reads the <b>whole</b> transcript and writes a summary containing every entity, then a second step pulls those entities out of the summary and puts them in the database. On August 14th, 2026, a commit titled "here goes" quietly switched the second step to take entities from a different stage that only reads the first 24,000 characters (about 25 minutes of a podcast). Separately, the database step still points at Xata, which was retired, so nothing has been written to the database from this path since. Then on October 1st–2nd, 2026, I (Claude) made it worse by building a parallel pipeline that cut the Grusch podcast into 8-minute pieces instead of fixing the real break.</p>
+</div>
+
+<h2 id="design">2. Your design, and why it worked</h2>
+<p>You wrote this down on July 9th, 2025, in <code>apps/disclosure-rag/lib/entity_extraction/docs/ENTITY_EXTRACTION_PRESERVATION_PLAN.md</code>. That document marks the extraction workflow "PRESERVE UNCHANGED".</p>
+<div class="flow">
+<div class="step"><b>Transcript</b><br>the whole episode</div><span class="arrow">→</span>
+<div class="step"><b>Layer 1: the summary</b><br>one model call reads everything; writes a narrative summary plus every entity it found</div><span class="arrow">→</span>
+<div class="step"><b>Layer 2: extraction</b><br><code>EntityExtractionAgent</code> turns the summary's entities into structured records</div><span class="arrow">→</span>
+<div class="step"><b>Database</b><br>search for each entity; create it if it's missing</div>
+</div>
+<h3>Why reading the whole thing at once matters</h3>
+<ul>
+<li><b>Context.</b> When the guest says "he" two hours in, the model already knows who was introduced at minute twelve. Later corrections override earlier remarks.</li>
+<li><b>Natural deduplication.</b> A person mentioned fifty times becomes one entity, not fifty fragments that need merging.</li>
+<li><b>A readable checkpoint.</b> The summary is something you can open and judge before anything touches the database.</li>
+<li><b>Cost.</b> One call per source. A 2.5-hour transcript is about 40,000 tokens, which current models read in one request.</li>
+<li><b>Clean input for layer 2.</b> Extraction reads a dense, organized summary instead of a noisy transcript full of crosstalk.</li>
+</ul>
+<p>Example of it working: the Bob Lazar / Don Garlits interview (<code>packages/knowledge-base/sources/transcripts/motorhead-garage/PmclCzGFotM/</code>). Its summary has Personnel, Key Events, Organizations and Technical Evidence sections, and the entity file built from it is clean: one person, two events, two organizations, two locations, three technologies.</p>
+
+<h2 id="timeline">3. What happened, in order</h2>
+<div class="timeline">
+<div><b>July 9th, 2025</b>You document the design and mark it "PRESERVE UNCHANGED".</div>
+<div><b>Summer 2025</b>Sources run through it. Where the summary step succeeded, entities came out clean and were matched against Xata.</div>
+<div><b>Some time before August 2026</b>The summary step starts silently producing near-empty stubs when the Anthropic key runs out of credit. Layer 2 then finds nothing in those stubs. (This was later fixed by routing the summary through a fallback chain of providers.)</div>
+<div><b>July 20th, 2026 · commit <code>6bc35aaa</code></b>A large "land concurrent WIP" commit (co-authored by Cursor) adds a new stage, <code>processing/rag_prompt_pipeline.py</code>. It chunks text for search, and runs its own entity extraction. It is built with two caps: it reads only the first <b>24,000 characters</b>, and extracts entities from only the first <b>8 chunks</b>. Your two layers keep working alongside it.</div>
+<div><b>August 14th, 2026 · commit <code>51e63500</code>, "here goes"</b>Layer 2 is changed: it still opens the summary file, but now takes its entities from the capped stage instead. The code comment says the goal was to stop having "NER specified twice". The effect is that every long source loses everything after the first ~25 minutes.</div>
+<div><b>Xata retired</b>The project moves to Postgres (Neon). The search-and-create step in layer 2 is never moved over, so it now matches nothing and creates nothing, without an error.</div>
+<div><b>October 1st, 2026</b>Grusch (Joe Rogan #2560) goes through <code>dy</code>. Its entity file comes from the capped stage: it lists "this guy" and "I" as people, and writes nothing to the database.</div>
+<div><b>October 1st–2nd, 2026</b>Instead of finding the August 14th break, I build a separate pipeline that cuts the podcast into 19 eight-minute passages, and write its output to a new <code>derived/</code> folder. That's what produced <code>reconciled.json</code>.</div>
+<div><b>October 2nd, 2026</b>You point out it used to work. Tracing it back finds the two commits above. A read-only roundtable (Sonnet 5.5 and Astra; Devin invited) reviews the fix.</div>
+</div>
+
+<h2 id="evidence">4. The evidence</h2>
+<div class="box">
+<div class="label">A correction first</div>
+<p>Earlier in our conversation I said the old path "wrote 188 records to the database". That was wrong: my count added up the wrong field. The real numbers are below.</p>
+</div>
+<p>There are 85 <code>entity_processing_results.json</code> files under <code>packages/knowledge-base/sources/</code>. Each one says where its entities came from.</p>
+<div class="wrap"><table>
+<tr><th>Where entities came from</th><th>Files</th><th>Files with any entities</th><th>Entities</th><th>Database matches</th><th>Records created</th></tr>
+<tr><td><span class="tag ok">The summary</span> (your design)</td><td>74</td><td>16</td><td>318</td><td>440 (in 16 files)</td><td>34</td></tr>
+<tr><td><span class="tag bad">The capped stage</span> (after August 14th, 2026)</td><td>11</td><td>11</td><td>481</td><td>94 (in 1 file)</td><td>0</td></tr>
+</table></div>
+<p><b>Why 58 of the summary-path files are empty:</b> 54 of them sit next to a summary under 400 bytes, the empty stubs from the credit outage. Two have a real summary and two have no summary at all. So the design worked whenever the summary existed. Its weakness was that a failed summary silently became "no entities" with status "completed".</p>
+<p><b>Why the capped stage looks busier but is worse:</b> it produces more names, but they are fragments from the first ~25 minutes, unresolved pronouns included.</p>
+<h3>Grusch specifically</h3>
+<ul>
+<li>The episode runs <b>2:30:13</b>. The transcript is 152,854 characters.</li>
+<li>The trace map's last timestamp is <b>24:48</b>. Everything after that was never chunked or extracted.</li>
+<li>The entity file says <code>"entity_source": "rag_pipeline.ner_results"</code>, has 73 entities including "this guy", "I", "Dave" and "Major Gush", and shows 0 matches and 0 created.</li>
+<li>Of the 73 transcripts <code>dy</code> has ingested, 72 are longer than 24,000 characters, so the cap affects nearly all of them.</li>
+</ul>
+
+<h2 id="chunks">5. Why cutting a podcast into 8-minute pieces was wrong</h2>
+<p>This is what my October pilot did, and it's the same instinct behind the capped stage.</p>
+<ul>
+<li><b>Each piece is blind.</b> A model reading minutes 96–104 doesn't know who "this guy" is, so it records "this guy".</li>
+<li><b>The same question gets answered 19 times.</b> Every passage separately decided whether David Grusch deserved a record. That's the repetitive vote trail you found in <code>reconciled.json</code>.</li>
+<li><b>Breaking it up creates repair work.</b> The fragments needed a reconciliation step (619 decisions down to 521) plus 34 merges for a human to review. Reading the whole source never has that problem.</li>
+<li><b>It costs more for a worse result.</b> Dozens of calls instead of one.</li>
+<li><b>It put files in the wrong place.</b> Output went to <code>packages/knowledge-base/derived/reports/…/corrected/</code> with generic names, instead of the source's own folder with <code>dy</code> naming.</li>
+</ul>
+
+<h2 id="files">6. What's what: the files involved</h2>
+<p>Paths are under <code>apps/disclosure-rag/</code> unless stated. "Status" is the roundtable's recommendation, not something already done.</p>
+<div class="wrap"><table>
+<tr><th>File</th><th>What it does, in plain terms</th><th>Status</th></tr>
+<tr><td><code>processing/content_analysis.py</code><br><code>analyze_content()</code></td><td>Layer 1. Sends the whole transcript to a model with the <code>disclosure.research</code> prompt and returns the summary text.</td><td><span class="tag ok">Keep</span> Raise its 4,000-token output limit (line 69).</td></tr>
+<tr><td><code>lib/youtube.py</code> (Phase 5)</td><td>Writes the files you see in each source folder: transcript, segments, Summary, rag_pipeline, metadata.</td><td><span class="tag ok">Keep</span></td></tr>
+<tr><td><code>agents/entity_extraction_agent.py</code><br><code>EntityExtractionAgent</code></td><td>Layer 2's brain. Reads the summary and returns structured entities with confidence, context, metadata and relationships. Already routed to frontier models (September 29th, 2026).</td><td><span class="tag warn">Repair</span> Schema asks for only 7 types; sightings come out with blank names; the quick wrapper throws away everything but names; same 4,000-token limit.</td></tr>
+<tr><td><code>lib/entity_extraction/processors/interactive_entity_processor.py</code></td><td>Layer 2's driver. Opens the summary, gets entities, searches the database, creates missing ones, saves <code>entity_processing_results.json</code>.</td><td><span class="tag bad">Revert one part</span> Undo the August 14th switch (<code>_load_pipeline_ner</code>) so it reads the summary again. Keep the newer error handling.</td></tr>
+<tr><td><code>processing/rag_prompt_pipeline.py</code></td><td>The capped stage: 24,000-character cut, model copies text out into chunks, entity extraction on 8 chunks. Feeds <code>_rag_pipeline.json</code> and the trace map.</td><td><span class="tag warn">Demote</span> Stop it producing entities. Later: replace copy-out chunking with plain code that covers the whole source.</td></tr>
+<tr><td><code>lib/trace_map.py</code></td><td>Builds the trace map: which chunk came from which timestamp.</td><td><span class="tag ok">Keep</span> As a navigation aid, not an entity source.</td></tr>
+<tr><td><code>lib/entity_resolution/store.py</code></td><td>Existing Postgres code: finds candidate matches, auto-matches at 0.92 similarity, holds the 0.3–0.92 band for review, applies decisions.</td><td><span class="tag ok">Reuse</span> Replaces the dead Xata search. Needs scoping to one source per run.</td></tr>
+<tr><td><code>lib/entity_resolution/mentions.py</code></td><td>Maps entity types to database tables. Currently only reads <code>_rag_pipeline.json</code>.</td><td><span class="tag warn">Extend</span> Read summary extraction output; add testimonies, documents, sightings.</td></tr>
+<tr><td><code>lib/entity_extraction/core/entity_creator.py</code></td><td>Old record creator, built around the Xata client.</td><td><span class="tag mut">Don't port</span></td></tr>
+<tr><td><code>packages/ai/prompts/sets/disclosure/research.v1.yaml</code></td><td>The summary prompt. Still asks for credibility scores.</td><td><span class="tag warn">Your call</span> See section 9.</td></tr>
+<tr><td><code>processing/source_understanding.py</code><br><code>processing/reconcile_decisions.py</code><br><code>packages/knowledge-base/derived/reports/dYPXINFcvmI/corrected/</code></td><td>My October 1st–2nd pilot: the 8-minute-passage pipeline, its reconciliation step, and its output.</td><td><span class="tag bad">Remove</span> with your OK. Keep the <code>Summary.md</code> you liked first.</td></tr>
+</table></div>
+<h3>Uncommitted edits that aren't mine</h3>
+<ul>
+<li><code>processing/rag_prompt_pipeline.py</code>: about 20 lines. If every chunk was blocked, it now puts the source on hold instead of indexing the full text. Both reviewers say keep it.</li>
+<li><code>interactive_entity_processor.py</code> and <code>web_content_processor.py</code>: formatting and comments only.</li>
+<li><code>lib/entity_extraction/docs/ENTITY_EXTRACTION_PRESERVATION_PLAN.md</code>: removes every mention of Upstash (4 lines added, 7 removed). Nothing else in the plan changed.</li>
+</ul>
+<h3>Stray dictation in two files</h3>
+<p>Voice input landed in files that had focus. In <code>packages/knowledge-base/sources/transcripts/powerfuljre/dYPXINFcvmI/</code>, line 33 of <code>joeRoganExperience2560DavidGrusch_rag_pipeline.json</code> (this breaks the JSON) and line 160 of <code>joeRoganExperience2560DavidGruschSummary.md</code>.</p>
+
+<h2 id="roundtable">7. The roundtable</h2>
+<p>Final panel, set by you on October 2nd, 2026: Claude (moderator and reviewer), Sonnet 5.5 and Astra. Devin is not part of this review. Every participant received the same brief (<code>.agents/channel/roundtable-brief.md</code>) and were limited to reading code and git history. Nobody edited files, called paid models or touched the database.</p>
+<div class="wrap"><table>
+<tr><th>Participant</th><th>How it ran</th><th>Status</th></tr>
+<tr><td>Sonnet 5.5</td><td>Background agent in this Claude session</td><td><span class="tag ok">Answered</span></td></tr>
+<tr><td>Astra (<code>gpt-6-astra</code>)</td><td>Codex CLI, read-only sandbox</td><td><span class="tag ok">Answered</span></td></tr>
+<tr><td>Claude (Opus 5.5)</td><td>This session; checked each finding against the code and database schema</td><td><span class="tag ok">Answered</span></td></tr>
+</table></div>
+<h3>Where they agree</h3>
+<ol>
+<li><b>Reinstate the summary as the entity source.</b> Undo the August 14th switch so layer 2 reads entities from the summary again.</li>
+<li><b>Not a wholesale rollback.</b> Keep what's been added since: telling "failed" from "found nothing", reading old result files, frontier model routing, and the hold-on-blocked fix.</li>
+<li><b>Replace Xata with the Postgres code that already exists</b> in <code>lib/entity_resolution/store.py</code>, through a small adapter. Don't port the old Xata creator.</li>
+<li><b>The capped stage stops making entity decisions.</b> It stays for search chunks; the trace map becomes a navigation aid.</li>
+<li><b>The biggest hidden risk is the 4,000-token output limit</b> on both layers. A long episode can have more entities than fit. The cut-off reply fails to parse and silently becomes "no entities", the same failure in a new place.</li>
+</ol>
+<h3>Only Astra caught</h3>
+<ul>
+<li><s>The extraction schema asks the model for only 7 entity types plus relationships. Technologies, dates, testimonies and documents aren't in it.</s> <b>Half right.</b> Checked against the live database (29 tables), not a migration file. The extractor covers 7 record tables (topics, key_figures, events, organizations, locations, artifacts, sightings) but misses two more: <b>testimonies</b> (178 rows) and <b>documents</b> (189 rows). Technologies and dates have no table, so they stay out. Relationships belong in the junction tables (organization_members, topics_testimonies, event_subject_matter_experts and others) and in entity_aliases.</li>
+<li>Sightings come back with blank names: the schema asks for <code>description</code>, the converter reads <code>name</code>.</li>
+<li>The quick wrapper keeps only names, dropping confidence, context, metadata and relationships.</li>
+<li>The Postgres matcher accepts a run ID but ignores it, so one source's run could resolve another source's pending entities.</li>
+<li>Extraction logic also does validation inside the capped stage's loop; that has to be separated before switching it off.</li>
+<li>The summary prompt still asks for credibility scores.</li>
+</ul>
+<h3>Only Sonnet caught</h3>
+<ul>
+<li>The processor stops to ask yes/no questions. Batch reruns need that switched off.</li>
+<li>Pass full structured entities to the Postgres matcher, not name lists, or confidence and context are lost.</li>
+<li>Someone edited the "PRESERVE UNCHANGED" plan (the Upstash removal above).</li>
+<li>Judge the fix on more than one run; output varies between identical runs.</li>
+</ul>
+
+<h3>Final rulings</h3>
+<p>Review closed October 2nd, 2026. Each finding is now either part of a step or dropped:</p>
+<div class="wrap"><table>
+<tr><th>Finding</th><th>Ruling</th><th>Where it goes</th></tr>
+<tr><td>Read entities from the summary again</td><td>Adopted</td><td>Step 1</td></tr>
+<tr><td>Missing entity types</td><td>Add testimonies and documents (they have tables). Technologies and dates stay out (no table).</td><td>Step 2</td></tr>
+<tr><td>Sightings come back with blank names</td><td>Adopted</td><td>Step 2</td></tr>
+<tr><td>Wrapper keeps names only; pass full entities to the matcher</td><td>Adopted (Astra and Sonnet found the same thing)</td><td>Step 2</td></tr>
+<tr><td>4,000-token output limits</td><td>Adopted</td><td>Step 3</td></tr>
+<tr><td>Judge on more than one run</td><td>Adopted: the Grusch test runs twice</td><td>Step 4</td></tr>
+<tr><td>Postgres matcher ignores the run ID</td><td>Adopted</td><td>Step 5</td></tr>
+<tr><td>Validation mixed into the capped stage's loop</td><td>Adopted</td><td>Step 6</td></tr>
+<tr><td>Processor stops to ask yes/no questions</td><td>Adopted: switch them off for batch runs</td><td>Step 7</td></tr>
+<tr><td>Credibility scores in the summary prompt</td><td>Left as is (your call)</td><td>none</td></tr>
+<tr><td>Upstash lines removed from the preservation plan</td><td>Not you; left alone for now</td><td>none</td></tr>
+</table></div>
+
+<h2 id="plan">8. The proposed fix, step by step</h2>
+<p>Step 1 is in progress. Astra writes all code for this work and Claude reviews it before it reaches you. Each step is small and checkable on its own. Steps that cost money or write to the database need your explicit OK at the time.</p>
+<div class="wrap"><table>
+<tr><th>#</th><th>Step</th><th>What it touches</th><th>Rough time</th><th>Needs your OK?</th></tr>
+<tr><td>1</td><td>Make layer 2 read entities from the summary again, keeping the newer error handling.</td><td><code>interactive_entity_processor.py</code></td><td>About 1 hour</td><td>No</td></tr>
+<tr><td>2</td><td>Repair the extraction agent: add testimonies and documents, fix blank sightings names, keep full detail (confidence, context, relationships) instead of names only, and make a failed call an error instead of 7 empty lists.</td><td><code>agents/entity_extraction_agent.py</code></td><td>2–3 hours</td><td>No</td></tr>
+<tr><td>3</td><td>Raise the output limits so long episodes aren't cut off, and make a cut-off reply fail loudly instead of becoming "no entities".</td><td><code>content_analysis.py</code>, the agent, <code>llm_routing.yaml</code></td><td>About 1 hour</td><td>No</td></tr>
+<tr><td>4</td><td>Test on Grusch using its existing summary. Two extraction calls, to check the output is stable between runs; no database writes. You read the resulting entity file.</td><td>Grusch folder only</td><td>15 minutes</td><td><b>Yes</b> (two paid model calls)</td></tr>
+<tr><td>5</td><td>Connect layer 2 to Postgres via <code>store.py</code>, scoped to one source per run. Dry run first: show what it would match and create.</td><td><code>lib/entity_resolution/</code></td><td>Half a day</td><td><b>Yes</b> before any real write</td></tr>
+<tr><td>6</td><td>Stop the capped stage producing entities; keep it for search chunks.</td><td><code>rag_prompt_pipeline.py</code></td><td>About 1 hour</td><td>No</td></tr>
+<tr><td>7</td><td>Rerun layer 2 on the 11 broken sources from their existing summaries, non-interactive.</td><td>11 source folders</td><td>Under 1 minute each</td><td><b>Yes</b> (11 paid calls)</td></tr>
+<tr><td>8</td><td>Remove my pilot pipeline and its <code>derived/</code> output, after saving the summary you liked.</td><td>3 paths listed in section 6</td><td>10 minutes</td><td><b>Yes</b> (deletes)</td></tr>
+<tr><td>Later</td><td>Replace the 24,000-character copy-out chunking with plain-code chunks covering the whole source, so the trace map covers whole episodes.</td><td><code>rag_prompt_pipeline.py</code>, <code>trace_map.py</code></td><td>Half a day</td><td>Separate decision</td></tr>
+</table></div>
+<p>Work happens on a branch with a pull request for your review, never directly on <code>dev</code> or <code>main</code>.</p>
+
+<h2 id="decide">9. Your decisions (October 2nd, 2026)</h2>
+<ol>
+<li><b>Upstash edit to the preservation plan:</b> not yours. Left alone.</li>
+<li><b>Credibility scores:</b> keep them. Not broken, not changed.</li>
+<li><b>Reviewers:</b> Claude, Sonnet 5.5 and Astra. Review closed.</li>
+<li><b>Step 1:</b> approved. Astra writes the code.</li>
+<li><b>Still yours later:</b> OK for steps 4, 5, 7 and 8 when each comes up.</li>
+</ol>
+
+<h2 id="terms">10. Terms</h2>
+<ul>
+<li><b><code>dy</code></b>: the command that ingests a YouTube video or web page into the knowledge base.</li>
+<li><b>Entity</b>: a person, organization, event, location, technology, artifact or sighting named in a source.</li>
+<li><b>NER</b> (named-entity recognition): a model pass that lists entities in a piece of text.</li>
+<li><b>Chunk</b>: a slice of a source stored for search. Chunks are for finding passages, not for deciding what entities exist.</li>
+<li><b>Trace map</b>: a file linking chunks to timestamps in the video.</li>
+<li><b>Xata</b>: the old hosted database. Retired; replaced by Postgres on Neon.</li>
+<li><b>Output-token limit</b>: the most text a model may write in one reply. Too low, and a long list gets cut off mid-way.</li>
+<li><b>Roundtable</b>: independent read-only reviews from different models, compared side by side.</li>
+</ul>
+</main>
+</body>
+</html>
