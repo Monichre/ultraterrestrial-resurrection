@@ -15,10 +15,11 @@
 # The router refuses to load if a chain names an undeclared tier, a tier
 # names an undeclared provider, or a `chat: false` tier sits on a chain.
 #
-# Priority (user directive 2026-09-27): LATEST BEST MODEL FIRST.
-# Rule from 2026-08-18: a dead gateway must never be the only path, so
-# direct OpenAI leads and three independent routes follow (Merge,
-# OpenRouter, DeepSeek direct).
+# Priority (user directive, October 4th, 2026): route by task complexity.
+# Only heavy tasks start on the most expensive model (Fable). Standard and
+# light tasks start on cheaper models; the expensive ones stay as backstop.
+# Rule from 2026-08-18 still holds: a dead gateway must never be the only
+# path, so every chain spans Experiential, Cheaper Inference and OpenRouter.
 #
 # Updated 2026-09-29: platforms.yaml split out; chains deduplicated with
 # YAML anchors (the 7 hand-copied lists had drifted: last_resort was
@@ -387,10 +388,36 @@ chains:
     - openrouter/grok-4.7
     - openrouter/glm-5.3
     - openrouter/deepseek-v4.1-flash
-  preferred: &preferred
+  # ── Complexity chains (user directive, October 4th, 2026) ──
+  # heavy: whole-source understanding. Best model first.
+  heavy: &heavy
     - *experiential
     - *cheaper
     - *openrouter
+  # standard: structured extraction / analysis. Mid-cost models first.
+  standard: &standard
+    - experiential/gpt-6-luna
+    - experiential/gemini-3.8-flash
+    - experiential/kimi-k3
+    - experiential/glm-5.3
+    - cheaper-inference/gpt-5.6-terra
+    - cheaper-inference/gpt-5.6-sol
+    - cheaper-inference/glm-5.3
+    - openrouter/gemini-3.8-flash
+    - openrouter/glm-5.3
+    - openrouter/grok-4.7
+  # light: short classify / validate / score calls. Flash models first.
+  light: &light
+    - experiential/glm-5.3-flash
+    - experiential/deepseek-v4.1-flash
+    - experiential/gemini-3.8-flash
+    - cheaper-inference/glm-5.3-flash
+    - cheaper-inference/gemini-3.8-flash
+    - cheaper-inference/deepseek-v4.1-flash
+    - openrouter/deepseek-v4.1-flash
+    - openrouter/gemini-3.8-flash
+  # Every task falls through to defaults.chain after its own list, so the
+  # expensive tiers remain reachable as a last resort.
   fallback: &fallback []
 
 
@@ -408,7 +435,7 @@ tasks:
     requires: {structured_output: false, reasoning: false}
     max_tokens: 700
     temperature: 0.0
-    preferred_tiers: *preferred
+    preferred_tiers: *light
     fallback_tiers: *fallback
 
   - id: disclosure.content_analysis
@@ -416,7 +443,7 @@ tasks:
     requires: {structured_output: true, reasoning: true}
     max_tokens: 1100
     temperature: 0.15
-    preferred_tiers: *preferred
+    preferred_tiers: *standard
     fallback_tiers: *fallback
 
   - id: rag_ingestion
@@ -425,7 +452,7 @@ tasks:
     max_tokens: 16000
     temperature: 0.1
     schema_strict: true
-    preferred_tiers: *preferred
+    preferred_tiers: *heavy
     fallback_tiers: *fallback
 
   - id: disclosure.ner
@@ -433,7 +460,7 @@ tasks:
     requires: {structured_output: true, reasoning: true}
     max_tokens: 4000  # 1200 truncated the JSON; matches sets/disclosure/ner.v1.yaml
     temperature: 0.1
-    preferred_tiers: *preferred
+    preferred_tiers: *standard
     fallback_tiers: *fallback
 
   - id: validation
@@ -441,7 +468,7 @@ tasks:
     requires: {structured_output: false, reasoning: false}
     max_tokens: 900
     temperature: 0.0
-    preferred_tiers: *preferred
+    preferred_tiers: *light
     fallback_tiers: *fallback
 
   - id: narrative_summary
@@ -449,7 +476,7 @@ tasks:
     requires: {structured_output: false, reasoning: true}
     max_tokens: 4000
     temperature: 0.1
-    preferred_tiers: *preferred
+    preferred_tiers: *heavy
     fallback_tiers: *fallback
 
   - id: coherence_review
@@ -457,7 +484,7 @@ tasks:
     requires: {structured_output: false, reasoning: false}
     max_tokens: 1200
     temperature: 0.1
-    preferred_tiers: *preferred
+    preferred_tiers: *light
     fallback_tiers: *fallback
 
   # lib/research_manager.py + lib/research_queue_manager.py (added 2026-09-28)
@@ -466,7 +493,7 @@ tasks:
     requires: {structured_output: false, reasoning: true}
     max_tokens: 500
     temperature: 0.3
-    preferred_tiers: *preferred
+    preferred_tiers: *standard
     fallback_tiers: *fallback
 
   # agents/entity_extraction_agent.py (added 2026-09-29; it had no task_id)
@@ -475,7 +502,7 @@ tasks:
     requires: {structured_output: true, reasoning: true}
     max_tokens: 4000
     temperature: 0.1
-    preferred_tiers: *preferred
+    preferred_tiers: *standard
     fallback_tiers: *fallback
 
 
@@ -508,4 +535,4 @@ defaults:
   max_tokens: 1200
   backoff_base_seconds: 0.75
   # Used by any complete() call without a task_id, and by parse_repair.
-  chain: [*preferred, *fallback]
+  chain: [*standard, *light, *heavy]

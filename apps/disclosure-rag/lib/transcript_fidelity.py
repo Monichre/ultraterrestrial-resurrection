@@ -163,8 +163,8 @@ def llm_coherence_review(text: str, video_id: str, model: Optional[str] = None,
             '{"coherence": <float>, "issues": [<strings>]}'
         )
         hint = model or os.getenv("FIDELITY_REVIEW_PROVIDER") or None
-        # A provider hint pins the legacy chain (the router ignores
-        # prefer_provider); otherwise route via llm_routing.yaml.
+        # A provider hint routes via defaults.chain with that provider's
+        # tiers moved first; otherwise the coherence_review task chain.
         result = LLMFallback(prefer_provider=hint).complete(
             system_prompt=system_prompt,
             user_content="\n---\n".join(chunks),
