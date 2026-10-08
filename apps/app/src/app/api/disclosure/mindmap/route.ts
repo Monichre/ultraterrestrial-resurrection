@@ -8,7 +8,7 @@ import {z} from 'zod'
 import {auth} from '@clerk/nextjs/server'
 import {checkRateLimit} from '@/lib/rate-limit'
 import {openai} from '@/lib/openai/client'
-import {PROMETHEUS_ASSISTANT_ID, PROMETHEUS_VECTOR_STORE_ID} from '@/services/ai/openai/config'
+import {PROMETHEUS_VECTOR_STORE_ID} from '@/services/ai/openai/config'
 
 import {extractNamedSearchEntities, toSearchTerms} from '@/services/ai/openai/extract-search-terms'
 import {insertAgentInference, type EvidentiaryState} from '@db/postgres'
@@ -34,16 +34,14 @@ interface ToolResults {
   }
 }
 
-interface FileSearchToolCallLike {
-  type: 'file_search' | 'retrieval'
-  file_search?: {
-    results?: Array<{
-      content?: Array<{
-        text?: string
-      }>
-    }>
-  }
-}
+// The Assistants API was shut down 2026-08-26 (threads/runs return 404). This
+// route now runs on the Responses API: the model and instructions that lived
+// on the assistant object are set here, file_search takes the vector store
+// directly, and the function-tool loop is driven below. Override the model
+// with OPENAI_MINDMAP_MODEL; the default is OpenAI's current flagship.
+const MINDMAP_MODEL = process.env.OPENAI_MINDMAP_MODEL?.trim() || 'gpt-6-astra'
+// Guard against a model that keeps calling tools forever.
+const MAX_TOOL_ROUNDS = 8
 
 interface GraphNodeToolInput {
   id?: string
@@ -169,22 +167,9 @@ export async function POST(req: Request) {
     graphState: input.graphState,
   })
 
-  const threadId =
-    input.threadId ??
-    (
-      await openai.beta.threads.create({
-        tool_resources: {
-          file_search: {
-            vector_store_ids: [PROMETHEUS_VECTOR_STORE_ID].filter(Boolean) as string[],
-          },
-        },
-      })
-    ).id
-
-  await openai.beta.threads.messages.create(threadId, {
-    role: 'user',
-    content: input.message,
-  })
+  // `threadId` is kept on the wire for the client; it now carries a Responses
+  // id (resp_…) to chain turns. Old thread ids (thread_…) are ignored.
+  const previousResponseId = input.threadId?.startsWith('resp_') ? input.threadId : undefined
 
   // Store tool results between steps
   const toolResults: ToolResults = {}
@@ -193,13 +178,8 @@ export async function POST(req: Request) {
   ;(async () => {
     try {
       // Set up for sequential tool calls
-      const runStream = openai.beta.threads.runs.stream(threadId, {
-        include: ['step_details.tool_calls[*].file_search.results[*].content'],
-        // Only define the searchDatabase tool - file_search is built-in
-        tools: [
-          {
-            type: 'file_search',
-          },
+      // Function tools, flattened into the Responses shape below.
+      const functionTools = [
           {
             type: 'function',
             function: {
@@ -292,8 +272,8 @@ export async function POST(req: Request) {
               },
             },
           },
-        ],
-        additional_instructions: `
+        ]
+      const instructions = `
             # Sequential Tool Execution Instructions
             Always follow this execution order:
             1. Use file_search to retrieve relevant knowledge-base evidence.
@@ -322,55 +302,63 @@ export async function POST(req: Request) {
             Write the final answer as plain prose (markdown allowed). Never wrap it in JSON or a code block, and never emit keys like "answer" or "analysis_summary". Records, nodes, and edges go through the tools, not the answer text.
 
             ${sharedAgentContext}
-          `,
-        assistant_id:
-          PROMETHEUS_ASSISTANT_ID ??
-          (() => {
-            throw new Error('ASSISTANT_ID environment is not set')
-          })(),
-      })
+          `
 
-      let runResult = await forwardStream(runStream)
+      const request = {
+        model: MINDMAP_MODEL,
+        instructions,
+        tools: [
+          ...(PROMETHEUS_VECTOR_STORE_ID
+            ? [{type: 'file_search' as const, vector_store_ids: [PROMETHEUS_VECTOR_STORE_ID]}]
+            : []),
+          ...functionTools.map(({function: fn}) => ({
+            type: 'function' as const,
+            name: fn.name,
+            description: fn.description,
+            parameters: fn.parameters as Record<string, unknown>,
+            strict: false,
+          })),
+        ],
+        include: ['file_search_call.results' as const],
+      }
 
-      // Process potentially multiple rounds of tool calls
-      while (
-        runResult?.status === 'requires_action' &&
-        runResult.required_action?.type === 'submit_tool_outputs'
-      ) {
-        const toolCalls = runResult.required_action.submit_tool_outputs.tool_calls
+      let runResult = await forwardStream(
+        openai.responses.stream({
+          ...request,
+          input: input.message,
+          previous_response_id: previousResponseId,
+        })
+      )
+
+      for (let round = 0; round < MAX_TOOL_ROUNDS; round++) {
+        // file_search runs inside the response; surface what it found.
+        for (const item of runResult.output) {
+          if (item.type !== 'file_search_call') continue
+          const response =
+            (item.results ?? [])
+              .map((r) => r.text?.trim())
+              .filter((text): text is string => Boolean(text))
+              .join('\n\n')
+              .trim() || input.message
+          const fileSearchResult = {response}
+          toolResults.fileSearchResult = fileSearchResult
+          await sendDataMessage({
+            role: 'data',
+            data: {tool: 'file_search', status: 'complete', result: fileSearchResult},
+          })
+        }
+
+        const toolCalls = runResult.output.flatMap((item) =>
+          item.type === 'function_call'
+            ? [{id: item.call_id, function: {name: item.name, arguments: item.arguments}}]
+            : []
+        )
+        if (!toolCalls.length) break
 
         // Process tool calls sequentially to maintain state between them
         const tool_outputs: Array<{tool_call_id: string; output: string}> = []
 
         for (const toolCall of toolCalls) {
-          // Handle built-in file_search tool results if present
-          if (toolCall.type === 'file_search' || toolCall.type === 'retrieval') {
-            const fileSearchToolCall = toolCall as FileSearchToolCallLike
-            const response =
-              fileSearchToolCall.file_search?.results
-                ?.flatMap((result) => result.content || [])
-                .map((content) => content.text?.trim())
-                .filter((text): text is string => Boolean(text))
-                .join('\n\n')
-                .trim() || input.message
-
-            const fileSearchResult = {
-              response,
-            }
-
-            toolResults.fileSearchResult = fileSearchResult
-
-            await sendDataMessage({
-              role: 'data',
-              data: {
-                tool: 'file_search',
-                status: 'complete',
-                result: fileSearchResult,
-              },
-            })
-            continue
-          }
-
           const parameters = JSON.parse(toolCall.function.arguments)
 
           if (toolCall.function.name === 'searchDatabase') {
@@ -715,23 +703,34 @@ export async function POST(req: Request) {
           }
         }
 
-        // Submit all tool outputs and continue the run
+        // Return every tool output and continue the same response chain
         runResult = await forwardStream(
-          openai.beta.threads.runs.submitToolOutputsStream(runResult.id, {tool_outputs})
+          openai.responses.stream({
+            ...request,
+            previous_response_id: runResult.id,
+            input: tool_outputs.map((o) => ({
+              type: 'function_call_output' as const,
+              call_id: o.tool_call_id,
+              output: o.output,
+            })),
+          })
         )
       }
 
-      // Surface non-success terminal run states instead of silently ending.
-      // Otherwise a failed/expired run (e.g. OpenAI quota exceeded) reaches the
+      // Surface non-success terminal states instead of silently ending.
+      // Otherwise a failed response (e.g. OpenAI quota exceeded) reaches the
       // client as an empty stream and the UI shows nothing about why.
       const terminalStatus = runResult?.status
       if (terminalStatus && terminalStatus !== 'completed') {
         const reason =
-          (runResult as {last_error?: {message?: string}})?.last_error?.message ??
-          (runResult as {incomplete_details?: {reason?: string}})?.incomplete_details?.reason ??
-          `Assistant run ${terminalStatus}`
+          runResult.error?.message ??
+          runResult.incomplete_details?.reason ??
+          `Response ${terminalStatus}`
         await writeSSE({error: `run_${terminalStatus}`, message: reason})
       }
+
+      // Hand the client the id that continues this conversation.
+      await writeSSE({threadId: runResult.id})
 
       // Signal end of stream
       await writeSSE({done: true})

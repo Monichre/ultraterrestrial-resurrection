@@ -2,6 +2,7 @@ import Exa from 'exa-js'
 import {z} from 'zod'
 import {searchDatabase} from '@db/postgres'
 import {embedQuery} from '@/services/ai/openai/embed-query'
+import {stripEmbedding} from '@/services/ai/tools/strip-embedding'
 
 export const TRUSTED_UAP_DOMAINS = [
   'mufon.com',
@@ -101,11 +102,7 @@ export async function executeDatabaseSearch(input: z.infer<typeof databaseSearch
   // Rows carry their 1536-dim vector (~20 KB of text each). Nothing downstream
   // reads it, and it rides the SSE stream, the model context, and the canvas
   // server action that posts records back.
-  const slimResults = results.map((row: any) => {
-    if (!row || typeof row !== 'object' || !('embedding' in row)) return row
-    const {embedding: _embedding, ...rest} = row
-    return rest
-  })
+  const slimResults = results.map((row: any) => stripEmbedding(row))
 
   return {
     query,
@@ -120,8 +117,9 @@ export async function executeExternalSearch(input: z.infer<typeof externalSearch
   if (!process.env.EXA_API_KEY) throw new Error('EXA_API_KEY is not configured')
 
   const client = new Exa(process.env.EXA_API_KEY)
-  const results = await client.searchAndContents({
-    query: input.query,
+  // exa-js takes the query as the first argument; passing it inside the options
+  // object sent `query: {…}` and Exa rejected every call with a 400.
+  const results = await client.searchAndContents(input.query, {
     numResults: Math.min(input.limit ?? 5, 10),
     type: input.type ?? 'neural',
     includeDomains: input.includeDomains ?? TRUSTED_UAP_DOMAINS,

@@ -72,7 +72,6 @@ function getExaClient() {
 }
 
 // OpenAI Assistant configuration
-const ASSISTANT_ID = process.env.OPENAI_ASSISTANT_ID!
 const VECTOR_STORE_ID = process.env.OPENAI_VECTOR_STORE_ID!
 
 // System prompts
@@ -554,14 +553,14 @@ export async function POST(req: NextRequest) {
       // Pins this conversation's requests to one OpenAI cache shard; keyed
       // per user (Clerk id or IP), never per request.
       providerOptions: openaiPromptCacheOptions(rateLimitKey),
+      onFinish: ({usage}) => logCacheUsage('prometheus/chat', usage),
       // AI SDK 6 defaults to one step: the model called searchUAP and the stream
       // ended with finishReason 'tool-calls' and no answer text.
       stopWhen: stepCountIs(5),
-      onFinish: ({usage}) => logCacheUsage('prometheus/chat', usage),
       tools: {
         searchUAP: tool({
           description:
-            'Search the UAP/UFO knowledge base for relevant information using OpenAI Assistant with vector store',
+            'Search the UAP/UFO knowledge base (OpenAI vector store) for relevant passages',
           inputSchema: z.object({
             query: z.string().describe('Search query for UAP/UFO information'),
             limit: z.number().optional().describe('Maximum number of results to return'),
@@ -569,74 +568,27 @@ export async function POST(req: NextRequest) {
           execute: async ({query, limit}) => {
             const searchLimit = limit || DEFAULT_SEARCH_LIMIT
             try {
-              // Create a thread for the search query
+              // Direct vector-store search: one request, no model run. (This used
+              // an Assistants thread + run, and that API was shut down 2026-08-26.)
               const openaiClient = getOpenAIClient()
-              const thread = await openaiClient.beta.threads.create({
-                messages: [
-                  {
-                    role: 'user',
-                    content: `Search for information about: ${query}. Please provide detailed, relevant information from the knowledge base.`,
-                  },
-                ],
+              const page = await openaiClient.vectorStores.search(VECTOR_STORE_ID, {
+                query,
+                max_num_results: Math.min(searchLimit, 50),
               })
-
-              // Run the assistant with vector store search
-              const run = await openaiClient.beta.threads.runs.create(thread.id, {
-                assistant_id: ASSISTANT_ID,
-                additional_instructions: `Search the vector store for information about: ${query}\n\n${sharedAgentContext}`,
-                tools: [
-                  {
-                    type: 'file_search',
-                  },
-                ],
-              })
-
-              // Wait for completion
-              let runStatus = await openaiClient.beta.threads.runs.retrieve(thread.id, run.id)
-              while (runStatus.status === 'in_progress' || runStatus.status === 'queued') {
-                await new Promise((resolve) => setTimeout(resolve, 1000))
-                runStatus = await openaiClient.beta.threads.runs.retrieve(thread.id, run.id)
+              const hits = page.data
+              return {
+                query,
+                results: hits.map((hit) => ({
+                  content: truncateContent(
+                    hit.content.map((c) => c.text).join('\n\n'),
+                    CONTENT_PREVIEW_LENGTH
+                  ),
+                  relevance: hit.score >= 0.5 ? 'High' : 'Medium',
+                  source: hit.filename,
+                  citations: [hit.file_id],
+                })),
+                totalResults: hits.length,
               }
-
-              if (runStatus.status === 'completed') {
-                // Get the assistant's response
-                const messages = await openaiClient.beta.threads.messages.list(thread.id)
-                const assistantMessage = messages.data.find((msg) => msg.role === 'assistant')
-
-                if (assistantMessage && assistantMessage.content[0]?.type === 'text') {
-                  const content = assistantMessage.content[0].text.value
-
-                  // Parse citations if available
-                  const citations = assistantMessage.content[0].text.annotations || []
-
-                  return {
-                    query,
-                    results: [
-                      {
-                        content: truncateContent(content, CONTENT_PREVIEW_LENGTH),
-                        relevance: 'High',
-                        source:
-                          citations.length > 0
-                            ? `${citations.length} document(s)`
-                            : 'OpenAI Assistant',
-                        citations: citations.map((citation: unknown) => {
-                          if (!citation || typeof citation !== 'object') {
-                            return 'Unknown'
-                          }
-
-                          const fileCitation = (citation as {file_citation?: {file_id?: string}})
-                            .file_citation
-
-                          return fileCitation?.file_id || 'Unknown'
-                        }),
-                      },
-                    ],
-                    totalResults: 1,
-                  }
-                }
-              }
-
-              throw new Error(`Assistant run failed with status: ${runStatus.status}`)
             } catch (error) {
               console.error('UAP search error:', error)
               return {

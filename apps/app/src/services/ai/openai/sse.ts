@@ -1,4 +1,4 @@
-// Minimal SSE bridge to stream OpenAI AssistantStream events to the client
+// Minimal SSE bridge to stream OpenAI Responses (or legacy AssistantStream) events to the client
 // and provide helpers to emit custom data messages and forward the stream.
 
 export type SSEBridge = {
@@ -21,7 +21,15 @@ export function createSSEBridge(): SSEBridge {
   const sendDataMessage = (msg: any) => writeSSE( msg )
 
   const forwardStream = async (runStream: any) => {
-    // Forward model text deltas
+    // Responses API stream (openai.responses.stream): forward text deltas,
+    // resolve to the final Response object.
+    if ( typeof runStream?.finalResponse === 'function' ) {
+      runStream.on( 'response.output_text.delta', (event: any) => {
+        if ( event?.delta ) void writeSSE( { content: event.delta } )
+      } )
+      return await runStream.finalResponse()
+    }
+    // Legacy AssistantStream (Assistants API, shut down 2026-08-26)
     if ( runStream?.on ) {
       runStream.on( 'textDelta', (delta: any) => {
         const value = typeof delta === 'string' ? delta : delta?.value ?? ''
