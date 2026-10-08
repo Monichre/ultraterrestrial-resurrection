@@ -79,13 +79,15 @@ class InteractiveEntityProcessor:
         self.entity_extractor = EntityExtractionAgent() if AGENT_AVAILABLE else None
         self.entity_creator = EntityCreator() if ENTITY_CREATOR_AVAILABLE else None
         self.optimized_search = None
-        
+
         # Initialize optimized search if available
         if OPTIMIZED_SEARCH_AVAILABLE and XATA_AVAILABLE:
             try:
                 # Use the same xata_client from entity_creator if available
-                xata_client = getattr(self.entity_creator, 'xata_client', None) if self.entity_creator else None
-                self.optimized_search = OptimizedEntitySearch(xata_client=xata_client)
+                xata_client = getattr(
+                    self.entity_creator, 'xata_client', None) if self.entity_creator else None
+                self.optimized_search = OptimizedEntitySearch(
+                    xata_client=xata_client)
             except Exception as e:
                 logger.warning(f"Failed to initialize optimized search: {e}")
         self.entity_types = {
@@ -116,6 +118,7 @@ class InteractiveEntityProcessor:
             ))
 
             # Step 2: Extract entities from the summary
+            self.last_extraction_error = None
             extracted_entities = self._extract_entities_with_feedback(
                 summary_content)
 
@@ -129,7 +132,8 @@ class InteractiveEntityProcessor:
                     "not as an empty result.[/red]")
                 return {
                     "status": "error",
-                    "error": "entity extraction produced no usable result",
+                    "error": (self.last_extraction_error
+                              or "entity extraction produced no usable result"),
                     "entities": {},
                     "total_entities": 0,
                 }
@@ -247,6 +251,9 @@ class InteractiveEntityProcessor:
             except Exception as e:
                 progress.update(task, description="❌ Entity extraction failed")
                 logger.error(f"Entity extraction failed: {e}")
+                # Kept so the caller's error record (and dy's stage report)
+                # names the real cause, not just "no usable result".
+                self.last_extraction_error = f"{type(e).__name__}: {e}"
                 return None
 
     def _display_extracted_entities(self, entities: Dict[str, List[str]]) -> None:
@@ -292,13 +299,14 @@ class InteractiveEntityProcessor:
             return {}
 
         # Check if user wants to use batch operations for all entity types
-        total_entities = sum(len(entity_list) for entity_list in entities.items() if entity_list[1])
+        total_entities = sum(len(entity_list)
+                             for entity_list in entities.items() if entity_list[1])
         if total_entities > 10:  # Use batch for larger numbers
             use_batch = Confirm.ask(
                 f"\n⚡ Use optimized batch search for all {total_entities} entities? (Recommended for large sets)",
                 default=True
             )
-            
+
             if use_batch:
                 try:
                     # Use batch search for all entities at once
@@ -309,27 +317,30 @@ class InteractiveEntityProcessor:
                         except RuntimeError:
                             loop = asyncio.new_event_loop()
                             asyncio.set_event_loop(loop)
-                        
+
                         search_results = loop.run_until_complete(
                             self.entity_creator.search_entities_batch(entities)
                         )
-                        
+
                         # Display batch results summary
                         for entity_type, results in search_results.items():
                             if results:
-                                found_count = len([r for r in results if r.get('status') == 'found'])
-                                not_found_count = len([r for r in results if r.get('status') == 'not_found'])
-                                display_name = self.entity_types.get(entity_type, entity_type.title())
+                                found_count = len(
+                                    [r for r in results if r.get('status') == 'found'])
+                                not_found_count = len(
+                                    [r for r in results if r.get('status') == 'not_found'])
+                                display_name = self.entity_types.get(
+                                    entity_type, entity_type.title())
                                 console.print(
                                     f"  📊 {display_name}: ✅ {found_count} found, ❌ {not_found_count} not found"
                                 )
-                        
+
                         return search_results
-                    
+
                 except Exception as e:
                     console.print(f"⚠️ Batch search failed: {e}")
                     console.print("🔄 Falling back to interactive search")
-        
+
         # Interactive search for individual entity types
         for entity_type, entity_list in entities.items():
             if not entity_list:
@@ -380,14 +391,14 @@ class InteractiveEntityProcessor:
                 except RuntimeError:
                     loop = asyncio.new_event_loop()
                     asyncio.set_event_loop(loop)
-                
+
                 # Convert SearchResult objects to dict format expected by the rest of the system
                 optimized_results = loop.run_until_complete(
                     self.optimized_search.search_entities_optimized(
                         entities, use_vector_search=True, confidence_threshold=0.7
                     )
                 )
-                
+
                 # Convert to expected format
                 search_results = {}
                 for entity_type, results in optimized_results.items():
@@ -402,23 +413,24 @@ class InteractiveEntityProcessor:
                             'action_needed': result.action_needed,
                             'error': result.error
                         })
-                
+
                 # Display performance stats
                 stats = self.optimized_search.get_performance_stats()
-                total_entities = sum(len(entity_list) for entity_list in entities.values())
+                total_entities = sum(len(entity_list)
+                                     for entity_list in entities.values())
                 total_found = sum(
                     len([r for r in results if r.get('status') == 'found'])
                     for results in search_results.values()
                 )
                 total_not_found = total_entities - total_found
-                
+
                 console.print(
                     f"\n📊 Optimized Search Results: ✅ {total_found} found, ❌ {total_not_found} not found"
                 )
                 console.print(
                     f"   ⚡ Cache hit rate: {stats['cache_hit_rate_percent']}% | Operations: {stats['total_operations']}"
                 )
-                
+
             # Fallback to entity creator batch search
             elif self.entity_creator and hasattr(self.entity_creator, 'search_entities_batch'):
                 import asyncio
@@ -427,23 +439,24 @@ class InteractiveEntityProcessor:
                 except RuntimeError:
                     loop = asyncio.new_event_loop()
                     asyncio.set_event_loop(loop)
-                
+
                 search_results = loop.run_until_complete(
                     self.entity_creator.search_entities_batch(entities)
                 )
-                
+
                 # Display batch search summary
-                total_entities = sum(len(entity_list) for entity_list in entities.values())
+                total_entities = sum(len(entity_list)
+                                     for entity_list in entities.values())
                 total_found = sum(
                     len([r for r in results if r.get('status') == 'found'])
                     for results in search_results.values()
                 )
                 total_not_found = total_entities - total_found
-                
+
                 console.print(
                     f"\n📊 Batch Search Results: ✅ {total_found} found, ❌ {total_not_found} not found"
                 )
-                
+
             else:
                 # Fallback to original individual search method
                 console.print("⚠️ Using fallback individual search method")
@@ -455,11 +468,11 @@ class InteractiveEntityProcessor:
                             entity_type, entity_list)
                     else:
                         search_results[entity_type] = []
-                        
+
         except Exception as e:
             console.print(f"⚠️ Batch search failed: {e}")
             console.print("🔄 Falling back to individual entity searches")
-            
+
             # Fallback to original method
             for entity_type, entity_list in entities.items():
                 if entity_list:
@@ -548,7 +561,17 @@ class InteractiveEntityProcessor:
         return results
 
     def _save_entity_results(self, results: Dict[str, Any], video_id: str) -> None:
-        """Save entity processing results"""
+        """Save entity processing results
+
+        ═══ KB-WRITE-05 · interactive_entity_processor.py :: _save_entity_results()
+        Last write on YT-CHAIN-14 / FILE-CHAIN-06 / WEB-CHAIN-05, only when
+        pipeline NER found entities:
+          <summary dir>/entity_processing_results.json
+        then _update_entity_index() rewrites lib/entity_extraction/
+        entity_index.json — outside the archive. On the file path the summary
+        dir is the shell's cwd (FILE-CHAIN-06), so this lands there too.
+        ═══════════════════════════════════════════════════════════════════
+        """
 
         # Save to knowledge base metadata - get the correct path
         summary_path = Path(results['summary_file'])
@@ -643,7 +666,7 @@ class InteractiveEntityProcessor:
                 ]
                 if entities_needing_creation:
                     entities_to_create[entity_type] = entities_needing_creation
-            
+
             # Use asyncio to run the async batch creation method
             import asyncio
             try:
@@ -654,10 +677,12 @@ class InteractiveEntityProcessor:
 
             if entities_to_create:
                 creation_results = loop.run_until_complete(
-                    self.entity_creator.create_entities_batch(entities_to_create)
+                    self.entity_creator.create_entities_batch(
+                        entities_to_create)
                 )
             else:
-                creation_results = {"status": "no_creation_needed", "statistics": {"total_created": 0}}
+                creation_results = {
+                    "status": "no_creation_needed", "statistics": {"total_created": 0}}
 
             # Display creation results
             self._display_creation_results(creation_results)
