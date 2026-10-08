@@ -30,6 +30,7 @@ import './globals.css'
 import '@xyflow/react/dist/style.css'
 import './research-ui.css'
 import {MenuTrigger} from '@/features/mindmap/navigation/MenuTrigger'
+import {SiteNav} from '@/features/mindmap/navigation/SiteNav'
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -61,16 +62,17 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
               <CommandPaletteProvider>
                 {/* <DataLayer> */}
 
-                {/* Global navigation — wordmark + hamburger that opens FullScreenMenu */}
                 <MenuTrigger />
-
                 <CustomCursor />
-                <main
-                  className='min-h-[100vh] min-w-screen relative site dark'
-                  style={{backgroundColor: 'var(--color-bg-primary)'}}>
-                  {children}
-                </main>
-                {process.env.NODE_ENV === 'development' && <Agentation />}
+                <div className='flex h-dvh flex-col'>
+                  <SiteNav />
+                  <main
+                    className='relative min-h-0 flex-1 overflow-auto site dark'
+                    style={{backgroundColor: 'var(--color-bg-primary)'}}>
+                    {children}
+                  </main>
+                </div>
+                {process.env.NODE_ENV === 'development' && false && <Agentation />}
               </CommandPaletteProvider>
             </ToastProvider>
           </ThemeProvider>

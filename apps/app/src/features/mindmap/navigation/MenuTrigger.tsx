@@ -1,79 +1,65 @@
-"use client"
+'use client'
 
-import Link from "next/link"
-import { Menu } from "lucide-react"
-import { cn } from "@/lib/utils"
-import { useMindMapUiStore } from "@/features/mindmap/store/mindmap-ui-store"
-import { FullScreenMenu } from "./FullScreenMenu"
+import Link from 'next/link'
+import {usePathname} from 'next/navigation'
+import {NAV_GROUPS} from './SiteNav'
 
-interface MenuTriggerProps {
-  className?: string
-  variant?: "floating" | "inline"
-}
-
-export function MenuTrigger({ className, variant = "floating" }: MenuTriggerProps) {
-  // Global Zustand store — the menu open state lives here so any trigger
-  // (hamburger, command palette, programmatic) stays in sync.
-  const { navigation, setFullScreenMenuOpen } = useMindMapUiStore()
-  const isOpen = navigation.fullScreenMenuOpen
-
-  if (variant === "inline") {
-    return (
-      <>
-        <button
-          onClick={() => setFullScreenMenuOpen(true)}
-          className={cn(
-            "flex items-center gap-2 px-3 py-2 rounded-lg",
-            "bg-neutral-800/50 hover:bg-neutral-700/50",
-            "text-neutral-400 hover:text-white",
-            "transition-colors duration-200",
-            className
-          )}
-        >
-          <Menu size={18} />
-          <span className="text-sm font-medium">Menu</span>
-        </button>
-        <FullScreenMenu />
-      </>
-    )
-  }
+export function MenuTrigger() {
+  const pathname = usePathname()
+  if (pathname !== '/') return null
 
   return (
-    <>
-      {/* Project wordmark — global chrome, top-left */}
+    <nav
+      aria-label='Site'
+      className='pointer-events-auto fixed inset-x-5 top-5 z-50 flex items-start justify-between gap-4 font-monumentMono'
+    >
       <Link
-        href="/"
-        className="fixed top-6 left-6 z-40 group pointer-events-auto"
-        aria-label="Ultraterrestrial home"
+        href='/'
+        aria-current='page'
+        aria-label='Ultraterrestrial home'
+        className='flex min-h-11 items-center rounded-lg border border-white/10 bg-black/40 px-4 text-xs tracking-wider text-white/80 backdrop-blur-md hover:bg-black/60 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white'
       >
-        <div className="backdrop-blur-md bg-black/20 border border-white/10 rounded-lg px-4 py-2 hover:bg-black/30 transition-all duration-300">
-          <span className="text-white/80 group-hover:text-white text-sm font-monumentMono tracking-wider">
-            ULTRATERRESTRIAL
-          </span>
-        </div>
+        ULTRATERRESTRIAL
       </Link>
-
-      {/* Hamburger — global chrome, top-right */}
-      <button
-        onClick={() => setFullScreenMenuOpen(true)}
-        className={cn(
-          "fixed top-6 right-6 z-40",
-          "w-12 h-12 rounded-full",
-          "bg-neutral-800/90 hover:bg-neutral-700/90",
-          "backdrop-blur-md",
-          "flex items-center justify-center",
-          "text-neutral-400 hover:text-white",
-          "shadow-lg shadow-black/20",
-          "transition-all duration-300",
-          "hover:scale-105 active:scale-95",
-          "border border-white/5",
-          className
-        )}
-        aria-label="Open navigation menu"
-      >
-        <Menu size={20} />
-      </button>
-      <FullScreenMenu />
-    </>
+      <div className='hidden min-h-11 items-center gap-1 rounded-lg border border-white/10 bg-black/40 p-1 backdrop-blur-md xl:flex'>
+        {NAV_GROUPS.flatMap((group) => group.links).map((link) => (
+          <Link
+            key={link.href}
+            href={link.href}
+            prefetch={false}
+            className='flex min-h-9 items-center rounded-md px-3 text-xs text-white/80 hover:bg-white/10 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-white'
+          >
+            {link.label}
+          </Link>
+        ))}
+      </div>
+      <details className='relative xl:hidden'>
+        <summary className='flex min-h-11 cursor-pointer list-none items-center gap-3 rounded-lg border border-white/10 bg-black/60 px-4 text-xs text-white backdrop-blur-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white'>
+          Explore <span aria-hidden='true'>☰</span>
+        </summary>
+        <div className='absolute right-0 top-full mt-3 max-h-[calc(100dvh-100px)] w-64 overflow-y-auto rounded-lg border border-white/15 bg-black/95 p-3 shadow-xl'>
+          {NAV_GROUPS.map((group) => (
+            <div key={group.label}>
+              <p className='mb-1 mt-3 px-3 text-[10px] uppercase tracking-wider text-white/50'>
+                {group.label}
+              </p>
+              <ul className='m-0 list-none p-0'>
+                {group.links.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      prefetch={false}
+                      className='flex min-h-11 items-center rounded-md px-3 text-sm text-white/80 hover:bg-white/10 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-white'
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </details>
+    </nav>
   )
 }
