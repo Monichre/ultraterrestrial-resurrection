@@ -2,7 +2,7 @@
 status: live
 role: ops
 spine: exists
-updated: 2026-09-13
+updated: 2026-09-28
 ---
 
 # Documentation
@@ -17,7 +17,7 @@ Navigation for Ultraterrestrial Resurrection. Living docs only — everything el
 | 2 | **Where is it?** | Paths in the table; root product files stay at repo root |
 | 3 | **How does it work?** | [`architecture/`](./architecture/) · [`adr/`](./adr/) · [`vision/IMPLEMENTATION_SPEC.md`](./vision/IMPLEMENTATION_SPEC.md) |
 | 4 | **What do we want?** | [`PRODUCT.md`](PRODUCT.md) · [`docs/vision/`](docs/vision/) · [`packages/disclosure-design/canon/design-lab/`](packages/disclosure-design/canon/design-lab/) · [`docs/plans/FEATURES.md`](docs/plans/FEATURES.md) · [`DESIGN.md`](DESIGN.md) (**not canonical** — canvas chrome sketch only) |
-| 5 | **How do we do it?** | [`docs/plans/TODO.md`](docs/plans/TODO.md) · [`GOAL.md`](GOAL.md) · [`DAILY_WORK_PLAN.md`](DAILY_WORK_PLAN.md) |
+| 5 | **How do we do it?** | [`docs/plans/TODO.md`](docs/plans/TODO.md) · [`DAILY_WORK_PLAN.md`](DAILY_WORK_PLAN.md) |
 | 6 | **Where do I start?** | [`.agents/rules/AGENT_ONBOARDING_CHECKLIST.md`](.agents/rules/AGENT_ONBOARDING_CHECKLIST.md) · [`README.md`](README.md) · [`AGENTS.md`](AGENTS.md) |
 
 ## Tree (living)
@@ -45,7 +45,7 @@ docs/
 ### Repo root
 
 - [`README.md`](README.md) · [`AGENTS.md`](AGENTS.md) · [`CLAUDE.md`](CLAUDE.md)
-- [`PRODUCT.md`](PRODUCT.md) · [`GOAL.md`](GOAL.md) · [`DESIGN.md`](DESIGN.md) (**not canonical** — limited canvas chrome)
+- [`PRODUCT.md`](PRODUCT.md) · [`DESIGN.md`](DESIGN.md) (**not canonical** — limited canvas chrome)
 - [`CONTEXT.md`](CONTEXT.md) · [`CONTEXT-MAP.md`](CONTEXT-MAP.md) · [`DAILY_WORK_PLAN.md`](DAILY_WORK_PLAN.md)
 
 ### docs/
@@ -60,6 +60,14 @@ docs/
 | [plans/TODO.md](./plans/TODO.md) | eng | do |
 | [plans/2026-08-09-disclosure-lab.md](./plans/2026-08-09-disclosure-lab.md) | eng | do |
 | [plans/2026-08-09-research-canvas-genui.md](./plans/2026-08-09-research-canvas-genui.md) | eng | do |
+| [plans/2026-08-10-rc-p0-tool-cards.md](./plans/2026-08-10-rc-p0-tool-cards.md) | eng | do |
+| [plans/2026-08-01-ingestion-hardening.md](./plans/2026-08-01-ingestion-hardening.md) | eng | do |
+| [plans/2026-08-01-spacetime-canvas-implementation.md](./plans/2026-08-01-spacetime-canvas-implementation.md) | eng | do |
+| [plans/2026-08-13-canvas-drop-ingest-contract.md](./plans/2026-08-13-canvas-drop-ingest-contract.md) | eng | do |
+| [plans/2026-08-16-source-canonical-reorg.md](./plans/2026-08-16-source-canonical-reorg.md) | eng | do |
+| [plans/2026-09-10-gods-eye-view-integration.md](./plans/2026-09-10-gods-eye-view-integration.md) | eng | do |
+| [plans/playlist-ingestion-recovery/plan.mdx](./plans/playlist-ingestion-recovery/plan.mdx) | eng | do |
+| [dogfood-output/](./dogfood-output/) | evidence | do |
 | [vision/AGENT_ARCHITECTURE_BRIEF.md](./vision/AGENT_ARCHITECTURE_BRIEF.md) | identity | want / how |
 | [vision/DESIGN_REGISTERS.md](./vision/DESIGN_REGISTERS.md) | identity | want |
 | [vision/IMPLEMENTATION_SPEC.md](./vision/IMPLEMENTATION_SPEC.md) | identity | how |
@@ -105,4 +113,4 @@ Dated audits, superseded plans, prototype apps, and moodboard binaries live unde
 1. Root [`AGENTS.md`](AGENTS.md)
 2. [`.agents/rules/AGENT_ONBOARDING_CHECKLIST.md`](.agents/rules/AGENT_ONBOARDING_CHECKLIST.md)
 3. This spine — pick the question that matches your task
-4. [`docs/plans/TODO.md`](docs/plans/TODO.md) / [`GOAL.md`](GOAL.md) for current work
+4. [`docs/plans/TODO.md`](docs/plans/TODO.md) for current work. `GOAL.md` is not in the repo root (removed 2026-09-11).
