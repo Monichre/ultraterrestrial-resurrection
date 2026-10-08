@@ -6,7 +6,7 @@ import webpack from 'webpack'
 const appRoot = process.cwd()
 const storybookDir = path.join( appRoot, '.storybook' )
 const repoRoot = path.resolve( appRoot, '../..' )
-const brandBibleRoot = path.join( repoRoot, 'docs/design/brand-bible' )
+const brandBibleRoot = path.join( repoRoot, 'packages/disclosure-design/canon/brand-bible' )
 
 process.env.NEXT_FONT_GOOGLE_MOCKED_RESPONSES ??= path.join( storybookDir, 'mocked-google-fonts.cjs' )
 

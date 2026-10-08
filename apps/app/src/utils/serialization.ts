@@ -224,8 +224,15 @@ export function serializeXataRecords<T extends Record<string, any>>(
 
     // Handle arrays (including file arrays) with deep serialization of items
     if (Array.isArray(value)) {
+        const isImageArray = key === "photo" || key === "photos" || key === "images"
         safeObject[key as keyof T] = value.map((item) => {
             if (item == null) return item as any
+
+            // Postgres rebuild stores image refs as plain strings (path/URL);
+            // wrap them in the legacy file-object shape consumers expect.
+            if (isImageArray && typeof item === "string") {
+                return { name: item.split("/").pop() ?? item, url: item }
+            }
 
             // For file objects, only keep safe properties
             if (

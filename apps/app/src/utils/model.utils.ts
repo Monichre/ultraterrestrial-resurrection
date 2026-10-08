@@ -6,7 +6,7 @@ export const objectMapToSingular: unknown = {
 	topics: "topic",
 
 	// Add more mappings here as needed
-};
+}
 export const objectMapPlural: unknown = {
 	event: "events",
 	testimony: "testimonies",
@@ -16,7 +16,7 @@ export const objectMapPlural: unknown = {
 	topic: "topics",
 
 	// Add more mappings here as needed
-};
+}
 
 export const connectionMapByEntityType: unknown = {
 	events: [
@@ -50,70 +50,77 @@ export const connectionMapByEntityType: unknown = {
 		{ table: "topic-subject-matter-experts", target: "topic" },
 		{ table: "event-topic-subject-matter-experts", target: "topic" },
 	],
-};
-
-export function removeLeadingZero(str: string) {
-	if (!str) return str;
-	if (str?.startsWith("0")) {
-		return str.replace(/^0+/, "");
-	}
-	return str;
 }
 
-export const extractUniqueYearsFromEvents = (events: unknown[]) => {
-	const years = new Set();
-	events.sort((a, b) => {
-		const dateA = new Date(a.date);
+export function removeLeadingZero( str: string ) {
+	if ( !str ) return str
+	if ( str?.startsWith( "0" ) ) {
+		return str.replace( /^0+/, "" )
+	}
+	return str
+}
 
-		const dateB = new Date(b.date);
-		return dateB.getTime() - dateA.getTime();
-	});
-	for (const event of events) {
-		// @ts-ignore
-		const year: unknown = removeLeadingZero(event?.date?.split("-")[0]);
+export const extractUniqueYearsFromEvents = ( events: unknown[] ) => {
+	const years = new Set()
+	events.sort( ( a, b ) => {
+		const dateA = new Date( a.date )
 
-		if (!years.has(year)) {
-			years.add(year);
+		const dateB = new Date( b.date )
+		return dateB.getTime() - dateA.getTime()
+	} )
+	for ( const event of events ) {
+		// Neon returns timestamptz as a Date. The year parser expects a string.
+		const rawDate = ( event as { date?: unknown } | null )?.date
+		const dateText =
+			rawDate instanceof Date
+				? rawDate.toISOString()
+				: typeof rawDate === "string"
+					? rawDate
+					: ""
+		const year: unknown = removeLeadingZero( dateText.split( "-" )[0] )
+
+		if ( !years.has( year ) ) {
+			years.add( year )
 		}
 	}
 
-	return Array.from(years);
-};
+	return Array.from( years )
+}
 export const extractCoordinatesFromEvents = (
 	events: unknown[],
 	withEventData = false,
 ) => {
-	return events.map((event) => {
-		const { latitude, longitude, id, ...rest } = event;
+	return events.map( ( event ) => {
+		const { latitude, longitude, id, ...rest } = event
 		return withEventData
 			? {
-					lat: latitude,
-					lng: longitude,
-					size: 0.1,
-					color: "#79ffe1",
-					...rest,
-				}
+				lat: latitude,
+				lng: longitude,
+				size: 0.1,
+				color: "#79ffe1",
+				...rest,
+			}
 			: {
-					location: [latitude, longitude],
-					size: 0.02,
-				};
-	});
-};
+				location: [latitude, longitude],
+				size: 0.02,
+			}
+	} )
+}
 
 // Function to generate a random color in hex format
 const randomColor = () => {
-	const letters = "0123456789ABCDEF";
-	let color = "#";
-	for (let i = 0; i < 6; i++) {
-		color += letters[Math.floor(Math.random() * 16)];
+	const letters = "0123456789ABCDEF"
+	let color = "#"
+	for ( let i = 0; i < 6; i++ ) {
+		color += letters[Math.floor( Math.random() * 16 )]
 	}
-	return color;
-};
+	return color
+}
 
 // Function to generate dummy data for the card schema
-export const locationToAngles = (lat, long) => {
+export const locationToAngles = ( lat, long ) => {
 	return [
-		Math.PI - ((long * Math.PI) / 180 - Math.PI / 2),
-		(lat * Math.PI) / 180,
-	];
-};
+		Math.PI - ( ( long * Math.PI ) / 180 - Math.PI / 2 ),
+		( lat * Math.PI ) / 180,
+	]
+}
