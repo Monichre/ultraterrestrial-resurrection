@@ -2,18 +2,26 @@
 status: live
 role: product
 spine: want
-updated: 2026-09-13
+updated: 2026-09-28
 ---
 
 # Feature Planning & High-Level Ideas
 
 **Purpose**: Collaborative space for high-level feature concepts, architectural decisions, and strategic planning before they become actionable tickets.
 
-**Last Updated**: 2026-08-09  
+**Last Updated**: 2026-09-28  
 **Contributors**: Liam Ellis, Claude Code  
 **Project**: Ultraterrestrial Resurrection - UFO/UAP Research Platform
 
 ---
+
+## Story 2 "Follow the thread" — connections canvas — October 8th, 2026, 11:51 CDT
+
+Storybook prototype of an entity/evidence connections canvas: epistemic-tier edges, progressive disclosure (+N ring expansion, weak-tier collapse), ghost edges for hidden tiers, edge-inspection drawer with counter-readings, session-only notation pins. Impeccable roundtable passed (31/40 first-run baseline); two P1s deferred (keyboard path, edge-label crowding). Storybook-only — not wired to the live `/research-canvas` route. [Work log](docs/work_logs/october-8th-2026-connections-canvas.md). User review pending.
+
+## Attached Nuclear Shadow interface study — October 7th, 2026, 22:04:56 CDT
+
+User selected the Visual Foundation, Trinity, and Controlled Revelation artwork for a connected user journey and Storybook studies. Preserve the supplied composition as interactive reference plates, reuse existing waypoint readings, and keep this study separate from production-canvas adoption and component reconstruction. [Journey contract](apps/app/src/features/guided-tours/nuclear-shadow/interface-studies/README.md); [evidence and handoff](docs/work_logs/october-7th-2026-interface-journey-handoff.md). User acceptance remains open.
 
 ## 🌟 Strategic Vision
 
@@ -146,7 +154,7 @@ What was actually done (SP1–SP4):
 **User Journey**: Mindmap Discovery → Contextual Research Panel → Session Documentation → Evidence Validation
 **Reference**: Extracted from Todo2 integration concept (T-11)
 
-**Superseding upgrade (2026-08-09):** The live shell is already `/research-canvas` → mindmap `Graph`. Strategic follow-on is **Decision 11 / T-053** — Gen-UI Deep Research loop + agentic `researchSession` on that shell (not a TipTap sidecar revival). See [`2026-08-09-research-canvas-genui.md`](./2026-08-09-research-canvas-genui.md).
+**Superseding upgrade (2026-08-09, corrected 2026-09-28):** The live shell is already `/research-canvas` → mindmap `Graph`. Strategic follow-on is **Decision 11 / T-050** (T-053 merged into T-050 on 2026-08-17) — Gen-UI Deep Research loop + agentic `researchSession` on that shell. See [`2026-08-09-research-canvas-genui.md`](./2026-08-09-research-canvas-genui.md).
 
 ---
 
@@ -154,7 +162,7 @@ What was actually done (SP1–SP4):
 
 **Vision**: Make `/research-canvas` an agentic investigation surface: thin command rail, Graph as the durable canvas, explicit plan → multi-hop retrieve → liturgy dossier — with inspectable tool cards during the run.
 
-**Status**: 🟡 Specced 2026-08-09 — **T-053 / [DMGD-219](https://linear.app/digital-mischief-group/issue/DMGD-219/lane-b-research-canvas-gen-ui-upgrade-deep-research-loop-agentic)** · Backlog
+**Status**: 🟡 Merged into **T-050** on 2026-08-17 — [DMGD-219](https://linear.app/digital-mischief-group/issue/DMGD-219/lane-b-research-canvas-gen-ui-upgrade-deep-research-loop-agentic). ToolCards (former RC-P0) are on disk as of 2026-09-11 and unverified. Subtasks 4, 5, 7, and 8 remain open.
 **Decision**: Decision 11 (below)
 **Canonical plan**: [`docs/plans/2026-08-09-research-canvas-genui.md`](./2026-08-09-research-canvas-genui.md)
 **Phases**: RC-P0 ToolCards → RC-P1 expand `researchSession` → RC-P2 wire Deep Research mode → RC-P3 dossier bridge → RC-P4 plan→waypoints (soft-deps T-050)
@@ -474,6 +482,26 @@ Read-only by default — agents can browse and read raw sources but not mutate t
 
 ## 🏗️ Architectural Decisions Log
 
+### Canonical ingestion diagnosis and planning order — October 7th, 2026, 23:20 CDT
+
+**Execution fan-out — October 7th, 2026, 23:52 CDT:** [`docs/plans/october-7th-2026-transcript-pilot.md`](docs/plans/october-7th-2026-transcript-pilot.md) now defines four concurrent agents total: coordinator, pipeline implementer, prompt implementer and independent acceptance reviewer. Same checkout, exclusive file ownership, staged code/security review, one live episode/model request, and explicit wave exit gates. Specialists rotate into freed slots. No workers launched by this planning update.
+
+**Pilot planning update — October 7th, 2026, 23:46 CDT:** [`docs/plans/october-7th-2026-transcript-pilot.md`](docs/plans/october-7th-2026-transcript-pilot.md) defines reference-plus-five acceptance. Cached episode replay and isolated subscription-only local execution precede live verification; no pipeline replacement or bulk rerun.
+
+**Antecedent reconciliation — October 7th, 2026, 23:31 CDT:** T-048's archive/index peer-output topology remains authoritative: preserve acquisition before enrichment failures, keep Neon/OpenAI destination states independent, use stable source identity with content versions, and verify retrieval rather than upload. T-061's recorded text selection feeds both indexes. Preserve later MD5 and episode-bundle decisions over conflicting older plan text. OCR and object-storage mirroring remain deferred. Detailed reconciliation and acceptance cases: [`docs/ingestion-worklane.md`](docs/ingestion-worklane.md).
+
+**User decision:** promote the October 7th review into [`docs/ingestion-worklane.md`](docs/ingestion-worklane.md), indexed by [`docs/README.md`](docs/README.md). This is canonical guidance, not an implementation-completion claim.
+
+**Constraints:** subscription-first execution; transcript/media recovery before PDFs; preserve whole-source summary → summary-derived entity extraction under the October 2nd rulings. The review's earlier replacement-by-chunk-NER recommendation is withdrawn. Keep search coverage and entity understanding separate. The latest user clarification excludes credibility ratings; track prompt cleanup without replacing the restored pipeline. Commits 39ac8382 and 89ede19d already implement summary-first reinstatement; verify the reference then pilot five transcripts.
+
+**Proposed implementation boundary:** acquire source → validated local bundle → independently verified publishing. The T-084 pilot contract and four-agent execution map are prepared; implement its bounded prerequisites and verify the reference/pilot before bulk execution. Existing ingestion tickets retain their scope; no new parallel pipeline.
+
+### Jev as an advisory coding-agent tool — 2026-09-29 23:47:35 CDT (UTC−05:00)
+
+**Priority update — 2026-09-30 01:13:15 CDT (UTC−05:00):** PARKED by user to focus on UI; no live call approved.
+
+Keep the coding agent on its current chat model. Add an on-demand native Jev decision helper with code-owned schemas, thresholds and bounds; human approval remains required for each charged call and every consequential action. Gateway-only transport, mocks and calibration tooling: [`packages/ai/tools/jev/README.md`](packages/ai/tools/jev/README.md). No automatic interception or vendor skill installation. Live gateway behavior and exact token counting remain UNVERIFIED. Execution tracking: T-067 in [`docs/plans/TODO.md`](docs/plans/TODO.md).
+
 ### **Decision 1: Tool-Based Architecture Approach**
 
 **Date**: August 9, 2025  
@@ -562,8 +590,8 @@ Read-only by default — agents can browse and read raw sources but not mutate t
 3. Host on the **existing disclosure mindmap path** (`useMindMapAgent` + `/api/disclosure/mindmap`); expand T-027 `researchSession` as AgentState.
 4. **Reject** CopilotKit / ADK / LangGraph dual runtimes, Tavily-as-primary, SaaS KPI dashboard grammar, and a Deep Research Workspace sidecar as the long-term UX.
 5. Project intelligence into Graph / waypoints / SynthesisPanel — not insight-card sidebars.
-**Impact**: Feature upgrade tracked as T-053 / DMGD-219. Soft-deps T-050 only for plan→waypoint projection (RC-P4). Spec: [`docs/plans/2026-08-09-research-canvas-genui.md`](./2026-08-09-research-canvas-genui.md).
-**Status**: 🟡 Specced — Backlog (ready to claim)
+**Impact**: Feature upgrade tracked as T-050 subtasks 6–8 (T-053 merged 2026-08-17; DMGD-219 remains the Linear issue). Spec: [`docs/plans/2026-08-09-research-canvas-genui.md`](./2026-08-09-research-canvas-genui.md).
+**Status**: 🟡 In progress on T-050. ToolCards landed in code 2026-09-11, unverified. Not a claimable standalone ticket.
 
 ### Decision 12: YouTube podcast ingest — enhance disclosure-rag, reject parallel n8n+Qdrant stack (2026-08-12)
 
@@ -622,17 +650,18 @@ Read-only by default — agents can browse and read raw sources but not mutate t
 - **External Web RAG**: ✅ Live through the shared Exa research tool; further work belongs in Linear
 - **API Consolidation**: ✅ Two live paths with shared DB/Exa tools; OpenAI Assistants boundary documented
 - **Prompts System**: ✅ Shared epistemic guidance and frontier fallback implemented; further work belongs in Linear
-- **Deep Research / Research Canvas Gen-UI**: ✅ Approach decided (Decision 11) — ticketed as T-053 / DMGD-219; RC-P0–P4 in `docs/plans/2026-08-09-research-canvas-genui.md`
+- **Deep Research / Research Canvas Gen-UI**: ✅ Approach decided (Decision 11) — merged into T-050 on 2026-08-17 (DMGD-219). ToolCards are on disk, unverified. Remaining work is T-050 subtasks 4, 5, 7, and 8.
 - **Natural Language Tours**: ⛔ SCRAPPED — multi-agent tour orchestrator was specced July 2025, zero code written, scrapped at 2026-03-29 roundtable. Do not pursue. (Guided-tours convergence is **T-050**, a different ticket.)
 - **TipTap Integration**: ✅ Ready for TODO.md (detailed plan exists)
 
 ### **Current Development Pipeline**
 
-- **Active tracker**: Linear project `Ultraterrestrial Resurrection` (DMG Dev)
-- **Backlog (ready to claim)**: Research Canvas Gen-UI **DMGD-219 / T-053**
-- **In review**: agent consolidation, provider fallback, design canon, documentation cleanup, and Linear cutover
-- **Blocked**: screenshot-grounded UX audit until a browser backend is available
-- **Planning**: 10-source LLM-wiki provenance pilot decision; local-agent definition refresh
+- **Active tracker**: [`docs/plans/TODO.md`](docs/plans/TODO.md), kept in parity with Linear
+- **Active**: T-048 and T-061 (Lane A); T-050, T-052, and T-060 (Lane B)
+- **Next gate**: T-066 blocks the T-057 playlist batch
+- **In review**: T-045 (since 2026-08-01)
+- **Blocked**: T-041 until a browser backend is available; T-037 and T-038 on external billing/Figma
+- **Do not claim**: T-053. It was merged into T-050 on 2026-08-17.
 
 ---
 
@@ -647,12 +676,12 @@ Read-only by default — agents can browse and read raw sources but not mutate t
 | Prompts System | Medium | Medium | Low | ⭐⭐⭐ |
 | ~~Smart Tours Integration~~ | ~~Low~~ | ~~High~~ | ~~Very Low~~ | ⛔ SCRAPPED |
 | TipTap RAG Integration | Medium | High | Medium | ⭐⭐⭐ |
-| Research Canvas Gen-UI (T-053) | Medium–High | Very High | Medium | ⭐⭐⭐⭐ |
+| Research Canvas Gen-UI (T-050, was T-053) | Medium–High | Very High | Medium | ⭐⭐⭐⭐ |
 
 ### **Resource Allocation Recommendations**
 
-- **Immediate Focus**: Research Canvas Gen-UI RC-P0–P2 when claimed (T-053 / DMGD-219) — Smart Tours orchestrator was scrapped; T-050 is the live tour path
-- **Parallel**: Disclosure Lab (T-052), T-050 render, Lane A T-048 H1
+- **Immediate Focus**: T-050 subtasks 4, 5, 7, and 8, plus a dogfood pass on the render and ToolCards already on disk. T-053 is not a separate ticket.
+- **Parallel**: Disclosure Lab (T-052), drop-to-canvas (T-060), Lane A T-048 H2 and T-066
 - **Next Sprint**: External Web RAG pre-ingest (still aspirational; Exa live today)
 - **Following Sprint**: TipTap Integration if still desired after Gen-UI dossier lands
 - **Research Phase**: Closed for Gen-UI fit — Decision 11 is the SoT
