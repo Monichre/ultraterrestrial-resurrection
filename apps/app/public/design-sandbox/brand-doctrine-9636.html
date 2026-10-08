@@ -1,0 +1,487 @@
+<html lang="en" vid="0"><head vid="1">
+    <meta charset="UTF-8" vid="2">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" vid="3">
+    <title vid="4">Ultra Terrestrial - Brand Doctrine</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com" vid="5">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" vid="6">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&amp;family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet" vid="7">
+    
+    <style vid="8">
+        :root {
+            --bg-paper: #EBEBE7;
+            --graphite-dark: #1E2022;
+            --graphite-med: #5A5D60;
+            --graphite-light: rgba(30, 32, 34, 0.12);
+            --graphite-xlight: rgba(30, 32, 34, 0.05);
+            --amber-accent: #D66827;
+            --amber-light: rgba(214, 104, 39, 0.4);
+            --shadow-base: 0 10px 30px rgba(18, 22, 28, 0.06);
+            --shadow-tool: 5px 15px 25px rgba(18, 22, 28, 0.15);
+            --grid-size: 40px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body, html {
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--bg-paper);
+            
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(255,255,255,0.4) 0%, rgba(0,0,0,0.04) 100%),
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+            overflow: hidden;
+            font-family: 'Space Mono', monospace;
+            position: relative;
+            color: var(--graphite-dark);
+        }
+
+        
+        .svg-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .grid-line { stroke: var(--graphite-xlight); stroke-width: 1; }
+        .center-line { stroke: var(--graphite-light); stroke-width: 1; stroke-dasharray: 4 4; }
+        .diagram-line { stroke: var(--graphite-light); stroke-width: 0.5; }
+        .amber-mark { stroke: var(--amber-accent); stroke-width: 1.5; fill: none; }
+        .amber-dashed { stroke: var(--amber-accent); stroke-width: 1; stroke-dasharray: 2 4; fill: none; }
+        .calib-mark { stroke: var(--graphite-med); stroke-width: 1; fill: none; }
+        
+        
+        .content-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .title-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 800px;
+        }
+
+        .title-sub {
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 4px;
+            color: var(--graphite-med);
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .title-sub::before, .title-sub::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 30px;
+            height: 1px;
+            background-color: var(--graphite-light);
+        }
+        .title-sub::before { right: 100%; margin-right: 15px; }
+        .title-sub::after { left: 100%; margin-left: 15px; }
+
+        .title-main {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 72px;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            color: var(--graphite-dark);
+            line-height: 1;
+            text-align: center;
+            position: relative;
+            
+            text-shadow: -1px -1px 0 rgba(30,32,34,0.05), 1px 1px 0 rgba(30,32,34,0.05);
+        }
+
+        .title-draft-box {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 110%;
+            height: 140%;
+            border: 1px solid var(--graphite-xlight);
+            z-index: -1;
+        }
+
+        .corner-crop {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-color: var(--graphite-med);
+            border-style: solid;
+        }
+        .cc-tl { top: -5px; left: -5px; border-width: 1px 0 0 1px; }
+        .cc-tr { top: -5px; right: -5px; border-width: 1px 1px 0 0; }
+        .cc-bl { bottom: -5px; left: -5px; border-width: 0 0 1px 1px; }
+        .cc-br { bottom: -5px; right: -5px; border-width: 0 1px 1px 0; }
+
+        
+        .handwritten {
+            font-family: 'Caveat', cursive;
+            font-size: 24px;
+            color: var(--graphite-dark);
+            line-height: 1.2;
+            position: absolute;
+            filter: drop-shadow(0 1px 1px rgba(0,0,0,0.05)); 
+        }
+        
+        .technical {
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            color: var(--graphite-med);
+            text-transform: uppercase;
+            position: absolute;
+        }
+
+        .amber-text { color: var(--amber-accent); }
+
+        
+        .anno-1 { top: 22%; left: 18%; transform: rotate(-3deg); }
+        .anno-2 { top: 38%; right: 12%; text-align: left; border-left: 1px solid var(--amber-accent); padding-left: 10px; }
+        .anno-3 { bottom: 25%; left: 25%; transform: rotate(2deg); font-size: 26px; }
+        .anno-4 { top: 28%; right: 28%; border: 1px solid var(--amber-light); padding: 4px 8px; border-radius: 2px; }
+        
+        .anno-list { bottom: 15%; right: 15%; display: flex; flex-direction: column; gap: 8px; text-align: right; }
+        .anno-list span { display: block; }
+        .anno-list span::before { content: '+ '; color: var(--amber-light); }
+        
+        .anno-6 { top: 46%; left: 15%; transform: rotate(-8deg); color: var(--graphite-med); font-size: 20px;}
+        .anno-7 { bottom: 10%; left: 50%; transform: translateX(-50%); letter-spacing: 6px; font-size: 11px;}
+
+        
+        .tools-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 20;
+        }
+
+        
+        .draft-pencil {
+            position: absolute;
+            top: -80px;
+            right: 20%;
+            width: 10px;
+            height: 400px;
+            background: linear-gradient(to right, #b0b5b9 0%, #ffffff 30%, #8e959b 100%);
+            border-radius: 5px;
+            transform: rotate(35deg);
+            box-shadow: 12px 15px 25px rgba(18, 22, 28, 0.15), inset -2px 0 4px rgba(0,0,0,0.1);
+            z-index: 21;
+        }
+        .draft-pencil::before { 
+            content: '';
+            position: absolute;
+            bottom: 50px;
+            left: 0;
+            width: 100%;
+            height: 90px;
+            background: repeating-linear-gradient(to bottom, #2a2c2e, #2a2c2e 2px, #1e2022 2px, #1e2022 4px);
+            border-radius: 2px;
+        }
+        .draft-pencil::after { 
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 50px;
+            background: linear-gradient(to right, #777, #ccc, #555);
+            clip-path: polygon(0 0, 100% 0, 70% 80%, 55% 100%, 45% 100%, 30% 80%);
+        }
+
+        
+        .clear-ruler {
+            position: absolute;
+            bottom: -50px;
+            left: -50px;
+            width: 500px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(2px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-bottom: 2px solid rgba(255,255,255,0.5);
+            transform: rotate(-15deg);
+            box-shadow: 5px -5px 20px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.4);
+            z-index: 22;
+            display: flex;
+            align-items: flex-start;
+            padding-left: 20px;
+            overflow: hidden;
+        }
+        
+        .ruler-marks {
+            width: 100%;
+            height: 15px;
+            background: repeating-linear-gradient(
+                to right,
+                var(--graphite-med) 0,
+                var(--graphite-med) 1px,
+                transparent 1px,
+                transparent 5px
+            );
+            opacity: 0.6;
+        }
+        .ruler-marks-major {
+            position: absolute;
+            top: 0; left: 20px;
+            width: calc(100% - 20px);
+            height: 25px;
+            background: repeating-linear-gradient(
+                to right,
+                var(--graphite-dark) 0,
+                var(--graphite-dark) 1.5px,
+                transparent 1.5px,
+                transparent 50px
+            );
+            opacity: 0.7;
+        }
+
+        
+        .redact-marker {
+            position: absolute;
+            bottom: 10%;
+            right: -120px;
+            width: 380px;
+            height: 24px;
+            background: linear-gradient(to bottom, #222 0%, #0a0a0a 40%, #1a1a1a 100%);
+            border-radius: 12px;
+            transform: rotate(-25deg);
+            box-shadow: -15px 20px 30px rgba(0,0,0,0.3), inset 0 2px 3px rgba(255,255,255,0.1);
+            z-index: 23;
+        }
+        .marker-label {
+            position: absolute;
+            left: 100px;
+            top: 6px;
+            font-family: 'Space Mono', monospace;
+            font-size: 8px;
+            color: #555;
+            letter-spacing: 2px;
+        }
+        .marker-cap {
+            position: absolute;
+            left: -40px;
+            top: -2px;
+            width: 50px;
+            height: 28px;
+            background: linear-gradient(to bottom, #1a1a1a, #000);
+            border-radius: 6px 2px 2px 6px;
+            border-right: 2px solid #333;
+        }
+
+        
+        .archive-fragment {
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 250px;
+            height: 200px;
+            background-color: #F5F2EB;
+            
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 10 Q 30 40 50 20 T 90 50' stroke='rgba(0,0,0,0.1)' fill='none'/%3E%3Cpath d='M0 30 Q 40 60 60 30 T 100 70' stroke='rgba(0,0,0,0.08)' fill='none'/%3E%3Cpath d='M20 -10 Q 50 30 80 10 T 110 60' stroke='rgba(0,0,0,0.12)' fill='none'/%3E%3C/svg%3E");
+            background-size: 150px;
+            transform: rotate(5deg);
+            box-shadow: 8px 8px 25px rgba(0,0,0,0.1);
+            z-index: 5;
+            
+            clip-path: polygon(0% 0%, 100% 0%, 95% 20%, 100% 40%, 92% 60%, 98% 80%, 90% 100%, 0% 100%);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .fragment-tape {
+            position: absolute;
+            top: 40px;
+            left: 200px;
+            width: 80px;
+            height: 25px;
+            background: rgba(255,255,255,0.4);
+            backdrop-filter: blur(1px);
+            transform: rotate(-45deg);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+    </style>
+</head>
+<body vid="9">
+
+    
+    <svg class="svg-canvas" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" vid="10">
+        <defs vid="11">
+            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse" vid="12">
+                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="var(--graphite-xlight)" stroke-width="0.5" vid="13"></path>
+            </pattern>
+            <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse" vid="14">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--graphite-med)" vid="15"></path>
+            </marker>
+        </defs>
+
+        
+        <rect width="100%" height="100%" fill="url(#grid)" vid="16"></rect>
+
+        
+        <line x1="720" y1="0" x2="720" y2="900" class="center-line" vid="17"></line>
+        <line x1="0" y1="450" x2="1440" y2="450" class="center-line" vid="18"></line>
+
+        
+        <circle cx="720" cy="450" r="300" class="diagram-line" fill="none" vid="19"></circle>
+        <circle cx="720" cy="450" r="305" class="diagram-line" stroke-dasharray="2 6" fill="none" vid="20"></circle>
+        <circle cx="720" cy="450" r="450" class="diagram-line" opacity="0.5" fill="none" vid="21"></circle>
+
+        
+        <g class="constellation" opacity="0.6" vid="22">
+            
+            <circle cx="300" cy="200" r="3" fill="var(--graphite-med)" vid="23"></circle>
+            <circle cx="450" cy="150" r="4" fill="none" stroke="var(--graphite-med)" vid="24"></circle>
+            <circle cx="380" cy="300" r="2" fill="var(--graphite-med)" vid="25"></circle>
+            <line x1="300" y1="200" x2="450" y2="150" class="diagram-line" vid="26"></line>
+            <line x1="300" y1="200" x2="380" y2="300" class="diagram-line" vid="27"></line>
+            <line x1="450" y1="150" x2="720" y2="450" class="diagram-line" stroke-dasharray="2 4" vid="28"></line>
+            
+            
+            <circle cx="1100" cy="700" r="5" fill="none" stroke="var(--amber-accent)" vid="29"></circle>
+            <circle cx="1000" cy="600" r="2" fill="var(--graphite-med)" vid="30"></circle>
+            <circle cx="1200" cy="550" r="3" fill="var(--graphite-med)" vid="31"></circle>
+            <line x1="1100" y1="700" x2="1000" y2="600" class="amber-dashed" vid="32"></line>
+            <line x1="1100" y1="700" x2="1200" y2="550" class="diagram-line" vid="33"></line>
+            <line x1="1000" y1="600" x2="720" y2="450" class="diagram-line" stroke-dasharray="2 4" vid="34"></line>
+        </g>
+
+        
+        <g class="calibrations" vid="35">
+            
+            <path d="M 40 60 L 40 40 L 60 40" class="calib-mark" vid="36"></path>
+            <path d="M 1400 60 L 1400 40 L 1380 40" class="calib-mark" vid="37"></path>
+            <path d="M 40 840 L 40 860 L 60 860" class="calib-mark" vid="38"></path>
+            <path d="M 1400 840 L 1400 860 L 1380 860" class="calib-mark" vid="39"></path>
+
+            
+            <path d="M 710 100 L 730 100 M 715 120 L 725 120 M 715 140 L 725 140 M 700 160 L 740 160" class="calib-mark" stroke-width="0.5" vid="40"></path>
+            <path d="M 1200 440 L 1200 460 M 1220 445 L 1220 455" class="calib-mark" stroke-width="0.5" vid="41"></path>
+        </g>
+
+        
+        <g class="amber-edits" vid="42">
+            
+            <path d="M 420 380 L 430 380 M 425 375 L 425 385" class="amber-mark" vid="43"></path>
+            <path d="M 1020 520 L 1010 520 M 1015 515 L 1015 525" class="amber-mark" vid="44"></path>
+            
+            <path d="M 280 230 Q 320 280 370 260" class="amber-mark" fill="none" stroke-width="1" marker-end="url(#arrow)" opacity="0.6" vid="45"></path>
+        </g>
+    </svg>
+
+    
+    <div class="content-layer" vid="46">
+        
+        
+        <div class="title-container" vid="47">
+            <div class="title-draft-box" vid="48">
+                <div class="corner-crop cc-tl" vid="49"></div>
+                <div class="corner-crop cc-tr" vid="50"></div>
+                <div class="corner-crop cc-bl" vid="51"></div>
+                <div class="corner-crop cc-br" vid="52"></div>
+            </div>
+            <div class="title-sub" vid="53">Integrated Research Narrative Engine</div>
+            <div class="title-main" vid="54">ULTRA TERRESTRIAL</div>
+        </div>
+
+        
+        <div class="handwritten anno-1" vid="55">every source is a trace</div>
+        
+        <div class="technical anno-2" vid="56">
+            OBJ_REF: 804.2<br vid="57">
+            <span class="amber-text" vid="58">every contradiction</span><br vid="59">
+            is a pressure point.
+        </div>
+        
+        <div class="handwritten anno-3" vid="60">every motif is an echo, not proof</div>
+        
+        <div class="technical amber-text anno-4" vid="61">PRESERVE AMBIGUITY [!]</div>
+
+        <div class="technical anno-list" vid="62">
+            <span vid="63">evidence</span>
+            <span vid="64">inference</span>
+            <span vid="65">speculation</span>
+            <span vid="66">resonance</span>
+        </div>
+
+        <div class="handwritten anno-6" vid="67">orientation, not closure</div>
+
+        <div class="technical anno-7" vid="68">RIGOR + REVERENCE</div>
+        
+        
+        <div class="technical" style="top: 40px; left: 80px; opacity: 0.4;" vid="69">DOC_ID: UT-001 // SEC: ARCHIVE</div>
+        <div class="technical" style="bottom: 40px; right: 80px; opacity: 0.4;" vid="70">SCALE: UNDEFINED</div>
+
+    </div>
+
+    
+    <div class="tools-layer" vid="71">
+        
+        <div class="archive-fragment" vid="72"></div>
+        <div class="fragment-tape" vid="73"></div>
+
+        
+        <div class="draft-pencil" vid="74"></div>
+
+        
+        <div class="clear-ruler" vid="75">
+            <div class="ruler-marks" vid="76"></div>
+            <div class="ruler-marks-major" vid="77"></div>
+        </div>
+
+        
+        <div class="redact-marker" vid="78">
+            <div class="marker-cap" vid="79"></div>
+            <div class="marker-label" vid="80">REDACT / ISOLATE</div>
+        </div>
+        
+        
+        <div style="position: absolute; top: 15%; right: 8%; transform: rotate(15deg); opacity: 0.8; filter: drop-shadow(5px 10px 15px rgba(0,0,0,0.1));" vid="81">
+            <svg width="60" height="150" viewBox="0 0 60 150" fill="none" vid="82">
+                
+                <circle cx="30" cy="20" r="8" fill="#D0D0D0" stroke="#888" stroke-width="2" vid="83"></circle>
+                <circle cx="30" cy="20" r="3" fill="#555" vid="84"></circle>
+                
+                <path d="M 28 28 L 10 140 L 14 140 L 32 28 Z" fill="linear-gradient(to right, #ccc, #eee, #aaa)" stroke="#999" stroke-width="1" vid="85"></path>
+                <path d="M 10 140 L 8 150 L 14 140 Z" fill="#555" vid="86"></path>
+                
+                <path d="M 32 28 L 50 130 L 44 130 L 28 28 Z" fill="#D0D0D0" stroke="#999" stroke-width="1" vid="87"></path>
+                
+                <rect x="42" y="130" width="10" height="15" fill="#222" transform="rotate(-10 42 130)" vid="88"></rect>
+                <path d="M 42 145 L 47 155 L 52 145 Z" fill="#777" transform="rotate(-10 42 130)" vid="89"></path>
+                <circle cx="47" cy="155" r="1.5" fill="#222" transform="rotate(-10 42 130)" vid="90"></circle>
+            </svg>
+        </div>
+    </div>
+
+
+</body></html>

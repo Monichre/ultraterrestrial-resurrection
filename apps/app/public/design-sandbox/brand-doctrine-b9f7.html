@@ -1,0 +1,602 @@
+<html lang="en" vid="0"><head vid="1">
+    <meta charset="UTF-8" vid="2">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" vid="3">
+    <title vid="4">Ultra Terrestrial - Brand Doctrine</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com" vid="5">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" vid="6">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&amp;family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet" vid="7">
+    
+    <style vid="8">
+        :root {
+            --paper-bg: #EBEAE4;
+            --paper-texture: #E2E0D8;
+            --ink-black: #16181B;
+            --graphite-dark: #3A3D42;
+            --graphite: #707478;
+            --graphite-light: rgba(112, 116, 120, 0.25);
+            --graphite-faint: rgba(112, 116, 120, 0.1);
+            --amber: #C95D26;
+            --amber-faint: rgba(201, 93, 38, 0.3);
+            --blue-shadow: rgba(15, 20, 28, 0.06);
+            --blue-shadow-hard: rgba(15, 20, 28, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body, html {
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--paper-bg);
+            
+            background-image: radial-gradient(circle at 50% 40%, transparent 0%, rgba(22, 24, 27, 0.05) 100%);
+            overflow: hidden;
+            font-family: 'Space Mono', monospace;
+            color: var(--graphite-dark);
+        }
+
+        
+        .texture-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+            opacity: 0.25;
+            mix-blend-mode: multiply;
+        }
+
+        .workspace {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        
+        .grid-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .drafting-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .line-solid { stroke: var(--graphite-light); stroke-width: 0.5px; fill: none; }
+        .line-bold { stroke: var(--graphite); stroke-width: 1px; fill: none; }
+        .line-dash { stroke: var(--graphite-light); stroke-width: 0.5px; stroke-dasharray: 4 4; fill: none; }
+        .line-dot { stroke: var(--graphite); stroke-width: 0.5px; stroke-dasharray: 1 4; fill: none; stroke-linecap: round; }
+        .line-amber { stroke: var(--amber); stroke-width: 0.5px; fill: none; }
+        .line-amber-dash { stroke: var(--amber); stroke-width: 0.5px; stroke-dasharray: 2 4; fill: none; }
+
+        
+        .node { fill: var(--paper-bg); stroke: var(--graphite); stroke-width: 0.5px; }
+        .node-amber { fill: var(--amber); stroke: none; }
+
+        
+        .composition-center {
+            position: relative;
+            width: 900px;
+            height: 600px;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .wordmark {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--ink-black);
+            text-align: center;
+            line-height: 1.1;
+            position: relative;
+            z-index: 15;
+        }
+
+        .wordmark span {
+            display: block;
+            position: relative;
+        }
+
+        .wordmark .ultra {
+            font-size: 84px;
+            margin-left: -0.15em; 
+        }
+
+        .wordmark .terrestrial {
+            font-size: 64px;
+            letter-spacing: 0.25em;
+            margin-left: -0.25em;
+            color: var(--graphite-dark);
+        }
+
+        
+        .type-guides {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120%;
+            height: 140%;
+            pointer-events: none;
+            z-index: 14;
+        }
+
+        
+        .annotation {
+            position: absolute;
+            z-index: 20;
+        }
+
+        .text-mono {
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--graphite);
+            line-height: 1.4;
+        }
+
+        .text-hand {
+            font-family: 'Caveat', cursive;
+            font-size: 20px;
+            color: var(--ink-black);
+            line-height: 1.2;
+            letter-spacing: 0.02em;
+        }
+
+        .text-amber {
+            color: var(--amber);
+        }
+
+        
+        .anno-trace { top: -20px; left: -80px; transform: rotate(-2deg); }
+        .anno-pressure { top: 40px; right: -120px; text-align: right; }
+        .anno-echo { bottom: -40px; right: 20px; transform: rotate(1deg); }
+        .anno-ambiguity { 
+            top: 48%; 
+            left: -140px; 
+            font-size: 14px; 
+            border: 1px solid var(--amber-faint);
+            padding: 4px 8px;
+            transform: rotate(-90deg);
+            transform-origin: center center;
+            letter-spacing: 0.2em;
+        }
+        .anno-list {
+            bottom: -100px;
+            left: -60px;
+            border-left: 1px solid var(--graphite-light);
+            padding-left: 10px;
+        }
+        .anno-orientation { top: -80px; right: 100px; transform: rotate(3deg); }
+        .anno-rigor { bottom: -150px; left: 50%; transform: translateX(-50%); letter-spacing: 0.3em; font-size: 11px; }
+
+        
+        .ephemera {
+            position: absolute;
+            z-index: 2;
+        }
+
+        
+        .fragment-doc {
+            top: 10%;
+            left: 8%;
+            width: 220px;
+            height: 280px;
+            background-color: #E8E7E0;
+            border: 1px solid rgba(0,0,0,0.05);
+            box-shadow: 2px 4px 15px var(--blue-shadow);
+            transform: rotate(-4deg);
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .fragment-tape {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%) rotate(2deg);
+            width: 60px;
+            height: 25px;
+            background: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            backdrop-filter: blur(1px);
+        }
+
+        .fragment-image {
+            width: 100%;
+            height: 140px;
+            background: #D5D3CB;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        
+        .fragment-image::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                radial-gradient(circle at 30% 40%, transparent 20%, rgba(0,0,0,0.03) 21%, transparent 22%),
+                radial-gradient(circle at 30% 40%, transparent 30%, rgba(0,0,0,0.03) 31%, transparent 32%),
+                radial-gradient(circle at 30% 40%, transparent 40%, rgba(0,0,0,0.03) 41%, transparent 42%);
+        }
+
+        .fragment-redact {
+            width: 80%;
+            height: 12px;
+            background: var(--ink-black);
+            margin-top: 10px;
+            transform: rotate(-1deg);
+        }
+        .fragment-redact.short { width: 40%; }
+
+        
+        .ruler {
+            position: absolute;
+            bottom: 15%;
+            right: -5%;
+            width: 400px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(2px);
+            border: 1px solid rgba(0,0,0,0.08);
+            box-shadow: 0 5px 15px var(--blue-shadow);
+            transform: rotate(-35deg);
+            z-index: 25;
+            display: flex;
+            align-items: flex-end;
+            padding-bottom: 2px;
+            overflow: hidden;
+        }
+
+        .ruler-marks {
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(to right, var(--graphite) 1px, transparent 1px),
+                linear-gradient(to right, var(--graphite) 1px, transparent 1px),
+                linear-gradient(to right, var(--graphite) 1px, transparent 1px);
+            background-size: 10px 10px, 50px 20px, 100px 30px;
+            background-position: 0 bottom, 0 bottom, 0 bottom;
+            background-repeat: repeat-x;
+            opacity: 0.5;
+        }
+
+        
+        .marker {
+            position: absolute;
+            bottom: 5%;
+            left: 15%;
+            width: 250px;
+            height: 24px;
+            background: linear-gradient(to bottom, #2A2C30, #16181B, #0A0A0C);
+            border-radius: 4px;
+            transform: rotate(15deg);
+            box-shadow: 5px 10px 20px var(--blue-shadow-hard);
+            z-index: 26;
+        }
+        
+        .marker-cap {
+            position: absolute;
+            right: -2px;
+            top: -1px;
+            width: 40px;
+            height: 26px;
+            background: linear-gradient(to bottom, #3A3D42, #2A2C30);
+            border-radius: 2px 6px 6px 2px;
+            border-left: 2px solid #000;
+        }
+        
+        .marker-label {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255,255,255,0.3);
+            font-family: 'Space Mono', monospace;
+            font-size: 8px;
+            letter-spacing: 2px;
+        }
+
+        
+        .pencil {
+            position: absolute;
+            top: -50px;
+            right: 25%;
+            width: 8px;
+            height: 400px;
+            background: linear-gradient(to right, #B0B3B8, #E2E4E8, #8A8D93);
+            transform: rotate(20deg);
+            box-shadow: -10px 15px 25px var(--blue-shadow-hard);
+            z-index: 24;
+            border-radius: 4px;
+        }
+        
+        .pencil-tip {
+            position: absolute;
+            bottom: -30px;
+            left: 0;
+            width: 0; 
+            height: 0; 
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-top: 30px solid #D1C5B4; 
+        }
+        
+        .pencil-lead {
+            position: absolute;
+            bottom: -30px;
+            left: 2px;
+            width: 0; 
+            height: 0; 
+            border-left: 2px solid transparent;
+            border-right: 2px solid transparent;
+            border-top: 8px solid var(--graphite-dark);
+            z-index: 2;
+        }
+
+        
+        .redaction-block {
+            position: absolute;
+            background: var(--ink-black);
+            opacity: 0.9;
+            z-index: 4;
+            mix-blend-mode: multiply;
+        }
+
+    </style>
+</head>
+<body vid="9">
+
+    
+    <svg class="texture-overlay" width="100%" height="100%" vid="10">
+        <filter id="noise" vid="11">
+            <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch" vid="12"></feTurbulence>
+            <feColorMatrix type="matrix" values="1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 0.1 0" vid="13"></feColorMatrix>
+        </filter>
+        <rect width="100%" height="100%" filter="url(#noise)" vid="14"></rect>
+    </svg>
+
+    
+    <svg class="grid-layer" xmlns="http://www.w3.org/2000/svg" vid="15">
+        <defs vid="16">
+            <pattern id="smallGrid" width="20" height="20" patternUnits="userSpaceOnUse" vid="17">
+                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="var(--graphite-light)" stroke-width="0.25" vid="18"></path>
+            </pattern>
+            <pattern id="largeGrid" width="100" height="100" patternUnits="userSpaceOnUse" vid="19">
+                <rect width="100" height="100" fill="url(#smallGrid)" vid="20"></rect>
+                <path d="M 100 0 L 0 0 0 100" fill="none" stroke="var(--graphite-light)" stroke-width="0.5" vid="21"></path>
+            </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#largeGrid)" vid="22"></rect>
+        
+        
+        <line x1="50%" y1="0" x2="50%" y2="100%" class="line-dash" vid="23"></line>
+        <line x1="0" y1="50%" x2="100%" y2="50%" class="line-dash" vid="24"></line>
+        
+        
+        <g transform="translate(100, 100)" vid="25">
+            <circle cx="0" cy="0" r="8" class="line-solid" vid="26"></circle>
+            <line x1="-12" y1="0" x2="12" y2="0" class="line-solid" vid="27"></line>
+            <line x1="0" y1="-12" x2="0" y2="12" class="line-solid" vid="28"></line>
+        </g>
+        <g transform="translate(calc(100vw - 100px), 100)" vid="29">
+            <circle cx="0" cy="0" r="8" class="line-solid" vid="30"></circle>
+            <line x1="-12" y1="0" x2="12" y2="0" class="line-solid" vid="31"></line>
+            <line x1="0" y1="-12" x2="0" y2="12" class="line-solid" vid="32"></line>
+        </g>
+        <g transform="translate(100, calc(100vh - 100px))" vid="33">
+            <circle cx="0" cy="0" r="8" class="line-solid" vid="34"></circle>
+            <line x1="-12" y1="0" x2="12" y2="0" class="line-solid" vid="35"></line>
+            <line x1="0" y1="-12" x2="0" y2="12" class="line-solid" vid="36"></line>
+        </g>
+        <g transform="translate(calc(100vw - 100px), calc(100vh - 100px))" vid="37">
+            <circle cx="0" cy="0" r="8" class="line-solid" vid="38"></circle>
+            <line x1="-12" y1="0" x2="12" y2="0" class="line-solid" vid="39"></line>
+            <line x1="0" y1="-12" x2="0" y2="12" class="line-solid" vid="40"></line>
+        </g>
+
+        
+        <g opacity="0.4" vid="41">
+            
+            <path d="M 200 300 L 350 250 L 280 400 Z" class="line-solid" vid="42"></path>
+            <line x1="350" y1="250" x2="450" y2="300" class="line-solid" vid="43"></line>
+            <circle cx="200" cy="300" r="3" class="node" vid="44"></circle>
+            <circle cx="350" cy="250" r="4" class="node" vid="45"></circle>
+            <circle cx="280" cy="400" r="3" class="node" vid="46"></circle>
+            <circle cx="450" cy="300" r="2" class="node" vid="47"></circle>
+            
+            
+            <path d="M 1200 600 L 1050 550 L 1150 700 Z" class="line-solid" vid="48"></path>
+            <line x1="1050" y1="550" x2="950" y2="500" class="line-solid" vid="49"></line>
+            <line x1="1150" y1="700" x2="1250" y2="750" class="line-dash" vid="50"></line>
+            <circle cx="1200" cy="600" r="3" class="node" vid="51"></circle>
+            <circle cx="1050" cy="550" r="4" class="node" vid="52"></circle>
+            <circle cx="1150" cy="700" r="3" class="node" vid="53"></circle>
+            <circle cx="950" cy="500" r="2" class="node" vid="54"></circle>
+            
+            
+            <line x1="450" y1="300" x2="950" y2="500" class="line-dot" vid="55"></line>
+        </g>
+
+        
+        <g transform="translate(0, calc(100vh - 40px))" vid="56">
+            <line x1="20%" y1="0" x2="80%" y2="0" class="line-solid" vid="57"></line>
+            <line x1="20%" y1="-5" x2="20%" y2="5" class="line-solid" vid="58"></line>
+            <line x1="35%" y1="-3" x2="35%" y2="3" class="line-solid" vid="59"></line>
+            <line x1="50%" y1="-8" x2="50%" y2="8" class="line-solid" vid="60"></line>
+            <line x1="65%" y1="-3" x2="65%" y2="3" class="line-solid" vid="61"></line>
+            <line x1="80%" y1="-5" x2="80%" y2="5" class="line-solid" vid="62"></line>
+            <text x="20%" y="20" class="text-mono" font-size="8" fill="var(--graphite)" text-anchor="middle" vid="63">EPOCH.01</text>
+            <text x="50%" y="20" class="text-mono" font-size="8" fill="var(--graphite)" text-anchor="middle" vid="64">PRIME</text>
+            <text x="80%" y="20" class="text-mono" font-size="8" fill="var(--graphite)" text-anchor="middle" vid="65">EPOCH.02</text>
+        </g>
+    </svg>
+
+    <div class="workspace" vid="66">
+        
+        
+        <div class="ephemera fragment-doc" vid="67">
+            <div class="fragment-tape" vid="68"></div>
+            <div class="text-mono" style="font-size: 8px;" vid="69">OBSERVATION LOG // SITE 4</div>
+            <div class="fragment-image" vid="70"></div>
+            <div class="fragment-redact" vid="71"></div>
+            <div class="fragment-redact short" vid="72"></div>
+            <div class="text-hand" style="font-size: 14px; margin-top: auto; transform: rotate(-2deg); color: var(--graphite);" vid="73">
+                No anomalies detected at standard frequencies.
+            </div>
+        </div>
+
+        <div class="redaction-block" style="top: 25%; right: 15%; width: 120px; height: 18px; transform: rotate(1deg);" vid="74"></div>
+        <div class="redaction-block" style="top: 28%; right: 12%; width: 80px; height: 18px; transform: rotate(-0.5deg);" vid="75"></div>
+
+        <div class="ruler" vid="76">
+            <div class="ruler-marks" vid="77"></div>
+        </div>
+        
+        <div class="marker" vid="78">
+            <div class="marker-label" vid="79">MIL-SPEC // REDACT // BLK</div>
+            <div class="marker-cap" vid="80"></div>
+        </div>
+
+        <div class="pencil" vid="81">
+            <div class="pencil-tip" vid="82"></div>
+            <div class="pencil-lead" vid="83"></div>
+        </div>
+
+        
+        <div class="composition-center" vid="84">
+            
+            
+            <svg class="type-guides" viewBox="0 0 1080 720" vid="85">
+                
+                <line x1="200" y1="280" x2="880" y2="280" class="line-solid" vid="86"></line> 
+                <line x1="150" y1="360" x2="930" y2="360" class="line-bold" vid="87"></line>  
+                
+                
+                <line x1="200" y1="390" x2="880" y2="390" class="line-solid" vid="88"></line> 
+                <line x1="150" y1="460" x2="930" y2="460" class="line-bold" vid="89"></line>  
+                
+                
+                <line x1="540" y1="150" x2="540" y2="570" class="line-dash" vid="90"></line>
+                
+                
+                <line x1="300" y1="200" x2="780" y2="540" class="line-solid" opacity="0.3" vid="91"></line>
+                <line x1="780" y1="200" x2="300" y2="540" class="line-solid" opacity="0.3" vid="92"></line>
+
+                
+                <g class="amber-marks" vid="93">
+                    
+                    <path d="M 420 370 L 420 380 L 440 380 L 440 370" class="line-amber" vid="94"></path>
+                    <text x="430" y="395" class="text-mono text-amber" font-size="8" text-anchor="middle" vid="95">K:-10</text>
+                    
+                    
+                    <path d="M 680 250 Q 700 280 660 300" class="line-amber" marker-end="url(#arrow-amber)" vid="96"></path>
+                    
+                    
+                    <circle cx="540" cy="360" r="15" class="line-amber-dash" vid="97"></circle>
+                </g>
+
+                
+                <path d="M 200 180 Q 250 250 350 290" class="line-solid" marker-end="url(#arrow)" vid="98"></path>
+                <path d="M 850 480 Q 800 520 700 460" class="line-solid" marker-end="url(#arrow)" vid="99"></path>
+                
+                
+                <path d="M 120 450 L 110 450 L 110 580 L 120 580 M 110 515 L 100 515" class="line-solid" vid="100"></path>
+
+                <defs vid="101">
+                    <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse" vid="102">
+                        <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--graphite)" vid="103"></path>
+                    </marker>
+                    <marker id="arrow-amber" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse" vid="104">
+                        <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--amber)" vid="105"></path>
+                    </marker>
+                </defs>
+            </svg>
+
+            
+            <h1 class="wordmark" vid="106">
+                <span class="ultra" vid="107">Ultra</span>
+                <span class="terrestrial" vid="108">Terrestrial</span>
+            </h1>
+
+            
+            <div class="annotation text-hand anno-trace" vid="109">
+                every source is a trace
+            </div>
+            
+            <div class="annotation text-mono anno-pressure" vid="110">
+                [STRUCTURAL ANALYSIS]<br vid="111">
+                every contradiction<br vid="112">
+                is a pressure point.
+            </div>
+
+            <div class="annotation text-hand anno-echo" vid="113">
+                every motif is an echo, not proof.
+            </div>
+
+            <div class="annotation text-mono text-amber anno-ambiguity" vid="114">
+                PRESERVE AMBIGUITY
+            </div>
+
+            <div class="annotation text-mono anno-list" vid="115">
+                <div style="margin-bottom: 4px;" vid="116">EVIDENCE</div>
+                <div style="margin-bottom: 4px; color: var(--graphite-light);" vid="117">INFERENCE</div>
+                <div style="margin-bottom: 4px;" vid="118">SPECULATION</div>
+                <div style="color: var(--amber);" vid="119">RESONANCE</div>
+            </div>
+
+            <div class="annotation text-hand anno-orientation" vid="120">
+                orientation, not closure.
+            </div>
+
+            <div class="annotation text-mono anno-rigor" vid="121">
+                RIGOR + REVERENCE
+            </div>
+
+            
+            <div class="annotation text-mono" style="top: 250px; left: 300px; font-size: 8px;" vid="122">PT. 1A</div>
+            <div class="annotation text-mono" style="bottom: 240px; right: 280px; font-size: 8px;" vid="123">REF. 409</div>
+
+        </div>
+
+        
+        <div class="annotation text-mono" style="bottom: 40px; right: 50px; text-align: right; font-size: 10px; border: 1px solid var(--graphite-light); padding: 8px; opacity: 0.6;" vid="124">
+            ARCHIVE CLASSIFICATION:<br vid="125">
+            <span style="color: var(--ink-black);" vid="126">CLASS-IV [ANOMALOUS]</span><br vid="127">
+            REV: 0.9.4 / DRAFT
+        </div>
+
+    </div>
+
+
+</body></html>

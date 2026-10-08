@@ -1,0 +1,493 @@
+<html lang="en" vid="0"><head vid="1">
+    <meta charset="UTF-8" vid="2">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" vid="3">
+    <title vid="4">Ultra Terrestrial - Brand Doctrine</title>
+    
+    <script src="https://cdn.tailwindcss.com/3.4.17" vid="5"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" vid="6">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" vid="7">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&amp;family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet" vid="8">
+    
+    <style vid="9">
+        :root {
+            
+            --paper: #EAEBE6;
+            --paper-darker: #DFE0DA;
+            --graphite: #1C1E22;
+            --graphite-light: rgba(28, 30, 34, 0.4);
+            --graphite-faint: rgba(28, 30, 34, 0.12);
+            --graphite-v-faint: rgba(28, 30, 34, 0.05);
+            --amber: #D97736;
+            --amber-faint: rgba(217, 119, 54, 0.3);
+            --shadow-blue-black: rgba(15, 20, 25, 0.15);
+        }
+
+        body, html {
+            width: 100%;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            background-color: var(--paper);
+            background-image: 
+                radial-gradient(circle at 50% 50%, transparent 20%, rgba(15, 20, 25, 0.04) 100%),
+                linear-gradient(to right, rgba(28, 30, 34, 0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(28, 30, 34, 0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 20px 20px, 20px 20px;
+            overflow: hidden;
+            font-family: 'Space Mono', monospace;
+            color: var(--graphite);
+        }
+
+        
+        .svg-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .line-solid { stroke: var(--graphite-light); stroke-width: 0.5px; fill: none; }
+        .line-faint { stroke: var(--graphite-faint); stroke-width: 0.5px; fill: none; }
+        .line-dash { stroke: var(--graphite-light); stroke-width: 0.5px; stroke-dasharray: 3 4; fill: none; }
+        .line-dot { stroke: var(--graphite-light); stroke-width: 0.5px; stroke-dasharray: 1 4; fill: none; }
+        .line-amber { stroke: var(--amber); stroke-width: 0.5px; fill: none; }
+        .line-amber-dash { stroke: var(--amber); stroke-width: 0.5px; stroke-dasharray: 2 3; fill: none; }
+        
+        .node { fill: var(--graphite); }
+        .node-hollow { fill: none; stroke: var(--graphite); stroke-width: 1px; }
+        .node-amber { fill: var(--amber); }
+
+        
+        .composition-center {
+            position: relative;
+            width: 1200px;
+            height: 800px;
+            margin: 0 auto;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 20;
+        }
+
+        
+        .font-serif { font-family: 'Cormorant Garamond', serif; }
+        .font-hand { font-family: 'Caveat', cursive; }
+        
+        .title-ultra {
+            font-size: 140px;
+            line-height: 0.8;
+            letter-spacing: -0.02em;
+            font-weight: 300;
+            color: var(--graphite);
+        }
+        
+        .title-terrestrial {
+            font-size: 24px;
+            letter-spacing: 0.6em;
+            font-weight: 400;
+            color: var(--graphite-light);
+            text-transform: uppercase;
+        }
+
+        .annotation-mono {
+            font-size: 10px;
+            letter-spacing: 0.1em;
+            color: var(--graphite-light);
+            text-transform: uppercase;
+        }
+
+        .annotation-hand {
+            font-size: 22px;
+            color: var(--graphite);
+            line-height: 1.1;
+        }
+
+        .annotation-amber {
+            color: var(--amber);
+        }
+
+        
+        .tools-layer {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 30;
+        }
+
+        
+        .tool-ruler {
+            position: absolute;
+            bottom: 8%;
+            left: -2%;
+            width: 450px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(2px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 
+                5px 15px 30px var(--shadow-blue-black),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            transform: rotate(-12deg);
+            display: flex;
+            align-items: flex-start;
+            padding-top: 2px;
+            border-radius: 2px;
+        }
+        .ruler-ticks {
+            width: 100%;
+            height: 15px;
+            background: repeating-linear-gradient(
+                to right,
+                var(--graphite-light) 0,
+                var(--graphite-light) 1px,
+                transparent 1px,
+                transparent 5px
+            );
+            mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+        }
+        .ruler-ticks-major {
+            position: absolute;
+            top: 2px;
+            left: 0;
+            width: 100%;
+            height: 25px;
+            background: repeating-linear-gradient(
+                to right,
+                var(--graphite) 0,
+                var(--graphite) 1px,
+                transparent 1px,
+                transparent 50px
+            );
+            mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+        }
+
+        
+        .tool-marker {
+            position: absolute;
+            top: 5%;
+            right: 5%;
+            width: 320px;
+            height: 22px;
+            background: linear-gradient(180deg, #2A2C30 0%, #15171A 40%, #0A0C0E 100%);
+            border-radius: 4px;
+            transform: rotate(35deg);
+            box-shadow: 
+                -10px 20px 35px var(--shadow-blue-black),
+                inset 0 2px 4px rgba(255, 255, 255, 0.05);
+        }
+        .marker-cap {
+            position: absolute;
+            left: -40px;
+            top: -1px;
+            width: 45px;
+            height: 24px;
+            background: linear-gradient(180deg, #303338 0%, #1C1E22 50%, #111316 100%);
+            border-radius: 4px 0 0 4px;
+            border-right: 2px solid #000;
+        }
+        .marker-clip {
+            position: absolute;
+            left: -20px;
+            top: 20px;
+            width: 8px;
+            height: 45px;
+            background: #444;
+            border-radius: 0 0 4px 4px;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+        }
+
+        
+        .tool-compass {
+            position: absolute;
+            bottom: -5%;
+            right: 15%;
+            width: 200px;
+            height: 8px;
+            background: linear-gradient(to bottom, #d4d4d4, #a0a0a0, #7a7a7a);
+            transform: rotate(-65deg);
+            box-shadow: -5px 10px 15px var(--shadow-blue-black);
+            border-radius: 2px;
+        }
+        .compass-hinge {
+            position: absolute;
+            top: -10px;
+            left: -15px;
+            width: 25px;
+            height: 25px;
+            background: radial-gradient(circle, #e0e0e0, #888);
+            border-radius: 50%;
+            box-shadow: inset 0 2px 5px rgba(255,255,255,0.5), 2px 4px 8px rgba(0,0,0,0.3);
+        }
+        .compass-point {
+            position: absolute;
+            top: 2px;
+            right: -25px;
+            width: 30px;
+            height: 4px;
+            background: #666;
+            clip-path: polygon(0 0, 100% 50%, 0 100%);
+        }
+
+        
+        .photo-corner {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            opacity: 0.8;
+            filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.1));
+        }
+        .pc-tl { top: 40px; left: 40px; border-width: 40px 40px 0 0; border-color: var(--paper-darker) transparent transparent transparent; }
+        .pc-br { bottom: 40px; right: 40px; border-width: 0 0 40px 40px; border-color: transparent transparent var(--paper-darker) transparent; }
+
+        
+        .ink-bleed {
+            filter: url(#ink-displacement);
+        }
+    </style>
+</head>
+<body vid="10">
+
+    
+    <svg style="width:0; height:0; position:absolute;" vid="11">
+        <defs vid="12">
+            <filter id="ink-displacement" vid="13">
+                <feTurbulence type="fractalNoise" baseFrequency="0.1" numOctaves="2" result="noise" vid="14"></feTurbulence>
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" xChannelSelector="R" yChannelSelector="G" vid="15"></feDisplacementMap>
+            </filter>
+        </defs>
+    </svg>
+
+    
+    <svg class="svg-canvas" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" vid="16">
+        
+        <g transform="translate(720, 450)" vid="17">
+            <circle cx="0" cy="0" r="150" class="line-faint" vid="18"></circle>
+            <circle cx="0" cy="0" r="300" class="line-faint" stroke-dasharray="4 8" vid="19"></circle>
+            <circle cx="0" cy="0" r="450" class="line-faint" vid="20"></circle>
+            <line x1="-600" y1="0" x2="600" y2="0" class="line-faint" vid="21"></line>
+            <line x1="0" y1="-400" x2="0" y2="400" class="line-faint" vid="22"></line>
+            
+            
+            <line x1="-15" y1="0" x2="15" y2="0" class="line-solid" vid="23"></line>
+            <line x1="0" y1="-15" x2="0" y2="15" class="line-solid" vid="24"></line>
+            <circle cx="0" cy="0" r="4" class="node-hollow" vid="25"></circle>
+        </g>
+
+        
+        <path d="M 420 150 A 500 500 0 0 1 1020 150" class="line-dash" vid="26"></path>
+        <path d="M 320 750 A 600 600 0 0 0 1120 750" class="line-dash" vid="27"></path>
+        <path d="M 120 450 A 800 800 0 0 1 200 200" class="line-dot" vid="28"></path>
+
+        
+        <g transform="translate(200, 250)" vid="29">
+            <line x1="0" y1="0" x2="80" y2="-60" class="line-solid" vid="30"></line>
+            <line x1="80" y1="-60" x2="150" y2="-20" class="line-solid" vid="31"></line>
+            <line x1="80" y1="-60" x2="100" y2="-120" class="line-dash" vid="32"></line>
+            <circle cx="0" cy="0" r="3" class="node" vid="33"></circle>
+            <circle cx="80" cy="-60" r="4" class="node-hollow" vid="34"></circle>
+            <circle cx="150" cy="-20" r="2" class="node" vid="35"></circle>
+            <circle cx="100" cy="-120" r="2" class="node" vid="36"></circle>
+            
+            
+            <path d="M 75 -65 L 85 -55 M 75 -55 L 85 -65" class="line-amber" vid="37"></path>
+        </g>
+
+        
+        <g transform="translate(1100, 600)" vid="38">
+            <line x1="0" y1="0" x2="-100" y2="80" class="line-solid" vid="39"></line>
+            <line x1="-100" y1="80" x2="-220" y2="40" class="line-solid" vid="40"></line>
+            <line x1="-100" y1="80" x2="-60" y2="150" class="line-dash" vid="41"></line>
+            <circle cx="0" cy="0" r="2" class="node" vid="42"></circle>
+            <circle cx="-100" cy="80" r="3" class="node-hollow" vid="43"></circle>
+            <circle cx="-220" cy="40" r="3" class="node" vid="44"></circle>
+            <circle cx="-60" cy="150" r="2" class="node" vid="45"></circle>
+        </g>
+
+        
+        <g transform="translate(100, 200)" vid="46">
+            <line x1="0" y1="0" x2="0" y2="500" class="line-solid" vid="47"></line>
+            <line x1="-5" y1="0" x2="5" y2="0" class="line-solid" vid="48"></line>
+            <line x1="-5" y1="100" x2="5" y2="100" class="line-solid" vid="49"></line>
+            <line x1="-10" y1="250" x2="10" y2="250" class="line-solid" vid="50"></line> 
+            <line x1="-5" y1="400" x2="5" y2="400" class="line-solid" vid="51"></line>
+            <line x1="-5" y1="500" x2="5" y2="500" class="line-solid" vid="52"></line>
+            
+            <path d="M -3 20 L 0 20 M -3 40 L 0 40 M -3 60 L 0 60 M -3 80 L 0 80" class="line-faint" vid="53"></path>
+            <path d="M -3 120 L 0 120 M -3 140 L 0 140 M -3 160 L 0 160 M -3 180 L 0 180" class="line-faint" vid="54"></path>
+            
+            <line x1="15" y1="250" x2="40" y2="250" class="line-solid" vid="55"></line>
+        </g>
+
+        
+        <path d="M 1300 100 L 1340 100 L 1340 140" class="line-solid" vid="56"></path>
+        <path d="M 1335 135 L 1345 145 M 1345 135 L 1335 145" class="line-solid" vid="57"></path>
+    </svg>
+
+    
+    <div class="composition-center" vid="58">
+        
+        
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full flex flex-col items-center justify-center" vid="59">
+            
+            
+            <div class="absolute inset-0 border border-[var(--graphite-faint)] pointer-events-none scale-x-[0.8] scale-y-[1.2]" vid="60">
+                
+                <div class="absolute -top-2 -left-2 w-4 h-4 border-t border-l border-[var(--graphite-light)]" vid="61"></div>
+                <div class="absolute -top-2 -right-2 w-4 h-4 border-t border-r border-[var(--graphite-light)]" vid="62"></div>
+                <div class="absolute -bottom-2 -left-2 w-4 h-4 border-b border-l border-[var(--graphite-light)]" vid="63"></div>
+                <div class="absolute -bottom-2 -right-2 w-4 h-4 border-b border-r border-[var(--graphite-light)]" vid="64"></div>
+            </div>
+
+            
+            <div class="relative ink-bleed" vid="65">
+                
+                <div class="absolute bottom-[22%] left-[-10%] right-[-10%] h-[1px] bg-[var(--graphite-light)]" vid="66"></div>
+                
+                <div class="absolute top-[20%] left-[-5%] right-[-5%] h-[1px] bg-[var(--graphite-light)] opacity-50" vid="67"></div>
+                
+                <h1 class="title-ultra font-serif m-0 relative z-10" vid="68">
+                    <span class="inline-block relative" vid="69">
+                        U
+                        <span class="absolute top-0 right-0 w-[1px] h-full bg-[var(--amber-faint)] transform rotate-[15deg]" vid="70"></span>
+                    </span>LTRA
+                </h1>
+            </div>
+
+            
+            <div class="relative mt-2" vid="71">
+                
+                <div class="absolute -top-6 left-1/2 w-[1px] h-8 bg-[var(--amber)] -translate-x-1/2" vid="72"></div>
+                <div class="absolute -top-2 left-1/2 w-2 h-2 border border-[var(--amber)] rounded-full -translate-x-1/2 -translate-y-1/2 bg-[var(--paper)] z-10" vid="73"></div>
+                
+                <h2 class="title-terrestrial m-0 ml-[0.6em]" vid="74">TERRESTRIAL</h2>
+                
+                
+                <div class="mt-4 flex items-center justify-center space-x-2 opacity-50" vid="75">
+                    <div class="w-12 h-[1px] bg-[var(--graphite)]" vid="76"></div>
+                    <span class="annotation-mono text-[8px]" vid="77">TRK: 600</span>
+                    <div class="w-12 h-[1px] bg-[var(--graphite)]" vid="78"></div>
+                </div>
+            </div>
+        </div>
+
+        
+        
+        
+        <div class="absolute top-[15%] left-[8%] rotate-[-3deg]" vid="79">
+            <div class="annotation-hand ink-bleed" vid="80">every source is a trace</div>
+            
+            <svg class="absolute top-full left-[20%] w-32 h-32 pointer-events-none" style="overflow: visible;" vid="81">
+                <path d="M 0 0 Q 20 40 80 50" class="line-solid" fill="none" marker-end="url(#arrowhead)" vid="82"></path>
+            </svg>
+        </div>
+
+        
+        <div class="absolute top-[20%] right-[12%] text-right" vid="83">
+            <div class="annotation-mono mb-2 flex items-center justify-end gap-2" vid="84">
+                <span class="w-8 h-[1px] bg-[var(--amber)] inline-block" vid="85"></span>
+                FIG. 01 — DOCTRINE
+            </div>
+            <div class="annotation-mono leading-relaxed" vid="86">
+                EVIDENCE /<br vid="87">
+                INFERENCE /<br vid="88">
+                SPECULATION /<br vid="89">
+                RESONANCE
+            </div>
+        </div>
+
+        
+        <div class="absolute top-[48%] right-[5%] w-[200px]" vid="90">
+            <div class="annotation-mono mb-1" vid="91">AXIOM:</div>
+            <div class="font-serif italic text-lg leading-snug text-[var(--graphite)]" vid="92">
+                every contradiction is a pressure point
+            </div>
+            
+            <div class="absolute top-1/2 -left-[80px] w-[60px] h-[1px] bg-[var(--graphite-light)] border-t border-dashed border-[var(--graphite-light)]" vid="93"></div>
+            <div class="absolute top-1/2 -left-[20px] w-1 h-1 bg-[var(--amber)] rounded-full -translate-y-1/2" vid="94"></div>
+        </div>
+
+        
+        <div class="absolute bottom-[25%] left-[10%] rotate-[2deg]" vid="95">
+            <div class="annotation-hand ink-bleed" vid="96">every motif is an echo,<br vid="97">not proof</div>
+            <div class="absolute -left-6 top-2 text-[var(--amber)] font-hand text-3xl" vid="98">*</div>
+        </div>
+
+        
+        <div class="absolute bottom-[12%] right-[25%] rotate-[-1deg]" vid="99">
+            <div class="annotation-hand annotation-amber ink-bleed text-2xl font-semibold border-b-2 border-dashed border-[var(--amber)] inline-block pb-1" vid="100">
+                preserve ambiguity
+            </div>
+        </div>
+
+        
+        <div class="absolute bottom-[2%] left-1/2 -translate-x-1/2 flex items-center space-x-6" vid="101">
+            <div class="annotation-hand text-xl text-[var(--graphite-light)]" vid="102">orientation, not closure</div>
+            <div class="w-1 h-1 rounded-full bg-[var(--graphite-light)]" vid="103"></div>
+            <div class="annotation-mono tracking-widest text-[var(--graphite)]" vid="104">RIGOR + REVERENCE</div>
+        </div>
+
+        
+        <div class="absolute top-0 right-[40px] annotation-mono rotate-90 origin-bottom-right opacity-60" vid="105">
+            REF: ARCHIVE_V2 // U.T. CORE
+        </div>
+
+    </div>
+
+    
+    <svg style="width:0; height:0; position:absolute;" vid="106">
+        <defs vid="107">
+            <marker id="arrowhead" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto" vid="108">
+                <polygon points="0 0, 6 3, 0 6" fill="var(--graphite-light)" vid="109"></polygon>
+            </marker>
+        </defs>
+    </svg>
+
+    
+    <div class="tools-layer" vid="110">
+        
+        
+        <div class="photo-corner pc-tl" vid="111"></div>
+        <div class="photo-corner pc-br" vid="112"></div>
+
+        
+        <div class="tool-ruler" vid="113">
+            <div class="relative w-full h-full" vid="114">
+                <div class="ruler-ticks" vid="115"></div>
+                <div class="ruler-ticks-major" vid="116"></div>
+                
+                <div class="absolute top-6 left-10 font-mono text-[8px] text-[rgba(0,0,0,0.5)]" vid="117">10</div>
+                <div class="absolute top-6 left-[90px] font-mono text-[8px] text-[rgba(0,0,0,0.5)]" vid="118">20</div>
+                <div class="absolute top-6 left-[140px] font-mono text-[8px] text-[rgba(0,0,0,0.5)]" vid="119">30</div>
+                <div class="absolute top-6 left-[190px] font-mono text-[8px] text-[rgba(0,0,0,0.5)]" vid="120">40</div>
+            </div>
+        </div>
+
+        
+        <div class="tool-marker" vid="121">
+            <div class="marker-cap" vid="122">
+                <div class="marker-clip" vid="123"></div>
+            </div>
+            
+            <div class="absolute right-10 top-[6px] font-mono text-[6px] text-[#444] tracking-widest opacity-50" vid="124">
+                ARCHIVAL INK / NO. 7
+            </div>
+        </div>
+
+        
+        <div class="tool-compass" vid="125">
+            <div class="compass-hinge" vid="126"></div>
+            <div class="compass-point" vid="127"></div>
+            <div class="absolute top-[2px] left-[10px] w-full h-[1px] bg-[rgba(255,255,255,0.3)]" vid="128"></div>
+            <div class="absolute bottom-[2px] left-[10px] w-full h-[1px] bg-[rgba(0,0,0,0.2)]" vid="129"></div>
+        </div>
+
+    </div>
+
+
+</body></html>
