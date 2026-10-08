@@ -13,9 +13,9 @@ import {PersonnelGroupNodeChild} from '@/features/mindmap/nodes/personnel-group-
 import {UserInputNode} from '@/features/mindmap/nodes/user-input-node/user-input-node'
 import {AIAnnotationNode} from '@/features/mindmap/nodes/ai-annotation-node'
 
-// Enhanced UI components (POC)
-import {EnhancedEntityNodePOC} from '@/features/mindmap/nodes/enhanced-node-poc'
-import {EnhancedEntityNode} from '@/features/mindmap/nodes/enhanced-entity-node'
+// One archival card for every corpus record on the canvas, whatever key the
+// add path used. The older EntityNode / EnhancedEntityNode cards remain for stories.
+import {RecordDossierNode} from '@/features/mindmap/nodes/record-dossier-node/record-dossier-node'
 
 // Drop-to-Canvas (T-060) — the user's own dropped file, not a corpus record
 import {DroppedArtifactNode} from '@/features/mindmap/nodes/dropped-artifact-node'
@@ -33,18 +33,16 @@ export const nodeTypes: any = {
   // Guided-tour waypoint (T-050). Projected onto this canvas by
   // `use-tour-graph-projection.ts`; never persisted with the graph.
   [TOUR_WAYPOINT_NODE_TYPE]: WaypointNode,
-  // Enhanced Entity Nodes (POC)
-  enhancedEntityNodePOC: EnhancedEntityNodePOC,
-  // Enhanced Entity Nodes (Production)
-  enhancedEntityNode: EnhancedEntityNode,
-  // Legacy Entity Nodes (keeping for compatibility)
-  entityNode: EntityNode,
-  eventsNode: EntityNode,
+  // Corpus records — every legacy key renders the same dossier card
+  enhancedEntityNodePOC: RecordDossierNode,
+  enhancedEntityNode: RecordDossierNode,
+  entityNode: RecordDossierNode,
+  eventsNode: RecordDossierNode,
   testimoniesNode: TestimonyNode,
   userInputNode: UserInputNode,
-  personnelNode: EntityNode,
-  topicsNode: EntityNode,
-  organizationsNode: EntityNode,
+  personnelNode: RecordDossierNode,
+  topicsNode: RecordDossierNode,
+  organizationsNode: RecordDossierNode,
   documentNode: DocumentNode,
   // AI Generated Nodes
   aiAnnotationNode: AIAnnotationNode,

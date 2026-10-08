@@ -2,16 +2,19 @@
 
 import {useMemo, useState} from 'react'
 import type {ReactNode} from 'react'
-import {Network, Clock, Filter, Bookmark, FolderOpen, ScrollText} from 'lucide-react'
-import type {Node} from '@xyflow/react'
-import {Avatar, AvatarImage, AvatarFallback} from '@/components/ui/avatar'
+import {Network, Clock, Filter, LayoutGrid, Layers, FolderOpen, FileText, Archive, Bookmark, Zap, History, Users, Settings, ScrollText, Crosshair} from 'lucide-react'
+import {useReactFlow, type Node} from '@xyflow/react'
 import {HoverCard, HoverCardContent, HoverCardTrigger} from '@/components/ui/hover-card'
 import {ToolbarButton} from './ToolbarButton'
+import {useActiveRecord} from './active-record-chip'
 import {NetworkPanel} from '@/features/mindmap/components/menus/mindmap-side-menu/hover-panels/NetworkPanel'
-import {TimelinePanel} from '@/features/mindmap/components/menus/mindmap-side-menu/hover-panels/TimelinePanel'
 import {FilterPanel} from '@/features/mindmap/components/menus/mindmap-side-menu/hover-panels/FilterPanel'
 import {SavedViewsPanel} from '@/features/mindmap/components/menus/mindmap-side-menu/hover-panels/SavedViewsPanel'
 import {AssetLibraryPanel} from '@/features/mindmap/components/menus/mindmap-side-menu/hover-panels/AssetLibraryPanel'
+import {LayoutPanel} from '@/features/mindmap/components/menus/mindmap-side-menu/hover-panels/LayoutPanel'
+import {LayersPanel} from '@/features/mindmap/components/menus/mindmap-side-menu/hover-panels/LayersPanel'
+import {QuickActionsPanel} from '@/features/mindmap/components/menus/mindmap-side-menu/hover-panels/QuickActionsPanel'
+import {HistoryPanel} from '@/features/mindmap/components/menus/mindmap-side-menu/hover-panels/HistoryPanel'
 import {useMindMapUiStore} from '@/features/mindmap/store/mindmap-ui-store'
 import {useMindMapStore} from '@/features/mindmap/store'
 import {SynthesisPanelHost} from '@/features/mindmap/components/synthesis-panel'
@@ -36,45 +39,40 @@ const resolveNodeTitle = (node: Node): string => {
   return typeof title === 'string' && title ? title : node.id
 }
 
-const TOOLBAR_ITEMS = [
-  {
-    id: 'network',
-    icon: <Network size={20} strokeWidth={2} />,
-    tooltip: 'Network Graph Explorer',
-    panel: 'network',
-  },
-  {
-    id: 'timeline',
-    icon: <Clock size={20} strokeWidth={2} />,
-    tooltip: 'Timeline Scrubber',
-    panel: 'timeline',
-  },
-  {
-    id: 'filter',
-    icon: <Filter size={20} strokeWidth={2} />,
-    tooltip: 'Filter Panel',
-    panel: 'filter',
-  },
-  {
-    id: 'saved-views',
-    icon: <Bookmark size={20} strokeWidth={2} />,
-    tooltip: 'Saved Views & Pathways',
-    panel: 'saved-views',
-  },
-  {
-    id: 'assets',
-    icon: <FolderOpen size={20} strokeWidth={2} />,
-    tooltip: 'Asset Library',
-    panel: 'assets',
-  },
+// The v0 reference is a visual rail, not a source of product behavior. The
+// icons that have real canvas panels are interactive; the remaining reference
+// slots are marked unavailable instead of opening the old page-builder mocks.
+const TOOLBAR_GROUPS = [
+  {label: 'Explore', items: [
+    {id: 'network', icon: <Network size={20} />, tooltip: 'Network Graph Explorer', panel: 'network'},
+    {id: 'timeline', icon: <Clock size={20} />, tooltip: 'Timeline Scrubber', panel: 'timeline'},
+    {id: 'filter', icon: <Filter size={20} />, tooltip: 'Filter Panel', panel: 'filter'},
+    {id: 'layout', icon: <LayoutGrid size={20} />, tooltip: 'Layout Algorithms', panel: 'layout'},
+  ]},
+  {label: 'Content', items: [
+    {id: 'layers', icon: <Layers size={20} />, tooltip: 'Layers', panel: 'layers'},
+    {id: 'assets', icon: <FolderOpen size={20} />, tooltip: 'Asset Library', panel: 'assets'},
+    {id: 'documents', icon: <FileText size={20} />, tooltip: 'Documents', panel: ''},
+    {id: 'archive', icon: <Archive size={20} />, tooltip: 'Archive', panel: ''},
+  ]},
+  {label: 'Manage', items: [
+    {id: 'saved-views', icon: <Bookmark size={20} />, tooltip: 'Saved Views & Pathways', panel: 'saved-views'},
+    {id: 'quick-actions', icon: <Zap size={20} />, tooltip: 'Quick Actions', panel: 'quick-actions'},
+    {id: 'history', icon: <History size={20} />, tooltip: 'Session History', panel: 'history'},
+    {id: 'collaboration', icon: <Users size={20} />, tooltip: 'Collaboration', panel: ''},
+    {id: 'settings', icon: <Settings size={20} />, tooltip: 'Settings', panel: ''},
+  ]},
 ]
 
 const PANELS: Record<string, ReactNode> = {
   network: <NetworkPanel />,
-  timeline: <TimelinePanel />,
   filter: <FilterPanel />,
+  layout: <LayoutPanel />,
+  layers: <LayersPanel />,
   'saved-views': <SavedViewsPanel />,
   assets: <AssetLibraryPanel />,
+  'quick-actions': <QuickActionsPanel />,
+  history: <HistoryPanel />,
 }
 
 export interface FloatingToolbarProps {
@@ -83,6 +81,8 @@ export interface FloatingToolbarProps {
 
 export function FloatingToolbar({panels}: FloatingToolbarProps) {
   const {activeTool, pinnedPanel, setActiveTool, togglePinnedPanel} = useMindMapUiStore()
+  const activeRecord = useActiveRecord()
+  const {fitView} = useReactFlow()
   const resolvedPanels = useMemo(() => panels ?? {}, [panels])
 
   // Synthesize Investigation — local panel state only; this is a canvas
@@ -118,9 +118,22 @@ export function FloatingToolbar({panels}: FloatingToolbarProps) {
 
   const canSynthesize = synthesisNodes.length >= 2
 
-  const renderToolbarItem = (item: (typeof TOOLBAR_ITEMS)[number]) => {
+  const renderToolbarItem = (item: (typeof TOOLBAR_GROUPS)[number]['items'][number]) => {
     const isPinned = pinnedPanel === item.id
     const panel = resolvedPanels[item.panel] ?? PANELS[item.panel]
+
+    if (!panel) {
+      return (
+        <span
+          key={item.id}
+          role='img'
+          aria-label={`${item.tooltip} unavailable`}
+          title={`${item.tooltip} unavailable`}
+          className='flex size-10 items-center justify-center rounded-full text-[var(--ut-ink-faint)] opacity-40'>
+          {item.icon}
+        </span>
+      )
+    }
 
     const button = (
       <ToolbarButton
@@ -169,12 +182,25 @@ export function FloatingToolbar({panels}: FloatingToolbarProps) {
 
   return (
     <>
-      <aside className="absolute top-1/2 left-4 z-20 -translate-y-1/2 flex flex-col items-center gap-2 p-2 rounded-full border border-[var(--ut-line)] bg-[var(--ut-surface)] text-[var(--ut-paper)] backdrop-blur-md">
-        {/* Primary Tools */}
-        {TOOLBAR_ITEMS.map(renderToolbarItem)}
+      <aside aria-label='Research toolbar' className="absolute top-1/2 left-4 z-20 -translate-y-1/2 flex w-14 flex-col items-center gap-1 rounded-2xl border border-white/10 bg-neutral-800/95 p-2 text-[var(--ut-paper)] shadow-[0_1px_0_0_#ffffff0d_inset] backdrop-blur-md">
+        {TOOLBAR_GROUPS.map((group, index) => (
+          <div key={group.label} className='flex flex-col items-center gap-1'>
+            {index > 0 && <div role='none' className='my-1 h-px w-6 shrink-0 bg-white/10' />}
+            <span className='sr-only'>{group.label}</span>
+            {group.items.map(renderToolbarItem)}
+          </div>
+        ))}
 
-        {/* Divider */}
-        <div role="none" className="my-2 w-6 h-px bg-[var(--ut-line)] shrink-0" />
+        {/* Active record — lights when a card is selected; click flies to it. */}
+        {activeRecord && (
+          <ToolbarButton
+            tooltip={`Focus record: ${activeRecord.title}`}
+            isActive
+            onClick={() => fitView({nodes: [{id: activeRecord.id}], duration: 400, maxZoom: 1.1})}
+          >
+            <Crosshair size={20} strokeWidth={2} />
+          </ToolbarButton>
+        )}
 
         {/* Synthesize Investigation — turns the assembled canvas into an
             Ultraterrestrial research narrative. Needs at least two record
@@ -189,16 +215,12 @@ export function FloatingToolbar({panels}: FloatingToolbarProps) {
           </ToolbarButton>
         )}
 
-        {/* Divider */}
-        <div role="none" className="my-2 w-6 h-px bg-[var(--ut-line)] shrink-0" />
+        <div role="none" className="my-1 h-px w-6 shrink-0 bg-white/10" />
 
         {/* Profile */}
-        <ToolbarButton tooltip="Research Profile" className="p-0 w-10 h-10">
-          <Avatar className="w-10 h-10">
-            <AvatarImage src="https://api.dicebear.com/7.x/avataaars/svg?seed=researcher" alt="Researcher Avatar" />
-            <AvatarFallback className="bg-neutral-700 text-white text-xs">RN</AvatarFallback>
-          </Avatar>
-        </ToolbarButton>
+        <div aria-label='Research profile' className='flex size-10 items-center justify-center rounded-full bg-stone-200 text-[10px] font-medium tracking-widest text-stone-500' title='Research profile'>
+          RN
+        </div>
       </aside>
 
       <SynthesisPanelHost

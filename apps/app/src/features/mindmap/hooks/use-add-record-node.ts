@@ -9,6 +9,11 @@
 import { useCallback } from 'react'
 import type { Node } from '@xyflow/react'
 import { useMindMap } from '@/contexts/mindmap/mindmap-context'
+import {
+  DEFAULT_CARD_SIZE,
+  findFreePosition,
+  nodeSize,
+} from '@/features/mindmap/layouts/resolve-placement'
 
 const NODE_TYPE_BY_TABLE: Record<string, string> = {
   events: 'eventsNode',
@@ -26,8 +31,7 @@ const DATA_TYPE_BY_TABLE: Record<string, string> = {
   key_figures: 'personnel',
 }
 
-const PLACEMENT_RADIUS = 380
-const MIN_NODE_DISTANCE = 240
+const PLACEMENT_GAP = 120
 
 export type AddRecordParams = {
   id: string
@@ -73,30 +77,17 @@ export function useAddRecordNode() {
         ? existingNodes.find((n: Node) => n.id === sourceNodeId)
         : undefined
 
-      let resolvedPosition = position
-      if (!resolvedPosition) {
-        const anchor = source?.position ?? { x: 0, y: 0 }
-        // Golden-angle spiral around the anchor, skipping occupied space.
-        let placed: { x: number; y: number } | null = null
-        for (let i = 0; i < 24 && !placed; i++) {
-          const angle = i * 2.399963
-          const radius = PLACEMENT_RADIUS + Math.floor(i / 8) * 160
-          const candidate = {
-            x: anchor.x + radius * Math.cos(angle),
-            y: anchor.y + radius * Math.sin(angle),
-          }
-          const collides = existingNodes.some((n: Node) => {
-            const dx = n.position.x - candidate.x
-            const dy = n.position.y - candidate.y
-            return Math.sqrt(dx * dx + dy * dy) < MIN_NODE_DISTANCE
-          })
-          if (!collides) placed = candidate
-        }
-        resolvedPosition = placed ?? {
-          x: anchor.x + PLACEMENT_RADIUS,
-          y: anchor.y + PLACEMENT_RADIUS,
-        }
-      }
+      // Desired spot sits beside the source card; the resolver nudges it to the
+      // nearest space no existing card's rectangle covers.
+      const anchor = source?.position ?? { x: 0, y: 0 }
+      const sourceWidth = source ? nodeSize(source).width : 0
+      const resolvedPosition =
+        position ??
+        findFreePosition(
+          { x: anchor.x + sourceWidth + PLACEMENT_GAP, y: anchor.y },
+          DEFAULT_CARD_SIZE,
+          existingNodes,
+        )
 
       const nodeType = NODE_TYPE_BY_TABLE[table] ?? 'entityNode'
       const dataType = DATA_TYPE_BY_TABLE[table] ?? table

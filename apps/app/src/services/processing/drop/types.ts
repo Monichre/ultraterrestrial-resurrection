@@ -7,8 +7,8 @@
  * refactor.
  */
 
-export type DropKind = 'text' | 'pdf' | 'image'
-export type DropDerivedVia = 'utf8' | 'pdf-parse' | 'vision-caption'
+export type DropKind = 'text' | 'pdf' | 'image' | 'url' | 'youtube'
+export type DropDerivedVia = 'utf8' | 'pdf-parse' | 'vision-caption' | 'url-scrape' | 'youtube-unfurl'
 
 export interface DropArtifact {
   /** Session-scoped UUID minted by the route. NOT a database id — the drop
@@ -18,10 +18,13 @@ export interface DropArtifact {
   mime: string
   bytes: number
   kind: DropKind
-  /** @vercel/blob URL, or null when blob storage is unconfigured/unreachable. */
+  /** Always null: raw files are discarded after the request. */
   blobUrl: string | null
+  /** Public page or YouTube URL for url/youtube drops. Null for files. */
+  sourceUrl: string | null
   /** How the embedded text was obtained. 'vision-caption' means the user is
-   *  seeing connections to a *description* of their image, not the image. */
+   *  seeing connections to a *description* of their image, not the image.
+   *  'youtube-unfurl' is page text (title/description), not a transcript. */
   derivedVia: DropDerivedVia
   extractedChars: number
   /** First ~500 chars of extracted text, for display on the node. */
@@ -64,6 +67,7 @@ export interface DropResponse {
 export type DropErrorCode =
   | 'TOO_LARGE'
   | 'UNSUPPORTED_TYPE'
+  | 'INVALID_URL'
   | 'EXTRACT_FAILED'
   | 'EMBED_FAILED'
   | 'SEARCH_FAILED'
@@ -98,6 +102,19 @@ export const ACCEPTED_MIME_TYPES = new Set([
 export function isAcceptedMime(mime: string): boolean {
   const normalized = mime.split(';')[0].trim().toLowerCase()
   return normalized.startsWith('text/') || ACCEPTED_MIME_TYPES.has(normalized)
+}
+
+/** Some desktop drag sources omit MIME entirely. Infer only that case from a
+ *  narrow extension list; a declared unsupported MIME is still rejected. */
+export function effectiveDropMime(mime: string, filename: string): string {
+  if (mime.trim()) return mime.split(';')[0].trim().toLowerCase()
+  const extension = filename.toLowerCase().split('.').pop() ?? ''
+  const byExtension: Record<string, string> = {
+    txt: 'text/plain', md: 'text/markdown', markdown: 'text/markdown',
+    csv: 'text/csv', json: 'application/json', pdf: 'application/pdf',
+    png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg', webp: 'image/webp',
+  }
+  return byExtension[extension] ?? ''
 }
 
 export function kindForMime(mime: string): DropKind {

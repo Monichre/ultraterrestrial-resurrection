@@ -116,9 +116,9 @@ export function DroppedMatchInspector() {
         )}
 
         <p className='text-[11px] leading-relaxed' style={{color: 'var(--ut-ink-dim)'}}>
-          Surfaced because this record ranked consistently against the dropped file across the
-          archive&rsquo;s search signals. Rank agreement indicates proximity, not corroboration —
-          what the two share remains for you to establish.
+          This record ranked among the nearest corpus vectors to the extracted file text.
+          Its place in this result set indicates proximity, not corroboration — what the two
+          share remains for you to establish.
         </p>
       </div>
 

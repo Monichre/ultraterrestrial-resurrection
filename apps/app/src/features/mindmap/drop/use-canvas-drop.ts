@@ -3,8 +3,8 @@
 /**
  * Drop-to-Canvas (T-060) — the single owner of drop behaviour.
  *
- * Everything that happens between "a file is released over the canvas" and
- * "the artifact and its fan-out are on the graph" lives here: client-side
+ * Everything that happens between "a file or URL is released over the canvas"
+ * and "the artifact and its fan-out are on the graph" lives here: client-side
  * pre-flight, the POST, the error taxonomy, node/edge construction and
  * placement. The canvas components below it are presentational.
  *
@@ -21,11 +21,13 @@ import type {Edge, Node} from '@xyflow/react'
 
 import {useMindMap} from '@/contexts/mindmap/mindmap-context'
 import {useMindMapUiStore} from '@/features/mindmap/store/mindmap-ui-store'
+import {hostnameLabel, youtubeVideoId} from '@/services/processing/drop/parse-url'
 
 import {
   DROP_ENDPOINT,
   DROP_FAILURE_COPY,
   type DropFailureCode,
+  type DropKind,
   type DropMatch,
   type DropResponse,
   formatBytes,
@@ -51,6 +53,7 @@ const MATCH_NODE_FALLBACK = 'enhancedEntityNodePOC'
 const MATCH_NODE_TYPE_BY_TABLE: Record<string, string> = {
   documents: 'documentNode',
   document_chunks: 'documentNode',
+  key_figures: 'personnelNode',
   people: 'personnelNode',
   personnel: 'personnelNode',
   organizations: 'organizationsNode',
@@ -142,18 +145,28 @@ export function useCanvasDrop() {
     [addSessionEvent, failDrop, updateNodeData]
   )
 
-  const handleFile = useCallback(
-    async (file: File, screenPoint: {x: number; y: number}) => {
+  const placeAndResolve = useCallback(
+    async ({
+      label,
+      kind,
+      bytes,
+      mime,
+      sizeLabel,
+      screenPoint,
+      sessionLabel,
+      request,
+    }: {
+      label: string
+      kind: DropKind
+      bytes: number
+      mime: string
+      sizeLabel: string
+      screenPoint: {x: number; y: number}
+      sessionLabel: string
+      request: DropRequest
+    }) => {
       if (inFlight.current) return
       setDropDragActive(false)
-
-      // --- Pre-flight (contract §3). Rejecting here rather than after a
-      // 10 MB upload is both faster and makes the limit legible offline.
-      const violation = validateDropFile(file)
-      if (violation) {
-        fail(violation, file.name, null)
-        return
-      }
 
       const artifactNodeId = newArtifactNodeId()
       const rawPosition = screenToFlowPosition
@@ -168,10 +181,8 @@ export function useCanvasDrop() {
 
       inFlight.current = true
       const startedAt = Date.now()
-      beginDrop({artifactNodeId, filename: file.name})
+      beginDrop({artifactNodeId, filename: label})
 
-      // The node appears immediately, at the cursor, in a pending state —
-      // the file is on the canvas before the round trip resolves.
       addNodes([
         {
           id: artifactNodeId,
@@ -179,11 +190,11 @@ export function useCanvasDrop() {
           position,
           data: {
             dropStatus: 'pending',
-            filename: file.name,
-            mime: file.type,
-            bytes: file.size,
-            sizeLabel: formatBytes(file.size),
-            kind: inferDropKind(file.type, file.name),
+            filename: label,
+            mime,
+            bytes,
+            sizeLabel,
+            kind,
             startedAt,
           },
         } as Node,
@@ -191,16 +202,16 @@ export function useCanvasDrop() {
 
       addSessionEvent({
         type: 'query',
-        label: 'File dropped on canvas',
-        detail: file.name,
+        label: sessionLabel,
+        detail: label,
       })
 
       try {
         setDropStatus('awaiting')
-        const payload = await requestDrop(file)
+        const payload = await requestDrop(request)
 
         if (payload.kind === 'error') {
-          fail(payload.code, file.name, artifactNodeId)
+          fail(payload.code, label, artifactNodeId)
           return
         }
 
@@ -211,7 +222,10 @@ export function useCanvasDrop() {
           filename: artifact.filename,
           mime: artifact.mime,
           bytes: artifact.bytes,
-          sizeLabel: formatBytes(artifact.bytes),
+          sizeLabel:
+            artifact.kind === 'url' || artifact.kind === 'youtube'
+              ? hostnameLabel(artifact.sourceUrl ?? label)
+              : formatBytes(artifact.bytes),
           kind: artifact.kind,
           artifact,
           matches,
@@ -237,12 +251,12 @@ export function useCanvasDrop() {
           label:
             matches.length === 0
               ? 'No corpus connections found'
-              : `Dropped file connected to ${matches.length} record${matches.length === 1 ? '' : 's'}`,
+              : `Dropped ${artifact.kind === 'youtube' ? 'video' : artifact.kind === 'url' ? 'page' : 'file'} connected to ${matches.length} record${matches.length === 1 ? '' : 's'}`,
           detail: artifact.filename,
         })
       } catch (error) {
         console.error('[T-060] drop failed:', error)
-        fail('NETWORK_FAILED', file.name, artifactNodeId)
+        fail('NETWORK_FAILED', label, artifactNodeId)
       } finally {
         inFlight.current = false
       }
@@ -262,8 +276,52 @@ export function useCanvasDrop() {
     ]
   )
 
-  return {handleFile}
+  const handleFile = useCallback(
+    async (file: File, screenPoint: {x: number; y: number}) => {
+      const violation = validateDropFile(file)
+      if (violation) {
+        fail(violation, file.name, null)
+        return
+      }
+
+      await placeAndResolve({
+        label: file.name,
+        kind: inferDropKind(file.type, file.name),
+        bytes: file.size,
+        mime: file.type,
+        sizeLabel: formatBytes(file.size),
+        screenPoint,
+        sessionLabel: 'File dropped on canvas',
+        request: {mode: 'file', file},
+      })
+    },
+    [fail, placeAndResolve]
+  )
+
+  const handleUrl = useCallback(
+    async (url: string, screenPoint: {x: number; y: number}) => {
+      const videoId = youtubeVideoId(url)
+      const kind: DropKind = videoId ? 'youtube' : 'url'
+      const label = videoId ? `YouTube ${videoId}` : hostnameLabel(url)
+
+      await placeAndResolve({
+        label,
+        kind,
+        bytes: 0,
+        mime: 'text/uri-list',
+        sizeLabel: hostnameLabel(url),
+        screenPoint,
+        sessionLabel: videoId ? 'YouTube link dropped on canvas' : 'URL dropped on canvas',
+        request: {mode: 'url', url},
+      })
+    },
+    [placeAndResolve]
+  )
+
+  return {handleFile, handleUrl}
 }
+
+type DropRequest = {mode: 'file'; file: File} | {mode: 'url'; url: string}
 
 type DropOutcome =
   | {kind: 'ok'; response: DropResponse}
@@ -279,10 +337,14 @@ type DropOutcome =
  * throws a parse error that reads like a route defect, so the content-type
  * is checked first and a 401/403 is reported as what it is.
  */
-async function requestDrop(file: File): Promise<DropOutcome> {
+async function requestDrop(request: DropRequest): Promise<DropOutcome> {
   const fixture = resolveDropFixture()
   if (fixture) {
-    const outcome = buildDropFixture(fixture, file)
+    const standIn =
+      request.mode === 'file'
+        ? request.file
+        : new File([request.url], hostnameLabel(request.url), {type: 'text/plain'})
+    const outcome = buildDropFixture(fixture, standIn)
     await new Promise((r) => setTimeout(r, outcome.delayMs))
     return outcome.kind === 'response'
       ? {kind: 'ok', response: outcome.response}
@@ -290,11 +352,20 @@ async function requestDrop(file: File): Promise<DropOutcome> {
   }
 
   const body = new FormData()
-  body.append('file', file)
+  if (request.mode === 'file') body.append('file', request.file)
+  else body.append('url', request.url)
 
   const res = await fetch(DROP_ENDPOINT, {method: 'POST', body})
 
-  if (res.status === 401 || res.status === 403) {
+  // Clerk's development middleware can rewrite a signed-out API request to
+  // an HTML 404 instead of returning 401. Its auth header identifies that
+  // case before the generic non-JSON response check.
+  if (
+    res.status === 401 ||
+    res.status === 403 ||
+    res.headers.get('x-clerk-auth-status') === 'signed-out' ||
+    (res.redirected && new URL(res.url).pathname.startsWith('/sign-in'))
+  ) {
     return {kind: 'error', code: 'UNAUTHENTICATED'}
   }
 
@@ -310,6 +381,7 @@ async function requestDrop(file: File): Promise<DropOutcome> {
     const known: DropFailureCode[] = [
       'TOO_LARGE',
       'UNSUPPORTED_TYPE',
+      'INVALID_URL',
       'EXTRACT_FAILED',
       'EMBED_FAILED',
       'SEARCH_FAILED',

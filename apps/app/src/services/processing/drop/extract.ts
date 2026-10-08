@@ -81,8 +81,8 @@ async function extractPdfText(bytes: Uint8Array): Promise<string> {
  */
 export class ExtractFailedError extends Error {}
 
-export async function extractDropText(file: File): Promise<ExtractionResult> {
-  const kind = kindForMime(file.type)
+export async function extractDropText(file: File, mime = file.type): Promise<ExtractionResult> {
+  const kind = kindForMime(mime)
 
   if (kind === 'text') {
     const text = normalizeWhitespace(await file.text())
@@ -111,7 +111,7 @@ export async function extractDropText(file: File): Promise<ExtractionResult> {
 
   const caption = await captionImageWithFallback({
     image: new Uint8Array(await file.arrayBuffer()),
-    mediaType: file.type.split(';')[0].trim().toLowerCase(),
+    mediaType: mime.split(';')[0].trim().toLowerCase(),
   })
 
   if (!caption || caption.text.length < MIN_CAPTION_CHARS) {

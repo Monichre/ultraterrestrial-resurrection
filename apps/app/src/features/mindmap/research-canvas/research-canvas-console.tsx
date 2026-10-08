@@ -1,16 +1,17 @@
-"use client"
+'use client'
 
-import { useState, useCallback, type FormEvent, type ReactNode } from "react"
-import type { ChangeEvent } from "react"
-import { FileText, ImageIcon, CodeXml } from "lucide-react"
+import {useState, useCallback, type FormEvent, type ReactNode} from 'react'
+import type {ChangeEvent} from 'react'
+import {FileText, ImageIcon, CodeXml} from 'lucide-react'
 
-import MessageInput from "./MessageInput"
-import EnhancedAnimatedChat from "./EnhancedAnimatedChat"
-import { useTyper, CardStack, PinnedCard, ANIMATION_CONFIG } from "./typer"
-import type { AgentToolEvent } from '@/features/mindmap/hooks/use-mindmap-agent'
+import MessageInput from './MessageInput'
+import EnhancedAnimatedChat from './EnhancedAnimatedChat'
+import {useTyper, CardStack, PinnedCard, ANIMATION_CONFIG} from './typer'
+import type {AgentToolEvent} from '@/features/mindmap/hooks/use-mindmap-agent'
 
 interface ResearchCanvasConsoleProps {
   onSubmit: (value: string) => void
+  onFileSelected?: (file: File) => void
   agentStatus?: 'idle' | 'streaming' | 'complete' | 'error'
   agentAnalysis?: string
   agentToolEvents?: AgentToolEvent[]
@@ -30,27 +31,28 @@ interface EnhancedMessage {
 
 const ENHANCED_MESSAGES: EnhancedMessage[] = [
   {
-    id: "guided-tour",
-    icon: <FileText className="size-5" />,
-    title: "Guided Tour",
-    description: "Follow curated pathways through UFO history and key events",
+    id: 'guided-tour',
+    icon: <FileText className='size-5' />,
+    title: 'Guided Tour',
+    description: 'Follow curated pathways through UFO history and key events',
   },
   {
-    id: "deep-research",
-    icon: <ImageIcon className="size-5" />,
-    title: "Deep Research",
-    description: "Dive deep into specific cases, witness accounts, and documentation",
+    id: 'deep-research',
+    icon: <ImageIcon className='size-5' />,
+    title: 'Deep Research',
+    description: 'Dive deep into specific cases, witness accounts, and documentation',
   },
   {
-    id: "explore-network",
-    icon: <CodeXml className="size-5" />,
-    title: "Explore Network",
-    description: "Navigate the interconnected web of UFO phenomena and research",
+    id: 'explore-network',
+    icon: <CodeXml className='size-5' />,
+    title: 'Explore Network',
+    description: 'Navigate the interconnected web of UFO phenomena and research',
   },
 ]
 
 export default function ResearchCanvasConsole({
   onSubmit,
+  onFileSelected,
   agentStatus,
   agentAnalysis,
   agentToolEvents,
@@ -64,20 +66,26 @@ export default function ResearchCanvasConsole({
     setInput(e.target.value)
   }
 
-  const handleSubmit = useCallback(async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const trimmedInput = input.trim()
-    if (!trimmedInput) return
-    setHasSubmitted(true)
-    onSubmit(trimmedInput)
-    setInput('')
-  }, [input, onSubmit])
+  const handleSubmit = useCallback(
+    async (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault()
+      const trimmedInput = input.trim()
+      if (!trimmedInput) return
+      setHasSubmitted(true)
+      onSubmit(trimmedInput)
+      setInput('')
+    },
+    [input, onSubmit]
+  )
 
-  const handleFollowUp = useCallback(async (message: string) => {
-    const trimmedMessage = message.trim()
-    if (!trimmedMessage) return
-    onSubmit(trimmedMessage)
-  }, [onSubmit])
+  const handleFollowUp = useCallback(
+    async (message: string) => {
+      const trimmedMessage = message.trim()
+      if (!trimmedMessage) return
+      onSubmit(trimmedMessage)
+    },
+    [onSubmit]
+  )
 
   const {
     active,
@@ -91,7 +99,7 @@ export default function ResearchCanvasConsole({
     handleUnpin,
     handleMessageClick,
     handleInputChangeWrapper,
-  } = useTyper({ input, handleInputChange, onSubmit: handleSubmit })
+  } = useTyper({input, handleInputChange, onSubmit: handleSubmit})
 
   const handleUnpinAndReset = useCallback(() => {
     handleUnpin()
@@ -106,11 +114,7 @@ export default function ResearchCanvasConsole({
 
   return (
     <div className='w-full max-w-4xl text-white'>
-      <div
-        className={`relative flex w-full flex-col items-center justify-end ${
-          isLaunchpad ? 'min-h-[400px] pb-10' : 'min-h-0'
-        }`}
-      >
+      <div className='relative flex w-full min-h-0 flex-col items-center justify-end'>
         {isLaunchpad && (
           <>
             <PinnedCard
@@ -133,10 +137,18 @@ export default function ResearchCanvasConsole({
         )}
 
         {chips && (
-          <div className='relative z-10 mb-3 flex flex-wrap justify-center gap-2'>{chips}</div>
+          <div
+            className={
+              isLaunchpad
+                ? 'relative z-10 mb-3 flex w-full flex-wrap justify-start gap-2'
+                : 'relative z-10 mb-3 flex flex-wrap justify-center gap-2'
+            }
+          >
+            {chips}
+          </div>
         )}
 
-        <div className="relative z-10 flex w-full justify-center">
+        <div className='relative z-10 flex w-full justify-center'>
           {showChat ? (
             <EnhancedAnimatedChat
               input={input}
@@ -144,7 +156,7 @@ export default function ResearchCanvasConsole({
               handleSubmit={handleSubmit}
               messages={ENHANCED_MESSAGES}
               onMessageClick={handleMessageClick}
-              placeholder="Ask about UFO phenomena..."
+              placeholder='Ask about UFO phenomena...'
               animationConfig={ANIMATION_CONFIG}
               agentStatus={agentStatus}
               agentAnalysis={agentAnalysis}
@@ -156,6 +168,7 @@ export default function ResearchCanvasConsole({
               value={input}
               onChange={(value) => handleInputChangeWrapper(value)}
               onSubmit={handleSubmit}
+              onFileSelected={onFileSelected}
             />
           )}
         </div>

@@ -17,6 +17,8 @@ export const ToolbarButton = React.forwardRef<HTMLButtonElement, ToolbarButtonPr
             <Button
               ref={ref}
               variant="ghost"
+              aria-label={tooltip}
+              aria-pressed={isActive ?? false}
               className={cn(
                 "shrink-0 text-center text-nowrap whitespace-nowrap justify-center items-center rounded-full size-10 p-0 transition-colors duration-150",
                 isActive

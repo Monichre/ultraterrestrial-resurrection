@@ -13,7 +13,7 @@
  */
 import {useEffect, useState} from 'react'
 import {Handle, Position, type NodeProps} from '@xyflow/react'
-import {FileText, Image as ImageIcon, FileType2, AlertTriangle} from 'lucide-react'
+import {FileText, Image as ImageIcon, FileType2, AlertTriangle, Link2, Youtube} from 'lucide-react'
 
 import {EvidentiaryStateBadge} from '@/features/mindmap/components/evidentiary-state-badge'
 import type {DropArtifact, DropKind, DropMatch, DropResponse} from '@/features/mindmap/drop/drop-contract'
@@ -36,12 +36,22 @@ const KIND_ICON: Record<DropKind, typeof FileText> = {
   text: FileText,
   pdf: FileType2,
   image: ImageIcon,
+  url: Link2,
+  youtube: Youtube,
 }
 
 const KIND_LABEL: Record<DropKind, string> = {
   text: 'Text',
   pdf: 'PDF',
   image: 'Image',
+  url: 'Page',
+  youtube: 'YouTube',
+}
+
+function artifactKindLabel(kind: DropKind): string {
+  if (kind === 'url') return 'Dropped page · not in archive'
+  if (kind === 'youtube') return 'Dropped video · not in archive'
+  return 'Dropped file · not in archive'
 }
 
 /**
@@ -77,6 +87,8 @@ export function DroppedArtifactNode({data}: NodeProps) {
   const Icon = isFailed ? AlertTriangle : (KIND_ICON[d.kind] ?? FileText)
   const matchCount = d.matchCount ?? 0
   const derivedViaCaption = d.artifact?.derivedVia === 'vision-caption'
+  const derivedViaYoutube = d.artifact?.derivedVia === 'youtube-unfurl'
+  const derivedViaUrl = d.artifact?.derivedVia === 'url-scrape'
 
   return (
     <div className='ut-drop-artifact' data-status={d.dropStatus}>
@@ -90,10 +102,15 @@ export function DroppedArtifactNode({data}: NodeProps) {
         <div className='flex items-start gap-2'>
           <Icon className='mt-0.5 size-4 shrink-0' strokeWidth={1.5} />
           <div className='min-w-0 flex-1'>
-            <div className='ut-drop-artifact-label'>Dropped file · not in archive</div>
+            <div className='ut-drop-artifact-label'>{artifactKindLabel(d.kind)}</div>
             <div className='ut-drop-artifact-filename mt-1 text-[13px] font-medium'>
               {d.filename}
             </div>
+            {d.artifact?.sourceUrl && (
+              <div className='ut-drop-artifact-label mt-1 truncate' title={d.artifact.sourceUrl}>
+                {d.artifact.sourceUrl}
+              </div>
+            )}
           </div>
         </div>
 
@@ -146,6 +163,22 @@ export function DroppedArtifactNode({data}: NodeProps) {
                 style={{color: 'oklch(0.5 0.17 40)'}}
                 title='The image was described in words, and those words were compared to the corpus'>
                 Matched via image description
+              </div>
+            )}
+            {derivedViaYoutube && (
+              <div
+                className='ut-drop-stamp inline-block'
+                style={{color: 'oklch(0.5 0.17 40)'}}
+                title='Title and page text were compared to the corpus. The spoken transcript was not fetched.'>
+                Matched via video page, not a transcript
+              </div>
+            )}
+            {derivedViaUrl && (
+              <div
+                className='ut-drop-stamp inline-block'
+                style={{color: 'oklch(0.5 0.17 40)'}}
+                title='The page text was compared to the corpus. The page was not added to the archive.'>
+                Matched via page text
               </div>
             )}
 

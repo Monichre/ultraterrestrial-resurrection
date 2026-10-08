@@ -135,6 +135,7 @@ function baseResponse(file: File, overrides: Partial<DropResponse>): DropRespons
       bytes: file.size,
       kind,
       blobUrl: null,
+      sourceUrl: null,
       derivedVia: kind === 'image' ? 'vision-caption' : kind === 'pdf' ? 'pdf-parse' : 'utf8',
       extractedChars: 6120,
       excerpt:
@@ -183,6 +184,7 @@ export function buildDropFixture(scenario: DropFixtureScenario, file: File): Dro
             bytes: file.size,
             kind: 'image',
             blobUrl: null,
+            sourceUrl: null,
             derivedVia: 'vision-caption',
             extractedChars: 412,
             excerpt:

@@ -1,81 +1,69 @@
-"use client"
+'use client'
 
-import type React from "react"
-import { PaperclipIcon, PlusIcon, BrainIcon, SearchIcon } from "lucide-react"
+import {type ChangeEvent, type FormEvent} from 'react'
+import {PaperclipIcon} from 'lucide-react'
+import {DROP_ACCEPT_ATTR} from '@/features/mindmap/drop/drop-contract'
 
 interface MessageInputProps {
   value: string
   onChange: (value: string) => void
-  onSubmit: (e: React.FormEvent) => void
+  onSubmit: (e: FormEvent) => void
+  onFileSelected?: (file: File) => void
 }
 
-export default function MessageInput({ value, onChange, onSubmit }: MessageInputProps) {
-  const handleSubmit = (e: React.FormEvent) => {
+export default function MessageInput({
+  value,
+  onChange,
+  onSubmit,
+  onFileSelected,
+}: MessageInputProps) {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
     if (value.trim()) {
       onSubmit(e)
     }
   }
 
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (file) onFileSelected?.(file)
+    event.target.value = ''
+  }
+
   return (
-    <div className="relative w-full max-w-xl">
+    <div className='relative w-full max-w-xl'>
       <form
         onSubmit={handleSubmit}
-        className="w-full bg-[#111] bg-opacity-70 backdrop-blur-sm rounded-3xl border border-[#333] p-4 shadow-lg 
-    transition-all duration-300 hover:shadow-[0_0_15px_rgba(100,100,100,0.1)] hover:border-[#444] 
-    focus-within:border-[#555] focus-within:shadow-[0_0_20px_rgba(120,120,120,0.15)] group"
+        className='flex w-full items-center gap-3 border-b border-[var(--ut-line-strong)] pb-2 focus-within:border-[var(--ut-paper)]'
       >
-        <div className="flex items-center gap-2">
+        <input
+          type='text'
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder='Ask a question, or drop a file / URL'
+          className='w-full flex-1 border-none bg-transparent text-sm text-[var(--ut-paper)] outline-none ring-0 placeholder:text-[var(--ut-ink-dim)] focus:outline-none focus:ring-0'
+          style={{outline: 'none'}}
+        />
+        <label
+          title='Attach file to canvas'
+          className='relative cursor-pointer rounded-sm p-1 text-[var(--ut-paper)] focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-[var(--ut-paper)]'
+        >
+          <PaperclipIcon size={18} />
           <input
-            type="text"
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-            placeholder="Type your message..."
-            className="flex-1 bg-transparent text-gray-300 placeholder:text-gray-500 text-sm 
-      outline-none border-none focus:outline-none focus:border-none focus:ring-0 
-      group-hover:text-gray-200 w-full"
+            type='file'
+            accept={DROP_ACCEPT_ATTR}
+            onChange={handleFileChange}
+            className='absolute inset-0 h-full w-full cursor-pointer opacity-0'
+            aria-label='Attach file to canvas'
           />
-          <div className="flex items-center gap-3">
-            <button
-              type="button"
-              title="Add"
-              className="text-gray-500 hover:text-gray-300 transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 rounded-full p-1"
-            >
-              <PlusIcon size={18} />
-              <span className="sr-only">Add</span>
-            </button>
-            <button
-              type="button"
-              title="AI Assist"
-              className="text-gray-500 hover:text-gray-300 transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 rounded-full p-1"
-            >
-              <BrainIcon size={18} />
-              <span className="sr-only">AI Assist</span>
-            </button>
-            <button
-              type="button"
-              title="Search"
-              className="text-gray-500 hover:text-gray-300 transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 rounded-full p-1"
-            >
-              <SearchIcon size={18} />
-              <span className="sr-only">Search</span>
-            </button>
-            <button
-              type="button"
-              className="text-gray-500 hover:text-gray-300 transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 rounded-full p-1"
-            >
-              <PaperclipIcon size={18} className="transform transition-transform hover:rotate-12" />
-              <span className="sr-only">Attach file</span>
-            </button>
-            <button
-              type="submit"
-              className="ml-2 text-gray-400 hover:text-gray-200 transition-all duration-300 disabled:opacity-50 disabled:hover:text-gray-400 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 rounded-lg px-2 py-1 hover:bg-gray-800 hover:bg-opacity-30"
-              disabled={!value.trim()}
-            >
-              Send
-            </button>
-          </div>
-        </div>
+        </label>
+        <button
+          type='submit'
+          className='rounded-sm px-1 py-1 font-[family-name:var(--font-martian-mono),var(--font-jetbrains-mono),monospace] text-[12px] text-[var(--ut-paper)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ut-paper)] disabled:cursor-not-allowed disabled:text-[var(--ut-ink-faint)]'
+          disabled={!value.trim()}
+        >
+          Send
+        </button>
       </form>
     </div>
   )

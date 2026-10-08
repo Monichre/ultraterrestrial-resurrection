@@ -30,15 +30,16 @@ export const DROP_ACCEPTED_MIME_PREFIXES = ['text/'] as const
 export const DROP_ACCEPT_ATTR = 'text/*,application/pdf,application/json,image/png,image/jpeg,image/webp'
 
 /** Contract §4 — how the embedded text was obtained. */
-export type DropDerivedVia = 'utf8' | 'pdf-parse' | 'vision-caption'
+export type DropDerivedVia = 'utf8' | 'pdf-parse' | 'vision-caption' | 'url-scrape' | 'youtube-unfurl'
 
 /** Contract §4 — coarse artifact classification, drives the node's icon. */
-export type DropKind = 'text' | 'pdf' | 'image'
+export type DropKind = 'text' | 'pdf' | 'image' | 'url' | 'youtube'
 
 /** Contract §5 — the closed set of server error codes. */
 export type DropErrorCode =
   | 'TOO_LARGE'
   | 'UNSUPPORTED_TYPE'
+  | 'INVALID_URL'
   | 'EXTRACT_FAILED'
   | 'EMBED_FAILED'
   | 'SEARCH_FAILED'
@@ -85,7 +86,10 @@ export interface DropArtifact {
   mime: string
   bytes: number
   kind: DropKind
+  /** Always null: raw uploads stay request-scoped. */
   blobUrl: string | null
+  /** Public page or YouTube URL for url/youtube drops. Null for files. */
+  sourceUrl: string | null
   derivedVia: DropDerivedVia
   extractedChars: number
   excerpt: string
@@ -118,7 +122,11 @@ export const DROP_FAILURE_COPY: Record<DropFailureCode, {title: string; detail: 
   },
   UNSUPPORTED_TYPE: {
     title: 'That file type cannot be read',
-    detail: 'Accepted: plain text, PDF, JSON, and PNG / JPEG / WebP images.',
+    detail: 'Accepted: plain text, PDF, JSON, PNG / JPEG / WebP images, or a page / YouTube URL.',
+  },
+  INVALID_URL: {
+    title: 'That is not a public URL',
+    detail: 'Drop an http(s) page or YouTube link. Local and private addresses are refused.',
   },
   EXTRACT_FAILED: {
     title: 'No readable text could be extracted',

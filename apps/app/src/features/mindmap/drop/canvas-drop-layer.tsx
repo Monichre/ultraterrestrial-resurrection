@@ -39,8 +39,8 @@ export function CanvasDropAffordance() {
         </div>
         <div className='mt-2 text-[11px]' style={{opacity: 0.6}}>
           {dragRejected
-            ? 'Accepted: text, PDF, JSON, PNG, JPEG, WebP'
-            : 'The file is read and compared against the corpus. Nothing is added to the archive.'}
+            ? 'Accepted: text, PDF, JSON, PNG, JPEG, WebP, or a page / YouTube URL'
+            : 'A file, page URL, or YouTube link is read and compared against the corpus. Nothing is added to the archive.'}
         </div>
       </div>
     </div>
@@ -71,7 +71,7 @@ export function CanvasDropNotice() {
       <div
         className='ut-mono text-[8.5px]'
         style={{color: 'var(--ut-stamp)'}}>
-        File not read
+        Drop not read
       </div>
       <div
         className='mt-1.5 text-[12px] font-medium'

@@ -1,5 +1,5 @@
 'use client'
-import {ReactFlow, type Edge, type Node} from '@xyflow/react'
+import {ReactFlow, type Edge, type Node, type OnSelectionChangeParams} from '@xyflow/react'
 import {useCallback, useEffect, useMemo, useRef} from 'react'
 import {useSearchParams} from 'next/navigation'
 import {Search, Plus} from 'lucide-react'
@@ -28,6 +28,12 @@ import {
 } from '@/features/mindmap/hooks/use-mindmap-agent'
 import {useMindMapUiStore} from '@/features/mindmap/store/mindmap-ui-store'
 import {transformStreamResponse} from '@/features/mindmap/actions/xata-to-xyflow'
+import {placeAgentNodeAboveAnswer} from '@/features/mindmap/layouts/place-agent-node'
+import {
+  findFreePosition,
+  placeNodesAvoiding,
+} from '@/features/mindmap/layouts/resolve-placement'
+import {waitForStableMeasure} from '@/features/mindmap/layouts/wait-for-stable-measure'
 import {extractTextFromFile} from '@/utils/file-processing'
 
 import {SessionNotes} from '@/features/mindmap/components/status-ui/session-notes'
@@ -35,6 +41,7 @@ import {ResearchSuggestionsDock} from '@/features/mindmap/components/research-su
 import {TourOverlay} from '@/features/mindmap/tours/tour-overlay'
 import {EvidenceTourOverlay} from '@/features/mindmap/tours/evidence-tour-overlay'
 import {TourChips} from '@/features/mindmap/tours/tour-chips'
+import {ActiveRecordChip} from '@/features/mindmap/research-canvas/active-record-chip'
 import {useGuidedTourStore} from '@/features/mindmap/tours/guided-tour-store'
 import {useEvidenceTour} from '@/features/mindmap/tours/use-evidence-tour'
 import {useTourGraphProjection} from '@/features/mindmap/tours/use-tour-graph-projection'
@@ -47,6 +54,12 @@ import {
 } from '@/features/mindmap/drop/canvas-drop-layer'
 import {DroppedMatchInspector} from '@/features/mindmap/drop/dropped-match-inspector'
 import {isAcceptedMime} from '@/features/mindmap/drop/drop-contract'
+import {
+  dragCarriesDroppable,
+  dragHasUrlType,
+  parseDroppedUrl,
+} from '@/features/mindmap/drop/parse-dropped-url'
+import {parseStandaloneUrl} from '@/services/processing/drop/parse-url'
 import '@/features/mindmap/research-canvas/canvas-animations.css'
 
 const LAYOUT_DIRECTION_MAP: Record<string, 'horizontal' | 'vertical' | 'radial' | 'grid'> = {
@@ -64,6 +77,8 @@ const GRAPH_CONTEXT_NODE_LIMIT = 40
 const GRAPH_CONTEXT_EDGE_LIMIT = 60
 const AGENT_NODE_DEFAULT_TYPE = 'enhancedEntityNodePOC'
 const AGENT_EDGE_DEFAULT_TYPE = 'siblingEdge'
+// Streamed answer card at full height; used to pick a clear spot before it renders.
+const ANSWER_FOOTPRINT = {width: 384, height: 600}
 
 // Module scope: this object is structurally static, so recreating it every
 // render (as an inline literal) defeats ReactFlow's prop-identity checks on
@@ -96,27 +111,6 @@ const resolveNodeTable = (node: Node): string | undefined => {
   if (typeof nodeData?.table === 'string') return nodeData.table
   if (typeof nodeData?.xata_table === 'string') return nodeData.xata_table
   return undefined
-}
-
-const nextFrame = () => new Promise<void>((resolve) => requestAnimationFrame(() => resolve()))
-
-/**
- * Resolve once React Flow's measured size for `nodeId` has held steady for three
- * frames (max ~1s). Layout that runs right after updateNodeData otherwise reads
- * the pre-render size and places new nodes inside the answer node.
- */
-const waitForStableMeasure = async (getNodes: () => Node[], nodeId: string): Promise<Node | undefined> => {
-  let last = ''
-  let stable = 0
-  let node: Node | undefined
-  for (let frame = 0; frame < 60 && stable < 3; frame++) {
-    await nextFrame()
-    node = getNodes().find((candidate) => candidate.id === nodeId)
-    const size = node?.measured ? `${node.measured.width}x${node.measured.height}` : ''
-    stable = size && size === last ? stable + 1 : 0
-    last = size
-  }
-  return node
 }
 
 const createAgentEdgeId = (edge: AgentGraphEdgePayload, index: number): string => {
@@ -191,10 +185,16 @@ export function Graph() {
 
   const buildAgentGraphState = useCallback((): AgentGraphStatePayload => {
     const currentNodes = getNodes()
-    const contextualNodes = currentNodes
+    // Read at send time so the agent sees the card selected right now.
+    const activeNodeId = useMindMapUiStore.getState().canvas.activeNode?.id ?? null
+    const recentNodes = currentNodes
       .filter((node) => node.type !== 'userInputNode')
       .slice(-GRAPH_CONTEXT_NODE_LIMIT)
-      .map((node) => ({
+    // The active card must always be resolvable, even when it is older than the window.
+    const activeNode = activeNodeId ? currentNodes.find((node) => node.id === activeNodeId) : undefined
+    const contextualNodes = (
+      activeNode && !recentNodes.includes(activeNode) ? [activeNode, ...recentNodes] : recentNodes
+    ).map((node) => ({
         id: node.id,
         type: node.type,
         label: resolveNodeLabel(node),
@@ -214,6 +214,7 @@ export function Graph() {
     return {
       nodeCount: currentNodes.length,
       edgeCount: edges.length,
+      activeNodeId,
       activeView: activeLayoutId,
       nodes: contextualNodes,
       edges: contextualEdges,
@@ -225,7 +226,9 @@ export function Graph() {
       const sourceNode = addUserInputNode({
         input: message,
         user: 'Prometheus',
-        position: getCenteredPosition(),
+        // The answer card grows while streaming; reserve its full footprint so
+        // it never lands on a card already on the canvas.
+        position: findFreePosition(getCenteredPosition(), ANSWER_FOOTPRINT, getNodes()),
       })
       updateNodeData(sourceNode.id, {label: message})
 
@@ -256,7 +259,8 @@ export function Graph() {
         knownNodeIds.add(sourceNode.id)
         const knownEdgeIds = new Set(edges.map((edge) => edge.id))
 
-        const basePosition = measuredSource?.position || sourceNode.position || getCenteredPosition()
+        const basePosition =
+          measuredSource?.position || sourceNode.position || getCenteredPosition()
         const sourceWidth = measuredSource?.measured?.width ?? 460
 
         const normalizedGraphNodes = (graphWrites?.nodes || [])
@@ -273,19 +277,21 @@ export function Graph() {
                   x: node.position?.x as number,
                   y: node.position?.y as number,
                 }
-              : {
-                  // Agent-named entities sit in rows above the answer; record
-                  // cards are laid out below it, so the two never collide.
-                  x: basePosition.x + sourceWidth / 2 - 90 + ((index % 4) - 1.5) * 260,
-                  y: basePosition.y - (Math.floor(index / 4) + 1) * 160,
-                }
+              : placeAgentNodeAboveAnswer(index, basePosition, sourceWidth)
 
             return {
               id: node.id,
-              type: node.type || AGENT_NODE_DEFAULT_TYPE,
+              // The agent often sends React Flow's unstyled `default`; only keep
+              // a type the canvas actually registers.
+              type:
+                node.type && node.type !== 'default' && node.type in nodeTypes
+                  ? node.type
+                  : AGENT_NODE_DEFAULT_TYPE,
               position: resolvedPosition,
               data: {
                 ...(node.data || {}),
+                // Archive ids are `rec_*`; anything else the agent named itself.
+                provenance: node.id.startsWith('rec_') ? 'archive' : 'agent',
                 label,
                 title:
                   typeof node.data?.title === 'string' && node.data.title ? node.data.title : label,
@@ -295,7 +301,7 @@ export function Graph() {
           .filter((node): node is Node => Boolean(node))
 
         if (normalizedGraphNodes.length) {
-          addNodes(normalizedGraphNodes)
+          addNodes(placeNodesAvoiding(normalizedGraphNodes, getNodes()))
           normalizedGraphNodes.forEach((node) => {
             knownNodeIds.add(node.id)
           })
@@ -363,7 +369,7 @@ export function Graph() {
           const filteredEdges = newEdges.filter((edge) => !knownEdgeIds.has(edge.id))
 
           if (filteredNodes.length) {
-            addNodes(filteredNodes)
+            addNodes(placeNodesAvoiding(filteredNodes, getNodes()))
             filteredNodes.forEach((node) => {
               knownNodeIds.add(node.id)
             })
@@ -512,43 +518,93 @@ export function Graph() {
   // These are HTML5 drag-and-drop events (dragenter/dragover/drop), which is
   // a different event stream from the pointer events React Flow uses for
   // panning, node dragging and selection — the two do not contend.
-  const {handleFile} = useCanvasDrop()
+  const {handleFile, handleUrl} = useCanvasDrop()
+  const handleFileSelected = useCallback(
+    (file: File) => {
+      void handleFile(file, {x: window.innerWidth / 2, y: window.innerHeight / 2})
+    },
+    [handleFile]
+  )
   const setDropDragActive = useMindMapUiStore((s) => s.setDropDragActive)
   const setInspectedMatchNodeId = useMindMapUiStore((s) => s.setInspectedMatchNodeId)
+  const setActiveNode = useMindMapUiStore((s) => s.setActiveNode)
+  const setActiveNeighborIds = useMindMapUiStore((s) => s.setActiveNeighborIds)
+  const activeNodeId = useMindMapUiStore((s) => s.canvas.activeNode?.id ?? null)
+
+  // React Flow selection is the single source of truth: one selected card is
+  // "active"; a pane click, Escape, box-select or removal clears it.
+  const handleSelectionChange = useCallback(
+    ({nodes: selectedNodes}: OnSelectionChangeParams) => {
+      const next = selectedNodes.length === 1 ? selectedNodes[0] : null
+      const currentId = useMindMapUiStore.getState().canvas.activeNode?.id ?? null
+      if ((next?.id ?? null) !== currentId) setActiveNode(next)
+    },
+    [setActiveNode]
+  )
+
+  // A card's "Trace connections" lands here: run the agent anchored on that record.
+  const recordAction = useMindMapUiStore((s) => s.canvas.recordAction)
+  const clearRecordAction = useMindMapUiStore((s) => s.clearRecordAction)
+  useEffect(() => {
+    if (!recordAction) return
+    clearRecordAction()
+    const target = getNodes().find((node) => node.id === recordAction.nodeId)
+    if (!target) return
+    const title = resolveNodeLabel(target)
+    void runAgentQueryAndAddNodes({
+      message: `Trace what is documented around "${title}": connected people, events, documents, and where the accounts conflict.`,
+    })
+  }, [recordAction, clearRecordAction, getNodes, runAgentQueryAndAddNodes])
+
+  // Neighbours of the active card, so connected records stay lit and the rest recede.
+  useEffect(() => {
+    if (!activeNodeId) {
+      setActiveNeighborIds([])
+      return
+    }
+    const ids = new Set<string>()
+    for (const edge of edges) {
+      if (edge.source === activeNodeId) ids.add(edge.target)
+      if (edge.target === activeNodeId) ids.add(edge.source)
+    }
+    setActiveNeighborIds([...ids])
+  }, [activeNodeId, edges, setActiveNeighborIds])
   // dragleave fires when the pointer crosses into a CHILD element, which
   // makes a naive show/hide flicker constantly. Counting enter/leave pairs
   // is the standard fix.
   const dragDepth = useRef(0)
 
-  const dragCarriesFile = (event: React.DragEvent) =>
-    Array.from(event.dataTransfer?.types ?? []).includes('Files')
-
   const handleCanvasDragEnter = useCallback(
     (event: React.DragEvent) => {
-      if (!dragCarriesFile(event)) return
+      const types = Array.from(event.dataTransfer?.types ?? [])
+      if (!dragCarriesDroppable(types)) return
       event.preventDefault()
       dragDepth.current += 1
       // `dataTransfer.files` is EMPTY during drag (protected mode) — only
       // `items` exposes the type before release, so the rejection preview
-      // has to read from there.
-      const item = event.dataTransfer.items?.[0]
-      const rejected = Boolean(item?.type) && !isAcceptedMime(item.type)
+      // has to read from there. A URL drag is never rejected in preview:
+      // the payload is not readable until drop.
+      const fileItem = Array.from(event.dataTransfer.items ?? []).find((item) => item.kind === 'file')
+      const fileRejected = Boolean(fileItem?.type) && !isAcceptedMime(fileItem.type)
+      const rejected = fileRejected && !dragHasUrlType(types)
       setDropDragActive(true, rejected)
     },
     [setDropDragActive]
   )
 
   const handleCanvasDragOver = useCallback((event: React.DragEvent) => {
-    if (!dragCarriesFile(event)) return
+    const types = Array.from(event.dataTransfer?.types ?? [])
+    if (!dragCarriesDroppable(types)) return
     // Must preventDefault on EVERY dragover or the browser navigates away
-    // to the dropped file and the canvas is simply gone.
+    // to the dropped URL / file and the canvas is simply gone.
     event.preventDefault()
     event.dataTransfer.dropEffect = 'copy'
   }, [])
 
   const handleCanvasDragLeave = useCallback(
     (event: React.DragEvent) => {
-      if (!dragCarriesFile(event)) return
+      const types = Array.from(event.dataTransfer?.types ?? [])
+      if (!dragCarriesDroppable(types)) return
       dragDepth.current = Math.max(0, dragDepth.current - 1)
       if (dragDepth.current === 0) setDropDragActive(false)
     },
@@ -557,16 +613,30 @@ export function Graph() {
 
   const handleCanvasDrop = useCallback(
     (event: React.DragEvent) => {
-      if (!dragCarriesFile(event)) return
+      const types = Array.from(event.dataTransfer?.types ?? [])
+      if (!dragCarriesDroppable(types)) return
       event.preventDefault()
       dragDepth.current = 0
       setDropDragActive(false)
 
       const file = event.dataTransfer.files?.[0]
-      if (!file) return
-      void handleFile(file, {x: event.clientX, y: event.clientY})
+      const url = parseDroppedUrl(event.dataTransfer)
+      const acceptedFile =
+        file && file.size > 0 && isAcceptedMime(file.type, file.name) ? file : null
+
+      if (acceptedFile) {
+        void handleFile(acceptedFile, {x: event.clientX, y: event.clientY})
+        return
+      }
+      if (url) {
+        void handleUrl(url, {x: event.clientX, y: event.clientY})
+        return
+      }
+      if (file) {
+        void handleFile(file, {x: event.clientX, y: event.clientY})
+      }
     },
-    [handleFile, setDropDragActive]
+    [handleFile, handleUrl, setDropDragActive]
   )
 
   // Clicking a tour waypoint is the tour's business; clicking a fan-out match
@@ -584,6 +654,11 @@ export function Graph() {
 
   const handleEmptyCanvasSubmit = useCallback(
     async (input: string) => {
+      const url = parseStandaloneUrl(input)
+      if (url) {
+        void handleUrl(url, {x: window.innerWidth / 2, y: window.innerHeight / 2})
+        return
+      }
       const tour = matchTourFromInput(input)
       if (tour) {
         await startTour(tour)
@@ -591,7 +666,7 @@ export function Graph() {
       }
       await runAgentQueryAndAddNodes({message: input})
     },
-    [runAgentQueryAndAddNodes, startTour]
+    [handleUrl, runAgentQueryAndAddNodes, startTour]
   )
 
   const handleSearchDatabase = useCallback(() => {
@@ -609,6 +684,10 @@ export function Graph() {
   // Automatically apply layout when nodes change. Never while an evidence
   // tour owns the canvas — its waypoints are laid out by the definition.
   const evidenceTourActive = evidenceTour.isActive
+  // A tour owns the canvas; no record stays active underneath it.
+  useEffect(() => {
+    if (evidenceTourActive) setActiveNode(null)
+  }, [evidenceTourActive, setActiveNode])
   useEffect(() => {
     if (!autoLayout || nodes.length === 0 || evidenceTourActive) return
 
@@ -665,9 +744,10 @@ export function Graph() {
 
   return (
     <div
-      className={`ut-canvas relative z-0 h-dvh w-full overflow-hidden${
+      className={`ut-canvas absolute inset-0 z-0 overflow-hidden${
         evidenceTourActive ? ' ut-evidence-tour' : ''
       }`}
+      data-active-record={activeNodeId ? 'true' : undefined}
       onDragEnter={handleCanvasDragEnter}
       onDragOver={handleCanvasDragOver}
       onDragLeave={handleCanvasDragLeave}
@@ -686,6 +766,7 @@ export function Graph() {
         onConnect={onConnect}
         onNodesDelete={onNodesDelete}
         onNodeClick={handleNodeClick}
+        onSelectionChange={handleSelectionChange}
         onMoveStart={evidenceTour.handleUserViewportInteraction}
         // While the tour choreographer flies the camera the pane must not
         // fight it; the reducer unlocks on arrival.
@@ -727,6 +808,7 @@ export function Graph() {
           <div className='absolute inset-0 z-10 pointer-events-auto'>
             <EmptyCanvas
               onSubmit={handleEmptyCanvasSubmit}
+              onFileSelected={handleFileSelected}
               chips={<TourChips onStart={(tour) => void startTour(tour)} />}
               agentStatus={agentStatus}
               agentAnalysis={analysis}
@@ -747,6 +829,7 @@ export function Graph() {
 
           {!tourOwnsCanvas && (
             <div className='absolute inset-x-0 bottom-6 z-20 flex flex-col items-center gap-3 px-4'>
+              <ActiveRecordChip />
               <div className='flex items-center gap-2'>
                 <TourChips onStart={(tour) => void startTour(tour)} />
                 <ActionChip icon={<Search className='size-4' />} onClick={handleSearchDatabase}>
@@ -760,6 +843,7 @@ export function Graph() {
               <ResearchCanvasConsole
                 variant='compact'
                 onSubmit={handleEmptyCanvasSubmit}
+                onFileSelected={handleFileSelected}
                 agentStatus={agentStatus}
                 agentAnalysis={analysis}
                 agentToolEvents={toolEvents}

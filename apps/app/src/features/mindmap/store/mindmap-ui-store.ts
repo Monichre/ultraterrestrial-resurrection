@@ -64,7 +64,12 @@ export type SessionEvent = {
 }
 
 export type CanvasState = {
+  /** Single selected card. Read `.id` only: the stored object goes stale after drag/measure. */
   activeNode: Node | null
+  /** Ids directly connected to the active node (either edge direction). */
+  activeNeighborIds: string[]
+  /** A card asked the canvas to act on it; Graph consumes and clears this. */
+  recordAction: {nodeId: string; action: 'trace'; nonce: number} | null
   conciseViewActive: boolean
   showLocationVisualization: boolean
   locationsToVisualize: Array<Record<string, unknown>>
@@ -105,7 +110,7 @@ export type ResearchSessionState = {
 //
 // Deliberately NOT in `partialize` below: contract §2.1 makes dropped
 // artifacts session-scoped and in-memory. Persisting them to localStorage
-// would resurrect artifact nodes whose blob URLs and session ids no longer
+// would resurrect artifact nodes whose session ids no longer
 // mean anything, and would imply a durability the feature does not have.
 //
 // The status values are ONLY things the client can actually observe. There
@@ -243,6 +248,9 @@ export interface MindMapUiState {
 
   // Canvas actions
   setActiveNode: (node: Node | null) => void
+  setActiveNeighborIds: (ids: string[]) => void
+  requestRecordAction: (nodeId: string, action: 'trace') => void
+  clearRecordAction: () => void
   setConciseViewActive: (active: boolean) => void
   setShowLocationVisualization: (show: boolean) => void
   setLocationsToVisualize: (locations: Array<Record<string, unknown>>) => void
@@ -339,6 +347,8 @@ export const useMindMapUiStore = create<MindMapUiState>()(
       // Canvas initial state
       canvas: {
         activeNode: null,
+        activeNeighborIds: [],
+        recordAction: null,
         conciseViewActive: true,
         showLocationVisualization: false,
         locationsToVisualize: [],
@@ -675,6 +685,11 @@ export const useMindMapUiStore = create<MindMapUiState>()(
       // Canvas actions
       setActiveNode: (node) =>
         set({canvas: {...get().canvas, activeNode: node}}),
+      setActiveNeighborIds: (ids) =>
+        set({canvas: {...get().canvas, activeNeighborIds: ids}}),
+      requestRecordAction: (nodeId, action) =>
+        set({canvas: {...get().canvas, recordAction: {nodeId, action, nonce: Date.now()}}}),
+      clearRecordAction: () => set({canvas: {...get().canvas, recordAction: null}}),
       setConciseViewActive: (active) =>
         set({canvas: {...get().canvas, conciseViewActive: active}}),
       setShowLocationVisualization: (show) =>

@@ -2,7 +2,7 @@
 status: live
 role: eng
 spine: do
-updated: 2026-08-13
+updated: 2026-10-06
 ---
 
 # Drop-to-Canvas — API contract (T-060)
@@ -19,9 +19,10 @@ first and telling the other agent.
 
 ## 1. What the feature is
 
-A user drags a file onto the research canvas. It is extracted, embedded, and
-fanned out against the existing corpus. The canvas renders the dropped artifact
-as a node with edges to the corpus records it most resembles.
+A user drags a file, a page URL, or a YouTube link onto the research canvas.
+It is extracted, embedded, and fanned out against the existing corpus. The
+canvas renders the dropped artifact as a node with edges to the corpus records
+it most resembles.
 
 **Route:** `POST /api/processing/drop`
 
@@ -95,8 +96,11 @@ response.
 POST /api/processing/drop
 Content-Type: multipart/form-data
 
-file: <File>          // required, single file
+file: <File>          // one of file or url is required
+url:  <string>        // public http(s) page or YouTube watch/short/embed URL
 ```
+
+If both are present, `file` wins.
 
 **Limits:**
 
@@ -104,6 +108,7 @@ file: <File>          // required, single file
 | --- | --- | --- |
 | Max size | 10 MB | `413` + `TOO_LARGE` |
 | Accepted MIME | `text/*`, `application/pdf`, `application/json`, `image/png`, `image/jpeg`, `image/webp` | `415` + `UNSUPPORTED_TYPE` |
+| URL | public `http` / `https` only | `400` + `INVALID_URL` |
 | Text embedded | first 8,000 chars | not an error — set `meta.truncated: true` |
 
 ---
@@ -119,13 +124,17 @@ interface DropResponse {
     filename: string
     mime: string
     bytes: number
-    kind: 'text' | 'pdf' | 'image'
+    kind: 'text' | 'pdf' | 'image' | 'url' | 'youtube'
     /** @vercel/blob URL, or null when blob storage is unconfigured. */
     blobUrl: string | null
+    /** Public page or YouTube URL for url/youtube drops. Null for files. */
+    sourceUrl: string | null
     /** How the embedded text was obtained. 'vision-caption' means the user is
      *  seeing connections to a *description* of their image, not the image —
-     *  the UI must say so. */
-    derivedVia: 'utf8' | 'pdf-parse' | 'vision-caption'
+     *  the UI must say so. 'youtube-unfurl' is page text (title/description),
+     *  not a transcript. 'url-scrape' is page text from the existing scrape
+     *  helper, not a corpus write. */
+    derivedVia: 'utf8' | 'pdf-parse' | 'vision-caption' | 'url-scrape' | 'youtube-unfurl'
     extractedChars: number
     /** First ~500 chars of extracted text, for display on the node. */
     excerpt: string
@@ -178,7 +187,7 @@ strong/weak thresholds. It carries rank order and nothing else.
 ```ts
 interface DropError {
   error: string   // human-readable, safe to display
-  code: 'TOO_LARGE' | 'UNSUPPORTED_TYPE' | 'EXTRACT_FAILED'
+  code: 'TOO_LARGE' | 'UNSUPPORTED_TYPE' | 'INVALID_URL' | 'EXTRACT_FAILED'
       | 'EMBED_FAILED' | 'SEARCH_FAILED'
 }
 ```
@@ -187,7 +196,8 @@ interface DropError {
 | --- | --- | --- |
 | `TOO_LARGE` | 413 | over 10 MB |
 | `UNSUPPORTED_TYPE` | 415 | MIME not in allowlist |
-| `EXTRACT_FAILED` | 422 | file readable but yielded no usable text |
+| `INVALID_URL` | 400 | not a public http(s) URL |
+| `EXTRACT_FAILED` | 422 | file or URL readable but yielded no usable text |
 | `EMBED_FAILED` | 502 | OpenAI embedding call failed |
 | `SEARCH_FAILED` | 502 | corpus query failed |
 
@@ -271,18 +281,16 @@ locally.
 
 ---
 
-## 7a. Deferred content types
+## 7a. URL and YouTube — landed October 6th, 2026 (unfurl, not ingest)
 
-T-060 covers **text / PDF / image only** (contract §3 MIME allowlist).
-Deliberately deferred:
+File MIME types remain the T-060 original allowlist. A `url` form field is
+now accepted as an alternative to `file`.
 
-| Type | Why deferred |
-| --- | --- |
-| YouTube | Ingestion already exists and is **Lane A Python** (`apps/disclosure-rag/lib/youtube.py` + `trace_map.py` provenance). A Next.js reimplementation would be a second divergent ingestion path — the same class of error as the second corpus writer ruled out in §2.1. |
-| URL | Needs unfurl + fetch + extraction infrastructure; overlaps `/api/processing/scrape`, which already exists and should be the integration point if this is picked up. |
-| Video | Frame extraction and transcription is not a viable shape for a request-scoped serverless route. |
-
-These are follow-ups, not omissions. Do not implement them under T-060.
+| Type | What landed | What is still forbidden |
+| --- | --- | --- |
+| YouTube | oEmbed title/author + existing Firecrawl scrape of the watch page. `kind: youtube`, `derivedVia: youtube-unfurl`. The node discloses that matching ran against page text, not a transcript. | No call to [`apps/disclosure-rag/lib/youtube.py`](apps/disclosure-rag/lib/youtube.py). No transcript fetch. No `processResource`. No `INSERT`. |
+| URL | Existing `scrapeWithFireCrawl` (same helper as [`apps/app/src/app/api/processing/scrape/route.ts`](apps/app/src/app/api/processing/scrape/route.ts)), then a capped HTML title/description fetch if scrape is empty. `kind: url`, `derivedVia: url-scrape`. | No corpus write. Localhost / private / non-http URLs are `INVALID_URL`. |
+| Video file | Still deferred. Frame extraction and transcription is not a viable shape for a request-scoped serverless route. | — |
 
 ---
 
