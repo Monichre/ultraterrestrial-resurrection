@@ -25,6 +25,16 @@ Any documentation file (`.md`, `.mdc`, skills, [`CLAUDE.md`](CLAUDE.md), this fi
 
 Navigation targets do not belong only inside fenced code blocks. Same rule for every documentation file, not only `docs/`.
 
+## Date format (binding)
+
+Set by the user on October 2nd, 2026, 13:12 CDT. Applies from now on, everywhere: docs, work logs, reports, tickets, channel messages, agent replies, file names, and data files agents write.
+
+- **Written form:** `March 27th, 2026`: month name spelled out, ordinal day (1st, 2nd, 3rd, 4th, 21st, 22nd, 23rd…), comma, four-digit year. With a time: `March 27th, 2026, 14:05 CDT`.
+- **File names:** the same date as a lowercase hyphenated slug, e.g. `march-27th-2026-cloud-ingestion-workflow.md`.
+- **Never** `03-27-2026`, `27-03-2026`, `2026-03-27`, or `3/27` in anything newly written.
+- **Only exception:** values a program must parse (database date/timestamp columns, ISO timestamps inside code, API payloads, test fixtures). Keep those machine-readable; show the written form wherever a person reads them.
+- Not retroactive: do not mass-rename existing files or rewrite old dates unless the user asks.
+
 ## 🛠 Technology Stack
 
 ### Backend & Data
@@ -167,6 +177,18 @@ For agent intake and shared rules, see:
 - **[`docs/README.md`](docs/README.md)** — Documentation spine navigator
 - Platform-specific files reference this core [`AGENTS.md`](AGENTS.md) file
 
+## Active Multi-Agent Communication (binding)
+
+When another agent is participating in an active coding session, maintain live communication for the full shared session:
+
+1. Start and keep an active watcher on the agreed agent channel.
+2. Read every incoming message and promptly acknowledge or answer it before continuing unrelated work.
+3. If the harness cannot wake on channel activity, check the channel before and after each tool batch and before every user response.
+4. If the channel format or location changes, switch the watcher immediately and read the missed history.
+5. At a handoff, blocker, task boundary, or session end, send the other active agents a concise status update.
+
+A one-time inbox check is not active communication. (Added 2026-10-01 05:19:37 CDT.)
+
 ## 🪞 Identity & Design Canon (read before any brand/UX/UI/voice work)
 
 Any agent, on any platform, waking into this repo for design-, identity-, or
@@ -211,11 +233,11 @@ This app has a closed development loop.
 ## Learned User Preferences
 
 - Prefer aggressive pruning of bulk/archive docs that do not matter; navigate docs via the six-question spine (what exists / where / how it works / what we want / how to do it / where to start).
-- Treat large agent persona packs as overkill — cannibalize distinctive methodology into a smaller cohesive research suite wired to `packages/ai/prompts`.
+- Treat large agent persona packs as overkill — cannibalize distinctive methodology into a smaller cohesive research suite in [`packages/ai/prompts/`](packages/ai/prompts/), written as versioned markdown with YAML frontmatter.
 - Research-canvas intelligence belongs in records, waypoints, or visual connections — not separate cards, sidebars, or drawers.
 - Guided tours should be traversable evidence graphs with a waypoint contract (claim → basis → counterpoint → unresolved → next), rendered as research-canvas/mindmap state — not scrolling articles, decorative timeline dots, or separate app-level routes.
 - Prefer archival/dossier plus clinical HUD / low-opacity ghosts; inline/on-canvas progressive disclosure over modal/card-heavy chrome; unused tour chrome should hide.
-- Follow authored animation/spec documents exactly (e.g. `ANIMATION_SEQUENCE.md`); do not arbitrarily remove cinematic beats.
+- Match authored animation specs, storyboards, and mockups exactly, including cinematic beats. Storyboards live in [`docs/vision/storyboards/`](docs/vision/storyboards/).
 - When migrating design/reference sources into the app, migrate only the components unless explicitly asked to move scaffolding or docs.
 - New UI components should be composable, modular, and prop-driven, and should ship with Storybook stories.
 
@@ -227,7 +249,23 @@ This app has a closed development loop.
 - Research agent role definitions live under [`packages/ai/agents/`](packages/ai/agents/); prompt library and orchestration material live under [`packages/ai/prompts/`](packages/ai/prompts/).
 - Sci-fi canvas components (`HolographicFileStack`, `RotatingGlobe`) and Command Palette (`CommandK`) live under [`apps/app/src/components/`](apps/app/src/components/).
 - Data architecture centers on Neon Postgres + pgvector with graph relationships as first-class schema citizens (hybrid retrieval: vector + FTS + graph traversal).
-- For Research Canvas ownership, Spacetime behavior, Temporal Observatory prototypes, God's Eye View reuse, or their design/story references, read [`apps/app/src/features/spacetime/README.md`](apps/app/src/features/spacetime/README.md) first, then [`apps/app/src/features/mindmap/CLAUDE.md`](apps/app/src/features/mindmap/CLAUDE.md) for graph work. The source guide distinguishes live wiring from proposals; rendered unified documentation and final UX/consolidation remain user decisions. Updated 2026-09-13 16:44:15 CDT (UTC−05:00); documentation only, runtime UNVERIFIED in this pass.
+- For Research Canvas ownership, Spacetime behavior, Temporal Observatory prototypes, God's Eye View reuse, or their design/story references, read [`apps/app/src/features/spacetime/README.md`](apps/app/src/features/spacetime/README.md) first, then [`apps/app/src/features/mindmap/CLAUDE.md`](apps/app/src/features/mindmap/CLAUDE.md) for graph work. The spacetime canvas is the curated events surface; sightings stay on the sightings routes. The source guide distinguishes live wiring from proposals; rendered unified documentation and final UX/consolidation remain user decisions.
 - [`apps/disclosure-lab`](apps/disclosure-lab) (port 3010) is the Neon admin/DX console: human confirms every write, no deletes in v1, agent is read-only assistance — not Research Canvas.
 - Internal packages: `@repo/disclosure-ui` (tokens/components kit), `@repo/disclosure-design` (visual lab; not an app dependency), and `@repo/openai-vector-store-mcp` (OpenAI Vector Store search/fetch MCP). `packages/services` was merged into [`packages/ai`](packages/ai).
 - Prefer [`apps/disclosure-rag/disclosure-rag-processor/`](apps/disclosure-rag/disclosure-rag-processor/) over the global `~/.claude` skill copy for playlist + `dy` routing. `dy` hops: [`apps/disclosure-rag/docs/CALL_CHAIN.md`](apps/disclosure-rag/docs/CALL_CHAIN.md). KB module roles: [`apps/disclosure-rag/docs/KNOWLEDGE_BASE_LAYERS.md`](apps/disclosure-rag/docs/KNOWLEDGE_BASE_LAYERS.md).
+
+## Native Jev helper — 2026-09-29 23:47:35 CDT (UTC−05:00)
+
+**PARKED — 2026-09-30 01:13:15 CDT (UTC−05:00):** User deferred Jev to focus on UI. Do not make Jev calls or prioritize this work unless the user explicitly resumes it.
+
+Coding agents can use the on-demand advisory helper in [`packages/ai/tools/jev/README.md`](packages/ai/tools/jev/README.md) while retaining their current chat model. Prepare and mock first; ask the user before **each** potentially charged live call. Read only `EXPERIENTIAL_API_KEY` from the launching environment and stop live work if absent. Never copy chat credentials, alias misspelled variables, execute Jev choices automatically, merge, bypass review, or automatically retry. Show question-ID answers and reported usage; synthetic fixtures and live gateway verification are separate evidence.
+
+## Handoff state (binding)
+
+Added October 7th, 2026, 02:35 CDT after the user found no written state for the ingestion back-dating work.
+
+Any multi-step or long-running work (ingestion, back-dating, re-keys, migrations, batch jobs) needs a handoff file **created at the start and updated after each meaningful step**, so another agent can resume while you are offline. Do not wait for the end of the session.
+
+- **Location:** a work log under [`docs/work_logs/`](docs/work_logs/) (`/worklog`), or a doc next to the pipeline such as [`apps/disclosure-rag/docs/`](apps/disclosure-rag/docs/). Link it from [`DAILY_WORK_PLAN.md`](DAILY_WORK_PLAN.md).
+- **Contents:** goal; exact resume command; done (with command output as evidence); in flight (PIDs, output paths); blocked; not done; the single next action; date and time in the written date format above.
+- **Before ending a session or answering "is the state written down?":** confirm the file exists on disk. Intent is not evidence.

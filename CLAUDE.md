@@ -134,3 +134,9 @@ For ordinary implementation tasks:
 6. Stop.
 
 Now, read @AGENTS.md
+
+## Native Jev decision helper — 2026-09-29 23:47:35 CDT (UTC−05:00)
+
+**PARKED — 2026-09-30 01:13:15 CDT (UTC−05:00):** User deferred Jev to focus on UI. Do not make Jev calls or prioritize this work unless the user explicitly resumes it.
+
+For narrow coding judgments, use the on-demand CLI documented in [`packages/ai/tools/jev/README.md`](packages/ai/tools/jev/README.md). Keep the current coding/chat model. Prepare a concise diff/test snapshot and mock it first. Before **each** potentially charged live call, ask the user explicitly; only then pass `--approve-live`. Read only `EXPERIENTIAL_API_KEY` from the launching environment, and stop the live path if absent. Never copy credentials from chat, alias misspelled variables, install the optional vendor skill without permission, execute Jev choices automatically, merge, bypass review, or retry an unknown outcome. Report answers by ID and reported usage; mocks are synthetic and live gateway compatibility remains UNVERIFIED until an actual approved response.

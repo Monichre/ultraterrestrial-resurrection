@@ -1,4 +1,118 @@
+## Session October 7th, 2026, 21:46:30 CDT — attached interface journey
+
+- User confirmed three images: Visual Foundation, Trinity, and Controlled Revelation. Implemented [interactive reference studies and journey stories](apps/app/src/features/guided-tours/nuclear-shadow/interface-studies/) using the supplied artwork intact and the existing tour narrative.
+- Provisional four-screen gallery changes were removed; `git status --short -- apps/app/src/features/research-platform` returned empty.
+- [Handoff](docs/work_logs/october-7th-2026-interface-journey-handoff.md) records files, resume handle, source boundaries, and remaining audit work. Runtime acceptance remains open.
+
+## Session 2026-10-07 14:40 CDT (UTC-0500) — T-060 URL drop session estimate
+
+- Read Cursor session `6120d5d5-c831-485c-bbf0-e8c2a84cbbcb` (October 6th, 2026, 19:21–21:47 CDT). Goal: YouTube and page URLs on the research canvas, same path as file drop. Agent died twice before browser proof.
+- Code is on disk, uncommitted: `url` form field on [`POST /api/processing/drop`](apps/app/src/app/api/processing/drop/route.ts), canvas drag of `text/uri-list`, node kinds `url` / `youtube`. Unfurl only (oEmbed + existing Firecrawl scrape). No corpus INSERT.
+- Parser tests rerun this session: `cd apps/app && bun test src/services/processing/drop/parse-url.test.ts` → `7 pass`, `0 fail`, exit 0.
+- T-060 in [`docs/plans/TODO.md`](docs/plans/TODO.md) remains IN PROGRESS. No dogfood. Do not close.
+- Handoff: [`docs/work_logs/october-7th-2026-t060-url-drop-handoff.md`](docs/work_logs/october-7th-2026-t060-url-drop-handoff.md). Next: open `/research-canvas` and drop a public YouTube URL.
+
+## Session 2026-10-02 20:15:09 CDT (UTC-0500) — semantic surface pairings
+
+- Corrected four aliases in [`packages/disclosure-ui/styles/tokens.css`](packages/disclosure-ui/styles/tokens.css): light tertiary surface uses existing raised paper, light secondary/tertiary body text mixes existing sampled metal with ink, and archival tertiary text uses existing desk-muted. Primitive palettes and font roles unchanged. Baseline role pairs measured 1.09:1, 2.75:1, 3.23:1 and 4.13:1; new contrast regression failed 13 combinations before the fix.
+- Added an opt-in [semantic surface specimen](packages/disclosure-ui/src/style-guide/semantic-surface-specimen.tsx) with [scoped styles](packages/disclosure-ui/src/style-guide/semantic-surface-specimen.css) and [Storybook entry](packages/disclosure-ui/src/style-guide/style-guide.stories.tsx). [Running review](http://localhost:6007/iframe.html?id=style-guide--semantic-surfaces&viewMode=story). It compares body roles in runtime contexts; it does not select another product skin.
+- Package `bun run test:tokens`: `Ran 22 tests in 0.284s`, `OK`, exit0. `bun run type-check`: `Token parity: 27 CSS primitives and 4 font roles match TypeScript exports`, exit0. Scoped `git diff --check` empty, exit0. Named CSS context existence now asserted to prevent accidental fallback passing the regression.
+- Live computed browser pairs: `36/36 >=4.5:1; minimum 4.89:1`; context minima desk5.76, paper4.89, archive5.92. Desktop and 390px inspected; mobile viewport390/document375 (15px scrollbar), 36 pairs, one column, 0 overflowing cards. Captured error/warn log entries `[]`. Viewport restored. Separate reviewer inspected both saved screenshots and approved this limited visual scope, independently reran22tests, and confirmed each reverted alias triggers the regression.
+- External JSON/screenshot evidence saved in the task visualization directory. Updated consumer heuristic still exits1 with 71 candidates across 6 checked files; no bulk replacements. No full-app audit, accent/button contrast claim, canon choice, production notebook integration, commit or strategic/ticket completion; broader design goal remains active.
+
+## Session 2026-10-02 20:05:38 CDT (UTC-0500) — truthful consumer token audit
+
+- Corrected [`packages/disclosure-ui/scripts/validate_tokens.py`](packages/disclosure-ui/scripts/validate_tokens.py): the previous package command only found the token definitions it skipped, then reported clean. [`packages/disclosure-ui/package.json`](packages/disclosure-ui/package.json) now scans both styles and src; definitions-only input exits 2 with `Discovered: 1; checked: 0; skipped: 1` and `No consumer CSS files checked`.
+- Declaration-scoped matching stops treating font sizes and folder widths as spacing; comments, strings and data URLs preserve source positions without inventing findings. Foreign palette and malformed variable suggestions removed. Input/read failures remain failures. Added regression coverage in [`packages/disclosure-ui/scripts/test_validate_tokens.py`](packages/disclosure-ui/scripts/test_validate_tokens.py).
+- Package `bun run test:tokens` output: `Ran 21 tests in 0.255s`, `OK`, exit 0. `bun run type-check`: `Token parity: 27 CSS primitives and 4 font roles match TypeScript exports`, exit 0. Scoped `git diff --check` empty, exit 0. Separate reviewer independently reran 21 tests, audited the actual CLI and confirmed suggested variables exist; approved this tool scope.
+- Package `bun run validate:tokens` now exits 1: 6 discovered, 5 checked, 1 skipped; `Total violations: 71`, `Errors: 69`, `Warnings: 2`, with `font-sizes: 21`, `radii: 2`, `spacing: 48`. These are heuristic review candidates, not 71 confirmed canon violations. No consumer CSS replaced to silence the audit.
+- External command output/JSON evidence saved in the task visualization directory. Developer-tool change only; no new product visual audit, production integration, canon promotion, commit or strategic/ticket completion. Wider design direction and contextual review remain open.
+
+## Session 2026-10-02 19:54:33 CDT (UTC-0500) — research-folder tuning prototype
+
+- User found [Cojeev Motion Drawer](https://000h.cojeev.com/docs/motion-drawer/) and requested tuning. Added a stack-only local study in [`packages/disclosure-ui/src/style-guide/research-folder/`](packages/disclosure-ui/src/style-guide/research-folder/), retaining MIT notices for adapted continuous folder geometry. No production route or canon defaults changed.
+- Paper and ink reuse existing package primitives; technical labels and selectable technical/artifact/UI body faces remain scoped to the prototype. Seven Storybook controls tune width, grain, body face, edge, stiffness, damping and stagger. [Review preview](http://localhost:6007/iframe.html?id=reference-studies-research-folder--tuned&viewMode=story) and [tuning controls](http://localhost:6007/?path=/story/reference-studies-research-folder--tuned).
+- Running visual audit exercised all four tabs, arrow/Home/End keys, selecting another fixture record while open, close/Escape focus return, immediate next Tab during exit, outward header drag, mobile390 and reduced motion. Exit controls were corrected to become inert/hidden immediately. Mobile output: viewport390/documentWidth390/folderWidth366. Initial type error fixed with MotionStyle.
+- Package `bun run type-check` output: `Token parity: 27 CSS primitives and 4 font roles match TypeScript exports`, exit0. `bun run test:tokens`: `Ran 10 tests in 0.005s`, `OK`, exit0. Separate code review approved. Existing Storybook HMR/reload diagnostics remain in audit evidence; no clean-console claim.
+- Added Motion12.23.26 as a prototype devDependency; installer also registered the current disclosure-design/research-base workspace manifests in [`bun.lock`](bun.lock). Uncommitted. Real records, production canvas integration, persistence, mobile modality and canon adoption remain open; no strategic/ticket completion promoted.
+
 # Daily Work Plan — Ultraterrestrial Resurrection
+
+## Session 2026-10-02 18:12:04 CDT (UTC-0500) — Bill Guo homepage study
+
+- User narrowed recreation to the homepage only. Added a prop-driven [homepage prototype](packages/disclosure-ui/src/style-guide/homepage-prototype.tsx) and [Storybook stories](packages/disclosure-ui/src/style-guide/homepage-prototype.stories.tsx), with Ultraterrestrial copy and explicitly labeled procedural artwork. [Running preview](http://localhost:6007/iframe.html?id=reference-studies-bill-guo-homepage--homepage&viewMode=story).
+- `bun run type-check` returned `Token parity: 27 CSS primitives and 4 font roles match TypeScript exports`, exit 0. Separate reviewer approved after focus and six-position scene fixes. Browser audit observed desktop composition, 390px layout (viewport / scroll width / study width all `390`), search / empty results / Ctrl+K / Escape, navigation panels, stamp selection, wheel search, modal focus, and reduced-motion animation `none` / transition `0s`. Extended collection rendered `6` scene stamps while retaining `7` archive entries and searchable `EXTRA FILE`.
+- Screenshot and detailed JSON evidence saved outside the repository. This is an uncommitted exploration prototype for user review: no application route, database, notebook, Kensho page, font canon, or wider migration adoption. No strategic/ticket status promoted to done.
+
+## Session 2026-10-01 18:54:10 CDT (UTC−05:00) — token parity and typography exploration
+
+- **Running document study — 2026-10-01 19:50:17 CDT (UTC−05:00):** launched `bun run dev:app` and inspected [/document-panel](http://localhost:3000/document-panel). Next returned `GET /document-panel 200`; CDP rendered-font inspection confirmed Spectral SemiBold, Inter, Caveat, and IBM Plex Mono SemiBold for the selected heading/prose/annotation/API nodes. Fixed global paragraph tracking leaking into the prototype with a scoped reset in [`apps/app/src/styles/document-panel.css:131`](apps/app/src/styles/document-panel.css#L131). After explicit reload, computed prose/intro/subtitle tracking changed from `1px` to `normal`; eyebrow remained `1.44px`. Desktop and 390px layout inspected, narrow document width `390` matched viewport `390`; saved screenshots externally. PostCSS returned `PostCSS: parsed document-panel.css`; scoped `git diff --check` empty, exit 0; independent reviewer approved. Typography isolation only: no font selection, component adoption, full interaction audit, or broader completion claim.
+
+- **Typography source audit — 2026-10-01 19:20:15 CDT (UTC−05:00):** inspected all 14 font-provider declarations in [`apps/app/src/app/fonts.tsx`](apps/app/src/app/fonts.tsx). Legacy Neue Haas, Monument Grotesk, Monument Mono, and Lukas variables now provide Inter, Plus Jakarta Sans, JetBrains Mono, and Space Grotesk respectively. [`apps/app/src/app/research-ui.css:400`](apps/app/src/app/research-ui.css#L400) assigns the generic mono utility to the technical stack; selected document prototypes use it for body copy. [`apps/app/src/components/design-system/research-ui/documents/reference-prototype/DocumentOne.tsx:51`](apps/app/src/components/design-system/research-ui/documents/reference-prototype/DocumentOne.tsx#L51) applies mono to header/metadata while its sibling footer falls outside that scope. Captured six evidence anchors with source hashes in an external JSON audit. Source inspection only; actual app cascade/route adoption not audited. No font replacement, canon promotion, or migration performed.
+
+- **Concept comparison — 2026-10-01 19:17:03 CDT (UTC−05:00):** built a standalone [local comparison board](http://localhost:6008/ultraterrestrial-concept-selection.html) from six originals in [`packages/disclosure-design/canon/design-lab/`](packages/disclosure-design/canon/design-lab/). Python validation returned `Embedded source images: 6/6 byte-identical; SHA-256 matches`. Running browser audit exercised all six images, note/shortlist persistence, shared-reference synchronization, zoom, and manual JSON export; desktop light/dark and narrow layout inspected. Test choices cleared. The Roswell source is a photographic collage with typed fields and paragraphs, not a fully typed document page. No visual winner, canon promotion, or legacy migration selected; broader goal remains open.
+
+- **User clarification — 2026-10-01 19:00:56 CDT (UTC−05:00):** still selecting preferred visual concepts; legacy document code is implementation history, not a final typography decision. Canon promotion and broad migration remain open. Corrected the archival panel default from dark ink on dark panel (regression: `1.09:1`) to existing light paper text. Register headings now inherit the real pair. `bun run test:tokens` → `Ran 10 tests`, `OK`; typecheck/parity exit 0; live guide and separate reviewer confirmed this narrow correction.
+
+- Preserved runtime CSS as current token truth while keeping generated mockups, chat decisions, and stored canon distinct. No new final typography ruling or app-wide migration. CSS/TypeScript parity generation and its gate live in [`packages/disclosure-ui/scripts/sync_tokens.py`](packages/disclosure-ui/scripts/sync_tokens.py).
+- Added an editable review story at [`packages/disclosure-ui/src/style-guide/typography-specimen.stories.tsx`](packages/disclosure-ui/src/style-guide/typography-specimen.stories.tsx): clean Courier New document body, Special Elite ink impression, JetBrains Mono notation, and modern system UI. Four candidate role exports are synchronized from CSS. Body-level host font variables resolve locally; deeper themes must redeclare dependent roles.
+- `bun run test:tokens` → `Ran 9 tests`, `OK`; `bun run type-check` → `Token parity: 27 CSS primitives and 4 font roles match TypeScript exports`, exit 0; package-scoped `git diff --check -- .` → empty output, exit 0. Separate read-only code reviewer approved after the font-scope correction.
+- [Running Storybook comparison](http://localhost:6007/iframe.html?id=style-guide-typography-roles--comparison&viewMode=story) visually inspected at desktop and 390px: identical edits update four bodies, 14/16/18 px selections apply, and narrow layout has one column with page width equal to viewport width. Rendered font inspection confirmed Courier New, custom Special Elite, custom JetBrains Mono, and SF NS. Screenshots saved outside repo in the task visualization directory. Full-app typography adoption and broader design-drift reconciliation remain **UNVERIFIED / OPEN**; user design acceptance remains pending.
+
+## Session 2026-09-30 01:13:15 CDT (UTC−05:00) — park Jev, switch focus to UI
+
+- User deferred T-067. Preserve the native helper and offline evidence in [`packages/ai/tools/jev/README.md`](packages/ai/tools/jev/README.md); no live call is approved or required for UI work.
+- UI target and desired change await user clarification. No UI implementation has been started.
+
+## Session 2026-09-29 23:47:35 CDT (UTC−05:00) — native Jev helper, T-067
+
+- Added gateway-only, advisory intercept/verify CLI and typed schemas at [`packages/ai/tools/jev/README.md`](packages/ai/tools/jev/README.md), with provisional thresholds and human-labelled Brier review. Coding-agent chat model unchanged; no vendor skill installed.
+- Offline tests exercise request bounds, causal state, uncertainty, active-key rejection, contradictory responses, deadlines and no retries. Independent review findings addressed in regression tests.
+- Live calls remain pending explicit user approval and locally configured `EXPERIENTIAL_API_KEY`. No live response, calibration dataset or exact tokenizer is available: integration remains UNVERIFIED. Existing unrelated shared-tree edits were preserved.
+
+## Session 2026-09-29 15:30 CDT (UTC−05:00) — record that Upstash is dead
+
+- Wrote [`docs/issues/2026-09-29-upstash-sync-reports-success-but-accounts-are-dead.md`](docs/issues/2026-09-29-upstash-sync-reports-success-but-accounts-are-dead.md). Both Upstash accounts have been gone for about six months, so the "Upstash sync ✅" lines are false.
+- Added warning banners to [`apps/disclosure-rag/STATUS.md`](apps/disclosure-rag/STATUS.md), [`apps/disclosure-rag/docs/INTEGRATION_STATUS.md`](apps/disclosure-rag/docs/INTEGRATION_STATUS.md), [`apps/disclosure-rag/README.md`](apps/disclosure-rag/README.md), and a note in [`docs/plans/TODO.md`](docs/plans/TODO.md).
+- No code, credentials, or `dy` runs touched. Open decision: retire Upstash (recommended) or revive it.
+- **Update 2026-10-07:** Upstash provider confirmed revived and live by Liam; retire-vs-revive determination still pending (revival would likely start from scratch). Recorded in the issue file and [`docs/plans/TODO.md`](docs/plans/TODO.md). No code re-wired.
+
+## Session 2026-09-28 17:10 CDT (UTC−05:00) — ticket pipeline correction
+
+- Four read-only reviews compared [`docs/plans/`](docs/plans/), [`docs/dogfood-output/`](docs/dogfood-output/), and [`docs/archive/vision/`](docs/archive/vision/) to [`docs/plans/TODO.md`](docs/plans/TODO.md).
+- Corrected the lane table: T-053 is merged into T-050, T-061 is active, and T-062 through T-065 are listed. H1 is md5 with the UNIQUE constraint still blocked. T-050 subtasks 3 and 6 are on disk and unverified.
+- [`docs/plans/FEATURES.md`](docs/plans/FEATURES.md) pipeline no longer offers T-053 as ready to claim. [`docs/README.md`](docs/README.md) now indexes the load-bearing plans.
+- No code, tests, or dogfood run. Untracked leftovers, not opened as tickets: (1) prompt-cache live smoke plus an unimported `frontendTools` call in the Prometheus chat route, (2) dead CLI leftovers from the 2026-07-09 ingestion audit, (3) Vision Phase 2 claims/theories. Finished plans still in `docs/plans/` stay put until Liam says to archive them.
+- Shared with Claude Code as memory `ticket-pipeline-correction-2026-09-28` (indexed first in that project's `MEMORY.md`). Do not reopen T-053.
+
+## Session 2026-09-28 16:50 CDT (UTC−05:00) — register the playlist postmortem
+
+- Opened **T-066** in [`docs/plans/TODO.md`](docs/plans/TODO.md) from [`docs/issues/2026-08-14-playlist-ingestion-postmortem.md`](docs/issues/2026-08-14-playlist-ingestion-postmortem.md). The issue file now points back at T-066.
+- Still open on that ticket: stage-2 promotion into Neon, a real transcript cache, exception text on fetch failures, the 51-episode refetch, schema enforcement past `rag_ingestion`, and the gate-5 loose ends. No ingest was run.
+
+## Session 2026-09-27 18:15:30 CDT (UTC−05:00) — review Claude's donor-overlap audit
+
+- Read the user-supplied conversation as review material and checked current source. Its selective-reuse direction is reasonable; the stated 80% Observatory / 15% God's Eye View overlap and half-day/two-hour port estimates have no measurable acceptance inventory behind them. Similar component names and installed dependencies do not prove interaction or integration parity.
+- **Concrete correction:** the existing [`apps/app/src/features/guided-tours/nuclear-shadow/nuclear-shadow.definition.ts`](apps/app/src/features/guided-tours/nuclear-shadow/nuclear-shadow.definition.ts) has eight waypoints about secrecy architecture, ending at Roswell. It does not contain the prototype's Malmstrom/Rendlesham sequence. Same tour title does not mean the same investigation already ships. Five Nuclear Shadow test files exist; no tests were executed during this review.
+- **Contract ownership:** `CorpusAnchor` is defined by [`apps/app/src/features/guided-tours/shared/types/tour-definition.ts`](apps/app/src/features/guided-tours/shared/types/tour-definition.ts). [`apps/app/src/features/spacetime/components/waypoint-narrative.tsx`](apps/app/src/features/spacetime/components/waypoint-narrative.tsx) uses temporal stations and the Spacetime store; it does not consume that tour contract. The prototype source tray browses/selects per-waypoint source records and opens an evidence reader; Spacetime's evidence-layers panel filters events. They are not equivalent features.
+- **Existing reuse to preserve:** the tour contract already includes `narrative.question`, `narrative.handoffQuestion` and `epistemic.openQuestions`; adding another questions field is not automatically necessary. [`apps/app/src/features/mindmap/tours/tour-chips.tsx`](apps/app/src/features/mindmap/tours/tour-chips.tsx) and the shared tour registry already provide launch infrastructure. An investigation library would improve presentation and discovery rather than invent tour launching. Current prototype [`apps/temporal-observatory/lib/demo-data.ts`](apps/temporal-observatory/lib/demo-data.ts) derives displayed layer counts from enriched demo sources; preserve derived counts when adapting real data.
+- **Separate prototype:** [`apps/temporal-observatory/`](apps/temporal-observatory/) is distinct from the older research-platform prototype. Source confirms four modes, conditional globe mounting and explicit demonstration records. Local checks found no package manifest or installed Next entry in its own node_modules; it is untracked. This prevents a normal standalone package launch, not source review or selective adaptation. No secret values were read.
+- **Recommendation, not an implementation decision:** reuse the existing investigation/tour contract and launch registry, adapt the prototype's choose-investigation → navigate → chapter → evidence flow, and implement any geographic view through the existing Spacetime renderer. Avoid another persistent store or third globe renderer without demonstrated need. A note that consolidation was not approved is a status record, not a permanent design prohibition; existing canvas ownership remains the current decision until intentionally revised.
+- God's Eye View annotations, scene/camera modules and label arbitration exist on disk, but their suitability, coverage and the advertised live-feed count were not runtime-verified here. Existing Cesium temporal-parity gap still stands. No product files changed, no new app started, and no runtime comparison or test-suite run performed; this review establishes source facts only.
+
+## Session 2026-09-27 18:11:23 CDT (UTC−05:00) — launch Spacetime UI
+
+- Started `bun run dev --port 3002` from [`apps/app/`](apps/app/), preserving the unrelated portfolio server on port 3000. Output: `Ready in 3.4s`; `GET /spacetime?engine=cesium 200 in 14691ms`.
+- Opened [Spacetime Cesium demo](http://localhost:3002/spacetime?engine=cesium) in a visible retained browser tab. Screenshot confirmed satellite imagery, the Houston camera readout, guided-investigation list, layers and temporal dial. The narrow Codex panel visibly compresses/overlaps the desktop layout; requested bottom-panel placement for a wider view, returned `queued`.
+- Left the server running. Launch/display verification only; no product changes or full acceptance audit.
+
+## Session 2026-09-27 17:34:50 CDT (UTC−05:00) — Spacetime status review
+
+- User requested an update. `git log --since=2026-09-14 --date=short --format='%h %ad %s' -- apps/app/src/features/spacetime apps/app/src/features/research-platform apps/app/src/features/research-canvas apps/app/src/features/sightings` returned `74ab227a 2026-09-24 feat(spacetime): add Cesium as a selectable globe engine`. The demo adapter, route wiring and asset preparation are now committed; the September 13 guide's untracked-source observation is historical.
+- Current source still defaults to Mapbox and selects Cesium with `?engine=cesium`. The 248-line adapter retains Esri imagery, Houston camera seed, existing event filters and selection flight; it still has no temporal-cursor subscription. Typed customization, tactical treatment, shared camera controls, performance acceptance and a Spacetime Storybook story remain open. No product source was changed or runtime acceptance claimed in this review.
+- The requested unified rendered instructional package remains undelivered. Agent/doc/tracker pointers exist, but six checked design-reference paths in [`apps/app/src/features/spacetime/README.md`](apps/app/src/features/spacetime/README.md) no longer exist under the former package name. Current design pointer: [`docs/design/README.md`](docs/design/README.md); storyboard images remain in [`docs/vision/storyboards/`](docs/vision/storyboards/) and prototype HTML in [`docs/vision/prototypes/`](docs/vision/prototypes/), with further lab material under [`packages/disclosure-design/lab/`](packages/disclosure-design/lab/). No new canonical-copy ruling or broad link repair made in this status-only pass.
+- The prior demo server is not running: `lsof -a -p 47884 -d cwd -Fn` identified the current port-3000 listener as the user's separate portfolio project. Did not stop it or start another server. Last visual evidence in this task remains September 13; no browser/build/test/database-count rerun today.
+- Recommended next slice: synchronize Cesium with temporal navigation, establish shared camera controls, measure the engine cost, and present the feature-local instructional package with current references and explicit live/prototype labels. These are recommendations, not completed work.
 
 ## Session 2026-09-13 23:47:11 CDT (UTC−05:00) — reopen Cesium demo
 
@@ -6,12 +120,14 @@
 - Opened [Spacetime Cesium demo](http://localhost:3000/spacetime?engine=cesium) in a visible Codex browser tab and retained it for the user. Screenshot confirmed Houston-area Esri imagery, Observatory shell, guided-investigation panel and temporal dial; UI reports 142 events / 104 mapped.
 - Server left running. This was a launch/display check only; no product source changes or full interaction/feature acceptance audit. Existing temporal-parity gaps remain recorded in [`apps/app/src/features/spacetime/README.md`](apps/app/src/features/spacetime/README.md).
 
-**Last updated:** 2026-08-14
+**Last updated:** 2026-09-28
 **Branch:** `dev`
-**Focus:** Lane B assembling-components apply (token aliases + root providers) · Lane B Disclosure Lab (DMGD-216 / T-052) · Research Canvas Gen-UI (DMGD-219 / T-053, **needs grooming/review**) · Lane A ingestion hardening (T-048) · Spacetime M0/M1 (T-047)
+**Focus:** Lane A T-048 (H2 next) and T-061 · Lane B T-050 (subtasks 4, 5, 7, 8; dogfood 3 and 6), T-052, T-060 · T-066 gates the playlist batch. T-053 is merged into T-050.
 **Reference:** Linear owns implementation tickets; `docs/plans/TODO.md` kept in parity. Canonical specs: `docs/plans/2026-08-09-disclosure-lab.md`, `docs/plans/2026-08-09-research-canvas-genui.md`, proposed MVP `docs/plans/2026-08-10-rc-p0-tool-cards.md`. Assembling apply: `docs/plans/AssemblingComponentsApply.md`.
 
 ## Session 2026-08-14 — T-053 tracking: grooming/review required (no product code)
+
+**Superseded 2026-08-17.** T-053 was merged into T-050. The paragraph below is the session record, not current status.
 
 T-053 / DMGD-219 remains **OPEN / needs grooming**. The epic (`2026-08-09-research-canvas-genui.md`) and RC-P0 ToolCards MVP (`2026-08-10-rc-p0-tool-cards.md`) are the canonical plans; **the idea and feature need grooming and review from the agent team before implementation.** RC-P0 is the proposed first slice, not started, and not locked-to-build until that review.
 
@@ -23,7 +139,9 @@ T-053 / DMGD-219 remains **OPEN / needs grooming**. The epic (`2026-08-09-resear
 - `validate_tokens.py` errors = 0 on disclosure-ui tokens + new feedback/dashboard CSS. Full-app hex migration remains open.
 - **UNVERIFIED**: `next build` / visual dogfood not run this session.
 
-## Current state — 2026-08-10
+## Current state — 2026-08-10 (historical snapshot, superseded 2026-09-28)
+
+Use the lane table in [`docs/plans/TODO.md`](docs/plans/TODO.md). This table is the 2026-08-10 record. T-053 is merged. H1 landed on md5. T-050 subtasks 3 and 6 are on disk and unverified.
 
 | Ticket | Lane | Status | Next step |
 | -------- | ------ | -------- | ----------- |
@@ -375,11 +493,9 @@ Verification gate held throughout: `bunx tsc --noEmit` = 48 errors, all in the
 - Verified HTML structure, PostCSS parsing, Prettier formatting, local asset responses, and
   `git diff --check`.
 
-
 ## Session memory — 2026-09-10 01:31:55 CDT — God’s Eye View planning
 
 Inspected donor source and current Spacetime code; saved phased proposal at [docs/plans/2026-09-10-gods-eye-view-integration.md](docs/plans/2026-09-10-gods-eye-view-integration.md). Key finding: Cesium renderer extraction and feed backend migration are separate work. User supplied an Esri/tactical preset. Browser connection returned `No browser is available`; visual fidelity remains UNVERIFIED. Planning only; no product code changed.
-
 
 **Scope refinement / session memory — 2026-09-10 01:35:57 CDT:** User requires extremely lean, Ultraterrestrial-specific or customizable imports. The [docs/plans/2026-09-10-gods-eye-view-integration.md](docs/plans/2026-09-10-gods-eye-view-integration.md) now makes minimal extraction, typed configuration, excluded donor subsystems, and import/bundle auditing explicit. Feed integrations remain optional; full donor parity is not a requirement. Planning only.
 
