@@ -16,6 +16,7 @@ import {Suspense, memo, useEffect, useRef, Component} from 'react'
 import * as THREE from 'three'
 import {
   damp,
+  JOURNEY_FOLLOW,
   sampleStops,
   type JourneyProgressRef,
   type JourneyStop,
@@ -195,20 +196,16 @@ EarthGlobe.displayName = 'EarthGlobe'
  * Visual scale is camera-driven — never DOM-scale the WebGL canvas.
  */
 /**
- * Long-lens (telephoto) baseline. The Act-1 Hyperzoom holds this framing as the
- * resting hero, so the Act-2 journey lives on the same 15.5u / 20° baseline —
- * the stops keep the original push/pull ratios, just scaled to the new standoff.
+ * Long-lens rest framing. Act 1 lands here and Act 2 holds it.
+ * The Moon orbits; this camera does not dolly Earth out of the frame.
  */
 const EARTH_CAM_Z: JourneyStop[] = [
   [0, 15.5],
-  [0.3, 9.6],
-  [0.62, 12.8],
-  [1, 18.7],
+  [1, 15.5],
 ]
 const EARTH_CAM_Y: JourneyStop[] = [
   [0, 0],
-  [0.3, 0],
-  [1, 1.15],
+  [1, 0],
 ]
 
 /** Rest framing the Act-1 fall lands on and the Act-2 journey begins from. */
@@ -220,13 +217,13 @@ const EarthJourneyRig: React.FC<{journeyRef: JourneyProgressRef}> = ({journeyRef
 
   useFrame((_, delta) => {
     const t = journeyRef.current
-    camera.position.z = damp(camera.position.z, sampleStops(EARTH_CAM_Z, t), 5, delta)
-    camera.position.y = damp(camera.position.y, sampleStops(EARTH_CAM_Y, t), 5, delta)
+    camera.position.z = damp(camera.position.z, sampleStops(EARTH_CAM_Z, t), JOURNEY_FOLLOW, delta)
+    camera.position.y = damp(camera.position.y, sampleStops(EARTH_CAM_Y, t), JOURNEY_FOLLOW, delta)
     // Normalise FOV back to rest after the cinematic fall hands off (Descent
     // lands ~46°); harmless once already at rest.
     // Hold the telephoto rest FOV the Hyperzoom lands on; harmless once at rest.
     const perspective = camera as THREE.PerspectiveCamera
-    const nextFov = damp(perspective.fov, EARTH_REST_FOV, 5, delta)
+    const nextFov = damp(perspective.fov, EARTH_REST_FOV, JOURNEY_FOLLOW, delta)
     if (Math.abs(nextFov - perspective.fov) > 1e-3) {
       perspective.fov = nextFov
       perspective.updateProjectionMatrix()
@@ -293,7 +290,8 @@ export const Earth: React.FC<EarthProps> = memo(
                 loading='lazy'
                 className='h-full w-full object-contain bg-black opacity-40'
               />
-            }>
+            }
+          >
             <Canvas
               dpr={[1, 2]}
               camera={{position: [0, 0, 15.5], fov: 20, near: 0.1, far: 500}}
@@ -311,7 +309,8 @@ export const Earth: React.FC<EarthProps> = memo(
                 // painting an opaque black plate. Exposure slightly above 1 —
                 // ACES otherwise crushes the production crescent.
                 configureHeroRenderer(gl, 1.25, 0)
-              }}>
+              }}
+            >
               <EarthGlobe isIdle={isIdle} reduceMotion={reduceMotion} />
               {/* One rig owns the camera at a time: the fall during Act 1, the
                   scroll journey after. */}

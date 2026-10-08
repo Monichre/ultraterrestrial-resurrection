@@ -23,8 +23,9 @@ const AUTHOR = 'H.P. Lovecraft'
 const wordmarkStyle: React.CSSProperties = {
   fontFamily: 'var(--font-monument), var(--font-neue-haas), var(--font-league-spartan), sans-serif',
   fontWeight: 700,
-  fontSize: 'clamp(2rem, 5vw, 6.5rem)',
+  fontSize: 'clamp(1.25rem, 5vw, 6.5rem)',
   letterSpacing: '0.3em',
+  marginRight: '-0.3em',
   lineHeight: 1.05,
   whiteSpace: 'nowrap',
   color: '#f8fbff',
@@ -39,13 +40,28 @@ const monoStyle: React.CSSProperties = {
   fontFamily: 'var(--font-jetbrains-mono), var(--font-martian-mono), monospace',
 }
 
+// Inline so the unlayered global `p` / `h2, h3` rules in globals.css can't override them.
+const quoteStyle: React.CSSProperties = {
+  fontFamily: 'var(--font-neue-haas), sans-serif',
+  fontSize: 'clamp(1rem, 0.94rem + 0.25vw, 1.125rem)',
+  fontWeight: 400,
+  letterSpacing: 'normal',
+  lineHeight: 1.7,
+}
+
+const authorStyle: React.CSSProperties = {
+  ...monoStyle,
+  letterSpacing: '0.3em',
+  marginRight: '-0.3em',
+}
+
 export const HeroCopy: React.FC = () => {
   return (
     <div className='flex flex-col items-center text-center px-6'>
       {/* Wordmark — per-char masks */}
       <h1
         data-wordmark
-        className='uppercase select-none'
+        className='uppercase'
         style={wordmarkStyle}
         aria-label={WORDMARK}>
         {WORDMARK.split('').map((char, i) => (
@@ -59,7 +75,7 @@ export const HeroCopy: React.FC = () => {
       <div className='hero-line-mask mt-6'>
         <span
           data-tagline
-          className='block text-white/90 text-2xl md:text-3xl site-tagline'
+          className='block text-white/90 text-2xl md:text-3xl text-balance site-tagline'
           style={{fontFamily: 'var(--font-neue-haas), sans-serif'}}>
           {TAGLINE}
         </span>
@@ -68,15 +84,15 @@ export const HeroCopy: React.FC = () => {
       {/* Quote — SplitType line masks applied by the master hook */}
       <p
         data-quote
-        className='mt-8 max-w-[640px] text-base md:text-lg leading-7 md:leading-8 text-white/75'
-        style={{fontFamily: 'var(--font-neue-haas), sans-serif'}}>
+        className='mt-8 max-w-[640px] text-pretty text-white/75'
+        style={quoteStyle}>
         {QUOTE}
       </p>
 
       <h3
         data-quote-author
-        className='mt-5 text-sm md:text-base uppercase tracking-[0.3em] text-white/60'
-        style={monoStyle}>
+        className='mt-5 text-sm md:text-base uppercase text-white/60'
+        style={authorStyle}>
         {AUTHOR}
       </h3>
     </div>

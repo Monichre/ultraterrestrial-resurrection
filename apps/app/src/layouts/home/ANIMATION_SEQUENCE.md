@@ -13,7 +13,7 @@ The home page is a two-act cinematic experience: an autorun intro resolves into 
 
 ## ACT 1 — Intro Cinematic (autorun, ~0–10s)
 
-Scroll stays locked (`body overflow hidden`) until Act 1 completes. Any wheel/touch intent during the intro fast-forwards it to the composed hero (`intro.progress(1)`).
+Scroll stays locked on `main.site` (the real page scroller, not the window) until Act 1 completes. Any wheel/touch intent during the intro rushes the playhead to the composed hero on a short `power2.out` (0.28–0.62s). It does not cut to the last frame.
 
 ### Phase 0: Initial Setup (0s)
 
@@ -40,7 +40,6 @@ Scroll stays locked (`body overflow hidden`) until Act 1 completes. Any wheel/to
 
 ### Phase 5: Celestial Bodies (4.2–7.8s)
 
-- **Prometheus** fades in ethereally (4.2s, 2.2s → opacity 0.85)
 - **Earth** reveals (4.2s, 1.6s)
 - **Moon** orbits in from behind left shoulder (5.4s, 2.4s, `cosmic` ease)
   - Lands at x: 25vw, y: -15vh (DOM translate only — **no DOM scale/blur** on WebGL layers)
@@ -65,29 +64,27 @@ Scroll stays locked (`body overflow hidden`) until Act 1 completes. Any wheel/to
 
 ## ACT 2 — Scroll Journey (scrubbed, 380vh track)
 
-The stage is `sticky top-0` inside a 380vh track; a ScrollTrigger (`start: top top`, `end: bottom bottom`, `scrub: 1`) drives the journey timeline (10 units) and writes `journeyProgress.current ∈ [0,1]` for the R3F camera rigs.
+The stage is `sticky top-0` inside a 380vh track. The layout scrolls `main.site`, so the journey ScrollTrigger uses that element as `scroller` (`start: top top`, `end: bottom bottom`, `scrub: true`). It drives the journey timeline (10 units) 1:1 with that scroll and writes `journeyProgress.current ∈ [0,1]` for the R3F camera rigs. Cameras chase that clock with `JOURNEY_FOLLOW` (short damp). Do not put a numeric scrub back on the timeline — that lags the type a second behind the planets. Do not bind the trigger to the window.
 
 ### J1 — Departure (0–2.2)
 
-- Wordmark chars exit up through their masks (`yPercent → -118`, blur 10px, 0.03 stagger) — mirrored path of the entrance
-- Tagline / quote lines / author exit upward through the same masks (blur + rise)
+- Wordmark chars exit up through their masks (`yPercent → -118`, 0.03 stagger) — mirrored path of the entrance, position only
+- Tagline / quote lines / author exit upward through the same masks (no blur on the scrub)
 - Scroll cue fades (0–0.4)
-- Earth wrapper pushes in (y only); **camera rig** dollies z 6.8→4.2
-- Prometheus dims 0.85→0.3
+- Earth holds the center of the frame. Its camera stays on the Act-1 rest (z 15.5, y 0)
 
-### J2 — Lunar Flyby (2.2–6.2)
+### J2 — Lunar orbit (2.2–6.2)
 
-- **Z-swap**: moon layer 10→30 (transparent canvas; z-order for occlusion only)
-- Moon sweeps x 25vw→0, y -15vh→0 — owns the frame; **mesh scale** 1→3.9 (not DOM scale)
-- **Moon camera rig** pushes z 5→3.05, y -0.5→-0.12
-- Earth recedes x →-22vw, y →+14vh, opacity →0.45; camera eases back z →4.8
-- Prometheus fades to 0; stars parallax y →-5vh, scale →1.06
+- The Moon moves around the edge of the frame. Earth does not translate, fade, or dolly.
+- Edge path: 25vw/−15vh → 48vw/−8vh → 6vw/46vh → −48vw/8vh → −30vw/−20vh
+- In front (z 30) on the near side, behind Earth (z 10) on the far shoulder
+- Mesh scale stays 1. Moon camera stays put (z 5)
 - **Flyby caption** (2.8 in / 5.4 out): "LUNAR PROXIMITY" kicker + "WHAT THE FAR SIDE KEEPS" — masked line rise/scrub-out
 
 ### J3 — Arrival (6.2–10)
 
-- Moon settles x →10vw, y →-4vh; mesh scale →2.55; moon camera eases z →4.3
-- Earth dims to 0.15; camera pulls to z 7.4, y 1.15
+- Moon holds the far shoulder (−30vw, −20vh), behind Earth. Mesh scale stays 1
+- Earth is still centered, still full opacity
 - Stars drift to -8vh
 - **Arrival block**: kicker "THE ARCHIVE IS OPEN" (6.9), line (7.5), CTA "Enter the Research Canvas" → `/research-canvas` (8.2, `pointer-events: auto` at 9.8)
 
@@ -104,7 +101,6 @@ z-[40] - Hero copy (wordmark / tagline / quote)
 z-[30] - Moon (journey flyby only; z-[10] otherwise)
 z-[20] - Earth
 z-[10] - Moon (resting)
-z-[5]  - Prometheus
 z-[3]  - Fluid Shader Orbs (when visible)
 z-[2]  - Shooting Stars
 z-[1]  - Stars Background
@@ -140,7 +136,7 @@ z-[1]  - Stars Background
 
 ### Interruptibility
 
-- Scroll intent during Act 1 fast-forwards the intro instead of being swallowed by the scroll lock
+- Scroll intent during Act 1 rushes the intro on an ease-out instead of being swallowed by the scroll lock
 - Act 2 is fully scrubbed and reversible at any point
 
 ## Performance Optimizations
@@ -170,13 +166,13 @@ Edit `EARTH_CAM_Z/Y` in `components/earth/Earth.tsx` and `MOON_CAM_Z/Y` in `comp
 ### Animation Not Playing
 
 - Check `isReady` from `useUltraterrestrialAnimation`
-- Confirm `#earth-canvas`, `#moon-canvas`, `.prometheus-container` exist
+- Confirm `#earth-canvas` and `#moon-canvas` exist
 - Check browser console for GSAP / WebGL errors
 
 ### Journey Not Scrubbing
 
 - Confirm the track wrapper (`refs.track`) renders (absent in `staticMode`)
-- `ScrollTrigger` is registered in the hook; check `document.body.style.overflow` isn't stuck `hidden` (intro should release it on complete)
+- `ScrollTrigger` uses `main.site` as its scroller. If the journey ignores the wheel, that element is not the one scrolling.
 
 ### Typography Stuck Hidden
 

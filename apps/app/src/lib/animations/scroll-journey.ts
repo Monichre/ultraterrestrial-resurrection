@@ -27,6 +27,12 @@ export const sampleStops = (stops: JourneyStop[], t: number): number => {
   return stops[stops.length - 1][1]
 }
 
+/**
+ * How hard the cameras and moon scale chase the shared journey clock.
+ * 18 closes ~95% of the gap in 0.17s — mass, without a second delay on top of scrub.
+ */
+export const JOURNEY_FOLLOW = 18
+
 /** Frame-rate independent damping toward a target (Freya Holmér style). */
 export const damp = (current: number, target: number, lambda: number, delta: number): number =>
   current + (target - current) * (1 - Math.exp(-lambda * delta))

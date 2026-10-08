@@ -22,11 +22,6 @@ const FluidShaderOrbs = dynamic(
   {ssr: false}
 )
 
-const CanvasCursor = dynamic(
-  () => import('@/components/ui/canvas-cursor').then((mod) => mod.CanvasCursor),
-  {ssr: false}
-)
-
 const ShootingStars = dynamic(
   () => import('@/components/backgrounds/shooting-stars').then((mod) => mod.ShootingStars),
   {ssr: false}
@@ -46,11 +41,6 @@ const Earth = dynamic(
     import('@/components/earth/Earth')
       .then((mod) => mod.Earth)
       .catch(() => ({default: () => null})),
-  {ssr: false, loading: () => null}
-)
-
-const Prometheus = dynamic(
-  () => import('@/components/prometheus/Prometheus').then((mod) => mod.Prometheus),
   {ssr: false, loading: () => null}
 )
 
@@ -79,6 +69,12 @@ export const HomeAnimated: React.FC<HomeProps> = () => {
     if (process.env.NODE_ENV === 'production') return
 
     const handleKeyPress = (e: KeyboardEvent) => {
+      // Cinematic debug shortcuts must not intercept navigation or form controls.
+      if (
+        e.target instanceof Element &&
+        e.target.closest('a, button, input, textarea, select, summary, [contenteditable]')
+      ) return
+
       switch (e.key) {
         case ' ':
           e.preventDefault()
@@ -105,7 +101,7 @@ export const HomeAnimated: React.FC<HomeProps> = () => {
     return () => window.removeEventListener('keydown', handleKeyPress)
   }, [pauseAnimation, resumeAnimation, restartAnimation, skipToEnd])
 
-  // Gate global MenuTrigger chrome until the nav phase
+  // Keep the cinematic background state separate from always-available site navigation.
   useEffect(() => {
     document.documentElement.dataset.homeCinematic = navVisible ? 'ready' : 'pending'
     return () => {
@@ -123,18 +119,6 @@ export const HomeAnimated: React.FC<HomeProps> = () => {
         background-color: #000 !important;
         background: #000 !important;
       }
-      html[data-home-cinematic='pending'] a[aria-label='Ultraterrestrial home'],
-      html[data-home-cinematic='pending'] button[aria-label='Open navigation menu'] {
-        opacity: 0 !important;
-        transform: translateY(-20px);
-        pointer-events: none !important;
-      }
-      html[data-home-cinematic='ready'] a[aria-label='Ultraterrestrial home'],
-      html[data-home-cinematic='ready'] button[aria-label='Open navigation menu'] {
-        transition: opacity 1s cubic-bezier(0.23, 1, 0.32, 1),
-          transform 1s cubic-bezier(0.23, 1, 0.32, 1);
-      }
-
       /* Typography masks — motion is driven by the master GSAP timeline */
       .hero-char-mask { display: inline-block; overflow: hidden; vertical-align: top; }
       [data-wordmark-char] { display: inline-block; will-change: transform; }
@@ -178,12 +162,14 @@ export const HomeAnimated: React.FC<HomeProps> = () => {
       }
       style={{backgroundColor: '#000'}}
       data-home-hero='cinematic'
-      data-home-ready={isReady || staticMode ? 'true' : 'false'}>
+      data-home-ready={isReady || staticMode ? 'true' : 'false'}
+    >
       {/* Act 1 — Stars (z-[1]) */}
       <div
         ref={refs.stars}
         className='hero-layer stars-background absolute inset-0 z-[1] bg-black'
-        style={{backgroundColor: '#000'}}>
+        style={{backgroundColor: '#000'}}
+      >
         <StarsBackground className='bg-black' />
       </div>
 
@@ -198,24 +184,18 @@ export const HomeAnimated: React.FC<HomeProps> = () => {
         <FluidShaderOrbs isVisible={showFluidOrbs} />
       </div>
 
-      {/* Act 1 — Prometheus (z-[5]); transparent layer over the starfield */}
-      <div
-        ref={refs.prometheus}
-        className='hero-layer absolute inset-0 z-[5] pointer-events-none'>
-        <Prometheus />
-      </div>
-
       {/* Celestial — Moon (z-[10]); transparent canvas so Earth shows through */}
       <div ref={refs.moon} className='hero-layer absolute inset-0 h-full w-full z-[10]'>
         <Moon journeyRef={journeyProgress} />
       </div>
 
-      {/* Celestial — Earth (z-[20]); transparent canvas so the Moon / Prometheus
-          / orbs / stars beneath composite through. Push-in/recede via camera
+      {/* Celestial — Earth (z-[20]); transparent canvas so the Moon / orbs /
+          stars beneath composite through. Push-in/recede via camera
           rig, not DOM scale. */}
       <div
         ref={refs.earth}
-        className='hero-layer absolute inset-0 h-full w-full z-[20] pointer-events-none'>
+        className='hero-layer absolute inset-0 h-full w-full z-[20] pointer-events-none'
+      >
         <Earth
           activeLocation={null}
           journeyRef={journeyProgress}
@@ -225,21 +205,19 @@ export const HomeAnimated: React.FC<HomeProps> = () => {
         />
       </div>
 
-      <div ref={refs.cursor}>
-        <CanvasCursor />
-      </div>
-
       {/* Act 1 — Hero copy (z-[40]); Act 2 departs through the same masks */}
       <div
         ref={refs.heroCopy}
         className='pointer-events-none h-[100vh] w-full absolute top-0 left-0 flex flex-col justify-center items-center z-40 overflow-hidden'
-        style={{opacity: isReady || staticMode ? undefined : 0}}>
+        style={{opacity: isReady || staticMode ? undefined : 0}}
+      >
         <HeroCopy />
         {staticMode ? (
           <Link
             href='/research-canvas'
             className='hero-cta pointer-events-auto mt-10 inline-block border border-white/40 px-8 py-3 text-xs uppercase tracking-[0.3em] text-white/85'
-            style={monoFont}>
+            style={monoFont}
+          >
             Enter the Research Canvas
           </Link>
         ) : null}
@@ -250,13 +228,15 @@ export const HomeAnimated: React.FC<HomeProps> = () => {
         <div
           ref={refs.flybyCaption}
           className='pointer-events-none absolute inset-0 z-[45] flex items-end justify-center pb-[14vh]'
-          style={{opacity: 0}}>
+          style={{opacity: 0}}
+        >
           <div className='text-center'>
             <div className='hero-line-mask'>
               <span
                 data-caption-line
                 className='text-xs md:text-sm uppercase tracking-[0.45em] text-white/60'
-                style={monoFont}>
+                style={monoFont}
+              >
                 Lunar Proximity
               </span>
             </div>
@@ -264,7 +244,8 @@ export const HomeAnimated: React.FC<HomeProps> = () => {
               <span
                 data-caption-line
                 className='text-2xl md:text-4xl uppercase tracking-[0.18em] text-white/90'
-                style={{fontFamily: 'var(--font-monument), var(--font-neue-haas), sans-serif'}}>
+                style={{fontFamily: 'var(--font-monument), var(--font-neue-haas), sans-serif'}}
+              >
                 What the far side keeps
               </span>
             </div>
@@ -276,13 +257,15 @@ export const HomeAnimated: React.FC<HomeProps> = () => {
       {!staticMode ? (
         <div
           ref={refs.arrival}
-          className='absolute inset-0 z-[46] flex flex-col items-center justify-center text-center px-6'
-          style={{opacity: 0}}>
+          className='pointer-events-none absolute inset-0 z-[46] flex flex-col items-center justify-center text-center px-6'
+          style={{opacity: 0}}
+        >
           <div className='hero-line-mask'>
             <span
               data-arrival-line
               className='text-xs md:text-sm uppercase tracking-[0.5em] text-white/55'
-              style={monoFont}>
+              style={monoFont}
+            >
               The archive is open
             </span>
           </div>
@@ -290,7 +273,8 @@ export const HomeAnimated: React.FC<HomeProps> = () => {
             <span
               data-arrival-line
               className='text-xl md:text-2xl leading-8 text-white/85'
-              style={{fontFamily: 'var(--font-neue-haas), sans-serif'}}>
+              style={{fontFamily: 'var(--font-neue-haas), sans-serif'}}
+            >
               Documenting the past, present and future of the phenomenon.
             </span>
           </div>
@@ -299,7 +283,8 @@ export const HomeAnimated: React.FC<HomeProps> = () => {
               <Link
                 href='/research-canvas'
                 className='hero-cta inline-block border border-white/40 px-10 py-4 text-xs uppercase tracking-[0.3em] text-white/85'
-                style={monoFont}>
+                style={monoFont}
+              >
                 Enter the Research Canvas&nbsp;&nbsp;→
               </Link>
             </div>
@@ -312,10 +297,12 @@ export const HomeAnimated: React.FC<HomeProps> = () => {
         <div
           ref={refs.scrollCue}
           className='pointer-events-none absolute inset-x-0 bottom-8 z-[47] flex flex-col items-center gap-3'
-          style={{opacity: 0}}>
+          style={{opacity: 0}}
+        >
           <span
-            className='text-[10px] uppercase tracking-[0.5em] text-white/50'
-            style={monoFont}>
+            className='pl-[0.5em] text-[10px] uppercase tracking-[0.5em] text-white/50'
+            style={monoFont}
+          >
             Scroll
           </span>
           <span className='hero-cue-line block h-8 w-px bg-gradient-to-b from-white/70 to-transparent' />

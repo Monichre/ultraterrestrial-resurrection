@@ -127,7 +127,7 @@ export const TimelineYearEvents = ({event, updateActiveLocation}) => {
         {/* </div> */}
       </motion.div>
       <div className='flex justify-evenly items-center gap-2 mt-4'>
-        {photos.map((photo, index) => {
+        {(photos ?? []).map((photo, index) => {
           console.log('🚀 ~ {photos.map ~ photo:', photo)
           const image = photo?.mediaType?.includes('image')
 
@@ -242,7 +242,7 @@ export function EventsTimeline({
               // ref={el => yearRefs.current[year] = el}
             >
               <div className={`year-inner`}>
-                {eventsByYear[year].map((event) => (
+                {(eventsByYear[year] ?? []).map((event) => (
                   <motion.div
                     key={`${year}-${event.id}`}
                     id={`${year}-${event.id}`}

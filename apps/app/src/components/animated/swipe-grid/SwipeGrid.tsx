@@ -13,6 +13,13 @@ export type SwipeGridItem = {
   src: any
 }
 
+/** photo[] entries may be a path/URL string (Postgres) or a legacy Xata file object. */
+function photoSrc(item: any): string {
+  const p = item?.photo?.[0]
+  if (typeof p === 'string' && p.length) return p
+  return p?.signedUrl || p?.url || '/atro-4.png'
+}
+
 const SwipeGrid = ({
   items,
   children,
@@ -101,11 +108,7 @@ const SwipeGrid = ({
                         filter: 'grayscale(100%)',
                       }}
                       quality={100}
-                      src={
-                        (item.photo && item.photo.length
-                          ? item.photo[0]?.signedUrl || item?.photo[0]?.url
-                          : '/atro-4.png') || '/atro-4.png'
-                      }
+                      src={photoSrc(item)}
                       height={300}
                       width={300}
                       className='grid__item-inner h-auto absolute top-0 left-0 w-full h-full z-0 object-cover'

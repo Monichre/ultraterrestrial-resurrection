@@ -12,14 +12,14 @@ import type {JourneyProgressRef} from '@/lib/animations/scroll-journey'
  * Master orchestration for the home experience — two acts:
  *
  *   ACT 1 — INTRO (autorun timeline): flash → orbs → big flash → stars →
- *           prometheus → earth → moon orbit → wordmark → tagline → quote →
+ *           earth → moon orbit → wordmark → tagline → quote →
  *           author → nav → scroll cue. Scroll stays locked until it resolves;
- *           any wheel/touch intent fast-forwards it.
+ *           any wheel/touch intent rushes it to the hero on a short ease-out.
  *
- *   ACT 2 — JOURNEY (scrubbed ScrollTrigger): hero copy exits, camera pushes
- *           toward Earth, the Moon sweeps across frame for a flyby, then the
- *           arrival block + CTA resolves the journey. Drives both the DOM
- *           layers and the R3F camera rigs via `journeyProgress`.
+ *   ACT 2 — JOURNEY (scrubbed ScrollTrigger): hero copy exits, the Moon
+ *           orbits a fixed Earth, then the arrival block + CTA resolves it.
+ *           Drives both the DOM layers and the R3F camera rigs via
+ *           `journeyProgress`.
  *
  * Timings are authoritative — keep ANIMATION_SEQUENCE.md in sync.
  */
@@ -38,7 +38,6 @@ export const CINEMATIC_TIMING = {
   BIG_FLASH_SCALE: 3,
   STARS: 4.0,
   SHOOTING: 4.1,
-  PROMETHEUS: 4.2,
   EARTH: 4.2,
   MOON_START: 5.4,
   MOON_DURATION: 2.4,
@@ -78,7 +77,6 @@ type AnimationRefs = {
   shootingStars: MutableRefObject<HTMLDivElement | null>
   cursor: MutableRefObject<HTMLDivElement | null>
   orbs: MutableRefObject<HTMLDivElement | null>
-  prometheus: MutableRefObject<HTMLDivElement | null>
   flybyCaption: MutableRefObject<HTMLDivElement | null>
   arrival: MutableRefObject<HTMLDivElement | null>
   arrivalCta: MutableRefObject<HTMLDivElement | null>
@@ -91,6 +89,14 @@ const getGlobalNavChrome = () => {
     document.querySelector('a[aria-label="Ultraterrestrial home"]'),
     document.querySelector('button[aria-label="Open navigation menu"]'),
   ].filter(Boolean) as HTMLElement[]
+}
+
+/** The layout scrolls `main.site`, not the window. ScrollTrigger must use the same element. */
+const HOME_SCROLLER = 'main.site'
+
+const getHomeScroller = (): HTMLElement | null => {
+  if (typeof document === 'undefined') return null
+  return document.querySelector(HOME_SCROLLER)
 }
 
 export const useUltraterrestrialAnimation = () => {
@@ -115,7 +121,6 @@ export const useUltraterrestrialAnimation = () => {
   const shootingStars = useRef<HTMLDivElement>(null)
   const cursor = useRef<HTMLDivElement>(null)
   const orbs = useRef<HTMLDivElement>(null)
-  const prometheus = useRef<HTMLDivElement>(null)
   const flybyCaption = useRef<HTMLDivElement>(null)
   const arrival = useRef<HTMLDivElement>(null)
   const arrivalCta = useRef<HTMLDivElement>(null)
@@ -138,7 +143,6 @@ export const useUltraterrestrialAnimation = () => {
     shootingStars,
     cursor,
     orbs,
-    prometheus,
     flybyCaption,
     arrival,
     arrivalCta,
@@ -176,7 +180,6 @@ export const useUltraterrestrialAnimation = () => {
     const visibleTargets = [
       stars.current,
       shootingStars.current,
-      prometheus.current,
       moon.current,
       earth.current,
       heroCopy.current,
@@ -200,7 +203,6 @@ export const useUltraterrestrialAnimation = () => {
       // Position only — never DOM-scale WebGL canvases (destroys pixel density)
       gsap.set(moon.current, {x: '25vw', y: '-15vh', scale: 1, opacity: 1})
     }
-    if (prometheus.current) gsap.set(prometheus.current, {opacity: 0.85})
   }, [])
 
   useEffect(() => {
@@ -227,10 +229,8 @@ export const useUltraterrestrialAnimation = () => {
     const checkElements = window.setInterval(() => {
       const earthCanvas = document.querySelector('#earth-canvas')
       const moonCanvas = document.querySelector('#moon-canvas')
-      const prometheusEl = document.querySelector('.prometheus-container')
 
-      // Prefer all three; start once Earth is up so the sequence isn't blocked forever
-      if (earthCanvas && (moonCanvas || prometheusEl)) {
+      if (earthCanvas && moonCanvas) {
         window.clearInterval(checkElements)
         hasRevealedRef.current = false
         setIsReady(true)
@@ -249,26 +249,30 @@ export const useUltraterrestrialAnimation = () => {
     }
   }, [revealSceneImmediately, staticMode, isReady])
 
-  // Act 1 scroll lock — intro owns the viewport until it resolves.
+  // Act 1 scroll lock — the intro owns `main` until it resolves.
+  // Locking body does nothing: the layout scrolls main.site, not the window.
   useEffect(() => {
     if (!isReady || staticMode) return
 
-    const body = document.body
-    const previousOverflow = body.style.overflow
-    const previousRestoration =
-      'scrollRestoration' in window.history ? window.history.scrollRestoration : undefined
+    const scroller = getHomeScroller()
+    if (!scroller) return
+
+    if (introComplete) {
+      scroller.style.overflow = ''
+      const refreshId = window.requestAnimationFrame(() => ScrollTrigger.refresh())
+      return () => window.cancelAnimationFrame(refreshId)
+    }
 
     if ('scrollRestoration' in window.history) {
       window.history.scrollRestoration = 'manual'
     }
-    window.scrollTo(0, 0)
-    body.style.overflow = 'hidden'
+    scroller.scrollTop = 0
+    scroller.style.overflow = 'hidden'
 
     return () => {
-      body.style.overflow = previousOverflow
-      if (previousRestoration) window.history.scrollRestoration = previousRestoration
+      scroller.style.overflow = ''
     }
-  }, [isReady, staticMode])
+  }, [isReady, staticMode, introComplete])
 
   useGSAP(
     () => {
@@ -323,7 +327,6 @@ export const useUltraterrestrialAnimation = () => {
       if (refs.shootingStars.current) {
         gsap.set(refs.shootingStars.current, {opacity: 0, visibility: 'visible'})
       }
-      if (refs.prometheus.current) gsap.set(refs.prometheus.current, {opacity: 0})
       if (refs.heroCopy.current) gsap.set(refs.heroCopy.current, {opacity: 0})
 
       if (wordmarkChars.length) {
@@ -333,7 +336,7 @@ export const useUltraterrestrialAnimation = () => {
       if (quoteLines.length) gsap.set(quoteLines, {yPercent: 112, filter: 'blur(6px)'})
       if (authorEl.length) gsap.set(authorEl, {opacity: 0, y: 12, filter: 'blur(8px)'})
       if (captionLines.length) gsap.set(captionLines, {yPercent: 112})
-      if (arrivalLines.length) gsap.set(arrivalLines, {yPercent: 115, filter: 'blur(8px)'})
+      if (arrivalLines.length) gsap.set(arrivalLines, {yPercent: 115})
       if (refs.flybyCaption.current) gsap.set(refs.flybyCaption.current, {opacity: 0})
       if (refs.arrival.current) gsap.set(refs.arrival.current, {opacity: 0})
       if (refs.arrivalCta.current) gsap.set(refs.arrivalCta.current, {pointerEvents: 'none'})
@@ -364,10 +367,10 @@ export const useUltraterrestrialAnimation = () => {
       // ====================================================================
       const T = CINEMATIC_TIMING
       const intro = gsap.timeline({
-        defaults: {ease: 'power2.inOut'},
+        defaults: {ease: 'power3.out'},
         onComplete: () => {
+          introProgress.current = 1
           setIntroComplete(true)
-          document.body.style.overflow = ''
         },
       })
       animationRef.current = intro
@@ -407,17 +410,14 @@ export const useUltraterrestrialAnimation = () => {
         intro.to(refs.stars.current, {opacity: 1, duration: 0.9}, T.STARS)
       }
       if (refs.shootingStars.current) {
-        intro.to(refs.shootingStars.current, {opacity: 1, duration: 0.8, ease: 'power2.out'}, T.SHOOTING)
+        intro.to(
+          refs.shootingStars.current,
+          {opacity: 1, duration: 0.8, ease: 'power2.out'},
+          T.SHOOTING
+        )
       }
 
       // Phase 5: Celestial bodies
-      if (refs.prometheus.current) {
-        intro.to(
-          refs.prometheus.current,
-          {opacity: 0.85, duration: 2.2, ease: 'power1.inOut'},
-          T.PROMETHEUS
-        )
-      }
       if (refs.earth.current) {
         intro.to(refs.earth.current, {opacity: 1, duration: 1.6, ease: 'power2.out'}, T.EARTH)
       }
@@ -437,21 +437,19 @@ export const useUltraterrestrialAnimation = () => {
         T.EARTH_FALL_START
       )
       if (refs.moon.current) {
-        intro
-          .set(refs.moon.current, {visibility: 'visible'}, T.MOON_START)
-          .to(
-            refs.moon.current,
-            {
-              opacity: 1,
-              x: '25vw',
-              y: '-15vh',
-              scale: 1,
-              filter: 'none',
-              duration: T.MOON_DURATION,
-              ease: 'cosmic',
-            },
-            T.MOON_START
-          )
+        intro.set(refs.moon.current, {visibility: 'visible'}, T.MOON_START).to(
+          refs.moon.current,
+          {
+            opacity: 1,
+            x: '25vw',
+            y: '-15vh',
+            scale: 1,
+            filter: 'none',
+            duration: T.MOON_DURATION,
+            ease: 'cosmic',
+          },
+          T.MOON_START
+        )
       }
 
       // Phase 6: Typography — masked per-char wordmark, line-revealed copy
@@ -519,26 +517,29 @@ export const useUltraterrestrialAnimation = () => {
       // ACT 2 — JOURNEY (scrubbed)
       // ====================================================================
       const J = JOURNEY_TIMING
+      const homeScroller = getHomeScroller()
       const journey = gsap.timeline({
         defaults: {ease: 'none'},
         scrollTrigger: {
           trigger: refs.track.current,
+          scroller: homeScroller ?? undefined,
           start: 'top top',
           end: 'bottom bottom',
-          scrub: 1,
+          // Direct link. A numeric scrub lags the type a full second behind
+          // the cameras, which already read this same scroll progress.
+          scrub: true,
           onUpdate: (self) => {
             journeyProgress.current = self.progress
           },
         },
       })
 
-      // J1 — Departure: copy exits up through its masks, camera pushes on Earth
+      // J1 — Departure: copy exits up through its masks. Earth holds.
       if (wordmarkChars.length) {
         journey.to(
           wordmarkChars,
           {
             yPercent: -118,
-            filter: 'blur(10px)',
             duration: 1.4,
             stagger: {each: 0.03, from: 'start'},
           },
@@ -546,17 +547,13 @@ export const useUltraterrestrialAnimation = () => {
         )
       }
       if (tagline.length) {
-        journey.to(tagline, {yPercent: -120, filter: 'blur(8px)', duration: 1}, J.DEPART)
+        journey.to(tagline, {yPercent: -120, duration: 1}, J.DEPART)
       }
       if (quoteLines.length) {
-        journey.to(
-          quoteLines,
-          {yPercent: -112, filter: 'blur(6px)', duration: 1.1, stagger: 0.045},
-          J.DEPART + 0.2
-        )
+        journey.to(quoteLines, {yPercent: -112, duration: 1.1, stagger: 0.045}, J.DEPART + 0.2)
       }
       if (authorEl.length) {
-        journey.to(authorEl, {opacity: 0, y: -12, filter: 'blur(8px)', duration: 0.6}, J.DEPART + 0.3)
+        journey.to(authorEl, {opacity: 0, y: -12, duration: 0.6}, J.DEPART + 0.3)
       }
       if (refs.heroCopy.current) {
         journey.set(refs.heroCopy.current, {pointerEvents: 'none'}, J.DEPART)
@@ -564,100 +561,65 @@ export const useUltraterrestrialAnimation = () => {
       if (refs.scrollCue.current) {
         journey.to(refs.scrollCue.current, {opacity: 0, duration: 0.4}, J.DEPART)
       }
-      if (refs.earth.current) {
-        // Translate/fade only — Earth push-in is camera-driven (EarthJourneyRig)
-        journey.fromTo(
-          refs.earth.current,
-          {scale: 1, x: '0vw', y: '0vh', opacity: 1},
-          {scale: 1, y: '3vh', duration: J.FLYBY - J.DEPART},
-          J.DEPART
-        )
-      }
-      if (refs.prometheus.current) {
-        journey.to(refs.prometheus.current, {opacity: 0.3, duration: 1.6}, J.DEPART + 0.4)
-      }
-
-      // J2 — Lunar flyby: the Moon sweeps across frame and owns it.
-      // Z-swap: moon layer rises above Earth for the flyby (canvas is transparent now).
+      // J2 — The Moon rides the edge of the frame. Earth stays centered.
+      // Centers stay near the viewport edge so the Moon stays a cap, not a second planet.
       if (refs.moon.current) {
-        journey.set(refs.moon.current, {zIndex: 10}, J.DEPART)
-        journey.set(refs.moon.current, {zIndex: 30}, J.FLYBY)
-        // Flyby size is mesh-scaled inside MoonScene — DOM stays scale:1 for sharp pixels
+        const moon = refs.moon.current
+        journey.set(moon, {zIndex: 10}, J.DEPART)
+        journey.set(moon, {zIndex: 30}, J.FLYBY)
         journey.fromTo(
-          refs.moon.current,
+          moon,
           {x: '25vw', y: '-15vh', scale: 1, opacity: 1},
-          {x: '0vw', y: '0vh', scale: 1, duration: 4},
+          {x: '48vw', y: '-8vh', scale: 1, duration: 1.5},
           J.FLYBY
         )
-      }
-      if (refs.earth.current) {
-        journey.to(
-          refs.earth.current,
-          {x: '-22vw', y: '14vh', scale: 1, opacity: 0.45, duration: 4},
-          J.FLYBY
-        )
-      }
-      if (refs.prometheus.current) {
-        journey.to(refs.prometheus.current, {opacity: 0, duration: 1.8}, J.FLYBY + 0.4)
+        journey.to(moon, {x: '6vw', y: '46vh', scale: 1, duration: 1.5}, J.FLYBY + 1.5)
+        journey.to(moon, {x: '-48vw', y: '8vh', scale: 1, duration: 1.6}, J.FLYBY + 3.0)
+        journey.set(moon, {zIndex: 10}, J.FLYBY + 4.6)
+        journey.to(moon, {x: '-30vw', y: '-20vh', scale: 1, duration: 1.4}, J.FLYBY + 4.6)
       }
       if (refs.stars.current) {
         journey.to(refs.stars.current, {y: '-5vh', scale: 1.06, duration: 4}, J.FLYBY)
       }
       if (refs.flybyCaption.current && captionLines.length) {
         journey.to(refs.flybyCaption.current, {opacity: 1, duration: 0.3}, J.FLYBY_CAPTION_IN)
+        journey.to(captionLines, {yPercent: 0, duration: 0.9, stagger: 0.14}, J.FLYBY_CAPTION_IN)
+        journey.to(captionLines, {yPercent: -112, duration: 0.8, stagger: 0.1}, J.FLYBY_CAPTION_OUT)
         journey.to(
-          captionLines,
-          {yPercent: 0, duration: 0.9, stagger: 0.14, ease: 'power1.out'},
-          J.FLYBY_CAPTION_IN
+          refs.flybyCaption.current,
+          {opacity: 0, duration: 0.3},
+          J.FLYBY_CAPTION_OUT + 0.8
         )
-        journey.to(
-          captionLines,
-          {yPercent: -112, duration: 0.8, stagger: 0.1, ease: 'power1.in'},
-          J.FLYBY_CAPTION_OUT
-        )
-        journey.to(refs.flybyCaption.current, {opacity: 0, duration: 0.3}, J.FLYBY_CAPTION_OUT + 0.8)
       }
 
-      // J3 — Arrival: Moon settles, the archive opens
-      if (refs.moon.current) {
-        journey.to(refs.moon.current, {x: '10vw', y: '-4vh', scale: 1, duration: 1.8}, J.ARRIVAL)
-      }
-      if (refs.earth.current) {
-        journey.to(refs.earth.current, {opacity: 0.15, scale: 1, duration: 1.8}, J.ARRIVAL)
-      }
+      // J3 — Arrival: the Moon has continued to the far shoulder. Earth never left.
       if (refs.stars.current) {
         journey.to(refs.stars.current, {y: '-8vh', duration: 1.8}, J.ARRIVAL)
       }
       if (refs.arrival.current && arrivalLines.length) {
         journey.to(refs.arrival.current, {opacity: 1, duration: 0.4}, J.ARRIVAL + 0.5)
-        journey.to(
-          arrivalLines[0],
-          {yPercent: 0, filter: 'blur(0px)', duration: 0.9, ease: 'power1.out'},
-          J.ARRIVAL_KICKER
-        )
+        journey.to(arrivalLines[0], {yPercent: 0, duration: 0.9}, J.ARRIVAL_KICKER)
         if (arrivalLines[1]) {
-          journey.to(
-            arrivalLines[1],
-            {yPercent: 0, filter: 'blur(0px)', duration: 0.9, ease: 'power1.out'},
-            J.ARRIVAL_LINE
-          )
+          journey.to(arrivalLines[1], {yPercent: 0, duration: 0.9}, J.ARRIVAL_LINE)
         }
         if (arrivalLines[2]) {
-          journey.to(
-            arrivalLines[2],
-            {yPercent: 0, filter: 'blur(0px)', duration: 0.8, ease: 'power1.out'},
-            J.ARRIVAL_CTA
-          )
+          journey.to(arrivalLines[2], {yPercent: 0, duration: 0.8}, J.ARRIVAL_CTA)
         }
       }
       if (refs.arrivalCta.current) {
         journey.set(refs.arrivalCta.current, {pointerEvents: 'auto'}, J.END - 0.2)
       }
 
-      // Interruptibility: any scroll intent during the intro fast-forwards it
+      // A wheel during the intro rushes the playhead. tweenTo is what actually
+      // reaches the end and fires onComplete, which unlocks main.
+      let rush: gsap.core.Tween | null = null
       const fastForward = () => {
-        if (intro.progress() < 1) intro.progress(1)
-        introProgress.current = 1
+        if (intro.progress() >= 1 || rush) return
+        const remaining = 1 - intro.progress()
+        rush = intro.tweenTo(intro.duration(), {
+          duration: gsap.utils.clamp(0.28, 0.62, remaining * 0.85),
+          ease: 'power2.out',
+        })
       }
       window.addEventListener('wheel', fastForward, {passive: true})
       window.addEventListener('touchmove', fastForward, {passive: true})
@@ -665,12 +627,14 @@ export const useUltraterrestrialAnimation = () => {
       return () => {
         window.removeEventListener('wheel', fastForward)
         window.removeEventListener('touchmove', fastForward)
+        rush?.kill()
         journey.scrollTrigger?.kill()
         journey.kill()
         intro.kill()
         quoteSplit?.revert()
         flashOverlay.remove()
-        document.body.style.overflow = ''
+        const scroller = getHomeScroller()
+        if (scroller) scroller.style.overflow = ''
       }
     },
     {dependencies: [isReady, staticMode], scope: refs.container}
@@ -693,12 +657,12 @@ export const useUltraterrestrialAnimation = () => {
     setIntroComplete(false)
     journeyProgress.current = 0
     introProgress.current = 0
-    window.scrollTo(0, 0)
+    const scroller = getHomeScroller()
+    if (scroller) scroller.scrollTop = 0
     if (!animationRef.current) {
       revealSceneImmediately()
       return
     }
-    document.body.style.overflow = 'hidden'
     animationRef.current.restart()
   }, [revealSceneImmediately])
 
@@ -709,6 +673,7 @@ export const useUltraterrestrialAnimation = () => {
     }
     animationRef.current.progress(1)
     introProgress.current = 1
+    setIntroComplete(true)
     setShowFluidOrbs(false)
     setTitleVisible(true)
     setQuoteVisible(true)

@@ -6,6 +6,7 @@ import {Suspense, useEffect, useRef, type FC} from 'react'
 import * as THREE from 'three'
 import {
   damp,
+  JOURNEY_FOLLOW,
   sampleStops,
   type JourneyProgressRef,
   type JourneyStop,
@@ -26,14 +27,12 @@ type MoonGltf = {
 }
 
 /**
- * Visual size stops (replaces the old DOM `scale` scrub that crushed WebGL resolution).
- * Rest ≈ prior 0.6 DOM scale · flyby ≈ 2.35 · arrival ≈ 1.55
+ * The Moon stays a satellite. Position carries the orbit; scale does not grow
+ * it past Earth.
  */
 const MOON_VISUAL_SCALE: JourneyStop[] = [
   [0, 1],
-  [0.22, 1],
-  [0.62, 2.85],
-  [1, 1.9],
+  [1, 1],
 ]
 
 export const MoonScene = ({journeyRef}: {journeyRef?: JourneyProgressRef}) => {
@@ -58,7 +57,7 @@ export const MoonScene = ({journeyRef}: {journeyRef?: JourneyProgressRef}) => {
     }
     if (groupRef.current && journeyRef) {
       const target = sampleStops(MOON_VISUAL_SCALE, journeyRef.current)
-      const next = damp(groupRef.current.scale.x, target, 5, delta)
+      const next = damp(groupRef.current.scale.x, target, JOURNEY_FOLLOW, delta)
       groupRef.current.scale.setScalar(next)
     }
   })
@@ -87,14 +86,11 @@ export const MoonScene = ({journeyRef}: {journeyRef?: JourneyProgressRef}) => {
 
 const MOON_CAM_Z: JourneyStop[] = [
   [0, 5],
-  [0.22, 5],
-  [0.62, 3.35],
-  [1, 4.4],
+  [1, 5],
 ]
 const MOON_CAM_Y: JourneyStop[] = [
   [0, -0.5],
-  [0.62, -0.12],
-  [1, 0.08],
+  [1, -0.5],
 ]
 
 const MoonJourneyRig: FC<{journeyRef: JourneyProgressRef}> = ({journeyRef}) => {
@@ -102,8 +98,8 @@ const MoonJourneyRig: FC<{journeyRef: JourneyProgressRef}> = ({journeyRef}) => {
 
   useFrame((_, delta) => {
     const t = journeyRef.current
-    camera.position.z = damp(camera.position.z, sampleStops(MOON_CAM_Z, t), 5, delta)
-    camera.position.y = damp(camera.position.y, sampleStops(MOON_CAM_Y, t), 5, delta)
+    camera.position.z = damp(camera.position.z, sampleStops(MOON_CAM_Z, t), JOURNEY_FOLLOW, delta)
+    camera.position.y = damp(camera.position.y, sampleStops(MOON_CAM_Y, t), JOURNEY_FOLLOW, delta)
     camera.lookAt(0, 0, 0)
   })
 
@@ -129,7 +125,8 @@ export const Moon = ({journeyRef}: {journeyRef?: JourneyProgressRef}) => {
           gl.outputColorSpace = THREE.SRGBColorSpace
           gl.toneMapping = THREE.ACESFilmicToneMapping
           gl.toneMappingExposure = 1.18
-        }}>
+        }}
+      >
         <PerspectiveCamera makeDefault position={[0, -0.5, 5]} fov={42} near={0.1} far={100} />
         <Suspense fallback={null}>
           <MoonScene journeyRef={journeyRef} />

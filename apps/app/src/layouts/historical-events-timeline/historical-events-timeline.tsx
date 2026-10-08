@@ -21,6 +21,12 @@ const EventsGlobe = dynamic(() => import('./events-globe').then(mod => ({ defaul
   loading: () => <div className="flex items-center justify-center h-full w-full text-white">Loading Globe...</div>
 })
 
+const eventYear = (date: unknown) => {
+  if (date instanceof Date && !Number.isNaN(date.getTime())) return String(date.getUTCFullYear())
+  if (typeof date === 'string') return date.slice(0, 4)
+  return ''
+}
+
 export const HistoricalEventsTimeline = ({events}: {events: JSONData<EventsRecord>[]}) => {
   const years: any = extractUniqueYearsFromEvents(events)
   const locations = extractCoordinatesFromEvents(events, false)
@@ -38,8 +44,7 @@ export const HistoricalEventsTimeline = ({events}: {events: JSONData<EventsRecor
   const eventsByYear = useMemo(() => {
     const result: any = {}
     for (const year of years) {
-      // @ts-ignore
-      result[year] = events.filter((event) => event.date.includes(year))
+      result[year] = events.filter((event) => eventYear(event.date) === String(year))
     }
     return result
   }, [events, years])
