@@ -1,2 +1,1 @@
-export { Prometheus } from './Prometheus'
-
+export {Prometheus} from './Prometheus'
