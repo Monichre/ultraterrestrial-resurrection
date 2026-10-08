@@ -13,6 +13,7 @@ import {
   consumeConfirmToken,
 } from '../write-policy'
 import { appendAudit } from '../audit'
+import { runQualityCheck } from '../quality'
 
 export const ENTITY_TABLES = [
   'topics',
@@ -121,6 +122,31 @@ export async function runSearch( query: string, table?: string, limit = 20 ) {
     table: table ? resolveTable( table ) : undefined,
     limit,
   } )
+}
+
+/** Compact quality report for the assistant: rules + worst offenders. */
+export async function qualityReport( table = 'key_figures' ) {
+  const report = await runQualityCheck( table )
+  return {
+    table: report.table,
+    runAt: report.runAt,
+    total: report.total,
+    tiers: report.tiers,
+    rules: report.rules.map( ( r ) => ( {
+      id: r.id,
+      severity: r.severity,
+      count: r.count,
+      label: r.label,
+      fix: r.fix,
+    } ) ),
+    worstOffenders: report.queue.slice( 0, 20 ).map( ( q ) => ( {
+      id: q.id,
+      label: q.label,
+      tier: q.tier,
+      issues: q.issues,
+    } ) ),
+    queueSize: report.queue.length,
+  }
 }
 
 export async function runAggregate() {

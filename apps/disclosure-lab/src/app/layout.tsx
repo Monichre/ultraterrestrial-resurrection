@@ -10,6 +10,7 @@ const NAV = [
   { href: '/sql', label: 'SQL' },
   { href: '/charts', label: 'Charts' },
   { href: '/search', label: 'Search' },
+  { href: '/quality', label: 'Quality' },
   { href: '/audit', label: 'Audit' },
 ]
 

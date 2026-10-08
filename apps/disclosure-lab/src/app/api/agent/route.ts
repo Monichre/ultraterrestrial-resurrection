@@ -6,6 +6,7 @@ import {
   getRecord,
   listRecords,
   listTables,
+  qualityReport,
   runAggregate,
   runSearch,
   runSqlRead,
@@ -86,6 +87,12 @@ Be concise and factual. Prefer tool results over speculation.`,
         description: 'Table counts, embedding coverage, events-by-year',
         inputSchema: z.object({}),
         execute: async () => runAggregate(),
+      }),
+      qualityReport: tool({
+        description:
+          'Deterministic record-quality check for a table (currently key_figures): per-rule issue counts, tier breakdown, worst-offender enrichment queue. Read-only.',
+        inputSchema: z.object({ table: z.string().optional() }),
+        execute: async ({ table }) => qualityReport(table ?? 'key_figures'),
       }),
       searchKnowledgeBase: tool({
         description: 'Search the local knowledge-base archive (titles, tags, paths). Disk corpus, not Neon.',
