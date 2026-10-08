@@ -112,3 +112,19 @@ plugins/impeccable-live.client.ts
 app/plugins/impeccable-live.client.ts
 src/plugins/impeccable-live.client.ts
 # impeccable-live-ignore-end
+
+# Local agent tool configs — per-machine, not repo content
+.agents/
+.claude/
+.commandcode/
+.devin/
+.goose/
+.grok/
+.hermes/
+.inferencesh/
+.ona/
+.openhands/
+.pi/
+.reasonix/
+.zcode/
+/skills/
