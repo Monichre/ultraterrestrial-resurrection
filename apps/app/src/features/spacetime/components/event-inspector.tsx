@@ -2,6 +2,7 @@
 
 import {useEffect} from 'react'
 import {MapPin, X} from 'lucide-react'
+import {useEventConnections} from '../hooks/use-event-connections'
 import {filterSpacetimeEvents} from '../lib/filter-events'
 import {STC_EPISTEMIC_COLOR} from '../lib/spacetime-theme'
 import {useSpacetimeStore} from '../state/spacetime-store'
@@ -48,6 +49,7 @@ export function EventInspector() {
   const selectEvent = useSpacetimeStore((s) => s.selectEvent)
 
   const event = events.find((e) => e.id === selectedEventId)
+  const connections = useEventConnections(event)
   const stillVisible =
     event != null && filterSpacetimeEvents([event], layers, filters).length > 0
 
@@ -153,6 +155,44 @@ export function EventInspector() {
             <div className='mt-1.5 text-[12px] leading-relaxed text-[#c3d3d8]'>
               {event.summary}
             </div>
+          </div>
+        ) : null}
+
+        {connections.length > 0 ? (
+          <div className='mt-3.5'>
+            <div className='font-mono text-[8px] tracking-[0.24em] text-[#7d8f95] uppercase'>
+              Connected records · shared experts
+            </div>
+            <ul className='mt-1.5 space-y-1.5'>
+              {connections.map((connection) => {
+                const target = events.find((e) => e.id === connection.eventId)
+                const onCanvas =
+                  target != null && filterSpacetimeEvents([target], layers, filters).length > 0
+                return (
+                  <li key={connection.eventId}>
+                    <button
+                      type='button'
+                      disabled={!onCanvas}
+                      onClick={() => selectEvent(connection.eventId)}
+                      title={onCanvas ? 'Open this record' : 'Not on the canvas with the current filters'}
+                      className='w-full rounded-md border border-[rgba(125,190,210,0.14)] px-2 py-1.5 text-left transition-colors hover:border-[rgba(79,216,232,0.45)] disabled:cursor-default disabled:opacity-50 disabled:hover:border-[rgba(125,190,210,0.14)]'
+                    >
+                      <div className='text-[11px] leading-snug text-[#dbe7ea]'>
+                        {target?.title ?? 'Record not loaded'}
+                        {target ? (
+                          <span className='ml-1.5 font-mono text-[9px] text-[#707f86]'>
+                            {target.timestamp.slice(0, 4)}
+                          </span>
+                        ) : null}
+                      </div>
+                      <div className='mt-0.5 text-[9px] leading-tight text-[#7d8f95]'>
+                        via {connection.sharedExperts.join(', ') || 'a shared expert'}
+                      </div>
+                    </button>
+                  </li>
+                )
+              })}
+            </ul>
           </div>
         ) : null}
       </div>

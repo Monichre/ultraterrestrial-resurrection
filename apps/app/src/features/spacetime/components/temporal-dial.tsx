@@ -1,8 +1,15 @@
 'use client'
 
-import {useMemo, useState} from 'react'
+import {useMemo, useRef, useState} from 'react'
+import type {PointerEvent as ReactPointerEvent} from 'react'
 import {cn} from '@/lib/utils'
 import {niceYearStep} from '../lib/temporal-stations'
+import {
+  cursorWindow,
+  fractionToYear,
+  isEventInWindow,
+  rangeCursorFromYears,
+} from '../lib/time-window'
 import {useSpacetimeStore} from '../state/spacetime-store'
 import {PlaybackTransport} from './playback-transport'
 import type {TemporalStation} from '../types/spacetime'
@@ -26,6 +33,9 @@ import type {TemporalStation} from '../types/spacetime'
  *    click to widen the domain. The bracket states its own count, so nothing is
  *    hidden — it is scoped, and says so.
  */
+
+/** Minimum drag, in px, before a press on the axis counts as a range brush. */
+const MIN_BRUSH_PX = 6
 
 /** Fraction of records the default (dense) domain must contain. */
 const DENSE_COVERAGE = 0.92
@@ -87,6 +97,70 @@ export function TemporalDial({className}: {className?: string}) {
 
   const hasData = events.length > 0
 
+  // ---- range brush ---------------------------------------------------------
+  // Drag across the axis (not on a chip) to select whole years. The result is
+  // the store's existing `range` cursor; the globe dims records outside it.
+  const axisRef = useRef<HTMLDivElement>(null)
+  const [drag, setDrag] = useState<{from: number; to: number} | null>(null)
+
+  const inRangeCount = useMemo(() => {
+    const timeWindow = cursorWindow(cursor)
+    return timeWindow ? events.filter((e) => isEventInWindow(e, timeWindow)).length : 0
+  }, [events, cursor])
+
+  const axisFraction = (clientX: number): number => {
+    const rect = axisRef.current?.getBoundingClientRect()
+    if (!rect || rect.width === 0) return 0
+    return Math.min(1, Math.max(0, (clientX - rect.left) / rect.width))
+  }
+
+  const onAxisPointerDown = (e: ReactPointerEvent<HTMLDivElement>) => {
+    if (e.button !== 0 || !hasData) return
+    // Chips stay clickable: a press that starts on one is a station selection.
+    if ((e.target as HTMLElement).closest('button')) return
+    e.currentTarget.setPointerCapture(e.pointerId)
+    const f = axisFraction(e.clientX)
+    setDrag({from: f, to: f})
+  }
+
+  const onAxisPointerMove = (e: ReactPointerEvent<HTMLDivElement>) => {
+    if (!drag) return
+    setDrag({from: drag.from, to: axisFraction(e.clientX)})
+  }
+
+  const onAxisPointerUp = (e: ReactPointerEvent<HTMLDivElement>) => {
+    if (!drag) return
+    const width = axisRef.current?.getBoundingClientRect().width ?? 0
+    const to = axisFraction(e.clientX)
+    setDrag(null)
+    if (Math.abs(to - drag.from) * width < MIN_BRUSH_PX) return
+
+    setInteractionMode('free')
+    setTemporalCursor(
+      rangeCursorFromYears(fractionToYear(drag.from, domain), fractionToYear(to, domain)),
+    )
+    // The globe only frames a time window when nothing is selected; a brush is
+    // a request to look at the window, so it releases the selection.
+    selectEvent(null)
+  }
+
+  const clearRange = () => {
+    if (cursor.mode !== 'range') return
+    setTemporalCursor({mode: 'exact', timestamp: cursor.start, precision: 'year'})
+  }
+
+  // Brush overlay: the live drag, else the committed range clamped to the domain.
+  const brush = (() => {
+    if (drag) {
+      return {left: Math.min(drag.from, drag.to), right: Math.max(drag.from, drag.to)}
+    }
+    if (cursor.mode !== 'range') return null
+    const lo = (yearOf(cursor.start) - domain.start) / domain.span
+    const hi = (yearOf(cursor.end) + 1 - domain.start) / domain.span
+    if (hi < 0 || lo > 1) return null
+    return {left: Math.max(0, lo), right: Math.min(1, hi)}
+  })()
+
   return (
     <section
       aria-label='Adaptive temporal dial'
@@ -112,13 +186,28 @@ export function TemporalDial({className}: {className?: string}) {
           </button>
         ) : null}
 
+        {cursor.mode === 'range' ? (
+          <button
+            type='button'
+            onClick={clearRange}
+            title='Clear the selected range of years'
+            className='rounded-md border border-[rgba(79,216,232,0.4)] bg-[rgba(79,216,232,0.1)] px-2 py-1 font-mono text-[8px] tracking-[0.16em] text-[#4fd8e8] uppercase transition-colors hover:bg-[rgba(79,216,232,0.2)]'
+          >
+            {inRangeCount} in range · Clear ✕
+          </button>
+        ) : hasData ? (
+          <span className='font-mono text-[8px] tracking-[0.16em] text-[#566369] uppercase'>
+            Drag the axis to select years
+          </span>
+        ) : null}
+
         <div className='ml-auto flex items-baseline gap-2'>
           <span className='font-mono text-[8px] tracking-[0.22em] text-[#707f86] uppercase'>
             Cursor
           </span>
           <span className='font-mono text-[12px] tracking-wide text-[#4fd8e8]'>
             {cursor.mode === 'range'
-              ? `${cursor.start.slice(0, 10)} → ${cursor.end.slice(0, 10)}`
+              ? `${yearOf(cursor.start)} → ${yearOf(cursor.end)}`
               : cursor.timestamp.slice(0, 10)}
           </span>
         </div>
@@ -151,7 +240,24 @@ export function TemporalDial({className}: {className?: string}) {
       </div>
 
       {/* ---- axis ------------------------------------------------------- */}
-      <div className='relative mt-3 h-[76px]'>
+      <div
+        ref={axisRef}
+        onPointerDown={onAxisPointerDown}
+        onPointerMove={onAxisPointerMove}
+        onPointerUp={onAxisPointerUp}
+        onPointerCancel={() => setDrag(null)}
+        className={cn('relative mt-3 h-[76px] touch-none select-none', hasData && 'cursor-crosshair')}
+      >
+        {/* range brush — live drag or committed range */}
+        {brush ? (
+          <span
+            aria-hidden
+            data-testid='temporal-dial-brush'
+            className='pointer-events-none absolute top-0 bottom-[16px] border-x border-[rgba(79,216,232,0.7)] bg-[rgba(79,216,232,0.1)]'
+            style={{left: `${brush.left * 100}%`, width: `${(brush.right - brush.left) * 100}%`}}
+          />
+        ) : null}
+
         {/* chips */}
         {chips.map((chip) => {
           const active = chip.station.id === activeStationId
@@ -221,7 +327,8 @@ export function TemporalDial({className}: {className?: string}) {
         ))}
 
         {/* live cursor position on the axis */}
-        {Number.isFinite(cursorYear) &&
+        {cursor.mode !== 'range' &&
+        Number.isFinite(cursorYear) &&
         cursorYear >= domain.start &&
         cursorYear <= domain.end ? (
           <span

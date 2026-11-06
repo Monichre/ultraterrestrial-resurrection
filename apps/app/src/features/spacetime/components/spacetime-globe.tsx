@@ -4,7 +4,11 @@ import {useEffect, useMemo, useRef} from 'react'
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import {filterSpacetimeEvents} from '../lib/filter-events'
+import {greatCircle} from '../lib/great-circle'
 import {registerSpacetimeMap} from '../lib/map-controller'
+import {cursorWindow, isEventInWindow, type TimeWindow} from '../lib/time-window'
+import {useEventConnections} from '../hooks/use-event-connections'
+import type {EventConnection} from '../actions/load-event-connections'
 import {STC_EPISTEMIC_COLOR} from '../lib/spacetime-theme'
 import {useSpacetimeStore} from '../state/spacetime-store'
 import type {SpacetimeEvent, TemporalStation, TimePrecision} from '../types/spacetime'
@@ -12,6 +16,10 @@ import type {SpacetimeEvent, TemporalStation, TimePrecision} from '../types/spac
 const SOURCE_ID = 'spacetime-events'
 const HALO_LAYER_ID = 'spacetime-events-halo'
 const CORE_LAYER_ID = 'spacetime-events-core'
+const ARC_SOURCE_ID = 'spacetime-connections'
+const ARC_LAYER_ID = 'spacetime-connections-line'
+
+const EMPTY_FC: GeoJSON.FeatureCollection = {type: 'FeatureCollection', features: []}
 
 /**
  * How blurred a pin's halo is, by how precisely the record is dated.
@@ -32,7 +40,10 @@ const PRECISION_BLUR: Record<TimePrecision, number> = {
   year: 1.4,
 }
 
-function eventsToGeoJSON(events: SpacetimeEvent[]): GeoJSON.FeatureCollection {
+function eventsToGeoJSON(
+  events: SpacetimeEvent[],
+  timeWindow: TimeWindow | null,
+): GeoJSON.FeatureCollection {
   return {
     type: 'FeatureCollection',
     features: events
@@ -49,6 +60,9 @@ function eventsToGeoJSON(events: SpacetimeEvent[]): GeoJSON.FeatureCollection {
           timestamp: e.timestamp,
           epistemic: e.epistemicStatus ?? 'inferred',
           blur: PRECISION_BLUR[e.timePrecision] ?? 1,
+          // Outside a brushed range the pin dims rather than vanishes, so the
+          // window reads against the rest of the corpus instead of replacing it.
+          inRange: isEventInWindow(e, timeWindow),
         },
       })),
   }
@@ -78,10 +92,19 @@ export function SpacetimeGlobe() {
     () => filterSpacetimeEvents(events, layers, filters),
     [events, layers, filters],
   )
-  const geojson = useMemo(() => eventsToGeoJSON(visibleEvents), [visibleEvents])
+  const timeWindow = useMemo(() => cursorWindow(cursor), [cursor])
+  const geojson = useMemo(
+    () => eventsToGeoJSON(visibleEvents, timeWindow),
+    [visibleEvents, timeWindow],
+  )
   const selectedEvent = useMemo(
     () => visibleEvents.find((e) => e.id === selectedEventId && e.coordinates) ?? null,
     [visibleEvents, selectedEventId],
+  )
+  const connections = useEventConnections(selectedEvent)
+  const arcs = useMemo(
+    () => connectionsToGeoJSON(selectedEvent, connections, visibleEvents),
+    [selectedEvent, connections, visibleEvents],
   )
 
   // Boot map once
@@ -123,6 +146,21 @@ export function SpacetimeGlobe() {
       })
       map.setTerrain({source: 'mapbox-dem', exaggeration: 1.4})
 
+      // Connection arcs sit under the pins so a pin is never hidden by a line.
+      map.addSource(ARC_SOURCE_ID, {type: 'geojson', data: EMPTY_FC})
+      map.addLayer({
+        id: ARC_LAYER_ID,
+        type: 'line',
+        source: ARC_SOURCE_ID,
+        layout: {'line-cap': 'round', 'line-join': 'round'},
+        paint: {
+          'line-color': '#4fd8e8',
+          'line-width': ['interpolate', ['linear'], ['zoom'], 1, 1, 6, 1.8],
+          'line-opacity': 0.55,
+          'line-dasharray': [2, 1.5],
+        },
+      })
+
       map.addSource(SOURCE_ID, {type: 'geojson', data: geojson})
 
       // Soft halo — carries the precision signal (see PRECISION_BLUR).
@@ -134,7 +172,7 @@ export function SpacetimeGlobe() {
           'circle-radius': ['interpolate', ['linear'], ['zoom'], 1, 7, 6, 14, 12, 22],
           'circle-color': epistemicColorExpression(),
           'circle-blur': ['get', 'blur'],
-          'circle-opacity': 0.4,
+          'circle-opacity': ['case', ['get', 'inRange'], 0.4, 0.06],
         },
       })
 
@@ -146,9 +184,10 @@ export function SpacetimeGlobe() {
         paint: {
           'circle-radius': ['interpolate', ['linear'], ['zoom'], 1, 2.6, 6, 4.5, 12, 6],
           'circle-color': epistemicColorExpression(),
-          'circle-opacity': 0.95,
+          'circle-opacity': ['case', ['get', 'inRange'], 0.95, 0.18],
           'circle-stroke-width': 1,
           'circle-stroke-color': 'rgba(255,255,255,0.65)',
+          'circle-stroke-opacity': ['case', ['get', 'inRange'], 1, 0.15],
         },
       })
     })
@@ -211,6 +250,18 @@ export function SpacetimeGlobe() {
     if (map.isStyleLoaded()) apply()
     else map.once('load', apply)
   }, [geojson])
+
+  // Sync connection arcs for the selected event.
+  useEffect(() => {
+    const map = mapRef.current
+    if (!map) return
+    const apply = () => {
+      const source = map.getSource(ARC_SOURCE_ID) as mapboxgl.GeoJSONSource | undefined
+      source?.setData(arcs)
+    }
+    if (map.isStyleLoaded()) apply()
+    else map.once('load', apply)
+  }, [arcs])
 
   /**
    * Selecting an event commits the camera to a pitched, on-terrain view of
@@ -290,7 +341,44 @@ export function SpacetimeGlobe() {
       return
     }
 
-    // Exact / range cursor: no named records, so fall back to the temporal
+    // Range cursor: frame every geolocated record the window keeps.
+    if (timeWindow) {
+      const inWindow = visibleEvents.filter(
+        (e) => e.coordinates && isEventInWindow(e, timeWindow),
+      )
+      if (inWindow.length === 0) return
+      const bounds = new mapboxgl.LngLatBounds()
+      for (const e of inWindow) {
+        bounds.extend([e.coordinates!.longitude, e.coordinates!.latitude])
+      }
+      // A window scattered across hemispheres cannot be framed on a globe:
+      // fitBounds shrinks the planet to a marble centred on the bounds'
+      // midpoint (the Mediterranean, for a US-plus-Asia window). Hold the
+      // whole-earth opening view and turn it toward the median record instead.
+      if (bounds.getEast() - bounds.getWest() > 150) {
+        map.flyTo({
+          center: [
+            median(inWindow.map((e) => e.coordinates!.longitude)),
+            median(inWindow.map((e) => e.coordinates!.latitude)),
+          ],
+          zoom: 1.7,
+          pitch: 0,
+          duration: 1600,
+          essential: true,
+        })
+        return
+      }
+      map.fitBounds(bounds, {
+        padding: {top: 120, bottom: 140, left: 380, right: 340},
+        maxZoom: 5,
+        duration: 1600,
+        pitch: 0,
+        essential: true,
+      })
+      return
+    }
+
+    // Exact cursor: no named records, so fall back to the temporal
     // neighbourhood — but frame its extent rather than its average.
     const ts =
       cursor.mode === 'range'
@@ -320,7 +408,7 @@ export function SpacetimeGlobe() {
       pitch: 30,
       essential: true,
     })
-  }, [cursor, visibleEvents, selectedEvent, stations])
+  }, [cursor, timeWindow, visibleEvents, selectedEvent, stations])
 
   if (!process.env.NEXT_PUBLIC_MAPBOX_PUBLIC_TOKEN) {
     return (
@@ -355,6 +443,41 @@ export function SpacetimeGlobe() {
       <div ref={containerRef} className='stc-globe absolute inset-0 z-0 h-full w-full' />
     </>
   )
+}
+
+/**
+ * Great-circle arcs from the selected event to each documented connection that
+ * is currently on the globe. Connections to filtered-out or un-geocoded records
+ * are skipped — an arc to nowhere would assert a place the record lacks.
+ */
+function connectionsToGeoJSON(
+  selected: SpacetimeEvent | null,
+  connections: EventConnection[],
+  visible: SpacetimeEvent[],
+): GeoJSON.FeatureCollection {
+  if (!selected?.coordinates || connections.length === 0) return EMPTY_FC
+  const byId = new Map(visible.map((e) => [e.id, e]))
+  const from: [number, number] = [selected.coordinates.longitude, selected.coordinates.latitude]
+  const features: GeoJSON.Feature[] = []
+  for (const connection of connections) {
+    const target = byId.get(connection.eventId)
+    if (!target?.coordinates) continue
+    features.push({
+      type: 'Feature',
+      geometry: {
+        type: 'LineString',
+        coordinates: greatCircle(from, [target.coordinates.longitude, target.coordinates.latitude]),
+      },
+      properties: {id: target.id, experts: connection.sharedExperts.join(', ')},
+    })
+  }
+  return {type: 'FeatureCollection', features}
+}
+
+function median(values: number[]): number {
+  const sorted = [...values].sort((a, b) => a - b)
+  const mid = Math.floor(sorted.length / 2)
+  return sorted.length % 2 ? sorted[mid]! : (sorted[mid - 1]! + sorted[mid]!) / 2
 }
 
 /** The event ids a station names, or an empty set if it names none. */
