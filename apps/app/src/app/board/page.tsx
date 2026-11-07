@@ -2,8 +2,18 @@
 
 import '@/features/mindmap/research-canvas/canvas-animations.css'
 
-import {useState} from 'react'
+import {useMemo, useState} from 'react'
+import {AgentFacepile, TicketActivityRow} from './activity/board-activity'
+import {latestSessionByTicket} from './activity/parse'
+import type {SessionActivity} from './activity/types'
+import {useBoardActivity} from './activity/use-board-activity'
 import {GLOSSARY, LAST_SYNCED, TICKETING_SYSTEM, TICKETS, type Status, type Ticket} from './data'
+
+interface CardActivity {
+  session: SessionActivity | null
+  loading: boolean
+  now: number
+}
 
 const STATUS_ORDER: {status: Status; label: string; accent: string}[] = [
   {status: 'blocked', label: 'Blocked', accent: 'var(--ut-stamp)'},
@@ -27,7 +37,7 @@ function LaneTag({lane}: {lane: Ticket['lane']}) {
   )
 }
 
-function TicketCard({t}: {t: Ticket}) {
+function TicketCard({t, activity}: {t: Ticket; activity?: CardActivity}) {
   return (
     <div
       className='flex flex-col gap-1 border-b px-3 py-2.5 last:border-b-0'
@@ -47,6 +57,7 @@ function TicketCard({t}: {t: Ticket}) {
           {t.note}
         </p>
       )}
+      {activity && <TicketActivityRow session={activity.session} loading={activity.loading} now={activity.now} />}
     </div>
   )
 }
@@ -151,13 +162,23 @@ function RoadmapStrip({title, steps, current}: {title: string; steps: string[]; 
 export default function BoardPage() {
   const done = TICKETS.filter((t) => t.status === 'done')
   const [showDone, setShowDone] = useState(false)
+  const activity = useBoardActivity()
+  const snapshot = activity.status === 'ready' ? activity.snapshot : activity.status === 'error' ? activity.last : undefined
+  const sessions = useMemo(() => snapshot?.sessions ?? [], [snapshot])
+  const byTicket = useMemo(() => latestSessionByTicket(sessions), [sessions])
+  const now = snapshot ? Date.parse(snapshot.generatedAt) : 0
+  const cardActivity = (id: string): CardActivity => ({
+    session: byTicket.get(id) ?? null,
+    loading: activity.status === 'loading',
+    now,
+  })
 
   return (
     <div className='dark flex h-screen' style={{background: 'var(--ut-void)', color: 'var(--ut-paper)'}}>
       <GlossaryRail />
 
       <main className='flex flex-1 flex-col overflow-hidden'>
-        <header className='flex items-start justify-between border-b px-6 py-5' style={{borderColor: 'var(--ut-line)'}}>
+        <header className='flex flex-wrap items-start justify-between gap-4 border-b px-6 py-5' style={{borderColor: 'var(--ut-line)'}}>
           <div>
             <p className='ut-mono text-[9px] tracking-[0.14em] uppercase' style={{color: 'var(--ut-ink-faint)'}}>
               Ultraterrestrial · shared reference · not the source of truth
@@ -166,11 +187,18 @@ export default function BoardPage() {
               Board
             </h1>
           </div>
-          <div className='flex flex-col items-end gap-2'>
+          <div className='flex max-w-full min-w-0 flex-col items-end gap-2'>
             <span className='ut-mono text-[9px]' style={{color: 'var(--ut-ink-faint)'}}>
               synced {LAST_SYNCED} · regenerated from docs/plans/TODO.md
             </span>
-            <div className='flex gap-4'>
+            <AgentFacepile
+              sessions={sessions}
+              loading={activity.status === 'loading'}
+              unavailable={activity.status === 'unavailable'}
+              error={activity.status === 'error' ? activity.message : undefined}
+              now={now}
+            />
+            <div className='flex flex-wrap justify-end gap-4'>
               <RoadmapStrip title='Lane A · T-048' steps={['H0', 'H0.5', 'H1', 'H2', 'H3', 'H4', 'H5']} current='H0' />
               <RoadmapStrip title='Lane B · T-047' steps={['M0', 'M1', 'M2', 'M3', 'M4']} current='M0' />
             </div>
@@ -200,7 +228,7 @@ export default function BoardPage() {
                 </div>
                 <div className='flex flex-1 flex-col overflow-y-auto'>
                   {items.map((t) => (
-                    <TicketCard key={t.id} t={t} />
+                    <TicketCard key={t.id} t={t} activity={cardActivity(t.id)} />
                   ))}
                 </div>
               </div>
@@ -227,7 +255,7 @@ export default function BoardPage() {
             {showDone && (
               <div className='flex flex-1 flex-col overflow-y-auto'>
                 {done.map((t) => (
-                  <TicketCard key={t.id} t={t} />
+                  <TicketCard key={t.id} t={t} activity={cardActivity(t.id)} />
                 ))}
               </div>
             )}
