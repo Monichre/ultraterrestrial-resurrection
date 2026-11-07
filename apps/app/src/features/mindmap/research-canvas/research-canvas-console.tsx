@@ -99,7 +99,7 @@ export default function ResearchCanvasConsole({
     handleUnpin,
     handleMessageClick,
     handleInputChangeWrapper,
-  } = useTyper({input, handleInputChange, onSubmit: handleSubmit})
+  } = useTyper({input, handleInputChange, onSubmit: handleFollowUp})
 
   const handleUnpinAndReset = useCallback(() => {
     handleUnpin()
