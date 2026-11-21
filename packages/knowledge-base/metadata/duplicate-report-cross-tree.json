@@ -1,0 +1,170 @@
+{
+ "note": "Files whose bytes exist in BOTH corpus/intake/ (raw dump) and packages/knowledge-base/sources/files/ (curated archive). The intake copy is redundant \u2014 the curated copy is canonical and is what resolve/dedupe points at. Deleting the intake copy reclaims disk with no loss. REPORT ONLY: nothing has been deleted.",
+ "generated": "2026-08-17",
+ "count": 27,
+ "reclaimable_bytes": 202656701,
+ "entries": [
+  {
+   "sha256": "f166e28d401ca39ab4b6bc9be86f222d43df6ebd5d1450bce600f28cb8592071",
+   "curated": "sources/files/dod-aaro/don-navy-2020-012170-naval-safety-center-foia.pdf",
+   "intake": "apps/disclosure-rag/corpus/intake/UFO Files/DON-NAVY-2020-012170.pdf",
+   "bytes": 38519834
+  },
+  {
+   "sha256": "c830624e51fae1f820f46bc83f55686d4d1debe4ba79fc3b39d074a1719e293a",
+   "curated": "sources/files/majestic-12/wood-2000-validating-the-new-majestic-documents-mufon.pdf",
+   "intake": "apps/disclosure-rag/corpus/intake/UFO Files/rmwood_mufon2000.pdf",
+   "bytes": 31694907
+  },
+  {
+   "sha256": "ad57843eeeacbbac35a92d7fcbfd975e9142a436731372459cdd6865563f2aac",
+   "curated": "sources/files/research-papers/project-blue-book-special-report-14-1955.pdf",
+   "intake": "apps/disclosure-rag/corpus/intake/UFO Files/Project Bluebook Special Report 1955.pdf",
+   "bytes": 26147171
+  },
+  {
+   "sha256": "423b23b3741786f13d58b5dbd2c23eb0f6081fc406fc35482c621baef44b50aa",
+   "curated": "sources/files/fbi-vault/fbi-ufo-part-13-of-16.pdf",
+   "intake": "apps/disclosure-rag/corpus/intake/UFO Files/ufo13.pdf",
+   "bytes": 15997286
+  },
+  {
+   "sha256": "767839d8ea9b338d6b525e3fbf7bfca8b004ec2d3b8edca3fba937216475fdb8",
+   "curated": "sources/files/fbi-vault/fbi-ufo-part-06-of-16.pdf",
+   "intake": "apps/disclosure-rag/corpus/intake/UFO Files/ufo6.pdf",
+   "bytes": 14908941
+  },
+  {
+   "sha256": "e24a99efc7719ce63bef015b75413e02beed234aced91b450d84f70b11db06fe",
+   "curated": "sources/files/fbi-vault/fbi-ufo-part-09-of-16.pdf",
+   "intake": "apps/disclosure-rag/corpus/intake/UFO Files/ufo9.pdf",
+   "bytes": 13313001
+  },
+  {
+   "sha256": "55e8f9c921b0cae441e1575ce170150e4cf95481c39f9cc12859a0389feac9bf",
+   "curated": "sources/files/congressional/2024-11-13-written-testimony-shellenberger.pdf",
+   "intake": "apps/disclosure-rag/corpus/intake/UFO Files/Written-Testimony-Shellenberger.pdf",
+   "bytes": 8859902
+  },
+  {
+   "sha256": "aee5962f099988c83abd353b76b612cff6c434b0140baf3148d74307efefdfa2",
+   "curated": "sources/files/cia-crest/cia-rdp96-00789r002100220001-4.pdf",
+   "intake": "apps/disclosure-rag/corpus/intake/UFO Files/CIA-RDP96-00789R002100220001-4.pdf",
+   "bytes": 7928469
+  },
+  {
+   "sha256": "9a3db3235a87e685beaa3157957308074b7bfca707f92742f177cdf7b68e2c5d",
+   "curated": "sources/files/fbi-vault/fbi-ufo-part-03-of-16.pdf",
+   "intake": "apps/disclosure-rag/corpus/intake/UFO Files/ufo3.pdf",
+   "bytes": 7586395
+  },
+  {
+   "sha256": "d46d8d32e344062ab4f5c0b2459973bab6e9aff40ea539b4efde0eaa8540af25",
+   "curated": "sources/files/fbi-vault/fbi-ufo-part-05-of-16.pdf",
+   "intake": "apps/disclosure-rag/corpus/intake/UFO Files/ufo5.pdf",
+   "bytes": 7018877
+  },
+  {
+   "sha256": "a6d4e24e5a3abb3b1729886a2f482d88f4cb410bc927b49d5665a4d24530aa42",
+   "curated": "sources/files/cia-crest/cia-rdp96-00792r000300330001-8.pdf",
+   "intake": "apps/disclosure-rag/corpus/intake/UFO Files/CIA-RDP96-00792R000300330001-8.pdf",
+   "bytes": 5795226
+  },
+  {
+   "sha256": "2a15fe7bcd847ad8aef70ca484d15bd86314c2aec088f98a4e7333a6ddd0b1f5",
+   "curated": "sources/files/secondary-reporting/livescience-24-declassified-military-cia-secrets.pdf",
+   "intake": "apps/disclosure-rag/corpus/intake/UFO Files/livescience.com-Flying saucers to mind control 24 declassified military  CIA secrets.pdf",
+   "bytes": 5454910
+  },
+  {
+   "sha256": "17f381a61257ecbc0cf6b219af6068ba21369a52dc24cf762a9ebc6c667a5629",
+   "curated": "sources/files/secondary-reporting/jre-1510-george-knapp-transcript.pdf",
+   "intake": "apps/disclosure-rag/corpus/intake/UFO Files/Transcript of #1510 - George Knapp & ... _ Happy Scribe.pdf",
+   "bytes": 4282345
+  },
+  {
+   "sha256": "26c6c36ad298d34ec48d4a078c333886fbc8d452cfa302c0c969a10d668b3daa",
+   "curated": "sources/files/research-papers/uap-activity-pattern-study-1945-1975.pdf",
+   "intake": "apps/disclosure-rag/corpus/intake/UFO Files/UAP Activity Pattern Study 1945-1975 Military and Public Activities.pdf",
+   "bytes": 3606575
+  },
+  {
+   "sha256": "7c8e9a90c83afca502c03fb37617f94bfa11edaedbf8111bcbf10256062b73fa",
+   "curated": "sources/files/research-papers/uap-origin-theories-diagram.pdf",
+   "intake": "apps/disclosure-rag/corpus/intake/UFO Files/uap-origin-theories-diagram.pdf",
+   "bytes": 3047916
+  },
+  {
+   "sha256": "1f93ebad3e78604c1d7afb67b99050af7e2a0df488e93ffcf9f8b7c54062e3e2",
+   "curated": "sources/files/cia-crest/cia-rdp96-00788r001700210016-5.pdf",
+   "intake": "apps/disclosure-rag/corpus/intake/UFO Files/CIA-RDP96-00788R001700210016-5.pdf",
+   "bytes": 1892460
+  },
+  {
+   "sha256": "0462060470bea22687bb76f92aac3e367e382fe5e5dc8d023a0a313f195df9aa",
+   "curated": "sources/files/cia-crest/cia-rdp96-00789r002200070001-0.pdf",
+   "intake": "apps/disclosure-rag/corpus/intake/UFO Files/CIA-RDP96-00789R002200070001-0.pdf",
+   "bytes": 1891702
+  },
+  {
+   "sha256": "2ca3e351ef097c832a62c7c21dbeb0480c0cf5342dd71d99d133e6fe5ed537e0",
+   "curated": "sources/files/cia-crest/cia-rdp96-00788r001800230001-8.pdf",
+   "intake": "apps/disclosure-rag/corpus/intake/UFO Files/CIA-RDP96-00788R001800230001-8 (1).pdf",
+   "bytes": 1730775
+  },
+  {
+   "sha256": "8c23519c62a5717427c2d09d5ade165284421f2e5facad76a565a94774067868",
+   "curated": "sources/files/dod-aaro/2024-03-aaro-historical-record-report-vol-1.pdf",
+   "intake": "apps/disclosure-rag/corpus/intake/UFO Files/DOPSR-CLEARED-508-COMPLIANT.pdf",
+   "bytes": 726657
+  },
+  {
+   "sha256": "c8375ce649fab73173a03eeeb9caf02b1b00a8acff978592f51f4d2aae2b7234",
+   "curated": "sources/files/_superseded/eisenhower_briefing (1).pdf",
+   "intake": "apps/disclosure-rag/corpus/intake/UFO Files/eisenhower_briefing (1).pdf",
+   "bytes": 529915
+  },
+  {
+   "sha256": "43c1eb68f2beea4e18d2ae15e616b6d7eb14e20d765b3f79a85efd64df9d0d72",
+   "curated": "sources/files/cia-crest/cia-role-in-study-of-ufos-1947-1990.pdf",
+   "intake": "apps/disclosure-rag/corpus/intake/UFO Files/sgp.fas.org-CIAs Role in the Study of UFOs 1947-90.pdf",
+   "bytes": 440075
+  },
+  {
+   "sha256": "c4438251059881abe31b0c284a0d912ca253c6cebf358f666621b83e7d37fafe",
+   "curated": "sources/files/research-papers/ultraterrestrial-models.pdf",
+   "intake": "apps/disclosure-rag/corpus/intake/UFO Files/UltraterrestrialModels.pdf",
+   "bytes": 313886
+  },
+  {
+   "sha256": "8cf76fbbb166694c6da07dd14c758bae500b3cbe8201e1580ed6e80d997d0c9b",
+   "curated": "sources/files/research-papers/mars-exploration-1984.pdf",
+   "intake": "apps/disclosure-rag/corpus/intake/UFO Files/Mars Exploration 1984.pdf",
+   "bytes": 311311
+  },
+  {
+   "sha256": "85cef8ceccff25de7f1e13c59e3434f85e00cce386e05073db7926b6a0d5819f",
+   "curated": "sources/files/cia-crest/cia-rdp96-00788r001900760001-9.pdf",
+   "intake": "apps/disclosure-rag/corpus/intake/UFO Files/CIA-RDP96-00788R001900760001-9.pdf",
+   "bytes": 253019
+  },
+  {
+   "sha256": "6312efc8979f9b2e52b3f25d6555d100e2b28da5ed3e21a8b8093b568b62089f",
+   "curated": "sources/files/cia-crest/cia-rdp96-00789r003800200001-8.pdf",
+   "intake": "apps/disclosure-rag/corpus/intake/UFO Files/CIA-RDP96-00789R003800200001-8.pdf",
+   "bytes": 182230
+  },
+  {
+   "sha256": "e27169e8198c2a69e4a11612efef16891f33b86209a5d1721246fed69a6d8ec1",
+   "curated": "sources/files/congressional/2023-07-26-uap-congressional-hearing.pdf",
+   "intake": "apps/disclosure-rag/corpus/intake/UFO Files/HHRG-118-GO06-Transcript-20230726.pdf",
+   "bytes": 163999
+  },
+  {
+   "sha256": "3af49303bf8aae790d0b916979851e256dfaf9308d05c9a3e1f327176fabb12d",
+   "curated": "sources/files/fbi-vault/fbi-roswell-ufo-part-01-of-01.pdf",
+   "intake": "apps/disclosure-rag/corpus/intake/UFO Files/roswell.pdf",
+   "bytes": 58917
+  }
+ ]
+}

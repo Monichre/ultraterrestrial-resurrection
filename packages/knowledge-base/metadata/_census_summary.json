@@ -1,0 +1,11 @@
+{
+ "verdicts": {
+  "scan_no_text": 353,
+  "healthy": 10349,
+  "poor": 424,
+  "weak": 3241
+ },
+ "ocr_candidates": 777,
+ "ocr_bytes": 1122663990,
+ "ocr_pages": 3712
+}

@@ -1,0 +1,1270 @@
+'use client'
+
+import type {MindMapContextType} from '@/contexts/mindmap/mindmap.interface'
+import {useStateOfDisclosure} from '@/contexts/state-of-disclosure-provider'
+
+import {
+  BASE_ENTITY_NODE_HEIGHT,
+  BASE_ENTITY_NODE_WIDTH,
+  CHILD_DIMENSIONS,
+  GROUP_NODE_DIMENSIONS,
+  GROUP_NODE_LANDSCAPE,
+  PADDING,
+  ROOT_DIMENSIONS,
+  ROOT_NODE_HEIGHT,
+  ROOT_NODE_WIDTH,
+  entityGroupNodeBaseConfig,
+} from '@/features/mindmap/config/nodes.config'
+
+import type {MindMapState} from '@/features/mindmap/store'
+import {useMindMapStore} from '@/features/mindmap/store'
+import {useMindMapUiStore} from '@/features/mindmap/store/mindmap-ui-store'
+import {use3DGraph} from '@/hooks/use3dGraph'
+import {DOMAIN_MODEL_COLORS} from '@/utils'
+import {capitalize} from '@/utils/functions'
+import {
+  type Edge,
+  type Node,
+  type XYPosition,
+  useConnection,
+  useEdges,
+  useHandleConnections,
+  useNodes,
+  useNodesData,
+  useReactFlow,
+  useUpdateNodeInternals,
+} from '@xyflow/react'
+import type React from 'react'
+import {createContext, useCallback, useContext, useEffect, useState} from 'react'
+import {useShallow} from 'zustand/react/shallow'
+import {xataToXYFlow} from '@/features/mindmap/actions/xata-to-xyflow'
+import {organizeNodeLayout, LayoutOptions} from '@/features/mindmap/layouts/organizeNodeLayout'
+import {
+  createRootNodeChild,
+  createSiblingEdge,
+  createRootNodeEdge,
+  createRootNodeEdges,
+} from '@/features/mindmap/utils/node-factories'
+import {useGraphInit} from '@/features/mindmap/hooks/use-graph-init'
+// Removed direct Xata import to avoid browser API key exposure
+import type { DatabaseSchema } from '@db/postgres'
+import type {MindMapNode} from '@/features/mindmap/actions/get-entity-network-graph-data'
+
+export type RootNodeKey =
+  | 'events-root-node'
+  | 'personnel-root-node'
+  | 'testimonies-root-node'
+  | 'topics-root-node'
+  | 'organizations-root-node'
+  | 'documents-root-node'
+  | 'artifacts-root-node'
+  | 'case-files-root-node'
+
+// Type for positions
+type FlowPosition = {
+  x: number
+  y: number
+  zoom?: number
+  duration?: number
+}
+
+// Type for adding connection nodes from search
+type AddConnectionNodesFromSearchParams = {
+  source: {
+    id: string
+    position?: XYPosition
+    data?: Record<string, unknown>
+    type?: string
+  }
+  searchResults: Array<{
+    id?: string
+    type?: string
+    name?: string
+    label?: string
+    position?: XYPosition
+    data?: Record<string, unknown>
+  }>
+}
+// Create a selector for the store values we need
+const storeSelector = (store: MindMapState) => ({
+  nodes: store.nodes,
+  edges: store.edges,
+  addNodes: store.addNodes,
+  addEdges: store.addEdges,
+  onNodesChange: store.onNodesChange,
+  onEdgesChange: store.onEdgesChange,
+  onConnect: store.onConnect,
+  onNodesDelete: store.onNodesDelete,
+  setNodes: store.setNodes,
+  setEdges: store.setEdges,
+  addNode: store.addNode,
+  updateNodeData: store.updateNodeData,
+  deleteNode: store.deleteNode,
+  addEdge: store.addEdge,
+  updateEdgeData: store.updateEdgeData,
+})
+
+// Define context interface with utility functions and UI store
+
+// Create the context
+export const MindMapContext = createContext<MindMapContextType | null>(null)
+
+// Provider component
+export const MindMapProvider = ({children}: {children: React.ReactNode}) => {
+  // Access the Zustand store with the shallow selector
+  const store = useMindMapStore(useShallow(storeSelector))
+
+  // Get ReactFlow utilities
+  const reactFlowInstance = useReactFlow()
+
+  // Local state for UI and visualization
+  const [graph, setGraph] = useState<Record<string, {nodes: Node[]; edges: Edge[]}>>({})
+  const [mindMapInstance, setMindMapInstance] = useState<Record<string, unknown> | null>(null)
+
+  // Canvas UI state — sourced from Zustand store (T-020)
+  const {
+    canvas,
+    setActiveNode,
+    setConciseViewActive,
+    setShowLocationVisualization,
+    setLocationsToVisualize,
+    setKeepLoadedOnMap,
+  } = useMindMapUiStore(
+    useShallow((s) => ({
+      canvas: s.canvas,
+      setActiveNode: s.setActiveNode,
+      setConciseViewActive: s.setConciseViewActive,
+      setShowLocationVisualization: s.setShowLocationVisualization,
+      setLocationsToVisualize: s.setLocationsToVisualize,
+      setKeepLoadedOnMap: s.setKeepLoadedOnMap,
+    }))
+  )
+  const {
+    activeNode,
+    conciseViewActive,
+    showLocationVisualization,
+    locationsToVisualize,
+    keepLoadedOnMap,
+  } = canvas
+  const [rootNodeState, setRootNodeState] = useState<
+    Record<RootNodeKey, {lastIndex: number; cursor?: string}>
+  >({
+    'events-root-node': {lastIndex: 0},
+    'personnel-root-node': {lastIndex: 0},
+    'testimonies-root-node': {lastIndex: 0},
+    'topics-root-node': {lastIndex: 0},
+    'organizations-root-node': {lastIndex: 0},
+    'documents-root-node': {lastIndex: 0},
+    'artifacts-root-node': {lastIndex: 0},
+    'case-files-root-node': {lastIndex: 0},
+  })
+
+  // Access state of disclosure
+  const {mindMapIntialGraphState} = useStateOfDisclosure()
+  const {graph3d} = use3DGraph({mindMapIntialGraphState}) as {
+    graph3d: Record<string, Record<string, unknown>>
+  }
+
+  // Configuration
+  const childNodeBatchSize = 3
+  const flowKey = 'mindmap-cache'
+
+  // Local state management functions (delegating to Zustand canvas slice)
+  const updateActiveNode = useCallback(
+    (node: Node | null) => setActiveNode(node),
+    [setActiveNode]
+  )
+  const toggleConciseView = useCallback(
+    () => setConciseViewActive(!conciseViewActive),
+    [conciseViewActive, setConciseViewActive]
+  )
+  const turnOffConciseView = useCallback(
+    () => setConciseViewActive(false),
+    [setConciseViewActive]
+  )
+  const turnOnConciseView = useCallback(
+    () => setConciseViewActive(true),
+    [setConciseViewActive]
+  )
+  const toggleLocationVisualization = useCallback(
+    () => setShowLocationVisualization(!showLocationVisualization),
+    [showLocationVisualization, setShowLocationVisualization]
+  )
+  const closeLocationVisualization = useCallback(
+    () => setShowLocationVisualization(false),
+    [setShowLocationVisualization]
+  )
+  const addLocationsToVisualize = useCallback(
+    (locations: Array<Record<string, unknown>>) => {
+      setLocationsToVisualize([...locationsToVisualize, ...locations])
+    },
+    [locationsToVisualize, setLocationsToVisualize]
+  )
+  const toggleKeepLoaded = useCallback(
+    () => setKeepLoadedOnMap(!keepLoadedOnMap),
+    [keepLoadedOnMap, setKeepLoadedOnMap]
+  )
+
+  // Node positioning
+  const assignPositionsToChildNodes = useCallback(
+    (parentNode: any, childNodes: any[]): any[] => {
+      const existingChildren = parentNode?.data?.children
+      const bounds = existingChildren ? reactFlowInstance.getNodesBounds(existingChildren) : null
+
+      const rectX = bounds ? bounds.x : parentNode.position.x
+      const rectY = bounds ? bounds.y : parentNode.position.y
+
+      let currentX = rectX + ROOT_DIMENSIONS.width + PADDING
+      let currentY = rectY + ROOT_DIMENSIONS.height + PADDING
+
+      return childNodes.map((childNode) => {
+        currentX += CHILD_DIMENSIONS.width + PADDING
+        if (currentX + CHILD_DIMENSIONS.width > rectX + 500) {
+          currentX = rectX
+          currentY += CHILD_DIMENSIONS.height + PADDING
+        }
+
+        return {
+          ...childNode,
+          position: {x: currentX, y: currentY},
+        }
+      })
+    },
+    [reactFlowInstance]
+  )
+
+  // Helper functions for layout
+  function calculateDiagonal(width: number, height: number) {
+    return Math.sqrt(width ** 2 + height ** 2)
+  }
+
+  function calculateCircumcircleRadius(width: number, height: number): number {
+    const diagonal = calculateDiagonal(width, height)
+    return diagonal / 2
+  }
+
+  // Mind map persistence
+  const saveMindMap = useCallback(async () => {
+    if (mindMapInstance && typeof mindMapInstance === 'object') {
+      localStorage.setItem(flowKey, JSON.stringify(mindMapInstance))
+    }
+  }, [mindMapInstance])
+
+  const restore = useCallback(() => {
+    const restoreFlow = async () => {
+      const flow = JSON.parse(localStorage.getItem(flowKey) || 'null')
+      if (flow) {
+        const {x = 0, y = 0, zoom = 1} = flow.viewport
+        store.setNodes(flow.nodes || [])
+        store.setEdges(flow.edges || [])
+        reactFlowInstance.setViewport({x, y, zoom})
+      }
+    }
+    restoreFlow()
+  }, [store, reactFlowInstance])
+
+  // Viewport adjustment
+  const adjustViewport = useCallback(
+    ({x, y, zoom = 0, duration = 800}: FlowPosition) => {
+      reactFlowInstance.setViewport({x, y, zoom}, {duration})
+    },
+    [reactFlowInstance]
+  )
+
+  // Child node batch index management
+  const updateChildNodeBatchIndex = useCallback(
+    (type: RootNodeKey, amount?: number, cursor?: string) => {
+      setRootNodeState((state: Record<RootNodeKey, {lastIndex: number; cursor?: string}>) => ({
+        ...state,
+        [type]: {
+          ...state[type],
+          lastIndex: state[type].lastIndex + (amount || childNodeBatchSize),
+          ...(cursor && {cursor}),
+        },
+      }))
+    },
+    [childNodeBatchSize]
+  )
+
+  // Node detection functions
+  const detectNodeOverlap = useCallback(
+    (node: {id: string}): Node[] => {
+      const source = reactFlowInstance.getNode(node.id)
+      if (!source) return []
+
+      return reactFlowInstance.getIntersectingNodes(source)
+    },
+    [reactFlowInstance]
+  )
+
+  // Group and node management
+  const addMindMapGroupNode = useCallback(
+    ({
+      connectionNode,
+      model,
+      nodeType = 'entityGroupNode',
+      groupId,
+      position,
+    }: {
+      model: string
+      childNodes?: any[]
+      nodeType: string
+      position: XYPosition
+      groupId: string
+      connectionNode: Node
+    }) => {
+      const edgeId = `${groupId}`
+      const newNode: any = {
+        ...entityGroupNodeBaseConfig,
+        id: groupId,
+        type: nodeType,
+        data: {model},
+        position,
+      }
+
+      const newEdge = {
+        id: edgeId,
+        source: connectionNode.id,
+        target: newNode.id,
+        type: 'smoothstep',
+      }
+
+      store.addNodes(newNode)
+      store.addEdges([newEdge])
+    },
+    [store.addNodes, store.addEdges]
+  )
+
+  // #1: FIRST STEP — Initialize graph from 3D graph data (moved to use-graph-init hook)
+  useGraphInit(graph3d, graph, setGraph)
+
+  // Layout functions
+  const createGroupNodeLayoutWithoutRootNode = useCallback(
+    ({groupId, childNodes}: any) => {
+      const model = groupId.split('-')[0]
+      const isPersonnel = model === 'personnel'
+      const isEvents = model === 'events'
+
+      // Configure node based on type
+      const personnelGroupNodeConfig = {
+        id: groupId,
+        type: 'personnelGroupNode',
+        initialHeight: 150,
+        initialWidth: 450,
+        style: {
+          width: '450px',
+          height: '150px',
+          background: 'none',
+          border: 'none',
+        },
+        data: {
+          label: groupId,
+          name: groupId,
+        },
+      }
+
+      const constrainedConfig = {
+        id: groupId,
+        type: 'entityGroupNode',
+        data: {
+          label: groupId,
+          name: groupId,
+          type: 'base-config-group',
+        },
+        initialHeight: GROUP_NODE_DIMENSIONS.height,
+        initialWidth: GROUP_NODE_DIMENSIONS.width,
+        style: {
+          // width: `${GROUP_NODE_DIMENSIONS.width}px`,
+          // height: `${GROUP_NODE_DIMENSIONS.height}px`,
+        },
+      }
+
+      const config = isPersonnel ? personnelGroupNodeConfig : constrainedConfig
+      const allNodes = reactFlowInstance.getNodes()
+      const bounds = allNodes?.length ? reactFlowInstance.getNodesBounds(allNodes) : null
+
+      // Decide position based on existing nodes
+      const groupNodePosition = bounds
+        ? {
+            x: bounds.x + bounds.width + PADDING,
+            y: bounds.y,
+          }
+        : {x: 0, y: 0}
+
+      const groupNode: any = {
+        ...config,
+        position: groupNodePosition,
+      }
+
+      // Configure child node layout
+      const parentHeight = config.initialHeight
+      const parentWidth = config.initialWidth
+      const amount = model === 'events' ? 4 : childNodeBatchSize
+      const divisor = model === 'events' ? 3 : 0
+      const baseChildWidth = Math.floor(parentWidth / childNodeBatchSize)
+      const childContainerStart = parentWidth - Math.floor(parentWidth / divisor)
+      const childNodeHeight = isPersonnel ? 100 : baseChildWidth
+      const childNodeWidth = isPersonnel ? 150 : baseChildWidth
+      const centerX = (parentWidth - childNodeWidth) / 2
+      const horizontalSpacing = 0
+
+      let startX = childContainerStart
+      let xPosition = childContainerStart
+      let yPosition = 0
+
+      const suffix = capitalize(model)
+
+      // Position children within the group
+      const groupNodeChildren = childNodes.map((childNode: any, index: number) => {
+        startX += (childNodeWidth + horizontalSpacing) * index
+
+        if (isEvents) {
+          // Grid layout for events
+          if (index === 0) {
+            xPosition = childNodeWidth
+            yPosition = 0
+          } else if (index === 1) {
+            xPosition = childNodeWidth * 2
+            yPosition = 0
+          } else if (index === 2) {
+            xPosition = childNodeWidth
+            yPosition = childNodeHeight
+          } else if (index === 3) {
+            xPosition = childNodeWidth * 2
+            yPosition = childNodeHeight
+          }
+
+          return {
+            ...childNode,
+            type: `entityGroupNodeChild${suffix}`,
+            position: reactFlowInstance.screenToFlowPosition({
+              x: xPosition,
+              y: yPosition,
+            }),
+            hidden: false,
+            parentId: groupId,
+            extent: 'parent',
+            className: groupId,
+            style: {
+              width: `${childNodeWidth}px`,
+              height: `${childNodeHeight}px`,
+            },
+          }
+        }
+      })
+
+      groupNode.data.children = [...groupNodeChildren]
+      return {groupNode, groupNodeChildren}
+    },
+    [reactFlowInstance]
+  )
+
+  // Node connection functions
+  const addConnectionNodesFromSearch = useCallback(
+    ({source, searchResults}: AddConnectionNodesFromSearchParams) => {
+      const siblingSourceNode: any = reactFlowInstance.getNode(source.id)
+      if (!siblingSourceNode) return null
+
+      const incomingNodes: any = []
+      const incomingEdges: any = []
+      const existingNodes = reactFlowInstance
+        .getNodes()
+        .filter((node: any) => node.id !== siblingSourceNode.id)
+      const nodeRadius = calculateCircumcircleRadius(ROOT_NODE_WIDTH, ROOT_NODE_HEIGHT)
+      const circleRadius = searchResults.reduce((sum: number) => {
+        return sum + calculateCircumcircleRadius(ROOT_NODE_WIDTH, ROOT_NODE_HEIGHT)
+      }, 0)
+
+      searchResults.forEach((result: {id?: any; type?: any}, i: number) => {
+        const {type, id, ...rest} = result
+        if (!id || !type) return
+        if (existingNodes.some((existingNode) => existingNode.id === id)) return
+        const resultRecord = rest as Record<string, unknown> & {
+          label?: string
+          title?: string
+          name?: string
+        }
+        const label = resultRecord.label || resultRecord.title || resultRecord.name || id
+
+        // Calculate placement
+        const totalNodes = searchResults.length
+        const angleIncrement = (2 * Math.PI) / totalNodes
+        let angle = i * angleIncrement
+        let x: number = siblingSourceNode.position.x
+        let y: number = siblingSourceNode.position.y
+        let positionFound = false
+        let attempts = 0
+        const maxAttempts = 10
+
+        // Find a non-overlapping position
+        while (!positionFound && attempts < maxAttempts) {
+          x = circleRadius * Math.cos(angle) + siblingSourceNode.position.x
+          y = circleRadius * Math.sin(angle) + siblingSourceNode.position.y
+
+          const overlaps = existingNodes.some((existingNode) => {
+            const dx = existingNode.position.x - x
+            const dy = existingNode.position.y - y
+            const distance = Math.sqrt(dx * dx + dy * dy)
+            return distance < nodeRadius * 2
+          })
+
+          if (!overlaps) {
+            positionFound = true
+          } else {
+            angle += angleIncrement / 2
+            attempts++
+          }
+        }
+
+        // Create the node and edge
+        const positionedNode = {
+          id,
+          type: `${type}Node`,
+          label,
+          data: {
+            ...resultRecord,
+            label,
+            title: resultRecord.title || label,
+            name: resultRecord.name || label,
+            type,
+          },
+          position: {x, y},
+        }
+
+        const edgeId = `${siblingSourceNode.id}:${positionedNode.id}`
+        const siblingEdge = {
+          id: edgeId,
+          source: siblingSourceNode.id,
+          target: positionedNode.id,
+          animated: true,
+          type: 'siblingEdge',
+          markerEnd: 'custom-marker',
+          style: {
+            stroke: DOMAIN_MODEL_COLORS[type] || '#fff',
+          },
+          sourceHandle: `handle:${edgeId}`,
+        }
+
+        incomingNodes.push(positionedNode)
+        incomingEdges.push(siblingEdge)
+      })
+
+      if (!incomingNodes.length) return null
+
+      // Update source node with new handle connections
+      const incomingSiblingHandles: any = incomingEdges.map((edge: any) => edge.sourceHandle)
+
+      store.updateNodeData(siblingSourceNode.id, {
+        handles: siblingSourceNode.data?.handles?.length
+          ? [...siblingSourceNode.data.handles, ...incomingSiblingHandles]
+          : incomingSiblingHandles,
+      })
+
+      // Update graph
+      store.addNodes(incomingNodes)
+      store.addEdges(incomingEdges)
+
+      return {
+        siblingNodes: incomingNodes,
+        siblingEdges: incomingEdges,
+      }
+    },
+    [reactFlowInstance, store.updateNodeData, store.addNodes, store.addEdges]
+  )
+
+  // Node interaction functions
+  const addUserInputNode = useCallback(
+    ({input, user, position}: {input: string; user: string; position?: XYPosition}) => {
+      const newNode = {
+        id: `user-input-node-${Math.random().toString(36).substr(2, 9)}`,
+        type: 'userInputNode',
+        position: position || {x: 0, y: 0},
+        data: {label: 'New User Input Node', input, user},
+      }
+      store.addNode(newNode)
+      return newNode
+    },
+    [store.addNode]
+  )
+
+  // Connection finding
+  const findConnections = useCallback(
+    (node: any) => {
+      const {id} = node
+      const {links} = mindMapIntialGraphState
+      const currentNodes = reactFlowInstance.getNodes()
+
+      // Find all links to/from this node
+      const nodeLinks = links
+        .filter((link: any) => link.target === id || link.source === id)
+        .map((link: any) => {
+          if (link.target === id) return link.source
+          if (link.source === id) return link.target
+          return null
+        })
+        .filter(Boolean)
+
+      // Find the nodes on the map that match the links
+      const connections = currentNodes.filter((nodeOnMap: any) => nodeLinks.includes(nodeOnMap.id))
+
+      // Create edges to these connections
+      const handles = connections.map((connection: any) =>
+        createRootNodeEdge(node, connection, reactFlowInstance.getNode)
+      )
+
+      // Update the node with the new connections
+      store.updateNodeData(node.id, {...node.data, handles})
+      store.addEdges(handles)
+
+      return connections
+    },
+    [
+      store.addEdges,
+      reactFlowInstance,
+      mindMapIntialGraphState,
+      store.updateNodeData,
+    ]
+  )
+
+  // User input result rendering
+  const renderUserInputResultsLayout = useCallback(
+    ({groupId, sourceNode, results}: any) => {
+      const model = capitalize(groupId.split('-')[0])
+      const childNodeType = `groupResultsNodeChild${model}`
+
+      // Initial configuration
+      const initialConfig = {
+        id: groupId,
+        type: 'groupResultsNode',
+        initialHeight: GROUP_NODE_LANDSCAPE.height,
+        initialWidth: GROUP_NODE_LANDSCAPE.width,
+        label: groupId,
+        style: {
+          width: `${GROUP_NODE_LANDSCAPE.width}px`,
+          height: `${GROUP_NODE_LANDSCAPE.height}px`,
+        },
+        data: {
+          sourceNode,
+          label: sourceNode.data.type,
+          name: groupId,
+          type: 'groupResultsNode',
+          childrenClassName: childNodeType,
+        },
+      }
+
+      // Calculate position
+      const allNodes = reactFlowInstance.getNodes()
+      const bounds = reactFlowInstance.getNodesBounds(allNodes)
+      const [{position}]: any = assignPositionsToChildNodes(sourceNode, [initialConfig])
+
+      const groupNode: any = {
+        ...initialConfig,
+        position,
+      }
+
+      // Configure child layout
+      const childNodeWidth = BASE_ENTITY_NODE_WIDTH
+      const childNodeHeight = BASE_ENTITY_NODE_HEIGHT
+      const parentHeight = GROUP_NODE_LANDSCAPE.height
+      const parentWidth = GROUP_NODE_LANDSCAPE.width
+      const centerY = (parentHeight - childNodeHeight) / 2
+      const horizontalSpacing = 20
+      const totalWidth = childNodeWidth * results.length + horizontalSpacing * (results.length - 1)
+      const startX = (parentWidth - totalWidth) / 2
+
+      // Position child nodes
+      const groupNodeChildren = results.map((childNode: any, index: any) => ({
+        ...childNode,
+        type: childNodeType,
+        position: {
+          x: startX + index * (childNodeWidth + horizontalSpacing),
+          y: centerY,
+        },
+        hidden: false,
+        parentId: groupId,
+        className: childNodeType,
+        extent: 'parent',
+      }))
+
+      groupNode.data.children = [...groupNodeChildren]
+      return {groupNode, groupNodeChildren}
+    },
+    [assignPositionsToChildNodes, reactFlowInstance]
+  )
+
+  // Entity retrieval
+  const retrieveEntitiesFromStore = useCallback(
+    async (model: keyof DatabaseSchema): Promise<MindMapNode[]> => {
+      console.log('🚀 ~ model:', model)
+
+      const sourceModelIndex = `${String(model)}-root-node` as RootNodeKey
+
+      const sourceModelNodesState = rootNodeState[sourceModelIndex]
+      console.log('🚀 ~ sourceModelNodesState:', sourceModelNodesState)
+      const {lastIndex, cursor} = sourceModelNodesState
+
+      console.log('🚀 ~ lastIndex:', lastIndex)
+      console.log('🚀 ~ cursor:', cursor)
+
+      // Static Node slice for testing
+      const nextNodes = graph[String(model)]?.nodes.slice(lastIndex, lastIndex + childNodeBatchSize)
+
+      console.log('🚀 ~ nextNodes:', nextNodes)
+
+      // Call the API route instead of direct Xata client
+      const params = new URLSearchParams({
+        table: String(model),
+        size: String(childNodeBatchSize),
+        offset: String(lastIndex),
+        ...(cursor && {cursor}),
+      })
+
+      const response = await fetch(`/api/mindmap/records?${params}`)
+      if (!response.ok) {
+        throw new Error('Failed to fetch mindmap records')
+      }
+      const result = await response.json()
+
+      console.log('🚀 ~ result:', result)
+
+      // Get the nodes and cursor from the result
+      const {nodes, meta} = result
+
+      // Update the cursor for next fetch
+      updateChildNodeBatchIndex(sourceModelIndex, undefined, meta.cursor)
+
+      // Return the entity nodes
+      console.log('🚀 ~ nodes:', nodes)
+      return nodes
+    },
+    [rootNodeState, updateChildNodeBatchIndex, graph]
+  )
+
+  // Layout function for organizing nodes
+  const organizeLayout = useCallback(
+    (options: LayoutOptions = {}) => {
+      if (!reactFlowInstance) return
+
+      const currentNodes = reactFlowInstance.getNodes()
+      const currentEdges = reactFlowInstance.getEdges()
+      
+      console.log('[Context] organizeLayout called with', currentNodes.length, 'nodes')
+
+      // Apply our enhanced layout algorithm to position the nodes
+      const layoutedNodes = organizeNodeLayout(currentNodes as any[], currentEdges as any[], {
+        direction: 'horizontal',
+        parentChildSpacing: 120,
+        siblingSpacing: 60,
+        centerChildren: true,
+        preserveExistingLayout: options.preserveExistingLayout || false,
+        focusOnNewNodes: options.focusOnNewNodes || false,
+        ...options,
+      })
+
+      console.log('[Context] Layout algorithm returned', layoutedNodes.length, 'nodes')
+
+      // SAFE APPROACH: Update positions without replacing nodes
+      // This prevents node loss by only updating positions, not replacing the entire node array
+      if (layoutedNodes.length === currentNodes.length) {
+        // Use onNodesChange to update positions safely
+        const nodeChanges = layoutedNodes.map(layoutedNode => {
+          const currentNode = currentNodes.find(n => n.id === layoutedNode.id)
+          if (currentNode && (currentNode.position.x !== layoutedNode.position.x || currentNode.position.y !== layoutedNode.position.y)) {
+            return {
+              id: layoutedNode.id,
+              type: 'position' as const,
+              position: layoutedNode.position,
+            }
+          }
+          return null
+        }).filter(Boolean)
+        
+        console.log('[Context] Applying', nodeChanges.length, 'position updates')
+        if (nodeChanges.length > 0) {
+          store.onNodesChange(nodeChanges)
+        }
+      } else {
+        console.error('[Context] Layout returned different node count, skipping update to prevent data loss')
+        console.error('[Context] Expected:', currentNodes.length, 'Got:', layoutedNodes.length)
+      }
+
+      // Use a more reliable viewport adjustment
+      return new Promise((resolve) => {
+        // First, ensure the DOM is updated with new node positions
+        const timeoutId = setTimeout(() => {
+          try {
+            // Get the bounds of all nodes to calculate the best fit
+            const allNodes = reactFlowInstance.getNodes()
+            if (allNodes.length > 0) {
+              const bounds = reactFlowInstance.getNodesBounds(allNodes)
+
+              // Calculate appropriate zoom level and center position
+              const viewport = reactFlowInstance.getViewport()
+              const container = document.querySelector('.react-flow')
+
+              if (container) {
+                const containerBounds = container.getBoundingClientRect()
+                const padding = 50
+
+                // Calculate zoom to fit all nodes with padding
+                const zoomX = (containerBounds.width - padding * 2) / bounds.width
+                const zoomY = (containerBounds.height - padding * 2) / bounds.height
+                const zoom = Math.min(zoomX, zoomY, 1.2) // Max zoom of 1.2
+
+                // Center the view on the bounds
+                const centerX = bounds.x + bounds.width / 2
+                const centerY = bounds.y + bounds.height / 2
+
+                const x = containerBounds.width / 2 - centerX * zoom
+                const y = containerBounds.height / 2 - centerY * zoom
+
+                reactFlowInstance.setViewport({x, y, zoom}, {duration: 800})
+              } else {
+                // Fallback to simple fitView
+                reactFlowInstance.fitView({padding: 0.1, duration: 800})
+              }
+            }
+            resolve(true)
+          } catch (error) {
+            console.warn('Error adjusting viewport:', error)
+            // Fallback to simple fitView
+            reactFlowInstance.fitView({padding: 0.1, duration: 800})
+            resolve(true)
+          }
+        }, 150) // Increased delay to ensure DOM update
+
+        // Safety cleanup
+        setTimeout(() => {
+          clearTimeout(timeoutId)
+          resolve(false)
+        }, 2000)
+      })
+    },
+    [reactFlowInstance, store.setNodes]
+  )
+
+  // Enhanced entity loading with better layout handling
+  const addNextEntitiesToMindMap = useCallback(
+    async (source: any) => {
+      const {
+        type: nodeType,
+        data: {type: model},
+      } = source
+
+      const isUserInputNode = nodeType === 'userInputNode'
+      const amount = model === 'events' ? 4 : childNodeBatchSize
+      const sourceModelIndex = `${model}-root-node` as RootNodeKey
+
+      try {
+        // Instead of retrieveEntitiesFromStore, use xataToXYFlow
+        const question = `Show me ${amount} interesting ${model} records and explain the relationships between them.`
+        const flowData = await xataToXYFlow({
+          question,
+          table: model,
+          rules: `Find the most interesting ${model} records that have clear relationships between them`,
+          context: `The user is exploring the ${model} database and wants to see ${amount} records with interesting relationships.`,
+          existingNodes: reactFlowInstance.getNodes() as any[],
+          sourceNode: source as any,
+        })
+
+        console.log('🚀 ~ addNextEntitiesToMindMap ~ flowData:', flowData)
+
+        // If no nodes were returned, return early
+        if (!flowData || flowData.nodes.length === 0) {
+          console.log('No records to load')
+          return null
+        }
+
+        // Use the existing resultNodes or the transformed nodes from xataToXYFlow
+        const resultNodes = flowData.nodes.filter((node) => node.id !== 'query-result-node')
+
+        if (resultNodes.length === 0) {
+          console.log('No valid entity nodes returned')
+          return null
+        }
+
+        const groupId = `${model}-group-${Date.now()}`
+
+        // Create the group layout
+        const {groupNode, groupNodeChildren}: any = isUserInputNode
+          ? renderUserInputResultsLayout({
+              groupId,
+              sourceNode: source,
+              results: resultNodes,
+            })
+          : createGroupNodeLayoutWithoutRootNode({
+              groupId,
+              childNodes: resultNodes,
+            })
+
+        // Add AI context to source node if it's a userInputNode
+        if (isUserInputNode && flowData.xataResponse) {
+          store.updateNodeData(source.id, {
+            input: flowData.xataResponse.answer,
+            reasoning: flowData.reasoning, // Pass through Prometheus reasoning
+          })
+        }
+
+        // Create edges connecting the group node to the source node
+        const edgeId = `${source.id}:${groupNode.id}`
+        const edge = {
+          id: edgeId,
+          source: source.id,
+          target: groupNode.id,
+          sourceHandle: `${source.id}:${groupNode.id}`,
+          targetHandle: `${groupNode.id}:${source.id}`,
+          data: {label: 'related'},
+          type: 'siblingEdge',
+        }
+
+        const sourceHandles = source.data?.handles || []
+
+        // Add the handle to the source node data
+        store.updateNodeData(source.id, {
+          handles: [...sourceHandles, edge.sourceHandle],
+        })
+
+        // Add children nodes to the graph
+        store.addNodes([groupNode, ...groupNodeChildren])
+        store.addEdges(edge)
+
+        // Apply improved layout with better timing and options
+        await organizeLayout({
+          preserveExistingLayout: true, // Only position new nodes
+          focusOnNewNodes: true,
+          direction: 'horizontal',
+          parentChildSpacing: 120,
+          siblingSpacing: 60,
+        })
+
+        // Return the created nodes
+        return {
+          groupNode,
+          groupNodeChildren,
+        }
+      } catch (error) {
+        console.error('Error in addNextEntitiesToMindMap:', error)
+        // Handle error gracefully
+        return null
+      }
+    },
+    [
+      childNodeBatchSize,
+      createGroupNodeLayoutWithoutRootNode,
+      renderUserInputResultsLayout,
+      store.addNodes,
+      store.addEdges,
+      store.updateNodeData,
+      xataToXYFlow,
+      reactFlowInstance,
+      organizeLayout, // Use our enhanced organizeLayout
+    ]
+  )
+
+  // Enhanced search results layout with better positioning
+  const createSearchResultsLayout = useCallback(
+    async ({sourceNode, searchResults}: any) => {
+      const searchResultNodes: any = []
+      const searchResultEdges: any = []
+
+      searchResults.forEach((result: any, i: any) => {
+        const {type} = result
+        const node = graph[type]?.nodes.find((node: {id: any}) => node?.id === result.id)
+
+        if (node) {
+          // Improved positioning for search results
+          const degrees = i * (360 / searchResults.length)
+          const radians = degrees * (Math.PI / 180)
+          const radius = 250 + searchResults.length * 10 // Dynamic radius based on result count
+          const x = radius * Math.cos(radians) + sourceNode.position.x
+          const y = radius * Math.sin(radians) + sourceNode.position.y
+
+          const searchResultNode = {
+            ...node,
+            position: {x, y},
+          }
+
+          const siblingEdge = createSiblingEdge(searchResultNode, sourceNode, 'floating')
+          searchResultNodes.push(searchResultNode)
+          searchResultEdges.push(siblingEdge)
+        }
+      })
+
+      const searchResultHandles: any = searchResultEdges.map((edge: any) => edge.sourceHandle)
+
+      store.updateNodeData(sourceNode.id, {
+        handles: sourceNode.data.handles
+          ? [...sourceNode.data.handles, ...searchResultHandles]
+          : searchResultHandles,
+      })
+
+      store.addNodes(searchResultNodes)
+      store.addEdges(searchResultEdges)
+
+      // Apply layout specifically optimized for search results
+      await organizeLayout({
+        preserveExistingLayout: true,
+        direction: 'radial',
+        centerChildren: false,
+        parentChildSpacing: 200,
+        siblingSpacing: 50,
+      })
+
+      return {searchResultNodes, searchResultEdges}
+    },
+    [
+      store.addNodes,
+      store.addEdges,
+      createSiblingEdge,
+      graph,
+      store.updateNodeData,
+      organizeLayout, // Use enhanced layout
+    ]
+  )
+
+  // Entity management
+  const addMindmapChildNode = useCallback(
+    ({
+      parentNode,
+      type,
+      childNode,
+      position,
+    }: {
+      parentNode: Node
+      type: string
+      childNode: any
+      position: XYPosition
+    }) => {
+      const nodeType = `${type || childNode.type}Node`
+      const edgeId = `${parentNode.id}:${childNode.id}`
+
+      const newNode: any = {
+        ...childNode,
+        type: nodeType,
+        position,
+        parentId: parentNode.id,
+      }
+
+      const newEdge: any = {
+        id: edgeId,
+        source: parentNode.id,
+        target: newNode.id,
+        type: 'smoothstep',
+      }
+
+      return {newNode, newEdge}
+    },
+    []
+  )
+
+  // Database query functions
+  const loadNodesFromTableQuery = useCallback(
+    async ({type, searchResults, searchTerm}: any) => {
+      const groupId = `${type}-group-${searchTerm}`
+
+      // Map search results to nodes
+      const childNodes = searchResults
+        .map((result: any) => {
+          return graph[type]?.nodes.find((node: {id: any}) => node?.id === result.id)
+        })
+        .filter(Boolean)
+
+      // Create the group layout
+      const {groupNode, groupNodeChildren}: any = createGroupNodeLayoutWithoutRootNode({
+        groupId,
+        childNodes,
+      })
+
+      // Add the nodes to the graph
+      store.addNodes([groupNode, ...groupNodeChildren])
+
+      return {
+        childNodes: {
+          groupNode,
+          groupNodeChildren,
+        },
+      }
+    },
+    [createGroupNodeLayoutWithoutRootNode, graph, store.addNodes]
+  )
+
+  // Centralized function to add nodes with automatic layout
+  const addNodesWithLayout = useCallback(
+    async (
+      nodes: any[], 
+      layoutOptions: {
+        direction?: 'horizontal' | 'vertical' | 'radial' | 'grid'
+        parentChildSpacing?: number
+        siblingSpacing?: number
+        preserveExistingLayout?: boolean
+        focusOnNewNodes?: boolean
+      } = {}
+    ) => {
+      try {
+        // Add nodes to store first
+        console.log(`[addNodesWithLayout] Adding ${nodes.length} nodes to store`)
+        store.addNodes(nodes)
+        
+        // Apply layout with safe position updates (no longer overwrites nodes)
+        console.log(`[addNodesWithLayout] Applying layout to ${nodes.length} new nodes`)
+        await organizeLayout({
+          direction: 'horizontal',
+          parentChildSpacing: 120,
+          siblingSpacing: 80,
+          preserveExistingLayout: true, // Don't move existing nodes
+          focusOnNewNodes: true,
+          ...layoutOptions
+        })
+        
+        console.log(`Added ${nodes.length} nodes with layout applied`)
+        return nodes
+      } catch (error) {
+        console.error('Error in addNodesWithLayout:', error)
+        throw error
+      }
+    },
+    [store.addNodes, organizeLayout]
+  )
+
+  // Define the context value
+  const contextValue: MindMapContextType = {
+    // Store state and actions
+    ...store,
+
+    // Context-specific state
+    // @ts-ignore
+    graph,
+
+    // @ts-ignore
+    activeNode,
+
+    conciseViewActive,
+    showLocationVisualization,
+    locationsToVisualize,
+    keepLoadedOnMap,
+    mindMapInstance,
+
+    // Context state setters
+    // @ts-ignore
+    setGraph,
+
+    // @ts-ignore
+    updateActiveNode,
+
+    toggleConciseView,
+    turnOffConciseView,
+    turnOnConciseView,
+    toggleLocationVisualization,
+    closeLocationVisualization,
+    addLocationsToVisualize,
+    toggleKeepLoaded,
+    setMindMapInstance,
+    // React Flow hooks for connections
+    useConnection,
+    useHandleConnections,
+    useEdges,
+    useNodes,
+    useUpdateNodeInternals,
+    // Utility functions
+    // @ts-ignore
+    createRootNodeEdges: (rootNodeChildNodes: Node[], source: any) =>
+      createRootNodeEdges(rootNodeChildNodes, source, reactFlowInstance.getNode),
+
+    assignPositionsToChildNodes,
+    // @ts-ignore
+    detectNodeOverlap,
+
+    // @ts-ignore
+    addMindMapGroupNode,
+
+    // ReactFlow utilities
+    fitView: reactFlowInstance.fitView,
+    screenToFlowPosition: reactFlowInstance.screenToFlowPosition,
+    // @ts-ignore
+    getNode: reactFlowInstance.getNode,
+    getNodes: reactFlowInstance.getNodes,
+    getEdges: reactFlowInstance.getEdges,
+
+    adjustViewport,
+    zoomIn: reactFlowInstance.zoomIn,
+    zoomOut: reactFlowInstance.zoomOut,
+    saveMindMap,
+    restore,
+
+    // Additional utility methods would be implemented and added here
+    reactFlowInstance,
+    useNodesData,
+    addConnectionNodesFromSearch,
+    // @ts-ignore
+    addUserInputNode,
+
+    // @ts-ignore
+    // @ts-ignore
+    findConnections,
+    // @ts-ignore
+    retrieveEntitiesFromStore,
+    // @ts-ignore
+    addNextEntitiesToMindMap,
+    createSearchResultsLayout,
+    // @ts-ignore - This function now returns Promise<MindMapNode[]> instead of any[]
+    addMindmapChildNode,
+
+    loadNodesFromTableQuery,
+
+    // Layout functions
+    organizeLayout,
+    addNodesWithLayout,
+  }
+
+  // Also enhance the onConnect callback to apply layout after new connections
+  // This makes the layout respond to new connections
+  useEffect(() => {
+    const oldOnConnect = store.onConnect
+
+    const enhancedOnConnect = (params: any) => {
+      // Call the original onConnect
+      oldOnConnect(params)
+
+      // After connection is made, apply layout
+      setTimeout(() => {
+        if (reactFlowInstance) {
+          const currentNodes = reactFlowInstance.getNodes()
+          const currentEdges = reactFlowInstance.getEdges()
+
+          const layoutedNodes = organizeNodeLayout(currentNodes as any[], currentEdges as any[], {
+            direction: 'horizontal',
+            centerChildren: true,
+          })
+
+          store.setNodes(layoutedNodes as any)
+        }
+      }, 150)
+    }
+
+    // Replace the onConnect handler
+    store.onConnect = enhancedOnConnect
+
+    // Cleanup
+    return () => {
+      store.onConnect = oldOnConnect
+    }
+  }, [store, reactFlowInstance])
+
+  return (
+    <MindMapContext.Provider value={contextValue}>
+      <div id='mindmap-container'>{children}</div>
+    </MindMapContext.Provider>
+  )
+}
+
+// Custom hook to access the context
+export const useMindMap = () => {
+  const context = useContext(MindMapContext)
+
+  if (!context) {
+    throw new Error('useMindMap must be used within a MindMapProvider')
+  }
+
+  return context
+}
+export type {AddConnectionNodesFromSearchParams}

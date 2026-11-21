@@ -1,0 +1,44 @@
+/* Optional motion accents for PaperDocument (enableMotion) */
+
+@keyframes pd-smoke-drift {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-2%) scale(1.02);
+    opacity: 0.85;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes pd-ember-pulse {
+  0%,
+  100% {
+    opacity: 0.85;
+    transform: scaleY(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleY(1.04);
+  }
+}
+
+.pd-smoke {
+  animation: pd-smoke-drift 9s ease-in-out infinite;
+}
+
+.pd-ember {
+  animation: pd-ember-pulse 3.2s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pd-smoke,
+  .pd-ember {
+    animation: none;
+  }
+}

@@ -1,0 +1,22 @@
+---
+description: Visual Lab + Folderize Contract — visual-language context governs new design; prompts/ governs extraction; extractions/<slug>/ is the canonical image home.
+alwaysApply: true
+---
+
+# Folderize contract (images)
+
+Before writing ANY per-image extraction file in this vault:
+
+0. **For new app design work, load `language/visual-language.json` through the surface compiler.** Narrow work to Home / Entry, Research Canvas, Archive / Record, or Spacetime Observatory; select one with `python3 scripts/visual_language.py context --focus-surface <home-entry|research-canvas|archive-record|spacetime-observatory> [--reference <reference-family>]`. The compiler resolves its owning Visual Lane and intact embedded lanes. For non-app work, use `--surface <core-interface|evidence-archive|tactical-spatial>`. Keep the complete context pack available through the task.
+0.1. **Read `language/registry.json` + `prompts/language-policy.md` for extraction vocabulary.** They govern operational terms, attribution, aliases, and machine values. `CONTEXT.md` is generated; do not hand-edit it.
+1. **Read `prompts/` first — it is the Prompt Operating System, not optional.**
+   - `prompts/aesthetics.md` → `source.md` (use its thinkingprocess headings: Aspects/Subjects/Motifs, Adjectives, Display/Medium/Usage-Context, Genres/Styles, Color Palette, Composition, Emotional Impact, Other Details; then the dense 100–150 word shorthand paragraph in a code block).
+   - `prompts/output-template.md` → `design.md` (YAML frontmatter tokens + prose sections; confidence markers; honest "insufficient evidence" abstains).
+   - `prompts/token-extraction.md` + `prompts/fonts.md` → `design-tokens.md` and all typography calls (semantic roles, DTCG discipline, "a short and honest system is better than a long and invented one").
+   - `prompts/element-copy.md` → `image-to-prompt.md` (SUBJECT/STYLE/COMPOSITION/LIGHTING/PALETTE/MOOD/BACKGROUND/AVOID + NL version; kind = code|asset|hybrid heuristic).
+   - `prompts/analysis-framework.md` → the Six Analysis Layers + art-direction QA pass; `prompts/capture-flows.md` → local-image flow (`scripts/extract_colors.py` for pixel-precise hex).
+2. **`references/` + `skills/image-to-code/` are the toolset** (not content to catalog): token names come from `token-validation-rules.md` + `anydesign-token-rename-map.md` (7 categories; 4px spacing base; `--duration-fast/normal/slow`; semantic `--color-*`; `--chart-color-N` only from observed hues). Motion judgment inside `design.md` follows `motionwiki-playbook.md` (composition-rhythm, not CSS recipes). `component.tsx` follows the image-to-code skill (PascalCase, named exports, token CSS vars, functional).
+3. **Canonical layout**: `extractions/<kebab-slug>/` = image + `source.md` + `design-tokens.md` (+ full `design.md`/`image-to-prompt.md`/`component.tsx` for gold cluster reps). One image, one folder. Byte-identical dupes: one canonical folder only; other copies stay in place and are listed in `notes/folderize-manifest.json`.
+4. **Flat catalogs are intermediate.** `notes/stills-*.md|json|csv` feed the pipeline; regenerate them from `notes/stills-pixel-sample.json`. The folders are the product.
+5. **Honesty Fields**: mark Direct Vision as machine value `self`; mark Cluster-Inherited Analysis as `cluster-inherited` in documents and the manifest. Never invent pixels, tokens, or vision for unread frames. Omit what isn't observable and say so.
+6. **Disk is tight**: move (don't copy) images; no full-res re-exports.

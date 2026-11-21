@@ -1,0 +1,225 @@
+{
+  "status": "error",
+  "classification": {
+    "content_type": "media",
+    "primary_record_hints": [
+      "Testimony",
+      "KeyFigure",
+      "Organization",
+      "Artifact"
+    ],
+    "hynek_scaffold": null,
+    "classification_marks_detected": [
+      "CIA",
+      "Area 51",
+      "Bob Lazar",
+      "Disclosure"
+    ],
+    "language": "English",
+    "ocr_quality": "n/a",
+    "sensitivity": "public",
+    "ingestion_recommendation": "proceed_with_caution",
+    "rationale": "Transcript from a public podcast discussing UAP, whistleblower testimony, and personal dream encounter. Contains unverified claims and references to sensitive programs, warranting cautious ingestion.",
+    "confidence": 0.85
+  },
+  "analysis": {
+    "content_assessment": {
+      "content_type": "media - podcast transcript",
+      "primary_claims": [
+        "The dream was the most vivid dream I've ever had in my life.",
+        "These very slender, tall humanlike things were talking to me. They weren't gray. They were kind of like pinkish like us.",
+        "They had larger eyes than a normal human and a larger head, but not crazy like a gray from Close Encounters of the Third Kind.",
+        "They were very genderless. Like there was no defining that's a boy, that one's a girl.",
+        "There's real evidence that there's structures under the pyramids that might go as deep as 2 km that look like an energy grid with columns and coils around the columns.",
+        "There's a 40 meter object that's in that labyrinth that's in some vast corridor that's metallic. It's a UFO.",
+        "We might have actual evidence that there's another species that shares this planet with us.",
+        "Bob Lazar took George with cameras into Los Alamos. I'll show you where I worked.",
+        "More and more has come out that substantiates what he said and confirms a lot of the stuff that he was talking about in the 1980s in terms of the design of these crafts, how they manipulate gravity around them.",
+        "Dan Farah made this new documentary, The Age of Disclosure, ... it's one of the very best documentaries on the whole UAP UFO phenomenon.",
+        "Most of these people at some point or maybe even currently have held very high clearances and high positions within our government.",
+        "Marco Rubio is concerned with... China develops this technology first.",
+        "We do have satellite images of S4."
+      ],
+      "key_findings": [
+        "Joe Rogan recounts a deeply vivid dream featuring tall, slender, pinkish humanoids with larger eyes and heads, who alternated between scaring and playful behavior, and showed him reptilian creatures behind flimsy barriers.",
+        "He speculates the beings could be future humans, noting their genderless, slender appearance and his reaction of inability to sleep afterward.",
+        "Rogan discusses Bob Lazar's claims about working at S4 and reverse-engineering alien craft, asserting that subsequent evidence has corroborated Lazar's descriptions of gravity manipulation propulsion.",
+        "He references the documentary 'The Age of Disclosure' featuring high-level former officials (Woolsey, Clapper, Brennan) and Senator Marco Rubio validating the UAP issue and concern about China's parallel programs.",
+        "Rogan mentions unverified claims of underground structures under Egyptian pyramids extending 2 km down, containing an energy grid and a 40-meter metallic UFO, and three-fingered mummies in Peru as possible evidence of non-human species.",
+        "He acknowledges his personal fascination with UAPs (including Betty and Barney Hill, Project Blue Book) and that he has never personally witnessed a UAP.",
+        "The conversation includes speculations about AI, God, and technological convergence, but these are signaled as philosophical musings."
+      ],
+      "supporting_evidence": [
+        "Rogan states Bob Lazar's employment at Los Alamos was confirmed by a newspaper archive.",
+        "Lazar reportedly took filmmaker George Knapp inside Los Alamos to meet colleagues.",
+        "Janet Airlines is cited as the shuttle service to Area 51, whose existence was acknowledged by the Obama administration.",
+        "The documentary 'The Age of Disclosure' is named as featuring credible high-ranking witnesses.",
+        "Rogan mentions satellite images of S4 are available online."
+      ],
+      "contradictory_evidence": [
+        "No official confirmation of S4's existence; Rogan notes government denial persists.",
+        "The narrative about underground pyramid structures and metallic objects lacks any verifiable source; presented as 'everybody who studies this says'.",
+        "The three-fingered mummies from Peru are contested and not accepted by mainstream science."
+      ],
+      "credibility_grading": {
+        "overall": "low",
+        "reasoning": "The source is an informal, unverified podcast conversation. The dream account is subjective and cannot be corroborated. The claims about Bob Lazar are disputed by official denials; supporting evidence is secondary and anecdotal. The pyramid underground structures, metallic UFO, and Peru mummies are uncorroborated fringe assertions. Statements from officials via a documentary are second-hand and lack direct quotes. The transcript lacks chain-of-custody and authenticity markers for any official data. Thus, factual reliability is very low."
+      },
+      "follow_up_needed": [
+        "Verify Bob Lazar's employment records at S4/Area 51 through official documentation or credible whistleblower testimony (Inference: crucial to assess the 'substantiated' claim).",
+        "Investigate whether high-level officials (Woolsey, Clapper, Brennan, Rubio) made the statements as described in 'The Age of Disclosure' documentary, and retrieve primary source interviews.",
+        "Attempt to locate the claimed satellite imagery of S4 and confirm its authenticity and context.",
+        "Examine the provenance and evidence for underground structures beneath Egyptian pyramids, including any radar or geological surveys (highly speculative, likely disinformation or misinterpretation).",
+        "Track the chain of custody and peer-reviewed analysis of the three-fingered Peruvian mummies to determine if they are hoaxes or anomalous.",
+        "Clarify the distinction between personal anecdote (dream), unverified narrative, and factual data before ingestion; all claims need tagging as UNVERIFIED."
+      ],
+      "ingestion_notes": "This transcript is truncated and lacks publication date or original URL. It appears to be a segment from an interview on the 'American Alchemy' podcast. The content is a mix of personal storytelling, reference to earlier interviews (Bob Lazar, Brett Weinstein), and promotional discussion for a documentary. For document processing, the material is UNVERIFIED and should be treated as a narrative without factual weight. It is valuable for understanding public discourse and the spread of claims, but not as primary evidence. The redaction/OCR risk is minimal; the text is readable apart from truncation. No classification marks present."
+    },
+    "extracted_data": {
+      "entities": [
+        {
+          "name": "Joe Rogan",
+          "type": "Person",
+          "role": "Podcast host, comedian, commentator"
+        },
+        {
+          "name": "Bob Lazar",
+          "type": "Person",
+          "role": "Claimed former physicist at S4, whistleblower"
+        },
+        {
+          "name": "Dan Farah",
+          "type": "Person",
+          "role": "Documentary filmmaker (The Age of Disclosure)"
+        },
+        {
+          "name": "Brett Weinstein",
+          "type": "Person",
+          "role": "Evolutionary biologist (mentioned)"
+        },
+        {
+          "name": "Jeremy Corbell",
+          "type": "Person",
+          "role": "Documentary filmmaker (Area 51 Bob Lazar documentary)"
+        },
+        {
+          "name": "David Grush",
+          "type": "Person",
+          "role": "Intelligence official, whistleblower (mentioned)"
+        },
+        {
+          "name": "Marco Rubio",
+          "type": "Person",
+          "role": "U.S. Senator, former presidential candidate"
+        },
+        {
+          "name": "Woolsey",
+          "type": "Person",
+          "role": "Former Director of Central Intelligence (likely James Woolsey)"
+        },
+        {
+          "name": "James Clapper",
+          "type": "Person",
+          "role": "Former Director of National Intelligence"
+        },
+        {
+          "name": "Brennan",
+          "type": "Person",
+          "role": "Former CIA Director (likely John Brennan)"
+        },
+        {
+          "name": "Angela Hill",
+          "type": "Person",
+          "role": "UFC fighter, granddaughter of Betty and Barney Hill"
+        },
+        {
+          "name": "Betty and Barney Hill",
+          "type": "Person",
+          "role": "Alleged first abductees (1961)"
+        },
+        {
+          "name": "Project Blue Book",
+          "type": "Organization",
+          "role": "U.S. Air Force UFO investigation program"
+        },
+        {
+          "name": "Janet Airlines",
+          "type": "Organization",
+          "role": "Covert airline servicing Area 51"
+        },
+        {
+          "name": "S4 (Area 51 Site 4)",
+          "type": "Location",
+          "role": "Alleged secret facility near Area 51"
+        },
+        {
+          "name": "Area 51",
+          "type": "Location",
+          "role": "Classified U.S. Air Force facility"
+        },
+        {
+          "name": "Egyptian pyramids",
+          "type": "Location",
+          "role": "Archaeological site, subject of underground structure claims"
+        },
+        {
+          "name": "Peru mummies",
+          "type": "Artifact",
+          "role": "Three-fingered mummies, claimed non-human"
+        },
+        {
+          "name": "The Age of Disclosure",
+          "type": "CreativeWork",
+          "role": "Documentary film on UAP disclosure"
+        }
+      ],
+      "events": [
+        {
+          "description": "Joe Rogan describes a vivid dream with tall slender humanoids, reptilian barriers, and communication, occurring a few weeks before the podcast.",
+          "date": "Unknown (approx. weeks prior)"
+        },
+        {
+          "description": "Rogan recounts episode with Brett Weinstein where he shared the dream.",
+          "date": "Unknown"
+        },
+        {
+          "description": "Rogan mentions Bob Lazar's 2018 interview on his podcast (JRE #1315) that attracted 63 million views; claimed it substantiated Lazar's claims over time.",
+          "date": "2018 (interview)"
+        },
+        {
+          "description": "Discussion of documentary 'The Age of Disclosure' featuring high-level officials, and concerns about UAP tech race between US and China.",
+          "date": "Unknown (contemporary)"
+        }
+      ],
+      "publications": [
+        {
+          "title": "The Age of Disclosure",
+          "type": "Documentary",
+          "description": "Features high-level intel officers discussing UAPs, reportedly includes James Woolsey, James Clapper, John Brennan, Marco Rubio."
+        },
+        {
+          "title": "Jeremy Corbell's Area 51 Bob Lazar documentary",
+          "type": "Documentary",
+          "description": "Documentary that brought Rogan back into UAP interest, featuring Bob Lazar."
+        }
+      ]
+    }
+  },
+  "ingestion": {},
+  "chunks": [],
+  "ner_results": [],
+  "embeddable_texts": [],
+  "metadata": {
+    "provenance": "https://www.youtube.com/watch?v=C_Na1tI5qpw",
+    "filename_hint": "Joe Rogan: The Truth About Aliens (He Finally Says It)",
+    "prompts_dir": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/ai/prompts"
+  },
+  "errors": [
+    "All LLM providers failed (anthropic/claude-sonnet-5: skipped (HTTP 400); anthropic/claude-opus-4-8: skipped (HTTP 400); deepseek/deepseek-v4-pro: BudgetExhausted: deepseek/deepseek-v4-pro: max_tokens=4096 consumed before any answer was emitted (reasoning=True); raise max_tokens; together/kimi-k3: BudgetExhausted: together/kimi-k3: max_tokens=4096 consumed before any answer was emitted (reasoning=True); raise max_tokens; openai/gpt-5.5: skipped (HTTP 401); groq/gpt-oss-120b: skipped (HTTP 401))"
+  ],
+  "prompts_used": [
+    "document_classification",
+    "disclosure.content_analysis",
+    "rag_ingestion"
+  ]
+}

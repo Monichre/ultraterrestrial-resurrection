@@ -1,0 +1,39 @@
+{
+  "url": "https://www.theblackvault.com/documentarchive/majestic-12/",
+  "title": "Web Article",
+  "author": "",
+  "publish_date": "",
+  "type": "web_article",
+  "content_length": 9939,
+  "word_count": 1659,
+  "extraction_timestamp": "2025-08-12T03:11:20.255470",
+  "processing_status": {
+    "content_extracted": true,
+    "summary_generated": false,
+    "entities_extracted": false,
+    "kb_indexed": false,
+    "kg_processed": false
+  },
+  "files": {
+    "summary": "data/web_articles/2025-08-12/Web Article_4b8fb4b0/Web Article_summary.txt",
+    "content": "data/web_articles/2025-08-12/Web Article_4b8fb4b0/Web Article_content.txt",
+    "metadata": "data/web_articles/2025-08-12/Web Article_4b8fb4b0/Web Article_metadata.json"
+  },
+  "analysis": {
+    "content_type": "ufo_research",
+    "key_topics": [
+      "Ufo",
+      "Alien",
+      "Roswell",
+      "Majestic 12",
+      "Mj-12",
+      "Disclosure",
+      "Fbi",
+      "Cia",
+      "Government",
+      "Classified"
+    ],
+    "reading_time_minutes": 8,
+    "complexity_score": 100
+  }
+}

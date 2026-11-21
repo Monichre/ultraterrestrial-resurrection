@@ -1,0 +1,510 @@
+{
+ "generated": "2026-08-17",
+ "ticket": "T-061",
+ "status": "AWAITING PHASE 1 APPROVAL",
+ "note": "Tier A+C from YouTube Data API (authoritative, channel_id-keyed). Tier B from web metadata url/source. Open modelling questions recorded in open_questions.",
+ "open_questions": [
+  "Reality Check is a PROGRAM on the NewsNation channel, not its own channel — it has no channel_id. Model as newsnation + program attribute, or split?",
+  "Near-duplicate channels: Julian Dorey / Julian Dorey Daily; PowerfulJRE / JRE Clips; ABC7 / ABC 7 Chicago. Merge with aliases or keep distinct?",
+  "Long tail of one-off news clips (CBS News, NBC News, AP Archive, Denver7, WFMY, ...) — own sources, or grouped under a news-clip collection?",
+  "Probable junk to delete rather than file: Rick Astley (rickroll), KinoCheck.com + SearchlightPictures (movie trailers), Motion, stelios kyre, Usman Abdur Rehman, Psicoactivo Podcast, httpbin.org."
+ ],
+ "sources": {
+  "7-news-spotlight": {
+   "display_name": "7 News Spotlight",
+   "kind": "youtube_channel",
+   "channel_id": "UCSgeCjcPYYZXR62Cykv43sA",
+   "slug": "7-news-spotlight",
+   "aliases": [],
+   "entry_count": 1
+  },
+  "8-news-now-las-vegas": {
+   "display_name": "8 News Now — Las Vegas",
+   "kind": "youtube_channel",
+   "channel_id": "UCFuzExfO2fUVmNK5_COvsNg",
+   "slug": "8-news-now-las-vegas",
+   "aliases": [],
+   "entry_count": 5
+  },
+  "abc-7-chicago": {
+   "display_name": "ABC 7 Chicago",
+   "kind": "youtube_channel",
+   "channel_id": "UC_vFLohxs5PkAxlk7Y6jEtw",
+   "slug": "abc-7-chicago",
+   "aliases": [],
+   "entry_count": 1
+  },
+  "abc7": {
+   "display_name": "ABC7",
+   "kind": "youtube_channel",
+   "channel_id": "UCVxBA3Cbu3pm8w8gEIoMEog",
+   "slug": "abc7",
+   "aliases": [],
+   "entry_count": 1
+  },
+  "andre-duqum": {
+   "display_name": "André Duqum",
+   "kind": "youtube_channel",
+   "channel_id": "UCOFr2M0innfMCzpMeMQ7zNw",
+   "slug": "andre-duqum",
+   "aliases": [],
+   "entry_count": 1
+  },
+  "ap-archive": {
+   "display_name": "AP Archive",
+   "kind": "youtube_channel",
+   "channel_id": "UCHTK-2W11Vh1V4uwofOfR4w",
+   "slug": "ap-archive",
+   "aliases": [],
+   "entry_count": 1
+  },
+  "area52": {
+   "display_name": "Area52",
+   "kind": "youtube_channel",
+   "channel_id": "UCvQ_EDuk8w67a2UkCS1ptbA",
+   "slug": "area52",
+   "aliases": [],
+   "entry_count": 10
+  },
+  "bigelow-podcast": {
+   "display_name": "Bigelow Podcast",
+   "kind": "youtube_channel",
+   "channel_id": "UCsVcWJzbROaYDCM4fKSJ68w",
+   "slug": "bigelow-podcast",
+   "aliases": [],
+   "entry_count": 1
+  },
+  "cbs-news": {
+   "display_name": "CBS News",
+   "kind": "youtube_channel",
+   "channel_id": "UC8p1vwvWtl6T73JiExfWs1g",
+   "slug": "cbs-news",
+   "aliases": [],
+   "entry_count": 3
+  },
+  "cnn-news18": {
+   "display_name": "CNN-News18",
+   "kind": "youtube_channel",
+   "channel_id": "UCef1-8eOpJgud7szVPlZQAQ",
+   "slug": "cnn-news18",
+   "aliases": [],
+   "entry_count": 1
+  },
+  "curt-jaimungal": {
+   "display_name": "Curt Jaimungal",
+   "kind": "youtube_channel",
+   "channel_id": "UCdWIQh9DGG6uhJk8eyIFl1w",
+   "slug": "curt-jaimungal",
+   "aliases": [],
+   "entry_count": 1
+  },
+  "danny-jones": {
+   "display_name": "Danny Jones",
+   "kind": "youtube_channel",
+   "channel_id": "UCbtV5L8TVB0zQ9khThGApLw",
+   "slug": "danny-jones",
+   "aliases": [],
+   "entry_count": 1
+  },
+  "denver7": {
+   "display_name": "Denver7",
+   "kind": "youtube_channel",
+   "channel_id": "UC-2MJlKSq9_pYk5-bdvMhnw",
+   "slug": "denver7",
+   "aliases": [],
+   "entry_count": 1
+  },
+  "disclosure-team": {
+   "display_name": "Disclosure Team",
+   "kind": "youtube_channel",
+   "channel_id": "UCMEnA8bwyz4-JVDBkLgcntg",
+   "slug": "disclosure-team",
+   "aliases": [],
+   "entry_count": 1
+  },
+  "dr-brian-keating": {
+   "display_name": "Dr Brian Keating",
+   "kind": "youtube_channel",
+   "channel_id": "UCmXH_moPhfkqCk6S3b9RWuw",
+   "slug": "dr-brian-keating",
+   "aliases": [],
+   "entry_count": 1
+  },
+  "dr-steven-greer": {
+   "display_name": "Dr. Steven Greer",
+   "kind": "youtube_channel",
+   "channel_id": "UCC6B4Y0oFACv9QBlf0ebBcg",
+   "slug": "dr-steven-greer",
+   "aliases": [],
+   "entry_count": 145
+  },
+  "face-the-nation": {
+   "display_name": "Face the Nation",
+   "kind": "youtube_channel",
+   "channel_id": "UC2x_qNZXKDxNP1j4jvHATRQ",
+   "slug": "face-the-nation",
+   "aliases": [],
+   "entry_count": 1
+  },
+  "gop-oversight": {
+   "display_name": "GOP Oversight",
+   "kind": "youtube_channel",
+   "channel_id": "UCn8TJ6Tyq2aGvhybME_itDQ",
+   "slug": "gop-oversight",
+   "aliases": [],
+   "entry_count": 1
+  },
+  "httpbin-org": {
+   "display_name": "httpbin.org",
+   "kind": "web_domain",
+   "domain": "httpbin.org",
+   "slug": "httpbin-org",
+   "aliases": [],
+   "entry_count": 1
+  },
+  "jeremy-corbell": {
+   "display_name": "Jeremy Corbell",
+   "kind": "youtube_channel",
+   "channel_id": "UCkgPT7LeB_t1aXTYyMiFVAg",
+   "slug": "jeremy-corbell",
+   "aliases": [],
+   "entry_count": 3
+  },
+  "jesse-michels": {
+   "display_name": "Jesse Michels",
+   "kind": "youtube_channel",
+   "channel_id": "UCuG2KzrIMe3qoNcuDVpwnXw",
+   "slug": "jesse-michels",
+   "aliases": [],
+   "entry_count": 97
+  },
+  "jre-clips": {
+   "display_name": "JRE Clips",
+   "kind": "youtube_channel",
+   "channel_id": "UCnxGkOGNMqQEUMvroOWps6Q",
+   "slug": "jre-clips",
+   "aliases": [],
+   "entry_count": 1
+  },
+  "julian-dorey": {
+   "display_name": "Julian Dorey",
+   "kind": "youtube_channel",
+   "channel_id": "UC0A-v_DL-h76F75xik8h03Q",
+   "slug": "julian-dorey",
+   "aliases": [],
+   "entry_count": 3
+  },
+  "julian-dorey-daily": {
+   "display_name": "Julian Dorey Daily",
+   "kind": "youtube_channel",
+   "channel_id": "UCnhkK3mHzGUTu-yXfmerRmw",
+   "slug": "julian-dorey-daily",
+   "aliases": [],
+   "entry_count": 2
+  },
+  "kinocheck-com": {
+   "display_name": "KinoCheck.com",
+   "kind": "youtube_channel",
+   "channel_id": "UCLRlryMfL8ffxzrtqv0_k_w",
+   "slug": "kinocheck-com",
+   "aliases": [],
+   "entry_count": 1
+  },
+  "lex-fridman": {
+   "display_name": "Lex Fridman",
+   "kind": "youtube_channel",
+   "channel_id": "UCSHZKyawb77ixDdsGog4iWA",
+   "slug": "lex-fridman",
+   "aliases": [],
+   "entry_count": 1
+  },
+  "livenow-from-fox": {
+   "display_name": "LiveNOW from FOX",
+   "kind": "youtube_channel",
+   "channel_id": "UCJg9wBPyKMNA5sRDnvzmkdg",
+   "slug": "livenow-from-fox",
+   "aliases": [],
+   "entry_count": 1
+  },
+  "medium-com": {
+   "display_name": "medium.com",
+   "kind": "web_domain",
+   "domain": "medium.com",
+   "slug": "medium-com",
+   "aliases": [],
+   "entry_count": 8
+  },
+  "motion": {
+   "display_name": "Motion",
+   "kind": "youtube_channel",
+   "channel_id": "UCBG-W-zd8wn2AGVBSVfWgqQ",
+   "slug": "motion",
+   "aliases": [],
+   "entry_count": 1
+  },
+  "motorhead-garage": {
+   "display_name": "Motorhead Garage",
+   "kind": "youtube_channel",
+   "channel_id": "UC_lImxJUPNAQhbbgwgk7s-w",
+   "slug": "motorhead-garage",
+   "aliases": [],
+   "entry_count": 2
+  },
+  "nbc-news": {
+   "display_name": "NBC News",
+   "kind": "youtube_channel",
+   "channel_id": "UCeY0bbntWzzVIaj2z3QigXg",
+   "slug": "nbc-news",
+   "aliases": [],
+   "entry_count": 1
+  },
+  "newsnation": {
+   "display_name": "NewsNation",
+   "kind": "youtube_channel",
+   "channel_id": "UCCjG8NtOig0USdrT5D1FpxQ",
+   "slug": "newsnation",
+   "aliases": [],
+   "entry_count": 19
+  },
+  "night-shift": {
+   "display_name": "NIGHT SHIFT",
+   "kind": "youtube_channel",
+   "channel_id": "UCt9Yi-Sr7wQWrqJW5Kx1rTQ",
+   "slug": "night-shift",
+   "aliases": [],
+   "entry_count": 1
+  },
+  "oversight-house-gov": {
+   "display_name": "oversight.house.gov",
+   "kind": "web_domain",
+   "domain": "oversight.house.gov",
+   "slug": "oversight-house-gov",
+   "aliases": [],
+   "entry_count": 2
+  },
+  "podcast-ufo-live-shows": {
+   "display_name": "Podcast UFO Live Shows",
+   "kind": "youtube_channel",
+   "channel_id": "UCSTVGU0oHJp-gvlYPfWUvWQ",
+   "slug": "podcast-ufo-live-shows",
+   "aliases": [],
+   "entry_count": 2
+  },
+  "powerfuljre": {
+   "display_name": "PowerfulJRE",
+   "kind": "youtube_channel",
+   "channel_id": "UCzQUP1qoWDoEbmsQxvdjxgQ",
+   "slug": "powerfuljre",
+   "aliases": [],
+   "entry_count": 6
+  },
+  "protoofsnagem": {
+   "display_name": "ProtoOfSnagem",
+   "kind": "youtube_channel",
+   "channel_id": "UCJeFpHh_GaNzEGvneb3XNkQ",
+   "slug": "protoofsnagem",
+   "aliases": [],
+   "entry_count": 1
+  },
+  "psicoactivo-podcast": {
+   "display_name": "Psicoactivo Podcast",
+   "kind": "youtube_channel",
+   "channel_id": "UCE209kqp4d9h79qBb0rQrqQ",
+   "slug": "psicoactivo-podcast",
+   "aliases": [],
+   "entry_count": 1
+  },
+  "red-panda-koala": {
+   "display_name": "Red Panda Koala",
+   "kind": "youtube_channel",
+   "channel_id": "UCvSbzThCfsiETLp3eOdVkNw",
+   "slug": "red-panda-koala",
+   "aliases": [],
+   "entry_count": 1
+  },
+  "rick-astley": {
+   "display_name": "Rick Astley",
+   "kind": "youtube_channel",
+   "channel_id": "UCuAXFkgsw1L7xaCfnd5JJOw",
+   "slug": "rick-astley",
+   "aliases": [],
+   "entry_count": 2
+  },
+  "salt": {
+   "display_name": "SALT",
+   "kind": "youtube_channel",
+   "channel_id": "UCCnhrPnlIOHxr9kviPgqq-g",
+   "slug": "salt",
+   "aliases": [],
+   "entry_count": 1
+  },
+  "searchlightpictures": {
+   "display_name": "SearchlightPictures",
+   "kind": "youtube_channel",
+   "channel_id": "UCor9rW6PgxSQ9vUPWQdnaYQ",
+   "slug": "searchlightpictures",
+   "aliases": [],
+   "entry_count": 1
+  },
+  "shawn-ryan-show": {
+   "display_name": "Shawn Ryan Show",
+   "kind": "youtube_channel",
+   "channel_id": "UCkoujZQZatbqy4KGcgjpVxQ",
+   "slug": "shawn-ryan-show",
+   "aliases": [],
+   "entry_count": 3
+  },
+  "startalk": {
+   "display_name": "StarTalk",
+   "kind": "youtube_channel",
+   "channel_id": "UCqoAEDirJPjEUFcF2FklnBA",
+   "slug": "startalk",
+   "aliases": [],
+   "entry_count": 1
+  },
+  "stelios-kyre": {
+   "display_name": "stelios kyre",
+   "kind": "youtube_channel",
+   "channel_id": "UCD7jTH9p63u7pmlLeXT9PKg",
+   "slug": "stelios-kyre",
+   "aliases": [],
+   "entry_count": 1
+  },
+  "that-ufo-podcast": {
+   "display_name": "That UFO Podcast",
+   "kind": "youtube_channel",
+   "channel_id": "UCHw9Lru3EcpRQyM7AI5TlmA",
+   "slug": "that-ufo-podcast",
+   "aliases": [],
+   "entry_count": 1
+  },
+  "the-hannibal-tv": {
+   "display_name": "THE HANNIBAL TV",
+   "kind": "youtube_channel",
+   "channel_id": "UCcpWZrbYzye7-FY4i1ALfVw",
+   "slug": "the-hannibal-tv",
+   "aliases": [],
+   "entry_count": 1
+  },
+  "the-press-democrat": {
+   "display_name": "The Press Democrat",
+   "kind": "youtube_channel",
+   "channel_id": "UCCkiOVS6uGicMDnBzdteosw",
+   "slug": "the-press-democrat",
+   "aliases": [],
+   "entry_count": 1
+  },
+  "the-sol-foundation": {
+   "display_name": "The Sol Foundation",
+   "kind": "youtube_channel",
+   "channel_id": "UCzlWCeD3J0zVb4KSeaeDNdw",
+   "slug": "the-sol-foundation",
+   "aliases": [],
+   "entry_count": 1
+  },
+  "theblackvault-com": {
+   "display_name": "theblackvault.com",
+   "kind": "web_domain",
+   "domain": "theblackvault.com",
+   "slug": "theblackvault-com",
+   "aliases": [],
+   "entry_count": 5
+  },
+  "third-eye-drops-with-michael-phillip": {
+   "display_name": "THIRD EYE DROPS with Michael Phillip",
+   "kind": "youtube_channel",
+   "channel_id": "UC71vsoCXoJm1AvWhWJV_1lw",
+   "slug": "third-eye-drops-with-michael-phillip",
+   "aliases": [],
+   "entry_count": 2
+  },
+  "tom-bilyeu": {
+   "display_name": "Tom Bilyeu",
+   "kind": "youtube_channel",
+   "channel_id": "UCnYMOamNKLGVlJgRUbamveA",
+   "slug": "tom-bilyeu",
+   "aliases": [],
+   "entry_count": 1
+  },
+  "tool-use-ai-conversations": {
+   "display_name": "Tool Use - AI Conversations",
+   "kind": "youtube_channel",
+   "channel_id": "UChZeiM9f9fViEYK2VPRx_dw",
+   "slug": "tool-use-ai-conversations",
+   "aliases": [],
+   "entry_count": 1
+  },
+  "twz-com": {
+   "display_name": "twz.com",
+   "kind": "web_domain",
+   "domain": "twz.com",
+   "slug": "twz-com",
+   "aliases": [],
+   "entry_count": 1
+  },
+  "ufo-archives": {
+   "display_name": "UFO Archives",
+   "kind": "youtube_channel",
+   "channel_id": "UCFfeWVPjzrnTAGsWGeymSLw",
+   "slug": "ufo-archives",
+   "aliases": [],
+   "entry_count": 1
+  },
+  "ufo-hub": {
+   "display_name": "UFO HUB",
+   "kind": "youtube_channel",
+   "channel_id": "UCqu-b5DN7A-KUkwdLyQhT6Q",
+   "slug": "ufo-hub",
+   "aliases": [],
+   "entry_count": 1
+  },
+  "usman-abdur-rehman": {
+   "display_name": "Usman Abdur Rehman",
+   "kind": "youtube_channel",
+   "channel_id": "UCiA7422ma8DjSu5srCab4zQ",
+   "slug": "usman-abdur-rehman",
+   "aliases": [],
+   "entry_count": 1
+  },
+  "vetted": {
+   "display_name": "VETTED",
+   "kind": "youtube_channel",
+   "channel_id": "UC1VfNwcNXSvCy8bNnFzqkpA",
+   "slug": "vetted",
+   "aliases": [],
+   "entry_count": 1
+  },
+  "war-gov": {
+   "display_name": "war.gov",
+   "kind": "web_domain",
+   "domain": "war.gov",
+   "slug": "war-gov",
+   "aliases": [],
+   "entry_count": 1
+  },
+  "wfmy-news-2": {
+   "display_name": "WFMY News 2",
+   "kind": "youtube_channel",
+   "channel_id": "UC6UcjqhROKEWmz7aGzees9A",
+   "slug": "wfmy-news-2",
+   "aliases": [],
+   "entry_count": 1
+  },
+  "wfxr-news": {
+   "display_name": "WFXR NEWS",
+   "kind": "youtube_channel",
+   "channel_id": "UC8Lg5y3YmAcVbkkuA0meA3w",
+   "slug": "wfxr-news",
+   "aliases": [],
+   "entry_count": 1
+  },
+  "world-president-goes-viral": {
+   "display_name": "World President goes viral",
+   "kind": "youtube_channel",
+   "channel_id": "UCSun6KxKzepTDtvKmwBOYLA",
+   "slug": "world-president-goes-viral",
+   "aliases": [],
+   "entry_count": 2
+  }
+ }
+}

@@ -1,0 +1,1171 @@
+{
+  "schemaVersion": "trace-map.v1",
+  "sourceId": "src:e1688ad476d99745",
+  "sourceType": "video",
+  "sourceUrl": "https://www.youtube.com/watch?v=B6WFLOIkyho",
+  "sourceHash": "sha256:7a4f7f2392c086209bf957ea70f2c105850ba7b211808eeec77073faf4344d5b",
+  "contentVersion": 1,
+  "reviewState": "unreviewed",
+  "nodes": [
+    {
+      "id": "src:e1688ad476d99745",
+      "type": "source",
+      "label": "Alien Encounters With The Real Life X-Files Agent - Nick Pope - DEBRIEFED ep. 34",
+      "url": "https://www.youtube.com/watch?v=B6WFLOIkyho",
+      "sourceType": "video",
+      "contentType": "media",
+      "integrityFlags": [
+        "secondary_repost",
+        "ad_insertions"
+      ],
+      "classificationMarks": [],
+      "ingestionRecommendation": "proceed"
+    },
+    {
+      "id": "seg:e1688ad476d99745:c01",
+      "type": "segment",
+      "label": "c01",
+      "chunkId": "c01",
+      "evidentiaryDensity": "high",
+      "temporalAnchors": [
+        "1993"
+      ],
+      "spatialAnchors": [
+        "Cosford, UK",
+        "central London",
+        "Virginia Beach, US"
+      ],
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 1896,
+        "segmentStart": 0,
+        "segmentEnd": 51,
+        "startSeconds": 0.24,
+        "endSeconds": 158.4,
+        "method": "exact",
+        "excerpt": "what is one sort of fringe encounter that still kind of troubles you to this day? we had a case in 1993, well actually a wave of sightings collectively known as the cosford incident. one guy was so stunned by this huge triangular shaped cra"
+      },
+      "excerpt": "What is one sort of fringe encounter that still kind of troubles you to this day? We had a case in 1993, well actually a wave of sightings collectively known as the Cosford incident. One guy was so stunned by this huge triangular shaped cra"
+    },
+    {
+      "id": "seg:e1688ad476d99745:c03",
+      "type": "segment",
+      "label": "c03",
+      "chunkId": "c03",
+      "evidentiaryDensity": "medium",
+      "temporalAnchors": [
+        "1991-1994"
+      ],
+      "spatialAnchors": [
+        "UK"
+      ],
+      "anchor": {
+        "charStart": 2300,
+        "charEnd": 3938,
+        "segmentStart": 63,
+        "segmentEnd": 106,
+        "startSeconds": 181.0,
+        "endSeconds": 297.12,
+        "method": "exact",
+        "excerpt": "welcome, nicholas pope. thank you. yeah, absolutely. for those not familiar uh with nick pope, you know, he might be a familiar face to a lot of you on the history channels ancient aliens, but prior to that spent 21 years working for the mi"
+      },
+      "excerpt": "Welcome, Nicholas Pope. Thank you. Yeah, absolutely. For those not familiar uh with Nick Pope, you know, he might be a familiar face to a lot of you on the History Channels Ancient Aliens, but prior to that spent 21 years working for the Mi"
+    },
+    {
+      "id": "seg:e1688ad476d99745:c04",
+      "type": "segment",
+      "label": "c04",
+      "chunkId": "c04",
+      "evidentiaryDensity": "medium",
+      "temporalAnchors": [
+        "1990s",
+        "1991-1994"
+      ],
+      "spatialAnchors": [
+        "UK",
+        "US"
+      ],
+      "anchor": {
+        "charStart": 3939,
+        "charEnd": 6558,
+        "segmentStart": 106,
+        "segmentEnd": 176,
+        "startSeconds": 290.72,
+        "endSeconds": 477.919,
+        "method": "exact",
+        "excerpt": "yeah, i mean that is quite a hefty task now doing this back then, you know, like today this might not seem so unheard of because of, you know, the recent task force that's been appointed, but also the other programs like oap and atip and al"
+      },
+      "excerpt": "Yeah, I mean that is quite a hefty task now doing this back then, you know, like today this might not seem so unheard of because of, you know, the recent task force that's been appointed, but also the other programs like OAP and ATIP and al"
+    },
+    {
+      "id": "seg:e1688ad476d99745:c05",
+      "type": "segment",
+      "label": "c05",
+      "chunkId": "c05",
+      "evidentiaryDensity": "medium",
+      "temporalAnchors": [
+        "1991-1994",
+        "1997",
+        "1950s"
+      ],
+      "spatialAnchors": [
+        "UK",
+        "US",
+        "Zimbabwe",
+        "Virginia"
+      ],
+      "anchor": {
+        "charStart": 6559,
+        "charEnd": 9445,
+        "segmentStart": 177,
+        "segmentEnd": 253,
+        "startSeconds": 474.919,
+        "endSeconds": 687.92,
+        "method": "prefix_suffix",
+        "excerpt": "um there i mean you've probably looked at a lot of cases from 1991 to '94 and in the '9s obviously i mean there was a a a rampant surge in especially mass sightings you know going from obviously uh you know 97 which we just celebrated the a"
+      },
+      "excerpt": "Um there I mean you've probably looked at a lot of cases from 1991 to '94 and in the '9s obviously I mean there was a a a rampant surge in especially mass sightings you know going from obviously uh you know 97 which we just celebrated the a"
+    },
+    {
+      "id": "seg:e1688ad476d99745:c07",
+      "type": "segment",
+      "label": "c07",
+      "chunkId": "c07",
+      "evidentiaryDensity": "high",
+      "temporalAnchors": [
+        "March 30-31, 1993",
+        "March 30-31, 1990"
+      ],
+      "spatialAnchors": [
+        "Cosford, UK",
+        "Belgium"
+      ],
+      "anchor": {
+        "charStart": 10934,
+        "charEnd": 15678,
+        "segmentStart": 295,
+        "segmentEnd": 421,
+        "startSeconds": 788.32,
+        "endSeconds": 1142.0800000000002,
+        "method": "exact",
+        "excerpt": "and although there were police and military sightings in that in a way the most interesting cases did come from the public literally. for example, one guy was so stunned by this huge triangular shaped craft that he was witnessing that he le"
+      },
+      "excerpt": "And although there were police and military sightings in that in a way the most interesting cases did come from the public literally. For example, one guy was so stunned by this huge triangular shaped craft that he was witnessing that he le"
+    },
+    {
+      "id": "seg:e1688ad476d99745:c08",
+      "type": "segment",
+      "label": "c08",
+      "chunkId": "c08",
+      "evidentiaryDensity": "medium",
+      "temporalAnchors": [],
+      "spatialAnchors": [
+        "US"
+      ],
+      "anchor": {
+        "charStart": 15679,
+        "charEnd": 18584,
+        "segmentStart": 421,
+        "segmentEnd": 499,
+        "startSeconds": 1137.2,
+        "endSeconds": 1355.2800000000002,
+        "method": "exact",
+        "excerpt": "yeah. and that's i think what made your job so important is is looking at those anomalies. and you know that this brings me to a really interesting point that i've pondered quite a bit as well. being people who are interested in these fring"
+      },
+      "excerpt": "Yeah. And that's I think what made your job so important is is looking at those anomalies. And you know that this brings me to a really interesting point that I've pondered quite a bit as well. Being people who are interested in these fring"
+    },
+    {
+      "id": "seg:e1688ad476d99745:c09",
+      "type": "segment",
+      "label": "c09",
+      "chunkId": "c09",
+      "evidentiaryDensity": "high",
+      "temporalAnchors": [],
+      "spatialAnchors": [
+        "central London"
+      ],
+      "anchor": {
+        "charStart": 18585,
+        "charEnd": 24000,
+        "segmentStart": 499,
+        "segmentEnd": 645,
+        "startSeconds": 1348.88,
+        "endSeconds": 1750.559,
+        "method": "exact",
+        "excerpt": "yeah, i just find it so um so wild because uh you know these abduction cases specifically go back decades and decades and decades. it's not like they've gone away and there was a time where they were seemingly more rampant, but um it is for"
+      },
+      "excerpt": "Yeah, I just find it so um so wild because uh you know these abduction cases specifically go back decades and decades and decades. It's not like they've gone away and there was a time where they were seemingly more rampant, but um it is for"
+    },
+    {
+      "id": "clm:e1688ad476d99745:b7b70109ced7",
+      "type": "claim",
+      "label": "Cosford incident involved a triangular craft chased by a witness",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 1896,
+        "segmentStart": 0,
+        "segmentEnd": 51,
+        "startSeconds": 0.24,
+        "endSeconds": 158.4,
+        "method": "exact",
+        "excerpt": "what is one sort of fringe encounter that still kind of troubles you to this day? we had a case in 1993, well actually a wave of sightings collectively known as the cosford incident. one guy was so stunned by this huge triangular shaped cra"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e1688ad476d99745:ec2cb9218041",
+      "type": "claim",
+      "label": "Farmer saw cows standing in a circle after possible landing",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 1896,
+        "segmentStart": 0,
+        "segmentEnd": 51,
+        "startSeconds": 0.24,
+        "endSeconds": 158.4,
+        "method": "exact",
+        "excerpt": "what is one sort of fringe encounter that still kind of troubles you to this day? we had a case in 1993, well actually a wave of sightings collectively known as the cosford incident. one guy was so stunned by this huge triangular shaped cra"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e1688ad476d99745:f7dfac26c117",
+      "type": "claim",
+      "label": "Woman reported aliens in her shop after odd purchase behavior",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 1896,
+        "segmentStart": 0,
+        "segmentEnd": 51,
+        "startSeconds": 0.24,
+        "endSeconds": 158.4,
+        "method": "exact",
+        "excerpt": "what is one sort of fringe encounter that still kind of troubles you to this day? we had a case in 1993, well actually a wave of sightings collectively known as the cosford incident. one guy was so stunned by this huge triangular shaped cra"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e1688ad476d99745:ce2dc82a3f9e",
+      "type": "claim",
+      "label": "Woman had a time slip experience seeing future self",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 1896,
+        "segmentStart": 0,
+        "segmentEnd": 51,
+        "startSeconds": 0.24,
+        "endSeconds": 158.4,
+        "method": "exact",
+        "excerpt": "what is one sort of fringe encounter that still kind of troubles you to this day? we had a case in 1993, well actually a wave of sightings collectively known as the cosford incident. one guy was so stunned by this huge triangular shaped cra"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e1688ad476d99745:4feaf822949b",
+      "type": "claim",
+      "label": "Nick Pope worked 21 years at UK Ministry of Defense",
+      "anchor": {
+        "charStart": 2300,
+        "charEnd": 3938,
+        "segmentStart": 63,
+        "segmentEnd": 106,
+        "startSeconds": 181.0,
+        "endSeconds": 297.12,
+        "method": "exact",
+        "excerpt": "welcome, nicholas pope. thank you. yeah, absolutely. for those not familiar uh with nick pope, you know, he might be a familiar face to a lot of you on the history channels ancient aliens, but prior to that spent 21 years working for the mi"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e1688ad476d99745:072f8a092dab",
+      "type": "claim",
+      "label": "Pope was posted to the UFO desk from 1991 to 1994",
+      "anchor": {
+        "charStart": 2300,
+        "charEnd": 3938,
+        "segmentStart": 63,
+        "segmentEnd": 106,
+        "startSeconds": 181.0,
+        "endSeconds": 297.12,
+        "method": "exact",
+        "excerpt": "welcome, nicholas pope. thank you. yeah, absolutely. for those not familiar uh with nick pope, you know, he might be a familiar face to a lot of you on the history channels ancient aliens, but prior to that spent 21 years working for the mi"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e1688ad476d99745:5b5bb253d45c",
+      "type": "claim",
+      "label": "His mission was to research UFOs and assess defense implications",
+      "anchor": {
+        "charStart": 2300,
+        "charEnd": 3938,
+        "segmentStart": 63,
+        "segmentEnd": 106,
+        "startSeconds": 181.0,
+        "endSeconds": 297.12,
+        "method": "exact",
+        "excerpt": "welcome, nicholas pope. thank you. yeah, absolutely. for those not familiar uh with nick pope, you know, he might be a familiar face to a lot of you on the history channels ancient aliens, but prior to that spent 21 years working for the mi"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e1688ad476d99745:93740ead809a",
+      "type": "claim",
+      "label": "UFO desk was staffed by Pope and admin support only",
+      "anchor": {
+        "charStart": 3939,
+        "charEnd": 6558,
+        "segmentStart": 106,
+        "segmentEnd": 176,
+        "startSeconds": 290.72,
+        "endSeconds": 477.919,
+        "method": "exact",
+        "excerpt": "yeah, i mean that is quite a hefty task now doing this back then, you know, like today this might not seem so unheard of because of, you know, the recent task force that's been appointed, but also the other programs like oap and atip and al"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e1688ad476d99745:f7dece1d2709",
+      "type": "claim",
+      "label": "Pope had access to radar, imagery, and expert networks",
+      "anchor": {
+        "charStart": 3939,
+        "charEnd": 6558,
+        "segmentStart": 106,
+        "segmentEnd": 176,
+        "startSeconds": 290.72,
+        "endSeconds": 477.919,
+        "method": "exact",
+        "excerpt": "yeah, i mean that is quite a hefty task now doing this back then, you know, like today this might not seem so unheard of because of, you know, the recent task force that's been appointed, but also the other programs like oap and atip and al"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e1688ad476d99745:d67f9ff89449",
+      "type": "claim",
+      "label": "UFO subject was more fringe in government in the 1990s",
+      "anchor": {
+        "charStart": 3939,
+        "charEnd": 6558,
+        "segmentStart": 106,
+        "segmentEnd": 176,
+        "startSeconds": 290.72,
+        "endSeconds": 477.919,
+        "method": "exact",
+        "excerpt": "yeah, i mean that is quite a hefty task now doing this back then, you know, like today this might not seem so unheard of because of, you know, the recent task force that's been appointed, but also the other programs like oap and atip and al"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e1688ad476d99745:fe72d842f2f0",
+      "type": "claim",
+      "label": "US now has task forces and UFO provisions in NDAA",
+      "anchor": {
+        "charStart": 3939,
+        "charEnd": 6558,
+        "segmentStart": 106,
+        "segmentEnd": 176,
+        "startSeconds": 290.72,
+        "endSeconds": 477.919,
+        "method": "exact",
+        "excerpt": "yeah, i mean that is quite a hefty task now doing this back then, you know, like today this might not seem so unheard of because of, you know, the recent task force that's been appointed, but also the other programs like oap and atip and al"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e1688ad476d99745:506e973424c5",
+      "type": "claim",
+      "label": "Pope's terms of reference were limited to UK defense",
+      "anchor": {
+        "charStart": 6559,
+        "charEnd": 9445,
+        "segmentStart": 177,
+        "segmentEnd": 253,
+        "startSeconds": 474.919,
+        "endSeconds": 687.92,
+        "method": "prefix_suffix",
+        "excerpt": "um there i mean you've probably looked at a lot of cases from 1991 to '94 and in the '9s obviously i mean there was a a a rampant surge in especially mass sightings you know going from obviously uh you know 97 which we just celebrated the a"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e1688ad476d99745:034ebd063178",
+      "type": "claim",
+      "label": "He did not investigate mass sightings outside the UK",
+      "anchor": {
+        "charStart": 6559,
+        "charEnd": 9445,
+        "segmentStart": 177,
+        "segmentEnd": 253,
+        "startSeconds": 474.919,
+        "endSeconds": 687.92,
+        "method": "prefix_suffix",
+        "excerpt": "um there i mean you've probably looked at a lot of cases from 1991 to '94 and in the '9s obviously i mean there was a a a rampant surge in especially mass sightings you know going from obviously uh you know 97 which we just celebrated the a"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e1688ad476d99745:6f87e786f7ca",
+      "type": "claim",
+      "label": "Most cases (80-90%) came from the public",
+      "anchor": {
+        "charStart": 6559,
+        "charEnd": 9445,
+        "segmentStart": 177,
+        "segmentEnd": 253,
+        "startSeconds": 474.919,
+        "endSeconds": 687.92,
+        "method": "prefix_suffix",
+        "excerpt": "um there i mean you've probably looked at a lot of cases from 1991 to '94 and in the '9s obviously i mean there was a a a rampant surge in especially mass sightings you know going from obviously uh you know 97 which we just celebrated the a"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e1688ad476d99745:78e9189c51f7",
+      "type": "claim",
+      "label": "Program was public-facing like Project Blue Book",
+      "anchor": {
+        "charStart": 6559,
+        "charEnd": 9445,
+        "segmentStart": 177,
+        "segmentEnd": 253,
+        "startSeconds": 474.919,
+        "endSeconds": 687.92,
+        "method": "prefix_suffix",
+        "excerpt": "um there i mean you've probably looked at a lot of cases from 1991 to '94 and in the '9s obviously i mean there was a a a rampant surge in especially mass sightings you know going from obviously uh you know 97 which we just celebrated the a"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e1688ad476d99745:17b506cff7b5",
+      "type": "claim",
+      "label": "Cosford incident occurred March 30-31, 1993",
+      "anchor": {
+        "charStart": 10934,
+        "charEnd": 15678,
+        "segmentStart": 295,
+        "segmentEnd": 421,
+        "startSeconds": 788.32,
+        "endSeconds": 1142.0800000000002,
+        "method": "exact",
+        "excerpt": "and although there were police and military sightings in that in a way the most interesting cases did come from the public literally. for example, one guy was so stunned by this huge triangular shaped craft that he was witnessing that he le"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e1688ad476d99745:b530417cad02",
+      "type": "claim",
+      "label": "Witness chased triangular craft in car with family",
+      "anchor": {
+        "charStart": 10934,
+        "charEnd": 15678,
+        "segmentStart": 295,
+        "segmentEnd": 421,
+        "startSeconds": 788.32,
+        "endSeconds": 1142.0800000000002,
+        "method": "exact",
+        "excerpt": "and although there were police and military sightings in that in a way the most interesting cases did come from the public literally. for example, one guy was so stunned by this huge triangular shaped craft that he was witnessing that he le"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e1688ad476d99745:0a0015f5fc76",
+      "type": "claim",
+      "label": "Farmer found cows standing in a circle silently",
+      "anchor": {
+        "charStart": 10934,
+        "charEnd": 15678,
+        "segmentStart": 295,
+        "segmentEnd": 421,
+        "startSeconds": 788.32,
+        "endSeconds": 1142.0800000000002,
+        "method": "exact",
+        "excerpt": "and although there were police and military sightings in that in a way the most interesting cases did come from the public literally. for example, one guy was so stunned by this huge triangular shaped craft that he was witnessing that he le"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e1688ad476d99745:cc5c59207b10",
+      "type": "claim",
+      "label": "Incident occurred 3 years to the night after Belgian wave",
+      "anchor": {
+        "charStart": 10934,
+        "charEnd": 15678,
+        "segmentStart": 295,
+        "segmentEnd": 421,
+        "startSeconds": 788.32,
+        "endSeconds": 1142.0800000000002,
+        "method": "exact",
+        "excerpt": "and although there were police and military sightings in that in a way the most interesting cases did come from the public literally. for example, one guy was so stunned by this huge triangular shaped craft that he was witnessing that he le"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e1688ad476d99745:126442a26cd4",
+      "type": "claim",
+      "label": "Craft moved from slow to high speed instantly with no sonic boom",
+      "anchor": {
+        "charStart": 10934,
+        "charEnd": 15678,
+        "segmentStart": 295,
+        "segmentEnd": 421,
+        "startSeconds": 788.32,
+        "endSeconds": 1142.0800000000002,
+        "method": "exact",
+        "excerpt": "and although there were police and military sightings in that in a way the most interesting cases did come from the public literally. for example, one guy was so stunned by this huge triangular shaped craft that he was witnessing that he le"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e1688ad476d99745:55011d30cb12",
+      "type": "claim",
+      "label": "Air Force witness reported low-frequency humming sound",
+      "anchor": {
+        "charStart": 10934,
+        "charEnd": 15678,
+        "segmentStart": 295,
+        "segmentEnd": 421,
+        "startSeconds": 788.32,
+        "endSeconds": 1142.0800000000002,
+        "method": "exact",
+        "excerpt": "and although there were police and military sightings in that in a way the most interesting cases did come from the public literally. for example, one guy was so stunned by this huge triangular shaped craft that he was witnessing that he le"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e1688ad476d99745:f551780fd8e0",
+      "type": "claim",
+      "label": "Radar data was inconclusive with uncorrelated targets",
+      "anchor": {
+        "charStart": 10934,
+        "charEnd": 15678,
+        "segmentStart": 295,
+        "segmentEnd": 421,
+        "startSeconds": 788.32,
+        "endSeconds": 1142.0800000000002,
+        "method": "exact",
+        "excerpt": "and although there were police and military sightings in that in a way the most interesting cases did come from the public literally. for example, one guy was so stunned by this huge triangular shaped craft that he was witnessing that he le"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e1688ad476d99745:dab0c63a5238",
+      "type": "claim",
+      "label": "Radar systems configured for specific threats and use filter programs",
+      "anchor": {
+        "charStart": 10934,
+        "charEnd": 15678,
+        "segmentStart": 295,
+        "segmentEnd": 421,
+        "startSeconds": 788.32,
+        "endSeconds": 1142.0800000000002,
+        "method": "exact",
+        "excerpt": "and although there were police and military sightings in that in a way the most interesting cases did come from the public literally. for example, one guy was so stunned by this huge triangular shaped craft that he was witnessing that he le"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e1688ad476d99745:b442abf546d1",
+      "type": "claim",
+      "label": "Pope self-censored by focusing on pilot and radar cases",
+      "anchor": {
+        "charStart": 15679,
+        "charEnd": 18584,
+        "segmentStart": 421,
+        "segmentEnd": 499,
+        "startSeconds": 1137.2,
+        "endSeconds": 1355.2800000000002,
+        "method": "exact",
+        "excerpt": "yeah. and that's i think what made your job so important is is looking at those anomalies. and you know that this brings me to a really interesting point that i've pondered quite a bit as well. being people who are interested in these fring"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e1688ad476d99745:642a2c727fa7",
+      "type": "claim",
+      "label": "Abduction cases were not discussed with defense ministers",
+      "anchor": {
+        "charStart": 15679,
+        "charEnd": 18584,
+        "segmentStart": 421,
+        "segmentEnd": 499,
+        "startSeconds": 1137.2,
+        "endSeconds": 1355.2800000000002,
+        "method": "exact",
+        "excerpt": "yeah. and that's i think what made your job so important is is looking at those anomalies. and you know that this brings me to a really interesting point that i've pondered quite a bit as well. being people who are interested in these fring"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e1688ad476d99745:a6ae5eb1f03a",
+      "type": "claim",
+      "label": "AATIP and ORSAP had to dress up weird cases for funding",
+      "anchor": {
+        "charStart": 15679,
+        "charEnd": 18584,
+        "segmentStart": 421,
+        "segmentEnd": 499,
+        "startSeconds": 1137.2,
+        "endSeconds": 1355.2800000000002,
+        "method": "exact",
+        "excerpt": "yeah. and that's i think what made your job so important is is looking at those anomalies. and you know that this brings me to a really interesting point that i've pondered quite a bit as well. being people who are interested in these fring"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e1688ad476d99745:1fd5978a3310",
+      "type": "claim",
+      "label": "Language changed from UFO to UAP to rebrand conversation",
+      "anchor": {
+        "charStart": 15679,
+        "charEnd": 18584,
+        "segmentStart": 421,
+        "segmentEnd": 499,
+        "startSeconds": 1137.2,
+        "endSeconds": 1355.2800000000002,
+        "method": "exact",
+        "excerpt": "yeah. and that's i think what made your job so important is is looking at those anomalies. and you know that this brings me to a really interesting point that i've pondered quite a bit as well. being people who are interested in these fring"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e1688ad476d99745:539b2e2a8cd2",
+      "type": "claim",
+      "label": "Abduction reports should be a national security concern",
+      "anchor": {
+        "charStart": 15679,
+        "charEnd": 18584,
+        "segmentStart": 421,
+        "segmentEnd": 499,
+        "startSeconds": 1137.2,
+        "endSeconds": 1355.2800000000002,
+        "method": "exact",
+        "excerpt": "yeah. and that's i think what made your job so important is is looking at those anomalies. and you know that this brings me to a really interesting point that i've pondered quite a bit as well. being people who are interested in these fring"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e1688ad476d99745:f83517407715",
+      "type": "claim",
+      "label": "Pope met abduction researchers Bud Hopkins, John Mack, and David Jacobs",
+      "anchor": {
+        "charStart": 18585,
+        "charEnd": 24000,
+        "segmentStart": 499,
+        "segmentEnd": 645,
+        "startSeconds": 1348.88,
+        "endSeconds": 1750.559,
+        "method": "exact",
+        "excerpt": "yeah, i just find it so um so wild because uh you know these abduction cases specifically go back decades and decades and decades. it's not like they've gone away and there was a time where they were seemingly more rampant, but um it is for"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e1688ad476d99745:8f4c1a259aa7",
+      "type": "claim",
+      "label": "Even ufologists self-censor cases that don't fit the model",
+      "anchor": {
+        "charStart": 18585,
+        "charEnd": 24000,
+        "segmentStart": 499,
+        "segmentEnd": 645,
+        "startSeconds": 1348.88,
+        "endSeconds": 1750.559,
+        "method": "exact",
+        "excerpt": "yeah, i just find it so um so wild because uh you know these abduction cases specifically go back decades and decades and decades. it's not like they've gone away and there was a time where they were seemingly more rampant, but um it is for"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:e1688ad476d99745:08e7658d4727",
+      "type": "claim",
+      "label": "David Jacobs wrote about hybrids trained by abductees",
+      "anchor": {
+        "charStart": 18585,
+        "charEnd": 24000,
+        "segmentStart": 499,
+        "segmentEnd": 645,
+        "startSeconds": 1348.88,
+        "endSeconds": 1750.559,
+        "method": "exact",
+        "excerpt": "yeah, i just find it so um so wild because uh you know these abduction cases specifically go back decades and decades and decades. it's not like they've gone away and there was a time where they were seemingly more rampant, but um it is for"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "ent:e1688ad476d99745:personnel:e295b702d36a",
+      "type": "entity",
+      "label": "Nicholas Pope",
+      "entityType": "PERSONNEL",
+      "role": "former Ministry of Defence employee, UFO desk investigator, author",
+      "aliases": [
+        "Nick Pope"
+      ],
+      "credibilityTier": 8,
+      "state": "Observed",
+      "excerpt": "spent 21 years working for the Ministry of Defense and also subsequently worked for what is known as the UFO desk",
+      "anchor": {
+        "charStart": 2507,
+        "charEnd": 2620,
+        "segmentStart": 68,
+        "segmentEnd": 71,
+        "startSeconds": 192.48,
+        "endSeconds": 206.8,
+        "method": "exact",
+        "excerpt": "spent 21 years working for the ministry of defense and also subsequently worked for what is known as the ufo desk"
+      }
+    },
+    {
+      "id": "ent:e1688ad476d99745:organization:153e60515f44",
+      "type": "entity",
+      "label": "Ministry of Defence",
+      "entityType": "ORGANIZATION",
+      "aliases": [
+        "MoD"
+      ],
+      "state": "Observed",
+      "excerpt": "The Ministry of Defense essentially is like a Department of State in the UK",
+      "anchor": {
+        "charStart": 3479,
+        "charEnd": 3554,
+        "segmentStart": 94,
+        "segmentEnd": 96,
+        "startSeconds": 257.16,
+        "endSeconds": 267.68,
+        "method": "exact",
+        "excerpt": "the ministry of defense essentially is like a department of state in the uk"
+      }
+    },
+    {
+      "id": "ent:e1688ad476d99745:organization:46fd27e22e9b",
+      "type": "entity",
+      "label": "UFO desk",
+      "entityType": "ORGANIZATION",
+      "aliases": [
+        "so-called UFO desk"
+      ],
+      "state": "Observed",
+      "excerpt": "I was posted to the so-called UFO desk and the mission basically which I chose to accept was to research and investigate the phenomenon",
+      "anchor": {
+        "charStart": 3713,
+        "charEnd": 3848,
+        "segmentStart": 100,
+        "segmentEnd": 104,
+        "startSeconds": 272.4,
+        "endSeconds": 290.72,
+        "method": "prefix_only",
+        "excerpt": "i was posted to the so-called ufo desk and the mission basically which i chose to accept was was to research and investigate the phenom"
+      }
+    },
+    {
+      "id": "ent:e1688ad476d99745:event:0a7f6faae4b9",
+      "type": "entity",
+      "label": "Rendlesham case",
+      "entityType": "EVENT",
+      "aliases": [
+        "Rendlesham incident"
+      ],
+      "state": "Corroborated",
+      "excerpt": "did a lot of work on the Rendlessham case as well",
+      "anchor": {
+        "charStart": 2844,
+        "charEnd": 2893,
+        "segmentStart": 77,
+        "segmentEnd": 78,
+        "startSeconds": 217.92,
+        "endSeconds": 224.87900000000002,
+        "method": "exact",
+        "excerpt": "did a lot of work on the rendlessham case as well"
+      }
+    },
+    {
+      "id": "ent:e1688ad476d99745:location:0e98cc0b1589",
+      "type": "entity",
+      "label": "United Kingdom",
+      "entityType": "LOCATION",
+      "aliases": [
+        "UK"
+      ],
+      "state": "Observed",
+      "excerpt": "The Ministry of Defense essentially is like a Department of State in the UK",
+      "anchor": {
+        "charStart": 3479,
+        "charEnd": 3554,
+        "segmentStart": 94,
+        "segmentEnd": 96,
+        "startSeconds": 257.16,
+        "endSeconds": 267.68,
+        "method": "exact",
+        "excerpt": "the ministry of defense essentially is like a department of state in the uk"
+      }
+    },
+    {
+      "id": "ent:e1688ad476d99745:evidence:b85e28ea81da",
+      "type": "entity",
+      "label": "Nicholas Pope's testimony on MoD UFO desk work",
+      "entityType": "EVIDENCE",
+      "state": "Observed",
+      "excerpt": "from 1991 through to 1994 I was posted to the so-called UFO desk",
+      "anchor": {
+        "charStart": 3687,
+        "charEnd": 3751,
+        "segmentStart": 100,
+        "segmentEnd": 101,
+        "startSeconds": 272.4,
+        "endSeconds": 282.72,
+        "method": "exact",
+        "excerpt": "from 1991 through to 1994 i was posted to the so-called ufo desk"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "src:e1688ad476d99745",
+      "to": "seg:e1688ad476d99745:c01",
+      "type": "contains"
+    },
+    {
+      "from": "src:e1688ad476d99745",
+      "to": "seg:e1688ad476d99745:c03",
+      "type": "contains"
+    },
+    {
+      "from": "src:e1688ad476d99745",
+      "to": "seg:e1688ad476d99745:c04",
+      "type": "contains"
+    },
+    {
+      "from": "src:e1688ad476d99745",
+      "to": "seg:e1688ad476d99745:c05",
+      "type": "contains"
+    },
+    {
+      "from": "src:e1688ad476d99745",
+      "to": "seg:e1688ad476d99745:c07",
+      "type": "contains"
+    },
+    {
+      "from": "src:e1688ad476d99745",
+      "to": "seg:e1688ad476d99745:c08",
+      "type": "contains"
+    },
+    {
+      "from": "src:e1688ad476d99745",
+      "to": "seg:e1688ad476d99745:c09",
+      "type": "contains"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c01",
+      "to": "seg:e1688ad476d99745:c03",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c03",
+      "to": "seg:e1688ad476d99745:c04",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c04",
+      "to": "seg:e1688ad476d99745:c05",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c05",
+      "to": "seg:e1688ad476d99745:c07",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c07",
+      "to": "seg:e1688ad476d99745:c08",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c08",
+      "to": "seg:e1688ad476d99745:c09",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c01",
+      "to": "clm:e1688ad476d99745:b7b70109ced7",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c01",
+      "to": "clm:e1688ad476d99745:ec2cb9218041",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c01",
+      "to": "clm:e1688ad476d99745:f7dfac26c117",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c01",
+      "to": "clm:e1688ad476d99745:ce2dc82a3f9e",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c03",
+      "to": "clm:e1688ad476d99745:4feaf822949b",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c03",
+      "to": "clm:e1688ad476d99745:072f8a092dab",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c03",
+      "to": "clm:e1688ad476d99745:5b5bb253d45c",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c04",
+      "to": "clm:e1688ad476d99745:93740ead809a",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c04",
+      "to": "clm:e1688ad476d99745:f7dece1d2709",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c04",
+      "to": "clm:e1688ad476d99745:d67f9ff89449",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c04",
+      "to": "clm:e1688ad476d99745:fe72d842f2f0",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c05",
+      "to": "clm:e1688ad476d99745:506e973424c5",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c05",
+      "to": "clm:e1688ad476d99745:034ebd063178",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c05",
+      "to": "clm:e1688ad476d99745:6f87e786f7ca",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c05",
+      "to": "clm:e1688ad476d99745:78e9189c51f7",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c07",
+      "to": "clm:e1688ad476d99745:17b506cff7b5",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c07",
+      "to": "clm:e1688ad476d99745:b530417cad02",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c07",
+      "to": "clm:e1688ad476d99745:0a0015f5fc76",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c07",
+      "to": "clm:e1688ad476d99745:cc5c59207b10",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c07",
+      "to": "clm:e1688ad476d99745:126442a26cd4",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c07",
+      "to": "clm:e1688ad476d99745:55011d30cb12",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c07",
+      "to": "clm:e1688ad476d99745:f551780fd8e0",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c07",
+      "to": "clm:e1688ad476d99745:dab0c63a5238",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c08",
+      "to": "clm:e1688ad476d99745:b442abf546d1",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c08",
+      "to": "clm:e1688ad476d99745:642a2c727fa7",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c08",
+      "to": "clm:e1688ad476d99745:a6ae5eb1f03a",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c08",
+      "to": "clm:e1688ad476d99745:1fd5978a3310",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c08",
+      "to": "clm:e1688ad476d99745:539b2e2a8cd2",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c09",
+      "to": "clm:e1688ad476d99745:f83517407715",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c09",
+      "to": "clm:e1688ad476d99745:8f4c1a259aa7",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c09",
+      "to": "clm:e1688ad476d99745:f7dfac26c117",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c09",
+      "to": "clm:e1688ad476d99745:ce2dc82a3f9e",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c09",
+      "to": "clm:e1688ad476d99745:08e7658d4727",
+      "type": "asserts"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c03",
+      "to": "ent:e1688ad476d99745:personnel:e295b702d36a",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c03",
+      "to": "ent:e1688ad476d99745:organization:153e60515f44",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c03",
+      "to": "ent:e1688ad476d99745:organization:46fd27e22e9b",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c03",
+      "to": "ent:e1688ad476d99745:event:0a7f6faae4b9",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c03",
+      "to": "ent:e1688ad476d99745:location:0e98cc0b1589",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:e1688ad476d99745:c03",
+      "to": "ent:e1688ad476d99745:evidence:b85e28ea81da",
+      "type": "mentions"
+    }
+  ],
+  "views": {
+    "sourceSpine": [
+      "seg:e1688ad476d99745:c01",
+      "seg:e1688ad476d99745:c03",
+      "seg:e1688ad476d99745:c04",
+      "seg:e1688ad476d99745:c05",
+      "seg:e1688ad476d99745:c07",
+      "seg:e1688ad476d99745:c08",
+      "seg:e1688ad476d99745:c09"
+    ],
+    "topicRoots": [],
+    "claimRoots": [
+      "clm:e1688ad476d99745:b7b70109ced7",
+      "clm:e1688ad476d99745:ec2cb9218041",
+      "clm:e1688ad476d99745:f7dfac26c117",
+      "clm:e1688ad476d99745:ce2dc82a3f9e",
+      "clm:e1688ad476d99745:4feaf822949b",
+      "clm:e1688ad476d99745:072f8a092dab",
+      "clm:e1688ad476d99745:5b5bb253d45c",
+      "clm:e1688ad476d99745:93740ead809a",
+      "clm:e1688ad476d99745:f7dece1d2709",
+      "clm:e1688ad476d99745:d67f9ff89449",
+      "clm:e1688ad476d99745:fe72d842f2f0",
+      "clm:e1688ad476d99745:506e973424c5",
+      "clm:e1688ad476d99745:034ebd063178",
+      "clm:e1688ad476d99745:6f87e786f7ca",
+      "clm:e1688ad476d99745:78e9189c51f7",
+      "clm:e1688ad476d99745:17b506cff7b5",
+      "clm:e1688ad476d99745:b530417cad02",
+      "clm:e1688ad476d99745:0a0015f5fc76",
+      "clm:e1688ad476d99745:cc5c59207b10",
+      "clm:e1688ad476d99745:126442a26cd4",
+      "clm:e1688ad476d99745:55011d30cb12",
+      "clm:e1688ad476d99745:f551780fd8e0",
+      "clm:e1688ad476d99745:dab0c63a5238",
+      "clm:e1688ad476d99745:b442abf546d1",
+      "clm:e1688ad476d99745:642a2c727fa7",
+      "clm:e1688ad476d99745:a6ae5eb1f03a",
+      "clm:e1688ad476d99745:1fd5978a3310",
+      "clm:e1688ad476d99745:539b2e2a8cd2",
+      "clm:e1688ad476d99745:f83517407715",
+      "clm:e1688ad476d99745:8f4c1a259aa7",
+      "clm:e1688ad476d99745:08e7658d4727"
+    ],
+    "openQuestionRoots": []
+  },
+  "coverage": {
+    "timed": true,
+    "charsAnchored": 22103,
+    "charsTotal": 112433,
+    "fraction": 0.1966,
+    "segmentsCovered": 594,
+    "segmentsTotal": 3062,
+    "pipelineTruncatedAtChars": 24000,
+    "chunkAnchorMethods": {
+      "exact": 6,
+      "prefix_suffix": 1
+    }
+  },
+  "generation": {
+    "createdAt": "2026-08-18T06:59:35.422895+00:00",
+    "models": [
+      "deepseek/deepseek-chat"
+    ],
+    "promptsUsed": [
+      "disclosure.content_analysis",
+      "disclosure.ner",
+      "document_classification",
+      "rag_ingestion",
+      "validation"
+    ],
+    "methodologyVersion": "rag-prompt-pipeline/ADR-0001",
+    "pipelineStatus": "ok",
+    "degraded": false
+  },
+  "validation": {
+    "valid": true,
+    "errors": [],
+    "gaps": [
+      "no next_trace nodes — no pipeline stage proposes concrete next sources",
+      "no reading nodes — no interpretive stage exists; readings are never inferred here",
+      "no counter_reading nodes — paired with reading; unproduced for the same reason",
+      "no speaker nodes — diarisation is unavailable — the transcript carries '>>' turn markers but no speaker identities",
+      "no open questions — the map manufactures closure it has no basis for",
+      "no evidence→claim edges — the analysis prompt emits supporting and contradictory evidence as flat lists with no target claim, so evidence carries a stance but names no claim it bears on",
+      "chunk coverage is 20% of the source (22103 of 112433 chars); the pipeline truncates at 24000 chars"
+    ]
+  }
+}

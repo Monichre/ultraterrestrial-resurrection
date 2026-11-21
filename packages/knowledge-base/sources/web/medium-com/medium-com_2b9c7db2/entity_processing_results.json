@@ -1,0 +1,333 @@
+{
+  "status": "completed",
+  "video_id": "14c97bb00036",
+  "summary_file": "/Users/liamellis/Desktop/ultraterrestrial-resurrection/packages/knowledge-base/sources/web/2025-09-05/medium-com_2b9c7db2/medium-com_summary.txt",
+  "entities": {
+    "topics": [
+      "Majestic 12 (MJ-12)",
+      "UFO Secrecy Programs",
+      "Non-Human Intelligence (NHI) Integration"
+    ],
+    "personnel": [
+      "Dr. Vannevar Bush",
+      "James Forrestal"
+    ],
+    "events": [
+      "Formation of Majestic 12 (MJ-12)",
+      "Alleged Eisenhower meeting with NHI"
+    ],
+    "organizations": [
+      "Majestic 12 (MJ-12)",
+      "U.S. Government"
+    ],
+    "locations": [],
+    "artifacts": [
+      "manual SOM1-01"
+    ],
+    "sightings": []
+  },
+  "xata_search_results": {
+    "topics": [
+      {
+        "entity_name": "Majestic 12 (MJ-12)",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "UFO Secrecy Programs",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Non-Human Intelligence (NHI) Integration",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Majestic 12 (MJ-12)",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "UFO Secrecy Programs",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Non-Human Intelligence (NHI) Integration",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": "create_new",
+        "error": null
+      }
+    ],
+    "personnel": [
+      {
+        "entity_name": "Dr. Vannevar Bush",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "personnel",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "James Forrestal",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "personnel",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Dr. Vannevar Bush",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "personnel",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "James Forrestal",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "personnel",
+        "action_needed": "create_new",
+        "error": null
+      }
+    ],
+    "events": [
+      {
+        "entity_name": "Formation of Majestic 12 (MJ-12)",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "events",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Alleged Eisenhower meeting with NHI",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "events",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Formation of Majestic 12 (MJ-12)",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "events",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Alleged Eisenhower meeting with NHI",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "events",
+        "action_needed": "create_new",
+        "error": null
+      }
+    ],
+    "organizations": [
+      {
+        "entity_name": "Majestic 12 (MJ-12)",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "U.S. Government",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Majestic 12 (MJ-12)",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "U.S. Government",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      }
+    ],
+    "locations": [],
+    "artifacts": [
+      {
+        "entity_name": "manual SOM1-01",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "artifacts",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "manual SOM1-01",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "artifacts",
+        "action_needed": "create_new",
+        "error": null
+      }
+    ],
+    "sightings": []
+  },
+  "entity_creation_results": {
+    "created_entities": {
+      "topics": [],
+      "personnel": [],
+      "events": [],
+      "organizations": [],
+      "artifacts": []
+    },
+    "failed_creations": {
+      "topics": [
+        {
+          "entity_name": "Majestic 12 (MJ-12)",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "UFO Secrecy Programs",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Non-Human Intelligence (NHI) Integration",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Majestic 12 (MJ-12)",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "UFO Secrecy Programs",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Non-Human Intelligence (NHI) Integration",
+          "error": "Batch creation failed"
+        }
+      ],
+      "personnel": [
+        {
+          "entity_name": "Dr. Vannevar Bush",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "James Forrestal",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Dr. Vannevar Bush",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "James Forrestal",
+          "error": "Batch creation failed"
+        }
+      ],
+      "events": [
+        {
+          "entity_name": "Formation of Majestic 12 (MJ-12)",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Alleged Eisenhower meeting with NHI",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Formation of Majestic 12 (MJ-12)",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Alleged Eisenhower meeting with NHI",
+          "error": "Batch creation failed"
+        }
+      ],
+      "organizations": [
+        {
+          "entity_name": "Majestic 12 (MJ-12)",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "U.S. Government",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Majestic 12 (MJ-12)",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "U.S. Government",
+          "error": "Batch creation failed"
+        }
+      ],
+      "artifacts": [
+        {
+          "entity_name": "manual SOM1-01",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "manual SOM1-01",
+          "error": "Batch creation failed"
+        }
+      ]
+    },
+    "statistics": {
+      "total_processed": 20,
+      "total_created": 0,
+      "total_failed": 20
+    },
+    "errors": []
+  },
+  "total_entities": 10,
+  "total_matches": 20,
+  "total_created": 0
+}

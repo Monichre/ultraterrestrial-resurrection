@@ -1,0 +1,21 @@
+/* Ultraterrestrial Research Platform — Design Tokens
+ * Extracted from docs/design/mock-ups/0[1-4]-*.html
+ * Shared by all research-platform views.
+ */
+
+:root {
+  --ut-bg: #0b0d0e;
+  --ut-panel: #121617;
+  --ut-panel2: #181d1f;
+  --ut-line: #293033;
+  --ut-text: #ece7dc;
+  --ut-muted: #989d99;
+  --ut-soft: #c7c0b2;
+  --ut-amber: #c98f46;
+  --ut-cyan: #6ca8ad;
+  --ut-red: #a4534d;
+  --ut-violet: #7a6d9b;
+  --ut-green: #728f72;
+  --ut-paper: #d9cfbd;
+  --ut-paper2: #eee5d4;
+}

@@ -1,0 +1,1079 @@
+{
+  "status": "ok",
+  "classification": {
+    "content_type": "media",
+    "primary_record_hints": [
+      "Event",
+      "Sighting",
+      "KeyFigure",
+      "Topic"
+    ],
+    "hynek_scaffold": null,
+    "classification_marks_detected": [],
+    "language": "en",
+    "ocr_quality": "n/a",
+    "sensitivity": "public",
+    "ingestion_recommendation": "proceed",
+    "rationale": "This is a podcast interview transcript featuring Nick Pope discussing his work at the UK Ministry of Defense's UFO desk. It contains anecdotal witness accounts (Cosford incident, art shop encounter) and personal recollections, but the primary source is a media interview, not an official document or direct witness testimony. The content is a mix of narrative and commentary, with no clear Hynek classification for a single observational event. The tone is conversational and public-facing.",
+    "confidence": 0.85
+  },
+  "analysis": {
+    "_raw_list": [
+      "Nick Pope worked at the UK Ministry of Defence UFO desk from 1991 to 1994, investigating UFO reports for defense, national security, and safety of flight implications.",
+      "The Cosford incident occurred on the night of March 30-31, 1993, involving a wave of sightings of a large triangular craft.",
+      "A civilian witness chased the triangular craft in his car while his family screamed at him to stop.",
+      "A farmer reported seeing the craft very low, possibly landing, and later found his cows standing in a circle facing each other, completely silent.",
+      "An Air Force witness reported the craft moving at 35-40 mph with a low-frequency humming sound, then accelerating to the horizon instantly without a sonic boom.",
+      "Radar data from the Cosford incident was inconclusive, with some uncorrelated targets but not definitive.",
+      "A woman running an art shop in central London reported a group of normal-looking people who bought a single pencil with a high-denomination banknote and seemed confused by the concept of receiving change.",
+      "The same woman later reported a time slip experience, missing time, and seeing someone who looked like herself from the future.",
+      "Nick Pope states that he self-censored in official reports, focusing on pilot sightings and radar cases while downplaying abduction and high-strangeness cases.",
+      "Nick Pope claims the UFO-to-UAP rebranding was partly to shed pop culture baggage and secure congressional funding."
+    ]
+  },
+  "ingestion": {
+    "document": {
+      "title_guess": "Nick Pope Interview - Cosford Incident, UFO Encounters, and High Strangeness",
+      "content_type": "media",
+      "language": "en",
+      "provenance": "https://www.youtube.com/watch?v=B6WFLOIkyho",
+      "integrity_flags": [
+        "secondary_repost",
+        "ad_insertions"
+      ]
+    },
+    "chunks": [
+      {
+        "chunk_id": "c01",
+        "heading_path": null,
+        "text": "What is one sort of fringe encounter that still kind of troubles you to this day? We had a case in 1993, well actually a wave of sightings collectively known as the Cosford incident. One guy was so stunned by this huge triangular shaped craft that he leapt into his car and started trying to chase it with his family in the back screaming at him to stop. In this same encounter, there was a a farmer who saw this this craft very low and he thought it's so low he thought it maybe it landed and he went up to the field and all the cows in the field were standing in a circle like facing each other straight out of the axe files. Wa! a whole bunch of normallooking people all walked into an art shop in central London were there for like a long time and and she she just felt there was something weird about these people and then after a long time they made a big show of coming up and buying a single pencil like it was like a big thing and then they handed over a very high denomination bank note and when the woman went to give them their change. They they looked confused like they didn't understand the concept of getting their change bag and she was so struck by this that she phoned somebody afterwards and said, \"There are aliens in my shop.\" So, you said you got to know this woman quite well. Um, was that afterwards? Did she have any other encounters? One that I would say was more of a time slip. missing time, seeing somebody that looked like herself from the future. I was um down along the east coast, United States, Virginia Beach kind of area. Yeah. Doing a a night jog kind of run along the beach. Looked up in the sky and I saw a purplish it looked like a basically a sting I don't know. It looked like a stingray but without the tail. And uh and it was uh translucent and a purplish color and it it flew over it went it felt like it was 100 yards above my head, maybe even less.",
+        "token_estimate": 280,
+        "overlap_note": null,
+        "entities_hint": [
+          "Cosford incident",
+          "Virginia Beach",
+          "art shop in central London"
+        ],
+        "claims_hint": [
+          "Cosford incident involved a triangular craft chased by a witness",
+          "Farmer saw cows standing in a circle after possible landing",
+          "Woman reported aliens in her shop after odd purchase behavior",
+          "Woman had a time slip experience seeing future self"
+        ],
+        "temporal_anchors": [
+          "1993"
+        ],
+        "spatial_anchors": [
+          "Cosford, UK",
+          "central London",
+          "Virginia Beach, US"
+        ],
+        "evidentiary_density": "high",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c02",
+        "heading_path": null,
+        "text": "We interrupt this broadcast for a message from Area 52. Just a quick pause. Our brand new out of body long sleeves are now live. Available in three colors: midnight black, analog sand, or signal blue. They're heavyweight with a clean design and built for the curious. If you know, you know. Check it out at area52.shop. Limited stock only and we will not be restocking these, so get them while you can.",
+        "token_estimate": 70,
+        "overlap_note": null,
+        "entities_hint": [
+          "Area 52"
+        ],
+        "claims_hint": [],
+        "temporal_anchors": [],
+        "spatial_anchors": [],
+        "evidentiary_density": "low",
+        "do_not_embed_reasons": [
+          "advertisement",
+          "commercial promotion"
+        ]
+      },
+      {
+        "chunk_id": "c03",
+        "heading_path": null,
+        "text": "Welcome, Nicholas Pope. Thank you. Yeah, absolutely. For those not familiar uh with Nick Pope, you know, he might be a familiar face to a lot of you on the History Channels Ancient Aliens, but prior to that spent 21 years working for the Ministry of Defense and also subsequently worked for what is known as the UFO desk uh over at the Ministry as well. Um very very interesting stuff. Also an author uh wrote multiple books uh fiction and non-fiction which is uh interesting. We'll get into that as well. Um but more famously I think you know did a lot of work on the Rendlessham case as well. So a lot to talk about today. Uh Nick Pope I first of all I want to thank you for joining me uh in the skiff. Thank you. It's good to be here un unlike David Grash. Here we are in the skiff. That's hilarious. One day maybe. Um, so as we get started, I'd like to just maybe cover some, you know, introductory grounds and just for the audience that might not be familiar with you or your work, uh, can you tell me a little bit about, uh, and we'll keep this brief, but a little bit about how you got started coming in from the Ministry of Defense into, uh, Eupfology? Sure thing. Well, the Ministry of Defense essentially is like a Department of State in the UK. I was there as a civilian employee like you say for 21 years they move you around a lot so I did lots of different things but yeah from 1991 through to 1994 I was posted to the so-called UFO desk and the mission basically which I chose to accept was was to research and investigate the phenomenon and assess the potential defense national security and safety of flight implications.",
+        "token_estimate": 260,
+        "overlap_note": null,
+        "entities_hint": [
+          "Nick Pope",
+          "Ministry of Defense",
+          "UFO desk",
+          "Rendlesham",
+          "David Grash",
+          "Ancient Aliens"
+        ],
+        "claims_hint": [
+          "Nick Pope worked 21 years at UK Ministry of Defense",
+          "Pope was posted to the UFO desk from 1991 to 1994",
+          "His mission was to research UFOs and assess defense implications"
+        ],
+        "temporal_anchors": [
+          "1991-1994"
+        ],
+        "spatial_anchors": [
+          "UK"
+        ],
+        "evidentiary_density": "medium",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c04",
+        "heading_path": null,
+        "text": "Yeah, I mean that is quite a hefty task now doing this back then, you know, like today this might not seem so unheard of because of, you know, the recent task force that's been appointed, but also the other programs like OAP and ATIP and all this stuff, but back in the '9s, like I mean, this was XFiles time. Yes, it was. And and that actually led to a few insider jokes, I guess. I mean, literally, I would be walking down the corridor in the Ministry of Defense and people would whistle the theme tune to the X-Files as I went past and and say, \"Look, there he goes. It's it's Nick Spooky Pope.\" Wow. Um, how many people were working in your department during that time at the UFO desk? Essentially it was just me and admin support but obviously we had a network of people that whilst not posted to that particular operation could be called upon. So for example you know we we had instant access to radar specialists and radar was obviously a big part of of any investigation. We had instant access to intelligence community imagery analysis resources and capabilities. Um the the Met Office, the Royal Greenwich Observatory, it's all about trying to bring in experts, whether they're astronomers, meteorologists, radar experts, whatever they are, you know, whatever you need. It's like a toolkit that that you have. Right. Very interesting. Do you um being like a one-man team for that is that difficult? Would it would it would it not have been a lot easier to to have several people on these cases? It would have been and and had we had more resources. Absolutely. That's well, you know, there is no manager or very few managers who don't want more resources, more more people on the team. I would have loved to have had somebody full-time, you know, like um a radar person um a psychologist that would have been useful. Um but but you know, this was the time when this subject even within government was more fringe than it is now. I mean now particularly in the US of course we we have as you mentioned the the recently established uh task force on the declassification of federal secrets. We've had UFO related provisions in every National Defense Authorization Act um for for several years now. We've had classified briefings in Congress, public hearings, NASA doing a report. So, if I was doing that job now, I'm sure I would have had more resources. But at the time, yeah, it it was pretty much me and admin support. And it's Yeah, there's a lot on your shoulders. this. Oh, I forgot to turn off turn on my oscilloscopes. Very important for this uh for this interview that these oscilloscopes are turned on.",
+        "token_estimate": 330,
+        "overlap_note": null,
+        "entities_hint": [
+          "X-Files",
+          "Ministry of Defense",
+          "Met Office",
+          "Royal Greenwich Observatory",
+          "NASA",
+          "National Defense Authorization Act",
+          "UAP Task Force"
+        ],
+        "claims_hint": [
+          "UFO desk was staffed by Pope and admin support only",
+          "Pope had access to radar, imagery, and expert networks",
+          "UFO subject was more fringe in government in the 1990s",
+          "US now has task forces and UFO provisions in NDAA"
+        ],
+        "temporal_anchors": [
+          "1990s",
+          "1991-1994"
+        ],
+        "spatial_anchors": [
+          "UK",
+          "US"
+        ],
+        "evidentiary_density": "medium",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c05",
+        "heading_path": null,
+        "text": "Um there I mean you've probably looked at a lot of cases from 1991 to '94 and in the '9s obviously I mean there was a a a rampant surge in especially mass sightings you know going from obviously uh you know 97 which we just celebrated the anniversary of the Phoenix lights but also you had uh you know Ruiz Zimbabwe you had Virginia these these pretty big cases. Um, did you ever encounter or investigate any of the mass sightings that happened during that time or prior? Not outside of the UK. This was one of the very interesting things in a way. Our terms of reference were really tight and because of the I guess political sensitivities about this and and I mean that in terms of some people would say you know this is all nonsense. Why are you wasting taxpayers money on it? So we we had to be very careful with this. Our terms of reference were tightly drawn to defending the UK. So it was like if there's something in our airspace, we need to know what it is. That's legitimate business. Going and looking at at something that's happened in in Africa or or even in the United States or elsewhere in Europe, that would have been like, well, why are we doing that? So Sure. I see. I was aware of things like that going on, but it was not for me to actually Right. In in an official capacity, you weren't you were kind of like restricting yourself to not, you know, uh delve into other people's business. Yes. Um Okay. Well, I mean obviously there's a lot of cases in the UK as well that have happened um pri a little bit prior to that and you know um subsequently afterwards even even recently uh the the Lake and Heath you know air force base is obviously famous uh for for multiple sightings going back all the way I think to the 50s. Yes. Um but I mean looking at all that these are all sort of official radar and military personnel related. Did you investigate any sort of civilian uh in um witnesses or or witnesses to uh civilian events that have happened? Yes, we did. And in in fact, we were a public-f facing program rather like the old US Air Force Project Blue Book. Um we did do classified work, but most of what we did on a day-to-day basis was unclassified. I think it's like Avi Lobe says, you can't classify the skies, right? Um, and I would say although we concentrated on military cases because they were often ones where you had access to the witnesses, you knew that those people were reliable. when when pilots tell you about encounters and when it's particularly if it's corroborated by radar evidence there's something in in terms of evidence data you can get into that being said 80 85 90% of the cases that I looked at which are two or 30 hundred each year probably came from the public so as much as I'm interested in the military's perspective of UFOs I find myself, as you can see, all these books behind me here are all related to civilian encounters.",
+        "token_estimate": 380,
+        "overlap_note": null,
+        "entities_hint": [
+          "Phoenix Lights",
+          "Ruiz Zimbabwe",
+          "Virginia",
+          "Lake and Heath air force base",
+          "Project Blue Book",
+          "Avi Loeb"
+        ],
+        "claims_hint": [
+          "Pope's terms of reference were limited to UK defense",
+          "He did not investigate mass sightings outside the UK",
+          "Most cases (80-90%) came from the public",
+          "Program was public-facing like Project Blue Book"
+        ],
+        "temporal_anchors": [
+          "1991-1994",
+          "1997",
+          "1950s"
+        ],
+        "spatial_anchors": [
+          "UK",
+          "US",
+          "Zimbabwe",
+          "Virginia"
+        ],
+        "evidentiary_density": "medium",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c06",
+        "heading_path": null,
+        "text": "What is one sort of fringe encounter that still kind of troubles you to this day that you might have that you might have like that might have stuck with you after investigating it? We had a case in 1993, well actually a wave of sightings collectively known as the Cosford incident. We get stories every week, encounters, objects, beings, but most of it never makes it past a sketch or a shaky interview until now. You see, Art List just launched an AI video and image generator. But this isn't your typical AI toy. It's built for creators, for people who tell stories through visuals like us. Let me show you something. You see, a real witness described seeing a circular discshaped craft off the right wing tip of his flight to Japan in 1965. And until now, this was the best photo we had. So, we typed in that prompt and within seconds, well, the image came to life. Lit by the setting sun hovering silently and ominously beside the plane. There it was. But here's where it gets wild. You see, with Art List's tools, we turned it into a full video scene. Ladies and gentlemen, we're experiencing some turbulence. Smoking is not permitted on board at any time. And this includes the use of the with sound design, footage, music, and even color grading. We built the moment from a single sentence, and now we're reconstructing history frame by frame. So go to Artless today or click the link in my description to try it out for yourself. Artless AI, powered by vision, used by believers.",
+        "token_estimate": 250,
+        "overlap_note": null,
+        "entities_hint": [
+          "Cosford incident",
+          "Art List",
+          "Japan"
+        ],
+        "claims_hint": [],
+        "temporal_anchors": [
+          "1993",
+          "1965"
+        ],
+        "spatial_anchors": [
+          "Cosford, UK",
+          "Japan"
+        ],
+        "evidentiary_density": "low",
+        "do_not_embed_reasons": [
+          "advertisement",
+          "commercial promotion"
+        ]
+      },
+      {
+        "chunk_id": "c07",
+        "heading_path": null,
+        "text": "And although there were police and military sightings in that in a way the most interesting cases did come from the public literally. For example, one guy was so stunned by this huge triangular shaped craft that he was witnessing that he leapt into his car and started trying to chase it. driving along the road, keeping it in view with his family in the back screaming at him to stop because they saw it too and and were scared whereas he was excited. And in this same encounter, there was a a farmer who saw this this craft very low and he thought it's so low he thought it maybe it landed in one of his fields. and he went up to the field and I think I'm I'm trying all the cows in the field were standing in a circle like facing each other completely silent and there was no UFO there but they were all just doing that like straight out of the X files and and so you have things like that and you're thinking well I don't know. Yeah, that is terrifying. I mean, I don't I don't think there are very many uh unsettling things cows could do uh other than standing in a circle like some type of weird some type of weird ritual. You know, that that reminds me actually of like the Belgian UFO wave a little bit. Well, very interesting you should say that because there was talking of the X Files and spooky coincidences. This this wave of sightings, the Cosford incident took place late on the night of March 30th and in the early hours of March 31st, 1993. And of course, as I was investigating this, something was was kind of gnoring at the back of my mind, and I couldn't quite put my finger on it until afterwards, I realized, wait, this is 3 years to the very night to the very night after those those Belgium sightings. And there were absolutely similarities in the shape of the the craft. Sometimes the behavior this ability apparent ability of it to move from a very low speed to high max speeds in an instant with no sonic boom. Lou Alzando would would call this the you know one of the five observables. And we didn't have that terminology at the time, but we knew what it was because it it cropped up in cases like this. And I remember one of the Air Force witnesses telling me that this thing moved very slowly, maybe 35, 40 m an hour, uh, with a low frequency humming sound that he said was deeply unpleasant. You could feel it as well as hear it rather like getting too close to a like a a generator or something. generator, a bass speaker at a rock concert, something like that, where you feel the sound going through your body. He said it was like that. And this is an Air Force guy telling me this, like just a few hours after he saw it. And he said from that very slow speed, suddenly it just went away to the horizon like in in an instant. And he said, \"Nick,\" and this was maybe I don't know just five, six hours afterwards, we were on the phone, his voice was still shaking. And he said, \"Nick, I've been in the Air Force 8 years. I see obviously fast attack helicopters, mil jets, like it's my job. I've never seen anything like this before in my life.\" Wow. I mean, that's that's incredible coming from such, you know, such a credible witness. Um, and then the corroborative evidence. Now, did you you obviously picked up some of that on radar as well. We did have some radar data. It it was inconclusive. There were some uncorrelated targets near, you know, some of the the radar heads had picked something up, but it you couldn't hang your hat on it. I see. And, you know, doesn't surprise me. I mean, we we do stealth. So, so it's it can be done. Yeah, that's uh I mean, stealth has a large part of stealth as well is the altitude, right? So, if these things are are not too high in the sky as well, they would be harder to pick up by radar, wouldn't they? Yes. I mean, our radar systems, particularly our military ones, are are configured for very specific threats and and so they they are looking in certain directions at certain heights. Um, it's not to say they can't do other things, but you you have that. Then you have the fact that a lot of them use filter programs. This was a big problem for us because the mindset as much as anything else is that, you know, things don't come from straight up down. Um, you know, you're you're looking, like I say, at very specific things, you know, most of which at the time were were like Soviet Union Warsaw packed. So, your system isn't configured to to look for things just coming in out of the atmosphere. Then you use these filter programs and it's it's based on a mindset assumption. Well, if it isn't behaving like a conventional aircraft, then it's probably just a ghost return. I see. And and you you wonder, are we throwing out the baby with the bath water here?",
+        "token_estimate": 520,
+        "overlap_note": null,
+        "entities_hint": [
+          "Cosford incident",
+          "Belgian UFO wave",
+          "Lou Elizondo",
+          "Air Force",
+          "Soviet Union",
+          "Warsaw Pact"
+        ],
+        "claims_hint": [
+          "Cosford incident occurred March 30-31, 1993",
+          "Witness chased triangular craft in car with family",
+          "Farmer found cows standing in a circle silently",
+          "Incident occurred 3 years to the night after Belgian wave",
+          "Craft moved from slow to high speed instantly with no sonic boom",
+          "Air Force witness reported low-frequency humming sound",
+          "Radar data was inconclusive with uncorrelated targets",
+          "Radar systems configured for specific threats and use filter programs"
+        ],
+        "temporal_anchors": [
+          "March 30-31, 1993",
+          "March 30-31, 1990"
+        ],
+        "spatial_anchors": [
+          "Cosford, UK",
+          "Belgium"
+        ],
+        "evidentiary_density": "high",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c08",
+        "heading_path": null,
+        "text": "Yeah. And that's I think what made your job so important is is looking at those anomalies. And you know that this brings me to a really interesting point that I've pondered quite a bit as well. Being people who are interested in these fringe anomalies, we are a little bit more prone to well, we have to be to looking at all of the anomalies that are associated with it. So, for instance, a lot of people avoid the UFO uh spike on the chart, but for those of us focusing in on that, well, there are an infinite amount of spikes in that category. I mean, the anomalies don't just cease at a UFO. they go into beings and and physical, metaphysical, all these other fringe um sort of things. So, was there ever a point during your time there where you had to pull your punches a little bit with what you thought was going on? 100% yes. Um you have to play the strongest hand that you have, particularly if you are looking to get access to defense ministers. uh if if you want more resources, uh you you just have to focus in on the sorts of cases that you know will play well. So you talk about the pilot sightings, you talk about the cases where you have radar data, you don't tend to talk about the abduction cases even though you have them. So you kind of self censor which in a way it was one of the most uncomfortable things of all because the phenomenon I soon realized was you know multiaceted and truly bizarre and sometimes almost abstract but you had to kind of play it very straight and focus in on this the sort of defense national security pilots radar kind of thing and we still see that I mean ATIP and also that that you mentioned. I mean, ORSAP looked at some really weird stuff, but they had to kind of dress it up in a certain way to get congressional funding and and that relates to why we changed the language even from UFO to UAP. It was all about getting rid of that pop culture baggage and rebranding the conversation. Yeah. But with that pop culture baggage, you'd mentioned throwing the baby out with the bathwater. Um, you know, I would like to believe that that all of these multiaceted um, uh, sort of subjects that revolve around UAP are also to some extent should be a concern to national security because when we're talking about abductions, although might be fringe, when you have thousands of people who are reporting these things and reporting similar things, I mean, you would assume assume that these conversations should be happening behind closed doors as well as invading our airspace. 100%. Yeah. and and you know I know from more recent conversations with people like Lu Alzando and Jay Stratton and and that obviously the UAP task force in the United States ATIP and ORSAT they had those cases or they they were certainly aware of those cases but even they had to kind of play on well yeah David Fraor the tic tac um you again it's it's playing your strongest suit.",
+        "token_estimate": 380,
+        "overlap_note": null,
+        "entities_hint": [
+          "AATIP",
+          "ORSAP",
+          "UAP",
+          "Lou Elizondo",
+          "Jay Stratton",
+          "David Fravor",
+          "tic tac"
+        ],
+        "claims_hint": [
+          "Pope self-censored by focusing on pilot and radar cases",
+          "Abduction cases were not discussed with defense ministers",
+          "AATIP and ORSAP had to dress up weird cases for funding",
+          "Language changed from UFO to UAP to rebrand conversation",
+          "Abduction reports should be a national security concern"
+        ],
+        "temporal_anchors": [],
+        "spatial_anchors": [
+          "US"
+        ],
+        "evidentiary_density": "medium",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c09",
+        "heading_path": null,
+        "text": "Yeah, I just find it so um so wild because uh you know these abduction cases specifically go back decades and decades and decades. It's not like they've gone away and there was a time where they were seemingly more rampant, but um it is for me, you know, thinking about that stuff if if this is happening, I mean, that is a complete violation of human rights. that is just, you know, and obviously if they're non-human, then they, you know, they they can disregard that. But, um, I I take issue with it because I feel like it's such an invasive, um, procedure that happens during these abductions versus just coming into our airspace. I understand the, you know, the military implications, but, um, some of these cases that you visited, um, where, you know, people were potentially abducted or had, uh, encounters with beings. What was one of the cases that really left you, I mean, struck by the information that you were that you were uncovering? Well, this is another area where where there is kind of selfcensorship, but interestingly, you even find it in eupfology. I guess I I suppose if you talk to um abduction researchers and and back in the day, I suppose the big three were Bud Hopkins, John Mack, and David Jacobs. Um and I I met all all three of them. I I knew B and John Mack quite quite well. I mean, you know, we we talked about, you know, some of the cases and things like that, but even within Euphology, you often find this selfcensorship. And it's only when you talk to the actual experiences, I I people like Willie Streber that you realize how truly bizarre and abstract the phenomenon can be because you have just as I talked about playing the strongest suit in government UAP work. You even find it with the UFO researchers and it's it's like, yeah, I have a case. It's it's the little grays on a table. Some of the cases that I got were not like that. There was one. Can you go into them? Yeah, that would be great. Well, one one to answer your question about that left an impression on me was it wasn't really an abduction, but it was an encounter with I guess beings. a particular uh woman who I I got to know quite well uh had this experience that a whole bunch of apparently, you know, normallooking people all walked into an art shop in central London, started looking at all the produce, were there for like a long time, and and she she just felt there was something weird about these people. And then after a long time they made a big show of coming up and buying a single pencil like it was like a big thing. And then they handed over a very high denomination bank note. And when the woman went to give them their change, they they looked confused like they didn't understand the concept of getting their change bag. And she was so struck by this that she phoned somebody afterwards and in fact during this whole thing and said there are aliens in my shop. And and that's the kind of surreal nature of of these encounters that sometimes doesn't even come out in the literature because I think sometimes euphologists self censor because they say look everyone knows what an alien looks like. Everyone knows what an abduction is. It's a very structured thing. The beam, the table, the medical exam. When you get something like this that doesn't fit the model, euphologist self censor and throw it out. But me being a kind of I I don't know, a sort of evenhanded like disinterested um kind of observer of this. I take all the cases that I can get. And so that was one that really struck me. Um, so you said you got to know this woman quite well. Um, was that afterwards? Did she have any other encounters? One that I would say was more of a time slip kind of phenomenon. Missing time, seeing somebody that looked like herself from the future. Whoa. and and and it's it's again I often find that the high strangeness of these cases is is under reportported. Yeah. I mean some of it I use the word surreal quite deliberately. The the true phenomenon I think is much more surreal. I mean we of course look we can only look at all of this in a very anthropocentric way. If we are dealing with something truly alien, then it doesn't surprise me in a way that it is alien. Yeah, good point. Um, you know, all of that I mean it's so interesting because obviously like you said we are sort of accustomed to seeing to hearing about the small grays, the tall grays, maybe the mantis folk, some reptilians here and there, even Nordic folk. Uh, but um, more rarely and probably possibly harder to detect are what seem to be these hybrids. um in in this case um of course if you're aware of the work of David Jacobs you know he's written books like the threat and um the other one was like among among us or they're Among Us um really highlighted sort of these tales or these stories by abductees who were led to train a lot of these later stage hybrids that have been interacting with you know human society and train them in the most mundane ways which I thought was really a fascinating read. And this strikes me as like one of those things especially they were they would do this in groups and for them to go out alone uh and not guided by an abductee or a human to help them you know understand what is happening um is just really strange as well. Um, but that type of behavior, the monetary exchange with a large denomination, not knowing what to do with the change, uh, these things all soun",
+        "token_estimate": 620,
+        "overlap_note": null,
+        "entities_hint": [
+          "Bud Hopkins",
+          "John Mack",
+          "David Jacobs",
+          "Whitley Strieber",
+          "central London",
+          "David Jacobs",
+          "The Threat",
+          "Among Us"
+        ],
+        "claims_hint": [
+          "Pope met abduction researchers Bud Hopkins, John Mack, and David Jacobs",
+          "Even ufologists self-censor cases that don't fit the model",
+          "Woman reported aliens in her shop after odd purchase behavior",
+          "Woman had a time slip experience seeing future self",
+          "David Jacobs wrote about hybrids trained by abductees"
+        ],
+        "temporal_anchors": [],
+        "spatial_anchors": [
+          "central London"
+        ],
+        "evidentiary_density": "high",
+        "do_not_embed_reasons": []
+      }
+    ],
+    "index_recommendations": {
+      "priority": "HIGH",
+      "filters": [
+        "ufology",
+        "nick_pope",
+        "ministry_of_defense",
+        "cosford_incident",
+        "ufo_sightings",
+        "abduction_cases"
+      ],
+      "dedupe_keys": [
+        "cosford_incident_1993",
+        "nick_pope_ufo_desk",
+        "art_shop_encounter_london"
+      ]
+    }
+  },
+  "chunks": [
+    {
+      "chunk_id": "c01",
+      "heading_path": null,
+      "text": "What is one sort of fringe encounter that still kind of troubles you to this day? We had a case in 1993, well actually a wave of sightings collectively known as the Cosford incident. One guy was so stunned by this huge triangular shaped craft that he leapt into his car and started trying to chase it with his family in the back screaming at him to stop. In this same encounter, there was a a farmer who saw this this craft very low and he thought it's so low he thought it maybe it landed and he went up to the field and all the cows in the field were standing in a circle like facing each other straight out of the axe files. Wa! a whole bunch of normallooking people all walked into an art shop in central London were there for like a long time and and she she just felt there was something weird about these people and then after a long time they made a big show of coming up and buying a single pencil like it was like a big thing and then they handed over a very high denomination bank note and when the woman went to give them their change. They they looked confused like they didn't understand the concept of getting their change bag and she was so struck by this that she phoned somebody afterwards and said, \"There are aliens in my shop.\" So, you said you got to know this woman quite well. Um, was that afterwards? Did she have any other encounters? One that I would say was more of a time slip. missing time, seeing somebody that looked like herself from the future. I was um down along the east coast, United States, Virginia Beach kind of area. Yeah. Doing a a night jog kind of run along the beach. Looked up in the sky and I saw a purplish it looked like a basically a sting I don't know. It looked like a stingray but without the tail. And uh and it was uh translucent and a purplish color and it it flew over it went it felt like it was 100 yards above my head, maybe even less.",
+      "token_estimate": 280,
+      "overlap_note": null,
+      "entities_hint": [
+        "Cosford incident",
+        "Virginia Beach",
+        "art shop in central London"
+      ],
+      "claims_hint": [
+        "Cosford incident involved a triangular craft chased by a witness",
+        "Farmer saw cows standing in a circle after possible landing",
+        "Woman reported aliens in her shop after odd purchase behavior",
+        "Woman had a time slip experience seeing future self"
+      ],
+      "temporal_anchors": [
+        "1993"
+      ],
+      "spatial_anchors": [
+        "Cosford, UK",
+        "central London",
+        "Virginia Beach, US"
+      ],
+      "evidentiary_density": "high",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c03",
+      "heading_path": null,
+      "text": "Welcome, Nicholas Pope. Thank you. Yeah, absolutely. For those not familiar uh with Nick Pope, you know, he might be a familiar face to a lot of you on the History Channels Ancient Aliens, but prior to that spent 21 years working for the Ministry of Defense and also subsequently worked for what is known as the UFO desk uh over at the Ministry as well. Um very very interesting stuff. Also an author uh wrote multiple books uh fiction and non-fiction which is uh interesting. We'll get into that as well. Um but more famously I think you know did a lot of work on the Rendlessham case as well. So a lot to talk about today. Uh Nick Pope I first of all I want to thank you for joining me uh in the skiff. Thank you. It's good to be here un unlike David Grash. Here we are in the skiff. That's hilarious. One day maybe. Um, so as we get started, I'd like to just maybe cover some, you know, introductory grounds and just for the audience that might not be familiar with you or your work, uh, can you tell me a little bit about, uh, and we'll keep this brief, but a little bit about how you got started coming in from the Ministry of Defense into, uh, Eupfology? Sure thing. Well, the Ministry of Defense essentially is like a Department of State in the UK. I was there as a civilian employee like you say for 21 years they move you around a lot so I did lots of different things but yeah from 1991 through to 1994 I was posted to the so-called UFO desk and the mission basically which I chose to accept was was to research and investigate the phenomenon and assess the potential defense national security and safety of flight implications.",
+      "token_estimate": 260,
+      "overlap_note": null,
+      "entities_hint": [
+        "Nick Pope",
+        "Ministry of Defense",
+        "UFO desk",
+        "Rendlesham",
+        "David Grash",
+        "Ancient Aliens"
+      ],
+      "claims_hint": [
+        "Nick Pope worked 21 years at UK Ministry of Defense",
+        "Pope was posted to the UFO desk from 1991 to 1994",
+        "His mission was to research UFOs and assess defense implications"
+      ],
+      "temporal_anchors": [
+        "1991-1994"
+      ],
+      "spatial_anchors": [
+        "UK"
+      ],
+      "evidentiary_density": "medium",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c04",
+      "heading_path": null,
+      "text": "Yeah, I mean that is quite a hefty task now doing this back then, you know, like today this might not seem so unheard of because of, you know, the recent task force that's been appointed, but also the other programs like OAP and ATIP and all this stuff, but back in the '9s, like I mean, this was XFiles time. Yes, it was. And and that actually led to a few insider jokes, I guess. I mean, literally, I would be walking down the corridor in the Ministry of Defense and people would whistle the theme tune to the X-Files as I went past and and say, \"Look, there he goes. It's it's Nick Spooky Pope.\" Wow. Um, how many people were working in your department during that time at the UFO desk? Essentially it was just me and admin support but obviously we had a network of people that whilst not posted to that particular operation could be called upon. So for example you know we we had instant access to radar specialists and radar was obviously a big part of of any investigation. We had instant access to intelligence community imagery analysis resources and capabilities. Um the the Met Office, the Royal Greenwich Observatory, it's all about trying to bring in experts, whether they're astronomers, meteorologists, radar experts, whatever they are, you know, whatever you need. It's like a toolkit that that you have. Right. Very interesting. Do you um being like a one-man team for that is that difficult? Would it would it would it not have been a lot easier to to have several people on these cases? It would have been and and had we had more resources. Absolutely. That's well, you know, there is no manager or very few managers who don't want more resources, more more people on the team. I would have loved to have had somebody full-time, you know, like um a radar person um a psychologist that would have been useful. Um but but you know, this was the time when this subject even within government was more fringe than it is now. I mean now particularly in the US of course we we have as you mentioned the the recently established uh task force on the declassification of federal secrets. We've had UFO related provisions in every National Defense Authorization Act um for for several years now. We've had classified briefings in Congress, public hearings, NASA doing a report. So, if I was doing that job now, I'm sure I would have had more resources. But at the time, yeah, it it was pretty much me and admin support. And it's Yeah, there's a lot on your shoulders. this. Oh, I forgot to turn off turn on my oscilloscopes. Very important for this uh for this interview that these oscilloscopes are turned on.",
+      "token_estimate": 330,
+      "overlap_note": null,
+      "entities_hint": [
+        "X-Files",
+        "Ministry of Defense",
+        "Met Office",
+        "Royal Greenwich Observatory",
+        "NASA",
+        "National Defense Authorization Act",
+        "UAP Task Force"
+      ],
+      "claims_hint": [
+        "UFO desk was staffed by Pope and admin support only",
+        "Pope had access to radar, imagery, and expert networks",
+        "UFO subject was more fringe in government in the 1990s",
+        "US now has task forces and UFO provisions in NDAA"
+      ],
+      "temporal_anchors": [
+        "1990s",
+        "1991-1994"
+      ],
+      "spatial_anchors": [
+        "UK",
+        "US"
+      ],
+      "evidentiary_density": "medium",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c05",
+      "heading_path": null,
+      "text": "Um there I mean you've probably looked at a lot of cases from 1991 to '94 and in the '9s obviously I mean there was a a a rampant surge in especially mass sightings you know going from obviously uh you know 97 which we just celebrated the anniversary of the Phoenix lights but also you had uh you know Ruiz Zimbabwe you had Virginia these these pretty big cases. Um, did you ever encounter or investigate any of the mass sightings that happened during that time or prior? Not outside of the UK. This was one of the very interesting things in a way. Our terms of reference were really tight and because of the I guess political sensitivities about this and and I mean that in terms of some people would say you know this is all nonsense. Why are you wasting taxpayers money on it? So we we had to be very careful with this. Our terms of reference were tightly drawn to defending the UK. So it was like if there's something in our airspace, we need to know what it is. That's legitimate business. Going and looking at at something that's happened in in Africa or or even in the United States or elsewhere in Europe, that would have been like, well, why are we doing that? So Sure. I see. I was aware of things like that going on, but it was not for me to actually Right. In in an official capacity, you weren't you were kind of like restricting yourself to not, you know, uh delve into other people's business. Yes. Um Okay. Well, I mean obviously there's a lot of cases in the UK as well that have happened um pri a little bit prior to that and you know um subsequently afterwards even even recently uh the the Lake and Heath you know air force base is obviously famous uh for for multiple sightings going back all the way I think to the 50s. Yes. Um but I mean looking at all that these are all sort of official radar and military personnel related. Did you investigate any sort of civilian uh in um witnesses or or witnesses to uh civilian events that have happened? Yes, we did. And in in fact, we were a public-f facing program rather like the old US Air Force Project Blue Book. Um we did do classified work, but most of what we did on a day-to-day basis was unclassified. I think it's like Avi Lobe says, you can't classify the skies, right? Um, and I would say although we concentrated on military cases because they were often ones where you had access to the witnesses, you knew that those people were reliable. when when pilots tell you about encounters and when it's particularly if it's corroborated by radar evidence there's something in in terms of evidence data you can get into that being said 80 85 90% of the cases that I looked at which are two or 30 hundred each year probably came from the public so as much as I'm interested in the military's perspective of UFOs I find myself, as you can see, all these books behind me here are all related to civilian encounters.",
+      "token_estimate": 380,
+      "overlap_note": null,
+      "entities_hint": [
+        "Phoenix Lights",
+        "Ruiz Zimbabwe",
+        "Virginia",
+        "Lake and Heath air force base",
+        "Project Blue Book",
+        "Avi Loeb"
+      ],
+      "claims_hint": [
+        "Pope's terms of reference were limited to UK defense",
+        "He did not investigate mass sightings outside the UK",
+        "Most cases (80-90%) came from the public",
+        "Program was public-facing like Project Blue Book"
+      ],
+      "temporal_anchors": [
+        "1991-1994",
+        "1997",
+        "1950s"
+      ],
+      "spatial_anchors": [
+        "UK",
+        "US",
+        "Zimbabwe",
+        "Virginia"
+      ],
+      "evidentiary_density": "medium",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c07",
+      "heading_path": null,
+      "text": "And although there were police and military sightings in that in a way the most interesting cases did come from the public literally. For example, one guy was so stunned by this huge triangular shaped craft that he was witnessing that he leapt into his car and started trying to chase it. driving along the road, keeping it in view with his family in the back screaming at him to stop because they saw it too and and were scared whereas he was excited. And in this same encounter, there was a a farmer who saw this this craft very low and he thought it's so low he thought it maybe it landed in one of his fields. and he went up to the field and I think I'm I'm trying all the cows in the field were standing in a circle like facing each other completely silent and there was no UFO there but they were all just doing that like straight out of the X files and and so you have things like that and you're thinking well I don't know. Yeah, that is terrifying. I mean, I don't I don't think there are very many uh unsettling things cows could do uh other than standing in a circle like some type of weird some type of weird ritual. You know, that that reminds me actually of like the Belgian UFO wave a little bit. Well, very interesting you should say that because there was talking of the X Files and spooky coincidences. This this wave of sightings, the Cosford incident took place late on the night of March 30th and in the early hours of March 31st, 1993. And of course, as I was investigating this, something was was kind of gnoring at the back of my mind, and I couldn't quite put my finger on it until afterwards, I realized, wait, this is 3 years to the very night to the very night after those those Belgium sightings. And there were absolutely similarities in the shape of the the craft. Sometimes the behavior this ability apparent ability of it to move from a very low speed to high max speeds in an instant with no sonic boom. Lou Alzando would would call this the you know one of the five observables. And we didn't have that terminology at the time, but we knew what it was because it it cropped up in cases like this. And I remember one of the Air Force witnesses telling me that this thing moved very slowly, maybe 35, 40 m an hour, uh, with a low frequency humming sound that he said was deeply unpleasant. You could feel it as well as hear it rather like getting too close to a like a a generator or something. generator, a bass speaker at a rock concert, something like that, where you feel the sound going through your body. He said it was like that. And this is an Air Force guy telling me this, like just a few hours after he saw it. And he said from that very slow speed, suddenly it just went away to the horizon like in in an instant. And he said, \"Nick,\" and this was maybe I don't know just five, six hours afterwards, we were on the phone, his voice was still shaking. And he said, \"Nick, I've been in the Air Force 8 years. I see obviously fast attack helicopters, mil jets, like it's my job. I've never seen anything like this before in my life.\" Wow. I mean, that's that's incredible coming from such, you know, such a credible witness. Um, and then the corroborative evidence. Now, did you you obviously picked up some of that on radar as well. We did have some radar data. It it was inconclusive. There were some uncorrelated targets near, you know, some of the the radar heads had picked something up, but it you couldn't hang your hat on it. I see. And, you know, doesn't surprise me. I mean, we we do stealth. So, so it's it can be done. Yeah, that's uh I mean, stealth has a large part of stealth as well is the altitude, right? So, if these things are are not too high in the sky as well, they would be harder to pick up by radar, wouldn't they? Yes. I mean, our radar systems, particularly our military ones, are are configured for very specific threats and and so they they are looking in certain directions at certain heights. Um, it's not to say they can't do other things, but you you have that. Then you have the fact that a lot of them use filter programs. This was a big problem for us because the mindset as much as anything else is that, you know, things don't come from straight up down. Um, you know, you're you're looking, like I say, at very specific things, you know, most of which at the time were were like Soviet Union Warsaw packed. So, your system isn't configured to to look for things just coming in out of the atmosphere. Then you use these filter programs and it's it's based on a mindset assumption. Well, if it isn't behaving like a conventional aircraft, then it's probably just a ghost return. I see. And and you you wonder, are we throwing out the baby with the bath water here?",
+      "token_estimate": 520,
+      "overlap_note": null,
+      "entities_hint": [
+        "Cosford incident",
+        "Belgian UFO wave",
+        "Lou Elizondo",
+        "Air Force",
+        "Soviet Union",
+        "Warsaw Pact"
+      ],
+      "claims_hint": [
+        "Cosford incident occurred March 30-31, 1993",
+        "Witness chased triangular craft in car with family",
+        "Farmer found cows standing in a circle silently",
+        "Incident occurred 3 years to the night after Belgian wave",
+        "Craft moved from slow to high speed instantly with no sonic boom",
+        "Air Force witness reported low-frequency humming sound",
+        "Radar data was inconclusive with uncorrelated targets",
+        "Radar systems configured for specific threats and use filter programs"
+      ],
+      "temporal_anchors": [
+        "March 30-31, 1993",
+        "March 30-31, 1990"
+      ],
+      "spatial_anchors": [
+        "Cosford, UK",
+        "Belgium"
+      ],
+      "evidentiary_density": "high",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c08",
+      "heading_path": null,
+      "text": "Yeah. And that's I think what made your job so important is is looking at those anomalies. And you know that this brings me to a really interesting point that I've pondered quite a bit as well. Being people who are interested in these fringe anomalies, we are a little bit more prone to well, we have to be to looking at all of the anomalies that are associated with it. So, for instance, a lot of people avoid the UFO uh spike on the chart, but for those of us focusing in on that, well, there are an infinite amount of spikes in that category. I mean, the anomalies don't just cease at a UFO. they go into beings and and physical, metaphysical, all these other fringe um sort of things. So, was there ever a point during your time there where you had to pull your punches a little bit with what you thought was going on? 100% yes. Um you have to play the strongest hand that you have, particularly if you are looking to get access to defense ministers. uh if if you want more resources, uh you you just have to focus in on the sorts of cases that you know will play well. So you talk about the pilot sightings, you talk about the cases where you have radar data, you don't tend to talk about the abduction cases even though you have them. So you kind of self censor which in a way it was one of the most uncomfortable things of all because the phenomenon I soon realized was you know multiaceted and truly bizarre and sometimes almost abstract but you had to kind of play it very straight and focus in on this the sort of defense national security pilots radar kind of thing and we still see that I mean ATIP and also that that you mentioned. I mean, ORSAP looked at some really weird stuff, but they had to kind of dress it up in a certain way to get congressional funding and and that relates to why we changed the language even from UFO to UAP. It was all about getting rid of that pop culture baggage and rebranding the conversation. Yeah. But with that pop culture baggage, you'd mentioned throwing the baby out with the bathwater. Um, you know, I would like to believe that that all of these multiaceted um, uh, sort of subjects that revolve around UAP are also to some extent should be a concern to national security because when we're talking about abductions, although might be fringe, when you have thousands of people who are reporting these things and reporting similar things, I mean, you would assume assume that these conversations should be happening behind closed doors as well as invading our airspace. 100%. Yeah. and and you know I know from more recent conversations with people like Lu Alzando and Jay Stratton and and that obviously the UAP task force in the United States ATIP and ORSAT they had those cases or they they were certainly aware of those cases but even they had to kind of play on well yeah David Fraor the tic tac um you again it's it's playing your strongest suit.",
+      "token_estimate": 380,
+      "overlap_note": null,
+      "entities_hint": [
+        "AATIP",
+        "ORSAP",
+        "UAP",
+        "Lou Elizondo",
+        "Jay Stratton",
+        "David Fravor",
+        "tic tac"
+      ],
+      "claims_hint": [
+        "Pope self-censored by focusing on pilot and radar cases",
+        "Abduction cases were not discussed with defense ministers",
+        "AATIP and ORSAP had to dress up weird cases for funding",
+        "Language changed from UFO to UAP to rebrand conversation",
+        "Abduction reports should be a national security concern"
+      ],
+      "temporal_anchors": [],
+      "spatial_anchors": [
+        "US"
+      ],
+      "evidentiary_density": "medium",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c09",
+      "heading_path": null,
+      "text": "Yeah, I just find it so um so wild because uh you know these abduction cases specifically go back decades and decades and decades. It's not like they've gone away and there was a time where they were seemingly more rampant, but um it is for me, you know, thinking about that stuff if if this is happening, I mean, that is a complete violation of human rights. that is just, you know, and obviously if they're non-human, then they, you know, they they can disregard that. But, um, I I take issue with it because I feel like it's such an invasive, um, procedure that happens during these abductions versus just coming into our airspace. I understand the, you know, the military implications, but, um, some of these cases that you visited, um, where, you know, people were potentially abducted or had, uh, encounters with beings. What was one of the cases that really left you, I mean, struck by the information that you were that you were uncovering? Well, this is another area where where there is kind of selfcensorship, but interestingly, you even find it in eupfology. I guess I I suppose if you talk to um abduction researchers and and back in the day, I suppose the big three were Bud Hopkins, John Mack, and David Jacobs. Um and I I met all all three of them. I I knew B and John Mack quite quite well. I mean, you know, we we talked about, you know, some of the cases and things like that, but even within Euphology, you often find this selfcensorship. And it's only when you talk to the actual experiences, I I people like Willie Streber that you realize how truly bizarre and abstract the phenomenon can be because you have just as I talked about playing the strongest suit in government UAP work. You even find it with the UFO researchers and it's it's like, yeah, I have a case. It's it's the little grays on a table. Some of the cases that I got were not like that. There was one. Can you go into them? Yeah, that would be great. Well, one one to answer your question about that left an impression on me was it wasn't really an abduction, but it was an encounter with I guess beings. a particular uh woman who I I got to know quite well uh had this experience that a whole bunch of apparently, you know, normallooking people all walked into an art shop in central London, started looking at all the produce, were there for like a long time, and and she she just felt there was something weird about these people. And then after a long time they made a big show of coming up and buying a single pencil like it was like a big thing. And then they handed over a very high denomination bank note. And when the woman went to give them their change, they they looked confused like they didn't understand the concept of getting their change bag. And she was so struck by this that she phoned somebody afterwards and in fact during this whole thing and said there are aliens in my shop. And and that's the kind of surreal nature of of these encounters that sometimes doesn't even come out in the literature because I think sometimes euphologists self censor because they say look everyone knows what an alien looks like. Everyone knows what an abduction is. It's a very structured thing. The beam, the table, the medical exam. When you get something like this that doesn't fit the model, euphologist self censor and throw it out. But me being a kind of I I don't know, a sort of evenhanded like disinterested um kind of observer of this. I take all the cases that I can get. And so that was one that really struck me. Um, so you said you got to know this woman quite well. Um, was that afterwards? Did she have any other encounters? One that I would say was more of a time slip kind of phenomenon. Missing time, seeing somebody that looked like herself from the future. Whoa. and and and it's it's again I often find that the high strangeness of these cases is is under reportported. Yeah. I mean some of it I use the word surreal quite deliberately. The the true phenomenon I think is much more surreal. I mean we of course look we can only look at all of this in a very anthropocentric way. If we are dealing with something truly alien, then it doesn't surprise me in a way that it is alien. Yeah, good point. Um, you know, all of that I mean it's so interesting because obviously like you said we are sort of accustomed to seeing to hearing about the small grays, the tall grays, maybe the mantis folk, some reptilians here and there, even Nordic folk. Uh, but um, more rarely and probably possibly harder to detect are what seem to be these hybrids. um in in this case um of course if you're aware of the work of David Jacobs you know he's written books like the threat and um the other one was like among among us or they're Among Us um really highlighted sort of these tales or these stories by abductees who were led to train a lot of these later stage hybrids that have been interacting with you know human society and train them in the most mundane ways which I thought was really a fascinating read. And this strikes me as like one of those things especially they were they would do this in groups and for them to go out alone uh and not guided by an abductee or a human to help them you know understand what is happening um is just really strange as well. Um, but that type of behavior, the monetary exchange with a large denomination, not knowing what to do with the change, uh, these things all soun",
+      "token_estimate": 620,
+      "overlap_note": null,
+      "entities_hint": [
+        "Bud Hopkins",
+        "John Mack",
+        "David Jacobs",
+        "Whitley Strieber",
+        "central London",
+        "David Jacobs",
+        "The Threat",
+        "Among Us"
+      ],
+      "claims_hint": [
+        "Pope met abduction researchers Bud Hopkins, John Mack, and David Jacobs",
+        "Even ufologists self-censor cases that don't fit the model",
+        "Woman reported aliens in her shop after odd purchase behavior",
+        "Woman had a time slip experience seeing future self",
+        "David Jacobs wrote about hybrids trained by abductees"
+      ],
+      "temporal_anchors": [],
+      "spatial_anchors": [
+        "central London"
+      ],
+      "evidentiary_density": "high",
+      "do_not_embed_reasons": []
+    }
+  ],
+  "ner_results": [
+    {
+      "chunk_id": "c01",
+      "ner_error": "disclosure.ner: JSON unparseable after one repair retry (Expecting ',' delimiter: line 92 column 100 (char 5013)); raw response was 5014 chars"
+    },
+    {
+      "chunk_id": "c03",
+      "ner": {
+        "entities": [
+          {
+            "type": "PERSONNEL",
+            "name": "Nicholas Pope",
+            "aliases": [
+              "Nick Pope"
+            ],
+            "role": "former Ministry of Defence employee, UFO desk investigator, author",
+            "credibility_tier": 8,
+            "attributes": {
+              "employment": "Ministry of Defence (21 years)",
+              "ufo_desk_years": "1991-1994",
+              "notable_case": "Rendlesham case",
+              "media_appearances": "History Channel's Ancient Aliens",
+              "author": "fiction and non-fiction books"
+            },
+            "span_quote": "spent 21 years working for the Ministry of Defense and also subsequently worked for what is known as the UFO desk",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "type": "ORGANIZATION",
+            "name": "Ministry of Defence",
+            "aliases": [
+              "MoD"
+            ],
+            "category": "government",
+            "attributes": {
+              "country": "UK",
+              "comparison": "Department of State in the UK",
+              "role": "employer of Nicholas Pope"
+            },
+            "span_quote": "The Ministry of Defense essentially is like a Department of State in the UK",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "type": "ORGANIZATION",
+            "name": "UFO desk",
+            "aliases": [
+              "so-called UFO desk"
+            ],
+            "category": "government",
+            "attributes": {
+              "parent_organization": "Ministry of Defence",
+              "mission": "research and investigate the phenomenon and assess potential defense, national security, and safety of flight implications"
+            },
+            "span_quote": "I was posted to the so-called UFO desk and the mission basically which I chose to accept was to research and investigate the phenomenon",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "type": "EVENT",
+            "name": "Rendlesham case",
+            "aliases": [
+              "Rendlesham incident"
+            ],
+            "attributes": {
+              "associated_personnel": [
+                "Nicholas Pope"
+              ],
+              "note": "referenced as a notable case worked on by Nicholas Pope"
+            },
+            "span_quote": "did a lot of work on the Rendlessham case as well",
+            "evidentiary_state": "Corroborated"
+          },
+          {
+            "type": "LOCATION",
+            "name": "United Kingdom",
+            "aliases": [
+              "UK"
+            ],
+            "attributes": {
+              "context": "jurisdiction of Ministry of Defence"
+            },
+            "span_quote": "The Ministry of Defense essentially is like a Department of State in the UK",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "type": "EVIDENCE",
+            "name": "Nicholas Pope's testimony on MoD UFO desk work",
+            "subtype": "testimony",
+            "attributes": {
+              "category": "D",
+              "source": "interview transcript",
+              "content": "description of role and mission at UFO desk, 1991-1994"
+            },
+            "span_quote": "from 1991 through to 1994 I was posted to the so-called UFO desk",
+            "evidentiary_state": "Observed"
+          }
+        ],
+        "relationships": [
+          {
+            "source": "Nicholas Pope",
+            "target": "Ministry of Defence",
+            "type": "Attributional",
+            "confidence": 0.95,
+            "attributes": {
+              "relation": "employee"
+            }
+          },
+          {
+            "source": "Nicholas Pope",
+            "target": "UFO desk",
+            "type": "Attributional",
+            "confidence": 0.95,
+            "attributes": {
+              "relation": "posted to"
+            }
+          },
+          {
+            "source": "UFO desk",
+            "target": "Ministry of Defence",
+            "type": "Organizational",
+            "confidence": 0.9,
+            "attributes": {
+              "relation": "part of"
+            }
+          },
+          {
+            "source": "Nicholas Pope",
+            "target": "Rendlesham case",
+            "type": "Attributional",
+            "confidence": 0.8,
+            "attributes": {
+              "relation": "worked on"
+            }
+          }
+        ],
+        "analysis_summary": {
+          "investigation_priority": "Medium - interview introduction establishing background of Nicholas Pope; no new claims or evidence presented beyond biographical details and role description.",
+          "notes": [
+            "Source is an interview introduction; no independent verification of claims beyond the speaker's statements.",
+            "Credibility tier for Nicholas Pope based on stated institutional role (MoD employee) and named credentials.",
+            "Rendlesham case referenced but not detailed; no new information provided."
+          ]
+        }
+      },
+      "validation": {
+        "verdict": "pass_with_warnings",
+        "issues": [
+          {
+            "severity": "low",
+            "code": "minor_spelling",
+            "message": "Source says 'Rendlessham' but output uses 'Rendlesham' (standard spelling).",
+            "fix": "Optionally note the source spelling or keep standard spelling with a note."
+          },
+          {
+            "severity": "low",
+            "code": "inference_not_labeled",
+            "message": "The 'credibility_tier' of 8 is an inference not directly stated in the source.",
+            "fix": "Label as inference or provide justification in analysis_summary."
+          },
+          {
+            "severity": "low",
+            "code": "evidentiary_state_mismatch",
+            "message": "Rendlesham case marked 'Corroborated' but source only mentions it in passing; no corroboration provided.",
+            "fix": "Change to 'Observed' or 'Referenced' to avoid overclaiming."
+          }
+        ],
+        "safe_for_rag_index": true,
+        "safe_for_db_write": true
+      }
+    },
+    {
+      "chunk_id": "c04",
+      "ner": {
+        "_raw_list": [
+          {
+            "type": "PERSONNEL",
+            "name": "Nick Pope",
+            "aliases": [
+              "Nick Spooky Pope"
+            ],
+            "role": "UFO desk officer at the Ministry of Defence",
+            "credibility_tier": 7,
+            "span_quote": "Look, there he goes. It's it's Nick Spooky Pope.",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "type": "ORGANIZATION",
+            "name": "Ministry of Defence",
+            "category": "government",
+            "authority_context": "UK government department where Nick Pope worked",
+            "span_quote": "walking down the corridor in the Ministry of Defense",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "type": "ORGANIZATION",
+            "name": "Met Office",
+            "category": "government",
+            "authority_context": "Expert resource for UFO investigations",
+            "span_quote": "the Met Office, the Royal Greenwich Observatory",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "type": "ORGANIZATION",
+            "name": "Royal Greenwich Observatory",
+            "category": "government",
+            "authority_context": "Expert resource for UFO investigations",
+            "span_quote": "the Met Office, the Royal Greenwich Observatory",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "type": "ORGANIZATION",
+            "name": "Task Force on the Declassification of Federal Secrets",
+            "category": "government",
+            "authority_context": "Recently established US task force",
+            "span_quote": "the recently established uh task force on the declassification of federal secrets",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "type": "ORGANIZATION",
+            "name": "NASA",
+            "category": "government",
+            "authority_context": "Produced a report on UFOs",
+            "span_quote": "NASA doing a report",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "type": "EVENT",
+            "name": "UFO desk operations at MoD in the 1990s",
+            "date": "1990s",
+            "location": "Ministry of Defence, UK",
+            "duration": "ongoing during the 1990s",
+            "witness_count": 1,
+            "witness_names": [
+              "Nick Pope"
+            ],
+            "evidence_quality_note": "Witness testimony, no physical evidence",
+            "span_quote": "back in the '9s, like I mean, this was XFiles time",
+            "evidentiary_state": "Corroborated"
+          },
+          {
+            "type": "EVIDENCE",
+            "name": "Radar specialist access",
+            "category": "C",
+            "span_quote": "we had instant access to radar specialists",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "type": "EVIDENCE",
+            "name": "Imagery analysis resources",
+            "category": "C",
+            "span_quote": "instant access to intelligence community imagery analysis resources and capabilities",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "type": "EVIDENCE",
+            "name": "Expert consultations",
+            "category": "D",
+            "span_quote": "bringing in experts, whether they're astronomers, meteorologists, radar experts",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "type": "LOCATION",
+            "name": "Ministry of Defence corridor",
+            "coordinates": null,
+            "span_quote": "walking down the corridor in the Ministry of Defense",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "type": "TOPIC",
+            "name": "UFO investigations",
+            "span_quote": "UFO desk",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "type": "TOPIC",
+            "name": "Government secrecy and disclosure",
+            "span_quote": "task force on the declassification of federal secrets",
+            "evidentiary_state": "Observed"
+          }
+        ]
+      },
+      "validation": {
+        "verdict": "fail",
+        "issues": [
+          {
+            "severity": "critical",
+            "code": "HALLUCINATED_ENTITY",
+            "message": "The entity 'Task Force on the Declassification of Federal Secrets' is not mentioned in the source excerpt. The excerpt only refers to 'the recent task force that's been appointed' without naming it.",
+            "fix": "Remove the entity or rename it to 'recent task force' and adjust the span_quote to match the source exactly."
+          },
+          {
+            "severity": "critical",
+            "code": "HALLUCINATED_ENTITY",
+            "message": "The entity 'NASA' is not mentioned in the source excerpt. The excerpt does not contain 'NASA doing a report' or any reference to NASA.",
+            "fix": "Remove the entity entirely."
+          },
+          {
+            "severity": "high",
+            "code": "UNSUPPORTED_EVIDENTIARY_STATE",
+            "message": "The event 'UFO desk operations at MoD in the 1990s' is marked as 'Corroborated', but the source only provides a single witness testimony (Nick Pope) with no independent corroboration.",
+            "fix": "Change evidentiary_state to 'Observed' or 'Witness Testimony' and adjust evidence_quality_note accordingly."
+          },
+          {
+            "severity": "high",
+            "code": "INACCURATE_SPAN_QUOTE",
+            "message": "The span_quote for 'Nick Pope' is 'Look, there he goes. It's it's Nick Spooky Pope.' but the source says 'Look, there he goes. It's it's Nick Spooky Pope.' (with 'it's' repeated). The quote is slightly off.",
+            "fix": "Correct the span_quote to exactly match the source: 'Look, there he goes. It's it's Nick Spooky Pope.'"
+          },
+          {
+            "severity": "medium",
+            "code": "INCONSISTENT_SPELLING",
+            "message": "The source uses 'Ministry of Defense' (American spelling) but the entity name uses 'Ministry of Defence' (British spelling). This may cause retrieval mismatches.",
+            "fix": "Use the exact spelling from the source or add an alias for the alternate spelling."
+          },
+          {
+            "severity": "medium",
+            "code": "MISSING_PROVENANCE",
+            "message": "The entity 'Expert consultations' has a span_quote that is a paraphrase, not an exact quote. The source says 'bringing in experts, whether they're astronomers, meteorologists, radar experts' but the span_quote is 'bringing in experts, whether they're astronomers, meteorologists, radar experts' which is correct, but the entity name is vague.",
+            "fix": "Clarify the entity name to 'Expert consultation network' and ensure the span_quote is exact."
+          },
+          {
+            "severity": "low",
+            "code": "OVERLAPPING_ENTITIES",
+            "message": "The entities 'Ministry of Defence' and 'Ministry of Defence corridor' overlap in scope. The corridor is part of the MoD, so having both may cause redundancy.",
+            "fix": "Consider merging or removing the corridor entity, or make it a sub-location of the MoD."
+          }
+        ],
+        "safe_for_rag_index": false,
+        "safe_for_db_write": false
+      }
+    },
+    {
+      "chunk_id": "c05",
+      "ner_error": "disclosure.ner: JSON unparseable after one repair retry (Expecting property name enclosed in double quotes: line 126 column 68 (char 4700)); raw response was 4706 chars"
+    },
+    {
+      "chunk_id": "c07",
+      "ner_error": "disclosure.ner: JSON unparseable after one repair retry (Unterminated string starting at: line 114 column 7 (char 4640)); raw response was 4641 chars"
+    },
+    {
+      "chunk_id": "c08",
+      "ner": {
+        "_raw_list": [
+          {
+            "type": "PERSONNEL",
+            "name": "Lu Elizondo",
+            "aliases": [
+              "Lu Alzando"
+            ],
+            "role": "former head of Advanced Aerospace Threat Identification Program (AATIP)",
+            "credibility_tier": 9,
+            "span_quote": "people like Lu Alzando and Jay Stratton",
+            "evidentiary_state": "Corroborated"
+          },
+          {
+            "type": "PERSONNEL",
+            "name": "Jay Stratton",
+            "aliases": [],
+            "role": "former UAP Task Force official",
+            "credibility_tier": 9,
+            "span_quote": "people like Lu Alzando and Jay Stratton",
+            "evidentiary_state": "Corroborated"
+          },
+          {
+            "type": "PERSONNEL",
+            "name": "David Fravor",
+            "aliases": [
+              "David Fraor"
+            ],
+            "role": "former Navy pilot, Tic Tac sighting witness",
+            "credibility_tier": 10,
+            "span_quote": "David Fraor the tic tac",
+            "evidentiary_state": "Corroborated"
+          },
+          {
+            "type": "ORGANIZATION",
+            "name": "AATIP",
+            "aliases": [
+              "ATIP"
+            ],
+            "category": "government",
+            "authority_context": "Advanced Aerospace Threat Identification Program, U.S. government program",
+            "disclosure_posture": "focused on national security cases, self-censored fringe topics",
+            "span_quote": "ATIP and also that that you mentioned",
+            "evidentiary_state": "Corroborated"
+          },
+          {
+            "type": "ORGANIZATION",
+            "name": "UAP Task Force",
+            "aliases": [],
+            "category": "government",
+            "authority_context": "U.S. government task force on UAP",
+            "disclosure_posture": "aware of abduction cases but had to focus on national security cases",
+            "span_quote": "the UAP task force in the United States",
+            "evidentiary_state": "Corroborated"
+          },
+          {
+            "type": "ORGANIZATION",
+            "name": "ORSAT",
+            "aliases": [
+              "ORSAP"
+            ],
+            "category": "government",
+            "authority_context": "U.S. government organization, likely related to UAP investigations",
+            "disclosure_posture": "looked at weird stuff but had to dress it up for congressional funding",
+            "span_quote": "ORSAP looked at some really weird stuff",
+            "evidentiary_state": "Corroborated"
+          },
+          {
+            "type": "EVENT",
+            "name": "Tic Tac sighting",
+            "aliases": [
+              "tic tac"
+            ],
+            "date": null,
+            "location": null,
+            "duration": null,
+            "witness_count": 1,
+            "witness_names": [
+              "David Fravor"
+            ],
+            "evidence_quality_note": "visual and radar data, high credibility witness",
+            "span_quote": "David Fraor the tic tac",
+            "evidentiary_state": "Corroborated"
+          },
+          {
+            "type": "EVIDENCE",
+            "name": "Radar data cases",
+            "aliases": [],
+            "subtype": "sensor",
+            "category": "C",
+            "span_quote": "cases where you have radar data",
+            "evidentiary_state": "Corroborated"
+          },
+          {
+            "type": "EVIDENCE",
+            "name": "Abduction cases",
+            "aliases": [],
+            "subtype": "testimony",
+            "category": "D",
+            "span_quote": "abduction cases even though you have them",
+            "evidentiary_state": "Unverified"
+          },
+          {
+            "type": "LOCATION",
+            "name": "United States",
+            "aliases": [],
+            "coordinates": null,
+            "span_quote": "the UAP task force in the United States",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "type": "TOPIC",
+            "name": "UAP terminology change",
+            "aliases": [
+              "UFO to UAP"
+            ],
+            "span_quote": "why we changed the language even from UFO to UAP",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "type": "TOPIC",
+            "name": "Abduction phenomenon",
+            "aliases": [
+              "abductions"
+            ],
+            "span_quote": "when we're talking about abductions",
+            "evidentiary_state": "Unverified"
+          }
+        ]
+      },
+      "validation_error": "validation: JSON unparseable after one repair retry (Unterminated string starting at: line 61 column 18 (char 3212)); raw response was 3435 chars"
+    },
+    {
+      "chunk_id": "c09",
+      "ner_error": "disclosure.ner: JSON unparseable after one repair retry (Unterminated string starting at: line 142 column 7 (char 4371)); raw response was 4379 chars"
+    }
+  ],
+  "embeddable_texts": [
+    "What is one sort of fringe encounter that still kind of troubles you to this day? We had a case in 1993, well actually a wave of sightings collectively known as the Cosford incident. One guy was so stunned by this huge triangular shaped craft that he leapt into his car and started trying to chase it with his family in the back screaming at him to stop. In this same encounter, there was a a farmer who saw this this craft very low and he thought it's so low he thought it maybe it landed and he went up to the field and all the cows in the field were standing in a circle like facing each other straight out of the axe files. Wa! a whole bunch of normallooking people all walked into an art shop in central London were there for like a long time and and she she just felt there was something weird about these people and then after a long time they made a big show of coming up and buying a single pencil like it was like a big thing and then they handed over a very high denomination bank note and when the woman went to give them their change. They they looked confused like they didn't understand the concept of getting their change bag and she was so struck by this that she phoned somebody afterwards and said, \"There are aliens in my shop.\" So, you said you got to know this woman quite well. Um, was that afterwards? Did she have any other encounters? One that I would say was more of a time slip. missing time, seeing somebody that looked like herself from the future. I was um down along the east coast, United States, Virginia Beach kind of area. Yeah. Doing a a night jog kind of run along the beach. Looked up in the sky and I saw a purplish it looked like a basically a sting I don't know. It looked like a stingray but without the tail. And uh and it was uh translucent and a purplish color and it it flew over it went it felt like it was 100 yards above my head, maybe even less.",
+    "Welcome, Nicholas Pope. Thank you. Yeah, absolutely. For those not familiar uh with Nick Pope, you know, he might be a familiar face to a lot of you on the History Channels Ancient Aliens, but prior to that spent 21 years working for the Ministry of Defense and also subsequently worked for what is known as the UFO desk uh over at the Ministry as well. Um very very interesting stuff. Also an author uh wrote multiple books uh fiction and non-fiction which is uh interesting. We'll get into that as well. Um but more famously I think you know did a lot of work on the Rendlessham case as well. So a lot to talk about today. Uh Nick Pope I first of all I want to thank you for joining me uh in the skiff. Thank you. It's good to be here un unlike David Grash. Here we are in the skiff. That's hilarious. One day maybe. Um, so as we get started, I'd like to just maybe cover some, you know, introductory grounds and just for the audience that might not be familiar with you or your work, uh, can you tell me a little bit about, uh, and we'll keep this brief, but a little bit about how you got started coming in from the Ministry of Defense into, uh, Eupfology? Sure thing. Well, the Ministry of Defense essentially is like a Department of State in the UK. I was there as a civilian employee like you say for 21 years they move you around a lot so I did lots of different things but yeah from 1991 through to 1994 I was posted to the so-called UFO desk and the mission basically which I chose to accept was was to research and investigate the phenomenon and assess the potential defense national security and safety of flight implications.",
+    "Um there I mean you've probably looked at a lot of cases from 1991 to '94 and in the '9s obviously I mean there was a a a rampant surge in especially mass sightings you know going from obviously uh you know 97 which we just celebrated the anniversary of the Phoenix lights but also you had uh you know Ruiz Zimbabwe you had Virginia these these pretty big cases. Um, did you ever encounter or investigate any of the mass sightings that happened during that time or prior? Not outside of the UK. This was one of the very interesting things in a way. Our terms of reference were really tight and because of the I guess political sensitivities about this and and I mean that in terms of some people would say you know this is all nonsense. Why are you wasting taxpayers money on it? So we we had to be very careful with this. Our terms of reference were tightly drawn to defending the UK. So it was like if there's something in our airspace, we need to know what it is. That's legitimate business. Going and looking at at something that's happened in in Africa or or even in the United States or elsewhere in Europe, that would have been like, well, why are we doing that? So Sure. I see. I was aware of things like that going on, but it was not for me to actually Right. In in an official capacity, you weren't you were kind of like restricting yourself to not, you know, uh delve into other people's business. Yes. Um Okay. Well, I mean obviously there's a lot of cases in the UK as well that have happened um pri a little bit prior to that and you know um subsequently afterwards even even recently uh the the Lake and Heath you know air force base is obviously famous uh for for multiple sightings going back all the way I think to the 50s. Yes. Um but I mean looking at all that these are all sort of official radar and military personnel related. Did you investigate any sort of civilian uh in um witnesses or or witnesses to uh civilian events that have happened? Yes, we did. And in in fact, we were a public-f facing program rather like the old US Air Force Project Blue Book. Um we did do classified work, but most of what we did on a day-to-day basis was unclassified. I think it's like Avi Lobe says, you can't classify the skies, right? Um, and I would say although we concentrated on military cases because they were often ones where you had access to the witnesses, you knew that those people were reliable. when when pilots tell you about encounters and when it's particularly if it's corroborated by radar evidence there's something in in terms of evidence data you can get into that being said 80 85 90% of the cases that I looked at which are two or 30 hundred each year probably came from the public so as much as I'm interested in the military's perspective of UFOs I find myself, as you can see, all these books behind me here are all related to civilian encounters.",
+    "And although there were police and military sightings in that in a way the most interesting cases did come from the public literally. For example, one guy was so stunned by this huge triangular shaped craft that he was witnessing that he leapt into his car and started trying to chase it. driving along the road, keeping it in view with his family in the back screaming at him to stop because they saw it too and and were scared whereas he was excited. And in this same encounter, there was a a farmer who saw this this craft very low and he thought it's so low he thought it maybe it landed in one of his fields. and he went up to the field and I think I'm I'm trying all the cows in the field were standing in a circle like facing each other completely silent and there was no UFO there but they were all just doing that like straight out of the X files and and so you have things like that and you're thinking well I don't know. Yeah, that is terrifying. I mean, I don't I don't think there are very many uh unsettling things cows could do uh other than standing in a circle like some type of weird some type of weird ritual. You know, that that reminds me actually of like the Belgian UFO wave a little bit. Well, very interesting you should say that because there was talking of the X Files and spooky coincidences. This this wave of sightings, the Cosford incident took place late on the night of March 30th and in the early hours of March 31st, 1993. And of course, as I was investigating this, something was was kind of gnoring at the back of my mind, and I couldn't quite put my finger on it until afterwards, I realized, wait, this is 3 years to the very night to the very night after those those Belgium sightings. And there were absolutely similarities in the shape of the the craft. Sometimes the behavior this ability apparent ability of it to move from a very low speed to high max speeds in an instant with no sonic boom. Lou Alzando would would call this the you know one of the five observables. And we didn't have that terminology at the time, but we knew what it was because it it cropped up in cases like this. And I remember one of the Air Force witnesses telling me that this thing moved very slowly, maybe 35, 40 m an hour, uh, with a low frequency humming sound that he said was deeply unpleasant. You could feel it as well as hear it rather like getting too close to a like a a generator or something. generator, a bass speaker at a rock concert, something like that, where you feel the sound going through your body. He said it was like that. And this is an Air Force guy telling me this, like just a few hours after he saw it. And he said from that very slow speed, suddenly it just went away to the horizon like in in an instant. And he said, \"Nick,\" and this was maybe I don't know just five, six hours afterwards, we were on the phone, his voice was still shaking. And he said, \"Nick, I've been in the Air Force 8 years. I see obviously fast attack helicopters, mil jets, like it's my job. I've never seen anything like this before in my life.\" Wow. I mean, that's that's incredible coming from such, you know, such a credible witness. Um, and then the corroborative evidence. Now, did you you obviously picked up some of that on radar as well. We did have some radar data. It it was inconclusive. There were some uncorrelated targets near, you know, some of the the radar heads had picked something up, but it you couldn't hang your hat on it. I see. And, you know, doesn't surprise me. I mean, we we do stealth. So, so it's it can be done. Yeah, that's uh I mean, stealth has a large part of stealth as well is the altitude, right? So, if these things are are not too high in the sky as well, they would be harder to pick up by radar, wouldn't they? Yes. I mean, our radar systems, particularly our military ones, are are configured for very specific threats and and so they they are looking in certain directions at certain heights. Um, it's not to say they can't do other things, but you you have that. Then you have the fact that a lot of them use filter programs. This was a big problem for us because the mindset as much as anything else is that, you know, things don't come from straight up down. Um, you know, you're you're looking, like I say, at very specific things, you know, most of which at the time were were like Soviet Union Warsaw packed. So, your system isn't configured to to look for things just coming in out of the atmosphere. Then you use these filter programs and it's it's based on a mindset assumption. Well, if it isn't behaving like a conventional aircraft, then it's probably just a ghost return. I see. And and you you wonder, are we throwing out the baby with the bath water here?",
+    "Yeah. And that's I think what made your job so important is is looking at those anomalies. And you know that this brings me to a really interesting point that I've pondered quite a bit as well. Being people who are interested in these fringe anomalies, we are a little bit more prone to well, we have to be to looking at all of the anomalies that are associated with it. So, for instance, a lot of people avoid the UFO uh spike on the chart, but for those of us focusing in on that, well, there are an infinite amount of spikes in that category. I mean, the anomalies don't just cease at a UFO. they go into beings and and physical, metaphysical, all these other fringe um sort of things. So, was there ever a point during your time there where you had to pull your punches a little bit with what you thought was going on? 100% yes. Um you have to play the strongest hand that you have, particularly if you are looking to get access to defense ministers. uh if if you want more resources, uh you you just have to focus in on the sorts of cases that you know will play well. So you talk about the pilot sightings, you talk about the cases where you have radar data, you don't tend to talk about the abduction cases even though you have them. So you kind of self censor which in a way it was one of the most uncomfortable things of all because the phenomenon I soon realized was you know multiaceted and truly bizarre and sometimes almost abstract but you had to kind of play it very straight and focus in on this the sort of defense national security pilots radar kind of thing and we still see that I mean ATIP and also that that you mentioned. I mean, ORSAP looked at some really weird stuff, but they had to kind of dress it up in a certain way to get congressional funding and and that relates to why we changed the language even from UFO to UAP. It was all about getting rid of that pop culture baggage and rebranding the conversation. Yeah. But with that pop culture baggage, you'd mentioned throwing the baby out with the bathwater. Um, you know, I would like to believe that that all of these multiaceted um, uh, sort of subjects that revolve around UAP are also to some extent should be a concern to national security because when we're talking about abductions, although might be fringe, when you have thousands of people who are reporting these things and reporting similar things, I mean, you would assume assume that these conversations should be happening behind closed doors as well as invading our airspace. 100%. Yeah. and and you know I know from more recent conversations with people like Lu Alzando and Jay Stratton and and that obviously the UAP task force in the United States ATIP and ORSAT they had those cases or they they were certainly aware of those cases but even they had to kind of play on well yeah David Fraor the tic tac um you again it's it's playing your strongest suit.",
+    "Yeah, I just find it so um so wild because uh you know these abduction cases specifically go back decades and decades and decades. It's not like they've gone away and there was a time where they were seemingly more rampant, but um it is for me, you know, thinking about that stuff if if this is happening, I mean, that is a complete violation of human rights. that is just, you know, and obviously if they're non-human, then they, you know, they they can disregard that. But, um, I I take issue with it because I feel like it's such an invasive, um, procedure that happens during these abductions versus just coming into our airspace. I understand the, you know, the military implications, but, um, some of these cases that you visited, um, where, you know, people were potentially abducted or had, uh, encounters with beings. What was one of the cases that really left you, I mean, struck by the information that you were that you were uncovering? Well, this is another area where where there is kind of selfcensorship, but interestingly, you even find it in eupfology. I guess I I suppose if you talk to um abduction researchers and and back in the day, I suppose the big three were Bud Hopkins, John Mack, and David Jacobs. Um and I I met all all three of them. I I knew B and John Mack quite quite well. I mean, you know, we we talked about, you know, some of the cases and things like that, but even within Euphology, you often find this selfcensorship. And it's only when you talk to the actual experiences, I I people like Willie Streber that you realize how truly bizarre and abstract the phenomenon can be because you have just as I talked about playing the strongest suit in government UAP work. You even find it with the UFO researchers and it's it's like, yeah, I have a case. It's it's the little grays on a table. Some of the cases that I got were not like that. There was one. Can you go into them? Yeah, that would be great. Well, one one to answer your question about that left an impression on me was it wasn't really an abduction, but it was an encounter with I guess beings. a particular uh woman who I I got to know quite well uh had this experience that a whole bunch of apparently, you know, normallooking people all walked into an art shop in central London, started looking at all the produce, were there for like a long time, and and she she just felt there was something weird about these people. And then after a long time they made a big show of coming up and buying a single pencil like it was like a big thing. And then they handed over a very high denomination bank note. And when the woman went to give them their change, they they looked confused like they didn't understand the concept of getting their change bag. And she was so struck by this that she phoned somebody afterwards and in fact during this whole thing and said there are aliens in my shop. And and that's the kind of surreal nature of of these encounters that sometimes doesn't even come out in the literature because I think sometimes euphologists self censor because they say look everyone knows what an alien looks like. Everyone knows what an abduction is. It's a very structured thing. The beam, the table, the medical exam. When you get something like this that doesn't fit the model, euphologist self censor and throw it out. But me being a kind of I I don't know, a sort of evenhanded like disinterested um kind of observer of this. I take all the cases that I can get. And so that was one that really struck me. Um, so you said you got to know this woman quite well. Um, was that afterwards? Did she have any other encounters? One that I would say was more of a time slip kind of phenomenon. Missing time, seeing somebody that looked like herself from the future. Whoa. and and and it's it's again I often find that the high strangeness of these cases is is under reportported. Yeah. I mean some of it I use the word surreal quite deliberately. The the true phenomenon I think is much more surreal. I mean we of course look we can only look at all of this in a very anthropocentric way. If we are dealing with something truly alien, then it doesn't surprise me in a way that it is alien. Yeah, good point. Um, you know, all of that I mean it's so interesting because obviously like you said we are sort of accustomed to seeing to hearing about the small grays, the tall grays, maybe the mantis folk, some reptilians here and there, even Nordic folk. Uh, but um, more rarely and probably possibly harder to detect are what seem to be these hybrids. um in in this case um of course if you're aware of the work of David Jacobs you know he's written books like the threat and um the other one was like among among us or they're Among Us um really highlighted sort of these tales or these stories by abductees who were led to train a lot of these later stage hybrids that have been interacting with you know human society and train them in the most mundane ways which I thought was really a fascinating read. And this strikes me as like one of those things especially they were they would do this in groups and for them to go out alone uh and not guided by an abductee or a human to help them you know understand what is happening um is just really strange as well. Um, but that type of behavior, the monetary exchange with a large denomination, not knowing what to do with the change, uh, these things all soun"
+  ],
+  "metadata": {
+    "provenance": "https://www.youtube.com/watch?v=B6WFLOIkyho",
+    "filename_hint": "Alien Encounters With The Real Life X-Files Agent - Nick Pope - DEBRIEFED ep. 34",
+    "prompts_dir": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/ai/prompts",
+    "content_type": "media",
+    "ingestion_recommendation": "proceed",
+    "priority": "HIGH",
+    "chunk_count": 7,
+    "embeddable_count": 6,
+    "ner_chunk_count": 7,
+    "prompts_used": [
+      "disclosure.content_analysis",
+      "disclosure.ner",
+      "document_classification",
+      "rag_ingestion",
+      "validation"
+    ],
+    "tiers_used": [
+      "deepseek/deepseek-chat"
+    ],
+    "degraded": false,
+    "schema_unenforced_prompts": [
+      "rag_ingestion"
+    ],
+    "repaired_prompts": [],
+    "repair_attempted_prompts": [
+      "disclosure.ner",
+      "validation"
+    ]
+  },
+  "errors": [
+    "ner:c01:disclosure.ner: JSON unparseable after one repair retry (Expecting ',' delimiter: line 92 column 100 (char 5013)); raw response was 5014 chars",
+    "ner:c05:disclosure.ner: JSON unparseable after one repair retry (Expecting property name enclosed in double quotes: line 126 column 68 (char 4700)); raw response was 4706 chars",
+    "ner:c07:disclosure.ner: JSON unparseable after one repair retry (Unterminated string starting at: line 114 column 7 (char 4640)); raw response was 4641 chars",
+    "validation:c08:validation: JSON unparseable after one repair retry (Unterminated string starting at: line 61 column 18 (char 3212)); raw response was 3435 chars",
+    "ner:c09:disclosure.ner: JSON unparseable after one repair retry (Unterminated string starting at: line 142 column 7 (char 4371)); raw response was 4379 chars"
+  ],
+  "prompts_used": [
+    "document_classification",
+    "disclosure.content_analysis",
+    "rag_ingestion",
+    "disclosure.ner",
+    "disclosure.ner",
+    "validation",
+    "disclosure.ner",
+    "validation",
+    "disclosure.ner",
+    "disclosure.ner",
+    "disclosure.ner",
+    "validation",
+    "disclosure.ner"
+  ]
+}

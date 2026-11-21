@@ -1,0 +1,40 @@
+{
+  "title": "Top Aerospace Scientists Suspect UFOs are Biblical Time Machines | Diana Walsh Pasulka",
+  "url": "https://www.youtube.com/watch?v=aQhikls5Ye8",
+  "id": "aQhikls5Ye8",
+  "channel_id": "UCbtV5L8TVB0zQ9khThGApLw",
+  "channel_title": "Danny Jones",
+  "published_at": "2023-06-04T17:00:10Z",
+  "categories": [],
+  "tags": [],
+  "description": "",
+  "chapters": [],
+  "transcript_segment_count": 3951,
+  "rag_pipeline": {
+    "status": "ok",
+    "embeddable_count": 4,
+    "prompts_used": [
+      "disclosure.content_analysis",
+      "disclosure.ner",
+      "document_classification",
+      "rag_ingestion",
+      "validation"
+    ],
+    "errors": [
+      "validation:c01:validation: JSON unparseable after one repair retry (Expecting property name enclosed in double quotes: line 73 column 162 (char 3558)); raw response was 3559 chars",
+      "ner:c02:disclosure.ner: JSON unparseable after one repair retry (Unterminated string starting at: line 128 column 19 (char 4629)); raw response was 4639 chars",
+      "ner:c03:disclosure.ner: JSON unparseable after one repair retry (Unterminated string starting at: line 111 column 28 (char 4546)); raw response was 4547 chars",
+      "ner:c04:disclosure.ner: JSON unparseable after one repair retry (Unterminated string starting at: line 140 column 21 (char 4783)); raw response was 4786 chars"
+    ]
+  },
+  "trace_map": {
+    "json_path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/sources/transcripts/danny-jones/aQhikls5Ye8/topAerospaceScientistsSuspectUfosAreBiblicalTimeMachinesDianaWalshPasulka_trace_map.json",
+    "md_path": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/sources/transcripts/danny-jones/aQhikls5Ye8/topAerospaceScientistsSuspectUfosAreBiblicalTimeMachinesDianaWalshPasulka_trace_map.md",
+    "node_count": 34,
+    "edge_count": 36,
+    "coverage_fraction": 0.1719,
+    "valid": true,
+    "error_count": 0,
+    "gap_count": 7
+  }
+}

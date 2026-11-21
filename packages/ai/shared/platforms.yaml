@@ -1,0 +1,79 @@
+# ═══════════════════════════════════════════════════════════════════════
+# LLM provider registry
+# ═══════════════════════════════════════════════════════════════════════
+#
+# WHERE each provider lives: base_url + the env var holding its key.
+# Nothing else. Models and chain order live in
+# packages/ai/shared/llm_routing.yaml, whose tiers name a provider key
+# from this file. lib/llm_router.py loads both and refuses to start if a
+# tier names a provider missing here.
+#
+# Adapted from ~/hermes-workspace/llm-platform-config/platforms.yaml
+# (2026-09-29). Its `routes:` block is NOT used here: it put
+# glm-5.3-flash first, which contradicts the best-first order in
+# llm_routing.yaml. Providers without a tier (nvidia, manifest, vercel,
+# kie, kong) are declared but unprobed; add a tier in llm_routing.yaml
+# to use one. Cheaper Inference tiers live in
+# packages/ai/shared/llm_routing.yaml and read CHEAPER_INFERENCE_API_KEY.
+# Experiential Labs is wired: base_url below, key in EXPLABS_API_KEY,
+# tiers in packages/ai/shared/llm_routing.yaml.
+# ═══════════════════════════════════════════════════════════════════════
+
+providers:
+  openai:
+    name: OpenAI
+    base_url: https://api.openai.com/v1
+    api_key_env: OPENAI_API_KEY
+    protocol: openai
+  deepseek:
+    name: DeepSeek
+    base_url: https://api.deepseek.com
+    api_key_env: DEEPSEEK_API_KEY
+    protocol: openai
+  merge:
+    name: Merge Gateway
+    base_url: https://api-gateway.merge.dev/v1
+    api_key_env: MERGE_GATEWAY_API_KEY
+    protocol: openai
+  openrouter:
+    name: OpenRouter
+    base_url: https://openrouter.ai/api/v1
+    api_key_env: OPENROUTER_API_KEY
+    protocol: openai
+
+  # ── Declared, no tier yet (unprobed from disclosure-rag) ──
+  cheaper-inference:
+    name: Cheaper Inference
+    base_url: https://api.cheaperinference.com/v1
+    api_key_env: CHEAPER_INFERENCE_API_KEY
+    protocol: openai
+  experiential:
+    name: Experiential Labs
+    base_url: https://api.experientiallabs.ai/v1
+    api_key_env: EXPLABS_API_KEY
+    protocol: openai
+  nvidia:
+    name: NVIDIA NIM API
+    base_url: https://integrate.api.nvidia.com/v1
+    api_key_env: NVIDIA_API_KEY
+    protocol: openai
+  manifest:
+    name: Manifest
+    base_url: https://app.manifest.build/v1
+    api_key_env: MANIFEST_API_KEY
+    protocol: openai
+  vercel:
+    name: Vercel AI Gateway
+    base_url: https://ai-gateway.vercel.sh/v1
+    api_key_env: VERCEL_AI_GATEWAY_API_KEY
+    protocol: openai
+  kie:
+    name: Kie AI
+    base_url: https://api.kie.ai
+    api_key_env: KIE_API_KEY
+    protocol: custom
+  kong:
+    name: Kong AI Gateway
+    base_url: ""
+    api_key_env: KONG_AI_GATEWAY_API_KEY
+    protocol: openai

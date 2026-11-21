@@ -1,0 +1,257 @@
+{"channel": "7-news-spotlight", "entry": "-JBwH6yHEDo", "tier": "full", "files": 6, "have": ["transcript", "summary", "metadata", "entities", "ingest"]}
+{"channel": "8-news-now-las-vegas", "entry": "4UjqFaQq_7I", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "8-news-now-las-vegas", "entry": "LGQkkHuwm6w", "tier": "full", "files": 5, "have": ["transcript", "summary", "metadata", "entities"]}
+{"channel": "8-news-now-las-vegas", "entry": "q0N33jb7Bhk", "tier": "full", "files": 9, "have": ["transcript", "summary", "metadata", "segments", "rag_pipeline", "entities"]}
+{"channel": "abc-7-chicago", "entry": "iLUpBRv5Us8", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "abc7", "entry": "tVI7S_pqG2Q", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "andre-duqum", "entry": "ffgzkHCGZGE", "tier": "partial", "files": 3, "have": ["transcript", "summary", "ingest"]}
+{"channel": "ap-archive", "entry": "HBveOuw51Tg", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "area52", "entry": "5Vk8V-clYLU", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "area52", "entry": "5neRAsS0nrY", "tier": "partial", "files": 3, "have": ["transcript", "summary", "ingest"]}
+{"channel": "area52", "entry": "B6WFLOIkyho", "tier": "partial", "files": 4, "have": ["transcript", "summary", "ingest"]}
+{"channel": "area52", "entry": "HFLBDi87888", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "area52", "entry": "Mz3MBWz8R-o", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "area52", "entry": "WGUb1JKxBDo", "tier": "partial", "files": 4, "have": ["transcript", "summary", "entities", "ingest"]}
+{"channel": "area52", "entry": "gNr3PbNmGyY", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "area52", "entry": "ua4dNq1vK2A", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "area52", "entry": "vxumcYKCt-M", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "bigelow-podcast", "entry": "hz7jHEgYzQw", "tier": "full", "files": 10, "have": ["transcript", "summary", "metadata", "segments", "rag_pipeline", "entities", "ingest"]}
+{"channel": "cbs-news", "entry": "SNgoul4vyDM", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "cbs-news", "entry": "nPs16gmLjDI", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "cbs-news", "entry": "v3jozXi5mDU", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "cnn-news18", "entry": "zZDfLQxi_sw", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "curt-jaimungal", "entry": "3fkg0uTA3qU", "tier": "partial", "files": 3, "have": ["transcript", "summary", "ingest"]}
+{"channel": "danny-jones", "entry": "aQhikls5Ye8", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "denver7", "entry": "kDOoSbohEG4", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "disclosure-team", "entry": "qEY9Yt-BeMU", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "dr-brian-keating", "entry": "fdwuhU_zu8Y", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "dr-steven-greer", "entry": "0WZyDglNi5Y", "tier": "partial", "files": 2, "have": ["transcript", "summary"]}
+{"channel": "dr-steven-greer", "entry": "1GnGGCaC6P4", "tier": "partial", "files": 2, "have": ["transcript", "summary"]}
+{"channel": "dr-steven-greer", "entry": "6y98YwJ2GEE", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "dr-steven-greer", "entry": "7MTRqq8w008", "tier": "partial", "files": 2, "have": ["transcript", "summary"]}
+{"channel": "dr-steven-greer", "entry": "8QAlezjhOls", "tier": "partial", "files": 2, "have": ["transcript", "summary"]}
+{"channel": "dr-steven-greer", "entry": "9caqm346Bqs", "tier": "partial", "files": 2, "have": ["transcript", "summary"]}
+{"channel": "dr-steven-greer", "entry": "AICm8RjnUjs", "tier": "partial", "files": 3, "have": ["transcript", "summary", "ingest"]}
+{"channel": "dr-steven-greer", "entry": "AmNzkxVwAYg", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "dr-steven-greer", "entry": "DHgG8el5n5M", "tier": "partial", "files": 2, "have": ["transcript", "summary"]}
+{"channel": "dr-steven-greer", "entry": "E2JUqfI1ICA", "tier": "partial", "files": 2, "have": ["transcript", "summary"]}
+{"channel": "dr-steven-greer", "entry": "GROowrg4zko", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "dr-steven-greer", "entry": "HdB7WUfAP50", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "dr-steven-greer", "entry": "HedqKNTt6AA", "tier": "partial", "files": 3, "have": ["transcript", "summary", "ingest"]}
+{"channel": "dr-steven-greer", "entry": "IB_itwvRo9k", "tier": "partial", "files": 2, "have": ["transcript", "summary"]}
+{"channel": "dr-steven-greer", "entry": "JW6cJuKDUsU", "tier": "partial", "files": 2, "have": ["transcript", "summary"]}
+{"channel": "dr-steven-greer", "entry": "KkZWHpP17Rc", "tier": "partial", "files": 2, "have": ["transcript", "summary"]}
+{"channel": "dr-steven-greer", "entry": "KyJXWWJrOvo", "tier": "partial", "files": 3, "have": ["transcript", "summary", "ingest"]}
+{"channel": "dr-steven-greer", "entry": "LOHv1twCOqQ", "tier": "partial", "files": 2, "have": ["transcript", "summary"]}
+{"channel": "dr-steven-greer", "entry": "N7-a-_gx_yU", "tier": "partial", "files": 3, "have": ["transcript", "summary", "ingest"]}
+{"channel": "dr-steven-greer", "entry": "NEsOQCwt4yw", "tier": "partial", "files": 3, "have": ["transcript", "summary", "ingest"]}
+{"channel": "dr-steven-greer", "entry": "PaK5WOz3Mf4", "tier": "partial", "files": 2, "have": ["transcript", "summary"]}
+{"channel": "dr-steven-greer", "entry": "PgAEoNbfjT4", "tier": "partial", "files": 2, "have": ["transcript", "summary"]}
+{"channel": "dr-steven-greer", "entry": "QYhRu2_nJ6c", "tier": "partial", "files": 2, "have": ["transcript", "summary"]}
+{"channel": "dr-steven-greer", "entry": "Rg-pp2BuKKk", "tier": "partial", "files": 3, "have": ["transcript", "summary", "ingest"]}
+{"channel": "dr-steven-greer", "entry": "U-8XJvHRuzY", "tier": "partial", "files": 2, "have": ["transcript", "summary"]}
+{"channel": "dr-steven-greer", "entry": "V4WTid3O0VE", "tier": "partial", "files": 2, "have": ["transcript", "summary"]}
+{"channel": "dr-steven-greer", "entry": "VxA-Y4enohQ", "tier": "partial", "files": 2, "have": ["transcript", "summary"]}
+{"channel": "dr-steven-greer", "entry": "WaKzTR29Qn8", "tier": "partial", "files": 3, "have": ["transcript", "summary", "ingest"]}
+{"channel": "dr-steven-greer", "entry": "Wms2ivYel_A", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "dr-steven-greer", "entry": "Xl4hoAMXtoU", "tier": "partial", "files": 3, "have": ["transcript", "summary", "ingest"]}
+{"channel": "dr-steven-greer", "entry": "Y3xK5O7Iqo0", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "dr-steven-greer", "entry": "_4hycqDNnPE", "tier": "partial", "files": 2, "have": ["transcript", "summary"]}
+{"channel": "dr-steven-greer", "entry": "blojNMW-Ias", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "dr-steven-greer", "entry": "ccFtnp31xIc", "tier": "partial", "files": 3, "have": ["transcript", "summary", "ingest"]}
+{"channel": "dr-steven-greer", "entry": "d0H-Pn8RKKo", "tier": "partial", "files": 2, "have": ["transcript", "summary"]}
+{"channel": "dr-steven-greer", "entry": "e0D4bK6qyQs", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "dr-steven-greer", "entry": "eNU3MLqyzPk", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "dr-steven-greer", "entry": "fU6LOfiUJ6Q", "tier": "partial", "files": 2, "have": ["transcript", "summary"]}
+{"channel": "dr-steven-greer", "entry": "g6dw7kP0sBY", "tier": "partial", "files": 2, "have": ["transcript", "summary"]}
+{"channel": "dr-steven-greer", "entry": "gP8ftWzFYI4", "tier": "partial", "files": 3, "have": ["transcript", "summary", "ingest"]}
+{"channel": "dr-steven-greer", "entry": "jAfTY7NuceQ", "tier": "partial", "files": 2, "have": ["transcript", "summary"]}
+{"channel": "dr-steven-greer", "entry": "k4qQv7RasRw", "tier": "partial", "files": 2, "have": ["transcript", "summary"]}
+{"channel": "dr-steven-greer", "entry": "nLdaBcOr_kU", "tier": "partial", "files": 2, "have": ["transcript", "summary"]}
+{"channel": "dr-steven-greer", "entry": "oUqsU76GRq4", "tier": "partial", "files": 2, "have": ["transcript", "summary"]}
+{"channel": "dr-steven-greer", "entry": "qBOY5jrOGwA", "tier": "partial", "files": 2, "have": ["transcript", "summary"]}
+{"channel": "dr-steven-greer", "entry": "qIys3ZT6NL8", "tier": "partial", "files": 2, "have": ["transcript", "summary"]}
+{"channel": "dr-steven-greer", "entry": "rBO8z9pHAuA", "tier": "partial", "files": 2, "have": ["transcript", "summary"]}
+{"channel": "dr-steven-greer", "entry": "rRwwpmkPQo4", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "dr-steven-greer", "entry": "rd7tTqy73Gk", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "dr-steven-greer", "entry": "tEBLmWhx1K0", "tier": "partial", "files": 2, "have": ["transcript", "summary"]}
+{"channel": "dr-steven-greer", "entry": "tYU_tr5K5ws", "tier": "partial", "files": 2, "have": ["transcript", "summary"]}
+{"channel": "dr-steven-greer", "entry": "thLGknsJ2Qg", "tier": "partial", "files": 2, "have": ["transcript", "summary"]}
+{"channel": "dr-steven-greer", "entry": "u7mEnmx1HIo", "tier": "partial", "files": 2, "have": ["transcript", "summary"]}
+{"channel": "dr-steven-greer", "entry": "ua0MMXJl3FM", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "dr-steven-greer", "entry": "wAY1Erm-el8", "tier": "partial", "files": 2, "have": ["transcript", "summary"]}
+{"channel": "dr-steven-greer", "entry": "wpsp1doHslo", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "dr-steven-greer", "entry": "wsEd_b1C8DY", "tier": "partial", "files": 2, "have": ["transcript", "summary"]}
+{"channel": "dr-steven-greer", "entry": "x4wL4lbwwNU", "tier": "partial", "files": 2, "have": ["transcript", "summary"]}
+{"channel": "dr-steven-greer", "entry": "xWBBjv-jIVw", "tier": "partial", "files": 3, "have": ["transcript", "summary", "ingest"]}
+{"channel": "dr-steven-greer", "entry": "zRDLK74UD3I", "tier": "partial", "files": 3, "have": ["transcript", "summary", "ingest"]}
+{"channel": "dr-steven-greer", "entry": "zWpI4Z_GItU", "tier": "partial", "files": 2, "have": ["transcript", "summary"]}
+{"channel": "face-the-nation", "entry": "z9at1BQtO24", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "gop-oversight", "entry": "kT2iWKZr0qA", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "jeremy-corbell", "entry": "4n_bRtnIP14", "tier": "full", "files": 6, "have": ["transcript", "summary", "metadata", "entities", "ingest"]}
+{"channel": "jeremy-corbell", "entry": "HB5e4mgJX2Q", "tier": "full", "files": 6, "have": ["transcript", "summary", "metadata", "entities", "ingest"]}
+{"channel": "jeremy-corbell", "entry": "ZAxI-LDrDqA", "tier": "full", "files": 6, "have": ["transcript", "summary", "metadata", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "-0g3lLGxNfc", "tier": "partial", "files": 5, "have": ["transcript", "summary", "metadata", "ingest"]}
+{"channel": "jesse-michels", "entry": "-XdvIrexF08", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "09KP8XVf5nY", "tier": "full", "files": 6, "have": ["transcript", "summary", "metadata", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "1f16VvXaSSE", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "jesse-michels", "entry": "1sxmSMzqnmA", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "1zRWi_r3HRM", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "2-GeTxXi670", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "2SQXAPCdmPE", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "jesse-michels", "entry": "2Xxmguz0GEQ", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "jesse-michels", "entry": "2ttdlCa5ZCI", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "5udx_SDdL3Y", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "jesse-michels", "entry": "6WC4o2yY9Ws", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "jesse-michels", "entry": "6bqaHVSlVeU", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "73YBwFvcmF8", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "jesse-michels", "entry": "75Je_0hZovQ", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "jesse-michels", "entry": "8Rr_nE65KkI", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "8TYMQOUDQBo", "tier": "partial", "files": 3, "have": ["transcript", "summary", "ingest"]}
+{"channel": "jesse-michels", "entry": "9PJJiut0Iuw", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "jesse-michels", "entry": "A2-y_HasHEw", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "ABw7EsWh2Us", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "ATJwqp5twAg", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "AVJEXCTAJUc", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "jesse-michels", "entry": "A_LsUSxTm7A", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "jesse-michels", "entry": "C_Na1tI5qpw", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "CiQTBOQ1dTg", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "DPmO-2E7Ayg", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "jesse-michels", "entry": "EzPmG_7WhXc", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "G7Ns4Aq1tVc", "tier": "bare", "files": 2, "have": ["transcript"]}
+{"channel": "jesse-michels", "entry": "HxQN2tkQHs8", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "IFaXi-NrPV0", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "IWui5cBkwoE", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "JE1oM89dpBc", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "K4gYHs84BIc", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "LnAiNChnuEQ", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "jesse-michels", "entry": "LpLFWdsIU7M", "tier": "bare", "files": 2, "have": ["transcript"]}
+{"channel": "jesse-michels", "entry": "NvQXmtcwHA8", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "OOr98r51Sj0", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "PiFbeWfA3LM", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "Qe8br8yYEDM", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "QgxjtDS2sIQ", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "QkuDvTFN7ms", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "RTEWLSTyUic", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "jesse-michels", "entry": "Rfmy5oW_r9c", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "Rjr3Yq-dMUE", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "RofQnByLwOo", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "jesse-michels", "entry": "ScE9FaDy-mE", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "Sct30Qijfv8", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "jesse-michels", "entry": "TH10mD9hQas", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "jesse-michels", "entry": "TNtlzEnl8rA", "tier": "full", "files": 6, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities"]}
+{"channel": "jesse-michels", "entry": "UkKwa4jU0fc", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "UrHLTFvdEZk", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "Y26iMB0r-f8", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "jesse-michels", "entry": "Y7PLeu5rTv4", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "aGqFOxuYRT0", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "aKZ_MUbuk_Q", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "jesse-michels", "entry": "aa9Xx5wI8Rw", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "jesse-michels", "entry": "bM18PJY6_Zc", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "bVhSPH2A5Vw", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "jesse-michels", "entry": "d9tdJ2SkBKQ", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "dfPfPB601hw", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "jesse-michels", "entry": "dnnpyNuPdXs", "tier": "partial", "files": 5, "have": ["transcript", "summary", "ingest"]}
+{"channel": "jesse-michels", "entry": "fyX8V1XXmQM", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "jesse-michels", "entry": "fzvwBBSmWYA", "tier": "bare", "files": 2, "have": ["transcript"]}
+{"channel": "jesse-michels", "entry": "h0hAit-KH9A", "tier": "partial", "files": 4, "have": ["transcript", "summary", "metadata"]}
+{"channel": "jesse-michels", "entry": "hBrfe4hFuM0", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "hXYdkcv5TtY", "tier": "partial", "files": 4, "have": ["transcript", "summary", "metadata"]}
+{"channel": "jesse-michels", "entry": "iPxbILOMQ08", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "iQOibpIDx-4", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "jesse-michels", "entry": "jMCavr3dVP0", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "kRO5jOa06Qw", "tier": "bare", "files": 2, "have": ["transcript"]}
+{"channel": "jesse-michels", "entry": "kccrkCGGzX4", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "mOWwdIuyaQA", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "nTiFs8LudUo", "tier": "partial", "files": 3, "have": ["transcript", "summary", "ingest"]}
+{"channel": "jesse-michels", "entry": "nqLnEVcZ8vE", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "p0S0BfoZy0w", "tier": "partial", "files": 4, "have": ["transcript", "summary", "ingest"]}
+{"channel": "jesse-michels", "entry": "q7Czo77qhHA", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "tS_64sTN5AU", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "jesse-michels", "entry": "u7g5Sn1DJF4", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "uVVqFg2v7ro", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "uYyXpx7ADJQ", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "wT5-hXWIkzM", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "jesse-michels", "entry": "wlsQIbpEKSM", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "xnxasfyHtfo", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "yJUBSuPh1pM", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "zjpvfDFc4fg", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jesse-michels", "entry": "zrmG2jBckgk", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "jre-clips", "entry": "pYQMMtPKT5E", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "julian-dorey", "entry": "4KcNRwNntcs", "tier": "full", "files": 7, "have": ["transcript", "summary", "metadata", "rag_pipeline", "entities", "ingest"]}
+{"channel": "julian-dorey", "entry": "8JeoxrJ0mI4", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "julian-dorey", "entry": "HZ4E0tAxy00", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "julian-dorey-daily", "entry": "4N_DcI0s_-U", "tier": "partial", "files": 9, "have": ["transcript", "summary", "metadata", "segments", "rag_pipeline", "ingest"]}
+{"channel": "julian-dorey-daily", "entry": "UmiamK7gXMo", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "kinocheck-com", "entry": "SIAG8mCnIMs", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "lex-fridman", "entry": "uTCc2-1tbBQ", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "livenow-from-fox", "entry": "YkFGcwTbXDU", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "motion", "entry": "PPWxofGr2RQ", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "motorhead-garage", "entry": "PmclCzGFotM", "tier": "full", "files": 5, "have": ["transcript", "summary", "metadata", "entities"]}
+{"channel": "nbc-news", "entry": "N2QgGsoGsX0", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "newsnation", "entry": "3dtA9w5ldHw", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "newsnation", "entry": "FFV4mSzFBcU", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "newsnation", "entry": "QjVJLO6CK2I", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "newsnation", "entry": "SApQP5ArlFI", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "newsnation", "entry": "UVPs-2DfN_o", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "newsnation", "entry": "VuCPbavls0U", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "newsnation", "entry": "WaBVKjREg9I", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "newsnation", "entry": "X2c3_vG7yhs", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "newsnation", "entry": "ZRLmTB00zlI", "tier": "partial", "files": 3, "have": ["transcript", "summary", "ingest"]}
+{"channel": "newsnation", "entry": "c5iPtsQy2cg", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "newsnation", "entry": "dxyUoDvdGhg", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "newsnation", "entry": "kNEJaw-Erks", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "newsnation", "entry": "o72BBZYXm9c", "tier": "partial", "files": 3, "have": ["transcript", "summary", "ingest"]}
+{"channel": "newsnation", "entry": "q38SwPmObho", "tier": "partial", "files": 3, "have": ["transcript", "summary", "ingest"]}
+{"channel": "newsnation", "entry": "sucrnlxq8CA", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "newsnation", "entry": "t37-SKj4rtY", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "newsnation", "entry": "t_srfowbF48", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "newsnation", "entry": "vUnKRknLVSA", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "night-shift", "entry": "Ody82xEgNV8", "tier": "partial", "files": 5, "have": ["transcript", "summary", "metadata", "ingest"]}
+{"channel": "podcast-ufo-live-shows", "entry": "1d7Mmss5TVI", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "podcast-ufo-live-shows", "entry": "Ku9GsJ94Dt4", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "powerfuljre", "entry": "3yrKVu35uSE", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "powerfuljre", "entry": "71XphFGuORY", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "powerfuljre", "entry": "9gLPtRwXgCM", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "powerfuljre", "entry": "B7y3qcgSRY8", "tier": "full", "files": 6, "have": ["transcript", "summary", "metadata", "entities", "ingest"]}
+{"channel": "powerfuljre", "entry": "PJ2YwE0R-xM", "tier": "partial", "files": 3, "have": ["transcript", "summary", "ingest"]}
+{"channel": "protoofsnagem", "entry": "ZZ5LpwO-An4", "tier": "partial", "files": 4, "have": ["transcript", "summary", "metadata", "ingest"]}
+{"channel": "psicoactivo-podcast", "entry": "U6Mg9WFagZw", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "red-panda-koala", "entry": "wrzzZAX9wDQ", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "rick-astley", "entry": "dQw4w9WgXcQ", "tier": "partial", "files": 8, "have": ["transcript", "summary", "metadata", "segments", "rag_pipeline"]}
+{"channel": "salt", "entry": "Rpl0FrdJWfs", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "searchlightpictures", "entry": "8grClYwMXqw", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "shawn-ryan-show", "entry": "3zm4nh3S66I", "tier": "partial", "files": 3, "have": ["transcript", "summary", "ingest"]}
+{"channel": "shawn-ryan-show", "entry": "OwrDI7GvenQ", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "shawn-ryan-show", "entry": "S0D0tbdRgWM", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "startalk", "entry": "uanR5ePsJ3Y", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "stelios-kyre", "entry": "hWFU4oVVryY", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "that-ufo-podcast", "entry": "BofbLO1BSKc", "tier": "partial", "files": 3, "have": ["transcript", "summary", "ingest"]}
+{"channel": "the-hannibal-tv", "entry": "peop3p0lyac", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "the-press-democrat", "entry": "yjtHBFX_Wmk", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "the-sol-foundation", "entry": "o5V3mt_C_ZE", "tier": "full", "files": 6, "have": ["transcript", "summary", "metadata", "entities", "ingest"]}
+{"channel": "third-eye-drops-with-michael-phillip", "entry": "DnxHBvoq9h8", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "third-eye-drops-with-michael-phillip", "entry": "QfP5BgOz97U", "tier": "partial", "files": 5, "have": ["transcript", "summary", "metadata", "ingest"]}
+{"channel": "tom-bilyeu", "entry": "IQefdkl8PfY", "tier": "partial", "files": 4, "have": ["transcript", "summary", "ingest"]}
+{"channel": "tool-use-ai-conversations", "entry": "npLq3eeG2Lk", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "ufo-archives", "entry": "gR27sbix86o", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "ufo-hub", "entry": "s7nYeNVEsQk", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "unresolved", "entry": "disclosureDiaries", "tier": "partial", "files": 2, "have": ["transcript", "summary"]}
+{"channel": "unresolved", "entry": "disclosureTimeline", "tier": "partial", "files": 2, "have": ["transcript", "summary"]}
+{"channel": "unresolved", "entry": "exUsArmyClaimedOver100ETCivilizationsHaveVisitedEarthOneLooksLikeHumans", "tier": "partial", "files": 2, "have": ["transcript", "summary"]}
+{"channel": "unresolved", "entry": "meetTheNuclearBaseEmployeeAbductedByAliensFtMarioWoods", "tier": "no-transcript", "files": 1, "have": ["summary"]}
+{"channel": "unresolved", "entry": "nasaUfoHearingIrishExpertBelievesOrbsAreAGlobalDefenceNetworkSundayworldCom", "tier": "partial", "files": 2, "have": ["transcript", "summary"]}
+{"channel": "unresolved", "entry": "newJerseySkyWatch12262024DaytimeGeminidsAndOthers", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "unresolved", "entry": "recentlyRetiredUsafGeneralMakesEyebrowRaisingClaimsAboutAdvancedSpaceTechnology", "tier": "partial", "files": 2, "have": ["transcript", "summary"]}
+{"channel": "unresolved", "entry": "rossCoulthartExposesNewUapVideoAndWhistleblowerWhatSNextRealityCheck", "tier": "no-transcript", "files": 1, "have": ["summary"]}
+{"channel": "unresolved", "entry": "theMostMysteriousManInUfoHistoryTimTaylor", "tier": "no-transcript", "files": 1, "have": ["summary"]}
+{"channel": "unresolved", "entry": "thePurchaseOfAmericaFtMichaelPillsburyJoshRogin", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "unresolved", "entry": "ufoWhistleblowerJakeBarberWould100TestifyUnderOathToCongressRealityCheck", "tier": "no-transcript", "files": 1, "have": ["summary"]}
+{"channel": "unresolved", "entry": "unknown", "tier": "partial", "files": 3, "have": ["transcript", "summary"]}
+{"channel": "unresolved", "entry": "whistleblowerRevealsUapRetrievalProgramObjectCaughtOnVideoNewsnation", "tier": "no-transcript", "files": 1, "have": ["summary"]}
+{"channel": "usman-abdur-rehman", "entry": "rk_WSjrmHp8", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "vetted", "entry": "G4REreRAirM", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "wfmy-news-2", "entry": "jYqMah2b0oU", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "wfxr-news", "entry": "19KThUx3lo4", "tier": "bare", "files": 1, "have": ["transcript"]}
+{"channel": "world-president-goes-viral", "entry": "A45mjzh8bfU", "tier": "partial", "files": 3, "have": ["transcript", "summary", "ingest"]}
+{"channel": "world-president-goes-viral", "entry": "hnW9-vsx3mc", "tier": "bare", "files": 1, "have": ["transcript"]}

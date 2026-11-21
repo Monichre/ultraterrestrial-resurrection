@@ -1,0 +1,538 @@
+# ═══════════════════════════════════════════════════════════════════════
+# LLM routing — disclosure-rag
+# ═══════════════════════════════════════════════════════════════════════
+#
+# The ONLY place models and chain order are declared.
+#   * Endpoints + key env vars:  packages/ai/shared/platforms.yaml
+#     (each tier's `provider:` is a key in that file).
+#     Experiential Labs: base_url https://api.experientiallabs.ai/v1,
+#     api_key_env EXPLABS_API_KEY. Jev stays off this chain; the decision
+#     helper posts to /v1/systemone and reads EXPERIENTIAL_API_KEY.
+#   * Loader + validation:       apps/disclosure-rag/lib/llm_router.py
+#   * Execution:                 apps/disclosure-rag/lib/llm_fallback.py
+#     (holds no model ids; a call without task_id uses `defaults.chain`)
+#
+# The router refuses to load if a chain names an undeclared tier, a tier
+# names an undeclared provider, or a `chat: false` tier sits on a chain.
+#
+# Priority (user directive, October 4th, 2026): route by task complexity.
+# Only heavy tasks start on the most expensive model (Fable). Standard and
+# light tasks start on cheaper models; the expensive ones stay as backstop.
+# Rule from 2026-08-18 still holds: a dead gateway must never be the only
+# path, so every chain spans Experiential, Cheaper Inference and OpenRouter.
+#
+# Updated 2026-09-29: platforms.yaml split out; chains deduplicated with
+# YAML anchors (the 7 hand-copied lists had drifted: last_resort was
+# missing merge/glm-5.3-flash).
+# ═══════════════════════════════════════════════════════════════════════
+
+# ── Tiers ─────────────────────────────────────────────────────────────
+#
+# `kind`: openai_compat (chat/completions) | openrouter_preset (@preset/slug)
+# `chat: false`: declared for reference, forbidden on any chain.
+# `capabilities.reasoning`: the model spends max_tokens on chain-of-thought,
+#   so `reasoning_headroom_tokens` is ADDED to the caller's budget.
+# `cost_tier` / `latency_tier`: 1 = cheapest/fastest, 5 = most/slowest.
+
+tiers:
+  # ── Direct providers (independent of every gateway) ──
+  # [FIXME] OpenAI - we do not use openai provider
+  - id: openai/gpt-6-astra
+    provider: openai
+    chat: false  # user rule October 4th, 2026: no OpenAI/Anthropic via API keys or OpenRouter
+    model: gpt-6-astra
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
+    cost_tier: 5
+    latency_tier: 3
+    reasoning_headroom_tokens: 4096
+    notes: "Flagship. Probed live 2026-09-28."
+
+# [FIXME] OpenAI - we do not use openai provider
+  - id: openai/gpt-6-sol
+    provider: openai
+    chat: false  # user rule October 4th, 2026: no OpenAI/Anthropic via API keys or OpenRouter
+    model: gpt-6-sol
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
+    cost_tier: 4
+    latency_tier: 2
+    reasoning_headroom_tokens: 4096
+
+# [FIXME] OpenAI - we do not use openai provider
+  - id: openai/gpt-6-luna
+    provider: openai
+    chat: false  # user rule October 4th, 2026: no OpenAI/Anthropic via API keys or OpenRouter
+    model: gpt-6-luna
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
+    cost_tier: 1
+    latency_tier: 1
+    reasoning_headroom_tokens: 2048
+    notes: "Cheap direct hop."
+
+# [FIXME] OpenAI - we do not use openai provider
+  - id: openai/gpt-5.6
+    provider: openai
+    chat: false  # user rule October 4th, 2026: no OpenAI/Anthropic via API keys or OpenRouter
+    model: gpt-5.6
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
+    cost_tier: 4
+    latency_tier: 2
+    reasoning_headroom_tokens: 4096
+    notes: "Backstop in case GPT-6 ids are not enabled on the key. Probed live 2026-09-10."
+
+# FIXME DeepSeek - we do not use deepseek provider
+  - id: deepseek/deepseek-chat
+    provider: deepseek
+    model: deepseek-chat
+    chat: false  # user note above: we do not use the DeepSeek provider (October 4th, 2026)
+    capabilities: {structured_output: true, reasoning: false, streaming: true, vision: false}
+    cost_tier: 1
+    latency_tier: 2
+    reasoning_headroom_tokens: 0
+
+  # ── Merge Gateway (added 2026-09-28) ──
+  # Probed with real completions: both 200, strict json_schema honoured.
+  # Plain mode wraps JSON in ```json fences.
+  - id: merge/glm-5.3
+    provider: merge
+    model: zai/glm-5.3
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: false}
+    cost_tier: 2
+    latency_tier: 3
+    reasoning_headroom_tokens: 4096
+    notes: "User benchmark 2026-09-28: on par with Opus."
+
+  - id: merge/glm-5.3-flash
+    provider: merge
+    model: zai/glm-5.3-flash
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: false}
+    cost_tier: 1
+    latency_tier: 1
+    reasoning_headroom_tokens: 4096
+
+  # ── OpenRouter ──
+  - id: openrouter/claude-opus-5.5
+    provider: openrouter
+    chat: false  # user rule October 4th, 2026: no OpenAI/Anthropic via API keys or OpenRouter
+    model: anthropic/claude-opus-5.5
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
+    cost_tier: 4
+    latency_tier: 2
+    reasoning_headroom_tokens: 4096
+
+  - id: openrouter/claude-fable-5.1
+    provider: openrouter
+    chat: false  # user rule October 4th, 2026: no OpenAI/Anthropic via API keys or OpenRouter
+    model: anthropic/claude-fable-5.1
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
+    cost_tier: 5
+    latency_tier: 3
+    reasoning_headroom_tokens: 4096
+
+  - id: openrouter/gemini-3.8-flash
+    provider: openrouter
+    model: google/gemini-3.8-flash
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
+    cost_tier: 2
+    latency_tier: 1
+    reasoning_headroom_tokens: 2048
+
+  - id: openrouter/gpt-6-sol
+    provider: openrouter
+    chat: false  # user rule October 4th, 2026: no OpenAI/Anthropic via API keys or OpenRouter
+    model: openai/gpt-6-sol
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
+    cost_tier: 3
+    latency_tier: 2
+    reasoning_headroom_tokens: 4096
+
+  - id: openrouter/gpt-6-luna
+    provider: openrouter
+    chat: false  # user rule October 4th, 2026: no OpenAI/Anthropic via API keys or OpenRouter
+    model: openai/gpt-6-luna
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
+    cost_tier: 1
+    latency_tier: 1
+    reasoning_headroom_tokens: 2048
+
+  - id: openrouter/grok-4.7
+    provider: openrouter
+    model: x-ai/grok-4.7
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
+    cost_tier: 3
+    latency_tier: 2
+    reasoning_headroom_tokens: 4096
+
+  - id: openrouter/glm-5.3
+    provider: openrouter
+    model: z-ai/glm-5.3
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: false}
+    cost_tier: 2
+    latency_tier: 3
+    reasoning_headroom_tokens: 4096
+
+  - id: openrouter/deepseek-v4.1-flash
+    provider: openrouter
+    model: deepseek/deepseek-v4.1-flash
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
+    cost_tier: 1
+    latency_tier: 2
+    reasoning_headroom_tokens: 4096
+
+  # ── Declared only (chat: false) ──
+  # :batch 404s on /chat/completions ("only available through the Batch API").
+  - id: openrouter/gemini-3.8-flash-batch
+    provider: openrouter
+    model: google/gemini-3.8-flash:batch
+    chat: false
+    capabilities: {structured_output: true, reasoning: true, streaming: false, vision: true}
+    cost_tier: 1
+    latency_tier: 4
+
+  # OpenRouter presets 404 when the account cannot see them.
+  - {id: openrouter/preset-discounted, provider: openrouter, kind: openrouter_preset, model: "@preset/discounted", preset_slug: discounted, chat: false}
+  - {id: openrouter/preset-free-models, provider: openrouter, kind: openrouter_preset, model: "@preset/free-models", preset_slug: free-models, chat: false}
+  - {id: openrouter/preset-media-gen, provider: openrouter, kind: openrouter_preset, model: "@preset/media-gen", preset_slug: media-gen, chat: false}
+  - {id: openrouter/preset-opensource, provider: openrouter, kind: openrouter_preset, model: "@preset/opensource", preset_slug: opensource, chat: false}
+  - {id: openrouter/preset-design-agents, provider: openrouter, kind: openrouter_preset, model: "@preset/design-agents", preset_slug: design-agents, chat: false}
+
+  # ── Experiential Labs (model ids from GET /v1/models, October 4th, 2026) ──
+  # Auth and base URL live on provider `experiential` in platforms.yaml.
+  - id: experiential/claude-fable-5.1
+    provider: experiential
+    model: claude-fable-5.1
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
+    cost_tier: 5
+    latency_tier: 3
+    reasoning_headroom_tokens: 4096
+
+  - id: experiential/claude-sonnet-5
+    provider: experiential
+    model: claude-sonnet-5
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
+    cost_tier: 4
+    latency_tier: 2
+    reasoning_headroom_tokens: 4096
+
+  - id: experiential/gpt-6-sol
+    provider: experiential
+    model: gpt-6-sol
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
+    cost_tier: 4
+    latency_tier: 2
+    reasoning_headroom_tokens: 4096
+
+  - id: experiential/gpt-6-luna
+    provider: experiential
+    model: gpt-6-luna
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
+    cost_tier: 1
+    latency_tier: 1
+    reasoning_headroom_tokens: 2048
+
+  - id: experiential/gemini-3.8-flash
+    provider: experiential
+    model: gemini-3.8-flash
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
+    cost_tier: 2
+    latency_tier: 1
+    reasoning_headroom_tokens: 2048
+
+  - id: experiential/kimi-k3
+    provider: experiential
+    model: kimi-k3
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
+    cost_tier: 3
+    latency_tier: 2
+    reasoning_headroom_tokens: 4096
+
+  - id: experiential/glm-5.3
+    provider: experiential
+    model: glm-5.3
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: false}
+    cost_tier: 2
+    latency_tier: 3
+    reasoning_headroom_tokens: 4096
+
+  - id: experiential/glm-5.3-flash
+    provider: experiential
+    model: glm-5.3-flash
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: false}
+    cost_tier: 1
+    latency_tier: 1
+    reasoning_headroom_tokens: 4096
+
+  - id: experiential/glm-5.3-flash-abliterated
+    provider: experiential
+    model: glm-5.3-flash-abliterated
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: false}
+    cost_tier: 1
+    latency_tier: 1
+    reasoning_headroom_tokens: 4096
+    notes: "Listed free on the Experiential picker."
+
+  - id: experiential/deepseek-v4.1-flash
+    provider: experiential
+    model: deepseek-v4.1-flash
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
+    cost_tier: 1
+    latency_tier: 2
+    reasoning_headroom_tokens: 4096
+
+  - id: experiential/deepseek-v4-flash
+    provider: experiential
+    model: deepseek-v4-flash
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
+    cost_tier: 1
+    latency_tier: 2
+    reasoning_headroom_tokens: 4096
+
+  - id: experiential/qwen3.8-27b
+    provider: experiential
+    model: qwen3.8-27b
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: false}
+    cost_tier: 1
+    latency_tier: 2
+    reasoning_headroom_tokens: 4096
+
+  # ── Cheaper Inference (provider key in platforms.yaml) ──
+  - id: cheaper-inference/gpt-5.6-terra
+    provider: cheaper-inference
+    model: gpt-5.6-terra
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
+    cost_tier: 2
+    latency_tier: 2
+    reasoning_headroom_tokens: 4096
+
+  - id: cheaper-inference/gpt-5.6-luna
+    provider: cheaper-inference
+    model: gpt-5.6-luna
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
+    cost_tier: 1
+    latency_tier: 1
+    reasoning_headroom_tokens: 2048
+
+  - id: cheaper-inference/gpt-5.6-sol
+    provider: cheaper-inference
+    model: gpt-5.6-sol
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
+    cost_tier: 2
+    latency_tier: 2
+    reasoning_headroom_tokens: 4096
+
+  - id: cheaper-inference/deepseek-v4.1-flash
+    provider: cheaper-inference
+    model: deepseek-v4.1-flash
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
+    cost_tier: 1
+    latency_tier: 2
+    reasoning_headroom_tokens: 4096
+
+  - id: cheaper-inference/glm-5.3
+    provider: cheaper-inference
+    model: glm-5.3
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: false}
+    cost_tier: 2
+    latency_tier: 3
+    reasoning_headroom_tokens: 4096
+
+  - id: cheaper-inference/glm-5.3-flash
+    provider: cheaper-inference
+    model: glm-5.3-flash
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: false}
+    cost_tier: 1
+    latency_tier: 1
+    reasoning_headroom_tokens: 4096
+
+  - id: cheaper-inference/gemini-3.8-flash
+    provider: cheaper-inference
+    model: gemini-3.8-flash
+    capabilities: {structured_output: true, reasoning: true, streaming: true, vision: true}
+    cost_tier: 1
+    latency_tier: 1
+    reasoning_headroom_tokens: 2048
+
+
+# ── Chains ────────────────────────────────────────────────────────────
+# Defined once, referenced by every task. Edit here, not per task.
+
+chains:
+  # One sequence, every task: Experiential, then Cheaper Inference, then
+  # OpenRouter. A failed tier is skipped and the next tier is tried. A
+  # missing key skips that provider's tiers. The call fails only after
+  # every tier below has been tried. OpenAI and Anthropic stay off
+  # OpenRouter (user rule, October 4th, 2026). Merge and direct DeepSeek
+  # stay declared and are not on this chain.
+  experiential: &experiential
+    - experiential/claude-fable-5.1
+    - experiential/claude-sonnet-5
+    - experiential/gpt-6-sol
+    - experiential/gpt-6-luna
+    - experiential/gemini-3.8-flash
+    - experiential/kimi-k3
+    - experiential/glm-5.3
+    - experiential/glm-5.3-flash
+    - experiential/deepseek-v4.1-flash
+    - experiential/deepseek-v4-flash
+    - experiential/qwen3.8-27b
+    - experiential/glm-5.3-flash-abliterated
+  cheaper: &cheaper
+    - cheaper-inference/gpt-5.6-terra
+    - cheaper-inference/gpt-5.6-luna
+    - cheaper-inference/gpt-5.6-sol
+    - cheaper-inference/deepseek-v4.1-flash
+    - cheaper-inference/glm-5.3
+    - cheaper-inference/glm-5.3-flash
+    - cheaper-inference/gemini-3.8-flash
+  openrouter: &openrouter
+    - openrouter/gemini-3.8-flash
+    - openrouter/grok-4.7
+    - openrouter/glm-5.3
+    - openrouter/deepseek-v4.1-flash
+  # ── Complexity chains (user directive, October 4th, 2026) ──
+  # heavy: whole-source understanding. Best model first.
+  heavy: &heavy
+    - *experiential
+    - *cheaper
+    - *openrouter
+  # standard: structured extraction / analysis. Mid-cost models first.
+  standard: &standard
+    - experiential/gpt-6-luna
+    - experiential/gemini-3.8-flash
+    - experiential/kimi-k3
+    - experiential/glm-5.3
+    - cheaper-inference/gpt-5.6-terra
+    - cheaper-inference/gpt-5.6-sol
+    - cheaper-inference/glm-5.3
+    - openrouter/gemini-3.8-flash
+    - openrouter/glm-5.3
+    - openrouter/grok-4.7
+  # light: short classify / validate / score calls. Flash models first.
+  light: &light
+    - experiential/glm-5.3-flash
+    - experiential/deepseek-v4.1-flash
+    - experiential/gemini-3.8-flash
+    - cheaper-inference/glm-5.3-flash
+    - cheaper-inference/gemini-3.8-flash
+    - cheaper-inference/deepseek-v4.1-flash
+    - openrouter/deepseek-v4.1-flash
+    - openrouter/gemini-3.8-flash
+  # Every task falls through to defaults.chain after its own list, so the
+  # expensive tiers remain reachable as a last resort.
+  fallback: &fallback []
+
+
+# ── Tasks ─────────────────────────────────────────────────────────────
+#
+# `max_tokens` / `temperature` apply only when the caller passes None.
+# The RAG pipeline passes the prompt registry's `meta.runtime` values,
+# which win.
+# `schema_strict`: documentation only; strictness is chosen per call site
+# (STRICT_SCHEMA_PROMPTS in processing/rag_prompt_pipeline.py).
+
+tasks:
+  - id: document_classification
+    prompt_id: document_classification
+    requires: {structured_output: false, reasoning: false}
+    max_tokens: 700
+    temperature: 0.0
+    preferred_tiers: *light
+    fallback_tiers: *fallback
+
+  - id: disclosure.content_analysis
+    prompt_id: disclosure.content_analysis
+    requires: {structured_output: true, reasoning: true}
+    max_tokens: 1100
+    temperature: 0.15
+    preferred_tiers: *standard
+    fallback_tiers: *fallback
+
+  - id: rag_ingestion
+    prompt_id: rag_ingestion
+    requires: {structured_output: true, reasoning: true}
+    max_tokens: 16000
+    temperature: 0.1
+    schema_strict: true
+    preferred_tiers: *heavy
+    fallback_tiers: *fallback
+
+  - id: disclosure.ner
+    prompt_id: disclosure.ner
+    requires: {structured_output: true, reasoning: true}
+    max_tokens: 4000  # 1200 truncated the JSON; matches sets/disclosure/ner.v1.yaml
+    temperature: 0.1
+    preferred_tiers: *standard
+    fallback_tiers: *fallback
+
+  - id: validation
+    prompt_id: validation
+    requires: {structured_output: false, reasoning: false}
+    max_tokens: 900
+    temperature: 0.0
+    preferred_tiers: *light
+    fallback_tiers: *fallback
+
+  - id: narrative_summary
+    prompt_id: disclosure.research
+    requires: {structured_output: false, reasoning: true}
+    max_tokens: 4000
+    temperature: 0.1
+    preferred_tiers: *heavy
+    fallback_tiers: *fallback
+
+  - id: coherence_review
+    prompt_id: null  # inline prompt in lib/transcript_fidelity.py
+    requires: {structured_output: false, reasoning: false}
+    max_tokens: 1200
+    temperature: 0.1
+    preferred_tiers: *light
+    fallback_tiers: *fallback
+
+  # lib/research_manager.py + lib/research_queue_manager.py (added 2026-09-28)
+  - id: research_assist
+    prompt_id: null
+    requires: {structured_output: false, reasoning: true}
+    max_tokens: 500
+    temperature: 0.3
+    preferred_tiers: *standard
+    fallback_tiers: *fallback
+
+  # agents/entity_extraction_agent.py (added 2026-09-29; it had no task_id)
+  - id: entity_extraction
+    prompt_id: null
+    requires: {structured_output: true, reasoning: true}
+    max_tokens: 4000
+    temperature: 0.1
+    preferred_tiers: *standard
+    fallback_tiers: *fallback
+
+
+# ── Cache ─────────────────────────────────────────────────────────────
+
+cache:
+  # Dead tiers persist to disk so a new process skips known-dead endpoints.
+  dead_tier_ttl_seconds: 3600
+  dead_tier_path: ".cache/llm_dead_tiers.json"
+  # Once a tier rejects structured output, skip the schema attempt on it.
+  schema_capability_ttl_seconds: 86400
+  schema_capability_path: ".cache/llm_schema_capabilities.json"
+
+
+# ── PDF processing (OpenRouter file-parser plugin) ────────────────────
+# https://openrouter.ai/docs/guides/overview/multimodal/pdfs
+pdf_processing:
+  default_engine: cloudflare-ai  # free, good for text-based PDFs
+  engines:
+    cloudflare-ai: {cost: 0.0, best_for: "Text-based PDFs, government documents, research papers"}
+    mistral-ocr: {cost_per_1000_pages: 2.0, best_for: "Scanned documents, PDFs with images, handwritten testimony", image_limit: 8}
+    native: {cost: "input tokens", best_for: "Models with built-in PDF support (Gemini, GPT-6, Claude Opus 5.5)"}
+  plugin_supported_kinds: [openai_compat, openrouter_preset]
+
+
+# ── Defaults ──────────────────────────────────────────────────────────
+
+defaults:
+  temperature: 0.1
+  max_tokens: 1200
+  backoff_base_seconds: 0.75
+  # Used by any complete() call without a task_id, and by parse_repair.
+  chain: [*standard, *light, *heavy]

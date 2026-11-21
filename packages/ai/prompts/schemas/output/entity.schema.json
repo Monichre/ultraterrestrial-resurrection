@@ -1,0 +1,155 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Entity Output",
+  "type": "object",
+  "properties": {
+    "entities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "PERSONNEL",
+              "EVENT",
+              "ORGANIZATION",
+              "EVIDENCE",
+              "LOCATION"
+            ],
+            "description": "EVENT is reserved for a named core UFO incident"
+          },
+          "name": {
+            "type": "string"
+          },
+          "span_quote": {
+            "type": "string",
+            "maxLength": 240,
+            "description": "Exact contiguous copy of the source text containing the mention; must be a substring of the source",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "record_decision": {
+            "type": "string",
+            "enum": [
+              "record_candidate",
+              "context_only",
+              "needs_review"
+            ],
+            "description": "Whether the mention meets the domain rule for a persistent record; not a judgment of truth"
+          },
+          "record_decision_note": {
+            "type": "string",
+            "description": "Which domain rule applied; no scoring"
+          },
+          "aliases": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "record_type_hint": {
+            "type": "string",
+            "description": "Domain type; EVIDENCE wire type covers Document, Testimony, Sighting, Artifact, Topic and uncertain Event",
+            "enum": [
+              "KeyFigure",
+              "Organization",
+              "Location",
+              "Event",
+              "Document",
+              "Testimony",
+              "Sighting",
+              "Artifact",
+              "Topic"
+            ]
+          },
+          "attributes": {
+            "type": "object"
+          },
+          "relationships": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "target": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "target",
+                "type"
+              ]
+            }
+          }
+        },
+        "required": [
+          "type",
+          "name",
+          "span_quote",
+          "record_decision"
+        ]
+      }
+    },
+    "statements": {
+      "type": "array",
+      "description": "What the source says about the entities, with attribution",
+      "items": {
+        "type": "object",
+        "properties": {
+          "statement": {
+            "type": "string",
+            "minLength": 1
+          },
+          "speaker": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "As named in the source, or null"
+          },
+          "about": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Names of emitted entities"
+          },
+          "span_quote": {
+            "type": "string",
+            "maxLength": 240,
+            "description": "Exact contiguous copy of the source text",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        },
+        "required": [
+          "statement",
+          "speaker",
+          "about",
+          "span_quote"
+        ]
+      }
+    },
+    "analysis_summary": {
+      "type": "object",
+      "properties": {
+        "total_entities": {
+          "type": "integer"
+        },
+        "key_patterns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Wire field: source-grounded patterns only; not speculative conclusions"
+        }
+      }
+    }
+  },
+  "required": [
+    "entities"
+  ]
+}

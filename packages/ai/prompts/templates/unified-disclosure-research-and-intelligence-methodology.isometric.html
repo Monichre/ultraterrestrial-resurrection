@@ -1,0 +1,492 @@
+<title>Unified Disclosure Methodology — Isometric Map</title>
+<style>
+:root{
+  --paper:#efe9dc; --ink:#2b2a26; --line:#8d8574; --accent:#1f6f63; --warn:#a6412e;
+  --dim:#b3aa97; --panel:#e7e0d0; --hatch:#d8d0bd;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#16171a; --ink:#ded8c9; --line:#5d5a52; --accent:#63c6b4; --warn:#e08a72;
+    --dim:#4a4a48; --panel:#1e2024; --hatch:#232529;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#16171a; --ink:#ded8c9; --line:#5d5a52; --accent:#63c6b4; --warn:#e08a72;
+  --dim:#4a4a48; --panel:#1e2024; --hatch:#232529;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;overflow:hidden}
+#wrap{display:grid;grid-template-columns:212px 1fr 300px;height:100vh}
+#rail,#panel{background:var(--panel);overflow-y:auto;padding:12px}
+#rail{border-right:1px solid var(--line)}
+#panel{border-left:1px solid var(--line)}
+#stage{position:relative;overflow:hidden}
+svg{width:100%;height:100%;display:block}
+h1{font-size:14px;margin:0 0 2px;letter-spacing:.06em;text-transform:uppercase}
+.sub{font-size:10px;color:var(--line);margin-bottom:12px;line-height:1.4}
+.lens{display:block;width:100%;text-align:left;background:none;border:1px solid var(--line);
+  color:var(--ink);font:inherit;font-size:11px;padding:5px 7px;margin-bottom:4px;cursor:pointer}
+.lens.on{background:var(--accent);color:var(--paper);border-color:var(--accent)}
+.lens small{display:block;font-size:9px;opacity:.75;margin-top:1px}
+.grp{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--line);
+  margin:12px 0 4px;border-bottom:1px solid var(--line);padding-bottom:2px}
+.item{padding:2px 4px;cursor:pointer;font-size:11px;display:flex;justify-content:space-between;gap:6px}
+.item:hover{background:var(--hatch)}
+.item.sel{background:var(--accent);color:var(--paper)}
+.item b{font-weight:400}
+.item span{opacity:.65;font-size:9px;white-space:nowrap}
+#pt{font-size:13px;letter-spacing:.05em;margin:0 0 2px;text-transform:uppercase}
+#pm{font-size:9px;color:var(--line);margin-bottom:10px}
+.sec{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);
+  margin:12px 0 3px;font-weight:700}
+.body{font-size:11px;line-height:1.6}
+.chips{margin-top:5px;display:flex;flex-wrap:wrap;gap:3px}
+.chip{font-size:9px;border:1px solid var(--line);padding:1px 5px;cursor:pointer}
+.chip:hover{background:var(--accent);color:var(--paper)}
+.chip.ext{border-style:dashed;color:var(--accent);cursor:default}
+.chip.ext:hover{background:none;color:var(--accent)}
+#stats{position:absolute;left:14px;bottom:12px;font-size:9px;color:var(--line);
+  line-height:1.7;pointer-events:none}
+#stats b{color:var(--ink);font-weight:700}
+#seq{position:absolute;left:50%;transform:translateX(-50%);bottom:10px;background:var(--panel);
+  border:1px solid var(--line);padding:7px 10px;display:none;max-width:640px;width:92%}
+#seq.on{display:block}
+#seqhead{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+#seqhead button{background:none;border:1px solid var(--line);color:var(--ink);
+  font:inherit;font-size:11px;padding:1px 8px;cursor:pointer}
+#seqhead button:hover{background:var(--accent);color:var(--paper)}
+#seqmark{font-size:10px;color:var(--accent);font-weight:700;letter-spacing:.05em}
+#seqloc{font-size:9px;color:var(--line);margin-left:auto}
+#seqtxt{font-size:11px;line-height:1.5}
+#seqbar{display:flex;gap:1px;margin-top:6px}
+#seqbar i{flex:1;height:3px;background:var(--dim);cursor:pointer}
+#seqbar i.done{background:var(--accent)}
+.blk{cursor:pointer}
+.face{stroke:var(--ink);stroke-width:.7;stroke-linejoin:round}
+.lbl{font-size:5.4px;fill:var(--ink);text-anchor:middle;pointer-events:none;letter-spacing:.02em}
+.sub2{font-size:4.2px;fill:var(--line);text-anchor:middle;pointer-events:none}
+.edge{fill:none;stroke:var(--line);stroke-width:.5;opacity:.2}
+.edge.flow{stroke:var(--accent);stroke-width:1.1;opacity:.9}
+.edge.hot{stroke:var(--warn);stroke-width:1.3;opacity:1}
+.edge.dash{stroke-dasharray:2 2}
+.ext{font-size:4.6px;fill:var(--accent);letter-spacing:.03em}
+.extl{stroke:var(--accent);stroke-width:.4;stroke-dasharray:1.5 1.5;opacity:.6;fill:none}
+.faded{opacity:.13}
+.dot{fill:var(--accent)}
+</style>
+
+<div id="wrap">
+  <div id="rail">
+    <h1 id="title">Unified Methodology</h1>
+    <div class="sub" id="subtitle">packages/ai/prompts/templates/unified-disclosure-research-and-intelligence-methodology.md<br>1,320 lines scanned 2026-08-15. Specified architecture, not a running service.</div>
+    <div class="grp">Perspective</div>
+    <div id="lenses"></div>
+    <div id="list"></div>
+  </div>
+  <div id="stage">
+    <svg id="svg" preserveAspectRatio="xMidYMid meet"></svg>
+    <div id="stats"></div>
+    <div id="seq">
+      <div id="seqhead">
+        <button id="sprev">&#9664;</button><button id="snext">&#9654;</button>
+        <span id="seqmark"></span><span id="seqloc"></span>
+      </div>
+      <div id="seqtxt"></div>
+      <div id="seqbar"></div>
+    </div>
+  </div>
+  <div id="panel">
+    <div id="pt">Overview</div>
+    <div id="pm"></div>
+    <div id="pbody"></div>
+  </div>
+</div>
+
+<script>
+/* ════════════════════════════════════════════════════════════════════════
+   DATA BLOCK — replace everything down to the "END DATA BLOCK" marker.
+   Everything below that marker is the rendering engine; leave it alone
+   unless you are fixing an actual engine bug.
+   ════════════════════════════════════════════════════════════════════════ */
+
+// Viewport in map units. Widen if callouts or clusters clip at the edges.
+const VIEW = [-310, -150, 640, 400];   // [minX, minY, width, height]
+
+// Headline counts, rendered bottom-left. One string per line, <b> for numbers.
+// Every number here must come from a real scan.
+const STATS = [
+  '<b>1,320</b> lines in the methodology file · <b>1,088</b> nonempty',
+  '<b>18</b> fenced blocks · <b>1,201</b> fence-body lines (14 python, 2 yaml, 1 dockerfile)',
+  '<b>11</b> classes named · <b>9</b> AgentType values · <b>5</b> specified FastAPI routes',
+  '<b>0 / 15</b> claimed implementation files exist under apps/disclosure-rag',
+  '<b>18</b> persona files in packages/ai/agents · <b>4,082</b> lines · not imported here'
+];
+
+/* ── S: one entry per structure ──────────────────────────────────────────
+   loc = measured line span of that section (or mention-lines if the
+   AgentType has no dedicated body). Height: >=100→5, >=80→4, >=50→3,
+   >=30→2, else 1. Commands: python splitlines + heading ranges.         */
+const S=[];
+function s(o){S.push(o)}
+
+s({id:'orch',code:'OR',name:'Orchestrator',ws:'c2',loc:115,gx:0,gy:0,h:5,
+   what:'The document\'s master controller: analyse the query, plan, deploy specialists, synthesise, then QA.',
+   how:'Stub class OrchestratorAgent in the fence at lines 209–323 (agents/orchestrator_agent.py). process() is five phases. InvestigationPlanner and AgentCoordinator are imported; those files are not in the repo.',
+   talks:['pattern','evidence','scientific','gov','witness','media','synth','rtm']});
+s({id:'rtm',code:'RT',name:'Realtime monitor',ws:'c2',loc:101,gx:2,gy:0,h:5,
+   what:'A background loop that is supposed to watch social, news, and sensors and wake the orchestrator on a hot alert.',
+   how:'Stub RealTimeMonitorAgent at lines 325–425. Constructs SocialMediaMonitor, NewsMonitor, SensorNetworkMonitor — none of those modules exist. A live cousin is the 34-line templates/real_time_monitoring.yaml prompt, not this agent.',
+   talks:['orch','openai']});
+s({id:'runner',code:'RN',name:'System runner',ws:'c2',loc:106,gx:4,gy:0,h:5,
+   what:'The specified FastAPI process: one POST to launch an investigation, plus health and agent-status reads.',
+   how:'UFOResearchSystem at lines 426–531 (main_system.py). Five routes: POST /investigate, GET /monitoring/status, POST /monitoring/{command}, GET /agents/status, GET /health. File is not on disk.',
+   talks:['orch','rtm','auth']});
+s({id:'config',code:'CF',name:'Master config',ws:'c2',loc:73,gx:6,gy:0,h:3,
+   what:'The enum of nine agent types plus keys, thresholds, and three database URLs.',
+   how:'UFOResearchConfig dataclass at lines 62–134. AgentType lists 9 values. Reads OPENAI_API_KEY, ANTHROPIC_API_KEY, DATABASE_URL, VECTOR_STORE_URL, NEO4J_URL. config/ufo_research_config.py does not exist.',
+   talks:['orch','pg','vec','neo','openai','anthropic']});
+s({id:'base',code:'BA',name:'Agent base',ws:'c2',loc:72,gx:0,gy:2,h:3,
+   what:'The abstract class every specialist is supposed to subclass.',
+   how:'BaseUFOAgent ABC at lines 136–207 (agents/base_agent.py). Not present in apps/disclosure-rag/agents/.',
+   talks:['orch']});
+s({id:'pattern',code:'PR',name:'Pattern recognition',ws:'analysis',loc:4,gx:2,gy:2,h:1,
+   what:'A named specialist for flaps, hotspots, and craft behaviour — named, not implemented in this file.',
+   how:'4 mention lines (74, 131, 233, 239). No class body. Persona cousin: packages/ai/agents/14-mulder-pattern-recognition.md (228 lines).',
+   talks:['synth']});
+s({id:'evidence',code:'EV',name:'Evidence evaluation',ws:'analysis',loc:7,gx:4,gy:2,h:1,
+   what:'A named specialist for traces, media forensics, and witness tiers.',
+   how:'7 mention lines including architecture box line 27 and cache TTL at 1040. No class body. Persona cousin: 06-scully-evidence-evaluator.md (233 lines).',
+   talks:['synth']});
+s({id:'scientific',code:'SA',name:'Scientific anomaly',ws:'analysis',loc:4,gx:6,gy:2,h:1,
+   what:'A named specialist for physics-violation flags.',
+   how:'4 mention lines (27, 76, 235, 241). No class body. Persona cousin: 07-hynek-scientific-anomaly.md (226 lines).',
+   talks:['synth']});
+s({id:'synth',code:'SY',name:'Strategic synthesis',ws:'synth',loc:4,gx:0,gy:4,h:1,
+   what:'The layer that is supposed to merge specialist streams into one investigation result.',
+   how:'Named in the architecture box (lines 39–45) and called from OrchestratorAgent._synthesize_results at line 311. 40-line templates/synthesis.yaml exists; this agent class does not.',
+   talks:['pg','vec']});
+s({id:'gov',code:'GD',name:'Gov disclosure',ws:'analysis',loc:2,gx:2,gy:4,h:1,
+   what:'A named specialist for official programs and statements.',
+   how:'2 mention lines (AgentType line 77; cache TTL line 1038). Persona cousin: 10-mellon-government-disclosure.md (222 lines).',
+   talks:['synth']});
+s({id:'witness',code:'WI',name:'Witness interview',ws:'analysis',loc:2,gx:4,gy:4,h:1,
+   what:'A named specialist for interview protocol — expanded only as a workflow example.',
+   how:'AgentType line 78 plus workflow heading at 781. Workflow body is 78 lines (781–858). Persona cousin: 08-mack-witness-psychology.md (223 lines).',
+   talks:['synth']});
+s({id:'media',code:'MD',name:'Media analysis',ws:'analysis',loc:3,gx:6,gy:4,h:1,
+   what:'A named specialist for media and disinformation.',
+   how:'3 mention lines (32, 79, 1041). Persona cousins: 04-knapp and 12-pilkington markdown files.',
+   talks:['synth']});
+s({id:'cache',code:'CA',name:'Redis cache',ws:'ops',loc:62,gx:0,gy:6,h:3,
+   what:'A specified Redis cache with per-query-type TTLs.',
+   how:'UFOResearchCache at lines 1018–1079 (lib/caching/ufo_cache.py). redis.from_url. File does not exist.',
+   talks:['redis']});
+s({id:'pool',code:'PL',name:'Agent pool',ws:'ops',loc:43,gx:2,gy:6,h:2,
+   what:'A specified worker pool so many agents can run at once.',
+   how:'AgentPool at lines 1080–1122 (lib/load_balancing/agent_pool.py). File does not exist.',
+   talks:['orch']});
+s({id:'metrics',code:'MT',name:'Metrics & logs',ws:'ops',loc:92,gx:4,gy:6,h:3,
+   what:'Prometheus-style counters plus a JSON log formatter, all still on the page.',
+   how:'Metrics at 1123–1184 (62 lines) and logging at 1185–1214 (30 lines). Classes MetricsAwareMixin and UFOLogFormatter. Neither file exists.',
+   talks:['grafana']});
+s({id:'auth',code:'AU',name:'JWT & rate limit',ws:'ops',loc:91,gx:6,gy:6,h:3,
+   what:'Specified HTTP Bearer JWT plus a rate limiter in front of the API.',
+   how:'JWTBearer 1215–1267 (53 lines) and RateLimiter 1268–1305 (38 lines). lib/security/auth.py and rate_limiter.py are absent. Repo AGENTS.md: Clerk is the product auth; no middleware is implemented.',
+   talks:['runner']});
+s({id:'docker',code:'DK',name:'Dockerfile',ws:'ops',loc:35,gx:0,gy:10,h:2,
+   what:'A specified container that would run main_system.py on port 8000.',
+   how:'Dockerfile fence at lines 859–893. CMD python main_system.py. No matching Dockerfile for this stack in disclosure-rag.',
+   talks:['runner']});
+s({id:'compose',code:'DC',name:'Compose stack',ws:'ops',loc:60,gx:2,gy:10,h:3,
+   what:'Five specified compose services: the app, Postgres, Redis, Neo4j, and Grafana.',
+   how:'docker-compose.yml fence at lines 894–953. Services counted from the yaml keys: ufo-research-system, postgres, redis, neo4j, monitoring. Not deployed.',
+   talks:['pg','redis','neo','grafana','docker']});
+s({id:'k8s',code:'K8',name:'Kubernetes',ws:'ops',loc:64,gx:4,gy:10,h:3,
+   what:'A specified Deployment manifest with a /health probe.',
+   how:'k8s/deployment.yaml fence at lines 954–1017. apps/disclosure-rag/k8s/deployment.yaml does not exist.',
+   talks:['runner']});
+s({id:'ragint',code:'RG',name:'RAG glue',ws:'ops',live:'partial',loc:47,gx:6,gy:10,h:2,
+   what:'A specified hook from disclosure-rag process_url into this orchestrator. Nothing calls it.',
+   how:'integrate_with_disclosure_rag() at lines 586–632. Imports lib.orchestration.ufo_research_system, which is missing. Live dy hops are in apps/disclosure-rag/docs/CALL_CHAIN.md (364 lines) and never mention this function.',
+   talks:['runner','orch']});
+s({id:'pg',code:'PG',name:'PostgreSQL',ws:'data',live:'live',loc:0,gx:0,gy:12,h:1,slab:1,
+   what:'The document\'s system of record: Postgres plus pgvector.',
+   how:'Drawn in the architecture box (line 53) and as compose service postgres (image pgvector/pgvector:pg15, lines 919–926). Live in the repo as Neon Postgres via packages/db — not this compose file.',
+   talks:[]});
+s({id:'vec',code:'VS',name:'Triple RAG store',ws:'data',live:'partial',loc:0,gx:2,gy:12,h:1,slab:1,
+   what:'The document labels a vector store \"Triple RAG\". That architecture is a myth in this repo.',
+   how:'Architecture box line 54; VECTOR_STORE_URL in config line 93. AGENTS.md: Triple RAG does not exist. Live cousin is OpenAI file_search / Vector Store MCP, disconnected from this spec.',
+   talks:['openai']});
+s({id:'neo',code:'N4',name:'Neo4j graph',ws:'data',live:'partial',loc:0,gx:4,gy:12,h:1,slab:1,
+   what:'A specified knowledge graph. No Neo4j client or compose stack is running here.',
+   how:'9 Neo4j mentions in this file, including NEO4J_URL (line 94) and compose service neo4j:5 (lines 933–938). AGENTS.md lists Neo4j as a myth. No neo4j driver in live disclosure-rag.',
+   talks:[]});
+s({id:'redis',code:'RD',name:'Redis',ws:'data',loc:0,gx:6,gy:12,h:1,slab:1,
+   what:'Specified cache and compose service. Not a live dependency of disclosure-rag.',
+   how:'16 Redis mentions; compose redis:7-alpine at lines 928–931; UFOResearchCache constructs redis.from_url. No live Redis wiring found for this spec.',
+   talks:[]});
+s({id:'wfbreak',code:'WB',name:'Breaking-event workflow',ws:'flow',loc:62,gx:0,gy:8,h:3,
+   what:'Example: a breaking sighting is supposed to page the monitor then the orchestrator.',
+   how:'Workflow example 1 at lines 636–697. Calls system.orchestrator.process twice. Example code, not a test.',
+   talks:['rtm','orch']});
+s({id:'wfhist',code:'WH',name:'Historical-pattern workflow',ws:'flow',loc:83,gx:2,gy:8,h:4,
+   what:'Example: a long-range pattern query through the same process() entry.',
+   how:'Workflow example 2 at lines 698–780 (83 lines, largest workflow).',
+   talks:['orch','pattern']});
+s({id:'wfwit',code:'WW',name:'Witness-interview workflow',ws:'flow',loc:78,gx:4,gy:8,h:3,
+   what:'Example: interview notes fed into the orchestrator as a DEEP investigation.',
+   how:'Workflow example 3 at lines 781–858.',
+   talks:['orch','witness']});
+
+const EXT=[
+  {n:'OpenAI',t:'config',d:'OPENAI_API_KEY in UFOResearchConfig (line 88); also VECTOR_STORE_URL',ax:[-110,-28]},
+  {n:'Anthropic',t:'config',d:'ANTHROPIC_API_KEY in UFOResearchConfig (line 89)',ax:[92,-70]},
+  {n:'Grafana',t:'compose',d:'compose service monitoring uses grafana/grafana:latest (lines 940–945)',ax:[100,-24]}
+];
+
+const E=[
+  {f:'runner',t:'orch',pay:'POST /investigate → process()',flow:1},
+  {f:'rtm',t:'orch',pay:'alert_level ≥ 0.9 investigation_request',flow:1},
+  {f:'orch',t:'pattern',pay:'deploy PatternRecognitionAgent',flow:1},
+  {f:'orch',t:'evidence',pay:'deploy EvidenceEvaluationAgent'},
+  {f:'orch',t:'scientific',pay:'deploy ScientificAnomalyAgent'},
+  {f:'orch',t:'gov',pay:'deploy government_disclosure'},
+  {f:'orch',t:'witness',pay:'deploy witness_interview'},
+  {f:'orch',t:'media',pay:'deploy media_analysis'},
+  {f:'pattern',t:'synth',pay:'agent_results',flow:1},
+  {f:'evidence',t:'synth',pay:'agent_results'},
+  {f:'scientific',t:'synth',pay:'agent_results'},
+  {f:'gov',t:'synth',pay:'agent_results'},
+  {f:'witness',t:'synth',pay:'agent_results'},
+  {f:'media',t:'synth',pay:'agent_results'},
+  {f:'orch',t:'synth',pay:'_synthesize_results()',flow:1},
+  {f:'synth',t:'pg',pay:'specified persist',flow:1},
+  {f:'synth',t:'vec',pay:'specified embed'},
+  {f:'config',t:'orch',pay:'UFOResearchConfig + agent_prompts'},
+  {f:'config',t:'pg',pay:'DATABASE_URL'},
+  {f:'config',t:'vec',pay:'VECTOR_STORE_URL'},
+  {f:'config',t:'neo',pay:'NEO4J_URL'},
+  {f:'base',t:'orch',pay:'BaseUFOAgent inheritance'},
+  {f:'runner',t:'rtm',pay:'startup start_monitoring()'},
+  {f:'runner',t:'auth',pay:'specified JWT gate'},
+  {f:'auth',t:'runner',pay:'Bearer + rate limit'},
+  {f:'cache',t:'redis',pay:'redis.from_url get/set'},
+  {f:'pool',t:'orch',pay:'specified parallel agents'},
+  {f:'docker',t:'runner',pay:'CMD main_system.py',dash:1},
+  {f:'compose',t:'docker',pay:'build context',dash:1},
+  {f:'compose',t:'pg',pay:'depends_on postgres',dash:1},
+  {f:'compose',t:'redis',pay:'depends_on redis',dash:1},
+  {f:'compose',t:'neo',pay:'depends_on neo4j',dash:1},
+  {f:'k8s',t:'runner',pay:'Deployment + /health probe',dash:1},
+  {f:'ragint',t:'orch',pay:'orchestrator.process on URL content',dash:1},
+  {f:'wfbreak',t:'rtm',pay:'example alert path'},
+  {f:'wfbreak',t:'orch',pay:'orchestrator.process'},
+  {f:'wfhist',t:'orch',pay:'orchestrator.process'},
+  {f:'wfhist',t:'pattern',pay:'pattern specialist'},
+  {f:'wfwit',t:'orch',pay:'orchestrator.process'},
+  {f:'wfwit',t:'witness',pay:'witness specialist'}
+];
+
+const ORPHAN={f:'ragint',t:'runner',pay:'enhanced_process_url is specified; disclosure-rag main.py never imports it'};
+
+const LENS=[
+  {id:'ws',   n:'Layers',        d:'command, analysis, data, ops'},
+  {id:'flow', n:'Investigate',   d:'POST /investigate as specified'},
+  {id:'live', n:'Spec · live',   d:'what exists vs what is paper'},
+  {id:'seq',  n:'Call chain',    d:'one specified investigation'},
+  {id:'ops',  n:'Deploy paper',  d:'Docker, compose, k8s, cache'}
+];
+
+const WS={c2:'Command & control',analysis:'Specialized analysis',synth:'Synthesis',ops:'Runtime & deploy',data:'Persistence (specified)',flow:'Workflow examples'};
+const SVC={openai:'OpenAI',anthropic:'Anthropic',grafana:'Grafana'};
+
+const SEQ=[
+  ['DOC-01','unified-disclosure-research-and-intelligence-methodology.md:476','investigate()','runner','Specified FastAPI handler POST /investigate builds {query, depth} and awaits orchestrator.process.'],
+  ['DOC-02','unified-disclosure-research-and-intelligence-methodology.md:245','OrchestratorAgent.process()','orch','Creates INV_{timestamp}, then five phases: analyse, plan, deploy, synthesise, QA.'],
+  ['DOC-03','unified-disclosure-research-and-intelligence-methodology.md:295','_analyze_query()','orch','Specified to score complexity and urgency, extract entities, and pick required_agents. Body is a comment: \"Implement sophisticated query analysis\".'],
+  ['DOC-04','unified-disclosure-research-and-intelligence-methodology.md:257','InvestigationPlanner.create_plan()','orch','Imported from lib.orchestration.investigation_planner — that module is not in the repository.'],
+  ['DOC-05','unified-disclosure-research-and-intelligence-methodology.md:263','AgentCoordinator.execute_plan()','orch','Would fan out to PatternRecognitionAgent, EvidenceEvaluationAgent, ScientificAnomalyAgent. Those classes have no bodies in this file.'],
+  ['DOC-06','unified-disclosure-research-and-intelligence-methodology.md:307','_synthesize_results()','synth','Looks up AgentType.SYNTHESIS and calls synthesis_agent.process. No synthesis agent implementation is in this file.'],
+  ['DOC-07','unified-disclosure-research-and-intelligence-methodology.md:272','_quality_assurance()','orch','Called after synthesis; no function body appears in the fence.'],
+  ['DOC-08','unified-disclosure-research-and-intelligence-methodology.md:484','JSONResponse()','runner','Handler returns the process() dict, or 500 with str(e). This route is not registered in live disclosure-rag.']
+];
+
+const OV={
+ ws:['Four layers on one page','The ASCII architecture (lines 3–59) draws command, realtime, six specialists, synthesis, then four stores. The rest of the file is fenced stubs for that drawing. <b>Orchestrator</b> is the largest block at 115 lines.','This file is not in registry.yaml. disclosure-rag does not import it. The 18 files under packages/ai/agents are development personas, not this runtime.'],
+ flow:['Specified investigate path','Animated: FastAPI POST /investigate → OrchestratorAgent.process → specialists → synthesis → Postgres. The monitor can inject the same process() call from an alert.','Planner and coordinator are imports with no files. _analyze_query and _quality_assurance are named without bodies.'],
+ live:['Paper vs the repo','Red: Triple RAG, Neo4j, and the disclosure-rag glue — named here, contradicted by AGENTS.md or missing on disk. Green slab: Postgres/pgvector, which does exist as Neon, not as this compose service.','0 of 15 claimed paths (ufo_research_config.py through k8s/deployment.yaml) exist under apps/disclosure-rag. The severed edge is integrate_with_disclosure_rag().'],
+ seq:['One investigation, eight junctures','Walk the specified POST /investigate. Each step is a real line in this markdown fence, including the imports that point at missing modules.','This is not the live dy chain. Live hops are indexed in apps/disclosure-rag/docs/CALL_CHAIN.md (YT-CHAIN-01…).'],
+ ops:['Deploy fiction','Dockerfile, compose (5 services), Kubernetes, Redis cache, agent pool, JWT, rate limit, Grafana. All fences; none of those files exist for this stack.','Compose names OpenAI and Anthropic as environment keys and Grafana as the monitoring image. Do not treat the yaml passwords as live credentials — they are examples in a prompt file.']
+};
+
+function inLens(s){
+  if(lens==='ws')   return true;
+  if(lens==='flow') return ['runner','orch','rtm','pattern','evidence','scientific','synth','pg'].includes(s.id);
+  if(lens==='live') return true;
+  if(lens==='seq')  return SEQ.some(q=>q[3]===s.id);
+  if(lens==='ops')  return ['docker','compose','k8s','cache','pool','metrics','auth','redis','pg','neo','vec','grafana','ragint'].includes(s.id) || s.ws==='ops' || s.ws==='data';
+  return true;
+}
+function tone(s){
+  if(lens==='live'){
+    if(s.live==='partial') return 'var(--warn)';
+    if(s.live==='live') return 'var(--accent)';
+    return 'var(--line)';
+  }
+  if(lens==='flow') return 'var(--accent)';
+  if(lens==='ops')  return (s.ws==='ops'||s.ws==='data') ? 'var(--accent)' : 'var(--line)';
+  const c={c2:'var(--accent)',analysis:'var(--line)',synth:'var(--ink)',ops:'var(--line)',data:'var(--ink)',flow:'var(--accent)'};
+  return c[s.ws]||'var(--line)';
+}
+
+function flagged(s){ return lens==='live' && s.live==='partial' }
+
+/* ════════════════════ END DATA BLOCK — engine below ════════════════════ */
+
+const svg=document.getElementById('svg'), byId=Object.fromEntries(S.map(x=>[x.id,x]));
+svg.setAttribute('viewBox',VIEW.join(' '));
+let lens=LENS[0].id, sel=null, step=0;
+const NS='http://www.w3.org/2000/svg';
+const el=(t,a)=>{const n=document.createElementNS(NS,t);for(const k in a)n.setAttribute(k,a[k]);return n};
+const px=(gx,gy)=>(gx-gy)*26, py=(gx,gy,h)=>(gx+gy)*14.3-h*16;
+const W=2, D=2;
+
+function draw(){
+  svg.textContent='';
+  const defs=el('defs');
+  const hp=el('pattern',{id:'hatch',width:6,height:6,patternUnits:'userSpaceOnUse',patternTransform:'rotate(45)'});
+  hp.appendChild(el('line',{x1:0,y1:0,x2:0,y2:6,stroke:'var(--hatch)','stroke-width':1.4}));
+  defs.appendChild(hp); svg.appendChild(defs);
+  svg.appendChild(el('rect',{x:VIEW[0],y:VIEW[1],width:VIEW[2],height:VIEW[3],fill:'url(#hatch)',opacity:.5}));
+
+  const gE=el('g'), gB=el('g'), gX=el('g');
+  svg.appendChild(gE); svg.appendChild(gB); svg.appendChild(gX);
+
+  const anchor=s=>({x:px(s.gx+W/2,s.gy+D/2), y:py(s.gx+W/2,s.gy+D/2,s.slab?0.35:s.h)+(s.slab?4:8)});
+  const hot=new Set();
+  if(lens==='seq'&&SEQ[step]) hot.add(SEQ[step][3]);
+  if(sel) hot.add(sel);
+
+  const edges = (lens==='live'&&ORPHAN) ? E.concat([Object.assign({},ORPHAN,{orphan:1})]) : E;
+  edges.forEach(e=>{
+    const a=byId[e.f], b=byId[e.t]; if(!a||!b) return;
+    const p=anchor(a), q=anchor(b);
+    const mid=`${p.x},${q.y}`;
+    const cls=['edge'];
+    if(e.flow&&lens!=='live') cls.push('flow');
+    if(e.dash||e.orphan) cls.push('dash');
+    if(hot.has(e.f)&&hot.has(e.t)) cls.push('hot');
+    const path=el('path',{d:`M${p.x},${p.y} L${mid} L${q.x},${q.y}`,class:cls.join(' ')});
+    if(e.orphan){path.setAttribute('stroke','var(--warn)');path.setAttribute('opacity','.85')}
+    if(!inLens(a)||!inLens(b)) path.classList.add('faded');
+    gE.appendChild(path);
+    if(e.flow&&lens==='flow'){
+      const dot=el('circle',{r:1.5,class:'dot'});
+      const an=el('animateMotion',{dur:'3s',repeatCount:'indefinite',path:`M${p.x},${p.y} L${mid} L${q.x},${q.y}`});
+      dot.appendChild(an); gE.appendChild(dot);
+    }
+  });
+
+  S.slice().sort((a,b)=>(a.gx+a.gy)-(b.gx+b.gy)).forEach(s=>{
+    const h=s.slab?0.35:s.h, x=px(s.gx,s.gy), y=py(s.gx,s.gy,h);
+    const g=el('g',{class:'blk'});
+    if(!inLens(s)) g.classList.add('faded');
+    const c=tone(s);
+    // A status lens has to tint on its own — otherwise it looks identical
+    // to every other view until you click something.
+    const lit = hot.has(s.id) || flagged(s);
+    const top=`${x},${y} ${x+W*26},${y+W*14.3} ${x+(W-D)*26},${y+(W+D)*14.3} ${x-D*26},${y+D*14.3}`;
+    const lf=`${x-D*26},${y+D*14.3} ${x+(W-D)*26},${y+(W+D)*14.3} ${x+(W-D)*26},${y+(W+D)*14.3+h*16} ${x-D*26},${y+D*14.3+h*16}`;
+    const rf=`${x+(W-D)*26},${y+(W+D)*14.3} ${x+W*26},${y+W*14.3} ${x+W*26},${y+W*14.3+h*16} ${x+(W-D)*26},${y+(W+D)*14.3+h*16}`;
+    g.appendChild(el('polygon',{points:lf,class:'face',fill:lit?c:'var(--panel)','fill-opacity':lit?.55:.9}));
+    g.appendChild(el('polygon',{points:rf,class:'face',fill:lit?c:'var(--hatch)','fill-opacity':lit?.4:.9}));
+    g.appendChild(el('polygon',{points:top,class:'face',fill:lit?c:'var(--paper)','fill-opacity':lit?.75:.96}));
+    const cx=x, cy=y+(W+D)/2*14.3-2;
+    const t1=el('text',{x:cx,y:cy,class:'lbl'}); t1.textContent=s.name;
+    if(lit) t1.setAttribute('font-weight','700');
+    g.appendChild(t1);
+    const t2=el('text',{x:cx,y:cy+5,class:'sub2'});
+    t2.textContent=s.loc?`${s.code} · ${(s.loc/1000).toFixed(1)}k`:s.code;
+    g.appendChild(t2);
+    g.addEventListener('click',()=>{sel=s.id;render()});
+    gB.appendChild(g);
+  });
+
+  if(lens!=='seq') EXT.forEach(x=>{
+    const b=byId[x.t]; if(!b||!inLens(b)) return;
+    const p=anchor(b), tx=p.x+x.ax[0], ty=p.y+x.ax[1];
+    gX.appendChild(el('path',{d:`M${p.x},${p.y} L${tx},${ty}`,class:'extl'}));
+    const t=el('text',{x:tx,y:ty-2,class:'ext','text-anchor':x.ax[0]<0?'end':'start'});
+    t.textContent=x.n; gX.appendChild(t);
+  });
+}
+
+function render(){
+  document.getElementById('lenses').innerHTML=LENS.map(l=>
+    `<button class="lens ${l.id===lens?'on':''}" data-l="${l.id}">${l.n}<small>${l.d}</small></button>`).join('');
+  document.querySelectorAll('[data-l]').forEach(b=>b.onclick=()=>{
+    lens=b.dataset.l; sel=null; location.hash=lens==='seq'?'#seq=1':'#lens='+lens; boot()});
+
+  const groups={};
+  S.filter(inLens).forEach(s=>{(groups[s.ws]=groups[s.ws]||[]).push(s)});
+  document.getElementById('list').innerHTML=Object.entries(groups).map(([k,v])=>
+    `<div class="grp">${WS[k]||k}</div>`+v.sort((a,b)=>b.loc-a.loc).map(s=>
+      `<div class="item ${s.id===sel?'sel':''}" data-s="${s.id}"><b>${s.name}</b>${s.loc?`<span>${(s.loc/1000).toFixed(1)}k</span>`:''}</div>`).join('')).join('');
+  document.querySelectorAll('[data-s]').forEach(d=>d.onclick=()=>{sel=d.dataset.s;render()});
+
+  const p=document.getElementById('pbody'), t=document.getElementById('pt'), m=document.getElementById('pm');
+  if(sel&&byId[sel]){
+    const s=byId[sel];
+    t.textContent=s.name; m.textContent=`${WS[s.ws]||s.ws} · ${s.loc?s.loc.toLocaleString()+' LOC':'measured elsewhere'}`;
+    const ext=EXT.filter(x=>x.t===s.id);
+    p.innerHTML=`<div class="sec">What it does</div><div class="body">${s.what}</div>`+
+      `<div class="sec">How it's built</div><div class="body">${s.how}</div>`+
+      (ext.length?`<div class="sec">External services</div><div class="body">${ext.map(x=>`<b>${x.n}</b> — ${x.d}`).join('<br>')}</div>`:'')+
+      (s.talks&&s.talks.length?`<div class="sec">Talks to</div><div class="chips">${s.talks.map(x=>
+        byId[x] ? `<span class="chip" data-g="${x}">${byId[x].name}</span>`
+                : `<span class="chip ext" title="external service">${SVC[x]||x} ↗</span>`).join('')}</div>`:'');
+    p.querySelectorAll('[data-g]').forEach(c=>c.onclick=()=>{sel=c.dataset.g;render()});
+  } else {
+    const o=OV[lens];
+    t.textContent=o[0]; m.textContent='perspective';
+    p.innerHTML=`<div class="sec">What you're looking at</div><div class="body">${o[1]}</div>`+
+      `<div class="sec">Worth knowing</div><div class="body">${o[2]}</div>`;
+  }
+
+  document.getElementById('stats').innerHTML=STATS.join('<br>');
+
+  const sq=document.getElementById('seq');
+  sq.classList.toggle('on',lens==='seq');
+  // The sequence tray occupies the same corner as the stats block.
+  document.getElementById('stats').style.display = lens==='seq' ? 'none' : '';
+  if(lens==='seq'){
+    const q=SEQ[step];
+    document.getElementById('seqmark').textContent=q[0];
+    document.getElementById('seqloc').textContent=q[1];
+    document.getElementById('seqtxt').innerHTML=`<b>${q[2]}</b> — ${q[4]}`;
+    document.getElementById('seqbar').innerHTML=SEQ.map((_,i)=>
+      `<i class="${i<=step?'done':''}" data-i="${i}"></i>`).join('');
+    document.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>{step=+b.dataset.i;render()});
+  }
+  draw();
+}
+document.getElementById('sprev').onclick=()=>{step=(step-1+SEQ.length)%SEQ.length;render()};
+document.getElementById('snext').onclick=()=>{step=(step+1)%SEQ.length;render()};
+addEventListener('keydown',e=>{
+  if(lens!=='seq')return;
+  if(e.key==='ArrowRight'){step=(step+1)%SEQ.length;render()}
+  if(e.key==='ArrowLeft'){step=(step-1+SEQ.length)%SEQ.length;render()}
+});
+function boot(){
+  const h=location.hash;
+  let m;
+  if(m=h.match(/lens=(\w+)/)) lens=m[1];
+  if(h.includes('seq=')) lens='seq';
+  if(m=h.match(/step=(\d+)/)) step=Math.min(+m[1],SEQ.length-1);
+  if(m=h.match(/sel=(\w+)/)) sel=m[1];
+  render();
+}
+addEventListener('hashchange',boot);
+boot();
+</script>

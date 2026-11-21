@@ -1,0 +1,14 @@
+ CONTEXT.md                                                          |  37 ++++++++-
+ DAILY_WORK_PLAN.md                                                  |  71 +++++++++++++++++
+ GOAL.md                                                             |   1 +
+ apps/app/.storybook/decorators/with-mindmap.tsx                     |   4 +-
+ apps/app/.storybook/main.ts                                         | 254 +++++++++++++++++++++++++++++++++---------------------------
+ apps/app/.storybook/mocked-google-fonts.cjs                         |  35 +++++----
+ apps/app/.storybook/preview.tsx                                     |  60 +++++++-------
+ apps/app/package.json                                               |   4 +-
+ apps/app/src/components/3d/planet-journey/EnhancedPlanetJourney.tsx |   2 +-
+ apps/app/src/contexts/mindmap/mindmap-context.tsx                   |   2 +-
+ apps/app/src/features/mindmap/utils/node-factories.ts               |   2 +-
+ bun.lock                                                            |   2 +-
+ docs/research/ufo-research-methodology.md                           |  12 +--
+ 13 files changed, 314 insertions(+), 172 deletions(-)

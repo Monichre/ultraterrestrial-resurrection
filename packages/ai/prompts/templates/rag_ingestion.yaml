@@ -1,0 +1,83 @@
+id: rag_ingestion
+version: "2.0.0"
+description: "Label pre-cut transcript/document chunks for RAG indexing. Labels only; chunk text is never re-emitted."
+owner: "ai-platform"
+tags: ["rag", "ingestion", "documents", "chunking"]
+schema_ref: "schemas/output/ingestion.schema.json"
+runtime:
+  # Code cuts the chunks (cut_chunks in apps/disclosure-rag/processing/
+  # rag_prompt_pipeline.py); this prompt only labels them by chunk_id. The
+  # response carries no chunk text, so output size scales with the number of
+  # chunks (about 16 for a 24,000-char window at ~1,500 chars each), not with
+  # the source size.
+  #
+  # Version 1.0.0 asked the model to re-emit the whole source as chunk text and
+  # needed max_tokens 16000; even then it returned only ~6-9k of a 24k-char
+  # window, so most of the window was never embedded. Labels for ~16 chunks
+  # run well under 4,000 tokens; 8000 leaves room for reasoning tiers and for
+  # longer windows without a truncated-JSON retry.
+  max_tokens: 8000
+  temperature: 0.1
+variables:
+  - name: "chunks_json"
+    type: "string"
+    required: true
+  - name: "provenance"
+    type: "string"
+    required: false
+  - name: "content_type"
+    type: "string"
+    required: false
+prompt: |-
+  You label pre-cut chunks of UFO/UAP/Disclosure source text for retrieval-augmented generation (RAG) indexing.
+
+  ## MISSION
+  Code has already cut the source into chunks. For each chunk you are given, return labels that help later grounded retrieval. You record what the text says. You do not judge, rate, score or rank anything.
+
+  ## HARD CONSTRAINTS
+  - Never re-emit, quote at length, rewrite or summarise chunk text. Return no text field.
+  - Use only the chunk_ids you were given. Do not add, merge, split or renumber chunks.
+  - Labels state what the chunk says. Do not add facts, bridging claims or interpretation that the chunk does not contain.
+
+  ## INPUT
+  `chunks` below is a JSON list of {"chunk_id", "text"}. Speaker turns start with `>>`.
+
+  ## OUTPUT JSON SHAPE
+  {
+    "document": {
+      "title_guess": string|null,
+      "content_type": string,
+      "language": string,
+      "provenance": string,
+      "integrity_flags": string[]
+    },
+    "chunks": [
+      {
+        "chunk_id": "c01",
+        "heading_path": string|null,
+        "entities_hint": string[],
+        "claims_hint": string[],
+        "temporal_anchors": string[],
+        "spatial_anchors": string[],
+        "do_not_embed_reasons": string[]
+      }
+    ],
+    "index_recommendations": {
+      "filters": string[],
+      "dedupe_keys": string[]
+    }
+  }
+
+  ## RULES
+  1. Return exactly one entry in `chunks` per given chunk_id, in the same order.
+  2. claims_hint = claims made in that chunk only, short, attributed to the speaker when the chunk names one.
+  3. entities_hint = people, organizations, places, programs and objects named in that chunk.
+  4. temporal_anchors and spatial_anchors = dates, times and places the chunk states, as written.
+  5. do_not_embed_reasons = a non-empty list only when the chunk is functionally not source content: sponsor reads, ads, promo or intro boilerplate, table of contents. Otherwise an empty list.
+  6. integrity_flags examples: "ocr_noise", "heavy_redaction", "missing_pages", "secondary_repost", "transcript_disfluencies".
+
+  Provenance: {{provenance}}
+  Content type: {{content_type}}
+
+  chunks:
+  {{chunks_json}}

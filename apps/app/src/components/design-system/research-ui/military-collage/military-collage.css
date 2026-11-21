@@ -1,0 +1,613 @@
+/* ===========================
+   MILITARY DOCUMENTARY COLLAGE CSS SYSTEM
+   Monochrome, distressed, asymmetrical collage
+   =========================== */
+
+/* Color + effect variables */
+:root {
+  --paper-0: #f2f2f2;
+  --paper-1: #eaeaea;
+  --ink-0: #0a0a0a;
+  --ink-1: #1a1a1a;
+  --ink-2: #2a2a2a;
+  --grid: rgba(0, 0, 0, 0.12);
+  --scratches: rgba(0, 0, 0, 0.18);
+  --white-ink: #ffffff;
+  --ring: #111111;
+
+  --photo-contrast: 1.25;
+  --photo-brightness: 0.95;
+  --photo-grayscale: 1;
+
+  --grain-opacity: 0.32;
+  --grain-scale: 1;
+  --scan-opacity: 0.06;
+  --scratches-opacity: 0.3;
+
+  --scan-speed: 8000ms;
+  --glitch-window: 320ms;
+  --flicker-speed: 1800ms;
+  --portal-rot: 20000ms;
+}
+
+/* Base container with paper gradient */
+.collage-container {
+  position: relative;
+  width: 100%;
+  min-height: 720px;
+  background: radial-gradient(1200px 800px at 50% 10%, var(--paper-0) 0%, var(--paper-1) 100%);
+  filter: grayscale(100%) contrast(115%);
+  box-shadow:
+    0px 2px 0px 0px rgba(0, 0, 0, 0.3),
+    0px 8px 24px 0px rgba(0, 0, 0, 0.18);
+}
+
+.collage-container::before {
+  content: '';
+  position: absolute;
+  inset: 0px;
+  pointer-events: none;
+  background:
+    radial-gradient(1200px 600px at 50% 0%, rgba(0, 0, 0, 0.12) 0px, rgba(0, 0, 0, 0) 420px),
+    radial-gradient(1200px 600px at 50% 100%, rgba(0, 0, 0, 0.12) 0px, rgba(0, 0, 0, 0) 420px),
+    radial-gradient(800px 800px at 0% 50%, rgba(0, 0, 0, 0.1) 0px, rgba(0, 0, 0, 0) 380px),
+    radial-gradient(800px 800px at 100% 50%, rgba(0, 0, 0, 0.1) 0px, rgba(0, 0, 0, 0) 380px);
+  mix-blend-mode: multiply;
+  opacity: 0.35;
+  z-index: 19;
+}
+
+/* Paper noise overlays (two strengths) */
+.collage-noise::after,
+.collage-noise-strong::after {
+  content: '';
+  position: absolute;
+  inset: 0px;
+  pointer-events: none;
+  opacity: var(--grain-opacity);
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,\
+<svg xmlns='http://www.w3.org/2000/svg' width='320' height='320'>\
+<filter id='n'>\
+<feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/>\
+<feColorMatrix type='saturate' values='0'/>\
+</filter>\
+<rect width='320' height='320' filter='url(%23n)' opacity='0.5'/>\
+</svg>");
+  background-size: calc(320px * var(--grain-scale)) calc(320px * var(--grain-scale));
+  animation: none;
+}
+.collage-noise-strong::after {
+  opacity: calc(var(--grain-opacity) + 0.18);
+  --grain-scale: 0.75;
+}
+
+/* Aged paper fiber texture */
+.paper-texture {
+  position: absolute;
+  inset: 0px;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.03) 0px,
+      rgba(0, 0, 0, 0.03) 1px,
+      transparent 1px,
+      transparent 6px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.03) 0px,
+      rgba(0, 0, 0, 0.03) 1px,
+      transparent 1px,
+      transparent 12px
+    );
+  opacity: 0.25;
+}
+
+/* Scratches overlay (distressed) */
+.scratch-overlay {
+  position: absolute;
+  inset: 0px;
+  pointer-events: none;
+  opacity: var(--scratches-opacity);
+  mix-blend-mode: multiply;
+  background:
+    repeating-linear-gradient(
+      6deg,
+      rgba(0, 0, 0, 0) 0px,
+      rgba(0, 0, 0, 0) 22px,
+      var(--scratches) 22px,
+      var(--scratches) 23px
+    ),
+    repeating-linear-gradient(
+      172deg,
+      rgba(0, 0, 0, 0) 0px,
+      rgba(0, 0, 0, 0) 44px,
+      rgba(0, 0, 0, 0.1) 44px,
+      rgba(0, 0, 0, 0.1) 45px
+    );
+  filter: blur(0.2px) contrast(110%);
+}
+
+/* Grid overlay (subtle drift) */
+.grid-overlay {
+  position: absolute;
+  inset: 0px;
+  pointer-events: none;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.12) 0px,
+      rgba(0, 0, 0, 0.12) 1px,
+      transparent 1px,
+      transparent 40px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.12) 0px,
+      rgba(0, 0, 0, 0.12) 1px,
+      transparent 1px,
+      transparent 40px
+    );
+  opacity: 0.18;
+}
+
+/* Scan lines */
+.scan-lines {
+  position: absolute;
+  inset: 0px;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0) 0px,
+    rgba(0, 0, 0, 0) 2px,
+    rgba(0, 0, 0, 0.08) 2px,
+    rgba(0, 0, 0, 0.08) 4px
+  );
+  opacity: var(--scan-opacity);
+  animation: none;
+}
+
+/* Halftone dots overlay */
+.halftone-overlay {
+  position: absolute;
+  inset: 0px;
+  pointer-events: none;
+  background-image: radial-gradient(rgba(0, 0, 0, 0.18) 1px, transparent 1px);
+  background-size: 3px 3px;
+  mix-blend-mode: multiply;
+  opacity: 0.12;
+  z-index: 6;
+}
+
+/* Vertical tear lines */
+.tear-lines {
+  position: absolute;
+  inset: 0px;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0) 0px,
+    rgba(0, 0, 0, 0) 12px,
+    rgba(0, 0, 0, 0.08) 12px,
+    rgba(0, 0, 0, 0.08) 13px
+  );
+  opacity: 0.08;
+  z-index: 7;
+}
+
+/* Vignette */
+.vignette {
+  position: absolute;
+  inset: 0px;
+  pointer-events: none;
+  background: radial-gradient(
+    800px 400px at 50% 80%,
+    rgba(0, 0, 0, 0) 0px,
+    rgba(0, 0, 0, 0.25) 400px
+  );
+  mix-blend-mode: multiply;
+  opacity: 0.35;
+  z-index: 20;
+}
+
+/* Typography */
+.heading-main {
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    'Helvetica Neue',
+    Arial;
+  font-size: 48px;
+  line-height: 48px;
+  letter-spacing: -2px;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: var(--ink-0);
+  filter: blur(0.2px);
+}
+@media (min-width: 768px) {
+  .heading-main {
+    font-size: 64px;
+    line-height: 56px;
+    letter-spacing: -3px;
+  }
+}
+@media (min-width: 1280px) {
+  .heading-main {
+    font-size: 80px;
+    line-height: 72px;
+    letter-spacing: -4px;
+  }
+}
+
+.text-fragment {
+  position: relative;
+  display: inline-block;
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
+    monospace;
+  font-size: 10px;
+  line-height: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+.data-label {
+  font-family: ui-monospace, 'Courier New', monospace;
+  font-size: 10px;
+  line-height: 12px;
+  letter-spacing: 1px;
+  color: var(--ink-1);
+  opacity: 0.75;
+}
+
+.jp-vertical {
+  position: absolute;
+  left: 16px;
+  top: 96px;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  font-size: 18px;
+  line-height: 18px;
+  letter-spacing: 2px;
+  color: var(--ink-1);
+  opacity: 0.8;
+  transform: rotate(-2deg);
+  z-index: 12;
+}
+
+/* Photo frames */
+.photo-frame {
+  position: relative;
+  padding: 8px;
+  background: #ffffff;
+  box-shadow:
+    0px 2px 8px 0px rgba(0, 0, 0, 0.25),
+    inset 0px 0px 0px 1px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+}
+.photo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(var(--photo-grayscale)) contrast(var(--photo-contrast))
+    brightness(var(--photo-brightness));
+}
+
+/* Smoke plumes using layered radial gradients */
+.smoke-plume {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 9999px;
+  filter: blur(2px) contrast(110%);
+  opacity: 0.35;
+}
+.smoke-plume-a {
+  width: 280px;
+  height: 180px;
+  left: 24px;
+  top: -24px;
+  background: radial-gradient(closest-side, rgba(0, 0, 0, 0.35) 0px, rgba(0, 0, 0, 0) 120px);
+  animation: plumeDrift 9000ms ease-in-out infinite alternate;
+}
+.smoke-plume-b {
+  width: 320px;
+  height: 220px;
+  right: 16px;
+  bottom: -16px;
+  background: radial-gradient(closest-side, rgba(0, 0, 0, 0.3) 0px, rgba(0, 0, 0, 0) 140px);
+  animation: plumeDrift 11000ms ease-in-out infinite alternate;
+}
+
+/* Debris shards as small rectangles */
+.debris {
+  position: absolute;
+  background: var(--ink-1);
+  box-shadow: 0px 1px 0px 0px rgba(255, 255, 255, 0.08) inset;
+  opacity: 0.75;
+  filter: blur(0.2px);
+}
+
+/* Football-shaped discs */
+.football-disc {
+  position: absolute;
+  width: 220px;
+  height: 120px;
+  transform-style: preserve-3d;
+  filter: blur(0.4px) contrast(108%);
+  mix-blend-mode: multiply;
+}
+.football-disc-core {
+  position: absolute;
+  inset: 0px;
+  border-radius: 50% / 45%;
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    #bbbbbb 0px,
+    #999999 40%,
+    #666666 68%,
+    #222222 100%
+  );
+  box-shadow: 0px 16px 24px 0px rgba(0, 0, 0, 0.35);
+}
+.football-disc-seam {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  top: 50%;
+  height: 2px;
+  transform: translateY(-50%);
+  background: linear-gradient(
+    90deg,
+    transparent 0px,
+    rgba(255, 255, 255, 0.6) 40%,
+    rgba(255, 255, 255, 0.6) 60%,
+    transparent 100%
+  );
+  opacity: 0.4;
+}
+.football-disc-shadow {
+  position: absolute;
+  inset: 0px;
+  border-radius: 50% / 45%;
+  box-shadow: 0px 22px 28px 0px rgba(0, 0, 0, 0.45);
+  opacity: 0.6;
+}
+
+/* Cryptic strip */
+.cryptic-strip {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin: 16px 24px;
+}
+.cryptic-strip .text-fragment {
+  background: #ffffff;
+  padding: 4px 6px;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.1);
+}
+
+/* Bottom photo strip with flicker overlay */
+.photo-strip {
+  position: relative;
+  margin: 8px 0px 0px 0px;
+  height: 220px;
+  overflow: hidden;
+  filter: grayscale(var(--photo-grayscale)) contrast(calc(var(--photo-contrast) + 0.05))
+    brightness(var(--photo-brightness));
+}
+.photo-strip img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.fire-flicker {
+  position: absolute;
+  inset: 0px;
+  pointer-events: none;
+  background: radial-gradient(
+    1000px 400px at 60% 100%,
+    rgba(255, 255, 255, 0.25) 0px,
+    rgba(255, 255, 255, 0) 400px
+  );
+  mix-blend-mode: screen;
+  animation: flicker var(--flicker-speed) ease-in-out infinite alternate;
+}
+
+/* Official stamp */
+.stamp {
+  position: absolute;
+  right: 24px;
+  bottom: 24px;
+  width: 96px;
+  height: 96px;
+  border-radius: 9999px;
+  border: 3px solid var(--ring);
+  transform: rotate(14deg);
+  display: grid;
+  place-items: center;
+  background: radial-gradient(96px 96px at 50% 50%, rgba(0, 0, 0, 0.02) 0px, rgba(0, 0, 0, 0) 96px);
+  box-shadow: inset 0px 0px 0px 1px rgba(255, 255, 255, 0.4);
+  filter: contrast(110%);
+  opacity: 0.85;
+}
+.stamp-inner {
+  font-weight: 900;
+  letter-spacing: 4px;
+  font-size: 22px;
+  line-height: 22px;
+  color: var(--ink-0);
+  text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.2);
+}
+.stamp-ring {
+  position: absolute;
+  inset: 6px;
+  border: 2px dashed var(--ring);
+  border-radius: 9999px;
+  opacity: 0.6;
+}
+
+/* Tailwind-like helpers (plain CSS) */
+.paper-bg {
+  background-image: linear-gradient(135deg, #f5f5f5 0%, #e5e5e5 100%);
+}
+.data-fragment {
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
+    monospace;
+  font-size: 10px;
+  line-height: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #404040;
+}
+
+/* Animations */
+@keyframes plumeDrift {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+    opacity: 0.3;
+  }
+  100% {
+    transform: translate(8px, -6px) scale(1.05);
+    opacity: 0.4;
+  }
+}
+@keyframes flicker {
+  0% {
+    opacity: 0.15;
+    filter: brightness(1);
+  }
+  100% {
+    opacity: 0.3;
+    filter: brightness(1.05);
+  }
+}
+@keyframes shake {
+  0% {
+    transform: translate(0px, 0px);
+  }
+  25% {
+    transform: translate(-1px, 1px);
+  }
+  50% {
+    transform: translate(1px, -1px);
+  }
+  75% {
+    transform: translate(-1px, -1px);
+  }
+  100% {
+    transform: translate(0px, 0px);
+  }
+}
+
+/* Responsive layout tuning */
+@media (max-width: 1024px) {
+  .jp-vertical {
+    left: 8px;
+    top: 72px;
+    font-size: 16px;
+  }
+  .football-disc {
+    width: 200px;
+    height: 110px;
+  }
+  .photo-strip {
+    height: 200px;
+  }
+}
+@media (max-width: 768px) {
+  .jp-vertical {
+    display: none;
+  }
+  .football-disc {
+    width: 180px;
+    height: 100px;
+  }
+  .cryptic-strip {
+    margin: 12px 16px;
+    gap: 12px;
+  }
+  .photo-strip {
+    height: 180px;
+  }
+}
+@media (max-width: 480px) {
+  .football-disc {
+    width: 150px;
+    height: 84px;
+  }
+  .heading-main {
+    font-size: 36px;
+    line-height: 36px;
+    letter-spacing: -1px;
+  }
+  .photo-strip {
+    height: 160px;
+  }
+  .cryptic-strip .text-fragment {
+    font-size: 9px;
+    line-height: 11px;
+  }
+}
+
+.chaos-static .halftone-overlay {
+  opacity: 0.22;
+}
+.chaos-static .tear-lines {
+  opacity: 0.18;
+}
+.chaos-static .scan-lines {
+  opacity: 0.1;
+}
+.chaos-static .scratch-overlay {
+  opacity: 0.5;
+}
+.chaos-static .paper-texture {
+  opacity: 0.35;
+}
+.chaos-static .vignette {
+  opacity: 0.45;
+}
+.chaos-static .collage-container::before {
+  opacity: 0.5;
+}
+.chaos-static .photo-frame {
+  transform: rotate(-0.6deg) skewX(-0.4deg);
+}
+.chaos-static .photo-frame img {
+  filter: grayscale(1) contrast(1.5) brightness(0.9);
+}
+.chaos-static .heading-main {
+  letter-spacing: -3px;
+  text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.06);
+}
+.chaos-static .text-fragment {
+  position: relative;
+  display: inline-block;
+}
+.chaos-static .text-fragment::after {
+  content: '';
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  bottom: 2px;
+  height: 7px;
+  background: #0a0a0a;
+  opacity: 0.85;
+}
+.chaos-static .stamp {
+  transform: rotate(12deg);
+  opacity: 0.95;
+  filter: contrast(120%);
+}

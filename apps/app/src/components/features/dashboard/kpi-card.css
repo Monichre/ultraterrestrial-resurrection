@@ -1,0 +1,35 @@
+.assembling-kpi-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  min-height: var(--min-height-card);
+  padding: var(--spacing-md);
+  color: var(--color-text-primary);
+  background: var(--color-bg-secondary);
+  border: var(--border-width-thin) solid var(--color-border-primary);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-fast);
+}
+
+.assembling-kpi-card__label {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.assembling-kpi-card__value {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+}
+
+.assembling-kpi-card__helper {
+  margin: 0;
+  color: var(--color-text-tertiary);
+  font-size: var(--font-size-xs);
+}

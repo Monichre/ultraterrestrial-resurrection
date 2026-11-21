@@ -1,0 +1,954 @@
+{
+  "schemaVersion": "trace-map.v1",
+  "sourceId": "src:0aa1308d9bcb36a4",
+  "sourceType": "video",
+  "sourceUrl": "https://www.youtube.com/watch?v=SNgoul4vyDM",
+  "sourceHash": "sha256:22c47a928e5b94a80192fb26e2d971ee95a379ee4bd1253e6e3a19a10575f571",
+  "contentVersion": 1,
+  "reviewState": "unreviewed",
+  "nodes": [
+    {
+      "id": "src:0aa1308d9bcb36a4",
+      "type": "source",
+      "label": "House holds hearing on UFOs, government transparency | full video",
+      "url": "https://www.youtube.com/watch?v=SNgoul4vyDM",
+      "sourceType": "video",
+      "contentType": "government",
+      "integrityFlags": [
+        "transcript_auto_generated",
+        "truncated_for_pipeline"
+      ],
+      "classificationMarks": [],
+      "ingestionRecommendation": "proceed"
+    },
+    {
+      "id": "seg:0aa1308d9bcb36a4:c01",
+      "type": "segment",
+      "label": "c01",
+      "chunkId": "c01",
+      "headingPath": "Opening Statements > Chair",
+      "evidentiaryDensity": "high",
+      "temporalAnchors": [
+        "1966",
+        "1969",
+        "2022",
+        "earlier this year"
+      ],
+      "spatialAnchors": [
+        "U.S. airspace",
+        "Georgia"
+      ],
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 4608,
+        "segmentStart": 0,
+        "segmentEnd": 126,
+        "startSeconds": 3.06,
+        "endSeconds": 297.90000000000003,
+        "method": "exact",
+        "excerpt": "the subcommittee hearing on unidentified anomalous phenomena or uaps will come to order welcome everyone without objection the chair may declare a recess at any time additionally without objection the following members are waived onto the s"
+      },
+      "excerpt": "the subcommittee hearing on unidentified anomalous phenomena or uaps will come to order welcome everyone without objection the chair May declare a recess at any time additionally without objection the following members are waived onto the s"
+    },
+    {
+      "id": "seg:0aa1308d9bcb36a4:c02",
+      "type": "segment",
+      "label": "c02",
+      "chunkId": "c02",
+      "headingPath": "Opening Statements > Rep. Burchett",
+      "evidentiaryDensity": "high",
+      "temporalAnchors": [
+        "1969"
+      ],
+      "spatialAnchors": [
+        "Tennessee",
+        "Denmark",
+        "Eglin Air Force Base"
+      ],
+      "anchor": {
+        "charStart": 4609,
+        "charEnd": 8718,
+        "segmentStart": 127,
+        "segmentEnd": 246,
+        "startSeconds": 296.04,
+        "endSeconds": 551.279,
+        "method": "exact",
+        "excerpt": "thank you mr chairman thank you all for being here i want to thank everybody for making this happen today and i want to remind everybody this is a nonpartisan issue this has nothing to do with party politics i think the cover up goes a lot "
+      },
+      "excerpt": "thank you Mr chairman thank you all for being here I want to thank everybody for making this happen today and I want to remind everybody this is a nonpartisan issue this has nothing to do with Party politics I think the cover up goes a lot "
+    },
+    {
+      "id": "seg:0aa1308d9bcb36a4:c03",
+      "type": "segment",
+      "label": "c03",
+      "chunkId": "c03",
+      "headingPath": "Opening Statements > Rep. Luna",
+      "evidentiaryDensity": "high",
+      "temporalAnchors": [
+        "decades"
+      ],
+      "spatialAnchors": [
+        "Roswell, New Mexico",
+        "Jacksonville, Florida"
+      ],
+      "anchor": {
+        "charStart": 8719,
+        "charEnd": 12060,
+        "segmentStart": 246,
+        "segmentEnd": 338,
+        "startSeconds": 546.959,
+        "endSeconds": 728.399,
+        "method": "exact",
+        "excerpt": "um i think is it to representative luna mr chairman yeah we'll we'll call him ms luna for her statement their circumstances surrounding uaps has captivated the intention of the american people for decades ingrained in even the minds of our "
+      },
+      "excerpt": "um I think is it to representative Luna Mr chairman yeah we'll we'll call him Ms Luna for her statement their circumstances surrounding uaps has captivated the intention of the American people for decades ingrained in even the minds of our "
+    },
+    {
+      "id": "seg:0aa1308d9bcb36a4:c04",
+      "type": "segment",
+      "label": "c04",
+      "chunkId": "c04",
+      "headingPath": "Opening Statements > Ranking Member Garcia",
+      "evidentiaryDensity": "high",
+      "temporalAnchors": [
+        "2017",
+        "June 9, 2022",
+        "this year"
+      ],
+      "spatialAnchors": [],
+      "anchor": {
+        "charStart": 12061,
+        "charEnd": 19983,
+        "segmentStart": 339,
+        "segmentEnd": 552,
+        "startSeconds": 726.36,
+        "endSeconds": 1154.3999999999999,
+        "method": "prefix_suffix",
+        "excerpt": "thank you very much and i'd like to thank you thank you and mr burchett for bringing this topic to my attention uh now we'll recognize national security subcommittee ranking member garcia for 10 minutes well thank you mr chairman and i want"
+      },
+      "excerpt": "thank you very much and I'd like to thank you thank you and Mr burchett for bringing this topic to my attention uh now we'll recognize National Security subcommittee ranking member Garcia for 10 minutes well thank you Mr chairman and I want"
+    },
+    {
+      "id": "seg:0aa1308d9bcb36a4:c05",
+      "type": "segment",
+      "label": "c05",
+      "chunkId": "c05",
+      "headingPath": "Opening Statements > Rep. Moskowitz",
+      "evidentiaryDensity": "high",
+      "temporalAnchors": [
+        "2011",
+        "2022"
+      ],
+      "spatialAnchors": [
+        "Wright-Patterson AFB",
+        "Dugway Proving Ground",
+        "Groom Lake, Nevada"
+      ],
+      "anchor": {
+        "charStart": 19984,
+        "charEnd": 23600,
+        "segmentStart": 552,
+        "segmentEnd": 654,
+        "startSeconds": 1149.12,
+        "endSeconds": 1380.179,
+        "method": "exact",
+        "excerpt": "congressman uh thank you ranking member garcia thank you mr chairman i want to thank uh tim burchett and anna paulina luna for their leadership in pushing uh this hearing forward i want to thank obviously committee staff and their staff wor"
+      },
+      "excerpt": "Congressman uh thank you ranking member Garcia thank you Mr chairman I want to thank uh Tim burchett and Anna Paulina Luna for their leadership in pushing uh this hearing forward I want to thank obviously committee staff and their staff wor"
+    },
+    {
+      "id": "seg:0aa1308d9bcb36a4:c06",
+      "type": "segment",
+      "label": "c06",
+      "chunkId": "c06",
+      "headingPath": "Witness Introduction > Chair",
+      "evidentiaryDensity": "low",
+      "overlapNote": "Truncated at source cut-off",
+      "temporalAnchors": [],
+      "spatialAnchors": [],
+      "anchor": {
+        "charStart": 23601,
+        "charEnd": 24000,
+        "segmentStart": 654,
+        "segmentEnd": 665,
+        "startSeconds": 1375.44,
+        "endSeconds": 1407.0,
+        "method": "exact",
+        "excerpt": "thank you right now i'd like to introduce our witnesses our first witnesses lieutenant ryan graves he's the executive director of americans for safe aerospace lieutenant graves is also a former u.s navy f-18 pilot with the zone uap experien"
+      },
+      "excerpt": "thank you right now I'd like to introduce our Witnesses our first Witnesses Lieutenant Ryan Graves he's the executive director of Americans for safe Aerospace Lieutenant Graves is also a former U.S Navy F-18 pilot with the Zone UAP experien"
+    },
+    {
+      "id": "top:f3e1e1cab13d",
+      "type": "topic",
+      "label": "Opening Statements > Chair"
+    },
+    {
+      "id": "top:299b57616318",
+      "type": "topic",
+      "label": "Opening Statements > Rep. Burchett"
+    },
+    {
+      "id": "top:272edf61e4aa",
+      "type": "topic",
+      "label": "Opening Statements > Rep. Luna"
+    },
+    {
+      "id": "top:1ae83d276cee",
+      "type": "topic",
+      "label": "Opening Statements > Ranking Member Garcia"
+    },
+    {
+      "id": "top:080c4f1d437e",
+      "type": "topic",
+      "label": "Opening Statements > Rep. Moskowitz"
+    },
+    {
+      "id": "top:119e2fd5fade",
+      "type": "topic",
+      "label": "Witness Introduction > Chair"
+    },
+    {
+      "id": "clm:0aa1308d9bcb36a4:2c75b43dc0df",
+      "type": "claim",
+      "label": "AARO budget is classified, hindering oversight",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 4608,
+        "segmentStart": 0,
+        "segmentEnd": 126,
+        "startSeconds": 3.06,
+        "endSeconds": 297.90000000000003,
+        "method": "exact",
+        "excerpt": "the subcommittee hearing on unidentified anomalous phenomena or uaps will come to order welcome everyone without objection the chair may declare a recess at any time additionally without objection the following members are waived onto the s"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:0aa1308d9bcb36a4:74c98f5ec4a7",
+      "type": "claim",
+      "label": "Government lacks transparency on UAPs",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 4608,
+        "segmentStart": 0,
+        "segmentEnd": 126,
+        "startSeconds": 3.06,
+        "endSeconds": 297.90000000000003,
+        "method": "exact",
+        "excerpt": "the subcommittee hearing on unidentified anomalous phenomena or uaps will come to order welcome everyone without objection the chair may declare a recess at any time additionally without objection the following members are waived onto the s"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:0aa1308d9bcb36a4:ed4e607555bf",
+      "type": "claim",
+      "label": "Biden administration not forthright on Chinese spy balloon incident",
+      "anchor": {
+        "charStart": 0,
+        "charEnd": 4608,
+        "segmentStart": 0,
+        "segmentEnd": 126,
+        "startSeconds": 3.06,
+        "endSeconds": 297.90000000000003,
+        "method": "exact",
+        "excerpt": "the subcommittee hearing on unidentified anomalous phenomena or uaps will come to order welcome everyone without objection the chair may declare a recess at any time additionally without objection the following members are waived onto the s"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:0aa1308d9bcb36a4:08ab2d53c835",
+      "type": "claim",
+      "label": "UAP issue is nonpartisan",
+      "anchor": {
+        "charStart": 4609,
+        "charEnd": 8718,
+        "segmentStart": 127,
+        "segmentEnd": 246,
+        "startSeconds": 296.04,
+        "endSeconds": 551.279,
+        "method": "exact",
+        "excerpt": "thank you mr chairman thank you all for being here i want to thank everybody for making this happen today and i want to remind everybody this is a nonpartisan issue this has nothing to do with party politics i think the cover up goes a lot "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:0aa1308d9bcb36a4:6b735a164514",
+      "type": "claim",
+      "label": "Intelligence community blocked FAA reporting amendment",
+      "anchor": {
+        "charStart": 4609,
+        "charEnd": 8718,
+        "segmentStart": 127,
+        "segmentEnd": 246,
+        "startSeconds": 296.04,
+        "endSeconds": 551.279,
+        "method": "exact",
+        "excerpt": "thank you mr chairman thank you all for being here i want to thank everybody for making this happen today and i want to remind everybody this is a nonpartisan issue this has nothing to do with party politics i think the cover up goes a lot "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:0aa1308d9bcb36a4:bf3b25fac782",
+      "type": "claim",
+      "label": "Military position since 1969 that UFOs pose no threat is an understatement",
+      "anchor": {
+        "charStart": 4609,
+        "charEnd": 8718,
+        "segmentStart": 127,
+        "segmentEnd": 246,
+        "startSeconds": 296.04,
+        "endSeconds": 551.279,
+        "method": "exact",
+        "excerpt": "thank you mr chairman thank you all for being here i want to thank everybody for making this happen today and i want to remind everybody this is a nonpartisan issue this has nothing to do with party politics i think the cover up goes a lot "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:0aa1308d9bcb36a4:f58ff96d47b2",
+      "type": "claim",
+      "label": "68% of Americans believe government hides UAP info",
+      "anchor": {
+        "charStart": 8719,
+        "charEnd": 12060,
+        "segmentStart": 246,
+        "segmentEnd": 338,
+        "startSeconds": 546.959,
+        "endSeconds": 728.399,
+        "method": "exact",
+        "excerpt": "um i think is it to representative luna mr chairman yeah we'll we'll call him ms luna for her statement their circumstances surrounding uaps has captivated the intention of the american people for decades ingrained in even the minds of our "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:0aa1308d9bcb36a4:73f5c2014d53",
+      "type": "claim",
+      "label": "Pilots fear retribution for reporting",
+      "anchor": {
+        "charStart": 8719,
+        "charEnd": 12060,
+        "segmentStart": 246,
+        "segmentEnd": 338,
+        "startSeconds": 546.959,
+        "endSeconds": 728.399,
+        "method": "exact",
+        "excerpt": "um i think is it to representative luna mr chairman yeah we'll we'll call him ms luna for her statement their circumstances surrounding uaps has captivated the intention of the american people for decades ingrained in even the minds of our "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:0aa1308d9bcb36a4:f67ef59dbf8c",
+      "type": "claim",
+      "label": "Committee denied access to classified briefing",
+      "anchor": {
+        "charStart": 8719,
+        "charEnd": 12060,
+        "segmentStart": 246,
+        "segmentEnd": 338,
+        "startSeconds": 546.959,
+        "endSeconds": 728.399,
+        "method": "exact",
+        "excerpt": "um i think is it to representative luna mr chairman yeah we'll we'll call him ms luna for her statement their circumstances surrounding uaps has captivated the intention of the american people for decades ingrained in even the minds of our "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:0aa1308d9bcb36a4:37de874657b6",
+      "type": "claim",
+      "label": "UAPs pose a serious safety threat",
+      "anchor": {
+        "charStart": 12061,
+        "charEnd": 19983,
+        "segmentStart": 339,
+        "segmentEnd": 552,
+        "startSeconds": 726.36,
+        "endSeconds": 1154.3999999999999,
+        "method": "prefix_suffix",
+        "excerpt": "thank you very much and i'd like to thank you thank you and mr burchett for bringing this topic to my attention uh now we'll recognize national security subcommittee ranking member garcia for 10 minutes well thank you mr chairman and i want"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:0aa1308d9bcb36a4:880c404bdf47",
+      "type": "claim",
+      "label": "Stigma prevents reporting",
+      "anchor": {
+        "charStart": 12061,
+        "charEnd": 19983,
+        "segmentStart": 339,
+        "segmentEnd": 552,
+        "startSeconds": 726.36,
+        "endSeconds": 1154.3999999999999,
+        "method": "prefix_suffix",
+        "excerpt": "thank you very much and i'd like to thank you thank you and mr burchett for bringing this topic to my attention uh now we'll recognize national security subcommittee ranking member garcia for 10 minutes well thank you mr chairman and i want"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:0aa1308d9bcb36a4:12132bb47f89",
+      "type": "claim",
+      "label": "AARO found no evidence of extraterrestrial activity",
+      "anchor": {
+        "charStart": 12061,
+        "charEnd": 19983,
+        "segmentStart": 339,
+        "segmentEnd": 552,
+        "startSeconds": 726.36,
+        "endSeconds": 1154.3999999999999,
+        "method": "prefix_suffix",
+        "excerpt": "thank you very much and i'd like to thank you thank you and mr burchett for bringing this topic to my attention uh now we'll recognize national security subcommittee ranking member garcia for 10 minutes well thank you mr chairman and i want"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:0aa1308d9bcb36a4:dcc40d2aabef",
+      "type": "claim",
+      "label": "Senate considering declassification commission",
+      "anchor": {
+        "charStart": 12061,
+        "charEnd": 19983,
+        "segmentStart": 339,
+        "segmentEnd": 552,
+        "startSeconds": 726.36,
+        "endSeconds": 1154.3999999999999,
+        "method": "prefix_suffix",
+        "excerpt": "thank you very much and i'd like to thank you thank you and mr burchett for bringing this topic to my attention uh now we'll recognize national security subcommittee ranking member garcia for 10 minutes well thank you mr chairman and i want"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:0aa1308d9bcb36a4:58764b337be5",
+      "type": "claim",
+      "label": "American public has right to learn about technologies of unknown origins",
+      "anchor": {
+        "charStart": 19984,
+        "charEnd": 23600,
+        "segmentStart": 552,
+        "segmentEnd": 654,
+        "startSeconds": 1149.12,
+        "endSeconds": 1380.179,
+        "method": "exact",
+        "excerpt": "congressman uh thank you ranking member garcia thank you mr chairman i want to thank uh tim burchett and anna paulina luna for their leadership in pushing uh this hearing forward i want to thank obviously committee staff and their staff wor"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:0aa1308d9bcb36a4:2422c954826c",
+      "type": "claim",
+      "label": "171 UAP reports with unusual flight characteristics",
+      "anchor": {
+        "charStart": 19984,
+        "charEnd": 23600,
+        "segmentStart": 552,
+        "segmentEnd": 654,
+        "startSeconds": 1149.12,
+        "endSeconds": 1380.179,
+        "method": "exact",
+        "excerpt": "congressman uh thank you ranking member garcia thank you mr chairman i want to thank uh tim burchett and anna paulina luna for their leadership in pushing uh this hearing forward i want to thank obviously committee staff and their staff wor"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:0aa1308d9bcb36a4:cf028f7d5ee9",
+      "type": "claim",
+      "label": "Government aware of more sightings than made public",
+      "anchor": {
+        "charStart": 19984,
+        "charEnd": 23600,
+        "segmentStart": 552,
+        "segmentEnd": 654,
+        "startSeconds": 1149.12,
+        "endSeconds": 1380.179,
+        "method": "exact",
+        "excerpt": "congressman uh thank you ranking member garcia thank you mr chairman i want to thank uh tim burchett and anna paulina luna for their leadership in pushing uh this hearing forward i want to thank obviously committee staff and their staff wor"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "ent:0aa1308d9bcb36a4:personnel:2b5ead5b326d",
+      "type": "entity",
+      "label": "Ryan Graves",
+      "entityType": "PERSONNEL",
+      "role": "Witness; Executive Director of Americans for Safe Aerospace; former U.S. Navy F-18 pilot",
+      "aliases": [
+        "Lieutenant Ryan Graves",
+        "Lt. Graves"
+      ],
+      "credibilityTier": 9,
+      "state": "Observed",
+      "excerpt": "our first Witnesses Lieutenant Ryan Graves he's the executive director of Americans for safe Aerospace Lieutenant Graves is also a former U.S Navy F-18 pilot with the Zone UAP experience",
+      "anchor": {
+        "charStart": 23657,
+        "charEnd": 23843,
+        "segmentStart": 656,
+        "segmentEnd": 661,
+        "startSeconds": 1380.179,
+        "endSeconds": 1397.46,
+        "method": "exact",
+        "excerpt": "our first witnesses lieutenant ryan graves he's the executive director of americans for safe aerospace lieutenant graves is also a former u.s navy f-18 pilot with the zone uap experience"
+      }
+    },
+    {
+      "id": "ent:0aa1308d9bcb36a4:personnel:12dfe374966d",
+      "type": "entity",
+      "label": "David Grusch",
+      "entityType": "PERSONNEL",
+      "role": "Witness; former senior intelligence officer with the National Geospatial Intelligence Agency; senior technical advisor",
+      "aliases": [
+        "David grush",
+        "Mr. Grusch"
+      ],
+      "credibilityTier": 9,
+      "state": "Observed",
+      "excerpt": "the next witness David grush is a former senior intelligence officer with the National geospatial Intelligence Agency and was a senior technical advisor",
+      "anchor": {
+        "charStart": 23844,
+        "charEnd": 23996,
+        "segmentStart": 661,
+        "segmentEnd": 665,
+        "startSeconds": 1392.0,
+        "endSeconds": 1407.0,
+        "method": "exact",
+        "excerpt": "the next witness david grush is a former senior intelligence officer with the national geospatial intelligence agency and was a senior technical advisor"
+      }
+    },
+    {
+      "id": "ent:0aa1308d9bcb36a4:organization:3af567c6fc4f",
+      "type": "entity",
+      "label": "Americans for Safe Aerospace",
+      "entityType": "ORGANIZATION",
+      "state": "Observed",
+      "excerpt": "executive director of Americans for safe Aerospace",
+      "anchor": {
+        "charStart": 23709,
+        "charEnd": 23759,
+        "segmentStart": 657,
+        "segmentEnd": 658,
+        "startSeconds": 1382.159,
+        "endSeconds": 1389.12,
+        "method": "exact",
+        "excerpt": "executive director of americans for safe aerospace"
+      }
+    },
+    {
+      "id": "ent:0aa1308d9bcb36a4:organization:ad007ec1f7b2",
+      "type": "entity",
+      "label": "National Geospatial Intelligence Agency",
+      "entityType": "ORGANIZATION",
+      "aliases": [
+        "NGA"
+      ],
+      "state": "Observed",
+      "excerpt": "former senior intelligence officer with the National geospatial Intelligence Agency",
+      "anchor": {
+        "charStart": 23878,
+        "charEnd": 23961,
+        "segmentStart": 662,
+        "segmentEnd": 664,
+        "startSeconds": 1395.299,
+        "endSeconds": 1404.539,
+        "method": "exact",
+        "excerpt": "former senior intelligence officer with the national geospatial intelligence agency"
+      }
+    },
+    {
+      "id": "ent:0aa1308d9bcb36a4:event:a663fb01756c",
+      "type": "entity",
+      "label": "Witness Introduction",
+      "entityType": "EVENT",
+      "state": "Observed",
+      "excerpt": "right now I'd like to introduce our Witnesses",
+      "anchor": {
+        "charStart": 23611,
+        "charEnd": 23656,
+        "segmentStart": 655,
+        "segmentEnd": 656,
+        "startSeconds": 1378.38,
+        "endSeconds": 1384.5590000000002,
+        "method": "exact",
+        "excerpt": "right now i'd like to introduce our witnesses"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "src:0aa1308d9bcb36a4",
+      "to": "seg:0aa1308d9bcb36a4:c01",
+      "type": "contains"
+    },
+    {
+      "from": "src:0aa1308d9bcb36a4",
+      "to": "seg:0aa1308d9bcb36a4:c02",
+      "type": "contains"
+    },
+    {
+      "from": "src:0aa1308d9bcb36a4",
+      "to": "seg:0aa1308d9bcb36a4:c03",
+      "type": "contains"
+    },
+    {
+      "from": "src:0aa1308d9bcb36a4",
+      "to": "seg:0aa1308d9bcb36a4:c04",
+      "type": "contains"
+    },
+    {
+      "from": "src:0aa1308d9bcb36a4",
+      "to": "seg:0aa1308d9bcb36a4:c05",
+      "type": "contains"
+    },
+    {
+      "from": "src:0aa1308d9bcb36a4",
+      "to": "seg:0aa1308d9bcb36a4:c06",
+      "type": "contains"
+    },
+    {
+      "from": "seg:0aa1308d9bcb36a4:c01",
+      "to": "seg:0aa1308d9bcb36a4:c02",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:0aa1308d9bcb36a4:c02",
+      "to": "seg:0aa1308d9bcb36a4:c03",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:0aa1308d9bcb36a4:c03",
+      "to": "seg:0aa1308d9bcb36a4:c04",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:0aa1308d9bcb36a4:c04",
+      "to": "seg:0aa1308d9bcb36a4:c05",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:0aa1308d9bcb36a4:c05",
+      "to": "seg:0aa1308d9bcb36a4:c06",
+      "type": "precedes"
+    },
+    {
+      "from": "top:f3e1e1cab13d",
+      "to": "seg:0aa1308d9bcb36a4:c01",
+      "type": "contains"
+    },
+    {
+      "from": "top:f3e1e1cab13d",
+      "to": "seg:0aa1308d9bcb36a4:c01",
+      "type": "introduced_by"
+    },
+    {
+      "from": "top:299b57616318",
+      "to": "seg:0aa1308d9bcb36a4:c02",
+      "type": "contains"
+    },
+    {
+      "from": "top:299b57616318",
+      "to": "seg:0aa1308d9bcb36a4:c02",
+      "type": "introduced_by"
+    },
+    {
+      "from": "top:272edf61e4aa",
+      "to": "seg:0aa1308d9bcb36a4:c03",
+      "type": "contains"
+    },
+    {
+      "from": "top:272edf61e4aa",
+      "to": "seg:0aa1308d9bcb36a4:c03",
+      "type": "introduced_by"
+    },
+    {
+      "from": "top:1ae83d276cee",
+      "to": "seg:0aa1308d9bcb36a4:c04",
+      "type": "contains"
+    },
+    {
+      "from": "top:1ae83d276cee",
+      "to": "seg:0aa1308d9bcb36a4:c04",
+      "type": "introduced_by"
+    },
+    {
+      "from": "top:080c4f1d437e",
+      "to": "seg:0aa1308d9bcb36a4:c05",
+      "type": "contains"
+    },
+    {
+      "from": "top:080c4f1d437e",
+      "to": "seg:0aa1308d9bcb36a4:c05",
+      "type": "introduced_by"
+    },
+    {
+      "from": "top:119e2fd5fade",
+      "to": "seg:0aa1308d9bcb36a4:c06",
+      "type": "contains"
+    },
+    {
+      "from": "top:119e2fd5fade",
+      "to": "seg:0aa1308d9bcb36a4:c06",
+      "type": "introduced_by"
+    },
+    {
+      "from": "seg:0aa1308d9bcb36a4:c01",
+      "to": "clm:0aa1308d9bcb36a4:2c75b43dc0df",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:0aa1308d9bcb36a4:2c75b43dc0df",
+      "to": "top:f3e1e1cab13d",
+      "type": "about"
+    },
+    {
+      "from": "seg:0aa1308d9bcb36a4:c01",
+      "to": "clm:0aa1308d9bcb36a4:74c98f5ec4a7",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:0aa1308d9bcb36a4:74c98f5ec4a7",
+      "to": "top:f3e1e1cab13d",
+      "type": "about"
+    },
+    {
+      "from": "seg:0aa1308d9bcb36a4:c01",
+      "to": "clm:0aa1308d9bcb36a4:ed4e607555bf",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:0aa1308d9bcb36a4:ed4e607555bf",
+      "to": "top:f3e1e1cab13d",
+      "type": "about"
+    },
+    {
+      "from": "seg:0aa1308d9bcb36a4:c02",
+      "to": "clm:0aa1308d9bcb36a4:08ab2d53c835",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:0aa1308d9bcb36a4:08ab2d53c835",
+      "to": "top:299b57616318",
+      "type": "about"
+    },
+    {
+      "from": "seg:0aa1308d9bcb36a4:c02",
+      "to": "clm:0aa1308d9bcb36a4:6b735a164514",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:0aa1308d9bcb36a4:6b735a164514",
+      "to": "top:299b57616318",
+      "type": "about"
+    },
+    {
+      "from": "seg:0aa1308d9bcb36a4:c02",
+      "to": "clm:0aa1308d9bcb36a4:bf3b25fac782",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:0aa1308d9bcb36a4:bf3b25fac782",
+      "to": "top:299b57616318",
+      "type": "about"
+    },
+    {
+      "from": "seg:0aa1308d9bcb36a4:c03",
+      "to": "clm:0aa1308d9bcb36a4:f58ff96d47b2",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:0aa1308d9bcb36a4:f58ff96d47b2",
+      "to": "top:272edf61e4aa",
+      "type": "about"
+    },
+    {
+      "from": "seg:0aa1308d9bcb36a4:c03",
+      "to": "clm:0aa1308d9bcb36a4:73f5c2014d53",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:0aa1308d9bcb36a4:73f5c2014d53",
+      "to": "top:272edf61e4aa",
+      "type": "about"
+    },
+    {
+      "from": "seg:0aa1308d9bcb36a4:c03",
+      "to": "clm:0aa1308d9bcb36a4:f67ef59dbf8c",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:0aa1308d9bcb36a4:f67ef59dbf8c",
+      "to": "top:272edf61e4aa",
+      "type": "about"
+    },
+    {
+      "from": "seg:0aa1308d9bcb36a4:c04",
+      "to": "clm:0aa1308d9bcb36a4:37de874657b6",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:0aa1308d9bcb36a4:37de874657b6",
+      "to": "top:1ae83d276cee",
+      "type": "about"
+    },
+    {
+      "from": "seg:0aa1308d9bcb36a4:c04",
+      "to": "clm:0aa1308d9bcb36a4:880c404bdf47",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:0aa1308d9bcb36a4:880c404bdf47",
+      "to": "top:1ae83d276cee",
+      "type": "about"
+    },
+    {
+      "from": "seg:0aa1308d9bcb36a4:c04",
+      "to": "clm:0aa1308d9bcb36a4:12132bb47f89",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:0aa1308d9bcb36a4:12132bb47f89",
+      "to": "top:1ae83d276cee",
+      "type": "about"
+    },
+    {
+      "from": "seg:0aa1308d9bcb36a4:c04",
+      "to": "clm:0aa1308d9bcb36a4:dcc40d2aabef",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:0aa1308d9bcb36a4:dcc40d2aabef",
+      "to": "top:1ae83d276cee",
+      "type": "about"
+    },
+    {
+      "from": "seg:0aa1308d9bcb36a4:c05",
+      "to": "clm:0aa1308d9bcb36a4:58764b337be5",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:0aa1308d9bcb36a4:58764b337be5",
+      "to": "top:080c4f1d437e",
+      "type": "about"
+    },
+    {
+      "from": "seg:0aa1308d9bcb36a4:c05",
+      "to": "clm:0aa1308d9bcb36a4:2422c954826c",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:0aa1308d9bcb36a4:2422c954826c",
+      "to": "top:080c4f1d437e",
+      "type": "about"
+    },
+    {
+      "from": "seg:0aa1308d9bcb36a4:c05",
+      "to": "clm:0aa1308d9bcb36a4:cf028f7d5ee9",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:0aa1308d9bcb36a4:cf028f7d5ee9",
+      "to": "top:080c4f1d437e",
+      "type": "about"
+    },
+    {
+      "from": "seg:0aa1308d9bcb36a4:c06",
+      "to": "ent:0aa1308d9bcb36a4:personnel:2b5ead5b326d",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:0aa1308d9bcb36a4:c06",
+      "to": "ent:0aa1308d9bcb36a4:personnel:12dfe374966d",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:0aa1308d9bcb36a4:c06",
+      "to": "ent:0aa1308d9bcb36a4:organization:3af567c6fc4f",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:0aa1308d9bcb36a4:c06",
+      "to": "ent:0aa1308d9bcb36a4:organization:ad007ec1f7b2",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:0aa1308d9bcb36a4:c06",
+      "to": "ent:0aa1308d9bcb36a4:event:a663fb01756c",
+      "type": "mentions"
+    }
+  ],
+  "views": {
+    "sourceSpine": [
+      "seg:0aa1308d9bcb36a4:c01",
+      "seg:0aa1308d9bcb36a4:c02",
+      "seg:0aa1308d9bcb36a4:c03",
+      "seg:0aa1308d9bcb36a4:c04",
+      "seg:0aa1308d9bcb36a4:c05",
+      "seg:0aa1308d9bcb36a4:c06"
+    ],
+    "topicRoots": [
+      "top:f3e1e1cab13d",
+      "top:299b57616318",
+      "top:272edf61e4aa",
+      "top:1ae83d276cee",
+      "top:080c4f1d437e",
+      "top:119e2fd5fade"
+    ],
+    "claimRoots": [
+      "clm:0aa1308d9bcb36a4:2c75b43dc0df",
+      "clm:0aa1308d9bcb36a4:74c98f5ec4a7",
+      "clm:0aa1308d9bcb36a4:ed4e607555bf",
+      "clm:0aa1308d9bcb36a4:08ab2d53c835",
+      "clm:0aa1308d9bcb36a4:6b735a164514",
+      "clm:0aa1308d9bcb36a4:bf3b25fac782",
+      "clm:0aa1308d9bcb36a4:f58ff96d47b2",
+      "clm:0aa1308d9bcb36a4:73f5c2014d53",
+      "clm:0aa1308d9bcb36a4:f67ef59dbf8c",
+      "clm:0aa1308d9bcb36a4:37de874657b6",
+      "clm:0aa1308d9bcb36a4:880c404bdf47",
+      "clm:0aa1308d9bcb36a4:12132bb47f89",
+      "clm:0aa1308d9bcb36a4:dcc40d2aabef",
+      "clm:0aa1308d9bcb36a4:58764b337be5",
+      "clm:0aa1308d9bcb36a4:2422c954826c",
+      "clm:0aa1308d9bcb36a4:cf028f7d5ee9"
+    ],
+    "openQuestionRoots": []
+  },
+  "coverage": {
+    "timed": true,
+    "charsAnchored": 23995,
+    "charsTotal": 131237,
+    "fraction": 0.1828,
+    "segmentsCovered": 666,
+    "segmentsTotal": 3750,
+    "pipelineTruncatedAtChars": 24000,
+    "chunkAnchorMethods": {
+      "exact": 5,
+      "prefix_suffix": 1
+    }
+  },
+  "generation": {
+    "createdAt": "2026-08-18T07:04:27.139911+00:00",
+    "models": [
+      "deepseek/deepseek-chat"
+    ],
+    "promptsUsed": [
+      "disclosure.content_analysis",
+      "disclosure.ner",
+      "document_classification",
+      "rag_ingestion",
+      "validation"
+    ],
+    "methodologyVersion": "rag-prompt-pipeline/ADR-0001",
+    "pipelineStatus": "ok",
+    "degraded": false
+  },
+  "validation": {
+    "valid": true,
+    "errors": [],
+    "gaps": [
+      "no next_trace nodes — no pipeline stage proposes concrete next sources",
+      "no reading nodes — no interpretive stage exists; readings are never inferred here",
+      "no counter_reading nodes — paired with reading; unproduced for the same reason",
+      "no speaker nodes — diarisation is unavailable — the transcript carries '>>' turn markers but no speaker identities",
+      "no open questions — the map manufactures closure it has no basis for",
+      "no evidence→claim edges — the analysis prompt emits supporting and contradictory evidence as flat lists with no target claim, so evidence carries a stance but names no claim it bears on",
+      "chunk coverage is 18% of the source (23995 of 131237 chars); the pipeline truncates at 24000 chars"
+    ]
+  }
+}

@@ -1,0 +1,539 @@
+{
+  "status": "ok",
+  "classification": {
+    "content_type": "media",
+    "primary_record_hints": [
+      "KeyFigure",
+      "Topic",
+      "Event"
+    ],
+    "hynek_scaffold": null,
+    "classification_marks_detected": [],
+    "language": "en",
+    "ocr_quality": "n/a",
+    "sensitivity": "public",
+    "ingestion_recommendation": "proceed",
+    "rationale": "The text is a transcribed interview with Diana Walsh Pasulka, a religious studies professor, discussing her research on UFOs and their connection to religious experiences. It is primarily a media/interview format, focusing on her personal narrative and scholarly perspective. No direct government documents or classified material are present. The content is public and suitable for ingestion.",
+    "confidence": 0.9
+  },
+  "analysis": {
+    "_raw_list": [
+      "I personally yes believe in God but it's not a part of my field.",
+      "I'm not out here crying for like government disclosure or you know whether or not these materials are actually real I'm out to study the impact this belief has on populations of people mainly people in the United States but globally now.",
+      "I saw that these experiences that they were having were like an exact match with the experiences that I had cataloged from hundreds of years ago up till the present.",
+      "When I started to read the primary source material I saw that it was also very similar to what you would see in John Mack's book.",
+      "Tyler had said I don't think you believe in the physical parts of UFOs and I want to take you to a place where you'll have you'll believe after that.",
+      "We went to the New Mexico desert and um you were like blindfolded or yeah we had to be we had to accept to be blindfolded to go into this place.",
+      "We did find um some parts uh the two different types of Parts one looked like almost like frog skin metallic frog skin and some other stuff that looked like um it just looked like honestly I don't know.",
+      "I still didn't believe even after Gary got stopped at the airport and things happened like Tyler said they would happen.",
+      "This is a belief that would be considered by people in my field as a mythology this idea that we have parts of craft from extraterrestrials and we're back engineering those for technology this is actually an old myth.",
+      "We're institutionalizing this belief now about extraterrestrials what are the voices that are being not heard or drowned out and why is there so much misinformation so it's a control of information that you see happening and that's what's happening now."
+    ]
+  },
+  "ingestion": {
+    "document": {
+      "title_guess": "Diana Pasulka Interview on UFOs, Religion, and Belief",
+      "content_type": "media",
+      "language": "en",
+      "provenance": "https://www.youtube.com/watch?v=aQhikls5Ye8",
+      "integrity_flags": [
+        "transcript_auto_generated",
+        "truncated"
+      ]
+    },
+    "chunks": [
+      {
+        "chunk_id": "c01",
+        "heading_path": null,
+        "text": "foreign [Music] you are a professor of religion and religious studies but do you personally believe in God okay so let me talk a little bit about what we do in my field in religious studies it's a multi-disciplinary field and some a little bit closer okay some of us are archaeologists some are historians um some are a combination of of those and our method is that we take a step back from belief we study belief in how belief informs practices and worldwide movements and things like that religion is a very powerful force people will die for their religious belief so we were academics and we don't actually like I don't tell my students what I believe because I don't think it it's helpful we're learning about religion we're not I'm not advocating religion um but I personally yes believe in God but it's not a part of my field it's you know we have atheists some of the best people in my field are atheists okay so they're so it's not being a minister or a priest or something like that I actually did get a master's degree along with priests in formation Jesuits in formation um from the Jesuit School of Theology which is was affiliated with UC Berkeley it is part of The Graduate theological Union which is very similar to Harvard Divinity School but Berkeley's version and then I went on to get a PhD from Syracuse University in religious studies which is a field and a field of international academics who study religion a lot of people are religious who study religion but a lot of them are not as well so that's the first thing is I just want to get clear what the method is and I've been a person who studied Catholic history for my whole career until I moved over into studying belief about UFOs and I took my method with me to study that and we could talk about how I got into studying UFOs because I think that's interesting but it's I we take the method to study UFOs which means we don't have to believe in UFOs we I'm not out to prove that you know UFO crash debris are real or and it is the subject of American Cosmic my first book on UFOs but not my first book um so I think that's important to know is that I'm not out here crying for like government disclosure or you know whether or not these materials are actually real I'm out to study the impact this belief has on populations of people mainly people in the United States but globally now um did your Early Childhood have anything to do with your interest in religion and religious studies did did you have a very religious childhood and upbringing okay I did sorry too fast it ended and did your studies and your work at all influence your outlook or your world view on that yeah I do think that people are impacted by how they were brought up and also what happens around them in culture so of course I'm not exempt from that that said um I didn't grow up in a particularly religious household at all and my parents were what I would call I'm from California Northern California and it's a it was and still is an Eclectic culture and where there's new age beliefs and things like that so my parents were pretty eclectic my father was Irish Roman Catholic my mother was pretty secular Jewish and they were interested in a lot of things philosophy so we did have a library of books about philosophy and I read those as a kid and I was very interested in religion and philosophy and I did make the decision to study this pretty young so yes I think I was really interested in how people you know people would have pretty extraordinary experiences and these would shift their lives and I was interested in why you also have to understand that I went to graduate school during the late 90s which was the time period of the.com boom and so I'm in California technology is just kind of flourishing at this time and I'm seeing that the infrastructure is changing the way people believe in their religion and so the digital infrastructure and especially media technology like Star Wars and things like that you know people are beginning to have these I would call them almost like mystical beliefs about things like the forces with you and it was impacting their religious beliefs and so when I went to school not only did I study ancient texts about different religions but I also studied the ways in which people took their own beliefs and they they Incorporated you know the Lexicon of Star Wars into those beliefs as well and those were those were part of the whole landscape so I really focused on technology and religious beliefs that was like my focus all throughout studying Catholic history and also studying what I study now",
+        "token_estimate": 650,
+        "overlap_note": null,
+        "entities_hint": [
+          "Diana Pasulka",
+          "Jesuit School of Theology",
+          "UC Berkeley",
+          "Graduate Theological Union",
+          "Syracuse University",
+          "American Cosmic"
+        ],
+        "claims_hint": [
+          "Religious studies is a multi-disciplinary field that studies belief and its impact, not advocating religion.",
+          "Pasulka personally believes in God but keeps it separate from her academic work.",
+          "She has a master's from Jesuit School of Theology and a PhD from Syracuse University.",
+          "She applies the same method to study UFO belief as she did to Catholic history.",
+          "She is not seeking government disclosure but studying the impact of UFO belief on populations.",
+          "Her upbringing in Northern California was eclectic, with parents interested in philosophy.",
+          "She was influenced by the tech boom and media like Star Wars in studying technology and religious belief."
+        ],
+        "temporal_anchors": [
+          "late 90s"
+        ],
+        "spatial_anchors": [
+          "California",
+          "Northern California"
+        ],
+        "evidentiary_density": "high",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c02",
+        "heading_path": null,
+        "text": "you know I'm sure you studied religion and on belief for a long time before you ever even thought of the UFO phenomenon yes what was it that introduced you to this like what was that what was the moment like when you first got introduced to this and started to look into it and what were the biggest connections between this whole the logic of the UFO phenomenon compared to early Christianity question this happened in late 2011 2012. and I had just finished a very major project that culminated in a book about the Catholic doctrine of purgatory which is an afterlife destination for Souls who don't quite make it to heaven but are definitely not going to hell okay and this Doctrine kind of had fallen off the map for Catholics and I wanted to know why and so I did a lot of study of old materials in archives manuscripts and things like that and so I I and I also talked about Catholic popular culture and how that shifted disbelief and so at the end of that I had a long catalog of reports of aerial phenomena from 1400 1600 1700 European Catholicism you know that I didn't quite in different languages by the way and I didn't quite understand what they were about a lot of times people believed that these were either Angels sometimes flying houses um sometimes Souls from purgatory and so I kept these and I knew that they were really interesting but I didn't quite make the connection I thought hmm I wonder what this is about so I finished my book my book was impressed and I'm on to the next book um but I'm thinking that it's not going to be it's going to be it's not going to be about that stuff it's going to be about a Catholic bishop who was one of the first Catholic Bishops in the states and I show a friend of mine this catalog and I say what do you think of these reports and he looked through the reports and he said oh these look like Steven Spielberg films I mean it looks like UFOs and I thought he was silly because I was a person who scoffed at this belief um it was a coincidence but there was a conference in my town for UF for people who were experiencers UFO experiencers so I went to that and I heard them talk about their experiences and I saw that these experiences that they were having were like an exact match with the experiences that I had cataloged from hundreds of years ago up till the present and erect I recognize that this was a continual pattern and it kind of blew my mind at the time I was like wow so I did a little more exploring and I I started to look at primary source material from Catholic experiences like from Saints like Teresa of Avila Saint Francis of Assisi and when I started to read the primary source material I saw that it was also very similar to what you would see in John Mack's book Because at this point I read John Mack's book abduction and it literally these experiences of the Saints could be other chapters in his book and so at the time I knew Jeff but not he's he's a professor at Rice University who looks into this type of thing and I told him I said I think have you seen this and he at first said no Diana no I don't think so and then I took some of the stuff that I had translated and sent it to him and said they're talking about little beings and aerial phenomena and you know other things that happened in John Mack's book and he was blown away too and that was the beginning of my writing about UFOs and looking into modern day reports of UFOs and honestly didn't think I was going to experience what I did when I went into studying UFOs I thought it was going to be a natural progression of moving from you know using this method that I learned moving from Catholic history into modern day reports of UFOs honestly thought it was going to be pretty easy to do but when I got into the community of studying UFOs I immediately saw that there was a lot of government information truthfully and I also you know met high level scientists that were studying in these programs and I didn't actually they were wanted to know what I Knew by the way they were interested in my field they thought that they could learn from me so this is what happened and this is how I I wrote my first book about UFOs and my second book too so I I found myself in an environment that was absolutely completely different from anything I had ever studied before",
+        "token_estimate": 700,
+        "overlap_note": null,
+        "entities_hint": [
+          "Teresa of Avila",
+          "Saint Francis of Assisi",
+          "John Mack",
+          "Jeff Kripal",
+          "Rice University",
+          "Steven Spielberg"
+        ],
+        "claims_hint": [
+          "Pasulka's interest in UFOs began in late 2011-2012 after finishing a book on purgatory.",
+          "She had cataloged reports of aerial phenomena from 1400-1700 European Catholicism.",
+          "A friend compared her catalog to UFO reports, which she initially dismissed.",
+          "She attended a UFO experiencer conference and found exact matches with her historical catalog.",
+          "She found similarities between Catholic saints' experiences and John Mack's abduction accounts.",
+          "She contacted Jeff Kripal, who was initially skeptical but later convinced.",
+          "She entered the UFO community and found government information and high-level scientists interested in her field."
+        ],
+        "temporal_anchors": [
+          "late 2011",
+          "2012",
+          "1400",
+          "1600",
+          "1700"
+        ],
+        "spatial_anchors": [],
+        "evidentiary_density": "high",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c03",
+        "heading_path": null,
+        "text": "now when you say these experiences that you met with their experiences were an exact match of what you were reading in some of these old texts can you give me some like specific examples of like what what was the thing that stood out to you the most yeah um there have been for people who are fairly literally like Catholic right and by the way I'm a practicing Catholic so um so it was a little bit scary to read you know but um so if you look at Teresa of Avila she's an um a nun who is now a doctor of the church she's a very well-known beloved Saint in the Catholic church she had an experience that she had an experience with what she considered to be an angel but when you look at the primary source material um and this is in the 1500s in Spain and it's during you know the time period when there was an inquisition Spanish Inquisition so it's not like she would want to have talked about this but she did write about it in her diary and so she had this experience where she was um basically praying and off to her side she saw uh what something that she couldn't really understand it was a being and it was about three feet tall and she said it was very shiny and it she said it was she was confused by it because when she saw Angel's Pride prior to this they would be imaginative Angels something to she made the distinction that this was not an angel in Her Imagination but this was an actual fleshy thing she saw it and so she was confused she didn't know what kind of Angel it was and she said it must be a cherub a cherub that's what she said what is that well it's a type of Angel so in in Catholic history you have different types of angels and so the Cherub is going to be kind of a little angel childlike looking and so so she but you could tell that she wasn't even sure it was that and so this can this by the way can only be known by reading her work and looking at her own description of the event because this is a very represented encounter in Catholic history and there's a very famous statue in Rome by Bernie who is a sculptor and you see her in this this little angel and it has a dart so you know how John Mack talks about an instrument um that people are examined with so apparently this little fleshy Angel creature examines her and this was amazing because it was just very strange she said it examined her well it yeah it like looked at her okay exactly so you have to understand translation from that time period so let's be super clear okay so when I say I'm using the word examine but probably I should not have used that word it basically said it took this Dart and it thrusted into her entrails those are the words that she used um so you know it was um it was something that I didn't expect to see so this would be the example but there were many more examples that weren't as famous that's the most famous example the one that Catholics would know about but there are a lot of examples that I had that no one would know about because they're not digitized and they're in Old manuscripts and there's lots of these by the way at the Vatican archive and the Vatican private archive which is also known as the secret archive and literally miles of these kinds of things and did you read this when you went there um yeah I read a lot of I did go there and I took one of the people that I was a scientist who was studying this too and we both went there and looked at this he was really interested in in these experiences because he was also trying to get data for what he was studying and this is the guy you called Tyler D in your book right the student he keeps him in his name pseudonymous because he can't be exposed um how long after you started researching this stuff did you meet him pretty pretty quickly yeah pretty quickly so um and how did you get introduced to him okay so he reached out to me um and he you know said that he was interested in this field and he was working in the space program um he was a mission controller and um I wanted to know why he was interested in my work because I didn't make the connection that it had anything to do with space you know space stuff and so he explained that a breakthrough in his field was going to come from my field and so um we started to communicate you have to understand that 2013 2014 I was still pretty reticent to talk with people who were affiliated with government stuff because it wasn't my field it wasn't something that I ever thought people would be interested in so it took me about a year and a half to actually meet him in person and so yeah so immediately I was I met a lot of people I met the people that you know you call the invisible College I met someone so uh yeah so for a person who didn't believe in UFOs had no understanding of the history he thought it was all hokey you know this is really a strange experience and you met other people like Gary Nolan who came out he was pseudonymous in the first book and then he kind of like revealed who he was what what was the the connection between all these people okay so they're all studying um what they believe is the modern day you know encounter with non-human intelligence but they weren't studying it publicly right well no nobody was studying it publicly this was all before 2021 before the Pentagon you know reported that there were programs in that they were studying this so this was all and honestly I I you know you have to understand I just didn't I didn't believe even when I was in New Mexico because I did travel to New Mexico with Gary and Tyler and we were we went to an alleged craft site I was still under this idea that they were somehow misinformed or they were very their belief was was really strong and I needed to know why they believed this because they were both incredibly intelligent people public intelligent people and so that's why I went I knew that there was a rising belief in UFOs and I was trying to understand it and these guys were like a key to understanding it so Tyler had said I don't think you believe in the physical parts of UFOs and I want to take you to a place where you'll have you'll believe after that and I was like okay I'm taking my friend so I had originally asked Jeff to go with me but um he said that's outside my comfort zone Diane I'm not going to do that and so then I asked Gary I had actually just met Gary and he was really impressive to me not just by being who he is a Stanford Professor but also just really genuinely fascinated by the topic and he jumped at the opportunity to go and I also knew that he he would be the person to go you know if we were going to look for anything it would be Gary who could who could figure it out and so uh you know after a while Tyler was okay with that but at first he wasn't okay with that and then he he looked into Gary and he said yeah let's go so we went to the New Mexico desert and um you were like blindfolded or yeah we had to be we had to accept to be blindfolded to go into this place and we went there um took off the blindfolds and we spent all day you know accumulating what they believed what were UFO debris from a crash that occurred sometime in the late 1940s and it wasn't Roswell and you actually found something when you guys were there during that that specific day we did yeah and it was hard to get I mean the place looked like it had a rubble well it did it had Rubble all over it and um and Tyler told me that the rebel was from disintegrated tin cans from the 1950s and this was something that the editor of the book wanted me to take out because um she said I don't understand why you'd go to well she understood why I went to the place but she said why would the government put all this stuff out in the middle of nowhere tin cans we just need to take that out and even though I didn't understand at the time I said look we have to keep it in because it's still data you know and so we kept it in thankfully and what was it that you guys found okay so we did find um some parts uh the two different types of Parts one looked like almost like frog skin metallic frog skin and some other stuff that looked like um it just looked like honestly I don't know yeah yeah it was just both were really strange I still didn't believe I still didn't believe even after Gary got stopped at the airport and things happened like Tyler said they would happen and um yeah I still don't know I still don't know what to think about that but um but that did happen that was part of studying what I was studying and how did that alter or affect the trajectory of your research after that like from then on out obviously you had met Gary new and Gary had become friendly but how did that experience going to that alleged crash site affect your mind and your thinking around this whole topic yeah okay so I think that we have to see that this is in its very most basic sense this is a belief that would be considered by people in my field as a mythology this idea that we have parts of craft from extraterrestrials and we're back engineering those for technology this is actually an old myth this is you know the Greeks had the myth of Prometheus Prometheus was a you know God person who gave Humanity fire which was a tool and a technology gave Humanity technology so this is like the the modern Promethean myth that's how I was looking at it but it's something more than that and that's really what I was trying to figure out so while I was writing the book it was incredibly difficult to write as an academic because I felt like this is more than a myth something really interesting is going on here and I'm in the midst of it and I have to write about it how am I going to write about it because generally a person in my field is going to write this academic book that basically says you know I I was on this journey with these people they believed this and they keep their distance but I felt like I couldn't keep my distance that I was within the myth itself and so I wrote it kind of as a journey of how I was writing it actually so even the book itself was not a typical academic book even though it was published by Oxford um it's a book that explores not just their belief but also like you know the interface of me a non-believer um even skeptical uh going through this process seeing the people involved seeing how the government's really interested in it as much as people are you know normal everyday people and this being kind of a very a very important turning point in history really historic and um yeah so I guess you know even with the second book um I kind of continued on that journey of describing it basically",
+        "token_estimate": 1500,
+        "overlap_note": "This chunk is long; consider splitting further if needed.",
+        "entities_hint": [
+          "Teresa of Avila",
+          "Bernini",
+          "John Mack",
+          "Tyler D",
+          "Gary Nolan",
+          "Jeff Kripal",
+          "Stanford",
+          "New Mexico",
+          "Roswell",
+          "Prometheus",
+          "Oxford"
+        ],
+        "claims_hint": [
+          "Teresa of Avila described an encounter with a three-foot-tall shiny being she thought was a cherub.",
+          "The being thrust a dart into her entrails, similar to John Mack's accounts of examination.",
+          "Pasulka visited the Vatican archives and found many similar accounts in old manuscripts.",
+          "Tyler D, a pseudonymous mission controller, reached out to Pasulka and connected her to the invisible college.",
+          "Pasulka traveled to a New Mexico crash site with Gary Nolan and Tyler D, blindfolded.",
+          "They found metallic frog-skin-like parts and other strange debris, but Pasulka remained skeptical.",
+          "She viewed the belief in extraterrestrial technology as a modern Promethean myth.",
+          "She wrote 'American Cosmic' as a journey, not a typical academic book, published by Oxford."
+        ],
+        "temporal_anchors": [
+          "1500s",
+          "2013",
+          "2014",
+          "late 1940s",
+          "1950s",
+          "2021"
+        ],
+        "spatial_anchors": [
+          "Spain",
+          "Rome",
+          "Vatican",
+          "New Mexico",
+          "Roswell"
+        ],
+        "evidentiary_density": "high",
+        "do_not_embed_reasons": []
+      },
+      {
+        "chunk_id": "c04",
+        "heading_path": null,
+        "text": "how do you explain what's going on now like in in the public media like the the public-facing media with like the Pentagon reports and the New York Times talking about and declassifying all these radar encounters with these Navy Pilots are finding and Publishing these videos and saying that it's off-world technology what do you think like I know you said that you encountered a lot of misinformation and disinformation on this topic and they there's a lot of energy that goes into muddying the waters but what is your take on the in the last how ever long it's been like six years or whatever that the US has been trying to make this more public facing why do you think that that they're doing this yeah so again if you go back to what I study which is the you know religion I mean you'll see that in mostly the traditional religions like the big religions um and since Christianity is my field I'll use that as an example the early Christian Church was completely different than the kinds of churches that that were institutionalized radically different and what happens during the process of an institution an institutionalization of belief um so this happens with the Roman Catholic Church they take the Christian belief and then they institutionalize it in the fourth century and how they do that is they make other beliefs about Christianity heretical so you have gnosticism for example um those books are burned you know we do have Gnostic texts but what is gnosticism gnosticism is a form of Christianity that sprung up in the first 300 years of Christianity and it's there's different types of gnosticism so different we would call them denominations people believe that that the knowledge of Jesus or the knowledge that Jesus had is something that they experience themselves like the Holy Spirit they feel it it's more like an experiential knowledge the way I talk about narcissism to my students is I say take a chocolate bar okay would you rather know the chocolate bar by eating it or by reading the ingredients on the back so so it's an intimate knowledge of something okay that's gnosticism that makes sense so the Gnostic church was like almost eradicated at that point um or it was submerged into the Roman Catholic Church um so this is the type of thing that you see you see the institutionalization and through institutionalization comes some suppression of voices and so you're going to expect to find that that's what I'm looking at and I look at that in the the second book so I was like okay we're institutionalizing this belief now about extraterrestrials what are the voices that are being not heard or drowned out and why is there so much misinformation so it's a control of information that you see happening and that's what's happening now and with early Christianity before it got institutionalized it was suppressed right like you explained to me how earlier offline how Jesus was like spreading this message and it was like in the Roman Empire it was frowned upon and people were punished for for practicing this religion yes so being Jewish in the first century was um hard right and so there were many groups that were trying to exist and Jesus's movement was one of those groups there was another group that were zealots they were basically they believed in armed Rebellion but there weren't enough of them so they couldn't pull it off so Jesus was basically teaching Jewish people his you know congregation the people who would listen to him his his you know he would he would always talk in Parables and things like this basically he was talking to people who were ready to listen to him um he was okay with not everybody listening to him by the way so he had a very specific message and so he was basically imparting this to groups of people and his followers loved him so much that they called him the Son of God well at the time it was Caesar who was the son of God so we tend to look back and think that they had this you know the people during that time period had this mythology he called you know they had the Greek and Roman gods and that was their mythology that was actually their religion so Jesus's followers were identifying him as primary and and the Son of God kind of like the head honcho against Caesar and that would be called treason and so the punishment for treason is crucifixion so he was crucified for for treason so who was God okay so God would be if you look at um you know God is either Apollo or",
+        "token_estimate": 800,
+        "overlap_note": null,
+        "entities_hint": [
+          "Pentagon",
+          "New York Times",
+          "Navy Pilots",
+          "Roman Catholic Church",
+          "Gnosticism",
+          "Jesus",
+          "Caesar",
+          "Apollo"
+        ],
+        "claims_hint": [
+          "Pasulka compares the institutionalization of UFO belief to the institutionalization of Christianity.",
+          "The early Christian Church was radically different from later institutionalized forms.",
+          "Institutionalization involves suppression of voices and control of information.",
+          "Gnosticism, an experiential form of Christianity, was suppressed or submerged.",
+          "Jesus's movement was one of several Jewish groups in the first century.",
+          "Jesus was crucified for treason because his followers called him Son of God, challenging Caesar.",
+          "Pasulka sees current UFO disclosure as a process of institutionalization with misinformation."
+        ],
+        "temporal_anchors": [
+          "fourth century",
+          "first 300 years",
+          "first century"
+        ],
+        "spatial_anchors": [
+          "Roman Empire"
+        ],
+        "evidentiary_density": "high",
+        "do_not_embed_reasons": []
+      }
+    ],
+    "index_recommendations": {
+      "priority": "HIGH",
+      "filters": [
+        "content_type:media",
+        "language:en",
+        "topic:ufo_religion"
+      ],
+      "dedupe_keys": [
+        "youtube_aQhikls5Ye8",
+        "diana_pasulka_interview"
+      ]
+    }
+  },
+  "chunks": [
+    {
+      "chunk_id": "c01",
+      "heading_path": null,
+      "text": "foreign [Music] you are a professor of religion and religious studies but do you personally believe in God okay so let me talk a little bit about what we do in my field in religious studies it's a multi-disciplinary field and some a little bit closer okay some of us are archaeologists some are historians um some are a combination of of those and our method is that we take a step back from belief we study belief in how belief informs practices and worldwide movements and things like that religion is a very powerful force people will die for their religious belief so we were academics and we don't actually like I don't tell my students what I believe because I don't think it it's helpful we're learning about religion we're not I'm not advocating religion um but I personally yes believe in God but it's not a part of my field it's you know we have atheists some of the best people in my field are atheists okay so they're so it's not being a minister or a priest or something like that I actually did get a master's degree along with priests in formation Jesuits in formation um from the Jesuit School of Theology which is was affiliated with UC Berkeley it is part of The Graduate theological Union which is very similar to Harvard Divinity School but Berkeley's version and then I went on to get a PhD from Syracuse University in religious studies which is a field and a field of international academics who study religion a lot of people are religious who study religion but a lot of them are not as well so that's the first thing is I just want to get clear what the method is and I've been a person who studied Catholic history for my whole career until I moved over into studying belief about UFOs and I took my method with me to study that and we could talk about how I got into studying UFOs because I think that's interesting but it's I we take the method to study UFOs which means we don't have to believe in UFOs we I'm not out to prove that you know UFO crash debris are real or and it is the subject of American Cosmic my first book on UFOs but not my first book um so I think that's important to know is that I'm not out here crying for like government disclosure or you know whether or not these materials are actually real I'm out to study the impact this belief has on populations of people mainly people in the United States but globally now um did your Early Childhood have anything to do with your interest in religion and religious studies did did you have a very religious childhood and upbringing okay I did sorry too fast it ended and did your studies and your work at all influence your outlook or your world view on that yeah I do think that people are impacted by how they were brought up and also what happens around them in culture so of course I'm not exempt from that that said um I didn't grow up in a particularly religious household at all and my parents were what I would call I'm from California Northern California and it's a it was and still is an Eclectic culture and where there's new age beliefs and things like that so my parents were pretty eclectic my father was Irish Roman Catholic my mother was pretty secular Jewish and they were interested in a lot of things philosophy so we did have a library of books about philosophy and I read those as a kid and I was very interested in religion and philosophy and I did make the decision to study this pretty young so yes I think I was really interested in how people you know people would have pretty extraordinary experiences and these would shift their lives and I was interested in why you also have to understand that I went to graduate school during the late 90s which was the time period of the.com boom and so I'm in California technology is just kind of flourishing at this time and I'm seeing that the infrastructure is changing the way people believe in their religion and so the digital infrastructure and especially media technology like Star Wars and things like that you know people are beginning to have these I would call them almost like mystical beliefs about things like the forces with you and it was impacting their religious beliefs and so when I went to school not only did I study ancient texts about different religions but I also studied the ways in which people took their own beliefs and they they Incorporated you know the Lexicon of Star Wars into those beliefs as well and those were those were part of the whole landscape so I really focused on technology and religious beliefs that was like my focus all throughout studying Catholic history and also studying what I study now",
+      "token_estimate": 650,
+      "overlap_note": null,
+      "entities_hint": [
+        "Diana Pasulka",
+        "Jesuit School of Theology",
+        "UC Berkeley",
+        "Graduate Theological Union",
+        "Syracuse University",
+        "American Cosmic"
+      ],
+      "claims_hint": [
+        "Religious studies is a multi-disciplinary field that studies belief and its impact, not advocating religion.",
+        "Pasulka personally believes in God but keeps it separate from her academic work.",
+        "She has a master's from Jesuit School of Theology and a PhD from Syracuse University.",
+        "She applies the same method to study UFO belief as she did to Catholic history.",
+        "She is not seeking government disclosure but studying the impact of UFO belief on populations.",
+        "Her upbringing in Northern California was eclectic, with parents interested in philosophy.",
+        "She was influenced by the tech boom and media like Star Wars in studying technology and religious belief."
+      ],
+      "temporal_anchors": [
+        "late 90s"
+      ],
+      "spatial_anchors": [
+        "California",
+        "Northern California"
+      ],
+      "evidentiary_density": "high",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c02",
+      "heading_path": null,
+      "text": "you know I'm sure you studied religion and on belief for a long time before you ever even thought of the UFO phenomenon yes what was it that introduced you to this like what was that what was the moment like when you first got introduced to this and started to look into it and what were the biggest connections between this whole the logic of the UFO phenomenon compared to early Christianity question this happened in late 2011 2012. and I had just finished a very major project that culminated in a book about the Catholic doctrine of purgatory which is an afterlife destination for Souls who don't quite make it to heaven but are definitely not going to hell okay and this Doctrine kind of had fallen off the map for Catholics and I wanted to know why and so I did a lot of study of old materials in archives manuscripts and things like that and so I I and I also talked about Catholic popular culture and how that shifted disbelief and so at the end of that I had a long catalog of reports of aerial phenomena from 1400 1600 1700 European Catholicism you know that I didn't quite in different languages by the way and I didn't quite understand what they were about a lot of times people believed that these were either Angels sometimes flying houses um sometimes Souls from purgatory and so I kept these and I knew that they were really interesting but I didn't quite make the connection I thought hmm I wonder what this is about so I finished my book my book was impressed and I'm on to the next book um but I'm thinking that it's not going to be it's going to be it's not going to be about that stuff it's going to be about a Catholic bishop who was one of the first Catholic Bishops in the states and I show a friend of mine this catalog and I say what do you think of these reports and he looked through the reports and he said oh these look like Steven Spielberg films I mean it looks like UFOs and I thought he was silly because I was a person who scoffed at this belief um it was a coincidence but there was a conference in my town for UF for people who were experiencers UFO experiencers so I went to that and I heard them talk about their experiences and I saw that these experiences that they were having were like an exact match with the experiences that I had cataloged from hundreds of years ago up till the present and erect I recognize that this was a continual pattern and it kind of blew my mind at the time I was like wow so I did a little more exploring and I I started to look at primary source material from Catholic experiences like from Saints like Teresa of Avila Saint Francis of Assisi and when I started to read the primary source material I saw that it was also very similar to what you would see in John Mack's book Because at this point I read John Mack's book abduction and it literally these experiences of the Saints could be other chapters in his book and so at the time I knew Jeff but not he's he's a professor at Rice University who looks into this type of thing and I told him I said I think have you seen this and he at first said no Diana no I don't think so and then I took some of the stuff that I had translated and sent it to him and said they're talking about little beings and aerial phenomena and you know other things that happened in John Mack's book and he was blown away too and that was the beginning of my writing about UFOs and looking into modern day reports of UFOs and honestly didn't think I was going to experience what I did when I went into studying UFOs I thought it was going to be a natural progression of moving from you know using this method that I learned moving from Catholic history into modern day reports of UFOs honestly thought it was going to be pretty easy to do but when I got into the community of studying UFOs I immediately saw that there was a lot of government information truthfully and I also you know met high level scientists that were studying in these programs and I didn't actually they were wanted to know what I Knew by the way they were interested in my field they thought that they could learn from me so this is what happened and this is how I I wrote my first book about UFOs and my second book too so I I found myself in an environment that was absolutely completely different from anything I had ever studied before",
+      "token_estimate": 700,
+      "overlap_note": null,
+      "entities_hint": [
+        "Teresa of Avila",
+        "Saint Francis of Assisi",
+        "John Mack",
+        "Jeff Kripal",
+        "Rice University",
+        "Steven Spielberg"
+      ],
+      "claims_hint": [
+        "Pasulka's interest in UFOs began in late 2011-2012 after finishing a book on purgatory.",
+        "She had cataloged reports of aerial phenomena from 1400-1700 European Catholicism.",
+        "A friend compared her catalog to UFO reports, which she initially dismissed.",
+        "She attended a UFO experiencer conference and found exact matches with her historical catalog.",
+        "She found similarities between Catholic saints' experiences and John Mack's abduction accounts.",
+        "She contacted Jeff Kripal, who was initially skeptical but later convinced.",
+        "She entered the UFO community and found government information and high-level scientists interested in her field."
+      ],
+      "temporal_anchors": [
+        "late 2011",
+        "2012",
+        "1400",
+        "1600",
+        "1700"
+      ],
+      "spatial_anchors": [],
+      "evidentiary_density": "high",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c03",
+      "heading_path": null,
+      "text": "now when you say these experiences that you met with their experiences were an exact match of what you were reading in some of these old texts can you give me some like specific examples of like what what was the thing that stood out to you the most yeah um there have been for people who are fairly literally like Catholic right and by the way I'm a practicing Catholic so um so it was a little bit scary to read you know but um so if you look at Teresa of Avila she's an um a nun who is now a doctor of the church she's a very well-known beloved Saint in the Catholic church she had an experience that she had an experience with what she considered to be an angel but when you look at the primary source material um and this is in the 1500s in Spain and it's during you know the time period when there was an inquisition Spanish Inquisition so it's not like she would want to have talked about this but she did write about it in her diary and so she had this experience where she was um basically praying and off to her side she saw uh what something that she couldn't really understand it was a being and it was about three feet tall and she said it was very shiny and it she said it was she was confused by it because when she saw Angel's Pride prior to this they would be imaginative Angels something to she made the distinction that this was not an angel in Her Imagination but this was an actual fleshy thing she saw it and so she was confused she didn't know what kind of Angel it was and she said it must be a cherub a cherub that's what she said what is that well it's a type of Angel so in in Catholic history you have different types of angels and so the Cherub is going to be kind of a little angel childlike looking and so so she but you could tell that she wasn't even sure it was that and so this can this by the way can only be known by reading her work and looking at her own description of the event because this is a very represented encounter in Catholic history and there's a very famous statue in Rome by Bernie who is a sculptor and you see her in this this little angel and it has a dart so you know how John Mack talks about an instrument um that people are examined with so apparently this little fleshy Angel creature examines her and this was amazing because it was just very strange she said it examined her well it yeah it like looked at her okay exactly so you have to understand translation from that time period so let's be super clear okay so when I say I'm using the word examine but probably I should not have used that word it basically said it took this Dart and it thrusted into her entrails those are the words that she used um so you know it was um it was something that I didn't expect to see so this would be the example but there were many more examples that weren't as famous that's the most famous example the one that Catholics would know about but there are a lot of examples that I had that no one would know about because they're not digitized and they're in Old manuscripts and there's lots of these by the way at the Vatican archive and the Vatican private archive which is also known as the secret archive and literally miles of these kinds of things and did you read this when you went there um yeah I read a lot of I did go there and I took one of the people that I was a scientist who was studying this too and we both went there and looked at this he was really interested in in these experiences because he was also trying to get data for what he was studying and this is the guy you called Tyler D in your book right the student he keeps him in his name pseudonymous because he can't be exposed um how long after you started researching this stuff did you meet him pretty pretty quickly yeah pretty quickly so um and how did you get introduced to him okay so he reached out to me um and he you know said that he was interested in this field and he was working in the space program um he was a mission controller and um I wanted to know why he was interested in my work because I didn't make the connection that it had anything to do with space you know space stuff and so he explained that a breakthrough in his field was going to come from my field and so um we started to communicate you have to understand that 2013 2014 I was still pretty reticent to talk with people who were affiliated with government stuff because it wasn't my field it wasn't something that I ever thought people would be interested in so it took me about a year and a half to actually meet him in person and so yeah so immediately I was I met a lot of people I met the people that you know you call the invisible College I met someone so uh yeah so for a person who didn't believe in UFOs had no understanding of the history he thought it was all hokey you know this is really a strange experience and you met other people like Gary Nolan who came out he was pseudonymous in the first book and then he kind of like revealed who he was what what was the the connection between all these people okay so they're all studying um what they believe is the modern day you know encounter with non-human intelligence but they weren't studying it publicly right well no nobody was studying it publicly this was all before 2021 before the Pentagon you know reported that there were programs in that they were studying this so this was all and honestly I I you know you have to understand I just didn't I didn't believe even when I was in New Mexico because I did travel to New Mexico with Gary and Tyler and we were we went to an alleged craft site I was still under this idea that they were somehow misinformed or they were very their belief was was really strong and I needed to know why they believed this because they were both incredibly intelligent people public intelligent people and so that's why I went I knew that there was a rising belief in UFOs and I was trying to understand it and these guys were like a key to understanding it so Tyler had said I don't think you believe in the physical parts of UFOs and I want to take you to a place where you'll have you'll believe after that and I was like okay I'm taking my friend so I had originally asked Jeff to go with me but um he said that's outside my comfort zone Diane I'm not going to do that and so then I asked Gary I had actually just met Gary and he was really impressive to me not just by being who he is a Stanford Professor but also just really genuinely fascinated by the topic and he jumped at the opportunity to go and I also knew that he he would be the person to go you know if we were going to look for anything it would be Gary who could who could figure it out and so uh you know after a while Tyler was okay with that but at first he wasn't okay with that and then he he looked into Gary and he said yeah let's go so we went to the New Mexico desert and um you were like blindfolded or yeah we had to be we had to accept to be blindfolded to go into this place and we went there um took off the blindfolds and we spent all day you know accumulating what they believed what were UFO debris from a crash that occurred sometime in the late 1940s and it wasn't Roswell and you actually found something when you guys were there during that that specific day we did yeah and it was hard to get I mean the place looked like it had a rubble well it did it had Rubble all over it and um and Tyler told me that the rebel was from disintegrated tin cans from the 1950s and this was something that the editor of the book wanted me to take out because um she said I don't understand why you'd go to well she understood why I went to the place but she said why would the government put all this stuff out in the middle of nowhere tin cans we just need to take that out and even though I didn't understand at the time I said look we have to keep it in because it's still data you know and so we kept it in thankfully and what was it that you guys found okay so we did find um some parts uh the two different types of Parts one looked like almost like frog skin metallic frog skin and some other stuff that looked like um it just looked like honestly I don't know yeah yeah it was just both were really strange I still didn't believe I still didn't believe even after Gary got stopped at the airport and things happened like Tyler said they would happen and um yeah I still don't know I still don't know what to think about that but um but that did happen that was part of studying what I was studying and how did that alter or affect the trajectory of your research after that like from then on out obviously you had met Gary new and Gary had become friendly but how did that experience going to that alleged crash site affect your mind and your thinking around this whole topic yeah okay so I think that we have to see that this is in its very most basic sense this is a belief that would be considered by people in my field as a mythology this idea that we have parts of craft from extraterrestrials and we're back engineering those for technology this is actually an old myth this is you know the Greeks had the myth of Prometheus Prometheus was a you know God person who gave Humanity fire which was a tool and a technology gave Humanity technology so this is like the the modern Promethean myth that's how I was looking at it but it's something more than that and that's really what I was trying to figure out so while I was writing the book it was incredibly difficult to write as an academic because I felt like this is more than a myth something really interesting is going on here and I'm in the midst of it and I have to write about it how am I going to write about it because generally a person in my field is going to write this academic book that basically says you know I I was on this journey with these people they believed this and they keep their distance but I felt like I couldn't keep my distance that I was within the myth itself and so I wrote it kind of as a journey of how I was writing it actually so even the book itself was not a typical academic book even though it was published by Oxford um it's a book that explores not just their belief but also like you know the interface of me a non-believer um even skeptical uh going through this process seeing the people involved seeing how the government's really interested in it as much as people are you know normal everyday people and this being kind of a very a very important turning point in history really historic and um yeah so I guess you know even with the second book um I kind of continued on that journey of describing it basically",
+      "token_estimate": 1500,
+      "overlap_note": "This chunk is long; consider splitting further if needed.",
+      "entities_hint": [
+        "Teresa of Avila",
+        "Bernini",
+        "John Mack",
+        "Tyler D",
+        "Gary Nolan",
+        "Jeff Kripal",
+        "Stanford",
+        "New Mexico",
+        "Roswell",
+        "Prometheus",
+        "Oxford"
+      ],
+      "claims_hint": [
+        "Teresa of Avila described an encounter with a three-foot-tall shiny being she thought was a cherub.",
+        "The being thrust a dart into her entrails, similar to John Mack's accounts of examination.",
+        "Pasulka visited the Vatican archives and found many similar accounts in old manuscripts.",
+        "Tyler D, a pseudonymous mission controller, reached out to Pasulka and connected her to the invisible college.",
+        "Pasulka traveled to a New Mexico crash site with Gary Nolan and Tyler D, blindfolded.",
+        "They found metallic frog-skin-like parts and other strange debris, but Pasulka remained skeptical.",
+        "She viewed the belief in extraterrestrial technology as a modern Promethean myth.",
+        "She wrote 'American Cosmic' as a journey, not a typical academic book, published by Oxford."
+      ],
+      "temporal_anchors": [
+        "1500s",
+        "2013",
+        "2014",
+        "late 1940s",
+        "1950s",
+        "2021"
+      ],
+      "spatial_anchors": [
+        "Spain",
+        "Rome",
+        "Vatican",
+        "New Mexico",
+        "Roswell"
+      ],
+      "evidentiary_density": "high",
+      "do_not_embed_reasons": []
+    },
+    {
+      "chunk_id": "c04",
+      "heading_path": null,
+      "text": "how do you explain what's going on now like in in the public media like the the public-facing media with like the Pentagon reports and the New York Times talking about and declassifying all these radar encounters with these Navy Pilots are finding and Publishing these videos and saying that it's off-world technology what do you think like I know you said that you encountered a lot of misinformation and disinformation on this topic and they there's a lot of energy that goes into muddying the waters but what is your take on the in the last how ever long it's been like six years or whatever that the US has been trying to make this more public facing why do you think that that they're doing this yeah so again if you go back to what I study which is the you know religion I mean you'll see that in mostly the traditional religions like the big religions um and since Christianity is my field I'll use that as an example the early Christian Church was completely different than the kinds of churches that that were institutionalized radically different and what happens during the process of an institution an institutionalization of belief um so this happens with the Roman Catholic Church they take the Christian belief and then they institutionalize it in the fourth century and how they do that is they make other beliefs about Christianity heretical so you have gnosticism for example um those books are burned you know we do have Gnostic texts but what is gnosticism gnosticism is a form of Christianity that sprung up in the first 300 years of Christianity and it's there's different types of gnosticism so different we would call them denominations people believe that that the knowledge of Jesus or the knowledge that Jesus had is something that they experience themselves like the Holy Spirit they feel it it's more like an experiential knowledge the way I talk about narcissism to my students is I say take a chocolate bar okay would you rather know the chocolate bar by eating it or by reading the ingredients on the back so so it's an intimate knowledge of something okay that's gnosticism that makes sense so the Gnostic church was like almost eradicated at that point um or it was submerged into the Roman Catholic Church um so this is the type of thing that you see you see the institutionalization and through institutionalization comes some suppression of voices and so you're going to expect to find that that's what I'm looking at and I look at that in the the second book so I was like okay we're institutionalizing this belief now about extraterrestrials what are the voices that are being not heard or drowned out and why is there so much misinformation so it's a control of information that you see happening and that's what's happening now and with early Christianity before it got institutionalized it was suppressed right like you explained to me how earlier offline how Jesus was like spreading this message and it was like in the Roman Empire it was frowned upon and people were punished for for practicing this religion yes so being Jewish in the first century was um hard right and so there were many groups that were trying to exist and Jesus's movement was one of those groups there was another group that were zealots they were basically they believed in armed Rebellion but there weren't enough of them so they couldn't pull it off so Jesus was basically teaching Jewish people his you know congregation the people who would listen to him his his you know he would he would always talk in Parables and things like this basically he was talking to people who were ready to listen to him um he was okay with not everybody listening to him by the way so he had a very specific message and so he was basically imparting this to groups of people and his followers loved him so much that they called him the Son of God well at the time it was Caesar who was the son of God so we tend to look back and think that they had this you know the people during that time period had this mythology he called you know they had the Greek and Roman gods and that was their mythology that was actually their religion so Jesus's followers were identifying him as primary and and the Son of God kind of like the head honcho against Caesar and that would be called treason and so the punishment for treason is crucifixion so he was crucified for for treason so who was God okay so God would be if you look at um you know God is either Apollo or",
+      "token_estimate": 800,
+      "overlap_note": null,
+      "entities_hint": [
+        "Pentagon",
+        "New York Times",
+        "Navy Pilots",
+        "Roman Catholic Church",
+        "Gnosticism",
+        "Jesus",
+        "Caesar",
+        "Apollo"
+      ],
+      "claims_hint": [
+        "Pasulka compares the institutionalization of UFO belief to the institutionalization of Christianity.",
+        "The early Christian Church was radically different from later institutionalized forms.",
+        "Institutionalization involves suppression of voices and control of information.",
+        "Gnosticism, an experiential form of Christianity, was suppressed or submerged.",
+        "Jesus's movement was one of several Jewish groups in the first century.",
+        "Jesus was crucified for treason because his followers called him Son of God, challenging Caesar.",
+        "Pasulka sees current UFO disclosure as a process of institutionalization with misinformation."
+      ],
+      "temporal_anchors": [
+        "fourth century",
+        "first 300 years",
+        "first century"
+      ],
+      "spatial_anchors": [
+        "Roman Empire"
+      ],
+      "evidentiary_density": "high",
+      "do_not_embed_reasons": []
+    }
+  ],
+  "ner_results": [
+    {
+      "chunk_id": "c01",
+      "ner": {
+        "_raw_list": [
+          {
+            "type": "PERSONNEL",
+            "name": "Diana Walsh Pasulka",
+            "aliases": [
+              "professor of religion",
+              "author of American Cosmic"
+            ],
+            "role": "Professor of Religious Studies, author",
+            "credibility_tier": 8,
+            "span_quote": "I am a professor of religion and religious studies",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "type": "ORGANIZATION",
+            "name": "Jesuit School of Theology",
+            "aliases": [
+              "Jesuit School of Theology at Berkeley"
+            ],
+            "category": "academic",
+            "span_quote": "from the Jesuit School of Theology which is was affiliated with UC Berkeley",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "type": "ORGANIZATION",
+            "name": "Graduate Theological Union",
+            "aliases": [],
+            "category": "academic",
+            "span_quote": "it is part of The Graduate theological Union",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "type": "ORGANIZATION",
+            "name": "Syracuse University",
+            "aliases": [],
+            "category": "academic",
+            "span_quote": "I went on to get a PhD from Syracuse University in religious studies",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "type": "ORGANIZATION",
+            "name": "UC Berkeley",
+            "aliases": [],
+            "category": "academic",
+            "span_quote": "affiliated with UC Berkeley",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "type": "ORGANIZATION",
+            "name": "Harvard Divinity School",
+            "aliases": [],
+            "category": "academic",
+            "span_quote": "very similar to Harvard Divinity School",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "type": "EVIDENCE",
+            "name": "American Cosmic",
+            "aliases": [
+              "my first book on UFOs"
+            ],
+            "subtype": "documentary",
+            "span_quote": "the subject of American Cosmic my first book on UFOs",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "type": "LOCATION",
+            "name": "California",
+            "aliases": [
+              "Northern California"
+            ],
+            "span_quote": "I'm from California Northern California",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "type": "EVENT",
+            "name": "Dot-com boom",
+            "aliases": [
+              ".com boom"
+            ],
+            "date": "late 1990s",
+            "span_quote": "I went to graduate school during the late 90s which was the time period of the.com boom",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "type": "TOPIC",
+            "name": "UFO belief",
+            "aliases": [
+              "belief about UFOs"
+            ],
+            "span_quote": "studying belief about UFOs",
+            "evidentiary_state": "Observed"
+          },
+          {
+            "type": "TOPIC",
+            "name": "Technology and religious belief",
+            "aliases": [
+              "technology and religious beliefs"
+            ],
+            "span_quote": "I really focused on technology and religious beliefs",
+            "evidentiary_state": "Observed"
+          }
+        ]
+      },
+      "validation_error": "validation: JSON unparseable after one repair retry (Expecting property name enclosed in double quotes: line 73 column 162 (char 3558)); raw response was 3559 chars"
+    },
+    {
+      "chunk_id": "c02",
+      "ner_error": "disclosure.ner: JSON unparseable after one repair retry (Unterminated string starting at: line 128 column 19 (char 4629)); raw response was 4639 chars"
+    },
+    {
+      "chunk_id": "c03",
+      "ner_error": "disclosure.ner: JSON unparseable after one repair retry (Unterminated string starting at: line 111 column 28 (char 4546)); raw response was 4547 chars"
+    },
+    {
+      "chunk_id": "c04",
+      "ner_error": "disclosure.ner: JSON unparseable after one repair retry (Unterminated string starting at: line 140 column 21 (char 4783)); raw response was 4786 chars"
+    }
+  ],
+  "embeddable_texts": [
+    "foreign [Music] you are a professor of religion and religious studies but do you personally believe in God okay so let me talk a little bit about what we do in my field in religious studies it's a multi-disciplinary field and some a little bit closer okay some of us are archaeologists some are historians um some are a combination of of those and our method is that we take a step back from belief we study belief in how belief informs practices and worldwide movements and things like that religion is a very powerful force people will die for their religious belief so we were academics and we don't actually like I don't tell my students what I believe because I don't think it it's helpful we're learning about religion we're not I'm not advocating religion um but I personally yes believe in God but it's not a part of my field it's you know we have atheists some of the best people in my field are atheists okay so they're so it's not being a minister or a priest or something like that I actually did get a master's degree along with priests in formation Jesuits in formation um from the Jesuit School of Theology which is was affiliated with UC Berkeley it is part of The Graduate theological Union which is very similar to Harvard Divinity School but Berkeley's version and then I went on to get a PhD from Syracuse University in religious studies which is a field and a field of international academics who study religion a lot of people are religious who study religion but a lot of them are not as well so that's the first thing is I just want to get clear what the method is and I've been a person who studied Catholic history for my whole career until I moved over into studying belief about UFOs and I took my method with me to study that and we could talk about how I got into studying UFOs because I think that's interesting but it's I we take the method to study UFOs which means we don't have to believe in UFOs we I'm not out to prove that you know UFO crash debris are real or and it is the subject of American Cosmic my first book on UFOs but not my first book um so I think that's important to know is that I'm not out here crying for like government disclosure or you know whether or not these materials are actually real I'm out to study the impact this belief has on populations of people mainly people in the United States but globally now um did your Early Childhood have anything to do with your interest in religion and religious studies did did you have a very religious childhood and upbringing okay I did sorry too fast it ended and did your studies and your work at all influence your outlook or your world view on that yeah I do think that people are impacted by how they were brought up and also what happens around them in culture so of course I'm not exempt from that that said um I didn't grow up in a particularly religious household at all and my parents were what I would call I'm from California Northern California and it's a it was and still is an Eclectic culture and where there's new age beliefs and things like that so my parents were pretty eclectic my father was Irish Roman Catholic my mother was pretty secular Jewish and they were interested in a lot of things philosophy so we did have a library of books about philosophy and I read those as a kid and I was very interested in religion and philosophy and I did make the decision to study this pretty young so yes I think I was really interested in how people you know people would have pretty extraordinary experiences and these would shift their lives and I was interested in why you also have to understand that I went to graduate school during the late 90s which was the time period of the.com boom and so I'm in California technology is just kind of flourishing at this time and I'm seeing that the infrastructure is changing the way people believe in their religion and so the digital infrastructure and especially media technology like Star Wars and things like that you know people are beginning to have these I would call them almost like mystical beliefs about things like the forces with you and it was impacting their religious beliefs and so when I went to school not only did I study ancient texts about different religions but I also studied the ways in which people took their own beliefs and they they Incorporated you know the Lexicon of Star Wars into those beliefs as well and those were those were part of the whole landscape so I really focused on technology and religious beliefs that was like my focus all throughout studying Catholic history and also studying what I study now",
+    "you know I'm sure you studied religion and on belief for a long time before you ever even thought of the UFO phenomenon yes what was it that introduced you to this like what was that what was the moment like when you first got introduced to this and started to look into it and what were the biggest connections between this whole the logic of the UFO phenomenon compared to early Christianity question this happened in late 2011 2012. and I had just finished a very major project that culminated in a book about the Catholic doctrine of purgatory which is an afterlife destination for Souls who don't quite make it to heaven but are definitely not going to hell okay and this Doctrine kind of had fallen off the map for Catholics and I wanted to know why and so I did a lot of study of old materials in archives manuscripts and things like that and so I I and I also talked about Catholic popular culture and how that shifted disbelief and so at the end of that I had a long catalog of reports of aerial phenomena from 1400 1600 1700 European Catholicism you know that I didn't quite in different languages by the way and I didn't quite understand what they were about a lot of times people believed that these were either Angels sometimes flying houses um sometimes Souls from purgatory and so I kept these and I knew that they were really interesting but I didn't quite make the connection I thought hmm I wonder what this is about so I finished my book my book was impressed and I'm on to the next book um but I'm thinking that it's not going to be it's going to be it's not going to be about that stuff it's going to be about a Catholic bishop who was one of the first Catholic Bishops in the states and I show a friend of mine this catalog and I say what do you think of these reports and he looked through the reports and he said oh these look like Steven Spielberg films I mean it looks like UFOs and I thought he was silly because I was a person who scoffed at this belief um it was a coincidence but there was a conference in my town for UF for people who were experiencers UFO experiencers so I went to that and I heard them talk about their experiences and I saw that these experiences that they were having were like an exact match with the experiences that I had cataloged from hundreds of years ago up till the present and erect I recognize that this was a continual pattern and it kind of blew my mind at the time I was like wow so I did a little more exploring and I I started to look at primary source material from Catholic experiences like from Saints like Teresa of Avila Saint Francis of Assisi and when I started to read the primary source material I saw that it was also very similar to what you would see in John Mack's book Because at this point I read John Mack's book abduction and it literally these experiences of the Saints could be other chapters in his book and so at the time I knew Jeff but not he's he's a professor at Rice University who looks into this type of thing and I told him I said I think have you seen this and he at first said no Diana no I don't think so and then I took some of the stuff that I had translated and sent it to him and said they're talking about little beings and aerial phenomena and you know other things that happened in John Mack's book and he was blown away too and that was the beginning of my writing about UFOs and looking into modern day reports of UFOs and honestly didn't think I was going to experience what I did when I went into studying UFOs I thought it was going to be a natural progression of moving from you know using this method that I learned moving from Catholic history into modern day reports of UFOs honestly thought it was going to be pretty easy to do but when I got into the community of studying UFOs I immediately saw that there was a lot of government information truthfully and I also you know met high level scientists that were studying in these programs and I didn't actually they were wanted to know what I Knew by the way they were interested in my field they thought that they could learn from me so this is what happened and this is how I I wrote my first book about UFOs and my second book too so I I found myself in an environment that was absolutely completely different from anything I had ever studied before",
+    "now when you say these experiences that you met with their experiences were an exact match of what you were reading in some of these old texts can you give me some like specific examples of like what what was the thing that stood out to you the most yeah um there have been for people who are fairly literally like Catholic right and by the way I'm a practicing Catholic so um so it was a little bit scary to read you know but um so if you look at Teresa of Avila she's an um a nun who is now a doctor of the church she's a very well-known beloved Saint in the Catholic church she had an experience that she had an experience with what she considered to be an angel but when you look at the primary source material um and this is in the 1500s in Spain and it's during you know the time period when there was an inquisition Spanish Inquisition so it's not like she would want to have talked about this but she did write about it in her diary and so she had this experience where she was um basically praying and off to her side she saw uh what something that she couldn't really understand it was a being and it was about three feet tall and she said it was very shiny and it she said it was she was confused by it because when she saw Angel's Pride prior to this they would be imaginative Angels something to she made the distinction that this was not an angel in Her Imagination but this was an actual fleshy thing she saw it and so she was confused she didn't know what kind of Angel it was and she said it must be a cherub a cherub that's what she said what is that well it's a type of Angel so in in Catholic history you have different types of angels and so the Cherub is going to be kind of a little angel childlike looking and so so she but you could tell that she wasn't even sure it was that and so this can this by the way can only be known by reading her work and looking at her own description of the event because this is a very represented encounter in Catholic history and there's a very famous statue in Rome by Bernie who is a sculptor and you see her in this this little angel and it has a dart so you know how John Mack talks about an instrument um that people are examined with so apparently this little fleshy Angel creature examines her and this was amazing because it was just very strange she said it examined her well it yeah it like looked at her okay exactly so you have to understand translation from that time period so let's be super clear okay so when I say I'm using the word examine but probably I should not have used that word it basically said it took this Dart and it thrusted into her entrails those are the words that she used um so you know it was um it was something that I didn't expect to see so this would be the example but there were many more examples that weren't as famous that's the most famous example the one that Catholics would know about but there are a lot of examples that I had that no one would know about because they're not digitized and they're in Old manuscripts and there's lots of these by the way at the Vatican archive and the Vatican private archive which is also known as the secret archive and literally miles of these kinds of things and did you read this when you went there um yeah I read a lot of I did go there and I took one of the people that I was a scientist who was studying this too and we both went there and looked at this he was really interested in in these experiences because he was also trying to get data for what he was studying and this is the guy you called Tyler D in your book right the student he keeps him in his name pseudonymous because he can't be exposed um how long after you started researching this stuff did you meet him pretty pretty quickly yeah pretty quickly so um and how did you get introduced to him okay so he reached out to me um and he you know said that he was interested in this field and he was working in the space program um he was a mission controller and um I wanted to know why he was interested in my work because I didn't make the connection that it had anything to do with space you know space stuff and so he explained that a breakthrough in his field was going to come from my field and so um we started to communicate you have to understand that 2013 2014 I was still pretty reticent to talk with people who were affiliated with government stuff because it wasn't my field it wasn't something that I ever thought people would be interested in so it took me about a year and a half to actually meet him in person and so yeah so immediately I was I met a lot of people I met the people that you know you call the invisible College I met someone so uh yeah so for a person who didn't believe in UFOs had no understanding of the history he thought it was all hokey you know this is really a strange experience and you met other people like Gary Nolan who came out he was pseudonymous in the first book and then he kind of like revealed who he was what what was the the connection between all these people okay so they're all studying um what they believe is the modern day you know encounter with non-human intelligence but they weren't studying it publicly right well no nobody was studying it publicly this was all before 2021 before the Pentagon you know reported that there were programs in that they were studying this so this was all and honestly I I you know you have to understand I just didn't I didn't believe even when I was in New Mexico because I did travel to New Mexico with Gary and Tyler and we were we went to an alleged craft site I was still under this idea that they were somehow misinformed or they were very their belief was was really strong and I needed to know why they believed this because they were both incredibly intelligent people public intelligent people and so that's why I went I knew that there was a rising belief in UFOs and I was trying to understand it and these guys were like a key to understanding it so Tyler had said I don't think you believe in the physical parts of UFOs and I want to take you to a place where you'll have you'll believe after that and I was like okay I'm taking my friend so I had originally asked Jeff to go with me but um he said that's outside my comfort zone Diane I'm not going to do that and so then I asked Gary I had actually just met Gary and he was really impressive to me not just by being who he is a Stanford Professor but also just really genuinely fascinated by the topic and he jumped at the opportunity to go and I also knew that he he would be the person to go you know if we were going to look for anything it would be Gary who could who could figure it out and so uh you know after a while Tyler was okay with that but at first he wasn't okay with that and then he he looked into Gary and he said yeah let's go so we went to the New Mexico desert and um you were like blindfolded or yeah we had to be we had to accept to be blindfolded to go into this place and we went there um took off the blindfolds and we spent all day you know accumulating what they believed what were UFO debris from a crash that occurred sometime in the late 1940s and it wasn't Roswell and you actually found something when you guys were there during that that specific day we did yeah and it was hard to get I mean the place looked like it had a rubble well it did it had Rubble all over it and um and Tyler told me that the rebel was from disintegrated tin cans from the 1950s and this was something that the editor of the book wanted me to take out because um she said I don't understand why you'd go to well she understood why I went to the place but she said why would the government put all this stuff out in the middle of nowhere tin cans we just need to take that out and even though I didn't understand at the time I said look we have to keep it in because it's still data you know and so we kept it in thankfully and what was it that you guys found okay so we did find um some parts uh the two different types of Parts one looked like almost like frog skin metallic frog skin and some other stuff that looked like um it just looked like honestly I don't know yeah yeah it was just both were really strange I still didn't believe I still didn't believe even after Gary got stopped at the airport and things happened like Tyler said they would happen and um yeah I still don't know I still don't know what to think about that but um but that did happen that was part of studying what I was studying and how did that alter or affect the trajectory of your research after that like from then on out obviously you had met Gary new and Gary had become friendly but how did that experience going to that alleged crash site affect your mind and your thinking around this whole topic yeah okay so I think that we have to see that this is in its very most basic sense this is a belief that would be considered by people in my field as a mythology this idea that we have parts of craft from extraterrestrials and we're back engineering those for technology this is actually an old myth this is you know the Greeks had the myth of Prometheus Prometheus was a you know God person who gave Humanity fire which was a tool and a technology gave Humanity technology so this is like the the modern Promethean myth that's how I was looking at it but it's something more than that and that's really what I was trying to figure out so while I was writing the book it was incredibly difficult to write as an academic because I felt like this is more than a myth something really interesting is going on here and I'm in the midst of it and I have to write about it how am I going to write about it because generally a person in my field is going to write this academic book that basically says you know I I was on this journey with these people they believed this and they keep their distance but I felt like I couldn't keep my distance that I was within the myth itself and so I wrote it kind of as a journey of how I was writing it actually so even the book itself was not a typical academic book even though it was published by Oxford um it's a book that explores not just their belief but also like you know the interface of me a non-believer um even skeptical uh going through this process seeing the people involved seeing how the government's really interested in it as much as people are you know normal everyday people and this being kind of a very a very important turning point in history really historic and um yeah so I guess you know even with the second book um I kind of continued on that journey of describing it basically",
+    "how do you explain what's going on now like in in the public media like the the public-facing media with like the Pentagon reports and the New York Times talking about and declassifying all these radar encounters with these Navy Pilots are finding and Publishing these videos and saying that it's off-world technology what do you think like I know you said that you encountered a lot of misinformation and disinformation on this topic and they there's a lot of energy that goes into muddying the waters but what is your take on the in the last how ever long it's been like six years or whatever that the US has been trying to make this more public facing why do you think that that they're doing this yeah so again if you go back to what I study which is the you know religion I mean you'll see that in mostly the traditional religions like the big religions um and since Christianity is my field I'll use that as an example the early Christian Church was completely different than the kinds of churches that that were institutionalized radically different and what happens during the process of an institution an institutionalization of belief um so this happens with the Roman Catholic Church they take the Christian belief and then they institutionalize it in the fourth century and how they do that is they make other beliefs about Christianity heretical so you have gnosticism for example um those books are burned you know we do have Gnostic texts but what is gnosticism gnosticism is a form of Christianity that sprung up in the first 300 years of Christianity and it's there's different types of gnosticism so different we would call them denominations people believe that that the knowledge of Jesus or the knowledge that Jesus had is something that they experience themselves like the Holy Spirit they feel it it's more like an experiential knowledge the way I talk about narcissism to my students is I say take a chocolate bar okay would you rather know the chocolate bar by eating it or by reading the ingredients on the back so so it's an intimate knowledge of something okay that's gnosticism that makes sense so the Gnostic church was like almost eradicated at that point um or it was submerged into the Roman Catholic Church um so this is the type of thing that you see you see the institutionalization and through institutionalization comes some suppression of voices and so you're going to expect to find that that's what I'm looking at and I look at that in the the second book so I was like okay we're institutionalizing this belief now about extraterrestrials what are the voices that are being not heard or drowned out and why is there so much misinformation so it's a control of information that you see happening and that's what's happening now and with early Christianity before it got institutionalized it was suppressed right like you explained to me how earlier offline how Jesus was like spreading this message and it was like in the Roman Empire it was frowned upon and people were punished for for practicing this religion yes so being Jewish in the first century was um hard right and so there were many groups that were trying to exist and Jesus's movement was one of those groups there was another group that were zealots they were basically they believed in armed Rebellion but there weren't enough of them so they couldn't pull it off so Jesus was basically teaching Jewish people his you know congregation the people who would listen to him his his you know he would he would always talk in Parables and things like this basically he was talking to people who were ready to listen to him um he was okay with not everybody listening to him by the way so he had a very specific message and so he was basically imparting this to groups of people and his followers loved him so much that they called him the Son of God well at the time it was Caesar who was the son of God so we tend to look back and think that they had this you know the people during that time period had this mythology he called you know they had the Greek and Roman gods and that was their mythology that was actually their religion so Jesus's followers were identifying him as primary and and the Son of God kind of like the head honcho against Caesar and that would be called treason and so the punishment for treason is crucifixion so he was crucified for for treason so who was God okay so God would be if you look at um you know God is either Apollo or"
+  ],
+  "metadata": {
+    "provenance": "https://www.youtube.com/watch?v=aQhikls5Ye8",
+    "filename_hint": "Top Aerospace Scientists Suspect UFOs are Biblical Time Machines | Diana Walsh Pasulka",
+    "prompts_dir": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/ai/prompts",
+    "content_type": "media",
+    "ingestion_recommendation": "proceed",
+    "priority": "HIGH",
+    "chunk_count": 4,
+    "embeddable_count": 4,
+    "ner_chunk_count": 4,
+    "prompts_used": [
+      "disclosure.content_analysis",
+      "disclosure.ner",
+      "document_classification",
+      "rag_ingestion",
+      "validation"
+    ],
+    "tiers_used": [
+      "deepseek/deepseek-chat"
+    ],
+    "degraded": false,
+    "schema_unenforced_prompts": [
+      "rag_ingestion"
+    ],
+    "repaired_prompts": [
+      "disclosure.content_analysis"
+    ],
+    "repair_attempted_prompts": [
+      "disclosure.content_analysis",
+      "disclosure.ner",
+      "validation"
+    ]
+  },
+  "errors": [
+    "validation:c01:validation: JSON unparseable after one repair retry (Expecting property name enclosed in double quotes: line 73 column 162 (char 3558)); raw response was 3559 chars",
+    "ner:c02:disclosure.ner: JSON unparseable after one repair retry (Unterminated string starting at: line 128 column 19 (char 4629)); raw response was 4639 chars",
+    "ner:c03:disclosure.ner: JSON unparseable after one repair retry (Unterminated string starting at: line 111 column 28 (char 4546)); raw response was 4547 chars",
+    "ner:c04:disclosure.ner: JSON unparseable after one repair retry (Unterminated string starting at: line 140 column 21 (char 4783)); raw response was 4786 chars"
+  ],
+  "prompts_used": [
+    "document_classification",
+    "disclosure.content_analysis",
+    "rag_ingestion",
+    "disclosure.ner",
+    "validation",
+    "disclosure.ner",
+    "disclosure.ner",
+    "disclosure.ner"
+  ]
+}

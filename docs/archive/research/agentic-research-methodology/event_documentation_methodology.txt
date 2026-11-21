@@ -1,0 +1,143 @@
+VERIFIED EVENT DOCUMENTATION & ANALYSIS METHODOLOGY
+Comprehensive Guide for Fact-Checking and Cross-Reference Analysis
+
+1. PRIMARY SOURCE VERIFICATION
+1.1 Government Documents
+- Official government records and reports
+- Declassified intelligence documents
+- Court transcripts and legal proceedings
+- FOIA (Freedom of Information Act) release documents
+- Certified copies maintained by government archives
+
+1.2 Official Institutional Records
+- Corporate annual reports and SEC filings
+- University research documentation
+- Hospital and medical records (when publicly available)
+- Police and law enforcement reports
+- Regulatory agency findings and citations
+
+1.3 Direct Testimony & Documentation
+- Eyewitness accounts with corroboration
+- Participant diaries and letters
+- Audio/video recordings with chain of custody
+- News organization raw footage
+- Social media posts with metadata verification
+
+2. SECONDARY SOURCE CROSS-REFERENCING
+2.1 Established Media Outlets
+- Major newspapers with fact-checking departments (NYT, WSJ, WP, Guardian)
+- Wire services (AP, Reuters, Bloomberg)
+- Investigative journalism organizations (ProPublica, ICIR)
+- Academic journalism reviews
+
+2.2 Expert Analysis Sources
+- Peer-reviewed academic papers
+- Think tank reports (with bias disclosure)
+- Subject matter expert publications
+- Historical society documentation
+- Professional association statements
+
+2.3 Archival Sources
+- Library of Congress records
+- National Archives documents
+- Presidential library collections
+- University special collections
+- Museum artifact documentation
+
+3. FACT-CHECKING PROTOCOL
+3.1 Source Hierarchy
+Tier 1: Primary government documents, court records
+Tier 2: Major news organizations with editorial oversight
+Tier 3: Academic publications with peer review
+Tier 4: Eyewitness accounts with corroboration
+Tier 5: Secondary analysis and commentary
+
+3.2 Cross-Reference Requirements
+Minimum 3 independent sources for basic fact verification
+5+ sources for controversial claims
+10+ sources including primary documents for investigative claims
+Expert validation for technical/ specialized claims
+
+3.3 Bias Detection Methods
+Source funding and affiliation analysis
+Historical accuracy track record review
+Editorial standards verification
+Conflict of interest disclosure review
+Multiple viewpoint documentation
+
+4. ANALYTICAL FRAMEWORKS
+4.1 Timeline Construction
+Chronological event mapping
+Preceding factors analysis
+Sequential cause-effect relationships
+Simultaneous events and context
+Post-event consequences tracking
+
+4.2 Stakeholder Analysis
+Primary actors and participants
+Secondary affected parties
+Influential observers and commentators
+Institutional roles and responsibilities
+Power dynamics and relationships
+
+4.3 Impact Assessment
+Immediate consequences
+Short-term effects (1-12 months)
+Medium-term impacts (1-5 years)
+Long-term historical significance
+unintended consequences
+
+5. DOCUMENTATION STANDARDS
+5.1 Citation Requirements
+Full source identification
+Publication date and location
+Archive reference numbers
+Author credentials
+Access verification dates
+
+5.2 Evidence Chain Procedures
+Digital forensics verification
+Metadata preservation
+Chain of custody documentation
+Original context maintenance
+Multiple format preservation
+
+5.3 Controversy Documentation
+Competing claims presentation
+Source bias identification
+Unverified allegations notation
+Expert disagreement documentation
+Ongoing investigation status
+
+6. RED FLAGS FOR SOURCE RELIABILITY
+Anonymous sources without corroboration
+Single-source claims presented as fact
+Conflicting eyewitness accounts without resolution
+Government or institutional denials without evidence
+Edited or incomplete document presentation
+Unnamed officials or spokespersons
+
+7. CONTEMPORARY CHALLENGES
+7.1 Social Media Verification
+Deep fake detection methods
+Bot identification techniques
+Metadata analysis procedures
+Virality vs. accuracy correlation studies
+Platform content policy evolution
+
+7.2 Digital Document Authentication
+Blockchain verification methods
+Digital signature validation
+Timestamp manipulation detection
+Server log cross-referencing
+Cryptographic hash verification
+
+8. QUALITY ASSURANCE CHECKLIST
+[ ] Primary sources identified and verified
+[ ] Minimum source count met
+[ ] Expert consultation obtained
+[ ] Contradictory evidence addressed
+[ ] Source bias disclosed
+[ ] Verification methodology documented
+[ ] Update pathway established
+[ ] Error correction plan implemented

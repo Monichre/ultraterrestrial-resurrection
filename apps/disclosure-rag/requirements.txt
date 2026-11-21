@@ -1,0 +1,60 @@
+# Core dependencies
+python-dotenv
+openai
+anthropic
+phidata
+streamlit
+pandas
+numpy
+pytest
+tenacity
+agno
+
+# Web processing
+requests
+beautifulsoup4
+html2text
+markdownify
+Pillow
+
+# Data processing
+PyPDF2
+langchain
+langchain-community
+langchain-openai
+faiss-cpu
+tiktoken
+
+# Local RAG dependencies
+sentence-transformers
+torch
+
+# Database
+upstash-redis
+upstash-vector
+qstash
+xata
+
+# YouTube processing
+youtube-transcript-api>=1.2  # 1.x exception classes + proxies module are required
+faster-whisper
+yt-dlp  # playlist enumeration (scripts/playlist_ingestion.py)
+
+# UI and visualization
+matplotlib
+seaborn
+rich
+prompt-toolkit
+
+# Optional AI integrations
+mem0ai
+composio-langchain
+langchain-groq
+groq
+langchain-ollama
+
+# OneNode.ai integration (optional)
+onenode
+# Shared Neon Postgres client (issue #154) - same driver pattern as
+# packages/db/scripts/rebuild/db_ops.py
+psycopg[binary]

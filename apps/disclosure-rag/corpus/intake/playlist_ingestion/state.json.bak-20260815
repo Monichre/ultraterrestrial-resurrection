@@ -1,0 +1,974 @@
+{
+  "videos": {
+    "K4gYHs84BIc": {
+      "title": "“A Top Government Official Told Me Aliens Run Everything!” -Dylan Borland UNLEASHED",
+      "url": "https://www.youtube.com/watch?v=K4gYHs84BIc",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T02:31:21.752383+00:00",
+      "status": "ingested",
+      "fidelity": 0.923,
+      "fidelity_verdict": "pass",
+      "doc_id": "K4gYHs84BIc",
+      "rag_status": "unknown"
+    },
+    "uYyXpx7ADJQ": {
+      "title": "\"There's A UFO Under the Ranch!\" - Skinwalker Owner Breaks Silence",
+      "url": "https://www.youtube.com/watch?v=uYyXpx7ADJQ",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T06:50:28.191755+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.922,
+      "fidelity_verdict": "pass",
+      "doc_id": "uYyXpx7ADJQ",
+      "rag_status": "error",
+      "error": "All LLM providers failed (anthropic/claude-sonnet-5: skipped (HTTP 400); anthropic/claude-opus-4-8: skipped (HTTP 400); deepseek/deepseek-v4-pro: BudgetExhausted: deepseek/deepseek-v4-pro: max_tokens=4096 consumed before any answer was emitted (reasoning=True); raise max_tokens; together/kimi-k3: Bu"
+    },
+    "uVVqFg2v7ro": {
+      "title": "NASA’s Biggest Secret Just Got Exposed (The Truth About The Moon)",
+      "url": "https://www.youtube.com/watch?v=uVVqFg2v7ro",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T00:54:36.611135+00:00",
+      "status": "ingested",
+      "fidelity": 0.5,
+      "fidelity_verdict": "review",
+      "doc_id": "uVVqFg2v7ro"
+    },
+    "kccrkCGGzX4": {
+      "title": "The UFO Cover-Up Leads to One Secret Society — and One Final Event",
+      "url": "https://www.youtube.com/watch?v=kccrkCGGzX4",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T06:53:09.380591+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.924,
+      "fidelity_verdict": "pass",
+      "doc_id": "kccrkCGGzX4",
+      "rag_status": "error",
+      "error": "All LLM providers failed (anthropic/claude-sonnet-5: skipped (HTTP 400); anthropic/claude-opus-4-8: skipped (HTTP 400); deepseek/deepseek-v4-pro: BudgetExhausted: deepseek/deepseek-v4-pro: max_tokens=4096 consumed before any answer was emitted (reasoning=True); raise max_tokens; together/kimi-k3: Bu"
+    },
+    "8Rr_nE65KkI": {
+      "title": "I Debated UFOs With America’s Top Skeptic (It Got Ugly...)",
+      "url": "https://www.youtube.com/watch?v=8Rr_nE65KkI",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T06:57:23.171458+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.924,
+      "fidelity_verdict": "pass",
+      "doc_id": "8Rr_nE65KkI",
+      "rag_status": "error",
+      "error": "All LLM providers failed (anthropic/claude-sonnet-5: skipped (HTTP 400); anthropic/claude-opus-4-8: skipped (HTTP 400); deepseek/deepseek-v4-pro: BudgetExhausted: deepseek/deepseek-v4-pro: max_tokens=4096 consumed before any answer was emitted (reasoning=True); raise max_tokens; together/kimi-k3: Bu"
+    },
+    "A2-y_HasHEw": {
+      "title": "Congressman Reveals The Alien Brief That Changed The President’s Life",
+      "url": "https://www.youtube.com/watch?v=A2-y_HasHEw",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T06:59:22.472733+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.922,
+      "fidelity_verdict": "pass",
+      "doc_id": "A2-y_HasHEw",
+      "rag_status": "error",
+      "error": "Expecting ',' delimiter: line 68 column 8 (char 6774)"
+    },
+    "ScE9FaDy-mE": {
+      "title": "Spielberg Just Revealed The Truth About Aliens (He Knows!)",
+      "url": "https://www.youtube.com/watch?v=ScE9FaDy-mE",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T07:00:22.672006+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.92,
+      "fidelity_verdict": "pass",
+      "doc_id": "ScE9FaDy-mE",
+      "rag_status": "error",
+      "error": "Expecting ',' delimiter: line 10 column 6 (char 360)"
+    },
+    "yJUBSuPh1pM": {
+      "title": "Hollywood, The CIA & UFOs: The History Beyond Spielberg",
+      "url": "https://www.youtube.com/watch?v=yJUBSuPh1pM",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T07:02:36.532073+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.924,
+      "fidelity_verdict": "pass",
+      "doc_id": "yJUBSuPh1pM",
+      "rag_status": "error",
+      "error": "Expecting ',' delimiter: line 86 column 8 (char 8327)"
+    },
+    "PiFbeWfA3LM": {
+      "title": "“I Was Taken By The UFO Program As a Kid!” [Exclusive Interview]",
+      "url": "https://www.youtube.com/watch?v=PiFbeWfA3LM",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T07:05:23.936095+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.924,
+      "fidelity_verdict": "pass",
+      "doc_id": "PiFbeWfA3LM",
+      "rag_status": "error",
+      "error": "Expecting ',' delimiter: line 22 column 6 (char 3232)"
+    },
+    "nqLnEVcZ8vE": {
+      "title": "Brazil's Most Famous UFO Cases Confirmed Real By Defense Minister",
+      "url": "https://www.youtube.com/watch?v=nqLnEVcZ8vE",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T07:07:35.457644+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.923,
+      "fidelity_verdict": "pass",
+      "doc_id": "nqLnEVcZ8vE",
+      "rag_status": "error",
+      "error": "Expecting ',' delimiter: line 41 column 4 (char 4023)"
+    },
+    "-XdvIrexF08": {
+      "title": "“If You Knew What I Knew!” -Jeremy Corbell UNLEASHES On Jesse Michels",
+      "url": "https://www.youtube.com/watch?v=-XdvIrexF08",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T07:11:34.837802+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.924,
+      "fidelity_verdict": "pass",
+      "doc_id": "-XdvIrexF08",
+      "rag_status": "error",
+      "error": "All LLM providers failed (anthropic/claude-sonnet-5: skipped (HTTP 400); anthropic/claude-opus-4-8: skipped (HTTP 400); deepseek/deepseek-v4-pro: BudgetExhausted: deepseek/deepseek-v4-pro: max_tokens=4096 consumed before any answer was emitted (reasoning=True); raise max_tokens; together/kimi-k3: Bu"
+    },
+    "6bqaHVSlVeU": {
+      "title": "MIT Scientist: “Your Brain Evolved To Ignore Aliens – They’re Everywhere!”",
+      "url": "https://www.youtube.com/watch?v=6bqaHVSlVeU",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T07:12:31.240593+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.923,
+      "fidelity_verdict": "pass",
+      "doc_id": "6bqaHVSlVeU",
+      "rag_status": "error",
+      "error": "Expecting ',' delimiter: line 21 column 4 (char 2578)"
+    },
+    "1sxmSMzqnmA": {
+      "title": "“I Operated a UFO… It’s Not What You Think” -Army Sergeant Lyn Buchanan",
+      "url": "https://www.youtube.com/watch?v=1sxmSMzqnmA",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T07:16:56.090355+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.923,
+      "fidelity_verdict": "pass",
+      "doc_id": "1sxmSMzqnmA",
+      "rag_status": "error",
+      "error": "All LLM providers failed (anthropic/claude-sonnet-5: skipped (HTTP 400); anthropic/claude-opus-4-8: skipped (HTTP 400); deepseek/deepseek-v4-pro: BudgetExhausted: deepseek/deepseek-v4-pro: max_tokens=4096 consumed before any answer was emitted (reasoning=True); raise max_tokens; together/kimi-k3: Bu"
+    },
+    "OOr98r51Sj0": {
+      "title": "Why The Pentagon Tried To Censor This UFO Book",
+      "url": "https://www.youtube.com/watch?v=OOr98r51Sj0",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T07:18:07.058274+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.911,
+      "fidelity_verdict": "pass",
+      "doc_id": "OOr98r51Sj0",
+      "rag_status": "error",
+      "error": "Unterminated string starting at: line 11 column 7 (char 813)"
+    },
+    "QkuDvTFN7ms": {
+      "title": "The Bizarre Alien Abduction Details The Government Will Never Disclose",
+      "url": "https://www.youtube.com/watch?v=QkuDvTFN7ms",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T07:19:25.186839+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.924,
+      "fidelity_verdict": "pass",
+      "doc_id": "QkuDvTFN7ms",
+      "rag_status": "error",
+      "error": "Extra data: line 20 column 6 (char 2081)"
+    },
+    "2-GeTxXi670": {
+      "title": "The CIA Scientist That Contacted an Alien Council",
+      "url": "https://www.youtube.com/watch?v=2-GeTxXi670",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T07:20:21.036651+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.924,
+      "fidelity_verdict": "pass",
+      "doc_id": "2-GeTxXi670",
+      "rag_status": "error",
+      "error": "Unterminated string starting at: line 8 column 7 (char 527)"
+    },
+    "jMCavr3dVP0": {
+      "title": "Former NSA Director Breaks Silence on UFOs",
+      "url": "https://www.youtube.com/watch?v=jMCavr3dVP0",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T07:22:44.754149+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.924,
+      "fidelity_verdict": "pass",
+      "doc_id": "jMCavr3dVP0",
+      "rag_status": "error",
+      "error": "Expecting ',' delimiter: line 9 column 6 (char 402)"
+    },
+    "wlsQIbpEKSM": {
+      "title": "Why America’s Top Scientists Are Going Missing",
+      "url": "https://www.youtube.com/watch?v=wlsQIbpEKSM",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T07:26:30.635494+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.918,
+      "fidelity_verdict": "pass",
+      "doc_id": "wlsQIbpEKSM",
+      "rag_status": "error",
+      "error": "All LLM providers failed (anthropic/claude-sonnet-5: skipped (HTTP 400); anthropic/claude-opus-4-8: skipped (HTTP 400); deepseek/deepseek-v4-pro: BudgetExhausted: deepseek/deepseek-v4-pro: max_tokens=4096 consumed before any answer was emitted (reasoning=True); raise max_tokens; together/kimi-k3: Bu"
+    },
+    "d9tdJ2SkBKQ": {
+      "title": "A Weekend With Bob Lazar: Inside Area51's UFOs",
+      "url": "https://www.youtube.com/watch?v=d9tdJ2SkBKQ",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T07:27:25.609615+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.922,
+      "fidelity_verdict": "pass",
+      "doc_id": "d9tdJ2SkBKQ",
+      "rag_status": "error",
+      "error": "Extra data: line 13 column 6 (char 1503)"
+    },
+    "CiQTBOQ1dTg": {
+      "title": "“We Captured a 12 Foot Giant in Afghanistan!” -Tim Alberino",
+      "url": "https://www.youtube.com/watch?v=CiQTBOQ1dTg",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T07:28:23.364510+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.923,
+      "fidelity_verdict": "pass",
+      "doc_id": "CiQTBOQ1dTg",
+      "rag_status": "error",
+      "error": "Unterminated string starting at: line 4 column 29 (char 95)"
+    },
+    "mOWwdIuyaQA": {
+      "title": "NASA Chief: \"We Just Built Antigravity Propulsion!”",
+      "url": "https://www.youtube.com/watch?v=mOWwdIuyaQA",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T07:30:53.169543+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.902,
+      "fidelity_verdict": "pass",
+      "doc_id": "mOWwdIuyaQA",
+      "rag_status": "error",
+      "error": "Expecting ',' delimiter: line 61 column 6 (char 12139)"
+    },
+    "UrHLTFvdEZk": {
+      "title": "Exposing the CIA's Darkest Mind Control Secrets",
+      "url": "https://www.youtube.com/watch?v=UrHLTFvdEZk",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T07:32:59.260119+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.924,
+      "fidelity_verdict": "pass",
+      "doc_id": "UrHLTFvdEZk",
+      "rag_status": "error",
+      "error": "Expecting ',' delimiter: line 91 column 8 (char 6146)"
+    },
+    "iPxbILOMQ08": {
+      "title": "Meet The Scientist Who Studies Alien Implants in Human Bodies",
+      "url": "https://www.youtube.com/watch?v=iPxbILOMQ08",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T07:33:59.065453+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.923,
+      "fidelity_verdict": "pass",
+      "doc_id": "iPxbILOMQ08",
+      "rag_status": "error",
+      "error": "Expecting ',' delimiter: line 9 column 6 (char 410)"
+    },
+    "NvQXmtcwHA8": {
+      "title": "BREAKING: Massive Energy Grid Found Beneath Pyramids of Egypt",
+      "url": "https://www.youtube.com/watch?v=NvQXmtcwHA8",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T07:38:25.416469+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.924,
+      "fidelity_verdict": "pass",
+      "doc_id": "NvQXmtcwHA8",
+      "rag_status": "error",
+      "error": "All LLM providers failed (anthropic/claude-sonnet-5: skipped (HTTP 400); anthropic/claude-opus-4-8: skipped (HTTP 400); deepseek/deepseek-v4-pro: BudgetExhausted: deepseek/deepseek-v4-pro: max_tokens=4096 consumed before any answer was emitted (reasoning=True); raise max_tokens; together/kimi-k3: Bu"
+    },
+    "xnxasfyHtfo": {
+      "title": "Eric Weinstein Demands UFO Secrets From Pentagon Scientist",
+      "url": "https://www.youtube.com/watch?v=xnxasfyHtfo",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T07:39:24.282353+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.924,
+      "fidelity_verdict": "pass",
+      "doc_id": "xnxasfyHtfo",
+      "rag_status": "error",
+      "error": "Unterminated string starting at: line 7 column 7 (char 349)"
+    },
+    "2ttdlCa5ZCI": {
+      "title": "The Hacker That Found NASA’s Secret Space Fleet [Gary McKinnon Interview]",
+      "url": "https://www.youtube.com/watch?v=2ttdlCa5ZCI",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T07:41:48.629506+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.922,
+      "fidelity_verdict": "pass",
+      "doc_id": "2ttdlCa5ZCI",
+      "rag_status": "error",
+      "error": "Expecting ',' delimiter: line 48 column 6 (char 4170)"
+    },
+    "Rjr3Yq-dMUE": {
+      "title": "The Man Sitting On More UFO Evidence Than Anyone Alive",
+      "url": "https://www.youtube.com/watch?v=Rjr3Yq-dMUE",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T07:42:56.497330+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.923,
+      "fidelity_verdict": "pass",
+      "doc_id": "Rjr3Yq-dMUE",
+      "rag_status": "error",
+      "error": "Expecting ',' delimiter: line 36 column 8 (char 2878)"
+    },
+    "ATJwqp5twAg": {
+      "title": "CIA Chief: “I’m a Time Traveler!” ",
+      "url": "https://www.youtube.com/watch?v=ATJwqp5twAg",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T07:55:19.260620+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.924,
+      "fidelity_verdict": "pass",
+      "doc_id": "ATJwqp5twAg",
+      "rag_status": "error",
+      "error": "All LLM providers failed (anthropic/claude-sonnet-5: skipped (HTTP 400); anthropic/claude-opus-4-8: skipped (HTTP 400); deepseek/deepseek-v4-pro: BudgetExhausted: deepseek/deepseek-v4-pro: max_tokens=4096 consumed before any answer was emitted (reasoning=True); raise max_tokens; together/kimi-k3: Bu"
+    },
+    "Qe8br8yYEDM": {
+      "title": "Meet the Nuclear Missile Guard Abducted by Aliens",
+      "url": "https://www.youtube.com/watch?v=Qe8br8yYEDM",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:10:25.693606+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.924,
+      "fidelity_verdict": "pass",
+      "doc_id": "Qe8br8yYEDM",
+      "rag_status": "error",
+      "error": "All LLM providers failed (anthropic/claude-sonnet-5: skipped (HTTP 400); anthropic/claude-opus-4-8: skipped (HTTP 400); deepseek/deepseek-v4-pro: BudgetExhausted: deepseek/deepseek-v4-pro: max_tokens=4096 consumed before any answer was emitted (reasoning=True); raise max_tokens; together/kimi-k3: Bu"
+    },
+    "UkKwa4jU0fc": {
+      "title": "“My Hospital Operated On An Alien!” -Top Surgeon [Exclusive Interview]",
+      "url": "https://www.youtube.com/watch?v=UkKwa4jU0fc",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:13:49.596966+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.924,
+      "fidelity_verdict": "pass",
+      "doc_id": "UkKwa4jU0fc",
+      "rag_status": "error",
+      "error": "Expecting ',' delimiter: line 22 column 6 (char 4703)"
+    },
+    "IWui5cBkwoE": {
+      "title": "NASA Whistleblower: “We Systematically Suppress UFO Data!”",
+      "url": "https://www.youtube.com/watch?v=IWui5cBkwoE",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:14:51.919240+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.922,
+      "fidelity_verdict": "pass",
+      "doc_id": "IWui5cBkwoE",
+      "rag_status": "error",
+      "error": "Unterminated string starting at: line 15 column 7 (char 1150)"
+    },
+    "u7g5Sn1DJF4": {
+      "title": "The Pentagon’s UFO Program Is Real [Here’s How It Works!] ft. UAPGerb",
+      "url": "https://www.youtube.com/watch?v=u7g5Sn1DJF4",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:15:48.214864+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.924,
+      "fidelity_verdict": "pass",
+      "doc_id": "u7g5Sn1DJF4",
+      "rag_status": "error",
+      "error": "Unterminated string starting at: line 13 column 7 (char 1452)"
+    },
+    "bM18PJY6_Zc": {
+      "title": "Why NASA Studies This Man (He Attracts UFOs!)",
+      "url": "https://www.youtube.com/watch?v=bM18PJY6_Zc",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:20:12.255584+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.923,
+      "fidelity_verdict": "pass",
+      "doc_id": "bM18PJY6_Zc",
+      "rag_status": "error",
+      "error": "All LLM providers failed (anthropic/claude-sonnet-5: skipped (HTTP 400); anthropic/claude-opus-4-8: skipped (HTTP 400); deepseek/deepseek-v4-pro: BudgetExhausted: deepseek/deepseek-v4-pro: max_tokens=4096 consumed before any answer was emitted (reasoning=True); raise max_tokens; together/kimi-k3: Bu"
+    },
+    "hBrfe4hFuM0": {
+      "title": "Army Captures Live Alien (Hospital Report Revealed!)",
+      "url": "https://www.youtube.com/watch?v=hBrfe4hFuM0",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:21:13.423249+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.925,
+      "fidelity_verdict": "pass",
+      "doc_id": "hBrfe4hFuM0",
+      "rag_status": "error",
+      "error": "Expecting ',' delimiter: line 65 column 8 (char 5651)"
+    },
+    "IFaXi-NrPV0": {
+      "title": "“I Was Taken By Aliens In 1997!” -President of Russian Republic",
+      "url": "https://www.youtube.com/watch?v=IFaXi-NrPV0",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:25:50.791856+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.925,
+      "fidelity_verdict": "pass",
+      "doc_id": "IFaXi-NrPV0",
+      "rag_status": "error",
+      "error": "All LLM providers failed (anthropic/claude-sonnet-5: skipped (HTTP 400); anthropic/claude-opus-4-8: skipped (HTTP 400); deepseek/deepseek-v4-pro: BudgetExhausted: deepseek/deepseek-v4-pro: max_tokens=4096 consumed before any answer was emitted (reasoning=True); raise max_tokens; together/kimi-k3: Bu"
+    },
+    "zrmG2jBckgk": {
+      "title": "Meet the Scientist Who Scanned Beneath the Pyramids",
+      "url": "https://www.youtube.com/watch?v=zrmG2jBckgk",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:26:50.584756+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.925,
+      "fidelity_verdict": "pass",
+      "doc_id": "zrmG2jBckgk",
+      "rag_status": "error",
+      "error": "Expecting ',' delimiter: line 44 column 6 (char 4507)"
+    },
+    "C_Na1tI5qpw": {
+      "title": "Joe Rogan: The Truth About Aliens (He Finally Says It)",
+      "url": "https://www.youtube.com/watch?v=C_Na1tI5qpw",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:32:10.134424+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.922,
+      "fidelity_verdict": "pass",
+      "doc_id": "C_Na1tI5qpw",
+      "rag_status": "error",
+      "error": "All LLM providers failed (anthropic/claude-sonnet-5: skipped (HTTP 400); anthropic/claude-opus-4-8: skipped (HTTP 400); deepseek/deepseek-v4-pro: BudgetExhausted: deepseek/deepseek-v4-pro: max_tokens=4096 consumed before any answer was emitted (reasoning=True); raise max_tokens; together/kimi-k3: Bu"
+    },
+    "Y7PLeu5rTv4": {
+      "title": "CIA Historian: “Aliens Are Controlling Human Timelines!” (ft. Peter Levenda)",
+      "url": "https://www.youtube.com/watch?v=Y7PLeu5rTv4",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:33:08.435884+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.924,
+      "fidelity_verdict": "pass",
+      "doc_id": "Y7PLeu5rTv4",
+      "rag_status": "error",
+      "error": "Expecting ',' delimiter: line 44 column 4 (char 5154)"
+    },
+    "aGqFOxuYRT0": {
+      "title": "“There's A UFO On The Seafloor!” -Treasure Hunter Dennis Asberg",
+      "url": "https://www.youtube.com/watch?v=aGqFOxuYRT0",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:34:00.432557+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.922,
+      "fidelity_verdict": "pass",
+      "doc_id": "aGqFOxuYRT0",
+      "rag_status": "error",
+      "error": "Unterminated string starting at: line 7 column 7 (char 496)"
+    },
+    "ABw7EsWh2Us": {
+      "title": "“I Found Hitler’s Secret UFO Program!” -Jason Jorjani",
+      "url": "https://www.youtube.com/watch?v=ABw7EsWh2Us",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:36:08.939540+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.924,
+      "fidelity_verdict": "pass",
+      "doc_id": "ABw7EsWh2Us",
+      "rag_status": "error",
+      "error": "Extra data: line 18 column 6 (char 1590)"
+    },
+    "1zRWi_r3HRM": {
+      "title": "\"100,000 UFOs Are Surrounding Earth!\" ft. Top Astronomer Beatriz Villarroel",
+      "url": "https://www.youtube.com/watch?v=1zRWi_r3HRM",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:37:10.088569+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.925,
+      "fidelity_verdict": "pass",
+      "doc_id": "1zRWi_r3HRM",
+      "rag_status": "error",
+      "error": "Unterminated string starting at: line 13 column 7 (char 1551)"
+    },
+    "Rfmy5oW_r9c": {
+      "title": "“The NSA Hired Me To Speak To Aliens!” -Sergeant Dan Sherman",
+      "url": "https://www.youtube.com/watch?v=Rfmy5oW_r9c",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:38:15.041901+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.923,
+      "fidelity_verdict": "pass",
+      "doc_id": "Rfmy5oW_r9c",
+      "rag_status": "error",
+      "error": "Unterminated string starting at: line 5 column 19 (char 380)"
+    },
+    "q7Czo77qhHA": {
+      "title": "UFOs & Human Experiments: Big Pharma's Horrific Past... (ft. Brigham Buhler)",
+      "url": "https://www.youtube.com/watch?v=q7Czo77qhHA",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:39:17.511792+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.925,
+      "fidelity_verdict": "pass",
+      "doc_id": "q7Czo77qhHA",
+      "rag_status": "error",
+      "error": "Extra data: line 14 column 6 (char 3098)"
+    },
+    "EzPmG_7WhXc": {
+      "title": "“Aliens Invented Religion To Control Humanity!” -Top Philosopher Jason Jorjani",
+      "url": "https://www.youtube.com/watch?v=EzPmG_7WhXc",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:41:10.955574+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.924,
+      "fidelity_verdict": "pass",
+      "doc_id": "EzPmG_7WhXc",
+      "rag_status": "error",
+      "error": "Expecting ',' delimiter: line 65 column 72 (char 5715)"
+    },
+    "2gsXjwtIXI0": {
+      "title": "2gsXjwtIXI0",
+      "url": "https://www.youtube.com/watch?v=2gsXjwtIXI0",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:41:13.431292+00:00",
+      "status": "no_transcript"
+    },
+    "zjpvfDFc4fg": {
+      "title": "NASA & UFOs: Pagan Rituals, Secret Science & Time Travel",
+      "url": "https://www.youtube.com/watch?v=zjpvfDFc4fg",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:42:19.648813+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.925,
+      "fidelity_verdict": "pass",
+      "doc_id": "zjpvfDFc4fg",
+      "rag_status": "error",
+      "error": "Extra data: line 13 column 6 (char 1543)"
+    },
+    "QgxjtDS2sIQ": {
+      "title": "“I Spent 3 Years With Tall White Aliens At Area 51\" -UFO Whistleblower Charles Hall",
+      "url": "https://www.youtube.com/watch?v=QgxjtDS2sIQ",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:43:24.161111+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.925,
+      "fidelity_verdict": "pass",
+      "doc_id": "QgxjtDS2sIQ",
+      "rag_status": "error",
+      "error": "Expecting ',' delimiter: line 8 column 6 (char 454)"
+    },
+    "TNtlzEnl8rA": {
+      "title": "NASA Doctor: “I Saw This UFO In A Secret Hangar!” (Ft. Greg Rogers)",
+      "url": "https://www.youtube.com/watch?v=TNtlzEnl8rA",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:44:36.056725+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.923,
+      "fidelity_verdict": "pass",
+      "doc_id": "TNtlzEnl8rA",
+      "rag_status": "error",
+      "error": "Expecting ',' delimiter: line 33 column 6 (char 3039)"
+    },
+    "pFVHnLJPiIs": {
+      "title": "pFVHnLJPiIs",
+      "url": "https://www.youtube.com/watch?v=pFVHnLJPiIs",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:44:38.547230+00:00",
+      "status": "no_transcript"
+    },
+    "HxQN2tkQHs8": {
+      "title": "Peru’s Three Fingered “Aliens” (WTF Are These?!)",
+      "url": "https://www.youtube.com/watch?v=HxQN2tkQHs8",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:45:32.852040+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.922,
+      "fidelity_verdict": "pass",
+      "doc_id": "HxQN2tkQHs8",
+      "rag_status": "error",
+      "error": "Extra data: line 15 column 6 (char 1665)"
+    },
+    "JE1oM89dpBc": {
+      "title": "Legendary Hip Hop Artist Reveals UFO Obsession (Ft. Flying Lotus)",
+      "url": "https://www.youtube.com/watch?v=JE1oM89dpBc",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:46:26.406018+00:00",
+      "status": "enrichment_failed",
+      "fidelity": 0.924,
+      "fidelity_verdict": "pass",
+      "doc_id": "JE1oM89dpBc",
+      "rag_status": "error",
+      "error": "Expecting ',' delimiter: line 49 column 69 (char 4306)"
+    },
+    "8XD1ZiuhXoY": {
+      "title": "“DMT Opens The Alien Realm!” - Neuroscientist Andrew Gallimore",
+      "url": "https://www.youtube.com/watch?v=8XD1ZiuhXoY",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:46:30.087864+00:00",
+      "status": "no_transcript"
+    },
+    "51N8OxqZIWY": {
+      "title": "Jeffrey Epstein & Aliens: The Global Satanic Cabal (ft. Jay Anderson & Kurt Metzger)",
+      "url": "https://www.youtube.com/watch?v=51N8OxqZIWY",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:46:33.754565+00:00",
+      "status": "no_transcript"
+    },
+    "-0g3lLGxNfc": {
+      "title": "“This UFO Shut Down 10 Nukes!” - Air Force Officer Robert Salas",
+      "url": "https://www.youtube.com/watch?v=-0g3lLGxNfc",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:46:37.000363+00:00",
+      "status": "no_transcript"
+    },
+    "WBTqsbwJyqU": {
+      "title": "“Aliens” Drove This Man Insane! (Ft. Greg Bishop)",
+      "url": "https://www.youtube.com/watch?v=WBTqsbwJyqU",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:46:40.683811+00:00",
+      "status": "no_transcript"
+    },
+    "GQlWf54K_7Y": {
+      "title": "The Defense Secretary Killed Over UFOs (Ft. Richard Dolan)",
+      "url": "https://www.youtube.com/watch?v=GQlWf54K_7Y",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:46:43.829033+00:00",
+      "status": "no_transcript"
+    },
+    "V00WcEiKRAY": {
+      "title": "\"I Located A UFO Base In Arizona!\" -Ross Coulthart",
+      "url": "https://www.youtube.com/watch?v=V00WcEiKRAY",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:46:47.384161+00:00",
+      "status": "no_transcript"
+    },
+    "h0hAit-KH9A": {
+      "title": "The Wall Street Journal Is Lying About UFOs",
+      "url": "https://www.youtube.com/watch?v=h0hAit-KH9A",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:46:50.823264+00:00",
+      "status": "no_transcript"
+    },
+    "SZBI85yvV5A": {
+      "title": "My Joe Rogan Appearance: What I Learned (ft. Young Jamie & Viktor Hovland)",
+      "url": "https://www.youtube.com/watch?v=SZBI85yvV5A",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:46:54.234241+00:00",
+      "status": "no_transcript"
+    },
+    "C4rSj5Aum7w": {
+      "title": "UFOs & JFK: He Knew Too Much! (Ft. Danny Sheehan)",
+      "url": "https://www.youtube.com/watch?v=C4rSj5Aum7w",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:46:57.636173+00:00",
+      "status": "no_transcript"
+    },
+    "y_8IKKcTntQ": {
+      "title": "Meet The Startup Summoning UFOs: Skywatcher Interview",
+      "url": "https://www.youtube.com/watch?v=y_8IKKcTntQ",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:47:01.133944+00:00",
+      "status": "no_transcript"
+    },
+    "JGE1NIGhBzw": {
+      "title": "The Moon Is An Alien Spaceship (Ft. Randall Carlson)",
+      "url": "https://www.youtube.com/watch?v=JGE1NIGhBzw",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:47:04.687501+00:00",
+      "status": "no_transcript"
+    },
+    "92XrddiKjHY": {
+      "title": "\"The Pyramids Are NOT What We Think!\" (Ft. Luke Caverns)",
+      "url": "https://www.youtube.com/watch?v=92XrddiKjHY",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:47:08.387966+00:00",
+      "status": "no_transcript"
+    },
+    "KRDE1i3LDuU": {
+      "title": "Plato’s Cave & UFOs: Consciousness Is Key (ft. James Madden)",
+      "url": "https://www.youtube.com/watch?v=KRDE1i3LDuU",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:47:11.741477+00:00",
+      "status": "no_transcript"
+    },
+    "09KP8XVf5nY": {
+      "title": "Presidential Advisor: “I Directly Handled UFO Material” (Ft. Harald Malmgren)",
+      "url": "https://www.youtube.com/watch?v=09KP8XVf5nY",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:47:14.984747+00:00",
+      "status": "no_transcript"
+    },
+    "Jpf0ZGY87c0": {
+      "title": "Did Henry Kissinger Oversee A UFO Crash Retrieval Program?",
+      "url": "https://www.youtube.com/watch?v=Jpf0ZGY87c0",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:47:18.329236+00:00",
+      "status": "no_transcript"
+    },
+    "areO7Mej44E": {
+      "title": "“UFO Secrets Are Held By A Global Cabal” (Ft. Steven Greer)",
+      "url": "https://www.youtube.com/watch?v=areO7Mej44E",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:47:21.892156+00:00",
+      "status": "no_transcript"
+    },
+    "KGD1nuM4MR8": {
+      "title": "“Tesla's Technology is Still Classified!\" (Ft. Senate Staffer Kirk McConnell)",
+      "url": "https://www.youtube.com/watch?v=KGD1nuM4MR8",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:47:25.199118+00:00",
+      "status": "no_transcript"
+    },
+    "D2tKCFmJjks": {
+      "title": "“I Saw A 300ft UFO In The Indonesian Jungle” (Ft. Michael Herrera & UAPGerb)",
+      "url": "https://www.youtube.com/watch?v=D2tKCFmJjks",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:47:28.802141+00:00",
+      "status": "no_transcript"
+    },
+    "h3u8EkGI8OQ": {
+      "title": "\"Aliens Are Accelerating Human Evolution!\" (Ft. Chris Ramsay)",
+      "url": "https://www.youtube.com/watch?v=h3u8EkGI8OQ",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:47:32.309695+00:00",
+      "status": "no_transcript"
+    },
+    "p0S0BfoZy0w": {
+      "title": "Life on Mars Destroyed by Nuclear War! (Ft. Dr. John Brandenburg)",
+      "url": "https://www.youtube.com/watch?v=p0S0BfoZy0w",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:47:35.619343+00:00",
+      "status": "no_transcript"
+    },
+    "yAvD5UTziTo": {
+      "title": "Meet The DARPA Scientist Abducted By an Alien ",
+      "url": "https://www.youtube.com/watch?v=yAvD5UTziTo",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:47:39.031734+00:00",
+      "status": "no_transcript"
+    },
+    "JpLThEF2dTM": {
+      "title": "“Mars Had Alien Life!” (Ft. Joe McMoneagle)",
+      "url": "https://www.youtube.com/watch?v=JpLThEF2dTM",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:47:42.493623+00:00",
+      "status": "no_transcript"
+    },
+    "lbGE3EC6StE": {
+      "title": "Meet the Astronomer Tracking UFOs",
+      "url": "https://www.youtube.com/watch?v=lbGE3EC6StE",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:47:45.961318+00:00",
+      "status": "no_transcript"
+    },
+    "nTiFs8LudUo": {
+      "title": "UAPGerb: “The New Area51 Is HERE in Utah!”",
+      "url": "https://www.youtube.com/watch?v=nTiFs8LudUo",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:47:49.051991+00:00",
+      "status": "no_transcript"
+    },
+    "9QMrhcpJq8I": {
+      "title": "The Age of Psionics: UFOs, Mind Control, & Global Power Structures (Ft. Matthew Pines)",
+      "url": "https://www.youtube.com/watch?v=9QMrhcpJq8I",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:47:52.502584+00:00",
+      "status": "no_transcript"
+    },
+    "5OUzGygIrSw": {
+      "title": "“Aliens Taught Me Advanced Physics!” (Ft. Dave Rossi)",
+      "url": "https://www.youtube.com/watch?v=5OUzGygIrSw",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:47:55.944966+00:00",
+      "status": "no_transcript"
+    },
+    "ABOP8ZJsyIk": {
+      "title": "\"Aliens Live Among Us...I've Met Them!\" -Whitley Strieber Tells All",
+      "url": "https://www.youtube.com/watch?v=ABOP8ZJsyIk",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:47:59.498604+00:00",
+      "status": "no_transcript"
+    },
+    "dnnpyNuPdXs": {
+      "title": "\"I Retrieved a UFO With My Helicopter!\" -Jake Barber",
+      "url": "https://www.youtube.com/watch?v=dnnpyNuPdXs",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:48:02.922565+00:00",
+      "status": "no_transcript"
+    },
+    "1iaH1a3A4Lk": {
+      "title": "UFO Skeptic Mick West Challenged To A Debate",
+      "url": "https://www.youtube.com/watch?v=1iaH1a3A4Lk",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:48:06.355413+00:00",
+      "status": "no_transcript"
+    },
+    "8TYMQOUDQBo": {
+      "title": "Meet the Navy Scientist With UFO Patents (Ft. Salvatore Pais)",
+      "url": "https://www.youtube.com/watch?v=8TYMQOUDQBo",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:48:09.793706+00:00",
+      "status": "no_transcript"
+    },
+    "73YBwFvcmF8": {
+      "title": "Nuclear Guard Speaks Out About UFO Abduction",
+      "url": "https://www.youtube.com/watch?v=73YBwFvcmF8",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:48:13.037963+00:00",
+      "status": "no_transcript"
+    },
+    "Sct30Qijfv8": {
+      "title": "“I Saw Alien Technology At A Military Base!” (Ft. Randy Anderson)",
+      "url": "https://www.youtube.com/watch?v=Sct30Qijfv8",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:48:16.340852+00:00",
+      "status": "no_transcript"
+    },
+    "0qlppHc3-gg": {
+      "title": "\"These Children Can Read Your Mind!” (ft. Ky Dickens | Telepathy Tapes Documentary)",
+      "url": "https://www.youtube.com/watch?v=0qlppHc3-gg",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:48:19.720548+00:00",
+      "status": "no_transcript"
+    },
+    "fzvwBBSmWYA": {
+      "title": "UFOs Are Monitoring Nuclear Bases Globally (Ft. Robert Hastings)",
+      "url": "https://www.youtube.com/watch?v=fzvwBBSmWYA",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:48:22.940453+00:00",
+      "status": "no_transcript"
+    },
+    "aa9Xx5wI8Rw": {
+      "title": "The Biblical Truth of UFOs & Angels (Ft. Karl Nell & Diana Pasulka)",
+      "url": "https://www.youtube.com/watch?v=aa9Xx5wI8Rw",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:48:26.240124+00:00",
+      "status": "no_transcript"
+    },
+    "2Xxmguz0GEQ": {
+      "title": "CIA Contractor: \"Obama Received An Alien Prophecy\"",
+      "url": "https://www.youtube.com/watch?v=2Xxmguz0GEQ",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:48:29.618048+00:00",
+      "status": "no_transcript"
+    },
+    "LnAiNChnuEQ": {
+      "title": "Eric Davis: “A US President Was Briefed on UFOs!” ",
+      "url": "https://www.youtube.com/watch?v=LnAiNChnuEQ",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:48:33.141790+00:00",
+      "status": "no_transcript"
+    },
+    "6WC4o2yY9Ws": {
+      "title": "US Fighter Pilots Witness UFO (ft. Ryan Graves)",
+      "url": "https://www.youtube.com/watch?v=6WC4o2yY9Ws",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:48:36.546579+00:00",
+      "status": "no_transcript"
+    },
+    "75Je_0hZovQ": {
+      "title": "The CIA’s Mind Control Program (Ft. Tom O’Neill)",
+      "url": "https://www.youtube.com/watch?v=75Je_0hZovQ",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:48:39.668813+00:00",
+      "status": "no_transcript"
+    },
+    "hXYdkcv5TtY": {
+      "title": "UFOs, Synchronicities & Prophetic Dreams (Ft. Eric Wargo)",
+      "url": "https://www.youtube.com/watch?v=hXYdkcv5TtY",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:48:42.900565+00:00",
+      "status": "no_transcript"
+    },
+    "aKZ_MUbuk_Q": {
+      "title": "MIT Scientist: We Live In a Hologram (And Here's The Proof!)",
+      "url": "https://www.youtube.com/watch?v=aKZ_MUbuk_Q",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:48:46.270448+00:00",
+      "status": "no_transcript"
+    },
+    "LpLFWdsIU7M": {
+      "title": "UFO Physics & Disclosure Under Trump (ft. Matthew Pines)",
+      "url": "https://www.youtube.com/watch?v=LpLFWdsIU7M",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:48:49.601129+00:00",
+      "status": "no_transcript"
+    },
+    "DPmO-2E7Ayg": {
+      "title": "Breaking UFO Story: ‘Immaculate Constellation’ UFO Program (Ft. Michael Shellenberger)",
+      "url": "https://www.youtube.com/watch?v=DPmO-2E7Ayg",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:48:53.298008+00:00",
+      "status": "no_transcript"
+    },
+    "RofQnByLwOo": {
+      "title": "Your Brain Is A Quantum Time Machine (ft. Eric Wargo)",
+      "url": "https://www.youtube.com/watch?v=RofQnByLwOo",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:48:56.642755+00:00",
+      "status": "no_transcript"
+    },
+    "A_LsUSxTm7A": {
+      "title": "Something Big Happened In 12,000 BC...",
+      "url": "https://www.youtube.com/watch?v=A_LsUSxTm7A",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:49:00.045603+00:00",
+      "status": "no_transcript"
+    },
+    "9PJJiut0Iuw": {
+      "title": "Graham Hancock: The Great Pyramid Is a “Stargate” for Consciousness!",
+      "url": "https://www.youtube.com/watch?v=9PJJiut0Iuw",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:49:04.260574+00:00",
+      "status": "no_transcript"
+    },
+    "5udx_SDdL3Y": {
+      "title": "Did Oppenheimer Work on UFOs?",
+      "url": "https://www.youtube.com/watch?v=5udx_SDdL3Y",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:49:08.387026+00:00",
+      "status": "no_transcript"
+    },
+    "1f16VvXaSSE": {
+      "title": "“Multiple Alien Groups May Be Visiting Earth!” (Lue Elizondo Documentary)",
+      "url": "https://www.youtube.com/watch?v=1f16VvXaSSE",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:49:11.921131+00:00",
+      "status": "no_transcript"
+    },
+    "8CjwxVE1Vtw": {
+      "title": "8CjwxVE1Vtw",
+      "url": "https://www.youtube.com/watch?v=8CjwxVE1Vtw",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:49:14.707455+00:00",
+      "status": "no_transcript"
+    },
+    "ePdH01pphbk": {
+      "title": "ePdH01pphbk",
+      "url": "https://www.youtube.com/watch?v=ePdH01pphbk",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:49:17.226651+00:00",
+      "status": "no_transcript"
+    },
+    "bVhSPH2A5Vw": {
+      "title": "The Most Important UFO Investigator On The Planet (ft. James Fox)",
+      "url": "https://www.youtube.com/watch?v=bVhSPH2A5Vw",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:49:20.812806+00:00",
+      "status": "no_transcript"
+    },
+    "G7Ns4Aq1tVc": {
+      "title": "“We Have Antigravity UFOs!” (ft. Nick Cook)",
+      "url": "https://www.youtube.com/watch?v=G7Ns4Aq1tVc",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:49:24.233467+00:00",
+      "status": "no_transcript"
+    },
+    "wT5-hXWIkzM": {
+      "title": "Meet The Scientist BANNED By TED Talks (ft. Rupert Sheldrake) ",
+      "url": "https://www.youtube.com/watch?v=wT5-hXWIkzM",
+      "playlist_id": "PLpvZy2482-kjlxGoFLPHJFQ1lNRD_49uN",
+      "updated": "2026-08-07T08:49:28.327261+00:00",
+      "status": "no_transcript"
+    }
+  }
+}

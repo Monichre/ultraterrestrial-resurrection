@@ -1,0 +1,1564 @@
+{
+  "schemaVersion": "trace-map.v1",
+  "sourceId": "src:f92db1888648fe27",
+  "sourceType": "video",
+  "sourceUrl": "https://www.youtube.com/watch?v=hz7jHEgYzQw&t=3s",
+  "sourceHash": "sha256:376ec001b9c364f6c585e9bc99c473725db448a5c4f9f0c2271f77411ecac6ff",
+  "contentVersion": 1,
+  "reviewState": "unreviewed",
+  "nodes": [
+    {
+      "id": "src:f92db1888648fe27",
+      "type": "source",
+      "label": "The Evolution of AAWSAP | Bigelow Podcast, Ep. 2",
+      "url": "https://www.youtube.com/watch?v=hz7jHEgYzQw&t=3s",
+      "sourceType": "video",
+      "contentType": "Interview Transcript",
+      "integrityFlags": [
+        "transcript_artifacts",
+        "conversational_filler"
+      ],
+      "classificationMarks": [],
+      "ingestionRecommendation": "proceed"
+    },
+    {
+      "id": "seg:f92db1888648fe27:c01",
+      "type": "segment",
+      "label": "c01",
+      "chunkId": "c01",
+      "headingPath": "Introduction / Motivation for Disclosure",
+      "evidentiaryDensity": "medium",
+      "overlapNote": "Starts with motivation for the podcast and initial push for disclosure.",
+      "temporalAnchors": [
+        "2023",
+        "2025",
+        "2026"
+      ],
+      "spatialAnchors": [
+        "Pentagon"
+      ],
+      "anchor": {
+        "charStart": 510,
+        "charEnd": 1494,
+        "segmentStart": 17,
+        "segmentEnd": 50,
+        "startSeconds": 43.92,
+        "endSeconds": 127.16,
+        "method": "prefix_suffix",
+        "excerpt": "the initial push uh was sometime back when with the publishing of um jim mccaskey's uh book in 2023. then he did a sequel in '25 and then another one in 2026. and i have all three of those books here on the table. and then uh uh and then uh"
+      },
+      "excerpt": "the initial push uh was sometime back when with the publishing of um Jim McCaskey's uh book in 2023. Then he did a sequel in '25 and then another one in 2026... And then uh Uh and then uh later was when I when I was with the president and w"
+    },
+    {
+      "id": "seg:f92db1888648fe27:c02",
+      "type": "segment",
+      "label": "c02",
+      "chunkId": "c02",
+      "headingPath": "Historical Context / Rockefeller Meeting",
+      "evidentiaryDensity": "high",
+      "overlapNote": "Covers the Rockefeller Ranch meeting and Clinton's awareness.",
+      "temporalAnchors": [
+        "Clinton Administration"
+      ],
+      "spatialAnchors": [
+        "Rockefeller Ranch",
+        "Jackson Hole, Wyoming",
+        "Grand Teton Mountain Range"
+      ],
+      "anchor": {
+        "charStart": 2946,
+        "charEnd": 3939,
+        "segmentStart": 99,
+        "segmentEnd": 130,
+        "startSeconds": 207.519,
+        "endSeconds": 287.919,
+        "method": "prefix_only",
+        "excerpt": "that's a photo of a group of us that laurence rockefeller convened at the rockefeller ranch right at the base of the grand teton mountain range in jackson hole, wyoming. and um, we were there to discuss the pros and cons of his position on "
+      },
+      "excerpt": "That's a photo of a group of us that Laurence Rockefeller convened at the Rockefeller Ranch right at the base of the Grand Teton Mountain Range in Jackson Hole, Wyoming. And um, we were there to discuss the pros and cons of his position on "
+    },
+    {
+      "id": "seg:f92db1888648fe27:c03",
+      "type": "segment",
+      "label": "c03",
+      "chunkId": "c03",
+      "headingPath": "NIDS / AAWSAP / AARO Critique",
+      "evidentiaryDensity": "high",
+      "overlapNote": "Transitions from NIDS participants to the timeline of ODNI and AARO formation.",
+      "temporalAnchors": [
+        "June 25, 2021",
+        "July 15, 2022",
+        "April 19, 2023"
+      ],
+      "spatialAnchors": [
+        "Los Alamos",
+        "Pentagon"
+      ],
+      "anchor": {
+        "charStart": 4309,
+        "charEnd": 5232,
+        "segmentStart": 141,
+        "segmentEnd": 175,
+        "startSeconds": 308.32,
+        "endSeconds": 385.24,
+        "method": "prefix_only",
+        "excerpt": "harry had sat in on many [clears throat] of our meetings for nids, you know, numerous times. and so, he already had a feel for what's going on because we had world-class people in that room. we had people from agencies. we had military peop"
+      },
+      "excerpt": "Harry had sat in on many [clears throat] of our meetings for NIDS... We had people from agencies. We had military people. We had terrific researchers, people that worked at Los Alamos... We had Edgar Mitchell and Jack Schmitt there... So, i"
+    },
+    {
+      "id": "seg:f92db1888648fe27:c04",
+      "type": "segment",
+      "label": "c04",
+      "chunkId": "c04",
+      "headingPath": "Consciousness and Survival of Death",
+      "evidentiaryDensity": "medium",
+      "overlapNote": "Focuses on the BICS essay contest and the survival of consciousness.",
+      "temporalAnchors": [
+        "2021"
+      ],
+      "spatialAnchors": [],
+      "anchor": {
+        "charStart": 13391,
+        "charEnd": 14198,
+        "segmentStart": 437,
+        "segmentEnd": 469,
+        "startSeconds": 953.64,
+        "endSeconds": 1030.92,
+        "method": "prefix_only",
+        "excerpt": "the thing of it is um the probability my my opinion is the universe is an open system. it's not closed. it's not finite which means it didn't have a beginning. open systems don't have a start and a stop. it's not a finite it's not a finite "
+      },
+      "excerpt": "the thing of it is um the probability my my opinion is the universe is an open system... It's the consciousness aspect is that yeah, [clears throat] we have on the table over here the results from a contest that we initiated in 2021... abou"
+    },
+    {
+      "id": "top:9dc3c8f5e04b",
+      "type": "topic",
+      "label": "Introduction / Motivation for Disclosure"
+    },
+    {
+      "id": "top:3f646e0d0e72",
+      "type": "topic",
+      "label": "Historical Context / Rockefeller Meeting"
+    },
+    {
+      "id": "top:f845e436ae13",
+      "type": "topic",
+      "label": "NIDS / AAWSAP / AARO Critique"
+    },
+    {
+      "id": "top:5e889b8da067",
+      "type": "topic",
+      "label": "Consciousness and Survival of Death"
+    },
+    {
+      "id": "clm:f92db1888648fe27:9bde33f518a0",
+      "type": "claim",
+      "label": "AARO is a disguise and fraudulent effort to squash disclosure",
+      "anchor": {
+        "charStart": 510,
+        "charEnd": 1494,
+        "segmentStart": 17,
+        "segmentEnd": 50,
+        "startSeconds": 43.92,
+        "endSeconds": 127.16,
+        "method": "prefix_suffix",
+        "excerpt": "the initial push uh was sometime back when with the publishing of um jim mccaskey's uh book in 2023. then he did a sequel in '25 and then another one in 2026. and i have all three of those books here on the table. and then uh uh and then uh"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:f92db1888648fe27:66cf5b068a1f",
+      "type": "claim",
+      "label": "Bigelow acted as a disclosure advisor to the President",
+      "anchor": {
+        "charStart": 510,
+        "charEnd": 1494,
+        "segmentStart": 17,
+        "segmentEnd": 50,
+        "startSeconds": 43.92,
+        "endSeconds": 127.16,
+        "method": "prefix_suffix",
+        "excerpt": "the initial push uh was sometime back when with the publishing of um jim mccaskey's uh book in 2023. then he did a sequel in '25 and then another one in 2026. and i have all three of those books here on the table. and then uh uh and then uh"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:f92db1888648fe27:023ba9e2ed27",
+      "type": "claim",
+      "label": "Laurence Rockefeller lobbied Bill Clinton for UFO disclosure",
+      "anchor": {
+        "charStart": 2946,
+        "charEnd": 3939,
+        "segmentStart": 99,
+        "segmentEnd": 130,
+        "startSeconds": 207.519,
+        "endSeconds": 287.919,
+        "method": "prefix_only",
+        "excerpt": "that's a photo of a group of us that laurence rockefeller convened at the rockefeller ranch right at the base of the grand teton mountain range in jackson hole, wyoming. and um, we were there to discuss the pros and cons of his position on "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:f92db1888648fe27:693f0f832b3f",
+      "type": "claim",
+      "label": "Bill Clinton expressed interest in UFOs and JFK assassination to Harry Reid",
+      "anchor": {
+        "charStart": 2946,
+        "charEnd": 3939,
+        "segmentStart": 99,
+        "segmentEnd": 130,
+        "startSeconds": 207.519,
+        "endSeconds": 287.919,
+        "method": "prefix_only",
+        "excerpt": "that's a photo of a group of us that laurence rockefeller convened at the rockefeller ranch right at the base of the grand teton mountain range in jackson hole, wyoming. and um, we were there to discuss the pros and cons of his position on "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:f92db1888648fe27:59c91a7bd93d",
+      "type": "claim",
+      "label": "NIDS included astronauts and Los Alamos researchers",
+      "anchor": {
+        "charStart": 4309,
+        "charEnd": 5232,
+        "segmentStart": 141,
+        "segmentEnd": 175,
+        "startSeconds": 308.32,
+        "endSeconds": 385.24,
+        "method": "prefix_only",
+        "excerpt": "harry had sat in on many [clears throat] of our meetings for nids, you know, numerous times. and so, he already had a feel for what's going on because we had world-class people in that room. we had people from agencies. we had military peop"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:f92db1888648fe27:a5235577d952",
+      "type": "claim",
+      "label": "ODNI confirmed UFOs are real in 2021",
+      "anchor": {
+        "charStart": 4309,
+        "charEnd": 5232,
+        "segmentStart": 141,
+        "segmentEnd": 175,
+        "startSeconds": 308.32,
+        "endSeconds": 385.24,
+        "method": "prefix_only",
+        "excerpt": "harry had sat in on many [clears throat] of our meetings for nids, you know, numerous times. and so, he already had a feel for what's going on because we had world-class people in that room. we had people from agencies. we had military peop"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:f92db1888648fe27:4aa428eaf7aa",
+      "type": "claim",
+      "label": "AARO is viewed as a pushback against disclosure",
+      "anchor": {
+        "charStart": 4309,
+        "charEnd": 5232,
+        "segmentStart": 141,
+        "segmentEnd": 175,
+        "startSeconds": 308.32,
+        "endSeconds": 385.24,
+        "method": "prefix_only",
+        "excerpt": "harry had sat in on many [clears throat] of our meetings for nids, you know, numerous times. and so, he already had a feel for what's going on because we had world-class people in that room. we had people from agencies. we had military peop"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:f92db1888648fe27:6f3179e5f66c",
+      "type": "claim",
+      "label": "Kirkpatrick's testimony contradicts ODNI's 2021 assessment",
+      "anchor": {
+        "charStart": 4309,
+        "charEnd": 5232,
+        "segmentStart": 141,
+        "segmentEnd": 175,
+        "startSeconds": 308.32,
+        "endSeconds": 385.24,
+        "method": "prefix_only",
+        "excerpt": "harry had sat in on many [clears throat] of our meetings for nids, you know, numerous times. and so, he already had a feel for what's going on because we had world-class people in that room. we had people from agencies. we had military peop"
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:f92db1888648fe27:36576cc2d386",
+      "type": "claim",
+      "label": "The universe is an open system",
+      "anchor": {
+        "charStart": 13391,
+        "charEnd": 14198,
+        "segmentStart": 437,
+        "segmentEnd": 469,
+        "startSeconds": 953.64,
+        "endSeconds": 1030.92,
+        "method": "prefix_only",
+        "excerpt": "the thing of it is um the probability my my opinion is the universe is an open system. it's not closed. it's not finite which means it didn't have a beginning. open systems don't have a start and a stop. it's not a finite it's not a finite "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:f92db1888648fe27:ae640651b30a",
+      "type": "claim",
+      "label": "Survival of consciousness after bodily death is provable beyond a reasonable doubt",
+      "anchor": {
+        "charStart": 13391,
+        "charEnd": 14198,
+        "segmentStart": 437,
+        "segmentEnd": 469,
+        "startSeconds": 953.64,
+        "endSeconds": 1030.92,
+        "method": "prefix_only",
+        "excerpt": "the thing of it is um the probability my my opinion is the universe is an open system. it's not closed. it's not finite which means it didn't have a beginning. open systems don't have a start and a stop. it's not a finite it's not a finite "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "clm:f92db1888648fe27:f7cf40e316c9",
+      "type": "claim",
+      "label": "Consciousness can affect material subatomic particles",
+      "anchor": {
+        "charStart": 13391,
+        "charEnd": 14198,
+        "segmentStart": 437,
+        "segmentEnd": 469,
+        "startSeconds": 953.64,
+        "endSeconds": 1030.92,
+        "method": "prefix_only",
+        "excerpt": "the thing of it is um the probability my my opinion is the universe is an open system. it's not closed. it's not finite which means it didn't have a beginning. open systems don't have a start and a stop. it's not a finite it's not a finite "
+      },
+      "claimSource": "chunk.claims_hint"
+    },
+    {
+      "id": "inf:f92db1888648fe27:e135f66f919d",
+      "type": "inference",
+      "label": "Robert Bigelow provided 'disclosure advisory' help to a sitting US President.",
+      "state": "Inferred",
+      "basis": "analysis.primary_claims",
+      "note": "Restated by the analysis prompt; no verbatim span located in the source, so it is not a Claim."
+    },
+    {
+      "id": "inf:f92db1888648fe27:bddf7d35583e",
+      "type": "inference",
+      "label": "AARO (All-domain Anomaly Resolution Office) is a 'disguise' and 'fraudulent effort' to squash disclosure.",
+      "state": "Inferred",
+      "basis": "analysis.primary_claims",
+      "note": "Restated by the analysis prompt; no verbatim span located in the source, so it is not a Claim."
+    },
+    {
+      "id": "inf:f92db1888648fe27:9743a727f91d",
+      "type": "inference",
+      "label": "Laurence Rockefeller convened a meeting at the Teton Ranch with Linda Howe, John Mack, and Bruce Maccabee to lobby President Bill Clinton on disclosure.",
+      "state": "Inferred",
+      "basis": "analysis.primary_claims",
+      "note": "Restated by the analysis prompt; no verbatim span located in the source, so it is not a Claim."
+    },
+    {
+      "id": "inf:f92db1888648fe27:3dbfcbefdefc",
+      "type": "inference",
+      "label": "Senator Harry Reid asked President Clinton if he really wanted to know who killed JFK and the truth about UFOs; Clinton allegedly confirmed interest.",
+      "state": "Inferred",
+      "basis": "analysis.primary_claims",
+      "note": "Restated by the analysis prompt; no verbatim span located in the source, so it is not a Claim."
+    },
+    {
+      "id": "inf:f92db1888648fe27:9ec3d3437d42",
+      "type": "inference",
+      "label": "The AAWSAP program (2008-2009) was the 'mother of all programs' and an honest discovery process compared to previous 'cover-up' efforts like Blue Book.",
+      "state": "Inferred",
+      "basis": "analysis.primary_claims",
+      "note": "Restated by the analysis prompt; no verbatim span located in the source, so it is not a Claim."
+    },
+    {
+      "id": "inf:f92db1888648fe27:d6aa619e5be2",
+      "type": "inference",
+      "label": "The universe is an 'open system' without a beginning or end; the Big Bang is an unsatisfactory theory.",
+      "state": "Inferred",
+      "basis": "analysis.primary_claims",
+      "note": "Restated by the analysis prompt; no verbatim span located in the source, so it is not a Claim."
+    },
+    {
+      "id": "inf:f92db1888648fe27:3cbfd92848b9",
+      "type": "inference",
+      "label": "The Bigelow Institute for Consciousness Studies (BICS) claims to have provided proof 'beyond a reasonable doubt' for the survival of consciousness after permanent bodily death.",
+      "state": "Inferred",
+      "basis": "analysis.primary_claims",
+      "note": "Restated by the analysis prompt; no verbatim span located in the source, so it is not a Claim."
+    },
+    {
+      "id": "inf:f92db1888648fe27:bb4156b6d445",
+      "type": "inference",
+      "label": "{\"label\": \"AAWSAP\", \"date\": \"2008-09-01\", \"description\": \"Program described as the only honest discovery effort since Bl",
+      "state": "Inferred",
+      "basis": "analysis.key_findings",
+      "detail": {
+        "label": "AAWSAP",
+        "date": "2008-09-01",
+        "description": "Program described as the only honest discovery effort since Blue Book."
+      }
+    },
+    {
+      "id": "inf:f92db1888648fe27:b086e4ba99f8",
+      "type": "inference",
+      "label": "{\"label\": \"ODNI Preliminary Assessment\", \"date\": \"2021-06-25\", \"description\": \"Official announcement that UFOs are physi",
+      "state": "Inferred",
+      "basis": "analysis.key_findings",
+      "detail": {
+        "label": "ODNI Preliminary Assessment",
+        "date": "2021-06-25",
+        "description": "Official announcement that UFOs are physically real objects."
+      }
+    },
+    {
+      "id": "inf:f92db1888648fe27:f246a70d7fb3",
+      "type": "inference",
+      "label": "{\"label\": \"AARO Establishment\", \"date\": \"2022-07-15\", \"description\": \"Kathleen Hicks renames the UAP office to All-domai",
+      "state": "Inferred",
+      "basis": "analysis.key_findings",
+      "detail": {
+        "label": "AARO Establishment",
+        "date": "2022-07-15",
+        "description": "Kathleen Hicks renames the UAP office to All-domain Anomaly Resolution Office."
+      }
+    },
+    {
+      "id": "inf:f92db1888648fe27:c0fac0b210fc",
+      "type": "inference",
+      "label": "{\"label\": \"BICS Essay Contest\", \"date\": \"2021-12-04\", \"description\": \"Awards ceremony for essays proving survival of con",
+      "state": "Inferred",
+      "basis": "analysis.key_findings",
+      "detail": {
+        "label": "BICS Essay Contest",
+        "date": "2021-12-04",
+        "description": "Awards ceremony for essays proving survival of consciousness; $1.8M total awarded."
+      }
+    },
+    {
+      "id": "evd:f92db1888648fe27:2a924b47968d",
+      "type": "evidence",
+      "label": "Skinwalkers at the Pentagon",
+      "anchor": {
+        "charStart": 1787,
+        "charEnd": 1814,
+        "segmentStart": 62,
+        "segmentEnd": 62,
+        "startSeconds": 149.88,
+        "endSeconds": 154.07999999999998,
+        "method": "exact",
+        "excerpt": "skinwalkers at the pentagon"
+      },
+      "stance": "supporting",
+      "context": "Cites Jim Lacatski’s 2023 book and 'Skinwalkers at the Pentagon' as foundational texts.",
+      "evidenceSource": "analysis.supporting_evidence"
+    },
+    {
+      "id": "inf:f92db1888648fe27:30bee27f86c0",
+      "type": "inference",
+      "label": "Cites ODNI 2021 report as confirmation of physical UAP reality.",
+      "state": "Inferred",
+      "basis": "analysis.supporting_evidence",
+      "stance": "supporting",
+      "note": "No quoted span located in the source."
+    },
+    {
+      "id": "inf:f92db1888648fe27:7991c6972ff8",
+      "type": "inference",
+      "label": "Mentions specific participants in the Rockefeller meeting: John Mack, Linda Howe, Bruce Maccabee.",
+      "state": "Inferred",
+      "basis": "analysis.supporting_evidence",
+      "stance": "supporting",
+      "note": "No quoted span located in the source."
+    },
+    {
+      "id": "inf:f92db1888648fe27:7b1cf4b89572",
+      "type": "inference",
+      "label": "Mentions specific participants in NIDS/AAWSAP meetings: Edgar Mitchell, Jack Schmitt, Hal Puthoff, Jacques Vallée, Kit Green.",
+      "state": "Inferred",
+      "basis": "analysis.supporting_evidence",
+      "stance": "supporting",
+      "note": "No quoted span located in the source."
+    },
+    {
+      "id": "inf:f92db1888648fe27:295a1e4f36a4",
+      "type": "inference",
+      "label": "Dr. Sean Kirkpatrick’s April 19, 2023 testimony stating no credible evidence of extraterrestrial activity or physics-defying objects.",
+      "state": "Inferred",
+      "basis": "analysis.contradictory_evidence",
+      "stance": "contradictory",
+      "note": "No quoted span located in the source."
+    },
+    {
+      "id": "inf:f92db1888648fe27:2187fe533a44",
+      "type": "inference",
+      "label": "Bigelow notes the 'stink' of the AARO report (Jan 12, 2023) as a pushback against the 2021 ODNI findings.",
+      "state": "Inferred",
+      "basis": "analysis.contradictory_evidence",
+      "stance": "contradictory",
+      "note": "No quoted span located in the source."
+    },
+    {
+      "id": "ent:f92db1888648fe27:personnel:55552f162c68",
+      "type": "entity",
+      "label": "Jim McCaskey",
+      "entityType": "PERSONNEL",
+      "state": "Observed",
+      "excerpt": "Jim McCaskey's uh book in 2023. Then he did a sequel in '25 and then another one in 2026",
+      "anchor": {
+        "charStart": 579,
+        "charEnd": 667,
+        "segmentStart": 22,
+        "segmentEnd": 24,
+        "startSeconds": 52.16,
+        "endSeconds": 62.04,
+        "method": "exact",
+        "excerpt": "jim mccaskey's uh book in 2023. then he did a sequel in '25 and then another one in 2026"
+      }
+    },
+    {
+      "id": "ent:f92db1888648fe27:personnel:f8d54da16db4",
+      "type": "entity",
+      "label": "The President",
+      "entityType": "PERSONNEL",
+      "state": "Corroborated",
+      "excerpt": "I was with the president and was doing the disclosure advisory kind of thing with him",
+      "anchor": {
+        "charStart": 773,
+        "charEnd": 858,
+        "segmentStart": 29,
+        "segmentEnd": 31,
+        "startSeconds": 68.12,
+        "endSeconds": 77.84,
+        "method": "exact",
+        "excerpt": "i was with the president and was doing the disclosure advisory kind of thing with him"
+      }
+    },
+    {
+      "id": "ent:f92db1888648fe27:organization:f17b55e55903",
+      "type": "entity",
+      "label": "The Pentagon",
+      "entityType": "ORGANIZATION",
+      "state": "Observed",
+      "excerpt": "the tide was what the Pentagon had already decided they were going to do",
+      "anchor": {
+        "charStart": 1015,
+        "charEnd": 1087,
+        "segmentStart": 37,
+        "segmentEnd": 39,
+        "startSeconds": 84.88,
+        "endSeconds": 99.2,
+        "method": "exact",
+        "excerpt": "the tide was what the pentagon had already decided they were going to do"
+      }
+    },
+    {
+      "id": "ent:f92db1888648fe27:organization:89c5235051cf",
+      "type": "entity",
+      "label": "AARO",
+      "entityType": "ORGANIZATION",
+      "state": "Contested",
+      "excerpt": "what AARO uh actually meant as a disguise and probably a fraudulent effort to squash dis- disclosure",
+      "anchor": {
+        "charStart": 1092,
+        "charEnd": 1192,
+        "segmentStart": 39,
+        "segmentEnd": 42,
+        "startSeconds": 90.76,
+        "endSeconds": 106.8,
+        "method": "exact",
+        "excerpt": "what aaro uh actually meant as a disguise and probably a fraudulent effort to squash dis- disclosure"
+      }
+    },
+    {
+      "id": "ent:f92db1888648fe27:evidence:90e94a397128",
+      "type": "entity",
+      "label": "McCaskey Book (2023)",
+      "entityType": "EVIDENCE",
+      "state": "Observed",
+      "excerpt": "publishing of um Jim McCaskey's uh book in 2023",
+      "anchor": {
+        "charStart": 562,
+        "charEnd": 609,
+        "segmentStart": 21,
+        "segmentEnd": 22,
+        "startSeconds": 49.44,
+        "endSeconds": 57.919999999999995,
+        "method": "exact",
+        "excerpt": "publishing of um jim mccaskey's uh book in 2023"
+      }
+    },
+    {
+      "id": "ent:f92db1888648fe27:event:8bcaf2df75f6",
+      "type": "entity",
+      "label": "Disclosure Advisory",
+      "entityType": "EVENT",
+      "state": "Unverified",
+      "excerpt": "doing the disclosure advisory kind of thing with him and giving him some help and ideas",
+      "anchor": {
+        "charStart": 806,
+        "charEnd": 893,
+        "segmentStart": 30,
+        "segmentEnd": 32,
+        "startSeconds": 70.6,
+        "endSeconds": 79.52,
+        "method": "exact",
+        "excerpt": "doing the disclosure advisory kind of thing with him and giving him some help and ideas"
+      }
+    },
+    {
+      "id": "ent:f92db1888648fe27:personnel:67cd806d2450",
+      "type": "entity",
+      "label": "Laurence Rockefeller",
+      "entityType": "PERSONNEL",
+      "role": "Convener / Philanthropist",
+      "aliases": [
+        "Rockefeller"
+      ],
+      "credibilityTier": 8,
+      "state": "Observed",
+      "excerpt": "Laurence Rockefeller convened at the Rockefeller Ranch... to discuss the pros and cons of his position on disclosure"
+    },
+    {
+      "id": "ent:f92db1888648fe27:personnel:517be93721e2",
+      "type": "entity",
+      "label": "Linda Howe",
+      "entityType": "PERSONNEL",
+      "role": "Attendee / Investigator",
+      "credibilityTier": 6,
+      "state": "Observed",
+      "excerpt": "Linda Howe was there"
+    },
+    {
+      "id": "ent:f92db1888648fe27:personnel:b026e7e9ea0f",
+      "type": "entity",
+      "label": "John Mack",
+      "entityType": "PERSONNEL",
+      "role": "Attendee / Academic",
+      "credibilityTier": 8,
+      "state": "Observed",
+      "excerpt": "John Mack was there"
+    },
+    {
+      "id": "ent:f92db1888648fe27:personnel:785c5be5d9e2",
+      "type": "entity",
+      "label": "Bruce Maccabee",
+      "entityType": "PERSONNEL",
+      "role": "Attendee / Scientist",
+      "credibilityTier": 8,
+      "state": "Observed",
+      "excerpt": "Bruce Maccabee, a number of other folks were there",
+      "anchor": {
+        "charStart": 3285,
+        "charEnd": 3335,
+        "segmentStart": 111,
+        "segmentEnd": 112,
+        "startSeconds": 234.2,
+        "endSeconds": 240.36,
+        "method": "exact",
+        "excerpt": "bruce maccabee, a number of other folks were there"
+      }
+    },
+    {
+      "id": "ent:f92db1888648fe27:personnel:605fb1aa4266",
+      "type": "entity",
+      "label": "Bill Clinton",
+      "entityType": "PERSONNEL",
+      "role": "President of the United States",
+      "credibilityTier": 10,
+      "state": "Corroborated",
+      "excerpt": "convince the president, of which at the time was Bill Clinton, that he needed to step up and uh and produce the disclosure",
+      "anchor": {
+        "charStart": 3389,
+        "charEnd": 3511,
+        "segmentStart": 114,
+        "segmentEnd": 117,
+        "startSeconds": 240.36,
+        "endSeconds": 256.40000000000003,
+        "method": "exact",
+        "excerpt": "convince the president, of which at the time was bill clinton, that he needed to step up and uh and produce the disclosure"
+      }
+    },
+    {
+      "id": "ent:f92db1888648fe27:personnel:839872963a8e",
+      "type": "entity",
+      "label": "Harry Reid",
+      "entityType": "PERSONNEL",
+      "role": "U.S. Senator / Intermediary",
+      "credibilityTier": 10,
+      "state": "Observed",
+      "excerpt": "I had my good friend Harry Reid... I want you to take this book and show it to Bill",
+      "aliases": [
+        "Harry"
+      ],
+      "anchor": {
+        "charStart": 4309,
+        "charEnd": 4374,
+        "segmentStart": 141,
+        "segmentEnd": 143,
+        "startSeconds": 308.32,
+        "endSeconds": 317.84,
+        "method": "exact",
+        "excerpt": "harry had sat in on many [clears throat] of our meetings for nids"
+      }
+    },
+    {
+      "id": "ent:f92db1888648fe27:event:b6ad1ee5f317",
+      "type": "entity",
+      "label": "Rockefeller Ranch Meeting",
+      "entityType": "EVENT",
+      "state": "Observed",
+      "excerpt": "convened at the Rockefeller Ranch right at the base of the Grand Teton Mountain Range in Jackson Hole, Wyoming.",
+      "anchor": {
+        "charStart": 3004,
+        "charEnd": 3115,
+        "segmentStart": 100,
+        "segmentEnd": 103,
+        "startSeconds": 209.2,
+        "endSeconds": 220.44000000000003,
+        "method": "exact",
+        "excerpt": "convened at the rockefeller ranch right at the base of the grand teton mountain range in jackson hole, wyoming."
+      }
+    },
+    {
+      "id": "ent:f92db1888648fe27:location:e086cced3fbc",
+      "type": "entity",
+      "label": "Rockefeller Ranch",
+      "entityType": "LOCATION",
+      "state": "Observed",
+      "excerpt": "Rockefeller Ranch right at the base of the Grand Teton Mountain Range",
+      "anchor": {
+        "charStart": 3020,
+        "charEnd": 3089,
+        "segmentStart": 101,
+        "segmentEnd": 103,
+        "startSeconds": 212.44,
+        "endSeconds": 220.44000000000003,
+        "method": "exact",
+        "excerpt": "rockefeller ranch right at the base of the grand teton mountain range"
+      }
+    },
+    {
+      "id": "ent:f92db1888648fe27:evidence:137e8d97be3c",
+      "type": "entity",
+      "label": "Unnamed Book",
+      "entityType": "EVIDENCE",
+      "state": "Observed",
+      "excerpt": "I want you to take this book and show it to Bill and say, 'Did you really say this?'"
+    },
+    {
+      "id": "ent:f92db1888648fe27:personnel:507dc651bb2e",
+      "type": "entity",
+      "label": "Edgar Mitchell",
+      "entityType": "PERSONNEL",
+      "role": "Astronaut / Researcher",
+      "credibilityTier": 10,
+      "excerpt": "We had Edgar Mitchell and Jack Schmitt there",
+      "anchor": {
+        "charStart": 4689,
+        "charEnd": 4733,
+        "segmentStart": 152,
+        "segmentEnd": 153,
+        "startSeconds": 332.88,
+        "endSeconds": 340.48,
+        "method": "exact",
+        "excerpt": "we had edgar mitchell and jack schmitt there"
+      }
+    },
+    {
+      "id": "ent:f92db1888648fe27:personnel:0e847a30566e",
+      "type": "entity",
+      "label": "Jack Schmitt",
+      "entityType": "PERSONNEL",
+      "role": "Astronaut / Researcher",
+      "credibilityTier": 10,
+      "excerpt": "We had Edgar Mitchell and Jack Schmitt there",
+      "anchor": {
+        "charStart": 4689,
+        "charEnd": 4733,
+        "segmentStart": 152,
+        "segmentEnd": 153,
+        "startSeconds": 332.88,
+        "endSeconds": 340.48,
+        "method": "exact",
+        "excerpt": "we had edgar mitchell and jack schmitt there"
+      }
+    },
+    {
+      "id": "ent:f92db1888648fe27:personnel:b92f69a15c01",
+      "type": "entity",
+      "label": "Luis Elizondo",
+      "entityType": "PERSONNEL",
+      "role": "Author / Former Intelligence Officer",
+      "aliases": [
+        "Elizondo"
+      ],
+      "credibilityTier": 8,
+      "excerpt": "So, in Elizondo's book..."
+    },
+    {
+      "id": "ent:f92db1888648fe27:personnel:fb384d2e6f03",
+      "type": "entity",
+      "label": "Kathleen Hicks",
+      "entityType": "PERSONNEL",
+      "role": "Deputy Secretary of Defense",
+      "credibilityTier": 10,
+      "excerpt": "Deputy Secretary Kathleen Hicks announced the creation of a new organization",
+      "anchor": {
+        "charStart": 7662,
+        "charEnd": 7738,
+        "segmentStart": 254,
+        "segmentEnd": 256,
+        "startSeconds": 542.839,
+        "endSeconds": 552.5600000000001,
+        "method": "exact",
+        "excerpt": "deputy secretary kathleen hicks announced the creation of a new organization"
+      }
+    },
+    {
+      "id": "ent:f92db1888648fe27:personnel:957609e15e34",
+      "type": "entity",
+      "label": "Sean Kirkpatrick",
+      "entityType": "PERSONNEL",
+      "role": "Director of AARO",
+      "aliases": [
+        "Kirkpatrick"
+      ],
+      "credibilityTier": 9,
+      "excerpt": "Kirkpatrick added, 'AARO has found no credible evidence thus far of extraterrestrial activity...'"
+    },
+    {
+      "id": "ent:f92db1888648fe27:organization:d84422dba271",
+      "type": "entity",
+      "label": "National Institute for Discovery Science",
+      "entityType": "ORGANIZATION",
+      "aliases": [
+        "NIDS"
+      ],
+      "excerpt": "our meetings for NIDS... We had people from agencies. We had military people."
+    },
+    {
+      "id": "ent:f92db1888648fe27:organization:bc26687ad082",
+      "type": "entity",
+      "label": "Office of the Director of National Intelligence",
+      "entityType": "ORGANIZATION",
+      "aliases": [
+        "ODNI"
+      ],
+      "excerpt": "Office of the Director of National Intelligence, ODNI, made the long-awaited announcement",
+      "anchor": {
+        "charStart": 7034,
+        "charEnd": 7123,
+        "segmentStart": 231,
+        "segmentEnd": 233,
+        "startSeconds": 486.12,
+        "endSeconds": 495.48,
+        "method": "exact",
+        "excerpt": "office of the director of national intelligence, odni, made the long-awaited announcement"
+      }
+    },
+    {
+      "id": "ent:f92db1888648fe27:organization:de5df1761989",
+      "type": "entity",
+      "label": "All-domain Anomaly Resolution Office",
+      "entityType": "ORGANIZATION",
+      "aliases": [
+        "AARO"
+      ],
+      "excerpt": "All-domain Anomaly Resolution Office, AARO. Which exists today, I think, as the tip of the sword",
+      "anchor": {
+        "charStart": 8182,
+        "charEnd": 8278,
+        "segmentStart": 271,
+        "segmentEnd": 274,
+        "startSeconds": 578.76,
+        "endSeconds": 590.88,
+        "method": "exact",
+        "excerpt": "all-domain anomaly resolution office, aaro. which exists today, i think, as the tip of the sword"
+      }
+    },
+    {
+      "id": "ent:f92db1888648fe27:organization:3f1caf813235",
+      "type": "entity",
+      "label": "Airborne Object Identification and Management Synchronization Group",
+      "entityType": "ORGANIZATION",
+      "aliases": [
+        "AOIMSG"
+      ],
+      "excerpt": "Airborne Object Identification and Management Synchronization Group",
+      "anchor": {
+        "charStart": 7769,
+        "charEnd": 7836,
+        "segmentStart": 257,
+        "segmentEnd": 258,
+        "startSeconds": 550.0,
+        "endSeconds": 556.88,
+        "method": "exact",
+        "excerpt": "airborne object identification and management synchronization group"
+      }
+    },
+    {
+      "id": "ent:f92db1888648fe27:event:1bf640cacd67",
+      "type": "entity",
+      "label": "ODNI UAP Announcement",
+      "entityType": "EVENT",
+      "excerpt": "on June 25, 2021, was a revolutionary day when the Office of the Director of National Intelligence, ODNI, made the long-awaited announcement",
+      "anchor": {
+        "charStart": 6983,
+        "charEnd": 7123,
+        "segmentStart": 229,
+        "segmentEnd": 233,
+        "startSeconds": 479.44,
+        "endSeconds": 495.48,
+        "method": "exact",
+        "excerpt": "on june 25, 2021, was a revolutionary day when the office of the director of national intelligence, odni, made the long-awaited announcement"
+      }
+    },
+    {
+      "id": "ent:f92db1888648fe27:event:1a660330304e",
+      "type": "entity",
+      "label": "AARO Rebranding",
+      "entityType": "EVENT",
+      "excerpt": "July 15th, 2022, Kathleen Hicks renames it again... All-domain Anomaly Resolution Office, AARO."
+    },
+    {
+      "id": "ent:f92db1888648fe27:location:e2a3af9c1d2a",
+      "type": "entity",
+      "label": "Los Alamos",
+      "entityType": "LOCATION",
+      "excerpt": "people that worked at Los Alamos",
+      "anchor": {
+        "charStart": 4582,
+        "charEnd": 4614,
+        "segmentStart": 149,
+        "segmentEnd": 149,
+        "startSeconds": 327.52,
+        "endSeconds": 332.12,
+        "method": "exact",
+        "excerpt": "people that worked at los alamos"
+      }
+    },
+    {
+      "id": "ent:f92db1888648fe27:organization:2951d9acb233",
+      "type": "entity",
+      "label": "Bigelow Institute for Consciousness Studies",
+      "entityType": "ORGANIZATION",
+      "aliases": [
+        "BICS"
+      ],
+      "state": "Observed",
+      "excerpt": "We're talking about BICS, the Bigelow Institute for Consciousness Studies.",
+      "anchor": {
+        "charStart": 21154,
+        "charEnd": 21228,
+        "segmentStart": 707,
+        "segmentEnd": 708,
+        "startSeconds": 1564.72,
+        "endSeconds": 1569.9599999999998,
+        "method": "prefix_only",
+        "excerpt": "we're talking about bics, the bigelow institute for consciousness studies,"
+      }
+    },
+    {
+      "id": "ent:f92db1888648fe27:event:8058bb22dc46",
+      "type": "entity",
+      "label": "Bigelow Institute for Consciousness Studies Contest on Survival of Bodily Death",
+      "entityType": "EVENT",
+      "aliases": [
+        "the contest"
+      ],
+      "state": "Observed",
+      "excerpt": "the results from a contest that we initiated in 2021... about proving beyond a reasonable doubt that the survival of permanent bodily death is real."
+    },
+    {
+      "id": "ent:f92db1888648fe27:personnel:cade8915ae0a",
+      "type": "entity",
+      "label": "Jeffrey Mishlove",
+      "entityType": "PERSONNEL",
+      "role": "Contest winner (first place)",
+      "credibilityTier": 5,
+      "state": "Observed",
+      "excerpt": "Jeffrey Mishlove won first place.",
+      "anchor": {
+        "charStart": 20968,
+        "charEnd": 21001,
+        "segmentStart": 701,
+        "segmentEnd": 701,
+        "startSeconds": 1550.4,
+        "endSeconds": 1556.5600000000002,
+        "method": "exact",
+        "excerpt": "jeffrey mishlove won first place."
+      }
+    },
+    {
+      "id": "ent:f92db1888648fe27:personnel:91e7dac980f2",
+      "type": "entity",
+      "label": "Leo Ruickbie",
+      "entityType": "PERSONNEL",
+      "role": "Contest winner (third place)",
+      "credibilityTier": 5,
+      "state": "Observed",
+      "excerpt": "Leo Ruickbie won third place."
+    },
+    {
+      "id": "ent:f92db1888648fe27:personnel:0b5d3c66a26a",
+      "type": "entity",
+      "label": "Wim Lom Pummell",
+      "entityType": "PERSONNEL",
+      "role": "Contest winner (second place)",
+      "aliases": [
+        "Wim Lom Pummell"
+      ],
+      "credibilityTier": 5,
+      "state": "Observed",
+      "excerpt": "Wim Lom Pummell... won second place."
+    },
+    {
+      "id": "ent:f92db1888648fe27:evidence:96ad338a993f",
+      "type": "entity",
+      "label": "Contest submissions on survival of bodily death",
+      "entityType": "EVIDENCE",
+      "aliases": [
+        "1,400 submissions",
+        "205 down-selected"
+      ],
+      "state": "Observed",
+      "excerpt": "We had 1,400 come in. And and so, the judge judges down selected to 205..."
+    },
+    {
+      "id": "ent:f92db1888648fe27:topic:5e889b8da067",
+      "type": "entity",
+      "label": "Consciousness and survival of death",
+      "entityType": "TOPIC",
+      "aliases": [
+        "survival of permanent bodily death"
+      ],
+      "state": "Observed",
+      "excerpt": "survival of permanent bodily death is real. That we go on... you become a functional thought..."
+    },
+    {
+      "id": "ent:f92db1888648fe27:topic:eccc4249bf1e",
+      "type": "entity",
+      "label": "Consciousness effects on matter",
+      "entityType": "TOPIC",
+      "aliases": [
+        "consciousness can have an effect on inanimate on on material products"
+      ],
+      "state": "Observed",
+      "excerpt": "consciousness can have an effect on inanimate on on material products on on materials on on um the by just pure observation, you can have an effect on subatomic particles..."
+    }
+  ],
+  "edges": [
+    {
+      "from": "src:f92db1888648fe27",
+      "to": "seg:f92db1888648fe27:c01",
+      "type": "contains"
+    },
+    {
+      "from": "src:f92db1888648fe27",
+      "to": "seg:f92db1888648fe27:c02",
+      "type": "contains"
+    },
+    {
+      "from": "src:f92db1888648fe27",
+      "to": "seg:f92db1888648fe27:c03",
+      "type": "contains"
+    },
+    {
+      "from": "src:f92db1888648fe27",
+      "to": "seg:f92db1888648fe27:c04",
+      "type": "contains"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c01",
+      "to": "seg:f92db1888648fe27:c02",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c02",
+      "to": "seg:f92db1888648fe27:c03",
+      "type": "precedes"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c03",
+      "to": "seg:f92db1888648fe27:c04",
+      "type": "precedes"
+    },
+    {
+      "from": "top:9dc3c8f5e04b",
+      "to": "seg:f92db1888648fe27:c01",
+      "type": "contains"
+    },
+    {
+      "from": "top:9dc3c8f5e04b",
+      "to": "seg:f92db1888648fe27:c01",
+      "type": "introduced_by"
+    },
+    {
+      "from": "top:3f646e0d0e72",
+      "to": "seg:f92db1888648fe27:c02",
+      "type": "contains"
+    },
+    {
+      "from": "top:3f646e0d0e72",
+      "to": "seg:f92db1888648fe27:c02",
+      "type": "introduced_by"
+    },
+    {
+      "from": "top:f845e436ae13",
+      "to": "seg:f92db1888648fe27:c03",
+      "type": "contains"
+    },
+    {
+      "from": "top:f845e436ae13",
+      "to": "seg:f92db1888648fe27:c03",
+      "type": "introduced_by"
+    },
+    {
+      "from": "top:5e889b8da067",
+      "to": "seg:f92db1888648fe27:c04",
+      "type": "contains"
+    },
+    {
+      "from": "top:5e889b8da067",
+      "to": "seg:f92db1888648fe27:c04",
+      "type": "introduced_by"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c01",
+      "to": "clm:f92db1888648fe27:9bde33f518a0",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:f92db1888648fe27:9bde33f518a0",
+      "to": "top:9dc3c8f5e04b",
+      "type": "about"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c01",
+      "to": "clm:f92db1888648fe27:66cf5b068a1f",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:f92db1888648fe27:66cf5b068a1f",
+      "to": "top:9dc3c8f5e04b",
+      "type": "about"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c02",
+      "to": "clm:f92db1888648fe27:023ba9e2ed27",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:f92db1888648fe27:023ba9e2ed27",
+      "to": "top:3f646e0d0e72",
+      "type": "about"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c02",
+      "to": "clm:f92db1888648fe27:693f0f832b3f",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:f92db1888648fe27:693f0f832b3f",
+      "to": "top:3f646e0d0e72",
+      "type": "about"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c03",
+      "to": "clm:f92db1888648fe27:59c91a7bd93d",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:f92db1888648fe27:59c91a7bd93d",
+      "to": "top:f845e436ae13",
+      "type": "about"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c03",
+      "to": "clm:f92db1888648fe27:a5235577d952",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:f92db1888648fe27:a5235577d952",
+      "to": "top:f845e436ae13",
+      "type": "about"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c03",
+      "to": "clm:f92db1888648fe27:4aa428eaf7aa",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:f92db1888648fe27:4aa428eaf7aa",
+      "to": "top:f845e436ae13",
+      "type": "about"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c03",
+      "to": "clm:f92db1888648fe27:6f3179e5f66c",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:f92db1888648fe27:6f3179e5f66c",
+      "to": "top:f845e436ae13",
+      "type": "about"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c04",
+      "to": "clm:f92db1888648fe27:36576cc2d386",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:f92db1888648fe27:36576cc2d386",
+      "to": "top:5e889b8da067",
+      "type": "about"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c04",
+      "to": "clm:f92db1888648fe27:ae640651b30a",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:f92db1888648fe27:ae640651b30a",
+      "to": "top:5e889b8da067",
+      "type": "about"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c04",
+      "to": "clm:f92db1888648fe27:f7cf40e316c9",
+      "type": "asserts"
+    },
+    {
+      "from": "clm:f92db1888648fe27:f7cf40e316c9",
+      "to": "top:5e889b8da067",
+      "type": "about"
+    },
+    {
+      "from": "inf:f92db1888648fe27:e135f66f919d",
+      "to": "src:f92db1888648fe27",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:f92db1888648fe27:bddf7d35583e",
+      "to": "src:f92db1888648fe27",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:f92db1888648fe27:9743a727f91d",
+      "to": "src:f92db1888648fe27",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:f92db1888648fe27:3dbfcbefdefc",
+      "to": "src:f92db1888648fe27",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:f92db1888648fe27:9ec3d3437d42",
+      "to": "src:f92db1888648fe27",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:f92db1888648fe27:d6aa619e5be2",
+      "to": "src:f92db1888648fe27",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:f92db1888648fe27:3cbfd92848b9",
+      "to": "src:f92db1888648fe27",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:f92db1888648fe27:bb4156b6d445",
+      "to": "src:f92db1888648fe27",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:f92db1888648fe27:b086e4ba99f8",
+      "to": "src:f92db1888648fe27",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:f92db1888648fe27:f246a70d7fb3",
+      "to": "src:f92db1888648fe27",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:f92db1888648fe27:c0fac0b210fc",
+      "to": "src:f92db1888648fe27",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:f92db1888648fe27:30bee27f86c0",
+      "to": "src:f92db1888648fe27",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:f92db1888648fe27:7991c6972ff8",
+      "to": "src:f92db1888648fe27",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:f92db1888648fe27:7b1cf4b89572",
+      "to": "src:f92db1888648fe27",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:f92db1888648fe27:295a1e4f36a4",
+      "to": "src:f92db1888648fe27",
+      "type": "based_on"
+    },
+    {
+      "from": "inf:f92db1888648fe27:2187fe533a44",
+      "to": "src:f92db1888648fe27",
+      "type": "based_on"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c01",
+      "to": "ent:f92db1888648fe27:personnel:55552f162c68",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c01",
+      "to": "ent:f92db1888648fe27:personnel:f8d54da16db4",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c01",
+      "to": "ent:f92db1888648fe27:organization:f17b55e55903",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c01",
+      "to": "ent:f92db1888648fe27:organization:89c5235051cf",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c01",
+      "to": "ent:f92db1888648fe27:evidence:90e94a397128",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c01",
+      "to": "ent:f92db1888648fe27:event:8bcaf2df75f6",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c02",
+      "to": "ent:f92db1888648fe27:personnel:67cd806d2450",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c02",
+      "to": "ent:f92db1888648fe27:personnel:517be93721e2",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c02",
+      "to": "ent:f92db1888648fe27:personnel:b026e7e9ea0f",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c02",
+      "to": "ent:f92db1888648fe27:personnel:785c5be5d9e2",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c02",
+      "to": "ent:f92db1888648fe27:personnel:605fb1aa4266",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c02",
+      "to": "ent:f92db1888648fe27:personnel:839872963a8e",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c02",
+      "to": "ent:f92db1888648fe27:event:b6ad1ee5f317",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c02",
+      "to": "ent:f92db1888648fe27:location:e086cced3fbc",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c02",
+      "to": "ent:f92db1888648fe27:evidence:137e8d97be3c",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c03",
+      "to": "ent:f92db1888648fe27:personnel:839872963a8e",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c03",
+      "to": "ent:f92db1888648fe27:personnel:507dc651bb2e",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c03",
+      "to": "ent:f92db1888648fe27:personnel:0e847a30566e",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c03",
+      "to": "ent:f92db1888648fe27:personnel:b92f69a15c01",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c03",
+      "to": "ent:f92db1888648fe27:personnel:fb384d2e6f03",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c03",
+      "to": "ent:f92db1888648fe27:personnel:957609e15e34",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c03",
+      "to": "ent:f92db1888648fe27:organization:d84422dba271",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c03",
+      "to": "ent:f92db1888648fe27:organization:bc26687ad082",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c03",
+      "to": "ent:f92db1888648fe27:organization:de5df1761989",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c03",
+      "to": "ent:f92db1888648fe27:organization:3f1caf813235",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c03",
+      "to": "ent:f92db1888648fe27:event:1bf640cacd67",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c03",
+      "to": "ent:f92db1888648fe27:event:1a660330304e",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c03",
+      "to": "ent:f92db1888648fe27:location:e2a3af9c1d2a",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c04",
+      "to": "ent:f92db1888648fe27:organization:2951d9acb233",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c04",
+      "to": "ent:f92db1888648fe27:event:8058bb22dc46",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c04",
+      "to": "ent:f92db1888648fe27:personnel:cade8915ae0a",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c04",
+      "to": "ent:f92db1888648fe27:personnel:91e7dac980f2",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c04",
+      "to": "ent:f92db1888648fe27:personnel:0b5d3c66a26a",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c04",
+      "to": "ent:f92db1888648fe27:evidence:96ad338a993f",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c04",
+      "to": "ent:f92db1888648fe27:topic:5e889b8da067",
+      "type": "mentions"
+    },
+    {
+      "from": "seg:f92db1888648fe27:c04",
+      "to": "ent:f92db1888648fe27:topic:eccc4249bf1e",
+      "type": "mentions"
+    }
+  ],
+  "views": {
+    "sourceSpine": [
+      "seg:f92db1888648fe27:c01",
+      "seg:f92db1888648fe27:c02",
+      "seg:f92db1888648fe27:c03",
+      "seg:f92db1888648fe27:c04"
+    ],
+    "topicRoots": [
+      "top:9dc3c8f5e04b",
+      "top:3f646e0d0e72",
+      "top:f845e436ae13",
+      "top:5e889b8da067"
+    ],
+    "claimRoots": [
+      "clm:f92db1888648fe27:9bde33f518a0",
+      "clm:f92db1888648fe27:66cf5b068a1f",
+      "clm:f92db1888648fe27:023ba9e2ed27",
+      "clm:f92db1888648fe27:693f0f832b3f",
+      "clm:f92db1888648fe27:59c91a7bd93d",
+      "clm:f92db1888648fe27:a5235577d952",
+      "clm:f92db1888648fe27:4aa428eaf7aa",
+      "clm:f92db1888648fe27:6f3179e5f66c",
+      "clm:f92db1888648fe27:36576cc2d386",
+      "clm:f92db1888648fe27:ae640651b30a",
+      "clm:f92db1888648fe27:f7cf40e316c9"
+    ],
+    "openQuestionRoots": []
+  },
+  "coverage": {
+    "timed": true,
+    "charsAnchored": 3707,
+    "charsTotal": 61568,
+    "fraction": 0.0602,
+    "segmentsCovered": 134,
+    "segmentsTotal": 2035,
+    "pipelineTruncatedAtChars": 24000,
+    "chunkAnchorMethods": {
+      "prefix_suffix": 1,
+      "prefix_only": 3
+    }
+  },
+  "generation": {
+    "createdAt": "2026-08-16T20:28:38.724823+00:00",
+    "models": [
+      "google/gemini-3-flash",
+      "deepseek/deepseek-v4-pro"
+    ],
+    "promptsUsed": [
+      "disclosure.content_analysis",
+      "disclosure.ner",
+      "document_classification",
+      "rag_ingestion",
+      "validation"
+    ],
+    "methodologyVersion": "rag-prompt-pipeline/ADR-0001",
+    "pipelineStatus": "ok",
+    "degraded": true
+  },
+  "validation": {
+    "valid": true,
+    "errors": [],
+    "gaps": [
+      "no next_trace nodes — no pipeline stage proposes concrete next sources",
+      "no reading nodes — no interpretive stage exists; readings are never inferred here",
+      "no counter_reading nodes — paired with reading; unproduced for the same reason",
+      "no speaker nodes — diarisation is unavailable — the transcript carries '>>' turn markers but no speaker identities",
+      "no open questions — the map manufactures closure it has no basis for",
+      "no evidence→claim edges — the analysis prompt emits supporting and contradictory evidence as flat lists with no target claim, so evidence carries a stance but names no claim it bears on",
+      "chunk coverage is 6% of the source (3707 of 61568 chars); the pipeline truncates at 24000 chars"
+    ]
+  }
+}

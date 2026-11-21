@@ -1,0 +1,38 @@
+{
+  "url": "https://medium.com/@JS_UFO_ART/the-immaculate-constellation-leak-a-secret-ufo-program-exposed-8715303a6b9e",
+  "title": "Web Article",
+  "author": "",
+  "publish_date": "",
+  "type": "web_article",
+  "content_length": 8524,
+  "word_count": 1264,
+  "extraction_timestamp": "2025-09-05T17:19:29.784016",
+  "processing_status": {
+    "content_extracted": true,
+    "summary_generated": false,
+    "entities_extracted": false,
+    "kb_indexed": false,
+    "kg_processed": false
+  },
+  "files": {
+    "summary": "/Users/liamellis/Desktop/ultraterrestrial-resurrection/packages/knowledge-base/sources/web/2025-09-05/medium-com_797557aa/medium-com_summary.txt",
+    "content": "/Users/liamellis/Desktop/ultraterrestrial-resurrection/packages/knowledge-base/sources/web/2025-09-05/medium-com_797557aa/medium-com_content.txt",
+    "metadata": "/Users/liamellis/Desktop/ultraterrestrial-resurrection/packages/knowledge-base/sources/web/2025-09-05/medium-com_797557aa/medium-com_metadata.json"
+  },
+  "analysis": {
+    "content_type": "ufo_research",
+    "key_topics": [
+      "Ufo",
+      "Uap",
+      "Area 51",
+      "Disclosure",
+      "Encounter",
+      "Cia",
+      "Government",
+      "Classified",
+      "Testimony"
+    ],
+    "reading_time_minutes": 6,
+    "complexity_score": 100
+  }
+}

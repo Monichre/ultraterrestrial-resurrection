@@ -1,0 +1,22 @@
+ .claude/hooks/strategic-compact/suggest-compact.sh                          |   68 +-
+ .codex/config.toml                                                          |   42 +-
+ .specstory/history/2026-08-15_02-39-37Z-at-apps-disclosure-rag.md           | 5226 ++++++++++++++++++++++++++++++++++
+ .specstory/history/2026-08-15_12-01-54Z-opus-communication-issues.md        | 1010 ++++++-
+ apps/app/CLAUDE.md                                                          |   68 +-
+ apps/app/src/features/mindmap/store/CLAUDE.md                               |    7 -
+ apps/disclosure-rag/.claude/worktrees/compassionate-lovelace-e35750         |    0
+ apps/disclosure-rag/CLAUDE.md                                               |  209 +-
+ apps/disclosure-rag/lib/xata_search.py                                      |  246 --
+ docs/design/data-platform-rebuild-spec.md                                   |  295 --
+ docs/design/neuform-sources/AeroNet-Visualization-DESIGN.md                 |  157 -
+ docs/design/neuform-sources/aether-node-dashboard-DESIGN.md                 |   76 -
+ docs/design/neuform-sources/cognitive-routing-framework-DESIGN.md           |   76 -
+ .../design/neuform-sources/diagnostic-architecture-model-teardown-DESIGN.md |   76 -
+ docs/design/neuform-sources/futuristic-interface-section-DESIGN.md          |   76 -
+ docs/design/neuform-sources/monolith-engine-DESIGN.md                       |   76 -
+ ...cmkndxt600009ib04wxsx5q33_investigative-research-assistant.prompt (1).md |   62 -
+ .../pre-interview-intelligence-dossier.prompt.md                            |  258 --
+ .../visual-media-analysis-expert-agent-role.prompt.md                       |  274 --
+ packages/ai/prompts/templates/rag_ingestion.yaml                            |   24 +-
+ plans/playlist-ingestion-recovery/plan.mdx                                  |  251 --
+ 21 files changed, 6348 insertions(+), 2229 deletions(-)

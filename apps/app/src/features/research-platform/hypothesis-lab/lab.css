@@ -1,0 +1,241 @@
+/* Hypothesis Lab — view-specific CSS
+ * Extracted from docs/design/mock-ups/04-hypothesis-lab.html
+ */
+
+.lab {
+  position: absolute;
+  inset: 0;
+  padding: 18px;
+  background: radial-gradient(circle at 50% 30%, rgba(74, 67, 91, 0.17), transparent 38%),
+    linear-gradient(180deg, #101314, #0b0e0f);
+}
+
+.labhead {
+  display: flex;
+  align-items: flex-start;
+}
+
+.labhead p {
+  margin: 6px 0 0;
+  color: #87908d;
+  font-size: 11px;
+}
+
+.labhead .actions {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 300px;
+  gap: 14px;
+  margin-top: 16px;
+  height: 760px;
+}
+
+.hyp {
+  border: 1px solid #323a3b;
+  border-radius: 15px;
+  background: linear-gradient(145deg, #171c1d, #111516);
+  padding: 14px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hyp::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.16;
+  background: radial-gradient(circle at 20% 20%, var(--glow), transparent 40%);
+}
+
+.hyptop {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.hyptop .score {
+  margin: 0 0 0 auto;
+  width: 62px;
+  text-align: center;
+  padding: 8px;
+}
+
+.hyptop .score b {
+  font-size: 20px;
+}
+
+.hyptitle {
+  font-family: Georgia, serif;
+  font-size: 18px;
+  margin: 5px 0;
+  color: #e6dfd2;
+}
+
+.hypdesc {
+  position: relative;
+  font-size: 10px;
+  line-height: 1.5;
+  color: #929a96;
+  margin: 10px 0 14px;
+}
+
+.evidenceband {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.mini {
+  border: 1px solid #303738;
+  border-radius: 10px;
+  padding: 9px;
+  background: #141819;
+}
+
+.mini h4 {
+  margin: 0 0 6px;
+  font-size: 10px;
+}
+
+.mini p {
+  margin: 0;
+  font-size: 9px;
+  color: #7f8885;
+  line-height: 1.4;
+}
+
+.mini.support {
+  border-left: 3px solid #728f72;
+}
+
+.mini.challenge {
+  border-left: 3px solid #a4534d;
+}
+
+.pred {
+  position: relative;
+  margin-top: 12px;
+  border: 1px dashed #4a4358;
+  border-radius: 10px;
+  padding: 10px;
+  background: rgba(122, 109, 155, 0.06);
+}
+
+.pred b {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #aea3c5;
+}
+
+.pred p {
+  font-size: 9px;
+  color: #8f9692;
+  line-height: 1.45;
+  margin: 6px 0 0;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.synth {
+  border: 1px solid #363d3e;
+  border-radius: 15px;
+  background: #121617;
+  padding: 14px;
+}
+
+.synth h3 {
+  font-family: Georgia, serif;
+  font-size: 17px;
+  margin: 6px 0 12px;
+}
+
+.rank {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 9px;
+}
+
+.rank span:first-child {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #202627;
+  display: grid;
+  place-items: center;
+  font-size: 8px;
+}
+
+.rank b {
+  font-size: 10px;
+  flex: 1;
+}
+
+.rank em {
+  font-style: normal;
+  font-size: 10px;
+  color: #a6ada9;
+}
+
+.decision {
+  border: 1px solid #4a4358;
+  border-radius: 15px;
+  background: linear-gradient(145deg, rgba(122, 109, 155, 0.17), rgba(18, 22, 23, 0.9));
+  padding: 14px;
+  flex: 1;
+}
+
+.decision h3 {
+  font-family: Georgia, serif;
+  font-size: 18px;
+  margin: 6px 0;
+}
+
+.decision p {
+  font-size: 10px;
+  line-height: 1.5;
+  color: #a1a8a4;
+}
+
+.question {
+  padding: 10px;
+  border-top: 1px solid #34313d;
+  font-size: 9px;
+  color: #b0a7c1;
+}
+
+.matrix {
+  height: 150px;
+  border: 1px solid #303738;
+  border-radius: 11px;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 25px 25px;
+  position: relative;
+  overflow: hidden;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(0.2px);
+  opacity: 0.75;
+}
+
+.axislabel {
+  position: absolute;
+  font-size: 8px;
+  color: #5f6865;
+}

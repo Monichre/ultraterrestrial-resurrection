@@ -1,0 +1,33 @@
+{
+  "skill_name": "disclosure-rag-processor",
+  "status": "complete",
+  "current_experiment": 1,
+  "baseline_score": 100.0,
+  "best_score": 100.0,
+  "max_score": 25,
+  "experiments": [
+    {
+      "id": 0,
+      "score": 25,
+      "max_score": 25,
+      "pass_rate": 100.0,
+      "status": "baseline",
+      "description": "original skill — mainstream tasks (5/5 runs passed all 5 evals)"
+    },
+    {
+      "id": 1,
+      "score": 25,
+      "max_score": 25,
+      "pass_rate": 100.0,
+      "status": "baseline",
+      "description": "hardened eval set — 5 adversarial trap inputs (docx, Shorts, retry-without-force, missing key, mixed URL file); all traps dodged"
+    }
+  ],
+  "eval_breakdown": [
+    {"name": "Correct entry point", "pass_count": 10, "total": 10},
+    {"name": "Environment setup", "pass_count": 10, "total": 10},
+    {"name": "Correct flags", "pass_count": 10, "total": 10},
+    {"name": "No hallucinated APIs", "pass_count": 10, "total": 10},
+    {"name": "State awareness", "pass_count": 10, "total": 10}
+  ]
+}

@@ -1,0 +1,96 @@
+/* Formation° UI chrome — mirrors the layout/typography of formation.phobon.io.
+   For pixel-faithful type, load the original faces: "Bebas Neue" (display) and a
+   mono for the nav (the site uses a bespoke "aberMono"). Web-safe fallbacks below. */
+
+.formation {
+  --slate12: #edeef0;
+  --slate11: #b0b4ba;
+  --slate: #777b84;
+  --slate5: #363a3f;
+  --slate4: #2e3135;
+  --mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --display: "Bebas Neue", "Oswald", "Arial Narrow", sans-serif;
+
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  color: var(--slate12);
+  font-family: var(--mono);
+  overflow: hidden;
+}
+
+.formation__canvas { position: absolute; inset: 0; z-index: 0; }
+.formation__ui { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.formation__ui a,
+.formation__ui li,
+.formation__ui button { pointer-events: auto; }
+
+.formation__logo {
+  position: absolute; top: 24px; left: 24px; width: 32px; height: 32px;
+  fill: var(--slate12); opacity: 0; animation: formation-fade .6s .1s forwards;
+}
+
+.formation__nav { position: absolute; top: 88px; left: 24px; font-size: 14px; line-height: 1; }
+.formation__group {
+  display: inline-block; background: var(--slate5); color: var(--slate12);
+  padding: 1px 5px; text-transform: uppercase; margin-bottom: 12px;
+}
+.formation__nav > div:not(:first-child) .formation__group { margin-top: 36px; }
+.formation__nav ul { list-style: none; margin: 0; padding: 0; }
+.formation__nav li {
+  color: var(--slate); text-transform: uppercase; padding: 2px 5px; margin: 3px 0;
+  width: max-content; cursor: pointer;
+  transition: color .18s ease, background .18s ease;
+}
+.formation__nav li:hover { color: var(--slate11); }
+.formation__nav li.is-active { background: var(--slate12); color: #111113; }
+.formation__nav li.is-disabled { opacity: .5; cursor: not-allowed; }
+.formation__nav li.is-disabled:hover { color: var(--slate); }
+
+.formation__desc {
+  position: absolute; left: 24px; bottom: 60px; max-width: 120px;
+  font-size: 10px; line-height: 1.35; letter-spacing: .06em;
+  color: var(--slate); text-transform: uppercase;
+}
+.formation__credit {
+  position: absolute; left: 24px; bottom: 22px; display: flex; gap: 6px; align-items: flex-start;
+  font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--slate12);
+}
+.formation__credit .formation__c { color: var(--slate); font-size: 9px; line-height: 1.35; }
+.formation__spinner {
+  position: absolute; left: -8px; bottom: -8px; width: 44px; height: 44px; border-radius: 50%;
+  border: 1.5px solid var(--slate5); border-top-color: #3a6ff0;
+  animation: formation-spin 1.1s linear infinite;
+}
+
+.formation__orb {
+  position: absolute; right: 26px; top: 50%; transform: translateY(-50%);
+  width: 34px; height: 34px; border-radius: 50%;
+  background: radial-gradient(circle at 32% 30%, #c9d6ff 0%, #5b7de0 22%, #2b3a8f 55%, #c0452e 100%);
+  box-shadow: 0 0 22px 6px rgba(80, 110, 220, .35); opacity: .9;
+}
+
+.formation__title {
+  position: absolute; right: 170px; bottom: 20px; text-align: right;
+  font-family: var(--display); font-weight: 700; font-size: 96px; line-height: .8;
+  letter-spacing: .02em; text-transform: uppercase; color: var(--slate12);
+}
+.formation__reveal { display: inline-block; overflow: hidden; }
+.formation__reveal > span {
+  display: inline-block; transform: translateY(105%);
+  animation: formation-rise .55s cubic-bezier(.2, .7, .2, 1) forwards;
+}
+
+.formation__navigate {
+  position: absolute; right: 24px; bottom: 30px; width: 150px; height: 50px;
+  background: var(--slate4); color: var(--slate12); border: none;
+  font-family: var(--display); font-size: 20px; letter-spacing: .06em;
+  display: flex; align-items: center; justify-content: flex-end; padding: 0 14px;
+  cursor: pointer; transition: background .18s;
+}
+.formation__navigate:hover { background: var(--slate5); }
+
+@keyframes formation-spin { to { transform: rotate(360deg); } }
+@keyframes formation-fade { to { opacity: 1; } }
+@keyframes formation-rise { to { transform: translateY(0); } }

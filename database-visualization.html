@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>UT·RC // Database & Knowledge-Base Visualization</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Martian+Mono:wght@300;400;500;600&family=Special+Elite&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ut-void: oklch(0.16 0.006 85);
+    --ut-surface: oklch(0.21 0.008 85 / 0.88);
+    --ut-surface-2: oklch(0.25 0.01 85 / 0.9);
+    --ut-line: oklch(0.87 0.02 85 / 0.14);
+    --ut-line-strong: oklch(0.87 0.02 85 / 0.28);
+    --ut-paper: oklch(0.93 0.015 90);
+    --ut-ink-dim: oklch(0.93 0.015 90 / 0.62);
+    --ut-ink-faint: oklch(0.93 0.015 90 / 0.4);
+    --ut-stamp: oklch(0.58 0.19 27);
+
+    --ut-emerald: oklch(0.72 0.15 155);
+    --ut-violet:  oklch(0.70 0.13 295);
+    --ut-amber:   oklch(0.78 0.13 75);
+    --ut-zinc:    oklch(0.74 0.01 260);
+    --ut-red:     oklch(0.62 0.19 27);
+
+    --font-mono: 'Martian Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+    --font-elite: 'Special Elite', 'Martian Mono', monospace;
+    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background: var(--ut-void);
+    color: var(--ut-paper);
+    font-family: var(--font-sans);
+    font-size: 12.5px;
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* texture: warm dot grid + vignette + film grain */
+  body::before{
+    content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
+    background-image:
+      radial-gradient(oklch(0.87 0.02 85 / 0.045) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+  body::after{
+    content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
+    background: radial-gradient(120% 100% at 50% 0%, transparent 55%, oklch(0.10 0.006 85 / 0.55) 100%);
+  }
+  .grain{ position:fixed; inset:0; z-index:1; pointer-events:none; opacity:0.05; mix-blend-mode:overlay; }
+  .grain svg{ width:100%; height:100%; }
+
+  .wrap{ position:relative; z-index:2; }
+
+  /* ── header ─────────────────────────────────────────────── */
+  header{
+    position:sticky; top:0; z-index:30;
+    background: oklch(0.16 0.006 85 / 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--ut-line);
+    padding: 14px 28px 12px;
+  }
+  .micro-head{
+    font-family: var(--font-mono); font-size:10px; letter-spacing:0.16em;
+    text-transform:uppercase; color: var(--ut-ink-faint);
+    display:flex; gap:18px; flex-wrap:wrap; margin-bottom:6px;
+  }
+  .micro-head .dot{ color: var(--ut-stamp); }
+  h1{
+    font-family: var(--font-elite); font-weight:400; font-size:22px;
+    margin:0; letter-spacing:0.02em; color: var(--ut-paper);
+  }
+  .sub{
+    font-family: var(--font-mono); font-size:10px; letter-spacing:0.14em;
+    text-transform:uppercase; color: var(--ut-ink-dim); margin-top:4px;
+  }
+
+  .tabs{
+    display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; align-items:center;
+  }
+  .tab{
+    font-family: var(--font-mono); font-size:10px; letter-spacing:0.14em;
+    text-transform:uppercase; color: var(--ut-ink-dim);
+    background: transparent; border:1px solid var(--ut-line);
+    padding:7px 12px; cursor:pointer; transition: all 180ms ease-out;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+  }
+  .tab:hover{ color: var(--ut-paper); border-color: var(--ut-line-strong); }
+  .tab.active{ color: var(--ut-void); background: var(--ut-paper); border-color: var(--ut-paper); }
+  .tab-spacer{ flex:1; }
+  .stamp{
+    font-family: var(--font-mono); font-size:9px; letter-spacing:0.18em;
+    text-transform:uppercase; color: var(--ut-stamp);
+    border:1px solid oklch(0.58 0.19 27 / 0.5); padding:4px 8px;
+    transform: rotate(-1.5deg); opacity:0.85;
+  }
+
+  /* ── controls bar ───────────────────────────────────────── */
+  .controls{
+    display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+    padding: 12px 28px; border-bottom:1px solid var(--ut-line);
+    background: oklch(0.18 0.006 85 / 0.6);
+    position:sticky; top:64px; z-index:20; backdrop-filter: blur(6px);
+  }
+  .search{
+    flex:1; min-width:200px; max-width:420px;
+    font-family: var(--font-mono); font-size:11px; letter-spacing:0.04em;
+    background: var(--ut-surface); color: var(--ut-paper);
+    border:1px solid var(--ut-line); padding:8px 12px; outline:none;
+  }
+  .search:focus{ border-color: var(--ut-line-strong); }
+  .search::placeholder{ color: var(--ut-ink-faint); text-transform:uppercase; letter-spacing:0.12em; font-size:10px;}
+  .chip{
+    font-family: var(--font-mono); font-size:9.5px; letter-spacing:0.12em;
+    text-transform:uppercase; cursor:pointer; user-select:none;
+    border:1px solid var(--ut-line); padding:6px 9px; color: var(--ut-ink-dim);
+    transition: all 160ms ease-out; white-space:nowrap;
+  }
+  .chip:hover{ color: var(--ut-paper); }
+  .chip.on{ color: var(--ut-paper); border-color: currentColor; }
+  .chip .sw{ display:inline-block; width:7px; height:7px; margin-right:6px; vertical-align:middle; }
+  .ctl-label{ font-family: var(--font-mono); font-size:9px; letter-spacing:0.16em; text-transform:uppercase; color: var(--ut-ink-faint); }
+
+  /* ── schema canvas ──────────────────────────────────────── */
+  .schema{ padding: 24px 28px 80px; }
+
+  .dbstats{
+    display:flex; flex-wrap:wrap; gap:10px; margin-bottom:20px;
+  }
+  .dbstat{
+    flex:1; min-width:130px; border:1px solid var(--ut-line);
+    padding:11px 14px; background: oklch(0.21 0.008 85 / 0.5);
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+  }
+  .dbstat .v{ font-family: var(--font-elite); font-size:20px; color: var(--ut-paper); line-height:1; }
+  .dbstat .l{ font-family: var(--font-mono); font-size:8.5px; letter-spacing:0.14em; text-transform:uppercase; color: var(--ut-ink-dim); margin-top:7px; }
+  .dbstat .sub2{ font-family: var(--font-mono); font-size:8px; letter-spacing:0.1em; color: var(--ut-ink-faint); margin-top:3px; }
+
+  .card-rows{ font-family: var(--font-mono); font-size:9px; color: var(--ut-ink-faint); letter-spacing:0.06em; }
+  .emb{ display:inline-block; width:7px; height:7px; border-radius:50%; margin-left:3px; vertical-align:middle; }
+  .emb.ok{ background: var(--ut-emerald); box-shadow: 0 0 5px oklch(0.72 0.15 155 / 0.6); }
+  .emb.part{ background: var(--ut-amber); }
+  .emb.zero{ background: var(--ut-ink-faint); }
+  .canvas{
+    position:relative; width:100%; min-height:600px;
+  }
+  svg.rels{
+    position:absolute; inset:0; width:100%; height:100%;
+    pointer-events:none; z-index:1; overflow:visible;
+  }
+  svg.rels path{ fill:none; stroke-linecap:round; transition: opacity 160ms ease-out, stroke-width 160ms ease-out; }
+
+  .columns{ display:flex; gap:28px; align-items:flex-start; position:relative; z-index:2; }
+  .col{ flex:0 0 auto; min-width:248px; max-width:300px; }
+  .col-head{
+    font-family: var(--font-mono); font-size:10px; letter-spacing:0.16em;
+    text-transform:uppercase; color: var(--ut-ink-dim);
+    padding: 0 0 10px 4px; border-bottom:1px solid var(--ut-line);
+    margin-bottom:14px; display:flex; align-items:baseline; gap:8px;
+  }
+  .col-head .n{ color: var(--ut-ink-faint); font-size:9px; }
+  .col-body{ display:flex; flex-direction:column; gap:16px; }
+
+  /* table card (dossier) */
+  .card{
+    position:relative; background: var(--ut-surface);
+    border:1px solid var(--ut-line);
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+    padding:0; cursor:pointer; transition: border-color 180ms ease-out, transform 180ms ease-out, opacity 180ms ease-out, background 180ms ease-out;
+  }
+  .card.dashed{ border-style:dashed; }
+  .card:hover{ border-color: var(--ut-line-strong); transform: translateY(-1px); }
+  .card.sel{ border-color: currentColor; box-shadow: 0 0 0 1px currentColor inset; }
+  .card.dim{ opacity:0.28; }
+  .card.match-hi{ border-color: var(--ut-amber); }
+
+  .card-top{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:8px 10px 7px 11px; border-bottom:1px solid var(--ut-line);
+  }
+  .card-name{
+    font-family: var(--font-mono); font-size:11px; font-weight:500;
+    letter-spacing:0.04em; color: var(--ut-paper);
+  }
+  .card-badges{ display:flex; gap:5px; }
+  .bdg{
+    font-family: var(--font-mono); font-size:8px; letter-spacing:0.1em;
+    text-transform:uppercase; padding:2px 4px; border:1px solid currentColor;
+    line-height:1; display:inline-flex; align-items:center;
+  }
+  .bdg.pk{ color: var(--ut-amber); }
+  .bdg.vec{ color: var(--ut-violet); }
+  .bdg.fts{ color: var(--ut-emerald); }
+  .bdg.junc{ color: var(--ut-ink-dim); }
+
+  .cols-list{ padding:6px 11px 9px; display:flex; flex-direction:column; gap:1px; }
+  .row{
+    display:flex; align-items:baseline; gap:8px; padding:2px 0;
+    font-family: var(--font-mono); font-size:10px; line-height:1.5;
+  }
+  .row .nm{ color: var(--ut-paper); }
+  .row .nm.fk{ color: var(--ut-amber); }
+  .row .nm.pk{ color: var(--ut-amber); font-weight:600; }
+  .row .ty{ color: var(--ut-ink-faint); margin-left:auto; font-size:9px; letter-spacing:0.02em; }
+  .row .arr{ color: var(--ut-ink-faint); font-size:9px; }
+  .row.dim{ opacity:0.5; } /* xata boilerplate */
+
+  /* relationship legend */
+  .legend{
+    display:flex; flex-wrap:wrap; gap:16px 22px; align-items:center;
+    padding: 10px 28px 0; font-family: var(--font-mono); font-size:9px;
+    letter-spacing:0.14em; text-transform:uppercase; color: var(--ut-ink-faint);
+  }
+  .legend .lk{ display:flex; align-items:center; gap:7px; }
+  .legend .sw{ width:14px; height:0; border-top:2px solid currentColor; }
+  .legend .sw.dash{ border-style:dashed; }
+
+  /* ── knowledge base view ────────────────────────────────── */
+  .kb{ padding: 24px 28px 80px; display:none; }
+  .kb.show{ display:block; }
+  .schema.hide{ display:none; }
+
+  .kb-grid{ display:grid; grid-template-columns: 1.1fr 1fr; gap:22px; }
+  @media (max-width: 980px){ .kb-grid{ grid-template-columns: 1fr; } .columns{ flex-direction:column; } }
+
+  .panel{
+    position:relative; background: var(--ut-surface); border:1px solid var(--ut-line);
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+    padding: 16px 18px 18px;
+  }
+  .panel-h{
+    font-family: var(--font-mono); font-size:10px; letter-spacing:0.16em;
+    text-transform:uppercase; color: var(--ut-ink-dim);
+    display:flex; justify-content:space-between; align-items:baseline;
+    border-bottom:1px solid var(--ut-line); padding-bottom:10px; margin-bottom:14px;
+  }
+  .panel-h .ref{ color: var(--ut-ink-faint); font-size:9px; }
+
+  .stat-row{ display:flex; flex-wrap:wrap; gap:10px; }
+  .stat{
+    flex:1; min-width:120px; border:1px solid var(--ut-line); padding:12px 14px;
+    background: oklch(0.21 0.008 85 / 0.5);
+  }
+  .stat .v{ font-family: var(--font-elite); font-size:26px; color: var(--ut-paper); line-height:1; }
+  .stat .l{ font-family: var(--font-mono); font-size:9px; letter-spacing:0.14em; text-transform:uppercase; color: var(--ut-ink-dim); margin-top:8px; }
+
+  /* bar chart */
+  .bars{ display:flex; flex-direction:column; gap:10px; }
+  .bar{ display:flex; align-items:center; gap:10px; }
+  .bar .lbl{ font-family: var(--font-mono); font-size:10px; letter-spacing:0.06em; color: var(--ut-paper); min-width:118px; text-transform:uppercase; }
+  .bar .track{ flex:1; height:14px; background: oklch(0.25 0.01 85 / 0.5); position:relative; }
+  .bar .fill{ position:absolute; left:0; top:0; bottom:0; }
+  .bar .num{ font-family: var(--font-mono); font-size:10px; color: var(--ut-ink-dim); min-width:46px; text-align:right; }
+
+  /* tree */
+  .tree{ font-family: var(--font-mono); font-size:11px; line-height:1.85; }
+  .tree .b{ color: var(--ut-ink-faint); }
+  .tree .dir{ color: var(--ut-paper); }
+  .tree .ct{ color: var(--ut-ink-dim); font-size:10px; }
+  .tree .ann{ color: var(--ut-ink-faint); font-size:9.5px; }
+
+  /* timeline */
+  .tl{ display:flex; align-items:flex-end; gap:18px; height:120px; padding-top:10px; border-bottom:1px solid var(--ut-line); }
+  .tl .yr{ flex:1; display:flex; flex-direction:column; align-items:center; gap:6px; }
+  .tl .bar-v{ width:100%; max-width:64px; background: var(--ut-emerald); opacity:0.8; }
+  .tl .yr-lbl{ font-family: var(--font-mono); font-size:10px; color: var(--ut-ink-dim); }
+  .tl .yr-n{ font-family: var(--font-mono); font-size:9px; color: var(--ut-ink-faint); }
+
+  /* case file list */
+  .cf{ display:flex; flex-direction:column; gap:6px; max-height:340px; overflow:auto; padding-right:6px; }
+  .cf::-webkit-scrollbar{ width:6px; } .cf::-webkit-scrollbar-thumb{ background: var(--ut-line-strong); }
+  .cf-item{ display:flex; align-items:baseline; gap:10px; border-bottom:1px dashed var(--ut-line); padding:5px 0; }
+  .cf-item .t{ flex:1; font-size:11.5px; color: var(--ut-paper); }
+  .cf-item .s{ font-family: var(--font-mono); font-size:9px; color: var(--ut-ink-faint); white-space:nowrap; }
+  .cf-item .tag{ font-family: var(--font-mono); font-size:8px; letter-spacing:0.1em; text-transform:uppercase; color: var(--ut-stamp); border:1px solid oklch(0.58 0.19 27 / 0.4); padding:1px 4px; }
+
+  .footnote{
+    font-family: var(--font-mono); font-size:9px; letter-spacing:0.1em; text-transform:uppercase;
+    color: var(--ut-ink-faint); margin-top:14px; line-height:1.7;
+  }
+  .footnote .ok{ color: var(--ut-emerald); }
+</style>
+</head>
+<body>
+<div class="grain">
+  <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+    <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter>
+    <rect width="100%" height="100%" filter="url(#grain)" />
+  </svg>
+</div>
+
+<div class="wrap">
+  <header>
+    <div class="micro-head">
+      <span>UT·RC // DATA·ATLAS</span>
+      <span><span class="dot">●</span> SCHEMA + KNOWLEDGE-BASE</span>
+      <span>N:30 · FK:41 · ~126K ROWS · KB:950</span>
+      <span>SRC: rebuild/0001_init.sql + LIVE</span>
+    </div>
+    <h1>Ultraterrestrial Data Atlas</h1>
+    <div class="sub">packages/db · packages/knowledge-base — Microfilm Dark register</div>
+    <div class="tabs">
+      <button class="tab active" data-view="schema">[ Schema · ERD ]</button>
+      <button class="tab" data-view="kb">[ Knowledge Base ]</button>
+      <span class="tab-spacer"></span>
+      <span class="stamp">Declassified · Internal</span>
+    </div>
+  </header>
+
+  <!-- controls (schema) -->
+  <div class="controls" id="schemaCtl">
+    <input class="search" id="search" placeholder="Search tables or columns…" />
+    <span class="ctl-label">Filter</span>
+    <span class="chip on" data-cat="core"><span class="sw" style="background:var(--ut-emerald)"></span>Core</span>
+    <span class="chip on" data-cat="graph"><span class="sw" style="background:var(--ut-violet)"></span>Graph</span>
+    <span class="chip on" data-cat="junction"><span class="sw" style="background:var(--ut-amber)"></span>Junction</span>
+    <span class="chip on" data-cat="user"><span class="sw" style="background:var(--ut-zinc)"></span>User</span>
+    <span class="chip on" data-cat="pipeline"><span class="sw" style="background:var(--ut-violet);opacity:0.6"></span>Pipeline</span>
+    <span class="ctl-label" style="margin-left:auto">Click a table to trace relations</span>
+  </div>
+
+  <!-- legend -->
+  <div class="legend" id="schemaLegend">
+    <span class="lk" style="color:var(--ut-emerald)"><span class="sw"></span>Sourced entity (solid)</span>
+    <span class="lk" style="color:var(--ut-violet)"><span class="sw dash"></span>AI-inference / derived (dashed)</span>
+    <span class="lk" style="color:var(--ut-amber)"><span class="sw" style="border-style:dashed;border-top:2px dashed"></span>FK reference</span>
+    <span class="lk">[ PK ] primary &nbsp; [ VEC ] 1536-d embed &nbsp; [ FTS ] tsvector</span>
+  </div>
+
+  <!-- SCHEMA VIEW -->
+  <section class="schema" id="schemaView">
+    <div class="dbstats" id="dbStats"></div>
+    <div class="canvas" id="canvas">
+      <svg class="rels" id="rels" xmlns="http://www.w3.org/2000/svg"></svg>
+      <div class="columns" id="columns"></div>
+    </div>
+  </section>
+
+  <!-- KNOWLEDGE BASE VIEW -->
+  <section class="kb" id="kbView">
+    <div class="kb-grid">
+      <!-- stats -->
+      <div class="panel">
+        <div class="panel-h">Knowledge Base · Overview <span class="ref">KB·OV</span></div>
+        <div class="stat-row">
+          <div class="stat"><div class="v">950</div><div class="l">Source Files</div></div>
+          <div class="stat"><div class="v">564</div><div class="l">Indexed Docs</div></div>
+          <div class="stat"><div class="v">50</div><div class="l">Transcript Days</div></div>
+          <div class="stat"><div class="v">31</div><div class="l">Case PDFs</div></div>
+        </div>
+        <div style="margin-top:18px" class="panel-h" style="border:0">File Types <span class="ref">by extension</span></div>
+        <div class="bars" id="extBars"></div>
+        <div class="footnote">
+          <span class="ok">●</span> Neon Postgres 17 + pgvector 0.8.0 + pg_trgm 1.6 &nbsp;·&nbsp; text-embedding-3-small @ 1536 dims<br>
+          126,483 records (live) · 1,594 entity embeddings · 4,946 chunk embeddings<br>
+          6,540 total vectors · all entity embeddings 100% populated<br>
+          metadata/index.json = 564 docs · 950 physical files under sources/
+        </div>
+      </div>
+
+      <!-- doc types + timeline -->
+      <div class="panel">
+        <div class="panel-h">Doc Type Distribution <span class="ref">metadata/index.json</span></div>
+        <div class="bars" id="docBars"></div>
+        <div style="margin-top:18px" class="panel-h" style="border:0">Transcript Timeline <span class="ref">folders by year</span></div>
+        <div class="tl" id="timeline"></div>
+        <div class="footnote">
+          50 date folders · 833 transcript files · range 2024-08 → 2026-07
+        </div>
+      </div>
+
+      <!-- tree -->
+      <div class="panel">
+        <div class="panel-h">Sources · Tree <span class="ref">KB·SRC</span></div>
+        <div class="tree">
+          <div><span class="b">▸</span> <span class="dir">packages/knowledge-base/</span></div>
+          <div>&nbsp;&nbsp;<span class="b">├</span>─ <span class="dir">sources/</span></div>
+          <div>&nbsp;&nbsp;│&nbsp;&nbsp;<span class="b">├</span>─ <span class="dir">transcripts/</span> <span class="ct">50 day-folders · 833 files</span></div>
+          <div>&nbsp;&nbsp;│&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;<span class="ann">YYYY-MM-DD/ · txt transcripts (podcasts, interviews, testimonies)</span></div>
+          <div>&nbsp;&nbsp;│&nbsp;&nbsp;<span class="b">├</span>─ <span class="dir">files/</span> <span class="ct">48 files · 31 PDFs</span></div>
+          <div>&nbsp;&nbsp;│&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;<span class="ann">case files: CIA, congressional hearings, research papers, blue book</span></div>
+          <div>&nbsp;&nbsp;│&nbsp;&nbsp;<span class="b">└</span>─ <span class="dir">web/</span> <span class="ct">7 day-folders · 68 files</span></div>
+          <div>&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="ann">scraped articles & reports by collection date</span></div>
+          <div>&nbsp;&nbsp;<span class="b">├</span>─ <span class="dir">metadata/</span> <span class="ct">registry + index</span></div>
+          <div>&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;<span class="ann">index.json (564 docs) · registry.jsonl · redirect.json</span></div>
+          <div>&nbsp;&nbsp;<span class="b">├</span>─ <span class="dir">docs/</span> <span class="ct">5 analysis reports</span></div>
+          <div>&nbsp;&nbsp;<span class="b">└</span>─ <span class="dir">extract_file_inventory.py</span> <span class="ct">indexer</span></div>
+        </div>
+        <div class="footnote">
+          Disconnected from Next.js app · bridges to apps/disclosure-rag (Python RAG)
+        </div>
+      </div>
+
+      <!-- case files -->
+      <div class="panel">
+        <div class="panel-h">Case Files · Inventory <span class="ref">sources/files · PDF</span></div>
+        <div class="cf" id="caseFiles"></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+/* ────────────────────────────────────────────────────────────
+   DATA — extracted from packages/db/migrations/rebuild/0001_init.sql
+   (authoritative schema) + packages/knowledge-base metadata
+   ──────────────────────────────────────────────────────────── */
+
+const CAT = {
+  core:     { label:'Core Entities',  color:'var(--ut-emerald)', dashed:false },
+  graph:    { label:'Graph',          color:'var(--ut-violet)',  dashed:true  },
+  junction: { label:'Junction',       color:'var(--ut-amber)',   dashed:false },
+  user:     { label:'User',           color:'var(--ut-zinc)',    dashed:false },
+  pipeline: { label:'Pipeline',       color:'var(--ut-violet)',  dashed:true  },
+};
+
+// tables: cols use {n, t, pk, fk(to), arr, meta, xata}
+const TABLES = [
+  // ── core ──
+  { name:'topics', cat:'core', desc:'Research topics & themes',
+    cols:[
+      {n:'id', t:'text', pk:true},
+      {n:'name', t:'text'},
+      {n:'summary', t:'text'},
+      {n:'title', t:'text'},
+      {n:'description', t:'text'},
+      {n:'photo', t:'text'}, {n:'photos', t:'text[]', arr:true},
+      {n:'embedding', t:'vector(1536)', meta:'vec'},
+      {n:'search_vector', t:'tsvector', meta:'fts'},
+      {n:'xata_*', t:'meta', xata:true},
+    ]},
+  { name:'key_figures', cat:'core', desc:'People (was "personnel")',
+    cols:[
+      {n:'id', t:'text', pk:true},
+      {n:'name', t:'varchar'},
+      {n:'bio', t:'text'}, {n:'role', t:'varchar'},
+      {n:'rank', t:'int'}, {n:'credibility', t:'int'},
+      {n:'popularity', t:'int'}, {n:'authority', t:'int'},
+      {n:'photo', t:'text[]', arr:true},
+      {n:'embedding', t:'vector(1536)', meta:'vec'},
+      {n:'search_vector', t:'tsvector', meta:'fts'},
+      {n:'xata_*', t:'meta', xata:true},
+    ]},
+  { name:'events', cat:'core', desc:'Incidents / cases',
+    cols:[
+      {n:'id', t:'text', pk:true},
+      {n:'name', t:'text'}, {n:'title', t:'varchar'},
+      {n:'summary', t:'text'}, {n:'description', t:'text'},
+      {n:'location', t:'varchar'},
+      {n:'latitude', t:'real'}, {n:'longitude', t:'real'},
+      {n:'date', t:'timestamptz'},
+      {n:'category', t:'text[]', arr:true},
+      {n:'photos', t:'text[]', arr:true},
+      {n:'metadata', t:'jsonb'},
+      {n:'embedding', t:'vector(1536)', meta:'vec'},
+      {n:'search_vector', t:'tsvector', meta:'fts'},
+      {n:'xata_*', t:'meta', xata:true},
+    ]},
+  { name:'organizations', cat:'core', desc:'Agencies & groups',
+    cols:[
+      {n:'id', t:'text', pk:true},
+      {n:'name', t:'varchar'}, {n:'title', t:'varchar'},
+      {n:'specialization', t:'varchar'},
+      {n:'description', t:'text'},
+      {n:'photo', t:'text'}, {n:'image', t:'text'},
+      {n:'embedding', t:'vector(1536)', meta:'vec'},
+      {n:'xata_*', t:'meta', xata:true},
+    ]},
+  { name:'sightings', cat:'core', desc:'NUFORC-style reports',
+    cols:[
+      {n:'id', t:'text', pk:true},
+      {n:'occurred_at', t:'timestamptz'},
+      {n:'city', t:'varchar'}, {n:'state', t:'varchar'}, {n:'country', t:'varchar'},
+      {n:'shape', t:'varchar'},
+      {n:'duration_seconds', t:'real'}, {n:'duration_hours_min', t:'varchar'},
+      {n:'comments', t:'text'},
+      {n:'date_posted', t:'timestamptz'},
+      {n:'latitude', t:'real'}, {n:'longitude', t:'real'},
+      {n:'search_vector', t:'tsvector', meta:'fts'},
+      {n:'xata_*', t:'meta', xata:true},
+    ]},
+  { name:'testimonies', cat:'core', desc:'Witness statements',
+    cols:[
+      {n:'id', t:'text', pk:true},
+      {n:'title', t:'text'}, {n:'description', t:'text'},
+      {n:'summary', t:'text'}, {n:'date', t:'timestamptz'},
+      {n:'event', t:'text', fk:'events'},
+      {n:'witness', t:'text', fk:'key_figures'},
+      {n:'organization', t:'text', fk:'organizations'},
+      {n:'embedding', t:'vector(1536)', meta:'vec'},
+      {n:'search_vector', t:'tsvector', meta:'fts'},
+      {n:'xata_*', t:'meta', xata:true},
+    ]},
+  { name:'documents', cat:'core', desc:'Case files & sources',
+    cols:[
+      {n:'id', t:'text', pk:true},
+      {n:'title', t:'text'}, {n:'summary', t:'text'},
+      {n:'url', t:'text'}, {n:'date', t:'timestamptz'},
+      {n:'source_type', t:'varchar'}, {n:'source_tier', t:'text'},
+      {n:'author', t:'text', fk:'key_figures'},
+      {n:'organization', t:'text', fk:'organizations'},
+      {n:'metadata', t:'jsonb'},
+      {n:'embedding', t:'vector(1536)', meta:'vec'},
+      {n:'search_vector', t:'tsvector', meta:'fts'},
+      {n:'xata_*', t:'meta', xata:true},
+    ]},
+  { name:'artifacts', cat:'core', desc:'Physical / anomalous objects',
+    cols:[
+      {n:'id', t:'text', pk:true},
+      {n:'name', t:'text'}, {n:'description', t:'text'},
+      {n:'origin', t:'text'}, {n:'date', t:'text (freeform)'},
+      {n:'images', t:'text[]', arr:true},
+      {n:'metadata', t:'jsonb'},
+      {n:'embedding', t:'vector(1536)', meta:'vec'},
+      {n:'xata_*', t:'meta', xata:true},
+    ]},
+  { name:'locations', cat:'core', desc:'Geo places',
+    cols:[
+      {n:'id', t:'text', pk:true},
+      {n:'name', t:'varchar'},
+      {n:'city', t:'varchar'}, {n:'state', t:'varchar'}, {n:'country', t:'varchar'},
+      {n:'latitude', t:'real'}, {n:'longitude', t:'real'},
+      {n:'coordinates', t:'text'},
+      {n:'google_maps_location_id', t:'text'},
+      {n:'xata_*', t:'meta', xata:true},
+    ]},
+
+  // ── graph ──
+  { name:'nodes', cat:'graph', desc:'Unified entity registry',
+    cols:[
+      {n:'id', t:'text', pk:true},
+      {n:'entity_type', t:'text'},
+      {n:'label', t:'text'},
+    ]},
+  { name:'edges', cat:'graph', desc:'Extracted relationships',
+    cols:[
+      {n:'edge_id', t:'text', pk:true},
+      {n:'src_id', t:'text', fk:'nodes'},
+      {n:'dst_id', t:'text', fk:'nodes'},
+      {n:'rel_type', t:'text'},
+      {n:'confidence', t:'real'},
+      {n:'provenance', t:'jsonb'},
+    ]},
+  { name:'agent_inferences', cat:'graph', desc:'AI claims · evidentiary layer',
+    cols:[
+      {n:'id', t:'text', pk:true},
+      {n:'inference_text', t:'text'},
+      {n:'evidentiary_state', t:'text (check)'},
+      {n:'source_record_id', t:'text · soft-ref'},
+      {n:'source_table', t:'text'},
+      {n:'target_record_id', t:'text · soft-ref'},
+      {n:'extracted_by', t:'text'},
+      {n:'created_at', t:'timestamptz'},
+    ]},
+
+  // ── junction ──
+  { name:'event_subject_matter_experts', cat:'junction', desc:'↔ events × key_figures',
+    cols:[
+      {n:'id', t:'text', pk:true},
+      {n:'event', t:'text', fk:'events'},
+      {n:'subject_matter_expert', t:'text', fk:'key_figures'},
+    ]},
+  { name:'topic_subject_matter_experts', cat:'junction', desc:'↔ topics × key_figures',
+    cols:[
+      {n:'id', t:'text', pk:true},
+      {n:'topic', t:'text', fk:'topics'},
+      {n:'subject_matter_expert', t:'text', fk:'key_figures'},
+    ]},
+  { name:'organization_members', cat:'junction', desc:'↔ key_figures × organizations',
+    cols:[
+      {n:'id', t:'text', pk:true},
+      {n:'member', t:'text', fk:'key_figures'},
+      {n:'organization', t:'text', fk:'organizations'},
+    ]},
+  { name:'topics_testimonies', cat:'junction', desc:'↔ topics × testimonies',
+    cols:[
+      {n:'id', t:'text', pk:true},
+      {n:'topic', t:'text', fk:'topics'},
+      {n:'testimony', t:'text', fk:'testimonies'},
+    ]},
+  { name:'event_topic_subject_matter_experts', cat:'junction', desc:'↔ events × topics × key_figures',
+    cols:[
+      {n:'id', t:'text', pk:true},
+      {n:'event', t:'text', fk:'events'},
+      {n:'topic', t:'text', fk:'topics'},
+      {n:'subject_matter_expert', t:'text', fk:'key_figures'},
+    ]},
+
+  // ── user ──
+  { name:'users', cat:'user', desc:'Researchers',
+    cols:[
+      {n:'id', t:'text', pk:true},
+      {n:'auth_id', t:'varchar'},
+      {n:'email', t:'varchar'}, {n:'name', t:'varchar'},
+      {n:'xata_*', t:'meta', xata:true},
+    ]},
+  { name:'user_notes', cat:'user', desc:'Theories / annotations',
+    cols:[
+      {n:'id', t:'text', pk:true},
+      {n:'user', t:'text', fk:'users'},
+      {n:'note_title', t:'text'},
+      {n:'note', t:'text'},
+      {n:'xata_*', t:'meta', xata:true},
+    ]},
+  { name:'mindmaps', cat:'user', desc:'Saved graph state',
+    cols:[
+      {n:'id', t:'text', pk:true},
+      {n:'user', t:'text', fk:'users'},
+      {n:'title', t:'text'}, {n:'description', t:'text'},
+      {n:'graph_data', t:'jsonb'},
+      {n:'embedding', t:'vector(1536)', meta:'vec'},
+      {n:'xata_*', t:'meta', xata:true},
+    ]},
+  { name:'user_saved_events', cat:'user', desc:'save · event + theory',
+    cols:[
+      {n:'id', t:'text', pk:true},
+      {n:'user', t:'text', fk:'users'},
+      {n:'event', t:'text', fk:'events'},
+      {n:'theory', t:'text', fk:'user_notes'},
+    ]},
+  { name:'user_saved_topics', cat:'user', desc:'save · topic + theory',
+    cols:[
+      {n:'id', t:'text', pk:true},
+      {n:'user', t:'text', fk:'users'},
+      {n:'topic', t:'text', fk:'topics'},
+      {n:'theory', t:'text', fk:'user_notes'},
+    ]},
+  { name:'user_saved_organizations', cat:'user', desc:'save · org + theory',
+    cols:[
+      {n:'id', t:'text', pk:true},
+      {n:'user', t:'text', fk:'users'},
+      {n:'organization', t:'text', fk:'organizations'},
+      {n:'theory', t:'text', fk:'user_notes'},
+    ]},
+  { name:'user_saved_sightings', cat:'user', desc:'save · sighting + theory',
+    cols:[
+      {n:'id', t:'text', pk:true},
+      {n:'user', t:'text', fk:'users'},
+      {n:'sighting', t:'text', fk:'sightings'},
+      {n:'theory', t:'text', fk:'user_notes'},
+    ]},
+  { name:'user_saved_testimonies', cat:'user', desc:'save · testimony + theory',
+    cols:[
+      {n:'id', t:'text', pk:true},
+      {n:'user', t:'text', fk:'users'},
+      {n:'testimony', t:'text', fk:'testimonies'},
+      {n:'theory', t:'text', fk:'user_notes'},
+    ]},
+  { name:'user_saved_key_figure', cat:'user', desc:'save · figure + theory',
+    cols:[
+      {n:'id', t:'text', pk:true},
+      {n:'user', t:'text', fk:'users'},
+      {n:'key_figure', t:'text', fk:'key_figures'},
+      {n:'theory', t:'text', fk:'user_notes'},
+    ]},
+
+  // ── pipeline ──
+  { name:'summary_files', cat:'pipeline', desc:'1:1 document summary',
+    cols:[
+      {n:'id', t:'text', pk:true},
+      {n:'document', t:'text · unique', fk:'documents'},
+      {n:'content', t:'text'},
+      {n:'embedding', t:'vector(1536)', meta:'vec'},
+      {n:'xata_*', t:'meta', xata:true},
+    ]},
+  { name:'document_chunks', cat:'pipeline', desc:'Chunked text for RAG',
+    cols:[
+      {n:'id', t:'text', pk:true},
+      {n:'document', t:'text', fk:'documents'},
+      {n:'chunk_index', t:'int'},
+      {n:'content', t:'text'},
+      {n:'tokens', t:'int'},
+      {n:'embedding', t:'vector(1536)', meta:'vec'},
+      {n:'xata_*', t:'meta', xata:true},
+    ]},
+  { name:'document_entities', cat:'pipeline', desc:'Extracted entities',
+    cols:[
+      {n:'id', t:'text', pk:true},
+      {n:'document', t:'text', fk:'documents'},
+      {n:'entity_type', t:'text'},
+      {n:'entity_name', t:'text'},
+      {n:'confidence', t:'real'},
+      {n:'context', t:'text'},
+      {n:'metadata', t:'jsonb'},
+      {n:'xata_*', t:'meta', xata:true},
+    ]},
+  { name:'document_processing_tasks', cat:'pipeline', desc:'Pipeline job log',
+    cols:[
+      {n:'id', t:'text', pk:true},
+      {n:'document', t:'text', fk:'documents'},
+      {n:'task_type', t:'text'},
+      {n:'status', t:'text'},
+      {n:'started_at', t:'timestamptz'},
+      {n:'completed_at', t:'timestamptz'},
+      {n:'error', t:'text'},
+      {n:'metadata', t:'jsonb'},
+      {n:'xata_*', t:'meta', xata:true},
+    ]},
+];
+
+// FK relationships (from → to) with delete action
+const RELS = [
+  // testimonies soft refs
+  {f:'testimonies', fc:'event', t:'events', on:'SET NULL'},
+  {f:'testimonies', fc:'witness', t:'key_figures', on:'SET NULL'},
+  {f:'testimonies', fc:'organization', t:'organizations', on:'SET NULL'},
+  // documents soft refs
+  {f:'documents', fc:'author', t:'key_figures', on:'SET NULL'},
+  {f:'documents', fc:'organization', t:'organizations', on:'SET NULL'},
+  // pipeline → documents (cascade)
+  {f:'summary_files', fc:'document', t:'documents', on:'CASCADE'},
+  {f:'document_chunks', fc:'document', t:'documents', on:'CASCADE'},
+  {f:'document_entities', fc:'document', t:'documents', on:'CASCADE'},
+  {f:'document_processing_tasks', fc:'document', t:'documents', on:'CASCADE'},
+  // junctions
+  {f:'event_subject_matter_experts', fc:'event', t:'events', on:'CASCADE'},
+  {f:'event_subject_matter_experts', fc:'subject_matter_expert', t:'key_figures', on:'CASCADE'},
+  {f:'topic_subject_matter_experts', fc:'topic', t:'topics', on:'CASCADE'},
+  {f:'topic_subject_matter_experts', fc:'subject_matter_expert', t:'key_figures', on:'CASCADE'},
+  {f:'organization_members', fc:'member', t:'key_figures', on:'CASCADE'},
+  {f:'organization_members', fc:'organization', t:'organizations', on:'CASCADE'},
+  {f:'topics_testimonies', fc:'topic', t:'topics', on:'CASCADE'},
+  {f:'topics_testimonies', fc:'testimony', t:'testimonies', on:'CASCADE'},
+  {f:'event_topic_subject_matter_experts', fc:'event', t:'events', on:'CASCADE'},
+  {f:'event_topic_subject_matter_experts', fc:'topic', t:'topics', on:'CASCADE'},
+  {f:'event_topic_subject_matter_experts', fc:'subject_matter_expert', t:'key_figures', on:'CASCADE'},
+  // user
+  {f:'user_notes', fc:'user', t:'users', on:'CASCADE'},
+  {f:'mindmaps', fc:'user', t:'users', on:'SET NULL'},
+  {f:'user_saved_events', fc:'user', t:'users', on:'CASCADE'},
+  {f:'user_saved_events', fc:'event', t:'events', on:'CASCADE'},
+  {f:'user_saved_events', fc:'theory', t:'user_notes', on:'SET NULL'},
+  {f:'user_saved_topics', fc:'user', t:'users', on:'CASCADE'},
+  {f:'user_saved_topics', fc:'topic', t:'topics', on:'CASCADE'},
+  {f:'user_saved_topics', fc:'theory', t:'user_notes', on:'SET NULL'},
+  {f:'user_saved_organizations', fc:'user', t:'users', on:'CASCADE'},
+  {f:'user_saved_organizations', fc:'organization', t:'organizations', on:'CASCADE'},
+  {f:'user_saved_organizations', fc:'theory', t:'user_notes', on:'SET NULL'},
+  {f:'user_saved_sightings', fc:'user', t:'users', on:'CASCADE'},
+  {f:'user_saved_sightings', fc:'sighting', t:'sightings', on:'CASCADE'},
+  {f:'user_saved_sightings', fc:'theory', t:'user_notes', on:'SET NULL'},
+  {f:'user_saved_testimonies', fc:'user', t:'users', on:'CASCADE'},
+  {f:'user_saved_testimonies', fc:'testimony', t:'testimonies', on:'CASCADE'},
+  {f:'user_saved_testimonies', fc:'theory', t:'user_notes', on:'SET NULL'},
+  {f:'user_saved_key_figure', fc:'user', t:'users', on:'CASCADE'},
+  {f:'user_saved_key_figure', fc:'key_figure', t:'key_figures', on:'CASCADE'},
+  {f:'user_saved_key_figure', fc:'theory', t:'user_notes', on:'SET NULL'},
+  // graph
+  {f:'edges', fc:'src_id', t:'nodes', on:'CASCADE'},
+  {f:'edges', fc:'dst_id', t:'nodes', on:'CASCADE'},
+];
+
+// LIVE row counts — queried from Neon 2026-07-24 (count(*), authoritative)
+const ROWS = {
+  nodes:58819, sightings:43481, locations:13933, document_chunks:4946,
+  edges:1899, topic_subject_matter_experts:851, topics_testimonies:743,
+  events:595, key_figures:465, documents:189, testimonies:178,
+  event_subject_matter_experts:118, topics:91, event_topic_subject_matter_experts:60,
+  organizations:40, artifacts:36, organization_members:12, user_saved_events:25,
+  users:1, summary_files:1, user_notes:0, mindmaps:0, document_entities:0,
+  document_processing_tasks:0, user_saved_topics:0, user_saved_organizations:0,
+  user_saved_sightings:0, user_saved_testimonies:0, user_saved_key_figure:0,
+  agent_inferences:0,
+};
+// embedding population [total, embedded] — live
+const EMB = {
+  topics:[91,91], key_figures:[465,465], events:[595,595], organizations:[40,40],
+  testimonies:[178,178], documents:[189,189], artifacts:[36,36], mindmaps:[0,0],
+  document_chunks:[4946,4946], summary_files:[1,0],
+};
+const TOTAL_ROWS = Object.values(ROWS).reduce((a,b)=>a+b,0);   // 126483
+const TOTAL_EMB = Object.values(EMB).reduce((a,[t,e])=>a+e,0); // 6540
+
+/* knowledge-base data */
+const EXT = [
+  {l:'txt',  n:526, c:'var(--ut-paper)'},
+  {l:'json', n:283, c:'var(--ut-violet)'},
+  {l:'md',   n:49,  c:'var(--ut-emerald)'},
+  {l:'*.py/graphify', n:49, c:'var(--ut-amber)'},
+  {l:'pdf',  n:31,  c:'var(--ut-stamp)'},
+  {l:'other',n:12,  c:'var(--ut-ink-dim)'},
+];
+const DOCTYPES = [
+  {l:'transcript', n:496, c:'var(--ut-emerald)'},
+  {l:'case_file', n:31,  c:'var(--ut-stamp)'},
+  {l:'article',   n:37,  c:'var(--ut-amber)'},
+];
+const TL = [
+  {y:'2024', folders:18, c:'var(--ut-emerald)'},
+  {y:'2025', folders:31, c:'var(--ut-emerald)'},
+  {y:'2026', folders:1,  c:'var(--ut-emerald)'},
+];
+const CASES = [
+  {t:'Project Bluebook Special Report 1955', s:'26.1 MB', tag:'CIA'},
+  {t:'DON-NAVY-2020-012170', s:'38.5 MB', tag:'MIL'},
+  {t:'rmwood_mufon2000', s:'31.7 MB', tag:'UFO'},
+  {t:'UFO9', s:'13.3 MB', tag:'UFO'},
+  {t:'Written Testimony — Shellenberger', s:'8.9 MB', tag:'TESTIMONY'},
+  {t:'CIA-RDP96-00789R002100220001-4', s:'7.9 MB', tag:'CIA'},
+  {t:'UFO5', s:'7.0 MB', tag:'UFO'},
+  {t:'livescience — Flying saucers to mind control (24 declassified)', s:'5.5 MB', tag:'CIA'},
+  {t:'CIA-RDP96-00792R000300330001-8', s:'5.8 MB', tag:'CIA'},
+  {t:'Transcript of #1510 — George Knapp', s:'4.3 MB', tag:'TRANSCRIPT'},
+  {t:'UAP Activity Pattern Study 1945-1975', s:'3.6 MB', tag:'MIL'},
+  {t:'uap-origin-theories-diagram', s:'3.0 MB', tag:'UFO'},
+  {t:'UFO13', s:'16.0 MB', tag:'UFO'},
+  {t:'UFO6', s:'14.9 MB', tag:'UFO'},
+  {t:'UFO3', s:'7.6 MB', tag:'UFO'},
+  {t:'CIA-RDP96-00788R001800230001-8', s:'1.7 MB', tag:'CIA'},
+  {t:'CIA-RDP96-00789R002200070001-0', s:'1.9 MB', tag:'CIA'},
+  {t:'CIA-RDP96-00788R001700210016-5', s:'1.9 MB', tag:'CIA'},
+  {t:'Eisenhower Briefing', s:'2.2 MB', tag:'CASE'},
+  {t:'Ultraterrestrial Models', s:'314 KB', tag:'MODEL'},
+  {t:'July 26th UAP Congressional Hearing', s:'164 KB', tag:'HEARING'},
+  {t:'Mars Exploration 1984', s:'311 KB', tag:'CASE'},
+  {t:'CIA — Role in the Study of UFOs 1947-90', s:'440 KB', tag:'CIA'},
+  {t:'Roswell', s:'59 KB', tag:'ROSWELL'},
+  {t:'DOPSR-CLEARED-508-COMPLIANT', s:'727 KB', tag:'CASE'},
+  {t:'Crop Circles — Signs From Above or Human Artifacts?', s:'12 KB', tag:'CASE'},
+];
+
+/* ────────────────────────────────────────────────────────────
+   RENDER — schema ERD
+   ──────────────────────────────────────────────────────────── */
+const byName = {}; TABLES.forEach(t => byName[t.name] = t);
+const columnsEl = document.getElementById('columns');
+const relsSvg = document.getElementById('rels');
+const canvasEl = document.getElementById('canvas');
+
+const CAT_ORDER = ['core','graph','junction','user','pipeline'];
+
+function renderColumns(){
+  columnsEl.innerHTML = '';
+  CAT_ORDER.forEach(cat => {
+    const col = document.createElement('div'); col.className='col'; col.dataset.cat=cat;
+    const head = document.createElement('div'); head.className='col-head';
+    const list = TABLES.filter(t => t.cat===cat);
+    head.innerHTML = `<span>${CAT[cat].label}</span><span class="n">· ${list.length}</span>`;
+    const body = document.createElement('div'); body.className='col-body';
+    list.forEach(t => body.appendChild(renderCard(t)));
+    col.appendChild(head); col.appendChild(body);
+    columnsEl.appendChild(col);
+  });
+}
+
+function renderCard(t){
+  const c = document.createElement('div');
+  c.className = 'card' + (CAT[t.cat].dashed ? ' dashed' : '');
+  c.style.color = CAT[t.cat].color;
+  c.dataset.name = t.name; c.dataset.cat = t.cat;
+
+  const hasVec = t.cols.some(c => c.meta==='vec');
+  const hasFts = t.cols.some(c => c.meta==='fts');
+  const isJunc = t.cat==='junction';
+  let badges = '<span class="bdg pk">PK</span>';
+  if(hasVec) badges += '<span class="bdg vec">VEC</span>';
+  if(hasFts) badges += '<span class="bdg fts">FTS</span>';
+  if(isJunc) badges += '<span class="bdg junc">M:N</span>';
+
+  // embedding status dot
+  const emb = EMB[t.name];
+  if(emb){
+    const cls = (emb[0]>0 && emb[1]===emb[0]) ? 'ok' : (emb[1]>0 ? 'part' : 'zero');
+    const title = emb[0]>0 ? `${emb[1]}/${emb[0]} embeddings` : 'no embeddings';
+    badges += `<span class="emb ${cls}" title="${title}"></span>`;
+  }
+
+  // live row count
+  const rows = ROWS[t.name];
+  const rowsTxt = (rows!==undefined) ? `<span class="card-rows">${rows.toLocaleString()} rows</span>` : '';
+
+  const top = document.createElement('div'); top.className='card-top';
+  top.innerHTML = `<span class="card-name">${t.name}</span>${rowsTxt}<span class="card-badges">${badges}</span>`;
+  c.appendChild(top);
+
+  const list = document.createElement('div'); list.className='cols-list';
+  t.cols.forEach(col => {
+    const r = document.createElement('div'); r.className='row' + (col.xata ? ' dim' : '');
+    const cls = col.pk ? 'pk' : (col.fk ? 'fk' : '');
+    const arrow = col.fk ? ` <span class="arr">→ ${col.fk}</span>` : '';
+    r.innerHTML = `<span class="nm ${cls}">${col.n}</span>${arrow}<span class="ty">${col.t}</span>`;
+    list.appendChild(r);
+  });
+  c.appendChild(list);
+  return c;
+}
+
+// adjacency
+const adj = {}; TABLES.forEach(t => adj[t.name] = new Set());
+RELS.forEach(r => { adj[r.f].add(r.t); adj[r.t].add(r.f); });
+
+let selected = null;
+function selectCard(name){
+  selected = (selected === name) ? null : name;
+  applyState();
+}
+
+function applyState(){
+  const q = (document.getElementById('search').value || '').trim().toLowerCase();
+  const activeCats = new Set([...document.querySelectorAll('.chip.on')].map(c => c.dataset.cat));
+  const cards = [...document.querySelectorAll('.card')];
+  const neighbors = selected ? adj[selected] : null;
+
+  cards.forEach(card => {
+    const name = card.dataset.name;
+    const t = byName[name];
+    card.classList.remove('sel','dim','match-hi');
+    if(!activeCats.has(t.cat)){ card.style.display='none'; return; }
+    card.style.display='';
+
+    // search
+    if(q){
+      const hay = (name + ' ' + t.cols.map(c=>c.n).join(' ')).toLowerCase();
+      if(!hay.includes(q)){ card.classList.add('dim'); }
+      else { card.classList.add('match-hi'); }
+    }
+
+    // selection
+    if(selected){
+      if(name === selected) card.classList.add('sel');
+      else if(neighbors && neighbors.has(name)) {/* keep visible */}
+      else card.classList.add('dim');
+    }
+  });
+  drawRels();
+}
+
+function pointOf(card, side){
+  const r = card.getBoundingClientRect();
+  const cr = canvasEl.getBoundingClientRect();
+  const x = r.left - cr.left;
+  const y = r.top - cr.top;
+  if(side==='l') return {x: x, y: y + r.height/2};
+  if(side==='r') return {x: x + r.width, y: y + r.height/2};
+  if(side==='t') return {x: x + r.width/2, y: y};
+  return {x: x + r.width/2, y: y + r.height};
+}
+
+function drawRels(){
+  const cr = canvasEl.getBoundingClientRect();
+  relsSvg.setAttribute('width', cr.width);
+  relsSvg.setAttribute('height', canvasEl.scrollHeight);
+  relsSvg.style.height = canvasEl.scrollHeight + 'px';
+  relsSvg.innerHTML = '';
+  const activeCats = new Set([...document.querySelectorAll('.chip.on')].map(c => c.dataset.cat));
+  const q = (document.getElementById('search').value || '').trim().toLowerCase();
+
+  const visible = name => {
+    const card = columnsEl.querySelector(`[data-name="${name}"]`);
+    if(!card || card.style.display==='none') return false;
+    if(selected && name !== selected && !adj[selected].has(name)) return false;
+    return true;
+  };
+
+  const cardOf = name => columnsEl.querySelector(`[data-name="${name}"]`);
+
+  RELS.forEach(r => {
+    const fc = cardOf(r.f), tc = cardOf(r.t);
+    if(!fc || !tc) return;
+    if(fc.style.display==='none' || tc.style.display==='none') return;
+    if(selected && r.f !== selected && r.t !== selected) {/* still draw if both neighbors */}
+    if(selected && !(r.f===selected || r.t===selected || (adj[selected].has(r.f)&&adj[selected].has(r.t)))) return;
+
+    const fr = fc.getBoundingClientRect(), tr = tc.getBoundingClientRect();
+    const cr0 = canvasEl.getBoundingClientRect();
+    // choose sides by horizontal position
+    const fx = fr.left + fr.width/2, tx = tr.left + tr.width/2;
+    let a, b;
+    if(tx >= fx){ a = pointOf(fc,'r'); b = pointOf(tc,'l'); }
+    else { a = pointOf(fc,'l'); b = pointOf(tc,'r'); }
+
+    const dx = Math.abs(b.x - a.x);
+    const c1x = a.x + (b.x > a.x ? dx*0.5 : -dx*0.5);
+    const path = `M ${a.x} ${a.y} C ${c1x} ${a.y}, ${c1x} ${b.y}, ${b.x} ${b.y}`;
+
+    const fromCat = byName[r.f].cat;
+    const isInfer = (fromCat==='graph' || fromCat==='pipeline' || byName[r.t].cat==='graph' || byName[r.t].cat==='pipeline');
+    const color = CAT[fromCat].color;
+    const p = document.createElementNS('http://www.w3.org/2000/svg','path');
+    p.setAttribute('d', path);
+    p.setAttribute('stroke', color);
+    p.setAttribute('stroke-width', selected ? (r.f===selected||r.t===selected ? '1.6' : '0.7') : '1');
+    p.setAttribute('stroke-dasharray', isInfer ? '4 3' : 'none');
+    p.setAttribute('opacity', selected ? (r.f===selected||r.t===selected ? '0.95' : '0.32') : '0.5');
+    relsSvg.appendChild(p);
+  });
+}
+
+// events
+columnsEl.addEventListener('click', e => {
+  const card = e.target.closest('.card'); if(!card) return;
+  selectCard(card.dataset.name);
+});
+document.getElementById('search').addEventListener('input', applyState);
+document.querySelectorAll('.chip').forEach(chip => {
+  chip.addEventListener('click', () => { chip.classList.toggle('on'); applyState(); });
+});
+window.addEventListener('resize', drawRels);
+window.addEventListener('scroll', () => { /* svg is in-flow sized */ });
+
+/* view tabs */
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    const v = tab.dataset.view;
+    document.getElementById('schemaView').classList.toggle('hide', v!=='schema');
+    document.getElementById('kbView').classList.toggle('show', v==='kb');
+    document.getElementById('schemaCtl').style.display = v==='schema' ? '' : 'none';
+    document.getElementById('schemaLegend').style.display = v==='schema' ? '' : 'none';
+    if(v==='schema') requestAnimationFrame(drawRels);
+  });
+});
+
+/* ────────────────────────────────────────────────────────────
+   RENDER — knowledge base
+   ──────────────────────────────────────────────────────────── */
+function bars(elId, data, total){
+  const el = document.getElementById(elId); el.innerHTML='';
+  const max = Math.max(...data.map(d=>d.n));
+  data.forEach(d => {
+    const row = document.createElement('div'); row.className='bar';
+    row.innerHTML = `<span class="lbl">${d.l}</span>
+      <span class="track"><span class="fill" style="width:${(d.n/max*100).toFixed(1)}%;background:${d.c}"></span></span>
+      <span class="num">${d.n}</span>`;
+    el.appendChild(row);
+  });
+}
+bars('extBars', EXT);
+bars('docBars', DOCTYPES);
+
+(function timeline(){
+  const el = document.getElementById('timeline'); el.innerHTML='';
+  const max = Math.max(...TL.map(d=>d.folders));
+  TL.forEach(d => {
+    const y = document.createElement('div'); y.className='yr';
+    const h = (d.folders/max*92).toFixed(0);
+    y.innerHTML = `<div class="bar-v" style="height:${h}px;background:${d.c}"></div>
+      <div class="yr-n">${d.folders} folders</div>
+      <div class="yr-lbl">${d.y}</div>`;
+    el.appendChild(y);
+  });
+})();
+
+(function cases(){
+  const el = document.getElementById('caseFiles'); el.innerHTML='';
+  CASES.forEach(c => {
+    const row = document.createElement('div'); row.className='cf-item';
+    row.innerHTML = `<span class="t">${c.t}</span><span class="tag">${c.tag}</span><span class="s">${c.s}</span>`;
+    el.appendChild(row);
+  });
+})();
+
+/* init */
+renderDbStats();
+renderColumns();
+requestAnimationFrame(() => { applyState(); setTimeout(drawRels, 60); });
+
+function renderDbStats(){
+  const el = document.getElementById('dbStats');
+  const entEmb = ['topics','key_figures','events','organizations','testimonies','documents','artifacts']
+    .reduce((a,n)=>a+EMB[n][1],0); // 1594
+  const populated = Object.entries(EMB).filter(([n,[t,e]])=>e===t).length; // full = embedded===total (empty tables count as vacuously full)
+  el.innerHTML = `
+    <div class="dbstat"><div class="v">30</div><div class="l">Tables</div><div class="sub2">public schema</div></div>
+    <div class="dbstat"><div class="v">${TOTAL_ROWS.toLocaleString()}</div><div class="l">Records · live</div><div class="sub2">count(*) · 2026-07-24</div></div>
+    <div class="dbstat"><div class="v">41</div><div class="l">FK relations</div><div class="sub2">+ 5 unique constraints</div></div>
+    <div class="dbstat"><div class="v">${TOTAL_EMB.toLocaleString()}</div><div class="l">Embeddings</div><div class="sub2">${entEmb.toLocaleString()} entity + 4,946 chunks</div></div>
+    <div class="dbstat"><div class="v">${populated}/10</div><div class="l">Vec tables full</div><div class="sub2">1536-d · text-emb-3-small</div></div>
+    <div class="dbstat"><div class="v">0.8.0</div><div class="l">pgvector</div><div class="sub2">+ pg_trgm 1.6 · Neon 17</div></div>
+  `;
+}
+</script>
+</body>
+</html>

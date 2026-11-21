@@ -1,0 +1,37 @@
+{
+  "status": "error",
+  "classification": {
+    "content_type": "witness",
+    "primary_record_hints": [
+      "Testimony",
+      "KeyFigure",
+      "Organization",
+      "Topic"
+    ],
+    "hynek_scaffold": null,
+    "classification_marks_detected": [],
+    "language": "en",
+    "ocr_quality": "n/a",
+    "sensitivity": "sensitive",
+    "ingestion_recommendation": "proceed_with_caution",
+    "rationale": "First-person testimony from a claimed NSA intuitive communicator, containing extraordinary claims about alien telepathy and genetic management. Lacks corroborating documentation in the provided text; host references military records but not included. Valuable as whistleblower witness account but requires human verification due to high strangeness and unknown custody of original source.",
+    "confidence": 0.6
+  },
+  "analysis": {},
+  "ingestion": {},
+  "chunks": [],
+  "ner_results": [],
+  "embeddable_texts": [],
+  "metadata": {
+    "provenance": "https://www.youtube.com/watch?v=Rfmy5oW_r9c",
+    "filename_hint": "“The NSA Hired Me To Speak To Aliens!” -Sergeant Dan Sherman",
+    "prompts_dir": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/ai/prompts"
+  },
+  "errors": [
+    "Unterminated string starting at: line 5 column 19 (char 380)"
+  ],
+  "prompts_used": [
+    "document_classification",
+    "disclosure.content_analysis"
+  ]
+}

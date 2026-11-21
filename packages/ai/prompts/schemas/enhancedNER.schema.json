@@ -1,0 +1,149 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Enhanced NER Output",
+  "type": "object",
+  "properties": {
+    "entities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "PERSONNEL",
+              "EVENT",
+              "ORGANIZATION",
+              "EVIDENCE",
+              "LOCATION"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "credibility_tier": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10
+          },
+          "span_quote": {
+            "type": "string",
+            "maxLength": 240,
+            "description": "Verbatim source excerpt supporting the entity"
+          },
+          "evidentiary_state": {
+            "type": "string",
+            "enum": [
+              "Observed",
+              "Corroborated",
+              "Contested",
+              "Inferred",
+              "Speculative",
+              "Resonant",
+              "Unverified",
+              "Disconfirmed"
+            ]
+          },
+          "aliases": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "record_type_hint": {
+            "type": "string",
+            "description": "Domain name e.g. KeyFigure, Document, Testimony, Sighting, Topic, Artifact"
+          },
+          "attributes": {
+            "type": "object"
+          },
+          "relationships": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "target": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "confidence": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "evidentiary_state": {
+                  "type": "string",
+                  "enum": [
+                    "Observed",
+                    "Corroborated",
+                    "Contested",
+                    "Inferred",
+                    "Speculative",
+                    "Resonant",
+                    "Unverified",
+                    "Disconfirmed"
+                  ]
+                }
+              },
+              "required": [
+                "target",
+                "type"
+              ]
+            }
+          }
+        },
+        "required": [
+          "type",
+          "name"
+        ]
+      }
+    },
+    "analysis_summary": {
+      "type": "object",
+      "properties": {
+        "total_entities": {
+          "type": "integer"
+        },
+        "confidence_distribution": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number"
+          }
+        },
+        "key_patterns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Wire field: source-grounded patterns only; not speculative conclusions"
+        },
+        "investigation_priority": {
+          "type": "string",
+          "enum": [
+            "CRITICAL",
+            "HIGH",
+            "MEDIUM",
+            "LOW"
+          ]
+        },
+        "ingestion_notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional Inference-layer notes for humans; never embed"
+        }
+      }
+    }
+  },
+  "required": [
+    "entities"
+  ]
+}

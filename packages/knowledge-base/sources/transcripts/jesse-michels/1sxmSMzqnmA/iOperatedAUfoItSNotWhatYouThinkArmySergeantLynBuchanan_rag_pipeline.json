@@ -1,0 +1,159 @@
+{
+  "status": "error",
+  "classification": {
+    "content_type": "media",
+    "primary_record_hints": [
+      "Testimony",
+      "KeyFigure",
+      "Sighting",
+      "Topic"
+    ],
+    "hynek_scaffold": null,
+    "classification_marks_detected": [],
+    "language": "English",
+    "ocr_quality": "n/a",
+    "sensitivity": "public",
+    "ingestion_recommendation": "hold_for_human_review",
+    "rationale": "Interview transcript contains extraordinary claims about remote viewing, alien bases, UFO control, and military psychic programs. Custody unclear (podcast host), and content warrants human review for veracity and potential disinformation.",
+    "confidence": 0.7
+  },
+  "analysis": {
+    "content_assessment": {
+      "primary_claims": [
+        "Lyn Buchanan had one of the highest clearances, not only for remote viewing but for other stuff that will never be talked about.",
+        "He remote viewed four major alien bases on Earth: Mount Hayes, Alaska; Mount Zeal in Australia; a secret mountain near Bradshaw Ranch in Sedona, Arizona; and Mount Inyangani.",
+        "He has seen humans and aliens working side by side in a non-remote viewing capacity, including insectoids sitting in a row of humans operating equipment.",
+        "He saw a UFO inside a hangar, encountered a control panel with finger holes, and learned to fly it from an alien pilot.",
+        "He can change the weather anywhere in the world.",
+        "He can access people mentally, demonstrated by telling the host 'the ignition sequence start' mentally.",
+        "As an Army sergeant in Augsburg, Germany, he fried an entire field station's computers (est. $50 million damage) in anger, also knocking out Russian computers in East Germany; this is documented.",
+        "General Stubblebine (INSCOM) recruited him for a unit to destroy/control enemy computers; when Congress refused funding, he was placed in the remote viewing unit at Fort Meade.",
+        "The remote viewing unit had existed for 10 years before he arrived, using Ingo Swann's controlled remote viewing method.",
+        "He remote viewed Saddam Hussein almost daily, finding him crazy and believing God wanted him to rule the world; he also discovered a hidden weapons bunker under a hollow generator at Saddam's personal compound.",
+        "Military remote viewers were forbidden to use skills against U.S. citizens or for personal reasons, only for tasked targets.",
+        "Public remote viewing teachings cover only about 1/10th of the knowledge (stages 1-6 of 18); Ingo Swann offered to teach him up to stage 11.",
+        "Another sergeant actually killed a goat psychically, experienced dying with the goat, and subsequently stole a helicopter and disappeared; this was not Buchanan.",
+        "The Soviet Union inherited German psychic spy programs after WWII, and by the 1960s were stealing classified information via psychic means; the U.S. started its program in response.",
+        "A single remote viewer can kill easily, but world leaders are not targeted because intelligence agencies prefer known actors over unknown replacements.",
+        "The host says the movie 'The Men Who Stare at Goats' was inspired by Buchanan, but Buchanan clarifies the goat-killing was another sergeant."
+      ],
+      "key_findings": [
+        "Claim of U.S. military remote viewing program ongoing since the 1970s, with Buchanan active at Fort Meade.",
+        "Specification of four alien base locations, matching earlier Pat Price remote viewing claims (Mount Hayes, Mount Zeal, Sedona area, Mount Inyangani).",
+        "Assertion of physical UFO encounter inside a hangar and direct interaction with an alien pilot.",
+        "Assertion of large-scale computer destruction incident in Augsburg attributed to his psychokinesis, with alleged documentation.",
+        "Personal remote viewing of Saddam Hussein's mental state and hidden weapons bunker.",
+        "Mention of Ingo Swann's developmental stages (up to 18) and limited public dissemination.",
+        "Reference to a psychic goat-killing incident by another soldier, leading to that soldier's desertion.",
+        "Historical framing of German-Russian-U.S. psychic warfare lineage from WWII."
+      ],
+      "supporting_evidence": [
+        "Interviewee's personal testimony as a former Army remote viewer under General Stubblebine.",
+        "Assertion that the Augsburg computer incident is 'documented' (unspecified documentation).",
+        "Names and locations provided with specificity (military unit, base, locations).",
+        "Consistency with some publicly known elements of the Stargate Project and Ingo Swann's remote viewing protocols.",
+        "Host's identification of the guest as inspiration for character in 'The Men Who Stare at Goats' (though guest partially distances)."
+      ],
+      "contradictory_evidence": [
+        "No independent verification of any claims within the source text.",
+        "The alien base locations are identical to those attributed to remote viewer Pat Price in the 1970s (as reported in secondary literature), suggesting possible narrative recycling or circular sourcing.",
+        "No official documents, military records, or witness corroboration provided."
+      ],
+      "follow_up_needed": [
+        "Verify Lyn Buchanan's identity, service record, and security clearance history through FOIA requests or official military archives.",
+        "Investigate the Augsburg field station computer incident (date, unit, any official reports or news) to test the documentation claim.",
+        "Cross-reference the alien base locations with Pat Price's original session transcripts; determine if Buchanan is independently reporting or repeating known material.",
+        "Seek corroboration from other remote viewers or personnel from the Fort Meade unit regarding his claimed tasks (Saddam Hussein, UFO hangar).",
+        "Assess whether the hangar UFO/alien narrative appears in other sources and if it matches any known hoax patterns.",
+        "Next Trace: Locate the alleged 'documented' record of the computer incident or any official acknowledgment of Buchanan's involvement with INSCOM remote viewing unit."
+      ],
+      "admissibility": "UNVERIFIED",
+      "overall_credibility": "LOW",
+      "notes": "Guest makes multiple extraordinary claims but provides no verifiable evidence. Several elements (alien base locations) are recycled from earlier remote viewing lore. The interview format lacks independent fact-checking. Classification-aware reading: None of the claims bear official classification marks; the mere assertion of 'highest clearances' is unverifiable. Until independent documentation surfaces, the content is not admissible as factual intelligence."
+    },
+    "extracted_data": {
+      "people": [
+        {
+          "name": "Lyn Buchanan",
+          "role": "Claimed former U.S. Army remote viewer, sergeant, Russian linguist"
+        },
+        {
+          "name": "Albert Stubblebine",
+          "role": "Former head of U.S. Army Intelligence and Security Command (INSCOM)"
+        },
+        {
+          "name": "Ingo Swann",
+          "role": "Developer of controlled remote viewing methodology, key figure in Stargate Project"
+        },
+        {
+          "name": "Nina Kulagina",
+          "role": "Soviet psychic, alleged to stop animals' hearts"
+        },
+        {
+          "name": "Saddam Hussein",
+          "role": "Former Iraqi president, remote viewing target"
+        },
+        {
+          "name": "Pat Price",
+          "role": "Earlier remote viewer whose alien base coordinates are repeated (not named in transcript, but relevant)"
+        },
+        {
+          "name": "The unnamed sergeant",
+          "role": "Alleged psychic goat-killer who deserted"
+        }
+      ],
+      "organizations": [
+        "U.S. Army Intelligence and Security Command (INSCOM)",
+        "Fort Meade remote viewing unit (likely Stargate Project)",
+        "Soviet/Russian psychic warfare program",
+        "Dr. Greenbaum unit (WWII German)"
+      ],
+      "locations": [
+        "Mount Hayes, Alaska",
+        "Mount Zeal, Australia",
+        "Bradshaw Ranch area, Sedona, Arizona (secret mountain)",
+        "Mount Inyangani (Zimbabwe/Mozambique border)",
+        "Augsburg, Germany (field station)",
+        "Fort Meade, Maryland",
+        "Saddam Hussein's personal compound (Iraq)"
+      ],
+      "dates": [],
+      "events": [
+        {
+          "event": "Augsburg computer destruction incident",
+          "claimed_year": "unknown (likely early 1980s?)",
+          "description": "Buchanan claims his anger caused massive computer failure across a multi-national military facility."
+        },
+        {
+          "event": "Recruitment into remote viewing unit",
+          "description": "Following the computer incident, General Stubblebine recruited him."
+        },
+        {
+          "event": "Remote viewing of Saddam Hussein",
+          "description": "Daily psychic spying revealing Hussein's mental state and hidden bunker."
+        },
+        {
+          "event": "Goat-killing by another soldier",
+          "description": "Psychic killing of a goat; soldier reportedly experienced death with the animal and deserted."
+        }
+      ]
+    }
+  },
+  "ingestion": {},
+  "chunks": [],
+  "ner_results": [],
+  "embeddable_texts": [],
+  "metadata": {
+    "provenance": "https://www.youtube.com/watch?v=1sxmSMzqnmA",
+    "filename_hint": "“I Operated a UFO… It’s Not What You Think” -Army Sergeant Lyn Buchanan",
+    "prompts_dir": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/ai/prompts"
+  },
+  "errors": [
+    "All LLM providers failed (anthropic/claude-sonnet-5: skipped (HTTP 400); anthropic/claude-opus-4-8: skipped (HTTP 400); deepseek/deepseek-v4-pro: BudgetExhausted: deepseek/deepseek-v4-pro: max_tokens=4096 consumed before any answer was emitted (reasoning=True); raise max_tokens; together/kimi-k3: BudgetExhausted: together/kimi-k3: max_tokens=4096 consumed before any answer was emitted (reasoning=True); raise max_tokens; openai/gpt-5.5: skipped (HTTP 401); groq/gpt-oss-120b: skipped (HTTP 401))"
+  ],
+  "prompts_used": [
+    "document_classification",
+    "disclosure.content_analysis",
+    "rag_ingestion"
+  ]
+}

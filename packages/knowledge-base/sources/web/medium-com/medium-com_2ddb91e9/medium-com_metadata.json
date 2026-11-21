@@ -1,0 +1,39 @@
+{
+  "url": "https://medium.com/@richgel99/openai-deep-research-majestic-12-mj-12-and-uaps-a-comprehensive-research-report-a90e6cbad751",
+  "title": "Web Article",
+  "author": "",
+  "publish_date": "",
+  "type": "web_article",
+  "content_length": 82632,
+  "word_count": 12595,
+  "extraction_timestamp": "2025-09-05T16:38:36.966746",
+  "processing_status": {
+    "content_extracted": true,
+    "summary_generated": false,
+    "entities_extracted": false,
+    "kb_indexed": false,
+    "kg_processed": false
+  },
+  "files": {
+    "summary": "/Users/liamellis/Desktop/ultraterrestrial-resurrection/packages/knowledge-base/sources/web/2025-09-05/medium-com_2ddb91e9/medium-com_summary.txt",
+    "content": "/Users/liamellis/Desktop/ultraterrestrial-resurrection/packages/knowledge-base/sources/web/2025-09-05/medium-com_2ddb91e9/medium-com_content.txt",
+    "metadata": "/Users/liamellis/Desktop/ultraterrestrial-resurrection/packages/knowledge-base/sources/web/2025-09-05/medium-com_2ddb91e9/medium-com_metadata.json"
+  },
+  "analysis": {
+    "content_type": "ufo_research",
+    "key_topics": [
+      "Ufo",
+      "Uap",
+      "Alien",
+      "Extraterrestrial",
+      "Roswell",
+      "Area 51",
+      "Majestic 12",
+      "Mj-12",
+      "Disclosure",
+      "Sighting"
+    ],
+    "reading_time_minutes": 62,
+    "complexity_score": 100
+  }
+}

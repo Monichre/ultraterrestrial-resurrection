@@ -1,0 +1,188 @@
+/* Writers-desk note helpers + paper / document texture surfaces */
+
+[contenteditable][data-placeholder]:empty::before {
+  content: attr(data-placeholder);
+  color: #969696;
+  pointer-events: none;
+}
+
+.note-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.note-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.note-scrollbar::-webkit-scrollbar-thumb {
+  background: #d0cec9;
+  border-radius: 3px;
+}
+
+.note-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #b8b6b1;
+}
+
+/* ── Paper texture surfaces ───────────────────────────────────────── */
+
+.wd-paper-desk {
+  position: relative;
+  isolation: isolate;
+  background-color: #0f1117;
+  background-image:
+    url('/textures/paper/groove-paper.png'), url('/textures/paper/fabric-of-squares.png'),
+    linear-gradient(165deg, #161922 0%, #0f1117 55%, #0a0b0f 100%);
+  background-size:
+    260px 260px,
+    400px 400px,
+    auto;
+  background-repeat: repeat, repeat, no-repeat;
+  background-blend-mode: soft-light, overlay, normal;
+}
+
+.wd-paper-desk::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: url('/textures/paper/debut-twill.png');
+  background-size: 180px 180px;
+  opacity: 0.22;
+  mix-blend-mode: soft-light;
+}
+
+.wd-paper-desk > * {
+  position: relative;
+  z-index: 1;
+}
+
+.wd-paper-drafting {
+  position: relative;
+  isolation: isolate;
+  background-color: #090a0c;
+  background-image:
+    url('/textures/paper/inflicted-grid.png'), url('/textures/paper/grid-noise.png'),
+    linear-gradient(180deg, #101218 0%, #090a0c 100%);
+  background-size:
+    220px 220px,
+    160px 160px,
+    auto;
+  background-repeat: repeat, repeat, no-repeat;
+  background-blend-mode: soft-light, soft-light, normal;
+}
+
+.wd-paper-drafting::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: url('/textures/paper/fabric-of-squares.png');
+  background-size: 480px 480px;
+  opacity: 0.18;
+  mix-blend-mode: overlay;
+}
+
+.wd-paper-drafting > * {
+  position: relative;
+  z-index: 1;
+}
+
+.wd-paper-research {
+  position: relative;
+  isolation: isolate;
+  background-color: #faf9f6;
+  background-image: radial-gradient(#d8d4cc 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.wd-paper-research::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    url('/textures/paper/grid-noise.png'), url('/textures/paper/inflicted-grid.png');
+  background-size:
+    180px 180px,
+    280px 280px;
+  background-repeat: repeat;
+  opacity: 0.07;
+  mix-blend-mode: multiply;
+}
+
+.wd-paper-research::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: url('/textures/paper/debut-twill.png');
+  background-size: 200px 200px;
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+}
+
+.wd-paper-research > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Letter / elevated sheet tooth */
+.wd-paper-sheet {
+  background-color: #1a1d24;
+  background-image:
+    url('/textures/paper/debut-twill.png'), linear-gradient(180deg, #1e222b 0%, #1a1d24 100%);
+  background-size:
+    140px 140px,
+    auto;
+  background-repeat: repeat, no-repeat;
+  background-blend-mode: soft-light, normal;
+}
+
+.wd-paper-tooth {
+  position: relative;
+}
+
+.wd-paper-tooth::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+  background-image: url('/textures/paper/groove-paper.png');
+  background-size: 200px 200px;
+  opacity: 0.14;
+  mix-blend-mode: soft-light;
+}
+
+.wd-paper-tooth > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Cream note body — subtle fiber tooth without darkening type */
+.wd-paper-note-body {
+  position: relative;
+  background-color: #f4f2ee;
+}
+
+.wd-paper-note-body::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: url('/textures/paper/debut-twill.png');
+  background-size: 160px 160px;
+  opacity: 0.06;
+  mix-blend-mode: multiply;
+}
+
+.wd-paper-note-body > * {
+  position: relative;
+  z-index: 1;
+}

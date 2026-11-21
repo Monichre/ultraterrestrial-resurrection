@@ -1,0 +1,630 @@
+{
+  "status": "completed",
+  "video_id": "8be00d7024ac",
+  "summary_file": "/Users/liamellis/Desktop/ultraterrestrial-resurrection/packages/knowledge-base/sources/web/2025-10-08/twz-com_79ea33d4/twz-com_summary.txt",
+  "entities": {
+    "topics": [
+      "Mystery Aircraft Crash Near Area 51",
+      "Military Drone Operations",
+      "Restricted Airspace Classifications",
+      "Area 51/Groom Lake Test Facility"
+    ],
+    "personnel": [],
+    "events": [
+      "Mystery Aircraft Crash Near Area 51",
+      "Site tampering discovered",
+      "Public disclosure of investigation",
+      "Aircraft incident occurs",
+      "Site secured and guarded",
+      "Recovery/cleanup operations completed"
+    ],
+    "organizations": [
+      "432nd Wing",
+      "Creech Air Force Base",
+      "30th Reconnaissance Squadron",
+      "44th Reconnaissance Squadron",
+      "Air Force Office of Special Investigations (OSI)",
+      "FBI",
+      "U.S. Air Force"
+    ],
+    "locations": [
+      "Area 51",
+      "Southern Nevada"
+    ],
+    "artifacts": [
+      "Inert training bomb body",
+      "Aircraft panel of unknown origin"
+    ],
+    "sightings": []
+  },
+  "xata_search_results": {
+    "topics": [
+      {
+        "entity_name": "Mystery Aircraft Crash Near Area 51",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Military Drone Operations",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Restricted Airspace Classifications",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Area 51/Groom Lake Test Facility",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Mystery Aircraft Crash Near Area 51",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Military Drone Operations",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Restricted Airspace Classifications",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Area 51/Groom Lake Test Facility",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "topics",
+        "action_needed": "create_new",
+        "error": null
+      }
+    ],
+    "personnel": [],
+    "events": [
+      {
+        "entity_name": "Mystery Aircraft Crash Near Area 51",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "events",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Site tampering discovered",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "events",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Public disclosure of investigation",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "events",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Aircraft incident occurs",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "events",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Site secured and guarded",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "events",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Recovery/cleanup operations completed",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "events",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Mystery Aircraft Crash Near Area 51",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "events",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Site tampering discovered",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "events",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Public disclosure of investigation",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "events",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Aircraft incident occurs",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "events",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Site secured and guarded",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "events",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Recovery/cleanup operations completed",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "events",
+        "action_needed": "create_new",
+        "error": null
+      }
+    ],
+    "organizations": [
+      {
+        "entity_name": "432nd Wing",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Creech Air Force Base",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "30th Reconnaissance Squadron",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "44th Reconnaissance Squadron",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Air Force Office of Special Investigations (OSI)",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "FBI",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "U.S. Air Force",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "432nd Wing",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Creech Air Force Base",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "30th Reconnaissance Squadron",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "44th Reconnaissance Squadron",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Air Force Office of Special Investigations (OSI)",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "FBI",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "U.S. Air Force",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "organizations",
+        "action_needed": "create_new",
+        "error": null
+      }
+    ],
+    "locations": [
+      {
+        "entity_name": "Area 51",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "locations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Southern Nevada",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "locations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Area 51",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "locations",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Southern Nevada",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "locations",
+        "action_needed": "create_new",
+        "error": null
+      }
+    ],
+    "artifacts": [
+      {
+        "entity_name": "Inert training bomb body",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "artifacts",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Aircraft panel of unknown origin",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "artifacts",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Inert training bomb body",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "artifacts",
+        "action_needed": "create_new",
+        "error": null
+      },
+      {
+        "entity_name": "Aircraft panel of unknown origin",
+        "status": "not_found",
+        "xata_record": null,
+        "xata_id": null,
+        "table": "artifacts",
+        "action_needed": "create_new",
+        "error": null
+      }
+    ],
+    "sightings": []
+  },
+  "entity_creation_results": {
+    "created_entities": {
+      "topics": [],
+      "events": [],
+      "organizations": [],
+      "locations": [],
+      "artifacts": []
+    },
+    "failed_creations": {
+      "topics": [
+        {
+          "entity_name": "Mystery Aircraft Crash Near Area 51",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Military Drone Operations",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Restricted Airspace Classifications",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Area 51/Groom Lake Test Facility",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Mystery Aircraft Crash Near Area 51",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Military Drone Operations",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Restricted Airspace Classifications",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Area 51/Groom Lake Test Facility",
+          "error": "Batch creation failed"
+        }
+      ],
+      "events": [
+        {
+          "entity_name": "Mystery Aircraft Crash Near Area 51",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Site tampering discovered",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Public disclosure of investigation",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Aircraft incident occurs",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Site secured and guarded",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Recovery/cleanup operations completed",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Mystery Aircraft Crash Near Area 51",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Site tampering discovered",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Public disclosure of investigation",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Aircraft incident occurs",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Site secured and guarded",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Recovery/cleanup operations completed",
+          "error": "Batch creation failed"
+        }
+      ],
+      "organizations": [
+        {
+          "entity_name": "432nd Wing",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Creech Air Force Base",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "30th Reconnaissance Squadron",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "44th Reconnaissance Squadron",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Air Force Office of Special Investigations (OSI)",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "FBI",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "U.S. Air Force",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "432nd Wing",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Creech Air Force Base",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "30th Reconnaissance Squadron",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "44th Reconnaissance Squadron",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Air Force Office of Special Investigations (OSI)",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "FBI",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "U.S. Air Force",
+          "error": "Batch creation failed"
+        }
+      ],
+      "locations": [
+        {
+          "entity_name": "Area 51",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Southern Nevada",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Area 51",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Southern Nevada",
+          "error": "Batch creation failed"
+        }
+      ],
+      "artifacts": [
+        {
+          "entity_name": "Inert training bomb body",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Aircraft panel of unknown origin",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Inert training bomb body",
+          "error": "Batch creation failed"
+        },
+        {
+          "entity_name": "Aircraft panel of unknown origin",
+          "error": "Batch creation failed"
+        }
+      ]
+    },
+    "statistics": {
+      "total_processed": 42,
+      "total_created": 0,
+      "total_failed": 42
+    },
+    "errors": []
+  },
+  "total_entities": 21,
+  "total_matches": 42,
+  "total_created": 0
+}

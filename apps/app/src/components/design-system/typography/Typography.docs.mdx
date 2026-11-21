@@ -1,0 +1,49 @@
+import {Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source, ArgsTable} from '@storybook/blocks'
+import * as React from 'react'
+import {Typography, Heading, SubHeading, GlitchText, RedactedText, ClassifiedStamp} from './Typography'
+
+<Meta title="Design System/Typography/Docs" of={Typography} />
+
+<Title>Typography</Title>
+<Subtitle>Unified text component with variants for headings, body, research effects, data display, and UI labels.</Subtitle>
+
+<Description>
+The `Typography` component centralizes text styles using class-variance-authority. It supports multiple visual variants (headings, body, research/archival effects, technical mono, data display), color tokens, size and weight scaling, alignment, and text transform. Convenience components wrap common presets like `Heading`, `SubHeading`, `DataLabel`, `DataValue`, `Code`, `GlitchText`, `RedactedText`, and `ClassifiedStamp`.
+
+Fonts are provided via Next.js `next/font` in the app layout. In Storybook, if CSS variables from `next/font` are not present, the component falls back to the declared font stacks.
+</Description>
+
+## Usage
+
+```tsx
+import {Typography, Heading, SubHeading, GlitchText, RedactedText, ClassifiedStamp} from '@/components/design-system/typography/Typography'
+
+export function Example() {
+  return (
+    <div>
+      <Heading>Primary Heading</Heading>
+      <SubHeading color="muted">Section Heading</SubHeading>
+      <Typography variant="body">Standard body copy.</Typography>
+      <Typography variant="caption" color="muted">Muted caption</Typography>
+      <GlitchText dataText="GLITCH">GLITCH</GlitchText>
+      <RedactedText>TOP SECRET</RedactedText>
+      <ClassifiedStamp>Operation ULTRATERRESTRIAL</ClassifiedStamp>
+    </div>
+  )
+}
+```
+
+## Props
+
+<ArgsTable of={Typography} />
+
+## Live Controls
+
+<Primary />
+<Controls />
+
+## Stories
+
+<Stories />
+
+

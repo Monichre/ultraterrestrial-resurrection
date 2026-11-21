@@ -1,0 +1,15 @@
+node_modules/
+*.gif
+*.mp4
+*.mov
+*.png
+*.jpg
+*.jpeg
+*.pdf
+*.zip
+*.tar.gz
+build/
+dist/
+.next/
+coverage/
+*.log

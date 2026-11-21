@@ -1,0 +1,23 @@
+# Taste
+- Next.js 15 App Router, TypeScript, Tailwind CSS, pnpm. Confidence: 0.98
+- Three.js via @react-three/fiber + @react-three/drei for all 3D work. Confidence: 0.97
+- GSAP + ScrollTrigger for scroll-driven animations; Framer Motion (motion/react) for UI transitions. Confidence: 0.95
+- Neon (Postgres) as the primary database. Confidence: 0.9
+- Storybook for component documentation and stories — required alongside every new component. Confidence: 0.95
+- Monorepo: main app at apps/app/, shared packages at packages/; packages/ work must never touch apps/. Confidence: 0.97
+- Uses subagent-driven development for multi-task plans: fresh implementer subagent per task, reviewer after each, final whole-branch review at the end. Continuous execution — no mid-plan check-ins unless genuinely blocked. Confidence: 0.95
+- Uses design-lab skill (5 variants) before implementing a final design. Confidence: 0.9
+- Completion messages should be brief ("briefly inform"); never say "no follow-ups needed" when there are none. Confidence: 0.92
+- Does not want "Should I continue?" prompts between tasks. Confidence: 0.95
+- Short imperative commands ("resume", "proceed", "whats next") are normal and should be acted on immediately without asking for clarification. Confidence: 0.9
+- All components must be composable, modular, and have well-defined TypeScript props — this is stated as a hard requirement. Confidence: 0.97
+- Components must be data-driven (props/data layer), not hard-coded content. Confidence: 0.93
+- TypeScript strict; no `any`. Confidence: 0.9
+- CSS custom properties for all design tokens (colors, radii, shadows, z-index scale). Confidence: 0.92
+- All 8 component states required: default, hover, focus, active, disabled, loading, error, success. Confidence: 0.9
+- Strongly against AI slop: no gradient text (`background-clip: text`), no glassmorphism as default, no side-stripe colored borders, no hero-metric template, no identical card grids, no em dashes in copy. Confidence: 0.97
+- OKLCH for color; tinted neutrals, never pure `#000` / `#fff`. Confidence: 0.88
+- Dark theme is primary for this project (space/cosmic aesthetic). Confidence: 0.9
+- Cinematic, premium motion (high MOTION_INTENSITY); all animations must have purpose. Confidence: 0.88
+- `prefers-reduced-motion` fallbacks required on every animation. Confidence: 0.85
+- Animate only `transform` and `opacity` (GPU); never animate layout properties. Confidence: 0.88

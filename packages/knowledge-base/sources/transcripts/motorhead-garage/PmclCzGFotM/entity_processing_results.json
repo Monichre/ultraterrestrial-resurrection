@@ -1,0 +1,328 @@
+{
+  "status": "completed",
+  "video_id": "PmclCzGFotM",
+  "summary_file": "/Users/liamellis/Desktop/ultraterrestrial-resurrection/packages/knowledge-base/transcripts/2025-07-12/PmclCzGFotM/bobLazarUnseenInterviewWithDonGarlits1997Summary.txt",
+  "entities": {
+    "topics": [
+      "Bob Lazar S4 UFO Testimony"
+    ],
+    "personnel": [
+      "Bob Lazar"
+    ],
+    "events": [
+      "S4 Employment Period",
+      "Craft Test Flight Observation"
+    ],
+    "organizations": [
+      "Los Alamos National Laboratory",
+      "S4 Facility"
+    ],
+    "locations": [
+      "S4 Facility",
+      "Area 51"
+    ],
+    "technologies": [
+      "Anti-gravity propulsion system",
+      "Element 115",
+      "Gravity wave projection"
+    ],
+    "dates": [
+      "1988-1989",
+      "During employment period"
+    ],
+    "artifacts": [
+      "Los Alamos ID badge"
+    ],
+    "sightings": [
+      ""
+    ]
+  },
+  "xata_search_results": {
+    "topics": [
+      {
+        "entity_name": "Bob Lazar S4 UFO Testimony",
+        "status": "found",
+        "xata_record": {
+          "id": "rec_cobdesq5ojbselbdqr50",
+          "name": "Bob Lazar and His Claims About S-4 (Sector Four)",
+          "photos": [],
+          "summary": "Bob Lazar is an American physicist famous for his claims in the late 1980s about being hired to reverse-engineer extraterrestrial technology at a secret site called S-4 located near the Area 51 military facility. Lazar asserts that he worked on alien spacecraft and that the propulsion systems of these vehicles were powered by Element 115 (Moscovium), which was not synthesized by humans until 2003. He also claimed to have read government documents detailing alien involvement in human affairs over the past 10,000 years. Despite the lack of evidence to support his claims and inconsistencies in his educational and employment history, Lazar has maintained a cult following.",
+          "xata": {
+            "createdAt": "2024-04-10T18:16:19.922Z",
+            "highlight": {
+              "name": [
+                "<em>Bob</em> <em>Lazar</em> and His Claims About <em>S</em>-<em>4</em> (Sector Four)"
+              ]
+            },
+            "score": 6.1232147,
+            "table": "topics",
+            "updatedAt": "2024-04-11T00:30:30.874Z",
+            "version": 1
+          }
+        },
+        "xata_id": "rec_cobdesq5ojbselbdqr50",
+        "table": "topics"
+      }
+    ],
+    "personnel": [
+      {
+        "entity_name": "Bob Lazar",
+        "status": "found",
+        "xata_record": {
+          "authority": 1,
+          "bio": "Bob Lazar claims to have worked on reverse-engineering alien spacecraft at Area 51, sparking controversy and interest in UFO research.",
+          "credibility": 8,
+          "id": "rec_cobdfd4jmvif9dabl0i0",
+          "name": "Bob Lazar",
+          "photo": [
+            {
+              "id": "v72r1kpkhl7v39iionef42a7t4",
+              "name": "bob.png",
+              "mediaType": "image/png",
+              "enablePublicUrl": true,
+              "signedUrlTimeout": 600,
+              "uploadUrlTimeout": 86400,
+              "size": 1,
+              "version": 0,
+              "url": "https://us-east-1.storage.xata.sh/c97jjf076t7bfb0umft78hm8hk",
+              "signedUrl": "https://us-east-1.xata.sh/file/09lmetb2epotpthijj10kg84i1ui0479u7iegpprdulbln6c5nqri6vu01j1dltkieru9t5l9ek28oif76u0edqemum1tcvqeh3ch3cm2p2i5hr6eqao2q2frf4mg41lbspi3mdv7diha4g8io0ck3bl7o?verify=fr6n4q0000001v0m5i490ifaf76734k0461sshipdr80bmqfke6nsjdqnpq1ubdd",
+              "uploadUrl": "https://kgubvq.us-east-1.upload.xata.sh/file/0dlmetb2epotpthijj10kg84i1ui0479u7iegpprdulbln6c5nqri6vu01j1dltkieru9t5l9ek28pgtpq50vufe6kdbs2rpgj2b30m75cl4pknbqnksmtpbr16bm466jeko9jfog7s6hq6ofthg?verify=koe78q0000001rtpbhhuhqh514svio03fpjqmd0s2o7lugnp6idu8t7afk76j6ca",
+              "attributes": {
+                "height": 289,
+                "width": 290
+              }
+            }
+          ],
+          "popularity": 8,
+          "rank": 61,
+          "role": "Physicist, Whistleblower, Alleged Reverse-Engineering Worker",
+          "xata": {
+            "createdAt": "2024-04-10T18:17:24.661Z",
+            "highlight": {
+              "name": [
+                "<em>Bob</em> <em>Lazar</em>"
+              ]
+            },
+            "score": 11.196678,
+            "table": "personnel",
+            "updatedAt": "2024-08-17T23:01:42.645Z",
+            "version": 5
+          }
+        },
+        "xata_id": "rec_cobdfd4jmvif9dabl0i0",
+        "table": "personnel"
+      }
+    ],
+    "events": [
+      {
+        "entity_name": "S4 Employment Period",
+        "status": "not_found",
+        "table": "events",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "Craft Test Flight Observation",
+        "status": "not_found",
+        "table": "events",
+        "action_needed": "create_new"
+      }
+    ],
+    "organizations": [
+      {
+        "entity_name": "Los Alamos National Laboratory",
+        "status": "found",
+        "xata_record": {
+          "id": "rec_crdpu4t92c2mieknkffg",
+          "name": "National Security Agency (NSA)",
+          "xata": {
+            "createdAt": "2024-09-07T00:32:19.952Z",
+            "highlight": {
+              "name": [
+                "<em>National</em> Security Agency (NSA)"
+              ]
+            },
+            "score": 2.0438712,
+            "table": "organizations",
+            "updatedAt": "2024-09-07T00:32:19.952Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_crdpu4t92c2mieknkffg",
+        "table": "organizations"
+      },
+      {
+        "entity_name": "S4 Facility",
+        "status": "found",
+        "xata_record": {
+          "description": "In 1953, a team of researchers finished a statistical analysis of 3,201 UAP reports from the files of the U.S. Air Force’s Aerial Phenomenon Group, which went by the codename Project Blue Book. The analysis remains among the largest studies of its kind and represents the height of the U.S. Air Force’s effort to investigate the post-WWII “UFO” mystery.",
+          "id": "rec_cobdhj5bjt595h6377jg",
+          "name": "Blue Book Special Report 14 and the Robertson Panel",
+          "photo": "aaadd0d4-fb53-4c27-b323-e6ed5793b2dc.png (https://v5.airtableusercontent.com/v3/u/27/27/1712786400000/TVz7bac9GGFbueGjXxgt6g/-1PGPIsI2CczA_4fie0cJqdLZfRwC2podlLwTihTB9xJbz3GHTZhazm64JmtKYG1mCVjTEPT94CLX2DTIGM3HMvai6CYlCkfO_R_SVIRXaIBA1OsfU-Exbg4Y_YWmn6D_xYmHXzvwmsXgjI78TsmWw/6rv-WLxiC54-5voJCoHQe4X5K7F7mLJNbXsQEtYA2OA)",
+          "xata": {
+            "createdAt": "2024-04-10T18:22:04.499Z",
+            "highlight": {
+              "name": [
+                "Blue Book Special Report <em>14</em> and the Robertson Panel"
+              ]
+            },
+            "score": 1.1230812,
+            "table": "organizations",
+            "updatedAt": "2024-04-10T18:22:04.499Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_cobdhj5bjt595h6377jg",
+        "table": "organizations"
+      }
+    ],
+    "locations": [
+      {
+        "entity_name": "S4 Facility",
+        "status": "found",
+        "xata_record": {
+          "city": "st. george",
+          "coordinates": "33.1858333, -80.5758333",
+          "id": "rec_cp1v7a34f9p514bqa21g",
+          "latitude": 33.1858333,
+          "longitude": -80.5758333,
+          "name": "st. george, sc",
+          "state": "sc",
+          "xata": {
+            "createdAt": "2024-05-14T23:28:39.672Z",
+            "highlight": {
+              "name": [
+                "<em>st</em>. george, <em>sc</em>"
+              ]
+            },
+            "score": 4.8735504,
+            "table": "locations",
+            "updatedAt": "2024-05-14T23:28:39.672Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_cp1v7a34f9p514bqa21g",
+        "table": "locations"
+      },
+      {
+        "entity_name": "Area 51",
+        "status": "found",
+        "xata_record": {
+          "city": "dayton area",
+          "coordinates": "39.756618, -84.190667",
+          "id": "rec_cp1v79j4f9p514bq838g",
+          "latitude": 39.756618,
+          "longitude": -84.190667,
+          "name": "dayton area, oh",
+          "state": "oh",
+          "xata": {
+            "createdAt": "2024-05-14T23:28:37.924Z",
+            "highlight": {
+              "name": [
+                "dayton <em>area</em>, oh"
+              ]
+            },
+            "score": 5.737627,
+            "table": "locations",
+            "updatedAt": "2024-05-14T23:28:37.924Z",
+            "version": 0
+          }
+        },
+        "xata_id": "rec_cp1v79j4f9p514bq838g",
+        "table": "locations"
+      }
+    ],
+    "technologies": [
+      {
+        "entity_name": "Anti-gravity propulsion system",
+        "status": "not_found",
+        "table": "technologies",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "Element 115",
+        "status": "not_found",
+        "table": "technologies",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "Gravity wave projection",
+        "status": "not_found",
+        "table": "technologies",
+        "action_needed": "create_new"
+      }
+    ],
+    "dates": [
+      {
+        "entity_name": "1988-1989",
+        "status": "not_found",
+        "table": "dates",
+        "action_needed": "create_new"
+      },
+      {
+        "entity_name": "During employment period",
+        "status": "not_found",
+        "table": "dates",
+        "action_needed": "create_new"
+      }
+    ],
+    "artifacts": [
+      {
+        "entity_name": "Los Alamos ID badge",
+        "status": "found",
+        "xata_record": {
+          "description": "Ancient depictions of aircraft, possibly representing UFO-like objects.",
+          "id": "rec_crvhduj2c7o56ee594dg",
+          "images": [
+            {
+              "id": "qklt818hk55pdflepavbp6i65o",
+              "name": "hieroplanes.gif",
+              "mediaType": "image/gif",
+              "enablePublicUrl": true,
+              "signedUrlTimeout": 300,
+              "uploadUrlTimeout": 86400,
+              "size": 0,
+              "version": 0,
+              "url": "https://us-east-1.storage.xata.sh/kgubvqbuqgurl4b533h401enrogd7cu4",
+              "signedUrl": "https://us-east-1.xata.sh/file/0hlmetb2epotpthijj10kg84i1ui0479u7iegpprduobln6c5nqri72u01jfu5nqc9gv0kppol4hn91snvkntl1tna8ma672802tfnh0qeps9406a69i5o1310oagh1ibe5jkdu7p9960g1c4re25kc218e36s5c?verify=aj674q0000001l20htvvc5g1cea5p5f4keuv2ld3j04cpjdautl59ekjta62psjm",
+              "uploadUrl": "https://kgubvq.us-east-1.upload.xata.sh/file/0dlmetb2epotpthijj10kg84i1ui0479u7iegpprduobln6c5nqri72u01jfu5nqc9gv0kppol4hmps77f6un54puat5i4i5nt7vflsaj7mj8udtvm5sn9tfodd93e8g6m7h631ed0kbqfnttc60?verify=l0e78q00000010gitca8n42trvj3bbv1m5rali2g0avk2lrin7fqq2dmusfda143",
+              "attributes": {
+                "height": 193,
+                "width": 577
+              }
+            }
+          ],
+          "name": "Ancient Aircraft in History",
+          "origin": "Unknown",
+          "photos": [
+            "https://www.crystalinks.com/hieroplanes.gif"
+          ],
+          "source": "Ancient Aircraft Collection",
+          "xata": {
+            "createdAt": "2024-10-03T22:13:14.868Z",
+            "highlight": {
+              "name": [
+                "Ancient Aircraft <em>in</em> History"
+              ]
+            },
+            "score": 1.0452511,
+            "table": "artifacts",
+            "updatedAt": "2025-01-15T04:38:37.637Z",
+            "version": 1
+          }
+        },
+        "xata_id": "rec_crvhduj2c7o56ee594dg",
+        "table": "artifacts"
+      }
+    ],
+    "sightings": [
+      {
+        "entity_name": "",
+        "status": "not_found",
+        "table": "sightings",
+        "action_needed": "create_new"
+      }
+    ]
+  },
+  "total_entities": 15,
+  "total_matches": 15
+}

@@ -1,112 +1,91 @@
-# UltraTerrestrial
+# Ultraterrestrial Resurrection
 
-**Tracking the State of Disclosure**
-_Striving to document, explore and disseminate the past, present and future of the UFO topic and its bearing on humanity, the universe and our place within it._
+An investigative UFO/UAP research platform built around an interactive evidence
+canvas, grounded database search, guided historical tours, and AI-assisted synthesis.
 
-![Example Image](./preview.jpeg)
+## Current architecture
 
-# Initial Idea
+This is a Bun monorepo with two separate application systems:
 
-How it started ...
+- `apps/app/` — the Next.js 15 / React 19 product.
+- `apps/disclosure-rag/` — a Python RAG research system. It is not connected to the
+  Next.js application's database or vector stores.
 
-![Charlie Day](apps/app/docs/charlie-day.gif)
+Shared packages:
 
-Essentially I was thinking it might be cool to build a "state of disclosure" application that provided engaging visual displays and interactions across the following general areas:
+- `packages/db/` — Neon Postgres data layer. Live application code imports
+  `@db/postgres`; the Xata SDK is retired migration-era code.
+- `packages/ai/` — `@repo/ai`: agent suite grammar, `@repo/prompts` (under `prompts/`), and vendor research adapters (`services/` → Exa / Firecrawl / deep-research).
+- `packages/knowledge-base/` — source documents and research material.
 
-1. Major Historical UFO Event Chronology
-    - Interactive 3D visualization of global UFO sightings
-    - Timeline navigation and filtering capabilities
-    - Detailed event documentation and analysis
+The Next.js app has two live AI paths:
 
-2. Disclosure Status Dashboard
-    - Real-time tracking of claims, hearings and news
-    - Progress indicators and milestone tracking
-    - Historical context and developments
+1. `/api/disclosure/mindmap` — OpenAI Assistants API, file search, Postgres search,
+   external search, and graph mutations.
+2. `/api/prometheus/chat` — standalone Vercel AI SDK chat with research tools.
 
-3. Topic Analysis & Correlation Engine
-    - Network visualization of connected topics
-    - Pattern recognition and trend analysis
-    - Machine learning-powered insight generation
+Do not infer a connected “triple RAG” or multi-agent orchestrator from old design
+documents. Those systems are not live in the Next.js product.
 
-4. Key Figures Database
-    - Comprehensive profiles of notable individuals
-    - Timeline of involvement and contributions
-    - Network analysis of relationships and connections
+## Get started
 
-5. Investigation Hub
-    - Interactive evidence mapping and visualization
-    - Collaborative research and analysis tools
-    - Pattern recognition across disparate data points
+Requirements: Bun, Node.js 18+, and the environment variables needed by the feature
+you are running.
 
-6. Digital Archive
-    - Searchable repository of documents and artifacts
-    - Metadata tagging and cross-referencing
-    - Chain of custody tracking
+```bash
+bun install
+bun run dev:app
+```
 
-7. Open Questions Framework
-    - Structured database of unresolved questions
-    - Impact analysis and implications tracking
-    - Progress monitoring and updates
+The app is available at `http://localhost:3000`. The primary experience is
+`/research-canvas`.
 
-8. Classified Locations Registry
-    - Mapping of suspected facilities
-    - Historical activity analysis
-    - Geospatial correlation with events
+Common commands:
 
-9. Contractor Intelligence Database
-    - Profiles of relevant organizations
-    - Project and program tracking
-    - Network analysis of relationships
+```bash
+bun run build:app       # Next.js production build
+bun run test:app        # Vitest suite
+bun run db:test:db      # database package test
+bun run prompts:validate
+```
 
-## Formal Pitch
+The repository has substantial pre-existing TypeScript debt and the app build bypasses
+type errors. A passing build is therefore necessary but not sufficient verification;
+run a clean typecheck and confirm touched files introduce no new failures.
 
-At its core, Ultraterrestrial is designed to chronicle major historical UFO events with stunning 3D visuals that map sightings across the globe. Picture an interactive world map where you can zoom in and out, explore sightings by location, and navigate through time using a dynamic slider that showcases how these phenomena have evolved over the decades. Heatmaps will highlight regions with high densities of sightings, and for those who love immersive experiences, augmented reality features will let you visualize historical sightings in your current surroundings.
+## Configuration
 
-Each event isn’t just a pinpoint on a map; it comes alive with detailed descriptions, eyewitness accounts, official reports, and multimedia elements like photos, videos, and audio recordings. Users can dive deep into geospatial data, view satellite imagery, and even add their own annotations, making the exploration both informative and interactive.
+Never commit secrets. The live database connection is `DATABASE_URL`, commonly loaded
+from `packages/db/.env`. AI, auth, search, and ingestion features require their own
+provider keys; see `.env.example` and [docs/ops/CONTRIB.md](./docs/ops/CONTRIB.md).
 
-Keeping up with the latest developments is crucial, and Ultraterrestrial excels in status reporting on claims, hearings, news items, and events. A real-time dashboard offers an overview of recent developments, ongoing investigations, and upcoming events. Imagine visual timelines tracking the progression of key claims and hearings, complemented by a notification system that keeps you updated on specific topics or events you care about most.
+Xata credentials are not required by the live Next.js data path. Old scripts and the
+disconnected Python system may still contain Xata-specific migration code.
 
-One of the standout features is the Topic Tracker. This dynamic tool maps out interconnected topics using network graphs, highlighting trending subjects and organizing them into subtopics for easy navigation. Users can engage in discussions, participate in polls, and contribute their own insights, fostering a vibrant community of like-minded individuals.
+## Working in the repository
 
-No comprehensive platform would be complete without a Who’s Who roster, and Ultraterrestrial delivers with detailed profiles of key figures in the UFO disclosure space. From Bob Lazar to Jeremy Corbell, each profile includes biographies, contributions, claims, and multimedia content like interviews and documentaries. An interactive network map shows how these figures connect with each other, organizations, and major events, providing a clear picture of the landscape.
+Read these in order before changing code:
 
-For those who crave deeper investigation, Ultraterrestrial offers an Investigative Hub. Think of it as a central place where you can follow complex threads weaving through various events, people, and evidence. Interactive diagrams and mind maps make it easy to visualize these connections, while in-depth case studies allow for thorough exploration of specific phenomena or incidents. Users can collaborate on investigations, contribute findings, and even participate in verifying information to ensure credibility.
+1. [AGENTS.md](./AGENTS.md) — current architecture, safety rules, and workflows.
+2. [docs/README.md](./docs/README.md) — documentation spine (what exists / where / how / want / do / start).
+3. [docs/ops/AGENT_ONBOARDING_CHECKLIST.md](./docs/ops/AGENT_ONBOARDING_CHECKLIST.md)
+   — app-specific orientation.
+4. Task-specific code and documentation.
 
-The Library is another cornerstone of Ultraterrestrial, housing major documents, letters, artifacts, and evidence in a meticulously organized digital repository. With features like document scanning, OCR, and detailed metadata, users can easily search and access a wealth of information. Interactive exhibits and guided tours provide curated experiences, making the library both a resource and an educational tool.
+For design, UX, product language, or identity work, also read `docs/vision/`,
+[DESIGN.md](./DESIGN.md), and [PRODUCT.md](./PRODUCT.md).
 
-Addressing the big questions is essential, and Ultraterrestrial presents an official list of “unanswered questions” along with their implications. These questions are categorized by themes such as technology, origin, and intent, and each one links to relevant people, places, and events. Users can track the progress of these questions, submit new ones, and vote on which should be prioritized, ensuring that the platform remains dynamic and responsive to community interests.
+Operational references:
 
-When it comes to the more mysterious aspects, Ultraterrestrial includes lists of suspected “black” bases and contractors involved in retrieving materials. Interactive maps provide detailed location data, while base profiles offer background information, theories, sightings, and photographic evidence. Contractor profiles document affiliations and evidence linking them to retrieved materials, complete with network mapping to show connections to various bases and events.
+- [Documentation spine](./docs/README.md)
+- [API routes](./docs/architecture/API_ROUTES.md)
+- [Runbook](./docs/architecture/RUNBOOK.md)
+- [Database imports](./packages/db/IMPORT_GUIDE.md)
+- [Database quick reference](./packages/db/QUICK_REFERENCE.md)
 
-But Ultraterrestrial doesn’t stop at just providing information—it’s built to engage and empower its users. With community features like user accounts, profiles, forums, and user-generated content, the platform fosters a sense of belonging and collaboration. Users can upload their own sightings, participate in collaborative investigations, and contribute to the growing tapestry of ultraterrestrial knowledge.
+Planning currently uses `docs/plans/FEATURES.md`, `docs/plans/TODO.md`, and
+`DAILY_WORK_PLAN.md`. Treat those as transitional task-tracking sources while Linear
+integration is being prepared; do not create additional shadow backlogs.
 
-Multimedia integration takes Ultraterrestrial to the next level, offering a rich video library with documentaries, interviews, and user-submitted footage. Exclusive podcasts and audio archives provide another layer of content, ensuring there’s always something new and engaging to explore.
-
-Education is a key component, with interactive learning modules, quizzes, and expert webinars that help users deepen their understanding of UFO phenomena. Data analytics and insights offer trend analysis and predictive modeling, giving users a sophisticated toolset to interpret the vast amounts of data available.
-
-Ultraterrestrial also emphasizes accessibility and inclusivity, supporting multiple languages and regional customization to reach a global audience. The platform is designed with accessibility in mind, featuring screen reader compatibility, keyboard navigation, and customizable UI options to ensure everyone can engage with the content comfortably.
-
-In summary, Ultraterrestrial is poised to become the leading platform in the UFO disclosure space, offering a rich, interactive, and comprehensive experience that not only informs but also engages and empowers its users. Whether you’re an avid enthusiast, a dedicated researcher, or just curious about the mysteries of the skies, Ultraterrestrial provides the tools and community to explore the fascinating world of ultraterrestrial phenomena.
-
-## Tech Stack
-
-NextJS
-Xata
-OpenAI
-Anthropic
-Tailwind
-ThreeJS
-React Three Fiber
-Framer Motion
-
-[Feature Roadmap](./apps/app/docs/roadmap.md)
-
-<https://app.warp.dev/session/c1fd1a4a-77ea-48e2-82a7-407d08dd182a?pwd=a0c7ef1c-c9e7-499d-802e-4e3795c77b4c>
-
-### Prompt Storage
-
-<https://us.cloud.langfuse.com/project/cm383h71b00ko9czugbg17ss6>
-
-## TO DO
-
-Add this <https://roadmap.hncore.website/>
+Historical audits, migration plans, and work logs are evidence, not current operating
+instructions. Check their dates and verify claims against code before acting on them.

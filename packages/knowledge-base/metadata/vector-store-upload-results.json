@@ -1,0 +1,209 @@
+{
+  "store": "vs_meWOEnUiUxtQWf0W6NBsNpCG",
+  "uploaded_at": "2026-08-18T01:28:39-0500",
+  "total": 25,
+  "ok": 25,
+  "failed": 0,
+  "results": [
+    {
+      "source_filename": "368137295-THE-SECRET-LIFE-OF-DONALD-H-MENZEL-by-Stanton-T-Friedman.pdf",
+      "sidecar": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/derived/ocr/gap/368137295-THE-SECRET-LIFE-OF-DONALD-H-MENZEL-by-Stanton-T-Friedman-.txt",
+      "sidecar_sha256": "1ce4cbb27bfef6d1",
+      "openai_file_id": "file-NWNqJgt7wsfFN5upZ5dgRi",
+      "vector_store_file_id": "file-NWNqJgt7wsfFN5upZ5dgRi",
+      "status": "uploaded_and_indexed"
+    },
+    {
+      "source_filename": "540416 Letter from Gerald Light to Meade Layne, with comments.pdf",
+      "sidecar": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/derived/ocr/gap/540416-Letter-from-Gerald-Light-to-Meade-Layne-with-comments-.txt",
+      "sidecar_sha256": "ec9ba8208bb6337f",
+      "openai_file_id": "file-NrigQtTyJG4zuRP2zTSpJs",
+      "vector_store_file_id": "file-NrigQtTyJG4zuRP2zTSpJs",
+      "status": "uploaded_and_indexed"
+    },
+    {
+      "source_filename": "540801 Letter from Edward W Hermann to Frank Edwards437.pdf",
+      "sidecar": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/derived/ocr/gap/540801-Letter-from-Edward-W-Hermann-to-Frank-Edwards437-.txt",
+      "sidecar_sha256": "d94e0873db5f73db",
+      "openai_file_id": "file-NDYVpCiMSKkbVC1a86wzba",
+      "vector_store_file_id": "file-NDYVpCiMSKkbVC1a86wzba",
+      "status": "uploaded_and_indexed"
+    },
+    {
+      "source_filename": "600118 Letter from Riley Crabb to Evna Edmundson.pdf",
+      "sidecar": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/derived/ocr/gap/600118-Letter-from-Riley-Crabb-to-Evna-Edmundson-.txt",
+      "sidecar_sha256": "aa3981c17cf81f1d",
+      "openai_file_id": "file-HFee75rqmJEXh7QyYFGa13",
+      "vector_store_file_id": "file-HFee75rqmJEXh7QyYFGa13",
+      "status": "uploaded_and_indexed"
+    },
+    {
+      "source_filename": "900402 Letter to BSRF on Alien treaty.pdf",
+      "sidecar": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/derived/ocr/gap/900402-Letter-to-BSRF-on-Alien-treaty-.txt",
+      "sidecar_sha256": "6710ba28b58a40f4",
+      "openai_file_id": "file-59qZF7R1Qcd2c5YzMKxs7U",
+      "vector_store_file_id": "file-59qZF7R1Qcd2c5YzMKxs7U",
+      "status": "uploaded_and_indexed"
+    },
+    {
+      "source_filename": "BSRA Release 1950, 11-A-50.pdf",
+      "sidecar": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/derived/ocr/gap/BSRA-Release-1950-11-A-50-.txt",
+      "sidecar_sha256": "aad356c263f84120",
+      "openai_file_id": "file-Uu9zKDYf5iYR6ZUDntWRjy",
+      "vector_store_file_id": "file-Uu9zKDYf5iYR6ZUDntWRjy",
+      "status": "uploaded_and_indexed"
+    },
+    {
+      "source_filename": "BSRA info 1951, Dr Kappa.pdf",
+      "sidecar": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/derived/ocr/gap/BSRA-info-1951-Dr-Kappa-.txt",
+      "sidecar_sha256": "e384525c7a33197b",
+      "openai_file_id": "file-5CcpZATo1AEEYg29UoKaZf",
+      "vector_store_file_id": "file-5CcpZATo1AEEYg29UoKaZf",
+      "status": "uploaded_and_indexed"
+    },
+    {
+      "source_filename": "Bulletin no 2, April 15, 1954, Lodge of Light.pdf",
+      "sidecar": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/derived/ocr/gap/Bulletin-no-2-April-15-1954-Lodge-of-Light-.txt",
+      "sidecar_sha256": "a323f14513274b45",
+      "openai_file_id": "file-T1GZp6NfFLwuA1oxqPGQaj",
+      "vector_store_file_id": "file-T1GZp6NfFLwuA1oxqPGQaj",
+      "status": "uploaded_and_indexed"
+    },
+    {
+      "source_filename": "lodge_of_light_april_15_1954.pdf",
+      "sidecar": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/derived/ocr/gap/Bulletin-no-2-April-15-1954-Lodge-of-Light-.txt",
+      "sidecar_sha256": "a323f14513274b45",
+      "openai_file_id": "file-T1GZp6NfFLwuA1oxqPGQaj",
+      "vector_store_file_id": "file-T1GZp6NfFLwuA1oxqPGQaj",
+      "status": "uploaded_and_indexed"
+    },
+    {
+      "source_filename": "Cannon 212_20241113_154539.pdf",
+      "sidecar": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/derived/ocr/gap/Cannon-212_20241113_154539-.txt",
+      "sidecar_sha256": "f57198d78d41f3e1",
+      "openai_file_id": "file-GWUuMELEvw2VztaCWVz7TR",
+      "vector_store_file_id": "file-GWUuMELEvw2VztaCWVz7TR",
+      "status": "uploaded_and_indexed"
+    },
+    {
+      "source_filename": "Davidson telegram.pdf",
+      "sidecar": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/derived/ocr/gap/Davidson-telegram-.txt",
+      "sidecar_sha256": "a434fb36116eff75",
+      "openai_file_id": "file-7gKoE3KPUayPNuRnu3mmG7",
+      "vector_store_file_id": "file-7gKoE3KPUayPNuRnu3mmG7",
+      "status": "uploaded_and_indexed"
+    },
+    {
+      "source_filename": "Eric Davis meeting with Adm Wilson.pdf",
+      "sidecar": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/derived/ocr/gap/Eric-Davis-meeting-with-Adm-Wilson-.txt",
+      "sidecar_sha256": "bc3ac94ca5978eb7",
+      "openai_file_id": "file-NA3HQuZ8SMP5mGyBjvyX3d",
+      "vector_store_file_id": "file-NA3HQuZ8SMP5mGyBjvyX3d",
+      "status": "uploaded_and_indexed"
+    },
+    {
+      "source_filename": "Eric-Davis-meeting-with-Adm-Wilson.pdf",
+      "sidecar": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/derived/ocr/gap/Eric-Davis-meeting-with-Adm-Wilson-.txt",
+      "sidecar_sha256": "bc3ac94ca5978eb7",
+      "openai_file_id": "file-NA3HQuZ8SMP5mGyBjvyX3d",
+      "vector_store_file_id": "file-NA3HQuZ8SMP5mGyBjvyX3d",
+      "status": "uploaded_and_indexed"
+    },
+    {
+      "source_filename": "Gerald Light, Signs in the Skies.pdf",
+      "sidecar": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/derived/ocr/gap/Gerald-Light-Signs-in-the-Skies-.txt",
+      "sidecar_sha256": "a7cd61573a070233",
+      "openai_file_id": "file-22LPWnuHJKyJe9WXtczbF5",
+      "vector_store_file_id": "file-22LPWnuHJKyJe9WXtczbF5",
+      "status": "uploaded_and_indexed"
+    },
+    {
+      "source_filename": "Gerald Light, biography in Tempels of Healing.pdf",
+      "sidecar": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/derived/ocr/gap/Gerald-Light-biography-in-Tempels-of-Healing-.txt",
+      "sidecar_sha256": "6494fc8a34db2e1c",
+      "openai_file_id": "file-L2WVnsQ185o1zQEGrduPwC",
+      "vector_store_file_id": "file-L2WVnsQ185o1zQEGrduPwC",
+      "status": "uploaded_and_indexed"
+    },
+    {
+      "source_filename": "Gerald_Light_Kaneko,Retrievals third kind,FSR1982V28N2.pdf",
+      "sidecar": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/derived/ocr/gap/Gerald_Light_Kaneko-Retrievals-third-kind-FSR1982V28N2-.txt",
+      "sidecar_sha256": "353cc6a1d0ffaa18",
+      "openai_file_id": "file-JQtA67WYvKnCHB5t9HFYS5",
+      "vector_store_file_id": "file-JQtA67WYvKnCHB5t9HFYS5",
+      "status": "uploaded_and_indexed"
+    },
+    {
+      "source_filename": "HHRG-118-GO12-20241113-SD003 (1).pdf",
+      "sidecar": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/derived/ocr/gap/HHRG-118-GO12-20241113-SD003-1-.txt",
+      "sidecar_sha256": "18a47e7ce2e3d5da",
+      "openai_file_id": "file-Tb4u2rNzLvcrwtZfu9ttfG",
+      "vector_store_file_id": "file-Tb4u2rNzLvcrwtZfu9ttfG",
+      "status": "uploaded_and_indexed"
+    },
+    {
+      "source_filename": "HHRG-118-GO12-20241113-SD003.pdf",
+      "sidecar": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/derived/ocr/gap/HHRG-118-GO12-20241113-SD003-1-.txt",
+      "sidecar_sha256": "18a47e7ce2e3d5da",
+      "openai_file_id": "file-Tb4u2rNzLvcrwtZfu9ttfG",
+      "vector_store_file_id": "file-Tb4u2rNzLvcrwtZfu9ttfG",
+      "status": "uploaded_and_indexed"
+    },
+    {
+      "source_filename": "Undated letter from Evna Edmundson to Riley Crabb.pdf",
+      "sidecar": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/derived/ocr/gap/Undated-letter-from-Evna-Edmundson-to-Riley-Crabb-.txt",
+      "sidecar_sha256": "da6dbb38f03ad343",
+      "openai_file_id": "file-GyzmUW3cjzgDht93jMi4a5",
+      "vector_store_file_id": "file-GyzmUW3cjzgDht93jMi4a5",
+      "status": "uploaded_and_indexed"
+    },
+    {
+      "source_filename": "Undated letter from Gerald Light to Meade Layne.pdf",
+      "sidecar": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/derived/ocr/gap/Undated-letter-from-Gerald-Light-to-Meade-Layne-.txt",
+      "sidecar_sha256": "60be5da4bc28246c",
+      "openai_file_id": "file-PF4j5jiRSbpHx3pdkfAZhu",
+      "vector_store_file_id": "file-PF4j5jiRSbpHx3pdkfAZhu",
+      "status": "uploaded_and_indexed"
+    },
+    {
+      "source_filename": "William Moore, Ike and the Aliens,Focus, vol 1, no 2, April 30, 1985.pdf",
+      "sidecar": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/derived/ocr/gap/William-Moore-Ike-and-the-Aliens-Focus-vol-1-no-2-April-30-1985-.txt",
+      "sidecar_sha256": "51bd5fceefbbb83e",
+      "openai_file_id": "file-2hyNNSBMKf69GQd8zj45cw",
+      "vector_store_file_id": "file-2hyNNSBMKf69GQd8zj45cw",
+      "status": "uploaded_and_indexed"
+    },
+    {
+      "source_filename": "bsra_jan_1950_afu_archives.pdf",
+      "sidecar": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/derived/ocr/gap/bsra_jan_1950_afu_archives-.txt",
+      "sidecar_sha256": "14453b639a64bc46",
+      "openai_file_id": "file-8ygUQZKrHxx8TkwwjgTwzk",
+      "vector_store_file_id": "file-8ygUQZKrHxx8TkwwjgTwzk",
+      "status": "uploaded_and_indexed"
+    },
+    {
+      "source_filename": "fdr_22feb44.pdf",
+      "sidecar": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/derived/ocr/gap/fdr_22feb44-.txt",
+      "sidecar_sha256": "3b7a7fffe548a515",
+      "openai_file_id": "file-BYF6qx89WjBPhPi8UmirYx",
+      "vector_store_file_id": "file-BYF6qx89WjBPhPi8UmirYx",
+      "status": "uploaded_and_indexed"
+    },
+    {
+      "source_filename": "twining_whitehotreport.pdf",
+      "sidecar": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/derived/ocr/gap/twining_whitehotreport-.txt",
+      "sidecar_sha256": "4f996d5c6cba75e9",
+      "openai_file_id": "file-JMRw47pBXTi8QKfchxSWyr",
+      "vector_store_file_id": "file-JMRw47pBXTi8QKfchxSWyr",
+      "status": "uploaded_and_indexed"
+    },
+    {
+      "source_filename": "uap-origin-theories-diagram.pdf",
+      "sidecar": "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/derived/ocr/gap/uap-origin-theories-diagram-.txt",
+      "sidecar_sha256": "d9300a1b05d9b248",
+      "openai_file_id": "file-RhFXV9Dx21JeCWkniB3krm",
+      "vector_store_file_id": "file-RhFXV9Dx21JeCWkniB3krm",
+      "status": "uploaded_and_indexed"
+    }
+  ]
+}

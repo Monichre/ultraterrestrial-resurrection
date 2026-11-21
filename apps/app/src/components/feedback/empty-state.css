@@ -1,0 +1,23 @@
+.assembling-empty-state {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-lg);
+  color: var(--color-text-secondary);
+  background: var(--color-bg-secondary);
+  border: var(--border-width-thin) solid var(--color-border-primary);
+  border-radius: var(--radius-md);
+  min-height: var(--min-height-card);
+}
+
+.assembling-empty-state__title {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+}
+
+.assembling-empty-state__message {
+  margin: 0;
+  font-size: var(--font-size-sm);
+}

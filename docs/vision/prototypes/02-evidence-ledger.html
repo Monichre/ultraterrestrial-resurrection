@@ -1,0 +1,68 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Evidence Ledger · Ultraterrestrial</title><style>
+:root {
+  --bg:#0b0d0e;
+  --panel:#121617;
+  --panel2:#181d1f;
+  --line:#293033;
+  --text:#ece7dc;
+  --muted:#989d99;
+  --soft:#c7c0b2;
+  --amber:#c98f46;
+  --cyan:#6ca8ad;
+  --red:#a4534d;
+  --violet:#7a6d9b;
+  --green:#728f72;
+  --paper:#d9cfbd;
+  --paper2:#eee5d4;
+}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.12;background-image:radial-gradient(circle at 20% 20%,rgba(255,255,255,.18) 0 1px,transparent 1.4px),radial-gradient(circle at 80% 40%,rgba(255,255,255,.12) 0 1px,transparent 1.4px);background-size:30px 30px,38px 38px;mix-blend-mode:soft-light}
+.app{width:1440px;height:960px;display:grid;grid-template-columns:72px 1fr;background:linear-gradient(145deg,#101314,#0a0c0d 60%)}
+.rail{border-right:1px solid #24292b;background:#0d1011;display:flex;flex-direction:column;align-items:center;padding:18px 0;gap:14px;position:relative;z-index:5}
+.logo{width:38px;height:38px;border:1px solid #4e5556;border-radius:11px;display:grid;place-items:center;font-family:Georgia,serif;font-size:21px;color:#e8dec9;background:linear-gradient(145deg,#202526,#111516);box-shadow:0 8px 20px rgba(0,0,0,.35)}
+.railbtn{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;color:#7d8583;border:1px solid transparent;font-size:18px}
+.railbtn.active{color:#f0e7d5;border-color:#4a4134;background:linear-gradient(145deg,rgba(201,143,70,.22),rgba(201,143,70,.05));box-shadow:inset 0 0 0 1px rgba(255,255,255,.02)}
+.railspacer{flex:1}
+.shell{min-width:0;display:grid;grid-template-rows:68px 1fr}
+.topbar{border-bottom:1px solid #242a2b;background:rgba(16,19,20,.94);display:flex;align-items:center;padding:0 22px;gap:16px;position:relative;z-index:4}
+.brand{font-family:Georgia,serif;letter-spacing:.22em;font-size:13px;color:#e0d7c4;text-transform:uppercase}
+.divider{width:1px;height:24px;background:#323738}
+.context{font-size:13px;color:#9da4a1}
+.context b{color:#ebe4d7;font-weight:600}
+.search{margin-left:auto;width:300px;border:1px solid #313839;background:#111516;border-radius:10px;height:36px;display:flex;align-items:center;padding:0 12px;color:#737b79;font-size:12px}
+.topchip{border:1px solid #343a3b;border-radius:9px;padding:8px 10px;font-size:11px;color:#b5bab6;background:#15191a}
+.avatar{width:30px;height:30px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#d6b697,#785e49 55%,#2a231f);border:1px solid #6a665f}
+.main{position:relative;min-height:0;overflow:hidden}
+.panel{background:linear-gradient(180deg,rgba(25,30,31,.98),rgba(15,18,19,.98));border:1px solid #2b3233;box-shadow:0 18px 45px rgba(0,0,0,.28)}
+.smallcaps{text-transform:uppercase;letter-spacing:.17em;font-size:10px;color:#8c938f;font-weight:700}
+.h1{font-family:Georgia,serif;font-size:24px;color:#eee6d8;margin:0}
+.muted{color:#8f9794}
+.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid #363d3e;border-radius:999px;padding:6px 9px;font-size:10px;color:#aeb4b0;background:#15191a}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--amber);box-shadow:0 0 12px rgba(201,143,70,.6)}
+.btn{border:1px solid #3a4243;border-radius:9px;background:#171c1d;color:#d8d5cd;padding:8px 11px;font-size:11px}
+.btn.primary{border-color:#79623f;background:linear-gradient(180deg,#5a4932,#3d3226);color:#f0e7d5}
+.scrollhint{position:absolute;right:18px;bottom:14px;color:#5f6765;font-size:10px}
+
+.ledger{position:absolute;inset:0;display:grid;grid-template-columns:248px 1fr 320px;gap:0;background:linear-gradient(180deg,#101314,#0c0f10)}
+.side{border-right:1px solid #293031;padding:18px;background:#111516}.right{border-left:1px solid #293031;padding:18px;background:#101415}
+.side h3,.right h3{font-family:Georgia,serif;font-size:18px;margin:6px 0 14px}
+.tree{font-size:11px;color:#9da5a1}.tree div{padding:9px 8px;border-radius:8px;margin:3px 0;display:flex;gap:8px;align-items:center}.tree .active{background:#1b2122;color:#e6dfd1;border:1px solid #343c3d}.tree b{margin-left:auto;color:#656e6b;font-size:9px}
+.center{padding:18px;overflow:hidden}.headrow{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px}.headrow .actions{margin-left:auto;display:flex;gap:8px}
+.claim{border:1px solid #3a4243;background:linear-gradient(145deg,#1b2021,#121617);border-radius:14px;padding:16px;box-shadow:0 18px 40px rgba(0,0,0,.24)}
+.claim h2{font-family:Georgia,serif;font-size:22px;line-height:1.35;margin:5px 0 10px}.claimmeta{display:flex;gap:8px;align-items:center}
+.lanes{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}.lane{border:1px solid #2e3536;border-radius:14px;padding:12px;background:#111516}.lanehead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.lanehead b{font-size:11px;text-transform:uppercase;letter-spacing:.12em}.lane.support b{color:#84a48a}.lane.challenge b{color:#c2766d}
+.sourcecard{border:1px solid #303738;border-radius:11px;padding:11px;margin-top:9px;background:linear-gradient(145deg,#191e1f,#131718);position:relative}.sourcecard:before{content:"";position:absolute;left:0;top:10px;bottom:10px;width:3px;border-radius:3px;background:var(--accent)}.sourcecard h4{font-size:12px;margin:0 0 5px;color:#dedad1}.sourcecard p{font-size:10px;line-height:1.45;margin:0;color:#929a97}.sourcecard .foot{display:flex;justify-content:space-between;margin-top:8px;color:#68716e;font-size:8px}
+.compare{margin-top:14px;border:1px solid #343b3c;border-radius:14px;background:#111516;padding:13px}.comparegrid{display:grid;grid-template-columns:92px 1fr 1fr;gap:0;font-size:9px}.comparegrid div{padding:8px;border-bottom:1px solid #293031}.comparegrid .label{color:#69726f}.comparegrid .good{color:#89a98e}.comparegrid .bad{color:#c27a71}
+.prov{border:1px solid #303738;border-radius:12px;padding:12px;background:#141819;margin-top:12px}.provline{display:grid;grid-template-columns:20px 1fr;gap:9px;padding:9px 0;border-bottom:1px solid #272e2f}.provline:last-child{border-bottom:0}.provline .n{width:20px;height:20px;border-radius:50%;background:#202728;display:grid;place-items:center;color:#b6bcb8;font-size:9px}.provline b{display:block;font-size:10px;color:#d4d0c7}.provline span{font-size:9px;color:#747d7a}
+.radar{height:190px;position:relative;margin-top:8px;background:radial-gradient(circle,#273030 1px,transparent 1px);background-size:22px 22px;border-radius:12px;overflow:hidden}.radar svg{position:absolute;inset:0}.metric{display:flex;align-items:center;gap:8px;margin-top:9px}.metric span{font-size:9px;width:104px;color:#78817e}.metric i{height:5px;flex:1;background:#252b2c;border-radius:99px;overflow:hidden}.metric i:after{content:"";display:block;height:100%;width:var(--w);background:linear-gradient(90deg,#6d775f,#b79458)}
+</style><link rel="stylesheet" href="./document-system/ut-document-system.css"></head><body class="ut-paper-workspace ut-ledger"><div class="app"><aside class="rail"><div class="logo">U</div><div class="railbtn ">⌘</div><div class="railbtn active">≣</div><div class="railbtn ">◫</div><div class="railbtn ">◇</div><div class="railbtn ">⌬</div><div class="railbtn ">▤</div><div class="railspacer"></div><div class="railbtn">⚙</div><div class="avatar"></div></aside><div class="shell"><header class="topbar"><div class="brand">Ultraterrestrial</div><div class="divider"></div><div class="context"><b>Evidence Ledger</b>&nbsp;&nbsp; / &nbsp;&nbsp;Claim C-0187</div><div class="search">⌕&nbsp;&nbsp; Search people, events, claims, sources…</div><div class="topchip">SYNCED · 12s</div><div class="topchip">Liam Ellis</div></header><main class="main">
+<section class="ledger">
+  <aside class="side"><div class="smallcaps">Evidence ledger</div><h3>Research index</h3><div class="tree"><div class="active">▤ Claims <b>214</b></div><div>◈ Primary sources <b>1,842</b></div><div>◫ Testimonies <b>603</b></div><div>⌬ Organizations <b>188</b></div><div>◇ Hypotheses <b>34</b></div><div>⚠ Contradictions <b>87</b></div><div>⌁ Circular citations <b>19</b></div></div><div style="height:1px;background:#293031;margin:14px 0"></div><div class="smallcaps">Active filters</div><div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:10px"><span class="pill">Nuclear</span><span class="pill">1945–1975</span><span class="pill">Primary</span><span class="pill">≥ 0.60</span></div></aside>
+  <div class="center"><div class="headrow"><div><div class="smallcaps">Claim workspace / C-0187</div><h1 class="h1">A recovered object was publicly described as a “flying disc” before the official explanation changed.</h1></div><div class="actions"><button class="btn">Compare sources</button><button class="btn primary">Add evidence</button></div></div><div class="claim"><div class="claimmeta"><span class="pill"><span class="dot" style="background:#c98f46"></span>Contested</span><span class="pill">Confidence 0.73</span><span class="pill">7 supporting · 5 challenging</span></div><h2>What is established, what is inferred, and where does the source chain break?</h2><div class="smallcaps">Working interpretation</div><p style="font-size:11px;line-height:1.55;color:#aab0ac;margin:8px 0 0">The existence of the original press release is verified. The nature of the recovered material remains unresolved. Later accounts frequently cite one another, creating a provenance problem that must be separated from the primary 1947 record.</p></div>
+    <div class="lanes"><div class="lane support"><div class="lanehead"><b>Supporting evidence</b><span class="pill">7 items</span></div><div class="sourcecard" style="--accent:#728f72"><h4>RAAF press release · July 8, 1947</h4><p>Direct contemporary statement announcing recovery of a “flying disc.”</p><div class="foot"><span>Primary source</span><span>Authority 9.1</span></div></div><div class="sourcecard" style="--accent:#6ca8ad"><h4>Roswell Daily Record front page</h4><p>Contemporary newspaper publication preserving the original wording.</p><div class="foot"><span>Independent archive</span><span>Integrity 8.8</span></div></div><div class="sourcecard" style="--accent:#7a6d9b"><h4>Walter Haut later affidavit</h4><p>Retrospective testimony consistent with parts of the initial announcement.</p><div class="foot"><span>Testimony</span><span>Reliability 6.4</span></div></div></div><div class="lane challenge"><div class="lanehead"><b>Challenging evidence</b><span class="pill">5 items</span></div><div class="sourcecard" style="--accent:#a4534d"><h4>Weather balloon explanation</h4><p>Official reversal attributes the material to a conventional balloon and radar target.</p><div class="foot"><span>Official statement</span><span>Consistency 6.0</span></div></div><div class="sourcecard" style="--accent:#c98f46"><h4>Project Mogul reconstruction</h4><p>Later historical analysis proposes a classified balloon program as the source.</p><div class="foot"><span>Secondary analysis</span><span>Coverage 7.2</span></div></div><div class="sourcecard" style="--accent:#a4534d"><h4>Retrospective testimony variance</h4><p>Several witness accounts change in scope and detail across decades.</p><div class="foot"><span>Contradiction cluster</span><span>Severity high</span></div></div></div></div>
+    <div class="compare"><div class="smallcaps" style="margin-bottom:8px">Source comparison</div><div class="comparegrid"><div class="label"></div><div>1947 primary record</div><div>Later reconstruction</div><div class="label">Temporal proximity</div><div class="good">Immediate</div><div class="bad">30–50 years later</div><div class="label">Chain of custody</div><div class="good">Documented archive</div><div class="bad">Mixed / indirect</div><div class="label">Internal consistency</div><div>Moderate</div><div class="bad">Variable</div></div></div>
+  </div>
+  <aside class="right"><div class="smallcaps">Provenance inspector</div><h3>Source lineage</h3><div class="prov"><div class="provline"><div class="n">1</div><div><b>Original press office statement</b><span>Roswell Army Air Field · 1947</span></div></div><div class="provline"><div class="n">2</div><div><b>Newspaper publication</b><span>Contemporary print archive</span></div></div><div class="provline"><div class="n">3</div><div><b>Microfilm scan</b><span>Archive copy · hash verified</span></div></div><div class="provline"><div class="n">4</div><div><b>OCR extraction</b><span>Confidence 98.2% · page anchored</span></div></div></div><div class="smallcaps" style="margin-top:18px">Credibility composition</div><div class="radar"><svg viewBox="0 0 280 190"><polygon points="140,25 230,70 215,150 65,150 50,70" fill="none" stroke="#394243"/><polygon points="140,47 205,82 185,132 82,138 72,78" fill="rgba(201,143,70,.18)" stroke="#c98f46" stroke-width="2"/></svg></div><div class="metric"><span>Source authority</span><i style="--w:91%"></i></div><div class="metric"><span>Provenance integrity</span><i style="--w:88%"></i></div><div class="metric"><span>Corroboration</span><i style="--w:71%"></i></div><div class="metric"><span>Consistency</span><i style="--w:62%"></i></div><div class="metric"><span>Alt. explanation</span><i style="--w:74%"></i></div><div class="ai"><h4>Evidence Agent</h4><p>Three later sources in the supporting lane appear to depend on the same 1980 account. Consider collapsing them into one citation family.</p></div></aside>
+</section>
+</main></div></div></body></html>

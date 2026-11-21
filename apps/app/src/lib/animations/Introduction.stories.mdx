@@ -1,0 +1,322 @@
+import { Meta } from '@storybook/blocks'
+
+<Meta title="Animations/Introduction" />
+
+# GSAP Animation Library
+
+A comprehensive, modular animation system built with GSAP, React, and TypeScript.
+
+## 🎯 Quick Start
+
+```tsx
+// Import what you need
+import { TextScramble } from '@/lib/animations'
+import { useScrambleText } from '@/lib/animations/hooks'
+import { TerminalPreloader } from '@/components/animations'
+
+// Use it
+<TextScramble text="HELLO WORLD" duration={2000} />
+```
+
+## 📦 What's Included
+
+### Components
+
+- **[TextScramble](/story/animations-components-textscramble--basic)** - Matrix-style text animation
+- **[TerminalPreloader](/story/animations-components-terminalpreloader--basic)** - Full-screen loading animation
+- **[AnimatedMenu](/story/animations-components-animatedmenu--basic)** - Full-screen overlay menu
+
+### Hooks
+
+- **[useGSAPTimeline](/story/animations-hooks-usegsaptimeline--basic)** - Timeline management
+- **[useScrambleText](/story/animations-hooks-usescrambletext--interactive)** - Scramble text effects
+- **[useSplitTextHover](/story/animations-hooks-usesplittexthover--basic)** - Split text hover animations
+
+### Utilities
+
+- `clipPaths` - Clip-path helpers
+- `createScrambleTextAnim` - Animation factory
+- `ANIMATION_CONSTANTS` - Constants and easing
+
+## 🎨 Key Features
+
+### 🚀 Production Ready
+- TypeScript typed
+- Automatic cleanup
+- Memory efficient
+- Battle-tested patterns
+
+### 🎭 Rich Animations
+- Scramble text effects
+- Split text hover
+- Timeline orchestration
+- Progress tracking
+- Glitch effects
+
+### 🛠 Developer Friendly
+- React hooks
+- Declarative components
+- Comprehensive docs
+- Copy-paste examples
+
+### ⚡ High Performance
+- GSAP powered
+- Hardware accelerated
+- Optimized renders
+- Smooth 60fps
+
+## 📚 Explore the Library
+
+### Start Here
+1. **[TextScramble Basic](/story/animations-components-textscramble--basic)** - Simplest example
+2. **[useScrambleText Interactive](/story/animations-hooks-usescrambletext--interactive)** - Try all features
+3. **[TerminalPreloader Basic](/story/animations-components-terminalpreloader--basic)** - Full loading screen
+
+### Common Use Cases
+- **Hero Sections** - [TextScramble Hero](/story/animations-components-textscramble--hero-section)
+- **Navigation** - [AnimatedMenu Complete](/story/animations-components-animatedmenu--complete-example)
+- **Loading Screens** - [TerminalPreloader Boot](/story/animations-components-terminalpreloader--system-boot-sequence)
+- **Hover Effects** - [SplitTextHover Navigation](/story/animations-hooks-usesplittexthover--navigation-menu)
+
+### Advanced Examples
+- **Sequential Animations** - [TextScramble Sequential](/story/animations-components-textscramble--sequential-reveal)
+- **Timeline Control** - [useGSAPTimeline Sequential](/story/animations-hooks-usegsaptimeline--sequential-animation)
+- **Multiple Instances** - [TextScramble Grid](/story/animations-components-textscramble--multiple-instances)
+
+## 💡 Quick Examples
+
+### 1. Simple Text Scramble
+
+```tsx
+import { TextScramble } from '@/lib/animations'
+
+function Hero() {
+  return (
+    <h1>
+      <TextScramble 
+        text="ULTRATERRESTRIAL"
+        duration={2000}
+        className="text-6xl font-bold text-green-400"
+      />
+    </h1>
+  )
+}
+```
+
+### 2. Loading Screen
+
+```tsx
+import { TerminalPreloader } from '@/components/animations'
+
+function App() {
+  return (
+    <TerminalPreloader
+      lines={[
+        { id: '1', content: '[SYSTEM] Loading...', scramble: true, top: '50%' }
+      ]}
+      duration={5}
+      showProgress
+    >
+      <YourApp />
+    </TerminalPreloader>
+  )
+}
+```
+
+### 3. Animated Menu
+
+```tsx
+import { AnimatedMenu } from '@/components/animations'
+
+function Navigation() {
+  return (
+    <AnimatedMenu
+      items={[
+        { id: '1', label: 'Home', href: '/' },
+        { id: '2', label: 'About', href: '/about' }
+      ]}
+      featuredImage="/bg.jpg"
+    >
+      <MainContent />
+    </AnimatedMenu>
+  )
+}
+```
+
+### 4. Hover Animation
+
+```tsx
+import { useSplitTextHover } from '@/lib/animations/hooks'
+
+function NavLink() {
+  const { textRef } = useSplitTextHover()
+  
+  return (
+    <a ref={textRef} href="#">
+      Hover Me
+    </a>
+  )
+}
+```
+
+## 🎬 Interactive Demos
+
+Explore all stories with interactive controls:
+
+- Adjust duration, speed, and timing
+- Toggle features on/off
+- Compare variations side-by-side
+- Copy code directly from docs
+
+## 📖 Documentation
+
+### In Storybook
+- **Canvas Tab** - Interactive preview
+- **Docs Tab** - Full documentation
+- **Controls Panel** - Adjust props live
+- **Actions Panel** - Event logging
+
+### External Docs
+- [Full API Reference](https://github.com/your-repo/docs/README.md)
+- [Examples](https://github.com/your-repo/docs/EXAMPLES.md)
+- [Quick Reference](https://github.com/your-repo/docs/QUICK_REFERENCE.md)
+- [Migration Guide](https://github.com/your-repo/docs/MIGRATION_GUIDE.md)
+
+## 🎯 Use Cases
+
+### Perfect For
+- ✅ Hero sections
+- ✅ Loading screens
+- ✅ Menu overlays
+- ✅ Text reveals
+- ✅ Sci-fi/tech themes
+- ✅ Terminal aesthetics
+- ✅ Matrix-style effects
+- ✅ Interactive headers
+- ✅ Glitch effects
+- ✅ Dramatic transitions
+
+### Not Ideal For
+- ❌ Subtle, minimal designs
+- ❌ Accessibility-critical text (use with care)
+- ❌ Very long paragraphs (performance)
+- ❌ Form inputs (use standard text)
+
+## 🔧 Configuration
+
+### Global GSAP Setup
+
+GSAP plugins are automatically registered:
+
+```tsx
+// Already done in gsap-utils.ts
+gsap.registerPlugin(ScrambleTextPlugin, SplitText)
+```
+
+### Animation Constants
+
+```tsx
+import { ANIMATION_CONSTANTS } from '@/lib/animations/gsap-utils'
+
+ANIMATION_CONSTANTS.SLIDE_EASE          // 'cubic-bezier(0.65,0.05,0.36,1)'
+ANIMATION_CONSTANTS.SPECIAL_CHARS       // '▪'
+ANIMATION_CONSTANTS.DEFAULT_DURATION    // 0.64
+ANIMATION_CONSTANTS.STAGGER_DELAY       // 0.075
+```
+
+## 🎨 Theming Examples
+
+### Green Matrix Theme
+
+```tsx
+<TextScramble 
+  text="MATRIX"
+  className="text-green-400 font-mono"
+  duration={2000}
+/>
+```
+
+### Cyber Blue Theme
+
+```tsx
+<TextScramble 
+  text="CYBER"
+  className="text-cyan-400 font-mono"
+  duration={2000}
+/>
+```
+
+### Gradient Theme
+
+```tsx
+<TextScramble 
+  text="GRADIENT"
+  className="bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent"
+  duration={2000}
+/>
+```
+
+## 🚀 Performance Tips
+
+1. **Use constants** - Avoid hardcoding animation values
+2. **Memoize callbacks** - Use `useCallback` for event handlers
+3. **Limit simultaneous animations** - Don't animate 100+ elements at once
+4. **Enable hardware acceleration** - Use `will-change` CSS
+5. **Clean up timelines** - Hooks handle this automatically
+
+## 🐛 Troubleshooting
+
+### Animation Not Playing?
+- Check if timeline is paused
+- Verify refs are attached
+- Ensure plugins are loaded
+
+### Text Not Scrambling?
+- Confirm `scramble={true}` attribute
+- Check `scrambleChars` prop
+- Verify ScrambleTextPlugin loaded
+
+### Performance Issues?
+- Reduce glitch count
+- Increase stagger delay
+- Limit concurrent animations
+
+## 📦 Installation
+
+Already installed! Import and use:
+
+```tsx
+// Components
+import { TextScramble } from '@/lib/animations'
+import { TerminalPreloader, AnimatedMenu } from '@/components/animations'
+
+// Hooks
+import { 
+  useGSAPTimeline, 
+  useScrambleText, 
+  useSplitTextHover 
+} from '@/lib/animations/hooks'
+
+// Utils
+import { clipPaths, ANIMATION_CONSTANTS } from '@/lib/animations/gsap-utils'
+```
+
+## 🎓 Learn More
+
+- Browse all stories in the sidebar
+- Check Controls panel for live editing
+- Read Docs tab for detailed API info
+- Copy code from examples
+- Experiment with values
+
+## 💬 Support
+
+- Check story docs for API details
+- Read inline JSDoc comments
+- Explore example code
+- Review TypeScript types
+
+---
+
+**Ready to animate?** Pick a story from the sidebar and start exploring! 🚀
+

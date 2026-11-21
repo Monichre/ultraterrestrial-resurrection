@@ -1,0 +1,62 @@
+<h2>The Library + the vectorization fork</h2>
+<p class="subtitle">Corrected model: the Library is the canonical, <strong>immutable</strong> evidence store. It has two jobs — host the files, and feed the vectorizer. The question is <em>where</em> vectorization happens.</p>
+
+<style>
+  .lib-row { display:flex; gap:16px; margin:18px 0 8px; align-items:stretch; }
+  .lib-box { border:1px solid rgba(120,170,255,.45); border-radius:12px; padding:14px 16px; background:rgba(120,170,255,.06); flex:0 0 230px; }
+  .lib-box h4 { margin:0 0 6px; font-size:15px; }
+  .lib-box p { margin:0; font-size:12px; opacity:.72; line-height:1.5; }
+  .roles { flex:1; display:flex; flex-direction:column; gap:10px; justify-content:center; }
+  .role { border:1px dashed rgba(255,255,255,.22); border-radius:9px; padding:9px 12px; font-size:12.5px; }
+  .role b { color:#9ec1ff; }
+  .immutable { display:inline-block; font-size:10px; padding:2px 8px; border-radius:20px; background:rgba(255,180,120,.18); color:#ffc285; margin-top:8px; }
+  .divider { height:1px; background:rgba(255,255,255,.12); margin:22px 0 6px; }
+  .qlabel { font-size:11px; text-transform:uppercase; letter-spacing:.08em; opacity:.55; margin-bottom:10px; }
+  .mini { font-family:ui-monospace,monospace; font-size:10.5px; opacity:.7; line-height:1.7; margin-top:8px; background:rgba(0,0,0,.18); border-radius:6px; padding:8px 10px; }
+</style>
+
+<div class="lib-row">
+  <div class="lib-box">
+    <h4>📚 The Library</h4>
+    <p>Object storage for canonical evidence. PDFs, image sets, transcripts, video. Versioned, content-addressed, read-only to users.</p>
+    <span class="immutable">immutable · data sanctity</span>
+  </div>
+  <div class="roles">
+    <div class="role">Role 1 — <b>Host:</b> serve original files to the frontend (viewer, download, citation source).</div>
+    <div class="role">Role 2 — <b>Feed:</b> emit each file to the ingestion/vectorization layer → searchable corpus.</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+<p class="qlabel">Pick one — where should vectorization live?</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Owned ingestion pipeline → your own vector store</h3>
+      <p>A worker reads from the Library, chunks, embeds (you pick the model), writes vectors into <strong>pgvector next to your relational data</strong>. Full control of chunking & re-embedding; vectors are SQL-queryable and live with CRUD records.</p>
+      <div class="mini">Library → [chunk+embed worker] → pgvector(documents, chunks) ← same DB as entities</div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Platform-native / storage-integrated embeddings</h3>
+      <p>The storage platform vectorizes on upload via triggers/queues (e.g. Supabase automatic embeddings). You still own the model & vectors, but the platform orchestrates the "file lands → embed → index" flow. Less glue code to maintain.</p>
+      <div class="mini">Library upload → trigger → embed job → pgvector (managed by platform)</div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Managed black-box (today's OpenAI Vector Store)</h3>
+      <p>Upload file → provider auto-chunks, embeds, and serves retrieval via API. Near-zero effort, but you don't control chunking, can't SQL-query vectors, and the corpus stays a <strong>separate silo</strong> from your CRUD data. This is the current state's weakness.</p>
+      <div class="mini">Library → OpenAI Vector Store (opaque) → file_search API only</div>
+    </div>
+  </div>
+</div>
+
+<p class="subtitle" style="margin-top:18px">My lean: <strong>A or B</strong> — both keep vectors next to your relational data so the agent's brain and the frontend share one source of truth. The choice between them is mostly "how much do you want the platform to do for you," which folds neatly into the platform decision. Click whichever pulls you, or tell me what you're weighing.</p>

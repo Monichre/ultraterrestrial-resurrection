@@ -1,0 +1,245 @@
+/* Living Research Canvas — view-specific styles
+ * Extracted from docs/design/mock-ups/01-living-research-canvas.html
+ */
+
+.lrc-canvas {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 32% 24%, rgba(98, 78, 54, 0.22), transparent 35%),
+    linear-gradient(130deg, #171612, #101311 55%, #0b0e0f);
+  overflow: hidden;
+}
+
+.lrc-canvas::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.28;
+  background-image: radial-gradient(circle at 10% 20%, #5a4b35 0 1px, transparent 1.5px),
+    radial-gradient(circle at 70% 80%, #3f3528 0 1px, transparent 1.5px);
+  background-size: 16px 16px, 19px 19px;
+}
+
+/* === Board title (top-left) === */
+
+.lrc-boardtitle {
+  position: absolute;
+  left: 270px;
+  top: 25px;
+  z-index: 5;
+}
+
+.lrc-boardtitle .ut-h1 {
+  font-size: 27px;
+}
+
+.lrc-boardtitle p {
+  margin: 5px 0 0;
+  font-size: 12px;
+  color: #989d99;
+}
+
+.lrc-toolrow {
+  display: flex;
+  gap: 8px;
+  margin-top: 13px;
+  flex-wrap: wrap;
+}
+
+/* === Left dock === */
+
+.lrc-leftdock {
+  position: absolute;
+  left: 18px;
+  top: 18px;
+  width: 220px;
+  border-radius: 14px;
+  padding: 16px;
+  z-index: 6;
+}
+
+/* === Right dock === */
+
+.lrc-rightdock {
+  position: absolute;
+  right: 18px;
+  top: 18px;
+  width: 294px;
+  height: 790px;
+  border-radius: 14px;
+  padding: 16px;
+  z-index: 6;
+}
+
+/* === Layers === */
+
+.lrc-layer {
+  padding: 10px;
+  border-radius: 9px;
+  border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  color: #a3aaa6;
+  margin-top: 6px;
+}
+
+.lrc-layer.active {
+  background: #1b2021;
+  border-color: #343b3c;
+  color: #e5dfd3;
+}
+
+.lrc-layer .sw {
+  width: 9px;
+  height: 9px;
+  border-radius: 3px;
+  background: #777;
+}
+
+.lrc-layer .count {
+  margin-left: auto;
+  color: #606866;
+}
+
+.lrc-divider {
+  height: 1px;
+  background: #2c3334;
+  margin: 12px 0;
+}
+
+/* === Pinned cards === */
+
+.lrc-card {
+  position: absolute;
+  background: linear-gradient(145deg, #e8dec9, #cfc2aa);
+  color: #2b2925;
+  border-radius: 7px;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow: 0 15px 28px rgba(0, 0, 0, 0.34), 0 2px 0 rgba(255, 255, 255, 0.25) inset;
+  transform: rotate(var(--r));
+  z-index: 3;
+  padding: 13px;
+}
+
+.lrc-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 7px;
+  pointer-events: none;
+  opacity: 0.14;
+  background-image: repeating-linear-gradient(0deg, rgba(70, 55, 35, 0.25) 0 1px, transparent 1px 4px);
+}
+
+.lrc-card .type {
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: #665f54;
+  font-weight: 800;
+}
+
+.lrc-card .ctitle {
+  font-family: Georgia, serif;
+  font-weight: 700;
+  font-size: 15px;
+  margin: 8px 0 7px;
+  line-height: 1.15;
+}
+
+.lrc-card p {
+  font-size: 9px;
+  line-height: 1.45;
+  margin: 0;
+  color: #4b463e;
+}
+
+.lrc-card .meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(72, 62, 49, 0.2);
+  font-size: 8px;
+  color: #6a645a;
+}
+
+/* Photo variant */
+
+.lrc-card.photo {
+  padding: 7px;
+  background: #eee7d8;
+}
+
+.lrc-card.photo .img {
+  height: 92px;
+  border-radius: 4px;
+  background: linear-gradient(140deg, #6e6557, #272b2e 55%, #9d8d72);
+  position: relative;
+  overflow: hidden;
+}
+
+.lrc-card.photo .img::before {
+  content: '';
+  position: absolute;
+  width: 58px;
+  height: 28px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, #d8d0bc 0 6%, #6f736f 26%, #1e2324 70%);
+  left: 36px;
+  top: 24px;
+  transform: rotate(-8deg);
+  box-shadow: 0 0 18px rgba(227, 220, 200, 0.35);
+}
+
+/* === Pin === */
+
+.lrc-pin {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ffdeb0, #b27538 35%, #5a361d 70%);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.5);
+  z-index: 7;
+}
+
+/* === Threads === */
+
+.lrc-thread {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  filter: drop-shadow(0 3px 2px rgba(0, 0, 0, 0.55));
+}
+
+/* === Entity inspector === */
+
+.lrc-inspector-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #303738;
+}
+
+.lrc-inspector-name {
+  margin-top: 5px;
+  font-family: Georgia, serif;
+  font-size: 18px;
+}
+
+/* === Scroll hint === */
+
+.lrc-scrollhint {
+  position: absolute;
+  right: 18px;
+  bottom: 14px;
+  color: #5f6765;
+  font-size: 10px;
+  z-index: 5;
+}
