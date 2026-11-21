@@ -24,7 +24,6 @@ Date: Updated July 25, 2025 - Added entity index integration
 import sys
 import argparse
 import os
-from pathlib import Path
 
 # Add the project root to the Python path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -36,7 +35,8 @@ from datetime import datetime
 
 def load_entity_index():
     """Load the entity index for browsing and selection"""
-    index_file = Path(__file__).parent / "lib" / "entity_extraction" / "entity_index.json"
+    from lib.kb.kb_root import kb_root
+    index_file = kb_root() / "metadata" / "entity_index.json"
     
     if index_file.exists():
         with open(index_file, 'r', encoding='utf-8') as f:

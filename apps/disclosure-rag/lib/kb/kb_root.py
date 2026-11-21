@@ -37,7 +37,8 @@ UNRESOLVED = "unresolved"
 # a canonical slug. It lives at a fixed repo path, not under the (possibly
 # sandboxed) archive root -- DISCLOSURE_RAG_KB_PATH redirects where entries
 # are written, not where the registry itself is read from.
-_SOURCE_REGISTRY_PATH = _REPO_ROOT / "packages" / "knowledge-base" / "metadata" / "source-registry.json"
+_SOURCE_REGISTRY_PATH = _REPO_ROOT / "packages" / \
+    "knowledge-base" / "metadata" / "source-registry.json"
 
 _registry_cache: Optional[dict] = None
 
@@ -132,6 +133,16 @@ def resolve_entry_dir(tree: str, source_key: Optional[str], entry_id: str) -> Pa
     Computes a path only; callers create the directory (no mkdir here, so
     this stays side-effect-free and testable). Routed through kb_root() via
     sources_root(), so DISCLOSURE_RAG_KB_PATH keeps redirecting every writer.
+
+    ═══ KB-WRITE-01 · kb_root.py :: resolve_entry_dir() ═══════════════════
+    The one path choke point into packages/knowledge-base/sources/. Callers:
+      YT-CHAIN-12   get_folder_path_from_metadata()  tree=transcripts
+      WEB-CHAIN-05  web_dir                          tree=web
+      KB-WRITE-02   KnowledgeBaseCRUD._get_doc_path() tree from doc_type
+    Never reached: FILE-CHAIN-04/05 sidecars (beside the input file), web
+    media (apps/disclosure-rag/knowledge/). entity_index.json is not a
+    tree: it sits at kb_root()/metadata/ (KB-WRITE-05).
+    ═══════════════════════════════════════════════════════════════════
     """
     if tree not in KNOWN_TREES:
         raise ValueError(

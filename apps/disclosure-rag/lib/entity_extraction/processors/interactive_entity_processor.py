@@ -567,8 +567,8 @@ class InteractiveEntityProcessor:
         Last write on YT-CHAIN-14 / FILE-CHAIN-06 / WEB-CHAIN-05, only when
         pipeline NER found entities:
           <summary dir>/entity_processing_results.json
-        then _update_entity_index() rewrites lib/entity_extraction/
-        entity_index.json — outside the archive. On the file path the summary
+        then _update_entity_index() rewrites <kb_root()>/metadata/
+        entity_index.json in the selected archive. On the file path the summary
         dir is the shell's cwd (FILE-CHAIN-06), so this lands there too.
         ═══════════════════════════════════════════════════════════════════
         """
@@ -739,8 +739,20 @@ class InteractiveEntityProcessor:
     def _update_entity_index(self, results: Dict[str, Any]) -> None:
         """Update the ongoing entity index with new extraction results"""
 
-        # Determine index file location
-        index_file = Path(__file__).parent.parent / "entity_index.json"
+        # The tally belongs to the selected archive, so a run under a
+        # DISCLOSURE_RAG_KB_PATH override never touches the default one.
+        from lib.kb.kb_root import kb_root
+        index_file = kb_root() / "metadata" / "entity_index.json"
+        lock_file = index_file.with_suffix(".json.lock")
+
+        try:
+            import fcntl
+            index_file.parent.mkdir(parents=True, exist_ok=True)
+            lock_fd = open(lock_file, 'a')
+            fcntl.flock(lock_fd, fcntl.LOCK_EX)
+        except Exception as e:
+            logger.error(f"Could not lock entity index: {e}")
+            return
 
         try:
             # Load existing index or create new one
@@ -847,6 +859,12 @@ class InteractiveEntityProcessor:
             logger.error(f"Failed to update entity index: {e}")
             console.print(
                 f"⚠️ [yellow]Could not update entity index: {e}[/yellow]")
+        finally:
+            try:
+                fcntl.flock(lock_fd, fcntl.LOCK_UN)
+                lock_fd.close()
+            except Exception:
+                pass
 
 
 def process_summary_file_interactive(summary_file_path: str, video_id: str, interactive: bool = True) -> Dict[str, Any]:
@@ -860,7 +878,7 @@ def process_summary_file_interactive(summary_file_path: str, video_id: str, inte
 
 if __name__ == "__main__":
     # Test with an existing summary file
-    test_summary = "/Users/liamellis/Desktop/ultraterrestrial-resurrection/packages/knowledge-base/sources/transcripts/2025-01-31/WGUb1JKxBDo/exPentagonOfficialConfirmsAlienLanguageExistsLueElizondoDebriefedEp24Summary.txt"
+    test_summary = "/Users/liamellis/Desktop/apps/ultraterrestrial-resurrection/packages/knowledge-base/sources/transcripts/area52/WGUb1JKxBDo/exPentagonOfficialConfirmsAlienLanguageExistsLueElizondoDebriefedEp24Summary.txt"
 
     if os.path.exists(test_summary):
         results = process_summary_file_interactive(test_summary, "WGUb1JKxBDo")

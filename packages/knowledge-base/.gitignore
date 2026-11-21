@@ -202,3 +202,8 @@ sources/files/xata-era-events/**
 # default. Anything genuinely large belongs in derived/, not here.
 !metadata/*.json
 !metadata/*.jsonl
+
+# Per-archive runtime entity tally and its advisory lock: machine state that
+# every dy run rewrites, not an audit record.
+/metadata/entity_index.json
+/metadata/entity_index.json.lock
