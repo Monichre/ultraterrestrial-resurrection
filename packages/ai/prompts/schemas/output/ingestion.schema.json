@@ -1,0 +1,137 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "RAG Ingestion Output",
+  "description": "Labels for pre-cut chunks, emitted by the rag_ingestion prompt (2.0.0). Chunk text is never part of the output. Authored strict-clean: every object sets additionalProperties:false and lists every property in required, so it can be sent under OpenAI strict structured-output mode without a 400.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "document",
+    "chunks",
+    "index_recommendations"
+  ],
+  "properties": {
+    "document": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title_guess",
+        "content_type",
+        "language",
+        "provenance",
+        "integrity_flags"
+      ],
+      "properties": {
+        "title_guess": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Best guess at the document title, or null when the source gives none."
+        },
+        "content_type": {
+          "type": "string",
+          "description": "Document kind, e.g. youtube_video, government_document, testimony."
+        },
+        "language": {
+          "type": "string",
+          "description": "BCP-47-ish language tag of the source text, e.g. 'en'."
+        },
+        "provenance": {
+          "type": "string",
+          "description": "Where this document came from — URL or file path."
+        },
+        "integrity_flags": {
+          "type": "array",
+          "description": "Source-quality warnings, e.g. ocr_noise, heavy_redaction, missing_pages, secondary_repost.",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "chunks": {
+      "type": "array",
+      "description": "One label entry per chunk_id given in the input. Chunk text is cut by code and is not returned.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "chunk_id",
+          "heading_path",
+          "entities_hint",
+          "claims_hint",
+          "temporal_anchors",
+          "spatial_anchors",
+          "do_not_embed_reasons"
+        ],
+        "properties": {
+          "chunk_id": {
+            "type": "string",
+            "description": "One of the chunk_ids given in the input, e.g. 'c01'."
+          },
+          "heading_path": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Section path this chunk sits under, or null."
+          },
+          "entities_hint": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "claims_hint": {
+            "type": "array",
+            "description": "Claims made in this chunk only, stated short.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "temporal_anchors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "spatial_anchors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "do_not_embed_reasons": {
+            "type": "array",
+            "description": "Non-empty means the pipeline drops this chunk before embedding.",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "index_recommendations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "filters",
+        "dedupe_keys"
+      ],
+      "properties": {
+        "filters": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "dedupe_keys": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,7 +1,7 @@
 /*
   Cross-language YAML prompt loader (TypeScript)
   - Requires: yaml
-  - Respects PROMPTS_DIR or defaults to packages/prompts
+  - Respects PROMPTS_DIR, then cwd/packages/ai/prompts, then this module's directory
 */
 import fs from 'node:fs'
 import fsPromises from 'node:fs/promises'
@@ -57,7 +57,8 @@ function resolvePromptsDirSync( custom?: string ): string {
 
   const moduleDir = path.dirname( fileURLToPath( import.meta.url ) )
   const candidates = [
-    path.join( process.cwd(), 'packages', 'prompts' ),
+    path.join( process.cwd(), 'packages', 'ai', 'prompts' ),
+    path.join( process.cwd(), 'packages', 'prompts' ), // legacy
     path.join( process.cwd(), 'prompts' ),
     moduleDir,
   ]

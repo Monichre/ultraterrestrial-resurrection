@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Analysis Output",
+  "type": "object",
+  "properties": {
+    "content_assessment": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "government",
+            "witness",
+            "scientific",
+            "media",
+            "historical",
+            "technical",
+            "mixed",
+            "unknown"
+          ]
+        },
+        "key_findings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Source-stated facts only (dates, actors, instruments, classification marks)"
+        },
+        "integrity_flags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Physical/documentary facts: redactions, illegible spans, missing pages, OCR artifacts"
+        }
+      },
+      "required": [
+        "type",
+        "key_findings"
+      ]
+    },
+    "extracted_data": {
+      "type": "object",
+      "properties": {
+        "primary_claims": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Source assertions only, attributed to whoever stated them"
+        }
+      },
+      "required": [
+        "primary_claims"
+      ]
+    }
+  },
+  "required": [
+    "content_assessment",
+    "extracted_data"
+  ]
+}

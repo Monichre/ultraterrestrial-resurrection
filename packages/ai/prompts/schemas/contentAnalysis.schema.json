@@ -1,0 +1,103 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Content Analysis Output",
+  "type": "object",
+  "properties": {
+    "content_assessment": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "government",
+            "witness",
+            "scientific",
+            "media",
+            "historical",
+            "technical"
+          ]
+        },
+        "credibility_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "key_findings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Legacy wire field: source-grounded signals only (not speculative conclusions)"
+        },
+        "verification_status": {
+          "type": "string",
+          "enum": [
+            "VERIFIED",
+            "PARTIAL",
+            "UNVERIFIED",
+            "DISPUTED"
+          ]
+        },
+        "integrity_flags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "type",
+        "credibility_score",
+        "key_findings",
+        "verification_status"
+      ]
+    },
+    "extracted_data": {
+      "type": "object",
+      "properties": {
+        "primary_claims": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Source Claims only"
+        },
+        "supporting_evidence": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "contradictory_evidence": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "follow_up_needed": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "inferences": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional analytical layer; never index as Evidence"
+        }
+      },
+      "required": [
+        "primary_claims",
+        "supporting_evidence",
+        "contradictory_evidence",
+        "follow_up_needed"
+      ]
+    }
+  },
+  "required": [
+    "content_assessment",
+    "extracted_data"
+  ]
+}

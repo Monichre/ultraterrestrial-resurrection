@@ -63,8 +63,7 @@ FOR each methodology doc IN [RAG_DOCUMENT_PROCESSING, NER_EXTRACTION_PROTOCOL]:
   CROSS-LINK Evidence Evaluation + Pre-Submission Methodology
   UPDATE methodology/README index
 
-SYNC sets/disclosure/ner.v1.yaml ← templates/enhanced_ner.yaml (semantic parity)
-SYNC sets/disclosure/specialized-analysis.v1.yaml ← templates/content_analysis.yaml
+# November 7th, 2026: the templates/ shadow copies were deleted (T-077); the sets/ files are the only copies.
 EXTEND schemas/output/*.json with optional span / evidentiary_state / aliases
 REGISTER new template ids in registry.yaml
 ```

@@ -35,8 +35,8 @@ Methodology docs define the human/agent protocol; YAML templates are the runtime
 | RAG protocol | `methodology/RAG_DOCUMENT_PROCESSING.md` | Ingestion → retrieval hygiene |
 | NER protocol | `methodology/NER_EXTRACTION_PROTOCOL.md` | Entity rules + domain mapping |
 | Pseudocode | `methodology/RagNerDocumentProcessing_PSUEDOCODE.md` | Upgrade plan |
-| NER template | `templates/enhanced_ner.yaml` | v2 span-grounded NER |
-| Doc analysis | `templates/content_analysis.yaml` | Pre-NER document assessment |
+| NER template | `sets/disclosure/ner.v1.yaml` | Span-grounded NER (registry id `disclosure.ner`) |
+| Doc analysis | `sets/disclosure/specialized-analysis.v1.yaml` | Pre-NER document assessment (registry id `disclosure.content_analysis`) |
 | Chunking | `templates/rag_ingestion.yaml` | Embed-ready chunks |
 | Grounded QA | `templates/rag_grounded_answer.yaml` | Citation-backed answers |
 | Triage | `templates/document_classification.yaml` | Content-type gate |

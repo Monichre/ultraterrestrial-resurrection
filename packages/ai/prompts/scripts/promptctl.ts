@@ -1,12 +1,13 @@
 #!/usr/bin/env ts-node
 /*
-  packages/prompts/scripts/promptctl.ts
+  packages/ai/prompts/scripts/promptctl.ts
   Tiny CLI to list / validate / render / bump prompt templates.
 
   Requirements:
     - npm i yaml ajv semver
   Optional:
-    - PROMPTS_DIR env var to override default (packages/prompts)
+    - --dir <path> flag, or PROMPTS_DIR env var, to override the default
+      (the package root, packages/ai/prompts)
 */
 import fs from 'node:fs/promises'
 import path from 'node:path'
@@ -14,11 +15,28 @@ import { fileURLToPath } from 'node:url'
 import YAML from 'yaml'
 
 ( async () => {
-  const args = process.argv.slice( 2 )
+  const rawArgs = process.argv.slice( 2 )
+  // --dir <path> or --dir=<path> overrides PROMPTS_DIR and the package root.
+  let dirFlag: string | undefined
+  const args: string[] = []
+  for ( let i = 0; i < rawArgs.length; i++ ) {
+    const a = rawArgs[i]
+    if ( a === '--dir' ) {
+      dirFlag = rawArgs[++i]
+      if ( !dirFlag ) {
+        console.error( 'Missing value for --dir' )
+        process.exit( 2 )
+      }
+    } else if ( a.startsWith( '--dir=' ) ) {
+      dirFlag = a.slice( '--dir='.length )
+    } else {
+      args.push( a )
+    }
+  }
   const cmd = args[0]
   const scriptDir = path.dirname( fileURLToPath( import.meta.url ) )
   const packageRoot = path.resolve( scriptDir, '..' )
-  const base = process.env.PROMPTS_DIR || packageRoot
+  const base = path.resolve( dirFlag || process.env.PROMPTS_DIR || packageRoot )
 
   async function fileExists( p: string ) {
     try { await fs.access( p ); return true } catch { return false }
@@ -33,6 +51,20 @@ import YAML from 'yaml'
     const raw = await fs.readFile( p, 'utf8' )
     const data = YAML.parse( raw )
     return { file: p, data }
+  }
+
+  // Read and parse a registry entry's template; null (with a message) when the file is missing.
+  async function readTemplate( entry: any ): Promise<{ path: string, tpl: any } | null> {
+    if ( !entry.file ) {
+      console.error( `Registry entry ${entry.id} has no file` )
+      return null
+    }
+    const tplPath = path.join( base, entry.file )
+    if ( !( await fileExists( tplPath ) ) ) {
+      console.error( `Template missing for ${entry.id}: ${entry.file}` )
+      return null
+    }
+    return { path: tplPath, tpl: YAML.parse( await fs.readFile( tplPath, 'utf8' ) ) }
   }
 
   function parseVars( rest: string[] ) {
@@ -71,9 +103,9 @@ import YAML from 'yaml'
       console.error( `Prompt not found: ${id}` )
       process.exit( 1 )
     }
-    const tplPath = path.join( base, entry.file )
-    const tplRaw = await fs.readFile( tplPath, 'utf8' )
-    const tpl = YAML.parse( tplRaw )
+    const loaded = await readTemplate( entry )
+    if ( !loaded ) process.exit( 1 )
+    const { tpl } = loaded
     const vars = parseVars( args.slice( 2 ) )
     const rendered = String( tpl.prompt || '' ).replace( /\{\{\s*([A-Za-z0-9_]+)\s*\}\}/g, ( _m, k ) => vars[k] ?? '' )
     console.log( rendered )
@@ -86,14 +118,19 @@ import YAML from 'yaml'
 
     // Load prompt schema
     const promptSchemaPath = path.join( base, 'schemas', 'prompt.schema.json' )
+    if ( !( await fileExists( promptSchemaPath ) ) ) {
+      // schemas/ is not git-tracked yet (T-077), so a fresh clone lands here.
+      console.error( `Prompt schema not found: ${promptSchemaPath}` )
+      process.exit( 1 )
+    }
     const promptSchema = JSON.parse( await fs.readFile( promptSchemaPath, 'utf8' ) )
     const validatePrompt = ajv.compile( promptSchema )
 
     let failures = 0
     for ( const entry of ( data.prompts || [] ) ) {
-      const tplPath = path.join( base, entry.file )
-      const tplRaw = await fs.readFile( tplPath, 'utf8' )
-      const tpl = YAML.parse( tplRaw )
+      const loaded = await readTemplate( entry )
+      if ( !loaded ) { failures++; continue }
+      const { tpl } = loaded
       const ok = validatePrompt( tpl )
       if ( !ok ) {
         failures++
@@ -128,9 +165,9 @@ import YAML from 'yaml'
       process.exit( 1 )
     }
     // Bump in template
-    const tplPath = path.join( base, entry.file )
-    const tplRaw = await fs.readFile( tplPath, 'utf8' )
-    const tpl = YAML.parse( tplRaw )
+    const loaded = await readTemplate( entry )
+    if ( !loaded ) process.exit( 1 )
+    const { path: tplPath, tpl } = loaded
     const next = bump( String( tpl.version || entry.version || '0.0.0' ), kind )
     tpl.version = next
     await fs.writeFile( tplPath, YAML.stringify( tpl ) )

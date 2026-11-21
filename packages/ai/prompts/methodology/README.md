@@ -28,7 +28,7 @@ This methodology suite provides a complete scientific framework for UAP research
 
 - **Purpose**: Span-grounded entity extraction for graph + RAG
 - **Scope**: KeyFigure/Event/Org mapping, evidentiary states, anti-hallucination gates
-- **Integration**: `templates/enhanced_ner.yaml`, `sets/disclosure/ner.v1.yaml`
+- **Integration**: `sets/disclosure/ner.v1.yaml`
 
 **[RagNerDocumentProcessing_PSUEDOCODE.md](RagNerDocumentProcessing_PSUEDOCODE.md)**
 

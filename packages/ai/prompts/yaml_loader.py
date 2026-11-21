@@ -1,7 +1,7 @@
 """
 Cross-language YAML prompt loader (Python)
 - Requires: pip install pyyaml
-- Respects PROMPTS_DIR or defaults to repo_root/prompts
+- Respects PROMPTS_DIR or defaults to this file's directory (packages/ai/prompts)
 """
 from __future__ import annotations
 import os
@@ -59,16 +59,6 @@ def _resolve_prompts_dir(custom: Optional[str] = None) -> Path:
 
     # Last resort: packages/ai/prompts under CWD (may not exist)
     return cwd / "packages" / "ai" / "prompts"
-
-
-def _find_registry_entry(index: list, prompt_id: str) -> Optional[Dict[str, Any]]:
-    for entry in index:
-        if entry.get("id") == prompt_id:
-            return entry
-        aliases = entry.get("aliases") or []
-        if prompt_id in aliases:
-            return entry
-    return None
 
 
 def _find_registry_entry(index: list, prompt_id: str) -> Optional[Dict[str, Any]]:
