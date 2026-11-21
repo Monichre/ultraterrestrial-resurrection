@@ -81,14 +81,21 @@ def _auto_outcome(
     verdict: str | None,
     quote_grounded: bool | None,
     candidates: list[dict[str, Any]],
+    record_decision: str | None = None,
 ) -> tuple[str | None, str]:
     """Decide `matched` / `new` / None (=review) for a non-exact mention.
 
     Returns (status, note). The note always records WHY, so a row's provenance
     survives in decision_note whichever way it went.
+
+    record_decision comes from the NER stage (ner.v1.yaml 4.0.0): only
+    `record_candidate` may be auto-written. `context_only` and `needs_review`
+    always go to a human. None means pre-4.0.0 output and keeps the old gate.
     """
     if mode != "auto":
         return None, f"write_mode={mode}: human decides"
+    if record_decision is not None and record_decision != "record_candidate":
+        return None, f"record_decision={record_decision}: human decides"
     if verdict not in GATED_VERDICTS:
         return None, f"verdict={verdict}: not auto-writable"
     if quote_grounded is False:
@@ -223,12 +230,12 @@ def resolve_pending(conn, run_id: str, statuses: tuple[str, ...] = ("pending",))
     mode = write_mode()
     rows = conn.execute(
         """SELECT id, entity_type, entity_name, metadata->>'verdict',
-                  metadata->>'quote_grounded'
+                  metadata->>'quote_grounded', metadata->>'record_decision'
            FROM document_entities WHERE status = ANY(%s)""",
         (list(statuses),),
     ).fetchall()
     now = datetime.now(timezone.utc)
-    for mention_id, etype, name, verdict, quote_grounded_raw in rows:
+    for mention_id, etype, name, verdict, quote_grounded_raw, record_decision in rows:
         table = _table_for_type(etype)
         if table is None:
             conn.execute(
@@ -259,7 +266,8 @@ def resolve_pending(conn, run_id: str, statuses: tuple[str, ...] = ("pending",))
         else:
             quote_grounded = (
                 None if quote_grounded_raw is None else quote_grounded_raw == "true")
-            auto_status, note = _auto_outcome(mode, verdict, quote_grounded, candidates)
+            auto_status, note = _auto_outcome(
+                mode, verdict, quote_grounded, candidates, record_decision)
 
         if auto_status == "matched":
             conn.execute(

@@ -543,6 +543,7 @@ def process_file(file_path: str, upload: bool = False, add_to_kb: bool = True) -
         # NEXT → FILE-CHAIN-05  trace map, ~25 lines below
         # ═══════════════════════════════════════════════════════════════════
         # Registry-backed RAG / NER pipeline (Evidence chunks for indexing)
+        rag_status = None
         try:
             display.print_stage("🧬 RAG PROMPT PIPELINE", "🧬")
             display.start_spinner(
@@ -666,8 +667,15 @@ def process_file(file_path: str, upload: bool = False, add_to_kb: bool = True) -
         # NEXT → end of chain; stage_report is assembled and main() sets the
         #        exit code from it.
         # ═══════════════════════════════════════════════════════════════════
-        # Upload if requested
-        if upload:
+        # Upload if requested - but only content the RAG gate passed. A
+        # hold/rejected/error document must not reach the vector store just
+        # because --upload was set; the stage report would say "held" while
+        # the index already had it.
+        if upload and rag_status != 'ok':
+            stages.append(_skipped(
+                "OpenAI vector store upload",
+                f"RAG status={rag_status or 'not run'}; not indexing"))
+        elif upload:
             with tracker.phase(
                 "OpenAI vector store upload",
                 chain="FILE-CHAIN-06", icon="☁️"):

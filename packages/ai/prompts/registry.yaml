@@ -3,7 +3,7 @@
 prompts:
   # --- Disclosure set (versioned, preferred) ---
   - id: disclosure.ner
-    version: "2.0.0"
+    version: "4.0.0"
     file: sets/disclosure/ner.v1.yaml
     schema: schemas/output/entity.schema.json
     tags: [ufo, ner, extraction, rag]
@@ -34,13 +34,13 @@ prompts:
 
   # --- Template prompts (general-purpose / RAG pipeline) ---
   - id: document_classification
-    version: "1.0.0"
+    version: "1.2.0"
     file: templates/document_classification.yaml
     tags: [documents, classification, rag, ingestion]
     owner: ai-platform
 
   - id: rag_ingestion
-    version: "1.0.0"
+    version: "2.0.0"
     file: templates/rag_ingestion.yaml
     schema: schemas/output/ingestion.schema.json
     tags: [rag, ingestion, documents, chunking]
@@ -65,7 +65,7 @@ prompts:
     owner: ai-platform
 
   - id: validation
-    version: "1.0.0"
+    version: "2.0.0"
     file: templates/validation.yaml
     tags: [qc, ner, rag, validation]
     owner: ai-platform

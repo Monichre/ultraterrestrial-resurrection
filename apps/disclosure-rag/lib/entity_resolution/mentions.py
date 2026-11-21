@@ -22,6 +22,16 @@ TYPE_TO_TABLE: dict[str, str | None] = {
     "EVIDENCE": None,
 }
 
+# ner.v1.yaml 4.0.0 sends Topic and Artifact on the EVIDENCE wire type with the
+# domain name in record_type_hint; route those back to their own tables.
+# Document, Testimony, Sighting and uncertain Events stay EVIDENCE (skipped,
+# recoverable): sightings are matched on date + place, never on name.
+HINT_TO_TYPE: dict[str, str] = {"Topic": "TOPIC", "Artifact": "ARTIFACT"}
+
+# record_decision values (ner.v1.yaml 4.0.0). Only record_candidate may be
+# auto-written; the other two always go to a human. None = pre-4.0.0 output.
+RECORD_DECISIONS = frozenset({"record_candidate", "context_only", "needs_review"})
+
 # Chunk verdicts from the pipeline's validation pass. `fail` chunks are left out
 # by default: their entities did not pass the pipeline's own db-write gate.
 DEFAULT_VERDICTS = frozenset({"pass", "pass_with_warnings", None})
@@ -47,6 +57,9 @@ class Mention:
     evidentiary_state: str | None = None
     quote_grounded: bool | None = None
     name_grounded: bool | None = None
+    record_type_hint: str | None = None
+    record_decision: str | None = None
+    record_decision_note: str | None = None
 
     @property
     def table(self) -> str | None:
@@ -64,6 +77,9 @@ class Mention:
             "evidentiary_state": self.evidentiary_state,
             "quote_grounded": self.quote_grounded,
             "name_grounded": self.name_grounded,
+            "record_type_hint": self.record_type_hint,
+            "record_decision": self.record_decision,
+            "record_decision_note": self.record_decision_note,
         }
 
 
@@ -168,6 +184,12 @@ def extract_mentions(
             name = (ent.get("name") or "").strip()
             if not etype or not name:
                 continue
+            hint = ent.get("record_type_hint")
+            if etype == "EVIDENCE" and hint in HINT_TO_TYPE:
+                etype = HINT_TO_TYPE[hint]
+            decision = ent.get("record_decision")
+            if decision not in RECORD_DECISIONS:
+                decision = None
             quote_grounded, name_grounded = grounding_of(
                 ent.get("span_quote"), name, chunk_text)
             yield Mention(
@@ -186,4 +208,7 @@ def extract_mentions(
                 evidentiary_state=ent.get("evidentiary_state"),
                 quote_grounded=quote_grounded,
                 name_grounded=name_grounded,
+                record_type_hint=hint,
+                record_decision=decision,
+                record_decision_note=ent.get("record_decision_note"),
             )

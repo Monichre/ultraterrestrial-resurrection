@@ -64,7 +64,10 @@ def _dump_raw_response(prompt_id: str, attempt: str, raw: str, exc: Exception) -
 
 MAX_NER_CHUNKS = int(os.getenv("RAG_PIPELINE_MAX_NER_CHUNKS", "8"))
 MAX_SOURCE_CHARS = int(os.getenv("RAG_PIPELINE_MAX_SOURCE_CHARS", "24000"))
-DEFAULT_CHUNK_TOKENS = os.getenv("RAG_PIPELINE_CHUNK_TOKENS", "512")
+#: Chunk sizes for the code-side cut (see cut_chunks). The model never writes
+#: chunk text; it only labels the chunks code hands it.
+CHUNK_TARGET_CHARS = int(os.getenv("RAG_PIPELINE_CHUNK_TARGET_CHARS", "1500"))
+CHUNK_MAX_CHARS = int(os.getenv("RAG_PIPELINE_CHUNK_MAX_CHARS", "2400"))
 
 #: Prompts that send their registry schema over the wire as a constraint.
 #:
@@ -136,17 +139,148 @@ def _extract_json_payload(text: str) -> Any:
         # first-`{`-to-last-`}` slice spanned a trailing second object or prose
         # containing braces, so json.loads then choked on the leftover and
         # reported "Extra data" — 6 episodes of the 2026-08-07 run died there.
+        #
+        # Decode only from whichever opener comes first. Trying `[` after a
+        # failed `{` used to return an array nested INSIDE a truncated object:
+        # on October 4th, 2026 a cut-off rag_ingestion response came back as
+        # its 4-item quality-flag list, so chunks were empty and the run still
+        # reported "ok". A truncated object must raise, so the repair retry runs.
         decoder = json.JSONDecoder()
-        for opener in ("{", "["):
-            start = stripped.find(opener)
-            if start < 0:
-                continue
+        starts = [i for i in (stripped.find("{"), stripped.find("[")) if i >= 0]
+        if starts:
             try:
-                value, _end = decoder.raw_decode(stripped[start:])
+                value, _end = decoder.raw_decode(stripped[min(starts):])
                 return value
             except json.JSONDecodeError:
-                continue
+                pass
         raise
+
+
+def _squash_ws(text: Optional[str]) -> str:
+    """Collapse runs of whitespace. Case and punctuation are kept."""
+    return " ".join((text or "").split())
+
+
+def check_span_quotes(ner: Any, source_text: str) -> Dict[str, Any]:
+    """Deterministic verbatim check of every span_quote in one NER result.
+
+    The ner.v1.yaml 4.0.0 policy: a span_quote must be a non-empty exact
+    substring of the text the NER call was shown, with the same case and
+    punctuation; only runs of whitespace may differ. Entities and statements
+    are both checked. Returns counts plus the failing items by name, so a
+    reviewer can see which quotes were not verbatim. No model involved.
+    """
+    src = _squash_ws(source_text)
+    out: Dict[str, Any] = {"checked": 0, "verbatim": 0,
+                           "not_verbatim": [], "missing_quote": []}
+    if not isinstance(ner, dict):
+        return out
+    items: List[tuple] = []
+    for ent in ner.get("entities") or []:
+        if isinstance(ent, dict):
+            items.append(("entity", ent.get("name") or "", ent.get("span_quote")))
+    for st in ner.get("statements") or []:
+        if isinstance(st, dict):
+            items.append(("statement", (st.get("statement") or "")[:80], st.get("span_quote")))
+    for kind, label, quote in items:
+        q = _squash_ws(quote if isinstance(quote, str) else "")
+        if not q:
+            out["missing_quote"].append({"kind": kind, "item": label})
+            continue
+        out["checked"] += 1
+        if q in src:
+            out["verbatim"] += 1
+        else:
+            out["not_verbatim"].append({"kind": kind, "item": label})
+    return out
+
+
+#: Fields the labelling call may attach to a code-cut chunk. Chunk text is
+#: deliberately absent: it only ever comes from code.
+_LABEL_FIELDS = (
+    "heading_path", "entities_hint", "claims_hint", "temporal_anchors",
+    "spatial_anchors", "do_not_embed_reasons",
+)
+
+_SENTENCE_END = re.compile(r"(?<=[.?!])\s+")
+_WHITESPACE = re.compile(r"\s")
+
+
+def _split_oversize(text: str, start: int, end: int, max_chars: int) -> List[int]:
+    """End offsets of the atoms an over-long turn [start, end) is split into.
+
+    Sentence ends first; a sentence still over max_chars is hard-split at the
+    last whitespace before max_chars (or at max_chars when there is none).
+    """
+    cuts: List[int] = []
+    piece_start = start
+    for m in _SENTENCE_END.finditer(text, start, end):
+        if m.end() < end:
+            cuts.append(m.end())
+    cuts.append(end)
+    atoms: List[int] = []
+    for cut in cuts:
+        while cut - piece_start > max_chars:
+            window = text[piece_start:piece_start + max_chars]
+            last_ws = max((m.start() for m in _WHITESPACE.finditer(window)), default=0)
+            hard = piece_start + (last_ws + 1 if last_ws > 0 else max_chars)
+            atoms.append(hard)
+            piece_start = hard
+        atoms.append(cut)
+        piece_start = cut
+    return atoms
+
+
+def cut_chunks(
+    text: str,
+    target_chars: int = CHUNK_TARGET_CHARS,
+    max_chars: int = CHUNK_MAX_CHARS,
+) -> List[Dict[str, Any]]:
+    """Cut text into contiguous chunks in code; the model never re-emits text.
+
+    Transcript speaker turns start at ``>>``. Consecutive turns are packed until
+    the next would pass target_chars (a chunk always takes at least one). A turn
+    over max_chars, or text with no ``>>`` at all, is split at sentence ends and
+    packed the same way. Spans are contiguous and cover the whole input;
+    ``text`` is the stripped excerpt. Chunks that strip to nothing are dropped,
+    so the char_start/char_end chain has holes where they were: contiguity holds
+    only across non-empty text.
+    """
+    if not text:
+        return []
+
+    turn_starts = [m.start() for m in re.finditer(r">>", text)]
+    bounds = sorted({0, *turn_starts, len(text)})
+
+    atom_ends: List[int] = []
+    for start, end in zip(bounds, bounds[1:]):
+        if end - start > max_chars:
+            atom_ends.extend(_split_oversize(text, start, end, max_chars))
+        else:
+            atom_ends.append(end)
+
+    chunks: List[Dict[str, Any]] = []
+    chunk_start = 0
+    chunk_end = 0
+    for atom_end in atom_ends:
+        if chunk_end > chunk_start and atom_end - chunk_start > target_chars:
+            chunks.append((chunk_start, chunk_end))
+            chunk_start = chunk_end
+        chunk_end = atom_end
+    chunks.append((chunk_start, chunk_end))
+
+    out: List[Dict[str, Any]] = []
+    for start, end in chunks:
+        body = text[start:end].strip()
+        if not body:
+            continue
+        out.append({
+            "chunk_id": f"c{len(out) + 1:02d}",
+            "text": body,
+            "char_start": start,
+            "char_end": end,
+        })
+    return out
 
 
 class RagPromptPipeline:
@@ -349,6 +483,7 @@ class RagPromptPipeline:
                 {
                     "source_text": text,
                     "filename_hint": filename_hint or "",
+                    "provenance": provenance or "",
                 },
             )
             classification.pop("_raw_text", None)
@@ -379,28 +514,49 @@ class RagPromptPipeline:
             analysis.pop("_raw_text", None)
             result.analysis = analysis
 
-            # --- Stage 3: rag ingestion / chunking ---
-            result.prompts_used.append("rag_ingestion")
-            ingestion = self._run_registry_prompt(
-                "rag_ingestion",
-                {
-                    "source_text": text,
-                    "provenance": provenance or "",
-                    "content_type": content_type,
-                    "target_chunk_tokens": DEFAULT_CHUNK_TOKENS,
-                },
-            )
-            ingestion.pop("_raw_text", None)
+            # --- Stage 3: code cuts the chunks, the model only labels them ---
+            # The window is the same slice the other stages see, minus the
+            # truncation marker, so chunk text is always source text.
+            window = source_text.strip()[:MAX_SOURCE_CHARS]
+            code_chunks = cut_chunks(window)
+
+            ingestion: Dict[str, Any] = {}
+            if code_chunks:
+                result.prompts_used.append("rag_ingestion")
+                try:
+                    ingestion = self._run_registry_prompt(
+                        "rag_ingestion",
+                        {
+                            "chunks_json": json.dumps(
+                                [{"chunk_id": c.get("chunk_id"), "text": c["text"]}
+                                 for c in code_chunks],
+                                ensure_ascii=False,
+                                separators=(",", ":"),
+                            ),
+                            "provenance": provenance or "",
+                            "content_type": content_type,
+                        },
+                    )
+                    ingestion.pop("_raw_text", None)
+                except Exception as exc:
+                    ingestion = {}
+                    result.errors.append(f"rag_ingestion_labels:{exc}")
             result.ingestion = ingestion
 
-            raw_chunks = ingestion.get("chunks") or []
+            labels = {
+                lab["chunk_id"]: lab
+                for lab in (ingestion.get("chunks") or [])
+                if isinstance(lab, dict) and lab.get("chunk_id")
+            }
             chunks: List[Dict[str, Any]] = []
-            for chunk in raw_chunks:
-                if not isinstance(chunk, dict):
-                    continue
-                body = (chunk.get("text") or "").strip()
-                skip_reasons = chunk.get("do_not_embed_reasons") or []
-                if not body or skip_reasons:
+            for code_chunk in code_chunks:
+                chunk = dict(code_chunk)
+                label = labels.get(chunk.get("chunk_id"))
+                if label:
+                    for key in _LABEL_FIELDS:
+                        if key in label:
+                            chunk[key] = label[key]
+                if chunk.get("do_not_embed_reasons"):
                     continue
                 chunks.append(chunk)
             result.chunks = chunks
@@ -411,6 +567,8 @@ class RagPromptPipeline:
                 for chunk in chunks[: self.max_ner_chunks]:
                     chunk_id = chunk.get(
                         "chunk_id") or f"c{len(ner_results)+1:02d}"
+                    # Write it back so the Stage 5 review lookup finds it.
+                    chunk["chunk_id"] = chunk_id
                     heading = chunk.get("heading_path") or ""
                     context = " | ".join(x for x in [provenance, heading] if x)
                     entry: Dict[str, Any] = {"chunk_id": chunk_id}
@@ -426,6 +584,8 @@ class RagPromptPipeline:
                         )
                         ner.pop("_raw_text", None)
                         entry["ner"] = ner
+                        entry["span_check"] = check_span_quotes(
+                            ner, chunk.get("text") or "")
                     except Exception as exc:
                         entry["ner_error"] = str(exc)
                         result.errors.append(f"ner:{chunk_id}:{exc}")
@@ -437,7 +597,11 @@ class RagPromptPipeline:
                                 "validation",
                                 {
                                     "target": json.dumps(entry["ner"], ensure_ascii=False),
-                                    "source_excerpt": (chunk.get("text") or "")[:2000],
+                                    # validation.yaml 2.0.0: the full chunk and its
+                                    # provenance, so grounding is judged against
+                                    # everything the NER call saw (T-075).
+                                    "source_text": chunk.get("text") or "",
+                                    "provenance": provenance or "",
                                     "schema_name": "entity",
                                 },
                             )
@@ -453,36 +617,68 @@ class RagPromptPipeline:
             result.ner_results = ner_results
 
             # --- Stage 5: embeddable Evidence texts ---
-            blocked_ids = {
-                e["chunk_id"]
+            # The validation reviewer advises; it does not gate. Its verdict is
+            # attached to each chunk as a "review" note for the human reviewer,
+            # and every chunk is embeddable. User ruling, October 8th, 2026:
+            # safe_for_rag_index=false had blocked 4 of 4 reviewed chunks on
+            # -XdvIrexF08 (all "pass_with_warnings"), so nothing was indexed.
+            reviews = {
+                e["chunk_id"]: e["validation"]
                 for e in ner_results
                 if isinstance(e.get("validation"), dict)
-                and e["validation"].get("safe_for_rag_index") is False
             }
-            embeddable = []
+            span_checks = {
+                e["chunk_id"]: e["span_check"]
+                for e in ner_results if isinstance(e.get("span_check"), dict)
+            }
+            reviewed_chunks = []
             for chunk in chunks:
-                cid = chunk.get("chunk_id")
-                if cid in blocked_ids:
-                    continue
-                embeddable.append(chunk.get("text") or "")
-            result.embeddable_texts = [t for t in embeddable if t.strip()]
+                qa = reviews.get(chunk.get("chunk_id"))
+                if qa is not None:
+                    chunk = {**chunk, "review": {
+                        "verdict": qa.get("verdict"),
+                        "safe_for_rag_index": qa.get("safe_for_rag_index"),
+                        "issues": qa.get("issues") or [],
+                        "span_check": span_checks.get(chunk.get("chunk_id")),
+                    }}
+                reviewed_chunks.append(chunk)
+            result.chunks = reviewed_chunks
+            flagged_ids = [
+                c.get("chunk_id") for c in reviewed_chunks
+                if (c.get("review") or {}).get("safe_for_rag_index") is False
+            ]
+            result.embeddable_texts = [
+                c.get("text") or "" for c in reviewed_chunks
+                if (c.get("text") or "").strip()
+            ]
 
-            # Fallback: if model returned no chunks, keep whole doc as one Evidence unit
-            if not result.embeddable_texts and recommendation != "reject":
-                result.embeddable_texts = [text]
-                result.errors.append(
-                    "ingestion_produced_no_chunks; fell_back_to_full_text")
+            # Fallback: only when code cut no chunks at all, keep the whole doc
+            # as one Evidence unit. If chunks were cut and every one was
+            # excluded by the labeller's do_not_embed_reasons (e.g. sponsor
+            # reads), restoring the full text would index exactly that content
+            # - hold instead.
+            if not result.embeddable_texts:
+                if not code_chunks:
+                    result.embeddable_texts = [text]
+                    result.errors.append(
+                        "ingestion_produced_no_chunks; fell_back_to_full_text")
+                else:
+                    result.status = "hold"
+                    result.errors.append(
+                        f"all_chunks_excluded; {len(code_chunks)} chunks cut, "
+                        "all marked do_not_embed or empty, none embeddable")
 
-            index_recs = (ingestion.get("index_recommendations") or {}) if isinstance(
-                ingestion, dict
-            ) else {}
             result.metadata.update(
                 {
                     "content_type": content_type,
                     "ingestion_recommendation": recommendation,
-                    "priority": index_recs.get("priority"),
+                    "chunking": "code_cut",
+                    "window_chars": len(window),
+                    "chunked_chars": sum(len(c["text"]) for c in code_chunks),
+                    "code_chunk_count": len(code_chunks),
                     "chunk_count": len(result.chunks),
                     "embeddable_count": len(result.embeddable_texts),
+                    "review_flagged_chunk_ids": flagged_ids,
                     "ner_chunk_count": len(result.ner_results),
                     "prompts_used": sorted(set(result.prompts_used)),
                     # Enrichment provenance. A caller grading this run needs to

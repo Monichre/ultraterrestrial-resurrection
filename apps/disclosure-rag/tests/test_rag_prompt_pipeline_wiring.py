@@ -48,3 +48,24 @@ def test_content_analysis_engine_exposes_process_for_rag():
 
     assert hasattr(ContentAnalysisEngine, "process_for_rag")
     assert hasattr(ContentAnalysisEngine, "analyze_content_with_rag_pipeline")
+
+
+def test_truncated_object_raises_instead_of_returning_inner_array():
+    # October 4th, 2026: a cut-off rag_ingestion object was parsed as its nested
+    # quality-flag list, leaving 0 chunks under status "ok".
+    import json
+
+    import pytest
+
+    from processing.rag_prompt_pipeline import _extract_json_payload
+
+    truncated = '{"document": {"flags": ["transcript_disfluencies", "truncated_end"]}, "chunks": [{"text": "cut'
+    with pytest.raises(json.JSONDecodeError):
+        _extract_json_payload(truncated)
+
+
+def test_object_and_array_with_trailing_prose_still_parse():
+    from processing.rag_prompt_pipeline import _extract_json_payload
+
+    assert _extract_json_payload('Here: {"a": [1]} done {x}') == {"a": [1]}
+    assert _extract_json_payload('Result: [{"a": 1}] trailing') == [{"a": 1}]

@@ -1,6 +1,6 @@
 id: document_classification
-version: "1.0.0"
-description: "Pre-NER document triage for UAP source ingestion."
+version: "1.2.0"
+description: "Pre-NER document triage for UAP source ingestion. Classification only - no recommendation, scoring, or grading."
 owner: "ai-platform"
 tags: ["documents", "classification", "rag", "ingestion"]
 schema_ref: null
@@ -14,33 +14,39 @@ variables:
   - name: "filename_hint"
     type: "string"
     required: false
+  - name: "provenance"
+    type: "string"
+    required: false
 prompt: |-
   Classify UFO/UAP/Disclosure source material before NER and RAG chunking.
 
   ## MISSION
-  Return a compact JSON triage decision. Prefer under-confident classification over forced certainty.
+  Return a compact JSON description of the document: what it is, not what
+  should happen to it. Emit no recommendations, scores, confidence, or
+  verdicts.
 
   ## OUTPUT JSON
   {
     "content_type": "government"|"witness"|"scientific"|"media"|"historical"|"technical"|"mixed"|"unknown",
-    "primary_record_hints": ["Document"|"Testimony"|"Event"|"Sighting"|"KeyFigure"|"Organization"|"Topic"|"Artifact"],
+    "primary_record_hints": ["Document"|"Testimony"|"Sighting"|"KeyFigure"|"Organization"|"Topic"|"Artifact"],
     "hynek_scaffold": string|null,
     "classification_marks_detected": string[],
     "language": string,
     "ocr_quality": "good"|"fair"|"poor"|"n/a",
-    "sensitivity": "public"|"sensitive"|"unknown",
-    "ingestion_recommendation": "proceed"|"proceed_with_caution"|"hold_for_human_review"|"reject",
-    "rationale": string,
-    "confidence": number
+    "sensitivity": "public"|"sensitive"|"unknown"
   }
 
   ## RULES
   - content_type drives downstream analysis prompts.
-  - primary_record_hints are guesses for extractors, not database writes.
+  - primary_record_hints are guesses for extractors, not database writes. Event is deliberately absent: whether a source names a core UFO incident is decided at extraction, not at intake.
+  - Never decide whether the material is plausible, extraordinary, or worth ingesting. Unknown custody is a fact to describe, not a reason to hold.
+  - Metadata stated in provenance (title, channel, date, URL) is known; do not report it as missing.
   - hynek_scaffold only when observational content is clear (e.g. "radar-visual", "CE2"); else null.
-  - Hold for human review when custody is unknown AND claims are extraordinary.
+  - sensitivity reflects classification markings physically present in the document, nothing else.
+  - When unsure, use "unknown" or "mixed" rather than guessing.
 
   Filename hint: {{filename_hint}}
+  Provenance: {{provenance}}
 
   Source text:
   {{source_text}}
