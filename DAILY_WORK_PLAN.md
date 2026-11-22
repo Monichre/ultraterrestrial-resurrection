@@ -1,3 +1,7 @@
+## Ingestion commit packaging — November 21st, 2026, 19:35 CST
+
+- Claude Code (`claude-code:4750b851`) landed the November 7th ingestion fixes on `dev` as self-contained slices: `580d3274` (t069), `5682b527` (T-077 + schemas) and `3a27924f` (T-068 + T-075). A fresh export passes `promptctl validate` and matches the test baseline. [Handoff](docs/work_logs/november-21st-2026-ingestion-commit-packaging.md). Open: six `main.py` concerns uncommitted, live prompt quality (T-082) and Neon `resolve_pending` SQL UNVERIFIED, no live ingestion until T-084.
+
 ## Session October 7th, 2026, 21:46:30 CDT — attached interface journey
 
 - User confirmed three images: Visual Foundation, Trinity, and Controlled Revelation. Implemented [interactive reference studies and journey stories](apps/app/src/features/guided-tours/nuclear-shadow/interface-studies/) using the supplied artwork intact and the existing tour narrative.
