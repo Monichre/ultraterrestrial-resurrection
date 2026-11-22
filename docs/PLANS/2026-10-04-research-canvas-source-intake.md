@@ -2,7 +2,7 @@
 status: proposed
 role: eng
 spine: want / do
-updated: 2026-10-04
+updated: 2026-11-22
 extends: T-060
 todo: T-065 (proposed — not yet filed in TODO.md)
 ---
@@ -55,7 +55,7 @@ The dropped source also becomes **turn context** for the mindmap agent, so follo
 
 From the T-060 contract, [`AGENTS.md`](AGENTS.md), [`CONTEXT.md`](CONTEXT.md), [`apps/app/CONTEXT.md`](apps/app/CONTEXT.md) and [`packages/db/CONTEXT.md`](packages/db/CONTEXT.md):
 
-1. **Read-only against the corpus.** There are no `INSERT`s into `documents`, `document_chunks` or any entity table. Agent output reaches Postgres only through `insertAgentInference`. Persisting a source into the corpus is a separate, human-confirmed Lane A action.
+1. **Read-only against the corpus.** There are no `INSERT`s into `documents`, `document_chunks` or any entity table. Agent output reaches Postgres only through `insertAgentInference`. **Nothing a researcher drops, pastes or links is ever added to the canonical archive** — not automatically, not by a confirm button, not by a hand-off to Lane A. Ruling by Liam, 2026-11-22. Canvas sources are session material only.
 2. **Every route lives under `/api/processing/*`.** It is the only Clerk-gated prefix. A URL or YouTube intake route outside it would be a public endpoint that spends Firecrawl and OpenAI money.
 3. **`text-embedding-3-small` @ 1536 dims is locked**, and everything becomes text before it is embedded. Images go through a caption, and videos go through a transcript.
 4. **No fourth upload component.** Extend `use-canvas-drop` and the existing chrome.
@@ -151,7 +151,7 @@ There is **no separate panel, drawer or card deck** for sources (constraint 8). 
 | pdf (URL) | Fetch with an SSRF guard (§8), 10 MB cap, then the same pdfjs path | `pdf-parse` |
 | web | `scrapeWithFireCrawl({url, formats: ['markdown']})` from `@/lib/firecrawl`. Keep title, site, byline, published date and canonical URL. | **`scrape`** |
 | youtube, already in the corpus | **Corpus-first:** look up the video in `documents` (see open decision D1 for the join key). If it is present, use that document's existing chunks and embedding. The source sheet links to the corpus document instead of re-reading anything. | **`corpus-transcript`** |
-| youtube, not in the corpus | See open decision D2. The recommended path reads **public captions only** (no audio, no download) for session matching, and offers "Queue for archive ingest", which hands the URL to Lane A's `playlist_ingestion.py` / `dy` queue. It never writes to the corpus itself. | **`captions`** |
+| youtube, not in the corpus | See open decision D2. The recommended path reads **public captions only** (no audio, no download) for session matching. It never writes to the corpus and offers no path that does. | **`captions`** |
 | scanned pdf | Becomes available when the OCR stage in [`docs/PLANS/2026-08-18-ingest-ocr-stage-and-storage-endpoint.md`](docs/PLANS/2026-08-18-ingest-ocr-stage-and-storage-endpoint.md) lands. Until then, today's honest 422. | (per that plan) |
 
 The embed window stays at **one document-level embedding over the first 8,000 characters** (contract §2.4). For YouTube, the embedding uses title + description + the first 8,000 transcript characters, and sets `meta.truncated` when the transcript was cut.
@@ -199,7 +199,7 @@ type IntakeEvent =
 |---|---|---|
 | `FETCH_FAILED` | The URL could not be reached, or Firecrawl failed | "The page could not be read." Name the host. |
 | `PAYWALLED` | Scrape returned under 400 characters of body text with a known paywall signature | "Only the page preview was readable." This is a **partial**, not a failure: continue with what was read and mark the sheet `PREVIEW ONLY`. |
-| `NO_CAPTIONS` | The video has no public captions and is not in the corpus | Offer "Queue for archive ingest" (Lane A). This is not an error toast. |
+| `NO_CAPTIONS` | The video has no public captions and is not in the corpus | The sheet shows title and channel only, marked `NO TRANSCRIPT`, and matching runs on title + description. This is not an error toast. No archive hand-off is offered. |
 | `UNSAFE_URL` | The SSRF guard rejected the URL (§8) | Plain: "This address cannot be fetched." |
 | `TIMEOUT` | The 120 s budget was exceeded | Name the last stage reached. |
 
@@ -316,7 +316,7 @@ This is an authored sequence. Implement the beats as written. Do not add or drop
 | **P1 — Streamed stages + web URLs** | `/api/processing/intake` (SSE) for files and `web` URLs. The canvas switches to it. Beats 1–7 and 9. Canvas link drop and canvas paste (B, C). | Drop a real article link and a real PDF. Each shows real stage labels, declassifies, and ink-traces to matches. A paywalled link shows `PREVIEW ONLY`. Reduced motion verified. |
 | **P2 — Chat intake + agent context** | Intake slip in the console (D, E). `source` in `buildAgentGraphState` and the `<researcher_sources>` block. Multi-drop queue (up to 4). | Paste a URL in the console, ask a question about it, and the answer cites the source by locator. A source dropped on the canvas also informs the next console query. |
 | **P3 — Next traces** | §6 floor + liturgy, ghost waypoints (beat 8), the Trace action. | Three different real sources each yield ≥2 traces, each with a basis and counter-reading. Running one adds records with reasoned edges. A forced bad trace (a fake record id) is filtered out. |
-| **P4 — YouTube** | Corpus-first lookup, then the D2 path for uncached videos, time locators that open `&t=`, and the "Queue for archive ingest" handoff. | A YouTube link already in the corpus resolves with no transcript fetch. A new one either reads captions or shows `NO_CAPTIONS` with the queue offer. Timestamp locators seek correctly. |
+| **P4 — YouTube** | Corpus-first lookup, then the D2 path for uncached videos, and time locators that open `&t=`. | A YouTube link already in the corpus resolves with no transcript fetch. A new one either reads captions or shows `NO TRANSCRIPT`. Neither writes anything to the archive. Timestamp locators seek correctly. |
 | **P5 — Merge into T-050 agentic mode** | Expose a source plus its traces as the seed of a `mode: 'agentic'` waypoint plan. | Defined in T-050 subtask 8, not here. |
 
 Estimates, for one agent with the dev server and keys available: P1 1.5–2 days · P2 1 day · P3 1.5 days · P4 1–2 days, depending on D2.
@@ -328,7 +328,7 @@ Estimates, for one agent with the dev server and keys available: P1 1.5–2 days
 | # | Decision | Recommendation |
 |---|---|---|
 | **D1** | Which column identifies a YouTube video in `documents`: `url`, or a `metadata` key written by T-061? | Verify against live rows before P4. Match on the normalized `watch?v=` id. |
-| **D2** | For a video not in the corpus: (a) TS captions-only read for session matching, (b) a Python sidecar endpoint on disclosure-rag, or (c) refuse and queue for Lane A. Contract §7a deferred YouTube to avoid a second **ingestion** path. Option (a) never ingests, but it is a second transcript fetcher. | **(a) + queue handoff.** It is session-scoped and read-only, and Lane A stays the only corpus writer. |
+| **D2** | For a video not in the corpus: (a) TS captions-only read for session matching, (b) a Python sidecar endpoint on disclosure-rag, or (c) do not read uncached videos at all. Contract §7a deferred YouTube to avoid a second **ingestion** path. Option (a) never ingests, but it is a second transcript fetcher. | **(a).** Session-scoped and read-only. No option includes adding the video to the archive. |
 | **D3** | Full-text grounding for long sources requires chunk embeddings somewhere. Options: (a) none, using gist + excerpt only; (b) a Neon scratch table (e.g. `intake_passages`, with a TTL) **excluded from all retrieval by ADR**, modeled on [`docs/adr/0001-agent-inferences-excluded-from-retrieval.md`](docs/adr/0001-agent-inferences-excluded-from-retrieval.md). | **(a) for P1–P3.** Write ADR 0003 before (b). |
 | **D4** | Should un-run next traces persist with the Investigation? There is no corpus `source_record_id` to attach them to. | Keep them session-only until the Investigation save model exists. |
 | **D5** | Should the source-extracted assertions in a dropped document be shown as *Claims* (allowed by the reservation, since they are source-extracted) with verbatim quotes checked by string match against the source? | Defer until after P3. If adopted, quotes must be verbatim and machine-checked. |
@@ -337,7 +337,7 @@ Estimates, for one agent with the dev server and keys available: P1 1.5–2 days
 
 ## 11. Not in scope
 
-- Writing any dropped or linked source into the corpus. That is Lane A, human-confirmed, and gated on T-048 H1.
+- Adding any dropped, pasted or linked source to the canonical archive, by any path. This is a permanent rule, not a deferral.
 - Audio transcription of videos without captions.
 - A new chat stack, a new upload component, or a sources sidebar.
 - Changing `/api/processing/drop`'s response or behavior.
