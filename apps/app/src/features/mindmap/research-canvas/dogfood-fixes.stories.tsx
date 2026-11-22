@@ -393,27 +393,20 @@ export const ConsoleRowSubmitsOnce: Story = {
   play: async ({canvasElement}) => {
     const canvas = within(canvasElement)
     const win = window as ConsoleCallsWindow
-    // First submit goes through MessageInput; the enhanced panel mounts after
-    // it and only runs its typing animation on a second submit inside it.
+    // First submit goes through MessageInput ("Send" at this commit, "Ask ↵"
+    // in the WIP tree); the enhanced panel mounts after it and only runs its
+    // typing animation on a second submit inside it.
     await userEvent.type(canvas.getByRole('textbox'), 'roswell')
-    await userEvent.click(canvas.getByRole('button', {name: /Ask/}))
+    await userEvent.click(canvas.getByRole('button', {name: /ask|send/i}))
     const panelInput = await canvas.findByPlaceholderText('Ask about UFO phenomena...')
     await userEvent.type(panelInput, 'roswell')
     await userEvent.keyboard('{Enter}')
     const row = await canvas.findByText('Guided Tour', {}, {timeout: 15000})
     const clickable = row.closest('div[class*="cursor-pointer"]') ?? row
-    const before = win.__consoleCalls?.length ?? 0
     await userEvent.click(clickable as Element)
-    await waitFor(
-      () => {
-        const calls = win.__consoleCalls ?? []
-        if (calls.length < before + 1) throw new Error('row click did not submit')
-      },
-      {timeout: 5000}
-    )
-    // Give any stray resubmit a beat to fire, then count.
-    await new Promise((resolve) => setTimeout(resolve, 600))
-    const sent = (win.__consoleCalls ?? []).slice(before)
-    await expect(sent).toEqual(['Start guided tour: The Nuclear Shadow'])
+    // Wait for the animation to reach 'complete' — past the deferred-submit
+    // window — then the whole call history must be exactly these two submits.
+    await canvas.findByText(/Based on your query/, {}, {timeout: 15000})
+    await expect(win.__consoleCalls).toEqual(['roswell', 'Start guided tour: The Nuclear Shadow'])
   },
 }

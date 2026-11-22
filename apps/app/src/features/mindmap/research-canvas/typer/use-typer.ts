@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react"
+import { useEffect, useState, useCallback, useRef } from "react"
 import type { ChangeEvent } from "react"
 import { TYPER_ITEMS } from "./constants"
 
@@ -14,6 +14,16 @@ export function useTyper( { input, handleInputChange, onSubmit }: UseTyperProps 
   const [showEnhancedChat, setShowEnhancedChat] = useState( false )
   const [pinnedCard, setPinnedCard] = useState<number | null>( null )
   const [chatState, setChatState] = useState( 0 )
+  const pinTimer = useRef<ReturnType<typeof setTimeout> | null>( null )
+
+  const clearPinTimer = useCallback( () => {
+    if ( pinTimer.current !== null ) {
+      clearTimeout( pinTimer.current )
+      pinTimer.current = null
+    }
+  }, [] )
+
+  useEffect( () => clearPinTimer, [clearPinTimer] )
 
   useEffect( () => {
     setActive( input.length > 0 )
@@ -39,20 +49,23 @@ export function useTyper( { input, handleInputChange, onSubmit }: UseTyperProps 
       // plays, so the 600ms gap is never silent (v0 dogfood defect).
       handleInputChange( createSyntheticEvent( command ) )
 
-      setTimeout( () => {
+      clearPinTimer()
+      pinTimer.current = setTimeout( () => {
+        pinTimer.current = null
         setShowEnhancedChat( true )
         setChatState( 0 )
       }, 600 )
     },
-    [handleInputChange, createSyntheticEvent]
+    [handleInputChange, createSyntheticEvent, clearPinTimer]
   )
 
   const handleUnpin = useCallback( () => {
+    clearPinTimer()
     setPinnedCard( null )
     setShowEnhancedChat( false )
     setActive( false )
     handleInputChange( createSyntheticEvent( "" ) )
-  }, [handleInputChange, createSyntheticEvent] )
+  }, [handleInputChange, createSyntheticEvent, clearPinTimer] )
 
   const handleMessageClick = useCallback(
     ( message: { title: string; submitText?: string } ) => {

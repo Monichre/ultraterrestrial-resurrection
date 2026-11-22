@@ -108,7 +108,6 @@ export default function ResearchCanvasConsole({
     handleUnpin,
     handleMessageClick,
     handleInputChangeWrapper,
-    setShowEnhancedChat,
   } = useTyper({input, handleInputChange, onSubmit: handleFollowUp})
 
   const handleUnpinAndReset = useCallback(() => {
@@ -117,10 +116,9 @@ export default function ResearchCanvasConsole({
   }, [handleUnpin])
 
   const handleCloseChat = useCallback(() => {
-    setShowEnhancedChat(false)
-    setHasSubmitted(false)
-    handleInputChangeWrapper('')
-  }, [setShowEnhancedChat, handleInputChangeWrapper])
+    // Full reset: clears the pin, any pending pin timer, the panel and input.
+    handleUnpinAndReset()
+  }, [handleUnpinAndReset])
 
   // Show EnhancedAnimatedChat when: card was clicked (showEnhancedChat from hook)
   // OR user submitted via keyboard (hasSubmitted)

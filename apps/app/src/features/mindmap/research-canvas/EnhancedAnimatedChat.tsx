@@ -86,40 +86,64 @@ const EnhancedAnimatedChat = (props: EnhancedAnimatedChatProps) => {
   // Set when a suggestion row or close takes over the submit; the deferred
   // handleSubmit at the end of the typing animation must not double-submit.
   const actionTaken = useRef(false)
+  // One animation run at a time; a second submit while running is ignored.
+  const running = useRef(false)
+  // Set on close/unmount so the async loop stops queueing state updates.
+  const cancelled = useRef(false)
+
+  useEffect(
+    () => () => {
+      cancelled.current = true
+    },
+    []
+  )
 
   // Enhanced form submission with animation sequence
   const enhancedHandleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (!input.trim()) return
+    if (!input.trim() || running.current) return
 
+    running.current = true
+    cancelled.current = false
+    actionTaken.current = false
     setSubmittedQuery(input)
 
-    const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+    const wait = (ms: number) =>
+      new Promise((resolve) => setTimeout(resolve, ms)).then(() => {
+        if (cancelled.current) throw new Error('cancelled')
+      })
 
-    // Start animation sequence
-    setAnimationState("typing")
+    try {
+      // Start animation sequence
+      setAnimationState("typing")
 
-    await wait(stateDelays[0])
+      await wait(stateDelays[0])
 
-    // Type out the submitted query
-    const text = input
-    for (let i = 0; i <= text.length; i++) {
-      setDisplayText(text.slice(0, i))
-      await new Promise((resolve) => setTimeout(resolve, typeSpeed))
-    }
+      // Type out the submitted query
+      const text = input
+      for (let i = 0; i <= text.length; i++) {
+        if (cancelled.current) return
+        setDisplayText(text.slice(0, i))
+        await new Promise((resolve) => setTimeout(resolve, typeSpeed))
+      }
 
-    await wait(stateDelays[1])
-    setAnimationState("expanded")
+      await wait(stateDelays[1])
+      setAnimationState("expanded")
 
-    await wait(stateDelays[2])
-    setShowMessages(true)
+      await wait(stateDelays[2])
+      setShowMessages(true)
 
-    await wait(stateDelays[3])
-    setAnimationState("complete")
+      await wait(stateDelays[3])
+      setAnimationState("complete")
 
-    // Call the original submit handler
-    if (!actionTaken.current) {
-      handleSubmit(e)
+      // Call the original submit handler
+      if (!actionTaken.current) {
+        handleSubmit(e)
+      }
+    } catch {
+      // cancelled mid-run; nothing left to do
+    } finally {
+      running.current = false
     }
   }
 
@@ -251,6 +275,21 @@ const EnhancedAnimatedChat = (props: EnhancedAnimatedChatProps) => {
                     >
                       <ArrowUp className="size-4" />
                     </motion.button>
+
+                    {onClose && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          actionTaken.current = true
+                          cancelled.current = true
+                          onClose()
+                        }}
+                        aria-label="Close panel"
+                        className="absolute right-12 top-1/2 -translate-y-1/2 p-1.5 rounded-lg text-neutral-400 hover:text-white hover:bg-white/5 transition-colors"
+                      >
+                        <X className="size-4" />
+                      </button>
+                    )}
                   </motion.div>
                 </form>
               </motion.div>
@@ -272,7 +311,8 @@ const EnhancedAnimatedChat = (props: EnhancedAnimatedChatProps) => {
                       type="button"
                       onClick={() => {
                         actionTaken.current = true
-                        onClose?.()
+                        cancelled.current = true
+                        onClose()
                       }}
                       aria-label="Close panel"
                       className="absolute right-3 top-3 p-1.5 rounded-lg text-neutral-400 hover:text-white hover:bg-white/5 transition-colors"
@@ -365,6 +405,7 @@ const EnhancedAnimatedChat = (props: EnhancedAnimatedChatProps) => {
                                   }}
                                   className="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-white/5 transition-colors cursor-pointer"
                                   onClick={() => {
+                                    if (actionTaken.current) return
                                     actionTaken.current = true
                                     onMessageClick(item)
                                   }}
