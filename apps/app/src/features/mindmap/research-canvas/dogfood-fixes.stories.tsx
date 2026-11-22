@@ -1,5 +1,5 @@
-import type {Meta, StoryObj} from '@storybook/react'
-import {expect, waitFor, within} from '@storybook/test'
+import type {Meta, StoryObj} from '@storybook/nextjs'
+import {expect, userEvent, waitFor, within} from '@storybook/test'
 import {ReactFlow, ReactFlowProvider, type Edge, type Node, type NodeProps} from '@xyflow/react'
 import {useEffect, useMemo, useState, type ReactNode} from 'react'
 
@@ -367,5 +367,53 @@ export const ProseAnswer: Story = {
     await expect(
       within(canvas.getByTestId('prose-answer')).getByText(/weather balloon/)
     ).toBeTruthy()
+  },
+}
+
+type ConsoleCallsWindow = Window & {__consoleCalls?: string[]}
+
+export const ConsoleRowSubmitsOnce: Story = {
+  name: 'A suggestion row submits exactly one canvas action',
+  render: () => {
+    const win = window as ConsoleCallsWindow
+    win.__consoleCalls = []
+    return (
+      <Frame width={1280} height={577}>
+        <div className='flex h-full w-full items-end px-4 pb-6'>
+          <ResearchCanvasConsole
+            variant='compact'
+            onSubmit={(value) => {
+              win.__consoleCalls?.push(value)
+            }}
+          />
+        </div>
+      </Frame>
+    )
+  },
+  play: async ({canvasElement}) => {
+    const canvas = within(canvasElement)
+    const win = window as ConsoleCallsWindow
+    // First submit goes through MessageInput; the enhanced panel mounts after
+    // it and only runs its typing animation on a second submit inside it.
+    await userEvent.type(canvas.getByRole('textbox'), 'roswell')
+    await userEvent.click(canvas.getByRole('button', {name: /Ask/}))
+    const panelInput = await canvas.findByPlaceholderText('Ask about UFO phenomena...')
+    await userEvent.type(panelInput, 'roswell')
+    await userEvent.keyboard('{Enter}')
+    const row = await canvas.findByText('Guided Tour', {}, {timeout: 15000})
+    const clickable = row.closest('div[class*="cursor-pointer"]') ?? row
+    const before = win.__consoleCalls?.length ?? 0
+    await userEvent.click(clickable as Element)
+    await waitFor(
+      () => {
+        const calls = win.__consoleCalls ?? []
+        if (calls.length < before + 1) throw new Error('row click did not submit')
+      },
+      {timeout: 5000}
+    )
+    // Give any stray resubmit a beat to fire, then count.
+    await new Promise((resolve) => setTimeout(resolve, 600))
+    const sent = (win.__consoleCalls ?? []).slice(before)
+    await expect(sent).toEqual(['Start guided tour: The Nuclear Shadow'])
   },
 }

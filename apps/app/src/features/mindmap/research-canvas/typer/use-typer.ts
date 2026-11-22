@@ -35,9 +35,11 @@ export function useTyper( { input, handleInputChange, onSubmit }: UseTyperProps 
       }
 
       setPinnedCard( index )
+      // Instant composer echo: the command is visible while the pin beat
+      // plays, so the 600ms gap is never silent (v0 dogfood defect).
+      handleInputChange( createSyntheticEvent( command ) )
 
       setTimeout( () => {
-        handleInputChange( createSyntheticEvent( command ) )
         setShowEnhancedChat( true )
         setChatState( 0 )
       }, 600 )
@@ -53,11 +55,11 @@ export function useTyper( { input, handleInputChange, onSubmit }: UseTyperProps 
   }, [handleInputChange, createSyntheticEvent] )
 
   const handleMessageClick = useCallback(
-    ( message: { title: string } ) => {
-      const formattedMessage = `Tell me about ${message.title.toLowerCase()}`
-      handleInputChange( createSyntheticEvent( formattedMessage ) )
+    ( message: { title: string; submitText?: string } ) => {
+      const text = message.submitText ?? `Tell me about ${message.title.toLowerCase()}`
+      handleInputChange( createSyntheticEvent( text ) )
       if ( onSubmit ) {
-        onSubmit( formattedMessage )
+        onSubmit( text )
       }
     },
     [handleInputChange, createSyntheticEvent, onSubmit]

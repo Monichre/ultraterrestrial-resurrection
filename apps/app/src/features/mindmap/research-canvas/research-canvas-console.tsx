@@ -27,6 +27,10 @@ interface EnhancedMessage {
   icon: ReactNode
   title: string
   description: string
+  /** What a click actually submits. Rows must land the user in a traversable
+   *  evidence graph (tour launch or agent query that writes nodes), never an
+   *  echoed string (T-065 binding constraint). */
+  submitText: string
 }
 
 const ENHANCED_MESSAGES: EnhancedMessage[] = [
@@ -35,18 +39,23 @@ const ENHANCED_MESSAGES: EnhancedMessage[] = [
     icon: <FileText className='size-5' />,
     title: 'Guided Tour',
     description: 'Follow curated pathways through UFO history and key events',
+    // Matches GUIDED_TOURS via matchTourFromInput → evidence-graph tour.
+    submitText: 'Start guided tour: The Nuclear Shadow',
   },
   {
     id: 'deep-research',
     icon: <ImageIcon className='size-5' />,
     title: 'Deep Research',
     description: 'Dive deep into specific cases, witness accounts, and documentation',
+    submitText:
+      'Deep research: the Roswell incident — what was claimed, what was documented, and what remains unexplained',
   },
   {
     id: 'explore-network',
     icon: <CodeXml className='size-5' />,
     title: 'Explore Network',
     description: 'Navigate the interconnected web of UFO phenomena and research',
+    submitText: 'Map the evidence network around Roswell and the nuclear test sites',
   },
 ]
 
@@ -99,12 +108,19 @@ export default function ResearchCanvasConsole({
     handleUnpin,
     handleMessageClick,
     handleInputChangeWrapper,
+    setShowEnhancedChat,
   } = useTyper({input, handleInputChange, onSubmit: handleFollowUp})
 
   const handleUnpinAndReset = useCallback(() => {
     handleUnpin()
     setHasSubmitted(false)
   }, [handleUnpin])
+
+  const handleCloseChat = useCallback(() => {
+    setShowEnhancedChat(false)
+    setHasSubmitted(false)
+    handleInputChangeWrapper('')
+  }, [setShowEnhancedChat, handleInputChangeWrapper])
 
   // Show EnhancedAnimatedChat when: card was clicked (showEnhancedChat from hook)
   // OR user submitted via keyboard (hasSubmitted)
@@ -162,6 +178,7 @@ export default function ResearchCanvasConsole({
               agentAnalysis={agentAnalysis}
               agentToolEvents={agentToolEvents}
               onFollowUp={handleFollowUp}
+              onClose={handleCloseChat}
             />
           ) : (
             <MessageInput

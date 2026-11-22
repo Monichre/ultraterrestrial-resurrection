@@ -1,7 +1,7 @@
 "use client"
-import { useState, useEffect, type ReactNode, type FormEvent, type ChangeEvent } from "react"
+import { useState, useEffect, useRef, type ReactNode, type FormEvent, type ChangeEvent } from "react"
 import { animate, AnimatePresence, motion, useMotionValue, useTransform } from "framer-motion"
-import { AlertCircle, ArrowUp, Sparkles, FileText, ImageIcon, Camera } from "lucide-react"
+import { AlertCircle, ArrowUp, Sparkles, FileText, ImageIcon, Camera, X } from "lucide-react"
 
 import type { AgentToolEvent } from '@/features/mindmap/hooks/use-mindmap-agent'
 import { AgentToolEventList } from './agent-tool-event-list'
@@ -12,12 +12,14 @@ export interface MessageItem {
   icon: ReactNode
   title: string
   description: string
+  /** Optional override for what a click submits (canvas action or agent query). */
+  submitText?: string
 }
 
 // Animation configuration interface
 export interface AnimationConfig {
   initialDelay?: number
-  stateDelays?: number[]
+  stateDelays?: readonly number[]
   typeSpeed?: number
   initialWidth?: number
   expandedWidth?: number
@@ -31,7 +33,7 @@ export interface EnhancedAnimatedChatProps {
     e: FormEvent<HTMLFormElement>,
     chatRequestOptions?: {
       options?: {
-        body: Record<string, any>
+        body: Record<string, unknown>
       }
     },
   ) => void
@@ -46,6 +48,8 @@ export interface EnhancedAnimatedChatProps {
   agentAnalysis?: string
   agentToolEvents?: AgentToolEvent[]
   onFollowUp?: (message: string) => void
+  /** Close the expanded panel and return to the plain composer. */
+  onClose?: () => void
 }
 
 const EnhancedAnimatedChat = (props: EnhancedAnimatedChatProps) => {
@@ -58,17 +62,15 @@ const EnhancedAnimatedChat = (props: EnhancedAnimatedChatProps) => {
     placeholder = "Ask anything...",
     animationConfig = {},
     className = "",
-    width = 560,
-    height = 380,
     agentStatus,
     agentAnalysis,
     agentToolEvents,
     onFollowUp,
+    onClose,
   } = props
 
   // Destructure animation config with defaults
   const {
-    initialDelay = 500,
     stateDelays = [300, 1000, 800, 1000],
     typeSpeed = 40,
     initialWidth = 370,
@@ -81,6 +83,9 @@ const EnhancedAnimatedChat = (props: EnhancedAnimatedChatProps) => {
   const [showMessages, setShowMessages] = useState(false)
   const [submittedQuery, setSubmittedQuery] = useState("")
   const [followUpInput, setFollowUpInput] = useState("")
+  // Set when a suggestion row or close takes over the submit; the deferred
+  // handleSubmit at the end of the typing animation must not double-submit.
+  const actionTaken = useRef(false)
 
   // Enhanced form submission with animation sequence
   const enhancedHandleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -113,7 +118,9 @@ const EnhancedAnimatedChat = (props: EnhancedAnimatedChatProps) => {
     setAnimationState("complete")
 
     // Call the original submit handler
-    handleSubmit(e)
+    if (!actionTaken.current) {
+      handleSubmit(e)
+    }
   }
 
   useEffect(() => {
@@ -260,6 +267,19 @@ const EnhancedAnimatedChat = (props: EnhancedAnimatedChatProps) => {
                   {animationState !== "typing" && (
                     <div className="absolute inset-0 border-b border-white/10 pointer-events-none rounded-[inherit]" />
                   )}
+                  {onClose && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        actionTaken.current = true
+                        onClose?.()
+                      }}
+                      aria-label="Close panel"
+                      className="absolute right-3 top-3 p-1.5 rounded-lg text-neutral-400 hover:text-white hover:bg-white/5 transition-colors"
+                    >
+                      <X className="size-4" />
+                    </button>
+                  )}
                   <div className="flex text-neutral-400">
                     <Sparkles className="size-5" />
                   </div>
@@ -344,7 +364,10 @@ const EnhancedAnimatedChat = (props: EnhancedAnimatedChatProps) => {
                                     ease: "easeInOut",
                                   }}
                                   className="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-white/5 transition-colors cursor-pointer"
-                                  onClick={() => onMessageClick(item)}
+                                  onClick={() => {
+                                    actionTaken.current = true
+                                    onMessageClick(item)
+                                  }}
                                 >
                                   <div className="flex text-neutral-300">{item.icon}</div>
                                   <div className="flex flex-col flex-1">
@@ -459,7 +482,6 @@ export interface TypewriterResponseProps {
 
 const TypewriterResponse = (props: TypewriterResponseProps) => {
   const { text, speed = 30, delay = 0, onComplete } = props
-  const [done, setDone] = useState(false)
   const count = useMotionValue(0)
   const rounded = useTransform(count, (latest) => Math.round(latest))
   const displayedText = useTransform(rounded, (latest) => text.slice(0, latest))
@@ -470,7 +492,6 @@ const TypewriterResponse = (props: TypewriterResponseProps) => {
       duration: (speed * text.length) / 1000,
       ease: "easeInOut",
       onComplete: () => {
-        setDone(true)
         onComplete?.()
       },
     })
